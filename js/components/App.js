@@ -3,12 +3,14 @@ const ReactDOM = require("react-dom");
 const { connect } = require("react-redux");
 const HSplitBox = React.createFactory(require("devtools/shared/components/h-split-box.js"));
 const Sources = React.createFactory(require("./sources"));
-const { getSources } = require("../queries");
+const Editor  = React.createFactory(require("./editor"));
+const Breakpoints = React.createFactory(require("./breakpoints"));
+const { getSources, getBreakpoints, getSelectedSource } = require("../queries");
 const dom = React.DOM;
 
-const App = React.createClass({
+const Box = React.createFactory(React.createClass({
   getInitialState: function() {
-    return { proportion: .5 };
+    return { proportion: .25 };
   },
 
   handleResize: function(p) {
@@ -16,20 +18,32 @@ const App = React.createClass({
   },
 
   render: function() {
-    const { proportion } = this.state;
+    return HSplitBox({
+	  start: this.props.start,
+	  end: this.props.end,
+	  startWidth: this.state.proportion,
+      onResize: this.handleResize
+	})
+  }
+}));
 
+const App = React.createClass({
+  render: function() {
     return dom.div(
       { style: { flex: 1 }},
-      HSplitBox({
+      Box({
         start: Sources({ sources: this.props.sources }),
-        end: "bar",
-        startWidth: proportion,
-        onResize: this.handleResize
+        end: Box({
+          start: Editor({ selectedSource: this.props.selectedSource }),
+          end: Breakpoints({ breakpoints: this.props.breakpoints })
+        })
       })
     )
   }
 });
 
 module.exports = connect(
-  state => ({ sources: getSources(state) })
+  state => ({ sources: getSources(state),
+              breakpoints: getBreakpoints(state),
+	          selectedSource: getSelectedSource(state) })
 )(App);
