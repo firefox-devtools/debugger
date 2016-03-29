@@ -1,4 +1,5 @@
 const path = require('path');
+const environment = require('./environment');
 
 module.exports = {
   entry: './js/main.js',
@@ -10,7 +11,7 @@ module.exports = {
     alias: {
       "devtools/client/shared/vendor/react": "react",
       "devtools/shared/DevToolsUtils": path.join(__dirname, "js/DevToolsUtils"),
-      devtools: "/Users/james/projects/mozilla/gecko-dev/devtools/client",
+      devtools: environment.geckoDev + "/devtools/client",
     },
     extensions: ["", ".js", ".jsm"],
     root: path.join(__dirname, "node_modules")
