@@ -1,5 +1,8 @@
 {
   "name": "debugger-experiment",
+  "scripts": {
+    "start": "./node_modules/.bin/webpack --watch"
+  },
   "dependencies": {
     "co": "=4.6.0",
     "react": "=0.14.7",
