@@ -6,6 +6,8 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const { assert } = require("devtools/shared/DevToolsUtils");
 const Draggable = React.createFactory(require("./Draggable"));
+require('themes/components-h-split-box.css');
+
 const { DOM: dom, PropTypes } = React;
 
 const SplitBox = React.createClass({

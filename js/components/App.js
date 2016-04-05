@@ -1,6 +1,8 @@
 const React = require("react");
 const ReactDOM = require("react-dom");
 const { connect } = require("react-redux");
+
+require("./app.css");
 const Sources = React.createFactory(require("./sources"));
 const Editor  = React.createFactory(require("./editor"));
 const Breakpoints = React.createFactory(require("./breakpoints"));
