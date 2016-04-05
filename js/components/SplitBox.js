@@ -39,7 +39,7 @@ const SplitBox = React.createClass({
     const { width } = this.state;
 
     return dom.div(
-      { className: "split-box" },
+      { className: "h-split-box" },
       dom.div(
         { className: rightFlex ? "uncontrolled" : "controlled",
           style: { width: rightFlex ? null : width }},

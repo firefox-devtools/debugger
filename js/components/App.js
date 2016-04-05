@@ -15,7 +15,6 @@ const App = React.createClass({
     return dom.div(
       { style: { flex: 1,
                  overflow: 'hidden' }},
-
       SplitBox({
         initialWidth: 100,
         left: Sources({ sources: this.props.sources }),

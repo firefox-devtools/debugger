@@ -176,22 +176,24 @@ function loadSourceText(source) {
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
       [PROMISE]: Task.spawn(function*() {
-        let transportType = gClient.localTransport ? "_LOCAL" : "_REMOTE";
+        let transportType = gThreadClient.localTransport ? "_LOCAL" : "_REMOTE";
         let histogramId = "DEVTOOLS_DEBUGGER_DISPLAY_SOURCE" + transportType + "_MS";
-        let histogram = Services.telemetry.getHistogramById(histogramId);
+        // let histogram = Services.telemetry.getHistogramById(histogramId);
         let startTime = Date.now();
 
-        const response = yield sourceClient.source();
+        const response = yield sourceClient.source(() => {});
 
-        histogram.add(Date.now() - startTime);
+        // histogram.add(Date.now() - startTime);
 
         // Automatically pretty print if enabled and the test is
         // detected to be "minified"
-        if (Prefs.autoPrettyPrint &&
-            !source.isPrettyPrinted &&
-            SourceUtils.isMinified(source.actor, response.source)) {
-          dispatch(togglePrettyPrint(source));
-        }
+
+        //=> can we load prefs?
+        // if (Prefs.autoPrettyPrint &&
+        //     !source.isPrettyPrinted &&
+        //     SourceUtils.isMinified(source.actor, response.source)) {
+        //   dispatch(togglePrettyPrint(source));
+        // }
 
         return { text: response.source,
                  contentType: response.contentType };
