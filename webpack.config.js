@@ -9,11 +9,15 @@ module.exports = {
   },
   resolve: {
     alias: {
-      "devtools/client/shared/vendor/react": "react",
-      "devtools/shared/DevToolsUtils": path.join(__dirname, "js/DevToolsUtils"),
-      devtools: environment.geckoDev + "/devtools/client",
+      "devtools": "ff-devtools-libs",
+      "sdk": "ff-devtools-libs/sdk"
     },
     extensions: ["", ".js", ".jsm"],
     root: path.join(__dirname, "node_modules")
+  },
+  module: {
+    loaders: [
+      { test: /\.json$/, loader: "json-loader" },
+    ]
   }
 }

@@ -6,10 +6,12 @@ const { connect } = require("react-redux");
 function Editor({ sourceText }) {
   return dom.pre(
     null,
-    sourceText.text
+    sourceText ? sourceText.text : '...'
   );
 }
 
 module.exports = connect(
-  (state, props) => ({ sourceText: getSourceText(state, props.selectedSource.actor) })
+  (state, props) => ({ sourceText: (props.selectedSource ?
+                                    getSourceText(state, props.selectedSource.actor) :
+                                    null)})
 )(Editor);

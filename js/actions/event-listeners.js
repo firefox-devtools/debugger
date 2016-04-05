@@ -6,6 +6,7 @@
 const constants = require("../constants");
 const { asPaused } = require("../utils");
 const { reportException } = require("devtools/shared/DevToolsUtils");
+const { Task } = require('devtools/sham/task');
 
 const FETCH_EVENT_LISTENERS_DELAY = 200; // ms
 

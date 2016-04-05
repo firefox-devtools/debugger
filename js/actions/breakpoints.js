@@ -4,12 +4,12 @@
 "use strict";
 
 const constants = require('../constants');
-const promise = require('promise');
 const { asPaused } = require('../utils');
 const { PROMISE } = require('devtools/client/shared/redux/middleware/promise');
 const {
   getSource, getBreakpoint, getBreakpoints, makeLocationId
 } = require('../queries');
+const { Task } = require('devtools/sham/task');
 
 // Because breakpoints are just simple data structures, we still need
 // a way to lookup the actual client instance to talk to the server.

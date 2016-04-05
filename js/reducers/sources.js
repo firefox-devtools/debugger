@@ -14,10 +14,9 @@ const initialState = Immutable({
   sourcesText: {}
 });
 
-function update(state = initialState, action, emitChange) {
+function update(state = initialState, action) {
   switch(action.type) {
   case constants.ADD_SOURCE:
-    emitChange('source', action.source);
     return mergeIn(state, ['sources', action.source.actor], action.source);
 
   case constants.LOAD_SOURCES:
@@ -28,9 +27,6 @@ function update(state = initialState, action, emitChange) {
       }
       const sourcesByActor = {};
       sources.forEach(source => {
-        if (!state.sources[source.actor]) {
-          emitChange('source', source);
-        }
         sourcesByActor[source.actor] = source;
       });
       return mergeIn(state, ['sources'], state.sources.merge(sourcesByActor))
@@ -38,7 +34,6 @@ function update(state = initialState, action, emitChange) {
     break;
 
   case constants.SELECT_SOURCE:
-    emitChange('source-selected', action.source);
     return state.merge({
       selectedSource: action.source.actor,
       selectedSourceOpts: action.opts
@@ -46,17 +41,14 @@ function update(state = initialState, action, emitChange) {
 
   case constants.LOAD_SOURCE_TEXT: {
     const s = _updateText(state, action);
-    emitChange('source-text-loaded', s.sources[action.source.actor]);
     return s;
   }
 
   case constants.BLACKBOX:
     if (action.status === 'done') {
-      const s = mergeIn(state,
-                        ['sources', action.source.actor, 'isBlackBoxed'],
-                        action.value.isBlackBoxed);
-      emitChange('blackboxed', s.sources[action.source.actor]);
-      return s;
+      return mergeIn(state,
+                     ['sources', action.source.actor, 'isBlackBoxed'],
+                     action.value.isBlackBoxed);
     }
     break;
 
@@ -66,21 +58,14 @@ function update(state = initialState, action, emitChange) {
       s = mergeIn(state, ['sourcesText', action.source.actor], {
         loading: false
       });
-
-      // If it errored, just display the source as it way before.
-      emitChange('prettyprinted', s.sources[action.source.actor]);
     }
     else {
       s = _updateText(state, action);
-      // Don't do this yet, the progress bar is still imperatively shown
-      // from the source view. We will fix in the next iteration.
-      // emitChange('source-text-loaded', s.sources[action.source.actor]);
 
       if (action.status === 'done') {
         s = mergeIn(s,
                     ['sources', action.source.actor, 'isPrettyPrinted'],
                     action.value.isPrettyPrinted);
-        emitChange('prettyprinted', s.sources[action.source.actor]);
       }
     }
     return s;

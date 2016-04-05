@@ -6,7 +6,7 @@
 const constants = require('../constants');
 const initialState = [];
 
-function update(state = initialState, action, emitChange) {
+function update(state = initialState, action) {
   const { seqId } = action;
 
   if (action.type === constants.UNLOAD) {
@@ -21,7 +21,6 @@ function update(state = initialState, action, emitChange) {
       newState = state.filter(id => id !== seqId);
     }
 
-    emitChange('open-requests', newState);
     return newState;
   }
 

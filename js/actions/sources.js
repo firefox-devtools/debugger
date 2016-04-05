@@ -4,11 +4,12 @@
 "use strict";
 
 const constants = require('../constants');
-const promise = require('promise');
-const Services = require('Services');
+const promise = require('devtools/sham/promise');
+const Services = require('devtools/sham/services');
 const { dumpn } = require("devtools/shared/DevToolsUtils");
 const { PROMISE, HISTOGRAM_ID } = require('devtools/client/shared/redux/middleware/promise');
 const { getSource, getSourceText } = require('../queries');
+const { Task } = require('devtools/sham/task');
 
 const NEW_SOURCE_IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 const FETCH_SOURCE_RESPONSE_DELAY = 200; // ms
@@ -27,9 +28,6 @@ function newSource(source) {
       return;
     }
 
-    // Signal that a new source has been added.
-    window.emit(EVENTS.NEW_SOURCE);
-
     return dispatch({
       type: constants.ADD_SOURCE,
       source: source
@@ -39,6 +37,7 @@ function newSource(source) {
 
 function selectSource(source, opts) {
   return (dispatch, getState) => {
+    console.log('selecting', gThreadClient);
     if (!gThreadClient) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
