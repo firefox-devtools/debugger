@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "co": "=4.6.0",
+    "ff-devtools-libs": "0.0.2",
     "json-loader": "^0.5.4",
     "net": "^1.0.2",
     "react": "=0.14.7",
