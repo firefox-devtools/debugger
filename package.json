@@ -20,6 +20,7 @@
   "devDependencies": {
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
-    "style-loader": "^0.13.1"
+    "style-loader": "^0.13.1",
+    "xpcshell-unit-test": "0.0.1"
   }
 }
