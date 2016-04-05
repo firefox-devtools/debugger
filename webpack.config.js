@@ -1,5 +1,4 @@
 const path = require('path');
-const environment = require('./environment');
 
 module.exports = {
   entry: './js/main.js',

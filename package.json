@@ -1,7 +1,7 @@
 {
   "name": "debugger-experiment",
   "scripts": {
-    "start": "./node_modules/.bin/webpack --watch"
+    "start": "firefox-proxy & ./node_modules/.bin/webpack --watch"
   },
   "dependencies": {
     "co": "=4.6.0",
