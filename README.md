@@ -1,4 +1,6 @@
-### Debugger Experiment
+### debugger.html
+
+This is a prototype debugger written without any XUL and based on React and Redux.
 
 #### Getting Started
 
