@@ -1,4 +1,4 @@
 build
 node_modules
-environment.js
+environment.json
 npm-debug.log

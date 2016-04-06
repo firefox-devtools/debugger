@@ -15,5 +15,10 @@
     "seamless-immutable": "=5.1.1",
     "webpack": "=1.12.14",
     "ws": "^1.0.1"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "style-loader": "^0.13.1"
   }
 }
