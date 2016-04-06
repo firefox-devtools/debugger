@@ -5,7 +5,7 @@ function Breakpoints({ breakpoints }) {
 
   function onResumeClick() {
     console.log('click')
-    gThreadClient.resume()
+    gThreadClient.resume();
   }
 
   return dom.div(

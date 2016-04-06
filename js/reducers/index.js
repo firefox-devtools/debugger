@@ -7,10 +7,12 @@ const eventListeners = require('./event-listeners');
 const sources = require('./sources');
 const breakpoints = require('./breakpoints');
 const asyncRequests = require('./async-requests');
+const tabs = require('./tabs');
 
 module.exports = {
   eventListeners,
   sources,
   breakpoints,
-  asyncRequests
+  asyncRequests,
+  tabs
 };

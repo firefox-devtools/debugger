@@ -51,6 +51,14 @@ function getBreakpoint(state, location) {
   return state.breakpoints.breakpoints[makeLocationId(location)];
 }
 
+function getTabs(state) {
+  return state.tabs.tabs;
+}
+
+function getSelectedTab(state) {
+  return state.tabs.selectedTab;
+}
+
 function makeLocationId(location) {
   return location.actor + ':' + location.line.toString();
 }
@@ -66,5 +74,7 @@ module.exports = {
   getSourceText,
   getBreakpoint,
   getBreakpoints,
+  getTabs,
+  getSelectedTab,
   makeLocationId
 };
