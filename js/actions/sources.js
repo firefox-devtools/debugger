@@ -3,13 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
-const constants = require('../constants');
 const promise = require('devtools/sham/promise');
 const Services = require('devtools/sham/services');
 const { dumpn } = require("devtools/shared/DevToolsUtils");
 const { PROMISE, HISTOGRAM_ID } = require('devtools/client/shared/redux/middleware/promise');
-const { getSource, getSourceText } = require('../queries');
 const { Task } = require('devtools/sham/task');
+const SourceUtils = require('devtools/client/shared/source-utils');
+
+const { getSource, getSourceText } = require('../queries');
+const constants = require('../constants');
+const Prefs = require('../prefs');
 
 const NEW_SOURCE_IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 const FETCH_SOURCE_RESPONSE_DELAY = 200; // ms
@@ -177,9 +180,10 @@ function loadSourceText(source) {
       source: source,
       [PROMISE]: Task.spawn(function*() {
         let transportType = gThreadClient.localTransport ? "_LOCAL" : "_REMOTE";
-        let histogramId = "DEVTOOLS_DEBUGGER_DISPLAY_SOURCE" + transportType + "_MS";
+
+        // let histogramId = "DEVTOOLS_DEBUGGER_DISPLAY_SOURCE" + transportType + "_MS";
         // let histogram = Services.telemetry.getHistogramById(histogramId);
-        let startTime = Date.now();
+        // let startTime = Date.now();
 
         const response = yield sourceClient.source(() => {});
 
@@ -187,13 +191,11 @@ function loadSourceText(source) {
 
         // Automatically pretty print if enabled and the test is
         // detected to be "minified"
-
-        //=> can we load prefs?
-        // if (Prefs.autoPrettyPrint &&
-        //     !source.isPrettyPrinted &&
-        //     SourceUtils.isMinified(source.actor, response.source)) {
-        //   dispatch(togglePrettyPrint(source));
-        // }
+        if (Prefs.autoPrettyPrint &&
+            !source.isPrettyPrinted &&
+            SourceUtils.isMinified(source.actor, response.source)) {
+          dispatch(togglePrettyPrint(source));
+        }
 
         return { text: response.source,
                  contentType: response.contentType };
