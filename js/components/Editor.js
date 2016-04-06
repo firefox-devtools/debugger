@@ -1,7 +1,9 @@
 const React = require("react");
 const { getSourceText } = require("../queries");
 const dom = React.DOM;
+const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
+const actions = require("../actions");
 
 require('codemirror/lib/codemirror.css');
 const js = require('codemirror/mode/javascript/javascript');
@@ -11,11 +13,29 @@ const Editor = React.createClass({
   componentDidMount() {
     this.editor = CodeMirror.fromTextArea(this.refs.editor, {
       mode: 'javascript',
-      lineNumbers: false,
+      lineNumbers: true,
       lineWrapping: true,
       smartIndent: false,
       matchBrackets: true,
-      readOnly: true
+      readOnly: true,
+      gutters: ['CodeMirror-linenumbers', 'breakpoints']
+    });
+
+    function makeMarker() {
+      var marker = document.createElement("div");
+      marker.style.color = "#822";
+      marker.innerHTML = "●";
+      return marker;
+    }
+
+    this.editor.on("gutterClick", (cm, line, gutter, ev) => {
+      var info = cm.lineInfo(line);
+      cm.setGutterMarker(line, "breakpoints", info.gutterMarkers ? null : makeMarker());
+
+      this.props.addBreakpoint({
+        actor: this.props.selectedSource.actor,
+        line: line
+      });
     });
   },
 
@@ -26,27 +46,27 @@ const Editor = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    const selectedSource= nextProps.selectedSource;
+    const sourceText = nextProps.sourceText;
     const cursor = this.editor.getCursor();
 
-    if (selectedSource.loading) {
+    if (sourceText.loading) {
       this.editor.setValue('Loading...');
       return;
     }
 
-    if (selectedSource.error) {
+    if (sourceText.error) {
       this.editor.setValue('Error');
       console.error(sourceText)
       return;
     }
 
-    const sourceText = selectedSource.text;
+    const text = sourceText.text;
 
-    if(this.props.selectedSource.text == sourceText) {
+    if(this.props.sourceText.text == text) {
       return;
     }
 
-    this.editor.setValue(sourceText);
+    this.editor.setValue(text);
     this.editor.setCursor(cursor);
   },
 
@@ -65,7 +85,8 @@ const Editor = React.createClass({
 
 
 module.exports = connect(
-  (state, props) => ({ selectedSource: (props.selectedSource ?
+  (state, props) => ({ sourceText: (props.selectedSource ?
                                     getSourceText(state, props.selectedSource.actor) :
-                                    null)})
+                                    null)}),
+  dispatch => bindActionCreators(actions, dispatch)
 )(Editor);

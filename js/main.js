@@ -29,12 +29,16 @@ client.connect().then(() => {
   });
 }).catch(err => console.log(err));
 
-const createStore = configureStore({ log: false});
+const createStore = configureStore({ log: true });
 const store = createStore(combineReducers(reducers));
 
 function connectThread(threadClient) {
   threadClient.addListener("newSource", (event, packet) => {
     store.dispatch(actions.newSource(packet.source));
+  });
+
+  threadClient.addListener("paused", (_, packet) => {
+    console.log(packet);
   });
 
   store.dispatch(actions.loadSources())

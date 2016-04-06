@@ -66,9 +66,7 @@ function addBreakpoint(location, condition) {
         setBreakpointClient(bpClient.actor, bpClient);
 
         return {
-          text: DebuggerView.editor.getText(
-            (actualLocation ? actualLocation.line : bp.location.line) - 1
-          ).trim(),
+          text: '<snippet>',
 
           // If the breakpoint response has an "actualLocation" attached, then
           // the original requested placement for the breakpoint wasn't
