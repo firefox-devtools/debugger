@@ -1,0 +1,26 @@
+.split-box {
+    display: flex;
+    min-width: 0;
+    flex: 1
+}
+
+.split-box .uncontrolled {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    overflow: auto;
+}
+
+.split-box .controlled {
+    display: flex;
+    overflow: auto;
+}
+
+.split-box .splitter {
+    cursor: ew-resize;
+    border-width: 0 5px;
+    background-color: black;
+    flex: 0 0 5px;
+    border-style: solid;
+    border-color: white;
+}

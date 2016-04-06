@@ -6,7 +6,7 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const { assert } = require("devtools/shared/DevToolsUtils");
 const Draggable = React.createFactory(require("./Draggable"));
-require('../lib/themes/components-h-split-box.css');
+require('./SplitBox.css');
 
 const { DOM: dom, PropTypes } = React;
 
@@ -39,7 +39,7 @@ const SplitBox = React.createClass({
     const { width } = this.state;
 
     return dom.div(
-      { className: "h-split-box" },
+      { className: "split-box" },
       dom.div(
         { className: rightFlex ? "uncontrolled" : "controlled",
           style: { width: rightFlex ? null : width }},
