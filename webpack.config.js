@@ -1,6 +1,5 @@
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const environment = require('./environment.json');
 
 module.exports = {
   entry: './js/main.js',
@@ -12,8 +11,7 @@ module.exports = {
   resolve: {
     alias: {
       "devtools": "ff-devtools-libs",
-      "sdk": "ff-devtools-libs/sdk",
-      "themes": environment.geckoPath + "devtools/client/themes"
+      "sdk": "ff-devtools-libs/sdk"
     },
     extensions: ["", ".js", ".jsm"],
     root: path.join(__dirname, "node_modules")

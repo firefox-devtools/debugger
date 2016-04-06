@@ -1,40 +1,34 @@
-# Debugger Experiment
+### Debugger Experiment
 
-## Getting Started
+#### Getting Started
 
-### 1. Install Dependencies
 ```js
 $ npm install
+$ npm start
 ```
 
-### 2. Add Environment file
-
-You'll need to add an `environment.json` file to set your path to the gecko repository.
-
-```json
-{ "geckoPath" : "/Users/jlaster/src/mozilla/gecko-dev"}
-```
-
-### 3. Start Firefox
-
-You need to start a new instance of Firefox that you will be
-debugging. Either press "shift+F2" and type "listen" in the new
-instance or use the command line flag:
+Start Firefox in remote debugging mode and go to a tab you want to debug.
 
 ```
 $ /Applications/FirefoxNightly.app/Contents/MacOS/firefox-bin --start-debugger-server 6080
 ```
 
-### 4. Start Debugger.html
-
-Debugger.html requires two things to run in order to work, a websocket-proxy and webpack. Both of these tools are started by `npm start`.
-
-```js
-npm start
-```
-
-### 5. View the Debugger
+Go to the Debugger!
 
 ```
 $ open index.html
 ```
+
+
+#### Advanced
+
+##### User Configuration
+
+You can add an `environment.json` to set user environmental variables, like the firefox source path. Start by copying the environment.sample.
+
+```json
+{ "firefoxSrcPath" : "/Users/jlaster/src/mozilla/gecko-dev"}
+```
+
+##### Remote Debugging
+If you'd like to connect an existing browser to debugger.html, you can press "shift+F2" and type "listen" with the port 6080.
