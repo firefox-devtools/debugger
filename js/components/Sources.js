@@ -8,7 +8,7 @@ function Sources({ sources, selectSource }) {
   const sourceArr = Object.keys(sources).map(k => sources[k]);
 
   return dom.ul(
-    null,
+    {className: 'sources-pane'},
     sourceArr.map(source => {
       return dom.li({ onClick: () => selectSource(source) },
                     source.url ? source.url : source.introductionType);
