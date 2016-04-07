@@ -3,9 +3,10 @@ const ReactDOM = require("react-dom");
 const { connect } = require("react-redux");
 
 require("./app.css");
-const Sources = React.createFactory(require("./sources"));
-const Editor  = React.createFactory(require("./editor"));
-const Breakpoints = React.createFactory(require("./breakpoints"));
+const Sources = React.createFactory(require("./Sources"));
+const Editor  = React.createFactory(require("./Editor"));
+const Breakpoints = React.createFactory(require("./Breakpoints"));
+const Accordion = React.createFactory(require("./Accordion"));
 const SplitBox = React.createFactory(require("./SplitBox"));
 const { getSources, getBreakpoints, getSelectedSource } = require("../queries");
 const dom = React.DOM;
@@ -22,7 +23,16 @@ const App = React.createClass({
           initialWidth: 100,
           rightFlex: true,
           left: Editor({ selectedSource: this.props.selectedSource }),
-          right: Breakpoints({ breakpoints: this.props.breakpoints })
+          right: Accordion({
+            items: [
+              { header: "Breakpoints",
+                component: Breakpoints,
+                componentProps: { breakpoints: this.props.breakpoints },
+                opened: true },
+              { header: "Foo",
+                component: function() { return dom.div(null, "hi") } }
+            ]
+          })
         })
       })
 
