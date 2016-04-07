@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+"use strict";
+
+const join = require("path").join;
+const runTests = require("xpcshell-unit-test");
+const webpack = require("webpack");
+const env = require(__dirname + "/../environment.json");
+const webpackConfig = require("../webpack.config");
+
+const paths = process.argv.slice(2);
+
+// runTests(env.firefoxSrcDir, env.firefoxObjDir,
+
+paths.map(path => {
+  webpack(Object.assign({}, webpackConfig, {
+    entry: path,
+    output: {
+      path: join(__dirname, '../build'),
+      filename: path.replace('/', '-')
+    }
+  })).run(function(err, stats) {
+    console.log(err, stats);
+  });
+});
+
+//}));

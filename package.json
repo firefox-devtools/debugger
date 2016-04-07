@@ -6,9 +6,9 @@
   "dependencies": {
     "co": "=4.6.0",
     "ff-devtools-libs": "^0.1.1",
+    "codemirror": "^5.1.0",
     "json-loader": "^0.5.4",
     "net": "^1.0.2",
-    "codemirror": "^5.1.0",
     "react": "=0.14.7",
     "react-dom": "=0.14.7",
     "react-redux": "=4.4.1",
@@ -21,6 +21,6 @@
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "style-loader": "^0.13.1",
-    "xpcshell-unit-test": "0.0.1"
+    "xpcshell-unit-test": "0.0.2"
   }
 }
