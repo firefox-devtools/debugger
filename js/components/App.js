@@ -3,6 +3,7 @@ const ReactDOM = require("react-dom");
 const { connect } = require("react-redux");
 
 require("./app.css");
+require("../lib/variables.css");
 const Sources = React.createFactory(require("./Sources"));
 const Editor  = React.createFactory(require("./Editor"));
 const Breakpoints = React.createFactory(require("./Breakpoints"));
@@ -17,10 +18,10 @@ const App = React.createClass({
       { style: { flex: 1,
                  overflow: 'hidden' }},
       SplitBox({
-        initialWidth: 100,
+        initialWidth: 300,
         left: Sources({ sources: this.props.sources }),
         right: SplitBox({
-          initialWidth: 100,
+          initialWidth: 300,
           rightFlex: true,
           left: Editor({ selectedSource: this.props.selectedSource }),
           right: Accordion({

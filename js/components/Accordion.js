@@ -1,6 +1,7 @@
 const React = require("react");
 const dom = React.DOM;
 const { div } = dom;
+const Isvg = React.createFactory(require("react-inlinesvg"));
 
 require("./accordion.css");
 
@@ -33,7 +34,9 @@ const Accordion = React.createClass({
         return div(
           { className: opened[i] ? "opened" : "" },
           div({ className: "_header",
-                onClick: () => this.handleHeaderClick(i) }, item.header),
+                onClick: () => this.handleHeaderClick(i) },
+                Isvg({ src: "js/components/images/arrow.svg" }),
+                item.header),
 
           (created[i] || opened[i]) ?
             div({ className: "_content",

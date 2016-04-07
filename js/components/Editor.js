@@ -4,8 +4,10 @@ const dom = React.DOM;
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
+const Isvg = React.createFactory(require("react-inlinesvg"));
 
 require('codemirror/lib/codemirror.css');
+require('./Editor.css');
 const js = require('codemirror/mode/javascript/javascript');
 const CodeMirror = require('codemirror');
 
@@ -18,13 +20,16 @@ const Editor = React.createClass({
       smartIndent: false,
       matchBrackets: true,
       readOnly: true,
-      gutters: ['CodeMirror-linenumbers', 'breakpoints']
+      gutters: ['breakpoints']
     });
 
     function makeMarker() {
       var marker = document.createElement("div");
-      marker.style.color = "#822";
-      marker.innerHTML = "●";
+      marker.className = "editor breakpoint";
+      React.render(
+        React.createElement(Isvg, { src: "js/components/images/breakpoint.svg#base-path___2142144446" }),
+        marker
+      );
       return marker;
     }
 

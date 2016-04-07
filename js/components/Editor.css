@@ -1,0 +1,8 @@
+.CodeMirror {
+  height: 100%;
+}
+
+.editor.breakpoint {
+  fill: var(--theme-selection-background);
+  width: 40px;
+}
