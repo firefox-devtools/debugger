@@ -1,7 +1,8 @@
 .split-box {
     display: flex;
     min-width: 0;
-    flex: 1
+    flex: 1;
+    height: 100%;
 }
 
 .split-box .uncontrolled {
@@ -17,10 +18,14 @@
 }
 
 .split-box .splitter {
-    cursor: ew-resize;
-    border-width: 0 5px;
-    background-color: black;
-    flex: 0 0 5px;
-    border-style: solid;
+    background-color: var(--theme-splitter-color);
+    border-bottom-width: 0;
     border-color: white;
+    border-left-width: 5px;
+    border-right-width: 0;
+    border-style: solid;
+    border-top-width: 0;
+    box-sizing: content-box;
+    cursor: ew-resize;
+    flex: 0 0 1px;
 }
