@@ -1,11 +1,11 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-"use strict";
+'use strict';
 
 const promise = require('devtools/sham/promise');
 const Services = require('devtools/sham/services');
-const { dumpn } = require("devtools/shared/DevToolsUtils");
+const { dumpn } = require('devtools/shared/DevToolsUtils');
 const { PROMISE, HISTOGRAM_ID } = require('devtools/client/shared/redux/middleware/promise');
 const { Task } = require('devtools/sham/task');
 const SourceUtils = require('devtools/client/shared/source-utils');
@@ -14,7 +14,7 @@ const { getSource, getSourceText } = require('../queries');
 const constants = require('../constants');
 const Prefs = require('../prefs');
 
-const NEW_SOURCE_IGNORED_URLS = ["debugger eval code", "XStringBundle"];
+const NEW_SOURCE_IGNORED_URLS = ['debugger eval code', 'XStringBundle'];
 const FETCH_SOURCE_RESPONSE_DELAY = 200; // ms
 
 function getSourceClient(source) {
@@ -74,8 +74,8 @@ function loadSources() {
       // added to the UI through that.
       if (!response.sources) {
         dumpn(
-          "Error getting sources, probably because a top-level " +
-          "breakpoint was hit while executing them"
+          'Error getting sources, probably because a top-level ' +
+          'breakpoint was hit while executing them'
         );
         return;
       }
@@ -85,7 +85,7 @@ function loadSources() {
         return NEW_SOURCE_IGNORED_URLS.indexOf(source.url) === -1;
       });
     })
-  }
+  };
 }
 
 /**
@@ -109,7 +109,7 @@ function blackbox(source, shouldBlackBox) {
       yield shouldBlackBox ? client.blackBox() : client.unblackBox();
       return {
         isBlackBoxed: shouldBlackBox
-      }
+      };
     })
   };
 }
@@ -179,7 +179,7 @@ function loadSourceText(source) {
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
       [PROMISE]: Task.spawn(function*() {
-        let transportType = gThreadClient.localTransport ? "_LOCAL" : "_REMOTE";
+        let transportType = gThreadClient.localTransport ? '_LOCAL' : '_REMOTE';
 
         // let histogramId = "DEVTOOLS_DEBUGGER_DISPLAY_SOURCE" + transportType + "_MS";
         // let histogram = Services.telemetry.getHistogramById(histogramId);
@@ -201,7 +201,7 @@ function loadSourceText(source) {
                  contentType: response.contentType };
       })
     });
-  }
+  };
 }
 
 /**

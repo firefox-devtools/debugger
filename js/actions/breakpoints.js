@@ -1,7 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-"use strict";
+'use strict';
 
 const constants = require('../constants');
 const { asPaused } = require('../utils');
@@ -76,7 +76,7 @@ function addBreakpoint(location, condition) {
         };
       })
     });
-  }
+  };
 }
 
 function disableBreakpoint(location) {
@@ -110,15 +110,15 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
     // it from the server. We just need to dispatch an action
     // simulating a successful server request to remove it, and it
     // will be removed completely from the state.
-    if(!bp.disabled) {
+    if (!bp.disabled) {
       return dispatch(Object.assign({}, action, {
         [PROMISE]: bpClient.remove()
       }));
     }
     else {
-      return dispatch(Object.assign({}, action, { status: "done" }));
+      return dispatch(Object.assign({}, action, { status: 'done' }));
     }
-  }
+  };
 }
 
 function removeAllBreakpoints() {
@@ -126,7 +126,7 @@ function removeAllBreakpoints() {
     const breakpoints = getBreakpoints(getState());
     const activeBreakpoints = breakpoints.filter(bp => !bp.disabled);
     activeBreakpoints.forEach(bp => removeBreakpoint(bp.location));
-  }
+  };
 }
 
 /**
@@ -143,12 +143,12 @@ function setBreakpointCondition(location, condition) {
   return (dispatch, getState) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
-      throw new Error("Breakpoint does not exist at the specified location");
+      throw new Error('Breakpoint does not exist at the specified location');
     }
-    if (bp.loading){
+    if (bp.loading) {
       // TODO(jwl): when this function is called, make sure the action
       // creator waits for the breakpoint to exist
-      throw new Error("breakpoint must be saved");
+      throw new Error('breakpoint must be saved');
     }
 
     const bpClient = getBreakpointClient(bp.actor);
@@ -177,4 +177,4 @@ module.exports = {
   removeBreakpoint,
   removeAllBreakpoints,
   setBreakpointCondition
-}
+};

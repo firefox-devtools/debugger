@@ -1,14 +1,15 @@
-const React = require("react");
-const { getSourceText } = require("../queries");
+const React = require('react');
+const ReactDOM = require('react-dom');
+const { getSourceText } = require('../queries');
 const dom = React.DOM;
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-const actions = require("../actions");
-const Isvg = React.createFactory(require("react-inlinesvg"));
+const { bindActionCreators } = require('redux');
+const { connect } = require('react-redux');
+const actions = require('../actions');
+const Isvg = React.createFactory(require('react-inlinesvg'));
 
 require('codemirror/lib/codemirror.css');
 require('./Editor.css');
-const js = require('codemirror/mode/javascript/javascript');
+require('codemirror/mode/javascript/javascript');
 const CodeMirror = require('codemirror');
 
 const Editor = React.createClass({
@@ -24,30 +25,26 @@ const Editor = React.createClass({
     });
 
     function makeMarker() {
-      var marker = document.createElement("div");
-      marker.className = "editor breakpoint";
-      React.render(
-        React.createElement(Isvg, { src: "js/components/images/breakpoint.svg#base-path___2142144446" }),
+      let marker = document.createElement('div');
+      marker.className = 'editor breakpoint';
+      ReactDOM.render(
+        ReactDOM.createElement(Isvg, {
+          src: 'js/components/images/breakpoint.svg#base-path___2142144446'
+        }),
         marker
       );
       return marker;
     }
 
-    this.editor.on("gutterClick", (cm, line, gutter, ev) => {
-      var info = cm.lineInfo(line);
-      cm.setGutterMarker(line, "breakpoints", info.gutterMarkers ? null : makeMarker());
+    this.editor.on('gutterClick', (cm, line, gutter) => {
+      const info = cm.lineInfo(line);
+      cm.setGutterMarker(line, 'breakpoints', info.gutterMarkers ? null : makeMarker());
 
       this.props.addBreakpoint({
         actor: this.props.selectedSource.actor,
-        line: line
+        line
       });
     });
-  },
-
-  componentDidUpdate() {
-    if (this.props.readOnly) {
-      this.editor.setValue(this.props.sourceText);
-    }
   },
 
   componentWillReceiveProps(nextProps) {
@@ -61,13 +58,13 @@ const Editor = React.createClass({
 
     if (sourceText.error) {
       this.editor.setValue('Error');
-      console.error(sourceText)
+      console.error(sourceText);
       return;
     }
 
     const text = sourceText.text;
 
-    if(this.props.sourceText.text == text) {
+    if (this.props.sourceText.text == text) {
       return;
     }
 
@@ -75,13 +72,20 @@ const Editor = React.createClass({
     this.editor.setCursor(cursor);
   },
 
+  componentDidUpdate() {
+    if (this.props.readOnly) {
+      this.editor.setValue(this.props.sourceText);
+    }
+  },
+
+
   render() {
     return (
       dom.div(
-        { className: "code-editor" },
+        { className: 'code-editor' },
         dom.textarea({
-          ref: "editor",
-          defaultValue: "..."
+          ref: 'editor',
+          defaultValue: '...'
         })
       )
     );
@@ -92,6 +96,6 @@ const Editor = React.createClass({
 module.exports = connect(
   (state, props) => ({ sourceText: (props.selectedSource ?
                                     getSourceText(state, props.selectedSource.actor) :
-                                    null)}),
+                                    null) }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Editor);

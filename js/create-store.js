@@ -1,14 +1,14 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-"use strict";
+'use strict';
 
-const { createStore, applyMiddleware } = require("redux");
-const { thunk } = require("devtools/client/shared/redux/middleware/thunk");
-const { waitUntilService } = require("devtools/client/shared/redux/middleware/wait-service");
-const { log } = require("devtools/client/shared/redux/middleware/log");
-const { promise } = require("devtools/client/shared/redux/middleware/promise");
-const { history } = require("devtools/client/shared/redux/middleware/history");
+const { createStore, applyMiddleware } = require('redux');
+const { thunk } = require('devtools/client/shared/redux/middleware/thunk');
+const { waitUntilService } = require('devtools/client/shared/redux/middleware/wait-service');
+const { log } = require('devtools/client/shared/redux/middleware/log');
+const { promise } = require('devtools/client/shared/redux/middleware/promise');
+const { history } = require('devtools/client/shared/redux/middleware/history');
 
 /**
  * This creates a dispatcher with all the standard middleware in place
@@ -21,7 +21,7 @@ const { history } = require("devtools/client/shared/redux/middleware/history");
  *                   used in tests.
  *        - middleware: array of middleware to be included in the redux store
  */
-module.exports = (opts={}) => {
+module.exports = (opts = {}) => {
   const middleware = [
     thunk,
     promise,
@@ -46,4 +46,4 @@ module.exports = (opts={}) => {
   }
 
   return applyMiddleware(...middleware)(createStore);
-}
+};

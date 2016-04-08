@@ -19,11 +19,11 @@ connectToClient(response => {
 
   // if there's a pre-selected tab, connect to it and load the sources.
   // otherwise, just show the toolbox.
-  if (hasSelectedTab()){
+  if (hasSelectedTab()) {
     const selectedTab = getSelectedTab(tabs);
-    store.dispatch(actions.selectTab({tabActor: selectedTab.actor}))
+    store.dispatch(actions.selectTab({ tabActor: selectedTab.actor }))
       .then(() => store.dispatch(actions.loadSources()))
-      .then(renderToolbox)
+      .then(renderToolbox);
   } else {
     renderToolbox();
   }
@@ -34,7 +34,7 @@ connectToClient(response => {
  * e.g. #tab=child2
  */
 function hasSelectedTab() {
-  return window.location.hash.includes("tab");
+  return window.location.hash.includes('tab');
 }
 
 /**
@@ -47,7 +47,7 @@ function hasSelectedTab() {
  *
  */
 function getSelectedTab(tabs) {
-  const childId = window.location.hash.split("=")[1];
+  const childId = window.location.hash.split('=')[1];
   return tabs.find((tab) => tab.actor.includes(childId));
 }
 

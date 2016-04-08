@@ -2,16 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const React = require("react");
-const ReactDOM = require("react-dom");
-const { assert } = require("devtools/shared/DevToolsUtils");
-const Draggable = React.createFactory(require("./Draggable"));
+const React = require('react');
+const ReactDOM = require('react-dom');
+const Draggable = React.createFactory(require('./Draggable'));
 require('./SplitBox.css');
 
 const { DOM: dom, PropTypes } = React;
 
 const SplitBox = React.createClass({
-  displayName: "SplitBox",
+  displayName: 'SplitBox',
 
   propTypes: {
     left: PropTypes.any.isRequired,
@@ -26,7 +25,7 @@ const SplitBox = React.createClass({
   },
 
   onMove(x) {
-    var node = ReactDOM.findDOMNode(this);
+    const node = ReactDOM.findDOMNode(this);
     this.setState({
       width: (this.props.rightFlex ?
               (node.offsetLeft + node.offsetWidth) - x :
@@ -39,18 +38,18 @@ const SplitBox = React.createClass({
     const { width } = this.state;
 
     return dom.div(
-      { className: "split-box",
+      { className: 'split-box',
         style: this.props.style },
       dom.div(
-        { className: rightFlex ? "uncontrolled" : "controlled",
-          style: { width: rightFlex ? null : width }},
+        { className: rightFlex ? 'uncontrolled' : 'controlled',
+          style: { width: rightFlex ? null : width } },
         left
       ),
-      Draggable({ className: "splitter",
+      Draggable({ className: 'splitter',
                   onMove: x => this.onMove(x) }),
       dom.div(
-        { className: rightFlex ? "controlled" : "uncontrolled",
-          style: { width: rightFlex ? width: null }},
+        { className: rightFlex ? 'controlled' : 'uncontrolled',
+          style: { width: rightFlex ? width : null } },
         right
       )
     );

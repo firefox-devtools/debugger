@@ -1,9 +1,9 @@
-const React = require("react");
-const ReactDOM = require("react-dom");
+const React = require('react');
+const ReactDOM = require('react-dom');
 const { DOM: dom, PropTypes } = React;
 
 const Draggable = React.createClass({
-  displayName: "Draggable",
+  displayName: 'Draggable',
 
   propTypes: {
     onMove: PropTypes.func.isRequired,
@@ -11,14 +11,6 @@ const Draggable = React.createClass({
     onStop: PropTypes.func,
     style: PropTypes.object,
     className: PropTypes.string
-  },
-
-  startDragging(ev) {
-    ev.preventDefault();
-    const doc = ReactDOM.findDOMNode(this).ownerDocument;
-    doc.addEventListener('mousemove', this.onMove);
-    doc.addEventListener('mouseup', this.onUp);
-    this.props.onStart && this.props.onStart();
   },
 
   onMove(ev) {
@@ -33,6 +25,15 @@ const Draggable = React.createClass({
     doc.removeEventListener('mouseup', this.onUp);
     this.props.onStop && this.props.onStop();
   },
+
+  startDragging(ev) {
+    ev.preventDefault();
+    const doc = ReactDOM.findDOMNode(this).ownerDocument;
+    doc.addEventListener('mousemove', this.onMove);
+    doc.addEventListener('mouseup', this.onUp);
+    this.props.onStart && this.props.onStart();
+  },
+
 
   render() {
     return dom.div({

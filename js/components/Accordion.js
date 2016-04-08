@@ -1,17 +1,17 @@
-const React = require("react");
+const React = require('react');
 const dom = React.DOM;
 const { div } = dom;
-const Isvg = React.createFactory(require("react-inlinesvg"));
+const Isvg = React.createFactory(require('react-inlinesvg'));
 
-require("./Accordion.css");
+require('./accordion.css');
 
 const Accordion = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     return { opened: this.props.items.map(item => item.opened),
              created: [] };
   },
 
-  handleHeaderClick: function(i) {
+  handleHeaderClick: function (i) {
     const opened = [...this.state.opened];
     const created = [...this.state.created];
     const item = this.props.items[i];
@@ -19,32 +19,32 @@ const Accordion = React.createClass({
     opened[i] = !opened[i];
     created[i] = true;
 
-    if(opened[i] && item.onOpened) {
+    if (opened[i] && item.onOpened) {
       item.onOpened();
     }
 
     this.setState({ opened, created });
   },
 
-  render: function() {
+  render: function () {
     const { opened, created } = this.state;
     return div(
-      { className: "accordion" },
+      { className: 'accordion' },
       this.props.items.map((item, i) => {
         return div(
-          { className: opened[i] ? "opened" : "" },
-          div({ className: "_header",
+          { className: opened[i] ? 'opened' : '' },
+          div({ className: '_header',
                 onClick: () => this.handleHeaderClick(i) },
-                Isvg({ src: "js/components/images/arrow.svg" }),
+                Isvg({ src: 'js/components/images/arrow.svg' }),
                 item.header),
 
           (created[i] || opened[i]) ?
-            div({ className: "_content",
-                  style: { display: opened[i] ? "block" : "none" }
+            div({ className: '_content',
+                  style: { display: opened[i] ? 'block' : 'none' }
                 },
                 React.createElement(item.component, item.componentProps || {})) :
             null
-        )
+        );
       })
     );
   }
