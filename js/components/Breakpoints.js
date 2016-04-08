@@ -1,10 +1,12 @@
-const React = require("react");
+/* global gThreadClient */
+
+const React = require('react');
 const dom = React.DOM;
 
 function Breakpoints({ breakpoints }) {
 
   function onResumeClick() {
-    console.log('click')
+    console.log('click');
     gThreadClient.resume();
   }
 
@@ -15,7 +17,7 @@ function Breakpoints({ breakpoints }) {
       null,
       breakpoints.map(bp => dom.li(
         null,
-        bp.location.actor + ": " + bp.location.line
+        `${bp.location.actor} : ${bp.location.line}`
       ))
     )
   );

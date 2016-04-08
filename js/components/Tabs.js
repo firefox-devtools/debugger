@@ -1,11 +1,12 @@
-const React = require("react");
-const ReactDOM = require("react-dom");
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-const { getTabs } = require("../queries");
-const actions = require("../actions")
+/* global gThreadClient */
 
-require("./Tabs.css");
+require('./tabs.css');
+const React = require('react');
+const { bindActionCreators } = require('redux');
+const { connect } = require('react-redux');
+const { getTabs } = require('../queries');
+const actions = require('../actions');
+
 const dom = React.DOM;
 
 function Tabs({ tabs, selectTab, loadSources, newSource }) {
@@ -18,24 +19,24 @@ function Tabs({ tabs, selectTab, loadSources, newSource }) {
     selectTab({ tabActor: e.currentTarget.dataset.actorId })
       .then(loadSources)
       .then(() => {
-        gThreadClient.addListener("newSource", (event, packet) => {
+        gThreadClient.addListener('newSource', (event, packet) => {
           newSource(packet.source);
         });
-        gThreadClient.addListener("paused", (_, packet) => {
+        gThreadClient.addListener('paused', (_, packet) => {
           console.log(packet);
         });
-      })
+      });
   }
 
   return dom.ul(
-    {className: 'tabs'},
-    tabsArr.map(tab => {
-      return dom.li({ 'className': 'tab',
+    { className: 'tabs' },
+    tabsArr.map((tab) => {
+      return dom.li({ className: 'tab',
                       'data-actor-id': tab.actor,
-                      'onClick': onClickTab },
+                      onClick: onClickTab },
         dom.div({ className: 'tab-title' }, tab.title),
         dom.div({ className: 'tab-url' }, tab.url)
-      )
+      );
     })
   );
 }

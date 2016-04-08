@@ -1,11 +1,11 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-"use strict";
+'use strict';
 
-const constants = require("../constants");
-const { asPaused } = require("../utils");
-const { reportException } = require("devtools/shared/DevToolsUtils");
+const constants = require('../constants');
+const { asPaused } = require('../utils');
+const { reportException } = require('devtools/shared/DevToolsUtils');
 const { Task } = require('devtools/sham/task');
 
 const FETCH_EVENT_LISTENERS_DELAY = 200; // ms
@@ -14,7 +14,7 @@ function fetchEventListeners() {
   return (dispatch, getState) => {
     // Make sure we"re not sending a batch of closely repeated requests.
     // This can easily happen whenever new sources are fetched.
-    setNamedTimeout("event-listeners-fetch", FETCH_EVENT_LISTENERS_DELAY, () => {
+    setNamedTimeout('event-listeners-fetch', FETCH_EVENT_LISTENERS_DELAY, () => {
       // In case there is still a request of listeners going on (it
       // takes several RDP round trips right now), make sure we wait
       // on a currently running request
@@ -23,7 +23,7 @@ function fetchEventListeners() {
           type: services.WAIT_UNTIL,
           predicate: action => (
             action.type === constants.FETCH_EVENT_LISTENERS &&
-            action.status === "done"
+            action.status === 'done'
           ),
           run: dispatch => dispatch(fetchEventListeners())
         });
@@ -32,7 +32,7 @@ function fetchEventListeners() {
 
       dispatch({
         type: constants.FETCH_EVENT_LISTENERS,
-        status: "begin"
+        status: 'begin'
       });
 
       asPaused(gThreadClient, _getListeners).then(listeners => {
@@ -42,7 +42,7 @@ function fetchEventListeners() {
 
         dispatch({
           type: constants.FETCH_EVENT_LISTENERS,
-          status: "done",
+          status: 'done',
           listeners: listeners
         });
       });
@@ -64,7 +64,7 @@ const _getListeners = Task.async(function*() {
     let definitionSite;
     if (fetchedDefinitions.has(listener.function.actor)) {
       definitionSite = fetchedDefinitions.get(listener.function.actor);
-    } else if (listener.function.class == "Function") {
+    } else if (listener.function.class == 'Function') {
       definitionSite = yield _getDefinitionSite(listener.function);
       if (!definitionSite) {
         // We don"t know where this listener comes from so don"t show it in
@@ -89,9 +89,9 @@ const _getDefinitionSite = Task.async(function*(aFunction) {
   try {
     response = yield grip.getDefinitionSite();
   }
-  catch(e) {
+  catch (e) {
     // Don't make this error fatal, because it would break the entire events pane.
-    reportException("_getDefinitionSite", e);
+    reportException('_getDefinitionSite', e);
     return null;
   }
 
@@ -100,8 +100,8 @@ const _getDefinitionSite = Task.async(function*(aFunction) {
 
 function updateEventBreakpoints(eventNames) {
   return dispatch => {
-    setNamedTimeout("event-breakpoints-update", 0, () => {
-      gThreadClient.pauseOnDOMEvents(eventNames, function() {
+    setNamedTimeout('event-breakpoints-update', 0, () => {
+      gThreadClient.pauseOnDOMEvents(eventNames, function () {
         // Notify that event breakpoints were added/removed on the server.
         window.emit(EVENTS.EVENT_BREAKPOINTS_UPDATED);
 
@@ -111,7 +111,7 @@ function updateEventBreakpoints(eventNames) {
         });
       });
     });
-  }
+  };
 }
 
 module.exports = { updateEventBreakpoints, fetchEventListeners };

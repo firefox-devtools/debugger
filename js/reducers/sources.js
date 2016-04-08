@@ -1,7 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-"use strict";
+'use strict';
 
 const constants = require('../constants');
 const Immutable = require('seamless-immutable');
@@ -15,12 +15,12 @@ const initialState = Immutable({
 });
 
 function update(state = initialState, action) {
-  switch(action.type) {
-  case constants.ADD_SOURCE:
-    return mergeIn(state, ['sources', action.source.actor], action.source);
+  switch (action.type) {
+    case constants.ADD_SOURCE:
+      return mergeIn(state, ['sources', action.source.actor], action.source);
 
-  case constants.LOAD_SOURCES:
-    if (action.status === "done") {
+    case constants.LOAD_SOURCES:
+      if (action.status === 'done') {
       const sources = action.value;
       if (!sources) {
         return state;
@@ -29,37 +29,37 @@ function update(state = initialState, action) {
       sources.forEach(source => {
         sourcesByActor[source.actor] = source;
       });
-      return mergeIn(state, ['sources'], state.sources.merge(sourcesByActor))
+      return mergeIn(state, ['sources'], state.sources.merge(sourcesByActor));
     }
-    break;
+      break;
 
-  case constants.SELECT_SOURCE:
-    return state.merge({
+    case constants.SELECT_SOURCE:
+      return state.merge({
       selectedSource: action.source.actor,
       selectedSourceOpts: action.opts
     });
 
-  case constants.LOAD_SOURCE_TEXT: {
+    case constants.LOAD_SOURCE_TEXT: {
     const s = _updateText(state, action);
     return s;
   }
 
-  case constants.BLACKBOX:
-    if (action.status === 'done') {
+    case constants.BLACKBOX:
+      if (action.status === 'done') {
       return mergeIn(state,
                      ['sources', action.source.actor, 'isBlackBoxed'],
                      action.value.isBlackBoxed);
     }
-    break;
+      break;
 
-  case constants.TOGGLE_PRETTY_PRINT:
-    let s = state;
-    if (action.status === "error") {
+    case constants.TOGGLE_PRETTY_PRINT:
+      let s = state;
+      if (action.status === 'error') {
       s = mergeIn(state, ['sourcesText', action.source.actor], {
         loading: false
       });
     }
-    else {
+      else {
       s = _updateText(state, action);
 
       if (action.status === 'done') {
@@ -68,12 +68,12 @@ function update(state = initialState, action) {
                     action.value.isPrettyPrinted);
       }
     }
-    return s;
+      return s;
 
-  case constants.UNLOAD:
+    case constants.UNLOAD:
     // Reset the entire state to just the initial state, a blank state
     // if you will.
-    return initialState;
+      return initialState;
   }
 
   return state;

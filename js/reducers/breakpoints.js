@@ -1,7 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-"use strict";
+'use strict';
 
 const constants = require('../constants');
 const Immutable = require('seamless-immutable');
@@ -16,7 +16,7 @@ const initialState = Immutable({
 // string.
 function firstString(...args) {
   for (var arg of args) {
-    if (typeof arg === "string") {
+    if (typeof arg === 'string') {
       return arg;
     }
   }
@@ -24,8 +24,8 @@ function firstString(...args) {
 }
 
 function update(state = initialState, action) {
-  switch(action.type) {
-  case constants.ADD_BREAKPOINT: {
+  switch (action.type) {
+    case constants.ADD_BREAKPOINT: {
     const id = makeLocationId(action.breakpoint.location);
 
     if (action.status === 'start') {
@@ -81,10 +81,10 @@ function update(state = initialState, action) {
       // Remove the optimistic update
       return deleteIn(state, ['breakpoints', id]);
     }
-      break;
+    break;
   }
 
-  case constants.REMOVE_BREAKPOINT: {
+    case constants.REMOVE_BREAKPOINT: {
     if (action.status === 'done') {
       const id = makeLocationId(action.breakpoint.location);
       const bp = state.breakpoints[id];
@@ -101,7 +101,7 @@ function update(state = initialState, action) {
     break;
   }
 
-  case constants.SET_BREAKPOINT_CONDITION: {
+    case constants.SET_BREAKPOINT_CONDITION: {
     const id = makeLocationId(action.breakpoint.location);
     const bp = state.breakpoints[id];
 

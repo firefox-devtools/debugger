@@ -3,11 +3,11 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-"use strict";
-const co = require("co");
+'use strict';
+const co = require('co');
 
 function asPaused(client, func) {
-  if (client.state != "paused") {
+  if (client.state != 'paused') {
     return co(function*() {
       yield client.interrupt();
       let result;
@@ -15,7 +15,7 @@ function asPaused(client, func) {
       try {
         result = yield func();
       }
-      catch(e) {
+      catch (e) {
         // Try to put the debugger back in a working state by resuming
         // it
         yield client.resume();
@@ -31,7 +31,7 @@ function asPaused(client, func) {
 }
 
 function handleError(err) {
-  console.log("ERROR: ", err);
+  console.log('ERROR: ', err);
 }
 
 function onReducerEvents(controller, listeners, thisContext) {
@@ -44,7 +44,7 @@ function onReducerEvents(controller, listeners, thisContext) {
 }
 
 function _getIn(destObj, path) {
-  return path.reduce(function(acc, name) {
+  return path.reduce(function (acc, name) {
     return acc[name];
   }, destObj);
 }
@@ -52,7 +52,7 @@ function _getIn(destObj, path) {
 function mergeIn(destObj, path, value) {
   path = [...path];
   path.reverse();
-  var obj = path.reduce(function(acc, name) {
+  var obj = path.reduce(function (acc, name) {
     return { [name]: acc };
   }, value);
 
