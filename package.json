@@ -1,7 +1,8 @@
 {
   "name": "debugger-experiment",
   "scripts": {
-    "start": "firefox-proxy & ./node_modules/.bin/webpack --watch"
+    "start": "firefox-proxy & ./node_modules/.bin/webpack --watch",
+    "lint-css": "stylelint js/components/*.css"
   },
   "dependencies": {
     "co": "=4.6.0",
@@ -15,6 +16,7 @@
     "react-redux": "=4.4.1",
     "redux": "=3.3.1",
     "seamless-immutable": "=5.1.1",
+    "stylelint": "^5.3.0",
     "webpack": "=1.12.14",
     "ws": "^1.0.1"
   },
