@@ -5,7 +5,7 @@ const { connect } = require("react-redux");
 const { getTabs } = require("../queries");
 const actions = require("../actions")
 
-require("./tabs.css");
+require("./Tabs.css");
 const dom = React.DOM;
 
 function Tabs({tabs, selectTab, loadSources}) {

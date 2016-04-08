@@ -3,7 +3,7 @@ const dom = React.DOM;
 const { div } = dom;
 const Isvg = React.createFactory(require("react-inlinesvg"));
 
-require("./accordion.css");
+require("./Accordion.css");
 
 const Accordion = React.createClass({
   getInitialState: function() {
