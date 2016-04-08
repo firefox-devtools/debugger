@@ -1,55 +1,41 @@
 .accordion {
-    background-color: var(--theme-body-background);
-    width: 100%;
+  background-color: var(--theme-body-background);
+  width: 100%;
 }
 
 .accordion ._header {
-    background-color: var(--theme-toolbar-background);
-    border-bottom: 1px solid #d0d0d0;
-    cursor: pointer;
-    font-size: 12px;
-    padding: 5px;
-    transition: all 0.25s ease;
-    width: 100%;
+  background-color: var(--theme-toolbar-background);
+  border-bottom: 1px solid #d0d0d0;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 5px;
+  transition: all 0.25s ease;
+  width: 100%;
 }
 
 .accordion ._header:hover {
-    background-color: var(--theme-selection-color);
+  background-color: var(--theme-selection-color);
 }
 
 /* TODO: change this class name */
 .accordion .isvg svg {
-    fill: var(--theme-splitter-color);
-    width: 10px;
-    margin-right: 3px;
-    margin-top: 3px;
-    float: left;
-    transform: rotate(-90deg);
-    transition: all 0.25s ease;
+  fill: var(--theme-splitter-color);
+  float: left;
+  margin-right: 3px;
+  margin-top: 3px;
+  transform: rotate(-90deg);
+  transition: all 0.25s ease;
+  width: 10px;
 }
 
 .accordion ._header:hover svg {
-    fill: var(--theme-gray-darker);
+  fill: var(--theme-gray-darker);
 }
 
 .accordion .opened .isvg svg {
-    transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 
-/*.accordion ._header:before {
-    content: ' ';
-    display: block;
-    float: left;
-    width: 0;
-    height: 0;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-left: 9px solid #606060;
-    margin: 5px;
-    margin-top: 3px;
-    transition: transform .1s;
-}*/
-
 .accordion ._content {
-    border-bottom: 1px solid #d0d0d0;
+  border-bottom: 1px solid #d0d0d0;
 }

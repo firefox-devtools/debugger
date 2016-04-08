@@ -1,31 +1,31 @@
 .split-box {
-    display: flex;
-    min-width: 0;
-    flex: 1;
-    height: 100%;
+  display: flex;
+  flex: 1;
+  height: 100%;
+  min-width: 0;
 }
 
 .split-box .uncontrolled {
-    display: flex;
-    min-width: 0;
-    flex: 1;
-    overflow: auto;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
 }
 
 .split-box .controlled {
-    display: flex;
-    overflow: auto;
+  display: flex;
+  overflow: auto;
 }
 
 .split-box .splitter {
-    background-color: var(--theme-splitter-color);
-    border-bottom-width: 0;
-    border-color: white;
-    border-left-width: 5px;
-    border-right-width: 0;
-    border-style: solid;
-    border-top-width: 0;
-    box-sizing: content-box;
-    cursor: ew-resize;
-    flex: 0 0 1px;
+  background-color: var(--theme-splitter-color);
+  border-bottom-width: 0;
+  border-color: white;
+  border-left-width: 5px;
+  border-right-width: 0;
+  border-style: solid;
+  border-top-width: 0;
+  box-sizing: content-box;
+  cursor: ew-resize;
+  flex: 0 0 1px;
 }
