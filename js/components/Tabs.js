@@ -8,7 +8,7 @@ const actions = require("../actions")
 require("./tabs.css");
 const dom = React.DOM;
 
-function Tabs({tabs, selectTab, loadSources}) {
+function Tabs({ tabs, selectTab, loadSources, newSource }) {
   const tabsArr = Object.keys(tabs).map(k => tabs[k]);
 
   /**
@@ -19,7 +19,7 @@ function Tabs({tabs, selectTab, loadSources}) {
       .then(loadSources)
       .then(() => {
         gThreadClient.addListener("newSource", (event, packet) => {
-          store.dispatch(actions.newSource(packet.source));
+          newSource(packet.source);
         });
         gThreadClient.addListener("paused", (_, packet) => {
           console.log(packet);
