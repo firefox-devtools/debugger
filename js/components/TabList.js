@@ -3,8 +3,8 @@ const { connect } = require("react-redux");
 const dom = React.DOM;
 
 require('./TabList.css');
-const App = React.createFactory(require('./app'));
-const Tabs = React.createFactory(require('./tabs'));
+const App = React.createFactory(require('./App'));
+const Tabs = React.createFactory(require('./Tabs'));
 const { getSelectedTab } = require('../queries');
 
 function isEmpty(obj) {
