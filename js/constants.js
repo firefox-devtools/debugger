@@ -23,3 +23,6 @@ exports.LOAD_SOURCE_TEXT = 'LOAD_SOURCE_TEXT';
 exports.SELECT_SOURCE = 'SELECT_SOURCE';
 exports.UNLOAD = 'UNLOAD';
 exports.RELOAD = 'RELOAD';
+
+exports.ADD_TABS = 'ADD_TABS';
+exports.SELECT_TAB = 'SELECT_TAB';
