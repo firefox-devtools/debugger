@@ -1,8 +1,9 @@
 {
-  "name": "debugger-experiment",
+  "name": "debugger.html",
   "scripts": {
     "start": "firefox-proxy & ./node_modules/.bin/webpack --watch",
-    "lint-css": "stylelint js/components/*.css"
+    "lint-css": "stylelint js/components/*.css",
+    "lint-js": "eslint js"
   },
   "dependencies": {
     "co": "=4.6.0",
@@ -22,6 +23,9 @@
   },
   "devDependencies": {
     "css-loader": "^0.23.1",
+    "eslint": "^2.7.0",
+    "eslint-plugin-mozilla": "0.0.3",
+    "eslint-plugin-react": "^4.3.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "style-loader": "^0.13.1",
     "xpcshell-unit-test": "0.0.2"
