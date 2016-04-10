@@ -1,8 +1,8 @@
 {
   "name": "debugger-experiment",
   "scripts": {
-    "start": "firefox-proxy & ./node_modules/.bin/webpack --watch",
-    "lint-css": "stylelint js/components/*.css"
+    "start": "firefox-proxy & ./node_modules/.bin/webpack --watch & ./node_modules/.bin/static --port 8000",
+    "lint-css": "stylelint js/components/*.css",
   },
   "dependencies": {
     "co": "=4.6.0",
@@ -10,6 +10,7 @@
     "ff-devtools-libs": "^0.1.1",
     "json-loader": "^0.5.4",
     "net": "^1.0.2",
+    "node-static": "^0.7.7",
     "react": "=0.14.7",
     "react-dom": "=0.14.7",
     "react-inlinesvg": "^0.4.2",
