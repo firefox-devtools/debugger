@@ -22,7 +22,13 @@ function selectTab({ tabActor }) {
     const selectedTab = tabs[tabActor];
 
     // set selected tab in the URL hash
-    const childId = tabActor.match(/child\d+/)[0];
+    let childId;
+    if (tabActor.includes("child")) {
+      childId = tabActor.match(/child\d+/)[0];
+    } else {
+      childId = tabActor.match(/tab\d+/)[0];
+    }
+    
     window.location.hash = `tab=${childId}`
 
     return dispatch({
