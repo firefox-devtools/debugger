@@ -1,21 +1,23 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/* global gThreadClient */
 "use strict";
 
-const promise = require('devtools/sham/promise');
-const Services = require('devtools/sham/services');
+const promise = require("devtools/sham/promise");
+const Services = require("devtools/sham/services");
 const { dumpn } = require("devtools/shared/DevToolsUtils");
-const { PROMISE, HISTOGRAM_ID } = require('devtools/client/shared/redux/middleware/promise');
-const { Task } = require('devtools/sham/task');
-const SourceUtils = require('devtools/client/shared/source-utils');
+const { PROMISE, HISTOGRAM_ID } = require("devtools/client/shared/redux/middleware/promise");
+const { Task } = require("devtools/sham/task");
+const SourceUtils = require("devtools/client/shared/source-utils");
 
-const { getSource, getSourceText } = require('../queries');
-const constants = require('../constants');
-const Prefs = require('../prefs');
+const { getSource, getSourceText } = require("../queries");
+const constants = require("../constants");
+const Prefs = require("../prefs");
 
 const NEW_SOURCE_IGNORED_URLS = ["debugger eval code", "XStringBundle"];
-const FETCH_SOURCE_RESPONSE_DELAY = 200; // ms
+// delay is in ms
+const FETCH_SOURCE_RESPONSE_DELAY = 200;
 
 function getSourceClient(source) {
   return gThreadClient.source(source);
@@ -40,7 +42,7 @@ function newSource(source) {
 
 function selectSource(source, opts) {
   return (dispatch, getState) => {
-    console.log('selecting', gThreadClient);
+    console.log("selecting", gThreadClient);
     if (!gThreadClient) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -63,7 +65,7 @@ function selectSource(source, opts) {
 function loadSources() {
   return {
     type: constants.LOAD_SOURCES,
-    [PROMISE]: Task.spawn(function*() {
+    [PROMISE]: Task.spawn(function* () {
       const response = yield gThreadClient.getSources();
 
       // Top-level breakpoints may pause the entire loading process
@@ -85,7 +87,7 @@ function loadSources() {
         return NEW_SOURCE_IGNORED_URLS.indexOf(source.url) === -1;
       });
     })
-  }
+  };
 }
 
 /**
@@ -105,11 +107,11 @@ function blackbox(source, shouldBlackBox) {
   return {
     type: constants.BLACKBOX,
     source: source,
-    [PROMISE]: Task.spawn(function*() {
+    [PROMISE]: Task.spawn(function* () {
       yield shouldBlackBox ? client.blackBox() : client.unblackBox();
       return {
         isBlackBoxed: shouldBlackBox
-      }
+      };
     })
   };
 }
@@ -133,7 +135,7 @@ function togglePrettyPrint(source) {
     return dispatch({
       type: constants.TOGGLE_PRETTY_PRINT,
       source: source,
-      [PROMISE]: Task.spawn(function*() {
+      [PROMISE]: Task.spawn(function* () {
         let response;
 
         // Only attempt to pretty print JavaScript sources.
@@ -178,7 +180,7 @@ function loadSourceText(source) {
     return dispatch({
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
-      [PROMISE]: Task.spawn(function*() {
+      [PROMISE]: Task.spawn(function* () {
         let transportType = gThreadClient.localTransport ? "_LOCAL" : "_REMOTE";
 
         // let histogramId = "DEVTOOLS_DEBUGGER_DISPLAY_SOURCE" + transportType + "_MS";
@@ -201,7 +203,7 @@ function loadSourceText(source) {
                  contentType: response.contentType };
       })
     });
-  }
+  };
 }
 
 /**

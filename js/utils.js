@@ -8,14 +8,13 @@ const co = require("co");
 
 function asPaused(client, func) {
   if (client.state != "paused") {
-    return co(function*() {
+    return co(function* () {
       yield client.interrupt();
       let result;
 
       try {
         result = yield func();
-      }
-      catch(e) {
+      } catch (e) {
         // Try to put the debugger back in a working state by resuming
         // it
         yield client.resume();
@@ -25,9 +24,8 @@ function asPaused(client, func) {
       yield client.resume();
       return result;
     });
-  } else {
-    return func();
   }
+  return func();
 }
 
 function handleError(err) {
@@ -52,7 +50,7 @@ function _getIn(destObj, path) {
 function mergeIn(destObj, path, value) {
   path = [...path];
   path.reverse();
-  var obj = path.reduce(function(acc, name) {
+  let obj = path.reduce(function(acc, name) {
     return { [name]: acc };
   }, value);
 

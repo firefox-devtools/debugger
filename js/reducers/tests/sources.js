@@ -6,10 +6,10 @@ function run_test() {
       baseURI: "file:///Users/james/projects/mozilla/debugger.html"
     });
 
-    const sources = require('./js/reducers/sources.js');
+    const sources = require("./js/reducers/sources.js");
     dump(sources.toString());
   }
-  catch(e) {
+  catch (e) {
     dump(e);
   }
 

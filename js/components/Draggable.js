@@ -16,8 +16,8 @@ const Draggable = React.createClass({
   startDragging(ev) {
     ev.preventDefault();
     const doc = ReactDOM.findDOMNode(this).ownerDocument;
-    doc.addEventListener('mousemove', this.onMove);
-    doc.addEventListener('mouseup', this.onUp);
+    doc.addEventListener("mousemove", this.onMove);
+    doc.addEventListener("mouseup", this.onUp);
     this.props.onStart && this.props.onStart();
   },
 
@@ -29,8 +29,8 @@ const Draggable = React.createClass({
   onUp(ev) {
     ev.preventDefault();
     const doc = ReactDOM.findDOMNode(this).ownerDocument;
-    doc.removeEventListener('mousemove', this.onMove);
-    doc.removeEventListener('mouseup', this.onUp);
+    doc.removeEventListener("mousemove", this.onMove);
+    doc.removeEventListener("mouseup", this.onUp);
     this.props.onStop && this.props.onStop();
   },
 

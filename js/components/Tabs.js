@@ -3,7 +3,7 @@ const ReactDOM = require("react-dom");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const { getTabs } = require("../queries");
-const actions = require("../actions")
+const actions = require("../actions");
 
 require("./Tabs.css");
 const dom = React.DOM;
@@ -24,18 +24,18 @@ function Tabs({ tabs, selectTab, loadSources, newSource }) {
         gThreadClient.addListener("paused", (_, packet) => {
           console.log(packet);
         });
-      })
+      });
   }
 
   return dom.ul(
-    {className: 'tabs'},
+    {className: "tabs"},
     tabsArr.map(tab => {
-      return dom.li({ 'className': 'tab',
-                      'data-actor-id': tab.actor,
-                      'onClick': onClickTab },
-        dom.div({ className: 'tab-title' }, tab.title),
-        dom.div({ className: 'tab-url' }, tab.url)
-      )
+      return dom.li({ "className": "tab",
+                      "data-actor-id": tab.actor,
+                      "onClick": onClickTab },
+        dom.div({ className: "tab-title" }, tab.title),
+        dom.div({ className: "tab-url" }, tab.url)
+      );
     })
   );
 }

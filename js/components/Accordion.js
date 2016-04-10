@@ -19,7 +19,7 @@ const Accordion = React.createClass({
     opened[i] = !opened[i];
     created[i] = true;
 
-    if(opened[i] && item.onOpened) {
+    if (opened[i] && item.onOpened) {
       item.onOpened();
     }
 
@@ -44,7 +44,7 @@ const Accordion = React.createClass({
                 },
                 React.createElement(item.component, item.componentProps || {})) :
             null
-        )
+        );
       })
     );
   }

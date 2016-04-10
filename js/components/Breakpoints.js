@@ -4,13 +4,13 @@ const dom = React.DOM;
 function Breakpoints({ breakpoints }) {
 
   function onResumeClick() {
-    console.log('click')
+    console.log("click");
     gThreadClient.resume();
   }
 
   return dom.div(
     {},
-    dom.button({ onClick: onResumeClick }, 'resume'),
+    dom.button({ onClick: onResumeClick }, "resume"),
     dom.ul(
       null,
       breakpoints.map(bp => dom.li(

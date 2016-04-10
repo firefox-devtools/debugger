@@ -3,9 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
-const constants = require('../constants');
-const Immutable = require('seamless-immutable');
-const { mergeIn, setIn } = require('../utils');
+const constants = require("../constants");
+const Immutable = require("seamless-immutable");
+const { mergeIn, setIn } = require("../utils");
 
 const initialState = Immutable({
   tabs: {},
@@ -13,24 +13,24 @@ const initialState = Immutable({
 });
 
 function update(state = initialState, action) {
-  switch(action.type) {
-  case constants.ADD_TABS:
-    const tabs = action.value;
-    if (!tabs) {
-      return state;
-    }
+  switch (action.type) {
+    case constants.ADD_TABS:
+      const tabs = action.value;
+      if (!tabs) {
+        return state;
+      }
 
-    const tabsByActor = {};
-    tabs.forEach(source => {
-      tabsByActor[source.actor] = source;
-    });
+      const tabsByActor = {};
+      tabs.forEach(source => {
+        tabsByActor[source.actor] = source;
+      });
 
-    return mergeIn(state, ['tabs'], state.tabs.merge(tabsByActor));
-  case constants.SELECT_TAB:
+      return mergeIn(state, ["tabs"], state.tabs.merge(tabsByActor));
+    case constants.SELECT_TAB:
       if (action.status == "start") {
         return state;
       }
-      return mergeIn(state, ['selectedTab'], state.selectedTab.merge(action.value.selectedTab));
+      return mergeIn(state, ["selectedTab"], state.selectedTab.merge(action.value.selectedTab));
   }
 
   return state;
