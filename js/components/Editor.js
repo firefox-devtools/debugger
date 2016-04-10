@@ -20,6 +20,7 @@ const Editor = React.createClass({
       smartIndent: false,
       matchBrackets: true,
       readOnly: true,
+      theme: 'light',
       gutters: ['breakpoints']
     });
 
