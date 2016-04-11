@@ -73,6 +73,27 @@ function deleteIn(destObj, path) {
   return setIn(destObj, objPath, obj.without(propName));
 }
 
+function groupBy(array, predicate) {
+  return array.reduce((dictionary, item) => {
+    const key = predicate(item);
+    if (!dictionary.hasOwnProperty(key)) {
+      dictionary[key] = [];
+    }
+
+    dictionary[key].push(item);
+    return dictionary;
+  }, {});
+}
+
+/**
+ * Returns the values of an object
+ *
+ * @return Array
+ */
+function values(object) {
+  return Object.keys(object).map(k => object[k]);
+}
+
 module.exports = {
   asPaused,
   handleError,
@@ -80,5 +101,7 @@ module.exports = {
   mergeIn,
   setIn,
   updateIn,
-  deleteIn
+  deleteIn,
+  groupBy,
+  values
 };
