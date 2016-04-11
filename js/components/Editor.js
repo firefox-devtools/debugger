@@ -52,7 +52,7 @@ const Editor = React.createClass({
 
       this.props.addBreakpoint({
         actor: this.props.selectedSource.actor,
-        line: line
+        line: line + 1
       });
     });
   },
