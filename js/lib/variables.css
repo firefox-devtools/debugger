@@ -15,22 +15,22 @@
  */
 
 :root {
-  --theme-body-background: #fcfcfc;
-  --theme-sidebar-background: #f7f7f7;
+  --theme-body-background: white;
+  --theme-sidebar-background: white;
   --theme-contrast-background: #e6b064;
 
-  --theme-tab-toolbar-background: #ebeced;
-  --theme-toolbar-background: #f0f1f2;
+  --theme-tab-toolbar-background: #fcfcfc;
+  --theme-toolbar-background: #fcfcfc;
   --theme-selection-background: #4c9ed9;
   --theme-selection-background-semitransparent: rgba(76, 158, 217, 0.15);
   --theme-selection-color: #f5f7fa;
-  --theme-splitter-color: #aaaaaa;
-  --theme-comment: #747573;
+  --theme-splitter-color: #dde1e4;
+  --theme-comment: #696969;
 
-  --theme-body-color: #18191a;
+  --theme-body-color: #393f4c;
   --theme-body-color-alt: #585959;
   --theme-body-color-inactive: #999797;
-  --theme-content-color1: #585959;
+  --theme-content-color1: #292e33;
   --theme-content-color2: #8fa1b2;
   --theme-content-color3: #667380;
 
@@ -55,48 +55,6 @@
   --theme-graphs-orange: #d97e00;
   --theme-graphs-red: #e57180;
   --theme-graphs-grey: #cccccc;
-  --theme-graphs-full-red: #f00;
-  --theme-graphs-full-blue: #00f;
-}
-
-:root.devtools-dark-theme {
-  --theme-body-background: #14171a;
-  --theme-sidebar-background: #181d20;
-  --theme-contrast-background: #b28025;
-
-  --theme-tab-toolbar-background: #252c33;
-  --theme-toolbar-background: #343c45;
-  --theme-selection-background: #1d4f73;
-  --theme-selection-background-semitransparent: rgba(29, 79, 115, .5);
-  --theme-selection-color: #f5f7fa;
-  --theme-splitter-color: #000000;
-  --theme-comment: #5c6773;
-
-  --theme-body-color: #8fa1b2;
-  --theme-body-color-alt: #b6babf;
-  --theme-body-color-inactive: #8fa1b2;
-  --theme-content-color1: #a9bacb;
-  --theme-content-color2: #8fa1b2;
-  --theme-content-color3: #667380;
-
-  --theme-highlight-green: #70bf53;
-  --theme-highlight-blue: #46afe3;
-  --theme-highlight-bluegrey: #5e88b0;
-  --theme-highlight-purple: #6b7abb;
-  --theme-highlight-lightorange: #d99b28;
-  --theme-highlight-orange: #d96629;
-  --theme-highlight-red: #eb5368;
-  --theme-highlight-pink: #df80ff;
-
-  /* Colors used in Graphs, like performance tools. Mostly similar to some "highlight-*" colors. */
-  --theme-graphs-green: #70bf53;
-  --theme-graphs-blue: #46afe3;
-  --theme-graphs-bluegrey: #5e88b0;
-  --theme-graphs-purple: #df80ff;
-  --theme-graphs-yellow: #d99b28;
-  --theme-graphs-orange: #d96629;
-  --theme-graphs-red: #eb5368;
-  --theme-graphs-grey: #757873;
   --theme-graphs-full-red: #f00;
   --theme-graphs-full-blue: #00f;
 }
