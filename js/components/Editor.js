@@ -16,7 +16,7 @@ const Editor = React.createClass({
   propTypes: {
     selectedSource: PropTypes.object,
     sourceText: PropTypes.string,
-    addBreakpoint: PropTypes.function
+    addBreakpoint: PropTypes.func
   },
 
   componentDidMount() {

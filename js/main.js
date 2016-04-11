@@ -11,7 +11,7 @@ const { connectToClient } = require("./client");
 const actions = require("./actions");
 const TabList = React.createFactory(require("./components/TabList"));
 
-const createStore = configureStore({ log: true });
+const createStore = configureStore({ log: false });
 const store = createStore(combineReducers(reducers));
 
 // global for debugging purposes only!
