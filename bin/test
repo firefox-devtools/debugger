@@ -19,11 +19,14 @@ const allPaths = paths.reduce((acc, path) => {
     const files = fs.readdirSync(path);
     return acc.concat.apply(
       acc,
-      files.map(file => join(path, file))
+      files.filter(p => p[0] !== '.').map(file => join(path, file))
     );
   }
   else {
-    return acc.concat([path]);
+    if(path[0] !== '.') {
+      return acc.concat([path]);
+    }
+    return acc;
   }
 }, []);
 
@@ -32,12 +35,19 @@ allPaths.forEach(path => {
   allEntries[path.replace(/\//g, '-')] = resolve(path);
 });
 
+
 const config = Object.assign({}, webpackConfig, {
   entry: allEntries,
   output: {
     path: join(__dirname, '../build/tests'),
     filename: '[name].js',
-    library: 'run_test'
+    library: 'run_test',
+  },
+  module: {
+    loaders: [{
+      test: /tests\/.*\.js$/,
+      loader: join(__dirname, "test-loader")
+    }]
   },
   devtool: null
 });
@@ -48,6 +58,6 @@ webpack(config).run(function(err, stats) {
   } else if(stats.compilation.errors.length) {
     console.log(stats.toString({ colors: true }));
   } else {
-    runTests(env.firefoxSrcDir, env.firefoxObjDir, [resolve('build/tests')]);
+    runTests(env.firefoxSrcDir, env.firefoxObjDir, ['build/tests']);
   }
 });

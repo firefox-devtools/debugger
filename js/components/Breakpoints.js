@@ -8,12 +8,12 @@ const { getSources } = require("../queries");
 require("./Breakpoints.css");
 
 const Breakpoints = React.createClass({
-  displayName: "Breakpoints",
-
   propTypes: {
     breakpoints: PropTypes.array,
     sources: PropTypes.object
   },
+
+  displayName: "Breakpoints",
 
   render() {
     function onResumeClick() {

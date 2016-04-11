@@ -1,5 +1,4 @@
-const sources = require('../sources.js');
 
-module.exports = () => {
+function run_test() {
   equal(1, 1);
 }
