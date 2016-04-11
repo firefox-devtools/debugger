@@ -12,13 +12,13 @@ const SplitBox = React.createFactory(require("./SplitBox"));
 const { getSources, getBreakpoints, getSelectedSource } = require("../queries");
 
 const App = React.createClass({
-  displayName: "App",
-
   propTypes: {
     sources: PropTypes.object,
     selectedSource: PropTypes.object,
     breakpoints: PropTypes.array
   },
+
+  displayName: "App",
 
   render: function() {
     return dom.div(

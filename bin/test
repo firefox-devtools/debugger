@@ -1,26 +1,63 @@
 #!/usr/bin/env node
 "use strict";
 
-const join = require("path").join;
+const fs = require("fs");
 const runTests = require("xpcshell-unit-test");
 const webpack = require("webpack");
+const join = require("path").join
+const resolve = require("path").resolve;
+const rimraf = require("rimraf");
 const env = require(__dirname + "/../environment.json");
 const webpackConfig = require("../webpack.config");
 
 const paths = process.argv.slice(2);
 
-// runTests(env.firefoxSrcDir, env.firefoxObjDir,
+rimraf.sync(join(__dirname, '../build/tests'));
 
-paths.map(path => {
-  webpack(Object.assign({}, webpackConfig, {
-    entry: path,
-    output: {
-      path: join(__dirname, '../build'),
-      filename: path.replace('/', '-')
+const allPaths = paths.reduce((acc, path) => {
+  if(fs.statSync(path).isDirectory()) {
+    const files = fs.readdirSync(path);
+    return acc.concat.apply(
+      acc,
+      files.filter(p => p[0] !== '.').map(file => join(path, file))
+    );
+  }
+  else {
+    if(path[0] !== '.') {
+      return acc.concat([path]);
     }
-  })).run(function(err, stats) {
-    console.log(err, stats);
-  });
+    return acc;
+  }
+}, []);
+
+const allEntries = {};
+allPaths.forEach(path => {
+  allEntries[path.replace(/\//g, '-')] = resolve(path);
 });
 
-//}));
+
+const config = Object.assign({}, webpackConfig, {
+  entry: allEntries,
+  output: {
+    path: join(__dirname, '../build/tests'),
+    filename: '[name].js',
+    library: 'run_test',
+  },
+  module: {
+    loaders: [{
+      test: /tests\/.*\.js$/,
+      loader: join(__dirname, "test-loader")
+    }]
+  },
+  devtool: null
+});
+
+webpack(config).run(function(err, stats) {
+  if(err) {
+    console.log("ERROR", err);
+  } else if(stats.compilation.errors.length) {
+    console.log(stats.toString({ colors: true }));
+  } else {
+    runTests(env.firefoxSrcDir, env.firefoxObjDir, ['build/tests']);
+  }
+});

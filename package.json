@@ -28,6 +28,7 @@
     "eslint-plugin-mozilla": "0.0.3",
     "eslint-plugin-react": "^4.3.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "rimraf": "^2.5.2",
     "style-loader": "^0.13.1",
     "xpcshell-unit-test": "0.0.2"
   }

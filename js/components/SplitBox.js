@@ -10,7 +10,6 @@ require("./SplitBox.css");
 const { DOM: dom, PropTypes } = React;
 
 const SplitBox = React.createClass({
-
   propTypes: {
     left: PropTypes.any.isRequired,
     right: PropTypes.any.isRequired,
