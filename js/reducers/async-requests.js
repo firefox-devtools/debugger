@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
-const constants = require('../constants');
+const constants = require("../constants");
 const initialState = [];
 
 function update(state = initialState, action) {
@@ -14,10 +14,10 @@ function update(state = initialState, action) {
   }
   else if (seqId) {
     let newState;
-    if (action.status === 'start') {
+    if (action.status === "start") {
       newState = [...state, seqId];
     }
-    else if (action.status === 'error' || action.status === 'done') {
+    else if (action.status === "error" || action.status === "done") {
       newState = state.filter(id => id !== seqId);
     }
 

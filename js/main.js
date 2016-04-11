@@ -1,17 +1,22 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { combineReducers, applyMiddleware, bindActionCreators } = require('redux');
-const { Provider } = require('react-redux');
-const configureStore = require('./create-store');
-const reducers = require('./reducers');
-const { connectToClient } = require('./client');
-const actions = require('./actions');
+/* global window, document */
+"use strict";
+
+const React = require("react");
+const ReactDOM = require("react-dom");
+const { combineReducers, applyMiddleware, bindActionCreators } = require("redux");
+const { Provider } = require("react-redux");
+const configureStore = require("./create-store");
+const reducers = require("./reducers");
+const { connectToClient } = require("./client");
+const actions = require("./actions");
 const dom = React.DOM;
-const TabList = React.createFactory(require('./components/TabList'));
+const TabList = React.createFactory(require("./components/TabList"));
 
 const createStore = configureStore({ log: true });
 const store = createStore(combineReducers(reducers));
-window.store = store; // global for debugging purposes only!
+
+// global for debugging purposes only!
+window.store = store;
 
 connectToClient(response => {
   const tabs = response.tabs;
@@ -19,11 +24,11 @@ connectToClient(response => {
 
   // if there's a pre-selected tab, connect to it and load the sources.
   // otherwise, just show the toolbox.
-  if (hasSelectedTab()){
+  if (hasSelectedTab()) {
     const selectedTab = getSelectedTab(tabs);
     store.dispatch(actions.selectTab({tabActor: selectedTab.actor}))
       .then(() => store.dispatch(actions.loadSources()))
-      .then(renderToolbox)
+      .then(renderToolbox);
   } else {
     renderToolbox();
   }
@@ -58,6 +63,6 @@ function renderToolbox() {
       { store },
       TabList()
     ),
-    document.querySelector('#mount')
+    document.querySelector("#mount")
   );
 }

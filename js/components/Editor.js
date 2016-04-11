@@ -6,21 +6,21 @@ const { connect } = require("react-redux");
 const actions = require("../actions");
 const Isvg = React.createFactory(require("react-inlinesvg"));
 
-require('codemirror/lib/codemirror.css');
-require('./Editor.css');
-const js = require('codemirror/mode/javascript/javascript');
-const CodeMirror = require('codemirror');
+require("codemirror/lib/codemirror.css");
+require("./Editor.css");
+const js = require("codemirror/mode/javascript/javascript");
+const CodeMirror = require("codemirror");
 
 const Editor = React.createClass({
   componentDidMount() {
     this.editor = CodeMirror.fromTextArea(this.refs.editor, {
-      mode: 'javascript',
+      mode: "javascript",
       lineNumbers: true,
       lineWrapping: true,
       smartIndent: false,
       matchBrackets: true,
       readOnly: true,
-      gutters: ['breakpoints']
+      gutters: ["breakpoints"]
     });
 
     function makeMarker() {
@@ -55,19 +55,19 @@ const Editor = React.createClass({
     const cursor = this.editor.getCursor();
 
     if (sourceText.loading) {
-      this.editor.setValue('Loading...');
+      this.editor.setValue("Loading...");
       return;
     }
 
     if (sourceText.error) {
-      this.editor.setValue('Error');
-      console.error(sourceText)
+      this.editor.setValue("Error");
+      console.error(sourceText);
       return;
     }
 
     const text = sourceText.text;
 
-    if(this.props.sourceText.text == text) {
+    if (this.props.sourceText.text == text) {
       return;
     }
 

@@ -1,56 +1,61 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/* global window gThreadClient setNamedTimeout */
 "use strict";
 
 const constants = require("../constants");
 const { asPaused } = require("../utils");
 const { reportException } = require("devtools/shared/DevToolsUtils");
-const { Task } = require('devtools/sham/task');
+const { Task } = require("devtools/sham/task");
 
-const FETCH_EVENT_LISTENERS_DELAY = 200; // ms
+// delay is in ms
+const FETCH_EVENT_LISTENERS_DELAY = 200;
 
 function fetchEventListeners() {
   return (dispatch, getState) => {
     // Make sure we"re not sending a batch of closely repeated requests.
     // This can easily happen whenever new sources are fetched.
-    setNamedTimeout("event-listeners-fetch", FETCH_EVENT_LISTENERS_DELAY, () => {
-      // In case there is still a request of listeners going on (it
-      // takes several RDP round trips right now), make sure we wait
-      // on a currently running request
-      if (getState().eventListeners.fetchingListeners) {
-        dispatch({
-          type: services.WAIT_UNTIL,
-          predicate: action => (
-            action.type === constants.FETCH_EVENT_LISTENERS &&
-            action.status === "done"
-          ),
-          run: dispatch => dispatch(fetchEventListeners())
+    setNamedTimeout(
+        "event-listeners-fetch",
+        FETCH_EVENT_LISTENERS_DELAY,
+        () => {
+          // In case there is still a request of listeners going on (it
+          // takes several RDP round trips right now), make sure we wait
+          // on a currently running request
+          if (getState().eventListeners.fetchingListeners) {
+            dispatch({
+              type: services.WAIT_UNTIL,
+              predicate: action => (
+                action.type === constants.FETCH_EVENT_LISTENERS &&
+                action.status === "done"
+              ),
+              run: dispatch => dispatch(fetchEventListeners())
+            });
+            return;
+          }
+
+          dispatch({
+            type: constants.FETCH_EVENT_LISTENERS,
+            status: "begin"
+          });
+
+          asPaused(gThreadClient, _getListeners).then(listeners => {
+            // Notify that event listeners were fetched and shown in the view,
+            // and callback to resume the active thread if necessary.
+            window.emit(EVENTS.EVENT_LISTENERS_FETCHED);
+
+            dispatch({
+              type: constants.FETCH_EVENT_LISTENERS,
+              status: "done",
+              listeners: listeners
+            });
+          });
         });
-        return;
-      }
-
-      dispatch({
-        type: constants.FETCH_EVENT_LISTENERS,
-        status: "begin"
-      });
-
-      asPaused(gThreadClient, _getListeners).then(listeners => {
-        // Notify that event listeners were fetched and shown in the view,
-        // and callback to resume the active thread if necessary.
-        window.emit(EVENTS.EVENT_LISTENERS_FETCHED);
-
-        dispatch({
-          type: constants.FETCH_EVENT_LISTENERS,
-          status: "done",
-          listeners: listeners
-        });
-      });
-    });
   };
 }
 
-const _getListeners = Task.async(function*() {
+const _getListeners = Task.async(function* () {
   const response = yield gThreadClient.eventListeners();
 
   // Make sure all the listeners are sorted by the event type, since
@@ -82,15 +87,14 @@ const _getListeners = Task.async(function*() {
   return listeners;
 });
 
-const _getDefinitionSite = Task.async(function*(aFunction) {
+const _getDefinitionSite = Task.async(function* (aFunction) {
   const grip = gThreadClient.pauseGrip(aFunction);
   let response;
 
   try {
     response = yield grip.getDefinitionSite();
-  }
-  catch(e) {
-    // Don't make this error fatal, because it would break the entire events pane.
+  } catch (e) {
+    // Don't make this error fatal, it would break the entire events pane.
     reportException("_getDefinitionSite", e);
     return null;
   }
@@ -111,7 +115,7 @@ function updateEventBreakpoints(eventNames) {
         });
       });
     });
-  }
+  };
 }
 
 module.exports = { updateEventBreakpoints, fetchEventListeners };

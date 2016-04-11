@@ -5,7 +5,7 @@ const { connect } = require("react-redux");
 require("./App.css");
 require("../lib/variables.css");
 const Sources = React.createFactory(require("./Sources"));
-const Editor  = React.createFactory(require("./Editor"));
+const Editor = React.createFactory(require("./Editor"));
 const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Accordion = React.createFactory(require("./Accordion"));
 const SplitBox = React.createFactory(require("./SplitBox"));
@@ -16,7 +16,7 @@ const App = React.createClass({
   render: function() {
     return dom.div(
       { style: { flex: 1,
-                 overflow: 'hidden' }},
+                 overflow: "hidden" }},
       SplitBox({
         initialWidth: 300,
         left: Sources({ sources: this.props.sources }),
@@ -31,13 +31,13 @@ const App = React.createClass({
                 componentProps: { breakpoints: this.props.breakpoints },
                 opened: true },
               { header: "Foo",
-                component: function() { return dom.div(null, "hi") } }
+                component: function() { return dom.div(null, "hi"); } }
             ]
           })
         })
       })
 
-    )
+    );
   }
 });
 
