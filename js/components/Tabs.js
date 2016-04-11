@@ -1,4 +1,5 @@
 /* globals gThreadClient */
+"use strict";
 
 const React = require("react");
 const { bindActionCreators } = require("redux");

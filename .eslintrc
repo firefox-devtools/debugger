@@ -353,7 +353,7 @@
     // Require a space immediately following the // in a line comment.
     "spaced-comment": [2, "always"],
     // Require "use strict" to be defined globally in the script.
-    "strict": [0, "global"],
+    "strict": [2, "global"],
     // Disallow comparisons with the value NaN.
     "use-isnan": 2,
     // Warn about invalid JSDoc comments.

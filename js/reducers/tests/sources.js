@@ -1,6 +1,7 @@
 /* globals equal */
 /* eslint camelcase: 0 */
 /* eslint no-unused-vars: 0 */
+"use strict";
 
 function run_test() {
   try {
