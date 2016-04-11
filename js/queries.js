@@ -1,3 +1,4 @@
+"use strict";
 
 function getSource(state, actor) {
   return state.sources.sources[actor];

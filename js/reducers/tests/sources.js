@@ -1,4 +1,17 @@
+/* globals equal */
+/* eslint camelcase: 0 */
+/* eslint no-unused-vars: 0 */
+"use strict";
 
 function run_test() {
-  equal(1, 1);
-}
+  try {
+    const BrowserLoader = Components.utils.import("resource://devtools/client/shared/browser-loader", {});
+    const { require } = BrowserLoader({
+      baseURI: "file:///Users/james/projects/mozilla/debugger.html"
+    });
+
+    const sources = require("./js/reducers/sources.js");
+    dump(sources.toString());
+  } catch (e) {
+    dump(e);
+  }

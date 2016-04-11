@@ -1,4 +1,6 @@
 /* eslint max-len: [2, 90] */
+"use strict";
+
 const { PrefsHelper } = require("devtools/client/shared/prefs");
 
 /**

@@ -1,3 +1,5 @@
+"use strict";
+
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { connect } = require("react-redux");

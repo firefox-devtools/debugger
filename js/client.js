@@ -1,3 +1,5 @@
+"use strict";
+
 const { DebuggerClient } = require("devtools/shared/client/main");
 const { DebuggerTransport } = require("devtools/transport/transport");
 const { TargetFactory } = require("devtools/client/framework/target");
