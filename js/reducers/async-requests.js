@@ -11,13 +11,11 @@ function update(state = initialState, action) {
 
   if (action.type === constants.UNLOAD) {
     return initialState;
-  }
-  else if (seqId) {
+  } else if (seqId) {
     let newState;
     if (action.status === "start") {
       newState = [...state, seqId];
-    }
-    else if (action.status === "error" || action.status === "done") {
+    } else if (action.status === "error" || action.status === "done") {
       newState = state.filter(id => id !== seqId);
     }
 

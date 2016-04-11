@@ -5,8 +5,6 @@
 
 const constants = require("../constants");
 
-const FETCH_EVENT_LISTENERS_DELAY = 200; // ms
-
 const initialState = {
   activeEventNames: [],
   listeners: [],
@@ -22,8 +20,7 @@ function update(state = initialState, action, emit) {
     case constants.FETCH_EVENT_LISTENERS:
       if (action.status === "begin") {
         state.fetchingListeners = true;
-      }
-      else if (action.status === "done") {
+      } else if (action.status === "done") {
         state.fetchingListeners = false;
         state.listeners = action.listeners;
         emit("event-listeners", state.listeners);

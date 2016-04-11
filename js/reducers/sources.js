@@ -58,8 +58,7 @@ function update(state = initialState, action) {
         s = mergeIn(state, ["sourcesText", action.source.actor], {
           loading: false
         });
-      }
-      else {
+      } else {
         s = _updateText(state, action);
 
         if (action.status === "done") {
@@ -89,18 +88,16 @@ function _updateText(state, action) {
     return mergeIn(state, ["sourcesText", source.actor], {
       loading: true
     });
-  }
-  else if (action.status === "error") {
+  } else if (action.status === "error") {
     return setIn(state, ["sourcesText", source.actor], {
       error: action.error
     });
   }
-  else {
-    return setIn(state, ["sourcesText", source.actor], {
-      text: action.value.text,
-      contentType: action.value.contentType
-    });
-  }
+
+  return setIn(state, ["sourcesText", source.actor], {
+    text: action.value.text,
+    contentType: action.value.contentType
+  });
 }
 
 module.exports = update;

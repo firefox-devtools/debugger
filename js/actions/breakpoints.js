@@ -5,10 +5,9 @@
 "use strict";
 
 const constants = require("../constants");
-const { asPaused } = require("../utils");
 const { PROMISE } = require("devtools/client/shared/redux/middleware/promise");
 const {
-  getSource, getBreakpoint, getBreakpoints, makeLocationId
+  getSource, getBreakpoint, getBreakpoints
 } = require("../queries");
 const { Task } = require("devtools/sham/task");
 
@@ -43,7 +42,7 @@ function _getOrCreateBreakpoint(state, location, condition) {
 function addBreakpoint(location, condition) {
   return (dispatch, getState) => {
     if (_breakpointExists(getState(), location)) {
-      return;
+      return (new Promise()).resolve();
     }
 
     const bp = _getOrCreateBreakpoint(getState(), location, condition);

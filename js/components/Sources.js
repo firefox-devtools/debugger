@@ -3,7 +3,6 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
 const dom = React.DOM;
-const Isvg = React.createFactory(require("react-inlinesvg"));
 
 require("./Sources.css");
 

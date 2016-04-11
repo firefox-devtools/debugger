@@ -1,3 +1,6 @@
+/* globals equal */
+/* eslint camelcase: 0 */
+/* eslint no-unused-vars: 0 */
 
 function run_test() {
   try {
@@ -8,8 +11,7 @@ function run_test() {
 
     const sources = require("./js/reducers/sources.js");
     dump(sources.toString());
-  }
-  catch (e) {
+  } catch (e) {
     dump(e);
   }
 

@@ -27,11 +27,9 @@
     "XPCOMUtils": true,
     "_Iterator": true
   },
-  "parserOptions": {
-      "ecmaVersion": 6
-  },
   "env": {
-      "es6": true
+      "es6": true,
+      "browser": true,
   },
   "rules": {
     // These are the rules that have been configured so far to match the
@@ -355,7 +353,7 @@
     // Require a space immediately following the // in a line comment.
     "spaced-comment": [2, "always"],
     // Require "use strict" to be defined globally in the script.
-    "strict": [2, "global"],
+    "strict": [0, "global"],
     // Disallow comparisons with the value NaN.
     "use-isnan": 2,
     // Warn about invalid JSDoc comments.

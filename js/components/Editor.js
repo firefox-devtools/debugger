@@ -1,6 +1,7 @@
 const React = require("react");
+const { DOM: dom, PropTypes } = React;
+
 const { getSourceText } = require("../queries");
-const dom = React.DOM;
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
@@ -8,10 +9,16 @@ const Isvg = React.createFactory(require("react-inlinesvg"));
 
 require("codemirror/lib/codemirror.css");
 require("./Editor.css");
-const js = require("codemirror/mode/javascript/javascript");
+require("codemirror/mode/javascript/javascript");
 const CodeMirror = require("codemirror");
 
 const Editor = React.createClass({
+  propTypes: {
+    selectedSource: PropTypes.object,
+    sourceText: PropTypes.string,
+    addBreakpoint: PropTypes.function
+  },
+
   componentDidMount() {
     this.editor = CodeMirror.fromTextArea(this.refs.editor, {
       mode: "javascript",
@@ -24,18 +31,24 @@ const Editor = React.createClass({
     });
 
     function makeMarker() {
-      var marker = document.createElement("div");
+      let marker = document.createElement("div");
       marker.className = "editor breakpoint";
       React.render(
-        React.createElement(Isvg, { src: "js/components/images/breakpoint.svg#base-path___2142144446" }),
+        React.createElement(Isvg, {
+          src: "js/components/images/breakpoint.svg#base-path___2142144446"
+        }),
         marker
       );
       return marker;
     }
 
     this.editor.on("gutterClick", (cm, line, gutter, ev) => {
-      var info = cm.lineInfo(line);
-      cm.setGutterMarker(line, "breakpoints", info.gutterMarkers ? null : makeMarker());
+      let info = cm.lineInfo(line);
+      cm.setGutterMarker(
+        line,
+        "breakpoints",
+        info.gutterMarkers ? null : makeMarker()
+      );
 
       this.props.addBreakpoint({
         actor: this.props.selectedSource.actor,
@@ -45,9 +58,7 @@ const Editor = React.createClass({
   },
 
   componentDidUpdate() {
-    if (this.props.readOnly) {
-      this.editor.setValue(this.props.sourceText);
-    }
+    this.editor.setValue(this.props.sourceText);
   },
 
   componentWillReceiveProps(nextProps) {
@@ -88,10 +99,10 @@ const Editor = React.createClass({
   }
 });
 
-
 module.exports = connect(
-  (state, props) => ({ sourceText: (props.selectedSource ?
-                                    getSourceText(state, props.selectedSource.actor) :
-                                    null)}),
+  (state, props) => ({
+    sourceText: props.selectedSource
+                ? getSourceText(state, props.selectedSource.actor) : null
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Editor);

@@ -18,6 +18,8 @@ function getSourceByURL(state, url) {
       return source;
     }
   }
+
+  return null;
 }
 
 function getSourceByActor(state, actor) {
@@ -27,6 +29,8 @@ function getSourceByActor(state, actor) {
       return source;
     }
   }
+
+  return null;
 }
 
 function getSelectedSource(state) {

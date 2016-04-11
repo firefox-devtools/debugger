@@ -3,13 +3,12 @@
 
 const React = require("react");
 const ReactDOM = require("react-dom");
-const { combineReducers, applyMiddleware, bindActionCreators } = require("redux");
+const { combineReducers } = require("redux");
 const { Provider } = require("react-redux");
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
 const { connectToClient } = require("./client");
 const actions = require("./actions");
-const dom = React.DOM;
 const TabList = React.createFactory(require("./components/TabList"));
 
 const createStore = configureStore({ log: true });

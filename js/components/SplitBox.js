@@ -4,29 +4,30 @@
 
 const React = require("react");
 const ReactDOM = require("react-dom");
-const { assert } = require("devtools/shared/DevToolsUtils");
 const Draggable = React.createFactory(require("./Draggable"));
 require("./SplitBox.css");
 
 const { DOM: dom, PropTypes } = React;
 
 const SplitBox = React.createClass({
-  displayName: "SplitBox",
 
   propTypes: {
     left: PropTypes.any.isRequired,
     right: PropTypes.any.isRequired,
 
     initialWidth: PropTypes.any,
-    rightFlex: PropTypes.bool
+    rightFlex: PropTypes.bool,
+    style: PropTypes.string
   },
+
+  displayName: "SplitBox",
 
   getInitialState() {
     return { width: this.props.initialWidth };
   },
 
   onMove(x) {
-    var node = ReactDOM.findDOMNode(this);
+    const node = ReactDOM.findDOMNode(this);
     this.setState({
       width: (this.props.rightFlex ?
               (node.offsetLeft + node.offsetWidth) - x :

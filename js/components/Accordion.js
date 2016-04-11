@@ -1,11 +1,16 @@
 const React = require("react");
-const dom = React.DOM;
+const { DOM: dom, PropTypes } = React;
+
 const { div } = dom;
 const Isvg = React.createFactory(require("react-inlinesvg"));
 
 require("./Accordion.css");
 
 const Accordion = React.createClass({
+  propTypes: {
+    items: PropTypes.array
+  },
+
   getInitialState: function() {
     return { opened: this.props.items.map(item => item.opened),
              created: [] };
@@ -39,10 +44,12 @@ const Accordion = React.createClass({
                 item.header),
 
           (created[i] || opened[i]) ?
-            div({ className: "_content",
+            div(
+              { className: "_content",
                   style: { display: opened[i] ? "block" : "none" }
-                },
-                React.createElement(item.component, item.componentProps || {})) :
+              },
+              React.createElement(item.component, item.componentProps || {})
+            ) :
             null
         );
       })
