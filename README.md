@@ -9,10 +9,9 @@ This is a prototype debugger written without any XUL and based on React and Redu
 ```
 $ npm install
 $ npm start
-$ python -m SimpleHTTPServer 8000 
 ```
 
-Start Firefox in remote debugging mode and go to a tab you want to debug.
+Start Firefox in remote debugging mode:
 
 ```
 $ /Applications/FirefoxNightly.app/Contents/MacOS/firefox-bin --start-debugger-server 6080
@@ -24,8 +23,7 @@ Set additional configuration options in Firefox using `about:config`:
 - `devtools.chrome.enabled` to `true`
 - `devtools.debugger.prompt-connection` to `false`
 
-
-Open the debugger in another browser by visiting
+Quit and re-open firefox with the same command. Then, open the debugger in another browser by visiting:
 
 ```
 localhost:8000
