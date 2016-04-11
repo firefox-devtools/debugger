@@ -19,8 +19,8 @@
 }
 
 .tabs .tab-title {
-    line-height: 25px;
-    color: var(--theme-content-color1);
+  line-height: 25px;
+  color: var(--theme-content-color1);
 }
 
 .tabs .tab-url {
