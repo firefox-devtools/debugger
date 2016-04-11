@@ -1,7 +1,3 @@
-/* globals equal */
-/* eslint camelcase: 0 */
-/* eslint no-unused-vars: 0 */
-
 function run_test() {
   try {
     const BrowserLoader = Components.utils.import("resource://devtools/client/shared/browser-loader", {});

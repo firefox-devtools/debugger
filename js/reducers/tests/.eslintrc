@@ -1,0 +1,9 @@
+{
+  "globals": {
+    "equal": true
+  },
+  "rules": {
+    "camelcase": 0,
+    "no-unused-vars": [2, {"vars": "all", "args": "none", "varsIgnorePattern": "run_test"}],
+  }
+}
