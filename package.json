@@ -2,8 +2,8 @@
   "name": "debugger.html",
   "scripts": {
     "start": "firefox-proxy & ./node_modules/.bin/webpack --watch & ./node_modules/.bin/static --port 8000",
-    "lint-css": "stylelint js/components/*.css",
-    "lint-js": "eslint js"
+    "lint-css": "stylelint js/components/*.css || true",
+    "lint-js": "eslint js || true"
   },
   "dependencies": {
     "co": "=4.6.0",
