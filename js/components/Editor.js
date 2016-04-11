@@ -1,3 +1,4 @@
+const ReactDOM = require("react-dom");
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 
@@ -33,7 +34,7 @@ const Editor = React.createClass({
     function makeMarker() {
       let marker = document.createElement("div");
       marker.className = "editor breakpoint";
-      React.render(
+      ReactDOM.render(
         React.createElement(Isvg, {
           src: "js/components/images/breakpoint.svg#base-path___2142144446"
         }),
