@@ -15,3 +15,4 @@ function run_test() {
   } catch (e) {
     dump(e);
   }
+}

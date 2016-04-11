@@ -2,6 +2,7 @@
 
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
+const ReactDOM = require("react-dom");
 
 const { getSourceText } = require("../queries");
 const { bindActionCreators } = require("redux");
