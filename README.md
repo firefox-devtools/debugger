@@ -2,6 +2,8 @@
 
 This is a prototype debugger written without any XUL and based on React and Redux.
 
+[![Build Status](https://travis-ci.org/jlongster/debugger.html.svg?branch=master)](https://travis-ci.org/jlongster/debugger.html)
+
 #### Getting Started
 
 ```js
