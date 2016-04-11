@@ -3,7 +3,6 @@ const ReactDOM = require("react-dom");
 const { DOM: dom, PropTypes } = React;
 
 const Draggable = React.createClass({
-  displayName: "Draggable",
 
   propTypes: {
     onMove: PropTypes.func.isRequired,
@@ -12,6 +11,8 @@ const Draggable = React.createClass({
     style: PropTypes.object,
     className: PropTypes.string
   },
+
+  displayName: "Draggable",
 
   startDragging(ev) {
     ev.preventDefault();

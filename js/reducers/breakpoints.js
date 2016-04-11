@@ -15,7 +15,7 @@ const initialState = Immutable({
 // Return the first argument that is a string, or null if nothing is a
 // string.
 function firstString(...args) {
-  for (var arg of args) {
+  for (let arg of args) {
     if (typeof arg === "string") {
       return arg;
     }
@@ -42,8 +42,7 @@ function update(state = initialState, action) {
         }));
 
         return state;
-      }
-      else if (action.status === "done") {
+      } else if (action.status === "done") {
         const { actor, text } = action.value;
         let { actualLocation } = action.value;
 
@@ -59,8 +58,8 @@ function update(state = initialState, action) {
           state = deleteIn(state, ["breakpoints", id]);
 
           const movedId = makeLocationId(actualLocation);
-          const currentBp = state.breakpoints[movedId] || Immutable(action.breakpoint);
-          const prevLocation = action.breakpoint.location;
+          const currentBp = state.breakpoints[movedId]
+                            || Immutable(action.breakpoint);
           const newBp = currentBp.merge({ location: actualLocation });
           state = setIn(state, ["breakpoints", movedId], newBp);
         }
@@ -76,18 +75,16 @@ function update(state = initialState, action) {
           text: text
         });
         return state;
+      } else if (action.status === "error") {
+        // Remove the optimistic update
+        return deleteIn(state, ["breakpoints", id]);
       }
-    else if (action.status === "error") {
-      // Remove the optimistic update
-      return deleteIn(state, ["breakpoints", id]);
-    }
       break;
     }
 
     case constants.REMOVE_BREAKPOINT: {
       if (action.status === "done") {
         const id = makeLocationId(action.breakpoint.location);
-        const bp = state.breakpoints[id];
 
         if (action.disabled) {
           state = mergeIn(state, ["breakpoints", id],
@@ -103,25 +100,22 @@ function update(state = initialState, action) {
 
     case constants.SET_BREAKPOINT_CONDITION: {
       const id = makeLocationId(action.breakpoint.location);
-      const bp = state.breakpoints[id];
 
       if (action.status === "start") {
         return mergeIn(state, ["breakpoints", id], {
           loading: true,
           condition: action.condition
         });
-      }
-      else if (action.status === "done") {
+      } else if (action.status === "done") {
         return mergeIn(state, ["breakpoints", id], {
           loading: false,
         // Setting a condition creates a new breakpoint client as of
         // now, so we need to update the actor
           actor: action.value.actor
         });
+      } else if (action.status === "error") {
+        return deleteIn(state, ["breakpoints", id]);
       }
-    else if (action.status === "error") {
-      return deleteIn(state, ["breakpoints", id]);
-    }
 
       break;
     }}

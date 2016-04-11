@@ -1,5 +1,5 @@
 const React = require("react");
-const ReactDOM = require("react-dom");
+const { DOM: dom, PropTypes } = React;
 const { connect } = require("react-redux");
 
 require("./App.css");
@@ -10,9 +10,15 @@ const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Accordion = React.createFactory(require("./Accordion"));
 const SplitBox = React.createFactory(require("./SplitBox"));
 const { getSources, getBreakpoints, getSelectedSource } = require("../queries");
-const dom = React.DOM;
 
 const App = React.createClass({
+
+  propTypes: {
+    sources: PropTypes.array,
+    selectedSource: PropTypes.object,
+    breakpoints: PropTypes.array
+  },
+
   render: function() {
     return dom.div(
       { style: { flex: 1,
@@ -31,7 +37,8 @@ const App = React.createClass({
                 componentProps: { breakpoints: this.props.breakpoints },
                 opened: true },
               { header: "Foo",
-                component: function() { return dom.div(null, "hi"); } }
+                component: () => dom.div(null, "hi")
+              }
             ]
           })
         })
@@ -44,5 +51,5 @@ const App = React.createClass({
 module.exports = connect(
   state => ({ sources: getSources(state),
               breakpoints: getBreakpoints(state),
-	          selectedSource: getSelectedSource(state) })
+              selectedSource: getSelectedSource(state) })
 )(App);

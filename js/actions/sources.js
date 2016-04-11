@@ -5,9 +5,8 @@
 "use strict";
 
 const promise = require("devtools/sham/promise");
-const Services = require("devtools/sham/services");
 const { dumpn } = require("devtools/shared/DevToolsUtils");
-const { PROMISE, HISTOGRAM_ID } = require("devtools/client/shared/redux/middleware/promise");
+const { PROMISE } = require("devtools/client/shared/redux/middleware/promise");
 const { Task } = require("devtools/sham/task");
 const SourceUtils = require("devtools/client/shared/source-utils");
 
@@ -30,7 +29,7 @@ function newSource(source) {
   return dispatch => {
     // Ignore bogus scripts, e.g. generated from 'clientEvaluate' packets.
     if (NEW_SOURCE_IGNORED_URLS.indexOf(source.url) != -1) {
-      return;
+      return (new Promise()).resolve();
     }
 
     return dispatch({
@@ -79,7 +78,7 @@ function loadSources() {
           "Error getting sources, probably because a top-level " +
           "breakpoint was hit while executing them"
         );
-        return;
+        return [];
       }
 
       // Ignore bogus scripts, e.g. generated from 'clientEvaluate' packets.
@@ -147,14 +146,14 @@ function togglePrettyPrint(source) {
 
         if (wantPretty) {
           response = yield sourceClient.prettyPrint(Prefs.editorTabSize);
-        }
-        else {
+        } else {
           response = yield sourceClient.disablePrettyPrint();
         }
 
         // Remove the cached source AST from the Parser, to avoid getting
         // wrong locations when searching for functions.
-        DebuggerController.Parser.clearSource(source.url);
+        // TODO: add Parser dependency
+        // DebuggerController.Parser.clearSource(source.url);
 
         return {
           isPrettyPrinted: wantPretty,
@@ -181,9 +180,10 @@ function loadSourceText(source) {
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
       [PROMISE]: Task.spawn(function* () {
-        let transportType = gThreadClient.localTransport ? "_LOCAL" : "_REMOTE";
-
-        // let histogramId = "DEVTOOLS_DEBUGGER_DISPLAY_SOURCE" + transportType + "_MS";
+        // let transportType = gThreadClient.localTransport
+        // ? "_LOCAL" : "_REMOTE";
+        // let histogramId = "DEVTOOLS_DEBUGGER_DISPLAY_SOURCE"
+        //  + transportType + "_MS";
         // let histogram = Services.telemetry.getHistogramById(histogramId);
         // let startTime = Date.now();
 
@@ -261,11 +261,14 @@ function getTextForSources(actors) {
       maybeFinish();
     }
 
-    /* Called every time something interesting happens while fetching sources. */
+    /** Called every time something interesting
+     *  happens while fetching sources.
+     */
     function maybeFinish() {
       if (pending.size == 0) {
         // Sort the fetched sources alphabetically by their url.
-        deferred.resolve(fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond));
+        deferred.resolve(
+          fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond));
       }
     }
 

@@ -5,7 +5,7 @@
 
 const constants = require("../constants");
 const Immutable = require("seamless-immutable");
-const { mergeIn, setIn } = require("../utils");
+const { mergeIn } = require("../utils");
 
 const initialState = Immutable({
   tabs: {},
@@ -30,11 +30,14 @@ function update(state = initialState, action) {
       if (action.status == "start") {
         return state;
       }
-      return mergeIn(state, ["selectedTab"], state.selectedTab.merge(action.value.selectedTab));
+      return mergeIn(
+        state,
+        ["selectedTab"],
+        state.selectedTab.merge(action.value.selectedTab)
+      );
   }
 
   return state;
 }
-
 
 module.exports = update;

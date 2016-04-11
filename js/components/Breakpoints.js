@@ -1,7 +1,7 @@
 /* globals URL gThreadClient */
 
 const React = require("react");
-const dom = React.DOM;
+const { DOM: dom, PropTypes } = React;
 const { connect } = require("react-redux");
 const { getSources } = require("../queries");
 
@@ -9,9 +9,14 @@ require("./Breakpoints.css");
 
 const Breakpoints = React.createClass({
 
+  propTypes: {
+    breakpoints: PropTypes.array,
+    sources: PropTypes.array
+  },
+
   render() {
     function onResumeClick() {
-      console.log("click")
+      console.log("click");
       gThreadClient.resume();
     }
 

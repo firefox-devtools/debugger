@@ -1,7 +1,8 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-/* global window gThreadClient setNamedTimeout */
+/* global window gThreadClient setNamedTimeout services EVENTS */
+/* eslint no-shadow: 0  */
 "use strict";
 
 const constants = require("../constants");
@@ -87,8 +88,8 @@ const _getListeners = Task.async(function* () {
   return listeners;
 });
 
-const _getDefinitionSite = Task.async(function* (aFunction) {
-  const grip = gThreadClient.pauseGrip(aFunction);
+const _getDefinitionSite = Task.async(function* (func) {
+  const grip = gThreadClient.pauseGrip(func);
   let response;
 
   try {
