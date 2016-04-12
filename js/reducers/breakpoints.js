@@ -4,11 +4,10 @@
 "use strict";
 
 const constants = require("../constants");
-const Immutable = require("seamless-immutable");
-const { mergeIn, setIn, deleteIn } = require("../utils");
+const Immutable = require("immutable");
 const { makeLocationId } = require("../queries");
 
-const initialState = Immutable({
+const initialState = Immutable.fromJS({
   breakpoints: {}
 });
 
@@ -29,15 +28,15 @@ function update(state = initialState, action) {
       const id = makeLocationId(action.breakpoint.location);
 
       if (action.status === "start") {
-        const existingBp = state.breakpoints[id];
-        const bp = existingBp || Immutable(action.breakpoint);
+        const existingBp = state.getIn(["breakpoints", id]);
+        const bp = existingBp || Immutable.fromJS(action.breakpoint);
 
-        state = setIn(state, ["breakpoints", id], bp.merge({
+        state = state.setIn(["breakpoints", id], bp.merge({
           disabled: false,
           loading: true,
-        // We want to do an OR here, but we can't because we need
-        // empty strings to be truthy, i.e. an empty string is a valid
-        // condition.
+          // We want to do an OR here, but we can't because we need
+          // empty strings to be truthy, i.e. an empty string is a valid
+          // condition.
           condition: firstString(action.condition, bp.condition)
         }));
 
@@ -46,29 +45,29 @@ function update(state = initialState, action) {
         const { actor, text } = action.value;
         let { actualLocation } = action.value;
 
-      // If the breakpoint moved, update the map
+        // If the breakpoint moved, update the map
         if (actualLocation) {
-        // XXX Bug 1227417: The `setBreakpoint` RDP request rdp
-        // request returns an `actualLocation` field that doesn't
-        // conform to the regular { actor, line } location shape, but
-        // it has a `source` field. We should fix that.
+          // XXX Bug 1227417: The `setBreakpoint` RDP request rdp
+          // request returns an `actualLocation` field that doesn't
+          // conform to the regular { actor, line } location shape, but
+          // it has a `source` field. We should fix that.
           actualLocation = { actor: actualLocation.source.actor,
                            line: actualLocation.line };
 
-          state = deleteIn(state, ["breakpoints", id]);
+          state = state.deleteIn(["breakpoints", id]);
 
           const movedId = makeLocationId(actualLocation);
-          const currentBp = state.breakpoints[movedId]
-                            || Immutable(action.breakpoint);
+          const currentBp = (state.getIn(["breakpoints", movedId]) ||
+                             Immutable.fromJS(action.breakpoint));
           const newBp = currentBp.merge({ location: actualLocation });
-          state = setIn(state, ["breakpoints", movedId], newBp);
+          state = state.setIn(["breakpoints", movedId], newBp);
         }
 
         const finalLocation = (
-        actualLocation ? actualLocation : action.breakpoint.location
-      );
+          actualLocation ? actualLocation : action.breakpoint.location
+        );
         const finalLocationId = makeLocationId(finalLocation);
-        state = mergeIn(state, ["breakpoints", finalLocationId], {
+        state = state.mergeIn(["breakpoints", finalLocationId], {
           disabled: false,
           loading: false,
           actor: actor,
@@ -77,7 +76,7 @@ function update(state = initialState, action) {
         return state;
       } else if (action.status === "error") {
         // Remove the optimistic update
-        return deleteIn(state, ["breakpoints", id]);
+        return state.deleteIn(["breakpoints", id]);
       }
       break;
     }
@@ -87,13 +86,13 @@ function update(state = initialState, action) {
         const id = makeLocationId(action.breakpoint.location);
 
         if (action.disabled) {
-          state = mergeIn(state, ["breakpoints", id],
-                        { loading: false, disabled: true });
-          return state;
+          return state.mergeIn(
+            ["breakpoints", id],
+            { loading: false, disabled: true }
+          );
         }
 
-        state = deleteIn(state, ["breakpoints", id]);
-        return state;
+        return state.deleteIn(["breakpoints", id]);
       }
       break;
     }
@@ -102,19 +101,19 @@ function update(state = initialState, action) {
       const id = makeLocationId(action.breakpoint.location);
 
       if (action.status === "start") {
-        return mergeIn(state, ["breakpoints", id], {
+        return state.mergeIn(["breakpoints", id], {
           loading: true,
           condition: action.condition
         });
       } else if (action.status === "done") {
-        return mergeIn(state, ["breakpoints", id], {
+        return state.mergeIn(["breakpoints", id], {
           loading: false,
-        // Setting a condition creates a new breakpoint client as of
-        // now, so we need to update the actor
+          // Setting a condition creates a new breakpoint client as of
+          // now, so we need to update the actor
           actor: action.value.actor
         });
       } else if (action.status === "error") {
-        return deleteIn(state, ["breakpoints", id]);
+        return state.deleteIn(["breakpoints", id]);
       }
 
       break;

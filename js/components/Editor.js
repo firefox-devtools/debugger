@@ -18,7 +18,7 @@ const CodeMirror = require("codemirror");
 const Editor = React.createClass({
   propTypes: {
     selectedSource: PropTypes.object,
-    sourceText: PropTypes.string,
+    sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func
   },
 
@@ -61,7 +61,9 @@ const Editor = React.createClass({
   },
 
   componentDidUpdate() {
-    this.editor.setValue(this.props.sourceText);
+    // if(this.props.sourceText) {
+    //   this.editor.setValue(this.props.sourceText.text);
+    // }
   },
 
   componentWillReceiveProps(nextProps) {
@@ -81,7 +83,7 @@ const Editor = React.createClass({
 
     const text = sourceText.text;
 
-    if (this.props.sourceText.text == text) {
+    if (this.props.sourceText && this.props.sourceText.text == text) {
       return;
     }
 
@@ -103,9 +105,9 @@ const Editor = React.createClass({
 });
 
 module.exports = connect(
-  (state, props) => ({
-    sourceText: props.selectedSource
-                ? getSourceText(state, props.selectedSource.actor) : null
-  }),
+  (state, props) => {
+    const selectedActor = props.selectedSource && props.selectedSource.actor;
+    return { sourceText: getSourceText(state, selectedActor) };
+  },
   dispatch => bindActionCreators(actions, dispatch)
 )(Editor);

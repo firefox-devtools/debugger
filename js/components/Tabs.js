@@ -11,8 +11,6 @@ require("./Tabs.css");
 const dom = React.DOM;
 
 function Tabs({ tabs, selectTab, loadSources, newSource }) {
-  const tabsArr = Object.keys(tabs).map(k => tabs[k]);
-
   /**
    * TODO: this click handler is probably doing too much right now.
    */
@@ -30,13 +28,14 @@ function Tabs({ tabs, selectTab, loadSources, newSource }) {
   }
 
   return dom.ul(
-    {className: "tabs"},
-    tabsArr.map(tab => {
-      return dom.li({ "className": "tab",
-                      "data-actor-id": tab.actor,
-                      "onClick": onClickTab },
-        dom.div({ className: "tab-title" }, tab.title),
-        dom.div({ className: "tab-url" }, tab.url)
+    { className: "tabs" },
+    tabs.valueSeq().map(tab => {
+      return dom.li(
+        { "className": "tab",
+          "data-actor-id": tab.get("actor"),
+          "onClick": onClickTab },
+        dom.div({ className: "tab-title" }, tab.get("title")),
+        dom.div({ className: "tab-url" }, tab.get("url"))
       );
     })
   );

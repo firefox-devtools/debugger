@@ -9,14 +9,12 @@ const dom = React.DOM;
 require("./Sources.css");
 
 function Sources({ sources, selectSource }) {
-  const sourceArr = Object.keys(sources).map(k => sources[k]);
-
   return dom.ul(
     {className: "sources-pane"},
-    sourceArr.map(source => {
-      return dom.li({ onClick: () => selectSource(source),
+    sources.valueSeq().map(source => {
+      return dom.li({ onClick: () => selectSource(source.toJS()),
                       className: "sources-pane-item" },
-                    source.url ? source.url : source.introductionType);
+                    source.get("url") || source.get("introductionType"));
     })
   );
 }

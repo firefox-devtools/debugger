@@ -1,67 +1,61 @@
 "use strict";
 
+function toJS(val) {
+  return val ? val.toJS() : null;
+}
+
 function getSource(state, actor) {
-  return state.sources.sources[actor];
+  return toJS(state.sources.getIn(["sources", actor]));
 }
 
 function getSources(state) {
-  return state.sources.sources;
+  return state.sources.get("sources");
 }
 
 function getSourceCount(state) {
-  return Object.keys(state.sources.sources).length;
+  return state.sources.get("sources").size;
 }
 
 function getSourceByURL(state, url) {
-  for (let k in state.sources.sources) {
-    const source = state.sources.sources[k];
-    if (source.url === url) {
-      return source;
-    }
-  }
-
-  return null;
+  return toJS(state.sources.get("sources").find(source => {
+    return source.url == url;
+  }));
 }
 
 function getSourceByActor(state, actor) {
-  for (let k in state.sources.sources) {
-    const source = state.sources.sources[k];
-    if (source.actor === actor) {
-      return source;
-    }
-  }
-
-  return null;
+  return toJS(state.sources.get("sources").find(source => {
+    return source.actor == actor;
+  }));
 }
 
 function getSelectedSource(state) {
-  return state.sources.sources[state.sources.selectedSource];
+  return toJS(
+    state.sources.get("sources").get(state.sources.get("selectedSource"))
+  );
 }
 
 function getSelectedSourceOpts(state) {
-  return state.sources.selectedSourceOpts;
+  return state.sources.get("selectedSourceOpts");
 }
 
 function getSourceText(state, actor) {
-  return state.sources.sourcesText[actor];
+  return toJS(state.sources.getIn(["sourcesText", actor]));
 }
 
 function getBreakpoints(state) {
-  return Object.keys(state.breakpoints.breakpoints).map(k => {
-    return state.breakpoints.breakpoints[k];
-  });
+  return state.breakpoints.get("breakpoints").valueSeq().toList();
 }
 
 function getBreakpoint(state, location) {
-  return state.breakpoints.breakpoints[makeLocationId(location)];
+  return state.breakpoints.getIn(["breakpoints", makeLocationId(location)]);
 }
 
 function getTabs(state) {
-  return state.tabs.tabs;
+  return state.tabs.get("tabs");
 }
 
 function getSelectedTab(state) {
-  return state.tabs.selectedTab;
+  return state.tabs.get("selectedTab");
 }
 
 function makeLocationId(location) {
