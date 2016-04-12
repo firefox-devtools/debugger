@@ -3,7 +3,7 @@
 
 const React = require("react");
 const { connect } = require("react-redux");
-const { getSources } = require("../queries");
+const { getSources, getBreakpoints } = require("../queries");
 const ImPropTypes = require("react-immutable-proptypes");
 const dom = React.DOM;
 
@@ -38,7 +38,7 @@ function renderBreakpoint(sources, breakpoint) {
 
 const Breakpoints = React.createClass({
   propTypes: {
-    breakpoints: ImPropTypes.list.isRequired,
+    breakpoints: ImPropTypes.map.isRequired,
     sources: ImPropTypes.map.isRequired
   },
 
@@ -55,7 +55,7 @@ const Breakpoints = React.createClass({
       dom.button({ onClick: onResumeClick }, "resume"),
       dom.ul(
         null,
-        this.props.breakpoints.map(bp => {
+        this.props.breakpoints.valueSeq().map(bp => {
           return renderBreakpoint(this.props.sources, bp);
         })
       )
@@ -64,5 +64,8 @@ const Breakpoints = React.createClass({
 });
 
 module.exports = connect(
-  (state, props) => ({ sources: getSources(state)})
+  (state, props) => ({
+    sources: getSources(state),
+    breakpoints: getBreakpoints(state)
+  })
 )(Breakpoints);

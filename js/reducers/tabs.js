@@ -5,7 +5,6 @@
 
 const constants = require("../constants");
 const Immutable = require("immutable");
-const { Map } = Immutable;
 
 const initialState = Immutable.fromJS({
   tabs: {},
@@ -22,7 +21,7 @@ function update(state = initialState, action) {
 
       return state.mergeIn(
         ["tabs"],
-        Map(tabs.map(tab => [tab.actor, Map(tab)]))
+        Immutable.Map(tabs.map(tab => [tab.actor, Immutable.Map(tab)]))
       );
     case constants.SELECT_TAB:
       if (action.status == "start") {

@@ -3,12 +3,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
+const promise = require("devtools/sham/promise");
 const constants = require("../constants");
 const { PROMISE } = require("devtools/client/shared/redux/middleware/promise");
 const {
   getSource, getBreakpoint, getBreakpoints
 } = require("../queries");
 const { Task } = require("devtools/sham/task");
+const { fromJS } = require("immutable");
 
 // Because breakpoints are just simple data structures, we still need
 // a way to lookup the actual client instance to talk to the server.
@@ -31,33 +33,33 @@ function enableBreakpoint(location) {
 
 function _breakpointExists(state, location) {
   const currentBp = getBreakpoint(state, location);
-  return currentBp && !currentBp.disabled;
+  return currentBp && !currentBp.get("disabled");
 }
 
 function _getOrCreateBreakpoint(state, location, condition) {
-  return getBreakpoint(state, location) || { location, condition };
+  return getBreakpoint(state, location) || fromJS({ location, condition });
 }
 
 function addBreakpoint(location, condition) {
   return ({ dispatch, getState, threadClient }) => {
     if (_breakpointExists(getState(), location)) {
-      return (new Promise()).resolve();
+      return promise.resolve();
     }
 
     const bp = _getOrCreateBreakpoint(getState(), location, condition);
 
     return dispatch({
       type: constants.ADD_BREAKPOINT,
-      breakpoint: bp,
+      breakpoint: bp.toJS(),
       condition: condition,
       [PROMISE]: Task.spawn(function* () {
         const sourceClient = threadClient.source(
-          getSource(getState(), bp.location.actor)
+          getSource(getState(), bp.getIn(["location", "actor"])).toJS()
         );
         const [response, bpClient] = yield sourceClient.setBreakpoint({
-          line: bp.location.line,
-          column: bp.location.column,
-          condition: bp.condition
+          line: bp.getIn(["location", "line"]),
+          column: bp.getIn(["location", "column"]),
+          condition: bp.get("condition")
         });
         const { isPending, actualLocation } = response;
 
