@@ -1,53 +1,24 @@
 "use strict";
 
-function toJS(val) {
-  return val ? val.toJS() : null;
-}
-
-function getSource(state, actor) {
-  return toJS(state.sources.getIn(["sources", actor]));
-}
-
+/* Selectors */
 function getSources(state) {
   return state.sources.get("sources");
 }
 
-function getSourceCount(state) {
-  return state.sources.get("sources").size;
-}
-
-function getSourceByURL(state, url) {
-  return toJS(state.sources.get("sources").find(source => {
-    return source.url == url;
-  }));
-}
-
-function getSourceByActor(state, actor) {
-  return toJS(state.sources.get("sources").find(source => {
-    return source.actor == actor;
-  }));
+function getSourcesText(state) {
+  return state.sources.get("sourcesText");
 }
 
 function getSelectedSource(state) {
-  return toJS(
-    state.sources.get("sources").get(state.sources.get("selectedSource"))
-  );
+  return state.sources.get("selectedSource");
 }
 
 function getSelectedSourceOpts(state) {
   return state.sources.get("selectedSourceOpts");
 }
 
-function getSourceText(state, actor) {
-  return toJS(state.sources.getIn(["sourcesText", actor]));
-}
-
 function getBreakpoints(state) {
-  return state.breakpoints.get("breakpoints").valueSeq().toList();
-}
-
-function getBreakpoint(state, location) {
-  return state.breakpoints.getIn(["breakpoints", makeLocationId(location)]);
+  return state.breakpoints.get("breakpoints");
 }
 
 function getTabs(state) {
@@ -58,6 +29,34 @@ function getSelectedTab(state) {
   return state.tabs.get("selectedTab");
 }
 
+/* Queries */
+function getSource(state, actor) {
+  return getSources(state).get(actor);
+}
+
+function getSourceCount(state) {
+  return getSources(state).size;
+}
+
+function getSourceByURL(state, url) {
+  return getSources(state).find(source => source.url == url);
+}
+
+function getSourceByActor(state, actor) {
+  return getSources(state).find(source => source.actor == actor);
+}
+
+function getSourceText(state, actor) {
+  return getSourcesText(state).get(actor);
+}
+
+function getBreakpoint(state, location) {
+  return getBreakpoints(state).get(makeLocationId(location));
+}
+
+/**
+ * @param object - location
+ */
 function makeLocationId(location) {
   return location.actor + ":" + location.line.toString();
 }

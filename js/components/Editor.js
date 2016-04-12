@@ -15,6 +15,18 @@ require("./Editor.css");
 require("codemirror/mode/javascript/javascript");
 const CodeMirror = require("codemirror");
 
+function makeMarker() {
+  let marker = document.createElement("div");
+  marker.className = "editor breakpoint";
+  ReactDOM.render(
+    React.createElement(Isvg, {
+      src: "js/components/images/breakpoint.svg#base-path___2142144446"
+    }),
+    marker
+  );
+  return marker;
+}
+
 const Editor = React.createClass({
   propTypes: {
     selectedSource: PropTypes.object,
@@ -33,61 +45,39 @@ const Editor = React.createClass({
       gutters: ["breakpoints"]
     });
 
-    function makeMarker() {
-      let marker = document.createElement("div");
-      marker.className = "editor breakpoint";
-      ReactDOM.render(
-        React.createElement(Isvg, {
-          src: "js/components/images/breakpoint.svg#base-path___2142144446"
-        }),
-        marker
-      );
-      return marker;
-    }
-
-    this.editor.on("gutterClick", (cm, line, gutter, ev) => {
-      let info = cm.lineInfo(line);
-      cm.setGutterMarker(
-        line,
-        "breakpoints",
-        info.gutterMarkers ? null : makeMarker()
-      );
-
-      this.props.addBreakpoint({
-        actor: this.props.selectedSource.actor,
-        line: line + 1
-      });
-    });
+    this.editor.on("gutterClick", this.onGutterClick);
   },
 
-  componentDidUpdate() {
-    // if(this.props.sourceText) {
-    //   this.editor.setValue(this.props.sourceText.text);
-    // }
+  onGutterClick(cm, line, gutter, ev) {
+    let info = cm.lineInfo(line);
+    cm.setGutterMarker(
+      line,
+      "breakpoints",
+      info.gutterMarkers ? null : makeMarker()
+    );
+
+    this.props.addBreakpoint({
+      actor: this.props.selectedSource.get("actor"),
+      line: line + 1
+    });
   },
 
   componentWillReceiveProps(nextProps) {
     const sourceText = nextProps.sourceText;
     const cursor = this.editor.getCursor();
 
-    if (sourceText.loading) {
+    if (sourceText.get("loading")) {
       this.editor.setValue("Loading...");
       return;
     }
 
-    if (sourceText.error) {
+    if (sourceText.get("error")) {
       this.editor.setValue("Error");
-      console.error(sourceText);
+      console.error(sourceText.get("error"));
       return;
     }
 
-    const text = sourceText.text;
-
-    if (this.props.sourceText && this.props.sourceText.text == text) {
-      return;
-    }
-
-    this.editor.setValue(text);
+    this.editor.setValue(sourceText.get("text"));
     this.editor.setCursor(cursor);
   },
 
@@ -106,7 +96,8 @@ const Editor = React.createClass({
 
 module.exports = connect(
   (state, props) => {
-    const selectedActor = props.selectedSource && props.selectedSource.actor;
+    const selectedActor = props.selectedSource
+                          && props.selectedSource.get("actor");
     return { sourceText: getSourceText(state, selectedActor) };
   },
   dispatch => bindActionCreators(actions, dispatch)

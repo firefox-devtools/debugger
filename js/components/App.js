@@ -37,7 +37,6 @@ const App = React.createClass({
             items: [
               { header: "Breakpoints",
                 component: Breakpoints,
-                componentProps: { breakpoints: this.props.breakpoints },
                 opened: true },
               { header: "Foo",
                 component: () => dom.div(null, "hi")
