@@ -32,91 +32,118 @@ function enableBreakpoint(location) {
 
 function _breakpointExists(state, location) {
   const currentBp = getBreakpoint(state, location);
-  return currentBp && !currentBp.disabled;
+  return (currentBp != undefined && !currentBp.disabled);
 }
 
 function _getOrCreateBreakpoint(state, location, condition) {
   return getBreakpoint(state, location) || { location, condition };
 }
 
-function addBreakpoint(location, condition) {
+function _removeOrDisableBreakpoint(location, isDisabled, dispatch, getState) {
+  let bp = getBreakpoint(getState(), location);
+  if (!bp) {
+    throw new Error('attempt to remove breakpoint that does not exist');
+  }
+  if (bp.loading) {
+    // TODO(jwl): make this wait until the breakpoint is saved if it
+    // is still loading
+    throw new Error('attempt to remove unsaved breakpoint');
+  }
+
+  const bpClient = getBreakpointClient(bp.actor);
+  const action = {
+    type: constants.REMOVE_BREAKPOINT,
+    breakpoint: bp,
+    disabled: isDisabled
+  };
+
+  // If the breakpoint is already disabled, we don't need to remove
+  // it from the server. We just need to dispatch an action
+  // simulating a successful server request to remove it, and it
+  // will be removed completely from the state.
+  if (!bp.disabled) {
+    return dispatch(Object.assign({}, action, {
+      [PROMISE]: bpClient.remove()
+    }));
+  } else {
+    return dispatch(Object.assign({}, action, {
+      status: "done"
+    }));
+  }
+}
+
+function _addBreakpoint(location, condition, dispatch, getState) {
+  if (_breakpointExists(getState(), location)) {
+    return;
+  }
+
+  const bp = _getOrCreateBreakpoint(getState(), location, condition);
+
+  return dispatch({
+    type: constants.ADD_BREAKPOINT,
+    breakpoint: bp,
+    condition: condition,
+    [PROMISE]: Task.spawn(function*() {
+      const sourceClient = gThreadClient.source(
+        getSource(getState(), bp.location.actor)
+      );
+      const [response, bpClient] = yield sourceClient.setBreakpoint({
+        line: bp.location.line,
+        column: bp.location.column,
+        condition: bp.condition
+      });
+      const {
+        isPending,
+        actualLocation
+      } = response;
+
+      // Save the client instance
+      setBreakpointClient(bpClient.actor, bpClient);
+
+      return {
+        text: '<snippet>',
+
+        // If the breakpoint response has an "actualLocation" attached, then
+        // the original requested placement for the breakpoint wasn't
+        // accepted.
+        actualLocation: isPending ? null : actualLocation,
+        actor: bpClient.actor
+      };
+    })
+  });
+}
+
+function toggleBreakpoint(location, condition) {
   return (dispatch, getState) => {
-    if (_breakpointExists(getState(), location)) {
-      return (new Promise()).resolve();
+    const exists = _breakpointExists(getState(), location);
+    if (exists) {
+      // if it exists delete it
+      return _removeOrDisableBreakpoint(location, false, dispatch, getState);
     }
 
-    const bp = _getOrCreateBreakpoint(getState(), location, condition);
-
-    return dispatch({
-      type: constants.ADD_BREAKPOINT,
-      breakpoint: bp,
-      condition: condition,
-      [PROMISE]: Task.spawn(function* () {
-        const sourceClient = gThreadClient.source(
-          getSource(getState(), bp.location.actor)
-        );
-        const [response, bpClient] = yield sourceClient.setBreakpoint({
-          line: bp.location.line,
-          column: bp.location.column,
-          condition: bp.condition
-        });
-        const { isPending, actualLocation } = response;
-
-        // Save the client instance
-        setBreakpointClient(bpClient.actor, bpClient);
-
-        return {
-          text: "<snippet>",
-
-          // If the breakpoint response has an "actualLocation" attached, then
-          // the original requested placement for the breakpoint wasn't
-          // accepted.
-          actualLocation: isPending ? null : actualLocation,
-          actor: bpClient.actor
-        };
-      })
-    });
+    // otherwise add it
+    return _addBreakpoint(location, condition, dispatch, getState);
   };
+}
+
+function addBreakpoint(location, condition) {
+  return (dispatch, getState) => {
+    return _addBreakpoint(location, condition, dispatch, getState);
+  }
 }
 
 function disableBreakpoint(location) {
-  return _removeOrDisableBreakpoint(location, true);
+  return removeOrDisableBreakpoint(location, true);
 }
 
 function removeBreakpoint(location) {
-  return _removeOrDisableBreakpoint(location);
+  return removeOrDisableBreakpoint(location);
 }
 
-function _removeOrDisableBreakpoint(location, isDisabled) {
+function removeOrDisableBreakpoint(location, isDisabled) {
   return (dispatch, getState) => {
-    let bp = getBreakpoint(getState(), location);
-    if (!bp) {
-      throw new Error("attempt to remove breakpoint that does not exist");
-    }
-    if (bp.loading) {
-      // TODO(jwl): make this wait until the breakpoint is saved if it
-      // is still loading
-      throw new Error("attempt to remove unsaved breakpoint");
-    }
-
-    const bpClient = getBreakpointClient(bp.actor);
-    const action = {
-      type: constants.REMOVE_BREAKPOINT,
-      breakpoint: bp,
-      disabled: isDisabled
-    };
-
-    // If the breakpoint is already disabled, we don't need to remove
-    // it from the server. We just need to dispatch an action
-    // simulating a successful server request to remove it, and it
-    // will be removed completely from the state.
-    if (!bp.disabled) {
-      return dispatch(Object.assign({}, action, {
-        [PROMISE]: bpClient.remove()
-      }));
-    }
-    return dispatch(Object.assign({}, action, { status: "done" }));
-  };
+    return _removeOrDisableBreakpoint(location, isDisabled, dispatch, getState);
+  }
 }
 
 function removeAllBreakpoints() {
@@ -171,6 +198,7 @@ function setBreakpointCondition(location, condition) {
 module.exports = {
   enableBreakpoint,
   addBreakpoint,
+  toggleBreakpoint,
   disableBreakpoint,
   removeBreakpoint,
   removeAllBreakpoints,

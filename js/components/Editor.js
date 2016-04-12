@@ -3,7 +3,6 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const ReactDOM = require("react-dom");
-
 const { getSourceText } = require("../queries");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
@@ -19,7 +18,7 @@ const Editor = React.createClass({
   propTypes: {
     selectedSource: PropTypes.object,
     sourceText: PropTypes.string,
-    addBreakpoint: PropTypes.func
+    toggleBreakpoint: PropTypes.func
   },
 
   componentDidMount() {
@@ -53,7 +52,7 @@ const Editor = React.createClass({
         info.gutterMarkers ? null : makeMarker()
       );
 
-      this.props.addBreakpoint({
+      this.props.toggleBreakpoint({
         actor: this.props.selectedSource.actor,
         line: line + 1
       });
