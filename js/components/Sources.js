@@ -12,7 +12,8 @@ function Sources({ sources, selectSource }) {
   return dom.ul(
     {className: "sources-pane"},
     sources.valueSeq().map(source => {
-      return dom.li({ onClick: () => selectSource(source.toJS()),
+      return dom.li({ key: source.get("actor"),
+                      onClick: () => selectSource(source.toJS()),
                       className: "sources-pane-item" },
                     source.get("url") || source.get("introductionType"));
     })

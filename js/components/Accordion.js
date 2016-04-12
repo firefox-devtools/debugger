@@ -39,7 +39,8 @@ const Accordion = React.createClass({
       { className: "accordion" },
       this.props.items.map((item, i) => {
         return div(
-          { className: opened[i] ? "opened" : "" },
+          { className: opened[i] ? "opened" : "",
+            key: i },
           div({ className: "_header",
                 onClick: () => this.handleHeaderClick(i) },
                 Isvg({ src: "js/components/images/arrow.svg" }),

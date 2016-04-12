@@ -6,7 +6,7 @@
 "use strict";
 
 const constants = require("../constants");
-const { asPaused } = require("../utils");
+const { asPaused } = require("../util/utils");
 const { reportException } = require("devtools/shared/DevToolsUtils");
 const { Task } = require("devtools/sham/task");
 

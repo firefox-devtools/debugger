@@ -18,7 +18,7 @@ function getSourceCount(state) {
 
 function getSourceByURL(state, url) {
   return toJS(state.sources.get("sources").find(source => {
-    return source.url == url;
+    return source.get("url") == url;
   }));
 }
 

@@ -1,7 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-/* global gThreadClient */
 "use strict";
 
 const promise = require("devtools/sham/promise");
@@ -18,15 +17,11 @@ const NEW_SOURCE_IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 // delay is in ms
 const FETCH_SOURCE_RESPONSE_DELAY = 200;
 
-function getSourceClient(source) {
-  return gThreadClient.source(source);
-}
-
 /**
  * Handler for the debugger client's unsolicited newSource notification.
  */
 function newSource(source) {
-  return dispatch => {
+  return ({ dispatch }) => {
     // Ignore bogus scripts, e.g. generated from 'clientEvaluate' packets.
     if (NEW_SOURCE_IGNORED_URLS.indexOf(source.url) != -1) {
       return (new Promise()).resolve();
@@ -40,8 +35,8 @@ function newSource(source) {
 }
 
 function selectSource(source, opts) {
-  return (dispatch, getState) => {
-    if (!gThreadClient) {
+  return ({ dispatch, getState, threadClient }) => {
+    if (!threadClient) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
       return;
@@ -61,30 +56,32 @@ function selectSource(source, opts) {
 }
 
 function loadSources() {
-  return {
-    type: constants.LOAD_SOURCES,
-    [PROMISE]: Task.spawn(function* () {
-      const response = yield gThreadClient.getSources();
+  return ({ dispatch, threadClient }) => {
+    dispatch({
+      type: constants.LOAD_SOURCES,
+      [PROMISE]: Task.spawn(function* () {
+        const response = yield threadClient.getSources();
 
-      // Top-level breakpoints may pause the entire loading process
-      // because scripts are executed as they are loaded, so the
-      // engine may pause in the middle of loading all the sources.
-      // This is relatively harmless, as individual `newSource`
-      // notifications are fired for each script and they will be
-      // added to the UI through that.
-      if (!response.sources) {
-        dumpn(
-          "Error getting sources, probably because a top-level " +
-          "breakpoint was hit while executing them"
-        );
-        return [];
-      }
+        // Top-level breakpoints may pause the entire loading process
+        // because scripts are executed as they are loaded, so the
+        // engine may pause in the middle of loading all the sources.
+        // This is relatively harmless, as individual `newSource`
+        // notifications are fired for each script and they will be
+        // added to the UI through that.
+        if (!response.sources) {
+          dumpn(
+            "Error getting sources, probably because a top-level " +
+              "breakpoint was hit while executing them"
+          );
+          return [];
+        }
 
-      // Ignore bogus scripts, e.g. generated from 'clientEvaluate' packets.
-      return response.sources.filter(source => {
-        return NEW_SOURCE_IGNORED_URLS.indexOf(source.url) === -1;
-      });
-    })
+        // Ignore bogus scripts, e.g. generated from 'clientEvaluate' packets.
+        return response.sources.filter(source => {
+          return NEW_SOURCE_IGNORED_URLS.indexOf(source.url) === -1;
+        });
+      })
+    });
   };
 }
 
@@ -100,17 +97,19 @@ function loadSources() {
  *          [aSource, error].
  */
 function blackbox(source, shouldBlackBox) {
-  const client = getSourceClient(source);
+  return ({ dispatch, threadClient }) => {
+    const client = threadClient.source(source);
 
-  return {
-    type: constants.BLACKBOX,
-    source: source,
-    [PROMISE]: Task.spawn(function* () {
-      yield shouldBlackBox ? client.blackBox() : client.unblackBox();
-      return {
-        isBlackBoxed: shouldBlackBox
-      };
-    })
+    dispatch({
+      type: constants.BLACKBOX,
+      source: source,
+      [PROMISE]: Task.spawn(function* () {
+        yield shouldBlackBox ? client.blackBox() : client.unblackBox();
+        return {
+          isBlackBoxed: shouldBlackBox
+        };
+      })
+    });
   };
 }
 
@@ -126,8 +125,8 @@ function blackbox(source, shouldBlackBox) {
  *          [aSource, error].
  */
 function togglePrettyPrint(source) {
-  return (dispatch, getState) => {
-    const sourceClient = getSourceClient(source);
+  return ({ dispatch, getState, threadClient }) => {
+    const sourceClient = threadClient.source(source);
     const wantPretty = !source.isPrettyPrinted;
 
     return dispatch({
@@ -165,7 +164,7 @@ function togglePrettyPrint(source) {
 }
 
 function loadSourceText(source) {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState, threadClient }) => {
     // Fetch the source text only once.
     let textInfo = getSourceText(getState(), source.actor);
     if (textInfo) {
@@ -173,7 +172,7 @@ function loadSourceText(source) {
       return promise.resolve(textInfo);
     }
 
-    const sourceClient = getSourceClient(source);
+    const sourceClient = threadClient.source(source);
 
     return dispatch({
       type: constants.LOAD_SOURCE_TEXT,
@@ -215,7 +214,7 @@ function loadSourceText(source) {
  *         A promise that is resolved after source texts have been fetched.
  */
 function getTextForSources(actors) {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState }) => {
     let deferred = promise.defer();
     let pending = new Set(actors);
     let fetched = [];
