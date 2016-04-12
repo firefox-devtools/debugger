@@ -8,6 +8,7 @@ const promise = require("devtools/sham/promise");
 const socket = new WebSocket("ws://localhost:9000");
 const transport = new DebuggerTransport(socket);
 const client = new DebuggerClient(transport);
+let currentThreadClient = null;
 
 function connectToClient(onConnect) {
   client.connect().then(() => {
@@ -23,6 +24,7 @@ function connectToTab(tab, onNewSource) {
     target.activeTab.attachThread({}, (res, threadClient) => {
       threadClient.resume();
       window.gThreadClient = threadClient;
+      currentThreadClient = threadClient;
       deferred.resolve();
     });
   });
@@ -30,7 +32,12 @@ function connectToTab(tab, onNewSource) {
   return deferred.promise;
 }
 
+function getThreadClient() {
+  return currentThreadClient;
+}
+
 module.exports = {
   connectToClient,
-  connectToTab
+  connectToTab,
+  getThreadClient
 };

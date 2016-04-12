@@ -4,7 +4,7 @@
 "use strict";
 
 const { createStore, applyMiddleware } = require("redux");
-const { thunk } = require("devtools/client/shared/redux/middleware/thunk");
+const { thunk } = require("./util/thunk-middleware");
 const { waitUntilService } = require("devtools/client/shared/redux/middleware/wait-service");
 const { log } = require("devtools/client/shared/redux/middleware/log");
 const { promise } = require("devtools/client/shared/redux/middleware/promise");
@@ -23,7 +23,7 @@ const { history } = require("devtools/client/shared/redux/middleware/history");
  */
 module.exports = (opts = {}) => {
   const middleware = [
-    thunk,
+    thunk(opts.makeThunkArgs),
     promise,
 
     // Order is important: services must go last as they always
