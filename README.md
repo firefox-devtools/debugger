@@ -11,10 +11,10 @@ $ npm install
 $ npm start
 ```
 
-Start Firefox in remote debugging mode:
+Start Firefox in remote debugging mode. The `-P` parameter specifies a profile to use:
 
 ```
-$ /Applications/FirefoxNightly.app/Contents/MacOS/firefox-bin --start-debugger-server 6080
+$ /Applications/FirefoxNightly.app/Contents/MacOS/firefox-bin -P development --start-debugger-server 6080
 ```
 
 Set additional configuration options in Firefox using `about:config`:
