@@ -42,12 +42,12 @@ function _getOrCreateBreakpoint(state, location, condition) {
 function _removeOrDisableBreakpoint(location, isDisabled, dispatch, getState) {
   let bp = getBreakpoint(getState(), location);
   if (!bp) {
-    throw new Error('attempt to remove breakpoint that does not exist');
+    throw new Error("attempt to remove breakpoint that does not exist");
   }
   if (bp.loading) {
     // TODO(jwl): make this wait until the breakpoint is saved if it
     // is still loading
-    throw new Error('attempt to remove unsaved breakpoint');
+    throw new Error("attempt to remove unsaved breakpoint");
   }
 
   const bpClient = getBreakpointClient(bp.actor);
@@ -74,7 +74,7 @@ function _removeOrDisableBreakpoint(location, isDisabled, dispatch, getState) {
 
 function _addBreakpoint(location, condition, dispatch, getState) {
   if (_breakpointExists(getState(), location)) {
-    return;
+    return dispatch;
   }
 
   const bp = _getOrCreateBreakpoint(getState(), location, condition);
@@ -101,7 +101,7 @@ function _addBreakpoint(location, condition, dispatch, getState) {
       setBreakpointClient(bpClient.actor, bpClient);
 
       return {
-        text: '<snippet>',
+        text: "<snippet>",
 
         // If the breakpoint response has an "actualLocation" attached, then
         // the original requested placement for the breakpoint wasn't
@@ -129,7 +129,7 @@ function toggleBreakpoint(location, condition) {
 function addBreakpoint(location, condition) {
   return (dispatch, getState) => {
     return _addBreakpoint(location, condition, dispatch, getState);
-  }
+  };
 }
 
 function disableBreakpoint(location) {
