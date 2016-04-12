@@ -65,11 +65,10 @@ function _removeOrDisableBreakpoint(location, isDisabled, dispatch, getState) {
     return dispatch(Object.assign({}, action, {
       [PROMISE]: bpClient.remove()
     }));
-  } else {
-    return dispatch(Object.assign({}, action, {
-      status: "done"
-    }));
   }
+  return dispatch(Object.assign({}, action, {
+    status: "done"
+  }));
 }
 
 function _addBreakpoint(location, condition, dispatch, getState) {
@@ -83,7 +82,7 @@ function _addBreakpoint(location, condition, dispatch, getState) {
     type: constants.ADD_BREAKPOINT,
     breakpoint: bp,
     condition: condition,
-    [PROMISE]: Task.spawn(function*() {
+    [PROMISE]: Task.spawn(function* () {
       const sourceClient = gThreadClient.source(
         getSource(getState(), bp.location.actor)
       );
@@ -143,7 +142,7 @@ function removeBreakpoint(location) {
 function removeOrDisableBreakpoint(location, isDisabled) {
   return (dispatch, getState) => {
     return _removeOrDisableBreakpoint(location, isDisabled, dispatch, getState);
-  }
+  };
 }
 
 function removeAllBreakpoints() {
