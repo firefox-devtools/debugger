@@ -7,11 +7,16 @@ const { combineReducers } = require("redux");
 const { Provider } = require("react-redux");
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
-const { connectToClient } = require("./client");
+const { connectToClient, getThreadClient } = require("./client");
 const actions = require("./actions");
 const TabList = React.createFactory(require("./components/TabList"));
 
-const createStore = configureStore({ log: false });
+const createStore = configureStore({
+  log: false,
+  makeThunkArgs: args => {
+    return Object.assign({}, args, { threadClient: getThreadClient() });
+  }
+});
 const store = createStore(combineReducers(reducers));
 
 // global for debugging purposes only!

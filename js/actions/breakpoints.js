@@ -1,7 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-/* global gThreadClient */
 "use strict";
 
 const constants = require("../constants");
@@ -40,7 +39,7 @@ function _getOrCreateBreakpoint(state, location, condition) {
 }
 
 function addBreakpoint(location, condition) {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState, threadClient }) => {
     if (_breakpointExists(getState(), location)) {
       return (new Promise()).resolve();
     }
@@ -52,7 +51,7 @@ function addBreakpoint(location, condition) {
       breakpoint: bp,
       condition: condition,
       [PROMISE]: Task.spawn(function* () {
-        const sourceClient = gThreadClient.source(
+        const sourceClient = threadClient.source(
           getSource(getState(), bp.location.actor)
         );
         const [response, bpClient] = yield sourceClient.setBreakpoint({
@@ -138,7 +137,7 @@ function removeAllBreakpoints() {
  *         A promise that will be resolved with the breakpoint client
  */
 function setBreakpointCondition(location, condition) {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState, threadClient }) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
       throw new Error("Breakpoint does not exist at the specified location");
@@ -156,7 +155,7 @@ function setBreakpointCondition(location, condition) {
       breakpoint: bp,
       condition: condition,
       [PROMISE]: Task.spawn(function* () {
-        const newClient = yield bpClient.setCondition(gThreadClient, condition);
+        const newClient = yield bpClient.setCondition(threadClient, condition);
 
         // Remove the old instance and save the new one
         setBreakpointClient(bpClient.actor, null);

@@ -26,7 +26,7 @@ function getSourceClient(source) {
  * Handler for the debugger client's unsolicited newSource notification.
  */
 function newSource(source) {
-  return dispatch => {
+  return ({ dispatch }) => {
     // Ignore bogus scripts, e.g. generated from 'clientEvaluate' packets.
     if (NEW_SOURCE_IGNORED_URLS.indexOf(source.url) != -1) {
       return (new Promise()).resolve();
@@ -40,7 +40,7 @@ function newSource(source) {
 }
 
 function selectSource(source, opts) {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState }) => {
     if (!gThreadClient) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -126,7 +126,7 @@ function blackbox(source, shouldBlackBox) {
  *          [aSource, error].
  */
 function togglePrettyPrint(source) {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState }) => {
     const sourceClient = getSourceClient(source);
     const wantPretty = !source.isPrettyPrinted;
 
@@ -165,7 +165,7 @@ function togglePrettyPrint(source) {
 }
 
 function loadSourceText(source) {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState }) => {
     // Fetch the source text only once.
     let textInfo = getSourceText(getState(), source.actor);
     if (textInfo) {
@@ -215,7 +215,7 @@ function loadSourceText(source) {
  *         A promise that is resolved after source texts have been fetched.
  */
 function getTextForSources(actors) {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState }) => {
     let deferred = promise.defer();
     let pending = new Set(actors);
     let fetched = [];
