@@ -18,14 +18,13 @@ const store = createStore(combineReducers(reducers));
 window.store = store;
 
 connectToClient(response => {
-  const tabs = response.tabs;
   store.dispatch(actions.newTabs(response.tabs));
 
   // if there's a pre-selected tab, connect to it and load the sources.
   // otherwise, just show the toolbox.
   if (hasSelectedTab()) {
-    const selectedTab = getSelectedTab(tabs);
-    store.dispatch(actions.selectTab({tabActor: selectedTab.actor}))
+    const selectedTab = getSelectedTab(store.getState().tabs.get("tabs"));
+    store.dispatch(actions.selectTab({ tabActor: selectedTab.get("actor") }))
       .then(() => store.dispatch(actions.loadSources()))
       .then(renderToolbox);
   } else {
@@ -52,7 +51,7 @@ function hasSelectedTab() {
  */
 function getSelectedTab(tabs) {
   const childId = window.location.hash.split("=")[1];
-  return tabs.find((tab) => tab.actor.includes(childId));
+  return tabs.find(tab => tab.get("actor").includes(childId));
 }
 
 function renderToolbox() {

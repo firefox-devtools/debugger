@@ -9,17 +9,10 @@ const App = React.createFactory(require("./App"));
 const Tabs = React.createFactory(require("./Tabs"));
 const { getSelectedTab } = require("../queries");
 
-function isEmpty(obj) {
-  return Object.keys(obj).length == 0;
-}
-
 function TabList({ selectedTab }) {
-  const container = isEmpty(selectedTab) ? Tabs() : App();
-
-  return dom.div({
-    className: "tablist"
-  },
-    container
+  return dom.div(
+    { className: "tablist" },
+    selectedTab ? App() : Tabs()
   );
 }
 

@@ -4,12 +4,12 @@
 "use strict";
 
 const constants = require("../constants");
-const Immutable = require("seamless-immutable");
-const { mergeIn } = require("../utils");
+const Immutable = require("immutable");
+const { Map } = Immutable;
 
-const initialState = Immutable({
+const initialState = Immutable.fromJS({
   tabs: {},
-  selectedTab: {},
+  selectedTab: null,
 });
 
 function update(state = initialState, action) {
@@ -20,21 +20,16 @@ function update(state = initialState, action) {
         return state;
       }
 
-      const tabsByActor = {};
-      tabs.forEach(source => {
-        tabsByActor[source.actor] = source;
-      });
-
-      return mergeIn(state, ["tabs"], state.tabs.merge(tabsByActor));
+      return state.mergeIn(
+        ["tabs"],
+        Map(tabs.map(tab => [tab.actor, Map(tab)]))
+      );
     case constants.SELECT_TAB:
       if (action.status == "start") {
         return state;
       }
-      return mergeIn(
-        state,
-        ["selectedTab"],
-        state.selectedTab.merge(action.value.selectedTab)
-      );
+      const tab = Immutable.fromJS(action.value.selectedTab);
+      return state.setIn(["selectedTab"], tab);
   }
 
   return state;

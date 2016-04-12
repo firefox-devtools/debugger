@@ -17,7 +17,7 @@ const App = React.createClass({
   propTypes: {
     sources: PropTypes.object,
     selectedSource: PropTypes.object,
-    breakpoints: PropTypes.array
+    breakpoints: PropTypes.object
   },
 
   displayName: "App",

@@ -20,7 +20,7 @@ function newTabs(tabs) {
 function selectTab({ tabActor }) {
   return (dispatch, getState) => {
     const tabs = getTabs(getState());
-    const selectedTab = tabs[tabActor];
+    const selectedTab = tabs.get(tabActor);
 
     // set selected tab in the URL hash
     let childId;
@@ -36,7 +36,7 @@ function selectTab({ tabActor }) {
       type: constants.SELECT_TAB,
       tabActor: tabActor,
       [PROMISE]: Task.spawn(function* () {
-        yield connectToTab(selectedTab);
+        yield connectToTab(selectedTab.toJS());
         return { selectedTab };
       })
     });

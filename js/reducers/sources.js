@@ -4,10 +4,10 @@
 "use strict";
 
 const constants = require("../constants");
-const Immutable = require("seamless-immutable");
-const { mergeIn, setIn } = require("../utils");
+const Immutable = require("immutable");
+const { Map } = Immutable;
 
-const initialState = Immutable({
+const initialState = Immutable.fromJS({
   sources: {},
   selectedSource: null,
   selectedSourceOpts: null,
@@ -17,7 +17,7 @@ const initialState = Immutable({
 function update(state = initialState, action) {
   switch (action.type) {
     case constants.ADD_SOURCE:
-      return mergeIn(state, ["sources", action.source.actor], action.source);
+      return state.mergeIn(["sources", action.source.actor], action.source);
 
     case constants.LOAD_SOURCES:
       if (action.status === "done") {
@@ -25,11 +25,11 @@ function update(state = initialState, action) {
         if (!sources) {
           return state;
         }
-        const sourcesByActor = {};
-        sources.forEach(source => {
-          sourcesByActor[source.actor] = source;
-        });
-        return mergeIn(state, ["sources"], state.sources.merge(sourcesByActor));
+
+        return state.mergeIn(
+          ["sources"],
+          Map(sources.map(source => [source.actor, Map(source)]))
+        );
       }
       break;
 
@@ -40,38 +40,37 @@ function update(state = initialState, action) {
       });
 
     case constants.LOAD_SOURCE_TEXT: {
-      const s = _updateText(state, action);
-      return s;
+      return _updateText(state, action);
     }
 
     case constants.BLACKBOX:
       if (action.status === "done") {
-        return mergeIn(state,
-                     ["sources", action.source.actor, "isBlackBoxed"],
-                     action.value.isBlackBoxed);
+        return state.setIn(
+          ["sources", action.source.actor, "isBlackBoxed"],
+          action.value.isBlackBoxed
+        );
       }
       break;
 
     case constants.TOGGLE_PRETTY_PRINT:
-      let s = state;
       if (action.status === "error") {
-        s = mergeIn(state, ["sourcesText", action.source.actor], {
+        return state.mergeIn(["sourcesText", action.source.actor], {
           loading: false
         });
-      } else {
-        s = _updateText(state, action);
+      }
 
-        if (action.status === "done") {
-          s = mergeIn(s,
-                    ["sources", action.source.actor, "isPrettyPrinted"],
-                    action.value.isPrettyPrinted);
-        }
+      let s = _updateText(state, action);
+      if (action.status === "done") {
+        s = s.setIn(
+          ["sources", action.source.actor, "isPrettyPrinted"],
+          action.value.isPrettyPrinted
+        );
       }
       return s;
 
     case constants.UNLOAD:
-    // Reset the entire state to just the initial state, a blank state
-    // if you will.
+      // Reset the entire state to just the initial state, a blank state
+      // if you will.
       return initialState;
   }
 
@@ -85,19 +84,19 @@ function _updateText(state, action) {
     // Merge this in, don't set it. That way the previous value is
     // still stored here, and we can retrieve it if whatever we're
     // doing fails.
-    return mergeIn(state, ["sourcesText", source.actor], {
+    return state.mergeIn(["sourcesText", source.actor], {
       loading: true
     });
   } else if (action.status === "error") {
-    return setIn(state, ["sourcesText", source.actor], {
+    return state.setIn(["sourcesText", source.actor], Map({
       error: action.error
-    });
+    }));
   }
 
-  return setIn(state, ["sourcesText", source.actor], {
+  return state.setIn(["sourcesText", source.actor], Map({
     text: action.value.text,
     contentType: action.value.contentType
-  });
+  }));
 }
 
 module.exports = update;

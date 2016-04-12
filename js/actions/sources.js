@@ -41,7 +41,6 @@ function newSource(source) {
 
 function selectSource(source, opts) {
   return (dispatch, getState) => {
-    console.log("selecting", gThreadClient);
     if (!gThreadClient) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
