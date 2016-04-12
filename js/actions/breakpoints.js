@@ -32,14 +32,14 @@ function enableBreakpoint(location) {
 
 function _breakpointExists(state, location) {
   const currentBp = getBreakpoint(state, location);
-  return (currentBp != undefined && !currentBp.disabled);
+  return (currentBp && !currentBp.disabled);
 }
 
 function _getOrCreateBreakpoint(state, location, condition) {
   return getBreakpoint(state, location) || { location, condition };
 }
 
-function _removeOrDisableBreakpoint(location, isDisabled, dispatch, getState) {
+function __removeOrDisableBreakpoint(location, isDisabled, dispatch, getState) {
   let bp = getBreakpoint(getState(), location);
   if (!bp) {
     throw new Error("attempt to remove breakpoint that does not exist");
@@ -117,7 +117,7 @@ function toggleBreakpoint(location, condition) {
     const exists = _breakpointExists(getState(), location);
     if (exists) {
       // if it exists delete it
-      return _removeOrDisableBreakpoint(location, false, dispatch, getState);
+      return __removeOrDisableBreakpoint(location, false, dispatch, getState);
     }
 
     // otherwise add it
@@ -132,16 +132,17 @@ function addBreakpoint(location, condition) {
 }
 
 function disableBreakpoint(location) {
-  return removeOrDisableBreakpoint(location, true);
+  return _removeOrDisableBreakpoint(location, true);
 }
 
 function removeBreakpoint(location) {
-  return removeOrDisableBreakpoint(location);
+  return _removeOrDisableBreakpoint(location);
 }
 
-function removeOrDisableBreakpoint(location, isDisabled) {
+function _removeOrDisableBreakpoint(location, isDisabled) {
   return (dispatch, getState) => {
-    return _removeOrDisableBreakpoint(location, isDisabled, dispatch, getState);
+    return __removeOrDisableBreakpoint(
+      location, isDisabled, dispatch, getState);
   };
 }
 
