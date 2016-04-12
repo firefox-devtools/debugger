@@ -1,6 +1,7 @@
 {
   "globals": {
-    "equal": true
+    "equal": true,
+    "ok": true
   },
   "rules": {
     "camelcase": 0,

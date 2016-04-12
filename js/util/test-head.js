@@ -1,3 +1,5 @@
+"use strict";
+
 const { combineReducers } = require("redux");
 const reducers = require("../reducers");
 const actions = require("../actions");
@@ -19,4 +21,4 @@ function createStore() {
   return _createStore(combineReducers(reducers));
 }
 
-module.exports = { createStore, actions, queries };
+module.exports = { createStore, actions, queries, constants };
