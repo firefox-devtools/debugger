@@ -34,13 +34,10 @@ localhost:8000
 
 ##### User Configuration
 
-You can create an `environment.json` to set user environmental variables, like the firefox source path. Start by copying the [`environment.sample`](https://github.com/jlongster/debugger.html/blob/master/environment.sample) file and update the source code location.
+You can create an `environment.json` to set user environmental variables, like the firefox source path. Start by copying the [`environment.sample`](https://github.com/jlongster/debugger.html/blob/master/environment.sample) file and update the source code location. **This is only necessary if you want to run tests**.
 
-```json
-{ "firefoxSrcPath" : "/Users/jlaster/src/mozilla/gecko-dev"}
-```
-
- * **firefoxSrcPath**: _absolute path to local firefox source code_
+ * **firefoxSrcDir**: _absolute path to local firefox source code_
+ * **firefoxObjDir**: _absolute path to a local build of firefox_
 
 **NOTE**: Firefox source code is available on github at [gecko-dev](https://github.com/mozilla/gecko-dev/).  For a faster download add the depth option to your git clone `git clone --depth=1 https://github.com/mozilla/gecko-dev.git`  The MDN article [Working with Mozilla source code](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Source_Code) has a number of other options.
 
