@@ -1,7 +1,32 @@
-.sources-pane {
+.sources-list {
   font-size: 0.75em;
+  line-height: 2;
+  list-style: none;
 }
 
-.sources-pane-item {
-  line-height: 2;
+ul.sources-list {
+  list-style: none;
+  margin: 20px 0;
+  padding: 0;
+}
+
+.sources-list ul {
+  list-style: none;
+  margin: 0.5em 0;
+  padding: 0;
+}
+
+.sources-list .source-item {
+  list-style: none;
+  color: var(--theme-content-color1);
+}
+
+.sources-list .source-item:hover {
+  cursor: pointer;
+  background: var(--theme-tab-toolbar-background);
+}
+
+.sources-list .source-item.selected {
+  color: var(--theme-selection-color);
+  background-color: var(--theme-selection-background);
 }
