@@ -4,10 +4,9 @@
 "use strict";
 
 const constants = require("../constants");
-const Immutable = require("immutable");
-const { Map } = Immutable;
+const { Map, fromJS } = require("immutable");
 
-const initialState = Immutable.fromJS({
+const initialState = fromJS({
   sources: {},
   selectedSource: null,
   selectedSourceOpts: null,
@@ -28,14 +27,16 @@ function update(state = initialState, action) {
 
         return state.mergeIn(
           ["sources"],
-          Map(sources.map(source => [source.actor, Map(source)]))
+          fromJS(sources.map(source => {
+            return [source.actor, source];
+          }))
         );
       }
       break;
 
     case constants.SELECT_SOURCE:
       return state.merge({
-        selectedSource: action.source.actor,
+        selectedSource: action.source,
         selectedSourceOpts: action.opts
       });
 
