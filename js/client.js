@@ -19,7 +19,7 @@ function connectToClient(onConnect) {
 
 function connectToTab(tab, onNewSource) {
   let deferred = promise.defer();
-  const options = { currentClient, form: tab, chrome: false };
+  const options = { client: currentClient, form: tab, chrome: false };
 
   TargetFactory.forRemoteTab(options).then(target => {
     target.activeTab.attachThread({}, (res, threadClient) => {

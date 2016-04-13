@@ -27,6 +27,11 @@ function update(state = initialState, action) {
       if (action.status == "start") {
         return state;
       }
+
+      if (action.status == "error") {
+        return state;
+      }
+
       const tab = Immutable.fromJS(action.value.selectedTab);
       return state.setIn(["selectedTab"], tab);
   }
