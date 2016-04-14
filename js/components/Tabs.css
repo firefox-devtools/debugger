@@ -2,15 +2,15 @@
   list-style: none;
   margin: 100px auto;
   width: calc(100% - 200px);
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
   padding: 0;
 }
 
 .tabs .tab {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #dddddd;
   padding: 10px;
   font-family: sans-serif;
-  font-size: .75em;
+  font-size: 0.75em;
 }
 
 .tabs .tab:hover {

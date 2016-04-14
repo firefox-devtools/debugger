@@ -13,6 +13,7 @@ const Isvg = React.createFactory(require("react-inlinesvg"));
 require("codemirror/lib/codemirror.css");
 require("./Editor.css");
 require("codemirror/mode/javascript/javascript");
+require("../lib/codemirror.css");
 const CodeMirror = require("codemirror");
 
 function makeMarker() {
