@@ -4,7 +4,8 @@
     "start": "firefox-proxy & ./node_modules/.bin/webpack --watch & ./node_modules/.bin/static --port 8000",
     "lint-css": "stylelint js/components/*.css",
     "lint-js": "eslint js",
-    "test": "./bin/test"
+    "test": "./bin/test-node js/actions/tests",
+    "test-browser": "./bin/test-browser js/actions/tests"
   },
   "dependencies": {
     "babel-cli": "^6.7.5",
