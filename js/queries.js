@@ -39,11 +39,11 @@ function getSourceCount(state) {
 }
 
 function getSourceByURL(state, url) {
-  return getSources(state).find(source => source.url == url);
+  return getSources(state).find(source => source.get("url") == url);
 }
 
 function getSourceByActor(state, actor) {
-  return getSources(state).find(source => source.actor == actor);
+  return getSources(state).find(source => source.get("actor") == actor);
 }
 
 function getSourceText(state, actor) {

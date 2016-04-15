@@ -21,4 +21,8 @@ function createStore() {
   return _createStore(combineReducers(reducers));
 }
 
-module.exports = { createStore, actions, queries, constants };
+function commonLog(msg, data) {
+  console.log(`[INFO] ${msg} ${JSON.stringify(data)}`);
+}
+
+module.exports = { createStore, actions, queries, constants, commonLog };
