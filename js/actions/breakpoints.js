@@ -89,7 +89,7 @@ function removeBreakpoint(location) {
 }
 
 function _removeOrDisableBreakpoint(location, isDisabled) {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState }) => {
     let bp = getBreakpoint(getState(), location);
     if (!bp) {
       throw new Error("attempt to remove breakpoint that does not exist");
@@ -100,10 +100,10 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
       throw new Error("attempt to remove unsaved breakpoint");
     }
 
-    const bpClient = getBreakpointClient(bp.actor);
+    const bpClient = getBreakpointClient(bp.get("actor"));
     const action = {
       type: constants.REMOVE_BREAKPOINT,
-      breakpoint: bp,
+      breakpoint: bp.toJS(),
       disabled: isDisabled
     };
 
@@ -121,7 +121,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
 }
 
 function removeAllBreakpoints() {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState }) => {
     const breakpoints = getBreakpoints(getState());
     const activeBreakpoints = breakpoints.filter(bp => !bp.disabled);
     activeBreakpoints.forEach(bp => removeBreakpoint(bp.location));

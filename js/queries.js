@@ -17,8 +17,18 @@ function getSelectedSourceOpts(state) {
   return state.sources.get("selectedSourceOpts");
 }
 
+function getBreakpoint(state, location) {
+  return state.breakpoints.getIn(["breakpoints", makeLocationId(location)]);
+}
+
 function getBreakpoints(state) {
   return state.breakpoints.get("breakpoints");
+}
+
+function getBreakpointsForSource(state, sourceActor) {
+  return state.breakpoints.get("breakpoints").filter(bp => {
+    return bp.getIn(["location", "actor"]) === sourceActor;
+  });
 }
 
 function getTabs(state) {
@@ -52,19 +62,6 @@ function getSourceByActor(state, actor) {
 
 function getSourceText(state, actor) {
   return getSourcesText(state).get(actor);
-}
-
-function getBreakpoint(state, location) {
-  return getBreakpoints(state).get(makeLocationId(location));
-}
-
-function getBreakpointByActor(state) {
-  return getBreakpoints(state).valueSeq()
-    .groupBy(bp => bp.getIn(["location", "actor"]));
-}
-
-function getBreakpointsForSource(state, actor) {
-  return getBreakpointByActor(state).get(actor);
 }
 
 /**
