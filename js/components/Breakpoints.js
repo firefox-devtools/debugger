@@ -44,15 +44,31 @@ const Breakpoints = React.createClass({
 
   displayName: "Breakpoints",
 
-  render() {
-    function onResumeClick() {
-      console.log("click");
-      gThreadClient.resume();
-    }
+  onResumeClick() {
+    gThreadClient.resume();
+  },
 
+  onStepOverClick() {
+    gThreadClient.stepOver();
+  },
+
+  onStepInClick() {
+    gThreadClient.stepIn();
+  },
+
+  onStepOutClick() {
+    gThreadClient.stepOut();
+  },
+
+  render() {
     return dom.div(
       { className: "breakpoints" },
-      dom.button({ onClick: onResumeClick }, "resume"),
+      dom.div(null,
+        dom.button({ onClick: this.onResumeClick }, "Resume"),
+        dom.button({ onClick: this.onStepOverClick }, "Over"),
+        dom.button({ onClick: this.onStepInClick }, "In"),
+        dom.button({ onClick: this.onStepOutClick }, "Out")
+      ),
       dom.ul(
         null,
         this.props.breakpoints.valueSeq().map(bp => {
