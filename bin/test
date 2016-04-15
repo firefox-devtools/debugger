@@ -8,56 +8,85 @@ const join = require("path").join
 const resolve = require("path").resolve;
 const rimraf = require("rimraf");
 const env = require(__dirname + "/../environment.json");
-const webpackConfig = require("../webpack.config");
+const projectWebpackConfig = require("../webpack.config");
+const Mocha = require("mocha");
+
+const TEST_BUILD_DIR = join(__dirname, "../build/tests");
+
+function getTestPaths(paths) {
+  return paths.reduce((acc, path) => {
+    if(fs.statSync(path).isDirectory()) {
+      const files = fs.readdirSync(path);
+      return acc.concat.apply(
+        acc,
+        files.filter(p => p[0] !== '.').map(file => join(path, file))
+      );
+    }
+    else {
+      if(path[0] !== '.') {
+        return acc.concat([path]);
+      }
+      return acc;
+    }
+  }, []);
+}
+
+function setupWebpackConfig(webpackConfig, testPaths) {
+
+  return Object.assign({}, webpackConfig, {
+    entry: ["babel-polyfill"].concat(testPaths.map((path) => resolve(path))),
+
+    output: {
+      path: TEST_BUILD_DIR,
+    },
+
+    module: {
+      loaders: [
+        {
+          test: /.js$/,
+          loader: 'babel-loader',
+          exclude: (path) => {
+            return path.includes("node_modules") && !path.includes("ff-devtools-libs")
+          },
+          query: {
+            presets: ['es2015', 'stage-0']
+          }
+        }
+      ]
+    },
+    devtool: null
+  });
+}
+
+function runMocha() {
+  mocha.addFile(join(TEST_BUILD_DIR, "bundle.js"));
+
+  mocha.run(function(failures){
+    process.on('exit', function () {
+      process.exit(failures);
+    });
+  });
+}
+
+function runWebpack(beforeBuild, afterBuild) {
+  beforeBuild();
+  webpack(webpackConfig).run((err, stats) => {
+    if(err) {
+      console.log("ERROR", err);
+    } else if(stats.compilation.errors.length) {
+      console.log(stats.toString({ colors: true }));
+    } else {
+      afterBuild();
+    }
+  });
+}
 
 const paths = process.argv.slice(2);
+const mocha = new Mocha();
+const testPaths = getTestPaths(paths);
+const webpackConfig = setupWebpackConfig(projectWebpackConfig, testPaths);
 
-rimraf.sync(join(__dirname, '../build/tests'));
-
-const allPaths = paths.reduce((acc, path) => {
-  if(fs.statSync(path).isDirectory()) {
-    const files = fs.readdirSync(path);
-    return acc.concat.apply(
-      acc,
-      files.filter(p => p[0] !== '.').map(file => join(path, file))
-    );
-  }
-  else {
-    if(path[0] !== '.') {
-      return acc.concat([path]);
-    }
-    return acc;
-  }
-}, []);
-
-const allEntries = {};
-allPaths.forEach(path => {
-  allEntries[path.replace(/\//g, '-')] = resolve(path);
-});
-
-
-const config = Object.assign({}, webpackConfig, {
-  entry: allEntries,
-  output: {
-    path: join(__dirname, '../build/tests'),
-    filename: '[name].js',
-    library: 'run_test',
-  },
-  module: {
-    loaders: [{
-      test: /tests\/.*\.js$/,
-      loader: join(__dirname, "test-loader")
-    }]
-  },
-  devtool: null
-});
-
-webpack(config).run(function(err, stats) {
-  if(err) {
-    console.log("ERROR", err);
-  } else if(stats.compilation.errors.length) {
-    console.log(stats.toString({ colors: true }));
-  } else {
-    runTests(env.firefoxSrcDir, env.firefoxObjDir, ['build/tests']);
-  }
-});
+runWebpack(
+  () => rimraf.sync(join(__dirname, '../build/tests')),
+  () => runMocha()
+);
