@@ -2,12 +2,10 @@
 "use strict";
 
 const fs = require("fs");
-const runTests = require("xpcshell-unit-test");
 const webpack = require("webpack");
 const join = require("path").join
 const resolve = require("path").resolve;
 const rimraf = require("rimraf");
-const env = require(__dirname + "/../environment.json");
 const projectWebpackConfig = require("../webpack.config");
 const Mocha = require("mocha");
 
