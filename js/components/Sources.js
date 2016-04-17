@@ -11,7 +11,7 @@ require("./Sources.css");
 function renderSource({source, selectSource, selectedSource}) {
   const pathname = (new URL(source.get("url"))).pathname;
   const isSelected = (selectedSource &&
-                      selectedSource.actor == source.get("actor"))
+                      selectedSource.get("actor") == source.get("actor"))
                       ? "selected" : "";
 
   return dom.li(
