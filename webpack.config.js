@@ -2,13 +2,7 @@
 
 const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-
-let environment;
-try {
-  environment = require("./environment");
-} catch (e) {
-  environment = {};
-}
+const isEnabled = require("./public/js/configs/feature").isEnabled;
 
 let config = {
   entry: "./public/js/main.js",
@@ -41,7 +35,7 @@ let config = {
 
 // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
 // destructuring params https://github.com/jlongster/debugger.html/issues/67
-if (environment.transformParameters) {
+if (isEnabled("transformParameters")) {
   config.module.loaders.push({
     test: /\.js$/,
     exclude: /(node_modules|bower_components)/,

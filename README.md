@@ -31,12 +31,7 @@ Then open another browser and go to `http://localhost:8000`.
 
 ##### User Configuration
 
-You can create an `environment.json` to set user environmental variables, like the firefox source path. Start by copying the [`environment.sample`](https://github.com/jlongster/debugger.html/blob/master/environment.sample) file and update the source code location. **This is only necessary if you want to run tests**.
-
- * **firefoxSrcDir**: _absolute path to local firefox source code_
- * **firefoxObjDir**: _absolute path to a local build of firefox_
-
-**NOTE**: Firefox source code is available on github at [gecko-dev](https://github.com/mozilla/gecko-dev/).  For a faster download add the depth option to your git clone `git clone --depth=1 https://github.com/mozilla/gecko-dev.git`  The MDN article [Working with Mozilla source code](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Source_Code) has a number of other options.
+You can create a `development.local.json` for local user settings in `public/js/configs`.
 
 ##### Remote Debugging
 If you'd like to connect an existing Firefox browser to debugger.html, you can press `shift+F2` to open the developer toolbar and type `listen 6080` into the developer toolbar console.
