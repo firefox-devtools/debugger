@@ -32,17 +32,7 @@ function handleError(err) {
   console.log("ERROR: ", err);
 }
 
-function onReducerEvents(controller, listeners, thisContext) {
-  Object.keys(listeners).forEach(name => {
-    const listener = listeners[name];
-    controller.onChange(name, payload => {
-      listener.call(thisContext, payload);
-    });
-  });
-}
-
 module.exports = {
   asPaused,
-  handleError,
-  onReducerEvents
+  handleError
 };
