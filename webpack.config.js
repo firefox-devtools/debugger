@@ -1,12 +1,14 @@
-const path = require('path');
+"use strict";
+
+const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  entry: './js/main.js',
-  devtool: 'source-map',
+  entry: "./js/main.js",
+  devtool: "source-map",
   output: {
-    path: path.join(__dirname, 'build'),
-    filename: 'bundle.js'
+    path: path.join(__dirname, "build"),
+    filename: "bundle.js"
   },
   resolve: {
     alias: {
@@ -18,11 +20,17 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.json$/, loader: "json-loader" },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") }
+      {
+        test: /\.json$/,
+        loader: "json-loader"
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+      }
     ]
   },
   plugins: [
     new ExtractTextPlugin("styles.css")
   ]
-}
+};

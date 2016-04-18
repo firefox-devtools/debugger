@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+"use strict";
+
+const fs = require("fs");
+const webpack = require("webpack");
+const join = require("path").join
+const resolve = require("path").resolve;
+const projectWebpackConfig = require("../webpack.config");
+
+const BUILD_DIR = join(__dirname, "../build");
+const BUNDLE_FILE = "test-browser-bundle.js";
+
+function getTestPaths(paths) {
+  return paths.reduce((acc, path) => {
+    if (fs.statSync(path).isDirectory()) {
+      const files = fs.readdirSync(path);
+      return acc.concat.apply(
+        acc,
+        files.filter(p => p[0] !== ".").map(file => join(path, file))
+      );
+    }
+
+    if (path[0] !== ".") {
+      return acc.concat([path]);
+    }
+
+    return acc;
+  }, []);
+}
+
+function setupWebpackConfig(webpackConfig, testPaths) {
+  return Object.assign({}, webpackConfig, {
+    entry: testPaths.map((path) => resolve(path)),
+
+    output: {
+      path: BUILD_DIR,
+      filename: BUNDLE_FILE
+    },
+
+    devtool: null
+  });
+}
+
+function runWebpack(webpackConfig) {
+  webpack(webpackConfig).run((err, stats) => {
+    if(err) {
+      console.log("ERROR", err);
+    } else if(stats.compilation.errors.length) {
+      console.log(stats.toString({ colors: true }));
+    } else {
+      // do nothing
+    }
+  });
+}
+
+const paths = process.argv.slice(2);
+const testPaths = getTestPaths(paths);
+const webpackConfig = setupWebpackConfig(projectWebpackConfig, testPaths);
+
+runWebpack(webpackConfig);
