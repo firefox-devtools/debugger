@@ -23,30 +23,25 @@ const App = React.createClass({
   displayName: "App",
 
   render: function() {
-    return dom.div(
-      { style: { flex: 1,
-                 overflow: "hidden" }},
-      SplitBox({
+    return SplitBox({
+      initialWidth: 300,
+      left: Sources({ sources: this.props.sources }),
+      right: SplitBox({
         initialWidth: 300,
-        left: Sources({ sources: this.props.sources }),
-        right: SplitBox({
-          initialWidth: 300,
-          rightFlex: true,
-          left: Editor({ selectedSource: this.props.selectedSource }),
-          right: Accordion({
-            items: [
-              { header: "Breakpoints",
-                component: Breakpoints,
-                opened: true },
-              { header: "Foo",
-                component: () => dom.div(null, "hi")
-              }
-            ]
-          })
+        rightFlex: true,
+        left: Editor({ selectedSource: this.props.selectedSource }),
+        right: Accordion({
+          items: [
+            { header: "Breakpoints",
+              component: Breakpoints,
+              opened: true },
+            { header: "Foo",
+              component: () => dom.div(null, "hi")
+            }
+          ]
         })
       })
-
-    );
+    });
   }
 });
 
