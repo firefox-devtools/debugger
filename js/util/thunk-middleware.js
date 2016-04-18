@@ -12,9 +12,12 @@ function thunk(makeArgs) {
     const args = { dispatch, getState };
 
     return next => action => {
-      return (typeof action === "function")
-        ? action(makeArgs ? makeArgs(args) : args)
-        : next(action);
+      if (typeof action === "function") {
+        const actionArgs = makeArgs ? makeArgs(args) : args;
+        return action.apply(undefined, actionArgs);
+      }
+
+      return next(action);
     };
   };
 }
