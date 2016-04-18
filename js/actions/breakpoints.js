@@ -41,7 +41,7 @@ function _getOrCreateBreakpoint(state, location, condition) {
 }
 
 function addBreakpoint(location, condition) {
-  return (dispatch, getState, threadClient) => {
+  return ({ dispatch, getState, threadClient }) => {
     if (_breakpointExists(getState(), location)) {
       return promise.resolve();
     }
@@ -139,7 +139,7 @@ function removeAllBreakpoints() {
  *         A promise that will be resolved with the breakpoint client
  */
 function setBreakpointCondition(location, condition) {
-  return (dispatch, getState, threadClient) => {
+  return ({ dispatch, getState, threadClient }) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
       throw new Error("Breakpoint does not exist at the specified location");

@@ -18,7 +18,7 @@ function newTabs(tabs) {
 }
 
 function selectTab({ tabActor }) {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState }) => {
     const tabs = getTabs(getState());
     const selectedTab = tabs.get(tabActor);
 
