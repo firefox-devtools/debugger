@@ -5,7 +5,8 @@
     "lint-css": "stylelint js/components/*.css",
     "lint-js": "eslint js",
     "test": "./bin/test-node js/actions/tests",
-    "test-browser": "./bin/test-browser js/actions/tests"
+    "test-browser": "./bin/test-browser js/actions/tests",
+    "test-karma": "./node_modules/.bin/karma start --single-run"
   },
   "dependencies": {
     "babel-cli": "^6.7.5",
@@ -17,6 +18,7 @@
     "ff-devtools-libs": "^0.1.1",
     "immutable": "^3.7.6",
     "json-loader": "^0.5.4",
+    "karma": "^0.13.22",
     "mocha": "^2.4.5",
     "net": "^1.0.2",
     "node-static": "^0.7.7",
@@ -42,6 +44,9 @@
     "eslint-plugin-mozilla": "0.0.3",
     "eslint-plugin-react": "^4.3.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-mocha": "^0.2.2",
     "rimraf": "^2.5.2",
     "style-loader": "^0.13.1"
   }
