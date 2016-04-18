@@ -85,7 +85,7 @@ const Editor = React.createClass({
   render() {
     return (
       dom.div(
-        { className: "code-editor" },
+        { className: "editor" },
         dom.textarea({
           ref: "editor",
           defaultValue: "..."

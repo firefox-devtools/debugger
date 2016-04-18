@@ -8,6 +8,7 @@ ul.sources-list {
   list-style: none;
   margin: 20px 0;
   padding: 0;
+  flex: 1;
 }
 
 .sources-list ul {
