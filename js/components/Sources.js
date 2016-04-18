@@ -40,11 +40,11 @@ function Sources({ sources, selectSource, selectedSource }) {
 
   return dom.ul(
     {className: "sources-list"},
-    sourcesByDomain.map((domainSources, domain) => {
+    sourcesByDomain.keySeq().map((domain) => {
       return dom.li({ key: domain, className: "domain" },
         dom.span({style: { paddingLeft: "20px" }}, domain),
         dom.ul(null,
-          domainSources.map(source => renderSource({
+          sourcesByDomain.get(domain).map(source => renderSource({
             source, selectSource, selectedSource }))
         )
       );
