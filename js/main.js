@@ -14,7 +14,8 @@ const TabList = React.createFactory(require("./components/TabList"));
 const createStore = configureStore({
   log: false,
   makeThunkArgs: args => {
-    return Object.assign({}, args, { threadClient: getThreadClient() });
+    const { dispatch, getState } = args;
+    return [ dispatch, getState, getThreadClient() ];
   }
 });
 const store = createStore(combineReducers(reducers));
