@@ -3,11 +3,12 @@
 
 const React = require("react");
 const ReactDOM = require("react-dom");
-const { combineReducers } = require("redux");
+const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");
+
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
-const { connectToClient, getThreadClient } = require("./client");
+const { connectToClient, getThreadClient, debugTab } = require("./client");
 const actions = require("./actions");
 const TabList = React.createFactory(require("./components/TabList"));
 
@@ -18,19 +19,24 @@ const createStore = configureStore({
   }
 });
 const store = createStore(combineReducers(reducers));
+const boundActions = bindActionCreators(actions, store.dispatch);
+const {
+  newTabs, newSource, paused, resumed,
+  selectTab, selectSource, loadSources } = boundActions;
 
 // global for debugging purposes only!
 window.store = store;
 
 connectToClient(response => {
-  store.dispatch(actions.newTabs(response.tabs));
+  newTabs(response.tabs);
 
   // if there's a pre-selected tab, connect to it and load the sources.
   // otherwise, just show the toolbox.
   if (hasSelectedTab()) {
     const selectedTab = getSelectedTab(store.getState().tabs.get("tabs"));
-    store.dispatch(actions.selectTab({ tabActor: selectedTab.get("actor") }))
-      .then(() => store.dispatch(actions.loadSources()))
+    const tabActor = selectedTab.get("actor");
+    debugTab({ tabActor, newSource, paused, resumed,
+               selectTab, loadSources, selectSource })
       .then(renderToolbox);
   } else {
     renderToolbox();

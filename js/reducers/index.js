@@ -8,11 +8,13 @@ const sources = require("./sources");
 const breakpoints = require("./breakpoints");
 const asyncRequests = require("./async-requests");
 const tabs = require("./tabs");
+const pause = require("./pause");
 
 module.exports = {
   eventListeners,
   sources,
   breakpoints,
   asyncRequests,
-  tabs
+  tabs,
+  pause
 };

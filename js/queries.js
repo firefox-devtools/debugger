@@ -29,6 +29,10 @@ function getSelectedTab(state) {
   return state.tabs.get("selectedTab");
 }
 
+function getPause(state) {
+  return state.pause.get("pause");
+}
+
 /* Queries */
 function getSource(state, actor) {
   return getSources(state).get(actor);
@@ -54,6 +58,15 @@ function getBreakpoint(state, location) {
   return getBreakpoints(state).get(makeLocationId(location));
 }
 
+function getBreakpointByActor(state) {
+  return getBreakpoints(state).valueSeq()
+    .groupBy(bp => bp.getIn(["location", "actor"]));
+}
+
+function getBreakpointsForSource(state, actor) {
+  return getBreakpointByActor(state).get(actor);
+}
+
 /**
  * @param object - location
  */
@@ -72,7 +85,9 @@ module.exports = {
   getSourceText,
   getBreakpoint,
   getBreakpoints,
+  getBreakpointsForSource,
   getTabs,
   getSelectedTab,
+  getPause,
   makeLocationId
 };

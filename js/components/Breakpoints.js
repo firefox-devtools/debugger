@@ -1,4 +1,3 @@
-/* globals URL gThreadClient */
 "use strict";
 
 const React = require("react");
@@ -36,6 +35,15 @@ function renderBreakpoint(sources, breakpoint) {
   );
 }
 
+function renderBreakpointList(breakpoints, sources) {
+  return dom.ul(
+    null,
+    breakpoints.valueSeq().map(bp => {
+      return renderBreakpoint(sources, bp);
+    })
+  );
+}
+
 const Breakpoints = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
@@ -44,36 +52,12 @@ const Breakpoints = React.createClass({
 
   displayName: "Breakpoints",
 
-  onResumeClick() {
-    gThreadClient.resume();
-  },
-
-  onStepOverClick() {
-    gThreadClient.stepOver();
-  },
-
-  onStepInClick() {
-    gThreadClient.stepIn();
-  },
-
-  onStepOutClick() {
-    gThreadClient.stepOut();
-  },
-
   render() {
     return dom.div(
       { className: "breakpoints" },
-      dom.div(null,
-        dom.button({ onClick: this.onResumeClick }, "Resume"),
-        dom.button({ onClick: this.onStepOverClick }, "Over"),
-        dom.button({ onClick: this.onStepInClick }, "In"),
-        dom.button({ onClick: this.onStepOutClick }, "Out")
-      ),
-      dom.ul(
-        null,
-        this.props.breakpoints.valueSeq().map(bp => {
-          return renderBreakpoint(this.props.sources, bp);
-        })
+      (this.props.breakpoints.size
+        ? renderBreakpointList(this.props.breakpoints, this.props.sources)
+        : dom.div({className: "pane-info"}, "No Breakpoints")
       )
     );
   }

@@ -1,0 +1,24 @@
+.right-sidebar {
+  flex: 1;
+}
+
+.command-bar {
+  border-bottom: 1px solid #cccccc;
+  height: 30px;
+  padding: 5px;
+}
+
+.command-bar button {
+  margin-right: 5px;
+}
+
+.accordion ._content {
+  font-size: 0.75em;
+  color: var(--theme-body-color);
+  padding: 5px;
+}
+
+.accordion .pane-info {
+  font-style: italic;
+  text-align: center;
+}

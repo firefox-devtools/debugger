@@ -57,4 +57,6 @@
   --theme-graphs-grey: #cccccc;
   --theme-graphs-full-red: #f00;
   --theme-graphs-full-blue: #00f;
+
+  --breakpoint-active-color: rgba(44,187,15,.1);
 }

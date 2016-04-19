@@ -4,11 +4,12 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const ReactDOM = require("react-dom");
 
-const { getSourceText } = require("../queries");
+const { getSourceText, getPause, getBreakpointsForSource } = require("../queries");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
 const Isvg = React.createFactory(require("react-inlinesvg"));
+const { alignLine } = require("../util/editor");
 
 require("codemirror/lib/codemirror.css");
 require("./Editor.css");
@@ -32,7 +33,8 @@ const Editor = React.createClass({
   propTypes: {
     selectedSource: PropTypes.object,
     sourceText: PropTypes.object,
-    addBreakpoint: PropTypes.func
+    addBreakpoint: PropTypes.func,
+    pause: PropTypes.object
   },
 
   componentDidMount() {
@@ -42,6 +44,7 @@ const Editor = React.createClass({
       lineWrapping: true,
       smartIndent: false,
       matchBrackets: true,
+      styleActiveLine: true,
       readOnly: true,
       gutters: ["breakpoints"]
     });
@@ -50,36 +53,73 @@ const Editor = React.createClass({
   },
 
   onGutterClick(cm, line, gutter, ev) {
-    let info = cm.lineInfo(line);
-    cm.setGutterMarker(
-      line,
-      "breakpoints",
-      info.gutterMarkers ? null : makeMarker()
-    );
-
     this.props.addBreakpoint({
       actor: this.props.selectedSource.get("actor"),
       line: line + 1
     });
   },
 
-  componentWillReceiveProps(nextProps) {
-    const sourceText = nextProps.sourceText;
-    const cursor = this.editor.getCursor();
+  showBreakpointAtLine(line) {
+    let info = this.editor.lineInfo(line);
+    if (info.gutterMarkers && info.gutterMarkers.breakpoints) {
+      return;
+    }
 
-    if (sourceText.get("loading")) {
+    this.editor.setGutterMarker(line, "breakpoints", makeMarker());
+  },
+
+  clearDebugLine(pauseInfo) {
+    if (!pauseInfo
+        || pauseInfo.getIn(["why", "type"]) == "interrupted") {
+      return;
+    }
+
+    const line = pauseInfo.getIn(["frame", "where", "line"]);
+    this.editor.removeLineClass(line - 1, "line", "debug-line");
+  },
+
+  setDebugLine(pauseInfo) {
+    if (!pauseInfo
+        || pauseInfo.getIn(["why", "type"]) == "interrupted") {
+      return;
+    }
+
+    const line = pauseInfo.getIn(["frame", "where", "line"]);
+    this.editor.addLineClass(line - 1, "line", "debug-line");
+    alignLine(this.editor, line);
+  },
+
+  setSourceText(newSourceText, oldSourceText) {
+    if (newSourceText.get("loading")) {
       this.editor.setValue("Loading...");
       return;
     }
 
-    if (sourceText.get("error")) {
+    if (newSourceText.get("error")) {
       this.editor.setValue("Error");
-      console.error(sourceText.get("error"));
+      console.error(newSourceText.get("error"));
       return;
     }
 
-    this.editor.setValue(sourceText.get("text"));
-    this.editor.setCursor(cursor);
+    // Only reset the editor text if the source has changed.
+    // + Resetting the text will remove the breakpoints.
+    // + Comparing the source text is probably inneficient.
+    if (!oldSourceText ||
+        newSourceText.get("text") != oldSourceText.get("text")) {
+      this.editor.setValue(newSourceText.get("text"));
+    }
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setSourceText(nextProps.sourceText, this.props.sourceText);
+    this.clearDebugLine(this.props.pause);
+    this.setDebugLine(nextProps.pause);
+
+    if (nextProps.breakpoints) {
+      nextProps.breakpoints.forEach(bp => {
+        this.showBreakpointAtLine(bp.getIn(["location", "line"]) - 1);
+      });
+    }
   },
 
   render() {
@@ -99,7 +139,11 @@ module.exports = connect(
   (state, props) => {
     const selectedActor = props.selectedSource
                           && props.selectedSource.get("actor");
-    return { sourceText: getSourceText(state, selectedActor) };
+    return {
+      sourceText: getSourceText(state, selectedActor),
+      breakpoints: getBreakpointsForSource(state, selectedActor),
+      pause: getPause(state)
+    };
   },
   dispatch => bindActionCreators(actions, dispatch)
 )(Editor);

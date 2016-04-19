@@ -1,16 +1,15 @@
 "use strict";
 
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
+const { PropTypes } = React;
 const { connect } = require("react-redux");
 
 require("./App.css");
 require("../lib/variables.css");
 const Sources = React.createFactory(require("./Sources"));
 const Editor = React.createFactory(require("./Editor"));
-const Breakpoints = React.createFactory(require("./Breakpoints"));
-const Accordion = React.createFactory(require("./Accordion"));
 const SplitBox = React.createFactory(require("./SplitBox"));
+const RightSidebar = React.createFactory(require("./RightSidebar"));
 const { getSources, getBreakpoints, getSelectedSource } = require("../queries");
 
 const App = React.createClass({
@@ -30,16 +29,7 @@ const App = React.createClass({
         initialWidth: 300,
         rightFlex: true,
         left: Editor({ selectedSource: this.props.selectedSource }),
-        right: Accordion({
-          items: [
-            { header: "Breakpoints",
-              component: Breakpoints,
-              opened: true },
-            { header: "Foo",
-              component: () => dom.div(null, "hi")
-            }
-          ]
-        })
+        right: RightSidebar()
       })
     });
   }

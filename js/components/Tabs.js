@@ -1,30 +1,21 @@
-/* globals gThreadClient */
 "use strict";
 
 const React = require("react");
-const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-const { getTabs } = require("../queries");
 const actions = require("../actions");
+const { bindActionCreators } = require("redux");
+const { getTabs } = require("../queries");
+const { debugTab } = require("../client");
 
 require("./Tabs.css");
 const dom = React.DOM;
 
-function Tabs({ tabs, selectTab, loadSources, newSource }) {
-  /**
-   * TODO: this click handler is probably doing too much right now.
-   */
+function Tabs({ tabs, newSource, paused, resumed,
+  selectTab, selectSource, loadSources }) {
   function onClickTab(e) {
-    selectTab({ tabActor: e.currentTarget.dataset.actorId })
-      .then(loadSources)
-      .then(() => {
-        gThreadClient.addListener("newSource", (event, packet) => {
-          newSource(packet.source);
-        });
-        gThreadClient.addListener("paused", (_, packet) => {
-          console.log(packet);
-        });
-      });
+    const tabActor = e.currentTarget.dataset.actorId;
+    debugTab({ tabActor, newSource, paused, resumed,
+               selectTab, selectSource, loadSources });
   }
 
   return dom.ul(

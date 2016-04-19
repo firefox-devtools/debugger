@@ -12,3 +12,17 @@
   fill: var(--theme-selection-background);
   width: 40px;
 }
+
+.CodeMirror-line {
+  font-family: Menlo, monospace !important;
+}
+
+.debug-line .CodeMirror-line {
+  background-color: var(--breakpoint-active-color) !important;
+}
+
+/* Don't display the highlight color since the debug line
+   is already highlighted */
+.debug-line .CodeMirror-activeline-background {
+  display: none;
+}

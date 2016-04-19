@@ -37,8 +37,52 @@ function getThreadClient() {
   return currentThreadClient;
 }
 
+const unsolicitedEvents = [
+  "paused", "resumed", "detached", "consoleAPICall", "eventNotification",
+  "fileActivity", "lastPrivateContextExited", "logMessage", "networkEvent",
+  "networkEventUpdate", "newGlobal", "newScript", "tabDetached",
+  "tabListChanged", "reflowActivity", "addonListChanged", "workerListChanged",
+  "serviceWorkerRegistrationListChanged", "tabNavigated", "frameUpdate",
+  "pageError", "documentLoad", "enteredFrame", "exitedFrame", "appOpen",
+  "appClose", "appInstall", "appUninstall", "evaluationResult", "newSource",
+  "updatedSource", "resumeLimit", "debuggerStatement", "breakpoint", "DOMEvent",
+  "watchpoint", "exception"
+];
+
+function debugTab({ tabActor, newSource, paused, resumed,
+                    selectTab, selectSource, loadSources }) {
+  function listenToClient() {
+    let deferred = promise.defer();
+    let client = getThreadClient();
+
+    client.addListener("paused", (_, packet) => {
+      paused(packet);
+      if (packet.why.type != "interrupted") {
+        selectSource(packet.frame.where.source);
+      }
+    });
+
+    client.addListener("resumed", (_, packet) => resumed(packet));
+
+    client.addListener("newSource", (_, packet) => newSource(packet.source));
+
+    unsolicitedEvents.forEach(event => {
+      client.addListener(event, (_, packet) => {
+        console.log(event, packet);
+      });
+    });
+
+    return deferred.resolve();
+  }
+
+  return selectTab({ tabActor: tabActor })
+    .then(loadSources)
+    .then(listenToClient);
+}
+
 module.exports = {
   connectToClient,
   connectToTab,
-  getThreadClient
+  getThreadClient,
+  debugTab
 };
