@@ -18,7 +18,7 @@ function update(state = initialState, action, emit) {
     case constants.RESUME:
       return state.set("pause", null);
     case constants.BREAK_ON_NEXT:
-      return state.set(["breakOnNext"], true);
+      return state.set("breakOnNext", true);
   }
 
   return state;

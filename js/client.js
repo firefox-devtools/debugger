@@ -37,18 +37,6 @@ function getThreadClient() {
   return currentThreadClient;
 }
 
-const unsolicitedEvents = [
-  "paused", "resumed", "detached", "consoleAPICall", "eventNotification",
-  "fileActivity", "lastPrivateContextExited", "logMessage", "networkEvent",
-  "networkEventUpdate", "newGlobal", "newScript", "tabDetached",
-  "tabListChanged", "reflowActivity", "addonListChanged", "workerListChanged",
-  "serviceWorkerRegistrationListChanged", "tabNavigated", "frameUpdate",
-  "pageError", "documentLoad", "enteredFrame", "exitedFrame", "appOpen",
-  "appClose", "appInstall", "appUninstall", "evaluationResult", "newSource",
-  "updatedSource", "resumeLimit", "debuggerStatement", "breakpoint", "DOMEvent",
-  "watchpoint", "exception"
-];
-
 function debugTab({ tabActor, newSource, paused, resumed,
                     selectTab, selectSource, loadSources }) {
   function listenToClient() {
@@ -65,12 +53,6 @@ function debugTab({ tabActor, newSource, paused, resumed,
     client.addListener("resumed", (_, packet) => resumed(packet));
 
     client.addListener("newSource", (_, packet) => newSource(packet.source));
-
-    unsolicitedEvents.forEach(event => {
-      client.addListener(event, (_, packet) => {
-        console.log(event, packet);
-      });
-    });
 
     return deferred.resolve();
   }
