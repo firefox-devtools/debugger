@@ -33,6 +33,7 @@ function Tabs({ tabs, selectTab, loadSources, newSource }) {
       return dom.li(
         { "className": "tab",
           "data-actor-id": tab.get("actor"),
+          "key": tab.get("actor"),
           "onClick": onClickTab },
         dom.div({ className: "tab-title" }, tab.get("title")),
         dom.div({ className: "tab-url" }, tab.get("url"))
