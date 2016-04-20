@@ -8,8 +8,8 @@
   padding: 5px;
 }
 
-.command-bar button {
-  margin-right: 5px;
+.command-bar span {
+  margin-right: 8px;
 }
 
 .accordion ._content {

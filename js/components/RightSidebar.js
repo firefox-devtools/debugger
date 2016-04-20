@@ -5,11 +5,19 @@ const { DOM: dom } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getPause } = require("../queries");
+const Isvg = React.createFactory(require("react-inlinesvg"));
 
 const actions = require("../actions");
 const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Accordion = React.createFactory(require("./Accordion"));
 require("./RightSidebar.css");
+
+function debugBtn(onClick, type) {
+  return dom.span(
+    { onClick },
+    Isvg({ src: `js/components/images/${type}.svg`})
+  );
+}
 
 function RightSidebar({ resume, command, breakOnNext, pause }) {
   return (
@@ -17,12 +25,12 @@ function RightSidebar({ resume, command, breakOnNext, pause }) {
       dom.div({className: "command-bar"},
         (
           pause
-            ? dom.button({ onClick: () => command({type: "resume"}) }, "Resume")
-            : dom.button({ onClick: breakOnNext }, "Pause")
+            ? debugBtn(() => command({ type: "resume" }), "resume")
+            : debugBtn(breakOnNext, "pause")
         ),
-        dom.button({ onClick: () => command({type: "stepOver"}) }, "Over"),
-        dom.button({ onClick: () => command({type: "stepIn"}) }, "In"),
-        dom.button({ onClick: () => command({type: "stepOut"}) }, "Out")
+        debugBtn(() => command({ type: "stepOver" }), "stepOver"),
+        debugBtn(() => command({ type: "stepIn" }), "stepIn"),
+        debugBtn(() => command({ type: "stepOut" }), "stepOut")
       ),
       Accordion({
         items: [
