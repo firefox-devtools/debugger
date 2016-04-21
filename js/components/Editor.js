@@ -143,16 +143,17 @@ const Editor = React.createClass({
 
   render() {
     return (
-      dom.div(
-        { className: "editor" },
-        dom.textarea({
-          ref: "editor",
-          defaultValue: "..."
-        }),
-        this.props.breakpoints && this.props.breakpoints.map(bp => {
-          return Breakpoint({ breakpoint: bp,
-                              editor: this.editor });
-        })
+      dom.div({ className: "editor-container" },
+          dom.div({ className: "editor" },
+          dom.textarea({
+            ref: "editor",
+            defaultValue: "..."
+          }),
+          this.props.breakpoints && this.props.breakpoints.map(bp => {
+            return Breakpoint({ breakpoint: bp,
+                                editor: this.editor });
+          })
+        )
       )
     );
   }
