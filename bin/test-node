@@ -3,7 +3,7 @@
 
 const fs = require("fs");
 const webpack = require("webpack");
-const join = require("path").join
+const join = require("path").join;
 const resolve = require("path").resolve;
 const rimraf = require("rimraf");
 const projectWebpackConfig = require("../webpack.config");
@@ -13,7 +13,7 @@ const BUILD_DIR = join(__dirname, "../build");
 
 function getTestPaths(paths) {
   return paths.reduce((acc, path) => {
-    if(fs.statSync(path).isDirectory()) {
+    if (fs.statSync(path).isDirectory()) {
       const files = fs.readdirSync(path);
       return acc.concat.apply(
         acc,
