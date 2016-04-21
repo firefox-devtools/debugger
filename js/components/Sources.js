@@ -38,17 +38,20 @@ function groupSourcesByDomain(sources) {
 function Sources({ sources, selectSource, selectedSource }) {
   const sourcesByDomain = groupSourcesByDomain(sources);
 
-  return dom.ul(
-    {className: "sources-list"},
-    sourcesByDomain.keySeq().map((domain) => {
-      return dom.li({ key: domain, className: "domain" },
-        dom.span({style: { paddingLeft: "20px" }}, domain),
-        dom.ul(null,
-          sourcesByDomain.get(domain).map(source => renderSource({
-            source, selectSource, selectedSource }))
-        )
-      );
-    })
+  return dom.div({className: "sources-panel"},
+    dom.div({className: "sources-header"}, ""),
+    dom.ul(
+      {className: "sources-list"},
+      sourcesByDomain.keySeq().map((domain) => {
+        return dom.li({ key: domain, className: "domain" },
+          dom.span({style: { paddingLeft: "20px" }}, domain),
+          dom.ul(null,
+            sourcesByDomain.get(domain).map(source => renderSource({
+              source, selectSource, selectedSource }))
+          )
+        );
+      })
+    )
   );
 }
 
