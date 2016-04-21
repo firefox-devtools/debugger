@@ -27,5 +27,6 @@
   "rules": {
     "camelcase": 0,
     "no-unused-vars": [2, {"vars": "all", "args": "none", "varsIgnorePattern": "run_test"}],
+    "max-nested-callbacks": [2, 4],
   }
 }
