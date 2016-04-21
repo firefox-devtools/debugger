@@ -1,11 +1,12 @@
 "use strict";
 
 const React = require("react");
-const {DOM: dom} = React;
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
 const { getSelectedSource } = require("../queries");
+const { DOM: dom } = React;
+
 require("./Sources.css");
 
 function renderSource({source, selectSource, selectedSource}) {

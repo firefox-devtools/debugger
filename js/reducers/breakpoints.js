@@ -52,7 +52,7 @@ function update(state = initialState, action) {
           // conform to the regular { actor, line } location shape, but
           // it has a `source` field. We should fix that.
           actualLocation = { actor: actualLocation.source.actor,
-                           line: actualLocation.line };
+                             line: actualLocation.line };
 
           state = state.deleteIn(["breakpoints", id]);
 

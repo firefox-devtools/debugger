@@ -1,14 +1,15 @@
 "use strict";
 
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
-const ReactDOM = require("react-dom");
-
-const { getSourceText, getPause, getBreakpointsForSource } = require("../queries");
+const Isvg = React.createFactory(require("react-inlinesvg"));
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
+const ReactDOM = require("react-dom");
+const ImPropTypes = require("react-immutable-proptypes");
+const { DOM: dom, PropTypes } = React;
+
+const { getSourceText, getBreakpointsForSource, getPause } = require("../queries");
 const actions = require("../actions");
-const Isvg = React.createFactory(require("react-inlinesvg"));
 const { alignLine } = require("../util/editor");
 
 require("codemirror/lib/codemirror.css");
@@ -29,11 +30,39 @@ function makeMarker() {
   return marker;
 }
 
+const _Breakpoint = React.createClass({
+  propTypes: {
+    breakpoint: ImPropTypes.map,
+    editor: PropTypes.object
+  },
+
+  componentWillMount: function() {
+    const bp = this.props.breakpoint;
+    const line = bp.getIn(["location", "line"]) - 1;
+
+    this.props.editor.setGutterMarker(line, "breakpoints", makeMarker());
+  },
+
+  componentWillUnmount: function() {
+    const bp = this.props.breakpoint;
+    const line = bp.getIn(["location", "line"]) - 1;
+
+    this.props.editor.setGutterMarker(line, "breakpoints", null);
+  },
+
+  render: function() {
+    return null;
+  }
+});
+const Breakpoint = React.createFactory(_Breakpoint);
+
 const Editor = React.createClass({
   propTypes: {
+    breakpoints: ImPropTypes.list,
     selectedSource: PropTypes.object,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
+    removeBreakpoint: PropTypes.func,
     pause: PropTypes.object
   },
 
@@ -41,7 +70,7 @@ const Editor = React.createClass({
     this.editor = CodeMirror.fromTextArea(this.refs.editor, {
       mode: "javascript",
       lineNumbers: true,
-      lineWrapping: true,
+      lineWrapping: false,
       smartIndent: false,
       matchBrackets: true,
       styleActiveLine: true,
@@ -53,19 +82,15 @@ const Editor = React.createClass({
   },
 
   onGutterClick(cm, line, gutter, ev) {
-    this.props.addBreakpoint({
+    const bp = this.props.breakpoints.find(b => {
+      return b.getIn(["location", "line"]) === line + 1;
+    });
+
+    const applyBp = bp ? this.props.removeBreakpoint : this.props.addBreakpoint;
+    applyBp({
       actor: this.props.selectedSource.get("actor"),
       line: line + 1
     });
-  },
-
-  showBreakpointAtLine(line) {
-    let info = this.editor.lineInfo(line);
-    if (info.gutterMarkers && info.gutterMarkers.breakpoints) {
-      return;
-    }
-
-    this.editor.setGutterMarker(line, "breakpoints", makeMarker());
   },
 
   clearDebugLine(pauseInfo) {
@@ -114,12 +139,6 @@ const Editor = React.createClass({
     this.setSourceText(nextProps.sourceText, this.props.sourceText);
     this.clearDebugLine(this.props.pause);
     this.setDebugLine(nextProps.pause);
-
-    if (nextProps.breakpoints) {
-      nextProps.breakpoints.forEach(bp => {
-        this.showBreakpointAtLine(bp.getIn(["location", "line"]) - 1);
-      });
-    }
   },
 
   render() {
@@ -129,6 +148,10 @@ const Editor = React.createClass({
         dom.textarea({
           ref: "editor",
           defaultValue: "..."
+        }),
+        this.props.breakpoints && this.props.breakpoints.map(bp => {
+          return Breakpoint({ breakpoint: bp,
+                              editor: this.editor });
         })
       )
     );
@@ -137,8 +160,8 @@ const Editor = React.createClass({
 
 module.exports = connect(
   (state, props) => {
-    const selectedActor = props.selectedSource
-                          && props.selectedSource.get("actor");
+    const selectedActor = (props.selectedSource &&
+                           props.selectedSource.get("actor"));
     return {
       sourceText: getSourceText(state, selectedActor),
       breakpoints: getBreakpointsForSource(state, selectedActor),
