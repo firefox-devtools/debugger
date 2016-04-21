@@ -25,6 +25,16 @@
   font-family: Menlo, monospace !important;
 }
 
+/* set the linenumber white when there is a breakpoint */
+.breakpoint .CodeMirror-linenumber {
+  color: white;
+}
+
+/* move the breakpoint below the linenumber */
+.breakpoint .CodeMirror-gutter-elt:last-child {
+  z-index: 0;
+}
+
 .debug-line .CodeMirror-line {
   background-color: var(--breakpoint-active-color) !important;
 }
