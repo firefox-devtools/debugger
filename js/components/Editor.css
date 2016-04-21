@@ -8,7 +8,7 @@
  * There's a known codemirror flex issue with chrome that this addresses.
  * BUG https://github.com/jlongster/debugger.html/issues/63
  */
-.editor {
+.editor-wrapper {
   position: absolute;
   height: calc(100% - 30px);
   width: 100%;
