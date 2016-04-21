@@ -1,8 +1,9 @@
 "use strict";
 
-const { createStore, actions, queries } = require("../../util/test-head");
+const { actions, queries, createStore } = require("../../util/test-head");
+
 const store = createStore();
-var expect = require("chai").expect;
+const expect = require("expect.js");
 
 describe("newSource", () => {
   describe("adding two sources", () => {
