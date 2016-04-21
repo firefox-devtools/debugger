@@ -124,12 +124,13 @@ const Editor = React.createClass({
 
   render() {
     return (
-      dom.div(
-        { className: "editor" },
-        dom.textarea({
-          ref: "editor",
-          defaultValue: "..."
-        })
+      dom.div({ className: "editor-container" },
+          dom.div({ className: "editor" },
+          dom.textarea({
+            ref: "editor",
+            defaultValue: "..."
+          })
+        )
       )
     );
   }
