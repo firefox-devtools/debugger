@@ -2,13 +2,9 @@
 
 const { combineReducers } = require("redux");
 const reducers = require("../reducers");
-const actions = require("../actions");
-const constants = require("../constants");
 const configureStore = require("../create-store");
-const queries = require("../queries");
 
-const mockThreadClient = {
-};
+let mockThreadClient;
 
 const _createStore = configureStore({
   log: false,
@@ -17,12 +13,13 @@ const _createStore = configureStore({
   }
 });
 
-function createStore() {
+function createStore(threadClient) {
+  mockThreadClient = threadClient;
   return _createStore(combineReducers(reducers));
 }
 
-function commonLog(msg, data) {
+function commonLog(msg, data = {}) {
   console.log(`[INFO] ${msg} ${JSON.stringify(data)}`);
 }
 
-module.exports = { createStore, actions, queries, constants, commonLog };
+module.exports = { createStore, commonLog };
