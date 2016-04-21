@@ -9,7 +9,8 @@ const ReactDOM = require("react-dom");
 
 const {
   getSourceText, getPause, getBreakpointsForSource,
-  getSelectedSource } = require("../queries");
+  getSelectedSource
+} = require("../queries");
 
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");

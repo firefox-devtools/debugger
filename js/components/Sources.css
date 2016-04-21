@@ -1,3 +1,12 @@
+.sources-panel {
+  flex: 1;
+}
+
+.sources-header {
+  height: 30px;
+  border-bottom: 1px solid var(--theme-gray);
+}
+
 .sources-list {
   font-size: 0.75em;
   line-height: 2;
