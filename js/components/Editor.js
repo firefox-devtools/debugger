@@ -2,13 +2,18 @@
 
 const React = require("react");
 const Isvg = React.createFactory(require("react-inlinesvg"));
+const { DOM: dom, PropTypes } = React;
+const ImPropTypes = require("react-immutable-proptypes");
+
+const ReactDOM = require("react-dom");
+
+const {
+  getSourceText, getPause, getBreakpointsForSource,
+  getSelectedSource } = require("../queries");
+
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-const ReactDOM = require("react-dom");
-const ImPropTypes = require("react-immutable-proptypes");
-const { DOM: dom, PropTypes } = React;
 
-const { getSourceText, getBreakpointsForSource, getPause } = require("../queries");
 const actions = require("../actions");
 const { alignLine } = require("../util/editor");
 
@@ -143,17 +148,15 @@ const Editor = React.createClass({
 
   render() {
     return (
-      dom.div({ className: "editor-container" },
-          dom.div({ className: "editor" },
-          dom.textarea({
-            ref: "editor",
-            defaultValue: "..."
-          }),
-          this.props.breakpoints && this.props.breakpoints.map(bp => {
-            return Breakpoint({ breakpoint: bp,
-                                editor: this.editor });
-          })
-        )
+      dom.div({ className: "editor" },
+        dom.textarea({
+          ref: "editor",
+          defaultValue: "..."
+        }),
+        this.props.breakpoints && this.props.breakpoints.map(bp => {
+          return Breakpoint({ breakpoint: bp,
+                              editor: this.editor });
+        })
       )
     );
   }
@@ -161,9 +164,11 @@ const Editor = React.createClass({
 
 module.exports = connect(
   (state, props) => {
-    const selectedActor = (props.selectedSource &&
-                           props.selectedSource.get("actor"));
+    const selectedSource = getSelectedSource(state);
+    const selectedActor = selectedSource && selectedSource.get("actor");
+
     return {
+      selectedSource: selectedSource,
       sourceText: getSourceText(state, selectedActor),
       breakpoints: getBreakpointsForSource(state, selectedActor),
       pause: getPause(state)
