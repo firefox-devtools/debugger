@@ -4,7 +4,10 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const ReactDOM = require("react-dom");
 
-const { getSourceText, getPause, getBreakpointsForSource } = require("../queries");
+const {
+  getSourceText, getPause, getBreakpointsForSource,
+  getSelectedSource } = require("../queries");
+
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
@@ -124,13 +127,11 @@ const Editor = React.createClass({
 
   render() {
     return (
-      dom.div({ className: "editor-container" },
-          dom.div({ className: "editor" },
-          dom.textarea({
-            ref: "editor",
-            defaultValue: "..."
-          })
-        )
+      dom.div({ className: "editor" },
+        dom.textarea({
+          ref: "editor",
+          defaultValue: "..."
+        })
       )
     );
   }
@@ -138,9 +139,11 @@ const Editor = React.createClass({
 
 module.exports = connect(
   (state, props) => {
-    const selectedActor = props.selectedSource
-                          && props.selectedSource.get("actor");
+    const selectedSource = getSelectedSource(state);
+    const selectedActor = selectedSource && selectedSource.get("actor");
+
     return {
+      selectedSource: selectedSource,
       sourceText: getSourceText(state, selectedActor),
       breakpoints: getBreakpointsForSource(state, selectedActor),
       pause: getPause(state)

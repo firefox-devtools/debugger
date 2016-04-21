@@ -8,16 +8,12 @@
  * There's a known codemirror flex issue with chrome that this addresses.
  * BUG https://github.com/jlongster/debugger.html/issues/63
  */
-.editor-container {
-  display: flex;
-  position: relative;
-  flex: 1;
-}
-
 .editor {
   position: absolute;
-  height: 100%;
+  height: calc(100% - 30px);
   width: 100%;
+  top: 30px;
+  left: 0px;
 }
 
 .editor.breakpoint {

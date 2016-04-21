@@ -1,0 +1,26 @@
+.source-tabs {
+  height: 30px;
+  width:100%;
+  border-bottom: 1px solid #DDE1E4;
+}
+
+.source-tab {
+  border: 1px solid #DDE1E4;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  padding: 0px 20px 0 10px;
+  height: 20px;
+  line-height: 20px;
+  color: #696969;
+  font-size: 0.7em;
+  margin: 10px 0 0 10px;
+  display: inline-block;
+  border-bottom: none;
+  position: relative;
+}
+
+.source-tab .close-btn {
+  position: absolute;
+  right: 5px;
+  top: 0px;
+}

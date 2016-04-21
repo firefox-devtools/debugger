@@ -1,16 +1,17 @@
 "use strict";
 
 const React = require("react");
-const { PropTypes } = React;
+const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 
 require("./App.css");
 require("../lib/variables.css");
-const Sources = React.createFactory(require("./Sources"));
-const Editor = React.createFactory(require("./Editor"));
-const SplitBox = React.createFactory(require("./SplitBox"));
-const RightSidebar = React.createFactory(require("./RightSidebar"));
-const { getSources, getBreakpoints, getSelectedSource } = require("../queries");
+const Sources = createFactory(require("./Sources"));
+const Editor = createFactory(require("./Editor"));
+const SplitBox = createFactory(require("./SplitBox"));
+const RightSidebar = createFactory(require("./RightSidebar"));
+const SourceTabs = createFactory(require("./SourceTabs"));
+const { getSources, getBreakpoints } = require("../queries");
 
 const App = React.createClass({
   propTypes: {
@@ -28,7 +29,10 @@ const App = React.createClass({
       right: SplitBox({
         initialWidth: 300,
         rightFlex: true,
-        left: Editor({ selectedSource: this.props.selectedSource }),
+        left: dom.div({className: "editor-container"},
+          SourceTabs(),
+          Editor()
+        ),
         right: RightSidebar()
       })
     });
@@ -37,6 +41,5 @@ const App = React.createClass({
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              breakpoints: getBreakpoints(state),
-              selectedSource: getSelectedSource(state) })
+              breakpoints: getBreakpoints(state) })
 )(App);
