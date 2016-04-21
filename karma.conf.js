@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(config) {
-  let configuration = {
+  const configuration = {
     basePath: "",
     frameworks: ["mocha"],
     files: [
@@ -11,24 +11,14 @@ module.exports = function(config) {
     exclude: [],
     preprocessors: {},
     reporters: ["progress"],
+    browsers: ["Firefox", "Chrome"],
     port: 8002,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
-    customLaunchers: {
-      Chrome_travis_ci: {
-        base: "Chrome",
-        flags: ["--no-sandbox"]
-      }
-    },
     singleRun: false,
     concurrency: Infinity
   };
 
-  if (process.env.TRAVIS) {
-    configuration.browsers = ["Chrome_travis_ci", "Firefox"];
-  } else {
-    config.browsers = ["Firefox", "Chrome"];
-  }
   config.set(configuration);
 };
