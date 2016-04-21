@@ -23,7 +23,7 @@ body {
 }
 
 .editor-container {
-  display:flex;
+  display: flex;
   position: relative;
   flex: 1;
 }
