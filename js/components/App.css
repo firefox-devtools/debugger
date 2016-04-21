@@ -21,3 +21,9 @@ body {
   display: flex;
   height: 100%;
 }
+
+.editor-container {
+  display:flex;
+  position: relative;
+  flex: 1;
+}

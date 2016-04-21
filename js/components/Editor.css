@@ -4,8 +4,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/**
+ * There's a known codemirror flex issue with chrome that this addresses.
+ * BUG https://github.com/jlongster/debugger.html/issues/63
+ */
 .editor {
-  flex: 1;
+  position: absolute;
+  height: calc(100% - 30px);
+  width: 100%;
+  top: 30px;
+  left: 0px;
 }
 
 .editor.breakpoint {
