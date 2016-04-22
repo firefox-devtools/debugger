@@ -2,6 +2,7 @@
 
 const { actions, queries, createStore } = require("../../util/test-head");
 const promise = require("devtools/sham/promise");
+const { Task } = require("devtools/sham/task");
 
 const expect = require("expect.js");
 
@@ -88,12 +89,14 @@ describe("loadSourceText", () => {
 
   describe("loading a source twice", function() {
     beforeEach(function(done) {
-      this.store = createStore(simpleMockThreadClient);
-      this.store.dispatch(actions.loadSourceText({ actor: "foo1" }))
-        .then(() => {
-          return this.store.dispatch(actions.loadSourceText({ actor: "foo1" }));
-        })
-        .then(() => done());
+      const store = createStore(simpleMockThreadClient);
+      this.store = store;
+
+      Task.spawn(function* () {
+        yield store.dispatch(actions.loadSourceText({ actor: "foo1" }));
+        yield store.dispatch(actions.loadSourceText({ actor: "foo1" }));
+        done();
+      });
     });
 
     it("Store has the source text", function() {
