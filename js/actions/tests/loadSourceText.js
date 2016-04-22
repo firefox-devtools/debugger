@@ -23,8 +23,9 @@ const mockThreadClient = {
   }
 };
 
-describe("loadSourceText", () => {
+describe("loadSourceText", function() {
   beforeEach(function() {
+    console.log("beforeEach");
     this.store = createStore(mockThreadClient);
   });
 
@@ -35,7 +36,8 @@ describe("loadSourceText", () => {
     });
 
     it("Store has the source text", function() {
-      const fooSourceText = queries.getSourceText(this.store.getState(), "foo1");
+      const fooSourceText = queries.getSourceText(
+                              this.store.getState(), "foo1");
       expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
     });
   });
