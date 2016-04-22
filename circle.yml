@@ -1,4 +1,6 @@
 test:
+  pre:
+    - npm install
   post:
     - npm run lint-css
     - npm run lint-js

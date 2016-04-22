@@ -37,7 +37,7 @@ function setupWebpackConfig(webpackConfig, testPaths) {
       filename: BUNDLE_FILE
     },
 
-    devtool: null
+    devtool: "source-map"
   });
 }
 
