@@ -3,6 +3,7 @@
 const { actions, queries, createStore } = require("../../util/test-head");
 const promise = require("devtools/sham/promise");
 const { Task } = require("devtools/sham/task");
+const { getSourceText } = queries;
 
 const expect = require("expect.js");
 
@@ -100,8 +101,7 @@ describe("loadSourceText", () => {
     });
 
     it("Store has the source text", function() {
-      const fooSourceText = queries.getSourceText(
-                              this.store.getState(), "foo1");
+      const fooSourceText = getSourceText(this.store.getState(), "foo1");
       expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
     });
   });
