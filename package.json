@@ -6,7 +6,8 @@
     "lint-js": "eslint js",
     "test": "./bin/test-node js/actions/tests",
     "test-browser": "./bin/test-browser js/actions/tests",
-    "test-karma": "./node_modules/.bin/karma start --single-run"
+    "test-karma": "./node_modules/.bin/karma start --single-run",
+    "storybook": "start-storybook -p 9001 -s js"
   },
   "dependencies": {
     "babel-cli": "^6.7.5",
@@ -35,6 +36,7 @@
     "ws": "^1.0.1"
   },
   "devDependencies": {
+    "@kadira/storybook": "^1.17.1",
     "babel": "^6.5.2",
     "babel-core": "^6.7.6",
     "babel-loader": "^6.2.4",
