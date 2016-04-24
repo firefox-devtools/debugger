@@ -15,7 +15,7 @@ require("./RightSidebar.css");
 function debugBtn(onClick, type) {
   return dom.span(
     { onClick },
-    Isvg({ src: `js/components/images/${type}.svg`})
+    Isvg({ src: `images/${type}.svg`})
   );
 }
 
