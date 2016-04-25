@@ -11,7 +11,7 @@ try {
 }
 
 let config = {
-  entry: "./js/main.js",
+  entry: "./public/js/main.js",
   devtool: "source-map",
   output: {
     path: path.join(__dirname, "build"),
