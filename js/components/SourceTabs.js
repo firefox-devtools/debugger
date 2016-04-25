@@ -30,7 +30,7 @@ function sourceTab(selectedSource) {
 
   return dom.div({className: "source-tab"},
     dom.div({className: "filename"}, filename),
-    Isvg({ className: "close-btn", src: "js/components/images/close.svg" })
+    Isvg({ className: "close-btn", src: "images/close.svg" })
   );
 }
 

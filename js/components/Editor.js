@@ -29,7 +29,7 @@ function makeMarker() {
   marker.className = "editor breakpoint";
   ReactDOM.render(
     React.createElement(Isvg, {
-      src: "js/components/images/breakpoint.svg#base-path___2142144446"
+      src: "images/breakpoint.svg#base-path___2142144446"
     }),
     marker
   );

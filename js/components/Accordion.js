@@ -43,7 +43,7 @@ const Accordion = React.createClass({
             key: i },
           div({ className: "_header",
                 onClick: () => this.handleHeaderClick(i) },
-                Isvg({ src: "js/components/images/arrow.svg" }),
+                Isvg({ src: "images/arrow.svg" }),
                 item.header),
 
           (created[i] || opened[i]) ?

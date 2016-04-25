@@ -9,7 +9,7 @@ const webpackDevMiddleware = require("webpack-dev-middleware");
 const app = express();
 const compiler = webpack(config);
 
-app.use("/js", express.static("js"));
+app.use(express.static("public"));
 
 app.use(webpackDevMiddleware(compiler, {
   publicPath: "/build",
