@@ -2,12 +2,12 @@
   "name": "debugger.html",
   "scripts": {
     "start": "firefox-proxy & node server",
-    "lint-css": "stylelint js/components/*.css",
-    "lint-js": "eslint js",
-    "test": "./bin/test-node js/actions/tests",
-    "test-browser": "./bin/test-browser js/actions/tests",
+    "lint-css": "stylelint public/js/components/*.css",
+    "lint-js": "eslint public/js",
+    "test": "./bin/test-node public/js/actions/tests",
+    "test-browser": "./bin/test-browser public/js/actions/tests",
     "test-karma": "./node_modules/.bin/karma start --single-run",
-    "storybook": "start-storybook -p 9001 -s js"
+    "storybook": "start-storybook -p 9001 -s public"
   },
   "dependencies": {
     "babel-cli": "^6.7.5",

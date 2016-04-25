@@ -28,5 +28,5 @@ app.listen(8000, "localhost", function(err, result) {
     console.log(err);
   }
 
-  console.log("Listening at localhost:8000");
+  console.log("Listening at http://localhost:8000");
 });
