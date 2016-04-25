@@ -47,6 +47,7 @@ const _Breakpoint = React.createClass({
     const line = bp.getIn(["location", "line"]) - 1;
 
     this.props.editor.setGutterMarker(line, "breakpoints", makeMarker());
+    this.props.editor.addLineClass(line, "line", "breakpoint");
   },
 
   componentWillUnmount: function() {
@@ -54,6 +55,7 @@ const _Breakpoint = React.createClass({
     const line = bp.getIn(["location", "line"]) - 1;
 
     this.props.editor.setGutterMarker(line, "breakpoints", null);
+    this.props.editor.removeLineClass(line, "line", "breakpoint");
   },
 
   render: function() {
