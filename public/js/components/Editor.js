@@ -151,12 +151,13 @@ const Editor = React.createClass({
 
   render() {
     return (
-      dom.div({ className: "editor-wrapper" },
+      dom.div(
+        { className: "editor-wrapper" },
         dom.textarea({
           ref: "editor",
           defaultValue: "..."
         }),
-        this.props.breakpoints && this.props.breakpoints.map(bp => {
+        this.props.breakpoints.filter(bp => !bp.get("disabled")).map(bp => {
           return Breakpoint({ breakpoint: bp,
                               editor: this.editor });
         })

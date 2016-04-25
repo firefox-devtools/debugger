@@ -1,5 +1,6 @@
-.breakpoints .li {
+.breakpoints .breakpoint {
   font-size: 12px;
   list-style: none;
   color: #333333;
+  margin: 0.5em 0;
 }
