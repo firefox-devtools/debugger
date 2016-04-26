@@ -1,12 +1,13 @@
 "use strict";
 
 const { actions, queries, createStore } = require("../../util/test-head");
+const fixtures = require("../../test/fixtures.json");
+const { fromJS } = require("immutable");
+const expect = require("expect.js");
+
 const { getSelectedSource } = queries;
 const { selectSource } = actions;
-
-const { fromJS } = require("immutable");
-
-const expect = require("expect.js");
+const sourcesFixtures = fixtures.sources;
 
 const simpleMockThreadClient = {
   source: function(form) {
@@ -17,25 +18,6 @@ const simpleMockThreadClient = {
         });
       }
     };
-  }
-};
-
-const sourcesFixtures = {
-  sources: {
-    "fooSourceActor": {
-      actor: "fooSourceActor",
-      url: "http://example.com/foo.js"
-    },
-    "barSourceActor": {
-      actor: "barSourceActor",
-      url: "http://example.com/bar.js"
-    }
-  },
-  sourcesText: {
-    "fooSourceActor": {
-      contentType: "text/javascript",
-      text: "function() {\n  return 5;\n}",
-    }
   }
 };
 

@@ -102,20 +102,22 @@ describe("loadSourceText", () => {
   });
 
   it("source failed to load", function(done) {
+    function loadBadSource(store) {
+      let deferred = promise.defer();
+      store.dispatch(loadSourceText({ actor: "foo1" }))
+        .catch(() => deferred.resolve());
+
+      deferredMockThreadClient.getRequest().reject("poop");
+      return deferred.promise;
+    }
+
     const store = createStore(deferredMockThreadClient);
 
     Task.spawn(function* () {
-      store.dispatch(loadSourceText({ actor: "foo1" }))
-        .catch(() => {});
-
-      deferredMockThreadClient.getRequest().reject("poop");
-
-      setTimeout(()=> {
-        const fooSourceText = getSourceText(store.getState(), "foo1");
-        expect(fooSourceText.get("error")).to.equal("poop");
-        done();
-
-      },1)
+      yield loadBadSource(store);
+      const fooSourceText = getSourceText(store.getState(), "foo1");
+      expect(fooSourceText.get("error")).to.equal("poop");
+      done();
     });
   });
 });
