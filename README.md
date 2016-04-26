@@ -23,12 +23,9 @@ Set additional configuration options in Firefox using `about:config`:
 - `devtools.chrome.enabled` to `true`
 - `devtools.debugger.prompt-connection` to `false`
 
-Quit and re-open firefox with the same command. Then, open the debugger in another browser by visiting:
+Quit and re-open firefox with the same command. Go to some pages like [todomvc](http://todomvc.com/examples/backbone/) or [nyt](http://www.nytimes.com/).
 
-```
-localhost:8000
-```
-
+Then open another browser and go to `http://localhost:8000`.
 
 #### Advanced :see_no_evil:
 
