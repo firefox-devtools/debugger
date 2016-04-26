@@ -1,10 +1,19 @@
+#!/usr/bin/env node
 "use strict";
 
 const path = require("path");
 const webpack = require("webpack");
 const express = require("express");
-const config = require("./webpack.config");
+const projectConfig = require("../webpack.config");
 const webpackDevMiddleware = require("webpack-dev-middleware");
+
+const config = Object.assign({}, projectConfig, {
+  entry: path.join(__dirname, "../public/js/main.js"),
+  output: {
+    path: path.join(__dirname, "../build"),
+    filename: "bundle.js"
+  },
+});
 
 const app = express();
 const compiler = webpack(config);
@@ -20,7 +29,7 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "../index.html"));
 });
 
 app.listen(8000, "localhost", function(err, result) {
