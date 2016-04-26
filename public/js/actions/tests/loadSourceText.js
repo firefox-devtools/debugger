@@ -1,11 +1,12 @@
 "use strict";
 
-const { actions, queries, createStore } = require("../../util/test-head");
 const promise = require("devtools/sham/promise");
 const { Task } = require("devtools/sham/task");
-const { getSourceText } = queries;
-
 const expect = require("expect.js");
+
+const { actions, queries, createStore } = require("../../util/test-head");
+const { getSourceText } = queries;
+const { loadSourceText } = actions;
 
 const sourceText = {
   "foo1": { source: "function() {\n  return 5;\n}",
@@ -51,89 +52,70 @@ const deferredMockThreadClient = {
 };
 
 describe("loadSourceText", () => {
-  describe("loading one source text", function() {
-    beforeEach(function(done) {
-      this.store = createStore(simpleMockThreadClient);
-      this.store.dispatch(actions.loadSourceText({ actor: "foo1" }))
-        .then(() => done());
-    });
-
-    it("Store has the source text", function() {
-      const fooSourceText = queries.getSourceText(
-                              this.store.getState(), "foo1");
-      expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
-    });
-  });
-
-  describe("loading two different sources", function() {
-    beforeEach(function(done) {
-      this.store = createStore(simpleMockThreadClient);
-      this.store.dispatch(actions.loadSourceText({ actor: "foo1" }))
-        .then(() => {
-          return this.store.dispatch(actions.loadSourceText({ actor: "foo2" }));
-        })
-        .then(() => done());
-    });
-
-    it("Store has the first source text", function() {
-      const fooSourceText = queries.getSourceText(
-                              this.store.getState(), "foo1");
-      expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
-    });
-
-    it("Store has the second source text", function() {
-      const fooSourceText = queries.getSourceText(
-                              this.store.getState(), "foo2");
-      expect(fooSourceText.get("text")).to.equal(sourceText.foo2.source);
-    });
-  });
-
-  describe("loading a source twice", function() {
-    beforeEach(function(done) {
+  it("loading one source text", function(done) {
+    Task.spawn(function* () {
       const store = createStore(simpleMockThreadClient);
-      this.store = store;
+      yield store.dispatch(actions.loadSourceText({ actor: "foo1" }));
 
-      Task.spawn(function* () {
-        yield store.dispatch(actions.loadSourceText({ actor: "foo1" }));
-        yield store.dispatch(actions.loadSourceText({ actor: "foo1" }));
-        done();
-      });
-    });
-
-    it("Store has the source text", function() {
-      const fooSourceText = getSourceText(this.store.getState(), "foo1");
+      const fooSourceText = getSourceText(store.getState(), "foo1");
       expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
-    });
-  });
-
-  describe("source is loading", function() {
-    beforeEach(function(done) {
-      this.store = createStore(deferredMockThreadClient);
-      this.store.dispatch(actions.loadSourceText({ actor: "foo1" }));
-      // We're intentionally leaving the source promise pending
       done();
     });
+  });
 
-    it("Store has a loading source text", function() {
-      const fooSourceText = queries.getSourceText(
-                              this.store.getState(), "foo1");
-      expect(fooSourceText.get("loading")).to.equal(true);
+  it("loading two different sources", function(done) {
+    Task.spawn(function* () {
+      const store = createStore(simpleMockThreadClient);
+      yield store.dispatch(loadSourceText({ actor: "foo1" }));
+      yield store.dispatch(loadSourceText({ actor: "foo2" }));
+
+      const fooSourceText = getSourceText(store.getState(), "foo1");
+      expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
+
+      const foo2SourceText = getSourceText(store.getState(), "foo2");
+      expect(foo2SourceText.get("text")).to.equal(sourceText.foo2.source);
+
+      done();
     });
   });
 
-  describe("source failed to load", function() {
-    beforeEach(function(done) {
-      this.store = createStore(deferredMockThreadClient);
-      this.store.dispatch(actions.loadSourceText({ actor: "foo1" }))
-        .catch(() => done());
+  it("loading a source twice", function(done) {
+    const store = createStore(simpleMockThreadClient);
+
+    Task.spawn(function* () {
+      yield store.dispatch(loadSourceText({ actor: "foo1" }));
+      yield store.dispatch(loadSourceText({ actor: "foo1" }));
+      const fooSourceText = getSourceText(store.getState(), "foo1");
+      expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
+
+      done();
+    });
+  });
+
+  it("source is loading", function() {
+    const store = createStore(deferredMockThreadClient);
+    store.dispatch(loadSourceText({ actor: "foo1" }));
+    // We're intentionally leaving the source promise pending
+
+    const fooSourceText = getSourceText(store.getState(), "foo1");
+    expect(fooSourceText.get("loading")).to.equal(true);
+  });
+
+  it("source failed to load", function(done) {
+    const store = createStore(deferredMockThreadClient);
+
+    Task.spawn(function* () {
+      store.dispatch(loadSourceText({ actor: "foo1" }))
+        .catch(() => {});
 
       deferredMockThreadClient.getRequest().reject("poop");
-    });
 
-    it("Store has a loading source text", function() {
-      const fooSourceText = queries.getSourceText(
-                              this.store.getState(), "foo1");
-      expect(fooSourceText.get("error")).to.equal("poop");
+      setTimeout(()=> {
+        const fooSourceText = getSourceText(store.getState(), "foo1");
+        expect(fooSourceText.get("error")).to.equal("poop");
+        done();
+
+      },1)
     });
   });
 });

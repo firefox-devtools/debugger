@@ -7,13 +7,13 @@ const queries = require("../queries");
 
 const configureStore = require("../create-store");
 
-function createStore(threadClient) {
+function createStore(threadClient, initialState = {}) {
   return configureStore({
     log: false,
     makeThunkArgs: args => {
       return Object.assign({}, args, { threadClient: threadClient });
     }
-  })(combineReducers(reducers));
+  })(combineReducers(reducers), initialState);
 }
 
 function commonLog(msg, data = {}) {
