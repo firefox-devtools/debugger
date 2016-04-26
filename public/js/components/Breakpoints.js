@@ -2,9 +2,11 @@
 
 const React = require("react");
 const { connect } = require("react-redux");
+const { bindActionCreators } = require("redux");
+const actions = require("../actions");
 const { getSources, getBreakpoints } = require("../queries");
 const ImPropTypes = require("react-immutable-proptypes");
-const dom = React.DOM;
+const { DOM: dom, PropTypes } = React;
 
 require("./Breakpoints.css");
 
@@ -19,46 +21,54 @@ function getFilenameFromSources(sources, actor) {
   return "";
 }
 
-function renderBreakpoint(sources, breakpoint) {
-  const sourceActor = breakpoint.getIn(["location", "actor"]);
-
-  const filename = getFilenameFromSources(
-    sources,
-    sourceActor
-  );
-
-  const line = breakpoint.getIn(["location", "line"]);
-
-  return dom.li(
-    { key: `${sourceActor}/${line}` },
-    `${filename}, line ${line}`
-  );
-}
-
-function renderBreakpointList(breakpoints, sources) {
-  return dom.ul(
-    null,
-    breakpoints.valueSeq().map(bp => {
-      return renderBreakpoint(sources, bp);
-    })
-  );
-}
-
 const Breakpoints = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
-    sources: ImPropTypes.map.isRequired
+    sources: ImPropTypes.map.isRequired,
+    enableBreakpoint: PropTypes.func.isRequired,
+    disableBreakpoint: PropTypes.func.isRequired,
   },
 
   displayName: "Breakpoints",
 
+  handleCheckbox(breakpoint) {
+    const loc = breakpoint.get("location").toJS();
+
+    if (breakpoint.get("disabled")) {
+      this.props.enableBreakpoint(loc);
+    } else {
+      this.props.disableBreakpoint(loc);
+    }
+  },
+
+  renderBreakpoint(breakpoint) {
+    const sourceActor = breakpoint.getIn(["location", "actor"]);
+    const filename = getFilenameFromSources(
+      this.props.sources,
+      sourceActor
+    );
+    const line = breakpoint.getIn(["location", "line"]);
+
+    return dom.div(
+      { className: "breakpoint",
+        key: `${sourceActor}/${line}` },
+      dom.input({ type: "checkbox",
+                  checked: !breakpoint.get("disabled"),
+                  onChange: () => this.handleCheckbox(breakpoint) }),
+      `${filename}, line ${line}`
+    );
+  },
+
   render() {
+    const { breakpoints } = this.props;
+
     return dom.div(
       { className: "breakpoints" },
-      (this.props.breakpoints.size
-        ? renderBreakpointList(this.props.breakpoints, this.props.sources)
-        : dom.div({className: "pane-info"}, "No Breakpoints")
-      )
+      (breakpoints.size === 0 ?
+       dom.div({ className: "pane-info" }, "No Breakpoints") :
+       breakpoints.valueSeq().map(bp => {
+         return this.renderBreakpoint(bp);
+       }))
     );
   }
 });
@@ -67,5 +77,6 @@ module.exports = connect(
   (state, props) => ({
     sources: getSources(state),
     breakpoints: getBreakpoints(state)
-  })
+  }),
+  dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);
