@@ -1,29 +1,22 @@
 "use strict";
 
 const { actions, queries, createStore } = require("../../util/test-head");
+const fixtures = require("../../test/fixtures.json");
+const { newSource } = actions;
+const { getSourceByActor } = queries;
+const sourcesFixtures = fixtures.sources.sources;
 
 const store = createStore();
 const expect = require("expect.js");
 
 describe("newSource", () => {
-  describe("adding two sources", () => {
-    beforeEach(() => {
-      store.dispatch(actions.newSource({
-        url: "http://example.com/foo1.js",
-        actor: "foo1"
-      }));
-      store.dispatch(actions.newSource({
-        url: "http://example.com/foo2.js",
-        actor: "foo2"
-      }));
-    });
+  it("adding two sources", () => {
+    store.dispatch(newSource(sourcesFixtures.fooSourceActor));
+    store.dispatch(newSource(sourcesFixtures.barSourceActor));
+    const foo = getSourceByActor(store.getState(), "fooSourceActor");
+    const bar = getSourceByActor(store.getState(), "barSourceActor");
 
-    it("can get source by actor", () => {
-      const foo1 = queries.getSourceByActor(store.getState(), "foo1");
-      const foo2 = queries.getSourceByActor(store.getState(), "foo2");
-
-      expect(foo1.get("actor")).to.equal("foo1");
-      expect(foo2.get("actor")).to.equal("foo2");
-    });
+    expect(foo.get("actor")).to.equal("fooSourceActor");
+    expect(bar.get("actor")).to.equal("barSourceActor");
   });
 });

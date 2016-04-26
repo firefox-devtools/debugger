@@ -10,35 +10,7 @@ const { Provider } = require("react-redux");
 const { fromJS } = require("immutable");
 
 const Breakpoints = React.createFactory(require("../Breakpoints"));
-
-const fixtures = {
-  sources: {
-    "fooSourceActor": {
-      actor: "fooSourceActor",
-      url: "http://example.com/foo.js"
-    },
-    "barSourceActor": {
-      actor: "barSourceActor",
-      url: "http://example.com/bar.js"
-    }
-  },
-  breakpoints: {
-    "fooBreakpointActor": {
-      actor: "fooBreakpointActor",
-      location: {
-        actor: "fooSourceActor",
-        line: 16
-      },
-    },
-    "barBreakpointActor": {
-      actor: "barBreakpointActor",
-      location: {
-        actor: "barSourceActor",
-        line: 18
-      },
-    }
-  }
-};
+const fixtures = require("../../test/fixtures.json");
 
 storiesOf("Breakpoints", module)
   .add("No Breakpoints", () => {
