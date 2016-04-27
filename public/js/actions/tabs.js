@@ -8,7 +8,7 @@ const { PROMISE } = require("devtools/client/shared/redux/middleware/promise");
 
 const { connectToTab} = require("../client");
 const constants = require("../constants");
-const { getTabs } = require("../queries");
+const { getTabs } = require("../selectors");
 
 function newTabs(tabs) {
   return {

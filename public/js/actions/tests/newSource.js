@@ -1,9 +1,9 @@
 "use strict";
 
-const { actions, queries, createStore } = require("../../util/test-head");
+const { actions, selectors, createStore } = require("../../util/test-head");
 const fixtures = require("../../test/fixtures.json");
 const { newSource } = actions;
-const { getSourceByActor } = queries;
+const { getSourceByActor } = selectors;
 const sourcesFixtures = fixtures.sources.sources;
 
 const store = createStore();

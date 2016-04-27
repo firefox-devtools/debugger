@@ -6,7 +6,7 @@ const { connect } = require("react-redux");
 const Isvg = React.createFactory(require("react-inlinesvg"));
 
 require("./SourceTabs.css");
-const { getSelectedSource } = require("../queries");
+const { getSelectedSource } = require("../selectors");
 
 /**
  * TODO: this is a placeholder function

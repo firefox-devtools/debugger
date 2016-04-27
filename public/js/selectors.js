@@ -43,7 +43,7 @@ function getPause(state) {
   return state.pause.get("pause");
 }
 
-/* Queries */
+/* selectors */
 function getSource(state, actor) {
   return getSources(state).get(actor);
 }

@@ -9,7 +9,7 @@ const { PROMISE } = require("devtools/client/shared/redux/middleware/promise");
 const { Task } = require("devtools/sham/task");
 const SourceUtils = require("devtools/client/shared/source-utils");
 
-const { getSource, getSourceText } = require("../queries");
+const { getSource, getSourceText } = require("../selectors");
 const constants = require("../constants");
 const Prefs = require("../prefs");
 

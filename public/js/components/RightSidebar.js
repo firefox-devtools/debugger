@@ -4,7 +4,7 @@ const React = require("react");
 const { DOM: dom } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { getPause } = require("../queries");
+const { getPause } = require("../selectors");
 const Isvg = React.createFactory(require("react-inlinesvg"));
 
 const actions = require("../actions");

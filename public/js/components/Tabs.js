@@ -4,7 +4,7 @@ const React = require("react");
 const { connect } = require("react-redux");
 const actions = require("../actions");
 const { bindActionCreators } = require("redux");
-const { getTabs } = require("../queries");
+const { getTabs } = require("../selectors");
 const { debugTab } = require("../client");
 
 require("./Tabs.css");
