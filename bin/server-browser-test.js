@@ -11,11 +11,7 @@ const getTestPaths = require("./getTestPaths");
 const testPaths = getTestPaths(path.join(__dirname, "../public/js"));
 
 const config = Object.assign({}, projectConfig, {
-  entry: testPaths.concat(path.join(__dirname, "../public/js/main.js")),
-  output: {
-    path: path.join(__dirname, "../build"),
-    filename: "bundle.js"
-  },
+  entry: testPaths.concat(path.join(__dirname, "../public/js/main.js"))
 });
 
 const app = express();
@@ -24,7 +20,7 @@ const compiler = webpack(config);
 app.use(express.static("public"));
 
 app.use(webpackDevMiddleware(compiler, {
-  publicPath: "/build",
+  publicPath: "/public/build",
   noInfo: true,
   stats: {
     colors: true

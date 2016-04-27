@@ -14,7 +14,7 @@ let config = {
   entry: "./public/js/main.js",
   devtool: "source-map",
   output: {
-    path: path.join(__dirname, "build"),
+    path: path.join(__dirname, "public/build"),
     filename: "bundle.js"
   },
   resolve: {

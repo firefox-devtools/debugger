@@ -8,7 +8,7 @@ const projectWebpackConfig = require("../webpack.config");
 const Mocha = require("mocha");
 const getTestPaths = require("./getTestPaths");
 
-const BUILD_DIR = join(__dirname, "../build");
+const BUILD_DIR = join(__dirname, "../public/build");
 
 function setupWebpackConfig(webpackConfig, testPaths) {
   return Object.assign({}, webpackConfig, {
