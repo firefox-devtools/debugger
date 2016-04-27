@@ -28,7 +28,6 @@
     "react-inlinesvg": "^0.4.2",
     "react-redux": "4.4.5",
     "redux": "3.5.2",
-    "seamless-immutable": "6.0.1",
     "stylelint": "^6.2.2",
     "webpack": "1.13.0",
     "webpack-dev-middleware": "^1.6.1",
