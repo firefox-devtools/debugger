@@ -6,7 +6,7 @@ module.exports = function(config) {
     frameworks: ["mocha"],
     files: [
       // Uses the node test runner because babel is required
-      "build/test-bundle.js"
+      "public/build/test-bundle.js"
     ],
     exclude: [],
     preprocessors: {},
