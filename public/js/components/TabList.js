@@ -7,7 +7,7 @@ const dom = React.DOM;
 require("./TabList.css");
 const App = React.createFactory(require("./App"));
 const Tabs = React.createFactory(require("./Tabs"));
-const { getSelectedTab } = require("../queries");
+const { getSelectedTab } = require("../selectors");
 
 function TabList({ selectedTab }) {
   return dom.div(

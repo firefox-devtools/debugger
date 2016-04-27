@@ -1,11 +1,11 @@
 "use strict";
 
-const { actions, queries, createStore } = require("../../util/test-head");
+const { actions, selectors, createStore } = require("../../util/test-head");
 const fixtures = require("../../test/fixtures.json");
 const { fromJS } = require("immutable");
 const expect = require("expect.js");
 
-const { getSelectedSource } = queries;
+const { getSelectedSource } = selectors;
 const { selectSource } = actions;
 const sourcesFixtures = fixtures.sources;
 

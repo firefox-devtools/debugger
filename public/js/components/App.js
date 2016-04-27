@@ -11,7 +11,7 @@ const Editor = createFactory(require("./Editor"));
 const SplitBox = createFactory(require("./SplitBox"));
 const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
-const { getSources, getBreakpoints } = require("../queries");
+const { getSources, getBreakpoints } = require("../selectors");
 
 const App = React.createClass({
   propTypes: {

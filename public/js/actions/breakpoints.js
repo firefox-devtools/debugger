@@ -8,7 +8,7 @@ const constants = require("../constants");
 const { PROMISE } = require("devtools/client/shared/redux/middleware/promise");
 const {
   getSource, getBreakpoint, getBreakpoints
-} = require("../queries");
+} = require("../selectors");
 const { Task } = require("devtools/sham/task");
 const { fromJS } = require("immutable");
 

@@ -4,7 +4,7 @@ const React = require("react");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
-const { getSelectedSource } = require("../queries");
+const { getSelectedSource } = require("../selectors");
 const { DOM: dom } = React;
 
 require("./Sources.css");

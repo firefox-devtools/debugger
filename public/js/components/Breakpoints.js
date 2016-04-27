@@ -4,7 +4,7 @@ const React = require("react");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { getSources, getBreakpoints } = require("../queries");
+const { getSources, getBreakpoints } = require("../selectors");
 const ImPropTypes = require("react-immutable-proptypes");
 const { DOM: dom, PropTypes } = React;
 

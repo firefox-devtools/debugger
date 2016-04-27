@@ -4,8 +4,8 @@ const promise = require("devtools/sham/promise");
 const { Task } = require("devtools/sham/task");
 const expect = require("expect.js");
 
-const { actions, queries, createStore } = require("../../util/test-head");
-const { getSourceText } = queries;
+const { actions, selectors, createStore } = require("../../util/test-head");
+const { getSourceText } = selectors;
 const { loadSourceText } = actions;
 
 const sourceText = {

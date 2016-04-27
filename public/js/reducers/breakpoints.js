@@ -5,7 +5,7 @@
 
 const constants = require("../constants");
 const Immutable = require("immutable");
-const { makeLocationId } = require("../queries");
+const { makeLocationId } = require("../selectors");
 
 const initialState = Immutable.fromJS({
   breakpoints: {}
