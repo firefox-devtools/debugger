@@ -69,7 +69,6 @@ function _getBreakpoints(state) {
   });
 }
 
-
 module.exports = connect(
   (state, props) => ({
     breakpoints: _getBreakpoints(state)
