@@ -14,7 +14,13 @@ const initialState = fromJS({
 function update(state = initialState, action, emit) {
   switch (action.type) {
     case constants.PAUSED:
-      return state.set("pause", fromJS(action.value));
+      const pause = action.value;
+      pause.isInterrupted = pause.why.type == "interrupted";
+      if (!pause.isInterrupted) {
+        pause.frame.where.actor = pause.frame.where.source.actor;
+      }
+
+      return state.set("pause", fromJS(pause));
     case constants.RESUME:
       return state.set("pause", null);
     case constants.BREAK_ON_NEXT:

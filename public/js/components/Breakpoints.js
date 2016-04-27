@@ -4,27 +4,15 @@ const React = require("react");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { getSources, getBreakpoints } = require("../selectors");
+const { getSource, isCurrentlyPausedAtBreakpoint, getBreakpoints, makeLocationId } = require("../selectors");
 const ImPropTypes = require("react-immutable-proptypes");
 const { DOM: dom, PropTypes } = React;
 
 require("./Breakpoints.css");
 
-function getFilenameFromSources(sources, actor) {
-  const source = sources.get(actor);
-  if (source.get("url")) {
-    const url = new URL(source.get("url"));
-    const filename = url.pathname.substring(
-      url.pathname.lastIndexOf("/") + 1);
-    return filename;
-  }
-  return "";
-}
-
 const Breakpoints = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
-    sources: ImPropTypes.map.isRequired,
     enableBreakpoint: PropTypes.func.isRequired,
     disableBreakpoint: PropTypes.func.isRequired,
   },
@@ -42,16 +30,13 @@ const Breakpoints = React.createClass({
   },
 
   renderBreakpoint(breakpoint) {
-    const sourceActor = breakpoint.getIn(["location", "actor"]);
-    const filename = getFilenameFromSources(
-      this.props.sources,
-      sourceActor
-    );
+    const filename = breakpoint.getIn(["location", "source", "filename"]);
+    const locationId = breakpoint.get("locationId");
     const line = breakpoint.getIn(["location", "line"]);
 
     return dom.div(
       { className: "breakpoint",
-        key: `${sourceActor}/${line}` },
+        key: locationId },
       dom.input({ type: "checkbox",
                   checked: !breakpoint.get("disabled"),
                   onChange: () => this.handleCheckbox(breakpoint) }),
@@ -73,10 +58,21 @@ const Breakpoints = React.createClass({
   }
 });
 
+function _getBreakpoints(state) {
+  return getBreakpoints(state).map(breakpoint => {
+    const source = getSource(state, breakpoint.getIn(["location", "actor"]));
+    const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, breakpoint);
+    const locationId = makeLocationId(breakpoint.get("location").toJS());
+    return breakpoint.setIn(["location", "source"], source)
+                     .set("locationId", locationId)
+                     .set("isCurrentlyPaused", isCurrentlyPaused);
+  });
+}
+
+
 module.exports = connect(
   (state, props) => ({
-    sources: getSources(state),
-    breakpoints: getBreakpoints(state)
+    breakpoints: _getBreakpoints(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);

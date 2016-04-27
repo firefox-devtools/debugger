@@ -66,7 +66,7 @@ const Breakpoint = React.createFactory(_Breakpoint);
 
 const Editor = React.createClass({
   propTypes: {
-    breakpoints: ImPropTypes.list,
+    breakpoints: ImPropTypes.map.isRequired,
     selectedSource: PropTypes.object,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
