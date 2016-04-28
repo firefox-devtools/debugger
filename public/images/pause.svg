@@ -1,6 +1,9 @@
-<svg width="10px" height="10px" viewBox="220 2 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="10px" height="11px" viewBox="-1 0 10 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 3.7.1 (28215) - http://www.bohemiancoding.com/sketch -->
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <polygon id="Polygon-1" stroke="#4A90E2" stroke-width="1" fill="#4A90E2" fill-rule="evenodd" transform="translate(225.937500, 6.765544) rotate(-270.000000) translate(-225.937500, -6.765544) " points="225.9375 3.70304446 229.703044 9.82804446 222.171956 9.82804446"></polygon>
+    <g id="Pause" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(0.000000, 1.000000)" stroke-linecap="round">
+        <path d="M0,8.85413819 L0.0667298554,0" id="Line" stroke="#4990E2" stroke-width="1.5"></path>
+        <path d="M7.06672986,8.85413819 L7,0" id="Line-Copy-2" stroke="#4990E2" stroke-width="1.5"></path>
+    </g>
 </svg>
