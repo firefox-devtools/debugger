@@ -19,7 +19,8 @@ function debugBtn(onClick, type, className) {
   );
 }
 
-function RightSidebar({ resume, command, breakOnNext, pause, isWaitingOnBreak }) {
+function RightSidebar({ resume, command, breakOnNext,
+                        pause, isWaitingOnBreak }) {
   return (
     dom.div({className: "right-sidebar"},
       dom.div({className: "command-bar"},
