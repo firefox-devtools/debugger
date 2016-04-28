@@ -12,9 +12,9 @@
 }
 
 .breakpoints .breakpoint-label {
-    display: inline-block;
+  display: inline-block;
 }
 
 .breakpoints .pause-indicator {
-    float: right;
+  float: right;
 }
