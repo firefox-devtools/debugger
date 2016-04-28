@@ -7,6 +7,7 @@ const actions = require("../actions");
 const { getSource, isCurrentlyPausedAtBreakpoint, getBreakpoints, makeLocationId } = require("../selectors");
 const ImPropTypes = require("react-immutable-proptypes");
 const { DOM: dom, PropTypes } = React;
+const Isvg = React.createFactory(require("react-inlinesvg"));
 
 require("./Breakpoints.css");
 
@@ -33,6 +34,7 @@ const Breakpoints = React.createClass({
     const filename = breakpoint.getIn(["location", "source", "filename"]);
     const locationId = breakpoint.get("locationId");
     const line = breakpoint.getIn(["location", "line"]);
+    const isCurrentlyPaused = breakpoint.get("isCurrentlyPaused");
 
     return dom.div(
       { className: "breakpoint",
@@ -40,7 +42,9 @@ const Breakpoints = React.createClass({
       dom.input({ type: "checkbox",
                   checked: !breakpoint.get("disabled"),
                   onChange: () => this.handleCheckbox(breakpoint) }),
-      `${filename}, line ${line}`
+      dom.div({className: "breakpoint-label"}, `${filename}, line ${line}`),
+      (isCurrentlyPaused && Isvg({ className: "pause-indicator",
+                                   src: "images/pause-circle.svg"}))
     );
   },
 

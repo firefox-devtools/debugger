@@ -3,4 +3,18 @@
   list-style: none;
   color: #333333;
   margin: 0.5em 0;
+  line-height: 1em;
+}
+
+.breakpoints .breakpoint:hover {
+  cursor: pointer;
+  background-color: var(--theme-toolbar-background);
+}
+
+.breakpoints .breakpoint-label {
+    display: inline-block;
+}
+
+.breakpoints .pause-indicator {
+    float: right;
 }
