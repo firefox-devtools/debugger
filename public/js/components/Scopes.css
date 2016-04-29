@@ -1,0 +1,23 @@
+.scopes-pane ul.scopes-list {
+  list-style: none;
+  padding: 0;
+}
+
+.scopes-pane li.scope-item {
+  color: var(--theme-content-color1);
+  font-weight: bold;
+  padding-left: 10px;
+  margin-bottom: 20px;
+}
+
+
+.scopes-pane ul.scope-property-list {
+  list-style: none;
+  padding: 0;
+}
+
+.scopes-pane li.scope-property-list-item {
+  color: var(--theme-content-color1);
+  padding-left: 10px;
+  font-weight: normal;
+}
