@@ -1,12 +1,27 @@
 "use strict";
 
+var webpackConfig = require('./webpack.config.js');
+webpackConfig.entry = {};
+
+// Compile with babel to support older browsers. We may be able to
+// remove this if we can use latest versions that have enough ES6
+// support.
+webpackConfig.module.loaders.push({
+  test: /\.js$/,
+  exclude: /(node_modules|bower_components)/,
+  loader: "babel",
+  query: {
+    presets: ["es2015"],
+    plugins: ["transform-runtime"]
+  }
+});
+
 module.exports = function(config) {
-  const configuration = {
+  config.set({
     basePath: "",
     frameworks: ["mocha"],
     files: [
-      // Uses the node test runner because babel is required
-      "public/build/test-bundle.js"
+      "./public/js/**/tests/*"
     ],
     exclude: [],
     preprocessors: {},
@@ -17,8 +32,12 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     autoWatch: false,
     singleRun: false,
-    concurrency: Infinity
-  };
+    concurrency: Infinity,
 
-  config.set(configuration);
+    preprocessors: {
+      "./public/js/**/tests/*": ['webpack']
+    },
+
+    webpack: webpackConfig
+  });
 };

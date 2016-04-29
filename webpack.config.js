@@ -18,11 +18,8 @@ let config = {
     filename: "bundle.js"
   },
   resolve: {
-    alias: {
-      "devtools": "ff-devtools-libs",
-      "sdk": "ff-devtools-libs/sdk"
-    },
-    extensions: ["", ".js", ".jsm"],
+    // This is required to allow ff-devtools-libs to resolve modules
+    // to itself (all of its requires are absolute)
     root: path.join(__dirname, "node_modules")
   },
   module: {

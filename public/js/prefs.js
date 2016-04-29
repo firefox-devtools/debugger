@@ -1,7 +1,7 @@
 /* eslint max-len: [2, 90] */
 "use strict";
 
-const { PrefsHelper } = require("devtools/client/shared/prefs");
+const { PrefsHelper } = require("ff-devtools-libs/client/shared/prefs");
 
 /**
  * Shortcuts for accessing various debugger preferences.

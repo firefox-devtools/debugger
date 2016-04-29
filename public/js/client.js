@@ -1,9 +1,9 @@
 "use strict";
 
-const { DebuggerClient } = require("devtools/shared/client/main");
-const { DebuggerTransport } = require("devtools/transport/transport");
-const { TargetFactory } = require("devtools/client/framework/target");
-const promise = require("devtools/sham/promise");
+const { DebuggerClient } = require("ff-devtools-libs/shared/client/main");
+const { DebuggerTransport } = require("ff-devtools-libs/transport/transport");
+const { TargetFactory } = require("ff-devtools-libs/client/framework/target");
+const promise = require("ff-devtools-libs/sham/promise");
 let currentClient = null;
 let currentThreadClient = null;
 

@@ -3,8 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
  /* global window */
 "use strict";
-const { Task } = require("devtools/sham/task");
-const { PROMISE } = require("devtools/client/shared/redux/middleware/promise");
+const { Task } = require("ff-devtools-libs/sham/task");
+const { PROMISE } = require("ff-devtools-libs/client/shared/redux/middleware/promise");
 
 const { connectToTab} = require("../client");
 const constants = require("../constants");
