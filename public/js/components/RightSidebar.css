@@ -22,6 +22,7 @@
   opacity: 0.3;
   cursor: default;
 }
+
 .command-bar .isvg.loading::after {
   /* Make sure the SVG has some size while it's loading */
   content: "\007C\00a0\00a0";

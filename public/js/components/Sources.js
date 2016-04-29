@@ -9,15 +9,17 @@ const { DOM: dom } = React;
 
 require("./Sources.css");
 
+function isSelected(selectedSource, source) {
+  return selectedSource && selectedSource.get("actor") == source.get("actor");
+}
+
 function renderSource({source, selectSource, selectedSource}) {
-  const pathname = (new URL(source.get("url"))).pathname;
-  const isSelected = (selectedSource &&
-                      selectedSource.get("actor") == source.get("actor"))
-                      ? "selected" : "";
+  const pathname = source.get("pathname");
+  const selectedClass = isSelected(selectedSource, source) ? "selected" : "";
 
   return dom.li(
     { onClick: () => selectSource(source.toJS()),
-      className: "source-item " + isSelected,
+      className: `source-item ${selectedClass}`,
       style: { paddingLeft: "40px" },
       key: source.get("url")},
     pathname

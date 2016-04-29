@@ -16,9 +16,8 @@ const initialState = fromJS({
 function update(state = initialState, action) {
   switch (action.type) {
     case constants.ADD_SOURCE:
-      let newSource = action.source;
-      newSource.filename = getFilenameFromUrl(newSource.url);
-      return state.mergeIn(["sources", action.source.actor], newSource);
+      return state.mergeIn(["sources", action.source.actor],
+                            _updateSource(action.source));
 
     case constants.LOAD_SOURCES:
       if (action.status === "done") {
@@ -30,8 +29,7 @@ function update(state = initialState, action) {
         return state.mergeIn(
           ["sources"],
           fromJS(sources.map(source => {
-            source.filename = getFilenameFromUrl(source.url);
-            return [source.actor, source];
+            return [source.actor, _updateSource(source)];
           }))
         );
       }
@@ -81,7 +79,13 @@ function update(state = initialState, action) {
   return state;
 }
 
-function getFilenameFromUrl(sourceUrl) {
+function _updateSource(source) {
+  const pathname = getPathnameFromUrl(source.url);
+  const filename = pathname.substring(pathname.lastIndexOf("/") + 1);
+  return Object.assign({}, source, { pathname, filename });
+}
+
+function getPathnameFromUrl(sourceUrl) {
   if (!sourceUrl) {
     return "";
   }
