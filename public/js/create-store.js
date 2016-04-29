@@ -5,10 +5,10 @@
 
 const { createStore, applyMiddleware } = require("redux");
 const { thunk } = require("./util/thunk-middleware");
-const { waitUntilService } = require("devtools/client/shared/redux/middleware/wait-service");
-const { log } = require("devtools/client/shared/redux/middleware/log");
-const { promise } = require("devtools/client/shared/redux/middleware/promise");
-const { history } = require("devtools/client/shared/redux/middleware/history");
+const { waitUntilService } = require("ff-devtools-libs/client/shared/redux/middleware/wait-service");
+const { log } = require("ff-devtools-libs/client/shared/redux/middleware/log");
+const { promise } = require("ff-devtools-libs/client/shared/redux/middleware/promise");
+const { history } = require("ff-devtools-libs/client/shared/redux/middleware/history");
 
 /**
  * This creates a dispatcher with all the standard middleware in place

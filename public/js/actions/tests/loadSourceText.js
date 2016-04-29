@@ -1,7 +1,7 @@
 "use strict";
 
-const promise = require("devtools/sham/promise");
-const { Task } = require("devtools/sham/task");
+const promise = require("ff-devtools-libs/sham/promise");
+const { Task } = require("ff-devtools-libs/sham/task");
 const expect = require("expect.js");
 
 const { actions, selectors, createStore } = require("../../util/test-head");

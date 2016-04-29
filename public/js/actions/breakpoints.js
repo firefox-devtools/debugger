@@ -3,13 +3,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
-const promise = require("devtools/sham/promise");
+const promise = require("ff-devtools-libs/sham/promise");
 const constants = require("../constants");
-const { PROMISE } = require("devtools/client/shared/redux/middleware/promise");
+const { PROMISE } = require("ff-devtools-libs/client/shared/redux/middleware/promise");
 const {
   getSource, getBreakpoint, getBreakpoints
 } = require("../selectors");
-const { Task } = require("devtools/sham/task");
+const { Task } = require("ff-devtools-libs/sham/task");
 const { fromJS } = require("immutable");
 
 // Because breakpoints are just simple data structures, we still need
