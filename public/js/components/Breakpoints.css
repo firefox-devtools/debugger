@@ -1,7 +1,7 @@
 .breakpoints .breakpoint {
   font-size: 12px;
   list-style: none;
-  color: var(--theme-content-color1);;
+  color: var(--theme-content-color1);
   margin: 0.5em 0;
   line-height: 1em;
 }

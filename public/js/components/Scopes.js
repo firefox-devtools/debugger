@@ -18,7 +18,7 @@ function getScopes(pauseInfo) {
   let scope = environment;
   const scopes = [ scope ];
 
-  while (scope = scope.get("parent")) {
+  while (scope = scope.get("parent")) { // eslint-disable-line no-cond-assign
     scopes.push(scope);
   }
 
