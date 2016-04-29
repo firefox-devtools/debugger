@@ -31,3 +31,4 @@ exports.BREAK_ON_NEXT = "BREAK_ON_NEXT";
 exports.RESUME = "RESUME";
 exports.PAUSED = "PAUSED";
 exports.COMMAND = "COMMAND";
+exports.LOAD_FRAMES = "LOAD_FRAMES";

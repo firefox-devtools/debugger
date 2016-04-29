@@ -4,12 +4,13 @@ const React = require("react");
 const { DOM: dom } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { getPause, getIsWaitingOnBreak } = require("../selectors");
+const { getPause, getIsWaitingOnBreak, getFrames } = require("../selectors");
 const Isvg = React.createFactory(require("react-inlinesvg"));
 
 const actions = require("../actions");
 const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Scopes = React.createFactory(require("./Scopes"));
+const Frames = React.createFactory(require("./Frames"));
 const Accordion = React.createFactory(require("./Accordion"));
 require("./RightSidebar.css");
 
@@ -21,7 +22,7 @@ function debugBtn(onClick, type, className) {
 }
 
 function RightSidebar({ resume, command, breakOnNext,
-                        pause, isWaitingOnBreak }) {
+                        pause, isWaitingOnBreak, frames }) {
   return (
     dom.div({ className: "right-sidebar" },
       dom.div({ className: "command-bar" },
@@ -49,8 +50,8 @@ function RightSidebar({ resume, command, breakOnNext,
             component: Breakpoints,
             opened: true },
           { header: "Call Stack",
-            component: () => dom.div({ className: "pane-info" }, "Not Paused")
-          },
+            component: Frames,
+            componentProps: { frames }},
           { header: "Scopes",
             component: Scopes
           }
@@ -63,7 +64,8 @@ function RightSidebar({ resume, command, breakOnNext,
 module.exports = connect(
   state => ({
     pause: getPause(state),
-    isWaitingOnBreak: getIsWaitingOnBreak(state)
+    isWaitingOnBreak: getIsWaitingOnBreak(state),
+    frames: getFrames(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(RightSidebar);

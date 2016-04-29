@@ -47,7 +47,10 @@ function getIsWaitingOnBreak(state) {
   return state.pause.get("isWaitingOnBreak");
 }
 
-/* selectors */
+function getFrames(state) {
+  return state.pause.get("frames");
+}
+
 function getSource(state, actor) {
   return getSources(state).get(actor);
 }
@@ -91,5 +94,7 @@ module.exports = {
   getSelectedTab,
   getPause,
   getIsWaitingOnBreak,
+  makeLocationId,
+  getFrames,
   makeLocationId
 };

@@ -32,7 +32,22 @@ function handleError(err) {
   console.log("ERROR: ", err);
 }
 
+function promisify(context, method, ...args) {
+  return new Promise((resolve, reject) => {
+    args.push(response => {
+      if(response.error) {
+        reject(response);
+      }
+      else {
+        resolve(response);
+      }
+    });
+    method.apply(context, args);
+  });
+}
+
 module.exports = {
   asPaused,
-  handleError
+  handleError,
+  promisify
 };

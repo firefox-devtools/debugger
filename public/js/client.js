@@ -51,7 +51,6 @@ function debugTab({ tabActor, newSource, paused, resumed,
     });
 
     client.addListener("resumed", (_, packet) => resumed(packet));
-
     client.addListener("newSource", (_, packet) => newSource(packet.source));
 
     return deferred.resolve();
