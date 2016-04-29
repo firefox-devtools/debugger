@@ -4,7 +4,8 @@
     "start": "firefox-proxy & node bin/server",
     "lint-css": "stylelint public/js/components/*.css",
     "lint-js": "eslint public/js",
-    "test": "./bin/test-node public/js",
+    "test": "mocha --compilers js:babel-register public/js/**/tests/*",
+    "test-paths": "mocha --compilers js:babel-register",
     "test-browser": "./bin/server-browser-test.js",
     "test-karma": "./node_modules/.bin/karma start --single-run",
     "storybook": "start-storybook -p 9001 -s public"
