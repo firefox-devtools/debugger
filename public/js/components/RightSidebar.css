@@ -8,8 +8,23 @@
   padding: 5px;
 }
 
-.command-bar span {
-  margin-right: 8px;
+.command-bar > span {
+  cursor: pointer;
+  margin-right: 0.2em;
+  width: 1.8em;
+  height: 1.1em;
+  display: inline-block;
+  text-align: center;
+  transition: opacity 200ms;
+}
+
+.command-bar > span.disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.command-bar .isvg.loading::after {
+  /* Make sure the SVG has some size while it's loading */
+  content: "\007C\00a0\00a0";
 }
 
 .accordion ._content {

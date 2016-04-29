@@ -50,10 +50,10 @@ function breakOnNext() {
   return ({ dispatch, threadClient }) => {
     threadClient.breakOnNext();
 
-    return {
+    return dispatch({
       type: constants.BREAK_ON_NEXT,
       value: true
-    };
+    });
   };
 }
 

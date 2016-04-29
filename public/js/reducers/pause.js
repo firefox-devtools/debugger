@@ -8,7 +8,7 @@ const { fromJS } = require("immutable");
 
 const initialState = fromJS({
   pause: null,
-  breakOnNext: false
+  isWaitingOnBreak: false
 });
 
 function update(state = initialState, action, emit) {
@@ -20,11 +20,13 @@ function update(state = initialState, action, emit) {
         pause.frame.where.actor = pause.frame.where.source.actor;
       }
 
-      return state.set("pause", fromJS(pause));
+      return state
+        .set("isWaitingOnBreak", false)
+        .set("pause", fromJS(pause));
     case constants.RESUME:
       return state.set("pause", null);
     case constants.BREAK_ON_NEXT:
-      return state.set("breakOnNext", true);
+      return state.set("isWaitingOnBreak", true);
   }
 
   return state;
