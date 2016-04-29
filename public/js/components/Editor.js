@@ -9,7 +9,7 @@ const ReactDOM = require("react-dom");
 
 const {
   getSourceText, getPause, getBreakpointsForSource,
-  getSelectedSource
+  getSelectedSource, getSelectedSourceOpts
 } = require("../selectors");
 
 const { bindActionCreators } = require("redux");
@@ -143,8 +143,18 @@ const Editor = React.createClass({
     }
   },
 
+  goToLine(selectedSourceOpts) {
+    if (!selectedSourceOpts) {
+      return;
+    }
+
+    const line = selectedSourceOpts.get("line");
+    alignLine(this.editor, line);
+  },
+
   componentWillReceiveProps(nextProps) {
     this.setSourceText(nextProps.sourceText, this.props.sourceText);
+    this.goToLine(nextProps.selectedSourceOpts);
     this.clearDebugLine(this.props.pause);
     this.setDebugLine(nextProps.pause);
   },
@@ -173,6 +183,7 @@ module.exports = connect(
 
     return {
       selectedSource: selectedSource,
+      selectedSourceOpts: getSelectedSourceOpts(state),
       sourceText: getSourceText(state, selectedActor),
       breakpoints: getBreakpointsForSource(state, selectedActor),
       pause: getPause(state)

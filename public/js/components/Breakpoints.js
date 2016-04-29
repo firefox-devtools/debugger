@@ -29,6 +29,7 @@ const Breakpoints = React.createClass({
     breakpoints: ImPropTypes.map.isRequired,
     enableBreakpoint: PropTypes.func.isRequired,
     disableBreakpoint: PropTypes.func.isRequired,
+    selectSource: PropTypes.func.isRequired
   },
 
   displayName: "Breakpoints",
@@ -43,6 +44,12 @@ const Breakpoints = React.createClass({
     }
   },
 
+  selectBreakpoint(breakpoint) {
+    const source = breakpoint.getIn(["location", "source"]);
+    const line = breakpoint.getIn(["location", "line"]);
+    this.props.selectSource(source.toJS(), { line });
+  },
+
   renderBreakpoint(breakpoint) {
     const filename = breakpoint.getIn(["location", "source", "filename"]);
     const locationId = breakpoint.get("locationId");
@@ -51,7 +58,8 @@ const Breakpoints = React.createClass({
 
     return dom.div(
       { className: "breakpoint",
-        key: locationId },
+        key: locationId,
+        onClick: () => this.selectBreakpoint(breakpoint) },
       dom.input({ type: "checkbox",
                   checked: !breakpoint.get("disabled"),
                   onChange: () => this.handleCheckbox(breakpoint) }),
@@ -63,7 +71,6 @@ const Breakpoints = React.createClass({
 
   render() {
     const { breakpoints } = this.props;
-
     return dom.div(
       { className: "breakpoints" },
       (breakpoints.size === 0 ?
