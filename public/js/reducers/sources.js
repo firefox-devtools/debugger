@@ -86,8 +86,18 @@ function getFilenameFromUrl(sourceUrl) {
     return "";
   }
 
-  const url = new URL(sourceUrl);
-  return url.pathname.substring(url.pathname.lastIndexOf("/") + 1);
+  const pathname = getPathname(sourceUrl);
+  return pathname.substring(pathname.lastIndexOf("/") + 1);
+}
+
+function getPathname(sourceUrl) {
+  if (typeof variable !== "undefined") {
+    const url = new URL(sourceUrl);
+    return url.pathname;
+  }
+
+  const url = require("url");
+  return url.parse(sourceUrl).pathname;
 }
 
 function _updateText(state, action) {
