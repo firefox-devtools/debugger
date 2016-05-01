@@ -80,28 +80,21 @@ function update(state = initialState, action) {
 }
 
 function _updateSource(source) {
-  const pathname = getPathnameFromUrl(source.url);
+  const pathname = getPathname(source.url);
   const filename = pathname.substring(pathname.lastIndexOf("/") + 1);
   return Object.assign({}, source, { pathname, filename });
 }
 
-function getPathnameFromUrl(sourceUrl) {
-  if (!sourceUrl) {
+function getPathname(url) {
+  if (!url) {
     return "";
   }
 
-  const pathname = getPathname(sourceUrl);
-  return pathname.substring(pathname.lastIndexOf("/") + 1);
-}
-
-function getPathname(sourceUrl) {
-  if (typeof variable !== "undefined") {
-    const url = new URL(sourceUrl);
-    return url.pathname;
+  if (typeof URL !== "undefined") {
+    return new URL(url).pathname;
   }
 
-  const url = require("url");
-  return url.parse(sourceUrl).pathname;
+  return require("url").parse(url).pathname;
 }
 
 function _updateText(state, action) {
