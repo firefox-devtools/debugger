@@ -28,7 +28,7 @@ storiesOf("Breakpoints", module)
     const store = configureStore({})(combineReducers(reducers), {
       sources: fromJS({
         sources: {
-          "fooSourceActor": fixtures.sources.fooSourceActor,
+          "fooSourceActor": fixtures.sources.sources.fooSourceActor,
         }
       }),
       breakpoints: fromJS({
@@ -43,8 +43,8 @@ storiesOf("Breakpoints", module)
     const store = configureStore({})(combineReducers(reducers), {
       sources: fromJS({
         sources: {
-          "fooSourceActor": fixtures.sources.fooSourceActor,
-          "barSourceActor": fixtures.sources.barSourceActor,
+          "fooSourceActor": fixtures.sources.sources.fooSourceActor,
+          "barSourceActor": fixtures.sources.sources.barSourceActor,
         }
       }),
       breakpoints: fromJS({

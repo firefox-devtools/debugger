@@ -3,11 +3,13 @@
     "sources": {
       "fooSourceActor": {
         "actor": "fooSourceActor",
-        "url": "http://example.com/foo.js"
+        "url": "http://example.com/foo/foo.js",
+        "filename": "foo.js"
       },
       "barSourceActor": {
         "actor": "barSourceActor",
-        "url": "http://example.com/bar.js"
+        "url": "http://example.com/bar/bar.js",
+        "filename": "bar.js"
       }
     },
     "sourcesText": {
