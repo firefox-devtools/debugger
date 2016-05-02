@@ -6,6 +6,7 @@ const { connect } = require("react-redux");
 const actions = require("../actions");
 const { getPause } = require("../selectors");
 const { DOM: dom } = React;
+const Accordion = React.createFactory(require("./Accordion"));
 
 require("./Scopes.css");
 
@@ -55,34 +56,34 @@ function renderScopeBindings(bindings) {
 
 function renderFunctionScope(scope, isFirst) {
   const displayName = scope.getIn(["function", "displayName"]);
-  const functionClass = scope.getIn(["function", "class"]);
+  const functionName = displayName || "(anonymous)";
 
-  const label = displayName || functionClass;
-  return dom.li(
-    { className: "scope-item", key: scope.get("actor") },
-    dom.div({ className: "scope-label" }, (isFirst ? "Local " : "") + label),
-    renderScopeBindings(scope.get("bindings"))
-  );
+  return {
+    header: `Function [${functionName}]`,
+    component: () => renderScopeBindings(scope.get("bindings")),
+    opened: isFirst
+  };
 }
 
 /* TODO: render block with variables */
 function renderBlockScope(scope, isFirst) {
   const label = "Block Scope";
-  return dom.li(
-    { className: "scope-item", key: scope.get("actor") },
-    dom.div({ className: "scope-label" }, (isFirst ? "Local " : "") + label),
-    renderScopeBindings(scope.get("bindings"))
-  );
+  return {
+    header: label,
+    component: () => renderScopeBindings(scope.get("bindings")),
+    opened: isFirst
+  };
 }
 
-function renderObjectScope(scope) {
+function renderObjectScope(scope, isFirst) {
   const objectClass = scope.getIn(["object", "class"]);
   const label = objectClass;
 
-  return dom.li(
-    { className: "scope-item", key: scope.get("actor") },
-    dom.div({ className: "scope-label" }, label)
-  );
+  return {
+    header: label,
+    component: () => dom.div(),
+    opened: isFirst
+  };
 }
 
 function renderScope(scope, index) {
@@ -100,7 +101,7 @@ function Scopes({ pauseInfo }) {
   return dom.div({ className: "scopes-pane" },
     !pauseInfo ?
     dom.div({ className: "pane-info" }, "Not Paused")
-    : dom.ul({ className: "scopes-list" }, scopes.map(renderScope))
+    : Accordion({ items: scopes.map(renderScope) })
   );
 }
 
