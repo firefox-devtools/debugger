@@ -1,0 +1,19 @@
+<svg width="15px" height="11px" viewBox="14 6 15 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="1" y="2" width="13" height="9" rx="1"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="13" height="9" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <rect id="path-3" x="1" y="0" width="6" height="3" rx="1"></rect>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="6" height="3" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+    </defs>
+    <g id="folder" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(15.000000, 6.000000)">
+        <use id="Rectangle-57" stroke="#DDE1E5" mask="url(#mask-2)" stroke-width="2" xlink:href="#path-1"></use>
+        <use id="Rectangle-57-Copy" stroke="#DDE1E5" mask="url(#mask-4)" stroke-width="2" xlink:href="#path-3"></use>
+        <path d="M1.5,1.5 L1.5,3.5" id="Line" stroke="#DDE1E5" stroke-linecap="square"></path>
+    </g>
+</svg>
