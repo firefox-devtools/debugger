@@ -9,6 +9,7 @@ const Isvg = React.createFactory(require("react-inlinesvg"));
 
 const actions = require("../actions");
 const Breakpoints = React.createFactory(require("./Breakpoints"));
+const Scopes = React.createFactory(require("./Scopes"));
 const Accordion = React.createFactory(require("./Accordion"));
 require("./RightSidebar.css");
 
@@ -51,7 +52,7 @@ function RightSidebar({ resume, command, breakOnNext,
             component: () => dom.div({className: "pane-info"}, "Not Paused")
           },
           { header: "Scopes",
-            component: () => dom.div({className: "pane-info"}, "Not Paused")
+            component: Scopes
           }
         ]
       })

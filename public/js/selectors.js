@@ -68,19 +68,6 @@ function getSourceText(state, actor) {
   return getSourcesText(state).get(actor);
 }
 
-function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
-  const pause = getPause(state);
-
-  if (!pause || pause.get("isInterrupted")) {
-    return false;
-  }
-
-  const breakpointLocation = makeLocationId(breakpoint.get("location").toJS());
-  const pauseLocation = makeLocationId(pause.getIn(["frame", "where"]).toJS());
-
-  return breakpointLocation == pauseLocation;
-}
-
 /**
  * @param object - location
  */
@@ -104,6 +91,5 @@ module.exports = {
   getSelectedTab,
   getPause,
   getIsWaitingOnBreak,
-  makeLocationId,
-  isCurrentlyPausedAtBreakpoint
+  makeLocationId
 };
