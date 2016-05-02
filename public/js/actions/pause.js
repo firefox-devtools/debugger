@@ -29,7 +29,7 @@ function paused(pauseInfo) {
 /**
  * Debugger commands like stepOver, stepIn, stepUp
  */
-function command({type}) {
+function command({ type }) {
   return ({ dispatch, threadClient }) => {
     // execute debugger thread command e.g. stepIn, stepOver
     threadClient[type]();

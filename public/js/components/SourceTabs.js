@@ -28,15 +28,15 @@ function sourceTab(selectedSource) {
   const url = selectedSource && selectedSource.get("url");
   const filename = getFilename(url);
 
-  return dom.div({className: "source-tab"},
-    dom.div({className: "filename"}, filename),
+  return dom.div({ className: "source-tab" },
+    dom.div({ className: "filename" }, filename),
     Isvg({ className: "close-btn", src: "images/close.svg" })
   );
 }
 
 function SourceTabs({ selectedSource }) {
   return (
-    dom.div({className: "source-tabs"},
+    dom.div({ className: "source-tabs" },
       selectedSource ? sourceTab(selectedSource) : ""
     )
   );

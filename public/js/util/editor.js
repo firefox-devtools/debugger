@@ -40,7 +40,7 @@ function alignLine(cm, line, align = "top") {
  * Scrolls the view such that the given line number is the first visible line.
  */
 function setFirstVisibleLine(cm, line) {
-  let { top } = cm.charCoords({line: line, ch: 0}, "local");
+  let { top } = cm.charCoords({ line: line, ch: 0 }, "local");
   cm.scrollTo(0, top);
 }
 

@@ -16,15 +16,15 @@ require("./RightSidebar.css");
 function debugBtn(onClick, type, className) {
   return dom.span(
     { onClick, className, key: type },
-    Isvg({ src: `images/${type}.svg`})
+    Isvg({ src: `images/${type}.svg` })
   );
 }
 
 function RightSidebar({ resume, command, breakOnNext,
                         pause, isWaitingOnBreak }) {
   return (
-    dom.div({className: "right-sidebar"},
-      dom.div({className: "command-bar"},
+    dom.div({ className: "right-sidebar" },
+      dom.div({ className: "command-bar" },
         (
           pause
             ? [
@@ -49,7 +49,7 @@ function RightSidebar({ resume, command, breakOnNext,
             component: Breakpoints,
             opened: true },
           { header: "Call Stack",
-            component: () => dom.div({className: "pane-info"}, "Not Paused")
+            component: () => dom.div({ className: "pane-info" }, "Not Paused")
           },
           { header: "Scopes",
             component: Scopes

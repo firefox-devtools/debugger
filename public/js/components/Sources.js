@@ -13,7 +13,7 @@ function isSelected(selectedSource, source) {
   return selectedSource && selectedSource.get("actor") == source.get("actor");
 }
 
-function renderSource({source, selectSource, selectedSource}) {
+function renderSource({ source, selectSource, selectedSource }) {
   const pathname = source.get("pathname");
   const selectedClass = isSelected(selectedSource, source) ? "selected" : "";
 
@@ -21,7 +21,7 @@ function renderSource({source, selectSource, selectedSource}) {
     { onClick: () => selectSource(source.toJS()),
       className: `source-item ${selectedClass}`,
       style: { paddingLeft: "40px" },
-      key: source.get("url")},
+      key: source.get("url") },
     pathname
   );
 }
@@ -41,13 +41,13 @@ function groupSourcesByDomain(sources) {
 function Sources({ sources, selectSource, selectedSource }) {
   const sourcesByDomain = groupSourcesByDomain(sources);
 
-  return dom.div({className: "sources-panel"},
-    dom.div({className: "sources-header"}, ""),
+  return dom.div({ className: "sources-panel" },
+    dom.div({ className: "sources-header" }, ""),
     dom.ul(
-      {className: "sources-list"},
+      { className: "sources-list" },
       sourcesByDomain.keySeq().map((domain) => {
         return dom.li({ key: domain, className: "domain" },
-          dom.span({style: { paddingLeft: "20px" }}, domain),
+          dom.span({ style: { paddingLeft: "20px" }}, domain),
           dom.ul(null,
             sourcesByDomain.get(domain).map(source => renderSource({
               source, selectSource, selectedSource }))

@@ -29,7 +29,7 @@ const App = React.createClass({
       right: SplitBox({
         initialWidth: 300,
         rightFlex: true,
-        left: dom.div({className: "editor-container"},
+        left: dom.div({ className: "editor-container" },
           SourceTabs(),
           Editor()
         ),
