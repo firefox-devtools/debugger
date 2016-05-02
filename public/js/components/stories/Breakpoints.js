@@ -3,56 +3,33 @@
 const React = require("react");
 const { DOM: dom, createElement } = React;
 const { storiesOf } = require("@kadira/storybook");
-const configureStore = require("../../create-store");
-const { combineReducers } = require("redux");
-const reducers = require("../../reducers");
 const { Provider } = require("react-redux");
-const { fromJS } = require("immutable");
+const { createStore } = require("./utils");
 
 const Breakpoints = React.createFactory(require("../Breakpoints"));
 const fixtures = require("../../test/fixtures.json");
 
+const fooSourceActor = fixtures.sources.sources.fooSourceActor;
+const barSourceActor = fixtures.sources.sources.barSourceActor;
+const fooBreakpointActor = fixtures.breakpoints.fooBreakpointActor;
+const barBreakpointActor = fixtures.breakpoints.barBreakpointActor;
+
 storiesOf("Breakpoints", module)
   .add("No Breakpoints", () => {
-    const store = configureStore({})(combineReducers(reducers), {
-      sources: fromJS({
-        sources: {}
-      }),
-      breakpoints: fromJS({
-        breakpoints: {}
-      })
-    });
+    const store = createStore();
     return renderBreakpoints(store);
   })
   .add("1 Domain", () => {
-    const store = configureStore({})(combineReducers(reducers), {
-      sources: fromJS({
-        sources: {
-          "fooSourceActor": fixtures.sources.sources.fooSourceActor,
-        }
-      }),
-      breakpoints: fromJS({
-        breakpoints: {
-          "fooBreakpointActor": fixtures.breakpoints.fooBreakpointActor,
-        }
-      })
+    const store = createStore({
+      sources: { fooSourceActor },
+      breakpoints: { fooBreakpointActor }
     });
     return renderBreakpoints(store);
   })
   .add("2 Domains", () => {
-    const store = configureStore({})(combineReducers(reducers), {
-      sources: fromJS({
-        sources: {
-          "fooSourceActor": fixtures.sources.sources.fooSourceActor,
-          "barSourceActor": fixtures.sources.sources.barSourceActor,
-        }
-      }),
-      breakpoints: fromJS({
-        breakpoints: {
-          "fooBreakpointActor": fixtures.breakpoints.fooBreakpointActor,
-          "barBreakpointActor": fixtures.breakpoints.barBreakpointActor,
-        }
-      })
+    const store = createStore({
+      sources: { fooSourceActor, barSourceActor },
+      breakpoints: { fooBreakpointActor, barBreakpointActor }
     });
     return renderBreakpoints(store);
   });
