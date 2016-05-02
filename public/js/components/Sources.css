@@ -5,18 +5,24 @@
 .sources-header {
   height: 30px;
   border-bottom: 1px solid var(--theme-gray);
+  color: var(--theme-splitter-color);
+  padding-left: 10px;
+  line-height: 30px;
+  font-size: 0.9em;
 }
 
 .sources-list {
   font-size: 0.75em;
   line-height: 2;
   list-style: none;
+  padding-left: 20px;
 }
 
 ul.sources-list {
   list-style: none;
   margin: 20px 0;
   padding: 0;
+  padding-left: 10px;
   flex: 1;
 }
 
@@ -28,7 +34,13 @@ ul.sources-list {
 
 .sources-list .source-item {
   list-style: none;
-  color: var(--theme-content-color1);
+}
+
+.sources-list .label {
+  font-size: 1em;
+  padding-left: 10px;
+  color: var(--theme-comment);
+  white-space: nowrap;
 }
 
 .sources-list .source-item:hover {
@@ -37,6 +49,9 @@ ul.sources-list {
 }
 
 .sources-list .source-item.selected {
-  color: var(--theme-selection-color);
   background-color: var(--theme-selection-background);
+}
+
+.sources-list .source-item.selected .label {
+  color: var(--theme-selection-color);
 }

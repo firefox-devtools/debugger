@@ -1,0 +1,14 @@
+<svg width="13px" height="13px" viewBox="11 12 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M7.76470588,6.84210526 L9.32159711,6.84210526 L12,2.31311028 L12,0 L0,0 L2.28925584e-10,2.31311028 L2.67840289,6.84210526 L4.23529412,6.84210526 L4.23529412,12.3157895 C4.23529412,12.3157895 5.33865218,12.9479366 6,12.9479366 C6.51512277,12.9479366 7.76470588,12.3157895 7.76470588,12.3157895 L7.76470588,6.84210526 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="12" height="12.9479366" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Filter-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(11.000000, 12.000000)">
+        <path d="M4.64289542,6.4217573 C4.64289542,5.80998259 2.92869027,6.76966945 2.92869027,6.15789474 C2.92869027,5.76217294 0.385508482,2.06394284 0.385508482,2.06394284 L11.7174226,2.06394284 C11.7174226,2.06394284 9.17795118,5.4651525 9.17795117,6.15789466 C9.17795116,6.49137869 7.05882366,6.08827326 7.05882365,6.42175729 L7.05882353,12.3157895 L4.96664911,12.3157894 C4.96664911,12.3157894 4.64289542,8.39035633 4.64289542,6.4217573 Z" id="Rectangle-268" fill="#ECEFF3"></path>
+        <use id="Rectangle-273" stroke="#DDE1E4" mask="url(#mask-2)" stroke-width="2.5" xlink:href="#path-1"></use>
+    </g>
+</svg>
