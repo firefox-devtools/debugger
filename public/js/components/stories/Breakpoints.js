@@ -58,11 +58,11 @@ storiesOf("Breakpoints", module)
   });
 
 function renderBreakpoints(store) {
-  return dom.div({style: {
+  return dom.div({ style: {
     width: "300px",
     margin: "auto",
     paddingTop: "100px" }},
-    dom.div({style: {border: "1px solid #ccc", padding: "20px" }},
+    dom.div({ style: { border: "1px solid #ccc", padding: "20px" }},
       createElement(Provider, { store }, Breakpoints())
     )
   );

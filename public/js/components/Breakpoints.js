@@ -63,9 +63,9 @@ const Breakpoints = React.createClass({
       dom.input({ type: "checkbox",
                   checked: !breakpoint.get("disabled"),
                   onChange: () => this.handleCheckbox(breakpoint) }),
-      dom.div({className: "breakpoint-label"}, `${filename}, line ${line}`),
+      dom.div({ className: "breakpoint-label" }, `${filename}, line ${line}`),
       (isCurrentlyPaused && Isvg({ className: "pause-indicator",
-                                   src: "images/pause-circle.svg"}))
+                                   src: "images/pause-circle.svg" }))
     );
   },
 

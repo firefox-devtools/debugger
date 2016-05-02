@@ -297,7 +297,7 @@
     // Disallow unreachable statements after a return, throw, continue, or break
     // statement.
     "no-unreachable": 2,
-    // Disallow global and local variables that aren't used, but allow unused function arguments.
+    // Disallow global and local variables that arent used, but allow unused function arguments.
     "no-unused-vars": [2, {"vars": "all", "args": "none"}],
     // Allow using variables before they are defined.
     "no-use-before-define": 0,
@@ -308,7 +308,10 @@
     "no-warning-comments": 0,
     // Disallow use of the with statement.
     "no-with": 2,
-    // Don't require method and property shorthand syntax for object literals.
+    "object-curly-spacing": ["error", "always", {
+      "objectsInObjects": false,
+    }],
+    // Dont require method and property shorthand syntax for object literals.
     // We use this in the code a lot, but not consistently, and this seems more
     // like something to check at code review time.
     "object-shorthand": 0,
@@ -316,7 +319,7 @@
     "one-var": 0,
     // Disallow padding within blocks.
     "padded-blocks": [2, "never"],
-    // Don't require quotes around object literal property names.
+    // Dont require quotes around object literal property names.
     "quote-props": 0,
     // Double quotes should be used.
     "quotes": [2, "double", "avoid-escape"],
@@ -326,7 +329,7 @@
     "semi": [2, "always"],
     // Enforce spacing after semicolons.
     "semi-spacing": [2, {"before": false, "after": true}],
-    // Don't require to sort variables within the same declaration block.
+    // Dont require to sort variables within the same declaration block.
     // Anyway, one-var is disabled.
     "sort-vars": 0,
     // Deprecated, will be removed in 1.0.
@@ -340,7 +343,7 @@
     // Disallow space before function opening parenthesis.
     "space-before-function-paren": [2, "never"],
     // Disable the rule that checks if spaces inside {} and [] are there or not.
-    // Our code is split on conventions, and it'd be nice to have 2 rules
+    // Our code is split on conventions, and itd be nice to have 2 rules
     // instead, one for [] and one for {}. So, disabling until we write them.
     "space-in-brackets": 0,
     // Disallow spaces inside parentheses.
@@ -367,7 +370,7 @@
     "valid-typeof": 2,
     // Allow vars to be declared anywhere in the scope.
     "vars-on-top": 0,
-    // Don't require immediate function invocation to be wrapped in parentheses.
+    // Dont require immediate function invocation to be wrapped in parentheses.
     "wrap-iife": 0,
     // Don't require regex literals to be wrapped in parentheses (which
     // supposedly prevent them from being mistaken for division operators).

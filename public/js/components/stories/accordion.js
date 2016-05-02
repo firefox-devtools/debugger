@@ -7,13 +7,13 @@ const { storiesOf } = require("@kadira/storybook");
 
 let items = [
   { header: "Breakpoints",
-    component: () => dom.div({className: "pane-info"}, "No Breakpoints")
+    component: () => dom.div({ className: "pane-info" }, "No Breakpoints")
   },
   { header: "Call Stack",
-    component: () => dom.div({className: "pane-info"}, "Not Paused")
+    component: () => dom.div({ className: "pane-info" }, "Not Paused")
   },
   { header: "Scopes",
-    component: () => dom.div({className: "pane-info"}, "Not Paused")
+    component: () => dom.div({ className: "pane-info" }, "Not Paused")
   }
 ];
 
