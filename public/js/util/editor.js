@@ -44,6 +44,32 @@ function setFirstVisibleLine(cm, line) {
   cm.scrollTo(0, top);
 }
 
+/**
+ * Disable APZ for source editors. It currently causes the line numbers to
+ * "tear off" and swim around on top of the content. Bug 1160601 tracks
+ * finding a solution that allows APZ to work with CodeMirror.
+ */
+function onWheel(cm, ev) {
+  // By handling the wheel events ourselves, we force the platform to
+  // scroll synchronously, like it did before APZ. However, we lose smooth
+  // scrolling for users with mouse wheels. This seems acceptible vs.
+  // doing nothing and letting the gutter slide around.
+  ev.preventDefault();
+
+  let { deltaX, deltaY } = ev;
+
+  if (ev.deltaMode == ev.DOM_DELTA_LINE) {
+    deltaX *= cm.defaultCharWidth();
+    deltaY *= cm.defaultTextHeight();
+  } else if (ev.deltaMode == ev.DOM_DELTA_PAGE) {
+    deltaX *= cm.getWrapperElement().clientWidth;
+    deltaY *= cm.getWrapperElement().clientHeight;
+  }
+
+  cm.getScrollerElement().scrollBy(deltaX, deltaY);
+}
+
 module.exports = {
-  alignLine
+  alignLine,
+  onWheel
 };

@@ -16,7 +16,7 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 
 const actions = require("../actions");
-const { alignLine } = require("../util/editor");
+const { alignLine, onWheel } = require("../util/editor");
 
 require("codemirror/lib/codemirror.css");
 require("./Editor.css");
@@ -88,6 +88,9 @@ const Editor = React.createClass({
     });
 
     this.editor.on("gutterClick", this.onGutterClick);
+
+    this.editor.getScrollerElement().addEventListener("wheel",
+      ev => onWheel(this.editor, ev));
   },
 
   onGutterClick(cm, line, gutter, ev) {
