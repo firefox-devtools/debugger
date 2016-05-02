@@ -1,10 +1,12 @@
 test:
+  override:
+    - mkdir -p $CIRCLE_TEST_REPORTS/mocha
+    - node_modules/.bin/mocha --compilers js:babel-register --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/mocha/junit.xml public/js/**/tests/*
   pre:
     - npm install
   post:
     - npm run lint-css
     - npm run lint-js
-    - npm run test
     - npm run test-karma
 dependencies:
   override:
