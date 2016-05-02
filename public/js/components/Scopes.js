@@ -25,10 +25,6 @@ function getScopes(pauseInfo) {
   return scopes;
 }
 
-function getScopeVariables(scope) {
-  return scope.getIn(["bindings", "variables"]);
-}
-
 function renderArgumentProperty(argumentBinding) {
   const argumentName = argumentBinding.keySeq().first();
   const actor = argumentBinding.first().getIn(["value", "actor"]);
@@ -70,11 +66,13 @@ function renderFunctionScope(scope, isFirst) {
 }
 
 /* TODO: render block with variables */
-function renderBlockScope(scope) {
-  const variables = getScopeVariables(scope);
-  if (variables.isEmpty()) {
-    return;
-  }
+function renderBlockScope(scope, isFirst) {
+  const label = "Block Scope";
+  return dom.li(
+    { className: "scope-item", key: scope.get("actor") },
+    dom.div({ className: "scope-label" }, (isFirst ? "Local " : "") + label),
+    renderScopeBindings(scope.get("bindings"))
+  );
 }
 
 function renderObjectScope(scope) {
