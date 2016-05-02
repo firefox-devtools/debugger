@@ -1,26 +1,46 @@
 const React = require("react");
+const { bindActionCreators } = require("redux");
+const { connect } = require("react-redux");
+const actions = require("../actions");
+const { basename } = require("../util/path");
 const { DOM: dom } = React;
 const { div } = dom;
 
 require("./Frames.css");
 
-function getFrameTitle(frame) {
+function renderFrameTitle(frame) {
+  let title;
   if (frame.type == "call") {
     let c = frame.callee;
-    return (c.name || c.userDisplayName || c.displayName || "(anonymous)");
+    title = c.name || c.userDisplayName || c.displayName || "(anonymous)";
   }
-  return "(" + frame.type + ")";
+  else {
+    title = "(" + frame.type + ")";
+  }
+
+  return div(null, title);
 }
 
-function Frames({ frames }) {
+function renderFrameLocation(frame) {
+  return div(null, basename(frame.where.source.url));
+}
+
+function Frames({ frames, selectedFrame, selectFrame }) {
   return div(
     { className: "pane-info frames" },
     !frames ?
       div({ className: "empty" }, "Not Paused") :
       dom.ul(null, frames.map(frame => {
-        return dom.li(null, getFrameTitle(frame));
+        return dom.li({ className: selectedFrame === frame ? "selected" : "",
+                        onClick: () => selectFrame(frame)
+                      },
+                      renderFrameLocation(frame),
+                      renderFrameTitle(frame));
       }))
   );
 }
 
-module.exports = Frames;
+module.exports = connect(
+  null,
+  dispatch => bindActionCreators(actions, dispatch)
+)(Frames);

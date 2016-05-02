@@ -32,3 +32,4 @@ exports.RESUME = "RESUME";
 exports.PAUSED = "PAUSED";
 exports.COMMAND = "COMMAND";
 exports.LOAD_FRAMES = "LOAD_FRAMES";
+exports.SELECT_FRAME = "SELECT_FRAME";

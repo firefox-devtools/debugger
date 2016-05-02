@@ -3,6 +3,7 @@
 const constants = require("../constants");
 const { promisify } = require("../util/utils");
 const { PROMISE } = require("ff-devtools-libs/client/shared/redux/middleware/promise");
+const { selectSource } = require("./sources");
 
 const CALL_STACK_PAGE_SIZE = 25;
 
@@ -75,9 +76,20 @@ function breakOnNext() {
   };
 }
 
+function selectFrame(frame) {
+  return ({ dispatch }) => {
+    dispatch(selectSource(frame.where.source, { line: frame.where.line }));
+    dispatch({
+      type: constants.SELECT_FRAME,
+      frame: frame
+    });
+  }
+}
+
 module.exports = {
   resumed,
   paused,
   command,
-  breakOnNext
+  breakOnNext,
+  selectFrame
 };

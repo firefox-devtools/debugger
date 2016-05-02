@@ -17,7 +17,7 @@ storiesOf("Scopes", module)
     return renderContainer(store, Scopes);
   })
   .add("Event Handler", () => {
-    const store = createStore({ pause: backbonePauseOnEnter });
+    const store = createStore({ pause: { pause: backbonePauseOnEnter }});
     return renderContainer(store, Scopes);
   });
 

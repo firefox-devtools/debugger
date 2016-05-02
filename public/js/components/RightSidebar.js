@@ -4,7 +4,8 @@ const React = require("react");
 const { DOM: dom } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { getPause, getIsWaitingOnBreak, getFrames } = require("../selectors");
+const { getPause, getIsWaitingOnBreak,
+        getFrames, getSelectedFrame } = require("../selectors");
 const Isvg = React.createFactory(require("react-inlinesvg"));
 
 const actions = require("../actions");
@@ -22,7 +23,8 @@ function debugBtn(onClick, type, className) {
 }
 
 function RightSidebar({ resume, command, breakOnNext,
-                        pause, isWaitingOnBreak, frames }) {
+                        pause, isWaitingOnBreak,
+                        frames, selectedFrame }) {
   return (
     dom.div({ className: "right-sidebar" },
       dom.div({ className: "command-bar" },
@@ -51,7 +53,7 @@ function RightSidebar({ resume, command, breakOnNext,
             opened: true },
           { header: "Call Stack",
             component: Frames,
-            componentProps: { frames }},
+            componentProps: { frames, selectedFrame }},
           { header: "Scopes",
             component: Scopes
           }
@@ -65,7 +67,8 @@ module.exports = connect(
   state => ({
     pause: getPause(state),
     isWaitingOnBreak: getIsWaitingOnBreak(state),
-    frames: getFrames(state)
+    frames: getFrames(state),
+    selectedFrame: getSelectedFrame(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(RightSidebar);

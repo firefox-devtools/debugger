@@ -5,3 +5,4 @@ require("./Breakpoints");
 require("./editor");
 require("./Scopes");
 require("./SplitBox");
+require("./Frames");

@@ -5,12 +5,12 @@ const { combineReducers } = require("redux");
 const reducers = require("../../reducers");
 const { fromJS } = require("immutable");
 
-function createStore({ sources = {}, breakpoints = {}, pause = null } = {}) {
-  return configureStore({})(combineReducers(reducers), {
-    sources: fromJS({ sources }),
-    breakpoints: fromJS({ breakpoints }),
-    pause: fromJS({ pause })
-  });
+function createStore(state = {}) {
+  for(var k in state) {
+    state[k] = fromJS(state[k]);
+  }
+
+  return configureStore({})(combineReducers(reducers), state);
 }
 
 module.exports = {

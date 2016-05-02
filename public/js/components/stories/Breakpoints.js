@@ -28,8 +28,8 @@ storiesOf("Breakpoints", module)
   })
   .add("2 Domains", () => {
     const store = createStore({
-      sources: { fooSourceActor, barSourceActor },
-      breakpoints: { fooBreakpointActor, barBreakpointActor }
+      sources: { sources: { fooSourceActor, barSourceActor }},
+      breakpoints: { breakpoints: { fooBreakpointActor, barBreakpointActor }}
     });
     return renderBreakpoints(store);
   });
