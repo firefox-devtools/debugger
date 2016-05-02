@@ -4,12 +4,25 @@ const React = require("react");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { getSource, isCurrentlyPausedAtBreakpoint, getBreakpoints, makeLocationId } = require("../selectors");
+const { getSource, getPause, getBreakpoints, makeLocationId } = require("../selectors");
 const ImPropTypes = require("react-immutable-proptypes");
 const { DOM: dom, PropTypes } = React;
 const Isvg = React.createFactory(require("react-inlinesvg"));
 
 require("./Breakpoints.css");
+
+function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
+  const pause = getPause(state);
+
+  if (!pause || pause.get("isInterrupted")) {
+    return false;
+  }
+
+  const breakpointLocation = makeLocationId(breakpoint.get("location").toJS());
+  const pauseLocation = makeLocationId(pause.getIn(["frame", "where"]).toJS());
+
+  return breakpointLocation == pauseLocation;
+}
 
 const Breakpoints = React.createClass({
   propTypes: {
