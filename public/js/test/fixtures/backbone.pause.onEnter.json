@@ -1,0 +1,502 @@
+{
+  "from": "server2.conn42.child1/context26",
+  "type": "paused",
+  "actor": "server2.conn42.child1/pause199",
+  "frame": {
+    "actor": "server2.conn42.child1/200",
+    "type": "call",
+    "callee": {
+      "frozen": false,
+      "displayName": "app.TodoView<.updateOnEnter",
+      "actor": "server2.conn42.child1/pausedobj201",
+      "location": {
+        "url": "http://todomvc.com/examples/backbone/js/views/todo-view.js",
+        "line": 102
+      },
+      "class": "Function",
+      "type": "object",
+      "extensible": true,
+      "sealed": false,
+      "parameterNames": [
+        "e"
+      ]
+    },
+    "environment": {
+      "actor": "server2.conn42.child1/202",
+      "type": "function",
+      "parent": {
+        "actor": "server2.conn42.child1/72",
+        "type": "function",
+        "parent": {
+          "actor": "server2.conn42.child1/73",
+          "type": "block",
+          "parent": {
+            "actor": "server2.conn42.child1/74",
+            "type": "object",
+            "object": {
+              "type": "object",
+              "class": "Window",
+              "actor": "server2.conn42.child1/pausedobj75",
+              "extensible": true,
+              "frozen": false,
+              "sealed": false,
+              "ownPropertyLength": 770,
+              "preview": {
+                "kind": "ObjectWithURL",
+                "url": "http://todomvc.com/examples/backbone/"
+              }
+            }
+          },
+          "bindings": {
+            "arguments": [],
+            "variables": {}
+          }
+        },
+        "function": {
+          "type": "object",
+          "class": "Function",
+          "actor": "server2.conn42.child1/pausedobj76",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "parameterNames": [
+            "$"
+          ],
+          "location": {
+            "url": "http://todomvc.com/examples/backbone/js/views/todo-view.js",
+            "line": 4
+          }
+        },
+        "bindings": {
+          "arguments": [
+            {
+              "$": {
+                "enumerable": true,
+                "configurable": false,
+                "value": {
+                  "type": "null",
+                  "optimizedOut": true
+                },
+                "writable": false
+              }
+            }
+          ],
+          "variables": {
+            "arguments": {
+              "enumerable": true,
+              "configurable": false,
+              "value": {
+                "type": "null",
+                "missingArguments": true
+              },
+              "writable": false
+            }
+          }
+        }
+      },
+      "function": {
+        "frozen": false,
+        "displayName": "app.TodoView<.updateOnEnter",
+        "actor": "server2.conn42.child1/pausedobj203",
+        "location": {
+          "url": "http://todomvc.com/examples/backbone/js/views/todo-view.js",
+          "line": 102
+        },
+        "class": "Function",
+        "type": "object",
+        "extensible": true,
+        "sealed": false,
+        "parameterNames": [
+          "e"
+        ]
+      },
+      "bindings": {
+        "arguments": [
+          {
+            "e": {
+              "enumerable": true,
+              "configurable": false,
+              "value": {
+                "type": "object",
+                "class": "Object",
+                "actor": "server2.conn42.child1/pausedobj204",
+                "extensible": true,
+                "frozen": false,
+                "sealed": false,
+                "ownPropertyLength": 24,
+                "preview": {
+                  "kind": "Object",
+                  "ownProperties": {
+                    "isDefaultPrevented": {
+                      "configurable": true,
+                      "enumerable": true,
+                      "writable": true,
+                      "value": {
+                        "frozen": false,
+                        "name": "returnFalse",
+                        "displayName": "returnFalse",
+                        "actor": "server2.conn42.child1/pausedobj206",
+                        "location": {
+                          "url": "http://todomvc.com/examples/backbone/node_modules/jquery/dist/jquery.js",
+                          "line": 4070
+                        },
+                        "class": "Function",
+                        "type": "object",
+                        "extensible": true,
+                        "sealed": false,
+                        "parameterNames": []
+                      }
+                    },
+                    "charCode": {
+                      "configurable": true,
+                      "enumerable": true,
+                      "writable": true,
+                      "value": 0
+                    },
+                    "originalEvent": {
+                      "configurable": true,
+                      "enumerable": true,
+                      "writable": true,
+                      "value": {
+                        "type": "object",
+                        "class": "KeyboardEvent",
+                        "actor": "server2.conn42.child1/pausedobj205",
+                        "extensible": true,
+                        "frozen": false,
+                        "sealed": false,
+                        "ownPropertyLength": 1,
+                        "preview": {
+                          "kind": "DOMEvent",
+                          "type": "keypress",
+                          "properties": {
+                            "key": "Enter",
+                            "charCode": 0,
+                            "keyCode": 13
+                          },
+                          "eventKind": "key",
+                          "modifiers": []
+                        }
+                      }
+                    },
+                    "keyCode": {
+                      "configurable": true,
+                      "enumerable": true,
+                      "writable": true,
+                      "value": 13
+                    },
+                    "timeStamp": {
+                      "configurable": true,
+                      "enumerable": true,
+                      "writable": true,
+                      "value": 89424511
+                    },
+                    "char": {
+                      "configurable": true,
+                      "enumerable": true,
+                      "writable": true,
+                      "value": {
+                        "type": "undefined"
+                      }
+                    },
+                    "type": {
+                      "configurable": true,
+                      "enumerable": true,
+                      "writable": true,
+                      "value": "keypress"
+                    },
+                    "jQuery21409680306905055901": {
+                      "configurable": true,
+                      "enumerable": true,
+                      "writable": true,
+                      "value": true
+                    },
+                    "which": {
+                      "configurable": true,
+                      "enumerable": true,
+                      "writable": true,
+                      "value": 13
+                    },
+                    "key": {
+                      "configurable": true,
+                      "enumerable": true,
+                      "writable": true,
+                      "value": "Enter"
+                    }
+                  },
+                  "ownPropertiesLength": 24
+                }
+              },
+              "writable": true
+            }
+          }
+        ],
+        "variables": {
+          "arguments": {
+            "enumerable": true,
+            "configurable": false,
+            "value": {
+              "type": "object",
+              "class": "Arguments",
+              "actor": "server2.conn42.child1/pausedobj207",
+              "extensible": true,
+              "frozen": false,
+              "sealed": false,
+              "ownPropertyLength": 4,
+              "preview": {
+                "kind": "Object",
+                "ownProperties": {},
+                "ownPropertiesLength": 4,
+                "safeGetterValues": {}
+              }
+            },
+            "writable": true
+          }
+        }
+      }
+    },
+    "this": {
+      "type": "object",
+      "class": "Object",
+      "actor": "server2.conn42.child1/pausedobj208",
+      "extensible": true,
+      "frozen": false,
+      "sealed": false,
+      "ownPropertyLength": 7,
+      "preview": {
+        "kind": "Object",
+        "ownProperties": {
+          "cid": {
+            "configurable": true,
+            "enumerable": true,
+            "writable": true,
+            "value": "view23"
+          },
+          "model": {
+            "configurable": true,
+            "enumerable": true,
+            "writable": true,
+            "value": {
+              "type": "object",
+              "class": "Object",
+              "actor": "server2.conn42.child1/pausedobj209",
+              "extensible": true,
+              "frozen": false,
+              "sealed": false,
+              "ownPropertyLength": 11
+            }
+          },
+          "$el": {
+            "configurable": true,
+            "enumerable": true,
+            "writable": true,
+            "value": {
+              "type": "object",
+              "class": "Object",
+              "actor": "server2.conn42.child1/pausedobj210",
+              "extensible": true,
+              "frozen": false,
+              "sealed": false,
+              "ownPropertyLength": 3
+            }
+          },
+          "el": {
+            "configurable": true,
+            "enumerable": true,
+            "writable": true,
+            "value": {
+              "type": "object",
+              "class": "HTMLLIElement",
+              "actor": "server2.conn42.child1/pausedobj211",
+              "extensible": true,
+              "frozen": false,
+              "sealed": false,
+              "ownPropertyLength": 2,
+              "preview": {
+                "kind": "DOMNode",
+                "nodeType": 1,
+                "nodeName": "li",
+                "attributes": {
+                  "class": "editing"
+                },
+                "attributesLength": 1
+              }
+            }
+          },
+          "_listeningTo": {
+            "configurable": true,
+            "enumerable": true,
+            "writable": true,
+            "value": {
+              "type": "object",
+              "class": "Object",
+              "actor": "server2.conn42.child1/pausedobj212",
+              "extensible": true,
+              "frozen": false,
+              "sealed": false,
+              "ownPropertyLength": 1
+            }
+          },
+          "_listenId": {
+            "configurable": true,
+            "enumerable": true,
+            "writable": true,
+            "value": "l25"
+          },
+          "$input": {
+            "configurable": true,
+            "enumerable": true,
+            "writable": true,
+            "value": {
+              "type": "object",
+              "class": "Object",
+              "actor": "server2.conn42.child1/pausedobj213",
+              "extensible": true,
+              "frozen": false,
+              "sealed": false,
+              "ownPropertyLength": 5
+            }
+          }
+        },
+        "ownPropertiesLength": 7,
+        "safeGetterValues": {}
+      }
+    },
+    "arguments": [
+      {
+        "type": "object",
+        "class": "Object",
+        "actor": "server2.conn42.child1/pausedobj214",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 24,
+        "preview": {
+          "kind": "Object",
+          "ownProperties": {
+            "isDefaultPrevented": {
+              "configurable": true,
+              "enumerable": true,
+              "writable": true,
+              "value": {
+                "frozen": false,
+                "name": "returnFalse",
+                "displayName": "returnFalse",
+                "actor": "server2.conn42.child1/pausedobj206",
+                "location": {
+                  "url": "http://todomvc.com/examples/backbone/node_modules/jquery/dist/jquery.js",
+                  "line": 4070
+                },
+                "class": "Function",
+                "type": "object",
+                "extensible": true,
+                "sealed": false,
+                "parameterNames": []
+              }
+            },
+            "charCode": {
+              "configurable": true,
+              "enumerable": true,
+              "writable": true,
+              "value": 0
+            },
+            "originalEvent": {
+              "configurable": true,
+              "enumerable": true,
+              "writable": true,
+              "value": {
+                "type": "object",
+                "class": "KeyboardEvent",
+                "actor": "server2.conn42.child1/pausedobj205",
+                "extensible": true,
+                "frozen": false,
+                "sealed": false,
+                "ownPropertyLength": 1,
+                "preview": {
+                  "kind": "DOMEvent",
+                  "type": "keypress",
+                  "properties": {
+                    "key": "Enter",
+                    "charCode": 0,
+                    "keyCode": 13
+                  },
+                  "eventKind": "key",
+                  "modifiers": []
+                }
+              }
+            },
+            "keyCode": {
+              "configurable": true,
+              "enumerable": true,
+              "writable": true,
+              "value": 13
+            },
+            "timeStamp": {
+              "configurable": true,
+              "enumerable": true,
+              "writable": true,
+              "value": 89424511
+            },
+            "char": {
+              "configurable": true,
+              "enumerable": true,
+              "writable": true,
+              "value": {
+                "type": "undefined"
+              }
+            },
+            "type": {
+              "configurable": true,
+              "enumerable": true,
+              "writable": true,
+              "value": "keypress"
+            },
+            "jQuery21409680306905055901": {
+              "configurable": true,
+              "enumerable": true,
+              "writable": true,
+              "value": true
+            },
+            "which": {
+              "configurable": true,
+              "enumerable": true,
+              "writable": true,
+              "value": 13
+            },
+            "key": {
+              "configurable": true,
+              "enumerable": true,
+              "writable": true,
+              "value": "Enter"
+            }
+          },
+          "ownPropertiesLength": 24
+        }
+      }
+    ],
+    "where": {
+      "source": {
+        "actor": "server2.conn42.child1/source34",
+        "url": "http://todomvc.com/examples/backbone/js/views/todo-view.js",
+        "addonID": null,
+        "addonPath": null,
+        "isBlackBoxed": false,
+        "isPrettyPrinted": false,
+        "introductionUrl": null,
+        "introductionType": "scriptElement"
+      },
+      "line": 103,
+      "column": 0,
+      "actor": "server2.conn42.child1/source34"
+    }
+  },
+  "poppedFrames": [
+    "server2.conn42.child1/189"
+  ],
+  "why": {
+    "type": "breakpoint",
+    "actors": [
+      "server2.conn42.child1/176"
+    ]
+  },
+  "isInterrupted": false
+}

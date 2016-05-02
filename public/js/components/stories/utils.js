@@ -5,10 +5,11 @@ const { combineReducers } = require("redux");
 const reducers = require("../../reducers");
 const { fromJS } = require("immutable");
 
-function createStore({ sources = {}, breakpoints = {} } = {}) {
+function createStore({ sources = {}, breakpoints = {}, pause = {} } = {}) {
   return configureStore({})(combineReducers(reducers), {
     sources: fromJS({ sources }),
-    breakpoints: fromJS({ breakpoints })
+    breakpoints: fromJS({ breakpoints }),
+    pause: fromJS({ pause })
   });
 }
 
