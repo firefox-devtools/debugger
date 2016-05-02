@@ -2,6 +2,7 @@
   "name": "debugger.html",
   "scripts": {
     "start": "firefox-proxy & node bin/server",
+    "lint": "npm run lint-css; npm run lint-js",
     "lint-css": "stylelint public/js/components/*.css",
     "lint-js": "eslint public/js",
     "test": "mocha --compilers js:babel-register public/js/**/tests/*",
@@ -56,6 +57,7 @@
     "karma-firefox-launcher": "^0.1.7",
     "karma-mocha": "^0.2.2",
     "karma-webpack": "^1.7.0",
+    "mocha-circleci-reporter": "0.0.1",
     "rimraf": "^2.5.2",
     "style-loader": "^0.13.1"
   }
