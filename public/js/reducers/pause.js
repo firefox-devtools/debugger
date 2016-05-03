@@ -8,7 +8,9 @@ const { fromJS } = require("immutable");
 
 const initialState = fromJS({
   pause: null,
-  isWaitingOnBreak: false
+  isWaitingOnBreak: false,
+  frames: null,
+  selectedFrame: null
 });
 
 function update(state = initialState, action, emit) {
@@ -24,9 +26,18 @@ function update(state = initialState, action, emit) {
         .set("isWaitingOnBreak", false)
         .set("pause", fromJS(pause));
     case constants.RESUME:
-      return state.set("pause", null);
+      return state.merge({ pause: null,
+                           frames: null,
+                           selectedFrame: null });
     case constants.BREAK_ON_NEXT:
       return state.set("isWaitingOnBreak", true);
+    case constants.LOAD_FRAMES:
+      if (action.status === "done") {
+        return state.set("frames", action.value.frames);
+      }
+      break;
+    case constants.SELECT_FRAME:
+      return state.set("selectedFrame", action.frame);
   }
 
   return state;

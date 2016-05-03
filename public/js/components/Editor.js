@@ -68,6 +68,7 @@ const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
     selectedSource: PropTypes.object,
+    selectedSourceOpts: PropTypes.object,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
@@ -101,23 +102,11 @@ const Editor = React.createClass({
     });
   },
 
-  clearDebugLine(pauseInfo) {
-    if (!pauseInfo
-        || pauseInfo.getIn(["why", "type"]) == "interrupted") {
-      return;
-    }
-
-    const line = pauseInfo.getIn(["frame", "where", "line"]);
+  clearDebugLine(line) {
     this.editor.removeLineClass(line - 1, "line", "debug-line");
   },
 
-  setDebugLine(pauseInfo) {
-    if (!pauseInfo
-        || pauseInfo.getIn(["why", "type"]) == "interrupted") {
-      return;
-    }
-
-    const line = pauseInfo.getIn(["frame", "where", "line"]);
+  setDebugLine(line) {
     this.editor.addLineClass(line - 1, "line", "debug-line");
     alignLine(this.editor, line);
   },
@@ -143,20 +132,26 @@ const Editor = React.createClass({
     }
   },
 
-  goToLine(selectedSourceOpts) {
-    if (!selectedSourceOpts) {
-      return;
-    }
-
-    const line = selectedSourceOpts.get("line");
-    alignLine(this.editor, line);
-  },
-
   componentWillReceiveProps(nextProps) {
     this.setSourceText(nextProps.sourceText, this.props.sourceText);
-    this.goToLine(nextProps.selectedSourceOpts);
-    this.clearDebugLine(this.props.pause);
-    this.setDebugLine(nextProps.pause);
+    let pause = this.props.pause;
+
+    if (pause) {
+      this.clearDebugLine(pause.getIn(["frame", "where", "line"]));
+    }
+
+    if (this.props.selectedSourceOpts &&
+        this.props.selectedSourceOpts.get("line")) {
+      this.clearDebugLine(this.props.selectedSourceOpts.get("line"));
+    }
+
+    if (nextProps.selectedSourceOpts &&
+       nextProps.selectedSourceOpts.get("line")) {
+      this.setDebugLine(nextProps.selectedSourceOpts.get("line"));
+    } else if (nextProps.pause &&
+               nextProps.pause.getIn(["why", "type"]) !== "interrupted") {
+      this.setDebugLine(nextProps.pause.getIn(["frame", "where", "line"]));
+    }
   },
 
   render() {

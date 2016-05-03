@@ -1,0 +1,29 @@
+
+.frames ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-left: 1em;
+}
+
+.frames ul li {
+  cursor: pointer;
+  padding: 10px;
+  clear: both;
+  overflow: hidden;
+}
+
+.frames ul li.selected {
+  background-color: #f0f0f0;
+}
+
+.frames .title {
+  float: left;
+  width: 70%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.frames .location {
+  float: right;
+}

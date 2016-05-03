@@ -34,7 +34,7 @@
   padding: 5px;
 }
 
-.accordion .pane-info {
+.accordion .pane-info .empty {
   font-style: italic;
   text-align: center;
 }
