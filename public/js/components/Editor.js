@@ -68,6 +68,7 @@ const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
     selectedSource: PropTypes.object,
+    selectedSourceOpts: PropTypes.object,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
@@ -139,16 +140,16 @@ const Editor = React.createClass({
       this.clearDebugLine(pause.getIn(["frame", "where", "line"]));
     }
 
-    if(this.props.selectedSourceOpts &&
-       this.props.selectedSourceOpts.get("line")) {
+    if (this.props.selectedSourceOpts &&
+        this.props.selectedSourceOpts.get("line")) {
       this.clearDebugLine(this.props.selectedSourceOpts.get("line"));
     }
 
-    if(nextProps.selectedSourceOpts &&
+    if (nextProps.selectedSourceOpts &&
        nextProps.selectedSourceOpts.get("line")) {
       this.setDebugLine(nextProps.selectedSourceOpts.get("line"));
-    } else if(nextProps.pause &&
-              nextProps.pause.getIn(["why", "type"]) !== "interrupted") {
+    } else if (nextProps.pause &&
+               nextProps.pause.getIn(["why", "type"]) !== "interrupted") {
       this.setDebugLine(nextProps.pause.getIn(["frame", "where", "line"]));
     }
   },

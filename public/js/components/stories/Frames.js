@@ -1,3 +1,5 @@
+"use strict";
+
 const React = require("react");
 const { DOM: dom, createElement } = React;
 const { Provider } = require("react-redux");
@@ -26,7 +28,7 @@ function renderContainer(Component, frames) {
       margin: "auto",
       paddingTop: "100px"
     }},
-    dom.div({style: {border: "1px solid #ccc", padding: "20px" }},
+    dom.div({ style: { border: "1px solid #ccc", padding: "20px" }},
             createElement(Provider, { store },
                           createElement(Component)))
   );

@@ -1,3 +1,4 @@
+"use strict";
 
 function basename(path) {
   return path.split("/").pop();

@@ -35,10 +35,9 @@ function handleError(err) {
 function promisify(context, method, ...args) {
   return new Promise((resolve, reject) => {
     args.push(response => {
-      if(response.error) {
+      if (response.error) {
         reject(response);
-      }
-      else {
+      } else {
         resolve(response);
       }
     });

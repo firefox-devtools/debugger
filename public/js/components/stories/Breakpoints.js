@@ -22,8 +22,8 @@ storiesOf("Breakpoints", module)
   })
   .add("1 Domain", () => {
     const store = createStore({
-      sources: fromJS({ sources: { fooSourceActor } }),
-      breakpoints: fromJS({ breakpoints: { fooBreakpointActor } })
+      sources: fromJS({ sources: { fooSourceActor }}),
+      breakpoints: fromJS({ breakpoints: { fooBreakpointActor }})
     });
     return renderBreakpoints(store);
   })

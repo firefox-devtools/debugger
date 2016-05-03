@@ -18,16 +18,18 @@ storiesOf("Scopes", module)
     return renderContainer(store, Scopes);
   })
   .add("Event Handler", () => {
-    const store = createStore({ pause: fromJS({ pause: backbonePauseOnEnter })});
+    const store = createStore({
+      pause: fromJS({ pause: backbonePauseOnEnter })
+    });
     return renderContainer(store, Scopes);
   });
 
 function renderContainer(store, Component) {
-  return dom.div({style: {
+  return dom.div({ style: {
     width: "300px",
     margin: "auto",
     paddingTop: "100px" }},
-    dom.div({style: {border: "1px solid #ccc", padding: "20px" }},
+    dom.div({ style: { border: "1px solid #ccc", padding: "20px" }},
       createElement(Provider, { store }, Component())
     )
   );

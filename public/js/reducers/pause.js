@@ -32,7 +32,7 @@ function update(state = initialState, action, emit) {
     case constants.BREAK_ON_NEXT:
       return state.set("isWaitingOnBreak", true);
     case constants.LOAD_FRAMES:
-      if(action.status === "done") {
+      if (action.status === "done") {
         return state.set("frames", action.value.frames);
       }
       break;

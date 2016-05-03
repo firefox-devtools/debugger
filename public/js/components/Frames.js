@@ -1,3 +1,5 @@
+"use strict";
+
 const React = require("react");
 const { DOM: dom } = React;
 const { div } = dom;
@@ -14,8 +16,7 @@ function renderFrameTitle(frame) {
   if (frame.type == "call") {
     let c = frame.callee;
     title = c.name || c.userDisplayName || c.displayName || "(anonymous)";
-  }
-  else {
+  } else {
     title = "(" + frame.type + ")";
   }
 
