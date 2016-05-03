@@ -1,6 +1,6 @@
 "use strict";
 
-var webpackConfig = require('./webpack.config.js');
+var webpackConfig = require("./webpack.config.js");
 webpackConfig.entry = {};
 
 // Compile with babel to support older browsers. We may be able to
@@ -24,7 +24,6 @@ module.exports = function(config) {
       "./public/js/**/tests/*"
     ],
     exclude: [],
-    preprocessors: {},
     reporters: ["progress"],
     browsers: ["Firefox", "Chrome"],
     port: 8002,
@@ -35,7 +34,7 @@ module.exports = function(config) {
     concurrency: Infinity,
 
     preprocessors: {
-      "./public/js/**/tests/*": ['webpack']
+      "./public/js/**/tests/*": ["webpack"]
     },
 
     webpack: webpackConfig
