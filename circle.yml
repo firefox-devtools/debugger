@@ -14,6 +14,7 @@ dependencies:
     - sudo dpkg -i google-chrome.deb
     - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
     - rm google-chrome.deb
+    - sudo apt-get update && sudo apt-get install libpango1.0-0 && sudo apt-get install firefox
 machine:
   node:
     version: 5.10.1
