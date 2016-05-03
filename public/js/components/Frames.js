@@ -23,20 +23,27 @@ function renderFrameTitle(frame) {
   return div({ className: "title" }, title);
 }
 
-function renderFrameLocation(frame) {
-  return div({ className: "location" }, basename(frame.where.source.url));
+function renderFrameLocation(frame, lastFrame) {
+  if (!lastFrame || lastFrame.where.source.url !== frame.where.source.url) {
+    return div({ className: "location" }, basename(frame.where.source.url));
+  }
+  return div({ className: "location" }, "");
 }
 
 function Frames({ frames, selectedFrame, selectFrame }) {
+  let lastFrame = null;
   return div(
     { className: "pane-info frames" },
     !frames ?
       div({ className: "empty" }, "Not Paused") :
-      dom.ul(null, frames.map(frame => {
+      dom.ul(null, frames.map((frame, i, a) => {
+        if (i > 0 && a[i - 1]) {
+          lastFrame = a[i - 1];
+        }
         return dom.li({ className: selectedFrame === frame ? "selected" : "",
                         onClick: () => selectFrame(frame)
                       },
-                      renderFrameLocation(frame),
+                      renderFrameLocation(frame, lastFrame),
                       renderFrameTitle(frame));
       }))
   );
