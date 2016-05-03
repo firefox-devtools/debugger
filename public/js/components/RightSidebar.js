@@ -23,8 +23,7 @@ function debugBtn(onClick, type, className) {
 }
 
 function RightSidebar({ resume, command, breakOnNext,
-                        pause, isWaitingOnBreak,
-                        frames, selectedFrame }) {
+                        pause, isWaitingOnBreak }) {
   return (
     dom.div({ className: "right-sidebar" },
       dom.div({ className: "command-bar" },
@@ -52,11 +51,9 @@ function RightSidebar({ resume, command, breakOnNext,
             component: Breakpoints,
             opened: true },
           { header: "Call Stack",
-            component: Frames,
-            componentProps: { frames, selectedFrame }},
+            component: Frames },
           { header: "Scopes",
-            component: Scopes
-          }
+            component: Scopes }
         ]
       })
     )
@@ -66,9 +63,7 @@ function RightSidebar({ resume, command, breakOnNext,
 module.exports = connect(
   state => ({
     pause: getPause(state),
-    isWaitingOnBreak: getIsWaitingOnBreak(state),
-    frames: getFrames(state),
-    selectedFrame: getSelectedFrame(state)
+    isWaitingOnBreak: getIsWaitingOnBreak(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(RightSidebar);

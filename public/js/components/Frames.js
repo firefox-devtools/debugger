@@ -1,10 +1,11 @@
 const React = require("react");
+const { DOM: dom } = React;
+const { div } = dom;
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
 const { basename } = require("../util/path");
-const { DOM: dom } = React;
-const { div } = dom;
+const { getFrames, getSelectedFrame } = require("../selectors");
 
 require("./Frames.css");
 
@@ -18,11 +19,11 @@ function renderFrameTitle(frame) {
     title = "(" + frame.type + ")";
   }
 
-  return div(null, title);
+  return div({ className: "title" }, title);
 }
 
 function renderFrameLocation(frame) {
-  return div(null, basename(frame.where.source.url));
+  return div({ className: "location" }, basename(frame.where.source.url));
 }
 
 function Frames({ frames, selectedFrame, selectFrame }) {
@@ -41,6 +42,9 @@ function Frames({ frames, selectedFrame, selectFrame }) {
 }
 
 module.exports = connect(
-  null,
+  state => ({
+    frames: getFrames(state),
+    selectedFrame: getSelectedFrame(state)
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Frames);

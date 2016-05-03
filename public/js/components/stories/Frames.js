@@ -1,6 +1,7 @@
 const React = require("react");
 const { DOM: dom, createElement } = React;
 const { Provider } = require("react-redux");
+const { Map } = require("immutable");
 
 const { createStore } = require("./utils");
 
@@ -14,11 +15,11 @@ storiesOf("Frames", module)
     return renderContainer(Frames);
   })
   .add("Paused", () => {
-    return renderContainer(Frames, { frames: frameData });
+    return renderContainer(Frames, frameData);
   });
 
-function renderContainer(Component, props) {
-  const store = createStore();
+function renderContainer(Component, frames) {
+  const store = createStore({ pause: Map({ frames }) });
   return dom.div(
     { style: {
       width: "400px",
@@ -27,6 +28,6 @@ function renderContainer(Component, props) {
     }},
     dom.div({style: {border: "1px solid #ccc", padding: "20px" }},
             createElement(Provider, { store },
-                          createElement(Component, props)))
+                          createElement(Component)))
   );
 }

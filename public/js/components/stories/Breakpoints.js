@@ -4,6 +4,7 @@ const React = require("react");
 const { DOM: dom, createElement } = React;
 const { storiesOf } = require("@kadira/storybook");
 const { Provider } = require("react-redux");
+const { fromJS } = require("immutable");
 const { createStore } = require("./utils");
 
 const Breakpoints = React.createFactory(require("../Breakpoints"));
@@ -21,15 +22,17 @@ storiesOf("Breakpoints", module)
   })
   .add("1 Domain", () => {
     const store = createStore({
-      sources: { fooSourceActor },
-      breakpoints: { fooBreakpointActor }
+      sources: fromJS({ sources: { fooSourceActor } }),
+      breakpoints: fromJS({ breakpoints: { fooBreakpointActor } })
     });
     return renderBreakpoints(store);
   })
   .add("2 Domains", () => {
     const store = createStore({
-      sources: { sources: { fooSourceActor, barSourceActor }},
-      breakpoints: { breakpoints: { fooBreakpointActor, barBreakpointActor }}
+      sources: fromJS({ sources: { fooSourceActor, barSourceActor }}),
+      breakpoints: fromJS({
+        breakpoints: { fooBreakpointActor, barBreakpointActor }
+      })
     });
     return renderBreakpoints(store);
   });

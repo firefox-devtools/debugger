@@ -2,6 +2,7 @@
 const React = require("react");
 const { DOM: dom, createElement } = React;
 const { Provider } = require("react-redux");
+const { fromJS } = require("immutable");
 
 const { createStore } = require("./utils");
 
@@ -17,7 +18,7 @@ storiesOf("Scopes", module)
     return renderContainer(store, Scopes);
   })
   .add("Event Handler", () => {
-    const store = createStore({ pause: { pause: backbonePauseOnEnter }});
+    const store = createStore({ pause: fromJS({ pause: backbonePauseOnEnter })});
     return renderContainer(store, Scopes);
   });
 
