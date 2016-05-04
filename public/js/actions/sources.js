@@ -57,7 +57,7 @@ function selectSource(source, opts) {
 
 function loadSources() {
   return ({ dispatch, threadClient }) => {
-    dispatch({
+    return dispatch({
       type: constants.LOAD_SOURCES,
       [PROMISE]: Task.spawn(function* () {
         const response = yield threadClient.getSources();

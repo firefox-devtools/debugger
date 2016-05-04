@@ -32,6 +32,8 @@ function paused(pauseInfo) {
       return;
     }
 
+    dispatch(selectSource(pauseInfo.frame.where.source));
+
     dispatch({
       type: constants.LOAD_FRAMES,
       [PROMISE]: promisify(threadClient, threadClient.getFrames,

@@ -49,13 +49,7 @@ function debugTab(tab, actions) {
 
     let client = getThreadClient();
 
-    client.addListener("paused", (_, packet) => {
-      actions.paused(packet);
-      if (packet.why.type != "interrupted") {
-        actions.selectSource(packet.frame.where.source);
-      }
-    });
-
+    client.addListener("paused", (_, packet) => actions.paused(packet));
     client.addListener("resumed", (_, packet) => actions.resumed(packet));
     client.addListener("newSource", (_, packet) => {
       actions.newSource(packet.source);
