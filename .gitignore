@@ -1,5 +1,5 @@
 .DS_Store
 build
 node_modules
-environment.json
+public/js/configs/development.local.json
 npm-debug.log
