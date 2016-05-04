@@ -9,7 +9,7 @@ const initialState = [];
 function update(state = initialState, action) {
   const { seqId } = action;
 
-  if (action.type === constants.UNLOAD) {
+  if (action.type === constants.NAVIGATE) {
     return initialState;
   } else if (seqId) {
     let newState;

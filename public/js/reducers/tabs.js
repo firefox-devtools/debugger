@@ -24,15 +24,7 @@ function update(state = initialState, action) {
         Immutable.Map(tabs.map(tab => [tab.actor, Immutable.Map(tab)]))
       );
     case constants.SELECT_TAB:
-      if (action.status == "start") {
-        return state;
-      }
-
-      if (action.status == "error") {
-        return state;
-      }
-
-      const tab = Immutable.fromJS(action.value.selectedTab);
+      const tab = state.getIn(["tabs", action.tabActor]);
       return state.setIn(["selectedTab"], tab);
   }
 

@@ -21,7 +21,7 @@ exports.ADD_SOURCE = "ADD_SOURCE";
 exports.LOAD_SOURCES = "LOAD_SOURCES";
 exports.LOAD_SOURCE_TEXT = "LOAD_SOURCE_TEXT";
 exports.SELECT_SOURCE = "SELECT_SOURCE";
-exports.UNLOAD = "UNLOAD";
+exports.NAVIGATE = "NAVIGATE";
 exports.RELOAD = "RELOAD";
 
 exports.ADD_TABS = "ADD_TABS";

@@ -26,6 +26,8 @@ function update(state = initialState, action, emit) {
         emit("event-listeners", state.listeners);
       }
       break;
+    case constants.NAVIGATE:
+      return initialState;
   }
 
   return state;

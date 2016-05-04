@@ -38,6 +38,8 @@ function update(state = initialState, action, emit) {
       break;
     case constants.SELECT_FRAME:
       return state.set("selectedFrame", action.frame);
+    case constants.NAVIGATE:
+      return initialState;
   }
 
   return state;

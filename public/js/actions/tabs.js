@@ -3,12 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
  /* global window */
 "use strict";
-const { Task } = require("ff-devtools-libs/sham/task");
-const { PROMISE } = require("ff-devtools-libs/client/shared/redux/middleware/promise");
 
-const { connectToTab } = require("../client");
 const constants = require("../constants");
-const { getTabs } = require("../selectors");
 
 function newTabs(tabs) {
   return {
@@ -18,28 +14,19 @@ function newTabs(tabs) {
 }
 
 function selectTab({ tabActor }) {
-  return ({ dispatch, getState }) => {
-    const tabs = getTabs(getState());
-    const selectedTab = tabs.get(tabActor);
+  // set selected tab in the URL hash
+  let childId;
+  if (tabActor.includes("child")) {
+    childId = tabActor.match(/child\d+/)[0];
+  } else {
+    childId = tabActor.match(/tab\d+/)[0];
+  }
 
-    // set selected tab in the URL hash
-    let childId;
-    if (tabActor.includes("child")) {
-      childId = tabActor.match(/child\d+/)[0];
-    } else {
-      childId = tabActor.match(/tab\d+/)[0];
-    }
+  window.location.hash = `tab=${childId}`;
 
-    window.location.hash = `tab=${childId}`;
-
-    return dispatch({
-      type: constants.SELECT_TAB,
-      tabActor: tabActor,
-      [PROMISE]: Task.spawn(function* () {
-        yield connectToTab(selectedTab.toJS());
-        return { selectedTab };
-      })
-    });
+  return {
+    type: constants.SELECT_TAB,
+    tabActor: tabActor,
   };
 }
 

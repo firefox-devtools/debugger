@@ -10,12 +10,9 @@ const { debugTab } = require("../client");
 require("./Tabs.css");
 const dom = React.DOM;
 
-function Tabs({ tabs, newSource, paused, resumed,
-  selectTab, selectSource, loadSources }) {
-  function onClickTab(e) {
-    const tabActor = e.currentTarget.dataset.actorId;
-    debugTab({ tabActor, newSource, paused, resumed,
-               selectTab, selectSource, loadSources });
+function Tabs({ tabs, actions: boundActions }) {
+  function onSelect(tab) {
+    debugTab(tab.toJS(), boundActions);
   }
 
   return dom.ul(
@@ -25,7 +22,7 @@ function Tabs({ tabs, newSource, paused, resumed,
         { "className": "tab",
           "data-actor-id": tab.get("actor"),
           "key": tab.get("actor"),
-          "onClick": onClickTab },
+          "onClick": () => onSelect(tab) },
         dom.div({ className: "tab-title" }, tab.get("title")),
         dom.div({ className: "tab-url" }, tab.get("url"))
       );
@@ -35,5 +32,5 @@ function Tabs({ tabs, newSource, paused, resumed,
 
 module.exports = connect(
   state => ({ tabs: getTabs(state) }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(actions, dispatch) })
 )(Tabs);
