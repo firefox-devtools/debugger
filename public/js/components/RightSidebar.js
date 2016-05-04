@@ -14,7 +14,9 @@ const Frames = React.createFactory(require("./Frames"));
 const Accordion = React.createFactory(require("./Accordion"));
 require("./RightSidebar.css");
 
-function debugBtn(onClick, type, className) {
+function debugBtn(onClick, type) {
+  const className = type;
+
   return dom.span(
     { onClick, className, key: type },
     Isvg({ src: `images/${type}.svg` })

@@ -71,7 +71,9 @@ function onWheel(cm, ev) {
     deltaY *= cm.getWrapperElement().clientHeight;
   }
 
-  cm.getScrollerElement().scrollBy(deltaX, deltaY);
+  if (cm.getScrollerElement().scrollBy) {
+    cm.getScrollerElement().scrollBy(deltaX, deltaY);
+  }
 }
 
 module.exports = {
