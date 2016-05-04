@@ -20,7 +20,7 @@ let config = {
     loaders: [
       {
         test: /\.json$/,
-        loader: "json-loader"
+        loader: "json"
       },
       {
         test: /\.css$/,

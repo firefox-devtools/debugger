@@ -7,3 +7,4 @@ require("./Scopes");
 require("./Sources");
 require("./SplitBox");
 require("./Frames");
+require("./Tree");

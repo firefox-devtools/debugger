@@ -3,68 +3,91 @@
 const React = require("react");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-const actions = require("../actions");
-const { getSelectedSource } = require("../selectors");
-const { DOM: dom } = React;
+const classnames = require("classnames");
+const ManagedTree = React.createFactory(require("./util/ManagedTree"));
 const Isvg = React.createFactory(require("react-inlinesvg"));
+const actions = require("../actions");
+const { getSelectedSource, getSourceTree, sourceTreeHasChildren: hasChildren } = require("../selectors");
+const { DOM: dom } = React;
 
 require("./Sources.css");
 
-function isSelected(selectedSource, source) {
-  return selectedSource && selectedSource.get("actor") == source.get("actor");
-}
+// Sources!!
 
-function renderSource({ source, selectSource, selectedSource }) {
-  const pathname = source.get("pathname");
-  const selectedClass = isSelected(selectedSource, source) ? "selected" : "";
+let SourcesTree = React.createClass({
+  getInitialState() {
+    return { focusedItem: null };
+  },
 
-  return dom.li(
-    { onClick: () => selectSource(source.toJS()),
-      className: `source-item ${selectedClass}`,
-      style: { paddingLeft: "20px" },
-      key: source.get("url") },
+  focusItem(item) {
+    this.setState({ focusedItem: item });
+  },
 
-    Isvg({ src: "images/angle-brackets.svg" }),
-    dom.span({ className: "label" }, pathname)
-  );
-}
+  selectItem(item) {
+    if(!hasChildren(item)) {
+      this.props.selectSource(item[1].toJS());
+    }
+  },
 
-/**
- * Takes a sources object indexed by actor and
- * returns a sources object indexed by source domain.
- *
- * @returns Object
- */
-function groupSourcesByDomain(sources) {
-  return sources.valueSeq()
-    .filter(source => !!source.get("url"))
-    .groupBy(source => (new URL(source.get("url"))).hostname);
-}
+  render() {
+    const { sourceTree } = this.props;
+    const { focusedItem } = this.state;
 
-function Sources({ sources, selectSource, selectedSource }) {
-  const sourcesByDomain = groupSourcesByDomain(sources);
-
-  return dom.div({ className: "sources-panel" },
-    dom.div(
-      { className: "sources-header" }
-    ),
-    dom.ul(
-      { className: "sources-list" },
-      sourcesByDomain.keySeq().map((domain) => {
-        return dom.li({ key: domain, className: "domain" },
-          Isvg({ src: "images/globe.svg" }),
-          dom.span({ className: "label" }, domain),
-          dom.ul(null,
-            sourcesByDomain.get(domain).map(source => renderSource({
-              source, selectSource, selectedSource }))
-          )
+    const tree = ManagedTree({
+      getParent: item => {
+        return sourceTree.parentMap.get(item);
+      },
+      getChildren: item => {
+        if(hasChildren(item)) {
+          return item[1];
+        }
+        return [];
+      },
+      getRoots: () => sourceTree.tree[1],
+      getKey: (item, i) => i,
+      itemHeight: 30,
+      autoExpandDepth: 3,
+      onFocus: this.focusItem,
+      renderItem: (item, depth, focused, arrow, expanded, { setExpanded }) => {
+        return dom.div(
+          { className: focused ? 'focused' : '',
+            style: { marginLeft: depth * 20 + "px",
+                     height: 20 },
+            onClick: () => this.selectItem(item),
+            onDoubleClick: e => {
+              setExpanded(item, !expanded);
+            }},
+          dom.img({ className: classnames("arrow",
+                                          { expanded: expanded,
+                                            hidden: !hasChildren(item) }),
+                    onClick: e => { e.stopPropagation(); setExpanded(item, !expanded) },
+                    src: "images/arrow.svg" }),
+          item[0]
         );
-      })
-    )
+      }
+    });
+
+    return dom.div({
+      onKeyDown: e => {
+        if (e.keyCode === 13 && focusedItem) {
+          this.selectItem(focusedItem);
+        }
+      }
+    }, tree);
+  }
+});
+SourcesTree = React.createFactory(SourcesTree);
+
+function Sources({ sourceTree, selectSource, selectedSource }) {
+  return dom.div(
+    { className: "sources-panel" },
+    dom.div({ className: "sources-header" }),
+    SourcesTree({ sourceTree, selectSource })
   );
 }
 
 module.exports = connect(
-  state => ({ selectedSource: getSelectedSource(state) }),
+  state => ({ selectedSource: getSelectedSource(state),
+              sourceTree: getSourceTree(state) }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Sources);

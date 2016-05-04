@@ -1,5 +1,7 @@
 "use strict";
 
+const { createSelector } = require("reselect");
+
 /* Selectors */
 function getSources(state) {
   return state.sources.get("sources");
@@ -12,6 +14,37 @@ function getSourcesText(state) {
 function getSelectedSource(state) {
   return state.sources.get("selectedSource");
 }
+
+function sourceTreeHasChildren(item) {
+  return item[1] instanceof Array;
+}
+
+function createParentMap(tree) {
+  var map = new WeakMap();
+
+  function _traverse(tree) {
+    if(sourceTreeHasChildren(tree)) {
+      tree[1].forEach(child => {
+        map.set(child, tree);
+        _traverse(child);
+      });
+    }
+  }
+
+  _traverse(tree);
+  return map;
+}
+
+const getSourceTree = createSelector(
+  state => state.sources.get("sourceTree"),
+  tree => {
+    console.log('ret', tree);
+    return {
+      tree: tree,
+      parentMap: createParentMap(tree)
+    };
+  }
+);
 
 function getSelectedSourceOpts(state) {
   return state.sources.get("selectedSourceOpts");
@@ -88,6 +121,8 @@ module.exports = {
   getSourceCount,
   getSourceByURL,
   getSourceByActor,
+  getSourceTree,
+  sourceTreeHasChildren,
   getSelectedSource,
   getSelectedSourceOpts,
   getSourceText,

@@ -51,3 +51,32 @@ ul.sources-list {
 .sources-list .source-item.selected .label {
   color: var(--theme-selection-color);
 }
+
+.arrow {
+  fill: var(--theme-splitter-color);
+  margin-right: 3px;
+  margin-top: 3px;
+  transform: rotate(-90deg);
+  transition: transform 0.25s ease;
+  width: 10px;
+}
+
+.arrow.expanded {
+  transform: rotate(0deg);
+}
+
+.arrow.hidden {
+  display: none;
+}
+
+.focused {
+  background-color: #f0f0f0;
+}
+
+.tree {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
