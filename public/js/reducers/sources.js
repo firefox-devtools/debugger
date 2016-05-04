@@ -70,7 +70,7 @@ function update(state = initialState, action) {
       }
       return s;
 
-    case constants.UNLOAD:
+    case constants.NAVIGATE:
       // Reset the entire state to just the initial state, a blank state
       // if you will.
       return initialState;

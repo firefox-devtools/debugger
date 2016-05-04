@@ -136,7 +136,12 @@ const Editor = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setSourceText(nextProps.sourceText, this.props.sourceText);
+    // The source text may not have been loaded yet.
+    // TODO(jwl): clear the existing state of the editor
+    if (nextProps.sourceText) {
+      this.setSourceText(nextProps.sourceText, this.props.sourceText);
+    }
+
     let pause = this.props.pause;
 
     if (pause) {
