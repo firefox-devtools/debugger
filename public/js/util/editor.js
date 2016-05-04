@@ -50,10 +50,9 @@ function setFirstVisibleLine(cm, line) {
  * finding a solution that allows APZ to work with CodeMirror.
  */
 function onWheel(cm, ev) {
-
   // FIX bug where chrome does not support scrollBy
   if (!cm.getScrollerElement().scrollBy) {
-    return false;
+    return;
   }
 
   // By handling the wheel events ourselves, we force the platform to
@@ -72,7 +71,9 @@ function onWheel(cm, ev) {
     deltaY *= cm.getWrapperElement().clientHeight;
   }
 
-  cm.getScrollerElement().scrollBy(deltaX, deltaY);
+  if (cm.getScrollerElement().scrollBy) {
+    cm.getScrollerElement().scrollBy(deltaX, deltaY);
+  }
 }
 
 module.exports = {

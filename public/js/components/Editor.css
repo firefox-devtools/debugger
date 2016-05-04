@@ -21,6 +21,10 @@
   width: 40px;
 }
 
+.editor.breakpoint:hover {
+  cursor: pointer;
+}
+
 .CodeMirror-line {
   font-family: Menlo, monospace !important;
 }

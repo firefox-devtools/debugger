@@ -27,17 +27,24 @@ function renderFrameLocation(frame) {
   return div({ className: "location" }, basename(frame.where.source.url));
 }
 
+function renderFrame(frame, selectedFrame, selectFrame) {
+  const selectedClass = selectedFrame === frame ? "selected" : "";
+
+  return dom.li({
+    className: `frame ${selectedClass}`,
+    onClick: () => selectFrame(frame)
+  },
+    renderFrameLocation(frame),
+    renderFrameTitle(frame));
+}
+
 function Frames({ frames, selectedFrame, selectFrame }) {
   return div(
     { className: "pane-info frames" },
     !frames ?
       div({ className: "empty" }, "Not Paused") :
       dom.ul(null, frames.map(frame => {
-        return dom.li({ className: selectedFrame === frame ? "selected" : "",
-                        onClick: () => selectFrame(frame)
-                      },
-                      renderFrameLocation(frame),
-                      renderFrameTitle(frame));
+        return renderFrame(frame, selectedFrame, selectFrame);
       }))
   );
 }

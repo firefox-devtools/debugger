@@ -33,29 +33,34 @@ const Accordion = React.createClass({
     this.setState({ opened, created });
   },
 
-  render: function() {
+  renderContainer: function(item, i) {
     const { opened, created } = this.state;
+    const containerClassName = item.header.toLowerCase().replace(/\s/g, "-");
+    const isOpenedClassName = opened[i] ? "opened" : "";
+
+    return div({
+      className: `${isOpenedClassName} ${containerClassName}`,
+      key: i },
+      div({ className: "_header",
+            onClick: () => this.handleHeaderClick(i) },
+            Isvg({ src: "images/arrow.svg" }),
+            item.header),
+
+      (created[i] || opened[i]) ?
+        div(
+          { className: "_content",
+              style: { display: opened[i] ? "block" : "none" }
+          },
+          React.createElement(item.component, item.componentProps || {})
+        ) :
+        null
+    );
+  },
+
+  render: function() {
     return div(
       { className: "accordion" },
-      this.props.items.map((item, i) => {
-        return div(
-          { className: opened[i] ? "opened" : "",
-            key: i },
-          div({ className: "_header",
-                onClick: () => this.handleHeaderClick(i) },
-                Isvg({ src: "images/arrow.svg" }),
-                item.header),
-
-          (created[i] || opened[i]) ?
-            div(
-              { className: "_content",
-                  style: { display: opened[i] ? "block" : "none" }
-              },
-              React.createElement(item.component, item.componentProps || {})
-            ) :
-            null
-        );
-      })
+      this.props.items.map(this.renderContainer)
     );
   }
 });
