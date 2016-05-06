@@ -33,5 +33,7 @@ Then open another browser and go to `http://localhost:8000`.
 
 You can create a `development.local.json` for local user settings in `public/js/configs`.
 
++ `clientLogging` - set to `true` to see client logs
+
 ##### Remote Debugging
 If you'd like to connect an existing Firefox browser to debugger.html, you can press `shift+F2` to open the developer toolbar and type `listen 6080` into the developer toolbar console.

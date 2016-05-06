@@ -1,4 +1,5 @@
 {
   "development": true,
-  "logging": true
+  "logging": true,
+  "clientLogging": false
 }
