@@ -50,6 +50,12 @@ function setFirstVisibleLine(cm, line) {
  * finding a solution that allows APZ to work with CodeMirror.
  */
 function onWheel(cm, ev) {
+
+  // FIX bug where chrome does not support scrollBy
+  if (!cm.getScrollerElement().scrollBy) {
+    return false;
+  }
+
   // By handling the wheel events ourselves, we force the platform to
   // scroll synchronously, like it did before APZ. However, we lose smooth
   // scrolling for users with mouse wheels. This seems acceptible vs.
