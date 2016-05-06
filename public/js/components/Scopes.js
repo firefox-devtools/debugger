@@ -57,9 +57,10 @@ function renderScopeBindings(bindings) {
 function renderFunctionScope(scope, isFirst) {
   const displayName = scope.getIn(["function", "displayName"]);
   const functionName = displayName || "(anonymous)";
+  const label = "Function";
 
   return {
-    header: `Function [${functionName}]`,
+    header: `${label} [${functionName}]`,
     component: () => renderScopeBindings(scope.get("bindings")),
     opened: isFirst
   };

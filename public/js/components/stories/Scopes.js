@@ -9,17 +9,26 @@ const { createStore } = require("./utils");
 const { storiesOf } = require("@kadira/storybook");
 const Scopes = React.createFactory(require("../Scopes"));
 
-const backbonePauseOnEnter =
-  require("../../test/fixtures/backbone.pause.onEnter.json");
+const fixtures = require("../../test/fixtures");
+
+function pauseData(fixture) {
+  return fixtures[fixture].pause.pause;
+}
 
 storiesOf("Scopes", module)
   .add("Not Paused", () => {
     const store = createStore();
     return renderContainer(store, Scopes);
   })
-  .add("Event Handler", () => {
+  .add("TodoMVC Event Handler", () => {
     const store = createStore({
-      pause: fromJS({ pause: backbonePauseOnEnter })
+      pause: fromJS({ pause: pauseData("todomvcUpdateOnEnter") })
+    });
+    return renderContainer(store, Scopes);
+  })
+  .add("Nested Closures", () => {
+    const store = createStore({
+      pause: fromJS({ pause: pauseData("pythagorean") })
     });
     return renderContainer(store, Scopes);
   });
@@ -29,8 +38,11 @@ function renderContainer(store, Component) {
     width: "300px",
     margin: "auto",
     paddingTop: "100px" }},
-    dom.div({ style: { border: "1px solid #ccc", padding: "20px" }},
-      createElement(Provider, { store }, Component())
+    createElement(
+      Provider,
+      { store },
+      dom.div({ className: "accordion" },
+        dom.div({ className: "_content" }, createElement(Component)))
     )
   );
 }
