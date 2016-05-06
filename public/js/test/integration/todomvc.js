@@ -58,9 +58,9 @@ function debuggee(callback) {
 describe("Todo MVC", function() {
   beforeEach(function() {
     debuggee(() => {
-      driver.get("http://todomvc.com/examples/backbone/");
+      driver.get("http://localhost:8080/");
     });
-    cy.visit("http://localhost:8000/#tab=tab1");
+    cy.visit("http://localhost:8000/babeled#tab=tab1");
   });
 
   it("Adding Breakpoints in one source", function() {
