@@ -31,6 +31,7 @@ ul.sources-list {
 
 .sources-list .source-item {
   list-style: none;
+  white-space: nowrap;
 }
 
 .sources-list .label {

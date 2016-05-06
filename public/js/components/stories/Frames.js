@@ -9,15 +9,21 @@ const { createStore } = require("./utils");
 
 const { storiesOf } = require("@kadira/storybook");
 const Frames = React.createFactory(require("../Frames"));
+const fixtures = require("../../test/fixtures");
 
-const frameData = require("../../test/fixtures/frames.json");
+function frameData(fixture) {
+  return fixtures[fixture].pause.frames;
+}
 
 storiesOf("Frames", module)
   .add("Blank", () => {
     return renderContainer(Frames);
   })
-  .add("Paused", () => {
-    return renderContainer(Frames, frameData);
+  .add("TodoMVC Todo Toggle", () => {
+    return renderContainer(Frames, fixtures.frames);
+  })
+  .add("Nested Closures", () => {
+    return renderContainer(Frames, frameData("pythagorean"));
   });
 
 function renderContainer(Component, frames) {
@@ -28,8 +34,8 @@ function renderContainer(Component, frames) {
       margin: "auto",
       paddingTop: "100px"
     }},
-    dom.div({ style: { border: "1px solid #ccc", padding: "20px" }},
-            createElement(Provider, { store },
-                          createElement(Component)))
+    createElement(Provider, { store },
+      dom.div({ className: "accordion" },
+        dom.div({ className: "_content" }, createElement(Component))))
   );
 }

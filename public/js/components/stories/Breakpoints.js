@@ -8,7 +8,7 @@ const { fromJS } = require("immutable");
 const { createStore } = require("./utils");
 
 const Breakpoints = React.createFactory(require("../Breakpoints"));
-const fixtures = require("../../test/fixtures.json");
+const fixtures = require("../../test/fixtures/foobar.json");
 
 const fooSourceActor = fixtures.sources.sources.fooSourceActor;
 const barSourceActor = fixtures.sources.sources.barSourceActor;

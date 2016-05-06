@@ -1,7 +1,7 @@
 "use strict";
 
 const { actions, selectors, createStore } = require("../../util/test-head");
-const fixtures = require("../../test/fixtures.json");
+const fixtures = require("../../test/fixtures/foobar.json");
 const { fromJS } = require("immutable");
 const expect = require("expect.js");
 

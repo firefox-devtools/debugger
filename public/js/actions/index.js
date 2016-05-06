@@ -21,7 +21,7 @@ function navigate() {
     // *previous* page as well. For now, emulate the current debugger
     // behavior by not showing sources loaded by bfcache.
     // return dispatch(sources.loadSources());
-  }
+  };
 }
 
 module.exports = Object.assign(
