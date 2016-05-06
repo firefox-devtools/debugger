@@ -20,6 +20,7 @@ ul.sources-list {
   padding: 0;
   padding-left: 10px;
   flex: 1;
+  white-space: nowrap;
 }
 
 .sources-list ul {
@@ -36,7 +37,6 @@ ul.sources-list {
   font-size: 1em;
   padding-left: 10px;
   color: var(--theme-comment);
-  white-space: nowrap;
 }
 
 .sources-list .source-item:hover {
