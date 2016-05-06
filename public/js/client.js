@@ -28,6 +28,10 @@ function connectClient(onConnect) {
 
 function connectThread(tab, onNavigate) {
   return new Promise((resolve, reject) => {
+    window.addEventListener("beforeunload", () => {
+      getTabTarget(tab).then(target => target.destroy());
+    });
+
     getTabTarget(tab).then(target => {
       target.activeTab.attachThread({}, (res, threadClient) => {
         threadClient.resume();
