@@ -1,38 +1,14 @@
 "use strict";
 
-const webdriver = require('selenium-webdriver'),
-    firefox = require('selenium-webdriver/firefox'),
-    By = webdriver.By,
-    until = webdriver.until,
-    Key = webdriver.Key,
-    child = require("child_process"),
-    express = require("express"),
-    bodyParser = require("body-parser");
+const webdriver = require('selenium-webdriver');
+const firefox = require('selenium-webdriver/firefox');
+const By = webdriver.By;
+const until = webdriver.until;
+const Key = webdriver.Key;
 
 function firefoxBinary() {
-  /**
-   * Binary.prototype.launch is being overriden to change
-   * child.spawn to child.exec.
-   *
-   * Unfortunately, it also removes linux support because that
-   * would have included additional dependencies.
-   *
-   * [BUG 2059](https://github.com/SeleniumHQ/selenium/issues/2059)
-   */
-  function launch(profile) {
-    var env = {};
-    Object.assign(env, this.env_, {XRE_PROFILE_PATH: profile});
-    var args = ['-foreground'].concat(this.args_);
-    return this.locate().then(function(firefox) {
-      return child.exec(firefox + " " + args.join(" "), {
-        env: env
-      });
-    });
-  }
-
-  var binary = new firefox.Binary('/Applications/Firefox.app/Contents/MacOS/firefox-bin');
-  binary.addArguments('--start-debugger-server 6080')
-  binary.launch = launch;
+  var binary = new firefox.Binary();
+  binary.addArguments('--start-debugger-server', '6080')
 
   return binary;
 }
@@ -47,7 +23,7 @@ function firefoxProfile() {
   return profile;
 }
 
-function startDriver() {
+function start() {
   let options = new firefox.Options();
   options.setProfile(firefoxProfile())
   options.setBinary(firefoxBinary());
@@ -56,24 +32,4 @@ function startDriver() {
   return driver;
 }
 
-function startExpressServer() {
-  var app = express();
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
-
-  app.post('/command', function (req, res) {
-    const command = req.body.command;
-    eval(command);
-    console.log("command", command)
-    res.send('POST request to the homepage');
-  });
-
-  app.listen(9002, function () {
-    console.log('Debuggee Server listening on 9002!');
-  });
-
-  return app;
-}
-
-const driver = startDriver();
-const app = startExpressServer();
+module.exports = { start, By, Key, until }
