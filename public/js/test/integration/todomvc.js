@@ -39,7 +39,7 @@ function resumeDebugger() {
   cy.get(".right-sidebar").find(".resume").click();
 }
 
-function debuggee(callback) {
+function debuggee(callback, timeout = 1000) {
   /**
    * gets a fat arrow function and returns the function body
    * `() => { example }` => `example`
@@ -50,18 +50,34 @@ function debuggee(callback) {
     return source.slice(firstCurly + 1, -1).trim();
   }
 
-  cy.request("POST", "http://localhost:9002/command", {
-    command: getFunctionBody(callback)
+  return cy.request("POST", "http://localhost:9002/command", {
+    command: getFunctionBody(callback),
+    timeout: timeout
   });
 }
 
 describe("Todo MVC", function() {
+  before(function() {
+    cy.request("POST", "http://localhost:9002/start");
+  });
+
+  after(function() {
+    cy.request("POST", "http://localhost:9002/stop");
+  });
+
   beforeEach(function() {
     debuggee(() => {
-      driver.get("http://localhost:8080/");
+      driver.get("http://localhost:9002/todomvc/examples/backbone/");
     });
-    cy.visit("http://localhost:8000/babeled#tab=tab1");
+
+    cy.visit("http://localhost:8000");
+
+    cy.get(".tab").first().click();
   });
+
+  afterEach(function() {
+    cy.visit("http://localhost:8000");
+  })
 
   it("Adding Breakpoints in one source", function() {
     goToSource("todo-view");
@@ -106,7 +122,7 @@ describe("Todo MVC", function() {
     addBreakpoint(33);
 
     debuggee(() => {
-      let input = driver.findElement(By.className("new-todo"));
+      let input = driver.findElement(By.id("new-todo"));
       input.sendKeys("yo yo yo", Key.ENTER);
     });
 

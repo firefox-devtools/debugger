@@ -10,8 +10,6 @@ test:
         background: true
     - node bin/firefox-driver.js:
         background: true
-    - node_modules/.bin/static node_modules/todomvc/examples/backbone:
-        background: true
     - sleep 10
   post:
     - npm run lint-css
