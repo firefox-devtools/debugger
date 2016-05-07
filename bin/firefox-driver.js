@@ -58,15 +58,65 @@ function startDriver() {
 
 function startExpressServer() {
   var app = express();
+  let driver;
+
+  var isQuiting = false;
+  var isOpen = false;
+
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
 
-  app.post('/command', function (req, res) {
-    const command = req.body.command;
-    eval(command);
-    console.log("command", command)
-    res.send('POST request to the homepage');
+  app.post('/start', function(req, res) {
+    if (!isQuiting && !isOpen) {
+      driver = startDriver();
+      isOpen = true;
+    }
+    res.send('POST start driver');
   });
+
+  app.post('/stop', function(req, res) {
+    isQuiting = true;
+    driver.quit()
+    .catch(e => console.log("QUIT failed", e.stack))
+    .finally(() => {
+      isQuiting = false;
+      isOpen = false;
+      res.send('POST quit driver');
+    });
+  });
+
+  app.post('/command', function(req, res) {
+    const command = req.body.command;
+    const timeout = req.body.timeout;
+    console.log("Initiating command", command)
+
+    var isDone = false;
+    var cb = () => {
+      if (!isDone) {
+        console.log("Command Executed", command);
+        isDone = true;
+        res.sendStatus(200);
+      }
+    }
+
+    try {
+      var r  = eval(command);
+    } catch (e) {
+      console.log("error", e.stack);
+    }
+
+    setTimeout(cb, timeout);
+    r.then(cb)
+    .catch(err => {
+      console.log("Command Failed", err.stack);
+    });
+  });
+
+
+  // Serves todomvc from node_modules.
+  // This is a test to see if going forward, we want to pull in test
+  // examples from the community.
+  app.use(express.static("node_modules"));
 
   app.listen(9002, function () {
     console.log('Debuggee Server listening on 9002!');
@@ -75,5 +125,4 @@ function startExpressServer() {
   return app;
 }
 
-const driver = startDriver();
 const app = startExpressServer();
