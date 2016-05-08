@@ -7,6 +7,8 @@ const express = require("express");
 const projectConfig = require("../webpack.config");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 
+require("ff-devtools-libs/bin/firefox-proxy");
+
 const config = Object.assign({}, projectConfig, {
   entry: path.join(__dirname, "../public/js/main.js"),
 });
@@ -33,5 +35,5 @@ app.listen(8000, "localhost", function(err, result) {
     console.log(err);
   }
 
-  console.log("Listening at http://localhost:8000");
+  console.log("Development Server Listening at http://localhost:8000");
 });
