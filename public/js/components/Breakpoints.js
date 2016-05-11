@@ -51,21 +51,33 @@ const Breakpoints = React.createClass({
   },
 
   renderBreakpoint(breakpoint) {
-    const filename = breakpoint.getIn(["location", "source", "filename"]);
+    const snippet = breakpoint.getIn(["location", "snippet"]);
     const locationId = breakpoint.get("locationId");
     const line = breakpoint.getIn(["location", "line"]);
     const isCurrentlyPaused = breakpoint.get("isCurrentlyPaused");
 
+    const isPausedIcon = isCurrentlyPaused && Isvg({
+      className: "pause-indicator",
+      src: "images/pause-circle.svg"
+    });
+
     return dom.div(
-      { className: "breakpoint",
+      {
+        className: "breakpoint",
         key: locationId,
-        onClick: () => this.selectBreakpoint(breakpoint) },
-      dom.input({ type: "checkbox",
-                  checked: !breakpoint.get("disabled"),
-                  onChange: () => this.handleCheckbox(breakpoint) }),
-      dom.div({ className: "breakpoint-label" }, `${filename}, line ${line}`),
-      (isCurrentlyPaused && Isvg({ className: "pause-indicator",
-                                   src: "images/pause-circle.svg" }))
+        onClick: () => this.selectBreakpoint(breakpoint)
+      },
+      dom.input(
+        {
+          type: "checkbox",
+          checked: !breakpoint.get("disabled"),
+          onChange: () => this.handleCheckbox(breakpoint)
+        }),
+      dom.div(
+        { className: "breakpoint-label" },
+        `${line} ${snippet}`
+      ),
+      isPausedIcon
     );
   },
 

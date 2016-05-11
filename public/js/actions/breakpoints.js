@@ -40,7 +40,7 @@ function _getOrCreateBreakpoint(state, location, condition) {
   return getBreakpoint(state, location) || fromJS({ location, condition });
 }
 
-function addBreakpoint(location, condition) {
+function addBreakpoint(location, condition, snippet) {
   return ({ dispatch, getState, threadClient }) => {
     if (_breakpointExists(getState(), location)) {
       return promise.resolve();
@@ -67,7 +67,7 @@ function addBreakpoint(location, condition) {
         setBreakpointClient(bpClient.actor, bpClient);
 
         return {
-          text: "<snippet>",
+          text: snippet,
 
           // If the breakpoint response has an "actualLocation" attached, then
           // the original requested placement for the breakpoint wasn't
