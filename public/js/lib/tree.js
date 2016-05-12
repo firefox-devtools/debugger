@@ -5,8 +5,8 @@
 const { DOM: dom, createClass, createFactory, PropTypes } = require("react");
 // const { ViewHelpers } =
 // require("resource://devtools/client/shared/widgets/ViewHelpers.jsm");
-let { VirtualScroll } = require("react-virtualized");
-VirtualScroll = createFactory(VirtualScroll);
+// let { VirtualScroll } = require("react-virtualized");
+// VirtualScroll = createFactory(VirtualScroll);
 
 const AUTO_EXPAND_DEPTH = 0; // depth
 

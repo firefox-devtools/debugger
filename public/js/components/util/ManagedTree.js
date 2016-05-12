@@ -1,35 +1,33 @@
+"use strict";
+
 const React = require("react");
 const Tree = React.createFactory(require("../../lib/tree"));
 
 let ManagedTree = React.createClass({
+  propTypes: Tree.propTypes,
+
   getInitialState() {
     return { expanded: new WeakMap(),
              focusedItem: null };
   },
-
-  // componentWillReceiveProps() {
-  //   this.setState({ expanded: new WeakMap(),
-  //                   focusedItem: null });
-  // },
 
   setExpanded(item, expanded) {
     const e = this.state.expanded;
     e.set(item, expanded);
     this.setState({ expanded: e });
 
-    if(expanded && this.props.onExpand) {
+    if (expanded && this.props.onExpand) {
       this.props.onExpand(item);
-    }
-    else if(!expanded && this.props.onCollapse) {
+    } else if (!expanded && this.props.onCollapse) {
       this.props.onCollapse(item);
     }
   },
 
   focusItem(item) {
-    if(this.state.focused !== item) {
+    if (this.state.focused !== item) {
       this.setState({ focusedItem: item });
 
-      if(this.props.onFocus) {
+      if (this.props.onFocus) {
         this.props.onFocus(item);
       }
     }
@@ -39,10 +37,7 @@ let ManagedTree = React.createClass({
     const { expanded, focusedItem } = this.state;
 
     const props = Object.assign({}, this.props, {
-      isExpanded: item => {
-        // console.log(item, expanded.get(item));
-        return expanded.get(item);
-      },
+      isExpanded: item => expanded.get(item),
       focused: focusedItem,
 
       onExpand: item => this.setExpanded(item, true),
@@ -52,7 +47,7 @@ let ManagedTree = React.createClass({
       renderItem: (...args) => {
         return this.props.renderItem(...args, {
           setExpanded: this.setExpanded
-        })
+        });
       }
     });
 

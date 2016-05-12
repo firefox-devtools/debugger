@@ -1,17 +1,21 @@
 .sources-panel {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .sources-header {
-  height: 30px;
+  flex: 0 0 30px;
   border-bottom: 1px solid var(--theme-gray);
 }
 
 .sources-list {
-  font-size: 0.75em;
-  line-height: 2;
-  list-style: none;
-  padding-left: 20px;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  font-size: 0.9em;
+  padding-left: 10px;
 }
 
 ul.sources-list {
@@ -52,7 +56,7 @@ ul.sources-list {
   color: var(--theme-selection-color);
 }
 
-.arrow {
+.arrow svg {
   fill: var(--theme-splitter-color);
   margin-right: 3px;
   margin-top: 3px;
@@ -61,16 +65,12 @@ ul.sources-list {
   width: 10px;
 }
 
-.arrow.expanded {
+.arrow.expanded svg {
   transform: rotate(0deg);
 }
 
 .arrow.hidden {
   display: none;
-}
-
-.focused {
-  background-color: #f0f0f0;
 }
 
 .tree {
@@ -79,4 +79,25 @@ ul.sources-list {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+
+  flex: 1;
+  white-space: nowrap;
+  overflow: auto;
+}
+
+.tree button {
+  display: block;
+}
+
+.tree .node {
+  padding: 5px;
+}
+
+.tree .node.focused {
+  color: white;
+  background-color: var(--theme-selection-background);
+}
+
+.tree .node.focused svg {
+  fill: white;
 }

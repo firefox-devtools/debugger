@@ -52,11 +52,10 @@ function debugTab(tab, actions) {
     client.addListener("paused", (_, packet) => actions.paused(packet));
     client.addListener("resumed", (_, packet) => actions.resumed(packet));
     client.addListener("newSource", (_, packet) => {
-      console.log('newSource');
       actions.newSource(packet.source);
     });
 
-    yield actions.loadSources();
+    actions.loadSources();
   });
 }
 

@@ -4,9 +4,7 @@
 "use strict";
 
 const constants = require("../constants");
-const { Map, List, fromJS } = require("immutable");
-const Cursor = require("../util/cursor");
-const { pathName, pathHasChildren, pathContents } = require("../selectors");
+const { Map, fromJS } = require("immutable");
 
 const initialState = fromJS({
   sources: {},
@@ -19,26 +17,22 @@ const initialState = fromJS({
 function update(state = initialState, action) {
   switch (action.type) {
     case constants.ADD_SOURCE:
-      return addToSourceTree(
-        state,
-        fromJS(_updateSource(action.source))
-      );
+      return state.mergeIn(["sources", action.source.actor],
+                           _updateSource(action.source));
 
     case constants.LOAD_SOURCES:
       if (action.status === "done") {
-        // const sources = action.value;
-        // if (!sources) {
-        //   return state;
-        // }
+        const sources = action.value;
+        if (!sources) {
+          return state;
+        }
 
-        // return updateSourceTree(
-        //   state.mergeIn(
-        //     ["sources"],
-        //     fromJS(sources.map(source => {
-        //       return [source.actor, _updateSource(source)];
-        //     }))
-        //   )
-        // );
+        state.mergeIn(
+          ["sources"],
+          fromJS(sources.map(source => {
+            return [source.actor, _updateSource(source)];
+          }))
+        );
       }
       break;
 
@@ -84,58 +78,6 @@ function update(state = initialState, action) {
   }
 
   return state;
-}
-
-function setPathContents(item, contents) {
-  return item.set(1, contents);
-}
-
-function createPath(name, contents) {
-  return fromJS([name, contents]);
-}
-
-function addToSourceTree(state, source) {
-  if(!source.get("url")) {
-    return state;
-  }
-
-  const start = Date.now();
-
-  const url = new URL(source.get("url"));
-  const parts = url.pathname.split("/").filter(p => p !== "");
-  parts.unshift(url.host);
-  const isDir = parts[parts.length - 1].indexOf(".") === -1;
-
-  let tree = state.get("sourceTree");
-  let cursor = Cursor.from(tree, newTree => {
-    tree = newTree
-  });
-
-  for(let part of parts) {
-    const subpaths = cursor.get(1);
-    let idx = subpaths.findIndex(subpath => {
-      return pathName(subpath).localeCompare(part) >= 0;
-    });
-
-    const pathItem = createPath(part, []);
-
-    if(idx >= 0 && pathName(subpaths.get(idx)) === part) {
-      cursor = subpaths.get(idx);
-    } else {
-      // Add a new one
-      const where = idx === -1 ? subpaths.size : idx;
-      cursor = subpaths.splice(where, 0, pathItem).get(where);
-    }
-  }
-
-  if(isDir) {
-    setPathContents(cursor, List([createPath("(index)", source)]));
-  }
-  else {
-    setPathContents(cursor, source);
-  }
-
-  return state.set("sourceTree", tree);
 }
 
 function _updateSource(source) {
