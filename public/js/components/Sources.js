@@ -7,12 +7,10 @@ const classnames = require("classnames");
 const ManagedTree = React.createFactory(require("./util/ManagedTree"));
 const Isvg = React.createFactory(require("react-inlinesvg"));
 const actions = require("../actions");
-const { getSelectedSource, getSourceTree, sourceTreeHasChildren: hasChildren } = require("../selectors");
+const { getSelectedSource, getSourceTree, pathHasChildren, pathContents } = require("../selectors");
 const { DOM: dom } = React;
 
 require("./Sources.css");
-
-// Sources!!
 
 let SourcesTree = React.createClass({
   getInitialState() {
@@ -24,7 +22,7 @@ let SourcesTree = React.createClass({
   },
 
   selectItem(item) {
-    if(!hasChildren(item)) {
+    if(!pathHasChildren(item)) {
       this.props.selectSource(item[1].toJS());
     }
   },
@@ -38,12 +36,12 @@ let SourcesTree = React.createClass({
         return sourceTree.parentMap.get(item);
       },
       getChildren: item => {
-        if(hasChildren(item)) {
-          return item[1];
+        if(pathHasChildren(item)) {
+          return pathContents(item).toArray();
         }
         return [];
       },
-      getRoots: () => sourceTree.tree[1],
+      getRoots: () => sourceTree.tree.get(1).toArray(),
       getKey: (item, i) => i,
       itemHeight: 30,
       autoExpandDepth: 3,
@@ -59,10 +57,10 @@ let SourcesTree = React.createClass({
             }},
           dom.img({ className: classnames("arrow",
                                           { expanded: expanded,
-                                            hidden: !hasChildren(item) }),
+                                            hidden: !pathHasChildren(item) }),
                     onClick: e => { e.stopPropagation(); setExpanded(item, !expanded) },
                     src: "images/arrow.svg" }),
-          item[0]
+          item.get(0)
         );
       }
     });

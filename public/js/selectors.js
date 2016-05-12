@@ -1,6 +1,7 @@
 "use strict";
 
 const { createSelector } = require("reselect");
+const { List } = require("immutable");
 
 /* Selectors */
 function getSources(state) {
@@ -15,19 +16,27 @@ function getSelectedSource(state) {
   return state.sources.get("selectedSource");
 }
 
-function sourceTreeHasChildren(item) {
-  return item[1] instanceof Array;
+function pathName(item) {
+  return item.get(0);
+}
+
+function pathHasChildren(item) {
+  return item.get(1) instanceof List;
+}
+
+function pathContents(item) {
+  return item.get(1);
 }
 
 function createParentMap(tree) {
   var map = new WeakMap();
 
   function _traverse(tree) {
-    if(sourceTreeHasChildren(tree)) {
-      tree[1].forEach(child => {
+    if(pathHasChildren(tree)) {
+      for(let child of pathContents(tree)) {
         map.set(child, tree);
         _traverse(child);
-      });
+      };
     }
   }
 
@@ -38,7 +47,6 @@ function createParentMap(tree) {
 const getSourceTree = createSelector(
   state => state.sources.get("sourceTree"),
   tree => {
-    console.log('ret', tree);
     return {
       tree: tree,
       parentMap: createParentMap(tree)
@@ -122,7 +130,11 @@ module.exports = {
   getSourceByURL,
   getSourceByActor,
   getSourceTree,
-  sourceTreeHasChildren,
+
+  pathName,
+  pathHasChildren,
+  pathContents,
+
   getSelectedSource,
   getSelectedSourceOpts,
   getSourceText,
