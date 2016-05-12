@@ -1,7 +1,7 @@
 {
   "name": "debugger.html",
   "scripts": {
-    "start": "firefox-proxy & node bin/server",
+    "start": "node bin/server",
     "lint": "npm run lint-css; npm run lint-js",
     "lint-css": "stylelint public/js/components/*.css",
     "lint-js": "eslint public/js",
