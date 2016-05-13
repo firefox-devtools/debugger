@@ -15,6 +15,7 @@
     "babel-cli": "^6.7.5",
     "babel-polyfill": "^6.7.4",
     "babel-preset-stage-0": "^6.5.0",
+    "classnames": "^2.2.5",
     "co": "=4.6.0",
     "codemirror": "^5.1.0",
     "express": "^4.13.4",

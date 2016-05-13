@@ -8,6 +8,7 @@ const { Map, fromJS } = require("immutable");
 
 const initialState = fromJS({
   sources: {},
+  sourceTree: ["root", []],
   selectedSource: null,
   selectedSourceOpts: null,
   sourcesText: {}
@@ -17,7 +18,7 @@ function update(state = initialState, action) {
   switch (action.type) {
     case constants.ADD_SOURCE:
       return state.mergeIn(["sources", action.source.actor],
-                            _updateSource(action.source));
+                           _updateSource(action.source));
 
     case constants.LOAD_SOURCES:
       if (action.status === "done") {
@@ -26,7 +27,7 @@ function update(state = initialState, action) {
           return state;
         }
 
-        return state.mergeIn(
+        state.mergeIn(
           ["sources"],
           fromJS(sources.map(source => {
             return [source.actor, _updateSource(source)];

@@ -59,7 +59,7 @@ function debugTab(tab, actions) {
       actions.newSource(packet.source);
     });
 
-    yield actions.loadSources();
+    actions.loadSources();
   });
 }
 
