@@ -1,20 +1,19 @@
 "use strict";
 
 const React = require("react");
-const Isvg = React.createFactory(require("react-inlinesvg"));
-const { DOM: dom, PropTypes } = React;
-const ImPropTypes = require("react-immutable-proptypes");
-
 const ReactDOM = require("react-dom");
+const Isvg = React.createFactory(require("react-inlinesvg"));
+const ImPropTypes = require("react-immutable-proptypes");
+const { bindActionCreators } = require("redux");
+const { connect } = require("react-redux");
+const CodeMirror = require("codemirror");
+const { DOM: dom, PropTypes } = React;
 
 const {
   getSourceText, getPause, getBreakpointsForSource,
-  getSelectedSource, getSelectedSourceOpts
+  getSelectedSource, getSelectedSourceOpts,
+  makeLocationId
 } = require("../selectors");
-
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-
 const actions = require("../actions");
 const { alignLine, onWheel } = require("../util/editor");
 
@@ -22,7 +21,6 @@ require("codemirror/lib/codemirror.css");
 require("./Editor.css");
 require("codemirror/mode/javascript/javascript");
 require("../lib/codemirror.css");
-const CodeMirror = require("codemirror");
 
 function makeMarker() {
   let marker = document.createElement("div");
@@ -163,6 +161,9 @@ const Editor = React.createClass({
   },
 
   render() {
+    const breakpoints = this.props.breakpoints.valueSeq()
+          .filter(bp => !bp.get("disabled"));
+
     return (
       dom.div(
         { className: "editor-wrapper" },
@@ -170,9 +171,12 @@ const Editor = React.createClass({
           ref: "editor",
           defaultValue: "..."
         }),
-        this.props.breakpoints.filter(bp => !bp.get("disabled")).map(bp => {
-          return Breakpoint({ breakpoint: bp,
-                              editor: this.editor });
+        breakpoints.map(bp => {
+          return Breakpoint({
+            key: makeLocationId(bp.get("location").toJS()),
+            breakpoint: bp,
+            editor: this.editor
+          });
         })
       )
     );
