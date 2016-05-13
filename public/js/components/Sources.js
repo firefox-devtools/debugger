@@ -1,6 +1,7 @@
 "use strict";
 
 const React = require("react");
+const { DOM: dom, PropTypes } = React;
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
@@ -9,125 +10,13 @@ const ManagedTree = React.createFactory(require("./util/ManagedTree"));
 const { Set } = require("immutable");
 const actions = require("../actions");
 const { getSelectedSource, getSources } = require("../selectors");
-const { DOM: dom, PropTypes } = React;
+const {
+  createNode, nodeHasChildren, nodeName,
+  nodeContents, nodePath, createParentMap,
+  addToTree
+} = require("../util/sources-tree.js");
 
 require("./Sources.css");
-
-function nodeHasChildren(item) {
-  return item[2] instanceof Array;
-}
-
-function nodeName(item) {
-  return item[0];
-}
-
-function nodePath(item) {
-  return item[1];
-}
-
-function nodeContents(item) {
-  return item[2];
-}
-
-function setNodeContents(item, contents) {
-  item[2] = contents;
-}
-
-function createNode(name, path, contents) {
-  return [name, path, contents];
-}
-
-function createParentMap(tree) {
-  const map = new WeakMap();
-
-  function _traverse(subtree) {
-    if (nodeHasChildren(subtree)) {
-      for (let child of nodeContents(subtree)) {
-        map.set(child, subtree);
-        _traverse(child);
-      }
-    }
-  }
-
-  // Don't link each top-level path to the "root" node because the
-  // user never sees the root
-  nodeContents(tree).forEach(_traverse);
-  return map;
-}
-
-function getURL(source) {
-  try {
-    if (!source.get("url")) {
-      return null;
-    }
-
-    const url = new URL(source.get("url"));
-
-    // Filter out things like `javascript:<code>` URLs for now.
-    // Whitelist the protocols because there may be several strange
-    // ones.
-    if (url.protocol !== "http:" && url.protocol !== "https:") {
-      return null;
-    }
-
-    return url;
-  } catch (e) {
-    // If there is a parse error (which may happen with various
-    // internal script that don't have a correct URL), just ignore it.
-    return null;
-  }
-}
-
-function addToTree(tree, source) {
-  const url = getURL(source);
-  if (!url) {
-    return;
-  }
-
-  const parts = url.pathname.split("/").filter(p => p !== "");
-  const isDir = (parts.length === 0 ||
-                 parts[parts.length - 1].indexOf(".") === -1);
-  parts.unshift(url.host);
-
-  let path = "";
-  let subtree = tree;
-
-  for (let part of parts) {
-    const subpaths = nodeContents(subtree);
-    // We want to sort alphabetically, so find the index where we
-    // should insert this part.
-    let idx = subpaths.findIndex(subpath => {
-      return nodeName(subpath).localeCompare(part) >= 0;
-    });
-
-    // The node always acts like one with children, but the code below
-    // this loop will set the contents of the final node to the source
-    // object.
-    const pathItem = createNode(part, path + "/" + part, []);
-
-    if (idx >= 0 && nodeName(subpaths[idx]) === part) {
-      subtree = subpaths[idx];
-    } else {
-      // Add a new one
-      const where = idx === -1 ? subpaths.length : idx;
-      subpaths.splice(where, 0, pathItem);
-      subtree = subpaths[where];
-    }
-
-    // Keep track of the subpaths so we can tag each node with them.
-    path = path + "/" + part;
-  }
-
-  // Store the soure in the final created node.
-  if (isDir) {
-    setNodeContents(
-      subtree,
-      [createNode("(index)", source.get("url"), source)]
-    );
-  } else {
-    setNodeContents(subtree, source);
-  }
-}
 
 // This is inline because it's much faster. We need to revisit how we
 // load SVGs, at least for components that render them several times.
@@ -194,6 +83,31 @@ let SourcesTree = React.createClass({
     }
   },
 
+  renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+    const arrow = Arrow({
+      className: classnames(
+        "arrow",
+        { expanded: expanded,
+          hidden: !nodeHasChildren(item) }
+      ),
+      onClick: e => {
+        e.stopPropagation();
+        setExpanded(item, !expanded);
+      }
+    });
+
+    return dom.div(
+      { className: classnames("node", { focused }),
+        style: { marginLeft: depth * 15 + "px" },
+        onClick: () => this.selectItem(item),
+        onDoubleClick: e => {
+          setExpanded(item, !expanded);
+        } },
+      arrow,
+      nodeName(item)
+    );
+  },
+
   render() {
     const { focusedItem, sourceTree, parentMap } = this.state;
 
@@ -212,28 +126,7 @@ let SourcesTree = React.createClass({
       itemHeight: 30,
       autoExpandDepth: 2,
       onFocus: this.focusItem,
-      renderItem: (item, depth, focused, _, expanded, { setExpanded }) => {
-        const arrow = Arrow({
-          className: classnames("arrow",
-                                { expanded: expanded,
-                                  hidden: !nodeHasChildren(item) }),
-          onClick: e => {
-            e.stopPropagation();
-            setExpanded(item, !expanded);
-          }
-        });
-
-        return dom.div(
-          { className: classnames("node", { focused }),
-            style: { marginLeft: depth * 15 + "px" },
-            onClick: () => this.selectItem(item),
-            onDoubleClick: e => {
-              setExpanded(item, !expanded);
-            } },
-          arrow,
-          nodeName(item)
-        );
-      }
+      renderItem: this.renderItem
     });
 
     return dom.div({

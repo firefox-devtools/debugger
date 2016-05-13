@@ -30,9 +30,7 @@ connectClient(response => {
   // otherwise, just show the toolbox.
   if (hasSelectedTab()) {
     const selectedTab = getSelectedTab(store.getState().tabs.get("tabs"));
-    debugTab(selectedTab.toJS(), actions).then(() => {
-      setTimeout(renderToolbox, 0);
-    });
+    debugTab(selectedTab.toJS(), actions).then(renderToolbox);
   } else {
     renderToolbox();
   }
