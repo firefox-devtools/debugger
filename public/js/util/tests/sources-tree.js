@@ -4,7 +4,7 @@ const expect = require("expect.js");
 const { Map } = require("immutable");
 const {
   createNode, nodeHasChildren, addToTree
-} = require("../util/sources-tree.js");
+} = require("../sources-tree.js");
 
 describe("sources-tree", () => {
   it("should provide node API", () => {
