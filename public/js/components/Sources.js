@@ -11,9 +11,7 @@ const { Set } = require("immutable");
 const actions = require("../actions");
 const { getSelectedSource, getSources } = require("../selectors");
 const {
-  createNode, nodeHasChildren, nodeName,
-  nodeContents, nodePath, createParentMap,
-  addToTree
+  createNode, nodeHasChildren, createParentMap, addToTree
 } = require("../util/sources-tree.js");
 
 require("./Sources.css");
@@ -79,7 +77,7 @@ let SourcesTree = React.createClass({
 
   selectItem(item) {
     if (!nodeHasChildren(item)) {
-      this.props.selectSource(nodeContents(item).toJS());
+      this.props.selectSource(item.contents.toJS());
     }
   },
 
@@ -104,7 +102,7 @@ let SourcesTree = React.createClass({
           setExpanded(item, !expanded);
         } },
       arrow,
-      nodeName(item)
+      item.name
     );
   },
 
@@ -117,12 +115,12 @@ let SourcesTree = React.createClass({
       },
       getChildren: item => {
         if (nodeHasChildren(item)) {
-          return nodeContents(item);
+          return item.contents;
         }
         return [];
       },
-      getRoots: () => nodeContents(sourceTree),
-      getKey: (item, i) => nodePath(item),
+      getRoots: () => sourceTree.contents,
+      getKey: (item, i) => item.path,
       itemHeight: 30,
       autoExpandDepth: 2,
       onFocus: this.focusItem,

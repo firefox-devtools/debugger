@@ -6,16 +6,22 @@ const ReactDOM = require("react-dom");
 const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");
 const DevToolsUtils = require("ff-devtools-libs/shared/DevToolsUtils");
+const { AppConstants } = require("ff-devtools-libs/sham/appconstants");
 const { isEnabled } = require("./configs/feature");
+
+// Set various flags before requiring app code.
+if (isEnabled("clientLogging")) {
+  DevToolsUtils.dumpn.wantLogging = true;
+}
+
+if (isEnabled("development")) {
+  AppConstants.DEBUG_JS_MODULES = true;
+}
 
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
 const { connectClient, getThreadClient, debugTab } = require("./client");
 const TabList = React.createFactory(require("./components/TabList"));
-
-if (isEnabled("clientLogging")) {
-  DevToolsUtils.dumpn.wantLogging = true;
-}
 
 const createStore = configureStore({
   log: false,

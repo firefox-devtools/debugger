@@ -1,29 +1,20 @@
 "use strict";
 
 const URL = require("url").parse;
+const { assert } = require("ff-devtools-libs/shared/DevToolsUtils");
 
 function nodeHasChildren(item) {
-  return item[2] instanceof Array;
-}
-
-function nodeName(item) {
-  return item[0];
-}
-
-function nodePath(item) {
-  return item[1];
-}
-
-function nodeContents(item) {
-  return item[2];
-}
-
-function setNodeContents(item, contents) {
-  item[2] = contents;
+  // Do not use `Array.isArray` because it's slower and we do not need
+  // to support multiple globals here.
+  return item.contents instanceof Array;
 }
 
 function createNode(name, path, contents) {
-  return [name, path, contents || null];
+  return {
+    name,
+    path,
+    contents: contents || null
+  };
 }
 
 function createParentMap(tree) {
@@ -31,7 +22,7 @@ function createParentMap(tree) {
 
   function _traverse(subtree) {
     if (nodeHasChildren(subtree)) {
-      for (let child of nodeContents(subtree)) {
+      for (let child of subtree.contents) {
         map.set(child, subtree);
         _traverse(child);
       }
@@ -40,7 +31,7 @@ function createParentMap(tree) {
 
   // Don't link each top-level path to the "root" node because the
   // user never sees the root
-  nodeContents(tree).forEach(_traverse);
+  tree.contents.forEach(_traverse);
   return map;
 }
 
@@ -83,24 +74,31 @@ function addToTree(tree, source) {
   let subtree = tree;
 
   for (let part of parts) {
-    const subpaths = nodeContents(subtree);
+    // Currently we assume that we are descending into a node with
+    // children. This will fail if a path has a directory named the
+    // same as another file, like `foo/bar.js/file.js`.
+    //
+    // TODO: Be smarter about this, which we'll probably do when we
+    // are smarter about folders and collapsing empty ones.
+    assert(nodeHasChildren(subtree), `${subtree.name} should have children`);
+    const subpaths = subtree.contents;
+
     // We want to sort alphabetically, so find the index where we
     // should insert this part.
     let idx = subpaths.findIndex(subpath => {
-      return nodeName(subpath).localeCompare(part) >= 0;
+      return subpath.name.localeCompare(part) >= 0;
     });
 
-    // The node always acts like one with children, but the code below
-    // this loop will set the contents of the final node to the source
-    // object.
-    const pathItem = createNode(part, path + "/" + part, []);
-
-    if (idx >= 0 && nodeName(subpaths[idx]) === part) {
+    if (idx >= 0 && subpaths[idx].name === part) {
+      // A node with the same name already exists, simply traverse
+      // into it.
       subtree = subpaths[idx];
     } else {
-      // Add a new one
+      // No node with this name exists, so insert a new one in the
+      // place that is alphabetically sorted.
+      const node = createNode(part, path + "/" + part, []);
       const where = idx === -1 ? subpaths.length : idx;
-      subpaths.splice(where, 0, pathItem);
+      subpaths.splice(where, 0, node);
       subtree = subpaths[where];
     }
 
@@ -108,24 +106,18 @@ function addToTree(tree, source) {
     path = path + "/" + part;
   }
 
-  // Store the soure in the final created node.
+  // Overwrite the contents of the final node to store the source
+  // there.
   if (isDir) {
-    setNodeContents(
-      subtree,
-      [createNode("(index)", source.get("url"), source)]
-    );
+    subtree.contents = [createNode("(index)", source.get("url"), source)];
   } else {
-    setNodeContents(subtree, source);
+    subtree.contents = source;
   }
 }
 
 module.exports = {
-  nodeHasChildren,
-  nodeName,
-  nodePath,
-  nodeContents,
-  setNodeContents,
   createNode,
+  nodeHasChildren,
   createParentMap,
   addToTree
 };

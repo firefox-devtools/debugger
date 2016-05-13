@@ -3,21 +3,20 @@
 const expect = require("expect.js");
 const { Map } = require("immutable");
 const {
-  createNode, nodeHasChildren, nodeName,
-  nodeContents, nodePath, addToTree
+  createNode, nodeHasChildren, addToTree
 } = require("../util/sources-tree.js");
 
 describe("sources-tree", () => {
   it("should provide node API", () => {
     const root = createNode("root", "", [createNode("foo", "/foo")]);
-    expect(nodeName(root)).to.be("root");
+    expect(root.name).to.be("root");
     expect(nodeHasChildren(root)).to.be(true);
-    expect(nodeContents(root).length).to.be(1);
+    expect(root.contents.length).to.be(1);
 
-    const child = nodeContents(root)[0];
-    expect(nodeName(child)).to.be("foo");
-    expect(nodePath(child)).to.be("/foo");
-    expect(nodeContents(child)).to.be(null);
+    const child = root.contents[0];
+    expect(child.name).to.be("foo");
+    expect(child.path).to.be("/foo");
+    expect(child.contents).to.be(null);
     expect(nodeHasChildren(child)).to.be(false);
   });
 
@@ -29,18 +28,18 @@ describe("sources-tree", () => {
     const tree = createNode("root", "", []);
 
     addToTree(tree, source1);
-    expect(nodeContents(tree).length).to.be(1);
+    expect(tree.contents.length).to.be(1);
 
-    let base = nodeContents(tree)[0];
-    expect(nodeName(base)).to.be("example.com");
-    expect(nodeContents(base).length).to.be(1);
+    let base = tree.contents[0];
+    expect(base.name).to.be("example.com");
+    expect(base.contents.length).to.be(1);
 
-    let fooNode = nodeContents(base)[0];
-    expect(nodeName(fooNode)).to.be("foo");
-    expect(nodeContents(fooNode).length).to.be(1);
+    let fooNode = base.contents[0];
+    expect(fooNode.name).to.be("foo");
+    expect(fooNode.contents.length).to.be(1);
 
-    let source1Node = nodeContents(fooNode)[0];
-    expect(nodeName(source1Node)).to.be("source1.js");
+    let source1Node = fooNode.contents[0];
+    expect(source1Node.name).to.be("source1.js");
   });
 
   it("alphabetically sorts children", () => {
@@ -62,18 +61,18 @@ describe("sources-tree", () => {
     addToTree(tree, source2);
     addToTree(tree, source3);
 
-    let base = nodeContents(tree)[0];
-    let fooNode = nodeContents(base)[0];
-    expect(nodeName(fooNode)).to.be("foo");
-    expect(nodeContents(fooNode).length).to.be(2);
+    let base = tree.contents[0];
+    let fooNode = base.contents[0];
+    expect(fooNode.name).to.be("foo");
+    expect(fooNode.contents.length).to.be(2);
 
-    let source1Node = nodeContents(base)[1];
-    expect(nodeName(source1Node)).to.be("source1.js");
+    let source1Node = base.contents[1];
+    expect(source1Node.name).to.be("source1.js");
 
     // source2 should be after source1 alphabetically
-    let source2Node = nodeContents(fooNode)[1];
-    let source3Node = nodeContents(fooNode)[0];
-    expect(nodeName(source2Node)).to.be("b_source2.js");
-    expect(nodeName(source3Node)).to.be("a_source3.js");
+    let source2Node = fooNode.contents[1];
+    let source3Node = fooNode.contents[0];
+    expect(source2Node.name).to.be("b_source2.js");
+    expect(source3Node.name).to.be("a_source3.js");
   });
 });
