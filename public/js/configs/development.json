@@ -1,5 +1,9 @@
 {
   "development": true,
   "logging": true,
-  "clientLogging": false
+  "clientLogging": false,
+  "chrome": {
+    "debug": true,
+    "webSocketPort": 9222
+  }
 }

@@ -1,9 +1,26 @@
 .tabs {
-  list-style: none;
   margin: 100px auto;
   width: calc(100% - 200px);
+}
+
+.tabs .tab-group {
+  margin-top: 20px;
+}
+
+.tabs .tab-group-title {
+  margin: 0 0 1em 10px;
+  font-size: 0.9em;
+  color: var(--theme-highlight-lightorange);
+}
+
+.tabs .tab-list {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.tabs .tab:first-child {
   border-top: 1px solid #dddddd;
-  padding: 0;
 }
 
 .tabs .tab {
