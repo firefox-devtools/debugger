@@ -35,6 +35,8 @@ let SourcesTree = React.createClass({
     selectSource: PropTypes.func.isRequired
   },
 
+  displayName: "SourcesTree",
+
   makeInitialState(props) {
     const tree = createNode("root", "", []);
     for (let source of props.sources.valueSeq()) {

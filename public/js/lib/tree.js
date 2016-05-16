@@ -46,6 +46,8 @@ const ArrowExpander = createFactory(createClass({
 }));
 
 const TreeNode = createFactory(createClass({
+  displayName: "TreeNode",
+
   componentDidMount() {
     if (this.props.focused) {
       this.refs.button.focus();

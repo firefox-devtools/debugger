@@ -6,6 +6,8 @@ const Tree = React.createFactory(require("../../lib/tree"));
 let ManagedTree = React.createClass({
   propTypes: Tree.propTypes,
 
+  displayName: "ManagedTree",
+
   getInitialState() {
     return { expanded: new WeakMap(),
              focusedItem: null };
