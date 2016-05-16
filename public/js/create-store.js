@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/* global window */
 "use strict";
 
 const { createStore, applyMiddleware } = require("redux");
@@ -45,5 +46,10 @@ module.exports = (opts = {}) => {
     middleware.push(log);
   }
 
-  return applyMiddleware(...middleware)(createStore);
+  // Optionally add the Redux DevTools Extension, if it exists.
+  const devtools = typeof window === "object" && window.devToolsExtension ?
+    window.devToolsExtension() :
+    f => f;
+
+  return applyMiddleware(...middleware)(devtools(createStore));
 };
