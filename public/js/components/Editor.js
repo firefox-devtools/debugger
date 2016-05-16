@@ -40,6 +40,8 @@ const _Breakpoint = React.createClass({
     editor: PropTypes.object
   },
 
+  displayName: "Breakpoint",
+
   componentWillMount: function() {
     const bp = this.props.breakpoint;
     const line = bp.getIn(["location", "line"]) - 1;

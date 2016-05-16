@@ -13,6 +13,8 @@ const Accordion = React.createClass({
     items: PropTypes.array
   },
 
+  displayName: "Accordion",
+
   getInitialState: function() {
     return { opened: this.props.items.map(item => item.opened),
              created: [] };
