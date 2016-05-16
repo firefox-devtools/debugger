@@ -6,6 +6,7 @@ const webpack = require("webpack");
 const express = require("express");
 const projectConfig = require("../webpack.config");
 const webpackDevMiddleware = require("webpack-dev-middleware");
+const open = require("openurl").open;
 
 require("ff-devtools-libs/bin/firefox-proxy");
 
@@ -61,3 +62,5 @@ app.listen(8000, "localhost", function(err, result) {
 
   console.log("Development Server Listening at http://localhost:8000");
 });
+
+open("http://localhost:8000")

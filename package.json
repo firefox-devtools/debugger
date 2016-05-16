@@ -2,7 +2,7 @@
   "name": "debugger.html",
   "scripts": {
     "start": "node bin/development-server",
-    "lint": "npm run lint-css; npm run lint-js",
+    "lint": "npm run lint-css -s; npm run lint-js -s",
     "lint-css": "stylelint public/js/components/*.css",
     "lint-js": "eslint public/js",
     "test": "mocha --compilers js:babel-register public/js/**/tests/*",
@@ -10,7 +10,8 @@
     "mocha-server": "node bin/mocha-server.js",
     "test-server": "node bin/test-server.js",
     "test-karma": "./node_modules/.bin/karma start --single-run",
-    "storybook": "start-storybook -p 9001 -s public"
+    "storybook": "start-storybook -p 9001 -s public",
+    "start-firefox": "node bin/firefox-driver --start"
   },
   "dependencies": {
     "babel-cli": "^6.7.5",
@@ -26,6 +27,7 @@
     "karma": "^0.13.22",
     "mocha": "^2.4.5",
     "net": "^1.0.2",
+    "openurl": "^1.1.1",
     "react": "=0.14.7",
     "react-dom": "=0.14.7",
     "react-immutable-proptypes": "^1.7.1",

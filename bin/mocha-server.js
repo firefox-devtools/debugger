@@ -6,7 +6,34 @@ const webpack = require("webpack");
 const express = require("express");
 const projectConfig = require("../webpack.config");
 const webpackDevMiddleware = require("webpack-dev-middleware");
-const getTestPaths = require("./getTestPaths");
+const fs = require("fs");
+
+function recursiveReaddirSync(dir) {
+  let list = [];
+  const files = fs.readdirSync(dir);
+
+  files.forEach(function(file) {
+    const stats = fs.lstatSync(path.join(dir, file));
+    if (stats.isDirectory()) {
+      list = list.concat(recursiveReaddirSync(path.join(dir, file)));
+    } else {
+      list.push(path.join(dir, file));
+    }
+  });
+
+  return list;
+}
+
+function getTestPaths(dir) {
+  const paths = recursiveReaddirSync(dir);
+
+  return paths.filter(p => {
+    const inTestDirectory = path.dirname(p).includes("test");
+    const inIntegrationDir = path.dirname(p).includes("integration");
+    const aHiddenFile = path.basename(p).charAt(0) == ".";
+    return inTestDirectory && !aHiddenFile && !inIntegrationDir;
+  });
+}
 
 const testPaths = getTestPaths(path.join(__dirname, "../public/js"));
 
