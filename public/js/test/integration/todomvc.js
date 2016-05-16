@@ -1,8 +1,16 @@
 "use strict";
 
 function goToSource(source) {
-  cy.get(".sources-list")
-    .contains(".source-item", source).click();
+  let sourcesList = cy.get(".sources-list");
+
+  const sourcePath = source.split("/");
+  const fileName = sourcePath.pop();
+
+  sourcePath.reduce((el, part) => {
+    return el.contains(".node", part).dblclick().end();
+  }, sourcesList);
+
+  sourcesList.contains(".node", fileName).click();
 }
 
 function addBreakpoint(linenumber) {
@@ -39,7 +47,9 @@ function resumeDebugger() {
   cy.get(".right-sidebar").find(".resume").click();
 }
 
-function debuggee(callback) {
+function debuggee(callback, timeout) {
+  timeout = timeout || 1000;
+
   /**
    * gets a fat arrow function and returns the function body
    * `() => { example }` => `example`
@@ -50,21 +60,37 @@ function debuggee(callback) {
     return source.slice(firstCurly + 1, -1).trim();
   }
 
-  cy.request("POST", "http://localhost:9002/command", {
-    command: getFunctionBody(callback)
+  return cy.request("POST", "http://localhost:9002/command", {
+    command: getFunctionBody(callback),
+    timeout: timeout
   });
 }
 
 describe("Todo MVC", function() {
+  before(function() {
+    cy.request("POST", "http://localhost:9002/start");
+  });
+
+  after(function() {
+    cy.request("POST", "http://localhost:9002/stop");
+  });
+
   beforeEach(function() {
     debuggee(() => {
-      driver.get("http://todomvc.com/examples/backbone/");
+      driver.get("http://localhost:9002/todomvc/examples/backbone/");
     });
-    cy.visit("http://localhost:8000/#tab=tab1");
+
+    cy.visit("http://localhost:8000/babel");
+
+    cy.get(".tab").first().click();
+  });
+
+  afterEach(function() {
+    cy.visit("http://localhost:8000/babel");
   });
 
   it("Adding Breakpoints in one source", function() {
-    goToSource("todo-view");
+    goToSource("examples/backbone/js/views/todo-view");
     addBreakpoint(33);
     addBreakpoint(35);
     hasBreakpointOnLine(33);
@@ -77,7 +103,7 @@ describe("Todo MVC", function() {
   });
 
   it("Breakpoint is only shown in its source", function() {
-    goToSource("todo-view");
+    goToSource("examples/backbone/js/views/todo-view");
     addBreakpoint("33");
     hasBreakpointOnLine(33);
     goToSource("app-view");
@@ -85,7 +111,7 @@ describe("Todo MVC", function() {
   });
 
   it("Adding Breakpoints in multiple sources", function() {
-    goToSource("todo-view");
+    goToSource("examples/backbone/js/views/todo-view");
     addBreakpoint(33);
     addBreakpoint(35);
     hasBreakpointInList("todo-view.js, line 33");
@@ -102,11 +128,11 @@ describe("Todo MVC", function() {
   });
 
   it("Pausing while creating a todo", function() {
-    goToSource("todo-view");
+    goToSource("examples/backbone/js/views/todo-view");
     addBreakpoint(33);
 
     debuggee(() => {
-      let input = driver.findElement(By.className("new-todo"));
+      let input = driver.findElement(By.id("new-todo"));
       input.sendKeys("yo yo yo", Key.ENTER);
     });
 

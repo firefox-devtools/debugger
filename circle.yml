@@ -2,19 +2,26 @@ test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - node_modules/.bin/mocha --compilers js:babel-register --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/mocha/junit.xml public/js/**/tests/*
+    - node_modules/.bin/cypress ci e09e86a1-8468-4a14-97ce-7b289a680a8f
   pre:
-    - npm install
+    - node bin/development-server.js:
+        background: true
+    - node bin/test-server.js:
+        background: true
+    - sleep 10
   post:
     - npm run lint-css
     - npm run lint-js
     - npm run test-karma
 dependencies:
   override:
+    - npm install
     - curl -L -o google-chrome.deb https://s3.amazonaws.com/circle-downloads/google-chrome-stable_current_amd64_47.0.2526.73-1.deb
     - sudo dpkg -i google-chrome.deb
     - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
     - rm google-chrome.deb
     - sudo apt-get update && sudo apt-get install libpango1.0-0 && sudo apt-get install firefox
+    - node_modules/.bin/cypress install
 machine:
   node:
     version: 5.10.1

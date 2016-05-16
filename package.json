@@ -1,13 +1,14 @@
 {
   "name": "debugger.html",
   "scripts": {
-    "start": "node bin/server",
+    "start": "node bin/development-server",
     "lint": "npm run lint-css; npm run lint-js",
     "lint-css": "stylelint public/js/components/*.css",
     "lint-js": "eslint public/js",
     "test": "mocha --compilers js:babel-register public/js/**/tests/*",
     "test-paths": "mocha --compilers js:babel-register",
-    "test-browser": "./bin/server-browser-test.js",
+    "mocha-server": "node bin/mocha-server.js",
+    "test-server": "node bin/test-server.js",
     "test-karma": "./node_modules/.bin/karma start --single-run",
     "storybook": "start-storybook -p 9001 -s public"
   },
@@ -63,9 +64,11 @@
     "karma-mocha": "^0.2.2",
     "karma-webpack": "^1.7.0",
     "mocha-circleci-reporter": "0.0.1",
+    "node-static": "^0.7.7",
     "npm": "^3.8.8",
     "rimraf": "^2.5.2",
     "selenium-webdriver": "^2.53.2",
-    "style-loader": "^0.13.1"
+    "style-loader": "^0.13.1",
+    "todomvc": "^0.1.1"
   }
 }
