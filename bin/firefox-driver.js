@@ -6,6 +6,8 @@ const By = webdriver.By;
 const until = webdriver.until;
 const Key = webdriver.Key;
 
+const shouldStart = process.argv.indexOf("--start") > 0;
+
 function firefoxBinary() {
   var binary = new firefox.Binary();
   binary.addArguments('--start-debugger-server', '6080')
@@ -30,6 +32,12 @@ function start() {
 
   const driver = new firefox.Driver(options);
   return driver;
+}
+
+if (shouldStart) {
+  const driver = start();
+  driver.get("http://todomvc.com/examples/backbone/");
+  setInterval(() => {}, 100);
 }
 
 module.exports = { start, By, Key, until }

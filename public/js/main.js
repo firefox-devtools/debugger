@@ -8,6 +8,7 @@ const { Provider } = require("react-redux");
 const DevToolsUtils = require("ff-devtools-libs/shared/DevToolsUtils");
 const { AppConstants } = require("ff-devtools-libs/sham/appconstants");
 const { isEnabled } = require("./configs/feature");
+const { getTabs } = require("./selectors");
 
 // Set various flags before requiring app code.
 if (isEnabled("clientLogging")) {
@@ -69,6 +70,18 @@ function getSelectedTab(tabs) {
   const childId = window.location.hash.split("=")[1];
   return tabs.find(tab => tab.get("actor").includes(childId));
 }
+
+setTimeout(function() {
+  if (!getTabs(store.getState()).isEmpty()) {
+    return;
+  }
+
+  ReactDOM.render(
+    React.DOM.div({ className: "not-connected-message" },
+      "Not connected to Firefox"
+    ),
+    document.querySelector("#mount"));
+}, 500);
 
 function renderToolbox() {
   ReactDOM.render(
