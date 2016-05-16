@@ -21,7 +21,8 @@ if (isEnabled("development")) {
 
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
-const { connectClient, getThreadClient, debugTab } = require("./client");
+const { connectClient, getThreadClient, debugTab } = require("./clients/firefox");
+const { chromeTabs } = require("./clients/chrome");
 const TabList = React.createFactory(require("./components/TabList"));
 
 const createStore = configureStore({
@@ -36,18 +37,25 @@ const actions = bindActionCreators(require("./actions"), store.dispatch);
 // global for debugging purposes only!
 window.store = store;
 
-connectClient(response => {
-  actions.newTabs(response.tabs);
+connectClient(tabs => {
+  actions.newTabs(tabs);
 
   // if there's a pre-selected tab, connect to it and load the sources.
   // otherwise, just show the toolbox.
   if (hasSelectedTab()) {
     const selectedTab = getSelectedTab(store.getState().tabs.get("tabs"));
-    debugTab(selectedTab.toJS(), actions).then(renderToolbox);
+    const tab = selectedTab.get("firefox") || selectedTab.get("chrome");
+    debugTab(tab, actions).then(renderToolbox);
   } else {
     renderToolbox();
   }
 });
+
+if (isEnabled("chrome.debug")) {
+  chromeTabs(response => {
+    actions.newTabs(response);
+  });
+}
 
 /**
  * Check to see if the url hash has a selected tab
@@ -68,7 +76,7 @@ function hasSelectedTab() {
  */
 function getSelectedTab(tabs) {
   const childId = window.location.hash.split("=")[1];
-  return tabs.find(tab => tab.get("actor").includes(childId));
+  return tabs.find(tab => tab.get("id").includes(childId));
 }
 
 setTimeout(function() {
