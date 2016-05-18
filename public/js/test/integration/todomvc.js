@@ -1,4 +1,6 @@
 "use strict";
+const todoView33 = "this.listenTo(this.model, 'change', this.render);";
+const todoView35 = "this.listenTo(this.model, 'visible', this.toggleVisible);";
 
 function goToSource(source) {
   let sourcesList = cy.get(".sources-list");
@@ -95,8 +97,8 @@ describe("Todo MVC", function() {
     addBreakpoint(35);
     hasBreakpointOnLine(33);
     hasBreakpointOnLine(35);
-    hasBreakpointInList("todo-view.js, line 33");
-    hasBreakpointInList("todo-view.js, line 35");
+    hasBreakpointInList(`33 ${todoView33}`);
+    hasBreakpointInList(`35 ${todoView35}`);
 
     addBreakpoint(35);
     doesNotHaveBreakpointOnLine(35);
@@ -106,6 +108,7 @@ describe("Todo MVC", function() {
     goToSource("examples/backbone/js/views/todo-view");
     addBreakpoint("33");
     hasBreakpointOnLine(33);
+
     goToSource("app-view");
     doesNotHaveBreakpointOnLine(33);
   });
@@ -114,8 +117,8 @@ describe("Todo MVC", function() {
     goToSource("examples/backbone/js/views/todo-view");
     addBreakpoint(33);
     addBreakpoint(35);
-    hasBreakpointInList("todo-view.js, line 33");
-    hasBreakpointInList("todo-view.js, line 35");
+    hasBreakpointInList(`33 ${todoView33}`);
+    hasBreakpointInList(`35 ${todoView35}`);
 
     goToSource("app-view");
     addBreakpoint(40);

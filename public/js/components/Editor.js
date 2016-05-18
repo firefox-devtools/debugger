@@ -101,7 +101,8 @@ const Editor = React.createClass({
     const applyBp = bp ? this.props.removeBreakpoint : this.props.addBreakpoint;
     applyBp({
       actor: this.props.selectedSource.get("actor"),
-      line: line + 1
+      line: line + 1,
+      snippet: cm.lineInfo(line).text.trim()
     });
   },
 
