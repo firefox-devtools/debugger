@@ -16,13 +16,26 @@ function getTabTarget(tab) {
   return TargetFactory.forRemoteTab(options);
 }
 
+function presentTabs(tabs) {
+  return tabs.map(tab => {
+    return {
+      title: tab.title,
+      url: tab.url,
+      id: tab.actor,
+      firefox: tab
+    };
+  });
+}
+
 function connectClient(onConnect) {
   const socket = new WebSocket("ws://localhost:9000");
   const transport = new DebuggerTransport(socket);
   currentClient = new DebuggerClient(transport);
 
   currentClient.connect().then(() => {
-    return currentClient.listTabs().then(onConnect);
+    return currentClient.listTabs().then(response => {
+      onConnect(presentTabs(response.tabs));
+    });
   }).catch(err => console.log(err));
 }
 
