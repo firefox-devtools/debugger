@@ -22,7 +22,8 @@ function presentTabs(tabs) {
       title: tab.title,
       url: tab.url,
       id: tab.actor,
-      firefox: tab
+      tab,
+      browser: "firefox"
     };
   });
 }
@@ -55,10 +56,9 @@ function connectThread(tab, onNavigate) {
   });
 }
 
-function debugTab(tab, actions) {
+function debugFirefoxTab(tab, actions) {
   return Task.spawn(function* () {
     yield connectThread(tab);
-    actions.selectTab({ tabActor: tab.actor });
 
     const target = yield getTabTarget(tab);
     target.on("will-navigate", actions.willNavigate);
@@ -79,6 +79,6 @@ function debugTab(tab, actions) {
 module.exports = {
   connectClient,
   connectThread,
-  getThreadClient,
-  debugTab
+  debugFirefoxTab,
+  getThreadClient
 };

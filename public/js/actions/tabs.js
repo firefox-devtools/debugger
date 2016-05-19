@@ -5,6 +5,8 @@
 "use strict";
 
 const constants = require("../constants");
+const { debugFirefoxTab } = require("../clients/firefox");
+const { debugChromeTab } = require("../clients/chrome");
 
 function newTabs(tabs) {
   return {
@@ -13,24 +15,27 @@ function newTabs(tabs) {
   };
 }
 
-function selectTab({ tabActor }) {
-  // set selected tab in the URL hash
-  let childId;
-  if (tabActor.includes("child")) {
-    childId = tabActor.match(/child\d+/)[0];
-  } else {
-    childId = tabActor.match(/tab\d+/)[0];
-  }
-
-  window.location.hash = `tab=${childId}`;
+function selectTab({ id }) {
+  window.location.hash = `tab=${id}`;
 
   return {
     type: constants.SELECT_TAB,
-    tabActor: tabActor,
+    id: id,
   };
+}
+
+function debugTab(tab, actions) {
+  return ({ getState }) => {
+    const isFirefox = tab.browser == "firefox";
+    actions.selectTab({ id: tab.id });
+
+    const _debugTab = isFirefox ? debugFirefoxTab : debugChromeTab;
+    return _debugTab(tab.tab, actions);
+  }
 }
 
 module.exports = {
   newTabs,
-  selectTab
+  selectTab,
+  debugTab
 };
