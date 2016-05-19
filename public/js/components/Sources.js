@@ -79,7 +79,7 @@ let SourcesTree = React.createClass({
 
   selectItem(item) {
     if (!nodeHasChildren(item)) {
-      this.props.selectSource(item.contents.toJS());
+      this.props.selectSource(item.contents.get("id"));
     }
   },
 

@@ -57,7 +57,7 @@ const Editor = React.createClass({
 
     const applyBp = bp ? this.props.removeBreakpoint : this.props.addBreakpoint;
     applyBp({
-      actor: this.props.selectedSource.get("actor"),
+      sourceId: this.props.selectedSource.get("id"),
       line: line + 1,
       snippet: cm.lineInfo(line).text.trim()
     });
@@ -103,7 +103,7 @@ const Editor = React.createClass({
     let pause = this.props.pause;
 
     if (pause) {
-      this.clearDebugLine(pause.getIn(["frame", "where", "line"]));
+      this.clearDebugLine(pause.getIn(["frame", "location", "line"]));
     }
 
     if (this.props.selectedSourceOpts &&
@@ -112,11 +112,11 @@ const Editor = React.createClass({
     }
 
     if (nextProps.selectedSourceOpts &&
-       nextProps.selectedSourceOpts.get("line")) {
+        nextProps.selectedSourceOpts.get("line")) {
       this.setDebugLine(nextProps.selectedSourceOpts.get("line"));
     } else if (nextProps.pause &&
-               nextProps.pause.getIn(["why", "type"]) !== "interrupted") {
-      this.setDebugLine(nextProps.pause.getIn(["frame", "where", "line"]));
+               !nextProps.pause.get("isInterrupted")) {
+      this.setDebugLine(nextProps.pause.getIn(["frame", "location", "line"]));
     }
   },
 
@@ -146,13 +146,13 @@ const Editor = React.createClass({
 module.exports = connect(
   (state, props) => {
     const selectedSource = getSelectedSource(state);
-    const selectedActor = selectedSource && selectedSource.get("actor");
+    const selectedId = selectedSource && selectedSource.get("id");
 
     return {
       selectedSource: selectedSource,
       selectedSourceOpts: getSelectedSourceOpts(state),
-      sourceText: getSourceText(state, selectedActor),
-      breakpoints: getBreakpointsForSource(state, selectedActor),
+      sourceText: getSourceText(state, selectedId),
+      breakpoints: getBreakpointsForSource(state, selectedId),
       pause: getPause(state)
     };
   },

@@ -34,7 +34,8 @@ function presentTabs(tabs) {
       title: tab.title,
       url: tab.url,
       id: tab.actor,
-      firefox: tab
+      tab,
+      browser: "firefox"
     };
   });
 }
@@ -78,7 +79,14 @@ function initPage(actions) {
   client.addListener("paused", (_, packet) => actions.paused(packet));
   client.addListener("resumed", (_, packet) => actions.resumed(packet));
   client.addListener("newSource", (_, packet) => {
-    actions.newSource(packet.source);
+    const source = {
+      id: packet.source.actor,
+      url: packet.source.url,
+
+      // Internal fields for Firefox
+      actor: packet.source.actor
+    }
+    actions.newSource(source);
   });
 
   actions.loadSources();

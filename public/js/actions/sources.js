@@ -34,7 +34,7 @@ function newSource(source) {
   };
 }
 
-function selectSource(source, opts) {
+function selectSource(id, opts) {
   return ({ dispatch, getState, threadClient }) => {
     if (!threadClient) {
       // No connection, do nothing. This happens when the debugger is
@@ -42,7 +42,7 @@ function selectSource(source, opts) {
       return;
     }
 
-    source = getSource(getState(), source.actor).toJS();
+    const source = getSource(getState(), id).toJS();
 
     // Make sure to start a request to load the source text.
     dispatch(loadSourceText(source));
@@ -136,7 +136,7 @@ function togglePrettyPrint(source) {
         let response;
 
         // Only attempt to pretty print JavaScript sources.
-        const sourceText = getSourceText(getState(), source.actor).toJS();
+        const sourceText = getSourceText(getState(), source.id).toJS();
         const contentType = sourceText ? sourceText.contentType : null;
         if (!SourceUtils.isJavaScript(source.url, contentType)) {
           throw new Error("Can't prettify non-javascript files.");
@@ -166,7 +166,7 @@ function togglePrettyPrint(source) {
 function loadSourceText(source) {
   return ({ dispatch, getState, threadClient }) => {
     // Fetch the source text only once.
-    let textInfo = getSourceText(getState(), source.actor);
+    let textInfo = getSourceText(getState(), source.id);
     if (textInfo) {
       // It's already loaded or is loading
       return promise.resolve(textInfo);
@@ -193,7 +193,7 @@ function loadSourceText(source) {
         // detected to be "minified"
         if (Prefs.autoPrettyPrint &&
             !source.isPrettyPrinted &&
-            SourceUtils.isMinified(source.actor, response.source)) {
+            SourceUtils.isMinified(source.id, response.source)) {
           dispatch(togglePrettyPrint(source));
         }
 

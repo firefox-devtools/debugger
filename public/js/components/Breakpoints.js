@@ -19,7 +19,7 @@ function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
   }
 
   const breakpointLocation = makeLocationId(breakpoint.get("location").toJS());
-  const pauseLocation = makeLocationId(pause.getIn(["frame", "where"]).toJS());
+  const pauseLocation = makeLocationId(pause.getIn(["frame", "location"]).toJS());
 
   return breakpointLocation == pauseLocation;
 }
@@ -45,9 +45,9 @@ const Breakpoints = React.createClass({
   },
 
   selectBreakpoint(breakpoint) {
-    const source = breakpoint.getIn(["location", "source"]);
+    const sourceId = breakpoint.getIn(["location", "sourceId"]);
     const line = breakpoint.getIn(["location", "line"]);
-    this.props.selectSource(source.toJS(), { line });
+    this.props.selectSource(sourceId, { line });
   },
 
   renderBreakpoint(breakpoint) {

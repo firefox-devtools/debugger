@@ -17,7 +17,7 @@ const initialState = fromJS({
 function update(state = initialState, action) {
   switch (action.type) {
     case constants.ADD_SOURCE:
-      return state.mergeIn(["sources", action.source.actor],
+      return state.mergeIn(["sources", action.source.id],
                            _updateSource(action.source));
 
     case constants.LOAD_SOURCES:
@@ -30,7 +30,7 @@ function update(state = initialState, action) {
         state.mergeIn(
           ["sources"],
           fromJS(sources.map(source => {
-            return [source.actor, _updateSource(source)];
+            return [source.id, _updateSource(source)];
           }))
         );
       }
@@ -49,7 +49,7 @@ function update(state = initialState, action) {
     case constants.BLACKBOX:
       if (action.status === "done") {
         return state.setIn(
-          ["sources", action.source.actor, "isBlackBoxed"],
+          ["sources", action.source.id, "isBlackBoxed"],
           action.value.isBlackBoxed
         );
       }
@@ -57,7 +57,7 @@ function update(state = initialState, action) {
 
     case constants.TOGGLE_PRETTY_PRINT:
       if (action.status === "error") {
-        return state.mergeIn(["sourcesText", action.source.actor], {
+        return state.mergeIn(["sourcesText", action.source.id], {
           loading: false
         });
       }
@@ -65,7 +65,7 @@ function update(state = initialState, action) {
       let s = _updateText(state, action);
       if (action.status === "done") {
         s = s.setIn(
-          ["sources", action.source.actor, "isPrettyPrinted"],
+          ["sources", action.source.id, "isPrettyPrinted"],
           action.value.isPrettyPrinted
         );
       }
@@ -105,16 +105,16 @@ function _updateText(state, action) {
     // Merge this in, don't set it. That way the previous value is
     // still stored here, and we can retrieve it if whatever we're
     // doing fails.
-    return state.mergeIn(["sourcesText", source.actor], {
+    return state.mergeIn(["sourcesText", source.id], {
       loading: true
     });
   } else if (action.status === "error") {
-    return state.setIn(["sourcesText", source.actor], Map({
+    return state.setIn(["sourcesText", source.id], Map({
       error: action.error
     }));
   }
 
-  return state.setIn(["sourcesText", source.actor], Map({
+  return state.setIn(["sourcesText", source.id], Map({
     text: action.value.text,
     contentType: action.value.contentType
   }));
