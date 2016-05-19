@@ -2,10 +2,10 @@
 
 const {
   WebSocketConnection,
-  generateCommands
+  InspectorBackend
 } = require("./chrome/api");
 
-const protocol = require("./chrome/protocol.json");
+const bootstrap = require("./chrome/bootstrap");
 
 let connectionAgents;
 
@@ -61,23 +61,7 @@ function onConnection(connection) {
 }
 
 function debugTab(tab) {
-  function toTitleCase() {
-    return this.substring(0, 1).toUpperCase() + this.substring(1);
-  }
-
-  // NOTE: this is a serious performance issue.
-  // If we decide to productionize the chrome debugger,
-  // we will want to build the bootstrap commands in advance require them in.
-
-  // NOTE: toTitleCase is temporarily monkey patched onto String.prototype
-  // to conform to what generateCommands expects. I
-  // If String.prototype.toTitleCase is defined somwhere else,
-  // it will be replaced.
-  String.prototype.toTitleCase = toTitleCase; /* eslint no-extend-native: 0 */
-  let code = generateCommands(protocol);
-  delete String.prototype.toTitleCase;
-  eval(code); /* eslint no-eval: 0 */
-
+  bootstrap(InspectorBackend);
   WebSocketConnection.Create(
     tab.chrome.webSocketDebuggerUrl,
     onConnection
