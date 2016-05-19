@@ -5,21 +5,25 @@ const { connect } = require("react-redux");
 const actions = require("../actions");
 const { bindActionCreators } = require("redux");
 const { getTabs } = require("../selectors");
-const { debugTab } = require("../clients/firefox");
+const { connectThread, initPage } = require("../clients/firefox");
 
 require("./Tabs.css");
 const dom = React.DOM;
 
-function renderTab(tab, boundActions) {
-  function onSelect(selectedTab) {
-    selectedTab = selectedTab.get("firefox") || selectedTab.get("chrome");
-    debugTab(selectedTab, boundActions);
-  }
+function onTabSelect(selectedTab, boundActions) {
+  const tab = selectedTab.get("firefox") || selectedTab.get("chrome");
 
+  boundActions.selectTab({ tabActor: tab.actor });
+  connectThread(tab).then(() => {
+    initPage(boundActions);
+  });
+}
+
+function renderTab(tab, boundActions) {
   return dom.li(
     { "className": "tab",
       "key": tab.get("id"),
-      "onClick": () => onSelect(tab) },
+      "onClick": () => onTabSelect(tab, boundActions) },
     dom.div({ className: "tab-title" }, tab.get("title")),
     dom.div({ className: "tab-url" }, tab.get("url"))
   );

@@ -21,7 +21,11 @@ if (isEnabled("development")) {
 
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
-const { connectClient, getThreadClient, debugTab } = require("./clients/firefox");
+const {
+  connectClient, connectThread,
+  getThreadClient, setThreadClient,
+  setTabTarget, initPage
+} = require("./clients/firefox");
 const { chromeTabs } = require("./clients/chrome");
 const TabList = React.createFactory(require("./components/TabList"));
 
@@ -36,26 +40,6 @@ const actions = bindActionCreators(require("./actions"), store.dispatch);
 
 // global for debugging purposes only!
 window.store = store;
-
-connectClient(tabs => {
-  actions.newTabs(tabs);
-
-  // if there's a pre-selected tab, connect to it and load the sources.
-  // otherwise, just show the toolbox.
-  if (hasSelectedTab()) {
-    const selectedTab = getSelectedTab(store.getState().tabs.get("tabs"));
-    const tab = selectedTab.get("firefox") || selectedTab.get("chrome");
-    debugTab(tab, actions).then(renderToolbox);
-  } else {
-    renderToolbox();
-  }
-});
-
-if (isEnabled("chrome.debug")) {
-  chromeTabs(response => {
-    actions.newTabs(response);
-  });
-}
 
 /**
  * Check to see if the url hash has a selected tab
@@ -100,4 +84,46 @@ function renderToolbox() {
     ),
     document.querySelector("#mount")
   );
+}
+
+if (process.env.NODE_ENV !== "DEVTOOLS_PANEL") {
+  connectClient(tabs => {
+    actions.newTabs(tabs);
+
+    // if there's a pre-selected tab, connect to it and load the sources.
+    // otherwise, just show the toolbox.
+    if (hasSelectedTab()) {
+      const selectedTab = getSelectedTab(store.getState().tabs.get("tabs"));
+      const tab = selectedTab.get("firefox") || selectedTab.get("chrome");
+
+      actions.selectTab({ tabActor: tab.actor });
+      connectThread(tab).then(() => {
+        initPage(actions);
+        renderToolbox();
+      });
+    } else {
+      renderToolbox();
+    }
+  });
+
+  if (isEnabled("chrome.debug")) {
+    chromeTabs(response => {
+      actions.newTabs(response);
+    });
+  }
+} else {
+  // The toolbox already provides the tab to debug. For now, just
+  // provide a fake tab so it will show the debugger. We only use it
+  // when connecting which we don't do because the toolbox has already
+  // done all that.
+  actions.newTabs([{ actor: "tab1" }]);
+  actions.selectTab({ tabActor: "tab1" });
+
+  module.exports = {
+    renderToolbox,
+    setThreadClient,
+    setTabTarget,
+    getBoundActions: () => actions,
+    initPage
+  };
 }
