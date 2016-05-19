@@ -5,7 +5,6 @@ const path = require("path");
 const webpack = require("webpack");
 const express = require("express");
 const webpackDevMiddleware = require("webpack-dev-middleware");
-const open = require("openurl").open;
 const http = require("http");
 
 const projectConfig = require("../webpack.config");
@@ -91,5 +90,3 @@ app.listen(8000, "localhost", function(err, result) {
 
   console.log("Development Server Listening at http://localhost:8000");
 });
-
-open("http://localhost:8000")
