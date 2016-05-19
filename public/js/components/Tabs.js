@@ -5,15 +5,18 @@ const { connect } = require("react-redux");
 const actions = require("../actions");
 const { bindActionCreators } = require("redux");
 const { getTabs } = require("../selectors");
-const { debugTab } = require("../clients/firefox");
 
 require("./Tabs.css");
 const dom = React.DOM;
 
+function getTabsByBrowser(tabs, browser) {
+  return tabs.valueSeq()
+             .filter(tab => tab.get("browser") == browser);
+}
+
 function renderTab(tab, boundActions) {
   function onSelect(selectedTab) {
-    selectedTab = selectedTab.get("firefox") || selectedTab.get("chrome");
-    debugTab(selectedTab, boundActions);
+    boundActions.debugTab(tab.toJS(), boundActions);
   }
 
   return dom.li(
@@ -39,8 +42,8 @@ function renderTabs(tabTitle, tabs, boundActions) {
 }
 
 function Tabs({ tabs, actions: boundActions }) {
-  const firefoxTabs = tabs.valueSeq().filter(tab => tab.get("firefox"));
-  const chromeTabs = tabs.valueSeq().filter(tab => tab.get("chrome"));
+  const firefoxTabs = getTabsByBrowser(tabs, "firefox");
+  const chromeTabs = getTabsByBrowser(tabs, "chrome");
 
   return dom.div({ className: "tabs" },
     renderTabs("Firefox Tabs", firefoxTabs, boundActions),

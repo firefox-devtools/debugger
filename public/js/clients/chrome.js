@@ -28,7 +28,8 @@ function presentTabs(tabs) {
         title: tab.title,
         url: tab.url,
         id: tab.id,
-        chrome: tab
+        tab,
+        browser: "chrome"
       };
     });
 }
@@ -60,7 +61,7 @@ function onConnection(connection) {
   runtimeAgent.run();
 }
 
-function debugTab(tab) {
+function debugChromeTab(tab) {
   function toTitleCase() {
     return this.substring(0, 1).toUpperCase() + this.substring(1);
   }
@@ -84,10 +85,8 @@ function debugTab(tab) {
   );
 }
 
-window.debugTab = debugTab;
-
 module.exports = {
   chromeTabs,
-  debugTab,
+  debugChromeTab,
   getAgent
 };
