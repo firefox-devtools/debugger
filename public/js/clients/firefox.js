@@ -3,7 +3,9 @@
 const { DebuggerClient } = require("ff-devtools-libs/shared/client/main");
 const { DebuggerTransport } = require("ff-devtools-libs/transport/transport");
 const { TargetFactory } = require("ff-devtools-libs/client/framework/target");
-const { Tab, Source, Location, BreakpointResult, Frame } = require("../types");
+const {
+  Tab, Source, Location, BreakpointResult, Frame
+} = require("../types");
 const defer = require("../util/defer");
 
 let currentClient = null;
@@ -94,6 +96,11 @@ let APIClient = {
 
   navigate(url) {
     return currentTabTarget.activeTab.navigateTo(url);
+  },
+
+  getProperties(grip) {
+    const objClient = currentThreadClient.pauseGrip(grip);
+    return objClient.getPrototypeAndProperties();
   }
 };
 
@@ -199,7 +206,8 @@ function createFrame(frame) {
       sourceId: frame.where.source.actor,
       line: frame.where.line,
       column: frame.where.column
-    })
+    }),
+    scope: frame.environment
   });
 }
 

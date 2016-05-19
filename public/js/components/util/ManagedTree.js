@@ -3,6 +3,8 @@
 const React = require("react");
 const Tree = React.createFactory(require("../../lib/tree"));
 
+require("./ManagedTree.css");
+
 let ManagedTree = React.createClass({
   propTypes: Tree.propTypes,
 

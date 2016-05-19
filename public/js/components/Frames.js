@@ -36,9 +36,9 @@ function renderFrame(frame, selectedFrame, selectFrame) {
 
 function Frames({ frames, selectedFrame, selectFrame }) {
   return div(
-    { className: "pane-info frames" },
-    !frames ?
-      div({ className: "empty" }, "Not Paused") :
+    { className: "frames" },
+    frames.length === 0 ?
+      div({ className: "pane-info empty" }, "Not Paused") :
       dom.ul(null, frames.map(frame => {
         return renderFrame(frame, selectedFrame, selectFrame);
       }))

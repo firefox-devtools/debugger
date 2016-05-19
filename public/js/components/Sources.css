@@ -64,14 +64,6 @@ ul.sources-list {
   fill: var(--theme-splitter-color);
 }
 
-.arrow svg {
-  margin-right: 5px;
-  margin-top: 3px;
-  transform: rotate(-90deg);
-  transition: transform 0.25s ease;
-  width: 10px;
-}
-
 .domain,
 .file,
 .worker {
@@ -93,50 +85,4 @@ ul.sources-list {
 .file svg {
   width: 13px;
   margin-right: 5px;
-}
-
-.arrow.expanded svg {
-  transform: rotate(0deg);
-}
-
-.arrow.hidden {
-  display: none;
-}
-
-.tree {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-
-  flex: 1;
-  white-space: nowrap;
-  overflow: auto;
-}
-
-.tree button {
-  display: block;
-}
-
-.tree .node {
-  padding: 2px 5px;
-  position: relative;
-}
-
-.tree .node.focused {
-  color: white;
-  background-color: var(--theme-selection-background);
-}
-
-.tree .node > div {
-  margin-left: 10px;
-}
-
-.tree .node.focused svg {
-  fill: white;
-}
-
-.sources-list .tree-node button {
-  position: fixed;
 }

@@ -43,6 +43,10 @@ function getPause(state) {
   return state.pause.get("pause");
 }
 
+function getLoadedObjects(state) {
+  return state.pause.get("loadedObjects");
+}
+
 function getIsWaitingOnBreak(state) {
   return state.pause.get("isWaitingOnBreak");
 }
@@ -97,6 +101,7 @@ module.exports = {
   getTabs,
   getSelectedTab,
   getPause,
+  getLoadedObjects,
   getIsWaitingOnBreak,
   getFrames,
   getSelectedFrame,
