@@ -2,7 +2,7 @@ test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - node_modules/.bin/mocha --compilers js:babel-register --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/mocha/junit.xml public/js/**/tests/*
-    - node_modules/.bin/cypress ci e09e86a1-8468-4a14-97ce-7b289a680a8f
+    - node_modules/.bin/cypress ci a82f9c0d-cf72-4973-b7ba-ffdc047d5662
   pre:
     - node bin/development-server.js:
         background: true
