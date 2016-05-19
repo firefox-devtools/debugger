@@ -42,7 +42,7 @@ function update(state = initialState, action) {
 
         return state;
       } else if (action.status === "done") {
-        const { actor, text } = action.value;
+        const { id: clientId, text } = action.value;
         let { actualLocation } = action.value;
 
         // If the breakpoint moved, update the map
@@ -70,7 +70,7 @@ function update(state = initialState, action) {
         state = state.mergeIn(["breakpoints", finalLocationId], {
           disabled: false,
           loading: false,
-          actor: actor,
+          clientId: clientId,
           text: text
         });
         return state;

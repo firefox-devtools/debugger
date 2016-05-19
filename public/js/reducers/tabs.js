@@ -21,14 +21,30 @@ function update(state = initialState, action) {
 
       return state.mergeIn(
         ["tabs"],
-        Immutable.Map(tabs.map(tab => [tab.id, Immutable.Map(tab)]))
+        Immutable.Map(tabs.map(tab => {
+          tab.id = getTabId(tab);
+          return [tab.id, Immutable.Map(tab)];
+        }))
       );
     case constants.SELECT_TAB:
-      const tab = state.getIn(["tabs", action.tabActor]);
+      const tab = state.getIn(["tabs", action.id]);
       return state.setIn(["selectedTab"], tab);
   }
 
   return state;
+}
+
+function getTabId(tab) {
+  let id = tab.id;
+  const isFirefox = tab.browser == "firefox";
+
+  // NOTE: we're getting the last part of the actor because
+  // we want to ignore the connection id
+  if (isFirefox) {
+    id = tab.id.split(".").pop();
+  }
+
+  return id;
 }
 
 module.exports = update;

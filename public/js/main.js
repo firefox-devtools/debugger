@@ -22,17 +22,20 @@ if (isEnabled("development")) {
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
 const {
-  connectClient, connectThread,
-  getThreadClient, setThreadClient,
-  setTabTarget, initPage
+  connectClient,
+  setThreadClient, setTabTarget, initPage
 } = require("./clients/firefox");
+
 const { chromeTabs } = require("./clients/chrome");
+const { getBrowserClient, debugPage } = require("./clients");
+
 const TabList = React.createFactory(require("./components/TabList"));
 
 const createStore = configureStore({
   log: false,
-  makeThunkArgs: args => {
-    return Object.assign({}, args, { threadClient: getThreadClient() });
+  makeThunkArgs: (args, state) => {
+    let client = getBrowserClient(state);
+    return Object.assign({}, args, { threadClient: client });
   }
 });
 const store = createStore(combineReducers(reducers));
@@ -58,9 +61,10 @@ function hasSelectedTab() {
  * tab id is always 1.
  *
  */
-function getSelectedTab(tabs) {
-  const childId = window.location.hash.split("=")[1];
-  return tabs.find(tab => tab.get("id").includes(childId));
+function getTabFromUri(state) {
+  const tabs = getTabs(state);
+  const id = window.location.hash.split("=")[1];
+  return tabs.get(id);
 }
 
 setTimeout(function() {
@@ -93,14 +97,9 @@ if (process.env.NODE_ENV !== "DEVTOOLS_PANEL") {
     // if there's a pre-selected tab, connect to it and load the sources.
     // otherwise, just show the toolbox.
     if (hasSelectedTab()) {
-      const selectedTab = getSelectedTab(store.getState().tabs.get("tabs"));
-      const tab = selectedTab.get("firefox") || selectedTab.get("chrome");
-
-      actions.selectTab({ tabActor: tab.actor });
-      connectThread(tab).then(() => {
-        initPage(actions);
-        renderToolbox();
-      });
+      const selectedTab = getTabFromUri(store.getState());
+      debugPage(selectedTab, actions).then(renderToolbox);
+      actions.selectTab({ id: selectedTab.get("id") });
     } else {
       renderToolbox();
     }

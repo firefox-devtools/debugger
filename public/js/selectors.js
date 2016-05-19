@@ -25,9 +25,9 @@ function getBreakpoints(state) {
   return state.breakpoints.get("breakpoints");
 }
 
-function getBreakpointsForSource(state, sourceActor) {
+function getBreakpointsForSource(state, sourceId) {
   return state.breakpoints.get("breakpoints").filter(bp => {
-    return bp.getIn(["location", "actor"]) === sourceActor;
+    return bp.getIn(["location", "sourceId"]) === sourceId;
   });
 }
 
@@ -48,7 +48,7 @@ function getIsWaitingOnBreak(state) {
 }
 
 function getFrames(state) {
-  return state.pause.get("frames");
+  return state.pause.get("frames") || [];
 }
 
 function getSelectedFrame(state) {
@@ -79,7 +79,7 @@ function getSourceText(state, actor) {
  * @param object - location
  */
 function makeLocationId(location) {
-  return location.actor + ":" + location.line.toString();
+  return location.sourceId + ":" + location.line.toString();
 }
 
 module.exports = {

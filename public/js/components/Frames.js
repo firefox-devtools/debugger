@@ -7,30 +7,33 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
 const { basename } = require("../util/path");
-const { getFrames, getSelectedFrame } = require("../selectors");
+const { getFrames, getSelectedFrame, getSource } = require("../selectors");
 
 require("./Frames.css");
 
 function renderFrameTitle(frame) {
-  let title;
-  if (frame.type == "call") {
-    let c = frame.callee;
-    title = c.name || c.userDisplayName || c.displayName || "(anonymous)";
-  } else {
-    title = "(" + frame.type + ")";
-  }
+  // let title;
+  // if (frame.type == "call") {
+  //   let c = frame.callee;
+  //   title = c.name || c.userDisplayName || c.displayName || "(anonymous)";
+  // } else {
+  //   title = "(" + frame.type + ")";
+  // }
 
-  return div({ className: "title" }, title);
+  return div({ className: "title" }, frame.displayName);
 }
 
 function renderFrameLocation(frame) {
-  return div({ className: "location" }, basename(frame.where.source.url));
+  return div({ className: "location" }, basename(frame.source.url));
 }
 
 function renderFrame(frame, selectedFrame, selectFrame) {
-  const selectedClass = selectedFrame === frame ? "selected" : "";
+  const selectedClass = (
+    selectedFrame && (selectedFrame.id === frame.id ? "selected" : "")
+  );
 
   return dom.li({
+    key: frame.id,
     className: `frame ${selectedClass}`,
     onClick: () => selectFrame(frame)
   },
@@ -51,7 +54,11 @@ function Frames({ frames, selectedFrame, selectFrame }) {
 
 module.exports = connect(
   state => ({
-    frames: getFrames(state),
+    frames: getFrames(state).map(frame => {
+      return Object.assign({}, frame, {
+        source: getSource(state, frame.location.sourceId).toJS()
+      });
+    }),
     selectedFrame: getSelectedFrame(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)

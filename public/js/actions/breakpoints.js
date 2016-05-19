@@ -54,17 +54,18 @@ function addBreakpoint(location, condition, snippet) {
       condition: condition,
       [PROMISE]: Task.spawn(function* () {
         const sourceClient = threadClient.source(
-          getSource(getState(), bp.getIn(["location", "actor"])).toJS()
+          getSource(getState(), bp.getIn(["location", "sourceId"])).toJS()
         );
         const [response, bpClient] = yield sourceClient.setBreakpoint({
           line: bp.getIn(["location", "line"]),
           column: bp.getIn(["location", "column"]),
           condition: bp.get("condition")
         });
+
         const { isPending, actualLocation } = response;
 
         // Save the client instance
-        setBreakpointClient(bpClient.actor, bpClient);
+        setBreakpointClient(bpClient.id, bpClient);
 
         return {
           text: snippet,
@@ -73,7 +74,7 @@ function addBreakpoint(location, condition, snippet) {
           // the original requested placement for the breakpoint wasn't
           // accepted.
           actualLocation: isPending ? null : actualLocation,
-          actor: bpClient.actor
+          id: bpClient.id
         };
       })
     });
@@ -100,7 +101,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
       throw new Error("attempt to remove unsaved breakpoint");
     }
 
-    const bpClient = getBreakpointClient(bp.get("actor"));
+    const bpClient = getBreakpointClient(bp.get("clientId"));
     const action = {
       type: constants.REMOVE_BREAKPOINT,
       breakpoint: bp.toJS(),
@@ -160,8 +161,8 @@ function setBreakpointCondition(location, condition) {
         const newClient = yield bpClient.setCondition(threadClient, condition);
 
         // Remove the old instance and save the new one
-        setBreakpointClient(bpClient.actor, null);
-        setBreakpointClient(newClient.actor, newClient);
+        setBreakpointClient(bpClient.id, null);
+        setBreakpointClient(newClient.id, newClient);
 
         return { actor: newClient.actor };
       })

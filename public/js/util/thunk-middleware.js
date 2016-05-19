@@ -13,7 +13,7 @@ function thunk(makeArgs) {
 
     return next => action => {
       return (typeof action === "function")
-        ? action(makeArgs ? makeArgs(args) : args)
+        ? action(makeArgs ? makeArgs(args, getState()) : args)
         : next(action);
     };
   };
