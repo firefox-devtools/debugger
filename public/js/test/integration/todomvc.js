@@ -9,7 +9,7 @@ function goToSource(source) {
   const fileName = sourcePath.pop();
 
   sourcePath.reduce((el, part) => {
-    return el.contains(".node", part).dblclick().end();
+    return el.contains(".node", part).find(".arrow").click().end();
   }, sourcesList);
 
   sourcesList.contains(".node", fileName).click();
@@ -23,7 +23,7 @@ function addBreakpoint(linenumber) {
 function hasBreakpointOnLine(linenumber) {
   cy.get(".CodeMirror")
     .contains(".CodeMirror-linenumber", linenumber)
-    .next().find(".breakpoint");
+    .parents(".breakpoint");
 }
 
 function hasBreakpointInList(breakpoint) {
