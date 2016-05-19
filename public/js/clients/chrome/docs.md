@@ -24,7 +24,7 @@ InspectorBackend.registerCommand("Debugger.getBacktrace", [], ["callFrames", "as
 #### Steps to upgrade `inspectorBackend.js`:
 
 + add line `/* eslint-disable */`
-+ add line `var WebInspector = {};`
++ add line `var WebInspector = {}, window = window || {};`
 + copy front_end\/common\/Object.js
 + copy front_end\/sdk\/InspectorBackend.js
 + copy front_end\/main\/Connections.js

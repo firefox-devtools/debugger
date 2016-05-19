@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-var WebInspector = {};
+var WebInspector = {}, window = window || {};
 
 /*
  * Copyright (C) 2008 Apple Inc. All Rights Reserved.
