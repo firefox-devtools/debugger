@@ -150,11 +150,11 @@ function setBreakpointCondition(location, condition) {
       throw new Error("breakpoint must be saved");
     }
 
-    const bpClient = getBreakpointClient(bp.actor);
+    const bpClient = getBreakpointClient(bp.get("actor"));
 
     return dispatch({
       type: constants.SET_BREAKPOINT_CONDITION,
-      breakpoint: bp,
+      breakpoint: bp.toJS(),
       condition: condition,
       [PROMISE]: Task.spawn(function* () {
         const newClient = yield bpClient.setCondition(threadClient, condition);
