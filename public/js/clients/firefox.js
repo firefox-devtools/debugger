@@ -3,15 +3,27 @@
 const { DebuggerClient } = require("ff-devtools-libs/shared/client/main");
 const { DebuggerTransport } = require("ff-devtools-libs/transport/transport");
 const { TargetFactory } = require("ff-devtools-libs/client/framework/target");
-const { Task } = require("ff-devtools-libs/sham/task");
 let currentClient = null;
 let currentThreadClient = null;
+let currentTabTarget = null;
 
 function getThreadClient() {
   return currentThreadClient;
 }
 
-function getTabTarget(tab) {
+function setThreadClient(client) {
+  currentThreadClient = client;
+}
+
+function getTabTarget() {
+  return currentTabTarget;
+}
+
+function setTabTarget(target) {
+  currentTabTarget = target;
+}
+
+function lookupTabTarget(tab) {
   const options = { client: currentClient, form: tab, chrome: false };
   return TargetFactory.forRemoteTab(options);
 }
@@ -42,10 +54,11 @@ function connectClient(onConnect) {
 function connectThread(tab, onNavigate) {
   return new Promise((resolve, reject) => {
     window.addEventListener("beforeunload", () => {
-      getTabTarget(tab).then(target => target.destroy());
+      getTabTarget().destroy();
     });
 
-    getTabTarget(tab).then(target => {
+    lookupTabTarget(tab).then(target => {
+      currentTabTarget = target;
       target.activeTab.attachThread({}, (res, threadClient) => {
         threadClient.resume();
         currentThreadClient = threadClient;
@@ -55,30 +68,28 @@ function connectThread(tab, onNavigate) {
   });
 }
 
-function debugTab(tab, actions) {
-  return Task.spawn(function* () {
-    yield connectThread(tab);
-    actions.selectTab({ tabActor: tab.actor });
+function initPage(actions) {
+  const tabTarget = getTabTarget();
+  const client = getThreadClient();
 
-    const target = yield getTabTarget(tab);
-    target.on("will-navigate", actions.willNavigate);
-    target.on("navigate", actions.navigate);
+  tabTarget.on("will-navigate", actions.willNavigate);
+  tabTarget.on("navigate", actions.navigate);
 
-    let client = getThreadClient();
-
-    client.addListener("paused", (_, packet) => actions.paused(packet));
-    client.addListener("resumed", (_, packet) => actions.resumed(packet));
-    client.addListener("newSource", (_, packet) => {
-      actions.newSource(packet.source);
-    });
-
-    actions.loadSources();
+  client.addListener("paused", (_, packet) => actions.paused(packet));
+  client.addListener("resumed", (_, packet) => actions.resumed(packet));
+  client.addListener("newSource", (_, packet) => {
+    actions.newSource(packet.source);
   });
+
+  actions.loadSources();
 }
 
 module.exports = {
   connectClient,
   connectThread,
   getThreadClient,
-  debugTab
+  setThreadClient,
+  getTabTarget,
+  setTabTarget,
+  initPage
 };
