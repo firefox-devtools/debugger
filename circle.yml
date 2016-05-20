@@ -8,7 +8,7 @@ test:
         background: true
     - node bin/test-server.js:
         background: true
-    - sleep 10
+    - sleep 30
   post:
     - npm run lint-css
     - npm run lint-js
