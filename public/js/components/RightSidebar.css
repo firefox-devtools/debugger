@@ -4,13 +4,13 @@
 
 .command-bar {
   border-bottom: 1px solid #cccccc;
-  height: 30px;
-  padding: 5px;
+  height: 40px;
+  padding: 10px 5px 10px 10px;
 }
 
 .command-bar > span {
   cursor: pointer;
-  margin-right: 0.2em;
+  margin-right: 0.7em;
   width: 1.8em;
   height: 1.1em;
   display: inline-block;
