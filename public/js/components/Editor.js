@@ -1,6 +1,7 @@
 "use strict";
 
 const React = require("react");
+const ReactDOM = require("react-dom");
 const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
@@ -21,6 +22,40 @@ require("./Editor.css");
 require("codemirror/mode/javascript/javascript");
 require("../lib/codemirror.css");
 
+function breakpointAtLine(breakpoints, line) {
+  return breakpoints.find(b => {
+    return b.getIn(["location", "line"]) === line + 1;
+  });
+}
+
+function renderConditionalBreakpointPanel(
+  { location, setBreakpointCondition, closePanel }) {
+  function onKey(e) {
+    if (e.key != "Enter") {
+      return;
+    }
+
+    setBreakpointCondition(location, e.target.value);
+    closePanel();
+  }
+
+  let panel = document.createElement("div");
+  ReactDOM.render(
+    dom.div({
+      className: "conditional-breakpoint-panel"
+    },
+    dom.div(
+      { className: "header" },
+      `This breakpoint will stop execution only
+       if the following expression is true`
+    ),
+    dom.input({
+      onKeyPress: (e) => onKey(e),
+    })
+  ), panel);
+  return panel;
+}
+
 const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
@@ -29,10 +64,12 @@ const Editor = React.createClass({
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
+    setBreakpointCondition: PropTypes.func,
     pause: PropTypes.object
   },
 
   componentDidMount() {
+    this.cbPanels = {};
     this.editor = CodeMirror.fromTextArea(this.refs.editor, {
       mode: "javascript",
       lineNumbers: true,
@@ -50,17 +87,35 @@ const Editor = React.createClass({
       ev => onWheel(this.editor, ev));
   },
 
-  onGutterClick(cm, line, gutter, ev) {
-    const bp = this.props.breakpoints.find(b => {
-      return b.getIn(["location", "line"]) === line + 1;
-    });
-
+  toggleBreakpoint(bp, line) {
     const applyBp = bp ? this.props.removeBreakpoint : this.props.addBreakpoint;
     applyBp({
       actor: this.props.selectedSource.get("actor"),
       line: line + 1,
-      snippet: cm.lineInfo(line).text.trim()
+      snippet: this.editor.lineInfo(line).text.trim()
     });
+  },
+
+  onGutterClick(cm, line, gutter, ev) {
+    const bp = breakpointAtLine(this.props.breakpoints, line);
+    const location = {
+      actor: this.props.selectedSource.get("actor"),
+      line: line + 1
+    };
+
+    // show conditional breakpoint panel on command click
+    if (bp && ev.metaKey) {
+      const panel = renderConditionalBreakpointPanel({
+        location: location,
+        setBreakpointCondition: this.props.setBreakpointCondition,
+        closePanel: () => this.cbPanels[line].clear()
+      });
+
+      this.cbPanels[line] = this.editor.addLineWidget(line, panel);
+      return;
+    }
+
+    this.toggleBreakpoint(bp, line);
   },
 
   clearDebugLine(line) {
