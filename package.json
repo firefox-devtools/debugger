@@ -1,5 +1,6 @@
 {
   "name": "debugger.html",
+  "version": "0.0.4",
   "scripts": {
     "start": "node bin/development-server",
     "lint": "npm run lint-css -s; npm run lint-js -s",
@@ -11,7 +12,8 @@
     "test-server": "node bin/test-server.js",
     "test-karma": "./node_modules/.bin/karma start --single-run",
     "storybook": "start-storybook -p 9001 -s public",
-    "start-firefox": "node bin/firefox-driver --start"
+    "start-firefox": "node bin/firefox-driver --start",
+    "prepublish": "webpack"
   },
   "dependencies": {
     "babel-cli": "^6.7.5",
@@ -71,5 +73,8 @@
     "selenium-webdriver": "^2.53.2",
     "style-loader": "^0.13.1",
     "todomvc": "^0.1.1"
-  }
+  },
+  "files": [
+    "public"
+  ]
 }
