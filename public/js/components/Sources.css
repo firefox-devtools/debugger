@@ -14,7 +14,7 @@
   flex: 1;
   display: flex;
   overflow: hidden;
-  font-size: 0.9em;
+  font-size: 0.75em;
   padding-left: 10px;
 }
 
@@ -57,13 +57,35 @@ ul.sources-list {
   color: var(--theme-selection-color);
 }
 
-.arrow svg {
+.arrow, .folder, .domain, .file, .worker {
   fill: var(--theme-splitter-color);
-  margin-right: 3px;
+}
+
+.arrow svg {
+  margin-right: 5px;
   margin-top: 3px;
   transform: rotate(-90deg);
   transition: transform 0.25s ease;
   width: 10px;
+}
+
+.domain, .file, .worker {
+  position: relative;
+  top: 1px;
+}
+
+.worker {
+  top: 2px;
+}
+
+.domain svg, .folder svg, .worker svg {
+  width: 15px;
+  margin-right: 5px;
+}
+
+.file svg {
+  width: 13px;
+  margin-right: 5px;
 }
 
 .arrow.expanded svg {
@@ -91,7 +113,8 @@ ul.sources-list {
 }
 
 .tree .node {
-  padding: 5px;
+  padding: 2px 5px;
+  position: relative;
 }
 
 .tree .node.focused {
