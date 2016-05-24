@@ -102,3 +102,7 @@ ul.sources-list {
 .tree .node.focused svg {
   fill: white;
 }
+
+.sources-list .tree-node button {
+  position: fixed;
+}
