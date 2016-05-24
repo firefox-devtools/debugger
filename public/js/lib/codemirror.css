@@ -312,7 +312,7 @@ div.CodeMirror span.eval-text {
 .CodeMirror-gutters {
   /* vertical line next to line numbers */
   border-right-color: var(--theme-toolbar-background);
-  background-color: var(--theme-sidebar-background);
+  background-color: var(--theme-breakpoint-background);
 }
 
 .cm-s-markup-view pre {
