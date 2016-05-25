@@ -82,6 +82,10 @@ describe("Todo MVC", function() {
       driver.get("http://localhost:9002/todomvc/examples/backbone/");
     });
 
+    // wait for todomvc to load.
+    // should not be necessary, but seeing timing issues 5% of the time.
+    cy.wait(1000);
+
     cy.visit("http://localhost:8000");
 
     cy.get(".tab").first().click();
