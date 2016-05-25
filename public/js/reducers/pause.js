@@ -16,7 +16,7 @@ const initialState = fromJS({
 function update(state = initialState, action, emit) {
   switch (action.type) {
     case constants.PAUSED:
-      const pause = action.value;
+      const pause = action.pauseInfo;
       pause.isInterrupted = pause.why.type == "interrupted";
       return state
         .set("isWaitingOnBreak", false)
@@ -27,11 +27,8 @@ function update(state = initialState, action, emit) {
                            selectedFrame: null });
     case constants.BREAK_ON_NEXT:
       return state.set("isWaitingOnBreak", true);
-    case constants.LOAD_FRAMES:
-      if (action.status === "done") {
-        return state.set("frames", action.value.frames);
-      }
-      break;
+    case constants.LOADED_FRAMES:
+      return state.set("frames", action.frames);
     case constants.SELECT_FRAME:
       return state.set("selectedFrame", action.frame);
     case constants.NAVIGATE:

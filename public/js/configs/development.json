@@ -3,7 +3,7 @@
   "logging": true,
   "clientLogging": false,
   "chrome": {
-    "debug": true,
+    "debug": false,
     "webSocketPort": 9222
   }
 }

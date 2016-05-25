@@ -24,7 +24,7 @@ const simpleMockThreadClient = {
     return {
       source: () => {
         return new Promise((resolve, reject) => {
-          resolve(sourceText[form.actor]);
+          resolve(sourceText[form.id]);
         });
       }
     };
@@ -55,7 +55,7 @@ describe("loadSourceText", () => {
   it("loading one source text", function(done) {
     Task.spawn(function* () {
       const store = createStore(simpleMockThreadClient);
-      yield store.dispatch(actions.loadSourceText({ actor: "foo1" }));
+      yield store.dispatch(actions.loadSourceText({ id: "foo1" }));
 
       const fooSourceText = getSourceText(store.getState(), "foo1");
       expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
@@ -66,8 +66,8 @@ describe("loadSourceText", () => {
   it("loading two different sources", function(done) {
     Task.spawn(function* () {
       const store = createStore(simpleMockThreadClient);
-      yield store.dispatch(loadSourceText({ actor: "foo1" }));
-      yield store.dispatch(loadSourceText({ actor: "foo2" }));
+      yield store.dispatch(loadSourceText({ id: "foo1" }));
+      yield store.dispatch(loadSourceText({ id: "foo2" }));
 
       const fooSourceText = getSourceText(store.getState(), "foo1");
       expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
@@ -83,8 +83,8 @@ describe("loadSourceText", () => {
     const store = createStore(simpleMockThreadClient);
 
     Task.spawn(function* () {
-      yield store.dispatch(loadSourceText({ actor: "foo1" }));
-      yield store.dispatch(loadSourceText({ actor: "foo1" }));
+      yield store.dispatch(loadSourceText({ id: "foo1" }));
+      yield store.dispatch(loadSourceText({ id: "foo1" }));
       const fooSourceText = getSourceText(store.getState(), "foo1");
       expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
 
@@ -94,7 +94,7 @@ describe("loadSourceText", () => {
 
   it("source is loading", function() {
     const store = createStore(deferredMockThreadClient);
-    store.dispatch(loadSourceText({ actor: "foo1" }));
+    store.dispatch(loadSourceText({ id: "foo1" }));
     // We're intentionally leaving the source promise pending
 
     const fooSourceText = getSourceText(store.getState(), "foo1");
@@ -104,7 +104,7 @@ describe("loadSourceText", () => {
   it("source failed to load", function(done) {
     function loadBadSource(store) {
       let deferred = promise.defer();
-      store.dispatch(loadSourceText({ actor: "foo1" }))
+      store.dispatch(loadSourceText({ id: "foo1" }))
         .catch(() => deferred.resolve());
 
       deferredMockThreadClient.getRequest().reject("poop");

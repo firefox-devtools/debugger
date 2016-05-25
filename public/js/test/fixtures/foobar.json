@@ -2,13 +2,13 @@
   "sources": {
     "sources": {
       "fooSourceActor": {
-        "actor": "fooSourceActor",
+        "id": "fooSourceActor",
         "url": "http://example.com/foo/foo.js",
         "filename": "foo.js",
         "pathname": "foo/foo.js"
       },
       "barSourceActor": {
-        "actor": "barSourceActor",
+        "id": "barSourceActor",
         "url": "http://example.com/bar/bar.js",
         "filename": "bar.js",
         "pathname": "bar/bar.js"
@@ -23,16 +23,16 @@
   },
   "breakpoints": {
     "fooBreakpointActor": {
-      "actor": "fooBreakpointActor",
+      "id": "fooBreakpointActor",
       "location": {
-        "actor": "fooSourceActor",
+        "sourceId": "fooSourceActor",
         "line": 16
       }
     },
     "barBreakpointActor": {
-      "actor": "barBreakpointActor",
+      "id": "barBreakpointActor",
       "location": {
-        "actor": "barSourceActor",
+        "sourceId": "barSourceActor",
         "line": 18
       }
     }

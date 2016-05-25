@@ -139,10 +139,8 @@ const debuggerDispatcher = actions => ({
       type: reason
     }, data);
 
-    actions.paused({
-      pause: { frame, why },
-      frames
-    });
+    actions.paused({ frame, why });
+    actions.loadedFrames(frames);
   },
 
   resumed: function() {

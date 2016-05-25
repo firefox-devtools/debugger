@@ -57,7 +57,11 @@ ul.sources-list {
   color: var(--theme-selection-color);
 }
 
-.arrow, .folder, .domain, .file, .worker {
+.arrow,
+.folder,
+.domain,
+.file,
+.worker {
   fill: var(--theme-splitter-color);
 }
 
@@ -69,7 +73,9 @@ ul.sources-list {
   width: 10px;
 }
 
-.domain, .file, .worker {
+.domain,
+.file,
+.worker {
   position: relative;
   top: 1px;
 }
@@ -78,7 +84,9 @@ ul.sources-list {
   top: 2px;
 }
 
-.domain svg, .folder svg, .worker svg {
+.domain svg,
+.folder svg,
+.worker svg {
   width: 15px;
   margin-right: 5px;
 }

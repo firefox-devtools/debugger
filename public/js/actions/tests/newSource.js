@@ -16,7 +16,7 @@ describe("newSource", () => {
     const foo = getSourceByActor(store.getState(), "fooSourceActor");
     const bar = getSourceByActor(store.getState(), "barSourceActor");
 
-    expect(foo.get("actor")).to.equal("fooSourceActor");
-    expect(bar.get("actor")).to.equal("barSourceActor");
+    expect(foo.get("id")).to.equal("fooSourceActor");
+    expect(bar.get("id")).to.equal("barSourceActor");
   });
 });
