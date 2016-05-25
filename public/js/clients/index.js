@@ -22,7 +22,7 @@ function getBrowserClient(state) {
 function debugPage(tab, actions) {
   const isFirefox = tab.get("browser") == "firefox";
   if (isFirefox) {
-    return connectThread(tab).then(() => initPage(actions));
+    return connectThread(tab.get("tab")).then(() => initPage(actions));
   }
 
   return debugChromeTab(tab.get("tab"), actions);

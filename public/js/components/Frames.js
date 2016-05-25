@@ -12,19 +12,12 @@ const { getFrames, getSelectedFrame, getSource } = require("../selectors");
 require("./Frames.css");
 
 function renderFrameTitle(frame) {
-  // let title;
-  // if (frame.type == "call") {
-  //   let c = frame.callee;
-  //   title = c.name || c.userDisplayName || c.displayName || "(anonymous)";
-  // } else {
-  //   title = "(" + frame.type + ")";
-  // }
-
   return div({ className: "title" }, frame.displayName);
 }
 
 function renderFrameLocation(frame) {
-  return div({ className: "location" }, basename(frame.source.url));
+  return div({ className: "location" },
+             frame.source.url ? basename(frame.source.url) : "");
 }
 
 function renderFrame(frame, selectedFrame, selectFrame) {
@@ -32,13 +25,13 @@ function renderFrame(frame, selectedFrame, selectFrame) {
     selectedFrame && (selectedFrame.id === frame.id ? "selected" : "")
   );
 
-  return dom.li({
-    key: frame.id,
-    className: `frame ${selectedClass}`,
-    onClick: () => selectFrame(frame)
-  },
+  return dom.li(
+    { key: frame.id,
+      className: `frame ${selectedClass}`,
+      onClick: () => selectFrame(frame) },
     renderFrameLocation(frame),
-    renderFrameTitle(frame));
+    renderFrameTitle(frame)
+  );
 }
 
 function Frames({ frames, selectedFrame, selectFrame }) {

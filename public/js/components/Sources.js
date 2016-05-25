@@ -29,7 +29,7 @@ let Arrow = (props) => {
 };
 Arrow = React.createFactory(Arrow);
 
-let Folder = (props) => {
+let FolderIcon = (props) => {
   return dom.span(
     props,
     dom.svg(
@@ -38,9 +38,9 @@ let Folder = (props) => {
     )
   );
 };
-Folder = React.createFactory(Folder);
+FolderIcon = React.createFactory(FolderIcon);
 
-let Domain = (props) => {
+let DomainIcon = (props) => {
   return dom.span(
     props,
     dom.svg(
@@ -50,9 +50,9 @@ let Domain = (props) => {
     )
   );
 };
-Domain = React.createFactory(Domain);
+DomainIcon = React.createFactory(DomainIcon);
 
-let File = (props) => {
+let FileIcon = (props) => {
   return dom.span(
     props,
     dom.svg(
@@ -62,9 +62,9 @@ let File = (props) => {
     )
   );
 };
-File = React.createFactory(File);
+FileIcon = React.createFactory(FileIcon);
 
-let Worker = (props) => {
+let WorkerIcon = (props) => {
   return dom.span(
     props,
     dom.svg(
@@ -73,7 +73,7 @@ let Worker = (props) => {
     )
   );
 };
-Worker = React.createFactory(Worker);
+WorkerIcon = React.createFactory(Worker);
 
 let SourcesTree = React.createClass({
   propTypes: {
@@ -132,7 +132,7 @@ let SourcesTree = React.createClass({
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     const arrow = Arrow({
       className: classnames(
-        "arrow", 
+        "arrow",
         { expanded: expanded,
           hidden: !nodeHasChildren(item) }
       ),
@@ -142,25 +142,25 @@ let SourcesTree = React.createClass({
       }
     });
 
-    const folder = Folder({
+    const folder = FolderIcon({
       className: classnames(
         "folder"
       )
     });
 
-    const domain = Domain({
+    const domain = DomainIcon({
       className: classnames(
         "domain"
       )
     });
 
-    const file = File({
+    const file = FileIcon({
       className: classnames(
         "file"
       )
     });
 
-    const worker = Worker({
+    const worker = WorkerIcon({
       className: classnames(
         "worker"
       )
