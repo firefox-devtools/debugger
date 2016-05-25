@@ -68,7 +68,7 @@ function getSourceByURL(state, url) {
 }
 
 function getSourceByActor(state, actor) {
-  return getSources(state).find(source => source.get("actor") == actor);
+  return getSources(state).find(source => source.get("id") == actor);
 }
 
 function getSourceText(state, actor) {

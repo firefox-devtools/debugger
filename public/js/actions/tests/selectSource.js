@@ -14,7 +14,7 @@ const simpleMockThreadClient = {
     return {
       source: () => {
         return new Promise((resolve, reject) => {
-          resolve(sourcesFixtures.sources[form.actor]);
+          resolve(sourcesFixtures.sources[form.id]);
         });
       }
     };
@@ -35,10 +35,12 @@ describe("selectSource", () => {
     };
 
     this.store = createStore({}, initialState);
-    this.store.dispatch(selectSource(sourcesFixtures.sources.fooSourceActor));
+    this.store.dispatch(
+      selectSource(sourcesFixtures.sources.fooSourceActor.id)
+    );
 
     const fooSourceText = getSelectedSource(this.store.getState());
-    expect(fooSourceText.get("actor")).to.equal("fooSourceActor");
+    expect(fooSourceText.get("id")).to.equal("fooSourceActor");
   });
 
   it("selecting a source that hasn\'t been loaded", function() {
@@ -52,9 +54,11 @@ describe("selectSource", () => {
     };
 
     this.store = createStore(simpleMockThreadClient, initialState);
-    this.store.dispatch(selectSource(sourcesFixtures.sources.fooSourceActor));
+    this.store.dispatch(
+      selectSource(sourcesFixtures.sources.fooSourceActor.id)
+    );
 
     const fooSourceText = getSelectedSource(this.store.getState());
-    expect(fooSourceText.get("actor")).to.equal("fooSourceActor");
+    expect(fooSourceText.get("id")).to.equal("fooSourceActor");
   });
 });
