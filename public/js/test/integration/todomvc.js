@@ -82,13 +82,13 @@ describe("Todo MVC", function() {
       driver.get("http://localhost:9002/todomvc/examples/backbone/");
     });
 
-    cy.visit("http://localhost:8000/babel");
+    cy.visit("http://localhost:8000");
 
     cy.get(".tab").first().click();
   });
 
   afterEach(function() {
-    cy.visit("http://localhost:8000/babel");
+    cy.visit("http://localhost:8000");
   });
 
   it("Adding Breakpoints in one source", function() {
