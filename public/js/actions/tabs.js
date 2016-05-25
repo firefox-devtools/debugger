@@ -13,20 +13,12 @@ function newTabs(tabs) {
   };
 }
 
-function selectTab({ tabActor }) {
-  // set selected tab in the URL hash
-  let childId;
-  if (tabActor.includes("child")) {
-    childId = tabActor.match(/child\d+/)[0];
-  } else {
-    childId = tabActor.match(/tab\d+/)[0];
-  }
-
-  window.location.hash = `tab=${childId}`;
+function selectTab({ id }) {
+  window.location.hash = `tab=${id}`;
 
   return {
     type: constants.SELECT_TAB,
-    tabActor: tabActor,
+    id: id,
   };
 }
 

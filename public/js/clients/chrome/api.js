@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 var WebInspector = {}, window = window || {};
 
 /*

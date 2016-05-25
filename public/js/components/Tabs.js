@@ -5,18 +5,19 @@ const { connect } = require("react-redux");
 const actions = require("../actions");
 const { bindActionCreators } = require("redux");
 const { getTabs } = require("../selectors");
-const { connectThread, initPage } = require("../clients/firefox");
+const { debugPage } = require("../clients");
 
 require("./Tabs.css");
 const dom = React.DOM;
 
-function onTabSelect(selectedTab, boundActions) {
-  const tab = selectedTab.get("firefox") || selectedTab.get("chrome");
+function getTabsByBrowser(tabs, browser) {
+  return tabs.valueSeq()
+             .filter(tab => tab.get("browser") == browser);
+}
 
-  boundActions.selectTab({ tabActor: tab.actor });
-  connectThread(tab).then(() => {
-    initPage(boundActions);
-  });
+function onTabSelect(selectedTab, boundActions) {
+  boundActions.selectTab({ id: selectedTab.get("id") });
+  debugPage(selectedTab, boundActions);
 }
 
 function renderTab(tab, boundActions) {
@@ -43,8 +44,8 @@ function renderTabs(tabTitle, tabs, boundActions) {
 }
 
 function Tabs({ tabs, actions: boundActions }) {
-  const firefoxTabs = tabs.valueSeq().filter(tab => tab.get("firefox"));
-  const chromeTabs = tabs.valueSeq().filter(tab => tab.get("chrome"));
+  const firefoxTabs = getTabsByBrowser(tabs, "firefox");
+  const chromeTabs = getTabsByBrowser(tabs, "chrome");
 
   return dom.div({ className: "tabs" },
     renderTabs("Firefox Tabs", firefoxTabs, boundActions),

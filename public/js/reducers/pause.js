@@ -18,10 +18,6 @@ function update(state = initialState, action, emit) {
     case constants.PAUSED:
       const pause = action.value;
       pause.isInterrupted = pause.why.type == "interrupted";
-      if (!pause.isInterrupted) {
-        pause.frame.where.actor = pause.frame.where.source.actor;
-      }
-
       return state
         .set("isWaitingOnBreak", false)
         .set("pause", fromJS(pause));
