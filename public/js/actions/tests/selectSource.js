@@ -2,7 +2,7 @@
 
 const { actions, selectors, createStore } = require("../../util/test-head");
 const fixtures = require("../../test/fixtures/foobar.json");
-const { fromJS } = require("immutable");
+const fromJS = require("../../util/fromJS");
 const expect = require("expect.js");
 
 const { getSelectedSource } = selectors;

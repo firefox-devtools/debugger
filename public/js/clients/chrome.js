@@ -5,6 +5,8 @@ const {
   InspectorBackend
 } = require("./chrome/api");
 
+const { Source, Location, Frame } = require("../types");
+
 /* eslint-disable */
 // TODO: figure out a way to avoid patching native prototypes.
 // Unfortunately the Chrome client requires it to work.
@@ -112,8 +114,7 @@ const debuggerDispatcher = actions => ({
                          endLine, endColumn, executionContextId, hash,
                          isContentScript, isInternalScript, isLiveEdit,
                          sourceMapURL, hasSourceURL, deprecatedCommentWasUsed) {
-    const source = { id: scriptId, url };
-    actions.newSource(source);
+    actions.newSource(Source({ id: scriptId, url }));
   },
 
   scriptFailedToParse: function() {
@@ -123,15 +124,15 @@ const debuggerDispatcher = actions => ({
 
   paused: function(callFrames, reason, data, hitBreakpoints, asyncStackTrace) {
     const frames = callFrames.map(frame => {
-      return {
+      return Frame({
         id: frame.callFrameId,
         displayName: frame.functionName,
-        location: {
+        location: Location({
           sourceId: frame.functionLocation.scriptId,
           line: frame.functionLocation.lineNumber + 1,
           column: frame.functionLocation.columnNumber
-        }
-      };
+        })
+      });
     });
 
     const frame = frames[0];

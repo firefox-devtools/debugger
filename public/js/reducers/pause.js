@@ -4,7 +4,7 @@
 "use strict";
 
 const constants = require("../constants");
-const { fromJS } = require("immutable");
+const fromJS = require("../util/fromJS");
 
 const initialState = fromJS({
   pause: null,

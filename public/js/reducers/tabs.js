@@ -5,8 +5,9 @@
 
 const constants = require("../constants");
 const Immutable = require("immutable");
+const fromJS = require("../util/fromJS");
 
-const initialState = Immutable.fromJS({
+const initialState = fromJS({
   tabs: {},
   selectedTab: null,
 });

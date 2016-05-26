@@ -4,10 +4,10 @@
 "use strict";
 
 const constants = require("../constants");
-const Immutable = require("immutable");
+const fromJS = require("../util/fromJS");
 const { makeLocationId } = require("../selectors");
 
-const initialState = Immutable.fromJS({
+const initialState = fromJS({
   breakpoints: {}
 });
 
@@ -29,7 +29,7 @@ function update(state = initialState, action) {
 
       if (action.status === "start") {
         const existingBp = state.getIn(["breakpoints", id]);
-        const bp = existingBp || Immutable.fromJS(action.breakpoint);
+        const bp = existingBp || fromJS(action.breakpoint);
 
         state = state.setIn(["breakpoints", id], bp.merge({
           disabled: false,
@@ -58,7 +58,7 @@ function update(state = initialState, action) {
 
           const movedId = makeLocationId(actualLocation);
           const currentBp = (state.getIn(["breakpoints", movedId]) ||
-                             Immutable.fromJS(action.breakpoint));
+                             fromJS(action.breakpoint));
           const newBp = currentBp.merge({ location: actualLocation });
           state = state.setIn(["breakpoints", movedId], newBp);
         }
