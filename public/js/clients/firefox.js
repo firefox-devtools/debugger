@@ -3,6 +3,8 @@
 const { DebuggerClient } = require("ff-devtools-libs/shared/client/main");
 const { DebuggerTransport } = require("ff-devtools-libs/transport/transport");
 const { TargetFactory } = require("ff-devtools-libs/client/framework/target");
+const { Source, Location, Frame } = require("../types");
+
 let currentClient = null;
 let currentThreadClient = null;
 let currentTabTarget = null;
@@ -69,7 +71,7 @@ function connectThread(tab, onNavigate) {
   });
 }
 
-function formatFrame(frame) {
+function createFrame(frame) {
   let title;
   if (frame.type == "call") {
     let c = frame.callee;
@@ -78,15 +80,15 @@ function formatFrame(frame) {
     title = "(" + frame.type + ")";
   }
 
-  return {
+  return Frame({
     id: frame.actor,
     displayName: title,
-    location: {
+    location: Location({
       sourceId: frame.where.source.actor,
       line: frame.where.line,
       column: frame.where.column
-    }
-  };
+    })
+  });
 }
 
 const CALL_STACK_PAGE_SIZE = 25;
@@ -107,25 +109,23 @@ function initPage(actions) {
     }
 
     client.getFrames(0, CALL_STACK_PAGE_SIZE, res => {
-      actions.loadedFrames(res.frames.map(formatFrame));
+      actions.loadedFrames(res.frames.map(createFrame));
     });
 
     const pause = Object.assign({}, packet, {
-      frame: formatFrame(packet.frame)
+      frame: createFrame(packet.frame)
     });
     actions.paused(pause);
   });
   client.addListener("resumed", (_, packet) => actions.resumed(packet));
   client.addListener("newSource", (_, packet) => {
-    const source = {
+    actions.newSource(Source({
       id: packet.source.actor,
       url: packet.source.url,
 
-      // Internal fields for Firefox
+      // Internal for Firefox for now
       actor: packet.source.actor
-    };
-
-    actions.newSource(source);
+    }));
   });
 
   actions.loadSources();
