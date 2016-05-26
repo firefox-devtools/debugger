@@ -36,6 +36,7 @@
     "react-redux": "4.4.5",
     "redux": "3.5.2",
     "stylelint": "^6.2.2",
+    "tcomb": "^3.1.0",
     "webpack": "1.13.0",
     "webpack-dev-middleware": "^1.6.1",
     "ws": "^1.0.1"

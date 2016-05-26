@@ -10,7 +10,7 @@ const {
   getSource, getBreakpoint, getBreakpoints
 } = require("../selectors");
 const { Task } = require("ff-devtools-libs/sham/task");
-const { fromJS } = require("immutable");
+const fromJS = require("../util/fromJS");
 
 // Because breakpoints are just simple data structures, we still need
 // a way to lookup the actual client instance to talk to the server.

@@ -4,7 +4,8 @@
 "use strict";
 
 const constants = require("../constants");
-const { Map, fromJS } = require("immutable");
+const fromJS = require("../util/fromJS");
+const { Map } = require("immutable");
 
 const initialState = fromJS({
   sources: {},
