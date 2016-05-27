@@ -2,6 +2,14 @@
 
 const t = require("tcomb");
 
+const Tab = t.struct({
+  title: t.String,
+  url: t.String,
+  id: t.String,
+  tab: t.Object,
+  browser: t.enums.of(["chrome", "firefox"])
+});
+
 const Source = t.struct({
   id: t.String,
   url: t.union([t.String, t.Nil])
@@ -20,6 +28,7 @@ const Frame = t.struct({
 });
 
 module.exports = {
+  Tab,
   Source,
   Location,
   Frame

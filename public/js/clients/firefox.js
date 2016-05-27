@@ -3,7 +3,7 @@
 const { DebuggerClient } = require("ff-devtools-libs/shared/client/main");
 const { DebuggerTransport } = require("ff-devtools-libs/transport/transport");
 const { TargetFactory } = require("ff-devtools-libs/client/framework/target");
-const { Source, Location, Frame } = require("../types");
+const { Tab, Source, Location, Frame } = require("../types");
 
 let currentClient = null;
 let currentThreadClient = null;
@@ -86,13 +86,13 @@ function lookupTabTarget(tab) {
 
 function createTabs(tabs) {
   return tabs.map(tab => {
-    return {
+    return Tab({
       title: tab.title,
       url: tab.url,
       id: tab.actor,
       tab,
       browser: "firefox"
-    };
+    });
   });
 }
 
@@ -105,7 +105,7 @@ function connectClient(onConnect) {
     return currentClient.listTabs().then(response => {
       onConnect(createTabs(response.tabs));
     });
-  }).catch(err => console.log(err));
+  }).catch(err => console.log(err.stack));
 }
 
 function connectTab(tab) {

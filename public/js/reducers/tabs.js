@@ -23,7 +23,7 @@ function update(state = initialState, action) {
       return state.mergeIn(
         ["tabs"],
         Immutable.Map(tabs.map(tab => {
-          tab.id = getTabId(tab);
+          tab = Object.assign({}, tab, { id: getTabId(tab) });
           return [tab.id, Immutable.Map(tab)];
         }))
       );

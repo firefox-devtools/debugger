@@ -5,7 +5,7 @@ const {
   InspectorBackend
 } = require("./chrome/api");
 
-const { Source, Location, Frame } = require("../types");
+const { Tab, Source, Location, Frame } = require("../types");
 
 /* eslint-disable */
 // TODO: figure out a way to avoid patching native prototypes.
@@ -85,13 +85,13 @@ function createTabs(tabs) {
       return isPage && !isBlacklisted;
     })
     .map(tab => {
-      return {
+      return Tab({
         title: tab.title,
         url: tab.url,
         id: tab.id,
         tab,
         browser: "chrome"
-      };
+      });
     });
 }
 
