@@ -67,7 +67,7 @@ function getTabFromUri(state) {
   return tabs.get(id);
 }
 
-setTimeout(function() {
+function renderNotConnected() {
   if (!getTabs(store.getState()).isEmpty()) {
     return;
   }
@@ -76,8 +76,9 @@ setTimeout(function() {
     React.DOM.div({ className: "not-connected-message" },
       "Not connected to Firefox"
     ),
-    document.querySelector("#mount"));
-}, 500);
+    document.querySelector("#mount")
+  );
+}
 
 function renderToolbox() {
   ReactDOM.render(
@@ -91,8 +92,9 @@ function renderToolbox() {
 }
 
 if (process.env.NODE_ENV !== "DEVTOOLS_PANEL") {
-  connectClient(tabs => {
-    actions.newTabs(tabs);
+  Promise.all([connectClient(), chromeTabs()]).then((tabs) => {
+    actions.newTabs(tabs[0].concat(tabs[1]));
+    renderNotConnected();
 
     // if there's a pre-selected tab, connect to it and load the sources.
     // otherwise, just show the toolbox.
@@ -104,12 +106,6 @@ if (process.env.NODE_ENV !== "DEVTOOLS_PANEL") {
       renderToolbox();
     }
   });
-
-  if (isEnabled("chrome.debug")) {
-    chromeTabs(response => {
-      actions.newTabs(response);
-    });
-  }
 } else {
   // The toolbox already provides the tab to debug. For now, just
   // provide a fake tab so it will show the debugger. We only use it

@@ -5,6 +5,9 @@ const {
   InspectorBackend
 } = require("./chrome/api");
 
+const { isEnabled } = require("../configs/feature");
+const defer = require("../util/defer");
+
 /* eslint-disable */
 // TODO: figure out a way to avoid patching native prototypes.
 // Unfortunately the Chrome client requires it to work.
@@ -21,7 +24,7 @@ function getAgent(name) {
   return connectionAgents[name];
 }
 
-function presentTabs(tabs) {
+function formatTabs(tabs) {
   const blacklist = ["New Tab", "Inspectable pages"];
 
   return tabs
@@ -42,12 +45,19 @@ function presentTabs(tabs) {
     });
 }
 
-function chromeTabs(callback) {
+function chromeTabs() {
+  if (!isEnabled("chrome.debug")) {
+    return Promise.resolve([]);
+  }
+
+  const deferred = defer();
   fetch("/chrome-tabs").then(res => {
     res.json().then((body) => {
-      callback(presentTabs(body));
+      deferred.resolve(formatTabs(body));
     });
   });
+
+  return deferred.promise;
 }
 
 const SourceClient = function(source) {
