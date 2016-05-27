@@ -50,7 +50,7 @@ let APIClient = {
   setBreakpoint(location, condition) {
     return debuggerAgent.setBreakpoint({
       scriptId: location.sourceId,
-      lineNumber: location.line,
+      lineNumber: location.line - 1,
       columnNumber: location.column
     }, (_, breakpointId, actualLocation) => ([
       {},
@@ -134,9 +134,9 @@ function makeDispatcher(actions) {
           id: frame.callFrameId,
           displayName: frame.functionName,
           location: Location({
-            sourceId: frame.functionLocation.scriptId,
-            line: frame.functionLocation.lineNumber + 1,
-            column: frame.functionLocation.columnNumber
+            sourceId: frame.location.scriptId,
+            line: frame.location.lineNumber + 1,
+            column: frame.location.columnNumber
           })
         });
       });
