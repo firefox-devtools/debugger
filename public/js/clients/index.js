@@ -26,7 +26,18 @@ function debugPage(tab, actions) {
   });
 }
 
+function connectClients() {
+  return Promise.all([
+    firefox.connectClient(),
+    chrome.connectClient()
+  ]).then(results => {
+    const [firefoxTabs, chromeTabs] = results;
+    return firefoxTabs.concat(chromeTabs);
+  });
+}
+
 module.exports = {
   getBrowserClient,
+  connectClients,
   debugPage
 };

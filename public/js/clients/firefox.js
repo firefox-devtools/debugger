@@ -4,6 +4,7 @@ const { DebuggerClient } = require("ff-devtools-libs/shared/client/main");
 const { DebuggerTransport } = require("ff-devtools-libs/transport/transport");
 const { TargetFactory } = require("ff-devtools-libs/client/framework/target");
 const { Tab, Source, Location, Frame } = require("../types");
+const defer = require("../util/defer");
 
 let currentClient = null;
 let currentThreadClient = null;
@@ -96,16 +97,34 @@ function createTabs(tabs) {
   });
 }
 
-function connectClient(onConnect) {
+function connectClient() {
+  const deferred = defer();
+  let isConnected = false;
+
   const socket = new WebSocket("ws://localhost:9000");
   const transport = new DebuggerTransport(socket);
   currentClient = new DebuggerClient(transport);
 
+  // TODO: the timeout logic should be moved to DebuggerClient.connect.
+  setTimeout(() => {
+    if (isConnected) {
+      return;
+    }
+
+    deferred.resolve([]);
+  }, 1000);
+
   currentClient.connect().then(() => {
+    isConnected = true;
     return currentClient.listTabs().then(response => {
-      onConnect(createTabs(response.tabs));
+      deferred.resolve(createTabs(response.tabs));
     });
-  }).catch(err => console.log(err.stack));
+  }).catch(err => {
+    console.log(err);
+    deferred.reject();
+  });
+
+  return deferred.promise;
 }
 
 function connectTab(tab) {

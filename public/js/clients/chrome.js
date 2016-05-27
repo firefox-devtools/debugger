@@ -6,6 +6,8 @@ const {
 } = require("./chrome/api");
 
 const { Tab, Source, Location, Frame } = require("../types");
+const { isEnabled } = require("../configs/feature");
+const defer = require("../util/defer");
 
 /* eslint-disable */
 // TODO: figure out a way to avoid patching native prototypes.
@@ -72,8 +74,6 @@ function getAPIClient() {
   return APIClient;
 }
 
-// Connection handling
-
 function createTabs(tabs) {
   const blacklist = ["New Tab", "Inspectable pages"];
 
@@ -95,12 +95,19 @@ function createTabs(tabs) {
     });
 }
 
-function chromeTabs(callback) {
+function connectClient() {
+  if (!isEnabled("chrome.debug")) {
+    return Promise.resolve([]);
+  }
+
+  const deferred = defer();
   fetch("/chrome-tabs").then(res => {
     res.json().then((body) => {
-      callback(createTabs(body));
+      deferred.resolve(createTabs(body));
     });
   });
+
+  return deferred.promise;
 }
 
 function connectTab(tab) {
@@ -178,7 +185,7 @@ function initPage(actions) {
 }
 
 module.exports = {
-  chromeTabs,
+  connectClient,
   getAPIClient,
   connectTab,
   initPage
