@@ -3,11 +3,13 @@
 const {
   connectThread,
   initPage,
-  getThreadClient: getFirefoxThreadClient
+  getThreadClient: getFirefoxThreadClient,
+  connectClient: connectFirefoxClient
 } = require("./firefox");
 const {
   debugChromeTab,
-  ThreadClient: ChromeThreadClient
+  ThreadClient: ChromeThreadClient,
+  connectClient: connectChromeClient
 } = require("./chrome");
 const { getSelectedTab } = require("../selectors");
 
@@ -28,7 +30,18 @@ function debugPage(tab, actions) {
   return debugChromeTab(tab.get("tab"), actions);
 }
 
+function connectClients() {
+  return Promise.all([
+    connectFirefoxClient(),
+    connectChromeClient()
+  ]).then(results => {
+    const [firefoxTabs, chromeTabs] = results;
+    return firefoxTabs.concat(chromeTabs);
+  });
+}
+
 module.exports = {
   getBrowserClient,
+  connectClients,
   debugPage
 };

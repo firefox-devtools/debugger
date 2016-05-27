@@ -45,7 +45,7 @@ function formatTabs(tabs) {
     });
 }
 
-function chromeTabs() {
+function connectClient() {
   if (!isEnabled("chrome.debug")) {
     return Promise.resolve([]);
   }
@@ -188,7 +188,7 @@ function debugChromeTab(tab, actions) {
 }
 
 module.exports = {
-  chromeTabs,
+  connectClient,
   debugChromeTab,
   getAgent,
   ThreadClient

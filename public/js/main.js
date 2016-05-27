@@ -22,12 +22,10 @@ if (isEnabled("development")) {
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
 const {
-  connectClient,
   setThreadClient, setTabTarget, initPage
 } = require("./clients/firefox");
 
-const { chromeTabs } = require("./clients/chrome");
-const { getBrowserClient, debugPage } = require("./clients");
+const { getBrowserClient, connectClients, debugPage } = require("./clients");
 
 const TabList = React.createFactory(require("./components/TabList"));
 
@@ -92,8 +90,8 @@ function renderToolbox() {
 }
 
 if (process.env.NODE_ENV !== "DEVTOOLS_PANEL") {
-  Promise.all([connectClient(), chromeTabs()]).then((tabs) => {
-    actions.newTabs(tabs[0].concat(tabs[1]));
+  connectClients().then((tabs) => {
+    actions.newTabs(tabs);
     renderNotConnected();
 
     // if there's a pre-selected tab, connect to it and load the sources.
