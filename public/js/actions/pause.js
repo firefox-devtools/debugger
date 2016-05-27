@@ -20,7 +20,12 @@ function resumed() {
  */
 function paused(pauseInfo) {
   return ({ dispatch, getState, client }) => {
-    dispatch(selectSource(pauseInfo.frame.location.sourceId));
+    const { location } = pauseInfo.frame;
+
+    dispatch(selectSource(location.sourceId, {
+      line: location.line
+    }));
+
     dispatch({
       type: constants.PAUSED,
       pauseInfo: pauseInfo

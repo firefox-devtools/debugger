@@ -8,7 +8,7 @@ const CodeMirror = require("codemirror");
 const { DOM: dom, PropTypes } = React;
 
 const {
-  getSourceText, getPause, getBreakpointsForSource,
+  getSourceText, getBreakpointsForSource,
   getSelectedSource, getSelectedSourceOpts,
   makeLocationId
 } = require("../selectors");
@@ -100,12 +100,6 @@ const Editor = React.createClass({
       this.setSourceText(nextProps.sourceText, this.props.sourceText);
     }
 
-    let pause = this.props.pause;
-
-    if (pause) {
-      this.clearDebugLine(pause.getIn(["frame", "location", "line"]));
-    }
-
     if (this.props.selectedSourceOpts &&
         this.props.selectedSourceOpts.get("line")) {
       this.clearDebugLine(this.props.selectedSourceOpts.get("line"));
@@ -114,9 +108,6 @@ const Editor = React.createClass({
     if (nextProps.selectedSourceOpts &&
         nextProps.selectedSourceOpts.get("line")) {
       this.setDebugLine(nextProps.selectedSourceOpts.get("line"));
-    } else if (nextProps.pause &&
-               !nextProps.pause.get("isInterrupted")) {
-      this.setDebugLine(nextProps.pause.getIn(["frame", "location", "line"]));
     }
   },
 
@@ -152,8 +143,7 @@ module.exports = connect(
       selectedSource: selectedSource,
       selectedSourceOpts: getSelectedSourceOpts(state),
       sourceText: getSourceText(state, selectedId),
-      breakpoints: getBreakpointsForSource(state, selectedId),
-      pause: getPause(state)
+      breakpoints: getBreakpointsForSource(state, selectedId)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
