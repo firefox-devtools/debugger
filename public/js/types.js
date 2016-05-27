@@ -8,7 +8,7 @@ const Tab = t.struct({
   id: t.String,
   tab: t.Object,
   browser: t.enums.of(["chrome", "firefox"])
-});
+}, "Tab");
 
 const Source = t.struct({
   id: t.String,
@@ -19,13 +19,13 @@ const Location = t.struct({
   sourceId: t.String,
   line: t.Number,
   column: t.Number
-});
+}, "Location");
 
 const Frame = t.struct({
   id: t.String,
   displayName: t.String,
   location: Location
-});
+}, "Frame");
 
 module.exports = {
   Tab,

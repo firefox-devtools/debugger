@@ -4,7 +4,6 @@
 "use strict";
 
 const promise = require("ff-devtools-libs/sham/promise");
-const { dumpn } = require("ff-devtools-libs/shared/DevToolsUtils");
 const { PROMISE } = require("ff-devtools-libs/client/shared/redux/middleware/promise");
 const { Task } = require("ff-devtools-libs/sham/task");
 const SourceUtils = require("ff-devtools-libs/client/shared/source-utils");
@@ -13,7 +12,6 @@ const { getSource, getSourceText } = require("../selectors");
 const constants = require("../constants");
 const Prefs = require("../prefs");
 
-const NEW_SOURCE_IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 // delay is in ms
 const FETCH_SOURCE_RESPONSE_DELAY = 200;
 
@@ -21,22 +19,15 @@ const FETCH_SOURCE_RESPONSE_DELAY = 200;
  * Handler for the debugger client's unsolicited newSource notification.
  */
 function newSource(source) {
-  return ({ dispatch }) => {
-    // Ignore bogus scripts, e.g. generated from 'clientEvaluate' packets.
-    if (NEW_SOURCE_IGNORED_URLS.indexOf(source.url) != -1) {
-      return (new Promise()).resolve();
-    }
-
-    return dispatch({
-      type: constants.ADD_SOURCE,
-      source: source
-    });
+  return {
+    type: constants.ADD_SOURCE,
+    source: source
   };
 }
 
 function selectSource(id, opts) {
-  return ({ dispatch, getState, threadClient }) => {
-    if (!threadClient) {
+  return ({ dispatch, getState, client }) => {
+    if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
       return;
@@ -55,36 +46,6 @@ function selectSource(id, opts) {
   };
 }
 
-function loadSources() {
-  return ({ dispatch, threadClient }) => {
-    return dispatch({
-      type: constants.LOAD_SOURCES,
-      [PROMISE]: Task.spawn(function* () {
-        const response = yield threadClient.getSources();
-
-        // Top-level breakpoints may pause the entire loading process
-        // because scripts are executed as they are loaded, so the
-        // engine may pause in the middle of loading all the sources.
-        // This is relatively harmless, as individual `newSource`
-        // notifications are fired for each script and they will be
-        // added to the UI through that.
-        if (!response.sources) {
-          dumpn(
-            "Error getting sources, probably because a top-level " +
-              "breakpoint was hit while executing them"
-          );
-          return [];
-        }
-
-        // Ignore bogus scripts, e.g. generated from 'clientEvaluate' packets.
-        return response.sources.filter(source => {
-          return NEW_SOURCE_IGNORED_URLS.indexOf(source.url) === -1;
-        });
-      })
-    });
-  };
-}
-
 /**
  * Set the black boxed status of the given source.
  *
@@ -97,14 +58,14 @@ function loadSources() {
  *          [aSource, error].
  */
 function blackbox(source, shouldBlackBox) {
-  return ({ dispatch, threadClient }) => {
-    const client = threadClient.source(source);
-
+  return ({ dispatch, client }) => {
     dispatch({
       type: constants.BLACKBOX,
       source: source,
       [PROMISE]: Task.spawn(function* () {
-        yield shouldBlackBox ? client.blackBox() : client.unblackBox();
+        yield shouldBlackBox ?
+          client.blackBox(source.id) :
+          client.unblackBox(source.id);
         return {
           isBlackBoxed: shouldBlackBox
         };
@@ -125,8 +86,7 @@ function blackbox(source, shouldBlackBox) {
  *          [aSource, error].
  */
 function togglePrettyPrint(source) {
-  return ({ dispatch, getState, threadClient }) => {
-    const sourceClient = threadClient.source(source);
+  return ({ dispatch, getState, client }) => {
     const wantPretty = !source.isPrettyPrinted;
 
     return dispatch({
@@ -143,9 +103,9 @@ function togglePrettyPrint(source) {
         }
 
         if (wantPretty) {
-          response = yield sourceClient.prettyPrint(Prefs.editorTabSize);
+          response = yield client.prettyPrint(source.id, Prefs.editorTabSize);
         } else {
-          response = yield sourceClient.disablePrettyPrint();
+          response = yield client.disablePrettyPrint(source.id);
         }
 
         // Remove the cached source AST from the Parser, to avoid getting
@@ -164,7 +124,7 @@ function togglePrettyPrint(source) {
 }
 
 function loadSourceText(source) {
-  return ({ dispatch, getState, threadClient }) => {
+  return ({ dispatch, getState, client }) => {
     // Fetch the source text only once.
     let textInfo = getSourceText(getState(), source.id);
     if (textInfo) {
@@ -183,7 +143,7 @@ function loadSourceText(source) {
         // let histogram = Services.telemetry.getHistogramById(histogramId);
         // let startTime = Date.now();
 
-        const response = yield threadClient.sourceContents(source.id);
+        const response = yield client.sourceContents(source.id);
 
         // histogram.add(Date.now() - startTime);
 
@@ -275,7 +235,6 @@ function getTextForSources(actors) {
 module.exports = {
   newSource,
   selectSource,
-  loadSources,
   blackbox,
   togglePrettyPrint,
   loadSourceText,
