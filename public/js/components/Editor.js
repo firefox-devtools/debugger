@@ -10,7 +10,7 @@ const { DOM: dom, PropTypes } = React;
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedSource, getSelectedSourceOpts,
-  makeLocationId
+  getSelectedFrame, makeLocationId
 } = require("../selectors");
 const actions = require("../actions");
 const { alignLine, onWheel } = require("../util/editor");
@@ -21,15 +21,18 @@ require("./Editor.css");
 require("codemirror/mode/javascript/javascript");
 require("../lib/codemirror.css");
 
+function isSourceForFrame(source, frame) {
+  return frame && frame.location.sourceId === source.get("id");
+}
+
 const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
-    selectedSource: PropTypes.object,
-    selectedSourceOpts: PropTypes.object,
+    selectedSource: ImPropTypes.map.isRequired,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
-    pause: PropTypes.object
+    selectedFrame: PropTypes.object
   },
 
   componentDidMount() {
@@ -94,20 +97,20 @@ const Editor = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    // The source text may not have been loaded yet.
-    // TODO(jwl): clear the existing state of the editor
+    // Clear the currently highlighted line
+    if (isSourceForFrame(this.props.selectedSource, this.props.selectedFrame)) {
+      this.clearDebugLine(this.props.selectedFrame.location.line);
+    }
+
+    // Set the source text. The source text may not have been loaded
+    // yet. On startup, the source text may not exist yet.
     if (nextProps.sourceText) {
       this.setSourceText(nextProps.sourceText, this.props.sourceText);
     }
 
-    if (this.props.selectedSourceOpts &&
-        this.props.selectedSourceOpts.get("line")) {
-      this.clearDebugLine(this.props.selectedSourceOpts.get("line"));
-    }
-
-    if (nextProps.selectedSourceOpts &&
-        nextProps.selectedSourceOpts.get("line")) {
-      this.setDebugLine(nextProps.selectedSourceOpts.get("line"));
+    // Highlight the paused line if necessary
+    if (isSourceForFrame(nextProps.selectedSource, nextProps.selectedFrame)) {
+      this.setDebugLine(nextProps.selectedFrame.location.line);
     }
   },
 
@@ -143,7 +146,8 @@ module.exports = connect(
       selectedSource: selectedSource,
       selectedSourceOpts: getSelectedSourceOpts(state),
       sourceText: getSourceText(state, selectedId),
-      breakpoints: getBreakpointsForSource(state, selectedId)
+      breakpoints: getBreakpointsForSource(state, selectedId),
+      selectedFrame: getSelectedFrame(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

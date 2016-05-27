@@ -22,9 +22,7 @@ function paused(pauseInfo) {
   return ({ dispatch, getState, client }) => {
     const { location } = pauseInfo.frame;
 
-    dispatch(selectSource(location.sourceId, {
-      line: location.line
-    }));
+    dispatch(selectSource(location.sourceId));
 
     dispatch({
       type: constants.PAUSED,
