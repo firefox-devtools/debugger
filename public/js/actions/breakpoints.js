@@ -7,7 +7,7 @@ const promise = require("ff-devtools-libs/sham/promise");
 const constants = require("../constants");
 const { PROMISE } = require("ff-devtools-libs/client/shared/redux/middleware/promise");
 const {
-  getSource, getBreakpoint, getBreakpoints
+  getBreakpoint, getBreakpoints
 } = require("../selectors");
 const { Task } = require("ff-devtools-libs/sham/task");
 const fromJS = require("../util/fromJS");
@@ -53,14 +53,10 @@ function addBreakpoint(location, condition, snippet) {
       breakpoint: bp.toJS(),
       condition: condition,
       [PROMISE]: Task.spawn(function* () {
-        const sourceClient = threadClient.source(
-          getSource(getState(), bp.getIn(["location", "sourceId"])).toJS()
+        const [response, bpClient] = yield threadClient.setBreakpoint(
+          bp.get("location").toJS(),
+          bp.get("condition")
         );
-        const [response, bpClient] = yield sourceClient.setBreakpoint({
-          line: bp.getIn(["location", "line"]),
-          column: bp.getIn(["location", "column"]),
-          condition: bp.get("condition")
-        });
 
         const { isPending, actualLocation } = response;
 

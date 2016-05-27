@@ -9,6 +9,60 @@ let currentClient = null;
 let currentThreadClient = null;
 let currentTabTarget = null;
 
+// API implementation
+
+let APIClient = {
+  resume() {
+    return new Promise(resolve => {
+      currentThreadClient.resume(resolve);
+    });
+  },
+
+  stepIn() {
+    return new Promise(resolve => {
+      currentThreadClient.stepIn(resolve);
+    });
+  },
+
+  stepOver() {
+    return new Promise(resolve => {
+      currentThreadClient.stepOver(resolve);
+    });
+  },
+
+  stepOut() {
+    return new Promise(resolve => {
+      currentThreadClient.stepOut(resolve);
+    });
+  },
+
+  getSources() {
+    return currentThreadClient.getSources();
+  },
+
+  sourceContents(sourceId) {
+    const sourceClient = currentThreadClient.source({ actor: sourceId });
+    return sourceClient.source();
+  },
+
+  setBreakpoint(location, condition) {
+    const sourceClient = currentThreadClient.source({
+      actor: location.sourceId
+    });
+    return sourceClient.setBreakpoint({
+      line: location.line,
+      column: location.column,
+      condition: condition
+    });
+  }
+};
+
+function getAPIClient() {
+  return APIClient;
+}
+
+// Connection handling
+
 function getThreadClient() {
   return currentThreadClient;
 }
@@ -30,7 +84,7 @@ function lookupTabTarget(tab) {
   return TargetFactory.forRemoteTab(options);
 }
 
-function presentTabs(tabs) {
+function createTabs(tabs) {
   return tabs.map(tab => {
     return {
       title: tab.title,
@@ -49,12 +103,12 @@ function connectClient(onConnect) {
 
   currentClient.connect().then(() => {
     return currentClient.listTabs().then(response => {
-      onConnect(presentTabs(response.tabs));
+      onConnect(createTabs(response.tabs));
     });
   }).catch(err => console.log(err));
 }
 
-function connectThread(tab, onNavigate) {
+function connectTab(tab) {
   return new Promise((resolve, reject) => {
     window.addEventListener("beforeunload", () => {
       getTabTarget().destroy();
@@ -117,6 +171,7 @@ function initPage(actions) {
     });
     actions.paused(pause);
   });
+
   client.addListener("resumed", (_, packet) => actions.resumed(packet));
   client.addListener("newSource", (_, packet) => {
     actions.newSource(Source({
@@ -133,7 +188,8 @@ function initPage(actions) {
 
 module.exports = {
   connectClient,
-  connectThread,
+  connectTab,
+  getAPIClient,
   getThreadClient,
   setThreadClient,
   getTabTarget,

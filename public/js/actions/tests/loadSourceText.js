@@ -20,14 +20,10 @@ const sourceText = {
  * done state matters.
  */
 const simpleMockThreadClient = {
-  source: function(form) {
-    return {
-      source: () => {
-        return new Promise((resolve, reject) => {
-          resolve(sourceText[form.id]);
-        });
-      }
-    };
+  sourceContents: function(sourceId) {
+    return new Promise(resolve => {
+      resolve(sourceText[sourceId]);
+    });
   }
 };
 
@@ -37,14 +33,10 @@ const simpleMockThreadClient = {
  */
 const deferredMockThreadClient = {
   request: undefined,
-  source: function(form) {
-    return {
-      source: () => {
-        let deferred = promise.defer();
-        this.request = deferred;
-        return deferred.promise;
-      }
-    };
+  sourceContents: function(sourceId) {
+    let deferred = promise.defer();
+    this.request = deferred;
+    return deferred.promise;
   },
   getRequest: function() {
     return this.request;

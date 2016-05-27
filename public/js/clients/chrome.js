@@ -17,13 +17,64 @@ Array.prototype.peekLast = function() {
 
 const bootstrap = require("./chrome/bootstrap");
 
-let connectionAgents;
+let connection;
+let debuggerAgent;
+let runtimeAgent;
 
-function getAgent(name) {
-  return connectionAgents[name];
+// API implementation
+
+let APIClient = {
+  resume() {
+    return debuggerAgent.resume();
+  },
+
+  stepIn() {
+    return debuggerAgent.stepInto();
+  },
+
+  stepOver() {
+    return debuggerAgent.stepOver();
+  },
+
+  stepOut() {
+    return debuggerAgent.stepOut();
+  },
+
+  sourceContents(sourceId) {
+    return debuggerAgent.getScriptSource(sourceId, (_, contents) => ({
+      source: contents,
+      contentType: null
+    }));
+  },
+
+  setBreakpoint(location, condition) {
+    return debuggerAgent.setBreakpoint({
+      scriptId: location.sourceId,
+      lineNumber: location.line,
+      columnNumber: location.column
+    }, (_, breakpointId, actualLocation) => ([
+      {},
+      {
+        id: breakpointId,
+        remove: () => {
+          // TODO: resolve promise when request is completed.
+          return new Promise((resolve, reject) => {
+            resolve(debuggerAgent.removeBreakpoint(breakpointId));
+          });
+        },
+        setCondition: () => {},
+      }
+    ]));
+  }
+};
+
+function getAPIClient() {
+  return APIClient;
 }
 
-function presentTabs(tabs) {
+// Connection handling
+
+function createTabs(tabs) {
   const blacklist = ["New Tab", "Inspectable pages"];
 
   return tabs
@@ -47,140 +98,88 @@ function presentTabs(tabs) {
 function chromeTabs(callback) {
   fetch("/chrome-tabs").then(res => {
     res.json().then((body) => {
-      callback(presentTabs(body));
+      callback(createTabs(body));
     });
   });
 }
 
-const SourceClient = function(source) {
-  const debuggerAgent = getAgent("Debugger");
+function connectTab(tab) {
+  return new Promise(resolve => {
+    bootstrap(InspectorBackend);
+    WebSocketConnection.Create(
+      tab.webSocketDebuggerUrl,
+      conn => {
+        connection = conn;
+        resolve();
+      }
+    );
+  });
+}
 
+function makeDispatcher(actions) {
   return {
-    source() {
-      return debuggerAgent.getScriptSource(source.id, (_, contents) => ({
-        source: contents,
-        contentType: null
-      }));
+    scriptParsed(scriptId, url, startLine, startColumn,
+                 endLine, endColumn, executionContextId, hash,
+                 isContentScript, isInternalScript, isLiveEdit,
+                 sourceMapURL, hasSourceURL, deprecatedCommentWasUsed) {
+      actions.newSource(Source({ id: scriptId, url }));
     },
 
-    setBreakpoint({ line, column, condition }) {
-      return debuggerAgent.setBreakpoint({
-        scriptId: source.id,
-        lineNumber: line,
-        columnNumber: column
-      }, (_, breakpointId, actualLocation) => ([
-        {},
-        {
-          id: breakpointId,
-          remove: () => {
-            // TODO: resolve promise when request is completed.
-            return new Promise((resolve, reject) => {
-              resolve(debuggerAgent.removeBreakpoint(breakpointId));
-            });
-          },
-          setCondition: () => {},
-        }
-      ]));
+    scriptFailedToParse() {
+    },
+
+    paused(callFrames, reason, data, hitBreakpoints, asyncStackTrace) {
+      const frames = callFrames.map(frame => {
+        return Frame({
+          id: frame.callFrameId,
+          displayName: frame.functionName,
+          location: Location({
+            sourceId: frame.functionLocation.scriptId,
+            line: frame.functionLocation.lineNumber + 1,
+            column: frame.functionLocation.columnNumber
+          })
+        });
+      });
+
+      const frame = frames[0];
+      const why = Object.assign({}, {
+        type: reason
+      }, data);
+
+      actions.paused({ frame, why });
+      actions.loadedFrames(frames);
+    },
+
+    resumed: function() {
+      actions.resumed();
     }
   };
-};
+}
 
-const ThreadClient = {
-  source: SourceClient,
-
-  resume() {
-    const debuggerAgent = getAgent("Debugger");
-    return debuggerAgent.resume();
-  },
-
-  stepIn() {
-    const debuggerAgent = getAgent("Debugger");
-    return debuggerAgent.stepInto();
-  },
-
-  stepOver() {
-    const debuggerAgent = getAgent("Debugger");
-    return debuggerAgent.stepOver();
-  },
-
-  stepOut() {
-    const debuggerAgent = getAgent("Debugger");
-    return debuggerAgent.stepOut();
-  }
-};
-
-const debuggerDispatcher = actions => ({
-  scriptParsed: function(scriptId, url, startLine, startColumn,
-                         endLine, endColumn, executionContextId, hash,
-                         isContentScript, isInternalScript, isLiveEdit,
-                         sourceMapURL, hasSourceURL, deprecatedCommentWasUsed) {
-    actions.newSource(Source({ id: scriptId, url }));
-  },
-
-  scriptFailedToParse: function() {
-    // needed for debugging nytimes
-    console.log("SCRIPT FAILED TO PARSED", arguments);
-  },
-
-  paused: function(callFrames, reason, data, hitBreakpoints, asyncStackTrace) {
-    const frames = callFrames.map(frame => {
-      return Frame({
-        id: frame.callFrameId,
-        displayName: frame.functionName,
-        location: Location({
-          sourceId: frame.functionLocation.scriptId,
-          line: frame.functionLocation.lineNumber + 1,
-          column: frame.functionLocation.columnNumber
-        })
-      });
-    });
-
-    const frame = frames[0];
-    const why = Object.assign({}, {
-      type: reason
-    }, data);
-
-    actions.paused({ frame, why });
-    actions.loadedFrames(frames);
-  },
-
-  resumed: function() {
-    actions.resumed();
-  }
-});
-
-function onConnection(connection, actions) {
-  const ws = connection._socket;
-  connectionAgents = connection._agents;
+function initPage(actions) {
+  const conn = connection;
+  const ws = conn._socket;
+  debuggerAgent = conn._agents.Debugger;
+  runtimeAgent = conn._agents.Runtime;
   ws.onopen = function() {
   };
   ws.onmessage = function(e) {
-    connection._onMessage(e);
+    conn._onMessage(e);
   };
 
-  connection.registerDispatcher("Debugger", debuggerDispatcher(actions));
-  const debuggerAgent = getAgent("Debugger");
+  conn.registerDispatcher("Debugger", makeDispatcher(actions));
+
   debuggerAgent.enable();
   debuggerAgent.setPauseOnExceptions("none");
   debuggerAgent.setAsyncCallStackDepth(0);
 
-  const runtimeAgent = getAgent("Runtime");
   runtimeAgent.enable();
   runtimeAgent.run();
 }
 
-function debugChromeTab(tab, actions) {
-  bootstrap(InspectorBackend);
-  WebSocketConnection.Create(
-    tab.webSocketDebuggerUrl,
-    conn => onConnection(conn, actions)
-  );
-  return Promise.resolve();
-}
-
 module.exports = {
   chromeTabs,
-  debugChromeTab,
-  getAgent,
-  ThreadClient
+  getAPIClient,
+  connectTab,
+  initPage
 };

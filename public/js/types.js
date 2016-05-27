@@ -7,7 +7,7 @@ const Source = t.struct({
   url: t.union([t.String, t.Nil]),
 
   // Internal for Firefox for now
-  actor: t.String
+  actor: t.maybe(t.String)
 }, "Source");
 
 const Location = t.struct({
