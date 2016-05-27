@@ -172,8 +172,6 @@ function loadSourceText(source) {
       return promise.resolve(textInfo);
     }
 
-    const sourceClient = threadClient.source(source);
-
     return dispatch({
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
@@ -185,17 +183,17 @@ function loadSourceText(source) {
         // let histogram = Services.telemetry.getHistogramById(histogramId);
         // let startTime = Date.now();
 
-        const response = yield sourceClient.source(() => {});
+        const response = yield threadClient.sourceContents(source.id);
 
         // histogram.add(Date.now() - startTime);
 
         // Automatically pretty print if enabled and the test is
         // detected to be "minified"
-        if (Prefs.autoPrettyPrint &&
-            !source.isPrettyPrinted &&
-            SourceUtils.isMinified(source.id, response.source)) {
-          dispatch(togglePrettyPrint(source));
-        }
+        // if (Prefs.autoPrettyPrint &&
+        //     !source.isPrettyPrinted &&
+        //     SourceUtils.isMinified(source.id, response.source)) {
+        //   dispatch(togglePrettyPrint(source));
+        // }
 
         return { text: response.source,
                  contentType: response.contentType };

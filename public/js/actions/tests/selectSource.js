@@ -10,14 +10,10 @@ const { selectSource } = actions;
 const sourcesFixtures = fixtures.sources;
 
 const simpleMockThreadClient = {
-  source: function(form) {
-    return {
-      source: () => {
-        return new Promise((resolve, reject) => {
-          resolve(sourcesFixtures.sources[form.id]);
-        });
-      }
-    };
+  source: function(sourceId) {
+    return new Promise((resolve, reject) => {
+      resolve(sourcesFixtures.sources[sourceId]);
+    });
   }
 };
 
