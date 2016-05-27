@@ -4,10 +4,7 @@ const t = require("tcomb");
 
 const Source = t.struct({
   id: t.String,
-  url: t.union([t.String, t.Nil]),
-
-  // Internal for Firefox for now
-  actor: t.maybe(t.String)
+  url: t.union([t.String, t.Nil])
 }, "Source");
 
 const Location = t.struct({
