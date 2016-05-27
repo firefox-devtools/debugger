@@ -21,22 +21,6 @@ function update(state = initialState, action) {
       return state.mergeIn(["sources", action.source.id],
                            _updateSource(action.source));
 
-    case constants.LOAD_SOURCES:
-      if (action.status === "done") {
-        const sources = action.value;
-        if (!sources) {
-          return state;
-        }
-
-        state.mergeIn(
-          ["sources"],
-          fromJS(sources.map(source => {
-            return [source.id, _updateSource(source)];
-          }))
-        );
-      }
-      break;
-
     case constants.SELECT_SOURCE:
       return state.merge({
         selectedSource: action.source,

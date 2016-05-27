@@ -35,7 +35,7 @@ const createStore = configureStore({
   log: false,
   makeThunkArgs: (args, state) => {
     let client = getBrowserClient(state);
-    return Object.assign({}, args, { threadClient: client });
+    return Object.assign({}, args, { client });
   }
 });
 const store = createStore(combineReducers(reducers));

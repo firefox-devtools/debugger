@@ -41,7 +41,7 @@ function _getOrCreateBreakpoint(state, location, condition) {
 }
 
 function addBreakpoint(location, condition, snippet) {
-  return ({ dispatch, getState, threadClient }) => {
+  return ({ dispatch, getState, client }) => {
     if (_breakpointExists(getState(), location)) {
       return promise.resolve();
     }
@@ -53,7 +53,7 @@ function addBreakpoint(location, condition, snippet) {
       breakpoint: bp.toJS(),
       condition: condition,
       [PROMISE]: Task.spawn(function* () {
-        const [response, bpClient] = yield threadClient.setBreakpoint(
+        const [response, bpClient] = yield client.setBreakpoint(
           bp.get("location").toJS(),
           bp.get("condition")
         );
@@ -136,7 +136,7 @@ function removeAllBreakpoints() {
  *         A promise that will be resolved with the breakpoint client
  */
 function setBreakpointCondition(location, condition) {
-  return ({ dispatch, getState, threadClient }) => {
+  return ({ dispatch, getState, client }) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
       throw new Error("Breakpoint does not exist at the specified location");
@@ -154,7 +154,7 @@ function setBreakpointCondition(location, condition) {
       breakpoint: bp,
       condition: condition,
       [PROMISE]: Task.spawn(function* () {
-        const newClient = yield bpClient.setCondition(threadClient, condition);
+        const newClient = yield bpClient.setCondition(client, condition);
 
         // Remove the old instance and save the new one
         setBreakpointClient(bpClient.id, null);

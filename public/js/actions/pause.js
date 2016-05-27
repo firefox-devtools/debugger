@@ -7,7 +7,7 @@ const { selectSource } = require("./sources");
  * Debugger has just resumed
  */
 function resumed() {
-  return ({ dispatch, threadClient }) => {
+  return ({ dispatch, client }) => {
     return dispatch({
       type: constants.RESUME,
       value: undefined
@@ -19,7 +19,7 @@ function resumed() {
  * Debugger has just paused
  */
 function paused(pauseInfo) {
-  return ({ dispatch, getState, threadClient }) => {
+  return ({ dispatch, getState, client }) => {
     dispatch(selectSource(pauseInfo.frame.location.sourceId));
     dispatch({
       type: constants.PAUSED,
@@ -39,9 +39,9 @@ function loadedFrames(frames) {
  * Debugger commands like stepOver, stepIn, stepUp
  */
 function command({ type }) {
-  return ({ dispatch, threadClient }) => {
+  return ({ dispatch, client }) => {
     // execute debugger thread command e.g. stepIn, stepOver
-    threadClient[type]();
+    client[type]();
 
     return dispatch({
       type: constants.COMMAND,
@@ -56,8 +56,8 @@ function command({ type }) {
  * highlight the pause icon.
  */
 function breakOnNext() {
-  return ({ dispatch, threadClient }) => {
-    threadClient.breakOnNext();
+  return ({ dispatch, client }) => {
+    client.breakOnNext();
 
     return dispatch({
       type: constants.BREAK_ON_NEXT,
