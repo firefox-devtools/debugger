@@ -22,6 +22,12 @@ function firstString(...args) {
   return null;
 }
 
+function locationMoved(location, newLocation) {
+  return location.line !== newLocation.line ||
+    (location.column != null &&
+     location.column !== newLocation.column);
+}
+
 function update(state = initialState, action) {
   switch (action.type) {
     case constants.ADD_BREAKPOINT: {
@@ -34,6 +40,7 @@ function update(state = initialState, action) {
         state = state.setIn(["breakpoints", id], bp.merge({
           disabled: false,
           loading: true,
+          text: "",
           // We want to do an OR here, but we can't because we need
           // empty strings to be truthy, i.e. an empty string is a valid
           // condition.
@@ -42,38 +49,29 @@ function update(state = initialState, action) {
 
         return state;
       } else if (action.status === "done") {
-        const { id: clientId, text } = action.value;
+        const { id: breakpointId, text } = action.value;
+        let location = action.breakpoint.location;
         let { actualLocation } = action.value;
 
         // If the breakpoint moved, update the map
-        if (actualLocation) {
-          // XXX Bug 1227417: The `setBreakpoint` RDP request rdp
-          // request returns an `actualLocation` field that doesn't
-          // conform to the regular { actor, line } location shape, but
-          // it has a `source` field. We should fix that.
-          actualLocation = { actor: actualLocation.source.actor,
-                             line: actualLocation.line };
-
+        if (locationMoved(location, actualLocation)) {
           state = state.deleteIn(["breakpoints", id]);
 
           const movedId = makeLocationId(actualLocation);
           const currentBp = (state.getIn(["breakpoints", movedId]) ||
                              fromJS(action.breakpoint));
-          const newBp = currentBp.merge({ location: actualLocation });
+          const newBp = currentBp.merge({ location: fromJS(actualLocation) });
           state = state.setIn(["breakpoints", movedId], newBp);
+          location = actualLocation;
         }
 
-        const finalLocation = (
-          actualLocation ? actualLocation : action.breakpoint.location
-        );
-        const finalLocationId = makeLocationId(finalLocation);
-        state = state.mergeIn(["breakpoints", finalLocationId], {
+        const locationId = makeLocationId(location);
+        return state.mergeIn(["breakpoints", locationId], {
+          id: breakpointId,
           disabled: false,
           loading: false,
-          clientId: clientId,
           text: text
         });
-        return state;
       } else if (action.status === "error") {
         // Remove the optimistic update
         return state.deleteIn(["breakpoints", id]);
@@ -107,10 +105,7 @@ function update(state = initialState, action) {
         });
       } else if (action.status === "done") {
         return state.mergeIn(["breakpoints", id], {
-          loading: false,
-          // Setting a condition creates a new breakpoint client as of
-          // now, so we need to update the actor
-          actor: action.value.actor
+          loading: false
         });
       } else if (action.status === "error") {
         return state.deleteIn(["breakpoints", id]);

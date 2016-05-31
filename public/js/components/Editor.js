@@ -28,12 +28,14 @@ function isSourceForFrame(source, frame) {
 const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
-    selectedSource: ImPropTypes.map.isRequired,
+    selectedSource: ImPropTypes.map,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
     selectedFrame: PropTypes.object
   },
+
+  displayName: "Editor",
 
   componentDidMount() {
     this.editor = CodeMirror.fromTextArea(this.refs.editor, {
@@ -58,12 +60,21 @@ const Editor = React.createClass({
       return b.getIn(["location", "line"]) === line + 1;
     });
 
-    const applyBp = bp ? this.props.removeBreakpoint : this.props.addBreakpoint;
-    applyBp({
-      sourceId: this.props.selectedSource.get("id"),
-      line: line + 1,
-      snippet: cm.lineInfo(line).text.trim()
-    });
+    if (bp) {
+      this.props.removeBreakpoint({
+        sourceId: this.props.selectedSource.get("id"),
+        line: line + 1
+      });
+    } else {
+      this.props.addBreakpoint(
+        { sourceId: this.props.selectedSource.get("id"),
+          line: line + 1 },
+        // Pass in a function to get line text because the breakpoint
+        // may slide and it needs to compute the value at the new
+        // line.
+        { getTextForLine: l => cm.getLine(l - 1).trim() }
+      );
+    }
   },
 
   clearDebugLine(line) {

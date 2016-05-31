@@ -12,19 +12,6 @@ const {
 const { Task } = require("ff-devtools-libs/sham/task");
 const fromJS = require("../util/fromJS");
 
-// Because breakpoints are just simple data structures, we still need
-// a way to lookup the actual client instance to talk to the server.
-// We keep an internal database of clients based off of actor ID.
-const BREAKPOINT_CLIENT_STORE = new Map();
-
-function setBreakpointClient(actor, client) {
-  BREAKPOINT_CLIENT_STORE.set(actor, client);
-}
-
-function getBreakpointClient(actor) {
-  return BREAKPOINT_CLIENT_STORE.get(actor);
-}
-
 function enableBreakpoint(location) {
   // Enabling is exactly the same as adding. It will use the existing
   // breakpoint that still stored.
@@ -40,7 +27,7 @@ function _getOrCreateBreakpoint(state, location, condition) {
   return getBreakpoint(state, location) || fromJS({ location, condition });
 }
 
-function addBreakpoint(location, condition, snippet) {
+function addBreakpoint(location, { condition, getTextForLine }) {
   return ({ dispatch, getState, client }) => {
     if (_breakpointExists(getState(), location)) {
       return promise.resolve();
@@ -53,24 +40,15 @@ function addBreakpoint(location, condition, snippet) {
       breakpoint: bp.toJS(),
       condition: condition,
       [PROMISE]: Task.spawn(function* () {
-        const [response, bpClient] = yield client.setBreakpoint(
+        const { id, actualLocation } = yield client.setBreakpoint(
           bp.get("location").toJS(),
           bp.get("condition")
         );
 
-        const { isPending, actualLocation } = response;
-
-        // Save the client instance
-        setBreakpointClient(bpClient.id, bpClient);
-
         return {
-          text: snippet,
-
-          // If the breakpoint response has an "actualLocation" attached, then
-          // the original requested placement for the breakpoint wasn't
-          // accepted.
-          actualLocation: isPending ? null : actualLocation,
-          id: bpClient.id
+          id: id,
+          actualLocation: actualLocation,
+          text: getTextForLine ? getTextForLine(actualLocation.line) : ""
         };
       })
     });
@@ -86,18 +64,17 @@ function removeBreakpoint(location) {
 }
 
 function _removeOrDisableBreakpoint(location, isDisabled) {
-  return ({ dispatch, getState }) => {
+  return ({ dispatch, getState, client }) => {
     let bp = getBreakpoint(getState(), location);
     if (!bp) {
       throw new Error("attempt to remove breakpoint that does not exist");
     }
-    if (bp.loading) {
+    if (bp.get("loading")) {
       // TODO(jwl): make this wait until the breakpoint is saved if it
       // is still loading
       throw new Error("attempt to remove unsaved breakpoint");
     }
 
-    const bpClient = getBreakpointClient(bp.get("clientId"));
     const action = {
       type: constants.REMOVE_BREAKPOINT,
       breakpoint: bp.toJS(),
@@ -110,7 +87,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
     // will be removed completely from the state.
     if (!bp.disabled) {
       return dispatch(Object.assign({}, action, {
-        [PROMISE]: bpClient.remove()
+        [PROMISE]: client.removeBreakpoint(bp.get("id"))
       }));
     }
     return dispatch(Object.assign({}, action, { status: "done" }));
@@ -136,34 +113,28 @@ function removeAllBreakpoints() {
  *         A promise that will be resolved with the breakpoint client
  */
 function setBreakpointCondition(location, condition) {
-  return ({ dispatch, getState, client }) => {
-    const bp = getBreakpoint(getState(), location);
-    if (!bp) {
-      throw new Error("Breakpoint does not exist at the specified location");
-    }
-    if (bp.loading) {
-      // TODO(jwl): when this function is called, make sure the action
-      // creator waits for the breakpoint to exist
-      throw new Error("breakpoint must be saved");
-    }
+  throw new Error("not implemented");
 
-    const bpClient = getBreakpointClient(bp.actor);
+  // return ({ dispatch, getState, client }) => {
+  //   const bp = getBreakpoint(getState(), location);
+  //   if (!bp) {
+  //     throw new Error("Breakpoint does not exist at the specified location");
+  //   }
+  //   if (bp.get("loading")) {
+  //     // TODO(jwl): when this function is called, make sure the action
+  //     // creator waits for the breakpoint to exist
+  //     throw new Error("breakpoint must be saved");
+  //   }
 
-    return dispatch({
-      type: constants.SET_BREAKPOINT_CONDITION,
-      breakpoint: bp,
-      condition: condition,
-      [PROMISE]: Task.spawn(function* () {
-        const newClient = yield bpClient.setCondition(client, condition);
-
-        // Remove the old instance and save the new one
-        setBreakpointClient(bpClient.id, null);
-        setBreakpointClient(newClient.id, newClient);
-
-        return { actor: newClient.actor };
-      })
-    });
-  };
+  //   return dispatch({
+  //     type: constants.SET_BREAKPOINT_CONDITION,
+  //     breakpoint: bp,
+  //     condition: condition,
+  //     [PROMISE]: Task.spawn(function* () {
+  //       yield client.setBreakpointCondition(bp.get("id"), condition);
+  //     })
+  //   });
+  // };
 }
 
 module.exports = {

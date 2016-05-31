@@ -18,8 +18,21 @@ const Source = t.struct({
 const Location = t.struct({
   sourceId: t.String,
   line: t.Number,
-  column: t.Number
+  column: t.union([t.Number, t.Nil])
 }, "Location");
+
+const Breakpoint = t.struct({
+  id: t.String,
+  loading: t.Boolean,
+  disabled: t.Boolean,
+  text: t.String,
+  condition: t.union([t.String, t.Nil])
+});
+
+const BreakpointResult = t.struct({
+  id: t.String,
+  actualLocation: Location
+});
 
 const Frame = t.struct({
   id: t.String,
@@ -31,5 +44,7 @@ module.exports = {
   Tab,
   Source,
   Location,
+  Breakpoint,
+  BreakpointResult,
   Frame
 };

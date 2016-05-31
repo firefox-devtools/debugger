@@ -5,7 +5,7 @@ const {
   InspectorBackend
 } = require("./chrome/api");
 
-const { Tab, Source, Location, Frame } = require("../types");
+const { Tab, Source, Location, BreakpointResult, Frame } = require("../types");
 const { isEnabled } = require("../configs/feature");
 const defer = require("../util/defer");
 
@@ -50,23 +50,36 @@ let APIClient = {
   },
 
   setBreakpoint(location, condition) {
-    return debuggerAgent.setBreakpoint({
-      scriptId: location.sourceId,
-      lineNumber: location.line - 1,
-      columnNumber: location.column
-    }, (_, breakpointId, actualLocation) => ([
-      {},
-      {
-        id: breakpointId,
-        remove: () => {
-          // TODO: resolve promise when request is completed.
-          return new Promise((resolve, reject) => {
-            resolve(debuggerAgent.removeBreakpoint(breakpointId));
-          });
-        },
-        setCondition: () => {},
-      }
-    ]));
+    return new Promise((resolve, reject) => {
+      return debuggerAgent.setBreakpoint({
+        scriptId: location.sourceId,
+        lineNumber: location.line - 1,
+        columnNumber: location.column
+      }, (err, breakpointId, actualLocation) => {
+        if(err) {
+          reject(err);
+          return;
+        }
+
+        actualLocation = actualLocation ? {
+          sourceId: actualLocation.scriptId,
+          line: actualLocation.lineNumber + 1,
+          column: actualLocation.columnNumber
+        } : location;
+
+        resolve(BreakpointResult({
+          id: breakpointId,
+          actualLocation: Location(actualLocation)
+        }));
+      });
+    });
+  },
+
+  removeBreakpoint(breakpointId) {
+    // TODO: resolve promise when request is completed.
+    return new Promise((resolve, reject) => {
+      resolve(debuggerAgent.removeBreakpoint(breakpointId));
+    });
   }
 };
 
@@ -129,7 +142,7 @@ function makeDispatcher(actions) {
                  endLine, endColumn, executionContextId, hash,
                  isContentScript, isInternalScript, isLiveEdit,
                  sourceMapURL, hasSourceURL, deprecatedCommentWasUsed) {
-      actions.newSource(Source({ id: scriptId, url }));
+      actions.newSource(Source({ id: scriptId, url: url }));
     },
 
     scriptFailedToParse() {

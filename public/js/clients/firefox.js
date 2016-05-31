@@ -3,7 +3,7 @@
 const { DebuggerClient } = require("ff-devtools-libs/shared/client/main");
 const { DebuggerTransport } = require("ff-devtools-libs/transport/transport");
 const { TargetFactory } = require("ff-devtools-libs/client/framework/target");
-const { Tab, Source, Location, Frame } = require("../types");
+const { Tab, Source, Location, BreakpointResult, Frame } = require("../types");
 const defer = require("../util/defer");
 
 let currentClient = null;
@@ -13,6 +13,8 @@ let currentTabTarget = null;
 // API implementation
 
 let APIClient = {
+  _bpClients: {},
+
   resume() {
     return new Promise(resolve => {
       currentThreadClient.resume(resolve);
@@ -54,7 +56,29 @@ let APIClient = {
       line: location.line,
       column: location.column,
       condition: condition
+    }).then(([res, bpClient]) => {
+      this._bpClients[bpClient.actor] = bpClient;
+
+      // Firefox only returns `actualLocation` if it actually changed,
+      // but we want it always to exist. Format `actualLocation` if it
+      // exists, otherwise use `location`.
+      const actualLocation = res.actualLocation ? {
+        sourceId: res.actualLocation.source.actor,
+        line: res.actualLocation.line,
+        column: res.actualLocation.column
+      } : location;
+
+      return BreakpointResult({
+        id: bpClient.actor,
+        actualLocation: Location(actualLocation)
+      });
     });
+  },
+
+  removeBreakpoint(breakpointId) {
+    const bpClient = this._bpClients[breakpointId];
+    this._bpClients[breakpointId] = null;
+    return bpClient.remove();
   }
 };
 
