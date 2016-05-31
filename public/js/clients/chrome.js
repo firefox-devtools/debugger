@@ -22,6 +22,7 @@ const bootstrap = require("./chrome/bootstrap");
 let connection;
 let debuggerAgent;
 let runtimeAgent;
+let pageAgent;
 
 // API implementation
 
@@ -72,13 +73,27 @@ let APIClient = {
           actualLocation: Location(actualLocation)
         }));
       });
-    });
+    })
   },
 
   removeBreakpoint(breakpointId) {
     // TODO: resolve promise when request is completed.
     return new Promise((resolve, reject) => {
       resolve(debuggerAgent.removeBreakpoint(breakpointId));
+    });
+  },
+
+  evaluate(script) {
+    return runtimeAgent.evaluate(script, (_, result) => {
+      console.log("console.evalute", result);
+      return result;
+    });
+  },
+
+  navigate(url) {
+    return pageAgent.navigate(url, (_, result) => {
+      console.log("page.navigate", result);
+      return result;
     });
   }
 };
@@ -172,6 +187,9 @@ function makeDispatcher(actions) {
 
     resumed: function() {
       actions.resumed();
+    },
+
+    globalObjectCleared: function() {
     }
   };
 }
@@ -181,8 +199,11 @@ function initPage(actions) {
   const ws = conn._socket;
   debuggerAgent = conn._agents.Debugger;
   runtimeAgent = conn._agents.Runtime;
+  pageAgent = conn._agents.Page;
+
   ws.onopen = function() {
   };
+
   ws.onmessage = function(e) {
     conn._onMessage(e);
   };

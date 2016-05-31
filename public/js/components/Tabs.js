@@ -35,7 +35,7 @@ function renderTabs(tabTitle, tabs, boundActions) {
     return null;
   }
 
-  return dom.div({ className: "tab-group" },
+  return dom.div({ className: `tab-group ${tabTitle}` },
     dom.div({ className: "tab-group-title" }, tabTitle),
     dom.ul({ className: "tab-list" },
       tabs.valueSeq().map(tab => renderTab(tab, boundActions))
