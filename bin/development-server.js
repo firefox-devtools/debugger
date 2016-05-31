@@ -30,6 +30,7 @@ const config = Object.assign({}, projectConfig, {
 const app = express();
 const compiler = webpack(config);
 
+app.use(express.static("public/js/test/examples"));
 app.use(express.static("public"));
 
 app.use(webpackDevMiddleware(compiler, {

@@ -6,7 +6,7 @@ test:
   pre:
     - node bin/development-server.js:
         background: true
-    - node bin/test-server.js:
+    - node bin/firefox-driver --start:
         background: true
     - sleep 30
   post:

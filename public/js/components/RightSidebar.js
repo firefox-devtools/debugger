@@ -35,7 +35,10 @@ function RightSidebar({ resume, command, breakOnNext,
               debugBtn(() => command({ type: "stepOver" }), "stepOver"),
               debugBtn(() => command({ type: "stepIn" }), "stepIn"),
               debugBtn(() => command({ type: "stepOut" }), "stepOut"),
-              debugBtn(() => command({ type: "disableBreakpoints" }), "disableBreakpoints"),
+              debugBtn(
+                () => command({ type: "disableBreakpoints" }),
+                "disableBreakpoints"
+              ),
               debugBtn(() => command({ type: "blackBox" }), "blackBox"),
               debugBtn(() => command({ type: "prettyPrint" }), "prettyPrint")
             ]
