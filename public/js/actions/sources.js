@@ -40,8 +40,7 @@ function selectSource(id, opts) {
 
     dispatch({
       type: constants.SELECT_SOURCE,
-      source: source,
-      opts: opts
+      source: source
     });
   };
 }

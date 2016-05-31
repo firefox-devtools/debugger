@@ -11,7 +11,6 @@ const initialState = fromJS({
   sources: {},
   sourceTree: ["root", []],
   selectedSource: null,
-  selectedSourceOpts: null,
   sourcesText: {}
 });
 
@@ -23,8 +22,7 @@ function update(state = initialState, action) {
 
     case constants.SELECT_SOURCE:
       return state.merge({
-        selectedSource: action.source,
-        selectedSourceOpts: action.opts
+        selectedSource: action.source
       });
 
     case constants.LOAD_SOURCE_TEXT: {

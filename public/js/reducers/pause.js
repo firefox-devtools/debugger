@@ -17,14 +17,19 @@ function update(state = initialState, action, emit) {
   switch (action.type) {
     case constants.PAUSED:
       const pause = action.pauseInfo;
-      pause.isInterrupted = pause.why.type == "interrupted";
-      return state
-        .set("isWaitingOnBreak", false)
-        .set("pause", fromJS(pause));
+      pause.isInterrupted = pause.why.type === "interrupted";
+
+      return state.merge({
+        isWaitingOnBreak: false,
+        pause: fromJS(pause),
+        selectedFrame: action.pauseInfo.frame
+      });
     case constants.RESUME:
-      return state.merge({ pause: null,
-                           frames: null,
-                           selectedFrame: null });
+      return state.merge({
+        pause: null,
+        frames: null,
+        selectedFrame: null
+      });
     case constants.BREAK_ON_NEXT:
       return state.set("isWaitingOnBreak", true);
     case constants.LOADED_FRAMES:
