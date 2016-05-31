@@ -9,7 +9,6 @@
     "test": "mocha --compilers js:babel-register public/js/**/tests/*",
     "test-paths": "mocha --compilers js:babel-register",
     "mocha-server": "node bin/mocha-server.js",
-    "test-server": "node bin/test-server.js",
     "test-karma": "./node_modules/.bin/karma start --single-run",
     "storybook": "start-storybook -p 9001 -s public",
     "start-firefox": "node bin/firefox-driver --start",
@@ -72,8 +71,7 @@
     "npm": "^3.8.8",
     "rimraf": "^2.5.2",
     "selenium-webdriver": "^2.53.2",
-    "style-loader": "^0.13.1",
-    "todomvc": "^0.1.1"
+    "style-loader": "^0.13.1"
   },
   "files": [
     "public"

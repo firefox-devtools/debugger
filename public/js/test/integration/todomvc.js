@@ -1,6 +1,4 @@
 "use strict";
-const todoView33 = "this.listenTo(this.model, 'change', this.render);";
-const todoView35 = "this.listenTo(this.model, 'visible', this.toggleVisible);";
 
 function goToSource(source) {
   let sourcesList = cy.get(".sources-list");
@@ -15,26 +13,9 @@ function goToSource(source) {
   sourcesList.contains(".node", fileName).click();
 }
 
-function addBreakpoint(linenumber) {
+function togglBreakpoint(linenumber) {
   cy.get(".CodeMirror")
     .contains(".CodeMirror-linenumber", linenumber).click();
-}
-
-function hasBreakpointOnLine(linenumber) {
-  cy.get(".CodeMirror")
-    .contains(".CodeMirror-linenumber", linenumber)
-    .parents(".breakpoint");
-}
-
-function hasBreakpointInList(breakpoint) {
-  cy.get(".breakpoints")
-    .contains(".breakpoint", breakpoint);
-}
-
-function doesNotHaveBreakpointOnLine(linenumber) {
-  cy.get(".CodeMirror")
-    .contains(".CodeMirror-linenumber", linenumber)
-    .next().should("not.exist");
 }
 
 function toggleCallStack() {
@@ -49,9 +30,14 @@ function resumeDebugger() {
   cy.get(".right-sidebar").find(".resume").click();
 }
 
-function debuggee(callback, timeout) {
-  timeout = timeout || 1000;
+function addTodo(todo) {
+  debuggee(() => {
+    window.Debuggee.type("#new-todo", "hi");
+    window.Debuggee.type("#new-todo", "{enter}");
+  });
+}
 
+function debuggee(callback) {
   /**
    * gets a fat arrow function and returns the function body
    * `() => { example }` => `example`
@@ -62,90 +48,55 @@ function debuggee(callback, timeout) {
     return source.slice(firstCurly + 1, -1).trim();
   }
 
-  return cy.request("POST", "http://localhost:9002/command", {
-    command: getFunctionBody(callback),
-    timeout: timeout
+  const script = getFunctionBody(callback);
+
+  return cy.window().then(win => {
+    win.injectDebuggee();
+    // NOTE: we should be returning a promise here.
+    // The problem is if, the client pauses we need to handle that
+    // gracefully and resume. We did this on the test-server.
+    win.apiClient.evaluate(script);
+  });
+}
+
+function navigate(url) {
+  return cy.window().then(win => {
+    return win.apiClient.navigate(url);
   });
 }
 
 describe("Todo MVC", function() {
-  before(function() {
-    cy.request("POST", "http://localhost:9002/start");
-  });
-
-  after(function() {
-    cy.request("POST", "http://localhost:9002/stop");
-  });
-
-  beforeEach(function() {
-    debuggee(() => {
-      driver.get("http://localhost:9002/todomvc/examples/backbone/");
-    });
-
-    // wait for todomvc to load.
-    // should not be necessary, but seeing timing issues 5% of the time.
+  it("(Firefox) Adding a Todo", function() {
+    cy.visit("http://localhost:8000");
+    cy.get(".Firefox .tab").first().click();
     cy.wait(1000);
 
-    cy.visit("http://localhost:8000");
+    goToSource("js/views/todo-view");
+    togglBreakpoint(33);
 
-    cy.get(".tab").first().click();
-  });
-
-  afterEach(function() {
-    cy.visit("http://localhost:8000");
-  });
-
-  it("Adding Breakpoints in one source", function() {
-    goToSource("examples/backbone/js/views/todo-view");
-    addBreakpoint(33);
-    addBreakpoint(35);
-    hasBreakpointOnLine(33);
-    hasBreakpointOnLine(35);
-    hasBreakpointInList(`33 ${todoView33}`);
-    hasBreakpointInList(`35 ${todoView35}`);
-
-    addBreakpoint(35);
-    doesNotHaveBreakpointOnLine(35);
-  });
-
-  it("Breakpoint is only shown in its source", function() {
-    goToSource("examples/backbone/js/views/todo-view");
-    addBreakpoint("33");
-    hasBreakpointOnLine(33);
-
-    goToSource("app-view");
-    doesNotHaveBreakpointOnLine(33);
-  });
-
-  it("Adding Breakpoints in multiple sources", function() {
-    goToSource("examples/backbone/js/views/todo-view");
-    addBreakpoint(33);
-    addBreakpoint(35);
-    hasBreakpointInList(`33 ${todoView33}`);
-    hasBreakpointInList(`35 ${todoView35}`);
-
-    goToSource("app-view");
-    addBreakpoint(40);
-    hasBreakpointOnLine(40);
-    hasBreakpointInList(40);
-
-    goToSource("todo-view");
-    hasBreakpointOnLine(33);
-    hasBreakpointOnLine(35);
-  });
-
-  it("Pausing while creating a todo", function() {
-    goToSource("examples/backbone/js/views/todo-view");
-    addBreakpoint(33);
-
-    debuggee(() => {
-      let input = driver.findElement(By.id("new-todo"));
-      input.sendKeys("yo yo yo", Key.ENTER);
-    });
+    addTodo("YO YO YO");
 
     toggleCallStack();
-    hasCallStackFrame("app.TodoView<.initialize");
-
+    hasCallStackFrame("initialize");
     resumeDebugger();
+    togglBreakpoint(33);
+    navigate("http://localhost:8000/todomvc");
+  });
+
+  xit("(Chrome) Adding a Todo", function() {
+    cy.visit("http://localhost:8000");
+    cy.get(".Chrome .tab").first().click();
+    cy.wait(1000);
+
+    goToSource("js/views/todo-view");
+    togglBreakpoint(33);
+
+    addTodo("YO YO YO");
+
+    toggleCallStack();
+    hasCallStackFrame("initialize");
+    resumeDebugger();
+    togglBreakpoint(33);
+    navigate("http://localhost:8000/todomvc");
   });
 });

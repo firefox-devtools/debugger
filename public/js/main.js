@@ -25,14 +25,14 @@ const {
   setThreadClient, setTabTarget, initPage
 } = require("./clients/firefox");
 
-const { getBrowserClient, connectClients, debugPage } = require("./clients");
+const { getClient, connectClients, debugPage } = require("./clients");
 
 const TabList = React.createFactory(require("./components/TabList"));
 
 const createStore = configureStore({
   log: false,
   makeThunkArgs: (args, state) => {
-    let client = getBrowserClient(state);
+    let client = getClient(state);
     return Object.assign({}, args, { client });
   }
 });
@@ -104,6 +104,8 @@ if (process.env.NODE_ENV !== "DEVTOOLS_PANEL") {
       renderToolbox();
     }
   });
+
+  window.injectDebuggee = require("./test/utils/debuggee");
 } else {
   // The toolbox already provides the tab to debug. For now, just
   // provide a fake tab so it will show the debugger. We only use it
