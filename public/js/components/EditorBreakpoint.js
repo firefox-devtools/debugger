@@ -1,20 +1,23 @@
 "use strict";
 
 const React = require("react");
-const ReactDOM = require("react-dom");
 const ImPropTypes = require("react-immutable-proptypes");
 const { PropTypes } = React;
-const Isvg = React.createFactory(require("react-inlinesvg"));
 
 function makeMarker() {
   let marker = document.createElement("div");
   marker.className = "editor breakpoint";
-  ReactDOM.render(
-    React.createElement(Isvg, {
-      src: "images/breakpoint.svg#base-path___2142144446"
-    }),
-    marker
-  );
+
+  let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 60 12");
+  svg.setAttribute("preserveAspectRatio", "none");
+  let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  // Until we figure out our loader story, embed it directly so we can
+  // control it with CSS.
+  path.setAttribute("d", "M53.9,0H1C0.4,0,0,0.4,0,1v10c0,0.6,0.4,1,1,1h52.9c0.6,0,1.2-0.3,1.5-0.7L60,6l-4.4-5.3C55,0.3,54.5,0,53.9,0z"); // eslint-disable-line max-len
+  svg.appendChild(path);
+  marker.appendChild(svg);
+
   return marker;
 }
 

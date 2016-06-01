@@ -16,16 +16,26 @@
   left: 0px;
 }
 
-.editor.breakpoint {
+.editor-wrapper .breakpoints {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.editor.breakpoint svg {
   fill: var(--theme-selection-background);
-  width: 40px;
+  width: 60px;
+  height: 12px;
+  position: absolute;
+  top: 0;
+  right: -4px;
 }
 
 .editor.breakpoint:hover {
   cursor: pointer;
 }
 
-.CodeMirror-line {
+.CodeMirror {
   font-family: Menlo, monospace !important;
 }
 

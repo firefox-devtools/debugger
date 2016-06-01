@@ -76,7 +76,21 @@ function onWheel(cm, ev) {
   }
 }
 
+/**
+ * Forces the breakpoint gutter to be the same size as the line
+ * numbers gutter. Editor CSS will absolutely position the gutter
+ * beneath the line numbers. This makes it easy to be flexible with
+ * how we overlay breakpoints.
+ */
+function resizeBreakpointGutter(editor) {
+  const gutters = editor.display.gutters;
+  const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
+  const breakpoints = gutters.querySelector(".breakpoints");
+  breakpoints.style.width = lineNumbers.clientWidth + "px";
+}
+
 module.exports = {
   alignLine,
-  onWheel
+  onWheel,
+  resizeBreakpointGutter
 };
