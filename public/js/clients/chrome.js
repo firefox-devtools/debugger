@@ -56,7 +56,7 @@ let APIClient = {
         lineNumber: location.line - 1,
         columnNumber: location.column
       }, (err, breakpointId, actualLocation) => {
-        if(err) {
+        if (err) {
           reject(err);
           return;
         }
