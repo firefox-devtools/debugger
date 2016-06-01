@@ -15,7 +15,6 @@
   display: flex;
   overflow: hidden;
   font-size: 0.75em;
-  padding-left: 10px;
 }
 
 ul.sources-list {
@@ -128,6 +127,10 @@ ul.sources-list {
 .tree .node.focused {
   color: white;
   background-color: var(--theme-selection-background);
+}
+
+.tree .node > div {
+  margin-left: 10px;
 }
 
 .tree .node.focused svg {
