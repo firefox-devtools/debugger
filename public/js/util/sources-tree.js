@@ -79,6 +79,10 @@ function getSharedParts(partsA, partsB) {
   return sharedParts;
 }
 
+function isCollapsed(node) {
+  return node.baseName !== node.name;
+}
+
 function addToTree(currentNode, source) {
   const url = getURL(source);
   if (!url) {
@@ -88,6 +92,13 @@ function addToTree(currentNode, source) {
   const parts = url.pathname.split("/").filter(p => p !== "");
   const isDir = partsIsDir(parts);
   parts.unshift(url.host);
+  if(url.hash) {
+    // Add on the URL hash if there is one. Some sites load in duplicate sources
+    // with different contents.
+    //
+    // TODO - Figure out a more elegant way of handling duplicate sources.
+    parts[parts.length - 1] += url.hash;
+  }
 
   let accumulatedPath = "";
 
@@ -109,7 +120,7 @@ function addToTree(currentNode, source) {
 
     if (index >= 0 && contents[index].baseName === part) {
       // A node with the same name already exists
-      if (contents[index].name !== contents[index].baseName) {
+      if (isCollapsed(contents[index])) {
         // This node is collapsed, merge in shared nodes.
         currentNode = mergeIntoCollapsedNode(contents[index], accumulatedPath,
                                              parts, i);
@@ -124,7 +135,7 @@ function addToTree(currentNode, source) {
       // exist.
       currentNode = insertNodeIntoContents(contents, accumulatedPath, parts, i,
                                            index);
-      if (currentNode.name !== currentNode.baseName) {
+      if (isCollapsed(currentNode)) {
         // Jump to the end of this loop to insert a final leaf node.
         i = parts.length - 2;
       }
