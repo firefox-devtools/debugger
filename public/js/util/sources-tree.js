@@ -92,7 +92,7 @@ function addToTree(currentNode, source) {
   const parts = url.pathname.split("/").filter(p => p !== "");
   const isDir = partsIsDir(parts);
   parts.unshift(url.host);
-  if(url.hash) {
+  if (url.hash) {
     // Add on the URL hash if there is one. Some sites load in duplicate sources
     // with different contents.
     //
@@ -160,10 +160,10 @@ function insertNodeIntoContents(contents, path, parts, partsIndex,
                                 contentsIndex) {
   const isDomain = partsIndex === 0;
   const remainingParts = parts.length - partsIndex;
-  const isCollapsed = !isDomain && remainingParts > 2;
+  const nodeIsCollapsed = !isDomain && remainingParts > 2;
   let part = parts[partsIndex];
   const baseName = part;
-  if (isCollapsed) {
+  if (nodeIsCollapsed) {
     // Collapse the remaining directory path
     part = parts.slice(partsIndex, parts.length - 1).join("/");
   }
