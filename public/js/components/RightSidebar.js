@@ -34,7 +34,10 @@ function RightSidebar({ resume, command, breakOnNext,
               debugBtn(() => command({ type: "resume" }), "resume"),
               debugBtn(() => command({ type: "stepOver" }), "stepOver"),
               debugBtn(() => command({ type: "stepIn" }), "stepIn"),
-              debugBtn(() => command({ type: "stepOut" }), "stepOut")
+              debugBtn(() => command({ type: "stepOut" }), "stepOut"),
+              debugBtn(() => command({ type: "disableBreakpoints" }), "disableBreakpoints"),
+              debugBtn(() => command({ type: "blackBox" }), "blackBox"),
+              debugBtn(() => command({ type: "prettyPrint" }), "prettyPrint")
             ]
             : [
               isWaitingOnBreak
@@ -42,7 +45,10 @@ function RightSidebar({ resume, command, breakOnNext,
                 : debugBtn(breakOnNext, "pause"),
               debugBtn(null, "stepOver", "disabled"),
               debugBtn(null, "stepIn", "disabled"),
-              debugBtn(null, "stepOut", "disabled")
+              debugBtn(null, "stepOut", "disabled"),
+              debugBtn(null, "disableBreakpoints", "disabled"),
+              debugBtn(null, "blackBox", "disabled"),
+              debugBtn(null, "prettyPrint", "disabled")
             ]
         )
       ),

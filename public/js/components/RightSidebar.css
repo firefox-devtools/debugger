@@ -5,7 +5,7 @@
 .command-bar {
   border-bottom: 1px solid #cccccc;
   height: 40px;
-  padding: 10px 5px 10px 10px;
+  padding: 12px 5px 10px 10px;
 }
 
 .command-bar > span {

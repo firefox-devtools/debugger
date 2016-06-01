@@ -1,12 +1,8 @@
-<svg width="19px" height="17px" viewBox="768 531 15 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.7.1 (28215) - http://www.bohemiancoding.com/sketch -->
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Step-in" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(769.000000, 532.000000)">
-        <path d="M8.25949219,7.93368043 C8.13809758,7.97414531 8.00126613,7.96829969 7.87777151,7.90655238 L3.87777151,5.90655238 C3.63078226,5.78305776 3.53067009,5.48272124 3.65416471,5.23573199 C3.77765934,4.98874274 4.07799586,4.88863056 4.3249851,5.01212519 L7.87777151,6.78851839 L9.65416471,3.23573199 C9.77765934,2.98874274 10.0779959,2.88863056 10.3249851,3.01212519 C10.5719744,3.13561981 10.6720865,3.43595633 10.5485919,3.68294558 L8.5485919,7.68294558 C8.48684459,7.80644021 8.3808868,7.89321556 8.25949219,7.93368043 Z" id="Shape-Copy-2" stroke="#696969" stroke-width="0.5" fill="#696969" transform="translate(7.101378, 5.459339) rotate(18.000000) translate(-7.101378, -5.459339) "></path>
-        <path d="M0.5,9.625 L4.59458494,9.625" id="Line" stroke="#696969" stroke-width="1.25" stroke-linecap="round"></path>
-        <path d="M8.5,9.625 L12.5945849,9.625" id="Line-Copy-3" stroke="#696969" stroke-width="1.25" stroke-linecap="round"></path>
-        <path d="M7,8 L7,1" id="Line" stroke="#696969" stroke-width="1.5" stroke-linecap="round"></path>
-        <path d="M0.5,1 L6.5,1" id="Line-Copy-4" stroke="#696969" stroke-width="1.5" stroke-linecap="round"></path>
-    </g>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#696969">
+  <g fill-rule="evenodd">
+    <path d="M1.5 14.042h4.095a.5.5 0 0 0 0-1H1.5a.5.5 0 1 0 0 1zM7.983 2a.5.5 0 0 1 .517.5v7.483l3.136-3.326a.5.5 0 1 1 .728.686l-4 4.243a.499.499 0 0 1-.73-.004L3.635 7.343a.5.5 0 0 1 .728-.686L7.5 9.983V3H1.536C1.24 3 1 2.776 1 2.5s.24-.5.536-.5h6.447zM10.5 14.042h4.095a.5.5 0 0 0 0-1H10.5a.5.5 0 1 0 0 1z"/>
+  </g>
 </svg>

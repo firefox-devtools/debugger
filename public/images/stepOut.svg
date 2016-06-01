@@ -1,12 +1,8 @@
-<svg width="19px" height="18px" viewBox="769 531 14 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.7.1 (28215) - http://www.bohemiancoding.com/sketch -->
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Step-out" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(776.000000, 537.500000) rotate(-90.000000) translate(-776.000000, -537.500000) translate(770.500000, 531.500000)">
-        <path d="M7.23872291,8.98092506 C7.1173283,9.02138993 6.98049685,9.01554432 6.85700223,8.95379701 L2.85700223,6.95379701 C2.61001298,6.83030238 2.50990081,6.52996586 2.63339543,6.28297662 C2.75689006,6.03598737 3.05722658,5.93587519 3.30421583,6.05936982 L6.85700223,7.83576302 L8.63339543,4.28297662 C8.75689006,4.03598737 9.05722658,3.93587519 9.30421583,4.05936982 C9.55120507,4.18286444 9.65131725,4.48320096 9.52782262,4.73019021 L7.52782262,8.73019021 C7.46607531,8.85368484 7.36011753,8.94046019 7.23872291,8.98092506 Z" id="Shape-Copy-2" stroke="#696969" stroke-width="0.5" fill="#696969" transform="translate(6.080609, 6.506583) rotate(18.000000) translate(-6.080609, -6.506583) "></path>
-        <path d="M1.97304034,10.625 L4.59458494,10.625" id="Line" stroke="#696969" stroke-width="1.25" stroke-linecap="round"></path>
-        <path d="M8.5,10.625 L11,10.625" id="Line-Copy-3" stroke="#696969" stroke-width="1.25" stroke-linecap="round"></path>
-        <path d="M6,8 L6,1" id="Line" stroke="#696969" stroke-width="1.5" stroke-linecap="round"></path>
-        <path d="M0.5,1 L6.5,1" id="Line-Copy-4" stroke="#696969" stroke-width="1.5" stroke-linecap="round"></path>
-    </g>
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <title>
+    debugger-step-out-expanded
+  </title>
+  <g fill="#696969" fill-rule="evenodd">
+    <path d="M14.25 14.595V10.5a.5.5 0 0 0-1 0v4.095a.5.5 0 0 0 1 0zM14.25 5.595V1.5a.5.5 0 0 0-1 0v4.095a.5.5 0 0 0 1 0zM12 7.5a.498.498 0 0 1-.146.354l-4.5 4.5a.5.5 0 0 1-.708-.708L10.293 8H3.5v5.5a.5.5 0 1 1-1 0v-6a.5.5 0 0 1 .61-.488.427.427 0 0 1 .1-.012h7.083L6.646 3.354a.5.5 0 1 1 .708-.708l4.5 4.5A.498.498 0 0 1 12 7.5z"/>
+  </g>
 </svg>
