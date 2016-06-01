@@ -36,7 +36,7 @@ function start() {
 
 if (shouldStart) {
   const driver = start();
-  driver.get("http://todomvc.com/examples/backbone/");
+  driver.get("http://localhost:8000/todomvc");
   setInterval(() => {}, 100);
 }
 

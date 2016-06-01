@@ -79,6 +79,21 @@ let APIClient = {
     const bpClient = this._bpClients[breakpointId];
     this._bpClients[breakpointId] = null;
     return bpClient.remove();
+  },
+
+  evaluate(script) {
+    const deferred = defer();
+
+    currentTabTarget.activeConsole.evaluateJS(script, (result) => {
+      console.log("console.evaluate", result);
+       deferred.resolve(result);
+    });
+
+    return deferred.promise;
+  },
+
+  navigate(url) {
+    return currentTabTarget.activeTab.navigateTo(url);
   }
 };
 

@@ -5,7 +5,7 @@ const firefox = require("./firefox");
 const chrome = require("./chrome");
 const { getSelectedTab } = require("../selectors");
 
-function getBrowserClient(state) {
+function getClient(state) {
   if (getSelectedTab(state).get("browser") === "chrome") {
     return chrome.getAPIClient();
   }
@@ -19,9 +19,11 @@ function debugPage(tab, actions) {
     if (isFirefox) {
       yield firefox.connectTab(tab.get("tab"));
       firefox.initPage(actions);
+      window.apiClient = firefox.getAPIClient();
     } else {
       yield chrome.connectTab(tab.get("tab"));
       chrome.initPage(actions);
+      window.apiClient = chrome.getAPIClient();
     }
   });
 }
@@ -37,7 +39,7 @@ function connectClients() {
 }
 
 module.exports = {
-  getBrowserClient,
+  getClient,
   connectClients,
   debugPage
 };
