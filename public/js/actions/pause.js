@@ -2,6 +2,7 @@
 
 const constants = require("../constants");
 const { selectSource } = require("./sources");
+const { PROMISE } = require("ff-devtools-libs/client/shared/redux/middleware/promise");
 
 /**
  * Debugger has just resumed
@@ -69,6 +70,9 @@ function breakOnNext() {
   };
 }
 
+/**
+ * Select a frame
+ */
 function selectFrame(frame) {
   return ({ dispatch }) => {
     dispatch(selectSource(frame.location.sourceId,
@@ -80,11 +84,28 @@ function selectFrame(frame) {
   };
 }
 
+/**
+ * Load an object.
+ *
+ * TODO: Right now this if Firefox specific and is not implemented
+ * for Chrome, which is why it takes a grip.
+ */
+function loadObjectProperties(grip) {
+  return ({ dispatch, client }) => {
+    dispatch({
+      type: constants.LOAD_OBJECT_PROPERTIES,
+      objectId: grip.actor,
+      [PROMISE]: client.getProperties(grip)
+    });
+  };
+}
+
 module.exports = {
   resumed,
   paused,
   loadedFrames,
   command,
   breakOnNext,
-  selectFrame
+  selectFrame,
+  loadObjectProperties
 };

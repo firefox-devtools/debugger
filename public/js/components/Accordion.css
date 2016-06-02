@@ -11,6 +11,12 @@
   padding: 5px;
   transition: all 0.25s ease;
   width: 100%;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 .accordion ._header:hover {
@@ -30,10 +36,6 @@
 
 .accordion ._header:hover svg {
   fill: var(--theme-gray-darker);
-}
-
-.accordion .opened .isvg svg {
-  transform: rotate(0deg);
 }
 
 .accordion ._content {

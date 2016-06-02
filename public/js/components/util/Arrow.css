@@ -1,0 +1,16 @@
+.arrow svg {
+  fill: var(--theme-splitter-color);
+  margin-right: 5px;
+  margin-top: 3px;
+  transform: rotate(-90deg);
+  transition: transform 0.25s ease;
+  width: 10px;
+}
+
+.arrow.expanded svg {
+  transform: rotate(0deg);
+}
+
+.arrow.hidden {
+  display: none;
+}

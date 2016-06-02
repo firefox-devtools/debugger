@@ -10,7 +10,8 @@ const initialState = fromJS({
   pause: null,
   isWaitingOnBreak: false,
   frames: null,
-  selectedFrame: null
+  selectedFrame: null,
+  loadedObjects: {}
 });
 
 function update(state = initialState, action, emit) {
@@ -24,18 +25,38 @@ function update(state = initialState, action, emit) {
         pause: fromJS(pause),
         selectedFrame: action.pauseInfo.frame
       });
+
     case constants.RESUME:
       return state.merge({
         pause: null,
         frames: null,
-        selectedFrame: null
+        selectedFrame: null,
+        loadedObjects: {}
       });
+
     case constants.BREAK_ON_NEXT:
       return state.set("isWaitingOnBreak", true);
+
     case constants.LOADED_FRAMES:
       return state.set("frames", action.frames);
+
     case constants.SELECT_FRAME:
       return state.set("selectedFrame", action.frame);
+
+    case constants.LOAD_OBJECT_PROPERTIES:
+      if (action.status === "done") {
+        return state.setIn(
+          ["loadedObjects", action.objectId],
+          fromJS(action.value.ownProperties).entrySeq()
+            .filter(prop => {
+              return prop[0] !== "prototype" && prop[1].has("value");
+            })
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .toArray()
+        );
+      }
+      break;
+
     case constants.NAVIGATE:
       return initialState;
   }

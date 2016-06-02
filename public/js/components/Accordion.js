@@ -4,7 +4,7 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 
 const { div } = dom;
-const Isvg = React.createFactory(require("react-inlinesvg"));
+const Arrow = React.createFactory(require("./util/Arrow"));
 
 require("./Accordion.css");
 
@@ -38,15 +38,16 @@ const Accordion = React.createClass({
   renderContainer: function(item, i) {
     const { opened, created } = this.state;
     const containerClassName = item.header.toLowerCase().replace(/\s/g, "-");
-    const isOpenedClassName = opened[i] ? "opened" : "";
 
-    return div({
-      className: `${isOpenedClassName} ${containerClassName}`,
-      key: i },
-      div({ className: "_header",
-            onClick: () => this.handleHeaderClick(i) },
-            Isvg({ src: "images/arrow.svg" }),
-            item.header),
+    return div(
+      { className: containerClassName, key: i },
+
+      div(
+        { className: "_header",
+          onClick: () => this.handleHeaderClick(i) },
+        Arrow({ className: opened[i] ? "expanded" : "" }),
+        item.header
+      ),
 
       (created[i] || opened[i]) ?
         div(

@@ -3,110 +3,169 @@
 const React = require("react");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
+const classnames = require("classnames");
+const { fromJS, Map } = require("immutable");
+const ImPropTypes = require("react-immutable-proptypes");
 const actions = require("../actions");
-const { getPause } = require("../selectors");
-const { DOM: dom } = React;
-const Accordion = React.createFactory(require("./Accordion"));
+const { getPause, getLoadedObjects } = require("../selectors");
+const { DOM: dom, PropTypes } = React;
+const ManagedTree = React.createFactory(require("./util/ManagedTree"));
+const Arrow = React.createFactory(require("./util/Arrow"));
 
-require("./Scopes.css");
+function info(text) {
+  return dom.div({ className: "pane-info" }, text);
+}
 
 function getScopes(pauseInfo) {
   if (!pauseInfo) {
-    return [];
+    return null;
   }
 
-  const environment = pauseInfo.getIn(["frame", "environment"]);
-  let scope = environment;
-  const scopes = [ scope ];
-
-  while (scope = scope.get("parent")) { // eslint-disable-line no-cond-assign
-    scopes.push(scope);
+  let scope = pauseInfo.getIn(["frame", "scope"]);
+  if (!scope) {
+    return null;
   }
+
+  const scopes = [];
+
+  do {
+    const type = scope.get("type");
+
+    if (type === "function" || type === "block") {
+      const bindings = scope.get("bindings");
+      const vars = bindings
+        .get("arguments").map(arg => arg.entrySeq().get(0))
+        .concat(bindings.get("variables").entrySeq())
+        .filter(binding => (!binding[1].hasIn(["value", "missingArguments"]) &&
+                            !binding[1].hasIn(["value", "optimizedOut"])))
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .toArray();
+
+      if (vars.length) {
+        let title;
+        if (type === "function") {
+          title = scope.getIn(["function", "displayName"]) || "(anonymous)";
+        } else {
+          title = "Block";
+        }
+
+        scopes.push([
+          title,
+          Map({
+            value: Map({
+              type: "object",
+              actor: Math.random().toString()
+            }),
+            prefetchedProperties: vars
+          }),
+        ]);
+      }
+    } else if (type === "object") {
+      scopes.push([
+        scope.getIn(["object", "class"]),
+        fromJS({
+          value: scope.get("object")
+        })
+      ]);
+    }
+  } while (scope = scope.get("parent")); // eslint-disable-line no-cond-assign
 
   return scopes;
 }
 
-function renderArgumentProperty(argumentBinding) {
-  const argumentName = argumentBinding.keySeq().first();
-  const actor = argumentBinding.first().getIn(["value", "actor"]);
-  return dom.li(
-    { className: "scope-property-list-item", key: actor },
-    argumentName
-  );
-}
+const Scopes = React.createClass({
+  propTypes: {
+    pauseInfo: ImPropTypes.map,
+    loadedObjects: ImPropTypes.map,
+    loadObjectProperties: PropTypes.func
+  },
 
-function renderVariableProperty(variableBinding, variableName) {
-  const actor = variableBinding.getIn(["value", "actor"]);
-  return dom.li(
-    { className: "scope-property-list-item", key: actor },
-    variableName
-  );
-}
+  displayName: "Scopes",
 
-function renderScopeBindings(bindings) {
-  const variableBindings = bindings.get("variables");
-  const argumentBindings = bindings.get("arguments");
+  getInitialState() {
+    return { scopes: getScopes(this.props.pauseInfo) };
+  },
 
-  return dom.ul(
-    { className: "scope-property-list" },
-    argumentBindings.map(renderArgumentProperty),
-    variableBindings.map(renderVariableProperty)
-  );
-}
+  componentWillReceiveProps(nextProps) {
+    if (this.props.pauseInfo !== nextProps.pauseInfo) {
+      this.setState({ scopes: getScopes(nextProps.pauseInfo) });
+    }
+  },
 
-function renderFunctionScope(scope, isFirst) {
-  const displayName = scope.getIn(["function", "displayName"]);
-  const functionName = displayName || "(anonymous)";
-  const label = "Function";
+  getChildren(item) {
+    const { loadedObjects } = this.props;
+    const obj = item[1];
 
-  return {
-    header: `${label} [${functionName}]`,
-    component: () => renderScopeBindings(scope.get("bindings")),
-    opened: isFirst
-  };
-}
+    if (obj.get("prefetchedProperties")) {
+      return obj.get("prefetchedProperties");
+    } else if (obj.getIn(["value", "type"]) === "object") {
+      const loaded = loadedObjects.get(obj.getIn(["value", "actor"]));
 
-/* TODO: render block with variables */
-function renderBlockScope(scope, isFirst) {
-  const label = "Block Scope";
-  return {
-    header: label,
-    component: () => renderScopeBindings(scope.get("bindings")),
-    opened: isFirst
-  };
-}
+      if (loaded) {
+        return loaded;
+      }
+      return [["fetching...", fromJS({ value: { type: "placeholder" }})]];
+    }
+    return [];
+  },
 
-function renderObjectScope(scope, isFirst) {
-  const objectClass = scope.getIn(["object", "class"]);
-  const label = objectClass;
+  renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+    const obj = item[1];
+    let val = "";
+    if (obj.has("value") && !obj.hasIn(["value", "type"])) {
+      val = ": " + obj.get("value");
+    }
 
-  return {
-    header: label,
-    component: () => dom.div(),
-    opened: isFirst
-  };
-}
+    return dom.div(
+      { className: classnames("node", { focused }),
+        style: { marginLeft: depth * 15 }},
+      Arrow({
+        className: classnames(
+          { expanded: expanded,
+            hidden: item[1].getIn(["value", "type"]) !== "object" }
+        ),
+        onClick: e => {
+          e.stopPropagation();
+          setExpanded(item, !expanded);
+        }
+      }),
+      item[0] + val
+    );
+  },
 
-function renderScope(scope, index) {
-  const isFirst = index == 0;
+  render() {
+    const { pauseInfo, loadObjectProperties } = this.props;
+    const { scopes } = this.state;
 
-  switch (scope.get("type")) {
-    case "function": return renderFunctionScope(scope, isFirst);
-    case "block": return renderBlockScope(scope, isFirst);
-    default: return renderObjectScope(scope, isFirst);
+    const tree = ManagedTree({
+      itemHeight: 100,
+      getParent: item => null,
+      getChildren: this.getChildren,
+      getRoots: () => scopes,
+      // TODO: make proper keys
+      getKey: item => Math.random(),
+      autoExpand: 0,
+      onExpand: item => {
+        const obj = item[1];
+        if (!obj.has("prefetchedProperties") &&
+           obj.getIn(["value", "type"]) === "object") {
+          loadObjectProperties(obj.get("value").toJS());
+        }
+      },
+
+      renderItem: this.renderItem
+    });
+
+    const scopeTree = scopes ? tree : info("Scopes Unavailable");
+    return dom.div(
+      { className: "scopes-pane" },
+      (pauseInfo ? scopeTree : info("Not Paused"))
+    );
   }
-}
-
-function Scopes({ pauseInfo }) {
-  const scopes = getScopes(pauseInfo);
-  return dom.div({ className: "scopes-pane" },
-    !pauseInfo ?
-    dom.div({ className: "pane-info" }, "Not Paused")
-    : Accordion({ items: scopes.map(renderScope) })
-  );
-}
+});
 
 module.exports = connect(
-  state => ({ pauseInfo: getPause(state) }),
+  state => ({ pauseInfo: getPause(state),
+              loadedObjects: getLoadedObjects(state) }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Scopes);

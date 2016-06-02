@@ -37,7 +37,8 @@ const BreakpointResult = t.struct({
 const Frame = t.struct({
   id: t.String,
   displayName: t.String,
-  location: Location
+  location: Location,
+  scope: t.union([t.Object, t.Nil])
 }, "Frame");
 
 module.exports = {
