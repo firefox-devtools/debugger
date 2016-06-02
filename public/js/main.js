@@ -24,6 +24,10 @@ const reducers = require("./reducers");
 const {
   setThreadClient, setTabTarget, initPage
 } = require("./clients/firefox");
+const {
+  connectWebsocket: connectChromeWebsocket,
+  initPage: initChromePage
+} = require("./clients/chrome");
 
 const { getClient, connectClients, debugPage } = require("./clients");
 
@@ -89,24 +93,20 @@ function renderToolbox() {
   );
 }
 
-if (process.env.NODE_ENV !== "DEVTOOLS_PANEL") {
-  connectClients().then((tabs) => {
-    actions.newTabs(tabs);
-    renderNotConnected();
+window.injectDebuggee = require("./test/utils/debuggee");
 
-    // if there's a pre-selected tab, connect to it and load the sources.
-    // otherwise, just show the toolbox.
-    if (hasSelectedTab()) {
-      const selectedTab = getTabFromUri(store.getState());
-      debugPage(selectedTab, actions).then(renderToolbox);
-      actions.selectTab({ id: selectedTab.get("id") });
-    } else {
-      renderToolbox();
-    }
+if(window.location.href.indexOf('?ws') !== -1) {
+  const m = window.location.href.match(/\?ws=([^&#]*)/);
+  const url = m[1];
+
+  actions.newTabs([{ actor: "tab1", browser: "chrome" }]);
+  actions.selectTab({ tabActor: "tab1" }, true);
+
+  connectChromeWebsocket('ws://' + url).then(() => {
+    initChromePage(actions);
+    renderToolbox();
   });
-
-  window.injectDebuggee = require("./test/utils/debuggee");
-} else {
+} else if (process.env.NODE_ENV === "DEVTOOLS_PANEL") {
   // The toolbox already provides the tab to debug. For now, just
   // provide a fake tab so it will show the debugger. We only use it
   // when connecting which we don't do because the toolbox has already
@@ -121,4 +121,19 @@ if (process.env.NODE_ENV !== "DEVTOOLS_PANEL") {
     getBoundActions: () => actions,
     initPage
   };
+} else {
+  connectClients().then((tabs) => {
+    actions.newTabs(tabs);
+    renderNotConnected();
+
+    // If there's a pre-selected tab, connect to it and load the
+    // sources. otherwise, just show the toolbox.
+    if (hasSelectedTab()) {
+      const selectedTab = getTabFromUri(store.getState());
+      debugPage(selectedTab, actions).then(renderToolbox);
+      actions.selectTab({ id: selectedTab.get("id") });
+    } else {
+      renderToolbox();
+    }
+  });
 }

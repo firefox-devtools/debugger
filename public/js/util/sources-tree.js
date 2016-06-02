@@ -1,6 +1,6 @@
 "use strict";
 
-const URL = require("url").parse;
+const URL = require("url");
 const { assert } = require("ff-devtools-libs/shared/DevToolsUtils");
 
 function nodeHasChildren(item) {
@@ -36,27 +36,34 @@ function createParentMap(tree) {
 }
 
 function getURL(source) {
-  if (!source.get("url")) {
+  const url = source.get("url");
+  if (!url) {
     return null;
   }
 
-  let url;
-  try {
-    url = new URL(source.get("url"));
-  } catch (e) {
-    // If there is a parse error (which may happen with various
-    // internal script that don't have a correct URL), just ignore it.
+  let urlObj = new URL.parse(url);
+
+  if(!urlObj.protocol && urlObj.pathname[0] === '/') {
+    // If it's just a URL like "/foo/bar.js", resolve it to the file
+    // protocol
+    urlObj.protocol = "file:";
+  }
+  else if (!urlObj.host && !urlObj.protocol) {
+    // We don't know what group to put this under, and it's a script
+    // with a weird URL. Just group them all under an anonymous group.
+    return {
+      path: url,
+      group: "(no domain)"
+    };
+  } else if (urlObj.protocol === "javascript:") {
+    // Ignore `javascript:` URLs for now
     return null;
   }
 
-  // Filter out things like `javascript:<code>` URLs for now.
-  // Whitelist the protocols because there may be several strange
-  // ones.
-  if (url.protocol !== "http:" && url.protocol !== "https:") {
-    return null;
-  }
-
-  return url;
+  return {
+    path: urlObj.pathname,
+    group: urlObj.protocol === "file:" ? "file://" : urlObj.host
+  };
 }
 
 function addToTree(tree, source) {
@@ -65,10 +72,10 @@ function addToTree(tree, source) {
     return;
   }
 
-  const parts = url.pathname.split("/").filter(p => p !== "");
+  const parts = url.path.split("/").filter(p => p !== "");
   const isDir = (parts.length === 0 ||
                  parts[parts.length - 1].indexOf(".") === -1);
-  parts.unshift(url.host);
+  parts.unshift(url.group);
 
   let path = "";
   let subtree = tree;

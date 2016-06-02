@@ -44,7 +44,7 @@ let APIClient = {
   },
 
   sourceContents(sourceId) {
-    return debuggerAgent.getScriptSource(sourceId, (_, contents) => ({
+    return debuggerAgent.getScriptSource(sourceId, (err, contents) => ({
       source: contents,
       contentType: null
     }));
@@ -136,6 +136,19 @@ function connectClient() {
   return deferred.promise;
 }
 
+function connectWebsocket(websocketUrl) {
+  return new Promise(resolve => {
+    bootstrap(InspectorBackend);
+    WebSocketConnection.Create(
+      websocketUrl,
+      conn => {
+        connection = conn;
+        resolve();
+      }
+    );
+  });
+}
+
 function connectTab(tab) {
   return new Promise(resolve => {
     bootstrap(InspectorBackend);
@@ -218,6 +231,7 @@ function initPage(actions) {
 
 module.exports = {
   connectClient,
+  connectWebsocket,
   getAPIClient,
   connectTab,
   initPage

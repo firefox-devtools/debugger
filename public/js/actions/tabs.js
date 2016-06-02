@@ -13,8 +13,10 @@ function newTabs(tabs) {
   };
 }
 
-function selectTab({ id }) {
-  window.location.hash = `tab=${id}`;
+function selectTab({ id }, noHashChange = false) {
+  if(!noHashChange) {
+    window.location.hash = `tab=${id}`;
+  }
 
   return {
     type: constants.SELECT_TAB,

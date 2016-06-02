@@ -16,12 +16,14 @@ function getFilename(url) {
     return "";
   }
 
+  let name = url;
   const m = url.toString().match(/.*\/(.+?\..*$)/);
   if (m && m.length > 1) {
-    return m[1];
+    name = m[1];
   }
 
-  return "";
+  const ellipsis = (name.length > 50 ? "..." : "");
+  return ellipsis + name.substring(name.length - 50);
 }
 
 function sourceTab(selectedSource) {
