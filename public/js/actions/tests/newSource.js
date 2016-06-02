@@ -1,13 +1,20 @@
 "use strict";
 
-const { actions, selectors, createStore } = require("../../util/test-head");
+const { constants, selectors, createStore } = require("../../util/test-head");
 const fixtures = require("../../test/fixtures/foobar.json");
-const { newSource } = actions;
 const { getSourceByActor } = selectors;
 const sourcesFixtures = fixtures.sources.sources;
 
 const store = createStore();
 const expect = require("expect.js");
+
+// Write our own `newSource` to bypass the batching logic.
+function newSource(source) {
+  return {
+    type: constants.ADD_SOURCE,
+    source: source
+  };
+}
 
 describe("newSource", () => {
   it("adding two sources", () => {

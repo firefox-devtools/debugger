@@ -4,6 +4,7 @@ const { combineReducers } = require("redux");
 const reducers = require("../reducers");
 const actions = require("../actions");
 const selectors = require("../selectors");
+const constants = require("../constants");
 
 const configureStore = require("../create-store");
 
@@ -20,4 +21,6 @@ function commonLog(msg, data = {}) {
   console.log(`[INFO] ${msg} ${JSON.stringify(data)}`);
 }
 
-module.exports = { actions, selectors, reducers, createStore, commonLog };
+module.exports = {
+  actions, constants, selectors, reducers, createStore, commonLog
+};
