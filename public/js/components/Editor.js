@@ -13,7 +13,7 @@ const {
   getSelectedFrame, makeLocationId
 } = require("../selectors");
 const actions = require("../actions");
-const { alignLine, onWheel } = require("../util/editor");
+const { alignLine, onWheel, resizeBreakpointGutter } = require("../util/editor");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
 
 require("codemirror/lib/codemirror.css");
@@ -51,8 +51,12 @@ const Editor = React.createClass({
 
     this.editor.on("gutterClick", this.onGutterClick);
 
-    this.editor.getScrollerElement().addEventListener("wheel",
-      ev => onWheel(this.editor, ev));
+    this.editor.getScrollerElement().addEventListener(
+      "wheel",
+      ev => onWheel(this.editor, ev)
+    );
+
+    resizeBreakpointGutter(this.editor);
   },
 
   onGutterClick(cm, line, gutter, ev) {
@@ -105,6 +109,8 @@ const Editor = React.createClass({
         newSourceText.get("text") != oldSourceText.get("text")) {
       this.editor.setValue(newSourceText.get("text"));
     }
+
+    resizeBreakpointGutter(this.editor);
   },
 
   componentWillReceiveProps(nextProps) {
