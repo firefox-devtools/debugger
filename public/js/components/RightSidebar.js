@@ -38,16 +38,18 @@ function RightSidebar({ resume, command, breakOnNext,
             debugBtn(() => command({ type: "disableBreakpoints" }),
                      "disableBreakpoints"),
             debugBtn(() => command({ type: "blackBox" }), "blackBox"),
-            debugBtn(() => command({ type: "prettyPrint" }), "prettyPrint") ] :
+            debugBtn(() => command({ type: "prettyPrint" }), "prettyPrint"),
+            debugBtn(() => command({ type: "subSettings" }), "subSettings") ] :
         [ isWaitingOnBreak
             ? debugBtn(null, "pause", "disabled")
             : debugBtn(breakOnNext, "pause"),
-          debugBtn(null, "stepOver", "disabled"),
+          debugBtn(null, "stepOver", "disabled"), // …
           debugBtn(null, "stepIn", "disabled"),
           debugBtn(null, "stepOut", "disabled"),
           debugBtn(null, "disableBreakpoints", "disabled"),
           debugBtn(null, "blackBox", "disabled"),
-          debugBtn(null, "prettyPrint", "disabled") ]
+          debugBtn(null, "prettyPrint", "disabled"),
+          debugBtn(null, "subSettings", "disabled") ]
       ),
       Accordion({
         items: [
