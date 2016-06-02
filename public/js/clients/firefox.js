@@ -87,7 +87,6 @@ let APIClient = {
     const deferred = defer();
 
     currentTabTarget.activeConsole.evaluateJS(script, (result) => {
-      console.log("console.evaluate", result);
       deferred.resolve(result);
     });
 

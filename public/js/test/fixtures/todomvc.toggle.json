@@ -1,0 +1,209 @@
+{
+  "eventListeners": {
+    "activeEventNames": [],
+    "listeners": [],
+    "fetchingListeners": false
+  },
+  "sources": {
+    "sources": {
+      "server2.conn290.source40": {
+        "id": "server2.conn290.source40",
+        "url": "http://localhost:8000/todomvc/js/models/todo.js",
+        "pathname": "/todomvc/js/models/todo.js",
+        "filename": "todo.js"
+      },
+      "server2.conn290.source41": {
+        "id": "server2.conn290.source41",
+        "url": "http://localhost:8000/todomvc/js/collections/todos.js",
+        "pathname": "/todomvc/js/collections/todos.js",
+        "filename": "todos.js"
+      },
+      "server2.conn290.source42": {
+        "id": "server2.conn290.source42",
+        "url": "http://localhost:8000/todomvc/js/views/todo-view.js",
+        "pathname": "/todomvc/js/views/todo-view.js",
+        "filename": "todo-view.js"
+      },
+      "server2.conn290.source43": {
+        "id": "server2.conn290.source43",
+        "url": null,
+        "pathname": "",
+        "filename": ""
+      },
+      "server2.conn290.source44": {
+        "id": "server2.conn290.source44",
+        "url": "http://localhost:8000/todomvc/js/views/app-view.js",
+        "pathname": "/todomvc/js/views/app-view.js",
+        "filename": "app-view.js"
+      },
+      "server2.conn290.source45": {
+        "id": "server2.conn290.source45",
+        "url": null,
+        "pathname": "",
+        "filename": ""
+      },
+      "server2.conn290.source35": {
+        "id": "server2.conn290.source35",
+        "url": "http://localhost:8000/todomvc/bower_components/todomvc-common/base.js",
+        "pathname": "/todomvc/bower_components/todomvc-common/base.js",
+        "filename": "base.js"
+      },
+      "server2.conn290.source46": {
+        "id": "server2.conn290.source46",
+        "url": "http://localhost:8000/todomvc/js/routers/router.js",
+        "pathname": "/todomvc/js/routers/router.js",
+        "filename": "router.js"
+      },
+      "server2.conn290.source36": {
+        "id": "server2.conn290.source36",
+        "url": "http://localhost:8000/todomvc/bower_components/jquery/jquery.js",
+        "pathname": "/todomvc/bower_components/jquery/jquery.js",
+        "filename": "jquery.js"
+      },
+      "server2.conn290.source47": {
+        "id": "server2.conn290.source47",
+        "url": "http://localhost:8000/todomvc/js/app.js",
+        "pathname": "/todomvc/js/app.js",
+        "filename": "app.js"
+      },
+      "server2.conn290.source37": {
+        "id": "server2.conn290.source37",
+        "url": "http://localhost:8000/todomvc/bower_components/underscore/underscore.js",
+        "pathname": "/todomvc/bower_components/underscore/underscore.js",
+        "filename": "underscore.js"
+      },
+      "server2.conn290.source48": {
+        "id": "server2.conn290.source48",
+        "url": "http://localhost:8000/todomvc/",
+        "pathname": "/todomvc/",
+        "filename": ""
+      },
+      "server2.conn290.source38": {
+        "id": "server2.conn290.source38",
+        "url": "http://localhost:8000/todomvc/bower_components/backbone/backbone.js",
+        "pathname": "/todomvc/bower_components/backbone/backbone.js",
+        "filename": "backbone.js"
+      },
+      "server2.conn290.source39": {
+        "id": "server2.conn290.source39",
+        "url": "http://localhost:8000/todomvc/bower_components/backbone.localStorage/backbone.localStorage.js",
+        "pathname": "/todomvc/bower_components/backbone.localStorage/backbone.localStorage.js",
+        "filename": "backbone.localStorage.js"
+      }
+    },
+    "sourceTree": [
+      "root",
+      []
+    ],
+    "selectedSource": {
+      "id": "server2.conn290.source40",
+      "url": "http://localhost:8000/todomvc/js/models/todo.js",
+      "pathname": "/todomvc/js/models/todo.js",
+      "filename": "todo.js"
+    },
+    "sourcesText": {
+      "server2.conn290.source40": {
+        "text": "/*global Backbone */\nvar app = app || {};\n\n(function () {\n\t'use strict';\n\n\t// Todo Model\n\t// ----------\n\n\t// Our basic **Todo** model has `title`, `order`, and `completed` attributes.\n\tapp.Todo = Backbone.Model.extend({\n\t\t// Default attributes for the todo\n\t\t// and ensure that each todo created has `title` and `completed` keys.\n\t\tdefaults: {\n\t\t\ttitle: '',\n\t\t\tcompleted: false\n\t\t},\n\n\t\t// Toggle the `completed` state of this todo item.\n\t\ttoggle: function () {\n\t\t\tthis.save({\n\t\t\t\tcompleted: !this.get('completed')\n\t\t\t});\n\t\t}\n\t});\n})();\n",
+        "contentType": "text/javascript"
+      }
+    }
+  },
+  "breakpoints": {
+    "breakpoints": {
+      "server2.conn290.source40:22": {
+        "location": {
+          "sourceId": "server2.conn290.source40",
+          "line": 22
+        },
+        "condition": null,
+        "disabled": false,
+        "loading": false,
+        "text": "completed: !this.get('completed')",
+        "id": "server2.conn290.50"
+      }
+    }
+  },
+  "asyncRequests": [],
+  "tabs": {
+    "tabs": {
+      "tab1": {
+        "title": "Backbone.js • TodoMVC",
+        "url": "http://localhost:8000/todomvc/",
+        "id": "tab1",
+        "tab": {
+          "actor": "server2.conn290.tab1",
+          "title": "Backbone.js • TodoMVC",
+          "url": "http://localhost:8000/todomvc/",
+          "outerWindowID": 7,
+          "consoleActor": "server2.conn290.consoleActor9",
+          "inspectorActor": "server2.conn290.inspectorActor10",
+          "callWatcherActor": "server2.conn290.callWatcherActor11",
+          "canvasActor": "server2.conn290.canvasActor12",
+          "webglActor": "server2.conn290.webglActor13",
+          "webaudioActor": "server2.conn290.webaudioActor14",
+          "styleSheetsActor": "server2.conn290.styleSheetsActor15",
+          "styleEditorActor": "server2.conn290.styleEditorActor16",
+          "storageActor": "server2.conn290.storageActor17",
+          "gcliActor": "server2.conn290.gcliActor18",
+          "memoryActor": "server2.conn290.memoryActor19",
+          "memprofActor": "server2.conn290.memprofActor20",
+          "framerateActor": "server2.conn290.framerateActor21",
+          "eventLoopLagActor": "server2.conn290.eventLoopLagActor22",
+          "reflowActor": "server2.conn290.reflowActor23",
+          "cssUsageActor": "server2.conn290.cssUsageActor24",
+          "monitorActor": "server2.conn290.monitorActor25",
+          "timelineActor": "server2.conn290.timelineActor26",
+          "directorManagerActor": "server2.conn290.directorManagerActor27",
+          "profilerActor": "server2.conn290.profilerActor28",
+          "performanceActor": "server2.conn290.performanceActor29",
+          "animationsActor": "server2.conn290.animationsActor30",
+          "promisesActor": "server2.conn290.promisesActor31",
+          "performanceEntriesActor": "server2.conn290.performanceEntriesActor32"
+        },
+        "browser": "firefox"
+      }
+    },
+    "selectedTab": {
+      "title": "Backbone.js • TodoMVC",
+      "url": "http://localhost:8000/todomvc/",
+      "id": "tab1",
+      "tab": {
+        "actor": "server2.conn290.tab1",
+        "title": "Backbone.js • TodoMVC",
+        "url": "http://localhost:8000/todomvc/",
+        "outerWindowID": 7,
+        "consoleActor": "server2.conn290.consoleActor9",
+        "inspectorActor": "server2.conn290.inspectorActor10",
+        "callWatcherActor": "server2.conn290.callWatcherActor11",
+        "canvasActor": "server2.conn290.canvasActor12",
+        "webglActor": "server2.conn290.webglActor13",
+        "webaudioActor": "server2.conn290.webaudioActor14",
+        "styleSheetsActor": "server2.conn290.styleSheetsActor15",
+        "styleEditorActor": "server2.conn290.styleEditorActor16",
+        "storageActor": "server2.conn290.storageActor17",
+        "gcliActor": "server2.conn290.gcliActor18",
+        "memoryActor": "server2.conn290.memoryActor19",
+        "memprofActor": "server2.conn290.memprofActor20",
+        "framerateActor": "server2.conn290.framerateActor21",
+        "eventLoopLagActor": "server2.conn290.eventLoopLagActor22",
+        "reflowActor": "server2.conn290.reflowActor23",
+        "cssUsageActor": "server2.conn290.cssUsageActor24",
+        "monitorActor": "server2.conn290.monitorActor25",
+        "timelineActor": "server2.conn290.timelineActor26",
+        "directorManagerActor": "server2.conn290.directorManagerActor27",
+        "profilerActor": "server2.conn290.profilerActor28",
+        "performanceActor": "server2.conn290.performanceActor29",
+        "animationsActor": "server2.conn290.animationsActor30",
+        "promisesActor": "server2.conn290.promisesActor31",
+        "performanceEntriesActor": "server2.conn290.performanceEntriesActor32"
+      },
+      "browser": "firefox"
+    }
+  },
+  "pause": {
+    "pause": null,
+    "isWaitingOnBreak": false,
+    "frames": null,
+    "selectedFrame": null
+  }
+}
