@@ -13,11 +13,23 @@ This is a prototype debugger written without any XUL and based on React and Redu
 ![screen shot 2016-05-16 at 1 24 29 pm](https://cloud.githubusercontent.com/assets/254562/15297643/34575ca6-1b69-11e6-9703-8ba0a029d4f9.png)
 
 #### Running tests
-* `npm test` - Run unit tests
-* `npm run mocha-server` - Run unit tests in the browser
-* `cypress run` - Run integration tests
-* `cypress open` - Run integration tests in the browser
+##### Unit Tests
+* `npm test` - Run tests headlessly
+* `npm run mocha-server` - Run tests in the browser
+
+##### Integration tests
+First start Firefox, `npm run start-firefox`, then run the tests with cypress.
+* `cypress run` - Run tests headlessly
+* `cypress open` - Run tests in the browser
+
+**NOTE**: If you have not installed cypress, you might be prompted to install it with `cypress install`.
+
+##### Linting
 * `npm run lint` - Run CSS and JS linter
+* `npm run lint-css` - Run CSS linter
+* `npm run lint-js` - Run JS linter
+
+##### Storybook
 * `npm run storybook` - Open Storybook
 
 #### Advanced :see_no_evil:
