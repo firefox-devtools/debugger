@@ -2,7 +2,13 @@
 
 function Debuggee() {
   function $(selector) {
-    return document.querySelector(selector);
+    const element = document.querySelector(selector);
+    console.log("$", selector, element);
+
+    if (!element) {
+      throw new Error("Element not found, try changing the selector");
+    }
+    return element;
   }
 
   function mouseEvent(eventType) {
@@ -69,15 +75,20 @@ function Debuggee() {
   }
 
   function click(selector) {
-    $(selector).dispatchEvent(mouseEvent("click"));
+    const element = $(selector);
+    console.log("click", selector);
+    element.dispatchEvent(mouseEvent("click"));
   }
 
   function dblclick(selector) {
-    $(selector).dispatchEvent(mouseEvent("dblclick"));
+    const element = $(selector);
+    console.log("dblclick", selector);
+    element.dispatchEvent(mouseEvent("dblclick"));
   }
 
   function type(selector, text) {
     const element = $(selector);
+    console.log("type", selector, text);
     element.select();
 
     if (isSpecialCharacter(text)) {

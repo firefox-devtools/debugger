@@ -85,14 +85,12 @@ let APIClient = {
 
   evaluate(script) {
     return runtimeAgent.evaluate(script, (_, result) => {
-      console.log("console.evalute", result);
       return result;
     });
   },
 
   navigate(url) {
     return pageAgent.navigate(url, (_, result) => {
-      console.log("page.navigate", result);
       return result;
     });
   }
