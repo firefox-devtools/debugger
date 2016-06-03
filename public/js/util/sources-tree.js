@@ -57,6 +57,12 @@ function getURL(source) {
   } else if (urlObj.protocol === "javascript:") {
     // Ignore `javascript:` URLs for now
     return null;
+  } else if(urlObj.protocol === "about:") {
+    // An about page is a special case
+    return {
+      path: '/',
+      group: url
+    }
   }
 
   return {
