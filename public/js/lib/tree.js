@@ -423,7 +423,8 @@ const Tree = module.exports = createClass({
    *        The item to be focused, or undefined to focus no item.
    */
   _focus(index, item) {
-    if (item !== undefined) {
+    if (item !== undefined &&
+        this.refs.tree.scrollTo) {
       const itemStartPosition = index * this.props.itemHeight;
       const itemEndPosition = (index + 1) * this.props.itemHeight;
 

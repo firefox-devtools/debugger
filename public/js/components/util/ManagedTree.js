@@ -28,7 +28,7 @@ let ManagedTree = React.createClass({
   },
 
   focusItem(item) {
-    if (this.state.focused !== item) {
+    if (this.state.focusedItem !== item) {
       this.setState({ focusedItem: item });
 
       if (this.props.onFocus) {
