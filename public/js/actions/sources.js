@@ -12,16 +12,34 @@ const { getSource, getSourceText } = require("../selectors");
 const constants = require("../constants");
 const Prefs = require("../prefs");
 
-// delay is in ms
-const FETCH_SOURCE_RESPONSE_DELAY = 200;
+/**
+ * Throttles source dispatching to reduce rendering churn.
+ */
+let newSources = [];
+let newSourceTimeout;
+function queueSourcesDispatch(dispatch) {
+  if (!newSourceTimeout) {
+    // Even just batching every 10ms works because we just want to
+    // group sources that come in at once.
+    newSourceTimeout = setTimeout(() => {
+      dispatch({ type: constants.ADD_SOURCES,
+                 sources: newSources });
+      newSources = [];
+      newSourceTimeout = null;
+    }, 10);
+  }
+}
 
 /**
  * Handler for the debugger client's unsolicited newSource notification.
  */
 function newSource(source) {
-  return {
-    type: constants.ADD_SOURCE,
-    source: source
+  return ({ dispatch }) => {
+    // We don't immediately dispatch the source because several
+    // thousand may come in at the same time and we want to batch
+    // rendering.
+    newSources.push(source);
+    queueSourcesDispatch(dispatch);
   };
 }
 
@@ -160,6 +178,9 @@ function loadSourceText(source) {
     });
   };
 }
+
+// delay is in ms
+const FETCH_SOURCE_RESPONSE_DELAY = 200;
 
 /**
  * Starts fetching all the sources, silently.
