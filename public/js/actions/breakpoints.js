@@ -48,7 +48,7 @@ function addBreakpoint(location, { condition, getTextForLine } = {}) {
         // If this breakpoint is being re-enabled, it already has a
         // text snippet.
         let text = bp.get("text");
-        if(!text) {
+        if (!text) {
           text = getTextForLine ? getTextForLine(actualLocation.line) : "";
         }
 
