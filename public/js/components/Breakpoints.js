@@ -53,7 +53,7 @@ const Breakpoints = React.createClass({
   },
 
   renderBreakpoint(breakpoint) {
-    const snippet = breakpoint.get("text");
+    const snippet = breakpoint.get("text") || "";
     const locationId = breakpoint.get("locationId");
     const line = breakpoint.getIn(["location", "line"]);
     const isCurrentlyPaused = breakpoint.get("isCurrentlyPaused");

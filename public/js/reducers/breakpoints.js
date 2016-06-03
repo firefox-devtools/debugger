@@ -40,7 +40,6 @@ function update(state = initialState, action) {
         state = state.setIn(["breakpoints", id], bp.merge({
           disabled: false,
           loading: true,
-          text: "",
           // We want to do an OR here, but we can't because we need
           // empty strings to be truthy, i.e. an empty string is a valid
           // condition.

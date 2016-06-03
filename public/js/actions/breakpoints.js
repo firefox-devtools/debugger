@@ -27,7 +27,7 @@ function _getOrCreateBreakpoint(state, location, condition) {
   return getBreakpoint(state, location) || fromJS({ location, condition });
 }
 
-function addBreakpoint(location, { condition, getTextForLine }) {
+function addBreakpoint(location, { condition, getTextForLine } = {}) {
   return ({ dispatch, getState, client }) => {
     if (_breakpointExists(getState(), location)) {
       return promise.resolve();
@@ -45,11 +45,14 @@ function addBreakpoint(location, { condition, getTextForLine }) {
           bp.get("condition")
         );
 
-        return {
-          id: id,
-          actualLocation: actualLocation,
-          text: getTextForLine ? getTextForLine(actualLocation.line) : ""
-        };
+        // If this breakpoint is being re-enabled, it already has a
+        // text snippet.
+        let text = bp.get("text");
+        if(!text) {
+          text = getTextForLine ? getTextForLine(actualLocation.line) : "";
+        }
+
+        return { id, actualLocation, text };
       })
     });
   };
