@@ -8,7 +8,6 @@ const { Provider } = require("react-redux");
 const DevToolsUtils = require("ff-devtools-libs/shared/DevToolsUtils");
 const { AppConstants } = require("ff-devtools-libs/sham/appconstants");
 const { isEnabled } = require("./configs/feature");
-const { getTabs } = require("./selectors");
 
 // Set various flags before requiring app code.
 if (isEnabled("clientLogging")) {
@@ -45,13 +44,14 @@ function getTargetFromQuery() {
   if (window.location.href.indexOf("?ws") !== -1) {
     const m = window.location.href.match(/\?ws=([^&#]*)/);
     return { type: "node", param: m[1] };
-  } else if(window.location.href.indexOf("?firefox-tab") !== -1) {
+  } else if (window.location.href.indexOf("?firefox-tab") !== -1) {
     const m = window.location.href.match(/\?firefox-tab=([^&#]*)/);
     return { type: "firefox", param: m[1] };
-  } else if(window.location.href.indexOf("?chrome-tab") !== -1) {
+  } else if (window.location.href.indexOf("?chrome-tab") !== -1) {
     const m = window.location.href.match(/\?chrome-tab=([^&#]*)/);
     return { type: "chrome", param: m[1] };
   }
+  return null;
 }
 
 function renderApp() {

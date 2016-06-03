@@ -3,7 +3,6 @@
 const { Task } = require("ff-devtools-libs/sham/task");
 const firefox = require("./firefox");
 const chrome = require("./chrome");
-const { getSelectedTab } = require("../selectors");
 
 let clientType;
 function getClient() {
@@ -17,7 +16,7 @@ function getClient() {
 function startDebugging(targetEnv, tabId, actions) {
   return Task.spawn(function* () {
     const tabs = yield targetEnv.connectClient();
-    const tab = tabs.find(tab => tab.id.indexOf(tabId) !== -1);
+    const tab = tabs.find(t => t.id.indexOf(tabId) !== -1);
     yield targetEnv.connectTab(tab.tab);
     targetEnv.initPage(actions);
 
