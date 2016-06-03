@@ -109,7 +109,7 @@ function addToTree(tree, source) {
   // Overwrite the contents of the final node to store the source
   // there.
   if (isDir) {
-    subtree.contents = [createNode("(index)", source.get("url"), source)];
+    subtree.contents.unshift(createNode("(index)", source.get("url"), source));
   } else {
     subtree.contents = source;
   }
