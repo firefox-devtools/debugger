@@ -41,14 +41,13 @@ function getURL(source) {
     return null;
   }
 
-  let urlObj = new URL.parse(url);
+  let urlObj = URL.parse(url);
 
-  if(!urlObj.protocol && urlObj.pathname[0] === '/') {
+  if (!urlObj.protocol && urlObj.pathname[0] === "/") {
     // If it's just a URL like "/foo/bar.js", resolve it to the file
     // protocol
     urlObj.protocol = "file:";
-  }
-  else if (!urlObj.host && !urlObj.protocol) {
+  } else if (!urlObj.host && !urlObj.protocol) {
     // We don't know what group to put this under, and it's a script
     // with a weird URL. Just group them all under an anonymous group.
     return {

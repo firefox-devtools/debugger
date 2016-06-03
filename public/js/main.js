@@ -21,17 +21,12 @@ if (isEnabled("development")) {
 
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
-const {
-  setThreadClient, setTabTarget, initPage
-} = require("./clients/firefox");
-const {
-  connectWebsocket: connectChromeWebsocket,
-  initPage: initChromePage
-} = require("./clients/chrome");
+const { getClient, connectClients, startDebugging } = require("./clients");
+const firefox = require("./clients/firefox");
+const chrome = require("./clients/chrome");
 
-const { getClient, connectClients, debugPage } = require("./clients");
-
-const TabList = React.createFactory(require("./components/TabList"));
+const Tabs = React.createFactory(require("./components/Tabs"));
+const App = React.createFactory(require("./components/App"));
 
 const createStore = configureStore({
   log: false,
@@ -46,48 +41,36 @@ const actions = bindActionCreators(require("./actions"), store.dispatch);
 // global for debugging purposes only!
 window.store = store;
 
-/**
- * Check to see if the url hash has a selected tab
- * e.g. #tab=child2
- */
-function hasSelectedTab() {
-  return window.location.hash.includes("tab");
-}
-
-/**
- * get the selected tab from the url hash
- * e.g. #tab=child2
- *
- * tabs are keyed by their child id,
- * this is because the actor connection id increments every refresh and
- * tab id is always 1.
- *
- */
-function getTabFromUri(state) {
-  const tabs = getTabs(state);
-  const id = window.location.hash.split("=")[1];
-  return tabs.get(id);
-}
-
-function renderNotConnected() {
-  if (!getTabs(store.getState()).isEmpty()) {
-    return;
+function getTargetFromQuery() {
+  if (window.location.href.indexOf("?ws") !== -1) {
+    const m = window.location.href.match(/\?ws=([^&#]*)/);
+    return { type: "node", param: m[1] };
+  } else if(window.location.href.indexOf("?firefox-tab") !== -1) {
+    const m = window.location.href.match(/\?firefox-tab=([^&#]*)/);
+    return { type: "firefox", param: m[1] };
+  } else if(window.location.href.indexOf("?chrome-tab") !== -1) {
+    const m = window.location.href.match(/\?chrome-tab=([^&#]*)/);
+    return { type: "chrome", param: m[1] };
   }
+}
 
+function renderApp() {
   ReactDOM.render(
-    React.DOM.div({ className: "not-connected-message" },
-      "Not connected to Firefox"
+    React.createElement(
+      Provider,
+      { store },
+      App()
     ),
     document.querySelector("#mount")
   );
 }
 
-function renderToolbox() {
+function renderTabs() {
   ReactDOM.render(
     React.createElement(
       Provider,
       { store },
-      TabList()
+      Tabs()
     ),
     document.querySelector("#mount")
   );
@@ -95,45 +78,31 @@ function renderToolbox() {
 
 window.injectDebuggee = require("./test/utils/debuggee");
 
-if(window.location.href.indexOf('?ws') !== -1) {
-  const m = window.location.href.match(/\?ws=([^&#]*)/);
-  const url = m[1];
+const connTarget = getTargetFromQuery();
 
-  actions.newTabs([{ actor: "tab1", browser: "chrome" }]);
-  actions.selectTab({ tabActor: "tab1" }, true);
-
-  connectChromeWebsocket('ws://' + url).then(() => {
-    initChromePage(actions);
-    renderToolbox();
-  });
+if (connTarget) {
+  if (connTarget.type === "node") {
+    chrome.connectWebsocket("ws://" + connTarget.param).then(() => {
+      chrome.initPage(actions);
+      renderApp();
+    });
+  } else if (connTarget.type === "chrome") {
+    startDebugging(chrome, connTarget.param, actions).then(renderApp);
+  } else if (connTarget.type === "firefox") {
+    startDebugging(firefox, connTarget.param, actions).then(renderApp);
+  }
 } else if (process.env.NODE_ENV === "DEVTOOLS_PANEL") {
-  // The toolbox already provides the tab to debug. For now, just
-  // provide a fake tab so it will show the debugger. We only use it
-  // when connecting which we don't do because the toolbox has already
-  // done all that.
-  actions.newTabs([{ actor: "tab1" }]);
-  actions.selectTab({ tabActor: "tab1" });
-
+  // The toolbox already provides the tab to debug.
   module.exports = {
-    renderToolbox,
-    setThreadClient,
-    setTabTarget,
+    renderApp,
+    setThreadClient: firefox.setThreadClient,
+    setTabTarget: firefox.setTabTarget,
+    initPage: firefox.initPage,
     getBoundActions: () => actions,
-    initPage
   };
 } else {
-  connectClients().then((tabs) => {
+  connectClients().then(tabs => {
     actions.newTabs(tabs);
-    renderNotConnected();
-
-    // If there's a pre-selected tab, connect to it and load the
-    // sources. otherwise, just show the toolbox.
-    if (hasSelectedTab()) {
-      const selectedTab = getTabFromUri(store.getState());
-      debugPage(selectedTab, actions).then(renderToolbox);
-      actions.selectTab({ id: selectedTab.get("id") });
-    } else {
-      renderToolbox();
-    }
+    renderTabs();
   });
 }

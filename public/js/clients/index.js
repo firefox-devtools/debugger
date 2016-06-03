@@ -5,26 +5,24 @@ const firefox = require("./firefox");
 const chrome = require("./chrome");
 const { getSelectedTab } = require("../selectors");
 
-function getClient(state) {
-  if (getSelectedTab(state).get("browser") === "chrome") {
+let clientType;
+function getClient() {
+  if (clientType === "chrome") {
     return chrome.getAPIClient();
   }
 
   return firefox.getAPIClient();
 }
 
-function debugPage(tab, actions) {
+function startDebugging(targetEnv, tabId, actions) {
   return Task.spawn(function* () {
-    const isFirefox = tab.get("browser") == "firefox";
-    if (isFirefox) {
-      yield firefox.connectTab(tab.get("tab"));
-      firefox.initPage(actions);
-      window.apiClient = firefox.getAPIClient();
-    } else {
-      yield chrome.connectTab(tab.get("tab"));
-      chrome.initPage(actions);
-      window.apiClient = chrome.getAPIClient();
-    }
+    const tabs = yield targetEnv.connectClient();
+    const tab = tabs.find(tab => tab.id.indexOf(tabId) !== -1);
+    yield targetEnv.connectTab(tab.tab);
+    targetEnv.initPage(actions);
+
+    clientType = targetEnv === firefox ? "firefox" : "chrome";
+    window.apiClient = targetEnv.getAPIClient();
   });
 }
 
@@ -41,5 +39,5 @@ function connectClients() {
 module.exports = {
   getClient,
   connectClients,
-  debugPage
+  startDebugging
 };

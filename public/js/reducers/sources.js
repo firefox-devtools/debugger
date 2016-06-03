@@ -23,7 +23,7 @@ function update(state = initialState, action) {
       return state.mergeIn(
         ["sources"],
         Map(action.sources.map(source => {
-          return [source.id, fromJS(_updateSource(source))];
+          return [source.id, fromJS(source)];
         }))
       );
 
