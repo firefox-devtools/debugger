@@ -2,18 +2,19 @@
   height: 30px;
   width: 100%;
   border-bottom: 1px solid var(--theme-gray);
+  overflow: hidden;
 }
 
 .source-tab {
   border: 1px solid var(--theme-gray);
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  padding: 5px 20px 5px 10px;
+  padding: 2px 20px 2px 10px;
   height: 30px;
   line-height: 20px;
   color: var(--theme-comment);
   font-size: 0.7em;
-  margin: 10px 0 0 10px;
+  margin: 6px 0 0 10px;
   display: inline-block;
   border-bottom: none;
   position: relative;
@@ -22,5 +23,5 @@
 .source-tab .close-btn {
   position: absolute;
   right: 7px;
-  top: 4px;
+  top: 1px;
 }
