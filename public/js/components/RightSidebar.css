@@ -34,10 +34,10 @@
 .accordion ._content {
   font-size: 0.75em;
   color: var(--theme-body-color);
-  padding: 5px;
 }
 
 .accordion .pane-info {
   font-style: italic;
   text-align: center;
+  padding: 0.5em;
 }

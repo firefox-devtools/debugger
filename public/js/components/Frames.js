@@ -6,18 +6,22 @@ const { div } = dom;
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
+const { endTruncateStr } = require("../util/utils");
 const { basename } = require("../util/path");
 const { getFrames, getSelectedFrame, getSource } = require("../selectors");
 
 require("./Frames.css");
 
 function renderFrameTitle(frame) {
-  return div({ className: "title" }, frame.displayName);
+  return div({ className: "title" }, endTruncateStr(frame.displayName, 40));
 }
 
 function renderFrameLocation(frame) {
-  return div({ className: "location" },
-             frame.source.url ? basename(frame.source.url) : "");
+  const url = frame.source.url ? basename(frame.source.url) : "";
+  return div(
+    { className: "location" },
+    endTruncateStr(url, 30)
+  );
 }
 
 function renderFrame(frame, selectedFrame, selectFrame) {
@@ -29,8 +33,8 @@ function renderFrame(frame, selectedFrame, selectFrame) {
     { key: frame.id,
       className: `frame ${selectedClass}`,
       onClick: () => selectFrame(frame) },
-    renderFrameLocation(frame),
-    renderFrameTitle(frame)
+    renderFrameTitle(frame),
+    renderFrameLocation(frame)
   );
 }
 
