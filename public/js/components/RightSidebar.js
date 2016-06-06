@@ -43,7 +43,7 @@ function RightSidebar({ resume, command, breakOnNext,
         [ isWaitingOnBreak
             ? debugBtn(null, "pause", "disabled")
             : debugBtn(breakOnNext, "pause"),
-          debugBtn(null, "stepOver", "disabled"), // …
+          debugBtn(null, "stepOver", "disabled"),
           debugBtn(null, "stepIn", "disabled"),
           debugBtn(null, "stepOut", "disabled"),
           debugBtn(null, "disableBreakpoints", "disabled"),
