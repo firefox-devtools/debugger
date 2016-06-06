@@ -41,6 +41,10 @@ let APIClient = {
     });
   },
 
+  breakOnNext() {
+    return currentThreadClient.breakOnNext();
+  },
+
   getSources() {
     return currentThreadClient.getSources();
   },

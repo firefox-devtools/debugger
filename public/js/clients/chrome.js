@@ -43,6 +43,10 @@ let APIClient = {
     return debuggerAgent.stepOut();
   },
 
+  breakOnNext() {
+    return debuggerAgent.pause();
+  },
+
   sourceContents(sourceId) {
     return debuggerAgent.getScriptSource(sourceId, (err, contents) => ({
       source: contents,
