@@ -5,7 +5,6 @@ const { DOM: dom } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getPause, getIsWaitingOnBreak } = require("../selectors");
-const Isvg = React.createFactory(require("react-inlinesvg"));
 
 const actions = require("../actions");
 const Breakpoints = React.createFactory(require("./Breakpoints"));
@@ -14,12 +13,12 @@ const Frames = React.createFactory(require("./Frames"));
 const Accordion = React.createFactory(require("./Accordion"));
 require("./RightSidebar.css");
 
-function debugBtn(onClick, type) {
-  const className = type;
+function debugBtn(onClick, type, className) {
+  className = `${type} ${className}`;
 
   return dom.span(
     { onClick, className, key: type },
-    Isvg({ src: `images/${type}.svg` })
+    dom.img({ src: `images/${type}.svg` })
   );
 }
 
@@ -45,12 +44,13 @@ function RightSidebar({ resume, command, breakOnNext,
         ],
 
         debugBtn(() => command({ type: "disableBreakpoints" }),
-                 "disableBreakpoints",
-                 "disabled"),
+                 "disableBreakpoints", "disabled"),
         debugBtn(() => command({ type: "blackBox" }), "blackBox", "disabled"),
-        debugBtn(() => command({ type: "prettyPrint" }), "prettyPrint", "disabled"),
+        debugBtn(() => command({ type: "prettyPrint" }),
+                 "prettyPrint", "disabled"),
         debugBtn(() => command({ type: "subSettings" }), "subSettings")
       ),
+
       Accordion({
         items: [
           { header: "Breakpoints",

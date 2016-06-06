@@ -31,11 +31,6 @@
   float: right;
 }
 
-.command-bar .isvg.loading::after {
-  /* Make sure the SVG has some size while it's loading */
-  content: "\007C\00a0\00a0";
-}
-
 .accordion ._content {
   font-size: 0.75em;
   color: var(--theme-body-color);
