@@ -12,7 +12,7 @@ const { Set } = require("immutable");
 const actions = require("../actions");
 const { getSelectedSource, getSources } = require("../selectors");
 const {
-  createNode, nodeHasChildren, createParentMap, addToTree
+  createNode, nodeHasChildren, createParentMap, addToTree, collapseTree
 } = require("../util/sources-tree.js");
 
 require("./Sources.css");
@@ -72,13 +72,15 @@ let SourcesTree = React.createClass({
   displayName: "SourcesTree",
 
   makeInitialState(props) {
-    const tree = createNode("root", "", []);
+    const uncollapsedTree = createNode("root", "", []);
     for (let source of props.sources.valueSeq()) {
-      addToTree(tree, source);
+      addToTree(uncollapsedTree, source);
     }
+    const sourceTree = collapseTree(uncollapsedTree);
 
-    return { sourceTree: tree,
-             parentMap: createParentMap(tree),
+    return { uncollapsedTree,
+             sourceTree,
+             parentMap: createParentMap(sourceTree),
              focusedItem: null };
   },
 
@@ -97,13 +99,18 @@ let SourcesTree = React.createClass({
       const prev = Set(this.props.sources.valueSeq());
       const newSet = next.subtract(prev);
 
-      const tree = this.state.sourceTree;
+      const uncollapsedTree = this.state.uncollapsedTree;
       for (let source of newSet) {
-        addToTree(tree, source);
+        addToTree(uncollapsedTree, source);
       }
 
-      this.setState({ sourceTree: tree,
-                      parentMap: createParentMap(tree) });
+      const sourceTree = newSet.size > 0
+        ? collapseTree(uncollapsedTree)
+        : this.state.sourceTree;
+
+      this.setState({ uncollapsedTree,
+                      sourceTree,
+                      parentMap: createParentMap(sourceTree) });
     }
   },
 
