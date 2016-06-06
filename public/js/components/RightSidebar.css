@@ -11,7 +11,7 @@
 .command-bar > span {
   cursor: pointer;
   margin-right: 0.7em;
-  width: 1.8em;
+  width: 1em;
   height: 1.1em;
   display: inline-block;
   text-align: center;
@@ -21,6 +21,10 @@
 .command-bar > span.disabled {
   opacity: 0.3;
   cursor: default;
+}
+
+.subSettings {
+  float: right;
 }
 
 .command-bar .isvg.loading::after {
