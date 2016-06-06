@@ -45,8 +45,24 @@ function promisify(context, method, ...args) {
   });
 }
 
+function truncateStr(str, size) {
+  if (str.length > size) {
+    return str.slice(0, size) + "...";
+  }
+  return str;
+}
+
+function endTruncateStr(str, size) {
+  if (str.length > size) {
+    return "..." + str.slice(str.length - size);
+  }
+  return str;
+}
+
 module.exports = {
   asPaused,
   handleError,
-  promisify
+  promisify,
+  truncateStr,
+  endTruncateStr
 };

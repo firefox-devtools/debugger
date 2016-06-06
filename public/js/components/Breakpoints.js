@@ -3,11 +3,12 @@
 const React = require("react");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
+const ImPropTypes = require("react-immutable-proptypes");
+const Isvg = React.createFactory(require("react-inlinesvg"));
 const actions = require("../actions");
 const { getSource, getPause, getBreakpoints, makeLocationId } = require("../selectors");
-const ImPropTypes = require("react-immutable-proptypes");
+const { truncateStr } = require("../util/utils");
 const { DOM: dom, PropTypes } = React;
-const Isvg = React.createFactory(require("react-inlinesvg"));
 
 require("./Breakpoints.css");
 
@@ -53,7 +54,7 @@ const Breakpoints = React.createClass({
   },
 
   renderBreakpoint(breakpoint) {
-    const snippet = breakpoint.get("text") || "";
+    const snippet = truncateStr(breakpoint.get("text") || "", 30);
     const locationId = breakpoint.get("locationId");
     const line = breakpoint.getIn(["location", "line"]);
     const isCurrentlyPaused = breakpoint.get("isCurrentlyPaused");

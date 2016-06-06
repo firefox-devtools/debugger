@@ -4,9 +4,10 @@ const React = require("react");
 const { DOM: dom } = React;
 const { connect } = require("react-redux");
 const Isvg = React.createFactory(require("react-inlinesvg"));
+const { getSelectedSource } = require("../selectors");
+const { endTruncateStr } = require("../util/utils");
 
 require("./SourceTabs.css");
-const { getSelectedSource } = require("../selectors");
 
 /**
  * TODO: this is a placeholder function
@@ -22,8 +23,7 @@ function getFilename(url) {
     name = m[1];
   }
 
-  const ellipsis = (name.length > 50 ? "..." : "");
-  return ellipsis + name.substring(name.length - 50);
+  return endTruncateStr(name, 50);
 }
 
 function sourceTab(selectedSource) {
