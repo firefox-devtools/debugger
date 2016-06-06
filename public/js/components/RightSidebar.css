@@ -23,6 +23,10 @@
   cursor: default;
 }
 
+.command-bar .stepOut {
+  margin-right: 2em;
+}
+
 .subSettings {
   float: right;
 }
