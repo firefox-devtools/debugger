@@ -9,6 +9,7 @@
     "test": "mocha --compilers js:babel-register public/js/**/tests/*",
     "test-paths": "mocha --compilers js:babel-register",
     "mocha-server": "node bin/mocha-server.js",
+    "cypress-server": "node bin/cypress-server.js",
     "test-karma": "./node_modules/.bin/karma start --single-run",
     "storybook": "start-storybook -p 9001 -s public",
     "start-firefox": "node bin/firefox-driver --start",
