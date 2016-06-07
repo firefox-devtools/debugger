@@ -2,11 +2,6 @@
 
 const Immutable = require("immutable");
 
-function isPlainObj(value) {
-  return value && (value.constructor === Object ||
-                   value.constructor === undefined);
-}
-
 // When our app state is fully types, we should be able to get rid of
 // this function. This is only temporarily necessary to support
 // converting typed objects to immutable.js, which usually happens in
@@ -14,9 +9,6 @@ function isPlainObj(value) {
 function fromJS(value) {
   if (Array.isArray(value)) {
     return Immutable.Seq(value).map(fromJS).toList();
-  }
-  if (isPlainObj(value)) {
-    return Immutable.Seq(value).map(fromJS).toMap();
   }
   if (value && value.constructor.meta) {
     // This adds support for tcomb objects which are native JS objects
@@ -30,7 +22,18 @@ function fromJS(value) {
       return Immutable.Seq(value).map(fromJS).toList();
     }
   }
-  return value;
+
+  // If it's a primitive type, just return the value. Note `==` check
+  // for null, which is intentionally used to match either `null` or
+  // `undefined`.
+  if (value == null || (typeof value !== "object")) {
+    return value;
+  }
+
+  // Otherwise, treat it like an object. We can't reliably detect if
+  // it's a plain object because we might be objects from other JS
+  // contexts so `Object !== Object`.
+  return Immutable.Seq(value).map(fromJS).toMap();
 }
 
 module.exports = fromJS;
