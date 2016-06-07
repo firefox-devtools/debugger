@@ -32,6 +32,7 @@
   "env": {
       "es6": true,
       "browser": true,
+      "mocha": true
   },
   "rules": {
     // These are the rules that have been configured so far to match the
