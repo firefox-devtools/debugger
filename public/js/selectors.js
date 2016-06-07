@@ -59,8 +59,8 @@ function getSelectedFrame(state) {
   return state.pause.get("selectedFrame");
 }
 
-function getSource(state, actor) {
-  return getSources(state).get(actor);
+function getSource(state, id) {
+  return getSources(state).get(id);
 }
 
 function getSourceCount(state) {
@@ -71,12 +71,12 @@ function getSourceByURL(state, url) {
   return getSources(state).find(source => source.get("url") == url);
 }
 
-function getSourceByActor(state, actor) {
-  return getSources(state).find(source => source.get("id") == actor);
+function getSourceById(state, id) {
+  return getSources(state).find(source => source.get("id") == id);
 }
 
-function getSourceText(state, actor) {
-  return getSourcesText(state).get(actor);
+function getSourceText(state, id) {
+  return getSourcesText(state).get(id);
 }
 
 /**
@@ -91,7 +91,7 @@ module.exports = {
   getSources,
   getSourceCount,
   getSourceByURL,
-  getSourceByActor,
+  getSourceById,
   getSelectedSource,
   getSelectedSourceOpts,
   getSourceText,
