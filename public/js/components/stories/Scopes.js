@@ -11,8 +11,8 @@ const Scopes = React.createFactory(require("../Scopes"));
 
 const fixtures = require("../../test/fixtures");
 
-function pauseData(fixture) {
-  return fixtures[fixture].pause.pause;
+function getData(fixture) {
+  return fixtures[fixture];
 }
 
 storiesOf("Scopes", module)
@@ -21,14 +21,22 @@ storiesOf("Scopes", module)
     return renderContainer(store, Scopes);
   })
   .add("TodoMVC Event Handler", () => {
+    const data = getData("todomvcUpdateOnEnter");
     const store = createStore({
-      pause: fromJS({ pause: pauseData("todomvcUpdateOnEnter") })
+      pause: fromJS({
+        pause: data.pause.pause,
+        loadedObjects: data.pause.loadedObjects
+      })
     });
     return renderContainer(store, Scopes);
   })
   .add("Nested Closures", () => {
+    const data = getData("pythagorean");
     const store = createStore({
-      pause: fromJS({ pause: pauseData("pythagorean") })
+      pause: fromJS({
+        pause: data.pause.pause,
+        loadedObjects: data.pause.loadedObjects
+      })
     });
     return renderContainer(store, Scopes);
   });
