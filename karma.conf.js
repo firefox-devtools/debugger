@@ -21,7 +21,7 @@ module.exports = function(config) {
     basePath: "",
     frameworks: ["mocha"],
     files: [
-      "./public/js/**/tests/*"
+      "./public/js/**/tests/*.js"
     ],
     exclude: [],
     reporters: ["progress"],

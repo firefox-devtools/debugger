@@ -10,7 +10,9 @@ const { endTruncateStr } = require("../util/utils");
 const { basename } = require("../util/path");
 const { getFrames, getSelectedFrame, getSource } = require("../selectors");
 
-require("./Frames.css");
+if (typeof window == "object") {
+  require("./Frames.css");
+}
 
 function renderFrameTitle(frame) {
   return div({ className: "title" }, endTruncateStr(frame.displayName, 40));
