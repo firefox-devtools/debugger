@@ -2,12 +2,12 @@
 
 const todomvcUpdateOnEnter = require("./todomvc.updateOnEnter.json");
 const pythagorean = require("./pythagorean.json");
-const todomvcToggle = require("./todomvc.toggle.json");
+const todomvc = require("./todomvc.json");
 const foobar = require("./foobar.json");
 
 module.exports = {
   foobar,
-  todomvcToggle,
+  todomvc,
   todomvcUpdateOnEnter,
   pythagorean
 };

@@ -2,8 +2,9 @@
 
 const { DOM: dom } = require("react");
 
-require("./Arrow.css");
-
+if (typeof window == "object") {
+  require("./Arrow.css");
+}
 // This is inline because it's much faster. We need to revisit how we
 // load SVGs, at least for components that render them several times.
 let Arrow = props => {
