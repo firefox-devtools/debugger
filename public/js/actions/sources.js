@@ -3,10 +3,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
-const promise = require("ff-devtools-libs/sham/promise");
-const { PROMISE } = require("ff-devtools-libs/client/shared/redux/middleware/promise");
-const { Task } = require("ff-devtools-libs/sham/task");
-const SourceUtils = require("ff-devtools-libs/client/shared/source-utils");
+const defer = require("devtools/shared/defer");
+const { PROMISE } = require("devtools-sham/client/shared/redux/middleware/promise");
+const { Task } = require("devtools-sham/sham/task");
+const SourceUtils = require("devtools-sham/client/shared/source-utils");
 
 const { getSource, getSourceText } = require("../selectors");
 const constants = require("../constants");
@@ -146,7 +146,7 @@ function loadSourceText(source) {
     let textInfo = getSourceText(getState(), source.id);
     if (textInfo) {
       // It's already loaded or is loading
-      return promise.resolve(textInfo);
+      return Promise.resolve(textInfo);
     }
 
     return dispatch({
@@ -193,7 +193,7 @@ const FETCH_SOURCE_RESPONSE_DELAY = 200;
  */
 function getTextForSources(actors) {
   return ({ dispatch, getState }) => {
-    let deferred = promise.defer();
+    let deferred = defer();
     let pending = new Set(actors);
     let fetched = [];
 

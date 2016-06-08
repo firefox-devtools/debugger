@@ -5,8 +5,8 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");
-const DevToolsUtils = require("ff-devtools-libs/shared/DevToolsUtils");
-const { AppConstants } = require("ff-devtools-libs/sham/appconstants");
+const DevToolsUtils = require("devtools-sham/shared/DevToolsUtils");
+const { AppConstants } = require("devtools-sham/sham/appconstants");
 const { isEnabled } = require("./configs/feature");
 
 // Set various flags before requiring app code.

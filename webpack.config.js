@@ -12,9 +12,11 @@ let config = {
     filename: "bundle.js"
   },
   resolve: {
-    // This is required to allow ff-devtools-libs to resolve modules
-    // to itself (all of its requires are absolute)
-    root: path.join(__dirname, "node_modules")
+    alias: {
+      "devtools": "/Users/james/projects/mozilla/debugger.html/public/js/lib/devtools",
+      "devtools-sham": "/Users/james/projects/mozilla/debugger.html/public/js/lib/devtools-sham",
+      "sdk": "/Users/james/projects/mozilla/debugger.html/public/js/lib/devtools-sham/sdk"
+    }
   },
   module: {
     loaders: [

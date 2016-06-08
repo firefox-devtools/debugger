@@ -3,13 +3,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
-const promise = require("ff-devtools-libs/sham/promise");
+const defer = require("devtools/shared/defer");
 const constants = require("../constants");
-const { PROMISE } = require("ff-devtools-libs/client/shared/redux/middleware/promise");
+const { PROMISE } = require("devtools-sham/client/shared/redux/middleware/promise");
 const {
   getBreakpoint, getBreakpoints
 } = require("../selectors");
-const { Task } = require("ff-devtools-libs/sham/task");
+const { Task } = require("devtools-sham/sham/task");
 const fromJS = require("../util/fromJS");
 
 function enableBreakpoint(location) {
@@ -30,7 +30,7 @@ function _getOrCreateBreakpoint(state, location, condition) {
 function addBreakpoint(location, { condition, getTextForLine } = {}) {
   return ({ dispatch, getState, client }) => {
     if (_breakpointExists(getState(), location)) {
-      return promise.resolve();
+      return Promise.resolve();
     }
 
     const bp = _getOrCreateBreakpoint(getState(), location, condition);

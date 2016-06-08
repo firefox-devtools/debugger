@@ -1,7 +1,7 @@
 "use strict";
 
-const promise = require("ff-devtools-libs/sham/promise");
-const { Task } = require("ff-devtools-libs/sham/task");
+const defer = require("devtools/shared/defer");
+const { Task } = require("devtools-sham/sham/task");
 const expect = require("expect.js");
 
 const { actions, selectors, createStore } = require("../../util/test-head");
@@ -34,7 +34,7 @@ const simpleMockThreadClient = {
 const deferredMockThreadClient = {
   request: undefined,
   sourceContents: function(sourceId) {
-    let deferred = promise.defer();
+    let deferred = defer();
     this.request = deferred;
     return deferred.promise;
   },
@@ -95,7 +95,7 @@ describe("loadSourceText", () => {
 
   it("source failed to load", function(done) {
     function loadBadSource(store) {
-      let deferred = promise.defer();
+      let deferred = defer();
       store.dispatch(loadSourceText({ id: "foo1" }))
         .catch(() => deferred.resolve());
 

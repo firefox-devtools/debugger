@@ -1,4 +1,10 @@
 { "plugins": ["transform-es2015-block-scoping",
               "transform-es2015-destructuring",
               "transform-es2015-parameters",
-              "transform-es2015-spread"] }
+              "transform-es2015-spread",
+
+              ["babel-plugin-module-alias", [
+                { "src": "./public/js/lib/devtools", "expose": "devtools" },
+                { "src": "./public/js/lib/devtools-sham", "expose": "devtools-sham" },
+                { "src": "./public/js/lib/devtools-sham/sdk", "expose": "sdk" }
+              ]]] }

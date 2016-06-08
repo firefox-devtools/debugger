@@ -10,7 +10,7 @@ const http = require("http");
 const projectConfig = require("../webpack.config");
 const getValue = require("../public/js/configs/feature").getValue;
 
-require("ff-devtools-libs/bin/firefox-proxy");
+require("./firefox-proxy");
 
 function httpGet(url, onResponse) {
   return http.get(url, (response) => {

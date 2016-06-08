@@ -1,6 +1,6 @@
 "use strict";
 
-const { Task } = require("ff-devtools-libs/sham/task");
+const { Task } = require("devtools-sham/sham/task");
 const firefox = require("./firefox");
 const chrome = require("./chrome");
 
