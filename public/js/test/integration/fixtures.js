@@ -2,6 +2,22 @@
 // you also need to turn on the cypress-server to be able to save the fixtures.
 xdescribe("Fixtures", function() {
   it("todomvc.updateOnEnter", function() {
+  /**
+   An example of the debugger not being paused.
+   */
+  it("todomvc", function() {
+    debugPage("http://localhost:8000/todomvc");
+    goToSource("js/views/todo-view");
+    cy.saveFixture("todomvc");
+
+    // cleanup
+    cy.navigate("http://localhost:8000/todomvc");
+  });
+
+  /**
+   An example of the debugger being paused.
+   */
+  it("todomvc.updateOnEnter", function() {
     debugPage("http://localhost:8000/todomvc");
     goToSource("js/views/todo-view");
     toggleBreakpoint(113);
@@ -16,21 +32,9 @@ xdescribe("Fixtures", function() {
     cy.navigate("http://localhost:8000/todomvc");
   });
 
-  it("todomvc.toggle", function() {
-    debugPage("http://localhost:8000/todomvc");
-    goToSource("js/model/todo");
-    toggleBreakpoint(22);
-    addTodo();
-    toggleTodo();
-    cy.wait(1000);
-    cy.saveFixture("todomvc.toggle");
-
-    // cleanup
-    resumeDebugger();
-    toggleBreakpoint(22);
-    cy.navigate("http://localhost:8000/todomvc");
-  });
-
+  /**
+   An example of the debugger being paused with a couple closures.
+   */
   it("pythagorean", function() {
     debugPage("http://localhost:8000/pythagorean");
     goToSource("pythagorean.js");
