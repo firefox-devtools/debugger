@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
-const defer = require("devtools/shared/defer");
 const constants = require("../constants");
 const { PROMISE } = require("devtools-sham/client/shared/redux/middleware/promise");
 const {

@@ -13,9 +13,9 @@ let config = {
   },
   resolve: {
     alias: {
-      "devtools": "/Users/james/projects/mozilla/debugger.html/public/js/lib/devtools",
-      "devtools-sham": "/Users/james/projects/mozilla/debugger.html/public/js/lib/devtools-sham",
-      "sdk": "/Users/james/projects/mozilla/debugger.html/public/js/lib/devtools-sham/sdk"
+      "devtools": path.join(__dirname, "./public/js/lib/devtools"),
+      "devtools-sham": path.join(__dirname, "./public/js/lib/devtools-sham"),
+      "sdk": path.join(__dirname, "./public/js/lib/devtools-sham/sdk")
     }
   },
   module: {
