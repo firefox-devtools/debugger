@@ -35,8 +35,8 @@ describe("selectSource", () => {
       selectSource(sourcesFixtures.sources.fooSourceActor.id)
     );
 
-    const fooSourceText = getSelectedSource(this.store.getState());
-    expect(fooSourceText.get("id")).to.equal("fooSourceActor");
+    const fooSelectedSource = getSelectedSource(this.store.getState());
+    expect(fooSelectedSource.get("id")).to.equal("fooSourceActor");
   });
 
   it("selecting a source that hasn\'t been loaded", function() {
@@ -54,7 +54,7 @@ describe("selectSource", () => {
       selectSource(sourcesFixtures.sources.fooSourceActor.id)
     );
 
-    const fooSourceText = getSelectedSource(this.store.getState());
-    expect(fooSourceText.get("id")).to.equal("fooSourceActor");
+    const fooSelectedSource = getSelectedSource(this.store.getState());
+    expect(fooSelectedSource.get("id")).to.equal("fooSourceActor");
   });
 });

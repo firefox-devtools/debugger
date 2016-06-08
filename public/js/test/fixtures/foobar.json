@@ -17,7 +17,11 @@
     "sourcesText": {
       "fooSourceActor": {
         "contentType": "text/javascript",
-        "text": "function() {\n  return 5;\n}"
+        "text": "function() {\n  return foo;\n}"
+      },
+      "barSourceActor": {
+        "contentType": "text/javascript",
+        "text": "function() {\n  return bar;\n}"
       }
     }
   },

@@ -37,7 +37,8 @@ const Accordion = React.createClass({
 
   renderContainer: function(item, i) {
     const { opened, created } = this.state;
-    const containerClassName = item.header.toLowerCase().replace(/\s/g, "-");
+    const containerClassName =
+          item.header.toLowerCase().replace(/\s/g, "-") + "-pane";
 
     return div(
       { className: containerClassName, key: i },

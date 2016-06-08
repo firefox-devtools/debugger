@@ -13,7 +13,7 @@ const Frames = React.createFactory(require("./Frames"));
 const Accordion = React.createFactory(require("./Accordion"));
 require("./RightSidebar.css");
 
-function debugBtn(onClick, type, className) {
+function debugBtn(onClick, type, className = "active") {
   className = `${type} ${className}`;
 
   return dom.span(
