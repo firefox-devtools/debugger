@@ -1,13 +1,11 @@
 "use strict";
 
-const configureStore = require("../../create-store");
-const { combineReducers } = require("redux");
-const reducers = require("../../reducers");
+const renderComponentFromFixture =
+      require("../../test/utils/renderComponentFromFixture");
 
-function createStore(state = {}) {
-  return configureStore({})(combineReducers(reducers), state);
-}
+const { storiesOf } = require("@kadira/storybook");
 
 module.exports = {
-  createStore
+  renderComponent: renderComponentFromFixture,
+  storiesOf
 };
