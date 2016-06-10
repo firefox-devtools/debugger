@@ -23,7 +23,12 @@ function getData(fixtureName) {
       frames: fixture.pause.frames
     }),
     sources: Map({
-      sources: fromJS(fixture.sources.sources)
+      sources: fromJS(fixture.sources.sources),
+      selectedSource: fromJS(fixture.sources.selectedSource),
+      sourcesText: fromJS(fixture.sources.sourcesText)
+    }),
+    breakpoints: Map({
+      breakpoints: fromJS(fixture.breakpoints.breakpoints)
     })
   };
 }

@@ -1,4 +1,4 @@
-.breakpoints .breakpoint {
+.breakpoints-pane .breakpoint {
   font-size: 12px;
   list-style: none;
   color: var(--theme-content-color1);
@@ -6,15 +6,15 @@
   line-height: 1em;
 }
 
-.breakpoints .breakpoint:hover {
+.breakpoints-pane .breakpoint:hover {
   cursor: pointer;
   background-color: var(--theme-toolbar-background);
 }
 
-.breakpoints .breakpoint-label {
+.breakpoints-pane .breakpoint-label {
   display: inline-block;
 }
 
-.breakpoints .pause-indicator {
+.breakpoints-pane .pause-indicator {
   float: right;
 }

@@ -1,3 +1,37 @@
+/**
+ DOM selectors
+*/
+
+function callStackPane() {
+  return cy.get(".call-stack-pane");
+}
+
+function callStackFrameAtIndex(index) {
+  return callStackPane().find(".frames .frame").eq(index);
+}
+
+function breakpointPane() {
+  return cy.get(".breakpoints-pane .breakpoints-list");
+}
+
+function breakpointAtIndex(index) {
+  return breakpointPane().find(".breakpoint").eq(index);
+}
+
+function commandBar() {
+  return cy.get(".command-bar");
+}
+
+function scopesPane() {
+  return cy.get(".scopes-pane");
+}
+
+function scopeAtIndex(index) {
+  return scopesPane().find(".scopes-list > .tree").children().eq(index);
+}
+/**
+  DOM commands
+*/
 
 /**
   1. load the debugger and connect to the first chrome or firefox tab
@@ -7,11 +41,12 @@
   the test delays are safeguards for the timebeing, but they should
   be able to be removed if the test waits for the elements to appear.
  */
-function debugPage(url, browser = "Firefox") {
+function debugPage(urlPart, browser = "Firefox") {
+  url = "http://localhost:8000/" + urlPart;
   cy.visit("http://localhost:8000");
   cy.get(`.${browser} .tab`).first().click();
   cy.wait(1000);
-  cy.navigate(url);
+  cy.navigate(urlPart);
   cy.wait(1000);
   cy.reload();
   cy.wait(1000);
@@ -40,23 +75,69 @@ function toggleBreakpoint(linenumber) {
     .contains(".CodeMirror-linenumber", linenumber).click();
 }
 
+function selectBreakpointInList(index) {
+  breakpointAtIndex(index).click();
+}
+
+function toggleBreakpointInList(index) {
+  breakpointAtIndex(index).find("input[type='checkbox']").click();
+}
+
 function toggleCallStack() {
-  cy.get(".call-stack").find("._header").click();
+  callStackPane().find("._header").click();
 }
 
-function hasCallStackFrame(frame) {
-  return cy.get(".call-stack").contains(".frames .frame", frame);
+function selectCallStackFrame(index) {
+  callStackFrameAtIndex(index).click();
 }
 
-function resumeDebugger() {
-  cy.get(".right-sidebar").find(".resume").click();
+function toggleScopes() {
+  scopesPane().find("._header").click();
+}
+
+function selectScope(index) {
+  scopeAtIndex(index).find(".arrow").click();
+}
+
+function resume() {
+  commandBar().find(".active.resume").click();
+}
+
+function stepOver() {
+  commandBar().find(".active.stepOver").click();
+}
+
+function stepIn() {
+  commandBar().find(".active.stepIn").click();
+}
+
+function stepOut() {
+  commandBar().find(".active.stepOut").click();
+}
+
+
+/**
+ DOM queries
+*/
+
+function sourceTab(fileName) {
+  return cy.get(".source-tab");
 }
 
 Object.assign(window, {
   debugPage,
   goToSource,
   toggleBreakpoint,
+  selectBreakpointInList,
+  toggleBreakpointInList,
   toggleCallStack,
-  hasCallStackFrame,
-  resumeDebugger
+  callStackFrameAtIndex,
+  toggleScopes,
+  scopeAtIndex,
+  selectScope,
+  sourceTab,
+  resume,
+  stepIn,
+  stepOut,
+  stepOver
 })

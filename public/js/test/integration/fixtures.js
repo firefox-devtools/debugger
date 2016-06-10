@@ -1,7 +1,6 @@
 // turn theses tests on when you want to write new fixture data
 // you also need to turn on the cypress-server to be able to save the fixtures.
 xdescribe("Fixtures", function() {
-  it("todomvc.updateOnEnter", function() {
   /**
    An example of the debugger not being paused.
    */
@@ -27,7 +26,7 @@ xdescribe("Fixtures", function() {
     cy.saveFixture("todomvc.updateOnEnter");
 
     // cleanup
-    resumeDebugger();
+    resume();
     toggleBreakpoint(113);
     cy.navigate("http://localhost:8000/todomvc");
   });
@@ -45,7 +44,7 @@ xdescribe("Fixtures", function() {
     cy.wait(1000);
     cy.saveFixture("pythagorean");
 
-    resumeDebugger();
+    resume();
     toggleBreakpoint(11);
     cy.navigate("http://localhost:8000/pythagorean");
   })

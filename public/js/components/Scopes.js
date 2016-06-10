@@ -158,7 +158,7 @@ const Scopes = React.createClass({
 
     const scopeTree = scopes ? tree : info("Scopes Unavailable");
     return dom.div(
-      { className: "scopes-pane" },
+      { className: "scopes-list" },
       (pauseInfo ? scopeTree : info("Not Paused"))
     );
   }

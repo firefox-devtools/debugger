@@ -8,10 +8,15 @@ const renderComponentFromFixture = require("../test/utils/renderComponentFromFix
 function getSandbox() {
   let $el = document.querySelector("#sandbox");
   if (!$el) {
-    const attribute = document.createAttribute("id");
-    attribute.nodeValue = "sandbox";
+    const idAttr = document.createAttribute("id");
+    idAttr.nodeValue = "sandbox";
+
+    const styleAttr = document.createAttribute("style");
+    styleAttr.nodeValue = "top: 0; position: relative; height: 500px;";
+
     $el = document.createElement("div");
-    $el.setAttributeNode(attribute);
+    $el.setAttributeNode(idAttr);
+    $el.setAttributeNode(styleAttr);
     document.body.appendChild($el);
   }
 

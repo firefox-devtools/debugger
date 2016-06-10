@@ -1,49 +1,25 @@
 "use strict";
 
-const React = require("react");
-const { DOM: dom, createElement } = React;
-const { storiesOf } = require("@kadira/storybook");
-const { Provider } = require("react-redux");
-const { fromJS } = require("immutable");
-const { createStore } = require("./utils");
+const { DOM: dom, createElement, createFactory } = require("react");
+const { renderComponent, storiesOf } = require("./utils");
 
-const Breakpoints = React.createFactory(require("../Breakpoints"));
-const fixtures = require("../../test/fixtures/foobar.json");
+const Breakpoints = require("../Breakpoints");
 
-const fooSourceActor = fixtures.sources.sources.fooSourceActor;
-const barSourceActor = fixtures.sources.sources.barSourceActor;
-const fooBreakpointActor = fixtures.breakpoints.fooBreakpointActor;
-const barBreakpointActor = fixtures.breakpoints.barBreakpointActor;
+const style = {
+  width: "300px",
+  margin: "auto",
+  paddingTop: "100px" };
+
+const component =
+  dom.div({ className: "accordion" },
+    dom.div({ className: "_content" },
+      dom.div({ className: "breakpoints-pane" },
+        createElement(createFactory(Breakpoints)))));
+
+function renderBreakpoints(fixtureName) {
+  return renderComponent(component, fixtureName, { style });
+}
 
 storiesOf("Breakpoints", module)
-  .add("No Breakpoints", () => {
-    const store = createStore();
-    return renderBreakpoints(store);
-  })
-  .add("1 Domain", () => {
-    const store = createStore({
-      sources: fromJS({ sources: { fooSourceActor }}),
-      breakpoints: fromJS({ breakpoints: { fooBreakpointActor }})
-    });
-    return renderBreakpoints(store);
-  })
-  .add("2 Domains", () => {
-    const store = createStore({
-      sources: fromJS({ sources: { fooSourceActor, barSourceActor }}),
-      breakpoints: fromJS({
-        breakpoints: { fooBreakpointActor, barBreakpointActor }
-      })
-    });
-    return renderBreakpoints(store);
-  });
-
-function renderBreakpoints(store) {
-  return dom.div({ style: {
-    width: "300px",
-    margin: "auto",
-    paddingTop: "100px" }},
-    dom.div({ style: { border: "1px solid #ccc", padding: "20px" }},
-      createElement(Provider, { store }, Breakpoints())
-    )
-  );
-}
+  .add("No Breakpoints", () => renderBreakpoints("todomvc"))
+  .add("1 Breakpoint", () => renderBreakpoints("todomvcUpdateOnEnter"));

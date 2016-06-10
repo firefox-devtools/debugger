@@ -46,6 +46,7 @@ Cypress.addParentCommand("debuggee", function(callback) {
 });
 
 Cypress.addParentCommand("navigate", function(url) {
+  url = "http://localhost:8000/" + url;
   return cy.window().then(win => {
     return win.apiClient.navigate(url);
   });

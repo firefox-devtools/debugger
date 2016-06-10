@@ -87,7 +87,7 @@ const Breakpoints = React.createClass({
   render() {
     const { breakpoints } = this.props;
     return dom.div(
-      { className: "breakpoints" },
+      { className: "breakpoints-list" },
       (breakpoints.size === 0 ?
        dom.div({ className: "pane-info" }, "No Breakpoints") :
        breakpoints.valueSeq().map(bp => {

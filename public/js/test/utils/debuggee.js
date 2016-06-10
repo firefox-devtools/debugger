@@ -106,7 +106,7 @@ function Debuggee() {
   };
 }
 
-const debuggeeStatement = `window.Debuggee = (${Debuggee})()`;
+const debuggeeStatement = `window.dbg = (${Debuggee})()`;
 let injectedDebuggee;
 
 function injectDebuggee() {

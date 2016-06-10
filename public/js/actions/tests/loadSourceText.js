@@ -99,7 +99,7 @@ describe("loadSourceText", () => {
       store.dispatch(loadSourceText({ id: "foo1" }))
         .catch(() => deferred.resolve());
 
-      deferredMockThreadClient.getRequest().reject("poop");
+      deferredMockThreadClient.getRequest().reject("failed to load");
       return deferred.promise;
     }
 
@@ -108,7 +108,7 @@ describe("loadSourceText", () => {
     Task.spawn(function* () {
       yield loadBadSource(store);
       const fooSourceText = getSourceText(store.getState(), "foo1");
-      expect(fooSourceText.get("error")).to.equal("poop");
+      expect(fooSourceText.get("error")).to.equal("failed to load");
       done();
     });
   });
