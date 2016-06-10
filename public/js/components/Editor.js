@@ -60,7 +60,6 @@ const Editor = React.createClass({
     );
 
     resizeBreakpointGutter(this.editor);
-    this.setSourceText(this.props.sourceText);
   },
 
   onGutterClick(cm, line, gutter, ev) {

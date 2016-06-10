@@ -35,7 +35,7 @@ Cypress.addParentCommand("debuggee", function(callback) {
     // NOTE: we should be returning a promise here.
     // The problem is if, the client pauses we need to handle that
     // gracefully and resume. We did this on the test-server.
-    win.apiClient.evaluate(script).then(response => {
+    win.client.evaluate(script).then(response => {
       if (response.exception) {
         const errorMsg = response.exceptionMessage;
         const commandInput = response.input;
@@ -48,6 +48,6 @@ Cypress.addParentCommand("debuggee", function(callback) {
 Cypress.addParentCommand("navigate", function(url) {
   url = "http://localhost:8000/" + url;
   return cy.window().then(win => {
-    return win.apiClient.navigate(url);
+    return win.client.navigate(url);
   });
 })

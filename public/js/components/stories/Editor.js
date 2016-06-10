@@ -1,6 +1,6 @@
 "use strict";
 
-const { DOM: dom, createElement, createFactory } = require("react");
+const { createElement, createFactory } = require("react");
 const { renderComponent, storiesOf } = require("./utils");
 
 const Frames = require("../Editor");
