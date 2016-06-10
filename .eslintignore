@@ -3,3 +3,4 @@ public/js/util/imstruct.js
 public/js/test/examples/**
 public/js/test/cypress/**
 public/js/test/integration/**
+public/js/lib/**

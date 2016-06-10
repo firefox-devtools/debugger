@@ -1,7 +1,7 @@
 "use strict";
 
 const URL = require("url");
-const { assert } = require("ff-devtools-libs/shared/DevToolsUtils");
+const { assert } = require("devtools-sham/shared/DevToolsUtils");
 
 function nodeHasChildren(item) {
   // Do not use `Array.isArray` because it's slower and we do not need

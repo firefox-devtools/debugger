@@ -7,7 +7,7 @@ const {
 
 const { Tab, Source, Location, BreakpointResult, Frame } = require("../types");
 const { isEnabled } = require("../configs/feature");
-const defer = require("../util/defer");
+const defer = require("../lib/devtools/shared/defer");
 
 /* eslint-disable */
 // TODO: figure out a way to avoid patching native prototypes.

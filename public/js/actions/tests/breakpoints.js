@@ -1,7 +1,7 @@
 "use strict";
 
 const { createStore } = require("../../util/test-head");
-const { Task } = require("ff-devtools-libs/sham/task");
+const { Task } = require("devtools-sham/sham/task");
 // const expect = require("expect.js");
 
 const simpleMockThreadClient = {
