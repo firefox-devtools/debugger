@@ -127,9 +127,34 @@ function addToTree(tree, source) {
   }
 }
 
+/**
+ * Take an existing source tree, and return a new one with collapsed nodes.
+ */
+function collapseTree(node, depth = 0) {
+  // Node is a folder.
+  if (nodeHasChildren(node)) {
+    // Node is not a root/domain node, and only contains 1 item.
+    if (depth > 1 && node.contents.length === 1) {
+      const next = node.contents[0];
+      // Do not collapse if the next node is a leaf node.
+      if (nodeHasChildren(next)) {
+        return collapseTree(
+          createNode(`${node.name}/${next.name}`, next.path, next.contents),
+          depth + 1);
+      }
+    }
+    // Map the contents.
+    return createNode(node.name, node.path,
+                      node.contents.map(next => collapseTree(next, depth + 1)));
+  }
+  // Node is a leaf, not a folder, do not modify it.
+  return node;
+}
+
 module.exports = {
   createNode,
   nodeHasChildren,
   createParentMap,
-  addToTree
+  addToTree,
+  collapseTree
 };
