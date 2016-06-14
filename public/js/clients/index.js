@@ -7,10 +7,10 @@ const chrome = require("./chrome");
 let clientType;
 function getClient() {
   if (clientType === "chrome") {
-    return chrome.getAPIClient();
+    return chrome.clientCommands;
   }
 
-  return firefox.getAPIClient();
+  return firefox.clientCommands;
 }
 
 function startDebugging(targetEnv, tabId, actions) {
@@ -21,7 +21,7 @@ function startDebugging(targetEnv, tabId, actions) {
     targetEnv.initPage(actions);
 
     clientType = targetEnv === firefox ? "firefox" : "chrome";
-    window.apiClient = targetEnv.getAPIClient();
+    window.client = targetEnv.clientCommands;
   });
 }
 
