@@ -78,7 +78,7 @@ function connectClient() {
 function connectTab(tab) {
   return new Promise((resolve, reject) => {
     window.addEventListener("beforeunload", () => {
-      getTabTarget().destroy();
+      getTabTarget() && getTabTarget().destroy();
     });
 
     lookupTabTarget(tab).then(target => {

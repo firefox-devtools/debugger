@@ -100,8 +100,7 @@ function selectScope(index) {
 }
 
 function resume() {
-  cy.wait(200);
-  commandBar().find(".active.resume").click();
+  cy.get(".command-bar .active.resume").click();
 }
 
 function stepOver() {

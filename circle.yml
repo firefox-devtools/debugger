@@ -12,7 +12,7 @@ test:
   post:
     - npm run lint-css
     - npm run lint-js
-    - npm run test-karma
+    - npm run karma
 dependencies:
   override:
     - npm install

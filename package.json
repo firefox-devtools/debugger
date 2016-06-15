@@ -10,9 +10,11 @@
     "test-paths": "mocha --compilers js:babel-register",
     "mocha-server": "node bin/mocha-server.js",
     "cypress-server": "node bin/cypress-server.js",
-    "test-karma": "./node_modules/.bin/karma start --single-run",
+    "karma": "./node_modules/.bin/karma start --single-run",
     "storybook": "start-storybook -p 9001 -s public",
-    "start-firefox": "node bin/firefox-driver --start",
+    "firefox": "node bin/firefox-driver --start",
+    "cypess": "cypress run --port 2021",
+    "cypress-intermittents": "for i in {1..100}; do time cypress run --port 2021; done | tee cypress-run.log",
     "prepublish": "webpack"
   },
   "dependencies": {

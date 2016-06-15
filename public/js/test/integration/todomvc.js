@@ -24,8 +24,7 @@ describe("Todo MVC", function() {
     stepOut();
     resume();
 
-    toggleBreakpoint(33);
-    cy.navigate("todomvc");
+    cy.reload();
   });
 
   it("(Firefox) Adding Breakpoints", function() {
@@ -45,11 +44,7 @@ describe("Todo MVC", function() {
     toggleBreakpointInList(0);
     toggleBreakpointInList(0);
 
-    // cleanup
-    toggleBreakpoint(35);
-    goToSource("todo-view");
-    toggleBreakpoint(33);
-    cy.navigate("todomvc");
+    cy.reload();
   });
 
   // this is a simple test that will test the Chrome
@@ -76,7 +71,6 @@ describe("Todo MVC", function() {
     stepOut();
     resume();
 
-    toggleBreakpoint(33);
-    cy.navigate("todomvc");
+    cy.reload();
   });
 });

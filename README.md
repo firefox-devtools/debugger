@@ -7,7 +7,7 @@ This is a prototype debugger written without any XUL and based on React and Redu
 #### Getting Started
 
 * `npm install` - Install Dependencies
-* `npm run start-firefox` - Start Firefox
+* `npm run firefox` - Start Firefox
 * `npm start` - Start Debugger
 
 ![screen shot 2016-05-16 at 1 24 29 pm](https://cloud.githubusercontent.com/assets/254562/15297643/34575ca6-1b69-11e6-9703-8ba0a029d4f9.png)
@@ -18,11 +18,12 @@ This is a prototype debugger written without any XUL and based on React and Redu
 * `npm run mocha-server` - Run tests in the browser
 
 ##### Integration tests
-* `cypress run` - Run tests headlessly
+* `npm run cypress` - Run tests headlessly
+* `npm run cypress-intermittents` - Runs tests 100 times and writes the output to cypress-run.log
 * `cypress open` - Run tests in the browser
 
 **Notes:**
-+ Firefox needs to be open and listening on port 6080 before the tests are run. You can start Firefox on the right port with this command `npm run start-firefox`.
++ Firefox needs to be open and listening on port 6080 before the tests are run. You can start Firefox on the right port with this command `npm run firefox`.
 + Cypress needs to be installed before tests can be run. When you run cypress the first time, you will be prompted to install it. `cypress install`.
 
 ##### Linting
