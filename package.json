@@ -7,14 +7,15 @@
     "lint-css": "stylelint public/js/components/*.css",
     "lint-js": "eslint public/js",
     "test": "mocha --compilers js:babel-register public/js/test/node-unit-tests.js",
+    "test-all": "npm run test; npm run lint; npm run cypress",
     "test-paths": "mocha --compilers js:babel-register",
     "mocha-server": "node bin/mocha-server.js",
     "cypress-server": "node bin/cypress-server.js",
     "karma": "./node_modules/.bin/karma start --single-run",
     "storybook": "start-storybook -p 9001 -s public",
     "firefox": "node bin/firefox-driver --start",
-    "cypess": "cypress run --port 2021",
-    "cypress-intermittents": "for i in {1..100}; do time cypress run --port 2021; done | tee cypress-run.log",
+    "cypress": "./node_modules/.bin/cypress run --port 2021",
+    "cypress-intermittents": "for i in {1..100}; do time npm run cypress; done | tee cypress-run.log",
     "prepublish": "webpack"
   },
   "dependencies": {

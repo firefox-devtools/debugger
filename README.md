@@ -31,6 +31,9 @@ This is a prototype debugger written without any XUL and based on React and Redu
 * `npm run lint-css` - Run CSS linter
 * `npm run lint-js` - Run JS linter
 
+##### Miscellaneous
++ `npm run test-all` - Run unit tests, lints, and integration tests
+
 ##### Storybook
 * `npm run storybook` - Open Storybook
 
