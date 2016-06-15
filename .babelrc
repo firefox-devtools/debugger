@@ -4,6 +4,7 @@
               "transform-es2015-spread",
 
               ["babel-plugin-module-alias", [
+                { "src": "node_modules/react", "expose": "devtools/client/shared/vendor/react" },
                 { "src": "./public/js/lib/devtools", "expose": "devtools" },
                 { "src": "./public/js/lib/devtools-sham", "expose": "devtools-sham" },
                 { "src": "./public/js/lib/devtools-sham/sdk", "expose": "sdk" }

@@ -22,6 +22,11 @@ body {
   height: 100%;
 }
 
+.debugger {
+  display: flex;
+  flex: 1;
+}
+
 .editor-container {
   display: flex;
   position: relative;

@@ -13,6 +13,7 @@ let config = {
   },
   resolve: {
     alias: {
+      "devtools/client/shared/vendor/react": "react",
       "devtools": path.join(__dirname, "./public/js/lib/devtools"),
       "devtools-sham": path.join(__dirname, "./public/js/lib/devtools-sham"),
       "sdk": path.join(__dirname, "./public/js/lib/devtools-sham/sdk")

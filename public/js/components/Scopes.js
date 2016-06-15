@@ -11,9 +11,22 @@ const { getPause, getLoadedObjects } = require("../selectors");
 const { DOM: dom, PropTypes } = React;
 const ManagedTree = React.createFactory(require("./util/ManagedTree"));
 const Arrow = React.createFactory(require("./util/Arrow"));
+const Rep = require("./Rep");
+
+require("./Scopes.css");
 
 function info(text) {
   return dom.div({ className: "pane-info" }, text);
+}
+
+function getBindingVariables(bindings) {
+  return bindings
+    .get("arguments").map(arg => arg.entrySeq().get(0))
+    .concat(bindings.get("variables").entrySeq())
+    .filter(binding => (!binding[1].hasIn(["value", "missingArguments"]) &&
+                        !binding[1].hasIn(["value", "optimizedOut"])))
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .toArray();
 }
 
 function getScopes(pauseInfo) {
@@ -33,13 +46,7 @@ function getScopes(pauseInfo) {
 
     if (type === "function" || type === "block") {
       const bindings = scope.get("bindings");
-      const vars = bindings
-        .get("arguments").map(arg => arg.entrySeq().get(0))
-        .concat(bindings.get("variables").entrySeq())
-        .filter(binding => (!binding[1].hasIn(["value", "missingArguments"]) &&
-                            !binding[1].hasIn(["value", "optimizedOut"])))
-        .sort((a, b) => a[0].localeCompare(b[0]))
-        .toArray();
+      const vars = getBindingVariables(bindings);
 
       if (vars.length) {
         let title;
@@ -111,9 +118,13 @@ const Scopes = React.createClass({
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     const obj = item[1];
-    let val = "";
-    if (obj.has("value") && !obj.hasIn(["value", "type"])) {
-      val = ": " + obj.get("value");
+    let objectValue = "";
+    let hasValue = false;
+    if (obj.has("value")) {
+      hasValue = true;
+      let val = obj.get("value");
+      val = val.toJS ? val.toJS() : val;
+      objectValue = Rep({ object: val });
     }
 
     return dom.div(
@@ -129,7 +140,9 @@ const Scopes = React.createClass({
           setExpanded(item, !expanded);
         }
       }),
-      item[0] + val
+      dom.span({ className: "scope-object-label" }, item[0]),
+      dom.span({ className: "scope-object-delimiter" }, hasValue ? ": " : ""),
+      dom.span({ className: "scope-object-value" }, objectValue)
     );
   },
 
