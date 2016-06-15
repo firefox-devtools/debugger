@@ -3,6 +3,8 @@
 const glob = require("glob").sync;
 const path = require("path");
 
+require("amd-loader");
+
 // disable css requires
 require.extensions[".css"] = function() {
   return {};

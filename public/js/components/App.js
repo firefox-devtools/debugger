@@ -23,7 +23,7 @@ const App = React.createClass({
   displayName: "App",
 
   render: function() {
-    return SplitBox({
+    return dom.div({ className: "theme-light debugger" }, SplitBox({
       initialWidth: 300,
       left: Sources({ sources: this.props.sources }),
       right: SplitBox({
@@ -35,7 +35,7 @@ const App = React.createClass({
         ),
         right: RightSidebar()
       })
-    });
+    }));
   }
 });
 

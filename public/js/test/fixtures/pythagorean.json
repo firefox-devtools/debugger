@@ -6,20 +6,20 @@
   },
   "sources": {
     "sources": {
-      "server2.conn179.source61": {
-        "id": "server2.conn179.source61",
+      "server2.conn124.source36": {
+        "id": "server2.conn124.source36",
         "url": "http://localhost:8000/pythagorean/"
       },
-      "server2.conn179.source60": {
-        "id": "server2.conn179.source60",
+      "server2.conn124.source35": {
+        "id": "server2.conn124.source35",
         "url": "http://localhost:8000/pythagorean/pythagorean.js"
       },
-      "server2.conn179.source64": {
-        "id": "server2.conn179.source64",
+      "server2.conn124.source39": {
+        "id": "server2.conn124.source39",
         "url": null
       },
-      "server2.conn179.source69": {
-        "id": "server2.conn179.source69",
+      "server2.conn124.source44": {
+        "id": "server2.conn124.source44",
         "url": null
       }
     },
@@ -28,33 +28,33 @@
       []
     ],
     "selectedSource": {
-      "id": "server2.conn179.source60",
+      "id": "server2.conn124.source35",
       "url": "http://localhost:8000/pythagorean/pythagorean.js"
     },
     "sourcesText": {
-      "server2.conn179.source60": {
+      "server2.conn124.source35": {
         "text": "\"use strict\";\n\nfunction math(a, b) {\n  var bar = 4;\n  function pythagorean(a, b) {\n    var foo = 3;\n    function exponential(num) {\n      foo, bar;\n      return num * num;\n    }\n    return exponential(a) + exponential(b);\n  }\n\n  pythagorean(a,b);\n}\n",
         "contentType": "text/javascript"
       }
     },
     "tabs": [
       {
-        "id": "server2.conn179.source60",
+        "id": "server2.conn124.source35",
         "url": "http://localhost:8000/pythagorean/pythagorean.js"
       }
     ]
   },
   "breakpoints": {
     "breakpoints": {
-      "server2.conn179.source60:11": {
+      "server2.conn124.source35:11": {
         "location": {
-          "sourceId": "server2.conn179.source60",
+          "sourceId": "server2.conn124.source35",
           "line": 11
         },
         "condition": null,
         "disabled": false,
         "loading": false,
-        "id": "server2.conn179.63",
+        "id": "server2.conn124.38",
         "text": "return exponential(a) + exponential(b);"
       }
     }
@@ -66,33 +66,33 @@
   },
   "pause": {
     "pause": {
-      "from": "server2.conn179.context58",
+      "from": "server2.conn124.context33",
       "type": "paused",
-      "actor": "server2.conn179.pause70",
+      "actor": "server2.conn124.pause45",
       "frame": {
-        "id": "server2.conn179.71",
+        "id": "server2.conn124.46",
         "displayName": "pythagorean",
         "location": {
-          "sourceId": "server2.conn179.source60",
+          "sourceId": "server2.conn124.source35",
           "line": 11,
           "column": 4
         },
         "scope": {
-          "actor": "server2.conn179.environment73",
+          "actor": "server2.conn124.environment48",
           "type": "function",
           "parent": {
-            "actor": "server2.conn179.environment74",
+            "actor": "server2.conn124.environment49",
             "type": "function",
             "parent": {
-              "actor": "server2.conn179.environment75",
+              "actor": "server2.conn124.environment50",
               "type": "block",
               "parent": {
-                "actor": "server2.conn179.environment76",
+                "actor": "server2.conn124.environment51",
                 "type": "object",
                 "object": {
                   "type": "object",
                   "class": "Window",
-                  "actor": "server2.conn179.pausedobj77",
+                  "actor": "server2.conn124.pausedobj52",
                   "extensible": true,
                   "frozen": false,
                   "sealed": false,
@@ -112,7 +112,7 @@
               "frozen": false,
               "name": "math",
               "displayName": "math",
-              "actor": "server2.conn179.pausedobj78",
+              "actor": "server2.conn124.pausedobj53",
               "location": {
                 "url": "http://localhost:8000/pythagorean/pythagorean.js",
                 "line": 3
@@ -183,7 +183,7 @@
             "frozen": false,
             "name": "pythagorean",
             "displayName": "pythagorean",
-            "actor": "server2.conn179.pausedobj79",
+            "actor": "server2.conn124.pausedobj54",
             "location": {
               "url": "http://localhost:8000/pythagorean/pythagorean.js",
               "line": 5
@@ -223,7 +223,7 @@
                 "value": {
                   "type": "object",
                   "class": "Arguments",
-                  "actor": "server2.conn179.pausedobj80",
+                  "actor": "server2.conn124.pausedobj55",
                   "extensible": true,
                   "frozen": false,
                   "sealed": false,
@@ -250,7 +250,7 @@
                   "frozen": false,
                   "name": "exponential",
                   "displayName": "exponential",
-                  "actor": "server2.conn179.pausedobj81",
+                  "actor": "server2.conn124.pausedobj56",
                   "location": {
                     "url": "http://localhost:8000/pythagorean/pythagorean.js",
                     "line": 7
@@ -273,7 +273,7 @@
       "why": {
         "type": "breakpoint",
         "actors": [
-          "server2.conn179.63"
+          "server2.conn124.38"
         ]
       },
       "isInterrupted": false
@@ -281,29 +281,29 @@
     "isWaitingOnBreak": false,
     "frames": [
       {
-        "id": "server2.conn179.71",
+        "id": "server2.conn124.46",
         "displayName": "pythagorean",
         "location": {
-          "sourceId": "server2.conn179.source60",
+          "sourceId": "server2.conn124.source35",
           "line": 11,
           "column": 4
         },
         "scope": {
-          "actor": "server2.conn179.environment73",
+          "actor": "server2.conn124.environment48",
           "type": "function",
           "parent": {
-            "actor": "server2.conn179.environment74",
+            "actor": "server2.conn124.environment49",
             "type": "function",
             "parent": {
-              "actor": "server2.conn179.environment75",
+              "actor": "server2.conn124.environment50",
               "type": "block",
               "parent": {
-                "actor": "server2.conn179.environment76",
+                "actor": "server2.conn124.environment51",
                 "type": "object",
                 "object": {
                   "type": "object",
                   "class": "Window",
-                  "actor": "server2.conn179.pausedobj77",
+                  "actor": "server2.conn124.pausedobj52",
                   "extensible": true,
                   "frozen": false,
                   "sealed": false,
@@ -322,7 +322,7 @@
             "function": {
               "type": "object",
               "class": "Function",
-              "actor": "server2.conn179.pausedobj78",
+              "actor": "server2.conn124.pausedobj53",
               "extensible": true,
               "frozen": false,
               "sealed": false,
@@ -363,7 +363,7 @@
                   "value": {
                     "type": "object",
                     "class": "Arguments",
-                    "actor": "server2.conn179.pausedobj82",
+                    "actor": "server2.conn124.pausedobj57",
                     "extensible": true,
                     "frozen": false,
                     "sealed": false,
@@ -389,7 +389,7 @@
                   "value": {
                     "type": "object",
                     "class": "Function",
-                    "actor": "server2.conn179.pausedobj79",
+                    "actor": "server2.conn124.pausedobj54",
                     "extensible": true,
                     "frozen": false,
                     "sealed": false,
@@ -412,7 +412,7 @@
           "function": {
             "type": "object",
             "class": "Function",
-            "actor": "server2.conn179.pausedobj79",
+            "actor": "server2.conn124.pausedobj54",
             "extensible": true,
             "frozen": false,
             "sealed": false,
@@ -453,7 +453,7 @@
                 "value": {
                   "type": "object",
                   "class": "Arguments",
-                  "actor": "server2.conn179.pausedobj83",
+                  "actor": "server2.conn124.pausedobj58",
                   "extensible": true,
                   "frozen": false,
                   "sealed": false,
@@ -479,7 +479,7 @@
                 "value": {
                   "type": "object",
                   "class": "Function",
-                  "actor": "server2.conn179.pausedobj81",
+                  "actor": "server2.conn124.pausedobj56",
                   "extensible": true,
                   "frozen": false,
                   "sealed": false,
@@ -500,26 +500,26 @@
         }
       },
       {
-        "id": "server2.conn179.84",
+        "id": "server2.conn124.59",
         "displayName": "math",
         "location": {
-          "sourceId": "server2.conn179.source60",
+          "sourceId": "server2.conn124.source35",
           "line": 14,
           "column": 2
         },
         "scope": {
-          "actor": "server2.conn179.environment74",
+          "actor": "server2.conn124.environment49",
           "type": "function",
           "parent": {
-            "actor": "server2.conn179.environment75",
+            "actor": "server2.conn124.environment50",
             "type": "block",
             "parent": {
-              "actor": "server2.conn179.environment76",
+              "actor": "server2.conn124.environment51",
               "type": "object",
               "object": {
                 "type": "object",
                 "class": "Window",
-                "actor": "server2.conn179.pausedobj77",
+                "actor": "server2.conn124.pausedobj52",
                 "extensible": true,
                 "frozen": false,
                 "sealed": false,
@@ -538,7 +538,7 @@
           "function": {
             "type": "object",
             "class": "Function",
-            "actor": "server2.conn179.pausedobj78",
+            "actor": "server2.conn124.pausedobj53",
             "extensible": true,
             "frozen": false,
             "sealed": false,
@@ -579,7 +579,7 @@
                 "value": {
                   "type": "object",
                   "class": "Arguments",
-                  "actor": "server2.conn179.pausedobj86",
+                  "actor": "server2.conn124.pausedobj61",
                   "extensible": true,
                   "frozen": false,
                   "sealed": false,
@@ -605,7 +605,7 @@
                 "value": {
                   "type": "object",
                   "class": "Function",
-                  "actor": "server2.conn179.pausedobj79",
+                  "actor": "server2.conn124.pausedobj54",
                   "extensible": true,
                   "frozen": false,
                   "sealed": false,
@@ -627,35 +627,35 @@
         }
       },
       {
-        "id": "server2.conn179.88",
+        "id": "server2.conn124.63",
         "displayName": "onclick",
         "location": {
-          "sourceId": "server2.conn179.source61",
+          "sourceId": "server2.conn124.source36",
           "line": 1,
           "column": 0
         },
         "scope": {
-          "actor": "server2.conn179.environment90",
+          "actor": "server2.conn124.environment65",
           "type": "function",
           "parent": {
-            "actor": "server2.conn179.environment91",
+            "actor": "server2.conn124.environment66",
             "type": "block",
             "parent": {
-              "actor": "server2.conn179.environment92",
+              "actor": "server2.conn124.environment67",
               "type": "with",
               "parent": {
-                "actor": "server2.conn179.environment93",
+                "actor": "server2.conn124.environment68",
                 "type": "with",
                 "parent": {
-                  "actor": "server2.conn179.environment75",
+                  "actor": "server2.conn124.environment50",
                   "type": "block",
                   "parent": {
-                    "actor": "server2.conn179.environment76",
+                    "actor": "server2.conn124.environment51",
                     "type": "object",
                     "object": {
                       "type": "object",
                       "class": "Window",
-                      "actor": "server2.conn179.pausedobj77",
+                      "actor": "server2.conn124.pausedobj52",
                       "extensible": true,
                       "frozen": false,
                       "sealed": false,
@@ -674,7 +674,7 @@
                 "object": {
                   "type": "object",
                   "class": "HTMLDocument",
-                  "actor": "server2.conn179.pausedobj94",
+                  "actor": "server2.conn124.pausedobj69",
                   "extensible": true,
                   "frozen": false,
                   "sealed": false,
@@ -690,7 +690,7 @@
               "object": {
                 "type": "object",
                 "class": "HTMLButtonElement",
-                "actor": "server2.conn179.pausedobj95",
+                "actor": "server2.conn124.pausedobj70",
                 "extensible": true,
                 "frozen": false,
                 "sealed": false,
@@ -714,7 +714,7 @@
           "function": {
             "type": "object",
             "class": "Function",
-            "actor": "server2.conn179.pausedobj96",
+            "actor": "server2.conn124.pausedobj71",
             "extensible": true,
             "frozen": false,
             "sealed": false,
@@ -737,7 +737,7 @@
                   "value": {
                     "type": "object",
                     "class": "MouseEvent",
-                    "actor": "server2.conn179.pausedobj97",
+                    "actor": "server2.conn124.pausedobj72",
                     "extensible": true,
                     "frozen": false,
                     "sealed": false,
@@ -755,7 +755,7 @@
                       "target": {
                         "type": "object",
                         "class": "HTMLButtonElement",
-                        "actor": "server2.conn179.pausedobj98",
+                        "actor": "server2.conn124.pausedobj73",
                         "extensible": true,
                         "frozen": false,
                         "sealed": false,
@@ -783,7 +783,7 @@
                 "value": {
                   "type": "object",
                   "class": "Arguments",
-                  "actor": "server2.conn179.pausedobj99",
+                  "actor": "server2.conn124.pausedobj74",
                   "extensible": true,
                   "frozen": false,
                   "sealed": false,
@@ -803,29 +803,29 @@
       }
     ],
     "selectedFrame": {
-      "id": "server2.conn179.71",
+      "id": "server2.conn124.46",
       "displayName": "pythagorean",
       "location": {
-        "sourceId": "server2.conn179.source60",
+        "sourceId": "server2.conn124.source35",
         "line": 11,
         "column": 4
       },
       "scope": {
-        "actor": "server2.conn179.environment73",
+        "actor": "server2.conn124.environment48",
         "type": "function",
         "parent": {
-          "actor": "server2.conn179.environment74",
+          "actor": "server2.conn124.environment49",
           "type": "function",
           "parent": {
-            "actor": "server2.conn179.environment75",
+            "actor": "server2.conn124.environment50",
             "type": "block",
             "parent": {
-              "actor": "server2.conn179.environment76",
+              "actor": "server2.conn124.environment51",
               "type": "object",
               "object": {
                 "type": "object",
                 "class": "Window",
-                "actor": "server2.conn179.pausedobj77",
+                "actor": "server2.conn124.pausedobj52",
                 "extensible": true,
                 "frozen": false,
                 "sealed": false,
@@ -844,7 +844,7 @@
           "function": {
             "type": "object",
             "class": "Function",
-            "actor": "server2.conn179.pausedobj78",
+            "actor": "server2.conn124.pausedobj53",
             "extensible": true,
             "frozen": false,
             "sealed": false,
@@ -915,7 +915,7 @@
         "function": {
           "type": "object",
           "class": "Function",
-          "actor": "server2.conn179.pausedobj79",
+          "actor": "server2.conn124.pausedobj54",
           "extensible": true,
           "frozen": false,
           "sealed": false,
@@ -956,7 +956,7 @@
               "value": {
                 "type": "object",
                 "class": "Arguments",
-                "actor": "server2.conn179.pausedobj80",
+                "actor": "server2.conn124.pausedobj55",
                 "extensible": true,
                 "frozen": false,
                 "sealed": false,
@@ -982,7 +982,7 @@
               "value": {
                 "type": "object",
                 "class": "Function",
-                "actor": "server2.conn179.pausedobj81",
+                "actor": "server2.conn124.pausedobj56",
                 "extensible": true,
                 "frozen": false,
                 "sealed": false,

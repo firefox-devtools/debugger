@@ -23,6 +23,10 @@ xdescribe("Fixtures", function() {
     addTodo();
     editTodo();
     cy.wait(1000)
+
+    toggleScopes();
+    selectScope(0);
+    selectScope(2);
     cy.saveFixture("todomvc.updateOnEnter");
     resume();
     toggleBreakpoint(113);
@@ -45,5 +49,5 @@ xdescribe("Fixtures", function() {
     resume();
     toggleBreakpoint(11);
     cy.reload();
-  })
+  });
 });

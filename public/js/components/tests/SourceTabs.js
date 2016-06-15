@@ -21,7 +21,7 @@ describe("SourceTabs", function() {
     const $el = renderComponent(SourceTabs, "todomvc");
     const tabs = getSourceTabs($el);
     expect(tabs.length).to.equal(3);
-    expect(getTitle(tabs[0])).to.equal("todo.js");
+    expect(getTitle(tabs[0])).to.equal("todo-view.js");
   });
 
   it("Disabled", function() {

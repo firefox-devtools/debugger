@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@kadira/storybook": "^1.17.1",
+    "amd-loader": "0.0.5",
     "babel": "^6.5.2",
     "babel-core": "^6.7.6",
     "babel-loader": "^6.2.4",

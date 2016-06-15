@@ -25,6 +25,6 @@ describe("Scopes", function() {
     const $el = renderComponent(Scopes, "todomvcUpdateOnEnter");
     const scopes = getScopes($el);
     expect(scopes.length).to.equal(2);
-    expect(scopes[0].innerText.trim()).to.equal("app.TodoView<.updateOnEnter");
+    expect(scopes[0].innerText.trim()).to.match(/app.TodoView<.updateOnEnter/);
   });
 });
