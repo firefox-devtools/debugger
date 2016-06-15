@@ -1,7 +1,7 @@
 "use strict";
 
 describe("Todo MVC", function() {
-  it("(Firefox) Adding a Todo", function() {
+  it("(Firefox) Test Pausing", function() {
     debugPage("todomvc");
     goToSource("js/views/todo-view");
     toggleBreakpoint(33);
@@ -51,7 +51,7 @@ describe("Todo MVC", function() {
   // client. At some point we will replace it with a
   // mocha macro `withBrowsers("chrome", "firefox", function() {})`
   // that will wrap these tests call each `it` in both browser contexts.
-  xit("(Chrome) Adding a Todo", function() {
+  xit("(Chrome) Test Pausing", function() {
     debugPage("todomvc", "Chrome");
     goToSource("js/views/todo-view");
     toggleBreakpoint(33);

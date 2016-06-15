@@ -5,47 +5,43 @@ xdescribe("Fixtures", function() {
    An example of the debugger not being paused.
    */
   it("todomvc", function() {
-    debugPage("http://localhost:8000/todomvc");
+    debugPage("todomvc");
     goToSource("js/views/todo-view");
     cy.saveFixture("todomvc");
-
-    // cleanup
-    cy.navigate("http://localhost:8000/todomvc");
+    cy.reload();
   });
 
   /**
    An example of the debugger being paused.
    */
   it("todomvc.updateOnEnter", function() {
-    debugPage("http://localhost:8000/todomvc");
+    debugPage("todomvc");
     goToSource("js/views/todo-view");
     toggleBreakpoint(113);
     addTodo();
     editTodo();
     cy.wait(1000)
     cy.saveFixture("todomvc.updateOnEnter");
-
-    // cleanup
     resume();
     toggleBreakpoint(113);
-    cy.navigate("http://localhost:8000/todomvc");
+    cy.reload();
   });
 
   /**
    An example of the debugger being paused with a couple closures.
    */
   it("pythagorean", function() {
-    debugPage("http://localhost:8000/pythagorean");
+    debugPage("pythagorean");
     goToSource("pythagorean.js");
     toggleBreakpoint(11);
     cy.debuggee(() => {
-      window.Debuggee.click("button");
+      window.dbg.click("button");
     });
     cy.wait(1000);
     cy.saveFixture("pythagorean");
 
     resume();
     toggleBreakpoint(11);
-    cy.navigate("http://localhost:8000/pythagorean");
+    cy.reload();
   })
 });
