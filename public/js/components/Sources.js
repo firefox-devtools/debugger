@@ -12,7 +12,8 @@ const { Set } = require("immutable");
 const actions = require("../actions");
 const { getSelectedSource, getSources } = require("../selectors");
 const {
-  createNode, nodeHasChildren, createParentMap, addToTree, collapseTree
+  nodeHasChildren, createParentMap, addToTree,
+  collapseTree, createTree
 } = require("../util/sources-tree.js");
 
 require("./Sources.css");
@@ -71,21 +72,8 @@ let SourcesTree = React.createClass({
 
   displayName: "SourcesTree",
 
-  makeInitialState(props) {
-    const uncollapsedTree = createNode("root", "", []);
-    for (let source of props.sources.valueSeq()) {
-      addToTree(uncollapsedTree, source);
-    }
-    const sourceTree = collapseTree(uncollapsedTree);
-
-    return { uncollapsedTree,
-             sourceTree,
-             parentMap: createParentMap(sourceTree),
-             focusedItem: null };
-  },
-
   getInitialState() {
-    return this.makeInitialState(this.props);
+    return createTree(this.props.sources);
   },
 
   componentWillReceiveProps(nextProps) {

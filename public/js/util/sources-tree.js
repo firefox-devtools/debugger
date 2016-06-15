@@ -151,10 +151,24 @@ function collapseTree(node, depth = 0) {
   return node;
 }
 
+function createTree(sources) {
+  const uncollapsedTree = createNode("root", "", []);
+  for (let source of sources.valueSeq()) {
+    addToTree(uncollapsedTree, source);
+  }
+  const sourceTree = collapseTree(uncollapsedTree);
+
+  return { uncollapsedTree,
+           sourceTree,
+           parentMap: createParentMap(sourceTree),
+           focusedItem: null };
+}
+
 module.exports = {
   createNode,
   nodeHasChildren,
   createParentMap,
   addToTree,
-  collapseTree
+  collapseTree,
+  createTree
 };
