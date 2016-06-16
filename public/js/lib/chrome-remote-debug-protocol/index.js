@@ -15,7 +15,7 @@ function onConnect(connection) {
   ws.onmessage = (e) => connection._onMessage(e);
 }
 
-function connect(tabUrl) {
+function connect(url) {
   let isConnected = false;
   let deferred = defer();
 
@@ -30,7 +30,7 @@ function connect(tabUrl) {
   return new Promise(resolve => {
     bootstrap(InspectorBackend);
     WebSocketConnection.Create(
-      tabUrl,
+      url,
       connnection => {
         isConnected = true;
         onConnect(connnection);

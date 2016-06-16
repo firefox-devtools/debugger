@@ -59,12 +59,17 @@ function connectTab(tab) {
   });
 }
 
+function connectNode(url) {
+  return connect(url).then(conn => {
+    connection = conn;
+  });
+}
+
 function initPage(actions) {
   const agents = connection._agents;
 
   setupCommands({ agents: agents });
   setupEvents({ actions })
-  connection.registerDispatcher("Debugger", clientEvents);
 
   agents.Debugger.enable();
   agents.Debugger.setPauseOnExceptions("none");
@@ -72,11 +77,14 @@ function initPage(actions) {
 
   agents.Runtime.enable();
   agents.Runtime.run();
+
+  connection.registerDispatcher("Debugger", clientEvents);
 }
 
 module.exports = {
   connectClient,
   clientCommands,
+  connectNode,
   connectTab,
   initPage
 };
