@@ -33,7 +33,7 @@ From the original demo the devtools.html project has progressed quite a bit.  To
 
 ### Firefox DevTools Project
 
-While the medium to long term goal of this project is to land within Firefox.  If you're looking to work directly on the DevTools project which ships developer tools for Firefox and Firefox Developer Edition you can find more information on the Mozilla wiki [DevTools / Get Involved](https://wiki.mozilla.org/DevTools/GetInvolved).
+The medium to long term goal of this project is to land within Firefox.  If you're looking to work directly on the DevTools project which ships developer tools for Firefox and Firefox Developer Edition in the meantime you can find more information on the Mozilla wiki [DevTools / Get Involved](https://wiki.mozilla.org/DevTools/GetInvolved).
 
 
 ## How Can I Contribute?
