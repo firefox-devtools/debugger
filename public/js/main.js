@@ -20,9 +20,8 @@ if (isEnabled("development")) {
 
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
-const { getClient, connectClients, startDebuggingTab, startDebuggingNode } = require("./clients");
+const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");
-const chrome = require("./clients/chrome");
 
 const Tabs = React.createFactory(require("./components/Tabs"));
 const App = React.createFactory(require("./components/App"));
@@ -81,13 +80,7 @@ window.injectDebuggee = require("./test/utils/debuggee");
 const connTarget = getTargetFromQuery();
 
 if (connTarget) {
-  if (connTarget.type === "node") {
-    startDebuggingNode(connTarget.param, actions).then(renderApp);
-  } else if (connTarget.type === "chrome") {
-    startDebuggingTab(chrome, connTarget.param, actions).then(renderApp);
-  } else if (connTarget.type === "firefox") {
-    startDebuggingTab(firefox, connTarget.param, actions).then(renderApp);
-  }
+  startDebugging(connTarget, actions).then(renderApp);
 } else if (process.env.NODE_ENV === "DEVTOOLS_PANEL") {
   // The toolbox already provides the tab to debug.
   module.exports = {

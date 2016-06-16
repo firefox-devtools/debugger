@@ -13,6 +13,15 @@ function getClient() {
   return firefox.clientCommands;
 }
 
+function startDebugging(connTarget, actions) {
+  if (connTarget.type === "node") {
+    return startDebuggingNode(connTarget.param, actions);
+  }
+
+  const target = connTarget.type === "chrome" ? chrome : firefox;
+  return startDebuggingTab(target, connTarget.param, actions);
+}
+
 function startDebuggingNode(url, actions) {
   clientType = "chrome";
   return chrome.connectNode(`ws://${url}`).then(() => {
@@ -45,6 +54,5 @@ function connectClients() {
 module.exports = {
   getClient,
   connectClients,
-  startDebuggingTab,
-  startDebuggingNode
+  startDebugging
 };
