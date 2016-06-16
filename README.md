@@ -41,9 +41,13 @@ This is a prototype debugger written without any XUL and based on React and Redu
 
 ##### User Configuration
 
-You can create a `development.local.json` for local user settings in `public/js/configs`.
+You can edit config values in `public/js/configs/development.json`.
 
-+ `clientLogging` - set to `true` to see client logs
+Config:
++ `chrome.debug` enable local chrome development
+
+Features
++ `features.sourceTabs` enable editor tabs
 
 ##### Remote Debugging
 If you'd like to connect an existing Firefox browser to debugger.html, you can press `shift+F2` to open the developer toolbar and type `listen 6080` into the developer toolbar console.

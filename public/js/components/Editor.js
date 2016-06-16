@@ -128,6 +128,10 @@ const Editor = React.createClass({
       this.setSourceText(nextProps.sourceText, this.props.sourceText);
     }
 
+    if (this.props.selectedSource && !nextProps.selectedSource) {
+      this.editor.setValue("");
+    }
+
     // Highlight the paused line if necessary
     if (isSourceForFrame(nextProps.selectedSource, nextProps.selectedFrame)) {
       this.setDebugLine(nextProps.selectedFrame.location.line);

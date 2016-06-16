@@ -45,6 +45,7 @@ const app = express();
 const compiler = webpack(config);
 
 app.use(express.static("public"));
+app.use(express.static("node_modules"));
 
 app.use(webpackDevMiddleware(compiler, {
   publicPath: "/public/build",

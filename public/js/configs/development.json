@@ -2,6 +2,9 @@
   "development": true,
   "logging": true,
   "clientLogging": false,
+  "features": {
+    "tabs": true
+  },
   "chrome": {
     "debug": false,
     "webSocketPort": 9222

@@ -12,6 +12,12 @@
         "url": "http://example.com/bar/bar.js",
         "filename": "bar.js",
         "pathname": "bar/bar.js"
+      },
+      "bazzSourceActor": {
+        "id": "bazzSourceActor",
+        "url": "http://example.com/bazz/bazz.js",
+        "filename": "bazz.js",
+        "pathname": "bazz/bazz.js"
       }
     },
     "sourcesText": {
@@ -22,6 +28,10 @@
       "barSourceActor": {
         "contentType": "text/javascript",
         "text": "function() {\n  return bar;\n}"
+      },
+      "bazzSourceActor": {
+        "contentType": "text/javascript",
+        "text": "function() {\n  return bazz;\n}"
       }
     }
   },

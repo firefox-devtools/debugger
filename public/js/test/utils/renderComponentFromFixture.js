@@ -16,16 +16,27 @@ function createStore(state = {}) {
 
 function getData(fixtureName) {
   const fixture = fixtures[fixtureName];
-  return {
-    pause: Map({
+
+  if (!fixture) {
+    throw new Error(`Fixture ${fixtureName} not found`);
+  }
+
+  let pauseData = fixture.pause;
+  if (fixture.pause) {
+    pauseData = Map({
       pause: fromJS(fixture.pause.pause),
       loadedObjects: fromJS(fixture.pause.loadedObjects),
       frames: fixture.pause.frames
-    }),
+    });
+  }
+
+  return {
+    pause: pauseData,
     sources: Map({
       sources: fromJS(fixture.sources.sources),
       selectedSource: fromJS(fixture.sources.selectedSource),
-      sourcesText: fromJS(fixture.sources.sourcesText)
+      sourcesText: fromJS(fixture.sources.sourcesText),
+      tabs: fromJS(fixture.sources.tabs)
     }),
     breakpoints: Map({
       breakpoints: fromJS(fixture.breakpoints.breakpoints)

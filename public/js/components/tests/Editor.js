@@ -9,6 +9,7 @@ if (typeof window == "object") {
   }
 
   describe("Editor", function() {
+    // The editor fails to load in the unit tests
     xit("todomvc", function() {
       const $el = renderComponent(Editor, "todomvc");
       const lines = getEditorLines($el);
