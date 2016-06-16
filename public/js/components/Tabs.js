@@ -56,7 +56,7 @@ function Tabs({ tabs }) {
     dom.div(
       { className: "node-message" },
       "You can also ",
-      dom.a({ href: "/?ws=localhost:5858/node" },
+      dom.a({ href: "/?ws=localhost:9229/node" },
             "connect to Node"),
       "."
     )

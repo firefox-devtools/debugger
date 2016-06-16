@@ -20,7 +20,7 @@ if (isEnabled("development")) {
 
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
-const { getClient, connectClients, startDebugging } = require("./clients");
+const { getClient, connectClients, startDebuggingTab, startDebuggingNode } = require("./clients");
 const firefox = require("./clients/firefox");
 const chrome = require("./clients/chrome");
 
@@ -82,14 +82,11 @@ const connTarget = getTargetFromQuery();
 
 if (connTarget) {
   if (connTarget.type === "node") {
-    chrome.connectWebsocket("ws://" + connTarget.param).then(() => {
-      chrome.initPage(actions);
-      renderApp();
-    });
+    startDebuggingNode(connTarget.param, actions).then(renderApp);
   } else if (connTarget.type === "chrome") {
-    startDebugging(chrome, connTarget.param, actions).then(renderApp);
+    startDebuggingTab(chrome, connTarget.param, actions).then(renderApp);
   } else if (connTarget.type === "firefox") {
-    startDebugging(firefox, connTarget.param, actions).then(renderApp);
+    startDebuggingTab(firefox, connTarget.param, actions).then(renderApp);
   }
 } else if (process.env.NODE_ENV === "DEVTOOLS_PANEL") {
   // The toolbox already provides the tab to debug.

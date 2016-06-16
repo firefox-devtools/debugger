@@ -13,7 +13,14 @@ function getClient() {
   return firefox.clientCommands;
 }
 
-function startDebugging(targetEnv, tabId, actions) {
+function startDebuggingNode(url, actions) {
+  clientType = "chrome";
+  return chrome.connectNode(`ws://${url}`).then(() => {
+    chrome.initPage(actions);
+  });
+}
+
+function startDebuggingTab(targetEnv, tabId, actions) {
   return Task.spawn(function* () {
     const tabs = yield targetEnv.connectClient();
     const tab = tabs.find(t => t.id.indexOf(tabId) !== -1);
@@ -38,5 +45,6 @@ function connectClients() {
 module.exports = {
   getClient,
   connectClients,
-  startDebugging
+  startDebuggingTab,
+  startDebuggingNode
 };
