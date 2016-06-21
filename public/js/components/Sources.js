@@ -79,7 +79,7 @@ let SourcesTree = React.createClass({
   componentWillReceiveProps(nextProps) {
     if (nextProps.sources !== this.props.sources) {
       if (nextProps.sources.size === 0) {
-        this.setState(this.makeInitialState(nextProps));
+        this.setState(createTree(nextProps.sources));
         return;
       }
 
