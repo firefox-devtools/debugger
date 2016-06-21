@@ -3,4 +3,4 @@ build
 node_modules
 public/js/configs/development.local.json
 npm-debug.log
-public/js/test/screenshots
+public/js/test/cypress/screenshots/
