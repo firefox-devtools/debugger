@@ -22,7 +22,6 @@ describe("Todo MVC", function() {
     selectScope(0)
     stepOver();
     stepOut();
-    resume();
 
     cy.reload();
   });
@@ -69,7 +68,6 @@ describe("Todo MVC", function() {
     stepIn();
     stepOver();
     stepOut();
-    resume();
 
     cy.reload();
   });

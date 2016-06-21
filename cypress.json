@@ -2,5 +2,6 @@
   "projectId": "a820c083-ad4c-4194-b1ff-34d62af19c5d",
   "supportFolder": "public/js/test/cypress",
   "fixturesFolder": "public/js/test/fixtures",
-  "integrationFolder": "public/js/test/integration"
+  "integrationFolder": "public/js/test/integration",
+  "screenshotsFolder": "public/js/test/cypress/screenshots"
 }
