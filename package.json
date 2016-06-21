@@ -7,7 +7,7 @@
     "lint-css": "stylelint public/js/components/*.css",
     "lint-js": "eslint public/js",
     "test": "mocha --compilers js:babel-register public/js/test/node-unit-tests.js",
-    "test-all": "npm run test; npm run lint; npm run cypress",
+    "test-all": "npm run test; npm run lint; npm run cypress; npm run karma",
     "test-paths": "mocha --compilers js:babel-register",
     "mocha-server": "node bin/mocha-server.js",
     "cypress-server": "node bin/cypress-server.js",

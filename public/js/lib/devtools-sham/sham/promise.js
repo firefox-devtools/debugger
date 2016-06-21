@@ -7,7 +7,9 @@
  * and use the native web API (although building with webpack/babel, it may replace this
  * with it's own version if we want to target environments that do not have `Promise`.
  */
-Promise.defer = function defer() {
+
+let p = typeof window != "undefined" ?  window.Promise : Promise;
+p.defer = function defer() {
   var resolve, reject;
   var promise = new Promise(function() {
     resolve = arguments[0];
@@ -20,4 +22,4 @@ Promise.defer = function defer() {
   };
 }
 
-module.exports = Promise;
+module.exports = p;
