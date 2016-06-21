@@ -20,6 +20,21 @@
   position: relative;
 }
 
+.source-tab:hover {
+  background: var(--theme-toolbar-background);
+  cursor: pointer;
+}
+
+.source-tab.active {
+  background: var(--theme-selection-background);
+  border-color: var(--theme-selection-background);
+  color: white;
+}
+
+.source-tab.active path {
+  fill: white;
+}
+
 .source-tab .close-btn {
   position: absolute;
   right: 7px;

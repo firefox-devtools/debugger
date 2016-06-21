@@ -5,7 +5,7 @@ const fixtures = require("../../test/fixtures/foobar.json");
 const fromJS = require("../../util/fromJS");
 const expect = require("expect.js");
 
-const { getSelectedSource } = selectors;
+const { getSelectedSource, getSourceTabs } = selectors;
 const { selectSource } = actions;
 const sourcesFixtures = fixtures.sources;
 
@@ -17,7 +17,7 @@ const simpleMockThreadClient = {
   }
 };
 
-describe("selectSource", () => {
+describe("selectSource", function() {
   it("selecting an already loaded source", function() {
     const initialState = {
       sources: fromJS({
@@ -26,7 +26,8 @@ describe("selectSource", () => {
         },
         sourcesText: {
           "fooSourceActor": sourcesFixtures.sourcesText.fooSourceActor
-        }
+        },
+        tabs: []
       })
     };
 
@@ -37,6 +38,10 @@ describe("selectSource", () => {
 
     const fooSelectedSource = getSelectedSource(this.store.getState());
     expect(fooSelectedSource.get("id")).to.equal("fooSourceActor");
+
+    const sourceTabs = getSourceTabs(this.store.getState());
+    expect(sourceTabs.count()).to.equal(1);
+    expect(sourceTabs.get(0).get("id")).to.equal("fooSourceActor");
   });
 
   it("selecting a source that hasn\'t been loaded", function() {
@@ -45,7 +50,8 @@ describe("selectSource", () => {
         sources: {
           "fooSourceActor": sourcesFixtures.sources.fooSourceActor
         },
-        sourcesText: {}
+        sourcesText: {},
+        tabs: []
       })
     };
 
@@ -56,5 +62,9 @@ describe("selectSource", () => {
 
     const fooSelectedSource = getSelectedSource(this.store.getState());
     expect(fooSelectedSource.get("id")).to.equal("fooSourceActor");
+
+    const sourceTabs = getSourceTabs(this.store.getState());
+    expect(sourceTabs.count()).to.equal(1);
+    expect(sourceTabs.get(0).get("id")).to.equal("fooSourceActor");
   });
 });

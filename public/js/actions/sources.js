@@ -43,7 +43,7 @@ function newSource(source) {
   };
 }
 
-function selectSource(id, opts) {
+function selectSource(id) {
   return ({ dispatch, getState, client }) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
@@ -60,6 +60,13 @@ function selectSource(id, opts) {
       type: constants.SELECT_SOURCE,
       source: source
     });
+  };
+}
+
+function closeTab(id) {
+  return {
+    type: constants.CLOSE_TAB,
+    id: id,
   };
 }
 
@@ -255,6 +262,7 @@ function getTextForSources(actors) {
 module.exports = {
   newSource,
   selectSource,
+  closeTab,
   blackbox,
   togglePrettyPrint,
   loadSourceText,

@@ -3,9 +3,13 @@
 const React = require("react");
 const { DOM: dom } = React;
 const { connect } = require("react-redux");
+const { bindActionCreators } = require("redux");
 const Isvg = React.createFactory(require("react-inlinesvg"));
-const { getSelectedSource } = require("../selectors");
+const { getSelectedSource, getSourceTabs } = require("../selectors");
 const { endTruncateStr } = require("../util/utils");
+const classnames = require("classnames");
+const actions = require("../actions");
+const { isEnabled } = require("../configs/feature");
 
 require("./SourceTabs.css");
 
@@ -26,24 +30,50 @@ function getFilename(url) {
   return endTruncateStr(name, 50);
 }
 
-function sourceTab(selectedSource) {
-  const url = selectedSource && selectedSource.get("url");
+function sourceTab(source, selectedSource, selectSource, closeTab) {
+  const url = source && source.get("url");
   const filename = getFilename(url);
+  const active = source.equals(selectedSource);
 
-  return dom.div({ className: "source-tab" },
+  function onClickClose(ev) {
+    ev.stopPropagation();
+    closeTab(source.get("id"));
+  }
+
+  return dom.div(
+    {
+      className: classnames("source-tab", { active }),
+      key: source.get("id"),
+      onClick: () => selectSource(source.get("id"))
+    },
     dom.div({ className: "filename" }, filename),
-    Isvg({ className: "close-btn", src: "images/close.svg" })
+    dom.div({ onClick: onClickClose },
+      Isvg({
+        className: "close-btn",
+        src: "images/close.svg",
+      })
+    )
   );
 }
 
-function SourceTabs({ selectedSource }) {
+function SourceTabs({ selectedSource, sourceTabs, selectSource, closeTab }) {
+  function renderTab(source) {
+    return sourceTab(source, selectedSource, selectSource, closeTab);
+  }
+
   return (
     dom.div({ className: "source-tabs" },
-      selectedSource ? sourceTab(selectedSource) : ""
+      isEnabled("features.tabs")
+        ? sourceTabs.map(renderTab)
+        : renderTab(selectedSource)
     )
   );
 }
 
 module.exports = connect(
-  state => ({ selectedSource: getSelectedSource(state) })
+  state => ({
+    selectedSource: getSelectedSource(state),
+    sourceTabs: getSourceTabs(state)
+  }),
+  dispatch => bindActionCreators(actions, dispatch)
 )(SourceTabs);

@@ -7,6 +7,8 @@ xdescribe("Fixtures", function() {
   it("todomvc", function() {
     debugPage("todomvc");
     goToSource("js/views/todo-view");
+    goToSource("app-view");
+    goToSource("models/todo.js");
     cy.saveFixture("todomvc");
     cy.reload();
   });

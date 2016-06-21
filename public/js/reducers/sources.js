@@ -11,7 +11,8 @@ const initialState = fromJS({
   sources: {},
   sourceTree: ["root", []],
   selectedSource: null,
-  sourcesText: {}
+  sourcesText: {},
+  tabs: []
 });
 
 function update(state = initialState, action) {
@@ -28,9 +29,14 @@ function update(state = initialState, action) {
       );
 
     case constants.SELECT_SOURCE:
-      return state.merge({
-        selectedSource: action.source
-      });
+      return state
+        .merge({ selectedSource: action.source })
+        .set("tabs", addSourceToTabList(state, fromJS(action.source)));
+
+    case constants.CLOSE_TAB:
+      return state
+        .set("tabs", removeSourceFromTabList(state, action.id))
+        .merge({ selectedSource: getNewSelectedSource(state, action.id) });
 
     case constants.LOAD_SOURCE_TEXT: {
       return _updateText(state, action);
@@ -90,6 +96,54 @@ function _updateText(state, action) {
     text: action.value.text,
     contentType: action.value.contentType
   }));
+}
+
+function removeSourceFromTabList(state, id) {
+  return state.get("tabs")
+              .filter(tab => tab.get("id") != id);
+}
+
+/*
+ * Adds the new source to the tab list if it is not already there
+ */
+function addSourceToTabList(state, source) {
+  const tabs = state.get("tabs");
+  const selectedSource = state.get("selectedSource");
+  const selectedSourceIndex = tabs.indexOf(selectedSource);
+
+  if (tabs.includes(source)) {
+    return tabs;
+  }
+
+  return tabs.insert(selectedSourceIndex + 1, source);
+}
+
+/**
+ * Gets the next tab to select when a tab closes.
+ */
+function getNewSelectedSource(state, id) {
+  const tabs = state.get("tabs");
+  const selectedSource = state.get("selectedSource");
+
+  // if we're not closing the selected tab return the selected tab
+  if (selectedSource.get("id") != id) {
+    return selectedSource;
+  }
+
+  const tabIndex = tabs.findIndex(tab => tab.get("id") == id);
+  const numTabs = tabs.count();
+
+  if (numTabs == 1) {
+    return null;
+  }
+
+  // if we're closing the last tab, select the penultimate tab
+  if (tabIndex + 1 == numTabs) {
+    return tabs.get(tabIndex - 1);
+  }
+
+  // return the next tab
+  return tabs.get(tabIndex + 1);
 }
 
 module.exports = update;

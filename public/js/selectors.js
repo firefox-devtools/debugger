@@ -5,6 +5,10 @@ function getSources(state) {
   return state.sources.get("sources");
 }
 
+function getSourceTabs(state) {
+  return state.sources.get("tabs");
+}
+
 function getSourcesText(state) {
   return state.sources.get("sourcesText");
 }
@@ -89,6 +93,7 @@ function makeLocationId(location) {
 module.exports = {
   getSource,
   getSources,
+  getSourceTabs,
   getSourceCount,
   getSourceByURL,
   getSourceById,
