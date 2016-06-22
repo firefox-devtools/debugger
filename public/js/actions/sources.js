@@ -4,9 +4,9 @@
 "use strict";
 
 const defer = require("devtools/shared/defer");
-const { PROMISE } = require("devtools-sham/client/shared/redux/middleware/promise");
-const { Task } = require("devtools-sham/sham/task");
-const SourceUtils = require("devtools-sham/client/shared/source-utils");
+const { PROMISE } = require("../util/redux/middleware/promise");
+const { Task } = require("../util/task");
+const { isJavaScript } = require("../util/source");
 
 const { getSource, getSourceText } = require("../selectors");
 const constants = require("../constants");
@@ -122,7 +122,7 @@ function togglePrettyPrint(source) {
         // Only attempt to pretty print JavaScript sources.
         const sourceText = getSourceText(getState(), source.id).toJS();
         const contentType = sourceText ? sourceText.contentType : null;
-        if (!SourceUtils.isJavaScript(source.url, contentType)) {
+        if (!isJavaScript(source.url, contentType)) {
           throw new Error("Can't prettify non-javascript files.");
         }
 

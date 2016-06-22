@@ -6,8 +6,6 @@
 
 "use strict";
 
-// const promise = require("devtools-sham/sham/promise");
-
 /**
  * This object provides the public module functions.
  */
@@ -16,7 +14,7 @@ const Task = {
   async: function(task) {
     return function() {
       return Task.spawn(task, this, arguments);
-    }
+    };
   },
 
   /**
@@ -49,4 +47,4 @@ const Task = {
   },
 };
 
-exports.Task = Task;
+module.exports = { Task };

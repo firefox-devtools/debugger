@@ -1,7 +1,7 @@
 "use strict";
 
 const defer = require("devtools/shared/defer");
-const { Task } = require("devtools-sham/sham/task");
+const { Task } = require("../../util/task");
 const expect = require("expect.js");
 
 const { actions, selectors, createStore } = require("../../util/test-head");

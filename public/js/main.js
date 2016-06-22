@@ -12,7 +12,7 @@ const {
 
 setConfigs();
 
-const configureStore = require("./create-store");
+const configureStore = require("./util/create-store");
 const reducers = require("./reducers");
 const actions = require("./actions");
 const { getClient, connectClients, startDebugging } = require("./clients");
