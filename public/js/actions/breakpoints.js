@@ -4,11 +4,11 @@
 "use strict";
 
 const constants = require("../constants");
-const { PROMISE } = require("devtools-sham/client/shared/redux/middleware/promise");
+const { PROMISE } = require("../util/redux/middleware/promise");
 const {
   getBreakpoint, getBreakpoints
 } = require("../selectors");
-const { Task } = require("devtools-sham/sham/task");
+const { Task } = require("../util/task");
 const fromJS = require("../util/fromJS");
 
 function enableBreakpoint(location) {

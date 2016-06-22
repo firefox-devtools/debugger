@@ -18,7 +18,7 @@ if (isEnabled("development")) {
   AppConstants.DEBUG_JS_MODULES = true;
 }
 
-const configureStore = require("./create-store");
+const configureStore = require("./util/create-store");
 const reducers = require("./reducers");
 const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");

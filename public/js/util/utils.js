@@ -59,10 +59,83 @@ function endTruncateStr(str, size) {
   return str;
 }
 
+/**
+ * Interleaves two arrays element by element, returning the combined array, like
+ * a zip. In the case of arrays with different sizes, undefined values will be
+ * interleaved at the end along with the extra values of the larger array.
+ *
+ * @param Array a
+ * @param Array b
+ * @returns Array
+ *          The combined array, in the form [a1, b1, a2, b2, ...]
+ */
+function zip(a, b) {
+  if (!b) {
+    return a;
+  }
+  if (!a) {
+    return b;
+  }
+  const pairs = [];
+  for (let i = 0, aLength = a.length, bLength = b.length;
+       i < aLength || i < bLength;
+       i++) {
+    pairs.push([a[i], b[i]]);
+  }
+  return pairs;
+};
+
+/**
+ * Converts an object into an array with 2-element arrays as key/value
+ * pairs of the object. `{ foo: 1, bar: 2}` would become
+ * `[[foo, 1], [bar 2]]` (order not guaranteed);
+ *
+ * @param object obj
+ * @returns array
+ */
+function entries(obj) {
+  return Object.keys(obj).map(k => [k, obj[k]]);
+}
+
+/**
+ * Takes an array of 2-element arrays as key/values pairs and
+ * constructs an object using them.
+ */
+function toObject(arr) {
+  const obj = {};
+  for(let pair of arr) {
+    obj[pair[0]] = pair[1];
+  }
+  return obj;
+}
+
+/**
+ * Composes the given functions into a single function, which will
+ * apply the results of each function right-to-left, starting with
+ * applying the given arguments to the right-most function.
+ * `compose(foo, bar, baz)` === `args => foo(bar(baz(args)`
+ *
+ * @param ...function funcs
+ * @returns function
+ */
+function compose(...funcs) {
+  return (...args) => {
+    const initialValue = funcs[funcs.length - 1].apply(null, args);
+    const leftFuncs = funcs.slice(0, -1);
+    return leftFuncs.reduceRight((composed, f) => f(composed),
+                                 initialValue);
+  };
+}
+
+
 module.exports = {
   asPaused,
   handleError,
   promisify,
   truncateStr,
-  endTruncateStr
+  endTruncateStr,
+  zip,
+  entries,
+  toObject,
+  compose
 };
