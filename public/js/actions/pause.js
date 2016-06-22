@@ -2,7 +2,7 @@
 
 const constants = require("../constants");
 const { selectSource } = require("./sources");
-const { PROMISE } = require("devtools-sham/client/shared/redux/middleware/promise");
+const { PROMISE } = require("../util/redux/middleware/promise");
 
 /**
  * Debugger has just resumed

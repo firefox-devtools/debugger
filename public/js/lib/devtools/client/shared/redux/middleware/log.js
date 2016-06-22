@@ -9,12 +9,7 @@
  */
 function log({ dispatch, getState }) {
   return next => action => {
-    const str = "[DISPATCH] " + JSON.stringify(action, null, 2);
-    if (typeof console !== "undefined") {
-      console.log(str)
-    } else {
-      dump(str + "\n");
-    }
+    console.log("[DISPATCH]", JSON.stringify(action, null, 2));
     next(action);
   };
 }

@@ -7,8 +7,8 @@
 
 const constants = require("../constants");
 const { asPaused } = require("../util/utils");
-const { reportException } = require("devtools-sham/shared/DevToolsUtils");
-const { Task } = require("devtools-sham/sham/task");
+const { reportException } = require("../util/DevToolsUtils");
+const { Task } = require("../util/task");
 
 // delay is in ms
 const FETCH_EVENT_LISTENERS_DELAY = 200;

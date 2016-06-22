@@ -5,11 +5,11 @@
 "use strict";
 
 const { createStore, applyMiddleware } = require("redux");
-const { thunk } = require("./util/thunk-middleware");
-const { waitUntilService } = require("devtools-sham/client/shared/redux/middleware/wait-service");
-const { log } = require("devtools-sham/client/shared/redux/middleware/log");
-const { promise } = require("devtools-sham/client/shared/redux/middleware/promise");
-const { history } = require("devtools-sham/client/shared/redux/middleware/history");
+const { waitUntilService } = require("devtools/client/shared/redux/middleware/wait-service");
+const { log } = require("devtools/client/shared/redux/middleware/log");
+const { history } = require("./redux/middleware/history");
+const { promise } = require("./redux/middleware/promise");
+const { thunk } = require("./redux/middleware/thunk");
 
 /**
  * This creates a dispatcher with all the standard middleware in place
