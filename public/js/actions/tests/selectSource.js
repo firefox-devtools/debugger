@@ -14,6 +14,11 @@ const simpleMockThreadClient = {
     return new Promise((resolve, reject) => {
       resolve(sourcesFixtures.sources[sourceId]);
     });
+  },
+  sourceContents: function(sourceId) {
+    return new Promise((resolve, reject) => {
+      resolve(sourcesFixtures.sourcesText[sourceId]);
+    });
   }
 };
 
