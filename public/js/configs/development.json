@@ -8,5 +8,8 @@
   "chrome": {
     "debug": false,
     "webSocketPort": 9222
+  },
+  "firefox": {
+    "webSocketPort": 9000
   }
 }

@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
+require("babel-register");
+
 const path = require("path");
 const webpack = require("webpack");
 const express = require("express");
