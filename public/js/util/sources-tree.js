@@ -1,7 +1,7 @@
 "use strict";
 
 const URL = require("url");
-// const { assert } = require("devtools-sham/shared/DevToolsUtils");
+const { assert } = require("./DevToolsUtils");
 
 function nodeHasChildren(item) {
   // Do not use `Array.isArray` because it's slower and we do not need
@@ -92,7 +92,7 @@ function addToTree(tree, source) {
     //
     // TODO: Be smarter about this, which we'll probably do when we
     // are smarter about folders and collapsing empty ones.
-    // assert(nodeHasChildren(subtree), `${subtree.name} should have children`);
+    assert(nodeHasChildren(subtree), `${subtree.name} should have children`);
     const subpaths = subtree.contents;
 
     // We want to sort alphabetically, so find the index where we

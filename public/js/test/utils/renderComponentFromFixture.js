@@ -7,7 +7,7 @@ const { fromJS, Map } = require("immutable");
 const { combineReducers } = require("redux");
 
 const fixtures = require("../fixtures");
-const configureStore = require("../../create-store");
+const configureStore = require("../../util/create-store");
 const reducers = require("../../reducers");
 
 function createStore(state = {}) {
