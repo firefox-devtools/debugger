@@ -59,10 +59,10 @@ app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "../mocha-runner.html"));
 });
 
-app.listen(8002, "localhost", function(err, result) {
+app.listen(8003, "localhost", function(err, result) {
   if (err) {
     console.log(err);
   }
 
-  console.log("Listening at http://localhost:8002");
+  console.log("Listening at http://localhost:8003");
 });

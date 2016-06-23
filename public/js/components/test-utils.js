@@ -5,23 +5,29 @@ const ReactDOM = require("react-dom");
 
 const renderComponentFromFixture = require("../test/utils/renderComponentFromFixture");
 
+function createElementWithAttributes(tag, attrs) {
+  const $el = document.createElement(tag);
+  Object.keys(attrs).forEach(key => {
+    const attr = document.createAttribute(key);
+    attr.value = attrs[key];
+    $el.setAttributeNode(attr);
+  });
+
+  return $el;
+}
+
 function getSandbox() {
   let $el = document.querySelector("#sandbox");
-  if (!$el) {
-    const idAttr = document.createAttribute("id");
-    idAttr.nodeValue = "sandbox";
-
-    const styleAttr = document.createAttribute("style");
-    styleAttr.nodeValue = "top: 0; position: relative; height: 500px;";
-
-    $el = document.createElement("div");
-    $el.setAttributeNode(idAttr);
-    $el.setAttributeNode(styleAttr);
-    document.body.appendChild($el);
+  if ($el) {
+    $el.remove();
   }
 
-  $el.innerHTML = "";
+  $el = createElementWithAttributes("div", {
+    id: "sandbox",
+    style: "top: 0; position: relative; height: 500px;"
+  });
 
+  document.body.appendChild($el);
   return $el;
 }
 
