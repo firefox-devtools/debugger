@@ -4,6 +4,7 @@ const { DebuggerClient } = require("devtools-sham/shared/client/main");
 const { DebuggerTransport } = require("devtools-sham/transport/transport");
 const { TargetFactory } = require("devtools-sham/client/framework/target");
 const defer = require("../lib/devtools/shared/defer");
+const { getValue } = require("../configs/feature");
 const { Tab } = require("../types");
 const { setupCommands, clientCommands } = require("./firefox/commands");
 const { setupEvents, clientEvents } = require("./firefox/events");
@@ -48,8 +49,9 @@ function createTabs(tabs) {
 function connectClient() {
   const deferred = defer();
   let isConnected = false;
+  const webSocketPort = getValue("firefox.webSocketPort");
 
-  const socket = new WebSocket("ws://localhost:9000");
+  const socket = new WebSocket(`ws://localhost:${webSocketPort}`);
   const transport = new DebuggerTransport(socket);
   debuggerClient = new DebuggerClient(transport);
 

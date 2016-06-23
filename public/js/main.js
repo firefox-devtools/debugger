@@ -1,98 +1,65 @@
 /* global window, document */
 "use strict";
 
-const React = require("react");
-const ReactDOM = require("react-dom");
 const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");
-const DevToolsUtils = require("devtools-sham/shared/DevToolsUtils");
-const { AppConstants } = require("devtools-sham/sham/appconstants");
-const { isEnabled } = require("./configs/feature");
+const ReactDOM = require("react-dom");
+const React = require("react");
 
-// Set various flags before requiring app code.
-if (isEnabled("clientLogging")) {
-  DevToolsUtils.dumpn.wantLogging = true;
-}
+const {
+  getTargetFromQuery, setConfigs, isDevToolsPanel
+} = require("./configs/feature");
 
-if (isEnabled("development")) {
-  AppConstants.DEBUG_JS_MODULES = true;
-}
+setConfigs();
 
 const configureStore = require("./create-store");
 const reducers = require("./reducers");
+const actions = require("./actions");
 const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");
 
-const Tabs = React.createFactory(require("./components/Tabs"));
-const App = React.createFactory(require("./components/App"));
+const Tabs = require("./components/Tabs");
+const App = require("./components/App");
 
-const createStore = configureStore({
+const store = configureStore({
   log: false,
   makeThunkArgs: (args, state) => {
-    let client = getClient(state);
-    return Object.assign({}, args, { client });
+    return Object.assign({}, args, { client: getClient(state) });
   }
-});
-const store = createStore(combineReducers(reducers));
-const actions = bindActionCreators(require("./actions"), store.dispatch);
+})(combineReducers(reducers));
+
+const boundActions = bindActionCreators(actions, store.dispatch);
 
 // global for debugging purposes only!
 window.store = store;
-
-function getTargetFromQuery() {
-  if (window.location.href.indexOf("?ws") !== -1) {
-    const m = window.location.href.match(/\?ws=([^&#]*)/);
-    return { type: "node", param: m[1] };
-  } else if (window.location.href.indexOf("?firefox-tab") !== -1) {
-    const m = window.location.href.match(/\?firefox-tab=([^&#]*)/);
-    return { type: "firefox", param: m[1] };
-  } else if (window.location.href.indexOf("?chrome-tab") !== -1) {
-    const m = window.location.href.match(/\?chrome-tab=([^&#]*)/);
-    return { type: "chrome", param: m[1] };
-  }
-  return null;
-}
-
-function renderApp() {
-  ReactDOM.render(
-    React.createElement(
-      Provider,
-      { store },
-      App()
-    ),
-    document.querySelector("#mount")
-  );
-}
-
-function renderTabs() {
-  ReactDOM.render(
-    React.createElement(
-      Provider,
-      { store },
-      Tabs()
-    ),
-    document.querySelector("#mount")
-  );
-}
-
 window.injectDebuggee = require("./test/utils/debuggee");
 
-const connTarget = getTargetFromQuery();
+function renderRoot(appStore, component) {
+  ReactDOM.render(
+    React.createElement(
+      Provider,
+      { store: appStore },
+      React.createFactory(component)()
+    ),
+    document.querySelector("#mount")
+  );
+}
 
+const connTarget = getTargetFromQuery();
 if (connTarget) {
-  startDebugging(connTarget, actions).then(renderApp);
-} else if (process.env.NODE_ENV === "DEVTOOLS_PANEL") {
+  startDebugging(connTarget, boundActions).then(() => renderRoot(store, App));
+} else if (isDevToolsPanel()) {
   // The toolbox already provides the tab to debug.
   module.exports = {
-    renderApp,
     setThreadClient: firefox.setThreadClient,
     setTabTarget: firefox.setTabTarget,
     initPage: firefox.initPage,
-    getBoundActions: () => actions,
+    getBoundActions: () => boundActions,
+    renderApp: () => renderRoot(store, App)
   };
 } else {
   connectClients().then(tabs => {
-    actions.newTabs(tabs);
-    renderTabs();
+    boundActions.newTabs(tabs);
+    renderRoot(store, Tabs);
   });
 }
