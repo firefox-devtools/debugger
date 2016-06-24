@@ -40,6 +40,7 @@ function getScopes(pauseInfo) {
   }
 
   const scopes = [];
+  let index = 0;
 
   do {
     const type = scope.get("type");
@@ -63,6 +64,7 @@ function getScopes(pauseInfo) {
               type: "object",
               actor: Math.random().toString()
             }),
+            isScope: true,
             prefetchedProperties: vars
           }),
         ]);
@@ -71,13 +73,97 @@ function getScopes(pauseInfo) {
       scopes.push([
         scope.getIn(["object", "class"]),
         fromJS({
+          isScope: true,
           value: scope.get("object")
         })
       ]);
     }
+    index++;
   } while (scope = scope.get("parent")); // eslint-disable-line no-cond-assign
 
   return scopes;
+}
+
+function isObject(obj) {
+  return obj.getIn(["value", "type"]) === "object";
+}
+
+function loadedProperties(obj, loadedObjects) {
+  return loadedObjects.get(obj.getIn(["value", "actor"])) ||
+         obj.get("prefetchedProperties");
+}
+
+function sortProperties(a, b) {
+  const obj = isObject(a[1]) && !isObject(b[1]) ? -10 : 10;
+  const alpha = a[0] < b[0] ? -1 : 1
+
+  return obj + alpha > 0 ? -1 : 1;
+}
+
+/**
+ * Gets an object's children to show in the scope tree
+ */
+function getChildren(item, loadedObjects) {
+  const obj = item[1];
+
+  if (isObject(obj)) {
+    const loaded = loadedProperties(obj, loadedObjects)
+
+    if (loaded) {
+      loaded.sort(sortProperties);
+      return loaded;
+    }
+
+    return [["fetching...", fromJS({ value: { type: "placeholder" }})]];
+  }
+
+  return [];
+}
+
+function runderItemValue(obj) {
+  let objectValue = "";
+  let hasValue = false;
+  if (obj.has("value")) {
+    hasValue = true;
+    let val = obj.get("value");
+    val = val.toJS ? val.toJS() : val;
+    if (isObject(obj)) {
+      objectValue = "Object";
+    } else {
+      objectValue = Rep({ object: val });
+    }
+  }
+  const isScope = obj.get("isScope")
+
+  if (isScope) {
+    return []
+  }
+
+  return [
+    dom.span({ className: "scope-object-delimiter" }, hasValue ? ": " : ""),
+    dom.span({ className: "scope-object-value" }, objectValue)
+  ]
+}
+
+function renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+  const obj = item[1];
+
+  return dom.div(
+    { className: classnames("node", { focused }),
+      style: { marginLeft: depth * 15 }},
+    Arrow({
+      className: classnames(
+        { expanded: expanded,
+          hidden: item[1].getIn(["value", "type"]) !== "object" }
+      ),
+      onClick: e => {
+        e.stopPropagation();
+        setExpanded(item, !expanded);
+      }
+    }),
+    dom.span({ className: "scope-object-label" }, item[0]),
+    ...runderItemValue(obj)
+  );
 }
 
 const Scopes = React.createClass({
@@ -99,74 +185,27 @@ const Scopes = React.createClass({
     }
   },
 
-  getChildren(item) {
-    const { loadedObjects } = this.props;
-    const obj = item[1];
-
-    if (obj.get("prefetchedProperties")) {
-      return obj.get("prefetchedProperties");
-    } else if (obj.getIn(["value", "type"]) === "object") {
-      const loaded = loadedObjects.get(obj.getIn(["value", "actor"]));
-
-      if (loaded) {
-        return loaded;
-      }
-      return [["fetching...", fromJS({ value: { type: "placeholder" }})]];
-    }
-    return [];
-  },
-
-  renderItem(item, depth, focused, _, expanded, { setExpanded }) {
-    const obj = item[1];
-    let objectValue = "";
-    let hasValue = false;
-    if (obj.has("value")) {
-      hasValue = true;
-      let val = obj.get("value");
-      val = val.toJS ? val.toJS() : val;
-      objectValue = Rep({ object: val });
-    }
-
-    return dom.div(
-      { className: classnames("node", { focused }),
-        style: { marginLeft: depth * 15 }},
-      Arrow({
-        className: classnames(
-          { expanded: expanded,
-            hidden: item[1].getIn(["value", "type"]) !== "object" }
-        ),
-        onClick: e => {
-          e.stopPropagation();
-          setExpanded(item, !expanded);
-        }
-      }),
-      dom.span({ className: "scope-object-label" }, item[0]),
-      dom.span({ className: "scope-object-delimiter" }, hasValue ? ": " : ""),
-      dom.span({ className: "scope-object-value" }, objectValue)
-    );
-  },
-
   render() {
-    const { pauseInfo, loadObjectProperties } = this.props;
+    const { pauseInfo, loadObjectProperties, loadedObjects } = this.props;
     const { scopes } = this.state;
 
     const tree = ManagedTree({
       itemHeight: 100,
+
       getParent: item => null,
-      getChildren: this.getChildren,
+      getChildren: (item) => getChildren(item, loadedObjects),
       getRoots: () => scopes,
       // TODO: make proper keys
       getKey: item => Math.random(),
       autoExpand: 0,
       onExpand: item => {
         const obj = item[1];
-        if (!obj.has("prefetchedProperties") &&
-           obj.getIn(["value", "type"]) === "object") {
+        if (isObject(obj) && !loadedProperties(obj, loadedObjects)) {
           loadObjectProperties(obj.get("value").toJS());
         }
       },
 
-      renderItem: this.renderItem
+      renderItem: renderItem
     });
 
     const scopeTree = scopes ? tree : info("Scopes Unavailable");

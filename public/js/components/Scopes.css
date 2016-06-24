@@ -2,3 +2,11 @@
 .scope-object-label {
   color: var(--theme-highlight-blue);
 }
+
+.focused .scope-object-value > span {
+  color: white;
+}
+
+.focused .scope-object-label {
+  color: white;
+}

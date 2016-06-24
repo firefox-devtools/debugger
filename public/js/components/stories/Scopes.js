@@ -11,7 +11,7 @@ const style = {
   paddingTop: "100px" };
 
 const component = dom.div(
-  { className: "accordion" },
+  { className: "accordion theme-light" },
   dom.div({ className: "_content" }, createElement(createFactory(Scopes)))
 );
 
