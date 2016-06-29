@@ -1,31 +1,31 @@
 "use strict";
 
-const { isDevelopment, isEnabled, stubConfig } = require("../feature");
+const { isDevelopment, isEnabled, setConfig } = require("../feature");
 const expect = require("expect.js");
 
 describe("feature", () => {
   it("isDevelopment", () => {
-    stubConfig({ development: true });
+    setConfig({ development: true });
     expect(isDevelopment()).to.be.truthy;
   });
 
   it("isDevelopment - not defined", () => {
-    stubConfig({ });
+    setConfig({ });
     expect(isDevelopment()).to.be.falsey;
   });
 
   it("isEnabled - enabled", function() {
-    stubConfig({ featureA: true });
+    setConfig({ featureA: true });
     expect(isEnabled("featureA")).to.be.truthy;
   });
 
   it("isEnabled - disabled", function() {
-    stubConfig({ featureA: false });
+    setConfig({ featureA: false });
     expect(isEnabled("featureA")).to.be.falsey;
   });
 
   it("isEnabled - not present", function() {
-    stubConfig({});
+    setConfig({});
     expect(isEnabled("featureA")).to.be.undefined;
   });
 });

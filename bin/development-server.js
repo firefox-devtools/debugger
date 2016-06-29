@@ -4,14 +4,27 @@
 require("babel-register");
 
 const path = require("path");
+const fs = require("fs");
 const webpack = require("webpack");
 const express = require("express");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const http = require("http");
 
+// Improve the first run experience: copy the local sample config to a
+// local file so webpack can find it. We don't have to do this, but
+// otherwise webpack prints a warning that scares people.
+const localConfigPath = path.join(__dirname, "../config/local.json")
+if(!fs.existsSync(localConfigPath)) {
+  const defaultConfig = fs.readFileSync(
+    path.join(__dirname, "../config/local.sample.json")
+  );
+  fs.writeFileSync(localConfigPath, defaultConfig);
+}
+
+const { getValue, isEnabled } = require("../config/feature");
+
 const projectConfig = require("../webpack.config");
-const getValue = require("../config/feature").getValue;
 
 require("./firefox-proxy");
 
@@ -73,17 +86,21 @@ app.get("/", function(req, res) {
 });
 
 app.get("/chrome-tabs", function(req, res) {
-  const webSocketPort = getValue("chrome.webSocketPort");
-  const url = `http://localhost:${webSocketPort}/json/list`;
+  if(isEnabled("chrome.debug")) {
+    const webSocketPort = getValue("chrome.webSocketPort");
+    const url = `http://localhost:${webSocketPort}/json/list`;
 
-  const tabRequest = httpGet(url, body => res.json(JSON.parse(body)));
+    const tabRequest = httpGet(url, body => res.json(JSON.parse(body)));
 
-  tabRequest.on('error', function (err) {
-    if (err.code == "ECONNREFUSED") {
-      console.log("Failed to connect to chrome");
-    }
-  });
-
+    tabRequest.on('error', function (err) {
+      if (err.code == "ECONNREFUSED") {
+        console.log("Failed to connect to chrome");
+      }
+    });
+  }
+  else {
+    res.json([]);
+  }
 })
 
 // Listen
