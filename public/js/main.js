@@ -34,21 +34,28 @@ const boundActions = bindActionCreators(actions, store.dispatch);
 window.store = store;
 window.injectDebuggee = require("./test/utils/debuggee");
 
-function renderRoot(appStore, component, mount) {
+function renderRoot(component) {
+  const mount = document.querySelector("#mount");
+
+  // bail in test environments that do not have a mount
+  if (!mount) {
+    return;
+  }
+
   ReactDOM.render(
     React.createElement(
       Provider,
-      { store: appStore },
-      React.createFactory(component)()
-    ), mount
+      { store },
+      React.createElement(component)
+    ),
+    mount
   );
 }
 
 const connTarget = getTargetFromQuery();
 if (connTarget) {
   startDebugging(connTarget, boundActions).then(() => {
-    const mount = document.querySelector("#mount");
-    renderRoot(store, App, mount);
+    renderRoot(App);
   });
 } else if (isDevToolsPanel()) {
   // The toolbox already provides the tab to debug.
@@ -57,18 +64,11 @@ if (connTarget) {
     setTabTarget: firefox.setTabTarget,
     initPage: firefox.initPage,
     getBoundActions: () => boundActions,
-    renderApp: () => renderRoot(store, App)
+    renderApp: () => renderRoot(App)
   };
 } else {
   connectClients().then(tabs => {
-    const mount = document.querySelector("#mount");
-
-    // bail in test environments that do not have a mount
-    if (!mount) {
-      return;
-    }
-
     boundActions.newTabs(tabs);
-    renderRoot(store, Tabs, mount);
+    renderRoot(Tabs);
   });
 }
