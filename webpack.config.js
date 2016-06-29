@@ -11,7 +11,8 @@ let config = {
   devtool: "source-map",
   output: {
     path: path.join(__dirname, "public/build"),
-    filename: "bundle.js"
+    filename: "bundle.js",
+    publicPath: "/public/build"
   },
   resolve: {
     alias: {
@@ -23,14 +24,10 @@ let config = {
   },
   module: {
     loaders: [
-      {
-        test: /\.json$/,
-        loader: "json"
-      },
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-      }
+      { test: /\.json$/,
+        loader: "json" },
+      { test: /\.css$/,
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader") }
     ]
   },
   plugins: [
