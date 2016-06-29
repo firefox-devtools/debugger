@@ -205,7 +205,6 @@ SourcesTree = React.createFactory(SourcesTree);
 function Sources({ sources, selectSource, selectedSource }) {
   return dom.div(
     { className: "sources-panel" },
-    dom.div({ className: "sources-header" }),
     SourcesTree({ sources, selectSource })
   );
 }

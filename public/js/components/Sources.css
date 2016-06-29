@@ -5,11 +5,6 @@
   overflow: hidden;
 }
 
-.sources-header {
-  flex: 0 0 30px;
-  border-bottom: 1px solid var(--theme-gray);
-}
-
 .sources-list {
   flex: 1;
   display: flex;
