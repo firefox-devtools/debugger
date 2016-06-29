@@ -9,7 +9,7 @@ const { getSelectedSource, getSourceTabs } = require("../selectors");
 const { endTruncateStr } = require("../util/utils");
 const classnames = require("classnames");
 const actions = require("../actions");
-const { isEnabled } = require("../configs/feature");
+const { isEnabled } = require("../../../config/feature");
 
 require("./SourceTabs.css");
 

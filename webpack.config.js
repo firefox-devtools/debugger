@@ -4,7 +4,7 @@ require("babel-register");
 
 const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const isEnabled = require("./public/js/configs/feature").isEnabled;
+const isEnabled = require("./config/feature").isEnabled;
 
 let config = {
   entry: "./public/js/main.js",

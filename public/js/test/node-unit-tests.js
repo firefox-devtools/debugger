@@ -17,3 +17,4 @@ function testPath(testFile) {
 }
 
 glob("public/js/**/tests/*.js").map(testPath).map(require);
+glob("config/tests/*.js").map(testPath).map(require);

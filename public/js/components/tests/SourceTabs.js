@@ -2,7 +2,7 @@
 
 const SourceTabs = require("../SourceTabs");
 const { renderComponent } = require("../test-utils");
-const { stubConfig, resetConfig } = require("../../configs/feature");
+const { stubConfig, resetConfig } = require("../../../../config/feature");
 
 function getSourceTabs($el) {
   return $el.querySelectorAll(".source-tab");

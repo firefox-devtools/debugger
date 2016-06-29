@@ -11,7 +11,7 @@ const webpackHotMiddleware = require("webpack-hot-middleware");
 const http = require("http");
 
 const projectConfig = require("../webpack.config");
-const getValue = require("../public/js/configs/feature").getValue;
+const getValue = require("../config/feature").getValue;
 
 require("./firefox-proxy");
 

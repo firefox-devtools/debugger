@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
-const { isEnabled } = require("../../../configs/feature");
+const { isEnabled } = require("../../../../../config/feature");
 
 /**
  * A middleware that stores every action coming through the store in the passed

@@ -2,7 +2,7 @@
 const React = require("react");
 const { createElement, createFactory } = React;
 const { renderComponent, storiesOf } = require("./utils");
-const { stubConfig, resetConfig } = require("../../configs/feature");
+const { stubConfig, resetConfig } = require("../../../../config/feature");
 
 const SourceTabs = require("../SourceTabs");
 

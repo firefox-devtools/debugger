@@ -8,7 +8,7 @@ const React = require("react");
 
 const {
   getTargetFromQuery, setConfigs, isDevToolsPanel
-} = require("./configs/feature");
+} = require("../../config/feature");
 
 setConfigs();
 
