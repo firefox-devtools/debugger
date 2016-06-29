@@ -7,6 +7,7 @@ const path = require("path");
 const webpack = require("webpack");
 const express = require("express");
 const webpackDevMiddleware = require("webpack-dev-middleware");
+const webpackHotMiddleware = require("webpack-hot-middleware");
 const http = require("http");
 
 const projectConfig = require("../webpack.config");
@@ -26,22 +27,46 @@ function httpGet(url, onResponse) {
   });
 }
 
-const config = Object.assign({}, projectConfig, {
-  entry: path.join(__dirname, "../public/js/main.js"),
-});
 const app = express();
+
+// Webpack middleware
+
+const hotReloadingEnabled = getValue("hotReloading");
+
+const config = Object.assign({}, projectConfig, {
+  entry: [path.join(__dirname, "../public/js/main.js")]
+});
+
+if(hotReloadingEnabled) {
+  config.entry.push("webpack-hot-middleware/client");
+
+  config.plugins = config.plugins.concat([
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ]);
+
+  config.module.loaders.push({
+    test: /\.js$/,
+    include: path.join(__dirname, "../public/js"),
+    loader: "react-hot"
+  });
+}
+
 const compiler = webpack(config);
+
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath,
+  noInfo: true,
+  stats: { colors: true }
+}));
+app.use(webpackHotMiddleware(compiler));
+
+// Static middleware
 
 app.use(express.static("public/js/test/examples"));
 app.use(express.static("public"));
 
-app.use(webpackDevMiddleware(compiler, {
-  publicPath: "/public/build",
-  noInfo: true,
-  stats: {
-    colors: true
-  }
-}));
+// Routes
 
 app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "../index.html"));
@@ -60,6 +85,8 @@ app.get("/chrome-tabs", function(req, res) {
   });
 
 })
+
+// Listen
 
 app.listen(8000, "localhost", function(err, result) {
   if (err) {
