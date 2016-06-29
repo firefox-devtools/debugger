@@ -19,23 +19,23 @@ if (isEnabled("development")) {
   AppConstants.DEBUG_JS_MODULES = true;
 }
 
-const configureStore = require("./util/create-store");
-const reducers = require("./reducers");
-const actions = require("./actions");
 const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");
+const configureStore = require("./util/create-store");
+const reducers = require("./reducers");
 
 const Tabs = require("./components/Tabs");
 const App = require("./components/App");
 
-const store = configureStore({
+const createStore = configureStore({
   log: false,
   makeThunkArgs: (args, state) => {
     return Object.assign({}, args, { client: getClient(state) });
   }
-})(combineReducers(reducers));
+});
 
-const boundActions = bindActionCreators(actions, store.dispatch);
+const store = createStore(combineReducers(reducers));
+const actions = bindActionCreators(require("./actions"), store.dispatch);
 
 // global for debugging purposes only!
 window.store = store;
@@ -78,7 +78,7 @@ function getTargetFromQuery() {
 
 const connTarget = getTargetFromQuery();
 if (connTarget) {
-  startDebugging(connTarget, boundActions).then(() => {
+  startDebugging(connTarget, actions).then(() => {
     renderRoot(App);
   });
 } else if (process.env.NODE_ENV === "DEVTOOLS_PANEL") {
@@ -87,12 +87,12 @@ if (connTarget) {
     setThreadClient: firefox.setThreadClient,
     setTabTarget: firefox.setTabTarget,
     initPage: firefox.initPage,
-    getBoundActions: () => boundActions,
+    getActions: () => actions,
     renderApp: () => renderRoot(App)
   };
 } else {
   connectClients().then(tabs => {
-    boundActions.newTabs(tabs);
+    actions.newTabs(tabs);
     renderRoot(Tabs);
   });
 }
