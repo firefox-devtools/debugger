@@ -1,6 +1,6 @@
 .DS_Store
 build
 node_modules
-config/development.local.json
+config/local.json
 npm-debug.log
 public/js/test/cypress/screenshots/

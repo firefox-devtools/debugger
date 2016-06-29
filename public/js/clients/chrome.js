@@ -3,7 +3,6 @@
 /* eslint-disable */
 
 const { connect } = require("../lib/chrome-remote-debug-protocol");
-const { isEnabled } = require("../../../config/feature");
 const defer = require("../lib/devtools/shared/defer");
 const { Tab } = require("../types");
 const { setupCommands, clientCommands } = require("./chrome/commands");
@@ -39,10 +38,6 @@ function createTabs(tabs) {
 }
 
 function connectClient() {
-  if (!isEnabled("chrome.debug")) {
-    return Promise.resolve([]);
-  }
-
   const deferred = defer();
   fetch("/chrome-tabs").then(res => {
     res.json().then((body) => {

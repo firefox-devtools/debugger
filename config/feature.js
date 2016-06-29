@@ -7,15 +7,24 @@ let config = {};
 
 const developmentConfig = require("./development.json");
 config = Object.assign({}, developmentConfig);
-const originalConfig = Object.assign({}, developmentConfig);
 
-// only used for testing purposes
-function stubConfig(stub) {
-  config = stub;
+try {
+  const localConfig = require("./local.json");
+  config = Object.assign(config, localConfig);
+}
+catch(e) {
+  // local config does not exist, ignore it
 }
 
-function resetConfig(stub) {
-  config = originalConfig;
+// only used for testing purposes
+function setConfig(_config) {
+  const prevConfig = config;
+  config = _config;
+  return config;
+}
+
+function getConfig() {
+  return config;
 }
 
 /**
@@ -81,6 +90,6 @@ module.exports = {
   setConfigs,
   isDevelopment,
   isDevToolsPanel,
-  stubConfig,
-  resetConfig
+  setConfig,
+  getConfig
 };

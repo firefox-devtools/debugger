@@ -2,7 +2,7 @@
 
 const SourceTabs = require("../SourceTabs");
 const { renderComponent } = require("../test-utils");
-const { stubConfig, resetConfig } = require("../../../../config/feature");
+const { setConfig } = require("../../../../config/feature");
 
 function getSourceTabs($el) {
   return $el.querySelectorAll(".source-tab");
@@ -29,9 +29,9 @@ describe("SourceTabs", function() {
       return;
     }
 
-    stubConfig({ features: { tabs: false }});
+    const prevConfig = setConfig({ features: { tabs: false }});
     const $el = renderComponent(SourceTabs, "todomvc");
-    resetConfig();
+    setConfig(prevConfig);
 
     const tabs = getSourceTabs($el);
     expect(tabs.length).to.equal(1);
