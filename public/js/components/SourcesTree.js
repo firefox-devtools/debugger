@@ -14,10 +14,10 @@ const Arrow = React.createFactory(require("./util/Arrow"));
 const { Set } = require("immutable");
 
 const ManagedTree = React.createFactory(require("./util/ManagedTree"));
-const FolderIcon = React.createFactory(require("./util/icons").FolderIcon);
-const DomainIcon = React.createFactory(require("./util/icons").DomainIcon);
-const FileIcon = React.createFactory(require("./util/icons").FileIcon);
-const WorkerIcon = React.createFactory(require("./util/icons").WorkerIcon);
+const FolderIcon = React.createFactory(require("./util/Icons").FolderIcon);
+const DomainIcon = React.createFactory(require("./util/Icons").DomainIcon);
+const FileIcon = React.createFactory(require("./util/Icons").FileIcon);
+const WorkerIcon = React.createFactory(require("./util/Icons").WorkerIcon);
 
 let SourcesTree = React.createClass({
   propTypes: {

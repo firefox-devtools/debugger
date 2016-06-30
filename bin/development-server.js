@@ -24,8 +24,6 @@ if(!fs.existsSync(localConfigPath)) {
 
 const features = require("../config/feature");
 
-const projectConfig = require("../webpack.config");
-
 require("./firefox-proxy");
 
 function httpGet(url, onResponse) {
@@ -44,27 +42,7 @@ const app = express();
 
 // Webpack middleware
 
-const hotReloadingEnabled = features.getValue("hotReloading");
-
-const config = Object.assign({}, projectConfig, {
-  entry: [path.join(__dirname, "../public/js/main.js")]
-});
-
-if(hotReloadingEnabled) {
-  config.entry.push("webpack-hot-middleware/client");
-
-  config.plugins = config.plugins.concat([
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ]);
-
-  config.module.loaders.push({
-    test: /\.js$/,
-    include: path.join(__dirname, "../public/js"),
-    loader: "react-hot"
-  });
-}
-
+const config = require("../webpack.config");
 const compiler = webpack(config);
 
 app.use(webpackDevMiddleware(compiler, {
@@ -72,7 +50,10 @@ app.use(webpackDevMiddleware(compiler, {
   noInfo: true,
   stats: { colors: true }
 }));
-app.use(webpackHotMiddleware(compiler));
+
+if(features.isEnabled("hotReloading")) {
+  app.use(webpackHotMiddleware(compiler));
+}
 
 // Static middleware
 
