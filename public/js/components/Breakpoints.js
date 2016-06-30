@@ -5,6 +5,7 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const Isvg = React.createFactory(require("react-inlinesvg"));
+const classnames = require("classnames");
 const actions = require("../actions");
 const { getSource, getPause, getBreakpoints, makeLocationId } = require("../selectors");
 const { truncateStr } = require("../util/utils");
@@ -58,6 +59,7 @@ const Breakpoints = React.createClass({
     const locationId = breakpoint.get("locationId");
     const line = breakpoint.getIn(["location", "line"]);
     const isCurrentlyPaused = breakpoint.get("isCurrentlyPaused");
+    const isDisabled = breakpoint.get("disabled");
 
     const isPausedIcon = isCurrentlyPaused && Isvg({
       className: "pause-indicator",
@@ -66,14 +68,17 @@ const Breakpoints = React.createClass({
 
     return dom.div(
       {
-        className: "breakpoint",
+        className: classnames({
+          breakpoint: true,
+          disabled: isDisabled
+        }),
         key: locationId,
         onClick: () => this.selectBreakpoint(breakpoint)
       },
       dom.input(
         {
           type: "checkbox",
-          checked: !breakpoint.get("disabled"),
+          checked: !isDisabled,
           onChange: () => this.handleCheckbox(breakpoint)
         }),
       dom.div(

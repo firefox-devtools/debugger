@@ -22,4 +22,4 @@ function renderBreakpoints(fixtureName) {
 
 storiesOf("Breakpoints", module)
   .add("No Breakpoints", () => renderBreakpoints("todomvc"))
-  .add("1 Breakpoint", () => renderBreakpoints("todomvcUpdateOnEnter"));
+  .add("3 Breakpoints", () => renderBreakpoints("todomvcUpdateOnEnter"));

@@ -6,6 +6,11 @@
   line-height: 1em;
 }
 
+.breakpoints-pane .breakpoint.disabled .breakpoint-label {
+  color: var(--theme-content-color3);
+  transition: color 0.5s linear;
+}
+
 .breakpoints-pane .breakpoint:hover {
   cursor: pointer;
   background-color: var(--theme-toolbar-background);
