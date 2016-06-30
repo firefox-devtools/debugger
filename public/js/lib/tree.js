@@ -60,6 +60,12 @@ const TreeNode = createFactory(createClass({
     }
   },
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.item !== nextProps.item ||
+      this.props.focused !== nextProps.focused ||
+      this.props.expanded !== nextProps.expanded;
+  },
+
   render() {
     const arrow = ArrowExpander({
       item: this.props.item,

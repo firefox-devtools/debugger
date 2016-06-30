@@ -50,7 +50,7 @@ if (isDevelopment()) {
 
     config.module.loaders.push({
       test: /\.js$/,
-      include: path.join(__dirname, "../public/js"),
+      include: path.join(__dirname, "./public/js"),
       loader: "react-hot"
     });
   }
