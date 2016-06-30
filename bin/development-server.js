@@ -22,7 +22,7 @@ if(!fs.existsSync(localConfigPath)) {
   fs.writeFileSync(localConfigPath, defaultConfig);
 }
 
-const { getValue, isEnabled } = require("../config/feature");
+const features = require("../config/feature");
 
 const projectConfig = require("../webpack.config");
 
@@ -44,7 +44,7 @@ const app = express();
 
 // Webpack middleware
 
-const hotReloadingEnabled = getValue("hotReloading");
+const hotReloadingEnabled = features.getValue("hotReloading");
 
 const config = Object.assign({}, projectConfig, {
   entry: [path.join(__dirname, "../public/js/main.js")]
@@ -86,8 +86,8 @@ app.get("/", function(req, res) {
 });
 
 app.get("/chrome-tabs", function(req, res) {
-  if(isEnabled("chrome.debug")) {
-    const webSocketPort = getValue("chrome.webSocketPort");
+  if(features.isEnabled("chrome.debug")) {
+    const webSocketPort = features.getValue("chrome.webSocketPort");
     const url = `http://localhost:${webSocketPort}/json/list`;
 
     const tabRequest = httpGet(url, body => res.json(JSON.parse(body)));
