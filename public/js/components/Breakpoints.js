@@ -70,6 +70,7 @@ const Breakpoints = React.createClass({
       {
         className: classnames({
           breakpoint: true,
+          paused: isCurrentlyPaused,
           disabled: isDisabled
         }),
         key: locationId,
