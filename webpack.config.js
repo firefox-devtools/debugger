@@ -3,11 +3,14 @@
 require("babel-register");
 
 const path = require("path");
+const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const isEnabled = require("./config/feature").isEnabled;
+const features = require("./config/feature");
+const isDevelopment = features.isDevelopment;
+const isEnabled = features.isEnabled;
 
 let config = {
-  entry: "./public/js/main.js",
+  entry: ["./public/js/main.js"],
   devtool: "source-map",
   output: {
     path: path.join(__dirname, "public/build"),
@@ -25,15 +28,41 @@ let config = {
   module: {
     loaders: [
       { test: /\.json$/,
-        loader: "json" },
-      { test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader") }
+        loader: "json" }
     ]
   },
-  plugins: [
-    new ExtractTextPlugin("styles.css")
-  ]
+  plugins: []
 };
+
+if (isDevelopment()) {
+  config.module.loaders.push({
+    test: /\.css$/,
+    loader: "style!css"
+  });
+
+  if (isEnabled("hotReloading")) {
+    config.entry.push("webpack-hot-middleware/client");
+
+    config.plugins = config.plugins.concat([
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoErrorsPlugin()
+    ]);
+
+    config.module.loaders.push({
+      test: /\.js$/,
+      include: path.join(__dirname, "../public/js"),
+      loader: "react-hot"
+    });
+  }
+
+} else {
+  // Extract CSS into a single file
+  config.module.loaders.push({
+    test: /\.css$/,
+    loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+  });
+  config.module.plugins.push(new ExtractTextPlugin("styles.css"));
+}
 
 // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
 // destructuring params https://github.com/jlongster/debugger.html/issues/67

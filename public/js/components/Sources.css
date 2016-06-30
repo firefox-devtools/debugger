@@ -105,7 +105,6 @@ ul.sources-list {
   padding: 2px 5px;
   position: relative;
   cursor: pointer;
-  transition: all 0.1s ease;
 }
 
 .tree .node:hover {
