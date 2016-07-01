@@ -4,9 +4,7 @@ const URL = require("url");
 const { assert } = require("./DevToolsUtils");
 
 function nodeHasChildren(item) {
-  // Do not use `Array.isArray` because it's slower and we do not need
-  // to support multiple globals here.
-  return item.contents instanceof Array;
+  return Array.isArray(item.contents);
 }
 
 function createNode(name, path, contents) {

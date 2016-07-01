@@ -81,15 +81,15 @@ exports.makeInfallible = function makeInfallible(aHandler, aName) {
     aName = aHandler.name;
 
   return function (/* arguments */) {
-    try {
+    // try {
       return aHandler.apply(this, arguments);
-    } catch (ex) {
-      let who = "Handler function";
-      if (aName) {
-        who += " " + aName;
-      }
-      return exports.reportException(who, ex);
-    }
+    // } catch (ex) {
+    //   let who = "Handler function";
+    //   if (aName) {
+    //     who += " " + aName;
+    //   }
+    //   return exports.reportException(who, ex);
+    // }
   }
 }
 

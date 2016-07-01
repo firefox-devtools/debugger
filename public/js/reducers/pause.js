@@ -45,14 +45,16 @@ function update(state = initialState, action, emit) {
 
     case constants.LOAD_OBJECT_PROPERTIES:
       if (action.status === "done") {
+        const props = action.value.ownProperties;
+
         return state.setIn(
           ["loadedObjects", action.objectId],
-          fromJS(action.value.ownProperties).entrySeq()
-            .filter(prop => {
-              return prop[0] !== "prototype" && prop[1].has("value");
+          Object.keys(props)
+            .filter(name => {
+              return name !== "prototype" && "value" in props[name];
             })
-            .sort((a, b) => a[0].localeCompare(b[0]))
-            .toArray()
+            .sort((a, b) => a.localeCompare(b))
+            .map(name => [name, props[name]])
         );
       }
       break;
