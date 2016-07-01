@@ -77,14 +77,6 @@ ul.sources-list {
   margin-right: 5px;
 }
 
-.arrow.expanded svg {
-  transform: rotate(0deg);
-}
-
-.arrow.hidden {
-  display: none;
-}
-
 .tree {
   -webkit-user-select: none;
   -moz-user-select: none;
