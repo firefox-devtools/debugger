@@ -8,8 +8,9 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const features = require("./config/feature");
 const isDevelopment = features.isDevelopment;
 const isEnabled = features.isEnabled;
+const getConfig = require("./config/config").getConfig;
 
-let config = {
+let webpackConfig = {
   entry: ["./public/js/main.js"],
   devtool: "source-map",
   output: {
@@ -31,24 +32,28 @@ let config = {
         loader: "json" }
     ]
   },
-  plugins: []
+  plugins: [
+    new webpack.DefinePlugin({
+      "DebuggerConfig": JSON.stringify(getConfig())
+    })
+  ]
 };
 
 if (isDevelopment()) {
-  config.module.loaders.push({
+  webpackConfig.module.loaders.push({
     test: /\.css$/,
     loader: "style!css"
   });
 
   if (isEnabled("hotReloading")) {
-    config.entry.push("webpack-hot-middleware/client");
+    webpackConfig.entry.push("webpack-hot-middleware/client");
 
-    config.plugins = config.plugins.concat([
+    webpackConfig.plugins = webpackConfig.plugins.concat([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin()
     ]);
 
-    config.module.loaders.push({
+    webpackConfig.module.loaders.push({
       test: /\.js$/,
       include: path.join(__dirname, "./public/js"),
       loader: "react-hot"
@@ -57,17 +62,18 @@ if (isDevelopment()) {
 
 } else {
   // Extract CSS into a single file
-  config.module.loaders.push({
+  webpackConfig.module.loaders.push({
     test: /\.css$/,
     loader: ExtractTextPlugin.extract("style-loader", "css-loader")
   });
-  config.module.plugins.push(new ExtractTextPlugin("styles.css"));
+
+  webpackConfig.plugins.push(new ExtractTextPlugin("styles.css"));
 }
 
 // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
 // destructuring params https://github.com/jlongster/debugger.html/issues/67
 if (isEnabled("transformParameters")) {
-  config.module.loaders.push({
+  webpackConfig.module.loaders.push({
     test: /\.js$/,
     exclude: /(node_modules|bower_components)/,
     loader: "babel",
@@ -77,4 +83,4 @@ if (isEnabled("transformParameters")) {
   });
 }
 
-module.exports = config;
+module.exports = webpackConfig;

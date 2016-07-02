@@ -91,6 +91,10 @@ const SourceTabs = React.createClass({
    * finding the source tabs who have wrapped and are not on the top row.
    */
   updateHiddenSourceTabs(sourceTabs) {
+    if (!this.refs.sourceTabs) {
+      return;
+    }
+
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenSourceTabs = getHiddenTabs(sourceTabs, sourceTabEls);
 

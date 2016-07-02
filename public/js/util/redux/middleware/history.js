@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
-const { isEnabled } = require("../../../../../config/feature");
+const { isDevelopment } = require("../../../../../config/feature");
 
 /**
  * A middleware that stores every action coming through the store in the passed
@@ -11,7 +11,7 @@ const { isEnabled } = require("../../../../../config/feature");
  * action information, which will cause memory bloat.
  */
 exports.history = (log = []) => ({ dispatch, getState }) => {
-  if (isEnabled("development")) {
+  if (isDevelopment()) {
     console.warn("Using history middleware stores all actions in state for " +
                   "testing and devtools is not currently running in test " +
                   "mode. Be sure this is intentional.");

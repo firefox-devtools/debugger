@@ -1,0 +1,8 @@
+{
+  "environment": "firefox-panel",
+  "logging": false,
+  "clientLogging": false,
+  "features": {
+    "tabs": true
+  }
+}

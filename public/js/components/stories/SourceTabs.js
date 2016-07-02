@@ -2,7 +2,7 @@
 const React = require("react");
 const { createElement, createFactory } = React;
 const { renderComponent, storiesOf } = require("./utils");
-const { setConfig, getConfig } = require("../../../../config/feature");
+const { resetConfig, setConfig } = require("../../../../config/feature");
 
 const SourceTabs = require("../SourceTabs");
 
@@ -17,15 +17,13 @@ function renderSourceTabs(fixtureName) {
   return renderComponent(component, fixtureName, { style });
 }
 
-const defaultConfig = getConfig();
-
 storiesOf("SourceTabs", module)
   .add("One Tab", () => {
-    setConfig(defaultConfig);
+    resetConfig();
     return renderSourceTabs("todomvcUpdateOnEnter");
   })
   .add("Many Tabs", () => {
-    setConfig(defaultConfig);
+    resetConfig();
     return renderSourceTabs("todomvc");
   })
   .add("Disabled", () => {

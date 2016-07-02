@@ -1,9 +1,9 @@
 "use strict";
 
-const { isEnabled } = require("../../../config/feature");
+const { isDevelopment } = require("../../../config/feature");
 
 function debugGlobal(field, value) {
-  if (!isEnabled("development")) {
+  if (!isDevelopment()) {
     return;
   }
 
