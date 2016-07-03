@@ -1,7 +1,11 @@
-.source-tabs {
-  height: 30px;
-  width: 100%;
+.source-header {
   border-bottom: 1px solid var(--theme-gray);
+  height: 30px;
+  flex: 1;
+}
+
+.source-tabs {
+  width: calc(100% - 30px);
   overflow: hidden;
 }
 
@@ -39,4 +43,16 @@
   position: absolute;
   right: 7px;
   top: 1px;
+}
+
+.source-header .subsettings {
+  position: absolute;
+  right: 3px;
+  top: 9px;
+}
+
+.sources-dropdown {
+  position: absolute;
+  top: 35px;
+  right: 0px;
 }

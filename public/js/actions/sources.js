@@ -43,7 +43,7 @@ function newSource(source) {
   };
 }
 
-function selectSource(id) {
+function selectSource(id, options = {}) {
   return ({ dispatch, getState, client }) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
@@ -58,7 +58,8 @@ function selectSource(id) {
 
     dispatch({
       type: constants.SELECT_SOURCE,
-      source: source
+      source: source,
+      options
     });
   };
 }
