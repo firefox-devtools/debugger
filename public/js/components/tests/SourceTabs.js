@@ -34,7 +34,6 @@ describe("SourceTabs", function() {
     setConfig(prevConfig);
 
     const tabs = getSourceTabs($el);
-    expect(tabs.length).to.equal(1);
-    expect(getTitle(tabs[0])).to.equal("todo.js");
+    expect(tabs.length).to.equal(0);
   });
 });

@@ -30,13 +30,17 @@ function update(state = initialState, action) {
 
     case constants.SELECT_SOURCE:
       return state
-        .merge({ selectedSource: action.source })
-        .set("tabs", addSourceToTabList(state, fromJS(action.source)));
+        .merge({
+          selectedSource: action.source,
+          tabs: updateTabList(state, fromJS(action.source), action.options)
+        });
 
     case constants.CLOSE_TAB:
       return state
-        .set("tabs", removeSourceFromTabList(state, action.id))
-        .merge({ selectedSource: getNewSelectedSource(state, action.id) });
+        .merge({
+          selectedSource: getNewSelectedSource(state, action.id),
+          tabs: removeSourceFromTabList(state, action.id)
+        });
 
     case constants.LOAD_SOURCE_TEXT: {
       return _updateText(state, action);
@@ -106,12 +110,19 @@ function removeSourceFromTabList(state, id) {
 /*
  * Adds the new source to the tab list if it is not already there
  */
-function addSourceToTabList(state, source) {
+function updateTabList(state, source, options) {
   const tabs = state.get("tabs");
   const selectedSource = state.get("selectedSource");
   const selectedSourceIndex = tabs.indexOf(selectedSource);
+  const sourceIndex = tabs.indexOf(source);
 
   if (tabs.includes(source)) {
+    if (options.position != undefined) {
+      return tabs
+        .delete(sourceIndex)
+        .insert(options.position, source);
+    }
+
     return tabs;
   }
 
