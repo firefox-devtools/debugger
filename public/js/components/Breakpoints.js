@@ -77,7 +77,7 @@ const Breakpoints = React.createClass({
           onChange: () => this.handleCheckbox(breakpoint)
         }),
       dom.div(
-        { className: "breakpoint-label" },
+        { className: "breakpoint-label", title: breakpoint.get("text") },
         `${line} ${snippet}`
       ),
       isPausedIcon
