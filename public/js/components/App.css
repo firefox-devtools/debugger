@@ -36,3 +36,27 @@ body {
 .subsettings:hover {
   cursor: pointer;
 }
+
+.source-footer {
+  background: white;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+  width: 100px;
+  opacity: 0.9;
+}
+
+.source-footer .command-bar {
+  float: right;
+}
+
+.command-bar > span {
+  cursor: pointer;
+  margin-right: 0.7em;
+  width: 1em;
+  height: 1.1em;
+  display: inline-block;
+  text-align: center;
+  transition: opacity 200ms;
+}
