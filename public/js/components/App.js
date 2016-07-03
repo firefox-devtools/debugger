@@ -3,6 +3,8 @@
 const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
+const actions = require("../actions");
+const { bindActionCreators } = require("redux");
 
 require("./App.css");
 require("../lib/variables.css");
@@ -13,6 +15,15 @@ const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 const { getSources, getBreakpoints } = require("../selectors");
 
+function debugBtn(onClick, type, className = "active") {
+  className = `${type} ${className}`;
+
+  return dom.span(
+    { onClick, className, key: type },
+    dom.img({ src: `images/${type}.svg` })
+  );
+}
+
 const App = React.createClass({
   propTypes: {
     sources: PropTypes.object,
@@ -22,16 +33,26 @@ const App = React.createClass({
 
   displayName: "App",
 
-  render: function() {
+  render: function(command) {
     return dom.div({ className: "theme-light debugger" }, SplitBox({
       initialWidth: 300,
       left: Sources({ sources: this.props.sources }),
       right: SplitBox({
         initialWidth: 300,
         rightFlex: true,
-        left: dom.div({ className: "editor-container" },
+        left: dom.div(
+          { className: "editor-container" },
           SourceTabs(),
-          Editor()
+          Editor(),
+          dom.div(
+            {
+              className: "source-footer"
+            },
+            dom.div({ className: "command-bar" },
+              debugBtn(() => command({ type: "blackBox" }), "blackBox", "disabled"),
+              debugBtn(() => command({ type: "prettyPrint" }), "prettyPrint", "disabled")
+            )
+          )
         ),
         right: RightSidebar()
       })
@@ -41,5 +62,6 @@ const App = React.createClass({
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              breakpoints: getBreakpoints(state) })
+              breakpoints: getBreakpoints(state) }),
+  dispatch => bindActionCreators(actions, dispatch)
 )(App);
