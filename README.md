@@ -4,7 +4,6 @@ This is a prototype debugger written without any XUL and based on React and Redu
 
 [![Build Status](https://travis-ci.org/jlongster/debugger.html.svg?branch=master)](https://travis-ci.org/jlongster/debugger.html)
 
-----
 #### Getting Started
 
 * `npm install` - Install Dependencies
@@ -13,17 +12,12 @@ This is a prototype debugger written without any XUL and based on React and Redu
 
 ![screen shot 2016-05-16 at 1 24 29 pm](https://cloud.githubusercontent.com/assets/254562/15297643/34575ca6-1b69-11e6-9703-8ba0a029d4f9.png)
 
-----
 #### Getting Involved
 
 The Debugger is an open source project and we would love your help. We have prepared a [contributing](https://github.com/jlongster/debugger.html/blob/master/CONTRIBUTING.md) guide to help answer some of the common questions.
 
-Also, please feel free to stop by and say hi! We're all in Mozilla's [Devtools](irc://irc.mozilla.org/devtools) channel. If you do not have IRC, we recommend using the free version of [irccloud](https://www.irccloud.com/). 
-+ Address `irc.mozilla.org`
-+ Port `6697`
-+ Channel `devtools`
+We're all in Mozilla's IRC channel [#devtools](irc://irc.mozilla.org/devtools) on irc.mozilla.org.
 
-----
 #### Running tests
 ##### Unit Tests
 * `npm test` - Run tests headlessly
@@ -49,7 +43,6 @@ Also, please feel free to stop by and say hi! We're all in Mozilla's [Devtools](
 ##### Storybook
 * `npm run storybook` - Open Storybook
 
-----
 #### Advanced :see_no_evil:
 
 ##### User Configuration
