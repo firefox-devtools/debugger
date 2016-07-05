@@ -27,7 +27,7 @@ function RightSidebar({ resume, command, breakOnNext,
   return (
     dom.div(
       { className: "right-sidebar",
-        style: { overflow: "hidden" }},
+        style: { overflowX: "hidden" }},
       dom.div(
         { className: "command-bar" },
         pause ? [
