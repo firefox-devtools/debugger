@@ -1,0 +1,24 @@
+.dropdown {
+  background: white;
+  border: 1px solid var(--theme-gray);
+  width: 150px;
+  max-height: 300px;
+  z-index: 1000;
+}
+
+.dropdown li {
+  padding-left: 10px;
+}
+
+.dropdown li:hover {
+  background: var(--theme-tab-toolbar-background);
+  cursor: pointer;
+}
+
+.dropdown ul {
+  list-style: none;
+  line-height: 2em;
+  font-size: 0.8em;
+  margin: 0;
+  padding: 0;
+}
