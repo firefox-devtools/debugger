@@ -6,6 +6,7 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const CodeMirror = require("codemirror");
 const { DOM: dom, PropTypes } = React;
+const { debugGlobal } = require("../util/debug");
 
 const {
   getSourceText, getBreakpointsForSource,
@@ -49,8 +50,7 @@ const Editor = React.createClass({
       gutters: ["breakpoints"]
     });
 
-    // NOTE: only used for testing
-    window.cm = this.editor;
+    debugGlobal("cm", this.editor);
 
     this.editor.on("gutterClick", this.onGutterClick);
 

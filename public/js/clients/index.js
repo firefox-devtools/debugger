@@ -3,6 +3,7 @@
 const { Task } = require("../util/task");
 const firefox = require("./firefox");
 const chrome = require("./chrome");
+const { debugGlobal } = require("../util/debug");
 
 let clientType;
 function getClient() {
@@ -37,7 +38,7 @@ function startDebuggingTab(targetEnv, tabId, actions) {
     targetEnv.initPage(actions);
 
     clientType = targetEnv === firefox ? "firefox" : "chrome";
-    window.client = targetEnv.clientCommands;
+    debugGlobal("client", targetEnv.clientCommands);
   });
 }
 
