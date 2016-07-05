@@ -97,6 +97,12 @@ function entries(obj) {
   return Object.keys(obj).map(k => [k, obj[k]]);
 }
 
+function mapObject(obj, iteratee) {
+  return toObject(entries(obj).map(([key, value]) => {
+    return [key, iteratee(key, value)];
+  }));
+}
+
 /**
  * Takes an array of 2-element arrays as key/values pairs and
  * constructs an object using them.
@@ -136,5 +142,6 @@ module.exports = {
   zip,
   entries,
   toObject,
+  mapObject,
   compose
 };

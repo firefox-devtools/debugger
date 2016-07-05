@@ -40,6 +40,7 @@ const actions = bindActionCreators(require("./actions"), store.dispatch);
 // global for debugging purposes only!
 window.store = store;
 window.injectDebuggee = require("./test/utils/debuggee");
+window.serializeStore = () => JSON.parse(JSON.stringify(store.getState()));
 
 function renderRoot(component) {
   const mount = document.querySelector("#mount");
