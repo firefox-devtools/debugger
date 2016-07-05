@@ -14,7 +14,7 @@ Visit `http://localhost:8000` in any browser to see the debugger.
 
 ![screen shot 2016-05-16 at 1 24 29 pm](https://cloud.githubusercontent.com/assets/254562/15297643/34575ca6-1b69-11e6-9703-8ba0a029d4f9.png)
 
-If you would like to open a specific Firefox instance or use a specific profile, first make sure it [has the appropate flags](#) enabled. Then run the following command and replace <Firefox.app> with your Firefox. For example, nightly would be `FirefoxNightly.app`.
+If you would like to open a specific Firefox instance or use a specific profile, first make sure it [has the appropate flags](#enabling-remote-debugging-in-firefox) enabled. Then run the following command and replace <Firefox.app> with your Firefox. For example, nightly would be `FirefoxNightly.app`.
 
 ```
 $ /Applications/<Firefox.app>/Contents/MacOS/firefox-bin -P development --start-debugger-server 6080
