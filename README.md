@@ -1,4 +1,4 @@
-### debugger.html
+### Debugger.html
 
 This is a prototype debugger written without any XUL and based on React and Redux.
 
@@ -11,6 +11,12 @@ This is a prototype debugger written without any XUL and based on React and Redu
 * `npm start` - Start Debugger
 
 ![screen shot 2016-05-16 at 1 24 29 pm](https://cloud.githubusercontent.com/assets/254562/15297643/34575ca6-1b69-11e6-9703-8ba0a029d4f9.png)
+
+#### Getting Involved
+
+The Debugger is an open source project and we would love your help. We have prepared a [contributing](https://github.com/jlongster/debugger.html/blob/master/CONTRIBUTING.md) guide to help answer some of the common questions.
+
+We're all in Mozilla's IRC channel [#devtools](irc://irc.mozilla.org/devtools) on irc.mozilla.org.
 
 #### Running tests
 ##### Unit Tests
