@@ -9,14 +9,11 @@ const React = require("react");
 const DevToolsUtils = require("devtools-sham/shared/DevToolsUtils");
 const AppConstants = require("devtools-sham/sham/appconstants").AppConstants;
 const { isEnabled } = require("../../config/feature");
+const { injectGlobals } = require("./util/debug");
 
 // Set various flags before requiring app code.
 if (isEnabled("clientLogging")) {
   DevToolsUtils.dumpn.wantLogging = true;
-}
-
-if (isEnabled("development")) {
-  AppConstants.DEBUG_JS_MODULES = true;
 }
 
 const { getClient, connectClients, startDebugging } = require("./clients");
@@ -37,10 +34,10 @@ const createStore = configureStore({
 const store = createStore(combineReducers(reducers));
 const actions = bindActionCreators(require("./actions"), store.dispatch);
 
-// global for debugging purposes only!
-window.store = store;
-window.injectDebuggee = require("./test/utils/debuggee");
-window.serializeStore = () => JSON.parse(JSON.stringify(store.getState()));
+if (isEnabled("development")) {
+  AppConstants.DEBUG_JS_MODULES = true;
+  injectGlobals({ store });
+}
 
 function renderRoot(component) {
   const mount = document.querySelector("#mount");
