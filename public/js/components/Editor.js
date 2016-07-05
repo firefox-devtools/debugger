@@ -108,8 +108,7 @@ const Editor = React.createClass({
     // Only reset the editor text if the source has changed.
     // + Resetting the text will remove the breakpoints.
     // + Comparing the source text is probably inneficient.
-    if (!oldSourceText ||
-        newSourceText.get("text") != oldSourceText.get("text")) {
+    if (newSourceText.get("text") != this.editor.getValue()) {
       this.editor.setValue(newSourceText.get("text"));
     }
 

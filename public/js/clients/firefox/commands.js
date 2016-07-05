@@ -47,9 +47,7 @@ function sourceContents(sourceId) {
 }
 
 function setBreakpoint(location, condition) {
-  const sourceClient = threadClient.source({
-    actor: location.sourceId
-  });
+  const sourceClient = threadClient.source({ actor: location.sourceId });
   return sourceClient.setBreakpoint({
     line: location.line,
     column: location.column,
@@ -98,6 +96,16 @@ function getProperties(grip) {
   return objClient.getPrototypeAndProperties();
 }
 
+function prettyPrint(sourceId, indentSize) {
+  const sourceClient = threadClient.source({ actor: sourceId });
+  return sourceClient.prettyPrint(indentSize);
+}
+
+function disablePrettyPrint(sourceId) {
+  const sourceClient = threadClient.source({ actor: sourceId });
+  return sourceClient.disablePrettyPrint();
+}
+
 const clientCommands = {
   resume,
   stepIn,
@@ -109,7 +117,9 @@ const clientCommands = {
   removeBreakpoint,
   evaluate,
   navigate,
-  getProperties
+  getProperties,
+  prettyPrint,
+  disablePrettyPrint
 };
 
 module.exports = {

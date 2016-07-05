@@ -13,16 +13,8 @@ const Editor = createFactory(require("./Editor"));
 const SplitBox = createFactory(require("./SplitBox"));
 const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
+const SourceFooter = createFactory(require("./SourceFooter"));
 const { getSources, getBreakpoints } = require("../selectors");
-
-function debugBtn(onClick, type, className = "active") {
-  className = `${type} ${className}`;
-
-  return dom.span(
-    { onClick, className, key: type },
-    dom.img({ src: `images/${type}.svg` })
-  );
-}
 
 const App = React.createClass({
   propTypes: {
@@ -44,15 +36,7 @@ const App = React.createClass({
           { className: "editor-container" },
           SourceTabs(),
           Editor(),
-          dom.div(
-            {
-              className: "source-footer"
-            },
-            dom.div({ className: "command-bar" },
-              debugBtn(() => command({ type: "blackBox" }), "blackBox", "disabled"),
-              debugBtn(() => command({ type: "prettyPrint" }), "prettyPrint", "disabled")
-            )
-          )
+          SourceFooter()
         ),
         right: RightSidebar()
       })
