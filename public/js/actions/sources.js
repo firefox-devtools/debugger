@@ -110,8 +110,9 @@ function blackbox(source, shouldBlackBox) {
  *          A promise that resolves to [aSource, prettyText] or rejects to
  *          [aSource, error].
  */
-function togglePrettyPrint(source) {
+function togglePrettyPrint(id) {
   return ({ dispatch, getState, client }) => {
+    const source = getSource(getState(), id).toJS();
     const wantPretty = !source.isPrettyPrinted;
 
     return dispatch({

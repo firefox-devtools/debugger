@@ -3,8 +3,6 @@
 const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
-const actions = require("../actions");
-const { bindActionCreators } = require("redux");
 
 require("./App.css");
 require("../lib/variables.css");
@@ -13,16 +11,8 @@ const Editor = createFactory(require("./Editor"));
 const SplitBox = createFactory(require("./SplitBox"));
 const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
+const SourceFooter = createFactory(require("./SourceFooter"));
 const { getSources, getBreakpoints } = require("../selectors");
-
-function debugBtn(onClick, type, className = "active") {
-  className = `${type} ${className}`;
-
-  return dom.span(
-    { onClick, className, key: type },
-    dom.img({ src: `images/${type}.svg` })
-  );
-}
 
 const App = React.createClass({
   propTypes: {
@@ -33,7 +23,7 @@ const App = React.createClass({
 
   displayName: "App",
 
-  render: function(command) {
+  render: function() {
     return dom.div({ className: "theme-light debugger" }, SplitBox({
       initialWidth: 300,
       left: Sources({ sources: this.props.sources }),
@@ -44,15 +34,7 @@ const App = React.createClass({
           { className: "editor-container" },
           SourceTabs(),
           Editor(),
-          dom.div(
-            {
-              className: "source-footer"
-            },
-            dom.div({ className: "command-bar" },
-              debugBtn(() => command({ type: "blackBox" }), "blackBox", "disabled"),
-              debugBtn(() => command({ type: "prettyPrint" }), "prettyPrint", "disabled")
-            )
-          )
+          SourceFooter()
         ),
         right: RightSidebar()
       })
@@ -62,6 +44,5 @@ const App = React.createClass({
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              breakpoints: getBreakpoints(state) }),
-  dispatch => bindActionCreators(actions, dispatch)
+              breakpoints: getBreakpoints(state) })
 )(App);
