@@ -86,3 +86,11 @@ The profile for the Firefox you are debugging needs to have a few flags switched
 * `devtools.debugger.remote-enabled` to `true`
 * `devtools.chrome.enabled` to `true`
 * `devtools.debugger.prompt-connection` to `false`
+
+## Screenshots
+
+#### Viewing Sources
+![](./docs/screenshots/active.png)
+
+#### Pausing at a breakpoint
+![](./docs/screenshots/paused.png)
