@@ -115,8 +115,9 @@ function updateTabList(state, source, options) {
   const selectedSource = state.get("selectedSource");
   const selectedSourceIndex = tabs.indexOf(selectedSource);
   const sourceIndex = tabs.indexOf(source);
+  const includesSource = !!tabs.find((t) => t.get("id") == source.get("id"));
 
-  if (tabs.includes(source)) {
+  if (includesSource) {
     if (options.position != undefined) {
       return tabs
         .delete(sourceIndex)

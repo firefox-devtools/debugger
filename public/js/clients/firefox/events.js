@@ -63,7 +63,8 @@ function newSource(_, packet) {
   if (NEW_SOURCE_IGNORED_URLS.indexOf(source.url) === -1) {
     actions.newSource(Source({
       id: source.actor,
-      url: source.url
+      url: source.url,
+      isPrettyPrinted: source.isPrettyPrinted
     }));
   }
 }
