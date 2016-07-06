@@ -20,6 +20,9 @@ xdescribe("Fixtures", function() {
     debugPage("todomvc");
     goToSource("js/views/todo-view");
     toggleBreakpoint(113);
+    toggleBreakpoint(119);
+    toggleBreakpoint(121);
+    toggleBreakpointInList(2); // toggle off the last breakpoint
     addTodo();
     editTodo();
     cy.wait(1000)

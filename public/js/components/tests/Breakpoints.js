@@ -11,6 +11,10 @@ function getBreakpointLabel($breakpoint) {
   return $breakpoint.querySelector(".breakpoint-label").innerText;
 }
 
+function getBreakpointClasses($breakpoint) {
+  return Array.from($breakpoint.classList);
+}
+
 describe("Breakpoint Component", function() {
   it("Not Paused", function() {
     if (typeof window != "object") {
@@ -30,9 +34,11 @@ describe("Breakpoint Component", function() {
     const breakpoints = getBreakpoints($el);
     expect(breakpoints.length).to.equal(3);
     expect(getBreakpointLabel(breakpoints[0])).to.equal("113 this.close();");
+    expect(getBreakpointClasses(breakpoints[0])).to.contain("paused");
     expect(getBreakpointLabel(breakpoints[1])).to
-    .equal("142 return undefined;");
+      .equal("119 revertOnEscape: function (e) {");
     expect(getBreakpointLabel(breakpoints[2])).to
-    .equal("169 var name = text.toLowerCase();");
+      .equal("121 this.$el.removeClass('editing'...");
+    expect(getBreakpointClasses(breakpoints[2])).to.contain("disabled");
   });
 });

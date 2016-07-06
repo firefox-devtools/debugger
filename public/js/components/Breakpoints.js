@@ -69,7 +69,7 @@ const Breakpoints = React.createClass({
     return dom.div(
       {
         className: classnames({
-          breakpoint: true,
+          breakpoint,
           paused: isCurrentlyPaused,
           disabled: isDisabled
         }),

@@ -6,8 +6,10 @@
   line-height: 1em;
 }
 
+/*
 .breakpoints-pane .breakpoint.paused {
 }
+*/
 
 .breakpoints-pane .breakpoint.disabled .breakpoint-label {
   color: var(--theme-content-color3);
