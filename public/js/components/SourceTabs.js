@@ -188,7 +188,7 @@ const SourceTabs = React.createClass({
 
   render() {
     if (!isEnabled("features.tabs")) {
-      return "";
+      return dom.div({ className: "source-header" });
     }
 
     return dom.div({ className: "source-header" },
