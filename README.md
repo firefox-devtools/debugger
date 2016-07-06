@@ -54,9 +54,7 @@ As a developer, you most likely want to enable hot reloading. This means you can
 * `npm run cypress-intermittents` - Runs tests 100 times and writes the output to cypress-run.log
 * `cypress open` - Run tests in the browser
 
-**Notes:**
-* Firefox needs to be open and listening on port 6080 before the tests are run. You can start Firefox on the right port with this command `npm run firefox`.
-* Cypress needs to be installed before tests can be run. When you run cypress the first time, you will be prompted to install it. `cypress install`.
+[More information](./docs/integration-tests.md).
 
 ### Linting
 * `npm run lint` - Run CSS and JS linter
@@ -67,7 +65,7 @@ As a developer, you most likely want to enable hot reloading. This means you can
 * `npm run test-all` - Run unit tests, lints, and integration tests
 
 ### Storybook
-* `npm run storybook` - Open Storybook
+* `npm run storybook` - Open Storybook. [more info](./docs/local-development.md#storybook)
 
 ## Configuration
 
@@ -76,6 +74,8 @@ You can see default config values in `config/development.json`, and override the
 * `hotReloding` enables hot reloading of CSS and React
 * `chrome.debug` enable local chrome development
 * `features.sourceTabs` enable editor tabs
+
+[More Information](./docs/local-development.md#configs)
 
 ## Misc
 
