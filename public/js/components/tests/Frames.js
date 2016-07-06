@@ -32,7 +32,7 @@ describe("Frames", function() {
 
     const $el = renderComponent(Frames, "todomvcUpdateOnEnter");
     const frames = getFrames($el);
-    expect(frames.length).to.equal(3);
+    expect(frames.length).to.equal(6);
     expect(getFrameTitle(frames[0])).to.equal("app.TodoView<.updateOnEnter");
     expect(getFrameLocation(frames[0])).to.equal("todo-view.js");
   });
@@ -44,7 +44,7 @@ describe("Frames", function() {
 
     const $el = renderComponent(Frames, "pythagorean");
     const frames = getFrames($el);
-    expect(frames.length).to.equal(3);
+    expect(frames.length).to.equal(5);
     expect(getFrameTitle(frames[0])).to.equal("pythagorean");
     expect(getFrameLocation(frames[0])).to.equal("pythagorean.js");
   });

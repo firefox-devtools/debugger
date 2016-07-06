@@ -6,60 +6,60 @@
   },
   "sources": {
     "sources": {
-      "server2.conn34.child1/40": {
-        "id": "server2.conn34.child1/40",
+      "server2.conn2.child1/40": {
+        "id": "server2.conn2.child1/40",
         "url": "http://localhost:8000/todomvc/js/routers/router.js"
       },
-      "server2.conn34.child1/30": {
-        "id": "server2.conn34.child1/30",
+      "server2.conn2.child1/30": {
+        "id": "server2.conn2.child1/30",
         "url": "http://localhost:8000/todomvc/bower_components/jquery/jquery.js"
       },
-      "server2.conn34.child1/41": {
-        "id": "server2.conn34.child1/41",
+      "server2.conn2.child1/41": {
+        "id": "server2.conn2.child1/41",
         "url": "http://localhost:8000/todomvc/js/app.js"
       },
-      "server2.conn34.child1/31": {
-        "id": "server2.conn34.child1/31",
+      "server2.conn2.child1/31": {
+        "id": "server2.conn2.child1/31",
         "url": "http://localhost:8000/todomvc/bower_components/underscore/underscore.js"
       },
-      "server2.conn34.child1/32": {
-        "id": "server2.conn34.child1/32",
+      "server2.conn2.child1/32": {
+        "id": "server2.conn2.child1/32",
         "url": "http://localhost:8000/todomvc/bower_components/backbone/backbone.js"
       },
-      "server2.conn34.child1/33": {
-        "id": "server2.conn34.child1/33",
+      "server2.conn2.child1/33": {
+        "id": "server2.conn2.child1/33",
         "url": "http://localhost:8000/todomvc/bower_components/backbone.localStorage/backbone.localStorage.js"
       },
-      "server2.conn34.child1/34": {
-        "id": "server2.conn34.child1/34",
+      "server2.conn2.child1/34": {
+        "id": "server2.conn2.child1/34",
         "url": "http://localhost:8000/todomvc/js/models/todo.js"
       },
-      "server2.conn34.child1/35": {
-        "id": "server2.conn34.child1/35",
+      "server2.conn2.child1/35": {
+        "id": "server2.conn2.child1/35",
         "url": "http://localhost:8000/todomvc/js/collections/todos.js"
       },
-      "server2.conn34.child1/36": {
-        "id": "server2.conn34.child1/36",
+      "server2.conn2.child1/36": {
+        "id": "server2.conn2.child1/36",
         "url": "http://localhost:8000/todomvc/js/views/todo-view.js"
       },
-      "server2.conn34.child1/37": {
-        "id": "server2.conn34.child1/37",
+      "server2.conn2.child1/37": {
+        "id": "server2.conn2.child1/37",
         "url": null
       },
-      "server2.conn34.child1/38": {
-        "id": "server2.conn34.child1/38",
+      "server2.conn2.child1/38": {
+        "id": "server2.conn2.child1/38",
         "url": "http://localhost:8000/todomvc/js/views/app-view.js"
       },
-      "server2.conn34.child1/28": {
-        "id": "server2.conn34.child1/28",
-        "url": "http://localhost:8000/todomvc/"
-      },
-      "server2.conn34.child1/39": {
-        "id": "server2.conn34.child1/39",
+      "server2.conn2.child1/39": {
+        "id": "server2.conn2.child1/39",
         "url": null
       },
-      "server2.conn34.child1/29": {
-        "id": "server2.conn34.child1/29",
+      "server2.conn2.child1/28": {
+        "id": "server2.conn2.child1/28",
+        "url": "http://localhost:8000/todomvc/"
+      },
+      "server2.conn2.child1/29": {
+        "id": "server2.conn2.child1/29",
         "url": "http://localhost:8000/todomvc/bower_components/todomvc-common/base.js"
       }
     },
@@ -68,34 +68,33 @@
       []
     ],
     "selectedSource": {
-      "id": "server2.conn34.child1/34",
+      "id": "server2.conn2.child1/34",
       "url": "http://localhost:8000/todomvc/js/models/todo.js"
     },
     "sourcesText": {
-      "server2.conn34.child1/36": {
+      "server2.conn2.child1/36": {
         "text": "/*global Backbone, jQuery, _, ENTER_KEY, ESC_KEY */\nvar app = app || {};\n\n(function ($) {\n\t'use strict';\n\n\t// Todo Item View\n\t// --------------\n\n\t// The DOM element for a todo item...\n\tapp.TodoView = Backbone.View.extend({\n\t\t//... is a list tag.\n\t\ttagName:  'li',\n\n\t\t// Cache the template function for a single item.\n\t\ttemplate: _.template($('#item-template').html()),\n\n\t\t// The DOM events specific to an item.\n\t\tevents: {\n\t\t\t'click .toggle': 'toggleCompleted',\n\t\t\t'dblclick label': 'edit',\n\t\t\t'click .destroy': 'clear',\n\t\t\t'keypress .edit': 'updateOnEnter',\n\t\t\t'keydown .edit': 'revertOnEscape',\n\t\t\t'blur .edit': 'close'\n\t\t},\n\n\t\t// The TodoView listens for changes to its model, re-rendering. Since\n\t\t// there's a one-to-one correspondence between a **Todo** and a\n\t\t// **TodoView** in this app, we set a direct reference on the model for\n\t\t// convenience.\n\t\tinitialize: function () {\n\t\t\tthis.listenTo(this.model, 'change', this.render);\n\t\t\tthis.listenTo(this.model, 'destroy', this.remove);\n\t\t\tthis.listenTo(this.model, 'visible', this.toggleVisible);\n\t\t},\n\n\t\t// Re-render the titles of the todo item.\n\t\trender: function () {\n\t\t\t// Backbone LocalStorage is adding `id` attribute instantly after\n\t\t\t// creating a model.  This causes our TodoView to render twice. Once\n\t\t\t// after creating a model and once on `id` change.  We want to\n\t\t\t// filter out the second redundant render, which is caused by this\n\t\t\t// `id` change.  It's known Backbone LocalStorage bug, therefore\n\t\t\t// we've to create a workaround.\n\t\t\t// https://github.com/tastejs/todomvc/issues/469\n\t\t\tif (this.model.changed.id !== undefined) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tthis.$el.html(this.template(this.model.toJSON()));\n\t\t\tthis.$el.toggleClass('completed', this.model.get('completed'));\n\t\t\tthis.toggleVisible();\n\t\t\tthis.$input = this.$('.edit');\n\t\t\treturn this;\n\t\t},\n\n\t\ttoggleVisible: function () {\n\t\t\tthis.$el.toggleClass('hidden', this.isHidden());\n\t\t},\n\n\t\tisHidden: function () {\n\t\t\treturn this.model.get('completed') ?\n\t\t\t\tapp.TodoFilter === 'active' :\n\t\t\t\tapp.TodoFilter === 'completed';\n\t\t},\n\n\t\t// Toggle the `\"completed\"` state of the model.\n\t\ttoggleCompleted: function () {\n\t\t\tthis.model.toggle();\n\t\t},\n\n\t\t// Switch this view into `\"editing\"` mode, displaying the input field.\n\t\tedit: function () {\n\t\t\tthis.$el.addClass('editing');\n\t\t\tthis.$input.focus();\n\t\t},\n\n\t\t// Close the `\"editing\"` mode, saving changes to the todo.\n\t\tclose: function () {\n\t\t\tvar value = this.$input.val();\n\t\t\tvar trimmedValue = value.trim();\n\n\t\t\t// We don't want to handle blur events from an item that is no\n\t\t\t// longer being edited. Relying on the CSS class here has the\n\t\t\t// benefit of us not having to maintain state in the DOM and the\n\t\t\t// JavaScript logic.\n\t\t\tif (!this.$el.hasClass('editing')) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tif (trimmedValue) {\n\t\t\t\tthis.model.save({ title: trimmedValue });\n\n\t\t\t\tif (value !== trimmedValue) {\n\t\t\t\t\t// Model values changes consisting of whitespaces only are\n\t\t\t\t\t// not causing change to be triggered Therefore we've to\n\t\t\t\t\t// compare untrimmed version with a trimmed one to check\n\t\t\t\t\t// whether anything changed\n\t\t\t\t\t// And if yes, we've to trigger change event ourselves\n\t\t\t\t\tthis.model.trigger('change');\n\t\t\t\t}\n\t\t\t} else {\n\t\t\t\tthis.clear();\n\t\t\t}\n\n\t\t\tthis.$el.removeClass('editing');\n\t\t},\n\n\t\t// If you hit `enter`, we're through editing the item.\n\t\tupdateOnEnter: function (e) {\n\t\t\tif (e.which === ENTER_KEY) {\n\t\t\t\tthis.close();\n\t\t\t}\n\t\t},\n\n\t\t// If you're pressing `escape` we revert your change by simply leaving\n\t\t// the `editing` state.\n\t\trevertOnEscape: function (e) {\n\t\t\tif (e.which === ESC_KEY) {\n\t\t\t\tthis.$el.removeClass('editing');\n\t\t\t\t// Also reset the hidden input back to the original value.\n\t\t\t\tthis.$input.val(this.model.get('title'));\n\t\t\t}\n\t\t},\n\n\t\t// Remove the item, destroy the model from *localStorage* and delete its view.\n\t\tclear: function () {\n\t\t\tthis.model.destroy();\n\t\t}\n\t});\n})(jQuery);\n",
         "contentType": "text/javascript"
       },
-      "server2.conn34.child1/38": {
+      "server2.conn2.child1/38": {
         "text": "/*global Backbone, jQuery, _, ENTER_KEY */\nvar app = app || {};\n\n(function ($) {\n\t'use strict';\n\n\t// The Application\n\t// ---------------\n\n\t// Our overall **AppView** is the top-level piece of UI.\n\tapp.AppView = Backbone.View.extend({\n\n\t\t// Instead of generating a new element, bind to the existing skeleton of\n\t\t// the App already present in the HTML.\n\t\tel: '#todoapp',\n\n\t\t// Our template for the line of statistics at the bottom of the app.\n\t\tstatsTemplate: _.template($('#stats-template').html()),\n\n\t\t// Delegated events for creating new items, and clearing completed ones.\n\t\tevents: {\n\t\t\t'keypress #new-todo': 'createOnEnter',\n\t\t\t'click #clear-completed': 'clearCompleted',\n\t\t\t'click #toggle-all': 'toggleAllComplete'\n\t\t},\n\n\t\t// At initialization we bind to the relevant events on the `Todos`\n\t\t// collection, when items are added or changed. Kick things off by\n\t\t// loading any preexisting todos that might be saved in *localStorage*.\n\t\tinitialize: function () {\n\t\t\tthis.allCheckbox = this.$('#toggle-all')[0];\n\t\t\tthis.$input = this.$('#new-todo');\n\t\t\tthis.$footer = this.$('#footer');\n\t\t\tthis.$main = this.$('#main');\n\t\t\tthis.$list = $('#todo-list');\n\n\t\t\tthis.listenTo(app.todos, 'add', this.addOne);\n\t\t\tthis.listenTo(app.todos, 'reset', this.addAll);\n\t\t\tthis.listenTo(app.todos, 'change:completed', this.filterOne);\n\t\t\tthis.listenTo(app.todos, 'filter', this.filterAll);\n\t\t\tthis.listenTo(app.todos, 'all', this.render);\n\n\t\t\t// Suppresses 'add' events with {reset: true} and prevents the app view\n\t\t\t// from being re-rendered for every model. Only renders when the 'reset'\n\t\t\t// event is triggered at the end of the fetch.\n\t\t\tapp.todos.fetch({reset: true});\n\t\t},\n\n\t\t// Re-rendering the App just means refreshing the statistics -- the rest\n\t\t// of the app doesn't change.\n\t\trender: function () {\n\t\t\tvar completed = app.todos.completed().length;\n\t\t\tvar remaining = app.todos.remaining().length;\n\n\t\t\tif (app.todos.length) {\n\t\t\t\tthis.$main.show();\n\t\t\t\tthis.$footer.show();\n\n\t\t\t\tthis.$footer.html(this.statsTemplate({\n\t\t\t\t\tcompleted: completed,\n\t\t\t\t\tremaining: remaining\n\t\t\t\t}));\n\n\t\t\t\tthis.$('#filters li a')\n\t\t\t\t\t.removeClass('selected')\n\t\t\t\t\t.filter('[href=\"#/' + (app.TodoFilter || '') + '\"]')\n\t\t\t\t\t.addClass('selected');\n\t\t\t} else {\n\t\t\t\tthis.$main.hide();\n\t\t\t\tthis.$footer.hide();\n\t\t\t}\n\n\t\t\tthis.allCheckbox.checked = !remaining;\n\t\t},\n\n\t\t// Add a single todo item to the list by creating a view for it, and\n\t\t// appending its element to the `<ul>`.\n\t\taddOne: function (todo) {\n\t\t\tvar view = new app.TodoView({ model: todo });\n\t\t\tthis.$list.append(view.render().el);\n\t\t},\n\n\t\t// Add all items in the **Todos** collection at once.\n\t\taddAll: function () {\n\t\t\tthis.$list.html('');\n\t\t\tapp.todos.each(this.addOne, this);\n\t\t},\n\n\t\tfilterOne: function (todo) {\n\t\t\ttodo.trigger('visible');\n\t\t},\n\n\t\tfilterAll: function () {\n\t\t\tapp.todos.each(this.filterOne, this);\n\t\t},\n\n\t\t// Generate the attributes for a new Todo item.\n\t\tnewAttributes: function () {\n\t\t\treturn {\n\t\t\t\ttitle: this.$input.val().trim(),\n\t\t\t\torder: app.todos.nextOrder(),\n\t\t\t\tcompleted: false\n\t\t\t};\n\t\t},\n\n\t\t// If you hit return in the main input field, create new **Todo** model,\n\t\t// persisting it to *localStorage*.\n\t\tcreateOnEnter: function (e) {\n\t\t\tif (e.which === ENTER_KEY && this.$input.val().trim()) {\n\t\t\t\tapp.todos.create(this.newAttributes());\n\t\t\t\tthis.$input.val('');\n\t\t\t}\n\t\t},\n\n\t\t// Clear all completed todo items, destroying their models.\n\t\tclearCompleted: function () {\n\t\t\t_.invoke(app.todos.completed(), 'destroy');\n\t\t\treturn false;\n\t\t},\n\n\t\ttoggleAllComplete: function () {\n\t\t\tvar completed = this.allCheckbox.checked;\n\n\t\t\tapp.todos.each(function (todo) {\n\t\t\t\ttodo.save({\n\t\t\t\t\tcompleted: completed\n\t\t\t\t});\n\t\t\t});\n\t\t}\n\t});\n})(jQuery);\n",
         "contentType": "text/javascript"
       },
-      "server2.conn34.child1/34": {
-        "text": "/*global Backbone */\nvar app = app || {};\n\n(function () {\n\t'use strict';\n\n\t// Todo Model\n\t// ----------\n\n\t// Our basic **Todo** model has `title`, `order`, and `completed` attributes.\n\tapp.Todo = Backbone.Model.extend({\n\t\t// Default attributes for the todo\n\t\t// and ensure that each todo created has `title` and `completed` keys.\n\t\tdefaults: {\n\t\t\ttitle: '',\n\t\t\tcompleted: false\n\t\t},\n\n\t\t// Toggle the `completed` state of this todo item.\n\t\ttoggle: function () {\n\t\t\tthis.save({\n\t\t\t\tcompleted: !this.get('completed')\n\t\t\t});\n\t\t}\n\t});\n})();\n",
-        "contentType": "text/javascript"
+      "server2.conn2.child1/34": {
+        "loading": true
       }
     },
     "tabs": [
       {
-        "id": "server2.conn34.child1/36",
+        "id": "server2.conn2.child1/36",
         "url": "http://localhost:8000/todomvc/js/views/todo-view.js"
       },
       {
-        "id": "server2.conn34.child1/38",
+        "id": "server2.conn2.child1/38",
         "url": "http://localhost:8000/todomvc/js/views/app-view.js"
       },
       {
-        "id": "server2.conn34.child1/34",
+        "id": "server2.conn2.child1/34",
         "url": "http://localhost:8000/todomvc/js/models/todo.js"
       }
     ]
@@ -103,7 +102,9 @@
   "breakpoints": {
     "breakpoints": {}
   },
-  "asyncRequests": [],
+  "asyncRequests": [
+    "not-really-uuid3"
+  ],
   "tabs": {
     "tabs": {},
     "selectedTab": null
