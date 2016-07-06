@@ -99,7 +99,7 @@ const Breakpoints = React.createClass({
 
 function _getBreakpoints(state) {
   return getBreakpoints(state).map(breakpoint => {
-    const source = getSource(state, breakpoint.getIn(["location", "actor"]));
+    const source = getSource(state, breakpoint.getIn(["location", "sourceId"]));
     const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, breakpoint);
     const locationId = makeLocationId(breakpoint.get("location").toJS());
     return breakpoint.setIn(["location", "source"], source)
