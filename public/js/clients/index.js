@@ -48,7 +48,7 @@ function connectClients() {
     chrome.connectClient()
   ]).then(results => {
     const [firefoxTabs, chromeTabs] = results;
-    return firefoxTabs.concat(chromeTabs);
+    return firefoxTabs.concat(chromeTabs).filter(i => i);
   });
 }
 

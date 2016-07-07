@@ -59,22 +59,15 @@ app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "../index.html"));
 });
 
-app.get("/chrome-tabs", function(req, res) {
-  if(feature.isEnabled("chrome.debug")) {
-    const webSocketPort = feature.getValue("chrome.webSocketPort");
-    const url = `http://localhost:${webSocketPort}/json/list`;
+app.get("/get", function(req, res) {
+  const httpReq = httpGet(
+    req.query.url,
+    body => res.json(JSON.parse(body))
+  );
 
-    const tabRequest = httpGet(url, body => res.json(JSON.parse(body)));
-
-    tabRequest.on('error', function (err) {
-      if (err.code == "ECONNREFUSED") {
-        console.log("Failed to connect to chrome");
-      }
-    });
-  }
-  else {
-    res.json([]);
-  }
+  httpReq.on('error', function (err) {
+    res.status(500).send(err.code);
+  });
 })
 
 // Listen
