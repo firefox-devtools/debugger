@@ -28,10 +28,6 @@ function setConfig(stub) {
   config = stub;
 }
 
-function resetConfig() {
-  config = originalConfig;
-}
-
 function getConfig() {
   return config;
 }
@@ -42,6 +38,5 @@ module.exports = {
   isDevelopment,
   isFirefoxPanel,
   getConfig,
-  setConfig,
-  resetConfig
+  setConfig
 };
