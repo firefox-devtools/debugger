@@ -64,7 +64,8 @@ function newSource(_, packet) {
     actions.newSource(Source({
       id: source.actor,
       url: source.url,
-      isPrettyPrinted: source.isPrettyPrinted
+      isPrettyPrinted: source.isPrettyPrinted,
+      sourceMapUrl: undefined
     }));
   }
 }

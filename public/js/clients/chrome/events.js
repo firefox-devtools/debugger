@@ -12,7 +12,16 @@ function scriptParsed(scriptId, url, startLine, startColumn,
              endLine, endColumn, executionContextId, hash,
              isContentScript, isInternalScript, isLiveEdit,
              sourceMapURL, hasSourceURL, deprecatedCommentWasUsed) {
-  actions.newSource(Source({ id: scriptId, url: url }));
+  const origin = "http://localhost:8000/increment";
+  const sourceMapUrl = sourceMapURL
+        ? `${origin}/${sourceMapURL}` : undefined;
+
+  actions.newSource(Source({
+    id: scriptId,
+    url,
+    sourceMapUrl,
+    isPrettyPrinted: false
+  }));
 }
 
 function scriptFailedToParse() {}

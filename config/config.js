@@ -4,8 +4,10 @@ const _ = require("lodash");
 const fs = require("fs");
 const path = require("path");
 
+const firefoxPanel = require("./firefox-panel.json");
+const development = require("./development.json");
 const envConfig = process.env.NODE_ENV === "production" ?
-  require("./firefox-panel.json") : require("./development.json");
+   firefoxPanel : development;
 
 const localConfig = fs.existsSync(path.join(__dirname, "./local.json")) ?
   require("./local.json") : {};

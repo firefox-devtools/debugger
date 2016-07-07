@@ -13,7 +13,8 @@ const Tab = t.struct({
 const Source = t.struct({
   id: t.String,
   url: t.union([t.String, t.Nil]),
-  isPrettyPrinted: t.Boolean
+  isPrettyPrinted: t.Boolean,
+  sourceMapUrl: t.union([t.String, t.Nil]),
 }, "Source");
 
 const Location = t.struct({
