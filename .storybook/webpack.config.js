@@ -1,6 +1,9 @@
 "use strict";
 
 const path = require("path");
+const webpack = require("webpack");
+
+const getConfig = require("../config/config").getConfig;
 
 module.exports = {
   resolve: {
@@ -17,5 +20,10 @@ module.exports = {
       { test: /\.css$/, loader: "style-loader!css-loader" },
       { test: /\.json$/, loader: "json-loader" },
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      "DebuggerConfig": JSON.stringify(getConfig())
+    })
+  ]
 };
