@@ -8,8 +8,8 @@ const React = require("react");
 
 const DevToolsUtils = require("devtools-sham/shared/DevToolsUtils");
 const AppConstants = require("devtools-sham/sham/appconstants").AppConstants;
-const { isEnabled } = require("../../config/feature");
 const { injectGlobals } = require("./util/debug");
+const { isEnabled, isFirefoxPanel } = require("../../config/feature");
 
 // Set various flags before requiring app code.
 if (isEnabled("clientLogging")) {
@@ -79,7 +79,7 @@ if (connTarget) {
   startDebugging(connTarget, actions).then(() => {
     renderRoot(App);
   });
-} else if (process.env.NODE_ENV === "DEVTOOLS_PANEL") {
+} else if (isFirefoxPanel()) {
   // The toolbox already provides the tab to debug.
   module.exports = {
     setThreadClient: firefox.setThreadClient,

@@ -23,6 +23,7 @@
     "codemirror": "^5.1.0",
     "express": "^4.13.4",
     "immutable": "^3.7.6",
+    "lodash": "^4.13.1",
     "react": "=0.14.7",
     "react-dom": "=0.14.7",
     "react-immutable-proptypes": "^1.7.1",

@@ -61,7 +61,8 @@ if (isDevelopment()) {
     test: /\.css$/,
     loader: ExtractTextPlugin.extract("style-loader", "css-loader")
   });
-  config.module.plugins.push(new ExtractTextPlugin("styles.css"));
+
+  config.plugins.push(new ExtractTextPlugin("styles.css"));
 }
 
 // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
