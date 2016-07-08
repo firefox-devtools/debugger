@@ -20,10 +20,11 @@ function renderFrameTitle(frame) {
 
 function renderFrameLocation(frame) {
   const url = frame.source.url ? basename(frame.source.url) : "";
-  return div(
-    { className: "location" },
-    endTruncateStr(url, 30)
-  );
+  const line = url !== "" ? `: ${frame.location.line}` : "";
+  return url !== "" ?
+    div({ className: "location" },
+      `${endTruncateStr(url, 30)}${line}`
+    ) : null;
 }
 
 function renderFrame(frame, selectedFrame, selectFrame) {
