@@ -19,6 +19,7 @@
 .frames .location {
   float: right;
   color: #666666;
+  font-weight: lighter;
 }
 
 .frames .title {
