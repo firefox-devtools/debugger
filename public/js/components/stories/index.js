@@ -8,3 +8,4 @@ require("./Frames");
 require("./Reps");
 require("./Editor");
 require("./SourceTabs");
+require("./Autocomplete");
