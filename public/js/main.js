@@ -79,7 +79,9 @@ function getTargetFromQuery() {
 
 const connTarget = getTargetFromQuery();
 if (connTarget) {
-  startDebugging(connTarget, actions).then(() => {
+  startDebugging(connTarget, actions).then((tabs) => {
+    actions.newTabs(tabs);
+    actions.selectTab({ id: connTarget.param });
     renderRoot(App);
   });
 } else if (isFirefoxPanel()) {

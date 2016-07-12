@@ -12,14 +12,10 @@ function scriptParsed(scriptId, url, startLine, startColumn,
              endLine, endColumn, executionContextId, hash,
              isContentScript, isInternalScript, isLiveEdit,
              sourceMapURL, hasSourceURL, deprecatedCommentWasUsed) {
-  const origin = "http://localhost:8000/increment";
-  const sourceMapUrl = sourceMapURL
-        ? `${origin}/${sourceMapURL}` : undefined;
-
   actions.newSource(Source({
     id: scriptId,
     url,
-    sourceMapUrl,
+    sourceMapURL,
     isPrettyPrinted: false
   }));
 }
