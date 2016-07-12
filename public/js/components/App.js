@@ -15,6 +15,16 @@ const SourceFooter = createFactory(require("./SourceFooter"));
 const Autocomplete = createFactory(require("./Autocomplete"));
 const { getSelectedSource, getSources, getBreakpoints } = require("../selectors");
 const { endTruncateStr } = require("../util/utils");
+const { DevTools } = require("../util/create-store");
+const { isEnabled } = require("../../../config/feature");
+
+function DevToolsPanel() {
+  if (isEnabled("redux-devtools.enabled")) {
+    return React.createElement(DevTools);
+  }
+
+  return () => {};
+}
 
 const App = React.createClass({
   propTypes: {
@@ -105,16 +115,19 @@ const App = React.createClass({
   },
 
   render: function() {
-    return dom.div({ className: "theme-light debugger" }, SplitBox({
-      initialWidth: 300,
-      left: Sources({ sources: this.props.sources }),
-      right: SplitBox({
+    return dom.div({ className: "theme-light debugger" },
+      SplitBox({
         initialWidth: 300,
-        rightFlex: true,
-        left: this.renderCenterPane(this.props),
-        right: RightSidebar()
-      })
-    }));
+        left: Sources({ sources: this.props.sources }),
+        right: SplitBox({
+          initialWidth: 300,
+          rightFlex: true,
+          left: this.renderCenterPane(this.props),
+          right: RightSidebar()
+        })
+      }),
+      DevToolsPanel()
+    );
   }
 });
 

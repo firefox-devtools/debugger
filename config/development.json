@@ -4,6 +4,9 @@
     "client": false,
     "firefoxProxy": false
   },
+  "redux-devtools": {
+    "enabled": false
+  },
   "features": {
     "tabs": true,
     "sourceMaps": true
