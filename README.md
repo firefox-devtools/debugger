@@ -74,6 +74,7 @@ You can see default config values in `config/development.json`, and override the
 * `hotReloding` enables hot reloading of CSS and React
 * `chrome.debug` enable local chrome development
 * `features.sourceTabs` enable editor tabs
+* `logging.firefoxProtocol` log firefox debugger protocol messages
 
 [More Information](./docs/local-development.md#configs)
 
