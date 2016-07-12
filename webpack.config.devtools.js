@@ -8,8 +8,9 @@ webpackConfig.output.library = "Debugger";
 webpackConfig.plugins = [
   new webpack.DefinePlugin({
     "process.env": {
-      NODE_ENV: JSON.stringify("DEVTOOLS_PANEL"),
+      NODE_ENV: JSON.stringify("production"),
     },
+    "DebuggerTarget": JSON.stringify("firefox-panel"),
     "DebuggerConfig": JSON.stringify(getConfig())
   })
 ]

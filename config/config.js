@@ -4,7 +4,7 @@ const _ = require("lodash");
 const fs = require("fs");
 const path = require("path");
 
-const envConfig = process.env.NODE_ENV === "DEVTOOLS_PANEL" ?
+const envConfig = process.env.NODE_ENV === "production" ?
   require("./firefox-panel.json") : require("./development.json");
 
 const localConfig = fs.existsSync(path.join(__dirname, "./local.json")) ?
