@@ -27,9 +27,15 @@ body {
   flex: 1;
 }
 
-.editor-container {
+.center-pane {
   display: flex;
   position: relative;
+  flex: 1;
+  background-color: #fcfcfc;
+}
+
+.editor-container {
+  display: flex;
   flex: 1;
 }
 
@@ -59,4 +65,14 @@ body {
   display: inline-block;
   text-align: center;
   transition: opacity 200ms;
+}
+
+.welcomebox {
+  margin: 50px auto;
+  padding: 20px;
+  font-size: 1em;
+  color: var(--theme-gray-darker);
+  font-weight: lighter;
+  text-align: center;
+  width: 100%;
 }

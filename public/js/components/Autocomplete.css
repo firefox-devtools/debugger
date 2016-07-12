@@ -1,0 +1,60 @@
+
+.autocomplete {
+  width: 100%;
+  padding: 20px;
+}
+
+.autocomplete ul {
+  list-style: none;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  border-left: 2px solid #dde1e4;
+  border-right: 2px solid #dde1e4;
+}
+
+.autocomplete li:nth-child(1) {
+  border-top: none;
+}
+
+.autocomplete li:last-child {
+  border-bottom: 2px solid #dde1e4;
+}
+
+.autocomplete li {
+  border-top: 2px solid #dde1e4;
+  padding: 10px;
+}
+
+.autocomplete li:hover {
+  background: #efefef;
+  cursor: pointer;
+}
+
+.autocomplete li .title {
+  font-size: 0.8em;
+  line-height: 1.5em;
+}
+
+.autocomplete li .subtitle {
+  font-size: 0.7em;
+  line-height: 1.5em;
+  color: grey;
+}
+
+.autocomplete input {
+  width: 100%;
+  border: 2px solid #dde1e4;
+  line-height: 2.5em;
+  height: 2.5em;
+  padding-left: 25px;
+  font-size: 0.8em;
+  background-image: url("/images/magnifying-glass.svg");
+  background-repeat: no-repeat;
+  background-position-y: calc(1.25em - 8px);
+  background-position-x: 5px;
+}
+
+.autocomplete input:focus {
+  outline: 2px solid #4a90e0;
+}
