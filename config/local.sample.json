@@ -1,1 +1,5 @@
-{}
+{
+  "firefox": {
+    "geckoDir": "/Users/jlaster/src/mozilla/gecko"
+  }
+}
