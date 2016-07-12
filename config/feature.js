@@ -16,11 +16,11 @@ function getValue(key) {
 const isEnabled = getValue;
 
 function isDevelopment() {
-  return getValue("environment") == "development";
+  return process.env.NODE_ENV == "development";
 }
 
 function isFirefoxPanel() {
-  return getValue("environment") == "firefox-panel";
+  return DebuggerTarget == "firefox-proxy";
 }
 
 // only used for testing purposes

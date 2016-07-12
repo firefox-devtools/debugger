@@ -10,6 +10,8 @@ const isDevelopment = features.isDevelopment;
 const isEnabled = features.isEnabled;
 const getConfig = require("./config/config").getConfig;
 
+const node_env = process.env.NODE_ENV || "development";
+
 let webpackConfig = {
   entry: ["./public/js/main.js"],
   devtool: "source-map",
@@ -34,6 +36,10 @@ let webpackConfig = {
   },
   plugins: [
     new webpack.DefinePlugin({
+      "process.env": {
+        NODE_ENV: JSON.stringify(node_env),
+      },
+      "DebuggerTarget": JSON.stringify("local"),
       "DebuggerConfig": JSON.stringify(getConfig())
     })
   ]

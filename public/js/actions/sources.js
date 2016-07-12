@@ -11,6 +11,7 @@ const { isJavaScript } = require("../util/source");
 const { getSource, getSourceText } = require("../selectors");
 const constants = require("../constants");
 const Prefs = require("../prefs");
+const invariant = require("invariant");
 
 /**
  * Throttles source dispatching to reduce rendering churn.
@@ -124,9 +125,11 @@ function togglePrettyPrint(id) {
         // Only attempt to pretty print JavaScript sources.
         const sourceText = getSourceText(getState(), source.id).toJS();
         const contentType = sourceText ? sourceText.contentType : null;
-        if (!isJavaScript(source.url, contentType)) {
-          throw new Error("Can't prettify non-javascript files.");
-        }
+
+        invariant(
+          isJavaScript(source.url, contentType),
+          "Can't prettify non-javascript files."
+        );
 
         if (wantPretty) {
           response = yield client.prettyPrint(source.id, Prefs.editorTabSize);
