@@ -14,6 +14,7 @@ const { thunk } = require("./redux/middleware/thunk");
 const { createDevTools } = require("redux-devtools");
 const LogMonitor = React.createFactory(require("redux-devtools-log-monitor").default);
 const DockMonitor = React.createFactory(require("redux-devtools-dock-monitor").default);
+const { isEnabled } = require("../../../config/feature");
 
 // createDevTools takes a monitor and produces a DevTools component
 const DevTools = createDevTools(
@@ -25,6 +26,15 @@ const DevTools = createDevTools(
     LogMonitor({ theme: "tomorrow" })
   )
 );
+
+function ReduxDevTools() {
+  if (isEnabled("reduxDevtools.enabled")) {
+    return React.createElement(DevTools);
+  }
+
+  return () => {};
+}
+ReduxDevTools.displayName = "ReduxDevTools";
 
 /**
  * This creates a dispatcher with all the standard middleware in place
@@ -66,6 +76,10 @@ const configureStore = (opts = {}) => {
     window.devToolsExtension() :
     f => f;
 
+  if (!isEnabled("reduxDevtools.enabled")) {
+    return applyMiddleware(...middleware)(devtools(createStore));
+  }
+
   return compose(
     applyMiddleware(...middleware),
     DevTools.instrument()
@@ -74,5 +88,5 @@ const configureStore = (opts = {}) => {
 
 module.exports = {
   configureStore,
-  DevTools
+  ReduxDevTools
 };
