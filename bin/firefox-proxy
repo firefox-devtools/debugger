@@ -5,50 +5,73 @@ const minimist = require('minimist');
 const ws = require("ws");
 const net = require("net");
 
+function proxy(webSocketPort, tcpPort, logging) {
+  console.log("Listening for WS on *:" + webSocketPort);
+  console.log("Will proxy to TCP on *:" + tcpPort + " on first WS connection");
+  if (!logging) {
+    console.log("Protocol messages can be logged by enabling logging.firefoxProtocol in your local.json config");
+  }
+  let wsServer = new ws.Server({ port: webSocketPort });
+  wsServer.on("connection", function onConnection(wsConnection) {
+    let tcpClient = net.connect({ port: tcpPort });
+    tcpClient.setEncoding("utf8");
+
+    tcpClient.on("connect", () => {
+      console.log("TCP connection succeeded");
+    });
+
+    tcpClient.on("error", e => {
+      wsConnection.close();
+      console.log("TCP connection failed: " + e);
+    });
+
+    tcpClient.on("data", data => {
+      if (logging) {
+        console.log("TCP -> WS: " + data);
+      }
+      try {
+        wsConnection.send(data);
+      } catch (e) {
+        tcpClient.end();
+        console.log("WS send failed, disconnected from TCP");
+      }
+    });
+
+    wsConnection.on("message", msg => {
+      if (logging) {
+        console.log("WS -> TCP: " + msg);
+      }
+      tcpClient.write(msg);
+    });
+
+    wsConnection.on("close", () => {
+      tcpClient.end();
+      console.log("WS connection closed, disconnected from TCP");
+    });
+
+    wsConnection.on("error", () => {
+      tcpClient.end();
+      console.log("WS connection error, disconnected from TCP");
+    });
+  });
+}
+
+
 const args = minimist(process.argv.slice(2));
 
 const WEB_SOCKET_PORT = args['web-socket-port'] || 9000;
 const TCP_PORT = args['tcp-port'] || 6080;
+const shouldStart = args['start'];
 
-let wsServer = new ws.Server({ port: WEB_SOCKET_PORT });
-console.log("Listening for WS on *:" + WEB_SOCKET_PORT);
-console.log("Will proxy to TCP on *:" + TCP_PORT + " on first WS connection");
+function start(options) {
+  const webSocketPort = options.webSocketPort || 9000;
+  const tcpPort = options.tcpPort || 6080;
+  const logging = !!options.logging;
+  proxy(webSocketPort, tcpPort, logging);
+}
 
-wsServer.on("connection", wsConnection => {
-  let tcpClient = net.connect({ port: TCP_PORT });
-  tcpClient.setEncoding("utf8");
-
-  tcpClient.on("connect", () => {
-    console.log("TCP connection succeeded");
-  });
-
-  tcpClient.on("error", e => {
-    wsConnection.close();
-    console.log("TCP connection failed: " + e);
-  });
-
-  tcpClient.on("data", data => {
-    console.log("TCP -> WS: " + data);
-    try {
-      wsConnection.send(data);
-    } catch (e) {
-      tcpClient.end();
-      console.log("WS send failed, disconnected from TCP");
-    }
-  });
-
-  wsConnection.on("message", msg => {
-    console.log("WS -> TCP: " + msg);
-    tcpClient.write(msg);
-  });
-
-  wsConnection.on("close", () => {
-    tcpClient.end();
-    console.log("WS connection closed, disconnected from TCP");
-  });
-
-  wsConnection.on("error", () => {
-    tcpClient.end();
-    console.log("WS connection error, disconnected from TCP");
-  });
-});
+if (shouldStart) {
+  start({ webSocketPort: WEB_SOCKET_PORT, tcpPort: TCP_PORT });
+} else {
+  module.exports = start;
+}
