@@ -20,7 +20,7 @@ log("Debugger bootstrapping");
 
 const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");
-const configureStore = require("./util/create-store");
+const { configureStore } = require("./util/create-store");
 const reducers = require("./reducers");
 
 const Tabs = require("./components/Tabs");

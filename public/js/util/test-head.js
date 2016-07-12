@@ -6,7 +6,7 @@ const actions = require("../actions");
 const selectors = require("../selectors");
 const constants = require("../constants");
 
-const configureStore = require("../util/create-store");
+const { configureStore } = require("../util/create-store");
 
 function createStore(client: any, initialState: any = {}) {
   return configureStore({

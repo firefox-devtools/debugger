@@ -3,12 +3,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 /* global window */
 
-const { createStore, applyMiddleware } = require("redux");
+const React = require("react");
+const { createStore, applyMiddleware, compose } = require("redux");
 const { waitUntilService } = require("devtools/client/shared/redux/middleware/wait-service");
 const { log } = require("devtools/client/shared/redux/middleware/log");
 const { history } = require("./redux/middleware/history");
 const { promise } = require("./redux/middleware/promise");
 const { thunk } = require("./redux/middleware/thunk");
+
+const { createDevTools } = require("redux-devtools");
+const LogMonitor = React.createFactory(require("redux-devtools-log-monitor").default);
+const DockMonitor = React.createFactory(require("redux-devtools-dock-monitor").default);
+
+// createDevTools takes a monitor and produces a DevTools component
+const DevTools = createDevTools(
+  DockMonitor({
+    toggleVisibilityKey: "ctrl-h",
+    changePositionKey: "ctrl-q",
+    defaultIsVisible: true
+  },
+    LogMonitor({ theme: "tomorrow" })
+  )
+);
 
 /**
  * This creates a dispatcher with all the standard middleware in place
@@ -21,7 +37,7 @@ const { thunk } = require("./redux/middleware/thunk");
  *                   used in tests.
  *        - middleware: array of middleware to be included in the redux store
  */
-module.exports = (opts = {}) => {
+const configureStore = (opts = {}) => {
   const middleware = [
     thunk(opts.makeThunkArgs),
     promise,
@@ -50,5 +66,13 @@ module.exports = (opts = {}) => {
     window.devToolsExtension() :
     f => f;
 
-  return applyMiddleware(...middleware)(devtools(createStore));
+  return compose(
+    applyMiddleware(...middleware),
+    DevTools.instrument()
+  )(devtools(createStore));
+};
+
+module.exports = {
+  configureStore,
+  DevTools
 };
