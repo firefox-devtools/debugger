@@ -1,7 +1,9 @@
 {
   "environment": "development",
-  "logging": true,
-  "clientLogging": false,
+  "logging": {
+    "client": false,
+    "firefoxProxy": false
+  },
   "features": {
     "tabs": true
   },

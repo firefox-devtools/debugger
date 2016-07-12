@@ -18,7 +18,8 @@ const feature = require("../config/feature");
 const config = getConfig();
 feature.setConfig(config);
 
-require("./firefox-proxy");
+const firefoxProxy = require("./firefox-proxy");
+firefoxProxy({ logging: feature.isEnabled("logging.firefoxProxy") });
 
 function httpGet(url, onResponse) {
   return http.get(url, (response) => {

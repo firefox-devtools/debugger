@@ -12,7 +12,7 @@ const { injectGlobals } = require("./util/debug");
 const { isEnabled, isFirefoxPanel, isDevelopment } = require("../../config/feature");
 
 // Set various flags before requiring app code.
-if (isEnabled("clientLogging")) {
+if (isEnabled("logging.client")) {
   DevToolsUtils.dumpn.wantLogging = true;
 }
 
