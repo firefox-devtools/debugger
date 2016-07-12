@@ -39,6 +39,8 @@ function startDebuggingTab(targetEnv, tabId, actions) {
 
     clientType = targetEnv === firefox ? "firefox" : "chrome";
     debugGlobal("client", targetEnv.clientCommands);
+
+    return tabs;
   });
 }
 
