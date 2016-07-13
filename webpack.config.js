@@ -10,83 +10,127 @@ const isDevelopment = features.isDevelopment;
 const isEnabled = features.isEnabled;
 const getConfig = require("./config/config").getConfig;
 
-const node_env = process.env.NODE_ENV || "development";
+/*
+  Build Targets:
 
-let webpackConfig = {
-  entry: ["./public/js/main.js"],
-  devtool: "source-map",
-  output: {
+  local development mode: `NODE_ENV=development target=local webpack`
+  simulate firefox panel: `target=firefox-panel webpack`
+  firefox production panel: `NODE_ENV=production target=firefox-panel webpack`
+*/
+const nodeEnv = process.env.NODE_ENV || "development";
+const debuggerTarget = process.env.target || "local";
+
+function getOutput() {
+  let output = {
     path: path.join(__dirname, "public/build"),
     filename: "bundle.js",
     publicPath: "/public/build"
-  },
-  resolve: {
-    alias: {
-      "devtools/client/shared/vendor/react": "react",
-      "devtools": path.join(__dirname, "./public/js/lib/devtools"),
-      "devtools-sham": path.join(__dirname, "./public/js/lib/devtools-sham"),
-      "sdk": path.join(__dirname, "./public/js/lib/devtools-sham/sdk")
-    }
-  },
-  module: {
-    loaders: [
-      { test: /\.json$/,
-        loader: "json" }
-    ]
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify(node_env),
-      },
-      "DebuggerTarget": JSON.stringify("local"),
-      "DebuggerConfig": JSON.stringify(getConfig())
-    })
-  ]
-};
+  }
 
-if (isDevelopment()) {
-  webpackConfig.module.loaders.push({
-    test: /\.css$/,
-    loader: "style!css"
-  });
+  if (debuggerTarget == "firefox-panel") {
+    output.library = "Debugger";
+  }
+
+  return output;
+}
+
+function getPlugins() {
+  let plugins = [];
+
+  plugins.push(new webpack.DefinePlugin({
+    "process.env": {
+      NODE_ENV: JSON.stringify(nodeEnv),
+    },
+    "DebuggerTarget": JSON.stringify(debuggerTarget),
+    "DebuggerConfig": JSON.stringify(getConfig())
+  }));
+
+  if (!isDevelopment()) {
+    plugins.push(new ExtractTextPlugin("styles.css"));
+  }
 
   if (isEnabled("hotReloading")) {
-    webpackConfig.entry.push("webpack-hot-middleware/client");
-
-    webpackConfig.plugins = webpackConfig.plugins.concat([
+    plugins = plugins.concat([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin()
     ]);
+  }
 
-    webpackConfig.module.loaders.push({
+  return plugins;
+}
+
+function getEntry() {
+  let entry = ["./public/js/main.js"];
+
+  if (isEnabled("hotReloading")) {
+    entry.push("webpack-hot-middleware/client");
+  }
+
+  return entry;
+}
+
+function getLoaders() {
+  let loaders = [
+    { test: /\.json$/,
+      loader: "json" }
+  ];
+
+  if (isDevelopment()) {
+    loaders.push({
+      test: /\.css$/,
+      loader: "style!css"
+    });
+  } else {
+    loaders.push({
+      test: /\.css$/,
+      loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+    });
+  }
+
+  if (isEnabled("hotReloading")) {
+    loaders.push({
       test: /\.js$/,
       include: path.join(__dirname, "./public/js"),
       loader: "react-hot"
     });
   }
 
-} else {
-  // Extract CSS into a single file
-  webpackConfig.module.loaders.push({
-    test: /\.css$/,
-    loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-  });
+  // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
+  // destructuring params https://github.com/jlongster/debugger.html/issues/67
+  if (isEnabled("transformParameters")) {
+    loaders.push({
+      test: /\.js$/,
+      exclude: /(node_modules|bower_components)/,
+      loader: "babel",
+      query: {
+        plugins: ["transform-es2015-parameters"]
+      }
+    });
+  }
 
-  webpackConfig.plugins.push(new ExtractTextPlugin("styles.css"));
+  return loaders;
 }
 
-// NOTE: This is only needed to fix a bug with chrome devtools' debugger and
-// destructuring params https://github.com/jlongster/debugger.html/issues/67
-if (isEnabled("transformParameters")) {
-  webpackConfig.module.loaders.push({
-    test: /\.js$/,
-    exclude: /(node_modules|bower_components)/,
-    loader: "babel",
-    query: {
-      plugins: ["transform-es2015-parameters"]
-    }
-  });
+function getAlias() {
+  return {
+    "devtools/client/shared/vendor/react": "react",
+    "devtools": path.join(__dirname, "./public/js/lib/devtools"),
+    "devtools-sham": path.join(__dirname, "./public/js/lib/devtools-sham"),
+    "sdk": path.join(__dirname, "./public/js/lib/devtools-sham/sdk")
+  }
 }
+
+let webpackConfig = {
+  entry: getEntry(),
+  devtool: "source-map",
+  output: getOutput(),
+  resolve: {
+    alias: getAlias()
+  },
+  module: {
+    loaders: getLoaders()
+  },
+  plugins: getPlugins()
+};
 
 module.exports = webpackConfig;
