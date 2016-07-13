@@ -1,5 +1,3 @@
-"use strict";
-
 const expect = require("expect.js");
 const { Map } = require("immutable");
 const {

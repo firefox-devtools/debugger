@@ -1,4 +1,3 @@
-"use strict";
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.

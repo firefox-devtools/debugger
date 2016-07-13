@@ -1,5 +1,3 @@
-"use strict";
-
 const { DOM: dom } = require("react");
 require("./Arrow.css");
 

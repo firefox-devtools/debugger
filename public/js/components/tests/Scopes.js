@@ -1,5 +1,3 @@
-"use strict";
-
 const Scopes = require("../Scopes");
 const { renderComponent } = require("../test-utils");
 

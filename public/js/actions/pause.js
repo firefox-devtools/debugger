@@ -1,5 +1,3 @@
-"use strict";
-
 const constants = require("../constants");
 const { selectSource } = require("./sources");
 const { PROMISE } = require("../util/redux/middleware/promise");

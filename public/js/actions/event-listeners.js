@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 /* global window gThreadClient setNamedTimeout services EVENTS */
 /* eslint no-shadow: 0  */
-"use strict";
 
 const constants = require("../constants");
 const { asPaused } = require("../util/utils");

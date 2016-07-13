@@ -1,5 +1,3 @@
-"use strict";
-
 const React = require("react");
 const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");

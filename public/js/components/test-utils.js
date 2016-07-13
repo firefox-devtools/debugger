@@ -1,5 +1,3 @@
-"use strict";
-
 const { createElement, createFactory } = require("react");
 const ReactDOM = require("react-dom");
 

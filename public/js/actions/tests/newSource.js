@@ -1,5 +1,3 @@
-"use strict";
-
 const { constants, selectors, createStore } = require("../../util/test-head");
 const fixtures = require("../../test/fixtures/foobar.json");
 const { getSourceById } = selectors;

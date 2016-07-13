@@ -1,4 +1,3 @@
-"use strict";
 
 describe("Todo MVC", function() {
   it("(Firefox) Test Pausing", function() {

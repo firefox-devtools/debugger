@@ -1,7 +1,10 @@
 {
+  "parser": "babel-eslint",
   "plugins": [
     "react",
-    "mozilla"
+    "mozilla",
+    "flow-vars",
+    "flowtype",
   ],
   "globals": {
     "atob": true,
@@ -63,6 +66,9 @@
         "render"
       ]
     }],
+
+    "flow-vars/define-flow-type": 1,
+    "flow-vars/use-flow-type": 1,
 
     // Disallow using variables outside the blocks they are defined (especially
     // since only let and const are used, see "no-var").

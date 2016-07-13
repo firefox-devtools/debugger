@@ -1,5 +1,3 @@
-"use strict";
-
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");

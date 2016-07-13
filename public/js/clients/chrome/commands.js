@@ -1,5 +1,3 @@
-"use strict";
-
 const { BreakpointResult, Location } = require("../../types");
 
 let debuggerAgent;

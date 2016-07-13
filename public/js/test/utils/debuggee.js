@@ -1,5 +1,3 @@
-"use strict";
-
 function Debuggee() {
   function $(selector) {
     const element = document.querySelector(selector);

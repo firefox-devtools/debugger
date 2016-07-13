@@ -1,5 +1,3 @@
-"use strict";
-
 const t = require("tcomb");
 
 const Tab = t.struct({

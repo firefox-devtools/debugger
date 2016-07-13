@@ -1,5 +1,3 @@
-"use strict";
-
 const glob = require("glob").sync;
 const path = require("path");
 

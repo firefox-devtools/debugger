@@ -1,5 +1,3 @@
-"use strict";
-
 const { actions, selectors, createStore } = require("../../util/test-head");
 const fixtures = require("../../test/fixtures/foobar.json");
 const dehydrate = require("../../util/dehydrate-state");

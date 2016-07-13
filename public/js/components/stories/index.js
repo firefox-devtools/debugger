@@ -1,5 +1,3 @@
-"use strict";
-
 require("./accordion");
 require("./Breakpoints");
 require("./Scopes");

@@ -1,5 +1,3 @@
-"use strict";
-
 const React = require("react");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");

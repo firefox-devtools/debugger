@@ -1,6 +1,3 @@
-"use strict";
-
-const defer = require("devtools/shared/defer");
 const { Task } = require("../../util/task");
 const expect = require("expect.js");
 
@@ -35,7 +32,7 @@ const deferredMockThreadClient = {
   request: undefined,
   sourceContents: function(sourceId) {
     return new Promise((resolve, reject) => {
-      if(sourceId === "badId") {
+      if (sourceId === "badId") {
         reject("failed to load");
         return;
       }

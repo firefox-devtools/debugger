@@ -1,5 +1,3 @@
-"use strict";
-
 const React = require("react");
 const { DOM: dom, createElement } = React;
 const { Provider } = require("react-redux");

@@ -1,5 +1,3 @@
-"use strict";
-
 const React = require("react");
 const Rep = React.createFactory(
   require("../lib/devtools/client/shared/components/reps/rep").Rep);

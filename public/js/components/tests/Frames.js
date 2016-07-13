@@ -1,5 +1,3 @@
-"use strict";
-
 const Frames = require("../Frames");
 const { renderComponent } = require("../test-utils");
 

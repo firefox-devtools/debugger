@@ -1,5 +1,3 @@
-"use strict";
-
 const { Task } = require("../util/task");
 const firefox = require("./firefox");
 const chrome = require("./chrome");

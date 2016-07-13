@@ -1,4 +1,3 @@
-
 const I = require("immutable");
 const { fromJS } = I;
 const SourcesState = require("../reducers/sources").SourcesState;
@@ -15,7 +14,7 @@ function dehydrate(jsState) {
     eventListeners: fromJS(jsState.eventListeners),
     pause: fromJS(jsState.pause),
     tabs: fromJS(jsState.tabs)
-  }
+  };
 }
 
 module.exports = dehydrate;
