@@ -12,6 +12,8 @@ const { getSource, getSourceText } = require("../selectors");
 const constants = require("../constants");
 const Prefs = require("../prefs");
 const invariant = require("invariant");
+const { isEnabled } = require("../../../config/feature");
+const { networkRequest } = require("../util/networkRequest");
 
 /**
  * Throttles source dispatching to reduce rendering churn.
@@ -36,6 +38,11 @@ function queueSourcesDispatch(dispatch) {
  */
 function newSource(source) {
   return ({ dispatch }) => {
+    if (isEnabled("features.sourceMaps") && source.sourceMapUrl) {
+      networkRequest(source.sourceMapUrl).then(res => {
+      });
+    }
+
     // We don't immediately dispatch the source because several
     // thousand may come in at the same time and we want to batch
     // rendering.

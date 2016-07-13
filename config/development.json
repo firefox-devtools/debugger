@@ -5,7 +5,8 @@
     "firefoxProxy": false
   },
   "features": {
-    "tabs": true
+    "tabs": true,
+    "sourceMaps": true
   },
   "chrome": {
     "debug": false,
