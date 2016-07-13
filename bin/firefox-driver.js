@@ -21,6 +21,7 @@ function firefoxProfile() {
   profile.setPreference("devtools.debugger.remote-enabled",  true);
   profile.setPreference("devtools.chrome.enabled",  true);
   profile.setPreference("devtools.debugger.prompt-connection",  false);
+  profile.setPreference("devtools.debugger.remote-use-websocket", true);
 
   return profile;
 }

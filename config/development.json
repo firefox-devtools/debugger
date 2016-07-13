@@ -12,6 +12,6 @@
     "webSocketPort": 9222
   },
   "firefox": {
-    "webSocketPort": 9000
+    "webSocketPort": 6080
   }
 }
