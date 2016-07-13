@@ -2,6 +2,7 @@
               "transform-es2015-destructuring",
               "transform-es2015-parameters",
               "transform-es2015-spread",
+              "transform-flow-strip-types",
 
               ["babel-plugin-module-alias", [
                 { "src": "node_modules/react", "expose": "devtools/client/shared/vendor/react" },

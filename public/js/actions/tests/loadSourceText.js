@@ -34,12 +34,14 @@ const simpleMockThreadClient = {
 const deferredMockThreadClient = {
   request: undefined,
   sourceContents: function(sourceId) {
-    let deferred = defer();
-    this.request = deferred;
-    return deferred.promise;
-  },
-  getRequest: function() {
-    return this.request;
+    return new Promise((resolve, reject) => {
+      if(sourceId === "badId") {
+        reject("failed to load");
+        return;
+      }
+
+      resolve("ok");
+    });
   }
 };
 
@@ -86,28 +88,20 @@ describe("loadSourceText", () => {
 
   it("source is loading", function() {
     const store = createStore(deferredMockThreadClient);
+    // We're intentionally not yielding here to check the loading
+    // state
     store.dispatch(loadSourceText({ id: "foo1" }));
-    // We're intentionally leaving the source promise pending
-
     const fooSourceText = getSourceText(store.getState(), "foo1");
     expect(fooSourceText.get("loading")).to.equal(true);
   });
 
-  xit("source failed to load", function(done) {
-    function loadBadSource(store) {
-      store.dispatch(loadSourceText({ id: "foo1" })).catch(() => {});
-      deferredMockThreadClient.getRequest().reject("failed to load");
-      return deferredMockThreadClient.getRequest().promise;
-    }
+  it("source failed to load", function() {
+    return Task.spawn(function* () {
+      const store = createStore(deferredMockThreadClient);
+      yield store.dispatch(loadSourceText({ id: "badId" })).catch(() => {});
 
-    const store = createStore(deferredMockThreadClient);
-
-    Task.spawn(function* () {
-      yield loadBadSource(store);
-      const fooSourceText = getSourceText(store.getState(), "foo1");
+      const fooSourceText = getSourceText(store.getState(), "badId");
       expect(fooSourceText.get("error")).to.equal("failed to load");
-
-      done();
     });
   });
 });

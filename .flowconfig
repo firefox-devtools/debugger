@@ -1,0 +1,4 @@
+[ignore]
+.*node_modules/cjson.*
+.*node_modules/fbjs.*
+.*node_modules/npm.*

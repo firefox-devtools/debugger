@@ -2,15 +2,15 @@
 
 const { actions, selectors, createStore } = require("../../util/test-head");
 const fixtures = require("../../test/fixtures/foobar.json");
-const fromJS = require("../../util/fromJS");
+const dehydrate = require("../../util/dehydrate-state");
 const expect = require("expect.js");
 
 const { getSelectedSource, getSourceTabs } = selectors;
 const { selectSource, closeTab } = actions;
 const sourcesFixtures = fixtures.sources;
 
-const oneSourceFixture = {
-  sources: fromJS({
+const oneSourceFixture = dehydrate({
+  sources: {
     sources: {
       "fooSourceActor": sourcesFixtures.sources.fooSourceActor
     },
@@ -18,11 +18,11 @@ const oneSourceFixture = {
       "fooSourceActor": sourcesFixtures.sourcesText.fooSourceActor
     },
     tabs: []
-  })
-};
+  }
+});
 
-const threeSourcesFixture = {
-  sources: fromJS({
+const threeSourcesFixture = dehydrate({
+  sources: {
     sources: {
       "fooSourceActor": sourcesFixtures.sources.fooSourceActor,
       "barSourceActor": sourcesFixtures.sources.barSourceActor,
@@ -34,8 +34,8 @@ const threeSourcesFixture = {
       "bazzSourceActor": sourcesFixtures.sourcesText.bazzSourceActor
     },
     tabs: []
-  })
-};
+  }
+});
 
 describe("closeTab", function() {
   it("removing only tab", function() {
@@ -51,7 +51,7 @@ describe("closeTab", function() {
     const selectedSource = getSelectedSource(this.store.getState());
     const sourceTabs = getSourceTabs(this.store.getState());
 
-    expect(selectedSource).to.equal(null);
+    expect(selectedSource).to.equal(undefined);
     expect(sourceTabs.count()).to.equal(0);
   });
 

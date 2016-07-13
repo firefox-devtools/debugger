@@ -1,4 +1,4 @@
-"use strict";
+// @flow
 
 const { combineReducers } = require("redux");
 const reducers = require("../reducers");
@@ -8,7 +8,7 @@ const constants = require("../constants");
 
 const configureStore = require("../util/create-store");
 
-function createStore(client, initialState = {}) {
+function createStore(client: any, initialState: any = {}) {
   return configureStore({
     log: false,
     makeThunkArgs: args => {
@@ -17,7 +17,7 @@ function createStore(client, initialState = {}) {
   })(combineReducers(reducers), initialState);
 }
 
-function commonLog(msg, data = {}) {
+function commonLog(msg: string, data: any = {}) {
   console.log(`[INFO] ${msg} ${JSON.stringify(data)}`);
 }
 

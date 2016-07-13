@@ -1,4 +1,4 @@
-"use strict";
+// @flow
 
 const Immutable = require("immutable");
 
@@ -6,7 +6,7 @@ const Immutable = require("immutable");
 // this function. This is only temporarily necessary to support
 // converting typed objects to immutable.js, which usually happens in
 // reducers.
-function fromJS(value) {
+function fromJS(value: any) : any {
   if (Array.isArray(value)) {
     return Immutable.Seq(value).map(fromJS).toList();
   }
