@@ -13,8 +13,8 @@ const constants = require("../constants");
 const Prefs = require("../prefs");
 const invariant = require("invariant");
 const { isEnabled } = require("../../../config/feature");
-const { Source } = require("../types");
-const { loadSourceMap, getOriginalSources } = require("../util/source-map");
+const { loadOriginalSources, isOriginal,
+        getOriginalSource } = require("../util/source-map");
 
 /**
  * Throttles source dispatching to reduce rendering churn.
@@ -41,7 +41,8 @@ function newSource(source) {
   return ({ dispatch, getState }) => {
     if (isEnabled("features.sourceMaps") && source.sourceMapURL) {
       const tab = getSelectedTab(getState());
-      loadSourceMapSources(tab, source, dispatch);
+      loadOriginalSources(tab, source)
+        .then(sources => sources.forEach(s => dispatch(newSource(s))));
     }
 
     // We don't immediately dispatch the source because several
@@ -50,19 +51,6 @@ function newSource(source) {
     newSources.push(source);
     queueSourcesDispatch(dispatch);
   };
-}
-
-function loadSourceMapSources(tab, source, dispatch) {
-  loadSourceMap(tab, source).then(map => {
-    const originalUrls = getOriginalSources(map);
-    let inc = 1;
-
-    originalUrls.forEach(url => dispatch(newSource(Source({
-      url,
-      id: `${source.id}/${++inc}`,
-      isPrettyPrinted: false
-    }))));
-  });
 }
 
 function selectSource(id, options = {}) {
@@ -193,7 +181,9 @@ function loadSourceText(source) {
         // let histogram = Services.telemetry.getHistogramById(histogramId);
         // let startTime = Date.now();
 
-        const response = yield client.sourceContents(source.id);
+        const response = isOriginal(source)
+          ? yield getOriginalSource(source, getState, dispatch, loadSourceText)
+          : yield client.sourceContents(source.id);
 
         // histogram.add(Date.now() - startTime);
 
