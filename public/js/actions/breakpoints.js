@@ -51,25 +51,27 @@ function addBreakpoint(location: Location,
 
     const bp = _getOrCreateBreakpoint(getState(), location, condition);
 
+    async function setBreakpoint() {
+      const { id, actualLocation } = await client.setBreakpoint(
+        bp.get("location").toJS(),
+        bp.get("condition")
+      );
+
+      // If this breakpoint is being re-enabled, it already has a
+      // text snippet.
+      let text = bp.get("text");
+      if (!text) {
+        text = getTextForLine ? getTextForLine(actualLocation.line) : "";
+      }
+
+      return { id, actualLocation, text };
+    }
+
     return dispatch({
       type: constants.ADD_BREAKPOINT,
       breakpoint: bp.toJS(),
       condition: condition,
-      [PROMISE]: async function() {
-        const { id, actualLocation } = await client.setBreakpoint(
-          bp.get("location").toJS(),
-          bp.get("condition")
-        );
-
-        // If this breakpoint is being re-enabled, it already has a
-        // text snippet.
-        let text = bp.get("text");
-        if (!text) {
-          text = getTextForLine ? getTextForLine(actualLocation.line) : "";
-        }
-
-        return { id, actualLocation, text };
-      }
+      [PROMISE]: setBreakpoint()
     });
   };
 }
