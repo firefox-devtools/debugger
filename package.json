@@ -1,6 +1,7 @@
 {
   "name": "debugger.html",
   "version": "0.0.5",
+  "license": "MPL-2.0",
   "scripts": {
     "start": "node bin/development-server",
     "lint": "npm run lint-css -s; npm run lint-js -s",
