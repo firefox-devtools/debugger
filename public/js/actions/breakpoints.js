@@ -5,8 +5,9 @@
 
 const constants = require("../constants");
 const { PROMISE } = require("../util/redux/middleware/promise");
-const { getBreakpoint, getBreakpoints } = require("../selectors");
+const { getBreakpoint, getBreakpoints, getSource } = require("../selectors");
 const fromJS = require("../util/fromJS");
+const { isOriginal, getGeneratedSourceLocation } = require("../util/source-map");
 
 import type { Location } from "./types";
 
@@ -22,13 +23,49 @@ function enableBreakpoint(location: Location) {
   return addBreakpoint(location);
 }
 
+function isOriginalLocation(state, location: Location) {
+  const source = getSource(state, location.sourceId);
+  return isOriginal(source.toJS());
+}
+
+function getGeneratedLocation(state, location: Location) {
+  const source = getSource(state, location.sourceId);
+  if (isOriginal(source.toJS())) {
+    return getGeneratedSourceLocation(source.toJS(), location);
+  }
+
+  return location;
+}
+
 function _breakpointExists(state, location: Location) {
+  location = getGeneratedLocation(state, location);
   const currentBp = getBreakpoint(state, location);
   return currentBp && !currentBp.get("disabled");
 }
 
 function _getOrCreateBreakpoint(state, location, condition) {
+  location = getGeneratedLocation(state, location);
   return getBreakpoint(state, location) || fromJS({ location, condition });
+}
+
+function getBreakpointText({
+  breakpoint, getState, getTextForLine, actualLocation, location }) {
+  // If this breakpoint is being re-enabled, it already has a
+  // text snippet.
+  let text = breakpoint.get("text");
+  if (text) {
+    return text;
+  }
+
+  if (!getTextForLine) {
+    return "";
+  }
+
+  if (isOriginalLocation(getState(), location)) {
+    return getTextForLine(location.line);
+  }
+
+  return getTextForLine(actualLocation.line);
 }
 
 function addBreakpoint(location: Location,
@@ -50,12 +87,13 @@ function addBreakpoint(location: Location,
           bp.get("condition")
         );
 
-        // If this breakpoint is being re-enabled, it already has a
-        // text snippet.
-        let text = bp.get("text");
-        if (!text) {
-          text = getTextForLine ? getTextForLine(actualLocation.line) : "";
-        }
+        const text = getBreakpointText({
+          breakpoint: bp,
+          location,
+          actualLocation,
+          getTextForLine,
+          getState
+        });
 
         return { id, actualLocation, text };
       })()

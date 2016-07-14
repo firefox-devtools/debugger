@@ -14,7 +14,7 @@ const constants = require("../constants");
 const Prefs = require("../prefs");
 const invariant = require("invariant");
 const { isEnabled } = require("../../../config/feature");
-const { setSourceMap, createOriginalSources,
+const { setSourceMap, createOriginalSources, getGeneratedSourceId,
         isOriginal, getOriginalSource } = require("../util/source-map");
 
 /**
@@ -184,6 +184,25 @@ function togglePrettyPrint(id) {
   };
 }
 
+function loadOriginalSourceText(source, getState, dispatch) {
+  return Task.spawn(function* () {
+    const generatedSource = getSource(
+      getState(),
+      getGeneratedSourceId(source)
+    );
+
+    const generatedSourceText = yield dispatch(
+      loadSourceText(generatedSource.toJS())
+    );
+
+    return getOriginalSource(
+      source,
+      generatedSource.toJS(),
+      generatedSourceText
+    );
+  });
+}
+
 function loadSourceText(source) {
   return ({ dispatch, getState, client }) => {
     // Fetch the source text only once.
@@ -203,9 +222,8 @@ function loadSourceText(source) {
         //  + transportType + "_MS";
         // let histogram = Services.telemetry.getHistogramById(histogramId);
         // let startTime = Date.now();
-
-        const response = isOriginal(source)
-          ? yield getOriginalSource(source, getState, dispatch, loadSourceText)
+        let response = isOriginal(source)
+          ? yield loadOriginalSourceText(source, getState, dispatch)
           : yield client.sourceContents(source.id);
 
         // histogram.add(Date.now() - startTime);

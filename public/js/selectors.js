@@ -3,6 +3,10 @@
 import type { Record } from "./util/makeRecord";
 import type { SourcesState } from "./reducers/sources";
 import type { Location, Source } from "./actions/types";
+const fromJS = require("./util/fromJS");
+
+const { isGenerated, getOriginalSourcePosition
+      } = require("./util/source-map");
 
 type AppState = {
   sources: Record<SourcesState>,
@@ -37,13 +41,16 @@ function getBreakpoint(state: AppState, location: Location) {
 }
 
 function getBreakpoints(state: AppState) {
-  return state.breakpoints.get("breakpoints");
+  return state.breakpoints.get("breakpoints")
+    .map(bp => bp.set(
+      "location",
+      getOriginalLocation(state, bp.get("location"))
+    ));
 }
 
 function getBreakpointsForSource(state: AppState, sourceId: string) {
-  return state.breakpoints.get("breakpoints").filter(bp => {
-    return bp.getIn(["location", "sourceId"]) === sourceId;
-  });
+  return getBreakpoints(state)
+    .filter(bp => bp.getIn(["location", "sourceId"]) === sourceId);
 }
 
 function getTabs(state: AppState) {
@@ -104,6 +111,24 @@ function getSourceMapURL(state: AppState, source: Source) {
  */
 function makeLocationId(location: Location) {
   return location.sourceId + ":" + location.line.toString();
+}
+
+function getOriginalLocation(state: AppState, location) {
+  const source = getSource(state, location.get("sourceId"));
+  if (isGenerated(source.toJS())) {
+    const { url, line } = getOriginalSourcePosition(
+      source.toJS(),
+      location.toJS()
+    );
+
+    const originalSource = getSourceByURL(state, url);
+    return fromJS({
+      sourceId: originalSource.get("id"),
+      line
+    });
+  }
+
+  return location;
 }
 
 module.exports = {
