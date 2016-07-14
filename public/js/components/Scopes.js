@@ -26,8 +26,40 @@ function getBindingVariables(bindings, parentName) {
       path: parentName + "/" + binding[0],
       contents: binding[1].toJS()
     }))
-    .sort((a, b) => a.name.localeCompare(b.name))
     .toArray();
+}
+
+function getSpecialVariables(pauseInfo, parentName) {
+  const thrown = pauseInfo.getIn(["why", "frameFinished", "throw"]);
+  const returned = pauseInfo.getIn(["why", "frameFinished", "return"]);
+  const this_ = pauseInfo.getIn(["frame", "this"]);
+  const vars = [];
+
+  if (thrown) {
+    vars.push({
+      name: "<exception>",
+      path: parentName + "/<exception>",
+      contents: { value: thrown.toJS() }
+    });
+  }
+
+  if (returned) {
+    vars.push({
+      name: "<return>",
+      path: parentName + "/<return>",
+      contents: { value: returned.toJS() }
+    });
+  }
+
+  if (this_) {
+    vars.push({
+      name: "<this>",
+      path: parentName + "/<this>",
+      contents: { value: this_.toJS() }
+    });
+  }
+
+  return vars;
 }
 
 function getScopes(pauseInfo) {
@@ -54,8 +86,15 @@ function getScopes(pauseInfo) {
         title = "Block";
       }
 
-      const vars = getBindingVariables(bindings, title);
+      let vars = getBindingVariables(bindings, title);
+
+      // Innermost
+      if (scope === pauseInfo.getIn(["frame", "scope"])) {
+        vars = vars.concat(getSpecialVariables(pauseInfo, title));
+      }
+
       if (vars.length) {
+        vars.sort((a, b) => a.name.localeCompare(b.name));
         scopes.push({ name: title, path: title, contents: vars });
       }
     } else if (type === "object") {
