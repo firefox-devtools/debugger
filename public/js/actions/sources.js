@@ -8,12 +8,13 @@ const { PROMISE } = require("../util/redux/middleware/promise");
 const { Task } = require("../util/task");
 const { isJavaScript } = require("../util/source");
 
-const { getSource, getSourceText } = require("../selectors");
+const { getSource, getSourceText, getSelectedTab } = require("../selectors");
 const constants = require("../constants");
 const Prefs = require("../prefs");
 const invariant = require("invariant");
 const { isEnabled } = require("../../../config/feature");
-const { networkRequest } = require("../util/networkRequest");
+const { Source } = require("../types");
+const { loadSourceMap, getOriginalSources } = require("../util/source-map");
 
 /**
  * Throttles source dispatching to reduce rendering churn.
@@ -37,10 +38,10 @@ function queueSourcesDispatch(dispatch) {
  * Handler for the debugger client's unsolicited newSource notification.
  */
 function newSource(source) {
-  return ({ dispatch }) => {
-    if (isEnabled("features.sourceMaps") && source.sourceMapUrl) {
-      networkRequest(source.sourceMapUrl).then(res => {
-      });
+  return ({ dispatch, getState }) => {
+    if (isEnabled("features.sourceMaps") && source.sourceMapURL) {
+      const tab = getSelectedTab(getState());
+      loadSourceMapSources(tab, source, dispatch);
     }
 
     // We don't immediately dispatch the source because several
@@ -49,6 +50,19 @@ function newSource(source) {
     newSources.push(source);
     queueSourcesDispatch(dispatch);
   };
+}
+
+function loadSourceMapSources(tab, source, dispatch) {
+  loadSourceMap(tab, source).then(map => {
+    const originalUrls = getOriginalSources(map);
+    let inc = 1;
+
+    originalUrls.forEach(url => dispatch(newSource(Source({
+      url,
+      id: `${source.id}/${++inc}`,
+      isPrettyPrinted: false
+    }))));
+  });
 }
 
 function selectSource(id, options = {}) {
