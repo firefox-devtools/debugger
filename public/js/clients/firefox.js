@@ -1,5 +1,6 @@
 const { DebuggerClient } = require("devtools-sham/shared/client/main");
 const { DebuggerTransport } = require("devtools-sham/transport/transport");
+const WebSocketDebuggerTransport = require("devtools-sham/transport/ws-transport");
 const { TargetFactory } = require("devtools-sham/client/framework/target");
 const defer = require("../lib/devtools/shared/defer");
 const { getValue } = require("../../../config/feature");
@@ -47,10 +48,13 @@ function createTabs(tabs) {
 function connectClient() {
   const deferred = defer();
   let isConnected = false;
-  const webSocketPort = getValue("firefox.webSocketPort");
+  const useProxy = !getValue("firefox.webSocketConnection");
+  const portPref = useProxy ? "firefox.proxyPort" : "firefox.webSocketPort";
+  const webSocketPort = getValue(portPref);
 
   const socket = new WebSocket(`ws://localhost:${webSocketPort}`);
-  const transport = new DebuggerTransport(socket);
+  const transport = useProxy ?
+    new DebuggerTransport(socket) : new WebSocketDebuggerTransport(socket);
   debuggerClient = new DebuggerClient(transport);
 
   // TODO: the timeout logic should be moved to DebuggerClient.connect.

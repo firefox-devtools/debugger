@@ -13,6 +13,8 @@
     "webSocketPort": 9222
   },
   "firefox": {
-    "webSocketPort": 9000
+    "proxyPort": 9000,
+    "webSocketConnection": false,
+    "webSocketPort": 6080
   }
 }

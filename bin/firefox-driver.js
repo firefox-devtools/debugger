@@ -7,6 +7,7 @@ const until = webdriver.until;
 const Key = webdriver.Key;
 
 const shouldStart = process.argv.indexOf("--start") > 0;
+const useWebSocket = process.argv.indexOf("--websocket") > 0;
 
 function firefoxBinary() {
   var binary = new firefox.Binary();
@@ -21,6 +22,7 @@ function firefoxProfile() {
   profile.setPreference("devtools.debugger.remote-enabled",  true);
   profile.setPreference("devtools.chrome.enabled",  true);
   profile.setPreference("devtools.debugger.prompt-connection",  false);
+  profile.setPreference("devtools.debugger.remote-use-websocket", useWebSocket);
 
   return profile;
 }
