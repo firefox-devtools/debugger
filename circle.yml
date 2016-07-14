@@ -13,6 +13,7 @@ test:
   post:
     - npm run lint-css
     - npm run lint-js
+    - npm run flow
     - npm run karma
 dependencies:
   override:
