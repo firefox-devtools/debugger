@@ -3,6 +3,7 @@ const { DOM: dom, createElement } = React;
 const { Provider } = require("react-redux");
 const { fromJS, Map } = require("immutable");
 const { combineReducers } = require("redux");
+const dehydrate = require("../../util/dehydrate-state");
 
 const fixtures = require("../fixtures");
 const configureStore = require("../../util/create-store");
@@ -19,27 +20,7 @@ function getData(fixtureName) {
     throw new Error(`Fixture ${fixtureName} not found`);
   }
 
-  let pauseData = fixture.pause;
-  if (fixture.pause) {
-    pauseData = Map({
-      pause: fromJS(fixture.pause.pause),
-      loadedObjects: fromJS(fixture.pause.loadedObjects),
-      frames: fixture.pause.frames
-    });
-  }
-
-  return {
-    pause: pauseData,
-    sources: Map({
-      sources: fromJS(fixture.sources.sources),
-      selectedSource: fromJS(fixture.sources.selectedSource),
-      sourcesText: fromJS(fixture.sources.sourcesText),
-      tabs: fromJS(fixture.sources.tabs)
-    }),
-    breakpoints: Map({
-      breakpoints: fromJS(fixture.breakpoints.breakpoints)
-    })
-  };
+  return dehydrate(fixture);
 }
 
 function renderComponentFromFixture(Component, fixtureName,

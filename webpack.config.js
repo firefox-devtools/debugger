@@ -12,6 +12,11 @@ const getConfig = require("./config/config").getConfig;
 
 const node_env = process.env.NODE_ENV || "development";
 
+const defaultBabelPlugins = [
+  "transform-flow-strip-types",
+  "transform-async-to-generator"
+];
+
 let webpackConfig = {
   entry: ["./public/js/main.js"],
   devtool: "source-map",
@@ -34,7 +39,11 @@ let webpackConfig = {
         loader: "json" },
       { test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loaders: ["babel?plugins[]=transform-flow-strip-types&ignore=public/js/lib"],
+        loaders: [
+          "babel?" +
+            defaultBabelPlugins.map(p => "plugins[]=" + p) +
+            "&ignore=public/js/lib"
+        ],
         isJavaScriptLoader: true
       }
     ]

@@ -12,7 +12,11 @@ function dehydrate(jsState) {
     }),
     breakpoints: fromJS(jsState.breakpoints),
     eventListeners: fromJS(jsState.eventListeners),
-    pause: fromJS(jsState.pause),
+    pause: jsState.pause ? I.Map({
+      pause: fromJS(jsState.pause.pause),
+      loadedObjects: fromJS(jsState.pause.loadedObjects),
+      frames: jsState.pause.frames
+    }) : null,
     tabs: fromJS(jsState.tabs)
   };
 }

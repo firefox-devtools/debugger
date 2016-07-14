@@ -11,10 +11,20 @@ const fromJS = require("../util/fromJS");
 
 import type { Location } from "./types";
 
+type BreakpointResult = {
+  id: string,
+  actualLocation: Location
+}
+
+type Client = {
+  setBreakpoint: (location: Location, condition: string) => Promise<BreakpointResult>,
+  removeBreakpoint: (id: string) => void
+}
+
 type ThunkArgs = {
   dispatch: any,
   getState: any,
-  client: any
+  client: Client
 }
 
 function enableBreakpoint(location: Location) {
@@ -32,15 +42,8 @@ function _getOrCreateBreakpoint(state, location, condition) {
   return getBreakpoint(state, location) || fromJS({ location, condition });
 }
 
-type AddBreakpointOpts = {
-  condition?: string,
-  getTextForLine?: (line: number) => string
-};
-
-function addBreakpoint(
-  location: Location,
-  { condition, getTextForLine } : AddBreakpointOpts = {}
-) {
+function addBreakpoint(location: Location,
+                       { condition, getTextForLine } : any = {}) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
       return Promise.resolve();
@@ -52,12 +55,11 @@ function addBreakpoint(
       type: constants.ADD_BREAKPOINT,
       breakpoint: bp.toJS(),
       condition: condition,
-      [PROMISE]: Task.spawn(function* () {
-        const res: any = yield client.setBreakpoint(
+      [PROMISE]: async function() {
+        const { id, actualLocation } = await client.setBreakpoint(
           bp.get("location").toJS(),
           bp.get("condition")
         );
-        const { id, actualLocation } = res;
 
         // If this breakpoint is being re-enabled, it already has a
         // text snippet.
@@ -67,7 +69,7 @@ function addBreakpoint(
         }
 
         return { id, actualLocation, text };
-      })
+      }
     });
   };
 }
