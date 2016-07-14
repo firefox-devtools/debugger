@@ -1,6 +1,7 @@
 {
   "name": "debugger.html",
   "version": "0.0.5",
+  "license": "MPL-2.0",
   "scripts": {
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "start": "node bin/development-server",
