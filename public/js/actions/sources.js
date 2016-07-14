@@ -6,14 +6,16 @@ const defer = require("devtools/shared/defer");
 const { PROMISE } = require("../util/redux/middleware/promise");
 const { Task } = require("../util/task");
 const { isJavaScript } = require("../util/source");
+const { networkRequest } = require("../util/networkRequest");
 
-const { getSource, getSourceText, getSelectedTab } = require("../selectors");
+const { getSource, getSourceText,
+        getSourceMap, getSourceMapURL } = require("../selectors");
 const constants = require("../constants");
 const Prefs = require("../prefs");
 const invariant = require("invariant");
 const { isEnabled } = require("../../../config/feature");
-const { loadOriginalSources, isOriginal,
-        getOriginalSource } = require("../util/source-map");
+const { setSourceMap, createOriginalSources,
+        isOriginal, getOriginalSource } = require("../util/source-map");
 
 /**
  * Throttles source dispatching to reduce rendering churn.
@@ -39,9 +41,7 @@ function queueSourcesDispatch(dispatch) {
 function newSource(source) {
   return ({ dispatch, getState }) => {
     if (isEnabled("features.sourceMaps") && source.sourceMapURL) {
-      const tab = getSelectedTab(getState());
-      loadOriginalSources(tab, source)
-        .then(sources => sources.forEach(s => dispatch(newSource(s))));
+      dispatch(loadSourceMap(source));
     }
 
     // We don't immediately dispatch the source because several
@@ -49,6 +49,30 @@ function newSource(source) {
     // rendering.
     newSources.push(source);
     queueSourcesDispatch(dispatch);
+  };
+}
+
+function loadSourceMap(generatedSource) {
+  return ({ dispatch, getState }) => {
+    let sourceMap = getSourceMap(getState(), generatedSource.id);
+    if (sourceMap) {
+      return {};
+    }
+
+    return dispatch({
+      type: constants.ADD_SOURCE_MAP,
+      source: generatedSource,
+      [PROMISE]: (async function () {
+        const sourceMapURL = getSourceMapURL(getState(), generatedSource);
+        sourceMap = await networkRequest(sourceMapURL);
+
+        setSourceMap(generatedSource, sourceMap);
+        createOriginalSources(generatedSource)
+          .forEach(s => dispatch(newSource(s)));
+
+        return { sourceMap };
+      })()
+    });
   };
 }
 
