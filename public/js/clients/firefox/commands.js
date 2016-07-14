@@ -1,5 +1,3 @@
-"use strict";
-
 const { BreakpointResult, Location } = require("../../types");
 const defer = require("../../lib/devtools/shared/defer");
 

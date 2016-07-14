@@ -1,4 +1,3 @@
-"use strict";
 const React = require("react");
 const { DOM: dom, createElement, createFactory } = React;
 const { renderComponent, storiesOf } = require("./utils");

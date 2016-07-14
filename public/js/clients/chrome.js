@@ -1,5 +1,3 @@
-"use strict";
-
 /* eslint-disable */
 
 const { connect } = require("../lib/chrome-remote-debug-protocol");

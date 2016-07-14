@@ -12,6 +12,11 @@ const getConfig = require("./config/config").getConfig;
 
 const node_env = process.env.NODE_ENV || "development";
 
+const defaultBabelPlugins = [
+  "transform-flow-strip-types",
+  "transform-async-to-generator"
+];
+
 let webpackConfig = {
   entry: ["./public/js/main.js"],
   devtool: "source-map",
@@ -31,7 +36,16 @@ let webpackConfig = {
   module: {
     loaders: [
       { test: /\.json$/,
-        loader: "json" }
+        loader: "json" },
+      { test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loaders: [
+          "babel?" +
+            defaultBabelPlugins.map(p => "plugins[]=" + p) +
+            "&ignore=public/js/lib"
+        ],
+        isJavaScriptLoader: true
+      }
     ]
   },
   plugins: [
@@ -59,13 +73,12 @@ if (isDevelopment()) {
       new webpack.NoErrorsPlugin()
     ]);
 
-    webpackConfig.module.loaders.push({
-      test: /\.js$/,
-      include: path.join(__dirname, "./public/js"),
-      loader: "react-hot"
+    webpackConfig.module.loaders.forEach(spec => {
+      if(spec.isJavaScriptLoader) {
+        spec.loaders.unshift("react-hot");
+      }
     });
   }
-
 } else {
   // Extract CSS into a single file
   webpackConfig.module.loaders.push({
@@ -79,12 +92,10 @@ if (isDevelopment()) {
 // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
 // destructuring params https://github.com/jlongster/debugger.html/issues/67
 if (isEnabled("transformParameters")) {
-  webpackConfig.module.loaders.push({
-    test: /\.js$/,
-    exclude: /(node_modules|bower_components)/,
-    loader: "babel",
-    query: {
-      plugins: ["transform-es2015-parameters"]
+  webpackConfig.module.loaders.forEach(spec => {
+    if(spec.isJavaScriptLoader) {
+      const idx = spec.loaders.findIndex(loader => loader.includes("babel"));
+      spec.loaders[idx] += "&plugins[]=transform-es2015-parameters";
     }
   });
 }

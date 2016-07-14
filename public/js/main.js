@@ -1,5 +1,4 @@
 /* global window, document */
-"use strict";
 
 const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");

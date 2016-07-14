@@ -1,30 +1,25 @@
-"use strict";
+declare var describe: (name: string, func: () => void) => void;
+declare var it: (desc: string, func: () => void) => void;
 
-const { createStore } = require("../../util/test-head");
+const { createStore, selectors, actions } = require("../../util/test-head");
 const { Task } = require("../../util/task");
-// const expect = require("expect.js");
+const expect = require("expect.js");
 
 const simpleMockThreadClient = {
-  source: function(form) {
-    return {
-      setBreakpoint: args => {
-        return new Promise((resolve, reject) => {
-          resolve({}, {
-            actor: form.actor
-          });
-        });
-      }
-    };
+  setBreakpoint: (location, condition) => {
+    return new Promise((resolve, reject) => {
+      resolve({ id: "hi", actualLocation: location });
+    });
   }
 };
 
 describe("breakpoints", () => {
   it("should add a breakpoint", () => {
-    Task.spawn(function* () {
+    return Task.spawn(function* () {
       const store = createStore(simpleMockThreadClient);
-      return store;
-      // yield actions.addBreakpoint({ line: 5 });
-      // expect(queries.getBreakpoints(store.getState()).length).to.be(2);
+      yield store.dispatch(actions.addBreakpoint({ sourceId: "a", line: 5 }));
+      yield store.dispatch(actions.addBreakpoint({ sourceId: "b", line: 6 }));
+      expect(selectors.getBreakpoints(store.getState()).size).to.be(2);
     });
   });
 });

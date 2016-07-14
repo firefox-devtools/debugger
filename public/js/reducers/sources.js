@@ -1,52 +1,59 @@
+// @flow
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-"use strict";
 
-const constants = require("../constants");
 const fromJS = require("../util/fromJS");
-const { Map } = require("immutable");
+const I = require("immutable");
 
-const initialState = fromJS({
-  sources: {},
-  sourceTree: ["root", []],
-  selectedSource: null,
-  sourcesText: {},
-  tabs: []
+import type { Action, Source } from "../actions/types";
+
+export type SourcesState = {
+  sources: I.Map<string, I.Record<Source>>,
+  selectedSource: ?Source,
+  sourcesText: I.Map<string, any>,
+  tabs: I.List<any>
+};
+
+const State = I.Record({
+  sources: I.Map({}),
+  selectedSource: undefined,
+  sourcesText: I.Map({}),
+  tabs: I.List([])
 });
 
-function update(state = initialState, action) {
+function update(state = State(), action: Action) {
   switch (action.type) {
-    case constants.ADD_SOURCE:
-      return state.mergeIn(["sources", action.source.id], action.source);
+    case "ADD_SOURCE": {
+      const source: Source = action.source;
+      return state.mergeIn(["sources", action.source.id], source);
+    }
 
-    case constants.ADD_SOURCES:
+    case "ADD_SOURCES":
       return state.mergeIn(
         ["sources"],
-        Map(action.sources.map(source => {
+        I.Map(action.sources.map(source => {
           return [source.id, fromJS(source)];
         }))
       );
 
-    case constants.SELECT_SOURCE:
-      return state
-        .merge({
-          selectedSource: action.source,
-          tabs: updateTabList(state, fromJS(action.source), action.options)
-        });
+    case "SELECT_SOURCE":
+      return state.merge({
+        selectedSource: action.source,
+        tabs: updateTabList(state, fromJS(action.source), action.options)
+      });
 
-    case constants.CLOSE_TAB:
-      return state
-        .merge({
-          selectedSource: getNewSelectedSource(state, action.id),
-          tabs: removeSourceFromTabList(state, action.id)
-        });
+    case "CLOSE_TAB":
+      return state.merge({
+        selectedSource: getNewSelectedSource(state, action.id),
+        tabs: removeSourceFromTabList(state, action.id)
+      });
 
-    case constants.LOAD_SOURCE_TEXT: {
+    case "LOAD_SOURCE_TEXT": {
       return _updateText(state, action);
     }
 
-    case constants.BLACKBOX:
+    case "BLACKBOX":
       if (action.status === "done") {
         return state.setIn(
           ["sources", action.source.id, "isBlackBoxed"],
@@ -55,7 +62,7 @@ function update(state = initialState, action) {
       }
       break;
 
-    case constants.TOGGLE_PRETTY_PRINT:
+    case "TOGGLE_PRETTY_PRINT":
       if (action.status === "error") {
         return state.mergeIn(["sourcesText", action.source.id], {
           loading: false
@@ -71,10 +78,10 @@ function update(state = initialState, action) {
       }
       return s;
 
-    case constants.NAVIGATE:
+    case "NAVIGATE":
       // Reset the entire state to just the initial state, a blank state
       // if you will.
-      return initialState;
+      return State();
   }
 
   return state;
@@ -91,20 +98,19 @@ function _updateText(state, action) {
       loading: true
     });
   } else if (action.status === "error") {
-    return state.setIn(["sourcesText", source.id], Map({
+    return state.setIn(["sourcesText", source.id], I.Map({
       error: action.error
     }));
   }
 
-  return state.setIn(["sourcesText", source.id], Map({
+  return state.setIn(["sourcesText", source.id], I.Map({
     text: action.value.text,
     contentType: action.value.contentType
   }));
 }
 
 function removeSourceFromTabList(state, id) {
-  return state.get("tabs")
-              .filter(tab => tab.get("id") != id);
+  return state.tabs.filter(tab => tab.get("id") != id);
 }
 
 /*
@@ -133,7 +139,7 @@ function updateTabList(state, source, options) {
 /**
  * Gets the next tab to select when a tab closes.
  */
-function getNewSelectedSource(state, id) {
+function getNewSelectedSource(state, id) : ?Source {
   const tabs = state.get("tabs");
   const selectedSource = state.get("selectedSource");
 
@@ -146,7 +152,7 @@ function getNewSelectedSource(state, id) {
   const numTabs = tabs.count();
 
   if (numTabs == 1) {
-    return null;
+    return undefined;
   }
 
   // if we're closing the last tab, select the penultimate tab
@@ -157,5 +163,10 @@ function getNewSelectedSource(state, id) {
   // return the next tab
   return tabs.get(tabIndex + 1);
 }
+
+// We need this for tests, but I also think we should start bundling
+// in selectors into reducer modules, so we'll eventually start
+// exporting multiple things from here. Need to flesh out this idea.
+update.SourcesState = State;
 
 module.exports = update;

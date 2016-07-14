@@ -1,5 +1,3 @@
-"use strict";
-
 const React = require("react");
 const classnames = require("classnames");
 const ManagedTree = React.createFactory(require("./util/ManagedTree"));

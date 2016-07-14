@@ -1,5 +1,3 @@
-"use strict";
-
 const React = require("react");
 const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
@@ -10,8 +8,8 @@ const { debugGlobal } = require("../util/debug");
 
 const {
   getSourceText, getBreakpointsForSource,
-  getSelectedSource, getSelectedSourceOpts,
-  getSelectedFrame, makeLocationId
+  getSelectedSource, getSelectedFrame,
+  makeLocationId
 } = require("../selectors");
 const actions = require("../actions");
 const { alignLine, onWheel, resizeBreakpointGutter } = require("../util/editor");
@@ -167,7 +165,6 @@ module.exports = connect(
 
     return {
       selectedSource: selectedSource,
-      selectedSourceOpts: getSelectedSourceOpts(state),
       sourceText: getSourceText(state, selectedId),
       breakpoints: getBreakpointsForSource(state, selectedId),
       selectedFrame: getSelectedFrame(state)

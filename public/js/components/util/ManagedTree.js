@@ -1,5 +1,3 @@
-"use strict";
-
 const React = require("react");
 const Tree = React.createFactory(require("../../lib/tree"));
 require("./ManagedTree.css");

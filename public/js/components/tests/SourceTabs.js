@@ -1,5 +1,3 @@
-"use strict";
-
 const SourceTabs = require("../SourceTabs");
 const { renderComponent } = require("../test-utils");
 const { setConfig } = require("../../../../config/feature");

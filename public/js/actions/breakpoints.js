@@ -1,21 +1,28 @@
+// @flow
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-"use strict";
 
 const constants = require("../constants");
 const { PROMISE } = require("../util/redux/middleware/promise");
 const { getBreakpoint, getBreakpoints } = require("../selectors");
-const { Task } = require("../util/task");
 const fromJS = require("../util/fromJS");
 
-function enableBreakpoint(location) {
+import type { Location } from "./types";
+
+type ThunkArgs = {
+  dispatch: any,
+  getState: any,
+  client: any
+}
+
+function enableBreakpoint(location: Location) {
   // Enabling is exactly the same as adding. It will use the existing
   // breakpoint that still stored.
   return addBreakpoint(location);
 }
 
-function _breakpointExists(state, location) {
+function _breakpointExists(state, location: Location) {
   const currentBp = getBreakpoint(state, location);
   return currentBp && !currentBp.get("disabled");
 }
@@ -24,8 +31,9 @@ function _getOrCreateBreakpoint(state, location, condition) {
   return getBreakpoint(state, location) || fromJS({ location, condition });
 }
 
-function addBreakpoint(location, { condition, getTextForLine } = {}) {
-  return ({ dispatch, getState, client }) => {
+function addBreakpoint(location: Location,
+                       { condition, getTextForLine } : any = {}) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
       return Promise.resolve();
     }
@@ -36,8 +44,8 @@ function addBreakpoint(location, { condition, getTextForLine } = {}) {
       type: constants.ADD_BREAKPOINT,
       breakpoint: bp.toJS(),
       condition: condition,
-      [PROMISE]: Task.spawn(function* () {
-        const { id, actualLocation } = yield client.setBreakpoint(
+      [PROMISE]: (async function () {
+        const { id, actualLocation } = await client.setBreakpoint(
           bp.get("location").toJS(),
           bp.get("condition")
         );
@@ -50,21 +58,21 @@ function addBreakpoint(location, { condition, getTextForLine } = {}) {
         }
 
         return { id, actualLocation, text };
-      })
+      })()
     });
   };
 }
 
-function disableBreakpoint(location) {
+function disableBreakpoint(location: Location) {
   return _removeOrDisableBreakpoint(location, true);
 }
 
-function removeBreakpoint(location) {
+function removeBreakpoint(location: Location) {
   return _removeOrDisableBreakpoint(location);
 }
 
 function _removeOrDisableBreakpoint(location, isDisabled) {
-  return ({ dispatch, getState, client }) => {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     let bp = getBreakpoint(getState(), location);
     if (!bp) {
       throw new Error("attempt to remove breakpoint that does not exist");
@@ -95,7 +103,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
 }
 
 function removeAllBreakpoints() {
-  return ({ dispatch, getState }) => {
+  return ({ dispatch, getState }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
     const activeBreakpoints = breakpoints.filter(bp => !bp.disabled);
     activeBreakpoints.forEach(bp => removeBreakpoint(bp.location));
@@ -112,7 +120,7 @@ function removeAllBreakpoints() {
  * @return object
  *         A promise that will be resolved with the breakpoint client
  */
-function setBreakpointCondition(location, condition) {
+function setBreakpointCondition(location: Location, condition: string) {
   throw new Error("not implemented");
 
   // return ({ dispatch, getState, client }) => {

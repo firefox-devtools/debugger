@@ -1,5 +1,3 @@
-"use strict";
-
 const Breakpoints = require("../Breakpoints");
 const { renderComponent } = require("../test-utils");
 

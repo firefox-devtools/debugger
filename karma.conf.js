@@ -6,13 +6,10 @@ webpackConfig.entry = {};
 // Compile with babel to support older browsers. We may be able to
 // remove this if we can use latest versions that have enough ES6
 // support.
-webpackConfig.module.loaders.push({
-  test: /\.js$/,
-  exclude: /(node_modules|bower_components)/,
-  loader: "babel",
-  query: {
-    presets: ["es2015"],
-    plugins: ["transform-runtime"]
+webpackConfig.module.loaders.forEach(spec => {
+  if(spec.isJavaScriptLoader) {
+    const idx = spec.loaders.findIndex(loader => loader.includes("babel"));
+    spec.loaders[idx] += "&presets[]=es2015&plugins[]=transform-runtime"
   }
 });
 

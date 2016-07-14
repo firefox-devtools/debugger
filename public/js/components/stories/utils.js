@@ -1,5 +1,3 @@
-"use strict";
-
 const renderComponentFromFixture =
       require("../../test/utils/renderComponentFromFixture");
 

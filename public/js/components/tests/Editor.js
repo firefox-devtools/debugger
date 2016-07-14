@@ -1,5 +1,3 @@
-"use strict";
-
 if (typeof window == "object") {
   const Editor = require("../Editor");
   const { renderComponent } = require("../test-utils");

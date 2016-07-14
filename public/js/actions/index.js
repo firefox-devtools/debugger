@@ -1,5 +1,3 @@
-"use strict";
-
 const constants = require("../constants");
 const breakpoints = require("./breakpoints");
 const eventListeners = require("./event-listeners");
@@ -24,7 +22,7 @@ function navigate() {
   };
 }
 
-module.exports = Object.assign(
-  { willNavigate, navigate },
+module.exports = (Object.assign(
+  ({ willNavigate, navigate }: any),
   breakpoints, eventListeners, sources, tabs, pause
-);
+) : typeof breakpoints);

@@ -1,7 +1,11 @@
 {
+  "parser": "babel-eslint",
   "plugins": [
     "react",
-    "mozilla"
+    "mozilla",
+    "flow-vars",
+    "flowtype",
+    "babel"
   ],
   "globals": {
     "atob": true,
@@ -64,6 +68,12 @@
       ]
     }],
 
+    // Enforce the spacing around the * in generator functions.
+    "babel/generator-star-spacing":  [2, "after"],
+
+    "flow-vars/define-flow-type": 1,
+    "flow-vars/use-flow-type": 1,
+
     // Disallow using variables outside the blocks they are defined (especially
     // since only let and const are used, see "no-var").
     "block-scoped-var": 2,
@@ -110,8 +120,6 @@
     "func-style": 0,
     // Deprecated, will be removed in 1.0.
     "generator-star": 0,
-    // Enforce the spacing around the * in generator functions.
-    "generator-star-spacing": [2, "after"],
     // Deprecated, will be removed in 1.0.
     "global-strict": 0,
     // Only useful in a node environment.

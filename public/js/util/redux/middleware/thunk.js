@@ -1,4 +1,3 @@
-"use strict";
 
 /**
  * A middleware that allows thunks (functions) to be dispatched. If

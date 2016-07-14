@@ -1,5 +1,3 @@
-"use strict";
-
 const { isDevelopment } = require("../../../config/feature");
 
 function debugGlobal(field, value) {

@@ -1,8 +1,6 @@
-"use strict";
-
 const { actions, selectors, createStore } = require("../../util/test-head");
 const fixtures = require("../../test/fixtures/foobar.json");
-const fromJS = require("../../util/fromJS");
+const dehydrate = require("../../util/dehydrate-state");
 const expect = require("expect.js");
 
 const { getSelectedSource, getSourceTabs } = selectors;
@@ -24,8 +22,8 @@ const simpleMockThreadClient = {
 
 describe("selectSource", function() {
   it("selecting an already loaded source", function() {
-    const initialState = {
-      sources: fromJS({
+    const initialState = dehydrate({
+      sources: {
         sources: {
           "fooSourceActor": sourcesFixtures.sources.fooSourceActor
         },
@@ -33,8 +31,8 @@ describe("selectSource", function() {
           "fooSourceActor": sourcesFixtures.sourcesText.fooSourceActor
         },
         tabs: []
-      })
-    };
+      }
+    });
 
     this.store = createStore({}, initialState);
     this.store.dispatch(
@@ -50,15 +48,15 @@ describe("selectSource", function() {
   });
 
   it("selecting a source that hasn\'t been loaded", function() {
-    const initialState = {
-      sources: fromJS({
+    const initialState = dehydrate({
+      sources: {
         sources: {
           "fooSourceActor": sourcesFixtures.sources.fooSourceActor
         },
         sourcesText: {},
         tabs: []
-      })
-    };
+      }
+    });
 
     this.store = createStore(simpleMockThreadClient, initialState);
     this.store.dispatch(

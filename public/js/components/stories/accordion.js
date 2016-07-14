@@ -1,5 +1,3 @@
-"use strict";
-
 const React = require("react");
 const { DOM: dom } = React;
 const Accordion = React.createFactory(require("../Accordion"));

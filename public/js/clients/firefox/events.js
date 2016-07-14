@@ -1,5 +1,3 @@
-"use strict";
-
 const { Source, Frame, Location } = require("../../types");
 
 const CALL_STACK_PAGE_SIZE = 25;

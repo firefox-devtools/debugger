@@ -1,5 +1,3 @@
-"use strict";
-
 const { Source, Location, Frame } = require("../../types");
 
 let actions;
