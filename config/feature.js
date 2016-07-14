@@ -23,6 +23,10 @@ function isFirefoxPanel() {
   return DebuggerTarget == "firefox-proxy";
 }
 
+function isFirefox() {
+  return /firefox/i.test(navigator.userAgent)
+}
+
 // only used for testing purposes
 function setConfig(stub) {
   config = stub;
@@ -37,6 +41,7 @@ module.exports = {
   getValue,
   isDevelopment,
   isFirefoxPanel,
+  isFirefox,
   getConfig,
   setConfig
 };
