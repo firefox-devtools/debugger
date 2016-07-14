@@ -2,7 +2,7 @@
 
 import type { Record } from "./util/makeRecord";
 import type { SourcesState } from "./reducers/sources";
-import type { Location } from "./actions/types";
+import type { Location, Source } from "./actions/types";
 
 type AppState = {
   sources: Record<SourcesState>,
@@ -26,6 +26,10 @@ function getSourcesText(state: AppState) {
 
 function getSelectedSource(state: AppState) {
   return state.sources.selectedSource;
+}
+
+function getSourceMap(state: AppState, sourceId: string) {
+  return state.sources.sourceMaps.get(sourceId);
 }
 
 function getBreakpoint(state: AppState, location: Location) {
@@ -90,6 +94,11 @@ function getSourceText(state: AppState, id: string) {
   return getSourcesText(state).get(id);
 }
 
+function getSourceMapURL(state: AppState, source: Source) {
+  const tab = getSelectedTab(state);
+  return tab.get("url") + "/" + source.sourceMapURL;
+}
+
 /**
  * @param object - location
  */
@@ -100,10 +109,12 @@ function makeLocationId(location: Location) {
 module.exports = {
   getSource,
   getSources,
+  getSourceMap,
   getSourceTabs,
   getSourceCount,
   getSourceByURL,
   getSourceById,
+  getSourceMapURL,
   getSelectedSource,
   getSourceText,
   getBreakpoint,
