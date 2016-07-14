@@ -7,6 +7,7 @@ const { connect } = require("react-redux");
 const CodeMirror = require("codemirror");
 const { DOM: dom, PropTypes } = React;
 const { debugGlobal } = require("../util/debug");
+const { isFirefox } = require("../../../config/feature");
 
 const {
   getSourceText, getBreakpointsForSource,
@@ -54,10 +55,12 @@ const Editor = React.createClass({
 
     this.editor.on("gutterClick", this.onGutterClick);
 
-    this.editor.getScrollerElement().addEventListener(
-      "wheel",
-      ev => onWheel(this.editor, ev)
-    );
+    if (isFirefox()) {
+      this.editor.getScrollerElement().addEventListener(
+        "wheel",
+        ev => onWheel(this.editor, ev)
+      );
+    }
 
     resizeBreakpointGutter(this.editor);
   },
