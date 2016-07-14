@@ -23,7 +23,7 @@ function getOriginalSources(sourceId) {
   return consumer.sources;
 }
 
-function isOriginal(originalSource) {
+function isMapped(originalSource) {
   return !!getGeneratedSourceId(originalSource);
 }
 
@@ -69,7 +69,7 @@ function getOriginalSourceContent(originalSource, generatedSource, text) {
   return sourceNode.sourceContents[originalSource.url];
 }
 
-function loadOriginalSources(tab, generatedSource) {
+function loadMappedSources(tab, generatedSource) {
   return loadSourceMap(tab, generatedSource).then(() => {
     return getOriginalSources(generatedSource.id)
       .map((source, index) => Source({
@@ -80,7 +80,7 @@ function loadOriginalSources(tab, generatedSource) {
   });
 }
 
-function getOriginalSource(originalSource, getState, dispatch, loadSourceText) {
+function getMappedSource(originalSource, getState, dispatch, loadSourceText) {
   return Task.spawn(function* () {
     const generatedSource = getSource(
       getState(),
@@ -105,7 +105,7 @@ function getOriginalSource(originalSource, getState, dispatch, loadSourceText) {
 }
 
 module.exports = {
-  loadOriginalSources,
-  getOriginalSource,
-  isOriginal
+  loadMappedSources,
+  getMappedSource,
+  isMapped
 };
