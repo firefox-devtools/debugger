@@ -6,25 +6,14 @@
 const constants = require("../constants");
 const { PROMISE } = require("../util/redux/middleware/promise");
 const { getBreakpoint, getBreakpoints } = require("../selectors");
-const { Task } = require("../util/task");
 const fromJS = require("../util/fromJS");
 
 import type { Location } from "./types";
 
-type BreakpointResult = {
-  id: string,
-  actualLocation: Location
-}
-
-type Client = {
-  setBreakpoint: (location: Location, condition: string) => Promise<BreakpointResult>,
-  removeBreakpoint: (id: string) => void
-}
-
 type ThunkArgs = {
   dispatch: any,
   getState: any,
-  client: Client
+  client: any
 }
 
 function enableBreakpoint(location: Location) {
@@ -51,27 +40,25 @@ function addBreakpoint(location: Location,
 
     const bp = _getOrCreateBreakpoint(getState(), location, condition);
 
-    async function setBreakpoint() {
-      const { id, actualLocation } = await client.setBreakpoint(
-        bp.get("location").toJS(),
-        bp.get("condition")
-      );
-
-      // If this breakpoint is being re-enabled, it already has a
-      // text snippet.
-      let text = bp.get("text");
-      if (!text) {
-        text = getTextForLine ? getTextForLine(actualLocation.line) : "";
-      }
-
-      return { id, actualLocation, text };
-    }
-
     return dispatch({
       type: constants.ADD_BREAKPOINT,
       breakpoint: bp.toJS(),
       condition: condition,
-      [PROMISE]: setBreakpoint()
+      [PROMISE]: (async function () {
+        const { id, actualLocation } = await client.setBreakpoint(
+          bp.get("location").toJS(),
+          bp.get("condition")
+        );
+
+        // If this breakpoint is being re-enabled, it already has a
+        // text snippet.
+        let text = bp.get("text");
+        if (!text) {
+          text = getTextForLine ? getTextForLine(actualLocation.line) : "";
+        }
+
+        return { id, actualLocation, text };
+      })()
     });
   };
 }

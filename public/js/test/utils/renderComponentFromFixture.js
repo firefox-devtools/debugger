@@ -1,7 +1,6 @@
 const React = require("react");
 const { DOM: dom, createElement } = React;
 const { Provider } = require("react-redux");
-const { fromJS, Map } = require("immutable");
 const { combineReducers } = require("redux");
 const dehydrate = require("../../util/dehydrate-state");
 

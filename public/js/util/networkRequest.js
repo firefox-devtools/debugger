@@ -1,5 +1,3 @@
-"use strict";
-
 const { log } = require("./utils");
 
 function networkRequest(url) {

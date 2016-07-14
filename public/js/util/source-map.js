@@ -1,5 +1,3 @@
-"use strict";
-
 const { networkRequest } = require("./networkRequest");
 const { SourceMapConsumer } = require("source-map");
 
