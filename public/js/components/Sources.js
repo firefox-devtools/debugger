@@ -15,6 +15,8 @@ const Sources = React.createClass({
     selectSource: PropTypes.func.isRequired
   },
 
+  displayName: "Sources",
+
   render() {
     const { sources, selectSource } = this.props;
 

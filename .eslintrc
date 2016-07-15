@@ -52,7 +52,7 @@
     "mozilla/var-only-at-top-level": 1,
 
     // Rules from the React plugin
-    "react/display-name": 1,
+    "react/display-name": [2, { "ignoreTranspilerName": true }],
     "react/no-danger": 1,
     "react/no-did-mount-set-state": 1,
     "react/no-did-update-set-state": 1,
