@@ -12,13 +12,15 @@ export type SourcesState = {
   sources: I.Map<string, I.Record<Source>>,
   selectedSource: ?Source,
   sourcesText: I.Map<string, any>,
-  tabs: I.List<any>
+  tabs: I.List<any>,
+  sourceMaps: I.Map<string, any>,
 };
 
 const State = I.Record({
   sources: I.Map({}),
   selectedSource: undefined,
   sourcesText: I.Map({}),
+  sourceMaps: I.Map({}),
   tabs: I.List([])
 });
 
@@ -36,6 +38,15 @@ function update(state = State(), action: Action) {
           return [source.id, fromJS(source)];
         }))
       );
+
+    case "ADD_SOURCE_MAP":
+      if (action.status == "done") {
+        return state.mergeIn(
+          ["sourceMaps", action.source.id],
+          action.value.sourceMap
+        );
+      }
+      break;
 
     case "SELECT_SOURCE":
       return state.merge({

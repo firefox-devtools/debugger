@@ -1,4 +1,3 @@
-const { networkRequest } = require("./networkRequest");
 const invariant = require("invariant");
 const { SourceMapConsumer, SourceNode } = require("source-map");
 const { Source } = require("../types");
@@ -33,18 +32,14 @@ function getGeneratedSourceId(originalSource) {
   return match ? match[0] : null;
 }
 
-function loadSourceMap(tab, source) {
-  const sourceMapURL = `${tab.get("url")}/${source.sourceMapURL}`;
-
+function setSourceMap(source, sourceMap) {
   if (hasConsumer(source.id)) {
-    return Promise.resolve(getConsumer(source.id));
+    return null;
   }
 
-  return networkRequest(sourceMapURL).then(sourceMap => {
-    const consumer = new SourceMapConsumer(sourceMap);
-    sourceMapConsumers.set(source.id, consumer);
-    return consumer;
-  });
+  const consumer = new SourceMapConsumer(sourceMap);
+  sourceMapConsumers.set(source.id, consumer);
+  return consumer;
 }
 
 function getSourceNode(generatedSourceId, text) {
@@ -67,15 +62,13 @@ function getOriginalSourceContent(originalSource, generatedSource, text) {
   return sourceNode.sourceContents[originalSource.url];
 }
 
-function loadOriginalSources(tab, generatedSource) {
-  return loadSourceMap(tab, generatedSource).then(() => {
-    return getOriginalSources(generatedSource.id)
-      .map((source, index) => Source({
-        url: source,
-        id: generatedSource.id + "/" + index,
-        isPrettyPrinted: false
-      }));
-  });
+function createOriginalSources(generatedSource) {
+  return getOriginalSources(generatedSource.id)
+    .map((source, index) => Source({
+      url: source,
+      id: generatedSource.id + "/" + index,
+      isPrettyPrinted: false
+    }));
 }
 
 function getOriginalSource(originalSource, getState, dispatch, loadSourceText) {
@@ -103,7 +96,8 @@ function getOriginalSource(originalSource, getState, dispatch, loadSourceText) {
 }
 
 module.exports = {
-  loadOriginalSources,
+  setSourceMap,
   getOriginalSource,
-  isOriginal
+  createOriginalSources,
+  isOriginal,
 };
