@@ -31,12 +31,12 @@
   float: right;
 }
 
-.accordion ._content {
+.pane {
   font-size: 0.75em;
   color: var(--theme-body-color);
 }
 
-.accordion .pane-info {
+.pane .pane-info {
   font-style: italic;
   text-align: center;
   padding: 0.5em;

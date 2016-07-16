@@ -142,7 +142,7 @@ const Scopes = React.createClass({
     }
 
     return dom.div(
-      { className: "scopes-list" },
+      { className: "pane scopes-list" },
       pauseInfo ? scopeInspector : info("Not Paused")
     );
   }

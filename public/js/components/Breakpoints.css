@@ -1,4 +1,4 @@
-.breakpoints-pane .breakpoint {
+.breakpoints-list .breakpoint {
   font-size: 12px;
   list-style: none;
   color: var(--theme-content-color1);
@@ -7,24 +7,24 @@
 }
 
 /*
-.breakpoints-pane .breakpoint.paused {
+.breakpoints-list .breakpoint.paused {
 }
 */
 
-.breakpoints-pane .breakpoint.disabled .breakpoint-label {
+.breakpoints-list .breakpoint.disabled .breakpoint-label {
   color: var(--theme-content-color3);
   transition: color 0.5s linear;
 }
 
-.breakpoints-pane .breakpoint:hover {
+.breakpoints-list .breakpoint:hover {
   cursor: pointer;
   background-color: var(--theme-toolbar-background);
 }
 
-.breakpoints-pane .breakpoint-label {
+.breakpoints-list .breakpoint-label {
   display: inline-block;
 }
 
-.breakpoints-pane .pause-indicator {
+.breakpoints-list .pause-indicator {
   float: right;
 }
