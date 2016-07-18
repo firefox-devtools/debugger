@@ -56,11 +56,11 @@ function loadSourceMap(generatedSource) {
   return ({ dispatch, getState }) => {
     let sourceMap = getSourceMap(getState(), generatedSource.id);
     if (sourceMap) {
-      return {};
+      return;
     }
 
-    return dispatch({
-      type: constants.ADD_SOURCE_MAP,
+    dispatch({
+      type: constants.LOAD_SOURCE_MAP,
       source: generatedSource,
       [PROMISE]: (async function () {
         const sourceMapURL = getSourceMapURL(getState(), generatedSource);

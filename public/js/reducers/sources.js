@@ -39,7 +39,7 @@ function update(state = State(), action: Action) {
         }))
       );
 
-    case "ADD_SOURCE_MAP":
+    case "LOAD_SOURCE_MAP":
       if (action.status == "done") {
         return state.mergeIn(
           ["sourceMaps", action.source.id],
