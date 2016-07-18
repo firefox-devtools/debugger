@@ -121,6 +121,11 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
       throw new Error("attempt to remove unsaved breakpoint");
     }
 
+    bp = bp.set("location", getGeneratedLocation(
+      getState(),
+      bp.get("location").toJS()
+    ));
+
     const action = {
       type: constants.REMOVE_BREAKPOINT,
       breakpoint: bp.toJS(),

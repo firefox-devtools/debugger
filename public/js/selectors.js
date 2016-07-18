@@ -5,8 +5,8 @@ import type { SourcesState } from "./reducers/sources";
 import type { Location, Source } from "./actions/types";
 const fromJS = require("./util/fromJS");
 
-const { isGenerated, getOriginalSourcePosition
-      } = require("./util/source-map");
+const { isGenerated,
+        getOriginalSourcePosition } = require("./util/source-map");
 
 type AppState = {
   sources: Record<SourcesState>,
@@ -37,20 +37,21 @@ function getSourceMap(state: AppState, sourceId: string) {
 }
 
 function getBreakpoint(state: AppState, location: Location) {
-  return state.breakpoints.getIn(["breakpoints", makeLocationId(location)]);
+  const originalLocation = getOriginalLocation(state, location);
+  const breakpoints = getBreakpoints(state);
+  return breakpoints
+    .find((bp) => bp.get("location").equals(fromJS(originalLocation)));
 }
 
 function getBreakpoints(state: AppState) {
   return state.breakpoints.get("breakpoints")
-    .map(bp => bp.set(
-      "location",
-      getOriginalLocation(state, bp.get("location"))
-    ));
+    .map(bp => setBreakpointLocation(state, bp));
 }
 
 function getBreakpointsForSource(state: AppState, sourceId: string) {
   return getBreakpoints(state)
-    .filter(bp => bp.getIn(["location", "sourceId"]) === sourceId);
+    .filter(bp => bp.getIn(["location", "sourceId"]) === sourceId)
+    .map(bp => setBreakpointLocation(state, bp));
 }
 
 function getTabs(state: AppState) {
@@ -114,21 +115,28 @@ function makeLocationId(location: Location) {
 }
 
 function getOriginalLocation(state: AppState, location) {
-  const source = getSource(state, location.get("sourceId"));
+  const source = getSource(state, location.sourceId);
   if (isGenerated(source.toJS())) {
     const { url, line } = getOriginalSourcePosition(
       source.toJS(),
-      location.toJS()
+      location
     );
 
     const originalSource = getSourceByURL(state, url);
-    return fromJS({
+    return {
       sourceId: originalSource.get("id"),
       line
-    });
+    };
   }
 
   return location;
+}
+
+function setBreakpointLocation(state, breakpoint) {
+  return breakpoint.set("location", fromJS(getOriginalLocation(
+    state,
+    breakpoint.get("location").toJS()
+  )));
 }
 
 module.exports = {
