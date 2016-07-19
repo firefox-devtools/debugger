@@ -51,10 +51,9 @@
   font-size: 0.8em;
   background-image: url("/images/magnifying-glass.svg");
   background-repeat: no-repeat;
-  background-position-y: calc(1.25em - 8px);
-  background-position-x: 5px;
+  background-position: 5px 50%;
 }
 
 .autocomplete input:focus {
-  outline: 2px solid #4a90e0;
+  border-color: #4a90e0;
 }
