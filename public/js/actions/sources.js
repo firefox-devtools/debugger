@@ -14,7 +14,7 @@ const constants = require("../constants");
 const Prefs = require("../prefs");
 const invariant = require("invariant");
 const { isEnabled } = require("../../../config/feature");
-const { setSourceMap, createOriginalSources, getGeneratedSourceId,
+const { createOriginalSources, getGeneratedSourceId,
         isOriginal, getOriginalSource } = require("../util/source-map");
 
 /**
@@ -85,8 +85,7 @@ function loadSourceMap(generatedSource) {
         const sourceMapURL = getSourceMapURL(getState(), generatedSource);
         sourceMap = await networkRequest(sourceMapURL);
 
-        setSourceMap(generatedSource, sourceMap);
-        createOriginalSources(generatedSource)
+        createOriginalSources(generatedSource, sourceMap)
           .forEach(s => dispatch(newSource(s)));
 
         return { sourceMap };
