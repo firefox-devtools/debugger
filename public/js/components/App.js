@@ -51,7 +51,7 @@ const App = React.createClass({
   },
 
   toggleSourcesSearch(e) {
-    if (e.metaKey && e.key == "p") {
+    if ((e.metaKey || e.ctrlKey) && e.key == "p") {
       this.setState({ searchOn: !this.state.searchOn });
       e.preventDefault();
     }
