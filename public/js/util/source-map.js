@@ -88,6 +88,19 @@ function getOriginalSource(
   };
 }
 
+function getOriginalSourcePosition(generatedSource, location) {
+  const consumer = _getConsumer(generatedSource.id);
+  const position = consumer.originalPositionFor({
+    line: location.line,
+    column: 0
+  });
+
+  return {
+    url: position.source,
+    line: position.line
+  };
+}
+
 function createOriginalSources(generatedSource, sourceMap) {
   if (!_hasConsumer(generatedSource.id)) {
     _setConsumer(generatedSource, sourceMap);
@@ -102,6 +115,7 @@ function createOriginalSources(generatedSource, sourceMap) {
 
 module.exports = {
   getOriginalSource,
+  getOriginalSourcePosition,
   getGeneratedSourceLocation,
   createOriginalSources,
   isOriginal,
