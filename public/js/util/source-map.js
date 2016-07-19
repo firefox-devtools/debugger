@@ -1,8 +1,6 @@
 const invariant = require("invariant");
 const { SourceMapConsumer, SourceNode } = require("source-map");
 const { Source } = require("../types");
-const { Task } = require("./task");
-const { getSource } = require("../selectors");
 
 let sourceMapConsumers = new Map();
 let sourceNodes = new Map();
@@ -20,8 +18,12 @@ function getOriginalSources(sourceId) {
   return consumer.sources;
 }
 
-function isOriginal(originalSource) {
-  return !!getGeneratedSourceId(originalSource);
+function isGenerated(source) {
+  return [...sourceMapConsumers.keys()].includes(source.id);
+}
+
+function isOriginal(source) {
+  return !!getGeneratedSourceId(source);
 }
 
 function getGeneratedSourceId(originalSource) {
@@ -30,6 +32,34 @@ function getGeneratedSourceId(originalSource) {
   );
 
   return match ? match[0] : null;
+}
+
+function getGeneratedSourceLocation(originalSource, originalLocation) {
+  const generatedSourceId = getGeneratedSourceId(originalSource);
+  const consumer = getConsumer(generatedSourceId);
+  const generatedLocation = consumer.generatedPositionFor({
+    source: originalSource.url,
+    line: originalLocation.line,
+    column: 0
+  });
+
+  return {
+    sourceId: generatedSourceId,
+    line: generatedLocation.line
+  };
+}
+
+function getOriginalSourcePosition(source, location) {
+  const consumer = getConsumer(source.id);
+  const position = consumer.originalPositionFor({
+    line: location.line,
+    column: 0
+  });
+
+  return {
+    url: position.source,
+    line: position.line
+  };
 }
 
 function setSourceMap(source, sourceMap) {
@@ -42,9 +72,9 @@ function setSourceMap(source, sourceMap) {
   return consumer;
 }
 
-function getSourceNode(generatedSourceId, text) {
+function setSourceNode(generatedSourceId, text) {
   if (sourceNodes.has(generatedSourceId)) {
-    return sourceNodes.get(generatedSourceId);
+    return getSourceNode(generatedSourceId);
   }
 
   const consumer = getConsumer(generatedSourceId);
@@ -55,8 +85,12 @@ function getSourceNode(generatedSourceId, text) {
   return sourceNode;
 }
 
+function getSourceNode(generatedSourceId) {
+  return sourceNodes.get(generatedSourceId);
+}
+
 function getOriginalSourceContent(originalSource, generatedSource, text) {
-  const sourceNode = getSourceNode(generatedSource.get("id"), text);
+  const sourceNode = setSourceNode(generatedSource.id, text);
   invariant(sourceNode, "source node must be present");
 
   return sourceNode.sourceContents[originalSource.url];
@@ -71,28 +105,18 @@ function createOriginalSources(generatedSource) {
     }));
 }
 
-function getOriginalSource(originalSource, getState, dispatch, loadSourceText) {
-  return Task.spawn(function* () {
-    const generatedSource = getSource(
-      getState(),
-      getGeneratedSourceId(originalSource)
-    );
+function getOriginalSource(
+  originalSource, generatedSource, generatedSourceText) {
+  const originalSourceContent = getOriginalSourceContent(
+    originalSource,
+    generatedSource,
+    generatedSourceText.text
+  );
 
-    const generatedSourcetext = yield dispatch(
-      loadSourceText(generatedSource.toJS())
-    );
-
-    const originalSourceContent = getOriginalSourceContent(
-      originalSource,
-      generatedSource,
-      generatedSourcetext.text
-    );
-
-    return {
-      source: originalSourceContent,
-      contentType: "text/javascript"
-    };
-  });
+  return {
+    source: originalSourceContent,
+    contentType: "text/javascript"
+  };
 }
 
 module.exports = {
@@ -100,4 +124,8 @@ module.exports = {
   getOriginalSource,
   createOriginalSources,
   isOriginal,
+  getGeneratedSourceLocation,
+  getGeneratedSourceId,
+  isGenerated,
+  getOriginalSourcePosition
 };
