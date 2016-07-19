@@ -7,18 +7,20 @@
 .autocomplete ul {
   list-style: none;
   width: 100%;
+  max-height: calc(100% - 32px);
   margin: 0px;
   padding: 0px;
+  overflow: auto;
   border-left: 2px solid #dde1e4;
   border-right: 2px solid #dde1e4;
 }
 
-.autocomplete li:nth-child(1) {
-  border-top: none;
+.autocomplete ul:not(:empty) {
+  border-bottom: 2px solid #dde1e4;
 }
 
-.autocomplete li:last-child {
-  border-bottom: 2px solid #dde1e4;
+.autocomplete li:nth-child(1) {
+  border-top: none;
 }
 
 .autocomplete li {
