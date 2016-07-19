@@ -1,8 +1,6 @@
 const invariant = require("invariant");
 const { SourceMapConsumer, SourceNode } = require("source-map");
 const { Source } = require("../types");
-const { Task } = require("./task");
-const { getSource } = require("../selectors");
 
 let sourceMapConsumers = new Map();
 let sourceNodes = new Map();
@@ -55,13 +53,6 @@ function getSourceNode(generatedSourceId, text) {
   return sourceNode;
 }
 
-function getOriginalSourceContent(originalSource, generatedSource, text) {
-  const sourceNode = getSourceNode(generatedSource.get("id"), text);
-  invariant(sourceNode, "source node must be present");
-
-  return sourceNode.sourceContents[originalSource.url];
-}
-
 function createOriginalSources(generatedSource) {
   return getOriginalSources(generatedSource.id)
     .map((source, index) => Source({
@@ -71,28 +62,19 @@ function createOriginalSources(generatedSource) {
     }));
 }
 
-function getOriginalSource(originalSource, getState, dispatch, loadSourceText) {
-  return Task.spawn(function* () {
-    const generatedSource = getSource(
-      getState(),
-      getGeneratedSourceId(originalSource)
-    );
+function getOriginalSource(
+  originalSource, generatedSource, generatedSourceText) {
+  const sourceNode = getSourceNode(
+    generatedSource.id,
+    generatedSourceText.text
+  );
 
-    const generatedSourcetext = yield dispatch(
-      loadSourceText(generatedSource.toJS())
-    );
+  const originalSourceContent = sourceNode.sourceContents[originalSource.url];
 
-    const originalSourceContent = getOriginalSourceContent(
-      originalSource,
-      generatedSource,
-      generatedSourcetext.text
-    );
-
-    return {
-      source: originalSourceContent,
-      contentType: "text/javascript"
-    };
-  });
+  return {
+    source: originalSourceContent,
+    contentType: "text/javascript"
+  };
 }
 
 module.exports = {
@@ -100,4 +82,5 @@ module.exports = {
   getOriginalSource,
   createOriginalSources,
   isOriginal,
+  getGeneratedSourceId
 };
