@@ -15,7 +15,6 @@ const SourceFooter = createFactory(require("./SourceFooter"));
 const Autocomplete = createFactory(require("./Autocomplete"));
 const { getSelectedSource, getSources, getBreakpoints } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
-const { ReduxDevTools } = require("../utils/create-store");
 
 const App = React.createClass({
   propTypes: {
@@ -116,8 +115,7 @@ const App = React.createClass({
           left: this.renderCenterPane(this.props),
           right: RightSidebar()
         })
-      }),
-      ReduxDevTools()
+      })
     );
   }
 });

@@ -8,19 +8,16 @@ const React = require("react");
 const DevToolsUtils = require("devtools-sham/shared/DevToolsUtils");
 const AppConstants = require("devtools-sham/sham/appconstants").AppConstants;
 const { injectGlobals } = require("./utils/debug");
-const { log } = require("./utils/utils");
-const { isEnabled, isFirefoxPanel, isDevelopment } = require("./feature");
+const { isEnabled, isFirefoxPanel, isDevelopment } = require("../../config/feature");
 
 // Set various flags before requiring app code.
 if (isEnabled("logging.client")) {
   DevToolsUtils.dumpn.wantLogging = true;
 }
 
-log("Debugger bootstrapping");
-
 const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");
-const { configureStore } = require("./utils/create-store");
+const configureStore = require("./utils/create-store");
 const reducers = require("./reducers");
 
 const Tabs = require("./components/Tabs");
