@@ -22,10 +22,9 @@ export type Record<T: Object> = {
  * record factory function
  */
 function makeRecord<T>(
-  spec: T & Object,
-  name: string
+  spec: T & Object
 ): (init: $Shape<T>) => Record<T> {
-  return I.Record(spec, name);
+  return I.Record(spec);
 }
 
 module.exports = makeRecord;
