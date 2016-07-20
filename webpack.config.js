@@ -28,6 +28,10 @@ let webpackConfig = {
   resolve: {
     alias: {
       "devtools/client/shared/vendor/react": "react",
+      "devtools/client/shared/vendor/redux": "redux",
+      "devtools/client/shared/vendor/react-redux": "react-redux",
+      "devtools/client/shared/vendor/react-dom": "react-dom",
+      "devtools/client/shared/vendor/immutable": "immutable",
       "devtools": path.join(__dirname, "./public/js/lib/devtools"),
       "devtools-sham": path.join(__dirname, "./public/js/lib/devtools-sham"),
       "sdk": path.join(__dirname, "./public/js/lib/devtools-sham/sdk")
@@ -74,7 +78,7 @@ if (isDevelopment()) {
     ]);
 
     webpackConfig.module.loaders.forEach(spec => {
-      if(spec.isJavaScriptLoader) {
+      if (spec.isJavaScriptLoader) {
         spec.loaders.unshift("react-hot");
       }
     });
@@ -93,7 +97,7 @@ if (isDevelopment()) {
 // destructuring params https://github.com/jlongster/debugger.html/issues/67
 if (isEnabled("transformParameters")) {
   webpackConfig.module.loaders.forEach(spec => {
-    if(spec.isJavaScriptLoader) {
+    if (spec.isJavaScriptLoader) {
       const idx = spec.loaders.findIndex(loader => loader.includes("babel"));
       spec.loaders[idx] += "&plugins[]=transform-es2015-parameters";
     }
