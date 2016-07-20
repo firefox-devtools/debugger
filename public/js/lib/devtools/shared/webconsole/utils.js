@@ -6,19 +6,19 @@
 
 "use strict";
 
-const {Cc, Ci, Cu, components} = require("chrome");
-const {isWindowIncluded} = require("devtools/shared/layout/utils");
-const Services = require("Services");
-const {XPCOMUtils} = require("resource://gre/modules/XPCOMUtils.jsm");
+// const {Cc, Ci, Cu, components} = require("chrome");
+// const {isWindowIncluded} = require("devtools/shared/layout/utils");
+// const Services = require("Services");
+// const {XPCOMUtils} = require("resource://gre/modules/XPCOMUtils.jsm");
 
 // TODO: Bug 842672 - browser/ imports modules from toolkit/.
 // Note that these are only used in WebConsoleCommands, see $0 and pprint().
-loader.lazyImporter(this, "VariablesView", "resource://devtools/client/shared/widgets/VariablesView.jsm");
+// loader.lazyImporter(this, "VariablesView", "resource://devtools/client/shared/widgets/VariablesView.jsm");
 
-XPCOMUtils.defineLazyServiceGetter(this,
-                                   "swm",
-                                   "@mozilla.org/serviceworkers/manager;1",
-                                   "nsIServiceWorkerManager");
+// XPCOMUtils.defineLazyServiceGetter(this,
+//                                    "swm",
+//                                    "@mozilla.org/serviceworkers/manager;1",
+//                                    "nsIServiceWorkerManager");
 
 // Match the function name from the result of toString() or toSource().
 //
@@ -639,7 +639,7 @@ exports.ConsoleServiceListener = ConsoleServiceListener;
 
 ConsoleServiceListener.prototype =
 {
-  QueryInterface: XPCOMUtils.generateQI([Ci.nsIConsoleListener]),
+  QueryInterface: () => {},// XPCOMUtils.generateQI([Ci.nsIConsoleListener]),
 
   /**
    * The content window for which we listen to page errors.
@@ -806,7 +806,7 @@ exports.ConsoleAPIListener = ConsoleAPIListener;
 
 ConsoleAPIListener.prototype =
 {
-  QueryInterface: XPCOMUtils.generateQI([Ci.nsIObserver]),
+  QueryInterface: () => {},// XPCOMUtils.generateQI([Ci.nsIObserver]),
 
   /**
    * The content window for which we listen to window.console API calls.
@@ -1413,8 +1413,8 @@ exports.ConsoleReflowListener = ConsoleReflowListener;
 
 ConsoleReflowListener.prototype =
 {
-  QueryInterface: XPCOMUtils.generateQI([Ci.nsIReflowObserver,
-                                         Ci.nsISupportsWeakReference]),
+  QueryInterface: () => {},//XPCOMUtils.generateQI([Ci.nsIReflowObserver,
+                                         //Ci.nsISupportsWeakReference]),
   docshell: null,
   listener: null,
 

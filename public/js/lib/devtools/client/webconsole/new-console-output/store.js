@@ -3,7 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 "use strict";
 
-const Services = require("Services");
+// const Services = require("Services");
+const Services = {
+  prefs: {
+    getBoolPref: () => {}
+  }
+}
 const {FilterState} = require("devtools/client/webconsole/new-console-output/reducers/filters");
 const {PrefState} = require("devtools/client/webconsole/new-console-output/reducers/prefs");
 const { combineReducers, createStore } = require("devtools/client/shared/vendor/redux");
@@ -12,7 +17,7 @@ const { reducers } = require("./reducers/index");
 function storeFactory() {
   const initialState = {
     prefs: new PrefState({
-      logLimit: Math.max(Services.prefs.getIntPref("devtools.hud.loglimit"), 1),
+      logLimit: Math.max(500)//Services.prefs.getIntPref("devtools.hud.loglimit"), 1),
     }),
     filters: new FilterState({
       error: Services.prefs.getBoolPref("devtools.webconsole.filter.error"),
@@ -31,4 +36,3 @@ module.exports.store = storeFactory();
 // Provide the store factory for test code so that each test is working with
 // its own instance.
 module.exports.storeFactory = storeFactory;
-
