@@ -11,8 +11,8 @@ type AppState = {
   pause: any
 }
 
-const { isGenerated, getGeneratedSourceLocation,
-        isOriginal, getOriginalSourcePosition
+const { isGenerated, getGeneratedSourceLocation, getOriginalSourceUrls,
+        isOriginal, getOriginalSourcePosition, getGeneratedSourceId
       } = require("./util/source-map");
 
 /* Selectors */
@@ -140,6 +140,20 @@ function getOriginalLocation(state: AppState, location) {
   return location;
 }
 
+function getGeneratedSource(state: AppState, source: Source) {
+  if (isGenerated(source.toJS())) {
+    return source;
+  }
+
+  const generatedSourceId = getGeneratedSourceId(source.toJS());
+  return getSource(state, generatedSourceId);
+}
+
+function getOriginalSources(state: AppState, source: Source) {
+  const originalSourceUrls = getOriginalSourceUrls(source.toJS());
+  return originalSourceUrls.map(url => getSourceByURL(state, url));
+}
+
 /**
  * @param object - location
  */
@@ -160,6 +174,8 @@ module.exports = {
   getSourceText,
   getOriginalLocation,
   getGeneratedLocation,
+  getGeneratedSource,
+  getOriginalSources,
   getBreakpoint,
   getBreakpoints,
   getBreakpointsForSource,

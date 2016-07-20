@@ -99,25 +99,37 @@ function update(state = State(), action: Action) {
 }
 
 function _updateText(state, action) {
-  const { source } = action;
+  const { generatedSource, originalSources } = action;
+  const sources = [generatedSource, ...originalSources];
 
   if (action.status === "start") {
     // Merge this in, don't set it. That way the previous value is
     // still stored here, and we can retrieve it if whatever we're
     // doing fails.
-    return state.mergeIn(["sourcesText", source.id], {
-      loading: true
-    });
-  } else if (action.status === "error") {
-    return state.setIn(["sourcesText", source.id], I.Map({
-      error: action.error
-    }));
+    return sources.reduce((_state, source) => {
+      return _state.mergeIn(["sourcesText", source.id], {
+        loading: true
+      });
+    }, state);
   }
 
-  return state.setIn(["sourcesText", source.id], I.Map({
-    text: action.value.text,
-    contentType: action.value.contentType
-  }));
+  if (action.status === "error") {
+    return sources.reduce((_state, source) => {
+      return _state.setIn(["sourcesText", source.id], {
+        error: action.error
+      });
+    }, state);
+  }
+
+  const { generatedSourceText, originalSourceTexts } = action.value;
+  const sourceTexts = [generatedSourceText, ...originalSourceTexts];
+
+  return sourceTexts.reduce((_state, sourceText) => {
+    return _state.setIn(["sourcesText", sourceText.id], I.Map({
+      text: sourceText.text,
+      contentType: sourceText.contentType
+    }));
+  }, state);
 }
 
 function removeSourceFromTabList(state, id) {
