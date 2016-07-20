@@ -171,8 +171,7 @@ function togglePrettyPrint(id) {
 
     return dispatch({
       type: constants.TOGGLE_PRETTY_PRINT,
-      generatedSource: source,
-      originalSources: [],
+      source: source,
       [PROMISE]: Task.spawn(function* () {
         let response;
 

@@ -2,7 +2,7 @@
 
 import type { Record } from "./util/makeRecord";
 import type { SourcesState } from "./reducers/sources";
-import type { Location, Source } from "./actions/types";
+import type { Location } from "./actions/types";
 
 type AppState = {
   sources: Record<SourcesState>,
@@ -98,13 +98,13 @@ function getSourceText(state: AppState, id: string) {
   return getSourcesText(state).get(id);
 }
 
-function getSourceMapURL(state: AppState, source: Source) {
+function getSourceMapURL(state: AppState, source: any) {
   const tab = getSelectedTab(state);
   return tab.get("url") + "/" + source.sourceMapURL;
 }
 
 function getGeneratedLocation(state: AppState, location: Location) {
-  const source = getSource(state, location.sourceId);
+  const source: any = getSource(state, location.sourceId);
 
   if (!source) {
     return location;
@@ -117,8 +117,8 @@ function getGeneratedLocation(state: AppState, location: Location) {
   return location;
 }
 
-function getOriginalLocation(state: AppState, location) {
-  const source = getSource(state, location.sourceId);
+function getOriginalLocation(state: AppState, location: Location) {
+  const source: any = getSource(state, location.sourceId);
 
   if (!source) {
     return location;
@@ -130,7 +130,7 @@ function getOriginalLocation(state: AppState, location) {
       location
     );
 
-    const originalSource = getSourceByURL(state, url);
+    const originalSource: any = getSourceByURL(state, url);
     return {
       sourceId: originalSource.get("id"),
       line
@@ -140,7 +140,7 @@ function getOriginalLocation(state: AppState, location) {
   return location;
 }
 
-function getGeneratedSource(state: AppState, source: Source) {
+function getGeneratedSource(state: AppState, source: any) {
   if (isGenerated(source.toJS())) {
     return source;
   }
@@ -149,7 +149,7 @@ function getGeneratedSource(state: AppState, source: Source) {
   return getSource(state, generatedSourceId);
 }
 
-function getOriginalSources(state: AppState, source: Source) {
+function getOriginalSources(state: AppState, source: any) {
   const originalSourceUrls = getOriginalSourceUrls(source.toJS());
   return originalSourceUrls.map(url => getSourceByURL(state, url));
 }
