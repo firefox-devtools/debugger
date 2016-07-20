@@ -2,7 +2,7 @@
 
 import type { Record } from "./utils/makeRecord";
 import type { SourcesState } from "./reducers/sources";
-import type { Location, Source } from "./actions/types";
+import type { Location } from "./actions/types";
 
 type AppState = {
   sources: Record<SourcesState>,
@@ -10,9 +10,8 @@ type AppState = {
   tabs: any,
   pause: any
 }
-
-const { isGenerated, getGeneratedSourceLocation,
-        isOriginal, getOriginalSourcePosition
+const { isGenerated, getGeneratedSourceLocation, getOriginalSourceUrls,
+        isOriginal, getOriginalSourcePosition, getGeneratedSourceId
       } = require("./utils/source-map");
 
 /* Selectors */
@@ -98,13 +97,13 @@ function getSourceText(state: AppState, id: string) {
   return getSourcesText(state).get(id);
 }
 
-function getSourceMapURL(state: AppState, source: Source) {
+function getSourceMapURL(state: AppState, source: any) {
   const tab = getSelectedTab(state);
   return tab.get("url") + "/" + source.sourceMapURL;
 }
 
 function getGeneratedLocation(state: AppState, location: Location) {
-  const source = getSource(state, location.sourceId);
+  const source: any = getSource(state, location.sourceId);
 
   if (!source) {
     return location;
@@ -117,8 +116,8 @@ function getGeneratedLocation(state: AppState, location: Location) {
   return location;
 }
 
-function getOriginalLocation(state: AppState, location) {
-  const source = getSource(state, location.sourceId);
+function getOriginalLocation(state: AppState, location: Location) {
+  const source: any = getSource(state, location.sourceId);
 
   if (!source) {
     return location;
@@ -130,7 +129,7 @@ function getOriginalLocation(state: AppState, location) {
       location
     );
 
-    const originalSource = getSourceByURL(state, url);
+    const originalSource: any = getSourceByURL(state, url);
     return {
       sourceId: originalSource.get("id"),
       line
@@ -138,6 +137,26 @@ function getOriginalLocation(state: AppState, location) {
   }
 
   return location;
+}
+
+function getGeneratedSource(state: AppState, source: any) {
+  if (isGenerated(source)) {
+    return source;
+  }
+
+  const generatedSourceId = getGeneratedSourceId(source);
+  const originalSource = getSource(state, generatedSourceId);
+
+  if (originalSource) {
+    return originalSource.toJS();
+  }
+
+  return source;
+}
+
+function getOriginalSources(state: AppState, source: any) {
+  const originalSourceUrls = getOriginalSourceUrls(source);
+  return originalSourceUrls.map(url => getSourceByURL(state, url));
 }
 
 /**
@@ -160,6 +179,8 @@ module.exports = {
   getSourceText,
   getOriginalLocation,
   getGeneratedLocation,
+  getGeneratedSource,
+  getOriginalSources,
   getBreakpoint,
   getBreakpoints,
   getBreakpointsForSource,
