@@ -1,6 +1,6 @@
 const constants = require("../constants");
 const { selectSource } = require("./sources");
-const { PROMISE } = require("../util/redux/middleware/promise");
+const { PROMISE } = require("../utils/redux/middleware/promise");
 
 /**
  * Debugger has just resumed

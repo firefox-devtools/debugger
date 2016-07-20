@@ -1,6 +1,6 @@
-const { actions, selectors, createStore } = require("../../util/test-head");
+const { actions, selectors, createStore } = require("../../utils/test-head");
 const fixtures = require("../../test/fixtures/foobar.json");
-const dehydrate = require("../../util/dehydrate-state");
+const dehydrate = require("../../utils/dehydrate-state");
 const expect = require("expect.js");
 
 const { getSelectedSource, getSourceTabs } = selectors;

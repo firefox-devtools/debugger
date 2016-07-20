@@ -4,7 +4,7 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const CodeMirror = require("codemirror");
 const { DOM: dom, PropTypes } = React;
-const { debugGlobal } = require("../util/debug");
+const { debugGlobal } = require("../utils/debug");
 const { isFirefox } = require("../../../config/feature");
 
 const {
@@ -13,7 +13,7 @@ const {
   makeLocationId
 } = require("../selectors");
 const actions = require("../actions");
-const { alignLine, onWheel, resizeBreakpointGutter } = require("../util/editor");
+const { alignLine, onWheel, resizeBreakpointGutter } = require("../utils/editor");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
 
 require("codemirror/lib/codemirror.css");

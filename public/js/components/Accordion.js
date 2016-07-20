@@ -2,7 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 
 const { div } = dom;
-const Arrow = React.createFactory(require("./util/Arrow"));
+const Arrow = React.createFactory(require("./utils/Arrow"));
 
 require("./Accordion.css");
 

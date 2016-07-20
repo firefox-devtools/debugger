@@ -3,10 +3,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const defer = require("devtools/shared/defer");
-const { PROMISE } = require("../util/redux/middleware/promise");
-const { Task } = require("../util/task");
-const { isJavaScript } = require("../util/source");
-const { networkRequest } = require("../util/networkRequest");
+const { PROMISE } = require("../utils/redux/middleware/promise");
+const { Task } = require("../utils/task");
+const { isJavaScript } = require("../utils/source");
+const { networkRequest } = require("../utils/networkRequest");
 
 const { getSource, getSourceText,
         getSourceMap, getSourceMapURL } = require("../selectors");
@@ -14,8 +14,8 @@ const constants = require("../constants");
 const Prefs = require("../prefs");
 const invariant = require("invariant");
 const { isEnabled } = require("../../../config/feature");
-const { createOriginalSources, getGeneratedSourceId,
-        isOriginal, getOriginalSource } = require("../util/source-map");
+const { createOriginalSources,
+        isOriginal, getOriginalSource } = require("../utils/source-map");
 
 /**
  * Throttles source dispatching to reduce rendering churn.

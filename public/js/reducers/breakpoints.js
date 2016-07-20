@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const constants = require("../constants");
-const fromJS = require("../util/fromJS");
+const fromJS = require("../utils/fromJS");
 const { makeLocationId } = require("../selectors");
 
 const initialState = fromJS({

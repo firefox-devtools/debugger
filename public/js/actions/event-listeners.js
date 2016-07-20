@@ -5,9 +5,9 @@
 /* eslint no-shadow: 0  */
 
 const constants = require("../constants");
-const { asPaused } = require("../util/utils");
-const { reportException } = require("../util/DevToolsUtils");
-const { Task } = require("../util/task");
+const { asPaused } = require("../utils/utils");
+const { reportException } = require("../utils/DevToolsUtils");
+const { Task } = require("../utils/task");
 
 // delay is in ms
 const FETCH_EVENT_LISTENERS_DELAY = 200;

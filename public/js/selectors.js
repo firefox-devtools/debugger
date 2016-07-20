@@ -1,6 +1,6 @@
 // @flow
 
-import type { Record } from "./util/makeRecord";
+import type { Record } from "./utils/makeRecord";
 import type { SourcesState } from "./reducers/sources";
 import type { Location, Source } from "./actions/types";
 

@@ -14,8 +14,17 @@ const SourceTabs = createFactory(require("./SourceTabs"));
 const SourceFooter = createFactory(require("./SourceFooter"));
 const Autocomplete = createFactory(require("./Autocomplete"));
 const { getSelectedSource, getSources, getBreakpoints } = require("../selectors");
-const { endTruncateStr } = require("../util/utils");
-const { ReduxDevTools } = require("../util/create-store");
+const { endTruncateStr } = require("../utils/utils");
+const { DevTools } = require("../utils/create-store");
+const { isEnabled } = require("../../../config/feature");
+
+function DevToolsPanel() {
+  if (isEnabled("redux-devtools.enabled")) {
+    return React.createElement(DevTools);
+  }
+
+  return () => {};
+}
 
 const App = React.createClass({
   propTypes: {

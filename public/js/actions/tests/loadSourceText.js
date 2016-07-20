@@ -1,7 +1,7 @@
-const { Task } = require("../../util/task");
+const { Task } = require("../../utils/task");
 const expect = require("expect.js");
 
-const { actions, selectors, createStore } = require("../../util/test-head");
+const { actions, selectors, createStore } = require("../../utils/test-head");
 const { getSourceText } = selectors;
 const { loadSourceText } = actions;
 

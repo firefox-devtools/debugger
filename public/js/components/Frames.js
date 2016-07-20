@@ -4,8 +4,8 @@ const { div } = dom;
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
-const { endTruncateStr } = require("../util/utils");
-const { basename } = require("../util/path");
+const { endTruncateStr } = require("../utils/utils");
+const { basename } = require("../utils/path");
 const { getFrames, getSelectedFrame, getSource } = require("../selectors");
 
 if (typeof window == "object") {

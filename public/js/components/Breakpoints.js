@@ -6,7 +6,7 @@ const Isvg = React.createFactory(require("react-inlinesvg"));
 const classnames = require("classnames");
 const actions = require("../actions");
 const { getSource, getPause, getBreakpoints, makeLocationId } = require("../selectors");
-const { truncateStr } = require("../util/utils");
+const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
 
 require("./Breakpoints.css");

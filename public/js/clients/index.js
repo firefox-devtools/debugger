@@ -1,7 +1,7 @@
-const { Task } = require("../util/task");
+const { Task } = require("../utils/task");
 const firefox = require("./firefox");
 const chrome = require("./chrome");
-const { debugGlobal } = require("../util/debug");
+const { debugGlobal } = require("../utils/debug");
 
 let clientType;
 function getClient() {
