@@ -8,14 +8,17 @@ const { Task } = require("../util/task");
 const { isJavaScript } = require("../util/source");
 const { networkRequest } = require("../util/networkRequest");
 
-const { getSource, getSourceText,
-        getSourceMap, getSourceMapURL } = require("../selectors");
 const constants = require("../constants");
 const Prefs = require("../prefs");
 const invariant = require("invariant");
 const { isEnabled } = require("../../../config/feature");
-const { createOriginalSources, getGeneratedSourceId,
-        isOriginal, getOriginalSource } = require("../util/source-map");
+
+const { createOriginalSources, getOriginalTexts
+      } = require("../util/source-map");
+
+const { getSource, getSourceText, getSourceByURL, getGeneratedSource,
+        getSourceMap, getSourceMapURL, getOriginalSources
+      } = require("../selectors");
 
 /**
  * Throttles source dispatching to reduce rendering churn.
@@ -35,22 +38,22 @@ function _queueSourcesDispatch(dispatch) {
   }
 }
 
-function _loadOriginalSourceText(source, getState, dispatch) {
-  return Task.spawn(function* () {
-    const generatedSource = getSource(
-      getState(),
-      getGeneratedSourceId(source)
-    );
+function _shouldSourceMap(generatedSource) {
+  return isEnabled("features.sourceMaps") && generatedSource.sourceMapURL;
+}
 
-    const generatedSourceText = yield dispatch(
-      loadSourceText(generatedSource.toJS())
-    );
+function _getOriginalSourceTexts(state, generatedSource, generatedText) {
+  if (!_shouldSourceMap(generatedSource)) {
+    return [];
+  }
 
-    return getOriginalSource(
-      source,
-      generatedSource.toJS(),
-      generatedSourceText
-    );
+  return getOriginalTexts(
+    generatedSource,
+    generatedText
+  ).map(({ text, url }) => {
+    const id = getSourceByURL(state, url).get("id");
+    const contentType = "text/javascript";
+    return { text, id, contentType };
   });
 }
 
@@ -59,7 +62,7 @@ function _loadOriginalSourceText(source, getState, dispatch) {
  */
 function newSource(source) {
   return ({ dispatch, getState }) => {
-    if (isEnabled("features.sourceMaps") && source.sourceMapURL) {
+    if (_shouldSourceMap(source)) {
       dispatch(loadSourceMap(source));
     }
 
@@ -102,14 +105,14 @@ function selectSource(id, options = {}) {
       return;
     }
 
-    const source = getSource(getState(), id).toJS();
+    const source = getSource(getState(), id);
 
     // Make sure to start a request to load the source text.
     dispatch(loadSourceText(source));
 
     dispatch({
       type: constants.SELECT_SOURCE,
-      source: source,
+      source: source.toJS(),
       options
     });
   };
@@ -205,19 +208,34 @@ function togglePrettyPrint(id) {
 function loadSourceText(source) {
   return ({ dispatch, getState, client }) => {
     // Fetch the source text only once.
-    let textInfo = getSourceText(getState(), source.id);
+    let textInfo = getSourceText(getState(), source.get("id"));
     if (textInfo) {
       // It's already loaded or is loading
       return Promise.resolve(textInfo);
     }
+    const generatedSource = getGeneratedSource(getState(), source);
+    const originalSources = getOriginalSources(getState(), generatedSource);
 
     return dispatch({
       type: constants.LOAD_SOURCE_TEXT,
-      source: source,
+      generatedSource: generatedSource.toJS(),
+      originalSources: originalSources.map(s => s.toJS()),
       [PROMISE]: Task.spawn(function* () {
-        let response = isOriginal(source)
-          ? yield _loadOriginalSourceText(source, getState, dispatch)
-          : yield client.sourceContents(source.id);
+        const response = yield client.sourceContents(
+          generatedSource.get("id")
+        );
+
+        const generatedSourceText = {
+          text: response.source,
+          contentType: response.contentType || "text/javascript",
+          id: generatedSource.get("id")
+        };
+
+        const originalSourceTexts = _getOriginalSourceTexts(
+          getState(),
+          generatedSource.toJS(),
+          generatedSourceText.text
+        );
 
         // Automatically pretty print if enabled and the test is
         // detected to be "minified"
@@ -227,8 +245,10 @@ function loadSourceText(source) {
         //   dispatch(togglePrettyPrint(source));
         // }
 
-        return { text: response.source,
-                 contentType: response.contentType };
+        return {
+          generatedSourceText,
+          originalSourceTexts
+        };
       })
     });
   };
