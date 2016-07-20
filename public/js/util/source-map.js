@@ -1,4 +1,5 @@
 const invariant = require("invariant");
+const toPairs = require("lodash/toPairs");
 const { SourceMapConsumer, SourceNode } = require("source-map");
 const { Source } = require("../types");
 
@@ -13,8 +14,12 @@ function _getConsumer(sourceId) {
   return sourceMapConsumers.get(sourceId);
 }
 
-function _getOriginalSources(sourceId) {
-  const consumer = _getConsumer(sourceId);
+function getOriginalSourceUrls(source) {
+  const consumer = _getConsumer(source.id);
+  if (!consumer) {
+    return [];
+  }
+
   return consumer.sources;
 }
 
@@ -72,20 +77,14 @@ function getGeneratedSourceId(originalSource) {
   return match ? match[0] : null;
 }
 
-function getOriginalSource(
-  originalSource, generatedSource, generatedSourceText
-) {
+function getOriginalTexts(generatedSource, generatedText) {
   const sourceNode = _getSourceNode(
     generatedSource.id,
-    generatedSourceText.text
+    generatedText
   );
 
-  const originalSourceContent = sourceNode.sourceContents[originalSource.url];
-
-  return {
-    source: originalSourceContent,
-    contentType: "text/javascript"
-  };
+  return toPairs(sourceNode.sourceContents)
+    .map(([ url, text ]) => ({ url, text }));
 }
 
 function getOriginalSourcePosition(generatedSource, location) {
@@ -105,7 +104,8 @@ function createOriginalSources(generatedSource, sourceMap) {
   if (!_hasConsumer(generatedSource.id)) {
     _setConsumer(generatedSource, sourceMap);
   }
-  return _getOriginalSources(generatedSource.id)
+
+  return getOriginalSourceUrls(generatedSource)
     .map((source, index) => Source({
       url: source,
       id: generatedSource.id + "/" + index,
@@ -114,10 +114,11 @@ function createOriginalSources(generatedSource, sourceMap) {
 }
 
 module.exports = {
-  getOriginalSource,
   getOriginalSourcePosition,
   getGeneratedSourceLocation,
   createOriginalSources,
+  getOriginalSourceUrls,
+  getOriginalTexts,
   isOriginal,
   isGenerated,
   getGeneratedSourceId

@@ -1,4 +1,5 @@
 const { Task } = require("../../util/task");
+const fromJS = require("../../util/fromJS");
 const expect = require("expect.js");
 
 const { actions, selectors, createStore } = require("../../util/test-head");
@@ -46,7 +47,7 @@ describe("loadSourceText", () => {
   it("loading one source text", function(done) {
     Task.spawn(function* () {
       const store = createStore(simpleMockThreadClient);
-      yield store.dispatch(actions.loadSourceText({ id: "foo1" }));
+      yield store.dispatch(actions.loadSourceText(fromJS({ id: "foo1" })));
 
       const fooSourceText = getSourceText(store.getState(), "foo1");
       expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
@@ -57,8 +58,8 @@ describe("loadSourceText", () => {
   it("loading two different sources", function(done) {
     Task.spawn(function* () {
       const store = createStore(simpleMockThreadClient);
-      yield store.dispatch(loadSourceText({ id: "foo1" }));
-      yield store.dispatch(loadSourceText({ id: "foo2" }));
+      yield store.dispatch(loadSourceText(fromJS({ id: "foo1" })));
+      yield store.dispatch(loadSourceText(fromJS({ id: "foo2" })));
 
       const fooSourceText = getSourceText(store.getState(), "foo1");
       expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
@@ -74,8 +75,8 @@ describe("loadSourceText", () => {
     const store = createStore(simpleMockThreadClient);
 
     Task.spawn(function* () {
-      yield store.dispatch(loadSourceText({ id: "foo1" }));
-      yield store.dispatch(loadSourceText({ id: "foo1" }));
+      yield store.dispatch(loadSourceText(fromJS({ id: "foo1" })));
+      yield store.dispatch(loadSourceText(fromJS({ id: "foo1" })));
       const fooSourceText = getSourceText(store.getState(), "foo1");
       expect(fooSourceText.get("text")).to.equal(sourceText.foo1.source);
 
@@ -87,7 +88,7 @@ describe("loadSourceText", () => {
     const store = createStore(deferredMockThreadClient);
     // We're intentionally not yielding here to check the loading
     // state
-    store.dispatch(loadSourceText({ id: "foo1" }));
+    store.dispatch(loadSourceText(fromJS({ id: "foo1" })));
     const fooSourceText = getSourceText(store.getState(), "foo1");
     expect(fooSourceText.get("loading")).to.equal(true);
   });
@@ -95,7 +96,8 @@ describe("loadSourceText", () => {
   it("source failed to load", function() {
     return Task.spawn(function* () {
       const store = createStore(deferredMockThreadClient);
-      yield store.dispatch(loadSourceText({ id: "badId" })).catch(() => {});
+      yield store.dispatch(loadSourceText(fromJS({ id: "badId" })))
+                 .catch(() => {});
 
       const fooSourceText = getSourceText(store.getState(), "badId");
       expect(fooSourceText.get("error")).to.equal("failed to load");

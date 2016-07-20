@@ -9,8 +9,8 @@ const I = require("immutable");
 import type { Action, Source } from "../actions/types";
 
 export type SourcesState = {
-  sources: I.Map<string, I.Record<Source>>,
-  selectedSource: ?Source,
+  sources: I.Map<string, any>,
+  selectedSource: ?any,
   sourcesText: I.Map<string, any>,
   tabs: I.List<any>,
   sourceMaps: I.Map<string, any>,
@@ -61,7 +61,16 @@ function update(state = State(), action: Action) {
       });
 
     case "LOAD_SOURCE_TEXT": {
-      return _updateText(state, action);
+      let values;
+      if (action.status === "done") {
+        const { generatedSourceText, originalSourceTexts } = action.value;
+        values = [generatedSourceText, ...originalSourceTexts];
+      } else {
+        const { generatedSource, originalSources } = action;
+        values = [generatedSource, ...originalSources];
+      }
+
+      return _updateText(state, action, values);
     }
 
     case "BLACKBOX":
@@ -80,7 +89,7 @@ function update(state = State(), action: Action) {
         });
       }
 
-      let s = _updateText(state, action);
+      let s = _updateText(state, action, [action.source]);
       if (action.status === "done") {
         s = s.setIn(
           ["sources", action.source.id, "isPrettyPrinted"],
@@ -98,26 +107,32 @@ function update(state = State(), action: Action) {
   return state;
 }
 
-function _updateText(state, action) {
-  const { source } = action;
-
+function _updateText(state, action, values) {
   if (action.status === "start") {
     // Merge this in, don't set it. That way the previous value is
     // still stored here, and we can retrieve it if whatever we're
     // doing fails.
-    return state.mergeIn(["sourcesText", source.id], {
-      loading: true
-    });
-  } else if (action.status === "error") {
-    return state.setIn(["sourcesText", source.id], I.Map({
-      error: action.error
-    }));
+    return values.reduce((_state, source) => {
+      return _state.mergeIn(["sourcesText", source.id], {
+        loading: true
+      });
+    }, state);
   }
 
-  return state.setIn(["sourcesText", source.id], I.Map({
-    text: action.value.text,
-    contentType: action.value.contentType
-  }));
+  if (action.status === "error") {
+    return values.reduce((_state, source) => {
+      return _state.setIn(["sourcesText", source.id], I.Map({
+        error: action.error
+      }));
+    }, state);
+  }
+
+  return values.reduce((_state, sourceText) => {
+    return _state.setIn(["sourcesText", sourceText.id], I.Map({
+      text: sourceText.text,
+      contentType: sourceText.contentType
+    }));
+  }, state);
 }
 
 function removeSourceFromTabList(state, id) {
