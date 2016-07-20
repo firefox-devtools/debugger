@@ -13,6 +13,7 @@ const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 const SourceFooter = createFactory(require("./SourceFooter"));
 const Autocomplete = createFactory(require("./Autocomplete"));
+const NewConsoleOutputWrapper = createFactory(require("./console/new-console-output-wrapper"));
 const { getSelectedSource, getSources, getBreakpoints } = require("../selectors");
 const { endTruncateStr } = require("../util/utils");
 const { ReduxDevTools } = require("../util/create-store");
@@ -114,7 +115,7 @@ const App = React.createClass({
           initialWidth: 300,
           rightFlex: true,
           left: this.renderCenterPane(this.props),
-          right: RightSidebar()
+          right: NewConsoleOutputWrapper(document.createElement("div"), {})
         })
       }),
       ReduxDevTools()
