@@ -14,8 +14,8 @@ const SourceTabs = createFactory(require("./SourceTabs"));
 const SourceFooter = createFactory(require("./SourceFooter"));
 const Autocomplete = createFactory(require("./Autocomplete"));
 const { getSelectedSource, getSources, getBreakpoints } = require("../selectors");
-const { endTruncateStr } = require("../util/utils");
-const { ReduxDevTools } = require("../util/create-store");
+const { endTruncateStr } = require("../utils/utils");
+const { ReduxDevTools } = require("../utils/create-store");
 
 const App = React.createClass({
   propTypes: {

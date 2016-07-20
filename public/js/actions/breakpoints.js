@@ -4,10 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const constants = require("../constants");
-const { PROMISE } = require("../util/redux/middleware/promise");
+const { PROMISE } = require("../utils/redux/middleware/promise");
 const { getBreakpoint, getBreakpoints,
         getOriginalLocation, getGeneratedLocation } = require("../selectors");
-const fromJS = require("../util/fromJS");
+const fromJS = require("../utils/fromJS");
 
 import type { Location } from "./types";
 

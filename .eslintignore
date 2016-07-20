@@ -1,5 +1,5 @@
 public/js/lib/tree.js
-public/js/util/imstruct.js
+public/js/utils/imstruct.js
 public/js/test/examples/**
 public/js/test/cypress/**
 public/js/test/integration/**

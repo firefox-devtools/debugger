@@ -1,4 +1,4 @@
-const { constants, selectors, createStore } = require("../../util/test-head");
+const { constants, selectors, createStore } = require("../../utils/test-head");
 const fixtures = require("../../test/fixtures/foobar.json");
 const { getSourceById } = selectors;
 const sourcesFixtures = fixtures.sources.sources;

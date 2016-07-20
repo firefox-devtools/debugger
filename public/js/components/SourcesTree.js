@@ -4,18 +4,18 @@ const { DOM: dom, PropTypes } = React;
 const {
   nodeHasChildren, createParentMap, addToTree,
   collapseTree, createTree
-} = require("../util/sources-tree.js");
+} = require("../utils/sources-tree.js");
 
 const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
-const Arrow = React.createFactory(require("./util/Arrow"));
+const Arrow = React.createFactory(require("./utils/Arrow"));
 const { Set } = require("immutable");
 
-const ManagedTree = React.createFactory(require("./util/ManagedTree"));
-const FolderIcon = React.createFactory(require("./util/Icons").FolderIcon);
-const DomainIcon = React.createFactory(require("./util/Icons").DomainIcon);
-const FileIcon = React.createFactory(require("./util/Icons").FileIcon);
-const WorkerIcon = React.createFactory(require("./util/Icons").WorkerIcon);
+const ManagedTree = React.createFactory(require("./utils/ManagedTree"));
+const FolderIcon = React.createFactory(require("./utils/Icons").FolderIcon);
+const DomainIcon = React.createFactory(require("./utils/Icons").DomainIcon);
+const FileIcon = React.createFactory(require("./utils/Icons").FileIcon);
+const WorkerIcon = React.createFactory(require("./utils/Icons").WorkerIcon);
 
 let SourcesTree = React.createClass({
   propTypes: {

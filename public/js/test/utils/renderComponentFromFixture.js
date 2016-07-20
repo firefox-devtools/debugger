@@ -2,10 +2,10 @@ const React = require("react");
 const { DOM: dom, createElement } = React;
 const { Provider } = require("react-redux");
 const { combineReducers } = require("redux");
-const dehydrate = require("../../util/dehydrate-state");
+const dehydrate = require("../../utils/dehydrate-state");
 
 const fixtures = require("../fixtures");
-const { configureStore } = require("../../util/create-store");
+const { configureStore } = require("../../utils/create-store");
 const reducers = require("../../reducers");
 
 function createStore(state = {}) {

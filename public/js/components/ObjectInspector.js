@@ -1,7 +1,7 @@
 const React = require("react");
 const classnames = require("classnames");
-const ManagedTree = React.createFactory(require("./util/ManagedTree"));
-const Arrow = React.createFactory(require("./util/Arrow"));
+const ManagedTree = React.createFactory(require("./utils/ManagedTree"));
+const Arrow = React.createFactory(require("./utils/Arrow"));
 const Rep = require("./Rep");
 const { DOM: dom, PropTypes } = React;
 
