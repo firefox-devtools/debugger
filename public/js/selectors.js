@@ -11,6 +11,10 @@ type AppState = {
   pause: any
 }
 
+const { isGenerated, getGeneratedSourceLocation,
+        isOriginal, getOriginalSourcePosition
+      } = require("./util/source-map");
+
 /* Selectors */
 function getSources(state: AppState) {
   return state.sources.sources;
@@ -99,6 +103,43 @@ function getSourceMapURL(state: AppState, source: Source) {
   return tab.get("url") + "/" + source.sourceMapURL;
 }
 
+function getGeneratedLocation(state: AppState, location: Location) {
+  const source = getSource(state, location.sourceId);
+
+  if (!source) {
+    return location;
+  }
+
+  if (isOriginal(source.toJS())) {
+    return getGeneratedSourceLocation(source.toJS(), location);
+  }
+
+  return location;
+}
+
+function getOriginalLocation(state: AppState, location) {
+  const source = getSource(state, location.sourceId);
+
+  if (!source) {
+    return location;
+  }
+
+  if (isGenerated(source.toJS())) {
+    const { url, line } = getOriginalSourcePosition(
+      source.toJS(),
+      location
+    );
+
+    const originalSource = getSourceByURL(state, url);
+    return {
+      sourceId: originalSource.get("id"),
+      line
+    };
+  }
+
+  return location;
+}
+
 /**
  * @param object - location
  */
@@ -117,6 +158,8 @@ module.exports = {
   getSourceMapURL,
   getSelectedSource,
   getSourceText,
+  getOriginalLocation,
+  getGeneratedLocation,
   getBreakpoint,
   getBreakpoints,
   getBreakpointsForSource,
