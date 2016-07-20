@@ -6,7 +6,7 @@
 const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { getBreakpoint, getBreakpoints,
-        getOriginalLocation, getGeneratedLocation} = require("../selectors");
+        getOriginalLocation, getGeneratedLocation } = require("../selectors");
 const fromJS = require("../utils/fromJS");
 
 import type { Location } from "./types";

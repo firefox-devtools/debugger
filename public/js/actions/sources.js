@@ -14,7 +14,7 @@ const constants = require("../constants");
 const Prefs = require("../prefs");
 const invariant = require("invariant");
 const { isEnabled } = require("../../../config/feature");
-const { createOriginalSources,
+const { createOriginalSources, getGeneratedSourceId,
         isOriginal, getOriginalSource } = require("../utils/source-map");
 
 /**

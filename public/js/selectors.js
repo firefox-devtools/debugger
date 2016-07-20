@@ -13,7 +13,7 @@ type AppState = {
 
 const { isGenerated, getGeneratedSourceLocation,
         isOriginal, getOriginalSourcePosition
-      } = require("./util/source-map");
+      } = require("./utils/source-map");
 
 /* Selectors */
 function getSources(state: AppState) {
