@@ -37,6 +37,8 @@ npm install -g cypress-cli
 cypress install
 ```
 
+Create an account and go to their [gitter](https://gitter.im/cypress-io/cypress) room and ask for early access. The best person to ask is `@brian-mann`.
+
 **Notes:**
 + [Install Steps](https://docs.cypress.io/docs/installing-and-running)
 + It's helpful to close the firefox debugger in other tabs as it might cause the tests to miss a firefox message.
