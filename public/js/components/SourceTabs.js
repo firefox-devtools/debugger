@@ -175,7 +175,8 @@ const SourceTabs = React.createClass({
       {
         className: classnames("source-tab", { active }),
         key: source.get("id"),
-        onClick: () => selectSource(source.get("id"))
+        onClick: () => selectSource(source.get("id")),
+        title: url
       },
       dom.div({ className: "filename" }, filename),
       dom.div(
