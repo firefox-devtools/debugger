@@ -10,7 +10,7 @@ const isDevelopment = features.isDevelopment;
 const isEnabled = features.isEnabled;
 const getConfig = require("./config/config").getConfig;
 
-const node_env = process.env.NODE_ENV || "development";
+const NODE_ENV = process.env.NODE_ENV || "development";
 
 const defaultBabelPlugins = [
   "transform-flow-strip-types",
@@ -51,7 +51,7 @@ let webpackConfig = {
   plugins: [
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: JSON.stringify(node_env),
+        NODE_ENV: JSON.stringify(NODE_ENV),
       },
       "DebuggerTarget": JSON.stringify("local"),
       "DebuggerConfig": JSON.stringify(getConfig())
