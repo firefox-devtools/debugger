@@ -81,7 +81,7 @@ The following are instructions for getting Firefox, Chrome, and Node running wit
 The following command will automatically start a remote debuggable version of Firefox using a temporary profile and set all the necessary preferences for you.  This command runs Firefox in a selenium environment that is great for quick testing.
 
 ```
-$ npm run firefox-bin
+$ npm run firefox
 ```
 
 * Restart your development server `ctrl+c` in the Terminal and run `npm start` again
@@ -248,10 +248,20 @@ Read more information in [storybook docs](./docs/local-development.md#storybook)
 
 All default config values are in [`config/development.json`](./config/development.json), to override these values you need to [create a local config file](#create-a-local-config-file).
 
-* `hotReloding` enables hot reloading of CSS and React
-* `chrome.debug` enable local chrome development
-* `features.sourceTabs` enable editor tabs
-* `logging.firefoxProtocol` log firefox debugger protocol messages
+* `logging`
+  * `client` Enables logging the Firefox protocol in the devtools console of the debugger
+  * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `npm start`
+* `features` debugger related features
+  * `tabs` Enables source view tabs in the editor (CodeMirror)
+  * `sourceMaps` Enables source map loading when available
+* `chrome` Chrome browser related flags
+  * `debug` Enables listening for remotely debuggable Chrome browsers
+  * `webSocketPort` Configures the web socket port specified when launching Chrome from the command line
+* `firefox` Firefox browser related flags
+  * `proxyPort` Port used by the development server run with `npm start`
+  * `webSocketConnection` Favours Firefox WebSocket connection over proxy, requires [bug 1286281](https://bugzilla.mozilla.org/show_bug.cgi?id=1286281)
+  * `geckoDir` Local location of Firefox source code _only needed by project maintainers_
+* `hotReloading` enables [Hot Reloading](./docs/local-development.md#hot-reloading) of CSS and React
 
 Read more information about [local development config options](./docs/local-development.md#configs)
 
