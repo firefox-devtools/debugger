@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const defer = require("devtools/shared/defer");
+const defer = require("../utils/defer");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { Task } = require("../utils/task");
 const { isJavaScript } = require("../utils/source");

@@ -1,5 +1,5 @@
 const { BreakpointResult, Location } = require("../../types");
-const defer = require("../../lib/devtools/shared/defer");
+const defer = require("../../utils/defer");
 
 let bpClients;
 let threadClient;

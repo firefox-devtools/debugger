@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 const { connect } = require("../lib/chrome-remote-debug-protocol");
-const defer = require("../lib/devtools/shared/defer");
+const defer = require("../utils/defer");
 const { Tab } = require("../types");
 const { isEnabled, getValue } = require("../feature");
 const { networkRequest } = require("../utils/networkRequest");
