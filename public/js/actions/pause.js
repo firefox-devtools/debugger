@@ -1,6 +1,20 @@
 const constants = require("../constants");
 const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
+const { Location, Frame } = require("../types");
+
+const { getOriginalLocation } = require("../selectors");
+
+function _updateFrame(state, frame) {
+  const originalLocation = Location(getOriginalLocation(
+    state,
+    frame.location
+  ));
+
+  return Frame.update(frame, {
+    $merge: { location: originalLocation }
+  });
+}
 
 /**
  * Debugger has just resumed
@@ -19,13 +33,14 @@ function resumed() {
  */
 function paused(pauseInfo) {
   return ({ dispatch, getState, client }) => {
-    const { location } = pauseInfo.frame;
+    let { frame, why } = pauseInfo;
+    frame = _updateFrame(getState(), frame);
 
-    dispatch(selectSource(location.sourceId));
+    dispatch(selectSource(frame.location.sourceId));
 
     dispatch({
       type: constants.PAUSED,
-      pauseInfo: pauseInfo
+      pauseInfo: { frame, why }
     });
   };
 }
