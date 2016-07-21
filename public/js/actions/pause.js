@@ -46,9 +46,12 @@ function paused(pauseInfo) {
 }
 
 function loadedFrames(frames) {
-  return {
-    type: constants.LOADED_FRAMES,
-    frames: frames
+  return ({ dispatch, getState, client }) => {
+    frames = frames.map(f => _updateFrame(getState(), f));
+    dispatch({
+      type: constants.LOADED_FRAMES,
+      frames: frames
+    });
   };
 }
 
