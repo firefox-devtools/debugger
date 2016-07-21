@@ -3,38 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 /* global window */
 
-const React = require("react");
-const { createStore, applyMiddleware, compose } = require("redux");
+const { createStore, applyMiddleware } = require("redux");
 const { waitUntilService } = require("devtools/client/shared/redux/middleware/wait-service");
 const { log } = require("devtools/client/shared/redux/middleware/log");
 const { history } = require("./redux/middleware/history");
 const { promise } = require("./redux/middleware/promise");
 const { thunk } = require("./redux/middleware/thunk");
-
-const { createDevTools } = require("redux-devtools");
-const LogMonitor = React.createFactory(require("redux-devtools-log-monitor").default);
-const DockMonitor = React.createFactory(require("redux-devtools-dock-monitor").default);
-const { isEnabled } = require("../feature");
-
-// createDevTools takes a monitor and produces a DevTools component
-const DevTools = createDevTools(
-  DockMonitor({
-    toggleVisibilityKey: "ctrl-h",
-    changePositionKey: "ctrl-q",
-    defaultIsVisible: true
-  },
-    LogMonitor({ theme: "tomorrow" })
-  )
-);
-
-function ReduxDevTools() {
-  if (isEnabled("reduxDevtools.enabled")) {
-    return React.createElement(DevTools);
-  }
-
-  return () => {};
-}
-ReduxDevTools.displayName = "ReduxDevTools";
 
 /**
  * This creates a dispatcher with all the standard middleware in place
@@ -71,22 +45,12 @@ const configureStore = (opts = {}) => {
     middleware.push(log);
   }
 
-  // Optionally add the Redux DevTools Extension, if it exists.
-  const devtools = typeof window === "object" && window.devToolsExtension ?
+  // Hook in the redux devtools browser extension if it exists
+  const devtoolsExt = typeof window === "object" && window.devToolsExtension ?
     window.devToolsExtension() :
     f => f;
 
-  if (!isEnabled("reduxDevtools.enabled")) {
-    return applyMiddleware(...middleware)(devtools(createStore));
-  }
-
-  return compose(
-    applyMiddleware(...middleware),
-    DevTools.instrument()
-  )(devtools(createStore));
+  return applyMiddleware(...middleware)(devtoolsExt(createStore));
 };
 
-module.exports = {
-  configureStore,
-  ReduxDevTools
-};
+module.exports = configureStore;
