@@ -1,7 +1,7 @@
 const React = require("react");
 const { createElement, createFactory } = React;
 const { renderComponent, storiesOf } = require("./utils");
-const { getConfig, setConfig } = require("../../../../config/feature");
+const { getConfig, setConfig } = require("../../feature");
 
 const SourceTabs = require("../SourceTabs");
 

@@ -14,7 +14,7 @@ const { thunk } = require("./redux/middleware/thunk");
 const { createDevTools } = require("redux-devtools");
 const LogMonitor = React.createFactory(require("redux-devtools-log-monitor").default);
 const DockMonitor = React.createFactory(require("redux-devtools-dock-monitor").default);
-const { isEnabled } = require("../../../config/feature");
+const { isEnabled } = require("../feature");
 
 // createDevTools takes a monitor and produces a DevTools component
 const DevTools = createDevTools(

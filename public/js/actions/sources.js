@@ -11,7 +11,7 @@ const { networkRequest } = require("../utils/networkRequest");
 const constants = require("../constants");
 const Prefs = require("../prefs");
 const invariant = require("invariant");
-const { isEnabled } = require("../../../config/feature");
+const { isEnabled } = require("../feature");
 
 const { createOriginalSources, getOriginalTexts
       } = require("../utils/source-map");

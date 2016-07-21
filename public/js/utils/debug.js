@@ -1,4 +1,4 @@
-const { isDevelopment } = require("../../../config/feature");
+const { isDevelopment } = require("../feature");
 
 function debugGlobal(field, value) {
   if (!isDevelopment()) {
