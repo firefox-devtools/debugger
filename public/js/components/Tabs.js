@@ -48,7 +48,7 @@ function Tabs({ tabs }) {
   }
 
   return dom.div(
-    { className: "tabs" },
+    { className: "tabs theme-light" },
     renderTabs("Firefox Tabs", firefoxTabs, "firefox-tab"),
     renderTabs("Chrome Tabs", chromeTabs, "chrome-tab"),
     dom.div(
