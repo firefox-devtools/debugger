@@ -1,6 +1,6 @@
 const I = require("immutable");
 const { fromJS } = I;
-const SourcesState = require("../reducers/sources").SourcesState;
+const SourcesState = require("../reducers/sources").State;
 
 function dehydrate(jsState) {
   return {

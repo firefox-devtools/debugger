@@ -11,7 +11,7 @@ const pause = require("./pause");
 
 module.exports = {
   eventListeners,
-  sources,
+  sources: sources.update,
   breakpoints,
   asyncRequests,
   tabs,

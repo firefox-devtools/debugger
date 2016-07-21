@@ -5,8 +5,10 @@
 
 const fromJS = require("../utils/fromJS");
 const I = require("immutable");
+const makeRecord = require("../utils/makeRecord");
 
 import type { Action, Source } from "../actions/types";
+import type { Record } from "../utils/makeRecord";
 
 export type SourcesState = {
   sources: I.Map<string, any>,
@@ -16,13 +18,13 @@ export type SourcesState = {
   sourceMaps: I.Map<string, any>,
 };
 
-const State = I.Record({
+const State = makeRecord(({
   sources: I.Map({}),
   selectedSource: undefined,
   sourcesText: I.Map({}),
   sourceMaps: I.Map({}),
   tabs: I.List([])
-});
+} : SourcesState));
 
 function update(state = State(), action: Action) {
   switch (action.type) {
@@ -190,9 +192,58 @@ function getNewSelectedSource(state, id) : ?Source {
   return tabs.get(tabIndex + 1);
 }
 
-// We need this for tests, but I also think we should start bundling
-// in selectors into reducer modules, so we'll eventually start
-// exporting multiple things from here. Need to flesh out this idea.
-update.SourcesState = State;
+// Selectors
 
-module.exports = update;
+// Unfortunately, it's really hard to make these functions accept just
+// the state that we care about and still type if with Flow. The
+// problem is that we want to re-export all selectors from a single
+// module for the UI, and all of those selectors should take the
+// top-level app state, so we'd have to "wrap" them to automatically
+// pick off the piece of state we're interested in. It's impossible
+// (right now) to type those wrapped functions.
+type OuterState = { sources: Record<SourcesState> };
+
+function getSource(state: OuterState, id: string) {
+  return state.sources.sources.get(id);
+}
+
+function getSourceByURL(state: OuterState, url: string) {
+  return state.sources.sources.find(source => source.get("url") == url);
+}
+
+function getSourceById(state: OuterState, id: string) {
+  return state.sources.sources.find(source => source.get("id") == id);
+}
+
+function getSources(state: OuterState) {
+  return state.sources.sources;
+}
+
+function getSourceText(state: OuterState, id: string) {
+  return state.sources.sourcesText.get(id);
+}
+
+function getSourceTabs(state: OuterState) {
+  return state.sources.tabs;
+}
+
+function getSelectedSource(state: OuterState) {
+  return state.sources.selectedSource;
+}
+
+function getSourceMap(state: OuterState, sourceId: string) {
+  return state.sources.sourceMaps.get(sourceId);
+}
+
+module.exports = {
+  State,
+  update,
+  getSource,
+  getSourceByURL,
+  getSourceById,
+  getSources,
+  getSourceText,
+  getSourceTabs,
+  getSelectedSource,
+  getSourceMap
+};

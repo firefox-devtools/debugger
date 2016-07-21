@@ -4,6 +4,8 @@ import type { Record } from "./utils/makeRecord";
 import type { SourcesState } from "./reducers/sources";
 import type { Location } from "./actions/types";
 
+const sources = require("./reducers/sources");
+
 type AppState = {
   sources: Record<SourcesState>,
   breakpoints: any,
@@ -13,27 +15,6 @@ type AppState = {
 const { isGenerated, getGeneratedSourceLocation, getOriginalSourceUrls,
         isOriginal, getOriginalSourcePosition, getGeneratedSourceId
       } = require("./utils/source-map");
-
-/* Selectors */
-function getSources(state: AppState) {
-  return state.sources.sources;
-}
-
-function getSourceTabs(state: AppState) {
-  return state.sources.tabs;
-}
-
-function getSourcesText(state: AppState) {
-  return state.sources.sourcesText;
-}
-
-function getSelectedSource(state: AppState) {
-  return state.sources.selectedSource;
-}
-
-function getSourceMap(state: AppState, sourceId: string) {
-  return state.sources.sourceMaps.get(sourceId);
-}
 
 function getBreakpoint(state: AppState, location: Location) {
   return state.breakpoints.getIn(["breakpoints", makeLocationId(location)]);
@@ -77,33 +58,13 @@ function getSelectedFrame(state: AppState) {
   return state.pause.get("selectedFrame");
 }
 
-function getSource(state: AppState, id: string) {
-  return getSources(state).get(id);
-}
-
-function getSourceCount(state: AppState) {
-  return getSources(state).size;
-}
-
-function getSourceByURL(state: AppState, url: string) {
-  return getSources(state).find(source => source.get("url") == url);
-}
-
-function getSourceById(state: AppState, id: string) {
-  return getSources(state).find(source => source.get("id") == id);
-}
-
-function getSourceText(state: AppState, id: string) {
-  return getSourcesText(state).get(id);
-}
-
 function getSourceMapURL(state: AppState, source: any) {
   const tab = getSelectedTab(state);
   return tab.get("url") + "/" + source.sourceMapURL;
 }
 
 function getGeneratedLocation(state: AppState, location: Location) {
-  const source: any = getSource(state, location.sourceId);
+  const source: any = sources.getSource(state, location.sourceId);
 
   if (!source) {
     return location;
@@ -117,7 +78,7 @@ function getGeneratedLocation(state: AppState, location: Location) {
 }
 
 function getOriginalLocation(state: AppState, location: Location) {
-  const source: any = getSource(state, location.sourceId);
+  const source: any = sources.getSource(state, location.sourceId);
 
   if (!source) {
     return location;
@@ -129,7 +90,7 @@ function getOriginalLocation(state: AppState, location: Location) {
       location
     );
 
-    const originalSource: any = getSourceByURL(state, url);
+    const originalSource: any = sources.getSourceByURL(state, url);
     return {
       sourceId: originalSource.get("id"),
       line
@@ -145,7 +106,7 @@ function getGeneratedSource(state: AppState, source: any) {
   }
 
   const generatedSourceId = getGeneratedSourceId(source);
-  const originalSource = getSource(state, generatedSourceId);
+  const originalSource = sources.getSource(state, generatedSourceId);
 
   if (originalSource) {
     return originalSource.toJS();
@@ -156,7 +117,7 @@ function getGeneratedSource(state: AppState, source: any) {
 
 function getOriginalSources(state: AppState, source: any) {
   const originalSourceUrls = getOriginalSourceUrls(source);
-  return originalSourceUrls.map(url => getSourceByURL(state, url));
+  return originalSourceUrls.map(url => sources.getSourceByURL(state, url));
 }
 
 /**
@@ -167,20 +128,21 @@ function makeLocationId(location: Location) {
 }
 
 module.exports = {
-  getSource,
-  getSources,
-  getSourceMap,
-  getSourceTabs,
-  getSourceCount,
-  getSourceByURL,
-  getSourceById,
-  getSourceMapURL,
-  getSelectedSource,
-  getSourceText,
+  getSource: sources.getSource,
+  getSourceByURL: sources.getSourceByURL,
+  getSourceById: sources.getSourceById,
+  getSources: sources.getSources,
+  getSourceText: sources.getSourceText,
+  getSourceTabs: sources.getSourceTabs,
+  getSelectedSource: sources.getSelectedSource,
+  getSourceMap: sources.getSourceMap,
+
   getOriginalLocation,
   getGeneratedLocation,
   getGeneratedSource,
   getOriginalSources,
+  getSourceMapURL,
+
   getBreakpoint,
   getBreakpoints,
   getBreakpointsForSource,
