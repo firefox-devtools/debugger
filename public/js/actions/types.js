@@ -4,8 +4,15 @@ export type AsyncStatus = "start" | "done" | "error";
 
 export type Source = {
   id: string,
-  url?: string
+  url?: string,
+  sourceMapURL?: string
 };
+
+export type SourceText = {
+  id: string,
+  text: string,
+  contentType: string
+}
 
 export type Location = {
   sourceId: string,
@@ -19,10 +26,14 @@ export type Action =
   | { type: "SELECT_SOURCE", source: Source, options: { position?: number } }
   | { type: "CLOSE_TAB", id: string }
   | { type: "LOAD_SOURCE_TEXT",
-      source: Source,
+      generatedSource: Source,
+      originalSources: Array<Source>,
       status: AsyncStatus,
       error: string,
-      value: { text: string, contentType: string }}
+      value: {
+        generatedSourceText: SourceText,
+        originalSourceTexts: Array<SourceText>
+      }}
   | { type: "BLACKBOX",
       source: Source,
       status: AsyncStatus,

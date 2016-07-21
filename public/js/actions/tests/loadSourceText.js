@@ -95,7 +95,8 @@ describe("loadSourceText", () => {
   it("source failed to load", function() {
     return Task.spawn(function* () {
       const store = createStore(deferredMockThreadClient);
-      yield store.dispatch(loadSourceText({ id: "badId" })).catch(() => {});
+      yield store.dispatch(loadSourceText({ id: "badId" }))
+                 .catch(() => {});
 
       const fooSourceText = getSourceText(store.getState(), "badId");
       expect(fooSourceText.get("error")).to.equal("failed to load");
