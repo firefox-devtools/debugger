@@ -26,7 +26,7 @@ const State = makeRecord(({
   tabs: I.List([])
 } : SourcesState));
 
-function update(state = State(), action: Action) {
+function update(state = State(), action: Action) : Record<SourcesState> {
   switch (action.type) {
     case "ADD_SOURCE": {
       const source: Source = action.source;
@@ -109,7 +109,7 @@ function update(state = State(), action: Action) {
   return state;
 }
 
-function _updateText(state, action, values) {
+function _updateText(state, action, values) : Record<SourcesState> {
   if (action.status === "start") {
     // Merge this in, don't set it. That way the previous value is
     // still stored here, and we can retrieve it if whatever we're
@@ -129,7 +129,7 @@ function _updateText(state, action, values) {
     }, state);
   }
 
-  return values.reduce((_state, sourceText) => {
+  return values.reduce((_state, sourceText: any) => {
     return _state.setIn(["sourcesText", sourceText.id], I.Map({
       text: sourceText.text,
       contentType: sourceText.contentType
