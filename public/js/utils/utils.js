@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const co = require("co");
-const { isDevelopment } = require("../../../config/feature");
+const { isDevelopment } = require("../feature");
 
 function asPaused(client, func) {
   if (client.state != "paused") {

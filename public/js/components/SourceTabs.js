@@ -8,7 +8,7 @@ const { getSelectedSource, getSourceTabs } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const classnames = require("classnames");
 const actions = require("../actions");
-const { isEnabled } = require("../../../config/feature");
+const { isEnabled } = require("../feature");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");

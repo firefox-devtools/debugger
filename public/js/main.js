@@ -9,7 +9,7 @@ const DevToolsUtils = require("devtools-sham/shared/DevToolsUtils");
 const AppConstants = require("devtools-sham/sham/appconstants").AppConstants;
 const { injectGlobals } = require("./utils/debug");
 const { log } = require("./utils/utils");
-const { isEnabled, isFirefoxPanel, isDevelopment } = require("../../config/feature");
+const { isEnabled, isFirefoxPanel, isDevelopment } = require("./feature");
 
 // Set various flags before requiring app code.
 if (isEnabled("logging.client")) {

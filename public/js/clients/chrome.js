@@ -3,7 +3,7 @@
 const { connect } = require("../lib/chrome-remote-debug-protocol");
 const defer = require("../lib/devtools/shared/defer");
 const { Tab } = require("../types");
-const { isEnabled, getValue } = require("../../../config/feature");
+const { isEnabled, getValue } = require("../feature");
 const { networkRequest } = require("../utils/networkRequest");
 const { setupCommands, clientCommands } = require("./chrome/commands");
 const { setupEvents, clientEvents } = require("./chrome/events");

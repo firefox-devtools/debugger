@@ -1,6 +1,6 @@
 const SourceTabs = require("../SourceTabs");
 const { renderComponent } = require("../test-utils");
-const { setConfig } = require("../../../../config/feature");
+const { setConfig } = require("../../feature");
 
 function getSourceTabs($el) {
   return $el.querySelectorAll(".source-tab");

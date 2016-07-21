@@ -5,7 +5,7 @@ const { connect } = require("react-redux");
 const CodeMirror = require("codemirror");
 const { DOM: dom, PropTypes } = React;
 const { debugGlobal } = require("../utils/debug");
-const { isFirefox } = require("../../../config/feature");
+const { isFirefox } = require("../feature");
 
 const {
   getSourceText, getBreakpointsForSource,
