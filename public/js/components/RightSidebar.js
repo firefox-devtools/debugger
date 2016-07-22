@@ -2,7 +2,7 @@ const React = require("react");
 const { DOM: dom } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { getPause, getIsWaitingOnBreak } = require("../selectors");
+const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions } = require("../selectors");
 
 const actions = require("../actions");
 const Breakpoints = React.createFactory(require("./Breakpoints"));
@@ -21,7 +21,8 @@ function debugBtn(onClick, type, className = "active") {
 }
 
 function RightSidebar({ resume, command, breakOnNext,
-                        pause, isWaitingOnBreak }) {
+                        pause, isWaitingOnBreak,
+                        pauseOnExceptions, shouldPauseOnExceptions }) {
   return (
     dom.div(
       { className: "right-sidebar",
@@ -44,6 +45,9 @@ function RightSidebar({ resume, command, breakOnNext,
 
         debugBtn(() => command({ type: "disableBreakpoints" }),
                  "disableBreakpoints", "disabled"),
+        debugBtn(() => pauseOnExceptions(!shouldPauseOnExceptions),
+                 "pause-exceptions",
+                 shouldPauseOnExceptions ? "enabled" : "disabled"),
         debugBtn(() => command({ type: "subSettings" }), "subSettings")
       ),
 
@@ -65,7 +69,8 @@ function RightSidebar({ resume, command, breakOnNext,
 module.exports = connect(
   state => ({
     pause: getPause(state),
-    isWaitingOnBreak: getIsWaitingOnBreak(state)
+    isWaitingOnBreak: getIsWaitingOnBreak(state),
+    shouldPauseOnExceptions: getShouldPauseOnExceptions(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(RightSidebar);

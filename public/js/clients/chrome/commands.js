@@ -26,6 +26,11 @@ function stepOut() {
   return debuggerAgent.stepOut();
 }
 
+function pauseOnExceptions(toggle) {
+  const state = toggle ? "uncaught" : "none";
+  return debuggerAgent.setPauseOnExceptions(state);
+}
+
 function breakOnNext() {
   return debuggerAgent.pause();
 }
@@ -87,6 +92,7 @@ const clientCommands = {
   stepIn,
   stepOut,
   stepOver,
+  pauseOnExceptions,
   breakOnNext,
   sourceContents,
   setBreakpoint,

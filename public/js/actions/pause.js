@@ -45,6 +45,16 @@ function paused(pauseInfo) {
   };
 }
 
+function pauseOnExceptions(toggle) {
+  return ({ dispatch, getState, client }) => {
+    client.pauseOnExceptions(toggle);
+    return dispatch({
+      type: constants.PAUSE_ON_EXCEPTIONS,
+      toggle
+    });
+  };
+}
+
 function loadedFrames(frames) {
   return ({ dispatch, getState, client }) => {
     frames = frames.map(f => _updateFrame(getState(), f));
@@ -119,6 +129,7 @@ function loadObjectProperties(grip) {
 module.exports = {
   resumed,
   paused,
+  pauseOnExceptions,
   loadedFrames,
   command,
   breakOnNext,
