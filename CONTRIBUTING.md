@@ -25,6 +25,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Writing Code](#writing-code)
     * [Your First Code Contribution](#your-first-code-contribution)
     * [Pull Requests](#pull-requests)
+    * [Hot Reloading](#hot-reloading-fire)
   * [Tests](#tests)
     * [Unit Tests](#unit-tests)
     * [Integration Tests](#integration-tests)
@@ -32,10 +33,6 @@ We respect your time and want to help you make the most of it as you learn more 
     * [Storybook](#storybook)
   * [Configuration](#configuration)
     * [Create a local config file](#create-a-local-config-file)
-
-[Styleguides](#styleguides)
-  * [JavaScript Styleguide](#javascript-styleguide)
-  * [CSS Styleguide](#css-styleguide)
 
 ## What should I know before I get started?
 
@@ -81,7 +78,7 @@ The following are instructions for getting Firefox, Chrome, and Node running wit
 The following command will automatically start a remote debuggable version of Firefox using a temporary profile and set all the necessary preferences for you.  This command runs Firefox in a selenium environment that is great for quick testing.
 
 ```
-$ npm run firefox-bin
+$ npm run firefox
 ```
 
 * Restart your development server `ctrl+c` in the Terminal and run `npm start` again
@@ -181,6 +178,25 @@ To begin your work make sure you follow these steps:
 * Always run the [tests](#tests) locally before creating your PR
 * Request review from @jasonLaster or @jlongster by mentioning their names in the PR
 
+#### Hot Reloading :fire:
+
+Hot Reloading watches for changes in the React Components JS and CSS and propagates those changes up to the application without changing the state of the application.  You want this turned on.
+
+To enabled Hot Reloading:
+
+* [Create a local config file](#create-a-local-config-file) if you don't already have one
+* Edit the `config/local.json` you just created to change the value of `hotReloading` to be `true`
+
+```json
+{
+  "hotReloading": true  
+}
+```
+
+* Restart your development server by typing `ctrl+c` in the Terminal and run `npm start` again
+
+Read more about [Hot Reloading](./docs/local-development.md#hot-reloading)
+
 ### Tests
 
 Your code must pass all tests to be merged in.  Your tests should pass locally before you create a PR and the CI should run an automated test that also passes.
@@ -248,23 +264,16 @@ Read more information in [storybook docs](./docs/local-development.md#storybook)
 
 All default config values are in [`config/development.json`](./config/development.json), to override these values you need to [create a local config file](#create-a-local-config-file).
 
-* `hotReloding` enables hot reloading of CSS and React
-* `chrome.debug` enable local chrome development
-* `features.sourceTabs` enable editor tabs
-* `logging.firefoxProtocol` log firefox debugger protocol messages
+Here are the most common development configuration options:
 
-Read more information about [local development config options](./docs/local-development.md#configs)
+* `logging`
+  * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `npm start`
+* `chrome`
+  * `debug` Enables listening for remotely debuggable Chrome browsers
+* `hotReloading` enables [Hot Reloading](./docs/local-development.md#hot-reloading) of CSS and React
+
+For a list of all the configuration options see the [config/README](./config/README.md)
 
 ### Create a local config file
 
-To override any of the default configuration values above you need to create a new file in the config directory called `local.json`; it is easiest if you copy the `development.json` file.
-
 * Copy the [`config/development.json`](./config/development.json) to `config/local.json`
-
-Here's a MacOS terminal command to do the copy:
-
-```
-$ cp config/development.json config/local.json
-```
-
-> The `local.json` will be ignored by git so any changes you make won't be published, please don't make changes to the `development.json` file.  Thanks!
