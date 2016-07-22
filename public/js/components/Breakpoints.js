@@ -14,16 +14,16 @@ require("./Breakpoints.css");
 
 function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
   const pause = getPause(state);
-
   if (!pause || pause.get("isInterrupted")) {
     return false;
   }
 
-  const pauseLocation = makeLocationId(
+  const bpId = makeLocationId(breakpoint.location);
+  const pausedId = makeLocationId(
     pause.getIn(["frame", "location"]).toJS()
   );
 
-  return breakpoint.location == pauseLocation;
+  return bpId === pausedId;
 }
 
 const Breakpoints = React.createClass({

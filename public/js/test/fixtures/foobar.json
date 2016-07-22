@@ -36,18 +36,20 @@
     }
   },
   "breakpoints": {
-    "fooBreakpointActor": {
-      "id": "fooBreakpointActor",
-      "location": {
-        "sourceId": "fooSourceActor",
-        "line": 16
-      }
-    },
-    "barBreakpointActor": {
-      "id": "barBreakpointActor",
-      "location": {
-        "sourceId": "barSourceActor",
-        "line": 18
+    "breakpoints": {
+      "fooBreakpointActor": {
+        "id": "fooBreakpointActor",
+        "location": {
+          "sourceId": "fooSourceActor",
+          "line": 16
+        }
+      },
+      "barBreakpointActor": {
+        "id": "barBreakpointActor",
+        "location": {
+          "sourceId": "barSourceActor",
+          "line": 18
+        }
       }
     }
   }
