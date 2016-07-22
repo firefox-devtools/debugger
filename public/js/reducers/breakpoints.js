@@ -1,14 +1,23 @@
+// @flow
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const constants = require("../constants");
 const fromJS = require("../utils/fromJS");
-const { makeLocationId } = require("../selectors");
+const { updateObj } = require("../utils/utils");
+const I = require("immutable");
+const makeRecord = require("../utils/makeRecord");
 
-const initialState = fromJS({
-  breakpoints: {}
-});
+import type { Action, Breakpoint, Location } from "../actions/types";
+import type { Record } from "../utils/makeRecord";
+
+export type BreakpointsState = {
+  breakpoints: I.Map<string, Breakpoint>
+}
+
+const State = makeRecord(({
+  breakpoints: I.Map()
+} : BreakpointsState));
 
 // Return the first argument that is a string, or null if nothing is a
 // string.
@@ -27,16 +36,19 @@ function locationMoved(location, newLocation) {
      location.column !== newLocation.column);
 }
 
-function update(state = initialState, action) {
+function makeLocationId(location: Location) {
+  return location.sourceId + ":" + location.line.toString();
+}
+
+function update(state = State(), action: Action) {
   switch (action.type) {
-    case constants.ADD_BREAKPOINT: {
+    case "ADD_BREAKPOINT": {
       const id = makeLocationId(action.breakpoint.location);
 
       if (action.status === "start") {
-        const existingBp = state.getIn(["breakpoints", id]);
-        const bp = existingBp || fromJS(action.breakpoint);
+        let bp = state.breakpoints.get(id) || action.breakpoint;
 
-        state = state.setIn(["breakpoints", id], bp.merge({
+        return state.setIn(["breakpoints", id], updateObj(bp, {
           disabled: false,
           loading: true,
           // We want to do an OR here, but we can't because we need
@@ -44,8 +56,6 @@ function update(state = initialState, action) {
           // condition.
           condition: firstString(action.condition, bp.condition)
         }));
-
-        return state;
       } else if (action.status === "done") {
         const { id: breakpointId, text } = action.value;
         let location = action.breakpoint.location;
@@ -56,20 +66,21 @@ function update(state = initialState, action) {
           state = state.deleteIn(["breakpoints", id]);
 
           const movedId = makeLocationId(actualLocation);
-          const currentBp = (state.getIn(["breakpoints", movedId]) ||
+          const currentBp = (state.breakpoints.get(movedId) ||
                              fromJS(action.breakpoint));
-          const newBp = currentBp.merge({ location: fromJS(actualLocation) });
+          const newBp = updateObj(currentBp, { location: actualLocation });
           state = state.setIn(["breakpoints", movedId], newBp);
           location = actualLocation;
         }
 
         const locationId = makeLocationId(location);
-        return state.mergeIn(["breakpoints", locationId], {
+        const bp = state.breakpoints.get(locationId);
+        return state.setIn(["breakpoints", locationId], updateObj(bp, {
           id: breakpointId,
           disabled: false,
           loading: false,
           text: text
-        });
+        }));
       } else if (action.status === "error") {
         // Remove the optimistic update
         return state.deleteIn(["breakpoints", id]);
@@ -77,15 +88,15 @@ function update(state = initialState, action) {
       break;
     }
 
-    case constants.REMOVE_BREAKPOINT: {
+    case "REMOVE_BREAKPOINT": {
       if (action.status === "done") {
         const id = makeLocationId(action.breakpoint.location);
 
         if (action.disabled) {
-          return state.mergeIn(
-            ["breakpoints", id],
-            { loading: false, disabled: true }
-          );
+          const bp = state.breakpoints.get(id);
+          return state.setIn(["breakpoints", id], updateObj(bp, {
+            loading: false, disabled: true
+          }));
         }
 
         return state.deleteIn(["breakpoints", id]);
@@ -93,18 +104,20 @@ function update(state = initialState, action) {
       break;
     }
 
-    case constants.SET_BREAKPOINT_CONDITION: {
+    case "SET_BREAKPOINT_CONDITION": {
       const id = makeLocationId(action.breakpoint.location);
 
       if (action.status === "start") {
-        return state.mergeIn(["breakpoints", id], {
+        const bp = state.breakpoints.get(id);
+        return state.setIn(["breakpoints", id], updateObj(bp, {
           loading: true,
           condition: action.condition
-        });
+        }));
       } else if (action.status === "done") {
-        return state.mergeIn(["breakpoints", id], {
+        const bp = state.breakpoints.get(id);
+        return state.setIn(["breakpoints", id], updateObj(bp, {
           loading: false
-        });
+        }));
       } else if (action.status === "error") {
         return state.deleteIn(["breakpoints", id]);
       }
@@ -115,4 +128,29 @@ function update(state = initialState, action) {
   return state;
 }
 
-module.exports = update;
+// Selectors
+
+type OuterState = { breakpoints: Record<BreakpointsState> };
+
+function getBreakpoint(state: OuterState, location: Location) {
+  return state.breakpoints.breakpoints.get(makeLocationId(location));
+}
+
+function getBreakpoints(state: OuterState) {
+  return state.breakpoints.breakpoints;
+}
+
+function getBreakpointsForSource(state: OuterState, sourceId: string) {
+  return state.breakpoints.breakpoints.filter(bp => {
+    return bp.location.sourceId === sourceId;
+  });
+}
+
+module.exports = {
+  State,
+  update,
+  makeLocationId,
+  getBreakpoint,
+  getBreakpoints,
+  getBreakpointsForSource
+};

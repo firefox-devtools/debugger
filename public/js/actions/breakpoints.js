@@ -7,7 +7,6 @@ const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { getBreakpoint, getBreakpoints,
         getOriginalLocation, getGeneratedLocation } = require("../selectors");
-const fromJS = require("../utils/fromJS");
 
 import type { Location } from "./types";
 
@@ -18,11 +17,11 @@ type ThunkArgs = {
 }
 function _breakpointExists(state, location: Location) {
   const currentBp = getBreakpoint(state, location);
-  return currentBp && !currentBp.get("disabled");
+  return currentBp && !currentBp.disabled;
 }
 
 function _getOrCreateBreakpoint(state, location, condition) {
-  return getBreakpoint(state, location) || fromJS({ location, condition });
+  return getBreakpoint(state, location) || { location, condition };
 }
 
 function enableBreakpoint(location: Location) {
@@ -44,20 +43,20 @@ function addBreakpoint(location: Location,
 
     return dispatch({
       type: constants.ADD_BREAKPOINT,
-      breakpoint: bp.toJS(),
+      breakpoint: bp,
       condition: condition,
       [PROMISE]: (async function () {
-        location = getGeneratedLocation(getState(), bp.get("location").toJS());
+        location = getGeneratedLocation(getState(), bp.location);
         let { id, actualLocation } = await client.setBreakpoint(
           location,
-          bp.get("condition")
+          bp.condition
         );
 
         actualLocation = getOriginalLocation(getState(), actualLocation);
 
         // If this breakpoint is being re-enabled, it already has a
         // text snippet.
-        let text = bp.get("text");
+        let text = bp.text;
         if (!text) {
           text = getTextForLine ? getTextForLine(actualLocation.line) : "";
         }
@@ -83,7 +82,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
     if (!bp) {
       throw new Error("attempt to remove breakpoint that does not exist");
     }
-    if (bp.get("loading")) {
+    if (bp.loading) {
       // TODO(jwl): make this wait until the breakpoint is saved if it
       // is still loading
       throw new Error("attempt to remove unsaved breakpoint");
@@ -91,7 +90,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
 
     const action = {
       type: constants.REMOVE_BREAKPOINT,
-      breakpoint: bp.toJS(),
+      breakpoint: bp,
       disabled: isDisabled
     };
 
@@ -101,7 +100,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
     // will be removed completely from the state.
     if (!bp.disabled) {
       return dispatch(Object.assign({}, action, {
-        [PROMISE]: client.removeBreakpoint(bp.get("id"))
+        [PROMISE]: client.removeBreakpoint(bp.id)
       }));
     }
     return dispatch(Object.assign({}, action, { status: "done" }));

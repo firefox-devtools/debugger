@@ -13,15 +13,14 @@ const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 const SourceFooter = createFactory(require("./SourceFooter"));
 const Autocomplete = createFactory(require("./Autocomplete"));
-const { getSelectedSource, getSources, getBreakpoints } = require("../selectors");
+const { getSelectedSource, getSources } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 
 const App = React.createClass({
   propTypes: {
     sources: PropTypes.object,
     selectedSource: PropTypes.object,
-    selectSource: PropTypes.func,
-    breakpoints: PropTypes.object
+    selectSource: PropTypes.func
   },
 
   displayName: "App",
@@ -122,7 +121,6 @@ const App = React.createClass({
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              breakpoints: getBreakpoints(state),
               selectedSource: getSelectedSource(state) }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

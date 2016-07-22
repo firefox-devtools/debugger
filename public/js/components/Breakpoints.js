@@ -5,7 +5,8 @@ const ImPropTypes = require("react-immutable-proptypes");
 const Isvg = React.createFactory(require("react-inlinesvg"));
 const classnames = require("classnames");
 const actions = require("../actions");
-const { getSource, getPause, getBreakpoints, makeLocationId } = require("../selectors");
+const { getSource, getPause, getBreakpoints } = require("../selectors");
+const { makeLocationId } = require("../reducers/breakpoints");
 const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
 
@@ -18,12 +19,11 @@ function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
     return false;
   }
 
-  const breakpointLocation = makeLocationId(breakpoint.get("location").toJS());
   const pauseLocation = makeLocationId(
     pause.getIn(["frame", "location"]).toJS()
   );
 
-  return breakpointLocation == pauseLocation;
+  return breakpoint.location == pauseLocation;
 }
 
 const Breakpoints = React.createClass({
@@ -37,27 +37,25 @@ const Breakpoints = React.createClass({
   displayName: "Breakpoints",
 
   handleCheckbox(breakpoint) {
-    const loc = breakpoint.get("location").toJS();
-
-    if (breakpoint.get("disabled")) {
-      this.props.enableBreakpoint(loc);
+    if (breakpoint.disabled) {
+      this.props.enableBreakpoint(breakpoint.location);
     } else {
-      this.props.disableBreakpoint(loc);
+      this.props.disableBreakpoint(breakpoint.location);
     }
   },
 
   selectBreakpoint(breakpoint) {
-    const sourceId = breakpoint.getIn(["location", "sourceId"]);
-    const line = breakpoint.getIn(["location", "line"]);
+    const sourceId = breakpoint.location.sourceId;
+    const line = breakpoint.location.line;
     this.props.selectSource(sourceId, { line });
   },
 
   renderBreakpoint(breakpoint) {
-    const snippet = truncateStr(breakpoint.get("text") || "", 30);
-    const locationId = breakpoint.get("locationId");
-    const line = breakpoint.getIn(["location", "line"]);
-    const isCurrentlyPaused = breakpoint.get("isCurrentlyPaused");
-    const isDisabled = breakpoint.get("disabled");
+    const snippet = truncateStr(breakpoint.text || "", 30);
+    const locationId = breakpoint.locationId;
+    const line = breakpoint.location.line;
+    const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
+    const isDisabled = breakpoint.disabled;
 
     const isPausedIcon = isCurrentlyPaused && Isvg({
       className: "pause-indicator",
@@ -81,7 +79,7 @@ const Breakpoints = React.createClass({
           onChange: () => this.handleCheckbox(breakpoint)
         }),
       dom.div(
-        { className: "breakpoint-label", title: breakpoint.get("text") },
+        { className: "breakpoint-label", title: breakpoint.text },
         `${line} ${snippet}`
       ),
       isPausedIcon
@@ -102,13 +100,16 @@ const Breakpoints = React.createClass({
 });
 
 function _getBreakpoints(state) {
-  return getBreakpoints(state).map(breakpoint => {
-    const source = getSource(state, breakpoint.getIn(["location", "sourceId"]));
-    const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, breakpoint);
-    const locationId = makeLocationId(breakpoint.get("location").toJS());
-    return breakpoint.setIn(["location", "source"], source)
-                     .set("locationId", locationId)
-                     .set("isCurrentlyPaused", isCurrentlyPaused);
+  return getBreakpoints(state).map(bp => {
+    const source = getSource(state, bp.location.sourceId);
+    const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, bp);
+    const locationId = makeLocationId(bp.location);
+
+    bp = Object.assign({}, bp);
+    bp.location.source = source;
+    bp.locationId = locationId;
+    bp.isCurrentlyPaused = isCurrentlyPaused;
+    return bp;
   });
 }
 

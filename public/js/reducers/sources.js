@@ -19,10 +19,10 @@ export type SourcesState = {
 };
 
 const State = makeRecord(({
-  sources: I.Map({}),
+  sources: I.Map(),
   selectedSource: undefined,
-  sourcesText: I.Map({}),
-  sourceMaps: I.Map({}),
+  sourcesText: I.Map(),
+  sourceMaps: I.Map(),
   tabs: I.List([])
 } : SourcesState));
 

@@ -10,7 +10,7 @@ function dehydrate(jsState) {
       sourcesText: fromJS(jsState.sources.sourcesText),
       tabs: fromJS(jsState.sources.tabs)
     }),
-    breakpoints: fromJS(jsState.breakpoints),
+    breakpoints: I.Map(jsState.breakpoints),
     eventListeners: fromJS(jsState.eventListeners),
     pause: jsState.pause ? I.Map({
       pause: fromJS(jsState.pause.pause),

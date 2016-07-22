@@ -5,6 +5,7 @@ import type { SourcesState } from "./reducers/sources";
 import type { Location } from "./actions/types";
 
 const sources = require("./reducers/sources");
+const breakpoints = require("./reducers/breakpoints");
 
 type AppState = {
   sources: Record<SourcesState>,
@@ -15,20 +16,6 @@ type AppState = {
 const { isGenerated, getGeneratedSourceLocation, getOriginalSourceUrls,
         isOriginal, getOriginalSourcePosition, getGeneratedSourceId
       } = require("./utils/source-map");
-
-function getBreakpoint(state: AppState, location: Location) {
-  return state.breakpoints.getIn(["breakpoints", makeLocationId(location)]);
-}
-
-function getBreakpoints(state: AppState) {
-  return state.breakpoints.get("breakpoints");
-}
-
-function getBreakpointsForSource(state: AppState, sourceId: string) {
-  return state.breakpoints.get("breakpoints").filter(bp => {
-    return bp.getIn(["location", "sourceId"]) === sourceId;
-  });
-}
 
 function getTabs(state: AppState) {
   return state.tabs.get("tabs");
@@ -123,9 +110,6 @@ function getOriginalSources(state: AppState, source: any) {
 /**
  * @param object - location
  */
-function makeLocationId(location: Location) {
-  return location.sourceId + ":" + location.line.toString();
-}
 
 module.exports = {
   getSource: sources.getSource,
@@ -143,15 +127,15 @@ module.exports = {
   getOriginalSources,
   getSourceMapURL,
 
-  getBreakpoint,
-  getBreakpoints,
-  getBreakpointsForSource,
+  getBreakpoint: breakpoints.getBreakpoint,
+  getBreakpoints: breakpoints.getBreakpoints,
+  getBreakpointsForSource: breakpoints.getBreakpointsForSource,
+
   getTabs,
   getSelectedTab,
   getPause,
   getLoadedObjects,
   getIsWaitingOnBreak,
   getFrames,
-  getSelectedFrame,
-  makeLocationId
+  getSelectedFrame
 };

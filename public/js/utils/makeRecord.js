@@ -13,6 +13,8 @@ export type Record<T: Object> = {
   setIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>;
   merge(values: $Shape<T>): Record<T>;
   mergeIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>;
+  delete<A>(key: $Keys<T>, value: A): Record<T>;
+  deleteIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>;
 } & T;
 
 /**
