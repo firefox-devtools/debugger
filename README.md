@@ -55,27 +55,24 @@ We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on
 [contributing]:./CONTRIBUTING.md
 [getting-started]:./CONTRIBUTING.md#getting-started
 
-[getting-started-firefox]:./CONTRIBUTING.md#getting-started-firefox
+[getting-started-firefox]:./CONTRIBUTING.md#firefox
 
-[getting-started-chrome]:./CONTRIBUTING.md#getting-started-chrome
+[getting-started-chrome]:./CONTRIBUTING.md#chrome
 
-[getting-started-node]:./CONTRIBUTING.md#getting-started-node
+[getting-started-node]:./CONTRIBUTING.md#nodejs
 
 [create-local-config]:./CONTRIBUTING.md#create-a-local-config-file
 
-[reporting-bugs]:./CONTRIBUTING.md#reporting-bugs
-[suggesting-enhancements]:./CONTRIBUTING.md#suggesting-enhancements
+[reporting-bugs]:./CONTRIBUTING.md#reporting-bugs-bug
+[suggesting-enhancements]:./CONTRIBUTING.md#suggesting-enhancements-new
 [your-first-code-contribution]:./CONTRIBUTING.md#your-first-code-contribution
 [pull-requests]:./CONTRIBUTING.md#pull-requests
-[writing-code]:./CONTRIBUTING.md#writing-code
-[hot-reloading]:./CONTRIBUTING.md#hot-reloading
+[writing-code]:./CONTRIBUTING.md#writing-code-computer
+[hot-reloading]:./CONTRIBUTING.md#hot-reloading-fire
 [tests]:./CONTRIBUTING.md#tests
 [unit-tests]:./CONTRIBUTING.md#unit-tests
 [integration-tests]:./CONTRIBUTING.md#integration-tests
 [linting]:./CONTRIBUTING.md#linting
 [storybook]:./CONTRIBUTING.md#storybook
-
-[docs-remote-debug-commands-firefox]:./docs/remote-debug-commands.md#firefox
-[docs-remote-debug-commands-chrome]:./docs/remote-debug-commands.md#chrome
 
 [irc-devtools-html]:irc://irc.mozilla.org/devtools-html

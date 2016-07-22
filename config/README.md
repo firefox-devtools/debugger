@@ -21,6 +21,6 @@ All default config values are in [`config/development.json`](./development.json)
 
 To override any of the default configuration values above you need to create a new file in the config directory called `local.json`; it is easiest if you copy the `development.json` file.
 
-* Copy the [`config/development.json`](./config/development.json) to `config/local.json`
+* Copy the [`config/development.json`](./development.json) to `config/local.json`
 
 > The `local.json` will be ignored by git so any changes you make won't be published, only make changes to the `development.json` file when related to features removed or added to the project.
