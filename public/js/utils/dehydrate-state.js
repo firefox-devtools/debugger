@@ -1,6 +1,7 @@
 const I = require("immutable");
 const { fromJS } = I;
 const SourcesState = require("../reducers/sources").State;
+const BreakpointsState = require("../reducers/breakpoints").State;
 
 function dehydrate(jsState) {
   return {
@@ -10,7 +11,9 @@ function dehydrate(jsState) {
       sourcesText: fromJS(jsState.sources.sourcesText),
       tabs: fromJS(jsState.sources.tabs)
     }),
-    breakpoints: fromJS(jsState.breakpoints),
+    breakpoints: jsState.breakpoints ? BreakpointsState({
+      breakpoints: I.Map(jsState.breakpoints.breakpoints)
+    }) : null,
     eventListeners: fromJS(jsState.eventListeners),
     pause: jsState.pause ? I.Map({
       pause: fromJS(jsState.pause.pause),

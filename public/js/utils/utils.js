@@ -1,3 +1,4 @@
+// @flow
 /* -*- indent-tabs-mode: nil; js-indent-level: 2 -*- */
 /* vim: set ft=javascript ts=2 et sw=2 tw=80: */
 /* This Source Code Form is subject to the terms of the Mozilla Public
@@ -7,7 +8,7 @@
 const co = require("co");
 const { isDevelopment } = require("../feature");
 
-function asPaused(client, func) {
+function asPaused(client: any, func: any) {
   if (client.state != "paused") {
     return co(function* () {
       yield client.interrupt();
@@ -29,11 +30,11 @@ function asPaused(client, func) {
   return func();
 }
 
-function handleError(err) {
+function handleError(err: any) {
   console.log("ERROR: ", err);
 }
 
-function promisify(context, method, ...args) {
+function promisify(context: any, method: any, ...args: any) {
   return new Promise((resolve, reject) => {
     args.push(response => {
       if (response.error) {
@@ -46,14 +47,14 @@ function promisify(context, method, ...args) {
   });
 }
 
-function truncateStr(str, size) {
+function truncateStr(str: any, size: any) {
   if (str.length > size) {
     return str.slice(0, size) + "...";
   }
   return str;
 }
 
-function endTruncateStr(str, size) {
+function endTruncateStr(str: any, size: any) {
   if (str.length > size) {
     return "..." + str.slice(str.length - size);
   }
@@ -70,7 +71,7 @@ function endTruncateStr(str, size) {
  * @returns Array
  *          The combined array, in the form [a1, b1, a2, b2, ...]
  */
-function zip(a, b) {
+function zip(a: any, b: any) {
   if (!b) {
     return a;
   }
@@ -94,11 +95,11 @@ function zip(a, b) {
  * @param object obj
  * @returns array
  */
-function entries(obj) {
+function entries(obj: any) {
   return Object.keys(obj).map(k => [k, obj[k]]);
 }
 
-function mapObject(obj, iteratee) {
+function mapObject(obj: any, iteratee: any) {
   return toObject(entries(obj).map(([key, value]) => {
     return [key, iteratee(key, value)];
   }));
@@ -108,7 +109,7 @@ function mapObject(obj, iteratee) {
  * Takes an array of 2-element arrays as key/values pairs and
  * constructs an object using them.
  */
-function toObject(arr) {
+function toObject(arr: any) {
   const obj = {};
   for (let pair of arr) {
     obj[pair[0]] = pair[1];
@@ -125,8 +126,8 @@ function toObject(arr) {
  * @param ...function funcs
  * @returns function
  */
-function compose(...funcs) {
-  return (...args) => {
+function compose(...funcs: any) {
+  return (...args: any) => {
     const initialValue = funcs[funcs.length - 1].apply(null, args);
     const leftFuncs = funcs.slice(0, -1);
     return leftFuncs.reduceRight((composed, f) => f(composed),
@@ -142,6 +143,10 @@ function log() {
   console.log.apply(console, ["[log]", ...arguments]);
 }
 
+function updateObj<T>(obj: T, fields: $Shape<T>) : T {
+  return Object.assign({}, obj, fields);
+}
+
 module.exports = {
   asPaused,
   handleError,
@@ -153,5 +158,6 @@ module.exports = {
   toObject,
   mapObject,
   compose,
-  log
+  log,
+  updateObj
 };

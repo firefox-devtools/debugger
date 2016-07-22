@@ -2,6 +2,21 @@
 
 export type AsyncStatus = "start" | "done" | "error";
 
+export type Location = {
+  sourceId: string,
+  line: number,
+  column?: number
+};
+
+export type Breakpoint = {
+  id: string,
+  location: Location,
+  loading: boolean,
+  disabled: boolean,
+  text: string,
+  condition: ?string
+};
+
 export type Source = {
   id: string,
   url?: string,
@@ -12,19 +27,30 @@ export type SourceText = {
   id: string,
   text: string,
   contentType: string
-}
+};
 
-export type Location = {
-  sourceId: string,
-  line: number,
-  column?: number
-}
+type BreakpointAction =
+  { type: "ADD_BREAKPOINT",
+    breakpoint: Breakpoint,
+    condition: string,
+    status: AsyncStatus,
+    error: string,
+    value: { actualLocation: Location, id: string, text: string } }
+  | { type: "REMOVE_BREAKPOINT",
+      breakpoint: Breakpoint,
+      status: AsyncStatus,
+      error: string,
+      disabled: boolean }
+  | { type: "SET_BREAKPOINT_CONDITION",
+      breakpoint: Breakpoint,
+      condition: string,
+      status: AsyncStatus,
+      error: string };
 
-export type Action =
+type SourceAction =
   { type: "ADD_SOURCE", source: Source }
   | { type: "ADD_SOURCES", sources: Array<Source> }
   | { type: "SELECT_SOURCE", source: Source, options: { position?: number } }
-  | { type: "CLOSE_TAB", id: string }
   | { type: "LOAD_SOURCE_TEXT",
       generatedSource: Source,
       originalSources: Array<Source>,
@@ -46,4 +72,9 @@ export type Action =
       value: { isPrettyPrinted: boolean,
                text: string,
                contentType: string }}
+  | { type: "CLOSE_TAB", id: string };
+
+export type Action =
+  SourceAction
+  | BreakpointAction
   | { type: "NAVIGATE" };

@@ -9,9 +9,9 @@ const { isFirefox } = require("../feature");
 
 const {
   getSourceText, getBreakpointsForSource,
-  getSelectedSource, getSelectedFrame,
-  makeLocationId
+  getSelectedSource, getSelectedFrame
 } = require("../selectors");
+const { makeLocationId } = require("../reducers/breakpoints");
 const actions = require("../actions");
 const { alignLine, onWheel, resizeBreakpointGutter } = require("../utils/editor");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
@@ -65,7 +65,7 @@ const Editor = React.createClass({
 
   onGutterClick(cm, line, gutter, ev) {
     const bp = this.props.breakpoints.find(b => {
-      return b.getIn(["location", "line"]) === line + 1;
+      return b.location.line === line + 1;
     });
 
     if (bp) {
@@ -140,7 +140,7 @@ const Editor = React.createClass({
 
   render() {
     const breakpoints = this.props.breakpoints.valueSeq()
-          .filter(bp => !bp.get("disabled"));
+          .filter(bp => !bp.disabled);
 
     return (
       dom.div(
@@ -151,7 +151,7 @@ const Editor = React.createClass({
         }),
         breakpoints.map(bp => {
           return Breakpoint({
-            key: makeLocationId(bp.get("location").toJS()),
+            key: makeLocationId(bp.location),
             breakpoint: bp,
             editor: this.editor
           });

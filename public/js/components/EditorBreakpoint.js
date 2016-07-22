@@ -1,5 +1,4 @@
 const React = require("react");
-const ImPropTypes = require("react-immutable-proptypes");
 const { PropTypes } = React;
 
 function makeMarker() {
@@ -21,7 +20,7 @@ function makeMarker() {
 
 const Breakpoint = React.createClass({
   propTypes: {
-    breakpoint: ImPropTypes.map,
+    breakpoint: PropTypes.object,
     editor: PropTypes.object
   },
 
@@ -29,7 +28,7 @@ const Breakpoint = React.createClass({
 
   componentWillMount: function() {
     const bp = this.props.breakpoint;
-    const line = bp.getIn(["location", "line"]) - 1;
+    const line = bp.location.line - 1;
 
     this.props.editor.setGutterMarker(line, "breakpoints", makeMarker());
     this.props.editor.addLineClass(line, "line", "breakpoint");
@@ -37,7 +36,7 @@ const Breakpoint = React.createClass({
 
   componentWillUnmount: function() {
     const bp = this.props.breakpoint;
-    const line = bp.getIn(["location", "line"]) - 1;
+    const line = bp.location.line - 1;
 
     this.props.editor.setGutterMarker(line, "breakpoints", null);
     this.props.editor.removeLineClass(line, "line", "breakpoint");
