@@ -42,7 +42,8 @@ function Tabs({ tabs }) {
     return dom.div(
       { className: "not-connected-message" },
       "No remote tabs found. You may be looking to ",
-      dom.a({ href: "/?ws=localhost:5858/node" }, "connect to Node"),
+      dom.a({ href: `/?ws=${document.location.hostname}:9229/node` },
+        "connect to Node"),
       "."
     );
   }
@@ -54,7 +55,7 @@ function Tabs({ tabs }) {
     dom.div(
       { className: "node-message" },
       "You can also ",
-      dom.a({ href: "/?ws=localhost:9229/node" },
+      dom.a({ href: `/?ws=${document.location.hostname}:9229/node` },
             "connect to Node"),
       "."
     )
