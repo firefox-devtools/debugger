@@ -68,13 +68,13 @@ For users with a 64 bit machine Firefox may have installed in the: `C:\Program F
 ##### Firefox (all versions)
 
 ```
-$ C:\Program Files\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -P development
+$ "C:\Program Files\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -P development
 ```
 
 ##### Firefox (64 bit)
 
 ```
-$ C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -P development
+$ "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -P development
 ```
 
 
