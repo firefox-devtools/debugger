@@ -34,6 +34,9 @@ module.exports = function(config) {
       "./public/js/**/tests/*": ["webpack"]
     },
 
-    webpack: webpackConfig
+    webpack: webpackConfig,
+    webpackMiddleware: {
+      noInfo: true
+    }
   });
 };
