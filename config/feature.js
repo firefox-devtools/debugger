@@ -20,7 +20,7 @@ function isDevelopment() {
 }
 
 function isFirefoxPanel() {
-  return DebuggerTarget == "firefox-proxy";
+  return DebuggerTarget == "firefox-panel";
 }
 
 function isFirefox() {
