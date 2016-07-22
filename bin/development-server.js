@@ -4,13 +4,11 @@
 require("babel-register");
 
 const path = require("path");
-const fs = require("fs");
 const webpack = require("webpack");
 const express = require("express");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const http = require("http");
-const _ = require("lodash");
 
 // Setup Config
 const getConfig = require("../config/config").getConfig;
@@ -25,13 +23,11 @@ if (!feature.isEnabled("firefox.webSocketConnection")) {
 
 function httpGet(url, onResponse) {
   return http.get(url, (response) => {
-    let body = '';
-    response.on('data', function(d) {
+    let body = "";
+    response.on("data", function(d) {
       body += d;
     });
-    response.on('end', function() {
-      onResponse(body);
-    });
+    response.on("end", () => onResponse(body));
   });
 }
 
@@ -47,12 +43,14 @@ app.use(webpackDevMiddleware(compiler, {
   stats: { colors: true }
 }));
 
-if(feature.isEnabled("hotReloading")) {
+if (feature.isEnabled("hotReloading")) {
   app.use(webpackHotMiddleware(compiler));
+} else {
+  console.log("Hot Reloading can be enabled by adding " +
+  "\"hotReloading\": true to your local.json config");
 }
 
 // Static middleware
-
 app.use(express.static("public/js/test/examples"));
 app.use(express.static("public"));
 
@@ -67,13 +65,11 @@ app.get("/get", function(req, res) {
     body => res.json(JSON.parse(body))
   );
 
-  httpReq.on('error', function (err) {
-    res.status(500).send(err.code);
-  });
-})
+  httpReq.on("error", err => res.status(500).send(err.code));
+});
 
 // Listen
-app.listen(8000, "localhost", function(err, result) {
+app.listen(8000, "0.0.0.0", function(err, result) {
   if (err) {
     console.log(err);
   }
