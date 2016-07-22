@@ -38,7 +38,6 @@ function getURL(source) {
   }
 
   let urlObj = URL.parse(url);
-
   if (!urlObj.protocol && urlObj.pathname[0] === "/") {
     // If it's just a URL like "/foo/bar.js", resolve it to the file
     // protocol
@@ -59,11 +58,16 @@ function getURL(source) {
       path: "/",
       group: url
     };
+  } else if (urlObj.protocol === "http:" || urlObj.protocol === "https:") {
+    return {
+      path: urlObj.pathname,
+      group: urlObj.host
+    };
   }
 
   return {
-    path: urlObj.pathname,
-    group: urlObj.protocol === "file:" ? "file://" : urlObj.host
+    path: urlObj.path,
+    group: urlObj.protocol + "//"
   };
 }
 
@@ -72,6 +76,7 @@ function addToTree(tree, source) {
   if (!url) {
     return;
   }
+  url.path = decodeURIComponent(url.path);
 
   const parts = url.path.split("/").filter(p => p !== "");
   const isDir = (parts.length === 0 ||

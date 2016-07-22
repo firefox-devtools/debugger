@@ -180,4 +180,48 @@ describe("sources-tree", () => {
     expect(abcdeNode.name).to.be("e.js");
     expect(abcdeNode.path).to.be("/example.com/a/b/c/d/e.js");
   });
+
+  it("correctly parses webpack sources correctly", () => {
+    const source = Map({
+      url: "webpack:///a/b.js",
+      actor: "actor1"
+    });
+    const tree = createNode("root", "", []);
+
+    addToTree(tree, source);
+    expect(tree.contents.length).to.be(1);
+
+    let base = tree.contents[0];
+    expect(base.name).to.be("webpack://");
+    expect(base.contents.length).to.be(1);
+
+    const aNode = base.contents[0];
+    expect(aNode.name).to.be("a");
+    expect(aNode.contents.length).to.be(1);
+
+    const bNode = aNode.contents[0];
+    expect(bNode.name).to.be("b.js");
+  });
+
+  it("correctly parses file sources correctly", () => {
+    const source = Map({
+      url: "file:///a/b.js",
+      actor: "actor1"
+    });
+    const tree = createNode("root", "", []);
+
+    addToTree(tree, source);
+    expect(tree.contents.length).to.be(1);
+
+    let base = tree.contents[0];
+    expect(base.name).to.be("file://");
+    expect(base.contents.length).to.be(1);
+
+    const aNode = base.contents[0];
+    expect(aNode.name).to.be("a");
+    expect(aNode.contents.length).to.be(1);
+
+    const bNode = aNode.contents[0];
+    expect(bNode.name).to.be("b.js");
+  });
 });
