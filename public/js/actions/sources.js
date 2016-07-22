@@ -7,14 +7,14 @@ const { PROMISE } = require("../utils/redux/middleware/promise");
 const { Task } = require("../utils/task");
 const { isJavaScript } = require("../utils/source");
 const { networkRequest } = require("../utils/networkRequest");
+const { workerTask } = require("../utils/utils");
 
 const constants = require("../constants");
-const Prefs = require("../prefs");
 const invariant = require("invariant");
 const { isEnabled } = require("../feature");
 
-const { createOriginalSources, getOriginalTexts
-      } = require("../utils/source-map");
+const { createOriginalSources, getOriginalTexts,
+        createSourceMap } = require("../utils/source-map");
 
 const { getSource, getSourceText, getSourceByURL, getGeneratedSource,
         getSourceMap, getSourceMapURL, getOriginalSources
@@ -25,6 +25,7 @@ const { getSource, getSourceText, getSourceByURL, getGeneratedSource,
  */
 let newSources = [];
 let newSourceTimeout;
+
 function _queueSourcesDispatch(dispatch) {
   if (!newSourceTimeout) {
     // Even just batching every 10ms works because we just want to
@@ -175,9 +176,14 @@ function togglePrettyPrint(id) {
       [PROMISE]: Task.spawn(function* () {
         let response;
 
+        if (!isEnabled("features.prettyPrint")) {
+          return {};
+        }
+
         // Only attempt to pretty print JavaScript sources.
         const sourceText = getSourceText(getState(), source.id).toJS();
         const contentType = sourceText ? sourceText.contentType : null;
+        const indent = 2;
 
         invariant(
           isJavaScript(source.url, contentType),
@@ -185,11 +191,25 @@ function togglePrettyPrint(id) {
         );
 
         if (wantPretty) {
-          response = yield client.prettyPrint(source.id, Prefs.editorTabSize);
-        } else {
-          response = yield client.disablePrettyPrint(source.id);
-        }
+          // promisify it
+          // also save the source text with isPromissed so it's easy to cache
 
+          const { code, mappings } = yield workerTask(
+            new Worker("js/utils/pretty-print-worker.js"),
+            {
+              url: source.url,
+              indent,
+              source: sourceText.text
+            }
+          );
+
+          const sourceMap = createSourceMap({
+            source,
+            mappings,
+            code
+          });
+          console.log(sourceMap);
+        }
         // Remove the cached source AST from the Parser, to avoid getting
         // wrong locations when searching for functions.
         // TODO: add Parser dependency

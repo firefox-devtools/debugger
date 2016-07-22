@@ -6,7 +6,8 @@
   },
   "features": {
     "tabs": true,
-    "sourceMaps": true
+    "sourceMaps": true,
+    "prettyPrint": false
   },
   "chrome": {
     "debug": false,
