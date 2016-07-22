@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-const minimist = require('minimist');
+const minimist = require("minimist");
 const ws = require("ws");
 const net = require("net");
 
@@ -9,7 +9,8 @@ function proxy(webSocketPort, tcpPort, logging) {
   console.log("Listening for WS on *:" + webSocketPort);
   console.log("Will proxy to TCP on *:" + tcpPort + " on first WS connection");
   if (!logging) {
-    console.log("Protocol messages can be logged by enabling logging.firefoxProtocol in your local.json config");
+    console.log("Protocol messages can be logged by enabling " +
+    "logging.firefoxProtocol in your local.json config");
   }
   let wsServer = new ws.Server({ port: webSocketPort });
   wsServer.on("connection", function onConnection(wsConnection) {
@@ -56,12 +57,11 @@ function proxy(webSocketPort, tcpPort, logging) {
   });
 }
 
-
 const args = minimist(process.argv.slice(2));
 
-const WEB_SOCKET_PORT = args['web-socket-port'] || 9000;
-const TCP_PORT = args['tcp-port'] || 6080;
-const shouldStart = args['start'];
+const WEB_SOCKET_PORT = args["web-socket-port"] || 9000;
+const TCP_PORT = args["tcp-port"] || 6080;
+const shouldStart = args.start;
 
 function start(options) {
   const webSocketPort = options.webSocketPort || 9000;
