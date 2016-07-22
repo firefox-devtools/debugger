@@ -7,8 +7,8 @@ We respect your time and want to help you make the most of it as you learn more 
 #### Table Of Contents
 
 [What should I know before I get started?](#what-should-i-know-before-i-get-started)
-  * [debugger.html](#debugger.html)
-  * [devtools.html](#devtools.html)
+  * [debugger.html](#debuggerhtml)
+  * [devtools.html](#devtoolshtml)
   * [Firefox Developer Tools](#firefox-developer-tools)
 
 [Getting Started](#getting-started)
@@ -16,13 +16,13 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Debuggable Targets](#debuggable-targets)
     * [Firefox Remote Debugging](#firefox)
     * [Chrome Remote Debugging](#chrome)
-    * [Node.js Remote Debugging](#node-js)
+    * [Node.js Remote Debugging](#nodejs)
 
 [How Can I Contribute?](#how-can-i-contribute)
-  * [Reporting Bugs](#reporting-bugs)
-  * [Suggesting Enhancements](#suggesting-enhancements)
-  * [Writing Documentation](#writing-documentation)
-  * [Writing Code](#writing-code)
+  * [Reporting Bugs](#reporting-bugs-bug)
+  * [Suggesting Enhancements](#suggesting-enhancements-new)
+  * [Writing Documentation](#writing-documentation-book)
+  * [Writing Code](#writing-code-computer)
     * [Your First Code Contribution](#your-first-code-contribution)
     * [Pull Requests](#pull-requests)
     * [Hot Reloading](#hot-reloading-fire)
