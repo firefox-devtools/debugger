@@ -74,7 +74,7 @@ if (isDevelopment()) {
     ]);
 
     webpackConfig.module.loaders.forEach(spec => {
-      if(spec.isJavaScriptLoader) {
+      if (spec.isJavaScriptLoader) {
         spec.loaders.unshift("react-hot");
       }
     });
@@ -93,7 +93,7 @@ if (isDevelopment()) {
 // destructuring params https://github.com/jlongster/debugger.html/issues/67
 if (isEnabled("transformParameters")) {
   webpackConfig.module.loaders.forEach(spec => {
-    if(spec.isJavaScriptLoader) {
+    if (spec.isJavaScriptLoader) {
       const idx = spec.loaders.findIndex(loader => loader.includes("babel"));
       spec.loaders[idx] += "&plugins[]=transform-es2015-parameters";
     }

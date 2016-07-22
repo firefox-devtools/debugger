@@ -7,6 +7,7 @@
 
 const co = require("co");
 const { isDevelopment } = require("../feature");
+const defer = require("./defer");
 
 function asPaused(client: any, func: any) {
   if (client.state != "paused") {
@@ -59,6 +60,20 @@ function endTruncateStr(str: any, size: any) {
     return "..." + str.slice(str.length - size);
   }
   return str;
+}
+
+function workerTask(worker, message) {
+  let deferred = defer();
+  worker.postMessage(message);
+  worker.onmessage = function(result) {
+    if (result.error) {
+      deferred.reject(result.error);
+    }
+
+    deferred.resolve(result.data);
+  };
+
+  return deferred.promise;
 }
 
 /**
@@ -153,6 +168,7 @@ module.exports = {
   promisify,
   truncateStr,
   endTruncateStr,
+  workerTask,
   zip,
   entries,
   toObject,

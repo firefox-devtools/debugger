@@ -1,7 +1,7 @@
 const invariant = require("invariant");
 const toPairs = require("lodash/toPairs");
 const includes = require("lodash/includes");
-const { SourceMapConsumer, SourceNode } = require("source-map");
+const { SourceMapConsumer, SourceNode, SourceMapGenerator } = require("source-map");
 const { Source } = require("../types");
 
 let sourceMapConsumers = new Map();
@@ -114,6 +114,16 @@ function createOriginalSources(generatedSource, sourceMap) {
     }));
 }
 
+function createSourceMap({ source, mappings, code }) {
+  const generator = new SourceMapGenerator({ file: source.url });
+  mappings.forEach(mapping => generator.addMapping(mapping));
+  generator.setSourceContent(source.url, code);
+
+  let consumer = SourceMapConsumer.fromSourceMap(generator);
+  _setConsumer(source, consumer);
+  return generator.toJSON();
+}
+
 module.exports = {
   getOriginalSourcePosition,
   getGeneratedSourceLocation,
@@ -122,5 +132,6 @@ module.exports = {
   getOriginalTexts,
   isOriginal,
   isGenerated,
-  getGeneratedSourceId
+  getGeneratedSourceId,
+  createSourceMap
 };
