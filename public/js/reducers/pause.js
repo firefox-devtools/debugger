@@ -10,7 +10,8 @@ const initialState = fromJS({
   isWaitingOnBreak: false,
   frames: null,
   selectedFrame: null,
-  loadedObjects: {}
+  loadedObjects: {},
+  shouldPauseOnExceptions: false
 });
 
 function update(state = initialState, action, emit) {
@@ -54,6 +55,10 @@ function update(state = initialState, action, emit) {
 
     case constants.NAVIGATE:
       return initialState;
+
+    case constants.PAUSE_ON_EXCEPTIONS:
+      const toggle = action.toggle;
+      return state.set("shouldPauseOnExceptions", toggle);
   }
 
   return state;

@@ -11,7 +11,8 @@ type AppState = {
   breakpoints: any,
   tabs: any,
   pause: any
-}
+};
+
 const { isGenerated, getGeneratedSourceLocation, getOriginalSourceUrls,
         isOriginal, getOriginalSourcePosition, getGeneratedSourceId
       } = require("./utils/source-map");
@@ -48,6 +49,10 @@ function getLoadedObjects(state: AppState) {
 
 function getIsWaitingOnBreak(state: AppState) {
   return state.pause.get("isWaitingOnBreak");
+}
+
+function getShouldPauseOnExceptions(state: AppState) {
+  return state.pause.get("shouldPauseOnExceptions");
 }
 
 function getFrames(state: AppState) {
@@ -151,6 +156,7 @@ module.exports = {
   getPause,
   getLoadedObjects,
   getIsWaitingOnBreak,
+  getShouldPauseOnExceptions,
   getFrames,
   getSelectedFrame,
   makeLocationId
