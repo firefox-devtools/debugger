@@ -45,7 +45,9 @@ let webpackConfig = {
             "&ignore=public/js/lib"
         ],
         isJavaScriptLoader: true
-      }
+      },
+      { test: /\.svg$/,
+        loader: "svg-inline" }
     ]
   },
   plugins: [
