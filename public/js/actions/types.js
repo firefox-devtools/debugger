@@ -17,16 +17,17 @@ export type Breakpoint = {
   condition: ?string
 };
 
-export type Source = {
-  id: string,
-  url?: string,
-  sourceMapURL?: string
-};
-
 export type SourceText = {
   id: string,
   text: string,
   contentType: string
+};
+
+export type Source = {
+  id: string,
+  url?: string,
+  sourceMapURL?: string,
+  text?: SourceText
 };
 
 type BreakpointAction =

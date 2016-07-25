@@ -8,11 +8,17 @@ const Tab = t.struct({
   browser: t.enums.of(["chrome", "firefox"])
 }, "Tab");
 
+const SourceText = t.struct({
+  text: t.String,
+  contentType: t.String
+});
+
 const Source = t.struct({
   id: t.String,
   url: t.union([t.String, t.Nil]),
   isPrettyPrinted: t.Boolean,
-  sourceMapURL: t.union([t.String, t.Nil])
+  sourceMapURL: t.union([t.String, t.Nil]),
+  text: t.maybe(SourceText)
 }, "Source");
 
 const Location = t.struct({
@@ -44,6 +50,7 @@ const Frame = t.struct({
 module.exports = {
   Tab,
   Source,
+  SourceText,
   Location,
   Breakpoint,
   BreakpointResult,

@@ -2,7 +2,6 @@ const invariant = require("invariant");
 const toPairs = require("lodash/toPairs");
 const includes = require("lodash/includes");
 const { SourceMapConsumer, SourceNode, SourceMapGenerator } = require("source-map");
-const { Source } = require("../types");
 
 let sourceMapConsumers = new Map();
 let sourceNodes = new Map();
@@ -66,7 +65,8 @@ function getGeneratedSourceLocation(originalSource, originalLocation) {
 
   return {
     sourceId: generatedSourceId,
-    line: generatedLocation.line
+    line: generatedLocation.line,
+    column: generatedLocation.column
   };
 }
 
@@ -92,12 +92,13 @@ function getOriginalSourcePosition(generatedSource, location) {
   const consumer = _getConsumer(generatedSource.id);
   const position = consumer.originalPositionFor({
     line: location.line,
-    column: 0
+    column: location.column
   });
 
   return {
     url: position.source,
-    line: position.line
+    line: position.line,
+    column: 0
   };
 }
 
@@ -107,11 +108,21 @@ function createOriginalSources(generatedSource, sourceMap) {
   }
 
   return getOriginalSourceUrls(generatedSource)
-    .map((source, index) => Source({
-      url: source,
-      id: generatedSource.id + "/" + index,
-      isPrettyPrinted: false
+    .map((url, index) => makeOriginalSource({
+      generatedSource,
+      url,
+      id: index
     }));
+}
+
+function makeOriginalSource({ url, generatedSource, id = 1, text = null }) {
+  const generatedSourceId = generatedSource.id;
+  return {
+    url,
+    text,
+    id: JSON.stringify({ generatedSourceId, id }),
+    isPrettyPrinted: false
+  };
 }
 
 function createSourceMap({ source, mappings, code }) {
@@ -119,8 +130,7 @@ function createSourceMap({ source, mappings, code }) {
   mappings.forEach(mapping => generator.addMapping(mapping));
   generator.setSourceContent(source.url, code);
 
-  let consumer = SourceMapConsumer.fromSourceMap(generator);
-  _setConsumer(source, consumer);
+  _setConsumer(source, generator.toJSON());
   return generator.toJSON();
 }
 
@@ -133,5 +143,6 @@ module.exports = {
   isOriginal,
   isGenerated,
   getGeneratedSourceId,
-  createSourceMap
+  createSourceMap,
+  makeOriginalSource
 };

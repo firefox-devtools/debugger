@@ -14,7 +14,7 @@ const invariant = require("invariant");
 const { isEnabled } = require("../feature");
 
 const { createOriginalSources, getOriginalTexts,
-        createSourceMap } = require("../utils/source-map");
+        createSourceMap, makeOriginalSource } = require("../utils/source-map");
 
 const { getSource, getSourceText, getSourceByURL, getGeneratedSource,
         getSourceMap, getSourceMapURL, getOriginalSources
@@ -56,6 +56,47 @@ function _getOriginalSourceTexts(state, generatedSource, generatedText) {
     const contentType = "text/javascript";
     return { text, id, contentType };
   });
+}
+
+function _addSource(source) {
+  return {
+    type: constants.ADD_SOURCE,
+    source
+  };
+}
+
+async function _prettyPrintSource({ source, sourceText }) {
+  if (!isEnabled("features.prettyPrint")) {
+    return {};
+  }
+
+  const contentType = sourceText ? sourceText.contentType : null;
+  const indent = 2;
+  const url = source.url + ":formatted";
+
+  invariant(
+    isJavaScript(source.url, contentType),
+    "Can't prettify non-javascript files."
+  );
+
+  const { code, mappings } = await workerTask(
+    new Worker("js/utils/pretty-print-worker.js"),
+    {
+      url,
+      indent,
+      source: sourceText.text
+    }
+  );
+
+  let originalSource = makeOriginalSource({
+    url,
+    generatedSource: source,
+    text: { text: code, contentType }
+  });
+
+  createSourceMap({ source, mappings, code });
+
+  return originalSource;
 }
 
 /**
@@ -168,59 +209,24 @@ function blackbox(source, shouldBlackBox) {
 function togglePrettyPrint(id) {
   return ({ dispatch, getState, client }) => {
     const source = getSource(getState(), id).toJS();
-    const wantPretty = !source.isPrettyPrinted;
+
+    if (source.isPrettyPrinted) {
+      return {};
+    }
 
     return dispatch({
       type: constants.TOGGLE_PRETTY_PRINT,
       source: source,
-      [PROMISE]: Task.spawn(function* () {
-        let response;
-
-        if (!isEnabled("features.prettyPrint")) {
-          return {};
-        }
-
-        // Only attempt to pretty print JavaScript sources.
+      [PROMISE]: (async function () {
         const sourceText = getSourceText(getState(), source.id).toJS();
-        const contentType = sourceText ? sourceText.contentType : null;
-        const indent = 2;
-
-        invariant(
-          isJavaScript(source.url, contentType),
-          "Can't prettify non-javascript files."
-        );
-
-        if (wantPretty) {
-          // promisify it
-          // also save the source text with isPromissed so it's easy to cache
-
-          const { code, mappings } = yield workerTask(
-            new Worker("js/utils/pretty-print-worker.js"),
-            {
-              url: source.url,
-              indent,
-              source: sourceText.text
-            }
-          );
-
-          const sourceMap = createSourceMap({
-            source,
-            mappings,
-            code
-          });
-          console.log(sourceMap);
-        }
-        // Remove the cached source AST from the Parser, to avoid getting
-        // wrong locations when searching for functions.
-        // TODO: add Parser dependency
-        // DebuggerController.Parser.clearSource(source.url);
+        const originalSource = await _prettyPrintSource({ source, sourceText });
+        dispatch(_addSource(originalSource));
+        dispatch(selectSource(originalSource.id));
 
         return {
-          isPrettyPrinted: wantPretty,
-          text: response.source,
-          contentType: response.contentType
+          isPrettyPrinted: true
         };
-      })
+      })()
     });
   };
 }
