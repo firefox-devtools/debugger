@@ -24,6 +24,7 @@
     "classnames": "^2.2.5",
     "codemirror": "^5.1.0",
     "express": "^4.13.4",
+    "fuzzaldrin-plus": "^0.3.1",
     "immutable": "^3.7.6",
     "invariant": "^2.2.1",
     "lodash": "^4.13.1",
