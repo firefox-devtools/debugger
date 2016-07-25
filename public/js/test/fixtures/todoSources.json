@@ -1,0 +1,59 @@
+{
+  "sources": {
+    "base.js": {
+      "id": "base.js",
+      "url": "http://localhost:8000/todomvc/bower_components/todomvc-common/base.js",
+      "isPrettyPrinted": false
+    },
+    "jquery.js": {
+      "id": "jquery.js",
+      "url": "http://localhost:8000/todomvc/bower_components/jquery/jquery.js",
+      "isPrettyPrinted": false
+    },
+    "underscore.js": {
+      "id": "underscore.js",
+      "url": "http://localhost:8000/todomvc/bower_components/underscore/underscore.js",
+      "isPrettyPrinted": false
+    },
+    "backbone.js": {
+      "id": "backbone.js",
+      "url": "http://localhost:8000/todomvc/bower_components/backbone/backbone.js",
+      "isPrettyPrinted": false
+    },
+    "backbone.localStorage.js": {
+      "id": "backbone.localStorage.js",
+      "url": "http://localhost:8000/todomvc/bower_components/backbone.localStorage/backbone.localStorage.js",
+      "isPrettyPrinted": false
+    },
+    "todo.js": {
+      "id": "todo.js",
+      "url": "http://localhost:8000/todomvc/js/models/todo.js",
+      "isPrettyPrinted": false
+    },
+    "todos.js": {
+      "id": "todos.js",
+      "url": "http://localhost:8000/todomvc/js/collections/todos.js",
+      "isPrettyPrinted": false
+    },
+    "todo-view.js": {
+      "id": "todo-view.js",
+      "url": "http://localhost:8000/todomvc/js/views/todo-view.js",
+      "isPrettyPrinted": false
+    },
+    "app-view.js": {
+      "id": "app-view.js",
+      "url": "http://localhost:8000/todomvc/js/views/app-view.js",
+      "isPrettyPrinted": false
+    },
+    "router.js": {
+      "id": "router.js",
+      "url": "http://localhost:8000/todomvc/js/routers/router.js",
+      "isPrettyPrinted": false
+    },
+    "app.js": {
+      "id": "app.js",
+      "url": "http://localhost:8000/todomvc/js/app.js",
+      "isPrettyPrinted": false
+    }
+  }
+}
