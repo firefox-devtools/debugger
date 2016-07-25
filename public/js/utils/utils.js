@@ -62,7 +62,7 @@ function endTruncateStr(str: any, size: any) {
   return str;
 }
 
-function workerTask(worker, message) {
+function workerTask(worker: any, message: any) {
   let deferred = defer();
   worker.postMessage(message);
   worker.onmessage = function(result) {
