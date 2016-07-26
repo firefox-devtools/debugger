@@ -52,7 +52,7 @@ function connectClient() {
   const portPref = useProxy ? "firefox.proxyPort" : "firefox.webSocketPort";
   const webSocketPort = getValue(portPref);
 
-  const socket = new WebSocket(`ws://localhost:${webSocketPort}`);
+  const socket = new WebSocket(`ws://${document.location.hostname}:${webSocketPort}`);
   const transport = useProxy ?
     new DebuggerTransport(socket) : new WebSocketDebuggerTransport(socket);
   debuggerClient = new DebuggerClient(transport);
