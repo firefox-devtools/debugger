@@ -42,6 +42,23 @@ function makeLocationId(location: Location) {
 
 function update(state = State(), action: Action) {
   switch (action.type) {
+    case "PAUSED": {
+      const pause = action.pauseInfo;
+      if (pause.why.type === "debuggerStatement") {
+        const locationId = makeLocationId(pause.frame.location);
+        const frameId = pause.frame.id;
+        const bp = state.breakpoints.get(locationId) ||
+          { location: pause.frame.location, condition: undefined };
+        const text = "debugger statement";
+        return state.setIn(["breakpoints", locationId], updateObj(bp, {
+          id: frameId,
+          disabled: false,
+          loading: false,
+          text: text
+        }));
+      }
+      break;
+    }
     case "ADD_BREAKPOINT": {
       const id = makeLocationId(action.breakpoint.location);
 
