@@ -116,12 +116,13 @@ let SourcesTree = React.createClass({
     }
 
     return dom.div(
-      { className: classnames("node", { focused }),
+      {
+        className: classnames("node", { focused }),
         style: { paddingLeft: depth * 15 + "px" },
+        key: item.path,
         onClick: () => this.selectItem(item),
-        onDoubleClick: e => {
-          setExpanded(item, !expanded);
-        } },
+        onDoubleClick: e => setExpanded(item, !expanded)
+      },
       dom.div(null, arrow, icon, item.name)
     );
   },
