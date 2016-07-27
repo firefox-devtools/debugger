@@ -10,6 +10,7 @@ const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
 const Arrow = React.createFactory(require("./utils/Arrow"));
 const { Set } = require("immutable");
+const debounce = require("lodash/debounce");
 
 const ManagedTree = React.createFactory(require("./utils/ManagedTree"));
 const FolderIcon = React.createFactory(require("./utils/Icons").FolderIcon);
@@ -46,6 +47,15 @@ let SourcesTree = React.createClass({
     return createTree(this.props.sources);
   },
 
+  componentWillMount() {
+    this.debouncedUpdate = debounce(this.debouncedUpdate, 50);
+  },
+
+  shouldComponentUpdate() {
+    this.debouncedUpdate();
+    return false;
+  },
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.sources === this.props.sources) {
       return;
@@ -76,6 +86,14 @@ let SourcesTree = React.createClass({
     this.setState({ uncollapsedTree,
                     sourceTree,
                     parentMap: createParentMap(sourceTree) });
+  },
+
+  debouncedUpdate() {
+    if (!this.isMounted()) {
+      return;
+    }
+
+    this.forceUpdate();
   },
 
   focusItem(item) {
