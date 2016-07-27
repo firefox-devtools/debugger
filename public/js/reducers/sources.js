@@ -68,8 +68,8 @@ function update(state = State(), action: Action) : Record<SourcesState> {
         const { generatedSourceText, originalSourceTexts } = action.value;
         values = [generatedSourceText, ...originalSourceTexts];
       } else {
-        const { generatedSource, originalSources } = action;
-        values = [generatedSource, ...originalSources];
+        const { source } = action;
+        values = [source];
       }
 
       return _updateText(state, action, values);

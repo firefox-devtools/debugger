@@ -3,16 +3,17 @@ const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { Location, Frame } = require("../types");
 
-const { getOriginalLocation } = require("../selectors");
+const { getOriginalLocation } = require("../utils/source-map");
+const { asyncMap } = require("../utils/utils");
 
-function _updateFrame(state, frame) {
-  const originalLocation = Location(getOriginalLocation(
+async function updateFrame(state, frame) {
+  const originalLocation = await getOriginalLocation(
     state,
     frame.location
-  ));
+  );
 
   return Frame.update(frame, {
-    $merge: { location: originalLocation }
+    $merge: { location: Location(originalLocation) }
   });
 }
 
@@ -34,13 +35,18 @@ function resumed() {
 function paused(pauseInfo) {
   return ({ dispatch, getState, client }) => {
     let { frame, why } = pauseInfo;
-    frame = _updateFrame(getState(), frame);
 
-    dispatch(selectSource(frame.location.sourceId));
-
-    dispatch({
+    return dispatch({
       type: constants.PAUSED,
-      pauseInfo: { frame, why }
+      [PROMISE]: (async function () {
+        frame = await updateFrame(getState(), frame);
+
+        dispatch(selectSource(frame.location.sourceId));
+
+        return {
+          pauseInfo: { frame, why }
+        };
+      })()
     });
   };
 }
@@ -57,10 +63,16 @@ function pauseOnExceptions(toggle) {
 
 function loadedFrames(frames) {
   return ({ dispatch, getState, client }) => {
-    frames = frames.map(f => _updateFrame(getState(), f));
-    dispatch({
+    return dispatch({
       type: constants.LOADED_FRAMES,
-      frames: frames
+      [PROMISE]: (async function () {
+        const updatedFrames = await asyncMap(frames, item => {
+          return updateFrame(getState(), item);
+        });
+        return {
+          frames: updatedFrames
+        };
+      })()
     });
   };
 }
