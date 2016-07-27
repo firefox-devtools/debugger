@@ -26,7 +26,8 @@ export type SourceText = {
 export type Source = {
   id: string,
   url?: string,
-  sourceMapURL?: string
+  sourceMapURL?: string,
+  text?: SourceText
 };
 
 type BreakpointAction =
@@ -67,11 +68,11 @@ type SourceAction =
       value: { isBlackBoxed: boolean }}
   | { type: "TOGGLE_PRETTY_PRINT",
       source: Source,
-      originalSource: Source,
       status: AsyncStatus,
       error: string,
       value: { isPrettyPrinted: boolean,
-               sourceText: SourceText }}
+               text: string,
+               contentType: string }}
   | { type: "CLOSE_TAB", id: string };
 
 export type Action =

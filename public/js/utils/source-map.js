@@ -109,16 +109,17 @@ function createOriginalSources(generatedSource, sourceMap) {
 
   return getOriginalSourceUrls(generatedSource)
     .map((url, index) => makeOriginalSource({
-      source: generatedSource,
+      generatedSource,
       url,
       id: index
     }));
 }
 
-function makeOriginalSource({ url, source, id = 1 }) {
-  const generatedSourceId = source.id;
+function makeOriginalSource({ url, generatedSource, id = 1, text = null }) {
+  const generatedSourceId = generatedSource.id;
   return {
     url,
+    text,
     id: JSON.stringify({ generatedSourceId, id }),
     isPrettyPrinted: false
   };

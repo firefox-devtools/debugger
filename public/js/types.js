@@ -17,7 +17,8 @@ const Source = t.struct({
   id: t.String,
   url: t.union([t.String, t.Nil]),
   isPrettyPrinted: t.Boolean,
-  sourceMapURL: t.union([t.String, t.Nil])
+  sourceMapURL: t.union([t.String, t.Nil]),
+  text: t.maybe(SourceText)
 }, "Source");
 
 const Location = t.struct({

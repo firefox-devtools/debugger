@@ -65,9 +65,14 @@ function _addSource(source) {
   };
 }
 
-async function _prettyPrintSource({ source, sourceText, url }) {
+async function _prettyPrintSource({ source, sourceText }) {
+  if (!isEnabled("features.prettyPrint")) {
+    return {};
+  }
+
   const contentType = sourceText ? sourceText.contentType : null;
   const indent = 2;
+  const url = source.url + ":formatted";
 
   invariant(
     isJavaScript(source.url, contentType),
@@ -83,9 +88,15 @@ async function _prettyPrintSource({ source, sourceText, url }) {
     }
   );
 
+  let originalSource = makeOriginalSource({
+    url,
+    generatedSource: source,
+    text: { text: code, contentType }
+  });
+
   createSourceMap({ source, mappings, code });
 
-  return code;
+  return originalSource;
 }
 
 /**
@@ -199,33 +210,21 @@ function togglePrettyPrint(id) {
   return ({ dispatch, getState, client }) => {
     const source = getSource(getState(), id).toJS();
 
-    if (!isEnabled("features.prettyPrint") || source.isPrettyPrinted) {
+    if (source.isPrettyPrinted) {
       return {};
     }
 
-    const url = source.url + ":formatted";
-    const originalSource = makeOriginalSource({ url, source });
-    dispatch(_addSource(originalSource));
-
     return dispatch({
       type: constants.TOGGLE_PRETTY_PRINT,
-      source,
-      originalSource,
+      source: source,
       [PROMISE]: (async function () {
         const sourceText = getSourceText(getState(), source.id).toJS();
-        const text = await _prettyPrintSource({ source, sourceText, url });
-
+        const originalSource = await _prettyPrintSource({ source, sourceText });
+        dispatch(_addSource(originalSource));
         dispatch(selectSource(originalSource.id));
 
-        const originalSourceText = {
-          id: originalSource.id,
-          contentType: "text/javascript",
-          text
-        };
-
         return {
-          isPrettyPrinted: true,
-          sourceText: originalSourceText
+          isPrettyPrinted: true
         };
       })()
     });
