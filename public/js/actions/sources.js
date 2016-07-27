@@ -20,25 +20,6 @@ const { getSource, getSourceText, getSourceByURL, getGeneratedSource,
         getSourceMap, getSourceMapURL, getOriginalSources
       } = require("../selectors");
 
-/**
- * Throttles source dispatching to reduce rendering churn.
- */
-let newSources = [];
-let newSourceTimeout;
-
-function _queueSourcesDispatch(dispatch) {
-  if (!newSourceTimeout) {
-    // Even just batching every 10ms works because we just want to
-    // group sources that come in at once.
-    newSourceTimeout = setTimeout(() => {
-      dispatch({ type: constants.ADD_SOURCES,
-                 sources: newSources });
-      newSources = [];
-      newSourceTimeout = null;
-    }, 10);
-  }
-}
-
 function _shouldSourceMap(generatedSource) {
   return isEnabled("features.sourceMaps") && generatedSource.sourceMapURL;
 }
@@ -97,11 +78,7 @@ function newSource(source) {
       dispatch(loadSourceMap(source));
     }
 
-    // We don't immediately dispatch the source because several
-    // thousand may come in at the same time and we want to batch
-    // rendering.
-    newSources.push(source);
-    _queueSourcesDispatch(dispatch);
+    dispatch(_addSource(source));
   };
 }
 
