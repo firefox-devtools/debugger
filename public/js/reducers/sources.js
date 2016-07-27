@@ -7,7 +7,7 @@ const fromJS = require("../utils/fromJS");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
 
-import type { Action, Source } from "../actions/types";
+import type { Action, Source, SourceText } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type SourcesState = {
@@ -85,21 +85,15 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       break;
 
     case "TOGGLE_PRETTY_PRINT":
-      if (action.status === "error") {
-        return state.mergeIn(["sourcesText", action.source.id], {
-          loading: false
-        });
-      }
-
-      let s = _updateText(state, action, [action.source]);
       if (action.status === "done") {
-        s = s.setIn(
-          ["sources", action.source.id, "isPrettyPrinted"],
-          action.value.isPrettyPrinted
-        );
+        return _updateText(state, action, [action.value.sourceText])
+          .setIn(
+            ["sources", action.source.id, "isPrettyPrinted"],
+            action.value.isPrettyPrinted
+          );
       }
-      return s;
 
+      return _updateText(state, action, [action.originalSource]);
     case "NAVIGATE":
       // Reset the entire state to just the initial state, a blank state
       // if you will.
@@ -114,7 +108,7 @@ function _updateText(state, action, values) : Record<SourcesState> {
     // Merge this in, don't set it. That way the previous value is
     // still stored here, and we can retrieve it if whatever we're
     // doing fails.
-    return values.reduce((_state, source) => {
+    return values.reduce((_state, source: any) => {
       return _state.mergeIn(["sourcesText", source.id], {
         loading: true
       });
@@ -122,14 +116,14 @@ function _updateText(state, action, values) : Record<SourcesState> {
   }
 
   if (action.status === "error") {
-    return values.reduce((_state, source) => {
+    return values.reduce((_state, source: any) => {
       return _state.setIn(["sourcesText", source.id], I.Map({
         error: action.error
       }));
     }, state);
   }
 
-  return values.reduce((_state, sourceText: any) => {
+  return values.reduce((_state, sourceText: SourceText) => {
     return _state.setIn(["sourcesText", sourceText.id], I.Map({
       text: sourceText.text,
       contentType: sourceText.contentType

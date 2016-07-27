@@ -37,7 +37,7 @@ const deferredMockThreadClient = {
         return;
       }
 
-      resolve("ok");
+      resolve({ source: "ok", contentType: "text/javascript" });
     });
   }
 };
