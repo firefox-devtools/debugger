@@ -39,8 +39,7 @@ async function paused(
     type: reason
   }, data);
 
-  await actions.paused({ frame, why });
-  return await actions.loadedFrames(frames);
+  await actions.paused({ frame, why, frames });
 }
 
 function resumed() {
