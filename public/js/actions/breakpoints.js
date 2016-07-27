@@ -5,8 +5,10 @@
 
 const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
-const { getBreakpoint, getBreakpoints,
-        getOriginalLocation, getGeneratedLocation } = require("../selectors");
+const { getBreakpoint, getBreakpoints } = require("../selectors");
+
+const { getOriginalLocation, getGeneratedLocation
+      } = require("../utils/source-map");
 
 import type { Location } from "./types";
 
@@ -33,8 +35,6 @@ function enableBreakpoint(location: Location) {
 function addBreakpoint(location: Location,
                        { condition, getTextForLine } : any = {}) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
-    location = getOriginalLocation(getState(), location);
-
     if (_breakpointExists(getState(), location)) {
       return Promise.resolve();
     }
@@ -46,13 +46,13 @@ function addBreakpoint(location: Location,
       breakpoint: bp,
       condition: condition,
       [PROMISE]: (async function () {
-        location = getGeneratedLocation(getState(), bp.location);
+        location = await getGeneratedLocation(getState(), bp.location);
         let { id, actualLocation } = await client.setBreakpoint(
           location,
           bp.condition
         );
 
-        actualLocation = getOriginalLocation(getState(), actualLocation);
+        actualLocation = await getOriginalLocation(getState(), actualLocation);
 
         // If this breakpoint is being re-enabled, it already has a
         // text snippet.
@@ -77,7 +77,6 @@ function removeBreakpoint(location: Location) {
 
 function _removeOrDisableBreakpoint(location, isDisabled) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
-    location = getOriginalLocation(getState(), location);
     let bp = getBreakpoint(getState(), location);
     if (!bp) {
       throw new Error("attempt to remove breakpoint that does not exist");
