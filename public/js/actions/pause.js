@@ -3,7 +3,7 @@ const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { Location, Frame } = require("../types");
 
-const { getOriginalLocation } = require("../selectors");
+const { getOriginalLocation, getExpressions } = require("../selectors");
 
 function _updateFrame(state, frame) {
   const originalLocation = Location(getOriginalLocation(
@@ -37,6 +37,15 @@ function paused(pauseInfo) {
     frame = _updateFrame(getState(), frame);
 
     dispatch(selectSource(frame.location.sourceId));
+
+    for (let expression of getExpressions(getState())) {
+      dispatch({
+        type: constants.EVALUATE_EXPRESSION,
+        id: expression.id,
+        expression: expression.expression,
+        [PROMISE]: client.evaluate(expression.expression)
+      });
+    }
 
     dispatch({
       type: constants.PAUSED,

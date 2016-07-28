@@ -69,10 +69,11 @@ function update(state = initialState, action, emit) {
 
     case constants.EVALUATE_EXPRESSION:
       if (action.status === "done") {
+        console.log(action.value);
         return state.setIn(["expressions", action.id],
           { id: action.id,
             expression: action.expression,
-            value: action.value.value });
+            value: action.value });
       }
       break;
   }
