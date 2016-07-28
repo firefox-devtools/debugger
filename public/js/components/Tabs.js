@@ -1,6 +1,7 @@
 const React = require("react");
 const { connect } = require("react-redux");
 const { getTabs } = require("../selectors");
+const { translate } = require("../utils/translate");
 
 require("./Tabs.css");
 const dom = React.DOM;
@@ -10,13 +11,13 @@ function getTabsByBrowser(tabs, browser) {
     .filter(tab => tab.get("browser") == browser);
 }
 
-function renderTabs(tabTitle, tabs, paramName) {
+function renderTabs(tabTitle, tabs, paramName, tabsClass) {
   if (tabs.count() == 0) {
     return null;
   }
 
   return dom.div(
-    { className: `tab-group ${tabTitle}` },
+    { className: `tab-group ${tabsClass}` },
     dom.div(
       { className: "tab-group-title" }, tabTitle),
     dom.ul(
@@ -41,23 +42,29 @@ function Tabs({ tabs }) {
   if (tabs.isEmpty()) {
     return dom.div(
       { className: "not-connected-message" },
-      "No remote tabs found. You may be looking to ",
+      translate("No remote tabs found. You may be looking to "),
       dom.a({ href: `/?ws=${document.location.hostname}:9229/node` },
-        "connect to Node"),
+        translate("connect to Node")),
       "."
     );
   }
 
   return dom.div(
     { className: "tabs theme-light" },
-    renderTabs("Firefox Tabs", firefoxTabs, "firefox-tab"),
-    renderTabs("Chrome Tabs", chromeTabs, "chrome-tab"),
+    renderTabs(
+      translate("Firefox Tabs"), firefoxTabs, "firefox-tab", "Firefox"),
+    renderTabs(
+      translate("Chrome Tabs"), chromeTabs, "chrome-tab", "Chrome"),
     dom.div(
       { className: "node-message" },
-      "You can also ",
-      dom.a({ href: `/?ws=${document.location.hostname}:9229/node` },
-            "connect to Node"),
-      "."
+      translate(
+        "You can also ",
+        dom.a(
+          { href: `/?ws=${document.location.hostname}:9229/node` },
+          "connect to Node"
+        ),
+        "."
+      )
     )
   );
 }
