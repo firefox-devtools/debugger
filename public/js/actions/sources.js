@@ -43,7 +43,7 @@ async function _prettyPrintSource({ source, sourceText, url }) {
   );
 
   const { code, mappings } = await workerTask(
-    new Worker("js/utils/pretty-print-worker.js"),
+    new Worker("public/build/pretty-print-worker.js"),
     {
       url,
       indent,

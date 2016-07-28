@@ -1,18 +1,33 @@
 const glob = require("glob").sync;
 const path = require("path");
+const Mocha = require("mocha");
 
 require("amd-loader");
+require("babel-register");
+
+const webpack = require("webpack");
+const webpackConfig = require("../../../webpack.config");
+delete webpackConfig.entry.bundle;
+
+const Worker = require("workerjs");
+global.Worker = function(_path) {
+  const workerPath = path.join(__dirname, "../../../" + _path);
+  return new Worker(workerPath);
+};
 
 // disable css requires
 require.extensions[".css"] = function() {
   return {};
 };
 
-// transform the test file from absolute path to relative path
-// e.g. public/js/components/tests/Frames.js => ../components/tests/Frames.js
-function testPath(testFile) {
-  return path.join("..", path.relative("public/js", testFile));
-}
+const testFiles = glob("public/js/**/tests/*.js")
+                  .concat(glob("config/tests/*.js"));
 
-glob("public/js/**/tests/*.js").map(testPath).map(require);
-glob("config/tests/*.js").map(testPath).map(require);
+const mocha = new Mocha();
+testFiles.forEach(file => mocha.addFile(file));
+
+webpack(webpackConfig).run(function(err, stats) {
+  mocha.run(function(failures) {
+    process.exit(failures);
+  });
+});

@@ -42,7 +42,7 @@ function update(state = initialState, action, emit) {
 
     case constants.LOADED_FRAMES:
       if (action.status == "done") {
-        return state.set("frames", action.frames);
+        return state.set("frames", action.value.frames);
       }
 
       break;

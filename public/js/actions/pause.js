@@ -40,9 +40,7 @@ function paused(pauseInfo) {
       type: constants.PAUSED,
       [PROMISE]: (async function () {
         frame = await updateFrame(getState(), frame);
-
         dispatch(selectSource(frame.location.sourceId));
-
         return {
           pauseInfo: { frame, why }
         };
