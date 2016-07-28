@@ -6,6 +6,7 @@ const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions } = require(".
 
 const actions = require("../actions");
 const Breakpoints = React.createFactory(require("./Breakpoints"));
+const Expressions = React.createFactory(require("./Expressions"));
 const Scopes = React.createFactory(require("./Scopes"));
 const Frames = React.createFactory(require("./Frames"));
 const Accordion = React.createFactory(require("./Accordion"));
@@ -53,6 +54,9 @@ function RightSidebar({ resume, command, breakOnNext,
 
       Accordion({
         items: [
+          { header: "Watch Expressions",
+            component: Expressions,
+            opened: true },
           { header: "Breakpoints",
             component: Breakpoints,
             opened: true },

@@ -126,7 +126,34 @@ function loadObjectProperties(grip) {
   };
 }
 
+/**
+ * Add expression for debugger to watch
+ * @param expression
+ */
+function addExpression(expression) {
+  return ({ dispatch }) => {
+    dispatch({
+      type: constants.ADD_EXPRESSION,
+      id: expression.id,
+      expression: expression.expression
+    });
+  };
+}
+
+function evaluateExpression(expression) {
+  return ({ dispatch, client }) => {
+    dispatch({
+      type: constants.EVALUATE_EXPRESSION,
+      id: expression.id,
+      expression: expression.expression,
+      [PROMISE]: client.evaluate(expression.expression)
+    });
+  };
+}
+
 module.exports = {
+  addExpression,
+  evaluateExpression,
   resumed,
   paused,
   pauseOnExceptions,
