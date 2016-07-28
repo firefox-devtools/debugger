@@ -18,11 +18,15 @@ const defaultBabelPlugins = [
 ];
 
 let webpackConfig = {
-  entry: ["./public/js/main.js"],
+  entry: {
+    bundle: ["./public/js/main.js"],
+    "source-map-worker": "./public/js/utils/source-map-worker.js",
+    "pretty-print-worker": "./public/js/utils/pretty-print-worker.js"
+  },
   devtool: "source-map",
   output: {
     path: path.join(__dirname, "public/build"),
-    filename: "bundle.js",
+    filename: "[name].js",
     publicPath: "/public/build"
   },
   resolve: {
@@ -68,7 +72,7 @@ if (isDevelopment()) {
   });
 
   if (isEnabled("hotReloading")) {
-    webpackConfig.entry.push("webpack-hot-middleware/client");
+    webpackConfig.entry.bundle.push("webpack-hot-middleware/client");
 
     webpackConfig.plugins = webpackConfig.plugins.concat([
       new webpack.HotModuleReplacementPlugin(),

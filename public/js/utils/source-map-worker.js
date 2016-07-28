@@ -1,15 +1,9 @@
-self.importScripts("/js/lib/source-map.js");
-
-const { SourceMapConsumer, SourceNode, SourceMapGenerator } = self.sourceMap;
+const { SourceMapConsumer, SourceNode, SourceMapGenerator } = require("source-map");
+const toPairs = require("lodash/toPairs");
+const includes = require("lodash/includes");
 
 let sourceMapConsumers = new Map();
 let sourceNodes = new Map();
-
-function _toPairs(obj) {
-  const keys = Object.keys(obj);
-  const values = keys.map(key => obj[key]);
-  return keys.map((key, index) => [key, values[index]]);
-}
 
 function _hasConsumer(sourceId) {
   return sourceMapConsumers.has(sourceId);
@@ -58,7 +52,7 @@ function isOriginal(originalSource) {
 }
 
 function isGenerated(source) {
-  return [...sourceMapConsumers.keys()].indexOf(source.id) != -1;
+  return includes([...sourceMapConsumers.keys()], source.id);
 }
 
 function getGeneratedSourceLocation(originalSource, originalLocation) {
@@ -91,7 +85,7 @@ function getOriginalTexts(generatedSource, generatedText) {
     generatedText
   );
 
-  return _toPairs(sourceNode.sourceContents)
+  return toPairs(sourceNode.sourceContents)
     .map(([ url, text ]) => ({ url, text }));
 }
 
