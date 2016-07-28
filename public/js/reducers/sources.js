@@ -13,7 +13,6 @@ import type { Record } from "../utils/makeRecord";
 export type SourcesState = {
   sources: I.Map<string, any>,
   selectedSource: ?any,
-  sourcesText: I.Map<string, any>,
   tabs: I.List<any>,
   sourceMaps: I.Map<string, any>,
 };
@@ -21,7 +20,6 @@ export type SourcesState = {
 const State = makeRecord(({
   sources: I.Map(),
   selectedSource: undefined,
-  sourcesText: I.Map(),
   sourceMaps: I.Map(),
   tabs: I.List([])
 } : SourcesState));
@@ -86,14 +84,13 @@ function update(state = State(), action: Action) : Record<SourcesState> {
 
     case "TOGGLE_PRETTY_PRINT":
       if (action.status === "done") {
-        return _updateText(state, action, [action.value.sourceText])
-          .setIn(
-            ["sources", action.source.id, "isPrettyPrinted"],
-            action.value.isPrettyPrinted
-          );
+        return state.setIn(
+          ["sources", action.source.id, "isPrettyPrinted"],
+          action.value.isPrettyPrinted
+        );
       }
 
-      return _updateText(state, action, [action.originalSource]);
+      break;
     case "NAVIGATE":
       // Reset the entire state to just the initial state, a blank state
       // if you will.
@@ -103,36 +100,33 @@ function update(state = State(), action: Action) : Record<SourcesState> {
   return state;
 }
 
+function removeSourceFromTabList(state, id) {
+  return state.tabs.filter(tab => tab.get("id") != id);
+}
+
 function _updateText(state, action, values) : Record<SourcesState> {
   if (action.status === "start") {
-    // Merge this in, don't set it. That way the previous value is
-    // still stored here, and we can retrieve it if whatever we're
-    // doing fails.
-    return values.reduce((_state, source: any) => {
-      return _state.mergeIn(["sourcesText", source.id], {
+    return values.reduce((_state, source: Source) => {
+      return _state.setIn(["sources", source.id, "text"], I.Map({
         loading: true
-      });
+      }));
     }, state);
   }
 
   if (action.status === "error") {
-    return values.reduce((_state, source: any) => {
-      return _state.setIn(["sourcesText", source.id], I.Map({
+    return values.reduce((_state, source: Source) => {
+      return _state.setIn(["sources", source.id, "text"], I.Map({
         error: action.error
       }));
     }, state);
   }
 
   return values.reduce((_state, sourceText: SourceText) => {
-    return _state.setIn(["sourcesText", sourceText.id], I.Map({
+    return _state.setIn(["sources", sourceText.id, "text"], I.Map({
       text: sourceText.text,
       contentType: sourceText.contentType
     }));
   }, state);
-}
-
-function removeSourceFromTabList(state, id) {
-  return state.tabs.filter(tab => tab.get("id") != id);
 }
 
 /*
@@ -214,7 +208,13 @@ function getSources(state: OuterState) {
 }
 
 function getSourceText(state: OuterState, id: string) {
-  return state.sources.sourcesText.get(id);
+  const source = getSource(state, id);
+
+  if (!source) {
+    return;
+  }
+
+  return source.get("text"); // eslint-disable-line consistent-return
 }
 
 function getSourceTabs(state: OuterState) {
