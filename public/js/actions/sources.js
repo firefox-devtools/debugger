@@ -13,30 +13,17 @@ const constants = require("../constants");
 const invariant = require("invariant");
 const { isEnabled } = require("../feature");
 
-const { createOriginalSources, getOriginalTexts,
-        createSourceMap, makeOriginalSource } = require("../utils/source-map");
+const { createOriginalSources, getOriginalSourceTexts,
+        createSourceMap, makeOriginalSource,
+        getGeneratedSource
+      } = require("../utils/source-map");
 
-const { getSource, getSourceText, getSourceByURL, getGeneratedSource,
-        getSourceMap, getSourceMapURL, getOriginalSources
+const { getSource, getSourceText,
+        getSourceMap, getSourceMapURL
       } = require("../selectors");
 
 function _shouldSourceMap(generatedSource) {
   return isEnabled("features.sourceMaps") && generatedSource.sourceMapURL;
-}
-
-function _getOriginalSourceTexts(state, generatedSource, generatedText) {
-  if (!_shouldSourceMap(generatedSource)) {
-    return [];
-  }
-
-  return getOriginalTexts(
-    generatedSource,
-    generatedText
-  ).map(({ text, url }) => {
-    const id = getSourceByURL(state, url).get("id");
-    const contentType = "text/javascript";
-    return { text, id, contentType };
-  });
 }
 
 function _addSource(source) {
@@ -56,7 +43,7 @@ async function _prettyPrintSource({ source, sourceText, url }) {
   );
 
   const { code, mappings } = await workerTask(
-    new Worker("js/utils/pretty-print-worker.js"),
+    new Worker("public/build/pretty-print-worker.js"),
     {
       url,
       indent,
@@ -64,7 +51,7 @@ async function _prettyPrintSource({ source, sourceText, url }) {
     }
   );
 
-  createSourceMap({ source, mappings, code });
+  await createSourceMap({ source, mappings, code });
 
   return code;
 }
@@ -96,8 +83,12 @@ function loadSourceMap(generatedSource) {
         const sourceMapURL = getSourceMapURL(getState(), generatedSource);
         sourceMap = await networkRequest(sourceMapURL);
 
-        createOriginalSources(generatedSource, sourceMap)
-          .forEach(s => dispatch(newSource(s)));
+        const originalSources = await createOriginalSources(
+          generatedSource,
+          sourceMap
+        );
+
+        originalSources.forEach(s => dispatch(newSource(s)));
 
         return { sourceMap };
       })()
@@ -217,16 +208,17 @@ function loadSourceText(source) {
       // It's already loaded or is loading
       return Promise.resolve(textInfo);
     }
-    const generatedSource = getGeneratedSource(getState(), source);
-    const originalSources = getOriginalSources(getState(), generatedSource)
-                            .map(s => s.toJS());
 
     return dispatch({
       type: constants.LOAD_SOURCE_TEXT,
-      generatedSource: generatedSource,
-      originalSources: originalSources,
-      [PROMISE]: Task.spawn(function* () {
-        const response = yield client.sourceContents(
+      source: source,
+      [PROMISE]: (async function () {
+        const generatedSource = await getGeneratedSource(
+          getState(),
+          source
+        );
+
+        const response = await client.sourceContents(
           generatedSource.id
         );
 
@@ -236,7 +228,7 @@ function loadSourceText(source) {
           id: generatedSource.id
         };
 
-        const originalSourceTexts = _getOriginalSourceTexts(
+        const originalSourceTexts = await getOriginalSourceTexts(
           getState(),
           generatedSource,
           generatedSourceText.text
@@ -254,7 +246,7 @@ function loadSourceText(source) {
           generatedSourceText,
           originalSourceTexts
         };
-      })
+      })()
     });
   };
 }

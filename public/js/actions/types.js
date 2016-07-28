@@ -52,8 +52,7 @@ type SourceAction =
   | { type: "ADD_SOURCES", sources: Array<Source> }
   | { type: "SELECT_SOURCE", source: Source, options: { position?: number } }
   | { type: "LOAD_SOURCE_TEXT",
-      generatedSource: Source,
-      originalSources: Array<Source>,
+      source: Source,
       status: AsyncStatus,
       error: string,
       value: {
