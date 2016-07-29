@@ -1,5 +1,6 @@
 {
   "environment": "development",
+  "baseWorkerURL": "public/build/",
   "logging": {
     "client": false,
     "firefoxProxy": false

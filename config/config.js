@@ -6,15 +6,16 @@ const path = require("path");
 
 const firefoxPanel = require("./firefox-panel.json");
 const development = require("./development.json");
-const envConfig = process.env.NODE_ENV === "production" ?
-   firefoxPanel : development;
 
 const localConfig = fs.existsSync(path.join(__dirname, "./local.json")) ?
   require("./local.json") : {};
 
-let config = _.merge({}, envConfig, localConfig);
+let config = _.merge({}, development, localConfig);
 
-function getConfig() {
+function getConfig(target) {
+  if(target === "firefox-panel") {
+    return _.merge({}, firefoxPanel, localConfig);
+  }
   return config;
 }
 
