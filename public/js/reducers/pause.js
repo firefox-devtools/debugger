@@ -18,15 +18,19 @@ const initialState = fromJS({
 function update(state = initialState, action, emit) {
   switch (action.type) {
     case constants.PAUSED:
-      const pause = action.pauseInfo;
-      pause.isInterrupted = pause.why.type === "interrupted";
+      if (action.status == "done") {
+        const pause = action.value.pauseInfo;
+        pause.isInterrupted = pause.why.type === "interrupted";
 
-      return state.merge({
-        isWaitingOnBreak: false,
-        pause: fromJS(pause),
-        selectedFrame: action.pauseInfo.frame
-      });
+        return state.merge({
+          isWaitingOnBreak: false,
+          pause: fromJS(pause),
+          selectedFrame: action.value.pauseInfo.frame,
+          frames: action.value.frames
+        });
+      }
 
+      break;
     case constants.RESUME:
       return state.merge({
         pause: null,
@@ -39,8 +43,11 @@ function update(state = initialState, action, emit) {
       return state.set("isWaitingOnBreak", true);
 
     case constants.LOADED_FRAMES:
-      return state.set("frames", action.frames);
+      if (action.status == "done") {
+        return state.set("frames", action.value.frames);
+      }
 
+      break;
     case constants.SELECT_FRAME:
       return state.set("selectedFrame", action.frame);
 

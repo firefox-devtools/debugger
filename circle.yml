@@ -14,7 +14,7 @@ test:
     - npm run lint-css
     - npm run lint-js
     - npm run flow
-    - npm run karma
+    # - npm run karma
 dependencies:
   override:
     - npm install

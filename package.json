@@ -8,7 +8,7 @@
     "lint": "npm run lint-css -s; npm run lint-js -s",
     "lint-css": "stylelint public/js/components/*.css",
     "lint-js": "eslint public/js",
-    "test": "mocha --compilers js:babel-register public/js/test/node-unit-tests.js",
+    "test": "node public/js/test/node-unit-tests.js",
     "test-all": "npm run test; npm run lint; npm run flow; npm run cypress; npm run karma",
     "test-paths": "mocha --compilers js:babel-register",
     "mocha-server": "node bin/mocha-server.js",
@@ -28,6 +28,7 @@
     "immutable": "^3.7.6",
     "invariant": "^2.2.1",
     "lodash": "^4.13.1",
+    "pretty-fast": "^0.2.0",
     "react": "=0.14.7",
     "react-dom": "=0.14.7",
     "react-immutable-proptypes": "^1.7.1",
@@ -95,6 +96,7 @@
     "webpack": "1.13.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.0",
+    "workerjs": "^0.1.1",
     "ws": "^1.0.1"
   },
   "files": [

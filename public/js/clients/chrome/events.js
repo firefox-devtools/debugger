@@ -20,7 +20,8 @@ function scriptParsed(scriptId, url, startLine, startColumn,
 
 function scriptFailedToParse() {}
 
-function paused(callFrames, reason, data, hitBreakpoints, asyncStackTrace) {
+async function paused(
+  callFrames, reason, data, hitBreakpoints, asyncStackTrace) {
   const frames = callFrames.map(frame => {
     return Frame({
       id: frame.callFrameId,
@@ -38,8 +39,7 @@ function paused(callFrames, reason, data, hitBreakpoints, asyncStackTrace) {
     type: reason
   }, data);
 
-  actions.paused({ frame, why });
-  actions.loadedFrames(frames);
+  await actions.paused({ frame, why, frames });
 }
 
 function resumed() {

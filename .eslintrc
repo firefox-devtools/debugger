@@ -32,7 +32,8 @@
     "_Iterator": true,
     "__dirname": true,
     "process": true,
-    "expect": true
+    "expect": true,
+    "global": true
   },
   "env": {
       "es6": true,

@@ -1,119 +1,17 @@
-const invariant = require("invariant");
-const toPairs = require("lodash/toPairs");
-const includes = require("lodash/includes");
-const { SourceMapConsumer, SourceNode, SourceMapGenerator } = require("source-map");
+const { workerTask } = require("./utils");
 
-let sourceMapConsumers = new Map();
-let sourceNodes = new Map();
+import type { Location } from "./actions/types";
 
-function _hasConsumer(sourceId) {
-  return sourceMapConsumers.has(sourceId);
-}
+const { getSource, getSourceByURL } = require("../selectors");
+const { isEnabled } = require("../feature");
 
-function _getConsumer(sourceId) {
-  return sourceMapConsumers.get(sourceId);
-}
-
-function getOriginalSourceUrls(source) {
-  const consumer = _getConsumer(source.id);
-  if (!consumer) {
-    return [];
-  }
-
-  return consumer.sources;
-}
-
-function _setConsumer(source, sourceMap) {
-  if (_hasConsumer(source.id)) {
-    return null;
-  }
-
-  const consumer = new SourceMapConsumer(sourceMap);
-  sourceMapConsumers.set(source.id, consumer);
-  return consumer;
-}
-
-function _getSourceNode(generatedSourceId, text) {
-  if (sourceNodes.has(generatedSourceId)) {
-    return sourceNodes.get(generatedSourceId);
-  }
-
-  const consumer = _getConsumer(generatedSourceId);
-  invariant(consumer, "source map must be present");
-
-  const sourceNode = SourceNode.fromStringWithSourceMap(text, consumer);
-  sourceNodes.set(generatedSourceId, sourceNode);
-  return sourceNode;
-}
-
-function isOriginal(originalSource) {
-  return !!getGeneratedSourceId(originalSource);
-}
-
-function isGenerated(source) {
-  return includes([...sourceMapConsumers.keys()], source.id);
-}
-
-function getGeneratedSourceLocation(originalSource, originalLocation) {
-  const generatedSourceId = getGeneratedSourceId(originalSource);
-  const consumer = _getConsumer(generatedSourceId);
-  const generatedLocation = consumer.generatedPositionFor({
-    source: originalSource.url,
-    line: originalLocation.line,
-    column: 0
-  });
-
-  return {
-    sourceId: generatedSourceId,
-    line: generatedLocation.line,
-    column: generatedLocation.column
+const sourceMapWorker = new Worker("public/build/source-map-worker.js");
+const sourceMapTask = function(method) {
+  return function() {
+    const args = Array.prototype.slice.call(arguments);
+    return workerTask(sourceMapWorker, { method, args });
   };
-}
-
-function getGeneratedSourceId(originalSource) {
-  const match = [...sourceMapConsumers].find(
-    ([x, consumer]) => consumer.sources.includes(originalSource.url)
-  );
-
-  return match ? match[0] : null;
-}
-
-function getOriginalTexts(generatedSource, generatedText) {
-  const sourceNode = _getSourceNode(
-    generatedSource.id,
-    generatedText
-  );
-
-  return toPairs(sourceNode.sourceContents)
-    .map(([ url, text ]) => ({ url, text }));
-}
-
-function getOriginalSourcePosition(generatedSource, location) {
-  const consumer = _getConsumer(generatedSource.id);
-  const position = consumer.originalPositionFor({
-    line: location.line,
-    column: location.column
-  });
-
-  return {
-    url: position.source,
-    line: position.line,
-    column: 0
-  };
-}
-
-function createOriginalSources(generatedSource, sourceMap) {
-  if (!_hasConsumer(generatedSource.id)) {
-    _setConsumer(generatedSource, sourceMap);
-  }
-
-  return getOriginalSourceUrls(generatedSource)
-    .map((url, index) => makeOriginalSource({
-      source: generatedSource,
-      url,
-      id: index
-    }));
-}
+};
 
 function makeOriginalSource({ url, source, id = 1 }) {
   const generatedSourceId = source.id;
@@ -124,16 +22,105 @@ function makeOriginalSource({ url, source, id = 1 }) {
   };
 }
 
-function createSourceMap({ source, mappings, code }) {
-  const generator = new SourceMapGenerator({ file: source.url });
-  mappings.forEach(mapping => generator.addMapping(mapping));
-  generator.setSourceContent(source.url, code);
+const getOriginalSourcePosition = sourceMapTask("getOriginalSourcePosition");
+const getGeneratedSourceLocation = sourceMapTask("getGeneratedSourceLocation");
+const createOriginalSources = sourceMapTask("createOriginalSources");
+const getOriginalSourceUrls = sourceMapTask("getOriginalSourceUrls");
+const getOriginalTexts = sourceMapTask("getOriginalTexts");
+const isOriginal = sourceMapTask("isOriginal");
+const isGenerated = sourceMapTask("isGenerated");
+const getGeneratedSourceId = sourceMapTask("getGeneratedSourceId");
+const createSourceMap = sourceMapTask("createSourceMap");
 
-  _setConsumer(source, generator.toJSON());
-  return generator.toJSON();
+function _shouldSourceMap(generatedSource) {
+  return isEnabled("features.sourceMaps") && generatedSource.sourceMapURL;
+}
+
+async function getOriginalSources(state: AppState, source: any) {
+  const originalSourceUrls = await getOriginalSourceUrls(source);
+  return originalSourceUrls.map(url => getSourceByURL(state, url));
+}
+
+async function getGeneratedSource(state: AppState, source: any) {
+  if (await isGenerated(source)) {
+    return source;
+  }
+
+  const generatedSourceId = await getGeneratedSourceId(source);
+  const originalSource = getSource(state, generatedSourceId);
+
+  if (originalSource) {
+    return originalSource.toJS();
+  }
+
+  return source;
+}
+
+async function getGeneratedLocation(state: AppState, location: Location) {
+  const source: any = getSource(state, location.sourceId);
+
+  if (!source) {
+    return location;
+  }
+
+  if (await isOriginal(source.toJS())) {
+    return await getGeneratedSourceLocation(source.toJS(), location);
+  }
+
+  return location;
+}
+
+async function getOriginalLocation(state: AppState, location: Location) {
+  const source: any = getSource(state, location.sourceId);
+
+  if (!source) {
+    return location;
+  }
+
+  const _isGenerated = await isGenerated(source.toJS());
+
+  if (_isGenerated) {
+    const originalPosition = await getOriginalSourcePosition(
+      source.toJS(),
+      location
+    );
+
+    const { url, line } = originalPosition;
+
+    const originalSource: any = getSourceByURL(state, url);
+    return {
+      sourceId: originalSource.get("id"),
+      line
+    };
+  }
+
+  return location;
+}
+
+async function getOriginalSourceTexts(state, generatedSource, generatedText) {
+  if (!_shouldSourceMap(generatedSource)) {
+    return [];
+  }
+
+  const originalTexts = await getOriginalTexts(
+    generatedSource,
+    generatedText
+  );
+
+  return originalTexts.map(({ text, url }) => {
+    const id = getSourceByURL(state, url).get("id");
+    const contentType = "text/javascript";
+    return { text, id, contentType };
+  });
 }
 
 module.exports = {
+  getGeneratedLocation,
+  getOriginalLocation,
+  makeOriginalSource,
+  getOriginalSources,
+  getGeneratedSource,
+  getOriginalSourceTexts,
   getOriginalSourcePosition,
   getGeneratedSourceLocation,
   createOriginalSources,
@@ -142,6 +129,5 @@ module.exports = {
   isOriginal,
   isGenerated,
   getGeneratedSourceId,
-  createSourceMap,
-  makeOriginalSource
+  createSourceMap
 };

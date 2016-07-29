@@ -51,7 +51,7 @@ describe("Todo MVC", function() {
   // that will wrap these tests call each `it` in both browser contexts.
   xit("(Chrome) Test Pausing", function() {
     debugPage("todomvc", "Chrome");
-    goToSource("js/views/todo-view");
+    goToSource("localhost:8000/js/views/todo-view");
     toggleBreakpoint(33);
 
     // pause and check the first frame

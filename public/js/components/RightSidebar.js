@@ -31,7 +31,7 @@ function getItems() {
   { header: "Scopes",
     component: Scopes }
   ];
-  if (!isEnabled("features.watchExpressions")) {
+  if (isEnabled("features.watchExpressions")) {
     items.unshift({ header: "Watch Expressions",
       component: Expressions,
       opened: true });

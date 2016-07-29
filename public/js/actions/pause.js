@@ -3,16 +3,18 @@ const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { Location, Frame } = require("../types");
 
-const { getOriginalLocation, getExpressions } = require("../selectors");
+const { getExpressions } = require("../selectors");
+const { getOriginalLocation } = require("../utils/source-map");
+const { asyncMap } = require("../utils/utils");
 
-function _updateFrame(state, frame) {
-  const originalLocation = Location(getOriginalLocation(
+async function updateFrame(state, frame) {
+  const originalLocation = await getOriginalLocation(
     state,
     frame.location
-  ));
+  );
 
   return Frame.update(frame, {
-    $merge: { location: originalLocation }
+    $merge: { location: Location(originalLocation) }
   });
 }
 
@@ -33,10 +35,7 @@ function resumed() {
  */
 function paused(pauseInfo) {
   return ({ dispatch, getState, client }) => {
-    let { frame, why } = pauseInfo;
-    frame = _updateFrame(getState(), frame);
-
-    dispatch(selectSource(frame.location.sourceId));
+    let { frame, frames, why } = pauseInfo;
 
     for (let expression of getExpressions(getState())) {
       dispatch({
@@ -47,9 +46,21 @@ function paused(pauseInfo) {
       });
     }
 
-    dispatch({
+    return dispatch({
       type: constants.PAUSED,
-      pauseInfo: { frame, why }
+      [PROMISE]: (async function () {
+        frame = await updateFrame(getState(), frame);
+
+        frames = await asyncMap(frames, item => {
+          return updateFrame(getState(), item);
+        });
+
+        dispatch(selectSource(frame.location.sourceId));
+        return {
+          pauseInfo: { why, frame },
+          frames: frames
+        };
+      })()
     });
   };
 }
@@ -60,16 +71,6 @@ function pauseOnExceptions(toggle) {
     return dispatch({
       type: constants.PAUSE_ON_EXCEPTIONS,
       toggle
-    });
-  };
-}
-
-function loadedFrames(frames) {
-  return ({ dispatch, getState, client }) => {
-    frames = frames.map(f => _updateFrame(getState(), f));
-    dispatch({
-      type: constants.LOADED_FRAMES,
-      frames: frames
     });
   };
 }
@@ -154,7 +155,6 @@ module.exports = {
   resumed,
   paused,
   pauseOnExceptions,
-  loadedFrames,
   command,
   breakOnNext,
   selectFrame,

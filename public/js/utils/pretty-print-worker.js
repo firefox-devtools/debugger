@@ -1,8 +1,4 @@
-self.importScripts(
-  "/js/lib/acorn.js",
-  "/js/lib/source-map.js",
-  "/js/lib/pretty-fast.js"
-);
+const prettyFast = require("pretty-fast");
 
 self.onmessage = function(msg) {
   let { code, mappings } = prettyPrint(msg.data);
@@ -12,7 +8,7 @@ self.onmessage = function(msg) {
 
 function prettyPrint({ url, indent, source }) {
   try {
-    const prettified = self.prettyFast(source, {
+    const prettified = prettyFast(source, {
       url: url,
       indent: " ".repeat(indent)
     });
