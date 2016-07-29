@@ -149,20 +149,8 @@ function addExpression(expression) {
   };
 }
 
-function evaluateExpression(expression) {
-  return ({ dispatch, client }) => {
-    dispatch({
-      type: constants.EVALUATE_EXPRESSION,
-      id: expression.id,
-      expression: expression.expression,
-      [PROMISE]: client.evaluate(expression.expression)
-    });
-  };
-}
-
 module.exports = {
   addExpression,
-  evaluateExpression,
   resumed,
   paused,
   pauseOnExceptions,

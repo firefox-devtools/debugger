@@ -49,16 +49,9 @@ const Expressions = React.createClass({
           onKeyPress: this.addExpression }
       ),
       expressions.map(expression => {
-        console.log(expression.value);
         return dom.li(
           { key: expression.id },
-          expression.expression + JSON.stringify(expression.value),
-          dom.span({},
-          ObjectInspector({
-            name: expression.value,
-            getObjectProperties: id => loadedObjects.get(id),
-            loadObjectProperties: this.props.loadObjectProperties
-          }))
+          expression.expression + JSON.stringify(expression.value)
         );
       }),
       info("Not paused")
