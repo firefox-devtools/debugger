@@ -24,7 +24,8 @@ function update(state = initialState, action, emit) {
         return state.merge({
           isWaitingOnBreak: false,
           pause: fromJS(pause),
-          selectedFrame: action.value.pauseInfo.frame
+          selectedFrame: action.value.pauseInfo.frame,
+          frames: action.value.frames
         });
       }
 

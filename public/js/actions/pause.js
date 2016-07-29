@@ -34,15 +34,21 @@ function resumed() {
  */
 function paused(pauseInfo) {
   return ({ dispatch, getState, client }) => {
-    let { frame, why } = pauseInfo;
+    let { frame, frames, why } = pauseInfo;
 
     return dispatch({
       type: constants.PAUSED,
       [PROMISE]: (async function () {
         frame = await updateFrame(getState(), frame);
+
+        frames = await asyncMap(frames, item => {
+          return updateFrame(getState(), item);
+        });
+
         dispatch(selectSource(frame.location.sourceId));
         return {
-          pauseInfo: { frame, why }
+          pauseInfo: { why, frame },
+          frames: frames
         };
       })()
     });
@@ -55,22 +61,6 @@ function pauseOnExceptions(toggle) {
     return dispatch({
       type: constants.PAUSE_ON_EXCEPTIONS,
       toggle
-    });
-  };
-}
-
-function loadedFrames(frames) {
-  return ({ dispatch, getState, client }) => {
-    return dispatch({
-      type: constants.LOADED_FRAMES,
-      [PROMISE]: (async function () {
-        const updatedFrames = await asyncMap(frames, item => {
-          return updateFrame(getState(), item);
-        });
-        return {
-          frames: updatedFrames
-        };
-      })()
     });
   };
 }
@@ -140,7 +130,6 @@ module.exports = {
   resumed,
   paused,
   pauseOnExceptions,
-  loadedFrames,
   command,
   breakOnNext,
   selectFrame,
