@@ -5,7 +5,7 @@ const ImPropTypes = require("react-immutable-proptypes");
 // const classnames = require("classnames");
 const actions = require("../actions");
 const { getExpressions, getPause } = require("../selectors");
-const ObjectInspector = React.createFactory(require("./ObjectInspector"));
+// const ObjectInspector = React.createFactory(require("./ObjectInspector"));
 // const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
 
