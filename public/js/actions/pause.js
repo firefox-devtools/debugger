@@ -37,14 +37,7 @@ function paused(pauseInfo) {
   return ({ dispatch, getState, client }) => {
     let { frame, frames, why } = pauseInfo;
 
-    for (let expression of getExpressions(getState())) {
-      dispatch({
-        type: constants.EVALUATE_EXPRESSION,
-        id: expression.id,
-        expression: expression.expression,
-        [PROMISE]: client.evaluate(expression.expression)
-      });
-    }
+    dispatch(evaluateExpressions());
 
     return dispatch({
       type: constants.PAUSED,
@@ -141,17 +134,41 @@ function loadObjectProperties(grip) {
  * @param expression
  */
 function addExpression(expression) {
-  return ({ dispatch }) => {
+  return ({ dispatch, getState }) => {
     dispatch({
       type: constants.ADD_EXPRESSION,
-      id: expression.id,
-      expression: expression.expression
+      id: expression.id || `${getExpressions(getState()).toSeq().size++}`,
+      input: expression.input
     });
+  };
+}
+
+function updateExpression(expression) {
+  return ({ dispatch }) => {
+    dispatch({
+      type: constants.UPDATE_EXPRESSION,
+      id: expression.id,
+      input: expression.input
+    });
+  };
+}
+
+function evaluateExpressions() {
+  return ({ dispatch, getState, client }) => {
+    for (let expression of getExpressions(getState())) {
+      dispatch({
+        type: constants.EVALUATE_EXPRESSION,
+        id: expression.id,
+        input: expression.input,
+        [PROMISE]: client.evaluate(expression.input)
+      });
+    }
   };
 }
 
 module.exports = {
   addExpression,
+  updateExpression,
   resumed,
   paused,
   pauseOnExceptions,

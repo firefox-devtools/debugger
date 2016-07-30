@@ -4,6 +4,7 @@
 
 const constants = require("../constants");
 const fromJS = require("../utils/fromJS");
+const I = require("immutable");
 
 const initialState = fromJS({
   pause: null,
@@ -71,17 +72,25 @@ function update(state = initialState, action, emit) {
     case constants.ADD_EXPRESSION:
       return state.setIn(["expressions", action.id],
         { id: action.id,
-          expression: action.expression,
-          value: action.value });
+          input: action.input,
+          value: action.value,
+          updating: false });
 
     case constants.EVALUATE_EXPRESSION:
       if (action.status === "done") {
-        return state.setIn(["expressions", action.id],
+        return state.mergeIn(["expressions", action.id],
           { id: action.id,
-            expression: action.expression,
-            value: action.value });
+            input: action.input,
+            value: action.value,
+            updating: false });
       }
       break;
+
+    case constants.UPDATE_EXPRESSION:
+      return state.mergeIn(["expressions", action.id],
+        { id: action.id,
+          input: action.input,
+          updating: true });
   }
 
   return state;
