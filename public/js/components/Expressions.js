@@ -38,7 +38,7 @@ const Expressions = React.createClass({
 
   updateExpression(e) {
     const expression = {
-      id: parseInt(e.target.id.split("-").pop()),
+      id: e.target.id.split("-").pop(),
       input: e.target.textContent.split(" --> ")[0]
     };
     this.props.updateExpression(expression);
@@ -61,7 +61,8 @@ const Expressions = React.createClass({
           { key: expression.id,
             id: "expressionOutput-" + expression.id,
             onClick: this.updateExpression },
-          expression.input + " --> " + JSON.stringify(expression.value || "Not Paused")
+          expression.input + " --> " +
+          JSON.stringify(expression.value || "Not Paused")
         )
     );
   },

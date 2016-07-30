@@ -4,7 +4,6 @@
 
 const constants = require("../constants");
 const fromJS = require("../utils/fromJS");
-const I = require("immutable");
 
 const initialState = fromJS({
   pause: null,
