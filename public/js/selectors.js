@@ -46,8 +46,7 @@ function getSelectedFrame(state: AppState) {
 }
 
 function getSourceMapURL(state: AppState, source: any) {
-  const tab = getSelectedTab(state);
-  return tab.get("url") + "/" + source.sourceMapURL;
+  return source.url + "/" + source.sourceMapURL;
 }
 
 /**

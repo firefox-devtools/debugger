@@ -26,10 +26,10 @@ const plugins = webpackConfig.plugins.filter(p => !(p instanceof DefinePlugin));
 webpackConfig.plugins = plugins.concat([
   new webpack.DefinePlugin({
     "process.env": {
-      NODE_ENV: JSON.stringify("production"),
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV || "production"),
     },
     "DebuggerTarget": JSON.stringify("firefox-panel"),
-    "DebuggerConfig": JSON.stringify(getConfig())
+    "DebuggerConfig": JSON.stringify(getConfig("firefox-panel"))
   })
 ]);
 
