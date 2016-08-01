@@ -20,7 +20,7 @@ stepOut();
 
 The tests are driven with javascript [events](https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent)
 like click, keypress, or change that simulate a user interacting with the debugger. All of the events are wrapped with
-debugger specific commands like `stepIn` or `selectSource` [commands](https://github.com/jlongster/debugger.html/blob/master/public/js/test/cypress/commands/debugger.js#L110-L112).
+debugger specific commands like `stepIn` or `selectSource` [commands](https://github.com/devtools-html/debugger.html/blob/master/public/js/test/cypress/commands/debugger.js#L110-L112).
 
 #### Running tests
 + `npm run firefox` - launch firefox
