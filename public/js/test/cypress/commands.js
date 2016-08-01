@@ -46,7 +46,7 @@ Cypress.addParentCommand("debuggee", function(callback) {
 });
 
 Cypress.addParentCommand("navigate", function(url) {
-  url = "http://localhost:8000/" + url;
+  url = "http://localhost:7999/" + url;
   return cy.window().then(win => {
     return win.client.navigate(url);
   });

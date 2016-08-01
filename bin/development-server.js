@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 "use strict";
 
 require("babel-register");
@@ -51,7 +52,6 @@ if (feature.isEnabled("hotReloading")) {
 }
 
 // Static middleware
-app.use(express.static("public/js/test/examples"));
 app.use(express.static("public"));
 
 // Routes
@@ -75,4 +75,10 @@ app.listen(8000, "0.0.0.0", function(err, result) {
   }
 
   console.log("Development Server Listening at http://localhost:8000");
+});
+
+const examples = express();
+examples.use(express.static("public/js/test/examples"));
+examples.listen(7999, "0.0.0.0", function(err, result) {
+  console.log("View debugger examples at http://localhost:7999");
 });

@@ -42,7 +42,6 @@ function scopeAtIndex(index) {
   be able to be removed if the test waits for the elements to appear.
  */
 function debugPage(urlPart, browser = "Firefox") {
-  url = "http://localhost:8000/" + urlPart;
   cy.visit("http://localhost:8000");
   cy.get(`.${browser} .tab`).first().click();
   cy.wait(1000);
