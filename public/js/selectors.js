@@ -3,6 +3,8 @@
 import type { Record } from "./utils/makeRecord";
 import type { SourcesState } from "./reducers/sources";
 
+const URL = require("url");
+const path = require("./utils/path");
 const sources = require("./reducers/sources");
 const breakpoints = require("./reducers/breakpoints");
 
@@ -46,8 +48,19 @@ function getSelectedFrame(state: AppState) {
 }
 
 function getSourceMapURL(state: AppState, source: any) {
-  const tab = getSelectedTab(state);
-  return tab.get("url") + "/" + source.sourceMapURL;
+  if (path.isURL(source.sourceMapURL)) {
+    // If it's a full URL already, just use it.
+    return source.sourceMapURL;
+  } else if (path.isAbsolute(source.sourceMapURL)) {
+    // If it's an absolute path, it should be resolved relative to the
+    // host of the source.
+    const urlObj: any = URL.parse(source.url);
+    const base = urlObj.protocol + "//" + urlObj.host;
+    return base + source.sourceMapURL;
+  }
+  // Otherwise, it's a relative path and should be resolved relative
+  // to the source.
+  return path.dirname(source.url) + "/" + source.sourceMapURL;
 }
 
 /**
