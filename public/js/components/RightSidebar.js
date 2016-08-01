@@ -3,9 +3,10 @@ const { DOM: dom } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions } = require("../selectors");
-
+const { isEnabled } = require("../feature");
 const actions = require("../actions");
 const Breakpoints = React.createFactory(require("./Breakpoints"));
+const Expressions = React.createFactory(require("./Expressions"));
 const Scopes = React.createFactory(require("./Scopes"));
 const Frames = React.createFactory(require("./Frames"));
 const Accordion = React.createFactory(require("./Accordion"));
@@ -18,6 +19,24 @@ function debugBtn(onClick, type, className = "active") {
     { onClick, className, key: type },
     dom.img({ src: `images/${type}.svg` })
   );
+}
+
+function getItems() {
+  const items = [
+  { header: "Breakpoints",
+    component: Breakpoints,
+    opened: true },
+  { header: "Call Stack",
+    component: Frames },
+  { header: "Scopes",
+    component: Scopes }
+  ];
+  if (isEnabled("features.watchExpressions")) {
+    items.unshift({ header: "Watch Expressions",
+      component: Expressions,
+      opened: true });
+  }
+  return items;
 }
 
 function RightSidebar({ resume, command, breakOnNext,
@@ -52,15 +71,7 @@ function RightSidebar({ resume, command, breakOnNext,
       ),
 
       Accordion({
-        items: [
-          { header: "Breakpoints",
-            component: Breakpoints,
-            opened: true },
-          { header: "Call Stack",
-            component: Frames },
-          { header: "Scopes",
-            component: Scopes }
-        ]
+        items: getItems()
       })
     )
   );
