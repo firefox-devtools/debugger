@@ -26,9 +26,9 @@ module.exports = webpackConfig => {
   webpackConfig.plugins = plugins.concat([
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: JSON.stringify("production"),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || "production"),
+        TARGET: JSON.stringify("firefox-panel")
       },
-      "DebuggerTarget": JSON.stringify("firefox-panel"),
       "DebuggerConfig": JSON.stringify(getConfig())
     })
   ]);
