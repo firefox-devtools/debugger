@@ -8,6 +8,7 @@ All default config values are in [`config/development.json`](./development.json)
 * `features` debugger related features
   * `tabs` Enables source view tabs in the editor (CodeMirror)
   * `sourceMaps` Enables source map loading when available
+  * `watchExpressions` Enables accordion component for working with watch expressions
 * `chrome` Chrome browser related flags
   * `debug` Enables listening for remotely debuggable Chrome browsers
   * `webSocketPort` Configures the web socket port specified when launching Chrome from the command line
