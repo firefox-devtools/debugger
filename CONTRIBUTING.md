@@ -140,15 +140,15 @@ With node running in _inspect mode_ go to your browser running `localhost:8000` 
 
 ### Reporting Bugs :bug:
 
-If you find an issue with the code please do [file an issue](https://github.com/jlongster/debugger.html/issues/new) and tag it with the label [bug](https://github.com/jlongster/debugger.html/labels/bug).  We'll do our best to review the issue in a timely manner and respond.
+If you find an issue with the code please do [file an issue](https://github.com/devtools-html/debugger.html/issues/new) and tag it with the label [bug](https://github.com/devtools-html/debugger.html/labels/bug).  We'll do our best to review the issue in a timely manner and respond.
 
 ### Suggesting Enhancements :new:
 
-We are actively investigating ways of support enhancement requests in the project so these instructions are subject to change.  For now please create an issue, tag it with the [enhancement](https://github.com/jlongster/debugger.html/labels/enhancement) label and we will attempt to respond.
+We are actively investigating ways of support enhancement requests in the project so these instructions are subject to change.  For now please create an issue, tag it with the [enhancement](https://github.com/devtools-html/debugger.html/labels/enhancement) label and we will attempt to respond.
 
 ### Writing Documentation :book:
 
-Documentation is as important as code and we need your help to maintain clear and usable documentation.  If you find an error in here or other project documentation please [file an issue](https://github.com/jlongster/debugger.html/issues/new) and tag it with the label [docs](https://github.com/jlongster/debugger.html/labels/docs).
+Documentation is as important as code and we need your help to maintain clear and usable documentation.  If you find an error in here or other project documentation please [file an issue](https://github.com/devtools-html/debugger.html/issues/new) and tag it with the label [docs](https://github.com/devtools-html/debugger.html/labels/docs).
 
 ### Writing Code :computer:
 
@@ -158,15 +158,15 @@ We have a number of tools to help you with your code contributions, the followin
 
 If this is your first time contributing any code take a look through the `first-timers-only` issues:
 
-* [first-timers-only](https://github.com/jlongster/debugger.html/labels/first-timers-only) - issues which should have clear expectations and a mentor to help you through
+* [first-timers-only](https://github.com/devtools-html/debugger.html/labels/first-timers-only) - issues which should have clear expectations and a mentor to help you through
 
 If you've contributed to an open source project before, but would like to help this one please take a look through the `up for grabs` issues:
 
-* [up for grabs](https://github.com/jlongster/debugger.html/labels/up%20for%20grabs) - issues which should have clear requirements and a difficulty level set as a label
+* [up for grabs](https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs) - issues which should have clear requirements and a difficulty level set as a label
 
 To begin your work make sure you follow these steps:
 
-* [Fork this project](https://github.com/jlongster/debugger.html#fork-destination-box)
+* [Fork this project](https://github.com/devtools-html/debugger.html#fork-destination-box)
 * Create a branch to start your work `git checkout -b your-feature-name`
 * Commit your work
 * Create a pull request
@@ -232,7 +232,7 @@ $ npm run lint
 
 ##### Lint CSS
 
-We use [Stylelint](http://stylelint.io/) to maintain our CSS styles.  The [.stylelintrc](https://github.com/jlongster/debugger.html/blob/master/.stylelintrc) file contains the style definitions, please adhere to those styles when making changes.
+We use [Stylelint](http://stylelint.io/) to maintain our CSS styles.  The [.stylelintrc](https://github.com/devtools-html/debugger.html/blob/master/.stylelintrc) file contains the style definitions, please adhere to those styles when making changes.
 
 To test your CSS changes run the command:
 
@@ -242,7 +242,7 @@ $ npm run lint-css
 
 ##### Lint JS
 
-We use [eslint](http://eslint.org/) to maintain our JavaScript styles.  The [.eslintrc](https://github.com/jlongster/debugger.html/blob/master/.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
+We use [eslint](http://eslint.org/) to maintain our JavaScript styles.  The [.eslintrc](https://github.com/devtools-html/debugger.html/blob/master/.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
 
 To test your JS changes run the command:
 
