@@ -17,4 +17,5 @@ function renderEditor(fixtureName) {
 }
 
 storiesOf("Editor", module)
-  .add("TodoMVC", () => renderEditor("todomvc"));
+  .add("Source + Breakpoints", () => renderEditor("todomvcUpdateOnEnter"))
+  .add("No Source Selected", () => renderEditor("todomvc"));

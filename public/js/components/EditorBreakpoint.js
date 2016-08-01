@@ -50,6 +50,10 @@ const Breakpoint = React.createClass({
   },
 
   componentWillUnmount() {
+    if (!this.props.editor) {
+      return;
+    }
+
     const bp = this.props.breakpoint;
     const line = bp.location.line - 1;
 
