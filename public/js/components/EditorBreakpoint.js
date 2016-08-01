@@ -26,12 +26,23 @@ const Breakpoint = React.createClass({
 
   displayName: "Breakpoint",
 
-  componentWillMount: function() {
+  addBreakpoint: function() {
     const bp = this.props.breakpoint;
     const line = bp.location.line - 1;
-
     this.props.editor.setGutterMarker(line, "breakpoints", makeMarker());
     this.props.editor.addLineClass(line, "line", "breakpoint");
+  },
+
+  componentDidMount: function() {
+    if (!this.props.editor) {
+      return;
+    }
+
+    this.addBreakpoint();
+  },
+
+  componentDidUpdate: function() {
+    this.addBreakpoint();
   },
 
   componentWillUnmount: function() {
