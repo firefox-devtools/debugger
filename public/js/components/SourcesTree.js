@@ -8,32 +8,15 @@ const {
 
 const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
-const Arrow = React.createFactory(require("./utils/Arrow"));
 const { Set } = require("immutable");
 const debounce = require("lodash/debounce");
 
 const ManagedTree = React.createFactory(require("./utils/ManagedTree"));
-const FolderIcon = React.createFactory(require("./utils/Icons").FolderIcon);
-const DomainIcon = React.createFactory(require("./utils/Icons").DomainIcon);
-const FileIcon = React.createFactory(require("./utils/Icons").FileIcon);
+const Svg = require("./utils/Svg");
 
-const folder = FolderIcon({
-  className: classnames(
-    "folder"
-  )
-});
-
-const domain = DomainIcon({
-  className: classnames(
-    "domain"
-  )
-});
-
-const file = FileIcon({
-  className: classnames(
-    "file"
-  )
-});
+const folder = new Svg("folder");
+const domain = new Svg("domain");
+const file = new Svg("file");
 
 let SourcesTree = React.createClass({
   propTypes: {
@@ -119,16 +102,18 @@ let SourcesTree = React.createClass({
   },
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
-    const arrow = Arrow({
-      className: classnames(
-        { expanded: expanded,
-          hidden: !nodeHasChildren(item) }
-      ),
-      onClick: e => {
-        e.stopPropagation();
-        setExpanded(item, !expanded);
+    const arrow = new Svg("arrow",
+      {
+        className: classnames(
+          { expanded: expanded,
+            hidden: !nodeHasChildren(item) }
+        ),
+        onClick: e => {
+          e.stopPropagation();
+          setExpanded(item, !expanded);
+        }
       }
-    });
+    );
 
     const icon = this.getIcon(item, depth);
 
