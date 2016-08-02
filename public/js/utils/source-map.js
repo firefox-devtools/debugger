@@ -3,9 +3,11 @@ const { workerTask } = require("./utils");
 import type { Location } from "./actions/types";
 
 const { getSource, getSourceByURL } = require("../selectors");
-const { isEnabled } = require("../feature");
+const { isEnabled, getValue } = require("../feature");
 
-const sourceMapWorker = new Worker("public/build/source-map-worker.js");
+const sourceMapWorker = new Worker(
+  getValue("baseWorkerURL") + "source-map-worker.js"
+);
 const sourceMapTask = function(method) {
   return function() {
     const args = Array.prototype.slice.call(arguments);

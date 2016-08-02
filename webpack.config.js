@@ -59,8 +59,8 @@ let webpackConfig = {
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify(NODE_ENV),
+        TARGET: JSON.stringify("local")
       },
-      "DebuggerTarget": JSON.stringify("local"),
       "DebuggerConfig": JSON.stringify(getConfig())
     })
   ]

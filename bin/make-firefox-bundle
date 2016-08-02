@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+   echo "Usage: $0 <path-to-firefox-repo>"
+   exit 1
+fi
+
+DEBUGGER_PATH="$1/devtools/client/debugger/new"
+
+if [ ! -d "$DEBUGGER_PATH" ]; then
+   echo "Cannot find debugger at $DEBUGGER_PATH"
+   exit 2
+fi
+
+TARGET=firefox-panel webpack
+cp public/build/bundle.js "$DEBUGGER_PATH"
+cp public/build/pretty-print-worker.js "$DEBUGGER_PATH"
+cp public/build/source-map-worker.js "$DEBUGGER_PATH"
+cp public/build/styles.css "$DEBUGGER_PATH"
+cp public/images/* "$DEBUGGER_PATH/images"
