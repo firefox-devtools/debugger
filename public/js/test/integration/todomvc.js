@@ -45,28 +45,21 @@ describe("Todo MVC", function() {
     cy.reload();
   });
 
-  // this is a simple test that will test the Chrome
-  // client. At some point we will replace it with a
-  // mocha macro `withBrowsers("chrome", "firefox", function() {})`
-  // that will wrap these tests call each `it` in both browser contexts.
-  xit("(Chrome) Test Pausing", function() {
-    debugPage("todomvc", "Chrome");
-    goToSource("localhost:7999/js/views/todo-view");
-    toggleBreakpoint(33);
+  it("(Chrome) Source Maps", function() {
+    debugPage("increment", "Chrome");
 
-    // pause and check the first frame
-    addTodo();
+    goToSource("localhost:7999/increment.js");
+    cy.wait(1000)
+    toggleBreakpoint(3);
+    cy.wait(1000)
+
+    cy.debuggee(() => {
+      dbg.click("button");
+    });
+
+    cy.wait(1000);
     toggleCallStack();
-    toggleScopes();
-    callStackFrameAtIndex(0).contains("initialize");
-
-    // select the second frame and check to see the source updated
-    selectCallStackFrame(1);
-    sourceTab().contains("backbone.js");
-
-    stepIn();
-    stepOver();
-    stepOut();
+    callStackFrameAtIndex(0).contains("exports.increment");
 
     cy.reload();
   });

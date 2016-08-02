@@ -17,14 +17,11 @@ Array.prototype.peekLast = function() {
 let connection;
 
 function createTabs(tabs) {
-  const blacklist = ["New Tab", "Inspectable pages"];
 
   return tabs
     .filter(tab => {
       const isPage = tab.type == "page";
-      const isBlacklisted = blacklist.indexOf(tab.title) != -1;
-
-      return isPage && !isBlacklisted;
+      return isPage;
     })
     .map(tab => {
       return Tab({
