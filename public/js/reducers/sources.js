@@ -13,6 +13,7 @@ import type { Record } from "../utils/makeRecord";
 export type SourcesState = {
   sources: I.Map<string, any>,
   selectedSource: ?any,
+  pendingSelectedSourceURL: ?string,
   sourcesText: I.Map<string, any>,
   tabs: I.List<any>,
   sourceMaps: I.Map<string, any>,
@@ -21,6 +22,7 @@ export type SourcesState = {
 const State = makeRecord(({
   sources: I.Map(),
   selectedSource: undefined,
+  pendingSelectedSourceURL: undefined,
   sourcesText: I.Map(),
   sourceMaps: I.Map(),
   tabs: I.List([])
@@ -53,8 +55,12 @@ function update(state = State(), action: Action) : Record<SourcesState> {
     case "SELECT_SOURCE":
       return state.merge({
         selectedSource: action.source,
+        pendingSelectedSourceURL: null,
         tabs: updateTabList(state, fromJS(action.source), action.options)
       });
+
+    case "SELECT_SOURCE_URL":
+      return state.merge({ pendingSelectedSourceURL: action.url });
 
     case "CLOSE_TAB":
       return state.merge({
@@ -225,6 +231,10 @@ function getSelectedSource(state: OuterState) {
   return state.sources.selectedSource;
 }
 
+function getPendingSelectedSourceURL(state: OuterState) {
+  return state.sources.pendingSelectedSourceURL;
+}
+
 function getSourceMap(state: OuterState, sourceId: string) {
   return state.sources.sourceMaps.get(sourceId);
 }
@@ -239,5 +249,6 @@ module.exports = {
   getSourceText,
   getSourceTabs,
   getSelectedSource,
+  getPendingSelectedSourceURL,
   getSourceMap
 };

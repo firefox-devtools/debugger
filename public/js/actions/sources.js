@@ -13,14 +13,17 @@ const constants = require("../constants");
 const invariant = require("invariant");
 const { isEnabled } = require("../feature");
 
-const { createOriginalSources, getOriginalSourceTexts,
-        createSourceMap, makeOriginalSource,
-        getGeneratedSource
-      } = require("../utils/source-map");
+const {
+  createOriginalSources, getOriginalSourceTexts,
+  createSourceMap, makeOriginalSource,
+  getGeneratedSource
+} = require("../utils/source-map");
 
-const { getSource, getSourceText,
-        getSourceMap, getSourceMapURL
-      } = require("../selectors");
+const {
+  getSource, getSourceByURL, getSourceText,
+  getPendingSelectedSourceURL,
+  getSourceMap, getSourceMapURL
+} = require("../selectors");
 
 function _shouldSourceMap(generatedSource) {
   return isEnabled("features.sourceMaps") && generatedSource.sourceMapURL;
@@ -66,6 +69,13 @@ function newSource(source) {
     }
 
     dispatch(_addSource(source));
+
+    // If a request has been made to show this source, go ahead and
+    // select it.
+    const pendingURL = getPendingSelectedSourceURL(getState());
+    if (pendingURL === source.url) {
+      dispatch(selectSource(source.id));
+    }
   };
 }
 
@@ -93,6 +103,26 @@ function loadSourceMap(generatedSource) {
         return { sourceMap };
       })()
     });
+  };
+}
+
+/**
+ * Deterministically select a source that has a given URL. This will
+ * work regardless of the connection status or if the source exists
+ * yet. This exists mostly for external things to interact with the
+ * debugger.
+ */
+function selectSourceURL(url) {
+  return ({ dispatch, getState }) => {
+    const source = getSourceByURL(getState(), url);
+    if (source) {
+      dispatch(selectSource(source.get("id")));
+    } else {
+      dispatch({
+        type: constants.SELECT_SOURCE_URL,
+        url: url
+      });
+    }
   };
 }
 
@@ -327,6 +357,7 @@ function getTextForSources(actors) {
 module.exports = {
   newSource,
   selectSource,
+  selectSourceURL,
   closeTab,
   blackbox,
   togglePrettyPrint,
