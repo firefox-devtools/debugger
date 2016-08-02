@@ -448,9 +448,13 @@ PrefBranch.prototype = {
     // representations.
     for (let i = 0; i < localStorage.length; ++i) {
       let keyName = localStorage.key(i);
-      let {userValue, hasUserValue, defaultValue} =
-          JSON.parse(localStorage.getItem(keyName));
-      this._findOrCreatePref(keyName, userValue, hasUserValue, defaultValue);
+      try {
+        let {userValue, hasUserValue, defaultValue} =
+            JSON.parse(localStorage.getItem(keyName));
+
+        this._findOrCreatePref(keyName, userValue, hasUserValue, defaultValue);
+      } catch (e) {
+      }
     }
 
     this._onStorageChange = this._onStorageChange.bind(this);
