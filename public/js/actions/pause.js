@@ -3,6 +3,7 @@ const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { Location, Frame } = require("../types");
 
+const { getExpressions } = require("../selectors");
 const { getOriginalLocation } = require("../utils/source-map");
 const { asyncMap } = require("../utils/utils");
 
@@ -35,6 +36,8 @@ function resumed() {
 function paused(pauseInfo) {
   return ({ dispatch, getState, client }) => {
     let { frame, frames, why } = pauseInfo;
+
+    dispatch(evaluateExpressions());
 
     return dispatch({
       type: constants.PAUSED,
@@ -102,7 +105,7 @@ function breakOnNext() {
 function selectFrame(frame) {
   return ({ dispatch }) => {
     dispatch(selectSource(frame.location.sourceId,
-                          { line: frame.location.line }));
+      { line: frame.location.line }));
     dispatch({
       type: constants.SELECT_FRAME,
       frame: frame
@@ -126,7 +129,46 @@ function loadObjectProperties(grip) {
   };
 }
 
+/**
+ * Add expression for debugger to watch
+ * @param expression
+ */
+function addExpression(expression) {
+  return ({ dispatch, getState }) => {
+    dispatch({
+      type: constants.ADD_EXPRESSION,
+      id: expression.id || `${getExpressions(getState()).toSeq().size++}`,
+      input: expression.input
+    });
+  };
+}
+
+function updateExpression(expression) {
+  return ({ dispatch }) => {
+    dispatch({
+      type: constants.UPDATE_EXPRESSION,
+      id: expression.id,
+      input: expression.input
+    });
+  };
+}
+
+function evaluateExpressions() {
+  return ({ dispatch, getState, client }) => {
+    for (let expression of getExpressions(getState())) {
+      dispatch({
+        type: constants.EVALUATE_EXPRESSION,
+        id: expression.id,
+        input: expression.input,
+        [PROMISE]: client.evaluate(expression.input)
+      });
+    }
+  };
+}
+
 module.exports = {
+  addExpression,
+  updateExpression,
   resumed,
   paused,
   pauseOnExceptions,

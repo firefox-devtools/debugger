@@ -20,7 +20,7 @@ function isDevelopment() {
 }
 
 function isFirefoxPanel() {
-  return DebuggerTarget == "firefox-panel";
+  return process.env.TARGET == "firefox-panel";
 }
 
 function isFirefox() {

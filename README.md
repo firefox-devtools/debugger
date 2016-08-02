@@ -6,7 +6,7 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 <!-- _headline screenshots_ -->
 
-![Circle CI status](https://circleci.com/gh/jlongster/debugger.html.svg??&style=shield)
+![Circle CI status](https://circleci.com/gh/devtools-html/debugger.html.svg??&style=shield)
 [![npm version](https://img.shields.io/npm/v/debugger.html.svg)](https://www.npmjs.com/package/debugger.html)
 
 ## Getting Started
@@ -37,7 +37,7 @@ This is an open source project and we would love your help. We have prepared a [
       * [Linting][linting]
       * [Storybook][storybook]
 
-We use the [up for grabs](https://github.com/jlongster/debugger.html/labels/up%20for%20grabs) label to indicate this work is open for anyone to take.  If you already know what you're doing and want to dive in, take a look at those issues.
+We use the [up for grabs](https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs) label to indicate this work is open for anyone to take.  If you already know what you're doing and want to dive in, take a look at those issues.
 
 ## Discussion
 
