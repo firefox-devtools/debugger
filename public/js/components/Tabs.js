@@ -34,31 +34,34 @@ function renderTabs(tabTitle, tabs, paramName) {
   );
 }
 
+function renderMessage(tabsIsEmpty) {
+  return dom.div(
+    { className: "not-connected-message" },
+    !tabsIsEmpty || "No remote tabs found. ",
+    "You may be looking to ",
+    dom.a({ href: `/?ws=${document.location.hostname}:9229/node` },
+      "connect to Node"), ".", dom.br(),
+    "Make sure you run ",
+    dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#firefox" },
+      "Firefox"),
+    ", ",
+    dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#chrome" },
+      "Chrome"),
+    " or ",
+    dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#nodejs" },
+      "Node"),
+    " with the right flags."
+  );
+}
 function Tabs({ tabs }) {
   const firefoxTabs = getTabsByBrowser(tabs, "firefox");
   const chromeTabs = getTabsByBrowser(tabs, "chrome");
-
-  if (tabs.isEmpty()) {
-    return dom.div(
-      { className: "not-connected-message" },
-      "No remote tabs found. You may be looking to ",
-      dom.a({ href: `/?ws=${document.location.hostname}:9229/node` },
-        "connect to Node"),
-      "."
-    );
-  }
 
   return dom.div(
     { className: "tabs theme-light" },
     renderTabs("Firefox Tabs", firefoxTabs, "firefox-tab"),
     renderTabs("Chrome Tabs", chromeTabs, "chrome-tab"),
-    dom.div(
-      { className: "node-message" },
-      "You can also ",
-      dom.a({ href: `/?ws=${document.location.hostname}:9229/node` },
-            "connect to Node"),
-      "."
-    )
+    renderMessage(tabs.isEmpty())
   );
 }
 
