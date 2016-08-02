@@ -15,6 +15,7 @@ const SourceFooter = createFactory(require("./SourceFooter"));
 const Autocomplete = createFactory(require("./Autocomplete"));
 const { getSelectedSource, getSources } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
+const { KeyShortcuts } = require("../lib/devtools-sham/client/shared/key-shortcuts");
 
 const App = React.createClass({
   propTypes: {
@@ -32,18 +33,17 @@ const App = React.createClass({
   },
 
   componentDidMount() {
-    window.addEventListener("keydown", this.toggleSourcesSearch, false);
+    this.shortcuts = new KeyShortcuts({ window });
+    this.shortcuts.on("Cmd+P", this.toggleSourcesSearch);
   },
 
   componentWillUnmount() {
-    window.removeEventListener("keydown", this.toggleSourcesSearch, false);
+    this.shortcuts.off("Cmd+P", this.toggleSourcesSearch);
   },
 
-  toggleSourcesSearch(e) {
-    if ((e.metaKey || e.ctrlKey) && e.key == "p") {
-      this.setState({ searchOn: !this.state.searchOn });
-      e.preventDefault();
-    }
+  toggleSourcesSearch(key, e) {
+    e.preventDefault();
+    this.setState({ searchOn: !this.state.searchOn });
   },
 
   renderSourcesSearch() {
