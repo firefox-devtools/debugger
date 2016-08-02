@@ -1,9 +1,13 @@
 const glob = require("glob").sync;
 const path = require("path");
 const Mocha = require("mocha");
+const getConfig = require("../../../config/config").getConfig;
+const setConfig = require("../../../config/feature").setConfig;
 
 require("amd-loader");
 require("babel-register");
+
+setConfig(getConfig());
 
 const webpack = require("webpack");
 const webpackConfig = require("../../../webpack.config");
