@@ -3,6 +3,7 @@ const { DOM: dom } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions } = require("../selectors");
+const Svg = require("./utils/Svg");
 const { isEnabled } = require("../feature");
 const actions = require("../actions");
 const Breakpoints = React.createFactory(require("./Breakpoints"));
@@ -14,10 +15,9 @@ require("./RightSidebar.css");
 
 function debugBtn(onClick, type, className = "active") {
   className = `${type} ${className}`;
-
   return dom.span(
     { onClick, className, key: type },
-    dom.img({ src: `images/${type}.svg` })
+    Svg(type)
   );
 }
 

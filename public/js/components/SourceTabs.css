@@ -43,6 +43,8 @@
   position: absolute;
   right: 7px;
   top: 1px;
+  width: 6px;
+  height: 6px;
 }
 
 .source-header .subsettings {

@@ -4,13 +4,13 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
 const { getSelectedSource } = require("../selectors");
+const Svg = require("./utils/Svg");
 
 function debugBtn(onClick, type, className = "active") {
   className = `${type} ${className}`;
-
   return dom.span(
     { onClick, className, key: type },
-    dom.img({ src: `images/${type}.svg` })
+    Svg(type)
   );
 }
 

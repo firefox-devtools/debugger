@@ -2,7 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 
 const { div } = dom;
-const Arrow = React.createFactory(require("./utils/Arrow"));
+const Svg = require("./utils/Svg");
 
 require("./Accordion.css");
 
@@ -44,7 +44,7 @@ const Accordion = React.createClass({
       div(
         { className: "_header",
           onClick: () => this.handleHeaderClick(i) },
-        Arrow({ className: opened[i] ? "expanded" : "" }),
+        Svg("arrow", { className: opened[i] ? "expanded" : "" }),
         item.header
       ),
 
