@@ -1,10 +1,7 @@
 "use strict";
 
 const pick = require("lodash/get");
-
-let config = typeof window != "undefined" ? DebuggerConfig : {};
-const originalConfig = Object.assign({}, config);
-
+let config;
 /**
  * Gets a config value for a given key
  * e.g "chrome.webSocketPort"
@@ -24,12 +21,11 @@ function isFirefoxPanel() {
 }
 
 function isFirefox() {
-  return /firefox/i.test(navigator.userAgent)
+  return /firefox/i.test(navigator.userAgent);
 }
 
-// only used for testing purposes
-function setConfig(stub) {
-  config = stub;
+function setConfig(value) {
+  config = value;
 }
 
 function getConfig() {
