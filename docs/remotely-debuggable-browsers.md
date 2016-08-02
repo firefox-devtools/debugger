@@ -77,6 +77,15 @@ $ "C:\Program Files\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -P 
 $ "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -P development
 ```
 
+#### Android
+
+Firefox for Android creates a Unix socket and listens there for debugger connections. To connect to it, use the [adb](https://developer.android.com/studio/command-line/adb.html) tool's port forwarding feature:
+
+```
+adb forward tcp:6080 localfilesystem:/data/data/org.mozilla.fennec/firefox-debugger-socket
+```
+
+The exact path to the socket differs based on release channel. You can find the right value in Firefox on Android by loading about:config and checking the value of the preference ``devtools.debugger.unix-domain-socket``.
 
 ### Chrome
 
