@@ -11,7 +11,8 @@ const initialState = fromJS({
   frames: null,
   selectedFrame: null,
   loadedObjects: {},
-  shouldPauseOnExceptions: false
+  shouldPauseOnExceptions: false,
+  expressions: []
 });
 
 function update(state = initialState, action, emit) {
@@ -66,6 +67,29 @@ function update(state = initialState, action, emit) {
     case constants.PAUSE_ON_EXCEPTIONS:
       const toggle = action.toggle;
       return state.set("shouldPauseOnExceptions", toggle);
+
+    case constants.ADD_EXPRESSION:
+      return state.setIn(["expressions", action.id],
+        { id: action.id,
+          input: action.input,
+          value: action.value,
+          updating: false });
+
+    case constants.EVALUATE_EXPRESSION:
+      if (action.status === "done") {
+        return state.mergeIn(["expressions", action.id],
+          { id: action.id,
+            input: action.input,
+            value: action.value,
+            updating: false });
+      }
+      break;
+
+    case constants.UPDATE_EXPRESSION:
+      return state.mergeIn(["expressions", action.id],
+        { id: action.id,
+          input: action.input,
+          updating: true });
   }
 
   return state;

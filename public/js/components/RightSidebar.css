@@ -1,11 +1,13 @@
 .right-sidebar {
   flex: 1;
+  white-space: nowrap;
 }
 
 .command-bar {
   border-bottom: 1px solid #cccccc;
   height: 30px;
   padding: 8px 5px 10px 10px;
+  overflow: hidden;
 }
 
 .command-bar > span {

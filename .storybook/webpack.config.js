@@ -19,6 +19,7 @@ module.exports = {
     loaders: [
       { test: /\.css$/, loader: "style-loader!css-loader" },
       { test: /\.json$/, loader: "json-loader" },
+      { test: /\.svg$/, loader: "svg-inline" }
     ]
   },
   plugins: [

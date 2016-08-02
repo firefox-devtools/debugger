@@ -7,6 +7,7 @@ const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const features = require("./config/feature");
 const isDevelopment = features.isDevelopment;
+const isFirefoxPanel = features.isFirefoxPanel;
 const isEnabled = features.isEnabled;
 const getConfig = require("./config/config").getConfig;
 
@@ -95,8 +96,12 @@ if (isDevelopment()) {
   webpackConfig.plugins.push(new ExtractTextPlugin("styles.css"));
 }
 
+if (isFirefoxPanel()) {
+  webpackConfig = require("./webpack.config.devtools")(webpackConfig);
+}
+
 // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
-// destructuring params https://github.com/jlongster/debugger.html/issues/67
+// destructuring params https://github.com/devtools-html/debugger.html/issues/67
 if (isEnabled("transformParameters")) {
   webpackConfig.module.loaders.forEach(spec => {
     if (spec.isJavaScriptLoader) {

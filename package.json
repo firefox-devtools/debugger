@@ -2,6 +2,14 @@
   "name": "debugger.html",
   "version": "0.0.5",
   "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/devtools-html/debugger.html.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devtools-html/debugger.html/issues"
+  },
+  "homepage": "https://github.com/devtools-html/debugger.html#readme",
   "scripts": {
     "flow": "flow",
     "start": "node bin/development-server",
