@@ -105,7 +105,7 @@ function breakOnNext() {
 function selectFrame(frame) {
   return ({ dispatch }) => {
     dispatch(selectSource(frame.location.sourceId,
-                          { line: frame.location.line }));
+      { line: frame.location.line }));
     dispatch({
       type: constants.SELECT_FRAME,
       frame: frame
