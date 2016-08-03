@@ -45,11 +45,12 @@
 }
 
 .not-connected-message {
-  margin: auto;
+  margin: 20px;
   padding: 50px 100px;
   border: 1px solid #dddddd;
   background-color: #fbfbfb;
   color: #9a9a9a;
+  text-align: center;
 }
 
 .node-message {
