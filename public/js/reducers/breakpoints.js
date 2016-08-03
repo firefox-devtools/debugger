@@ -123,6 +123,9 @@ function update(state = State(), action: Action) {
       }
 
       break;
+    }
+    case "NAVIGATE": {
+      return State();
     }}
 
   return state;

@@ -6,6 +6,7 @@ function setupEvents(dependencies) {
   actions = dependencies.actions;
 }
 
+// Debugger Events
 function scriptParsed(scriptId, url, startLine, startColumn,
              endLine, endColumn, executionContextId, hash,
              isContentScript, isInternalScript, isLiveEdit,
@@ -49,6 +50,21 @@ function resumed() {
 function globalObjectCleared() {
 }
 
+// Page Events
+function frameNavigated(frame) {
+  actions.navigate();
+}
+
+function frameStartedLoading() {
+  actions.willNavigate();
+}
+
+function domContentEventFired() {}
+
+function loadEventFired() {}
+
+function frameStoppedLoading() {}
+
 const clientEvents = {
   scriptParsed,
   scriptFailedToParse,
@@ -57,7 +73,16 @@ const clientEvents = {
   globalObjectCleared,
 };
 
+const pageEvents = {
+  frameNavigated,
+  frameStartedLoading,
+  domContentEventFired,
+  loadEventFired,
+  frameStoppedLoading
+};
+
 module.exports = {
   setupEvents,
+  pageEvents,
   clientEvents
 };
