@@ -6,7 +6,7 @@ const { Tab } = require("../types");
 const { isEnabled, getValue } = require("../feature");
 const { networkRequest } = require("../utils/networkRequest");
 const { setupCommands, clientCommands } = require("./chrome/commands");
-const { setupEvents, clientEvents } = require("./chrome/events");
+const { setupEvents, clientEvents, pageEvents } = require("./chrome/events");
 
 // TODO: figure out a way to avoid patching native prototypes.
 // Unfortunately the Chrome client requires it to work.
@@ -78,7 +78,10 @@ function initPage(actions) {
   agents.Runtime.enable();
   agents.Runtime.run();
 
+  agents.Page.enable();
+
   connection.registerDispatcher("Debugger", clientEvents);
+  connection.registerDispatcher("Page", pageEvents);
 }
 
 module.exports = {

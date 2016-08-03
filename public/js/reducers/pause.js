@@ -90,6 +90,7 @@ function update(state = initialState, action, emit) {
         { id: action.id,
           input: action.input,
           updating: true });
+
   }
 
   return state;
