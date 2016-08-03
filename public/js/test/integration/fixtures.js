@@ -1,6 +1,6 @@
 // turn theses tests on when you want to write new fixture data
 // you also need to turn on the cypress-server to be able to save the fixtures.
-xdescribe("Fixtures", function() {
+describe("Fixtures", function() {
   /**
    An example of the debugger not being paused.
    */
@@ -51,6 +51,15 @@ xdescribe("Fixtures", function() {
 
     resume();
     toggleBreakpoint(11);
+    cy.reload();
+  });
+
+  /**
+   todomvc protocol objects
+   */
+  it("todomvc protocol objects", function() {
+    debugPage("todomvc");
+    cy.saveProtocolObjects("todoSources");
     cy.reload();
   });
 });

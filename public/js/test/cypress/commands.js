@@ -17,6 +17,35 @@ Cypress.addParentCommand("saveFixture", function(fixtureName) {
   });
 })
 
+Cypress.addParentCommand("saveProtocolObjects", function(fixtureName) {
+  return cy.window().then(win => {
+    const appState = win.store.getState();
+    const sources = appState.sources.sources.entrySeq()
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .filter(entry => entry[1].get("url"))
+      .map(entry => {
+        const parts = entry[1].get("url").split('/');
+        const id = parts[parts.length - 1];
+        return [id, entry[1].merge({ id })];
+      })
+      .toJS();
+
+    // This would be easier if I could access Immutable.Map (just pass
+    // it in and then do toJS() on that, but I can't access that from
+    // the window
+    const sourcesById = {};
+    sources.forEach(s => sourcesById[s[0]] = s[1]);
+
+    const fixtureText = JSON.stringify({
+      sources: sourcesById
+    }, null, "  ");
+    return cy.request("post", "http://localhost:8001/save-fixture", {
+      fixtureName: fixtureName,
+      fixtureText: fixtureText
+    });
+  });
+})
+
 Cypress.addParentCommand("debuggee", function(callback) {
   /**
    * gets a fat arrow function and returns the function body
