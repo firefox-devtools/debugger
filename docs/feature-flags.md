@@ -32,7 +32,7 @@ const { isEnabled } = require("../feature");
 
 // feature check can be done in render() method
 render() {
-  if (!isEnabled("features.pokemon-go")) {
+  if (!isEnabled("pokemon-go")) {
     return null;
   }
   return dom.div(null, 'pokestop!');

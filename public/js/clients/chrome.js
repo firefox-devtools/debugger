@@ -37,7 +37,7 @@ function createTabs(tabs) {
 function connectClient() {
   const deferred = defer();
 
-  if(!isEnabled("chrome.debug")) {
+  if(!getValue("chrome.debug")) {
     return deferred.resolve(createTabs([]))
   }
 

@@ -8,7 +8,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const features = require("./config/feature");
 const isDevelopment = features.isDevelopment;
 const isFirefoxPanel = features.isFirefoxPanel;
-const isEnabled = features.isEnabled;
+const getValue = features.getValue;
 const getConfig = require("./config/config").getConfig;
 
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -80,7 +80,7 @@ if (isDevelopment()) {
     loader: "style!css"
   });
 
-  if (isEnabled("hotReloading")) {
+  if (getValue("hotReloading")) {
     webpackConfig.entry.bundle.push("webpack-hot-middleware/client");
 
     webpackConfig.plugins = webpackConfig.plugins.concat([
@@ -110,7 +110,7 @@ if (isFirefoxPanel()) {
 
 // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
 // destructuring params https://github.com/devtools-html/debugger.html/issues/67
-if (isEnabled("transformParameters")) {
+if (getValue("transformParameters")) {
   webpackConfig.module.loaders.forEach(spec => {
     if (spec.isJavaScriptLoader) {
       const idx = spec.loaders.findIndex(loader => loader.includes("babel"));
