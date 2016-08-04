@@ -33,6 +33,7 @@ const isOriginal = sourceMapTask("isOriginal");
 const isGenerated = sourceMapTask("isGenerated");
 const getGeneratedSourceId = sourceMapTask("getGeneratedSourceId");
 const createSourceMap = sourceMapTask("createSourceMap");
+const clearData = sourceMapTask("clearData");
 
 function _shouldSourceMap(generatedSource) {
   return isEnabled("features.sourceMaps") && generatedSource.sourceMapURL;
@@ -131,5 +132,6 @@ module.exports = {
   isOriginal,
   isGenerated,
   getGeneratedSourceId,
-  createSourceMap
+  createSourceMap,
+  clearData
 };
