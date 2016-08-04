@@ -58,16 +58,21 @@ function isGenerated(source) {
 function getGeneratedSourceLocation(originalSource, originalLocation) {
   const generatedSourceId = getGeneratedSourceId(originalSource);
   const consumer = _getConsumer(generatedSourceId);
-  const generatedLocation = consumer.generatedPositionFor({
+  let { column, line } = consumer.generatedPositionFor({
     source: originalSource.url,
     line: originalLocation.line,
     column: 0
   });
 
+  // The debugger server expects line breakpoints to have a column undefined
+  if (column == 0) {
+    column = undefined;
+  }
+
   return {
     sourceId: generatedSourceId,
-    line: generatedLocation.line,
-    column: generatedLocation.column
+    line,
+    column
   };
 }
 
@@ -89,12 +94,15 @@ function getOriginalTexts(generatedSource, generatedText) {
     .map(([ url, text ]) => ({ url, text }));
 }
 
-function getOriginalSourcePosition(generatedSource, location) {
+function getOriginalSourcePosition(generatedSource, { column, line }) {
   const consumer = _getConsumer(generatedSource.id);
-  const position = consumer.originalPositionFor({
-    line: location.line,
-    column: location.column
-  });
+
+  // The source-map library expects line breakpoints to be 0
+  if (column == undefined) {
+    column = 0;
+  }
+
+  const position = consumer.originalPositionFor({ line, column });
 
   return {
     url: position.source,
