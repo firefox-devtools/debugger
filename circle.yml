@@ -5,9 +5,11 @@ test:
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
   pre:
-    - node bin/development-server.js:
+    - DEBUG_CHROME=true node bin/development-server.js:
         background: true
     - node bin/firefox-driver --start:
+        background: true
+    - /opt/google/chrome/google-chrome --remote-debugging-port=9222 --no-first-run:
         background: true
     - sleep 30
   post:
