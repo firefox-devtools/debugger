@@ -134,6 +134,11 @@ function createSourceMap({ source, mappings, code }) {
   return generator.toJSON();
 }
 
+function clearData() {
+  sourceMapConsumers.clear();
+  sourceNodes.clear();
+}
+
 const publicInterface = {
   getOriginalSourcePosition,
   getGeneratedSourceLocation,
@@ -144,7 +149,8 @@ const publicInterface = {
   isGenerated,
   getGeneratedSourceId,
   createSourceMap,
-  makeOriginalSource
+  makeOriginalSource,
+  clearData
 };
 
 self.onmessage = function(msg) {
