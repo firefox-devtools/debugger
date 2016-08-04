@@ -3,6 +3,7 @@ const { DOM: dom } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
+const { isEnabled } = require("../feature");
 const { getSelectedSource } = require("../selectors");
 
 function debugBtn(onClick, type, className = "active") {
@@ -22,11 +23,11 @@ function SourceFooter({ togglePrettyPrint, selectedSource }) {
       className: "source-footer"
     },
     dom.div({ className: "command-bar" },
-      debugBtn(
+      isEnabled("features.blackbox") ? debugBtn(
         () => {},
         "blackBox",
         commandsEnabled
-      ),
+      ) : null,
       debugBtn(
         () => togglePrettyPrint(selectedSource.get("id")),
         "prettyPrint",
