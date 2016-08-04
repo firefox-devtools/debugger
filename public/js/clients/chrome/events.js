@@ -11,6 +11,10 @@ function scriptParsed(scriptId, url, startLine, startColumn,
              endLine, endColumn, executionContextId, hash,
              isContentScript, isInternalScript, isLiveEdit,
              sourceMapURL, hasSourceURL, deprecatedCommentWasUsed) {
+  if (isInternalScript || isContentScript) {
+    return;
+  }
+
   actions.newSource(Source({
     id: scriptId,
     url,
