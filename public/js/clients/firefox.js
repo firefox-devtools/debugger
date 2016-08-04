@@ -111,6 +111,11 @@ function initPage(actions) {
     threadClient.addListener(eventName, clientEvents[eventName]);
   });
 
+  threadClient.reconfigure({
+    "useSourceMaps": false,
+    "autoBlackBox": false
+  });
+
   // In Firefox, we need to initially request all of the sources which
   // makes the server iterate over them and fire individual
   // `newSource` notifications. We don't need to do anything with the
