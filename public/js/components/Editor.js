@@ -60,6 +60,7 @@ const Editor = React.createClass({
       );
     }
 
+    this.setText(this.props.sourceText.get("text"));
     resizeBreakpointGutter(this.editor);
   },
 
@@ -106,14 +107,24 @@ const Editor = React.createClass({
       return;
     }
 
-    // Only reset the editor text if the source has changed.
-    // + Resetting the text will remove the breakpoints.
-    // + Comparing the source text is probably inneficient.
-    if (newSourceText.get("text") != this.editor.getValue()) {
-      this.editor.setValue(newSourceText.get("text"));
-    }
+    this.setText(newSourceText.get("text"));
 
     resizeBreakpointGutter(this.editor);
+  },
+
+  // Only reset the editor text if the source has changed.
+  // * Resetting the text will remove the breakpoints.
+  // * Comparing the source text is probably inneficient.
+  setText(text) {
+    if (!text || !this.editor) {
+      return;
+    }
+
+    if (text == this.editor.getValue()) {
+      return;
+    }
+
+    this.editor.setValue(text);
   },
 
   componentWillReceiveProps(nextProps) {
