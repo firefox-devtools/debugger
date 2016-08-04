@@ -4,7 +4,7 @@ The debugger.html project has a system for [feature flags](https://en.wikipedia.
 
 Feature flags toggle features that are either:
 * experimental or in a testing phase
-* designed to be configured by the user
+* designed to be configured locally
 
 Periodically feature flags are removed as features are either out of the experimental phase and merged into the core or are removed and no longer available.  In the future we may turn on certain features for subsets of the population.
 
