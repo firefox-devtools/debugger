@@ -1,6 +1,6 @@
 const { DebuggerClient } = require("devtools-sham/shared/client/main");
 const { DebuggerTransport } = require("devtools-sham/transport/transport");
-const WebSocketDebuggerTransport = require("devtools-sham/transport/ws-transport");
+const WebSocketDebuggerTransport = require("devtools/shared/transport/websocket-transport");
 const { TargetFactory } = require("devtools-sham/client/framework/target");
 const defer = require("../utils/defer");
 const { getValue } = require("../feature");
