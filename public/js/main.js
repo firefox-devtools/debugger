@@ -13,11 +13,6 @@ const { isEnabled, isFirefoxPanel,
 
 setConfig(DebuggerConfig);
 
-// Set various flags before requiring app code.
-if (isEnabled("logging.client")) {
-  DevToolsUtils.dumpn.wantLogging = true;
-}
-
 const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");
 const configureStore = require("./utils/create-store");

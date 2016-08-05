@@ -3,8 +3,8 @@ const { DebuggerTransport } = require("devtools-sham/transport/transport");
 const WebSocketDebuggerTransport = require("devtools/shared/transport/websocket-transport");
 const { TargetFactory } = require("devtools-sham/client/framework/target");
 const defer = require("../utils/defer");
-const { getValue } = require("../feature");
 const { Tab } = require("../types");
+const { isDevelopment, getValue } = require("../feature");
 const { setupCommands, clientCommands } = require("./firefox/commands");
 const { setupEvents, clientEvents } = require("./firefox/events");
 
@@ -108,7 +108,19 @@ function initPage(actions) {
   // Listen to all the requested events.
   setupEvents({ threadClient, actions });
   Object.keys(clientEvents).forEach(eventName => {
-    threadClient.addListener(eventName, clientEvents[eventName]);
+    if (isDevelopment()) {
+      threadClient.addListener(eventName, function(type, data) {
+        window.clientEventLog.push(data);
+
+        if (getValue("logging.client")) {
+          console.log(data);
+        }
+
+        clientEvents[eventName](data);
+      });
+    } else {
+      threadClient.addListener(eventName, clientEvents[eventName]);
+    }
   });
 
   // In Firefox, we need to initially request all of the sources which

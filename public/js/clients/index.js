@@ -2,14 +2,32 @@ const { Task } = require("../utils/task");
 const firefox = require("./firefox");
 const chrome = require("./chrome");
 const { debugGlobal } = require("../utils/debug");
+const transform = require("lodash/transform");
+const { isDevelopment } = require("../feature");
 
 let clientType;
-function getClient() {
-  if (clientType === "chrome") {
-    return chrome.clientCommands;
-  }
+let _clientCommands;
 
-  return firefox.clientCommands;
+function wrapCommands(commands) {
+  return transform(commands, (result, value, command) => {
+    result[command] = async function() {
+      const args = [...arguments];
+      const response = await commands[command](...args);
+      window.clientCommandLog.push({ command, args, response });
+      return response;
+    };
+  });
+}
+
+function getClient() {
+  if (_clientCommands) {
+    return _clientCommands;
+  }
+  const commands = clientType === "chrome"
+      ? chrome.clientCommands : firefox.clientCommands;
+
+  _clientCommands = isDevelopment() ? wrapCommands(commands) : commands;
+  return _clientCommands;
 }
 
 function startDebugging(connTarget, actions) {
@@ -37,6 +55,8 @@ function startDebuggingTab(targetEnv, tabId, actions) {
 
     clientType = targetEnv === firefox ? "firefox" : "chrome";
     debugGlobal("client", targetEnv.clientCommands);
+    debugGlobal("clientEventLog", []);
+    debugGlobal("clientCommandLog", []);
 
     return tabs;
   });
