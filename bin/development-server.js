@@ -24,6 +24,11 @@ if (!feature.isEnabled("firefox.webSocketConnection")) {
 
 function httpGet(url, onResponse) {
   return http.get(url, (response) => {
+    if (response.statusCode !== 200) {
+      console.error(`error response: ${response.statusCode} to ${url}`);
+      response.emit("statusCode", new Error(response.statusCode));
+      return onResponse("{}");
+    }
     let body = "";
     response.on("data", function(d) {
       body += d;
@@ -62,10 +67,17 @@ app.get("/", function(req, res) {
 app.get("/get", function(req, res) {
   const httpReq = httpGet(
     req.query.url,
-    body => res.json(JSON.parse(body))
+    body => {
+      try {
+        return res.json(JSON.parse(body));
+      } catch (e) {
+        throw Error(e);
+      }
+    }
   );
 
   httpReq.on("error", err => res.status(500).send(err.code));
+  httpReq.on("statusCode", err => res.status(err.message).send(err.message));
 });
 
 // Listen
