@@ -6,7 +6,7 @@ xdescribe("Fixtures", function() {
    */
   it("todomvc", function() {
     debugPage("todomvc");
-    goToSource("js/views/todo-view");
+    goToSource("localhost:7999/js/views/todo-view");
     goToSource("app-view");
     goToSource("models/todo.js");
     cy.saveFixture("todomvc");
@@ -18,19 +18,21 @@ xdescribe("Fixtures", function() {
    */
   it("todomvc.updateOnEnter", function() {
     debugPage("todomvc");
-    goToSource("js/views/todo-view");
+    goToSource("localhost:7999/js/views/todo-view");
     toggleBreakpoint(113);
     toggleBreakpoint(119);
     toggleBreakpoint(121);
     toggleBreakpointInList(2); // toggle off the last breakpoint
+    addAWatchExpression("this");
+
     addTodo();
     editTodo();
-    cy.wait(1000)
+
+    cy.saveFixture("todomvc.updateOnEnter");
 
     toggleScopes();
     selectScope(0);
     selectScope(2);
-    cy.saveFixture("todomvc.updateOnEnter");
     resume();
     toggleBreakpoint(113);
     cy.reload();
@@ -41,7 +43,7 @@ xdescribe("Fixtures", function() {
    */
   it("pythagorean", function() {
     debugPage("pythagorean");
-    goToSource("pythagorean.js");
+    goToSource("localhost:7999/pythagorean.js");
     toggleBreakpoint(11);
     cy.debuggee(() => {
       window.dbg.click("button");

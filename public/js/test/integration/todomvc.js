@@ -1,15 +1,18 @@
 
 describe("Todo MVC", function() {
-  it("(Firefox) Test Pausing", function() {
+  it.only("(Firefox) Test Pausing", function() {
     debugPage("todomvc");
     goToSource("localhost:7999/js/views/todo-view");
     toggleBreakpoint(33);
+
 
     // pause and check the first frame
     addTodo();
     toggleCallStack();
     toggleScopes();
     callStackFrameAtIndex(0).contains("initialize");
+
+    cy.saveFixture("todomvc.pausing")
 
     // select the second frame and check to see the source updated
     selectCallStackFrame(1);
