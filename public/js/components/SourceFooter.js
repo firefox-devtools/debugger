@@ -7,11 +7,11 @@ const { isEnabled } = require("../feature");
 const { getSelectedSource } = require("../selectors");
 const Svg = require("./utils/Svg");
 
-function debugBtn(onClick, type, className = "active") {
+function debugBtn(onClick, type, className = "active", tooltip) {
   className = `${type} ${className}`;
   return dom.span(
     { onClick, className, key: type },
-    Svg(type)
+    Svg(type, { title: tooltip })
   );
 }
 
@@ -26,12 +26,14 @@ function SourceFooter({ togglePrettyPrint, selectedSource }) {
       isEnabled("features.blackbox") ? debugBtn(
         () => {},
         "blackBox",
-        commandsEnabled
+        commandsEnabled,
+        "Toggle Black Boxing"
       ) : null,
       debugBtn(
         () => togglePrettyPrint(selectedSource.get("id")),
         "prettyPrint",
-        commandsEnabled
+        commandsEnabled,
+        "Prettify Source"
       )
     )
   );
