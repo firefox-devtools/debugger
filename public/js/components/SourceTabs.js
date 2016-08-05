@@ -3,7 +3,7 @@ const { DOM: dom, PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const Isvg = React.createFactory(require("react-inlinesvg"));
+const Svg = require("./utils/Svg");
 const { getSelectedSource, getSourceTabs } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const classnames = require("classnames");
@@ -181,10 +181,10 @@ const SourceTabs = React.createClass({
       dom.div({ className: "filename" }, filename),
       dom.div(
         { onClick: onClickClose },
-        Isvg({
-          className: "close-btn",
-          src: "images/close.svg",
-        })
+        dom.span(
+          { className: "close-btn" },
+          Svg("close")
+        )
       )
     );
   },
