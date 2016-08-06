@@ -56,16 +56,14 @@ function debugFirstTab(browser = "Firefox") {
 }
 
 function goToSource(source) {
-  let sourcesList = cy.get(".sources-list");
+  cy.window().then(win => {
+    win.dispatchEvent(Object.assign(new Event("keydown"), {
+      key: "p", metaKey: true, ctrlKey: false, altKey: false, shiftKey: false
+    }))
+  });
 
-  const sourcePath = source.split("/");
-  const fileName = sourcePath.pop();
-
-  sourcePath.reduce((el, part) => {
-    return el.contains(".node", part).find(".arrow").click().end();
-  }, sourcesList);
-
-  sourcesList.contains(".node", fileName).click();
+  cy.get(".autocomplete input").type(source)
+  cy.get(".autocomplete .results li").first().click()
 }
 
 function toggleBreakpoint(linenumber) {

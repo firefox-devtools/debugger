@@ -2,7 +2,7 @@
 describe("Todo MVC", function() {
   it("(Firefox) Test Pausing", function() {
     debugPage("todomvc");
-    goToSource("localhost:7999/js/views/todo-view");
+    goToSource("todo-view");
     toggleBreakpoint(33);
 
     // pause and check the first frame
@@ -29,7 +29,7 @@ describe("Todo MVC", function() {
     debugPage("todomvc");
 
     // test adding breakpoints
-    goToSource("localhost:7999/js/views/todo-view");
+    goToSource("todo-view");
     toggleBreakpoint(33);
     goToSource("app-view");
     toggleBreakpoint(35);
@@ -48,7 +48,7 @@ describe("Todo MVC", function() {
   it("(Chrome) Source Maps", function() {
     debugPage("increment", "Chrome");
 
-    goToSource("webpack/increment.js");
+    goToSource("increment.js");
     cy.wait(1000)
     toggleBreakpoint(3);
     cy.wait(1000)

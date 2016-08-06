@@ -54,7 +54,7 @@ const Autocomplete = React.createClass({
           onChange: (e) => this.setState({ inputValue: e.target.value })
         }
       ),
-      dom.ul({},
+      dom.ul({ className: "results" },
         searchResults.map(this.renderSearchItem)
       )
     );
