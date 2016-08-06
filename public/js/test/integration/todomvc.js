@@ -48,7 +48,7 @@ describe("Todo MVC", function() {
   it("(Chrome) Source Maps", function() {
     debugPage("increment", "Chrome");
 
-    goToSource("localhost:7999/increment.js");
+    goToSource("webpack/increment.js");
     cy.wait(1000)
     toggleBreakpoint(3);
     cy.wait(1000)
