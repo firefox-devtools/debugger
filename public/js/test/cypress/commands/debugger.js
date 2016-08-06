@@ -45,7 +45,6 @@ function debugPage(urlPart, browser = "Firefox") {
   debugFirstTab(browser);
   cy.wait(1000);
   cy.navigate(urlPart)
-  cy.reload();
   cy.wait(1000);
 }
 
