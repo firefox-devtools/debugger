@@ -7,6 +7,8 @@ const setConfig = require("../../../config/feature").setConfig;
 require("amd-loader");
 require("babel-register");
 
+const isCI = process.argv.indexOf("--ci") != -1;
+
 setConfig(getConfig());
 
 const webpack = require("webpack");
@@ -19,15 +21,19 @@ global.Worker = function(_path) {
   return new Worker(workerPath);
 };
 
-// disable css requires
-require.extensions[".css"] = function() {
-  return {};
-};
+// disable unecessary require calls
+require.extensions[".css"] = () => {};
+require.extensions[".svg"] = () => {};
 
 const testFiles = glob("public/js/**/tests/*.js")
                   .concat(glob("config/tests/*.js"));
 
 const mocha = new Mocha();
+
+if (isCI) {
+  mocha.reporter("mocha-circleci-reporter");
+}
+
 testFiles.forEach(file => mocha.addFile(file));
 
 webpack(webpackConfig).run(function(err, stats) {
