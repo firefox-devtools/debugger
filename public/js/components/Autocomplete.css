@@ -34,7 +34,12 @@
 }
 
 .autocomplete li.selected {
-  background: #efefef;
+  background: var(--theme-selection-background);
+  color: white;
+}
+
+.autocomplete li.selected .subtitle {
+  color: white;
 }
 
 .autocomplete li .title {
