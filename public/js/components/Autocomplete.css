@@ -33,6 +33,10 @@
   cursor: pointer;
 }
 
+.autocomplete li.selected {
+  background: #efefef;
+}
+
 .autocomplete li .title {
   font-size: 0.8em;
   line-height: 1.5em;

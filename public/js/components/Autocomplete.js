@@ -13,7 +13,8 @@ const Autocomplete = React.createClass({
 
   getInitialState() {
     return {
-      inputValue: ""
+      inputValue: "",
+      selectedIndex: -1
     };
   },
 
@@ -21,11 +22,12 @@ const Autocomplete = React.createClass({
     this.refs.searchInput.focus();
   },
 
-  renderSearchItem(result) {
+  renderSearchItem(result, index) {
     return dom.li(
       {
         onClick: () => this.props.selectItem(result),
-        key: result.value
+        key: result.value,
+        className: index === this.state.selectedIndex ? "selected" : "",
       },
       dom.div({ className: "title" }, result.title),
       dom.div({ className: "subtitle" }, result.subtitle)
@@ -43,6 +45,26 @@ const Autocomplete = React.createClass({
     });
   },
 
+  onKeyDown(e) {
+    const searchResults = this.getSearchResults(),
+      resultCount = searchResults.length;
+
+    if (e.key === "ArrowUp") {
+      this.setState({
+        selectedIndex: Math.max(0, this.state.selectedIndex - 1)
+      });
+      e.preventDefault();
+    } else if (e.key === "ArrowDown") {
+      this.setState({
+        selectedIndex: Math.min(resultCount - 1, this.state.selectedIndex + 1)
+      });
+      e.preventDefault();
+    } else if (e.key === "Enter") {
+      this.props.selectItem(searchResults[this.state.selectedIndex]);
+      e.preventDefault();
+    }
+  },
+
   render() {
     const searchResults = this.getSearchResults();
 
@@ -51,7 +73,11 @@ const Autocomplete = React.createClass({
       dom.input(
         {
           ref: "searchInput",
-          onChange: (e) => this.setState({ inputValue: e.target.value })
+          onChange: (e) => this.setState({
+            inputValue: e.target.value,
+            selectedIndex: -1
+          }),
+          onKeyDown: this.onKeyDown
         }
       ),
       dom.ul({ className: "results" },
