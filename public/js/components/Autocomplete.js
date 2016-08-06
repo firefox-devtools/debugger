@@ -1,6 +1,7 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { filter } = require("fuzzaldrin-plus");
+const classnames = require("classnames");
 require("./Autocomplete.css");
 
 const Autocomplete = React.createClass({
@@ -27,7 +28,9 @@ const Autocomplete = React.createClass({
       {
         onClick: () => this.props.selectItem(result),
         key: result.value,
-        className: index === this.state.selectedIndex ? "selected" : "",
+        className: classnames({
+          selected: index === this.state.selectedIndex
+        })
       },
       dom.div({ className: "title" }, result.title),
       dom.div({ className: "subtitle" }, result.subtitle)
