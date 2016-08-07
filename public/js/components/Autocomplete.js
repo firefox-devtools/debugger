@@ -23,6 +23,26 @@ const Autocomplete = React.createClass({
     this.refs.searchInput.focus();
   },
 
+  componentDidUpdate() {
+    this.scrollList();
+  },
+
+  scrollList() {
+    const resultsEl = this.refs.results;
+    if (resultsEl.children.length === 0) {
+      return;
+    }
+
+    const resultsHeight = resultsEl.clientHeight;
+    const itemHeight = resultsEl.children[0].clientHeight;
+    const numVisible = resultsHeight / itemHeight;
+    const positionsToScroll = this.state.selectedIndex - numVisible + 1;
+    const itemOffset = resultsHeight % itemHeight;
+    const scroll = positionsToScroll * (itemHeight + 2) + itemOffset;
+
+    resultsEl.scrollTop = Math.max(0, scroll);
+  },
+
   renderSearchItem(result, index) {
     return dom.li(
       {
@@ -83,7 +103,7 @@ const Autocomplete = React.createClass({
           onKeyDown: this.onKeyDown
         }
       ),
-      dom.ul({ className: "results" },
+      dom.ul({ className: "results", ref: "results" },
         searchResults.map(this.renderSearchItem)
       )
     );
