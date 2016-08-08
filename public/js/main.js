@@ -41,6 +41,13 @@ if (isDevelopment()) {
   injectGlobals({ store });
 }
 
+// Expose the bound actions so external things can do things like
+// selecting a source.
+window.actions = {
+  selectSource: actions.selectSource,
+  selectSourceURL: actions.selectSourceURL
+};
+
 function renderRoot(component) {
   const mount = document.querySelector("#mount");
 
