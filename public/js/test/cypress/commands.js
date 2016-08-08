@@ -8,8 +8,10 @@
 */
 Cypress.addParentCommand("saveFixture", function(fixtureName) {
   return cy.window().then(win => {
-    const appState = win.store.getState();
-    const fixtureText = JSON.stringify(appState, null, "  ");
+    const appState = JSON.parse(JSON.stringify(win.store.getState()));
+    const fixture = sanitizeData(appState);
+    const fixtureText = JSON.stringify(fixture, null, "  ");
+
     return cy.request("post", "http://localhost:8001/save-fixture", {
       fixtureName: fixtureName,
       fixtureText: fixtureText
