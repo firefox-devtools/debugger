@@ -19,7 +19,11 @@ function breakpointAtIndex(index) {
 }
 
 function commandBar() {
-  return cy.get(".command-bar");
+  return cy.get(".right-sidebar .command-bar");
+}
+
+function sourceFooter() {
+  return cy.get(".source-footer");
 }
 
 function scopesPane() {
@@ -51,7 +55,6 @@ function debugPage(urlPart, browser = "Firefox") {
 function debugFirstTab(browser = "Firefox") {
   cy.visit("http://localhost:8000");
   cy.get(`.${browser} .tab`).first().click();
-  cy.wait(1000);
 }
 
 function goToSource(source) {
@@ -115,6 +118,9 @@ function stepOut() {
   commandBar().find(".active.stepOut").click();
 }
 
+function prettyPrint() {
+  return sourceFooter().get("span.prettyPrint").click()
+}
 
 /**
  DOM queries
@@ -140,5 +146,6 @@ Object.assign(window, {
   resume,
   stepIn,
   stepOut,
-  stepOver
+  stepOver,
+  prettyPrint
 })
