@@ -19,16 +19,17 @@
   float: right;
   margin-right: 6px;
   display: block;
-  cursor: hand;
+  cursor: pointer;
 }
 
 .expression-input {
   color: var(--theme-content-color1);
-  cursor: hand;
+  cursor: pointer;
+  max-width: 50%;
 }
 
 .expression-value {
   overflow-x: scroll;
-  width: 80%;
   color: var(--theme-content-color2);
+  max-width: 50% !important;
 }

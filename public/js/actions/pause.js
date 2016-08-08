@@ -135,9 +135,8 @@ function loadObjectProperties(grip) {
  */
 function addExpression(expression) {
   return ({ dispatch, getState }) => {
-    const lastExpression = getExpressions(getState()).toJS().pop();
-    const id = parseInt(expression.id, 10) ||
-      (lastExpression ? lastExpression.id : -1) + 1;
+    const id = expression.id !== undefined ? parseInt(expression.id, 10) :
+      getExpressions(getState()).toSeq().size++;
     dispatch({
       type: constants.ADD_EXPRESSION,
       id: id,

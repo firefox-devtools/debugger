@@ -22,31 +22,28 @@ const Expressions = React.createClass({
 
   displayName: "Expressions",
 
-  addExpression(e) {
-    const { addExpression } = this.props;
+  addExpression({ id }, e) {
     if (e.key === "Enter") {
+      const { addExpression } = this.props;
       const expression = {
         input: e.target.value
       };
-      if (e.target.id) {
-        expression.id = e.target.id.split("-").pop();
+      if (id !== undefined) {
+        expression.id = id;
       }
       e.target.value = "";
       addExpression(expression);
     }
   },
 
-  updateExpression(e) {
+  updateExpression({ id }, e) {
+    e.stopPropagation();
     const { updateExpression } = this.props;
-    const id = e.target.id.split("-").pop();
     const expression = {
       id,
       input: e.target.textContent
     };
     updateExpression(expression);
-    setTimeout(() => {
-      document.getElementById("expressionInputId-" + id).focus();
-    }, 1);
   },
 
   renderExpressionValue(value) {
@@ -54,7 +51,10 @@ const Expressions = React.createClass({
       return;
     }
     if (value.exception) {
-      return;
+      return Rep({ object: value.exception });
+    }
+    if (typeof value.result === "boolean") {
+      return `${value.result}`;
     }
     if (typeof value.result !== "object") {
       return value.result;
@@ -70,46 +70,65 @@ const Expressions = React.createClass({
     deleteExpression(expression);
   },
 
+  renderExpressionUpdating(expression) {
+    return dom.span(
+      { className: "expression-input-container" },
+      dom.input(
+        { type: "text",
+          className: "input-expression",
+          dataId: expression.id,
+          id: "expressionInputId-" + expression.id,
+          onKeyPress: this.addExpression.bind(this, expression),
+          defaultValue: expression.input,
+          ref: (c) => {
+            this._input = c;
+          }
+        }
+      )
+    );
+  },
+
   renderExpression(expression) {
+    return dom.span(
+      { className: "expression-output-container",
+        key: expression.id },
+      dom.span(
+        { className: "expression-input",
+          dataId: expression.id,
+          id: "expressionOutputId-" + expression.id,
+          onClick: this.updateExpression.bind(this, expression) },
+        expression.input
+      ),
+      dom.span(
+        { className: "expression-seperator" },
+        ": "
+      ),
+      dom.span(
+        { className: "expression-value" },
+        this.renderExpressionValue(expression.value)
+      ),
+      dom.span(
+        { className: "close-btn",
+          onClick: this.deleteExpression.bind(this, expression) },
+        Svg("close")
+      )
+    );
+  },
+
+  renderExpressionContainer(expression) {
     return dom.div(
       { className: "expression-container",
       key: expression.id },
       expression.updating ?
-        dom.span(
-          { className: "expression-input-container" },
-          dom.input(
-            { type: "text",
-              className: "input-expression",
-              id: "expressionInputId-" + expression.id,
-              onKeyPress: this.addExpression,
-              defaultValue: expression.input }
-          )
-        ) :
-        dom.span(
-          { className: "expression-output-container",
-            key: expression.id,
-            onClick: this.updateExpression },
-          dom.span(
-            { className: "expression-input",
-              id: "expressionOutputId-" + expression.id },
-            expression.input
-          ),
-          dom.span(
-            { className: "expression-seperator" },
-            ": "
-          ),
-          dom.span(
-            { className: "expression-value" },
-            this.renderExpressionValue(expression.value)
-          ),
-          dom.span(
-            { className: "close-btn",
-              id: "expressionDeleteId-" + expression.id,
-              onClick: this.deleteExpression.bind(this, expression) },
-            Svg("close")
-          )
-        )
+        this.renderExpressionUpdating(expression) :
+        this.renderExpression(expression)
     );
+  },
+
+  componentDidUpdate() {
+    if (this._input) {
+      this._input.focus();
+    }
   },
 
   render() {
@@ -120,9 +139,10 @@ const Expressions = React.createClass({
         { type: "text",
           className: "input-expression",
           placeholder: "Add watch Expression",
-          onKeyPress: this.addExpression }
+          onKeyPress: this.addExpression.bind(this, {}) }
       ),
-      expressions.toSeq().map(expression => this.renderExpression(expression))
+      expressions.toSeq().map(expression =>
+        this.renderExpressionContainer(expression))
     );
   }
 });
