@@ -5,18 +5,12 @@ const { Provider } = require("react-redux");
 const ReactDOM = require("react-dom");
 const React = require("react");
 
-const DevToolsUtils = require("devtools-sham/shared/DevToolsUtils");
 const AppConstants = require("devtools-sham/sham/appconstants").AppConstants;
 const { injectGlobals } = require("./utils/debug");
-const { isEnabled, isFirefoxPanel,
-        isDevelopment, setConfig } = require("../../config/feature");
+const { isFirefoxPanel, isDevelopment,
+        setConfig } = require("../../config/feature");
 
 setConfig(DebuggerConfig);
-
-// Set various flags before requiring app code.
-if (isEnabled("logging.client")) {
-  DevToolsUtils.dumpn.wantLogging = true;
-}
 
 const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");

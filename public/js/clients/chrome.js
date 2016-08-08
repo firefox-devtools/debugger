@@ -3,7 +3,7 @@
 const { connect } = require("../lib/chrome-remote-debug-protocol");
 const defer = require("../utils/defer");
 const { Tab } = require("../types");
-const { isEnabled, getValue } = require("../feature");
+const { getValue, isDevelopment } = require("../feature");
 const { networkRequest } = require("../utils/networkRequest");
 const { setupCommands, clientCommands } = require("./chrome/commands");
 const { setupEvents, clientEvents, pageEvents } = require("./chrome/events");
@@ -37,7 +37,7 @@ function createTabs(tabs) {
 function connectClient() {
   const deferred = defer();
 
-  if(!isEnabled("chrome.debug")) {
+  if(!getValue("chrome.debug")) {
     return deferred.resolve(createTabs([]))
   }
 
@@ -62,6 +62,25 @@ function connectNode(url) {
   });
 }
 
+function registerDispatcher(domain, connection, events) {
+  if (isDevelopment()) {
+    let dispatcher = connection._dispatchers["Debugger"];
+    let dispatch = dispatcher.__proto__.dispatch;
+
+    dispatcher.dispatch = function(functionName, messageObject) {
+      window.clientEventLog.push(messageObject)
+
+      if (getValue("logging.client")) {
+        console.log(messageObject)
+      }
+
+      dispatch.call(dispatcher, functionName, messageObject);
+    }
+  }
+
+  connection.registerDispatcher(domain, events);
+}
+
 function initPage(actions) {
   const agents = connection._agents;
 
@@ -77,8 +96,8 @@ function initPage(actions) {
 
   agents.Page.enable();
 
-  connection.registerDispatcher("Debugger", clientEvents);
-  connection.registerDispatcher("Page", pageEvents);
+  registerDispatcher("Debugger", connection, clientEvents);
+  registerDispatcher("Page", connection, pageEvents);
 }
 
 module.exports = {
