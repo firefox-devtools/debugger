@@ -62,6 +62,11 @@ function newSource(_, packet) {
   if (NEW_SOURCE_IGNORED_URLS.indexOf(source.url) > -1) {
     return;
   }
+
+  if (source.introductionType == "debugger eval") {
+    return;
+  }
+
   actions.newSource(Source({
     id: source.actor,
     url: source.url,
