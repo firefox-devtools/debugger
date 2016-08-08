@@ -3,9 +3,10 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
 // const classnames = require("classnames");
+const Svg = require("./utils/Svg");
 const actions = require("../actions");
 const { getExpressions, getPause } = require("../selectors");
-// const ObjectInspector = React.createFactory(require("./ObjectInspector"));
+const Rep = React.createFactory(require("./Rep"));
 // const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
 
@@ -13,58 +14,110 @@ require("./Expressions.css");
 
 const Expressions = React.createClass({
   propTypes: {
-    pauseInfo: ImPropTypes.map,
     expressions: ImPropTypes.list,
     addExpression: PropTypes.func,
     updateExpression: PropTypes.func,
-    evaluateExpression: PropTypes.func,
-    loadObjectProperties: PropTypes.func,
-    command: PropTypes.func
+    deleteExpression: PropTypes.func
   },
 
   displayName: "Expressions",
 
-  addExpression(e) {
-    if (e.key === "Enter") {
-      const expression = {
-        input: e.target.value
-      };
-      if (e.target.id) {
-        expression.id = e.target.id.split("-").pop();
-      }
-      this.props.addExpression(expression);
+  inputKeyPress(e, { id }) {
+    if (e.key !== "Enter") {
+      return;
     }
+    const { addExpression } = this.props;
+    const expression = {
+      input: e.target.value
+    };
+    if (id !== undefined) {
+      expression.id = id;
+    }
+    e.target.value = "";
+    addExpression(expression);
   },
 
-  updateExpression(e) {
+  updateExpression(e, { id }) {
+    e.stopPropagation();
+    const { updateExpression } = this.props;
     const expression = {
-      id: e.target.id.split("-").pop(),
-      input: e.target.textContent.split(" --> ")[0]
+      id,
+      input: e.target.textContent
     };
-    this.props.updateExpression(expression);
+    updateExpression(expression);
+  },
+
+  renderExpressionValue(value) {
+    if (!value) {
+      return;
+    }
+    if (value.exception) {
+      return Rep({ object: value.exception });
+    }
+    return Rep({ object: value.result });
+  },
+
+  deleteExpression(e, expression) {
+    e.stopPropagation();
+    const { deleteExpression } = this.props;
+    deleteExpression(expression);
+  },
+
+  renderExpressionUpdating(expression) {
+    return dom.span(
+      { className: "expression-input-container" },
+      dom.input(
+        { type: "text",
+          className: "input-expression",
+          onKeyPress: e => this.inputKeyPress(e, expression),
+          defaultValue: expression.input,
+          ref: (c) => {
+            this._input = c;
+          }
+        }
+      )
+    );
   },
 
   renderExpression(expression) {
+    return dom.span(
+      { className: "expression-output-container",
+        key: expression.id },
+      dom.span(
+        { className: "expression-input",
+          onClick: e => this.updateExpression(e, expression) },
+        expression.input
+      ),
+      dom.span(
+        { className: "expression-seperator" },
+        ": "
+      ),
+      dom.span(
+        { className: "expression-value" },
+        this.renderExpressionValue(expression.value)
+      ),
+      dom.span(
+        { className: "close-btn",
+          onClick: e => this.deleteExpression(e, expression) },
+        Svg("close")
+      )
+    );
+  },
+
+  renderExpressionContainer(expression) {
     return dom.div(
       { className: "expression-container",
-        key: expression.id },
+      key: expression.id + expression.input },
       expression.updating ?
-        dom.input(
-          { type: "text",
-            className: "input-expression",
-            id: "expressionInput-" + expression.id,
-            placeholder: "Add watch Expression",
-            onKeyPress: this.addExpression,
-            defaultValue: expression.input }
-        ) :
-        dom.span(
-          { key: expression.id,
-            id: "expressionOutput-" + expression.id,
-            onClick: this.updateExpression },
-          expression.input + " --> " +
-          JSON.stringify(expression.value || "Not Paused")
-        )
+        this.renderExpressionUpdating(expression) :
+        this.renderExpression(expression)
     );
+  },
+
+  componentDidUpdate() {
+    if (this._input) {
+      this._input.focus();
+    }
   },
 
   render() {
@@ -75,9 +128,10 @@ const Expressions = React.createClass({
         { type: "text",
           className: "input-expression",
           placeholder: "Add watch Expression",
-          onKeyPress: this.addExpression }
+          onKeyPress: e => this.inputKeyPress(e, {}) }
       ),
-      expressions.toSeq().map(expression => this.renderExpression(expression))
+      expressions.toSeq().map(expression =>
+        this.renderExpressionContainer(expression))
     );
   }
 });
