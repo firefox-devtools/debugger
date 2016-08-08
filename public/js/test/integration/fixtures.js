@@ -6,7 +6,7 @@ xdescribe("Fixtures", function() {
    */
   it("todomvc", function() {
     debugPage("todomvc");
-    goToSource("js/views/todo-view");
+    goToSource("todo-view");
     goToSource("app-view");
     goToSource("models/todo.js");
     cy.saveFixture("todomvc");
@@ -18,7 +18,7 @@ xdescribe("Fixtures", function() {
    */
   it("todomvc.updateOnEnter", function() {
     debugPage("todomvc");
-    goToSource("js/views/todo-view");
+    goToSource("todo-view");
     toggleBreakpoint(113);
     toggleBreakpoint(119);
     toggleBreakpoint(121);
@@ -41,7 +41,7 @@ xdescribe("Fixtures", function() {
    */
   it("pythagorean", function() {
     debugPage("pythagorean");
-    goToSource("pythagorean.js");
+    goToSource("pythagorean");
     toggleBreakpoint(11);
     cy.debuggee(() => {
       window.dbg.click("button");
