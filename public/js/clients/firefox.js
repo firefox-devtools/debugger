@@ -64,7 +64,7 @@ function connectClient() {
     }
 
     deferred.resolve([]);
-  }, 1000);
+  }, 6000);
 
   debuggerClient.connect().then(() => {
     isConnected = true;
