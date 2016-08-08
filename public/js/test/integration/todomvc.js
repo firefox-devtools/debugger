@@ -45,19 +45,30 @@ describe("Todo MVC", function() {
     cy.reload();
   });
 
+  it("(Firefox) Pretty Printing", function() {
+    debugPage("todomvc");
+    goToSource("storage");
+    prettyPrint();
+    toggleBreakpoint(21);
+    addTodo();
+    editTodo()
+    toggleCallStack();
+    toggleScopes();
+    callStackFrameAtIndex(0).contains("save");
+  });
+
+  // for(var i=0; i<10; i++) {}
+
   it("(Chrome) Source Maps", function() {
     debugPage("increment", "Chrome");
 
     goToSource("increment.js");
-    cy.wait(1000)
     toggleBreakpoint(3);
-    cy.wait(1000)
 
     cy.debuggee(() => {
       dbg.click("button");
     });
 
-    cy.wait(1000);
     toggleCallStack();
     callStackFrameAtIndex(0).contains("exports.increment");
 
