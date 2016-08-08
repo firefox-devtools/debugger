@@ -1,0 +1,10 @@
+{
+  "features": {
+    "sourceMaps": true,
+    "prettyPrint": true,
+    "watchExpressions": true
+  },
+  "chrome": {
+    "debug": true
+  }
+}

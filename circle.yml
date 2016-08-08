@@ -1,3 +1,10 @@
+machine:
+  node:
+    version: 5.10.1
+
+checkout:
+  post:
+    - mv config/ci.json config/local.json
 test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
@@ -5,7 +12,7 @@ test:
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
   pre:
-    - DEBUG_CHROME=true node bin/development-server.js:
+    - node bin/development-server.js:
         background: true
     - node bin/firefox-driver --start:
         background: true
@@ -23,6 +30,3 @@ dependencies:
     - ./bin/install-chrome
     - ./bin/install-firefox
     - node_modules/.bin/cypress install
-machine:
-  node:
-    version: 5.10.1
