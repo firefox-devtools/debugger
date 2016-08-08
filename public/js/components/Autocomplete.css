@@ -33,6 +33,15 @@
   cursor: pointer;
 }
 
+.autocomplete li.selected {
+  background: var(--theme-selection-background);
+  color: white;
+}
+
+.autocomplete li.selected .subtitle {
+  color: white;
+}
+
 .autocomplete li .title {
   font-size: 0.8em;
   line-height: 1.5em;
@@ -47,6 +56,7 @@
 .autocomplete input {
   width: 100%;
   border: 2px solid #dde1e4;
+  outline: none;
   line-height: 2.5em;
   height: 2.5em;
   padding-left: 25px;
