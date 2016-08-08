@@ -54,15 +54,7 @@ const Expressions = React.createClass({
     if (value.exception) {
       return Rep({ object: value.exception });
     }
-    if (typeof value.result === "boolean") {
-      return `${value.result}`;
-    }
-    if (typeof value.result !== "object") {
-      return value.result;
-    }
-    if (typeof value.result === "object") {
-      return Rep({ object: value.result });
-    }
+    return Rep({ object: value.result });
   },
 
   deleteExpression(e, expression) {
