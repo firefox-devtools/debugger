@@ -115,6 +115,9 @@ function stepOut() {
   commandBar().find(".active.stepOut").click();
 }
 
+function addAWatchExpression(expression) {
+  cy.get(".input-expression").type(`${expression}{enter}`)
+}
 
 /**
  DOM queries
@@ -140,5 +143,6 @@ Object.assign(window, {
   resume,
   stepIn,
   stepOut,
-  stepOver
+  stepOver,
+  addAWatchExpression
 })
