@@ -14,7 +14,7 @@ const Frames = React.createFactory(require("./Frames"));
 const Accordion = React.createFactory(require("./Accordion"));
 require("./RightSidebar.css");
 
-function debugBtn(onClick, type, className = "active", tooltip) {
+function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
   return dom.span(
     { onClick, className, key: type },
@@ -51,13 +51,13 @@ function RightSidebar({ resume, command, breakOnNext,
         { className: "command-bar" },
         pause ? [
           debugBtn(() => command({ type: "resume" }), "resume",
-            null, "Click to resume (F8)"),
+            "active", "Click to resume (F8)"),
           debugBtn(() => command({ type: "stepOver" }), "stepOver",
-            null, "Step Over (F10)"),
+            "active", "Step Over (F10)"),
           debugBtn(() => command({ type: "stepIn" }), "stepIn",
-            null, "Step In (F11)"),
+            "active", "Step In (F11)"),
           debugBtn(() => command({ type: "stepOut" }), "stepOut",
-            null, "Step Out \u21E7 (F12)"),
+            "active", "Step Out \u21E7 (F12)"),
         ] : [
           isWaitingOnBreak ?
             debugBtn(null, "pause", "disabled", "Click to resume (F8)") :
@@ -74,7 +74,7 @@ function RightSidebar({ resume, command, breakOnNext,
                  shouldPauseOnExceptions ? "enabled" : "disabled",
           "Toggle Pause on Exceptions"),
         debugBtn(() => command({ type: "subSettings" }), "subSettings",
-          null, "Settings")
+          "", "Settings")
       ),
 
       Accordion({
