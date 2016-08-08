@@ -22,21 +22,22 @@ const Expressions = React.createClass({
 
   displayName: "Expressions",
 
-  addExpression({ id }, e) {
-    if (e.key === "Enter") {
-      const { addExpression } = this.props;
-      const expression = {
-        input: e.target.value
-      };
-      if (id !== undefined) {
-        expression.id = id;
-      }
-      e.target.value = "";
-      addExpression(expression);
+  inputKeyPress(e, { id }) {
+    if (e.key !== "Enter") {
+      return;
     }
+    const { addExpression } = this.props;
+    const expression = {
+      input: e.target.value
+    };
+    if (id !== undefined) {
+      expression.id = id;
+    }
+    e.target.value = "";
+    addExpression(expression);
   },
 
-  updateExpression({ id }, e) {
+  updateExpression(e, { id }) {
     e.stopPropagation();
     const { updateExpression } = this.props;
     const expression = {
@@ -64,7 +65,7 @@ const Expressions = React.createClass({
     }
   },
 
-  deleteExpression(expression, e) {
+  deleteExpression(e, expression) {
     e.stopPropagation();
     const { deleteExpression } = this.props;
     deleteExpression(expression);
@@ -76,9 +77,7 @@ const Expressions = React.createClass({
       dom.input(
         { type: "text",
           className: "input-expression",
-          dataId: expression.id,
-          id: "expressionInputId-" + expression.id,
-          onKeyPress: this.addExpression.bind(this, expression),
+          onKeyPress: e => this.inputKeyPress(e, expression),
           defaultValue: expression.input,
           ref: (c) => {
             this._input = c;
@@ -94,9 +93,7 @@ const Expressions = React.createClass({
         key: expression.id },
       dom.span(
         { className: "expression-input",
-          dataId: expression.id,
-          id: "expressionOutputId-" + expression.id,
-          onClick: this.updateExpression.bind(this, expression) },
+          onClick: e => this.updateExpression(e, expression) },
         expression.input
       ),
       dom.span(
@@ -109,7 +106,7 @@ const Expressions = React.createClass({
       ),
       dom.span(
         { className: "close-btn",
-          onClick: this.deleteExpression.bind(this, expression) },
+          onClick: e => this.deleteExpression(e, expression) },
         Svg("close")
       )
     );
@@ -118,7 +115,7 @@ const Expressions = React.createClass({
   renderExpressionContainer(expression) {
     return dom.div(
       { className: "expression-container",
-      key: expression.id },
+      key: expression.id + expression.input },
       expression.updating ?
         this.renderExpressionUpdating(expression) :
         this.renderExpression(expression)
@@ -139,7 +136,7 @@ const Expressions = React.createClass({
         { type: "text",
           className: "input-expression",
           placeholder: "Add watch Expression",
-          onKeyPress: this.addExpression.bind(this, {}) }
+          onKeyPress: e => this.inputKeyPress(e, {}) }
       ),
       expressions.toSeq().map(expression =>
         this.renderExpressionContainer(expression))
