@@ -11,7 +11,8 @@ const useWebSocket = process.argv.indexOf("--websocket") > 0;
 
 function firefoxBinary() {
   var binary = new firefox.Binary();
-  binary.addArguments('--start-debugger-server', '6080')
+  binary.addArguments("--start-debugger-server",
+    useWebSocket ? "ws:6080" : "6080");
 
   return binary;
 }
