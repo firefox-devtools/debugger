@@ -3,10 +3,32 @@
   padding: 5px;
   margin: 0px;
   border: none;
+  cursor: hand;
 }
 
-.expression {
+.expression-container {
   border: 1px;
   padding: 2px;
   margin: 1px;
+  width: 100%;
+}
+
+.expression-output-container .close-btn {
+  width: 6px;
+  height: 6px;
+  float: right;
+  margin-right: 6px;
+  display: block;
+  cursor: hand;
+}
+
+.expression-input {
+  color: var(--theme-content-color1);
+  cursor: hand;
+}
+
+.expression-value {
+  overflow-x: scroll;
+  width: 80%;
+  color: var(--theme-content-color2);
 }

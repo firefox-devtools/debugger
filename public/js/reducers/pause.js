@@ -91,6 +91,8 @@ function update(state = initialState, action, emit) {
           input: action.input,
           updating: true });
 
+    case constants.DELETE_EXPRESSION:
+      return state.deleteIn(["expressions", action.id]);
   }
 
   return state;

@@ -135,11 +135,15 @@ function loadObjectProperties(grip) {
  */
 function addExpression(expression) {
   return ({ dispatch, getState }) => {
+    const lastExpression = getExpressions(getState()).toJS().pop();
+    const id = parseInt(expression.id, 10) ||
+      (lastExpression ? lastExpression.id : -1) + 1;
     dispatch({
       type: constants.ADD_EXPRESSION,
-      id: expression.id || `${getExpressions(getState()).toSeq().size++}`,
+      id: id,
       input: expression.input
     });
+    dispatch(evaluateExpressions());
   };
 }
 
@@ -149,6 +153,15 @@ function updateExpression(expression) {
       type: constants.UPDATE_EXPRESSION,
       id: expression.id,
       input: expression.input
+    });
+  };
+}
+
+function deleteExpression(expression) {
+  return ({ dispatch }) => {
+    dispatch({
+      type: constants.DELETE_EXPRESSION,
+      id: expression.id
     });
   };
 }
@@ -169,6 +182,7 @@ function evaluateExpressions() {
 module.exports = {
   addExpression,
   updateExpression,
+  deleteExpression,
   resumed,
   paused,
   pauseOnExceptions,
