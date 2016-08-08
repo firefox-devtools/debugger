@@ -10,6 +10,7 @@ const express = require("express");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const http = require("http");
+const serveIndex = require("serve-index");
 
 // Setup Config
 const getConfig = require("../config/config").getConfig;
@@ -79,6 +80,7 @@ app.listen(8000, "0.0.0.0", function(err, result) {
 
 const examples = express();
 examples.use(express.static("public/js/test/examples"));
+examples.use(serveIndex("public/js/test/examples", { icons: true }));
 examples.listen(7999, "0.0.0.0", function(err, result) {
   console.log("View debugger examples at http://localhost:7999");
 });
