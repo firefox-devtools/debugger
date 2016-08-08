@@ -46,6 +46,7 @@ function sourceContents(sourceId) {
 
 function setBreakpoint(location, condition) {
   const sourceClient = threadClient.source({ actor: location.sourceId });
+
   return sourceClient.setBreakpoint({
     line: location.line,
     column: location.column,
