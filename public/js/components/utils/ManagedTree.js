@@ -8,16 +8,21 @@ let ManagedTree = React.createClass({
   displayName: "ManagedTree",
 
   getInitialState() {
-    return { expanded: new WeakMap(),
+    return { expanded: new Set(),
              focusedItem: null };
   },
 
-  setExpanded(item, expanded) {
-    const e = this.state.expanded;
-    e.set(item, expanded);
-    this.setState({ expanded: e });
+  setExpanded(item, isExpanded) {
+    const expanded = this.state.expanded;
+    const key = this.props.getKey(item);
+    if (isExpanded) {
+      expanded.add(key);
+    } else {
+      expanded.delete(key);
+    }
+    this.setState({ expanded });
 
-    if (expanded && this.props.onExpand) {
+    if (isExpanded && this.props.onExpand) {
       this.props.onExpand(item);
     } else if (!expanded && this.props.onCollapse) {
       this.props.onCollapse(item);
@@ -38,7 +43,7 @@ let ManagedTree = React.createClass({
     const { expanded, focusedItem } = this.state;
 
     const props = Object.assign({}, this.props, {
-      isExpanded: item => expanded.get(item),
+      isExpanded: item => expanded.has(this.props.getKey(item)),
       focused: focusedItem,
 
       onExpand: item => this.setExpanded(item, true),

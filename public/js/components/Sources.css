@@ -61,7 +61,9 @@ ul.sources-list {
   top: 1px;
 }
 
-.worker {
+.worker,
+.folder {
+  position: relative;
   top: 2px;
 }
 

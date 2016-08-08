@@ -202,7 +202,7 @@ const Tree = module.exports = createClass({
 
   componentDidMount() {
     window.addEventListener("resize", this._updateHeight);
-    this._autoExpand();
+    this._autoExpand(this.props);
     this._updateHeight();
   },
 
@@ -211,12 +211,12 @@ const Tree = module.exports = createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    this._autoExpand();
+    this._autoExpand(nextProps);
     this._updateHeight();
   },
 
-  _autoExpand() {
-    if (!this.props.autoExpandDepth) {
+  _autoExpand(props) {
+    if (!props.autoExpandDepth) {
       return;
     }
 
@@ -224,22 +224,22 @@ const Tree = module.exports = createClass({
     // not use the usual DFS infrastructure because we don't want to ignore
     // collapsed nodes.
     const autoExpand = (item, currentDepth) => {
-      if (currentDepth >= this.props.autoExpandDepth ||
+      if (currentDepth >= props.autoExpandDepth ||
           this.state.seen.has(item)) {
         return;
       }
 
-      this.props.onExpand(item);
+      props.onExpand(item);
       this.state.seen.add(item);
 
-      const children = this.props.getChildren(item);
+      const children = props.getChildren(item);
       const length = children.length;
       for (let i = 0; i < length; i++) {
         autoExpand(children[i], currentDepth + 1);
       }
     };
 
-    const roots = this.props.getRoots();
+    const roots = props.getRoots();
     const length = roots.length;
     for (let i = 0; i < length; i++) {
       autoExpand(roots[i], 0);
