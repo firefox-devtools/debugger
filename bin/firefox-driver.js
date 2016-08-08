@@ -39,7 +39,7 @@ function start() {
 
 if (shouldStart) {
   const driver = start();
-  driver.get("http://localhost:8000/todomvc");
+  driver.get("http://localhost:7999/todomvc");
   setInterval(() => {}, 100);
 }
 
