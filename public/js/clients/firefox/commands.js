@@ -4,10 +4,12 @@ const defer = require("../../utils/defer");
 let bpClients;
 let threadClient;
 let tabTarget;
+let debuggerClient;
 
 function setupCommands(dependencies) {
   threadClient = dependencies.threadClient;
   tabTarget = dependencies.tabTarget;
+  debuggerClient = dependencies.debuggerClient;
   bpClients = {};
 }
 
@@ -78,12 +80,22 @@ function removeBreakpoint(breakpointId) {
 
 function evaluate(script) {
   const deferred = defer();
-
   tabTarget.activeConsole.evaluateJS(script, (result) => {
     deferred.resolve(result);
   });
 
   return deferred.promise;
+}
+
+function debuggeeCommand(script) {
+  tabTarget.activeConsole.evaluateJS(script, () => {});
+
+  const consoleActor = tabTarget.form.consoleActor;
+  const request = debuggerClient._activeRequests.get(consoleActor);
+  request.emit("json-reply", {});
+  debuggerClient._activeRequests.delete(consoleActor);
+
+  return Promise.resolve();
 }
 
 function navigate(url) {
@@ -119,6 +131,7 @@ const clientCommands = {
   setBreakpoint,
   removeBreakpoint,
   evaluate,
+  debuggeeCommand,
   navigate,
   getProperties,
   pauseOnExceptions,

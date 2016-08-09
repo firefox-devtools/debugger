@@ -57,8 +57,6 @@ describe("Todo MVC", function() {
     callStackFrameAtIndex(0).contains("save");
   });
 
-  // for(var i=0; i<10; i++) {}
-
   it("(Chrome) Source Maps", function() {
     debugPage("increment", "Chrome");
 

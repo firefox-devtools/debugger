@@ -100,7 +100,7 @@ function initPage(actions) {
   tabTarget = getTabTarget();
   threadClient = getThreadClient();
 
-  setupCommands({ threadClient, tabTarget });
+  setupCommands({ threadClient, tabTarget, debuggerClient });
 
   tabTarget.on("will-navigate", actions.willNavigate);
   tabTarget.on("navigate", actions.navigate);
