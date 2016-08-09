@@ -420,6 +420,7 @@ PrefBranch.prototype = {
     if (event.storageArea !== localStorage) {
       return;
     }
+
     // Ignore delete events.  Not clear what's correct.
     if (event.key === null || event.newValue === null) {
       return;
@@ -439,9 +440,15 @@ PrefBranch.prototype = {
    * Helper function to initialize the root PrefBranch.
    */
   _initializeRoot: function () {
-    if (localStorage.length === 0) {
-      // FIXME - this is where we'll load devtools.js to install the
-      // default prefs.
+    try {
+      if (localStorage.length === 0) {
+        // FIXME - this is where we'll load devtools.js to install the
+        // default prefs.
+      }
+    } catch(e) {
+      // Couldn't access localStorage; bail. This happens in the
+      // Firefox panel because Chrome-privileged code can't access it.
+      return;
     }
 
     // Read the prefs from local storage and create the local
