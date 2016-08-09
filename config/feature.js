@@ -1,3 +1,5 @@
+"use strict";
+
 const pick = require("lodash/get");
 let config;
 /**
