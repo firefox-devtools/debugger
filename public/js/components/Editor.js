@@ -41,6 +41,7 @@ const Editor = React.createClass({
     this.editor = CodeMirror.fromTextArea(this.refs.editor, {
       mode: "javascript",
       lineNumbers: true,
+      theme: "mozilla",
       lineWrapping: false,
       smartIndent: false,
       matchBrackets: true,

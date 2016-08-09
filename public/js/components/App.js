@@ -6,6 +6,7 @@ const actions = require("../actions");
 
 require("./App.css");
 require("../lib/variables.css");
+require("../lib/themes/light-theme.css");
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
 const SplitBox = createFactory(require("./SplitBox"));

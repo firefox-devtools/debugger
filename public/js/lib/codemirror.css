@@ -216,13 +216,14 @@
   box-shadow: 0 0 0 1px #818181;
 }
 
-.CodeMirror {
+.CodeMirror.cm-s-mozilla {
   /* Inherit platform specific font sizing and styles */
   font-family: inherit;
   font-size: 11px;
   height: 100%;
   background: var(--theme-body-background);
 }
+
 
 .devtools-dark-theme .CodeMirror {
   background: var(--theme-body-background);
