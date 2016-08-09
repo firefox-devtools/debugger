@@ -36,7 +36,7 @@ const createSourceMap = sourceMapTask("createSourceMap");
 const clearData = sourceMapTask("clearData");
 
 function _shouldSourceMap(generatedSource) {
-  return isEnabled("features.sourceMaps") && generatedSource.sourceMapURL;
+  return isEnabled("sourceMaps") && generatedSource.sourceMapURL;
 }
 
 async function getOriginalSources(state: AppState, source: any) {

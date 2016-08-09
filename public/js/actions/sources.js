@@ -26,7 +26,7 @@ const {
 } = require("../selectors");
 
 function _shouldSourceMap(generatedSource) {
-  return isEnabled("features.sourceMaps") && generatedSource.sourceMapURL;
+  return isEnabled("sourceMaps") && generatedSource.sourceMapURL;
 }
 
 function _addSource(source) {
@@ -197,7 +197,7 @@ function togglePrettyPrint(id) {
   return ({ dispatch, getState, client }) => {
     const source = getSource(getState(), id).toJS();
 
-    if (!isEnabled("features.prettyPrint") || source.isPrettyPrinted) {
+    if (!isEnabled("prettyPrint") || source.isPrettyPrinted) {
       return {};
     }
 

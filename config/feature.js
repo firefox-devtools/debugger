@@ -10,7 +10,9 @@ function getValue(key) {
   return pick(config, key);
 }
 
-const isEnabled = getValue;
+function isEnabled(key) {
+  return config.features[key];
+}
 
 function isDevelopment() {
   return process.env.NODE_ENV !== "production";

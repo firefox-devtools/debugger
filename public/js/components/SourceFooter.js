@@ -23,7 +23,7 @@ function SourceFooter({ togglePrettyPrint, selectedSource }) {
       className: "source-footer"
     },
     dom.div({ className: "command-bar" },
-      isEnabled("features.blackbox") ? debugBtn(
+      isEnabled("blackbox") ? debugBtn(
         () => {},
         "blackBox",
         commandsEnabled,

@@ -16,11 +16,12 @@ const serveIndex = require("serve-index");
 const getConfig = require("../config/config").getConfig;
 const feature = require("../config/feature");
 const config = getConfig();
+
 feature.setConfig(config);
 
-if (!feature.isEnabled("firefox.webSocketConnection")) {
+if (!feature.getValue("firefox.webSocketConnection")) {
   const firefoxProxy = require("./firefox-proxy");
-  firefoxProxy({ logging: feature.isEnabled("logging.firefoxProxy") });
+  firefoxProxy({ logging: feature.getValue("logging.firefoxProxy") });
 }
 
 function httpGet(url, onResponse) {
@@ -50,7 +51,7 @@ app.use(webpackDevMiddleware(compiler, {
   stats: { colors: true }
 }));
 
-if (feature.isEnabled("hotReloading")) {
+if (feature.getValue("hotReloading")) {
   app.use(webpackHotMiddleware(compiler));
 } else {
   console.log("Hot Reloading can be enabled by adding " +
