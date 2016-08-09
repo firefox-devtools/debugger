@@ -4,6 +4,7 @@ describe("Todo MVC", function() {
     debugPage("todomvc");
     goToSource("todo-view");
     toggleBreakpoint(33);
+    addWatchExpression("this");
 
     // pause and check the first frame
     addTodo();
