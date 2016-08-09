@@ -30,7 +30,7 @@ module.exports = function(name, props) { // eslint-disable-line
   if (!svg[name]) {
     throw new Error("Unknown SVG: " + name);
   }
-  let className = props ? `${name} ` + props.className : name;
+  let className = props ? `${name} ${props.className}` : name;
   if (name === "subSettings") {
     className = "";
   }
