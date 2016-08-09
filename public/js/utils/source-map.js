@@ -5,9 +5,17 @@ import type { Location } from "./actions/types";
 const { getSource, getSourceByURL } = require("../selectors");
 const { isEnabled, getValue } = require("../feature");
 
-const sourceMapWorker = new Worker(
-  getValue("baseWorkerURL") + "source-map-worker.js"
-);
+let sourceMapWorker;
+function restartWorker() {
+  if (sourceMapWorker) {
+    sourceMapWorker.terminate();
+  }
+  sourceMapWorker = new Worker(
+    getValue("baseWorkerURL") + "source-map-worker.js"
+  );
+}
+restartWorker();
+
 const sourceMapTask = function(method) {
   return function() {
     const args = Array.prototype.slice.call(arguments);
@@ -133,5 +141,6 @@ module.exports = {
   isGenerated,
   getGeneratedSourceId,
   createSourceMap,
-  clearData
+  clearData,
+  restartWorker
 };

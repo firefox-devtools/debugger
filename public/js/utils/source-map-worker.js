@@ -78,7 +78,7 @@ function getGeneratedSourceLocation(originalSource, originalLocation) {
 
 function getGeneratedSourceId(originalSource) {
   const match = [...sourceMapConsumers].find(
-    ([x, consumer]) => consumer.sources.includes(originalSource.url)
+    ([x, consumer]) => consumer.sources.indexOf(originalSource.url) !== -1
   );
 
   return match ? match[0] : null;

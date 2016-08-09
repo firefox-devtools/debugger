@@ -1,6 +1,3 @@
-declare var describe: (name: string, func: () => void) => void;
-declare var it: (desc: string, func: () => void) => void;
-
 const { createStore, selectors, actions } = require("../../utils/test-head");
 const { Task } = require("../../utils/task");
 const expect = require("expect.js");
