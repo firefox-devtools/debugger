@@ -61,11 +61,12 @@
   height: 2.5em;
   padding-left: 25px;
   font-size: 0.8em;
-  background-image: url("/images/magnifying-glass.svg");
+  background-image: url("/images/magnifying-glass.svg#grey");
   background-repeat: no-repeat;
   background-position: 5px 50%;
 }
 
 .autocomplete input:focus {
   border-color: #4a90e0;
+  background-image: url("/images/magnifying-glass.svg#blue");
 }
