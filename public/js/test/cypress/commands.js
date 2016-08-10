@@ -34,16 +34,7 @@ Cypress.addParentCommand("debuggee", function(callback) {
 
   return cy.window().then(win => {
     win.injectDebuggee();
-    // NOTE: we should be returning a promise here.
-    // The problem is if, the client pauses we need to handle that
-    // gracefully and resume. We did this on the test-server.
-    win.client.evaluate(script).then(response => {
-      if (response.exception) {
-        const errorMsg = response.exceptionMessage;
-        const commandInput = response.input;
-        console.error(`${errorMsg}\n For command:\n${commandInput}`);
-      }
-    });
+    return win.client.debuggeeCommand(script);
   });
 });
 

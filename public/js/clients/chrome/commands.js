@@ -81,6 +81,11 @@ function evaluate(script) {
   });
 }
 
+function debuggeeCommand(script) {
+  evaluate(script);
+  return Promise.resolve();
+}
+
 function navigate(url) {
   return pageAgent.navigate(url, (_, result) => {
     return result;
@@ -98,6 +103,7 @@ const clientCommands = {
   setBreakpoint,
   removeBreakpoint,
   evaluate,
+  debuggeeCommand,
   navigate
 };
 

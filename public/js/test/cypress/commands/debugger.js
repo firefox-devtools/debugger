@@ -78,6 +78,10 @@ function toggleBreakpoint(linenumber) {
     .contains(".CodeMirror-linenumber", linenumber).click();
 }
 
+function addWatchExpression(expression) {
+  cy.get(".input-expression").type(`${expression}{enter}`)
+}
+
 function selectBreakpointInList(index) {
   breakpointAtIndex(index).click();
 }
@@ -147,5 +151,6 @@ Object.assign(window, {
   stepIn,
   stepOut,
   stepOver,
-  prettyPrint
+  prettyPrint,
+  addWatchExpression
 })

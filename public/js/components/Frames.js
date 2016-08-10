@@ -52,11 +52,13 @@ function Frames({ frames, selectedFrame, selectFrame }) {
 
 module.exports = connect(
   state => ({
-    frames: getFrames(state).map(frame => {
-      return Object.assign({}, frame, {
-        source: getSource(state, frame.location.sourceId).toJS()
-      });
-    }),
+    frames: getFrames(state)
+      .filter(frame => getSource(state, frame.location.sourceId))
+      .map(frame => {
+        return Object.assign({}, frame, {
+          source: getSource(state, frame.location.sourceId).toJS()
+        });
+      }),
     selectedFrame: getSelectedFrame(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)

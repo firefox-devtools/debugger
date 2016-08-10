@@ -4,6 +4,7 @@ describe("Todo MVC", function() {
     debugPage("todomvc");
     goToSource("todo-view");
     toggleBreakpoint(33);
+    addWatchExpression("this");
 
     // pause and check the first frame
     addTodo();
@@ -56,8 +57,6 @@ describe("Todo MVC", function() {
     toggleScopes();
     callStackFrameAtIndex(0).contains("save");
   });
-
-  // for(var i=0; i<10; i++) {}
 
   it("(Chrome) Source Maps", function() {
     debugPage("increment", "Chrome");

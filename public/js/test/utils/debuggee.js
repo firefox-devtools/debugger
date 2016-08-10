@@ -112,7 +112,7 @@ function injectDebuggee() {
     return Promise.resolve(injectedDebuggee);
   }
 
-  return window.client.evaluate(debuggeeStatement).then(result => {
+  return window.client.debuggeeCommand(debuggeeStatement).then(result => {
     injectedDebuggee = result;
   });
 }
