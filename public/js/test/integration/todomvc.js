@@ -8,8 +8,6 @@ describe("Todo MVC", function() {
 
     // pause and check the first frame
     addTodo();
-    toggleCallStack();
-    toggleScopes();
     callStackFrameAtIndex(0).contains("initialize");
 
     // select the second frame and check to see the source updated
@@ -46,6 +44,12 @@ describe("Todo MVC", function() {
     cy.reload();
   });
 
+  /**
+   * * select a minified source
+   * * pretty print source
+   * * add a breakpoint
+   * * pause in pretty source location
+   */
   it("(Firefox) Pretty Printing", function() {
     debugPage("todomvc");
     goToSource("storage");
@@ -53,11 +57,81 @@ describe("Todo MVC", function() {
     toggleBreakpoint(21);
     addTodo();
     editTodo()
-    toggleCallStack();
-    toggleScopes();
     callStackFrameAtIndex(0).contains("save");
   });
 
+  /**
+   * * pause on a debugger statement
+   * * continue to a debugger statement
+   * * step over to a function call
+   * * step into a function
+   * * step out to the return of a function
+   */
+  it("(Firefox) stepping", function() {
+    debugPage("debugger-statements.html");
+
+    callStackFrameAtIndex(0).contains("8");
+
+    resume();
+    callStackFrameAtIndex(0).contains("12");
+
+    stepOver();
+    callStackFrameAtIndex(0).contains("13");
+
+    stepIn();
+    callStackFrameAtIndex(0).contains("18");
+
+    stepOut();
+    callStackFrameAtIndex(0).contains("20");
+  })
+
+  /**
+   * * pausing in a script next to an iframe
+   * * pausing in a script in an iframe.
+   */
+  it("(Firefox) iframe", function() {
+    debugPage("iframe.html");
+
+    callStackFrameAtIndex(0).contains("8");
+    resume();
+    callStackFrameAtIndex(0).contains("8");
+  });
+
+  /**
+   * * pausing in a caught exception
+   * * pausing on a caught error
+   * * pausing in an uncaught error
+   * * pausing in an uncaught exception
+   * * reloading while paused and resuming execution
+   */
+  it("(Firefox) exception", function() {
+    debugPage("exceptions.html");
+    scopeAtIndex(0).click();
+    scopeAtIndex(1).contains("reachable")
+
+    resume();
+    scopeAtIndex(0).click();
+    scopeAtIndex(1).contains("Error")
+
+    resume();
+    scopeAtIndex(0).click();
+    scopeAtIndex(1).contains("Error")
+
+    resume();
+    stepOver();
+    stepOver();
+    scopeAtIndex(0).click();
+    scopeAtIndex(1).contains("unreachable")
+
+    cy.navigate("exceptions.html")
+    goToSource("exceptions")
+  });
+
+  /**
+   * * select an original source
+   * * add a breakpoint
+   * * pause in an original location
+   */
   it("(Chrome) Source Maps", function() {
     debugPage("increment", "Chrome");
 
@@ -70,7 +144,5 @@ describe("Todo MVC", function() {
 
     toggleCallStack();
     callStackFrameAtIndex(0).contains("exports.increment");
-
-    cy.reload();
   });
 });
