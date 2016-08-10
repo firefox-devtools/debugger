@@ -5,7 +5,7 @@
 
 const { createStore, applyMiddleware } = require("redux");
 const { waitUntilService } = require("devtools/client/shared/redux/middleware/wait-service");
-const { log } = require("devtools/client/shared/redux/middleware/log");
+const { log } = require("./redux/middleware/log");
 const { history } = require("./redux/middleware/history");
 const { promise } = require("./redux/middleware/promise");
 const { thunk } = require("./redux/middleware/thunk");

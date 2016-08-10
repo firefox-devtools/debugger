@@ -5,6 +5,7 @@ All default config values are in [`config/development.json`](./development.json)
 * `logging`
   * `client` Enables logging the Firefox protocol in the devtools console of the debugger
   * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `npm start`
+  * `actions` Enables logging the redux actions
 * `features` debugger related features
   * `tabs` Enables source view tabs in the editor (CodeMirror)
   * `sourceMaps` Enables source map loading when available
