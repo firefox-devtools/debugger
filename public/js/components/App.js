@@ -17,6 +17,24 @@ const Autocomplete = createFactory(require("./Autocomplete"));
 const { getSelectedSource, getSources } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { KeyShortcuts } = require("../lib/devtools-sham/client/shared/key-shortcuts");
+const { isHiddenSource, getURL } = require("../utils/sources-tree");
+
+function searchResults(sources) {
+  function getSourcePath(source) {
+    const { path } = getURL(source);
+    return endTruncateStr(path, 50);
+  }
+
+  return sources.valueSeq()
+    .filter(source => !isHiddenSource(source))
+    .map(source => ({
+      value: getSourcePath(source),
+      title: getSourcePath(source).split("/").pop(),
+      subtitle: getSourcePath(source),
+      id: source.get("id")
+    }))
+    .toJS();
+}
 
 const App = React.createClass({
   propTypes: {
@@ -57,24 +75,6 @@ const App = React.createClass({
   },
 
   renderSourcesSearch() {
-    function getSourcePath(source) {
-      const url = source.get("url") || "";
-      const path = (new URL(url)).pathname;
-      return endTruncateStr(path, 50);
-    }
-
-    function searchResults(sources) {
-      return sources.valueSeq()
-        .filter(source => !!source.get("url"))
-        .map(source => ({
-          value: getSourcePath(source),
-          title: getSourcePath(source).split("/").pop(),
-          subtitle: getSourcePath(source),
-          id: source.get("id")
-        }))
-        .toJS();
-    }
-
     return Autocomplete({
       selectItem: result => {
         this.props.selectSource(result.id);

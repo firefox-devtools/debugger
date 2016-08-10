@@ -124,6 +124,10 @@ function stepOut() {
   commandBar().find(".active.stepOut").click();
 }
 
+function breakOnNext() {
+  commandBar().find(".active.pause").click();
+}
+
 function prettyPrint() {
   return sourceFooter().get("span.prettyPrint.active").click()
 }
@@ -140,6 +144,7 @@ Object.assign(window, {
   debugPage,
   debugFirstTab,
   goToSource,
+  breakpointAtIndex,
   toggleBreakpoint,
   selectBreakpointInList,
   toggleBreakpointInList,
@@ -153,6 +158,7 @@ Object.assign(window, {
   stepIn,
   stepOut,
   stepOver,
+  breakOnNext,
   prettyPrint,
   addWatchExpression
 })
