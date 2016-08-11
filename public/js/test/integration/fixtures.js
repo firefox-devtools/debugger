@@ -1,6 +1,6 @@
 // turn theses tests on when you want to write new fixture data
 // you also need to turn on the cypress-server to be able to save the fixtures.
-describe("Fixtures", function() {
+xdescribe("Fixtures", function() {
   /**
    An example of the debugger not being paused.
    */
