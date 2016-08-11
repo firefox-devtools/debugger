@@ -9,9 +9,12 @@ test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - node public/js/test/node-unit-tests.js --ci
+    - npm run firefox-unit-test
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
   pre:
+    - node bin/mocha-server.js:
+        background: true
     - node bin/development-server.js:
         background: true
     - node bin/firefox-driver --start:
@@ -23,7 +26,6 @@ test:
     - npm run lint-css
     - npm run lint-js
     - npm run flow
-    # - npm run karma
 dependencies:
   override:
     - npm install
