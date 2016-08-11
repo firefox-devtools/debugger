@@ -196,6 +196,11 @@ function blackbox(source, shouldBlackBox) {
 function togglePrettyPrint(id) {
   return ({ dispatch, getState, client }) => {
     const source = getSource(getState(), id).toJS();
+    const sourceText = getSourceText(getState(), id).toJS();
+
+    if (sourceText.loading) {
+      return;
+    }
 
     if (!isEnabled("prettyPrint") || source.isPrettyPrinted) {
       return {};
@@ -210,7 +215,6 @@ function togglePrettyPrint(id) {
       source,
       originalSource,
       [PROMISE]: (async function () {
-        const sourceText = getSourceText(getState(), source.id).toJS();
         const text = await _prettyPrintSource({ source, sourceText, url });
 
         dispatch(selectSource(originalSource.id));

@@ -1,11 +1,13 @@
 const React = require("react");
-const { DOM: dom } = React;
+const { DOM: dom, PropTypes } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
 const { isEnabled } = require("../feature");
-const { getSelectedSource } = require("../selectors");
+const { getSelectedSource, getSourceText } = require("../selectors");
 const Svg = require("./utils/Svg");
+const ImPropTypes = require("react-immutable-proptypes");
+const classnames = require("classnames");
 
 function debugBtn(onClick, type, className = "active", tooltip) {
   className = `${type} ${className}`;
@@ -15,33 +17,58 @@ function debugBtn(onClick, type, className = "active", tooltip) {
   );
 }
 
-function SourceFooter({ togglePrettyPrint, selectedSource }) {
-  const commandsEnabled = selectedSource ? "" : "disabled";
+const SourceFooter = React.createClass({
+  propTypes: {
+    selectedSource: ImPropTypes.map.isRequired,
+    togglePrettyPrint: PropTypes.func,
+    sourceText: ImPropTypes.map.isRequired
+  },
 
-  return dom.div(
-    {
-      className: "source-footer"
-    },
-    dom.div({ className: "command-bar" },
-      isEnabled("blackbox") ? debugBtn(
-        () => {},
-        "blackBox",
-        commandsEnabled,
-        "Toggle Black Boxing"
-      ) : null,
-      debugBtn(
-        () => togglePrettyPrint(selectedSource.get("id")),
-        "prettyPrint",
-        commandsEnabled,
-        "Prettify Source"
+  displayName: "Editor",
+
+  blackboxButton() {
+    if (!isEnabled("blackbox")) {
+      return null;
+    }
+
+    return debugBtn(
+      () => {},
+      "blackBox",
+      this.props.selectedSource,
+      "Toggle Black Boxing"
+    );
+  },
+
+  prettyPrintButton() {
+    const { selectedSource, sourceText, togglePrettyPrint } = this.props;
+    const sourceLoaded = selectedSource && !sourceText.get("loading");
+
+    return debugBtn(
+      () => togglePrettyPrint(selectedSource.get("id")),
+      "prettyPrint",
+      classnames({ active: sourceLoaded }),
+      "Prettify Source"
+    );
+  },
+
+  render() {
+    return dom.div({ className: "source-footer" },
+      dom.div({ className: "command-bar" },
+        this.blackboxButton(),
+        this.prettyPrintButton()
       )
-    )
-  );
-}
+    );
+  }
+});
 
 module.exports = connect(
-  state => ({
-    selectedSource: getSelectedSource(state),
-  }),
+  state => {
+    const selectedSource = getSelectedSource(state);
+    const selectedId = selectedSource && selectedSource.get("id");
+    return {
+      selectedSource,
+      sourceText: getSourceText(state, selectedId)
+    };
+  },
   dispatch => bindActionCreators(actions, dispatch)
 )(SourceFooter);

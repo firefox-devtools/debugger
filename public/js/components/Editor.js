@@ -179,7 +179,7 @@ module.exports = connect(
     const selectedId = selectedSource && selectedSource.get("id");
 
     return {
-      selectedSource: selectedSource,
+      selectedSource,
       sourceText: getSourceText(state, selectedId),
       breakpoints: getBreakpointsForSource(state, selectedId),
       selectedFrame: getSelectedFrame(state)
