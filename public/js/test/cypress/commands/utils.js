@@ -20,6 +20,7 @@ var deepMap = function(obj, valueTransform, keyTransform) {
     return keys;
   }
 
+  const initialState = isObject(obj) ? {} : [];
   return getKeys(obj).reduce(function(acc, k) {
     if (typeof obj[k] == 'object') {
       const key = keyTransform(k)
@@ -28,7 +29,7 @@ var deepMap = function(obj, valueTransform, keyTransform) {
       acc[k] = valueTransform(obj[k], k)
     }
     return acc
-  },{})
+  }, initialState);
 }
 
 function sanitizeValue(value, key) {

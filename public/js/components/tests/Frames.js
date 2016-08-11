@@ -30,12 +30,12 @@ describe("Frames", function() {
 
     const $el = renderComponent(Frames, "todomvcUpdateOnEnter");
     const frames = getFrames($el);
-    expect(frames.length).to.equal(6);
+    expect(frames.length).to.equal(13);
     expect(getFrameTitle(frames[0])).to.equal("app.TodoView<.updateOnEnter");
     expect(getFrameLocation(frames[0])).to.equal("todo-view.js: 113");
-    expect(getFrameTitle(frames[3])).to.equal("sendKey");
+    expect(getFrameTitle(frames[3])).to.equal(".save");
     // lastChild is the firstChild, there is no empty div present
-    expect(getFrameLocation(frames[3])).to.equal("sendKey");
+    expect(getFrameLocation(frames[5])).to.equal("backbone.localStorage.js: 1");
   });
 
   it("Nested Closure", function() {
@@ -45,7 +45,7 @@ describe("Frames", function() {
 
     const $el = renderComponent(Frames, "pythagorean");
     const frames = getFrames($el);
-    expect(frames.length).to.equal(5);
+    expect(frames.length).to.equal(3);
     expect(getFrameTitle(frames[0])).to.equal("pythagorean");
     expect(getFrameLocation(frames[0])).to.equal("pythagorean.js: 11");
   });
