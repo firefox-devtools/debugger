@@ -12,7 +12,7 @@ describe("Scopes", function() {
     }
 
     const $el = renderComponent(Scopes, "todomvc");
-    expect($el.innerText).to.equal("Not Paused");
+    expect($el.innerText).to.equal("Scopes Unavailable");
   });
 
   it("TodoMVC Event Handler", function() {
