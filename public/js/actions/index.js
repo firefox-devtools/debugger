@@ -1,3 +1,5 @@
+// @flow
+
 const breakpoints = require("./breakpoints");
 const eventListeners = require("./event-listeners");
 const sources = require("./sources");

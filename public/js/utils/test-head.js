@@ -21,6 +21,25 @@ function commonLog(msg: string, data: any = {}) {
   console.log(`[INFO] ${msg} ${JSON.stringify(data)}`);
 }
 
+function makeSource(name: string, props: any = {}) {
+  return Object.assign({
+    id: name,
+    url: "http://example.com/test/" + name
+  }, props);
+}
+
+function waitForState(store: any, predicate: any) {
+  return new Promise(resolve => {
+    const unsubscribe = store.subscribe(() => {
+      if (predicate(store.getState())) {
+        unsubscribe();
+        resolve();
+      }
+    });
+  });
+}
+
 module.exports = {
-  actions, constants, selectors, reducers, createStore, commonLog
+  actions, constants, selectors, reducers, createStore, commonLog,
+  makeSource, waitForState
 };
