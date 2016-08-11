@@ -3,7 +3,8 @@
   "baseWorkerURL": "public/build/",
   "logging": {
     "client": false,
-    "firefoxProxy": false
+    "firefoxProxy": false,
+    "actions": false
   },
   "features": {
     "tabs": true,

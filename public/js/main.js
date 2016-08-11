@@ -8,7 +8,7 @@ const React = require("react");
 const DevToolsUtils = require("devtools-sham/shared/DevToolsUtils");
 const AppConstants = require("devtools-sham/sham/appconstants").AppConstants;
 const { injectGlobals } = require("./utils/debug");
-const { isEnabled, isFirefoxPanel,
+const { isEnabled, isFirefoxPanel, getValue,
         isDevelopment, setConfig } = require("../../config/feature");
 
 setConfig(DebuggerConfig);
@@ -27,7 +27,7 @@ const Tabs = require("./components/Tabs");
 const App = require("./components/App");
 
 const createStore = configureStore({
-  log: false,
+  log: getValue("logging.actions"),
   makeThunkArgs: (args, state) => {
     return Object.assign({}, args, { client: getClient(state) });
   }
