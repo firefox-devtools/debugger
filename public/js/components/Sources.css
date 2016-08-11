@@ -5,6 +5,15 @@
   overflow: hidden;
 }
 
+.sources-header {
+  height: 30px;
+  border-bottom: 1px solid var(--theme-gray);
+  color: var(--theme-splitter-color);
+  padding-left: 10px;
+  line-height: 30px;
+  font-size: 0.9em;
+}
+
 .sources-list {
   flex: 1;
   display: flex;
