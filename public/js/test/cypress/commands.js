@@ -35,7 +35,7 @@ Cypress.addParentCommand("debuggee", function(callback) {
   return cy.window().then(win => {
     win.injectDebuggee();
     return win.client.debuggeeCommand(script);
-  });
+  }).wait(1000);
 });
 
 Cypress.addParentCommand("navigate", function(url) {
