@@ -4,7 +4,7 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 [Mozilla][mozilla] created this debugger for use in the [Firefox][mozilla-firefox] Developer Tools.  And we've purposely created this project in Github, using modern toolchains.  We hope to not only to create a great debugger that works with the [Firefox](https://wiki.mozilla.org/Remote_Debugging_Protocol) and [Chrome Debugging Protocol](https://chromedevtools.github.io/debugger-protocol-viewer/1-1/) but development community that can embed this debugger in your own projects with tools like [NPM](http://npmjs.com/).
 
-<!-- _headline screenshots_ -->
+<img width="1271" alt="debugger-screenshot" src="https://cloud.githubusercontent.com/assets/2134/17603623/ee7607d0-5fc6-11e6-90ff-46975bb8a30f.png">
 
 ![Circle CI status](https://circleci.com/gh/devtools-html/debugger.html.svg??&style=shield)
 [![npm version](https://img.shields.io/npm/v/debugger.html.svg)](https://www.npmjs.com/package/debugger.html)
