@@ -123,7 +123,7 @@ function stepOut() {
 }
 
 function prettyPrint() {
-  return sourceFooter().get("span.prettyPrint").click()
+  return sourceFooter().get("span.prettyPrint.active").click()
 }
 
 /**
