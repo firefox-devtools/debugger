@@ -50,6 +50,8 @@ function debugPage(urlPart, browser = "Firefox") {
   cy.wait(1000);
   cy.navigate(urlPart)
   cy.wait(1000);
+  toggleCallStack();
+  toggleScopes();
 }
 
 function debugFirstTab(browser = "Firefox") {

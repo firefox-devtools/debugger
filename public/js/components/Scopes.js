@@ -36,10 +36,13 @@ function getSpecialVariables(pauseInfo, parentName) {
   const vars = [];
 
   if (thrown) {
+    // handle dehydrating excpetion strings and errors.
+    thrown = thrown.toJS ? thrown.toJS() : thrown;
+
     vars.push({
       name: "<exception>",
       path: parentName + "/<exception>",
-      contents: { value: thrown.toJS() }
+      contents: { value: thrown }
     });
   }
 
