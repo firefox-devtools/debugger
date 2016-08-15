@@ -29,7 +29,7 @@ const App = React.createClass({
 
   getInitialState() {
     return {
-      searchOn: true
+      searchOn: false
     };
   },
 
@@ -93,16 +93,24 @@ const App = React.createClass({
     );
   },
 
+  renderWelcomeBox() {
+    return dom.div(
+      { className: "welcomebox" },
+      "Want to find a file? (Cmd + P)"
+    );
+  },
+
   renderCenterPane() {
     let centerPane;
     if (this.state.searchOn) {
       centerPane = this.renderSourcesSearch();
     } else if (this.props.selectedSource) {
       centerPane = this.renderEditor();
+    } else {
+      centerPane = this.renderWelcomeBox();
     }
 
-    return dom.div({ className: "center-pane" },
-      centerPane);
+    return dom.div({ className: "center-pane" }, centerPane);
   },
 
   render: function() {

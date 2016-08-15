@@ -3,6 +3,7 @@ const { DOM: dom, PropTypes } = React;
 const { filter } = require("fuzzaldrin-plus");
 const classnames = require("classnames");
 require("./Autocomplete.css");
+const Svg = require("./utils/Svg");
 
 const Autocomplete = React.createClass({
   propTypes: {
@@ -57,10 +58,19 @@ const Autocomplete = React.createClass({
     );
   },
 
-  renderWelcomeBox() {
-    return dom.div(
-      { className: "welcomebox" },
-      "Want to find a file? (Cmd + P)"
+  renderInput() {
+    return dom.input(
+      {
+        ref: "searchInput",
+        onChange: (e) => this.setState({
+          inputValue: e.target.value,
+          selectedIndex: -1
+        }),
+        onFocus: e => this.setState({ focused: true }),
+        onBlur: e => this.setState({ focused: false }),
+        onKeyDown: this.onKeyDown,
+        placeholder: "Search..."
+      }
     );
   },
 
@@ -98,23 +108,17 @@ const Autocomplete = React.createClass({
   render() {
     const searchResults = this.getSearchResults();
     return dom.div(
-      { className: "autocomplete" },
-      dom.input(
-        {
-          ref: "searchInput",
-          onChange: (e) => this.setState({
-            inputValue: e.target.value,
-            selectedIndex: -1
-          }),
-          onKeyDown: this.onKeyDown,
-          placeholder: "Search..."
-        }
-      ),
-      searchResults.length ?
-        dom.ul({ className: "results", ref: "results" },
-          searchResults.map(this.renderSearchItem)
-        ) :
-        this.renderWelcomeBox()
+      { className:
+        classnames({
+          autocomplete: true,
+          focused: this.state.focused
+        })
+      },
+      new Svg("magnifying-glass"),
+      this.renderInput(),
+      dom.ul({ className: "results", ref: "results" },
+        searchResults.map(this.renderSearchItem)
+      )
     );
   }
 });
