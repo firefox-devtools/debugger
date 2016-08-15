@@ -116,7 +116,6 @@ EventEmitter.prototype = {
           // Prevent a bad listener from interfering with the others.
           let msg = ex + ": " + ex.stack;
           console.error(msg);
-          dump(msg + "\n");
         }
       }
     }

@@ -1,10 +1,9 @@
 const { Source, Frame, Location } = require("../../types");
 
 const CALL_STACK_PAGE_SIZE = 1000;
-const NEW_SOURCE_IGNORED_URLS = ["debugger eval code", "XStringBundle"];
-
 let threadClient;
 let actions;
+let evalIndex = 1;
 
 function setupEvents(dependencies) {
   threadClient = dependencies.threadClient;
@@ -58,13 +57,8 @@ function resumed(_, packet) {
 
 function newSource(_, packet) {
   const { source } = packet;
-
-  if (NEW_SOURCE_IGNORED_URLS.indexOf(source.url) > -1) {
-    return;
-  }
-
-  if (source.introductionType == "debugger eval") {
-    return;
+  if (!source.url) {
+    source.url = `SOURCE${evalIndex++}`;
   }
 
   actions.newSource(Source({

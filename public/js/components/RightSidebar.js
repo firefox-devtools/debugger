@@ -61,7 +61,7 @@ function RightSidebar({ resume, command, breakOnNext,
         ] : [
           isWaitingOnBreak ?
             debugBtn(null, "pause", "disabled", "Click to resume (F8)") :
-            debugBtn(breakOnNext, "pause", "Click to resume (F8)"),
+            debugBtn(breakOnNext, "pause", "active", "Click to resume (F8)"),
           debugBtn(null, "stepOver", "disabled", "Step Over (F10)"),
           debugBtn(null, "stepIn", "disabled", "Step In (F11)"),
           debugBtn(null, "stepOut", "disabled", "Step Out \u21E7 (F12)")

@@ -30,6 +30,7 @@ describe("Todo MVC", function() {
     // test adding breakpoints
     goToSource("todo-view");
     toggleBreakpoint(33);
+    toggleBreakpoint(75);
     goToSource("app-view");
     toggleBreakpoint(35);
 
@@ -39,7 +40,13 @@ describe("Todo MVC", function() {
 
     // test enabling/disabling breakpoints
     toggleBreakpointInList(0);
-    toggleBreakpointInList(0);
+    toggleBreakpointInList(2);
+
+    // confirm that breakpoints are still there after the debuggee is reloaded
+    cy.navigate("todomvc");
+    breakpointAtIndex(0).should("have.class", "disabled");
+    breakpointAtIndex(1).should("not.have.class", "disabled");
+    breakpointAtIndex(2).should("have.class", "disabled");
 
     cy.reload();
   });
@@ -50,6 +57,15 @@ describe("Todo MVC", function() {
    * * add a breakpoint
    * * pause in pretty source location
    */
+  it("(Firefox) Break On Next", function() {
+    debugPage("todomvc");
+    breakOnNext();
+    cy.debuggee(() => {
+      dbg.type("#new-todo", "hi");
+    });
+    callStackFrameAtIndex(0).contains("1");
+  });
+
   it("(Firefox) Pretty Printing", function() {
     debugPage("todomvc");
     goToSource("storage");
@@ -132,6 +148,23 @@ describe("Todo MVC", function() {
    * * add a breakpoint
    * * pause in an original location
    */
+  it("(Firefox) Evals", function() {
+    debugPage("evals.html")
+
+    cy.debuggee(() => {
+      evalSourceWithDebugger();
+    })
+
+    resume();
+
+    cy.debuggee(() => {
+      evalSourceWithSourceURL();
+      bar();
+    })
+
+    resume();
+  });
+
   it("(Chrome) Source Maps", function() {
     debugPage("increment", "Chrome");
 

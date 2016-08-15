@@ -1,6 +1,13 @@
 const URL = require("url");
 const { assert } = require("./DevToolsUtils");
 
+const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
+
+function isHiddenSource(source) {
+  const url = getURL(source);
+  return !url || url.path.match(/SOURCE/) || IGNORED_URLS.includes(url);
+}
+
 function nodeHasChildren(item) {
   return Array.isArray(item.contents);
 }
@@ -73,7 +80,7 @@ function getURL(source) {
 
 function addToTree(tree, source) {
   const url = getURL(source);
-  if (!url) {
+  if (isHiddenSource(source)) {
     return;
   }
   url.path = decodeURIComponent(url.path);
@@ -171,5 +178,7 @@ module.exports = {
   createParentMap,
   addToTree,
   collapseTree,
-  createTree
+  createTree,
+  getURL,
+  isHiddenSource
 };
