@@ -6,6 +6,7 @@ import type { SourcesState } from "./reducers/sources";
 const URL = require("url");
 const path = require("./utils/path");
 const sources = require("./reducers/sources");
+const pause = require("./reducers/pause");
 const breakpoints = require("./reducers/breakpoints");
 
 type AppState = {
@@ -21,34 +22,6 @@ function getTabs(state: AppState) {
 
 function getSelectedTab(state: AppState) {
   return state.tabs.get("selectedTab");
-}
-
-function getPause(state: AppState) {
-  return state.pause.get("pause");
-}
-
-function getLoadedObjects(state: AppState) {
-  return state.pause.get("loadedObjects");
-}
-
-function getExpressions(state: AppState) {
-  return state.pause.get("expressions");
-}
-
-function getIsWaitingOnBreak(state: AppState) {
-  return state.pause.get("isWaitingOnBreak");
-}
-
-function getShouldPauseOnExceptions(state: AppState) {
-  return state.pause.get("shouldPauseOnExceptions");
-}
-
-function getFrames(state: AppState) {
-  return state.pause.get("frames") || [];
-}
-
-function getSelectedFrame(state: AppState) {
-  return state.pause.get("selectedFrame");
 }
 
 function getSourceMapURL(state: AppState, source: any) {
@@ -87,14 +60,18 @@ module.exports = {
   getBreakpoint: breakpoints.getBreakpoint,
   getBreakpoints: breakpoints.getBreakpoints,
   getBreakpointsForSource: breakpoints.getBreakpointsForSource,
+  getBreakpointsDisabled: breakpoints.getBreakpointsDisabled,
+  getBreakpointsLoading: breakpoints.getBreakpointsLoading,
 
   getTabs,
   getSelectedTab,
-  getPause,
-  getLoadedObjects,
-  getExpressions,
-  getIsWaitingOnBreak,
-  getShouldPauseOnExceptions,
-  getFrames,
-  getSelectedFrame
+
+  getPause: pause.getPause,
+  getLoadedObjects: pause.getLoadedObjects,
+  getExpressions: pause.getExpressions,
+  getIsWaitingOnBreak: pause.getIsWaitingOnBreak,
+  getShouldPauseOnExceptions: pause.getShouldPauseOnExceptions,
+  getShouldIgnoreCaughtExceptions: pause.getShouldIgnoreCaughtExceptions,
+  getFrames: pause.getFrames,
+  getSelectedFrame: pause.getSelectedFrame
 };

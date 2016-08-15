@@ -106,11 +106,22 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
   };
 }
 
-function removeAllBreakpoints() {
+function toggleAllBreakpoints(shouldDisableBreakpoints: Boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
-    const activeBreakpoints = breakpoints.filter(bp => !bp.disabled);
-    activeBreakpoints.forEach(bp => removeBreakpoint(bp.location));
+    return dispatch({
+      type: constants.TOGGLE_BREAKPOINTS,
+      shouldDisableBreakpoints,
+      [PROMISE]: (async function () {
+        for (let [, breakpoint] of breakpoints) {
+          if (shouldDisableBreakpoints) {
+            await dispatch(disableBreakpoint(breakpoint.location));
+          } else {
+            await dispatch(enableBreakpoint(breakpoint.location));
+          }
+        }
+      })()
+    });
   };
 }
 
@@ -154,6 +165,6 @@ module.exports = {
   addBreakpoint,
   disableBreakpoint,
   removeBreakpoint,
-  removeAllBreakpoints,
+  toggleAllBreakpoints,
   setBreakpointCondition
 };

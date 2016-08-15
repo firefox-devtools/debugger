@@ -13,7 +13,7 @@ module.exports = {
   eventListeners,
   sources: sources.update,
   breakpoints: breakpoints.update,
+  pause: pause.update,
   asyncRequests,
-  tabs,
-  pause
+  tabs
 };

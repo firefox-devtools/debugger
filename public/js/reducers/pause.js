@@ -12,6 +12,7 @@ const initialState = fromJS({
   selectedFrame: null,
   loadedObjects: {},
   shouldPauseOnExceptions: false,
+  shouldIgnoreCaughtExceptions: false,
   expressions: []
 });
 
@@ -65,8 +66,11 @@ function update(state = initialState, action, emit) {
       return initialState;
 
     case constants.PAUSE_ON_EXCEPTIONS:
-      const toggle = action.toggle;
-      return state.set("shouldPauseOnExceptions", toggle);
+      const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
+      return state.merge({
+        shouldPauseOnExceptions,
+        shouldIgnoreCaughtExceptions
+      });
 
     case constants.ADD_EXPRESSION:
       return state.setIn(["expressions", action.id],
@@ -98,4 +102,47 @@ function update(state = initialState, action, emit) {
   return state;
 }
 
-module.exports = update;
+function getPause(state: AppState) {
+  return state.pause.get("pause");
+}
+
+function getLoadedObjects(state: AppState) {
+  return state.pause.get("loadedObjects");
+}
+
+function getExpressions(state: AppState) {
+  return state.pause.get("expressions");
+}
+
+function getIsWaitingOnBreak(state: AppState) {
+  return state.pause.get("isWaitingOnBreak");
+}
+
+function getShouldPauseOnExceptions(state: AppState) {
+  return state.pause.get("shouldPauseOnExceptions");
+}
+
+function getShouldIgnoreCaughtExceptions(state: AppState) {
+  return state.pause.get("shouldIgnoreCaughtExceptions");
+}
+
+function getFrames(state: AppState) {
+  return state.pause.get("frames") || [];
+}
+
+function getSelectedFrame(state: AppState) {
+  return state.pause.get("selectedFrame");
+}
+
+module.exports = {
+  initialState,
+  update,
+  getPause,
+  getLoadedObjects,
+  getExpressions,
+  getIsWaitingOnBreak,
+  getShouldPauseOnExceptions,
+  getShouldIgnoreCaughtExceptions,
+  getFrames,
+  getSelectedFrame
+};
