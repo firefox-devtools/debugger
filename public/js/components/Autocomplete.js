@@ -57,6 +57,13 @@ const Autocomplete = React.createClass({
     );
   },
 
+  renderWelcomeBox() {
+    return dom.div(
+      { className: "welcomebox" },
+      "Want to find a file? (Cmd + P)"
+    );
+  },
+
   getSearchResults() {
     let inputValue = this.state.inputValue;
 
@@ -90,7 +97,6 @@ const Autocomplete = React.createClass({
 
   render() {
     const searchResults = this.getSearchResults();
-
     return dom.div(
       { className: "autocomplete" },
       dom.input(
@@ -100,12 +106,15 @@ const Autocomplete = React.createClass({
             inputValue: e.target.value,
             selectedIndex: -1
           }),
-          onKeyDown: this.onKeyDown
+          onKeyDown: this.onKeyDown,
+          placeholder: "Search..."
         }
       ),
-      dom.ul({ className: "results", ref: "results" },
-        searchResults.map(this.renderSearchItem)
-      )
+      searchResults.length ?
+        dom.ul({ className: "results", ref: "results" },
+          searchResults.map(this.renderSearchItem)
+        ) :
+        this.renderWelcomeBox()
     );
   }
 });
