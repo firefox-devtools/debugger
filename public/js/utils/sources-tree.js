@@ -5,7 +5,7 @@ const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
 function isHiddenSource(source) {
   const url = getURL(source);
-  return !url || url.path.match(/SOURCE/) || IGNORED_URLS.includes(url);
+  return !url || url.path.match(/SOURCE/) || IGNORED_URLS.indexOf(url) !== -1;
 }
 
 function nodeHasChildren(item) {
