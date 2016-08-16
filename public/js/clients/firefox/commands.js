@@ -107,8 +107,12 @@ function getProperties(grip) {
   return objClient.getPrototypeAndProperties();
 }
 
-function pauseOnExceptions(toggle) {
-  return threadClient.pauseOnExceptions(toggle);
+function pauseOnExceptions(
+  shouldPauseOnExceptions, shouldIgnoreCaughtExceptions) {
+  return threadClient.pauseOnExceptions(
+    shouldPauseOnExceptions,
+    shouldIgnoreCaughtExceptions
+  );
 }
 
 function prettyPrint(sourceId, indentSize) {

@@ -58,12 +58,18 @@ function paused(pauseInfo) {
   };
 }
 
-function pauseOnExceptions(toggle) {
+function pauseOnExceptions(
+  shouldPauseOnExceptions, shouldIgnoreCaughtExceptions) {
   return ({ dispatch, getState, client }) => {
-    client.pauseOnExceptions(toggle);
+    client.pauseOnExceptions(
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions
+    );
+
     return dispatch({
       type: constants.PAUSE_ON_EXCEPTIONS,
-      toggle
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions
     });
   };
 }
@@ -81,6 +87,22 @@ function command({ type }) {
       value: undefined
     });
   };
+}
+
+function stepIn() {
+  return command({ type: "stepIn" });
+}
+
+function stepOver() {
+  return command({ type: "stepOver" });
+}
+
+function stepOut() {
+  return command({ type: "stepOut" });
+}
+
+function resume() {
+  return command({ type: "resume" });
 }
 
 /**
@@ -186,6 +208,10 @@ module.exports = {
   paused,
   pauseOnExceptions,
   command,
+  stepIn,
+  stepOut,
+  stepOver,
+  resume,
   breakOnNext,
   selectFrame,
   loadObjectProperties
