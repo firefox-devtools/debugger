@@ -1,7 +1,12 @@
 /* vim:set ts=2 sw=2 sts=2 et: */
 /* This Source Code Form is subject to the terms of the Mozilla Public
-  * License, v. 2.0. If a copy of the MPL was not distributed with this
-  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@import url(variables.css);
+@import url(common.css);
+@import url(toolbars.css);
+@import url(tooltips.css);
 
 body {
   margin: 0;
@@ -251,4 +256,137 @@ div.CodeMirror span.eval-text {
 .cm-s-markup-view pre {
   line-height: 1.4em;
   min-height: 1.4em;
+}
+
+/* Twisty and checkbox controls */
+
+.theme-twisty, .theme-checkbox {
+  width: 14px;
+  height: 14px;
+  background-repeat: no-repeat;
+  /* background-image: url("chrome://devtools/skin/images/controls.png"); */
+  background-size: 56px 28px;
+}
+
+.theme-twisty {
+  cursor: pointer;
+  background-position: 0 -14px;
+}
+
+.theme-twisty:-moz-focusring {
+  outline-style: none;
+}
+
+.theme-twisty[open], .theme-twisty.open {
+  background-position: -14px -14px;
+}
+
+.theme-twisty[invisible] {
+  visibility: hidden;
+}
+
+/* Use white twisty when next to a selected item in markup view */
+.theme-selected ~ .theme-twisty {
+  background-position: -28px -14px;
+}
+
+.theme-selected ~ .theme-twisty[open] {
+  background-position: -42px -14px;
+}
+
+.theme-checkbox {
+  display: inline-block;
+  border: 0;
+  padding: 0;
+  outline: none;
+  background-position: 0 0;
+}
+
+.theme-checkbox[checked] {
+  background-position: -14px 0;
+}
+
+@media (min-resolution: 1.1dppx) {
+  .theme-twisty, .theme-checkbox {
+    /* background-image: url("chrome://devtools/skin/images/controls@2x.png"); */
+  }
+}
+
+/* XUL panel styling (see devtools/client/shared/widgets/Tooltip.js) */
+
+.theme-tooltip-panel .panel-arrowcontent {
+  padding: 4px;
+  background: rgba(255, 255, 255, .9);
+  border-radius: 5px;
+  box-shadow: none;
+  border: 3px solid #d9e1e8;
+}
+
+/* Overring panel arrow images to fit with our light and dark themes */
+
+.theme-tooltip-panel .panel-arrow {
+  --arrow-margin: -4px;
+}
+
+:root[platform="win"] .theme-tooltip-panel .panel-arrow {
+  --arrow-margin: -7px;
+}
+
+.theme-tooltip-panel .panel-arrow[side="top"],
+.theme-tooltip-panel .panel-arrow[side="bottom"] {
+  /* list-style-image: url("chrome://devtools/skin/tooltip/arrow-vertical-light.png"); */
+  /* !important is needed to override the popup.css rules in toolkit/themes */
+  width: 39px !important;
+  height: 16px !important;
+}
+
+.theme-tooltip-panel .panel-arrow[side="left"],
+.theme-tooltip-panel .panel-arrow[side="right"] {
+  /* list-style-image: url("chrome://devtools/skin/tooltip/arrow-horizontal-light.png"); */
+  /* !important is needed to override the popup.css rules in toolkit/themes */
+  width: 16px !important;
+  height: 39px !important;
+}
+
+.theme-tooltip-panel .panel-arrow[side="top"] {
+  margin-bottom: var(--arrow-margin);
+}
+
+.theme-tooltip-panel .panel-arrow[side="bottom"] {
+  margin-top: var(--arrow-margin);
+}
+
+.theme-tooltip-panel .panel-arrow[side="left"] {
+  margin-right: var(--arrow-margin);
+}
+
+.theme-tooltip-panel .panel-arrow[side="right"] {
+  margin-left: var(--arrow-margin);
+}
+
+@media (min-resolution: 1.1dppx) {
+  .theme-tooltip-panel .panel-arrow[side="top"],
+  .theme-tooltip-panel .panel-arrow[side="bottom"] {
+    /* list-style-image: url("chrome://devtools/skin/tooltip/arrow-vertical-light@2x.png"); */
+  }
+
+  .theme-tooltip-panel .panel-arrow[side="left"],
+  .theme-tooltip-panel .panel-arrow[side="right"] {
+    /* list-style-image: url("chrome://devtools/skin/tooltip/arrow-horizontal-light@2x.png"); */
+  }
+}
+
+.theme-tooltip-panel .devtools-tooltip-simple-text {
+  color: black;
+  border-bottom: 1px solid #d9e1e8;
+}
+
+.theme-tooltip-panel .devtools-tooltip-simple-text:last-child {
+  border-bottom: 0;
+}
+
+.CodeMirror-hints,
+.CodeMirror-Tern-tooltip {
+  box-shadow: 0 0 4px rgba(128, 128, 128, .5);
+  background-color: var(--theme-sidebar-background);
 }
