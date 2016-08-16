@@ -70,6 +70,10 @@ const Editor = React.createClass({
       return b.location.line === line + 1;
     });
 
+    if (bp && bp.loading) {
+      return;
+    }
+
     if (bp) {
       this.props.removeBreakpoint({
         sourceId: this.props.selectedSource.get("id"),

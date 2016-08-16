@@ -37,6 +37,10 @@ const Breakpoints = React.createClass({
   displayName: "Breakpoints",
 
   handleCheckbox(breakpoint) {
+    if (breakpoint.loading) {
+      return;
+    }
+
     if (breakpoint.disabled) {
       this.props.enableBreakpoint(breakpoint.location);
     } else {
