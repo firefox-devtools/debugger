@@ -1,6 +1,5 @@
 const { SourceMapConsumer, SourceNode, SourceMapGenerator } = require("source-map");
 const toPairs = require("lodash/toPairs");
-const includes = require("lodash/includes");
 
 let sourceMapConsumers = new Map();
 let sourceNodes = new Map();
@@ -52,7 +51,7 @@ function isOriginal(originalSource) {
 }
 
 function isGenerated(source) {
-  return includes([...sourceMapConsumers.keys()], source.id);
+  return !isOriginal(source);
 }
 
 function getGeneratedSourceLocation(originalSource, originalLocation) {
@@ -77,11 +76,8 @@ function getGeneratedSourceLocation(originalSource, originalLocation) {
 }
 
 function getGeneratedSourceId(originalSource) {
-  const match = [...sourceMapConsumers].find(
-    ([x, consumer]) => consumer.sources.indexOf(originalSource.url) !== -1
-  );
-
-  return match ? match[0] : null;
+  const match = originalSource.id.match(/(.*)\/originalSource/);
+  return match ? match[1] : null;
 }
 
 function getOriginalTexts(generatedSource, generatedText) {
@@ -96,6 +92,15 @@ function getOriginalTexts(generatedSource, generatedText) {
 
 function getOriginalSourcePosition(generatedSource, { column, line }) {
   const consumer = _getConsumer(generatedSource.id);
+
+  // if there is not a consumer, then its a generated source without a map
+  if (!consumer) {
+    return {
+      url: generatedSource.url,
+      line,
+      column
+    };
+  }
 
   // The source-map library expects line breakpoints to be 0
   if (column == undefined) {
@@ -128,7 +133,7 @@ function makeOriginalSource({ url, source, id = 1 }) {
   const generatedSourceId = source.id;
   return {
     url,
-    id: JSON.stringify({ generatedSourceId, id }),
+    id: `${generatedSourceId}/originalSource${id}`,
     isPrettyPrinted: false
   };
 }
