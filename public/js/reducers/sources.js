@@ -239,6 +239,15 @@ function getSourceMap(state: OuterState, sourceId: string) {
   return state.sources.sourceMaps.get(sourceId);
 }
 
+function getPrettySource(state: OuterState, id: string) {
+  const source = getSource(state, id);
+  if (!source) {
+    return;
+  }
+
+  return getSourceByURL(state, source.get("url") + ":formatted");
+}
+
 module.exports = {
   State,
   update,
@@ -250,5 +259,6 @@ module.exports = {
   getSourceTabs,
   getSelectedSource,
   getPendingSelectedSourceURL,
-  getSourceMap
+  getSourceMap,
+  getPrettySource
 };

@@ -1,5 +1,5 @@
 const { SourceMapConsumer, SourceNode, SourceMapGenerator } = require("source-map");
-const { makeOriginalSource } = require("./source-map-utils");
+const { makeOriginalSource, getGeneratedSourceId } = require("./source-map-utils");
 
 const toPairs = require("lodash/toPairs");
 
@@ -48,14 +48,6 @@ function _getSourceNode(generatedSourceId, text) {
   return sourceNode;
 }
 
-function isOriginal(originalSource) {
-  return !!getGeneratedSourceId(originalSource);
-}
-
-function isGenerated(source) {
-  return !isOriginal(source);
-}
-
 function getGeneratedSourceLocation(originalSource, originalLocation) {
   const generatedSourceId = getGeneratedSourceId(originalSource);
   const consumer = _getConsumer(generatedSourceId);
@@ -75,11 +67,6 @@ function getGeneratedSourceLocation(originalSource, originalLocation) {
     line,
     column
   };
-}
-
-function getGeneratedSourceId(originalSource) {
-  const match = originalSource.id.match(/(.*)\/originalSource/);
-  return match ? match[1] : null;
 }
 
 function getOriginalTexts(generatedSource, generatedText) {
@@ -151,9 +138,6 @@ const publicInterface = {
   createOriginalSources,
   getOriginalSourceUrls,
   getOriginalTexts,
-  isOriginal,
-  isGenerated,
-  getGeneratedSourceId,
   createSourceMap,
   clearData
 };
