@@ -38,8 +38,7 @@ function getTestPaths(dir) {
 const testPaths = getTestPaths(path.join(__dirname, "../public/js"));
 
 projectConfig.entry.bundle = projectConfig.entry.bundle.concat(testPaths);
-const config = Object.assign({}, projectConfig, {
-});
+const config = Object.assign({}, projectConfig, {});
 
 const app = express();
 const compiler = webpack(config);
