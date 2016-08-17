@@ -61,11 +61,21 @@
   height: 2.5em;
   padding-left: 25px;
   font-size: 0.8em;
-  background-image: url("/images/magnifying-glass.svg");
-  background-repeat: no-repeat;
-  background-position: 5px 50%;
 }
 
-.autocomplete input:focus {
-  border-color: #4a90e0;
+.autocomplete svg {
+  width: 16px;
+  position: absolute;
+  top: calc(2.5em - 12px);
+  left: 27px;
+}
+
+.autocomplete.focused path,
+.autocomplete.focused ellipse {
+  stroke: var(--theme-highlight-blue);
+}
+
+.autocomplete path,
+.autocomplete ellipse {
+  stroke: var(--theme-gray);
 }
