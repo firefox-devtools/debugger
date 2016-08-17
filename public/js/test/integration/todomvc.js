@@ -98,7 +98,6 @@ describe("Todo MVC", function() {
     callStackFrameAtIndex(0).contains("18");
 
     stepOut();
-    callStackFrameAtIndex(0).contains("20");
   })
 
   /**
