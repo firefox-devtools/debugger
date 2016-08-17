@@ -24,6 +24,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Writing Documentation](#writing-documentation-book)
   * [Writing Code](#writing-code-computer)
     * [Your First Code Contribution](#your-first-code-contribution)
+    * [Coding Standards](#coding-standards)
     * [Pull Requests](#pull-requests)
     * [Hot Reloading](#hot-reloading-fire)
   * [Tests](#tests)
@@ -170,6 +171,15 @@ To begin your work make sure you follow these steps:
 * Create a branch to start your work `git checkout -b your-feature-name`
 * Commit your work
 * Create a pull request
+
+#### Coding Standards
+
+> Be consistent with the rest of the code in the file
+
+Here are pointers to the DevTools general coding style and formatting guidelines. 
+
+* [JS Coding Style](https://wiki.mozilla.org/DevTools/CodingStandards#Code_style)
+* [Formatting Comments](https://wiki.mozilla.org/DevTools/CodingStandards#Comments)
 
 #### Pull Requests
 
