@@ -8,6 +8,7 @@ const { getSelectedSource, getSourceText } = require("../selectors");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
+const { isMapped } = require("../utils/source-map");
 
 function debugBtn(onClick, type, className = "active", tooltip) {
   className = `${type} ${className}`;
@@ -42,6 +43,10 @@ const SourceFooter = React.createClass({
   prettyPrintButton() {
     const { selectedSource, sourceText, togglePrettyPrint } = this.props;
     const sourceLoaded = selectedSource && !sourceText.get("loading");
+
+    if (isMapped(selectedSource.toJS())) {
+      return;
+    }
 
     return debugBtn(
       () => togglePrettyPrint(selectedSource.get("id")),

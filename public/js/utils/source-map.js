@@ -43,8 +43,12 @@ const getGeneratedSourceId = sourceMapTask("getGeneratedSourceId");
 const createSourceMap = sourceMapTask("createSourceMap");
 const clearData = sourceMapTask("clearData");
 
-function _shouldSourceMap(generatedSource) {
-  return isEnabled("sourceMaps") && generatedSource.sourceMapURL;
+function _shouldSourceMap(source) {
+  return isEnabled("sourceMaps") && source.sourceMapURL;
+}
+
+function isMapped(source) {
+  return _shouldSourceMap(source);
 }
 
 async function getOriginalSources(state: AppState, source: any) {
@@ -139,6 +143,7 @@ module.exports = {
   getOriginalTexts,
   isOriginal,
   isGenerated,
+  isMapped,
   getGeneratedSourceId,
   createSourceMap,
   clearData,
