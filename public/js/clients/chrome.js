@@ -66,7 +66,7 @@ function initPage(actions) {
   const agents = connection._agents;
 
   setupCommands({ agents: agents });
-  setupEvents({ actions })
+  setupEvents({ actions, agents })
 
   agents.Debugger.enable();
   agents.Debugger.setPauseOnExceptions("none");

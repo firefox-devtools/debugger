@@ -21,7 +21,7 @@ InspectorBackend.registerCommand("Page.enable", [], [], false);
 InspectorBackend.registerCommand("Debugger.getBacktrace", [], ["callFrames", "asyncStackTrace"], false);
 ```
 
-#### Steps to upgrade `inspectorBackend.js`:
+#### Steps to upgrade `api.js`:
 
 + add line `/* eslint-disable */`
 + add line `var WebInspector = {}, window = window || {};`
@@ -35,7 +35,6 @@ InspectorBackend.registerCommand("Debugger.getBacktrace", [], ["callFrames", "as
 ```js
 module.exports = {
   InspectorBackendClass,
-  WebSocketConnection: WebInspector.WebSocketConnection,
-  generateCommands: WebInspector.InspectorBackendHostedMode.generateCommands
+  WebSocketConnection: WebInspector.WebSocketConnection
 };
 ```

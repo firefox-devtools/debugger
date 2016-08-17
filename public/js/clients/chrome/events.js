@@ -1,9 +1,11 @@
 const { Source, Location, Frame } = require("../../types");
 
 let actions;
+let pageAgent;
 
 function setupEvents(dependencies) {
   actions = dependencies.actions;
+  pageAgent = dependencies.agents.Page;
 }
 
 // Debugger Events
@@ -44,10 +46,13 @@ async function paused(
     type: reason
   }, data);
 
+  pageAgent.setOverlayMessage("Paused in debugger.html");
+
   await actions.paused({ frame, why, frames });
 }
 
 function resumed() {
+  pageAgent.setOverlayMessage(undefined);
   actions.resumed();
 }
 
