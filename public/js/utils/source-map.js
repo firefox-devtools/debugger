@@ -1,4 +1,5 @@
 const { workerTask } = require("./utils");
+const { makeOriginalSource } = require("./source-map-utils");
 
 import type { Location } from "./actions/types";
 
@@ -22,15 +23,6 @@ const sourceMapTask = function(method) {
     return workerTask(sourceMapWorker, { method, args });
   };
 };
-
-function makeOriginalSource({ url, source, id = 1 }) {
-  const generatedSourceId = source.id;
-  return {
-    url,
-    id: JSON.stringify({ generatedSourceId, id }),
-    isPrettyPrinted: false
-  };
-}
 
 const getOriginalSourcePosition = sourceMapTask("getOriginalSourcePosition");
 const getGeneratedSourceLocation = sourceMapTask("getGeneratedSourceLocation");
