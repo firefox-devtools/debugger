@@ -43,31 +43,71 @@ const RightSidebar = React.createClass({
     breakpoints: ImPropTypes.map,
     isWaitingOnBreak: PropTypes.bool,
     breakpointsDisabled: PropTypes.bool,
-    breakpointsLoading: PropTypes.bool
+    breakpointsLoading: PropTypes.bool,
+    keyShortcuts: PropTypes.object
   },
 
   displayName: "RightSidebar",
 
-  renderStepButtons() {
-    const { pause, resume, stepOver, stepIn,
-            stepOut, isWaitingOnBreak, breakOnNext } = this.props;
-
-    if (pause) {
-      return [
-        debugBtn(resume, "resume", "active", "Click to resume (F8)"),
-        debugBtn(stepOver, "stepOver", "active", "Step Over (F10)"),
-        debugBtn(stepIn, "stepIn", "active", "Step In (F11)"),
-        debugBtn(stepOut, "stepOut", "active", "Step Out \u21E7 (F12)"),
-      ];
+  resume() {
+    if (this.props.pause) {
+      this.props.resume();
+    } else if (!this.props.isWaitingOnBreak) {
+      this.props.breakOnNext();
     }
+  },
 
+  stepOver() {
+    if (!this.props.pause) {
+      return;
+    }
+    this.props.stepOver();
+  },
+
+  stepIn() {
+    if (!this.props.pause) {
+      return;
+    }
+    this.props.stepIn();
+  },
+
+  stepOut() {
+    if (!this.props.pause) {
+      return;
+    }
+    this.props.stepOut();
+  },
+
+  setupKeyboardShortcuts() {
+    const { keyShortcuts } = this.props;
+    keyShortcuts.on("F8", this.resume);
+    keyShortcuts.on("F10", this.stepOver);
+    keyShortcuts.on("F11", this.stepIn);
+    keyShortcuts.on("F12", this.stepOut);
+  },
+
+  componentWillUnmount() {
+    const { keyShortcuts } = this.props;
+    keyShortcuts.off("F8", this.resume);
+    keyShortcuts.off("F10", this.stepOver);
+    keyShortcuts.off("F11", this.stepIn);
+    keyShortcuts.off("F12", this.stepOut);
+  },
+
+  componentDidUpdate() {
+    this.setupKeyboardShortcuts();
+  },
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.keyShortcuts !== nextProps.keyShortcuts;
+  },
+
+  renderStepButtons() {
     return [
-      isWaitingOnBreak ?
-        debugBtn(null, "pause", "disabled", "Click to resume (F8)") :
-        debugBtn(breakOnNext, "pause", "active", "Click to resume (F8)"),
-      debugBtn(null, "stepOver", "disabled", "Step Over (F10)"),
-      debugBtn(null, "stepIn", "disabled", "Step In (F11)"),
-      debugBtn(null, "stepOut", "disabled", "Step Out \u21E7 (F12)")
+      debugBtn(this.resume, "resume", "active", "Click to resume (F8)"),
+      debugBtn(this.stepOver, "stepOver", "active", "Step Over (F10)"),
+      debugBtn(this.stepIn, "stepIn", "active", "Step In (F11)"),
+      debugBtn(this.stepOut, "stepOut", "active", "Step Out \u21E7 (F12)"),
     ];
   },
 
