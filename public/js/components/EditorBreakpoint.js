@@ -3,7 +3,7 @@ const { PropTypes } = React;
 
 function makeMarker() {
   let marker = document.createElement("div");
-  marker.className = "editor breakpoint";
+  marker.className = "editor new-breakpoint";
 
   let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 60 12");
@@ -30,7 +30,7 @@ const Breakpoint = React.createClass({
     const bp = this.props.breakpoint;
     const line = bp.location.line - 1;
     this.props.editor.setGutterMarker(line, "breakpoints", makeMarker());
-    this.props.editor.addLineClass(line, "line", "breakpoint");
+    this.props.editor.addLineClass(line, "line", "new-breakpoint");
   },
 
   shouldComponentUpdate(nextProps) {
@@ -58,7 +58,7 @@ const Breakpoint = React.createClass({
     const line = bp.location.line - 1;
 
     this.props.editor.setGutterMarker(line, "breakpoints", null);
-    this.props.editor.removeLineClass(line, "line", "breakpoint");
+    this.props.editor.removeLineClass(line, "line", "new-breakpoint");
   },
 
   render() {
