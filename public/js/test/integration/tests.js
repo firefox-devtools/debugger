@@ -1,5 +1,5 @@
 
-describe("Todo MVC", function() {
+describe("Tests", function() {
   it("(Firefox) Test Pausing", function() {
     debugPage("todomvc");
     goToSource("todo-view");
