@@ -10,14 +10,13 @@
   border-bottom: 1px solid var(--theme-gray);
   padding-left: 10px;
   line-height: 30px;
-  font-size: 0.9em;
+  font-size: 1.2em;
 }
 
 .sources-list {
   flex: 1;
   display: flex;
   overflow: hidden;
-  font-size: 0.75em;
 }
 
 ul.sources-list {

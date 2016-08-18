@@ -1,4 +1,5 @@
 .tabs {
+  font-size: 1.25em;
   margin: 100px auto;
   margin-bottom: 0;
   width: calc(100% - 200px);
@@ -9,6 +10,7 @@
 }
 
 .tabs .tab-group-title {
+  font-size: 1.25em;
   margin: 0 0 1em 10px;
   color: var(--theme-highlight-lightorange);
 }
@@ -27,7 +29,6 @@
   border-bottom: 1px solid #dddddd;
   padding: 10px;
   font-family: sans-serif;
-  font-size: 0.9em;
 }
 
 .tabs .tab:hover {
@@ -56,5 +57,4 @@
 .node-message {
   margin: 3em 0;
   text-align: center;
-  font-size: 0.9em;
 }

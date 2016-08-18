@@ -13,8 +13,8 @@
 .command-bar > span {
   cursor: pointer;
   margin-right: 0.7em;
-  width: 1em;
-  height: 1.1em;
+  width: 16px;
+  height: 17px;
   display: inline-block;
   text-align: center;
   transition: opacity 200ms;
@@ -34,7 +34,6 @@
 }
 
 .pane {
-  font-size: 0.75em;
   color: var(--theme-body-color);
 }
 

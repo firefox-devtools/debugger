@@ -1,28 +1,36 @@
 const React = require("react");
+const ReactDOM = require("react-dom");
 const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-const CodeMirror = require("codemirror");
-const { DOM: dom, PropTypes } = React;
+const SourceEditor = require("../utils/source-editor");
 const { debugGlobal } = require("../utils/debug");
-const { isFirefox } = require("../feature");
-
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedSource, getSelectedFrame
 } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const actions = require("../actions");
-const { alignLine, onWheel, resizeBreakpointGutter } = require("../utils/editor");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
+const { DOM: dom, PropTypes } = React;
 
-require("codemirror/lib/codemirror.css");
 require("./Editor.css");
-require("codemirror/mode/javascript/javascript");
-require("../lib/codemirror.css");
 
 function isSourceForFrame(source, frame) {
   return frame && frame.location.sourceId === source.get("id");
+}
+
+/**
+ * Forces the breakpoint gutter to be the same size as the line
+ * numbers gutter. Editor CSS will absolutely position the gutter
+ * beneath the line numbers. This makes it easy to be flexible with
+ * how we overlay breakpoints.
+ */
+function resizeBreakpointGutter(editor) {
+  const gutters = editor.display.gutters;
+  const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
+  const breakpoints = gutters.querySelector(".breakpoints");
+  breakpoints.style.width = lineNumbers.clientWidth + "px";
 }
 
 const Editor = React.createClass({
@@ -38,31 +46,30 @@ const Editor = React.createClass({
   displayName: "Editor",
 
   componentDidMount() {
-    this.editor = CodeMirror.fromTextArea(this.refs.editor, {
+    this.editor = new SourceEditor({
       mode: "javascript",
+      readOnly: true,
       lineNumbers: true,
       theme: "mozilla",
       lineWrapping: false,
-      smartIndent: false,
       matchBrackets: true,
-      styleActiveLine: true,
-      readOnly: true,
-      gutters: ["breakpoints"]
+      showAnnotationRuler: true,
+      enableCodeFolding: false,
+      gutters: ["breakpoints"],
+      value: " "
     });
 
-    debugGlobal("cm", this.editor);
+    this.editor.appendTo(
+      ReactDOM.findDOMNode(this).querySelector(".editor-mount"),
+      null,
+      true
+    ).then(() => {
+      this.editor.codeMirror.on("gutterClick", this.onGutterClick);
+      this.setText(this.props.sourceText.get("text"));
+      resizeBreakpointGutter(this.editor.codeMirror);
+    });
 
-    this.editor.on("gutterClick", this.onGutterClick);
-
-    if (isFirefox()) {
-      this.editor.getScrollerElement().addEventListener(
-        "wheel",
-        ev => onWheel(this.editor, ev)
-      );
-    }
-
-    this.setText(this.props.sourceText.get("text"));
-    resizeBreakpointGutter(this.editor);
+    debugGlobal("cm", this.editor.codeMirror);
   },
 
   onGutterClick(cm, line, gutter, ev) {
@@ -92,29 +99,29 @@ const Editor = React.createClass({
   },
 
   clearDebugLine(line) {
-    this.editor.removeLineClass(line - 1, "line", "debug-line");
+    this.editor.codeMirror.removeLineClass(line - 1, "line", "debug-line");
   },
 
   setDebugLine(line) {
-    this.editor.addLineClass(line - 1, "line", "debug-line");
-    alignLine(this.editor, line);
+    this.editor.codeMirror.addLineClass(line - 1, "line", "debug-line");
+    this.editor.alignLine(line);
   },
 
   setSourceText(newSourceText, oldSourceText) {
     if (newSourceText.get("loading")) {
-      this.editor.setValue("Loading...");
+      this.setText("Loading...");
       return;
     }
 
     if (newSourceText.get("error")) {
-      this.editor.setValue("Error");
+      this.setText("Error");
       console.error(newSourceText.get("error"));
       return;
     }
 
     this.setText(newSourceText.get("text"));
 
-    resizeBreakpointGutter(this.editor);
+    resizeBreakpointGutter(this.editor.codeMirror);
   },
 
   // Only reset the editor text if the source has changed.
@@ -125,11 +132,11 @@ const Editor = React.createClass({
       return;
     }
 
-    if (text == this.editor.getValue()) {
+    if (text == this.editor.getText()) {
       return;
     }
 
-    this.editor.setValue(text);
+    this.editor.setText(text);
   },
 
   componentWillReceiveProps(nextProps) {
@@ -145,7 +152,7 @@ const Editor = React.createClass({
     }
 
     if (this.props.selectedSource && !nextProps.selectedSource) {
-      this.editor.setValue("");
+      this.editor.setText("");
     }
 
     // Highlight the paused line if necessary
@@ -160,16 +167,13 @@ const Editor = React.createClass({
 
     return (
       dom.div(
-        { className: "editor-wrapper" },
-        dom.textarea({
-          ref: "editor",
-          defaultValue: "..."
-        }),
+        { className: "editor-wrapper devtools-monospace" },
+        dom.div({ className: "editor-mount" }),
         breakpoints.map(bp => {
           return Breakpoint({
             key: makeLocationId(bp.location),
             breakpoint: bp,
-            editor: this.editor
+            editor: this.editor && this.editor.codeMirror
           });
         })
       )

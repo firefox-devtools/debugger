@@ -15,6 +15,10 @@ function isEnabled(key) {
 }
 
 function isDevelopment() {
+  if(isFirefoxPanel()) {
+    // Default to production if compiling for the Firefox panel
+    return process.env.NODE_ENV === "development";
+  }
   return process.env.NODE_ENV !== "production";
 }
 

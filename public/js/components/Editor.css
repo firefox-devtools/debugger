@@ -31,12 +31,15 @@
   right: -4px;
 }
 
-.editor.breakpoint:hover {
-  cursor: pointer;
+.editor-mount,
+.CodeMirror {
+  width: 100%;
+  height: 100%;
+  background-color: white;
 }
 
-.CodeMirror {
-  font-family: Menlo, monospace !important;
+.editor.breakpoint:hover {
+  cursor: pointer;
 }
 
 /* set the linenumber white when there is a breakpoint */

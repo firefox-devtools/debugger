@@ -4,6 +4,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+:root .theme-light {
+  --theme-gray: #dde1e4;
+  --theme-gray-darker: #ccd1d5;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -70,7 +75,7 @@ body {
 .welcomebox {
   margin: 50px auto;
   padding: 20px;
-  font-size: 1em;
+  font-size: 1.25em;
   color: var(--theme-gray-darker);
   font-weight: lighter;
   text-align: center;
