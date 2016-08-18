@@ -1,4 +1,6 @@
 const { SourceMapConsumer, SourceNode, SourceMapGenerator } = require("source-map");
+const { makeOriginalSource } = require("./source-map-utils");
+
 const toPairs = require("lodash/toPairs");
 
 let sourceMapConsumers = new Map();
@@ -129,15 +131,6 @@ function createOriginalSources(generatedSource, sourceMap) {
     }));
 }
 
-function makeOriginalSource({ url, source, id = 1 }) {
-  const generatedSourceId = source.id;
-  return {
-    url,
-    id: `${generatedSourceId}/originalSource${id}`,
-    isPrettyPrinted: false
-  };
-}
-
 function createSourceMap({ source, mappings, code }) {
   const generator = new SourceMapGenerator({ file: source.url });
   mappings.forEach(mapping => generator.addMapping(mapping));
@@ -162,7 +155,6 @@ const publicInterface = {
   isGenerated,
   getGeneratedSourceId,
   createSourceMap,
-  makeOriginalSource,
   clearData
 };
 
