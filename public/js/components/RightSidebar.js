@@ -41,7 +41,7 @@ const RightSidebar = React.createClass({
     shouldPauseOnExceptions: PropTypes.bool,
     shouldIgnoreCaughtExceptions: PropTypes.bool,
     breakpoints: ImPropTypes.map,
-    isWaitingOnBreak: PropTypes.func,
+    isWaitingOnBreak: PropTypes.bool,
     breakpointsDisabled: PropTypes.bool,
     breakpointsLoading: PropTypes.bool
   },
