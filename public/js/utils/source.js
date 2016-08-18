@@ -29,6 +29,11 @@ function isJavaScript(url, contentType = "") {
          contentType.includes("javascript");
 }
 
+function isPretty(source) {
+  return source.url.match(/formatted$/);
+}
+
 module.exports = {
-  isJavaScript
+  isJavaScript,
+  isPretty
 };

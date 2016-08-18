@@ -1,5 +1,6 @@
 const URL = require("url");
 const { assert } = require("./DevToolsUtils");
+const { isPretty } = require("../utils/source");
 
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
@@ -80,7 +81,7 @@ function getURL(source) {
 
 function addToTree(tree, source) {
   const url = getURL(source);
-  if (isHiddenSource(source)) {
+  if (isHiddenSource(source) || isPretty(source.toJS())) {
     return;
   }
   url.path = decodeURIComponent(url.path);

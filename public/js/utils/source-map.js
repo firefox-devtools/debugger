@@ -1,5 +1,5 @@
 const { workerTask } = require("./utils");
-const { makeOriginalSource } = require("./source-map-utils");
+const { makeOriginalSource, getGeneratedSourceId } = require("./source-map-utils");
 
 import type { Location } from "./actions/types";
 
@@ -29,9 +29,6 @@ const getGeneratedSourceLocation = sourceMapTask("getGeneratedSourceLocation");
 const createOriginalSources = sourceMapTask("createOriginalSources");
 const getOriginalSourceUrls = sourceMapTask("getOriginalSourceUrls");
 const getOriginalTexts = sourceMapTask("getOriginalTexts");
-const isOriginal = sourceMapTask("isOriginal");
-const isGenerated = sourceMapTask("isGenerated");
-const getGeneratedSourceId = sourceMapTask("getGeneratedSourceId");
 const createSourceMap = sourceMapTask("createSourceMap");
 const clearData = sourceMapTask("clearData");
 
@@ -41,6 +38,14 @@ function _shouldSourceMap(source) {
 
 function isMapped(source) {
   return _shouldSourceMap(source);
+}
+
+function isOriginal(originalSource) {
+  return !!getGeneratedSourceId(originalSource);
+}
+
+function isGenerated(source) {
+  return !isOriginal(source);
 }
 
 async function getOriginalSources(state: AppState, source: any) {
@@ -132,7 +137,6 @@ module.exports = {
   getGeneratedSourceLocation,
   createOriginalSources,
   getOriginalSourceUrls,
-  getOriginalTexts,
   isOriginal,
   isGenerated,
   isMapped,

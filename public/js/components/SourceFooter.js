@@ -4,11 +4,14 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
 const { isEnabled } = require("../feature");
-const { getSelectedSource, getSourceText } = require("../selectors");
+const { getSelectedSource, getSourceText, getPrettySource } = require("../selectors");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
-const { isMapped } = require("../utils/source-map");
+const { isMapped, getGeneratedSourceId } = require("../utils/source-map");
+const { isPretty } = require("../utils/source");
+
+require("./SourceFooter.css");
 
 function debugBtn(onClick, type, className = "active", tooltip) {
   className = `${type} ${className}`;
@@ -22,10 +25,12 @@ const SourceFooter = React.createClass({
   propTypes: {
     selectedSource: ImPropTypes.map.isRequired,
     togglePrettyPrint: PropTypes.func,
-    sourceText: ImPropTypes.map.isRequired
+    sourceText: ImPropTypes.map.isRequired,
+    selectSource: PropTypes.func,
+    prettySource: ImPropTypes.map
   },
 
-  displayName: "Editor",
+  displayName: "SourceFooter",
 
   blackboxButton() {
     if (!isEnabled("blackbox")) {
@@ -40,8 +45,23 @@ const SourceFooter = React.createClass({
     );
   },
 
+  onClickPrettyPrint() {
+    const { selectedSource, togglePrettyPrint,
+            selectSource, prettySource } = this.props;
+
+    if (isPretty(selectedSource.toJS())) {
+      return selectSource(getGeneratedSourceId(selectedSource.toJS()));
+    }
+
+    if (selectedSource.get("isPrettyPrinted")) {
+      return selectSource(prettySource.get("id"));
+    }
+
+    togglePrettyPrint(selectedSource.get("id"));
+  },
+
   prettyPrintButton() {
-    const { selectedSource, sourceText, togglePrettyPrint } = this.props;
+    const { selectedSource, sourceText } = this.props;
     const sourceLoaded = selectedSource && !sourceText.get("loading");
 
     if (isMapped(selectedSource.toJS())) {
@@ -49,9 +69,12 @@ const SourceFooter = React.createClass({
     }
 
     return debugBtn(
-      () => togglePrettyPrint(selectedSource.get("id")),
+      this.onClickPrettyPrint,
       "prettyPrint",
-      classnames({ active: sourceLoaded }),
+      classnames({
+        active: sourceLoaded,
+        pretty: isPretty(selectedSource.toJS())
+      }),
       "Prettify Source"
     );
   },
@@ -72,7 +95,8 @@ module.exports = connect(
     const selectedId = selectedSource && selectedSource.get("id");
     return {
       selectedSource,
-      sourceText: getSourceText(state, selectedId)
+      sourceText: getSourceText(state, selectedId),
+      prettySource: getPrettySource(state, selectedId)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

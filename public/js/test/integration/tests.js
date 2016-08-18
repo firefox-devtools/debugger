@@ -66,11 +66,21 @@ describe("Tests", function() {
     callStackFrameAtIndex(0).contains("1");
   });
 
+  /**
+   * * go to a minified file and pretty print it
+   * * add a breakpoint
+   * * go to the ugly file and back to the pretty file
+   * * pause and check the call frame
+   */
   it("(Firefox) Pretty Printing", function() {
     debugPage("todomvc");
     goToSource("storage");
     prettyPrint();
     toggleBreakpoint(21);
+    prettyPrint();
+    prettyPrint();
+    sourceTab().contains("formatted")
+
     addTodo();
     editTodo()
     callStackFrameAtIndex(0).contains("save");
