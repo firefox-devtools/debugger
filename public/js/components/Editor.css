@@ -22,7 +22,7 @@
   left: 0;
 }
 
-.editor.breakpoint svg {
+.editor.new-breakpoint svg {
   fill: var(--theme-selection-background);
   width: 60px;
   height: 12px;
@@ -38,17 +38,13 @@
   background-color: white;
 }
 
-.editor.breakpoint:hover {
-  cursor: pointer;
-}
-
 /* set the linenumber white when there is a breakpoint */
-.breakpoint .CodeMirror-linenumber {
+.new-breakpoint .CodeMirror-linenumber {
   color: white;
 }
 
 /* move the breakpoint below the linenumber */
-.breakpoint .CodeMirror-gutter-elt:last-child {
+.new-breakpoint .CodeMirror-gutter-elt:last-child {
   z-index: 0;
 }
 
