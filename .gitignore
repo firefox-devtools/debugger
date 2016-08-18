@@ -6,3 +6,4 @@ npm-debug.log
 public/js/test/cypress/screenshots/
 .idea/
 .vscode/
+cypress
