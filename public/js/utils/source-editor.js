@@ -14,10 +14,7 @@ class SourceEditor {
   }
 
   appendTo(node, env, noIframe) {
-    return new Promise(resolve => {
-      this.editor = CodeMirror(node, this.opts);
-      resolve();
-    });
+    this.editor = CodeMirror(node, this.opts);
   }
 
   get codeMirror() {
