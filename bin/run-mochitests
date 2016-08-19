@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+ROOT=`dirname $0`
+FIREFOX_PATH="$ROOT/../firefox"
+
+if [ ! -d firefox ]; then
+  ./download-firefox-artifact
+fi
+
+./make-firefox-bundle "$FIREFOX_PATH"
+cd "$FIREFOX_PATH"
+./mach build
+./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/
+

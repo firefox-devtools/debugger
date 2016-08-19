@@ -10,6 +10,7 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - node public/js/test/node-unit-tests.js --ci
     - npm run firefox-unit-test
+    - npm run mochitest
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
   pre:
@@ -31,4 +32,5 @@ dependencies:
     - npm install
     - ./bin/install-chrome
     - ./bin/install-firefox
+    - ./bin/download-firefox-artifact
     - node_modules/.bin/cypress install

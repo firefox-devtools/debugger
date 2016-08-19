@@ -7,3 +7,4 @@ public/js/test/cypress/screenshots/
 .idea/
 .vscode/
 cypress
+firefox

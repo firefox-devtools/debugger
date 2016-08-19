@@ -13,6 +13,13 @@ if [ ! -d "$DEBUGGER_PATH" ]; then
    exit 2
 fi
 
+(
+    cd "$DEBUGGER_PATH";
+    if ! git log --oneline . | head -n 1 |
+            grep "UPDATE_BUNDLE" > /dev/null; then
+        echo "\033[31mWARNING\033[0m: local changes detected on mozilla-central";
+    fi
+);
 
 TARGET=firefox-panel webpack
 echo "// Generated from: $REV\n" | cat - public/build/bundle.js > "$DEBUGGER_PATH/bundle.js"
@@ -20,3 +27,4 @@ cp public/build/pretty-print-worker.js "$DEBUGGER_PATH"
 cp public/build/source-map-worker.js "$DEBUGGER_PATH"
 cp public/build/styles.css "$DEBUGGER_PATH"
 cp public/images/* "$DEBUGGER_PATH/images"
+rsync -avz public/js/test/mochitest/ "$DEBUGGER_PATH/test/mochitest"
