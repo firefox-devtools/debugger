@@ -28,7 +28,7 @@ function renderComponentFromFixture(Component, fixtureName,
   const store = createStore(data);
 
   return dom.div(
-    { style },
+    { className: "theme-light", style },
     createElement(Provider, { store }, Component)
   );
 }

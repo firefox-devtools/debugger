@@ -9,7 +9,7 @@ var deepMap = function(obj, valueTransform, keyTransform) {
     }
 
     if (!value) {
-      return []
+      return [];
     }
 
     let keys = [];
