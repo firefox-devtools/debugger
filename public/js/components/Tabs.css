@@ -45,16 +45,15 @@
   color: var(--theme-highlight-bluegrey);
 }
 
-.not-connected-message {
+.connect-message {
   margin: 20px;
   padding: 50px 100px;
+  text-align: center;
+  color: #9a9a9a;
+}
+
+.connect-message.not-connected {
   border: 1px solid #dddddd;
   background-color: #fbfbfb;
   color: #9a9a9a;
-  text-align: center;
-}
-
-.node-message {
-  margin: 3em 0;
-  text-align: center;
 }

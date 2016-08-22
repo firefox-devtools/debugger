@@ -1,5 +1,6 @@
 const React = require("react");
 const { connect } = require("react-redux");
+const classnames = require("classnames");
 const { getTabs } = require("../selectors");
 
 require("./Tabs.css");
@@ -34,23 +35,29 @@ function renderTabs(tabTitle, tabs, paramName) {
   );
 }
 
-function renderMessage(tabsIsEmpty) {
+function renderMessage(noTabs) {
   return dom.div(
-    { className: "not-connected-message" },
-    !tabsIsEmpty || "No remote tabs found. ",
-    "You may be looking to ",
-    dom.a({ href: `/?ws=${document.location.hostname}:9229/node` },
-      "connect to Node"), ".", dom.br(),
-    "Make sure you run ",
-    dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#firefox" },
-      "Firefox"),
-    ", ",
-    dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#chrome" },
-      "Chrome"),
-    " or ",
-    dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#nodejs" },
-      "Node"),
-    " with the right flags."
+    { className: classnames("connect-message", { "not-connected": noTabs })},
+    dom.p(
+      null,
+      noTabs && "No remote tabs found. ",
+      "You may be looking to ",
+      dom.a({ href: `/?ws=${document.location.hostname}:9229/node` }, "connect to Node"),
+      "."
+    ),
+    dom.p(
+      null,
+      "Make sure you run ",
+      dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#firefox" },
+            "Firefox"),
+      ", ",
+      dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#chrome" },
+            "Chrome"),
+      " or ",
+      dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#nodejs" },
+            "Node"),
+      " with the right flags."
+    )
   );
 }
 function Tabs({ tabs }) {
