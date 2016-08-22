@@ -8,6 +8,7 @@ const { Task } = require("../utils/task");
 const { isJavaScript } = require("../utils/source");
 const { networkRequest } = require("../utils/networkRequest");
 const { workerTask } = require("../utils/utils");
+const { updateFrameLocations } = require("../utils/pause");
 
 const constants = require("../constants");
 const invariant = require("invariant");
@@ -22,7 +23,7 @@ const {
 const {
   getSource, getSourceByURL, getSourceText,
   getPendingSelectedSourceURL,
-  getSourceMap, getSourceMapURL
+  getSourceMap, getSourceMapURL, getFrames
 } = require("../selectors");
 
 function _shouldSourceMap(generatedSource) {
@@ -215,7 +216,9 @@ function togglePrettyPrint(id) {
       source,
       originalSource,
       [PROMISE]: (async function () {
+        const state = getState();
         const text = await _prettyPrintSource({ source, sourceText, url });
+        const frames = await updateFrameLocations(state, getFrames(state));
 
         dispatch(selectSource(originalSource.id));
 
@@ -227,7 +230,8 @@ function togglePrettyPrint(id) {
 
         return {
           isPrettyPrinted: true,
-          sourceText: originalSourceText
+          sourceText: originalSourceText,
+          frames
         };
       })()
     });

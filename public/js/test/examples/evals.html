@@ -12,13 +12,16 @@
       }
 
       function evalSourceWithSourceURL() {
-        eval("bar = function() {\nvar x = 6; debugger;\n} //# sourceURL=bar.js");
+        eval("bar = function() {\nvar x = 6; debugger;\n}//# sourceURL=bar.js\n bar();");
       }
 
       function evalSourceWithDebugger() {
         eval("bar = function() {\nvar x = 7;\ndebugger; }\n bar();");
       }
     </script>
+
+    <button onclick="evalSourceWithDebugger()"> evalSourceWithDebugger </button>
+    <button onclick="evalSourceWithSourceURL()"> evalSourceWithSourceURL </button>
   </body>
 
 </html>
