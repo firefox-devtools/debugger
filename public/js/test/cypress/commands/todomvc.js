@@ -1,5 +1,6 @@
 function addTodo() {
   cy.debuggee(() => {
+    localStorage.clear();
     dbg.type("#new-todo", "hi");
     dbg.type("#new-todo", "{enter}");
   });

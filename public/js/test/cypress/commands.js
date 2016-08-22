@@ -32,6 +32,7 @@ Cypress.addParentCommand("debuggee", function(callback) {
 
   const script = getFunctionBody(callback);
 
+  cy.wait(1000);
   return cy.window().then(win => {
     win.injectDebuggee();
     return win.client.debuggeeCommand(script);
