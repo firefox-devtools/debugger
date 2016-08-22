@@ -141,6 +141,8 @@ With node running in _inspect mode_ go to your browser running `localhost:8000` 
 
 ## How Can I Contribute?
 
+Here is a great GitHub guide on [contributing to Open Source](https://guides.github.com/activities/contributing-to-open-source/) to help you get started.
+
 ### Reporting Bugs :bug:
 
 If you find an issue with the code please do [file an issue](https://github.com/devtools-html/debugger.html/issues/new) and tag it with the label [bug](https://github.com/devtools-html/debugger.html/labels/bug).  We'll do our best to review the issue in a timely manner and respond.
@@ -163,6 +165,8 @@ If this is your first time contributing any code take a look through the `first-
 
 * [first-timers-only](https://github.com/devtools-html/debugger.html/labels/first-timers-only) - issues which should have clear expectations and a mentor to help you through
 
+If you didn't find any issues this time, don't worry.  Take a look at the `up for grabs` issues below and let someone know this is your first time contributing code.
+
 If you've contributed to an open source project before, but would like to help this one please take a look through the `up for grabs` issues:
 
 * [up for grabs](https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs) - issues which should have clear requirements and a difficulty level set as a label
@@ -172,13 +176,13 @@ To begin your work make sure you follow these steps:
 * [Fork this project](https://github.com/devtools-html/debugger.html#fork-destination-box)
 * Create a branch to start your work `git checkout -b your-feature-name`
 * Commit your work
-* Create a pull request
+* Create a [pull request](#pull-requests)
 
 #### Coding Standards
 
 > Be consistent with the rest of the code in the file
 
-Here are pointers to the DevTools general coding style and formatting guidelines. 
+Here are pointers to the DevTools general coding style and formatting guidelines.
 
 * [JS Coding Style](https://wiki.mozilla.org/DevTools/CodingStandards#Code_style)
 * [Formatting Comments](https://wiki.mozilla.org/DevTools/CodingStandards#Comments)
@@ -189,6 +193,8 @@ Here are pointers to the DevTools general coding style and formatting guidelines
 * List any steps necessary to trigger the feature you've created or bug you are fixing
 * Always run the [tests](#tests) locally before creating your PR
 * Request review from @jasonLaster or @jlongster by mentioning their names in the PR
+
+> **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
 
 #### Hot Reloading :fire:
 
