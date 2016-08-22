@@ -161,8 +161,7 @@ const Editor = React.createClass({
   },
 
   render() {
-    const breakpoints = this.props.breakpoints.valueSeq()
-          .filter(bp => !bp.disabled);
+    const breakpoints = this.props.breakpoints.valueSeq();
 
     return (
       dom.div(

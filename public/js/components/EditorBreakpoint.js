@@ -1,9 +1,13 @@
 const React = require("react");
 const { PropTypes } = React;
+const classnames = require("classnames");
 
-function makeMarker() {
+function makeMarker(isDisabled) {
   let marker = document.createElement("div");
-  marker.className = "editor new-breakpoint";
+  marker.className = classnames(
+    "editor new-breakpoint",
+    { "breakpoint-disabled": isDisabled }
+  );
 
   let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 60 12");
@@ -29,12 +33,17 @@ const Breakpoint = React.createClass({
   addBreakpoint() {
     const bp = this.props.breakpoint;
     const line = bp.location.line - 1;
-    this.props.editor.setGutterMarker(line, "breakpoints", makeMarker());
+    this.props.editor.setGutterMarker(
+      line,
+      "breakpoints",
+      makeMarker(bp.disabled)
+    );
     this.props.editor.addLineClass(line, "line", "new-breakpoint");
   },
 
   shouldComponentUpdate(nextProps) {
-    return this.props.editor !== nextProps.editor;
+    return this.props.editor !== nextProps.editor ||
+      this.props.breakpoint.disabled !== nextProps.breakpoint.disabled;
   },
 
   componentDidMount() {
