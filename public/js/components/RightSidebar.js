@@ -80,6 +80,11 @@ const RightSidebar = React.createClass({
 
   setupKeyboardShortcuts() {
     const { keyShortcuts } = this.props;
+    if (this.keyShortcutsEnabled) {
+      return;
+    }
+
+    this.keyShortcutsEnabled = true;
     keyShortcuts.on("F8", this.resume);
     keyShortcuts.on("F10", this.stepOver);
     keyShortcuts.on("F11", this.stepIn);
@@ -98,17 +103,27 @@ const RightSidebar = React.createClass({
     this.setupKeyboardShortcuts();
   },
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.keyShortcuts !== nextProps.keyShortcuts;
+  renderStepButtons() {
+    const className = this.props.pause ? "active" : "disabled";
+    return [
+      debugBtn(this.stepOver, "stepOver", className, "Step Over (F10)"),
+      debugBtn(this.stepIn, "stepIn", className, "Step In (F11)"),
+      debugBtn(this.stepOut, "stepOut", className, "Step Out \u21E7 (F12)"),
+    ];
   },
 
-  renderStepButtons() {
-    return [
-      debugBtn(this.resume, "resume", "active", "Click to resume (F8)"),
-      debugBtn(this.stepOver, "stepOver", "active", "Step Over (F10)"),
-      debugBtn(this.stepIn, "stepIn", "active", "Step In (F11)"),
-      debugBtn(this.stepOut, "stepOut", "active", "Step Out \u21E7 (F12)"),
-    ];
+  renderPauseButton() {
+    const { pause, breakOnNext, isWaitingOnBreak } = this.props;
+
+    if (pause) {
+      return debugBtn(this.resume, "resume", "active", "Click to resume (F8)");
+    }
+
+    if (isWaitingOnBreak) {
+      return debugBtn(null, "pause", "disabled", "Waiting for next execution");
+    }
+
+    return debugBtn(breakOnNext, "pause", "active", "Click to pause (F8)");
   },
 
   /*
@@ -184,6 +199,7 @@ const RightSidebar = React.createClass({
           style: { overflowX: "hidden" }},
         dom.div(
           { className: "command-bar" },
+          this.renderPauseButton(),
           this.renderStepButtons(),
           this.renderDisableBreakpoints(),
           this.renderPauseOnExceptions()
