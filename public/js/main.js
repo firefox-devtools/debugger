@@ -100,8 +100,8 @@ if (connTarget) {
     renderApp: () => renderRoot(App)
   };
 } else {
+  renderRoot(Tabs);
   connectClients().then(tabs => {
     actions.newTabs(tabs);
-    renderRoot(Tabs);
   });
 }
