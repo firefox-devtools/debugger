@@ -31,6 +31,10 @@
   right: -4px;
 }
 
+.editor.new-breakpoint.breakpoint-disabled svg {
+  opacity: 0.3;
+}
+
 .editor-mount,
 .CodeMirror {
   width: 100%;
