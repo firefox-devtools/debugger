@@ -6,6 +6,8 @@ const { getTabs } = require("../selectors");
 require("./Tabs.css");
 const dom = React.DOM;
 
+const githubUrl = "https://github.com/devtools-html/debugger.html/blob/master";
+
 function getTabsByBrowser(tabs, browser) {
   return tabs.valueSeq()
     .filter(tab => tab.get("browser") == browser);
@@ -37,25 +39,27 @@ function renderTabs(tabTitle, tabs, paramName) {
 
 function renderMessage(noTabs) {
   return dom.div(
-    { className: classnames("connect-message", { "not-connected": noTabs })},
+    { className: classnames("connect-message", { "not-connected": noTabs }) },
     dom.p(
       null,
       noTabs && "No remote tabs found. ",
       "You may be looking to ",
-      dom.a({ href: `/?ws=${document.location.hostname}:9229/node` }, "connect to Node"),
+      dom.a(
+        {
+          href: `/?ws=${document.location.hostname}:9229/node`
+        },
+        "connect to Node"
+      ),
       "."
     ),
     dom.p(
       null,
       "Make sure you run ",
-      dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#firefox" },
-            "Firefox"),
+      dom.a({ href: `${githubUrl}/CONTRIBUTING.md#firefox` }, "Firefox"),
       ", ",
-      dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#chrome" },
-            "Chrome"),
+      dom.a({ href: `${githubUrl}/CONTRIBUTING.md#chrome` }, "Chrome"),
       " or ",
-      dom.a({ href: "https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#nodejs" },
-            "Node"),
+      dom.a({ href: `${githubUrl}/CONTRIBUTING.md#nodejs` }, "Node"),
       " with the right flags."
     )
   );
