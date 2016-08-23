@@ -53,12 +53,12 @@ async function getOriginalSources(state: AppState, source: any) {
   return originalSourceUrls.map(url => getSourceByURL(state, url));
 }
 
-async function getGeneratedSource(state: AppState, source: any) {
-  if (await isGenerated(source)) {
+function getGeneratedSource(state: AppState, source: any) {
+  if (isGenerated(source)) {
     return source;
   }
 
-  const generatedSourceId = await getGeneratedSourceId(source);
+  const generatedSourceId = getGeneratedSourceId(source);
   const originalSource = getSource(state, generatedSourceId);
 
   if (originalSource) {
@@ -89,17 +89,22 @@ async function getOriginalLocation(state: AppState, location: Location) {
     return location;
   }
 
-  const _isGenerated = await isGenerated(source.toJS());
-
-  if (_isGenerated) {
+  if (isGenerated(source.toJS())) {
     const originalPosition = await getOriginalSourcePosition(
       source.toJS(),
       location
     );
 
     const { url, line } = originalPosition;
+    if (!url) {
+      return {
+        sourceId: source.get("id"),
+        line: location.line
+      };
+    }
 
     const originalSource: any = getSourceByURL(state, url);
+
     return {
       sourceId: originalSource.get("id"),
       line

@@ -5,8 +5,8 @@ const { isPretty } = require("../utils/source");
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
 function isHiddenSource(source) {
-  const url = getURL(source);
-  return !url || url.path.match(/SOURCE/) || IGNORED_URLS.includes(url);
+  const url = source.get("url");
+  return !url || url.match(/SOURCE/) || IGNORED_URLS.includes(url);
 }
 
 function nodeHasChildren(item) {

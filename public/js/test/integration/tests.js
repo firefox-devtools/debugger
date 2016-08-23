@@ -153,9 +153,8 @@ describe("Tests", function() {
   });
 
   /**
-   * * select an original source
-   * * add a breakpoint
-   * * pause in an original location
+   * * invoke an eval
+   * * invoke an eval with a source url
    */
   it("(Firefox) Evals", function() {
     debugPage("evals.html")
@@ -164,6 +163,7 @@ describe("Tests", function() {
       evalSourceWithDebugger();
     })
 
+    prettyPrint()
     resume();
 
     cy.debuggee(() => {

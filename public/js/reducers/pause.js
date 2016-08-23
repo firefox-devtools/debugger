@@ -9,7 +9,7 @@ const initialState = fromJS({
   pause: null,
   isWaitingOnBreak: false,
   frames: null,
-  selectedFrame: null,
+  selectedFrameId: null,
   loadedObjects: {},
   shouldPauseOnExceptions: false,
   shouldIgnoreCaughtExceptions: false,
@@ -20,14 +20,14 @@ function update(state = initialState, action, emit) {
   switch (action.type) {
     case constants.PAUSED:
       if (action.status == "done") {
-        const pause = action.value.pauseInfo;
-        pause.isInterrupted = pause.why.type === "interrupted";
+        const { selectedFrameId, frames, pauseInfo } = action.value;
+        pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
 
         return state.merge({
           isWaitingOnBreak: false,
-          pause: fromJS(pause),
-          selectedFrame: action.value.pauseInfo.frame,
-          frames: action.value.frames
+          pause: fromJS(pauseInfo),
+          selectedFrameId,
+          frames
         });
       }
 
@@ -36,10 +36,17 @@ function update(state = initialState, action, emit) {
       return state.merge({
         pause: null,
         frames: null,
-        selectedFrame: null,
+        selectedFrameId: null,
         loadedObjects: {}
       });
 
+    case constants.TOGGLE_PRETTY_PRINT:
+      if (action.status == "done") {
+        const frames = action.value.frames;
+        return state.merge({ frames });
+      }
+
+      break;
     case constants.BREAK_ON_NEXT:
       return state.set("isWaitingOnBreak", true);
 
@@ -50,7 +57,7 @@ function update(state = initialState, action, emit) {
 
       break;
     case constants.SELECT_FRAME:
-      return state.set("selectedFrame", action.frame);
+      return state.set("selectedFrameId", action.frame.id);
 
     case constants.LOAD_OBJECT_PROPERTIES:
       if (action.status === "done") {
@@ -131,7 +138,9 @@ function getFrames(state: AppState) {
 }
 
 function getSelectedFrame(state: AppState) {
-  return state.pause.get("selectedFrame");
+  const selectedFrameId = state.pause.get("selectedFrameId");
+  const frames = state.pause.get("frames");
+  return frames && frames.find(frame => frame.id == selectedFrameId);
 }
 
 module.exports = {

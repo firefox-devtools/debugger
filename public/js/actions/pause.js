@@ -1,22 +1,9 @@
 const constants = require("../constants");
 const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
-const { Location, Frame } = require("../types");
 
 const { getExpressions } = require("../selectors");
-const { getOriginalLocation } = require("../utils/source-map");
-const { asyncMap } = require("../utils/utils");
-
-async function updateFrame(state, frame) {
-  const originalLocation = await getOriginalLocation(
-    state,
-    frame.location
-  );
-
-  return Frame.update(frame, {
-    $merge: { location: Location(originalLocation) }
-  });
-}
+const { updateFrameLocations } = require("../utils/pause");
 
 /**
  * Debugger has just resumed
@@ -42,16 +29,13 @@ function paused(pauseInfo) {
     return dispatch({
       type: constants.PAUSED,
       [PROMISE]: (async function () {
-        frame = await updateFrame(getState(), frame);
-
-        frames = await asyncMap(frames, item => {
-          return updateFrame(getState(), item);
-        });
+        frames = await updateFrameLocations(getState(), frames);
 
         dispatch(selectSource(frame.location.sourceId));
         return {
           pauseInfo: { why, frame },
-          frames: frames
+          frames: frames,
+          selectedFrameId: frame.id
         };
       })()
     });
@@ -130,7 +114,7 @@ function selectFrame(frame) {
                           { line: frame.location.line }));
     dispatch({
       type: constants.SELECT_FRAME,
-      frame: frame
+      frame
     });
   };
 }
