@@ -347,23 +347,28 @@ DebuggerClient.prototype = {
    *         and behaviors of the server we connect to. See RootActor).
    */
   connect: function (aOnConnected) {
-    let deferred = promise.defer();
-    this.emit("connect");
+    return Promise.race([
+      new Promise((resolve, reject) => {
+        this.emit("connect");
 
-    // Also emit the event on the |DebuggerClient| object (not on the instance),
-    // so it's possible to track all instances.
-    events.emit(DebuggerClient, "connect", this);
+        // Also emit the event on the |DebuggerClient| object (not on the instance),
+        // so it's possible to track all instances.
+        events.emit(DebuggerClient, "connect", this);
 
-    this.addOneTimeListener("connected", (aName, aApplicationType, aTraits) => {
-      this.traits = aTraits;
-      if (aOnConnected) {
-        aOnConnected(aApplicationType, aTraits);
-      }
-      deferred.resolve([aApplicationType, aTraits]);
-    });
+        this.addOneTimeListener("connected", (aName, aApplicationType, aTraits) => {
+          this.traits = aTraits;
+          if (aOnConnected) {
+            aOnConnected(aApplicationType, aTraits);
+          }
+          resolve([aApplicationType, aTraits]);
+        });
 
-    this._transport.ready();
-    return deferred.promise;
+        this._transport.ready();
+      }),
+      new Promise((resolve, reject) => {
+        setTimeout(() => reject(new Error("Connect timeout error")), 6000);
+      })
+    ]);
   },
 
   /**
