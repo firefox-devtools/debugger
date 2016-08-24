@@ -93,11 +93,6 @@ function initPage(actions) {
 
   tabTarget.on("will-navigate", actions.willNavigate);
   tabTarget.on("navigate", actions.navigate);
-  tabTarget.on("frame-update", function(_, packet) {
-    if (packet.destroyAll) {
-      actions.willNavigate();
-    }
-  });
 
   // Listen to all the requested events.
   setupEvents({ threadClient, actions });
