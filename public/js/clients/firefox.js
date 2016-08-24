@@ -102,7 +102,6 @@ function initPage(actions) {
 
   setupCommands({ threadClient, tabTarget, debuggerClient });
 
-  tabTarget.on("will-navigate", actions.willNavigate);
   tabTarget.on("navigate", actions.navigate);
   tabTarget.on("frame-update", function(_, packet) {
     if (packet.destroyAll) {

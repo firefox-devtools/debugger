@@ -100,10 +100,12 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       }
 
       return _updateText(state, action, [action.originalSource]);
+
     case "NAVIGATE":
-      // Reset the entire state to just the initial state, a blank state
-      // if you will.
-      return State();
+      const source = state.selectedSource;
+      const sourceUrl = source && source.get("url");
+      return State()
+        .set("pendingSelectedSourceURL", sourceUrl);
   }
 
   return state;
