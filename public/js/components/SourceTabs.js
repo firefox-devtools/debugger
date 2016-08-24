@@ -162,13 +162,13 @@ const SourceTabs = React.createClass({
 
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
-    const url = source && source.get("url");
+    const url = source.get("url");
     const filename = getFilename(url);
     const active = source.get("id") == selectedSource.get("id");
 
     function onClickClose(ev) {
       ev.stopPropagation();
-      closeTab(source.get("id"));
+      closeTab(source.get("url"));
     }
 
     return dom.div(

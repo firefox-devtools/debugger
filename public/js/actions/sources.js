@@ -73,10 +73,10 @@ function newSource(source) {
 
     // If a request has been made to show this source, go ahead and
     // select it.
-    const pendingURL = getPendingSelectedSourceURL(getState());
-    if (pendingURL === source.url) {
-      dispatch(selectSource(source.id));
-    }
+    // const pendingURL = getPendingSelectedSourceURL(getState());
+    // if (pendingURL === source.url) {
+      // dispatch(selectSource(source.id));
+    // }
   };
 }
 
@@ -120,8 +120,8 @@ function selectSourceURL(url) {
       dispatch(selectSource(source.get("id")));
     } else {
       dispatch({
-        type: constants.SELECT_SOURCE_URL,
-        url: url
+        type: constants.SELECT_SOURCE,
+        url
       });
     }
   };
@@ -136,22 +136,23 @@ function selectSource(id, options = {}) {
     }
 
     const source = getSource(getState(), id).toJS();
+    const url = source.url;
 
     // Make sure to start a request to load the source text.
     dispatch(loadSourceText(source));
 
     dispatch({
       type: constants.SELECT_SOURCE,
-      source: source,
+      url,
       options
     });
   };
 }
 
-function closeTab(id) {
+function closeTab(url) {
   return {
     type: constants.CLOSE_TAB,
-    id: id,
+    url,
   };
 }
 
