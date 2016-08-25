@@ -34,6 +34,7 @@ We respect your time and want to help you make the most of it as you learn more 
     * [Storybook](#storybook)
   * [Configuration](#configuration)
     * [Create a local config file](#create-a-local-config-file)
+  * [Issues and Pull Request labels](#issues-and-pull-requests)
 
 ## What should I know before I get started?
 
@@ -149,7 +150,7 @@ If you find an issue with the code please do [file an issue](https://github.com/
 
 ### Suggesting Enhancements :new:
 
-We are actively investigating ways of support enhancement requests in the project so these instructions are subject to change.  For now please create an issue, tag it with the [enhancement](https://github.com/devtools-html/debugger.html/labels/enhancement) label and we will attempt to respond.
+We are actively investigating ways of support enhancement requests in the project so these instructions are subject to change.  For now please create an issue, tag it with the [enhancement][labels-enhancement] label and we will attempt to respond.
 
 ### Writing Documentation :book:
 
@@ -159,17 +160,19 @@ Documentation is as important as code and we need your help to maintain clear an
 
 We have a number of tools to help you with your code contributions, the following describes them all and how you can make use of them.
 
+If you've contributed to an open source project before and would like to help this one please take a look through the `up for grabs` issues:
+
+* [up for grabs][labels-up-for-grabs] - issues should have clear requirements and a difficulty level set as a label
+
+If you find an `up for grabs` issue without a difficulty level set as a label or unclear requirements please comment in the issue so we can get that fixed.
+
 #### Your First Code Contribution
 
-If this is your first time contributing any code take a look through the `first-timers-only` issues:
+If this is your first time contributing any code to an open source project take a look through the `first-timers-only` issues:
 
-* [first-timers-only](https://github.com/devtools-html/debugger.html/labels/first-timers-only) - issues which should have clear expectations and a mentor to help you through
+* [first-timers-only][labels-first-timers-only] - issues which should have clear expectations and a mentor to help you through
 
-If you didn't find any issues this time, don't worry.  Take a look at the `up for grabs` issues below and let someone know this is your first time contributing code.
-
-If you've contributed to an open source project before, but would like to help this one please take a look through the `up for grabs` issues:
-
-* [up for grabs](https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs) - issues which should have clear requirements and a difficulty level set as a label
+If you didn't find any issues this time, don't worry.  Take a look at the `up for grabs` issues above and let someone know this is your first time contributing code.
 
 To begin your work make sure you follow these steps:
 
@@ -186,6 +189,18 @@ Here are pointers to the DevTools general coding style and formatting guidelines
 
 * [JS Coding Style](https://wiki.mozilla.org/DevTools/CodingStandards#Code_style)
 * [Formatting Comments](https://wiki.mozilla.org/DevTools/CodingStandards#Comments)
+
+#### Issues
+
+We use issues and milestones for planning purposes as well as tracking bugs.
+
+**Keep Issues Relevant**
+
+We try to keep the number of open issues to a minimum.  If work isn't going to be done in a timely manner we would rather close the issue than let them go stale.  Closed issues can always be reopened again when we are ready to start the work.  This process helps keep the focus of the project more understandable to others.
+
+**Intent to implement**
+
+When a person is assigned to an issue this indicates an _intent to implement_.  Please ask within the issue if you would like to work on a fix so multiple people don't create pull requests for it.
 
 #### Pull Requests
 
@@ -295,3 +310,37 @@ For a list of all the configuration options see the [config/README](./config/REA
 ### Create a local config file
 
 * Copy the [`config/development.json`](./config/development.json) to `config/local.json`
+
+## Issues and Pull Request labels
+
+These are the [labels](https://github.com/devtools-html/debugger.html/labels) we use to help organize and communicate the state of issues and pull requests in the project.  If you find a label being used that isn't described here please file an issue to get it listed.
+
+| Label name | query:mag_right: | Description |
+| --- | --- | --- |
+| `up-for-grabs` | [search][labels-up-for-grabs] | Good for contributors to work on |
+| `first-timers-only` | [search][labels-first-timers-only] | Good for a first time contribution to open source |
+| `difficulty:easy` | [search][labels-difficulty-easy] | Work that is small changes, updating tests, updating docs, expect very little review |
+| `difficulty:medium` | [search][labels-difficulty-medium] | Work that adapts existing code, adapts existing tests, expect quick review |
+| `difficulty:hard` | [search][labels-difficulty-hard] | Work that requires new tests, new code, and a good understanding of project; expect lots of review |
+| `docs` | [search][labels-docs] | Issues with our documentation |
+| `design` | [search][labels-design] | Issues that require design work |
+| `enhancement` | [search][labels-enhancement] | [Requests](#suggesting-enhancements-new) for features |
+| `bug` | [search][labels-bug] | [Reported Bugs](#reporting-bugs-bug) with the current code |
+| `chrome` | [search][labels-chrome] | Chrome only issues |
+| `firefox` | [search][labels-firefox] | Firefox only issues |
+| `infrastructure` | [search][labels-infrastructure] | Issues with testing / build infrastructure |
+| `not actionable` | [search][labels-not-actionable] | Issues need clearer requirements before work can be started |
+
+[labels-up-for-grabs]:https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
+[labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
+[labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
+[labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
+[labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard
+[labels-docs]:https://github.com/devtools-html/debugger.html/labels/docs
+[labels-design]:https://github.com/devtools-html/debugger.html/labels/design
+[labels-enhancement]:https://github.com/devtools-html/debugger.html/labels/enhancement
+[labels-bug]:https://github.com/devtools-html/debugger.html/labels/bug
+[labels-chrome]:https://github.com/devtools-html/debugger.html/labels/chrome
+[labels-firefox]:https://github.com/devtools-html/debugger.html/labels/firefox
+[labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
+[labels-not-actionable]:https://github.com/devtools-html/debugger.html/labels/not%20actionable
