@@ -14,22 +14,16 @@ function info(text) {
   return dom.div({ className: "pane-info" }, text);
 }
 
-function excludeVariable(binding) {
-  if (!binding[1]) {
-    return;
-  }
-  const value = binding[1].value;
-  return value.missingArguments || value.optimizedOut;
-}
-
 // Create the tree nodes representing all the variables and arguments
 // for the bindings from a scope.
 function getBindingVariables(bindings, parentName) {
-  const args = [].concat(...bindings.arguments.map(toPairs));
+  const args = bindings.arguments.map(arg => toPairs(arg)[0]);
   const variables = toPairs(bindings.variables);
 
   return args.concat(variables)
-  .filter(binding => !excludeVariable(binding))
+    .filter(binding => (
+      !(binding[1].value.missingArguments || binding[1].value.optimizedOut)
+    ))
     .map(binding => ({
       name: binding[0],
       path: parentName + "/" + binding[0],
