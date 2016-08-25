@@ -59,11 +59,20 @@ function debugFirstTab(browser = "Firefox") {
   cy.get(`.${browser} .tab`).first().click();
 }
 
+function keyEvent(key, cmdOrCtrl) {
+  const isMac = window.navigator.userAgent.includes("Mac")
+  return Object.assign(new Event("keydown"), {
+    key,
+    metaKey: cmdOrCtrl && isMac,
+    ctrlKey: cmdOrCtrl && !isMac,
+    altKey: false,
+    shiftKey: false
+  })
+}
+
 function goToSource(source) {
   cy.window().then(win => {
-    win.dispatchEvent(Object.assign(new Event("keydown"), {
-      key: "p", metaKey: true, ctrlKey: false, altKey: false, shiftKey: false
-    }))
+    win.dispatchEvent(keyEvent("p", true))
   });
 
   cy.get(".autocomplete input").type(source)

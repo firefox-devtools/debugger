@@ -2,6 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
+const { Services } = require("Services");
 const actions = require("../actions");
 
 require("./App.css");
@@ -53,12 +54,12 @@ const App = React.createClass({
 
   componentDidMount() {
     this.shortcuts = new KeyShortcuts({ window });
-    this.shortcuts.on("Cmd+P", this.toggleSourcesSearch);
+    this.shortcuts.on("CmdOrCtrl+P", this.toggleSourcesSearch);
     window.addEventListener("keydown", this.onKeyDown);
   },
 
   componentWillUnmount() {
-    this.shortcuts.off("Cmd+P", this.toggleSourcesSearch);
+    this.shortcuts.off("CmdOrCtrl+P", this.toggleSourcesSearch);
     window.removeEventListener("keydown", this.onKeyDown);
   },
 
@@ -94,9 +95,10 @@ const App = React.createClass({
   },
 
   renderWelcomeBox() {
+    const modifierTxt = Services.appinfo.OS === "Darwin" ? "Cmd" : "Ctrl";
     return dom.div(
       { className: "welcomebox" },
-      "Want to find a file? (Cmd + P)"
+      `Want to find a file? (${modifierTxt} + P)`
     );
   },
 
