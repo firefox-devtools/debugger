@@ -2,6 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
+const { Services } = require("Services");
 const actions = require("../actions");
 
 require("./App.css");
@@ -94,9 +95,10 @@ const App = React.createClass({
   },
 
   renderWelcomeBox() {
+    const modifierTxt = Services.appinfo.OS === "Darwin" ? "Cmd" : "Ctrl";
     return dom.div(
       { className: "welcomebox" },
-      "Want to find a file? (Cmd + P)"
+      `Want to find a file? (${modifierTxt} + P)`
     );
   },
 
