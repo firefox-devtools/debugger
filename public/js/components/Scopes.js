@@ -37,7 +37,7 @@ function getBindingVariables(bindings, parentName) {
     }));
 }
 
-function getSpecialVariables(pauseInfo, parentName) {
+function getSpecialVariables(pauseInfo, path) {
   const thrown = pauseInfo.getIn(["why", "frameFinished", "throw"]);
   const returned = pauseInfo.getIn(["why", "frameFinished", "return"]);
   const this_ = pauseInfo.getIn(["frame", "this"]);
@@ -49,7 +49,7 @@ function getSpecialVariables(pauseInfo, parentName) {
 
     vars.push({
       name: "<exception>",
-      path: parentName + "/<exception>",
+      path: path + "/<exception>",
       contents: { value: thrown }
     });
   }
@@ -57,7 +57,7 @@ function getSpecialVariables(pauseInfo, parentName) {
   if (returned) {
     vars.push({
       name: "<return>",
-      path: parentName + "/<return>",
+      path: path + "/<return>",
       contents: { value: returned.toJS() }
     });
   }
@@ -65,7 +65,7 @@ function getSpecialVariables(pauseInfo, parentName) {
   if (this_) {
     vars.push({
       name: "<this>",
-      path: parentName + "/<this>",
+      path: path + "/<this>",
       contents: { value: this_.toJS() }
     });
   }
@@ -87,7 +87,7 @@ function getScopes(pauseInfo, selectedFrame) {
 
   do {
     const type = scope.type;
-
+    const key = scope.actor;
     if (type === "function" || type === "block") {
       const bindings = scope.bindings;
       let title;
@@ -101,17 +101,17 @@ function getScopes(pauseInfo, selectedFrame) {
 
       // Innermost
       if (scope === pauseInfo.getIn(["frame", "scope"])) {
-        vars = vars.concat(getSpecialVariables(pauseInfo, title));
+        vars = vars.concat(getSpecialVariables(pauseInfo, key));
       }
 
       if (vars && vars.length) {
         vars.sort((a, b) => a.name.localeCompare(b.name));
-        scopes.push({ name: title, path: title, contents: vars });
+        scopes.push({ name: title, path: key, contents: vars });
       }
     } else if (type === "object") {
       scopes.push({
         name: scope.object.class,
-        path: scope.object.class,
+        path: key,
         contents: { value: scope.object }
       });
     }
@@ -125,7 +125,7 @@ const Scopes = React.createClass({
     pauseInfo: ImPropTypes.map,
     loadedObjects: ImPropTypes.map,
     loadObjectProperties: PropTypes.func,
-    selectedFrame: PropTypes.map
+    selectedFrame: PropTypes.object
   },
 
   displayName: "Scopes",
