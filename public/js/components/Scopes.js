@@ -3,9 +3,10 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const actions = require("../actions");
-const { getPause, getLoadedObjects } = require("../selectors");
+const { getSelectedFrame, getLoadedObjects, getPause } = require("../selectors");
 const ObjectInspector = React.createFactory(require("./ObjectInspector"));
 const { DOM: dom, PropTypes } = React;
+const toPairs = require("lodash/toPairs");
 
 require("./Scopes.css");
 
@@ -13,20 +14,27 @@ function info(text) {
   return dom.div({ className: "pane-info" }, text);
 }
 
+function excludeVariable(binding) {
+  if (!binding[1]) {
+    return;
+  }
+  const value = binding[1].value;
+  return value.missingArguments || value.optimizedOut;
+}
+
 // Create the tree nodes representing all the variables and arguments
 // for the bindings from a scope.
 function getBindingVariables(bindings, parentName) {
-  return bindings
-    .get("arguments").map(arg => arg.entrySeq().get(0))
-    .concat(bindings.get("variables").entrySeq())
-    .filter(binding => (!binding[1].hasIn(["value", "missingArguments"]) &&
-                        !binding[1].hasIn(["value", "optimizedOut"])))
+  const args = [].concat(...bindings.arguments.map(toPairs));
+  const variables = toPairs(bindings.variables);
+
+  return args.concat(variables)
+  .filter(binding => !excludeVariable(binding))
     .map(binding => ({
       name: binding[0],
       path: parentName + "/" + binding[0],
-      contents: binding[1].toJS()
-    }))
-    .toArray();
+      contents: binding[1]
+    }));
 }
 
 function getSpecialVariables(pauseInfo, parentName) {
@@ -65,12 +73,12 @@ function getSpecialVariables(pauseInfo, parentName) {
   return vars;
 }
 
-function getScopes(pauseInfo) {
+function getScopes(pauseInfo, selectedFrame) {
   if (!pauseInfo) {
     return null;
   }
 
-  let scope = pauseInfo.getIn(["frame", "scope"]);
+  let scope = selectedFrame.scope;
   if (!scope) {
     return null;
   }
@@ -78,13 +86,13 @@ function getScopes(pauseInfo) {
   const scopes = [];
 
   do {
-    const type = scope.get("type");
+    const type = scope.type;
 
     if (type === "function" || type === "block") {
-      const bindings = scope.get("bindings");
+      const bindings = scope.bindings;
       let title;
       if (type === "function") {
-        title = scope.getIn(["function", "displayName"]) || "(anonymous)";
+        title = scope.function.displayName || "(anonymous)";
       } else {
         title = "Block";
       }
@@ -96,18 +104,18 @@ function getScopes(pauseInfo) {
         vars = vars.concat(getSpecialVariables(pauseInfo, title));
       }
 
-      if (vars.length) {
+      if (vars && vars.length) {
         vars.sort((a, b) => a.name.localeCompare(b.name));
         scopes.push({ name: title, path: title, contents: vars });
       }
     } else if (type === "object") {
       scopes.push({
-        name: scope.getIn(["object", "class"]),
-        path: scope.getIn(["object", "class"]),
-        contents: { value: scope.get("object").toJS() }
+        name: scope.object.class,
+        path: scope.object.class,
+        contents: { value: scope.object }
       });
     }
-  } while (scope = scope.get("parent")); // eslint-disable-line no-cond-assign
+  } while (scope = scope.parent); // eslint-disable-line no-cond-assign
 
   return scopes;
 }
@@ -116,18 +124,26 @@ const Scopes = React.createClass({
   propTypes: {
     pauseInfo: ImPropTypes.map,
     loadedObjects: ImPropTypes.map,
-    loadObjectProperties: PropTypes.func
+    loadObjectProperties: PropTypes.func,
+    selectedFrame: PropTypes.map
   },
 
   displayName: "Scopes",
 
   getInitialState() {
-    return { scopes: getScopes(this.props.pauseInfo) };
+    const { pauseInfo, selectedFrame } = this.props;
+    return { scopes: getScopes(pauseInfo, selectedFrame) };
   },
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.pauseInfo !== nextProps.pauseInfo) {
-      this.setState({ scopes: getScopes(nextProps.pauseInfo) });
+    const { pauseInfo, selectedFrame } = this.props;
+    const pauseInfoChanged = pauseInfo !== nextProps.pauseInfo;
+    const selectedFrameChange = selectedFrame !== nextProps.selectedFrame;
+
+    if (pauseInfoChanged || selectedFrameChange) {
+      this.setState({
+        scopes: getScopes(nextProps.pauseInfo, nextProps.selectedFrame)
+      });
     }
   },
 
@@ -152,7 +168,10 @@ const Scopes = React.createClass({
 });
 
 module.exports = connect(
-  state => ({ pauseInfo: getPause(state),
-              loadedObjects: getLoadedObjects(state) }),
+  state => ({
+    pauseInfo: getPause(state),
+    selectedFrame: getSelectedFrame(state),
+    loadedObjects: getLoadedObjects(state)
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Scopes);

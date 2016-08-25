@@ -17,6 +17,11 @@ describe("Tests", function() {
     // step into the initialize function
     // and expand the Events[method] scope
     stepIn();
+    scopeAtIndex(0).contains("Events");
+
+    selectCallStackFrame(1);
+    scopeAtIndex(0).contains("initialize");
+
     selectScope(0)
     stepOver();
     stepOut();
