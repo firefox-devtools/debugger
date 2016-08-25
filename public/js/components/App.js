@@ -53,12 +53,12 @@ const App = React.createClass({
 
   componentDidMount() {
     this.shortcuts = new KeyShortcuts({ window });
-    this.shortcuts.on("Cmd+P", this.toggleSourcesSearch);
+    this.shortcuts.on("CmdOrCtrl+P", this.toggleSourcesSearch);
     window.addEventListener("keydown", this.onKeyDown);
   },
 
   componentWillUnmount() {
-    this.shortcuts.off("Cmd+P", this.toggleSourcesSearch);
+    this.shortcuts.off("CmdOrCtrl+P", this.toggleSourcesSearch);
     window.removeEventListener("keydown", this.onKeyDown);
   },
 
