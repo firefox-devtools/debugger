@@ -68,7 +68,7 @@ function getSpecialVariables(pauseInfo, path) {
 }
 
 function getScopes(pauseInfo, selectedFrame) {
-  if (!pauseInfo) {
+  if (!pauseInfo || !selectedFrame) {
     return null;
   }
 

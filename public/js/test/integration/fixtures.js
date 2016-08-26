@@ -27,8 +27,8 @@ xdescribe("Fixtures", function() {
     editTodo();
     cy.wait(1000)
 
-    toggleScopes();
     selectScope(0);
+    selectScope(1);
     selectScope(2);
     cy.saveFixture("todomvc.updateOnEnter");
     resume();
