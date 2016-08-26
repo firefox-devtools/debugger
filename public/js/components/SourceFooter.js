@@ -8,7 +8,8 @@ const { getSelectedSource, getSourceText, getPrettySource } = require("../select
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
-const { isMapped, getGeneratedSourceId } = require("../utils/source-map");
+const { isMapped, getGeneratedSourceId,
+        isOriginal } = require("../utils/source-map");
 const { isPretty } = require("../utils/source");
 
 require("./SourceFooter.css");
@@ -64,7 +65,8 @@ const SourceFooter = React.createClass({
     const { selectedSource, sourceText } = this.props;
     const sourceLoaded = selectedSource && !sourceText.get("loading");
 
-    if (isMapped(selectedSource.toJS())) {
+    if (isMapped(selectedSource.toJS()) ||
+      (isOriginal(selectedSource.toJS()) && !isPretty(selectedSource.toJS()))) {
       return;
     }
 
