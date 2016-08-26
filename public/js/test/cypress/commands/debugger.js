@@ -86,7 +86,12 @@ function toggleBreakpoint(linenumber) {
   });
 
   cy.get(".CodeMirror")
-    .contains(".CodeMirror-linenumber", linenumber).click();
+    .contains(".CodeMirror-linenumber", linenumber)
+    .click()
+
+  cy.get(".CodeMirror")
+    .contains(".CodeMirror-linenumber", linenumber)
+    .should("not.have.class", "breakpoint-disabled")
 }
 
 function addWatchExpression(expression) {
