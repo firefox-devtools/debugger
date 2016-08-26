@@ -99,8 +99,8 @@ function getScopes(pauseInfo, selectedFrame) {
 
       let vars = getBindingVariables(bindings, title);
 
-      // Innermost
-      if (scope === pauseInfo.getIn(["frame", "scope"])) {
+      // show exception, return, and this variables in innermost scope
+      if (scope.actor === pauseInfo.getIn(["frame", "scope"]).get("actor")) {
         vars = vars.concat(getSpecialVariables(pauseInfo, key));
       }
 
