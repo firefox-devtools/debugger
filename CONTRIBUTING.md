@@ -113,7 +113,7 @@ Once you have Firefox running in a debuggable state go back up to instructions f
 Start by running Chrome with remote debugging turned on, this command also creates a new _temporary_ profile
 
 ```
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile http://localhost:8000/todomvc/
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile http://localhost:7999/todomvc/
 ```
 > If this command doesn't work for your OS or Chrome version see the other [Chrome commands for running in a debuggable state](./docs/remotely-debuggable-browsers.md#chrome)
 
@@ -222,7 +222,7 @@ To enabled Hot Reloading:
 
 ```json
 {
-  "hotReloading": true  
+  "hotReloading": true
 }
 ```
 
