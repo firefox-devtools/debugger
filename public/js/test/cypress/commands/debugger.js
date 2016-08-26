@@ -31,7 +31,11 @@ function scopesPane() {
 }
 
 function scopeAtIndex(index) {
-  return scopesPane().find(".scopes-list > .tree").children().eq(index);
+  return scopes().children().eq(index);
+}
+
+function scopes() {
+  return scopesPane().find(".scopes-list > .tree");
 }
 /**
   DOM commands
@@ -161,6 +165,7 @@ Object.assign(window, {
   callStackFrameAtIndex,
   toggleScopes,
   scopeAtIndex,
+  scopes,
   selectScope,
   sourceTab,
   resume,

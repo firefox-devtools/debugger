@@ -43,6 +43,7 @@ const Frame = t.struct({
   id: t.String,
   displayName: t.String,
   location: Location,
+  this: t.union([t.Object, t.Nil]),
   scope: t.union([t.Object, t.Nil])
 }, "Frame");
 

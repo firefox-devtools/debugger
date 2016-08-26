@@ -27,6 +27,7 @@ function createFrame(frame) {
       line: frame.where.line,
       column: frame.where.column
     }),
+    this: frame.this,
     scope: frame.environment
   });
 }
