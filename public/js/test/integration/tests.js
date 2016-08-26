@@ -10,6 +10,10 @@ describe("Tests", function() {
     addTodo();
     callStackFrameAtIndex(0).contains("initialize");
 
+    scopeAtIndex(0).click();
+    scopes().contains("<this>");
+
+
     // select the second frame and check to see the source updated
     selectCallStackFrame(1);
     sourceTab().contains("backbone.js");
@@ -137,21 +141,21 @@ describe("Tests", function() {
   it("(Firefox) exception", function() {
     debugPage("exceptions.html");
     scopeAtIndex(0).click();
-    scopeAtIndex(1).contains("reachable")
+    scopes().contains("reachable")
 
     resume();
     scopeAtIndex(0).click();
-    scopeAtIndex(1).contains("Error")
+    scopes().contains("Error")
 
     resume();
     scopeAtIndex(0).click();
-    scopeAtIndex(1).contains("Error")
+    scopes().contains("Error")
 
     resume();
     stepOver();
     stepOver();
     scopeAtIndex(0).click();
-    scopeAtIndex(1).contains("unreachable")
+    scopes().contains("unreachable")
 
     cy.navigate("exceptions.html")
     goToSource("exceptions")
