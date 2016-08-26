@@ -114,7 +114,8 @@ function _getBreakpoints(state) {
     bp.locationId = locationId;
     bp.isCurrentlyPaused = isCurrentlyPaused;
     return bp;
-  });
+  })
+  .filter(bp => bp.location.source);
 }
 
 module.exports = connect(
