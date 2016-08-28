@@ -101,8 +101,8 @@ function initPage(actions) {
   threadClient = getThreadClient();
 
   setupCommands({ threadClient, tabTarget, debuggerClient });
-
-  tabTarget.on("navigate", actions.navigate);
+  tabTarget.on("will-navigate", actions.willNavigate);
+  tabTarget.on("navigate", actions.willNavigate);
   tabTarget.on("frame-update", function(_, packet) {
     if (packet.destroyAll) {
       actions.willNavigate();

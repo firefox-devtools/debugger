@@ -168,7 +168,7 @@ const SourceTabs = React.createClass({
 
     function onClickClose(ev) {
       ev.stopPropagation();
-      closeTab(source.get("url"));
+      closeTab(source.get("id"));
     }
 
     return dom.div(

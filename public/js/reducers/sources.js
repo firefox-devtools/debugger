@@ -16,6 +16,7 @@ export type SourcesState = {
   sourcesText: I.Map<string, any>,
   tabs: I.List<any>,
   sourceMaps: I.Map<string, any>,
+  url: ?string
 };
 
 const State = makeRecord(({
@@ -23,7 +24,8 @@ const State = makeRecord(({
   selectedSourceURL: undefined,
   sourcesText: I.Map(),
   sourceMaps: I.Map(),
-  tabs: I.List([])
+  tabs: I.List([]),
+  url: undefined
 } : SourcesState));
 
 function update(state = State(), action: Action) : Record<SourcesState> {
@@ -58,8 +60,8 @@ function update(state = State(), action: Action) : Record<SourcesState> {
 
     case "CLOSE_TAB":
       return state.merge({
-        selectedSource: getNewSelectedSource(state, action.url),
-        tabs: removeSourceFromTabList(state, action.id)
+        selectedSourceURL: getNewSelectedSource(state, action.url),
+        tabs: removeSourceFromTabList(state, action.url)
       });
 
     case "LOAD_SOURCE_TEXT": {
@@ -96,10 +98,17 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       return _updateText(state, action, [action.originalSource]);
 
     case "NAVIGATE":
-      const source = state.selectedSource;
-      const sourceUrl = source && source.get("url");
-      return State()
-        .set("pendingSelectedSourceURL", sourceUrl);
+      if (!action.data) {
+        return state;
+      }
+      if (!state.url) {
+        return State()
+          .set("url", action.data.url);
+      }
+      if (state.url === action.data.url) {
+        return state;
+      }
+      return State().set("url", action.data.url);
   }
 
   return state;
@@ -133,8 +142,8 @@ function _updateText(state, action, values) : Record<SourcesState> {
   }, state);
 }
 
-function removeSourceFromTabList(state, id) {
-  return state.tabs.filter(tab => tab.get("id") != id);
+function removeSourceFromTabList(state, url) {
+  return state.tabs.filter(tab => tab != url);
 }
 
 /*
@@ -145,7 +154,7 @@ function updateTabList(state, url, options) {
   const selectedSourceURL = state.get("selectedSourceURL");
   const selectedSourceIndex = tabs.indexOf(selectedSourceURL);
   const sourceIndex = tabs.indexOf(url);
-  const includesSource = !!tabs.find(tab => tab == selectedSourceURL);
+  const includesSource = !!tabs.find(tab => tab == url);
 
   if (includesSource) {
     if (options.position != undefined) {
@@ -222,10 +231,8 @@ function getSourceText(state: OuterState, id: string) {
 function getSourceTabs(state: OuterState) {
   const tabs = state.sources.tabs;
   return tabs
-    .filter(url => getSourceByURL(state, url))
-    .map(url => getSourceByURL(state, url));
-
-  return;
+    .map(url => getSourceByURL(state, url))
+    .filter(url => url);
 }
 
 function getSelectedSource(state: OuterState) {

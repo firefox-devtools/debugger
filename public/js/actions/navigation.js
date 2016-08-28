@@ -1,9 +1,12 @@
 const constants = require("../constants");
 const { clearData } = require("../utils/source-map");
 
-function willNavigate() {
+function willNavigate(e, data) {
   clearData();
-  return { type: constants.NAVIGATE };
+  return {
+    type: constants.NAVIGATE,
+    data
+  };
 }
 
 function navigate() {

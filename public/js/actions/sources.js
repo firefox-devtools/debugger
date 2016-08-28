@@ -22,7 +22,6 @@ const {
 
 const {
   getSource, getSourceByURL, getSourceText,
-  getPendingSelectedSourceURL,
   getSourceMap, getSourceMapURL, getFrames
 } = require("../selectors");
 
@@ -70,13 +69,6 @@ function newSource(source) {
     }
 
     dispatch(_addSource(source));
-
-    // If a request has been made to show this source, go ahead and
-    // select it.
-    // const pendingURL = getPendingSelectedSourceURL(getState());
-    // if (pendingURL === source.url) {
-      // dispatch(selectSource(source.id));
-    // }
   };
 }
 
@@ -149,10 +141,14 @@ function selectSource(id, options = {}) {
   };
 }
 
-function closeTab(url) {
-  return {
-    type: constants.CLOSE_TAB,
-    url,
+function closeTab(id) {
+  return ({ dispatch, getState, client }) => {
+    const source = getSource(getState(), id).toJS();
+    const url = source.url;
+    dispatch({
+      type: constants.CLOSE_TAB,
+      url,
+    });
   };
 }
 
