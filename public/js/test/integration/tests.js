@@ -8,25 +8,26 @@ describe("Tests", function() {
 
     // pause and check the first frame
     addTodo();
-    callStackFrameAtIndex(0).contains("initialize");
+    callStackFrameAtIndex(1).contains("initialize");
 
-    scopeAtIndex(0).click();
+    scopeAtIndex(1).click();
     scopes().contains("<this>");
 
 
     // select the second frame and check to see the source updated
-    selectCallStackFrame(1);
+    selectCallStackFrame(2);
     sourceTab().contains("backbone.js");
 
     // step into the initialize function
     // and expand the Events[method] scope
     stepIn();
-    scopeAtIndex(0).contains("Events");
+    scopeAtIndex(1).click();
+    scopes().contains("id");
 
-    selectCallStackFrame(1);
-    scopeAtIndex(0).contains("initialize");
+    selectCallStackFrame(2);
+    scopeAtIndex(1).contains("initialize");
 
-    selectScope(0)
+    selectScope(1)
     stepOver();
     stepOut();
 
@@ -44,18 +45,18 @@ describe("Tests", function() {
     toggleBreakpoint(35);
 
     // test navigating to a source by selecting a breakpoint
-    selectBreakpointInList(0);
+    selectBreakpointInList(1);
     sourceTab().contains("todo-view.js")
 
     // test enabling/disabling breakpoints
-    toggleBreakpointInList(0);
-    toggleBreakpointInList(2);
+    toggleBreakpointInList(1);
+    toggleBreakpointInList(3);
 
     // confirm that breakpoints are still there after the debuggee is reloaded
     cy.navigate("todomvc");
-    breakpointAtIndex(0).should("have.class", "disabled");
-    breakpointAtIndex(1).should("not.have.class", "disabled");
-    breakpointAtIndex(2).should("have.class", "disabled");
+    breakpointAtIndex(1).should("have.class", "disabled");
+    breakpointAtIndex(2).should("not.have.class", "disabled");
+    breakpointAtIndex(3).should("have.class", "disabled");
 
     cy.reload();
   });
@@ -72,7 +73,7 @@ describe("Tests", function() {
     cy.debuggee(() => {
       dbg.type("#new-todo", "hi");
     });
-    callStackFrameAtIndex(0).contains("1");
+    callStackFrameAtIndex(1).contains("1");
   });
 
   /**
@@ -92,7 +93,7 @@ describe("Tests", function() {
 
     addTodo();
     editTodo()
-    callStackFrameAtIndex(0).contains("save");
+    callStackFrameAtIndex(1).contains("save");
   });
 
   /**
@@ -105,16 +106,16 @@ describe("Tests", function() {
   it("(Firefox) stepping", function() {
     debugPage("debugger-statements.html");
 
-    callStackFrameAtIndex(0).contains("8");
+    callStackFrameAtIndex(1).contains("8");
 
     resume();
-    callStackFrameAtIndex(0).contains("12");
+    callStackFrameAtIndex(1).contains("12");
 
     stepOver();
-    callStackFrameAtIndex(0).contains("13");
+    callStackFrameAtIndex(1).contains("13");
 
     stepIn();
-    callStackFrameAtIndex(0).contains("18");
+    callStackFrameAtIndex(1).contains("18");
 
     stepOut();
   })
@@ -126,9 +127,9 @@ describe("Tests", function() {
   it("(Firefox) iframe", function() {
     debugPage("iframe.html");
 
-    callStackFrameAtIndex(0).contains("8");
+    callStackFrameAtIndex(1).contains("8");
     resume();
-    callStackFrameAtIndex(0).contains("8");
+    callStackFrameAtIndex(1).contains("8");
   });
 
   /**
@@ -140,24 +141,24 @@ describe("Tests", function() {
    */
   it("(Firefox) exception", function() {
     debugPage("exceptions.html");
-    scopeAtIndex(0).click();
+    scopeAtIndex(1).click();
     scopes().contains("reachable")
 
     resume();
-    scopeAtIndex(0).click();
+    scopeAtIndex(1).click();
     scopes().contains("Error")
 
     resume();
-    scopeAtIndex(0).click();
+    scopeAtIndex(1).click();
     scopes().contains("Error")
 
     resume();
     stepOver();
     stepOver();
-    scopeAtIndex(0).click();
+    scopeAtIndex(1).click();
     scopes().contains("unreachable")
 
-    cy.navigate("exceptions.html")
+    reload();
     goToSource("exceptions")
   });
 
@@ -216,6 +217,6 @@ describe("Tests", function() {
     });
 
     toggleCallStack();
-    callStackFrameAtIndex(0).contains("exports.increment");
+    callStackFrameAtIndex(1).contains("exports.increment");
   });
 });
