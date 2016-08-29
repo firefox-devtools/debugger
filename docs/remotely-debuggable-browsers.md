@@ -108,7 +108,7 @@ Here are the instructions for starting a new temporary profile of Chrome on MacO
 ##### Chrome Canary
 
 ```
-/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile
+/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile
 ```
 
 #### Windows
