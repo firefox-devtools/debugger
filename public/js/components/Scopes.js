@@ -60,17 +60,16 @@ function getSpecialVariables(pauseInfo, path) {
 
 function getThisVariable(frame, path) {
   const this_ = frame.this;
-  const vars = [];
 
-  if (this_) {
-    vars.push({
-      name: "<this>",
-      path: path + "/<this>",
-      contents: { value: this_ }
-    });
+  if (!this_) {
+    return null;
   }
 
-  return vars;
+  return {
+    name: "<this>",
+    path: path + "/<this>",
+    contents: { value: this_ }
+  };
 }
 
 function getScopes(pauseInfo, selectedFrame) {
@@ -109,7 +108,11 @@ function getScopes(pauseInfo, selectedFrame) {
       }
 
       if (scope.actor === selectedScope.actor) {
-        vars = vars.concat(getThisVariable(selectedFrame, key));
+        let this_ = getThisVariable(selectedFrame, key);
+
+        if (this_) {
+          vars.push(this_);
+        }
       }
 
       if (vars && vars.length) {
