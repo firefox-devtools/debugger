@@ -14,6 +14,7 @@ const SplitBox = createFactory(require("./SplitBox"));
 const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 const SourceFooter = createFactory(require("./SourceFooter"));
+const Svg = require("./utils/Svg");
 const Autocomplete = createFactory(require("./Autocomplete"));
 const { getSelectedSource, getSources } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
@@ -75,14 +76,22 @@ const App = React.createClass({
     }
   },
 
+  closeSourcesSearch() {
+    this.setState({ searchOn: false });
+  },
+
   renderSourcesSearch() {
-    return Autocomplete({
-      selectItem: result => {
-        this.props.selectSource(result.id);
-        this.setState({ searchOn: false });
-      },
-      items: searchResults(this.props.sources)
-    });
+    return dom.div({ className: "search-container" },
+      Autocomplete({
+        selectItem: result => {
+          this.props.selectSource(result.id);
+          this.setState({ searchOn: false });
+        },
+        items: searchResults(this.props.sources)
+      }),
+      dom.div({ className: "close-button" },
+      Svg("close", { onClick: this.closeSourcesSearch }))
+    );
   },
 
   renderEditor() {

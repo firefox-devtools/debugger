@@ -81,3 +81,7 @@ body {
   text-align: center;
   width: 100%;
 }
+
+.search-container {
+  display: flex;
+}
