@@ -131,7 +131,7 @@ const ObjectInspector = React.createClass({
     let objectValue;
     if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
       const object = item.contents.value;
-      objectValue = Rep({ object });
+      objectValue = Rep({ object, mode: "tiny" });
     }
 
     return dom.div(

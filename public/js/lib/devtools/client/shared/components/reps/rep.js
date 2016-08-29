@@ -74,6 +74,7 @@ define(function (require, exports, module) {
     propTypes: {
       object: React.PropTypes.any,
       defaultRep: React.PropTypes.object,
+      mode: React.PropTypes.string,
     },
 
     render: function () {
