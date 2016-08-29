@@ -87,11 +87,7 @@ function getScopes(pauseInfo, selectedFrame) {
   const scopes = [];
 
   let scope = selectedScope;
-
-  function isScopeOfPauseFrame(innerScope) {
-    const pauseActor = pauseInfo.getIn(["frame", "scope"]).get("actor");
-    return innerScope.actor === pauseActor;
-  }
+  let pausedScopeActor = pauseInfo.getIn(["frame", "scope"]).get("actor");
 
   do {
     const type = scope.type;
@@ -108,7 +104,7 @@ function getScopes(pauseInfo, selectedFrame) {
       let vars = getBindingVariables(bindings, title);
 
       // show exception, return, and this variables in innermost scope
-      if (isScopeOfPauseFrame(scope.actor)) {
+      if (scope.actor === pausedScopeActor) {
         vars = vars.concat(getSpecialVariables(pauseInfo, key));
       }
 
