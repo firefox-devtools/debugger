@@ -84,4 +84,15 @@ body {
 
 .search-container {
   display: flex;
+  flex: 1;
+}
+
+.search-container .autocomplete {
+  flex: 1;
+}
+
+.search-container .close-button {
+  width: 16px;
+  margin-top: 2em;
+  margin-right: 2em;
 }
