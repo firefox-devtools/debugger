@@ -34,7 +34,6 @@ function getBindingVariables(bindings, parentName) {
 function getSpecialVariables(pauseInfo, path) {
   const thrown = pauseInfo.getIn(["why", "frameFinished", "throw"]);
   const returned = pauseInfo.getIn(["why", "frameFinished", "return"]);
-  const this_ = pauseInfo.getIn(["frame", "this"]);
   const vars = [];
 
   if (thrown) {
@@ -56,15 +55,21 @@ function getSpecialVariables(pauseInfo, path) {
     });
   }
 
-  if (this_) {
-    vars.push({
-      name: "<this>",
-      path: path + "/<this>",
-      contents: { value: this_.toJS() }
-    });
+  return vars;
+}
+
+function getThisVariable(frame, path) {
+  const this_ = frame.this;
+
+  if (!this_) {
+    return null;
   }
 
-  return vars;
+  return {
+    name: "<this>",
+    path: path + "/<this>",
+    contents: { value: this_ }
+  };
 }
 
 function getScopes(pauseInfo, selectedFrame) {
@@ -72,12 +77,16 @@ function getScopes(pauseInfo, selectedFrame) {
     return null;
   }
 
-  let scope = selectedFrame.scope;
-  if (!scope) {
+  let selectedScope = selectedFrame.scope;
+
+  if (!selectedScope) {
     return null;
   }
 
   const scopes = [];
+
+  let scope = selectedScope;
+  let pausedScopeActor = pauseInfo.getIn(["frame", "scope"]).get("actor");
 
   do {
     const type = scope.type;
@@ -94,8 +103,16 @@ function getScopes(pauseInfo, selectedFrame) {
       let vars = getBindingVariables(bindings, title);
 
       // show exception, return, and this variables in innermost scope
-      if (scope.actor === pauseInfo.getIn(["frame", "scope"]).get("actor")) {
+      if (scope.actor === pausedScopeActor) {
         vars = vars.concat(getSpecialVariables(pauseInfo, key));
+      }
+
+      if (scope.actor === selectedScope.actor) {
+        let this_ = getThisVariable(selectedFrame, key);
+
+        if (this_) {
+          vars.push(this_);
+        }
       }
 
       if (vars && vars.length) {
