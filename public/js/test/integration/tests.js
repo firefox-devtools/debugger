@@ -158,6 +158,28 @@ describe("Tests", function() {
   });
 
   /**
+   * navigate to todomvc
+   * navigate to increment
+   * go back to todomvc
+   * go forward to increment
+   * reload
+   */
+  it("(Firefox) navigation", function() {
+    debugPage("exceptions.html");
+
+    cy.navigate("todomvc");
+    sourcesList().contains("bower_components");
+
+    cy.navigate("increment");
+    sourcesList().contains("bower_components").should("not.exist");
+    sourcesList().contains("increment");
+
+    reload();
+    sourcesList().contains("bower_components").should("not.exist");
+    sourcesList().contains("increment");
+  })
+
+  /**
    * * invoke an eval
    * * invoke an eval with a source url
    */

@@ -79,6 +79,10 @@ function goToSource(source) {
   cy.get(".autocomplete .results li").first().click()
 }
 
+function sourcesList() {
+  return cy.get(".sources-list")
+}
+
 function toggleBreakpoint(linenumber) {
   cy.window().then(win => {
     cy.wrap(win.cm)
@@ -162,6 +166,7 @@ Object.assign(window, {
   toggleScopes,
   scopeAtIndex,
   selectScope,
+  sourcesList,
   sourceTab,
   resume,
   stepIn,
