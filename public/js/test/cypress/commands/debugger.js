@@ -7,7 +7,7 @@ function callStackPane() {
 }
 
 function callStackFrameAtIndex(index) {
-  return callStackPane().find(".frames .frame").eq(index);
+  return cy.get(`.frames .frame:nth-child(${index})`)
 }
 
 function breakpointPane() {
@@ -15,7 +15,7 @@ function breakpointPane() {
 }
 
 function breakpointAtIndex(index) {
-  return breakpointPane().find(".breakpoint").eq(index);
+  return cy.get(`.breakpoints-list .breakpoint:nth-child(${index})`);
 }
 
 function commandBar() {
@@ -31,7 +31,7 @@ function scopesPane() {
 }
 
 function scopeAtIndex(index) {
-  return scopes().children().eq(index);
+  return cy.get(`.scopes-list .tree-node:nth-child(${index})`)
 }
 
 function scopes() {
@@ -127,27 +127,27 @@ function toggleScopes() {
 }
 
 function selectScope(index) {
-  scopeAtIndex(index).find(".arrow").click();
+  cy.get(`.scopes-list .tree-node:nth-child(${index}) .arrow`).click();
 }
 
 function resume() {
-  cy.get(".command-bar .active.resume").click();
+  cy.get(".active.resume").click();
 }
 
 function stepOver() {
-  commandBar().find(".active.stepOver").click();
+  cy.get(".active.stepOver").click();
 }
 
 function stepIn() {
-  commandBar().find(".active.stepIn").click();
+  cy.get(".active.stepIn").click();
 }
 
 function stepOut() {
-  commandBar().find(".active.stepOut").click();
+  cy.get(".active.stepOut").click();
 }
 
 function breakOnNext() {
-  commandBar().find(".active.pause").click();
+  cy.get(".active.pause").click();
 }
 
 function prettyPrint() {
