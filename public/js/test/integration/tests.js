@@ -26,6 +26,8 @@ describe("Tests", function() {
 
     selectCallStackFrame(2);
     scopeAtIndex(1).contains("initialize");
+    scopeAtIndex(1).click();
+    scopes().contains("<this>");
 
     selectScope(1)
     stepOver();
