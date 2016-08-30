@@ -1,3 +1,6 @@
+.breakpoints-list.breakpoints-list__disabled {
+	opacity: 0.5;
+}
 
 .breakpoints-list .breakpoint {
   font-size: 12px;
