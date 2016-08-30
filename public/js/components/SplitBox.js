@@ -16,13 +16,17 @@ const SplitBox = React.createClass({
 
     initialWidth: PropTypes.any,
     rightFlex: PropTypes.bool,
-    style: PropTypes.string
+    style: PropTypes.string,
+    direction: PropTypes.string
   },
 
   displayName: "SplitBox",
 
   getInitialState() {
-    return { width: this.props.initialWidth };
+    return {
+      width: this.props.initialWidth,
+      prevWidth: this.props.initialWidth
+    };
   },
 
   onMove(x) {
@@ -32,6 +36,14 @@ const SplitBox = React.createClass({
               (node.offsetLeft + node.offsetWidth) - x :
               x - node.offsetLeft)
     });
+  },
+
+  onDoubleClick() {
+    if (this.state.width !== 0) {
+      this.setState({ width: 0, prevWidth: this.state.width });
+    } else {
+      this.setState({ width: this.state.prevWidth, prevWidth: 0 });
+    }
   },
 
   render() {
@@ -47,7 +59,10 @@ const SplitBox = React.createClass({
         left
       ),
       Draggable({ className: "splitter",
-                  onMove: x => this.onMove(x) }),
+                  onMove: x => this.onMove(x),
+                  onDoubleClick: this.onDoubleClick,
+                  direction: this.props.direction,
+      }),
       dom.div(
         { className: rightFlex ? "controlled" : "uncontrolled",
           style: { width: rightFlex ? width : null }},
