@@ -18,7 +18,8 @@ function dehydrate(jsState) {
     pause: jsState.pause ? I.Map({
       pause: fromJS(jsState.pause.pause),
       loadedObjects: fromJS(jsState.pause.loadedObjects),
-      frames: jsState.pause.frames
+      frames: jsState.pause.frames,
+      selectedFrameId: jsState.pause.selectedFrameId
     }) : null,
     tabs: fromJS(jsState.tabs)
   };
