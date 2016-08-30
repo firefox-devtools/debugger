@@ -13,6 +13,8 @@ const { isEnabled, isFirefoxPanel, getValue,
 
 setConfig(DebuggerConfig);
 
+const { setupTestHelpers } = require("./test/integration-mocha/tests");
+
 // Set various flags before requiring app code.
 if (isEnabled("logging.client")) {
   DevToolsUtils.dumpn.wantLogging = true;
@@ -22,6 +24,7 @@ const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");
 const configureStore = require("./utils/create-store");
 const reducers = require("./reducers");
+const selectors = require("./selectors");
 
 const Tabs = require("./components/Tabs");
 const App = require("./components/App");
@@ -47,6 +50,7 @@ window.actions = {
   selectSource: actions.selectSource,
   selectSourceURL: actions.selectSourceURL
 };
+setupTestHelpers({ actions, selectors, store });
 
 function renderRoot(component) {
   const mount = document.querySelector("#mount");
