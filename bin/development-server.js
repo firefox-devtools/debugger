@@ -66,6 +66,10 @@ app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "../index.html"));
 });
 
+app.get("/integration", function(req, res) {
+  res.sendFile(path.join(__dirname, "../integration-mocha.html"));
+});
+
 app.get("/get", function(req, res) {
   const httpReq = httpGet(
     req.query.url,
@@ -94,6 +98,8 @@ app.listen(8000, "0.0.0.0", function(err, result) {
 const examples = express();
 examples.use(express.static("public/js/test/examples"));
 examples.use(serveIndex("public/js/test/examples", { icons: true }));
+app.use(express.static("node_modules"));
+
 examples.listen(7999, "0.0.0.0", function(err, result) {
   console.log("View debugger examples at http://localhost:7999");
 });

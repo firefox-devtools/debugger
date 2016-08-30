@@ -107,12 +107,12 @@ function Debuggee() {
 const debuggeeStatement = `window.dbg = (${Debuggee})()`;
 let injectedDebuggee;
 
-function injectDebuggee() {
+function injectDebuggee(win) {
   if (injectedDebuggee) {
     return Promise.resolve(injectedDebuggee);
   }
 
-  return window.client.debuggeeCommand(debuggeeStatement).then(result => {
+  return win.client.debuggeeCommand(debuggeeStatement).then(result => {
     injectedDebuggee = result;
   });
 }

@@ -1,13 +1,18 @@
 const mapValues = require("lodash/mapValues");
+const injectDebuggee = require("../utils/debuggee");
 
 let actions = undefined;
 let selectors = undefined;
 let store = undefined;
+let debuggerWindow = undefined;
 
-function setupTestHelpers(opts) {
-  actions = opts.actions;
-  store = opts.store;
-  selectors = mapValues(opts.selectors, (selector) => {
+function initDebugger(iframe) {
+  debuggerWindow = iframe.contentWindow.window;
+  const objs = debuggerWindow.bootstrap();
+
+  actions = objs.actions;
+  store = objs.store;
+  selectors = mapValues(objs.selectors, (selector) => {
     return function() {
       return selector(store.getState(), ...arguments);
     };
@@ -28,7 +33,7 @@ function addBreakpoint(line, { source } = {}) {
     sourceId: source.get("id"),
     line
   }, {
-    getTextForLine: l => window.cm.getLine(l - 1).trim()
+    getTextForLine: l => debuggerWindow.cm.getLine(l - 1).trim()
   });
 }
 
@@ -59,14 +64,37 @@ async function resume() {
   return actions.resume();
 }
 
+async function prettyPrint({ source } = {}) {
+  source = source || selectors.getSelectedSource();
+  return actions.togglePrettyPrint(source.get("id"));
+}
+
 function waitForPaused() {
   return waitForDispatchDone(store, "PAUSED");
 }
 
-function debugTab() {
+async function loadDebugger() {
+  let container = window["app-container"];
+  let iframe = document.createElement("iframe");
+  iframe.src = "http://localhost:8000";
+  let id = document.createAttribute("id");
+  id.value = "debuggerWindow";
+  container.innerHTML = "";
+  container.appendChild(iframe);
+  await waitForTime(1000);
+  initDebugger(iframe);
+
   const tabs = selectors.getTabs();
-  const id = tabs.find(t => t.get("browser") == "firefox").get("id");
-  window.location = `/?firefox-tab=${id}`;
+  const tabId = tabs.find(t => t.get("browser") == "firefox").get("id");
+  debuggerWindow.location = `/?firefox-tab=${tabId}`;
+  await waitForTime(2000);
+  initDebugger(iframe);
+  return iframe;
+}
+
+function navigate(url) {
+  debuggerWindow.client.navigate(`/${url}`);
+  return waitForTime(1000);
 }
 
 function waitForTime(time) {
@@ -98,29 +126,44 @@ function waitForDispatchDone(_store, type) {
   });
 }
 
-function pause() { // eslint-disable-line no-unused-vars
-  debugger; // eslint-disable-line no-debugger
+async function debuggee(callback) {
+  /**
+   * gets a fat arrow function and returns the function body
+   * `() => { example }` => `example`
+   */
+  function getFunctionBody(cb) {
+    const source = cb.toString();
+    const firstCurly = source.toString().indexOf("{");
+    return source.slice(firstCurly + 1, -1).trim();
+  }
+
+  const script = getFunctionBody(callback);
+
+  await injectDebuggee(debuggerWindow);
+  return debuggerWindow.client.debuggeeCommand(script);
 }
 
 const commands = {
   selectSource,
-  debugTab,
+  loadDebugger,
+  navigate,
   addBreakpoint,
   removeBreakpoint,
   stepIn,
   stepOut,
   stepOver,
   resume,
-  pause
+  prettyPrint
 };
 
 const utils = {
   waitForTime,
-  waitForPaused
+  waitForPaused,
+  debuggee
 };
 
 module.exports = {
-  setupTestHelpers,
+  initDebugger,
   commands,
   utils
 };

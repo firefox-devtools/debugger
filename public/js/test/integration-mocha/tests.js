@@ -1,5 +1,9 @@
-const { commands, utils, setupTestHelpers } = require("./head.js");
-const { debuggee } = require("./utils");
+const { commands, utils, initDebugger } = require("./head.js");
+
+const { selectSource, addBreakpoint, removeBreakpoint, navigate, loadDebugger,
+        stepIn, stepOut, stepOver, resume, prettyPrint } = commands;
+
+const { waitForTime, waitForPaused, debuggee } = utils;
 
 function addTodo() {
   debuggee(() => {
@@ -11,26 +15,38 @@ function addTodo() {
   return utils.waitForTime(1000);
 }
 
-async function pausing() {
-  await commands.selectSource("todo-view");
-  await commands.addBreakpoint(33);
-  await commands.addBreakpoint(35);
-  await addTodo();
-  await commands.stepIn();
-  await commands.stepOver();
-  await commands.stepOut();
-  await commands.resume();
-  await utils.waitForPaused();
-  await commands.resume();
-  await commands.removeBreakpoint(33);
-  await commands.removeBreakpoint(35);
-  console.log("DONE");
-}
+describe("tests", function() {
+  it("debugger pausing", async function(done) {
+    await waitForTime(2000);
+    await loadDebugger();
+    await navigate("todomvc");
+    await selectSource("todo-view");
+    await addBreakpoint(33);
+    await addBreakpoint(35);
+    await addTodo();
+    await stepIn();
+    await stepOver();
+    await stepOut();
+    await resume();
+    await waitForPaused();
+    await resume();
+    await removeBreakpoint(33);
+    await removeBreakpoint(35);
+    expect(2).to.equal(2);
+    done();
+  });
 
-window.startTests = async function() {
-  await pausing();
-};
+  it("pretty printing", async function(done) {
+    await waitForTime(2000);
+    await loadDebugger();
 
-module.exports = {
-  setupTestHelpers
+    await navigate("todomvc");
+    await selectSource("localStorage");
+    await prettyPrint();
+    done();
+  });
+});
+
+window.onload = function() {
+  initDebugger(window.debuggerFrame);
 };
