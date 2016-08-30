@@ -1,6 +1,8 @@
 machine:
   node:
     version: 6.3
+  services:
+    - docker
 
 checkout:
   post:
@@ -9,6 +11,7 @@ test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - node public/js/test/node-unit-tests.js --ci
+    - docker run -it -e "DISPLAY=unix$DISPLAY" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" --ipc host jlongster/mochitest-runner /bin/bash -c "export SHELL=/bin/bash; cd firefox && ./mach mochitest --subsuite devtools devtools/client/debugger/test/mochitest/"
     - npm run firefox-unit-test
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
@@ -32,3 +35,4 @@ dependencies:
     - ./bin/install-chrome
     - ./bin/install-firefox
     - node_modules/.bin/cypress install
+    - docker pull jlongster/mochitest-runner
