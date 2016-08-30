@@ -47,7 +47,6 @@ function createTabs(tabs) {
 
 function connectClient() {
   const deferred = defer();
-  let isConnected = false;
   const useProxy = !getValue("firefox.webSocketConnection");
   const portPref = useProxy ? "firefox.proxyPort" : "firefox.webSocketPort";
   const webSocketPort = getValue(portPref);
@@ -57,17 +56,7 @@ function connectClient() {
     new DebuggerTransport(socket) : new WebSocketDebuggerTransport(socket);
   debuggerClient = new DebuggerClient(transport);
 
-  // TODO: the timeout logic should be moved to DebuggerClient.connect.
-  setTimeout(() => {
-    if (isConnected) {
-      return;
-    }
-
-    deferred.resolve([]);
-  }, 6000);
-
   debuggerClient.connect().then(() => {
-    isConnected = true;
     return debuggerClient.listTabs().then(response => {
       deferred.resolve(createTabs(response.tabs));
     });

@@ -45,6 +45,9 @@ function connectClient() {
   const url = `http://localhost:${webSocketPort}/json/list`;
   networkRequest(url).then(body => {
     deferred.resolve(createTabs(body))
+  }).catch(err => {
+    console.log(err);
+    deferred.reject();
   });
 
   return deferred.promise;
