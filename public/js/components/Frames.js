@@ -5,7 +5,7 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
 const { endTruncateStr } = require("../utils/utils");
-const { basename } = require("../utils/path");
+const { basename } = require("path-browser-wrapper");
 const { getFrames, getSelectedFrame, getSource } = require("../selectors");
 
 if (typeof window == "object") {
