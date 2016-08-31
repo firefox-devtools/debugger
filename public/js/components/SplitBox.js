@@ -17,7 +17,6 @@ const SplitBox = React.createClass({
     initialWidth: PropTypes.any,
     rightFlex: PropTypes.bool,
     style: PropTypes.string,
-    direction: PropTypes.string
   },
 
   displayName: "SplitBox",
@@ -61,7 +60,6 @@ const SplitBox = React.createClass({
       Draggable({ className: "splitter",
                   onMove: x => this.onMove(x),
                   onDoubleClick: this.onDoubleClick,
-                  direction: this.props.direction,
       }),
       dom.div(
         { className: rightFlex ? "controlled" : "uncontrolled",

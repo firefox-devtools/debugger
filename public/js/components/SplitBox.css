@@ -26,21 +26,5 @@
   border-top-width: 0;
   box-sizing: content-box;
   cursor: ew-resize;
-  width: 8px;
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-}
-
-.split-box .splitter .arrow-left,
-.split-box .splitter .arrow-right {
-  width: 4px;
-}
-
-.split-box .splitter .arrow-right {
-  transform: rotate(180deg);
-}
-
-.split-box .splitter .arrow svg {
-  fill: black;
+  flex: 0 0 4px;
 }

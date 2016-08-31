@@ -1,7 +1,6 @@
 const React = require("react");
 const ReactDOM = require("react-dom");
 const { DOM: dom, PropTypes } = React;
-const Svg = require("./utils/Svg");
 
 const Draggable = React.createClass({
 
@@ -11,15 +10,10 @@ const Draggable = React.createClass({
     onStop: PropTypes.func,
     onDoubleClick: PropTypes.func,
     style: PropTypes.object,
-    className: PropTypes.string,
-    direction: PropTypes.string
+    className: PropTypes.string
   },
 
   displayName: "Draggable",
-
-  getDefaultProps() {
-    return { direction: "left" };
-  },
 
   startDragging(ev) {
     ev.preventDefault();
@@ -53,7 +47,7 @@ const Draggable = React.createClass({
       className: this.props.className,
       onMouseDown: this.startDragging,
       onDoubleClick: this.onDoubleClick,
-    }, dom.div({ className: `arrow-${this.props.direction}` }, Svg("arrow")));
+    });
   }
 });
 

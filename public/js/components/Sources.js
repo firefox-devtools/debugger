@@ -3,6 +3,7 @@ const { DOM: dom, PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
+const SidebarHeader = React.createFactory(require("./SidebarHeader"));
 const SourcesTree = React.createFactory(require("./SourcesTree"));
 const actions = require("../actions");
 const { getSelectedSource, getSources } = require("../selectors");
@@ -22,7 +23,7 @@ const Sources = React.createClass({
 
     return dom.div(
       { className: "sources-panel" },
-      dom.div({ className: "sources-header" }, "Sources"),
+      SidebarHeader({ className: "sources-header" }, dom.p({}, "Sources")),
       SourcesTree({ sources, selectSource })
     );
   }
