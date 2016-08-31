@@ -4,7 +4,7 @@ import type { Record } from "./utils/makeRecord";
 import type { SourcesState } from "./reducers/sources";
 
 const URL = require("url");
-const path = require("./utils/path");
+const path = require("path-browser-wrapper");
 const sources = require("./reducers/sources");
 const pause = require("./reducers/pause");
 const breakpoints = require("./reducers/breakpoints");
