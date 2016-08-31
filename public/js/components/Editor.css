@@ -42,6 +42,10 @@
   background-color: white;
 }
 
+.CodeMirror-linenumber {
+  font-size: 11px;
+}
+
 /* set the linenumber white when there is a breakpoint */
 .new-breakpoint .CodeMirror-linenumber {
   color: white;
