@@ -78,6 +78,11 @@ function removeBreakpoint(breakpointId) {
   return bpClient.remove();
 }
 
+function toggleAllBreakpoints(shouldDisableBreakpoints) {
+  // TODO : To implement
+  return new Promise((resolve, reject) => reject());
+}
+
 function evaluate(script) {
   const deferred = defer();
   tabTarget.activeConsole.evaluateJS(script, (result) => {
@@ -138,6 +143,7 @@ const clientCommands = {
   sourceContents,
   setBreakpoint,
   removeBreakpoint,
+  toggleAllBreakpoints,
   evaluate,
   debuggeeCommand,
   navigate,

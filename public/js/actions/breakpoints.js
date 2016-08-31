@@ -150,20 +150,12 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
  * @static
  */
 function toggleAllBreakpoints(shouldDisableBreakpoints: Boolean) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
     return dispatch({
       type: constants.TOGGLE_BREAKPOINTS,
       shouldDisableBreakpoints,
-      [PROMISE]: (async function () {
-        for (let [, breakpoint] of breakpoints) {
-          if (shouldDisableBreakpoints) {
-            await dispatch(disableBreakpoint(breakpoint.location));
-          } else {
-            await dispatch(enableBreakpoint(breakpoint.location));
-          }
-        }
-      })()
+      [PROMISE]: client.toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints)
     });
   };
 }
