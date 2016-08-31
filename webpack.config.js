@@ -21,6 +21,7 @@ const defaultBabelPlugins = [
 let webpackConfig = {
   entry: {
     bundle: ["./public/js/main.js"],
+    "integration-tests": "./public/js/test/integration-mocha/tests.js",
     "source-map-worker": "./public/js/utils/source-map-worker.js",
     "pretty-print-worker": "./public/js/utils/pretty-print-worker.js"
   },

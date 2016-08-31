@@ -22,6 +22,7 @@ const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");
 const configureStore = require("./utils/create-store");
 const reducers = require("./reducers");
+const selectors = require("./selectors");
 
 const Tabs = require("./components/Tabs");
 const App = require("./components/App");
@@ -83,25 +84,36 @@ function getTargetFromQuery() {
   return null;
 }
 
-const connTarget = getTargetFromQuery();
-if (connTarget) {
-  startDebugging(connTarget, actions).then((tabs) => {
-    actions.newTabs(tabs);
-    actions.selectTab({ id: connTarget.param });
-    renderRoot(App);
-  });
-} else if (isFirefoxPanel()) {
+if (isFirefoxPanel()) {
   // The toolbox already provides the tab to debug.
+  function bootstrap({ threadClient, tabTarget }) {
+    firefox.setThreadClient(threadClient);
+    firefox.setTabTarget(tabTarget);
+    firefox.initPage(actions);
+    renderRoot(App);
+
+    return { store, actions, selectors };
+  }
+
   module.exports = {
-    setThreadClient: firefox.setThreadClient,
-    setTabTarget: firefox.setTabTarget,
-    initPage: firefox.initPage,
-    getActions: () => actions,
-    renderApp: () => renderRoot(App)
+    bootstrap
   };
 } else {
-  renderRoot(Tabs);
-  connectClients().then(tabs => {
-    actions.newTabs(tabs);
-  });
+  const connTarget = getTargetFromQuery();
+  if (connTarget) {
+    startDebugging(connTarget, actions).then((tabs) => {
+      actions.newTabs(tabs);
+      actions.selectTab({ id: connTarget.param });
+      renderRoot(App);
+    });
+  } else {
+    renderRoot(Tabs);
+    connectClients().then(tabs => {
+      actions.newTabs(tabs);
+    });
+  }
+
+  window.bootstrap = function bootstrap() {
+    return { store, actions, selectors };
+  };
 }
