@@ -6,7 +6,7 @@
 }
 
 .right-sidebar .accordion {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .command-bar {

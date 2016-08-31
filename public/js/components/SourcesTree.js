@@ -1,18 +1,16 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
+const classnames = require("classnames");
+const ImPropTypes = require("react-immutable-proptypes");
+const { Set } = require("immutable");
 
 const {
   nodeHasChildren, createParentMap, addToTree,
   collapseTree, createTree
 } = require("../utils/sources-tree.js");
-
-const classnames = require("classnames");
-const ImPropTypes = require("react-immutable-proptypes");
-const { Set } = require("immutable");
-const debounce = require("lodash/debounce");
-
 const ManagedTree = React.createFactory(require("./utils/ManagedTree"));
 const Svg = require("./utils/Svg");
+const { throttle } = require("../utils/utils");
 
 let SourcesTree = React.createClass({
   propTypes: {
@@ -26,12 +24,16 @@ let SourcesTree = React.createClass({
     return createTree(this.props.sources);
   },
 
-  componentWillMount() {
-    this.debouncedUpdate = debounce(this.debouncedUpdate, 50);
-  },
+  queueUpdate: throttle(function() {
+    if (!this.isMounted()) {
+      return;
+    }
+
+    this.forceUpdate();
+  }, 50),
 
   shouldComponentUpdate() {
-    this.debouncedUpdate();
+    this.queueUpdate();
     return false;
   },
 
@@ -65,14 +67,6 @@ let SourcesTree = React.createClass({
     this.setState({ uncollapsedTree,
                     sourceTree,
                     parentMap: createParentMap(sourceTree) });
-  },
-
-  debouncedUpdate() {
-    if (!this.isMounted()) {
-      return;
-    }
-
-    this.forceUpdate();
   },
 
   focusItem(item) {
