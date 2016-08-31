@@ -12,20 +12,20 @@ import type { Record } from "../utils/makeRecord";
 
 export type SourcesState = {
   sources: I.Map<string, any>,
-  selectedSource: ?any,
-  pendingSelectedSourceURL: ?string,
+  selectedSourceURL: ?any,
   sourcesText: I.Map<string, any>,
   tabs: I.List<any>,
   sourceMaps: I.Map<string, any>,
+  url: ?string
 };
 
 const State = makeRecord(({
   sources: I.Map(),
-  selectedSource: undefined,
-  pendingSelectedSourceURL: undefined,
+  selectedSourceURL: undefined,
   sourcesText: I.Map(),
   sourceMaps: I.Map(),
-  tabs: I.List([])
+  tabs: I.List([]),
+  url: undefined
 } : SourcesState));
 
 function update(state = State(), action: Action) : Record<SourcesState> {
@@ -54,18 +54,14 @@ function update(state = State(), action: Action) : Record<SourcesState> {
 
     case "SELECT_SOURCE":
       return state.merge({
-        selectedSource: action.source,
-        pendingSelectedSourceURL: null,
-        tabs: updateTabList(state, fromJS(action.source), action.options)
+        selectedSourceURL: action.url,
+        tabs: updateTabList(state, fromJS(action.url), action.options)
       });
-
-    case "SELECT_SOURCE_URL":
-      return state.merge({ pendingSelectedSourceURL: action.url });
 
     case "CLOSE_TAB":
       return state.merge({
-        selectedSource: getNewSelectedSource(state, action.id),
-        tabs: removeSourceFromTabList(state, action.id)
+        selectedSourceURL: getNewSelectedSource(state, action.url),
+        tabs: removeSourceFromTabList(state, action.url)
       });
 
     case "LOAD_SOURCE_TEXT": {
@@ -100,10 +96,19 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       }
 
       return _updateText(state, action, [action.originalSource]);
+
     case "NAVIGATE":
-      // Reset the entire state to just the initial state, a blank state
-      // if you will.
-      return State();
+      if (!action.data) {
+        return state;
+      }
+      if (!state.url) {
+        return State()
+          .set("url", action.data.url);
+      }
+      if (state.url === action.data.url) {
+        return state;
+      }
+      return State().set("url", action.data.url);
   }
 
   return state;
@@ -137,46 +142,46 @@ function _updateText(state, action, values) : Record<SourcesState> {
   }, state);
 }
 
-function removeSourceFromTabList(state, id) {
-  return state.tabs.filter(tab => tab.get("id") != id);
+function removeSourceFromTabList(state, url) {
+  return state.tabs.filter(tab => tab != url);
 }
 
 /*
  * Adds the new source to the tab list if it is not already there
  */
-function updateTabList(state, source, options) {
+function updateTabList(state, url, options) {
   const tabs = state.get("tabs");
-  const selectedSource = state.get("selectedSource");
-  const selectedSourceIndex = tabs.indexOf(selectedSource);
-  const sourceIndex = tabs.indexOf(source);
-  const includesSource = !!tabs.find((t) => t.get("id") == source.get("id"));
+  const selectedSourceURL = state.get("selectedSourceURL");
+  const selectedSourceIndex = tabs.indexOf(selectedSourceURL);
+  const sourceIndex = tabs.indexOf(url);
+  const includesSource = !!tabs.find(tab => tab == url);
 
   if (includesSource) {
     if (options.position != undefined) {
       return tabs
         .delete(sourceIndex)
-        .insert(options.position, source);
+        .insert(options.position, url);
     }
 
     return tabs;
   }
 
-  return tabs.insert(selectedSourceIndex + 1, source);
+  return tabs.insert(selectedSourceIndex + 1, url);
 }
 
 /**
  * Gets the next tab to select when a tab closes.
  */
-function getNewSelectedSource(state, id) : ?Source {
+function getNewSelectedSource(state, url) : ?Source {
   const tabs = state.get("tabs");
-  const selectedSource = state.get("selectedSource");
+  const selectedSourceURL = state.get("selectedSourceURL");
 
   // if we're not closing the selected tab return the selected tab
-  if (selectedSource.get("id") != id) {
-    return selectedSource;
+  if (selectedSourceURL != url) {
+    return selectedSourceURL;
   }
 
-  const tabIndex = tabs.findIndex(tab => tab.get("id") == id);
+  const tabIndex = tabs.findIndex(tab => tab == url);
   const numTabs = tabs.count();
 
   if (numTabs == 1) {
@@ -224,15 +229,15 @@ function getSourceText(state: OuterState, id: string) {
 }
 
 function getSourceTabs(state: OuterState) {
-  return state.sources.tabs;
+  const tabs = state.sources.tabs;
+  return tabs
+    .map(url => getSourceByURL(state, url))
+    .filter(url => url);
 }
 
 function getSelectedSource(state: OuterState) {
-  return state.sources.selectedSource;
-}
-
-function getPendingSelectedSourceURL(state: OuterState) {
-  return state.sources.pendingSelectedSourceURL;
+  const selectedSourceURL = state.sources.selectedSourceURL;
+  return getSourceByURL(state, selectedSourceURL);
 }
 
 function getSourceMap(state: OuterState, sourceId: string) {
@@ -258,7 +263,6 @@ module.exports = {
   getSourceText,
   getSourceTabs,
   getSelectedSource,
-  getPendingSelectedSourceURL,
   getSourceMap,
   getPrettySource
 };

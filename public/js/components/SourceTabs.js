@@ -162,7 +162,7 @@ const SourceTabs = React.createClass({
 
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
-    const url = source && source.get("url");
+    const url = source.get("url");
     const filename = getFilename(url);
     const active = source.get("id") == selectedSource.get("id");
 
