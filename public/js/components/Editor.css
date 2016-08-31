@@ -25,7 +25,7 @@
 .editor.new-breakpoint svg {
   fill: var(--theme-selection-background);
   width: 60px;
-  height: 15px;
+  height: 12px;
   position: absolute;
   top: 0;
   right: -4px;
