@@ -172,9 +172,7 @@ describe("Tests", function() {
    * reload
    */
   it("(Firefox) navigation", function() {
-    debugPage("exceptions.html");
-
-    cy.navigate("todomvc");
+    debugPage("todomvc");
     sourcesList().contains("bower_components");
 
     cy.navigate("increment");
