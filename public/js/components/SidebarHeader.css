@@ -1,0 +1,26 @@
+.sidebar-header {
+  border-bottom: 1px solid var(--theme-gray);
+  padding: 10px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.collapse-button-left,
+.collapse-button-right {
+  width: 16px;
+  margin-top: 2px;
+}
+
+.collapse-button-left {
+  order: 1;
+  margin-left: auto;
+}
+
+.collapse-button-left svg {
+  transform: rotate(180deg);
+}
+
+.collapse-button-right {
+  margin-right: auto;
+}
