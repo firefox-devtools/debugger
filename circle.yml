@@ -1,6 +1,8 @@
 machine:
   node:
     version: 6.3
+  services:
+    - docker
 
 checkout:
   post:
@@ -9,6 +11,7 @@ test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - node public/js/test/node-unit-tests.js --ci
+    - ./bin/run-mochitests-docker
     - npm run firefox-unit-test
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
     - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
@@ -32,3 +35,4 @@ dependencies:
     - ./bin/install-chrome
     - ./bin/install-firefox
     - node_modules/.bin/cypress install
+    - docker pull jlongster/mochitest-runner

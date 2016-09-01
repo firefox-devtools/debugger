@@ -16,6 +16,11 @@ const nativeMapping = {
 
 module.exports = webpackConfig => {
   webpackConfig.output.library = "Debugger";
+
+  if(process.env.MOCHITESTS) {
+    webpackConfig.output.path = path.join(__dirname, "firefox/devtools/client/debugger/new");
+  }
+
   webpackConfig.externals = [
     function(context, request, callback) {
       const mod = path.join(context.replace(__dirname + "/", ""), request);
@@ -29,9 +34,7 @@ module.exports = webpackConfig => {
         return;
       }
       callback();
-    },
-
-    { codemirror: "var devtoolsRequire('devtools/client/sourceeditor/editor')" }
+    }
   ];
 
   // Remove the existing DefinePlugin so we can override it.

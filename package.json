@@ -25,6 +25,7 @@
     "firefox": "node bin/firefox-driver --start",
     "cypress": "./node_modules/.bin/cypress run --port 2021",
     "cypress-intermittents": "for i in {1..100}; do time npm run cypress; done | tee cypress-run.log",
+    "mochitests-watch": "MOCHITESTS=true TARGET=firefox-panel webpack --watch",
     "prepublish": "webpack"
   },
   "dependencies": {
