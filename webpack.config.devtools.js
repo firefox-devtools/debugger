@@ -10,7 +10,8 @@ const ignoreRegexes = [
 ];
 
 const nativeMapping = {
-  "public/js/utils/source-editor": "devtools/client/sourceeditor/editor"
+  // Don't map this until bug 1295318 lands
+  // "public/js/utils/source-editor": "devtools/client/sourceeditor/editor"
 };
 
 module.exports = webpackConfig => {
