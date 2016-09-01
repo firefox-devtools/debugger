@@ -22,6 +22,7 @@ const { getClient, connectClients, startDebugging } = require("./clients");
 const firefox = require("./clients/firefox");
 const configureStore = require("./utils/create-store");
 const reducers = require("./reducers");
+const selectors = require("./selectors");
 
 const Tabs = require("./components/Tabs");
 const App = require("./components/App");
@@ -92,13 +93,14 @@ if (connTarget) {
   });
 } else if (isFirefoxPanel()) {
   // The toolbox already provides the tab to debug.
-  module.exports = {
-    setThreadClient: firefox.setThreadClient,
-    setTabTarget: firefox.setTabTarget,
-    initPage: firefox.initPage,
-    getActions: () => actions,
-    renderApp: () => renderRoot(App)
-  };
+  function bootstrap({ threadClient, tabTarget }) {
+    firefox.setThreadClient(threadClient);
+    firefox.setTabTarget(tabTarget);
+    firefox.initPage(actions);
+    renderRoot(App);
+  }
+
+  module.exports = { bootstrap, store, actions, selectors };
 } else {
   renderRoot(Tabs);
   connectClients().then(tabs => {
