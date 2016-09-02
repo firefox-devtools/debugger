@@ -3,12 +3,23 @@
 ROOT=`dirname $0`
 FIREFOX_PATH="$ROOT/../firefox"
 
+# check that mercurial is installed
+command -v hg >/dev/null 2>&1 || {
+  echo >&2 "mercurial is required for mochitests, use 'brew install mercurial' on MacOS";
+  exit 1;
+}
+
 if [ -d "$FIREFOX_PATH" ]; then
     # If we already have Firefox locally, just update it
     cd "$FIREFOX_PATH";
     hg pull
 else
+    echo "Downloading Firefox source code, requires about 30 min depending on connection"
     hg clone https://hg.mozilla.org/mozilla-central/ "$FIREFOX_PATH"
+    # if somebody cancels (ctrl-c) out of the long download don't continue
+    if [ $? -ne 0 ]; then
+        exit 1;
+    fi
     cd "$FIREFOX_PATH"
 
     # Make an artifcat build so it builds much faster
