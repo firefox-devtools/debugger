@@ -10,17 +10,19 @@
 }
 
 .source-tab {
-  border: 1px solid var(--theme-gray);
+  background-color: var(--theme-toolbar-background-alt);
+  color: var(--theme-faded-tab-color);
+  border: 1px solid var(--theme-splitter-color);
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  padding: 2px 20px 2px 10px;
+  padding: 2px 20px 2px 12px;
   height: 23px;
   line-height: 20px;
-  color: var(--theme-comment);
-  margin: 6px 0 0 10px;
+  margin: 6px 0 0 8px;
   display: inline-block;
   border-bottom: none;
   position: relative;
+  transition: all 0.25s ease;
 }
 
 .source-tab:hover {
@@ -29,13 +31,16 @@
 }
 
 .source-tab.active {
-  background: var(--theme-selection-background);
-  border-color: var(--theme-selection-background);
-  color: white;
+  color: var(--theme-body-color);
+  background-color: white;
+}
+
+.source-tab path {
+  fill: var(--theme-faded-tab-color);
 }
 
 .source-tab.active path {
-  fill: white;
+  fill: var(--theme-body-color);
 }
 
 .source-tab .close-btn {
