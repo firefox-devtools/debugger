@@ -16,7 +16,7 @@ const SourceTabs = createFactory(require("./SourceTabs"));
 const SourceFooter = createFactory(require("./SourceFooter"));
 const Svg = require("./utils/Svg");
 const Autocomplete = createFactory(require("./Autocomplete"));
-const { getSelectedSource, getSources } = require("../selectors");
+const { getSources, getSelectedSource } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { KeyShortcuts } = require("../lib/devtools-sham/client/shared/key-shortcuts");
 const { isHiddenSource, getURL } = require("../utils/sources-tree");
@@ -41,8 +41,8 @@ function searchResults(sources) {
 const App = React.createClass({
   propTypes: {
     sources: PropTypes.object,
-    selectedSource: PropTypes.object,
-    selectSource: PropTypes.func
+    selectSource: PropTypes.func,
+    selectedSource: PropTypes.object
   },
 
   displayName: "App",
@@ -94,15 +94,6 @@ const App = React.createClass({
     );
   },
 
-  renderEditor() {
-    return dom.div(
-      { className: "editor-container" },
-      SourceTabs(),
-      Editor(),
-      SourceFooter()
-    );
-  },
-
   renderWelcomeBox() {
     const modifierTxt = Services.appinfo.OS === "Darwin" ? "Cmd" : "Ctrl";
     return dom.div(
@@ -112,16 +103,17 @@ const App = React.createClass({
   },
 
   renderCenterPane() {
-    let centerPane;
-    if (this.state.searchOn) {
-      centerPane = this.renderSourcesSearch();
-    } else if (this.props.selectedSource) {
-      centerPane = this.renderEditor();
-    } else {
-      centerPane = this.renderWelcomeBox();
-    }
-
-    return dom.div({ className: "center-pane" }, centerPane);
+    return dom.div(
+      { className: "center-pane" },
+      dom.div(
+        { className: "editor-container" },
+        SourceTabs(),
+        Editor(),
+        !this.props.selectedSource ? this.renderWelcomeBox() : null,
+        this.state.searchOn ? this.renderSourcesSearch() : null,
+        SourceFooter()
+      )
+    );
   },
 
   render: function() {

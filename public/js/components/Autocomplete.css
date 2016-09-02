@@ -25,6 +25,7 @@
 
 .autocomplete li {
   border-top: 2px solid #dde1e4;
+  background-color: #fcfcfc;
   padding: 10px;
 }
 
@@ -43,12 +44,10 @@
 }
 
 .autocomplete li .title {
-  font-size: 0.8em;
   line-height: 1.5em;
 }
 
 .autocomplete li .subtitle {
-  font-size: 0.7em;
   line-height: 1.5em;
   color: grey;
 }
@@ -60,13 +59,12 @@
   line-height: 2.5em;
   height: 2.5em;
   padding-left: 25px;
-  font-size: 0.8em;
 }
 
 .autocomplete svg {
   width: 16px;
   position: absolute;
-  top: calc(2.5em - 12px);
+  top: 25px;
   left: 27px;
 }
 

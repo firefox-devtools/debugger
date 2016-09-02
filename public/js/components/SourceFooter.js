@@ -24,9 +24,9 @@ function debugBtn(onClick, type, className = "active", tooltip) {
 
 const SourceFooter = React.createClass({
   propTypes: {
-    selectedSource: ImPropTypes.map.isRequired,
+    selectedSource: ImPropTypes.map,
     togglePrettyPrint: PropTypes.func,
-    sourceText: ImPropTypes.map.isRequired,
+    sourceText: ImPropTypes.map,
     selectSource: PropTypes.func,
     prettySource: ImPropTypes.map
   },
@@ -82,6 +82,10 @@ const SourceFooter = React.createClass({
   },
 
   render() {
+    if (!this.props.selectedSource) {
+      return null;
+    }
+
     return dom.div({ className: "source-footer" },
       dom.div({ className: "command-bar" },
         this.blackboxButton(),

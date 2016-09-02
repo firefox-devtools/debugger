@@ -65,3 +65,19 @@
 .debug-line .CodeMirror-activeline-background {
   display: none;
 }
+
+.welcomebox {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 50px 0;
+  text-align: center;
+  font-size: 1.25em;
+  color: var(--theme-gray-darker);
+  background-color: #fcfcfc;
+  font-weight: lighter;
+  text-align: center;
+  z-index: 100;
+}
