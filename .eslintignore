@@ -6,3 +6,4 @@ public/js/test/integration/**
 public/js/test/unit-sources/**
 public/js/lib/**
 public/js/test/mochitest/head.js
+public/js/test/mochitest/code_*

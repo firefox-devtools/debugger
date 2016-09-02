@@ -36,7 +36,18 @@
 
     // Globals introduced in debugger-specific head.js
     "EXAMPLE_URL": false,
-    "openNewTabAndToolbox": false,
-    "waitForThreadEvents": false
+    "waitForNextDispatch": false,
+    "waitForDispatch": false,
+    "waitForThreadEvents": false,
+    "waitForState": false,
+    "waitForPaused": false,
+    "initDebugger": false,
+    "findSource": false,
+    "selectSource": false,
+    "stepOver": false,
+    "stepIn": false,
+    "stepOut": false,
+    "resume": false,
+    "addBreakpoint": false
   }
 }

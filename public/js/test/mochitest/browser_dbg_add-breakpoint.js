@@ -5,14 +5,13 @@ const TAB_URL = EXAMPLE_URL + "doc_simple.html";
 
 add_task(function* () {
   const dbg = yield initDebugger(TAB_URL, "code_simple.js");
-  const { actions, getState, selectors } = dbg;
 
   const source = findSource(dbg, "code_simple.js");
 
   yield addBreakpoint(dbg, source.id, 4);
 
   ContentTask.spawn(gBrowser.selectedBrowser, null, function* () {
-    content.wrappedJSObject.foo();
+    content.wrappedJSObject.foo(); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
   });
 
   yield waitForPaused(dbg);

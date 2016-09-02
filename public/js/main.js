@@ -92,7 +92,6 @@ if (connTarget) {
     renderRoot(App);
   });
 } else if (isFirefoxPanel()) {
-  const selectors = require("./selectors");
   // The toolbox already provides the tab to debug.
   function bootstrap({ threadClient, tabTarget }) {
     firefox.setThreadClient(threadClient);
