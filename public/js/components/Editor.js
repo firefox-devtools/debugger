@@ -17,7 +17,7 @@ const { DOM: dom, PropTypes } = React;
 require("./Editor.css");
 
 function isSourceForFrame(source, frame) {
-  return frame && frame.location.sourceId === source.get("id");
+  return source && frame && frame.location.sourceId === source.get("id");
 }
 
 /**
@@ -161,19 +161,21 @@ const Editor = React.createClass({
   },
 
   render() {
-    const breakpoints = this.props.breakpoints.valueSeq();
+    const { breakpoints, sourceText } = this.props;
+    const isLoading = sourceText && sourceText.get("loading");
 
     return (
       dom.div(
         { className: "editor-wrapper devtools-monospace" },
         dom.div({ className: "editor-mount" }),
-        breakpoints.map(bp => {
-          return Breakpoint({
-            key: makeLocationId(bp.location),
-            breakpoint: bp,
-            editor: this.editor && this.editor.codeMirror
-          });
-        })
+        !isLoading &&
+          breakpoints.valueSeq().map(bp => {
+            return Breakpoint({
+              key: makeLocationId(bp.location),
+              breakpoint: bp,
+              editor: this.editor && this.editor.codeMirror
+            });
+          })
       )
     );
   }
