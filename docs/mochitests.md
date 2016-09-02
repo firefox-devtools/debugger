@@ -85,12 +85,14 @@ Here are a few tips for writing mochitests:
 * Only write mochitests for testing the interaction of multiple components on the page and to make sure that the protocol is working.
 * By default, use the above builtin functions to drive the interaction and only dig into the DOM when you specifically want to test a component. For example, most tests should use the `addBreakpoint` command to add breakpoints, but certain tests may specifically want to test the editor gutter and left-click on that DOM element to add a breakpoint.
 * The `dbg` object has the following properties:
-** `actions` - Redux actions (already bound to the store)
-** `selectors` - State selectors
-** `getState` - Function to get current state
-** `store` - Redux store
-** `toolbox` - Devtools toolbox
-** `win` - The current debugger window
+
+  * `actions` - Redux actions (already bound to the store)
+  * `selectors` - State selectors
+  * `getState` - Function to get current state
+  * `store` - Redux store
+  * `toolbox` - Devtools toolbox
+  * `win` - The current debugger window
+
 * You can assert DOM structure like `is(dbg.win.querySelectorAll("#foo").length, 1, "...")`
 * If you need to access the content page, use `ContentTask.spawn`:
 
