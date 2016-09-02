@@ -66,9 +66,12 @@ const Editor = React.createClass({
     );
 
     this.editor.codeMirror.on("gutterClick", this.onGutterClick);
-    this.setText(this.props.sourceText.get("text"));
     resizeBreakpointGutter(this.editor.codeMirror);
     debugGlobal("cm", this.editor.codeMirror);
+
+    if (this.props.sourceText) {
+      this.setText(this.props.sourceText.get("text"));
+    }
   },
 
   onGutterClick(cm, line, gutter, ev) {
