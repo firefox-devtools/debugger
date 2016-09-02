@@ -92,6 +92,7 @@ if (connTarget) {
     renderRoot(App);
   });
 } else if (isFirefoxPanel()) {
+  const selectors = require("./selectors");
   // The toolbox already provides the tab to debug.
   function bootstrap({ threadClient, tabTarget }) {
     firefox.setThreadClient(threadClient);
@@ -100,7 +101,19 @@ if (connTarget) {
     renderRoot(App);
   }
 
-  module.exports = { bootstrap, store, actions, selectors };
+  module.exports = {
+    bootstrap,
+    store: store,
+    actions: actions,
+    selectors: selectors,
+
+    // Remove these once we update the API on m-c
+    setThreadClient: firefox.setThreadClient,
+    setTabTarget: firefox.setTabTarget,
+    initPage: firefox.initPage,
+    renderApp: () => renderRoot(App),
+    getActions: () => actions
+  };
 } else {
   renderRoot(Tabs);
   connectClients().then(tabs => {

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+ROOT=`dirname $0`
+FIREFOX_PATH="$ROOT/../firefox"
+
+if [ -d "$FIREFOX_PATH" ]; then
+    # If we already have Firefox locally, just update it
+    cd "$FIREFOX_PATH";
+    hg pull
+else
+    hg clone https://hg.mozilla.org/mozilla-central/ "$FIREFOX_PATH"
+    cd "$FIREFOX_PATH"
+
+    # Make an artifcat build so it builds much faster
+    echo "
+ac_add_options --enable-artifact-builds
+mk_add_options MOZ_OBJDIR=./objdir-frontend
+" > .mozconfig
+fi

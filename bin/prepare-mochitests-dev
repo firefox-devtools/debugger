@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+ROOT=`dirname $0`
+FIREFOX_PATH="$ROOT/../firefox"
+
+# If we don't have a local copy of firefox, download it
+if [ ! -d firefox ]; then
+  "$ROOT/download-firefox-artifact"
+fi
+
+# Update the debugger files, build firefox, and run all the mochitests
+"$ROOT/make-firefox-bundle" "$FIREFOX_PATH" --symlink-mochitests
+cd "$FIREFOX_PATH"
+./mach build
