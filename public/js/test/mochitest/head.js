@@ -10,6 +10,11 @@ Services.scriptloader.loadSubScript("chrome://mochitests/content/browser/devtool
 var { Toolbox } = require("devtools/client/framework/toolbox");
 const EXAMPLE_URL = "http://example.com/browser/devtools/client/debugger/new/test/mochitest/";
 
+Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", true);
+registerCleanupFunction(() => {
+  Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", false);
+})
+
 // Wait until an action of `type` is dispatched. This is different
 // then `_afterDispatchDone` because it doesn't wait for async actions
 // to be done/errored. Use this if you want to listen for the "start"
@@ -95,7 +100,18 @@ const waitForPaused = Task.async(function* (dbg) {
   // work (call other client methods) before populating the state.
   return Promise.all([
     yield waitForThreadEvents(dbg, "paused"),
-    yield waitForState(dbg, state => dbg.selectors.getPause(state))
+    yield waitForState(dbg, state => {
+      const pause = dbg.selectors.getPause(state);
+      // Make sure we have the paused state.
+      if(!pause) {
+        return false;
+      }
+      // Make sure the source text is completely loaded for the
+      // source we are paused in.
+      const sourceId = pause.getIn(["frame", "location", "sourceId"]);
+      const sourceText = dbg.selectors.getSourceText(dbg.getState(), sourceId);
+      return sourceText && !sourceText.get("loading");
+    })
   ]);
 });
 
@@ -114,21 +130,31 @@ const initDebugger = Task.async(function* (url, ...sources) {
     win: win
   };
 
-  yield Promise.all(sources.map(url => {
-    return waitForState(dbg, state => {
-      return getSources(state).some(s => s.get("url").includes(url));
-    });
-  }));
+  if(sources.length) {
+    // TODO: Extract this out to a utility function
+    info("Waiting on sources: " + sources.join(", "));
+    yield Promise.all(sources.map(url => {
+      function sourceExists(state) {
+        return getSources(state).some(s => s.get("url").includes(url));
+      }
+
+      if(!sourceExists(store.getState())) {
+        return waitForState(dbg, sourceExists);
+      }
+    }));
+  }
 
   return dbg;
 });
+
+// Actions
 
 function findSource(dbg, url) {
   const sources = dbg.selectors.getSources(dbg.getState());
   const source = sources.find(s => s.get("url").includes(url));
 
   if(!source) {
-    throw new Error("Unable to find source: " + matchingStr);
+    throw new Error("Unable to find source: " + url);
   }
 
   return source.toJS();
@@ -170,7 +196,11 @@ function addBreakpoint(dbg, sourceId, line, col) {
   return dbg.actions.addBreakpoint({ sourceId, line, col });
 }
 
-Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", true);
-registerCleanupFunction(() => {
-  Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", false);
-})
+// Helpers
+
+function isVisibleWithin(outerEl, innerEl) {
+  const innerRect = innerEl.getBoundingClientRect();
+  const outerRect = outerEl.getBoundingClientRect();
+  return innerRect.top > outerRect.top &&
+    innerRect.bottom < outerRect.bottom;
+}

@@ -2,6 +2,7 @@ const CodeMirror = require("codemirror");
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/mode/javascript/javascript");
+require("codemirror/mode/htmlmixed/htmlmixed");
 require("../lib/codemirror-mozilla.css");
 
 // Maximum allowed margin (in number of lines) from top or bottom of the editor
@@ -27,6 +28,10 @@ class SourceEditor {
 
   getText() {
     return this.editor.getValue();
+  }
+
+  setMode(value) {
+    this.editor.setOption("mode", value);
   }
 
   /**

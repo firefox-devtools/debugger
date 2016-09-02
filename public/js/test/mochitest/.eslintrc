@@ -48,6 +48,7 @@
     "stepIn": false,
     "stepOut": false,
     "resume": false,
-    "addBreakpoint": false
+    "addBreakpoint": false,
+    "isVisibleWithin": false
   }
 }

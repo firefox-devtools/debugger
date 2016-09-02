@@ -1,7 +1,9 @@
 "use strict";
 
+const flag = require("../public/js/test/test-flag");
 const pick = require("lodash/get");
 let config;
+
 /**
  * Gets a config value for a given key
  * e.g "chrome.webSocketPort"
@@ -20,6 +22,10 @@ function isDevelopment() {
     return process.env.NODE_ENV === "development";
   }
   return process.env.NODE_ENV !== "production";
+}
+
+function isTesting() {
+  return flag.testing;
 }
 
 function isFirefoxPanel() {
@@ -42,6 +48,7 @@ module.exports = {
   isEnabled,
   getValue,
   isDevelopment,
+  isTesting,
   isFirefoxPanel,
   isFirefox,
   getConfig,
