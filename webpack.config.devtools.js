@@ -12,6 +12,7 @@ const ignoreRegexes = [
 const nativeMapping = {
   "public/js/utils/source-editor": "devtools/client/sourceeditor/editor",
   "public/js/test/test-flag": "devtools/shared/flags",
+  "public/js/utils/networkRequest": ["devtools/shared/DevToolsUtils", "fetch"],
 
   // React can be required a few different ways, make sure they are
   // all mapped.
@@ -40,7 +41,13 @@ module.exports = webpackConfig => {
         callback(null, "var {}");
         return;
       } else if(nativeMapping[mod]) {
-        callback(null, "var devtoolsRequire('" + nativeMapping[mod] + "')");
+        const mapping = nativeMapping[mod];
+        if(Array.isArray(mapping)) {
+          callback(null, `var devtoolsRequire("${mapping[0]}")["${mapping[1]}"]`);
+        }
+        else {
+          callback(null, `var devtoolsRequire("${mapping}")`);
+        }
         return;
       }
       callback();

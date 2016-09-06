@@ -171,7 +171,9 @@ function waitForSources(dbg, ...sources) {
   const {selectors: {getSources}, store} = dbg;
   return Promise.all(sources.map(url => {
     function sourceExists(state) {
-      return getSources(state).some(s => s.get("url").includes(url));
+      return getSources(state).some(s => {
+        return s.get("url").includes(url)
+      });
     }
 
     if(!sourceExists(store.getState())) {

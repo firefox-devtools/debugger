@@ -29,9 +29,9 @@ function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
 }
 
 function renderSourceLocation(source, line) {
-  const url = basename(source.get("url"));
+  const url = source.get("url") ? basename(source.get("url")) : null;
   // const line = url !== "" ? `: ${line}` : "";
-  return url !== "" ?
+  return url ?
     dom.div(
       { className: "location" },
       `${endTruncateStr(url, 30)}: ${line}`

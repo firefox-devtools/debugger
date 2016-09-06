@@ -73,7 +73,7 @@
 	  console.log(str);
 	}
 	
-	module.exports = output;
+	module.exports = { output };
 
 
 /***/ },

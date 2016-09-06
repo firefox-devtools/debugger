@@ -22,12 +22,7 @@ function createFrame(frame) {
   });
 }
 
-let evalIndex = 1;
 function createSource(source) {
-  if (!source.url) {
-    source.url = `SOURCE${evalIndex++}`;
-  }
-
   return Source({
     id: source.actor,
     url: source.url,

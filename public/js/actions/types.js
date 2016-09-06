@@ -96,10 +96,7 @@ type SourceAction =
       source: Source,
       status: AsyncStatus,
       error: string,
-      value: {
-        generatedSourceText: SourceText,
-        originalSourceTexts: Array<SourceText>
-      }}
+      value: SourceText }
   | { type: "BLACKBOX",
       source: Source,
       status: AsyncStatus,

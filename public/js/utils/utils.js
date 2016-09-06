@@ -66,8 +66,8 @@ function workerTask(worker: any, message: any) {
   let deferred = defer();
   worker.postMessage(message);
   worker.onmessage = function(result) {
-    if (result.error) {
-      deferred.reject(result.error);
+    if (result.data && result.data.error) {
+      deferred.reject(result.data.error);
     }
 
     deferred.resolve(result.data);

@@ -12,8 +12,9 @@ const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { getBreakpoint, getBreakpoints } = require("../selectors");
 
-const { getOriginalLocation, getGeneratedLocation
-      } = require("../utils/source-map");
+const {
+  getOriginalLocation, getGeneratedLocation
+} = require("../utils/source-map");
 
 import type { Location } from "./types";
 
@@ -71,13 +72,13 @@ function addBreakpoint(location: Location,
       breakpoint: bp,
       condition: condition,
       [PROMISE]: (async function () {
-        location = await getGeneratedLocation(getState(), bp.location);
+        location = await getGeneratedLocation(bp.location, getState());
         let { id, actualLocation } = await client.setBreakpoint(
           location,
           bp.condition
         );
 
-        actualLocation = await getOriginalLocation(getState(), actualLocation);
+        actualLocation = await getOriginalLocation(actualLocation);
 
         // If this breakpoint is being re-enabled, it already has a
         // text snippet.

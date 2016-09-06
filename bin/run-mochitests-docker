@@ -5,7 +5,6 @@ TARGET=firefox-panel ./node_modules/.bin/webpack
 docker run -it \
   -v `pwd`/public/build/bundle.js:/firefox/devtools/client/debugger/new/bundle.js \
   -v `pwd`/public/build/pretty-print-worker.js:/firefox/devtools/client/debugger/new/pretty-print-worker.js \
-  -v `pwd`/public/build/source-map-worker.js:/firefox/devtools/client/debugger/new/source-map-worker.js \
   -v `pwd`/public/build/styles.css:/firefox/devtools/client/debugger/new/styles.css \
   -v `pwd`/public/images:/firefox/devtools/client/debugger/new/images \
   -v `pwd`/public/js/test/mochitest:/firefox/devtools/client/debugger/new/test/mochitest \

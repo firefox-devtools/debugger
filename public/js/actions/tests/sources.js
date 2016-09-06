@@ -6,7 +6,7 @@ const {
 } = require("../../utils/test-head");
 const {
   getSourceByURL, getSourceById, getSources, getSelectedSource,
-  getSourceMap, getSourceText, getSourceTabs
+  getSourceText, getSourceTabs
 } = selectors;
 const sourceMap = require("../../utils/source-map");
 
@@ -39,10 +39,6 @@ const bundleSource = makeSource("bundle.js", {
 });
 
 describe("sources", () => {
-  afterEach(() => {
-    sourceMap.restartWorker();
-  });
-
   it("should add sources to state", () => {
     const { dispatch, getState } = createStore();
     dispatch(actions.newSource(makeSource("base.js")));
@@ -167,7 +163,7 @@ describe("sources", () => {
     const store = createStore();
     const { dispatch, getState } = store;
     dispatch(actions.newSource(bundleSource));
-    yield waitForState(store, state => getSourceMap(state, "bundle.js"));
+    yield waitForState(store, state => getSourceByURL(state, "webpack:///entry.js"));
 
     expect(getSources(getState()).size).to.be(6);
     const entrySource = getSourceByURL(getState(), "webpack:///entry.js");
@@ -177,9 +173,9 @@ describe("sources", () => {
     expect(entrySource).to.be.ok();
     expect(times2Source).to.be.ok();
     expect(optsSource).to.be.ok();
-    expect(yield sourceMap.isGenerated(bundleSource)).to.be.ok();
-    expect(yield sourceMap.isOriginal(entrySource.toJS())).to.be.ok();
-    expect(yield sourceMap.isOriginal(times2Source.toJS())).to.be.ok();
-    expect(yield sourceMap.isOriginal(optsSource.toJS())).to.be.ok();
+    expect(sourceMap.isGeneratedId(bundleSource.id)).to.be.ok();
+    expect(sourceMap.isOriginalId(entrySource.get("id"))).to.be.ok();
+    expect(sourceMap.isOriginalId(times2Source.get("id"))).to.be.ok();
+    expect(sourceMap.isOriginalId(optsSource.get("id"))).to.be.ok();
   }));
 });
