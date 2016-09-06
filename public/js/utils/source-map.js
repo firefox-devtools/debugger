@@ -75,7 +75,9 @@ function getGeneratedSource(state: AppState, source: any) {
   return source;
 }
 
-async function getGeneratedLocation(state: AppState, location: Location) {
+// TODO : remove the state param
+async function getGeneratedLocation(sources, location: Location) {
+  // TODO : remove the state param in getSource()
   const source: any = getSource(state, location.sourceId);
 
   if (!source) {
@@ -89,6 +91,7 @@ async function getGeneratedLocation(state: AppState, location: Location) {
   return location;
 }
 
+// TODO : remove the state param
 async function getOriginalLocation(state: AppState, location: Location) {
   const source: any = getSource(state, location.sourceId);
 
@@ -110,6 +113,7 @@ async function getOriginalLocation(state: AppState, location: Location) {
       };
     }
 
+    // TODO : remove the state param in getSourceByURL()
     const originalSource: any = getSourceByURL(state, url);
 
     return {
@@ -121,6 +125,7 @@ async function getOriginalLocation(state: AppState, location: Location) {
   return location;
 }
 
+// TODO : remove the state param
 async function getOriginalSourceTexts(state, generatedSource, generatedText) {
   if (!_shouldSourceMap(generatedSource)) {
     return [];
@@ -132,6 +137,7 @@ async function getOriginalSourceTexts(state, generatedSource, generatedText) {
   );
 
   return originalTexts.map(({ text, url }) => {
+    // TODO : Remove the state param
     const id = getSourceByURL(state, url).get("id");
     const contentType = "text/javascript";
     return { text, id, contentType };
