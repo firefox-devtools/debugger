@@ -68,9 +68,11 @@
 
 .welcomebox {
   width: 100%;
-  height: 100%;
+
+  /* Offsetting it by 30px for the sources-header area */
+  height: calc(100% - 30px);
   position: absolute;
-  top: 0;
+  top: 30px;
   left: 0;
   padding: 50px 0;
   text-align: center;
