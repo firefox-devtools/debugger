@@ -9,6 +9,8 @@ const { getSource, getPause, getBreakpoints } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
+const { endTruncateStr } = require("../utils/utils");
+const { basename } = require("../utils/path");
 
 require("./Breakpoints.css");
 
@@ -24,6 +26,15 @@ function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
   );
 
   return bpId === pausedId;
+}
+
+function renderSourceLocation(source, line) {
+  const url = basename(source.get("url"));
+  // const line = url !== "" ? `: ${line}` : "";
+  return url !== "" ?
+    dom.div({ className: "location" },
+      `${endTruncateStr(url, 30)}${line}`
+    ) : null;
 }
 
 const Breakpoints = React.createClass({
@@ -67,26 +78,29 @@ const Breakpoints = React.createClass({
     });
 
     return dom.div(
-      {
-        className: classnames({
-          breakpoint,
-          paused: isCurrentlyPaused,
-          disabled: isDisabled
-        }),
-        key: locationId,
-        onClick: () => this.selectBreakpoint(breakpoint)
-      },
-      dom.input(
+      {},
+      dom.div(
         {
+          className: classnames({
+            breakpoint,
+            paused: isCurrentlyPaused,
+            disabled: isDisabled
+          }),
+          key: locationId,
+          onClick: () => this.selectBreakpoint(breakpoint)
+        },
+        dom.input({
           type: "checkbox",
           checked: !isDisabled,
           onChange: () => this.handleCheckbox(breakpoint)
         }),
-      dom.div(
-        { className: "breakpoint-label", title: breakpoint.text },
-        `${line} ${snippet}`
+        dom.div(
+          { className: "breakpoint-label", title: breakpoint.text },
+          dom.div({}, renderSourceLocation(breakpoint.location.source, line))
+        ),
+        isPausedIcon
       ),
-      isPausedIcon
+      dom.div({ className: "breakpoint-snippet" }, snippet)
     );
   },
 
