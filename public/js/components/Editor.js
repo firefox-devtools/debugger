@@ -45,35 +45,6 @@ const Editor = React.createClass({
 
   displayName: "Editor",
 
-  componentDidMount() {
-    this.editor = new SourceEditor({
-      mode: "javascript",
-      readOnly: true,
-      lineNumbers: true,
-      theme: "mozilla",
-      lineWrapping: false,
-      matchBrackets: true,
-      showAnnotationRuler: true,
-      enableCodeFolding: false,
-      gutters: ["breakpoints"],
-      value: " "
-    });
-
-    this.editor.appendTo(
-      ReactDOM.findDOMNode(this).querySelector(".editor-mount"),
-      null,
-      true
-    );
-
-    this.editor.codeMirror.on("gutterClick", this.onGutterClick);
-    resizeBreakpointGutter(this.editor.codeMirror);
-    debugGlobal("cm", this.editor.codeMirror);
-
-    if (this.props.sourceText) {
-      this.setText(this.props.sourceText.get("text"));
-    }
-  },
-
   onGutterClick(cm, line, gutter, ev) {
     const bp = this.props.breakpoints.find(b => {
       return b.location.line === line + 1;
@@ -122,6 +93,7 @@ const Editor = React.createClass({
     }
 
     this.setText(newSourceText.get("text"));
+    this.setMode(newSourceText);
 
     resizeBreakpointGutter(this.editor.codeMirror);
   },
@@ -139,6 +111,51 @@ const Editor = React.createClass({
     }
 
     this.editor.setText(text);
+  },
+
+  setMode(sourceText) {
+    const contentType = sourceText.get("contentType");
+
+    if (contentType.includes("javascript")) {
+      this.editor.setMode({ name: "javascript" });
+    } else if (contentType === "text/wasm") {
+      this.editor.setMode({ name: "wasm" });
+    } else if (sourceText.get("text").match(/^\s*</)) {
+      // Use HTML mode for files in which the first non whitespace
+      // character is `<` regardless of extension.
+      this.editor.setMode({ name: "htmlmixed" });
+    } else {
+      this.editor.setMode({ name: "text" });
+    }
+  },
+
+  componentDidMount() {
+    this.editor = new SourceEditor({
+      mode: "javascript",
+      readOnly: true,
+      lineNumbers: true,
+      theme: "mozilla",
+      lineWrapping: false,
+      matchBrackets: true,
+      showAnnotationRuler: true,
+      enableCodeFolding: false,
+      gutters: ["breakpoints"],
+      value: " "
+    });
+
+    this.editor.appendTo(
+      ReactDOM.findDOMNode(this).querySelector(".editor-mount"),
+      null,
+      true
+    );
+
+    this.editor.codeMirror.on("gutterClick", this.onGutterClick);
+    resizeBreakpointGutter(this.editor.codeMirror);
+    debugGlobal("cm", this.editor.codeMirror);
+
+    if (this.props.sourceText) {
+      this.setText(this.props.sourceText.get("text"));
+    }
   },
 
   componentWillReceiveProps(nextProps) {

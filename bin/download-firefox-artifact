@@ -22,7 +22,7 @@ else
     fi
     cd "$FIREFOX_PATH"
 
-    # Make an artifcat build so it builds much faster
+    # Make an artifact build so it builds much faster
     echo "
 ac_add_options --enable-artifact-builds
 mk_add_options MOZ_OBJDIR=./objdir-frontend

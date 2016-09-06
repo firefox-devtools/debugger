@@ -1,11 +1,9 @@
-const { isDevelopment } = require("../feature");
+const { isDevelopment, isTesting } = require("../feature");
 
 function debugGlobal(field, value) {
-  if (!isDevelopment()) {
-    return;
+  if (isDevelopment() || isTesting()) {
+    window[field] = value;
   }
-
-  window[field] = value;
 }
 
 function injectGlobals({ store }) {
