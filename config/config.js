@@ -9,10 +9,17 @@ const development = require("./development.json");
 const envConfig = process.env.TARGET === "firefox-panel" ?
    firefoxPanel : development;
 
-const localConfig = fs.existsSync(path.join(__dirname, "./local.json")) ?
-  require("./local.json") : {};
+let config;
 
-let config = _.merge({}, envConfig, localConfig);
+if(process.env.TARGET === "firefox-panel") {
+  config = firefoxPanel;
+}
+else {
+  const localConfig = fs.existsSync(path.join(__dirname, "./local.json")) ?
+        require("./local.json") : {};
+
+  config = _.merge({}, envConfig, localConfig);
+}
 
 function getConfig() {
   return config;
