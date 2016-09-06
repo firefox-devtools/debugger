@@ -93,7 +93,7 @@ Here are a few tips for writing mochitests:
   * `toolbox` - Devtools toolbox
   * `win` - The current debugger window
 
-* You can assert DOM structure like `is(dbg.win.querySelectorAll("#foo").length, 1, "...")`
+* You can assert DOM structure like `is(dbg.win.document.querySelectorAll("#foo").length, 1, "...")`
 * If you need to access the content page, use `ContentTask.spawn`:
 
 ```js
