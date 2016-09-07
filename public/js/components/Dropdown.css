@@ -1,6 +1,6 @@
 .dropdown {
   background: white;
-  border: 1px solid var(--theme-gray);
+  border: 1px solid var(--theme-splitter-color);
   width: 150px;
   max-height: 300px;
   z-index: 1000;

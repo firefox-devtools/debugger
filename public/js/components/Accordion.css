@@ -5,7 +5,7 @@
 
 .accordion ._header {
   background-color: var(--theme-toolbar-background);
-  border-bottom: 1px solid #d0d0d0;
+  border-bottom: 1px solid var(--theme-splitter-color);
   cursor: pointer;
   font-size: 12px;
   padding: 5px;
@@ -24,9 +24,9 @@
 }
 
 .accordion ._header:hover svg {
-  fill: var(--theme-gray-darker);
+  fill: var(--theme-comment-alt);
 }
 
 .accordion ._content {
-  border-bottom: 1px solid #d0d0d0;
+  border-bottom: 1px solid var(--theme-splitter-color);;
 }

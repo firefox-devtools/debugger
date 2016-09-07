@@ -1,5 +1,5 @@
 .source-header {
-  border-bottom: 1px solid var(--theme-gray);
+  border-bottom: 1px solid var(--theme-splitter-color);
   height: 30px;
   flex: 1;
 }
@@ -32,7 +32,7 @@
 
 .source-tab.active {
   color: var(--theme-body-color);
-  background-color: white;
+  background-color: var(--theme-body-background);
 }
 
 .source-tab path {
