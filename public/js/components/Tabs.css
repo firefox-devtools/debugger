@@ -22,11 +22,11 @@
 }
 
 .tabs .tab:first-child {
-  border-top: 1px solid #dddddd;
+  border-top: 1px solid var(--theme-splitter-color);
 }
 
 .tabs .tab {
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid var(--theme-splitter-color);
   padding: 10px;
   font-family: sans-serif;
 }

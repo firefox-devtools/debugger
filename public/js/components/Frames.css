@@ -13,12 +13,12 @@
 }
 
 .frames ul li:nth-of-type(2n) {
-  background-color: #f9f9f9;
+  background-color: var(--theme-tab-toolbar-background);
 }
 
 .frames .location {
   float: right;
-  color: #666666;
+  color: var(--theme-comment);
   font-weight: lighter;
 }
 
@@ -32,5 +32,5 @@
 .frames ul li.selected,
 .frames ul li.selected .location {
   background-color: var(--theme-selection-background);
-  color: white;
+  color: var(--theme-body-background);
 }

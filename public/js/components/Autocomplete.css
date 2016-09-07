@@ -11,12 +11,12 @@
   margin: 0px;
   padding: 0px;
   overflow: auto;
-  border-left: 2px solid #dde1e4;
-  border-right: 2px solid #dde1e4;
+  border-left: 2px solid var(--theme-splitter-color);
+  border-right: 2px solid var(--theme-splitter-color);
 }
 
 .autocomplete ul:not(:empty) {
-  border-bottom: 2px solid #dde1e4;
+  border-bottom: 2px solid var(--theme-splitter-color);
 }
 
 .autocomplete li:nth-child(1) {
@@ -24,13 +24,13 @@
 }
 
 .autocomplete li {
-  border-top: 2px solid #dde1e4;
-  background-color: #fcfcfc;
+  border-top: 2px solid var(--theme-splitter-color);
+  background-color: var(--theme-tab-toolbar-background);
   padding: 10px;
 }
 
 .autocomplete li:hover {
-  background: #efefef;
+  background: var(--theme-tab-toolbar-background);
   cursor: pointer;
 }
 
@@ -54,7 +54,7 @@
 
 .autocomplete input {
   width: 100%;
-  border: 2px solid #dde1e4;
+  border: 2px solid var(--theme-splitter-color);
   outline: none;
   line-height: 2.5em;
   height: 2.5em;
@@ -75,5 +75,5 @@
 
 .autocomplete path,
 .autocomplete ellipse {
-  stroke: var(--theme-gray);
+  stroke: var(--theme-splitter-color);
 }
