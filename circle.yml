@@ -13,8 +13,6 @@ test:
     - node public/js/test/node-unit-tests.js --ci
     - ./bin/run-mochitests-docker
     - npm run firefox-unit-test
-    - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
-    - node_modules/.bin/cypress ci b07646ab-ddfa-442b-b63f-aebf00452de8
   pre:
     - node bin/mocha-server.js:
         background: true
@@ -34,5 +32,4 @@ dependencies:
     - npm install
     - ./bin/install-chrome
     - ./bin/install-firefox
-    - node_modules/.bin/cypress install
     - docker pull jlongster/mochitest-runner
