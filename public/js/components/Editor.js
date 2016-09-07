@@ -143,10 +143,8 @@ const Editor = React.createClass({
       value: " "
     });
 
-    this.editor.appendTo(
-      ReactDOM.findDOMNode(this).querySelector(".editor-mount"),
-      null,
-      true
+    this.editor.appendToLocalElement(
+      ReactDOM.findDOMNode(this).querySelector(".editor-mount")
     );
 
     this.editor.codeMirror.on("gutterClick", this.onGutterClick);

@@ -14,7 +14,7 @@ class SourceEditor {
     this.opts = opts;
   }
 
-  appendTo(node, env, noIframe) {
+  appendToLocalElement(node) {
     this.editor = CodeMirror(node, this.opts);
   }
 
