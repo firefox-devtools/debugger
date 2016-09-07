@@ -77,6 +77,7 @@ Any of the below APIs that takes a `url` will match it as a substring, meaning t
 * `waitForState(dbg, predicate)` - Waits for `predicate(state)` to be true. `state` is the redux app state
 * `waitForThreadEvents(dbg, eventName)` - Waits for specific thread events
 * `waitForDispatch(dbg, type)` - Wait for a specific action type to be dispatch. If an async action, will wait for it to be done.
+* `pauseTest() / resumeTest()` - pause the test and let you interact with the debugger. The test can be resumed by invoking `resumeTest` in the console.
 
 ## Writing Tests
 
