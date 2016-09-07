@@ -1,5 +1,6 @@
 const { BreakpointResult, Location } = require("../../types");
 const defer = require("../../utils/defer");
+const { getOriginalLocation, getGeneratedLocation } = require("../../utils/source-map");
 
 let bpClients;
 let threadClient;
@@ -46,41 +47,50 @@ function sourceContents(sourceId) {
   return sourceClient.source();
 }
 
-function setBreakpoint(location, condition) {
+async function setBreakpoint(location, condition, state : AppState) {
   const sourceClient = threadClient.source({ actor: location.sourceId });
+  const generatedLocation = await getGeneratedLocation(state, location);
 
-  return sourceClient.setBreakpoint({
+  const [res, bpClient] = await sourceClient.setBreakpoint({
     line: location.line,
     column: location.column,
     condition: condition
-  }).then(([res, bpClient]) => {
-    bpClients[bpClient.actor] = bpClient;
+  });
 
-    // Firefox only returns `actualLocation` if it actually changed,
-    // but we want it always to exist. Format `actualLocation` if it
-    // exists, otherwise use `location`.
-    const actualLocation = res.actualLocation ? {
-      sourceId: res.actualLocation.source.actor,
-      line: res.actualLocation.line,
-      column: res.actualLocation.column
-    } : location;
+  bpClients[bpClient.actor] = bpClient;
 
-    return BreakpointResult({
-      id: bpClient.actor,
-      actualLocation: Location(actualLocation)
-    });
+  let actualLocation = res.actualLocation ? {
+    sourceId: res.actualLocation.source.actor,
+    line: res.actualLocation.line,
+    column: res.actualLocation.column
+  } : generatedLocation;
+
+  actualLocation = await getOriginalLocation(state, location);
+
+  return BreakpointResult({
+    id: bpClient.actor,
+    actualLocation: Location(actualLocation)
   });
 }
 
 function removeBreakpoint(breakpointId) {
+  // FIXME : problem disabling/enabling and disabling again => bpClient become null \o/
+  // Possibly when re-enabling the breakpoint, it has another actor
   const bpClient = bpClients[breakpointId];
-  bpClients[breakpointId] = null;
+  delete bpClients[breakpointId];
   return bpClient.remove();
 }
 
-function toggleAllBreakpoints(shouldDisableBreakpoints) {
-  // TODO : To implement
-  return new Promise((resolve, reject) => reject());
+async function toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints, state : AppState) {
+
+  for (let [, breakpoint] of breakpoints) {
+    if (shouldDisableBreakpoints) {
+      // FIXME : problem when disabling breakpoints, enabling them and disabling them again
+      await removeBreakpoint(breakpoint.id);
+    } else {
+      await setBreakpoint(breakpoint.location, breakpoint.condition, state);
+    }
+  }
 }
 
 function evaluate(script) {

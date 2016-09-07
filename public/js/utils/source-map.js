@@ -3,6 +3,7 @@ const { makeOriginalSource, getGeneratedSourceId } = require("./source-map-utils
 
 import type { Location } from "./actions/types";
 
+// TODO : in getSource and getSourceByURL => remove the use of the app state
 const { getSource, getSourceByURL } = require("../selectors");
 const { isEnabled, getValue } = require("../feature");
 
@@ -76,7 +77,7 @@ function getGeneratedSource(state: AppState, source: any) {
 }
 
 // TODO : remove the state param
-async function getGeneratedLocation(sources, location: Location) {
+async function getGeneratedLocation(state: AppState, location: Location) {
   // TODO : remove the state param in getSource()
   const source: any = getSource(state, location.sourceId);
 

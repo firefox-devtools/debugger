@@ -71,10 +71,12 @@ function addBreakpoint(location: Location,
       breakpoint: bp,
       condition: condition,
       [PROMISE]: (async function () {
+        // NOTE : we are doing the same thing twice (here and in firefox/commands)
         location = await getGeneratedLocation(getState(), bp.location);
         let { id, actualLocation } = await client.setBreakpoint(
           location,
-          bp.condition
+          bp.condition,
+          getState()
         );
 
         actualLocation = await getOriginalLocation(getState(), actualLocation);
@@ -155,7 +157,7 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: Boolean) {
     return dispatch({
       type: constants.TOGGLE_BREAKPOINTS,
       shouldDisableBreakpoints,
-      [PROMISE]: client.toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints)
+      [PROMISE]: client.toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints, getState())
     });
   };
 }
