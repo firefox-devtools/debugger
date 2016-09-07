@@ -125,7 +125,7 @@ const App = React.createClass({
           initialWidth: 300,
           rightFlex: true,
           left: this.renderCenterPane(this.props),
-          right: RightSidebar({ keyShortcuts: this.shortcuts })
+          right: RightSidebar({ keyShortcuts: this.shortcuts }),
         })
       })
     );

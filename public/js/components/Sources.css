@@ -5,10 +5,7 @@
   overflow: hidden;
 }
 
-.sources-header {
-  height: 30px;
-  border-bottom: 1px solid var(--theme-gray);
-  padding-left: 10px;
+.sources-header p {
   line-height: 30px;
   font-size: 1.2em;
 }

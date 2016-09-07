@@ -9,12 +9,6 @@
   overflow-y: auto;
 }
 
-.command-bar {
-  border-bottom: 1px solid #cccccc;
-  height: 30px;
-  padding: 8px 5px 10px 10px;
-}
-
 .command-bar > span {
   cursor: pointer;
   margin-right: 0.7em;

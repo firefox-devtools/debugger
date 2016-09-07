@@ -11,6 +11,7 @@ const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 
 const actions = require("../actions");
+const SidebarHeader = React.createFactory(require("./SidebarHeader"));
 const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Expressions = React.createFactory(require("./Expressions"));
 const Scopes = React.createFactory(require("./Scopes"));
@@ -197,8 +198,7 @@ const RightSidebar = React.createClass({
       dom.div(
         { className: "right-sidebar",
           style: { overflowX: "hidden" }},
-        dom.div(
-          { className: "command-bar" },
+        SidebarHeader({ side: "right", className: "command-bar" },
           this.renderPauseButton(),
           this.renderStepButtons(),
           this.renderDisableBreakpoints(),
