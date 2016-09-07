@@ -3,10 +3,17 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { Services } = require("Services");
+const classnames = require("classnames");
 const actions = require("../actions");
+const { isFirefoxPanel } = require("../feature");
 
 require("./App.css");
-require("../lib/themes/light-theme.css");
+
+// Using this static variable allows webpack to know at compile-time
+// to avoid this require and not include it at all in the output.
+if (process.env.TARGET !== "firefox-panel") {
+  require("../lib/themes/light-theme.css");
+}
 
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
@@ -117,7 +124,9 @@ const App = React.createClass({
   },
 
   render: function() {
-    return dom.div({ className: "theme-light debugger" },
+    return dom.div(
+      { className: classnames("debugger theme-body",
+                              { "theme-light": !isFirefoxPanel() }) },
       SplitBox({
         initialWidth: 300,
         left: Sources({ sources: this.props.sources }),
