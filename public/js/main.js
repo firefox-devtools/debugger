@@ -104,14 +104,7 @@ if (connTarget) {
     bootstrap,
     store: store,
     actions: actions,
-    selectors: selectors,
-
-    // Remove these once we update the API on m-c
-    setThreadClient: firefox.setThreadClient,
-    setTabTarget: firefox.setTabTarget,
-    initPage: firefox.initPage,
-    renderApp: () => renderRoot(App),
-    getActions: () => actions
+    selectors: selectors
   };
 } else {
   renderRoot(Tabs);
