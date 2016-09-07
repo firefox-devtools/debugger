@@ -95,6 +95,36 @@ function waitForState(dbg, predicate) {
   });
 }
 
+function waitForMs(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
+function assertPausedLocation(dbg, source, line) {
+  const { selectors: { getSelectedSource, getPause }, getState } = dbg;
+
+  // support passing in a partial url and fetching the source
+  if (typeof source == "string") {
+    source = findSource(dbg, source);
+  }
+
+  // check the selected source
+  is(getSelectedSource(getState()).get("url"), source.url);
+
+  // check the pause location
+  const location = getPause(getState()).getIn(["frame", "location"]);
+  is(location.get("sourceId"), source.id);
+  is(location.get("line"), line);
+
+  // check the debug line
+  ok(dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
+     "Line is highlighted");
+}
+
+function isPaused(dbg) {
+  const { selectors: { getPause }, getState } = dbg;
+  return !!getPause(getState());
+}
+
 const waitForPaused = Task.async(function* (dbg) {
   // We want to make sure that we get both a real paused event and
   // that the state is fully populated. The client may do some more
@@ -202,24 +232,29 @@ function addBreakpoint(dbg, sourceId, line, col) {
   return dbg.actions.addBreakpoint({ sourceId, line, col });
 }
 
+function togglePauseOnExceptions(dbg,
+  pauseOnExceptions, ignoreCaughtExceptions) {
+
+  const command = dbg.actions.pauseOnExceptions(
+    pauseOnExceptions,
+    ignoreCaughtExceptions
+  );
+
+  if (!isPaused(dbg)) {
+    return waitForThreadEvents(dbg, "resumed");
+  }
+
+  return command;
+}
+
 // Helpers
 // invoke a global function in the debugged tab
 function invokeInTab(fnc) {
-  ContentTask.spawn(gBrowser.selectedBrowser, fnc, function* (fnc) {
+  return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function* (fnc) {
     content.wrappedJSObject[fnc](); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
   });
 }
 
-// click an element in the debugger
-function clickElement(dbg, elementName, ...args) {
-  const selector = getSelector(elementName, ...args);
-  const doc = dbg.win.document;
-  return EventUtils.synthesizeMouseAtCenter(
-    doc.querySelector(selector),
-    {},
-    dbg.win
-  );
-}
 
 function isVisibleWithin(outerEl, innerEl) {
   const innerRect = innerEl.getBoundingClientRect();
@@ -230,8 +265,9 @@ function isVisibleWithin(outerEl, innerEl) {
 
 const selectors = {
   callStackHeader: ".call-stack-pane ._header",
-  frame: (index) => `.frames ul li:nth-child(${index})`,
-  gutter: line => `.CodeMirror-code *:nth-child(${line}) .CodeMirror-linenumber`
+  frame: index => `.frames ul li:nth-child(${index})`,
+  gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
+  pauseOnExceptions: ".pause-exceptions"
 }
 
 function getSelector(elementName, ...args) {
@@ -250,6 +286,17 @@ function getSelector(elementName, ...args) {
 function findElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
   return dbg.win.document.querySelector(selector);
+}
+
+// click an element in the debugger
+function clickElement(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const doc = dbg.win.document;
+  return EventUtils.synthesizeMouseAtCenter(
+    doc.querySelector(selector),
+    {},
+    dbg.win
+  );
 }
 
 function toggleCallStack(dbg) {

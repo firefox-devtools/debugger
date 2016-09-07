@@ -44,16 +44,15 @@ function paused(pauseInfo) {
 
 function pauseOnExceptions(
   shouldPauseOnExceptions, shouldIgnoreCaughtExceptions) {
-  return ({ dispatch, getState, client }) => {
-    client.pauseOnExceptions(
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions
-    );
-
-    return dispatch({
+  return ({ dispatch, client }) => {
+    dispatch({
       type: constants.PAUSE_ON_EXCEPTIONS,
       shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions
+      shouldIgnoreCaughtExceptions,
+      [PROMISE]: client.pauseOnExceptions(
+        shouldPauseOnExceptions,
+        shouldIgnoreCaughtExceptions
+      )
     });
   };
 }
