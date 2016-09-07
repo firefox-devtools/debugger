@@ -8,12 +8,7 @@ const TAB_URL = EXAMPLE_URL + "doc-scripts.html";
 
 // Utilities for interacting with the editor
 function clickGutter(dbg, line) {
-  const doc = dbg.win.document;
-  return EventUtils.synthesizeMouseAtCenter(
-    doc.querySelectorAll(".CodeMirror-code .CodeMirror-linenumber")[line - 1],
-    {},
-    dbg.win
-  );
+  clickElement(dbg, "gutter", line);
 }
 
 function getLineEl(dbg, line) {

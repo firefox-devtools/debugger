@@ -42,13 +42,17 @@
     "waitForState": false,
     "waitForPaused": false,
     "initDebugger": false,
+    "invokeInTab": false,
     "findSource": false,
+    "findElement": false,
     "selectSource": false,
     "stepOver": false,
     "stepIn": false,
     "stepOut": false,
     "resume": false,
     "addBreakpoint": false,
-    "isVisibleWithin": false
+    "toggleCallStack": false,
+    "isVisibleWithin": false,
+    "clickElement": false
   }
 }

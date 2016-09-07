@@ -8,7 +8,7 @@
 // shared-head.js handles imports, constants, and utility functions
 Services.scriptloader.loadSubScript("chrome://mochitests/content/browser/devtools/client/framework/test/shared-head.js", this);
 var { Toolbox } = require("devtools/client/framework/toolbox");
-const EXAMPLE_URL = "http://example.com/browser/devtools/client/debugger/new/test/mochitest/";
+const EXAMPLE_URL = "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/";
 
 Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", true);
 registerCleanupFunction(() => {
@@ -197,10 +197,55 @@ function addBreakpoint(dbg, sourceId, line, col) {
 }
 
 // Helpers
+// invoke a global function in the debugged tab
+function invokeInTab(fnc) {
+  ContentTask.spawn(gBrowser.selectedBrowser, fnc, function* (fnc) {
+    content.wrappedJSObject[fnc](); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
+  });
+}
+
+// click an element in the debugger
+function clickElement(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const doc = dbg.win.document;
+  return EventUtils.synthesizeMouseAtCenter(
+    doc.querySelector(selector),
+    {},
+    dbg.win
+  );
+}
 
 function isVisibleWithin(outerEl, innerEl) {
   const innerRect = innerEl.getBoundingClientRect();
   const outerRect = outerEl.getBoundingClientRect();
   return innerRect.top > outerRect.top &&
     innerRect.bottom < outerRect.bottom;
+}
+
+const selectors = {
+  callStackHeader: ".call-stack-pane ._header",
+  frame: (index) => `.frames ul li:nth-child(${index})`,
+  gutter: line => `.CodeMirror-code *:nth-child(${line}) .CodeMirror-linenumber`
+}
+
+function getSelector(elementName, ...args) {
+  let selector = selectors[elementName];
+  if (!selector) {
+    throw new Error(`The selector ${elementName} is not defined`);
+  }
+
+  if (typeof selector == "function") {
+    selector = selector(...args)
+  }
+
+  return selector;
+}
+
+function findElement(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  return dbg.win.document.querySelector(selector);
+}
+
+function toggleCallStack(dbg) {
+  return findElement(dbg, "callStackHeader").click()
 }
