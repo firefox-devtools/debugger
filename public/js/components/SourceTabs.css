@@ -2,9 +2,11 @@
   border-bottom: 1px solid var(--theme-splitter-color);
   height: 30px;
   flex: 1;
+  display: flex;
 }
 
 .source-tabs {
+  flex: 10 1 calc(100% - 30px);
   width: calc(100% - 30px);
   overflow: hidden;
 }
@@ -61,4 +63,24 @@
   position: absolute;
   top: 35px;
   right: 0px;
+}
+
+.collapse-button-left,
+.collapse-button-right {
+  width: 16px;
+  margin-top: 5px;
+  flex: 1 1 auto;
+  align-self: center;
+}
+
+.collapse-button-left svg {
+  transform: rotate(180deg);
+}
+
+.collapse-button-left {
+  margin-left: 8px;
+}
+
+.collapse-button-right {
+  margin-right: 8px;
 }

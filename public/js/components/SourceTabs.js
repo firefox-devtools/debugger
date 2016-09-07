@@ -137,7 +137,7 @@ const SourceTabs = React.createClass({
     }, filename);
   },
 
-  renderSourcesDropdownButon() {
+  renderSourcesDropdownButton() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
       return dom.div({});
@@ -189,15 +189,27 @@ const SourceTabs = React.createClass({
     );
   },
 
+  renderCollapseButton(side) {
+    return dom.div({
+      className: `collapse-button-${side}`,
+      onClick(ev) {
+
+      }
+    },
+      Svg("pane-collapse"));
+  },
+
   render() {
     if (!isEnabled("tabs")) {
       return dom.div({ className: "source-header" });
     }
 
     return dom.div({ className: "source-header" },
+      this.renderCollapseButton("left"),
       this.renderSourcesDropdown(),
       this.renderTabs(),
-      this.renderSourcesDropdownButon()
+      this.renderSourcesDropdownButton(),
+      this.renderCollapseButton("right")
     );
   }
 });
