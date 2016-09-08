@@ -59,6 +59,7 @@
     "toggleCallStack": false,
     "isVisibleWithin": false,
     "clickElement": false,
-    "togglePauseOnExceptions": false
+    "togglePauseOnExceptions": false,
+    "pressKey": false
   }
 }
