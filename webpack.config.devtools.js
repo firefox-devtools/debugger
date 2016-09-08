@@ -12,7 +12,13 @@ const ignoreRegexes = [
 const nativeMapping = {
   // Don't map this until bug 1295318 lands
   // "public/js/utils/source-editor": "devtools/client/sourceeditor/editor"
-  "public/js/test/test-flag": "devtools/shared/flags"
+  "public/js/test/test-flag": "devtools/shared/flags",
+
+  // React can be required a few different ways, make sure they are
+  // all mapped.
+  "react": "devtools/client/shared/vendor/react",
+  "devtools/client/shared/vendor/react": "devtools/client/shared/vendor/react",
+  "react/lib/ReactDOM": "devtools/client/shared/vendor/react-dom"
 };
 
 module.exports = webpackConfig => {
@@ -24,7 +30,11 @@ module.exports = webpackConfig => {
 
   webpackConfig.externals = [
     function(context, request, callback) {
-      const mod = path.join(context.replace(__dirname + "/", ""), request);
+      let mod = request;
+      // Only resolve relative requires
+      if(mod[0] === '.') {
+        mod = path.join(context.replace(__dirname + "/", ""), mod);
+      }
 
       // Any matching paths here won't be included in the bundle.
       if(ignoreRegexes.some(r => r.test(request))) {
