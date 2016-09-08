@@ -2,7 +2,6 @@ const React = require("react");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
-const Isvg = React.createFactory(require("react-inlinesvg"));
 const classnames = require("classnames");
 const actions = require("../actions");
 const { getSource, getPause, getBreakpoints } = require("../selectors");
@@ -32,8 +31,9 @@ function renderSourceLocation(source, line) {
   const url = basename(source.get("url"));
   // const line = url !== "" ? `: ${line}` : "";
   return url !== "" ?
-    dom.div({ className: "location" },
-      `${endTruncateStr(url, 30)}${line}`
+    dom.div(
+      { className: "location" },
+      `${endTruncateStr(url, 30)}: ${line}`
     ) : null;
 }
 
@@ -72,33 +72,24 @@ const Breakpoints = React.createClass({
     const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
     const isDisabled = breakpoint.disabled;
 
-    const isPausedIcon = isCurrentlyPaused && Isvg({
-      className: "pause-indicator",
-      src: "images/pause-circle.svg"
-    });
-
     return dom.div(
-      {},
-      dom.div(
-        {
-          className: classnames({
-            breakpoint,
-            paused: isCurrentlyPaused,
-            disabled: isDisabled
-          }),
-          key: locationId,
-          onClick: () => this.selectBreakpoint(breakpoint)
-        },
-        dom.input({
-          type: "checkbox",
-          checked: !isDisabled,
-          onChange: () => this.handleCheckbox(breakpoint)
+      {
+        className: classnames({
+          breakpoint,
+          paused: isCurrentlyPaused,
+          disabled: isDisabled
         }),
-        dom.div(
-          { className: "breakpoint-label", title: breakpoint.text },
-          dom.div({}, renderSourceLocation(breakpoint.location.source, line))
-        ),
-        isPausedIcon
+        key: locationId,
+        onClick: () => this.selectBreakpoint(breakpoint)
+      },
+      dom.input({
+        type: "checkbox",
+        checked: !isDisabled,
+        onChange: () => this.handleCheckbox(breakpoint)
+      }),
+      dom.div(
+        { className: "breakpoint-label", title: breakpoint.text },
+        dom.div({}, renderSourceLocation(breakpoint.location.source, line))
       ),
       dom.div({ className: "breakpoint-snippet" }, snippet)
     );
