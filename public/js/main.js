@@ -104,7 +104,8 @@ if (connTarget) {
     bootstrap,
     store: store,
     actions: actions,
-    selectors: selectors
+    selectors: selectors,
+    client: firefox.clientCommands
   };
 } else {
   renderRoot(Tabs);

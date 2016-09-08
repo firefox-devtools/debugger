@@ -6,7 +6,7 @@ function willNavigate() {
   return { type: constants.NAVIGATE };
 }
 
-function navigate() {
+function navigated() {
   return ({ dispatch }) => {
     // We need to load all the sources again because they might have
     // come from bfcache, so we won't get a `newSource` notification.
@@ -21,5 +21,5 @@ function navigate() {
 
 module.exports = {
   willNavigate,
-  navigate
+  navigated
 };

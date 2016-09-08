@@ -102,6 +102,10 @@ function navigate(url) {
   return tabTarget.activeTab.navigateTo(url);
 }
 
+function reload() {
+  return tabTarget.activeTab.reload();
+}
+
 function getProperties(grip) {
   const objClient = threadClient.pauseGrip(grip);
   return objClient.getPrototypeAndProperties();
@@ -137,6 +141,7 @@ const clientCommands = {
   evaluate,
   debuggeeCommand,
   navigate,
+  reload,
   getProperties,
   pauseOnExceptions,
   prettyPrint,
