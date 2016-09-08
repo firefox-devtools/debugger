@@ -1,8 +1,5 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
-
-const TAB_URL = EXAMPLE_URL + "doc-script-switching-01.html";
-
 function findFrame(dbg, index) {
   return findElement(dbg, "frame", index);
 }
@@ -19,7 +16,10 @@ function isFrameSelected(dbg, index, title) {
 }
 
 add_task(function* () {
-  const dbg = yield initDebugger(TAB_URL, "script-switching-01.js");
+  const dbg = yield initDebugger(
+    "doc-script-switching-01.html",
+    "script-switching-01.js"
+  );
 
   toggleCallStack(dbg);
 

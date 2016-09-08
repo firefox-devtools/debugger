@@ -3,9 +3,6 @@
 
 // Tests that the editor highlights the correct location when the
 // debugger pauses
-
-const TAB_URL = EXAMPLE_URL + "doc-scripts.html";
-
 function assertPausedLocation(dbg, source, line) {
   const { selectors: { getSelectedSource, getPause }, getState } = dbg;
 
@@ -20,7 +17,7 @@ function assertPausedLocation(dbg, source, line) {
 
 add_task(function* () {
   const dbg = yield initDebugger(
-    TAB_URL,
+    "doc-scripts.html",
     "simple1.js", "simple2.js", "long.js"
   );
   const { selectors: { getSelectedSource }, getState } = dbg;

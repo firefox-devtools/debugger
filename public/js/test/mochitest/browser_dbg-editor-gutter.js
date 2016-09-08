@@ -4,8 +4,6 @@
 // Tests the breakpoint gutter and making sure breakpoint icons exist
 // correctly
 
-const TAB_URL = EXAMPLE_URL + "doc-scripts.html";
-
 // Utilities for interacting with the editor
 function clickGutter(dbg, line) {
   clickElement(dbg, "gutter", line);
@@ -24,7 +22,7 @@ function assertEditorBreakpoint(dbg, line, shouldExist) {
 }
 
 add_task(function* () {
-  const dbg = yield initDebugger(TAB_URL, "simple1.js");
+  const dbg = yield initDebugger("doc-scripts.html", "simple1.js");
   const { selectors: { getBreakpoints, getBreakpoint }, getState } = dbg;
   const source = findSource(dbg, "simple1.js");
 
