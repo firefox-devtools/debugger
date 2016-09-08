@@ -13,6 +13,7 @@ const EXAMPLE_URL = "http://example.com/browser/devtools/client/debugger/new/tes
 Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", true);
 registerCleanupFunction(() => {
   Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", false);
+  delete window.resumeTest;
 })
 
 // Wait until an action of `type` is dispatched. This is different
@@ -146,6 +147,11 @@ const initDebugger = Task.async(function* (url, ...sources) {
 
   return dbg;
 });
+
+window.resumeTest = undefined;
+function pauseTest() {
+  return new Promise(resolve => resumeTest = resolve);
+}
 
 // Actions
 
