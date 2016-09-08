@@ -1,7 +1,11 @@
+.breakpoints-list {
+  padding-bottom: 10px;
+}
+
 .breakpoints-list .breakpoint {
   font-size: 12px;
   color: var(--theme-content-color1);
-  margin: 0.5em 0;
+  margin-top: 0.5em;
   line-height: 1em;
   display: flex;
   flex-flow: row;
@@ -36,4 +40,9 @@
 .breakpoints-list .pause-indicator {
   flex: 0 1 content;
   order: 3;
+}
+
+.breakpoint-snippet {
+  color: var(--theme-comment);
+  padding-left: 20px;
 }
