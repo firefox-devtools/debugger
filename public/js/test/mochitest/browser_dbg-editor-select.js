@@ -1,20 +1,6 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-// Tests that the editor highlights the correct location when the
-// debugger pauses
-function assertPausedLocation(dbg, source, line) {
-  const { selectors: { getSelectedSource, getPause }, getState } = dbg;
-
-  is(getSelectedSource(getState()).get("url"), source.url);
-  const location = getPause(getState()).getIn(["frame", "location"]);
-  is(location.get("sourceId"), source.id);
-  is(location.get("line"), line);
-
-  ok(dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
-     "Line is highlighted");
-}
-
 add_task(function* () {
   const dbg = yield initDebugger(
     "doc-scripts.html",

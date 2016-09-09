@@ -6,4 +6,4 @@ npm-debug.log
 .idea/
 .vscode/
 cypress/screenshots
-firefox
+/firefox
