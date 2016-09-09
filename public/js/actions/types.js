@@ -22,9 +22,6 @@ export type AsyncStatus = "start" | "done" | "error";
  *
  * @memberof actions/types
  * @static
- * @property {string}  sourceId - Source ID for the file
- * @property {number}  line     - Line number, (zero based?) within the file
- * @property {number}  column   - Column number within the line (optional)
  */
 export type Location = {
   sourceId: string,
@@ -37,12 +34,6 @@ export type Location = {
  *
  * @memberof actions/types
  * @static
- * @property {string}  id        - Source ID for the file
- * @property {Location} location - Line number, (zero based?) within the file
- * @property {boolean}  loading  - Loading status
- * @property {boolean}  disabled - Disabled by the user
- * @property {string}  text      - Text representation of relevant line
- * @property {string}  condition - Conditional breakpoint value (optional)
  */
 export type Breakpoint = {
   id: string,

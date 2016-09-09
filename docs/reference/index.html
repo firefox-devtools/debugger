@@ -175,15 +175,15 @@
                     <li class='h5'><span>Static members</span></li>
                     
                       <li><a
-                        href='#actions/tabs.TabAction'
-                        class='regular pre-open'>
-                        .TabAction
-                      </a></li>
-                    
-                      <li><a
                         href='#actions/tabs.newTabs'
                         class='regular pre-open'>
                         .newTabs
+                      </a></li>
+                    
+                      <li><a
+                        href='#actions/tabs.TabAction'
+                        class='regular pre-open'>
+                        .TabAction
                       </a></li>
                     
                       <li><a
@@ -253,9 +253,9 @@
                       </a></li>
                     
                       <li><a
-                        href='#actions/navigation.navigate'
+                        href='#actions/navigation.navigated'
                         class='regular pre-open'>
-                        .navigate
+                        .navigated
                       </a></li>
                     
                     </ul>
@@ -1650,6 +1650,70 @@ which will reuse the existing breakpoint information that is stored.</p>
     <div class='py1 quiet mt1 prose-big'>Static Members</div>
     <div class="clearfix">
   
+    <div class='border-bottom' id='actions/tabs.newTabs'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>newTabs(tabs)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  
+
+  <div class='pre p1 fill-light mt0'>newTabs(tabs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>): TabAction</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>tabs</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code> 
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>TabAction</code>:
+        with type constants.ADD_TABS and tabs as value
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='actions/tabs.TabAction'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -1709,70 +1773,6 @@ which will reuse the existing breakpoint information that is stored.</p>
     </div>
   
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='actions/tabs.newTabs'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>newTabs(tabs)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  
-
-  <div class='pre p1 fill-light mt0'>newTabs(tabs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>): TabAction</div>
-
-  
-
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>tabs</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code> 
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>TabAction</code>:
-        with type constants.ADD_TABS and tabs as value
-
-      
-    
   
 
   
@@ -2119,11 +2119,11 @@ which will reuse the existing breakpoint information that is stored.</p>
       </div>
     </div>
   
-    <div class='border-bottom' id='actions/navigation.navigate'>
+    <div class='border-bottom' id='actions/navigation.navigated'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>navigate()</span>
+            <span class='code strong strong truncate'>navigated()</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -2133,7 +2133,7 @@ which will reuse the existing breakpoint information that is stored.</p>
 
   
 
-  <div class='pre p1 fill-light mt0'>navigate()</div>
+  <div class='pre p1 fill-light mt0'>navigated()</div>
 
   
 
@@ -2288,32 +2288,6 @@ which will reuse the existing breakpoint information that is stored.</p>
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>sourceId</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          : Source ID for the file
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>line</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : Line number, (zero based?) within the file
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>column</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : Column number within the line (optional)
-
-          
-        </div>
-      
-    </div>
-  
 
   
 
@@ -2358,53 +2332,6 @@ which will reuse the existing breakpoint information that is stored.</p>
 
   
 
-  
-    <div class='py1 quiet mt1 prose-big'>Properties</div>
-    <div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>id</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          : Source ID for the file
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>location</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/API/Location">Location</a>)</code>
-          : Line number, (zero based?) within the file
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>loading</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Loading status
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>disabled</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Disabled by the user
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>text</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          : Text representation of relevant line
-
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>condition</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-          : Conditional breakpoint value (optional)
-
-          
-        </div>
-      
-    </div>
   
 
   
