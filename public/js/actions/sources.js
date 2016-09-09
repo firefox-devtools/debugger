@@ -2,6 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/**
+ * Redux actions for the sources state
+ * @module actions/sources
+ */
+
 const defer = require("../utils/defer");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { Task } = require("../utils/task");
@@ -62,6 +67,8 @@ async function _prettyPrintSource({ source, sourceText, url }) {
 
 /**
  * Handler for the debugger client's unsolicited newSource notification.
+ * @memberof actions/sources
+ * @static
  */
 function newSource(source) {
   return ({ dispatch, getState }) => {
@@ -80,6 +87,10 @@ function newSource(source) {
   };
 }
 
+/**
+ * @memberof actions/sources
+ * @static
+ */
 function loadSourceMap(generatedSource) {
   return ({ dispatch, getState }) => {
     let sourceMap = getSourceMap(getState(), generatedSource.id);
@@ -112,6 +123,9 @@ function loadSourceMap(generatedSource) {
  * work regardless of the connection status or if the source exists
  * yet. This exists mostly for external things to interact with the
  * debugger.
+ *
+ * @memberof actions/sources
+ * @static
  */
 function selectSourceURL(url) {
   return ({ dispatch, getState }) => {
@@ -127,6 +141,10 @@ function selectSourceURL(url) {
   };
 }
 
+/**
+ * @memberof actions/sources
+ * @static
+ */
 function selectSource(id, options = {}) {
   return ({ dispatch, getState, client }) => {
     if (!client) {
@@ -148,6 +166,10 @@ function selectSource(id, options = {}) {
   };
 }
 
+/**
+ * @memberof actions/sources
+ * @static
+ */
 function closeTab(id) {
   return {
     type: constants.CLOSE_TAB,
@@ -158,11 +180,13 @@ function closeTab(id) {
 /**
  * Set the black boxed status of the given source.
  *
- * @param Object aSource
+ * @memberof actions/sources
+ * @static
+ * @param Object source
  *        The source form.
- * @param bool aBlackBoxFlag
+ * @param bool shouldBlackBox
  *        True to black box the source, false to un-black box it.
- * @returns Promise
+ * @returns {Promise}
  *          A promize that resolves to [aSource, isBlackBoxed] or rejects to
  *          [aSource, error].
  */
@@ -188,8 +212,9 @@ function blackbox(source, shouldBlackBox) {
  * |getText| will return the pretty-toggled text. Nothing will happen for
  * non-javascript files.
  *
- * @param Object aSource
- *        The source form from the RDP.
+ * @memberof actions/sources
+ * @static
+ * @param string id The source form from the RDP.
  * @returns Promise
  *          A promise that resolves to [aSource, prettyText] or rejects to
  *          [aSource, error].
@@ -238,6 +263,10 @@ function togglePrettyPrint(id) {
   };
 }
 
+/**
+ * @memberof actions/sources
+ * @static
+ */
 function loadSourceText(source) {
   return ({ dispatch, getState, client }) => {
     // Fetch the source text only once.
@@ -295,10 +324,12 @@ const FETCH_SOURCE_RESPONSE_DELAY = 200;
 /**
  * Starts fetching all the sources, silently.
  *
- * @param array aUrls
+ * @memberof actions/sources
+ * @static
+ * @param array actors
  *        The urls for the sources to fetch. If fetching a source's text
  *        takes too long, it will be discarded.
- * @return object
+ * @returns {Promise}
  *         A promise that is resolved after source texts have been fetched.
  */
 function getTextForSources(actors) {
@@ -347,7 +378,7 @@ function getTextForSources(actors) {
       maybeFinish();
     }
 
-    /** Called every time something interesting
+    /* Called every time something interesting
      *  happens while fetching sources.
      */
     function maybeFinish() {

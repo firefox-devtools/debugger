@@ -23,7 +23,8 @@
     "storybook": "start-storybook -p 9001 -s public",
     "firefox": "node bin/firefox-driver --start",
     "mochitests-watch": "MOCHITESTS=true TARGET=firefox-panel webpack --watch",
-    "prepublish": "webpack"
+    "prepublish": "webpack",
+    "build-docs": "documentation build --format html --shallow  --document-exported --output docs/reference/ public/js/actions/"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -68,6 +69,7 @@
     "body-parser": "^1.15.0",
     "co": "=4.6.0",
     "css-loader": "^0.23.1",
+    "documentation": "^4.0.0-beta10",
     "eslint": "^3.0.1",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-flow-vars": "^0.4.0",

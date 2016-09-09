@@ -6,7 +6,15 @@ const { getExpressions } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
 
 /**
+ * Redux actions for the pause state
+ * @module actions/pause
+ */
+
+/**
  * Debugger has just resumed
+ *
+ * @memberof actions/pause
+ * @static
  */
 function resumed() {
   return ({ dispatch, client }) => {
@@ -19,6 +27,10 @@ function resumed() {
 
 /**
  * Debugger has just paused
+ *
+ * @param {object} pauseInfo
+ * @memberof actions/pause
+ * @static
  */
 function paused(pauseInfo) {
   return ({ dispatch, getState, client }) => {
@@ -42,6 +54,11 @@ function paused(pauseInfo) {
   };
 }
 
+/**
+ *
+ * @memberof actions/pause
+ * @static
+ */
 function pauseOnExceptions(
   shouldPauseOnExceptions, shouldIgnoreCaughtExceptions) {
   return ({ dispatch, client }) => {
@@ -59,6 +76,10 @@ function pauseOnExceptions(
 
 /**
  * Debugger commands like stepOver, stepIn, stepUp
+ *
+ * @param string $0.type
+ * @memberof actions/pause
+ * @static
  */
 function command({ type }) {
   return ({ dispatch, client }) => {
@@ -72,18 +93,42 @@ function command({ type }) {
   };
 }
 
+/**
+ * StepIn
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
 function stepIn() {
   return command({ type: "stepIn" });
 }
 
+/**
+ * stepOver
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
 function stepOver() {
   return command({ type: "stepOver" });
 }
 
+/**
+ * stepOut
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
 function stepOut() {
   return command({ type: "stepOut" });
 }
 
+/**
+ * resume
+ * @memberof actions/pause
+ * @static
+ * @returns {Function} {@link command}
+ */
 function resume() {
   return command({ type: "resume" });
 }
@@ -92,6 +137,9 @@ function resume() {
  * Debugger breakOnNext command.
  * It's different from the comand action because we also want to
  * highlight the pause icon.
+ *
+ * @memberof actions/pause
+ * @static
  */
 function breakOnNext() {
   return ({ dispatch, client }) => {
@@ -106,6 +154,10 @@ function breakOnNext() {
 
 /**
  * Select a frame
+ *
+ * @param frame
+ * @memberof actions/pause
+ * @static
  */
 function selectFrame(frame) {
   return ({ dispatch }) => {
@@ -121,8 +173,11 @@ function selectFrame(frame) {
 /**
  * Load an object.
  *
+ * @param grip
  * TODO: Right now this if Firefox specific and is not implemented
  * for Chrome, which is why it takes a grip.
+ * @memberof actions/pause
+ * @static
  */
 function loadObjectProperties(grip) {
   return ({ dispatch, client }) => {
@@ -136,7 +191,11 @@ function loadObjectProperties(grip) {
 
 /**
  * Add expression for debugger to watch
- * @param expression
+ *
+ * @param {object} expression
+ * @param {number} expression.id
+ * @memberof actions/pause
+ * @static
  */
 function addExpression(expression) {
   return ({ dispatch, getState }) => {
@@ -151,6 +210,13 @@ function addExpression(expression) {
   };
 }
 
+/**
+ *
+ * @param {object} expression
+ * @param {number} expression.id
+ * @memberof actions/pause
+ * @static
+ */
 function updateExpression(expression) {
   return ({ dispatch }) => {
     dispatch({
@@ -161,6 +227,13 @@ function updateExpression(expression) {
   };
 }
 
+/**
+ *
+ * @param {object} expression
+ * @param {number} expression.id
+ * @memberof actions/pause
+ * @static
+ */
 function deleteExpression(expression) {
   return ({ dispatch }) => {
     dispatch({
@@ -170,6 +243,11 @@ function deleteExpression(expression) {
   };
 }
 
+/**
+ *
+ * @memberof actions/pause
+ * @static
+ */
 function evaluateExpressions() {
   return ({ dispatch, getState, client }) => {
     for (let expression of getExpressions(getState())) {

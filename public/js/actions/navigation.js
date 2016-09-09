@@ -1,11 +1,24 @@
 const constants = require("../constants");
 const { clearData } = require("../utils/source-map");
 
+/**
+ * Redux actions for the navigation state
+ * @module actions/navigation
+ */
+
+/**
+ * @memberof actions/navigation
+ * @static
+ */
 function willNavigate() {
   clearData();
   return { type: constants.NAVIGATE };
 }
 
+/**
+ * @memberof actions/navigation
+ * @static
+ */
 function navigated() {
   return ({ dispatch }) => {
     // We need to load all the sources again because they might have
