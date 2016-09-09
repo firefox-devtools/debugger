@@ -117,7 +117,7 @@ const waitForPaused = Task.async(function* (dbg) {
 });
 
 const initDebugger = Task.async(function* (url, ...sources) {
-  const toolbox = yield openNewTabAndToolbox(url, "jsdebugger");
+  const toolbox = yield openNewTabAndToolbox(EXAMPLE_URL + url, "jsdebugger");
   const win = toolbox.getPanel("jsdebugger").panelWin;
   const store = win.Debugger.store;
   const { getSources } = win.Debugger.selectors;

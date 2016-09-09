@@ -3,11 +3,11 @@
 
 // Tests that the editor sets the correct mode for different file
 // types
-
-const TAB_URL = EXAMPLE_URL + "doc-scripts.html";
-
 add_task(function* () {
-  const dbg = yield initDebugger(TAB_URL, "simple1.js", "doc-scripts.html");
+  const dbg = yield initDebugger(
+    "doc-scripts.html",
+    "simple1.js", "doc-scripts.html"
+  );
 
   yield selectSource(dbg, "simple1.js");
   is(dbg.win.cm.getOption("mode").name, "javascript", "Mode is correct");
