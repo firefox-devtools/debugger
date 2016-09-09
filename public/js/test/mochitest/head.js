@@ -267,7 +267,9 @@ const selectors = {
   callStackHeader: ".call-stack-pane ._header",
   frame: index => `.frames ul li:nth-child(${index})`,
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
-  pauseOnExceptions: ".pause-exceptions"
+  pauseOnExceptions: ".pause-exceptions",
+  breakpoint: ".CodeMirror-code > .new-breakpoint",
+  codeMirror: ".CodeMirror"
 }
 
 function getSelector(elementName, ...args) {
