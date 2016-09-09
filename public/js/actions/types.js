@@ -1,13 +1,49 @@
 // @flow
 
+/**
+ * Flow types
+ * @module actions/types
+ */
+
+/**
+ * Tri-state status for async operations
+ *
+ * Available options are:
+ * `"start"` or `"done"` or `"error"`
+ *
+ * @memberof actions/types
+ * @static
+ * @enum
+ */
 export type AsyncStatus = "start" | "done" | "error";
 
+/**
+ * Source File Location
+ *
+ * @memberof actions/types
+ * @static
+ * @property {string}  sourceId - Source ID for the file
+ * @property {number}  line     - Line number, (zero based?) within the file
+ * @property {number}  column   - Column number within the line (optional)
+ */
 export type Location = {
   sourceId: string,
   line: number,
   column?: number
 };
 
+/**
+ * Breakpoint
+ *
+ * @memberof actions/types
+ * @static
+ * @property {string}  id        - Source ID for the file
+ * @property {Location} location - Line number, (zero based?) within the file
+ * @property {boolean}  loading  - Loading status
+ * @property {boolean}  disabled - Disabled by the user
+ * @property {string}  text      - Text representation of relevant line
+ * @property {string}  condition - Conditional breakpoint value (optional)
+ */
 export type Breakpoint = {
   id: string,
   location: Location,
@@ -17,12 +53,24 @@ export type Breakpoint = {
   condition: ?string
 };
 
+/**
+ * Source Text
+ *
+ * @memberof actions/types
+ * @static
+ */
 export type SourceText = {
   id: string,
   text: string,
   contentType: string
 };
 
+/**
+ * Source URL
+ *
+ * @memberof actions/types
+ * @static
+ */
 export type Source = {
   id: string,
   url?: string,
@@ -74,6 +122,12 @@ type SourceAction =
                sourceText: SourceText }}
   | { type: "CLOSE_TAB", id: string };
 
+/**
+ * Actions: Source, Breakpoint, and Navigation
+ *
+ * @memberof actions/types
+ * @static
+ */
 export type Action =
   SourceAction
   | BreakpointAction

@@ -3,6 +3,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/**
+ * Redux actions for breakpoints
+ * @module actions/breakpoints
+ */
+
 const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { getBreakpoint, getBreakpoints } = require("../selectors");
@@ -12,6 +17,13 @@ const { getOriginalLocation, getGeneratedLocation
 
 import type { Location } from "./types";
 
+/**
+ * Argument parameters via Thunk middleware for {@link https://github.com/gaearon/redux-thunk|Redux Thunk}
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @typedef {Object} ThunkArgs
+ */
 type ThunkArgs = {
   dispatch: any,
   getState: any,
@@ -26,12 +38,25 @@ function _getOrCreateBreakpoint(state, location, condition) {
   return getBreakpoint(state, location) || { location, condition };
 }
 
+/**
+ * Enabling a breakpoint calls {@link addBreakpoint}
+ * which will reuse the existing breakpoint information that is stored.
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
 function enableBreakpoint(location: Location) {
-  // Enabling is exactly the same as adding. It will use the existing
-  // breakpoint that still stored.
   return addBreakpoint(location);
 }
 
+/**
+ * Add a new or enable an existing breakpoint
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @param {String} $1.condition Conditional breakpoint condition value
+ * @param {Function} $1.getTextForLine Get the text to represent the line
+ */
 function addBreakpoint(location: Location,
                        { condition, getTextForLine } : any = {}) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
@@ -67,10 +92,22 @@ function addBreakpoint(location: Location,
   };
 }
 
+/**
+ * Disable a single breakpoint
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
 function disableBreakpoint(location: Location) {
   return _removeOrDisableBreakpoint(location, true);
 }
 
+/**
+ * Remove a single breakpoint
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
 function removeBreakpoint(location: Location) {
   return _removeOrDisableBreakpoint(location);
 }
@@ -106,6 +143,12 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
   };
 }
 
+/**
+ * Toggle All Breakpoints
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
 function toggleAllBreakpoints(shouldDisableBreakpoints: Boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
@@ -127,13 +170,15 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: Boolean) {
 
 /**
  * Update the condition of a breakpoint.
+ *  **NOT IMPLEMENTED**
  *
- * @param object aLocation
+ * @throws {Error} "not implemented"
+ * @memberof actions/breakpoints
+ * @static
+ * @param {Location} location
  *        @see DebuggerController.Breakpoints.addBreakpoint
- * @param string aClients
+ * @param {string} condition
  *        The condition to set on the breakpoint
- * @return object
- *         A promise that will be resolved with the breakpoint client
  */
 function setBreakpointCondition(location: Location, condition: string) {
   throw new Error("not implemented");

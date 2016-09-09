@@ -4,6 +4,11 @@
 /* global window gThreadClient setNamedTimeout services EVENTS */
 /* eslint no-shadow: 0  */
 
+/**
+ * Redux actions for the event listeners state
+ * @module actions/event-listeners
+ */
+
 const constants = require("../constants");
 const { asPaused } = require("../utils/utils");
 const { reportException } = require("../utils/DevToolsUtils");
@@ -12,6 +17,10 @@ const { Task } = require("../utils/task");
 // delay is in ms
 const FETCH_EVENT_LISTENERS_DELAY = 200;
 
+/**
+ * @memberof actions/event-listeners
+ * @static
+ */
 function fetchEventListeners() {
   return (dispatch, getState) => {
     // Make sure we"re not sending a batch of closely repeated requests.
@@ -102,6 +111,11 @@ const _getDefinitionSite = Task.async(function* (func) {
   return response.source.url;
 });
 
+/**
+ * @memberof actions/event-listeners
+ * @static
+ * @param {string} eventNames
+ */
 function updateEventBreakpoints(eventNames) {
   return dispatch => {
     setNamedTimeout("event-breakpoints-update", 0, () => {
