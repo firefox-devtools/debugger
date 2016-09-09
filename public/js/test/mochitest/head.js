@@ -157,6 +157,7 @@ const initDebugger = Task.async(function* (url, ...sources) {
     selectors: win.Debugger.selectors,
     getState: store.getState,
     store: store,
+    client: win.Debugger.client,
     toolbox: toolbox,
     win: win
   };
@@ -180,6 +181,7 @@ const initDebugger = Task.async(function* (url, ...sources) {
 
 window.resumeTest = undefined;
 function pauseTest() {
+  info("Test paused. Invoke resumeTest to continue.");
   return new Promise(resolve => resumeTest = resolve);
 }
 
@@ -228,6 +230,10 @@ function resume(dbg) {
   return waitForThreadEvents(dbg, "resumed");
 }
 
+function reload(dbg) {
+  return dbg.client.reload();
+}
+
 function addBreakpoint(dbg, sourceId, line, col) {
   return dbg.actions.addBreakpoint({ sourceId, line, col });
 }
@@ -269,7 +275,11 @@ const selectors = {
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
   pauseOnExceptions: ".pause-exceptions",
   breakpoint: ".CodeMirror-code > .new-breakpoint",
-  codeMirror: ".CodeMirror"
+  codeMirror: ".CodeMirror",
+  resume: ".resume.active",
+  stepOver: ".stepOver.active",
+  stepOut: ".stepOut.active",
+  stepIn: ".stepIn.active"
 }
 
 function getSelector(elementName, ...args) {
