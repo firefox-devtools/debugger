@@ -17,6 +17,18 @@ function restartWorker() {
 }
 restartWorker();
 
+// This is a temporary workaround for the worker not terminating on
+// page load.
+//
+// TODO: Create a proper shutdown function that the panel calls, and
+// make sure in a local debugging context that it dies with the page
+// naturally (as it should).
+if(typeof window !== 'undefined') {
+  window.addEventListener("unload", function() {
+    sourceMapWorker.terminate();
+  });
+}
+
 const sourceMapTask = function(method) {
   return function() {
     const args = Array.prototype.slice.call(arguments);
