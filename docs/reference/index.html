@@ -268,6 +268,59 @@
               
                 
                 <li><a
+                  href='#sourcesstate'
+                  class="">
+                  SourcesState
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#breakpointsstate'
+                  class="">
+                  BreakpointsState
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#reducerstabs'
+                  class=" toggle-sibling">
+                  reducers/tabs
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#reducers/tabs.addTabs'
+                        class='regular pre-open'>
+                        .addTabs
+                      </a></li>
+                    
+                      <li><a
+                        href='#reducers/tabs.selectTab'
+                        class='regular pre-open'>
+                        .selectTab
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
                   href='#actionstypes'
                   class=" toggle-sibling">
                   actions/types
@@ -431,6 +484,16 @@
                   
                   
                 </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#getnewselectedsource'
+                  class="">
+                  getNewSelectedSource
+                  
+                </a>
                 
                 </li>
               
@@ -2179,6 +2242,270 @@ which will reuse the existing breakpoint information that is stored.</p>
 
   
   <div class='clearfix'>
+    <h3 class='fl m0' id='sourcesstate'>
+      SourcesState
+    </h3>
+    
+  </div>
+  
+
+  
+
+  <div class='pre p1 fill-light mt0'>SourcesState</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    <h3 class='fl m0' id='breakpointsstate'>
+      BreakpointsState
+    </h3>
+    
+  </div>
+  
+
+  
+
+  <div class='pre p1 fill-light mt0'>BreakpointsState</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    <h3 class='fl m0' id='reducerstabs'>
+      reducers/tabs
+    </h3>
+    
+  </div>
+  
+
+  <p>Redux reducer for the tabs state</p>
+
+
+  <div class='pre p1 fill-light mt0'>reducers/tabs</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Static Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='reducers/tabs.addTabs'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>addTabs(action, state)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Triggered when the debugger is started with the connected tabs</p>
+
+
+  <div class='pre p1 fill-light mt0'>addTabs(action: any, state: any)</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>action</span> <code class='quiet'>(any)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>state</span> <code class='quiet'>(any)</code> 
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='reducers/tabs.selectTab'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>selectTab(action, state)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Triggered when a specific tab is selected for debugging</p>
+
+
+  <div class='pre p1 fill-light mt0'>selectTab(action: any, state: any)</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>action</span> <code class='quiet'>(any)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>state</span> <code class='quiet'>(any)</code> 
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
     <h3 class='fl m0' id='actionstypes'>
       actions/types
     </h3>
@@ -3442,6 +3769,74 @@ for Chrome, which is why it takes a grip.
     </div>
   
 </div>
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    <h3 class='fl m0' id='getnewselectedsource'>
+      getNewSelectedSource
+    </h3>
+    
+  </div>
+  
+
+  <p>Gets the next tab to select when a tab closes.</p>
+
+
+  <div class='pre p1 fill-light mt0'>getNewSelectedSource(state: any, id: any): Source?</div>
+
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>state</span> <code class='quiet'>(any)</code> 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(any)</code> 
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>Source?</code>
+    
+  
+
+  
+
+  
 
   
 

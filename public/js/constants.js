@@ -27,8 +27,8 @@ exports.SELECT_SOURCE_URL = "SELECT_SOURCE_URL";
 exports.NAVIGATE = "NAVIGATE";
 exports.RELOAD = "RELOAD";
 
-exports.ADD_TABS = "ADD_TABS";
-exports.SELECT_TAB = "SELECT_TAB";
+exports.ADD_TABS = "addTabs";
+exports.SELECT_TAB = "selectTab";
 
 exports.BREAK_ON_NEXT = "BREAK_ON_NEXT";
 exports.RESUME = "RESUME";
