@@ -35,7 +35,9 @@
     "waitForFocus": false,
 
     // Globals introduced in debugger-specific head.js
-    "EXAMPLE_URL": false,
+    "promise": false,
+    "BrowserToolboxProcess": false,
+    "OS": false,
     "waitForNextDispatch": false,
     "waitForDispatch": false,
     "waitForThreadEvents": false,
