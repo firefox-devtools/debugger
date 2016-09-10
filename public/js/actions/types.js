@@ -113,8 +113,13 @@ type SourceAction =
                sourceText: SourceText }}
   | { type: "CLOSE_TAB", id: string };
 
+type SidebarAction = {
+  type: "COLLAPSE_SIDEBAR",
+  collapsed: boolean,
+  side: "left" | "right"
+};
 /**
- * Actions: Source, Breakpoint, and Navigation
+ * Actions: Source, Breakpoint, Navigation and Sidebar
  *
  * @memberof actions/types
  * @static
@@ -122,4 +127,5 @@ type SourceAction =
 export type Action =
   SourceAction
   | BreakpointAction
-  | { type: "NAVIGATE" };
+  | { type: "NAVIGATE" }
+  | SidebarAction;

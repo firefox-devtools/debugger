@@ -30,6 +30,8 @@ exports.RELOAD = "RELOAD";
 exports.ADD_TABS = "ADD_TABS";
 exports.SELECT_TAB = "SELECT_TAB";
 
+exports.COLLAPSE_SIDEBAR = "COLLAPSE_SIDEBAR";
+
 exports.BREAK_ON_NEXT = "BREAK_ON_NEXT";
 exports.RESUME = "RESUME";
 exports.PAUSED = "PAUSED";
