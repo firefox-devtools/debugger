@@ -4,7 +4,7 @@ const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
 const actions = require("../actions");
-const { getSource, getPause, getBreakpoints, getBreakpointsDisabled } = require("../selectors");
+const { getSourceById, getPause, getBreakpoints, getBreakpointsDisabled } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
@@ -118,7 +118,7 @@ const Breakpoints = React.createClass({
 
 function _getBreakpoints(state) {
   return getBreakpoints(state).map(bp => {
-    const source = getSource(state, bp.location.sourceId);
+    const source = getSourceById(state, bp.location.sourceId);
     const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, bp);
     const locationId = makeLocationId(bp.location);
 

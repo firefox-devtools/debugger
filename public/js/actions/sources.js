@@ -26,7 +26,7 @@ const {
 } = require("../utils/source-map");
 
 const {
-  getSource, getSourceByURL, getSourceText,
+  getSourceById, getSourceByURL, getSourceText,
   getPendingSelectedSourceURL,
   getSourceMap, getSourceMapURL, getFrames
 } = require("../selectors");
@@ -153,7 +153,7 @@ function selectSource(id, options = {}) {
       return;
     }
 
-    const source = getSource(getState(), id).toJS();
+    const source = getSourceById(getState(), id).toJS();
 
     // Make sure to start a request to load the source text.
     dispatch(loadSourceText(source));
@@ -221,7 +221,7 @@ function blackbox(source, shouldBlackBox) {
  */
 function togglePrettyPrint(id) {
   return ({ dispatch, getState, client }) => {
-    const source = getSource(getState(), id).toJS();
+    const source = getSourceById(getState(), id).toJS();
     const sourceText = getSourceText(getState(), id).toJS();
 
     if (sourceText.loading) {
@@ -345,7 +345,7 @@ function getTextForSources(actors) {
 
     // Try to fetch as many sources as possible.
     for (let actor of actors) {
-      let source = getSource(getState(), actor);
+      let source = getSourceById(getState(), actor);
       dispatch(loadSourceText(source)).then(({ text, contentType }) => {
         onFetch([source, text, contentType]);
       }, err => {

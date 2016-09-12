@@ -6,7 +6,7 @@ const { connect } = require("react-redux");
 const actions = require("../actions");
 const { endTruncateStr } = require("../utils/utils");
 const { basename } = require("../utils/path");
-const { getFrames, getSelectedFrame, getSource } = require("../selectors");
+const { getFrames, getSelectedFrame, getSourceById } = require("../selectors");
 
 if (typeof window == "object") {
   require("./Frames.css");
@@ -53,10 +53,10 @@ function Frames({ frames, selectedFrame, selectFrame }) {
 module.exports = connect(
   state => ({
     frames: getFrames(state)
-      .filter(frame => getSource(state, frame.location.sourceId))
+      .filter(frame => getSourceById(state, frame.location.sourceId))
       .map(frame => {
         return Object.assign({}, frame, {
-          source: getSource(state, frame.location.sourceId).toJS()
+          source: getSourceById(state, frame.location.sourceId).toJS()
         });
       }),
     selectedFrame: getSelectedFrame(state)

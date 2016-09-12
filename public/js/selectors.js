@@ -48,7 +48,6 @@ function getSourceMapURL(state: AppState, source: any) {
  */
 
 module.exports = {
-  getSource: sources.getSource,
   getSourceByURL: sources.getSourceByURL,
   getSourceById: sources.getSourceById,
   getSources: sources.getSources,
