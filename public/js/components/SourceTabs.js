@@ -4,7 +4,10 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const Svg = require("./utils/Svg");
-const { getSelectedSource, getSourceTabs } = require("../selectors");
+const {
+  getSelectedSource,
+  getSourceTabs,
+} = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const classnames = require("classnames");
 const actions = require("../actions");
@@ -68,6 +71,7 @@ const SourceTabs = React.createClass({
     sourceTabs: ImPropTypes.list,
     selectedSource: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
+    collapseSidebar: PropTypes.func.isRequired,
     closeTab: PropTypes.func.isRequired
   },
 
@@ -192,8 +196,9 @@ const SourceTabs = React.createClass({
   renderCollapseButton(side) {
     return dom.div({
       className: `collapse-button-${side}`,
-      onClick(ev) {
-
+      onClick: (ev) => {
+        ev.preventDefault();
+        this.props.collapseSidebar(side);
       }
     },
       Svg("pane-collapse"));

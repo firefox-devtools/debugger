@@ -1,26 +1,49 @@
 // @flow
+const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
 const C = require("../constants");
 
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-export type SidebarState = {
+type SidebarState = {
   collapsed: boolean,
-  side: "left" | "right",
+  width: number,
+  prevWidth: number,
+};
+
+type SidebarsState = {
+  left: SidebarState,
+  right: SidebarState,
 };
 
 const State = makeRecord(({
-  collapsed: false,
-  side: "left",
-} : SidebarState));
+  left: I.Map({
+    collapsed: false,
+    width: 300,
+    prevWidth: 0
+  }),
+  right: I.Map({
+    collapsed: false,
+    width: 300,
+    prevWidth: 0
+  }),
+} : SidebarsState));
 
-function update(state = State(), action: Action) : Record<SidebarState> {
+function update(state = State(), action: Action) : Record<SidebarsState> {
   switch (action.type) {
     case C.COLLAPSE_SIDEBAR: {
-      return state.merge({
+      let width = state.get(action.side).get("width"),
+        prevWidth = state.get(action.side).get("prevWidth");
+      return state.mergeIn([action.side], {
         collapsed: action.collapsed,
-        side: action.side || state.side
+        width: action.collapsed ? 0 : prevWidth,
+        prevWidth: action.collapsed ? width : 0,
+      });
+    }
+    case C.RESIZE_SIDEBAR: {
+      return state.mergeIn([action.side], {
+        width: action.width,
       });
     }
   }
@@ -28,7 +51,17 @@ function update(state = State(), action: Action) : Record<SidebarState> {
   return state;
 }
 
+function getSidebarsState(state) {
+  return state.sidebars;
+}
+
+function getSidebarCollapsed(state, side) {
+  return state.sidebars.get(side).get("collapsed");
+}
+
 module.exports = {
   State,
-  update
+  update,
+  getSidebarsState,
+  getSidebarCollapsed
 };

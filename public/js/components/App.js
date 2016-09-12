@@ -23,7 +23,11 @@ const SourceTabs = createFactory(require("./SourceTabs"));
 const SourceFooter = createFactory(require("./SourceFooter"));
 const Svg = require("./utils/Svg");
 const Autocomplete = createFactory(require("./Autocomplete"));
-const { getSources, getSelectedSource } = require("../selectors");
+const {
+  getSources,
+  getSelectedSource,
+  getSidebarsState
+} = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { KeyShortcuts } = require("../lib/devtools-sham/client/shared/key-shortcuts");
 const { isHiddenSource, getURL } = require("../utils/sources-tree");
@@ -49,7 +53,9 @@ const App = React.createClass({
   propTypes: {
     sources: PropTypes.object,
     selectSource: PropTypes.func,
-    selectedSource: PropTypes.object
+    resizeSidebar: PropTypes.func,
+    selectedSource: PropTypes.object,
+    sidebars: PropTypes.object
   },
 
   displayName: "App",
@@ -128,10 +134,12 @@ const App = React.createClass({
       { className: classnames("debugger theme-body",
                               { "theme-light": !isFirefoxPanel() }) },
       SplitBox({
-        initialWidth: 300,
+        width: this.props.sidebars.toJS().left.width,
+        resizeSidebar: this.props.resizeSidebar.bind(null, "left"),
         left: Sources({ sources: this.props.sources }),
         right: SplitBox({
-          initialWidth: 300,
+          width: this.props.sidebars.toJS().right.width,
+          resizeSidebar: this.props.resizeSidebar.bind(null, "right"),
           rightFlex: true,
           left: this.renderCenterPane(this.props),
           right: RightSidebar({ keyShortcuts: this.shortcuts })
@@ -143,6 +151,8 @@ const App = React.createClass({
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              selectedSource: getSelectedSource(state) }),
+              selectedSource: getSelectedSource(state),
+              sidebars: getSidebarsState(state)
+             }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

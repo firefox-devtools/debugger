@@ -14,29 +14,24 @@ const SplitBox = React.createClass({
     left: PropTypes.any.isRequired,
     right: PropTypes.any.isRequired,
 
-    initialWidth: PropTypes.any,
+    width: PropTypes.number.isRequired,
+    resizeSidebar: PropTypes.func.isRequired,
     rightFlex: PropTypes.bool,
     style: PropTypes.string
   },
 
   displayName: "SplitBox",
 
-  getInitialState() {
-    return { width: this.props.initialWidth };
-  },
-
   onMove(x) {
     const node = ReactDOM.findDOMNode(this);
-    this.setState({
-      width: (this.props.rightFlex ?
-              (node.offsetLeft + node.offsetWidth) - x :
-              x - node.offsetLeft)
-    });
+    const width = (this.props.rightFlex ?
+      (node.offsetLeft + node.offsetWidth) - x :
+      x - node.offsetLeft);
+    this.props.resizeSidebar(width);
   },
 
   render() {
-    const { left, right, rightFlex } = this.props;
-    const { width } = this.state;
+    const { left, right, rightFlex, width } = this.props;
 
     return dom.div(
       { className: "split-box",

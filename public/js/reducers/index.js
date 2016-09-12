@@ -8,6 +8,7 @@ const breakpoints = require("./breakpoints");
 const asyncRequests = require("./async-requests");
 const tabs = require("./tabs");
 const pause = require("./pause");
+const sidebars = require("./sidebars");
 
 module.exports = {
   eventListeners,
@@ -15,5 +16,6 @@ module.exports = {
   breakpoints: breakpoints.update,
   pause: pause.update,
   asyncRequests,
-  tabs
+  tabs,
+  sidebars: sidebars.update
 };
