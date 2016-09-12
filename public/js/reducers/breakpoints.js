@@ -7,7 +7,7 @@ const fromJS = require("../utils/fromJS");
 const { updateObj } = require("../utils/utils");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
-const setupReducer = require("../utils/redux/setupReducer");
+const { createReducer } = require("../utils/redux/utils");
 
 import type {
   Action, Breakpoint, Location,
@@ -210,7 +210,7 @@ function getBreakpointsLoading(state: OuterState) {
   return breakpoints.size > 0 && isLoading;
 }
 
-const update = setupReducer(State(), {
+const update = createReducer(State(), {
   addBreakpoint, removeBreakpoint, toggleBreakpoints, setBreakpointCondition
 });
 

@@ -1,4 +1,4 @@
-function setupReducer(initialState, map) {
+function createReducer(initialState, map) {
   return function(state = initialState, action) {
     const handler = map[action.type];
     if (!handler) {
@@ -10,4 +10,4 @@ function setupReducer(initialState, map) {
   };
 }
 
-module.exports = setupReducer;
+module.exports = { createReducer };

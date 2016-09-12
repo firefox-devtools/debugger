@@ -5,7 +5,7 @@
 // const constants = require("../constants");
 const Immutable = require("immutable");
 const fromJS = require("../utils/fromJS");
-const setupReducer = require("../utils/redux/setupReducer");
+const { createReducer } = require("../utils/redux/utils");
 
 /**
  * Redux reducer for the tabs state
@@ -60,5 +60,5 @@ function getTabId(tab) {
   return id;
 }
 
-const update = setupReducer(initialState, { addTabs, selectTab });
+const update = createReducer(initialState, { addTabs, selectTab });
 module.exports = update;
