@@ -56,11 +56,13 @@ function isGenerated(source) {
   return !isOriginal(source);
 }
 
+// TODO : remove state use
 async function getOriginalSources(state: AppState, source: any) {
   const originalSourceUrls = await getOriginalSourceUrls(source);
   return originalSourceUrls.map(url => getSourceByURL(state, url));
 }
 
+// TODO : remove state use
 function getGeneratedSource(state: AppState, source: any) {
   if (isGenerated(source)) {
     return source;

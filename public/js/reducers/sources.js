@@ -213,6 +213,7 @@ function getSourceByURL(state: OuterState, url: string) {
   return state.sources.sources.find(source => source.get("url") == url);
 }
 
+// TODO : getSourceById does the same as getSource (cause key of sources.sources is the id)
 function getSourceById(state: OuterState, id: string) {
   return state.sources.sources.find(source => source.get("id") == id);
 }

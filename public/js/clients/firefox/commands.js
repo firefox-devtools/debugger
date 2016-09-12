@@ -82,7 +82,6 @@ function removeBreakpoint(breakpointId) {
 }
 
 async function toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints, state : AppState) {
-
   for (let [, breakpoint] of breakpoints) {
     if (shouldDisableBreakpoints) {
       // FIXME : problem when disabling breakpoints, enabling them and disabling them again
