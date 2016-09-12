@@ -156,6 +156,11 @@ const Editor = React.createClass({
     }
   },
 
+  componentWillUnmount() {
+    this.editor.destroy();
+    this.editor = null;
+  },
+
   componentWillReceiveProps(nextProps) {
     // Clear the currently highlighted line
     if (isSourceForFrame(this.props.selectedSource, this.props.selectedFrame)) {

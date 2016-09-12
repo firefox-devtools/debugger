@@ -18,6 +18,10 @@ class SourceEditor {
     this.editor = CodeMirror(node, this.opts);
   }
 
+  destroy() {
+    // No need to do anything.
+  }
+
   get codeMirror() {
     return this.editor;
   }
