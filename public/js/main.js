@@ -67,6 +67,11 @@ function renderRoot(component) {
   );
 }
 
+function unmountRoot() {
+  const mount = document.querySelector("#mount");
+  ReactDOM.unmountComponentAtNode(mount);
+}
+
 function getTargetFromQuery() {
   const href = window.location.href;
   const nodeMatch = href.match(/ws=([^&#]*)/);
@@ -92,16 +97,19 @@ if (connTarget) {
     renderRoot(App);
   });
 } else if (isFirefoxPanel()) {
-  // The toolbox already provides the tab to debug.
-  function bootstrap({ threadClient, tabTarget }) {
-    firefox.setThreadClient(threadClient);
-    firefox.setTabTarget(tabTarget);
-    firefox.initPage(actions);
-    renderRoot(App);
-  }
+  const sourceMap = require("./utils/source-map");
 
   module.exports = {
-    bootstrap,
+    bootstrap: ({ threadClient, tabTarget }) => {
+      firefox.setThreadClient(threadClient);
+      firefox.setTabTarget(tabTarget);
+      firefox.initPage(actions);
+      renderRoot(App);
+    },
+    destroy: () => {
+      unmountRoot();
+      sourceMap.destroy();
+    },
     store: store,
     actions: actions,
     selectors: selectors,
