@@ -1,0 +1,13 @@
+toc:
+  - name: actions/sources
+    description: |
+      These are Mapbox GL JS's ways of representing locations
+      and areas on the sphere.
+  - name: actions/breakpoints
+    description: |
+      These are Mapbox GL JS's ways of representing locations
+      and areas on the sphere.
+  - name: actions/pause
+    description: |
+      These are Mapbox GL JS's ways of representing locations
+      and areas on the sphere.

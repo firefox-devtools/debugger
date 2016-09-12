@@ -68,23 +68,33 @@ export type Source = {
   sourceMapURL?: string
 };
 
+export type AddBreakpoint = {
+  type: "ADD_BREAKPOINT",
+  breakpoint: Breakpoint,
+  condition: string,
+  status: AsyncStatus,
+  error: string,
+  value: { actualLocation: Location, id: string, text: string }
+}
+
+export type RemoveBreakpoint = {
+  type: "REMOVE_BREAKPOINT",
+  breakpoint: Breakpoint,
+  status: AsyncStatus,
+  error: string,
+  disabled: boolean
+}
+
+export type SetBreakpointCondition = {
+  type: "SET_BREAKPOINT_CONDITION",
+  breakpoint: Breakpoint,
+  condition: string,
+  status: AsyncStatus,
+  error: string
+}
+
 type BreakpointAction =
-  { type: "ADD_BREAKPOINT",
-    breakpoint: Breakpoint,
-    condition: string,
-    status: AsyncStatus,
-    error: string,
-    value: { actualLocation: Location, id: string, text: string } }
-  | { type: "REMOVE_BREAKPOINT",
-      breakpoint: Breakpoint,
-      status: AsyncStatus,
-      error: string,
-      disabled: boolean }
-  | { type: "SET_BREAKPOINT_CONDITION",
-      breakpoint: Breakpoint,
-      condition: string,
-      status: AsyncStatus,
-      error: string };
+  AddBreakpoint| RemoveBreakpoint | SetBreakpointCondition;
 
 type SourceAction =
   { type: "ADD_SOURCE", source: Source }

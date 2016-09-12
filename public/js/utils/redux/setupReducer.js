@@ -5,7 +5,8 @@ function setupReducer(initialState, map) {
       return state;
     }
 
-    return handler(action, state);
+    const ret = handler(state, action);
+    return ret || state;
   };
 }
 

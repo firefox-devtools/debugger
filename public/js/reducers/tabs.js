@@ -22,7 +22,7 @@ const initialState = fromJS({
  * @memberof reducers/tabs
  * @static
  */
-function addTabs(action, state) {
+function addTabs(state, action) {
   const tabs = action.value;
   if (!tabs) {
     return state;
@@ -42,7 +42,7 @@ function addTabs(action, state) {
  * @memberof reducers/tabs
  * @static
  */
-function selectTab(action, state) {
+function selectTab(state, action) {
   const tab = state.getIn(["tabs", action.id]);
   return state.setIn(["selectedTab"], tab);
 }
