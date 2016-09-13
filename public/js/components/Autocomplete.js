@@ -5,6 +5,8 @@ const classnames = require("classnames");
 require("./Autocomplete.css");
 const Svg = require("./utils/Svg");
 
+const INITIAL_SELECTED_INDEX = 0;
+
 const Autocomplete = React.createClass({
   propTypes: {
     selectItem: PropTypes.func,
@@ -16,7 +18,7 @@ const Autocomplete = React.createClass({
   getInitialState() {
     return {
       inputValue: "",
-      selectedIndex: -1
+      selectedIndex: INITIAL_SELECTED_INDEX
     };
   },
 
@@ -64,7 +66,7 @@ const Autocomplete = React.createClass({
         ref: "searchInput",
         onChange: (e) => this.setState({
           inputValue: e.target.value,
-          selectedIndex: -1
+          selectedIndex: INITIAL_SELECTED_INDEX
         }),
         onFocus: e => this.setState({ focused: true }),
         onBlur: e => this.setState({ focused: false }),
