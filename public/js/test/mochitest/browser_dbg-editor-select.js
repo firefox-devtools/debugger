@@ -5,8 +5,8 @@
 // debugger pauses
 
 // checks to see if the first breakpoint is visible
-function isBreakpointVisible(dbg) {
-  const bpLine = findElement(dbg, "breakpoint");
+function isElementVisible(dbg, elementName) {
+  const bpLine = findElement(dbg, elementName);
   const cm = findElement(dbg, "codeMirror");
   ok(isVisibleWithin(cm, bpLine), "CodeMirror is scrolled to line");
 }
@@ -48,5 +48,18 @@ add_task(function* () {
   invokeInTab("testModel");
   yield waitForPaused(dbg);
   assertPausedLocation(dbg, longSrc, 66);
-  isBreakpointVisible(dbg);
+  isElementVisible(dbg, "breakpoint");
+
+  // Remove the current breakpoint and add another on line 16.
+  yield removeBreakpoint(dbg, longSrc.id, 66);
+  yield addBreakpoint(dbg, longSrc.id, 16);
+
+  // Jump to line 16 and make sure the breakpoint is visible. We only
+  // added the breakpoint so we could make sure it scrolled correctly.
+  yield selectSource(dbg, longSrc.url, 16);
+  isElementVisible(dbg, "highlightLine");
+  yield selectSource(dbg, longSrc.url, 17);
+  yield selectSource(dbg, longSrc.url, 18);
+  is(findAllElements(dbg, "highlightLine").length, 1,
+     "Only 1 line is highlighted");
 });

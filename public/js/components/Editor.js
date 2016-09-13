@@ -7,7 +7,7 @@ const SourceEditor = require("../utils/source-editor");
 const { debugGlobal } = require("../utils/debug");
 const {
   getSourceText, getBreakpointsForSource,
-  getSelectedSource, getSelectedFrame
+  getSelectedLocation, getSelectedFrame
 } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const actions = require("../actions");
@@ -16,8 +16,8 @@ const { DOM: dom, PropTypes } = React;
 
 require("./Editor.css");
 
-function isSourceForFrame(source, frame) {
-  return source && frame && frame.location.sourceId === source.get("id");
+function isTextForSource(sourceText) {
+  return !sourceText.get("loading") && !sourceText.get("error");
 }
 
 /**
@@ -36,7 +36,7 @@ function resizeBreakpointGutter(editor) {
 const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
-    selectedSource: ImPropTypes.map,
+    selectedLocation: PropTypes.object,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
@@ -56,12 +56,12 @@ const Editor = React.createClass({
 
     if (bp) {
       this.props.removeBreakpoint({
-        sourceId: this.props.selectedSource.get("id"),
+        sourceId: this.props.selectedLocation.sourceId,
         line: line + 1
       });
     } else {
       this.props.addBreakpoint(
-        { sourceId: this.props.selectedSource.get("id"),
+        { sourceId: this.props.selectedLocation.sourceId,
           line: line + 1 },
         // Pass in a function to get line text because the breakpoint
         // may slide and it needs to compute the value at the new
@@ -71,42 +71,50 @@ const Editor = React.createClass({
     }
   },
 
-  clearDebugLine(line) {
-    this.editor.codeMirror.removeLineClass(line - 1, "line", "debug-line");
-  },
-
-  setDebugLine(line) {
-    this.editor.codeMirror.addLineClass(line - 1, "line", "debug-line");
-    this.editor.alignLine(line);
-  },
-
-  setSourceText(newSourceText, oldSourceText) {
-    if (newSourceText.get("loading")) {
-      this.setText("Loading...");
-      return;
+  updateDebugLine(prevProps, nextProps) {
+    if (prevProps.selectedFrame) {
+      const line = prevProps.selectedFrame.location.line;
+      this.editor.codeMirror.removeLineClass(line - 1, "line", "debug-line");
     }
-
-    if (newSourceText.get("error")) {
-      this.setText("Error");
-      console.error(newSourceText.get("error"));
-      return;
+    if (nextProps.selectedFrame) {
+      const line = nextProps.selectedFrame.location.line;
+      this.editor.codeMirror.addLineClass(line - 1, "line", "debug-line");
     }
-
-    this.setText(newSourceText.get("text"));
-    this.setMode(newSourceText);
-
-    resizeBreakpointGutter(this.editor.codeMirror);
   },
 
-  // Only reset the editor text if the source has changed.
-  // * Resetting the text will remove the breakpoints.
-  // * Comparing the source text is probably inneficient.
+  highlightLine() {
+    // If the location has changed and a specific line is requested,
+    // move to that line and flash it.
+    if (this.pendingJumpLine) {
+      const codeMirror = this.editor.codeMirror;
+
+      // Make sure to clean up after ourselves. Not only does this
+      // cancel any existing animation, but it avoids it from
+      // happening ever again (in case CodeMirror re-applies the
+      // class, etc).
+      if (this.lastJumpLine) {
+        codeMirror.removeLineClass(
+          this.lastJumpLine - 1, "line", "highlight-line"
+        );
+      }
+
+      const line = this.pendingJumpLine;
+      this.editor.alignLine(line);
+
+      // We only want to do the flashing animation if it's not a debug
+      // line, which has it's own styling.
+      if (!this.props.selectedFrame ||
+         this.props.selectedFrame.location.line !== line) {
+        this.editor.codeMirror.addLineClass(line - 1, "line", "highlight-line");
+      }
+
+      this.lastJumpLine = line;
+      this.pendingJumpLine = null;
+    }
+  },
+
   setText(text) {
     if (!text || !this.editor) {
-      return;
-    }
-
-    if (text == this.editor.getText()) {
       return;
     }
 
@@ -162,24 +170,49 @@ const Editor = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    // Clear the currently highlighted line
-    if (isSourceForFrame(this.props.selectedSource, this.props.selectedFrame)) {
-      this.clearDebugLine(this.props.selectedFrame.location.line);
+    // This lifecycle method is responsible for updating the editor
+    // text.
+    const sourceText = nextProps.sourceText;
+
+    if (!sourceText) {
+      this.setText("");
+      this.editor.setMode({ name: "text" });
+    } else if (!isTextForSource(sourceText)) {
+      // There are only 2 possible states: errored or loading. Do
+      // nothing except put a message in the editor.
+      this.setText(sourceText.get("error") || "Loading...");
+      this.editor.setMode({ name: "text" });
+    } else if (this.props.sourceText !== sourceText) {
+      // Only update it if the `sourceText` object has actually changed.
+      // It is immutable so it will always change when updated.
+      this.setText(sourceText.get("text"));
+      this.setMode(sourceText);
+      resizeBreakpointGutter(this.editor.codeMirror);
+    }
+  },
+
+  componentDidUpdate(prevProps) {
+    // This is in `componentDidUpdate` so helper functions can expect
+    // `this.props` to be the current props. This lifecycle method is
+    // responsible for updating the editor annotations.
+    const { selectedLocation } = this.props;
+
+    // If the location is different and a new line is requested,
+    // update the pending jump line. Note that if jumping to a line in
+    // a source where the text hasn't been loaded yet, we will set the
+    // line here but not jump until rendering the actual source.
+    if (prevProps.selectedLocation !== selectedLocation &&
+       selectedLocation &&
+       selectedLocation.line != undefined) {
+      this.pendingJumpLine = selectedLocation.line;
     }
 
-    // Set the source text. The source text may not have been loaded
-    // yet. On startup, the source text may not exist yet.
-    if (nextProps.sourceText) {
-      this.setSourceText(nextProps.sourceText, this.props.sourceText);
-    }
-
-    if (this.props.selectedSource && !nextProps.selectedSource) {
-      this.editor.setText("");
-    }
-
-    // Highlight the paused line if necessary
-    if (isSourceForFrame(nextProps.selectedSource, nextProps.selectedFrame)) {
-      this.setDebugLine(nextProps.selectedFrame.location.line);
+    // Only update and jump around in real source texts. This will
+    // keep the jump state around until the real source text is
+    // loaded.
+    if (this.props.sourceText && isTextForSource(this.props.sourceText)) {
+      this.updateDebugLine(prevProps, this.props);
+      this.highlightLine();
     }
   },
 
@@ -206,13 +239,13 @@ const Editor = React.createClass({
 
 module.exports = connect(
   (state, props) => {
-    const selectedSource = getSelectedSource(state);
-    const selectedId = selectedSource && selectedSource.get("id");
+    const selectedLocation = getSelectedLocation(state);
+    const sourceId = selectedLocation && selectedLocation.sourceId;
 
     return {
-      selectedSource,
-      sourceText: getSourceText(state, selectedId),
-      breakpoints: getBreakpointsForSource(state, selectedId),
+      selectedLocation,
+      sourceText: getSourceText(state, sourceId),
+      breakpoints: getBreakpointsForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state)
     };
   },

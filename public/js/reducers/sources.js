@@ -12,7 +12,11 @@ import type { Record } from "../utils/makeRecord";
 
 export type SourcesState = {
   sources: I.Map<string, any>,
-  selectedSource: ?any,
+  selectedLocation?: {
+    sourceId: string,
+    line?: number,
+    column?: number
+  },
   pendingSelectedSourceURL: ?string,
   sourcesText: I.Map<string, any>,
   tabs: I.List<any>,
@@ -21,7 +25,7 @@ export type SourcesState = {
 
 const State = makeRecord(({
   sources: I.Map(),
-  selectedSource: undefined,
+  selectedLocation: undefined,
   pendingSelectedSourceURL: undefined,
   sourcesText: I.Map(),
   sourceMaps: I.Map(),
@@ -54,19 +58,19 @@ function update(state = State(), action: Action) : Record<SourcesState> {
 
     case "SELECT_SOURCE":
       return state.merge({
-        selectedSource: action.source,
         pendingSelectedSourceURL: null,
-        tabs: updateTabList(state, fromJS(action.source), action.options)
-      });
+        tabs: updateTabList(state, fromJS(action.source), action.tabIndex)
+      }).set("selectedLocation", { sourceId: action.source.id,
+                                   line: action.line });
 
     case "SELECT_SOURCE_URL":
       return state.merge({ pendingSelectedSourceURL: action.url });
 
     case "CLOSE_TAB":
-      return state.merge({
-        selectedSource: getNewSelectedSource(state, action.id),
-        tabs: removeSourceFromTabList(state, action.id)
-      });
+      return state.merge({ tabs: removeSourceFromTabList(state, action.id) })
+        .set("selectedLocation", {
+          sourceId: getNewSelectedSourceId(state, action.id)
+        });
 
     case "LOAD_SOURCE_TEXT": {
       let values;
@@ -102,7 +106,7 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       return _updateText(state, action, [action.originalSource]);
 
     case "NAVIGATE":
-      const source = state.selectedSource;
+      const source = getSelectedSource({ sources: state });
       const sourceUrl = source && source.get("url");
       return State()
         .set("pendingSelectedSourceURL", sourceUrl);
@@ -146,18 +150,18 @@ function removeSourceFromTabList(state, id) {
 /*
  * Adds the new source to the tab list if it is not already there
  */
-function updateTabList(state, source, options) {
+function updateTabList(state, source, tabIndex) {
   const tabs = state.get("tabs");
-  const selectedSource = state.get("selectedSource");
+  const selectedSource = getSelectedSource({ sources: state });
   const selectedSourceIndex = tabs.indexOf(selectedSource);
   const sourceIndex = tabs.indexOf(source);
   const includesSource = !!tabs.find((t) => t.get("id") == source.get("id"));
 
   if (includesSource) {
-    if (options.position != undefined) {
+    if (tabIndex != undefined) {
       return tabs
         .delete(sourceIndex)
-        .insert(options.position, source);
+        .insert(tabIndex, source);
     }
 
     return tabs;
@@ -169,13 +173,13 @@ function updateTabList(state, source, options) {
 /**
  * Gets the next tab to select when a tab closes.
  */
-function getNewSelectedSource(state, id) : ?Source {
+function getNewSelectedSourceId(state, id) : ?Source {
   const tabs = state.get("tabs");
-  const selectedSource = state.get("selectedSource");
+  const selectedSource = getSelectedSource({ sources: state });
 
   // if we're not closing the selected tab return the selected tab
   if (selectedSource.get("id") != id) {
-    return selectedSource;
+    return selectedSource.get("id");
   }
 
   const tabIndex = tabs.findIndex(tab => tab.get("id") == id);
@@ -187,11 +191,11 @@ function getNewSelectedSource(state, id) : ?Source {
 
   // if we're closing the last tab, select the penultimate tab
   if (tabIndex + 1 == numTabs) {
-    return tabs.get(tabIndex - 1);
+    return tabs.get(tabIndex - 1).get("id");
   }
 
   // return the next tab
-  return tabs.get(tabIndex + 1);
+  return tabs.get(tabIndex + 1).get("id");
 }
 
 // Selectors
@@ -230,7 +234,12 @@ function getSourceTabs(state: OuterState) {
 }
 
 function getSelectedSource(state: OuterState) {
-  return state.sources.selectedSource;
+  return state.sources.selectedLocation &&
+    getSource(state, state.sources.selectedLocation.sourceId);
+}
+
+function getSelectedLocation(state: OuterState) {
+  return state.sources.selectedLocation;
 }
 
 function getPendingSelectedSourceURL(state: OuterState) {
@@ -260,6 +269,7 @@ module.exports = {
   getSourceText,
   getSourceTabs,
   getSelectedSource,
+  getSelectedLocation,
   getPendingSelectedSourceURL,
   getSourceMap,
   getPrettySource

@@ -33,24 +33,19 @@ function resumed() {
  * @static
  */
 function paused(pauseInfo) {
-  return ({ dispatch, getState, client }) => {
+  return async function({ dispatch, getState, client }) {
     let { frame, frames, why } = pauseInfo;
+    frames = await updateFrameLocations(getState(), frames);
 
     dispatch(evaluateExpressions());
-
-    return dispatch({
+    dispatch({
       type: constants.PAUSED,
-      [PROMISE]: (async function () {
-        frames = await updateFrameLocations(getState(), frames);
-
-        dispatch(selectSource(frame.location.sourceId));
-        return {
-          pauseInfo: { why, frame },
-          frames: frames,
-          selectedFrameId: frame.id
-        };
-      })()
+      pauseInfo: { why, frame },
+      frames: frames,
+      selectedFrameId: frame.id
     });
+    dispatch(selectSource(frame.location.sourceId,
+                          { line: frame.location.line }));
   };
 }
 

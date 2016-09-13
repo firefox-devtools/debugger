@@ -200,12 +200,16 @@ function findSource(dbg, url) {
   return source.toJS();
 }
 
-function selectSource(dbg, url) {
+function selectSource(dbg, url, line) {
   info("Selecting source: " + url);
   const source = findSource(dbg, url);
-  dbg.actions.selectSource(source.id);
+  const prevSelectedSource = dbg.selectors.getSelectedSource(dbg.getState());
+  dbg.actions.selectSource(source.id, { line });
 
-  return waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
+  if(!prevSelectedSource ||
+     prevSelectedSource.get("id") !== source.id) {
+    return waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
+  }
 }
 
 function stepOver(dbg) {
@@ -250,6 +254,10 @@ function addBreakpoint(dbg, source, line, col) {
 
   const sourceId = source.id;
   return dbg.actions.addBreakpoint({ sourceId, line, col });
+}
+
+function removeBreakpoint(dbg, sourceId, line, col) {
+  return dbg.actions.removeBreakpoint({ sourceId, line, col });
 }
 
 function togglePauseOnExceptions(dbg,
@@ -307,6 +315,7 @@ const selectors = {
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
   pauseOnExceptions: ".pause-exceptions",
   breakpoint: ".CodeMirror-code > .new-breakpoint",
+  highlightLine: ".CodeMirror-code > .highlight-line",
   codeMirror: ".CodeMirror",
   resume: ".resume.active",
   stepOver: ".stepOver.active",
@@ -330,6 +339,11 @@ function getSelector(elementName, ...args) {
 function findElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
   return dbg.win.document.querySelector(selector);
+}
+
+function findAllElements(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  return dbg.win.document.querySelectorAll(selector);
 }
 
 // click an element in the debugger

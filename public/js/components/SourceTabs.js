@@ -131,7 +131,7 @@ const SourceTabs = React.createClass({
       key: source.get("id"),
       onClick: () => {
         const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
-        selectSource(source.get("id"), { position: tabIndex });
+        selectSource(source.get("id"), { tabIndex });
         this.toggleSourcesDropdown();
       }
     }, filename);

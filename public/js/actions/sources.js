@@ -161,7 +161,8 @@ function selectSource(id, options = {}) {
     dispatch({
       type: constants.SELECT_SOURCE,
       source: source,
-      options
+      tabIndex: options.tabIndex,
+      line: options.line
     });
   };
 }

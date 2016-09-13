@@ -66,6 +66,15 @@
   display: none;
 }
 
+.highlight-line .CodeMirror-line {
+  animation: fade-highlight-out 1.5s normal forwards;
+}
+
+@keyframes fade-highlight-out {
+  0% { background-color: var(--theme-highlight-gray); }
+  100% { background-color: transparent; }
+}
+
 .welcomebox {
   width: 100%;
 
