@@ -94,9 +94,8 @@ async function getGeneratedLocation(state: AppState, location: Location) {
   return location;
 }
 
-// TODO : remove the state param
-async function getOriginalLocation(state: AppState, location: Location) {
-  const source: any = getSourceById(state, location.sourceId);
+async function getOriginalLocation(sources, location: Location) {
+  const source: any = sources.get(location.sourceId);
 
   if (!source) {
     return location;
@@ -116,8 +115,7 @@ async function getOriginalLocation(state: AppState, location: Location) {
       };
     }
 
-    // TODO : remove the state param in getSourceByURL()
-    const originalSource: any = getSourceByURL(state, url);
+    const originalSource: any = sources.find(src => src.get("url") == url);
 
     return {
       sourceId: originalSource.get("id"),

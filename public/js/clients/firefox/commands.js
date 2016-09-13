@@ -47,7 +47,7 @@ function sourceContents(sourceId) {
   return sourceClient.source();
 }
 
-async function setBreakpoint(location, condition, state : AppState) {
+async function setBreakpoint(location, condition, sources: any) {
   const sourceClient = threadClient.source({ actor: location.sourceId });
 
   const [res, bpClient] = await sourceClient.setBreakpoint({
@@ -64,7 +64,7 @@ async function setBreakpoint(location, condition, state : AppState) {
     column: res.actualLocation.column
   } : location;
 
-  actualLocation = await getOriginalLocation(state, location);
+  actualLocation = await getOriginalLocation(sources, location);
 
   return BreakpointResult({
     id: bpClient.actor,
@@ -80,13 +80,13 @@ function removeBreakpoint(breakpointId) {
   return bpClient.remove();
 }
 
-async function toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints, state : AppState) {
+async function toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints, sources: any) {
   for (let [, breakpoint] of breakpoints) {
     if (shouldDisableBreakpoints) {
       // FIXME : problem when disabling breakpoints, enabling them and disabling them again
       await removeBreakpoint(breakpoint.id);
     } else {
-      await setBreakpoint(breakpoint.location, breakpoint.condition, state);
+      await setBreakpoint(breakpoint.location, breakpoint.condition, sources);
     }
   }
 }

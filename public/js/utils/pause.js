@@ -2,9 +2,9 @@ const { Location, Frame } = require("../types");
 const { getOriginalLocation } = require("./source-map");
 const { asyncMap } = require("./utils");
 
-async function updateFrameLocation(state, frame) {
+async function updateFrameLocation(sources, frame) {
   const originalLocation = await getOriginalLocation(
-    state,
+    sources,
     frame.location
   );
 
@@ -13,8 +13,8 @@ async function updateFrameLocation(state, frame) {
   });
 }
 
-async function updateFrameLocations(state, frames) {
-  return await asyncMap(frames, item => updateFrameLocation(state, item));
+async function updateFrameLocations(sources, frames) {
+  return await asyncMap(frames, item => updateFrameLocation(sources, item));
 }
 
 module.exports = {

@@ -2,7 +2,7 @@ const constants = require("../constants");
 const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 
-const { getExpressions } = require("../selectors");
+const { getExpressions, getSources } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
 
 /**
@@ -41,7 +41,10 @@ function paused(pauseInfo) {
     return dispatch({
       type: constants.PAUSED,
       [PROMISE]: (async function () {
-        frames = await updateFrameLocations(getState(), frames);
+        const state = getState();
+        const sources = getSources(state);
+
+        frames = await updateFrameLocations(sources, frames);
 
         dispatch(selectSource(frame.location.sourceId));
         return {

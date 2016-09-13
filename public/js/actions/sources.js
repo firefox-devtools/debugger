@@ -26,7 +26,7 @@ const {
 } = require("../utils/source-map");
 
 const {
-  getSourceById, getSourceByURL, getSourceText,
+  getSources, getSourceById, getSourceByURL, getSourceText,
   getPendingSelectedSourceURL,
   getSourceMap, getSourceMapURL, getFrames
 } = require("../selectors");
@@ -242,8 +242,9 @@ function togglePrettyPrint(id) {
       originalSource,
       [PROMISE]: (async function () {
         const state = getState();
+        const sources = getSources(state);
         const text = await _prettyPrintSource({ source, sourceText, url });
-        const frames = await updateFrameLocations(state, getFrames(state));
+        const frames = await updateFrameLocations(sources, getFrames(state));
 
         dispatch(selectSource(originalSource.id));
 

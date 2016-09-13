@@ -10,7 +10,7 @@
 
 const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
-const { getBreakpoint, getBreakpoints } = require("../selectors");
+const { getBreakpoint, getBreakpoints, getSources } = require("../selectors");
 
 const { getOriginalLocation, getGeneratedLocation
       } = require("../utils/source-map");
@@ -71,15 +71,16 @@ function addBreakpoint(location: Location,
       breakpoint: bp,
       condition: condition,
       [PROMISE]: (async function () {
-        // NOTE : we are doing the same thing twice (here and in firefox/commands)
+        const state = getState();
+        const sources = getSources(state);
         location = await getGeneratedLocation(getState(), bp.location);
         let { id, actualLocation } = await client.setBreakpoint(
           location,
           bp.condition,
-          getState()
+          sources
         );
 
-        actualLocation = await getOriginalLocation(getState(), actualLocation);
+        actualLocation = await getOriginalLocation(sources, actualLocation);
 
         // If this breakpoint is being re-enabled, it already has a
         // text snippet.
@@ -157,7 +158,12 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: Boolean) {
     return dispatch({
       type: constants.TOGGLE_BREAKPOINTS,
       shouldDisableBreakpoints,
-      [PROMISE]: client.toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints, getState())
+      [PROMISE]: (async function () {
+        const state = getState();
+        const sources = getSources(state);
+
+        return client.toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints, sources);
+      }())
     });
   };
 }
