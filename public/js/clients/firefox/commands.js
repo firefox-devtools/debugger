@@ -49,7 +49,6 @@ function sourceContents(sourceId) {
 
 async function setBreakpoint(location, condition, state : AppState) {
   const sourceClient = threadClient.source({ actor: location.sourceId });
-  const generatedLocation = await getGeneratedLocation(state, location);
 
   const [res, bpClient] = await sourceClient.setBreakpoint({
     line: location.line,
@@ -63,7 +62,7 @@ async function setBreakpoint(location, condition, state : AppState) {
     sourceId: res.actualLocation.source.actor,
     line: res.actualLocation.line,
     column: res.actualLocation.column
-  } : generatedLocation;
+  } : location;
 
   actualLocation = await getOriginalLocation(state, location);
 
