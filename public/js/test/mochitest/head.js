@@ -261,6 +261,23 @@ function invokeInTab(fnc) {
   });
 }
 
+const keyMappings = {
+  pauseKey: { code: "VK_F8" },
+  resumeKey: { code: "VK_F8" },
+  stepOverKey: { code: "VK_F10" },
+  stepInKey: { code: "VK_F11" },
+  stepOutKey: { code: "VK_F11", modifiers: { shiftKey: true } }
+};
+
+function pressKey(dbg, keyName) {
+  let keyEvent = keyMappings[keyName];
+  const { code, modifiers } = keyEvent;
+  return EventUtils.synthesizeKey(
+    code,
+    modifiers || {},
+    dbg.win
+  );
+}
 
 function isVisibleWithin(outerEl, innerEl) {
   const innerRect = innerEl.getBoundingClientRect();
@@ -280,7 +297,7 @@ const selectors = {
   stepOver: ".stepOver.active",
   stepOut: ".stepOut.active",
   stepIn: ".stepIn.active"
-}
+};
 
 function getSelector(elementName, ...args) {
   let selector = selectors[elementName];
