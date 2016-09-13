@@ -13,13 +13,14 @@ const args = minimist(process.argv.slice(2), {
   boolean: "websocket"
 });
 
+const isWindows = /^win/.test(process.platform);
 const shouldStart = args.start;
 const isTests = args.tests;
 const useWebSocket = args.websocket;
 
 function firefoxBinary() {
   let binary = new firefox.Binary();
-  binary.addArguments("--start-debugger-server",
+    binary.addArguments((!isWindows ? "-" : "") + "-start-debugger-server",
     useWebSocket ? "ws:6080" : "6080");
 
   return binary;

@@ -29,6 +29,7 @@ These are the flags necessary to start the remote debug server and use an altern
 * debug server `--start-debugger-server 6080`
 * separate profile `-P development` (not required)
  * **Note**: if you are prompted with the profile manager you will need to create a profile named `development`
+ * **Note**: in windows replace `--start-debugger-server 6080` with `-start-debugger-server 6080`
 
 ##### Firefox (release)
 
