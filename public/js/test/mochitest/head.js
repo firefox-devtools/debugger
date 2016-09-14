@@ -151,11 +151,11 @@ function isPaused(dbg) {
   return !!getPause(getState());
 }
 
-const waitForPaused = Task.async(function* (dbg) {
-  // We want to make sure that we get both a real paused event and
-  // that the state is fully populated. The client may do some more
-  // work (call other client methods) before populating the state.
-  return Promise.all([
+function waitForPaused(dbg) {
+  return Task.spawn(function* () {
+    // We want to make sure that we get both a real paused event and
+    // that the state is fully populated. The client may do some more
+    // work (call other client methods) before populating the state.
     yield waitForThreadEvents(dbg, "paused"),
     yield waitForState(dbg, state => {
       const pause = dbg.selectors.getPause(state);
@@ -168,29 +168,32 @@ const waitForPaused = Task.async(function* (dbg) {
       const sourceId = pause.getIn(["frame", "location", "sourceId"]);
       const sourceText = dbg.selectors.getSourceText(dbg.getState(), sourceId);
       return sourceText && !sourceText.get("loading");
-    })
-  ]);
-});
+    });
+  });
+};
 
-const initDebugger = Task.async(function* (url, ...sources) {
-  const toolbox = yield openNewTabAndToolbox(EXAMPLE_URL + url, "jsdebugger");
-  const win = toolbox.getPanel("jsdebugger").panelWin;
-  const store = win.Debugger.store;
-  const { getSources } = win.Debugger.selectors;
+function initDebugger(url, ...sources) {
+  return Task.spawn(function* () {
+    const toolbox = yield openNewTabAndToolbox(EXAMPLE_URL + url, "jsdebugger");
+    const win = toolbox.getPanel("jsdebugger").panelWin;
+    const store = win.Debugger.store;
+    const { getSources } = win.Debugger.selectors;
 
-  const dbg = {
-    actions: win.Debugger.actions,
-    selectors: win.Debugger.selectors,
-    getState: store.getState,
-    store: store,
-    client: win.Debugger.client,
-    toolbox: toolbox,
-    win: win
-  };
+    const dbg = {
+      actions: win.Debugger.actions,
+      selectors: win.Debugger.selectors,
+      getState: store.getState,
+      store: store,
+      client: win.Debugger.client,
+      toolbox: toolbox,
+      win: win
+    };
 
-  yield waitForSources(dbg, ...sources);
-  return dbg;
-});
+    yield waitForSources(dbg, ...sources);
+
+    return dbg;
+  });
+};
 
 window.resumeTest = undefined;
 function pauseTest() {
