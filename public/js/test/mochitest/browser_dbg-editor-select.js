@@ -52,7 +52,7 @@ add_task(function* () {
 
   // Remove the current breakpoint and add another on line 16.
   yield removeBreakpoint(dbg, longSrc.id, 66);
-  yield addBreakpoint(dbg, longSrc.id, 16);
+  yield addBreakpoint(dbg, longSrc, 16);
 
   // Jump to line 16 and make sure the breakpoint is visible. We only
   // added the breakpoint so we could make sure it scrolled correctly.
@@ -74,9 +74,10 @@ add_task(function* () {
   // so that it's selected by default.
   yield selectSource(dbg, simple1.url);
   reload(dbg, simple1.url);
+  yield waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
 
   // Then, make sure the long source exists and select a line in it.
-  yield waitForSources("long.js");
+  yield waitForSources(dbg, "long.js");
   longSrc = findSource(dbg, "long.js");
   selectSource(dbg, longSrc.url, 16);
 

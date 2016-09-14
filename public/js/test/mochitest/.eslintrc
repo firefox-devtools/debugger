@@ -43,8 +43,10 @@
     "waitForThreadEvents": false,
     "waitForState": false,
     "waitForPaused": false,
+    "waitForSources": false,
     "isPaused": false,
     "assertPausedLocation": false,
+    "assertHighlightLocation": false,
     "initDebugger": false,
     "invokeInTab": false,
     "findSource": false,
@@ -63,6 +65,7 @@
     "isVisibleWithin": false,
     "clickElement": false,
     "togglePauseOnExceptions": false,
-    "pressKey": false
+    "pressKey": false,
+    "EXAMPLE_URL": false
   }
 }
