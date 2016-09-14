@@ -55,6 +55,7 @@
     "stepOut": false,
     "resume": false,
     "reload": false,
+    "navigate": false,
     "addBreakpoint": false,
     "toggleCallStack": false,
     "isVisibleWithin": false,

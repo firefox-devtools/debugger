@@ -95,8 +95,22 @@ function waitForState(dbg, predicate) {
   });
 }
 
-function waitForMs(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
+function waitForSourcesToLoad(dbg, sources) {
+  if(sources.length == 0) {
+    return Promise.resolve();
+  }
+
+  info("Waiting on sources: " + sources.join(", "));
+  const {selectors: {getSources}, store} = dbg;
+  return Promise.all(sources.map(url => {
+    function sourceExists(state) {
+      return getSources(state).some(s => s.get("url").includes(url));
+    }
+
+    if(!sourceExists(store.getState())) {
+      return waitForState(dbg, sourceExists);
+    }
+  }));
 }
 
 function assertPausedLocation(dbg, source, line) {
@@ -162,19 +176,7 @@ const initDebugger = Task.async(function* (url, ...sources) {
     win: win
   };
 
-  if(sources.length) {
-    // TODO: Extract this out to a utility function
-    info("Waiting on sources: " + sources.join(", "));
-    yield Promise.all(sources.map(url => {
-      function sourceExists(state) {
-        return getSources(state).some(s => s.get("url").includes(url));
-      }
-
-      if(!sourceExists(store.getState())) {
-        return waitForState(dbg, sourceExists);
-      }
-    }));
-  }
+  yield waitForSourcesToLoad(dbg, sources);
 
   return dbg;
 });
@@ -234,7 +236,19 @@ function reload(dbg) {
   return dbg.client.reload();
 }
 
-function addBreakpoint(dbg, sourceId, line, col) {
+function navigate(dbg, url, ...sources) {
+  const response = dbg.client.navigate(url);
+  return waitForSourcesToLoad(dbg, sources)
+}
+
+function addBreakpoint(dbg, source, line, col) {
+
+  // support passing in a partial url and fetching the source
+  if (typeof source == "string") {
+    source = findSource(dbg, source);
+  }
+
+  const sourceId = source.id;
   return dbg.actions.addBreakpoint({ sourceId, line, col });
 }
 
@@ -256,6 +270,7 @@ function togglePauseOnExceptions(dbg,
 // Helpers
 // invoke a global function in the debugged tab
 function invokeInTab(fnc) {
+  info(`Invoking function ${fnc} in tab`);
   return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function* (fnc) {
     content.wrappedJSObject[fnc](); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
   });
