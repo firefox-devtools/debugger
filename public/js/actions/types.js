@@ -92,7 +92,7 @@ type SourceAction =
   | { type: "SELECT_SOURCE", source: Source,
       line?: number,
       tabIndex?: number }
-  | { type: "SELECT_SOURCE_URL", url: string }
+  | { type: "SELECT_SOURCE_URL", url: string, line?: number }
   | { type: "LOAD_SOURCE_TEXT",
       source: Source,
       status: AsyncStatus,

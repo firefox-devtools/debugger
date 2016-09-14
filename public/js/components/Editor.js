@@ -83,34 +83,36 @@ const Editor = React.createClass({
   },
 
   highlightLine() {
+    if (!this.pendingJumpLine) {
+      return;
+    }
+
     // If the location has changed and a specific line is requested,
     // move to that line and flash it.
-    if (this.pendingJumpLine) {
-      const codeMirror = this.editor.codeMirror;
+    const codeMirror = this.editor.codeMirror;
 
-      // Make sure to clean up after ourselves. Not only does this
-      // cancel any existing animation, but it avoids it from
-      // happening ever again (in case CodeMirror re-applies the
-      // class, etc).
-      if (this.lastJumpLine) {
-        codeMirror.removeLineClass(
-          this.lastJumpLine - 1, "line", "highlight-line"
-        );
-      }
-
-      const line = this.pendingJumpLine;
-      this.editor.alignLine(line);
-
-      // We only want to do the flashing animation if it's not a debug
-      // line, which has it's own styling.
-      if (!this.props.selectedFrame ||
-         this.props.selectedFrame.location.line !== line) {
-        this.editor.codeMirror.addLineClass(line - 1, "line", "highlight-line");
-      }
-
-      this.lastJumpLine = line;
-      this.pendingJumpLine = null;
+    // Make sure to clean up after ourselves. Not only does this
+    // cancel any existing animation, but it avoids it from
+    // happening ever again (in case CodeMirror re-applies the
+    // class, etc).
+    if (this.lastJumpLine) {
+      codeMirror.removeLineClass(
+        this.lastJumpLine - 1, "line", "highlight-line"
+      );
     }
+
+    const line = this.pendingJumpLine;
+    this.editor.alignLine(line);
+
+    // We only want to do the flashing animation if it's not a debug
+    // line, which has it's own styling.
+    if (!this.props.selectedFrame ||
+        this.props.selectedFrame.location.line !== line) {
+      this.editor.codeMirror.addLineClass(line - 1, "line", "highlight-line");
+    }
+
+    this.lastJumpLine = line;
+    this.pendingJumpLine = null;
   },
 
   setText(text) {
@@ -202,8 +204,8 @@ const Editor = React.createClass({
     // a source where the text hasn't been loaded yet, we will set the
     // line here but not jump until rendering the actual source.
     if (prevProps.selectedLocation !== selectedLocation) {
-      if(selectedLocation &&
-         selectedLocation.line != undefined) {
+      if (selectedLocation &&
+          selectedLocation.line != undefined) {
         this.pendingJumpLine = selectedLocation.line;
       } else {
         this.pendingJumpLine = null;

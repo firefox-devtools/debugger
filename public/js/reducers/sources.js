@@ -61,14 +61,21 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       break;
 
     case "SELECT_SOURCE":
-      return state.merge({
-        pendingSelectedLocation: null,
-        tabs: updateTabList(state, fromJS(action.source), action.tabIndex)
-      }).set("selectedLocation", { sourceId: action.source.id,
-                                   line: action.line });
+      return state
+        .set("selectedLocation", {
+          sourceId: action.source.id,
+          line: action.line
+        })
+        .set("pendingSelectedLocation", null)
+        .merge({
+          tabs: updateTabList(state, fromJS(action.source), action.tabIndex)
+        });
 
     case "SELECT_SOURCE_URL":
-      return state.set("pendingSelectedLocation", { url: action.url, line: action.line });
+      return state.set("pendingSelectedLocation", {
+        url: action.url,
+        line: action.line
+      });
 
     case "CLOSE_TAB":
       return state.merge({ tabs: removeSourceFromTabList(state, action.id) })
