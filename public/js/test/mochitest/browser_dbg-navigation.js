@@ -34,7 +34,8 @@ add_task(function* () {
     "doc-scripts.html",
     "simple1.js",
     "simple2.js",
-    "long.js"
+    "long.js",
+    "scripts.html"
   );
 
   is(countSources(dbg), 4, "4 sources are loaded.");
