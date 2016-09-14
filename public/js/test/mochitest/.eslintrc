@@ -43,12 +43,15 @@
     "waitForThreadEvents": false,
     "waitForState": false,
     "waitForPaused": false,
+    "waitForSources": false,
     "isPaused": false,
     "assertPausedLocation": false,
+    "assertHighlightLocation": false,
     "initDebugger": false,
     "invokeInTab": false,
     "findSource": false,
     "findElement": false,
+    "findAllElements": false,
     "selectSource": false,
     "stepOver": false,
     "stepIn": false,
@@ -56,11 +59,13 @@
     "resume": false,
     "reload": false,
     "navigate": false,
+    "removeBreakpoint": false,
     "addBreakpoint": false,
     "toggleCallStack": false,
     "isVisibleWithin": false,
     "clickElement": false,
     "togglePauseOnExceptions": false,
-    "pressKey": false
+    "pressKey": false,
+    "EXAMPLE_URL": false
   }
 }

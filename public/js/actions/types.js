@@ -89,8 +89,10 @@ type BreakpointAction =
 type SourceAction =
   { type: "ADD_SOURCE", source: Source }
   | { type: "ADD_SOURCES", sources: Array<Source> }
-  | { type: "SELECT_SOURCE", source: Source, options: { position?: number } }
-  | { type: "SELECT_SOURCE_URL", url: string }
+  | { type: "SELECT_SOURCE", source: Source,
+      line?: number,
+      tabIndex?: number }
+  | { type: "SELECT_SOURCE_URL", url: string, line?: number }
   | { type: "LOAD_SOURCE_TEXT",
       source: Source,
       status: AsyncStatus,

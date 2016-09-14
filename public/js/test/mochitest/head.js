@@ -95,8 +95,8 @@ function waitForState(dbg, predicate) {
   });
 }
 
-function waitForSourcesToLoad(dbg, sources) {
-  if(sources.length == 0) {
+function waitForSources(dbg, ...sources) {
+  if(sources.length === 0) {
     return Promise.resolve();
   }
 
@@ -115,22 +115,34 @@ function waitForSourcesToLoad(dbg, sources) {
 
 function assertPausedLocation(dbg, source, line) {
   const { selectors: { getSelectedSource, getPause }, getState } = dbg;
+  source = findSource(dbg, source);
 
-  // support passing in a partial url and fetching the source
-  if (typeof source == "string") {
-    source = findSource(dbg, source);
-  }
-
-  // check the selected source
+  // Check the selected source
   is(getSelectedSource(getState()).get("url"), source.url);
 
-  // check the pause location
+  // Check the pause location
   const location = getPause(getState()).getIn(["frame", "location"]);
   is(location.get("sourceId"), source.id);
   is(location.get("line"), line);
 
-  // check the debug line
+  // Check the debug line
   ok(dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
+     "Line is highlighted as paused");
+}
+
+function assertHighlightLocation(dbg, source, line) {
+  const { selectors: { getSelectedSource, getPause }, getState } = dbg;
+  source = findSource(dbg, source);
+
+  // Check the selected source
+  is(getSelectedSource(getState()).get("url"), source.url);
+
+  // Check the highlight line
+  const lineEl = findElement(dbg, "highlightLine");
+  ok(lineEl, "Line is highlighted");
+  ok(isVisibleWithin(findElement(dbg, "codeMirror"), lineEl),
+     "Highlighted line is visible");
+  ok(dbg.win.cm.lineInfo(line - 1).wrapClass.includes("highlight-line"),
      "Line is highlighted");
 }
 
@@ -176,8 +188,7 @@ const initDebugger = Task.async(function* (url, ...sources) {
     win: win
   };
 
-  yield waitForSourcesToLoad(dbg, sources);
-
+  yield waitForSources(dbg, ...sources);
   return dbg;
 });
 
@@ -190,6 +201,13 @@ function pauseTest() {
 // Actions
 
 function findSource(dbg, url) {
+  if(typeof url !== "string") {
+    // Support passing in a source object itelf all APIs that use this
+    // function support both styles
+    const source = url;
+    return source;
+  }
+
   const sources = dbg.selectors.getSources(dbg.getState());
   const source = sources.find(s => s.get("url").includes(url));
 
@@ -200,12 +218,15 @@ function findSource(dbg, url) {
   return source.toJS();
 }
 
-function selectSource(dbg, url) {
+function selectSource(dbg, url, line) {
   info("Selecting source: " + url);
   const source = findSource(dbg, url);
-  dbg.actions.selectSource(source.id);
+  const hasText = !!dbg.selectors.getSourceText(dbg.getState(), source.id);
+  dbg.actions.selectSource(source.id, { line });
 
-  return waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
+  if(!hasText) {
+    return waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
+  }
 }
 
 function stepOver(dbg) {
@@ -237,19 +258,18 @@ function reload(dbg) {
 }
 
 function navigate(dbg, url, ...sources) {
-  const response = dbg.client.navigate(url);
-  return waitForSourcesToLoad(dbg, sources)
+  dbg.client.navigate(url);
+  return waitForSources(dbg, ...sources)
 }
 
 function addBreakpoint(dbg, source, line, col) {
-
-  // support passing in a partial url and fetching the source
-  if (typeof source == "string") {
-    source = findSource(dbg, source);
-  }
-
+  source = findSource(dbg, source);
   const sourceId = source.id;
   return dbg.actions.addBreakpoint({ sourceId, line, col });
+}
+
+function removeBreakpoint(dbg, sourceId, line, col) {
+  return dbg.actions.removeBreakpoint({ sourceId, line, col });
 }
 
 function togglePauseOnExceptions(dbg,
@@ -308,6 +328,7 @@ const selectors = {
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
   pauseOnExceptions: ".pause-exceptions",
   breakpoint: ".CodeMirror-code > .new-breakpoint",
+  highlightLine: ".CodeMirror-code > .highlight-line",
   codeMirror: ".CodeMirror",
   resume: ".resume.active",
   stepOver: ".stepOver.active",
@@ -331,6 +352,11 @@ function getSelector(elementName, ...args) {
 function findElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
   return dbg.win.document.querySelector(selector);
+}
+
+function findAllElements(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  return dbg.win.document.querySelectorAll(selector);
 }
 
 // click an element in the debugger

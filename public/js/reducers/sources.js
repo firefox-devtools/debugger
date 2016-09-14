@@ -12,8 +12,16 @@ import type { Record } from "../utils/makeRecord";
 
 export type SourcesState = {
   sources: I.Map<string, any>,
-  selectedSource: ?any,
-  pendingSelectedSourceURL: ?string,
+  selectedLocation?: {
+    sourceId: string,
+    line?: number,
+    column?: number
+  },
+  pendingSelectedLocation?: {
+    url: string,
+    line?: number,
+    column?: number
+  },
   sourcesText: I.Map<string, any>,
   tabs: I.List<any>,
   sourceMaps: I.Map<string, any>,
@@ -21,8 +29,8 @@ export type SourcesState = {
 
 const State = makeRecord(({
   sources: I.Map(),
-  selectedSource: undefined,
-  pendingSelectedSourceURL: undefined,
+  selectedLocation: undefined,
+  pendingSelectedLocation: undefined,
   sourcesText: I.Map(),
   sourceMaps: I.Map(),
   tabs: I.List([])
@@ -53,20 +61,27 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       break;
 
     case "SELECT_SOURCE":
-      return state.merge({
-        selectedSource: action.source,
-        pendingSelectedSourceURL: null,
-        tabs: updateTabList(state, fromJS(action.source), action.options)
-      });
+      return state
+        .set("selectedLocation", {
+          sourceId: action.source.id,
+          line: action.line
+        })
+        .set("pendingSelectedLocation", null)
+        .merge({
+          tabs: updateTabList(state, fromJS(action.source), action.tabIndex)
+        });
 
     case "SELECT_SOURCE_URL":
-      return state.merge({ pendingSelectedSourceURL: action.url });
+      return state.set("pendingSelectedLocation", {
+        url: action.url,
+        line: action.line
+      });
 
     case "CLOSE_TAB":
-      return state.merge({
-        selectedSource: getNewSelectedSource(state, action.id),
-        tabs: removeSourceFromTabList(state, action.id)
-      });
+      return state.merge({ tabs: removeSourceFromTabList(state, action.id) })
+        .set("selectedLocation", {
+          sourceId: getNewSelectedSourceId(state, action.id)
+        });
 
     case "LOAD_SOURCE_TEXT": {
       let values;
@@ -102,10 +117,10 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       return _updateText(state, action, [action.originalSource]);
 
     case "NAVIGATE":
-      const source = state.selectedSource;
-      const sourceUrl = source && source.get("url");
+      const source = getSelectedSource({ sources: state });
+      const url = source && source.get("url");
       return State()
-        .set("pendingSelectedSourceURL", sourceUrl);
+        .set("pendingSelectedLocation", { url });
   }
 
   return state;
@@ -146,18 +161,18 @@ function removeSourceFromTabList(state, id) {
 /*
  * Adds the new source to the tab list if it is not already there
  */
-function updateTabList(state, source, options) {
+function updateTabList(state, source, tabIndex) {
   const tabs = state.get("tabs");
-  const selectedSource = state.get("selectedSource");
+  const selectedSource = getSelectedSource({ sources: state });
   const selectedSourceIndex = tabs.indexOf(selectedSource);
   const sourceIndex = tabs.indexOf(source);
   const includesSource = !!tabs.find((t) => t.get("id") == source.get("id"));
 
   if (includesSource) {
-    if (options.position != undefined) {
+    if (tabIndex != undefined) {
       return tabs
         .delete(sourceIndex)
-        .insert(options.position, source);
+        .insert(tabIndex, source);
     }
 
     return tabs;
@@ -169,13 +184,13 @@ function updateTabList(state, source, options) {
 /**
  * Gets the next tab to select when a tab closes.
  */
-function getNewSelectedSource(state, id) : ?Source {
+function getNewSelectedSourceId(state, id) : ?Source {
   const tabs = state.get("tabs");
-  const selectedSource = state.get("selectedSource");
+  const selectedSource = getSelectedSource({ sources: state });
 
   // if we're not closing the selected tab return the selected tab
   if (selectedSource.get("id") != id) {
-    return selectedSource;
+    return selectedSource.get("id");
   }
 
   const tabIndex = tabs.findIndex(tab => tab.get("id") == id);
@@ -187,11 +202,11 @@ function getNewSelectedSource(state, id) : ?Source {
 
   // if we're closing the last tab, select the penultimate tab
   if (tabIndex + 1 == numTabs) {
-    return tabs.get(tabIndex - 1);
+    return tabs.get(tabIndex - 1).get("id");
   }
 
   // return the next tab
-  return tabs.get(tabIndex + 1);
+  return tabs.get(tabIndex + 1).get("id");
 }
 
 // Selectors
@@ -230,11 +245,16 @@ function getSourceTabs(state: OuterState) {
 }
 
 function getSelectedSource(state: OuterState) {
-  return state.sources.selectedSource;
+  return state.sources.selectedLocation &&
+    getSource(state, state.sources.selectedLocation.sourceId);
 }
 
-function getPendingSelectedSourceURL(state: OuterState) {
-  return state.sources.pendingSelectedSourceURL;
+function getSelectedLocation(state: OuterState) {
+  return state.sources.selectedLocation;
+}
+
+function getPendingSelectedLocation(state: OuterState) {
+  return state.sources.pendingSelectedLocation;
 }
 
 function getSourceMap(state: OuterState, sourceId: string) {
@@ -260,7 +280,8 @@ module.exports = {
   getSourceText,
   getSourceTabs,
   getSelectedSource,
-  getPendingSelectedSourceURL,
+  getSelectedLocation,
+  getPendingSelectedLocation,
   getSourceMap,
   getPrettySource
 };

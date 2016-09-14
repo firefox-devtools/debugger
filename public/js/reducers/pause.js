@@ -18,20 +18,18 @@ const initialState = fromJS({
 
 function update(state = initialState, action, emit) {
   switch (action.type) {
-    case constants.PAUSED:
-      if (action.status == "done") {
-        const { selectedFrameId, frames, pauseInfo } = action.value;
-        pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
+    case constants.PAUSED: {
+      const { selectedFrameId, frames, pauseInfo } = action;
+      pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
 
-        return state.merge({
-          isWaitingOnBreak: false,
-          pause: fromJS(pauseInfo),
-          selectedFrameId,
-          frames
-        });
-      }
+      return state.merge({
+        isWaitingOnBreak: false,
+        pause: fromJS(pauseInfo),
+        selectedFrameId,
+        frames
+      });
+    }
 
-      break;
     case constants.RESUME:
       return state.merge({
         pause: null,
