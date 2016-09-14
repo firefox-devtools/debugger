@@ -15,15 +15,15 @@ function pressStepOver(dbg) {
   return waitForPaused(dbg);
 }
 
-// function pressStepIn(dbg) {
-//   pressKey(dbg, "stepInKey");
-//   return waitForPaused(dbg);
-// }
+function pressStepIn(dbg) {
+  pressKey(dbg, "stepInKey");
+  return waitForPaused(dbg);
+}
 
-// function pressStepOut(dbg) {
-//   pressKey(dbg, "stepOutKey");
-//   return waitForPaused(dbg);
-// }
+function pressStepOut(dbg) {
+  pressKey(dbg, "stepOutKey");
+  return waitForPaused(dbg);
+}
 
 add_task(function*() {
   const dbg = yield initDebugger(
@@ -38,15 +38,12 @@ add_task(function*() {
   yield pressResume(dbg);
   assertPausedLocation(dbg, "debugger-statements.html", 12);
 
-  yield pressStepOver(dbg);
+  yield pressStepIn(dbg);
   assertPausedLocation(dbg, "debugger-statements.html", 13);
 
-  // yield pressStepIn(dbg);
-  // assertPausedLocation(dbg, "debugger-statements.html", 18);
+  yield pressStepOut(dbg);
+  assertPausedLocation(dbg, "debugger-statements.html", 14);
 
-  // yield pressStepOver(dbg);
-  // assertPausedLocation(dbg, "debugger-statements.html", 20);
-
-  // yield pressStepOut(dbg);
-  // assertPausedLocation(dbg, "debugger-statements.html", 20);
+  yield pressStepOver(dbg);
+  assertPausedLocation(dbg, "debugger-statements.html", 9);
 });

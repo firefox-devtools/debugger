@@ -276,12 +276,13 @@ function invokeInTab(fnc) {
   });
 }
 
+const isLinux = Services.appinfo.OS === "Linux";
 const keyMappings = {
   pauseKey: { code: "VK_F8" },
   resumeKey: { code: "VK_F8" },
   stepOverKey: { code: "VK_F10" },
-  stepInKey: { code: "VK_F11" },
-  stepOutKey: { code: "VK_F11", modifiers: { shiftKey: true } }
+  stepInKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux } },
+  stepOutKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux, shiftKey: true } }
 };
 
 function pressKey(dbg, keyName) {

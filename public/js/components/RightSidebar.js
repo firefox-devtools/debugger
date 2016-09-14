@@ -11,8 +11,8 @@ const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 
 const { Services } = require("Services");
-const isOSX = Services.appinfo.OS === "Darwin";
-const shiftKey = isOSX ? "\u21E7" : "Shift+";
+const shiftKey = Services.appinfo.OS === "Darwin" ? "\u21E7" : "Shift+";
+const ctrlKey = Services.appinfo.OS === "Linux" ? "Ctrl+" : "";
 
 const actions = require("../actions");
 const Breakpoints = React.createFactory(require("./Breakpoints"));
@@ -91,16 +91,16 @@ const RightSidebar = React.createClass({
     this.keyShortcutsEnabled = true;
     keyShortcuts.on("F8", this.resume);
     keyShortcuts.on("F10", this.stepOver);
-    keyShortcuts.on("F11", this.stepIn);
-    keyShortcuts.on("Shift+F11", this.stepOut);
+    keyShortcuts.on(`${ctrlKey}F11`, this.stepIn);
+    keyShortcuts.on(`${ctrlKey}Shift+F11`, this.stepOut);
   },
 
   componentWillUnmount() {
     const { keyShortcuts } = this.props;
     keyShortcuts.off("F8", this.resume);
     keyShortcuts.off("F10", this.stepOver);
-    keyShortcuts.off("F11", this.stepIn);
-    keyShortcuts.off("Shift+F11", this.stepOut);
+    keyShortcuts.off(`${ctrlKey}F11`, this.stepIn);
+    keyShortcuts.off(`${ctrlKey}Shift+F11`, this.stepOut);
   },
 
   componentDidUpdate() {
@@ -111,8 +111,9 @@ const RightSidebar = React.createClass({
     const className = this.props.pause ? "active" : "disabled";
     return [
       debugBtn(this.stepOver, "stepOver", className, "Step Over (F10)"),
-      debugBtn(this.stepIn, "stepIn", className, "Step In (F11)"),
-      debugBtn(this.stepOut, "stepOut", className, `Step Out (${shiftKey}F11)`),
+      debugBtn(this.stepIn, "stepIn", className, `Step In (${ctrlKey}F11)`),
+      debugBtn(this.stepOut, "stepOut", className,
+        `Step Out (${ctrlKey}${shiftKey}F11)`),
     ];
   },
 
