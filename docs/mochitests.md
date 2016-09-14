@@ -30,6 +30,16 @@ Visit the [mochitest](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/
 * Passing `--jsdebugger` will open a JavaScript debugger and allow you to debug the tests (sometimes can be fickle)
 * Add `{ "logging": { "actions": true } }` to your local config file to see verbose logs of all the redux actions
 
+### For Windows Developers
+
+The detailed instructions for setting up your environment to build Firefox for Windows can be found ![here](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Windows_Prerequisites). You need to install the latest `MozBuild` package. You can open a unix-flavor shell by starting:
+
+```
+C:\mozilla-build\start-shell.bat
+```
+
+In the shell, navigate to the debugger.html project folder, and follow the Getting Started instructions as mentioned.
+
 ## Watching for Changes
 
 The mochitest are running against the compiled debugger bundle inside the Firefox checkout. This means that you need to update the bundle whenever you make code changes. `prepare-mochitests-dev` does this for you initially, but you can manually update it with:
