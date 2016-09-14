@@ -109,7 +109,7 @@ function initPage(actions) {
   // makes the server iterate over them and fire individual
   // `newSource` notifications. We don't need to do anything with the
   // response since `newSource` notifications are fired.
-  threadClient.getSources();
+  return threadClient.getSources();
 }
 
 module.exports = {
