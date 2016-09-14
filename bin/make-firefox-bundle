@@ -26,7 +26,7 @@ fi
     fi
 );
 
-TARGET=firefox-panel webpack
+TARGET=firefox-panel node_modules/webpack/bin/webpack.js
 echo "// Generated from: $REV\n" | cat - public/build/bundle.js > "$DEBUGGER_PATH/bundle.js"
 cp public/build/pretty-print-worker.js "$DEBUGGER_PATH"
 cp public/build/source-map-worker.js "$DEBUGGER_PATH"
