@@ -27,7 +27,7 @@ const {
 
 const {
   getSource, getSourceByURL, getSourceText,
-  getPendingSelectedSourceURL,
+  getPendingSelectedLocation,
   getSourceMap, getSourceMapURL, getFrames
 } = require("../selectors");
 
@@ -80,9 +80,9 @@ function newSource(source) {
 
     // If a request has been made to show this source, go ahead and
     // select it.
-    const pendingURL = getPendingSelectedSourceURL(getState());
-    if (pendingURL === source.url) {
-      dispatch(selectSource(source.id));
+    const pendingLocation = getPendingSelectedLocation(getState());
+    if (pendingLocation && pendingLocation.url === source.url) {
+      dispatch(selectSource(source.id, pendingLocation.line));
     }
   };
 }
@@ -127,15 +127,17 @@ function loadSourceMap(generatedSource) {
  * @memberof actions/sources
  * @static
  */
-function selectSourceURL(url) {
+function selectSourceURL(url, options = {}) {
   return ({ dispatch, getState }) => {
     const source = getSourceByURL(getState(), url);
     if (source) {
-      dispatch(selectSource(source.get("id")));
+      dispatch(selectSource(source.get("id"), options));
     } else {
       dispatch({
         type: constants.SELECT_SOURCE_URL,
-        url: url
+        url: url,
+        tabIndex: options.tabIndex,
+        line: options.line
       });
     }
   };

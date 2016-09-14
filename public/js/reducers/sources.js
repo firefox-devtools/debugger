@@ -17,7 +17,11 @@ export type SourcesState = {
     line?: number,
     column?: number
   },
-  pendingSelectedSourceURL: ?string,
+  pendingSelectedLocation?: {
+    url: string,
+    line?: number,
+    column?: number
+  },
   sourcesText: I.Map<string, any>,
   tabs: I.List<any>,
   sourceMaps: I.Map<string, any>,
@@ -26,7 +30,7 @@ export type SourcesState = {
 const State = makeRecord(({
   sources: I.Map(),
   selectedLocation: undefined,
-  pendingSelectedSourceURL: undefined,
+  pendingSelectedLocation: undefined,
   sourcesText: I.Map(),
   sourceMaps: I.Map(),
   tabs: I.List([])
@@ -58,13 +62,13 @@ function update(state = State(), action: Action) : Record<SourcesState> {
 
     case "SELECT_SOURCE":
       return state.merge({
-        pendingSelectedSourceURL: null,
+        pendingSelectedLocation: null,
         tabs: updateTabList(state, fromJS(action.source), action.tabIndex)
       }).set("selectedLocation", { sourceId: action.source.id,
                                    line: action.line });
 
     case "SELECT_SOURCE_URL":
-      return state.merge({ pendingSelectedSourceURL: action.url });
+      return state.set("pendingSelectedLocation", { url: action.url, line: action.line });
 
     case "CLOSE_TAB":
       return state.merge({ tabs: removeSourceFromTabList(state, action.id) })
@@ -107,9 +111,9 @@ function update(state = State(), action: Action) : Record<SourcesState> {
 
     case "NAVIGATE":
       const source = getSelectedSource({ sources: state });
-      const sourceUrl = source && source.get("url");
+      const url = source && source.get("url");
       return State()
-        .set("pendingSelectedSourceURL", sourceUrl);
+        .set("pendingSelectedLocation", { url });
   }
 
   return state;
@@ -242,8 +246,8 @@ function getSelectedLocation(state: OuterState) {
   return state.sources.selectedLocation;
 }
 
-function getPendingSelectedSourceURL(state: OuterState) {
-  return state.sources.pendingSelectedSourceURL;
+function getPendingSelectedLocation(state: OuterState) {
+  return state.sources.pendingSelectedLocation;
 }
 
 function getSourceMap(state: OuterState, sourceId: string) {
@@ -270,7 +274,7 @@ module.exports = {
   getSourceTabs,
   getSelectedSource,
   getSelectedLocation,
-  getPendingSelectedSourceURL,
+  getPendingSelectedLocation,
   getSourceMap,
   getPrettySource
 };

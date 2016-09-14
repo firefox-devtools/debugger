@@ -201,10 +201,13 @@ const Editor = React.createClass({
     // update the pending jump line. Note that if jumping to a line in
     // a source where the text hasn't been loaded yet, we will set the
     // line here but not jump until rendering the actual source.
-    if (prevProps.selectedLocation !== selectedLocation &&
-       selectedLocation &&
-       selectedLocation.line != undefined) {
-      this.pendingJumpLine = selectedLocation.line;
+    if (prevProps.selectedLocation !== selectedLocation) {
+      if(selectedLocation &&
+         selectedLocation.line != undefined) {
+        this.pendingJumpLine = selectedLocation.line;
+      } else {
+        this.pendingJumpLine = null;
+      }
     }
 
     // Only update and jump around in real source texts. This will

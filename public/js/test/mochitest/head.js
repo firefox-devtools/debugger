@@ -95,8 +95,8 @@ function waitForState(dbg, predicate) {
   });
 }
 
-function waitForSourcesToLoad(dbg, sources) {
-  if(sources.length == 0) {
+function waitForSources(dbg, sources) {
+  if(sources.length === 0) {
     return Promise.resolve();
   }
 
@@ -176,8 +176,7 @@ const initDebugger = Task.async(function* (url, ...sources) {
     win: win
   };
 
-  yield waitForSourcesToLoad(dbg, sources);
-
+  yield waitForSources(dbg, sources);
   return dbg;
 });
 
@@ -203,11 +202,10 @@ function findSource(dbg, url) {
 function selectSource(dbg, url, line) {
   info("Selecting source: " + url);
   const source = findSource(dbg, url);
-  const prevSelectedSource = dbg.selectors.getSelectedSource(dbg.getState());
+  const hasText = !!dbg.selectors.getSourceText(dbg.getState(), source.id);
   dbg.actions.selectSource(source.id, { line });
 
-  if(!prevSelectedSource ||
-     prevSelectedSource.get("id") !== source.id) {
+  if(!hasText) {
     return waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
   }
 }
@@ -236,13 +234,14 @@ function resume(dbg) {
   return waitForThreadEvents(dbg, "resumed");
 }
 
-function reload(dbg) {
-  return dbg.client.reload();
+function reload(dbg, ...sources) {
+  dbg.client.reload();
+  return waitForSources(dbg, sources);
 }
 
 function navigate(dbg, url, ...sources) {
-  const response = dbg.client.navigate(url);
-  return waitForSourcesToLoad(dbg, sources)
+  dbg.client.navigate(url);
+  return waitForSources(dbg, sources)
 }
 
 function addBreakpoint(dbg, source, line, col) {
