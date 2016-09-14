@@ -82,7 +82,7 @@ function newSource(source) {
     // select it.
     const pendingLocation = getPendingSelectedLocation(getState());
     if (pendingLocation && pendingLocation.url === source.url) {
-      dispatch(selectSource(source.id, pendingLocation.line));
+      dispatch(selectSource(source.id, { line: pendingLocation.line }));
     }
   };
 }
