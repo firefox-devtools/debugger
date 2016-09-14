@@ -20,7 +20,7 @@ fi
 
 (
     cd "$DEBUGGER_PATH";
-    if ! git log --oneline . | head -n 1 |
+    if ! git log --oneline bundle.js | head -n 1 |
             grep "UPDATE_BUNDLE" > /dev/null; then
         echo "\033[31mWARNING\033[0m: local changes detected on mozilla-central";
     fi
