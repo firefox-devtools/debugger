@@ -82,7 +82,8 @@ const SourceFooter = React.createClass({
   },
 
   render() {
-    if (!this.props.selectedSource) {
+    if (!this.props.selectedSource ||
+        (!isEnabled("prettyPrint") && !isEnabled("blackBox"))) {
       return null;
     }
 
