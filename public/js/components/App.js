@@ -77,7 +77,7 @@ const App = React.createClass({
   },
 
   onKeyDown(e) {
-    if (e.key === "Escape") {
+    if (this.state.searchOn && e.key === "Escape") {
       this.setState({ searchOn: false });
       e.preventDefault();
     }
