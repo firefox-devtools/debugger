@@ -12,7 +12,7 @@ type SidebarState = {
   prevWidth: number,
 };
 
-type SidebarsState = {
+export type SidebarsState = {
   left: I.Map<string, SidebarState>,
   right: I.Map<string, SidebarState>,
 };
@@ -52,7 +52,7 @@ function update(state = State(), action: Action) : Record<SidebarsState> {
 }
 // Selectors
 
-type OuterState = {ui: Record<SidebarsState> };
+type OuterState = { ui: Record<SidebarsState> };
 
 function getSidebarDimensions(state: OuterState) {
   return state.ui;
@@ -62,9 +62,14 @@ function getSidebarCollapsed(state: OuterState, side: string) {
   return state.ui.getIn([side, "collapsed"]);
 }
 
+function getSidebarWidth(state: OuterState, side: string) {
+  return state.ui.getIn([side, "width"]);
+}
+
 module.exports = {
   State,
   update,
   getSidebarDimensions,
-  getSidebarCollapsed
+  getSidebarCollapsed,
+  getSidebarWidth
 };

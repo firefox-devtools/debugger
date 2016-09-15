@@ -1,44 +1,37 @@
-// @flow
 declare var describe: (name: string, func: () => void) => void;
 declare var it: (desc: string, func: () => void) => void;
 
-const { State, update } = require("../ui");
+const {
+  State, update } = require("../ui");
 const expect = require("expect.js");
 const C = require("../../constants");
 
+import type { SidebarsState } from "../ui";
+
 describe("sidebar reducer", () => {
   it("should flip the collapse value for left", () => {
-    let state = State();
-    expect(state.collapsed).to.be(false);
+    let state: SidebarsState = State();
+    expect(state.getIn(["left", "collapsed"])).to.be(false);
+    expect(state.getIn(["left", "width"])).to.be(300);
     state = update(state, {
       type: C.COLLAPSE_SIDEBAR,
       collapsed: true,
       side: "left"
     });
-    expect(state.collapsed).to.be(true);
-    expect(state.side).to.be("left");
-  });
-
-  it("should flip the collapse value for left (default)", () => {
-    let state = State();
-    expect(state.collapsed).to.be(false);
-    state = update(state, {
-      type: C.COLLAPSE_SIDEBAR,
-      collapsed: true,
-    });
-    expect(state.collapsed).to.be(true);
-    expect(state.side).to.be("left");
+    expect(state.getIn(["left", "collapsed"])).to.be(true);
+    expect(state.getIn(["left", "width"])).to.be(0);
   });
 
   it("should flip the collapse value for right", () => {
     let state = State();
-    expect(state.collapsed).to.be(false);
+    expect(state.getIn(["right", "collapsed"])).to.be(false);
+    expect(state.getIn(["right", "width"])).to.be(300);
     state = update(state, {
       type: C.COLLAPSE_SIDEBAR,
       collapsed: true,
       side: "right"
     });
-    expect(state.collapsed).to.be(true);
-    expect(state.side).to.be("right");
+    expect(state.getIn(["right", "collapsed"])).to.be(true);
+    expect(state.getIn(["right", "width"])).to.be(0);
   });
 });
