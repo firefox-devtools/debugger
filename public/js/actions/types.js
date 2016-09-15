@@ -1,4 +1,5 @@
 // @flow
+const C = require("../constants");
 
 /**
  * Flow types
@@ -113,10 +114,18 @@ type SourceAction =
                sourceText: SourceText }}
   | { type: "CLOSE_TAB", id: string };
 
-type SidebarAction = {
-  type: "COLLAPSE_SIDEBAR",
-  collapsed: boolean,
-  side: "left" | "right"
+export type SidebarSide = "left" | "right";
+
+type SidebarCollapseAction = {
+  type: C.COLLAPSE_SIDEBAR,
+  side: SidebarSide,
+  collapsed: boolean
+};
+
+type SidebarResizeAction = {
+  type: C.RESIZE_SIDEBAR,
+  side: SidebarSide,
+  width: number
 };
 /**
  * Actions: Source, Breakpoint, Navigation and Sidebar
@@ -128,4 +137,5 @@ export type Action =
   SourceAction
   | BreakpointAction
   | { type: "NAVIGATE" }
-  | SidebarAction;
+  | SidebarCollapseAction
+  | SidebarResizeAction;

@@ -13,8 +13,8 @@ type SidebarState = {
 };
 
 type SidebarsState = {
-  left: SidebarState,
-  right: SidebarState,
+  left: I.Map<string, SidebarState>,
+  right: I.Map<string, SidebarState>,
 };
 
 const State = makeRecord(({
@@ -50,12 +50,14 @@ function update(state = State(), action: Action) : Record<SidebarsState> {
 
   return state;
 }
+// Selectors
 
 function getSidebarsState(state) {
+  console.log(state);
   return state.sidebars;
 }
 
-function getSidebarCollapsed(state, side) {
+function getSidebarCollapsed(state, side: string) {
   return state.sidebars.get(side).get("collapsed");
 }
 

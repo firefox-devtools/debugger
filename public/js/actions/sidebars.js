@@ -6,15 +6,14 @@
  */
 
 const C = require("../constants");
+import type { SidebarSide } from "./types";
 const { getSidebarCollapsed } = require("../selectors");
 
 type ThunkArgs = {
   dispatch: any,
   getState: any,
   client: any
-}
-
-type SidebarSide = "left" | "right";
+};
 
 /**
  * collapse a sidebar
