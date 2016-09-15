@@ -135,10 +135,12 @@ const App = React.createClass({
                               { "theme-light": !isFirefoxPanel() }) },
       SplitBox({
         width: this.props.ui.getIn(["left", "width"]),
+        collapsed: this.props.ui.getIn(["left", "collapsed"]),
         resizeSidebar: (width) => this.props.resizeSidebar("left", width),
         left: Sources({ sources: this.props.sources }),
         right: SplitBox({
           width: this.props.ui.getIn(["right", "width"]),
+          collapsed: this.props.ui.getIn(["right", "collapsed"]),
           resizeSidebar: (width) => this.props.resizeSidebar("right", width),
           rightFlex: true,
           left: this.renderCenterPane(this.props),

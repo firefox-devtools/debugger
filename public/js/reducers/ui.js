@@ -9,7 +9,6 @@ import type { Record } from "../utils/makeRecord";
 type SidebarState = {
   collapsed: boolean,
   width: number,
-  prevWidth: number,
 };
 
 export type SidebarsState = {
@@ -21,24 +20,18 @@ const State = makeRecord(({
   left: I.Map({
     collapsed: false,
     width: 300,
-    prevWidth: 0
   }),
   right: I.Map({
     collapsed: false,
     width: 300,
-    prevWidth: 0
   }),
 } : SidebarsState));
 
 function update(state = State(), action: Action) : Record<SidebarsState> {
   switch (action.type) {
     case C.COLLAPSE_SIDEBAR: {
-      let width = state.getIn([action.side, "width"]),
-        prevWidth = state.getIn([action.side, "prevWidth"]);
       return state.mergeIn([action.side], {
         collapsed: action.collapsed,
-        width: action.collapsed ? 0 : prevWidth,
-        prevWidth: action.collapsed ? width : 0,
       });
     }
     case C.RESIZE_SIDEBAR: {

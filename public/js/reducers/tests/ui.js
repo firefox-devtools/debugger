@@ -19,7 +19,6 @@ describe("sidebar reducer", () => {
       side: "left"
     });
     expect(state.getIn(["left", "collapsed"])).to.be(true);
-    expect(state.getIn(["left", "width"])).to.be(0);
   });
 
   it("should flip the collapse value for right", () => {
@@ -32,6 +31,5 @@ describe("sidebar reducer", () => {
       side: "right"
     });
     expect(state.getIn(["right", "collapsed"])).to.be(true);
-    expect(state.getIn(["right", "width"])).to.be(0);
   });
 });

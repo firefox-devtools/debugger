@@ -15,6 +15,7 @@ const SplitBox = React.createClass({
     right: PropTypes.any.isRequired,
 
     width: PropTypes.number.isRequired,
+    collapsed: PropTypes.bool.isRequired,
     resizeSidebar: PropTypes.func.isRequired,
     rightFlex: PropTypes.bool,
     style: PropTypes.string
@@ -31,7 +32,12 @@ const SplitBox = React.createClass({
   },
 
   render() {
-    const { left, right, rightFlex, width } = this.props;
+    const { left, right, rightFlex, collapsed } = this.props;
+    let { width } = this.props;
+
+    if (collapsed) {
+      width = 0;
+    }
 
     return dom.div(
       { className: "split-box",
