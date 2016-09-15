@@ -256,8 +256,8 @@ function resume(dbg) {
   return waitForThreadEvents(dbg, "resumed");
 }
 
-function reload(dbg) {
-  return dbg.client.reload();
+function reload(dbg, ...sources) {
+  return dbg.client.reload().then(() => waitForSources(...sources));
 }
 
 function navigate(dbg, url, ...sources) {
