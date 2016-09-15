@@ -7,7 +7,7 @@ describe("UI actions", () => {
   it("should collapse a sidebar", () => {
     const { dispatch, getState } = createStore();
     expect(getSidebarCollapsed(getState(), "left")).to.be(false);
-    dispatch(actions.collapseSidebar("left"));
+    dispatch(actions.toggleSidebar("left"));
     expect(getSidebarCollapsed(getState(), "left")).to.be(true);
   });
 

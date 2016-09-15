@@ -71,7 +71,7 @@ const SourceTabs = React.createClass({
     sourceTabs: ImPropTypes.list,
     selectedSource: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
-    collapseSidebar: PropTypes.func.isRequired,
+    toggleSidebar: PropTypes.func.isRequired,
     closeTab: PropTypes.func.isRequired
   },
 
@@ -196,12 +196,8 @@ const SourceTabs = React.createClass({
   renderCollapseButton(side) {
     return dom.div({
       className: `collapse-button-${side}`,
-      onClick: (ev) => {
-        ev.preventDefault();
-        this.props.collapseSidebar(side);
-      }
-    },
-      Svg("pane-collapse"));
+      onClick: () => this.props.toggleSidebar(side),
+    }, Svg("pane-collapse"));
   },
 
   render() {

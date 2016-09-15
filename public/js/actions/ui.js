@@ -16,12 +16,12 @@ type ThunkArgs = {
 };
 
 /**
- * collapse a sidebar
+ * toggle a sidebar's collapse state
  *
  * @memberof actions/ui
  * @static
  */
-function collapseSidebar(side: SidebarSide) {
+function toggleSidebar(side: SidebarSide) {
   return ({ dispatch, getState } : ThunkArgs) => {
     let collapsed = !getSidebarCollapsed(getState(), side);
     return dispatch({ type: C.COLLAPSE_SIDEBAR, side, collapsed });
@@ -41,6 +41,6 @@ function resizeSidebar(side: SidebarSide, width: number) {
 }
 
 module.exports = {
-  collapseSidebar,
+  toggleSidebar,
   resizeSidebar
 };
