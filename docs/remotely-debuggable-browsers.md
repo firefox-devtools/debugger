@@ -131,3 +131,35 @@ $ "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-por
 ```
 $ "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --no-first-run --user-data-dir=%TEMP%\chrome-dev-profile
 ```
+
+### Safari
+
+These are the instructions for getting the debugger.html project to connect to and debug Safari on various platforms. Please file issues or make pull requests for any errors you encounter.
+
+#### iOS Simulator (Mac only)
+
+**Requirements**
+
+* Xcode
+  * Download and install [Xcode](https://developer.apple.com/xcode/) from Apple
+* [ios-webkit-debug-proxy](https://github.com/google/ios-webkit-debug-proxy)
+  * `brew install ios-webkit-debug-proxy`
+
+##### Safari
+
+* Start the iOS Simulator
+  * Launch Xcode and then launch the simulator using the following instructions
+
+![xcode-start-simulator](https://cloud.githubusercontent.com/assets/2134/18512759/debce848-7a8a-11e6-981f-1a0017eb098e.png)
+
+
+* Run the proxy in a terminal
+
+```shell
+ios_webkit_debug_proxy
+```
+
+* Run the [debugger.html](https://github.com/devtools-html/debugger.html)
+  * `npm start`
+* Connect using the following URL  
+  * [http://localhost:8000/?ws=localhost:9222/devtools/page/1](http://localhost:8000/?ws=localhost:9222/devtools/page/1)
