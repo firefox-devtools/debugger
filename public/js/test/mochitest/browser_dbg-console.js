@@ -27,10 +27,7 @@ function getSplitConsole(dbg) {
 
 add_task(function* () {
   Services.prefs.setBoolPref("devtools.toolbox.splitconsoleEnabled", true);
-  const dbg = yield initDebugger(
-    "doc-script-switching-01.html",
-    "script-switching-01.js"
-  );
+  const dbg = yield initDebugger("doc-script-switching.html");
 
   yield getSplitConsole(dbg);
   ok(dbg.toolbox.splitConsole, "Split console is shown.");
