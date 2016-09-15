@@ -21,6 +21,9 @@
     * [Chrome (all versions)](#chrome-all-versions)
     * [Chrome (64 bit)](#chrome-64-bit)
 
+[Safari](#safari)
+  * [iOS Simulator](#ios-simulator-mac-only)
+
 Here are quick instructions for getting the Firefox and Chrome web browsers running in a remotely debuggable state.
 
 On the Mac all instructions assume you've opened a window in the Terminal application.  On Windows all instructions assume you've opened the `cmd` application.
