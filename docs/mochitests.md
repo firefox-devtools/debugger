@@ -32,7 +32,7 @@ Visit the [mochitest](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/
 
 ### For Windows Developers
 
-The detailed instructions for setting up your environment to build Firefox for Windows can be found ![here](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Windows_Prerequisites). You need to install the latest `MozBuild` package. You can open a unix-flavor shell by starting:
+The detailed instructions for setting up your environment to build Firefox for Windows can be found [here](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Windows_Prerequisites). You need to install the latest `MozBuild` package. You can open a unix-flavor shell by starting:
 
 ```
 C:\mozilla-build\start-shell.bat
@@ -67,10 +67,8 @@ If you add new tests, make sure to list them in the `browser.ini` file. You will
 In addition to the standard mochtest API, we provide the following functions to help write tests. All of these expect a `dbg` context which is returned from `initDebugger` which should be called at the beginning of the test. An example skeleton test looks like this:
 
 ```js
-const TAB_URL = EXAMPLE_URL + "doc_simple.html";
-
 add_task(function* () {
-  const dbg = yield initDebugger(TAB_URL, "code_simple.js");
+  const dbg = yield initDebugger("doc_simple.html", "code_simple.js");
   // do some stuff
   ok(state.foo, "Foo is OK");
 });
