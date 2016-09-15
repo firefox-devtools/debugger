@@ -82,7 +82,7 @@ function getOriginalTexts(generatedSource, generatedText) {
 function getOriginalSourcePosition(generatedSource, { column, line }) {
   const consumer = _getConsumer(generatedSource.id);
 
-  // if there is not a consumer, then its a generated source without a map
+  // if there is not a consumer, then it's a generated source without a map
   if (!consumer) {
     return {
       url: generatedSource.url,
