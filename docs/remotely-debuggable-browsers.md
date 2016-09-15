@@ -1,5 +1,26 @@
 ## Remotely debuggable browsers
 
+#### Table Of Contents
+
+[Firefox](#firefox)
+  * [MacOS](#macos)
+    * [Firefox](#firefox-release)
+    * [Firefox Beta](#firefox-beta)
+    * [Firefox Developer Edition](#firefox-developer-edition-aurora)
+    * [Firefox Nightly](#firefox-nightly)
+  * [Windows](#windows)
+    * [Firefox (all versions)](#firefox-all-versions)
+    * [Firefox (64 bit)](#firefox-64-bit)
+  * [Android](#android)
+
+[Chrome](#chrome)
+  * [MacOS](#macos-1)
+    * [Chrome (release)](#chrome-release)
+    * [Chrome Canary](#chrome-canary)
+  * [Windows](#windows-1)
+    * [Chrome (all versions)](#chrome-all-versions)
+    * [Chrome (64 bit)](#chrome-64-bit)
+
 Here are quick instructions for getting the Firefox and Chrome web browsers running in a remotely debuggable state.
 
 On the Mac all instructions assume you've opened a window in the Terminal application.  On Windows all instructions assume you've opened the `cmd` application.
