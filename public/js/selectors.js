@@ -70,6 +70,7 @@ module.exports = {
 
   getSidebarDimensions: ui.getSidebarDimensions,
   getSidebarCollapsed: ui.getSidebarCollapsed,
+  getSidebarWidth: ui.getSidebarWidth,
 
   getPause: pause.getPause,
   getLoadedObjects: pause.getLoadedObjects,

@@ -8,7 +8,7 @@ const C = require("../../constants");
 
 import type { SidebarsState } from "../ui";
 
-describe("sidebar reducer", () => {
+describe("ui reducer", () => {
   it("should flip the collapse value for left", () => {
     let state: SidebarsState = State();
     expect(state.getIn(["left", "collapsed"])).to.be(false);
