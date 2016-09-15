@@ -3,14 +3,8 @@
 ROOT=`dirname $0`
 FIREFOX_PATH="$ROOT/../firefox"
 
-# If we don't have a local copy of firefox, download it
-if [ ! -d firefox ]; then
-  "$ROOT/download-firefox-artifact"
-  # check that the download exited successfully
-  if [ $? -ne 0 ]; then
-      exit 1;
-  fi
-fi
+# This will either download or update the local Firefox repo
+"$ROOT/download-firefox-artifact"
 
 # Update the debugger files, build firefox, and run all the mochitests
 "$ROOT/make-firefox-bundle" "$FIREFOX_PATH" --symlink-mochitests
