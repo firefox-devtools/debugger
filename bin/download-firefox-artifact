@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ROOT=`dirname $0`
-FIREFOX_PATH="$ROOT/../firefox"
+FIREFOX_PATH=$(cd "$ROOT/../firefox"; pwd)
 
 # check that mercurial is installed
 if [ -z "`command -v hg`" ]; then
@@ -12,6 +12,23 @@ fi
 if [ -d "$FIREFOX_PATH" ]; then
     # If we already have Firefox locally, just update it
     cd "$FIREFOX_PATH";
+
+    if [ -n "`hg status`" ]; then
+        read -p "There are local changes to Firefox which will be overwritten. Are you sure? [Y/n] " -r
+        if [[ $REPLY == "n" ]]; then
+            exit 0;
+        fi
+
+        # If the mochitest dir has been symlinked, remove it as revert
+        # does not follow symlinks.
+        if [ -h "$FIREFOX_PATH/devtools/client/debugger/new/test/mochitest" ]; then
+           rm "$FIREFOX_PATH/devtools/client/debugger/new/test/mochitest";
+        fi
+
+        hg revert -a
+        hg purge
+    fi
+
     hg pull
 else
     echo "Downloading Firefox source code, requires about 10-30min depending on connection"

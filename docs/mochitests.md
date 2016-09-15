@@ -12,9 +12,9 @@ If you haven't set up the mochitest environment yet, just run this:
 ./bin/prepare-mochitests-dev
 ```
 
-This will download a local copy of Firefox (or update it if it already exists), set up an [artifact build](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Artifact_builds) (just think of a super fast Firefox build) and set up the environment. If you are doing this the first time, it may take a while (10-15 minutes). Most of that is downloading Firefox, later updates will be much quicker.
+This will set up everything you need. You should run this *every time* to start working on mochitests, as it makes sure your local copy of Firefox is up-to-date.
 
-**Note**: You should run this whenever you start working on mochitests. It ensures that the symlink is set up, the latest debugger code is used, and will update the local Firefox repo since it already exists, so you will be using the latest Firefox code.
+On the first run, this will download a local copy of Firefox and set up an [artifact build](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Artifact_builds) (just think of a super fast Firefox build). It may take a while (10-15 minutes) to download and build Firefox.
 
 Now, you can run the mochitests like this:
 
