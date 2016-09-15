@@ -5,8 +5,6 @@
 [Firefox](#firefox)
   * [MacOS](#macos)
     * [Firefox](#firefox-release)
-    * [Firefox Beta](#firefox-beta)
-    * [Firefox Developer Edition](#firefox-developer-edition-aurora)
     * [Firefox Nightly](#firefox-nightly)
   * [Windows](#windows)
     * [Firefox (all versions)](#firefox-all-versions)
@@ -61,17 +59,9 @@ These are the flags necessary to start the remote debug server and use an altern
 $ /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
 ```
 
-##### Firefox Beta
-
-```
-$ /Applications/FirefoxBeta.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
-```
-
-##### Firefox Developer Edition (Aurora)
-
-```
-$ /Applications/FirefoxDeveloperEdition.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
-```
+> For Firefox Beta or Developer Edition (Aurora) replace the `Firefox.app` from the command above with the following app names
+> * FirefoxBeta.app
+> * FirefoxDeveloperEdition.app
 
 ##### Firefox Nightly
 
