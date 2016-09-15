@@ -1,8 +1,8 @@
 // @flow
 
 /**
- * Redux actions for sidebars
- * @module actions/sidebars
+ * Redux actions for UI
+ * @module actions/ui
  */
 
 const C = require("../constants");
@@ -18,7 +18,7 @@ type ThunkArgs = {
 /**
  * collapse a sidebar
  *
- * @memberof actions/sidebars
+ * @memberof actions/ui
  * @static
  */
 function collapseSidebar(side: SidebarSide) {
@@ -28,6 +28,12 @@ function collapseSidebar(side: SidebarSide) {
   };
 }
 
+/**
+ * resize a sidebar
+ *
+ * @memberof actions/ui
+ * @static
+ */
 function resizeSidebar(side: SidebarSide, width: number) {
   return ({ dispatch }: ThunkArgs) => {
     return dispatch({ type: C.RESIZE_SIDEBAR, side, width });

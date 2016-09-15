@@ -32,4 +32,38 @@ describe("sidebar reducer", () => {
     });
     expect(state.getIn(["right", "collapsed"])).to.be(true);
   });
+
+  it("should change the width for left", () => {
+    let state = State();
+    expect(state.getIn(["left", "collapsed"])).to.be(false);
+    expect(state.getIn(["left", "width"])).to.be(300);
+    expect(state.getIn(["right", "collapsed"])).to.be(false);
+    expect(state.getIn(["right", "width"])).to.be(300);
+    state = update(state, {
+      type: C.RESIZE_SIDEBAR,
+      width: 370,
+      side: "left"
+    });
+    expect(state.getIn(["left", "collapsed"])).to.be(false);
+    expect(state.getIn(["left", "width"])).to.be(370);
+    expect(state.getIn(["right", "collapsed"])).to.be(false);
+    expect(state.getIn(["right", "width"])).to.be(300);
+  });
+
+  it("should change the width for right", () => {
+    let state = State();
+    expect(state.getIn(["right", "collapsed"])).to.be(false);
+    expect(state.getIn(["right", "width"])).to.be(300);
+    expect(state.getIn(["left", "collapsed"])).to.be(false);
+    expect(state.getIn(["left", "width"])).to.be(300);
+    state = update(state, {
+      type: C.RESIZE_SIDEBAR,
+      width: 370,
+      side: "right"
+    });
+    expect(state.getIn(["right", "collapsed"])).to.be(false);
+    expect(state.getIn(["right", "width"])).to.be(370);
+    expect(state.getIn(["left", "collapsed"])).to.be(false);
+    expect(state.getIn(["left", "width"])).to.be(300);
+  });
 });
