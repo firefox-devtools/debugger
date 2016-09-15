@@ -26,7 +26,7 @@ const Autocomplete = createFactory(require("./Autocomplete"));
 const {
   getSources,
   getSelectedSource,
-  getSidebarsState
+  getSidebarDimensions
 } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { KeyShortcuts } = require("../lib/devtools-sham/client/shared/key-shortcuts");
@@ -55,7 +55,7 @@ const App = React.createClass({
     selectSource: PropTypes.func,
     resizeSidebar: PropTypes.func,
     selectedSource: PropTypes.object,
-    sidebars: PropTypes.object
+    ui: PropTypes.object
   },
 
   displayName: "App",
@@ -134,12 +134,12 @@ const App = React.createClass({
       { className: classnames("debugger theme-body",
                               { "theme-light": !isFirefoxPanel() }) },
       SplitBox({
-        width: this.props.sidebars.toJS().left.width,
-        resizeSidebar: this.props.resizeSidebar.bind(null, "left"),
+        width: this.props.ui.getIn(["left", "width"]),
+        resizeSidebar: (width) => this.props.resizeSidebar("left", width),
         left: Sources({ sources: this.props.sources }),
         right: SplitBox({
-          width: this.props.sidebars.toJS().right.width,
-          resizeSidebar: this.props.resizeSidebar.bind(null, "right"),
+          width: this.props.ui.getIn(["right", "width"]),
+          resizeSidebar: (width) => this.props.resizeSidebar("right", width),
           rightFlex: true,
           left: this.renderCenterPane(this.props),
           right: RightSidebar({ keyShortcuts: this.shortcuts })
@@ -152,7 +152,7 @@ const App = React.createClass({
 module.exports = connect(
   state => ({ sources: getSources(state),
               selectedSource: getSelectedSource(state),
-              sidebars: getSidebarsState(state)
+              ui: getSidebarDimensions(state)
              }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

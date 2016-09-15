@@ -33,8 +33,8 @@ const State = makeRecord(({
 function update(state = State(), action: Action) : Record<SidebarsState> {
   switch (action.type) {
     case C.COLLAPSE_SIDEBAR: {
-      let width = state.get(action.side).get("width"),
-        prevWidth = state.get(action.side).get("prevWidth");
+      let width = state.getIn([action.side, "width"]),
+        prevWidth = state.getIn([action.side, "prevWidth"]);
       return state.mergeIn([action.side], {
         collapsed: action.collapsed,
         width: action.collapsed ? 0 : prevWidth,
@@ -52,18 +52,19 @@ function update(state = State(), action: Action) : Record<SidebarsState> {
 }
 // Selectors
 
-function getSidebarsState(state) {
-  console.log(state);
-  return state.sidebars;
+type OuterState = {ui: Record<SidebarsState> };
+
+function getSidebarDimensions(state: OuterState) {
+  return state.ui;
 }
 
-function getSidebarCollapsed(state, side: string) {
-  return state.sidebars.get(side).get("collapsed");
+function getSidebarCollapsed(state: OuterState, side: string) {
+  return state.ui.getIn([side, "collapsed"]);
 }
 
 module.exports = {
   State,
   update,
-  getSidebarsState,
+  getSidebarDimensions,
   getSidebarCollapsed
 };

@@ -8,7 +8,7 @@ const path = require("./utils/path");
 const sources = require("./reducers/sources");
 const pause = require("./reducers/pause");
 const breakpoints = require("./reducers/breakpoints");
-const sidebars = require("./reducers/sidebars");
+const ui = require("./reducers/ui");
 
 type AppState = {
   sources: Record<SourcesState>,
@@ -68,8 +68,8 @@ module.exports = {
   getTabs,
   getSelectedTab,
 
-  getSidebarsState: sidebars.getSidebarsState,
-  getSidebarCollapsed: sidebars.getSidebarCollapsed,
+  getSidebarDimensions: ui.getSidebarDimensions,
+  getSidebarCollapsed: ui.getSidebarCollapsed,
 
   getPause: pause.getPause,
   getLoadedObjects: pause.getLoadedObjects,
