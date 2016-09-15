@@ -88,7 +88,7 @@ $ npm run firefox
 * Restart your development server `ctrl+c` in the Terminal and run `npm start` again
 * Reload `localhost:8000` (you should now see a Firefox tabs section)
 
-*Command line option**
+**Command line option**
 
 Here are the instructions for running Firefox from the command line:
 
