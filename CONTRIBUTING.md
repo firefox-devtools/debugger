@@ -90,10 +90,18 @@ $ npm run firefox
 
 **Command line option**
 
-Here are the instructions for running Firefox from the command line (MacOS + Firefox shown):
+Here are the instructions for running Firefox from the command line:
+
+**MacOs**:
 
 ```
 $ /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
+```
+
+**Windows:**
+
+```
+C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -P development
 ```
 
 > If this command doesn't work for your OS or Firefox version see the other [Firefox commands for running in a debuggable state](./docs/remotely-debuggable-browsers.md#firefox)
