@@ -1,5 +1,27 @@
 ## Remotely debuggable browsers
 
+#### Table Of Contents
+
+[Firefox](#firefox)
+  * [MacOS](#macos)
+    * [Firefox](#firefox-release)
+    * [Firefox Nightly](#firefox-nightly)
+  * [Windows](#windows)
+    * [Firefox (all versions)](#firefox-all-versions)
+    * [Firefox (64 bit)](#firefox-64-bit)
+  * [Android](#android)
+
+[Chrome](#chrome)
+  * [MacOS](#macos-1)
+    * [Chrome (release)](#chrome-release)
+    * [Chrome Canary](#chrome-canary)
+  * [Windows](#windows-1)
+    * [Chrome (all versions)](#chrome-all-versions)
+    * [Chrome (64 bit)](#chrome-64-bit)
+
+[Safari](#safari)
+  * [iOS Simulator](#ios-simulator-mac-only)
+
 Here are quick instructions for getting the Firefox and Chrome web browsers running in a remotely debuggable state.
 
 On the Mac all instructions assume you've opened a window in the Terminal application.  On Windows all instructions assume you've opened the `cmd` application.
@@ -37,17 +59,9 @@ These are the flags necessary to start the remote debug server and use an altern
 $ /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
 ```
 
-##### Firefox Beta
-
-```
-$ /Applications/FirefoxBeta.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
-```
-
-##### Firefox Developer Edition (Aurora)
-
-```
-$ /Applications/FirefoxDeveloperEdition.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
-```
+> For Firefox Beta or Developer Edition (Aurora) replace the `Firefox.app` from the command above with the following app names
+> * FirefoxBeta.app
+> * FirefoxDeveloperEdition.app
 
 ##### Firefox Nightly
 
