@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ROOT=`dirname $0`
-FIREFOX_PATH=$(cd "$ROOT/../firefox"; pwd)
+FIREFOX_PATH="$ROOT/../firefox"
 
 # check that mercurial is installed
 if [ -z "`command -v hg`" ]; then
@@ -10,6 +10,9 @@ if [ -z "`command -v hg`" ]; then
 fi
 
 if [ -d "$FIREFOX_PATH" ]; then
+    # convert path to absolute path
+    FIREFOX_PATH=$(cd "$ROOT/../firefox"; pwd)
+
     # If we already have Firefox locally, just update it
     cd "$FIREFOX_PATH";
 
