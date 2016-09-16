@@ -32,7 +32,7 @@ Visit the [mochitest](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/
 
 ### For Windows Developers
 
-The detailed instructions for setting up your environment to build Firefox for Windows can be found ![here](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Windows_Prerequisites). You need to install the latest `MozBuild` package. You can open a unix-flavor shell by starting:
+The detailed instructions for setting up your environment to build Firefox for Windows can be found [here](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Windows_Prerequisites). You need to install the latest `MozBuild` package. You can open a unix-flavor shell by starting:
 
 ```
 C:\mozilla-build\start-shell.bat
@@ -67,10 +67,8 @@ If you add new tests, make sure to list them in the `browser.ini` file. You will
 In addition to the standard mochtest API, we provide the following functions to help write tests. All of these expect a `dbg` context which is returned from `initDebugger` which should be called at the beginning of the test. An example skeleton test looks like this:
 
 ```js
-const TAB_URL = EXAMPLE_URL + "doc_simple.html";
-
 add_task(function* () {
-  const dbg = yield initDebugger(TAB_URL, "code_simple.js");
+  const dbg = yield initDebugger("doc_simple.html", "code_simple.js");
   // do some stuff
   ok(state.foo, "Foo is OK");
 });
@@ -78,18 +76,48 @@ add_task(function* () {
 
 Any of the below APIs that takes a `url` will match it as a substring, meaning that `foo.js` will match a source with the URL `http://example.com/foo.js`.
 
-* `findSource(dbg, url)` - Returns a source that matches the URL
-* `selectSource(dbg, url)` - Selects the source
-* `stepOver(dbg)` - Steps over
-* `stepIn(dbg)` - Steps in
-* `stepOut(dbg)` - Steps out
-* `resume(dbg)` - Resumes
-* `addBreakpoint(dbg, sourceId, line, col?)` - Add a breakpoint to a source at line/col
+### Debugger Actions
+
+* `findSource(dbg, url)` - Returns a source that matches the URL.
+* `selectSource(dbg, url)` - Selects the source.
+* `stepOver(dbg)` - Steps over.
+* `stepIn(dbg)` - Steps in.
+* `stepOut(dbg)` - Steps out.
+* `resume(dbg)` - Resumes.
+* `addBreakpoint(dbg, sourceId, line, col?)` - Adds a breakpoint to a source at line/col.
+* `removeBreakpoint(dbg, sourceId, line, col?)` - Removes a breakpoint from a source at line/col.
+* `togglePauseOnExceptions(dbg, pauseOnExceptions, ignoreCaughtExceptions)` - Toggles the Pause on exceptions feature in the debugger.
+* `toggleCallStack(dbg)` - Toggles the call stack accordian in the debugger.
+
+### Helper Methods
+
+* `invokeInTab(fnc)` - Invokes a function in the debuggee tab.
+* `clickElement(dbg, elementName, ...args)` - Clicks a DOM element in the debugger. The selectors object contains a map of DOM selectors.
+* `pressKey(dbg, keyName)` - Presses a keyboard shortcut in the debugger window. The keyMappings object contains a map of key events.
+* `navigate(dbg, url, ...sources)` - Navigates the debuggee to the specified url and waits for the sources explicitly passed to the method.
+* `reload(dbg)` - Reloads the debuggee.
+
+### Waiting for Event
+
 * `waitForPaused(dbg)` - Waits for the debugger to be fully paused
 * `waitForState(dbg, predicate)` - Waits for `predicate(state)` to be true. `state` is the redux app state
 * `waitForThreadEvents(dbg, eventName)` - Waits for specific thread events
 * `waitForDispatch(dbg, type)` - Wait for a specific action type to be dispatch. If an async action, will wait for it to be done.
+* `waitForSources(dbg, ...sources)` - Waits for sources to be loaded.
 * `pauseTest() / resumeTest()` - pause the test and let you interact with the debugger. The test can be resumed by invoking `resumeTest` in the console.
+
+### Assertions
+
+* `assertPausedLocation(dbg, source, line)` - Assert that the debugger is paused at the correct location.
+* `assertHighlightLocation(dbg, source, line)` - Assert that the debugger is highlighting the correct location.
+* `isPaused(dbg)` - Assert that the debugger is paused.
+
+### Global Objects
+
+The `head.js` file contains the following relevant objects. Add appropriate entries as per the requirments of the test:
+
+* `selectors` - Contains a map of DOM selectors used by `clickElement` method.
+* `keyMappings` - Contains a map of keyboard mappings used by `pressKey` method.
 
 ## Writing Tests
 
