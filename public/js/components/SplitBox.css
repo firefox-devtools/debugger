@@ -14,11 +14,6 @@
 .split-box .controlled {
   display: flex;
   overflow: auto;
-  transition: width 0.5s ease;
-}
-
-.split-box .controlled.collapsed {
-  width: 0;
 }
 
 .split-box .splitter {

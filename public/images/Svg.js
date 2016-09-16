@@ -13,7 +13,6 @@ const svg = {
   "folder": require("./folder.svg"),
   "globe": require("./globe.svg"),
   "magnifying-glass": require("./magnifying-glass.svg"),
-  "pane-collapse": require("./pane-collapse.svg"),
   "pause": require("./pause.svg"),
   "pause-circle": require("./pause-circle.svg"),
   "pause-exceptions": require("./pause-exceptions.svg"),

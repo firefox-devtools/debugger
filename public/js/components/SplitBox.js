@@ -4,7 +4,6 @@
 
 const React = require("react");
 const ReactDOM = require("react-dom");
-const classnames = require("classnames");
 const Draggable = React.createFactory(require("./Draggable"));
 require("./SplitBox.css");
 
@@ -15,47 +14,42 @@ const SplitBox = React.createClass({
     left: PropTypes.any.isRequired,
     right: PropTypes.any.isRequired,
 
-    width: PropTypes.number.isRequired,
-    collapsed: PropTypes.bool.isRequired,
-    resizeSidebar: PropTypes.func.isRequired,
+    initialWidth: PropTypes.any,
     rightFlex: PropTypes.bool,
     style: PropTypes.string
   },
 
   displayName: "SplitBox",
 
+  getInitialState() {
+    return { width: this.props.initialWidth };
+  },
+
   onMove(x) {
     const node = ReactDOM.findDOMNode(this);
-    const width = (this.props.rightFlex ?
-      (node.offsetLeft + node.offsetWidth) - x :
-      x - node.offsetLeft);
-    this.props.resizeSidebar(width);
+    this.setState({
+      width: (this.props.rightFlex ?
+              (node.offsetLeft + node.offsetWidth) - x :
+              x - node.offsetLeft)
+    });
   },
 
   render() {
-    const { left, right, rightFlex, collapsed } = this.props;
-    let { width } = this.props;
-
-    if (collapsed) {
-      width = 0;
-    }
+    const { left, right, rightFlex } = this.props;
+    const { width } = this.state;
 
     return dom.div(
       { className: "split-box",
         style: this.props.style },
       dom.div(
-        { className: classnames(
-          { uncontrolled: rightFlex },
-          { controlled: !rightFlex }, { collapsed }),
+        { className: rightFlex ? "uncontrolled" : "controlled",
           style: { width: rightFlex ? null : width }},
         left
       ),
       Draggable({ className: "splitter",
                   onMove: x => this.onMove(x) }),
       dom.div(
-        { className: classnames(
-          { uncontrolled: !rightFlex },
-          { controlled: rightFlex }, { collapsed }),
+        { className: rightFlex ? "controlled" : "uncontrolled",
           style: { width: rightFlex ? width : null }},
         right
       )

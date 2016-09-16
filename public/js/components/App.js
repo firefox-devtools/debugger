@@ -23,11 +23,7 @@ const SourceTabs = createFactory(require("./SourceTabs"));
 const SourceFooter = createFactory(require("./SourceFooter"));
 const Svg = require("./utils/Svg");
 const Autocomplete = createFactory(require("./Autocomplete"));
-const {
-  getSources,
-  getSelectedSource,
-  getSidebarDimensions
-} = require("../selectors");
+const { getSources, getSelectedSource } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { KeyShortcuts } = require("../lib/devtools-sham/client/shared/key-shortcuts");
 const { isHiddenSource, getURL } = require("../utils/sources-tree");
@@ -53,9 +49,7 @@ const App = React.createClass({
   propTypes: {
     sources: PropTypes.object,
     selectSource: PropTypes.func,
-    resizeSidebar: PropTypes.func,
-    selectedSource: PropTypes.object,
-    ui: PropTypes.object
+    selectedSource: PropTypes.object
   },
 
   displayName: "App",
@@ -134,14 +128,10 @@ const App = React.createClass({
       { className: classnames("debugger theme-body",
                               { "theme-light": !isFirefoxPanel() }) },
       SplitBox({
-        width: this.props.ui.getIn(["left", "width"]),
-        collapsed: this.props.ui.getIn(["left", "collapsed"]),
-        resizeSidebar: width => this.props.resizeSidebar("left", width),
+        initialWidth: 300,
         left: Sources({ sources: this.props.sources }),
         right: SplitBox({
-          width: this.props.ui.getIn(["right", "width"]),
-          collapsed: this.props.ui.getIn(["right", "collapsed"]),
-          resizeSidebar: width => this.props.resizeSidebar("right", width),
+          initialWidth: 300,
           rightFlex: true,
           left: this.renderCenterPane(this.props),
           right: RightSidebar({ keyShortcuts: this.shortcuts })
@@ -153,8 +143,6 @@ const App = React.createClass({
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              selectedSource: getSelectedSource(state),
-              ui: getSidebarDimensions(state)
-             }),
+              selectedSource: getSelectedSource(state) }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

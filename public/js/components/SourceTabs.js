@@ -4,11 +4,7 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const Svg = require("./utils/Svg");
-const {
-  getSelectedSource,
-  getSourceTabs,
-  getSidebarCollapsed
-} = require("../selectors");
+const { getSelectedSource, getSourceTabs } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const classnames = require("classnames");
 const actions = require("../actions");
@@ -72,12 +68,7 @@ const SourceTabs = React.createClass({
     sourceTabs: ImPropTypes.list,
     selectedSource: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
-    toggleSidebar: PropTypes.func.isRequired,
-    closeTab: PropTypes.func.isRequired,
-    collapseStates: PropTypes.shape({
-      left: PropTypes.bool,
-      right: PropTypes.bool
-    })
+    closeTab: PropTypes.func.isRequired
   },
 
   displayName: "SourceTabs",
@@ -146,7 +137,7 @@ const SourceTabs = React.createClass({
     }, filename);
   },
 
-  renderSourcesDropdownButton() {
+  renderSourcesDropdownButon() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
       return dom.div({});
@@ -198,25 +189,15 @@ const SourceTabs = React.createClass({
     );
   },
 
-  renderCollapseButton(side) {
-    const collapsed = this.props.collapseStates[side];
-    return dom.div({
-      className: classnames(`collapse-button-${side}`, { collapsed }),
-      onClick: () => this.props.toggleSidebar(side),
-    }, Svg("pane-collapse"));
-  },
-
   render() {
     if (!isEnabled("tabs")) {
       return dom.div({ className: "source-header" });
     }
 
     return dom.div({ className: "source-header" },
-      this.renderCollapseButton("left"),
       this.renderSourcesDropdown(),
       this.renderTabs(),
-      this.renderSourcesDropdownButton(),
-      this.renderCollapseButton("right")
+      this.renderSourcesDropdownButon()
     );
   }
 });
@@ -224,11 +205,7 @@ const SourceTabs = React.createClass({
 module.exports = connect(
   state => ({
     selectedSource: getSelectedSource(state),
-    sourceTabs: getSourceTabs(state),
-    collapseStates: {
-      left: getSidebarCollapsed(state, "left"),
-      right: getSidebarCollapsed(state, "right")
-    }
+    sourceTabs: getSourceTabs(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SourceTabs);
