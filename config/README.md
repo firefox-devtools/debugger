@@ -17,6 +17,9 @@ All default config values are in [`config/development.json`](./development.json)
   * `proxyPort` Port used by the development server run with `npm start`
   * `webSocketConnection` Favours Firefox WebSocket connection over the [firefox-proxy](../bin/firefox-proxy), :warning: Experimental feature and requires [bug 1286281](https://bugzilla.mozilla.org/show_bug.cgi?id=1286281)
   * `geckoDir` Local location of Firefox source code _only needed by project maintainers_
+*  `development` Development server related settings
+  * `serverPort` Listen Port used by the development server
+  * `examplesPort` Listen Port used to serve examples
 * `hotReloading` enables [Hot Reloading](../docs/local-development.md#hot-reloading) of CSS and React
 
 ### Create a local config file

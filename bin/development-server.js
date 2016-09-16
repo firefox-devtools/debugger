@@ -82,18 +82,25 @@ app.get("/get", function(req, res) {
   httpReq.on("statusCode", err => res.status(err.message).send(err.message));
 });
 
-// Listen
-app.listen(8000, "0.0.0.0", function(err, result) {
+// Listen'
+const serverPort = feature.getValue("development.serverPort");
+app.listen(serverPort, "0.0.0.0", function(err, result) {
   if (err) {
     console.log(err);
+  } else {
+    console.log(`Development Server Listening at http://localhost:${serverPort}`);
   }
-
-  console.log("Development Server Listening at http://localhost:8000");
 });
 
 const examples = express();
 examples.use(express.static("public/js/test/examples"));
 examples.use(serveIndex("public/js/test/examples", { icons: true }));
-examples.listen(7999, "0.0.0.0", function(err, result) {
-  console.log("View debugger examples at http://localhost:7999");
+
+const examplesPort = feature.getValue("development.examplesPort");
+examples.listen(examplesPort, "0.0.0.0", function(err, result) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(`View debugger examples at http://localhost:${examplesPort}`);
+  }
 });
