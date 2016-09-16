@@ -20,5 +20,9 @@
     "proxyPort": 9000,
     "webSocketConnection": false,
     "webSocketPort": 6080
+  },
+  "development": {
+    "serverPort": 8000,
+    "examplesPort": 7999
   }
 }
