@@ -80,7 +80,7 @@ add_task(function* () {
 });
 ```
 
-The Debugger Mochitest API Documentation can be found [here](https://devtools-html.github.io/debugger.html/reference).
+The Debugger Mochitest API Documentation can be found [here](https://devtools-html.github.io/debugger.html/reference#mochitest).
 
 ## Writing Tests
 
