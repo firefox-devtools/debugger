@@ -24,11 +24,26 @@ const SplitBox = React.createClass({
 
   displayName: "SplitBox",
 
-  onMove(x) {
-    const node = ReactDOM.findDOMNode(this);
-    const width = (this.props.rightFlex ?
+  calculateWidth(x) {
+    const node = this.refs.splitBox;
+    return (this.props.rightFlex ?
       (node.offsetLeft + node.offsetWidth) - x :
       x - node.offsetLeft);
+  },
+
+  getflexEl() {
+    const el = this.props.rightFlex ? "right" : "left";
+    return this.refs[el];
+  },
+
+  onMove(x) {
+    const width = this.calculateWidth(x);
+    this.getflexEl().style.width = `${width}px`;
+  },
+
+  onStop(x) {
+    const el = this.getflexEl();
+    const width = parseInt(el.style.width, 10);
     this.props.resizeSidebar(width);
   },
 
@@ -41,22 +56,34 @@ const SplitBox = React.createClass({
     }
 
     return dom.div(
-      { className: "split-box",
-        style: this.props.style },
+      {
+        className: "split-box",
+        style: this.props.style,
+        ref: "splitBox"
+      },
       dom.div(
-        { className: classnames(
-          { uncontrolled: rightFlex },
-          { controlled: !rightFlex }, { collapsed }),
-          style: { width: rightFlex ? null : width }},
+        {
+          className: classnames(
+            { uncontrolled: rightFlex },
+            { controlled: !rightFlex }, { collapsed }
+          ),
+          style: { width: rightFlex ? null : width },
+          ref: "left"
+        },
         left
       ),
       Draggable({ className: "splitter",
+                  onStop: x => this.onStop(x),
                   onMove: x => this.onMove(x) }),
       dom.div(
-        { className: classnames(
-          { uncontrolled: !rightFlex },
-          { controlled: rightFlex }, { collapsed }),
-          style: { width: rightFlex ? width : null }},
+        {
+          className: classnames(
+            { uncontrolled: !rightFlex },
+            { controlled: rightFlex }, { collapsed }
+          ),
+          style: { width: rightFlex ? width : null },
+          ref: "right"
+        },
         right
       )
     );

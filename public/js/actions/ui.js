@@ -24,7 +24,7 @@ type ThunkArgs = {
 function toggleSidebar(side: SidebarSide) {
   return ({ dispatch, getState } : ThunkArgs) => {
     let collapsed = !getSidebarCollapsed(getState(), side);
-    return dispatch({ type: C.COLLAPSE_SIDEBAR, side, collapsed });
+    return dispatch({ type: C.TOGGLE_SIDEBAR, side, collapsed });
   };
 }
 

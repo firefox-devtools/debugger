@@ -74,6 +74,11 @@
   transition: transform 0.5s ease;
 }
 
+.collapse-button-left:hover,
+.collapse-button-right:hover {
+  cursor: pointer;
+}
+
 .collapse-button-left svg {
   transform: rotate(180deg);
 }
@@ -89,4 +94,8 @@
 .collapse-button-left.collapsed,
 .collapse-button-right.collapsed {
   transform: rotate(180deg);
+}
+
+.pane-collapse svg {
+  fill: var(--theme-body-color-inactive);
 }

@@ -29,7 +29,7 @@ const State = makeRecord(({
 
 function update(state = State(), action: Action) : Record<SidebarsState> {
   switch (action.type) {
-    case C.COLLAPSE_SIDEBAR: {
+    case C.TOGGLE_SIDEBAR: {
       return state.mergeIn([action.side], {
         collapsed: action.collapsed,
       });
