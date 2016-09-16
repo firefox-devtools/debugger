@@ -7,6 +7,7 @@ const Svg = require("./utils/Svg");
 const {
   getSelectedSource,
   getSourceTabs,
+  getSidebarCollapsed
 } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const classnames = require("classnames");
@@ -72,7 +73,11 @@ const SourceTabs = React.createClass({
     selectedSource: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
-    closeTab: PropTypes.func.isRequired
+    closeTab: PropTypes.func.isRequired,
+    collapseStates: PropTypes.shape({
+      left: PropTypes.bool,
+      right: PropTypes.bool
+    })
   },
 
   displayName: "SourceTabs",
@@ -194,8 +199,10 @@ const SourceTabs = React.createClass({
   },
 
   renderCollapseButton(side) {
+    const collapsed = this.props.collapseStates[side];
+    console.log(collapsed);
     return dom.div({
-      className: `collapse-button-${side}`,
+      className: classnames(`collapse-button-${side}`, { collapsed }),
       onClick: () => this.props.toggleSidebar(side),
     }, Svg("pane-collapse"));
   },
@@ -218,7 +225,11 @@ const SourceTabs = React.createClass({
 module.exports = connect(
   state => ({
     selectedSource: getSelectedSource(state),
-    sourceTabs: getSourceTabs(state)
+    sourceTabs: getSourceTabs(state),
+    collapseStates: {
+      left: getSidebarCollapsed(state, "left"),
+      right: getSidebarCollapsed(state, "right")
+    }
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SourceTabs);
