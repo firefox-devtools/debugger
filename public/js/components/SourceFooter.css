@@ -1,10 +1,43 @@
+
 .source-footer {
+  background: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
+  position: absolute;
+  bottom: 0;
   left: 0;
+  right: 0;
   opacity: 1;
-  width: 100%;
+  z-index: 100;
+}
+
+.source-footer .command-bar {
+  float: right;
+}
+
+.command-bar > span {
+  cursor: pointer;
+  margin-right: 0.7em;
+  width: 1em;
+  height: 1.1em;
+  display: inline-block;
+  text-align: center;
+  transition: opacity 200ms;
 }
 
 .source-footer .prettyPrint.pretty {
   stroke: var(--theme-highlight-blue);
+}
+
+.source-footer input:focus {
+  border-color: var(--theme-highlight-blue);
+  outline: none;
+}
+
+.source-footer input {
+  line-height: 16px;
+  margin: 7px;
+  border-radius: 2px;
+  border: 1px solid var(--theme-splitter-color);
+  padding-left: 4px;
+  font-size: 10px;
 }
