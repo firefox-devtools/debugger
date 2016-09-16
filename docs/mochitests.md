@@ -6,6 +6,12 @@ Mochitests live in `public/js/test/mochitest`.
 
 ## Getting Started
 
+**Requirements**
+
+* mercurial ( `brew install mercurial` )
+ * enable the purge extension ( see `hg help extensions` )
+* autoconf213 ( `brew install autoconf213 && brew unlink autoconf` )
+
 If you haven't set up the mochitest environment yet, just run this:
 
 ```
