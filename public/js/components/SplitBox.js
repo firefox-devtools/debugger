@@ -4,6 +4,7 @@
 
 const React = require("react");
 const ReactDOM = require("react-dom");
+const classnames = require("classnames");
 const Draggable = React.createFactory(require("./Draggable"));
 require("./SplitBox.css");
 
@@ -43,14 +44,18 @@ const SplitBox = React.createClass({
       { className: "split-box",
         style: this.props.style },
       dom.div(
-        { className: rightFlex ? "uncontrolled" : "controlled",
+        { className: classnames(
+          { uncontrolled: rightFlex },
+          { controlled: !rightFlex }, { collapsed }),
           style: { width: rightFlex ? null : width }},
         left
       ),
       Draggable({ className: "splitter",
                   onMove: x => this.onMove(x) }),
       dom.div(
-        { className: rightFlex ? "controlled" : "uncontrolled",
+        { className: classnames(
+          { uncontrolled: !rightFlex },
+          { controlled: rightFlex }, { collapsed }),
           style: { width: rightFlex ? width : null }},
         right
       )

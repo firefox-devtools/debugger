@@ -200,7 +200,6 @@ const SourceTabs = React.createClass({
 
   renderCollapseButton(side) {
     const collapsed = this.props.collapseStates[side];
-    console.log(collapsed);
     return dom.div({
       className: classnames(`collapse-button-${side}`, { collapsed }),
       onClick: () => this.props.toggleSidebar(side),
