@@ -5,5 +5,4 @@ config/local.json
 npm-debug.log
 .idea/
 .vscode/
-cypress/screenshots
 /firefox

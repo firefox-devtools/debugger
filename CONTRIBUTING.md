@@ -257,11 +257,9 @@ $ npm run test-all
 
 #### Integration tests
 
-* `npm run cypress` - Run tests headlessly
-* `npm run cypress-intermittents` - Runs tests 100 times and writes the output to cypress-run.log
-* `cypress open` - Run tests in the browser
+We use [mochitests](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest) to do integration testing.  Running these integration tests locally requires some finesse and so as a contributor we only ask that you run the unit tests.   The mochitests will be run by the automated testing which runs once you've made a pull request and the maintainers are happy to help you through any issues which arise from that.
 
-Learn more about Cypress in our [integration tests docs](./docs/integration-tests.md).
+Learn more about mochitests in our [mochitests docs](./docs/mochitests.md).
 
 #### Linting
 
