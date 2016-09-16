@@ -1,3 +1,10 @@
+.source-footer {
+  border-top: 1px solid var(--theme-splitter-color);
+  left: 0;
+  opacity: 1.0;
+  width: 100%;
+}
+
 .source-footer .prettyPrint.pretty {
   stroke: var(--theme-highlight-blue);
 }
