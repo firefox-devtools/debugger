@@ -24,7 +24,8 @@
     "firefox": "node bin/firefox-driver --start",
     "mochitests-watch": "MOCHITESTS=true TARGET=firefox-panel webpack --watch",
     "prepublish": "webpack",
-    "build-docs": "documentation build --format html --shallow  --document-exported --output docs/reference/ public/js/actions/"
+    "build-docs": "documentation build --format html --shallow  --document-exported --output docs/reference/ public/js/actions/",
+    "prepush": "npm run lint"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -80,6 +81,7 @@
     "firefox-profile": "^0.4.0",
     "flow-bin": "^0.29.0",
     "glob": "^7.0.3",
+    "husky": "^0.11.7",
     "install": "^0.8.1",
     "json-loader": "^0.5.4",
     "minimist": "^1.2.0",
