@@ -46,8 +46,11 @@ const SplitBox = React.createClass({
           style: { width: rightFlex ? null : width }},
         left
       ),
-      Draggable({ className: "splitter",
-                  onMove: x => this.onMove(x) }),
+      dom.div(
+        { className: "splitter" },
+        Draggable({ className: "splitter-handle",
+                    onMove: x => this.onMove(x) })
+      ),
       dom.div(
         { className: rightFlex ? "controlled" : "uncontrolled",
           style: { width: rightFlex ? width : null }},
