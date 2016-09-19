@@ -1,35 +1,13 @@
-const { Source, Frame, Location } = require("../../types");
+const { createFrame, createSource } = require("./create");
 
 const CALL_STACK_PAGE_SIZE = 1000;
+
 let threadClient;
 let actions;
-let evalIndex = 1;
 
 function setupEvents(dependencies) {
   threadClient = dependencies.threadClient;
   actions = dependencies.actions;
-}
-
-function createFrame(frame) {
-  let title;
-  if (frame.type == "call") {
-    let c = frame.callee;
-    title = c.name || c.userDisplayName || c.displayName || "(anonymous)";
-  } else {
-    title = "(" + frame.type + ")";
-  }
-
-  return Frame({
-    id: frame.actor,
-    displayName: title,
-    location: Location({
-      sourceId: frame.where.source.actor,
-      line: frame.where.line,
-      column: frame.where.column
-    }),
-    this: frame.this,
-    scope: frame.environment
-  });
 }
 
 async function paused(_, packet) {
@@ -56,18 +34,8 @@ function resumed(_, packet) {
   actions.resumed(packet);
 }
 
-function newSource(_, packet) {
-  const { source } = packet;
-  if (!source.url) {
-    source.url = `SOURCE${evalIndex++}`;
-  }
-
-  actions.newSource(Source({
-    id: source.actor,
-    url: source.url,
-    isPrettyPrinted: false,
-    sourceMapURL: source.sourceMapURL
-  }));
+function newSource(_, { source }) {
+  actions.newSource(createSource(source));
 }
 
 const clientEvents = {

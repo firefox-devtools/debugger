@@ -118,7 +118,7 @@ function assertPausedLocation(dbg, source, line) {
   source = findSource(dbg, source);
 
   // Check the selected source
-  is(getSelectedSource(getState()).get("url"), source.url);
+  is(getSelectedSource(getState()).get("id"), source.id);
 
   // Check the pause location
   const location = getPause(getState()).getIn(["frame", "location"]);
@@ -172,25 +172,26 @@ function waitForPaused(dbg) {
   });
 };
 
+function createDebuggerContext(toolbox) {
+  const win = toolbox.getPanel("jsdebugger").panelWin;
+  const store = win.Debugger.store;
+
+  return {
+    actions: win.Debugger.actions,
+    selectors: win.Debugger.selectors,
+    getState: store.getState,
+    store: store,
+    client: win.Debugger.client,
+    toolbox: toolbox,
+    win: win
+  };
+}
+
 function initDebugger(url, ...sources) {
   return Task.spawn(function* () {
     const toolbox = yield openNewTabAndToolbox(EXAMPLE_URL + url, "jsdebugger");
-    const win = toolbox.getPanel("jsdebugger").panelWin;
-    const store = win.Debugger.store;
-    const { getSources } = win.Debugger.selectors;
-
-    const dbg = {
-      actions: win.Debugger.actions,
-      selectors: win.Debugger.selectors,
-      getState: store.getState,
-      store: store,
-      client: win.Debugger.client,
-      toolbox: toolbox,
-      win: win
-    };
-
+    const dbg = createDebuggerContext(toolbox);
     yield waitForSources(dbg, ...sources);
-
     return dbg;
   });
 };

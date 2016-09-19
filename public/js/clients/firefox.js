@@ -7,6 +7,7 @@ const { getValue } = require("../feature");
 const { Tab } = require("../types");
 const { setupCommands, clientCommands } = require("./firefox/commands");
 const { setupEvents, clientEvents } = require("./firefox/events");
+const { createSource } = require("./firefox/create");
 
 let debuggerClient = null;
 let threadClient = null;
@@ -100,16 +101,22 @@ function initPage(actions) {
     threadClient.addListener(eventName, clientEvents[eventName]);
   });
 
-  threadClient.reconfigure({
-    "useSourceMaps": false,
-    "autoBlackBox": false
-  });
+  // In Firefox, we need to initially request all of the sources. This
+  // usually fires off individual `newSource` notifications as the
+  // debugger finds them, but there may be existing sources already in
+  // the debugger (if it's paused already, or if loading the page from
+  // bfcache) so explicity fire `newSource` events for all returned
+  // sources.
+  return threadClient.getSources().then(({ sources }) => {
+    actions.newSources(sources.map(createSource));
 
-  // In Firefox, we need to initially request all of the sources which
-  // makes the server iterate over them and fire individual
-  // `newSource` notifications. We don't need to do anything with the
-  // response since `newSource` notifications are fired.
-  return threadClient.getSources();
+    // If the threadClient is already paused, make sure to show a
+    // paused state.
+    const pausedPacket = threadClient.getLastPausePacket();
+    if (pausedPacket) {
+      clientEvents.paused(null, pausedPacket);
+    }
+  });
 }
 
 module.exports = {
