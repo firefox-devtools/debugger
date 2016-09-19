@@ -4,10 +4,6 @@ require("codemirror/lib/codemirror.css");
 require("codemirror/mode/javascript/javascript");
 require("codemirror/mode/htmlmixed/htmlmixed");
 require("../lib/codemirror-mozilla.css");
-// enable to get local search to work
-// require("codemirror/addon/search/search");
-// require("codemirror/addon/search/searchcursor");
-// require("codemirror/addon/search/match-highliter");
 
 // Maximum allowed margin (in number of lines) from top or bottom of the editor
 // while shifting to a line which was initially out of view.
