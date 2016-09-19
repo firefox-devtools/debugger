@@ -10,7 +10,7 @@
  */
 .editor-wrapper {
   position: absolute;
-  height: calc(100% - 30px);
+  height: calc(100% - 31px);
   width: 100%;
   top: 30px;
   left: 0px;
@@ -38,7 +38,7 @@
 .editor-mount,
 .CodeMirror {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 31px);
   background-color: var(--theme-body-background);
 }
 

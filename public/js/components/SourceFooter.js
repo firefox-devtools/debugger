@@ -81,13 +81,26 @@ const SourceFooter = React.createClass({
     );
   },
 
+  searchBox() {
+    return dom.input({
+      onKeyPress: (e) => this.onKeyPress(e)
+    });
+  },
+
+  onKeyPress(e) {
+    console.log("key", e);
+  },
+
   render() {
     if (!this.props.selectedSource ||
-        (!isEnabled("prettyPrint") && !isEnabled("blackBox"))) {
+        (!isEnabled("prettyPrint")
+          && !isEnabled("blackBox")
+          && !isEnabled("search"))) {
       return null;
     }
 
     return dom.div({ className: "source-footer" },
+      this.searchBox(),
       dom.div({ className: "command-bar" },
         this.blackboxButton(),
         this.prettyPrintButton()
