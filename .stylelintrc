@@ -50,10 +50,10 @@
     "media-query-list-comma-newline-after": "always-multi-line",
     "media-query-list-comma-space-after": "always-single-line",
     "media-query-list-comma-space-before": "never",
-    "media-query-parentheses-space-inside": "never",
+    "media-feature-parentheses-space-inside": "never",
     "no-eol-whitespace": true,
     "no-invalid-double-slash-comments": true,
-    "no-missing-eof-newline": true,
+    "no-missing-end-of-source-newline": true,
     "number-leading-zero": "always",
     "number-no-trailing-zeros": true,
     "rule-non-nested-empty-line-before": [ "always-multi-line", {
