@@ -12,7 +12,8 @@
   "homepage": "https://github.com/devtools-html/debugger.html#readme",
   "scripts": {
     "flow": "flow",
-    "start": "node bin/development-server",
+    "start": "npm run check-node && node bin/development-server",
+    "check-node": "check-node-version --node '>= 5.0.0'",
     "lint": "npm run lint-css -s; npm run lint-js -s",
     "lint-css": "stylelint public/js/components/*.css",
     "lint-js": "eslint public/js",
@@ -23,9 +24,12 @@
     "storybook": "start-storybook -p 9001 -s public",
     "firefox": "node bin/firefox-driver --start",
     "mochitests-watch": "MOCHITESTS=true TARGET=firefox-panel webpack --watch",
-    "prepublish": "webpack",
     "build-docs": "documentation build --format html --shallow  --document-exported --output docs/reference/ public/js/actions/",
     "prepush": "npm run lint"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=5.0.0"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -68,6 +72,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.7.2",
     "body-parser": "^1.15.0",
+    "check-node-version": "^1.1.2",
     "co": "=4.6.0",
     "css-loader": "^0.23.1",
     "documentation": "^4.0.0-beta10",
