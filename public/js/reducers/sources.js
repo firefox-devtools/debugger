@@ -43,14 +43,6 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       return state.mergeIn(["sources", action.source.id], source);
     }
 
-    case "ADD_SOURCES":
-      return state.mergeIn(
-        ["sources"],
-        I.Map(action.sources.map(source => {
-          return [source.id, fromJS(source)];
-        }))
-      );
-
     case "LOAD_SOURCE_MAP":
       if (action.status == "done") {
         return state.mergeIn(
