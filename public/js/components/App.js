@@ -20,7 +20,6 @@ const Editor = createFactory(require("./Editor"));
 const SplitBox = createFactory(require("./SplitBox"));
 const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
-const SourceFooter = createFactory(require("./SourceFooter"));
 const Svg = require("./utils/Svg");
 const Autocomplete = createFactory(require("./Autocomplete"));
 const { getSources, getSelectedSource } = require("../selectors");
@@ -117,8 +116,7 @@ const App = React.createClass({
         SourceTabs(),
         Editor(),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
-        this.state.searchOn ? this.renderSourcesSearch() : null,
-        SourceFooter()
+        this.state.searchOn ? this.renderSourcesSearch() : null
       )
     );
   },
