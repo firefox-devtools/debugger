@@ -103,8 +103,8 @@ if (connTarget) {
     bootstrap: ({ threadClient, tabTarget }) => {
       firefox.setThreadClient(threadClient);
       firefox.setTabTarget(tabTarget);
-      firefox.initPage(actions);
       renderRoot(App);
+      return firefox.initPage(actions);
     },
     destroy: () => {
       unmountRoot();
