@@ -22,6 +22,8 @@ const Frames = React.createFactory(require("./Frames"));
 const Accordion = React.createFactory(require("./Accordion"));
 require("./RightSidebar.css");
 
+const { getShortcuts } = require("../utils/shortcuts");
+
 function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
   return dom.span(
@@ -48,7 +50,6 @@ const RightSidebar = React.createClass({
     isWaitingOnBreak: PropTypes.bool,
     breakpointsDisabled: PropTypes.bool,
     breakpointsLoading: PropTypes.bool,
-    keyShortcuts: PropTypes.object
   },
 
   displayName: "RightSidebar",
@@ -83,24 +84,24 @@ const RightSidebar = React.createClass({
   },
 
   setupKeyboardShortcuts() {
-    const { keyShortcuts } = this.props;
     if (this.keyShortcutsEnabled) {
       return;
     }
 
     this.keyShortcutsEnabled = true;
-    keyShortcuts.on("F8", this.resume);
-    keyShortcuts.on("F10", this.stepOver);
-    keyShortcuts.on(`${ctrlKey}F11`, this.stepIn);
-    keyShortcuts.on(`${ctrlKey}Shift+F11`, this.stepOut);
+    const shortcuts = getShortcuts();
+    shortcuts.on("F8", this.resume);
+    shortcuts.on("F10", this.stepOver);
+    shortcuts.on(`${ctrlKey}F11`, this.stepIn);
+    shortcuts.on(`${ctrlKey}Shift+F11`, this.stepOut);
   },
 
   componentWillUnmount() {
-    const { keyShortcuts } = this.props;
-    keyShortcuts.off("F8", this.resume);
-    keyShortcuts.off("F10", this.stepOver);
-    keyShortcuts.off(`${ctrlKey}F11`, this.stepIn);
-    keyShortcuts.off(`${ctrlKey}Shift+F11`, this.stepOut);
+    const shortcuts = getShortcuts();
+    shortcuts.off("F8", this.resume);
+    shortcuts.off("F10", this.stepOver);
+    shortcuts.off(`${ctrlKey}F11`, this.stepIn);
+    shortcuts.off(`${ctrlKey}Shift+F11`, this.stepOut);
   },
 
   componentDidUpdate() {

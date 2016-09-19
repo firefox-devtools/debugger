@@ -24,7 +24,7 @@ const Svg = require("./utils/Svg");
 const Autocomplete = createFactory(require("./Autocomplete"));
 const { getSources, getSelectedSource } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
-const { KeyShortcuts } = require("../lib/devtools-sham/client/shared/key-shortcuts");
+const { setupShortcuts } = require("../utils/shortcuts");
 const { isHiddenSource, getURL } = require("../utils/sources-tree");
 
 function searchResults(sources) {
@@ -60,8 +60,8 @@ const App = React.createClass({
   },
 
   componentDidMount() {
-    this.shortcuts = new KeyShortcuts({ window });
-    this.shortcuts.on("CmdOrCtrl+P", this.toggleSourcesSearch);
+    const shortcuts = setupShortcuts(window);
+    shortcuts.on("CmdOrCtrl+P", this.toggleSourcesSearch);
     window.addEventListener("keydown", this.onKeyDown);
   },
 
@@ -132,7 +132,7 @@ const App = React.createClass({
           initialWidth: 300,
           rightFlex: true,
           left: this.renderCenterPane(this.props),
-          right: RightSidebar({ keyShortcuts: this.shortcuts })
+          right: RightSidebar()
         })
       })
     );
