@@ -10,8 +10,7 @@
     "tabs": true,
     "sourceMaps": true,
     "prettyPrint": false,
-    "watchExpressions": false,
-    "search": true
+    "watchExpressions": false
   },
   "chrome": {
     "debug": false,

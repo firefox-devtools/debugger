@@ -1,12 +1,9 @@
 const React = require("react");
-const { DOM: dom, PropTypes, createFactory } = React;
-
 const ReactDOM = require("react-dom");
 const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const SourceEditor = require("../utils/source-editor");
-const SourceFooter = createFactory(require("./SourceFooter"));
 const { debugGlobal } = require("../utils/debug");
 const {
   getSourceText, getBreakpointsForSource,
@@ -15,6 +12,7 @@ const {
 const { makeLocationId } = require("../reducers/breakpoints");
 const actions = require("../actions");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
+const { DOM: dom, PropTypes } = React;
 
 require("./Editor.css");
 
@@ -223,30 +221,22 @@ const Editor = React.createClass({
     }
   },
 
-  renderBreakpoints() {
+  render() {
     const { breakpoints, sourceText } = this.props;
     const isLoading = sourceText && sourceText.get("loading");
 
-    if (isLoading) {
-      return;
-    }
-
-    return breakpoints.valueSeq().map(bp => {
-      return Breakpoint({
-        key: makeLocationId(bp.location),
-        breakpoint: bp,
-        editor: this.editor && this.editor.codeMirror
-      });
-    });
-  },
-
-  render() {
     return (
       dom.div(
         { className: "editor-wrapper devtools-monospace" },
         dom.div({ className: "editor-mount" }),
-        this.renderBreakpoints(),
-        SourceFooter({ editor: this.editor })
+        !isLoading &&
+          breakpoints.valueSeq().map(bp => {
+            return Breakpoint({
+              key: makeLocationId(bp.location),
+              breakpoint: bp,
+              editor: this.editor && this.editor.codeMirror
+            });
+          })
       )
     );
   }
