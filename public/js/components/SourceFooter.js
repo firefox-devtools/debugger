@@ -96,7 +96,7 @@ const SourceFooter = React.createClass({
         (!isEnabled("prettyPrint")
           && !isEnabled("blackBox")
           && !isEnabled("search"))) {
-      return null;
+      return dom.div({ className: "source-footer" });
     }
 
     return dom.div({ className: "source-footer" },
