@@ -14,6 +14,8 @@ const actions = require("../actions");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
 const { DOM: dom, PropTypes } = React;
 
+const { getDocument, setDocument } = require("../utils/source-documents");
+
 require("./Editor.css");
 
 function isTextForSource(sourceText) {
@@ -174,23 +176,60 @@ const Editor = React.createClass({
   componentWillReceiveProps(nextProps) {
     // This lifecycle method is responsible for updating the editor
     // text.
-    const sourceText = nextProps.sourceText;
+    const { sourceText, selectedLocation } = nextProps;
 
     if (!sourceText) {
-      this.setText("");
-      this.editor.setMode({ name: "text" });
-    } else if (!isTextForSource(sourceText)) {
-      // There are only 2 possible states: errored or loading. Do
-      // nothing except put a message in the editor.
-      this.setText(sourceText.get("error") || "Loading...");
-      this.editor.setMode({ name: "text" });
-    } else if (this.props.sourceText !== sourceText) {
-      // Only update it if the `sourceText` object has actually changed.
-      // It is immutable so it will always change when updated.
-      this.setText(sourceText.get("text"));
-      this.setMode(sourceText);
+      return;
+    }
+
+    if (sourceText.get("loading")) {
+      return this.setLoading();
+    }
+
+    if (this.props.sourceText !== sourceText) {
+      this.updateEditor(sourceText, selectedLocation);
       resizeBreakpointGutter(this.editor.codeMirror);
     }
+  },
+
+  setLoading() {
+    let doc = getDocument("loading");
+    if (doc) {
+      this.editor.replaceDocument(doc);
+      return doc;
+    }
+
+    doc = this.editor.createDocument();
+    setDocument("loading", doc);
+    this.editor.replaceDocument(doc);
+
+    doc.setValue("Loading...");
+    this.editor.setMode({ name: "text" });
+  },
+
+  /**
+   * Handle getting the source document or creating a new
+   * document with the correct mode and text.
+   *
+   */
+  updateEditor(sourceText, selectedLocation) {
+    let doc = getDocument(selectedLocation.sourceId);
+    if (doc) {
+      this.editor.replaceDocument(doc);
+      return doc;
+    }
+
+    doc = this.editor.createDocument();
+    setDocument(selectedLocation.sourceId, doc);
+    this.editor.replaceDocument(doc);
+
+    if (sourceText.get("error")) {
+      this.setText(sourceText.get("error"));
+      this.editor.setMode({ name: "text" });
+    }
+
+    this.setText(sourceText.get("text"));
+    this.setMode(sourceText);
   },
 
   componentDidUpdate(prevProps) {

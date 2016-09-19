@@ -39,6 +39,21 @@ class SourceEditor {
   }
 
   /**
+   * Replaces the current document with a new source document
+   */
+  replaceDocument(doc) {
+    this.editor.swapDoc(doc);
+  }
+
+  /**
+   * Creates a CodeMirror Document
+   * @returns CodeMirror.Doc
+   */
+  createDocument() {
+    return new CodeMirror.Doc("");
+  }
+
+  /**
    * Aligns the provided line to either "top", "center" or "bottom" of the
    * editor view with a maximum margin of MAX_VERTICAL_OFFSET lines from top or
    * bottom.
