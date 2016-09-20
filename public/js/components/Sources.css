@@ -13,6 +13,14 @@
   font-size: 1.2em;
 }
 
+.sources-header-info {
+  font-size: 0.7em;
+  color: var(--theme-comment-alt);
+  font-weight: lighter;
+  padding-right: 10px;
+  float: right;
+}
+
 .sources-list {
   flex: 1;
   display: flex;

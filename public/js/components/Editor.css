@@ -89,6 +89,5 @@
   color: var(--theme-comment-alt);
   background-color: var(--theme-tab-toolbar-background);
   font-weight: lighter;
-  text-align: center;
   z-index: 100;
 }
