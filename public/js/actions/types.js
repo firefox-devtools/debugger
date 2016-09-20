@@ -115,6 +115,29 @@ type SourceAction =
   | { type: "CLOSE_TAB", id: string };
 
 /**
+ * Sidebar Side
+ *
+ * Available options are:
+ * `"left"` or `"right"`
+ *
+ * @memberof actions/types
+ * @static
+ * @enum
+ */
+export type SidebarSide = "left" | "right";
+
+type SidebarCollapseAction = {
+  type: C.COLLAPSE_SIDEBAR,
+  side: SidebarSide,
+  collapsed: boolean
+};
+
+type SidebarResizeAction = {
+  type: C.RESIZE_SIDEBAR,
+  side: SidebarSide,
+  width: number
+};
+/**
  * Actions: Source, Breakpoint, and Navigation
  *
  * @memberof actions/types
