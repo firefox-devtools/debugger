@@ -22,8 +22,6 @@ const Frames = React.createFactory(require("./Frames"));
 const Accordion = React.createFactory(require("./Accordion"));
 require("./RightSidebar.css");
 
-const { getShortcuts } = require("../utils/shortcuts");
-
 function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
   return dom.span(
@@ -50,6 +48,10 @@ const RightSidebar = React.createClass({
     isWaitingOnBreak: PropTypes.bool,
     breakpointsDisabled: PropTypes.bool,
     breakpointsLoading: PropTypes.bool,
+  },
+
+  contextTypes: {
+    shortcuts: PropTypes.object
   },
 
   displayName: "RightSidebar",
@@ -89,7 +91,7 @@ const RightSidebar = React.createClass({
     }
 
     this.keyShortcutsEnabled = true;
-    const shortcuts = getShortcuts();
+    const shortcuts = this.context.shortcuts;
     shortcuts.on("F8", this.resume);
     shortcuts.on("F10", this.stepOver);
     shortcuts.on(`${ctrlKey}F11`, this.stepIn);
@@ -97,7 +99,7 @@ const RightSidebar = React.createClass({
   },
 
   componentWillUnmount() {
-    const shortcuts = getShortcuts();
+    const shortcuts = this.context.shortcuts;
     shortcuts.off("F8", this.resume);
     shortcuts.off("F10", this.stepOver);
     shortcuts.off(`${ctrlKey}F11`, this.stepIn);

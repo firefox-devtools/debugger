@@ -13,7 +13,6 @@ const { isMapped, getGeneratedSourceId,
         isOriginal } = require("../utils/source-map");
 const { isPretty } = require("../utils/source");
 const { find, findNext, findPrev } = require("../utils/source-search");
-const { getShortcuts } = require("../utils/shortcuts");
 
 require("./SourceFooter.css");
 
@@ -33,6 +32,10 @@ const SourceFooter = React.createClass({
     selectSource: PropTypes.func,
     prettySource: ImPropTypes.map,
     editor: PropTypes.object,
+  },
+
+  contextTypes: {
+    shortcuts: PropTypes.object
   },
 
   displayName: "SourceFooter",
@@ -112,12 +115,12 @@ const SourceFooter = React.createClass({
     }
 
     this.keyShortcutsEnabled = true;
-    const shortcuts = getShortcuts();
+    const shortcuts = this.context.shortcuts;
     shortcuts.on("Cmd+f", this.focusSearch);
   },
 
   componentWillUnmount() {
-    const shortcuts = getShortcuts();
+    const shortcuts = this.context.shortcuts;
     shortcuts.off("Cmd+f", this.focusSearch);
   },
 
