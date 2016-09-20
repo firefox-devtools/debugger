@@ -29,10 +29,10 @@ if [ -d "$FIREFOX_PATH" ]; then
         fi
 
         hg revert -a
-        hg purge
     fi
 
     hg pull
+    hg update -C
 else
     echo "Downloading Firefox source code, requires about 10-30min depending on connection"
     hg clone https://hg.mozilla.org/mozilla-central/ "$FIREFOX_PATH"
