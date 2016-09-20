@@ -33,3 +33,8 @@ dependencies:
     - ./bin/install-chrome
     - ./bin/install-firefox
     - docker pull jlongster/mochitest-runner
+experimental:
+  notify:
+    branches:
+      only:
+        - master
