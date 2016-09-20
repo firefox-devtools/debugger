@@ -215,11 +215,10 @@ When a person is assigned to an issue this indicates an _intent to implement_.  
 * Include screenshots and animated GIFs in your pull request whenever possible.
 * List any steps necessary to trigger the feature you've created or bug you are fixing
 * Always run the [unit tests](#unit-tests) locally before creating your PR
- * You are not required to run the [integration tests](#integration-tests) locally
+ * The [integration tests](#integration-tests) will be run automatically by the CI or you can try running them locally as well
 * Once the tests have passed in the PR you must receive a review using the GitHub review system
  * To learn more about GitHub reviews take a look at their [documentation](https://help.github.com/articles/reviewing-changes-in-pull-requests/) and [video tutorial](https://youtu.be/HW0RPaJqm4g)
 * Request review from @jasonLaster or @jlongster by mentioning their names in the PR
- * Also mention either of their names in the PR if you're having issues with [integration tests](#integration-tests) passing
 
 > **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
 
