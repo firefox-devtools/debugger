@@ -110,5 +110,14 @@
   },
   "files": [
     "public"
-  ]
+  ],
+  "greenkeeper": {
+    "ignore": [
+      "react",
+      "react-dom",
+      "react-redux",
+      "redux",
+      "codemirror"
+    ]
+  }
 }
