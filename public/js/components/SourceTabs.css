@@ -33,6 +33,7 @@
 .source-tab.active {
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
+  height: 24px;
 }
 
 .source-tab path {
