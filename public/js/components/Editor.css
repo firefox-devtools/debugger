@@ -10,7 +10,7 @@
  */
 .editor-wrapper {
   position: absolute;
-  height: calc(100% - 30px);
+  height: calc(100% - 31px);
   width: 100%;
   top: 30px;
   left: 0px;
