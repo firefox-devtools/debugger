@@ -2,12 +2,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const uuidgen = require("sdk/util/uuid").uuid;
 const defer = require("../../defer");
 const { entries, toObject } = require("../../utils");
 const { executeSoon } = require("../../DevToolsUtils");
 
 const PROMISE = exports.PROMISE = "@@dispatch/promise";
+let seqIdVal = 1;
+
+function seqIdGen() {
+  return seqIdVal++;
+}
 
 function promiseMiddleware({ dispatch, getState }) {
   return next => action => {
@@ -16,7 +20,7 @@ function promiseMiddleware({ dispatch, getState }) {
     }
 
     const promiseInst = action[PROMISE];
-    const seqId = uuidgen().toString();
+    const seqId = seqIdGen().toString();
 
     // Create a new action that doesn't have the promise field and has
     // the `seqId` field that represents the sequence id
