@@ -63,7 +63,7 @@ function connectClient() {
     });
   }).catch(err => {
     console.log(err);
-    deferred.reject();
+    deferred.resolve([]);
   });
 
   return deferred.promise;

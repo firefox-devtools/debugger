@@ -14,7 +14,7 @@
     "search": true
   },
   "chrome": {
-    "debug": false,
+    "debug": true,
     "webSocketPort": 9222
   },
   "firefox": {
