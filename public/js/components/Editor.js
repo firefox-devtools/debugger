@@ -179,31 +179,19 @@ const Editor = React.createClass({
     const { sourceText, selectedLocation } = nextProps;
 
     if (!sourceText) {
-      return;
+      this.showMessage("");
+    } else if (!isTextForSource(sourceText)) {
+      this.showMessage(sourceText.get("error") || "Loading...");
+    } else if (this.props.sourceText !== sourceText) {
+      this.showSourceText(sourceText, selectedLocation);
     }
 
-    if (sourceText.get("loading")) {
-      return this.setLoading();
-    }
-
-    if (this.props.sourceText !== sourceText) {
-      this.updateEditor(sourceText, selectedLocation);
-      resizeBreakpointGutter(this.editor.codeMirror);
-    }
+    resizeBreakpointGutter(this.editor.codeMirror);
   },
 
-  setLoading() {
-    let doc = getDocument("loading");
-    if (doc) {
-      this.editor.replaceDocument(doc);
-      return doc;
-    }
-
-    doc = this.editor.createDocument();
-    setDocument("loading", doc);
-    this.editor.replaceDocument(doc);
-
-    doc.setValue("Loading...");
+  showMessage(msg) {
+    this.editor.replaceDocument(this.editor.createDocument());
+    this.setText(msg);
     this.editor.setMode({ name: "text" });
   },
 
@@ -212,7 +200,7 @@ const Editor = React.createClass({
    * document with the correct mode and text.
    *
    */
-  updateEditor(sourceText, selectedLocation) {
+  showSourceText(sourceText, selectedLocation) {
     let doc = getDocument(selectedLocation.sourceId);
     if (doc) {
       this.editor.replaceDocument(doc);
@@ -222,11 +210,6 @@ const Editor = React.createClass({
     doc = this.editor.createDocument();
     setDocument(selectedLocation.sourceId, doc);
     this.editor.replaceDocument(doc);
-
-    if (sourceText.get("error")) {
-      this.setText(sourceText.get("error"));
-      this.editor.setMode({ name: "text" });
-    }
 
     this.setText(sourceText.get("text"));
     this.setMode(sourceText);
