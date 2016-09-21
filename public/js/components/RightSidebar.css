@@ -9,8 +9,11 @@
   overflow-y: auto;
 }
 
-.command-bar {
+.right-sidebar .command-bar {
   border-bottom: 1px solid var(--theme-splitter-color);
+}
+
+.command-bar {
   height: 30px;
   padding: 8px 5px 10px 10px;
 }

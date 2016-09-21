@@ -7,6 +7,9 @@ const classnames = require("classnames");
 const actions = require("../actions");
 const { isFirefoxPanel } = require("../feature");
 
+const { KeyShortcuts } =
+  require("../lib/devtools-sham/client/shared/key-shortcuts");
+
 require("./App.css");
 
 // Using this static variable allows webpack to know at compile-time
@@ -24,7 +27,6 @@ const Svg = require("./utils/Svg");
 const Autocomplete = createFactory(require("./Autocomplete"));
 const { getSources, getSelectedSource } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
-const { KeyShortcuts } = require("../lib/devtools-sham/client/shared/key-shortcuts");
 const { isHiddenSource, getURL } = require("../utils/sources-tree");
 
 function searchResults(sources) {
@@ -59,8 +61,15 @@ const App = React.createClass({
     };
   },
 
+  getChildContext() {
+    return {
+      shortcuts: this.shortcuts
+    };
+  },
+
   componentDidMount() {
     this.shortcuts = new KeyShortcuts({ window });
+
     this.shortcuts.on("CmdOrCtrl+P", this.toggleSourcesSearch);
     window.addEventListener("keydown", this.onKeyDown);
   },
@@ -132,12 +141,16 @@ const App = React.createClass({
           initialWidth: 300,
           rightFlex: true,
           left: this.renderCenterPane(this.props),
-          right: RightSidebar({ keyShortcuts: this.shortcuts })
+          right: RightSidebar()
         })
       })
     );
   }
 });
+
+App.childContextTypes = {
+  shortcuts: PropTypes.object
+};
 
 module.exports = connect(
   state => ({ sources: getSources(state),

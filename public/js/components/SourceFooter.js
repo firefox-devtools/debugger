@@ -1,5 +1,6 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
+const { findDOMNode } = require("react-dom");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
@@ -11,6 +12,7 @@ const classnames = require("classnames");
 const { isMapped, getGeneratedSourceId,
         isOriginal } = require("../utils/source-map");
 const { isPretty } = require("../utils/source");
+const { find, findNext, findPrev } = require("../utils/source-search");
 
 require("./SourceFooter.css");
 
@@ -28,7 +30,12 @@ const SourceFooter = React.createClass({
     togglePrettyPrint: PropTypes.func,
     sourceText: ImPropTypes.map,
     selectSource: PropTypes.func,
-    prettySource: ImPropTypes.map
+    prettySource: ImPropTypes.map,
+    editor: PropTypes.object,
+  },
+
+  contextTypes: {
+    shortcuts: PropTypes.object
   },
 
   displayName: "SourceFooter",
@@ -81,14 +88,44 @@ const SourceFooter = React.createClass({
     );
   },
 
-  searchBox() {
-    return dom.input({
-      onKeyPress: (e) => this.onKeyPress(e)
-    });
+  onKeyUp(e) {
+    const query = e.target.value;
+    const ed = this.props.editor;
+    const ctx = { ed, cm: ed.codeMirror };
+
+    if (e.key != "Enter") {
+      find(ctx, query);
+    } else if (e.shiftKey) {
+      findPrev(ctx, query);
+    } else {
+      findNext(ctx, query);
+    }
   },
 
-  onKeyPress(e) {
-    console.log("key", e);
+  focusSearch(shortcut, e) {
+    e.stopPropagation();
+    e.preventDefault();
+    const node = findDOMNode(this).querySelector(".source-search");
+    node.focus();
+  },
+
+  setupKeyboardShortcuts() {
+    if (this.keyShortcutsEnabled) {
+      return;
+    }
+
+    this.keyShortcutsEnabled = true;
+    const shortcuts = this.context.shortcuts;
+    shortcuts.on("Cmd+f", this.focusSearch);
+  },
+
+  componentWillUnmount() {
+    const shortcuts = this.context.shortcuts;
+    shortcuts.off("Cmd+f", this.focusSearch);
+  },
+
+  componentDidUpdate() {
+    this.setupKeyboardShortcuts();
   },
 
   render() {
@@ -100,7 +137,10 @@ const SourceFooter = React.createClass({
     }
 
     return dom.div({ className: "source-footer" },
-      this.searchBox(),
+      dom.input({
+        className: "source-search",
+        onKeyUp: (e) => this.onKeyUp(e)
+      }),
       dom.div({ className: "command-bar" },
         this.blackboxButton(),
         this.prettyPrintButton()
