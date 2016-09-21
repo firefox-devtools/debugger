@@ -5,6 +5,8 @@
 require("babel-register");
 
 const path = require("path");
+const fs = require("fs");
+const Mustache = require("mustache");
 const webpack = require("webpack");
 const express = require("express");
 const webpackDevMiddleware = require("webpack-dev-middleware");
@@ -63,7 +65,10 @@ app.use(express.static("public"));
 
 // Routes
 app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "../index.html"));
+  const tplPath = path.join(__dirname, "../index.html");
+  const tplFile = fs.readFileSync(tplPath, "utf8");
+  const isDevelopment = feature.isDevelopment();
+  res.send(Mustache.render(tplFile, { isDevelopment }));
 });
 
 app.get("/get", function(req, res) {
