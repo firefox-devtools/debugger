@@ -50,6 +50,7 @@ Storybook is a local development environment for react components for viewing co
 + quickly work on a component with hot reloading
 
 **Getting Started:**
+* install storybook `npm i -g @kadira/storybook`
 + start storybook `npm run storybook`
 + edit a component story in `public/js/components/stories`
 

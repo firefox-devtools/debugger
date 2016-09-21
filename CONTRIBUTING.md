@@ -297,6 +297,7 @@ $ npm run lint-js
 Storybook is our local development and testing utility that allows you to see how an individual component like the breakpoint list view or the call stack view react to any changes to style and code you've made.
 
 ```
+$ npm i -g @kadira/storybook
 $ npm run storybook
 ```
 

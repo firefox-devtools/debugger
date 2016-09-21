@@ -21,11 +21,12 @@
     "test-all": "npm run test; npm run lint; npm run flow; npm run firefox-unit-test",
     "mocha-server": "node bin/mocha-server.js",
     "firefox-unit-test": "node bin/firefox-driver --test",
-    "storybook": "start-storybook -p 9001 -s public",
+    "storybook": "start-storybook -p 6006",
     "firefox": "node bin/firefox-driver --start",
     "mochitests-watch": "MOCHITESTS=true TARGET=firefox-panel webpack --watch",
     "build-docs": "documentation build --format html --shallow  --document-exported --output docs/reference/ public/js/actions/",
-    "prepush": "npm run lint"
+    "prepush": "npm run lint",
+    "build-storybook": "build-storybook"
   },
   "engineStrict": true,
   "engines": {
@@ -52,7 +53,6 @@
     "tcomb": "^3.1.0"
   },
   "devDependencies": {
-    "@kadira/storybook": "^1.17.1",
     "amd-loader": "0.0.5",
     "babel": "^6.5.2",
     "babel-cli": "^6.7.5",
