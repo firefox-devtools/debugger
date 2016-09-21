@@ -20,7 +20,7 @@ const Sources = React.createClass({
 
   render() {
     const { sources, selectSource } = this.props;
-    const modifierTxt = Services.appinfo.OS === "Darwin" ? "Cmd" : "Ctrl";
+    const modifierTxt = Services.appinfo.OS === "Darwin" ? "⌘" : "Ctrl";
 
     return dom.div(
       { className: "sources-panel" },

@@ -110,10 +110,10 @@ const App = React.createClass({
   },
 
   renderWelcomeBox() {
-    const modifierTxt = Services.appinfo.OS === "Darwin" ? "Cmd" : "Ctrl";
+    const modifierTxt = Services.appinfo.OS === "Darwin" ? "⌘" : "Ctrl";
     return dom.div(
       { className: "welcomebox" },
-      `Want to find a file? (${modifierTxt} + P)`
+      `${modifierTxt}+P to search for files`
     );
   },
 
