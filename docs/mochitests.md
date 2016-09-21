@@ -8,6 +8,7 @@ Mochitests live in `public/js/test/mochitest`.
 
 **Requirements**
 
+* mercurial ( `brew install mercurial` )
 * autoconf213 ( `brew install autoconf213 && brew unlink autoconf` )
 
 If you haven't set up the mochitest environment yet, just run this:
