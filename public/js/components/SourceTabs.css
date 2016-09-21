@@ -50,6 +50,11 @@
   top: 1px;
   width: 6px;
   height: 6px;
+  display: none;
+}
+
+.source-tab:hover .close-btn {
+  display: block;
 }
 
 .source-header .subsettings {
