@@ -1,10 +1,13 @@
 Associated Issue: #<issue number>
 
-## Summary of Changes
+### Summary of Changes
 
 * change 1
 * change 2
 
-## Screenshots (OPTIONAL)
+### Testing
 
-## Video (OPTIONAL)
+* [ ] passes `npm test`
+* [ ] passes `npm run lint`
+
+### Screenshots/Videos (OPTIONAL)
