@@ -47,14 +47,27 @@
 .source-tab .close-btn {
   position: absolute;
   right: 7px;
-  top: 1px;
-  width: 6px;
-  height: 6px;
+  top: 7px;
+  width: 9px;
+  height: 9px;
+  padding: 3px;
   display: none;
 }
 
+.source-tab .close-btn:hover {
+  background: var(--theme-selection-background);
+  border-radius: 2px;
+}
+
 .source-tab:hover .close-btn {
-  display: block;
+  display: inline-block;
+}
+
+.source-tab .close-btn i {
+  font-size: 5px;
+  position: absolute;
+  top: -3px;
+  left: 1px;
 }
 
 .source-header .subsettings {
