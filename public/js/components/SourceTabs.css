@@ -57,7 +57,12 @@
   padding: 2px;
   text-align: center;
   margin-top: 2px;
-  line-height: 7px;
+  line-height: 5px;
+  transition: all 0.25s easeinout;
+}
+
+.source-tab:hover svg {
+  width: 6px;
 }
 
 .source-tab:hover .close {
@@ -67,6 +72,10 @@
 .source-tab .close:hover {
   background: var(--theme-selection-background);
   border-radius: 2px;
+}
+
+.source-tab .close:hover path {
+  fill: white;
 }
 
 .source-header .subsettings {
