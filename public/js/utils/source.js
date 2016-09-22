@@ -1,11 +1,9 @@
+// @flow
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
- *
- * @param string url - The source url.
- * @return string - The shortened url.
  */
-function trimUrlQuery(url) {
+function trimUrlQuery(url: string): string {
   let length = url.length;
   let q1 = url.indexOf("?");
   let q2 = url.indexOf("&");
@@ -24,13 +22,14 @@ function trimUrlQuery(url) {
  * @return boolean
  *         True if the source is likely javascript.
  */
-function isJavaScript(url, contentType = "") {
+function isJavaScript(url: string, contentType: string = ""): boolean {
   return (url && /\.jsm?$/.test(trimUrlQuery(url))) ||
          contentType.includes("javascript");
 }
 
-function isPretty(source) {
-  return source.url.match(/formatted$/);
+// TODO: This should use a shared Source type
+function isPretty(source: {url: string}): boolean {
+  return /formatted$/.test(source.url);
 }
 
 module.exports = {
