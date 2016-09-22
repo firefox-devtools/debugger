@@ -4,6 +4,7 @@ const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");
 const ReactDOM = require("react-dom");
 const React = require("react");
+const { DOM: dom } = React;
 
 const DevToolsUtils = require("devtools-sham/shared/DevToolsUtils");
 const AppConstants = require("devtools-sham/sham/appconstants").AppConstants;
@@ -24,7 +25,7 @@ const configureStore = require("./utils/create-store");
 const reducers = require("./reducers");
 const selectors = require("./selectors");
 
-const Tabs = require("./components/Tabs");
+const LandingPage = require("./components/LandingPage");
 const App = require("./components/App");
 
 const createStore = configureStore({
@@ -61,7 +62,10 @@ function renderRoot(component) {
     React.createElement(
       Provider,
       { store },
-      React.createElement(component)
+      dom.div({
+        className: "theme-light",
+        style: { flex: 1 }
+      }, React.createElement(component))
     ),
     mount
   );
@@ -116,6 +120,6 @@ if (connTarget) {
     client: firefox.clientCommands
   };
 } else {
-  renderRoot(Tabs);
+  renderRoot(LandingPage);
   connectClients(tabs => actions.newTabs(tabs));
 }
