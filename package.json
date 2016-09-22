@@ -24,7 +24,7 @@
     "storybook": "start-storybook -p 6006",
     "firefox": "node bin/firefox-driver --start",
     "mochitests-watch": "MOCHITESTS=true TARGET=firefox-panel webpack --watch",
-    "build-docs": "documentation build --format html --shallow  --document-exported --output docs/reference/ public/js/actions/",
+    "build-docs": "documentation build --format html --shallow  --document-exported --output docs/reference/ public/js/actions/ public/js/test/mochitest/head.js",
     "prepush": "npm run lint",
     "build-storybook": "build-storybook"
   },
