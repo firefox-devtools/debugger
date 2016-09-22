@@ -117,7 +117,5 @@ if (connTarget) {
   };
 } else {
   renderRoot(Tabs);
-  connectClients().then(tabs => {
-    actions.newTabs(tabs);
-  });
+  connectClients(tabs => actions.newTabs(tabs));
 }

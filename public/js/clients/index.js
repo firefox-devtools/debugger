@@ -42,14 +42,9 @@ function startDebuggingTab(targetEnv, tabId, actions) {
   });
 }
 
-function connectClients() {
-  return Promise.all([
-    firefox.connectClient(),
-    chrome.connectClient()
-  ]).then(results => {
-    const [firefoxTabs, chromeTabs] = results;
-    return firefoxTabs.concat(chromeTabs).filter(i => i);
-  });
+function connectClients(onConnect) {
+  firefox.connectClient().then(onConnect);
+  chrome.connectClient().then(onConnect);
 }
 
 module.exports = {

@@ -125,18 +125,6 @@ Start by running Chrome with remote debugging turned on, this command also creat
 ```
 > If this command doesn't work for your OS or Chrome version see the other [Chrome commands for running in a debuggable state](./docs/remotely-debuggable-browsers.md#chrome)
 
-Now turn on Chrome debugging in the config by [creating a local config file](#create-a-local-config-file)
-
-* Edit the `config/local.json` you just created to change the value of `chrome.debug` to be `true`
-
-```json
-"chrome": {
-  "debug": true
-}
-```
-
-* Restart your development server by typing `ctrl+c` in the Terminal and run `npm start` again
-* Reload `localhost:8000` (you should now see a Chrome tabs section)
 
 #### Node.js
 
