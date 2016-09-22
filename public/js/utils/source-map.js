@@ -37,7 +37,7 @@ const createOriginalSources = sourceMapTask("createOriginalSources");
 const getOriginalSourceUrls = sourceMapTask("getOriginalSourceUrls");
 const getOriginalTexts = sourceMapTask("getOriginalTexts");
 const createSourceMap = sourceMapTask("createSourceMap");
-const clearData = sourceMapTask("clearData");
+const clearSourceMaps = sourceMapTask("clearSourceMaps");
 
 function _shouldSourceMap(source) {
   return isEnabled("sourceMaps") && source.sourceMapURL;
@@ -154,7 +154,7 @@ module.exports = {
   isMapped,
   getGeneratedSourceId,
   createSourceMap,
-  clearData,
+  clearSourceMaps,
   restartWorker,
   destroy
 };

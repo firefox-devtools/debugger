@@ -1,5 +1,6 @@
 const constants = require("../constants");
-const { clearData } = require("../utils/source-map");
+const { clearSourceMaps } = require("../utils/source-map");
+const { clearDocuments } = require("../utils/source-documents");
 
 /**
  * Redux actions for the navigation state
@@ -11,7 +12,9 @@ const { clearData } = require("../utils/source-map");
  * @static
  */
 function willNavigate() {
-  clearData();
+  clearSourceMaps();
+  clearDocuments();
+
   return { type: constants.NAVIGATE };
 }
 

@@ -127,7 +127,7 @@ function createSourceMap({ source, mappings, code }) {
   return generator.toJSON();
 }
 
-function clearData() {
+function clearSourceMaps() {
   sourceMapConsumers.clear();
   sourceNodes.clear();
 }
@@ -139,7 +139,7 @@ const publicInterface = {
   getOriginalSourceUrls,
   getOriginalTexts,
   createSourceMap,
-  clearData
+  clearSourceMaps
 };
 
 self.onmessage = function(msg) {

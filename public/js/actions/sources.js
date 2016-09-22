@@ -18,6 +18,7 @@ const { updateFrameLocations } = require("../utils/pause");
 const constants = require("../constants");
 const invariant = require("invariant");
 const { isEnabled } = require("../feature");
+const { removeDocument } = require("../utils/source-documents");
 
 const {
   createOriginalSources, getOriginalSourceTexts,
@@ -177,6 +178,7 @@ function selectSource(id, options = {}) {
  * @static
  */
 function closeTab(id) {
+  removeDocument(id);
   return {
     type: constants.CLOSE_TAB,
     id: id,
