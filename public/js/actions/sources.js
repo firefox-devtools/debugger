@@ -286,6 +286,8 @@ function loadSourceText(source) {
           source
         );
 
+        const sources = getSources(getState());
+
         const response = await client.sourceContents(
           generatedSource.id
         );
@@ -297,7 +299,7 @@ function loadSourceText(source) {
         };
 
         const originalSourceTexts = await getOriginalSourceTexts(
-          getState(),
+          sources,
           generatedSource,
           generatedSourceText.text
         );

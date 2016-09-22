@@ -126,8 +126,7 @@ async function getOriginalLocation(sources, location: Location) {
   return location;
 }
 
-// TODO : remove the state param
-async function getOriginalSourceTexts(state, generatedSource, generatedText) {
+async function getOriginalSourceTexts(sources, generatedSource, generatedText) {
   if (!_shouldSourceMap(generatedSource)) {
     return [];
   }
@@ -139,7 +138,7 @@ async function getOriginalSourceTexts(state, generatedSource, generatedText) {
 
   return originalTexts.map(({ text, url }) => {
     // TODO : Remove the state param
-    const id = getSourceByURL(state, url).get("id");
+    const id = sources.find(src => src.get("url") == url).get("id");
     const contentType = "text/javascript";
     return { text, id, contentType };
   });
