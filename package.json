@@ -13,7 +13,7 @@
   "scripts": {
     "flow": "flow",
     "start": "npm run check-node && node bin/development-server",
-    "check-node": "check-node-version --node '>= 5.0.0'",
+    "check-node": "check-node-version --node \">= 5.0.0\"",
     "lint": "npm run lint-css -s; npm run lint-js -s",
     "lint-css": "stylelint public/js/components/*.css",
     "lint-js": "eslint public/js",
