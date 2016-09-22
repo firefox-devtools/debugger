@@ -36,9 +36,9 @@ const ArrowExpander = createFactory(createClass({
     }
 
     if (!this.props.visible) {
-      attrs.style = {
+      attrs.style = Object.assign({}, this.props.style || {}, {
         visibility: "hidden"
-      };
+      });
     }
 
     return dom.div(attrs, this.props.children);
@@ -295,6 +295,11 @@ const Tree = module.exports = createClass({
     //   }
     // }));
 
+    const style = Object.assign({}, this.props.style || {}, {
+      padding: 0,
+      margin: 0
+    });
+
     return dom.div(
       {
         className: "tree",
@@ -303,10 +308,7 @@ const Tree = module.exports = createClass({
         onKeyPress: this._preventArrowKeyScrolling,
         onKeyUp: this._preventArrowKeyScrolling,
         // onScroll: this._onScroll,
-        style: {
-          padding: 0,
-          margin: 0
-        }
+        style
       },
       // VirtualScroll({
       //   width: this.props.width,
