@@ -123,6 +123,7 @@ let SourcesTree = React.createClass({
     const { focusedItem, sourceTree, parentMap } = this.state;
 
     const tree = ManagedTree({
+      style: { overflow: "hidden" },
       getParent: item => {
         return parentMap.get(item);
       },

@@ -7,10 +7,10 @@ const classnames = require("classnames");
 const actions = require("../actions");
 const { isFirefoxPanel } = require("../feature");
 
-const { KeyShortcuts } =
-  require("../lib/devtools-sham/client/shared/key-shortcuts");
+const { KeyShortcuts } = require("devtools-sham/client/shared/key-shortcuts");
 
 require("./App.css");
+require("devtools/client/shared/components/splitter/SplitBox.css");
 
 // Using this static variable allows webpack to know at compile-time
 // to avoid this require and not include it at all in the output.
@@ -20,7 +20,8 @@ if (process.env.TARGET !== "firefox-panel") {
 
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
-const SplitBox = createFactory(require("./SplitBox"));
+const SplitBox = createFactory(
+  require("devtools/client/shared/components/splitter/SplitBox"));
 const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 const Svg = require("./utils/Svg");
@@ -134,13 +135,20 @@ const App = React.createClass({
       { className: classnames("debugger theme-body",
                               { "theme-light": !isFirefoxPanel() }) },
       SplitBox({
-        initialWidth: 300,
-        left: Sources({ sources: this.props.sources }),
-        right: SplitBox({
-          initialWidth: 300,
-          rightFlex: true,
-          left: this.renderCenterPane(this.props),
-          right: RightSidebar()
+        style: { width: "100vh" },
+        initialSize: "33%",
+        minSize: 10,
+        maxSize: "50%",
+        splitterSize: 1,
+        startPanel: Sources({ sources: this.props.sources }),
+        endPanel: SplitBox({
+          initialSize: "50%",
+          minSize: 10,
+          maxSize: "80%",
+          splitterSize: 1,
+          endPanelControl: true,
+          startPanel: this.renderCenterPane(this.props),
+          endPanel: RightSidebar()
         })
       })
     );

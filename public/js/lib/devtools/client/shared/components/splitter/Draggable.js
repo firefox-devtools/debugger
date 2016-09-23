@@ -1,8 +1,15 @@
-const React = require("react");
-const ReactDOM = require("react-dom");
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+"use strict";
+
+const React = require("devtools/client/shared/vendor/react");
+const ReactDOM = require("devtools/client/shared/vendor/react");
 const { DOM: dom, PropTypes } = React;
 
 const Draggable = React.createClass({
+  displayName: "Draggable",
 
   propTypes: {
     onMove: PropTypes.func.isRequired,
@@ -11,8 +18,6 @@ const Draggable = React.createClass({
     style: PropTypes.object,
     className: PropTypes.string
   },
-
-  displayName: "Draggable",
 
   startDragging(ev) {
     ev.preventDefault();
@@ -24,7 +29,9 @@ const Draggable = React.createClass({
 
   onMove(ev) {
     ev.preventDefault();
-    this.props.onMove(ev.pageX, ev.pageY);
+    // Use screen coordinates so, moving mouse over iframes
+    // doesn't mangle (relative) coordinates.
+    this.props.onMove(ev.screenX, ev.screenY);
   },
 
   onUp(ev) {

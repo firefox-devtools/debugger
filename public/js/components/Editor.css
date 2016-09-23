@@ -76,7 +76,7 @@
 }
 
 .welcomebox {
-  width: 100%;
+  width: calc(100% - 1px);
 
   /* Offsetting it by 30px for the sources-header area */
   height: calc(100% - 30px);

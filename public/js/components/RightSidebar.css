@@ -7,6 +7,7 @@
 
 .right-sidebar .accordion {
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .right-sidebar .command-bar {
