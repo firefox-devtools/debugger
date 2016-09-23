@@ -6,7 +6,7 @@ const { connect } = require("react-redux");
 const actions = require("../actions");
 const { endTruncateStr } = require("../utils/utils");
 const { basename } = require("../utils/path");
-const { getFrames, getSelectedFrame, getSourceById } = require("../selectors");
+const { getSources, getFrames, getSelectedFrame, getSourceById } = require("../selectors");
 
 if (typeof window == "object") {
   require("./Frames.css");
