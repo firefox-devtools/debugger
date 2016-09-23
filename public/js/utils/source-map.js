@@ -4,7 +4,7 @@ const { makeOriginalSource, getGeneratedSourceId } = require("./source-map-utils
 import type { Location } from "./actions/types";
 
 // TODO : in getSourceById and getSourceByURL => remove the use of the app state
-const { getSources, getSourceById, getSourceByURL } = require("../selectors");
+const { getSourceById, getSourceByURL } = require("../selectors");
 const { isEnabled, getValue } = require("../feature");
 
 let sourceMapWorker;
