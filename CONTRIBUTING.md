@@ -257,27 +257,11 @@ This option is currently unused.
 
 #### firefoxProxy
 
-This logger outputs a verbose output of all the Firefox protocol packets to your shell. Output looks like this.
-
-```
-WS -> TCP: 99:{"to":"server2.conn4.child5/consoleActor2","type":"startListeners","listeners":["NetworkActivity"]}
-TCP -> WS: 229:{"startedListeners":["NetworkActivity"],"nativeConsoleAPI":true,"traits":{"customNetworkRequest":false,"evaluateJSAsync":true,"transferredResponseSize":true,"selectedObjectActor":true},"from":"server2.conn4.child5/consoleActor2"}
-WS -> TCP: 61:{"to":"server2.conn4.child5/27","type":"attach","options":{}}
-TCP -> WS: 53:{"from":"server2.conn4.child5/27","type":"newGlobal"}
-TCP -> WS: 133:{"from":"server2.conn4.child5/27","type":"paused","actor":"server2.conn4.child5/pause28","poppedFrames":[],"why":{"type":"attached"}}
-WS -> TCP: 67:{"to":"server2.conn4.child5/27","type":"resume","resumeLimit":null}
-TCP -> WS: 51:{"from":"server2.conn4.child5/27","type":"resumed"}
-WS -> TCP: 49:{"to":"server2.conn4.child5/27","type":"sources"}
-TCP -> WS: 294:{"from":"server2.conn4.child5/tab1","type":"newSource","source":{"actor":"server2.conn4.child5/29","generatedUrl":null,"url":"http://localhost:7999/todomvc/","isBlackBoxed":false,"isPrettyPrinted":false,"isSourceMapped":false,"sourceMapURL":null,"introductionUrl":null,"introductionType":null}}
-```
+This logger outputs a verbose output of all the Firefox protocol packets to your shell.
 
 #### actions
 
-This logger outputs the Redux actions fired to the browser console. Output looks like this.
-
-```
-[DISPATCH ADD_SOURCE] Object { type: "ADD_SOURCE", source: Object } {\n  "type": "ADD_SOURCE",…ceMapURL": null\n  }\n}...
-```
+This logger outputs the Redux actions fired to the browser console.
 
 ### Tests
 
