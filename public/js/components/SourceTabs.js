@@ -180,13 +180,7 @@ const SourceTabs = React.createClass({
       },
       dom.div({ className: "filename" }, filename),
       dom.div(
-        { onClick: onClickClose },
-        dom.span(
-          { className: "close-btn" },
-          Svg("close")
-        )
-      )
-    );
+        { className: "close-btn", onClick: onClickClose }, Svg("close")));
   },
 
   render() {
