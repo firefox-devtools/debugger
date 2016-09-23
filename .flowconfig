@@ -3,3 +3,7 @@
 .*node_modules/fbjs.*
 .*node_modules/npm.*
 .*firefox/.*
+
+[options]
+module.name_mapper='^Services$' -> '<PROJECT_ROOT>/public/js/lib/devtools/client/shared/shim/Services.js'
+module.name_mapper='^devtools/\(.+$\)' -> '<PROJECT_ROOT>/public/js/lib/devtools/\1.js'

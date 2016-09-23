@@ -1,6 +1,8 @@
+// @flow
+
 const { Services } = require("Services");
 
-function cmdString() {
+function cmdString(): string {
   return (Services.appinfo.OS === "Darwin") ? "⌘" : "Ctrl";
 }
 

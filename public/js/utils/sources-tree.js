@@ -1,19 +1,31 @@
-const URL = require("url");
+// @flow
+
+const { parse } = require("url");
 const { assert } = require("./DevToolsUtils");
-const { isPretty } = require("../utils/source");
+const { isPretty } = require("./source");
+const merge = require("lodash/merge");
 
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
-function isHiddenSource(source) {
+/**
+ * Temporary Source type to be used only within this module
+ * TODO: Replace with real Source type definition when refactoring types
+ */
+type TmpSource = { get: (key: string) => string, toJS: Function };
+
+// TODO: createNode is exported so this type could be useful to other modules
+type Node = { name: any, path: any, contents?: any };
+
+function isHiddenSource(source: TmpSource): boolean {
   const url = source.get("url");
-  return !url || url.match(/SOURCE/) || IGNORED_URLS.includes(url);
+  return !url || /SOURCE/.test(url) || IGNORED_URLS.includes(url);
 }
 
-function nodeHasChildren(item) {
+function nodeHasChildren(item: Node): boolean {
   return Array.isArray(item.contents);
 }
 
-function createNode(name, path, contents) {
+function createNode(name: any, path: any, contents?: any): Node {
   return {
     name,
     path,
@@ -21,7 +33,7 @@ function createNode(name, path, contents) {
   };
 }
 
-function createParentMap(tree) {
+function createParentMap(tree: any): WeakMap<any, any> {
   const map = new WeakMap();
 
   function _traverse(subtree) {
@@ -39,48 +51,64 @@ function createParentMap(tree) {
   return map;
 }
 
-function getURL(source) {
+function getURL(source: TmpSource): { path: string, group: string } {
   const url = source.get("url");
+  let def = { path: "", group: "" };
   if (!url) {
-    return null;
+    return def;
   }
 
-  let urlObj = URL.parse(url);
-  if (!urlObj.protocol && urlObj.pathname[0] === "/") {
-    // If it's just a URL like "/foo/bar.js", resolve it to the file
-    // protocol
-    urlObj.protocol = "file:";
-  } else if (!urlObj.host && !urlObj.protocol) {
-    // We don't know what group to put this under, and it's a script
-    // with a weird URL. Just group them all under an anonymous group.
-    return {
-      path: url,
-      group: "(no domain)"
-    };
-  } else if (urlObj.protocol === "javascript:") {
-    // Ignore `javascript:` URLs for now
-    return null;
-  } else if (urlObj.protocol === "about:") {
-    // An about page is a special case
-    return {
-      path: "/",
-      group: url
-    };
-  } else if (urlObj.protocol === "http:" || urlObj.protocol === "https:") {
-    return {
-      path: urlObj.pathname,
-      group: urlObj.host
-    };
+  const { pathname, protocol, host, path } = parse(url);
+
+  switch (protocol) {
+    case "javascript:":
+      // Ignore `javascript:` URLs for now
+      return def;
+
+    case "about:":
+      // An about page is a special case
+      return merge(def, {
+        path: "/",
+        group: url
+      });
+
+    case null:
+      if (pathname && pathname.startsWith("/")) {
+        // If it's just a URL like "/foo/bar.js", resolve it to the file
+        // protocol
+        return merge(def, {
+          path: path,
+          group: "file://"
+        });
+      } else if (host === null) {
+        // We don't know what group to put this under, and it's a script
+        // with a weird URL. Just group them all under an anonymous group.
+        return merge(def, {
+          path: url,
+          group: "(no domain)"
+        });
+      }
+      break;
+
+    case "http:":
+    case "https:":
+      return merge(def, {
+        path: pathname,
+        group: host
+      });
   }
 
-  return {
-    path: urlObj.path,
-    group: urlObj.protocol + "//"
-  };
+  return merge(def, {
+    path: path,
+    group: protocol ? protocol + "//" : ""
+  });
 }
 
-function addToTree(tree, source) {
+function addToTree(tree: any, source: TmpSource) {
   const url = getURL(source);
+  if (url.path === "") {
+    return;
+  }
   if (isHiddenSource(source) || isPretty(source.toJS())) {
     return;
   }
@@ -139,7 +167,7 @@ function addToTree(tree, source) {
 /**
  * Take an existing source tree, and return a new one with collapsed nodes.
  */
-function collapseTree(node, depth = 0) {
+function collapseTree(node: any, depth: number = 0) {
   // Node is a folder.
   if (nodeHasChildren(node)) {
     // Node is not a root/domain node, and only contains 1 item.
@@ -160,7 +188,7 @@ function collapseTree(node, depth = 0) {
   return node;
 }
 
-function createTree(sources) {
+function createTree(sources: any) {
   const uncollapsedTree = createNode("root", "", []);
   for (let source of sources.valueSeq()) {
     addToTree(uncollapsedTree, source);
