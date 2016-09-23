@@ -102,7 +102,7 @@ function loadSourceMap(generatedSource) {
       type: constants.LOAD_SOURCE_MAP,
       source: generatedSource,
       [PROMISE]: (async function () {
-        const sourceMapURL = getSourceMapURL(getState(), generatedSource);
+        const sourceMapURL = getSourceMapURL(generatedSource);
         sourceMap = await networkRequest(sourceMapURL);
 
         const originalSources = await createOriginalSources(

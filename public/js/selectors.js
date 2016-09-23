@@ -27,7 +27,7 @@ function getSelectedTab(state: AppState) {
 // TODO
 // * remove the state param
 // * Probably move the function elsewhere
-function getSourceMapURL(state: AppState, source: any) {
+function getSourceMapURL(source: any) {
   if (path.isURL(source.sourceMapURL)) {
     // If it's a full URL already, just use it.
     return source.sourceMapURL;
