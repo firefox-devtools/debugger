@@ -48,9 +48,11 @@ describe("sources", () => {
     dispatch(actions.newSource(makeSource("base.js")));
     dispatch(actions.newSource(makeSource("jquery.js")));
 
-    expect(getSources(getState()).size).to.equal(2);
-    const base = getSourceById(getState(), "base.js");
-    const jquery = getSourceById(getState(), "jquery.js");
+    const sources = getSources(getState());
+
+    expect(sources.size).to.equal(2);
+    const base = getSourceById(sources, "base.js");
+    const jquery = getSourceById(sources, "jquery.js");
     expect(base.get("id")).to.equal("base.js");
     expect(jquery.get("id")).to.equal("jquery.js");
   });

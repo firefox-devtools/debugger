@@ -154,7 +154,8 @@ function selectSource(id, options = {}) {
       return;
     }
 
-    const source = getSourceById(getState(), id).toJS();
+    const sources = getSources(getState());
+    const source = getSourceById(sources, id).toJS();
 
     // Make sure to start a request to load the source text.
     dispatch(loadSourceText(source));
@@ -222,8 +223,10 @@ function blackbox(source, shouldBlackBox) {
  */
 function togglePrettyPrint(id) {
   return ({ dispatch, getState, client }) => {
-    const source = getSourceById(getState(), id).toJS();
-    const sourceText = getSourceText(getState(), id).toJS();
+    const state = getState();
+    const sources = getSources(state);
+    const source = getSourceById(sources, id).toJS();
+    const sourceText = getSourceText(state, id).toJS();
 
     if (sourceText.loading) {
       return;
@@ -242,10 +245,11 @@ function togglePrettyPrint(id) {
       source,
       originalSource,
       [PROMISE]: (async function () {
-        const state = getState();
-        const sources = getSources(state);
+        // This is not ideal, see if we could use state and sources defined on the upperscope
+        const newState = getState();
+        const newSources = getSources(newState);
         const text = await _prettyPrintSource({ source, sourceText, url });
-        const frames = await updateFrameLocations(sources, getFrames(state));
+        const frames = await updateFrameLocations(newSources, getFrames(state));
 
         dispatch(selectSource(originalSource.id));
 
@@ -349,7 +353,8 @@ function getTextForSources(actors) {
 
     // Try to fetch as many sources as possible.
     for (let actor of actors) {
-      let source = getSourceById(getState(), actor);
+      let sources = getSources(getState());
+      let source = getSourceById(sources, actor);
       dispatch(loadSourceText(source)).then(({ text, contentType }) => {
         onFetch([source, text, contentType]);
       }, err => {

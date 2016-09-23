@@ -53,10 +53,10 @@ function Frames({ frames, selectedFrame, selectFrame }) {
 module.exports = connect(
   state => ({
     frames: getFrames(state)
-      .filter(frame => getSourceById(state, frame.location.sourceId))
+      .filter(frame => getSourceById(getSources(state), frame.location.sourceId))
       .map(frame => {
         return Object.assign({}, frame, {
-          source: getSourceById(state, frame.location.sourceId).toJS()
+          source: getSourceById(getSources(state), frame.location.sourceId).toJS()
         });
       }),
     selectedFrame: getSelectedFrame(state)

@@ -70,7 +70,8 @@ function getGeneratedSource(state: AppState, source: any) {
   }
 
   const generatedSourceId = getGeneratedSourceId(source);
-  const originalSource = getSourceById(state, generatedSourceId);
+  const sources = getSources(state);
+  const originalSource = getSourceById(sources, generatedSourceId);
 
   if (originalSource) {
     return originalSource.toJS();
@@ -82,7 +83,8 @@ function getGeneratedSource(state: AppState, source: any) {
 // TODO : remove the state param
 async function getGeneratedLocation(state: AppState, location: Location) {
   // TODO : remove the state param in getSourceById()
-  const source: any = getSourceById(state, location.sourceId);
+  const sources = getSources(state);
+  const source: any = getSourceById(sources, location.sourceId);
 
   if (!source) {
     return location;

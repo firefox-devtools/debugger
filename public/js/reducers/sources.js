@@ -209,8 +209,8 @@ function getSourceByURL(sources: any, url: string) {
   return sources.find(source => source.get("url") == url);
 }
 
-function getSourceById(state: OuterState, id: string) {
-  return state.sources.sources.find(source => source.get("id") == id);
+function getSourceById(sources: any, id: string) {
+  return sources.find(source => source.get("id") == id);
 }
 
 function getSources(state: OuterState) {
@@ -239,7 +239,7 @@ function getSourceMap(state: OuterState, sourceId: string) {
 
 function getPrettySource(state: OuterState, id: string) {
   const sources = getSources(state);
-  const source = getSourceById(state, id);
+  const source = getSourceById(sources, id);
   if (!source) {
     return;
   }
