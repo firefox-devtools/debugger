@@ -205,8 +205,8 @@ function getNewSelectedSource(state, id) : ?Source {
 // (right now) to type those wrapped functions.
 type OuterState = { sources: Record<SourcesState> };
 
-function getSourceByURL(state: OuterState, url: string) {
-  return state.sources.sources.find(source => source.get("url") == url);
+function getSourceByURL(sources: any, url: string) {
+  return sources.find(source => source.get("url") == url);
 }
 
 function getSourceById(state: OuterState, id: string) {
@@ -238,12 +238,13 @@ function getSourceMap(state: OuterState, sourceId: string) {
 }
 
 function getPrettySource(state: OuterState, id: string) {
+  const sources = getSources(state);
   const source = getSourceById(state, id);
   if (!source) {
     return;
   }
 
-  return getSourceByURL(state, source.get("url") + ":formatted");
+  return getSourceByURL(sources, source.get("url") + ":formatted");
 }
 
 module.exports = {

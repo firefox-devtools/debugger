@@ -169,10 +169,12 @@ describe("sources", () => {
     dispatch(actions.newSource(bundleSource));
     yield waitForState(store, state => getSourceMap(state, "bundle.js"));
 
-    expect(getSources(getState()).size).to.be(6);
-    const entrySource = getSourceByURL(getState(), "webpack:///entry.js");
-    const times2Source = getSourceByURL(getState(), "webpack:///times2.js");
-    const optsSource = getSourceByURL(getState(), "webpack:///opts.js");
+    const sources = getSources(getState());
+
+    expect(sources.size).to.be(6);
+    const entrySource = getSourceByURL(sources, "webpack:///entry.js");
+    const times2Source = getSourceByURL(sources, "webpack:///times2.js");
+    const optsSource = getSourceByURL(sources, "webpack:///opts.js");
 
     expect(entrySource).to.be.ok();
     expect(times2Source).to.be.ok();

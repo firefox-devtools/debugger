@@ -129,7 +129,8 @@ function loadSourceMap(generatedSource) {
  */
 function selectSourceURL(url) {
   return ({ dispatch, getState }) => {
-    const source = getSourceByURL(getState(), url);
+    const sources = getSources(getState());
+    const source = getSourceByURL(sources, url);
     if (source) {
       dispatch(selectSource(source.get("id")));
     } else {

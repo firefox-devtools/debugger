@@ -4,7 +4,7 @@ const { makeOriginalSource, getGeneratedSourceId } = require("./source-map-utils
 import type { Location } from "./actions/types";
 
 // TODO : in getSourceById and getSourceByURL => remove the use of the app state
-const { getSourceById, getSourceByURL } = require("../selectors");
+const { getSources, getSourceById, getSourceByURL } = require("../selectors");
 const { isEnabled, getValue } = require("../feature");
 
 let sourceMapWorker;
@@ -58,8 +58,9 @@ function isGenerated(source) {
 
 // TODO : remove state use
 async function getOriginalSources(state: AppState, source: any) {
+  const sources = getSources(state);
   const originalSourceUrls = await getOriginalSourceUrls(source);
-  return originalSourceUrls.map(url => getSourceByURL(state, url));
+  return originalSourceUrls.map(url => getSourceByURL(sources, url));
 }
 
 // TODO : remove state use
