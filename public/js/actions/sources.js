@@ -286,12 +286,12 @@ function loadSourceText(source) {
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
       [PROMISE]: (async function () {
+        const sources = getSources(getState());
+
         const generatedSource = await getGeneratedSource(
-          getState(),
+          sources,
           source
         );
-
-        const sources = getSources(getState());
 
         const response = await client.sourceContents(
           generatedSource.id
