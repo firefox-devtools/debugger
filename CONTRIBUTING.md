@@ -27,6 +27,7 @@ We respect your time and want to help you make the most of it as you learn more 
     * [Coding Standards](#coding-standards)
     * [Pull Requests](#pull-requests)
     * [Hot Reloading](#hot-reloading-fire)
+    * [Logging](#logging)
   * [Tests](#tests)
     * [Unit Tests](#unit-tests)
     * [Integration Tests](#integration-tests)
@@ -230,6 +231,53 @@ To enabled Hot Reloading:
 * Restart your development server by typing `ctrl+c` in the Terminal and run `npm start` again
 
 Read more about [Hot Reloading](./docs/local-development.md#hot-reloading)
+
+### Logging
+
+Logging information can be very useful when developing, and there are a few logging options available to you.
+
+To enable logging:
+
+* [Create a local config file](#create-a-local-config-file) if you don't already have one
+* Edit your local config, changing the value of the logger type you want to see to `true`
+
+```json
+  "logging": {
+    "client": false,
+    "firefoxProxy": false,
+    "actions": true
+  }
+```
+
+Let's cover the logging types.
+
+#### client
+
+This option is currently unused.
+
+#### firefoxProxy
+
+This logger outputs a verbose output of all the Firefox protocol packets to your shell. Output looks like this.
+
+```
+WS -> TCP: 99:{"to":"server2.conn4.child5/consoleActor2","type":"startListeners","listeners":["NetworkActivity"]}
+TCP -> WS: 229:{"startedListeners":["NetworkActivity"],"nativeConsoleAPI":true,"traits":{"customNetworkRequest":false,"evaluateJSAsync":true,"transferredResponseSize":true,"selectedObjectActor":true},"from":"server2.conn4.child5/consoleActor2"}
+WS -> TCP: 61:{"to":"server2.conn4.child5/27","type":"attach","options":{}}
+TCP -> WS: 53:{"from":"server2.conn4.child5/27","type":"newGlobal"}
+TCP -> WS: 133:{"from":"server2.conn4.child5/27","type":"paused","actor":"server2.conn4.child5/pause28","poppedFrames":[],"why":{"type":"attached"}}
+WS -> TCP: 67:{"to":"server2.conn4.child5/27","type":"resume","resumeLimit":null}
+TCP -> WS: 51:{"from":"server2.conn4.child5/27","type":"resumed"}
+WS -> TCP: 49:{"to":"server2.conn4.child5/27","type":"sources"}
+TCP -> WS: 294:{"from":"server2.conn4.child5/tab1","type":"newSource","source":{"actor":"server2.conn4.child5/29","generatedUrl":null,"url":"http://localhost:7999/todomvc/","isBlackBoxed":false,"isPrettyPrinted":false,"isSourceMapped":false,"sourceMapURL":null,"introductionUrl":null,"introductionType":null}}
+```
+
+#### actions
+
+This logger outputs the Redux actions fired to the browser console. Output looks like this.
+
+```
+[DISPATCH ADD_SOURCE] Object { type: "ADD_SOURCE", source: Object } {\n  "type": "ADD_SOURCE",…ceMapURL": null\n  }\n}...
+```
 
 ### Tests
 
