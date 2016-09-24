@@ -5,6 +5,7 @@
   margin: 0.25em 0;
   padding: 0.25em 0;
   line-height: 1em;
+  position: relative;
 }
 
 .breakpoints-list .breakpoint.paused {
@@ -33,4 +34,42 @@
 .breakpoint-snippet {
   color: var(--theme-comment);
   padding-left: 20px;
+}
+
+.breakpoint .close-btn {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+}
+
+.breakpoint .close {
+  display: none;
+  width: 12px;
+  height: 12px;
+  padding: 2px;
+  text-align: center;
+  margin-top: 2px;
+  line-height: 5px;
+  transition: all 0.25s easeinout;
+}
+
+.breakpoint .close path {
+  fill: var(--theme-body-color);
+}
+
+.breakpoint:hover svg {
+  width: 6px;
+}
+
+.breakpoint:hover .close {
+  display: block;
+}
+
+.breakpoint .close:hover {
+  background: var(--theme-selection-background);
+  border-radius: 2px;
+}
+
+.breakpoint .close:hover path {
+  fill: white;
 }

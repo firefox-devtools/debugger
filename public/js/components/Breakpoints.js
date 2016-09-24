@@ -10,6 +10,7 @@ const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
 const { endTruncateStr } = require("../utils/utils");
 const { basename } = require("../utils/path");
+const Svg = require("./utils/Svg");
 
 require("./Breakpoints.css");
 
@@ -42,7 +43,8 @@ const Breakpoints = React.createClass({
     breakpoints: ImPropTypes.map.isRequired,
     enableBreakpoint: PropTypes.func.isRequired,
     disableBreakpoint: PropTypes.func.isRequired,
-    selectSource: PropTypes.func.isRequired
+    selectSource: PropTypes.func.isRequired,
+    removeBreakpoint: PropTypes.func.isRequired
   },
 
   displayName: "Breakpoints",
@@ -63,6 +65,10 @@ const Breakpoints = React.createClass({
     const sourceId = breakpoint.location.sourceId;
     const line = breakpoint.location.line;
     this.props.selectSource(sourceId, { line });
+  },
+
+  removeBreakpoint(breakpoint) {
+    this.props.removeBreakpoint(breakpoint.location);
   },
 
   renderBreakpoint(breakpoint) {
@@ -91,8 +97,11 @@ const Breakpoints = React.createClass({
         { className: "breakpoint-label", title: breakpoint.text },
         dom.div({}, renderSourceLocation(breakpoint.location.source, line))
       ),
-      dom.div({ className: "breakpoint-snippet" }, snippet)
-    );
+      dom.div({ className: "breakpoint-snippet" }, snippet),
+      dom.div({
+        className: "close-btn",
+        onClick: () => this.removeBreakpoint(breakpoint)
+      }, Svg("close")));
   },
 
   render() {
