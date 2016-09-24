@@ -147,7 +147,7 @@ const RightSidebar = React.createClass({
     function pauseBtn(pause, ignore, tooltip) {
       return debugBtn(
         () => pauseOnExceptions(pause, ignore),
-        "pause-exceptions",
+        "pause-ignore-exceptions",
         "enabled",
         tooltip
       );
