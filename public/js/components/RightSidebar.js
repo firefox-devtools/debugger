@@ -144,24 +144,24 @@ const RightSidebar = React.createClass({
     const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions,
             pauseOnExceptions } = this.props;
 
-    function pauseBtn(pause, ignore, tooltip) {
+    function pauseBtn(pause, ignore, tooltip, className) {
       return debugBtn(
         () => pauseOnExceptions(pause, ignore),
-        "pause-ignore-exceptions",
+        className,
         "enabled",
         tooltip
       );
     }
 
     if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
-      return pauseBtn(true, true, "Ignore exceptions");
+      return pauseBtn(true, true, "Ignore exceptions. Click to pause on uncaught exceptions","pause-ignore-exceptions");
     }
 
     if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
-      return pauseBtn(true, false, "Pause on uncaught exceptions");
+      return pauseBtn(true, false, "Pause on uncaught exceptions. Click to pause on all exceptions","pause-uncaught-exceptions");
     }
 
-    return pauseBtn(false, false, "Pause on all exceptions");
+    return pauseBtn(false, false, "Pause on all exceptions. Click to ignore exceptions","pause-all-exceptions");
   },
 
   renderDisableBreakpoints() {
