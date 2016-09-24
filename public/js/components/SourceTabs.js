@@ -10,6 +10,7 @@ const actions = require("../actions");
 const { isEnabled } = require("../feature");
 const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
+const Dropdown = React.createFactory(require("./Dropdown"));
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
@@ -91,32 +92,6 @@ const SourceTabs = React.createClass({
     });
   },
 
-  renderSourcesDropdown() {
-    if (!this.state.hiddenSourceTabs) {
-      return dom.div({});
-    }
-
-    return dom.div({
-      className: "sources-dropdown dropdown",
-      ref: "sourcesDropdown",
-      style: { display: (this.state.dropdownShown ? "block" : "none") }
-    },
-      dom.ul({}, this.state.hiddenSourceTabs.map(this.renderDropdownSource))
-    );
-  },
-
-  renderSourcesDropdownMask() {
-    if (!this.state.hiddenSourceTabs) {
-      return dom.div({});
-    }
-
-    return dom.div({
-      className: "dropdown-mask",
-      onClick: this.toggleSourcesDropdown,
-      style: { display: (this.state.dropdownShown ? "block" : "none") }      
-    })
-  },
-
   renderDropdownSource(source) {
     const { selectSource, sourceTabs } = this.props;
     const filename = getFilename(source.toJS());
@@ -127,7 +102,6 @@ const SourceTabs = React.createClass({
       onClick: () => {
         const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
         selectSource(source.get("id"), { tabIndex });
-        this.toggleSourcesDropdown();
       }
     }, filename);
   },
@@ -176,16 +150,28 @@ const SourceTabs = React.createClass({
       CloseButton({ handleClick: onClickClose }));
   },
 
+  renderDropdown() {
+    const hiddenSourceTabs = this.state.hiddenSourceTabs;
+    if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
+      return dom.div({});
+    }
+
+    return Dropdown({
+      panel: dom.ul(
+        {}, 
+        this.state.hiddenSourceTabs.map(this.renderDropdownSource)
+      )
+    });
+  },
+
   render() {
     if (!isEnabled("tabs")) {
       return dom.div({ className: "source-header" });
     }
 
     return dom.div({ className: "source-header" },
-      this.renderSourcesDropdown(),
-      this.renderSourcesDropdownMask(),
       this.renderTabs(),
-      this.renderSourcesDropdownButton()
+      this.renderDropdown()
     );
   }
 });
