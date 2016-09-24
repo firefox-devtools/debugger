@@ -100,7 +100,8 @@ const SourceTabs = React.createClass({
     return dom.li({
       key: source.get("id"),
       onClick: () => {
-        const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
+        // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
+        const tabIndex = 0;
         selectSource(source.get("id"), { tabIndex });
       }
     }, filename);

@@ -75,11 +75,16 @@
   right: 0px;
 }
 
-.dropdown-mask {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  z-index: 999;
-  left: 0;
+.sources-dropdown li {
+  padding: 5px 10px;
+  overflow: hidden;
+  height: 30px;
+}
+
+.sources-dropdown li:nth-of-type(2n) {
+  background-color: var(--theme-tab-toolbar-background);
+}
+
+.sources-dropdown li:hover {
+  background-color: var(--theme-toolbar-background);
 }
