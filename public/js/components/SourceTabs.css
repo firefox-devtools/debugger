@@ -83,9 +83,3 @@ html[dir="rtl"] .source-tab .close-btn {
   right: 3px;
   top: 9px;
 }
-
-.sources-dropdown {
-  position: absolute;
-  top: 35px;
-  right: 0px;
-}
