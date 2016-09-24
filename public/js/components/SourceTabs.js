@@ -105,6 +105,18 @@ const SourceTabs = React.createClass({
     );
   },
 
+  renderSourcesDropdownMask() {
+    if (!this.state.hiddenSourceTabs) {
+      return dom.div({});
+    }
+
+    return dom.div({
+      className: "dropdown-mask",
+      onClick: this.toggleSourcesDropdown,
+      style: { display: (this.state.dropdownShown ? "block" : "none") }      
+    })
+  },
+
   renderDropdownSource(source) {
     const { selectSource, sourceTabs } = this.props;
     const filename = getFilename(source.toJS());
@@ -171,6 +183,7 @@ const SourceTabs = React.createClass({
 
     return dom.div({ className: "source-header" },
       this.renderSourcesDropdown(),
+      this.renderSourcesDropdownMask(),
       this.renderTabs(),
       this.renderSourcesDropdownButton()
     );
