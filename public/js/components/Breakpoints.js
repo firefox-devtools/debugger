@@ -10,7 +10,7 @@ const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
 const { endTruncateStr } = require("../utils/utils");
 const { basename } = require("../utils/path");
-const Svg = require("./utils/Svg");
+const CloseButton = require("./CloseButton");
 
 require("./Breakpoints.css");
 
@@ -67,7 +67,8 @@ const Breakpoints = React.createClass({
     this.props.selectSource(sourceId, { line });
   },
 
-  removeBreakpoint(breakpoint) {
+  removeBreakpoint(event, breakpoint) {
+    event.stopPropagation();
     this.props.removeBreakpoint(breakpoint.location);
   },
 
@@ -98,10 +99,9 @@ const Breakpoints = React.createClass({
         dom.div({}, renderSourceLocation(breakpoint.location.source, line))
       ),
       dom.div({ className: "breakpoint-snippet" }, snippet),
-      dom.div({
-        className: "close-btn",
-        onClick: () => this.removeBreakpoint(breakpoint)
-      }, Svg("close")));
+      CloseButton({
+        handleClick: (ev) => this.removeBreakpoint(ev, breakpoint)
+      }));
   },
 
   render() {
