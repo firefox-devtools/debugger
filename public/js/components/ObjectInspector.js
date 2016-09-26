@@ -1,9 +1,11 @@
 const React = require("react");
 const classnames = require("classnames");
 const ManagedTree = React.createFactory(require("./utils/ManagedTree"));
-const Arrow = React.createFactory(require("./utils/Arrow"));
+const Svg = require("./utils/Svg");
 const Rep = require("./Rep");
 const { DOM: dom, PropTypes } = React;
+
+require("./ObjectInspector.css");
 
 // This implements a component that renders an interactive inspector
 // for looking at JavaScript objects. It expects descriptions of
@@ -142,7 +144,7 @@ const ObjectInspector = React.createClass({
           setExpanded(item, !expanded);
         }
       },
-      Arrow({
+      Svg("arrow", {
         className: classnames({
           expanded: expanded,
           hidden: nodeIsPrimitive(item)

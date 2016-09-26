@@ -137,7 +137,7 @@ const SourceTabs = React.createClass({
     }, filename);
   },
 
-  renderSourcesDropdownButon() {
+  renderSourcesDropdownButton() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
       return dom.div({});
@@ -148,7 +148,7 @@ const SourceTabs = React.createClass({
         className: "subsettings",
         onClick: this.toggleSourcesDropdown
       },
-      dom.img({ src: "images/subSettings.svg" })
+      Svg("subsettings")
     );
   },
 
@@ -190,7 +190,7 @@ const SourceTabs = React.createClass({
     return dom.div({ className: "source-header" },
       this.renderSourcesDropdown(),
       this.renderTabs(),
-      this.renderSourcesDropdownButon()
+      this.renderSourcesDropdownButton()
     );
   }
 });
