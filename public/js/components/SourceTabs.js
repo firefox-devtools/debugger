@@ -9,6 +9,7 @@ const classnames = require("classnames");
 const actions = require("../actions");
 const { isEnabled } = require("../feature");
 const CloseButton = require("./CloseButton");
+const Svg = require("./utils/Svg");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
