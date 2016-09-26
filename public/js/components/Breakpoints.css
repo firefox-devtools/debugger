@@ -5,6 +5,7 @@
   margin: 0.25em 0;
   padding: 0.25em 0;
   line-height: 1em;
+  position: relative;
 }
 
 .breakpoints-list .breakpoint.paused {
@@ -33,4 +34,18 @@
 .breakpoint-snippet {
   color: var(--theme-comment);
   padding-left: 20px;
+}
+
+.breakpoint .close-btn {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+}
+
+.breakpoint .close {
+  display: none;
+}
+
+.breakpoint:hover .close {
+  display: block;
 }

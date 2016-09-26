@@ -3,12 +3,12 @@ const { DOM: dom, PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const Svg = require("./utils/Svg");
 const { getSelectedSource, getSourceTabs } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const classnames = require("classnames");
 const actions = require("../actions");
 const { isEnabled } = require("../feature");
+const CloseButton = require("./CloseButton");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
@@ -179,8 +179,7 @@ const SourceTabs = React.createClass({
         title: url
       },
       dom.div({ className: "filename" }, filename),
-      dom.div(
-        { className: "close-btn", onClick: onClickClose }, Svg("close")));
+      CloseButton({ handleClick: onClickClose }));
   },
 
   render() {
