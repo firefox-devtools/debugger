@@ -147,7 +147,7 @@ const RightSidebar = React.createClass({
     if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
       return debugBtn(
         () => pauseOnExceptions(true, true),
-        "pause-circle",
+        "pause-exceptions",
         "enabled",
         "Ignore exceptions. Click to pause on uncaught exceptions"
       );
@@ -156,7 +156,7 @@ const RightSidebar = React.createClass({
     if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
       return debugBtn(
         () => pauseOnExceptions(true, false),
-        "pause-circle",
+        "pause-exceptions",
         "uncaught enabled",
         "Pause on uncaught exceptions. Click to pause on all exceptions"
       );
@@ -164,7 +164,7 @@ const RightSidebar = React.createClass({
 
     return debugBtn(
       () => pauseOnExceptions(false, false),
-      "pause-circle",
+      "pause-exceptions",
       "all enabled",
       "Pause on all exceptions. Click to ignore exceptions"
     );

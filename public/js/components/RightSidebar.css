@@ -56,10 +56,10 @@
   stroke: var(--theme-highlight-blue);
 }
 
-span.pause-circle.uncaught {
+span.pause-exceptions.uncaught {
   stroke: var(--theme-highlight-purple);
 }
 
-span.pause-circle.all {
+span.pause-exceptions.all {
   stroke: var(--theme-highlight-blue);
 }
