@@ -251,17 +251,11 @@ To enable logging:
 
 Let's cover the logging types.
 
-#### client
+* client -  This option is currently unused.
 
-This option is currently unused.
+* firefoxProxy - This logger outputs a verbose output of all the Firefox protocol packets to your shell.
 
-#### firefoxProxy
-
-This logger outputs a verbose output of all the Firefox protocol packets to your shell.
-
-#### actions
-
-This logger outputs the Redux actions fired to the browser console.
+* actions - This logger outputs the Redux actions fired to the browser console.
 
 ### Tests
 
