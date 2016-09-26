@@ -8,17 +8,19 @@
 .sources-header {
   height: 30px;
   border-bottom: 1px solid var(--theme-splitter-color);
-  padding-left: 10px;
+  padding: 0 10px;
   line-height: 30px;
   font-size: 1.2em;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
 .sources-header-info {
   font-size: 0.7em;
   color: var(--theme-comment-alt);
   font-weight: lighter;
-  padding-right: 10px;
-  float: right;
+  white-space: nowrap;
 }
 
 .sources-list {
