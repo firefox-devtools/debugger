@@ -75,8 +75,9 @@ function removeBreakpoint(breakpointId) {
   });
 }
 
-function toggleAllBreakpoints(shouldDisableBreakpoints) {
-  return debuggerAgent.setBreakpointsActive(!shouldDisableBreakpoints);
+function toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints) {
+  return debuggerAgent.setBreakpointsActive(!shouldDisableBreakpoints)
+    .then(() => breakpoints);
 }
 
 function evaluate(script) {

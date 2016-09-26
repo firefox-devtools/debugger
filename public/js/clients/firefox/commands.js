@@ -73,22 +73,29 @@ async function setBreakpoint(location, condition, sources: any) {
 }
 
 function removeBreakpoint(breakpointId) {
-  // FIXME : problem disabling/enabling and disabling again => bpClient become null \o/
-  // Possibly when re-enabling the breakpoint, it has another actor
   const bpClient = bpClients[breakpointId];
   delete bpClients[breakpointId];
   return bpClient.remove();
 }
 
 async function toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints, sources: any) {
+  const newBreakpoints = [];
+
   for (let [, breakpoint] of breakpoints) {
     if (shouldDisableBreakpoints) {
-      // FIXME : problem when disabling breakpoints, enabling them and disabling them again
       await removeBreakpoint(breakpoint.id);
     } else {
-      await setBreakpoint(breakpoint.location, breakpoint.condition, sources);
+      const bp = await setBreakpoint(
+        breakpoint.location,
+        breakpoint.condition,
+        sources
+      );
+
+      newBreakpoints.push(bp);
     }
   }
+
+  return newBreakpoints;
 }
 
 function evaluate(script) {
