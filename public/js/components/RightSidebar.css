@@ -55,3 +55,11 @@
 .disableBreakpoints.breakpoints-disabled path {
   stroke: var(--theme-highlight-blue);
 }
+
+span.pause-exceptions.uncaught {
+  stroke: var(--theme-highlight-purple);
+}
+
+span.pause-exceptions.all {
+  stroke: var(--theme-highlight-blue);
+}
