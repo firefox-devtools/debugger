@@ -73,6 +73,16 @@
   cursor: ns-resize;
 }
 
+.split-box .splitter .splitter-handle {
+  cursor: ew-resize;
+  position: absolute;
+  top: 0;
+  left: -4px;
+  width: 8px;
+  height: 100%;
+  z-index: 5;
+}
+
 .split-box.disabled {
   pointer-events: none;
 }

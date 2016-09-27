@@ -199,13 +199,14 @@ const SplitBox = React.createClass({
             style: leftPanelStyle },
             startPanel
           ) : null,
+        dom.div({ className: "splitter" },
         Draggable({
-          className: "splitter",
+          className: "splitter-handle",
           style: splitterStyle,
           onStart: this.onStartMove,
           onStop: this.onStopMove,
           onMove: this.onMove
-        }),
+        })),
         endPanel ?
           dom.div({
             className: endPanelControl ? "controlled" : "uncontrolled",
