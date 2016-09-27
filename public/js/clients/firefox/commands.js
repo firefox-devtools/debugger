@@ -46,13 +46,14 @@ function sourceContents(sourceId) {
   return sourceClient.source();
 }
 
-function setBreakpoint(location, condition) {
+function setBreakpoint(location, condition, noSliding) {
   const sourceClient = threadClient.source({ actor: location.sourceId });
 
   return sourceClient.setBreakpoint({
     line: location.line,
     column: location.column,
-    condition: condition
+    condition,
+    noSliding
   }).then(([res, bpClient]) => {
     bpClients[bpClient.actor] = bpClient;
 
