@@ -11,9 +11,13 @@ const defer = require("../utils/defer");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { Task } = require("../utils/task");
 const { isJavaScript } = require("../utils/source");
-const { networkRequest } = require("../utils/networkRequest");
 const { workerTask } = require("../utils/utils");
 const { updateFrameLocations } = require("../utils/pause");
+const {
+  fetchSourceMap, getOriginalSourceText,
+  generatedToOriginalId, isOriginalId,
+  applySourceMap
+} = require("../utils/source-map");
 
 const constants = require("../constants");
 const invariant = require("invariant");
@@ -21,20 +25,9 @@ const { isEnabled } = require("../feature");
 const { removeDocument } = require("../utils/source-documents");
 
 const {
-  createOriginalSources, getOriginalSourceTexts,
-  createSourceMap, makeOriginalSource,
-  getGeneratedSource
-} = require("../utils/source-map");
-
-const {
   getSource, getSourceByURL, getSourceText,
-  getPendingSelectedLocation,
-  getSourceMap, getSourceMapURL, getFrames
+  getPendingSelectedLocation, getFrames
 } = require("../selectors");
-
-function _shouldSourceMap(generatedSource) {
-  return isEnabled("sourceMaps") && generatedSource.sourceMapURL;
-}
 
 async function _prettyPrintSource({ source, sourceText, url }) {
   const contentType = sourceText ? sourceText.contentType : null;
@@ -54,9 +47,7 @@ async function _prettyPrintSource({ source, sourceText, url }) {
     }
   );
 
-  await createSourceMap({ source, mappings, code });
-
-  return code;
+  return { code, mappings };
 }
 
 /**
@@ -66,7 +57,7 @@ async function _prettyPrintSource({ source, sourceText, url }) {
  */
 function newSource(source) {
   return ({ dispatch, getState }) => {
-    if (_shouldSourceMap(source)) {
+    if (isEnabled("sourceMaps")) {
       dispatch(loadSourceMap(source));
     }
 
@@ -96,29 +87,23 @@ function newSources(sources) {
  * @static
  */
 function loadSourceMap(generatedSource) {
-  return ({ dispatch, getState }) => {
-    let sourceMap = getSourceMap(getState(), generatedSource.id);
-    if (sourceMap) {
+  return async function({ dispatch, getState }) {
+    const map = await fetchSourceMap(generatedSource);
+    if (!map) {
+      // If this source doesn't have a sourcemap, do nothing.
       return;
     }
 
-    dispatch({
-      type: constants.LOAD_SOURCE_MAP,
-      source: generatedSource,
-      [PROMISE]: (async function () {
-        const sourceMapURL = getSourceMapURL(getState(), generatedSource);
-        sourceMap = await networkRequest(sourceMapURL);
-
-        const originalSources = await createOriginalSources(
-          generatedSource,
-          sourceMap
-        );
-
-        originalSources.forEach(s => dispatch(newSource(s)));
-
-        return { sourceMap };
-      })()
+    const originalSources = map.sources.map(originalUrl => {
+      return {
+        url: originalUrl,
+        id: generatedToOriginalId(generatedSource.id, originalUrl),
+        isPrettyPrinted: false
+      };
     });
+
+    originalSources.forEach(s => dispatch(newSource(s)));
+    return map;
   };
 }
 
@@ -227,21 +212,19 @@ function blackbox(source, shouldBlackBox) {
  *          A promise that resolves to [aSource, prettyText] or rejects to
  *          [aSource, error].
  */
-function togglePrettyPrint(id) {
+function togglePrettyPrint(sourceId) {
   return ({ dispatch, getState, client }) => {
-    const source = getSource(getState(), id).toJS();
-    const sourceText = getSourceText(getState(), id).toJS();
+    const source = getSource(getState(), sourceId).toJS();
+    const sourceText = getSourceText(getState(), sourceId).toJS();
 
-    if (sourceText.loading) {
-      return;
-    }
-
-    if (!isEnabled("prettyPrint") || source.isPrettyPrinted) {
+    if (!isEnabled("prettyPrint") || sourceText.loading ||
+        source.isPrettyPrinted) {
       return {};
     }
 
     const url = source.url + ":formatted";
-    const originalSource = makeOriginalSource({ url, source });
+    const id = generatedToOriginalId(source.id, url);
+    const originalSource = { url, id, isPrettyPrinted: false };
     dispatch({
       type: constants.ADD_SOURCE,
       source: originalSource
@@ -252,16 +235,17 @@ function togglePrettyPrint(id) {
       source,
       originalSource,
       [PROMISE]: (async function () {
-        const state = getState();
-        const text = await _prettyPrintSource({ source, sourceText, url });
-        const frames = await updateFrameLocations(state, getFrames(state));
+        const { code, mappings } =
+              await _prettyPrintSource({ source, sourceText, url });
+        applySourceMap(source.id, url, code, mappings);
 
+        const frames = await updateFrameLocations(getFrames(getState()));
         dispatch(selectSource(originalSource.id));
 
         const originalSourceText = {
           id: originalSource.id,
           contentType: "text/javascript",
-          text
+          code
         };
 
         return {
@@ -291,26 +275,15 @@ function loadSourceText(source) {
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
       [PROMISE]: (async function () {
-        const generatedSource = await getGeneratedSource(
-          getState(),
-          source
-        );
+        if (isOriginalId(source.id)) {
+          return await getOriginalSourceText(source);
+        }
 
-        const response = await client.sourceContents(
-          generatedSource.id
-        );
-
-        const generatedSourceText = {
+        const response = await client.sourceContents(source.id);
+        return {
           text: response.source,
-          contentType: response.contentType || "text/javascript",
-          id: generatedSource.id
+          contentType: response.contentType || "text/javascript"
         };
-
-        const originalSourceTexts = await getOriginalSourceTexts(
-          getState(),
-          generatedSource,
-          generatedSourceText.text
-        );
 
         // Automatically pretty print if enabled and the test is
         // detected to be "minified"
@@ -319,11 +292,6 @@ function loadSourceText(source) {
         //     SourceUtils.isMinified(source.id, response.source)) {
         //   dispatch(togglePrettyPrint(source));
         // }
-
-        return {
-          generatedSourceText,
-          originalSourceTexts
-        };
       })()
     });
   };

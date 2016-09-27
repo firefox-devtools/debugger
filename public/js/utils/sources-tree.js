@@ -16,11 +16,6 @@ type TmpSource = { get: (key: string) => string, toJS: Function };
 // TODO: createNode is exported so this type could be useful to other modules
 type Node = { name: any, path: any, contents?: any };
 
-function isHiddenSource(source: TmpSource): boolean {
-  const url = source.get("url");
-  return !url || /SOURCE/.test(url) || IGNORED_URLS.includes(url);
-}
-
 function nodeHasChildren(item: Node): boolean {
   return Array.isArray(item.contents);
 }
@@ -106,12 +101,13 @@ function getURL(source: TmpSource): { path: string, group: string } {
 
 function addToTree(tree: any, source: TmpSource) {
   const url = getURL(source);
-  if (url.path === "") {
+
+  if (IGNORED_URLS.includes(url) ||
+      !source.get("url") ||
+      isPretty(source.toJS())) {
     return;
   }
-  if (isHiddenSource(source) || isPretty(source.toJS())) {
-    return;
-  }
+
   url.path = decodeURIComponent(url.path);
 
   const parts = url.path.split("/").filter(p => p !== "");
@@ -207,7 +203,5 @@ module.exports = {
   createParentMap,
   addToTree,
   collapseTree,
-  createTree,
-  getURL,
-  isHiddenSource
+  createTree
 };

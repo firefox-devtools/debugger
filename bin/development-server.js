@@ -72,19 +72,26 @@ app.get("/", function(req, res) {
 });
 
 app.get("/get", function(req, res) {
-  const httpReq = httpGet(
-    req.query.url,
-    body => {
-      try {
-        return res.json(JSON.parse(body));
-      } catch (e) {
-        throw Error(e);
+  const url = req.query.url;
+  if(url.indexOf("file://") === 0) {
+    const path = url.replace("file://", "");
+    res.json(JSON.parse(fs.readFileSync(path, "utf8")));
+  }
+  else {
+    const httpReq = httpGet(
+      req.query.url,
+      body => {
+        try {
+          res.send(body);
+        } catch (e) {
+          res.status(500).send("Malformed json");
+        }
       }
-    }
-  );
+    );
 
-  httpReq.on("error", err => res.status(500).send(err.code));
-  httpReq.on("statusCode", err => res.status(err.message).send(err.message));
+    httpReq.on("error", err => res.status(500).send(err.code));
+    httpReq.on("statusCode", err => res.status(err.message).send(err.message));
+  }
 });
 
 // Listen'

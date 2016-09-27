@@ -1,160 +1,214 @@
-const { workerTask } = require("./utils");
-const { makeOriginalSource, getGeneratedSourceId } = require("./source-map-utils");
+const URL = require("url");
+const md5 = require("md5");
+const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
+const path = require("./path");
+const networkRequest = require("./networkRequest");
+const { getSource } = require("../selectors");
+const { isEnabled } = require("../feature");
+const { isJavaScript } = require("./source");
+const assert = require("./assert");
 
 import type { Location } from "./actions/types";
 
-const { getSource, getSourceByURL } = require("../selectors");
-const { isEnabled, getValue } = require("../feature");
+let sourceMapRequests = new Map();
 
-let sourceMapWorker;
-function restartWorker() {
-  if (sourceMapWorker) {
-    sourceMapWorker.terminate();
+function clearSourceMaps() {
+  sourceMapRequests = new Map();
+}
+
+function _resolveSourceMapURL(source) {
+  if (path.isURL(source.sourceMapURL) || !source.url) {
+    // If it's already a full URL or the source doesn't have a URL,
+    // don't resolve anything.
+    return source.sourceMapURL;
+  } else if (path.isAbsolute(source.sourceMapURL)) {
+    // If it's an absolute path, it should be resolved relative to the
+    // host of the source.
+    const urlObj = URL.parse(source.url);
+    const base = urlObj.protocol + "//" + urlObj.host;
+    return base + source.sourceMapURL;
   }
-  sourceMapWorker = new Worker(
-    getValue("baseWorkerURL") + "source-map-worker.js"
+  // Otherwise, it's a relative path and should be resolved relative
+  // to the source.
+  return path.dirname(source.url) + "/" + source.sourceMapURL;
+}
+
+/**
+ * Sets the source map's sourceRoot to be relative to the source map url.
+ */
+function _setSourceMapRoot(sourceMap, absSourceMapURL, source) {
+  // No need to do this fiddling if we won't be fetching any sources over the
+  // wire.
+  if (sourceMap.hasContentsOfAllSources()) {
+    return;
+  }
+
+  const base = path.dirname(
+    (absSourceMapURL.indexOf("data:") === 0 && source.url) ?
+      source.url :
+      absSourceMapURL
   );
-}
-restartWorker();
 
-function destroy() {
-  if (sourceMapWorker) {
-    sourceMapWorker.terminate();
-    sourceMapWorker = null;
-  }
-}
-
-const sourceMapTask = function(method) {
-  return function() {
-    const args = Array.prototype.slice.call(arguments);
-    return workerTask(sourceMapWorker, { method, args });
-  };
-};
-
-const getOriginalSourcePosition = sourceMapTask("getOriginalSourcePosition");
-const getGeneratedSourceLocation = sourceMapTask("getGeneratedSourceLocation");
-const createOriginalSources = sourceMapTask("createOriginalSources");
-const getOriginalSourceUrls = sourceMapTask("getOriginalSourceUrls");
-const getOriginalTexts = sourceMapTask("getOriginalTexts");
-const createSourceMap = sourceMapTask("createSourceMap");
-const clearSourceMaps = sourceMapTask("clearSourceMaps");
-
-function _shouldSourceMap(source) {
-  return isEnabled("sourceMaps") && source.sourceMapURL;
-}
-
-function isMapped(source) {
-  return _shouldSourceMap(source);
-}
-
-function isOriginal(originalSource) {
-  return !!getGeneratedSourceId(originalSource);
-}
-
-function isGenerated(source) {
-  return !isOriginal(source);
-}
-
-async function getOriginalSources(state: AppState, source: any) {
-  const originalSourceUrls = await getOriginalSourceUrls(source);
-  return originalSourceUrls.map(url => getSourceByURL(state, url));
-}
-
-function getGeneratedSource(state: AppState, source: any) {
-  if (isGenerated(source)) {
-    return source;
+  if (sourceMap.sourceRoot) {
+    sourceMap.sourceRoot = path.join(base, sourceMap.sourceRoot);
+  } else {
+    sourceMap.sourceRoot = base;
   }
 
-  const generatedSourceId = getGeneratedSourceId(source);
-  const originalSource = getSource(state, generatedSourceId);
-
-  if (originalSource) {
-    return originalSource.toJS();
-  }
-
-  return source;
+  return sourceMap;
 }
 
-async function getGeneratedLocation(state: AppState, location: Location) {
-  const source: any = getSource(state, location.sourceId);
+function originalToGeneratedId(originalId) {
+  const match = originalId.match(/(.*)\/originalSource/);
+  return match ? match[1] : null;
+}
 
-  if (!source) {
+function generatedToOriginalId(generatedId, url) {
+  return generatedId + "/originalSource-" + md5(url);
+}
+
+function isOriginalId(id) {
+  return id.match(/\/originalSource/);
+}
+
+function isGeneratedId(id) {
+  return !isOriginalId(id);
+}
+
+async function _fetchSourceMap(generatedSource) {
+  // Fetch the sourcemap over the network and create it.
+  const sourceMapURL = _resolveSourceMapURL(generatedSource);
+  const fetched = await networkRequest(
+    sourceMapURL, { loadFromCache: false }
+  );
+
+  // Create the source map and fix it up.
+  const map = new SourceMapConsumer(fetched.content);
+  _setSourceMapRoot(map, sourceMapURL, generatedSource);
+  return map;
+}
+
+function fetchSourceMap(generatedSource) {
+  const existingRequest = sourceMapRequests.get(generatedSource.id);
+
+  if (!generatedSource.sourceMapURL || !isEnabled("sourceMaps")) {
+    return Promise.resolve(null);
+  } else if (existingRequest) {
+    // If it has already been requested, return the request. An
+    // important behavior here is that if it's in the middle of
+    // requesting it, all subsequent calls will block on the initial
+    // request.
+    return existingRequest;
+  }
+
+  // Fire off the request, set it in the cache, and return it.
+  const req = _fetchSourceMap(generatedSource);
+  sourceMapRequests.set(generatedSource.id, req);
+  return req;
+}
+
+function getSourceMap(generatedSourceId) {
+  return sourceMapRequests.get(generatedSourceId);
+}
+
+function applySourceMap(generatedId, url, code, mappings) {
+  const generator = new SourceMapGenerator({ file: url });
+  mappings.forEach(mapping => generator.addMapping(mapping));
+  generator.setSourceContent(url, code);
+
+  const map = SourceMapConsumer(generator.toJSON());
+  sourceMapRequests.set(generatedId, Promise.resolve(map));
+  return map;
+}
+
+async function getGeneratedLocation(location: Location, state) {
+  if (!isOriginalId(location.sourceId)) {
     return location;
   }
 
-  if (await isOriginal(source.toJS())) {
-    return await getGeneratedSourceLocation(source.toJS(), location);
-  }
-
-  return location;
-}
-
-async function getOriginalLocation(state: AppState, location: Location) {
-  const source: any = getSource(state, location.sourceId);
-
-  if (!source) {
+  const originalSource = getSource(state, location.sourceId).toJS();
+  const generatedSourceId = originalToGeneratedId(location.sourceId);
+  const map = await getSourceMap(generatedSourceId);
+  if (!map) {
     return location;
   }
 
-  if (isGenerated(source.toJS())) {
-    const originalPosition = await getOriginalSourcePosition(
-      source.toJS(),
-      location
-    );
-
-    const { url, line } = originalPosition;
-    if (!url) {
-      return {
-        sourceId: source.get("id"),
-        line: location.line
-      };
-    }
-
-    const originalSource: any = getSourceByURL(state, url);
-
-    return {
-      sourceId: originalSource.get("id"),
-      line
-    };
-  }
-
-  return location;
-}
-
-async function getOriginalSourceTexts(state, generatedSource, generatedText) {
-  if (!_shouldSourceMap(generatedSource)) {
-    return [];
-  }
-
-  const originalTexts = await getOriginalTexts(
-    generatedSource,
-    generatedText
-  );
-
-  return originalTexts.map(({ text, url }) => {
-    const id = getSourceByURL(state, url).get("id");
-    const contentType = "text/javascript";
-    return { text, id, contentType };
+  const { line, column } = map.generatedPositionFor({
+    source: originalSource.url,
+    line: location.line,
+    column: location.column == null ? 0 : location.column
   });
+
+  return {
+    sourceId: generatedSourceId,
+    line: line,
+    // Treat 0 as no column so that line breakpoints work correctly.
+    column: column === 0 ? undefined : column
+  };
+}
+
+async function getOriginalLocation(location: Location) {
+  if (!isGeneratedId(location.sourceId)) {
+    return location;
+  }
+
+  const map = await getSourceMap(location.sourceId);
+  if (!map) {
+    return location;
+  }
+
+  const { source: url, line, column } = map.originalPositionFor({
+    line: location.line,
+    column: location.column == null ? Infinity : location.column
+  });
+
+  if (url == null) {
+    // No url means the location didn't map.
+    return location;
+  }
+
+  return {
+    sourceId: generatedToOriginalId(location.sourceId, url),
+    line,
+    column
+  };
+}
+
+async function getOriginalSourceText(originalSource) {
+  assert(isOriginalId(originalSource.id),
+         "Source is not an original source");
+
+  const generatedSourceId = originalToGeneratedId(originalSource.id);
+  const map = await getSourceMap(generatedSourceId);
+  if (!map) {
+    return null;
+  }
+
+  let text = map.sourceContentFor(originalSource.url);
+  if (!text) {
+    text = (await networkRequest(
+      originalSource.url, { loadFromCache: false }
+    )).content;
+  }
+
+  return {
+    text,
+    contentType: isJavaScript(originalSource.url) ?
+      "text/javascript" :
+      "text/plain"
+  };
 }
 
 module.exports = {
+  originalToGeneratedId,
+  generatedToOriginalId,
+  isGeneratedId,
+  isOriginalId,
+
+  fetchSourceMap,
   getGeneratedLocation,
   getOriginalLocation,
-  makeOriginalSource,
-  getOriginalSources,
-  getGeneratedSource,
-  getOriginalSourceTexts,
-  getOriginalSourcePosition,
-  getGeneratedSourceLocation,
-  createOriginalSources,
-  getOriginalSourceUrls,
-  isOriginal,
-  isGenerated,
-  isMapped,
-  getGeneratedSourceId,
-  createSourceMap,
-  clearSourceMaps,
-  restartWorker,
-  destroy
+  getOriginalSourceText,
+  applySourceMap,
+  clearSourceMaps
 };

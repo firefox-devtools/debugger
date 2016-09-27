@@ -9,8 +9,7 @@ const { getSelectedSource, getSourceText, getPrettySource } = require("../select
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
-const { isMapped, getGeneratedSourceId,
-        isOriginal } = require("../utils/source-map");
+const { isOriginalId, originalToGeneratedId } = require("../utils/source-map");
 const { isPretty } = require("../utils/source");
 const { find, findNext, findPrev } = require("../utils/source-search");
 
@@ -58,7 +57,7 @@ const SourceFooter = React.createClass({
             selectSource, prettySource } = this.props;
 
     if (isPretty(selectedSource.toJS())) {
-      return selectSource(getGeneratedSourceId(selectedSource.toJS()));
+      return selectSource(originalToGeneratedId(selectedSource.get("id")));
     }
 
     if (selectedSource.get("isPrettyPrinted")) {
@@ -72,8 +71,9 @@ const SourceFooter = React.createClass({
     const { selectedSource, sourceText } = this.props;
     const sourceLoaded = selectedSource && !sourceText.get("loading");
 
-    if (isMapped(selectedSource.toJS()) ||
-      (isOriginal(selectedSource.toJS()) && !isPretty(selectedSource.toJS()))) {
+    if (isOriginalId(selectedSource.get("id")) ||
+        (isOriginalId(selectedSource.get("id")) &&
+         !isPretty(selectedSource.toJS()))) {
       return;
     }
 

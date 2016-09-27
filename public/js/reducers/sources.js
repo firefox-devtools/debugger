@@ -7,7 +7,7 @@ const fromJS = require("../utils/fromJS");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
 
-import type { Action, Source, SourceText } from "../actions/types";
+import type { Action, Source } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type SourcesState = {
@@ -23,8 +23,7 @@ export type SourcesState = {
     column?: number
   },
   sourcesText: I.Map<string, any>,
-  tabs: I.List<any>,
-  sourceMaps: I.Map<string, any>,
+  tabs: I.List<any>
 };
 
 const State = makeRecord(({
@@ -32,7 +31,6 @@ const State = makeRecord(({
   selectedLocation: undefined,
   pendingSelectedLocation: undefined,
   sourcesText: I.Map(),
-  sourceMaps: I.Map(),
   tabs: I.List([])
 } : SourcesState));
 
@@ -42,15 +40,6 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       const source: Source = action.source;
       return state.mergeIn(["sources", action.source.id], source);
     }
-
-    case "LOAD_SOURCE_MAP":
-      if (action.status == "done") {
-        return state.mergeIn(
-          ["sourceMaps", action.source.id],
-          action.value.sourceMap
-        );
-      }
-      break;
 
     case "SELECT_SOURCE":
       return state
@@ -75,18 +64,8 @@ function update(state = State(), action: Action) : Record<SourcesState> {
           sourceId: getNewSelectedSourceId(state, action.id)
         });
 
-    case "LOAD_SOURCE_TEXT": {
-      let values;
-      if (action.status === "done") {
-        const { generatedSourceText, originalSourceTexts } = action.value;
-        values = [generatedSourceText, ...originalSourceTexts];
-      } else {
-        const { source } = action;
-        values = [source];
-      }
-
-      return _updateText(state, action, values);
-    }
+    case "LOAD_SOURCE_TEXT":
+      return _updateText(state, action);
 
     case "BLACKBOX":
       if (action.status === "done") {
@@ -99,14 +78,14 @@ function update(state = State(), action: Action) : Record<SourcesState> {
 
     case "TOGGLE_PRETTY_PRINT":
       if (action.status === "done") {
-        return _updateText(state, action, [action.value.sourceText])
+        return _updateText(state, action)
           .setIn(
             ["sources", action.source.id, "isPrettyPrinted"],
             action.value.isPrettyPrinted
           );
       }
 
-      return _updateText(state, action, [action.originalSource]);
+      return _updateText(state, action);
 
     case "NAVIGATE":
       const source = getSelectedSource({ sources: state });
@@ -118,32 +97,33 @@ function update(state = State(), action: Action) : Record<SourcesState> {
   return state;
 }
 
-function _updateText(state, action, values) : Record<SourcesState> {
+// TODO: Action is coerced to `any` unfortunately because how we type
+// asynchronous actions is wrong. The `value` may be null for the
+// "start" and "error" states but we don't type it like that. We need
+// to rethink how we type async actions.
+function _updateText(state, action : any) : Record<SourcesState> {
+  const source = action.source;
+  const sourceText = action.value;
+
   if (action.status === "start") {
     // Merge this in, don't set it. That way the previous value is
     // still stored here, and we can retrieve it if whatever we're
     // doing fails.
-    return values.reduce((_state, source: any) => {
-      return _state.mergeIn(["sourcesText", source.id], {
-        loading: true
-      });
-    }, state);
+    return state.mergeIn(["sourcesText", source.id], {
+      loading: true
+    });
   }
 
   if (action.status === "error") {
-    return values.reduce((_state, source: any) => {
-      return _state.setIn(["sourcesText", source.id], I.Map({
-        error: action.error
-      }));
-    }, state);
+    return state.setIn(["sourcesText", source.id], I.Map({
+      error: action.error
+    }));
   }
 
-  return values.reduce((_state, sourceText: SourceText) => {
-    return _state.setIn(["sourcesText", sourceText.id], I.Map({
-      text: sourceText.text,
-      contentType: sourceText.contentType
-    }));
-  }, state);
+  return state.setIn(["sourcesText", source.id], I.Map({
+    text: sourceText.text,
+    contentType: sourceText.contentType
+  }));
 }
 
 function removeSourceFromTabList(state, id) {
@@ -249,10 +229,6 @@ function getPendingSelectedLocation(state: OuterState) {
   return state.sources.pendingSelectedLocation;
 }
 
-function getSourceMap(state: OuterState, sourceId: string) {
-  return state.sources.sourceMaps.get(sourceId);
-}
-
 function getPrettySource(state: OuterState, id: string) {
   const source = getSource(state, id);
   if (!source) {
@@ -274,6 +250,5 @@ module.exports = {
   getSelectedSource,
   getSelectedLocation,
   getPendingSelectedLocation,
-  getSourceMap,
   getPrettySource
 };

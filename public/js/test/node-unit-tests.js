@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const Mocha = require("mocha");
 const minimist = require("minimist");
+const mock = require("mock-require");
 const getConfig = require("../../../config/config").getConfig;
 const setConfig = require("../../../config/feature").setConfig;
 
@@ -26,14 +27,14 @@ global.Worker = require("workerjs");
 
 // Mock various functions. This allows tests to load files from a
 // local directory easily.
-require("../utils/networkRequest").networkRequest = function(url) {
+mock("../utils/networkRequest", function(url) {
   return new Promise((resolve, reject) => {
     // example.com is used at a dummy URL that points to our local
     // `/public/js` folder.
-    url = url.replace("http://example.com/test/", "/unit-sources/");
-    resolve(JSON.parse(fs.readFileSync(__dirname + url, "utf8")));
+    url = url.replace("http://example.com/test/", "/mochitest/examples/");
+    resolve({ content: fs.readFileSync(__dirname + url, "utf8") });
   });
-};
+});
 
 // disable unecessary require calls
 require.extensions[".css"] = () => {};

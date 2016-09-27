@@ -43,8 +43,8 @@ function connectClient() {
 
   const webSocketPort = getValue("chrome.webSocketPort");
   const url = `http://localhost:${webSocketPort}/json/list`;
-  networkRequest(url).then(body => {
-    deferred.resolve(createTabs(body))
+  networkRequest(url).then(res => {
+    deferred.resolve(createTabs(JSON.parse(res.content)))
   }).catch(err => {
     console.log(err);
     deferred.reject();

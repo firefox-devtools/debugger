@@ -6,6 +6,9 @@ const { cmdString } = require("../utils/text");
 const classnames = require("classnames");
 const actions = require("../actions");
 const { isFirefoxPanel } = require("../feature");
+const { getSources, getSelectedSource } = require("../selectors");
+const { endTruncateStr } = require("../utils/utils");
+const { parse: parseURL } = require("url");
 
 const { KeyShortcuts } = require("devtools-sham/client/shared/key-shortcuts");
 
@@ -26,18 +29,15 @@ const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 const Svg = require("./utils/Svg");
 const Autocomplete = createFactory(require("./Autocomplete"));
-const { getSources, getSelectedSource } = require("../selectors");
-const { endTruncateStr } = require("../utils/utils");
-const { isHiddenSource, getURL } = require("../utils/sources-tree");
 
 function searchResults(sources) {
   function getSourcePath(source) {
-    const { path } = getURL(source);
+    const { path } = parseURL(source.get("url"));
     return endTruncateStr(path, 50);
   }
 
   return sources.valueSeq()
-    .filter(source => !isHiddenSource(source))
+    .filter(source => source.get("url"))
     .map(source => ({
       value: getSourcePath(source),
       title: getSourcePath(source).split("/").pop(),

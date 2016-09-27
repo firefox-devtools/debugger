@@ -23,13 +23,13 @@ function trimUrlQuery(url: string): string {
  *         True if the source is likely javascript.
  */
 function isJavaScript(url: string, contentType: string = ""): boolean {
-  return (url && /\.jsm?$/.test(trimUrlQuery(url))) ||
+  return (url && /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
          contentType.includes("javascript");
 }
 
 // TODO: This should use a shared Source type
 function isPretty(source: {url: string}): boolean {
-  return /formatted$/.test(source.url);
+  return source.url ? /formatted$/.test(source.url) : false;
 }
 
 module.exports = {

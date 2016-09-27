@@ -34,8 +34,9 @@ function resumed() {
  */
 function paused(pauseInfo) {
   return async function({ dispatch, getState, client }) {
-    let { frame, frames, why } = pauseInfo;
-    frames = await updateFrameLocations(getState(), frames);
+    let { frames, why } = pauseInfo;
+    frames = await updateFrameLocations(frames);
+    const frame = frames[0];
 
     dispatch(evaluateExpressions());
     dispatch({
