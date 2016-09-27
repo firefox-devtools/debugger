@@ -136,13 +136,13 @@ const App = React.createClass({
                               { "theme-light": !isFirefoxPanel() }) },
       SplitBox({
         style: { width: "100vh" },
-        initialSize: "33%",
+        initialSize: "300px",
         minSize: 10,
         maxSize: "50%",
         splitterSize: 1,
         startPanel: Sources({ sources: this.props.sources }),
         endPanel: SplitBox({
-          initialSize: "50%",
+          initialSize: "300px",
           minSize: 10,
           maxSize: "80%",
           splitterSize: 1,
