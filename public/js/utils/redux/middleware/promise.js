@@ -7,6 +7,7 @@ const { entries, toObject } = require("../../utils");
 const { executeSoon } = require("../../DevToolsUtils");
 
 const PROMISE = exports.PROMISE = "@@dispatch/promise";
+
 let seqIdVal = 1;
 
 function seqIdGen() {
@@ -19,34 +20,35 @@ function promiseMiddleware({ dispatch, getState }) {
       return next(action);
     }
 
-    const promiseInst = action[PROMISE];
-    const seqId = seqIdGen().toString();
-
-    // Create a new action that doesn't have the promise field and has
+    // Mutate the action, removing the promise field and adding
     // the `seqId` field that represents the sequence id
-    action = Object.assign(
-      toObject(entries(action).filter(pair => pair[0] !== PROMISE)), { seqId }
-    );
-
-    dispatch(Object.assign({}, action, { status: "start" }));
+    const { [PROMISE]: promiseInst, ...actionWithoutPromise } = action;
+    action = {
+      ...actionWithoutPromise,
+      seqId: seqIdGen().toString(),
+      status: "start",
+    };
+    dispatch(action);
 
     // Return the promise so action creators can still compose if they
     // want to.
     const deferred = defer();
     promiseInst.then(value => {
       executeSoon(() => {
-        dispatch(Object.assign({}, action, {
+        dispatch({
+          ...action,
           status: "done",
-          value: value
-        }));
+          value,
+        });
         deferred.resolve(value);
       });
     }, error => {
       executeSoon(() => {
-        dispatch(Object.assign({}, action, {
+        dispatch({
+          ...action,
           status: "error",
-          error: error.message || error
-        }));
+          error: error.message || error,
+        });
         deferred.reject(error);
       });
     });
