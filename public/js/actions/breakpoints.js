@@ -13,7 +13,7 @@ const { PROMISE } = require("../utils/redux/middleware/promise");
 const { getBreakpoint, getBreakpoints } = require("../selectors");
 
 const {
-  getOriginalLocation, getGeneratedLocation
+  getOriginalLocation, getGeneratedLocation, isOriginalId
 } = require("../utils/source-map");
 
 import type { Location } from "./types";
@@ -75,7 +75,8 @@ function addBreakpoint(location: Location,
         location = await getGeneratedLocation(bp.location, getState());
         let { id, actualLocation } = await client.setBreakpoint(
           location,
-          bp.condition
+          bp.condition,
+          isOriginalId(bp.location.sourceId)
         );
 
         actualLocation = await getOriginalLocation(actualLocation);
