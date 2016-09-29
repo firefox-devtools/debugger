@@ -4,6 +4,7 @@
   "logging": false,
   "clientLogging": false,
   "features": {
-    "tabs": true
+    "tabs": true,
+    "sourceMaps": true
   }
 }

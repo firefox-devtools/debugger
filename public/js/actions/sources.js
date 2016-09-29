@@ -14,7 +14,7 @@ const { isJavaScript } = require("../utils/source");
 const { workerTask } = require("../utils/utils");
 const { updateFrameLocations } = require("../utils/pause");
 const {
-  fetchSourceMap, getOriginalSourceText,
+  getOriginalURLs, getOriginalSourceText,
   generatedToOriginalId, isOriginalId,
   applySourceMap
 } = require("../utils/source-map");
@@ -88,13 +88,13 @@ function newSources(sources) {
  */
 function loadSourceMap(generatedSource) {
   return async function({ dispatch, getState }) {
-    const map = await fetchSourceMap(generatedSource);
-    if (!map) {
+    const urls = await getOriginalURLs(generatedSource);
+    if (!urls) {
       // If this source doesn't have a sourcemap, do nothing.
       return;
     }
 
-    const originalSources = map.sources.map(originalUrl => {
+    const originalSources = urls.map(originalUrl => {
       return {
         url: originalUrl,
         id: generatedToOriginalId(generatedSource.id, originalUrl),
@@ -103,7 +103,6 @@ function loadSourceMap(generatedSource) {
     });
 
     originalSources.forEach(s => dispatch(newSource(s)));
-    return map;
   };
 }
 

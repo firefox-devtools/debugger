@@ -7,7 +7,6 @@
 
 const co = require("co");
 const { isDevelopment } = require("../feature");
-const defer = require("./defer");
 
 function asPaused(client: any, func: any) {
   if (client.state != "paused") {
@@ -62,18 +61,29 @@ function endTruncateStr(str: any, size: any) {
   return str;
 }
 
-function workerTask(worker: any, message: any) {
-  let deferred = defer();
-  worker.postMessage(message);
-  worker.onmessage = function(result) {
-    if (result.data && result.data.error) {
-      deferred.reject(result.data.error);
-    }
+let msgId = 1;
+function workerTask(worker: any, method: string) {
+  return function(...args) {
+    return new Promise((resolve, reject) => {
+      const id = msgId++;
+      worker.postMessage({ id, method, args });
 
-    deferred.resolve(result.data);
+      const listener = ({ data: result }) => {
+        if (result.id !== id) {
+          return;
+        }
+
+        worker.removeEventListener("message", listener);
+        if (result.error) {
+          reject(result.error);
+        } else {
+          resolve(result.response);
+        }
+      };
+
+      worker.addEventListener("message", listener);
+    });
   };
-
-  return deferred.promise;
 }
 
 async function asyncMap(items: Array<any>, callback: any) {
