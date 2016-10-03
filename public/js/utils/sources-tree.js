@@ -102,7 +102,7 @@ function getURL(source: TmpSource): { path: string, group: string } {
 function addToTree(tree: any, source: TmpSource) {
   const url = getURL(source);
 
-  if (IGNORED_URLS.includes(url) ||
+  if (IGNORED_URLS.indexOf(url) != -1 ||
       !source.get("url") ||
       isPretty(source.toJS())) {
     return;
