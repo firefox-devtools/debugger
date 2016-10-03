@@ -4,7 +4,7 @@ const { connect } = require("../lib/chrome-remote-debug-protocol");
 const defer = require("../utils/defer");
 const { Tab } = require("../types");
 const { isEnabled, getValue } = require("../feature");
-const { networkRequest } = require("../utils/networkRequest");
+const networkRequest = require("../utils/networkRequest");
 const { setupCommands, clientCommands } = require("./chrome/commands");
 const { setupEvents, clientEvents, pageEvents } = require("./chrome/events");
 
