@@ -36,7 +36,7 @@ function _breakpointExists(state, location: Location) {
 }
 
 function _getOrCreateBreakpoint(state, location, condition) {
-  return getBreakpoint(state, location) || { location, condition };
+  return getBreakpoint(state, location) || { location, condition, text: "" };
 }
 
 /**

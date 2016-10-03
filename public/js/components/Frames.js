@@ -5,7 +5,7 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
 const { endTruncateStr } = require("../utils/utils");
-const { basename } = require("../utils/path");
+const { getFilename } = require("../utils/source");
 const { getFrames, getSelectedFrame, getSource } = require("../selectors");
 
 if (typeof window == "object") {
@@ -17,12 +17,11 @@ function renderFrameTitle(frame) {
 }
 
 function renderFrameLocation(frame) {
-  const url = frame.source.url ? basename(frame.source.url) : "";
-  const line = url !== "" ? `: ${frame.location.line}` : "";
-  return url !== "" ?
-    div({ className: "location" },
-      `${endTruncateStr(url, 30)}${line}`
-    ) : null;
+  const filename = getFilename(frame.source);
+  return div(
+    { className: "location" },
+    `${filename}: ${frame.location.line}`
+  );
 }
 
 function renderFrame(frame, selectedFrame, selectFrame) {

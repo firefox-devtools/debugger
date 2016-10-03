@@ -1,5 +1,9 @@
 // @flow
 
+import type { Source } from "../flow-types";
+
+export type { Source };
+
 /**
  * Flow types
  * @module actions/types
@@ -54,18 +58,6 @@ export type SourceText = {
   id: string,
   text: string,
   contentType: string
-};
-
-/**
- * Source URL
- *
- * @memberof actions/types
- * @static
- */
-export type Source = {
-  id: string,
-  url?: string,
-  sourceMapURL?: string
 };
 
 type BreakpointAction =
