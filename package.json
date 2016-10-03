@@ -25,7 +25,7 @@
     "firefox": "node bin/firefox-driver --start",
     "mochitests-watch": "MOCHITESTS=true TARGET=firefox-panel webpack --watch",
     "build-docs": "documentation build --format html --shallow  --document-exported --output docs/reference/ public/js/actions/ public/js/test/mochitest/head.js",
-    "prepush": "npm run lint",
+    "prepush": "npm run lint; npm run test",
     "build-storybook": "build-storybook"
   },
   "engineStrict": true,
