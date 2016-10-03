@@ -72,9 +72,11 @@ function addBreakpoint(location: Location,
       breakpoint: bp,
       condition: condition,
       [PROMISE]: (async function () {
-        const source = getSource(getState(), bp.location.sourceId);
+        if(isOriginalId(bp.location.sourceId)) {
+          const source = getSource(getState(), bp.location.sourceId);
+          location = await getGeneratedLocation(bp.location, source.toJS());
+        }
 
-        location = await getGeneratedLocation(bp.location, source.toJS());
         let { id, actualLocation } = await client.setBreakpoint(
           location,
           bp.condition,
