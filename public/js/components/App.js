@@ -135,7 +135,7 @@ const App = React.createClass({
       { className: classnames("debugger theme-body",
                               { "theme-light": !isFirefoxPanel() }) },
       SplitBox({
-        style: { width: "100vh" },
+        style: { width: "100vw" },
         initialSize: "300px",
         minSize: 10,
         maxSize: "50%",
