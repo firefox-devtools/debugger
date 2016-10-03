@@ -86,7 +86,7 @@
     "expect.js": "^0.3.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "firefox-profile": "^0.4.0",
-    "flow-bin": "^0.29.0",
+    "flow-bin": "^0.33.0",
     "geckodriver": "^1.1.2",
     "glob": "^7.0.3",
     "husky": "^0.11.7",

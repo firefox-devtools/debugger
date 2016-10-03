@@ -160,8 +160,10 @@ function getNewSelectedSourceId(state, id) : ?Source {
   const tabs = state.get("tabs");
   const selectedSource = getSelectedSource({ sources: state });
 
-  // if we're not closing the selected tab return the selected tab
-  if (selectedSource.get("id") != id) {
+  if (!selectedSource) {
+    return undefined;
+  } else if (selectedSource.get("id") != id) {
+    // If we're not closing the selected tab return the selected tab
     return selectedSource.get("id");
   }
 
@@ -217,8 +219,10 @@ function getSourceTabs(state: OuterState) {
 }
 
 function getSelectedSource(state: OuterState) {
-  return state.sources.selectedLocation &&
-    getSource(state, state.sources.selectedLocation.sourceId);
+  if (state.sources.selectedLocation) {
+    return getSource(state, state.sources.selectedLocation.sourceId);
+  }
+  return undefined;
 }
 
 function getSelectedLocation(state: OuterState) {
