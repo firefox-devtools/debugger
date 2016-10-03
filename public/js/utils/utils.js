@@ -86,16 +86,6 @@ function workerTask(worker: any, method: string) {
   };
 }
 
-async function asyncMap(items: Array<any>, callback: any) {
-  let newItems = [];
-  for (let item of items) {
-    item = await callback(item);
-    newItems.push(item);
-  }
-
-  return newItems;
-}
-
 /**
  * Interleaves two arrays element by element, returning the combined array, like
  * a zip. In the case of arrays with different sizes, undefined values will be
@@ -202,7 +192,6 @@ module.exports = {
   truncateStr,
   endTruncateStr,
   workerTask,
-  asyncMap,
   zip,
   entries,
   toObject,
