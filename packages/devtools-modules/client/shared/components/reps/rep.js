@@ -20,6 +20,7 @@ define(function (require, exports, module) {
   const { Number } = require("./number");
   const { ArrayRep } = require("./array");
   const { Obj } = require("./object");
+  const { SymbolRep } = require("./symbol");
 
   // DOM types (grips)
   const { Attribute } = require("./attribute");
@@ -34,6 +35,7 @@ define(function (require, exports, module) {
   const { ObjectWithText } = require("./object-with-text");
   const { ObjectWithURL } = require("./object-with-url");
   const { GripArray } = require("./grip-array");
+  const { GripMap } = require("./grip-map");
   const { Grip } = require("./grip");
 
   // List of all registered template.
@@ -53,11 +55,13 @@ define(function (require, exports, module) {
     ObjectWithText,
     ObjectWithURL,
     GripArray,
+    GripMap,
     Grip,
     Undefined,
     Null,
     StringRep,
     Number,
+    SymbolRep,
   ];
 
   /**
@@ -98,6 +102,8 @@ define(function (require, exports, module) {
     let type = typeof object;
     if (type == "object" && object instanceof String) {
       type = "string";
+    } else if (type == "object" && object.type === "symbol") {
+      type = "symbol";
     }
 
     if (isGrip(object)) {

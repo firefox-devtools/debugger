@@ -2,12 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-"use strict";
-
-const { Ci, Cc, Cu, Cr, CC } = require("../../sham/chrome");
-const Services = require("../../sham/services");
-const DevToolsUtils = require("../DevToolsUtils");
-const { dumpv } = DevToolsUtils;
+const { Ci, Cc, Cr, CC } = require("../../sham/chrome");
+const { Services } = require("devtools-modules");
+const { dumpv } = require("../DevToolsUtils");
 const EventEmitter = require("../event-emitter");
 const promise = require("../../sham/promise");
 
@@ -65,8 +62,8 @@ function StreamCopier(input, output, length) {
   if (IOUtil.outputStreamIsBuffered(output)) {
     this.output = output;
   } else {
-    this.output = Cc("@mozilla.org/network/buffered-output-stream;1").
-                  createInstance(Ci.nsIBufferedOutputStream);
+    this.output = Cc("@mozilla.org/network/buffered-output-stream;1")
+                  .createInstance(Ci.nsIBufferedOutputStream);
     this.output.init(output, BUFFER_SIZE);
   }
   this._length = length;
@@ -98,7 +95,7 @@ StreamCopier.prototype = {
     Services.tm.currentThread.dispatch(() => {
       try {
         this._copy();
-      } catch(e) {
+      } catch (e) {
         this._deferred.reject(e);
       }
     }, 0);
@@ -113,7 +110,7 @@ StreamCopier.prototype = {
     let bytesCopied;
     try {
       bytesCopied = this.output.writeFrom(this.input, amountToCopy);
-    } catch(e) {
+    } catch (e) {
       if (e.result == Cr.NS_BASE_STREAM_WOULD_BLOCK) {
         this._debug("Base stream would block, will retry");
         this._debug("Waiting for output stream");
@@ -149,7 +146,7 @@ StreamCopier.prototype = {
   _flush: function() {
     try {
       this.output.flush();
-    } catch(e) {
+    } catch (e) {
       if (e.result == Cr.NS_BASE_STREAM_WOULD_BLOCK ||
           e.result == Cr.NS_ERROR_FAILURE) {
         this._debug("Flush would block, will retry");

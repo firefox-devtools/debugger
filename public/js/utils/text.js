@@ -1,9 +1,9 @@
 // @flow
 
-const { Services } = require("devtools-modules");
+const { Services: { appinfo }} = require("devtools-modules");
 
 function cmdString(): string {
-  return (Services.appinfo.OS === "Darwin") ? "⌘" : "Ctrl";
+  return (appinfo.OS === "Darwin") ? "⌘" : "Ctrl";
 }
 
 module.exports = {

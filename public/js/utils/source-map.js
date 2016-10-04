@@ -6,6 +6,7 @@ const {
   isGeneratedId,
   isOriginalId
 } = require("./source-map-util");
+const { prefs } = require("./prefs");
 
 let sourceMapWorker;
 function restartWorker() {
@@ -27,6 +28,10 @@ function destroyWorker() {
     sourceMapWorker.terminate();
     sourceMapWorker = null;
   }
+}
+
+function shouldSourceMap() {
+  return isEnabled("sourceMaps") && prefs.clientSourceMapsEnabled;
 }
 
 const getOriginalURLs = workerTask(sourceMapWorker, "getOriginalURLs");
@@ -51,5 +56,6 @@ module.exports = {
   getOriginalSourceText,
   applySourceMap,
   clearSourceMaps,
-  destroyWorker
+  destroyWorker,
+  shouldSourceMap
 };

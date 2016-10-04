@@ -2,12 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-"use strict";
-
-
-const { Services } = require("devtools-modules");
+const { Services: { appinfo }} = require("devtools-modules");
 const EventEmitter = require("../../shared/event-emitter");
-const isOSX = Services.appinfo.OS === "Darwin";
+const isOSX = appinfo.OS === "Darwin";
+"use strict";
 
 // List of electron keys mapped to DOM API (DOM_VK_*) key code
 const ElectronKeysMapping = {
@@ -93,7 +91,7 @@ function KeyShortcuts({ window, target }) {
  *        The shortcut string to parse, following this document:
  *        https://github.com/electron/electron/blob/master/docs/api/accelerator.md
  */
-KeyShortcuts.parseElectronKey = function (window, str) {
+KeyShortcuts.parseElectronKey = function(window, str) {
   let modifiers = str.split("+");
   let key = modifiers.pop();
 
@@ -152,7 +150,7 @@ KeyShortcuts.parseElectronKey = function (window, str) {
   return shortcut;
 };
 
-KeyShortcuts.stringify = function (shortcut) {
+KeyShortcuts.stringify = function(shortcut) {
   let list = [];
   if (shortcut.alt) {
     list.push("Alt");

@@ -16,8 +16,9 @@ const { updateFrameLocations } = require("../utils/pause");
 const {
   getOriginalURLs, getOriginalSourceText,
   generatedToOriginalId, isOriginalId,
-  isGeneratedId, applySourceMap
+  isGeneratedId, applySourceMap, shouldSourceMap
 } = require("../utils/source-map");
+
 const { prettyPrint } = require("../utils/pretty-print");
 
 const constants = require("../constants");
@@ -39,7 +40,7 @@ import type { ThunkArgs } from "./types";
  */
 function newSource(source: Source) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    if (isEnabled("sourceMaps")) {
+    if (shouldSourceMap()) {
       dispatch(loadSourceMap(source));
     }
 

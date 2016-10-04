@@ -2,12 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-"use strict";
-
 /* General utilities used throughout devtools. */
-
 var { Ci, Cu, Cc, components } = require("../sham/chrome");
-var Services = require("../sham/services");
+const { Services } = require("devtools-modules");
 var promise = require("../sham/promise");
 
 const { FileUtils } = require("../sham/fileutils");
