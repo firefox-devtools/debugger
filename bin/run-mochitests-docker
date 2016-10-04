@@ -2,6 +2,9 @@
 
 TARGET=firefox-panel ./node_modules/.bin/webpack
 
+sudo mkdir /dev/mqueue
+sudo mount -t mqueue none /dev/mqueue
+
 docker run -it \
   -v `pwd`/public/build/bundle.js:/firefox/devtools/client/debugger/new/bundle.js \
   -v `pwd`/public/build/pretty-print-worker.js:/firefox/devtools/client/debugger/new/pretty-print-worker.js \
