@@ -116,12 +116,16 @@ const SourceFooter = React.createClass({
 
     this.keyShortcutsEnabled = true;
     const shortcuts = this.context.shortcuts;
-    shortcuts.on("Cmd+f", this.focusSearch);
+    if (isEnabled("search")) {
+      shortcuts.on("Cmd+f", this.focusSearch);
+    }
   },
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.off("Cmd+f", this.focusSearch);
+    if (isEnabled("search")) {
+      shortcuts.off("Cmd+f", this.focusSearch);
+    }
   },
 
   componentDidUpdate() {

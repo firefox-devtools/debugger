@@ -17,6 +17,7 @@ const actions = require("../actions");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");
+const { isEnabled } = require("../feature");
 
 require("./Editor.css");
 
@@ -144,6 +145,8 @@ const Editor = React.createClass({
   },
 
   componentDidMount() {
+    const extraKeys = isEnabled("search") ? { "Cmd-F": () => {} } : {};
+
     this.editor = new SourceEditor({
       mode: "javascript",
       readOnly: true,
@@ -154,7 +157,8 @@ const Editor = React.createClass({
       showAnnotationRuler: true,
       enableCodeFolding: false,
       gutters: ["breakpoints"],
-      value: " "
+      value: " ",
+      extraKeys
     });
 
     this.editor.appendToLocalElement(
