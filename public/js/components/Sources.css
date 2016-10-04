@@ -17,7 +17,7 @@
 }
 
 .sources-header-info {
-  font-size: 0.7em;
+  font-size: 12px;
   color: var(--theme-comment-alt);
   font-weight: lighter;
   white-space: nowrap;

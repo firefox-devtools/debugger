@@ -16,7 +16,7 @@
 
 .command-bar {
   height: 30px;
-  padding: 8px 5px 10px 17px;
+  padding: 8px 5px 10px 1px;
 }
 
 .command-bar > span {
