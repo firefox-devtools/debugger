@@ -13,6 +13,7 @@ docker run -it \
   -v `pwd`/public/js/test/mochitest:/firefox/devtools/client/debugger/new/test/mochitest \
   -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
   -e "DISPLAY=unix$DISPLAY" \
+  -e "XDG_RUNTIME_DIR=$TMPDIR" \
   --ipc host \
   jlongster/mochitest-runner \
   /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/debugger/new/test/mochitest/browser.ini && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"
