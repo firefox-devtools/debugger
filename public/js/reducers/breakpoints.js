@@ -110,6 +110,19 @@ function update(state = State(), action: Action) {
       if (action.status === "start") {
         return state.set(
           "breakpointsDisabled", action.shouldDisableBreakpoints);
+      } else if (action.status === "done") {
+        return action.value.reduce((updatedState, bp) => {
+          const locationId = makeLocationId(bp.actualLocation);
+          const breakpoint = updatedState.breakpoints.get(locationId);
+          const bpId = bp.id;
+
+          return updatedState.setIn(["breakpoints", locationId],
+            updateObj(breakpoint, {
+              disabled: action.shouldDisableBreakpoints,
+              id: bpId
+            })
+          );
+        }, state);
       }
       break;
     }
