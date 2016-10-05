@@ -24,11 +24,10 @@
 
 .editor.new-breakpoint svg {
   fill: var(--theme-selection-background);
-  width: 60px;
-  height: 12px;
+  height: 18px;
   position: absolute;
   top: 0;
-  right: -4px;
+  right: -8px;
 }
 
 .editor.new-breakpoint.breakpoint-disabled svg {
@@ -40,10 +39,6 @@
   width: 100%;
   height: 100%;
   background-color: var(--theme-body-background);
-}
-
-.CodeMirror-linenumber {
-  font-size: 11px;
 }
 
 /* set the linenumber white when there is a breakpoint */
