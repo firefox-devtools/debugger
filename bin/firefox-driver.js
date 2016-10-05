@@ -7,11 +7,8 @@ const until = webdriver.until;
 const Key = webdriver.Key;
 const minimist = require("minimist");
 
-const args = minimist(process.argv.slice(2), {
-  boolean: "start",
-  boolean: "tests",
-  boolean: "websocket"
-});
+const args = minimist(process.argv.slice(2),
+{ boolean: ["start", "tests", "websocket"] });
 
 const isWindows = /^win/.test(process.platform);
 const shouldStart = args.start;
@@ -20,7 +17,7 @@ const useWebSocket = args.websocket;
 
 function firefoxBinary() {
   let binary = new firefox.Binary();
-    binary.addArguments((!isWindows ? "-" : "") + "-start-debugger-server",
+  binary.addArguments((!isWindows ? "-" : "") + "-start-debugger-server",
     useWebSocket ? "ws:6080" : "6080");
 
   return binary;
@@ -32,7 +29,7 @@ function firefoxProfile() {
   profile.setPreference("devtools.debugger.remote-enabled", true);
   profile.setPreference("devtools.chrome.enabled", true);
   profile.setPreference("devtools.debugger.prompt-connection", false);
-  profile.setPreference("devtools.debugger.remote-use-websocket", useWebSocket);
+  profile.setPreference("devtools.debugger.remote-websocket", useWebSocket);
 
   return profile;
 }
