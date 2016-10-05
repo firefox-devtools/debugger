@@ -1,7 +1,7 @@
+const networkRequest = require("networkRequest");
 const URL = require("url");
 const path = require("./path");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
-const networkRequest = require("./privilegedNetworkRequest");
 const { isJavaScript } = require("./source");
 const assert = require("./assert");
 const {

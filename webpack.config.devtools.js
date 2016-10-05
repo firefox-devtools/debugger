@@ -27,7 +27,8 @@ module.exports = webpackConfig => {
     webpackConfig.output.path = path.join(__dirname, "firefox/devtools/client/debugger/new");
   }
 
-  webpackConfig.resolve.alias["public/js/utils/networkRequest"] = "public/js/utils/privilegedNetworkRequest";
+  webpackConfig.resolve.alias["networkRequest"] =
+    path.join(__dirname, "public/js/utils/privilegedNetworkRequest");
 
   webpackConfig.externals = [
     function(context, request, callback) {

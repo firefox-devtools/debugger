@@ -40,7 +40,8 @@ let webpackConfig = {
       "devtools-sham": path.join(__dirname, "./public/js/lib/devtools-sham"),
       "sdk": path.join(__dirname, "./public/js/lib/devtools-sham/sdk"),
       "Services": path.join(
-          __dirname, "./public/js/lib/devtools/client/shared/shim/Services")
+        __dirname, "./public/js/lib/devtools/client/shared/shim/Services"),
+      "networkRequest": path.join(__dirname, "./public/js/utils/networkRequest")
     }
   },
   module: {
