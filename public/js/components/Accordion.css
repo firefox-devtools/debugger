@@ -28,5 +28,6 @@
 }
 
 .accordion ._content {
-  border-bottom: 1px solid var(--theme-splitter-color);;
+  border-bottom: 1px solid var(--theme-splitter-color);
+  font-size: 12px;
 }
