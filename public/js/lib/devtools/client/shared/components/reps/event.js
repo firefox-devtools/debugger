@@ -12,7 +12,7 @@ define(function (require, exports, module) {
 
   // Reps
   const { createFactories, isGrip } = require("./rep-utils");
-  const { ObjectLink } = createFactories(require("./object-link"));
+  const { rep } = createFactories(require("./grip").Grip);
 
   /**
    * Renders DOM event objects.
@@ -24,31 +24,43 @@ define(function (require, exports, module) {
       object: React.PropTypes.object.isRequired
     },
 
-    summarizeEvent: function (grip) {
-      let info = [grip.preview.type, " "];
-
-      let eventFamily = grip.class;
-      let props = grip.preview.properties;
-
-      if (eventFamily == "MouseEvent") {
-        info.push("clientX=", props.clientX, ", clientY=", props.clientY);
-      } else if (eventFamily == "KeyboardEvent") {
-        info.push("charCode=", props.charCode, ", keyCode=", props.keyCode);
-      } else if (eventFamily == "MessageEvent") {
-        info.push("origin=", props.origin, ", data=", props.data);
-      }
-
-      return info.join("");
-    },
-
     render: function () {
-      let grip = this.props.object;
-      return (
-        ObjectLink({className: "event"},
-          this.summarizeEvent(grip)
-        )
-      );
-    },
+      // Use `Object.assign` to keep `this.props` without changes because:
+      // 1. JSON.stringify/JSON.parse is slow.
+      // 2. Immutable.js is planned for the future.
+      let props = Object.assign({}, this.props);
+      props.object = Object.assign({}, this.props.object);
+      props.object.preview = Object.assign({}, this.props.object.preview);
+      props.object.preview.ownProperties = props.object.preview.properties;
+      delete props.object.preview.properties;
+      props.object.ownPropertyLength =
+        Object.keys(props.object.preview.ownProperties).length;
+
+      switch (props.object.class) {
+        case "MouseEvent":
+          props.isInterestingProp = (type, value, name) => {
+            return (name == "clientX" ||
+                    name == "clientY" ||
+                    name == "layerX" ||
+                    name == "layerY");
+          };
+          break;
+        case "KeyboardEvent":
+          props.isInterestingProp = (type, value, name) => {
+            return (name == "key" ||
+                    name == "charCode" ||
+                    name == "keyCode");
+          };
+          break;
+        case "MessageEvent":
+          props.isInterestingProp = (type, value, name) => {
+            return (name == "isTrusted" ||
+                    name == "data");
+          };
+          break;
+      }
+      return rep(props);
+    }
   });
 
   // Registration
