@@ -81,18 +81,18 @@ let SourcesTree = React.createClass({
 
   getIcon(item, depth) {
     if (depth === 0) {
-      return new Svg("domain");
+      return Svg("domain");
     }
 
     if (!nodeHasChildren(item)) {
-      return new Svg("file");
+      return Svg("file");
     }
 
-    return new Svg("folder");
+    return Svg("folder");
   },
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
-    const arrow = new Svg("arrow",
+    const arrow = Svg("arrow",
       {
         className: classnames(
           { expanded: expanded,

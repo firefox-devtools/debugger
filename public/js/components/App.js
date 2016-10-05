@@ -72,12 +72,13 @@ const App = React.createClass({
     this.shortcuts = new KeyShortcuts({ window });
 
     this.shortcuts.on("CmdOrCtrl+P", this.toggleSourcesSearch);
+    this.shortcuts.on("Escape", this.onEscape);
     window.addEventListener("keydown", this.onKeyDown);
   },
 
   componentWillUnmount() {
     this.shortcuts.off("CmdOrCtrl+P", this.toggleSourcesSearch);
-    window.removeEventListener("keydown", this.onKeyDown);
+    this.shortcuts.off("Escape", this.onEscape);
   },
 
   toggleSourcesSearch(key, e) {
@@ -85,8 +86,8 @@ const App = React.createClass({
     this.setState({ searchOn: !this.state.searchOn });
   },
 
-  onKeyDown(e) {
-    if (this.state.searchOn && e.key === "Escape") {
+  onEscape(shortcut, e) {
+    if (this.state.searchOn) {
       this.setState({ searchOn: false });
       e.preventDefault();
     }

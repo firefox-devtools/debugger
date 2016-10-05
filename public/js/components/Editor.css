@@ -35,6 +35,10 @@
   opacity: 0.3;
 }
 
+.search-bar ~ .editor-mount {
+  height: calc(100% - 58px);
+}
+
 .editor-mount,
 .CodeMirror {
   width: 100%;
