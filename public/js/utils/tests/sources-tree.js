@@ -87,6 +87,105 @@ describe("sources-tree", () => {
     expect(source3Node.name).to.be("a_source3.js");
   });
 
+  it("sorts folders first", () => {
+    const sources = [
+      Map({
+        url: "http://example.com/a.js",
+        actor: "actor1"
+      }),
+      Map({
+        url: "http://example.com/b.js/b_source.js",
+        actor: "actor2"
+      }),
+      Map({
+        url: "http://example.com/c.js",
+        actor: "actor1"
+      }),
+      Map({
+        url: "http://example.com",
+        actor: "actor1"
+      }),
+      Map({
+        url: "http://example.com/d/d_source.js",
+        actor: "actor3"
+      }),
+      Map({
+        url: "http://example.com/b2",
+        actor: "actor2"
+      }),
+    ];
+
+    const tree = createNode("root", "", []);
+    sources.forEach(source => addToTree(tree, source));
+    const domain = tree.contents[0];
+
+    const [
+      bFolderNode,
+      b2FolderNode,
+      dFolderNode,
+      aFileNode,
+      cFileNode,
+    ] = domain.contents;
+
+    expect(bFolderNode.name).to.be("b.js");
+    expect(bFolderNode.contents.length).to.be(1);
+    expect(bFolderNode.contents[0].name).to.be("b_source.js");
+
+    expect(b2FolderNode.name).to.be("b2");
+    expect(b2FolderNode.contents.length).to.be(1);
+    expect(b2FolderNode.contents[0].name).to.be("(index)");
+
+    expect(dFolderNode.name).to.be("d");
+    expect(dFolderNode.contents.length).to.be(1);
+    expect(dFolderNode.contents[0].name).to.be("d_source.js");
+
+    expect(aFileNode.name).to.be("a.js");
+
+    expect(cFileNode.name).to.be("c.js");
+  });
+
+  it("puts (index) at the top of the sort", () => {
+    const sources = [
+      Map({
+        url: "http://example.com/folder/a.js",
+        actor: "actor1"
+      }),
+      Map({
+        url: "http://example.com/folder/b/b.js",
+        actor: "actor2"
+      }),
+      Map({
+        url: "http://example.com/folder",
+        actor: "actor1"
+      }),
+      Map({
+        url: "http://example.com/folder/c/",
+        actor: "actor1"
+      }),
+    ];
+
+    const tree = createNode("root", "", []);
+    sources.forEach(source => addToTree(tree, source));
+    const [
+      indexNode,
+      bFolderNode,
+      cFolderNode,
+      aFileNode,
+    ] = tree.contents[0].contents[0].contents;
+
+    expect(indexNode.name).to.be("(index)");
+
+    expect(bFolderNode.name).to.be("b");
+    expect(bFolderNode.contents.length).to.be(1);
+    expect(bFolderNode.contents[0].name).to.be("b.js");
+
+    expect(cFolderNode.name).to.be("c");
+    expect(cFolderNode.contents.length).to.be(1);
+    expect(cFolderNode.contents[0].name).to.be("(index)");
+
+    expect(aFileNode.name).to.be("a.js");
+  });
+
   it("can collapse a single source", () => {
     const fullTree = createNode("root", "", []);
     addToTree(fullTree, abcSource);

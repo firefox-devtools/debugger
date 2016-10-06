@@ -118,7 +118,10 @@ function addToTree(tree: any, source: TmpSource) {
   let path = "";
   let subtree = tree;
 
-  for (let part of parts) {
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i];
+    const isLastPart = i === parts.length - 1;
+
     // Currently we assume that we are descending into a node with
     // children. This will fail if a path has a directory named the
     // same as another file, like `foo/bar.js/file.js`.
@@ -126,28 +129,24 @@ function addToTree(tree: any, source: TmpSource) {
     // TODO: Be smarter about this, which we'll probably do when we
     // are smarter about folders and collapsing empty ones.
     assert(nodeHasChildren(subtree), `${subtree.name} should have children`);
-    const subpaths = subtree.contents;
+    const children = subtree.contents;
 
-    // We want to sort alphabetically, so find the index where we
-    // should insert this part.
-    let idx = subpaths.findIndex(subpath => {
-      return subpath.name.localeCompare(part) >= 0;
-    });
+    let index = determineFileSortOrder(children, part, isLastPart);
 
-    if (idx >= 0 && subpaths[idx].name === part) {
+    if (index >= 0 && children[index].name === part) {
       // A node with the same name already exists, simply traverse
       // into it.
-      subtree = subpaths[idx];
+      subtree = children[index];
     } else {
       // No node with this name exists, so insert a new one in the
       // place that is alphabetically sorted.
       const node = createNode(part, path + "/" + part, []);
-      const where = idx === -1 ? subpaths.length : idx;
-      subpaths.splice(where, 0, node);
-      subtree = subpaths[where];
+      const where = index === -1 ? children.length : index;
+      children.splice(where, 0, node);
+      subtree = children[where];
     }
 
-    // Keep track of the subpaths so we can tag each node with them.
+    // Keep track of the children so we can tag each node with them.
     path = path + "/" + part;
   }
 
@@ -158,6 +157,36 @@ function addToTree(tree: any, source: TmpSource) {
   } else {
     subtree.contents = source;
   }
+}
+
+/**
+ * Look at the nodes in the source tree, and determine the index of where to
+ * insert a new node. The ordering is index -> folder -> file.
+ */
+function determineFileSortOrder(nodes:Array<Node>, pathPart:string,
+                                isLastPart:boolean) {
+  const partIsDir = !isLastPart || pathPart.indexOf(".") === -1;
+
+  return nodes.findIndex(node => {
+    const nodeIsDir = nodeHasChildren(node);
+
+    // The index will always be the first thing, so this pathPart will be
+    // after it.
+    if (node.name === "(index)") {
+      return false;
+    }
+
+    // If both the pathPart and node are the same type, then compare them
+    // alphabetically.
+    if (partIsDir === nodeIsDir) {
+      return node.name.localeCompare(pathPart) >= 0;
+    }
+
+    // If the pathPart and node differ, then stop here if the pathPart is a
+    // directory. Keep on searching if the part is a file, as it needs to be
+    // placed after the directories.
+    return partIsDir;
+  });
 }
 
 /**
