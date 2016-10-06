@@ -4,6 +4,14 @@
   flex: 1;
 }
 
+.source-header * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
 .source-tabs {
   width: calc(100% - 30px);
   overflow: hidden;
