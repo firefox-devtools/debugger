@@ -80,7 +80,7 @@
     "documentation": "^4.0.0-beta10",
     "eslint": "^3.6.1",
     "eslint-plugin-babel": "^3.3.0",
-    "eslint-plugin-flowtype": "^2.17.1",
+    "eslint-plugin-flowtype": "^2.20.0",
     "eslint-plugin-mozilla": "0.0.3",
     "eslint-plugin-react": "^6.3.0",
     "expect.js": "^0.3.1",
