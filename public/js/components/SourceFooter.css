@@ -8,10 +8,7 @@
   right: 1px;
   opacity: 1;
   z-index: 100;
-  -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
   user-select: none;
 }
 
@@ -20,10 +17,7 @@
 }
 
 .source-footer .command-bar * {
-  -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
   user-select: none;
 }
 
