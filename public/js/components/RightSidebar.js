@@ -85,19 +85,6 @@ const RightSidebar = React.createClass({
     this.props.stepOut();
   },
 
-  setupKeyboardShortcuts() {
-    if (this.keyShortcutsEnabled) {
-      return;
-    }
-
-    this.keyShortcutsEnabled = true;
-    const shortcuts = this.context.shortcuts;
-    shortcuts.on("F8", this.resume);
-    shortcuts.on("F10", this.stepOver);
-    shortcuts.on(`${ctrlKey}F11`, this.stepIn);
-    shortcuts.on(`${ctrlKey}Shift+F11`, this.stepOut);
-  },
-
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.off("F8", this.resume);
@@ -106,8 +93,12 @@ const RightSidebar = React.createClass({
     shortcuts.off(`${ctrlKey}Shift+F11`, this.stepOut);
   },
 
-  componentDidUpdate() {
-    this.setupKeyboardShortcuts();
+  componentDidMount() {
+    const shortcuts = this.context.shortcuts;
+    shortcuts.on("F8", this.resume);
+    shortcuts.on("F10", this.stepOver);
+    shortcuts.on(`${ctrlKey}F11`, this.stepIn);
+    shortcuts.on(`${ctrlKey}Shift+F11`, this.stepOut);
   },
 
   renderStepButtons() {

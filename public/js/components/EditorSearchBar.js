@@ -36,12 +36,15 @@ const EditorSearchBar = React.createClass({
     shortcuts: PropTypes.object
   },
 
-  setupKeyboardShortcuts() {
-    if (this.keyShortcutsEnabled) {
-      return;
+  componentWillUnmount() {
+    const shortcuts = this.context.shortcuts;
+    if (isEnabled("search")) {
+      shortcuts.off("Cmd+f", this.toggleSearch);
+      shortcuts.off("Escape", this.onEscape);
     }
+  },
 
-    this.keyShortcutsEnabled = true;
+  componentDidMount() {
     const shortcuts = this.context.shortcuts;
     if (isEnabled("search")) {
       shortcuts.on("Cmd+f", this.toggleSearch);
@@ -49,11 +52,9 @@ const EditorSearchBar = React.createClass({
     }
   },
 
-  componentWillUnmount() {
-    const shortcuts = this.context.shortcuts;
-    if (isEnabled("search")) {
-      shortcuts.off("Cmd+f", this.toggleSearch);
-      shortcuts.off("Escape", this.onEscape);
+  componentDidUpdate() {
+    if (this.searchInput()) {
+      this.searchInput().focus();
     }
   },
 
@@ -78,14 +79,6 @@ const EditorSearchBar = React.createClass({
 
   searchInput() {
     return findDOMNode(this).querySelector("input");
-  },
-
-  componentDidUpdate() {
-    this.setupKeyboardShortcuts();
-
-    if (this.searchInput()) {
-      this.searchInput().focus();
-    }
   },
 
   onChange(e) {
