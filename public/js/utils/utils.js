@@ -63,7 +63,7 @@ function endTruncateStr(str: any, size: any) {
 
 let msgId = 1;
 function workerTask(worker: any, method: string) {
-  return function(...args) {
+  return function(...args: any) {
     return new Promise((resolve, reject) => {
       const id = msgId++;
       worker.postMessage({ id, method, args });
