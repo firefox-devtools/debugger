@@ -28,7 +28,7 @@ module.exports = webpackConfig => {
   }
 
   webpackConfig.resolve.alias["networkRequest"] =
-    path.join(__dirname, "public/js/utils/privilegedNetworkRequest");
+    path.join(__dirname, "public/js/lib/privilegedNetworkRequest");
 
   webpackConfig.externals = [
     function(context, request, callback) {
