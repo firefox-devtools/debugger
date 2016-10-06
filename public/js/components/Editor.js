@@ -7,6 +7,7 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
+const EditorSearchBar = createFactory(require("./EditorSearchBar"));
 const { debugGlobal } = require("../utils/debug");
 const {
   getSourceText, getBreakpointsForSource,
@@ -270,6 +271,10 @@ const Editor = React.createClass({
     return (
       dom.div(
         { className: "editor-wrapper devtools-monospace" },
+        EditorSearchBar({
+          editor: this.editor,
+          sourceText: this.props.sourceText
+        }),
         dom.div({ className: "editor-mount" }),
         this.renderBreakpoints(),
         SourceFooter({ editor: this.editor })

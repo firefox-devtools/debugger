@@ -11,6 +11,7 @@ const { endTruncateStr } = require("../utils/utils");
 const { parse: parseURL } = require("url");
 
 const { KeyShortcuts } = require("devtools-sham/client/shared/key-shortcuts");
+const shortcuts = new KeyShortcuts({ window });
 
 require("./App.css");
 require("devtools/client/shared/components/splitter/SplitBox.css");
@@ -63,21 +64,18 @@ const App = React.createClass({
   },
 
   getChildContext() {
-    return {
-      shortcuts: this.shortcuts
-    };
+    return { shortcuts };
   },
 
   componentDidMount() {
-    this.shortcuts = new KeyShortcuts({ window });
-
-    this.shortcuts.on("CmdOrCtrl+P", this.toggleSourcesSearch);
+    shortcuts.on("CmdOrCtrl+P", this.toggleSourcesSearch);
+    shortcuts.on("Escape", this.onEscape);
     window.addEventListener("keydown", this.onKeyDown);
   },
 
   componentWillUnmount() {
-    this.shortcuts.off("CmdOrCtrl+P", this.toggleSourcesSearch);
-    window.removeEventListener("keydown", this.onKeyDown);
+    shortcuts.off("CmdOrCtrl+P", this.toggleSourcesSearch);
+    shortcuts.off("Escape", this.onEscape);
   },
 
   toggleSourcesSearch(key, e) {
@@ -85,8 +83,8 @@ const App = React.createClass({
     this.setState({ searchOn: !this.state.searchOn });
   },
 
-  onKeyDown(e) {
-    if (this.state.searchOn && e.key === "Escape") {
+  onEscape(shortcut, e) {
+    if (this.state.searchOn) {
       this.setState({ searchOn: false });
       e.preventDefault();
     }

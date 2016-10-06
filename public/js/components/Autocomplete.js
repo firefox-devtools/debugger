@@ -116,7 +116,7 @@ const Autocomplete = React.createClass({
           focused: this.state.focused
         })
       },
-      new Svg("magnifying-glass"),
+      Svg("magnifying-glass"),
       this.renderInput(),
       dom.ul({ className: "results", ref: "results" },
         searchResults.map(this.renderSearchItem)

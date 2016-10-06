@@ -33,10 +33,6 @@ const SourceFooter = React.createClass({
     editor: PropTypes.object,
   },
 
-  contextTypes: {
-    shortcuts: PropTypes.object
-  },
-
   displayName: "SourceFooter",
 
   blackboxButton() {
@@ -109,42 +105,13 @@ const SourceFooter = React.createClass({
     node.focus();
   },
 
-  setupKeyboardShortcuts() {
-    if (this.keyShortcutsEnabled) {
-      return;
-    }
-
-    this.keyShortcutsEnabled = true;
-    const shortcuts = this.context.shortcuts;
-    if (isEnabled("search")) {
-      shortcuts.on("Cmd+f", this.focusSearch);
-    }
-  },
-
-  componentWillUnmount() {
-    const shortcuts = this.context.shortcuts;
-    if (isEnabled("search")) {
-      shortcuts.off("Cmd+f", this.focusSearch);
-    }
-  },
-
-  componentDidUpdate() {
-    this.setupKeyboardShortcuts();
-  },
-
   render() {
     if (!this.props.selectedSource ||
-        (!isEnabled("prettyPrint")
-          && !isEnabled("blackBox")
-          && !isEnabled("search"))) {
+        (!isEnabled("prettyPrint") && !isEnabled("blackBox"))) {
       return dom.div({ className: "source-footer" });
     }
 
     return dom.div({ className: "source-footer" },
-      dom.input({
-        className: "source-search",
-        onKeyUp: (e) => this.onKeyUp(e)
-      }),
       dom.div({ className: "command-bar" },
         this.blackboxButton(),
         this.prettyPrintButton()
