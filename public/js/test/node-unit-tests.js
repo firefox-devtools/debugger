@@ -1,7 +1,6 @@
 "use strict"; // eslint-disable-line
 const glob = require("glob").sync;
 const path = require("path");
-const fs = require("fs");
 const Mocha = require("mocha");
 const minimist = require("minimist");
 const mock = require("mock-require");
@@ -26,7 +25,7 @@ delete webpackConfig.entry.bundle;
 // The source map worker is compiled with webpack (and mock-require
 // doesn't work in workers) so mock it with an alias, and tweak a few
 // things to make the stub fetcher work in node.
-webpackConfig.resolve.alias["networkRequest"] =
+webpackConfig.resolve.alias.networkRequest =
   path.join(__dirname, "/stubNetworkRequest.js");
 webpackConfig.externals = [{ fs: "commonjs fs" }];
 webpackConfig.node = { __dirname: false };
@@ -57,8 +56,8 @@ if (isCI) {
 
 testFiles.forEach(file => mocha.addFile(file));
 
-webpack(webpackConfig).run(function(err, stats) {
-  if(stats.compilation.errors.length) {
+webpack(webpackConfig).run(function(_, stats) {
+  if (stats.compilation.errors.length) {
     stats.compilation.errors.forEach(err => {
       console.log(err.message);
     });

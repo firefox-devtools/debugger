@@ -23,6 +23,13 @@ function restartWorker() {
 }
 restartWorker();
 
+function destroyWorker() {
+  if (sourceMapWorker) {
+    sourceMapWorker.terminate();
+    sourceMapWorker = null;
+  }
+}
+
 const getOriginalURLs = workerTask(sourceMapWorker, "getOriginalURLs");
 const getGeneratedLocation = workerTask(sourceMapWorker,
                                         "getGeneratedLocation");
@@ -44,5 +51,6 @@ module.exports = {
   getOriginalLocation,
   getOriginalSourceText,
   applySourceMap,
-  clearSourceMaps
+  clearSourceMaps,
+  destroyWorker
 };

@@ -7,4 +7,4 @@ module.exports = function(url) {
     url = url.replace("http://example.com/test/", "/../js/test/mochitest/examples/");
     resolve({ content: fs.readFileSync(__dirname + url, "utf8") });
   });
-}
+};
