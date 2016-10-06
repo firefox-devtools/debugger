@@ -1,5 +1,10 @@
 // @flow
 
+const { endTruncateStr } = require("./utils");
+const { basename } = require("../utils/path");
+
+import type { Source } from "../flow-types";
+
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
  */
@@ -32,7 +37,23 @@ function isPretty(source: {url: string}): boolean {
   return source.url ? /formatted$/.test(source.url) : false;
 }
 
+/**
+ * Show a source url's filename.
+ * If the source does not have a url, use the source id.
+ */
+function getFilename(source: Source) {
+  const { url, id } = source;
+  if (!url) {
+    const sourceId = id.split("/")[1];
+    return `SOURCE${sourceId}`;
+  }
+
+  const name = basename(source.url);
+  return endTruncateStr(name, 50);
+}
+
 module.exports = {
   isJavaScript,
-  isPretty
+  isPretty,
+  getFilename
 };

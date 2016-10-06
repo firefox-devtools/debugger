@@ -4,7 +4,7 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getSelectedSource, getSourceTabs } = require("../selectors");
-const { endTruncateStr } = require("../utils/utils");
+const { getFilename } = require("../utils/source");
 const classnames = require("classnames");
 const actions = require("../actions");
 const { isEnabled } = require("../feature");
@@ -13,23 +13,6 @@ const Svg = require("./utils/Svg");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
-
-/**
- * TODO: this is a placeholder function
- */
-function getFilename(url) {
-  if (!url) {
-    return "";
-  }
-
-  let name = url;
-  const m = url.toString().match(/.*\/(.+?\..*$)/);
-  if (m && m.length > 1) {
-    name = m[1];
-  }
-
-  return endTruncateStr(name, 50);
-}
 
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
@@ -124,8 +107,7 @@ const SourceTabs = React.createClass({
 
   renderDropdownSource(source) {
     const { selectSource, sourceTabs } = this.props;
-    const url = source && source.get("url");
-    const filename = getFilename(url);
+    const filename = getFilename(source.toJS());
     const sourceTabEls = this.refs.sourceTabs.children;
 
     return dom.li({
@@ -163,8 +145,7 @@ const SourceTabs = React.createClass({
 
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
-    const url = source && source.get("url");
-    const filename = getFilename(url);
+    const filename = getFilename(source.toJS());
     const active = source.get("id") == selectedSource.get("id");
 
     function onClickClose(ev) {
@@ -177,7 +158,7 @@ const SourceTabs = React.createClass({
         className: classnames("source-tab", { active }),
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
-        title: url
+        title: source.get("url")
       },
       dom.div({ className: "filename" }, filename),
       CloseButton({ handleClick: onClickClose }));
