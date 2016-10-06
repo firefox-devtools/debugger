@@ -1,7 +1,6 @@
 "use strict"; // eslint-disable-line
 const glob = require("glob").sync;
 const path = require("path");
-const fs = require("fs");
 const Mocha = require("mocha");
 const minimist = require("minimist");
 const mock = require("mock-require");
@@ -24,18 +23,19 @@ const webpack = require("webpack");
 const webpackConfig = require("../../../webpack.config");
 delete webpackConfig.entry.bundle;
 
+// The source map worker is compiled with webpack (and mock-require
+// doesn't work in workers) so mock it with an alias, and tweak a few
+// things to make the stub fetcher work in node.
+webpackConfig.resolve.alias.networkRequest =
+  path.join(__dirname, "utils/stubNetworkRequest.js");
+webpackConfig.externals = [{ fs: "commonjs fs" }];
+webpackConfig.node = { __dirname: false };
+
 global.Worker = require("workerjs");
 
 // Mock various functions. This allows tests to load files from a
 // local directory easily.
-mock("../utils/networkRequest", function(url) {
-  return new Promise((resolve, reject) => {
-    // example.com is used at a dummy URL that points to our local
-    // `/public/js` folder.
-    url = url.replace("http://example.com/test/", "/mochitest/examples/");
-    resolve({ content: fs.readFileSync(__dirname + url, "utf8") });
-  });
-});
+mock("../utils/networkRequest", require("./utils/stubNetworkRequest"));
 
 // disable unecessary require calls
 require.extensions[".css"] = () => {};
@@ -59,7 +59,14 @@ if (isCI) {
 
 testFiles.forEach(file => mocha.addFile(file));
 
-webpack(webpackConfig).run(function(err, stats) {
+webpack(webpackConfig).run(function(_, stats) {
+  if (stats.compilation.errors.length) {
+    stats.compilation.errors.forEach(err => {
+      console.log(err.message);
+    });
+    return;
+  }
+
   mocha.run(function(failures) {
     process.exit(failures);
   });

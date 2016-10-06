@@ -12,7 +12,6 @@ const ignoreRegexes = [
 const nativeMapping = {
   "public/js/utils/source-editor": "devtools/client/sourceeditor/editor",
   "public/js/test/test-flag": "devtools/shared/flags",
-  "public/js/utils/networkRequest": ["devtools/shared/DevToolsUtils", "fetch"],
 
   // React can be required a few different ways, make sure they are
   // all mapped.
@@ -27,6 +26,9 @@ module.exports = webpackConfig => {
   if(process.env.MOCHITESTS) {
     webpackConfig.output.path = path.join(__dirname, "firefox/devtools/client/debugger/new");
   }
+
+  webpackConfig.resolve.alias["networkRequest"] =
+    path.join(__dirname, "public/js/lib/privilegedNetworkRequest");
 
   webpackConfig.externals = [
     function(context, request, callback) {

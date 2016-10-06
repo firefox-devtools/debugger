@@ -10,7 +10,7 @@
 
 const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
-const { getBreakpoint, getBreakpoints } = require("../selectors");
+const { getBreakpoint, getBreakpoints, getSource } = require("../selectors");
 
 const {
   getOriginalLocation, getGeneratedLocation, isOriginalId
@@ -72,7 +72,11 @@ function addBreakpoint(location: Location,
       breakpoint: bp,
       condition: condition,
       [PROMISE]: (async function () {
-        location = await getGeneratedLocation(bp.location, getState());
+        if (isOriginalId(bp.location.sourceId)) {
+          const source = getSource(getState(), bp.location.sourceId);
+          location = await getGeneratedLocation(bp.location, source.toJS());
+        }
+
         let { id, actualLocation } = await client.setBreakpoint(
           location,
           bp.condition,

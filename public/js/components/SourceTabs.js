@@ -149,7 +149,7 @@ const SourceTabs = React.createClass({
         className: "subsettings",
         onClick: this.toggleSourcesDropdown
       },
-      Svg("subsettings")
+      Svg("subSettings")
     );
   },
 

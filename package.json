@@ -58,11 +58,11 @@
     "amd-loader": "0.0.5",
     "babel": "^6.5.2",
     "babel-cli": "^6.7.5",
-    "babel-core": "^6.7.6",
+    "babel-core": "^6.17.0",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-module-alias": "^1.4.0",
-    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-plugin-transform-es2015-block-scoping": "^6.7.1",
     "babel-plugin-transform-es2015-destructuring": "^6.6.5",
     "babel-plugin-transform-es2015-parameters": "^6.7.0",
@@ -108,7 +108,7 @@
     "webpack": "1.13.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.0",
-    "workerjs": "^0.1.1",
+    "workerjs": "github:jlongster/workerjs",
     "ws": "^1.0.1"
   },
   "files": [

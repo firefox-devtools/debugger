@@ -112,7 +112,7 @@ if (connTarget) {
     },
     destroy: () => {
       unmountRoot();
-      sourceMap.destroy();
+      sourceMap.destroyWorker();
     },
     store: store,
     actions: actions,

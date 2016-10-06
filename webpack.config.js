@@ -21,6 +21,7 @@ const defaultBabelPlugins = [
 let webpackConfig = {
   entry: {
     bundle: ["./public/js/main.js"],
+    "source-map-worker": "./public/js/utils/source-map-worker.js",
     "pretty-print-worker": "./public/js/utils/pretty-print-worker.js"
   },
   devtool: "source-map",
@@ -39,7 +40,8 @@ let webpackConfig = {
       "devtools-sham": path.join(__dirname, "./public/js/lib/devtools-sham"),
       "sdk": path.join(__dirname, "./public/js/lib/devtools-sham/sdk"),
       "Services": path.join(
-          __dirname, "./public/js/lib/devtools/client/shared/shim/Services")
+        __dirname, "./public/js/lib/devtools/client/shared/shim/Services"),
+      "networkRequest": path.join(__dirname, "./public/js/utils/networkRequest")
     }
   },
   module: {

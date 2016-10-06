@@ -1,13 +1,16 @@
 const { Frame } = require("../types");
 const { getOriginalLocation } = require("./source-map");
-const { asyncMap } = require("./utils");
 
 function updateFrameLocations(frames) {
-  return asyncMap(frames, async function(frame) {
-    return Frame.update(frame, {
-      $merge: { location: await getOriginalLocation(frame.location) }
-    });
-  });
+  return Promise.all(
+    frames.map(frame => {
+      return getOriginalLocation(frame.location).then(loc => {
+        return Frame.update(frame, {
+          $merge: { location: loc }
+        });
+      });
+    })
+  );
 }
 
 module.exports = {
