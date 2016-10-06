@@ -5,6 +5,11 @@
   overflow: hidden;
 }
 
+.sources-panel * {
+  -moz-user-select: none;
+  user-select: none;
+}
+
 .sources-header {
   height: 30px;
   border-bottom: 1px solid var(--theme-splitter-color);
@@ -14,6 +19,8 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .sources-header-info {

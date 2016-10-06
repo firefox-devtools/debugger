@@ -1,3 +1,7 @@
+.breakpoints-list * {
+  -moz-user-select: none;
+  user-select: none;
+}
 
 .breakpoints-list .breakpoint {
   font-size: 12px;

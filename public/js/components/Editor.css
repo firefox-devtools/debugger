@@ -94,4 +94,6 @@
   background-color: var(--theme-tab-toolbar-background);
   font-weight: lighter;
   z-index: 100;
+  -moz-user-select: none;
+  user-select: none;
 }

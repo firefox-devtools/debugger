@@ -8,10 +8,17 @@
   right: 1px;
   opacity: 1;
   z-index: 100;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .source-footer .command-bar {
   float: right;
+}
+
+.source-footer .command-bar * {
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .command-bar > span {

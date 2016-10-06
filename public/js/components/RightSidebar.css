@@ -5,6 +5,11 @@
   white-space: nowrap;
 }
 
+.right-siderbar * {
+  -moz-user-select: none;
+  user-select: none;
+}
+
 .right-sidebar .accordion {
   overflow-y: auto;
   overflow-x: hidden;
