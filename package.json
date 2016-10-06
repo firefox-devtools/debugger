@@ -58,7 +58,7 @@
     "amd-loader": "0.0.5",
     "babel": "^6.5.2",
     "babel-cli": "^6.7.5",
-    "babel-core": "^6.7.6",
+    "babel-core": "^6.17.0",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-module-alias": "^1.4.0",
