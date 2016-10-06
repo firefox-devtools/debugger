@@ -24,10 +24,11 @@
 
 .editor.new-breakpoint svg {
   fill: var(--theme-selection-background);
-  height: 18px;
+  width: 60px;
+  height: 12px;
   position: absolute;
-  top: 0;
-  right: -8px;
+  top: 1px;
+  right: -4px;
 }
 
 .editor.new-breakpoint.breakpoint-disabled svg {
@@ -41,6 +42,11 @@
   background-color: var(--theme-body-background);
 }
 
+.CodeMirror-linenumber {
+  font-size: 11px;
+  line-height: 15px;
+}
+
 /* set the linenumber white when there is a breakpoint */
 .new-breakpoint .CodeMirror-linenumber {
   color: white;
@@ -49,6 +55,11 @@
 /* move the breakpoint below the linenumber */
 .new-breakpoint .CodeMirror-gutter-elt:last-child {
   z-index: 0;
+}
+
+.editor-wrapper .CodeMirror-line {
+  font-size: 12px;
+  line-height: 15px;
 }
 
 .debug-line .CodeMirror-line {
