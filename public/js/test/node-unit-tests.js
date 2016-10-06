@@ -26,7 +26,7 @@ delete webpackConfig.entry.bundle;
 // doesn't work in workers) so mock it with an alias, and tweak a few
 // things to make the stub fetcher work in node.
 webpackConfig.resolve.alias.networkRequest =
-  path.join(__dirname, "/stubNetworkRequest.js");
+  path.join(__dirname, "utils/stubNetworkRequest.js");
 webpackConfig.externals = [{ fs: "commonjs fs" }];
 webpackConfig.node = { __dirname: false };
 
@@ -34,7 +34,7 @@ global.Worker = require("workerjs");
 
 // Mock various functions. This allows tests to load files from a
 // local directory easily.
-mock("../utils/networkRequest", require("./stubNetworkRequest"));
+mock("../utils/networkRequest", require("./utils/stubNetworkRequest"));
 
 // disable unecessary require calls
 require.extensions[".css"] = () => {};
