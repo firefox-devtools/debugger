@@ -11,10 +11,11 @@ const setConfig = require("../../../config/feature").setConfig;
 require("amd-loader");
 require("babel-register");
 
-const args = minimist(process.argv.slice(2), {
-  boolean: "ci"
-});
+const args = minimist(process.argv.slice(2),
+{ boolean: ["ci", "dots"] });
+
 const isCI = args.ci;
+const useDots = args.dots;
 
 setConfig(getConfig());
 getConfig().baseWorkerURL = path.join(__dirname, "../../build/");
@@ -52,6 +53,8 @@ const mocha = new Mocha();
 
 if (isCI) {
   mocha.reporter("mocha-circleci-reporter");
+} else if (useDots) {
+  mocha.reporter("dot");
 }
 
 testFiles.forEach(file => mocha.addFile(file));
