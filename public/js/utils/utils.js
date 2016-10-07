@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const co = require("co");
-const { isDevelopment } = require("../feature");
 
 function asPaused(client: any, func: any) {
   if (client.state != "paused") {
@@ -160,14 +159,6 @@ function compose(...funcs: any) {
   };
 }
 
-function log() {
-  if (!isDevelopment()) {
-    return;
-  }
-
-  console.log.apply(console, ["[log]", ...arguments]);
-}
-
 function updateObj<T>(obj: T, fields: $Shape<T>) : T {
   return Object.assign({}, obj, fields);
 }
@@ -197,7 +188,6 @@ module.exports = {
   toObject,
   mapObject,
   compose,
-  log,
   updateObj,
   throttle
 };
