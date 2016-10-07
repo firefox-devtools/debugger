@@ -77,13 +77,17 @@ const Editor = React.createClass({
     }
   },
 
-  updateDebugLine(prevProps, nextProps) {
-    if (prevProps.selectedFrame) {
-      const line = prevProps.selectedFrame.location.line;
+  clearDebugLine(selectedFrame) {
+    if (selectedFrame) {
+      const line = selectedFrame.location.line;
       this.editor.codeMirror.removeLineClass(line - 1, "line", "debug-line");
     }
-    if (nextProps.selectedFrame) {
-      const line = nextProps.selectedFrame.location.line;
+  },
+
+  setDebugLine(selectedFrame, selectedLocation) {
+    if (selectedFrame && selectedLocation &&
+        selectedFrame.location.sourceId === selectedLocation.sourceId) {
+      const line = selectedFrame.location.line;
       this.editor.codeMirror.addLineClass(line - 1, "line", "debug-line");
     }
   },
@@ -184,6 +188,7 @@ const Editor = React.createClass({
     // This lifecycle method is responsible for updating the editor
     // text.
     const { sourceText, selectedLocation } = nextProps;
+    this.clearDebugLine(this.props.selectedFrame);
 
     if (!sourceText) {
       this.showMessage("");
@@ -193,6 +198,7 @@ const Editor = React.createClass({
       this.showSourceText(sourceText, selectedLocation);
     }
 
+    this.setDebugLine(nextProps.selectedFrame, selectedLocation);
     resizeBreakpointGutter(this.editor.codeMirror);
   },
 
@@ -245,7 +251,6 @@ const Editor = React.createClass({
     // keep the jump state around until the real source text is
     // loaded.
     if (this.props.sourceText && isTextForSource(this.props.sourceText)) {
-      this.updateDebugLine(prevProps, this.props);
       this.highlightLine();
     }
   },
