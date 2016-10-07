@@ -37,17 +37,6 @@ function getHiddenTabs(sourceTabs, sourceTabEls) {
   });
 }
 
-/*
- * Get the last visible tab index so that we can replace the last
- * tab with the newly selected source.
- */
-function getLastVisibleTabIndex(sourceTabs, sourceTabEls) {
-  const hiddenTabs = getHiddenTabs(sourceTabs, sourceTabEls);
-  const firstHiddenTab = hiddenTabs.first();
-  const firstHiddenTabIndex = sourceTabs.indexOf(firstHiddenTab);
-  return firstHiddenTabIndex - 1;
-}
-
 const SourceTabs = React.createClass({
   propTypes: {
     sourceTabs: ImPropTypes.list,
@@ -93,14 +82,13 @@ const SourceTabs = React.createClass({
   },
 
   renderDropdownSource(source) {
-    const { selectSource, sourceTabs } = this.props;
-    const filename = getFilename(source.toJS());
-    const sourceTabEls = this.refs.sourceTabs.children;
+    const { selectSource } = this.props;
+    const url = source && source.get("url");
+    const filename = getFilename(url);
 
     return dom.li({
       key: source.get("id"),
       onClick: () => {
-        // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
         const tabIndex = 0;
         selectSource(source.get("id"), { tabIndex });
       }
@@ -159,7 +147,7 @@ const SourceTabs = React.createClass({
 
     return Dropdown({
       panel: dom.ul(
-        {}, 
+        {},
         this.state.hiddenSourceTabs.map(this.renderDropdownSource)
       )
     });

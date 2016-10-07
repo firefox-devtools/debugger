@@ -8,7 +8,6 @@ const Dropdown = React.createClass({
 
   displayName: "Dropdown",
 
-
   getInitialState() {
     return {
       dropdownShown: false
@@ -23,13 +22,13 @@ const Dropdown = React.createClass({
 
   renderPanel() {
     return dom.div(
-	    {
-	      className: "sources-dropdown dropdown",
-	      onClick: this.toggleSourcesDropdown,
-	      ref: "sourcesDropdown",
-	      style: { display: (this.state.dropdownShown ? "block" : "none") }
-	    },
-    	this.props.panel
+      {
+        className: "sources-dropdown dropdown",
+        onClick: this.toggleSourcesDropdown,
+        ref: "sourcesDropdown",
+        style: { display: (this.state.dropdownShown ? "block" : "none") }
+      },
+      this.props.panel
     );
   },
 
@@ -47,18 +46,18 @@ const Dropdown = React.createClass({
     return dom.div({
       className: "dropdown-mask",
       onClick: this.toggleSourcesDropdown,
-      style: { display: (this.state.dropdownShown ? "block" : "none") }      
-    })
+      style: { display: (this.state.dropdownShown ? "block" : "none") }
+    });
   },
 
   render() {
-  	return dom.div({}, 
-  		this.renderPanel(),
-  		this.renderButton(),
-  		this.renderMask()
-  	);
+    return dom.div({},
+      this.renderPanel(),
+      this.renderButton(),
+      this.renderMask()
+    );
   }
 
-})
+});
 
 module.exports = Dropdown;
