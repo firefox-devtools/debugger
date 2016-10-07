@@ -1,13 +1,18 @@
-{ "plugins": ["transform-es2015-block-scoping",
-              "transform-es2015-destructuring",
-              "transform-es2015-parameters",
-              "transform-es2015-spread",
-              "transform-flow-strip-types",
-              "transform-async-to-generator",
+{ "plugins": [
+  "transform-es2015-block-scoping",
+    "transform-es2015-destructuring",
+    "transform-es2015-parameters",
+    "transform-es2015-spread",
+    "transform-flow-strip-types",
+    "transform-async-to-generator",
 
-              ["babel-plugin-module-alias", [
-                { "src": "node_modules/react", "expose": "devtools/client/shared/vendor/react" },
-                { "src": "./public/js/lib/devtools", "expose": "devtools" },
-                { "src": "./public/js/lib/devtools-sham", "expose": "devtools-sham" },
-                { "src": "./public/js/lib/devtools-sham/sdk", "expose": "sdk" }
-              ]]] }
+    ["module-resolver", {
+      "root": [
+        "./packages/devtools-local-toolbox/public/js",
+      ],
+      "alias": {
+        "devtools/client/shared/vendor/react": "react",
+        "devtools/client/shared/vendor/react-dom": "react-dom"
+      }
+    }]
+]}

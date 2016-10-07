@@ -21,7 +21,7 @@ const {
 
 const constants = require("../constants");
 const invariant = require("invariant");
-const { isEnabled } = require("../feature");
+const { isEnabled } = require("devtools-config");
 const { removeDocument } = require("../utils/source-documents");
 
 const {

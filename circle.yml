@@ -6,7 +6,8 @@ machine:
 
 checkout:
   post:
-    - mv config/ci.json config/local.json
+    - mv configs/ci.json configs/local.json:
+        pwd: packages/devtools-config
 test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
@@ -16,7 +17,7 @@ test:
   pre:
     - node bin/mocha-server.js:
         background: true
-    - node bin/development-server.js:
+    - npm start:
         background: true
     - node bin/firefox-driver --start:
         background: true
@@ -29,7 +30,8 @@ test:
     - npm run flow
 dependencies:
   override:
-    - npm install
+    - npm i -g jasonlaster/lerna
+    - lerna bootstrap
     - ./bin/install-chrome
     - ./bin/install-firefox
     - docker pull jlongster/mochitest-runner

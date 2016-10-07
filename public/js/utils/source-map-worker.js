@@ -1,4 +1,4 @@
-const networkRequest = require("networkRequest");
+const networkRequest = require("devtools-network-request");
 const URL = require("url");
 const path = require("./path");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");

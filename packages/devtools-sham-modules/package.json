@@ -1,0 +1,14 @@
+{
+  "name": "devtools-sham-modules",
+  "version": "0.0.3",
+  "description": "Shammed DevTools Modules from M-C",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "devtools-modules": "^0.0.3"
+  },
+  "author": "",
+  "license": "ISC"
+}

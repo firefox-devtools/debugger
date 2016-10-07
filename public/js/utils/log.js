@@ -1,4 +1,4 @@
-const { isDevelopment } = require("../feature");
+const { isDevelopment } = require("devtools-config");
 
 function log() {
   if (!isDevelopment()) {

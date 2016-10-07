@@ -7,7 +7,7 @@ const { getSelectedSource, getSourceTabs } = require("../selectors");
 const { getFilename } = require("../utils/source");
 const classnames = require("classnames");
 const actions = require("../actions");
-const { isEnabled } = require("../feature");
+const { isEnabled } = require("devtools-config");
 const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
 
