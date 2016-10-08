@@ -4,6 +4,11 @@
   padding: 20px;
 }
 
+.autocomplete .results * {
+  -moz-user-select: none;
+  user-select: none;
+}
+
 .autocomplete ul {
   list-style: none;
   width: 100%;
