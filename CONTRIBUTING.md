@@ -167,9 +167,9 @@ If you find an `up for grabs` issue without a difficulty level set as a label or
 
 #### Your First Code Contribution
 
-If this is your first time contributing any code to an open source project take a look through the `first-timers-only` issues:
+If this is your first time contributing any code to an open source project take a look through the `difficulty:easy` issues:
 
-* [first-timers-only][labels-first-timers-only] - issues which should have clear expectations and a mentor to help you through
+* [difficulty:easy][labels-difficulty-easy] - issues which should have clear expectations and a mentor to help you through
 
 If you didn't find any issues this time, don't worry.  Take a look at the `up for grabs` issues above and let someone know this is your first time contributing code.
 
@@ -344,7 +344,6 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 | Label name | query:mag_right: | Description |
 | --- | --- | --- |
 | `up-for-grabs` | [search][labels-up-for-grabs] | Good for contributors to work on |
-| `first-timers-only` | [search][labels-first-timers-only] | Good for a first time contribution to open source |
 | `difficulty:easy` | [search][labels-difficulty-easy] | Work that is small changes, updating tests, updating docs, expect very little review |
 | `difficulty:medium` | [search][labels-difficulty-medium] | Work that adapts existing code, adapts existing tests, expect quick review |
 | `difficulty:hard` | [search][labels-difficulty-hard] | Work that requires new tests, new code, and a good understanding of project; expect lots of review |
