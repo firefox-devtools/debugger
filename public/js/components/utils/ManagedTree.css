@@ -24,8 +24,12 @@
   background-color: var(--theme-selection-background);
 }
 
-.tree .node > div {
+html:not([dir="rtl"]) .tree .node > div {
   margin-left: 10px;
+}
+
+html[dir="rtl"] .tree .node > div {
+  margin-right: 10px;
 }
 
 .tree .node.focused svg {

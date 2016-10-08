@@ -12,8 +12,12 @@
   user-select: none;
 }
 
-.source-footer .command-bar {
+html:not([dir="rtl"]) .source-footer .command-bar {
   float: right;
+}
+
+html[dir="rtl"] .source-footer .command-bar {
+  float: left;
 }
 
 .source-footer .command-bar * {
@@ -23,12 +27,19 @@
 
 .command-bar > span {
   cursor: pointer;
-  margin-right: 0.7em;
   width: 1em;
   height: 1.1em;
   display: inline-block;
   text-align: center;
   transition: opacity 200ms;
+}
+
+html:not([dir="rtl"]) .command-bar > span {
+  margin-right: 0.7em;
+}
+
+html[dir="rtl"] .command-bar > span {
+  margin-left: 0.7em;
 }
 
 .source-footer .prettyPrint.pretty {
