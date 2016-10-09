@@ -6,6 +6,7 @@
   /* --breakpoint-background: url("chrome://devtools/skin/images/breakpoint.svg#light"); */
   /* --breakpoint-hover-background: url("chrome://devtools/skin/images/breakpoint.svg#light-hover"); */
   --breakpoint-active-color: rgba(44,187,15,.2);
+  --breakpoint-active-color-hover: rgba(44,187,15,.5);
   /* --breakpoint-conditional-background: url("chrome://devtools/skin/images/breakpoint.svg#light-conditional"); */
 }
 
@@ -13,6 +14,7 @@
   /* --breakpoint-background: url("chrome://devtools/skin/images/breakpoint.svg#dark"); */
   /* --breakpoint-hover-background: url("chrome://devtools/skin/images/breakpoint.svg#dark-hover"); */
   --breakpoint-active-color: rgba(112,191,83,.4);
+  --breakpoint-active-color: rgba(112,191,83,.7);
   /* --breakpoint-conditional-background: url("chrome://devtools/skin/images/breakpoint.svg#dark-conditional"); */
 }
 
