@@ -91,6 +91,7 @@ const Breakpoints = React.createClass({
       },
       dom.input({
         type: "checkbox",
+        className: "breakpoint-checkbox",
         checked: !isDisabled,
         onChange: () => this.handleCheckbox(breakpoint)
       }),
