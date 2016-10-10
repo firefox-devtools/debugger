@@ -37,8 +37,8 @@ define(function (require, exports, module) {
       return "";
     },
 
-    getLocation: function (grip) {
-      return getURLDisplayString(grip.preview.url);
+    getDisplayValue: function (grip) {
+      return grip.preview.isGlobal ? "Global" : "Window";
     },
 
     render: function () {
@@ -48,7 +48,7 @@ define(function (require, exports, module) {
         DOM.span({className: "objectBox objectBox-Window"},
           this.getTitle(grip),
           DOM.span({className: "objectPropValue"},
-            this.getLocation(grip)
+            this.getDisplayValue(grip)
           )
         )
       );

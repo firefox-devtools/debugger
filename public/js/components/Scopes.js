@@ -120,10 +120,18 @@ function getScopes(pauseInfo, selectedFrame) {
         scopes.push({ name: title, path: key, contents: vars });
       }
     } else if (type === "object") {
+      const value = scope.object;
+      // Override preview for Window object
+      if (value.class === "Window") {
+        value.preview = {
+          kind: "Window",
+          isGlobal: true
+        };
+      }
       scopes.push({
         name: scope.object.class,
         path: key,
-        contents: { value: scope.object }
+        contents: { value }
       });
     }
   } while (scope = scope.parent); // eslint-disable-line no-cond-assign
