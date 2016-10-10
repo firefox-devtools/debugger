@@ -167,14 +167,14 @@ If you find an `up for grabs` issue without a difficulty level set as a label or
 
 #### Your First Code Contribution
 
-A good place to start when looking for something to contribute, is looking through the `up-for-grabs` issues. These are actionable issues that no one has laid claim to.
+If you're looking for a good issue, you can look through the `up-for-grabs` issues. These issues should be actionable and well documented.
 
-If this is your first time contributing any code to an open source project take a look through the `difficulty:easy` issues as well, they're typically spec'd out and the steps to completion are laid out more clearly.
-
-Don't be afraid to take issues of `difficulty:medium` or `difficulty:hard` if that's what interests you. You're more than welcome to.
+There are several difficulty levels, *easy*, *medium*, *hard*. We recommend grabbing an *easy* issue, but it's up to you.
 
 * [up-for-grabs][labels-up-for-grabs] - issues that are not assigned to anyone and are available to be worked on.
-* [difficulty:easy][labels-difficulty-easy] - issues which should have clear expectations and a mentor to help you through
+* [difficulty:easy][labels-difficulty-easy] - clear expectations and a mentor to help you through.
+* [difficulty:medium][labels-difficulty-medium] - more complex and may not have as clear expectations.
+* [difficulty:hard][labels-difficulty-hard] - complex and has some open technical questions.
 
 
 To begin your work make sure you follow these steps:
