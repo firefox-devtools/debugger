@@ -104,7 +104,7 @@
     "selenium-webdriver": "^3.0.0-beta-2",
     "serve-index": "^1.8.0",
     "style-loader": "^0.13.1",
-    "stylelint": "^7.2.0",
+    "stylelint": "^7.4.2",
     "webpack": "1.13.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.0",
