@@ -39,7 +39,7 @@ const EditorSearchBar = React.createClass({
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     if (isEnabled("search")) {
-      shortcuts.off("Cmd+f", this.toggleSearch);
+      shortcuts.off("CmdOrCtrl+F", this.toggleSearch);
       shortcuts.off("Escape", this.onEscape);
     }
   },
@@ -47,7 +47,7 @@ const EditorSearchBar = React.createClass({
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     if (isEnabled("search")) {
-      shortcuts.on("Cmd+f", this.toggleSearch);
+      shortcuts.on("CmdOrCtrl+F", this.toggleSearch);
       shortcuts.on("Escape", this.onEscape);
     }
   },
