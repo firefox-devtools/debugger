@@ -9,6 +9,8 @@
   padding: 0.5em 1px;
   line-height: 1em;
   position: relative;
+  border-left: 4px solid transparent;
+
 }
 
 .breakpoints-list .breakpoint:last-of-type {
@@ -16,7 +18,8 @@
 }
 
 .breakpoints-list .breakpoint.paused {
-  background-color: var(--breakpoint-active-color);
+  background-color: var(--theme-toolbar-background-alt);
+  border-color: var(--breakpoint-active-color);
 }
 
 .breakpoints-list .breakpoint.disabled .breakpoint-label {
@@ -30,8 +33,11 @@
 }
 
 .breakpoints-list .breakpoint.paused:hover {
-  cursor: pointer;
-  background-color: var(--breakpoint-active-color-hover);
+  border-color: var(--breakpoint-active-color-hover);
+}
+
+.breakpoints-list .breakpoint-checkbox {
+  margin-left: 0;
 }
 
 .breakpoints-list .breakpoint-label {
@@ -47,7 +53,7 @@
 
 .breakpoint-snippet {
   color: var(--theme-comment);
-  padding-left: 22px;
+  padding-left: 18px;
 }
 
 .breakpoint .close-btn {
