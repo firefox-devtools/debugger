@@ -24,6 +24,7 @@ define(function (require, exports, module) {
 
     propTypes: {
       object: React.PropTypes.object.isRequired,
+      mode: React.PropTypes.string
     },
 
     getTitle: function (grip) {
@@ -37,8 +38,16 @@ define(function (require, exports, module) {
       return "";
     },
 
+    getLocation: function (grip) {
+      return getURLDisplayString(grip.preview.url);
+    },
+
     getDisplayValue: function (grip) {
-      return grip.preview.isGlobal ? "Global" : "Window";
+      if (this.props.mode === "tiny") {
+        return grip.isGlobal ? "Global" : "Window";
+      } else {
+        return this.getLocation(grip);
+      }
     },
 
     render: function () {
