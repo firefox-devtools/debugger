@@ -45,7 +45,8 @@ const Accordion = React.createClass({
         { className: "_header",
           onClick: () => this.handleHeaderClick(i) },
         Svg("arrow", { className: opened[i] ? "expanded" : "" }),
-        item.header
+        item.header,
+        item.button ? item.button : null
       ),
 
       (created[i] || opened[i]) ?

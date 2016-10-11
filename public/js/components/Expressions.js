@@ -3,10 +3,11 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
 // const classnames = require("classnames");
-const Svg = require("./utils/Svg");
 const actions = require("../actions");
-const { getExpressions, getPause } = require("../selectors");
+const { getExpressions, getPause,
+  getExpressionInputVisibility } = require("../selectors");
 const Rep = React.createFactory(require("./Rep"));
+const CloseButton = React.createFactory(require("./CloseButton"));
 // const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
 
@@ -17,7 +18,8 @@ const Expressions = React.createClass({
     expressions: ImPropTypes.list,
     addExpression: PropTypes.func,
     updateExpression: PropTypes.func,
-    deleteExpression: PropTypes.func
+    deleteExpression: PropTypes.func,
+    expressionInputVisibility: PropTypes.bool
   },
 
   displayName: "Expressions",
@@ -96,11 +98,7 @@ const Expressions = React.createClass({
         { className: "expression-value" },
         this.renderExpressionValue(expression.value)
       ),
-      dom.span(
-        { className: "close-btn",
-          onClick: e => this.deleteExpression(e, expression) },
-        Svg("close")
-      )
+      CloseButton({ handleClick: e => this.deleteExpression(e, expression) }),
     );
   },
 
@@ -124,12 +122,13 @@ const Expressions = React.createClass({
     const { expressions } = this.props;
     return dom.span(
       { className: "pane expressions-list" },
+      this.props.expressionInputVisibility ?
       dom.input(
         { type: "text",
           className: "input-expression",
           placeholder: "Add watch Expression",
           onKeyPress: e => this.inputKeyPress(e, {}) }
-      ),
+      ) : null,
       expressions.toSeq().map(expression =>
         this.renderExpressionContainer(expression))
     );
@@ -138,6 +137,8 @@ const Expressions = React.createClass({
 
 module.exports = connect(
   state => ({ pauseInfo: getPause(state),
-    expressions: getExpressions(state) }),
+    expressions: getExpressions(state),
+    expressionInputVisibility: getExpressionInputVisibility(state)
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Expressions);

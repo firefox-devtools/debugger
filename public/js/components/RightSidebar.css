@@ -96,3 +96,7 @@ span.pause-exceptions.uncaught {
 span.pause-exceptions.all {
   stroke: var(--theme-highlight-blue);
 }
+
+.accordion-button {
+  float: right;
+}

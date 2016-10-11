@@ -13,7 +13,8 @@ const initialState = fromJS({
   loadedObjects: {},
   shouldPauseOnExceptions: false,
   shouldIgnoreCaughtExceptions: false,
-  expressions: []
+  expressions: [],
+  expressionInputVisibility: false
 });
 
 function update(state = initialState, action, emit) {
@@ -107,6 +108,11 @@ function update(state = initialState, action, emit) {
 
     case constants.DELETE_EXPRESSION:
       return state.deleteIn(["expressions", action.id]);
+
+    case constants.SET_EXPRESSION_INPUT_VISIBILITY:
+      return state.merge({
+        expressionInputVisibility: action.visibility
+      });
   }
 
   return state;
@@ -124,7 +130,11 @@ function getExpressions(state) {
   return state.pause.get("expressions");
 }
 
-function getIsWaitingOnBreak(state) {
+function getExpressionInputVisibility(state: AppState) {
+  return state.pause.get("expressionInputVisibility");
+}
+
+function getIsWaitingOnBreak(state: AppState) {
   return state.pause.get("isWaitingOnBreak");
 }
 
@@ -152,6 +162,7 @@ module.exports = {
   getPause,
   getLoadedObjects,
   getExpressions,
+  getExpressionInputVisibility,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,

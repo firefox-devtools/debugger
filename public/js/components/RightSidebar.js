@@ -4,7 +4,7 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getPause, getIsWaitingOnBreak, getBreakpointsDisabled,
         getShouldPauseOnExceptions, getShouldIgnoreCaughtExceptions,
-        getBreakpoints, getBreakpointsLoading
+        getBreakpoints, getBreakpointsLoading, getExpressionInputVisibility
       } = require("../selectors");
 const { isEnabled } = require("devtools-config");
 const Svg = require("./utils/Svg");
@@ -48,6 +48,8 @@ const RightSidebar = React.createClass({
     isWaitingOnBreak: PropTypes.bool,
     breakpointsDisabled: PropTypes.bool,
     breakpointsLoading: PropTypes.bool,
+    setExpressionInputVisibility: PropTypes.func,
+    expressionInputVisibility: PropTypes.bool,
   },
 
   contextTypes: {
@@ -202,8 +204,17 @@ const RightSidebar = React.createClass({
     ];
     if (isEnabled("watchExpressions")) {
       items.unshift({ header: L10N.getStr("watchExpressions.header"),
+        button: debugBtn(
+          evt => {
+            evt.stopPropagation();
+            this.props.setExpressionInputVisibility(
+              !this.props.expressionInputVisibility
+            );
+          }, "file",
+          "accordion-button", "Add Watch Expression"),
         component: Expressions,
-        opened: true });
+        opened: true
+      });
     }
     return items;
   },
@@ -240,6 +251,7 @@ module.exports = connect(
       breakpointsDisabled: getBreakpointsDisabled(state),
       breakpoints: getBreakpoints(state),
       breakpointsLoading: getBreakpointsLoading(state),
+      expressionInputVisibility: getExpressionInputVisibility(state),
     };},
   dispatch => bindActionCreators(actions, dispatch)
 )(RightSidebar);
