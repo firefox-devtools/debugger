@@ -93,7 +93,7 @@
     "install": "^0.8.1",
     "json-loader": "^0.5.4",
     "minimist": "^1.2.0",
-    "mocha": "^2.4.5",
+    "mocha": "^3.1.2",
     "mocha-circleci-reporter": "0.0.1",
     "mustache": "^2.2.1",
     "net": "^1.0.2",
