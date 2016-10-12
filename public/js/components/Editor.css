@@ -40,7 +40,7 @@ html[dir="rtl"] .editor-mount {
 .search-bar ~ .editor-mount,
 .search-bar ~ .editor-mount .CodeMirror {
   order: 2;
-  height: 87vh;
+  height: 86.8vh;
 }
 
 .search-bar ~ .source-footer {
