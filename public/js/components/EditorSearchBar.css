@@ -4,6 +4,7 @@
   background: white;
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
+  order: 2;
 }
 
 .search-bar svg {

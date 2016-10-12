@@ -78,7 +78,7 @@ const EditorSearchBar = React.createClass({
   },
 
   searchInput() {
-    return findDOMNode(this).querySelector("input");
+    return findDOMNode(this) ? findDOMNode(this).querySelector("input") : null;
   },
 
   onChange(e) {
