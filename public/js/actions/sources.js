@@ -10,17 +10,16 @@
 const defer = require("../utils/defer");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { Task } = require("../utils/task");
-const { isJavaScript } = require("../utils/source");
-const { workerTask } = require("../utils/utils");
+const assert = require("../utils/assert");
 const { updateFrameLocations } = require("../utils/pause");
 const {
   getOriginalURLs, getOriginalSourceText,
   generatedToOriginalId, isOriginalId,
-  applySourceMap
+  isGeneratedId, applySourceMap
 } = require("../utils/source-map");
+const { prettyPrint } = require("../utils/pretty-print");
 
 const constants = require("../constants");
-const invariant = require("invariant");
 const { isEnabled } = require("devtools-config");
 const { removeDocument } = require("../utils/source-documents");
 
@@ -28,27 +27,6 @@ const {
   getSource, getSourceByURL, getSourceText,
   getPendingSelectedLocation, getFrames
 } = require("../selectors");
-
-async function _prettyPrintSource({ source, sourceText, url }) {
-  const contentType = sourceText ? sourceText.contentType : null;
-  const indent = 2;
-
-  invariant(
-    isJavaScript(source.url, contentType),
-    "Can't prettify non-javascript files."
-  );
-
-  const { code, mappings } = await workerTask(
-    new Worker("public/build/pretty-print-worker.js"),
-    {
-      url,
-      indent,
-      source: sourceText.text
-    }
-  );
-
-  return { code, mappings };
-}
 
 /**
  * Handler for the debugger client's unsolicited newSource notification.
@@ -216,10 +194,12 @@ function togglePrettyPrint(sourceId) {
     const source = getSource(getState(), sourceId).toJS();
     const sourceText = getSourceText(getState(), sourceId).toJS();
 
-    if (!isEnabled("prettyPrint") || sourceText.loading ||
-        source.isPrettyPrinted) {
+    if (!isEnabled("prettyPrint") || sourceText.loading) {
       return {};
     }
+
+    assert(isGeneratedId(sourceId),
+           "Pretty-printing only allowed on generated sources");
 
     const url = source.url + ":formatted";
     const id = generatedToOriginalId(source.id, url);
@@ -231,25 +211,19 @@ function togglePrettyPrint(sourceId) {
 
     return dispatch({
       type: constants.TOGGLE_PRETTY_PRINT,
-      source,
-      originalSource,
+      source: originalSource,
       [PROMISE]: (async function () {
-        const { code, mappings } =
-              await _prettyPrintSource({ source, sourceText, url });
+        const { code, mappings } = await prettyPrint({
+          source, sourceText, url
+        });
         applySourceMap(source.id, url, code, mappings);
 
         const frames = await updateFrameLocations(getFrames(getState()));
         dispatch(selectSource(originalSource.id));
 
-        const originalSourceText = {
-          id: originalSource.id,
-          contentType: "text/javascript",
-          code
-        };
-
         return {
-          isPrettyPrinted: true,
-          sourceText: originalSourceText,
+          text: code,
+          contentType: "text/javascript",
           frames
         };
       })()

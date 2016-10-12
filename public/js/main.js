@@ -35,8 +35,6 @@ window.actions = {
   selectSourceURL: actions.selectSourceURL
 };
 
-const sourceMap = require("./utils/source-map");
-
 function unmountRoot() {
   const mount = document.querySelector("#mount");
   ReactDOM.unmountComponentAtNode(mount);
@@ -45,6 +43,9 @@ function unmountRoot() {
 if (isDevelopment()) {
   bootstrap(React, ReactDOM, App, actions, store);
 } else if (isFirefoxPanel()) {
+  const sourceMap = require("./utils/source-map");
+  const prettyPrint = require("./utils/pretty-print");
+
   module.exports = {
     bootstrap: ({ threadClient, tabTarget }) => {
       firefox.setThreadClient(threadClient);
@@ -55,6 +56,7 @@ if (isDevelopment()) {
     destroy: () => {
       unmountRoot();
       sourceMap.destroyWorker();
+      prettyPrint.destoryWorker();
     },
     store: store,
     actions: actions,

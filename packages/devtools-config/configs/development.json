@@ -9,7 +9,7 @@
   "features": {
     "tabs": true,
     "sourceMaps": true,
-    "prettyPrint": false,
+    "prettyPrint": true,
     "watchExpressions": false,
     "search": true
   },

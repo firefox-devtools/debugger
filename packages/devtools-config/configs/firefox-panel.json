@@ -5,6 +5,7 @@
   "clientLogging": false,
   "features": {
     "tabs": true,
-    "sourceMaps": true
+    "sourceMaps": true,
+    "prettyPrint": true
   }
 }

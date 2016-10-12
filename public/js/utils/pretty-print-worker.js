@@ -1,10 +1,5 @@
 const prettyFast = require("pretty-fast");
-
-self.onmessage = function(msg) {
-  let { code, mappings } = prettyPrint(msg.data);
-  mappings = invertMappings(mappings);
-  self.postMessage({ code, mappings });
-};
+const assert = require("./assert");
 
 function prettyPrint({ url, indent, source }) {
   try {
@@ -41,3 +36,18 @@ function invertMappings(mappings) {
     return mapping;
   });
 }
+
+self.onmessage = function(msg) {
+  const { id, args } = msg.data;
+  assert(msg.data.method === "prettyPrint",
+        "Method must be `prettyPrint`");
+
+  try {
+    let { code, mappings } = prettyPrint(args[0]);
+    self.postMessage({ id, response: {
+      code, mappings: invertMappings(mappings)
+    }});
+  } catch (e) {
+    self.postMessage({ id, error: e });
+  }
+};
