@@ -4,7 +4,9 @@
   border-top: 1px solid var(--theme-splitter-color);
   -moz-user-select: none;
   user-select: none;
-  order: 3;
+  order: 2;
+  flex: 0 0 auto;
+  height: 30px;
 }
 
 html:not([dir="rtl"]) .source-footer .command-bar {

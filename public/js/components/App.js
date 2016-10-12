@@ -22,6 +22,7 @@ SplitBox = createFactory(SplitBox);
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
 const RightSidebar = createFactory(require("./RightSidebar"));
+const SourceTabs = createFactory(require("./SourceTabs"));
 const Svg = require("./utils/Svg");
 const Autocomplete = createFactory(require("./Autocomplete"));
 
@@ -114,6 +115,7 @@ const App = React.createClass({
       { className: "center-pane" },
       dom.div(
         { className: "editor-container" },
+        SourceTabs(),
         Editor(),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
         this.state.searchOn ? this.renderSourcesSearch() : null

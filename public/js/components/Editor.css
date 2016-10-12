@@ -11,6 +11,7 @@
 .editor-wrapper {
   display: flex;
   flex-direction: column;
+  order: 2;
 }
 
 html[dir="rtl"] .editor-mount {
@@ -38,17 +39,17 @@ html[dir="rtl"] .editor-mount {
 
 .search-bar ~ .editor-mount,
 .search-bar ~ .editor-mount .CodeMirror {
-  order: 3;
+  order: 2;
   height: 87vh;
 }
 
 .search-bar ~ .source-footer {
-  order: 4;
+  order: 3;
 }
 
 .editor-mount,
 .CodeMirror {
-  order: 2;
+  order: 1;
   width: 100%;
   height: 92vh;
   background-color: var(--theme-body-background);
