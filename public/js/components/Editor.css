@@ -36,8 +36,14 @@ html[dir="rtl"] .editor-mount {
   opacity: 0.3;
 }
 
-.search-bar ~ .editor-mount {
-  height: calc(100% - 58px);
+.search-bar ~ .editor-mount,
+.search-bar ~ .editor-mount .CodeMirror {
+  order: 3;
+  height: 87vh;
+}
+
+.search-bar ~ .source-footer {
+  order: 4;
 }
 
 .editor-mount,

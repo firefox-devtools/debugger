@@ -2,7 +2,6 @@
 .source-footer {
   background: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
-  opacity: 1;
   -moz-user-select: none;
   user-select: none;
   order: 3;
