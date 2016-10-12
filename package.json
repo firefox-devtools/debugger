@@ -45,7 +45,7 @@
     "pretty-fast": "^0.2.0",
     "react": "=0.14.7",
     "react-dom": "=0.14.7",
-    "react-immutable-proptypes": "^1.7.1",
+    "react-immutable-proptypes": "^2.1.0",
     "react-inlinesvg": "^0.5.3",
     "react-redux": "4.4.5",
     "redux": "3.5.2",
