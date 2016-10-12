@@ -5,6 +5,7 @@ const ReactDOM = require("react-dom");
 const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
+const SourceTabs = createFactory(require("./SourceTabs"));
 const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
 const EditorSearchBar = createFactory(require("./EditorSearchBar"));
@@ -276,6 +277,7 @@ const Editor = React.createClass({
     return (
       dom.div(
         { className: "editor-wrapper devtools-monospace" },
+        SourceTabs(),
         EditorSearchBar({
           editor: this.editor,
           sourceText: this.props.sourceText

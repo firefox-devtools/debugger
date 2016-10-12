@@ -126,7 +126,7 @@ const EditorSearchBar = React.createClass({
 
   render() {
     if (!isEnabled("search") || !this.state.enabled) {
-      return dom.div();
+      return null;
     }
 
     const { count } = this.state;
