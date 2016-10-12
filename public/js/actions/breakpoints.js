@@ -180,28 +180,29 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: Boolean) {
  *        The condition to set on the breakpoint
  */
 function setBreakpointCondition(location: Location, condition: string) {
-  throw new Error("not implemented");
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    const bp = getBreakpoint(getState(), location);
+    if (!bp) {
+      throw new Error("Breakpoint does not exist at the specified location");
+    }
+    if (bp.loading) {
+      // TODO(jwl): when this function is called, make sure the action
+      // creator waits for the breakpoint to exist
+      throw new Error("breakpoint must be saved");
+    }
 
-  // return ({ dispatch, getState, client }) => {
-  //   const bp = getBreakpoint(getState(), location);
-  //   if (!bp) {
-  //     throw new Error("Breakpoint does not exist at the specified location");
-  //   }
-  //   if (bp.get("loading")) {
-  //     // TODO(jwl): when this function is called, make sure the action
-  //     // creator waits for the breakpoint to exist
-  //     throw new Error("breakpoint must be saved");
-  //   }
-
-  //   return dispatch({
-  //     type: constants.SET_BREAKPOINT_CONDITION,
-  //     breakpoint: bp,
-  //     condition: condition,
-  //     [PROMISE]: Task.spawn(function* () {
-  //       yield client.setBreakpointCondition(bp.get("id"), condition);
-  //     })
-  //   });
-  // };
+    return dispatch({
+      type: constants.SET_BREAKPOINT_CONDITION,
+      breakpoint: bp,
+      condition: condition,
+      [PROMISE]: client.setBreakpointCondition(
+        bp.id,
+        location,
+        condition,
+        isOriginalId(bp.location.sourceId)
+      )
+    });
+  };
 }
 
 module.exports = {

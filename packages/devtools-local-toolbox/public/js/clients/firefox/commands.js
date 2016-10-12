@@ -54,22 +54,26 @@ function setBreakpoint(location, condition, noSliding) {
     column: location.column,
     condition,
     noSliding
-  }).then(([res, bpClient]) => {
-    bpClients[bpClient.actor] = bpClient;
+  }).then((res) => onNewBreakpoint(location, res));
+}
 
-    // Firefox only returns `actualLocation` if it actually changed,
-    // but we want it always to exist. Format `actualLocation` if it
-    // exists, otherwise use `location`.
-    const actualLocation = res.actualLocation ? {
-      sourceId: res.actualLocation.source.actor,
-      line: res.actualLocation.line,
-      column: res.actualLocation.column
-    } : location;
+function onNewBreakpoint(location, res) {
+  const bpClient = res[1];
+  let actualLocation = res[0].actualLocation;
+  bpClients[bpClient.actor] = bpClient;
 
-    return BreakpointResult({
-      id: bpClient.actor,
-      actualLocation: Location(actualLocation)
-    });
+  // Firefox only returns `actualLocation` if it actually changed,
+  // but we want it always to exist. Format `actualLocation` if it
+  // exists, otherwise use `location`.
+  actualLocation = actualLocation ? {
+    sourceId: actualLocation.source.actor,
+    line: actualLocation.line,
+    column: actualLocation.column
+  } : location;
+
+  return BreakpointResult({
+    id: bpClient.actor,
+    actualLocation: Location(actualLocation)
   });
 }
 
@@ -112,6 +116,14 @@ async function toggleAllBreakpoints(shouldDisableBreakpoints) {
 
   lastDisabledBreakpoints = [];
   return changed;
+}
+
+function setBreakpointCondition(breakpointId, location, condition, noSliding) {
+  let bpClient = bpClients[breakpointId];
+  bpClients[breakpointId] = null;
+
+  return bpClient.setCondition(threadClient, condition, noSliding)
+    .then(_bpClient => onNewBreakpoint(location, [{}, _bpClient]));
 }
 
 function evaluate(script) {
@@ -175,6 +187,7 @@ const clientCommands = {
   setBreakpoint,
   removeBreakpoint,
   toggleAllBreakpoints,
+  setBreakpointCondition,
   evaluate,
   debuggeeCommand,
   navigate,
