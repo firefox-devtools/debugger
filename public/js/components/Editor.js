@@ -139,7 +139,7 @@ const Editor = React.createClass({
     if (contentType.includes("javascript")) {
       this.editor.setMode({ name: "javascript" });
     } else if (contentType === "text/wasm") {
-      this.editor.setMode({ name: "wasm" });
+      this.editor.setMode({ name: "text" });
     } else if (sourceText.get("text").match(/^\s*</)) {
       // Use HTML mode for files in which the first non whitespace
       // character is `<` regardless of extension.
