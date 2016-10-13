@@ -25,7 +25,7 @@ const isCI = args.ci;
 const useDots = args.dots;
 
 const webpack = require("webpack");
-const webpackConfig = require("../../../packages/devtools-local-toolbox/webpack.config");
+const webpackConfig = require("../../../webpack.config");
 delete webpackConfig.entry.bundle;
 
 // The source map worker is compiled with webpack (and mock-require

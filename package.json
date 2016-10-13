@@ -26,7 +26,7 @@
     "prepush": "npm run lint; node public/js/test/node-unit-tests.js --dots",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "postinstall": "lerna bootstrap"
+    "preinstall": "./bin/preinstall"
   },
   "dependencies": {
     "codemirror": "^5.1.0",
@@ -104,7 +104,6 @@
     "babel-plugin-webpack-alias": "^2.1.1",
     "babel-polyfill": "^6.7.4",
     "babel-register": "^6.7.2",
-    "lerna": "github:jasonlaster/lerna",
     "devtools-config": "^0.0.3",
     "react": "=0.14.7",
     "react-dom": "=0.14.7",
