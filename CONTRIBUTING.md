@@ -167,11 +167,15 @@ If you find an `up for grabs` issue without a difficulty level set as a label or
 
 #### Your First Code Contribution
 
-If this is your first time contributing any code to an open source project take a look through the `first-timers-only` issues:
+If you're looking for a good issue, you can look through the `up-for-grabs` issues. These issues should be actionable and well documented.
 
-* [first-timers-only][labels-first-timers-only] - issues which should have clear expectations and a mentor to help you through
+There are several difficulty levels, *easy*, *medium*, *hard*. We recommend grabbing an *easy* issue, but it's up to you.
 
-If you didn't find any issues this time, don't worry.  Take a look at the `up for grabs` issues above and let someone know this is your first time contributing code.
+* [up-for-grabs][labels-up-for-grabs] - issues that are not assigned to anyone and are available to be worked on.
+* [difficulty:easy][labels-difficulty-easy] - clear expectations and a mentor to help you through.
+* [difficulty:medium][labels-difficulty-medium] - more complex and may not have as clear expectations.
+* [difficulty:hard][labels-difficulty-hard] - complex and has some open technical questions.
+
 
 To begin your work make sure you follow these steps:
 
@@ -344,7 +348,6 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 | Label name | query:mag_right: | Description |
 | --- | --- | --- |
 | `up-for-grabs` | [search][labels-up-for-grabs] | Good for contributors to work on |
-| `first-timers-only` | [search][labels-first-timers-only] | Good for a first time contribution to open source |
 | `difficulty:easy` | [search][labels-difficulty-easy] | Work that is small changes, updating tests, updating docs, expect very little review |
 | `difficulty:medium` | [search][labels-difficulty-medium] | Work that adapts existing code, adapts existing tests, expect quick review |
 | `difficulty:hard` | [search][labels-difficulty-hard] | Work that requires new tests, new code, and a good understanding of project; expect lots of review |
