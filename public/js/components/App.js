@@ -5,27 +5,22 @@ const { bindActionCreators } = require("redux");
 const { cmdString } = require("../utils/text");
 const classnames = require("classnames");
 const actions = require("../actions");
-const { isFirefoxPanel } = require("../feature");
+const { isFirefoxPanel } = require("devtools-config");
 const { getSources, getSelectedSource } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { parse: parseURL } = require("url");
 
-const { KeyShortcuts } = require("devtools-sham/client/shared/key-shortcuts");
+const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
 
 require("./App.css");
-require("devtools/client/shared/components/splitter/SplitBox.css");
-
-// Using this static variable allows webpack to know at compile-time
-// to avoid this require and not include it at all in the output.
-if (process.env.TARGET !== "firefox-panel") {
-  require("../lib/themes/light-theme.css");
-}
+require("./SplitBox.css");
+require("./reps.css");
+let { SplitBox } = require("devtools-modules");
+SplitBox = createFactory(SplitBox);
 
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
-const SplitBox = createFactory(
-  require("devtools/client/shared/components/splitter/SplitBox"));
 const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 const Svg = require("./utils/Svg");

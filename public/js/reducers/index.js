@@ -6,7 +6,6 @@ const eventListeners = require("./event-listeners");
 const sources = require("./sources");
 const breakpoints = require("./breakpoints");
 const asyncRequests = require("./async-requests");
-const tabs = require("./tabs");
 const pause = require("./pause");
 
 module.exports = {
@@ -14,6 +13,5 @@ module.exports = {
   sources: sources.update,
   breakpoints: breakpoints.update,
   pause: pause.update,
-  asyncRequests,
-  tabs
+  asyncRequests
 };

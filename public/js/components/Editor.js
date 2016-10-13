@@ -8,7 +8,7 @@ const { connect } = require("react-redux");
 const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
 const EditorSearchBar = createFactory(require("./EditorSearchBar"));
-const { debugGlobal } = require("../utils/debug");
+const { debugGlobal } = require("devtools-local-toolbox");
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame
@@ -18,7 +18,7 @@ const actions = require("../actions");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");
-const { isEnabled } = require("../feature");
+const { isEnabled } = require("devtools-config");
 
 require("./Editor.css");
 

@@ -127,7 +127,7 @@ const TreeNode = createFactory(createClass({
 function oncePerAnimationFrame(fn) {
   let animationId = null;
   let argsToPass = null;
-  return function (...args) {
+  return function(...args) {
     argsToPass = args;
     if (animationId !== null) {
       return;
@@ -284,7 +284,7 @@ const Tree = module.exports = createClass({
         onCollapse: this._onCollapse,
         onFocus: () => this._focus(i, item),
       });
-    }
+    };
 
     // nodes.push(dom.div({
     //   key: "bottom-spacer",
@@ -395,7 +395,7 @@ const Tree = module.exports = createClass({
    * @param {Object} item
    * @param {Boolean} expandAllChildren
    */
-  _onExpand: oncePerAnimationFrame(function (item, expandAllChildren) {
+  _onExpand: oncePerAnimationFrame(function(item, expandAllChildren) {
     if (this.props.onExpand) {
       this.props.onExpand(item);
 
@@ -414,7 +414,7 @@ const Tree = module.exports = createClass({
    *
    * @param {Object} item
    */
-  _onCollapse: oncePerAnimationFrame(function (item) {
+  _onCollapse: oncePerAnimationFrame(function(item) {
     if (this.props.onCollapse) {
       this.props.onCollapse(item);
     }
@@ -466,7 +466,7 @@ const Tree = module.exports = createClass({
    *
    * @param {Event} e
    */
-  _onScroll: oncePerAnimationFrame(function (e) {
+  _onScroll: oncePerAnimationFrame(function(e) {
     this.setState({
       scroll: Math.max(this.refs.tree.scrollTop, 0),
       height: this.refs.tree.clientHeight
@@ -521,7 +521,7 @@ const Tree = module.exports = createClass({
   /**
    * Sets the previous node relative to the currently focused item, to focused.
    */
-  _focusPrevNode: oncePerAnimationFrame(function () {
+  _focusPrevNode: oncePerAnimationFrame(function() {
     // Start a depth first search and keep going until we reach the currently
     // focused node. Focus the previous node in the DFS, if it exists. If it
     // doesn't exist, we're at the first node already.
@@ -551,7 +551,7 @@ const Tree = module.exports = createClass({
    * Handles the down arrow key which will focus either the next child
    * or sibling row.
    */
-  _focusNextNode: oncePerAnimationFrame(function () {
+  _focusNextNode: oncePerAnimationFrame(function() {
     // Start a depth first search and keep going until we reach the currently
     // focused node. Focus the next node in the DFS, if it exists. If it
     // doesn't exist, we're at the last node already.
@@ -576,7 +576,7 @@ const Tree = module.exports = createClass({
    * Handles the left arrow key, going back up to the current rows'
    * parent row.
    */
-  _focusParentNode: oncePerAnimationFrame(function () {
+  _focusParentNode: oncePerAnimationFrame(function() {
     const parent = this.props.getParent(this.props.focused);
     if (!parent) {
       return;

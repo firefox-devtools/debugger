@@ -6,3 +6,4 @@ npm-debug.log
 .idea/
 .vscode/
 /firefox
+lerna-debug.log

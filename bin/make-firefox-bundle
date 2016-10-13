@@ -28,7 +28,8 @@ fi
     fi
 );
 
-TARGET=firefox-panel node_modules/.bin/webpack
+TARGET=firefox-panel ./node_modules/.bin/webpack --config ./packages/devtools-local-toolbox/webpack.config.js
+
 echo "// Generated from: $REV\n" | cat - public/build/bundle.js > "$DEBUGGER_PATH/bundle.js"
 cp public/build/source-map-worker.js "$DEBUGGER_PATH"
 cp public/build/pretty-print-worker.js "$DEBUGGER_PATH"

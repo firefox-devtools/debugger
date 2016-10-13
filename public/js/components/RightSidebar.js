@@ -6,11 +6,11 @@ const { getPause, getIsWaitingOnBreak, getBreakpointsDisabled,
         getShouldPauseOnExceptions, getShouldIgnoreCaughtExceptions,
         getBreakpoints, getBreakpointsLoading
       } = require("../selectors");
-const { isEnabled } = require("../feature");
+const { isEnabled } = require("devtools-config");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 
-const { Services } = require("Services");
+const { Services } = require("devtools-modules");
 const shiftKey = Services.appinfo.OS === "Darwin" ? "\u21E7" : "Shift+";
 const ctrlKey = Services.appinfo.OS === "Linux" ? "Ctrl+" : "";
 
