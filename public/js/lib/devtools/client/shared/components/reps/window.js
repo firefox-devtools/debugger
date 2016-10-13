@@ -24,6 +24,7 @@ define(function (require, exports, module) {
 
     propTypes: {
       object: React.PropTypes.object.isRequired,
+      mode: React.PropTypes.string
     },
 
     getTitle: function (grip) {
@@ -41,6 +42,14 @@ define(function (require, exports, module) {
       return getURLDisplayString(grip.preview.url);
     },
 
+    getDisplayValue: function (grip) {
+      if (this.props.mode === "tiny") {
+        return grip.isGlobal ? "Global" : "Window";
+      } else {
+        return this.getLocation(grip);
+      }
+    },
+
     render: function () {
       let grip = this.props.object;
 
@@ -48,7 +57,7 @@ define(function (require, exports, module) {
         DOM.span({className: "objectBox objectBox-Window"},
           this.getTitle(grip),
           DOM.span({className: "objectPropValue"},
-            this.getLocation(grip)
+            this.getDisplayValue(grip)
           )
         )
       );
