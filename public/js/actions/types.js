@@ -45,7 +45,7 @@ export type Breakpoint = {
   loading: boolean,
   disabled: boolean,
   text: string,
-  condition: ?string
+  condition: ?string,
 };
 
 /**
@@ -76,7 +76,12 @@ type BreakpointAction =
       breakpoint: Breakpoint,
       condition: string,
       status: AsyncStatus,
-      error: string };
+      error: string }
+  | { type: "TOGGLE_BREAKPOINTS",
+      shouldDisableBreakpoints: boolean,
+      status: AsyncStatus,
+      error: string,
+      value: any };
 
 type SourceAction =
   { type: "ADD_SOURCE", source: Source }
