@@ -127,8 +127,6 @@ function removeSourceFromTabList(state, id) {
  */
 function updateTabList(state, source, tabIndex) {
   const tabs = state.get("tabs");
-  const selectedSource = getSelectedSource({ sources: state });
-  const selectedSourceIndex = tabs.indexOf(selectedSource);
   const sourceIndex = tabs.indexOf(source);
   const includesSource = !!tabs.find((t) => t.get("id") == source.get("id"));
 
@@ -142,7 +140,7 @@ function updateTabList(state, source, tabIndex) {
     return tabs;
   }
 
-  return tabs.insert(selectedSourceIndex + 1, source);
+  return tabs.insert(0, source);
 }
 
 /**
