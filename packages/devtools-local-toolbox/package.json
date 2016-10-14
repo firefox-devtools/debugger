@@ -13,8 +13,7 @@
   "scripts": {},
   "main": "public/js/index.js",
   "bin": {
-    "start-dev-server": "./bin/development-server.js",
-    "build-bundle": "./bin/build-bundle.js"
+    "start-dev-server": "./bin/development-server.js"
   },
   "engineStrict": true,
   "engines": {
