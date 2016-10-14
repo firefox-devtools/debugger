@@ -1,6 +1,5 @@
-const { getValue } = require("../feature");
+const { getValue, isEnabled } = require("devtools-config");
 const { workerTask } = require("./utils");
-const { isEnabled } = require("../feature");
 const {
   originalToGeneratedId,
   generatedToOriginalId,

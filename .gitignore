@@ -3,6 +3,8 @@ build
 node_modules
 config/local.json
 npm-debug.log
+lerna-debug.log
 .idea/
 .vscode/
 /firefox
+lerna-debug.log

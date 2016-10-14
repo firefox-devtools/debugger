@@ -120,10 +120,16 @@ function getScopes(pauseInfo, selectedFrame) {
         scopes.push({ name: title, path: key, contents: vars });
       }
     } else if (type === "object") {
+      let value = scope.object;
+      // If this is the global window scope, mark it as such so that it will
+      // preview Window: Global instead of Window: Window
+      if (value.class === "Window") {
+        value = Object.assign({}, scope.object, { isGlobal: true });
+      }
       scopes.push({
         name: scope.object.class,
         path: key,
-        contents: { value: scope.object }
+        contents: { value }
       });
     }
   } while (scope = scope.parent); // eslint-disable-line no-cond-assign

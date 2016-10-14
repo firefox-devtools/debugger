@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TARGET=firefox-panel ./node_modules/.bin/webpack
+TARGET=firefox-panel node_modules/.bin/webpack
 
 docker run -it \
   -v `pwd`/public/build/bundle.js:/firefox/devtools/client/debugger/new/bundle.js \

@@ -77,14 +77,6 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       break;
 
     case "TOGGLE_PRETTY_PRINT":
-      if (action.status === "done") {
-        return _updateText(state, action)
-          .setIn(
-            ["sources", action.source.id, "isPrettyPrinted"],
-            action.value.isPrettyPrinted
-          );
-      }
-
       return _updateText(state, action);
 
     case "NAVIGATE":

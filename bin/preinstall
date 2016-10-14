@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if hash lerna 2>/dev/null; then
+  lerna bootstrap
+else
+  echo "Installing lerna. https://github.com/devtools-html/debugger.html/blob/master/docs/lerna.md"
+  npm i jasonlaster/lerna
+  lerna bootstrap
+fi

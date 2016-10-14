@@ -1,0 +1,29 @@
+{
+  "environment": "development",
+  "baseWorkerURL": "public/build/",
+  "logging": {
+    "client": false,
+    "firefoxProxy": false,
+    "actions": false
+  },
+  "features": {
+    "tabs": true,
+    "sourceMaps": true,
+    "prettyPrint": true,
+    "watchExpressions": false,
+    "search": true
+  },
+  "chrome": {
+    "debug": true,
+    "webSocketPort": 9222
+  },
+  "firefox": {
+    "proxyPort": 9000,
+    "webSocketConnection": false,
+    "webSocketPort": 6080
+  },
+  "development": {
+    "serverPort": 8000,
+    "examplesPort": 7999
+  }
+}

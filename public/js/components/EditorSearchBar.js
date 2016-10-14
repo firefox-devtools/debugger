@@ -2,7 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { findDOMNode } = require("react-dom");
 const Svg = require("./utils/Svg");
-const { isEnabled } = require("../feature");
+const { isEnabled } = require("devtools-config");
 const { find, findNext, findPrev } = require("../utils/source-search");
 const classnames = require("classnames");
 

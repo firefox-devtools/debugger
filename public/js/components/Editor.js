@@ -8,7 +8,7 @@ const { connect } = require("react-redux");
 const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
 const EditorSearchBar = createFactory(require("./EditorSearchBar"));
-const { debugGlobal } = require("../utils/debug");
+const { debugGlobal } = require("devtools-local-toolbox");
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame
@@ -18,7 +18,7 @@ const actions = require("../actions");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");
-const { isEnabled } = require("../feature");
+const { isEnabled } = require("devtools-config");
 
 require("./Editor.css");
 
@@ -77,13 +77,17 @@ const Editor = React.createClass({
     }
   },
 
-  updateDebugLine(prevProps, nextProps) {
-    if (prevProps.selectedFrame) {
-      const line = prevProps.selectedFrame.location.line;
+  clearDebugLine(selectedFrame) {
+    if (selectedFrame) {
+      const line = selectedFrame.location.line;
       this.editor.codeMirror.removeLineClass(line - 1, "line", "debug-line");
     }
-    if (nextProps.selectedFrame) {
-      const line = nextProps.selectedFrame.location.line;
+  },
+
+  setDebugLine(selectedFrame, selectedLocation) {
+    if (selectedFrame && selectedLocation &&
+        selectedFrame.location.sourceId === selectedLocation.sourceId) {
+      const line = selectedFrame.location.line;
       this.editor.codeMirror.addLineClass(line - 1, "line", "debug-line");
     }
   },
@@ -135,7 +139,7 @@ const Editor = React.createClass({
     if (contentType.includes("javascript")) {
       this.editor.setMode({ name: "javascript" });
     } else if (contentType === "text/wasm") {
-      this.editor.setMode({ name: "wasm" });
+      this.editor.setMode({ name: "text" });
     } else if (sourceText.get("text").match(/^\s*</)) {
       // Use HTML mode for files in which the first non whitespace
       // character is `<` regardless of extension.
@@ -184,6 +188,7 @@ const Editor = React.createClass({
     // This lifecycle method is responsible for updating the editor
     // text.
     const { sourceText, selectedLocation } = nextProps;
+    this.clearDebugLine(this.props.selectedFrame);
 
     if (!sourceText) {
       this.showMessage("");
@@ -193,6 +198,7 @@ const Editor = React.createClass({
       this.showSourceText(sourceText, selectedLocation);
     }
 
+    this.setDebugLine(nextProps.selectedFrame, selectedLocation);
     resizeBreakpointGutter(this.editor.codeMirror);
   },
 
@@ -245,7 +251,6 @@ const Editor = React.createClass({
     // keep the jump state around until the real source text is
     // loaded.
     if (this.props.sourceText && isTextForSource(this.props.sourceText)) {
-      this.updateDebugLine(prevProps, this.props);
       this.highlightLine();
     }
   },

@@ -1,14 +1,11 @@
 const path = require("path");
 const webpack = require("webpack");
 
-const getConfig = require("../config/config").getConfig;
+const { getConfig } = require("../packages/devtools-config/registerConfig")
 
 module.exports = {
   resolve: {
     alias: {
-      "devtools": path.join(__dirname, "./public/js/lib/devtools"),
-      "devtools-sham": path.join(__dirname, "./public/js/lib/devtools-sham"),
-      "sdk": path.join(__dirname, "./public/js/lib/devtools-sham/sdk")
     },
     extensions: ["", ".js", ".jsm"],
     root: path.join(__dirname, "node_modules")

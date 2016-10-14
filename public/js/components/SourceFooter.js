@@ -4,12 +4,12 @@ const { findDOMNode } = require("react-dom");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { isEnabled } = require("../feature");
+const { isEnabled } = require("devtools-config");
 const { getSelectedSource, getSourceText, getPrettySource } = require("../selectors");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
-const { isOriginalId, originalToGeneratedId } = require("../utils/source-map");
+const { isOriginalId } = require("../utils/source-map");
 const { isPretty } = require("../utils/source");
 const { find, findNext, findPrev } = require("../utils/source-search");
 
@@ -49,18 +49,7 @@ const SourceFooter = React.createClass({
   },
 
   onClickPrettyPrint() {
-    const { selectedSource, togglePrettyPrint,
-            selectSource, prettySource } = this.props;
-
-    if (isPretty(selectedSource.toJS())) {
-      return selectSource(originalToGeneratedId(selectedSource.get("id")));
-    }
-
-    if (selectedSource.get("isPrettyPrinted")) {
-      return selectSource(prettySource.get("id"));
-    }
-
-    togglePrettyPrint(selectedSource.get("id"));
+    this.props.togglePrettyPrint(this.props.selectedSource.get("id"));
   },
 
   prettyPrintButton() {

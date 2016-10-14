@@ -1,6 +1,6 @@
 /* eslint max-len: [2, 90] */
 
-const { PrefsHelper } = require("devtools-sham/client/shared/prefs");
+const { PrefsHelper } = require("devtools-sham-modules");
 
 /**
  * Shortcuts for accessing various debugger preferences.

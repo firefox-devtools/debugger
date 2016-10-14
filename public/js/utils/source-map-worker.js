@@ -1,4 +1,4 @@
-const networkRequest = require("networkRequest");
+const networkRequest = require("devtools-network-request");
 const URL = require("url");
 const path = require("./path");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
@@ -208,8 +208,9 @@ self.onmessage = function(msg) {
   const response = publicInterface[method].apply(undefined, args);
   if (response instanceof Promise) {
     response.then(val => self.postMessage({ id, response: val }),
-                  err => self.postMessage({ id, response: err }));
+                  err => self.postMessage({ id, error: err }));
   } else {
     self.postMessage({ id, response });
   }
 };
+

@@ -1,23 +1,28 @@
 "use strict"; // eslint-disable-line
-const glob = require("glob").sync;
-const path = require("path");
-const Mocha = require("mocha");
-const minimist = require("minimist");
-const mock = require("mock-require");
-const getConfig = require("../../../config/config").getConfig;
-const setConfig = require("../../../config/feature").setConfig;
 
 require("amd-loader");
 require("babel-register");
 
+const glob = require("glob").sync;
+const path = require("path");
+const Mocha = require("mocha");
+const minimist = require("minimist");
+
+const { registerConfig } = require("../../../packages/devtools-config/registerConfig");
+const { getConfig } = require("devtools-config");
+
+const packagesPath = path.join(__dirname, "../../../packages");
+
+registerConfig();
+getConfig().baseWorkerURL = path.join(__dirname, "../../build/");
+
 const args = minimist(process.argv.slice(2),
 { boolean: ["ci", "dots"] });
 
+const mock = require("mock-require");
+
 const isCI = args.ci;
 const useDots = args.dots;
-
-setConfig(getConfig());
-getConfig().baseWorkerURL = path.join(__dirname, "../../build/");
 
 const webpack = require("webpack");
 const webpackConfig = require("../../../webpack.config");
@@ -26,8 +31,9 @@ delete webpackConfig.entry.bundle;
 // The source map worker is compiled with webpack (and mock-require
 // doesn't work in workers) so mock it with an alias, and tweak a few
 // things to make the stub fetcher work in node.
-webpackConfig.resolve.alias.networkRequest =
-  path.join(__dirname, "utils/stubNetworkRequest.js");
+webpackConfig.resolve.alias["devtools-network-request"] =
+  path.resolve(packagesPath, "devtools-network-request/stubNetworkRequest.js");
+
 webpackConfig.externals = [{ fs: "commonjs fs" }];
 webpackConfig.node = { __dirname: false };
 
@@ -35,7 +41,7 @@ global.Worker = require("workerjs");
 
 // Mock various functions. This allows tests to load files from a
 // local directory easily.
-mock("../utils/networkRequest", require("./utils/stubNetworkRequest"));
+mock("devtools-network-request", require("../../../packages/devtools-network-request/stubNetworkRequest"));
 
 // disable unecessary require calls
 require.extensions[".css"] = () => {};
