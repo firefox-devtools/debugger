@@ -109,7 +109,23 @@ function update(state = State(), action: Action) {
     case "TOGGLE_BREAKPOINTS": {
       if (action.status === "start") {
         return state.set(
-          "breakpointsDisabled", action.shouldDisableBreakpoints);
+          "breakpointsDisabled", action.shouldDisableBreakpoints
+        );
+      } else if (action.status === "done") {
+        const shouldDisable = action.shouldDisableBreakpoints;
+
+        return action.value.reduce((updatedState, bp) => {
+          const locationId = makeLocationId(bp.actualLocation);
+          const breakpoint = updatedState.breakpoints.get(locationId);
+
+          return updatedState.setIn(
+            ["breakpoints", locationId],
+            updateObj(breakpoint, {
+              disabled: shouldDisable,
+              id: bp.id
+            })
+          );
+        }, state);
       }
       break;
     }

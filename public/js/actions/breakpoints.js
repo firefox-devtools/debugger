@@ -10,7 +10,7 @@
 
 const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
-const { getBreakpoint, getBreakpoints, getSource } = require("../selectors");
+const { getBreakpoint, getSource } = require("../selectors");
 
 const {
   getOriginalLocation, getGeneratedLocation, isOriginalId
@@ -74,7 +74,9 @@ function addBreakpoint(location: Location,
       [PROMISE]: (async function () {
         if (isOriginalId(bp.location.sourceId)) {
           const source = getSource(getState(), bp.location.sourceId);
-          location = await getGeneratedLocation(bp.location, source.toJS());
+          const sourceUrl = source ? source.get("url") : null;
+
+          location = await getGeneratedLocation(bp.location, sourceUrl);
         }
 
         let { id, actualLocation } = await client.setBreakpoint(
@@ -156,20 +158,11 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
  * @static
  */
 function toggleAllBreakpoints(shouldDisableBreakpoints: Boolean) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    const breakpoints = getBreakpoints(getState());
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     return dispatch({
       type: constants.TOGGLE_BREAKPOINTS,
       shouldDisableBreakpoints,
-      [PROMISE]: (async function () {
-        for (let [, breakpoint] of breakpoints) {
-          if (shouldDisableBreakpoints) {
-            await dispatch(disableBreakpoint(breakpoint.location));
-          } else {
-            await dispatch(enableBreakpoint(breakpoint.location));
-          }
-        }
-      })()
+      [PROMISE]: client.toggleAllBreakpoints(shouldDisableBreakpoints)
     });
   };
 }

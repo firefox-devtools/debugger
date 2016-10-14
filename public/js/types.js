@@ -36,7 +36,8 @@ const Breakpoint = t.struct({
 
 const BreakpointResult = t.struct({
   id: t.String,
-  actualLocation: Location
+  actualLocation: Location,
+  condition: t.union([t.String, t.Nil])
 });
 
 const Frame = t.struct({
