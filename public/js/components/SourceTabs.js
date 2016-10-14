@@ -82,13 +82,14 @@ const SourceTabs = React.createClass({
   },
 
   renderDropdownSource(source) {
-    const { selectSource } = this.props;
+    const { selectSource, SourceTabs } = this.props;
     const url = source && source.get("url");
-    const filename = getFilename(url);
+    const filename = getFilename(source.toJS());
 
     return dom.li({
       key: source.get("id"),
       onClick: () => {
+        // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
         const tabIndex = 0;
         selectSource(source.get("id"), { tabIndex });
       }

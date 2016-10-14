@@ -4,10 +4,24 @@
   width: 150px;
   max-height: 300px;
   z-index: 1000;
+  position: absolute;
+  top: 35px;
+  right: 0px;
 }
 
 .dropdown li {
   padding-left: 10px;
+  padding: 5px 10px;
+  overflow: hidden;
+  height: 30px;
+}
+
+.dropdown li:nth-of-type(2n) {
+  background-color: var(--theme-tab-toolbar-background);
+}
+
+.dropdown li:hover {
+  background-color: var(--theme-toolbar-background);
 }
 
 .dropdown li:hover {

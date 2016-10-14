@@ -68,23 +68,3 @@
   right: 3px;
   top: 9px;
 }
-
-.sources-dropdown {
-  position: absolute;
-  top: 35px;
-  right: 0px;
-}
-
-.sources-dropdown li {
-  padding: 5px 10px;
-  overflow: hidden;
-  height: 30px;
-}
-
-.sources-dropdown li:nth-of-type(2n) {
-  background-color: var(--theme-tab-toolbar-background);
-}
-
-.sources-dropdown li:hover {
-  background-color: var(--theme-toolbar-background);
-}

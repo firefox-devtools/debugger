@@ -14,7 +14,7 @@ const Dropdown = React.createClass({
     };
   },
 
-  toggleSourcesDropdown(e) {
+  toggleDropdown(e) {
     this.setState({
       dropdownShown: !this.state.dropdownShown,
     });
@@ -23,9 +23,8 @@ const Dropdown = React.createClass({
   renderPanel() {
     return dom.div(
       {
-        className: "sources-dropdown dropdown",
-        onClick: this.toggleSourcesDropdown,
-        ref: "sourcesDropdown",
+        className: "dropdown",
+        onClick: this.toggleDropdown,
         style: { display: (this.state.dropdownShown ? "block" : "none") }
       },
       this.props.panel
@@ -36,7 +35,7 @@ const Dropdown = React.createClass({
     return dom.span(
       {
         className: "subsettings",
-        onClick: this.toggleSourcesDropdown
+        onClick: this.toggleDropdown
       },
       dom.img({ src: "images/subSettings.svg" })
     );
@@ -45,7 +44,7 @@ const Dropdown = React.createClass({
   renderMask() {
     return dom.div({
       className: "dropdown-mask",
-      onClick: this.toggleSourcesDropdown,
+      onClick: this.toggleDropdown,
       style: { display: (this.state.dropdownShown ? "block" : "none") }
     });
   },
