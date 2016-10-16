@@ -52,7 +52,7 @@ function httpGet(url, onResponse) {
 const app = express();
 
 // Webpack middleware
-const webpackConfig = require("../webpack.config");
+const webpackConfig = require("../../../webpack.config");
 const compiler = webpack(webpackConfig);
 
 app.use(webpackDevMiddleware(compiler, {
