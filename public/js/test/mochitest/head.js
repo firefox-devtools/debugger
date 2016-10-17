@@ -558,6 +558,8 @@ function isVisibleWithin(outerEl, innerEl) {
 
 const selectors = {
   callStackHeader: ".call-stack-pane ._header",
+  scopesHeader: ".scopes-pane ._header",
+  scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
   frame: index => `.frames ul li:nth-child(${index})`,
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
   pauseOnExceptions: ".pause-exceptions",
@@ -623,4 +625,8 @@ function clickElement(dbg, elementName, ...args) {
  */
 function toggleCallStack(dbg) {
   return findElement(dbg, "callStackHeader").click();
+}
+
+function toggleScopes(dbg) {
+  return findElement(dbg, "scopesHeader").click();
 }

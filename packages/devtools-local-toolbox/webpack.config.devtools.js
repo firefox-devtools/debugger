@@ -21,15 +21,22 @@ const nativeMapping = {
 };
 
 let packagesPath = path.join(__dirname, "../");
+let projectPath = path.join(__dirname, "../../");
 
 module.exports = webpackConfig => {
   webpackConfig.output.library = "Debugger";
 
   if (process.env.MOCHITESTS) {
-    webpackConfig.output.path = path.join(__dirname, "firefox/devtools/client/debugger/new");
+    webpackConfig.output.path = path.join(
+      projectPath,
+      "firefox/devtools/client/debugger/new"
+    );
   }
 
-  webpackConfig.resolve.alias["devtools-network-request"] = path.resolve(packagesPath, "devtools-network-request/privilegedNetworkRequest");
+  webpackConfig.resolve.alias["devtools-network-request"] = path.resolve(
+     packagesPath,
+     "devtools-network-request/privilegedNetworkRequest"
+  );
 
   function externalsTest(context, request, callback) {
     let mod = request;
