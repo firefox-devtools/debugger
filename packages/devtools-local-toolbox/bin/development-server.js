@@ -24,11 +24,12 @@ checkNode(">=5.0.0", function(_, opts) {
   }
 });
 
+const getConfig = require("../../devtools-config/src/config").getConfig;
 const getValue = require("devtools-config").getValue;
+const setConfig = require("devtools-config").setConfig;
 const isDevelopment = require("devtools-config").isDevelopment;
-const registerConfig = require("../../devtools-config/registerConfig").registerConfig;
-registerConfig();
 
+setConfig(getConfig());
 
 if (!getValue("firefox.webSocketConnection")) {
   const firefoxProxy = require("./firefox-proxy");
