@@ -19,7 +19,9 @@ const Expressions = React.createClass({
     addExpression: PropTypes.func,
     updateExpression: PropTypes.func,
     deleteExpression: PropTypes.func,
-    expressionInputVisibility: PropTypes.bool
+    expressionInputVisibility: PropTypes.bool,
+    loadObjectProperties: PropTypes.func,
+    loadedObjects: ImPropTypes.map,
   },
 
   displayName: "Expressions",
@@ -51,7 +53,10 @@ const Expressions = React.createClass({
 
   renderExpressionValue(value) {
     if (!value) {
-      return;
+      return dom.span(
+        { className: "expression-error" },
+        "<not available>"
+      );
     }
     if (value.exception) {
       return Rep({ object: value.exception });
@@ -126,7 +131,7 @@ const Expressions = React.createClass({
       dom.input(
         { type: "text",
           className: "input-expression",
-          placeholder: "Add watch Expression",
+          placeholder: "Add Watch Expression",
           onKeyPress: e => this.inputKeyPress(e, {}) }
       ) : null,
       expressions.toSeq().map(expression =>

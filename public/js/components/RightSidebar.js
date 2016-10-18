@@ -50,6 +50,7 @@ const RightSidebar = React.createClass({
     breakpointsLoading: PropTypes.bool,
     setExpressionInputVisibility: PropTypes.func,
     expressionInputVisibility: PropTypes.bool,
+    evaluateExpressions: PropTypes.func,
   },
 
   contextTypes: {
@@ -204,14 +205,22 @@ const RightSidebar = React.createClass({
     ];
     if (isEnabled("watchExpressions")) {
       items.unshift({ header: L10N.getStr("watchExpressions.header"),
-        button: debugBtn(
-          evt => {
-            evt.stopPropagation();
-            this.props.setExpressionInputVisibility(
-              !this.props.expressionInputVisibility
-            );
-          }, "file",
-          "accordion-button", "Add Watch Expression"),
+        buttons: [
+          debugBtn(
+            evt => {
+              evt.stopPropagation();
+              this.props.evaluateExpressions();
+            }, "domain",
+            "accordion-button", "Refresh"),
+          debugBtn(
+            evt => {
+              evt.stopPropagation();
+              this.props.setExpressionInputVisibility(
+                !this.props.expressionInputVisibility
+              );
+            }, "file",
+            "accordion-button", "Add Watch Expression")
+        ],
         component: Expressions,
         opened: true
       });

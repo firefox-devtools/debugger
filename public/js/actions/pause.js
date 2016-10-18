@@ -280,6 +280,7 @@ module.exports = {
   setExpressionInputVisibility,
   updateExpression,
   deleteExpression,
+  evaluateExpressions,
   resumed,
   paused,
   pauseOnExceptions,
