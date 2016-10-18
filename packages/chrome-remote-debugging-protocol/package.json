@@ -1,10 +1,10 @@
 {
-  "name": "chrome-remote-debug-protocol",
+  "name": "chrome-remote-debugging-protocol",
   "version": "0.0.3",
   "description": "API for interacting with chrome's remote debugger protocol",
   "main": "index.js",
   "bin": {
-    "chrome-remote-debug-protocol": "build-bootstrap.js"
+    "chrome-remote-debugging-protocol": "build-bootstrap.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

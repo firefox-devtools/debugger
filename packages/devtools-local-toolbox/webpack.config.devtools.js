@@ -6,7 +6,7 @@ const { getConfig } = require("../devtools-config/src/config");
 const { DefinePlugin } = webpack;
 
 const ignoreRegexes = [
-  /(chrome-remote-debug-protocol)/
+  /(chrome-remote-debugging-protocol)/
 ];
 
 const nativeMapping = {

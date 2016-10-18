@@ -22,7 +22,7 @@
 
 #### Chrome
 
-* *chrome-remote-debug-protocol*
+* *chrome-remote-debugging-protocol*
 
 ## Getting Started
 
