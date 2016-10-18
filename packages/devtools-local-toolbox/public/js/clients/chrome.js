@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-const { connect } = require("chrome-remote-debug-protocol");
+const { connect } = require("chrome-remote-debugging-protocol");
 const defer = require("../utils/defer");
 const { Tab } = require("../types");
 const { isEnabled, getValue } = require("devtools-config");
