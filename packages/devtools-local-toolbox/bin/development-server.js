@@ -24,8 +24,9 @@ checkNode(">=5.0.0", function(_, opts) {
   }
 });
 
-const { getValue, isDevelopment } = require("devtools-config");
-const {registerConfig} = require("../../devtools-config/registerConfig");
+const getValue = require("devtools-config").getValue;
+const isDevelopment = require("devtools-config").isDevelopment;
+const registerConfig = require("../../devtools-config/registerConfig").registerConfig;
 registerConfig();
 
 
