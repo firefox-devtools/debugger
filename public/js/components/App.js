@@ -7,8 +7,6 @@ const classnames = require("classnames");
 const actions = require("../actions");
 const { isFirefoxPanel } = require("devtools-config");
 const { getSources, getSelectedSource } = require("../selectors");
-const { endTruncateStr } = require("../utils/utils");
-const { parse: parseURL } = require("url");
 
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
@@ -19,29 +17,11 @@ require("./reps.css");
 let { SplitBox } = require("devtools-modules");
 SplitBox = createFactory(SplitBox);
 
+const SourceSearch = createFactory(require("./SourceSearch"));
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
 const RightSidebar = createFactory(require("./RightSidebar"));
 const SourceTabs = createFactory(require("./SourceTabs"));
-const Svg = require("./utils/Svg");
-const Autocomplete = createFactory(require("./Autocomplete"));
-
-function searchResults(sources) {
-  function getSourcePath(source) {
-    const { path } = parseURL(source.get("url"));
-    return endTruncateStr(path, 50);
-  }
-
-  return sources.valueSeq()
-    .filter(source => source.get("url"))
-    .map(source => ({
-      value: getSourcePath(source),
-      title: getSourcePath(source).split("/").pop(),
-      subtitle: getSourcePath(source),
-      id: source.get("id")
-    }))
-    .toJS();
-}
 
 const App = React.createClass({
   propTypes: {
@@ -52,55 +32,8 @@ const App = React.createClass({
 
   displayName: "App",
 
-  getInitialState() {
-    return {
-      searchOn: false
-    };
-  },
-
   getChildContext() {
     return { shortcuts };
-  },
-
-  componentDidMount() {
-    shortcuts.on("CmdOrCtrl+P", this.toggleSourcesSearch);
-    shortcuts.on("Escape", this.onEscape);
-    window.addEventListener("keydown", this.onKeyDown);
-  },
-
-  componentWillUnmount() {
-    shortcuts.off("CmdOrCtrl+P", this.toggleSourcesSearch);
-    shortcuts.off("Escape", this.onEscape);
-  },
-
-  toggleSourcesSearch(key, e) {
-    e.preventDefault();
-    this.setState({ searchOn: !this.state.searchOn });
-  },
-
-  onEscape(shortcut, e) {
-    if (this.state.searchOn) {
-      this.setState({ searchOn: false });
-      e.preventDefault();
-    }
-  },
-
-  closeSourcesSearch() {
-    this.setState({ searchOn: false });
-  },
-
-  renderSourcesSearch() {
-    return dom.div({ className: "search-container" },
-      Autocomplete({
-        selectItem: result => {
-          this.props.selectSource(result.id);
-          this.setState({ searchOn: false });
-        },
-        items: searchResults(this.props.sources)
-      }),
-      dom.div({ className: "close-button" },
-      Svg("close", { onClick: this.closeSourcesSearch }))
-    );
   },
 
   renderWelcomeBox() {
@@ -118,7 +51,7 @@ const App = React.createClass({
         SourceTabs(),
         Editor(),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
-        this.state.searchOn ? this.renderSourcesSearch() : null
+        SourceSearch()
       )
     );
   },
