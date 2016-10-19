@@ -32,8 +32,7 @@ function isJavaScript(url: string, contentType: string = ""): boolean {
          contentType.includes("javascript");
 }
 
-// TODO: This should use a shared Source type
-function isPretty(source: {url: string}): boolean {
+function isPretty(source: Source): boolean {
   return source.url ? /formatted$/.test(source.url) : false;
 }
 
