@@ -16,6 +16,10 @@
   left: 0px;
 }
 
+html[dir="rtl"] .editor-mount {
+  direction: ltr;
+}
+
 .editor-wrapper .breakpoints {
   position: absolute;
   top: 0;

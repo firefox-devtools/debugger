@@ -13,7 +13,8 @@
 .sources-header {
   height: 30px;
   border-bottom: 1px solid var(--theme-splitter-color);
-  padding: 0 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   line-height: 30px;
   font-size: 1.2em;
   display: flex;
@@ -23,6 +24,14 @@
   user-select: none;
 }
 
+html:not([dir="rtl"]) .sources-header {
+  padding-left: 10px;
+}
+
+html[dir="rtl"] .sources-header {
+  padding-right: 10px;
+}
+
 .sources-header-info {
   font-size: 12px;
   color: var(--theme-comment-alt);
@@ -30,44 +39,20 @@
   white-space: nowrap;
 }
 
+html:not([dir="rtl"]) .sources-header-info {
+  padding-right: 10px;
+  float: right;
+}
+
+html[dir="rtl"] .sources-header-info {
+  padding-left: 10px;
+  float: left;
+}
+
 .sources-list {
   flex: 1;
   display: flex;
   overflow: hidden;
-}
-
-ul.sources-list {
-  list-style: none;
-  margin: 20px 0;
-  padding: 0;
-  padding-left: 10px;
-  flex: 1;
-  white-space: nowrap;
-}
-
-.sources-list ul {
-  list-style: none;
-  margin: 0.5em 0;
-  padding: 0;
-}
-
-.sources-list .source-item {
-  list-style: none;
-  white-space: nowrap;
-}
-
-.sources-list .label {
-  font-size: 1em;
-  padding-left: 10px;
-  color: var(--theme-comment);
-}
-
-.sources-list .source-item.selected {
-  background-color: var(--theme-selection-background);
-}
-
-.sources-list .source-item.selected .label {
-  color: var(--theme-selection-color);
 }
 
 .arrow,
@@ -95,12 +80,24 @@ ul.sources-list {
 .folder svg,
 .worker svg {
   width: 15px;
-  margin-right: 5px;
 }
 
 .file svg {
   width: 13px;
+}
+
+html:not([dir="rtl"]) .file svg,
+html:not([dir="rtl"]) .domain svg,
+html:not([dir="rtl"]) .folder svg,
+html:not([dir="rtl"]) .worker svg {
   margin-right: 5px;
+}
+
+html[dir="rtl"] .file svg,
+html[dir="rtl"] .domain svg,
+html[dir="rtl"] .folder svg,
+html[dir="rtl"] .worker svg {
+  margin-left: 5px;
 }
 
 .tree {

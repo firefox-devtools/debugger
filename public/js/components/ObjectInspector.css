@@ -1,13 +1,22 @@
 .arrow svg {
   fill: var(--theme-splitter-color);
-  margin-right: 5px;
   margin-top: 3px;
-  transform: rotate(-90deg);
   transition: transform 0.25s ease;
   width: 10px;
 }
 
-.arrow.expanded svg {
+html:not([dir="rtl"]) .arrow svg {
+  margin-right: 5px;
+  transform: rotate(-90deg);
+}
+
+html[dir="rtl"] .arrow svg {
+  margin-left: 5px;
+  transform: rotate(90deg);
+}
+
+/* TODO (Amit): html is just for specificity. keep it like this? */
+html .arrow.expanded svg {
   transform: rotate(0deg);
 }
 

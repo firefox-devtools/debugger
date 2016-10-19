@@ -21,12 +21,18 @@
 
 .command-bar {
   height: 30px;
+}
+
+html:not([dir="rtl"]) .command-bar {
   padding: 8px 5px 10px 1px;
+}
+
+html[dir="rtl"] .command-bar {
+  padding: 8px 1px 10px 5px;
 }
 
 .command-bar > span {
   cursor: pointer;
-  margin-right: 0.7em;
   width: 16px;
   height: 17px;
   display: inline-block;
@@ -34,13 +40,25 @@
   transition: opacity 200ms;
 }
 
+html:not([dir="rtl"]) .command-bar > span {
+  margin-right: 0.7em;
+}
+
+html[dir="rtl"] .command-bar > span {
+  margin-left: 0.7em;
+}
+
 .command-bar > span.disabled {
   opacity: 0.3;
   cursor: default;
 }
 
-.command-bar .stepOut {
+html:not([dir="rtl"]) .command-bar .stepOut {
   margin-right: 2em;
+}
+
+html[dir="rtl"] .command-bar .stepOut {
+  margin-left: 2em;
 }
 
 .command-bar .subSettings {

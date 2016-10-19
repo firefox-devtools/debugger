@@ -20,14 +20,22 @@
   border: 1px solid var(--theme-splitter-color);
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  padding: 2px 20px 2px 12px;
   height: 23px;
   line-height: 20px;
-  margin: 6px 0 0 8px;
   display: inline-block;
   border-bottom: none;
   position: relative;
   transition: all 0.25s ease;
+}
+
+html:not([dir="rtl"]) .source-tab {
+  padding: 2px 20px 2px 12px;
+  margin: 6px 0 0 8px;
+}
+
+html[dir="rtl"] .source-tab {
+  padding: 2px 12px 2px 20px;
+  margin: 6px 8px 0 0;
 }
 
 .source-tab:hover {
@@ -51,8 +59,15 @@
 
 .source-tab .close-btn {
   position: absolute;
-  right: 4px;
   top: 3px;
+}
+
+html:not([dir="rtl"]) .source-tab .close-btn {
+  right: 4px;
+}
+
+html[dir="rtl"] .source-tab .close-btn {
+  left: 4px;
 }
 
 .source-tab .close {
