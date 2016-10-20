@@ -142,6 +142,7 @@ function update(state = State(), action: Action) {
       } else if (action.status === "done") {
         const bp = state.breakpoints.get(id);
         return state.setIn(["breakpoints", id], updateObj(bp, {
+          id: action.value.id,
           loading: false
         }));
       } else if (action.status === "error") {

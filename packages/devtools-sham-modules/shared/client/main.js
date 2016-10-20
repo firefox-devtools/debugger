@@ -3070,7 +3070,7 @@ BreakpointClient.prototype = {
   /**
    * Set the condition of this breakpoint
    */
-  setCondition: function(gThreadClient, aCondition) {
+  setCondition: function(gThreadClient, aCondition, noSliding) {
     let root = this._client.mainRoot;
     let deferred = promise.defer();
 
@@ -3078,7 +3078,8 @@ BreakpointClient.prototype = {
       let info = {
         line: this.location.line,
         column: this.location.column,
-        condition: aCondition
+        condition: aCondition,
+        noSliding
       };
 
       // Remove the current breakpoint and add a new one with the

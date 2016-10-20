@@ -26,6 +26,43 @@ function isTextForSource(sourceText) {
   return !sourceText.get("loading") && !sourceText.get("error");
 }
 
+function breakpointAtLine(breakpoints, line) {
+  return breakpoints.find(b => {
+    return b.location.line === line + 1;
+  });
+}
+
+function renderConditionalBreakpointPanel(
+  { location, setBreakpointCondition, condition, closePanel }) {
+  function onKey(e) {
+    if (e.key != "Enter") {
+      return;
+    }
+
+    setBreakpointCondition(location, e.target.value);
+    closePanel();
+  }
+
+  let panel = document.createElement("div");
+  ReactDOM.render(
+    dom.div(
+      { className: "conditional-breakpoint-panel" },
+      dom.div(
+        { className: "header" },
+        `This breakpoint will stop execution only
+         if the following expression is true`
+      ),
+      dom.input({
+        defaultValue: condition,
+        onKeyPress: onKey,
+      })
+    ),
+    panel
+  );
+
+  return panel;
+}
+
 /**
  * Forces the breakpoint gutter to be the same size as the line
  * numbers gutter. Editor CSS will absolutely position the gutter
@@ -46,16 +83,34 @@ const Editor = React.createClass({
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
+    setBreakpointCondition: PropTypes.func,
     selectedFrame: PropTypes.object
   },
 
   displayName: "Editor",
 
   onGutterClick(cm, line, gutter, ev) {
-    const bp = this.props.breakpoints.find(b => {
-      return b.location.line === line + 1;
-    });
+    const bp = breakpointAtLine(this.props.breakpoints, line);
+    const { selectedLocation: { sourceId },
+            setBreakpointCondition } = this.props;
 
+    const location = { sourceId, line: line + 1 };
+    const closePanel = () => this.cbPanels[line].clear();
+
+    if (isEnabled("conditionalBreakpoints") && bp && ev.metaKey) {
+      const { condition } = bp;
+      const panel = renderConditionalBreakpointPanel({
+        location, setBreakpointCondition, condition, closePanel
+      });
+
+      this.cbPanels[line] = this.editor.codeMirror.addLineWidget(line, panel);
+      return;
+    }
+
+    this.toggleBreakpoint(bp, line);
+  },
+
+  toggleBreakpoint(bp, line) {
     if (bp && bp.loading) {
       return;
     }
@@ -72,7 +127,7 @@ const Editor = React.createClass({
         // Pass in a function to get line text because the breakpoint
         // may slide and it needs to compute the value at the new
         // line.
-        { getTextForLine: l => cm.getLine(l - 1).trim() }
+        { getTextForLine: l => this.editor.codeMirror.getLine(l - 1).trim() }
       );
     }
   },
@@ -151,6 +206,7 @@ const Editor = React.createClass({
 
   componentDidMount() {
     const extraKeys = isEnabled("search") ? { "Cmd-F": () => {} } : {};
+    this.cbPanels = {};
 
     this.editor = new SourceEditor({
       mode: "javascript",

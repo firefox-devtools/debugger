@@ -35,6 +35,10 @@ html[dir="rtl"] .editor-mount {
   right: -4px;
 }
 
+.new-breakpoint.has-condition svg {
+  fill: var(--theme-graphs-yellow);
+}
+
 .editor.new-breakpoint.breakpoint-disabled svg {
   opacity: 0.3;
 }
@@ -106,4 +110,25 @@ html[dir="rtl"] .editor-mount {
   z-index: 100;
   -moz-user-select: none;
   user-select: none;
+}
+
+.conditional-breakpoint-panel {
+  border-top: 1px solid var(--theme-gray);
+  border-bottom: 1px solid var(--theme-gray);
+  cursor: initial;
+  margin: 1em 0;
+  position: relative;
+}
+
+.conditional-breakpoint-panel .header {
+  background: var(--theme-toolbar-background);
+  color: var(--theme-body-color);
+  height: 2em;
+  padding: 0 0.5em;
+  line-height: 2em;
+}
+
+.conditional-breakpoint-panel input {
+  margin: 1em;
+  width: calc(100% - 2em);
 }

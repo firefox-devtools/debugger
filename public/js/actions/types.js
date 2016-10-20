@@ -48,6 +48,12 @@ export type Breakpoint = {
   condition: ?string,
 };
 
+type BreakpointResult = {
+  actualLocation: Location,
+  id: string,
+  text: string
+}
+
 /**
  * Source Text
  *
@@ -66,7 +72,7 @@ type BreakpointAction =
     condition: string,
     status: AsyncStatus,
     error: string,
-    value: { actualLocation: Location, id: string, text: string } }
+    value: BreakpointResult}
   | { type: "REMOVE_BREAKPOINT",
       breakpoint: Breakpoint,
       status: AsyncStatus,
@@ -76,6 +82,7 @@ type BreakpointAction =
       breakpoint: Breakpoint,
       condition: string,
       status: AsyncStatus,
+      value: BreakpointResult,
       error: string }
   | { type: "TOGGLE_BREAKPOINTS",
       shouldDisableBreakpoints: boolean,
