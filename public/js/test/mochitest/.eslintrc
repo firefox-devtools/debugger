@@ -64,6 +64,7 @@
     "removeBreakpoint": false,
     "addBreakpoint": false,
     "toggleCallStack": false,
+    "toggleScopes": false,
     "isVisibleWithin": false,
     "clickElement": false,
     "togglePauseOnExceptions": false,
