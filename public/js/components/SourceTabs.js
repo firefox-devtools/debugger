@@ -123,7 +123,7 @@ const SourceTabs = React.createClass({
   renderSourcesDropdownButton() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
-      return dom.div({});
+      return null;
     }
 
     return dom.span(

@@ -2,14 +2,11 @@
 .source-footer {
   background: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 1px;
-  opacity: 1;
-  z-index: 100;
   -moz-user-select: none;
   user-select: none;
+  order: 2;
+  flex: 0 0 auto;
+  height: 30px;
 }
 
 html:not([dir="rtl"]) .source-footer .command-bar {

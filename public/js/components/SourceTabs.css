@@ -1,7 +1,8 @@
 .source-header {
   border-bottom: 1px solid var(--theme-splitter-color);
   height: 30px;
-  flex: 1;
+  flex: 0 0 auto;
+  order: 1;
 }
 
 .source-header * {
