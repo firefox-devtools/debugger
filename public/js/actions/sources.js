@@ -1,3 +1,5 @@
+// @flow
+
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
@@ -9,7 +11,6 @@
 
 const defer = require("../utils/defer");
 const { PROMISE } = require("../utils/redux/middleware/promise");
-const { Task } = require("../utils/task");
 const assert = require("../utils/assert");
 const { updateFrameLocations } = require("../utils/pause");
 const {
@@ -28,13 +29,15 @@ const {
   getPendingSelectedLocation, getFrames
 } = require("../selectors");
 
+import type { Source, ThunkArgs } from "./types";
+
 /**
  * Handler for the debugger client's unsolicited newSource notification.
  * @memberof actions/sources
  * @static
  */
-function newSource(source) {
-  return ({ dispatch, getState }) => {
+function newSource(source: Source) {
+  return ({ dispatch, getState }: ThunkArgs) => {
     if (isEnabled("sourceMaps")) {
       dispatch(loadSourceMap(source));
     }
@@ -53,8 +56,8 @@ function newSource(source) {
   };
 }
 
-function newSources(sources) {
-  return ({ dispatch, getState }) => {
+function newSources(sources: Source[]) {
+  return ({ dispatch, getState }: ThunkArgs) => {
     sources.filter(source => !getSource(getState(), source.id))
       .forEach(source => dispatch(newSource(source)));
   };
@@ -65,7 +68,7 @@ function newSources(sources) {
  * @static
  */
 function loadSourceMap(generatedSource) {
-  return async function({ dispatch, getState }) {
+  return async function({ dispatch, getState }: ThunkArgs) {
     const urls = await getOriginalURLs(generatedSource);
     if (!urls) {
       // If this source doesn't have a sourcemap, do nothing.
@@ -84,6 +87,11 @@ function loadSourceMap(generatedSource) {
   };
 }
 
+type SelectSourceOptions = {
+  tabIndex?: number,
+  line?: number
+};
+
 /**
  * Deterministically select a source that has a given URL. This will
  * work regardless of the connection status or if the source exists
@@ -93,8 +101,8 @@ function loadSourceMap(generatedSource) {
  * @memberof actions/sources
  * @static
  */
-function selectSourceURL(url, options = {}) {
-  return ({ dispatch, getState }) => {
+function selectSourceURL(url: string, options: SelectSourceOptions = {}) {
+  return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (source) {
       dispatch(selectSource(source.get("id"), options));
@@ -113,8 +121,8 @@ function selectSourceURL(url, options = {}) {
  * @memberof actions/sources
  * @static
  */
-function selectSource(id, options = {}) {
-  return ({ dispatch, getState, client }) => {
+function selectSource(id: string, options: SelectSourceOptions = {}) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -139,41 +147,11 @@ function selectSource(id, options = {}) {
  * @memberof actions/sources
  * @static
  */
-function closeTab(id) {
+function closeTab(id: string) {
   removeDocument(id);
   return {
     type: constants.CLOSE_TAB,
     id: id,
-  };
-}
-
-/**
- * Set the black boxed status of the given source.
- *
- * @memberof actions/sources
- * @static
- * @param Object source
- *        The source form.
- * @param bool shouldBlackBox
- *        True to black box the source, false to un-black box it.
- * @returns {Promise}
- *          A promize that resolves to [aSource, isBlackBoxed] or rejects to
- *          [aSource, error].
- */
-function blackbox(source, shouldBlackBox) {
-  return ({ dispatch, client }) => {
-    dispatch({
-      type: constants.BLACKBOX,
-      source: source,
-      [PROMISE]: Task.spawn(function* () {
-        yield shouldBlackBox ?
-          client.blackBox(source.id) :
-          client.unblackBox(source.id);
-        return {
-          isBlackBoxed: shouldBlackBox
-        };
-      })
-    });
   };
 }
 
@@ -189,8 +167,8 @@ function blackbox(source, shouldBlackBox) {
  *          A promise that resolves to [aSource, prettyText] or rejects to
  *          [aSource, error].
  */
-function togglePrettyPrint(sourceId) {
-  return ({ dispatch, getState, client }) => {
+function togglePrettyPrint(sourceId: string) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
     const sourceText = getSourceText(getState(), sourceId).toJS();
 
@@ -235,8 +213,8 @@ function togglePrettyPrint(sourceId) {
  * @memberof actions/sources
  * @static
  */
-function loadSourceText(source) {
-  return ({ dispatch, getState, client }) => {
+function loadSourceText(source: Source) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     // Fetch the source text only once.
     let textInfo = getSourceText(getState(), source.id);
     if (textInfo) {
@@ -284,11 +262,12 @@ const FETCH_SOURCE_RESPONSE_DELAY = 200;
  * @returns {Promise}
  *         A promise that is resolved after source texts have been fetched.
  */
-function getTextForSources(actors) {
-  return ({ dispatch, getState }) => {
+function getTextForSources(actors: any[]) {
+  return ({ dispatch, getState }: ThunkArgs) => {
     let deferred = defer();
     let pending = new Set(actors);
-    let fetched = [];
+    type FetchedSourceType = [any, string, string];
+    let fetched: FetchedSourceType[] = [];
 
     // Can't use promise.all, because if one fetch operation is rejected, then
     // everything is considered rejected, thus no other subsequent source will
@@ -314,7 +293,7 @@ function getTextForSources(actors) {
     }
 
     /* Called if fetching a source finishes successfully. */
-    function onFetch([aSource, aText, aContentType]) {
+    function onFetch([aSource, aText, aContentType]: FetchedSourceType) {
       // If fetching the source has previously timed out, discard it this time.
       if (!pending.has(aSource.actor)) {
         return;
@@ -337,7 +316,7 @@ function getTextForSources(actors) {
       if (pending.size == 0) {
         // Sort the fetched sources alphabetically by their url.
         deferred.resolve(
-          fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond));
+          fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1));
       }
     }
 
@@ -351,7 +330,6 @@ module.exports = {
   selectSource,
   selectSourceURL,
   closeTab,
-  blackbox,
   togglePrettyPrint,
   loadSourceText,
   getTextForSources
