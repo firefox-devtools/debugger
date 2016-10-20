@@ -1,5 +1,5 @@
-const { getConfig } = require("./src/config")
-const { setConfig } = require("./src/feature")
+const getConfig = require("./src/config").getConfig;
+const setConfig = require("./src/feature").setConfig;
 
 function registerConfig() {
   setConfig(getConfig());
