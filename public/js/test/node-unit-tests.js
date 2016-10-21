@@ -8,13 +8,13 @@ const path = require("path");
 const Mocha = require("mocha");
 const minimist = require("minimist");
 
-const { registerConfig } = require("../../../packages/devtools-config/registerConfig");
-const { getConfig } = require("devtools-config");
+const getConfig = require("../../../packages/devtools-config/src/config").getConfig;
+const setConfig = require("devtools-config").setConfig;
 
 const packagesPath = path.join(__dirname, "../../../packages");
+const baseWorkerURL = path.join(__dirname, "../../build/");
 
-registerConfig();
-getConfig().baseWorkerURL = path.join(__dirname, "../../build/");
+setConfig(Object.assign({}, getConfig(), { baseWorkerURL }));
 
 const args = minimist(process.argv.slice(2),
 { boolean: ["ci", "dots"] });
@@ -51,7 +51,9 @@ let testFiles;
 if (args._.length) {
   testFiles = args._.reduce((paths, p) => paths.concat(glob(p)), []);
 } else {
-  testFiles = glob("public/js/**/tests/*.js")
+  testFiles = glob("public/js/actions/tests/*.js")
+    .concat(glob("public/js/reducers/tests/*.js"))
+    .concat(glob("public/js/utils/tests/*.js"))
     .concat(glob("config/tests/*.js"));
 }
 
