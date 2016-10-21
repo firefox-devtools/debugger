@@ -41,8 +41,8 @@ function renderFrame(frame, selectedFrame, selectFrame) {
 
 const Frames = React.createClass({
   propTypes: {
-    frames: ImPropTypes.map.isRequired,
-    selectedFrame: PropTypes.number.isRequired,
+    frames: ImPropTypes.list.isRequired,
+    selectedFrame: PropTypes.object.isRequired,
     selectFrame: PropTypes.func.isRequired
   },
 
@@ -79,7 +79,7 @@ const Frames = React.createClass({
         }).slice(0, numFramesToShow),
         dom.div({
           className: "show-more",
-          onClick: () => this.toggleFramesDisplay()
+          onClick: this.toggleFramesDisplay
         }, buttonMessage)
       )
     }
