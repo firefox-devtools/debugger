@@ -114,14 +114,29 @@ const EditorSearchBar = React.createClass({
   renderSummary() {
     const { count, index, query } = this.state;
 
-    if (count == 0 || query.trim() == "") {
+    if (query.trim() == "") {
       return dom.div({});
+    } else if (count == 0) {
+      return dom.div(
+          { className: "summary" },
+          "no results"
+          );
     }
 
     return dom.div(
       { className: "summary" },
       `${index + 1} of ${count} results`
     );
+  },
+
+  renderSvg() {
+    const { count, query } = this.state;
+
+    if (count == 0 && query.trim() != "") {
+      return Svg("sad-face");
+    }
+
+    return Svg("magnifying-glass");
   },
 
   render() {
@@ -133,7 +148,7 @@ const EditorSearchBar = React.createClass({
 
     return dom.div(
       { className: "search-bar" },
-      Svg("magnifying-glass"),
+      this.renderSvg(),
       dom.input({
         className: classnames({
           empty: count == 0
