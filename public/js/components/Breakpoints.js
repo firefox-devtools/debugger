@@ -93,7 +93,10 @@ const Breakpoints = React.createClass({
         type: "checkbox",
         className: "breakpoint-checkbox",
         checked: !isDisabled,
-        onChange: () => this.handleCheckbox(breakpoint)
+        onChange: () => this.handleCheckbox(breakpoint),
+        // Prevent clicking on the checkbox from triggering the onClick of
+        // the surrounding div
+        onClick: (ev) => ev.stopPropagation()
       }),
       dom.div(
         { className: "breakpoint-label", title: breakpoint.text },
