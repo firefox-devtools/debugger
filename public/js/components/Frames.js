@@ -46,6 +46,8 @@ const Frames = React.createClass({
     selectFrame: PropTypes.func.isRequired
   },
 
+  displayName: "Frames",
+
   getInitialState() {
     return { showAllFrames: false };
   },
@@ -58,20 +60,19 @@ const Frames = React.createClass({
 
   render() {
     const { frames, selectedFrame, selectFrame } = this.props;
-    const defaultFramesToShow = 5;
     const numFramesToShow = this.state.showAllFrames ? frames.length : 7;
+    let framesDisplay;
 
     if (frames.length === 0) {
       framesDisplay = div({ className: "pane-info empty" }, "Not Paused");
-
     } else if (frames.length < numFramesToShow) {
       framesDisplay = dom.ul(null, frames.map(frame => {
         return renderFrame(frame, selectedFrame, selectFrame);
-      }))
-      
+      }));
     } else {
       let frameClass = "hideFrames";
-      let buttonMessage = this.state.showAllFrames ? 'Collapse Rows' : 'Expand Rows';
+      let buttonMessage = this.state.showAllFrames ?
+                          "Collapse Rows" : "Expand Rows";
 
       framesDisplay = dom.ul({ className: frameClass },
         frames.map(frame => {
@@ -81,7 +82,7 @@ const Frames = React.createClass({
           className: "show-more",
           onClick: this.toggleFramesDisplay
         }, buttonMessage)
-      )
+      );
     }
 
     return div(
@@ -89,7 +90,7 @@ const Frames = React.createClass({
       framesDisplay
     );
   }
-})
+});
 
 module.exports = connect(
   state => ({
