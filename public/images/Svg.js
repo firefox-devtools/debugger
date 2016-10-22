@@ -22,7 +22,8 @@ const svg = {
   "stepOut": require("./stepOut.svg"),
   "stepOver": require("./stepOver.svg"),
   "subSettings": require("./subSettings.svg"),
-  "worker": require("./worker.svg")
+  "worker": require("./worker.svg"),
+  "sad-face": require("./sad-face.svg")
 };
 
 module.exports = function(name, props) { // eslint-disable-line
