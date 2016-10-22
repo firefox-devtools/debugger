@@ -38,3 +38,15 @@
   background-color: var(--theme-selection-background);
   color: var(--theme-body-background);
 }
+
+.show-more {
+  cursor: pointer;
+  text-align: center;
+  padding: 8px 0px;
+  border-top: 1px solid var(--theme-splitter-color);
+  background-color: var(--theme-tab-toolbar-background);
+}
+
+.show-more:hover {
+  background-color: var(--theme-selection-color);
+}
