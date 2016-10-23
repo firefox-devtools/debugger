@@ -16,7 +16,8 @@ const {
   getOriginalLocation, getGeneratedLocation, isOriginalId
 } = require("../utils/source-map");
 
-import type { Location, ThunkArgs } from "./types";
+import type { ThunkArgs } from "./types";
+import type { Location } from "../types";
 
 function _breakpointExists(state, location: Location) {
   const currentBp = getBreakpoint(state, location);
@@ -145,7 +146,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
  * @memberof actions/breakpoints
  * @static
  */
-function toggleAllBreakpoints(shouldDisableBreakpoints: Boolean) {
+function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     return dispatch({
       type: constants.TOGGLE_BREAKPOINTS,

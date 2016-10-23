@@ -29,7 +29,8 @@ const {
   getPendingSelectedLocation, getFrames
 } = require("../selectors");
 
-import type { Source, ThunkArgs } from "./types";
+import type { Source } from "../types";
+import type { ThunkArgs } from "./types";
 
 /**
  * Handler for the debugger client's unsolicited newSource notification.

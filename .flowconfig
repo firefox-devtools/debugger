@@ -4,3 +4,4 @@
 .*node_modules/npm.*
 .*node_modules/config-chain.*
 .*firefox/.*
+.*flow-coverage-report/.*

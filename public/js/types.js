@@ -1,59 +1,57 @@
-const t = require("tcomb");
+// @flow
 
-const Tab = t.struct({
-  title: t.String,
-  url: t.String,
-  id: t.String,
-  tab: t.Object,
-  browser: t.enums.of(["chrome", "firefox"])
-}, "Tab");
+/**
+ * Flow types
+ * @module types
+ */
 
-const SourceText = t.struct({
-  text: t.String,
-  contentType: t.String
-});
+/**
+ * Source
+ *
+ * @memberof types
+ * @static
+ */
+export type Source = {
+  id: string,
+  url?: string,
+  sourceMapURL?: string
+};
 
-const Source = t.struct({
-  id: t.String,
-  url: t.union([t.String, t.Nil]),
-  isPrettyPrinted: t.Boolean,
-  sourceMapURL: t.union([t.String, t.Nil])
-}, "Source");
+/**
+ * Source File Location
+ *
+ * @memberof actions/types
+ * @static
+ */
+export type Location = {
+  sourceId: string,
+  line: number,
+  column?: number
+};
 
-const Location = t.struct({
-  sourceId: t.String,
-  line: t.Number,
-  column: t.union([t.Number, t.Nil])
-}, "Location");
-
-const Breakpoint = t.struct({
-  id: t.String,
-  loading: t.Boolean,
-  disabled: t.Boolean,
-  text: t.String,
-  condition: t.union([t.String, t.Nil])
-});
-
-const BreakpointResult = t.struct({
-  id: t.String,
-  actualLocation: Location,
-  condition: t.union([t.String, t.Nil])
-});
-
-const Frame = t.struct({
-  id: t.String,
-  displayName: t.String,
+/**
+ * Breakpoint
+ *
+ * @memberof actions/types
+ * @static
+ */
+export type Breakpoint = {
+  id: string,
   location: Location,
-  this: t.union([t.Object, t.Nil]),
-  scope: t.union([t.Object, t.Nil])
-}, "Frame");
+  loading: boolean,
+  disabled: boolean,
+  text: string,
+  condition: ?string,
+};
 
-module.exports = {
-  Tab,
-  Source,
-  SourceText,
-  Location,
-  Breakpoint,
-  BreakpointResult,
-  Frame
+/**
+ * Source Text
+ *
+ * @memberof actions/types
+ * @static
+ */
+export type SourceText = {
+  id: string,
+  text: string,
+  contentType: string
 };

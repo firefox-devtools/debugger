@@ -1,4 +1,4 @@
-const { BreakpointResult, Location } = require("../../types");
+const { BreakpointResult, Location } = require("../../tcomb-types");
 const defer = require("../../utils/defer");
 
 let bpClients;

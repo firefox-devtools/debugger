@@ -1,8 +1,6 @@
 // @flow
 
-import type { Source } from "../flow-types";
-
-export type { Source };
+import type { Source, Breakpoint, Location, SourceText } from "../types";
 
 /**
  * Flow types
@@ -17,8 +15,8 @@ export type { Source };
   * @typedef {Object} ThunkArgs
   */
 export type ThunkArgs = {
-  dispatch: any,
-  getState: any,
+  dispatch: () => Promise<any>,
+  getState: () => any,
   client: any
 };
 
@@ -34,50 +32,11 @@ export type ThunkArgs = {
  */
 export type AsyncStatus = "start" | "done" | "error";
 
-/**
- * Source File Location
- *
- * @memberof actions/types
- * @static
- */
-export type Location = {
-  sourceId: string,
-  line: number,
-  column?: number
-};
-
-/**
- * Breakpoint
- *
- * @memberof actions/types
- * @static
- */
-export type Breakpoint = {
-  id: string,
-  location: Location,
-  loading: boolean,
-  disabled: boolean,
-  text: string,
-  condition: ?string,
-};
-
 type BreakpointResult = {
   actualLocation: Location,
   id: string,
   text: string
 }
-
-/**
- * Source Text
- *
- * @memberof actions/types
- * @static
- */
-export type SourceText = {
-  id: string,
-  text: string,
-  contentType: string
-};
 
 type BreakpointAction =
   { type: "ADD_BREAKPOINT",

@@ -7,7 +7,8 @@ const fromJS = require("../utils/fromJS");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
 
-import type { Action, Source } from "../actions/types";
+import type { Source } from "../types";
+import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type SourcesState = {
