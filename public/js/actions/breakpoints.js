@@ -16,20 +16,8 @@ const {
   getOriginalLocation, getGeneratedLocation, isOriginalId
 } = require("../utils/source-map");
 
-import type { Location } from "./types";
+import type { Location, ThunkArgs } from "./types";
 
-/**
- * Argument parameters via Thunk middleware for {@link https://github.com/gaearon/redux-thunk|Redux Thunk}
- *
- * @memberof actions/breakpoints
- * @static
- * @typedef {Object} ThunkArgs
- */
-type ThunkArgs = {
-  dispatch: any,
-  getState: any,
-  client: any
-}
 function _breakpointExists(state, location: Location) {
   const currentBp = getBreakpoint(state, location);
   return currentBp && !currentBp.disabled;

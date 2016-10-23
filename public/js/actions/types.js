@@ -10,6 +10,19 @@ export type { Source };
  */
 
 /**
+  * Argument parameters via Thunk middleware for {@link https://github.com/gaearon/redux-thunk|Redux Thunk}
+  *
+  * @memberof actions/breakpoints
+  * @static
+  * @typedef {Object} ThunkArgs
+  */
+export type ThunkArgs = {
+  dispatch: any,
+  getState: any,
+  client: any
+};
+
+/**
  * Tri-state status for async operations
  *
  * Available options are:
