@@ -174,7 +174,7 @@ function getBreakpointsForSource(state: OuterState, sourceId: string) {
   });
 }
 
-function getBreakpointsDisabled(state: OuterState) {
+function getBreakpointsDisabled(state: OuterState): boolean {
   return state.breakpoints.get("breakpointsDisabled");
 }
 
