@@ -462,7 +462,8 @@ function navigate(dbg, url, ...sources) {
 function addBreakpoint(dbg, source, line, col) {
   source = findSource(dbg, source);
   const sourceId = source.id;
-  return dbg.actions.addBreakpoint({ sourceId, line, col });
+  dbg.actions.addBreakpoint({ sourceId, line, col });
+  return waitForDispatch(dbg, "ADD_BREAKPOINT");
 }
 
 /**
@@ -559,6 +560,7 @@ function isVisibleWithin(outerEl, innerEl) {
 const selectors = {
   callStackHeader: ".call-stack-pane ._header",
   scopesHeader: ".scopes-pane ._header",
+  breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
   scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
   frame: index => `.frames ul li:nth-child(${index})`,
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
@@ -569,7 +571,8 @@ const selectors = {
   resume: ".resume.active",
   stepOver: ".stepOver.active",
   stepOut: ".stepOut.active",
-  stepIn: ".stepIn.active"
+  stepIn: ".stepIn.active",
+  toggleBreakpoints: ".toggleBreakpoints"
 };
 
 function getSelector(elementName, ...args) {

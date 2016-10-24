@@ -35,7 +35,7 @@ export type AsyncStatus = "start" | "done" | "error";
 type BreakpointResult = {
   actualLocation: Location,
   id: string,
-  text: string,
+  text: string
 }
 
 type BreakpointAction =
