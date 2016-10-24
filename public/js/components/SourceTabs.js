@@ -10,6 +10,7 @@ const actions = require("../actions");
 const { isEnabled } = require("devtools-config");
 const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
+const Dropdown = React.createFactory(require("./Dropdown"));
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
@@ -34,17 +35,6 @@ function getHiddenTabs(sourceTabs, sourceTabEls) {
   return sourceTabs.filter((tab, index) => {
     return sourceTabEls[index].getBoundingClientRect().top > tabTopOffset;
   });
-}
-
-/*
- * Get the last visible tab index so that we can replace the last
- * tab with the newly selected source.
- */
-function getLastVisibleTabIndex(sourceTabs, sourceTabEls) {
-  const hiddenTabs = getHiddenTabs(sourceTabs, sourceTabEls);
-  const firstHiddenTab = hiddenTabs.first();
-  const firstHiddenTabIndex = sourceTabs.indexOf(firstHiddenTab);
-  return firstHiddenTabIndex - 1;
 }
 
 const SourceTabs = React.createClass({
@@ -91,31 +81,16 @@ const SourceTabs = React.createClass({
     });
   },
 
-  renderSourcesDropdown() {
-    if (!this.state.hiddenSourceTabs) {
-      return dom.div({});
-    }
-
-    return dom.div({
-      className: "sources-dropdown dropdown",
-      ref: "sourcesDropdown",
-      style: { display: (this.state.dropdownShown ? "block" : "none") }
-    },
-      dom.ul({}, this.state.hiddenSourceTabs.map(this.renderDropdownSource))
-    );
-  },
-
   renderDropdownSource(source) {
-    const { selectSource, sourceTabs } = this.props;
+    const { selectSource } = this.props;
     const filename = getFilename(source.toJS());
-    const sourceTabEls = this.refs.sourceTabs.children;
 
     return dom.li({
       key: source.get("id"),
       onClick: () => {
-        const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
+        // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
+        const tabIndex = 0;
         selectSource(source.get("id"), { tabIndex });
-        this.toggleSourcesDropdown();
       }
     }, filename);
   },
@@ -164,15 +139,28 @@ const SourceTabs = React.createClass({
       CloseButton({ handleClick: onClickClose }));
   },
 
+  renderDropdown() {
+    const hiddenSourceTabs = this.state.hiddenSourceTabs;
+    if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
+      return dom.div({});
+    }
+
+    return Dropdown({
+      panel: dom.ul(
+        {},
+        this.state.hiddenSourceTabs.map(this.renderDropdownSource)
+      )
+    });
+  },
+
   render() {
     if (!isEnabled("tabs")) {
       return dom.div({ className: "source-header" });
     }
 
     return dom.div({ className: "source-header" },
-      this.renderSourcesDropdown(),
       this.renderTabs(),
-      this.renderSourcesDropdownButton()
+      this.renderDropdown()
     );
   }
 });
