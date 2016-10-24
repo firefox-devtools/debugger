@@ -83,41 +83,6 @@ function removeBreakpoint(breakpointId) {
   return bpClient.remove();
 }
 
-let lastDisabledBreakpoints = [];
-
-async function toggleAllBreakpoints(shouldDisableBreakpoints) {
-  if (shouldDisableBreakpoints) {
-    for (let id of Object.keys(bpClients)) {
-      const bp = bpClients[id];
-      if (bp) {
-        await removeBreakpoint(bp.actor);
-
-        const bpResult = BreakpointResult({
-          id: bp.actor,
-          actualLocation: Location({
-            sourceId: bp.location.actor,
-            line: bp.location.line,
-            column: bp.location.column
-          })
-        });
-
-        lastDisabledBreakpoints.push(bpResult);
-      }
-    }
-
-    return lastDisabledBreakpoints;
-  }
-
-  for (let bp of lastDisabledBreakpoints) {
-    await setBreakpoint(bp.actualLocation, bp.condition);
-  }
-
-  const changed = lastDisabledBreakpoints;
-
-  lastDisabledBreakpoints = [];
-  return changed;
-}
-
 function setBreakpointCondition(breakpointId, location, condition, noSliding) {
   let bpClient = bpClients[breakpointId];
   bpClients[breakpointId] = null;
@@ -186,7 +151,6 @@ const clientCommands = {
   sourceContents,
   setBreakpoint,
   removeBreakpoint,
-  toggleAllBreakpoints,
   setBreakpointCondition,
   evaluate,
   debuggeeCommand,
