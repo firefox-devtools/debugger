@@ -1,4 +1,4 @@
-const { Source, Frame, Location } = require("../../types");
+const { Source, Frame, Location } = require("../../tcomb-types");
 
 function createFrame(frame) {
   let title;

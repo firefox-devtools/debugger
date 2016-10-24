@@ -1,4 +1,4 @@
-const { BreakpointResult, Location } = require("../../types");
+const { BreakpointResult, Location } = require("../../tcomb-types");
 
 let debuggerAgent;
 let runtimeAgent;

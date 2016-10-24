@@ -1,4 +1,4 @@
-const { Frame } = require("../types");
+const { Frame } = require("../tcomb-types");
 const { getOriginalLocation } = require("./source-map");
 
 function updateFrameLocations(frames) {

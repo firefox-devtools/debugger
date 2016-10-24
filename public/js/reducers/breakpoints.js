@@ -8,7 +8,8 @@ const { updateObj } = require("../utils/utils");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
 
-import type { Action, Breakpoint, Location } from "../actions/types";
+import type { Breakpoint, Location } from "../types";
+import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type BreakpointsState = {

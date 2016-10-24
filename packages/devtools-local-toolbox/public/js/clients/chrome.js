@@ -2,7 +2,7 @@
 
 const { connect } = require("chrome-remote-debugging-protocol");
 const defer = require("../utils/defer");
-const { Tab } = require("../types");
+const { Tab } = require("../tcomb-types");
 const { isEnabled, getValue } = require("devtools-config");
 const networkRequest = require("devtools-network-request");
 const { setupCommands, clientCommands } = require("./chrome/commands");

@@ -8,3 +8,4 @@ lerna-debug.log
 .vscode/
 /firefox
 lerna-debug.log
+flow-coverage

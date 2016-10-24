@@ -3,7 +3,7 @@
 const { endTruncateStr } = require("./utils");
 const { basename } = require("../utils/path");
 
-import type { Source } from "../flow-types";
+import type { Source } from "../types";
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
