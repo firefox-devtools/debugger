@@ -4,14 +4,12 @@ const { findDOMNode } = require("react-dom");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { isEnabled } = require("devtools-config");
 const { getSelectedSource, getSourceText, getPrettySource } = require("../selectors");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
-const { isOriginalId } = require("../utils/source-map");
 const { isPretty } = require("../utils/source");
-const { find, findNext, findPrev } = require("../utils/source-search");
+const { shouldShowFooter, shouldShowPrettyPrint } = require("../utils/editor");
 
 require("./SourceFooter.css");
 
@@ -35,19 +33,6 @@ const SourceFooter = React.createClass({
 
   displayName: "SourceFooter",
 
-  blackboxButton() {
-    if (!isEnabled("blackbox")) {
-      return null;
-    }
-
-    return debugBtn(
-      () => {},
-      "blackBox",
-      this.props.selectedSource,
-      "Toggle Black Boxing"
-    );
-  },
-
   onClickPrettyPrint() {
     this.props.togglePrettyPrint(this.props.selectedSource.get("id"));
   },
@@ -56,9 +41,7 @@ const SourceFooter = React.createClass({
     const { selectedSource, sourceText } = this.props;
     const sourceLoaded = selectedSource && !sourceText.get("loading");
 
-    if (isOriginalId(selectedSource.get("id")) ||
-        (isOriginalId(selectedSource.get("id")) &&
-         !isPretty(selectedSource.toJS()))) {
+    if (!shouldShowPrettyPrint(selectedSource.toJS())) {
       return;
     }
 
@@ -73,20 +56,6 @@ const SourceFooter = React.createClass({
     );
   },
 
-  onKeyUp(e) {
-    const query = e.target.value;
-    const ed = this.props.editor;
-    const ctx = { ed, cm: ed.codeMirror };
-
-    if (e.key != "Enter") {
-      find(ctx, query);
-    } else if (e.shiftKey) {
-      findPrev(ctx, query);
-    } else {
-      findNext(ctx, query);
-    }
-  },
-
   focusSearch(shortcut, e) {
     e.stopPropagation();
     e.preventDefault();
@@ -95,14 +64,14 @@ const SourceFooter = React.createClass({
   },
 
   render() {
-    if (!this.props.selectedSource ||
-        (!isEnabled("prettyPrint") && !isEnabled("blackBox"))) {
-      return dom.div({ className: "source-footer" });
+    const { selectedSource } = this.props;
+
+    if (!selectedSource || !shouldShowFooter(selectedSource.toJS())) {
+      return null;
     }
 
     return dom.div({ className: "source-footer" },
       dom.div({ className: "command-bar" },
-        this.blackboxButton(),
         this.prettyPrintButton()
       )
     );

@@ -11,13 +11,15 @@ const EditorSearchBar = createFactory(require("./EditorSearchBar"));
 const { debugGlobal } = require("devtools-local-toolbox");
 const {
   getSourceText, getBreakpointsForSource,
-  getSelectedLocation, getSelectedFrame
+  getSelectedLocation, getSelectedFrame,
+  getSelectedSource
 } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const actions = require("../actions");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");
+const { shouldShowFooter } = require("../utils/editor");
 const { isEnabled } = require("devtools-config");
 
 require("./Editor.css");
@@ -80,6 +82,7 @@ const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
     selectedLocation: PropTypes.object,
+    selectedSource: ImPropTypes.map,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
@@ -328,15 +331,30 @@ const Editor = React.createClass({
     });
   },
 
+  editorHeight() {
+    const { selectedSource } = this.props;
+
+    if (!selectedSource || !shouldShowFooter(selectedSource.toJS())) {
+      return "100%";
+    }
+
+    return "auto";
+  },
+
   render() {
+    const { sourceText } = this.props;
+
     return (
       dom.div(
         { className: "editor-wrapper devtools-monospace" },
         EditorSearchBar({
           editor: this.editor,
-          sourceText: this.props.sourceText
+          sourceText
         }),
-        dom.div({ className: "editor-mount" }),
+        dom.div({
+          className: "editor-mount",
+          style: { height: this.editorHeight() }
+        }),
         this.renderBreakpoints(),
         SourceFooter({ editor: this.editor })
       )
@@ -348,9 +366,11 @@ module.exports = connect(
   (state, props) => {
     const selectedLocation = getSelectedLocation(state);
     const sourceId = selectedLocation && selectedLocation.sourceId;
+    const selectedSource = getSelectedSource(state);
 
     return {
       selectedLocation,
+      selectedSource,
       sourceText: getSourceText(state, sourceId),
       breakpoints: getBreakpointsForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state)
