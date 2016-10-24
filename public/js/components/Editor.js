@@ -338,7 +338,7 @@ const Editor = React.createClass({
       return "100%";
     }
 
-    return "auto";
+    return "";
   },
 
   render() {
