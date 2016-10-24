@@ -107,35 +107,35 @@ function update(state = initialState, action, emit) {
   return state;
 }
 
-function getPause(state: AppState) {
+function getPause(state) {
   return state.pause.get("pause");
 }
 
-function getLoadedObjects(state: AppState) {
+function getLoadedObjects(state) {
   return state.pause.get("loadedObjects");
 }
 
-function getExpressions(state: AppState) {
+function getExpressions(state) {
   return state.pause.get("expressions");
 }
 
-function getIsWaitingOnBreak(state: AppState) {
+function getIsWaitingOnBreak(state) {
   return state.pause.get("isWaitingOnBreak");
 }
 
-function getShouldPauseOnExceptions(state: AppState) {
+function getShouldPauseOnExceptions(state) {
   return state.pause.get("shouldPauseOnExceptions");
 }
 
-function getShouldIgnoreCaughtExceptions(state: AppState) {
+function getShouldIgnoreCaughtExceptions(state) {
   return state.pause.get("shouldIgnoreCaughtExceptions");
 }
 
-function getFrames(state: AppState) {
+function getFrames(state) {
   return state.pause.get("frames") || [];
 }
 
-function getSelectedFrame(state: AppState) {
+function getSelectedFrame(state) {
   const selectedFrameId = state.pause.get("selectedFrameId");
   const frames = state.pause.get("frames");
   return frames && frames.find(frame => frame.id == selectedFrameId);
