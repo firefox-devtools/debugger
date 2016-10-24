@@ -13,6 +13,7 @@
   padding: 5px 10px;
   overflow: hidden;
   height: 30px;
+  text-overflow: ellipsis;
 }
 
 .dropdown li:nth-of-type(2n) {
@@ -31,7 +32,7 @@
 .dropdown ul {
   list-style: none;
   line-height: 2em;
-  font-size: 0.8em;
+  font-size: 1em;
   margin: 0;
   padding: 0;
 }
