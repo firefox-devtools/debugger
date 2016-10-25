@@ -1,17 +1,19 @@
 const React = require("react");
 const { DOM: dom } = React;
+const classnames = require("classnames");
+const { getValue, isDevelopment } = require("devtools-config");
 
 require("./Root.css");
 
-// Using this static variable allows webpack to know at compile-time
-// to avoid this require and not include it at all in the output.
-if (process.env.TARGET !== "firefox-panel") {
-  require("../lib/themes/light-theme.css");
+function themeClass() {
+  const theme = getValue("theme");
+  return `theme-${theme}`;
 }
 
 module.exports = function(component) {
   return dom.div(
     {
+      className: classnames("theme-body", { [themeClass()]: isDevelopment() }),
       style: { flex: 1 }
     },
     React.createElement(component)

@@ -3,9 +3,7 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { cmdString } = require("../utils/text");
-const classnames = require("classnames");
 const actions = require("../actions");
-const { isFirefoxPanel } = require("devtools-config");
 const { getSources, getSelectedSource } = require("../selectors");
 
 const { KeyShortcuts } = require("devtools-sham-modules");
@@ -58,8 +56,7 @@ const App = React.createClass({
 
   render: function() {
     return dom.div(
-      { className: classnames("debugger theme-body",
-                              { "theme-light": !isFirefoxPanel() }) },
+      { className: "debugger" },
       SplitBox({
         style: { width: "100vw" },
         initialSize: "300px",
