@@ -4,13 +4,15 @@ const { filter } = require("fuzzaldrin-plus");
 const classnames = require("classnames");
 require("./Autocomplete.css");
 const Svg = require("./utils/Svg");
+const CloseButton = require("./CloseButton");
 
 const INITIAL_SELECTED_INDEX = 0;
 
 const Autocomplete = React.createClass({
   propTypes: {
     selectItem: PropTypes.func,
-    items: PropTypes.array
+    items: PropTypes.array,
+    handleClose: PropTypes.func
   },
 
   displayName: "Autocomplete",
@@ -87,6 +89,17 @@ const Autocomplete = React.createClass({
     });
   },
 
+  renderResults(results) {
+    if (results.length) {
+      return dom.ul({ className: "results", ref: "results" },
+      results.map(this.renderSearchItem));
+    } else if (this.state.inputValue && !results.length) {
+      return dom.div({ className: "no-result-msg" },
+        Svg("sad-face"),
+        `No files matching '${this.state.inputValue}' found`);
+    }
+  },
+
   onKeyDown(e) {
     const searchResults = this.getSearchResults(),
       resultCount = searchResults.length;
@@ -116,12 +129,13 @@ const Autocomplete = React.createClass({
           focused: this.state.focused
         })
       },
+      dom.div({ className: "searchinput-container" },
       Svg("magnifying-glass"),
       this.renderInput(),
-      dom.ul({ className: "results", ref: "results" },
-        searchResults.map(this.renderSearchItem)
-      )
-    );
+      CloseButton({
+        handleClick: this.props.handleClose
+      })),
+      this.renderResults(searchResults));
   }
 });
 
