@@ -6,21 +6,15 @@
 
 .search-container {
   position: absolute;
-  top: 0;
+  top: 30px;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 1px);
+  height: calc(100% - 31px);
   display: flex;
   z-index: 200;
-  background-color: var(--theme-search-overlays-semitransparent);
+  background-color: var(--theme-body-background);
 }
 
 .search-container .autocomplete {
   flex: 1;
-}
-
-.search-container .close-button {
-  width: 16px;
-  margin-top: 25px;
-  margin-right: 20px;
 }

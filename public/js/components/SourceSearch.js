@@ -9,7 +9,6 @@ const { parse: parseURL } = require("url");
 
 require("./SourceSearch.css");
 
-const Svg = require("./utils/Svg");
 const Autocomplete = createFactory(require("./Autocomplete"));
 
 function searchResults(sources) {
@@ -85,10 +84,7 @@ const Search = React.createClass({
           this.setState({ searchOn: false });
         },
         items: searchResults(this.props.sources)
-      }),
-      dom.div({ className: "close-button" },
-      Svg("close", { onClick: this.close }))
-    ) : null;
+      })) : null;
   }
 
 });
