@@ -19,12 +19,17 @@
   border: none;
   line-height: 30px;
   font-size: 14px;
+  background-color: var(--theme-body-background);
   color: var(--theme-comment);
   width: calc(100% - 38px);
   padding-left: 10px;
   display: flex;
   padding-right: 100px;
   flex: 1;
+}
+
+.search-bar .magnifying-glass {
+  background-color: var(--theme-body-background);
 }
 
 .search-bar input::placeholder {
