@@ -2,10 +2,8 @@
 
 const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");
-const ReactDOM = require("react-dom");
-const React = require("react");
 
-const {DevToolsUtils, AppConstants} = require("devtools-sham-modules");
+const { DevToolsUtils, AppConstants } = require("devtools-sham-modules");
 const { injectGlobals, debugGlobal } = require("./utils/debug");
 const { setConfig, isEnabled, getValue, isDevelopment } = require("devtools-config");
 
@@ -46,6 +44,16 @@ function initApp() {
 
 function renderRoot(_React, _ReactDOM, component, _store) {
   const mount = document.querySelector("#mount");
+
+  // Using this static variable allows webpack to know at compile-time
+  // to avoid this require and not include it at all in the output.
+  if (process.env.TARGET !== "firefox-panel") {
+    const theme = getValue("theme");
+    theme == "dark" ? require("./lib/themes/dark-theme.css")
+                    : require("./lib/themes/light-theme.css");
+
+    document.body.parentNode.classList.add(`theme-${theme}`);
+  }
 
   // bail in test environments that do not have a mount
   if (!mount) {

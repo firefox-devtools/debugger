@@ -41,6 +41,18 @@ Hot reloading does not work all the time, but once you get a sense of its quirks
 
 It can be turned on by setting `config/local.json` with the contents `{ "hotReloading: true" }`.
 
+### Themes
+
+The local debugger supports light and dark themes.
+
+You can change the theme by setting the `theme` field in `local.json` to either `light` or `dark`.
+
+```json
+{ "theme": "dark" }
+```
+
+![screen shot 2016-10-25 at 11 34 14 am](https://cloud.githubusercontent.com/assets/254562/19692636/a7635a26-9aa6-11e6-9642-02dc72d27868.png)
+
 ### StoryBook
 
 Storybook is a local development environment for react components for viewing components in different states.
