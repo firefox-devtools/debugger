@@ -43,10 +43,6 @@ html[dir="rtl"] .editor-mount {
   opacity: 0.3;
 }
 
-.search-bar ~ .editor-mount {
-  height: calc(100% - 56px);
-}
-
 .CodeMirror {
   width: 100%;
   height: 100%;
@@ -56,6 +52,10 @@ html[dir="rtl"] .editor-mount {
   width: 100%;
   height: calc(100% - 32px);
   background-color: var(--theme-body-background);
+}
+
+.search-bar ~ .editor-mount {
+  height: calc(100% - 72px);
 }
 
 .CodeMirror-linenumber {
