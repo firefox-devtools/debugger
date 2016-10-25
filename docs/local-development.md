@@ -43,9 +43,9 @@ It can be turned on by setting `config/local.json` with the contents `{ "hotRelo
 
 ### Themes
 
-The local debugger supports light and dark themes.
+The local debugger supports three themes: light, dark, and firebug.
 
-You can change the theme by setting the `theme` field in `local.json` to either `light` or `dark`.
+You can change the theme by setting the `theme` field in `local.json` to  `light`, `dark`, or `firebug`.
 
 ```json
 { "theme": "dark" }

@@ -49,9 +49,11 @@ function renderRoot(_React, _ReactDOM, component, _store) {
   // to avoid this require and not include it at all in the output.
   if (process.env.TARGET !== "firefox-panel") {
     const theme = getValue("theme");
-    theme == "dark" ? require("./lib/themes/dark-theme.css")
-                    : require("./lib/themes/light-theme.css");
-
+    switch (theme) {
+      case "dark": require("./lib/themes/dark-theme.css"); break;
+      case "light": require("./lib/themes/light-theme.css"); break;
+      case "firebug": require("./lib/themes/firebug-theme.css"); break;
+    }
     document.body.parentNode.classList.add(`theme-${theme}`);
   }
 
