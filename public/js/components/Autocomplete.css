@@ -44,7 +44,8 @@
 
 .autocomplete input {
   width: 100%;
-  border: 1px solid var(--theme-splitter-color);
+  border: none;
+  border-bottom: 1px solid var(--theme-splitter-color);
   outline: none;
   line-height: 30px;
   font-size: 14px;
