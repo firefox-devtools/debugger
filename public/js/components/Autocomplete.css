@@ -45,12 +45,18 @@
 .autocomplete input {
   width: 100%;
   border: none;
+  background-color: var(--theme-body-background);
+  color: var(--theme-comment);
   border-bottom: 1px solid var(--theme-splitter-color);
   outline: none;
   line-height: 30px;
   font-size: 14px;
   height: 40px;
   padding-left: 30px;
+}
+
+.autocomplete input::placeholder {
+  color: var(--theme-body-color-inactive);
 }
 
 .autocomplete .magnifying-glass svg {
