@@ -83,6 +83,7 @@ const Search = React.createClass({
           this.props.selectSource(result.id);
           this.setState({ searchOn: false });
         },
+        handleClose: this.close,
         items: searchResults(this.props.sources)
       })) : null;
   }

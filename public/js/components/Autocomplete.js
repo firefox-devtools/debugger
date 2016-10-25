@@ -34,7 +34,7 @@ const Autocomplete = React.createClass({
 
   scrollList() {
     const resultsEl = this.refs.results;
-    if (resultsEl.children.length === 0) {
+    if (!resultsEl || resultsEl.children.length === 0) {
       return;
     }
 
@@ -46,6 +46,37 @@ const Autocomplete = React.createClass({
     const scroll = positionsToScroll * (itemHeight + 2) + itemOffset;
 
     resultsEl.scrollTop = Math.max(0, scroll);
+  },
+
+  getSearchResults() {
+    let inputValue = this.state.inputValue;
+
+    if (inputValue == "") {
+      return [];
+    }
+    return filter(this.props.items, this.state.inputValue, {
+      key: "value"
+    });
+  },
+
+  onKeyDown(e) {
+    const searchResults = this.getSearchResults(),
+      resultCount = searchResults.length;
+
+    if (e.key === "ArrowUp") {
+      this.setState({
+        selectedIndex: Math.max(0, this.state.selectedIndex - 1)
+      });
+      e.preventDefault();
+    } else if (e.key === "ArrowDown") {
+      this.setState({
+        selectedIndex: Math.min(resultCount - 1, this.state.selectedIndex + 1)
+      });
+      e.preventDefault();
+    } else if (e.key === "Enter") {
+      this.props.selectItem(searchResults[this.state.selectedIndex]);
+      e.preventDefault();
+    }
   },
 
   renderSearchItem(result, index) {
@@ -78,17 +109,6 @@ const Autocomplete = React.createClass({
     );
   },
 
-  getSearchResults() {
-    let inputValue = this.state.inputValue;
-
-    if (inputValue == "") {
-      return [];
-    }
-    return filter(this.props.items, this.state.inputValue, {
-      key: "value"
-    });
-  },
-
   renderResults(results) {
     if (results.length) {
       return dom.ul({ className: "results", ref: "results" },
@@ -97,26 +117,6 @@ const Autocomplete = React.createClass({
       return dom.div({ className: "no-result-msg" },
         Svg("sad-face"),
         `No files matching '${this.state.inputValue}' found`);
-    }
-  },
-
-  onKeyDown(e) {
-    const searchResults = this.getSearchResults(),
-      resultCount = searchResults.length;
-
-    if (e.key === "ArrowUp") {
-      this.setState({
-        selectedIndex: Math.max(0, this.state.selectedIndex - 1)
-      });
-      e.preventDefault();
-    } else if (e.key === "ArrowDown") {
-      this.setState({
-        selectedIndex: Math.min(resultCount - 1, this.state.selectedIndex + 1)
-      });
-      e.preventDefault();
-    } else if (e.key === "Enter") {
-      this.props.selectItem(searchResults[this.state.selectedIndex]);
-      e.preventDefault();
     }
   },
 
