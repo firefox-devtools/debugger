@@ -12,7 +12,6 @@ if (process.env.TARGET !== "firefox-panel") {
 module.exports = function(component) {
   return dom.div(
     {
-      className: "theme-light",
       style: { flex: 1 }
     },
     React.createElement(component)
