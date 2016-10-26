@@ -16,9 +16,6 @@ const selectors = require("./selectors");
 
 const App = require("./components/App");
 
-const { Services } = require("devtools-modules");
-Services._defaultPrefsEnabled = false;
-
 const createStore = configureStore({
   log: getValue("logging.actions"),
   makeThunkArgs: (args, state) => {
