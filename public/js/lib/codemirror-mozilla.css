@@ -13,7 +13,7 @@
 .theme-dark:root {
   /* --breakpoint-background: url("chrome://devtools/skin/images/breakpoint.svg#dark"); */
   /* --breakpoint-hover-background: url("chrome://devtools/skin/images/breakpoint.svg#dark-hover"); */
-  --breakpoint-active-color: rgba(112,191,83,.4);
+  --breakpoint-active-color: rgba(0,255,175,.4);
   --breakpoint-active-color-hover: rgba(112,191,83,.7);
   /* --breakpoint-conditional-background: url("chrome://devtools/skin/images/breakpoint.svg#dark-conditional"); */
 }
