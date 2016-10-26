@@ -51,7 +51,29 @@ You can change the theme by setting the `theme` field in `local.json` to  `light
 { "theme": "dark" }
 ```
 
-![screen shot 2016-10-25 at 11 34 14 am](https://cloud.githubusercontent.com/assets/254562/19692636/a7635a26-9aa6-11e6-9642-02dc72d27868.png)
+### Flow
+
+The debugger uses Facebook's [flow](https://flowtype.org/) type checker.
+
+Rationale:
+* *code clarity* - helps team members understand the code
+* *refactoring* - guarantees functions integrate well
+* *code reviews* - adds a static check like linting
+
+**How do I run flow?**
+```
+> flow
+```
+
+**How do I see a file's coverage?**
+```
+> flow coverage --color <path to file>
+```
+
+**How do I see the Debugger's flow coverage?**
+```
+> npm run flow-coverage
+```
 
 ### StoryBook
 
