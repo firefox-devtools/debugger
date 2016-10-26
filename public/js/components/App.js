@@ -30,6 +30,10 @@ const App = React.createClass({
 
   displayName: "App",
 
+  getInitialState() {
+    return { searchOn: false };
+  },
+
   getChildContext() {
     return { shortcuts };
   },
@@ -41,15 +45,22 @@ const App = React.createClass({
     );
   },
 
+  toggleSearch(searchOn) {
+    this.setState({ searchOn });
+  },
+
   renderCenterPane() {
     return dom.div(
       { className: "center-pane" },
       dom.div(
         { className: "editor-container" },
-        SourceTabs(),
+        SourceTabs({ openFileSearch: this.toggleSearch }),
         Editor(),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
-        SourceSearch()
+        SourceSearch({
+          searchOn: this.state.searchOn,
+          toggleSearch: this.toggleSearch
+        })
       )
     );
   },
