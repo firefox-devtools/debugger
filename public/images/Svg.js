@@ -7,7 +7,6 @@ const svg = {
   "blackBox": require("./blackBox.svg"),
   "breakpoint": require("./breakpoint.svg"),
   "close": require("./close.svg"),
-  "disableBreakpoints": require("./disableBreakpoints.svg"),
   "domain": require("./domain.svg"),
   "file": require("./file.svg"),
   "folder": require("./folder.svg"),
@@ -22,6 +21,7 @@ const svg = {
   "stepOut": require("./stepOut.svg"),
   "stepOver": require("./stepOver.svg"),
   "subSettings": require("./subSettings.svg"),
+  "toggleBreakpoints": require("./toggle-breakpoints.svg"),
   "worker": require("./worker.svg"),
   "sad-face": require("./sad-face.svg")
 };

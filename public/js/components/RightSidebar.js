@@ -167,13 +167,13 @@ const RightSidebar = React.createClass({
 
     if (breakpoints.size == 0 || breakpointsLoading) {
       return debugBtn(
-        null, "disableBreakpoints", "disabled", "Disable Breakpoints"
+        null, "toggleBreakpoints", "disabled", "Disable Breakpoints"
       );
     }
 
     return debugBtn(
       () => toggleAllBreakpoints(!breakpointsDisabled),
-      "disableBreakpoints",
+      "toggleBreakpoints",
       breakpointsDisabled ? "breakpoints-disabled" : "",
       "Disable Breakpoints"
     );

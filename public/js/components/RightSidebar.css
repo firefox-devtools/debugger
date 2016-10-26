@@ -75,7 +75,7 @@ html[dir="rtl"] .command-bar .stepOut {
   padding: 0.5em;
 }
 
-.disableBreakpoints.breakpoints-disabled path {
+.toggleBreakpoints.breakpoints-disabled path {
   stroke: var(--theme-highlight-blue);
 }
 

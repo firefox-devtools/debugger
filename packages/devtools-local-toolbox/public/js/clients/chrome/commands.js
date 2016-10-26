@@ -75,11 +75,6 @@ function removeBreakpoint(breakpointId) {
   });
 }
 
-function toggleAllBreakpoints(shouldDisableBreakpoints, breakpoints) {
-  return debuggerAgent.setBreakpointsActive(!shouldDisableBreakpoints)
-  .then(() => []);
-}
-
 function evaluate(script) {
   return runtimeAgent.evaluate(script, (_, result) => {
     return result;
@@ -107,7 +102,6 @@ const clientCommands = {
   sourceContents,
   setBreakpoint,
   removeBreakpoint,
-  toggleAllBreakpoints,
   evaluate,
   debuggeeCommand,
   navigate
