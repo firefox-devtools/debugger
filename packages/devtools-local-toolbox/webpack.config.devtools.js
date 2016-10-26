@@ -12,6 +12,7 @@ const ignoreRegexes = [
 const nativeMapping = {
   "../utils/source-editor": "devtools/client/sourceeditor/editor",
   "./test-flag": "devtools/shared/flags",
+  "./client/shared/shim/Services": "Services",
 
   // React can be required a few different ways, make sure they are
   // all mapped.

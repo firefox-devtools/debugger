@@ -2,6 +2,7 @@
 
 require("amd-loader");
 require("babel-register");
+const mock = require("mock-require");
 
 const glob = require("glob").sync;
 const path = require("path");
@@ -11,15 +12,18 @@ const minimist = require("minimist");
 const getConfig = require("../../../packages/devtools-config/src/config").getConfig;
 const setConfig = require("devtools-config").setConfig;
 
-const packagesPath = path.join(__dirname, "../../../packages");
+// Mock various functions. This allows tests to load files from a
+// local directory easily.
+mock("devtools-network-request", require("../../../packages/devtools-network-request/stubNetworkRequest"));
+mock("../utils/prefs", { prefs: { clientSourceMapsEnabled: true }});
+
 const baseWorkerURL = path.join(__dirname, "../../build/");
+const packagesPath = path.join(__dirname, "../../../packages");
 
 setConfig(Object.assign({}, getConfig(), { baseWorkerURL }));
 
 const args = minimist(process.argv.slice(2),
 { boolean: ["ci", "dots"] });
-
-const mock = require("mock-require");
 
 const isCI = args.ci;
 const useDots = args.dots;
@@ -38,10 +42,6 @@ webpackConfig.externals = [{ fs: "commonjs fs" }];
 webpackConfig.node = { __dirname: false };
 
 global.Worker = require("workerjs");
-
-// Mock various functions. This allows tests to load files from a
-// local directory easily.
-mock("devtools-network-request", require("../../../packages/devtools-network-request/stubNetworkRequest"));
 
 // disable unecessary require calls
 require.extensions[".css"] = () => {};

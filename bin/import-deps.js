@@ -21,6 +21,11 @@ glob("public/js/lib/devtools/**/*.js").forEach((debuggerFile) => {
     path.relative("public/js/lib/", debuggerFile)
   );
 
-  const fileText = fs.readFileSync(geckoFilePath, 'utf8');
-  fs.writeFileSync(debuggerFile, fileText);
+
+  if (fs.existsSync(geckoFilePath)) {
+    const fileText = fs.readFileSync(geckoFilePath, 'utf8');
+    fs.writeFileSync(debuggerFile, fileText);
+  } else {
+    console.log(`file: ${geckoFilePath} does not exist`);
+  }
 })

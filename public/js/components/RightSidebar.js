@@ -10,9 +10,9 @@ const { isEnabled } = require("devtools-config");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 
-const { Services } = require("devtools-modules");
-const shiftKey = Services.appinfo.OS === "Darwin" ? "\u21E7" : "Shift+";
-const ctrlKey = Services.appinfo.OS === "Linux" ? "Ctrl+" : "";
+const { Services: { appinfo }} = require("devtools-modules");
+const shiftKey = appinfo.OS === "Darwin" ? "\u21E7" : "Shift+";
+const ctrlKey = appinfo.OS === "Linux" ? "Ctrl+" : "";
 
 const actions = require("../actions");
 const Breakpoints = React.createFactory(require("./Breakpoints"));

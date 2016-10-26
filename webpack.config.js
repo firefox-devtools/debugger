@@ -1,5 +1,6 @@
 const buildToolboxConfig =
       require("./packages/devtools-local-toolbox/webpack.config.js");
+
 const path = require("path");
 const projectPath = path.join(__dirname, "public/js");
 
