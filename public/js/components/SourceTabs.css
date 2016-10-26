@@ -10,8 +10,25 @@
 }
 
 .source-tabs {
-  width: calc(100% - 30px);
+  width: calc(100% - 54px);
   overflow: hidden;
+  float: left;
+}
+
+.source-header .new-tab-btn {
+  width: 16px;
+  display: inline-block;
+  position: relative;
+  margin: 4px;
+  line-height: 0;
+}
+
+.source-header .new-tab-btn path {
+  fill: var(--theme-splitter-color);
+}
+
+.source-header .new-tab-btn:hover path {
+  fill: var(--theme-comment);
 }
 
 .source-tab {
