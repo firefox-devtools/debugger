@@ -64,7 +64,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 /* set the linenumber white when there is a breakpoint */
-.new-breakpoint .CodeMirror-linenumber {
+.new-breakpoint .CodeMirror-gutter-wrapper .CodeMirror-linenumber {
   color: white;
 }
 
