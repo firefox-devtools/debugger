@@ -60,7 +60,7 @@
     "babel-plugin-transform-runtime": "^6.7.5",
     "babel-plugin-webpack-alias": "^2.1.1",
     "babel-polyfill": "^6.7.4",
-    "babel-register": "^6.7.2",
+    "babel-register": "^6.18.0",
     "body-parser": "^1.15.0",
     "check-node-version": "^1.1.2",
     "classnames": "^2.2.5",
