@@ -143,9 +143,8 @@ const SourceTabs = React.createClass({
   renderNewButton() {
     return dom.div({
       className: "new-tab-btn",
-      // onClick: this.props.openFileSearch
-    },
-      Svg("plus"));
+      onClick: () => this.props.openFileSearch(true)
+    }, Svg("plus"));
   },
 
   renderDropdown() {
