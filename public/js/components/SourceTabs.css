@@ -10,8 +10,8 @@
 }
 
 .source-tabs {
-  min-width: 108px;
-  max-width: calc(100% - 94px);
+  min-width: 50px;
+  max-width: calc(100% - 60px);
   overflow: hidden;
   float: left;
 }
@@ -45,8 +45,11 @@
   border-bottom: none;
   position: relative;
   transition: all 0.25s ease;
-  min-width: 108px;
+  min-width: 40px;
   max-width: 132px;
+  overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 html:not([dir="rtl"]) .source-tab {
@@ -67,7 +70,6 @@ html[dir="rtl"] .source-tab {
 .source-tab.active {
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
-  height: 24px;
 }
 
 .source-tab path {
