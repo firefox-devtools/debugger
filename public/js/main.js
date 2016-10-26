@@ -7,7 +7,7 @@ const {
   renderRoot, bootstrap
 } = require("devtools-local-toolbox");
 
-const { getValue, isDevelopment, isFirefoxPanel } = require("devtools-config");
+const { getValue, isFirefoxPanel } = require("devtools-config");
 
 const configureStore = require("./utils/create-store");
 
@@ -40,9 +40,7 @@ function unmountRoot() {
   ReactDOM.unmountComponentAtNode(mount);
 }
 
-if (isDevelopment()) {
-  bootstrap(React, ReactDOM, App, actions, store);
-} else if (isFirefoxPanel()) {
+if (isFirefoxPanel()) {
   const sourceMap = require("./utils/source-map");
   const prettyPrint = require("./utils/pretty-print");
 
@@ -63,4 +61,6 @@ if (isDevelopment()) {
     selectors: selectors,
     client: firefox.clientCommands
   };
+} else {
+  bootstrap(React, ReactDOM, App, actions, store);
 }
