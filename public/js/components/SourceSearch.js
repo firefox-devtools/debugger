@@ -3,7 +3,11 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { getSources, getSelectedSource } = require("../selectors");
+const {
+  getSources,
+  getSelectedSource,
+  getFileSearchState
+} = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { parse: parseURL } = require("url");
 
@@ -33,7 +37,7 @@ const Search = React.createClass({
     sources: PropTypes.object,
     selectSource: PropTypes.func,
     selectedSource: PropTypes.object,
-    toggleSearch: PropTypes.func,
+    toggleFileSearch: PropTypes.func,
     searchOn: PropTypes.bool
   },
 
@@ -57,18 +61,18 @@ const Search = React.createClass({
 
   toggle(key, e) {
     e.preventDefault();
-    this.props.toggleSearch(!this.props.searchOn);
+    this.props.toggleFileSearch(!this.props.searchOn);
   },
 
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
       e.preventDefault();
-      this.props.toggleSearch(false);
+      this.props.toggleFileSearch(false);
     }
   },
 
   close() {
-    this.props.toggleSearch(false);
+    this.props.toggleFileSearch(false);
   },
 
   render() {
@@ -88,6 +92,8 @@ const Search = React.createClass({
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              selectedSource: getSelectedSource(state) }),
+              selectedSource: getSelectedSource(state),
+              searchOn: getFileSearchState(state)
+            }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Search);

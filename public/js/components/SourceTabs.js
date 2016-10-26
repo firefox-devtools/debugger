@@ -3,7 +3,11 @@ const { DOM: dom, PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { getSelectedSource, getSourceTabs } = require("../selectors");
+const {
+  getSelectedSource,
+  getSourceTabs,
+  getFileSearchState
+} = require("../selectors");
 const { getFilename } = require("../utils/source");
 const classnames = require("classnames");
 const actions = require("../actions");
@@ -43,7 +47,7 @@ const SourceTabs = React.createClass({
     selectedSource: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
     closeTab: PropTypes.func.isRequired,
-    openFileSearch: PropTypes.func.isRequired
+    toggleFileSearch: PropTypes.func.isRequired
   },
 
   displayName: "SourceTabs",
@@ -143,7 +147,7 @@ const SourceTabs = React.createClass({
   renderNewButton() {
     return dom.div({
       className: "new-tab-btn",
-      onClick: () => this.props.openFileSearch(true)
+      onClick: () => this.props.toggleFileSearch(true)
     }, Svg("plus"));
   },
 
@@ -177,7 +181,8 @@ const SourceTabs = React.createClass({
 module.exports = connect(
   state => ({
     selectedSource: getSelectedSource(state),
-    sourceTabs: getSourceTabs(state)
+    sourceTabs: getSourceTabs(state),
+    searchOn: getFileSearchState(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SourceTabs);

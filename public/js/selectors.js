@@ -3,6 +3,7 @@
 const sources = require("./reducers/sources");
 const pause = require("./reducers/pause");
 const breakpoints = require("./reducers/breakpoints");
+const ui = require("./reducers/ui");
 
 /**
  * @param object - location
@@ -33,5 +34,7 @@ module.exports = {
   getShouldPauseOnExceptions: pause.getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions: pause.getShouldIgnoreCaughtExceptions,
   getFrames: pause.getFrames,
-  getSelectedFrame: pause.getSelectedFrame
+  getSelectedFrame: pause.getSelectedFrame,
+
+  getFileSearchState: ui.getFileSearchState
 };
