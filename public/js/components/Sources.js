@@ -24,9 +24,9 @@ const Sources = React.createClass({
     return dom.div(
       { className: "sources-panel" },
       dom.div({ className: "sources-header" },
-        "Sources",
+        L10N.getStr("sources.header"),
         dom.span({ className: "sources-header-info" },
-          `${cmdString()}+P to search`
+          L10N.getFormatStr("sources.search", cmdString() + "+P")
         )
       ),
       SourcesTree({ sources, selectSource })

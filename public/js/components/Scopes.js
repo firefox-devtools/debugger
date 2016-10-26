@@ -168,7 +168,7 @@ const Scopes = React.createClass({
     const { pauseInfo, loadObjectProperties, loadedObjects } = this.props;
     const { scopes } = this.state;
 
-    let scopeInspector = info("Scopes Unavailable");
+    let scopeInspector = info(L10N.getStr("scopes.notAvailable"));
     if (scopes) {
       scopeInspector = ObjectInspector({
         roots: scopes,
@@ -179,7 +179,9 @@ const Scopes = React.createClass({
 
     return dom.div(
       { className: "pane scopes-list" },
-      pauseInfo ? scopeInspector : info("Not Paused")
+      pauseInfo
+        ? scopeInspector
+        : info(L10N.getStr("scopes.notPaused"))
     );
   }
 });

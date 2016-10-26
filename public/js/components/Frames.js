@@ -64,15 +64,19 @@ const Frames = React.createClass({
     let framesDisplay;
 
     if (frames.length === 0) {
-      framesDisplay = div({ className: "pane-info empty" }, "Not Paused");
+      framesDisplay = div(
+        { className: "pane-info empty" },
+        L10N.getStr("callStack.notPaused")
+      );
     } else if (frames.length < numFramesToShow) {
       framesDisplay = dom.ul(null, frames.map(frame => {
         return renderFrame(frame, selectedFrame, selectFrame);
       }));
     } else {
       let frameClass = "hideFrames";
-      let buttonMessage = this.state.showAllFrames ?
-                          "Collapse Rows" : "Expand Rows";
+      let buttonMessage = this.state.showAllFrames
+                          ? L10N.getStr("callStack.collapse")
+                          : L10N.getStr("callStack.expand");
 
       framesDisplay = dom.ul({ className: frameClass },
         frames.map(frame => {
