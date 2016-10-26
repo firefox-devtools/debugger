@@ -37,7 +37,7 @@ const App = React.createClass({
   renderWelcomeBox() {
     return dom.div(
       { className: "welcomebox" },
-      `${cmdString()}+P to search for files`
+      L10N.getFormatStr("welcome.search", cmdString() + "+P")
     );
   },
 

@@ -32,7 +32,8 @@
     "__dirname": true,
     "process": true,
     "expect": true,
-    "global": true
+    "global": true,
+    "L10N": true
   },
   "env": {
       "es6": true,
