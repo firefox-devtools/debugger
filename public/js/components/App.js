@@ -25,14 +25,10 @@ const App = React.createClass({
   propTypes: {
     sources: PropTypes.object,
     selectSource: PropTypes.func,
-    selectedSource: PropTypes.object
+    selectedSource: PropTypes.object,
   },
 
   displayName: "App",
-
-  getInitialState() {
-    return { searchOn: false };
-  },
 
   getChildContext() {
     return { shortcuts };
@@ -45,22 +41,15 @@ const App = React.createClass({
     );
   },
 
-  toggleSearch(searchOn) {
-    this.setState({ searchOn });
-  },
-
   renderCenterPane() {
     return dom.div(
       { className: "center-pane" },
       dom.div(
         { className: "editor-container" },
-        SourceTabs({ openFileSearch: this.toggleSearch }),
+        SourceTabs(),
         Editor(),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
-        SourceSearch({
-          searchOn: this.state.searchOn,
-          toggleSearch: this.toggleSearch
-        })
+        SourceSearch()
       )
     );
   },
@@ -95,6 +84,7 @@ App.childContextTypes = {
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              selectedSource: getSelectedSource(state) }),
+              selectedSource: getSelectedSource(state),
+            }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);
