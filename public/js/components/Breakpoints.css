@@ -10,7 +10,7 @@
   line-height: 1em;
   position: relative;
   border-left: 4px solid transparent;
-
+  transition: all 0.25s ease;
 }
 
 .breakpoints-list .breakpoint:last-of-type {
@@ -29,7 +29,7 @@
 
 .breakpoints-list .breakpoint:hover {
   cursor: pointer;
-  background-color: var(--theme-toolbar-background);
+  background-color: var(--theme-splitter-color);
 }
 
 .breakpoints-list .breakpoint.paused:hover {
@@ -59,7 +59,7 @@
 .breakpoint .close-btn {
   position: absolute;
   right: 6px;
-  top: 6px;
+  top: 12px;
 }
 
 .breakpoint .close {
