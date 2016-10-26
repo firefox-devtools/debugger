@@ -10,7 +10,8 @@
 }
 
 .source-tabs {
-  width: calc(100% - 54px);
+  min-width: 108px;
+  max-width: calc(100% - 94px);
   overflow: hidden;
   float: left;
 }
@@ -19,6 +20,7 @@
   width: 16px;
   display: inline-block;
   position: relative;
+  top: 4px;
   margin: 4px;
   line-height: 0;
 }
@@ -43,7 +45,8 @@
   border-bottom: none;
   position: relative;
   transition: all 0.25s ease;
-  max-width: calc(100% - 68px);
+  min-width: 108px;
+  max-width: 132px;
 }
 
 html:not([dir="rtl"]) .source-tab {
