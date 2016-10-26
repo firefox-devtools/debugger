@@ -81,7 +81,7 @@ const Search = React.createClass({
       Autocomplete({
         selectItem: result => {
           this.props.selectSource(result.id);
-          this.props.toggleSearch(false);
+          this.props.toggleFileSearch(false);
         },
         handleClose: this.close,
         items: searchResults(this.props.sources)

@@ -1,5 +1,6 @@
 // @flow
 
+const constants = require("../constants");
 import type { Source, Breakpoint, Location, SourceText } from "../types";
 
 /**
@@ -87,6 +88,8 @@ type SourceAction =
                sourceText: SourceText }}
   | { type: "CLOSE_TAB", id: string };
 
+type UIAction = { type: constants.TOGGLE_FILE_SEARCH, searchOn: boolean };
+
 /**
  * Actions: Source, Breakpoint, and Navigation
  *
@@ -96,4 +99,5 @@ type SourceAction =
 export type Action =
   SourceAction
   | BreakpointAction
-  | { type: "NAVIGATE" };
+  | { type: "NAVIGATE" }
+  | UIAction;
