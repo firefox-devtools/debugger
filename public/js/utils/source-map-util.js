@@ -2,20 +2,20 @@
 
 const md5 = require("md5");
 
-function originalToGeneratedId(originalId: string) : string {
+function originalToGeneratedId(originalId: string) {
   const match = originalId.match(/(.*)\/originalSource/);
   return match ? match[1] : "";
 }
 
-function generatedToOriginalId(generatedId: string, url: string) : string {
+function generatedToOriginalId(generatedId: string, url: string) {
   return generatedId + "/originalSource-" + md5(url);
 }
 
-function isOriginalId(id: string) : boolean {
+function isOriginalId(id: string) {
   return !!id.match(/\/originalSource/);
 }
 
-function isGeneratedId(id: string) : boolean {
+function isGeneratedId(id: string) {
   return !isOriginalId(id);
 }
 

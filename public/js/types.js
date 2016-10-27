@@ -13,8 +13,8 @@
  */
 export type Source = {
   id: string,
-  url: string,
-  sourceMapURL: string
+  url?: string,
+  sourceMapURL?: string
 };
 
 /**
