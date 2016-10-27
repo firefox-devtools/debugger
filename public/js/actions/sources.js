@@ -196,7 +196,7 @@ function togglePrettyPrint(sourceId: string) {
         const { code, mappings } = await prettyPrint({
           source, sourceText, url
         });
-        applySourceMap(source.id, url, code, mappings);
+        await applySourceMap(source.id, url, code, mappings);
 
         const frames = await updateFrameLocations(getFrames(getState()));
         dispatch(selectSource(originalSource.id));
