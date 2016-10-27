@@ -101,13 +101,19 @@ const Editor = React.createClass({
     const closePanel = () => this.cbPanels[line].clear();
 
     if (isEnabled("conditionalBreakpoints") && bp && ev.metaKey) {
-      const { condition } = bp;
-      const panel = renderConditionalBreakpointPanel({
-        location, setBreakpointCondition, condition, closePanel
-      });
+      if (!this.state.isCondBPOpen) {
+        const { condition } = bp;
+        const panel = renderConditionalBreakpointPanel({
+          location, setBreakpointCondition, condition, closePanel
+        });
 
-      this.cbPanels[line] = this.editor.codeMirror.addLineWidget(line, panel);
-      return;
+        this.cbPanels[line] = this.editor.codeMirror.addLineWidget(line, panel);
+        this.setState({ isCondBPOpen: true, openPanel: this.cbPanels[line] });
+        return;        
+      } else {
+        this.state.openPanel.clear();
+        this.setState({ isCondBPOpen: false, openPanel: {} });
+      }
     }
 
     this.toggleBreakpoint(bp, line);
@@ -205,6 +211,10 @@ const Editor = React.createClass({
     } else {
       this.editor.setMode({ name: "text" });
     }
+  },
+
+  getInitialState() {
+    return { isCondBPOpen: false, openPanel: {} };
   },
 
   componentDidMount() {
