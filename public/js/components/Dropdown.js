@@ -37,7 +37,7 @@ const Dropdown = React.createClass({
         className: "subsettings",
         onClick: this.toggleDropdown
       },
-      dom.img({ src: "images/subSettings.svg" })
+      "»"
     );
   },
 
