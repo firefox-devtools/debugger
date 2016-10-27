@@ -117,8 +117,6 @@ html[dir="rtl"] .editor-mount {
 }
 
 .conditional-breakpoint-panel {
-  border-top: 1px solid var(--theme-gray);
-  border-bottom: 1px solid var(--theme-gray);
   cursor: initial;
   margin: 1em 0;
   position: relative;
@@ -128,10 +126,15 @@ html[dir="rtl"] .editor-mount {
 }
 
 .conditional-breakpoint-panel input {
-  margin: 1em;
+  margin: 5px 10px;
   width: calc(100% - 2em);
   border: none;
   background: var(--theme-toolbar-background);
-  font-size: 12px;
+  font-size: 14px;
   color: var(--theme-comment);
+  line-height: 30px;
+}
+
+.conditional-breakpoint-panel input:focus {
+  outline-width: 0;
 }

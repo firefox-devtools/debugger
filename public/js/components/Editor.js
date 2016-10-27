@@ -49,14 +49,11 @@ function renderConditionalBreakpointPanel(
   ReactDOM.render(
     dom.div(
       { className: "conditional-breakpoint-panel" },
-      condition ?
       dom.input({
         defaultValue: condition,
+        placeholder: "This breakpoint will pause when the expression is true",
         onKeyPress: onKey,
-      }) :
-      dom.input({
-        defaultValue: `This breakpoint will pause when the expression is true`,
-        onKeyPress: onKey
+        autofocus: true
       })
     ),
     panel
@@ -109,11 +106,11 @@ const Editor = React.createClass({
 
         this.cbPanels[line] = this.editor.codeMirror.addLineWidget(line, panel);
         this.setState({ isCondBPOpen: true, openPanel: this.cbPanels[line] });
-        return;        
       } else {
         this.state.openPanel.clear();
-        this.setState({ isCondBPOpen: false, openPanel: {} });
+        this.setState({ isCondBPOpen: false, openPanel: {}});
       }
+      return;
     }
 
     this.toggleBreakpoint(bp, line);
@@ -214,7 +211,7 @@ const Editor = React.createClass({
   },
 
   getInitialState() {
-    return { isCondBPOpen: false, openPanel: {} };
+    return { isCondBPOpen: false, openPanel: {}};
   },
 
   componentDidMount() {
