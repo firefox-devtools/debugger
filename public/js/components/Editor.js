@@ -49,14 +49,14 @@ function renderConditionalBreakpointPanel(
   ReactDOM.render(
     dom.div(
       { className: "conditional-breakpoint-panel" },
-      dom.div(
-        { className: "header" },
-        `This breakpoint will stop execution only
-         if the following expression is true`
-      ),
+      condition ?
       dom.input({
         defaultValue: condition,
         onKeyPress: onKey,
+      }) :
+      dom.input({
+        defaultValue: `This breakpoint will pause when the expression is true`,
+        onKeyPress: onKey
       })
     ),
     panel

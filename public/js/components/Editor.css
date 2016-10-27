@@ -122,17 +122,16 @@ html[dir="rtl"] .editor-mount {
   cursor: initial;
   margin: 1em 0;
   position: relative;
-}
-
-.conditional-breakpoint-panel .header {
   background: var(--theme-toolbar-background);
-  color: var(--theme-body-color);
-  height: 2em;
-  padding: 0 0.5em;
-  line-height: 2em;
+  border-top: 1px solid var(--theme-splitter-color);
+  border-bottom: 1px solid var(--theme-splitter-color);
 }
 
 .conditional-breakpoint-panel input {
   margin: 1em;
   width: calc(100% - 2em);
+  border: none;
+  background: var(--theme-toolbar-background);
+  font-size: 12px;
+  color: var(--theme-comment);
 }
