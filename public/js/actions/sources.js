@@ -192,7 +192,7 @@ function togglePrettyPrint(sourceId: string) {
     return dispatch({
       type: constants.TOGGLE_PRETTY_PRINT,
       source: originalSource,
-      [PROMISE]: (async function () {
+      [PROMISE]: (async function() {
         const { code, mappings } = await prettyPrint({
           source, sourceText, url
         });
@@ -227,7 +227,7 @@ function loadSourceText(source: Source) {
     return dispatch({
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
-      [PROMISE]: (async function () {
+      [PROMISE]: (async function() {
         if (isOriginalId(source.id)) {
           return await getOriginalSourceText(source);
         }
