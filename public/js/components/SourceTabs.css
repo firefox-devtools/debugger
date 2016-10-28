@@ -46,10 +46,7 @@
   position: relative;
   transition: all 0.25s ease;
   min-width: 40px;
-  max-width: 132px;
   overflow: hidden;
-  word-wrap: break-word;
-  word-break: break-word;
 }
 
 html:not([dir="rtl"]) .source-tab {
