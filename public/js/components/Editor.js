@@ -370,7 +370,7 @@ const Editor = React.createClass({
 });
 
 module.exports = connect(
-  (state, props) => {
+  state => {
     const selectedLocation = getSelectedLocation(state);
     const sourceId = selectedLocation && selectedLocation.sourceId;
     const selectedSource = getSelectedSource(state);
