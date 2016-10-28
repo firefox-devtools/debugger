@@ -1,6 +1,5 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
-const { findDOMNode } = require("react-dom");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
@@ -54,13 +53,6 @@ const SourceFooter = React.createClass({
       }),
       "Prettify Source"
     );
-  },
-
-  focusSearch(shortcut, e) {
-    e.stopPropagation();
-    e.preventDefault();
-    const node = findDOMNode(this).querySelector(".source-search");
-    node.focus();
   },
 
   render() {

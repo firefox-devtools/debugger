@@ -118,14 +118,14 @@ const EditorSearchBar = React.createClass({
       return dom.div({});
     } else if (count == 0) {
       return dom.div(
-          { className: "summary" },
-          "no results"
-          );
+        { className: "summary" },
+        L10N.getStr("editor.noResults")
+      );
     }
 
     return dom.div(
       { className: "summary" },
-      `${index + 1} of ${count} results`
+      L10N.getFormatStr("editor.searchResults", index + 1, count)
     );
   },
 

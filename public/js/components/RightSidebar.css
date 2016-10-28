@@ -37,7 +37,15 @@ html[dir="rtl"] .command-bar {
   height: 17px;
   display: inline-block;
   text-align: center;
-  transition: opacity 200ms;
+  transition: all 0.25s ease;
+}
+
+:root.theme-dark .command-bar > span {
+  fill: var(--theme-body-color);
+}
+
+:root.theme-dark .command-bar > span:hover {
+  fill: var(--theme-selection-color);
 }
 
 html:not([dir="rtl"]) .command-bar > span {

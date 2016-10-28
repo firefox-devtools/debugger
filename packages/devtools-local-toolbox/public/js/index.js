@@ -19,6 +19,20 @@ const { getClient, connectClients, startDebugging } = client;
 
 const Root = require("./components/Root");
 
+// Using this static variable allows webpack to know at compile-time
+// to avoid this require and not include it at all in the output.
+if (process.env.TARGET !== "firefox-panel") {
+  const theme = getValue("theme");
+  switch (theme) {
+    case "dark": require("./lib/themes/dark-theme.css"); break;
+    case "light": require("./lib/themes/light-theme.css"); break;
+    case "firebug": require("./lib/themes/firebug-theme.css"); break;
+  }
+  document.body.parentNode.classList.add(`theme-${theme}`);
+
+  window.L10N = require("./utils/L10N");
+}
+
 function initApp() {
   const configureStore = require("./utils/create-store");
   const reducers = require("./reducers");
@@ -44,18 +58,6 @@ function initApp() {
 
 function renderRoot(_React, _ReactDOM, component, _store) {
   const mount = document.querySelector("#mount");
-
-  // Using this static variable allows webpack to know at compile-time
-  // to avoid this require and not include it at all in the output.
-  if (process.env.TARGET !== "firefox-panel") {
-    const theme = getValue("theme");
-    switch (theme) {
-      case "dark": require("./lib/themes/dark-theme.css"); break;
-      case "light": require("./lib/themes/light-theme.css"); break;
-      case "firebug": require("./lib/themes/firebug-theme.css"); break;
-    }
-    document.body.parentNode.classList.add(`theme-${theme}`);
-  }
 
   // bail in test environments that do not have a mount
   if (!mount) {
