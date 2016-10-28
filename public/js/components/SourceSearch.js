@@ -23,7 +23,7 @@ function searchResults(sources) {
   }
 
   return sources.valueSeq()
-    .filter(source => !isPretty(source.toJS()))
+    .filter(source => !isPretty(source.toJS() || source.get("url")))
     .filter(source => source.get("url"))
     .map(source => ({
       value: getSourcePath(source),
