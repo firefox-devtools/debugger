@@ -60,7 +60,7 @@ function addBreakpoint(location: Location,
       type: constants.ADD_BREAKPOINT,
       breakpoint: bp,
       condition: condition,
-      [PROMISE]: (async function () {
+      [PROMISE]: (async function() {
         if (isOriginalId(bp.location.sourceId)) {
           const source = getSource(getState(), bp.location.sourceId);
           location = await getGeneratedLocation(bp.location, source.toJS());
@@ -150,7 +150,7 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
     return dispatch({
       type: constants.TOGGLE_BREAKPOINTS,
       shouldDisableBreakpoints,
-      [PROMISE]: (async function () {
+      [PROMISE]: (async function() {
         for (let [, breakpoint] of breakpoints) {
           if (shouldDisableBreakpoints) {
             await dispatch(disableBreakpoint(breakpoint.location));
