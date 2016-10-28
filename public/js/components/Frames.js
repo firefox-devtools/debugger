@@ -42,7 +42,7 @@ function renderFrame(frame, selectedFrame, selectFrame) {
 const Frames = React.createClass({
   propTypes: {
     frames: ImPropTypes.list.isRequired,
-    selectedFrame: PropTypes.object.isRequired,
+    selectedFrame: PropTypes.object,
     selectFrame: PropTypes.func.isRequired
   },
 
