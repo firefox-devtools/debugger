@@ -10,6 +10,7 @@ const {
 } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { parse: parseURL } = require("url");
+const { isPretty } = require("../utils/source");
 
 require("./SourceSearch.css");
 
@@ -22,7 +23,7 @@ function searchResults(sources) {
   }
 
   return sources.valueSeq()
-    .filter(source => source.get("url"))
+    .filter(source => !isPretty(source.toJS() || source.get("url")))
     .map(source => ({
       value: getSourcePath(source),
       title: getSourcePath(source).split("/").pop(),
