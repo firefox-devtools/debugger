@@ -325,7 +325,7 @@ Read more information in [storybook docs](./docs/local-development.md#storybook)
 
 ## Configuration
 
-All default config values are in [`config/development.json`](./config/development.json), to override these values you need to [create a local config file](#create-a-local-config-file).
+All default config values are in [`packages/devtools-config/configs/development.json`](./packages/devtools-config/configs/development.json), to override these values you need to [create a local config file](#create-a-local-config-file).
 
 Here are the most common development configuration options:
 
@@ -335,11 +335,11 @@ Here are the most common development configuration options:
   * `debug` Enables listening for remotely debuggable Chrome browsers
 * `hotReloading` enables [Hot Reloading](./docs/local-development.md#hot-reloading) of CSS and React
 
-For a list of all the configuration options see the [config/README](./config/README.md)
+For a list of all the configuration options see the [packages/devtools-config/README.md](./packages/devtools-config/README.md)
 
 ### Create a local config file
 
-* Copy the [`config/development.json`](./config/development.json) to `config/local.json`
+* Copy the [`packages/devtools-config/configs/development.json`](./packages/devtools-config/configs/development.json) to `packages/devtools-config/configs/local.json`
 
 ## Issues and Pull Request labels
 
