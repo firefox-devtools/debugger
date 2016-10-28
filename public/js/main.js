@@ -64,7 +64,7 @@ if (isFirefoxPanel()) {
     destroy: () => {
       unmountRoot();
       sourceMap.destroyWorker();
-      prettyPrint.destoryWorker();
+      prettyPrint.destroyWorker();
     },
     store: store,
     actions: actions,
