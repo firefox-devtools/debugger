@@ -106,6 +106,7 @@ const Editor = React.createClass({
         this.cbPanels[line] = this.editor.codeMirror.addLineWidget(line, panel);
         this.setState({ isCondBPOpen: true, openPanel: this.cbPanels[line] });
       } else {
+        delete this.cbPanels[line];
         this.state.openPanel.clear();
         this.replaceState({ isCondBPOpen: false });
       }
