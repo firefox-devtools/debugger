@@ -49,14 +49,10 @@ function renderConditionalBreakpointPanel(
   ReactDOM.render(
     dom.div(
       { className: "conditional-breakpoint-panel" },
-      dom.div(
-        { className: "header" },
-        `This breakpoint will stop execution only
-         if the following expression is true`
-      ),
       dom.input({
         defaultValue: condition,
-        onKeyPress: onKey,
+        placeholder: "This breakpoint will pause when the expression is true",
+        onKeyPress: onKey
       })
     ),
     panel
@@ -101,12 +97,19 @@ const Editor = React.createClass({
     const closePanel = () => this.cbPanels[line].clear();
 
     if (isEnabled("conditionalBreakpoints") && bp && ev.metaKey) {
-      const { condition } = bp;
-      const panel = renderConditionalBreakpointPanel({
-        location, setBreakpointCondition, condition, closePanel
-      });
+      if (!this.state.isCondBPOpen) {
+        const { condition } = bp;
+        const panel = renderConditionalBreakpointPanel({
+          location, setBreakpointCondition, condition, closePanel
+        });
 
-      this.cbPanels[line] = this.editor.codeMirror.addLineWidget(line, panel);
+        this.cbPanels[line] = this.editor.codeMirror.addLineWidget(line, panel);
+        this.setState({ isCondBPOpen: true, openPanel: this.cbPanels[line] });
+      } else {
+        delete this.cbPanels[line];
+        this.state.openPanel.clear();
+        this.replaceState({ isCondBPOpen: false });
+      }
       return;
     }
 
@@ -205,6 +208,10 @@ const Editor = React.createClass({
     } else {
       this.editor.setMode({ name: "text" });
     }
+  },
+
+  getInitialState() {
+    return { isCondBPOpen: false };
   },
 
   componentDidMount() {
