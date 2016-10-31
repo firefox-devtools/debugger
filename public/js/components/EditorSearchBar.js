@@ -144,14 +144,14 @@ const EditorSearchBar = React.createClass({
       return dom.div();
     }
 
-    const { count } = this.state;
+    const { count, query } = this.state;
 
     return dom.div(
       { className: "search-bar" },
       this.renderSvg(),
       dom.input({
         className: classnames({
-          empty: count == 0
+          empty: count == 0 && query.trim() != ""
         }),
         onChange: this.onChange,
         onKeyUp: this.onKeyUp,
