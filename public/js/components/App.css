@@ -7,6 +7,12 @@
 :root.theme-light,
 :root .theme-light {
   --theme-search-overlays-semitransparent: rgba(221, 225, 228, 0.66);
+  --theme-faded-tab-color: #7e7e7e;
+}
+
+:root.theme-dark,
+:root .theme-dark {
+  --theme-faded-tab-color: #6e7d8c;
 }
 
 * {
