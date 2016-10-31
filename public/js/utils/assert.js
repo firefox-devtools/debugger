@@ -1,4 +1,4 @@
-function assert(condition :any, message: string) {
+function assert(condition: boolean, message: string) {
   if (!condition) {
     throw new Error("Assertion failure: " + message);
   }
