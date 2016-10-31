@@ -22,7 +22,7 @@
 .split-box > .uncontrolled {
   display: flex;
   flex: 1;
-  min-width: 0;
+  min-width: 200px;
   overflow: auto;
 }
 
