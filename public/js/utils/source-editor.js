@@ -1,3 +1,8 @@
+/**
+ * CodeMirror source editor utils
+ * @module utils/source-editor
+ */
+
 const CodeMirror = require("codemirror");
 
 require("codemirror/lib/codemirror.css");
@@ -41,6 +46,7 @@ class SourceEditor {
 
   /**
    * Replaces the current document with a new source document
+   * @memberof utils/source-editor
    */
   replaceDocument(doc) {
     this.editor.swapDoc(doc);
@@ -49,6 +55,7 @@ class SourceEditor {
   /**
    * Creates a CodeMirror Document
    * @returns CodeMirror.Doc
+   * @memberof utils/source-editor
    */
   createDocument() {
     return new CodeMirror.Doc("");
@@ -58,6 +65,7 @@ class SourceEditor {
    * Aligns the provided line to either "top", "center" or "bottom" of the
    * editor view with a maximum margin of MAX_VERTICAL_OFFSET lines from top or
    * bottom.
+   * @memberof utils/source-editor
    */
   alignLine(line, align = "top") {
     let cm = this.editor;
@@ -89,6 +97,7 @@ class SourceEditor {
 
   /**
    * Scrolls the view such that the given line number is the first visible line.
+   * @memberof utils/source-editor
    */
   setFirstVisibleLine(line) {
     let { top } = this.editor.charCoords({ line: line, ch: 0 }, "local");
