@@ -1,3 +1,5 @@
+// @flow
+
 const pick = require("lodash/get");
 let config;
 

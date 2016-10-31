@@ -1,3 +1,5 @@
+// @flow
+
 module.exports = function defer() {
   let resolve, reject;
   let promise = new Promise(function() {
