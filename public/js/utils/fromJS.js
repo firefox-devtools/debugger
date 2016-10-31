@@ -1,11 +1,22 @@
 // @flow
 
+/**
+ * Immutable JS conversion utils
+ * @deprecated
+ * @module utils/fromJS
+ */
+
 const Immutable = require("immutable");
 
-// When our app state is fully types, we should be able to get rid of
-// this function. This is only temporarily necessary to support
-// converting typed objects to immutable.js, which usually happens in
-// reducers.
+/**
+ * When our app state is fully typed, we should be able to get rid of
+ * this function. This is only temporarily necessary to support
+ * converting typed objects to immutable.js, which usually happens in
+ * reducers.
+ *
+ * @memberof utils/fromJS
+ * @static
+ */
 function fromJS(value: any) : any {
   if (Array.isArray(value)) {
     return Immutable.Seq(value).map(fromJS).toList();

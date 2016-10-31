@@ -1,15 +1,31 @@
-// These functions implement search within the debugger. Since
-// search in the debugger is different from other components,
-// we can't use search.js CodeMirror addon. This is a slightly
-// modified version of that addon. Depends on searchcursor.js.
+/**
+ * These functions implement search within the debugger. Since
+ * search in the debugger is different from other components,
+ * we can't use search.js CodeMirror addon. This is a slightly
+ * modified version of that addon. Depends on searchcursor.js.
+ * @module utils/source-search
+ */
+
+/**
+ * @memberof utils/source-search
+ * @static
+ */
 function SearchState() {
   this.posFrom = this.posTo = this.query = null;
 }
 
+/**
+ * @memberof utils/source-search
+ * @static
+ */
 function getSearchState(cm) {
   return cm.state.search || (cm.state.search = new SearchState());
 }
 
+/**
+ * @memberof utils/source-search
+ * @static
+ */
 function getSearchCursor(cm, query, pos) {
   // If the query string is all lowercase, do a case insensitive search.
   return cm.getSearchCursor(query, pos,
@@ -20,6 +36,9 @@ function getSearchCursor(cm, query, pos) {
  * If there's a saved search, selects the next results.
  * Otherwise, creates a new search and selects the first
  * result.
+ *
+ * @memberof utils/source-search
+ * @static
  */
 function doSearch(ctx, rev, query) {
   let { cm } = ctx;
@@ -43,6 +62,9 @@ function doSearch(ctx, rev, query) {
 
 /**
  * Selects the next result of a saved search.
+ *
+ * @memberof utils/source-search
+ * @static
  */
 function searchNext(ctx, rev) {
   let { cm, ed } = ctx;
@@ -68,6 +90,9 @@ function searchNext(ctx, rev) {
 
 /**
  * Clears the currently saved search.
+ *
+ * @memberof utils/source-search
+ * @static
  */
 function clearSearch(cm) {
   let state = getSearchState(cm);
@@ -81,6 +106,9 @@ function clearSearch(cm) {
 
 /**
  * Starts a new search.
+ *
+ * @memberof utils/source-search
+ * @static
  */
 function find(ctx, query) {
   clearSearch(ctx.cm);
@@ -89,6 +117,9 @@ function find(ctx, query) {
 
 /**
  * Finds the next item based on the currently saved search.
+ *
+ * @memberof utils/source-search
+ * @static
  */
 function findNext(ctx, query) {
   doSearch(ctx, false, query);
@@ -96,6 +127,9 @@ function findNext(ctx, query) {
 
 /**
  * Finds the previous item based on the currently saved search.
+ *
+ * @memberof utils/source-search
+ * @static
  */
 function findPrev(ctx, query) {
   doSearch(ctx, true, query);

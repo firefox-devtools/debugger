@@ -5,6 +5,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 /* global window */
 
+/**
+ * Redux store utils
+ * @module utils/create-store
+ */
+
 const { createStore, applyMiddleware } = require("redux");
 const { waitUntilService } = require("./redux/middleware/wait-service");
 const { log } = require("./redux/middleware/log");
@@ -12,6 +17,10 @@ const { history } = require("./redux/middleware/history");
 const { promise } = require("./redux/middleware/promise");
 const { thunk } = require("./redux/middleware/thunk");
 
+/**
+ * @memberof utils/create-store
+ * @static
+ */
 type ReduxStoreOptions = {
   makeThunkArgs?: Function,
   history?: boolean,
@@ -29,6 +38,8 @@ type ReduxStoreOptions = {
  *        - history: an array to store every action in. Should only be
  *                   used in tests.
  *        - middleware: array of middleware to be included in the redux store
+ * @memberof utils/create-store
+ * @static
  */
 const configureStore = (opts: ReduxStoreOptions = {}) => {
   const middleware = [

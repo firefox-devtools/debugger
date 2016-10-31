@@ -1,5 +1,10 @@
 // @flow
 
+/**
+ * Utils for Sources Tree Component
+ * @module utils/sources-tree
+ */
+
 const { parse } = require("url");
 const { assert } = require("./DevToolsUtils");
 const { isPretty } = require("./source");
@@ -10,16 +15,30 @@ const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 /**
  * Temporary Source type to be used only within this module
  * TODO: Replace with real Source type definition when refactoring types
+ * @memberof utils/sources-tree
+ * @static
  */
 type TmpSource = { get: (key: string) => string, toJS: Function };
 
-// TODO: createNode is exported so this type could be useful to other modules
+/**
+ * TODO: createNode is exported so this type could be useful to other modules
+ * @memberof utils/sources-tree
+ * @static
+ */
 type Node = { name: any, path: any, contents?: any };
 
+/**
+ * @memberof utils/sources-tree
+ * @static
+ */
 function nodeHasChildren(item: Node): boolean {
   return Array.isArray(item.contents);
 }
 
+/**
+ * @memberof utils/sources-tree
+ * @static
+ */
 function createNode(name: any, path: any, contents?: any): Node {
   return {
     name,
@@ -28,6 +47,10 @@ function createNode(name: any, path: any, contents?: any): Node {
   };
 }
 
+/**
+ * @memberof utils/sources-tree
+ * @static
+ */
 function createParentMap(tree: any): WeakMap<any, any> {
   const map = new WeakMap();
 
@@ -46,6 +69,10 @@ function createParentMap(tree: any): WeakMap<any, any> {
   return map;
 }
 
+/**
+ * @memberof utils/sources-tree
+ * @static
+ */
 function getURL(source: TmpSource): { path: string, group: string } {
   const url = source.get("url");
   let def = { path: "", group: "" };
@@ -99,6 +126,10 @@ function getURL(source: TmpSource): { path: string, group: string } {
   });
 }
 
+/**
+ * @memberof utils/sources-tree
+ * @static
+ */
 function addToTree(tree: any, source: TmpSource) {
   const url = getURL(source);
 
@@ -162,6 +193,8 @@ function addToTree(tree: any, source: TmpSource) {
 /**
  * Look at the nodes in the source tree, and determine the index of where to
  * insert a new node. The ordering is index -> folder -> file.
+ * @memberof utils/sources-tree
+ * @static
  */
 function determineFileSortOrder(nodes:Array<Node>, pathPart:string,
                                 isLastPart:boolean) {
@@ -191,6 +224,8 @@ function determineFileSortOrder(nodes:Array<Node>, pathPart:string,
 
 /**
  * Take an existing source tree, and return a new one with collapsed nodes.
+ * @memberof utils/sources-tree
+ * @static
  */
 function collapseTree(node: any, depth: number = 0) {
   // Node is a folder.
@@ -213,6 +248,10 @@ function collapseTree(node: any, depth: number = 0) {
   return node;
 }
 
+/**
+ * @memberof utils/sources-tree
+ * @static
+ */
 function createTree(sources: any) {
   const uncollapsedTree = createNode("root", "", []);
   for (let source of sources.valueSeq()) {
