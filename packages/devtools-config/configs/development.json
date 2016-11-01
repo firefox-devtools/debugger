@@ -1,7 +1,7 @@
 {
   "environment": "development",
   "baseWorkerURL": "public/build/",
-  "theme": "light",
+  "theme": "dark",
   "logging": {
     "client": false,
     "firefoxProxy": false,
