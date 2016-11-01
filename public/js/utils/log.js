@@ -1,3 +1,5 @@
+// @flow
+
 const { isDevelopment } = require("devtools-config");
 
 function log() {
