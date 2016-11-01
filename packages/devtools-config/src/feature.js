@@ -1,5 +1,3 @@
-// @flow
-
 const pick = require("lodash/get");
 let config;
 
@@ -9,11 +7,11 @@ const flag = require("./test-flag");
  * Gets a config value for a given key
  * e.g "chrome.webSocketPort"
  */
-function getValue(key: string) {
+function getValue() {
   return pick(config, key);
 }
 
-function isEnabled(key: string) {
+function isEnabled() {
   return config.features[key];
 }
 
