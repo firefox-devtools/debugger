@@ -33,7 +33,9 @@ function renderFrame(frame, selectedFrame, selectFrame) {
   return dom.li(
     { key: frame.id,
       className: `frame ${selectedClass}`,
-      onClick: () => selectFrame(frame) },
+      onMouseDown: () => selectFrame(frame),
+      tabIndex: 0
+    },
     renderFrameTitle(frame),
     renderFrameLocation(frame)
   );
@@ -42,7 +44,7 @@ function renderFrame(frame, selectedFrame, selectFrame) {
 const Frames = React.createClass({
   propTypes: {
     frames: ImPropTypes.list.isRequired,
-    selectedFrame: PropTypes.object.isRequired,
+    selectedFrame: PropTypes.object,
     selectFrame: PropTypes.func.isRequired
   },
 
@@ -64,15 +66,19 @@ const Frames = React.createClass({
     let framesDisplay;
 
     if (frames.length === 0) {
-      framesDisplay = div({ className: "pane-info empty" }, "Not Paused");
+      framesDisplay = div(
+        { className: "pane-info empty" },
+        L10N.getStr("callStack.notPaused")
+      );
     } else if (frames.length < numFramesToShow) {
       framesDisplay = dom.ul(null, frames.map(frame => {
         return renderFrame(frame, selectedFrame, selectFrame);
       }));
     } else {
       let frameClass = "hideFrames";
-      let buttonMessage = this.state.showAllFrames ?
-                          "Collapse Rows" : "Expand Rows";
+      let buttonMessage = this.state.showAllFrames
+                          ? L10N.getStr("callStack.collapse")
+                          : L10N.getStr("callStack.expand");
 
       framesDisplay = dom.ul({ className: frameClass },
         frames.map(frame => {

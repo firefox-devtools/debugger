@@ -104,7 +104,7 @@ const Autocomplete = React.createClass({
         onFocus: e => this.setState({ focused: true }),
         onBlur: e => this.setState({ focused: false }),
         onKeyDown: this.onKeyDown,
-        placeholder: "Search..."
+        placeholder: L10N.getStr("sourceSearch.search")
       }
     );
   },
@@ -116,7 +116,8 @@ const Autocomplete = React.createClass({
     } else if (this.state.inputValue && !results.length) {
       return dom.div({ className: "no-result-msg" },
         Svg("sad-face"),
-        `No files matching '${this.state.inputValue}' found`);
+        L10N.getFormatStr("sourceSearch.noResults", this.state.inputValue)
+      );
     }
   },
 

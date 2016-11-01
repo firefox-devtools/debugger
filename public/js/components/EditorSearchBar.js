@@ -5,6 +5,7 @@ const Svg = require("./utils/Svg");
 const { isEnabled } = require("devtools-config");
 const { find, findNext, findPrev } = require("../utils/source-search");
 const classnames = require("classnames");
+const debounce = require("lodash").debounce;
 
 require("./EditorSearchBar.css");
 
@@ -83,12 +84,11 @@ const EditorSearchBar = React.createClass({
 
   onChange(e) {
     const query = e.target.value;
-    const ed = this.props.editor;
-    const ctx = { ed, cm: ed.codeMirror };
 
-    find(ctx, query);
     const count = countMatches(query, this.props.sourceText.get("text"));
     this.setState({ query, count, index: 0 });
+
+    this.search(query);
   },
 
   onKeyUp(e) {
@@ -111,6 +111,13 @@ const EditorSearchBar = React.createClass({
     }
   },
 
+  search: debounce(function(query) {
+    const ed = this.props.editor;
+    const ctx = { ed, cm: ed.codeMirror };
+
+    find(ctx, query);
+  }, 100),
+
   renderSummary() {
     const { count, index, query } = this.state;
 
@@ -118,14 +125,14 @@ const EditorSearchBar = React.createClass({
       return dom.div({});
     } else if (count == 0) {
       return dom.div(
-          { className: "summary" },
-          "no results"
-          );
+        { className: "summary" },
+        L10N.getStr("editor.noResults")
+      );
     }
 
     return dom.div(
       { className: "summary" },
-      `${index + 1} of ${count} results`
+      L10N.getFormatStr("editor.searchResults", index + 1, count)
     );
   },
 
@@ -144,14 +151,14 @@ const EditorSearchBar = React.createClass({
       return dom.div();
     }
 
-    const { count } = this.state;
+    const { count, query } = this.state;
 
     return dom.div(
       { className: "search-bar" },
       this.renderSvg(),
       dom.input({
         className: classnames({
-          empty: count == 0
+          empty: count == 0 && query.trim() != ""
         }),
         onChange: this.onChange,
         onKeyUp: this.onKeyUp,

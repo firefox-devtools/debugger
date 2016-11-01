@@ -28,7 +28,10 @@ test:
     - npm run lint-css
     - npm run lint-js
     - npm run flow
+
 dependencies:
+  cache_directories:
+    - "~/downloads"
   override:
     - npm i -g jasonlaster/lerna
     - lerna bootstrap

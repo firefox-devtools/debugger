@@ -14,6 +14,7 @@ const svg = {
   "magnifying-glass": require("./magnifying-glass.svg"),
   "pause": require("./pause.svg"),
   "pause-exceptions": require("./pause-exceptions.svg"),
+  "plus": require("./plus.svg"),
   "prettyPrint": require("./prettyPrint.svg"),
   "resume": require("./resume.svg"),
   "settings": require("./settings.svg"),

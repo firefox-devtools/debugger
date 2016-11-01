@@ -192,11 +192,11 @@ function togglePrettyPrint(sourceId: string) {
     return dispatch({
       type: constants.TOGGLE_PRETTY_PRINT,
       source: originalSource,
-      [PROMISE]: (async function () {
+      [PROMISE]: (async function() {
         const { code, mappings } = await prettyPrint({
           source, sourceText, url
         });
-        applySourceMap(source.id, url, code, mappings);
+        await applySourceMap(source.id, url, code, mappings);
 
         const frames = await updateFrameLocations(getFrames(getState()));
         dispatch(selectSource(originalSource.id));
@@ -227,7 +227,7 @@ function loadSourceText(source: Source) {
     return dispatch({
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
-      [PROMISE]: (async function () {
+      [PROMISE]: (async function() {
         if (isOriginalId(source.id)) {
           return await getOriginalSourceText(source);
         }
@@ -317,8 +317,11 @@ function getTextForSources(actors: any[]) {
     function maybeFinish() {
       if (pending.size == 0) {
         // Sort the fetched sources alphabetically by their url.
-        deferred.resolve(
-          fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1));
+        if (deferred) {
+          deferred.resolve(
+            fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1)
+          );
+        }
       }
     }
 

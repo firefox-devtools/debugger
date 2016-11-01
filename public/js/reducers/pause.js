@@ -41,7 +41,12 @@ function update(state = initialState, action, emit) {
     case constants.TOGGLE_PRETTY_PRINT:
       if (action.status == "done") {
         const frames = action.value.frames;
-        return state.merge({ frames });
+        let pause = state.get("pause");
+        if (pause) {
+          pause = pause.set("frame", fromJS(frames[0]));
+        }
+
+        return state.merge({ pause, frames });
       }
 
       break;

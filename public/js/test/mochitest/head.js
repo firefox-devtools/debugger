@@ -572,7 +572,9 @@ const selectors = {
   stepOver: ".stepOver.active",
   stepOut: ".stepOut.active",
   stepIn: ".stepIn.active",
-  toggleBreakpoints: ".toggleBreakpoints"
+  toggleBreakpoints: ".toggleBreakpoints",
+  prettyPrintButton: ".prettyPrint",
+  sourceFooter: ".source-footer"
 };
 
 function getSelector(elementName, ...args) {

@@ -3,7 +3,9 @@ public/js/utils/imstruct.js
 public/js/test/examples/**
 public/js/test/integration/**
 public/js/test/unit-sources/**
-public/js/lib/**
 public/js/test/mochitest/head.js
 public/js/test/mochitest/examples/**
 webpack.config.js
+
+packages/devtools-modules/**/*.js
+packages/devtools-sham-modules/**/*.js

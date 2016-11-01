@@ -5,8 +5,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/**
+ * Utils for utils, by utils
+ * @module utils/utils
+ */
+
 const co = require("co");
 
+/**
+ * @memberof utils/utils
+ * @static
+ */
 function asPaused(client: any, func: any) {
   if (client.state != "paused") {
     return co(function* () {
@@ -29,10 +38,18 @@ function asPaused(client: any, func: any) {
   return func();
 }
 
+/**
+ * @memberof utils/utils
+ * @static
+ */
 function handleError(err: any) {
   console.log("ERROR: ", err);
 }
 
+/**
+ * @memberof utils/utils
+ * @static
+ */
 function promisify(context: any, method: any, ...args: any) {
   return new Promise((resolve, reject) => {
     args.push(response => {
@@ -46,6 +63,10 @@ function promisify(context: any, method: any, ...args: any) {
   });
 }
 
+/**
+ * @memberof utils/utils
+ * @static
+ */
 function truncateStr(str: any, size: any) {
   if (str.length > size) {
     return str.slice(0, size) + "...";
@@ -53,6 +74,10 @@ function truncateStr(str: any, size: any) {
   return str;
 }
 
+/**
+ * @memberof utils/utils
+ * @static
+ */
 function endTruncateStr(str: any, size: any) {
   if (str.length > size) {
     return "..." + str.slice(str.length - size);
@@ -61,6 +86,10 @@ function endTruncateStr(str: any, size: any) {
 }
 
 let msgId = 1;
+/**
+ * @memberof utils/utils
+ * @static
+ */
 function workerTask(worker: any, method: string) {
   return function(...args: any) {
     return new Promise((resolve, reject) => {
@@ -94,6 +123,8 @@ function workerTask(worker: any, method: string) {
  * @param Array b
  * @returns Array
  *          The combined array, in the form [a1, b1, a2, b2, ...]
+ * @memberof utils/utils
+ * @static
  */
 function zip(a: any, b: any) {
   if (!b) {
@@ -116,13 +147,18 @@ function zip(a: any, b: any) {
  * pairs of the object. `{ foo: 1, bar: 2}` would become
  * `[[foo, 1], [bar 2]]` (order not guaranteed);
  *
- * @param object obj
  * @returns array
+ * @memberof utils/utils
+ * @static
  */
 function entries(obj: any) {
   return Object.keys(obj).map(k => [k, obj[k]]);
 }
 
+/**
+ * @memberof utils/utils
+ * @static
+ */
 function mapObject(obj: any, iteratee: any) {
   return toObject(entries(obj).map(([key, value]) => {
     return [key, iteratee(key, value)];
@@ -132,6 +168,8 @@ function mapObject(obj: any, iteratee: any) {
 /**
  * Takes an array of 2-element arrays as key/values pairs and
  * constructs an object using them.
+ * @memberof utils/utils
+ * @static
  */
 function toObject(arr: any) {
   const obj = {};
@@ -149,6 +187,8 @@ function toObject(arr: any) {
  *
  * @param ...function funcs
  * @returns function
+ * @memberof utils/utils
+ * @static
  */
 function compose(...funcs: any) {
   return (...args: any) => {
@@ -159,10 +199,18 @@ function compose(...funcs: any) {
   };
 }
 
+/**
+ * @memberof utils/utils
+ * @static
+ */
 function updateObj<T>(obj: T, fields: $Shape<T>) : T {
   return Object.assign({}, obj, fields);
 }
 
+/**
+ * @memberof utils/utils
+ * @static
+ */
 function throttle(func: any, ms: number) {
   let timeout, _this;
   return function(...args: any) {

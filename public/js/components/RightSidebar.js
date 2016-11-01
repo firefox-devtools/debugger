@@ -104,10 +104,15 @@ const RightSidebar = React.createClass({
   renderStepButtons() {
     const className = this.props.pause ? "active" : "disabled";
     return [
-      debugBtn(this.stepOver, "stepOver", className, "Step Over (F10)"),
-      debugBtn(this.stepIn, "stepIn", className, `Step In (${ctrlKey}F11)`),
+      debugBtn(this.stepOver, "stepOver", className,
+        L10N.getStr("stepOverTooltip")
+      ),
+      debugBtn(this.stepIn, "stepIn", className,
+        L10N.getFormatStr("stepInTooltip", ctrlKey)
+      ),
       debugBtn(this.stepOut, "stepOut", className,
-        `Step Out (${ctrlKey}${shiftKey}F11)`),
+        L10N.getFormatStr("stepOutTooltip", ctrlKey + shiftKey)
+      )
     ];
   },
 
@@ -115,14 +120,20 @@ const RightSidebar = React.createClass({
     const { pause, breakOnNext, isWaitingOnBreak } = this.props;
 
     if (pause) {
-      return debugBtn(this.resume, "resume", "active", "Click to resume (F8)");
+      return debugBtn(this.resume, "resume", "active",
+        L10N.getStr("resumeButtonTooltip")
+      );
     }
 
     if (isWaitingOnBreak) {
-      return debugBtn(null, "pause", "disabled", "Waiting for next execution");
+      return debugBtn(null, "pause", "disabled",
+        L10N.getStr("pausePendingButtonTooltip")
+      );
     }
 
-    return debugBtn(breakOnNext, "pause", "active", "Click to pause (F8)");
+    return debugBtn(breakOnNext, "pause", "active",
+      L10N.getStr("pauseButtonTooltip")
+    );
   },
 
   /*
@@ -140,7 +151,7 @@ const RightSidebar = React.createClass({
         () => pauseOnExceptions(true, true),
         "pause-exceptions",
         "enabled",
-        "Ignore exceptions. Click to pause on uncaught exceptions"
+        L10N.getStr("ignoreExceptions")
       );
     }
 
@@ -149,7 +160,7 @@ const RightSidebar = React.createClass({
         () => pauseOnExceptions(true, false),
         "pause-exceptions",
         "uncaught enabled",
-        "Pause on uncaught exceptions. Click to pause on all exceptions"
+        L10N.getStr("pauseOnUncaughtExceptions")
       );
     }
 
@@ -157,7 +168,7 @@ const RightSidebar = React.createClass({
       () => pauseOnExceptions(false, false),
       "pause-exceptions",
       "all enabled",
-      "Pause on all exceptions. Click to ignore exceptions"
+      L10N.getStr("pauseOnExceptions")
     );
   },
 
@@ -181,16 +192,16 @@ const RightSidebar = React.createClass({
 
   getItems() {
     const items = [
-    { header: "Breakpoints",
+    { header: L10N.getStr("breakpoints.header"),
       component: Breakpoints,
       opened: true },
-    { header: "Call Stack",
+    { header: L10N.getStr("callStack.header"),
       component: Frames },
-    { header: "Scopes",
+    { header: L10N.getStr("scopes.header"),
       component: Scopes }
     ];
     if (isEnabled("watchExpressions")) {
-      items.unshift({ header: "Watch Expressions",
+      items.unshift({ header: L10N.getStr("watchExpressions.header"),
         component: Expressions,
         opened: true });
     }

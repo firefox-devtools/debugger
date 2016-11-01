@@ -26,6 +26,10 @@ const createStore = configureStore({
 const store = createStore(combineReducers(reducers));
 const actions = bindActionCreators(require("./actions"), store.dispatch);
 
+if (process.env.TARGET !== "firefox-panel") {
+  L10N.setBundle(require("./strings.json"));
+}
+
 window.appStore = store;
 
 // Expose the bound actions so external things can do things like
@@ -46,6 +50,12 @@ if (isFirefoxPanel()) {
 
   module.exports = {
     bootstrap: ({ threadClient, tabTarget }) => {
+      // TODO (jlast) remove when the panel has L10N
+      if (!window.L10N) {
+        window.L10N = require("../../packages/devtools-local-toolbox/public/js/utils/L10N");
+        L10N.setBundle(require("./strings.json"));
+      }
+
       firefox.setThreadClient(threadClient);
       firefox.setTabTarget(tabTarget);
       renderRoot(React, ReactDOM, App, store);
@@ -54,7 +64,7 @@ if (isFirefoxPanel()) {
     destroy: () => {
       unmountRoot();
       sourceMap.destroyWorker();
-      prettyPrint.destoryWorker();
+      prettyPrint.destroyWorker();
     },
     store: store,
     actions: actions,

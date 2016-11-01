@@ -3,6 +3,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/**
+ * Sources reducer
+ * @module reducers/sources
+ */
+
 const fromJS = require("../utils/fromJS");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
@@ -123,8 +128,10 @@ function removeSourceFromTabList(state, id) {
   return state.tabs.filter(tab => tab.get("id") != id);
 }
 
-/*
+/**
  * Adds the new source to the tab list if it is not already there
+ * @memberof reducers/sources
+ * @static
  */
 function updateTabList(state, source, tabIndex) {
   const tabs = state.get("tabs");
@@ -146,6 +153,8 @@ function updateTabList(state, source, tabIndex) {
 
 /**
  * Gets the next tab to select when a tab closes.
+ * @memberof reducers/sources
+ * @static
  */
 function getNewSelectedSourceId(state, id) : ?Source {
   const tabs = state.get("tabs");
@@ -177,7 +186,7 @@ function getNewSelectedSourceId(state, id) : ?Source {
 // Selectors
 
 // Unfortunately, it's really hard to make these functions accept just
-// the state that we care about and still type if with Flow. The
+// the state that we care about and still type it with Flow. The
 // problem is that we want to re-export all selectors from a single
 // module for the UI, and all of those selectors should take the
 // top-level app state, so we'd have to "wrap" them to automatically

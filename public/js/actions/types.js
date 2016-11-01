@@ -87,6 +87,8 @@ type SourceAction =
                sourceText: SourceText }}
   | { type: "CLOSE_TAB", id: string };
 
+type UIAction = { type: "TOGGLE_FILE_SEARCH", searchOn: boolean };
+
 /**
  * Actions: Source, Breakpoint, and Navigation
  *
@@ -96,4 +98,5 @@ type SourceAction =
 export type Action =
   SourceAction
   | BreakpointAction
-  | { type: "NAVIGATE" };
+  | { type: "NAVIGATE" }
+  | UIAction;

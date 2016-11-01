@@ -1,4 +1,6 @@
-function assert(condition, message) {
+// @flow
+
+function assert(condition: boolean, message: string) {
   if (!condition) {
     throw new Error("Assertion failure: " + message);
   }

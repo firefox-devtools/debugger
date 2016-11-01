@@ -1,3 +1,8 @@
+/**
+ * Source Map Worker
+ * @module utils/source-map-worker
+ */
+
 const networkRequest = require("devtools-network-request");
 const URL = require("url");
 const path = require("./path");
@@ -41,6 +46,8 @@ function _resolveSourceMapURL(source) {
 
 /**
  * Sets the source map's sourceRoot to be relative to the source map url.
+ * @memberof utils/source-map-worker
+ * @static
  */
 function _setSourceMapRoot(sourceMap, absSourceMapURL, source) {
   // No need to do this fiddling if we won't be fetching any sources over the
@@ -97,7 +104,9 @@ function _fetchSourceMap(generatedSource) {
   }
 
   // Fire off the request, set it in the cache, and return it.
-  const req = _resolveAndFetch(generatedSource);
+  // Suppress any errors and just return null (ignores bogus
+  // sourcemaps).
+  const req = _resolveAndFetch(generatedSource).catch(() => null);
   sourceMapRequests.set(generatedSource.id, req);
   return req;
 }
@@ -213,4 +222,3 @@ self.onmessage = function(msg) {
     self.postMessage({ id, response });
   }
 };
-

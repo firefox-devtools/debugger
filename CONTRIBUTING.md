@@ -67,7 +67,17 @@ The debugger.html is a web application that makes a [WebSocket](https://develope
 
 First we need to get the web application running.  Within the source code directory, from the command line run these commands.
 
+### Linux or MacOs
+
 * `npm install` - Install dependencies
+* `npm start` - Start development web server
+
+### Windows
+
+It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
+
+* `npm install --ignore-scripts` - Install dependencies
+* `bash ./bin/preinstall` - Run preinstall script manually
 * `npm start` - Start development web server
 
 Then, because `npm start` will remain running, from another terminal window you can open [http://localhost:8000](http://localhost:8000) in your browser or type the following:
@@ -325,7 +335,7 @@ Read more information in [storybook docs](./docs/local-development.md#storybook)
 
 ## Configuration
 
-All default config values are in [`config/development.json`](./config/development.json), to override these values you need to [create a local config file](#create-a-local-config-file).
+All default config values are in [`packages/devtools-config/configs/development.json`](./packages/devtools-config/configs/development.json), to override these values you need to [create a local config file](#create-a-local-config-file).
 
 Here are the most common development configuration options:
 
@@ -335,11 +345,11 @@ Here are the most common development configuration options:
   * `debug` Enables listening for remotely debuggable Chrome browsers
 * `hotReloading` enables [Hot Reloading](./docs/local-development.md#hot-reloading) of CSS and React
 
-For a list of all the configuration options see the [config/README](./config/README.md)
+For a list of all the configuration options see the [packages/devtools-config/README.md](./packages/devtools-config/README.md)
 
 ### Create a local config file
 
-* Copy the [`config/development.json`](./config/development.json) to `config/local.json`
+* Copy the [`packages/devtools-config/configs/development.json`](./packages/devtools-config/configs/development.json) to `packages/devtools-config/configs/local.json`
 
 ## Issues and Pull Request labels
 
@@ -373,3 +383,5 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 [labels-firefox]:https://github.com/devtools-html/debugger.html/labels/firefox
 [labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
 [labels-not-actionable]:https://github.com/devtools-html/debugger.html/labels/not%20actionable
+
+[GitHub Desktop]:https://desktop.github.com/

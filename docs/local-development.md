@@ -51,6 +51,20 @@ You can change the theme by setting the `theme` field in `local.json` to  `light
 { "theme": "dark" }
 ```
 
+### Internationalization
+
+The Debugger supports two types of internationalization RTL (right to left) layout and L10N (localization).
+
+[L10N](https://github.com/devtools-html/debugger.html/blob/master/packages/devtools-local-toolbox/public/js/utils/L10N.js) is a global module with two methods `getStr` and `getFormatStr`.
+
+```js
+L10N.getStr("scopes.header")
+L10N.getFormatStr("editor.searchResults", index + 1, count)
+```
+
+Translated strings are added to the local [strings](https://github.com/devtools-html/debugger.html/blob/master/public/js/strings.json)
+file and m-c [debugger properties](https://dxr.mozilla.org/mozilla-central/source/devtools/client/locales/en-US/debugger.properties) file.
+
 ### Flow
 
 The debugger uses Facebook's [flow](https://flowtype.org/) type checker.

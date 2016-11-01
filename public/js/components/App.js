@@ -25,7 +25,7 @@ const App = React.createClass({
   propTypes: {
     sources: PropTypes.object,
     selectSource: PropTypes.func,
-    selectedSource: PropTypes.object
+    selectedSource: PropTypes.object,
   },
 
   displayName: "App",
@@ -37,7 +37,7 @@ const App = React.createClass({
   renderWelcomeBox() {
     return dom.div(
       { className: "welcomebox" },
-      `${cmdString()}+P to search for files`
+      L10N.getFormatStr("welcome.search", cmdString() + "+P")
     );
   },
 
@@ -84,6 +84,7 @@ App.childContextTypes = {
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              selectedSource: getSelectedSource(state) }),
+              selectedSource: getSelectedSource(state),
+            }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

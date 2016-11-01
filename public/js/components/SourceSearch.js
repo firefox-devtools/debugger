@@ -3,9 +3,14 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { getSources, getSelectedSource } = require("../selectors");
+const {
+  getSources,
+  getSelectedSource,
+  getFileSearchState
+} = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { parse: parseURL } = require("url");
+const { isPretty } = require("../utils/source");
 
 require("./SourceSearch.css");
 
@@ -18,7 +23,7 @@ function searchResults(sources) {
   }
 
   return sources.valueSeq()
-    .filter(source => source.get("url"))
+    .filter(source => !isPretty(source.toJS()) && source.get("url"))
     .map(source => ({
       value: getSourcePath(source),
       title: getSourcePath(source).split("/").pop(),
@@ -32,7 +37,9 @@ const Search = React.createClass({
   propTypes: {
     sources: PropTypes.object,
     selectSource: PropTypes.func,
-    selectedSource: PropTypes.object
+    selectedSource: PropTypes.object,
+    toggleFileSearch: PropTypes.func,
+    searchOn: PropTypes.bool
   },
 
   contextTypes: {
@@ -40,12 +47,6 @@ const Search = React.createClass({
   },
 
   displayName: "Search",
-
-  getInitialState() {
-    return {
-      searchOn: false
-    };
-  },
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
@@ -61,27 +62,27 @@ const Search = React.createClass({
 
   toggle(key, e) {
     e.preventDefault();
-    this.setState({ searchOn: !this.state.searchOn });
+    this.props.toggleFileSearch(!this.props.searchOn);
   },
 
   onEscape(shortcut, e) {
-    if (this.state.searchOn) {
+    if (this.props.searchOn) {
       e.preventDefault();
-      this.setState({ searchOn: false });
+      this.props.toggleFileSearch(false);
     }
   },
 
   close() {
-    this.setState({ searchOn: false });
+    this.props.toggleFileSearch(false);
   },
 
   render() {
-    return this.state.searchOn ?
+    return this.props.searchOn ?
       dom.div({ className: "search-container" },
       Autocomplete({
         selectItem: result => {
           this.props.selectSource(result.id);
-          this.setState({ searchOn: false });
+          this.props.toggleFileSearch(false);
         },
         handleClose: this.close,
         items: searchResults(this.props.sources)
@@ -92,6 +93,8 @@ const Search = React.createClass({
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              selectedSource: getSelectedSource(state) }),
+              selectedSource: getSelectedSource(state),
+              searchOn: getFileSearchState(state)
+            }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Search);
