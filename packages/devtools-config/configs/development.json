@@ -12,8 +12,7 @@
     "sourceMaps": true,
     "prettyPrint": true,
     "watchExpressions": false,
-    "search": true,
-    "conditionalBreakpoints": true
+    "search": true
   },
   "chrome": {
     "debug": true,
