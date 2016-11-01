@@ -5,6 +5,7 @@ const Svg = require("./utils/Svg");
 const { isEnabled } = require("devtools-config");
 const { find, findNext, findPrev } = require("../utils/source-search");
 const classnames = require("classnames");
+const CloseButton = require("./CloseButton");
 
 require("./EditorSearchBar.css");
 
@@ -58,11 +59,16 @@ const EditorSearchBar = React.createClass({
     }
   },
 
-  onEscape(shortcut, e) {
+  closeSearch(ev) {
     if (this.state.enabled) {
       this.setState({ enabled: false });
-      e.preventDefault();
+      ev.stopPropagation();
+      ev.preventDefault();
     }
+  },
+
+  onEscape(shortcut, e) {
+    this.closeSearch(e);
   },
 
   toggleSearch(shortcut, e) {
@@ -159,7 +165,8 @@ const EditorSearchBar = React.createClass({
         value: this.state.query,
         spellCheck: false
       }),
-      this.renderSummary()
+      this.renderSummary(),
+      CloseButton({ handleClick: this.closeSearch })
     );
   }
 });
