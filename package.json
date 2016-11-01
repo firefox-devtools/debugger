@@ -47,7 +47,7 @@
   "devDependencies": {
     "amd-loader": "0.0.5",
     "babel-cli": "^6.7.5",
-    "babel-core": "^6.17.0",
+    "babel-core": "^6.18.1",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-module-resolver": "^2.2.0",
