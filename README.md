@@ -14,7 +14,18 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 Here are instructions to get the debugger.html application installed and running.
 
+### Linux or MacOs
+
 * `npm install` - Install dependencies
+* `npm start` - Start development web server
+* `open http://localhost:8000` - Open in any modern browser
+
+### Windows
+
+It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
+
+* `npm install --ignore-scripts` - Install dependencies
+* `bash ./bin/preinstall` - Run preinstall script manually
 * `npm start` - Start development web server
 * `open http://localhost:8000` - Open in any modern browser
 
@@ -79,3 +90,5 @@ We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on
 [storybook]:./CONTRIBUTING.md#storybook
 
 [irc-devtools-html]:irc://irc.mozilla.org/devtools-html
+
+[GitHub Desktop]:https://desktop.github.com/
