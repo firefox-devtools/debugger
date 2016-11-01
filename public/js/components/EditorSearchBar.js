@@ -116,7 +116,7 @@ const EditorSearchBar = React.createClass({
     const ctx = { ed, cm: ed.codeMirror };
 
     find(ctx, query);
-  }, 250),
+  }, 100),
 
   renderSummary() {
     const { count, index, query } = this.state;
