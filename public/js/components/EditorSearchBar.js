@@ -5,6 +5,7 @@ const Svg = require("./utils/Svg");
 const { isEnabled } = require("devtools-config");
 const { find, findNext, findPrev } = require("../utils/source-search");
 const classnames = require("classnames");
+const debounce = require("lodash").debounce;
 
 require("./EditorSearchBar.css");
 
@@ -83,12 +84,11 @@ const EditorSearchBar = React.createClass({
 
   onChange(e) {
     const query = e.target.value;
-    const ed = this.props.editor;
-    const ctx = { ed, cm: ed.codeMirror };
 
-    find(ctx, query);
     const count = countMatches(query, this.props.sourceText.get("text"));
     this.setState({ query, count, index: 0 });
+
+    this.search(query);
   },
 
   onKeyUp(e) {
@@ -110,6 +110,13 @@ const EditorSearchBar = React.createClass({
       this.setState({ index: nextIndex });
     }
   },
+
+  search: debounce(function(query) {
+    const ed = this.props.editor;
+    const ctx = { ed, cm: ed.codeMirror };
+
+    find(ctx, query);
+  }, 100),
 
   renderSummary() {
     const { count, index, query } = this.state;
