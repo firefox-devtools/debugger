@@ -15,6 +15,10 @@
   overflow-x: hidden;
 }
 
+:root.theme-dark .accordion ._header:hover {
+  background-color: var(--theme-selection-background-semitransparent);
+}
+
 .right-sidebar .command-bar {
   border-bottom: 1px solid var(--theme-splitter-color);
 }
