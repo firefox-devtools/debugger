@@ -9,7 +9,7 @@ let ManagedTree = React.createClass({
 
   getInitialState() {
     return { expanded: new Set(),
-             focusedItem: null };
+      focusedItem: null };
   },
 
   setExpanded(item, isExpanded) {
