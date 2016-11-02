@@ -7,11 +7,11 @@ const flag = require("./test-flag");
  * Gets a config value for a given key
  * e.g "chrome.webSocketPort"
  */
-function getValue(key: string) {
+function getValue(key) {
   return pick(config, key);
 }
 
-function isEnabled(key: string) {
+function isEnabled(key) {
   return config.features[key];
 }
 
@@ -35,7 +35,7 @@ function isFirefox() {
   return /firefox/i.test(navigator.userAgent);
 }
 
-function setConfig(value: Object) {
+function setConfig(value) {
   config = value;
 }
 

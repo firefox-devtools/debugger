@@ -49,7 +49,7 @@ The debugger.html project is a JavaScript debugger built from the ground up usin
 
 ### devtools.html
 
-devtools.html is the larger umbrella initiative that encompasses the debugger.html and several other devtools projects.  The devtools.html project claims its origin from a demo for a Mozilla (Dec 2015) work week in Orlando, FL USA where the team worked under a tight deadline to provide a proof of concept of the Firefox developer tools running in pure HTML; even outside of Firefox. The code for that demo can be found on Github under [@joewalker/devtools.html](https://github.com/joewalker/devtools.html).
+devtools.html is the larger umbrella initiative that encompasses the debugger.html and several other devtools projects.  The devtools.html project claims its origin from a demo for a Mozilla (Dec 2015) work week in Orlando, FL USA where the team worked under a tight deadline to provide a proof of concept of the Firefox developer tools running in pure HTML; even outside of Firefox. The code for that demo can be found on GitHub under [@joewalker/devtools.html](https://github.com/joewalker/devtools.html).
 
 From that original demo the devtools.html project has progressed quite a bit.  To learn more about it please read the [devtools.html proposal document](https://docs.google.com/document/d/1_5aerWTN_GVofr6YQVjmJlaGfZ4nv5YKZmdGHewfTpE/edit#heading=h.dw3amfbdp0lh) and take a look at the [devtools.html meta bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1263750) for tracking progress.
 
@@ -67,7 +67,17 @@ The debugger.html is a web application that makes a [WebSocket](https://develope
 
 First we need to get the web application running.  Within the source code directory, from the command line run these commands.
 
+### Linux or MacOs
+
 * `npm install` - Install dependencies
+* `npm start` - Start development web server
+
+### Windows
+
+It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
+
+* `npm install --ignore-scripts` - Install dependencies
+* `bash ./bin/preinstall` - Run preinstall script manually
 * `npm start` - Start development web server
 
 Then, because `npm start` will remain running, from another terminal window you can open [http://localhost:8000](http://localhost:8000) in your browser or type the following:
@@ -373,3 +383,5 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 [labels-firefox]:https://github.com/devtools-html/debugger.html/labels/firefox
 [labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
 [labels-not-actionable]:https://github.com/devtools-html/debugger.html/labels/not%20actionable
+
+[GitHub Desktop]:https://desktop.github.com/

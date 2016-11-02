@@ -5,3 +5,6 @@
 .*node_modules/config-chain.*
 .*firefox/.*
 .*flow-coverage-report/.*
+
+[libs]
+./packages/devtools-config/flow-interface.js

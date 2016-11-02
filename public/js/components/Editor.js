@@ -8,6 +8,7 @@ const { connect } = require("react-redux");
 const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
 const EditorSearchBar = createFactory(require("./EditorSearchBar"));
+const { renderConditionalPanel } = require("./EditorConditionalPanel");
 const { debugGlobal } = require("devtools-local-toolbox");
 const {
   getSourceText, getBreakpointsForSource,
@@ -20,7 +21,8 @@ const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");
 const { shouldShowFooter } = require("../utils/editor");
-const { isEnabled } = require("devtools-config");
+const { isFirefox } = require("devtools-config");
+const { showMenu } = require("../utils/menu");
 
 require("./Editor.css");
 
@@ -34,31 +36,8 @@ function breakpointAtLine(breakpoints, line) {
   });
 }
 
-function renderConditionalBreakpointPanel(
-  { location, setBreakpointCondition, condition, closePanel }) {
-  function onKey(e) {
-    if (e.key != "Enter") {
-      return;
-    }
-
-    setBreakpointCondition(location, e.target.value);
-    closePanel();
-  }
-
-  let panel = document.createElement("div");
-  ReactDOM.render(
-    dom.div(
-      { className: "conditional-breakpoint-panel" },
-      dom.input({
-        defaultValue: condition,
-        placeholder: "This breakpoint will pause when the expression is true",
-        onKeyPress: onKey
-      })
-    ),
-    panel
-  );
-
-  return panel;
+function getTextForLine(codeMirror, line) {
+  return codeMirror.getLine(line - 1).trim();
 }
 
 /**
@@ -89,34 +68,63 @@ const Editor = React.createClass({
   displayName: "Editor",
 
   onGutterClick(cm, line, gutter, ev) {
-    const bp = breakpointAtLine(this.props.breakpoints, line);
-    const { selectedLocation: { sourceId },
-            setBreakpointCondition } = this.props;
-
-    const location = { sourceId, line: line + 1 };
-    const closePanel = () => this.cbPanels[line].clear();
-
-    if (isEnabled("conditionalBreakpoints") && bp && ev.metaKey) {
-      if (!this.state.isCondBPOpen) {
-        const { condition } = bp;
-        const panel = renderConditionalBreakpointPanel({
-          location, setBreakpointCondition, condition, closePanel
-        });
-
-        this.cbPanels[line] = this.editor.codeMirror.addLineWidget(line, panel);
-        this.setState({ isCondBPOpen: true, openPanel: this.cbPanels[line] });
-      } else {
-        delete this.cbPanels[line];
-        this.state.openPanel.clear();
-        this.replaceState({ isCondBPOpen: false });
-      }
+    // ignore right clicks in the gutter
+    if (ev.which === 3) {
       return;
     }
 
-    this.toggleBreakpoint(bp, line);
+    this.toggleBreakpoint(line);
   },
 
-  toggleBreakpoint(bp, line) {
+  onGutterContextMenu(event) {
+    event.preventDefault();
+    const line = this.editor.codeMirror.lineAtHeight(event.clientY);
+    const bp = breakpointAtLine(this.props.breakpoints, line);
+    this.showGutterMenu(event, line, bp);
+  },
+
+  showConditionalPanel(line) {
+    if (this.isCbPanelOpen()) {
+      return;
+    }
+
+    const { selectedLocation: { sourceId },
+            setBreakpointCondition, addBreakpoint, breakpoints } = this.props;
+
+    const bp = breakpointAtLine(breakpoints, line);
+    const location = { sourceId, line: line + 1 };
+    const condition = bp ? bp.condition : "";
+
+    const closePanel = () => {
+      this.cbPanels[line].clear();
+      delete this.cbPanels[line];
+    };
+
+    const setBreakpoint = value => {
+      if (bp) {
+        setBreakpointCondition(location, value);
+      } else {
+        addBreakpoint(location, {
+          condition: value,
+          getTextForLine: l => getTextForLine(this.editor.codeMirror, l)
+        });
+      }
+    };
+
+    const panel = renderConditionalPanel({
+      condition, closePanel, setBreakpoint
+    });
+
+    this.cbPanels[line] = this.editor.codeMirror.addLineWidget(line, panel);
+  },
+
+  isCbPanelOpen() {
+    return Object.keys(this.cbPanels).length == 1;
+  },
+
+  toggleBreakpoint(line) {
+    const bp = breakpointAtLine(this.props.breakpoints, line);
+
     if (bp && bp.loading) {
       return;
     }
@@ -133,7 +141,7 @@ const Editor = React.createClass({
         // Pass in a function to get line text because the breakpoint
         // may slide and it needs to compute the value at the new
         // line.
-        { getTextForLine: l => this.editor.codeMirror.getLine(l - 1).trim() }
+        { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) }
       );
     }
   },
@@ -210,12 +218,40 @@ const Editor = React.createClass({
     }
   },
 
-  getInitialState() {
-    return { isCondBPOpen: false };
+  showGutterMenu(e, line, bp) {
+    let bpLabel;
+    let cbLabel;
+    if (!bp) {
+      bpLabel = L10N.getStr("editor.addBreakpoint");
+      cbLabel = L10N.getStr("editor.addConditionalBreakpoint");
+    } else {
+      bpLabel = L10N.getStr("editor.removeBreakpoint");
+      cbLabel = L10N.getStr("editor.editBreakpoint");
+    }
+
+    const toggleBreakpoint = {
+      id: "node-menu-reakpoint",
+      label: bpLabel,
+      accesskey: "E",
+      disabled: false,
+      click: () => this.toggleBreakpoint(line)
+    };
+
+    const conditionalBreakpoint = {
+      id: "node-menu-conditional-breakpoint",
+      label: cbLabel,
+      accesskey: "A",
+      disabled: false,
+      click: () => this.showConditionalPanel(line)
+    };
+
+    showMenu(e, [
+      toggleBreakpoint,
+      conditionalBreakpoint
+    ]);
   },
 
   componentDidMount() {
-    const extraKeys = isEnabled("search") ? { "Cmd-F": () => {} } : {};
     this.cbPanels = {};
 
     this.editor = new SourceEditor({
@@ -229,14 +265,31 @@ const Editor = React.createClass({
       enableCodeFolding: false,
       gutters: ["breakpoints"],
       value: " ",
-      extraKeys
+      extraKeys: {}
     });
+
+    // disables the default search shortcuts
+    this.editor._initShortcuts = () => {};
 
     this.editor.appendToLocalElement(
       ReactDOM.findDOMNode(this).querySelector(".editor-mount")
     );
 
     this.editor.codeMirror.on("gutterClick", this.onGutterClick);
+
+    if (!isFirefox()) {
+      this.editor.codeMirror.on(
+        "gutterContextMenu",
+        (cm, line, eventName, event) => this.onGutterContextMenu(event)
+      );
+    } else {
+      this.editor.codeMirror.getWrapperElement().addEventListener(
+        "contextmenu",
+        event => this.onGutterContextMenu(event),
+        false
+      );
+    }
+
     resizeBreakpointGutter(this.editor.codeMirror);
     debugGlobal("cm", this.editor.codeMirror);
 

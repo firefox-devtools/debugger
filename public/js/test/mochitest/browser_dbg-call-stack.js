@@ -1,12 +1,9 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
-function findFrame(dbg, index) {
-  return findElement(dbg, "frame", index);
-}
 
 // checks to see if the frame is selected and the title is correct
 function isFrameSelected(dbg, index, title) {
-  const $frame = findFrame(dbg, index);
+  const $frame = findElement(dbg, "frame", index);
   const frame = dbg.selectors.getSelectedFrame(dbg.getState());
 
   const elSelected = $frame.classList.contains("selected");
@@ -25,6 +22,6 @@ add_task(function* () {
 
   ok(isFrameSelected(dbg, 1, "secondCall"), "the first frame is selected");
 
-  findFrame(dbg, 2).click();
+  clickElement(dbg, "frame", 2);
   ok(isFrameSelected(dbg, 2, "firstCall"), "the second frame is selected");
 });

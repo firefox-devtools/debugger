@@ -8,14 +8,14 @@
 
 .landing-page .sidebar {
   display: flex;
-  background-color: var(--theme-content-color1);
+  background-color: var(--theme-tab-toolbar-background);
   width: 200px;
   height: 100%;
   flex-direction: column;
 }
 
 .landing-page .sidebar h1 {
-  color: white;
+  color: var(--theme-body-color);
   font-size: 24px;
   margin: 0;
   line-height: 30px;
@@ -35,16 +35,21 @@
 }
 
 .landing-page .sidebar li.selected {
-  background: #1f2327;
+  background: var(--theme-search-overlays-semitransparent);
+  transition: all 0.25s ease;
 }
 
 .landing-page .sidebar li:hover {
-  background: #1f2327;
+  background: var(--theme-selection-background);
   cursor: pointer;
 }
 
 .landing-page .sidebar li a {
-  color: var(--theme-comment-alt);
+  color: var(--theme-body-color);
+}
+
+.landing-page .sidebar li:hover a {
+  color: var(--theme-selection-color);
 }
 
 .landing-page .panel {
@@ -58,9 +63,8 @@
 .landing-page .panel .title {
   margin: 20px 40px;
   width: calc(100% - 80px);
-  padding: 0 20px;
   font-size: 16px;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid var(--theme-splitter-color);
   height: 54px;
 }
 

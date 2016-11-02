@@ -1,10 +1,12 @@
+// @flow
+
 /**
  * Source Map Worker
  * @module utils/source-map-worker
  */
 
 const networkRequest = require("devtools-network-request");
-const URL = require("url");
+const { parse } = require("url");
 const path = require("./path");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
 const { isJavaScript } = require("./source");
@@ -15,6 +17,15 @@ const {
   isGeneratedId,
   isOriginalId
 } = require("./source-map-util");
+
+import type { Location, Source } from "../types";
+type Message = {
+  data: {
+    id: string,
+    method: string,
+    args: Array<any>
+  }
+}
 
 let sourceMapRequests = new Map();
 let sourceMapsEnabled = false;
@@ -27,21 +38,21 @@ function enableSourceMaps() {
   sourceMapsEnabled = true;
 }
 
-function _resolveSourceMapURL(source) {
-  if (path.isURL(source.sourceMapURL) || !source.url) {
+function _resolveSourceMapURL(source: Source) {
+  const { url = "", sourceMapURL = "" } = source;
+  if (path.isURL(sourceMapURL) || url == "") {
     // If it's already a full URL or the source doesn't have a URL,
     // don't resolve anything.
-    return source.sourceMapURL;
-  } else if (path.isAbsolute(source.sourceMapURL)) {
+    return sourceMapURL;
+  } else if (path.isAbsolute(sourceMapURL)) {
     // If it's an absolute path, it should be resolved relative to the
     // host of the source.
-    const urlObj = URL.parse(source.url);
-    const base = urlObj.protocol + "//" + urlObj.host;
-    return base + source.sourceMapURL;
+    const { protocol = "", host = "" } = parse(url);
+    return `${protocol}//${host}${sourceMapURL}`;
   }
   // Otherwise, it's a relative path and should be resolved relative
   // to the source.
-  return path.dirname(source.url) + "/" + source.sourceMapURL;
+  return path.dirname(url) + "/" + sourceMapURL;
 }
 
 /**
@@ -71,11 +82,12 @@ function _setSourceMapRoot(sourceMap, absSourceMapURL, source) {
   return sourceMap;
 }
 
-function _getSourceMap(generatedSourceId) {
+function _getSourceMap(generatedSourceId: string)
+    : ?Promise<SourceMapConsumer> {
   return sourceMapRequests.get(generatedSourceId);
 }
 
-async function _resolveAndFetch(generatedSource) {
+async function _resolveAndFetch(generatedSource: Source) : SourceMapConsumer {
   // Fetch the sourcemap over the network and create it.
   const sourceMapURL = _resolveSourceMapURL(generatedSource);
   const fetched = await networkRequest(
@@ -88,7 +100,7 @@ async function _resolveAndFetch(generatedSource) {
   return map;
 }
 
-function _fetchSourceMap(generatedSource) {
+function _fetchSourceMap(generatedSource: Source) {
   const existingRequest = sourceMapRequests.get(generatedSource.id);
   if (existingRequest) {
     // If it has already been requested, return the request. Make sure
@@ -116,7 +128,8 @@ async function getOriginalURLs(generatedSource) {
   return map && map.sources;
 }
 
-async function getGeneratedLocation(location: Location, originalSource) {
+async function getGeneratedLocation(location: Location, originalSource: Source)
+    : Promise<Location> {
   if (!isOriginalId(location.sourceId)) {
     return location;
   }
@@ -168,7 +181,7 @@ async function getOriginalLocation(location: Location) {
   };
 }
 
-async function getOriginalSourceText(originalSource) {
+async function getOriginalSourceText(originalSource: Source) {
   assert(isOriginalId(originalSource.id),
          "Source is not an original source");
 
@@ -187,7 +200,7 @@ async function getOriginalSourceText(originalSource) {
 
   return {
     text,
-    contentType: isJavaScript(originalSource.url) ?
+    contentType: isJavaScript(originalSource.url || "") ?
       "text/javascript" :
       "text/plain"
   };
@@ -212,7 +225,7 @@ const publicInterface = {
   clearSourceMaps
 };
 
-self.onmessage = function(msg) {
+self.onmessage = function(msg: Message) {
   const { id, method, args } = msg.data;
   const response = publicInterface[method].apply(undefined, args);
   if (response instanceof Promise) {

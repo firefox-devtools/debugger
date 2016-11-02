@@ -10,6 +10,7 @@ const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
 
 require("./App.css");
+require("./menu.css");
 require("./SplitBox.css");
 require("./reps.css");
 let { SplitBox } = require("devtools-modules");
@@ -84,7 +85,7 @@ App.childContextTypes = {
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-              selectedSource: getSelectedSource(state),
-            }),
+    selectedSource: getSelectedSource(state),
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

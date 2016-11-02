@@ -33,7 +33,9 @@ function renderFrame(frame, selectedFrame, selectFrame) {
   return dom.li(
     { key: frame.id,
       className: `frame ${selectedClass}`,
-      onClick: () => selectFrame(frame) },
+      onMouseDown: () => selectFrame(frame),
+      tabIndex: 0
+    },
     renderFrameTitle(frame),
     renderFrameLocation(frame)
   );
