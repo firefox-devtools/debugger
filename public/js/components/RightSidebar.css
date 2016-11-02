@@ -16,7 +16,7 @@
 }
 
 :root.theme-dark .accordion ._header:hover {
-  background-color: var(--thme-body-color);
+  background-color: var(--theme-selection-background-semitransparent);
 }
 
 .right-sidebar .command-bar {
