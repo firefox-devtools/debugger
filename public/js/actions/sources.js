@@ -317,8 +317,11 @@ function getTextForSources(actors: any[]) {
     function maybeFinish() {
       if (pending.size == 0) {
         // Sort the fetched sources alphabetically by their url.
-        deferred.resolve(
-          fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1));
+        if (deferred) {
+          deferred.resolve(
+            fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1)
+          );
+        }
       }
     }
 

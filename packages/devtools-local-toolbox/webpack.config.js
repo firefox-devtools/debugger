@@ -22,7 +22,7 @@ module.exports = webpackConfig => {
   webpackConfig.resolve = {
     alias: {
       "devtools/client/shared/vendor/react": "react",
-      "devtools/client/shared/vendor/react-dom": "react-dom",
+      "devtools/client/shared/vendor/react-dom": "react-dom"
     }
   };
 

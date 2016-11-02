@@ -1,4 +1,10 @@
 // @flow
+
+/**
+ * UI reducer
+ * @module reducers/ui
+ */
+
 const constants = require("../constants");
 const makeRecord = require("../utils/makeRecord");
 

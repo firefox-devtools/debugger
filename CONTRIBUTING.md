@@ -67,7 +67,17 @@ The debugger.html is a web application that makes a [WebSocket](https://develope
 
 First we need to get the web application running.  Within the source code directory, from the command line run these commands.
 
+### Linux or MacOs
+
 * `npm install` - Install dependencies
+* `npm start` - Start development web server
+
+### Windows
+
+It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
+
+* `npm install --ignore-scripts` - Install dependencies
+* `bash ./bin/preinstall` - Run preinstall script manually
 * `npm start` - Start development web server
 
 Then, because `npm start` will remain running, from another terminal window you can open [http://localhost:8000](http://localhost:8000) in your browser or type the following:
@@ -373,3 +383,5 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 [labels-firefox]:https://github.com/devtools-html/debugger.html/labels/firefox
 [labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
 [labels-not-actionable]:https://github.com/devtools-html/debugger.html/labels/not%20actionable
+
+[GitHub Desktop]:https://desktop.github.com/

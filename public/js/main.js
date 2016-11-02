@@ -26,7 +26,7 @@ const createStore = configureStore({
 const store = createStore(combineReducers(reducers));
 const actions = bindActionCreators(require("./actions"), store.dispatch);
 
-if (process.env.TARGET !== "firefox-panel") {
+if (!isFirefoxPanel()) {
   L10N.setBundle(require("./strings.json"));
 }
 
@@ -49,7 +49,7 @@ if (isFirefoxPanel()) {
   const prettyPrint = require("./utils/pretty-print");
 
   module.exports = {
-    bootstrap: ({ threadClient, tabTarget }) => {
+    bootstrap: ({ threadClient, tabTarget, toolbox }) => {
       // TODO (jlast) remove when the panel has L10N
       if (!window.L10N) {
         window.L10N = require("../../packages/devtools-local-toolbox/public/js/utils/L10N");

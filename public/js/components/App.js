@@ -10,6 +10,7 @@ const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
 
 require("./App.css");
+require("./menu.css");
 require("./SplitBox.css");
 require("./reps.css");
 let { SplitBox } = require("devtools-modules");
