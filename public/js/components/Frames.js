@@ -25,22 +25,6 @@ function renderFrameLocation(frame) {
   );
 }
 
-function renderFrame(frame, selectedFrame, selectFrame) {
-  const selectedClass = (
-    selectedFrame && (selectedFrame.id === frame.id ? "selected" : "")
-  );
-
-  return dom.li(
-    { key: frame.id,
-      className: `frame ${selectedClass}`,
-      onMouseDown: () => selectFrame(frame),
-      tabIndex: 0
-    },
-    renderFrameTitle(frame),
-    renderFrameLocation(frame)
-  );
-}
-
 const Frames = React.createClass({
   propTypes: {
     frames: ImPropTypes.list.isRequired,
@@ -60,40 +44,65 @@ const Frames = React.createClass({
     });
   },
 
+  renderFrame(frame) {
+    const { selectedFrame, selectFrame } = this.props;
+
+    const selectedClass = (
+      selectedFrame && (selectedFrame.id === frame.id ? "selected" : "")
+    );
+
+    return dom.li(
+      { key: frame.id,
+        className: `frame ${selectedClass}`,
+        onMouseDown: () => selectFrame(frame),
+        tabIndex: 0
+      },
+      renderFrameTitle(frame),
+      renderFrameLocation(frame)
+    );
+  },
+
+  renderFrames() {
+    let { frames } = this.props;
+
+    const numFramesToShow = this.state.showAllFrames ? frames.size : 7;
+    frames = frames.slice(0, numFramesToShow);
+
+    return dom.ul({}, frames.map(frame => this.renderFrame(frame)));
+  },
+
+  renderToggleButton() {
+    const { frames } = this.props;
+    let buttonMessage = this.state.showAllFrames
+      ? L10N.getStr("callStack.collapse") : L10N.getStr("callStack.expand");
+
+    if (frames.size < 7) {
+      return null;
+    }
+
+    return dom.div(
+      { className: "show-more", onClick: this.toggleFramesDisplay },
+      buttonMessage
+    );
+  },
+
   render() {
-    const { frames, selectedFrame, selectFrame } = this.props;
-    const numFramesToShow = this.state.showAllFrames ? frames.length : 7;
-    let framesDisplay;
+    const { frames } = this.props;
 
     if (frames.length === 0) {
-      framesDisplay = div(
-        { className: "pane-info empty" },
-        L10N.getStr("callStack.notPaused")
-      );
-    } else if (frames.length < numFramesToShow) {
-      framesDisplay = dom.ul(null, frames.map(frame => {
-        return renderFrame(frame, selectedFrame, selectFrame);
-      }));
-    } else {
-      let frameClass = "hideFrames";
-      let buttonMessage = this.state.showAllFrames
-                          ? L10N.getStr("callStack.collapse")
-                          : L10N.getStr("callStack.expand");
-
-      framesDisplay = dom.ul({ className: frameClass },
-        frames.map(frame => {
-          return renderFrame(frame, selectedFrame, selectFrame);
-        }).slice(0, numFramesToShow),
-        dom.div({
-          className: "show-more",
-          onClick: this.toggleFramesDisplay
-        }, buttonMessage)
+      return div(
+        { className: "pane frames" },
+        div(
+          { className: "pane-info empty" },
+          L10N.getStr("callStack.notPaused")
+        )
       );
     }
 
     return div(
       { className: "pane frames" },
-      framesDisplay
+      this.renderFrames(),
+      this.renderToggleButton()
     );
   }
 });
