@@ -2,7 +2,6 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { findDOMNode } = require("react-dom");
 const Svg = require("./utils/Svg");
-const { isEnabled } = require("devtools-config");
 const { find, findNext, findPrev } = require("../utils/source-search");
 const classnames = require("classnames");
 const debounce = require("lodash").debounce;
@@ -39,18 +38,14 @@ const EditorSearchBar = React.createClass({
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    if (isEnabled("search")) {
-      shortcuts.off("CmdOrCtrl+F", this.toggleSearch);
-      shortcuts.off("Escape", this.onEscape);
-    }
+    shortcuts.off("CmdOrCtrl+F", this.toggleSearch);
+    shortcuts.off("Escape", this.onEscape);
   },
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
-    if (isEnabled("search")) {
-      shortcuts.on("CmdOrCtrl+F", this.toggleSearch);
-      shortcuts.on("Escape", this.onEscape);
-    }
+    shortcuts.on("CmdOrCtrl+F", this.toggleSearch);
+    shortcuts.on("Escape", this.onEscape);
   },
 
   componentDidUpdate() {
@@ -74,7 +69,9 @@ const EditorSearchBar = React.createClass({
 
     if (this.state.enabled) {
       const node = this.searchInput();
-      node.setSelectionRange(0, node.value.length);
+      if (node) {
+        node.setSelectionRange(0, node.value.length);
+      }
     }
   },
 
@@ -147,7 +144,7 @@ const EditorSearchBar = React.createClass({
   },
 
   render() {
-    if (!isEnabled("search") || !this.state.enabled) {
+    if (!this.state.enabled) {
       return dom.div();
     }
 
