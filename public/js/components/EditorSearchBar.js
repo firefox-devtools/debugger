@@ -53,6 +53,14 @@ const EditorSearchBar = React.createClass({
     }
   },
 
+  componentWillReceiveProps() {
+    const shortcuts = this.context.shortcuts;
+    if (isEnabled("search")) {
+      shortcuts.on("CmdOrCtrl+Shift+G", this.traverseResultsPrev);
+      shortcuts.on("CmdOrCtrl+G", this.traverseResultsNext);
+    }
+  },
+
   componentDidUpdate() {
     if (this.searchInput()) {
       this.searchInput().focus();
@@ -91,23 +99,41 @@ const EditorSearchBar = React.createClass({
     this.search(query);
   },
 
-  onKeyUp(e) {
+  traverseResultsPrev(shortcut, e) {
+    e.stopPropagation();
+    e.preventDefault();
+
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
     const { query, index, count } = this.state;
 
+    findPrev(ctx, query);
+    const nextIndex = index == 0 ? count - 1 : index - 1;
+    this.setState({ index: nextIndex });
+  },
+
+  traverseResultsNext(shortcut, e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const ed = this.props.editor;
+    const ctx = { ed, cm: ed.codeMirror };
+    const { query, index, count } = this.state;
+
+    findNext(ctx, query);
+    const nextIndex = index == count - 1 ? 0 : index + 1;
+    this.setState({ index: nextIndex });
+  },
+
+  onKeyUp(e) {
     if (e.key != "Enter") {
       return;
     }
 
     if (e.shiftKey) {
-      findPrev(ctx, query);
-      const nextIndex = index == 0 ? count - 1 : index - 1;
-      this.setState({ index: nextIndex });
+      this.traverseResultsPrev(null, e);
     } else {
-      findNext(ctx, query);
-      const nextIndex = index == count - 1 ? 0 : index + 1;
-      this.setState({ index: nextIndex });
+      this.traverseResultsNext(null, e);
     }
   },
 
