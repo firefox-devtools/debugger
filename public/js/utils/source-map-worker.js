@@ -39,12 +39,12 @@ function enableSourceMaps() {
 }
 
 function _resolveSourceMapURL(source: Source) {
-  const { url, sourceMapURL } = source;
-  if (path.isURL(sourceMapURL) || !url) {
+  const { url = "", sourceMapURL = "" } = source;
+  if (path.isURL(sourceMapURL) || url == "") {
     // If it's already a full URL or the source doesn't have a URL,
     // don't resolve anything.
     return sourceMapURL;
-  } else if (path.isAbsolute(source.sourceMapURL)) {
+  } else if (path.isAbsolute(sourceMapURL)) {
     // If it's an absolute path, it should be resolved relative to the
     // host of the source.
     const { protocol = "", host = "" } = parse(url);
@@ -200,7 +200,7 @@ async function getOriginalSourceText(originalSource: Source) {
 
   return {
     text,
-    contentType: isJavaScript(originalSource.url) ?
+    contentType: isJavaScript(originalSource.url || "") ?
       "text/javascript" :
       "text/plain"
   };
