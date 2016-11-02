@@ -2,6 +2,7 @@
 build
 node_modules
 config/local.json
+packages/devtools-config/configs/local.json
 npm-debug.log
 .idea/
 .vscode/
