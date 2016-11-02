@@ -1,11 +1,13 @@
+/* @flow */
+
 const { isDevelopment } = require("devtools-config");
 
-function log() {
+function log(...args: any[]) {
   if (!isDevelopment()) {
     return;
   }
 
-  console.log.apply(console, ["[log]", ...arguments]);
+  console.log.apply(console, ["[log]", ...args]);
 }
 
 module.exports = log;
