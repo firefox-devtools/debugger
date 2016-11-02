@@ -81,6 +81,8 @@ html[dir="rtl"] .command-bar .stepOut {
   font-style: italic;
   text-align: center;
   padding: 0.5em;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .toggleBreakpoints.breakpoints-disabled path {
