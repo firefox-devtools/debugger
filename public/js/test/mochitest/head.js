@@ -523,7 +523,13 @@ function invokeInTab(fnc) {
 }
 
 const isLinux = Services.appinfo.OS === "Linux";
+const cmdOrCtrl = isLinux ? { ctrlKey: true } : { metaKey: true };
 const keyMappings = {
+  sourceSearch: { code: "p", modifiers: cmdOrCtrl},
+  fileSearch: { code: "f", modifiers: cmdOrCtrl},
+  "Enter": { code: "VK_RETURN" },
+  "Up": { code: "VK_UP" },
+  "Down": { code: "VK_DOWN" },
   pauseKey: { code: "VK_F8" },
   resumeKey: { code: "VK_F8" },
   stepOverKey: { code: "VK_F10" },
@@ -542,12 +548,19 @@ const keyMappings = {
  */
 function pressKey(dbg, keyName) {
   let keyEvent = keyMappings[keyName];
+
   const { code, modifiers } = keyEvent;
   return EventUtils.synthesizeKey(
     code,
     modifiers || {},
     dbg.win
   );
+}
+
+function type(dbg, string) {
+  string.split("").forEach(char => {
+    EventUtils.synthesizeKey(char, {}, dbg.win);
+  });
 }
 
 function isVisibleWithin(outerEl, innerEl) {
@@ -592,6 +605,10 @@ function getSelector(elementName, ...args) {
 
 function findElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
+  return findElementWithSelector(dbg, selector);
+}
+
+function findElementWithSelector(dbg, selector) {
   return dbg.win.document.querySelector(selector);
 }
 
