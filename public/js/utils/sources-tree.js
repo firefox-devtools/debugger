@@ -260,9 +260,9 @@ function createTree(sources: any) {
   const sourceTree = collapseTree(uncollapsedTree);
 
   return { uncollapsedTree,
-    sourceTree,
-    parentMap: createParentMap(sourceTree),
-    focusedItem: null };
+           sourceTree,
+           parentMap: createParentMap(sourceTree),
+           focusedItem: null };
 }
 
 module.exports = {

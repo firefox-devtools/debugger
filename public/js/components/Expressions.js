@@ -107,7 +107,7 @@ const Expressions = React.createClass({
   renderExpressionContainer(expression) {
     return dom.div(
       { className: "expression-container",
-        key: expression.id + expression.input },
+      key: expression.id + expression.input },
       expression.updating ?
         this.renderExpressionUpdating(expression) :
         this.renderExpression(expression)

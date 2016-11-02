@@ -84,7 +84,7 @@ App.childContextTypes = {
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-    selectedSource: getSelectedSource(state),
-  }),
+              selectedSource: getSelectedSource(state),
+            }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

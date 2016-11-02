@@ -15,7 +15,7 @@ const Accordion = React.createClass({
 
   getInitialState: function() {
     return { opened: this.props.items.map(item => item.opened),
-      created: [] };
+             created: [] };
   },
 
   handleHeaderClick: function(i) {
@@ -51,7 +51,7 @@ const Accordion = React.createClass({
       (created[i] || opened[i]) ?
         div(
           { className: "_content",
-            style: { display: opened[i] ? "block" : "none" }
+              style: { display: opened[i] ? "block" : "none" }
           },
           React.createElement(item.component, item.componentProps || {})
         ) :

@@ -93,8 +93,8 @@ const Search = React.createClass({
 
 module.exports = connect(
   state => ({ sources: getSources(state),
-    selectedSource: getSelectedSource(state),
-    searchOn: getFileSearchState(state)
-  }),
+              selectedSource: getSelectedSource(state),
+              searchOn: getFileSearchState(state)
+            }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Search);

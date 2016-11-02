@@ -192,13 +192,13 @@ const RightSidebar = React.createClass({
 
   getItems() {
     const items = [
-      { header: L10N.getStr("breakpoints.header"),
-        component: Breakpoints,
-        opened: true },
-      { header: L10N.getStr("callStack.header"),
-        component: Frames },
-      { header: L10N.getStr("scopes.header"),
-        component: Scopes }
+    { header: L10N.getStr("breakpoints.header"),
+      component: Breakpoints,
+      opened: true },
+    { header: L10N.getStr("callStack.header"),
+      component: Frames },
+    { header: L10N.getStr("scopes.header"),
+      component: Scopes }
     ];
     if (isEnabled("watchExpressions")) {
       items.unshift({ header: L10N.getStr("watchExpressions.header"),
