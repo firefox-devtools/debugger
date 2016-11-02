@@ -13,6 +13,8 @@ if (typeof window == "object") {
   require("./Frames.css");
 }
 
+const NUM_FRAMES_SHOWN = 7;
+
 function renderFrameTitle(frame) {
   return div({ className: "title" }, endTruncateStr(frame.displayName, 40));
 }
@@ -65,7 +67,8 @@ const Frames = React.createClass({
   renderFrames() {
     let { frames } = this.props;
 
-    const numFramesToShow = this.state.showAllFrames ? frames.size : 7;
+    const numFramesToShow = this.state.showAllFrames
+      ? frames.size : NUM_FRAMES_SHOWN;
     frames = frames.slice(0, numFramesToShow);
 
     return dom.ul({}, frames.map(frame => this.renderFrame(frame)));
@@ -76,7 +79,7 @@ const Frames = React.createClass({
     let buttonMessage = this.state.showAllFrames
       ? L10N.getStr("callStack.collapse") : L10N.getStr("callStack.expand");
 
-    if (frames.size < 7) {
+    if (frames.size < NUM_FRAMES_SHOWN) {
       return null;
     }
 

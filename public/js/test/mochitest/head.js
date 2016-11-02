@@ -559,10 +559,12 @@ function isVisibleWithin(outerEl, innerEl) {
 
 const selectors = {
   callStackHeader: ".call-stack-pane ._header",
+  callStackBody: ".call-stack-pane .pane",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
   scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
   frame: index => `.frames ul li:nth-child(${index})`,
+  frames: ".frames ul li",
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
   pauseOnExceptions: ".pause-exceptions",
   breakpoint: ".CodeMirror-code > .new-breakpoint",
