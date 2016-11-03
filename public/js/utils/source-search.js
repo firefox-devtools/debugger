@@ -34,15 +34,15 @@ function getSearchCursor(cm, query, pos) {
 }
 
 function searchOverlay(query) {
-  query = query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-  query = new RegExp( query === '' ? '(?!\s*.*)' : query, 'g');
+  query = query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+  query = new RegExp(query === "" ? "(?!\s*.*)" : query, "g");
   return {
     token: function(stream) {
       query.lastIndex = stream.pos;
-      var match = query.exec(stream.string);
+      let match = query.exec(stream.string);
       if (match && match.index == stream.pos) {
         stream.pos += match[0].length || 1;
-        return 'selecting';
+        return "selecting";
       } else if (match) {
         stream.pos = match.index;
       } else {
