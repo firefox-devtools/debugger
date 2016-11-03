@@ -92,7 +92,7 @@ const Frames = React.createClass({
   render() {
     const { frames } = this.props;
 
-    if (frames.length === 0) {
+    if (frames.size === 0) {
       return div(
         { className: "pane frames" },
         div(
