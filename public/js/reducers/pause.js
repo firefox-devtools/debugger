@@ -137,9 +137,7 @@ function getShouldIgnoreCaughtExceptions(state) {
 }
 
 function getFrames(state) {
-  // frames should always be an Immutable Seq
-  // Return an empty Seq if the state is null
-  return state.pause.get("frames") || fromJS([]);
+  return state.pause.get("frames");
 }
 
 function getSelectedFrame(state) {

@@ -29,7 +29,7 @@ function renderFrameLocation(frame) {
 
 const Frames = React.createClass({
   propTypes: {
-    frames: ImPropTypes.list.isRequired,
+    frames: ImPropTypes.list,
     selectedFrame: PropTypes.object,
     selectFrame: PropTypes.func.isRequired
   },
@@ -66,6 +66,9 @@ const Frames = React.createClass({
 
   renderFrames() {
     let { frames } = this.props;
+    if (!frames) {
+      return null;
+    }
 
     const numFramesToShow = this.state.showAllFrames
       ? frames.size : NUM_FRAMES_SHOWN;
@@ -92,7 +95,7 @@ const Frames = React.createClass({
   render() {
     const { frames } = this.props;
 
-    if (frames.size === 0) {
+    if (!frames) {
       return div(
         { className: "pane frames" },
         div(
@@ -110,15 +113,20 @@ const Frames = React.createClass({
   }
 });
 
+function getAndProcessFrames(state) {
+  const frames = getFrames(state);
+  if (!frames) {
+    return null;
+  }
+  return frames.filter(frame => getSource(state, frame.location.sourceId))
+               .map(frame => Object.assign({}, frame, {
+                 source: getSource(state, frame.location.sourceId).toJS()
+               }));
+}
+
 module.exports = connect(
   state => ({
-    frames: getFrames(state)
-      .filter(frame => getSource(state, frame.location.sourceId))
-      .map(frame => {
-        return Object.assign({}, frame, {
-          source: getSource(state, frame.location.sourceId).toJS()
-        });
-      }),
+    frames: getAndProcessFrames(state),
     selectedFrame: getSelectedFrame(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
