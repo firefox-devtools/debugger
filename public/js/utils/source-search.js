@@ -33,7 +33,19 @@ function getSearchCursor(cm, query, pos) {
     typeof query == "string" && query == query.toLowerCase());
 }
 
+/**
+ * This returns a mode object used by CoeMirror's addOverlay function
+ * to parse and style tokens in the file.
+ * The mode object contains a tokenizer function (token) which takes
+ * a character stream as input, advances it past a token, and returns
+ * a style for that token. For more details see
+ * https://codemirror.net/doc/manual.html#modeapi
+ *
+ * @memberof utils/source-search
+ * @static
+ */
 function searchOverlay(query) {
+  // escape special characters
   query = query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
   query = new RegExp(query === "" ? "(?!\s*.*)" : query, "g");
   return {
@@ -52,6 +64,10 @@ function searchOverlay(query) {
   };
 }
 
+/**
+ * @memberof utils/source-search
+ * @static
+ */
 function startSearch(cm, state, query) {
   cm.removeOverlay(state.overlay);
   state.overlay = searchOverlay(query);
