@@ -4,12 +4,12 @@ const { findDOMNode } = require("react-dom");
 const Svg = require("./utils/Svg");
 const { find, findNext, findPrev } = require("../utils/source-search");
 const classnames = require("classnames");
-const debounce = require("lodash").debounce;
+const { debounce, escapeRegExp } = require("lodash");
 
 require("./EditorSearchBar.css");
 
 function countMatches(query, text) {
-  const re = new RegExp(query, "g");
+  const re = new RegExp(escapeRegExp(query), "g");
   const match = text.match(re);
   return match ? match.length : 0;
 }
