@@ -15,11 +15,6 @@
   background-color: var(--theme-body-background);
 }
 
-.cm-match {
-  background: none;
-  border: 1px solid #AAA;
-}
-
 .search-container .autocomplete {
   flex: 1;
 }

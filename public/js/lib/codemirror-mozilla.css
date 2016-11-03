@@ -125,6 +125,14 @@ selector in floating-scrollbar-light.css across all platforms. */
   background-repeat: repeat-x;
 }
 
+.cm-selecting {
+  background: none;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--theme-comment);
+  border-radius: 2px;
+}
+
 /* CodeMirror dialogs styling */
 
 .CodeMirror-dialog {
