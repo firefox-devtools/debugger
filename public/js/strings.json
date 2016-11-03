@@ -27,5 +27,7 @@
   "stepOverTooltip": "Step Over (F10)",
   "resumeButtonTooltip": "Click to resume (F8)",
   "pausePendingButtonTooltip": "Waiting for next execution",
-  "pauseButtonTooltip": "Click to pause (F8)"
+  "pauseButtonTooltip": "Click to pause (F8)",
+  "sourceTabs.closeTab": "Close tab",
+  "sourceTabs.closeAllTabs": "Close all tabs"
 }
