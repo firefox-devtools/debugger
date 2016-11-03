@@ -12,6 +12,7 @@
  */
 function SearchState() {
   this.posFrom = this.posTo = this.query = null;
+  this.overlay = null;
 }
 
 /**
@@ -30,6 +31,31 @@ function getSearchCursor(cm, query, pos) {
   // If the query string is all lowercase, do a case insensitive search.
   return cm.getSearchCursor(query, pos,
     typeof query == "string" && query == query.toLowerCase());
+}
+
+function searchOverlay(query) {
+  query = query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+  query = new RegExp( query === '' ? '^\s.' : query, 'g');
+  return {
+    token: function(stream) {
+      query.lastIndex = stream.pos;
+      var match = query.exec(stream.string);
+      if (match && match.index == stream.pos) {
+        stream.pos += match[0].length || 1;
+        return 'match';
+      } else if (match) {
+        stream.pos = match.index;
+      } else {
+        stream.skipToEnd();
+      }
+    }
+  };
+}
+
+function startSearch(cm, state, query) {
+  cm.removeOverlay(state.overlay);
+  state.overlay = searchOverlay(query);
+  cm.addOverlay(state.overlay);
 }
 
 /**
@@ -53,7 +79,7 @@ function doSearch(ctx, rev, query) {
     if (state.query) {
       return;
     }
-
+    startSearch(cm, state, query);
     state.query = query;
     state.posFrom = state.posTo = { line: 0, ch: 0 };
     searchNext(ctx, rev);
@@ -100,7 +126,7 @@ function clearSearch(cm) {
   if (!state.query) {
     return;
   }
-
+  cm.removeOverlay(state.overlay);
   state.query = null;
 }
 
