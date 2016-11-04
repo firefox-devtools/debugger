@@ -230,9 +230,9 @@ const Editor = React.createClass({
     }
 
     const toggleBreakpoint = {
-      id: "node-menu-reakpoint",
+      id: "node-menu-breakpoint",
       label: bpLabel,
-      accesskey: "E",
+      accesskey: "B",
       disabled: false,
       click: () => this.toggleBreakpoint(line)
     };
@@ -240,7 +240,7 @@ const Editor = React.createClass({
     const conditionalBreakpoint = {
       id: "node-menu-conditional-breakpoint",
       label: cbLabel,
-      accesskey: "A",
+      accesskey: "C",
       disabled: false,
       click: () => this.showConditionalPanel(line)
     };
