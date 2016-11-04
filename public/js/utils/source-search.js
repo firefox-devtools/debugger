@@ -1,3 +1,4 @@
+const { escapeRegExp } = require("lodash");
 /**
  * These functions implement search within the debugger. Since
  * search in the debugger is different from other components,
@@ -45,9 +46,7 @@ function getSearchCursor(cm, query, pos) {
  * @static
  */
 function searchOverlay(query) {
-  // escape special characters
-  query = query.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-  query = new RegExp(query === "" ? "(?!\s*.*)" : query, "g");
+  query = new RegExp(escapeRegExp(query === "" ? "(?!\s*.*)" : query), "g");
   return {
     token: function(stream) {
       query.lastIndex = stream.pos;
