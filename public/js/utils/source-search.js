@@ -35,6 +35,16 @@ function getSearchCursor(cm, query, pos) {
 }
 
 /**
+ * Ignore doing outline matches for less than 3 whitespaces
+ *
+ * @memberof utils/source-search
+ * @static
+ */
+function ignoreWhiteSpace(str) {
+  return /^\s{0,2}$/.test(str) ? "(?!\s*.*)" : str;
+}
+
+/**
  * This returns a mode object used by CoeMirror's addOverlay function
  * to parse and style tokens in the file.
  * The mode object contains a tokenizer function (token) which takes
@@ -46,7 +56,7 @@ function getSearchCursor(cm, query, pos) {
  * @static
  */
 function searchOverlay(query) {
-  query = new RegExp(escapeRegExp(query === "" ? "(?!\s*.*)" : query), "g");
+  query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)), "g");
   return {
     token: function(stream) {
       query.lastIndex = stream.pos;
