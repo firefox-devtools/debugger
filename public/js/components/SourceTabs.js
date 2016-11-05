@@ -70,10 +70,12 @@ const SourceTabs = React.createClass({
   },
 
   showContextMenu(e, tab) {
-    const { closeTab } = this.props;
+    const { closeTab, sourceTabs } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
+
+    const tabs = sourceTabs.map(t => t.get("id"));
 
     const closeTabMenuItem = {
       id: "node-menu-close-tab",
@@ -88,7 +90,7 @@ const SourceTabs = React.createClass({
       label: closeAllTabsLabel,
       accesskey: "A",
       disabled: false,
-      click: () => this.props.sourceTabs.forEach((t) => closeTab(t.get("id")))
+      click: () => tabs.forEach(closeTab)
     };
 
     showMenu(e, [
