@@ -53,7 +53,7 @@ function truncateStr(str: any, size: any) {
   return str;
 }
 
-function endTruncateStr(str: any, size: any) {
+function endTruncateStr(str: string, size: number) {
   if (str.length > size) {
     return "..." + str.slice(str.length - size);
   }
