@@ -34,6 +34,12 @@ function getSearchCursor(cm, query, pos) {
     typeof query == "string" && query == query.toLowerCase());
 }
 
+/**
+ * Ignore doing outline matches for less than 3 whitespaces
+ *
+ * @memberof utils/source-search
+ * @static
+ */
 function ignoreWhiteSpace(str) {
   return /^\s{0,2}$/.test(str) ? "(?!\s*.*)" : str;
 }
