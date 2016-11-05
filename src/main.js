@@ -1,10 +1,12 @@
+// @flow
+
 const React = require("react");
 const { bindActionCreators, combineReducers } = require("redux");
 const ReactDOM = require("react-dom");
 
 const {
   client: { getClient, firefox },
-  renderRoot, bootstrap
+  renderRoot, bootstrap, L10N
 } = require("devtools-local-toolbox");
 
 const { getValue, isFirefoxPanel } = require("devtools-config");
@@ -28,7 +30,8 @@ const store = createStore(combineReducers(reducers));
 const actions = bindActionCreators(require("./actions"), store.dispatch);
 
 if (!isFirefoxPanel()) {
-  L10N.setBundle(require("./strings.json"));
+  window.L10N = L10N;
+  window.L10N.setBundle(require("./strings.json"));
 }
 
 window.appStore = store;
@@ -50,7 +53,7 @@ if (isFirefoxPanel()) {
   const prettyPrint = require("./utils/pretty-print");
 
   module.exports = {
-    bootstrap: ({ threadClient, tabTarget, toolbox, L10N }) => {
+    bootstrap: ({ threadClient, tabTarget, toolbox, L10N }: any) => {
       // TODO (jlast) remove when the panel has L10N
       if (L10N) {
         window.L10N = L10N;
