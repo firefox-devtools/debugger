@@ -18,8 +18,9 @@ const Autocomplete = createFactory(require("./Autocomplete"));
 
 function searchResults(sources) {
   function getSourcePath(source) {
-    const { path } = parseURL(source.get("url"));
-    return endTruncateStr(path, 50);
+    const { path, href } = parseURL(source.get("url"));
+    // for URLs like "about:home" the path is null so we pass the full href
+    return endTruncateStr((path || href), 50);
   }
 
   return sources.valueSeq()
