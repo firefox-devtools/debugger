@@ -34,6 +34,10 @@ function getSearchCursor(cm, query, pos) {
     typeof query == "string" && query == query.toLowerCase());
 }
 
+function ignoreWhiteSpace(str) {
+  return /^\s{0,2}$/.test(str) ? "(?!\s*.*)" : str;
+}
+
 /**
  * This returns a mode object used by CoeMirror's addOverlay function
  * to parse and style tokens in the file.
@@ -46,7 +50,7 @@ function getSearchCursor(cm, query, pos) {
  * @static
  */
 function searchOverlay(query) {
-  query = new RegExp(escapeRegExp(query === "" ? "(?!\s*.*)" : query), "g");
+  query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)), "g");
   return {
     token: function(stream) {
       query.lastIndex = stream.pos;
