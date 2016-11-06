@@ -11,8 +11,7 @@
     "tabs": true,
     "sourceMaps": true,
     "prettyPrint": true,
-    "watchExpressions": false,
-    "search": true
+    "watchExpressions": false
   },
   "chrome": {
     "debug": true,

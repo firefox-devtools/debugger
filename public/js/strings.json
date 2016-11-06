@@ -18,6 +18,7 @@
   "watchExpressions.header": "Watch Expressions",
   "welcome.search": "%S to search for files",
   "sourceSearch.search": "Search...",
+  "sourceSearch.resultsSummary": "%d instances of \"%S\"",
   "sourceSearch.noResults": "No files matching %S found",
   "ignoreExceptions": "Ignore exceptions. Click to pause on uncaught exceptions",
   "pauseOnUncaughtExceptions": "Pause on uncaught exceptions. Click to pause on all exceptions",
@@ -27,5 +28,7 @@
   "stepOverTooltip": "Step Over (F10)",
   "resumeButtonTooltip": "Click to resume (F8)",
   "pausePendingButtonTooltip": "Waiting for next execution",
-  "pauseButtonTooltip": "Click to pause (F8)"
+  "pauseButtonTooltip": "Click to pause (F8)",
+  "sourceTabs.closeTab": "Close tab",
+  "sourceTabs.closeAllTabs": "Close all tabs"
 }

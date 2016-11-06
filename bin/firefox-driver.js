@@ -15,31 +15,32 @@ const shouldStart = args.start;
 const isTests = args.tests;
 const useWebSocket = args.websocket;
 
-function firefoxBinary() {
-  let binary = new firefox.Binary();
-  binary.addArguments((!isWindows ? "-" : "") + "-start-debugger-server",
-    useWebSocket ? "ws:6080" : "6080");
-
-  return binary;
-}
-
-function firefoxProfile() {
-  let profile = new firefox.Profile();
-  profile.setPreference("devtools.debugger.remote-port", 6080);
-  profile.setPreference("devtools.debugger.remote-enabled", true);
-  profile.setPreference("devtools.chrome.enabled", true);
-  profile.setPreference("devtools.debugger.prompt-connection", false);
-  profile.setPreference("devtools.debugger.remote-websocket", useWebSocket);
-
-  return profile;
+function binaryArgs() {
+  return [
+    (!isWindows ? "-" : "") +
+    "-start-debugger-server=" +
+    (useWebSocket ? "ws:6080" : "6080")
+  ];
 }
 
 function start() {
-  let options = new firefox.Options();
-  options.setProfile(firefoxProfile());
-  options.setBinary(firefoxBinary());
+  const capabilities = new firefox.Options()
+    .toCapabilities()
+    .set("moz:firefoxOptions", {
+      "args": binaryArgs(),
+      "prefs": {
+        "devtools.debugger.remote-port": 6080,
+        "devtools.chrome.enabled": true,
+        "devtools.debugger.prompt-connection": false,
+        "devtools.debugger.remote-enabled": true,
+        "devtools.debugger.remote-websocket": useWebSocket
+      }
+    });
+  const driver = new webdriver.Builder()
+    .forBrowser("firefox")
+    .withCapabilities(capabilities)
+    .build();
 
-  const driver = new firefox.Driver(options);
   return driver;
 }
 

@@ -1,3 +1,4 @@
+const { escapeRegExp } = require("lodash");
 /**
  * These functions implement search within the debugger. Since
  * search in the debugger is different from other components,
@@ -12,6 +13,7 @@
  */
 function SearchState() {
   this.posFrom = this.posTo = this.query = null;
+  this.overlay = null;
 }
 
 /**
@@ -30,6 +32,55 @@ function getSearchCursor(cm, query, pos) {
   // If the query string is all lowercase, do a case insensitive search.
   return cm.getSearchCursor(query, pos,
     typeof query == "string" && query == query.toLowerCase());
+}
+
+/**
+ * Ignore doing outline matches for less than 3 whitespaces
+ *
+ * @memberof utils/source-search
+ * @static
+ */
+function ignoreWhiteSpace(str) {
+  return /^\s{0,2}$/.test(str) ? "(?!\s*.*)" : str;
+}
+
+/**
+ * This returns a mode object used by CoeMirror's addOverlay function
+ * to parse and style tokens in the file.
+ * The mode object contains a tokenizer function (token) which takes
+ * a character stream as input, advances it past a token, and returns
+ * a style for that token. For more details see
+ * https://codemirror.net/doc/manual.html#modeapi
+ *
+ * @memberof utils/source-search
+ * @static
+ */
+function searchOverlay(query) {
+  query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)), "g");
+  return {
+    token: function(stream) {
+      query.lastIndex = stream.pos;
+      let match = query.exec(stream.string);
+      if (match && match.index == stream.pos) {
+        stream.pos += match[0].length || 1;
+        return "selecting";
+      } else if (match) {
+        stream.pos = match.index;
+      } else {
+        stream.skipToEnd();
+      }
+    }
+  };
+}
+
+/**
+ * @memberof utils/source-search
+ * @static
+ */
+function startSearch(cm, state, query) {
+  cm.removeOverlay(state.overlay);
+  state.overlay = searchOverlay(query);
+  cm.addOverlay(state.overlay, { opaque: true });
 }
 
 /**
@@ -53,7 +104,7 @@ function doSearch(ctx, rev, query) {
     if (state.query) {
       return;
     }
-
+    startSearch(cm, state, query);
     state.query = query;
     state.posFrom = state.posTo = { line: 0, ch: 0 };
     searchNext(ctx, rev);
@@ -100,7 +151,7 @@ function clearSearch(cm) {
   if (!state.query) {
     return;
   }
-
+  cm.removeOverlay(state.overlay);
   state.query = null;
 }
 

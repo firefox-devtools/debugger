@@ -15,6 +15,7 @@ const { isEnabled } = require("devtools-config");
 const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
+const { showMenu } = require("../utils/menu");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
@@ -61,6 +62,41 @@ const SourceTabs = React.createClass({
 
   componentDidUpdate() {
     this.updateHiddenSourceTabs(this.props.sourceTabs);
+  },
+
+  onTabContextMenu(event, tab) {
+    event.preventDefault();
+    this.showContextMenu(event, tab);
+  },
+
+  showContextMenu(e, tab) {
+    const { closeTab, sourceTabs } = this.props;
+
+    const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
+    const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
+
+    const tabs = sourceTabs.map(t => t.get("id"));
+
+    const closeTabMenuItem = {
+      id: "node-menu-close-tab",
+      label: closeTabLabel,
+      accesskey: "C",
+      disabled: false,
+      click: () => closeTab(tab)
+    };
+
+    const closeAllTabsMenuItem = {
+      id: "node-menu-close-all-tabs",
+      label: closeAllTabsLabel,
+      accesskey: "A",
+      disabled: false,
+      click: () => tabs.forEach(closeTab)
+    };
+
+    showMenu(e, [
+      closeTabMenuItem,
+      closeAllTabsMenuItem
+    ]);
   },
 
   /*
@@ -138,6 +174,7 @@ const SourceTabs = React.createClass({
         className: classnames("source-tab", { active }),
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
+        onContextMenu: (e) => this.onTabContextMenu(e, source.get("id")),
         title: source.get("url")
       },
       dom.div({ className: "filename" }, filename),

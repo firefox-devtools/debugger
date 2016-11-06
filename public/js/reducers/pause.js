@@ -137,7 +137,7 @@ function getShouldIgnoreCaughtExceptions(state) {
 }
 
 function getFrames(state) {
-  return state.pause.get("frames") || [];
+  return state.pause.get("frames");
 }
 
 function getSelectedFrame(state) {

@@ -65,8 +65,8 @@ let SourcesTree = React.createClass({
           : this.state.sourceTree;
 
     this.setState({ uncollapsedTree,
-                    sourceTree,
-                    parentMap: createParentMap(sourceTree) });
+      sourceTree,
+      parentMap: createParentMap(sourceTree) });
   },
 
   focusItem(item) {
@@ -135,7 +135,7 @@ let SourcesTree = React.createClass({
       getRoots: () => sourceTree.contents,
       getKey: (item, i) => item.path,
       itemHeight: 30,
-      autoExpandDepth: 2,
+      autoExpandDepth: 1,
       onFocus: this.focusItem,
       renderItem: this.renderItem
     });
