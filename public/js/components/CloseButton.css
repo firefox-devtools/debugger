@@ -3,6 +3,7 @@
 }
 
 .close-btn .close {
+  display: inline;
   width: 12px;
   height: 12px;
   padding: 2px;
@@ -23,4 +24,18 @@
 
 .close-btn .close:hover path {
   fill: white;
+}
+
+.close-btn.close-btn-big {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+}
+
+.close-btn.close-btn-big .close svg {
+  width: 9px;
+}
+
+.close-btn.close-btn-big .close path {
+  fill: var(--theme-splitter-color);
 }
