@@ -237,6 +237,10 @@ const Editor = React.createClass({
       click: () => this.toggleBreakpoint(line)
     };
 
+    const sep = {
+      type: "separator"
+    };
+
     const conditionalBreakpoint = {
       id: "node-menu-conditional-breakpoint",
       label: cbLabel,
@@ -247,6 +251,7 @@ const Editor = React.createClass({
 
     showMenu(e, [
       toggleBreakpoint,
+      sep,
       conditionalBreakpoint
     ]);
   },
