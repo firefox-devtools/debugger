@@ -111,11 +111,14 @@ const Editor = React.createClass({
       }
     };
 
-    const panel = renderConditionalPanel({
-      condition, closePanel, setBreakpoint
-    });
+    const panel = this.editor.codeMirror.addLineWidget(
+      line,
+      renderConditionalPanel({ condition, closePanel, setBreakpoint })
+    );
 
-    this.cbPanels[line] = this.editor.codeMirror.addLineWidget(line, panel);
+    // Focus on the breakpoint input when it opens.
+    panel.node.querySelector("input").focus();
+    this.cbPanels[line] = panel;
   },
 
   isCbPanelOpen() {
