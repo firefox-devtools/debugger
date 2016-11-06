@@ -65,24 +65,26 @@ The debugger.html is a web application that makes a [WebSocket](https://develope
 
 ### Web Application
 
-First we need to get the web application running.  Within the source code directory, from the command line run these commands.
+First we need to get the web application running.  Within the source code directory, run these commands from the command line.
 
-### Linux or MacOs
+### Install
+
+#### Linux or MacOs
 
 * `npm install` - Install dependencies
-* `npm start` - Start development web server
 
-### Windows
+#### Windows
 
 It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
 
 * `npm install --ignore-scripts` - Install dependencies
 * `bash ./bin/preinstall` - Run preinstall script manually
-* `npm start` - Start development web server
 
-Then, because `npm start` will remain running, from another terminal window you can open [http://localhost:8000](http://localhost:8000) in your browser or type the following:
+### Run
 
-* `open http://localhost:8000` - Open in any modern browser
+* `npm run fast-start` - Start development web server
+
+Then, open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ### Debuggable Targets
 

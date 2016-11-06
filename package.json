@@ -12,6 +12,7 @@
   "homepage": "https://github.com/devtools-html/debugger.html#readme",
   "scripts": {
     "start": "start-dev-server",
+    "fast-start": "nf start",
     "flow": "flow",
     "lint": "npm run lint-css -s; npm run lint-js -s",
     "lint-css": "stylelint public/js/components/*.css",
@@ -82,6 +83,7 @@
     "firefox-profile": "^0.4.0",
     "flow-bin": "^0.34.0",
     "flow-coverage-report": "^0.2.0",
+    "foreman": "^2.0.0",
     "geckodriver": "^1.1.2",
     "glob": "^7.0.3",
     "husky": "^0.11.7",
