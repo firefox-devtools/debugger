@@ -14,11 +14,19 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 Here are instructions to get the debugger.html application installed and running.
 
-### Linux or MacOs
+### Linux
 
 * `npm install` - Install dependencies
 * `npm start` - Start development web server
 * `open http://localhost:8000` - Open in any modern browser
+
+### MacOs
+
+* `npm install` - Install dependencies
+*  `./bin/preinstall` - Set up Installation
+* `npm start` - Start development web server
+* `open http://localhost:8000` - Open in any modern browser
+
 
 ### Windows
 
