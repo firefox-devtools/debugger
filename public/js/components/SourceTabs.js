@@ -16,7 +16,6 @@ const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu } = require("../utils/menu");
-const { every } = require("lodash");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
