@@ -12,14 +12,16 @@ const Autocomplete = React.createClass({
   propTypes: {
     selectItem: PropTypes.func,
     items: PropTypes.array,
-    handleClose: PropTypes.func
+    handleClose: PropTypes.func,
+    previousInput: PropTypes.string,
+    saveFileSearchInput: PropTypes.func
   },
 
   displayName: "Autocomplete",
 
   getInitialState() {
     return {
-      inputValue: "",
+      inputValue: this.props.previousInput,
       selectedIndex: INITIAL_SELECTED_INDEX
     };
   },
@@ -74,7 +76,17 @@ const Autocomplete = React.createClass({
       });
       e.preventDefault();
     } else if (e.key === "Enter") {
-      this.props.selectItem(searchResults[this.state.selectedIndex]);
+      if (searchResults.length) {
+        this.props.selectItem(searchResults[this.state.selectedIndex]);
+        this.props.saveFileSearchInput("");
+      } else {
+        this.props.saveFileSearchInput(this.state.inputValue);
+        this.props.handleClose();
+      }
+      e.preventDefault();
+    } else if (e.key === "Tab") {
+      this.props.saveFileSearchInput(this.state.inputValue);
+      this.props.handleClose();
       e.preventDefault();
     }
   },
@@ -97,6 +109,7 @@ const Autocomplete = React.createClass({
     return dom.input(
       {
         ref: "searchInput",
+        value: this.state.inputValue,
         onChange: (e) => this.setState({
           inputValue: e.target.value,
           selectedIndex: INITIAL_SELECTED_INDEX

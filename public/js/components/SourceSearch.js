@@ -6,7 +6,8 @@ const actions = require("../actions");
 const {
   getSources,
   getSelectedSource,
-  getFileSearchState
+  getFileSearchState,
+  getFileSearchPreviousInput
 } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { parse: parseURL } = require("url");
@@ -39,7 +40,9 @@ const Search = React.createClass({
     selectSource: PropTypes.func,
     selectedSource: PropTypes.object,
     toggleFileSearch: PropTypes.func,
-    searchOn: PropTypes.bool
+    searchOn: PropTypes.bool,
+    previousInput: PropTypes.string,
+    saveFileSearchInput: PropTypes.func
   },
 
   contextTypes: {
@@ -85,7 +88,9 @@ const Search = React.createClass({
           this.props.toggleFileSearch(false);
         },
         handleClose: this.close,
-        items: searchResults(this.props.sources)
+        items: searchResults(this.props.sources),
+        previousInput: this.props.previousInput,
+        saveFileSearchInput: this.props.saveFileSearchInput
       })) : null;
   }
 
@@ -94,7 +99,8 @@ const Search = React.createClass({
 module.exports = connect(
   state => ({ sources: getSources(state),
               selectedSource: getSelectedSource(state),
-              searchOn: getFileSearchState(state)
+              searchOn: getFileSearchState(state),
+              previousInput: getFileSearchPreviousInput(state)
             }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Search);

@@ -36,5 +36,6 @@ module.exports = {
   getFrames: pause.getFrames,
   getSelectedFrame: pause.getSelectedFrame,
 
-  getFileSearchState: ui.getFileSearchState
+  getFileSearchState: ui.getFileSearchState,
+  getFileSearchPreviousInput: ui.getFileSearchPreviousInput
 };
