@@ -50,10 +50,8 @@ const EditorSearchBar = React.createClass({
 
   componentWillReceiveProps() {
     const shortcuts = this.context.shortcuts;
-    if (isEnabled("search")) {
-      shortcuts.on("CmdOrCtrl+Shift+G", this.traverseResultsPrev);
-      shortcuts.on("CmdOrCtrl+G", this.traverseResultsNext);
-    }
+    shortcuts.on("CmdOrCtrl+Shift+G", (_, e) => this.traverseResultsPrev(e));
+    shortcuts.on("CmdOrCtrl+G", (_, e) => this.traverseResultsNext(e));
   },
 
   componentDidUpdate() {
@@ -96,7 +94,7 @@ const EditorSearchBar = React.createClass({
     this.search(query);
   },
 
-  traverseResultsPrev(shortcut, e) {
+  traverseResultsPrev(e) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -109,7 +107,7 @@ const EditorSearchBar = React.createClass({
     this.setState({ index: nextIndex });
   },
 
-  traverseResultsNext(shortcut, e) {
+  traverseResultsNext(e) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -128,9 +126,9 @@ const EditorSearchBar = React.createClass({
     }
 
     if (e.shiftKey) {
-      this.traverseResultsPrev(null, e);
+      this.traverseResultsPrev(e);
     } else {
-      this.traverseResultsNext(null, e);
+      this.traverseResultsNext(e);
     }
   },
 
