@@ -322,6 +322,12 @@ To test your JS changes run the command:
 $ npm run lint-js
 ```
 
+To automatically fix many errors run the command:
+
+```
+$ npm run lint-fix
+```
+
 #### Storybook
 
 Storybook is our local development and testing utility that allows you to see how an individual component like the breakpoint list view or the call stack view react to any changes to style and code you've made.
