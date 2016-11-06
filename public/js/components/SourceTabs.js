@@ -93,9 +93,8 @@ const SourceTabs = React.createClass({
       disabled: false,
       click: () => {
         this.props.sourceTabs.forEach((t) => {
-          const tb = t.get("id");
-          if (tb !== tab) {
-            closeTab(tb);
+          if (t.get("id") !== tab) {
+            closeTab(t.get("id"));
           }
         });
       }
@@ -108,11 +107,10 @@ const SourceTabs = React.createClass({
       disabled: false,
       click: () => {
         this.props.sourceTabs.reverse().every((t) => {
-          const tb = t.get("id");
-          if (tb === tab) {
+          if (t.get("id") === tab) {
             return false;
           }
-          closeTab(tb);
+          closeTab(t.get("id"));
           return true;
         });
       }
