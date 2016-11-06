@@ -29,5 +29,7 @@
   "pausePendingButtonTooltip": "Waiting for next execution",
   "pauseButtonTooltip": "Click to pause (F8)",
   "sourceTabs.closeTab": "Close tab",
+  "sourceTabs.closeOtherTabs": "Close others",
+  "sourceTabs.closeTabsToRight": "Close tabs to the right",
   "sourceTabs.closeAllTabs": "Close all tabs"
 }

@@ -16,6 +16,7 @@ const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu } = require("../utils/menu");
+const { every } = require("lodash");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
@@ -73,6 +74,8 @@ const SourceTabs = React.createClass({
     const { closeTab } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
+    const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
+    const closeTabsToRightLabel = L10N.getStr("sourceTabs.closeTabsToRight");
     const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
 
     const closeTabMenuItem = {
@@ -81,6 +84,38 @@ const SourceTabs = React.createClass({
       accesskey: "C",
       disabled: false,
       click: () => closeTab(tab)
+    };
+
+    const closeOtherTabsMenuItem = {
+      id: "node-menu-close-other-tabs",
+      label: closeOtherTabsLabel,
+      accesskey: "O",
+      disabled: false,
+      click: () => {
+        this.props.sourceTabs.forEach((t) => {
+          const tb = t.get("id");
+          if (tb !== tab) {
+            closeTab(tb);
+          }
+        });
+      }
+    };
+
+    const closeTabsToRightMenuItem = {
+      id: "node-menu-close-tabs-to-right",
+      label: closeTabsToRightLabel,
+      accesskey: "R",
+      disabled: false,
+      click: () => {
+        this.props.sourceTabs.reverse().every((t) => {
+          const tb = t.get("id");
+          if (tb === tab) {
+            return false;
+          }
+          closeTab(tb);
+          return true;
+        });
+      }
     };
 
     const closeAllTabsMenuItem = {
@@ -93,6 +128,8 @@ const SourceTabs = React.createClass({
 
     showMenu(e, [
       closeTabMenuItem,
+      closeOtherTabsMenuItem,
+      closeTabsToRightMenuItem,
       closeAllTabsMenuItem
     ]);
   },
