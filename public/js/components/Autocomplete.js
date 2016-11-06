@@ -121,6 +121,17 @@ const Autocomplete = React.createClass({
     }
   },
 
+  renderSummary(searchResults) {
+    let resultCountSummary = "";
+    if (this.state.inputValue) {
+      resultCountSummary = L10N.getFormatStr(
+        "sourceSearch.resultsSummary",
+        searchResults.length,
+        this.state.inputValue);
+    }
+    return dom.div({ className: "results-summary" }, resultCountSummary);
+  },
+
   render() {
     const searchResults = this.getSearchResults();
     return dom.div(
@@ -136,6 +147,7 @@ const Autocomplete = React.createClass({
       CloseButton({
         handleClick: this.props.handleClose
       })),
+      this.renderSummary(searchResults),
       this.renderResults(searchResults));
   }
 });
