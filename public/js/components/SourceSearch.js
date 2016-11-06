@@ -75,7 +75,8 @@ const Search = React.createClass({
     }
   },
 
-  close() {
+  close(previousInput = "") {
+    this.props.saveFileSearchInput(previousInput);
     this.props.toggleFileSearch(false);
   },
 
@@ -85,12 +86,12 @@ const Search = React.createClass({
       Autocomplete({
         selectItem: result => {
           this.props.selectSource(result.id);
+          this.props.saveFileSearchInput("");
           this.props.toggleFileSearch(false);
         },
         handleClose: this.close,
         items: searchResults(this.props.sources),
-        previousInput: this.props.previousInput,
-        saveFileSearchInput: this.props.saveFileSearchInput
+        previousInput: this.props.previousInput
       })) : null;
   }
 

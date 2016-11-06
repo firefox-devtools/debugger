@@ -13,8 +13,7 @@ const Autocomplete = React.createClass({
     selectItem: PropTypes.func,
     items: PropTypes.array,
     handleClose: PropTypes.func,
-    previousInput: PropTypes.string,
-    saveFileSearchInput: PropTypes.func
+    previousInput: PropTypes.string
   },
 
   displayName: "Autocomplete",
@@ -27,7 +26,9 @@ const Autocomplete = React.createClass({
   },
 
   componentDidMount() {
+    const endOfInput = this.state.inputValue.length;
     this.refs.searchInput.focus();
+    this.refs.searchInput.setSelectionRange(endOfInput, endOfInput);
   },
 
   componentDidUpdate() {
@@ -78,15 +79,12 @@ const Autocomplete = React.createClass({
     } else if (e.key === "Enter") {
       if (searchResults.length) {
         this.props.selectItem(searchResults[this.state.selectedIndex]);
-        this.props.saveFileSearchInput("");
       } else {
-        this.props.saveFileSearchInput(this.state.inputValue);
-        this.props.handleClose();
+        this.props.handleClose(this.state.inputValue);
       }
       e.preventDefault();
     } else if (e.key === "Tab") {
-      this.props.saveFileSearchInput(this.state.inputValue);
-      this.props.handleClose();
+      this.props.handleClose(this.state.inputValue);
       e.preventDefault();
     }
   },
