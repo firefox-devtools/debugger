@@ -2,7 +2,7 @@ const constants = require("../constants");
 const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 
-const { getExpressions } = require("../selectors");
+const { getExpressions, getSelectedFrame } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
 
 /**
@@ -38,13 +38,15 @@ function paused(pauseInfo) {
     frames = await updateFrameLocations(frames);
     const frame = frames[0];
 
-    dispatch(evaluateExpressions());
     dispatch({
       type: constants.PAUSED,
       pauseInfo: { why, frame },
       frames: frames,
       selectedFrameId: frame.id
     });
+
+    dispatch(evaluateExpressions());
+
     dispatch(selectSource(frame.location.sourceId,
                           { line: frame.location.line }));
   };
@@ -245,13 +247,20 @@ function deleteExpression(expression) {
  * @static
  */
 function evaluateExpressions() {
-  return ({ dispatch, getState, client }) => {
+  return async function({ dispatch, getState, client }) {
+    const selectedFrame = getSelectedFrame(getState());
+    if (!selectedFrame) {
+      return;
+    }
+
+    const frameId = selectedFrame.id;
+
     for (let expression of getExpressions(getState())) {
-      dispatch({
+      await dispatch({
         type: constants.EVALUATE_EXPRESSION,
         id: expression.id,
         input: expression.input,
-        [PROMISE]: client.evaluate(expression.input)
+        [PROMISE]: client.evaluate(expression.input, { frameId })
       });
     }
   };
