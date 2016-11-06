@@ -130,10 +130,6 @@ function getExpressions(state) {
   return state.pause.get("expressions");
 }
 
-function getExpressionInputVisibility(state: AppState) {
-  return state.pause.get("expressionInputVisibility");
-}
-
 function getIsWaitingOnBreak(state: AppState) {
   return state.pause.get("isWaitingOnBreak");
 }
@@ -162,7 +158,6 @@ module.exports = {
   getPause,
   getLoadedObjects,
   getExpressions,
-  getExpressionInputVisibility,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,

@@ -4,7 +4,7 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getPause, getIsWaitingOnBreak, getBreakpointsDisabled,
         getShouldPauseOnExceptions, getShouldIgnoreCaughtExceptions,
-        getBreakpoints, getBreakpointsLoading, getExpressionInputVisibility
+        getBreakpoints, getBreakpointsLoading
       } = require("../selectors");
 const { isEnabled } = require("devtools-config");
 const Svg = require("./utils/Svg");
@@ -48,8 +48,6 @@ const RightSidebar = React.createClass({
     isWaitingOnBreak: PropTypes.bool,
     breakpointsDisabled: PropTypes.bool,
     breakpointsLoading: PropTypes.bool,
-    setExpressionInputVisibility: PropTypes.func,
-    expressionInputVisibility: PropTypes.bool,
     evaluateExpressions: PropTypes.func,
   },
 
@@ -58,6 +56,12 @@ const RightSidebar = React.createClass({
   },
 
   displayName: "RightSidebar",
+
+  getInitialState() {
+    return {
+      expressionInputVisibility: true
+    };
+  },
 
   resume() {
     if (this.props.pause) {
@@ -194,6 +198,7 @@ const RightSidebar = React.createClass({
   },
 
   getItems() {
+    const { expressionInputVisibility } = this.state;
     const items = [
       { header: L10N.getStr("breakpoints.header"),
         component: Breakpoints,
@@ -215,13 +220,14 @@ const RightSidebar = React.createClass({
           debugBtn(
             evt => {
               evt.stopPropagation();
-              this.props.setExpressionInputVisibility(
-                !this.props.expressionInputVisibility
-              );
+              this.setState({
+                expressionInputVisibility: !expressionInputVisibility
+              });
             }, "file",
             "accordion-button", "Add Watch Expression")
         ],
         component: Expressions,
+        componentProps: { expressionInputVisibility },
         opened: true
       });
     }
@@ -260,7 +266,6 @@ module.exports = connect(
       breakpointsDisabled: getBreakpointsDisabled(state),
       breakpoints: getBreakpoints(state),
       breakpointsLoading: getBreakpointsLoading(state),
-      expressionInputVisibility: getExpressionInputVisibility(state),
     };},
   dispatch => bindActionCreators(actions, dispatch)
 )(RightSidebar);

@@ -208,15 +208,6 @@ function addExpression(expression) {
   };
 }
 
-function setExpressionInputVisibility(visibility) {
-  return ({ dispatch, getState }) => {
-    dispatch({
-      type: constants.SET_EXPRESSION_INPUT_VISIBILITY,
-      visibility
-    });
-  };
-}
-
 /**
  *
  * @param {object} expression
@@ -277,7 +268,6 @@ function evaluateExpressions() {
 
 module.exports = {
   addExpression,
-  setExpressionInputVisibility,
   updateExpression,
   deleteExpression,
   evaluateExpressions,

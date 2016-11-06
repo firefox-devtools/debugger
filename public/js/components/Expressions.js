@@ -2,13 +2,10 @@ const React = require("react");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
-// const classnames = require("classnames");
 const actions = require("../actions");
-const { getExpressions, getPause,
-  getExpressionInputVisibility } = require("../selectors");
+const { getExpressions, getPause } = require("../selectors");
 const Rep = React.createFactory(require("./Rep"));
 const CloseButton = React.createFactory(require("./CloseButton"));
-// const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
 
 require("./Expressions.css");
@@ -143,7 +140,6 @@ const Expressions = React.createClass({
 module.exports = connect(
   state => ({ pauseInfo: getPause(state),
     expressions: getExpressions(state),
-    expressionInputVisibility: getExpressionInputVisibility(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Expressions);
