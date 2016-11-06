@@ -7,6 +7,8 @@ const DevToolsUtils = require("./shared/DevToolsUtils");
 const AppConstants = require("./sham/appconstants");
 const EventEmitter = require("./shared/event-emitter");
 const WebsocketTransport = require("./shared/transport/websocket-transport");
+const Menu = require("./client/framework/menu");
+const MenuItem = require("./client/framework/menu-item");
 
 module.exports = {
   KeyShortcuts,
@@ -17,5 +19,7 @@ module.exports = {
   DevToolsUtils,
   AppConstants,
   EventEmitter,
-  WebsocketTransport
+  WebsocketTransport,
+  Menu,
+  MenuItem
 };

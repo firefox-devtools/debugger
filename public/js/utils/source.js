@@ -65,7 +65,7 @@ function getFilename(source: Source) {
     return `SOURCE${sourceId}`;
   }
 
-  const name = basename(source.url);
+  const name = basename(source.url || "");
   return endTruncateStr(name, 50);
 }
 

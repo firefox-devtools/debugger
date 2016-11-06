@@ -20,7 +20,7 @@
 }
 
 .accordion ._header:hover {
-  background-color: var(--theme-selection-color);
+  background-color: var(--theme-search-overlays-semitransparent);
 }
 
 .accordion ._header:hover svg {

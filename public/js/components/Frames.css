@@ -42,7 +42,7 @@
 .frames ul li.selected,
 .frames ul li.selected .location {
   background-color: var(--theme-selection-background);
-  color: var(--theme-body-background);
+  color: white;
 }
 
 .show-more {
@@ -54,5 +54,5 @@
 }
 
 .show-more:hover {
-  background-color: var(--theme-selection-color);
+  background-color: var(--theme-search-overlays-semitransparent);
 }

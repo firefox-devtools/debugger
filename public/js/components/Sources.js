@@ -36,6 +36,6 @@ const Sources = React.createClass({
 
 module.exports = connect(
   state => ({ selectedSource: getSelectedSource(state),
-              sources: getSources(state) }),
+    sources: getSources(state) }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Sources);

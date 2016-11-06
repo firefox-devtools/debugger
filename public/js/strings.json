@@ -6,6 +6,10 @@
   "callStack.expand": "Expand Rows",
   "editor.searchResults": "%d of %d results",
   "editor.noResults": "no results",
+  "editor.addBreakpoint": "Add Breakpoint",
+  "editor.removeBreakpoint": "Remove Breakpoint",
+  "editor.editBreakpoint": "Edit Breakpoint",
+  "editor.addConditionalBreakpoint": "Add Conditional Breakpoint",
   "scopes.header": "Scopes",
   "scopes.notAvailable": "Scopes Unavailable",
   "scopes.notPaused": "Not Paused",
@@ -23,5 +27,7 @@
   "stepOverTooltip": "Step Over (F10)",
   "resumeButtonTooltip": "Click to resume (F8)",
   "pausePendingButtonTooltip": "Waiting for next execution",
-  "pauseButtonTooltip": "Click to pause (F8)"
+  "pauseButtonTooltip": "Click to pause (F8)",
+  "sourceTabs.closeTab": "Close tab",
+  "sourceTabs.closeAllTabs": "Close all tabs"
 }
