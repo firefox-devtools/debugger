@@ -8,14 +8,6 @@ function toggleFileSearch(searchOn: boolean) {
   };
 }
 
-function saveFileSearchInput(previousInput: string) {
-  return {
-    type: constants.SAVE_FILE_SEARCH_INPUT,
-    previousInput
-  };
-}
-
 module.exports = {
-  toggleFileSearch,
-  saveFileSearchInput
+  toggleFileSearch
 };

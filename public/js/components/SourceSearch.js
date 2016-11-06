@@ -6,8 +6,7 @@ const actions = require("../actions");
 const {
   getSources,
   getSelectedSource,
-  getFileSearchState,
-  getFileSearchPreviousInput
+  getFileSearchState
 } = require("../selectors");
 const { endTruncateStr } = require("../utils/utils");
 const { parse: parseURL } = require("url");
@@ -41,9 +40,7 @@ const Search = React.createClass({
     selectSource: PropTypes.func,
     selectedSource: PropTypes.object,
     toggleFileSearch: PropTypes.func,
-    searchOn: PropTypes.bool,
-    previousInput: PropTypes.string,
-    saveFileSearchInput: PropTypes.func
+    searchOn: PropTypes.bool
   },
 
   contextTypes: {
@@ -51,6 +48,12 @@ const Search = React.createClass({
   },
 
   displayName: "Search",
+
+  getInitialState() {
+    return {
+      previousInput: ""
+    };
+  },
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
@@ -72,12 +75,13 @@ const Search = React.createClass({
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
       e.preventDefault();
+      this.setState({ previousInput: "" });
       this.props.toggleFileSearch(false);
     }
   },
 
   close(previousInput = "") {
-    this.props.saveFileSearchInput(previousInput);
+    this.setState({ previousInput });
     this.props.toggleFileSearch(false);
   },
 
@@ -87,12 +91,12 @@ const Search = React.createClass({
       Autocomplete({
         selectItem: result => {
           this.props.selectSource(result.id);
-          this.props.saveFileSearchInput("");
+          this.setState({ previousInput: "" });
           this.props.toggleFileSearch(false);
         },
         handleClose: this.close,
         items: searchResults(this.props.sources),
-        previousInput: this.props.previousInput
+        previousInput: this.state.previousInput
       })) : null;
   }
 
@@ -102,8 +106,7 @@ module.exports = connect(
   state => ({
     sources: getSources(state),
     selectedSource: getSelectedSource(state),
-    searchOn: getFileSearchState(state),
-    previousInput: getFileSearchPreviousInput(state)
+    searchOn: getFileSearchState(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Search);
