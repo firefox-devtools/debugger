@@ -8,6 +8,11 @@
   user-select: none;
 }
 
+.autocomplete .results-summary {
+  margin: 10px;
+  margin-bottom: 0;
+}
+
 .autocomplete ul {
   list-style: none;
   width: 100%;
