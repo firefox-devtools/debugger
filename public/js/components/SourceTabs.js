@@ -126,11 +126,11 @@ const SourceTabs = React.createClass({
     };
 
     showMenu(e, buildMenu([
-      { item: closeTabMenuItem, hide: false },
-      { item: closeOtherTabsMenuItem, hide: () => tabs.size === 1 },
-      { item: closeTabsToRightMenuItem, hide: () => tabs.some((t, i) =>
-        t === tab && (tabs.size - 1) === i) },
-      { item: closeAllTabsMenuItem, hide: false }
+      { item: closeTabMenuItem },
+      { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
+      { item: closeTabsToRightMenuItem, hidden: () =>
+         tabs.some((t, i) => t === tab && (tabs.size - 1) === i) },
+      { item: closeAllTabsMenuItem }
     ]));
   },
 
