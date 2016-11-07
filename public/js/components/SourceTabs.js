@@ -73,6 +73,8 @@ const SourceTabs = React.createClass({
     const { closeTab, sourceTabs } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
+    const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
+    const closeTabsToRightLabel = L10N.getStr("sourceTabs.closeTabsToRight");
     const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
 
     const tabs = sourceTabs.map(t => t.get("id"));
@@ -85,6 +87,36 @@ const SourceTabs = React.createClass({
       click: () => closeTab(tab)
     };
 
+    const closeOtherTabsMenuItem = {
+      id: "node-menu-close-other-tabs",
+      label: closeOtherTabsLabel,
+      accesskey: "O",
+      disabled: false,
+      click: () => {
+        this.props.sourceTabs.forEach((t) => {
+          if (t.get("id") !== tab) {
+            closeTab(t.get("id"));
+          }
+        });
+      }
+    };
+
+    const closeTabsToRightMenuItem = {
+      id: "node-menu-close-tabs-to-right",
+      label: closeTabsToRightLabel,
+      accesskey: "R",
+      disabled: false,
+      click: () => {
+        this.props.sourceTabs.reverse().every((t) => {
+          if (t.get("id") === tab) {
+            return false;
+          }
+          closeTab(t.get("id"));
+          return true;
+        });
+      }
+    };
+
     const closeAllTabsMenuItem = {
       id: "node-menu-close-all-tabs",
       label: closeAllTabsLabel,
@@ -95,6 +127,8 @@ const SourceTabs = React.createClass({
 
     showMenu(e, [
       closeTabMenuItem,
+      closeOtherTabsMenuItem,
+      closeTabsToRightMenuItem,
       closeAllTabsMenuItem
     ]);
   },
