@@ -15,7 +15,7 @@ const { isEnabled } = require("devtools-config");
 const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
-const { showMenu } = require("../utils/menu");
+const { showMenu, buildMenu } = require("../utils/menu");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
@@ -125,12 +125,13 @@ const SourceTabs = React.createClass({
       click: () => tabs.forEach(closeTab)
     };
 
-    showMenu(e, [
-      closeTabMenuItem,
-      closeOtherTabsMenuItem,
-      closeTabsToRightMenuItem,
-      closeAllTabsMenuItem
-    ]);
+    showMenu(e, buildMenu([
+      { item: closeTabMenuItem, hide: false },
+      { item: closeOtherTabsMenuItem, hide: () => tabs.size === 1 },
+      { item: closeTabsToRightMenuItem, hide: () => tabs.some((t, i) =>
+        t === tab && (tabs.size - 1) === i) },
+      { item: closeAllTabsMenuItem, hide: false }
+    ]));
   },
 
   /*
