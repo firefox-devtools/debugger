@@ -51,7 +51,7 @@ const Search = React.createClass({
 
   getInitialState() {
     return {
-      previousInput: ""
+      inputValue: ""
     };
   },
 
@@ -75,13 +75,13 @@ const Search = React.createClass({
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
       e.preventDefault();
-      this.setState({ previousInput: "" });
+      this.setState({ inputValue: "" });
       this.props.toggleFileSearch(false);
     }
   },
 
-  close(previousInput = "") {
-    this.setState({ previousInput });
+  close(inputValue = "") {
+    this.setState({ inputValue });
     this.props.toggleFileSearch(false);
   },
 
@@ -91,12 +91,12 @@ const Search = React.createClass({
       Autocomplete({
         selectItem: result => {
           this.props.selectSource(result.id);
-          this.setState({ previousInput: "" });
+          this.setState({ inputValue: "" });
           this.props.toggleFileSearch(false);
         },
         handleClose: this.close,
         items: searchResults(this.props.sources),
-        previousInput: this.state.previousInput
+        inputValue: this.state.inputValue
       })) : null;
   }
 

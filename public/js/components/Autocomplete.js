@@ -13,14 +13,14 @@ const Autocomplete = React.createClass({
     selectItem: PropTypes.func,
     items: PropTypes.array,
     handleClose: PropTypes.func,
-    previousInput: PropTypes.string
+    inputValue: PropTypes.string
   },
 
   displayName: "Autocomplete",
 
   getInitialState() {
     return {
-      inputValue: this.props.previousInput,
+      inputValue: this.props.inputValue,
       selectedIndex: INITIAL_SELECTED_INDEX
     };
   },
