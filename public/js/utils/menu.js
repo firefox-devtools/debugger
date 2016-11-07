@@ -68,6 +68,14 @@ function showMenu(e, items) {
   return menu.popup(e.clientX, e.clientY, { doc: document });
 }
 
+function buildMenu(items) {
+  return items.map(itm => {
+    const hide = typeof itm.hidden === "function" ? itm.hidden() : itm.hidden;
+    return hide ? null : itm.item;
+  }).filter(itm => itm !== null);
+}
+
 module.exports = {
-  showMenu
+  showMenu,
+  buildMenu
 };
