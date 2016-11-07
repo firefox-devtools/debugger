@@ -5,7 +5,10 @@ const Svg = require("./utils/Svg");
 require("./CloseButton.css");
 
 function CloseButton({ handleClick, buttonClass }) {
-  return dom.div({ className: buttonClass !== undefined ? buttonClass : "close-btn", onClick: handleClick },
+  return dom.div({
+    className: buttonClass ? "close-btn-" + buttonClass : "close-btn",
+    onClick: handleClick
+  },
     Svg("close"));
 }
 

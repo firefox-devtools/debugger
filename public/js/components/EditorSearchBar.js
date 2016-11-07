@@ -58,13 +58,15 @@ const EditorSearchBar = React.createClass({
   onEscape(shortcut, e) {
     this.closeSearch(e);
   },
-  closeSearch(ev) {
+
+  closeSearch(e) {
     if (this.state.enabled) {
       this.setState({ enabled: false });
       e.stopPropagation();
       e.preventDefault();
     }
   },
+
   toggleSearch(shortcut, e) {
     e.stopPropagation();
     e.preventDefault();
@@ -168,7 +170,10 @@ const EditorSearchBar = React.createClass({
         spellCheck: false
       }),
       this.renderSummary(),
-      CloseButton({ handleClick: this.closeSearch, buttonClass: 'close-btn-big close-btn' })
+      CloseButton({
+        handleClick: this.closeSearch,
+        buttonClass: "big"
+      })
     );
   }
 });

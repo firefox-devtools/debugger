@@ -145,7 +145,7 @@ const Autocomplete = React.createClass({
       Svg("magnifying-glass"),
       this.renderInput(),
       CloseButton({
-        buttonClass: 'close-btn-big close-btn',
+        buttonClass: "big",
         handleClick: this.props.handleClose
       })),
       this.renderSummary(searchResults),

@@ -3,7 +3,7 @@
 }
 
 .close-btn .close {
-  display: inline;
+  cursor: pointer;
   width: 12px;
   height: 12px;
   padding: 2px;
@@ -26,16 +26,34 @@
   fill: white;
 }
 
-.close-btn.close-btn-big {
+.close-btn-big {
   position: absolute;
   top: 12px;
   right: 10px;
 }
 
-.close-btn.close-btn-big .close svg {
+.close-btn-big path {
+  fill: var(--theme-body-color);
+}
+
+.close-btn-big .close {
+  cursor: pointer;
+  display: inline;
+  padding: 2px;
+  text-align: center;
+  line-height: 5px;
+  transition: all 0.25s easeinout;
+}
+
+.close-btn-big .close svg {
   width: 9px;
 }
 
-.close-btn.close-btn-big .close path {
-  fill: var(--theme-splitter-color);
+.close-btn-big .close:hover {
+  background: var(--theme-selection-background);
+  border-radius: 2px;
+}
+
+.close-btn-big .close:hover path {
+  fill: white;
 }
