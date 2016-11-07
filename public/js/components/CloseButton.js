@@ -4,13 +4,16 @@ const Svg = require("./utils/Svg");
 
 require("./CloseButton.css");
 
-function CloseButton({ handleClick }) {
-  return dom.div({ className: "close-btn", onClick: handleClick },
+function CloseButton({ handleClick, buttonClass }) {
+  return dom.div({
+    className: buttonClass ? "close-btn-" + buttonClass : "close-btn",
+    onClick: handleClick
+  },
     Svg("close"));
 }
 
 CloseButton.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired
 };
 
 module.exports = CloseButton;

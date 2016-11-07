@@ -1,3 +1,5 @@
+// @flow
+
 const { getValue, isEnabled } = require("devtools-config");
 const { workerTask } = require("./utils");
 const {
@@ -30,7 +32,7 @@ function destroyWorker() {
   }
 }
 
-function shouldSourceMap() {
+function shouldSourceMap(): boolean {
   return isEnabled("sourceMaps") && prefs.clientSourceMapsEnabled;
 }
 

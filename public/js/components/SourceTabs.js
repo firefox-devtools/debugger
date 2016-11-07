@@ -15,7 +15,7 @@ const { isEnabled } = require("devtools-config");
 const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
-const { showMenu } = require("../utils/menu");
+const { showMenu, buildMenu } = require("../utils/menu");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
@@ -73,6 +73,8 @@ const SourceTabs = React.createClass({
     const { closeTab, sourceTabs } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
+    const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
+    const closeTabsToRightLabel = L10N.getStr("sourceTabs.closeTabsToRight");
     const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
 
     const tabs = sourceTabs.map(t => t.get("id"));
@@ -85,6 +87,36 @@ const SourceTabs = React.createClass({
       click: () => closeTab(tab)
     };
 
+    const closeOtherTabsMenuItem = {
+      id: "node-menu-close-other-tabs",
+      label: closeOtherTabsLabel,
+      accesskey: "O",
+      disabled: false,
+      click: () => {
+        tabs.forEach((t) => {
+          if (t !== tab) {
+            closeTab(t);
+          }
+        });
+      }
+    };
+
+    const closeTabsToRightMenuItem = {
+      id: "node-menu-close-tabs-to-right",
+      label: closeTabsToRightLabel,
+      accesskey: "R",
+      disabled: false,
+      click: () => {
+        tabs.reverse().every((t) => {
+          if (t === tab) {
+            return false;
+          }
+          closeTab(t);
+          return true;
+        });
+      }
+    };
+
     const closeAllTabsMenuItem = {
       id: "node-menu-close-all-tabs",
       label: closeAllTabsLabel,
@@ -93,10 +125,13 @@ const SourceTabs = React.createClass({
       click: () => tabs.forEach(closeTab)
     };
 
-    showMenu(e, [
-      closeTabMenuItem,
-      closeAllTabsMenuItem
-    ]);
+    showMenu(e, buildMenu([
+      { item: closeTabMenuItem },
+      { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
+      { item: closeTabsToRightMenuItem, hidden: () =>
+         tabs.some((t, i) => t === tab && (tabs.size - 1) === i) },
+      { item: closeAllTabsMenuItem }
+    ]));
   },
 
   /*

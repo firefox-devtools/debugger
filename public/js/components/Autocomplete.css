@@ -8,11 +8,6 @@
   user-select: none;
 }
 
-.autocomplete .results-summary {
-  margin: 10px;
-  margin-bottom: 0;
-}
-
 .autocomplete ul {
   list-style: none;
   width: 100%;
@@ -69,20 +64,6 @@
   position: absolute;
   top: 12px;
   left: 10px;
-}
-
-.autocomplete .close-btn {
-  position: absolute;
-  top: 12px;
-  right: 10px;
-}
-
-.autocomplete .close-btn .close svg {
-  width: 12px;
-}
-
-.autocomplete .close-btn .close path {
-  fill: var(--theme-splitter-color);
 }
 
 .autocomplete.focused .magnifying-glass path,

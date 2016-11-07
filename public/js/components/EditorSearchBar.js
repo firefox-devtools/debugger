@@ -5,6 +5,7 @@ const Svg = require("./utils/Svg");
 const { find, findNext, findPrev } = require("../utils/source-search");
 const classnames = require("classnames");
 const { debounce, escapeRegExp } = require("lodash");
+const CloseButton = require("./CloseButton");
 
 require("./EditorSearchBar.css");
 
@@ -48,6 +49,12 @@ const EditorSearchBar = React.createClass({
     shortcuts.on("Escape", this.onEscape);
   },
 
+  componentWillReceiveProps() {
+    const shortcuts = this.context.shortcuts;
+    shortcuts.on("CmdOrCtrl+Shift+G", (_, e) => this.traverseResultsPrev(e));
+    shortcuts.on("CmdOrCtrl+G", (_, e) => this.traverseResultsNext(e));
+  },
+
   componentDidUpdate() {
     if (this.searchInput()) {
       this.searchInput().focus();
@@ -55,8 +62,13 @@ const EditorSearchBar = React.createClass({
   },
 
   onEscape(shortcut, e) {
+    this.closeSearch(e);
+  },
+
+  closeSearch(e) {
     if (this.state.enabled) {
       this.setState({ enabled: false });
+      e.stopPropagation();
       e.preventDefault();
     }
   },
@@ -88,23 +100,41 @@ const EditorSearchBar = React.createClass({
     this.search(query);
   },
 
-  onKeyUp(e) {
+  traverseResultsPrev(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
     const { query, index, count } = this.state;
 
+    findPrev(ctx, query);
+    const nextIndex = index == 0 ? count - 1 : index - 1;
+    this.setState({ index: nextIndex });
+  },
+
+  traverseResultsNext(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const ed = this.props.editor;
+    const ctx = { ed, cm: ed.codeMirror };
+    const { query, index, count } = this.state;
+
+    findNext(ctx, query);
+    const nextIndex = index == count - 1 ? 0 : index + 1;
+    this.setState({ index: nextIndex });
+  },
+
+  onKeyUp(e) {
     if (e.key != "Enter") {
       return;
     }
 
     if (e.shiftKey) {
-      findPrev(ctx, query);
-      const nextIndex = index == 0 ? count - 1 : index - 1;
-      this.setState({ index: nextIndex });
+      this.traverseResultsPrev(e);
     } else {
-      findNext(ctx, query);
-      const nextIndex = index == count - 1 ? 0 : index + 1;
-      this.setState({ index: nextIndex });
+      this.traverseResultsNext(e);
     }
   },
 
@@ -163,7 +193,11 @@ const EditorSearchBar = React.createClass({
         value: this.state.query,
         spellCheck: false
       }),
-      this.renderSummary()
+      this.renderSummary(),
+      CloseButton({
+        handleClick: this.closeSearch,
+        buttonClass: "big"
+      })
     );
   }
 });

@@ -270,6 +270,7 @@ module.exports = {
   addExpression,
   updateExpression,
   deleteExpression,
+  evaluateExpressions,
   resumed,
   paused,
   pauseOnExceptions,
