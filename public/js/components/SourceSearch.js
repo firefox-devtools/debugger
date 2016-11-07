@@ -49,6 +49,12 @@ const Search = React.createClass({
 
   displayName: "Search",
 
+  getInitialState() {
+    return {
+      inputValue: ""
+    };
+  },
+
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.off("CmdOrCtrl+P", this.toggle);
@@ -69,11 +75,13 @@ const Search = React.createClass({
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
       e.preventDefault();
+      this.setState({ inputValue: "" });
       this.props.toggleFileSearch(false);
     }
   },
 
-  close() {
+  close(inputValue = "") {
+    this.setState({ inputValue });
     this.props.toggleFileSearch(false);
   },
 
@@ -83,17 +91,20 @@ const Search = React.createClass({
       Autocomplete({
         selectItem: result => {
           this.props.selectSource(result.id);
+          this.setState({ inputValue: "" });
           this.props.toggleFileSearch(false);
         },
         handleClose: this.close,
-        items: searchResults(this.props.sources)
+        items: searchResults(this.props.sources),
+        inputValue: this.state.inputValue
       })) : null;
   }
 
 });
 
 module.exports = connect(
-  state => ({ sources: getSources(state),
+  state => ({
+    sources: getSources(state),
     selectedSource: getSelectedSource(state),
     searchOn: getFileSearchState(state)
   }),
