@@ -30,6 +30,7 @@ module.exports = {
   getPause: pause.getPause,
   getLoadedObjects: pause.getLoadedObjects,
   getExpressions: pause.getExpressions,
+  getExpressionInputVisibility: pause.getExpressionInputVisibility,
   getIsWaitingOnBreak: pause.getIsWaitingOnBreak,
   getShouldPauseOnExceptions: pause.getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions: pause.getShouldIgnoreCaughtExceptions,

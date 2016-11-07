@@ -8,9 +8,16 @@
 
 .expression-container {
   border: 1px;
-  padding: 2px;
+  padding: 5px 2px 5px 5px;
   margin: 1px;
   width: 100%;
+  color: var(--theme-body-color) !important;
+  background-color: var(--theme-tab-toolbar-background);
+}
+
+.expression-container:hover {
+  background-color: var(--theme-selection-background);
+  color: var(--theme-body-background) !important;
 }
 
 .expression-output-container .close-btn {
@@ -23,7 +30,6 @@
 }
 
 .expression-input {
-  color: var(--theme-content-color1);
   cursor: pointer;
   max-width: 50%;
 }
@@ -32,4 +38,8 @@
   overflow-x: scroll;
   color: var(--theme-content-color2);
   max-width: 50% !important;
+}
+
+.expression-error {
+  color: var(--theme-highlight-red);
 }

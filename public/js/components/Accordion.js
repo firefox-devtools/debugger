@@ -1,7 +1,7 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 
-const { div } = dom;
+const { div, span } = dom;
 const Svg = require("./utils/Svg");
 
 require("./Accordion.css");
@@ -45,7 +45,12 @@ const Accordion = React.createClass({
         { className: "_header",
           onClick: () => this.handleHeaderClick(i) },
         Svg("arrow", { className: opened[i] ? "expanded" : "" }),
-        item.header
+        item.header,
+        item.buttons ?
+        dom.span({ className: "header-buttons" },
+          item.buttons.map((button, id) => span({ key: id }, button))
+        ) :
+        null
       ),
 
       (created[i] || opened[i]) ?
