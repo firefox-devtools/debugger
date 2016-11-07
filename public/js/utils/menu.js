@@ -69,10 +69,10 @@ function showMenu(e, items) {
 }
 
 function buildMenu(items) {
-  return items.map(item => {
-    const remove = typeof item.hide === "function" ? item.hide() : item.hide;
-    return remove ? null : item.item;
-  }).filter((item) => item !== null);
+  return items.map(itm => {
+    const hide = typeof itm.hidden === "function" ? itm.hidden() : itm.hidden;
+    return hide ? null : itm.item;
+  }).filter(itm => itm !== null);
 }
 
 module.exports = {
