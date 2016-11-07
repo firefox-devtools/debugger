@@ -133,7 +133,7 @@ const Autocomplete = React.createClass({
   },
 
   renderSummary(searchResults) {
-    if(searchResults && searchResults.length === 0) {
+    if (searchResults && searchResults.length === 0) {
       return;
     }
 
