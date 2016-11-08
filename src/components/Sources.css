@@ -24,12 +24,8 @@
   user-select: none;
 }
 
-html:not([dir="rtl"]) .sources-header {
-  padding-left: 10px;
-}
-
-html[dir="rtl"] .sources-header {
-  padding-right: 10px;
+.sources-header {
+  padding-inline-start: 10px;
 }
 
 .sources-header-info {

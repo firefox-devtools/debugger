@@ -79,8 +79,13 @@ module.exports = (webpackConfig, envConfig) => {
   if (isDevelopment()) {
     webpackConfig.module.loaders.push({
       test: /\.css$/,
-      exclude: /lkjsdflksdjlksdj/,
+      exclude: /\Sources\.css$/,
       loader: "style!css"
+    });
+
+    webpackConfig.module.loaders.push({
+      test: /\Sources\.css$/,
+      loader: "style!css!postcss"
     });
 
     if (getValue("hotReloading")) {
@@ -101,11 +106,13 @@ module.exports = (webpackConfig, envConfig) => {
   // Extract CSS into a single file
     webpackConfig.module.loaders.push({
       test: /\.css$/,
-      loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+      loader: ExtractTextPlugin.extract("style-loader", "css-loader", "postcss-loader")
     });
 
     webpackConfig.plugins.push(new ExtractTextPlugin("styles.css"));
   }
+
+  webpackConfig.postcss = () => [require("postcss-bidirection")];
 
   if (isFirefoxPanel()) {
     webpackConfig = require("./webpack.config.devtools")(webpackConfig, envConfig);
