@@ -19,6 +19,11 @@ const {
 import type { ThunkArgs } from "./types";
 import type { Location } from "../types";
 
+type addBreakpointOptions = {
+  condition: string,
+  getTextForLine: () => any,
+};
+
 function _breakpointExists(state, location: Location) {
   const currentBp = getBreakpoint(state, location);
   return currentBp && !currentBp.disabled;
@@ -47,8 +52,9 @@ function enableBreakpoint(location: Location) {
  * @param {String} $1.condition Conditional breakpoint condition value
  * @param {Function} $1.getTextForLine Get the text to represent the line
  */
-function addBreakpoint(location: Location,
-                       { condition, getTextForLine } : any = {}) {
+function addBreakpoint(
+  location: Location,
+  { condition, getTextForLine } : addBreakpointOptions = {}) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
       return Promise.resolve();
@@ -165,7 +171,6 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
 
 /**
  * Update the condition of a breakpoint.
- *  **NOT IMPLEMENTED**
  *
  * @throws {Error} "not implemented"
  * @memberof actions/breakpoints
@@ -175,12 +180,16 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
  * @param {string} condition
  *        The condition to set on the breakpoint
  */
-function setBreakpointCondition(location: Location, condition: string) {
+function setBreakpointCondition(
+  location: Location,
+  { condition, getTextForLine } : addBreakpointOptions = {}) {
+  // location: Location, condition: string, { getTextForLine }) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
-      throw new Error("Breakpoint does not exist at the specified location");
+      return dispatch(addBreakpoint(location, { condition, getTextForLine }));
     }
+
     if (bp.loading) {
       // TODO(jwl): when this function is called, make sure the action
       // creator waits for the breakpoint to exist

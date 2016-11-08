@@ -73,6 +73,10 @@ const Editor = React.createClass({
       return;
     }
 
+    if (this.isCbPanelOpen()) {
+      return this.closeConditionalPanel(line);
+    }
+
     this.toggleBreakpoint(line);
   },
 
@@ -89,40 +93,36 @@ const Editor = React.createClass({
     }
 
     const { selectedLocation: { sourceId },
-            setBreakpointCondition, addBreakpoint, breakpoints } = this.props;
+            setBreakpointCondition, breakpoints } = this.props;
 
     const bp = breakpointAtLine(breakpoints, line);
     const location = { sourceId, line: line + 1 };
     const condition = bp ? bp.condition : "";
 
-    const closePanel = () => {
-      this.cbPanels[line].clear();
-      delete this.cbPanels[line];
-    };
-
     const setBreakpoint = value => {
-      if (bp) {
-        setBreakpointCondition(location, value);
-      } else {
-        addBreakpoint(location, {
-          condition: value,
-          getTextForLine: l => getTextForLine(this.editor.codeMirror, l)
-        });
-      }
+      setBreakpointCondition(location, {
+        condition: value,
+        getTextForLine: l => getTextForLine(this.editor.codeMirror, l)
+      });
     };
 
-    const panel = this.editor.codeMirror.addLineWidget(
-      line,
-      renderConditionalPanel({ condition, closePanel, setBreakpoint })
-    );
+    const panel = renderConditionalPanel({
+      condition,
+      setBreakpoint,
+      closePanel: this.closeConditionalPanel
+    });
 
-    // Focus on the breakpoint input when it opens.
-    panel.node.querySelector("input").focus();
-    this.cbPanels[line] = panel;
+    this.cbPanel = this.editor.codeMirror.addLineWidget(line, panel);
+    this.cbPanel.node.querySelector("input").focus();
+  },
+
+  closeConditionalPanel() {
+    this.cbPanel.clear();
+    this.cbPanel = null;
   },
 
   isCbPanelOpen() {
-    return Object.keys(this.cbPanels).length == 1;
+    return !!this.cbPanel;
   },
 
   toggleBreakpoint(line) {
@@ -237,7 +237,12 @@ const Editor = React.createClass({
       label: bpLabel,
       accesskey: "B",
       disabled: false,
-      click: () => this.toggleBreakpoint(line)
+      click: () => {
+        this.toggleBreakpoint(line);
+        if (this.isCbPanelOpen()) {
+          this.closeConditionalPanel();
+        }
+      }
     };
 
     const conditionalBreakpoint = {
@@ -255,7 +260,7 @@ const Editor = React.createClass({
   },
 
   componentDidMount() {
-    this.cbPanels = {};
+    this.cbPanel = null;
 
     this.editor = new SourceEditor({
       mode: "javascript",

@@ -180,6 +180,10 @@ function waitForSources(dbg, ...sources) {
   }));
 }
 
+function waitForElement(dbg, selector) {
+  return waitUntil(() => findElementWithSelector(dbg, selector))
+}
+
 /**
  * Assert that the debugger is paused at the correct location.
  *
@@ -576,9 +580,10 @@ const selectors = {
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
   scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
-  frame: index => `.frames ul li:nth-child(${index})`,
+  frame: i => `.frames ul li:nth-child(${i})`,
   frames: ".frames ul li",
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
+  menuitem: i => `menupopup menuitem:nth-child(${i})`,
   pauseOnExceptions: ".pause-exceptions",
   breakpoint: ".CodeMirror-code > .new-breakpoint",
   highlightLine: ".CodeMirror-code > .highlight-line",
@@ -631,12 +636,32 @@ function findAllElements(dbg, elementName, ...args) {
  */
 function clickElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
-  const doc = dbg.win.document;
   return EventUtils.synthesizeMouseAtCenter(
-    doc.querySelector(selector),
+    findElementWithSelector(dbg, selector),
     {},
     dbg.win
   );
+}
+
+function rightClickElement(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const doc = dbg.win.document;
+  return EventUtils.synthesizeMouseAtCenter(
+    doc.querySelector(selector),
+    {type: "contextmenu"},
+    dbg.win
+  );
+}
+
+function selectMenuItem(dbg, index) {
+  // the context menu is in the toolbox window
+  const doc = dbg.toolbox.win.document;
+
+  // there are several context menus, we want the one with the menu-api
+  const popup = doc.querySelector("menupopup[menu-api=\"true\"]");
+
+  const item = popup.querySelector(`menuitem:nth-child(${index})`);
+  return EventUtils.synthesizeMouseAtCenter(item, {}, dbg.toolbox.win );
 }
 
 /**

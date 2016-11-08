@@ -29,6 +29,17 @@ function enableBreakpoint(dbg, index) {
   });
 }
 
+function setConditionalBreakpoint(dbg, index, condition) {
+  return Task.spawn(function* () {
+    rightClickElement(dbg, "gutter", index);
+    selectMenuItem(dbg, 2);
+    yield waitForElement(dbg, ".conditional-breakpoint-panel input");
+    findElementWithSelector(dbg, ".conditional-breakpoint-panel input").focus();
+    type(dbg, condition);
+    pressKey(dbg, "Enter");
+  });
+}
+
 function toggleBreakpoints(dbg) {
   return Task.spawn(function* () {
     const btn = findElement(dbg, "toggleBreakpoints");
@@ -68,11 +79,21 @@ add_task(function* () {
   yield enableBreakpoint(dbg, 2);
   bp2 = findBreakpoint(dbg, "simple2", 5);
   is(bp2.disabled, false, "second breakpoint is enabled");
+});
+
+// toggle all
+add_task(function* () {
+  const dbg = yield initDebugger("doc-scripts.html");
+
+  // Create two breakpoints
+  yield selectSource(dbg, "simple2");
+  yield addBreakpoint(dbg, "simple2", 3);
+  yield addBreakpoint(dbg, "simple2", 5);
 
   // Disable all of the breakpoints
   yield toggleBreakpoints(dbg);
-  bp1 = findBreakpoint(dbg, "simple2", 3);
-  bp2 = findBreakpoint(dbg, "simple2", 5);
+  let bp1 = findBreakpoint(dbg, "simple2", 3);
+  let bp2 = findBreakpoint(dbg, "simple2", 5);
   is(bp1.disabled, true, "first breakpoint is disabled");
   is(bp2.disabled, true, "second breakpoint is disabled");
 
@@ -88,4 +109,35 @@ add_task(function* () {
   yield removeBreakpoint(dbg, 1);
   const bps = findBreakpoints(dbg);
   is(bps.size, 0, "breakpoints are removed");
+});
+
+// conditional breakpoints
+add_task(function* () {
+  const dbg = yield initDebugger("doc-scripts.html");
+  yield selectSource(dbg, "simple2");
+
+  // Adding a conditional Breakpoint
+  yield setConditionalBreakpoint(dbg, 5, "1");
+  yield waitForDispatch(dbg, "ADD_BREAKPOINT");
+  let bp = findBreakpoint(dbg, "simple2", 5);
+  is(bp.condition, "1", "breakpoint is created with the condition");
+
+  // Editing a conditional Breakpoint
+  yield setConditionalBreakpoint(dbg, 5, "2");
+  yield waitForDispatch(dbg, "SET_BREAKPOINT_CONDITION");
+  bp = findBreakpoint(dbg, "simple2", 5);
+  is(bp.condition, "12", "breakpoint is created with the condition");
+
+  // Removing a conditional breakpoint
+  clickElement(dbg, "gutter", 5);
+  yield waitForDispatch(dbg, "REMOVE_BREAKPOINT");
+  bp = findBreakpoint(dbg, "simple2", 5);
+  is(bp, null, "breakpoint was removed");
+
+  // Adding a condition to a breakpoint
+  clickElement(dbg, "gutter", 5);
+  yield waitForDispatch(dbg, "ADD_BREAKPOINT");
+  yield setConditionalBreakpoint(dbg, 5, "1");
+  bp = findBreakpoint(dbg, "simple2", 5);
+  is(bp.condition, "1", "breakpoint is created with the condition");
 });
