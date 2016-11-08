@@ -114,8 +114,9 @@ const ObjectInspector = React.createClass({
       // because the expanded state depends on instances of nodes
       // being the same across renders. If we didn't do this, each
       // node would be a new instance every render.
-      if (this.actorCache[actor]) {
-        return this.actorCache[actor];
+      const key = item.path;
+      if (this.actorCache[key]) {
+        return this.actorCache[key];
       }
 
       const loadedProps = getObjectProperties(actor);
