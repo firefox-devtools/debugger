@@ -35,11 +35,13 @@
 
 .autocomplete li .title {
   line-height: 1.5em;
+  word-break: break-all;
 }
 
 .autocomplete li .subtitle {
   line-height: 1.5em;
   color: grey;
+  word-break: break-all;
 }
 
 .autocomplete input {
