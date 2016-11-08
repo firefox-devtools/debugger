@@ -6,7 +6,7 @@
 
 :root.theme-light,
 :root .theme-light {
-  --theme-search-overlays-semitransparent: rgba(221, 225, 228, 0.66);
+  --theme-search-overlays-semitransparent: rgba(190, 190, 190, 0.8);
   --theme-faded-tab-color: #7e7e7e;
 }
 

@@ -4,21 +4,23 @@ menupopup {
   background: white;
   border: 1px solid #cccccc;
   padding: 5px 0;
-  background: #fbfbfb;
+  background: #f2f2f2;
   border-radius: 5px;
   color: #585858;
-  box-shadow: 0 4px 4px 0 var(--theme-search-overlays-semitransparent);
+  box-shadow: 0 0 4px 0 var(--theme-search-overlays-semitransparent);
   min-width: 130px;
 }
 
 menuitem {
   display: block;
-  padding: 0 10px;
+  padding: 0 20px;
   line-height: 20px;
+  font-weight: 500;
+  font-size: 13px;
 }
 
 menuitem:hover {
-  background: #4a9afb;
+  background: #3780fb;
   color: white;
   cursor: pointer;
 }
