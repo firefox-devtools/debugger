@@ -1,11 +1,6 @@
 ## Local Development
 
-The easiest way to get started debugging firefox is with these two commands.
-
-```bash
-`npm run firefox`
-`npm start`
-```
+Follow the [getting started][getting-started] documentation to get the project set up.
 
 ### Development Server
 
@@ -103,3 +98,5 @@ Storybook is a local development environment for react components for viewing co
 + edit a component story in `public/js/components/stories`
 
 ![](./screenshots/storybook.png)
+
+[getting-started]:../CONTRIBUTING.md#getting-started

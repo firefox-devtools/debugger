@@ -12,26 +12,7 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 ## Getting Started
 
-Here are instructions to get the debugger.html application installed and running.
-
-### Linux or MacOs
-
-* `npm install` - Install dependencies
-* `npm start` - Start development web server
-* `open http://localhost:8000` - Open in any modern browser
-
-### Windows
-
-It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
-
-* `npm install --ignore-scripts` - Install dependencies
-* `bash ./bin/preinstall` - Run preinstall script manually
-* `npm start` - Start development web server
-* `open http://localhost:8000` - Open in any modern browser
-
-Now you have the debugger.html web app running, follow the instructions shown on that page to start up debug target like a web browser or node.js.
-
-Please read [Getting Started][getting-started] in our [CONTRIBUTING][contributing] document for more detailed instructions.
+Read [Getting Started][getting-started] in our [CONTRIBUTING][contributing] document.
 
 ## Getting Involved
 
