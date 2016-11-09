@@ -6,13 +6,14 @@
   display: flex;
 }
 
-.search-bar svg {
-  width: 16px;
-}
-
 .search-bar i {
   display: block;
   padding: 13px 0 0 13px;
+  width: 40px;
+}
+
+.search-bar i svg {
+  width: 16px;
 }
 
 .search-bar input {
@@ -22,14 +23,17 @@
   background-color: var(--theme-body-background);
   color: var(--theme-comment);
   width: calc(100% - 38px);
-  padding-left: 10px;
-  display: flex;
-  padding-right: 100px;
   flex: 1;
 }
 
 .search-bar .magnifying-glass {
   background-color: var(--theme-body-background);
+  width: 40px;
+}
+
+.search-bar .magnifying-glass path,
+.search-bar .magnifying-glass ellipse {
+  stroke: var(--theme-splitter-color);
 }
 
 .search-bar input::placeholder {
