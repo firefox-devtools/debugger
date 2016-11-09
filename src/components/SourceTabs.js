@@ -93,13 +93,7 @@ const SourceTabs = React.createClass({
       label: closeOtherTabsLabel,
       accesskey: "O",
       disabled: false,
-      click: () => {
-        tabs.forEach((t) => {
-          if (t !== tab) {
-            closeTab(t);
-          }
-        });
-      }
+      click: () => closeTabs(tabs.filter(t => t !== tab))
     };
 
     const closeTabsToRightMenuItem = {
@@ -123,7 +117,7 @@ const SourceTabs = React.createClass({
       label: closeAllTabsLabel,
       accesskey: "A",
       disabled: false,
-      click: () => tabs.forEach(closeTab)
+      click: () => closeTabs(tabs)
     };
 
     showMenu(e, buildMenu([
