@@ -11,6 +11,7 @@
 const fromJS = require("../utils/fromJS");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
+const { difference } = require("lodash")
 
 import type { Source } from "../types";
 import type { Action } from "../actions/types";
@@ -65,9 +66,15 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       });
 
     case "CLOSE_TAB":
-      return state.merge({ tabs: removeSourceFromTabList(state, action.id) })
+      return state.merge({ tabs: removeSourceFromTabList(state.tabs, action.id) })
         .set("selectedLocation", {
           sourceId: getNewSelectedSourceId(state, action.id)
+        });
+
+    case "CLOSE_TABS":
+      return state.merge({ tabs: removeSourcesFromTabList(state.tabs, action.ids) })
+        .set("selectedLocation", {
+          sourceId: getNewSelectedSourceId(state, action.ids[action.ids.length - 1])
         });
 
     case "LOAD_SOURCE_TEXT":
@@ -124,8 +131,13 @@ function _updateText(state, action : any) : Record<SourcesState> {
   }));
 }
 
-function removeSourceFromTabList(state, id) {
-  return state.tabs.filter(tab => tab.get("id") != id);
+function removeSourceFromTabList(tabs, id) {
+  return tabs.filter(tab => tab.get("id") != id);
+}
+
+function removeSourcesFromTabList(tabs, ids) {
+  ids.forEach(id => tabs = removeSourceFromTabList(tabs, id));
+  return tabs;
 }
 
 /**
