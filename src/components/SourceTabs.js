@@ -48,6 +48,7 @@ const SourceTabs = React.createClass({
     selectedSource: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
     closeTab: PropTypes.func.isRequired,
+    closeTabs: PropTypes.func.isRequired,
     toggleFileSearch: PropTypes.func.isRequired
   },
 
@@ -70,7 +71,7 @@ const SourceTabs = React.createClass({
   },
 
   showContextMenu(e, tab) {
-    const { closeTab, sourceTabs } = this.props;
+    const { closeTab, closeTabs, sourceTabs } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
