@@ -34,7 +34,7 @@ const Dropdown = React.createClass({
   renderButton() {
     return dom.span(
       {
-        className: "subsettings",
+        className: "dropdown-button",
         onClick: this.toggleDropdown
       },
       "»"

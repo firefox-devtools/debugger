@@ -171,21 +171,6 @@ const SourceTabs = React.createClass({
     }, filename);
   },
 
-  renderSourcesDropdownButton() {
-    const hiddenSourceTabs = this.state.hiddenSourceTabs;
-    if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
-      return dom.div({});
-    }
-
-    return dom.span(
-      {
-        className: "subsettings",
-        onClick: this.toggleSourcesDropdown
-      },
-      Svg("subSettings")
-    );
-  },
-
   renderTabs() {
     const sourceTabs = this.props.sourceTabs;
     return dom.div(

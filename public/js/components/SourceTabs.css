@@ -102,12 +102,3 @@ html[dir="rtl"] .source-tab .close-btn {
 .source-tab:hover .close {
   display: block;
 }
-
-.source-header .subsettings {
-  position: absolute;
-  right: 12px;
-  top: 5px;
-  width: 12px;
-  height: 12px;
-  color: var(--theme-body-color);
-}
