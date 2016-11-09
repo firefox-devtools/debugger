@@ -60,6 +60,7 @@ const RightSidebar = React.createClass({
   },
 
   getItems() {
+    const { pause } = this.props;
     const { expressionInputVisibility } = this.state;
 
     const items = [
@@ -67,9 +68,11 @@ const RightSidebar = React.createClass({
         component: Breakpoints,
         opened: true },
       { header: L10N.getStr("callStack.header"),
-        component: Frames },
+        component: Frames,
+        opened: !!pause },
       { header: L10N.getStr("scopes.header"),
-        component: Scopes }
+        component: Scopes,
+        opened: !!pause }
     ];
     if (isEnabled("watchExpressions")) {
       items.unshift({ header: L10N.getStr("watchExpressions.header"),

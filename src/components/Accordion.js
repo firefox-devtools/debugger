@@ -33,6 +33,10 @@ const Accordion = React.createClass({
     this.setState({ opened, created });
   },
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ opened: nextProps.items.map(i => i.opened) });
+  },
+
   renderContainer: function(item, i) {
     const { opened, created } = this.state;
     const containerClassName =
