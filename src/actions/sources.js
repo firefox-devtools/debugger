@@ -160,6 +160,18 @@ function closeTab(id: string) {
 }
 
 /**
+ * @memberof actions/sources
+ * @static
+ */
+function closeTabs(ids) {
+  ids.forEach(id => removeDocument(id))
+  return {
+    type: constants.CLOSE_TABS,
+    ids: ids
+  }
+}
+
+/**
  * Toggle the pretty printing of a source's text. All subsequent calls to
  * |getText| will return the pretty-toggled text. Nothing will happen for
  * non-javascript files.
@@ -337,6 +349,7 @@ module.exports = {
   selectSource,
   selectSourceURL,
   closeTab,
+  closeTabs,
   togglePrettyPrint,
   loadSourceText,
   getTextForSources
