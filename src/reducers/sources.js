@@ -68,13 +68,13 @@ function update(state = State(), action: Action) : Record<SourcesState> {
     case "CLOSE_TAB":
       return state.merge({ tabs: removeSourceFromTabList(state.tabs, action.id) })
         .set("selectedLocation", {
-          sourceId: getNewSelectedSourceId(state, action.id)
+          sourceId: getNewSelectedSourceId(state, action.id, 1)
         });
 
     case "CLOSE_TABS":
       return state.merge({ tabs: removeSourcesFromTabList(state.tabs, action.ids) })
         .set("selectedLocation", {
-          sourceId: getNewSelectedSourceId(state, action.ids[action.ids.length - 1])
+          sourceId: getNewSelectedSourceId(state, action.id, action.ids.count())
         });
 
     case "LOAD_SOURCE_TEXT":
@@ -168,7 +168,7 @@ function updateTabList(state, source, tabIndex) {
  * @memberof reducers/sources
  * @static
  */
-function getNewSelectedSourceId(state, id) : ?Source {
+function getNewSelectedSourceId(state, id, numClosedTabs) : ?Source {
   const tabs = state.get("tabs");
   const selectedSource = getSelectedSource({ sources: state });
 
@@ -182,7 +182,7 @@ function getNewSelectedSourceId(state, id) : ?Source {
   const tabIndex = tabs.findIndex(tab => tab.get("id") == id);
   const numTabs = tabs.count();
 
-  if (numTabs == 1) {
+  if (numTabs == numClosedTabs) {
     return undefined;
   }
 

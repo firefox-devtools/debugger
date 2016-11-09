@@ -93,7 +93,7 @@ const SourceTabs = React.createClass({
       label: closeOtherTabsLabel,
       accesskey: "O",
       disabled: false,
-      click: () => closeTabs(tabs.filter(t => t !== tab))
+      click: () => closeTabs(tabs.filter(t => t !== tab), tab)
     };
 
     const closeTabsToRightMenuItem = {
@@ -102,13 +102,8 @@ const SourceTabs = React.createClass({
       accesskey: "R",
       disabled: false,
       click: () => {
-        tabs.reverse().every((t) => {
-          if (t === tab) {
-            return false;
-          }
-          closeTab(t);
-          return true;
-        });
+        const tabIndex = tabs.findIndex(t => t == tab);
+        closeTabs(tabs.filter((t, i) => i > tabIndex), tab);
       }
     };
 
@@ -117,7 +112,7 @@ const SourceTabs = React.createClass({
       label: closeAllTabsLabel,
       accesskey: "A",
       disabled: false,
-      click: () => closeTabs(tabs)
+      click: () => closeTabs(tabs, tab)
     };
 
     showMenu(e, buildMenu([

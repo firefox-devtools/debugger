@@ -163,11 +163,12 @@ function closeTab(id: string) {
  * @memberof actions/sources
  * @static
  */
-function closeTabs(ids) {
+function closeTabs(ids: Array<string>, selectedTabId: string) {
   ids.forEach(id => removeDocument(id))
   return {
     type: constants.CLOSE_TABS,
-    ids: ids
+    ids: ids,
+    id: selectedTabId
   }
 }
 
