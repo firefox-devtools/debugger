@@ -74,6 +74,7 @@
     "togglePauseOnExceptions": false,
     "type": false,
     "pressKey": false,
-    "EXAMPLE_URL": false
+    "EXAMPLE_URL": false,
+    "waitUntil": false
   }
 }

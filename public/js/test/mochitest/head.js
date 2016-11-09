@@ -594,7 +594,10 @@ const selectors = {
   stepIn: ".stepIn.active",
   toggleBreakpoints: ".toggleBreakpoints",
   prettyPrintButton: ".prettyPrint",
-  sourceFooter: ".source-footer"
+  sourceFooter: ".source-footer",
+  sourceNode: i => `.sources-list .tree-node:nth-child(${i})`,
+  sourceNodes: ".sources-list .tree-node",
+  sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`,
 };
 
 function getSelector(elementName, ...args) {
