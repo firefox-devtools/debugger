@@ -6,6 +6,7 @@ add_task(function* () {
   const dbg = yield initDebugger("doc-script-switching.html");
 
   pressKey(dbg, "sourceSearch");
+  yield waitForElement(dbg, "input");
   findElementWithSelector(dbg, "input").focus();
   type(dbg, "sw");
   pressKey(dbg, "Enter");
