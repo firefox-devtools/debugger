@@ -277,7 +277,7 @@ const Editor = React.createClass({
     });
 
     // disables the default search shortcuts
-    this.editor._initShortcuts = () => {};
+    // this.editor._initShortcuts = () => {};
 
     this.editor.appendToLocalElement(
       ReactDOM.findDOMNode(this).querySelector(".editor-mount")
