@@ -68,14 +68,14 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       return state.merge({
         tabs: removeSourceFromTabList(state.tabs, action.id) })
         .set("selectedLocation", {
-          sourceId: getNewSelectedSourceId(state, action.id, 1)
+          sourceId: getNewSelectedSourceId(state, action.id)
         });
 
     case "CLOSE_TABS":
       return state.merge({
         tabs: removeSourcesFromTabList(state.tabs, action.ids) })
         .set("selectedLocation", {
-          sourceId: getNewSelectedSourceId(state, action.id, action.ids.count())
+          sourceId: getNewSelectedSourceId(state, action.ids)
         });
 
     case "LOAD_SOURCE_TEXT":
@@ -171,23 +171,31 @@ function updateTabList(state, source, tabIndex) {
  * @memberof reducers/sources
  * @static
  */
-function getNewSelectedSourceId(state, id, numClosedTabs) : ?Source {
+function getNewSelectedSourceId(state, id) : ?Source {
+  // If id is an array
+  const isTabSet = typeof id !== "string";
+
   const tabs = state.get("tabs");
   const selectedSource = getSelectedSource({ sources: state });
+  const numTabs = tabs.count();
+  const numClosedTabs = !isTabSet ? 1 : id.count();
 
-  if (!selectedSource) {
+  if (!selectedSource || numTabs == numClosedTabs) {
+    // If all the tabs are closed
     return undefined;
-  } else if (selectedSource.get("id") != id) {
+  }
+
+  if (isTabSet) {
+    // if 1 or more tabs are closed but not all
+    return selectedSource.get("id");
+  }
+
+  if (selectedSource.get("id") != id) {
     // If we're not closing the selected tab return the selected tab
     return selectedSource.get("id");
   }
 
   const tabIndex = tabs.findIndex(tab => tab.get("id") == id);
-  const numTabs = tabs.count();
-
-  if (numTabs == numClosedTabs) {
-    return undefined;
-  }
 
   // if we're closing the last tab, select the penultimate tab
   if (tabIndex + 1 == numTabs) {
