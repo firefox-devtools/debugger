@@ -23,6 +23,7 @@ const { getDocument, setDocument } = require("../utils/source-documents");
 const { shouldShowFooter } = require("../utils/editor");
 const { isFirefox } = require("devtools-config");
 const { showMenu } = require("../utils/menu");
+const { isEnabled } = require("devtools-config");
 
 require("./Editor.css");
 
@@ -277,7 +278,9 @@ const Editor = React.createClass({
     });
 
     // disables the default search shortcuts
-    // this.editor._initShortcuts = () => {};
+    if (isEnabled("editorSearch")) {
+      this.editor._initShortcuts = () => {};
+    }
 
     this.editor.appendToLocalElement(
       ReactDOM.findDOMNode(this).querySelector(".editor-mount")
