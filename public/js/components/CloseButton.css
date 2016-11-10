@@ -27,9 +27,9 @@
 }
 
 .close-btn-big {
-  position: absolute;
-  top: 12px;
-  right: 10px;
+  padding: 13px;
+  width: 40px;
+  height: 40px;
 }
 
 .close-btn-big path {
@@ -38,15 +38,18 @@
 
 .close-btn-big .close {
   cursor: pointer;
-  display: inline;
+  display: inline-block;
   padding: 2px;
   text-align: center;
-  line-height: 5px;
   transition: all 0.25s easeinout;
+  line-height: 100%;
+  width: 16px;
+  height: 16px;
 }
 
 .close-btn-big .close svg {
   width: 9px;
+  height: 9px;
 }
 
 .close-btn-big .close:hover {
