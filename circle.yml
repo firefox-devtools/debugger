@@ -3,6 +3,10 @@ machine:
     version: 6.3
   services:
     - docker
+  environment:
+    DOWNLOADS_PATH: "$HOME/downloads"
+  post:
+    - mkdir -p $DOWNLOADS_PATH
 
 checkout:
   post:
@@ -32,12 +36,13 @@ test:
 dependencies:
   cache_directories:
     - "~/downloads"
+
   override:
     - npm i -g jasonlaster/lerna
     - lerna bootstrap
     - ./bin/install-chrome
     - ./bin/install-firefox
-    - docker pull jlongster/mochitest-runner
+    - ./bin/update-docker
 experimental:
   notify:
     branches:
