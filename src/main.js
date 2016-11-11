@@ -10,6 +10,7 @@ const {
 const { getValue, isFirefoxPanel } = require("devtools-config");
 
 const configureStore = require("./utils/create-store");
+const { onConnect, onFirefoxConnect } = require("./utils/client");
 
 const reducers = require("./reducers");
 const selectors = require("./selectors");
@@ -61,7 +62,8 @@ if (isFirefoxPanel()) {
       firefox.setThreadClient(threadClient);
       firefox.setTabTarget(tabTarget);
       renderRoot(React, ReactDOM, App, store);
-      return firefox.initPage(actions);
+      firefox.initPage(actions);
+      onFirefoxConnect(actions, firefox);
     },
     destroy: () => {
       unmountRoot();
@@ -74,5 +76,6 @@ if (isFirefoxPanel()) {
     client: firefox.clientCommands
   };
 } else {
-  bootstrap(React, ReactDOM, App, actions, store);
+  bootstrap(React, ReactDOM, App, actions, store)
+    .then(() => onFirefoxConnect(actions, firefox));
 }

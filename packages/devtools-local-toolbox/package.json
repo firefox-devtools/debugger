@@ -17,9 +17,19 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=5.0.0"
+    "node": ">=6.9.0"
   },
   "dependencies": {
+    "devtools-config": "^0.0.3",
+    "devtools-modules": "^0.0.3",
+    "devtools-network-request": "^0.0.3",
+    "devtools-sham-modules": "^0.0.3",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "webpack": "1.13.1",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-hot-middleware": "^2.12.0",
+    "webpack-env-loader-plugin": "^0.1.4",
+    "extract-text-webpack-plugin": "^1.0.1"
   },
   "devDependencies": {
     "amd-loader": "0.0.5",
@@ -28,22 +38,13 @@
     "chrome-remote-debugging-protocol": "^0.0.3",
     "co": "=4.6.0",
     "css-loader": "^0.25.0",
-    "devtools-config": "^0.0.3",
-    "devtools-modules": "^0.0.3",
-    "devtools-network-request": "^0.0.3",
-    "devtools-sham-modules": "^0.0.3",
     "express": "^4.13.4",
-    "extract-text-webpack-plugin": "^1.0.1",
     "json-loader": "^0.5.4",
     "lodash": "^4.13.1",
     "minimist": "^1.2.0",
     "mustache": "^2.2.1",
     "react-hot-loader": "^1.3.0",
     "rimraf": "^2.5.2",
-    "webpack": "1.13.1",
-    "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.12.0",
-    "webpack-env-loader-plugin": "^0.1.4",
     "ws": "^1.0.1"
   },
   "files": [

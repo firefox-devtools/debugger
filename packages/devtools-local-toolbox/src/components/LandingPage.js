@@ -2,6 +2,7 @@ const React = require("react");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
 const { getTabs } = require("../selectors");
+const { getValue } = require("devtools-config");
 
 require("./LandingPage.css");
 const { DOM: dom } = React;
@@ -112,14 +113,24 @@ const LandingPage = React.createClass({
   },
 
   renderSidebar() {
+    let connections = [];
+
+    if (getValue("firefox")) {
+      connections.push("Firefox");
+    }
+
+    if (getValue("chrome")) {
+      connections.push("Chrome", "Node");
+    }
+
     return dom.div(
       {
         className: "sidebar"
       },
-      dom.h1({}, "Debugger"),
+      dom.h1({}, getValue("title")),
       dom.ul(
         {},
-        ["Firefox", "Chrome", "Node"].map(title => dom.li(
+        connections.map(title => dom.li(
           {
             className: classnames({
               selected: title == this.state.selectedPane

@@ -1,4 +1,5 @@
 {
+  "title": "Debugger",
   "environment": "development",
   "baseWorkerURL": "assets/build/",
   "theme": "light",

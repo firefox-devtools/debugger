@@ -38,17 +38,14 @@ function connectClient() {
   const deferred = defer();
 
   if(!getValue("chrome.debug")) {
-    return deferred.resolve(createTabs([]))
+    return Promise.resolve(createTabs([]))
   }
 
   const webSocketPort = getValue("chrome.webSocketPort");
   const url = `http://localhost:${webSocketPort}/json/list`;
   networkRequest(url).then(res => {
     deferred.resolve(createTabs(JSON.parse(res.content)))
-  }).catch(err => {
-    console.log(err);
-    deferred.reject();
-  });
+  }).catch(() => deferred.reject());
 
   return deferred.promise;
 }

@@ -2,6 +2,7 @@ const { Task } = require("../utils/task");
 const firefox = require("./firefox");
 const chrome = require("./chrome");
 const { debugGlobal } = require("../utils/debug");
+const { createSource } = require("./firefox/create");
 
 let clientType;
 function getClient() {
@@ -38,19 +39,14 @@ function startDebuggingTab(targetEnv, tabId, actions) {
     clientType = targetEnv === firefox ? "firefox" : "chrome";
     debugGlobal("client", targetEnv.clientCommands);
 
-    return tabs;
+    return { tabs, client: targetEnv };
   });
-}
-
-function connectClients(onConnect) {
-  firefox.connectClient().then(onConnect);
-  chrome.connectClient().then(onConnect);
 }
 
 module.exports = {
   getClient,
-  connectClients,
   startDebugging,
   firefox,
-  chrome
+  chrome,
+  createSource
 };

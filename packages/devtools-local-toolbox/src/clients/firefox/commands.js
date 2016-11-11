@@ -92,10 +92,12 @@ function setBreakpointCondition(breakpointId, location, condition, noSliding) {
 }
 
 function evaluate(script, { frameId }) {
+  const params = frameId ? { frameActor: frameId } : {};
   const deferred = defer();
+
   tabTarget.activeConsole.evaluateJS(script, (result) => {
     deferred.resolve(result);
-  }, { frameActor: frameId });
+  }, params);
 
   return deferred.promise;
 }
