@@ -187,7 +187,9 @@ function getNewSelectedSourceId(state, id) : ?Source {
 
   if (isTabSet) {
     // if 1 or more tabs are closed but not all
-    return selectedSource.get("id");
+    let selectTabs = tabs;
+    id.forEach(i => selectTabs = selectTabs.filter(tab => tab.get("id") !== i));
+    return selectTabs.get(selectTabs.count() - 1).get("id");
   }
 
   if (selectedSource.get("id") != id) {
