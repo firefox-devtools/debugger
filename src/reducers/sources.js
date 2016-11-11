@@ -176,11 +176,10 @@ function getNewSelectedSourceId(state, id) : ?Source {
   const isTabSet = typeof id !== "string";
 
   const tabs = state.get("tabs");
-  const selectedSource = getSelectedSource({ sources: state });
   const numTabs = tabs.count();
   const numClosedTabs = !isTabSet ? 1 : id.count();
 
-  if (!selectedSource || numTabs == numClosedTabs) {
+  if (numTabs == numClosedTabs) {
     // If all the tabs are closed
     return undefined;
   }
@@ -190,11 +189,6 @@ function getNewSelectedSourceId(state, id) : ?Source {
     let selectTabs = tabs;
     id.forEach(i => selectTabs = selectTabs.filter(tab => tab.get("id") !== i));
     return selectTabs.get(selectTabs.count() - 1).get("id");
-  }
-
-  if (selectedSource.get("id") != id) {
-    // If we're not closing the selected tab return the selected tab
-    return selectedSource.get("id");
   }
 
   const tabIndex = tabs.findIndex(tab => tab.get("id") == id);
