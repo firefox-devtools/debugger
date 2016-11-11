@@ -1,6 +1,5 @@
 {
   "breakpoints.header": "Breakpoints",
-  "breakpoints.none": "No Breakpoints",
   "callStack.header": "Call Stack",
   "callStack.notPaused": "Not Paused",
   "callStack.collapse": "Collapse Rows",
@@ -11,8 +10,6 @@
   "editor.removeBreakpoint": "Remove Breakpoint",
   "editor.editBreakpoint": "Edit Breakpoint",
   "editor.addConditionalBreakpoint": "Add Conditional Breakpoint",
-  "editor.conditionalPanel.placeholder": "This breakpoint will pause when the expression is true",
-  "expressions.placeholder": "Add Watch Expression",
   "scopes.header": "Scopes",
   "scopes.notAvailable": "Scopes Unavailable",
   "scopes.notPaused": "Not Paused",
@@ -23,7 +20,6 @@
   "sourceSearch.search": "Search...",
   "sourceSearch.resultsSummary": "%d instances of \"%S\"",
   "sourceSearch.noResults": "No files matching %S found",
-  "sourceFooter.debugBtnTooltip": "Prettify Source",
   "ignoreExceptions": "Ignore exceptions. Click to pause on uncaught exceptions",
   "pauseOnUncaughtExceptions": "Pause on uncaught exceptions. Click to pause on all exceptions",
   "pauseOnExceptions": "Pause on all exceptions. Click to ignore exceptions",
@@ -36,6 +32,5 @@
   "sourceTabs.closeTab": "Close tab",
   "sourceTabs.closeOtherTabs": "Close others",
   "sourceTabs.closeTabsToRight": "Close tabs to the right",
-  "sourceTabs.closeAllTabs": "Close all tabs",
-  "loadingText": "Loading\u2026"
+  "sourceTabs.closeAllTabs": "Close all tabs"
 }

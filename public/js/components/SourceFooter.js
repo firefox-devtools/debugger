@@ -51,7 +51,7 @@ const SourceFooter = React.createClass({
         active: sourceLoaded,
         pretty: isPretty(selectedSource.toJS())
       }),
-      L10N.getStr("sourceFooter.debugBtnTooltip")
+      "Prettify Source"
     );
   },
 

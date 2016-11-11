@@ -128,7 +128,7 @@ const Expressions = React.createClass({
       dom.input(
         { type: "text",
           className: "input-expression",
-          placeholder: L10N.getStr("expressions.placeholder"),
+          placeholder: "Add Watch Expression",
           onKeyPress: e => this.inputKeyPress(e, {}) }
       ) : null,
       expressions.toSeq().map(expression =>

@@ -20,7 +20,7 @@ function renderConditionalPanel({ condition, closePanel, setBreakpoint }) {
       { className: "conditional-breakpoint-panel" },
       dom.input({
         defaultValue: condition,
-        placeholder: L10N.getStr("editor.conditionalPanel.placeholder"),
+        placeholder: "This breakpoint will pause when the expression is true",
         onKeyPress: onKey
       })
     ),
