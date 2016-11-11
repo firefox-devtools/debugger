@@ -171,7 +171,7 @@ function updateTabList(state, source, tabIndex) {
  * @memberof reducers/sources
  * @static
  */
-function getNewSelectedSourceId(state, id) : ?Source {
+function getNewSelectedSourceId(state, id: any) : ?Source {
   // If id is an array
   const isTabSet = typeof id !== "string";
 
@@ -187,7 +187,9 @@ function getNewSelectedSourceId(state, id) : ?Source {
   if (isTabSet) {
     // if 1 or more tabs are closed but not all
     let selectTabs = tabs;
-    id.forEach(i => selectTabs = selectTabs.filter(tab => tab.get("id") !== i));
+    id.forEach(i => {
+      selectTabs = selectTabs.filter(tab => tab.get("id") !== i);
+    });
     return selectTabs.get(selectTabs.count() - 1).get("id");
   }
 
