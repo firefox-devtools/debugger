@@ -6,6 +6,7 @@ const { find, findNext, findPrev } = require("../utils/source-search");
 const classnames = require("classnames");
 const { debounce, escapeRegExp } = require("lodash");
 const CloseButton = require("./CloseButton");
+const { isEnabled } = require("devtools-config");
 
 require("./EditorSearchBar.css");
 
@@ -39,14 +40,18 @@ const EditorSearchBar = React.createClass({
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.off("CmdOrCtrl+F", this.toggleSearch);
-    shortcuts.off("Escape", this.onEscape);
+    if (isEnabled("editorSearch")) {
+      shortcuts.off("CmdOrCtrl+F", this.toggleSearch);
+      shortcuts.off("Escape", this.onEscape);
+    }
   },
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.on("CmdOrCtrl+F", this.toggleSearch);
-    shortcuts.on("Escape", this.onEscape);
+    if (isEnabled("editorSearch")) {
+      shortcuts.on("CmdOrCtrl+F", this.toggleSearch);
+      shortcuts.on("Escape", this.onEscape);
+    }
   },
 
   componentWillReceiveProps() {
