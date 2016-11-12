@@ -79,7 +79,7 @@ function renderRoot(_React, _ReactDOM, component, _store) {
 
 function getTargetFromQuery() {
   const href = window.location.href;
-  const nodeMatch = href.match(/ws=([^&#]*)/);
+  const nodeMatch = href.match(/node-tab=([^&#]*)/);
   const firefoxMatch = href.match(/firefox-tab=([^&#]*)/);
   const chromeMatch = href.match(/chrome-tab=([^&#]*)/);
 
@@ -110,6 +110,9 @@ function bootstrap(React, ReactDOM, App, appActions, appStore) {
     }).catch(e => {
       console.log("Connect to chrome:");
       console.log("https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#chrome");
+    });
+    chrome.connectNodeClient().then(tabs => {
+      actions.newTabs(tabs);
     });
     return firefox.connectClient().then(tabs => {
       actions.newTabs(tabs);

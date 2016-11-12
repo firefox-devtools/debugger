@@ -85,18 +85,11 @@ const LandingPage = React.createClass({
   },
 
   renderNodePanel() {
+    const targets = getTabsByBrowser(this.props.tabs, "node");
     return dom.div(
       { className: "center" },
-      dom.div(
-        { className: "center-message" },
-        dom.a(
-          {
-            href: `/?ws=${document.location.hostname}:9229/node`
-          },
-          "Connect to Node"
-        )
-      ),
-      firstTimeMessage("Node", "nodejs")
+      this.renderTabs("", targets, "node-tab"),
+      firstTimeMessage("Node", "node")
     );
   },
 

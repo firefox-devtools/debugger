@@ -57,6 +57,10 @@ module.exports = (webpackConfig, envConfig) => {
       return callback(null, "var {}");
     }
 
+    if (mod.match(/^ws$/)) {
+      return callback(null, "WebSocket");
+    }
+
     callback();
   }
   webpackConfig.externals.push(externalsTest);

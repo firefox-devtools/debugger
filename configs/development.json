@@ -15,7 +15,11 @@
   },
   "chrome": {
     "debug": true,
-    "webSocketPort": 9222
+    "port": 9222
+  },
+  "node": {
+    "debug": true,
+    "port": 9229
   },
   "firefox": {
     "webSocketConnection": false,
