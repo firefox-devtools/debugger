@@ -6,6 +6,7 @@ let pageAgent;
 function setupEvents(dependencies) {
   actions = dependencies.actions;
   pageAgent = dependencies.agents.Page;
+  clientType = dependencies.clientType;
 }
 
 // Debugger Events
@@ -15,6 +16,10 @@ function scriptParsed(scriptId, url, startLine, startColumn,
              sourceMapURL, hasSourceURL, deprecatedCommentWasUsed) {
   if (isContentScript) {
     return;
+  }
+
+  if (clientType == "node") {
+    sourceMapURL = undefined;
   }
 
   actions.newSource(Source({
@@ -46,13 +51,18 @@ async function paused(
     type: reason
   }, data);
 
-  pageAgent.setOverlayMessage("Paused in debugger.html");
+  if (clientType == "chrome") {
+    pageAgent.setOverlayMessage("Paused in debugger.html");
+  }
 
   await actions.paused({ frame, why, frames });
 }
 
 function resumed() {
-  pageAgent.setOverlayMessage(undefined);
+  if (clientType == "chrome") {
+    pageAgent.setOverlayMessage(undefined);
+  }
+
   actions.resumed();
 }
 

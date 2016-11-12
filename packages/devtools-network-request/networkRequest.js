@@ -1,9 +1,13 @@
+const { getValue } = require("devtools-config");
+
 // opts is ignored because this is only used in local development and
 // replaces a more powerful network request from Firefox that can be
 // configured.
 function networkRequest(url, opts) {
+  const devServerURL = getValue("host");
+
   return Promise.race([
-    fetch(`/get?url=${url}`)
+    fetch(`${devServerURL}/get?url=${url}`)
       .then(res => {
         if (res.status >= 200 && res.status < 300) {
           return res.text().then(text => ({ content: text }));

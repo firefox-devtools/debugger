@@ -36,7 +36,7 @@ function update(state = initialState, action) {
 
 function getTabId(tab) {
   let id = tab.id;
-  const isFirefox = tab.browser == "firefox";
+  const isFirefox = tab.clientType == "firefox";
 
   // NOTE: we're getting the last part of the actor because
   // we want to ignore the connection id

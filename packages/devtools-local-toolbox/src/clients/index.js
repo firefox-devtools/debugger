@@ -4,9 +4,9 @@ const chrome = require("./chrome");
 const { debugGlobal } = require("../utils/debug");
 const { createSource } = require("./firefox/create");
 
-let clientType;
+let clientType = null;
 function getClient() {
-  if (clientType === "chrome") {
+  if (clientType === "chrome" || clientType === "node") {
     return chrome.clientCommands;
   }
 
@@ -22,10 +22,19 @@ function startDebugging(connTarget, actions) {
   return startDebuggingTab(target, connTarget.param, actions);
 }
 
-function startDebuggingNode(url, actions) {
-  clientType = "chrome";
-  return chrome.connectNode(`ws://${url}`).then(() => {
-    chrome.initPage(actions);
+function startDebuggingNode(tabId, actions) {
+  return Task.spawn(function* () {
+    clientType = "node";
+
+    const tabs = yield chrome.connectNodeClient();
+    const tab = tabs.find(t => t.id.indexOf(tabId) !== -1);
+
+    yield chrome.connectNode(tab.tab);
+    chrome.initPage(actions, { clientType });
+
+    debugGlobal("client", chrome.clientCommands);
+
+    return { tabs, tab, client: chrome };
   });
 }
 
@@ -34,12 +43,13 @@ function startDebuggingTab(targetEnv, tabId, actions) {
     const tabs = yield targetEnv.connectClient();
     const tab = tabs.find(t => t.id.indexOf(tabId) !== -1);
     yield targetEnv.connectTab(tab.tab);
-    targetEnv.initPage(actions);
 
     clientType = targetEnv === firefox ? "firefox" : "chrome";
+    targetEnv.initPage(actions, { clientType });
+
     debugGlobal("client", targetEnv.clientCommands);
 
-    return { tabs, client: targetEnv };
+    return { tabs, tab, client: targetEnv };
   });
 }
 
