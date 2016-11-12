@@ -3,7 +3,7 @@ const _ = require("lodash");
 const fs = require("fs");
 const path = require("path");
 
-const firefoxPanel = require("../configs//firefox-panel.json");
+const firefoxPanel = require("../configs/firefox-panel.json");
 const development = require("../configs/development.json");
 const envConfig = process.env.TARGET === "firefox-panel" ?
    firefoxPanel : development;

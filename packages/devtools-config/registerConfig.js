@@ -8,4 +8,4 @@ function registerConfig() {
 module.exports = {
   getConfig,
   registerConfig
-}
+};
