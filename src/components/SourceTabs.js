@@ -112,7 +112,7 @@ const SourceTabs = React.createClass({
       label: closeAllTabsLabel,
       accesskey: "A",
       disabled: false,
-      click: () => closeTabs(tabs, tab)
+      click: () => closeTabs(tabs)
     };
 
     showMenu(e, buildMenu([
