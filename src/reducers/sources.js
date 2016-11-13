@@ -12,7 +12,7 @@ const fromJS = require("../utils/fromJS");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
 
-import type { Source } from "../types";
+import type { Source, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -28,6 +28,7 @@ export type SourcesState = {
     line?: number,
     column?: number
   },
+  selectedLocation?: Location,
   sourcesText: I.Map<string, any>,
   tabs: I.List<any>
 };
@@ -41,6 +42,8 @@ const State = makeRecord(({
 } : SourcesState));
 
 function update(state = State(), action: Action) : Record<SourcesState> {
+  let availableTabs = null;
+
   switch (action.type) {
     case "ADD_SOURCE": {
       const source: Source = action.source;
@@ -65,17 +68,17 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       });
 
     case "CLOSE_TAB":
-      return state.merge({
-        tabs: removeSourceFromTabList(state.tabs, action.id) })
+      availableTabs = removeSourceFromTabList(state.tabs, action.id);
+      return state.merge({ tabs: availableTabs })
         .set("selectedLocation", {
-          sourceId: getNewSelectedSourceId(state, action.id)
+          sourceId: getNewSelectedSourceId(state, availableTabs)
         });
 
     case "CLOSE_TABS":
-      return state.merge({
-        tabs: removeSourcesFromTabList(state.tabs, action.ids) })
+      availableTabs = removeSourcesFromTabList(state.tabs, action.ids);
+      return state.merge({ tabs: availableTabs })
         .set("selectedLocation", {
-          sourceId: getNewSelectedSourceId(state, action.ids)
+          sourceId: getNewSelectedSourceId(state, availableTabs)
         });
 
     case "LOAD_SOURCE_TEXT":
@@ -137,10 +140,7 @@ function removeSourceFromTabList(tabs, id) {
 }
 
 function removeSourcesFromTabList(tabs, ids) {
-  ids.forEach(id => {
-    tabs = removeSourceFromTabList(tabs, id);
-  });
-  return tabs;
+  return ids.reduce((t, id) => removeSourceFromTabList(t, id), tabs);
 }
 
 /**
@@ -167,41 +167,32 @@ function updateTabList(state, source, tabIndex) {
 }
 
 /**
- * Gets the next tab to select when a tab closes.
+ * Gets the next tab to select when a tab closes. Heuristics:
+ * 1. if the selected tab is available, it remains selected
+ * 2. if it is gone, the next available tab to the left should be active
+ * 3. if the first tab is active and closed, select the second tab
+ *
  * @memberof reducers/sources
  * @static
  */
-function getNewSelectedSourceId(state, id: any) : ?Source {
-  // If id is an array
-  const isTabSet = typeof id !== "string";
-
-  const tabs = state.get("tabs");
-  const numTabs = tabs.count();
-  const numClosedTabs = !isTabSet ? 1 : id.count();
-
-  if (numTabs == numClosedTabs) {
-    // If all the tabs are closed
-    return undefined;
+function getNewSelectedSourceId(state: SourcesState, availableTabs) : string {
+  if (!state.selectedLocation) {
+    return "";
   }
 
-  if (isTabSet) {
-    // if 1 or more tabs are closed but not all
-    let selectTabs = tabs;
-    id.forEach(i => {
-      selectTabs = selectTabs.filter(tab => tab.get("id") !== i);
-    });
-    return selectTabs.get(selectTabs.count() - 1).get("id");
+  const selectedTabId = state.selectedLocation.sourceId;
+  const availableTabIds = availableTabs.map(s => s.get("id")).toJS();
+  const tabIds = state.tabs.map(s => s.get("id")).toJS();
+
+  if (availableTabIds.includes(selectedTabId)) {
+    return selectedTabId;
   }
 
-  const tabIndex = tabs.findIndex(tab => tab.get("id") == id);
+  const leftNeighborIndex = Math.max(tabIds.indexOf(selectedTabId) - 1, 0);
+  const lastAvailbleTabIndex = availableTabIds.length - 1;
+  const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
 
-  // if we're closing the last tab, select the penultimate tab
-  if (tabIndex + 1 == numTabs) {
-    return tabs.get(tabIndex - 1).get("id");
-  }
-
-  // return the next tab
-  return tabs.get(tabIndex + 1).get("id");
+  return availableTabIds[newSelectedTabIndex];
 }
 
 // Selectors
