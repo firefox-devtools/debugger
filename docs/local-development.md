@@ -57,7 +57,7 @@ The Debugger supports two types of internationalization RTL (right to left) layo
 
 **L10N**
 
-[L10N](https://github.com/devtools-html/debugger.html/blob/master/packages/devtools-local-toolbox/public/js/utils/L10N.js) is a global module with two methods `getStr` and `getFormatStr`.
+[L10N](https://github.com/devtools-html/debugger.html/blob/master/packages/devtools-local-toolbox/src/utils/L10N.js) is a global module with two methods `getStr` and `getFormatStr`.
 
 ```js
 L10N.getStr("scopes.header")
@@ -92,6 +92,9 @@ html[dir="rtl"] .source-footer .command-bar {
 ```
 
 Translated strings are added to the local [strings](https://github.com/devtools-html/debugger.html/blob/master/public/js/strings.json)
+=======
+Translated strings are added to the local [strings](https://github.com/devtools-html/debugger.html/blob/master/src/strings.json)
+>>>>>>> Change more references in the source and documentation.
 file and m-c [debugger properties](https://dxr.mozilla.org/mozilla-central/source/devtools/client/locales/en-US/debugger.properties) file.
 
 ### Flow
@@ -129,6 +132,6 @@ Storybook is a local development environment for react components for viewing co
 **Getting Started:**
 * install storybook `npm i -g @kadira/storybook`
 + start storybook `npm run storybook`
-+ edit a component story in `public/js/components/stories`
++ edit a component story in `src/components/stories`
 
 ![](./screenshots/storybook.png)

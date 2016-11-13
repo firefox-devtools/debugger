@@ -31,7 +31,7 @@ function update(state = State(), action: Action): Record<UIState> {
 }
 
 // NOTE: we'd like to have the app state fully typed
-// https://github.com/devtools-html/debugger.html/blob/master/public/js/reducers/sources.js#L179-L185
+// https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ui: Record<UIState> };
 
 function getFileSearchState(state: OuterState): boolean {
