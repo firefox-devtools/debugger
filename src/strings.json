@@ -12,6 +12,7 @@
   "editor.addConditionalBreakpoint": "Add Conditional Breakpoint",
   "scopes.header": "Scopes",
   "scopes.notAvailable": "Scopes Unavailable",
+  "scopes.block":"Block",
   "scopes.notPaused": "Not Paused",
   "sources.header": "Sources",
   "sources.search": "%S to search",
