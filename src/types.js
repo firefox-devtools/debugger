@@ -6,6 +6,34 @@
  */
 
 /**
+ * Pause
+ *
+ * @memberof types
+ * @static
+ */
+export type Frame = {
+  id: string,
+  displayName: string,
+  location: Location,
+  this: ?Object,
+  scope: ?Object
+}
+
+export type Why = {
+  type: string
+}
+
+export type Pause = {
+  frames: Frame[],
+  why: Why
+}
+
+export type Expression = {
+  id: number,
+  input: any
+}
+
+/**
  * Source
  *
  * @memberof types
