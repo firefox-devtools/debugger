@@ -1,2 +1,3 @@
 src/components/SplitBox.css
 src/components/reps.css
+packages/devtools-local-toolbox/src/lib/themes/*.css

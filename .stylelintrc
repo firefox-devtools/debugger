@@ -15,11 +15,6 @@
     "color-hex-case": "lower",
     "color-hex-length": "long",
     "color-no-invalid-hex": true,
-    "comment-empty-line-before": [ "always", {
-      "except": ["first-nested"],
-      "ignore": ["stylelint-commands"],
-    } ],
-    "comment-whitespace-inside": "always",
     "declaration-bang-space-after": "never",
     "declaration-bang-space-before": "always",
     "declaration-block-no-ignored-properties": true,
