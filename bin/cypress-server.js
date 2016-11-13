@@ -6,14 +6,14 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- saves a fixture file to public/js/test/fixtures
+ saves a fixture file to src/test/fixtures
 
  @param name - name of the fixture file
  @param text - fixture json text
 */
 function saveFixture(name, text) {
   function getFixtureFile(name) {
-    const fixturePath = path.join(__dirname, "../public/js/test/fixtures");
+    const fixturePath = path.join(__dirname, "../src/test/fixtures");
     const fixtureFile = path.join(fixturePath, name + ".json");
     if (!fs.existsSync(fixturePath)) {
       throw new Error("Could not find fixture " + name);

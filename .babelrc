@@ -8,7 +8,7 @@
 
     ["module-resolver", {
       "root": [
-        "./packages/devtools-local-toolbox/public/js",
+        "./packages/devtools-local-toolbox/src",
       ],
       "alias": {
         "devtools/client/shared/vendor/react": "react",

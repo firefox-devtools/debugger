@@ -11,7 +11,7 @@
   },
   "homepage": "https://github.com/devtools-html/debugger.html#readme",
   "scripts": {},
-  "main": "public/js/index.js",
+  "main": "src/index.js",
   "bin": {
     "start-dev-server": "./bin/development-server.js"
   },
@@ -47,7 +47,7 @@
     "ws": "^1.0.1"
   },
   "files": [
-    "public/js",
+    "src",
     "bin"
   ]
 }

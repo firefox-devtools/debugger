@@ -51,9 +51,9 @@ let testFiles;
 if (args._.length) {
   testFiles = args._.reduce((paths, p) => paths.concat(glob(p)), []);
 } else {
-  testFiles = glob("public/js/actions/tests/*.js")
-    .concat(glob("public/js/reducers/tests/*.js"))
-    .concat(glob("public/js/utils/tests/*.js"))
+  testFiles = glob("src/actions/tests/*.js")
+    .concat(glob("src/reducers/tests/*.js"))
+    .concat(glob("src/utils/tests/*.js"))
     .concat(glob("config/tests/*.js"));
 }
 
