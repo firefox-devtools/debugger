@@ -1,9 +1,24 @@
+// @flow
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const constants = require("../constants");
 const fromJS = require("../utils/fromJS");
+
+import type { Frame } from "../types";
+import type { Action } from "../actions/types";
+
+type PauseState = {
+  pause: null,
+  isWaitingOnBreak: boolean,
+  frames: Frame[],
+  selectedFrameId: number,
+  loadedObjects: Object,
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
+  expressions: Array<any>
+}
 
 const initialState = fromJS({
   pause: null,
@@ -16,7 +31,7 @@ const initialState = fromJS({
   expressions: []
 });
 
-function update(state = initialState, action, emit) {
+function update(state: PauseState = initialState, action: Action): PauseState {
   switch (action.type) {
     case constants.PAUSED: {
       const { selectedFrameId, frames, pauseInfo } = action;
