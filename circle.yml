@@ -34,15 +34,17 @@ test:
     - npm run flow
 
 dependencies:
+  pre:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
   cache_directories:
     - "~/downloads"
-
+    - ~/.yarn-cache
   override:
     - npm i -g jasonlaster/lerna
-    - lerna bootstrap
-    - ./bin/install-chrome
-    - ./bin/install-firefox
+    - yarn install
+    - docker pull jlongster/mochitest-runner
     - ./bin/update-docker
+
 experimental:
   notify:
     branches:
