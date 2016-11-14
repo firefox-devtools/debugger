@@ -55,11 +55,40 @@ You can change the theme by setting the `theme` field in `local.json` to  `light
 
 The Debugger supports two types of internationalization RTL (right to left) layout and L10N (localization).
 
+**L10N**
+
 [L10N](https://github.com/devtools-html/debugger.html/blob/master/packages/devtools-local-toolbox/public/js/utils/L10N.js) is a global module with two methods `getStr` and `getFormatStr`.
 
 ```js
 L10N.getStr("scopes.header")
 L10N.getFormatStr("editor.searchResults", index + 1, count)
+```
+
+**RTL**
+
+RTL stands for right to left and is an important feature for arabic languages and hebrew. Here's what the debugger looks like right to left  [screenshot](https://cloud.githubusercontent.com/assets/394320/19226865/ef18b0d0-8eb9-11e6-82b4-8c4da702fe91.png).
+
+*How do I set the debugger to right to left?*
+
+`devtools-local-toolbox/index.html`
+```html
+<!DOCTYPE html>
+<html dir="rtl">
+   <head>
+     <title>Firefox Debugger</title>
+```
+
+*How do I change how something looks in rtl?*
+
+`public/js/components/SourceFooter.css`
+```css
+html:not([dir="rtl"]) .source-footer .command-bar {
+  float: right;
+}
+
+html[dir="rtl"] .source-footer .command-bar {
+  float: left;
+}
 ```
 
 Translated strings are added to the local [strings](https://github.com/devtools-html/debugger.html/blob/master/public/js/strings.json)
