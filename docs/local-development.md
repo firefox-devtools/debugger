@@ -91,10 +91,7 @@ html[dir="rtl"] .source-footer .command-bar {
 }
 ```
 
-Translated strings are added to the local [strings](https://github.com/devtools-html/debugger.html/blob/master/public/js/strings.json)
-=======
 Translated strings are added to the local [strings](https://github.com/devtools-html/debugger.html/blob/master/src/strings.json)
->>>>>>> Change more references in the source and documentation.
 file and m-c [debugger properties](https://dxr.mozilla.org/mozilla-central/source/devtools/client/locales/en-US/debugger.properties) file.
 
 ### Flow
