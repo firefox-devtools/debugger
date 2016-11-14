@@ -1,5 +1,5 @@
 const React = require("react");
-const Tree = React.createFactory(require("../../lib/tree"));
+const Tree = React.createFactory(require("devtools-sham-modules").Tree);
 require("./ManagedTree.css");
 
 let ManagedTree = React.createClass({
