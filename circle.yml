@@ -1,12 +1,14 @@
 machine:
   node:
-    version: 6.3
+    version: 7.0
   services:
     - docker
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
+    YARN_PATH: "$HOME/.yarn-cache"
   post:
     - mkdir -p $DOWNLOADS_PATH
+    - mkdir -p $YARN_PATH
 
 checkout:
   post:
@@ -34,15 +36,16 @@ test:
     - npm run flow
 
 dependencies:
+  pre:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
   cache_directories:
     - "~/downloads"
-
+    - ~/.yarn-cache
   override:
     - npm i -g jasonlaster/lerna
-    - lerna bootstrap
-    - ./bin/install-chrome
-    - ./bin/install-firefox
+    - yarn install
     - ./bin/update-docker
+
 experimental:
   notify:
     branches:

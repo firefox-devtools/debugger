@@ -16,20 +16,27 @@ Here are instructions to get the debugger.html application installed and running
 
 ### Linux or MacOs
 
-* `npm install` - Install dependencies
-* `npm start` - Start development web server
+* `yarn install` - Install dependencies
+* `yarn start` - Start development web server
 * `open http://localhost:8000` - Open in any modern browser
+
+NOTE: :cat2: [Yarn](https://yarnpkg.com/en/docs/install) is required. We're using yarn because it is really helpful to know that we all have the same setup.
 
 ### Windows
 
 It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
 
-* `npm install --ignore-scripts` - Install dependencies
-* `bash ./bin/preinstall` - Run preinstall script manually
-* `npm start` - Start development web server
+* `yarn install` - Install dependencies
+* `yarn start` - Start development web server
 * `open http://localhost:8000` - Open in any modern browser
 
-Now you have the debugger.html web app running, follow the instructions shown on that page to start up debug target like a web browser or node.js.
+NOTE: :cat2: [Yarn](https://yarnpkg.com/en/docs/install) is required. We're using yarn because it is really helpful to know that we all have the same setup.
+
+### Open the Debugger
+
+After `yarn start`, the debugger will be running on [http://localhost:8000](http://localhost:8000). Go to [http://localhost:8000](http://localhost:8000) in any browser.
+
+Now you have the debugger.html web app running, follow the instructions shown on that page to start up a debug target like a web browser or node.js.
 
 Please read [Getting Started][getting-started] in our [CONTRIBUTING][contributing] document for more detailed instructions.
 
