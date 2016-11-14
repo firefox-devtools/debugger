@@ -65,24 +65,28 @@ The debugger.html is a web application that makes a [WebSocket](https://develope
 
 ### Web Application
 
-First we need to get the web application running.  Within the source code directory, from the command line run these commands.
+First we need to get the web application running. Within the source code directory, from the command line run these commands.
 
 ### Linux or MacOs
 
-* `npm install` - Install dependencies
-* `npm start` - Start development web server
+* `yarn install` - Install dependencies.
+* `yarn start` - Start development web server
+
+NOTE: :cat2: [Yarn](https://yarnpkg.com/en/docs/install) is required. We're using yarn because it is really helpful to know that we all have the same setup.
 
 ### Windows
 
 It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
 
-* `npm install --ignore-scripts` - Install dependencies
-* `bash ./bin/preinstall` - Run preinstall script manually
-* `npm start` - Start development web server
+* install [yarn](https://yarnpkg.com/en/docs/install)
+* `yarn install` - Install dependencies
+* `yarn start` - Start development web server
 
-Then, because `npm start` will remain running, from another terminal window you can open [http://localhost:8000](http://localhost:8000) in your browser or type the following:
+NOTE: :cat2: [Yarn](https://yarnpkg.com/en/docs/install) is required. We're using yarn because it is really helpful to know that we all have the same setup.
 
-* `open http://localhost:8000` - Open in any modern browser
+### Open the debugger
+
+After `yarn start`, the debugger will be running on [http://localhost:8000](http://localhost:8000). Go to [http://localhost:8000](http://localhost:8000) in any browser.
 
 ### Debuggable Targets
 
@@ -90,18 +94,17 @@ The following are instructions for getting Firefox, Chrome, and Node running wit
 
 #### Firefox
 
-The following command will automatically start a remote debuggable version of Firefox using a temporary profile and set all the necessary preferences for you.  This command runs Firefox in a selenium environment that is great for quick testing.
+The following command will automatically start a remote debuggable version of Firefox using a temporary profile and set all the necessary preferences for you. This command runs Firefox in a selenium environment that is great for quick testing.
 
 ```
-$ npm run firefox
+$ yarn run firefox
 ```
 
-* Restart your development server `ctrl+c` in the Terminal and run `npm start` again
-* Reload `localhost:8000` (you should now see a Firefox tabs section)
+When firefox is running, reload `localhost:8000` and you'll see the available firefox tabs to debug in the debugger.
 
 **Command line option**
 
-Here are the instructions for running Firefox from the command line:
+Here are the instructions for running Firefox from the command line without selenium:
 
 **MacOs**:
 
@@ -117,7 +120,7 @@ C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -
 
 > If this command doesn't work for your OS or Firefox version see the other [Firefox commands for running in a debuggable state](./docs/remotely-debuggable-browsers.md#firefox)
 
-**NOTE**: The Firefox started from the `npm run` command automatically sets the following necessary flags which you will need to do manually if you ran Firefox from the command line.
+**NOTE**: The Firefox started from the `yarn run` command automatically sets the following necessary flags which you will need to do manually if you ran Firefox from the command line.
 
 Navigate to `about:config` and accept any warning message.  Then search for the following preferences and double click them to toggle their values to the following.
 
@@ -242,7 +245,7 @@ To enabled Hot Reloading:
 }
 ```
 
-* Restart your development server by typing `ctrl+c` in the Terminal and run `npm start` again
+* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
 
 Read more about [Hot Reloading](./docs/local-development.md#hot-reloading)
 
@@ -278,14 +281,14 @@ Your code must pass all tests to be merged in.  Your tests should pass locally b
 Here's how can run all the unit tests, lints, and integration tests at once:
 
 ```
-$ npm run test-all
+$ yarn run test-all
 ```
 
 #### Unit Tests
 
-* `npm test` - Run tests headlessly
+* `yarn test` - Run tests headlessly
  * These are the basic unit tests which must always pass
-* `npm run mocha-server` - Run tests in the browser once you open `http://localhost:8003`
+* `yarn run mocha-server` - Run tests in the browser once you open `http://localhost:8003`
  * This runs tests in the browser and is useful for fixing errors in the karma tests
 
 #### Integration tests
@@ -299,7 +302,7 @@ Learn more about mochitests in our [mochitests docs](./docs/mochitests.md).
 Run all of lint checks (JS + CSS) run the following command:
 
 ```
-$ npm run lint
+$ yarn run lint
 ```
 
 ##### Lint CSS
@@ -309,7 +312,7 @@ We use [Stylelint](http://stylelint.io/) to maintain our CSS styles.  The [.styl
 To test your CSS changes run the command:
 
 ```
-$ npm run lint-css
+$ yarn run lint-css
 ```
 
 ##### Lint JS
@@ -319,13 +322,13 @@ We use [eslint](http://eslint.org/) to maintain our JavaScript styles.  The [.es
 To test your JS changes run the command:
 
 ```
-$ npm run lint-js
+$ yarn run lint-js
 ```
 
 To automatically fix many errors run the command:
 
 ```
-$ npm run lint-fix
+$ yarn run lint-fix
 ```
 
 #### Storybook
@@ -333,8 +336,8 @@ $ npm run lint-fix
 Storybook is our local development and testing utility that allows you to see how an individual component like the breakpoint list view or the call stack view react to any changes to style and code you've made.
 
 ```
-$ npm i -g @kadira/storybook
-$ npm run storybook
+$ yarn i -g @kadira/storybook
+$ yarn run storybook
 ```
 
 Read more information in [storybook docs](./docs/local-development.md#storybook)
@@ -346,7 +349,7 @@ All default config values are in [`packages/devtools-config/configs/development.
 Here are the most common development configuration options:
 
 * `logging`
-  * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `npm start`
+  * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `yarn start`
 * `chrome`
   * `debug` Enables listening for remotely debuggable Chrome browsers
 * `hotReloading` enables [Hot Reloading](./docs/local-development.md#hot-reloading) of CSS and React
