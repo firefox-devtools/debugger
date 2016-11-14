@@ -12,7 +12,7 @@ const Autocomplete = React.createClass({
   propTypes: {
     selectItem: PropTypes.func,
     items: PropTypes.array,
-    handleClose: PropTypes.func,
+    close: PropTypes.func,
     inputValue: PropTypes.string
   },
 
@@ -80,11 +80,11 @@ const Autocomplete = React.createClass({
       if (searchResults.length) {
         this.props.selectItem(searchResults[this.state.selectedIndex]);
       } else {
-        this.props.handleClose(this.state.inputValue);
+        this.props.close(this.state.inputValue);
       }
       e.preventDefault();
     } else if (e.key === "Tab") {
-      this.props.handleClose(this.state.inputValue);
+      this.props.close(this.state.inputValue);
       e.preventDefault();
     }
   },
@@ -161,7 +161,7 @@ const Autocomplete = React.createClass({
       this.renderInput(),
       CloseButton({
         buttonClass: "big",
-        handleClick: this.props.handleClose
+        handleClick: e => this.props.close()
       })),
       this.renderSummary(searchResults),
       this.renderResults(searchResults));
