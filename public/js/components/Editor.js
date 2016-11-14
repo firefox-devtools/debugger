@@ -19,8 +19,9 @@ const { makeLocationId } = require("../reducers/breakpoints");
 const actions = require("../actions");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
 
-const { getDocument, setDocument } = require("../utils/source-documents");
-const { shouldShowFooter } = require("../utils/editor");
+const { shouldShowFooter, setText, setMode, editorHeight, highlightLine,
+        showSourceText, resizeBreakpointGutter,
+        clearDebugLine, setDebugLine } = require("../utils/editor");
 const { isFirefox } = require("devtools-config");
 const { showMenu } = require("../utils/menu");
 const { isEnabled } = require("devtools-config");
@@ -39,19 +40,6 @@ function breakpointAtLine(breakpoints, line) {
 
 function getTextForLine(codeMirror, line) {
   return codeMirror.getLine(line - 1).trim();
-}
-
-/**
- * Forces the breakpoint gutter to be the same size as the line
- * numbers gutter. Editor CSS will absolutely position the gutter
- * beneath the line numbers. This makes it easy to be flexible with
- * how we overlay breakpoints.
- */
-function resizeBreakpointGutter(editor) {
-  const gutters = editor.display.gutters;
-  const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
-  const breakpoints = gutters.querySelector(".breakpoints");
-  breakpoints.style.width = lineNumbers.clientWidth + "px";
 }
 
 const Editor = React.createClass({
@@ -150,78 +138,6 @@ const Editor = React.createClass({
     }
   },
 
-  clearDebugLine(selectedFrame) {
-    if (selectedFrame) {
-      const line = selectedFrame.location.line;
-      this.editor.codeMirror.removeLineClass(line - 1, "line", "debug-line");
-    }
-  },
-
-  setDebugLine(selectedFrame, selectedLocation) {
-    if (selectedFrame && selectedLocation &&
-        selectedFrame.location.sourceId === selectedLocation.sourceId) {
-      const line = selectedFrame.location.line;
-      this.editor.codeMirror.addLineClass(line - 1, "line", "debug-line");
-    }
-  },
-
-  highlightLine() {
-    if (!this.pendingJumpLine) {
-      return;
-    }
-
-    // If the location has changed and a specific line is requested,
-    // move to that line and flash it.
-    const codeMirror = this.editor.codeMirror;
-
-    // Make sure to clean up after ourselves. Not only does this
-    // cancel any existing animation, but it avoids it from
-    // happening ever again (in case CodeMirror re-applies the
-    // class, etc).
-    if (this.lastJumpLine) {
-      codeMirror.removeLineClass(
-        this.lastJumpLine - 1, "line", "highlight-line"
-      );
-    }
-
-    const line = this.pendingJumpLine;
-    this.editor.alignLine(line);
-
-    // We only want to do the flashing animation if it's not a debug
-    // line, which has it's own styling.
-    if (!this.props.selectedFrame ||
-        this.props.selectedFrame.location.line !== line) {
-      this.editor.codeMirror.addLineClass(line - 1, "line", "highlight-line");
-    }
-
-    this.lastJumpLine = line;
-    this.pendingJumpLine = null;
-  },
-
-  setText(text) {
-    if (!text || !this.editor) {
-      return;
-    }
-
-    this.editor.setText(text);
-  },
-
-  setMode(sourceText) {
-    const contentType = sourceText.get("contentType");
-
-    if (contentType.includes("javascript")) {
-      this.editor.setMode({ name: "javascript" });
-    } else if (contentType === "text/wasm") {
-      this.editor.setMode({ name: "text" });
-    } else if (sourceText.get("text").match(/^\s*</)) {
-      // Use HTML mode for files in which the first non whitespace
-      // character is `<` regardless of extension.
-      this.editor.setMode({ name: "htmlmixed" });
-    } else {
-      this.editor.setMode({ name: "text" });
-    }
-  },
-
   showGutterMenu(e, line, bp) {
     let bpLabel;
     let cbLabel;
@@ -305,7 +221,7 @@ const Editor = React.createClass({
     debugGlobal("cm", this.editor.codeMirror);
 
     if (this.props.sourceText) {
-      this.setText(this.props.sourceText.get("text"));
+      setText(this.editor, this.props.sourceText.get("text"));
     }
   },
 
@@ -318,70 +234,28 @@ const Editor = React.createClass({
     // This lifecycle method is responsible for updating the editor
     // text.
     const { sourceText, selectedLocation } = nextProps;
-    this.clearDebugLine(this.props.selectedFrame);
+    clearDebugLine(this.editor, this.props.selectedFrame);
 
     if (!sourceText) {
-      this.showMessage("");
+      showMessage(this.editor, "");
     } else if (!isTextForSource(sourceText)) {
-      this.showMessage(sourceText.get("error") || "Loading...");
+      showMessage(this.editor, sourceText.get("error") || "Loading...");
     } else if (this.props.sourceText !== sourceText) {
-      this.showSourceText(sourceText, selectedLocation);
+      showSourceText(editor, sourceText, selectedLocation);
     }
 
-    this.setDebugLine(nextProps.selectedFrame, selectedLocation);
+    setDebugLine(this.editor, nextProps.selectedFrame, selectedLocation);
     resizeBreakpointGutter(this.editor.codeMirror);
   },
 
-  showMessage(msg) {
-    this.editor.replaceDocument(this.editor.createDocument());
-    this.setText(msg);
-    this.editor.setMode({ name: "text" });
-  },
-
-  /**
-   * Handle getting the source document or creating a new
-   * document with the correct mode and text.
-   *
-   */
-  showSourceText(sourceText, selectedLocation) {
-    let doc = getDocument(selectedLocation.sourceId);
-    if (doc) {
-      this.editor.replaceDocument(doc);
-      return doc;
-    }
-
-    doc = this.editor.createDocument();
-    setDocument(selectedLocation.sourceId, doc);
-    this.editor.replaceDocument(doc);
-
-    this.setText(sourceText.get("text"));
-    this.setMode(sourceText);
-  },
-
   componentDidUpdate(prevProps) {
-    // This is in `componentDidUpdate` so helper functions can expect
-    // `this.props` to be the current props. This lifecycle method is
-    // responsible for updating the editor annotations.
-    const { selectedLocation } = this.props;
-
-    // If the location is different and a new line is requested,
-    // update the pending jump line. Note that if jumping to a line in
-    // a source where the text hasn't been loaded yet, we will set the
-    // line here but not jump until rendering the actual source.
-    if (prevProps.selectedLocation !== selectedLocation) {
-      if (selectedLocation &&
-          selectedLocation.line != undefined) {
-        this.pendingJumpLine = selectedLocation.line;
-      } else {
-        this.pendingJumpLine = null;
-      }
-    }
+    updatePendingJumpLine();
 
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
     // loaded.
     if (this.props.sourceText && isTextForSource(this.props.sourceText)) {
-      this.highlightLine();
+      highlightLine(this.editor);
     }
   },
 
@@ -402,16 +276,6 @@ const Editor = React.createClass({
     });
   },
 
-  editorHeight() {
-    const { selectedSource } = this.props;
-
-    if (!selectedSource || !shouldShowFooter(selectedSource.toJS())) {
-      return "100%";
-    }
-
-    return "";
-  },
-
   render() {
     const { sourceText } = this.props;
 
@@ -424,7 +288,7 @@ const Editor = React.createClass({
         }),
         dom.div({
           className: "editor-mount",
-          style: { height: this.editorHeight() }
+          style: { height: editorHeight(this.editor) }
         }),
         this.renderBreakpoints(),
         SourceFooter({ editor: this.editor })
