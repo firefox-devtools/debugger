@@ -266,6 +266,7 @@ module.exports = connect(
       breakpointsDisabled: getBreakpointsDisabled(state),
       breakpoints: getBreakpoints(state),
       breakpointsLoading: getBreakpointsLoading(state),
-    };},
+    };
+  },
   dispatch => bindActionCreators(actions, dispatch)
 )(RightSidebar);
