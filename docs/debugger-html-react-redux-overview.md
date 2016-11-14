@@ -634,7 +634,7 @@ action file exports the following functions:
     adds the new file to the project. Next, the function dispatches a
     <code>TOGGLE\_PRETTY\_PRINT</code> action, which contains a promise that starts a
     Worker thread to transform the source. The worker is defined
-    in public/build/pretty-print-worker.js. The <code>selectSource()</code> function is then
+    in assets/build/pretty-print-worker.js. The <code>selectSource()</code> function is then
     called to select the new source.
 
 -   <code>loadSourceText()</code> – This function is called whenever a source is
