@@ -1,12 +1,14 @@
 machine:
   node:
-    version: 6.3
+    version: 7.0
   services:
     - docker
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
+    YARN_PATH: "$HOME/.yarn-cache"
   post:
     - mkdir -p $DOWNLOADS_PATH
+    - mkdir -p $YARN_PATH
 
 checkout:
   post:
@@ -42,7 +44,6 @@ dependencies:
   override:
     - npm i -g jasonlaster/lerna
     - yarn install
-    - docker pull jlongster/mochitest-runner
     - ./bin/update-docker
 
 experimental:
