@@ -15,7 +15,7 @@
     "flow": "flow",
     "lint": "npm run lint-css -s; npm run lint-js -s",
     "lint-css": "stylelint public/js/components/*.css",
-    "lint-js": "eslint public/**/*.js packages/**/*.js",
+    "lint-js": "eslint public/js/**/*.js packages/devtools-local-toolbox/public/js*.js",
     "lint-fix": "npm run lint-js -- --fix",
     "test": "node public/js/test/node-unit-tests.js",
     "test-all": "npm run test; npm run lint; npm run flow; npm run firefox-unit-test",
