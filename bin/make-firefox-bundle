@@ -31,18 +31,18 @@ fi
 
 TARGET=firefox-panel node_modules/.bin/webpack
 
-echo "// Generated from: $REV\n" | cat - public/build/bundle.js > "$DEBUGGER_PATH/bundle.js"
-cp public/build/source-map-worker.js "$DEBUGGER_PATH"
-cp public/build/pretty-print-worker.js "$DEBUGGER_PATH"
-cp public/build/styles.css "$DEBUGGER_PATH"
-cp public/images/* "$DEBUGGER_PATH/images"
-cp public/debugger.properties "$PROPERTIES_PATH"
+echo "// Generated from: $REV\n" | cat - assets/build/bundle.js > "$DEBUGGER_PATH/bundle.js"
+cp assets/build/source-map-worker.js "$DEBUGGER_PATH"
+cp assets/build/pretty-print-worker.js "$DEBUGGER_PATH"
+cp assets/build/styles.css "$DEBUGGER_PATH"
+cp assets/images/* "$DEBUGGER_PATH/images"
+cp assets/locales/debugger.properties "$PROPERTIES_PATH"
 
 rm -r "$DEBUGGER_PATH/test/mochitest"
 if [ -n "$SYMLINK_MOCHITESTS" ]; then
-    ln -s `pwd -P`"/$ROOT/../public/js/test/mochitest/" "$DEBUGGER_PATH/test/mochitest"
+    ln -s `pwd -P`"/$ROOT/../src/test/mochitest/" "$DEBUGGER_PATH/test/mochitest"
 else
-    rsync -avz public/js/test/mochitest/ "$DEBUGGER_PATH/test/mochitest"
+    rsync -avz src/test/mochitest/ "$DEBUGGER_PATH/test/mochitest"
 fi
 
 # Make sure a rebuild uses the new tests

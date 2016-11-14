@@ -1,6 +1,6 @@
 {
   "environment": "development",
-  "baseWorkerURL": "public/build/",
+  "baseWorkerURL": "assets/build/",
   "theme": "light",
   "logging": {
     "client": false,

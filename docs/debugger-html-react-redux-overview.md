@@ -54,12 +54,12 @@ is not modified.
 React uses a Virtual DOM; only required changes to the
 actual DOM will be rendered.
 
-#[Components](https://github.com/devtools-html/debugger.html/tree/master/public/js/components) <a name="components"></a>
+#[Components](https://github.com/devtools-html/debugger.html/tree/master/src/components) <a name="components"></a>
 
 
-debbuger.html uses React [Components](https://github.com/devtools-html/debugger.html/tree/master/public/js/components) to render portions of the
+debbuger.html uses React [Components](https://github.com/devtools-html/debugger.html/tree/master/src/components) to render portions of the
 application. Each component’s source code is located under the
-public/js/components folder. In this section we will cover how the
+src/components folder. In this section we will cover how the
 presentation pieces fit together; later we will discuss
 how debugger.html uses Redux to wire up data to each of the components.
 
@@ -167,10 +167,10 @@ the Redux state. Finally, all of the actions in the actions folder are
 combined and the contained <code>actionCreators</code> in each of the files are setup
 so the actions can be called directly from the component.
 
-#[Reducers](https://github.com/devtools-html/debugger.html/tree/master/public/js/reducers) <a name="reducers"></a> 
+#[Reducers](https://github.com/devtools-html/debugger.html/tree/master/src/reducers) <a name="reducers"></a>
 
 
-The [Reducers](https://github.com/devtools-html/debugger.html/tree/master/public/js/reducers) are all located in the public/js/reducers folder and are
+The [Reducers](https://github.com/devtools-html/debugger.html/tree/master/src/reducers) are all located in the src/reducers folder and are
 all combined using Redux’s <code>combineReducters()</code> function. This function is
 executed in main.js as follows:
 
@@ -243,7 +243,7 @@ The following action types are handled:
     removing a breakpoint. If the breakpoint is being disabled the
     disabled attribute of the breakpoint is set to <code>false</code>. If
     the breakpoint is removed it is deleted from the breakpoints state.
-    
+
 
 The breakpoints reducer additionally supplies functions to
 retrieve information from the breakpoints state. For example the
@@ -431,10 +431,10 @@ The tabs reducer handles the following action types:
 -   <code>SELECT\_TAB</code> – This action type is triggered when a specific
     application is selected for debugging.
 
-#[Actions](https://github.com/devtools-html/debugger.html/tree/master/public/js/actions) <a name="actions"></a>
+#[Actions](https://github.com/devtools-html/debugger.html/tree/master/src/actions) <a name="actions"></a>
 
-The [actions](https://github.com/devtools-html/debugger.html/tree/master/public/js/actions) in debugger.html are all located in the
-public/js/actions folder; there is an action file corresponding to
+The [actions](https://github.com/devtools-html/debugger.html/tree/master/src/actions) in debugger.html are all located in the
+src/actions folder; there is an action file corresponding to
  each reducer, which is responsible for dispatching the
 proper event when the application state needs to be modified. In this
 section we will cover each action file. As stated earlier, many of the
@@ -497,7 +497,7 @@ The event-listeners file exports the following functions:
     currently have listeners bound for the application being debugged.
     Once retrieved the <code>fetchEventListeners()</code> function dispatches the
     <code>FETCH\_EVENT\_LISTENERS</code> action.
-    
+
 ##pause
 
 The **pause** action file handles all functions responsible for
@@ -505,8 +505,8 @@ pausing, resuming and manipulating the debugger by stepping through
 code. The functions contained in this file handle several calls back and
 forth with the connected client (Firefox, Chrome, Node). Most of the
 client functions are defined in the
-public/js/clients/specificclient/events.js and
-public/js/clients/specificclient/commands.js files. The pause action
+src/clients/specificclient/events.js and
+src/clients/specificclient/commands.js files. The pause action
 file exports the following functions:
 
 -   <code>addExpression()</code> – Called from the
@@ -543,7 +543,7 @@ file exports the following functions:
     RightSideBar component. This is a generic function that sends
     different commands to the connected client. After the command is
     executed the <code>COMMAND</code> action is dispatched. The client commands are
-    defined in the public/js/clients/specificclient/commands.js file.
+    defined in the src/clients/specificclient/commands.js file.
 
 -   <code>stepIn()</code> – This function is called from the RightSideBar. This
     function calls the <code>command()</code> function to pass it
@@ -565,7 +565,7 @@ file exports the following functions:
     pause button is pressed and the debugger is currently not paused.
     This function calls the connected clients <code>breakOnNext()</code> function,
     which is defined in the
-    public/js/clients/specificclient/commands.js file. After returning
+    src/clients/specificclient/commands.js file. After returning
     from the client call the <code>BREAK\_ON\_NEXT</code> action is dispatched.
 
 -   <code>selectFrame()</code> – This function is called from the Frames component when
@@ -581,8 +581,8 @@ file exports the following functions:
     the variable tree is expanded. The function calls the connected
     client to retrieve the values and dispatches the
     <code>LOAD\_OBJECT\_PROPERTIES</code> action.
-    
-    
+
+
 ##sources
 
 The **sources** action is responsible for providing functions that
@@ -591,7 +591,7 @@ editor and supplying black box and pretty print functionality. The sources
 action file exports the following functions:
 
 -   <code>newSource()</code> – This function is called from the connected
-    client as defined in public/js/clients/specificclient/events.js when
+    client as defined in src/clients/specificclient/events.js when
     a project is loaded. In addition <code>newSource()</code> is called whenever a
     source map is loaded to add it to the project. This function checks
     to see if a source map needs to be loaded and if so dispatches the
@@ -612,7 +612,7 @@ action file exports the following functions:
     promise completes and the text is loaded.
 
 -   <code>selectSourceURL()</code> – Currently this function is only exposed in the
-    public/js/main.js file to external clients. The function first
+    src/main.js file to external clients. The function first
     dispatches a <code>SELECT\_SOURCE</code> action and then dispatches the
     <code>SELECT\_SOURCE\_URL</code> action. As stated above the text is loaded with
     the <code>selectSource()</code> function.
@@ -634,7 +634,7 @@ action file exports the following functions:
     adds the new file to the project. Next, the function dispatches a
     <code>TOGGLE\_PRETTY\_PRINT</code> action, which contains a promise that starts a
     Worker thread to transform the source. The worker is defined
-    in public/build/pretty-print-worker.js. The <code>selectSource()</code> function is then
+    in assets/build/pretty-print-worker.js. The <code>selectSource()</code> function is then
     called to select the new source.
 
 -   <code>loadSourceText()</code> – This function is called whenever a source is
@@ -654,22 +654,20 @@ action file exports the following functions:
 -   <code>getTextForSources()</code> – This function takes a set of source files and
     calls <code>loadSourceText()</code> to load each file. Currently this function is
     not used in debugger.html.
-    
+
 ##tabs
 
 The **tabs** action is responsible for gathering all connected
 clients that can be debugged, and gathering the tabs for each application that can be debugged on the connected client. The tabs action
 file exports the following functions:
 
--   <code>newTabs()</code> – This function is called from public/js/main.js and sets
+-   <code>newTabs()</code> – This function is called from src/main.js and sets
     the action type to <code>ADD\_TABS</code>. The action is dispatched from the
-    public/js/main.js when debugger.html is loading and displaying
+    src/main.js when debugger.html is loading and displaying
     the main page or when starting to debug when a specific tab
     is selected.
 
--   <code>selectTab()</code> – This function is called from public/js/main.js when a
+-   <code>selectTab()</code> – This function is called from src/main.js when a
     user has selected a specific tab from a connected application
     to debug. It sets the action type to <code>SELECT\_TAB</code> and the action is
-    then dispatched in public/js/main.js.
-
-
+    then dispatched in src/main.js.

@@ -14,20 +14,20 @@
     "start": "start-dev-server",
     "flow": "flow",
     "lint": "npm run lint-css -s; npm run lint-js -s",
-    "lint-css": "stylelint public/js/components/*.css",
-    "lint-js": "eslint public/**/*.js packages/**/*.js",
+    "lint-css": "stylelint src/components/*.css",
+    "lint-js": "eslint src/**/*.js packages/devtools-local-toolbox/src/**/*.js",
     "lint-fix": "npm run lint-js -- --fix",
-    "test": "node public/js/test/node-unit-tests.js",
+    "test": "node src/test/node-unit-tests.js",
     "test-all": "npm run test; npm run lint; npm run flow; npm run firefox-unit-test",
     "mocha-server": "node bin/mocha-server.js",
     "firefox-unit-test": "node bin/firefox-driver --test",
     "firefox": "node bin/firefox-driver --start",
     "mochitests-watch": "MOCHITESTS=true TARGET=firefox-panel webpack --watch",
-    "build-docs": "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ public/js/types.js public/js/utils/ public/js/reducers/ public/js/actions/ public/js/test/mochitest/head.js",
-    "prepush": "npm run lint; node public/js/test/node-unit-tests.js --dots",
+    "build-docs": "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ src/types.js src/utils/ src/reducers/ src/actions/ src/test/mochitest/head.js",
+    "prepush": "npm run lint; node src/test/node-unit-tests.js --dots",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "flow-coverage": "flow-coverage-report -i 'public/js/actions/*.js' -i 'public/js/reducers/*.js' -i 'public/js/utils/*.js' -t html -t text",
+    "flow-coverage": "flow-coverage-report -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -t html -t text",
     "preinstall": "./bin/preinstall"
   },
   "dependencies": {
@@ -116,7 +116,8 @@
     "ws": "^1.0.1"
   },
   "files": [
-    "public"
+    "src",
+    "assets"
   ],
   "greenkeeper": {
     "ignore": [
@@ -127,6 +128,6 @@
       "codemirror"
     ]
   },
-  "main": "public/js/main.js",
+  "main": "src/main.js",
   "author": "Jason Laster <jlaster@mozilla.com>"
 }

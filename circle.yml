@@ -17,7 +17,7 @@ checkout:
 test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
-    - node public/js/test/node-unit-tests.js --ci
+    - node src/test/node-unit-tests.js --ci
     - ./bin/run-mochitests-docker
     - npm run firefox-unit-test
   pre:
