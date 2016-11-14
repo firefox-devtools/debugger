@@ -1,3 +1,3 @@
-const feature = require("./src/feature")
+const feature = require("./src/feature");
 
-module.exports = feature
+module.exports = feature;

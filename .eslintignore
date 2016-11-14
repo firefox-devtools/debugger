@@ -1,3 +1,4 @@
+public/build/*
 public/js/lib/tree.js
 public/js/utils/imstruct.js
 public/js/test/examples/**
@@ -5,7 +6,9 @@ public/js/test/integration/**
 public/js/test/unit-sources/**
 public/js/test/mochitest/head.js
 public/js/test/mochitest/examples/**
-webpack.config.js
+webpack.config.*
 
 packages/devtools-modules/**/*.js
 packages/devtools-sham-modules/**/*.js
+bin/
+
