@@ -1,7 +1,7 @@
 .search-bar {
   width: calc(100% - 1px);
   height: 40px;
-  background: white;
+  background-color: var(--theme-body-background);
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
 }
