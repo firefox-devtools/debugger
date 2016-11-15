@@ -85,10 +85,24 @@ const EditorSearchBar = React.createClass({
     this.setState({ enabled: !this.state.enabled });
 
     if (this.state.enabled) {
-      const node = this.searchInput();
-      if (node) {
-        node.setSelectionRange(0, node.value.length);
-      }
+      const selection = this.props.editor.codeMirror.getSelection();
+      this.setSearchValue(selection);
+      this.selectSearchInput();
+    }
+  },
+
+  setSearchValue(value: string) {
+    if (value == "") {
+      return;
+    }
+
+    this.searchInput().value = value;
+  },
+
+  selectSearchInput() {
+    const node = this.searchInput();
+    if (node) {
+      node.setSelectionRange(0, node.value.length);
     }
   },
 
