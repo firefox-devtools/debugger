@@ -54,7 +54,7 @@ if (isFirefoxPanel()) {
       if (L10N) {
         window.L10N = L10N;
       } else {
-        window.L10N = require("../../packages/devtools-local-toolbox/public/js/utils/L10N");
+        window.L10N = require("../packages/devtools-local-toolbox/src/utils/L10N");
         window.L10N.setBundle(require("./strings.json"));
       }
 

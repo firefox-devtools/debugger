@@ -1,12 +1,14 @@
 machine:
   node:
-    version: 6.3
+    version: 7.0
   services:
     - docker
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
+    YARN_PATH: "$HOME/.yarn-cache"
   post:
     - mkdir -p $DOWNLOADS_PATH
+    - mkdir -p $YARN_PATH
 
 checkout:
   post:
@@ -15,7 +17,7 @@ checkout:
 test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
-    - node public/js/test/node-unit-tests.js --ci
+    - node src/test/node-unit-tests.js --ci
     - ./bin/run-mochitests-docker
     - npm run firefox-unit-test
   pre:
@@ -34,15 +36,17 @@ test:
     - npm run flow
 
 dependencies:
+  pre:
   cache_directories:
-    - "~/downloads"
-
+    - ~/downloads
+    - ~/.yarn-cache
+    - ~/.yarn
   override:
+    - npm i -g yarn@0.16.1
     - npm i -g jasonlaster/lerna
-    - lerna bootstrap
-    - ./bin/install-chrome
-    - ./bin/install-firefox
+    - yarn install
     - ./bin/update-docker
+
 experimental:
   notify:
     branches:

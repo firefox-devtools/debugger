@@ -14,10 +14,10 @@ if (!geckoDir) {
   exit();
 }
 
-glob("public/js/lib/devtools/**/*.js").forEach((debuggerFile) => {
+glob("src/lib/devtools/**/*.js").forEach((debuggerFile) => {
   const geckoFilePath = path.join(
     geckoDir,
-    path.relative("public/js/lib/", debuggerFile)
+    path.relative("src/lib/", debuggerFile)
   );
 
   if (fs.existsSync(geckoFilePath)) {

@@ -2,7 +2,7 @@ const buildToolboxConfig =
       require("./packages/devtools-local-toolbox/webpack.config.js");
 
 const path = require("path");
-const projectPath = path.join(__dirname, "public/js");
+const projectPath = path.join(__dirname, "src");
 
 let webpackConfig = {
   entry: {
@@ -13,9 +13,9 @@ let webpackConfig = {
   },
 
   output: {
-    path: path.join(__dirname, "public/build"),
+    path: path.join(__dirname, "assets/build"),
     filename: "[name].js",
-    publicPath: "/public/build"
+    publicPath: "/assets/build"
   }
 };
 

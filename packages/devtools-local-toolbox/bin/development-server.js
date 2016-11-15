@@ -114,8 +114,8 @@ app.listen(serverPort, "0.0.0.0", function(err, result) {
 });
 
 const examples = express();
-examples.use(express.static("public/js/test/examples"));
-examples.use(serveIndex("public/js/test/examples", { icons: true }));
+examples.use(express.static("src/test/examples"));
+examples.use(serveIndex("src/test/examples", { icons: true }));
 
 const examplesPort = getValue("development.examplesPort");
 examples.listen(examplesPort, "0.0.0.0", function(err, result) {

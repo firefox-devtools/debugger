@@ -94,7 +94,7 @@ const Search = React.createClass({
           this.setState({ inputValue: "" });
           this.props.toggleFileSearch(false);
         },
-        handleClose: this.close,
+        close: this.close,
         items: searchResults(this.props.sources),
         inputValue: this.state.inputValue
       })) : null;

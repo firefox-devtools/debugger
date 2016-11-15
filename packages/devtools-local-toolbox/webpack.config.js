@@ -15,7 +15,7 @@ const defaultBabelPlugins = [
 ];
 
 module.exports = webpackConfig => {
-  webpackConfig.context = path.resolve(__dirname, "public/js");
+  webpackConfig.context = path.resolve(__dirname, "src");
 
   webpackConfig.devtool = "source-map";
 
@@ -35,7 +35,7 @@ module.exports = webpackConfig => {
       loaders: [
         "babel?" +
           defaultBabelPlugins.map(p => "plugins[]=" + p) +
-          "&ignore=public/js/lib"
+          "&ignore=src/lib"
       ],
       isJavaScriptLoader: true
     },

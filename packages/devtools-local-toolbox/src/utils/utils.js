@@ -159,7 +159,7 @@ function compose(...funcs: any) {
   };
 }
 
-function updateObj<T>(obj: T, fields: $Shape<T>) : T {
+function updateObj<T: Object>(obj: T, fields: $Shape<T>) : T {
   return Object.assign({}, obj, fields);
 }
 

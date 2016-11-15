@@ -35,7 +35,7 @@ function getTestPaths(dir) {
   });
 }
 
-const testPaths = getTestPaths(path.join(__dirname, "../public/js"));
+const testPaths = getTestPaths(path.join(__dirname, "../src"));
 
 projectConfig.entry.bundle = projectConfig.entry.bundle.concat(testPaths);
 const config = Object.assign({}, projectConfig, {});

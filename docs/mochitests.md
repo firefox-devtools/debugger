@@ -2,7 +2,7 @@ We use [mochitests](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mo
 
 Mochitests require a local checkout of the Firefox source code. This is because they are used to test a lot of Firefox, and you would usually run them inside Firefox. We are developing the debugger outside of Firefox, but still want to test it as a devtools panel, so we've figured out a way to use them. It may not be elegant, but it allows us to ensure a high quality Firefox debugger.
 
-Mochitests live in `public/js/test/mochitest`.
+Mochitests live in `src/test/mochitest`.
 
 ## Getting Started
 
@@ -28,7 +28,7 @@ cd firefox
 ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/
 ```
 
-This works because we've symlinked the local mochitests into where the debugger lives in Firefox. Any changes to the tests in `public/js/test/mochitest` will be reflected and you can re-run the tests.
+This works because we've symlinked the local mochitests into where the debugger lives in Firefox. Any changes to the tests in `src/test/mochitest` will be reflected and you can re-run the tests.
 
 Visit the [mochitest](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest) MDN page to learn more about mochitests and more advanced arguments. A few tips:
 
