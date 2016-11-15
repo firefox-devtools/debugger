@@ -5,33 +5,36 @@
 
 const constants = require("../constants");
 const fromJS = require("../utils/fromJS");
+const makeRecord = require("../utils/makeRecord");
+const I = require("immutable");
 
 import type { Frame } from "../types";
 import type { Action } from "../actions/types";
+import type { Record } from "../utils/makeRecord";
 
 type PauseState = {
   pause: null,
   isWaitingOnBreak: boolean,
   frames: Frame[],
-  selectedFrameId: number,
+  selectedFrameId: string,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
   expressions: Array<any>
 }
 
-const initialState = fromJS({
-  pause: null,
+const State = makeRecord(({
+  pause: undefined,
   isWaitingOnBreak: false,
-  frames: null,
-  selectedFrameId: null,
-  loadedObjects: {},
+  frames: undefined,
+  selectedFrameId: undefined,
+  loadedObjects: I.Map(),
   shouldPauseOnExceptions: false,
   shouldIgnoreCaughtExceptions: false,
-  expressions: []
-});
+  expressions: I.List()
+} : PauseState));
 
-function update(state: PauseState = initialState, action: Action): PauseState {
+function update(state = State(), action: Action): Record<PauseState> {
   switch (action.type) {
     case constants.PAUSED: {
       const { selectedFrameId, frames, pauseInfo } = action;
@@ -68,12 +71,6 @@ function update(state: PauseState = initialState, action: Action): PauseState {
     case constants.BREAK_ON_NEXT:
       return state.set("isWaitingOnBreak", true);
 
-    case constants.LOADED_FRAMES:
-      if (action.status == "done") {
-        return state.set("frames", action.value.frames);
-      }
-
-      break;
     case constants.SELECT_FRAME:
       return state.set("selectedFrameId", action.frame.id);
 
@@ -88,7 +85,7 @@ function update(state: PauseState = initialState, action: Action): PauseState {
       break;
 
     case constants.NAVIGATE:
-      return initialState;
+      return State();
 
     case constants.PAUSE_ON_EXCEPTIONS:
       const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
@@ -127,42 +124,53 @@ function update(state: PauseState = initialState, action: Action): PauseState {
   return state;
 }
 
-function getPause(state) {
+// Selectors
+
+// Unfortunately, it's really hard to make these functions accept just
+// the state that we care about and still type it with Flow. The
+// problem is that we want to re-export all selectors from a single
+// module for the UI, and all of those selectors should take the
+// top-level app state, so we'd have to "wrap" them to automatically
+// pick off the piece of state we're interested in. It's impossible
+// (right now) to type those wrapped functions.
+type OuterState = { pause: Record<PauseState> };
+
+function getPause(state: OuterState) {
   return state.pause.get("pause");
 }
 
-function getLoadedObjects(state) {
+function getLoadedObjects(state: OuterState) {
   return state.pause.get("loadedObjects");
 }
 
-function getExpressions(state) {
+function getExpressions(state: OuterState) {
   return state.pause.get("expressions");
 }
 
-function getIsWaitingOnBreak(state) {
+function getIsWaitingOnBreak(state: OuterState) {
   return state.pause.get("isWaitingOnBreak");
 }
 
-function getShouldPauseOnExceptions(state) {
+function getShouldPauseOnExceptions(state: OuterState) {
   return state.pause.get("shouldPauseOnExceptions");
 }
 
-function getShouldIgnoreCaughtExceptions(state) {
+function getShouldIgnoreCaughtExceptions(state: OuterState) {
   return state.pause.get("shouldIgnoreCaughtExceptions");
 }
 
-function getFrames(state) {
+function getFrames(state: OuterState) {
   return state.pause.get("frames");
 }
 
-function getSelectedFrame(state) {
+function getSelectedFrame(state: OuterState) {
   const selectedFrameId = state.pause.get("selectedFrameId");
   const frames = state.pause.get("frames");
   return frames && frames.find(frame => frame.id == selectedFrameId);
 }
 
 module.exports = {
-  initialState,
+  State,
   update,
   getPause,
   getLoadedObjects,
