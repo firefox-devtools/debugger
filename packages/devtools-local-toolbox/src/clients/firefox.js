@@ -5,7 +5,6 @@ const { getValue } = require("devtools-config");
 const { Tab } = require("../tcomb-types");
 const { setupCommands, clientCommands } = require("./firefox/commands");
 const { setupEvents, clientEvents } = require("./firefox/events");
-const { createSource } = require("./firefox/create");
 
 let debuggerClient = null;
 let threadClient = null;
@@ -87,40 +86,22 @@ function connectTab(tab) {
 function initPage(actions) {
   tabTarget = getTabTarget();
   threadClient = getThreadClient();
-
   setupCommands({ threadClient, tabTarget, debuggerClient });
 
-  tabTarget.on("will-navigate", actions.willNavigate);
-  tabTarget.on("navigate", actions.navigated);
-
-  // Listen to all the requested events.
-  setupEvents({ threadClient, actions });
-  Object.keys(clientEvents).forEach(eventName => {
-    threadClient.addListener(eventName, clientEvents[eventName]);
-  });
-
-  // In Firefox, we need to initially request all of the sources. This
-  // usually fires off individual `newSource` notifications as the
-  // debugger finds them, but there may be existing sources already in
-  // the debugger (if it's paused already, or if loading the page from
-  // bfcache) so explicity fire `newSource` events for all returned
-  // sources.
-  return threadClient.getSources().then(({ sources }) => {
-    actions.newSources(sources.map(createSource));
-
-    // If the threadClient is already paused, make sure to show a
-    // paused state.
-    const pausedPacket = threadClient.getLastPausePacket();
-    if (pausedPacket) {
-      clientEvents.paused(null, pausedPacket);
-    }
-  });
+  if (actions) {
+    // Listen to all the requested events.
+    setupEvents({ threadClient, actions });
+    Object.keys(clientEvents).forEach(eventName => {
+      threadClient.addListener(eventName, clientEvents[eventName]);
+    });
+  }
 }
 
 module.exports = {
   connectClient,
   connectTab,
   clientCommands,
+  clientEvents,
   getThreadClient,
   setThreadClient,
   getTabTarget,

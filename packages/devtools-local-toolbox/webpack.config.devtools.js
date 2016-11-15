@@ -1,7 +1,6 @@
 
 const path = require("path");
 const webpack = require("webpack");
-const { getConfig } = require("../devtools-config/src/config");
 
 const { DefinePlugin } = webpack;
 
@@ -24,7 +23,7 @@ const nativeMapping = {
 let packagesPath = path.join(__dirname, "../");
 let projectPath = path.join(__dirname, "../../");
 
-module.exports = webpackConfig => {
+module.exports = (webpackConfig, envConfig) => {
   webpackConfig.output.library = "Debugger";
 
   if (process.env.MOCHITESTS) {
@@ -70,7 +69,7 @@ module.exports = webpackConfig => {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || "production"),
         TARGET: JSON.stringify("firefox-panel")
       },
-      "DebuggerConfig": JSON.stringify(getConfig())
+      "DebuggerConfig": JSON.stringify(envConfig)
     })
   ]);
 

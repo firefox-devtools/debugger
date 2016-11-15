@@ -12,29 +12,10 @@ const express = require("express");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const http = require("http");
-const serveIndex = require("serve-index");
 const checkNode = require("check-node-version");
-
-checkNode(">=5.0.0", function(_, opts) {
-  if (!opts.nodeSatisfied) {
-    const version = opts.node.raw;
-    console.log(`Sorry, Your version of node is ${version}.`);
-    console.log("The minimum requirement is >=5.0.0");
-    exit();
-  }
-});
-
-const getConfig = require("../../devtools-config/src/config").getConfig;
 const getValue = require("devtools-config").getValue;
 const setConfig = require("devtools-config").setConfig;
 const isDevelopment = require("devtools-config").isDevelopment;
-
-setConfig(getConfig());
-
-if (!getValue("firefox.webSocketConnection")) {
-  const firefoxProxy = require("./firefox-proxy");
-  firefoxProxy({ logging: getValue("logging.firefoxProxy") });
-}
 
 function httpGet(url, onResponse) {
   return http.get(url, (response) => {
@@ -51,36 +32,13 @@ function httpGet(url, onResponse) {
   });
 }
 
-const app = express();
-
-// Webpack middleware
-const webpackConfig = require("../../../webpack.config");
-const compiler = webpack(webpackConfig);
-
-app.use(webpackDevMiddleware(compiler, {
-  publicPath: webpackConfig.output.publicPath,
-  noInfo: true,
-  stats: { colors: true }
-}));
-
-if (getValue("hotReloading")) {
-  app.use(webpackHotMiddleware(compiler));
-} else {
-  console.log("Hot Reloading can be enabled by adding " +
-  "\"hotReloading\": true to your local.json config");
-}
-
-// Static middleware
-app.use(express.static("public"));
-
-// Routes
-app.get("/", function(req, res) {
+function serveRoot(req, res) {
   const tplPath = path.join(__dirname, "../index.html");
   const tplFile = fs.readFileSync(tplPath, "utf8");
   res.send(Mustache.render(tplFile, { isDevelopment: isDevelopment() }));
-});
+}
 
-app.get("/get", function(req, res) {
+function handleNetworkRequest(req, res) {
   const url = req.query.url;
   if (url.indexOf("file://") === 0) {
     const path = url.replace("file://", "");
@@ -101,27 +59,58 @@ app.get("/get", function(req, res) {
     httpReq.on("error", err => res.status(500).send(err.code));
     httpReq.on("statusCode", err => res.status(err.message).send(err.message));
   }
-});
+}
 
-// Listen'
-const serverPort = getValue("development.serverPort");
-app.listen(serverPort, "0.0.0.0", function(err, result) {
+function onRequest(err, result) {
+  const serverPort = getValue("development.serverPort");
+
   if (err) {
     console.log(err);
   } else {
     console.log(`Development Server Listening at http://localhost:${serverPort}`);
   }
-});
+}
 
-const examples = express();
-examples.use(express.static("src/test/examples"));
-examples.use(serveIndex("src/test/examples", { icons: true }));
+function startDevServer(devConfig, webpackConfig) {
+  setConfig(devConfig);
+  checkNode(">=6.9.0", function(_, opts) {
+    if (!opts.nodeSatisfied) {
+      const version = opts.node.raw;
+      console.log(`Sorry, Your version of node is ${version}.`);
+      console.log("The minimum requirement is >=6.9.0");
+      exit();
+    }
+  });
 
-const examplesPort = getValue("development.examplesPort");
-examples.listen(examplesPort, "0.0.0.0", function(err, result) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(`View debugger examples at http://localhost:${examplesPort}`);
+  if (!getValue("firefox.webSocketConnection")) {
+    const firefoxProxy = require("./firefox-proxy");
+    firefoxProxy({ logging: getValue("logging.firefoxProxy") });
   }
-});
+
+  // setup app
+  const app = express();
+  app.use(express.static("assets/build"));
+  app.get("/", serveRoot);
+  app.get("/get", handleNetworkRequest);
+  const serverPort = getValue("development.serverPort");
+  app.listen(serverPort, "0.0.0.0", onRequest);
+
+  const compiler = webpack(webpackConfig);
+  app.use(webpackDevMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    noInfo: true,
+    stats: { colors: true }
+  }));
+
+  if (getValue("hotReloading")) {
+    app.use(webpackHotMiddleware(compiler));
+  } else {
+    console.log("Hot Reloading - https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#hot-reloading");
+  }
+
+  return { express, app }
+}
+
+module.exports = {
+  startDevServer
+}

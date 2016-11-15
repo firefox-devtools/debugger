@@ -12,8 +12,7 @@ machine:
 
 checkout:
   post:
-    - mv configs/ci.json configs/local.json:
-        pwd: packages/devtools-config
+    - mv configs/ci.json configs/local.json
 test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha

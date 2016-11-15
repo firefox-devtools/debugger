@@ -10,8 +10,12 @@
     "url": "https://github.com/devtools-html/debugger.html/issues"
   },
   "homepage": "https://github.com/devtools-html/debugger.html#readme",
+  "engineStrict": true,
+  "engines": {
+    "node": ">=6.9.0"
+  },
   "scripts": {
-    "start": "start-dev-server",
+    "start": "node bin/dev-server",
     "flow": "flow",
     "lint": "npm run lint-css -s; npm run lint-js -s",
     "lint-css": "stylelint src/components/*.css packages/devtools-local-toolbox/**/*.css",
@@ -32,7 +36,6 @@
   },
   "dependencies": {
     "codemirror": "^5.1.0",
-    "express": "^4.13.4",
     "fuzzaldrin-plus": "^0.3.1",
     "immutable": "^3.7.6",
     "invariant": "^2.2.1",
@@ -65,6 +68,7 @@
     "body-parser": "^1.15.0",
     "check-node-version": "^1.1.2",
     "classnames": "^2.2.5",
+    "express": "^4.13.4",
     "co": "=4.6.0",
     "css-loader": "^0.25.0",
     "devtools-config": "^0.0.3",

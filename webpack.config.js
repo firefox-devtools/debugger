@@ -1,24 +1,27 @@
-const buildToolboxConfig =
-      require("./packages/devtools-local-toolbox/webpack.config.js");
+const toolbox = require("./node_modules/devtools-local-toolbox/index");
+const getConfig = require("./bin/getConfig");
 
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
 
-let webpackConfig = {
-  entry: {
-    bundle: [path.join(projectPath, "main.js")],
-    "source-map-worker": path.join(projectPath, "utils/source-map-worker.js"),
-    "pretty-print-worker":
-            path.join(projectPath, "utils/pretty-print-worker.js")
-  },
+function buildConfig(envConfig) {
+  const webpackConfig = {
+    entry: {
+      bundle: [path.join(projectPath, "main.js")],
+      "source-map-worker": path.join(projectPath, "utils/source-map-worker.js"),
+      "pretty-print-worker":
+              path.join(projectPath, "utils/pretty-print-worker.js")
+    },
 
   output: {
     path: path.join(__dirname, "assets/build"),
     filename: "[name].js",
     publicPath: "/assets/build"
+    }
   }
-};
 
-webpackConfig = buildToolboxConfig(webpackConfig);
+  return toolbox.toolboxConfig(webpackConfig, envConfig);
+}
 
-module.exports = webpackConfig;
+const envConfig = getConfig();
+module.exports = buildConfig(envConfig);

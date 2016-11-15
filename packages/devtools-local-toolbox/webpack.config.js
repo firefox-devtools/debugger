@@ -5,8 +5,7 @@ const path = require("path");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const { isDevelopment, isFirefoxPanel, getValue } = require("devtools-config");
-const { getConfig } = require("../devtools-config/registerConfig");
-
+const merge = require("lodash/merge");
 const NODE_ENV = process.env.NODE_ENV || "development";
 
 const defaultBabelPlugins = [
@@ -14,17 +13,16 @@ const defaultBabelPlugins = [
   "transform-async-to-generator"
 ];
 
-module.exports = webpackConfig => {
+module.exports = (webpackConfig, envConfig) => {
   webpackConfig.context = path.resolve(__dirname, "src");
-
   webpackConfig.devtool = "source-map";
 
-  webpackConfig.resolve = {
+  webpackConfig.resolve = merge({
     alias: {
       "devtools/client/shared/vendor/react": "react",
       "devtools/client/shared/vendor/react-dom": "react-dom"
     }
-  };
+  }, webpackConfig.resolve);
 
   webpackConfig.module = {
     loaders: [
@@ -45,13 +43,27 @@ module.exports = webpackConfig => {
     ]
   };
 
+  const ignoreRegexes = [/^fs$/];
+  webpackConfig.externals = [];
+  function externalsTest(context, request, callback) {
+    let mod = request;
+
+    // Any matching paths here won't be included in the bundle.
+    if (ignoreRegexes.some(r => r.test(request))) {
+      return callback(null, "var {}");
+    }
+
+    callback();
+  }
+  webpackConfig.externals.push(externalsTest);
+
   webpackConfig.plugins = [
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify(NODE_ENV),
         TARGET: JSON.stringify("local")
       },
-      "DebuggerConfig": JSON.stringify(getConfig())
+      "DebuggerConfig": JSON.stringify(envConfig)
     })
   ];
 
@@ -87,7 +99,7 @@ module.exports = webpackConfig => {
   }
 
   if (isFirefoxPanel()) {
-    webpackConfig = require("./webpack.config.devtools")(webpackConfig);
+    webpackConfig = require("./webpack.config.devtools")(webpackConfig, envConfig);
   }
 
   // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
