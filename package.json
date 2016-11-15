@@ -14,7 +14,7 @@
     "start": "start-dev-server",
     "flow": "flow",
     "lint": "npm run lint-css -s; npm run lint-js -s",
-    "lint-css": "stylelint src/components/*.css",
+    "lint-css": "stylelint src/components/*.css packages/devtools-local-toolbox/**/*.css",
     "lint-js": "eslint src/**/*.js packages/devtools-local-toolbox/src/**/*.js",
     "lint-fix": "npm run lint-js -- --fix",
     "test": "node src/test/node-unit-tests.js",
