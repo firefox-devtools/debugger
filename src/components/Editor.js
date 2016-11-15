@@ -323,7 +323,8 @@ const Editor = React.createClass({
     if (!sourceText) {
       this.showMessage("");
     } else if (!isTextForSource(sourceText)) {
-      this.showMessage(sourceText.get("error") || "Loading...");
+      this.showMessage(sourceText.get("error") ||
+        L10N.getStr("loadingText"));
     } else if (this.props.sourceText !== sourceText) {
       this.showSourceText(sourceText, selectedLocation);
     }
