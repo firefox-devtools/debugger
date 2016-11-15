@@ -5,9 +5,14 @@ const By = webdriver.By;
 const until = webdriver.until;
 const Key = webdriver.Key;
 const minimist = require("minimist");
+const url = require('url');
+
 
 const args = minimist(process.argv.slice(2),
-{ boolean: ["start", "tests", "websocket"] });
+{
+  boolean: ["start", "tests", "websocket"],
+  string: ["location"],
+});
 
 const isWindows = /^win/.test(process.platform);
 const shouldStart = args.start;
@@ -58,7 +63,14 @@ function start() {
 
 if (shouldStart) {
   const driver = start();
-  driver.get("http://localhost:7999/todomvc");
+  let location = url.parse('about:blank');
+  if (args.location) {
+    location = url.parse(args.location);
+  }
+  if (location.protocol === null) {
+    location.protocol = 'http:';
+  }
+  driver.get(url.format(location));
   setInterval(() => {}, 100);
 }
 
