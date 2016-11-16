@@ -3,9 +3,6 @@ const { isEnabled } = require("devtools-config");
 const { isOriginalId } = require("../utils/source-map");
 
 function shouldShowPrettyPrint(selectedSource) {
-  if (!isEnabled("prettyPrint")) {
-    return false;
-  }
 
   const _isPretty = isPretty(selectedSource);
   const isOriginal = isOriginalId(selectedSource.id);
