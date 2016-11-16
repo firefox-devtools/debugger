@@ -30,7 +30,22 @@ export type Pause = {
 
 export type Expression = {
   id: number,
-  input: any
+  input: string
+}
+
+export type Grip = {
+  actor: string,
+  class: string,
+  extensible: boolean,
+  frozen: boolean,
+  isGlobal: boolean,
+  ownPropertyLength: number,
+  preview: {
+    kind: string,
+    url: string
+  },
+  sealed: boolean,
+  type: string
 }
 
 /**

@@ -6,7 +6,7 @@ const { PROMISE } = require("../utils/redux/middleware/promise");
 const { getExpressions, getSelectedFrame } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
 
-import type { Pause, Frame, Expression } from "../types";
+import type { Pause, Frame, Expression, Grip } from "../types";
 import type { ThunkArgs } from "./types";
 
 type TypeCommand = { type: string };
@@ -183,7 +183,7 @@ function selectFrame(frame: Frame) {
  * @memberof actions/pause
  * @static
  */
-function loadObjectProperties(grip: any) {
+function loadObjectProperties(grip: Grip) {
   return ({ dispatch, client }: ThunkArgs) => {
     dispatch({
       type: constants.LOAD_OBJECT_PROPERTIES,

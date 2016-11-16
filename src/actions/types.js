@@ -89,7 +89,8 @@ type SourceAction =
       status: AsyncStatus,
       error: string,
       value: { isPrettyPrinted: boolean,
-               sourceText: SourceText }}
+               sourceText: SourceText,
+               frames: Frame[] }}
   | { type: "CLOSE_TAB", id: string };
 
 type UIAction = { type: "TOGGLE_FILE_SEARCH", searchOn: boolean };
@@ -110,18 +111,23 @@ type PauseAction =
   | { type: "COMMAND", value: void }
   | { type: "SELECT_FRAME", frame: Frame }
   | { type: "LOAD_OBJECT_PROPERTIES",
-      objectId: any,
+      objectId: string,
+      status: string,
+      value: Object,
       "@@dispatch/promise": any }
   | { type: "ADD_EXPRESSION",
       id: number,
-      input: any }
+      input: any,
+      value: string }
   | { type: "EVALUATE_EXPRESSION",
       id: number,
-      input: any,
+      input: string,
+      status: string,
+      value: Object,
       "@@dispatch/promise": any }
   | { type: "UPDATE_EXPRESSION",
       id: number,
-      inpud: any }
+      input: string }
   | { type: "DELETE_EXPRESSION",
       id: number };
 

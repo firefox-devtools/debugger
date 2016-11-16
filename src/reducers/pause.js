@@ -8,19 +8,19 @@ const fromJS = require("../utils/fromJS");
 const makeRecord = require("../utils/makeRecord");
 const I = require("immutable");
 
-import type { Frame } from "../types";
+import type { Frame, Pause, Expression } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type PauseState = {
-  pause: null,
+  pause: ?Pause,
   isWaitingOnBreak: boolean,
-  frames: Frame[],
-  selectedFrameId: string,
+  frames: ?Frame[],
+  selectedFrameId: ?string,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
-  expressions: Array<any>
+  expressions: I.List<Expression>
 }
 
 const State = makeRecord(({
