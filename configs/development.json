@@ -9,9 +9,6 @@
     "actions": false
   },
   "features": {
-    "tabs": true,
-    "sourceMaps": true,
-    "prettyPrint": true,
     "watchExpressions": false,
     "editorSearch": false
   },
