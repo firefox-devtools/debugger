@@ -6,6 +6,49 @@
  */
 
 /**
+ * Pause
+ *
+ * @memberof types
+ * @static
+ */
+export type Frame = {
+  id: string,
+  displayName: string,
+  location: Location,
+  this: ?Object,
+  scope: ?Object
+}
+
+export type Why = {
+  type: string
+}
+
+export type Pause = {
+  frames: Frame[],
+  why: Why
+}
+
+export type Expression = {
+  id: number,
+  input: string
+}
+
+export type Grip = {
+  actor: string,
+  class: string,
+  extensible: boolean,
+  frozen: boolean,
+  isGlobal: boolean,
+  ownPropertyLength: number,
+  preview: {
+    kind: string,
+    url: string
+  },
+  sealed: boolean,
+  type: string
+}
+
+/**
  * Source
  *
  * @memberof types

@@ -1,7 +1,10 @@
+// @flow
 const { Frame } = require("../tcomb-types");
 const { getOriginalLocation } = require("./source-map");
 
-function updateFrameLocations(frames) {
+import type { Frame as FrameType } from "../types";
+
+function updateFrameLocations(frames: FrameType[]): Promise<FrameType[]> {
   if (!frames) {
     return Promise.resolve(frames);
   }

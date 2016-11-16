@@ -1,9 +1,15 @@
+// @flow
 const constants = require("../constants");
 const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 
 const { getExpressions, getSelectedFrame } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
+
+import type { Pause, Frame, Expression, Grip } from "../types";
+import type { ThunkArgs } from "./types";
+
+type CommandType = { type: string };
 
 /**
  * Redux actions for the pause state
@@ -17,7 +23,7 @@ const { updateFrameLocations } = require("../utils/pause");
  * @static
  */
 function resumed() {
-  return ({ dispatch, client }) => {
+  return ({ dispatch, client }: ThunkArgs) => {
     return dispatch({
       type: constants.RESUME,
       value: undefined
@@ -32,8 +38,8 @@ function resumed() {
  * @memberof actions/pause
  * @static
  */
-function paused(pauseInfo) {
-  return async function({ dispatch, getState, client }) {
+function paused(pauseInfo: Pause) {
+  return async function({ dispatch, getState, client }: ThunkArgs) {
     let { frames, why } = pauseInfo;
     frames = await updateFrameLocations(frames);
     const frame = frames[0];
@@ -58,8 +64,8 @@ function paused(pauseInfo) {
  * @static
  */
 function pauseOnExceptions(
-  shouldPauseOnExceptions, shouldIgnoreCaughtExceptions) {
-  return ({ dispatch, client }) => {
+  shouldPauseOnExceptions: boolean, shouldIgnoreCaughtExceptions: boolean) {
+  return ({ dispatch, client }: ThunkArgs) => {
     dispatch({
       type: constants.PAUSE_ON_EXCEPTIONS,
       shouldPauseOnExceptions,
@@ -79,8 +85,8 @@ function pauseOnExceptions(
  * @memberof actions/pause
  * @static
  */
-function command({ type }) {
-  return ({ dispatch, client }) => {
+function command({ type }: CommandType) {
+  return ({ dispatch, client }: ThunkArgs) => {
     // execute debugger thread command e.g. stepIn, stepOver
     client[type]();
 
@@ -140,7 +146,7 @@ function resume() {
  * @static
  */
 function breakOnNext() {
-  return ({ dispatch, client }) => {
+  return ({ dispatch, client }: ThunkArgs) => {
     client.breakOnNext();
 
     return dispatch({
@@ -157,8 +163,8 @@ function breakOnNext() {
  * @memberof actions/pause
  * @static
  */
-function selectFrame(frame) {
-  return ({ dispatch }) => {
+function selectFrame(frame: Frame) {
+  return ({ dispatch }: ThunkArgs) => {
     dispatch(selectSource(frame.location.sourceId,
                           { line: frame.location.line }));
     dispatch({
@@ -177,8 +183,8 @@ function selectFrame(frame) {
  * @memberof actions/pause
  * @static
  */
-function loadObjectProperties(grip) {
-  return ({ dispatch, client }) => {
+function loadObjectProperties(grip: Grip) {
+  return ({ dispatch, client }: ThunkArgs) => {
     dispatch({
       type: constants.LOAD_OBJECT_PROPERTIES,
       objectId: grip.actor,
@@ -195,8 +201,8 @@ function loadObjectProperties(grip) {
  * @memberof actions/pause
  * @static
  */
-function addExpression(expression) {
-  return ({ dispatch, getState }) => {
+function addExpression(expression: Expression) {
+  return ({ dispatch, getState }: ThunkArgs) => {
     const id = expression.id !== undefined ? parseInt(expression.id, 10) :
       getExpressions(getState()).toSeq().size++;
     dispatch({
@@ -215,8 +221,8 @@ function addExpression(expression) {
  * @memberof actions/pause
  * @static
  */
-function updateExpression(expression) {
-  return ({ dispatch }) => {
+function updateExpression(expression: Expression) {
+  return ({ dispatch }: ThunkArgs) => {
     dispatch({
       type: constants.UPDATE_EXPRESSION,
       id: expression.id,
@@ -232,8 +238,8 @@ function updateExpression(expression) {
  * @memberof actions/pause
  * @static
  */
-function deleteExpression(expression) {
-  return ({ dispatch }) => {
+function deleteExpression(expression: Expression) {
+  return ({ dispatch }: ThunkArgs) => {
     dispatch({
       type: constants.DELETE_EXPRESSION,
       id: expression.id
@@ -247,7 +253,7 @@ function deleteExpression(expression) {
  * @static
  */
 function evaluateExpressions() {
-  return async function({ dispatch, getState, client }) {
+  return async function({ dispatch, getState, client }: ThunkArgs) {
     const selectedFrame = getSelectedFrame(getState());
     if (!selectedFrame) {
       return;

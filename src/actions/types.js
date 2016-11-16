@@ -1,6 +1,11 @@
 // @flow
 
-import type { Source, Breakpoint, Location, SourceText } from "../types";
+import type { Source,
+              Breakpoint,
+              Location,
+              SourceText,
+              Frame,
+              Why } from "../types";
 
 /**
  * Flow types
@@ -84,10 +89,47 @@ type SourceAction =
       status: AsyncStatus,
       error: string,
       value: { isPrettyPrinted: boolean,
-               sourceText: SourceText }}
+               sourceText: SourceText,
+               frames: Frame[] }}
   | { type: "CLOSE_TAB", id: string };
 
 type UIAction = { type: "TOGGLE_FILE_SEARCH", searchOn: boolean };
+
+type PauseAction =
+  { type: "BREAK_ON_NEXT", value: boolean }
+  | { type: "RESUME", value: void }
+  | { type: "PAUSED",
+      pauseInfo: { why: Why,
+                  frame: Frame,
+                  isInterrupted?: boolean },
+      frames: Frame[],
+      selectedFrameId: string,
+      }
+  | { type: "PAUSE_ON_EXCEPTIONS",
+      shouldPauseOnExceptions: boolean,
+      shouldIgnoreCaughtExceptions: boolean }
+  | { type: "COMMAND", value: void }
+  | { type: "SELECT_FRAME", frame: Frame }
+  | { type: "LOAD_OBJECT_PROPERTIES",
+      objectId: string,
+      status: string,
+      value: Object,
+      "@@dispatch/promise": any }
+  | { type: "ADD_EXPRESSION",
+      id: number,
+      input: string,
+      value: string }
+  | { type: "EVALUATE_EXPRESSION",
+      id: number,
+      input: string,
+      status: string,
+      value: Object,
+      "@@dispatch/promise": any }
+  | { type: "UPDATE_EXPRESSION",
+      id: number,
+      input: string }
+  | { type: "DELETE_EXPRESSION",
+      id: number };
 
 /**
  * Actions: Source, Breakpoint, and Navigation
@@ -98,5 +140,6 @@ type UIAction = { type: "TOGGLE_FILE_SEARCH", searchOn: boolean };
 export type Action =
   SourceAction
   | BreakpointAction
+  | PauseAction
   | { type: "NAVIGATE" }
   | UIAction;
