@@ -117,7 +117,7 @@ type PauseAction =
       "@@dispatch/promise": any }
   | { type: "ADD_EXPRESSION",
       id: number,
-      input: any,
+      input: string,
       value: string }
   | { type: "EVALUATE_EXPRESSION",
       id: number,
