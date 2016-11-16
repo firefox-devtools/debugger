@@ -1,9 +1,7 @@
 const { isPretty } = require("./source");
-const { isEnabled } = require("devtools-config");
 const { isOriginalId } = require("../utils/source-map");
 
 function shouldShowPrettyPrint(selectedSource) {
-
   const _isPretty = isPretty(selectedSource);
   const isOriginal = isOriginalId(selectedSource.id);
   const hasSourceMap = selectedSource.sourceMapURL;

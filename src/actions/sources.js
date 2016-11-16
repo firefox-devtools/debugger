@@ -22,7 +22,6 @@ const {
 const { prettyPrint } = require("../utils/pretty-print");
 
 const constants = require("../constants");
-const { isEnabled } = require("devtools-config");
 const { removeDocument } = require("../utils/source-documents");
 
 const {

@@ -11,7 +11,6 @@ const {
 const { getFilename } = require("../utils/source");
 const classnames = require("classnames");
 const actions = require("../actions");
-const { isEnabled } = require("devtools-config");
 const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
@@ -213,7 +212,6 @@ const SourceTabs = React.createClass({
   },
 
   render() {
-
     return dom.div({ className: "source-header" },
       this.renderTabs(),
       this.renderNewButton(),

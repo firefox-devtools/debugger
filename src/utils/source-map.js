@@ -1,6 +1,6 @@
 // @flow
 
-const { getValue, isEnabled } = require("devtools-config");
+const { getValue } = require("devtools-config");
 const { workerTask } = require("./utils");
 const {
   originalToGeneratedId,
