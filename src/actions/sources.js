@@ -188,7 +188,7 @@ function togglePrettyPrint(sourceId: string) {
     const source = getSource(getState(), sourceId).toJS();
     const sourceText = getSourceText(getState(), sourceId).toJS();
 
-    if (!isEnabled("prettyPrint") || sourceText.loading) {
+    if (sourceText.loading) {
       return {};
     }
 

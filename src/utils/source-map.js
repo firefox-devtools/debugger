@@ -19,9 +19,7 @@ function restartWorker() {
     getValue("baseWorkerURL") + "source-map-worker.js"
   );
 
-  if (isEnabled("sourceMaps")) {
-    sourceMapWorker.postMessage({ id: 0, method: "enableSourceMaps" });
-  }
+  sourceMapWorker.postMessage({ id: 0, method: "enableSourceMaps" });
 }
 restartWorker();
 
@@ -33,7 +31,7 @@ function destroyWorker() {
 }
 
 function shouldSourceMap(): boolean {
-  return isEnabled("sourceMaps") && prefs.clientSourceMapsEnabled;
+  return prefs.clientSourceMapsEnabled;
 }
 
 const getOriginalURLs = workerTask(sourceMapWorker, "getOriginalURLs");
