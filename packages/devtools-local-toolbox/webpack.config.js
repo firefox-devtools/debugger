@@ -7,6 +7,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const { isDevelopment, isFirefoxPanel, getValue } = require("devtools-config");
 const merge = require("lodash/merge");
 const NODE_ENV = process.env.NODE_ENV || "development";
+const TARGET = process.env.TARGET || "local";
 
 const defaultBabelPlugins = [
   "transform-flow-strip-types",
@@ -61,7 +62,7 @@ module.exports = (webpackConfig, envConfig) => {
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify(NODE_ENV),
-        TARGET: JSON.stringify("local")
+        TARGET: JSON.stringify(TARGET)
       },
       "DebuggerConfig": JSON.stringify(envConfig)
     })

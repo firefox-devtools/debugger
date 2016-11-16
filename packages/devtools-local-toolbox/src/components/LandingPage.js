@@ -24,6 +24,12 @@ function firstTimeMessage(title, urlPart) {
   );
 }
 
+function getTabURL(tab, paramName) {
+  const hostURL = getValue("host");
+  const tabID = tab.get("id");
+  return `${hostURL}?${paramName}=${tabID}`;
+}
+
 const LandingPage = React.createClass({
   propTypes: {
     tabs: ImPropTypes.map.isRequired
@@ -50,8 +56,9 @@ const LandingPage = React.createClass({
           { "className": "tab",
             "key": tab.get("id"),
             "onClick": () => {
-              window.location = "/?" + paramName + "=" + tab.get("id");
-            } },
+              window.location = getTabURL(tab, paramName);
+            }
+          },
           dom.div({ className: "tab-title" }, tab.get("title")),
           dom.div({ className: "tab-url" }, tab.get("url"))
         ))
