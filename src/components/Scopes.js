@@ -97,7 +97,7 @@ function getScopes(pauseInfo, selectedFrame) {
       if (type === "function") {
         title = scope.function.displayName || "(anonymous)";
       } else {
-        title = "Block";
+        title = L10N.getStr("scopes.block");
       }
 
       let vars = getBindingVariables(bindings, title);
