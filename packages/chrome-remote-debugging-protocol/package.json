@@ -1,6 +1,6 @@
 {
   "name": "chrome-remote-debugging-protocol",
-  "version": "0.0.3",
+  "version": "0.0.9",
   "description": "API for interacting with chrome's remote debugger protocol",
   "main": "index.js",
   "bin": {
@@ -9,6 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": [
+    "bin"
+  ],
   "author": "",
   "license": "ISC"
 }
