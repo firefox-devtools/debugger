@@ -72,7 +72,7 @@
     "co": "=4.6.0",
     "css-loader": "^0.25.0",
     "devtools-config": "^0.0.3",
-    "devtools-local-toolbox": "^0.0.6",
+    "devtools-local-toolbox": "^0.0.8",
     "devtools-modules": "^0.0.3",
     "devtools-network-request": "^0.0.3",
     "devtools-sham-modules": "^0.0.3",
