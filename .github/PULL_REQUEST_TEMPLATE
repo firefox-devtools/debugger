@@ -5,9 +5,19 @@ Associated Issue: #<issue number>
 * change 1
 * change 2
 
-### Testing
+### Test Plan
 
-* [ ] passes `npm test`
-* [ ] passes `npm run lint`
+Tell us a little a bit about how you tested your patch.
+
+Example test plan:
+
+- [ ] Command-P opens the panel
+- [ ] Clicking “+” opens the panel
+- [ ] Clicking a source navigates to the source
+- [ ] Clicking "x" closes the panel
+
+Here's the Debugger's Testing doc
+https://docs.google.com/document/d/1oBMRxV8A2ag2t22YsQOxTdEv0mXKzIg0tggJjRkU1S0/edit#.
+Feel free to improve it!
 
 ### Screenshots/Videos (OPTIONAL)
