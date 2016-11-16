@@ -12,7 +12,7 @@ const fromJS = require("../utils/fromJS");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
 
-import type { Source } from "../types";
+import type { Source, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -28,6 +28,7 @@ export type SourcesState = {
     line?: number,
     column?: number
   },
+  selectedLocation?: Location,
   sourcesText: I.Map<string, any>,
   tabs: I.List<any>
 };
@@ -41,6 +42,8 @@ const State = makeRecord(({
 } : SourcesState));
 
 function update(state = State(), action: Action) : Record<SourcesState> {
+  let availableTabs = null;
+
   switch (action.type) {
     case "ADD_SOURCE": {
       const source: Source = action.source;
@@ -65,9 +68,17 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       });
 
     case "CLOSE_TAB":
-      return state.merge({ tabs: removeSourceFromTabList(state, action.id) })
+      availableTabs = removeSourceFromTabList(state.tabs, action.id);
+      return state.merge({ tabs: availableTabs })
         .set("selectedLocation", {
-          sourceId: getNewSelectedSourceId(state, action.id)
+          sourceId: getNewSelectedSourceId(state, availableTabs)
+        });
+
+    case "CLOSE_TABS":
+      availableTabs = removeSourcesFromTabList(state.tabs, action.ids);
+      return state.merge({ tabs: availableTabs })
+        .set("selectedLocation", {
+          sourceId: getNewSelectedSourceId(state, availableTabs)
         });
 
     case "LOAD_SOURCE_TEXT":
@@ -124,8 +135,12 @@ function _updateText(state, action : any) : Record<SourcesState> {
   }));
 }
 
-function removeSourceFromTabList(state, id) {
-  return state.tabs.filter(tab => tab.get("id") != id);
+function removeSourceFromTabList(tabs, id) {
+  return tabs.filter(tab => tab.get("id") != id);
+}
+
+function removeSourcesFromTabList(tabs, ids) {
+  return ids.reduce((t, id) => removeSourceFromTabList(t, id), tabs);
 }
 
 /**
@@ -152,35 +167,32 @@ function updateTabList(state, source, tabIndex) {
 }
 
 /**
- * Gets the next tab to select when a tab closes.
+ * Gets the next tab to select when a tab closes. Heuristics:
+ * 1. if the selected tab is available, it remains selected
+ * 2. if it is gone, the next available tab to the left should be active
+ * 3. if the first tab is active and closed, select the second tab
+ *
  * @memberof reducers/sources
  * @static
  */
-function getNewSelectedSourceId(state, id) : ?Source {
-  const tabs = state.get("tabs");
-  const selectedSource = getSelectedSource({ sources: state });
-
-  if (!selectedSource) {
-    return undefined;
-  } else if (selectedSource.get("id") != id) {
-    // If we're not closing the selected tab return the selected tab
-    return selectedSource.get("id");
+function getNewSelectedSourceId(state: SourcesState, availableTabs) : string {
+  if (!state.selectedLocation) {
+    return "";
   }
 
-  const tabIndex = tabs.findIndex(tab => tab.get("id") == id);
-  const numTabs = tabs.count();
+  const selectedTabId = state.selectedLocation.sourceId;
+  const availableTabIds = availableTabs.map(s => s.get("id")).toJS();
+  const tabIds = state.tabs.map(s => s.get("id")).toJS();
 
-  if (numTabs == 1) {
-    return undefined;
+  if (availableTabIds.includes(selectedTabId)) {
+    return selectedTabId;
   }
 
-  // if we're closing the last tab, select the penultimate tab
-  if (tabIndex + 1 == numTabs) {
-    return tabs.get(tabIndex - 1).get("id");
-  }
+  const leftNeighborIndex = Math.max(tabIds.indexOf(selectedTabId) - 1, 0);
+  const lastAvailbleTabIndex = availableTabIds.length - 1;
+  const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
 
-  // return the next tab
-  return tabs.get(tabIndex + 1).get("id");
+  return availableTabIds[newSelectedTabIndex];
 }
 
 // Selectors

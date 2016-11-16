@@ -83,16 +83,6 @@ describe("sources", () => {
     expect(tabs.getIn([0, "id"])).to.equal("foo.js");
   });
 
-  it("should allow tabs to be closed", () => {
-    const { dispatch, getState } = createStore({});
-    dispatch(actions.newSource(makeSource("foo.js")));
-    dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.closeTab("foo.js"));
-
-    expect(getSelectedSource(getState())).to.be(undefined);
-    expect(getSourceTabs(getState()).size).to.be(0);
-  });
-
   it("should select previous tab on tab closed", () => {
     const { dispatch, getState } = createStore({});
     dispatch(actions.newSource(makeSource("foo.js")));
@@ -180,4 +170,90 @@ describe("sources", () => {
     expect(sourceMap.isOriginalId(times2Source.get("id"))).to.be.ok();
     expect(sourceMap.isOriginalId(optsSource.get("id"))).to.be.ok();
   }));
+});
+
+describe("closing tabs", () => {
+  it("closing a tab", () => {
+    const { dispatch, getState } = createStore({});
+    dispatch(actions.newSource(makeSource("foo.js")));
+    dispatch(actions.selectSource("foo.js"));
+    dispatch(actions.closeTab("foo.js"));
+
+    expect(getSelectedSource(getState())).to.be(undefined);
+    expect(getSourceTabs(getState()).size).to.be(0);
+  });
+
+  it("closing the inactive tab", () => {
+    const { dispatch, getState } = createStore({});
+    dispatch(actions.newSource(makeSource("foo.js")));
+    dispatch(actions.newSource(makeSource("bar.js")));
+    dispatch(actions.selectSource("foo.js"));
+    dispatch(actions.selectSource("bar.js"));
+    dispatch(actions.closeTab("foo.js"));
+
+    expect(getSelectedSource(getState()).get("id")).to.be("bar.js");
+    expect(getSourceTabs(getState()).size).to.be(1);
+  });
+
+  it("closing the only tab", () => {
+    const { dispatch, getState } = createStore({});
+    dispatch(actions.newSource(makeSource("foo.js")));
+    dispatch(actions.selectSource("foo.js"));
+    dispatch(actions.closeTab("foo.js"));
+
+    expect(getSelectedSource(getState())).to.be(undefined);
+    expect(getSourceTabs(getState()).size).to.be(0);
+  });
+
+  it("closing the active tab", () => {
+    const { dispatch, getState } = createStore({});
+    dispatch(actions.newSource(makeSource("foo.js")));
+    dispatch(actions.newSource(makeSource("bar.js")));
+    dispatch(actions.selectSource("foo.js"));
+    dispatch(actions.selectSource("bar.js"));
+    dispatch(actions.closeTab("bar.js"));
+
+    expect(getSelectedSource(getState()).get("id")).to.be("foo.js");
+    expect(getSourceTabs(getState()).size).to.be(1);
+  });
+
+  it("closing many inactive tabs", () => {
+    const { dispatch, getState } = createStore({});
+    dispatch(actions.newSource(makeSource("foo.js")));
+    dispatch(actions.newSource(makeSource("bar.js")));
+    dispatch(actions.newSource(makeSource("bazz.js")));
+    dispatch(actions.selectSource("foo.js"));
+    dispatch(actions.selectSource("bar.js"));
+    dispatch(actions.selectSource("bazz.js"));
+    dispatch(actions.closeTabs(["foo.js", "bar.js"]));
+
+    expect(getSelectedSource(getState()).get("id")).to.be("bazz.js");
+    expect(getSourceTabs(getState()).size).to.be(1);
+  });
+
+  it("closing many tabs including the active tab", () => {
+    const { dispatch, getState } = createStore({});
+    dispatch(actions.newSource(makeSource("foo.js")));
+    dispatch(actions.newSource(makeSource("bar.js")));
+    dispatch(actions.newSource(makeSource("bazz.js")));
+    dispatch(actions.selectSource("foo.js"));
+    dispatch(actions.selectSource("bar.js"));
+    dispatch(actions.selectSource("bazz.js"));
+    dispatch(actions.closeTabs(["bar.js", "bazz.js"]));
+
+    expect(getSelectedSource(getState()).get("id")).to.be("foo.js");
+    expect(getSourceTabs(getState()).size).to.be(1);
+  });
+
+  it("closing all the tabs", () => {
+    const { dispatch, getState } = createStore({});
+    dispatch(actions.newSource(makeSource("foo.js")));
+    dispatch(actions.newSource(makeSource("bar.js")));
+    dispatch(actions.selectSource("foo.js"));
+    dispatch(actions.selectSource("bar.js"));
+    dispatch(actions.closeTabs(["foo.js", "bar.js"]));
+
+    expect(getSelectedSource(getState())).to.be(undefined);
+    expect(getSourceTabs(getState()).size).to.be(0);
+  });
 });

@@ -48,6 +48,7 @@ const SourceTabs = React.createClass({
     selectedSource: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
     closeTab: PropTypes.func.isRequired,
+    closeTabs: PropTypes.func.isRequired,
     toggleFileSearch: PropTypes.func.isRequired
   },
 
@@ -70,7 +71,7 @@ const SourceTabs = React.createClass({
   },
 
   showContextMenu(e, tab) {
-    const { closeTab, sourceTabs } = this.props;
+    const { closeTab, closeTabs, sourceTabs } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
@@ -92,13 +93,7 @@ const SourceTabs = React.createClass({
       label: closeOtherTabsLabel,
       accesskey: "O",
       disabled: false,
-      click: () => {
-        tabs.forEach((t) => {
-          if (t !== tab) {
-            closeTab(t);
-          }
-        });
-      }
+      click: () => closeTabs(tabs.filter(t => t !== tab))
     };
 
     const closeTabsToRightMenuItem = {
@@ -107,13 +102,8 @@ const SourceTabs = React.createClass({
       accesskey: "R",
       disabled: false,
       click: () => {
-        tabs.reverse().every((t) => {
-          if (t === tab) {
-            return false;
-          }
-          closeTab(t);
-          return true;
-        });
+        const tabIndex = tabs.findIndex(t => t == tab);
+        closeTabs(tabs.filter((t, i) => i > tabIndex));
       }
     };
 
@@ -122,7 +112,7 @@ const SourceTabs = React.createClass({
       label: closeAllTabsLabel,
       accesskey: "A",
       disabled: false,
-      click: () => tabs.forEach(closeTab)
+      click: () => closeTabs(tabs)
     };
 
     showMenu(e, buildMenu([
