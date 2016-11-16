@@ -1,11 +1,15 @@
 const merge = require("lodash").merge;
 const fs = require("fs");
+const path = require("path");
 
 function getConfig() {
   const firefoxConfig = require("../configs/firefox-panel.json");
   const developmentConfig = require("../configs/development.json");
-  const localConfigPath = "../configs/local.json";
-  const localConfig = fs.existsSync(localConfigPath) ? require(localConfigPath) : {};
+
+  let localConfig = {};
+  if (fs.existsSync(path.resolve(__dirname, "../configs/local.json"))) {
+    localConfig = require("../configs/local.json");
+  }
 
   if (process.env.TARGET === "firefox-panel") {
     return firefoxConfig;
