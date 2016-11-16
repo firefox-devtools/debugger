@@ -9,7 +9,7 @@ const { updateFrameLocations } = require("../utils/pause");
 import type { Pause, Frame, Expression, Grip } from "../types";
 import type { ThunkArgs } from "./types";
 
-type TypeCommand = { type: string };
+type CommandType = { type: string };
 
 /**
  * Redux actions for the pause state
@@ -85,7 +85,7 @@ function pauseOnExceptions(
  * @memberof actions/pause
  * @static
  */
-function command({ type }: TypeCommand) {
+function command({ type }: CommandType) {
   return ({ dispatch, client }: ThunkArgs) => {
     // execute debugger thread command e.g. stepIn, stepOver
     client[type]();
