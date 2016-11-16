@@ -75,7 +75,7 @@
     "devtools-local-toolbox": "^0.0.6",
     "devtools-modules": "^0.0.3",
     "devtools-network-request": "^0.0.3",
-    "devtools-sham-modules": "^0.0.3",
+    "devtools-sham-modules": "^0.0.7",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.10.0",
     "eslint-plugin-babel": "^3.3.0",
