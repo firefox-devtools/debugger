@@ -73,7 +73,7 @@
     "css-loader": "^0.25.0",
     "devtools-config": "^0.0.3",
     "devtools-local-toolbox": "^0.0.6",
-    "devtools-modules": "^0.0.3",
+    "devtools-modules": "^0.0.7",
     "devtools-network-request": "^0.0.3",
     "devtools-sham-modules": "^0.0.3",
     "documentation": "^4.0.0-beta11",
