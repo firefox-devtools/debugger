@@ -69,24 +69,25 @@ First we need to get the web application running. Within the source code directo
 
 ### Linux or MacOs
 
+* `npm i -g yarn@0.16.1` - Install Yarn
 * `yarn install` - Install dependencies.
 * `yarn start` - Start development web server
 
-NOTE: :cat2: [Yarn](https://yarnpkg.com/en/docs/install) is required. We're using yarn because it is really helpful to know that we all have the same setup.
+NOTE: :cat2: We use [Yarn](https://yarnpkg.com) so that we all have the same setup.
 
 ### Windows
 
 It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
 
-* install [yarn](https://yarnpkg.com/en/docs/install)
+* `npm i -g yarn@0.16.1` - Install Yarn
 * `yarn install` - Install dependencies
 * `yarn start` - Start development web server
 
-NOTE: :cat2: [Yarn](https://yarnpkg.com/en/docs/install) is required. We're using yarn because it is really helpful to know that we all have the same setup.
+NOTE: :cat2: We use [Yarn](https://yarnpkg.com) so that we all have the same setup.
 
 ### Open the debugger
 
-After `yarn start`, the debugger will be running on [http://localhost:8000](http://localhost:8000). Go to [http://localhost:8000](http://localhost:8000) in any browser.
+After `yarn start`, the debugger will be running on [http://localhost:8000](http://localhost:8000) and you can open it in any browser. [screenshot](https://cloud.githubusercontent.com/assets/254562/20393011/44ca6a8a-aca8-11e6-99f7-05f21767ae6d.png)
 
 ### Debuggable Targets
 
@@ -100,7 +101,7 @@ The following command will automatically start a remote debuggable version of Fi
 $ yarn run firefox
 ```
 
-When firefox is running, reload `localhost:8000` and you'll see the available firefox tabs to debug in the debugger.
+When firefox is running, reload `localhost:8000` and you'll see the available firefox tabs to debug in the debugger. ![screenshot](https://cloud.githubusercontent.com/assets/254562/20393075/7e494024-aca8-11e6-8578-19a6d73be6ed.png)
 
 **Command line option**
 
@@ -122,7 +123,7 @@ C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -
 
 **NOTE**: The Firefox started from the `yarn run` command automatically sets the following necessary flags which you will need to do manually if you ran Firefox from the command line.
 
-Navigate to `about:config` and accept any warning message.  Then search for the following preferences and double click them to toggle their values to the following.
+Navigate to `about:config` and accept any warning message. Then search for the following preferences and double click them to toggle their values to the following. [example](http://g.recordit.co/3VsHIooZ9q.gif)
 
 * `devtools.debugger.remote-enabled` to `true`
 * `devtools.chrome.enabled` to `true`
@@ -132,12 +133,14 @@ Once you have Firefox running in a debuggable state go back up to instructions f
 
 #### Chrome
 
-Start by running Chrome with remote debugging turned on, this command also creates a new _temporary_ profile
+Start by running Chrome from the terminal with remote debugging turned on.
 
 ```
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile http://localhost:7999/todomvc/
 ```
-> If this command doesn't work for your OS or Chrome version see the other [Chrome commands for running in a debuggable state](./docs/remotely-debuggable-browsers.md#chrome)
+
+* If this command doesn't work for your OS or Chrome version see the other [Chrome commands for running in a debuggable state](./docs/remotely-debuggable-browsers.md#chrome)
+* NOTE: This command also creates a new _temporary_ profile
 
 
 #### Node.js
