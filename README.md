@@ -16,25 +16,25 @@ Here are instructions to get the debugger.html application installed and running
 
 ### Linux or MacOs
 
+* `npm i -g yarn@0.16.1` - Install Yarn
 * `yarn install` - Install dependencies
 * `yarn start` - Start development web server
-* `open http://localhost:8000` - Open in any modern browser
 
-NOTE: :cat2: [Yarn](https://yarnpkg.com/en/docs/install) is required. We're using yarn because it is really helpful to know that we all have the same setup.
+NOTE: :cat2: We use [Yarn](https://yarnpkg.com) so that we all have the same setup.
 
 ### Windows
 
 It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
 
+* `npm i -g yarn@0.16.1` - Install Yarn
 * `yarn install` - Install dependencies
 * `yarn start` - Start development web server
-* `open http://localhost:8000` - Open in any modern browser
 
-NOTE: :cat2: [Yarn](https://yarnpkg.com/en/docs/install) is required. We're using yarn because it is really helpful to know that we all have the same setup.
+NOTE: :cat2: We use [Yarn](https://yarnpkg.com) so that we all have the same setup.
 
 ### Open the Debugger
 
-After `yarn start`, the debugger will be running on [http://localhost:8000](http://localhost:8000). Go to [http://localhost:8000](http://localhost:8000) in any browser.
+After `yarn start`, the debugger will be running on [http://localhost:8000](http://localhost:8000) and you can open it in any browser. [screenshot](https://cloud.githubusercontent.com/assets/254562/20393011/44ca6a8a-aca8-11e6-99f7-05f21767ae6d.png)
 
 Now you have the debugger.html web app running, follow the instructions shown on that page to start up a debug target like a web browser or node.js.
 
