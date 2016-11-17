@@ -61,6 +61,8 @@ const Editor = React.createClass({
     selectedSource: ImPropTypes.map,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
+    disableBreakpoint: PropTypes.func,
+    enableBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
     setBreakpointCondition: PropTypes.func,
     selectedFrame: PropTypes.object
@@ -150,6 +152,30 @@ const Editor = React.createClass({
     }
   },
 
+  toggleBreakpointDisabledStatus(line) {
+    const bp = breakpointAtLine(this.props.breakpoints, line);
+
+    if (bp && bp.loading) {
+      return;
+    }
+
+    if (!bp) {
+      throw new Error("attempt to disable breakpoint that does not exist");
+    }
+
+    if (!bp.disabled) {
+      this.props.disableBreakpoint({
+        sourceId: this.props.selectedLocation.sourceId,
+        line: line + 1
+      });
+    } else {
+      this.props.enableBreakpoint(
+        { sourceId: this.props.selectedLocation.sourceId,
+          line: line + 1 },
+      );
+    }
+  },
+
   clearDebugLine(selectedFrame) {
     if (selectedFrame) {
       const line = selectedFrame.location.line;
@@ -225,12 +251,18 @@ const Editor = React.createClass({
   showGutterMenu(e, line, bp) {
     let bpLabel;
     let cbLabel;
+    let disableBpLabel;
     if (!bp) {
       bpLabel = L10N.getStr("editor.addBreakpoint");
       cbLabel = L10N.getStr("editor.addConditionalBreakpoint");
     } else {
       bpLabel = L10N.getStr("editor.removeBreakpoint");
       cbLabel = L10N.getStr("editor.editBreakpoint");
+      if (bp.disabled) {
+        disableBpLabel = L10N.getStr("editor.enableBreakpoint");
+      } else {
+        disableBpLabel = L10N.getStr("editor.disableBreakpoint");
+      }
     }
 
     const toggleBreakpoint = {
@@ -254,10 +286,23 @@ const Editor = React.createClass({
       click: () => this.showConditionalPanel(line)
     };
 
-    showMenu(e, [
+    let items = [
       toggleBreakpoint,
       conditionalBreakpoint
-    ]);
+    ];
+
+    if (bp) {
+      const disableBreakpoint = {
+        id: "node-menu-disable-breakpoint",
+        label: disableBpLabel,
+        accesskey: "D",
+        disabled: false,
+        click: () => this.toggleBreakpointDisabledStatus(line)
+      };
+      items.push(disableBreakpoint);
+    }
+
+    showMenu(e, items);
   },
 
   componentDidMount() {
