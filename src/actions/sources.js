@@ -22,7 +22,6 @@ const {
 const { prettyPrint } = require("../utils/pretty-print");
 
 const constants = require("../constants");
-const { isEnabled } = require("devtools-config");
 const { removeDocument } = require("../utils/source-documents");
 
 const {
@@ -188,7 +187,7 @@ function togglePrettyPrint(sourceId: string) {
     const source = getSource(getState(), sourceId).toJS();
     const sourceText = getSourceText(getState(), sourceId).toJS();
 
-    if (!isEnabled("prettyPrint") || sourceText.loading) {
+    if (sourceText.loading) {
       return {};
     }
 

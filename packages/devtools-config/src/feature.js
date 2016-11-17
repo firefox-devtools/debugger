@@ -12,7 +12,7 @@ function getValue(key) {
 }
 
 function isEnabled(key) {
-  return config.features[key];
+  return config.features && config.features[key];
 }
 
 function isDevelopment() {

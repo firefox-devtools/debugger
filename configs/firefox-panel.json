@@ -2,10 +2,5 @@
   "environment": "firefox-panel",
   "baseWorkerURL": "resource://devtools/client/debugger/new/",
   "logging": false,
-  "clientLogging": false,
-  "features": {
-    "tabs": true,
-    "sourceMaps": true,
-    "prettyPrint": true
-  }
+  "clientLogging": false
 }

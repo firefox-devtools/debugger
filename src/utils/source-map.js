@@ -1,6 +1,6 @@
 // @flow
 
-const { getValue, isEnabled } = require("devtools-config");
+const { getValue } = require("devtools-config");
 const { workerTask } = require("./utils");
 const {
   originalToGeneratedId,
@@ -19,9 +19,7 @@ function restartWorker() {
     getValue("baseWorkerURL") + "source-map-worker.js"
   );
 
-  if (isEnabled("sourceMaps")) {
-    sourceMapWorker.postMessage({ id: 0, method: "enableSourceMaps" });
-  }
+  sourceMapWorker.postMessage({ id: 0, method: "enableSourceMaps" });
 }
 restartWorker();
 
@@ -33,7 +31,7 @@ function destroyWorker() {
 }
 
 function shouldSourceMap(): boolean {
-  return isEnabled("sourceMaps") && prefs.clientSourceMapsEnabled;
+  return prefs.clientSourceMapsEnabled;
 }
 
 const getOriginalURLs = workerTask(sourceMapWorker, "getOriginalURLs");
