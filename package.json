@@ -97,7 +97,7 @@
     "mocha-circleci-reporter": "0.0.1",
     "mustache": "^2.2.1",
     "node-static": "^0.7.7",
-    "npm": "^3.10.7",
+    "npm": "^4.0.3",
     "react": "=0.14.7",
     "react-dom": "=0.14.7",
     "react-hot-loader": "^1.3.0",
