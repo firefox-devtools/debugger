@@ -43,6 +43,8 @@ const EditorSearchBar = React.createClass({
     if (isEnabled("editorSearch")) {
       shortcuts.off("CmdOrCtrl+F", this.toggleSearch);
       shortcuts.off("Escape", this.onEscape);
+      shortcuts.off("CmdOrCtrl+Shift+G", this.traverseResultsPrev);
+      shortcuts.off("CmdOrCtrl+G", this.traverseResultsNext);
     }
   },
 
@@ -51,13 +53,9 @@ const EditorSearchBar = React.createClass({
     if (isEnabled("editorSearch")) {
       shortcuts.on("CmdOrCtrl+F", this.toggleSearch);
       shortcuts.on("Escape", this.onEscape);
+      shortcuts.on("CmdOrCtrl+Shift+G", this.traverseResultsPrev);
+      shortcuts.on("CmdOrCtrl+G", this.traverseResultsNext);
     }
-  },
-
-  componentWillReceiveProps() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.on("CmdOrCtrl+Shift+G", (_, e) => this.traverseResultsPrev(e));
-    shortcuts.on("CmdOrCtrl+G", (_, e) => this.traverseResultsNext(e));
   },
 
   componentDidUpdate() {
@@ -119,26 +117,34 @@ const EditorSearchBar = React.createClass({
     this.search(query);
   },
 
-  traverseResultsPrev(e) {
+  traverseResultsPrev(shortcut, e) {
     e.stopPropagation();
     e.preventDefault();
 
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
     const { query, index, count } = this.state;
+
+    if (query == "") {
+      this.setState({ enabled: true });
+    }
 
     findPrev(ctx, query);
     const nextIndex = index == 0 ? count - 1 : index - 1;
     this.setState({ index: nextIndex });
   },
 
-  traverseResultsNext(e) {
+  traverseResultsNext(shortcut, e) {
     e.stopPropagation();
     e.preventDefault();
 
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
     const { query, index, count } = this.state;
+
+    if (query == "") {
+      this.setState({ enabled: true });
+    }
 
     findNext(ctx, query);
     const nextIndex = index == count - 1 ? 0 : index + 1;
@@ -151,9 +157,9 @@ const EditorSearchBar = React.createClass({
     }
 
     if (e.shiftKey) {
-      this.traverseResultsPrev(e);
+      this.traverseResultsPrev(null, e);
     } else {
-      this.traverseResultsNext(e);
+      this.traverseResultsNext(null, e);
     }
   },
 
