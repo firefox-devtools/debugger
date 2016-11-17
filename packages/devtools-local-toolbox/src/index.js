@@ -6,6 +6,7 @@ const { Provider } = require("react-redux");
 const { DevToolsUtils, AppConstants } = require("devtools-sham-modules");
 const { injectGlobals, debugGlobal } = require("./utils/debug");
 const { setConfig, isEnabled, getValue, isDevelopment } = require("devtools-config");
+const L10N = require("./utils/L10N");
 
 setConfig(DebuggerConfig);
 
@@ -29,8 +30,6 @@ if (process.env.TARGET !== "firefox-panel") {
     case "firebug": require("./lib/themes/firebug-theme.css"); break;
   }
   document.body.parentNode.classList.add(`theme-${theme}`);
-
-  window.L10N = require("./utils/L10N");
 }
 
 function initApp() {
@@ -122,5 +121,6 @@ module.exports = {
   bootstrap,
   renderRoot,
   debugGlobal,
-  client
+  client,
+  L10N
 };

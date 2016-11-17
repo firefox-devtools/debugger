@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { div } = dom;
@@ -8,6 +9,10 @@ const actions = require("../actions");
 const { endTruncateStr } = require("../utils/utils");
 const { getFilename } = require("../utils/source");
 const { getFrames, getSelectedFrame, getSource } = require("../selectors");
+const classNames = require("classnames");
+
+import type { List } from "immutable";
+import type { Frame } from "../types";
 
 if (typeof window == "object") {
   require("./Frames.css");
@@ -15,15 +20,15 @@ if (typeof window == "object") {
 
 const NUM_FRAMES_SHOWN = 7;
 
-function renderFrameTitle(frame) {
-  return div({ className: "title" }, endTruncateStr(frame.displayName, 40));
+function renderFrameTitle({ displayName }: Frame) {
+  return div({ className: "title" }, endTruncateStr(displayName, 40));
 }
 
-function renderFrameLocation(frame) {
-  const filename = getFilename(frame.source);
+function renderFrameLocation({ source, location }: Frame) {
+  const filename = getFilename(source);
   return div(
     { className: "location" },
-    `${filename}: ${frame.location.line}`
+    `${filename}: ${location.line}`
   );
 }
 
@@ -46,16 +51,14 @@ const Frames = React.createClass({
     });
   },
 
-  renderFrame(frame) {
+  renderFrame(frame: Frame) {
     const { selectedFrame, selectFrame } = this.props;
-
-    const selectedClass = (
-      selectedFrame && (selectedFrame.id === frame.id ? "selected" : "")
-    );
 
     return dom.li(
       { key: frame.id,
-        className: `frame ${selectedClass}`,
+        className: classNames("frame", {
+          "selected": selectedFrame && selectedFrame.id === frame.id
+        }),
         onMouseDown: () => selectFrame(frame),
         tabIndex: 0
       },
@@ -64,21 +67,15 @@ const Frames = React.createClass({
     );
   },
 
-  renderFrames() {
-    let { frames } = this.props;
-    if (!frames) {
-      return null;
-    }
+  renderFrames(frames: List<Frame>) {
+    const numFramesToShow =
+      this.state.showAllFrames ? frames.size : NUM_FRAMES_SHOWN;
+    const framesToShow = frames.slice(0, numFramesToShow);
 
-    const numFramesToShow = this.state.showAllFrames
-      ? frames.size : NUM_FRAMES_SHOWN;
-    frames = frames.slice(0, numFramesToShow);
-
-    return dom.ul({}, frames.map(frame => this.renderFrame(frame)));
+    return dom.ul({}, framesToShow.map(this.renderFrame));
   },
 
-  renderToggleButton() {
-    const { frames } = this.props;
+  renderToggleButton(frames: List<Frame>) {
     let buttonMessage = this.state.showAllFrames
       ? L10N.getStr("callStack.collapse") : L10N.getStr("callStack.expand");
 
@@ -107,8 +104,8 @@ const Frames = React.createClass({
 
     return div(
       { className: "pane frames" },
-      this.renderFrames(),
-      this.renderToggleButton()
+      this.renderFrames(frames),
+      this.renderToggleButton(frames)
     );
   }
 });

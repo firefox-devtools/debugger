@@ -98,3 +98,42 @@ export type SourceText = {
   text: string,
   contentType: string
 };
+
+/**
+ * Scope
+ * @memberof types
+ * @static
+ */
+export type Scope = {
+  actor: string,
+  parent: Scope,
+  bindings: {
+    // FIXME Define these types more clearly
+    arguments: Array<Object>,
+    variables: Object
+  },
+  function: {
+    actor: string,
+    class: string,
+    displayName: string,
+    location: Location,
+    // FIXME Define this type more clearly
+    parameterNames: Array<Object>
+  },
+  type: string
+}
+
+/**
+ * Frame
+ * @memberof types
+ * @static
+ */
+export type Frame = {
+   id: string,
+   displayName: string,
+   location: Location,
+   source: Source,
+   scope: Scope,
+   // FIXME Define this type more clearly
+   this: Object
+ }
