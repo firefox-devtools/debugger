@@ -78,7 +78,7 @@
     "devtools-sham-modules": "^0.0.8",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.10.0",
-    "eslint-plugin-babel": "^3.3.0",
+    "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-flowtype": "^2.20.0",
     "eslint-plugin-mozilla": "0.2.3",
     "eslint-plugin-react": "^6.7.1",
