@@ -5,20 +5,6 @@
  * @module types
  */
 
-/**
- * Pause
- *
- * @memberof types
- * @static
- */
-export type Frame = {
-  id: string,
-  displayName: string,
-  location: Location,
-  this: ?Object,
-  scope: ?Object
-}
-
 export type Why = {
   type: string
 }
