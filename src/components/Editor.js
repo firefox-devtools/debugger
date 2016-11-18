@@ -169,10 +169,10 @@ const Editor = React.createClass({
         line: line + 1
       });
     } else {
-      this.props.enableBreakpoint(
-        { sourceId: this.props.selectedLocation.sourceId,
-          line: line + 1 },
-      );
+      this.props.enableBreakpoint({
+        sourceId: this.props.selectedLocation.sourceId,
+        line: line + 1
+      });
     }
   },
 
