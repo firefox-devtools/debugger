@@ -14,13 +14,17 @@ All default config values are in [`config/development.json`](./development.json)
   * `debug` Enables listening for remotely debuggable Chrome browsers
   * `webSocketPort` Configures the web socket port specified when launching Chrome from the command line
 * `firefox` Firefox browser related flags
-  * `proxyPort` Port used by the development server run with `npm start`
+  * `proxyHost` Host used by the development server run with `npm start`
+  * `websocketHost` Host used by the client when establishing a websocket connection with Firefox.
   * `webSocketConnection` Favours Firefox WebSocket connection over the [firefox-proxy](../bin/firefox-proxy), :warning: Experimental feature and requires [bug 1286281](https://bugzilla.mozilla.org/show_bug.cgi?id=1286281)
   * `geckoDir` Local location of Firefox source code _only needed by project maintainers_
 *  `development` Development server related settings
   * `serverPort` Listen Port used by the development server
   * `examplesPort` Listen Port used to serve examples
 * `hotReloading` enables [Hot Reloading](../docs/local-development.md#hot-reloading) of CSS and React
+* `baseWorkerURL` Location for where the worker bundles exist
+* `host` Location for where the debugger bundles exist
+
 
 ### Create a local config file
 
