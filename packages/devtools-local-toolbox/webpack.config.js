@@ -29,7 +29,10 @@ module.exports = (webpackConfig, envConfig) => {
     { test: /\.json$/,
       loader: "json" },
     { test: /\.js$/,
-      exclude: /(node_modules|bower_components|fs)/,
+      exclude: request => {
+        return request.match(/(node_modules|bower_components|fs)/)
+               && !request.match(/devtools-local-toolbox/);
+      },
       loaders: [
         "babel?" +
           defaultBabelPlugins.map(p => "plugins[]=" + p) +
