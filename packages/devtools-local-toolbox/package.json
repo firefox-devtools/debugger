@@ -20,12 +20,15 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
+    "check-node-version": "^1.1.2",
     "chrome-remote-debugging-protocol": "^0.0.9",
     "devtools-config": "^0.0.8",
     "devtools-modules": "^0.0.8",
     "devtools-network-request": "^0.0.8",
     "devtools-sham-modules": "^0.0.8",
+    "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
+    "mustache": "^2.2.1",
     "webpack": "1.13.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.0",
@@ -35,14 +38,11 @@
   "devDependencies": {
     "amd-loader": "0.0.5",
     "body-parser": "^1.15.0",
-    "check-node-version": "^1.1.2",
     "co": "=4.6.0",
     "css-loader": "^0.25.0",
-    "express": "^4.13.4",
     "json-loader": "^0.5.4",
     "lodash": "^4.13.1",
     "minimist": "^1.2.0",
-    "mustache": "^2.2.1",
     "react-hot-loader": "^1.3.0",
     "rimraf": "^2.5.2",
     "ws": "^1.0.1"
