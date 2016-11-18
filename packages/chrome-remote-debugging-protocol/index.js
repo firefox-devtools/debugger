@@ -1,10 +1,10 @@
 const {
   WebSocketConnection,
   InspectorBackend
-} = require("./api");
+} = require("./src/api");
 
-const defer = require("./util/defer");
-const bootstrap = require("./bootstrap");
+const defer = require("./src/util/defer");
+const bootstrap = require("./src/bootstrap");
 
 function onConnect(connection) {
   const ws = connection._socket;
