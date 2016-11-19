@@ -1,6 +1,6 @@
 {
   "name": "chrome-remote-debugging-protocol",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "API for interacting with chrome's remote debugger protocol",
   "main": "index.js",
   "bin": {
