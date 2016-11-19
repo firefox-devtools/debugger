@@ -32,7 +32,7 @@ module.exports = (webpackConfig, envConfig) => {
     { test: /\.js$/,
       exclude: request => {
         return request.match(/(node_modules|bower_components|fs)/)
-               && !request.match(/devtools-local-toolbox/);
+               && !request.match(/devtools-local-toolbox\/src/);
       },
       loaders: [
         "babel?" +
