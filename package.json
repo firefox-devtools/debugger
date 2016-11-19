@@ -33,7 +33,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "flow-coverage": "flow-coverage-report -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -t html -t text",
-    "preinstall": "./bin/preinstall"
+    "postinstall": "lerna bootstrap"
   },
   "dependencies": {
     "amd-loader": "0.0.5",
