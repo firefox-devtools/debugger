@@ -10,8 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
-    "bin"
+    "bin",
+    "src"
   ],
-  "author": "",
+  "author": "Jason Laster",
   "license": "ISC"
 }
