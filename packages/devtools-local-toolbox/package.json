@@ -46,6 +46,7 @@
     "devtools-modules": "^0.0.8",
     "devtools-network-request": "^0.0.8",
     "devtools-sham-modules": "^0.0.8",
+    "eslint": "^3.10.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-flowtype": "^2.20.0",
     "eslint-plugin-mozilla": "0.2.3",
@@ -74,10 +75,10 @@
     "ws": "^1.0.1"
   },
   "files": [
-    "src",
     "bin",
-    "index.js",
+    "src",
     "index.html",
+    "index.js",
     "webpack.config.js",
     "webpack.config.devtools.js"
   ]
