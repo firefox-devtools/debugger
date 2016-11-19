@@ -59,7 +59,7 @@
     "codemirror": "^5.1.0",
     "css-loader": "^0.26.0",
     "devtools-config": "^0.0.8",
-    "devtools-local-toolbox": "^0.0.8",
+    "devtools-local-toolbox": "^0.0.9",
     "devtools-modules": "^0.0.8",
     "devtools-network-request": "^0.0.8",
     "devtools-sham-modules": "^0.0.8",
