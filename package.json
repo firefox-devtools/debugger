@@ -33,7 +33,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "flow-coverage": "flow-coverage-report -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -t html -t text",
-    "preinstall": "./bin/preinstall"
+    "postinstall": "lerna bootstrap"
   },
   "dependencies": {
     "amd-loader": "0.0.5",
@@ -58,11 +58,11 @@
     "co": "=4.6.0",
     "codemirror": "^5.1.0",
     "css-loader": "^0.26.0",
-    "devtools-config": "^0.0.8",
-    "devtools-local-toolbox": "^0.0.8",
-    "devtools-modules": "^0.0.8",
-    "devtools-network-request": "^0.0.8",
-    "devtools-sham-modules": "^0.0.8",
+    "devtools-config": "^0.0.9",
+    "devtools-local-toolbox": "^0.0.9",
+    "devtools-modules": "^0.0.9",
+    "devtools-network-request": "^0.0.9",
+    "devtools-sham-modules": "^0.0.9",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.10.0",
     "eslint-plugin-babel": "^4.0.0",
