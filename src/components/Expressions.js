@@ -17,17 +17,24 @@ const Expressions = React.createClass({
     updateExpression: PropTypes.func,
     deleteExpression: PropTypes.func,
     expressionInputVisibility: PropTypes.bool,
+    toggleExpressionInput: PropTypes.func,
     loadObjectProperties: PropTypes.func,
     loadedObjects: ImPropTypes.map,
   },
 
   displayName: "Expressions",
 
+  componentDidUpdate() {
+    if (this._input) {
+      this._input.focus();
+    }
+  },
+
   inputKeyPress(e, { id }) {
     if (e.key !== "Enter") {
       return;
     }
-    const { addExpression } = this.props;
+    const { addExpression, toggleExpressionInput } = this.props;
     const expression = {
       input: e.target.value
     };
@@ -36,6 +43,7 @@ const Expressions = React.createClass({
     }
     e.target.value = "";
     addExpression(expression);
+    toggleExpressionInput();
   },
 
   updateExpression(e, { id }) {
@@ -114,23 +122,26 @@ const Expressions = React.createClass({
     );
   },
 
-  componentDidUpdate() {
-    if (this._input) {
-      this._input.focus();
+  renderInput() {
+    if (!this.props.expressionInputVisibility) {
+      return null;
     }
+
+    return dom.input(
+      {
+        type: "text",
+        className: "input-expression",
+        placeholder: L10N.getStr("expressions.placeholder"),
+        onKeyPress: e => this.inputKeyPress(e, {})
+      }
+    );
   },
 
   render() {
     const { expressions } = this.props;
     return dom.span(
       { className: "pane expressions-list" },
-      this.props.expressionInputVisibility ?
-      dom.input(
-        { type: "text",
-          className: "input-expression",
-          placeholder: L10N.getStr("expressions.placeholder"),
-          onKeyPress: e => this.inputKeyPress(e, {}) }
-      ) : null,
+      this.renderInput(),
       expressions.toSeq().map(expression =>
         this.renderExpressionContainer(expression))
     );
