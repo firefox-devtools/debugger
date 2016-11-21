@@ -71,6 +71,8 @@ const EditorSearchBar = React.createClass({
   closeSearch(e) {
     if (this.state.enabled) {
       this.setState({ enabled: false });
+      e.target.value = "";
+      this.onChange(e);
       e.stopPropagation();
       e.preventDefault();
     }
