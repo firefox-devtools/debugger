@@ -55,7 +55,6 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "immutable": "^3.7.6",
     "json-loader": "^0.5.4",
-    "lodash": "^4.13.1",
     "minimist": "^1.2.0",
     "mustache": "^2.2.1",
     "react": "=0.14.7",
