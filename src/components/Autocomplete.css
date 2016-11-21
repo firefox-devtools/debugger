@@ -98,6 +98,7 @@
   width: 24px;
   margin-right: 4px;
   line-height: 0;
+  flex-shrink: 0;
 }
 
 .autocomplete .no-result-msg .sad-face svg {
