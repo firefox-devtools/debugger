@@ -70,6 +70,7 @@ First we need to get the web application running. Within the source code directo
 ### Linux or MacOs
 
 * `npm i -g yarn@0.16.1` - Install Yarn
+* `git clone git@github.com:devtools-html/debugger.html.git` - Clone Debugger
 * `yarn install` - Install dependencies.
 * `yarn start` - Start development web server
 
@@ -80,6 +81,7 @@ NOTE: :cat2: We use [Yarn](https://yarnpkg.com) so that we all have the same set
 It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
 
 * `npm i -g yarn@0.16.1` - Install Yarn
+* `git clone git@github.com:devtools-html/debugger.html.git` - Clone Debugger
 * `yarn install` - Install dependencies
 * `yarn start` - Start development web server
 
