@@ -3,7 +3,8 @@ const constants = require("../constants");
 const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 
-const { getExpressions, getSelectedFrame } = require("../selectors");
+const { getExpressions, getSelectedFrame,
+        getPause } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
 
 import type { Pause, Frame, Expression, Grip } from "../types";
@@ -104,7 +105,11 @@ function command({ type }: CommandType) {
  * @returns {Function} {@link command}
  */
 function stepIn() {
-  return command({ type: "stepIn" });
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (getPause(getState())) {
+      return dispatch(command({ type: "stepIn" }));
+    }
+  };
 }
 
 /**
@@ -114,7 +119,11 @@ function stepIn() {
  * @returns {Function} {@link command}
  */
 function stepOver() {
-  return command({ type: "stepOver" });
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (getPause(getState())) {
+      return dispatch(command({ type: "stepOver" }));
+    }
+  };
 }
 
 /**
@@ -124,7 +133,11 @@ function stepOver() {
  * @returns {Function} {@link command}
  */
 function stepOut() {
-  return command({ type: "stepOut" });
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (getPause(getState())) {
+      return dispatch(command({ type: "stepOut" }));
+    }
+  };
 }
 
 /**
@@ -134,7 +147,11 @@ function stepOut() {
  * @returns {Function} {@link command}
  */
 function resume() {
-  return command({ type: "resume" });
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (getPause(getState())) {
+      return dispatch(command({ type: "resume" }));
+    }
+  };
 }
 
 /**
