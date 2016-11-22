@@ -363,7 +363,7 @@ For a list of all the configuration options see the [packages/devtools-config/RE
 
 ### Create a local config file
 
-* Copy the [`packages/devtools-config/configs/development.json`](./packages/devtools-config/configs/development.json) to `packages/devtools-config/configs/local.json`
+* Copy the [`packages/devtools-config/configs/development.json`](./packages/devtools-config/configs/development.json) to `configs/local.json`
 
 ## Issues and Pull Request labels
 
