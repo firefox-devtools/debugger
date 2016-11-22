@@ -7,6 +7,7 @@ const classnames = require("classnames");
 const { debounce, escapeRegExp } = require("lodash");
 const CloseButton = require("./CloseButton");
 const { isEnabled } = require("devtools-config");
+const ImPropTypes = require("react-immutable-proptypes");
 
 require("./EditorSearchBar.css");
 
@@ -20,7 +21,8 @@ const EditorSearchBar = React.createClass({
 
   propTypes: {
     editor: PropTypes.object,
-    sourceText: PropTypes.object
+    sourceText: PropTypes.object,
+    selectedSource: ImPropTypes.map
   },
 
   displayName: "EditorSearchBar",
