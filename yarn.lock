@@ -1900,9 +1900,9 @@ devtools-config@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.9.tgz#505712f3575f5991219a14a1cdd2a6da37d62a2c"
 
-devtools-local-toolbox@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/devtools-local-toolbox/-/devtools-local-toolbox-0.0.9.tgz#e8b6175c53fabb6e92d897370349e68c2d66aea7"
+devtools-local-toolbox@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/devtools-local-toolbox/-/devtools-local-toolbox-0.0.10.tgz#34abb96d4452ac9674f61fd7df9cf095dc9bbeb6"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
@@ -1939,7 +1939,6 @@ devtools-local-toolbox@^0.0.9:
     extract-text-webpack-plugin "^1.0.1"
     immutable "^3.7.6"
     json-loader "^0.5.4"
-    lodash "^4.13.1"
     minimist "^1.2.0"
     mustache "^2.2.1"
     react "=0.14.7"
