@@ -249,25 +249,39 @@ const Editor = React.createClass({
   },
 
   showGutterMenu(e, line, bp) {
-    let bpLabel;
-    let cbLabel;
-    let disableBpLabel;
+    let breakpoint, conditional, disabled;
     if (!bp) {
-      bpLabel = L10N.getStr("editor.addBreakpoint");
-      cbLabel = L10N.getStr("editor.addConditionalBreakpoint");
+      breakpoint = {
+        id: "node-menu-add-breakpoint",
+        label: L10N.getStr("editor.addBreakpoint")
+      };
+      conditional = {
+        id: "node-menu-add-conditional-breakpoint",
+        label: L10N.getStr("editor.addConditionalBreakpoint")
+      };
     } else {
-      bpLabel = L10N.getStr("editor.removeBreakpoint");
-      cbLabel = L10N.getStr("editor.editBreakpoint");
+      breakpoint = {
+        id: "node-menu-remove-breakpoint",
+        label: L10N.getStr("editor.removeBreakpoint")
+      };
+      conditional = {
+        id: "node-menu-edit-conditional-breakpoint",
+        label: L10N.getStr("editor.editBreakpoint")
+      };
       if (bp.disabled) {
-        disableBpLabel = L10N.getStr("editor.enableBreakpoint");
+        disabled = {
+          id: "node-menu-enable-breakpoint",
+          label: L10N.getStr("editor.enableBreakpoint")
+        };
       } else {
-        disableBpLabel = L10N.getStr("editor.disableBreakpoint");
+        disabled = {
+          id: "node-menu-disable-breakpoint",
+          label: L10N.getStr("editor.disableBreakpoint")
+        };
       }
     }
 
-    const toggleBreakpoint = {
-      id: "node-menu-breakpoint",
-      label: bpLabel,
+    const toggleBreakpoint = Object.assign({
       accesskey: "B",
       disabled: false,
       click: () => {
@@ -276,15 +290,13 @@ const Editor = React.createClass({
           this.closeConditionalPanel();
         }
       }
-    };
+    }, breakpoint);
 
-    const conditionalBreakpoint = {
-      id: "node-menu-conditional-breakpoint",
-      label: cbLabel,
+    const conditionalBreakpoint = Object.assign({
       accesskey: "C",
       disabled: false,
       click: () => this.showConditionalPanel(line)
-    };
+    }, conditional);
 
     let items = [
       toggleBreakpoint,
@@ -292,13 +304,11 @@ const Editor = React.createClass({
     ];
 
     if (bp) {
-      const disableBreakpoint = {
-        id: "node-menu-disable-breakpoint",
-        label: disableBpLabel,
+      const disableBreakpoint = Object.assign({
         accesskey: "D",
         disabled: false,
         click: () => this.toggleBreakpointDisabledStatus(line)
-      };
+      }, disabled);
       items.push(disableBreakpoint);
     }
 
