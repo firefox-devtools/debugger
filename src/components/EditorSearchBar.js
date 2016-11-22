@@ -63,7 +63,8 @@ const EditorSearchBar = React.createClass({
       this.searchInput().focus();
     }
 
-    if (this.props.sourceText.get("text") != undefined && this.props.selectedSource != prevProps.selectedSource) {
+    if (this.props.sourceText.get("text") != undefined && 
+      this.props.selectedSource != prevProps.selectedSource) {
       const query = this.state.query;
       const count = countMatches(query, this.props.sourceText.get("text"));
       this.setState({ count: count, index: 0 });
