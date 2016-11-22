@@ -90,7 +90,9 @@ function startDevServer(devConfig, webpackConfig) {
   // setup app
   const app = express();
   app.use(express.static("assets/build"));
-  app.get("/", serveRoot);
+  if (!getValue("development.customIndex")) {
+    app.get("/", serveRoot);
+  }
   app.get("/get", handleNetworkRequest);
   const serverPort = getValue("development.serverPort");
   app.listen(serverPort, "0.0.0.0", onRequest);

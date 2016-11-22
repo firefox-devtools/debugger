@@ -13,10 +13,17 @@ function buildConfig(envConfig) {
               path.join(projectPath, "utils/pretty-print-worker.js")
     },
 
-  output: {
-    path: path.join(__dirname, "assets/build"),
-    filename: "[name].js",
-    publicPath: "/assets/build"
+    output: {
+      path: path.join(__dirname, "assets/build"),
+      filename: "[name].js",
+      publicPath: "/assets/build"
+    },
+
+    resolve: {
+      alias: {
+        "devtools/client/shared/vendor/react": "react",
+        "devtools/client/shared/vendor/react-dom": "react-dom",
+      }
     }
   }
 
