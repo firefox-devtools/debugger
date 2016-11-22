@@ -140,6 +140,17 @@ function searchNext(ctx, rev) {
 }
 
 /**
+ * Remove overlay.
+ *
+ * @memberof utils/source-search
+ * @static
+ */
+function removeOverlay(ctx) {
+  let state = getSearchState(ctx.cm);
+  ctx.cm.removeOverlay(state.overlay);
+}
+
+/**
  * Clears the currently saved search.
  *
  * @memberof utils/source-search
@@ -186,4 +197,4 @@ function findPrev(ctx, query) {
   doSearch(ctx, true, query);
 }
 
-module.exports = { find, findNext, findPrev };
+module.exports = { find, findNext, findPrev, removeOverlay };
