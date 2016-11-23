@@ -10,7 +10,7 @@ const pause = require("./pause");
 const ui = require("./ui");
 
 module.exports = {
-  eventListeners,
+  eventListeners: eventListeners.update,
   sources: sources.update,
   breakpoints: breakpoints.update,
   pause: pause.update,

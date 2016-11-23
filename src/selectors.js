@@ -3,6 +3,7 @@
 const sources = require("./reducers/sources");
 const pause = require("./reducers/pause");
 const breakpoints = require("./reducers/breakpoints");
+const eventListeners = require("./reducers/event-listeners");
 const ui = require("./reducers/ui");
 
 /**
@@ -35,6 +36,8 @@ module.exports = {
   getShouldIgnoreCaughtExceptions: pause.getShouldIgnoreCaughtExceptions,
   getFrames: pause.getFrames,
   getSelectedFrame: pause.getSelectedFrame,
+
+  getEventListeners: eventListeners.getEventListeners,
 
   getFileSearchState: ui.getFileSearchState
 };
