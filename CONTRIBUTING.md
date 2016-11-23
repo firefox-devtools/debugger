@@ -32,7 +32,6 @@ We respect your time and want to help you make the most of it as you learn more 
     * [Unit Tests](#unit-tests)
     * [Integration Tests](#integration-tests)
     * [Linting](#linting)
-    * [Storybook](#storybook)
   * [Configuration](#configuration)
     * [Create a local config file](#create-a-local-config-file)
   * [Issues and Pull Request labels](#issues-and-pull-requests)
@@ -335,17 +334,6 @@ To automatically fix many errors run the command:
 ```
 $ yarn run lint-fix
 ```
-
-#### Storybook
-
-Storybook is our local development and testing utility that allows you to see how an individual component like the breakpoint list view or the call stack view react to any changes to style and code you've made.
-
-```
-$ yarn i -g @kadira/storybook
-$ yarn run storybook
-```
-
-Read more information in [storybook docs](./docs/local-development.md#storybook)
 
 ## Configuration
 

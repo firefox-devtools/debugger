@@ -117,18 +117,3 @@ Rationale:
 ```
 > npm run flow-coverage
 ```
-
-### StoryBook
-
-Storybook is a local development environment for react components for viewing components in different states.
-
-**Features:**
-+ toggle between different UI states
-+ quickly work on a component with hot reloading
-
-**Getting Started:**
-* install storybook `npm i -g @kadira/storybook`
-+ start storybook `npm run storybook`
-+ edit a component story in `src/components/stories`
-
-![](./screenshots/storybook.png)

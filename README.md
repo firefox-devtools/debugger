@@ -56,7 +56,6 @@ This is an open source project and we would love your help. We have prepared a [
       * [Unit Tests][unit-tests]
       * [Integration Tests][integration-tests]
       * [Linting][linting]
-      * [Storybook][storybook]
 
 We use the [up for grabs](https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs) label to indicate this work is open for anyone to take.  If you already know what you're doing and want to dive in, take a look at those issues.
 
@@ -100,7 +99,6 @@ We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on
 [unit-tests]:./CONTRIBUTING.md#unit-tests
 [integration-tests]:./CONTRIBUTING.md#integration-tests
 [linting]:./CONTRIBUTING.md#linting
-[storybook]:./CONTRIBUTING.md#storybook
 
 [irc-devtools-html]:irc://irc.mozilla.org/devtools-html
 
