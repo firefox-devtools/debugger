@@ -97,7 +97,7 @@ const Editor = React.createClass({
       return;
     }
 
-    if(!Number.isInteger(line)) {
+    if (!Number.isInteger(line)) {
       line = this.editor.codeMirror.getCursor().line;
     }
 
@@ -135,8 +135,8 @@ const Editor = React.createClass({
   },
 
   toggleBreakpoint(line) {
-    if(line) {
-      if(!Number.isInteger(line)) {
+    if (line) {
+      if (!Number.isInteger(line)) {
         line = this.editor.codeMirror.getCursor().line;
       }
 
@@ -161,7 +161,7 @@ const Editor = React.createClass({
           { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) }
         );
       }
-    } 
+    }
   },
 
   clearDebugLine(selectedFrame) {
