@@ -68,6 +68,10 @@ const Editor = React.createClass({
 
   displayName: "Editor",
 
+  contextTypes: {
+    shortcuts: PropTypes.object
+  },
+
   onGutterClick(cm, line, gutter, ev) {
     // ignore right clicks in the gutter
     if (ev.which === 3) {
@@ -91,6 +95,10 @@ const Editor = React.createClass({
   showConditionalPanel(line) {
     if (this.isCbPanelOpen()) {
       return;
+    }
+
+    if(!Number.isInteger(line)) {
+      line = this.editor.codeMirror.getCursor().line;
     }
 
     const { selectedLocation: { sourceId },
@@ -127,27 +135,33 @@ const Editor = React.createClass({
   },
 
   toggleBreakpoint(line) {
-    const bp = breakpointAtLine(this.props.breakpoints, line);
+    if(line) {
+      if(!Number.isInteger(line)) {
+        line = this.editor.codeMirror.getCursor().line;
+      }
 
-    if (bp && bp.loading) {
-      return;
-    }
+      const bp = breakpointAtLine(this.props.breakpoints, line);
 
-    if (bp) {
-      this.props.removeBreakpoint({
-        sourceId: this.props.selectedLocation.sourceId,
-        line: line + 1
-      });
-    } else {
-      this.props.addBreakpoint(
-        { sourceId: this.props.selectedLocation.sourceId,
-          line: line + 1 },
-        // Pass in a function to get line text because the breakpoint
-        // may slide and it needs to compute the value at the new
-        // line.
-        { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) }
-      );
-    }
+      if (bp && bp.loading) {
+        return;
+      }
+
+      if (bp) {
+        this.props.removeBreakpoint({
+          sourceId: this.props.selectedLocation.sourceId,
+          line: line + 1
+        });
+      } else {
+        this.props.addBreakpoint(
+          { sourceId: this.props.selectedLocation.sourceId,
+            line: line + 1 },
+          // Pass in a function to get line text because the breakpoint
+          // may slide and it needs to compute the value at the new
+          // line.
+          { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) }
+        );
+      }
+    } 
   },
 
   clearDebugLine(selectedFrame) {
@@ -300,6 +314,9 @@ const Editor = React.createClass({
         false
       );
     }
+    const shortcuts = this.context.shortcuts;
+    shortcuts.on("CmdOrCtrl+B", this.toggleBreakpoint);
+    shortcuts.on("CmdOrCtrl+Shift+B", this.showConditionalPanel);
 
     resizeBreakpointGutter(this.editor.codeMirror);
     debugGlobal("cm", this.editor.codeMirror);
@@ -312,6 +329,10 @@ const Editor = React.createClass({
   componentWillUnmount() {
     this.editor.destroy();
     this.editor = null;
+
+    const shortcuts = this.context.shortcuts;
+    shortcuts.on("CmdOrCtrl+B", this.toggleBreakpoint);
+    shortcuts.on("CmdOrCtrl+Shift+B", this.showConditionalPanel);
   },
 
   componentWillReceiveProps(nextProps) {
