@@ -83,6 +83,7 @@
     "install": "^0.8.1",
     "invariant": "^2.2.1",
     "json-loader": "^0.5.4",
+    "lerna": "jasonlaster/lerna",
     "lodash": "^4.13.1",
     "md5": "^2.2.1",
     "minimist": "^1.2.0",
@@ -109,13 +110,11 @@
     "svg-inline-loader": "^0.7.1",
     "svg-inline-react": "^1.0.2",
     "tcomb": "^3.1.0",
-    "tcomb": "^3.1.0",
     "webpack": "1.13.3",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.0",
     "workerjs": "github:jlongster/workerjs",
-    "ws": "^1.0.1",
-    "lerna": "jasonlaster/lerna"
+    "ws": "^1.0.1"
   },
   "files": [
     "src",
