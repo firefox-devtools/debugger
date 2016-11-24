@@ -45,7 +45,6 @@ const EditorSearchBar = React.createClass({
       shortcuts.off("Escape");
       shortcuts.off("CmdOrCtrl+Shift+G");
       shortcuts.off("CmdOrCtrl+G");
-
     }
   },
 

@@ -266,7 +266,7 @@ const Editor = React.createClass({
       label: cbLabel,
       accesskey: "C",
       disabled: false,
-      click: () =>  this.showConditionalPanel(
+      click: () => this.showConditionalPanel(
         getCursorLine(this.editor.codeMirror)
       )
     };
