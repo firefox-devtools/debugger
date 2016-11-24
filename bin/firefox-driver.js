@@ -22,7 +22,7 @@ const useWebSocket = args.websocket;
 function binaryArgs() {
   return [
     (!isWindows ? "-" : "") +
-    "-start-debugger-server=" +
+    "--start-debugging-server=" +
     (useWebSocket ? "ws:6080" : "6080")
   ];
 }
