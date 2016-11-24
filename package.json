@@ -73,7 +73,7 @@
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
     "firefox-profile": "^0.4.0",
-    "flow-bin": "^0.35.0",
+    "flow-bin": "^0.36.0",
     "flow-coverage-report": "^0.2.0",
     "fuzzaldrin-plus": "^0.3.1",
     "geckodriver": "^1.2.0",
