@@ -100,10 +100,6 @@ const Editor = React.createClass({
       return;
     }
 
-    if (!Number.isInteger(line)) {
-      line = this.editor.codeMirror.getCursor().line;
-    }
-
     const { selectedLocation: { sourceId },
             setBreakpointCondition, breakpoints } = this.props;
 
