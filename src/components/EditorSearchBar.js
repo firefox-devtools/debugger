@@ -41,20 +41,21 @@ const EditorSearchBar = React.createClass({
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     if (isEnabled("editorSearch")) {
-      shortcuts.off("CmdOrCtrl+F", this.toggleSearch);
-      shortcuts.off("Escape", this.onEscape);
-      shortcuts.off("CmdOrCtrl+Shift+G", this.traverseResultsPrev);
-      shortcuts.off("CmdOrCtrl+G", this.traverseResultsNext);
+      shortcuts.off("CmdOrCtrl+F");
+      shortcuts.off("Escape");
+      shortcuts.off("CmdOrCtrl+Shift+G");
+      shortcuts.off("CmdOrCtrl+G");
+
     }
   },
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     if (isEnabled("editorSearch")) {
-      shortcuts.on("CmdOrCtrl+F", this.toggleSearch);
-      shortcuts.on("Escape", this.onEscape);
-      shortcuts.on("CmdOrCtrl+Shift+G", this.traverseResultsPrev);
-      shortcuts.on("CmdOrCtrl+G", this.traverseResultsNext);
+      shortcuts.on("CmdOrCtrl+F", (_, e) => this.toggleSearch(e));
+      shortcuts.on("Escape", (_, e) => this.onEscape(e));
+      shortcuts.on("CmdOrCtrl+Shift+G", (_, e) => this.traverseResultsPrev(e));
+      shortcuts.on("CmdOrCtrl+G", (_, e) => this.traverseResultsNext(e));
     }
   },
 
@@ -64,7 +65,7 @@ const EditorSearchBar = React.createClass({
     }
   },
 
-  onEscape(shortcut, e) {
+  onEscape(e) {
     this.closeSearch(e);
   },
 
@@ -76,7 +77,7 @@ const EditorSearchBar = React.createClass({
     }
   },
 
-  toggleSearch(shortcut, e) {
+  toggleSearch(e) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -117,7 +118,7 @@ const EditorSearchBar = React.createClass({
     this.search(query);
   },
 
-  traverseResultsPrev(shortcut, e) {
+  traverseResultsPrev(e) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -134,7 +135,7 @@ const EditorSearchBar = React.createClass({
     this.setState({ index: nextIndex });
   },
 
-  traverseResultsNext(shortcut, e) {
+  traverseResultsNext(e) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -157,9 +158,9 @@ const EditorSearchBar = React.createClass({
     }
 
     if (e.shiftKey) {
-      this.traverseResultsPrev(null, e);
+      this.traverseResultsPrev(e);
     } else {
-      this.traverseResultsNext(null, e);
+      this.traverseResultsNext(e);
     }
   },
 

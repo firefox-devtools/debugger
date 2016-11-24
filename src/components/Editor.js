@@ -41,6 +41,9 @@ function getTextForLine(codeMirror, line) {
   return codeMirror.getLine(line - 1).trim();
 }
 
+function getCursorLine(codeMirror) {
+  return codeMirror.getCursor().line;
+}
 /**
  * Forces the breakpoint gutter to be the same size as the line
  * numbers gutter. Editor CSS will absolutely position the gutter
@@ -135,32 +138,30 @@ const Editor = React.createClass({
   },
 
   toggleBreakpoint(line) {
-    if (line) {
-      if (!Number.isInteger(line)) {
-        line = this.editor.codeMirror.getCursor().line;
-      }
+    if (!line) {
+      line = getCursorLine(this.editor.codeMirror);
+    }
 
-      const bp = breakpointAtLine(this.props.breakpoints, line);
+    const bp = breakpointAtLine(this.props.breakpoints, line);
 
-      if (bp && bp.loading) {
-        return;
-      }
+    if (bp && bp.loading) {
+      return;
+    }
 
-      if (bp) {
-        this.props.removeBreakpoint({
-          sourceId: this.props.selectedLocation.sourceId,
-          line: line + 1
-        });
-      } else {
-        this.props.addBreakpoint(
-          { sourceId: this.props.selectedLocation.sourceId,
-            line: line + 1 },
-          // Pass in a function to get line text because the breakpoint
-          // may slide and it needs to compute the value at the new
-          // line.
-          { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) }
-        );
-      }
+    if (bp) {
+      this.props.removeBreakpoint({
+        sourceId: this.props.selectedLocation.sourceId,
+        line: line + 1
+      });
+    } else {
+      this.props.addBreakpoint(
+        { sourceId: this.props.selectedLocation.sourceId,
+          line: line + 1 },
+        // Pass in a function to get line text because the breakpoint
+        // may slide and it needs to compute the value at the new
+        // line.
+        { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) }
+      );
     }
   },
 
@@ -265,7 +266,9 @@ const Editor = React.createClass({
       label: cbLabel,
       accesskey: "C",
       disabled: false,
-      click: () => this.showConditionalPanel(line)
+      click: () =>  this.showConditionalPanel(
+        getCursorLine(this.editor.codeMirror)
+      )
     };
 
     showMenu(e, [
@@ -315,8 +318,12 @@ const Editor = React.createClass({
       );
     }
     const shortcuts = this.context.shortcuts;
-    shortcuts.on("CmdOrCtrl+B", this.toggleBreakpoint);
-    shortcuts.on("CmdOrCtrl+Shift+B", this.showConditionalPanel);
+    shortcuts.on("CmdOrCtrl+B", () => this.toggleBreakpoint(
+      getCursorLine(this.editor.codeMirror)
+    ));
+    shortcuts.on("CmdOrCtrl+Shift+B", () => this.showConditionalPanel(
+      getCursorLine(this.editor.codeMirror)
+    ));
 
     resizeBreakpointGutter(this.editor.codeMirror);
     debugGlobal("cm", this.editor.codeMirror);
@@ -331,8 +338,8 @@ const Editor = React.createClass({
     this.editor = null;
 
     const shortcuts = this.context.shortcuts;
-    shortcuts.on("CmdOrCtrl+B", this.toggleBreakpoint);
-    shortcuts.on("CmdOrCtrl+Shift+B", this.showConditionalPanel);
+    shortcuts.off("CmdOrCtrl+B");
+    shortcuts.off("CmdOrCtrl+Shift+B");
   },
 
   componentWillReceiveProps(nextProps) {
