@@ -17,6 +17,7 @@ Here are instructions to get the debugger.html application installed and running
 ### Linux or MacOs
 
 * `npm i -g yarn@0.16.1` - Install Yarn
+* `git clone git@github.com:devtools-html/debugger.html.git` - Clone Debugger
 * `yarn install` - Install dependencies
 * `yarn start` - Start development web server
 
@@ -27,6 +28,7 @@ NOTE: :cat2: We use [Yarn](https://yarnpkg.com) so that we all have the same set
 It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
 
 * `npm i -g yarn@0.16.1` - Install Yarn
+* `git clone git@github.com:devtools-html/debugger.html.git` - Clone Debugger
 * `yarn install` - Install dependencies
 * `yarn start` - Start development web server
 
@@ -63,6 +65,10 @@ We strive for collaboration with [mutual respect for each other](./CODE_OF_CONDU
 ## Discussion
 
 We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
+
+
+* **Open Office Hours** Every Tuesday, Thursday at 3pm EST. [Event](https://calendar.google.com/calendar/render#eventpage_6%7Ceid-MzBtZHBhNm5jcW44dXR0dm1yajliOWQzamNfMjAxNjExMjJUMjAwMDAwWiBodWtoZG9rbzNuMm5oNzZiZGw2dWUya2pqb0Bn-1-0-)
+* **DevTools Call** Every Tuesday at 12pm EST. [info](https://wiki.mozilla.org/DevTools)
 
 ## License
 

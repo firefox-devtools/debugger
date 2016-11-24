@@ -61,6 +61,8 @@ const Editor = React.createClass({
     selectedSource: ImPropTypes.map,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func,
+    disableBreakpoint: PropTypes.func,
+    enableBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
     setBreakpointCondition: PropTypes.func,
     selectedFrame: PropTypes.object
@@ -150,6 +152,30 @@ const Editor = React.createClass({
     }
   },
 
+  toggleBreakpointDisabledStatus(line) {
+    const bp = breakpointAtLine(this.props.breakpoints, line);
+
+    if (bp && bp.loading) {
+      return;
+    }
+
+    if (!bp) {
+      throw new Error("attempt to disable breakpoint that does not exist");
+    }
+
+    if (!bp.disabled) {
+      this.props.disableBreakpoint({
+        sourceId: this.props.selectedLocation.sourceId,
+        line: line + 1
+      });
+    } else {
+      this.props.enableBreakpoint({
+        sourceId: this.props.selectedLocation.sourceId,
+        line: line + 1
+      });
+    }
+  },
+
   clearDebugLine(selectedFrame) {
     if (selectedFrame) {
       const line = selectedFrame.location.line;
@@ -223,19 +249,39 @@ const Editor = React.createClass({
   },
 
   showGutterMenu(e, line, bp) {
-    let bpLabel;
-    let cbLabel;
+    let breakpoint, conditional, disabled;
     if (!bp) {
-      bpLabel = L10N.getStr("editor.addBreakpoint");
-      cbLabel = L10N.getStr("editor.addConditionalBreakpoint");
+      breakpoint = {
+        id: "node-menu-add-breakpoint",
+        label: L10N.getStr("editor.addBreakpoint")
+      };
+      conditional = {
+        id: "node-menu-add-conditional-breakpoint",
+        label: L10N.getStr("editor.addConditionalBreakpoint")
+      };
     } else {
-      bpLabel = L10N.getStr("editor.removeBreakpoint");
-      cbLabel = L10N.getStr("editor.editBreakpoint");
+      breakpoint = {
+        id: "node-menu-remove-breakpoint",
+        label: L10N.getStr("editor.removeBreakpoint")
+      };
+      conditional = {
+        id: "node-menu-edit-conditional-breakpoint",
+        label: L10N.getStr("editor.editBreakpoint")
+      };
+      if (bp.disabled) {
+        disabled = {
+          id: "node-menu-enable-breakpoint",
+          label: L10N.getStr("editor.enableBreakpoint")
+        };
+      } else {
+        disabled = {
+          id: "node-menu-disable-breakpoint",
+          label: L10N.getStr("editor.disableBreakpoint")
+        };
+      }
     }
 
-    const toggleBreakpoint = {
-      id: "node-menu-breakpoint",
-      label: bpLabel,
+    const toggleBreakpoint = Object.assign({
       accesskey: "B",
       disabled: false,
       click: () => {
@@ -244,20 +290,29 @@ const Editor = React.createClass({
           this.closeConditionalPanel();
         }
       }
-    };
+    }, breakpoint);
 
-    const conditionalBreakpoint = {
-      id: "node-menu-conditional-breakpoint",
-      label: cbLabel,
+    const conditionalBreakpoint = Object.assign({
       accesskey: "C",
       disabled: false,
       click: () => this.showConditionalPanel(line)
-    };
+    }, conditional);
 
-    showMenu(e, [
+    let items = [
       toggleBreakpoint,
       conditionalBreakpoint
-    ]);
+    ];
+
+    if (bp) {
+      const disableBreakpoint = Object.assign({
+        accesskey: "D",
+        disabled: false,
+        click: () => this.toggleBreakpointDisabledStatus(line)
+      }, disabled);
+      items.push(disableBreakpoint);
+    }
+
+    showMenu(e, items);
   },
 
   componentDidMount() {

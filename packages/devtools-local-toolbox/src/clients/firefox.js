@@ -46,10 +46,11 @@ function createTabs(tabs) {
 function connectClient() {
   const deferred = defer();
   const useProxy = !getValue("firefox.webSocketConnection");
-  const portPref = useProxy ? "firefox.proxyPort" : "firefox.webSocketPort";
-  const webSocketPort = getValue(portPref);
+  const firefoxHost = getValue(
+    useProxy ? "firefox.proxyHost" : "firefox.webSocketHost"
+  );
 
-  const socket = new WebSocket(`ws://${document.location.hostname}:${webSocketPort}`);
+  const socket = new WebSocket(`ws://${firefoxHost}`);
   const transport = useProxy ?
     new DebuggerTransport(socket) : new WebsocketTransport(socket);
   debuggerClient = new DebuggerClient(transport);

@@ -13,10 +13,10 @@ const { shouldShowFooter, shouldShowPrettyPrint } = require("../utils/editor");
 require("./SourceFooter.css");
 
 function debugBtn(onClick, type, className = "active", tooltip) {
-  className = `${type} ${className}`;
-  return dom.span(
+  className = `${type} ${className} action`;
+  return dom.button(
     { onClick, className, key: type },
-    Svg(type, { title: tooltip })
+    Svg(type, { title: tooltip, "aria-label": tooltip })
   );
 }
 
@@ -63,7 +63,7 @@ const SourceFooter = React.createClass({
     }
 
     return dom.div({ className: "source-footer" },
-      dom.div({ className: "command-bar" },
+      dom.div({ className: "commands" },
         this.prettyPrintButton()
       )
     );

@@ -5,8 +5,8 @@ const path = require("path");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const { isDevelopment, isFirefoxPanel, getValue } = require("devtools-config");
-const merge = require("lodash/merge");
 const NODE_ENV = process.env.NODE_ENV || "development";
+const TARGET = process.env.TARGET || "local";
 
 const defaultBabelPlugins = [
   "transform-flow-strip-types",
@@ -17,34 +17,38 @@ module.exports = (webpackConfig, envConfig) => {
   webpackConfig.context = path.resolve(__dirname, "src");
   webpackConfig.devtool = "source-map";
 
-  webpackConfig.resolve = merge({
-    alias: {
-      "devtools/client/shared/vendor/react": "react",
-      "devtools/client/shared/vendor/react-dom": "react-dom"
-    }
-  }, webpackConfig.resolve);
-
-  webpackConfig.module = {
-    loaders: [
-    { test: /\.json$/,
-      loader: "json" },
-    { test: /\.js$/,
-      exclude: /(node_modules|bower_components|fs)/,
-      loaders: [
-        "babel?" +
-          defaultBabelPlugins.map(p => "plugins[]=" + p) +
-          "&ignore=src/lib"
-      ],
-      isJavaScriptLoader: true
+  webpackConfig.module = webpackConfig.module || {};
+  webpackConfig.module.loaders = webpackConfig.module.loaders || [];
+  webpackConfig.module.loaders.push({
+    test: /\.json$/,
+    loader: "json"
+  });
+  webpackConfig.module.loaders.push({
+    test: /\.js$/,
+    exclude: request => {
+      let excluded = request.match(/(node_modules|bower_components|fs)/);
+      if (webpackConfig.babelExcludes) {
+        // If the tool defines an additional exclude regexp for Babel.
+        excluded = excluded || request.match(webpackConfig.babelExcludes);
+      }
+      return excluded && !request.match(/devtools-local-toolbox\/src/);
     },
-    { test: /\.svg$/,
-      exclude: /lkdjlskdjslkdjsdlk/,
-      loader: "svg-inline" }
-    ]
-  };
+    loaders: [
+      "babel?" +
+        defaultBabelPlugins.map(p => "plugins[]=" + p) +
+        "&ignore=src/lib"
+    ],
+    isJavaScriptLoader: true
+  });
+  webpackConfig.module.loaders.push({
+    test: /\.svg$/,
+    exclude: /lkdjlskdjslkdjsdlk/,
+    loader: "svg-inline"
+  });
 
   const ignoreRegexes = [/^fs$/];
-  webpackConfig.externals = [];
+  webpackConfig.externals = webpackConfig.externals || [];
+
   function externalsTest(context, request, callback) {
     let mod = request;
 
@@ -57,15 +61,16 @@ module.exports = (webpackConfig, envConfig) => {
   }
   webpackConfig.externals.push(externalsTest);
 
-  webpackConfig.plugins = [
+  webpackConfig.plugins = webpackConfig.plugins || [];
+  webpackConfig.plugins.push(
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify(NODE_ENV),
-        TARGET: JSON.stringify("local")
+        TARGET: JSON.stringify(TARGET)
       },
       "DebuggerConfig": JSON.stringify(envConfig)
     })
-  ];
+  );
 
   if (isDevelopment()) {
     webpackConfig.module.loaders.push({

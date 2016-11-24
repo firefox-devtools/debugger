@@ -173,6 +173,8 @@ const ObjectInspector = React.createClass({
       getRoots: () => roots,
       getKey: item => item.path,
       autoExpand: 0,
+      autoExpandDepth: 1,
+      autoExpandAll: false,
       disabledFocus: true,
       onExpand: item => {
         if (nodeHasProperties(item)) {
