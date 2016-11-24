@@ -138,10 +138,6 @@ const Editor = React.createClass({
   },
 
   toggleBreakpoint(line) {
-    if (!line) {
-      line = getCursorLine(this.editor.codeMirror);
-    }
-
     const bp = breakpointAtLine(this.props.breakpoints, line);
 
     if (bp && bp.loading) {
@@ -266,9 +262,7 @@ const Editor = React.createClass({
       label: cbLabel,
       accesskey: "C",
       disabled: false,
-      click: () => this.showConditionalPanel(
-        getCursorLine(this.editor.codeMirror)
-      )
+      click: () => this.showConditionalPanel(line)
     };
 
     showMenu(e, [
