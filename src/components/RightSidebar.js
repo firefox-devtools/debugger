@@ -10,8 +10,10 @@ const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Expressions = React.createFactory(require("./Expressions"));
 const Scopes = React.createFactory(require("./Scopes"));
 const Frames = React.createFactory(require("./Frames"));
-const Accordion = React.createFactory(require("./Accordion"));
+const Accordion = React.createFactory(require("./Accordion").Accordion);
+const AccordionPane = React.createFactory(require("./Accordion").AccordionPane);
 const CommandBar = React.createFactory(require("./CommandBar"));
+
 require("./RightSidebar.css");
 
 function debugBtn(onClick, type, className, tooltip) {
@@ -23,25 +25,21 @@ function debugBtn(onClick, type, className, tooltip) {
 }
 
 const RightSidebar = React.createClass({
+
   propTypes: {
     evaluateExpressions: PropTypes.func,
-  },
-
-  contextTypes: {
-    shortcuts: PropTypes.object
   },
 
   displayName: "RightSidebar",
 
   getInitialState() {
     return {
-      expressionInputVisibility: true
+      expressionInputVisibility: false
     };
   },
 
-  watchExpressionHeaderButtons() {
-    const { expressionInputVisibility } = this.state;
-    return [
+  renderButtons() {
+    return dom.div({},
       debugBtn(
         evt => {
           evt.stopPropagation();
@@ -51,46 +49,54 @@ const RightSidebar = React.createClass({
       debugBtn(
         evt => {
           evt.stopPropagation();
-          this.setState({
-            expressionInputVisibility: !expressionInputVisibility
-          });
+          this.toggleExpressionInput();
         }, "file",
         "accordion-button", "Add Watch Expression")
-    ];
+    );
   },
 
-  getItems() {
+  toggleExpressionInput() {
     const { expressionInputVisibility } = this.state;
-
-    const items = [
-      { header: L10N.getStr("breakpoints.header"),
-        component: Breakpoints,
-        opened: true },
-      { header: L10N.getStr("callStack.header"),
-        component: Frames },
-      { header: L10N.getStr("scopes.header"),
-        component: Scopes }
-    ];
-    if (isEnabled("watchExpressions")) {
-      items.unshift({ header: L10N.getStr("watchExpressions.header"),
-        buttons: this.watchExpressionHeaderButtons(),
-        component: Expressions,
-        componentProps: { expressionInputVisibility },
-        opened: true
-      });
-    }
-    return items;
+    this.setState({
+      expressionInputVisibility: !expressionInputVisibility
+    });
   },
 
   render() {
+    const expressionInputVisibility = this.state.expressionInputVisibility;
+    const toggleExpressionInput = this.toggleExpressionInput;
+
     return (
       dom.div(
         { className: "right-sidebar",
           style: { overflowX: "hidden" }},
         CommandBar(),
-        Accordion({
-          items: this.getItems()
-        })
+
+        Accordion({},
+          isEnabled("watchExpressions") ?
+          AccordionPane(
+            {
+              header: L10N.getStr("watchExpressions.header"),
+              buttons: this.renderButtons()
+            },
+            Expressions({ expressionInputVisibility, toggleExpressionInput })
+          ) : null,
+          AccordionPane(
+            {
+              header: L10N.getStr("breakpoints.header"),
+              opened: true
+            },
+            Breakpoints()
+          ),
+          AccordionPane(
+            { header: L10N.getStr("callStack.header") },
+            Frames()
+          ),
+          AccordionPane(
+            { header: L10N.getStr("scopes.header") },
+            Scopes()
+          )
+        )
       )
     );
   }

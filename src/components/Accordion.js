@@ -1,75 +1,98 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
-
-const { div, span } = dom;
 const Svg = require("./utils/Svg");
 
 require("./Accordion.css");
 
 const Accordion = React.createClass({
   propTypes: {
-    items: PropTypes.array
+    children: PropTypes.array.object
   },
 
   displayName: "Accordion",
 
-  getInitialState: function() {
-    return { opened: this.props.items.map(item => item.opened),
-      created: [] };
-  },
-
-  handleHeaderClick: function(i) {
-    const opened = [...this.state.opened];
-    const created = [...this.state.created];
-    const item = this.props.items[i];
-
-    opened[i] = !opened[i];
-    created[i] = true;
-
-    if (opened[i] && item.onOpened) {
-      item.onOpened();
-    }
-
-    this.setState({ opened, created });
-  },
-
-  renderContainer: function(item, i) {
-    const { opened, created } = this.state;
-    const containerClassName =
-          item.header.toLowerCase().replace(/\s/g, "-") + "-pane";
-
-    return div(
-      { className: containerClassName, key: i },
-
-      div(
-        { className: "_header",
-          onClick: () => this.handleHeaderClick(i) },
-        Svg("arrow", { className: opened[i] ? "expanded" : "" }),
-        item.header,
-        item.buttons ?
-        dom.span({ className: "header-buttons" },
-          item.buttons.map((button, id) => span({ key: id }, button))
-        ) :
-        null
-      ),
-
-      (created[i] || opened[i]) ?
-        div(
-          { className: "_content",
-            style: { display: opened[i] ? "block" : "none" }
-          },
-          React.createElement(item.component, item.componentProps || {})
-        ) :
-        null
-    );
-  },
-
-  render: function() {
-    return div(
+  render() {
+    return dom.div(
       { className: "accordion" },
-      this.props.items.map(this.renderContainer)
+      this.props.children
     );
   }
 });
 
-module.exports = Accordion;
+const AccordionPane = React.createClass({
+  propTypes: {
+    item: PropTypes.object,
+    opened: PropTypes.bool,
+    children: PropTypes.array,
+    buttons: PropTypes.object,
+    header: PropTypes.string
+  },
+
+  displayName: "AccordionPane",
+
+  getInitialState: function() {
+    return {
+      opened: this.props.opened
+    };
+  },
+
+  handleHeaderClick: function() {
+    const opened = this.state.opened;
+    opened = !opened;
+    this.setState({ opened });
+  },
+
+  renderButtons(buttons) {
+    if (!buttons) {
+      return null;
+    }
+
+    return dom.span(
+      { className: "header-buttons" },
+      buttons
+    );
+  },
+
+  renderContent() {
+    const opened = this.state.opened;
+    const children = this.props.children;
+
+    if (!opened) {
+      return null;
+    }
+
+    return dom.div(
+      { className: "_content",
+        style: { display: opened ? "block" : "none" }
+      },
+      children
+    );
+  },
+
+  render: function() {
+    const { buttons, header } = this.props;
+    const { opened } = this.state;
+
+    const containerClassName =
+          header.toLowerCase().replace(/\s/g, "-") + "-pane";
+
+    return dom.div(
+      { className: containerClassName },
+
+      dom.div(
+        { className: "_header",
+          onClick: this.handleHeaderClick
+        },
+        Svg("arrow", { className: opened ? "expanded" : "" }),
+        header,
+        this.renderButtons(buttons)
+      ),
+      this.renderContent()
+    );
+  }
+});
+
+module.exports = {
+  AccordionPane,
+  Accordion
+};
