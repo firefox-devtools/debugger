@@ -20,6 +20,7 @@ const {
 } = require("../utils/source-map");
 
 const { prettyPrint } = require("../utils/pretty-print");
+const { getPrettySourceURL } = require("../utils/source");
 
 const constants = require("../constants");
 const { removeDocument } = require("../utils/source-documents");
@@ -194,7 +195,7 @@ function togglePrettyPrint(sourceId: string) {
     assert(isGeneratedId(sourceId),
            "Pretty-printing only allowed on generated sources");
 
-    const url = source.url + ":formatted";
+    const url = getPrettySourceURL(source.url);
     const id = generatedToOriginalId(source.id, url);
     const originalSource = { url, id, isPrettyPrinted: false };
     dispatch({

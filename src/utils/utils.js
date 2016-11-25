@@ -69,7 +69,7 @@ function promisify(context: any, method: any, ...args: any) {
  */
 function truncateStr(str: any, size: any) {
   if (str.length > size) {
-    return str.slice(0, size) + "...";
+    return `${str.slice(0, size)}...`;
   }
   return str;
 }
@@ -80,7 +80,7 @@ function truncateStr(str: any, size: any) {
  */
 function endTruncateStr(str: any, size: any) {
   if (str.length > size) {
-    return "..." + str.slice(str.length - size);
+    return `...${str.slice(str.length - size)}`;
   }
   return str;
 }

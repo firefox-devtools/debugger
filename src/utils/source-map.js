@@ -16,7 +16,7 @@ function restartWorker() {
     sourceMapWorker.terminate();
   }
   sourceMapWorker = new Worker(
-    getValue("baseWorkerURL") + "source-map-worker.js"
+    `${getValue("baseWorkerURL")}source-map-worker.js`
   );
 
   sourceMapWorker.postMessage({ id: 0, method: "enableSourceMaps" });

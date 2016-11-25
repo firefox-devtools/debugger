@@ -41,7 +41,7 @@ function commonLog(msg: string, data: any = {}) {
 function makeSource(name: string, props: any = {}) {
   return Object.assign({
     id: name,
-    url: "http://example.com/test/" + name
+    url: `http://example.com/test/${name}`
   }, props);
 }
 

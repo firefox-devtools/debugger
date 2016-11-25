@@ -4,7 +4,7 @@ const { isJavaScript } = require("./source");
 const assert = require("./assert");
 
 let prettyPrintWorker = new Worker(
-  getValue("baseWorkerURL") + "pretty-print-worker.js"
+  `${getValue("baseWorkerURL")}pretty-print-worker.js`
 );
 
 function destroyWorker() {

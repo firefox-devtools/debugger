@@ -18,7 +18,7 @@ function isAbsolute(str: string) {
 }
 
 function join(base: string, dir: string) {
-  return base + "/" + dir;
+  return `${base}/${dir}`;
 }
 
 module.exports = {

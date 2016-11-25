@@ -2,7 +2,7 @@
 
 function assert(condition: boolean, message: string) {
   if (!condition) {
-    throw new Error("Assertion failure: " + message);
+    throw new Error(`Assertion failure: ${message}`);
   }
 }
 
