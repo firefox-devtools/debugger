@@ -6,6 +6,7 @@
 const constants = require("../constants");
 const fromJS = require("../utils/fromJS");
 const makeRecord = require("../utils/makeRecord");
+const { prefs } = require("../utils/prefs");
 const I = require("immutable");
 
 import type { Frame, Pause, Expression } from "../types";
@@ -53,7 +54,9 @@ function update(state = State(), action: Action): Record<PauseState> {
         pause: null,
         frames: null,
         selectedFrameId: null,
-        loadedObjects: {}
+        loadedObjects: {},
+        shouldPauseOnExceptions: prefs.pauseOnExceptions,
+        shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions
       });
 
     case constants.TOGGLE_PRETTY_PRINT:
@@ -89,6 +92,10 @@ function update(state = State(), action: Action): Record<PauseState> {
 
     case constants.PAUSE_ON_EXCEPTIONS:
       const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
+
+      prefs.pauseOnExceptions = shouldPauseOnExceptions;
+      prefs.ignoreCaughtExceptions = shouldIgnoreCaughtExceptions;
+
       return state.merge({
         shouldPauseOnExceptions,
         shouldIgnoreCaughtExceptions
