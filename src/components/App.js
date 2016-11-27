@@ -57,6 +57,16 @@ const App = React.createClass({
     );
   },
 
+  getInitialState() {
+    return {
+      vertical: window.matchMedia('(min-width: 700px)').matches
+    };
+  },
+
+  componentDidMount() {
+    window.matchMedia('(min-width: 700px)').onchange = event => this.setState({vertical: event.matches});
+  },
+
   render: function() {
     return dom.div(
       { className: "debugger" },
@@ -74,7 +84,8 @@ const App = React.createClass({
           splitterSize: 1,
           endPanelControl: true,
           startPanel: this.renderCenterPane(this.props),
-          endPanel: RightSidebar()
+          endPanel: RightSidebar(),
+          vert: this.state.vertical
         })
       })
     );

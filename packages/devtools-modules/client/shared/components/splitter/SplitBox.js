@@ -60,6 +60,12 @@ const SplitBox = React.createClass({
     };
   },
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.vert !== nextProps.vert) {
+      this.setState({vert: nextProps.vert});
+    }
+  },
+
   // Dragging Events
 
   /**
