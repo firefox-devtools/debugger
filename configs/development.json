@@ -15,7 +15,13 @@
   },
   "chrome": {
     "debug": true,
-    "webSocketPort": 9222
+    "host": "localhost",
+    "port": 9222
+  },
+  "node": {
+    "debug": true,
+    "host": "localhost",
+    "port": 9229
   },
   "firefox": {
     "webSocketConnection": false,

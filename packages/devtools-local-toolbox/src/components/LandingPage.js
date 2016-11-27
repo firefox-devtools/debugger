@@ -10,9 +10,9 @@ const ImPropTypes = require("react-immutable-proptypes");
 
 const githubUrl = "https://github.com/devtools-html/debugger.html/blob/master";
 
-function getTabsByBrowser(tabs, browser) {
+function getTabsByClientType(tabs, clientType) {
   return tabs.valueSeq()
-    .filter(tab => tab.get("browser") == browser);
+    .filter(tab => tab.get("clientType") == clientType);
 }
 
 function firstTimeMessage(title, urlPart) {
@@ -67,7 +67,7 @@ const LandingPage = React.createClass({
   },
 
   renderFirefoxPanel() {
-    const targets = getTabsByBrowser(this.props.tabs, "firefox");
+    const targets = getTabsByClientType(this.props.tabs, "firefox");
     return dom.div(
       { className: "center" },
       this.renderTabs("", targets, "firefox-tab"),
@@ -76,7 +76,7 @@ const LandingPage = React.createClass({
   },
 
   renderChromePanel() {
-    const targets = getTabsByBrowser(this.props.tabs, "chrome");
+    const targets = getTabsByClientType(this.props.tabs, "chrome");
     return dom.div(
       { className: "center" },
       this.renderTabs("", targets, "chrome-tab"),
@@ -85,18 +85,11 @@ const LandingPage = React.createClass({
   },
 
   renderNodePanel() {
+    const targets = getTabsByClientType(this.props.tabs, "node");
     return dom.div(
       { className: "center" },
-      dom.div(
-        { className: "center-message" },
-        dom.a(
-          {
-            href: `/?ws=${document.location.hostname}:9229/node`
-          },
-          "Connect to Node"
-        )
-      ),
-      firstTimeMessage("Node", "nodejs")
+      this.renderTabs("", targets, "node-tab"),
+      firstTimeMessage("Node", "node")
     );
   },
 

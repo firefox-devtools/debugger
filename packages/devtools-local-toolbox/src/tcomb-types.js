@@ -5,7 +5,7 @@ const Tab = t.struct({
   url: t.String,
   id: t.String,
   tab: t.Object,
-  browser: t.enums.of(["chrome", "firefox"])
+  clientType: t.enums.of(["chrome", "firefox", "node"])
 }, "Tab");
 
 const SourceText = t.struct({

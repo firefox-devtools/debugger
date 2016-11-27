@@ -1,6 +1,6 @@
-const { client: { createSource }, } = require("devtools-local-toolbox");
+const { client: { createSource, firefox }} = require("devtools-local-toolbox");
 
-function onFirefoxConnect(actions, firefox) {
+function onFirefoxConnect(actions) {
   const tabTarget = firefox.getTabTarget();
   const threadClient = firefox.getThreadClient();
 
@@ -29,6 +29,19 @@ function onFirefoxConnect(actions, firefox) {
   });
 }
 
+function onConnect(connection, actions) {
+  // NOTE: the landing page does not connect to a JS process
+  if (!connection) {
+    return;
+  }
+
+  const { tab } = connection;
+  if (tab.clientType == "firefox") {
+    return onFirefoxConnect(actions);
+  }
+}
+
 module.exports = {
-  onFirefoxConnect
+  onFirefoxConnect,
+  onConnect
 };
