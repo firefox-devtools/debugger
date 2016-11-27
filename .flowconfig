@@ -8,4 +8,4 @@
 
 [libs]
 ./packages/devtools-config/flow-interface.js
-./public/js/global-types.js
+./src/global-types.js
