@@ -16,9 +16,9 @@ require("./RightSidebar.css");
 
 function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
-  return dom.span(
+  return dom.button(
     { onClick, className, key: type },
-    Svg(type, { title: tooltip })
+    Svg(type, { title: tooltip, "aria-label": tooltip })
   );
 }
 

@@ -47,7 +47,7 @@ const Accordion = React.createClass({
         Svg("arrow", { className: opened[i] ? "expanded" : "" }),
         item.header,
         item.buttons ?
-        dom.span({ className: "header-buttons" },
+        dom.button({ className: "header-buttons" },
           item.buttons.map((button, id) => span({ key: id }, button))
         ) :
         null

@@ -32,7 +32,7 @@ const Dropdown = React.createClass({
   },
 
   renderButton() {
-    return dom.span(
+    return dom.button(
       {
         className: "dropdown-button",
         onClick: this.toggleDropdown
