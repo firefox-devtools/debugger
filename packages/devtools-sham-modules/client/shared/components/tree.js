@@ -181,6 +181,9 @@ const Tree = module.exports = createClass({
     onFocus: PropTypes.func,
     // The depth to which we should automatically expand new items.
     autoExpandDepth: PropTypes.number,
+    // Should auto expand all new items or just the new items under the first
+    // root item.
+    autoExpandAll: PropTypes.bool,
     // Optional event handlers for when items are expanded or collapsed.
     onExpand: PropTypes.func,
     onCollapse: PropTypes.func,
@@ -189,6 +192,7 @@ const Tree = module.exports = createClass({
   getDefaultProps() {
     return {
       autoExpandDepth: AUTO_EXPAND_DEPTH,
+      autoExpandAll: true
     };
   },
 
@@ -241,8 +245,12 @@ const Tree = module.exports = createClass({
 
     const roots = props.getRoots();
     const length = roots.length;
-    for (let i = 0; i < length; i++) {
-      autoExpand(roots[i], 0);
+    if (props.autoExpandAll) {
+      for (let i = 0; i < length; i++) {
+        autoExpand(roots[i], 0);
+      }
+    } else {
+      autoExpand(roots[0], 0);
     }
   },
 

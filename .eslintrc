@@ -228,6 +228,7 @@
     "no-multi-spaces": 2,
     // Disallow use of multiline strings (use template strings instead).
     "no-multi-str": 2,
+    "prefer-template": "error",
     // Disallow multiple empty lines.
     "no-multiple-empty-lines": [2, {"max": 1}],
     // Disallow reassignments of native objects.

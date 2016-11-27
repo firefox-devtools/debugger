@@ -8,7 +8,7 @@ function originalToGeneratedId(originalId: string) {
 }
 
 function generatedToOriginalId(generatedId: string, url: string) {
-  return generatedId + "/originalSource-" + md5(url);
+  return `${generatedId}/originalSource-${md5(url)}`;
 }
 
 function isOriginalId(id: string) {

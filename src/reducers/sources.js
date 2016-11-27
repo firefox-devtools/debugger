@@ -11,6 +11,7 @@
 const fromJS = require("../utils/fromJS");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
+const { getPrettySourceURL } = require("../utils/source");
 
 import type { Source, Location } from "../types";
 import type { Action } from "../actions/types";
@@ -251,7 +252,7 @@ function getPrettySource(state: OuterState, id: string) {
     return;
   }
 
-  return getSourceByURL(state, source.get("url") + ":formatted");
+  return getSourceByURL(state, getPrettySourceURL(source.get("url")));
 }
 
 module.exports = {

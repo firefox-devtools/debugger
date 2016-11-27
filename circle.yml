@@ -19,16 +19,6 @@ test:
     - node src/test/node-unit-tests.js --ci
     - ./bin/run-mochitests-docker
     - npm run firefox-unit-test
-  pre:
-    - node bin/mocha-server.js:
-        background: true
-    - npm start:
-        background: true
-    - node bin/firefox-driver --start:
-        background: true
-    - /opt/google/chrome/google-chrome --remote-debugging-port=9222 --no-first-run:
-        background: true
-    - sleep 30
   post:
     - npm run lint-css
     - npm run lint-js

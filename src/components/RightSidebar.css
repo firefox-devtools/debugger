@@ -15,64 +15,6 @@
   overflow-x: hidden;
 }
 
-.right-sidebar .command-bar {
-  border-bottom: 1px solid var(--theme-splitter-color);
-}
-
-.command-bar {
-  height: 30px;
-}
-
-html:not([dir="rtl"]) .command-bar {
-  padding: 8px 5px 10px 1px;
-}
-
-html[dir="rtl"] .command-bar {
-  padding: 8px 1px 10px 5px;
-}
-
-.command-bar > span {
-  cursor: pointer;
-  width: 16px;
-  height: 17px;
-  display: inline-block;
-  text-align: center;
-  transition: all 0.25s ease;
-}
-
-:root.theme-dark .command-bar > span {
-  fill: var(--theme-body-color);
-}
-
-:root.theme-dark .command-bar > span:hover {
-  fill: var(--theme-selection-color);
-}
-
-html:not([dir="rtl"]) .command-bar > span {
-  margin-right: 0.7em;
-}
-
-html[dir="rtl"] .command-bar > span {
-  margin-left: 0.7em;
-}
-
-.command-bar > span.disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-
-html:not([dir="rtl"]) .command-bar .stepOut {
-  margin-right: 2em;
-}
-
-html[dir="rtl"] .command-bar .stepOut {
-  margin-left: 2em;
-}
-
-.command-bar .subSettings {
-  float: right;
-}
-
 .pane {
   color: var(--theme-body-color);
 }
@@ -83,16 +25,4 @@ html[dir="rtl"] .command-bar .stepOut {
   padding: 0.5em;
   -moz-user-select: none;
   user-select: none;
-}
-
-.toggleBreakpoints.breakpoints-disabled path {
-  stroke: var(--theme-highlight-blue);
-}
-
-span.pause-exceptions.uncaught {
-  stroke: var(--theme-highlight-purple);
-}
-
-span.pause-exceptions.all {
-  stroke: var(--theme-highlight-blue);
 }

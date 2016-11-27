@@ -1,7 +1,7 @@
 const assert = require("./assert");
 
 function reportException(who, exception) {
-  let msg = who + " threw an exception: ";
+  let msg = `${who} threw an exception: `;
   console.error(msg, exception);
 }
 

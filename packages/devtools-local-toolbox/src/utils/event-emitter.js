@@ -114,7 +114,7 @@ EventEmitter.prototype = {
           listener.apply(null, arguments);
         } catch (ex) {
           // Prevent a bad listener from interfering with the others.
-          let msg = ex + ": " + ex.stack;
+          let msg = `${ex}: ${ex.stack}`;
           console.error(msg);
         }
       }
