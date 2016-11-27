@@ -48,14 +48,14 @@ function promisify(context: any, method: any, ...args: any) {
 
 function truncateStr(str: any, size: any) {
   if (str.length > size) {
-    return str.slice(0, size) + "...";
+    return `${str.slice(0, size)}...`;
   }
   return str;
 }
 
 function endTruncateStr(str: string, size: number) {
   if (str.length > size) {
-    return "..." + str.slice(str.length - size);
+    return `...${str.slice(str.length - size)}`;
   }
   return str;
 }

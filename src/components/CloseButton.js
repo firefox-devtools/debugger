@@ -6,7 +6,7 @@ require("./CloseButton.css");
 
 function CloseButton({ handleClick, buttonClass }) {
   return dom.div({
-    className: buttonClass ? "close-btn-" + buttonClass : "close-btn",
+    className: buttonClass ? `close-btn-${buttonClass}` : "close-btn",
     onClick: handleClick
   },
     Svg("close"));

@@ -10,6 +10,8 @@ const { getSelectedSource, getSources } = require("../selectors");
 
 require("./Sources.css");
 
+const cmd = `${cmdString()}+P`;
+
 const Sources = React.createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
@@ -26,7 +28,7 @@ const Sources = React.createClass({
       dom.div({ className: "sources-header" },
         L10N.getStr("sources.header"),
         dom.span({ className: "sources-header-info" },
-          L10N.getFormatStr("sources.search", cmdString() + "+P")
+          L10N.getFormatStr("sources.search", cmd)
         )
       ),
       SourcesTree({ sources, selectSource })

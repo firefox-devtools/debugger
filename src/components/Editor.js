@@ -51,7 +51,7 @@ function resizeBreakpointGutter(editor) {
   const gutters = editor.display.gutters;
   const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
   const breakpoints = gutters.querySelector(".breakpoints");
-  breakpoints.style.width = lineNumbers.clientWidth + "px";
+  breakpoints.style.width = `${lineNumbers.clientWidth}px`;
 }
 
 const Editor = React.createClass({

@@ -52,6 +52,14 @@ function isPretty(source: Source): boolean {
 }
 
 /**
+ * @memberof utils/source
+ * @static
+ */
+function getPrettySourceURL(url: string): string {
+  return `${url}:formatted`;
+}
+
+/**
  * Show a source url's filename.
  * If the source does not have a url, use the source id.
  *
@@ -72,5 +80,6 @@ function getFilename(source: Source) {
 module.exports = {
   isJavaScript,
   isPretty,
+  getPrettySourceURL,
   getFilename
 };

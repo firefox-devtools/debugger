@@ -52,7 +52,7 @@ function _resolveSourceMapURL(source: Source) {
   }
   // Otherwise, it's a relative path and should be resolved relative
   // to the source.
-  return path.dirname(url) + "/" + sourceMapURL;
+  return `${path.dirname(url)}/${sourceMapURL}`;
 }
 
 /**
