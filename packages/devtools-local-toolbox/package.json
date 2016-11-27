@@ -38,7 +38,7 @@
     "babel-register": "^6.18.0",
     "body-parser": "^1.15.0",
     "check-node-version": "^1.1.2",
-    "chrome-remote-debugging-protocol": "0.0.10",
+    "chrome-remote-interface": "0.16.1",
     "classnames": "^2.2.5",
     "co": "=4.6.0",
     "css-loader": "^0.25.0",

@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-const { connect } = require("chrome-remote-debugging-protocol");
+const CDP = require("chrome-remote-interface");
 const defer = require("../utils/defer");
 const { Tab } = require("../tcomb-types");
 const { isEnabled, getValue } = require("devtools-config");
@@ -14,14 +14,16 @@ Array.prototype.peekLast = function() {
   return this[this.length - 1];
 };
 
-let connection;
+let client;
 
-function createTabs(tabs) {
+function createTabs(tabs, {type, browser} = {}) {
+  if (tabs.length == 0) {
+    return [];
+  }
 
   return tabs
     .filter(tab => {
-      const isPage = tab.type == "page";
-      return isPage;
+      return tab.type == type;
     })
     .map(tab => {
       return Tab({
@@ -29,7 +31,7 @@ function createTabs(tabs) {
         url: tab.url,
         id: tab.id,
         tab,
-        browser: "chrome"
+        browser
       });
     });
 }
@@ -38,51 +40,65 @@ function connectClient() {
   const deferred = defer();
 
   if(!getValue("chrome.debug")) {
-    return Promise.resolve(createTabs([]))
+    return Promise.resolve(createTabs([], {}))
   }
 
-  const webSocketPort = getValue("chrome.webSocketPort");
-  const url = `http://localhost:${webSocketPort}/json/list`;
-  networkRequest(url).then(res => {
-    deferred.resolve(createTabs(JSON.parse(res.content)))
-  }).catch(() => deferred.reject());
+  const port = getValue("chrome.port");
+  // => I wonder why this is failing!!!
+  return CDP.List({ port, headers: { mode: "no-cors" } })
+    .then(tabs => createTabs(tabs, { browser: "chrome", type: "page" }))
+    .catch(err => {});
+}
 
-  return deferred.promise;
+
+function connectNodeClient() {
+
+  if(!getValue("node.debug")) {
+    return Promise.resolve(createTabs([], {}))
+  }
+
+  const port = getValue("node.port");
+  return CDP.List({ port })
+    .then(tabs => createTabs(
+      JSON.parse(res.content),
+      { browser: "node", type: "node" }
+    ));
 }
 
 function connectTab(tab) {
-  return connect(tab.webSocketDebuggerUrl).then(conn => {
-    connection = conn;
+  const { webSocketDebuggerUrl } = tab;
+  debugger
+  return CDP({ webSocketDebuggerUrl }).then(_client => {
+    client = _client;
   });
 }
 
-function connectNode(url) {
-  return connect(url).then(conn => {
-    connection = conn;
-  });
+function connectNode(tab) {
+  return connectTab(tab);
 }
 
 function initPage(actions) {
-  const agents = connection._agents;
 
-  setupCommands({ agents: agents });
-  setupEvents({ actions, agents })
+  setupCommands({ client });
+  setupEvents({ actions, client })
 
-  agents.Debugger.enable();
-  agents.Debugger.setPauseOnExceptions("none");
-  agents.Debugger.setAsyncCallStackDepth(0);
+  client.Debugger.enable();
+  client.Debugger.setPauseOnExceptions("none");
+  client.Debugger.setAsyncCallStackDepth(0);
 
-  agents.Runtime.enable();
-  agents.Runtime.run();
+  client.Runtime.enable();
+  client.Runtime.run();
 
-  agents.Page.enable();
+  client.Page.enable();
 
-  connection.registerDispatcher("Debugger", clientEvents);
-  connection.registerDispatcher("Page", pageEvents);
+  debugger
+  // connection.registerDispatcher("Debugger", clientEvents);
+  // connection.registerDispatcher("Page", pageEvents);
 }
 
 module.exports = {
   connectClient,
+  connectNodeClient,
   clientCommands,
   connectNode,
   connectTab,
