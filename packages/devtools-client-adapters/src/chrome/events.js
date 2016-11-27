@@ -2,18 +2,19 @@ const { Source, Location, Frame } = require("../tcomb-types");
 
 let actions;
 let pageAgent;
+let clientType;
 
 function setupEvents(dependencies) {
   actions = dependencies.actions;
-  pageAgent = dependencies.agents.Page;
+  pageAgent = dependencies.Page;
   clientType = dependencies.clientType;
 }
 
 // Debugger Events
-function scriptParsed(scriptId, url, startLine, startColumn,
+function scriptParsed({ scriptId, url, startLine, startColumn,
              endLine, endColumn, executionContextId, hash,
              isContentScript, isInternalScript, isLiveEdit,
-             sourceMapURL, hasSourceURL, deprecatedCommentWasUsed) {
+             sourceMapURL, hasSourceURL, deprecatedCommentWasUsed }) {
   if (isContentScript) {
     return;
   }
@@ -32,8 +33,8 @@ function scriptParsed(scriptId, url, startLine, startColumn,
 
 function scriptFailedToParse() {}
 
-async function paused(
-  callFrames, reason, data, hitBreakpoints, asyncStackTrace) {
+async function paused({ callFrames, reason, data,
+  hitBreakpoints, asyncStackTrace }) {
   const frames = callFrames.map(frame => {
     return Frame({
       id: frame.callFrameId,
@@ -52,7 +53,7 @@ async function paused(
   }, data);
 
   if (clientType == "chrome") {
-    pageAgent.setOverlayMessage("Paused in debugger.html");
+    pageAgent.configureOverlay({ message: "Paused in debugger.html" });
   }
 
   await actions.paused({ frame, why, frames });
@@ -60,7 +61,7 @@ async function paused(
 
 function resumed() {
   if (clientType == "chrome") {
-    pageAgent.setOverlayMessage(undefined);
+    pageAgent.configureOverlay({ suspended: false });
   }
 
   actions.resumed();

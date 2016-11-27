@@ -4,10 +4,10 @@ let debuggerAgent;
 let runtimeAgent;
 let pageAgent;
 
-function setupCommands({ agents }) {
-  debuggerAgent = agents.Debugger;
-  runtimeAgent = agents.Runtime;
-  pageAgent = agents.Page;
+function setupCommands({ Debugger, Runtime, Page }) {
+  debuggerAgent = Debugger;
+  runtimeAgent = Runtime;
+  pageAgent = Page;
 }
 
 function resume() {
@@ -36,49 +36,40 @@ function breakOnNext() {
 }
 
 function sourceContents(sourceId) {
-  return debuggerAgent.getScriptSource(sourceId, (err, contents) => ({
-    source: contents,
-    contentType: null
-  }));
+  return debuggerAgent.getScriptSource({ scriptId: sourceId })
+    .then(({ scriptSource }) => ({
+      source: scriptSource,
+      contentType: null
+    }));
 }
 
 function setBreakpoint(location, condition) {
-  return new Promise((resolve, reject) => {
-    return debuggerAgent.setBreakpoint({
+  return debuggerAgent.setBreakpoint({
+    location: {
       scriptId: location.sourceId,
-      lineNumber: location.line - 1,
-      columnNumber: location.column
-    }, (err, breakpointId, actualLocation) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+      lineNumber: location.line - 1
+    },
+    columnNumber: location.column
+  }).then(({ breakpointId, actualLocation }) => {
+    actualLocation = actualLocation ? {
+      sourceId: actualLocation.scriptId,
+      line: actualLocation.lineNumber + 1,
+      column: actualLocation.columnNumber
+    } : location;
 
-      actualLocation = actualLocation ? {
-        sourceId: actualLocation.scriptId,
-        line: actualLocation.lineNumber + 1,
-        column: actualLocation.columnNumber
-      } : location;
-
-      resolve(BreakpointResult({
-        id: breakpointId,
-        actualLocation: Location(actualLocation)
-      }));
+    return BreakpointResult({
+      id: breakpointId,
+      actualLocation: Location(actualLocation)
     });
   });
 }
 
 function removeBreakpoint(breakpointId) {
-  // TODO: resolve promise when request is completed.
-  return new Promise((resolve, reject) => {
-    resolve(debuggerAgent.removeBreakpoint(breakpointId));
-  });
+  return debuggerAgent.removeBreakpoint({ breakpointId });
 }
 
 function evaluate(script) {
-  return runtimeAgent.evaluate(script, (_, result) => {
-    return result;
-  });
+  return runtimeAgent.evaluate({ expression: script });
 }
 
 function debuggeeCommand(script) {
@@ -87,9 +78,7 @@ function debuggeeCommand(script) {
 }
 
 function navigate(url) {
-  return pageAgent.navigate(url, (_, result) => {
-    return result;
-  });
+  return pageAgent.navigate({ url });
 }
 
 const clientCommands = {

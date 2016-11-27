@@ -61,6 +61,7 @@ module.exports = (webpackConfig, envConfig) => {
 
     callback();
   }
+
   webpackConfig.externals.push(externalsTest);
 
   webpackConfig.plugins = webpackConfig.plugins || [];
