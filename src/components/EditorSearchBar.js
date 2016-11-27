@@ -7,6 +7,7 @@ const classnames = require("classnames");
 const { debounce, escapeRegExp } = require("lodash");
 const CloseButton = require("./CloseButton");
 const { isEnabled } = require("devtools-config");
+const ImPropTypes = require("react-immutable-proptypes");
 
 require("./EditorSearchBar.css");
 
@@ -20,7 +21,8 @@ const EditorSearchBar = React.createClass({
 
   propTypes: {
     editor: PropTypes.object,
-    sourceText: PropTypes.object
+    sourceText: PropTypes.object,
+    selectedSource: ImPropTypes.map
   },
 
   displayName: "EditorSearchBar",
@@ -58,9 +60,19 @@ const EditorSearchBar = React.createClass({
     }
   },
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    const { sourceText, selectedSource } = this.props;
+
     if (this.searchInput()) {
       this.searchInput().focus();
+    }
+
+    if (sourceText && sourceText.get("text") &&
+      selectedSource != prevProps.selectedSource) {
+      const query = this.state.query;
+      const count = countMatches(query, sourceText.get("text"));
+      this.setState({ count: count, index: 0 });
+      this.search(query);
     }
   },
 
@@ -112,12 +124,7 @@ const EditorSearchBar = React.createClass({
   },
 
   onChange(e) {
-    const query = e.target.value;
-
-    const count = countMatches(query, this.props.sourceText.get("text"));
-    this.setState({ query, count, index: 0 });
-
-    this.search(query);
+    this.search(e.target.value);
   },
 
   traverseResultsPrev(e) {
@@ -167,6 +174,15 @@ const EditorSearchBar = React.createClass({
   },
 
   search: debounce(function(query) {
+    const sourceText = this.props.sourceText;
+
+    if (!sourceText.get("text")) {
+      return;
+    }
+
+    const count = countMatches(query, sourceText.get("text"));
+    this.setState({ query, count, index: 0 });
+
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
 

@@ -487,13 +487,14 @@ const Editor = React.createClass({
   },
 
   render() {
-    const { sourceText } = this.props;
+    const { sourceText, selectedSource } = this.props;
 
     return (
       dom.div(
         { className: "editor-wrapper devtools-monospace" },
         EditorSearchBar({
           editor: this.editor,
+          selectedSource,
           sourceText
         }),
         dom.div({
