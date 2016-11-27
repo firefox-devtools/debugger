@@ -32,7 +32,6 @@ We respect your time and want to help you make the most of it as you learn more 
     * [Unit Tests](#unit-tests)
     * [Integration Tests](#integration-tests)
     * [Linting](#linting)
-    * [Storybook](#storybook)
   * [Configuration](#configuration)
     * [Create a local config file](#create-a-local-config-file)
   * [Issues and Pull Request labels](#issues-and-pull-requests)
@@ -70,6 +69,7 @@ First we need to get the web application running. Within the source code directo
 ### Linux or MacOs
 
 * `npm i -g yarn@0.16.1` - Install Yarn
+* `git clone git@github.com:devtools-html/debugger.html.git` - Clone Debugger
 * `yarn install` - Install dependencies.
 * `yarn start` - Start development web server
 
@@ -80,6 +80,7 @@ NOTE: :cat2: We use [Yarn](https://yarnpkg.com) so that we all have the same set
 It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
 
 * `npm i -g yarn@0.16.1` - Install Yarn
+* `git clone git@github.com:devtools-html/debugger.html.git` - Clone Debugger
 * `yarn install` - Install dependencies
 * `yarn start` - Start development web server
 
@@ -334,17 +335,6 @@ To automatically fix many errors run the command:
 $ yarn run lint-fix
 ```
 
-#### Storybook
-
-Storybook is our local development and testing utility that allows you to see how an individual component like the breakpoint list view or the call stack view react to any changes to style and code you've made.
-
-```
-$ yarn i -g @kadira/storybook
-$ yarn run storybook
-```
-
-Read more information in [storybook docs](./docs/local-development.md#storybook)
-
 ## Configuration
 
 All default config values are in [`packages/devtools-config/configs/development.json`](./packages/devtools-config/configs/development.json), to override these values you need to [create a local config file](#create-a-local-config-file).
@@ -361,7 +351,7 @@ For a list of all the configuration options see the [packages/devtools-config/RE
 
 ### Create a local config file
 
-* Copy the [`packages/devtools-config/configs/development.json`](./packages/devtools-config/configs/development.json) to `packages/devtools-config/configs/local.json`
+* Copy the [`configs/development.json`](./configs/development.json) to `configs/local.json`
 
 ## Issues and Pull Request labels
 

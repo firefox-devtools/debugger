@@ -8,6 +8,8 @@
   "editor.searchResults": "%d of %d results",
   "editor.noResults": "no results",
   "editor.addBreakpoint": "Add Breakpoint",
+  "editor.disableBreakpoint": "Disable Breakpoint",
+  "editor.enableBreakpoint": "Enable Breakpoint",
   "editor.removeBreakpoint": "Remove Breakpoint",
   "editor.editBreakpoint": "Edit Breakpoint",
   "editor.addConditionalBreakpoint": "Add Conditional Breakpoint",

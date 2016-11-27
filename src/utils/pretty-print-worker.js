@@ -13,7 +13,7 @@ function prettyPrint({ url, indent, source }) {
       mappings: prettified.map._mappings
     };
   } catch (e) {
-    return new Error(e.message + "\n" + e.stack);
+    return new Error(`${e.message}\n${e.stack}`);
   }
 }
 

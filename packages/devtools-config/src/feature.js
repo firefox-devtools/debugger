@@ -31,6 +31,10 @@ function isFirefoxPanel() {
   return process.env.TARGET == "firefox-panel";
 }
 
+function isApplication() {
+  return process.env.TARGET == "application";
+}
+
 function isFirefox() {
   return /firefox/i.test(navigator.userAgent);
 }
@@ -49,6 +53,7 @@ module.exports = {
   isDevelopment,
   isTesting,
   isFirefoxPanel,
+  isApplication,
   isFirefox,
   getConfig,
   setConfig

@@ -90,12 +90,15 @@
   height: 100%;
   color: var(--theme-graphs-full-red);
   font-size: 24px;
+  padding: 4px;
+  word-break: break-all;
 }
 
 .autocomplete .no-result-msg .sad-face {
   width: 24px;
   margin-right: 4px;
   line-height: 0;
+  flex-shrink: 0;
 }
 
 .autocomplete .no-result-msg .sad-face svg {

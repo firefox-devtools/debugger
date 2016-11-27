@@ -9,6 +9,8 @@ const { getSources, getSelectedSource } = require("../selectors");
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
 
+const cmd = `${cmdString()}+P`;
+
 require("./App.css");
 require("./menu.css");
 require("./SplitBox.css");
@@ -38,7 +40,7 @@ const App = React.createClass({
   renderWelcomeBox() {
     return dom.div(
       { className: "welcomebox" },
-      L10N.getFormatStr("welcome.search", cmdString() + "+P")
+      L10N.getFormatStr("welcome.search", cmd)
     );
   },
 

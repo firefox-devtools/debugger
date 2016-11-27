@@ -45,7 +45,7 @@ function locationMoved(location, newLocation) {
 }
 
 function makeLocationId(location: Location) {
-  return location.sourceId + ":" + location.line.toString();
+  return `${location.sourceId}:${location.line.toString()}`;
 }
 
 function update(state = State(), action: Action) {

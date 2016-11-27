@@ -2,7 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { findDOMNode } = require("react-dom");
 const Svg = require("./utils/Svg");
-const { find, findNext, findPrev } = require("../utils/source-search");
+const { find, findNext, findPrev, removeOverlay } = require("../utils/source-search");
 const classnames = require("classnames");
 const { debounce, escapeRegExp } = require("lodash");
 const CloseButton = require("./CloseButton");
@@ -81,6 +81,9 @@ const EditorSearchBar = React.createClass({
   closeSearch(e) {
     if (this.state.enabled) {
       this.setState({ enabled: false });
+      const ed = this.props.editor;
+      const ctx = { ed, cm: ed.codeMirror };
+      removeOverlay(ctx);
       e.stopPropagation();
       e.preventDefault();
     }
