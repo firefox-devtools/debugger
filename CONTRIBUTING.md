@@ -117,7 +117,7 @@ $ /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6
 **Windows:**
 
 ```
-C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -P development
+C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugging-server 6080 -P development
 ```
 
 > If this command doesn't work for your OS or Firefox version see the other [Firefox commands for running in a debuggable state](./docs/remotely-debuggable-browsers.md#firefox)
