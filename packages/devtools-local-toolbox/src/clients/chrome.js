@@ -16,7 +16,7 @@ Array.prototype.peekLast = function() {
 
 let connection;
 
-function createTabs(tabs, {type, clientType}) {
+function createTabs(tabs, {type, clientType} = {}) {
   return tabs
     .filter(tab => {
       return tab.type == type;
