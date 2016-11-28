@@ -1,6 +1,8 @@
 const classnames = require("classnames");
 const { getValue, isDevelopment } = require("devtools-config");
 
+require("./Root.css");
+
 function themeClass() {
   const theme = getValue("theme");
   return `theme-${theme}`;
