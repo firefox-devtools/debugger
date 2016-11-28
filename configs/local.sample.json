@@ -1,5 +1,8 @@
 {
-  "firefox": {
-    "geckoDir": "/Users/jlaster/src/mozilla/gecko"
-  }
+  "theme": "light",
+  "hotReloading": true,
+  "logging": {
+    "actions": false
+  },
+  "features": {}
 }
