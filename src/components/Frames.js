@@ -15,7 +15,6 @@ import type { List } from "immutable";
 import type { Frame } from "../types";
 
 if (typeof window == "object") {
-  require("./Frames.css");
 }
 
 const NUM_FRAMES_SHOWN = 7;
