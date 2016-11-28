@@ -1,4 +1,4 @@
-const { Source, Location, Frame } = require("../../tcomb-types");
+const { Source, Location, Frame } = require("../tcomb-types");
 
 let actions;
 let pageAgent;

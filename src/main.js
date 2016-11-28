@@ -4,11 +4,8 @@ const React = require("react");
 const { bindActionCreators, combineReducers } = require("redux");
 const ReactDOM = require("react-dom");
 
-const {
-  client: { getClient, firefox },
-  renderRoot, bootstrap, L10N
-} = require("devtools-local-toolbox");
-
+const { getClient, firefox } = require("devtools-client-adapters");
+const { renderRoot, bootstrap, L10N } = require("devtools-local-toolbox");
 const { getValue, isFirefoxPanel } = require("devtools-config");
 
 const configureStore = require("./utils/create-store");

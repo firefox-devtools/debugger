@@ -1,0 +1,21 @@
+{
+  "name": "devtools-client-adapters",
+  "version": "0.0.1",
+  "description": "Devtools Client Adapters",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "chrome-remote-debugging-protocol": "0.0.11",
+    "devtools-sham-modules": "^0.0.9",
+    "devtools-config": "^0.0.9",
+    "devtools-modules": "^0.0.9"
+  },
+  "files": [
+    "indes.js",
+    "src"
+  ],
+  "author": "",
+  "license": "ISC"
+}

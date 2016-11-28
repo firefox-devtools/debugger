@@ -1,8 +1,8 @@
 const { DebuggerClient, DebuggerTransport,
         TargetFactory, WebsocketTransport } = require("devtools-sham-modules");
-const defer = require("../utils/defer");
+const defer = require("./utils/defer");
 const { getValue } = require("devtools-config");
-const { Tab } = require("../tcomb-types");
+const { Tab } = require("./tcomb-types");
 const { setupCommands, clientCommands } = require("./firefox/commands");
 const { setupEvents, clientEvents } = require("./firefox/events");
 

@@ -1,4 +1,4 @@
-const { client: { createSource, firefox }} = require("devtools-local-toolbox");
+const { createSource, firefox } = require("devtools-client-adapters");
 
 function onFirefoxConnect(actions) {
   const tabTarget = firefox.getTabTarget();

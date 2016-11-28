@@ -15,8 +15,8 @@ if (isEnabled("logging.client")) {
   DevToolsUtils.dumpn.wantLogging = true;
 }
 
-const client = require("./clients");
-const { getClient, firefox, chrome, startDebugging } = client;
+const client = require("devtools-client-adapters");
+const { getClient, firefox, chrome, startDebugging } = require("devtools-client-adapters");
 
 const Root = require("./components/Root");
 
@@ -99,6 +99,7 @@ function bootstrap(React, ReactDOM, App, appActions, appStore) {
   if (connTarget) {
     return startDebugging(connTarget, appActions)
       .then(({ tab, client }) => {
+        debugGlobal("client", client.clientCommands);
         renderRoot(React, ReactDOM, App, appStore);
         return { tab, connTarget, client };
       });

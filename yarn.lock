@@ -1300,6 +1300,10 @@ chrome-remote-debugging-protocol@0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/chrome-remote-debugging-protocol/-/chrome-remote-debugging-protocol-0.0.10.tgz#0d364cbc3c0f18f43e3cdcd908c8b06f702a6dee"
 
+chrome-remote-debugging-protocol@0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/chrome-remote-debugging-protocol/-/chrome-remote-debugging-protocol-0.0.11.tgz#d16dc5617ead5fc76fa9d1f584863c359f3be32f"
+
 ci-info@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.0.0.tgz#dc5285f2b4e251821683681c381c3388f46ec534"
@@ -1819,6 +1823,15 @@ detective@^4.0.0, detective@^4.3.1:
   dependencies:
     acorn "^3.1.0"
     defined "^1.0.0"
+
+devtools-client-adapters@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.1.tgz#8f90c62aaa96ca4a079be0ee36e8b070ee8705a3"
+  dependencies:
+    chrome-remote-debugging-protocol "0.0.11"
+    devtools-config "^0.0.9"
+    devtools-modules "^0.0.9"
+    devtools-sham-modules "^0.0.9"
 
 devtools-config@^0.0.9:
   version "0.0.9"
