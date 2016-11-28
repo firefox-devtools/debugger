@@ -38,6 +38,15 @@ function nodeHasChildren(item) {
   return Array.isArray(item.contents);
 }
 
+function nodeIsOptimizedOut(item) {
+  return !nodeHasChildren(item) && item.contents.value.optimizedOut === true;
+}
+
+function nodeIsMissingArguments(item) {
+  return !nodeHasChildren(item) &&
+    item.contents.value.missingArguments === true;
+}
+
 function nodeHasProperties(item) {
   return !nodeHasChildren(item) && item.contents.value.type === "object";
 }
@@ -132,13 +141,17 @@ const ObjectInspector = React.createClass({
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     let objectValue;
-    if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
+    if (nodeIsOptimizedOut(item)) {
+      objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
+    } else if (nodeIsMissingArguments(item)) {
+      objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
+    } else if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
       const object = item.contents.value;
       objectValue = Rep({ object, mode: "tiny" });
     }
 
     return dom.div(
-      { className: classnames("node", { focused }),
+      { className: classnames("node object-node", { focused }),
         style: { marginLeft: depth * 15 },
         onClick: e => {
           e.stopPropagation();

@@ -23,3 +23,7 @@ html .arrow.expanded svg {
 .arrow.hidden {
   visibility: hidden;
 }
+
+.object-node .unavailable {
+  color: var(--theme-body-color-inactive);
+}
