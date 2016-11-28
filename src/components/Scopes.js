@@ -21,9 +21,6 @@ function getBindingVariables(bindings, parentName) {
   const variables = toPairs(bindings.variables);
 
   return args.concat(variables)
-    .filter(binding => (
-      !(binding[1].value.missingArguments || binding[1].value.optimizedOut)
-    ))
     .map(binding => ({
       name: binding[0],
       path: `${parentName}/${binding[0]}`,
