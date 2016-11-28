@@ -80,7 +80,7 @@ function searchOverlay(query) {
 function startSearch(cm, state, query) {
   cm.removeOverlay(state.overlay);
   state.overlay = searchOverlay(query);
-  cm.addOverlay(state.overlay, { opaque: true });
+  cm.addOverlay(state.overlay, { opaque: false });
 }
 
 /**
