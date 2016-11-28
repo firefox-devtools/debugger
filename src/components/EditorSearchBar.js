@@ -173,7 +173,7 @@ const EditorSearchBar = React.createClass({
     }
   },
 
-  search: debounce(function(query) {
+  search(query) {
     const sourceText = this.props.sourceText;
 
     if (!sourceText.get("text")) {
@@ -187,7 +187,7 @@ const EditorSearchBar = React.createClass({
     const ctx = { ed, cm: ed.codeMirror };
 
     find(ctx, query);
-  }, 100),
+  },
 
   renderSummary() {
     const { count, index, query } = this.state;
