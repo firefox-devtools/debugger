@@ -122,7 +122,7 @@ function getURL(source: TmpSource): { path: string, group: string } {
 
   return merge(def, {
     path: path,
-    group: protocol ? protocol + "//" : ""
+    group: protocol ? `${protocol}//` : ""
   });
 }
 
@@ -171,14 +171,14 @@ function addToTree(tree: any, source: TmpSource) {
     } else {
       // No node with this name exists, so insert a new one in the
       // place that is alphabetically sorted.
-      const node = createNode(part, path + "/" + part, []);
+      const node = createNode(part, `${path}/${part}`, []);
       const where = index === -1 ? children.length : index;
       children.splice(where, 0, node);
       subtree = children[where];
     }
 
     // Keep track of the children so we can tag each node with them.
-    path = path + "/" + part;
+    path = `${path}/${part}`;
   }
 
   // Overwrite the contents of the final node to store the source

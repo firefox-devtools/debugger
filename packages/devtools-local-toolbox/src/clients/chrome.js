@@ -16,12 +16,10 @@ Array.prototype.peekLast = function() {
 
 let connection;
 
-function createTabs(tabs) {
-
+function createTabs(tabs, {type, clientType}) {
   return tabs
     .filter(tab => {
-      const isPage = tab.type == "page";
-      return isPage;
+      return tab.type == type;
     })
     .map(tab => {
       return Tab({
@@ -29,7 +27,7 @@ function createTabs(tabs) {
         url: tab.url,
         id: tab.id,
         tab,
-        browser: "chrome"
+        clientType
       });
     });
 }
@@ -41,41 +39,75 @@ function connectClient() {
     return Promise.resolve(createTabs([]))
   }
 
-  const webSocketPort = getValue("chrome.webSocketPort");
-  const url = `http://localhost:${webSocketPort}/json/list`;
+  const port = getValue("chrome.port");
+  const host = getValue("chrome.host");
+  const url = `http://${host}:${port}/json/list`;
+
   networkRequest(url).then(res => {
-    deferred.resolve(createTabs(JSON.parse(res.content)))
-  }).catch(() => deferred.reject());
+    deferred.resolve(createTabs(
+      JSON.parse(res.content),
+      {clientType: "chrome", type: "page"}
+    ))
+  }).catch(err => deferred.reject());
+
+  return deferred.promise;
+}
+
+
+function connectNodeClient() {
+  const deferred = defer();
+
+  if(!getValue("node.debug")) {
+    return Promise.resolve(createTabs([]))
+  }
+
+  const host = getValue("node.host");
+  const port = getValue("node.port");
+  const url = `http://${host}:${port}/json/list`;
+
+  networkRequest(url).then(res => {
+    deferred.resolve(createTabs(
+      JSON.parse(res.content),
+      {clientType: "node", type: "node"}
+    ))
+  }).catch(err => {
+    console.log(err);
+    deferred.reject();
+  });
 
   return deferred.promise;
 }
 
 function connectTab(tab) {
-  return connect(tab.webSocketDebuggerUrl).then(conn => {
-    connection = conn;
-  });
+  return connect(tab.webSocketDebuggerUrl, {type: "browser"})
+    .then(conn => { connection = conn });
 }
 
-function connectNode(url) {
-  return connect(url).then(conn => {
-    connection = conn;
-  });
+function connectNode(tab) {
+  return connect(tab.webSocketDebuggerUrl, {type: "node"})
+    .then(conn => { connection = conn });
 }
 
-function initPage(actions) {
+function initPage(actions, { clientType }) {
   const agents = connection._agents;
 
-  setupCommands({ agents: agents });
-  setupEvents({ actions, agents })
+  setupCommands({ agents, clientType });
+  setupEvents({ actions, agents, clientType })
 
   agents.Debugger.enable();
   agents.Debugger.setPauseOnExceptions("none");
   agents.Debugger.setAsyncCallStackDepth(0);
 
   agents.Runtime.enable();
-  agents.Runtime.run();
 
-  agents.Page.enable();
+  if (clientType == "node") {
+    agents.Runtime.runIfWaitingForDebugger()
+  }
+
+  if (clientType == "chrome") {
+    agents.Page.enable();
+  }
+
 
   connection.registerDispatcher("Debugger", clientEvents);
   connection.registerDispatcher("Page", pageEvents);
@@ -83,6 +115,7 @@ function initPage(actions) {
 
 module.exports = {
   connectClient,
+  connectNodeClient,
   clientCommands,
   connectNode,
   connectTab,

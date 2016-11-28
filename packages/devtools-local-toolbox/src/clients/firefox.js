@@ -38,7 +38,7 @@ function createTabs(tabs) {
       url: tab.url,
       id: tab.actor,
       tab,
-      browser: "firefox"
+      clientType: "firefox"
     });
   });
 }

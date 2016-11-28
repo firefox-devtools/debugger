@@ -7,6 +7,7 @@ const classnames = require("classnames");
 const { debounce, escapeRegExp } = require("lodash");
 const CloseButton = require("./CloseButton");
 const { isEnabled } = require("devtools-config");
+const ImPropTypes = require("react-immutable-proptypes");
 
 require("./EditorSearchBar.css");
 
@@ -20,7 +21,8 @@ const EditorSearchBar = React.createClass({
 
   propTypes: {
     editor: PropTypes.object,
-    sourceText: PropTypes.object
+    sourceText: PropTypes.object,
+    selectedSource: ImPropTypes.map
   },
 
   displayName: "EditorSearchBar",
@@ -41,30 +43,40 @@ const EditorSearchBar = React.createClass({
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     if (isEnabled("editorSearch")) {
-      shortcuts.off("CmdOrCtrl+F", this.toggleSearch);
-      shortcuts.off("Escape", this.onEscape);
-      shortcuts.off("CmdOrCtrl+Shift+G", this.traverseResultsPrev);
-      shortcuts.off("CmdOrCtrl+G", this.traverseResultsNext);
+      shortcuts.off("CmdOrCtrl+F");
+      shortcuts.off("Escape");
+      shortcuts.off("CmdOrCtrl+Shift+G");
+      shortcuts.off("CmdOrCtrl+G");
     }
   },
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     if (isEnabled("editorSearch")) {
-      shortcuts.on("CmdOrCtrl+F", this.toggleSearch);
-      shortcuts.on("Escape", this.onEscape);
-      shortcuts.on("CmdOrCtrl+Shift+G", this.traverseResultsPrev);
-      shortcuts.on("CmdOrCtrl+G", this.traverseResultsNext);
+      shortcuts.on("CmdOrCtrl+F", (_, e) => this.toggleSearch(e));
+      shortcuts.on("Escape", (_, e) => this.onEscape(e));
+      shortcuts.on("CmdOrCtrl+Shift+G", (_, e) => this.traverseResultsPrev(e));
+      shortcuts.on("CmdOrCtrl+G", (_, e) => this.traverseResultsNext(e));
     }
   },
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    const { sourceText, selectedSource } = this.props;
+
     if (this.searchInput()) {
       this.searchInput().focus();
     }
+
+    if (sourceText && sourceText.get("text") &&
+      selectedSource != prevProps.selectedSource) {
+      const query = this.state.query;
+      const count = countMatches(query, sourceText.get("text"));
+      this.setState({ count: count, index: 0 });
+      this.search(query);
+    }
   },
 
-  onEscape(shortcut, e) {
+  onEscape(e) {
     this.closeSearch(e);
   },
 
@@ -79,7 +91,7 @@ const EditorSearchBar = React.createClass({
     }
   },
 
-  toggleSearch(shortcut, e) {
+  toggleSearch(e) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -112,15 +124,10 @@ const EditorSearchBar = React.createClass({
   },
 
   onChange(e) {
-    const query = e.target.value;
-
-    const count = countMatches(query, this.props.sourceText.get("text"));
-    this.setState({ query, count, index: 0 });
-
-    this.search(query);
+    this.search(e.target.value);
   },
 
-  traverseResultsPrev(shortcut, e) {
+  traverseResultsPrev(e) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -137,7 +144,7 @@ const EditorSearchBar = React.createClass({
     this.setState({ index: nextIndex });
   },
 
-  traverseResultsNext(shortcut, e) {
+  traverseResultsNext(e) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -160,13 +167,22 @@ const EditorSearchBar = React.createClass({
     }
 
     if (e.shiftKey) {
-      this.traverseResultsPrev(null, e);
+      this.traverseResultsPrev(e);
     } else {
-      this.traverseResultsNext(null, e);
+      this.traverseResultsNext(e);
     }
   },
 
   search: debounce(function(query) {
+    const sourceText = this.props.sourceText;
+
+    if (!sourceText.get("text")) {
+      return;
+    }
+
+    const count = countMatches(query, sourceText.get("text"));
+    this.setState({ query, count, index: 0 });
+
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
 

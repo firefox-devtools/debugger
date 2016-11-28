@@ -30,8 +30,6 @@
     "mochitests-watch": "MOCHITESTS=true TARGET=firefox-panel webpack --watch",
     "build-docs": "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ src/types.js src/utils/ src/reducers/ src/actions/ src/test/mochitest/head.js",
     "prepush": "npm run lint; node src/test/node-unit-tests.js --dots",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
     "flow-coverage": "flow-coverage-report -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -t html -t text",
     "postinstall": "lerna bootstrap"
   },

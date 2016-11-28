@@ -41,6 +41,9 @@ function getTextForLine(codeMirror, line) {
   return codeMirror.getLine(line - 1).trim();
 }
 
+function getCursorLine(codeMirror) {
+  return codeMirror.getCursor().line;
+}
 /**
  * Forces the breakpoint gutter to be the same size as the line
  * numbers gutter. Editor CSS will absolutely position the gutter
@@ -51,7 +54,7 @@ function resizeBreakpointGutter(editor) {
   const gutters = editor.display.gutters;
   const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
   const breakpoints = gutters.querySelector(".breakpoints");
-  breakpoints.style.width = lineNumbers.clientWidth + "px";
+  breakpoints.style.width = `${lineNumbers.clientWidth}px`;
 }
 
 const Editor = React.createClass({
@@ -69,6 +72,10 @@ const Editor = React.createClass({
   },
 
   displayName: "Editor",
+
+  contextTypes: {
+    shortcuts: PropTypes.object
+  },
 
   onGutterClick(cm, line, gutter, ev) {
     // ignore right clicks in the gutter
@@ -355,6 +362,13 @@ const Editor = React.createClass({
         false
       );
     }
+    const shortcuts = this.context.shortcuts;
+    shortcuts.on("CmdOrCtrl+B", () => this.toggleBreakpoint(
+      getCursorLine(this.editor.codeMirror)
+    ));
+    shortcuts.on("CmdOrCtrl+Shift+B", () => this.showConditionalPanel(
+      getCursorLine(this.editor.codeMirror)
+    ));
 
     resizeBreakpointGutter(this.editor.codeMirror);
     debugGlobal("cm", this.editor.codeMirror);
@@ -367,6 +381,10 @@ const Editor = React.createClass({
   componentWillUnmount() {
     this.editor.destroy();
     this.editor = null;
+
+    const shortcuts = this.context.shortcuts;
+    shortcuts.off("CmdOrCtrl+B");
+    shortcuts.off("CmdOrCtrl+Shift+B");
   },
 
   componentWillReceiveProps(nextProps) {
@@ -469,13 +487,14 @@ const Editor = React.createClass({
   },
 
   render() {
-    const { sourceText } = this.props;
+    const { sourceText, selectedSource } = this.props;
 
     return (
       dom.div(
         { className: "editor-wrapper devtools-monospace" },
         EditorSearchBar({
           editor: this.editor,
+          selectedSource,
           sourceText
         }),
         dom.div({

@@ -26,7 +26,7 @@ function getBindingVariables(bindings, parentName) {
     ))
     .map(binding => ({
       name: binding[0],
-      path: parentName + "/" + binding[0],
+      path: `${parentName}/${binding[0]}`,
       contents: binding[1]
     }));
 }
@@ -42,7 +42,7 @@ function getSpecialVariables(pauseInfo, path) {
 
     vars.push({
       name: "<exception>",
-      path: path + "/<exception>",
+      path: `${path}/<exception>`,
       contents: { value: thrown }
     });
   }
@@ -50,7 +50,7 @@ function getSpecialVariables(pauseInfo, path) {
   if (returned) {
     vars.push({
       name: "<return>",
-      path: path + "/<return>",
+      path: `${path}/<return>`,
       contents: { value: returned.toJS() }
     });
   }
@@ -67,7 +67,7 @@ function getThisVariable(frame, path) {
 
   return {
     name: "<this>",
-    path: path + "/<this>",
+    path: `${path}/<this>`,
     contents: { value: this_ }
   };
 }

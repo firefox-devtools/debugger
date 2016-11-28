@@ -17,6 +17,8 @@
   font-size: 16px;
   color: var(--theme-body-color);
   cursor: pointer;
+  background: none;
+  border: none;
 }
 
 .dropdown li {
