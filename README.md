@@ -14,7 +14,7 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 Here are instructions to get the debugger.html application installed and running.
 
-### Linux or MacOs
+### Linux
 
 * `npm i -g yarn@0.16.1` - Install Yarn
 * `git clone git@github.com:devtools-html/debugger.html.git` - Clone Debugger
@@ -22,6 +22,14 @@ Here are instructions to get the debugger.html application installed and running
 * `yarn start` - Start development web server
 
 NOTE: :cat2: We use [Yarn](https://yarnpkg.com) so that we all have the same setup.
+
+### MacOs
+
+* `npm install` - Install dependencies
+*  `./bin/preinstall` - Set up Installation
+* `npm start` - Start development web server
+* `open http://localhost:8000` - Open in any modern browser
+
 
 ### Windows
 
