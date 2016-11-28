@@ -1,4 +1,4 @@
-const { Source, Frame, Location } = require("../../tcomb-types");
+const { Source, Frame, Location } = require("../tcomb-types");
 
 function createFrame(frame) {
   let title;
@@ -6,7 +6,7 @@ function createFrame(frame) {
     let c = frame.callee;
     title = c.name || c.userDisplayName || c.displayName || "(anonymous)";
   } else {
-    title = "(" + frame.type + ")";
+    title = `(${ frame.type })`;
   }
 
   return Frame({
