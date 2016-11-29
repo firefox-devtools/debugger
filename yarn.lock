@@ -1804,9 +1804,9 @@ devtools-config@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.10.tgz#955a5ec1790e9e06a40009fdb1eaf5f979d168dd"
 
-devtools-launchpad@^0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.15.tgz#c71ab73ed459b933730b8e3f83c6d60c0798270e"
+devtools-launchpad@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.17.tgz#3d822d57b440fe86542e82eeb5c0aab2754b9741"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
@@ -1856,7 +1856,7 @@ devtools-launchpad@^0.0.15:
     react-inlinesvg "^0.5.3"
     react-redux "4.4.5"
     redux "3.5.2"
-    single-module-instance-webpack-plugin jasonlaster/single-module-instance-webpack-plugin
+    single-module-webpack-plugin "^0.0.2"
     style-loader "^0.13.1"
     svg-inline-loader "^0.7.1"
     tcomb "^3.1.0"
@@ -5295,9 +5295,9 @@ simple-html-tokenizer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/simple-html-tokenizer/-/simple-html-tokenizer-0.1.1.tgz#05c2eec579ffffe145a030ac26cfea61b980fabe"
 
-"single-module-instance-webpack-plugin@github:jasonlaster/single-module-instance-webpack-plugin":
-  version "0.0.4"
-  resolved "https://codeload.github.com/jasonlaster/single-module-instance-webpack-plugin/tar.gz/b07a8f7f920ccd40b7c08f68579ecc71b2dc6132"
+single-module-webpack-plugin@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/single-module-webpack-plugin/-/single-module-webpack-plugin-0.0.2.tgz#ac32408186e50d1759326679d8ca9146881bfe85"
 
 slash@^1.0.0:
   version "1.0.0"

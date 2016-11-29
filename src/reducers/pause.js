@@ -169,10 +169,17 @@ function getSelectedFrame(state: OuterState) {
   return frames && frames.find(frame => frame.id == selectedFrameId);
 }
 
+// NOTE: currently only used for chrome
+function getChromeScopes(state: OuterState) {
+  const frame = getSelectedFrame(state);
+  return frame ? frame.scopeChain : undefined;
+}
+
 module.exports = {
   State,
   update,
   getPause,
+  getChromeScopes,
   getLoadedObjects,
   getExpressions,
   getIsWaitingOnBreak,

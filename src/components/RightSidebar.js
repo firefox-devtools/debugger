@@ -9,7 +9,11 @@ const actions = require("../actions");
 const WhyPaused = React.createFactory(require("./WhyPaused"));
 const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Expressions = React.createFactory(require("./Expressions"));
-const Scopes = React.createFactory(require("./Scopes"));
+
+const Scopes = isEnabled("chromeScopes")
+  ? React.createFactory(require("./ChromeScopes"))
+  : React.createFactory(require("./Scopes"));
+
 const Frames = React.createFactory(require("./Frames"));
 const EventListeners = React.createFactory(require("./EventListeners"));
 const Accordion = React.createFactory(require("./Accordion"));
