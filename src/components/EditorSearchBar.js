@@ -37,8 +37,7 @@ const EditorSearchBar = React.createClass({
   },
 
   contextTypes: {
-    shortcuts: PropTypes.object,
-    shouldLoad: PropTypes.object
+    shortcuts: PropTypes.object
   },
 
   componentWillUnmount() {
@@ -68,17 +67,20 @@ const EditorSearchBar = React.createClass({
       this.searchInput().focus();
     }
 
-    if (sourceText && sourceText.get("text") &&
-      ((selectedSource != prevProps.selectedSource) ||
-      this.context.shouldLoad)) {
+    const hasLoaded = sourceText && !sourceText.get("loading");
+    const wasLoading = prevProps.sourceText
+                        && prevProps.sourceText.get("loading");
+
+    const doneLoading = wasLoading && hasLoaded;
+    const changedFiles = selectedSource != prevProps.selectedSource
+                          && hasLoaded;
+
+    if (doneLoading || changedFiles) {
       const query = this.state.query;
       const count = countMatches(query, sourceText.get("text"));
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ count: count, index: 0 });
-      this.context.shouldLoad = false;
       this.search(query);
-    } else if (selectedSource != prevProps.selectedSource) {
-      this.context.shouldLoad = true;
     }
   },
 
@@ -186,7 +188,7 @@ const EditorSearchBar = React.createClass({
   search: debounce(function(query) {
     const sourceText = this.props.sourceText;
 
-    if (!sourceText.get("text")) {
+    if (!sourceText || !sourceText.get("text")) {
       return;
     }
 
