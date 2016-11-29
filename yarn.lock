@@ -2620,9 +2620,9 @@ function-bind@^1.0.2, function-bind@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.0.tgz#16176714c801798e4e8f2cf7f7529467bb4a5771"
 
-fuzzaldrin-plus@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/fuzzaldrin-plus/-/fuzzaldrin-plus-0.3.1.tgz#36c4e0501ad08cfa6ac83d0ddc8f8ef535b901b4"
+fuzzaldrin-plus@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/fuzzaldrin-plus/-/fuzzaldrin-plus-0.4.1.tgz#979595024aab74184942307d631d7aa441eee379"
 
 gather-stream@^1.0.0:
   version "1.0.0"
