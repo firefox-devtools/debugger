@@ -3,6 +3,7 @@ require("babel-register");
 
 const path = require("path");
 const webpack = require("webpack");
+const SingleModuleInstancePlugin = require("single-module-instance-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const { isDevelopment, isFirefoxPanel, getValue } = require("devtools-config");
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -71,6 +72,8 @@ module.exports = (webpackConfig, envConfig) => {
       "DebuggerConfig": JSON.stringify(envConfig)
     })
   );
+
+  webpackConfig.plugins.push(new SingleModuleInstancePlugin());
 
   if (isDevelopment()) {
     webpackConfig.module.loaders.push({
