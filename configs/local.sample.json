@@ -1,6 +1,6 @@
 {
   "theme": "light",
-  "hotReloading": true,
+  "hotReloading": false,
   "logging": {
     "actions": false
   },

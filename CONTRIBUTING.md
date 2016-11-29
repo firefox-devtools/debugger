@@ -6,17 +6,7 @@ We respect your time and want to help you make the most of it as you learn more 
 
 #### Table Of Contents
 
-[What should I know before I get started?](#what-should-i-know-before-i-get-started)
-  * [debugger.html](#debuggerhtml)
-  * [devtools.html](#devtoolshtml)
-  * [Firefox Developer Tools](#firefox-developer-tools)
-
 [Getting Started](#getting-started)
-  * [Web Application](#web-application)
-  * [Debuggable Targets](#debuggable-targets)
-    * [Firefox Remote Debugging](#firefox)
-    * [Chrome Remote Debugging](#chrome)
-    * [Node.js Remote Debugging](#nodejs)
 
 [How Can I Contribute?](#how-can-i-contribute)
   * [Reporting Bugs](#reporting-bugs-bug)
@@ -35,126 +25,18 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Configuration](#configuration)
     * [Create a local config file](#create-a-local-config-file)
   * [Issues and Pull Request labels](#issues-and-pull-requests)
+  * [Project Overview](#project-overview)
+    * [debugger.html](#debuggerhtml)
+    * [devtools.html](#devtoolshtml)
+    * [Firefox Developer Tools](#firefox-developer-tools)
 
-## What should I know before I get started?
+## Getting Started
 
 The developer tools in most major browsers are just web applications.  They are HTML & JS rendered by the browser and talk to the browser itself through an API that gives access to the page internals.  This project is a brand new web application interface for JavaScript debugging designed for browsers and JS environments.
 
 We strive for collaboration with [mutual respect for each other](./CODE_OF_CONDUCT.md).   Mozilla also has a set of [participation guidelines](https://www.mozilla.org/en-US/about/governance/policies/participation/) which goes into greater detail specific to Mozilla employees and contributors.
 
-### debugger.html
-
-The debugger.html project is a JavaScript debugger built from the ground up using modern web application technologies.  It is designed first for debugging Firefox but also for working with projects like Chrome and Node.  The name debugger.html was chosen because this debugger interface is being written using modern web technologies where as the previous Firefox debugger was written in [XUL](https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL).
-
-### devtools.html
-
-devtools.html is the larger umbrella initiative that encompasses the debugger.html and several other devtools projects.  The devtools.html project claims its origin from a demo for a Mozilla (Dec 2015) work week in Orlando, FL USA where the team worked under a tight deadline to provide a proof of concept of the Firefox developer tools running in pure HTML; even outside of Firefox. The code for that demo can be found on GitHub under [@joewalker/devtools.html](https://github.com/joewalker/devtools.html).
-
-From that original demo the devtools.html project has progressed quite a bit.  To learn more about it please read the [devtools.html proposal document](https://docs.google.com/document/d/1_5aerWTN_GVofr6YQVjmJlaGfZ4nv5YKZmdGHewfTpE/edit#heading=h.dw3amfbdp0lh) and take a look at the [devtools.html meta bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1263750) for tracking progress.
-
-### Firefox Developer Tools
-
-The debugger.html project is targeted to land in Firefox for Firefox 52.  However if you're looking to work directly on the DevTools project which ships developer tools for Firefox and Firefox Developer Edition right now you can find more information on the Mozilla wiki [DevTools / Get Involved](https://wiki.mozilla.org/DevTools/GetInvolved).
-
-## Getting Started
-
-The debugger.html is a web application that makes a [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) connection to a debuggable target like the JavaScript engine of a web browser.  The web application then interprets data and sends commands to the JS engine to manage the debugging environment; for example by creating a breakpoint or displaying that the JS engine is paused at a breakpoint.
-
-![debugger - web browser](https://cloud.githubusercontent.com/assets/2134/16933811/babb4eec-4d05-11e6-8c7e-f133e54b756f.png)
-
-### Web Application
-
-First we need to get the web application running. Within the source code directory, from the command line run these commands.
-
-### Linux or MacOs
-
-* `npm i -g yarn@0.16.1` - Install Yarn
-* `git clone git@github.com:devtools-html/debugger.html.git` - Clone Debugger
-* `yarn install` - Install dependencies.
-* `yarn start` - Start development web server
-
-NOTE: :cat2: We use [Yarn](https://yarnpkg.com) so that we all have the same setup.
-
-### Windows
-
-It is recommended to use Git Shell which comes with [GitHub Desktop] application to emulate bash on Windows.
-
-* `npm i -g yarn@0.16.1` - Install Yarn
-* `git clone git@github.com:devtools-html/debugger.html.git` - Clone Debugger
-* `yarn install` - Install dependencies
-* `yarn start` - Start development web server
-
-NOTE: :cat2: We use [Yarn](https://yarnpkg.com) so that we all have the same setup.
-
-### Open the debugger
-
-After `yarn start`, the debugger will be running on [http://localhost:8000](http://localhost:8000) and you can open it in any browser. [screenshot](https://cloud.githubusercontent.com/assets/254562/20393011/44ca6a8a-aca8-11e6-99f7-05f21767ae6d.png)
-
-### Debuggable Targets
-
-The following are instructions for getting Firefox, Chrome, and Node running with remote debugging turned on.  Remote debugging is necessary for the debugger.html project to connect to these targets.
-
-#### Firefox
-
-The following command will automatically start a remote debuggable version of Firefox using a temporary profile and set all the necessary preferences for you. This command runs Firefox in a selenium environment that is great for quick testing.
-
-```
-$ yarn run firefox
-```
-
-When firefox is running, reload `localhost:8000` and you'll see the available firefox tabs to debug in the debugger. ![screenshot](https://cloud.githubusercontent.com/assets/254562/20393075/7e494024-aca8-11e6-8578-19a6d73be6ed.png)
-
-**Command line option**
-
-Here are the instructions for running Firefox from the command line without selenium:
-
-**MacOs**:
-
-```
-$ /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
-```
-
-**Windows:**
-
-```
-C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -P development
-```
-
-> If this command doesn't work for your OS or Firefox version see the other [Firefox commands for running in a debuggable state](./docs/remotely-debuggable-browsers.md#firefox)
-
-**NOTE**: The Firefox started from the `yarn run` command automatically sets the following necessary flags which you will need to do manually if you ran Firefox from the command line.
-
-Navigate to `about:config` and accept any warning message. Then search for the following preferences and double click them to toggle their values to the following. [example](http://g.recordit.co/3VsHIooZ9q.gif)
-
-* `devtools.debugger.remote-enabled` to `true`
-* `devtools.chrome.enabled` to `true`
-* `devtools.debugger.prompt-connection` to `false`
-
-Once you have Firefox running in a debuggable state go back up to instructions for restarting your development server.
-
-#### Chrome
-
-Start by running Chrome from the terminal with remote debugging turned on.
-
-```
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile http://localhost:7999/todomvc/
-```
-
-* If this command doesn't work for your OS or Chrome version see the other [Chrome commands for running in a debuggable state](./docs/remotely-debuggable-browsers.md#chrome)
-* NOTE: This command also creates a new _temporary_ profile
-
-
-#### Node.js
-
-Debugging node requires at least node v6.3.0 and running node with the `inspect` flag turned on.  Here's what running node looks like when running an example `server.js` file.
-
-```
-$ node --inspect server.js
-```
-
-With node running in _inspect mode_ go to your browser running `localhost:8000` and click **[connect to Node](http://localhost:8000/?ws=localhost:9229/node)**
-
-**Note:** Currently Node.js debugging is limited in some ways, there isn't support for seeing variables or the console, but you can manage breakpoints and navigate code execution (pause, step-in, step-over, etc.) in the debugger across various sources.
+[Getting Started](./docs/getting-started.md)
 
 ## How Can I Contribute?
 
@@ -192,7 +74,6 @@ There are several difficulty levels, *easy*, *medium*, *hard*. We recommend grab
 * [difficulty:easy][labels-difficulty-easy] - clear expectations and a mentor to help you through.
 * [difficulty:medium][labels-difficulty-medium] - more complex and may not have as clear expectations.
 * [difficulty:hard][labels-difficulty-hard] - complex and has some open technical questions.
-
 
 To begin your work make sure you follow these steps:
 
@@ -234,124 +115,20 @@ When a person is assigned to an issue this indicates an _intent to implement_.  
 
 > **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
 
-#### Hot Reloading :fire:
+### Local Development :computer:
 
-Hot Reloading watches for changes in the React Components JS and CSS and propagates those changes up to the application without changing the state of the application.  You want this turned on.
+Go to [local Development](./docs/local-development.md) to learn about:
 
-To enabled Hot Reloading:
+* [Configs](./docs/local-development.md#configs)
+* [Hot Reloading](./docs/local-development.md#hot-reloading)
+* [Themes](./docs/local-development.md#themes)
+* [Internationalization](./docs/local-development.md#internationalization)
+* [Prefs](./docs/local-development.md#prefs)
+* [Flow](./docs/local-development.md#flow)
+* [Logging](./docs/local-development.md#logging)
+* [Testing](./docs/local-development.md#testing)
+* [Linting](./docs/local-development.md#linting)
 
-* [Create a local config file](#create-a-local-config-file) if you don't already have one
-* Edit the `config/local.json` you just created to change the value of `hotReloading` to be `true`
-
-```json
-{
-  "hotReloading": true
-}
-```
-
-* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
-
-Read more about [Hot Reloading](./docs/local-development.md#hot-reloading)
-
-### Logging
-
-Logging information can be very useful when developing, and there are a few logging options available to you.
-
-To enable logging:
-
-* [Create a local config file](#create-a-local-config-file) if you don't already have one
-* Edit your local config, changing the value of the logger type you want to see to `true`
-
-```json
-  "logging": {
-    "client": false,
-    "firefoxProxy": false,
-    "actions": true
-  }
-```
-
-Let's cover the logging types.
-
-* client -  This option is currently unused.
-
-* firefoxProxy - This logger outputs a verbose output of all the Firefox protocol packets to your shell.
-
-* actions - This logger outputs the Redux actions fired to the browser console.
-
-### Tests
-
-Your code must pass all tests to be merged in.  Your tests should pass locally before you create a PR and the CI should run an automated test that also passes.
-
-Here's how can run all the unit tests, lints, and integration tests at once:
-
-```
-$ yarn run test-all
-```
-
-#### Unit Tests
-
-* `yarn test` - Run tests headlessly
- * These are the basic unit tests which must always pass
-* `yarn run mocha-server` - Run tests in the browser once you open `http://localhost:8003`
- * This runs tests in the browser and is useful for fixing errors in the karma tests
-
-#### Integration tests
-
-We use [mochitests](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest) to do integration testing.  Running these integration tests locally requires some finesse and so as a contributor we only ask that you run the unit tests.   The mochitests will be run by the automated testing which runs once you've made a pull request and the maintainers are happy to help you through any issues which arise from that.
-
-Learn more about mochitests in our [mochitests docs](./docs/mochitests.md).
-
-#### Linting
-
-Run all of lint checks (JS + CSS) run the following command:
-
-```
-$ yarn run lint
-```
-
-##### Lint CSS
-
-We use [Stylelint](http://stylelint.io/) to maintain our CSS styles.  The [.stylelintrc](https://github.com/devtools-html/debugger.html/blob/master/.stylelintrc) file contains the style definitions, please adhere to those styles when making changes.
-
-To test your CSS changes run the command:
-
-```
-$ yarn run lint-css
-```
-
-##### Lint JS
-
-We use [eslint](http://eslint.org/) to maintain our JavaScript styles.  The [.eslintrc](https://github.com/devtools-html/debugger.html/blob/master/.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
-
-To test your JS changes run the command:
-
-```
-$ yarn run lint-js
-```
-
-To automatically fix many errors run the command:
-
-```
-$ yarn run lint-fix
-```
-
-## Configuration
-
-All default config values are in [`packages/devtools-config/configs/development.json`](./packages/devtools-config/configs/development.json), to override these values you need to [create a local config file](#create-a-local-config-file).
-
-Here are the most common development configuration options:
-
-* `logging`
-  * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `yarn start`
-* `chrome`
-  * `debug` Enables listening for remotely debuggable Chrome browsers
-* `hotReloading` enables [Hot Reloading](./docs/local-development.md#hot-reloading) of CSS and React
-
-For a list of all the configuration options see the [packages/devtools-config/README.md](./packages/devtools-config/README.md)
-
-### Create a local config file
-
-* Copy the [`configs/development.json`](./configs/development.json) to `configs/local.json`
 
 ## Issues and Pull Request labels
 
@@ -387,3 +164,19 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 [labels-not-actionable]:https://github.com/devtools-html/debugger.html/labels/not%20actionable
 
 [GitHub Desktop]:https://desktop.github.com/
+
+## Project Overview
+
+### debugger.html
+
+The debugger.html project is a JavaScript debugger built from the ground up using modern web application technologies.  It is designed first for debugging Firefox but also for working with projects like Chrome and Node.  The name debugger.html was chosen because this debugger interface is being written using modern web technologies where as the previous Firefox debugger was written in [XUL](https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL).
+
+### devtools.html
+
+devtools.html is the larger umbrella initiative that encompasses the debugger.html and several other devtools projects.  The devtools.html project claims its origin from a demo for a Mozilla (Dec 2015) work week in Orlando, FL USA where the team worked under a tight deadline to provide a proof of concept of the Firefox developer tools running in pure HTML; even outside of Firefox. The code for that demo can be found on GitHub under [@joewalker/devtools.html](https://github.com/joewalker/devtools.html).
+
+From that original demo the devtools.html project has progressed quite a bit.  To learn more about it please read the [devtools.html proposal document](https://docs.google.com/document/d/1_5aerWTN_GVofr6YQVjmJlaGfZ4nv5YKZmdGHewfTpE/edit#heading=h.dw3amfbdp0lh) and take a look at the [devtools.html meta bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1263750) for tracking progress.
+
+### Firefox Developer Tools
+
+The debugger.html project is targeted to land in Firefox for Firefox 52.  However if you're looking to work directly on the DevTools project which ships developer tools for Firefox and Firefox Developer Edition right now you can find more information on the Mozilla wiki [DevTools / Get Involved](https://wiki.mozilla.org/DevTools/GetInvolved).

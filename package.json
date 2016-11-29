@@ -27,6 +27,7 @@
     "mocha-server": "node bin/mocha-server.js",
     "firefox-unit-test": "node bin/firefox-driver --test",
     "firefox": "node bin/firefox-driver --start",
+    "chrome": "node bin/chrome-driver",
     "mochitests-watch": "MOCHITESTS=true TARGET=firefox-panel webpack --watch",
     "build-docs": "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ src/types.js src/utils/ src/reducers/ src/actions/ src/test/mochitest/head.js",
     "prepush": "npm run lint; node src/test/node-unit-tests.js --dots",

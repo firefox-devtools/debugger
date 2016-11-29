@@ -8,27 +8,92 @@
   * [RTL](#rtl)
 * [Prefs](#prefs)
 * [Flow](#flow)
+* [Logging](#logging)
+* [Testing](#testing)
+  * [Unit Tests](#unit-tests)
+  * [Integration Tests](#integration-tests)
+* [Linting](#linting)
+  * [Lint JS](#lint-js)
+  * [Lint CSS](#lint-css)
 
 ### Configs
 
-The local toolbox has [configs](../packages/devtools-config/README.md) for runtime configuration.
+All default config values are in [`development.json`](../configs/development.json), to override these values you need to [create a local config file](#creating-a-local-config).
 
-**Local Configs**
+Here are the most common development configuration options:
 
-You can create a `configs/local.json` file to override development configs. This is great for enabling features locally or changing the theme. Copy the `local-sample` to get started.
+* `logging`
+  * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `yarn start`
+* `chrome`
+  * `debug` Enables listening for remotely debuggable Chrome browsers
+* `hotReloading` enables [Hot Reloading](./docs/local-development.md#hot-reloading) of CSS and React
+
+For a list of all the configuration options see the [packages/devtools-config/README.md](./packages/devtools-config/README.md)
+
+#### Creating a Local Config
+
+You can create a `configs/local.json` file to override development configs. This is great for enabling features locally or changing the theme.
+
+* Copy the `local-sample` to get started.
 
 ```bash
 cp configs/local-sample.json configs/local-sample.json
 ```
 
+* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
 
-### Hot Reloading
+#### Updating your Config
 
-Hot reloading lets you make changes in React components and CSS and see the changes immediately.
-Also, the changes will go into effect without changing the state of app.
-Hot reloading does not work all the time, but once you get a sense of its quirks it can be a huge productivity boon.
+You can quickly change your local config `configs/local.json`.
 
-It can be turned on by setting `config/local.json` with the contents `{ "hotReloading: true" }`.
+* edit the `configs/local.json`
+
+```diff
+diff --git a/configs/local.json b/configs/local.json
+index fdbdb4e..4759c14 100644
+--- a/configs/local.json
++++ b/configs/local.json
+@@ -1,6 +1,6 @@
+ {
+   "theme": "light",
+-  "hotReloading": false,
++  "hotReloading": true,
+   "logging": {
+     "actions": false
+   },
+```
+
+* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
+
+
+### Hot Reloading :fire:
+
+Hot Reloading watches for changes in the React Components JS and CSS and propagates those changes up to the application without changing the state of the application.  You want this turned on.
+
+To enabled Hot Reloading:
+
+* [Create a local config file](#creating-a-local-config) if you don't already have one
+* edit `hotReloading`
+
+```diff
+diff --git a/configs/local.json b/configs/local.json
+index fdbdb4e..4759c14 100644
+--- a/configs/local.json
++++ b/configs/local.json
+@@ -1,6 +1,6 @@
+ {
+   "theme": "light",
+-  "hotReloading": false,
++  "hotReloading": true,
+   "logging": {
+     "actions": false
+   },
+```
+
+* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
+
+Read more about [Hot Reloading](./docs/local-development.md#hot-reloading)
+
 
 ### Themes
 
@@ -119,8 +184,6 @@ prefs.clientSourceMapsEnabled = false;
 ### SVGs
 
 We use SVGs in DevTools because they look good at any resolution.
-
-
 
 **Adding a new SVG**
 
@@ -219,4 +282,90 @@ Rationale:
 **How do I see the Debugger's flow coverage?**
 ```
 > npm run flow-coverage
+```
+
+### Logging
+
+Logging information can be very useful when developing, and there are a few logging options available to you.
+
+To enable logging:
+
+* [Create a local config file](#creating-a-local-config) if you don't already have one
+* Edit your local config, changing the value of the logger type you want to see to `true`
+
+```json
+  "logging": {
+    "client": false,
+    "firefoxProxy": false,
+    "actions": true
+  }
+```
+
+* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
+
+
+Let's cover the logging types.
+
+* client -  This option is currently unused.
+
+* firefoxProxy - This logger outputs a verbose output of all the Firefox protocol packets to your shell.
+
+* actions - This logger outputs the Redux actions fired to the browser console.
+
+### Testing
+
+Your code must pass all tests to be merged in.  Your tests should pass locally before you create a PR and the CI should run an automated test that also passes.
+
+Here's how can run all the unit tests, lints, and integration tests at once:
+
+```
+$ yarn run test-all
+```
+
+#### Unit Tests
+
+* `yarn test` - Run tests headlessly
+ * These are the basic unit tests which must always pass
+* `yarn run mocha-server` - Run tests in the browser once you open `http://localhost:8003`
+ * This runs tests in the browser and is useful for fixing errors in the karma tests
+
+#### Integration tests
+
+We use [mochitests](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest) to do integration testing.  Running these integration tests locally requires some finesse and so as a contributor we only ask that you run the unit tests.   The mochitests will be run by the automated testing which runs once you've made a pull request and the maintainers are happy to help you through any issues which arise from that.
+
+Learn more about mochitests in our [mochitests docs](./mochitests.md).
+
+
+### Linting
+
+Run all of lint checks (JS + CSS) run the following command:
+
+```
+$ yarn run lint
+```
+
+#### Lint CSS
+
+We use [Stylelint](http://stylelint.io/) to maintain our CSS styles.  The [.stylelintrc](https://github.com/devtools-html/debugger.html/blob/master/.stylelintrc) file contains the style definitions, please adhere to those styles when making changes.
+
+To test your CSS changes run the command:
+
+```
+$ yarn run lint-css
+```
+
+#### Lint JS
+
+We use [eslint](http://eslint.org/) to maintain our JavaScript styles.  The [.eslintrc](https://github.com/devtools-html/debugger.html/blob/master/.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
+
+To test your JS changes run the command:
+
+```
+$ yarn run lint-js
+```
+
+To automatically fix many errors run the command:
+
+```
+$ yarn run lint-fix
 ```
