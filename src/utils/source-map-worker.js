@@ -143,7 +143,8 @@ async function getGeneratedLocation(location: Location, originalSource: Source)
   const { line, column } = map.generatedPositionFor({
     source: originalSource.url,
     line: location.line,
-    column: location.column == null ? 0 : location.column
+    column: location.column == null ? 0 : location.column,
+    bias: SourceMapConsumer.LEAST_UPPER_BOUND
   });
 
   return {
