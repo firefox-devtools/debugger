@@ -66,6 +66,7 @@
     "react-redux": "4.4.5",
     "redux": "3.5.2",
     "serve-index": "^1.8.0",
+    "single-module-instance-webpack-plugin": "0.0.4",
     "style-loader": "^0.13.1",
     "svg-inline-loader": "^0.7.1",
     "tcomb": "^3.1.0",
