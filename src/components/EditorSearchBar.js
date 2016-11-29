@@ -124,7 +124,11 @@ const EditorSearchBar = React.createClass({
   },
 
   onChange(e) {
-    this.search(e.target.value);
+    const sourceText = this.props.sourceText;
+    const query = e.target.value;
+    const count = countMatches(query, sourceText.get("text"));
+    this.setState({ query, count, index: 0 });
+    this.search(query);
   },
 
   traverseResultsPrev(e) {
@@ -179,9 +183,6 @@ const EditorSearchBar = React.createClass({
     if (!sourceText.get("text")) {
       return;
     }
-
-    const count = countMatches(query, sourceText.get("text"));
-    this.setState({ query, count, index: 0 });
 
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
