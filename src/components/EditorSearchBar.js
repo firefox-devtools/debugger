@@ -4,7 +4,7 @@ const { findDOMNode } = require("react-dom");
 const Svg = require("./utils/Svg");
 const { find, findNext, findPrev, removeOverlay } = require("../utils/source-search");
 const classnames = require("classnames");
-const { escapeRegExp } = require("lodash");
+const { debounce, escapeRegExp } = require("lodash");
 const CloseButton = require("./CloseButton");
 const { isEnabled } = require("devtools-config");
 const ImPropTypes = require("react-immutable-proptypes");
@@ -124,7 +124,11 @@ const EditorSearchBar = React.createClass({
   },
 
   onChange(e) {
-    this.search(e.target.value);
+    const sourceText = this.props.sourceText;
+    const query = e.target.value;
+    const count = countMatches(query, sourceText.get("text"));
+    this.setState({ query, count, index: 0 });
+    this.search(query);
   },
 
   traverseResultsPrev(e) {
@@ -173,21 +177,18 @@ const EditorSearchBar = React.createClass({
     }
   },
 
-  search(query) {
+  search: debounce(function(query) {
     const sourceText = this.props.sourceText;
 
     if (!sourceText.get("text")) {
       return;
     }
 
-    const count = countMatches(query, sourceText.get("text"));
-    this.setState({ query, count, index: 0 });
-
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
 
     find(ctx, query);
-  },
+  }, 100),
 
   renderSummary() {
     const { count, index, query } = this.state;
