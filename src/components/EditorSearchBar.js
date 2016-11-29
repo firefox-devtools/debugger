@@ -70,15 +70,15 @@ const EditorSearchBar = React.createClass({
 
     if (sourceText && sourceText.get("text") &&
       ((selectedSource != prevProps.selectedSource) ||
-      this.context.shouldLoad)) {
+      this.shouldLoad)) {
       const query = this.state.query;
       const count = countMatches(query, sourceText.get("text"));
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ count: count, index: 0 });
-      this.context.shouldLoad = 0;
+      this.shouldLoad = false;
       this.search(query);
     } else if (selectedSource != prevProps.selectedSource) {
-      this.context.shouldLoad = 1;
+      this.shouldLoad = true;
     }
   },
 
