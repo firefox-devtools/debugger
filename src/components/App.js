@@ -10,6 +10,7 @@ const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
 
 const cmd = `${cmdString()}+P`;
+const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
 
 require("./App.css");
 require("./menu.css");
@@ -57,6 +58,22 @@ const App = React.createClass({
     );
   },
 
+  getInitialState() {
+    return {
+      vertical: verticalLayoutBreakpoint.matches
+    };
+  },
+
+  componentDidMount() {
+    verticalLayoutBreakpoint.onchange = () => this.setState({
+      vertical: verticalLayoutBreakpoint.matches
+    });
+  },
+
+  componentWillUnmount() {
+    verticalLayoutBreakpoint.onchange = null;
+  },
+
   render: function() {
     return dom.div(
       { className: "debugger" },
@@ -74,7 +91,8 @@ const App = React.createClass({
           splitterSize: 1,
           endPanelControl: true,
           startPanel: this.renderCenterPane(this.props),
-          endPanel: RightSidebar()
+          endPanel: RightSidebar(),
+          vert: this.state.vertical
         })
       })
     );
