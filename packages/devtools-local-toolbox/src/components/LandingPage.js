@@ -25,9 +25,8 @@ function firstTimeMessage(title, urlPart) {
 }
 
 function getTabURL(tab, paramName) {
-  const devServerOrigin = location.origin;
   const tabID = tab.get("id");
-  return `${devServerOrigin}?${paramName}=${tabID}`;
+  return `/?${paramName}=${tabID}`;
 }
 
 const LandingPage = React.createClass({

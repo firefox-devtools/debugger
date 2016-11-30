@@ -2,9 +2,8 @@
 // replaces a more powerful network request from Firefox that can be
 // configured.
 function networkRequest(url, opts) {
-  const devServerOrigin = location.origin;
   return Promise.race([
-    fetch(`${devServerOrigin}/get?url=${url}`)
+    fetch(`/get?url=${url}`)
       .then(res => {
         if (res.status >= 200 && res.status < 300) {
           return res.text().then(text => ({ content: text }));
