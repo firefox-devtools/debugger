@@ -8,8 +8,10 @@ let ManagedTree = React.createClass({
   displayName: "ManagedTree",
 
   getInitialState() {
-    return { expanded: new Set(),
-      focusedItem: null };
+    return {
+      expanded: new Set(),
+      focusedItem: null
+    };
   },
 
   setExpanded(item, isExpanded) {
