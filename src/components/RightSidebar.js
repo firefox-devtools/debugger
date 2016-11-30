@@ -6,6 +6,7 @@ const { isEnabled } = require("devtools-config");
 const Svg = require("./utils/Svg");
 
 const actions = require("../actions");
+const WhyPaused = React.createFactory(require("./WhyPaused"));
 const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Expressions = React.createFactory(require("./Expressions"));
 const Scopes = React.createFactory(require("./Scopes"));
@@ -88,6 +89,7 @@ const RightSidebar = React.createClass({
         { className: "right-sidebar",
           style: { overflowX: "hidden" }},
         CommandBar(),
+        isEnabled("whyPaused") ? WhyPaused() : null,
         Accordion({
           items: this.getItems()
         })

@@ -1,0 +1,7 @@
+
+.why-paused {
+  background-color: lemonchiffon;
+  color: var(--theme-highlight-blue);
+  padding: 8px 6px;
+  white-space: normal;
+}

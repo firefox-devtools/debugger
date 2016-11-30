@@ -2,7 +2,7 @@
 const { Frame } = require("../tcomb-types");
 const { getOriginalLocation } = require("./source-map");
 
-import type { Frame as FrameType } from "../types";
+import type { Pause, Frame as FrameType } from "../types";
 
 function updateFrameLocations(frames: FrameType[]): Promise<FrameType[]> {
   if (!frames) {
@@ -19,6 +19,24 @@ function updateFrameLocations(frames: FrameType[]): Promise<FrameType[]> {
   );
 }
 
+const reasons = {
+  "debuggerStatement": "Paused on a debugger; statement in the source code",
+  "breakpoint": "Paused on a breakpoint"
+};
+
+function getPauseReason(pauseInfo: Pause): string | null {
+  if (!pauseInfo) {
+    return null;
+  }
+
+  let reasonType = pauseInfo.getIn(["why"]).get("type");
+  if (!reasons[reasonType]) {
+    console.log("reasonType", reasonType);
+  }
+  return reasons[reasonType];
+}
+
 module.exports = {
-  updateFrameLocations
+  updateFrameLocations,
+  getPauseReason
 };
