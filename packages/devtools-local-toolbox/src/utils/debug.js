@@ -1,7 +1,7 @@
-const { isDevelopment, isTesting } = require("devtools-config");
+const { isDevelopment } = require("devtools-config");
 
 function debugGlobal(field, value) {
-  if (isDevelopment() || isTesting()) {
+  if (isDevelopment()) {
     window[field] = value;
   }
 }
