@@ -8,6 +8,7 @@ const { getSources, getSelectedSource } = require("../selectors");
 
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
+const { isEnabled } = require("devtools-config");
 
 const cmd = `${cmdString()}+P`;
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
@@ -59,15 +60,20 @@ const App = React.createClass({
   },
 
   getInitialState() {
+    const vertical = isEnabled("verticalLayout")
+      ? verticalLayoutBreakpoint.matches : true;
+
     return {
-      vertical: verticalLayoutBreakpoint.matches
+      vertical: vertical
     };
   },
 
   componentDidMount() {
-    verticalLayoutBreakpoint.onchange = () => this.setState({
-      vertical: verticalLayoutBreakpoint.matches
-    });
+    if (isEnabled("verticalLayout")) {
+      verticalLayoutBreakpoint.onchange = () => this.setState({
+        vertical: verticalLayoutBreakpoint.matches
+      });
+    }
   },
 
   componentWillUnmount() {

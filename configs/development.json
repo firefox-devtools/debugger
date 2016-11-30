@@ -11,7 +11,8 @@
   "features": {
     "watchExpressions": false,
     "editorSearch": false,
-    "whyPaused": false
+    "whyPaused": false,
+    "verticalLayout": false
   },
   "chrome": {
     "debug": true,
