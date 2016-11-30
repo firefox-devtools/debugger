@@ -7,6 +7,7 @@
   * [L10N](#l10n)
   * [RTL](#rtl)
 * [Prefs](#prefs)
+* [SVGs](#svgs)
 * [Flow](#flow)
 * [Logging](#logging)
 * [Testing](#testing)
@@ -65,6 +66,27 @@ index fdbdb4e..4759c14 100644
 
 * Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
 
+#### Enabling a Feature Flag
+
+Feature flags help us work on features darkly. We've used them to work on source tabs, watch expressions, and many other features.
+
+The features are listed in the configs [development.json](../configs/development.json), [firefox-panel.json](../configs/firefox-panel.json). You can turn a feature on, by adding it to your local config.
+
+
+```diff
+diff --git a/configs/local.json b/configs/local.json
+index fdbdb4e..4759c14 100644
+--- a/configs/local.json
++++ b/configs/local.json
+@@ -1,6 +1,6 @@
+ {
+   "theme": "light",
+   "features": {
++    "watchExpressions": true
+   },
+```
+
+* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
 
 ### Hot Reloading :fire:
 
