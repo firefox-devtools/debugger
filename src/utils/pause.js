@@ -19,6 +19,24 @@ function updateFrameLocations(frames: FrameType[]): Promise<FrameType[]> {
   );
 }
 
+const reasons = {
+  "debuggerStatement": "Paused on a debugger; statement in the source code",
+  "breakpoint": "Paused on a breakpoint"
+};
+
+function getPauseReason(pauseInfo) {
+  if (!pauseInfo) {
+    return null;
+  }
+
+  let reasonType = pauseInfo.getIn(["why"]).get("type");
+  if (!reasons[reasonType]) {
+    console.log("reasonType", reasonType);
+  }
+  return reasons[reasonType];
+}
+
 module.exports = {
-  updateFrameLocations
+  updateFrameLocations,
+  getPauseReason
 };

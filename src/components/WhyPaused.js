@@ -6,24 +6,9 @@ const actions = require("../actions");
 const { getPause } = require("../selectors");
 const { DOM: dom } = React;
 
+const { getPauseReason } = require("../utils/pause");
+
 require("./WhyPaused.css");
-
-function getPauseReason(pauseInfo) {
-  if (!pauseInfo) {
-    return null;
-  }
-
-  let reasonType = pauseInfo.getIn(["why"]).get("type");
-  if (!reasons[reasonType]) {
-    console.log("reasonType", reasonType);
-  }
-  return reasons[reasonType];
-}
-
-const reasons = {
-  "debuggerStatement": "Paused on a debugger; statement in the source code",
-  "breakpoint": "Paused on a breakpoint"
-};
 
 const WhyPaused = React.createClass({
   propTypes: {
