@@ -11,7 +11,8 @@ export type Why = {
 
 export type Pause = {
   frames: Frame[],
-  why: Why
+  why: Why,
+  getIn: (string[]) => any
 }
 
 export type Expression = {

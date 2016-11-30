@@ -2,7 +2,7 @@
 const { Frame } = require("../tcomb-types");
 const { getOriginalLocation } = require("./source-map");
 
-import type { Frame as FrameType } from "../types";
+import type { Pause, Frame as FrameType } from "../types";
 
 function updateFrameLocations(frames: FrameType[]): Promise<FrameType[]> {
   if (!frames) {
@@ -24,7 +24,7 @@ const reasons = {
   "breakpoint": "Paused on a breakpoint"
 };
 
-function getPauseReason(pauseInfo) {
+function getPauseReason(pauseInfo: Pause): string | null {
   if (!pauseInfo) {
     return null;
   }
