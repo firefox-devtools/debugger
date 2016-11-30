@@ -30,8 +30,8 @@ const State = makeRecord(({
   frames: undefined,
   selectedFrameId: undefined,
   loadedObjects: I.Map(),
-  shouldPauseOnExceptions: false,
-  shouldIgnoreCaughtExceptions: false,
+  shouldPauseOnExceptions: prefs.pauseOnExceptions,
+  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
   expressions: I.List()
 } : PauseState));
 
@@ -54,9 +54,7 @@ function update(state = State(), action: Action): Record<PauseState> {
         pause: null,
         frames: null,
         selectedFrameId: null,
-        loadedObjects: {},
-        shouldPauseOnExceptions: prefs.pauseOnExceptions,
-        shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions
+        loadedObjects: {}
       });
 
     case constants.TOGGLE_PRETTY_PRINT:
@@ -88,7 +86,10 @@ function update(state = State(), action: Action): Record<PauseState> {
       break;
 
     case constants.NAVIGATE:
-      return State();
+      return State().merge({
+        shouldPauseOnExceptions: prefs.pauseOnExceptions,
+        shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions
+      });
 
     case constants.PAUSE_ON_EXCEPTIONS:
       const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
