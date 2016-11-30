@@ -186,6 +186,32 @@ describe("sources-tree", () => {
     expect(aFileNode.name).to.be("a.js");
   });
 
+  it("excludes javascript: URLs from the tree", () => {
+    const source1 = Map({
+      url: "javascript:alert('Hello World')",
+      actor: "actor1"
+    });
+    const source2 = Map({
+      url: "http://example.com/source1.js",
+      actor: "actor2"
+    });
+    const source3 = Map({
+      url: "javascript:let i = 10; while (i > 0) i--; console.log(i);",
+      actor: "actor3"
+    });
+    const tree = createNode("root", "", []);
+
+    addToTree(tree, source1);
+    addToTree(tree, source2);
+    addToTree(tree, source3);
+
+    let base = tree.contents[0];
+    expect(tree.contents.length).to.be(1);
+
+    let source1Node = base.contents[0];
+    expect(source1Node.name).to.be("source1.js");
+  });
+
   it("can collapse a single source", () => {
     const fullTree = createNode("root", "", []);
     addToTree(fullTree, abcSource);
