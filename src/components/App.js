@@ -64,20 +64,24 @@ const App = React.createClass({
       ? verticalLayoutBreakpoint.matches : true;
 
     return {
-      vertical: vertical
+      vertical
     };
   },
 
   componentDidMount() {
     if (isEnabled("verticalLayout")) {
-      verticalLayoutBreakpoint.onchange = () => this.setState({
-        vertical: verticalLayoutBreakpoint.matches
-      });
+      verticalLayoutBreakpoint.addListener(this.onLayoutChange);
     }
   },
 
   componentWillUnmount() {
-    verticalLayoutBreakpoint.onchange = null;
+    verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
+  },
+
+  onLayoutChange() {
+    this.setState({
+      vertical: verticalLayoutBreakpoint.matches
+    });
   },
 
   render: function() {
