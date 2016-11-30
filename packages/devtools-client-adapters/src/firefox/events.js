@@ -1,4 +1,5 @@
 const { createFrame, createSource } = require("./create");
+const { isEnabled } = require("devtools-config");
 
 const CALL_STACK_PAGE_SIZE = 1000;
 
@@ -36,6 +37,10 @@ function resumed(_, packet) {
 
 function newSource(_, { source }) {
   actions.newSource(createSource(source));
+
+  if (isEnabled("eventListeners")) {
+    actions.fetchEventListeners();
+  }
 }
 
 const clientEvents = {

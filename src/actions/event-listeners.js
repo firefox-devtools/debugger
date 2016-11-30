@@ -10,24 +10,51 @@
  */
 
 const constants = require("../constants");
-const { asPaused } = require("../utils/utils");
 const { reportException } = require("../utils/DevToolsUtils");
-const { Task } = require("../utils/task");
+const { getPause } = require("../selectors");
 
 // delay is in ms
 const FETCH_EVENT_LISTENERS_DELAY = 200;
+let fetchListenersTimerID;
+
+/**
+ * @memberof utils/utils
+ * @static
+ */
+async function asPaused(state: any, client: any, func: any) {
+  if (!getPause(state)) {
+    await client.interrupt();
+    let result;
+
+    try {
+      result = await func(client);
+    } catch (e) {
+      // Try to put the debugger back in a working state by resuming
+      // it
+      await client.resume();
+      throw e;
+    }
+
+    await client.resume();
+    return result;
+  }
+
+  return func(client);
+}
 
 /**
  * @memberof actions/event-listeners
  * @static
  */
 function fetchEventListeners() {
-  return (dispatch, getState) => {
+  return ({ dispatch, getState, client }) => {
     // Make sure we"re not sending a batch of closely repeated requests.
     // This can easily happen whenever new sources are fetched.
-    setNamedTimeout(
-        "event-listeners-fetch",
-        FETCH_EVENT_LISTENERS_DELAY,
+    if (fetchListenersTimerID) {
+      clearTimeout(fetchListenersTimerID);
+    }
+
+    fetchListenersTimerID = setTimeout(
         () => {
           // In case there is still a request of listeners going on (it
           // takes several RDP round trips right now), make sure we wait
@@ -49,23 +76,19 @@ function fetchEventListeners() {
             status: "begin"
           });
 
-          asPaused(gThreadClient, _getListeners).then(listeners => {
-            // Notify that event listeners were fetched and shown in the view,
-            // and callback to resume the active thread if necessary.
-            window.emit(EVENTS.EVENT_LISTENERS_FETCHED);
-
+          asPaused(getState(), client, _getEventListeners).then(listeners => {
             dispatch({
               type: constants.FETCH_EVENT_LISTENERS,
               status: "done",
               listeners: listeners
             });
           });
-        });
+        }, FETCH_EVENT_LISTENERS_DELAY);
   };
 }
 
-const _getListeners = Task.async(function* () {
-  const response = yield gThreadClient.eventListeners();
+async function _getEventListeners(threadClient) {
+  const response = await threadClient.eventListeners();
 
   // Make sure all the listeners are sorted by the event type, since
   // they"re not guaranteed to be clustered together.
@@ -79,7 +102,10 @@ const _getListeners = Task.async(function* () {
     if (fetchedDefinitions.has(listener.function.actor)) {
       definitionSite = fetchedDefinitions.get(listener.function.actor);
     } else if (listener.function.class == "Function") {
-      definitionSite = yield _getDefinitionSite(listener.function);
+      definitionSite = await _getDefinitionSite(
+        threadClient,
+        listener.function
+      );
       if (!definitionSite) {
         // We don"t know where this listener comes from so don"t show it in
         // the UI as breaking on it doesn"t work (bug 942899).
@@ -94,14 +120,14 @@ const _getListeners = Task.async(function* () {
   fetchedDefinitions.clear();
 
   return listeners;
-});
+}
 
-const _getDefinitionSite = Task.async(function* (func) {
-  const grip = gThreadClient.pauseGrip(func);
+async function _getDefinitionSite(threadClient, func) {
+  const grip = threadClient.pauseGrip(func);
   let response;
 
   try {
-    response = yield grip.getDefinitionSite();
+    response = await grip.getDefinitionSite();
   } catch (e) {
     // Don't make this error fatal, it would break the entire events pane.
     reportException("_getDefinitionSite", e);
@@ -109,7 +135,7 @@ const _getDefinitionSite = Task.async(function* (func) {
   }
 
   return response.source.url;
-});
+}
 
 /**
  * @memberof actions/event-listeners

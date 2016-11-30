@@ -14,7 +14,7 @@ function update(state = initialState, action, emit) {
   switch (action.type) {
     case constants.UPDATE_EVENT_BREAKPOINTS:
       state.activeEventNames = action.eventNames;
-      emit("activeEventNames", state.activeEventNames);
+      // emit("activeEventNames", state.activeEventNames);
       break;
     case constants.FETCH_EVENT_LISTENERS:
       if (action.status === "begin") {
@@ -22,7 +22,6 @@ function update(state = initialState, action, emit) {
       } else if (action.status === "done") {
         state.fetchingListeners = false;
         state.listeners = action.listeners;
-        emit("event-listeners", state.listeners);
       }
       break;
     case constants.NAVIGATE:
@@ -32,4 +31,11 @@ function update(state = initialState, action, emit) {
   return state;
 }
 
-module.exports = update;
+function getEventListeners(state) {
+  return state.listeners;
+}
+
+module.exports = {
+  update,
+  getEventListeners
+};

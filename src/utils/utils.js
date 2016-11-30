@@ -10,34 +10,6 @@
  * @module utils/utils
  */
 
-const co = require("co");
-
-/**
- * @memberof utils/utils
- * @static
- */
-function asPaused(client: any, func: any) {
-  if (client.state != "paused") {
-    return co(function* () {
-      yield client.interrupt();
-      let result;
-
-      try {
-        result = yield func();
-      } catch (e) {
-        // Try to put the debugger back in a working state by resuming
-        // it
-        yield client.resume();
-        throw e;
-      }
-
-      yield client.resume();
-      return result;
-    });
-  }
-  return func();
-}
-
 /**
  * @memberof utils/utils
  * @static
@@ -225,7 +197,6 @@ function throttle(func: any, ms: number) {
 }
 
 module.exports = {
-  asPaused,
   handleError,
   promisify,
   truncateStr,

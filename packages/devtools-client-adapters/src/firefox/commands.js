@@ -144,7 +144,22 @@ function disablePrettyPrint(sourceId) {
   return sourceClient.disablePrettyPrint();
 }
 
+function interrupt() {
+  return threadClient.interrupt();
+}
+
+function eventListeners() {
+  return threadClient.eventListeners();
+}
+
+function pauseGrip(func) {
+  return threadClient.pauseGrip(func);
+}
+
 const clientCommands = {
+  interrupt,
+  eventListeners,
+  pauseGrip,
   resume,
   stepIn,
   stepOut,
