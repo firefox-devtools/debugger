@@ -2,7 +2,6 @@
   "title": "Debugger",
   "environment": "development",
   "baseWorkerURL": "http://localhost:8000/assets/build/",
-  "host": "http://localhost:8000",
   "theme": "light",
   "logging": {
     "client": false,

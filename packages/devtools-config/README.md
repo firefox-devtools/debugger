@@ -28,8 +28,6 @@ All default config values are in [`config/development.json`](./development.json)
   * `examplesPort` Listen Port used to serve examples
 * `hotReloading` enables [Hot Reloading](../docs/local-development.md#hot-reloading) of CSS and React
 * `baseWorkerURL` Location for where the worker bundles exist
-* `host` Location for where the debugger bundles exist
-
 
 ### Local config
 
