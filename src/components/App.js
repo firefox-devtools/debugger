@@ -10,7 +10,7 @@ const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
 
 const cmd = `${cmdString()}+P`;
-const verticalLayoutBreakpoint = window.matchMedia('(min-width: 700px)');
+const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
 
 require("./App.css");
 require("./menu.css");
@@ -65,7 +65,9 @@ const App = React.createClass({
   },
 
   componentDidMount() {
-    verticalLayoutBreakpoint.onchange = () => this.setState({ vertical: verticalLayoutMatchMedia.matches });
+    verticalLayoutBreakpoint.onchange = () => this.setState({
+      vertical: verticalLayoutBreakpoint.matches
+    });
   },
 
   componentWillUnmount() {
