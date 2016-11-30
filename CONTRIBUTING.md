@@ -36,7 +36,7 @@ The developer tools in most major browsers are just web applications.  They are 
 
 We strive for collaboration with [mutual respect for each other](./CODE_OF_CONDUCT.md).   Mozilla also has a set of [participation guidelines](https://www.mozilla.org/en-US/about/governance/policies/participation/) which goes into greater detail specific to Mozilla employees and contributors.
 
-[Getting Started](./docs/getting-started.md)
+[Getting Started][getting-setup]
 
 ## How Can I Contribute?
 
@@ -180,3 +180,6 @@ From that original demo the devtools.html project has progressed quite a bit.  T
 ### Firefox Developer Tools
 
 The debugger.html project is targeted to land in Firefox for Firefox 52.  However if you're looking to work directly on the DevTools project which ships developer tools for Firefox and Firefox Developer Edition right now you can find more information on the Mozilla wiki [DevTools / Get Involved](https://wiki.mozilla.org/DevTools/GetInvolved).
+
+
+[getting-setup]:./docs/getting-setup.md
