@@ -11,7 +11,8 @@
   },
   "features": {
     "watchExpressions": false,
-    "editorSearch": false
+    "editorSearch": false,
+    "whyPaused": false
   },
   "chrome": {
     "debug": true,
