@@ -90,6 +90,7 @@ function startDevServer(devConfig, webpackConfig) {
   // setup app
   const app = express();
   app.use(express.static("assets/build"));
+  app.use(express.static(path.join(__dirname, '../assets')));
   if (!getValue("development.customIndex")) {
     app.get("/", serveRoot);
   }
