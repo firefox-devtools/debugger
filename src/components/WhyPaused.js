@@ -36,7 +36,7 @@ const WhyPaused = React.createClass({
     const { pauseInfo } = this.props;
     const reason = getPauseReason(pauseInfo);
 
-    return pauseInfo ?
+    return reason ?
       dom.div({ className: "pane why-paused" }, reason)
       : null;
   }
