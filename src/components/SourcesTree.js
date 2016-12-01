@@ -121,8 +121,10 @@ let SourcesTree = React.createClass({
 
   render: function() {
     const { focusedItem, sourceTree, parentMap } = this.state;
+    const isEmpty = sourceTree.contents.length === 0;
 
     const tree = ManagedTree({
+      key: isEmpty ? "empty" : "full",
       getParent: item => {
         return parentMap.get(item);
       },
