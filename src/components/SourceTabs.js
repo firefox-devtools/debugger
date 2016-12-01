@@ -9,6 +9,7 @@ const {
   getFileSearchState
 } = require("../selectors");
 const { getFilename } = require("../utils/source");
+const { isEnabled } = require("devtools-config");
 const classnames = require("classnames");
 const actions = require("../actions");
 const CloseButton = require("./CloseButton");
@@ -48,7 +49,8 @@ const SourceTabs = React.createClass({
     selectSource: PropTypes.func.isRequired,
     closeTab: PropTypes.func.isRequired,
     closeTabs: PropTypes.func.isRequired,
-    toggleFileSearch: PropTypes.func.isRequired
+    toggleFileSearch: PropTypes.func.isRequired,
+    showSource: PropTypes.func.isRequired
   },
 
   displayName: "SourceTabs",
@@ -70,7 +72,7 @@ const SourceTabs = React.createClass({
   },
 
   showContextMenu(e, tab) {
-    const { closeTab, closeTabs, sourceTabs } = this.props;
+    const { closeTab, closeTabs, sourceTabs, showSource } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
@@ -114,13 +116,27 @@ const SourceTabs = React.createClass({
       click: () => closeTabs(tabs)
     };
 
-    showMenu(e, buildMenu([
+    const showSourceMenuItem = {
+      id: "node-menu-show-source",
+      label: "show source",
+      accesskey: "s",
+      disabled: false,
+      click: () => showSource(tab)
+    };
+
+    const items = [
       { item: closeTabMenuItem },
       { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
       { item: closeTabsToRightMenuItem, hidden: () =>
          tabs.some((t, i) => t === tab && (tabs.size - 1) === i) },
-      { item: closeAllTabsMenuItem }
-    ]));
+      { item: closeAllTabsMenuItem },
+    ];
+
+    if (isEnabled("showSource")) {
+      items.push({ item: showSourceMenuItem });
+    }
+
+    showMenu(e, buildMenu(items));
   },
 
   /*
