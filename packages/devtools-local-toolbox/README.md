@@ -4,8 +4,7 @@
 
 The local toolbox makes it easy to build a developer tool for Firefox, Chrome, and Node.
 
-[Debugger.html](../../README.md) and [Console.html](https://github.com/jasonlaster/console.html) are a good examples of tools built on top of the toolbox.
-
+[Debugger.html](../../README.md) and [Console.html](https://github.com/jasonlaster/console.html) are good examples of tools built on top of the toolbox.
 
 **Features**
 * *Dev Server* - local development environment to run your tool
@@ -15,34 +14,7 @@ The local toolbox makes it easy to build a developer tool for Firefox, Chrome, a
 * *Configs* - config system to add additional runtime configuration
 
 #### Dev Server
-
-* serve an `index.html` root
-* serve JS bundles with incremental builds and hot-reloading
-* handle cross origin requests from the client
-* runs firefox's tcp-ws proxy
-
-Example [dev-server.js](https://github.com/jasonLaster/console.html/blob/master/bin/dev-server.js)
-
-```js
-toolbox.startDevServer(envConfig, webpackConfig);
-```
-
 #### Webpack Config
-
-The webpack [base config](./webpack.config.js) makes it easy to use the toolbox out of the box.
-
-**Features**
-
-* transpiles source: strips flow types, convert async to generators
-* loads JSON files for L10N strings and Configs
-* loads SVGs for inlining assets
-* ignore modules that should be excluded (fs)
-* CSS & JS hot reloading
-* map shimmed modules to privileged modules when bundling for the panel
-* bundles CSS into one file when building for the panel
-
-Here's an example tool    [webpack.config.js](https://github.com/jasonLaster/console.html/blob/master/webpack.config.js).
-
 
 #### Landing Page
 
