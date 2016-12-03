@@ -9,9 +9,10 @@ const { getEventListeners } = require("../selectors");
 
 require("./EventListeners.css");
 
-function renderListener({ type, selector }, selectSource) {
+function renderListener({ type, selector, line, sourceId }, selectSource) {
   return dom.div({
     className: "listener",
+    onClick: () => selectSource(sourceId, { line }),
     key: `${type}`
   },
     dom.span({ className: "type" }, type),
