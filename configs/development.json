@@ -12,7 +12,9 @@
     "watchExpressions": false,
     "editorSearch": false,
     "whyPaused": false,
-    "verticalLayout": false
+    "verticalLayout": false,
+
+    "eventListeners": false
   },
   "chrome": {
     "debug": true,
