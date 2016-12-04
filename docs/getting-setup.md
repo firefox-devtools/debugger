@@ -32,7 +32,7 @@ In this step, we'll open Firefox. [Chrome](#starting-chrome) and [Node](#startin
 yarn run firefox
 ```
 
-After Firefox is open, it's nice to go to a page you want to debug. I recommend, TodoMVC http://todomvc.com/examples/vanillajs/.
+After Firefox is open, go to a page you want to debug. I recommend, TodoMVC http://todomvc.com/examples/vanillajs/.
 
 *Why am I opening Firefox from the terminal?*  
 The firefox command opens firefox with special permissions that enable remote debugging.
@@ -45,7 +45,7 @@ You can either try to run it [manually](#starting-firefox) or comment on the [is
 
 ### Step 4. Start the Debugger
 
-Now that Firefox is open, lets start the development server. In a new terminal tab, run these commands:
+Now that Firefox is open, lets start the [development server][dev-server]. In a new terminal tab, run these commands:
 
 ```bash
 cd debugger.html
@@ -61,7 +61,7 @@ Go to `localhost:8000` in any browser to view the Debugger. If everything worked
 
 ### Next Steps
 
-Go [here](./debugging-the-debugger.md) if you want to start debugging the debugger!
+Try this [first activity][first-activity] if you want to start debugging the debugger!
 
 ## Appendix
 
@@ -168,3 +168,5 @@ C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -
 [windows-issue]:https://github.com/devtools-html/debugger.html/issues/1248
 [yarn-issue]:https://github.com/devtools-html/debugger.html/issues/1216
 [yarn]:https://yarnpkg.com
+[dev-server]:../packages/devtools-local-toolbox/README.md#dev-server
+[first-activity]:./debugging-the-debugger.md
