@@ -24,6 +24,7 @@ module.exports = (webpackConfig, envConfig) => {
     test: /\.json$/,
     loader: "json"
   });
+
   webpackConfig.module.loaders.push({
     test: /\.js$/,
     exclude: request => {
@@ -35,9 +36,9 @@ module.exports = (webpackConfig, envConfig) => {
       return excluded && !request.match(/devtools-local-toolbox(\/|\\)src/);
     },
     loaders: [
-      "babel?" +
-        defaultBabelPlugins.map(p => "plugins[]=" + p) +
-        "&ignore=src/lib"
+      `babel?${
+        defaultBabelPlugins.map(p => `plugins[]=${ p}`)
+        }&ignore=src/lib`
     ],
     isJavaScriptLoader: true
   });
