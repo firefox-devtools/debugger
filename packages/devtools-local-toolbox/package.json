@@ -70,7 +70,7 @@
     "style-loader": "^0.13.1",
     "svg-inline-loader": "^0.7.1",
     "tcomb": "^3.1.0",
-    "webpack": "1.13.1",
+    "webpack": "1.14.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-env-loader-plugin": "^0.1.4",
     "webpack-hot-middleware": "^2.12.0",
