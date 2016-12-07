@@ -1,21 +1,21 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
-const { div } = dom;
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-const ImPropTypes = require("react-immutable-proptypes");
 const actions = require("../actions");
 const { getEventListeners, getBreakpoint } = require("../selectors");
 const CloseButton = require("./CloseButton");
 
 require("./EventListeners.css");
 
-function EventListeners({ selectSource, enableBreakpoint, disableBreakpoint, listeners }) {
-}
-
 const EventListeners = React.createClass({
   propTypes: {
-    listeners: PropTypes.array
+    listeners: PropTypes.array,
+    selectSource: PropTypes.func,
+    addBreakpoint: PropTypes.func,
+    enableBreakpoint: PropTypes.func,
+    disableBreakpoint: PropTypes.func,
+    removeBreakpoint: PropTypes.func
   },
 
   displayName: "EventListeners",
@@ -27,7 +27,7 @@ const EventListeners = React.createClass({
     return dom.div({
       className: "listener",
       onClick: () => this.props.selectSource(sourceId, { line }),
-      key: `${type}`
+      key: `${type}.${selector}.${sourceId}.${line}`
     },
       dom.input({
         type: "checkbox",

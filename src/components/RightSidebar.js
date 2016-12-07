@@ -76,7 +76,7 @@ const RightSidebar = React.createClass({
 
     if (isEnabled("eventListeners")) {
       items.push({
-        header: "EventListeners",
+        header: L10N.getStr("eventListenersHeader"),
         component: EventListeners
       });
     }
