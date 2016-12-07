@@ -73,7 +73,7 @@
     "stylelint": "^7.4.2",
     "svg-inline-react": "^1.0.2",
     "serve-index": "^1.8.0",
-    "webpack": "1.13.1",
+    "webpack": "1.14.0",
     "workerjs": "github:jlongster/workerjs",
     "ws": "^1.0.1",
     "lerna": "jasonlaster/lerna"
