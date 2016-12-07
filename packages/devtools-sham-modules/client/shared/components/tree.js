@@ -249,7 +249,7 @@ const Tree = module.exports = createClass({
       for (let i = 0; i < length; i++) {
         autoExpand(roots[i], 0);
       }
-    } else {
+    } else if (length != 0) {
       autoExpand(roots[0], 0);
     }
   },
