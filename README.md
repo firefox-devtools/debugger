@@ -12,7 +12,7 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 ### Getting Setup
 
-Here's the *quick setup*, if you're getting started, I recommend the detailed [getting started][getting-started] instructions.
+Here's the *quick setup*, if you're getting started, we recommend the detailed [getting started][getting-started] instructions.
 
 
 ```bash
