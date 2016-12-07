@@ -38,7 +38,7 @@
     "classnames": "^2.2.5",
     "co": "=4.6.0",
     "codemirror": "^5.1.0",
-    "devtools-config": "^0.0.9",
+    "devtools-config": "^0.0.10",
     "devtools-local-toolbox": "^0.0.10",
     "devtools-modules": "^0.0.9",
     "devtools-network-request": "^0.0.9",
