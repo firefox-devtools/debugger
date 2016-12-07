@@ -43,7 +43,7 @@
     "devtools-modules": "^0.0.9",
     "devtools-network-request": "^0.0.9",
     "devtools-sham-modules": "^0.0.9",
-    "devtools-client-adapters": "0.0.1",
+    "devtools-client-adapters": "0.0.2",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.10.0",
     "expect.js": "^0.3.1",
