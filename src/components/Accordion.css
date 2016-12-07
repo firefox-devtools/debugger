@@ -31,3 +31,8 @@
   border-bottom: 1px solid var(--theme-splitter-color);
   font-size: 12px;
 }
+
+.accordion .accordion-button {
+  border: none;
+  background: none;
+}
