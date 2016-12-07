@@ -93,7 +93,9 @@ type SourceAction =
                frames: Frame[] }}
   | { type: "CLOSE_TAB", id: string };
 
-type UIAction = { type: "TOGGLE_FILE_SEARCH", searchOn: boolean };
+type UIAction =
+  { type: "TOGGLE_FILE_SEARCH", searchOn: boolean }
+  | { type: "SHOW_SOURCE", sourceUrl: string };
 
 type PauseAction =
   { type: "BREAK_ON_NEXT", value: boolean }
