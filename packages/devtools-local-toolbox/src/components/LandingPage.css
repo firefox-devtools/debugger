@@ -127,6 +127,4 @@
   padding: 50px;
   font-size: 14px;
   color: var(--theme-comment);
-  bottom: 0;
-  position: absolute;
 }
