@@ -145,6 +145,7 @@ let SourcesTree = React.createClass({
             hidden: !nodeHasChildren(item) }
         ),
         onClick: e => {
+          e.stopPropagation();
           setExpanded(item, !expanded);
         }
       }

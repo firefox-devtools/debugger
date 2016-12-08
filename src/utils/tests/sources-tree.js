@@ -204,7 +204,7 @@ describe("sources-tree", () => {
     addToTree(tree, source1);
     addToTree(tree, source2);
     addToTree(tree, source3);
-    
+
     let base = tree.contents[0];
     expect(tree.contents.length).to.be(1);
 
