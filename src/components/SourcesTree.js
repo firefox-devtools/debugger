@@ -1,7 +1,6 @@
 const React = require("react");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-
 const { DOM: dom, PropTypes } = React;
 const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
@@ -10,7 +9,7 @@ const { isEnabled } = require("devtools-config");
 const { getShownSource } = require("../selectors");
 const {
   nodeHasChildren, createParentMap, addToTree,
-  collapseTree, createTree
+  collapseTree, createTree, getDirectories
 } = require("../utils/sources-tree.js");
 const ManagedTree = React.createFactory(require("./utils/ManagedTree"));
 const actions = require("../actions");
@@ -44,6 +43,17 @@ let SourcesTree = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    if (isEnabled("showSource") &&
+    nextProps.shownSource != this.props.shownSource) {
+      const listItems = getDirectories(
+        nextProps.shownSource,
+        this.state.sourceTree
+      );
+
+      this.setState({ listItems });
+      return;
+    }
+
     if (nextProps.sources === this.props.sources) {
       return;
     }
@@ -153,6 +163,7 @@ let SourcesTree = React.createClass({
       autoExpandDepth: 1,
       autoExpandAll: false,
       onFocus: this.focusItem,
+      itemsList: this.state.listItems,
       renderItem: this.renderItem
     });
 

@@ -139,7 +139,7 @@ const SourceTabs = React.createClass({
 
     const showSourceMenuItem = {
       id: "node-menu-show-source",
-      label: "show source",
+      label: "Show source",
       accesskey: "s",
       disabled: false,
       click: () => showSource(tab)
