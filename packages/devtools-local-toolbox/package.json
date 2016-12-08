@@ -1,6 +1,6 @@
 {
   "name": "devtools-local-toolbox",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
@@ -41,8 +41,8 @@
     "classnames": "^2.2.5",
     "co": "=4.6.0",
     "css-loader": "^0.25.0",
-    "devtools-config": "^0.0.9",
-    "devtools-client-adapters": "^0.0.1",
+    "devtools-config": "^0.0.10",
+    "devtools-client-adapters": "^0.0.2",
     "devtools-modules": "^0.0.9",
     "devtools-network-request": "^0.0.9",
     "devtools-sham-modules": "^0.0.9",
