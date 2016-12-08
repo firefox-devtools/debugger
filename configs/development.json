@@ -10,6 +10,7 @@
   },
   "features": {
     "watchExpressions": false,
+    "showSource": true,
     "editorSearch": false,
     "whyPaused": false,
     "verticalLayout": false

@@ -12,11 +12,15 @@ import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type UIState = {
-  searchOn: boolean
+  searchOn: boolean,
+  shownSource: string,
+  itemsList: array
 };
 
 const State = makeRecord(({
-  searchOn: false
+  searchOn: false,
+  shownSource: "",
+  itemsList: []
 } : UIState));
 
 function update(state = State(), action: Action): Record<UIState> {
@@ -24,6 +28,21 @@ function update(state = State(), action: Action): Record<UIState> {
     case constants.TOGGLE_FILE_SEARCH: {
       return state.set("searchOn", action.searchOn);
     }
+
+    case constants.SHOW_SOURCE: {
+      return state.set("shownSource", action.sourceUrl);
+    }
+
+    case constants.ADD_TO_ITEMS_LIST: {
+      const thisArr = state.itemsList;
+      if (action.isAdd) {
+        if (thisArr.indexOf(action.item) == -1) {
+          thisArr.push(action.item);
+        }
+      }
+      return state.set("itemsList", thisArr);
+    }
+
     default: {
       return state;
     }
@@ -38,8 +57,18 @@ function getFileSearchState(state: OuterState): boolean {
   return state.ui.get("searchOn");
 }
 
+function getShownSource(state: OuterState): boolean {
+  return state.ui.get("shownSource");
+}
+
+function getItemsList(state: OuterState): boolean {
+  return state.ui.get("itemsList");
+}
+
 module.exports = {
   State,
   update,
-  getFileSearchState
+  getFileSearchState,
+  getShownSource,
+  getItemsList
 };
