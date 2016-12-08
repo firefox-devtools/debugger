@@ -5,6 +5,7 @@ const { DOM: dom, PropTypes } = React;
 const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
 const { Set } = require("immutable");
+
 const { isEnabled } = require("devtools-config");
 const { getShownSource, getItemsList } = require("../selectors");
 const {
@@ -145,7 +146,6 @@ let SourcesTree = React.createClass({
             hidden: !nodeHasChildren(item) }
         ),
         onClick: e => {
-          e.stopPropagation();
           setExpanded(item, !expanded);
         }
       }

@@ -135,7 +135,6 @@ function addToTree(tree: any, source: TmpSource) {
 
   if (IGNORED_URLS.indexOf(url) != -1 ||
       !source.get("url") ||
-      !url.group ||
       isPretty(source.toJS())) {
     return;
   }
