@@ -61,7 +61,6 @@ function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");
 }
 
-
 function getItemsList(state: OuterState): boolean {
   return state.ui.get("itemsList");
 }
