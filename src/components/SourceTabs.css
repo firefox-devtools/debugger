@@ -39,10 +39,9 @@
   border: 1px solid var(--theme-splitter-color);
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  height: 23px;
+  height: 24px;
   line-height: 20px;
   display: inline-block;
-  border-bottom: none;
   position: relative;
   transition: all 0.25s ease;
   min-width: 40px;
@@ -67,6 +66,7 @@ html[dir="rtl"] .source-tab {
 .source-tab.active {
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
+  border-bottom-color: transparent;
 }
 
 .source-tab path {
