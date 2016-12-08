@@ -72,7 +72,7 @@ function addBreakpoint(
           location = await getGeneratedLocation(bp.location, source.toJS());
         }
 
-        let { id, actualLocation } = await client.setBreakpoint(
+        let { id, actualLocation, hitCount } = await client.setBreakpoint(
           location,
           bp.condition,
           isOriginalId(bp.location.sourceId)
@@ -87,7 +87,7 @@ function addBreakpoint(
           text = getTextForLine ? getTextForLine(actualLocation.line) : "";
         }
 
-        return { id, actualLocation, text };
+        return { id, actualLocation, text, hitCount };
       })()
     });
   };
