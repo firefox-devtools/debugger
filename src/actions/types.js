@@ -95,7 +95,8 @@ type SourceAction =
 
 type UIAction =
   { type: "TOGGLE_FILE_SEARCH", searchOn: boolean }
-  | { type: "SHOW_SOURCE", sourceUrl: string };
+  | { type: "SHOW_SOURCE", sourceUrl: string }
+  | { type: "ADD_TO_ITEMS_LIST", item: object, isAdd: boolean };
 
 type PauseAction =
   { type: "BREAK_ON_NEXT", value: boolean }

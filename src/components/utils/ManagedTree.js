@@ -10,8 +10,21 @@ let ManagedTree = React.createClass({
   getInitialState() {
     return {
       expanded: new Set(),
-      focusedItem: null
+      focusedItem: null,
+      listItems: []
     };
+  },
+
+  componentDidUpdate(newProps, oldProps) {
+    if(newProps.itemsList.length > 0) {
+      if(newProps.itemsList.length == 1) {
+        this.setState({ focusedItem: newProps.itemsList[0] });
+      }
+      else {
+        this.expandListItems(newProps.itemsList, true);
+      }
+      newProps.itemsList.splice(0, 1);
+    }
   },
 
   setExpanded(item, isExpanded) {
@@ -29,6 +42,13 @@ let ManagedTree = React.createClass({
     } else if (!expanded && this.props.onCollapse) {
       this.props.onCollapse(item);
     }
+  },
+
+  expandListItems(itemsList) {
+    const key = this.props.getKey(itemsList[0]);
+    const expanded = this.state.expanded;
+    expanded.add(key);
+    this.setState({ expanded: expanded });
   },
 
   focusItem(item) {
@@ -51,6 +71,7 @@ let ManagedTree = React.createClass({
       onExpand: item => this.setExpanded(item, true),
       onCollapse: item => this.setExpanded(item, false),
       onFocus: this.focusItem,
+      onExpandListItems: itemsList => this.expandListItems(itemsList),
 
       renderItem: (...args) => {
         return this.props.renderItem(...args, {

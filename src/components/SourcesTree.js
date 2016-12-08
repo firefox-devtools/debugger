@@ -6,8 +6,9 @@ const { DOM: dom, PropTypes } = React;
 const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
 const { Set } = require("immutable");
+
 const { isEnabled } = require("devtools-config");
-const { getShownSource } = require("../selectors");
+const { getShownSource, getItemsList } = require("../selectors");
 const {
   nodeHasChildren, createParentMap, addToTree,
   collapseTree, createTree
@@ -17,11 +18,26 @@ const actions = require("../actions");
 const Svg = require("./utils/Svg");
 const { throttle } = require("../utils/utils");
 
+function returnItemsStrings(url) {
+  url = url.replace("http:/", "");
+  url = url.replace("https:/", "");
+  const itemsStrings = [];
+  for (const i = 0; i < url.length; i++) {
+    if (url[i] == "/" && i != 0) {
+      itemsStrings.push(url.substring(0, i));
+    }
+  }
+  itemsStrings.push(url);
+  return itemsStrings;
+}
+
 let SourcesTree = React.createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
-    shownSource: PropTypes.string
+    shownSource: PropTypes.string,
+    addToItemsList: PropTypes.func.isRequired,
+    itemsList: PropTypes.array
   },
 
   displayName: "SourcesTree",
@@ -44,6 +60,32 @@ let SourcesTree = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    if (isEnabled("showSource") &&
+    nextProps.shownSource != this.props.shownSource) {
+      const addToItemsList = this.props.addToItemsList;
+      const itemsList = this.props.itemsList;
+      const sourceURL = nextProps.shownSource;
+      const sourceTreeList = this.state.sourceTree;
+      const itemsStrings = returnItemsStrings(sourceURL);
+      const processIndex = 0;
+
+      // Determine which item(s) should be added to itemsList
+      while (processIndex < itemsStrings.length) {
+        const i = 0;
+        const found = false;
+        while (!found) {
+          if (itemsStrings[processIndex] == sourceTreeList.contents[i].path) {
+            addToItemsList(sourceTreeList.contents[i], true);
+            sourceTreeList = sourceTreeList.contents[i];
+            found = true;
+            processIndex++;
+          }
+          i++;
+        }
+      }
+      this.setState({ listItems: itemsList });
+    }
+
     if (nextProps.sources === this.props.sources) {
       return;
     }
@@ -105,14 +147,12 @@ let SourcesTree = React.createClass({
             hidden: !nodeHasChildren(item) }
         ),
         onClick: e => {
-          e.stopPropagation();
           setExpanded(item, !expanded);
         }
       }
     );
 
     const icon = this.getIcon(item, depth);
-
     return dom.div(
       {
         className: classnames("node", { focused }),
@@ -151,6 +191,7 @@ let SourcesTree = React.createClass({
       autoExpandDepth: 1,
       autoExpandAll: false,
       onFocus: this.focusItem,
+      itemsList: this.props.itemsList,
       renderItem: this.renderItem
     });
 
@@ -168,8 +209,10 @@ let SourcesTree = React.createClass({
 module.exports = connect(
   state => {
     const shownSource = getShownSource(state);
+    const itemsList = getItemsList(state);
     return {
-      shownSource
+      shownSource,
+      itemsList
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

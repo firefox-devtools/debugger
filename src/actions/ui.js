@@ -20,7 +20,16 @@ function showSource(sourceId: string) {
   };
 }
 
+function addToItemsList(item: object, isAdd: boolean) {
+  return {
+    type: constants.ADD_TO_ITEMS_LIST,
+    item,
+    isAdd
+  };
+}
+
 module.exports = {
   toggleFileSearch,
-  showSource
+  showSource,
+  addToItemsList
 };
