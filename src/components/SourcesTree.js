@@ -152,7 +152,7 @@ let SourcesTree = React.createClass({
     );
 
     const icon = this.getIcon(item, depth);
-    
+
     return dom.div(
       {
         className: classnames("node", { focused }),
