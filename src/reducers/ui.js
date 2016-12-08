@@ -30,7 +30,6 @@ function update(state = State(), action: Action): Record<UIState> {
     case constants.SHOW_SOURCE: {
       return state.set("shownSource", action.sourceUrl);
     }
-
     default: {
       return state;
     }

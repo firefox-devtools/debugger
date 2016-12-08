@@ -6,7 +6,6 @@ const { DOM: dom, PropTypes } = React;
 const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
 const { Set } = require("immutable");
-
 const { isEnabled } = require("devtools-config");
 const { getShownSource } = require("../selectors");
 const {
@@ -22,8 +21,8 @@ function returnItemsStrings(url) {
   url = url.replace("http:/", "");
   url = url.replace("https:/", "");
   const itemsStrings = [];
-  for (const i = 0; i < url.length; i++) {
-    if (url[i] == "/" && i != 0) {
+  for (const i = 1; i < url.length; i++) {
+    if (url[i] == "/") {
       itemsStrings.push(url.substring(0, i));
     }
   }
@@ -146,12 +145,14 @@ let SourcesTree = React.createClass({
             hidden: !nodeHasChildren(item) }
         ),
         onClick: e => {
+          e.stopPropagation();
           setExpanded(item, !expanded);
         }
       }
     );
 
     const icon = this.getIcon(item, depth);
+    
     return dom.div(
       {
         className: classnames("node", { focused }),

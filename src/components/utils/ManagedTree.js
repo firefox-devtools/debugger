@@ -77,7 +77,6 @@ let ManagedTree = React.createClass({
       onExpand: item => this.setExpanded(item, true),
       onCollapse: item => this.setExpanded(item, false),
       onFocus: this.focusItem,
-      onExpandListItems: itemsList => this.expandListItems(itemsList),
 
       renderItem: (...args) => {
         return this.props.renderItem(...args, {
