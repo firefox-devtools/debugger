@@ -8,7 +8,7 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { Set } = require("immutable");
 
 const { isEnabled } = require("devtools-config");
-const { getShownSource, getItemsList } = require("../selectors");
+const { getShownSource } = require("../selectors");
 const {
   nodeHasChildren, createParentMap, addToTree,
   collapseTree, createTree
@@ -35,9 +35,7 @@ let SourcesTree = React.createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
-    shownSource: PropTypes.string,
-    addToItemsList: PropTypes.func.isRequired,
-    itemsList: PropTypes.array
+    shownSource: PropTypes.string
   },
 
   displayName: "SourcesTree",
@@ -62,8 +60,7 @@ let SourcesTree = React.createClass({
   componentWillReceiveProps(nextProps) {
     if (isEnabled("showSource") &&
     nextProps.shownSource != this.props.shownSource) {
-      const addToItemsList = this.props.addToItemsList;
-      const itemsList = this.props.itemsList;
+      const tempList = [];
       const sourceURL = nextProps.shownSource;
       const sourceTreeList = this.state.sourceTree;
       const itemsStrings = returnItemsStrings(sourceURL);
@@ -75,7 +72,7 @@ let SourcesTree = React.createClass({
         const found = false;
         while (!found) {
           if (itemsStrings[processIndex] == sourceTreeList.contents[i].path) {
-            addToItemsList(sourceTreeList.contents[i], true);
+            tempList.push(sourceTreeList.contents[i]);
             sourceTreeList = sourceTreeList.contents[i];
             found = true;
             processIndex++;
@@ -83,7 +80,9 @@ let SourcesTree = React.createClass({
           i++;
         }
       }
-      this.setState({ listItems: itemsList });
+      tempList.splice(0, 1);
+      this.setState({ listItems: tempList });
+      return;
     }
 
     if (nextProps.sources === this.props.sources) {
@@ -191,7 +190,7 @@ let SourcesTree = React.createClass({
       autoExpandDepth: 1,
       autoExpandAll: false,
       onFocus: this.focusItem,
-      itemsList: this.props.itemsList,
+      itemsList: this.state.listItems,
       renderItem: this.renderItem
     });
 
@@ -209,10 +208,8 @@ let SourcesTree = React.createClass({
 module.exports = connect(
   state => {
     const shownSource = getShownSource(state);
-    const itemsList = getItemsList(state);
     return {
-      shownSource,
-      itemsList
+      shownSource
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

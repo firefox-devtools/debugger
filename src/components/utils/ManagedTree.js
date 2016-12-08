@@ -15,15 +15,21 @@ let ManagedTree = React.createClass({
     };
   },
 
-  componentDidUpdate(newProps, oldProps) {
-    if(newProps.itemsList.length > 0) {
-      if(newProps.itemsList.length == 1) {
-        this.setState({ focusedItem: newProps.itemsList[0] });
+  componentWillReceiveProps(nextProps) {
+    this.setState({ listItems: nextProps.itemsList });
+  },
+
+  componentDidUpdate(nextProps) {
+    const listItemsLocal = this.state.listItems;
+    if(listItemsLocal && listItemsLocal.length > 0) {
+      if(listItemsLocal.length == 1) {
+        this.setState({ focusedItem: listItemsLocal[0] });
       }
       else {
-        this.expandListItems(newProps.itemsList, true);
+        this.expandListItems(listItemsLocal, true);
       }
-      newProps.itemsList.splice(0, 1);
+      listItemsLocal.splice(0, 1);
+      this.setState({ listItems: listItemsLocal });
     }
   },
 
@@ -71,7 +77,6 @@ let ManagedTree = React.createClass({
       onExpand: item => this.setExpanded(item, true),
       onCollapse: item => this.setExpanded(item, false),
       onFocus: this.focusItem,
-      onExpandListItems: itemsList => this.expandListItems(itemsList),
 
       renderItem: (...args) => {
         return this.props.renderItem(...args, {
