@@ -56,7 +56,6 @@
   display: flex;
   flex: 1;
   height: 100%;
-  /*overflow: auto;*/
   flex-direction: column;
 }
 
@@ -102,8 +101,8 @@
 
 .landing-page .tab-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  padding: 0px;
+  margin: 0px;
 }
 
 .landing-page .tab {
