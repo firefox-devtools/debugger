@@ -21,8 +21,8 @@ let ManagedTree = React.createClass({
 
   componentDidUpdate(nextProps) {
     const listItemsLocal = this.state.listItems;
-    if(listItemsLocal && listItemsLocal.length > 0) {
-      if(listItemsLocal.length == 1) {
+    if (listItemsLocal && listItemsLocal.length > 0) {
+      if (listItemsLocal.length == 1) {
         this.setState({ focusedItem: listItemsLocal[0] });
       }
       else {

@@ -18,8 +18,7 @@ const Svg = require("./utils/Svg");
 const { throttle } = require("../utils/utils");
 
 function returnItemsStrings(url) {
-  url = url.replace("http:/", "");
-  url = url.replace("https:/", "");
+  url = url.replace(/http(s)?:\//, "");
   const itemsStrings = [];
   for (const i = 1; i < url.length; i++) {
     if (url[i] == "/") {
