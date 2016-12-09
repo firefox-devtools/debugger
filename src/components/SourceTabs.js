@@ -16,6 +16,7 @@ const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu, buildMenu } = require("../utils/menu");
+const { getShownSource } = require("../selectors");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
@@ -42,6 +43,21 @@ function getHiddenTabs(sourceTabs, sourceTabEls) {
   });
 }
 
+/**
+ * Clipboard function taken from
+ * https://dxr.mozilla.org/mozilla-central/source/devtools/shared/platform/content/clipboard.js
+ */
+function copyString(string) {
+  let doCopy = function (e) {
+    e.clipboardData.setData("text/plain", string);
+    e.preventDefault();
+  };
+
+  document.addEventListener("copy", doCopy);
+  document.execCommand("copy", false, null);
+  document.removeEventListener("copy", doCopy);
+}
+
 const SourceTabs = React.createClass({
   propTypes: {
     sourceTabs: ImPropTypes.list,
@@ -50,7 +66,8 @@ const SourceTabs = React.createClass({
     closeTab: PropTypes.func.isRequired,
     closeTabs: PropTypes.func.isRequired,
     toggleFileSearch: PropTypes.func.isRequired,
-    showSource: PropTypes.func.isRequired
+    showSource: PropTypes.func.isRequired,
+    shownSource: PropTypes.string
   },
 
   displayName: "SourceTabs",
@@ -64,6 +81,11 @@ const SourceTabs = React.createClass({
 
   componentDidUpdate() {
     this.updateHiddenSourceTabs(this.props.sourceTabs);
+  },
+
+  copyToTheClipboard() {
+    const url = this.props.shownSource;
+    copyString(url);
   },
 
   onTabContextMenu(event, tab) {
@@ -124,12 +146,25 @@ const SourceTabs = React.createClass({
       click: () => showSource(tab)
     };
 
+    const copySourceUrl = {
+      id: "node-menu-close-tabs-to-right",
+      label: "Copy Link Address",
+      accesskey: "X",
+      disabled: false,
+      click: () => {
+        showSource(tab);
+        this.copyToTheClipboard();
+      }
+    };
+
     const items = [
       { item: closeTabMenuItem },
       { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
       { item: closeTabsToRightMenuItem, hidden: () =>
          tabs.some((t, i) => t === tab && (tabs.size - 1) === i) },
       { item: closeAllTabsMenuItem },
+      { item: { type: "separator" }},
+      { item: copySourceUrl }
     ];
 
     if (isEnabled("showSource")) {
@@ -240,7 +275,8 @@ module.exports = connect(
   state => ({
     selectedSource: getSelectedSource(state),
     sourceTabs: getSourceTabs(state),
-    searchOn: getFileSearchState(state)
+    searchOn: getFileSearchState(state),
+    shownSource: getShownSource(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SourceTabs);
