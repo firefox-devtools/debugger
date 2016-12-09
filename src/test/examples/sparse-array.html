@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Debugger Statements</title>
+  </head>
+
+  <body>
+    <script>
+      debugger;
+
+      localStorage[1] = "a test";
+      localStorage[2] = "a";
+      localStorage[66261280] = "another test";
+      let data = JSON.parse(JSON.stringify(localStorage));
+
+      console.log(data) // Put breakpoint here
+
+    </script>
+  </body>
+
+</html>
