@@ -99,16 +99,16 @@ let SourcesTree = React.createClass({
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     const arrow = Svg("arrow",
-      {
-        className: classnames(
-          { expanded: expanded,
-            hidden: !nodeHasChildren(item) }
-        ),
-        onClick: e => {
-          e.stopPropagation();
-          setExpanded(item, !expanded);
-        }
-      }
+                      {
+                        className: classnames(
+                          { expanded: expanded,
+                            hidden: !nodeHasChildren(item) }
+                        ),
+                        onClick: e => {
+                          e.stopPropagation();
+                          setExpanded(item, !expanded);
+                        }
+                      }
     );
 
     const icon = this.getIcon(item, depth);
