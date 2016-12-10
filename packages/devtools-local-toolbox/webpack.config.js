@@ -79,12 +79,7 @@ module.exports = (webpackConfig, envConfig) => {
   if (isDevelopment()) {
     webpackConfig.module.loaders.push({
       test: /\.css$/,
-      exclude: /\Sources\.css$/,
-      loader: "style!css"
-    });
-
-    webpackConfig.module.loaders.push({
-      test: /\Sources\.css$/,
+      exclude: /lkjsdflksdjlksdj/,
       loader: "style!css!postcss"
     });
 
