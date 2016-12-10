@@ -1,4 +1,5 @@
 // @flow
+/* global VERSION */
 
 const React = require("react");
 const { bindActionCreators, combineReducers } = require("redux");
@@ -32,6 +33,7 @@ if (!isFirefoxPanel()) {
 }
 
 window.appStore = store;
+window.debuggerVersion = VERSION;
 
 // Expose the bound actions so external things can do things like
 // selecting a source.

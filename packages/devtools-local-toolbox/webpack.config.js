@@ -2,6 +2,7 @@
 require("babel-register");
 
 const path = require("path");
+const {execSync} = require("child_process");
 const webpack = require("webpack");
 const SingleModuleInstancePlugin = require("single-module-instance-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -63,6 +64,9 @@ module.exports = (webpackConfig, envConfig) => {
   }
   webpackConfig.externals.push(externalsTest);
 
+  const version = require('../../package.json').version;
+  const hash = execSync('git rev-parse --short HEAD').toString().replace('\n', '');
+
   webpackConfig.plugins = webpackConfig.plugins || [];
   webpackConfig.plugins.push(
     new webpack.DefinePlugin({
@@ -70,7 +74,8 @@ module.exports = (webpackConfig, envConfig) => {
         NODE_ENV: JSON.stringify(NODE_ENV),
         TARGET: JSON.stringify(TARGET)
       },
-      "DebuggerConfig": JSON.stringify(envConfig)
+      "DebuggerConfig": JSON.stringify(envConfig),
+      "VERSION": JSON.stringify(`${version}-${hash}`)
     })
   );
 
