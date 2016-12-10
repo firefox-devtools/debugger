@@ -2,5 +2,8 @@
   "environment": "firefox-panel",
   "baseWorkerURL": "resource://devtools/client/debugger/new/",
   "logging": false,
-  "clientLogging": false
+  "clientLogging": false,
+  "features": {
+    "copySource":true
+  }
 }
