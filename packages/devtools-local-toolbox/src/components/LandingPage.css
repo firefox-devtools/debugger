@@ -56,7 +56,6 @@
   display: flex;
   flex: 1;
   height: 100%;
-  overflow: auto;
   flex-direction: column;
 }
 
@@ -74,6 +73,7 @@
 }
 
 .landing-page .panel .center {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -92,7 +92,11 @@
 }
 
 .landing-page .tab-group {
+  position: absolute;
   margin: 40px;
+  height: calc(100% - 250px);
+  width: calc(100% - 80px);
+  overflow: auto;
 }
 
 .landing-page .tab-list {
@@ -127,6 +131,6 @@
   padding: 50px;
   font-size: 14px;
   color: var(--theme-comment);
-  bottom: 0;
   position: absolute;
+  bottom: 0px;
 }
