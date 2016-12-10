@@ -1,8 +1,3 @@
-.worker,
-.folder {
-    position: relative;
-    top: 2px;
-}
 
 .arrow,
 .folder,
@@ -12,6 +7,12 @@
 .refresh,
 .add-button {
     fill: var(--theme-splitter-color);
+}
+
+.worker,
+.folder {
+  position: relative;
+  top: 2px;
 }
 
 .domain,
@@ -40,7 +41,7 @@ html:not([dir="rtl"]) .domain svg,
 html:not([dir="rtl"]) .folder svg,
 html:not([dir="rtl"]) .refresh svg,
 html:not([dir="rtl"]) .worker svg {
-    margin-right: 5px;
+  margin-inline-end: 5px;
 }
 
 html[dir="rtl"] .file svg,

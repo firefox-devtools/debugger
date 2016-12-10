@@ -48,14 +48,14 @@
   overflow: hidden;
 }
 
-html:not([dir="rtl"]) .source-tab {
-  padding: 2px 20px 2px 12px;
-  margin: 6px 0 0 8px;
-}
+.source-tab {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-inline-start: 12px;
+  padding-inline-end: 20px;
 
-html[dir="rtl"] .source-tab {
-  padding: 2px 12px 2px 20px;
-  margin: 6px 8px 0 0;
+  margin-top: 6px;
+  margin-inline-start: 8px;
 }
 
 .source-tab:hover {
@@ -87,12 +87,8 @@ html[dir="rtl"] .source-tab {
   overflow: hidden;
 }
 
-html:not([dir="rtl"]) .source-tab .close-btn {
-  right: 4px;
-}
-
-html[dir="rtl"] .source-tab .close-btn {
-  left: 4px;
+.source-tab .close-btn {
+  offset-inline-end: 4px;
 }
 
 .source-tab .close {

@@ -33,16 +33,8 @@
   color: var(--theme-comment-alt);
   font-weight: lighter;
   white-space: nowrap;
-}
-
-html:not([dir="rtl"]) .sources-header-info {
-  padding-right: 10px;
-  float: right;
-}
-
-html[dir="rtl"] .sources-header-info {
-  padding-left: 10px;
-  float: left;
+  padding-inline-end: 10px;
+  float: end;
 }
 
 .sources-list {
