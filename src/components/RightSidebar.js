@@ -48,7 +48,9 @@ const RightSidebar = React.createClass({
         evt => {
           evt.stopPropagation();
           this.props.evaluateExpressions();
-        }, "domain",
+          // lets pull in the standard refresh SVG from wikipdedia
+          // https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Ic_refresh_48px.svg/48px-Ic_refresh_48px.svg.png
+          }, "domain",
         "accordion-button", "Refresh"),
       debugBtn(
         evt => {
@@ -56,6 +58,8 @@ const RightSidebar = React.createClass({
           this.setState({
             expressionInputVisibility: !expressionInputVisibility
           });
+          // => lets use the unicode plus sign http://www.fileformat.info/info/unicode/char/2b/index.htm
+          // this means we'll also stop using debugBtn which assumes an SVG
         }, "file",
         "accordion-button", "Add Watch Expression")
     ];
