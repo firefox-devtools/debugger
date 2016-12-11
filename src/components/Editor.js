@@ -9,7 +9,6 @@ const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
 const EditorSearchBar = createFactory(require("./EditorSearchBar"));
 const { renderConditionalPanel } = require("./EditorConditionalPanel");
-const { debugGlobal } = require("devtools-local-toolbox");
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame,
@@ -371,7 +370,7 @@ const Editor = React.createClass({
     ));
 
     resizeBreakpointGutter(this.editor.codeMirror);
-    debugGlobal("cm", this.editor.codeMirror);
+    window.cm = this.editor.codeMirror;
 
     if (this.props.sourceText) {
       this.setText(this.props.sourceText.get("text"));
