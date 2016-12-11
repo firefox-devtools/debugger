@@ -164,7 +164,7 @@ function updateTabList(state, source, tabIndex) {
     return tabs;
   }
 
-  return tabs.insert(0, source);
+  return tabs.insert(tabs.size, source);
 }
 
 /**
