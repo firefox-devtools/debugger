@@ -48,9 +48,7 @@ const RightSidebar = React.createClass({
         evt => {
           evt.stopPropagation();
           this.props.evaluateExpressions();
-          // lets pull in the standard refresh SVG from wikipdedia
-          // https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Ic_refresh_48px.svg/48px-Ic_refresh_48px.svg.png
-          }, "domain",
+        }, "refresh",
         "accordion-button", "Refresh"),
       debugBtn(
         evt => {
