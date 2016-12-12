@@ -51,12 +51,12 @@ const RightSidebar = React.createClass({
         }, "refresh",
         "accordion-button", "Refresh"),
       dom.button({
-            onClick: evt => {
-                evt.stopPropagation();
-                this.setState({
-                    expressionInputVisibility: !expressionInputVisibility
-                });
-            },  className: "file accordion-button" }, "+")
+        onClick: evt => {
+          evt.stopPropagation();
+          this.setState({
+            expressionInputVisibility: !expressionInputVisibility
+          });
+        }, className: "file accordion-button" }, "+")
     ];
   },
 
