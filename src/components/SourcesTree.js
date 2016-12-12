@@ -21,7 +21,7 @@ function returnItemsStrings(url) {
   url = url.replace(/http(s)?:\//, "");
   const itemsStrings = [];
   for (const i = 1; i < url.length; i++) {
-    if (url[i] == "/") {
+    if (url[i] == "/" || url[i] == "?") {
       itemsStrings.push(url.substring(0, i));
     }
   }
@@ -62,23 +62,45 @@ let SourcesTree = React.createClass({
       const sourceURL = nextProps.shownSource;
       const sourceTreeList = this.state.sourceTree;
       const itemsStrings = returnItemsStrings(sourceURL);
-      const processIndex = 0;
+      const itemIndex = 0;
 
       // Determine which item(s) should be added to itemsList
-      while (processIndex < itemsStrings.length) {
+      while (itemIndex < itemsStrings.length) {
         const i = 0;
         const found = false;
         while (!found) {
-          if (itemsStrings[processIndex] == sourceTreeList.contents[i].path) {
-            tempList.push(sourceTreeList.contents[i]);
-            sourceTreeList = sourceTreeList.contents[i];
+          const currItem = sourceTreeList.contents[i];
+          if (!currItem) {
+            // Handle the case where we've reached the leaf and the file
             found = true;
-            processIndex++;
+            itemIndex++;
+          } else {
+            // 'https//'' in currItem.path will break the code
+            const currItemPath = currItem.path.replace(/http(s)?:\//, "");
+            if (itemsStrings[itemIndex] == currItemPath) {
+              tempList.push(currItem);
+              sourceTreeList = currItem;
+              found = true;
+              itemIndex++;
+            } else if (currItem.path.indexOf(itemsStrings[itemIndex]) != -1) {
+              // Handle the case where a folder's name contains '/'
+              found = true;
+              itemIndex++;
+            }
           }
           i++;
         }
       }
-      tempList.splice(0, 1);
+
+      // Has not reached the leaf node. Keep processing until hits the leaf.
+      if (tempList[tempList.length - 1].contents[0]) {
+        const lastItem = tempList[tempList.length - 1].contents[0];
+        tempList.push(lastItem);
+        while (lastItem.contents[0]) {
+          lastItem = tempList[tempList.length - 1].contents[0];
+          tempList.push(lastItem);
+        }
+      }
       this.setState({ listItems: tempList });
       return;
     }
