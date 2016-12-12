@@ -28,7 +28,7 @@ const threadClient = {
           break;
       }
 
-      reject("unknown source: " + sourceId);
+      reject(`unknown source: ${ sourceId}`);
     });
   }
 };
