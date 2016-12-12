@@ -60,14 +60,16 @@ html[dir="rtl"] .sources-header-info {
 .domain,
 .file,
 .worker,
-.refresh {
+.refresh,
+.add-button {
   fill: var(--theme-splitter-color);
 }
 
 .domain,
 .file,
 .worker,
-.refresh {
+.refresh,
+.add-button {
   position: relative;
   top: 1px;
 }
@@ -81,8 +83,10 @@ html[dir="rtl"] .sources-header-info {
 .domain svg,
 .folder svg,
 .worker svg,
-.refresh svg {
+.refresh svg,
+.add-button svg {
   width: 15px;
+  fill: currentColor;
 }
 
 .file svg {

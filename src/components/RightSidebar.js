@@ -44,19 +44,19 @@ const RightSidebar = React.createClass({
   watchExpressionHeaderButtons() {
     const { expressionInputVisibility } = this.state;
     return [
-      debugBtn(
-        evt => {
-          evt.stopPropagation();
-          this.props.evaluateExpressions();
-        }, "refresh",
-        "accordion-button", "Refresh"),
       dom.button({
         onClick: evt => {
           evt.stopPropagation();
           this.setState({
             expressionInputVisibility: !expressionInputVisibility
           });
-        }, className: "file accordion-button" }, "+")
+        }, className: "add-button accordion-button" }, "+"),
+        debugBtn(
+            evt => {
+                evt.stopPropagation();
+                this.props.evaluateExpressions();
+            }, "refresh",
+            "accordion-button", "Refresh")
     ];
   },
 
