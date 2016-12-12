@@ -42,6 +42,21 @@ function getHiddenTabs(sourceTabs, sourceTabEls) {
   });
 }
 
+/**
+ * Clipboard function taken from
+ * https://dxr.mozilla.org/mozilla-central/source/devtools/shared/platform/content/clipboard.js
+ */
+function copyToTheClipboard(string) {
+  let doCopy = function(e) {
+    e.clipboardData.setData("text/plain", string);
+    e.preventDefault();
+  };
+
+  document.addEventListener("copy", doCopy);
+  document.execCommand("copy", false, null);
+  document.removeEventListener("copy", doCopy);
+}
+
 const SourceTabs = React.createClass({
   propTypes: {
     sourceTabs: ImPropTypes.list,
@@ -80,6 +95,7 @@ const SourceTabs = React.createClass({
     const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
 
     const tabs = sourceTabs.map(t => t.get("id"));
+    const sourceTab = sourceTabs.find(t => t.get("id") == tab);
 
     const closeTabMenuItem = {
       id: "node-menu-close-tab",
@@ -124,6 +140,14 @@ const SourceTabs = React.createClass({
       click: () => showSource(tab)
     };
 
+    const copySourceUrl = {
+      id: "node-menu-close-tabs-to-right",
+      label: "Copy Link Address",
+      accesskey: "X",
+      disabled: false,
+      click: () => copyToTheClipboard(sourceTab.get("url"))
+    };
+
     const items = [
       { item: closeTabMenuItem },
       { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
@@ -131,6 +155,11 @@ const SourceTabs = React.createClass({
          tabs.some((t, i) => t === tab && (tabs.size - 1) === i) },
       { item: closeAllTabsMenuItem },
     ];
+
+    if (isEnabled("copySource")) {
+      items.push({ item: { type: "separator" }});
+      items.push({ item: copySourceUrl });
+    }
 
     if (isEnabled("showSource")) {
       items.push({ item: showSourceMenuItem });
