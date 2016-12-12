@@ -50,16 +50,13 @@ const RightSidebar = React.createClass({
           this.props.evaluateExpressions();
         }, "refresh",
         "accordion-button", "Refresh"),
-      debugBtn(
-        evt => {
-          evt.stopPropagation();
-          this.setState({
-            expressionInputVisibility: !expressionInputVisibility
-          });
-          // => lets use the unicode plus sign http://www.fileformat.info/info/unicode/char/2b/index.htm
-          // this means we'll also stop using debugBtn which assumes an SVG
-        }, "file",
-        "accordion-button", "Add Watch Expression")
+      dom.button({
+            onClick: evt => {
+                evt.stopPropagation();
+                this.setState({
+                    expressionInputVisibility: !expressionInputVisibility
+                });
+            },  className: "file accordion-button" }, "+")
     ];
   },
 
