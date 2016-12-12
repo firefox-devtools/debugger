@@ -51,6 +51,12 @@ let SourcesTree = React.createClass({
         this.state.sourceTree
       );
 
+      // i think this is cleaner
+      const directories = getDirectories(
+        nextProps.shownSource,
+        this.state.sourceTree
+      );
+
       this.setState({ listItems });
       return;
     }

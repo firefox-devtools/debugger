@@ -73,8 +73,8 @@ function createParentMap(tree: any): WeakMap<any, any> {
  * @memberof utils/sources-tree
  * @static
  */
-function getURL(source: TmpSource): { path: string, group: string } {
-  const url = source.get("url");
+function getURL(sourceUrl: string): { path: string, group: string } {
+  const url = sourceUrl;
   let def = { path: "", group: "" };
   if (!url) {
     return def;
@@ -131,7 +131,7 @@ function getURL(source: TmpSource): { path: string, group: string } {
  * @static
  */
 function addToTree(tree: any, source: TmpSource) {
-  const url = getURL(source);
+  const url = getURL(source.get("url"));
 
   if (IGNORED_URLS.indexOf(url) != -1 ||
       !source.get("url") ||
@@ -334,6 +334,47 @@ function getExpandedItems(shownSource, sourceTree) {
   return tempList;
 }
 
+function findSource(sourceTree: any, sourceUrl: string) {
+  function _traverse(subtree) {
+    if (nodeHasChildren(subtree)) {
+      for (let child of subtree.contents) {
+        _traverse(child);
+      }
+    } else if (subtree.path == sourceUrl) {
+      return subtree;
+    }
+  }
+
+  // Don't link each top-level path to the "root" node because the
+  // user never sees the root
+  tree.contents.forEach(_traverse);
+  return map;
+}
+
+function getDirectories(sourceTree: any, sourceUrl: string) {
+  const url = getURL(sourceUrl);
+  const parentMap = createParentMap(sourceTree);
+
+  const source = findSource(sourceTree, url);
+
+  if (!source) {
+    return [];
+  }
+
+  let node = source;
+  let directories = [];
+  let parent;
+
+  while (true) {
+    let parent = parentMap.get(node.url);
+    if (!parent) {
+      return directories;
+    }
+
+    directories.push(parent);
+  }
+}
+
 module.exports = {
   createNode,
   nodeHasChildren,
@@ -341,5 +382,6 @@ module.exports = {
   addToTree,
   collapseTree,
   createTree,
-  getExpandedItems
+  getExpandedItems,
+  getDirectories
 };
