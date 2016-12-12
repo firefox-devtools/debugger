@@ -32,7 +32,8 @@
   font-size: 12px;
 }
 
-.accordion .accordion-button {
+.accordion .header-buttons .add-button,
+.accordion .header-buttons .refresh {
   border: none;
   background: none;
 }
