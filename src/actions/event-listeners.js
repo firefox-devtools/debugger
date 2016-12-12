@@ -11,7 +11,7 @@
 
 const constants = require("../constants");
 const { reportException } = require("../utils/DevToolsUtils");
-const { getPause } = require("../selectors");
+const { getPause, getSourceByURL } = require("../selectors");
 
 // delay is in ms
 const FETCH_EVENT_LISTENERS_DELAY = 200;
@@ -80,11 +80,22 @@ function fetchEventListeners() {
             dispatch({
               type: constants.FETCH_EVENT_LISTENERS,
               status: "done",
-              listeners: listeners
+              listeners: formatListeners(getState(), listeners)
             });
           });
         }, FETCH_EVENT_LISTENERS_DELAY);
   };
+}
+
+function formatListeners(state, listeners) {
+  return listeners.map(l => {
+    return {
+      selector: l.node.selector,
+      type: l.type,
+      sourceId: getSourceByURL(state, l.function.location.url).get("id"),
+      line: l.function.location.line
+    };
+  });
 }
 
 async function _getEventListeners(threadClient) {

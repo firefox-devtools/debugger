@@ -32,7 +32,7 @@ function update(state = initialState, action, emit) {
 }
 
 function getEventListeners(state) {
-  return state.listeners;
+  return state.eventListeners.listeners;
 }
 
 module.exports = {
