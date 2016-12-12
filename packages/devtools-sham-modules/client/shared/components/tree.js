@@ -315,7 +315,7 @@ const Tree = module.exports = createClass({
         onKeyDown: this._onKeyDown,
         onKeyPress: this._preventArrowKeyScrolling,
         onKeyUp: this._preventArrowKeyScrolling,
-        // onScroll: this._onScroll,
+        onScroll: this._onScroll,
         style
       },
       // VirtualScroll({
