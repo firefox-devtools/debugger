@@ -336,7 +336,10 @@ const Editor = React.createClass({
       enableCodeFolding: false,
       gutters: ["breakpoints"],
       value: " ",
-      extraKeys: {}
+      extraKeys: {
+        // Override code mirror keymap to avoid conflicts with split console.
+        Esc: false
+      }
     });
 
     // disables the default search shortcuts
@@ -369,6 +372,17 @@ const Editor = React.createClass({
     shortcuts.on("CmdOrCtrl+Shift+B", () => this.showConditionalPanel(
       getCursorLine(this.editor.codeMirror)
     ));
+    // The default Esc command is overridden in the CodeMirror keymap to allow
+    // the Esc keypress event to be catched by the toolbox and trigger the
+    // split console. Restore it here, but preventDefault if and only if there
+    // is a multiselection.
+    shortcuts.on("Esc", (key, e) => {
+      let cm = this.editor.codeMirror;
+      if (cm.listSelections().length > 1) {
+        cm.execCommand("singleSelection");
+        e.preventDefault();
+      }
+    });
 
     resizeBreakpointGutter(this.editor.codeMirror);
     debugGlobal("cm", this.editor.codeMirror);
