@@ -147,7 +147,7 @@ let SourcesTree = React.createClass({
       },
       getRoots: () => sourceTree.contents,
       getKey: (item, i) => item.path,
-      itemHeight: 30,
+      itemHeight: 18,
       autoExpandDepth: 1,
       autoExpandAll: false,
       onFocus: this.focusItem,
