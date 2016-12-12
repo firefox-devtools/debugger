@@ -61,7 +61,7 @@
     "md5": "^2.2.1",
     "minimist": "^1.2.0",
     "mocha": "^3.1.2",
-    "mocha-circleci-reporter": "0.0.1",
+    "mocha-circleci-reporter": "0.0.2",
     "mock-require": "^2.0.0",
     "pretty-fast": "^0.2.0",
     "react": "=0.14.7",

@@ -11,6 +11,7 @@ const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Expressions = React.createFactory(require("./Expressions"));
 const Scopes = React.createFactory(require("./Scopes"));
 const Frames = React.createFactory(require("./Frames"));
+const EventListeners = React.createFactory(require("./EventListeners"));
 const Accordion = React.createFactory(require("./Accordion"));
 const CommandBar = React.createFactory(require("./CommandBar"));
 require("./RightSidebar.css");
@@ -72,6 +73,14 @@ const RightSidebar = React.createClass({
       { header: L10N.getStr("scopes.header"),
         component: Scopes }
     ];
+
+    if (isEnabled("eventListeners")) {
+      items.push({
+        header: L10N.getStr("eventListenersHeader"),
+        component: EventListeners
+      });
+    }
+
     if (isEnabled("watchExpressions")) {
       items.unshift({ header: L10N.getStr("watchExpressions.header"),
         buttons: this.watchExpressionHeaderButtons(),
@@ -80,6 +89,7 @@ const RightSidebar = React.createClass({
         opened: true
       });
     }
+
     return items;
   },
 
