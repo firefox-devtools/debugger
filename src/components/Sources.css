@@ -59,13 +59,15 @@ html[dir="rtl"] .sources-header-info {
 .folder,
 .domain,
 .file,
-.worker {
+.worker,
+.refresh {
   fill: var(--theme-splitter-color);
 }
 
 .domain,
 .file,
-.worker {
+.worker,
+.refresh {
   position: relative;
   top: 1px;
 }
@@ -78,7 +80,8 @@ html[dir="rtl"] .sources-header-info {
 
 .domain svg,
 .folder svg,
-.worker svg {
+.worker svg,
+.refresh svg {
   width: 15px;
 }
 
@@ -89,6 +92,7 @@ html[dir="rtl"] .sources-header-info {
 html:not([dir="rtl"]) .file svg,
 html:not([dir="rtl"]) .domain svg,
 html:not([dir="rtl"]) .folder svg,
+html:not([dir="rtl"]) .refresh svg,
 html:not([dir="rtl"]) .worker svg {
   margin-right: 5px;
 }
@@ -96,7 +100,8 @@ html:not([dir="rtl"]) .worker svg {
 html[dir="rtl"] .file svg,
 html[dir="rtl"] .domain svg,
 html[dir="rtl"] .folder svg,
-html[dir="rtl"] .worker svg {
+html[dir="rtl"] .worker svg,
+html[dir="rtl"] .refresh svg {
   margin-left: 5px;
 }
 
