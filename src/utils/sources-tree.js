@@ -266,11 +266,80 @@ function createTree(sources: any) {
     focusedItem: null };
 }
 
+function returnItemsStrings(url) {
+  const itemsStrings = [];
+  // Handle files in "extensions://"
+  if (url.indexOf("extensions::") == 0) {
+    itemsStrings.push("/extensions://");
+    // Get the string after "extensions::"
+    itemsStrings.push(`/extensions:///:${url.substring(12)}`);
+    itemsStrings.push(url);
+  } else {
+    url = url.replace(/http(s)?:\//, "");
+    for (const i = 1; i < url.length; i++) {
+      if (url[i] == "/" || url[i] == "?") {
+        itemsStrings.push(url.substring(0, i));
+      }
+    }
+    itemsStrings.push(url);
+  }
+  return itemsStrings;
+}
+
+function getExpandedItems(shownSource, sourceTree) {
+  const tempList = [];
+  const sourceURL = shownSource;
+  const sourceTreeList = sourceTree;
+  const itemsStrings = returnItemsStrings(sourceURL);
+  const itemIndex = 0;
+
+  // Determine which item(s) should be added to itemsList
+  while (itemIndex < itemsStrings.length) {
+    const i = 0;
+    const found = false;
+    while (!found) {
+      const currItem = sourceTreeList.contents[i];
+      if (!currItem) {
+        // Handle the case where we've reached the leaf and the file
+        found = true;
+        itemIndex++;
+      } else {
+        // 'https//'' in currItem.path will break the code
+        const currItemPath = currItem.path.replace(/http(s)?:\//, "");
+        if (itemsStrings[itemIndex] == currItemPath) {
+          tempList.push(currItem);
+          sourceTreeList = currItem;
+          found = true;
+          itemIndex++;
+        } else if (currItem.path.indexOf(itemsStrings[itemIndex]) != -1) {
+          // Handle the case where a folder's name contains '/'
+          found = true;
+          itemIndex++;
+        }
+      }
+      i++;
+    }
+  }
+
+  // Has not reached the leaf node. Keep processing until hits the leaf.
+  if (tempList[tempList.length - 1].contents[0]) {
+    const lastItem = tempList[tempList.length - 1].contents[0];
+    tempList.push(lastItem);
+    while (lastItem.contents[0]) {
+      lastItem = tempList[tempList.length - 1].contents[0];
+      tempList.push(lastItem);
+    }
+  }
+
+  return tempList;
+}
+
 module.exports = {
   createNode,
   nodeHasChildren,
   createParentMap,
   addToTree,
   collapseTree,
-  createTree
+  createTree,
+  getExpandedItems
 };

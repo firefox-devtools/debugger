@@ -1,7 +1,7 @@
 const expect = require("expect.js");
 const { Map } = require("immutable");
 const {
-  createNode, nodeHasChildren, addToTree, collapseTree
+  createNode, nodeHasChildren, addToTree, collapseTree, getExpandedItems
 } = require("../sources-tree.js");
 
 describe("sources-tree", () => {
@@ -348,5 +348,31 @@ describe("sources-tree", () => {
 
     const bNode = aNode.contents[0];
     expect(bNode.name).to.be("b.js");
+  });
+
+  it("gets a source's ancestor directories", function() {
+    const source1 = Map({
+      url: "http://a/b.js",
+      actor: "actor1"
+    });
+
+    const source2 = Map({
+      url: "http://a/c.js",
+      actor: "actor1"
+    });
+
+    const source3 = Map({
+      url: "http://b/c.js",
+      actor: "actor1"
+    });
+
+    const tree = createNode("root", "", []);
+    addToTree(tree, source1);
+    addToTree(tree, source2);
+    addToTree(tree, source3);
+    const paths = getExpandedItems("http://a/b.js", tree);
+
+    expect(paths[0].path).to.be("/a");
+    expect(paths[1].path).to.be("/a/b.js");
   });
 });
