@@ -20,7 +20,7 @@ function searchResults(sources) {
   function getSourcePath(source) {
     const { path, href } = parseURL(source.get("url"));
     // for URLs like "about:home" the path is null so we pass the full href
-    return endTruncateStr((path || href), 50);
+    return (path || href);
   }
 
   return sources.valueSeq()
@@ -28,7 +28,7 @@ function searchResults(sources) {
     .map(source => ({
       value: getSourcePath(source),
       title: getSourcePath(source).split("/").pop(),
-      subtitle: getSourcePath(source),
+      subtitle: endTruncateStr(getSourcePath(source)),
       id: source.get("id")
     }))
     .toJS();
