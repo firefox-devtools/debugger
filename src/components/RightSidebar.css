@@ -26,11 +26,3 @@
   -moz-user-select: none;
   user-select: none;
 }
-
-.accordion ._header {
-  display: flex;
-}
-
-.accordion ._header .header-buttons {
-  margin-left: auto;
-}
