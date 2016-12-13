@@ -19,7 +19,7 @@ require("./RightSidebar.css");
 function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
   return dom.button(
-    { onClick, className, key: type },
+    { onClick, className, key: type, title: tooltip },
     Svg(type, { title: tooltip, "aria-label": tooltip })
   );
 }
@@ -50,12 +50,12 @@ const RightSidebar = React.createClass({
           this.setState({
             expressionInputVisibility: !expressionInputVisibility
           });
-        }, className: "add-button" }, "+"),
+        }, className: "add-button", title: "Add Watch Expression" }, "+"),
       debugBtn(
         evt => {
           evt.stopPropagation();
           this.props.evaluateExpressions();
-        }, "refresh", "Refresh")
+        }, "refresh", "refresh", "Refresh")
     ];
   },
 
