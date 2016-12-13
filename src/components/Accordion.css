@@ -19,10 +19,6 @@
   user-select: none;
 }
 
-.accordion ._header {
-  display: flex;
-}
-
 .accordion ._header:hover {
   background-color: var(--theme-search-overlays-semitransparent);
 }
@@ -37,26 +33,22 @@
   font-size: 12px;
 }
 
-.accordion ._header .header-buttons {
-  margin-left: auto;
-}
-
 .accordion .header-buttons .add-button {
-  font-size: 1em;
-}
-
-.accordion .header-buttons .refresh svg {
-  width: 12px;
-}
-
-.accordion .header-buttons button::-moz-focus-inner {
-  background: none;
-  border: none;
-  outline: 0;
+  font-size: 180%;
+  text-align: center;
+  line-height: 16px;
 }
 
 .accordion .header-buttons button {
-  background: none;
+  color: var(--theme-body-color);
   border: none;
+  background: none;
   outline: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.accordion .header-buttons button::-moz-focus-inner {
+  border: none;
 }

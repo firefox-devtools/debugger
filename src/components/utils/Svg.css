@@ -16,9 +16,7 @@
 
 .domain,
 .file,
-.worker,
-.refresh,
-.add-button {
+.worker {
     position: relative;
     top: 1px;
 }
