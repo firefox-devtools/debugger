@@ -42,6 +42,7 @@
     "devtools-local-toolbox": "^0.0.12",
     "devtools-client-adapters": "0.0.2",
     "devtools-modules": "^0.0.9",
+    "devtools-reps": "^0.0.1",
     "devtools-network-request": "^0.0.9",
     "devtools-sham-modules": "^0.0.9",
     "documentation": "^4.0.0-beta11",

@@ -24,6 +24,7 @@ module.exports = (webpackConfig, envConfig) => {
     test: /\.json$/,
     loader: "json"
   });
+
   webpackConfig.module.loaders.push({
     test: /\.js$/,
     exclude: request => {
