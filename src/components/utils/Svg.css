@@ -29,7 +29,6 @@
 .refresh svg,
 .add-button svg {
     width: 15px;
-    fill: currentColor;
 }
 
 .file svg {
