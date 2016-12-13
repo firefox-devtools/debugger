@@ -98,7 +98,8 @@ let SourcesTree = React.createClass({
   },
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
-    const arrow = Svg("arrow",
+    const arrow = Svg(
+      "arrow",
       {
         className: classnames(
           { expanded: expanded,
