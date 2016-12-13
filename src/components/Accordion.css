@@ -19,12 +19,17 @@
   user-select: none;
 }
 
+.accordion ._header {
+  display: flex;
+}
+
 .accordion ._header:hover {
   background-color: var(--theme-search-overlays-semitransparent);
 }
 
-.accordion ._header:hover svg {
-  fill: var(--theme-comment-alt);
+.accordion ._header button svg,
+.accordion ._header:hover button svg {
+  fill: currentColor;
 }
 
 .accordion ._content {
@@ -32,7 +37,26 @@
   font-size: 12px;
 }
 
-.accordion .accordion-button {
-  border: none;
+.accordion ._header .header-buttons {
+  margin-left: auto;
+}
+
+.accordion .header-buttons .add-button {
+  font-size: 1em;
+}
+
+.accordion .header-buttons .refresh svg {
+  width: 12px;
+}
+
+.accordion .header-buttons button::-moz-focus-inner {
   background: none;
+  border: none;
+  outline: 0;
+}
+
+.accordion .header-buttons button {
+  background: none;
+  border: none;
+  outline: 0;
 }
