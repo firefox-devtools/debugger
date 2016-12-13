@@ -37,7 +37,9 @@
   font-size: 170%;
 }
 
+.accordion .header-buttons button::-moz-focus-inner,
 .accordion .header-buttons button {
   border: none;
   background: none;
+  outline: 0;
 }
