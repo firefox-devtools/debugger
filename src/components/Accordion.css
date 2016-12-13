@@ -23,8 +23,10 @@
   background-color: var(--theme-search-overlays-semitransparent);
 }
 
+.accordion ._header:hover button,
+.accordion ._header svg,
 .accordion ._header:hover svg {
-  fill: var(--theme-comment-alt);
+  fill: currentColor;
 }
 
 .accordion ._content {
@@ -32,8 +34,11 @@
   font-size: 12px;
 }
 
-.accordion .header-buttons .add-button,
-.accordion .header-buttons .refresh {
+.accordion .header-buttons .add-button {
+  font-size: 170%;
+}
+
+.accordion .header-buttons button {
   border: none;
   background: none;
 }
