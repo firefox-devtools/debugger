@@ -31,7 +31,8 @@
   "firefox": {
     "webSocketConnection": false,
     "proxyHost": "localhost:9000",
-    "websocketHost": "localhost:6080"
+    "websocketHost": "localhost:6080",
+    "mcPath": "./firefox"
   },
   "development": {
     "serverPort": 8000,
