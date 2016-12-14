@@ -242,6 +242,14 @@ const SourceTabs = React.createClass({
     }, Svg("plus"));
   },
 
+  renderToggleButton(side) {
+    const collapsed = false;
+    return dom.div({
+      className: classnames(`toggle-button-${side}`, { collapsed }),
+      onClick: () => this.props.toggleSidebar(side),
+    }, Svg("togglePanes"));
+  },
+
   renderDropdown() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
@@ -258,9 +266,11 @@ const SourceTabs = React.createClass({
 
   render() {
     return dom.div({ className: "source-header" },
+      this.renderToggleButton("left"),
       this.renderTabs(),
       this.renderNewButton(),
-      this.renderDropdown()
+      this.renderDropdown(),
+      this.renderToggleButton("right")
     );
   }
 });

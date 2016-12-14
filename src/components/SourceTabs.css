@@ -2,6 +2,7 @@
   border-bottom: 1px solid var(--theme-splitter-color);
   height: 30px;
   flex: 1;
+  display: flex;
 }
 
 .source-header * {
@@ -10,7 +11,6 @@
 }
 
 .source-tabs {
-  min-width: 50px;
   max-width: calc(100% - 60px);
   overflow: hidden;
   float: left;
@@ -97,4 +97,30 @@
 
 .source-tab:hover .close {
   display: block;
+}
+
+.toggle-button-left,
+.toggle-button-right {
+  width: 16px;
+  margin-top: 5px;
+  align-self: center;
+  transition: transform 0.5s ease;
+}
+
+.toggle-button-left svg {
+  transform: rotate(180deg);
+}
+
+.toggle-button-left {
+  margin-left: 8px;
+}
+
+.toggle-button-right {
+  margin-right: 8px;
+  margin-left: auto;
+}
+
+.toggle-button-left.collapsed,
+.toggle-button-right.collapsed {
+  transform: rotate(180deg);
 }
