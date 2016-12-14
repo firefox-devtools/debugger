@@ -1,7 +1,7 @@
 const expect = require("expect.js");
 const { Map } = require("immutable");
 const {
-  createNode, nodeHasChildren, addToTree, collapseTree, getExpandedItems
+  createNode, nodeHasChildren, addToTree, collapseTree, getDirectories
 } = require("../sources-tree.js");
 
 describe("sources-tree", () => {
@@ -370,9 +370,23 @@ describe("sources-tree", () => {
     addToTree(tree, source1);
     addToTree(tree, source2);
     addToTree(tree, source3);
-    const paths = getExpandedItems("http://a/b.js", tree);
+    const paths = getDirectories("http://a/b.js", tree);
 
-    expect(paths[0].path).to.be("/a");
-    expect(paths[1].path).to.be("/a/b.js");
+    expect(paths[1].path).to.be("/a");
+    expect(paths[0].path).to.be("/a/b.js");
+  });
+
+  it("handles '?' in target url", function() {
+    const source1 = Map({
+      url: "http://a/b.js",
+      actor: "actor1"
+    });
+
+    const tree = createNode("root", "", []);
+    addToTree(tree, source1);
+    const paths = getDirectories("http://a/b.js?key=hi", tree);
+
+    expect(paths[1].path).to.be("/a");
+    expect(paths[0].path).to.be("/a/b.js");
   });
 });

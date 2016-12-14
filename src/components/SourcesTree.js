@@ -10,7 +10,7 @@ const { isEnabled } = require("devtools-config");
 const { getShownSource } = require("../selectors");
 const {
   nodeHasChildren, createParentMap, addToTree,
-  collapseTree, createTree, getExpandedItems
+  collapseTree, createTree, getDirectories
 } = require("../utils/sources-tree.js");
 const ManagedTree = React.createFactory(require("./utils/ManagedTree"));
 const actions = require("../actions");
@@ -46,13 +46,7 @@ let SourcesTree = React.createClass({
   componentWillReceiveProps(nextProps) {
     if (isEnabled("showSource") &&
     nextProps.shownSource != this.props.shownSource) {
-      const listItems = getExpandedItems(
-        nextProps.shownSource,
-        this.state.sourceTree
-      );
-
-      // i think this is cleaner
-      const directories = getDirectories(
+      const listItems = getDirectories(
         nextProps.shownSource,
         this.state.sourceTree
       );

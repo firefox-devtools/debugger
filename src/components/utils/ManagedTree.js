@@ -28,7 +28,7 @@ let ManagedTree = React.createClass({
       else {
         this.expandListItems(listItemsLocal, true);
       }
-      listItemsLocal.splice(0, 1);
+      listItemsLocal.splice(listItemsLocal.length - 1, 1);
       this.setState({ listItems: listItemsLocal });
     }
   },
@@ -51,7 +51,7 @@ let ManagedTree = React.createClass({
   },
 
   expandListItems(itemsList) {
-    const key = this.props.getKey(itemsList[0]);
+    const key = this.props.getKey(itemsList[itemsList.length - 1]);
     const expanded = this.state.expanded;
     expanded.add(key);
     this.setState({ expanded: expanded });
