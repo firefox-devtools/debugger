@@ -113,11 +113,12 @@ let SourcesTree = React.createClass({
     );
 
     const icon = this.getIcon(item, depth);
-
+    const paddingDir = document.body.parentElement.dir == "ltr" ?
+                       "paddingLeft" : "paddingRight";
     return dom.div(
       {
         className: classnames("node", { focused }),
-        style: { paddingLeft: `${depth * 15}px` },
+        style: { [paddingDir]: `${depth * 15}px` },
         key: item.path,
         onClick: () => this.selectItem(item),
         onDoubleClick: e => setExpanded(item, !expanded)

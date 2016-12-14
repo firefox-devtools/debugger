@@ -1,8 +1,3 @@
-.worker,
-.folder {
-    position: relative;
-    top: 2px;
-}
 
 .arrow,
 .folder,
@@ -11,7 +6,13 @@
 .worker,
 .refresh,
 .add-button {
-    fill: var(--theme-splitter-color);
+  fill: var(--theme-splitter-color);
+}
+
+.worker,
+.folder {
+  position: relative;
+  top: 2px;
 }
 
 .domain,
@@ -19,8 +20,8 @@
 .worker,
 .refresh,
 .add-button {
-    position: relative;
-    top: 1px;
+  position: relative;
+  top: 1px;
 }
 
 .domain svg,
@@ -28,25 +29,17 @@
 .worker svg,
 .refresh svg,
 .add-button svg {
-    width: 15px;
+  width: 15px;
 }
 
 .file svg {
-    width: 13px;
+  width: 13px;
 }
 
-html:not([dir="rtl"]) .file svg,
-html:not([dir="rtl"]) .domain svg,
-html:not([dir="rtl"]) .folder svg,
-html:not([dir="rtl"]) .refresh svg,
-html:not([dir="rtl"]) .worker svg {
-    margin-right: 5px;
-}
-
-html[dir="rtl"] .file svg,
-html[dir="rtl"] .domain svg,
-html[dir="rtl"] .folder svg,
-html[dir="rtl"] .worker svg,
-html[dir="rtl"] .refresh svg {
-    margin-left: 5px;
+.file svg,
+.domain svg,
+.folder svg,
+.refresh svg,
+.worker svg {
+  margin-inline-end: 5px;
 }
