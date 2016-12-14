@@ -382,8 +382,14 @@ describe("sources-tree", () => {
       actor: "actor1"
     });
 
+    const source2 = Map({
+      url: "http://b/b.js",
+      actor: "actor1"
+    });
+
     const tree = createNode("root", "", []);
     addToTree(tree, source1);
+    addToTree(tree, source2);
     const paths = getDirectories("http://a/b.js?key=hi", tree);
 
     expect(paths[1].path).to.be("/a");

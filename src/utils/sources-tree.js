@@ -273,14 +273,22 @@ function findSource(sourceTree: any, sourceUrl: string) {
       for (let child of subtree.contents) {
         _traverse(child);
       }
-    } else if (subtree.path.replace(/http(s)?:\//, "") == sourceUrl) {
+    } else if (!returnTarget &&
+      subtree.path.replace(/http(s)?:\//, "") == sourceUrl) {
       // subtree.path may contain http(s)://
       returnTarget = subtree;
-    } else {
-      let n = subtree.path.indexOf('?');
+    } else if (!returnTarget) {
+      let n = subtree.path.indexOf("?");
       let path = subtree.path.substring(0, n != -1 ? n : subtree.path.length);
       // Handles the case where subtree.path contains ? and subsequent chars
       if (path.replace(/http(s)?:\//, "") == sourceUrl) {
+        returnTarget = subtree;
+      }
+
+      let ns = sourceUrl.indexOf("?");
+      let pathSource = sourceUrl.substring(0, ns != -1 ? ns : sourceUrl.length);
+      // Handles the case where sourceUrl contains ? and subsequent chars
+      if (subtree.path == pathSource) {
         returnTarget = subtree;
       }
     }
@@ -293,16 +301,9 @@ function findSource(sourceTree: any, sourceUrl: string) {
 }
 
 function getDirectories(sourceUrl: string, sourceTree: any) {
-  const url = getURL(sourceUrl);
-  let fullUrl = "";
-  if (url.group == "extensions://") {
-    // Retrieve extensions function name from url.path
-    fullUrl = "extensions::" + url.path.substring(2);
-  } else {
-    fullUrl = "/" + url.group + url.path;
-  }
+  const url = sourceUrl.replace(/http(s)?:\//, "");
   const parentMap = createParentMap(sourceTree);
-  const source = findSource(sourceTree, fullUrl);
+  const source = findSource(sourceTree, url);
 
   if (!source) {
     return [];
