@@ -47,7 +47,7 @@ const Accordion = React.createClass({
         Svg("arrow", { className: opened[i] ? "expanded" : "" }),
         item.header,
         item.buttons ?
-        dom.span({ className: "header-buttons" }, item.buttons) : null
+        dom.div({ className: "header-buttons" }, item.buttons) : null
       ),
 
       (created[i] || opened[i]) ?
