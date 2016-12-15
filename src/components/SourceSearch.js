@@ -28,7 +28,7 @@ function searchResults(sources) {
     .map(source => ({
       value: getSourcePath(source),
       title: getSourcePath(source).split("/").pop(),
-      subtitle: endTruncateStr(getSourcePath(source)),
+      subtitle: endTruncateStr(getSourcePath(source), 50),
       id: source.get("id")
     }))
     .toJS();
