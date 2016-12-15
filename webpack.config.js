@@ -31,4 +31,5 @@ function buildConfig(envConfig) {
 }
 
 const envConfig = getConfig();
+
 module.exports = buildConfig(envConfig);

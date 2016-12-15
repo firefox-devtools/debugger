@@ -20,7 +20,7 @@
     "flow": "flow",
     "lint": "npm run lint-css -s; npm run lint-js -s",
     "lint-css": "stylelint src/components/*.css packages/devtools-local-toolbox/**/*.css",
-    "lint-js": "eslint src/**/*.js packages/devtools-local-toolbox/src/**/*.js",
+    "lint-js": "eslint src/**/*.js packages/devtools-local-toolbox/src/**/*.js packages/devtools-client-adapters/src/**/*.js",
     "lint-fix": "npm run lint-js -- --fix",
     "test": "node src/test/node-unit-tests.js",
     "test-all": "npm run test; npm run lint; npm run flow; npm run firefox-unit-test",

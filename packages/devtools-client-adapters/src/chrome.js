@@ -1,12 +1,10 @@
-/* eslint-disable */
-
-const { connect } = require("chrome-remote-debugging-protocol");
-const defer = require("./utils/defer");
-const { Tab } = require("./tcomb-types");
+const CDP = require("chrome-remote-interface");
 const { isEnabled, getValue } = require("devtools-config");
 const networkRequest = require("devtools-network-request");
 const { setupCommands, clientCommands } = require("./chrome/commands");
 const { setupEvents, clientEvents, pageEvents } = require("./chrome/events");
+const defer = require("./utils/defer");
+const { Tab } = require("./tcomb-types");
 
 // TODO: figure out a way to avoid patching native prototypes.
 // Unfortunately the Chrome client requires it to work.
@@ -16,7 +14,7 @@ Array.prototype.peekLast = function() {
 
 let connection;
 
-function createTabs(tabs, {type, clientType} = {}) {
+function createTabs(tabs, { type, clientType } = {}) {
   return tabs
     .filter(tab => {
       return tab.type == type;
@@ -32,85 +30,77 @@ function createTabs(tabs, {type, clientType} = {}) {
     });
 }
 
-function connectClient() {
-  const deferred = defer();
+window.criRequest = function(options, callback) {
+  const { host, port, path } = options;
+  const url = `http://${host}:${port}${path}`;
 
-  if(!getValue("chrome.debug")) {
-    return Promise.resolve(createTabs([]))
+  networkRequest(url)
+    .then(res => callback(null, res.content))
+    .catch(err => callback(err));
+};
+
+function connectClient() {
+  if (!getValue("chrome.debug")) {
+    return Promise.resolve(createTabs([]));
   }
 
-  const port = getValue("chrome.port");
-  const host = getValue("chrome.host");
-  const url = `http://${host}:${port}/json/list`;
-
-  networkRequest(url).then(res => {
-    deferred.resolve(createTabs(
-      JSON.parse(res.content),
-      {clientType: "chrome", type: "page"}
-    ))
-  }).catch(err => deferred.reject());
-
-  return deferred.promise;
+  return CDP.List({
+    port: getValue("chrome.port"),
+    host: getValue("chrome.host")
+  })
+    .then(tabs => createTabs(tabs, {
+      clientType: "chrome", type: "page"
+    }));
 }
 
-
 function connectNodeClient() {
-  const deferred = defer();
-
-  if(!getValue("node.debug")) {
-    return Promise.resolve(createTabs([]))
+  if (!getValue("node.debug")) {
+    return Promise.resolve(createTabs([]));
   }
 
-  const host = getValue("node.host");
-  const port = getValue("node.port");
-  const url = `http://${host}:${port}/json/list`;
-
-  networkRequest(url).then(res => {
-    deferred.resolve(createTabs(
-      JSON.parse(res.content),
-      {clientType: "node", type: "node"}
-    ))
-  }).catch(err => {
-    console.log(err);
-    deferred.reject();
-  });
-
-  return deferred.promise;
+  return CDP.List({
+    port: getValue("node.port"),
+    host: getValue("node.host")
+  })
+    .then(tabs => createTabs(tabs, {
+      clientType: "node", type: "node"
+    }));
 }
 
 function connectTab(tab) {
-  return connect(tab.webSocketDebuggerUrl, {type: "browser"})
-    .then(conn => { connection = conn });
+  return CDP({ tab: tab.webSocketDebuggerUrl })
+    .then(conn => { connection = conn; });
 }
 
 function connectNode(tab) {
-  return connect(tab.webSocketDebuggerUrl, {type: "node"})
-    .then(conn => { connection = conn });
+  return CDP({ tab: tab.webSocketDebuggerUrl })
+    .then(conn => { connection = conn; });
 }
 
 function initPage(actions, { clientType }) {
-  const agents = connection._agents;
+  const { Debugger, Runtime, Page } = connection;
 
-  setupCommands({ agents, clientType });
-  setupEvents({ actions, agents, clientType })
+  setupCommands({ Debugger, Runtime, Page });
+  setupEvents({ actions, Page, clientType });
 
-  agents.Debugger.enable();
-  agents.Debugger.setPauseOnExceptions("none");
-  agents.Debugger.setAsyncCallStackDepth(0);
+  Debugger.enable();
+  Debugger.setPauseOnExceptions({ state: "none" });
+  Debugger.setAsyncCallStackDepth({ maxDepth: 0 });
 
-  agents.Runtime.enable();
+  Runtime.enable();
 
   if (clientType == "node") {
-    agents.Runtime.runIfWaitingForDebugger()
+    Runtime.runIfWaitingForDebugger();
   }
 
   if (clientType == "chrome") {
-    agents.Page.enable();
+    Page.enable();
   }
 
-
-  connection.registerDispatcher("Debugger", clientEvents);
-  connection.registerDispatcher("Page", pageEvents);
+  Debugger.scriptParsed(clientEvents.scriptParsed);
+  Debugger.scriptFailedToParse(clientEvents.scriptFailedToParse);
+  Debugger.paused(clientEvents.paused);
+  Debugger.resumed(clientEvents.resumed);
 }
 
 module.exports = {
