@@ -43,7 +43,7 @@
     "devtools-local-toolbox": "^0.0.12",
     "devtools-modules": "^0.0.9",
     "devtools-network-request": "^0.0.9",
-    "devtools-sham-modules": "^0.0.9",
+    "devtools-sham-modules": "^0.0.10",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.12.0",
     "expect.js": "^0.3.1",
