@@ -1864,6 +1864,10 @@ devtools-local-toolbox@^0.0.13:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
+devtools-modules@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.10.tgz#2f7721e5c76b7a92427800128ab2fb4d92bcea3a"
+
 devtools-modules@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.9.tgz#cfd75ebcf35b6e673d6eb3223deb1738fe8ff0d7"
