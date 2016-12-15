@@ -1,4 +1,6 @@
-const { BreakpointResult, Location } = require("../tcomb-types");
+// @flow
+
+import type { BreakpointResult, Location } from '../../types';
 const defer = require("../utils/defer");
 
 let bpClients;
@@ -46,7 +48,7 @@ function sourceContents(sourceId) {
   return sourceClient.source();
 }
 
-function setBreakpoint(location, condition, noSliding) {
+function setBreakpoint(location: Location, condition, noSliding) {
   const sourceClient = threadClient.source({ actor: location.sourceId });
 
   return sourceClient.setBreakpoint({
@@ -57,7 +59,7 @@ function setBreakpoint(location, condition, noSliding) {
   }).then((res) => onNewBreakpoint(location, res));
 }
 
-function onNewBreakpoint(location, res) {
+function onNewBreakpoint(location: Location, res): BreakpointResult {
   const bpClient = res[1];
   let actualLocation = res[0].actualLocation;
   bpClients[bpClient.actor] = bpClient;
@@ -71,10 +73,10 @@ function onNewBreakpoint(location, res) {
     column: actualLocation.column
   } : location;
 
-  return BreakpointResult({
+  return {
     id: bpClient.actor,
-    actualLocation: Location(actualLocation)
-  });
+    actualLocation: actualLocation
+  };
 }
 
 function removeBreakpoint(breakpointId) {
@@ -83,7 +85,7 @@ function removeBreakpoint(breakpointId) {
   return bpClient.remove();
 }
 
-function setBreakpointCondition(breakpointId, location, condition, noSliding) {
+function setBreakpointCondition(breakpointId, location: Location, condition, noSliding) {
   let bpClient = bpClients[breakpointId];
   bpClients[breakpointId] = null;
 

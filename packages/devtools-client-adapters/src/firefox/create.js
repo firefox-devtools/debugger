@@ -1,6 +1,8 @@
-const { Source, Frame, Location } = require("../tcomb-types");
+// @flow
 
-function createFrame(frame) {
+import type { Source, Frame } from '../../types';
+
+function createFrame(frame): Source {
   let title;
   if (frame.type == "call") {
     let c = frame.callee;
@@ -9,26 +11,26 @@ function createFrame(frame) {
     title = `(${ frame.type })`;
   }
 
-  return Frame({
+  return {
     id: frame.actor,
     displayName: title,
-    location: Location({
+    location: {
       sourceId: frame.where.source.actor,
       line: frame.where.line,
       column: frame.where.column
-    }),
+    },
     this: frame.this,
     scope: frame.environment
-  });
+  };
 }
 
-function createSource(source) {
-  return Source({
+function createSource(source): Frame {
+  return {
     id: source.actor,
     url: source.url,
     isPrettyPrinted: false,
     sourceMapURL: source.sourceMapURL
-  });
+  };
 }
 
 module.exports = { createFrame, createSource };

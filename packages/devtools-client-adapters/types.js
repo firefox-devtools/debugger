@@ -1,18 +1,6 @@
 // @flow
 
 /**
- * Source File Location
- *
- * @memberof actions/types
- * @static
- */
-export type Location = {
-    sourceId: string,
-    line: number,
-    column?: number
-};
-
-/**
  * Breakpoint
  *
  * @memberof actions/types
@@ -34,8 +22,20 @@ export type Breakpoint = {
  * @static
  */
 export type BreakpointResult = {
-    id: string,
+    ids: string,
     actualLocation: Location
+};
+
+/**
+ * Source File Location
+ *
+ * @memberof actions/types
+ * @static
+ */
+export type Location = {
+    sourceId: string,
+    line: number,
+    column?: number
 };
 
 /**
@@ -87,52 +87,4 @@ export type Scope = {
         parameterNames: Array<Object>
     },
     type: string
-};
-
-
-/**
- * Flow types
- * @module types
- */
-
-export type Why = {
-  type: string
-}
-
-export type Pause = {
-  frames: Frame[],
-  why: Why,
-  getIn: (string[]) => any
-}
-
-export type Expression = {
-  id: number,
-  input: string
-}
-
-export type Grip = {
-  actor: string,
-  class: string,
-  extensible: boolean,
-  frozen: boolean,
-  isGlobal: boolean,
-  ownPropertyLength: number,
-  preview: {
-    kind: string,
-    url: string
-  },
-  sealed: boolean,
-  type: string
-}
-
-/**
- * Source Text
- *
- * @memberof actions/types
- * @static
- */
-export type SourceText = {
-  id: string,
-  text: string,
-  contentType: string
 };
