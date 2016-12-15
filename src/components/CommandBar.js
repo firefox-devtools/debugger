@@ -63,11 +63,10 @@ const CommandBar = React.createClass({
     const shortcuts = this.context.shortcuts;
     const handleEvent = (e, func) => {
       e.preventDefault();
-      if (e.stopPropogation) {
-        e.stopPropogation();
-      }
+      e.stopPropagation();
       func();
     };
+
     shortcuts.on("F8", (_, e) => handleEvent(e, this.props.resume));
     shortcuts.on("F10", (_, e) => handleEvent(e, this.props.stepOver));
     shortcuts.on(`${ctrlKey}F11`, (_, e) => handleEvent(e, this.props.stepIn));
