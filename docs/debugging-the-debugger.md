@@ -83,7 +83,7 @@ Please let us know if we're missing something zen  [here][getting-started-issue]
 
 Now that you've internalized the debugger philosophy, it's time to start putting this wisdom to use.
 
-**Share what you know** Give a talk in school, work, or a local meetup. I'm willing to bet your audience will not know the debugger is a web app!
+**Share what you know** Give a talk in school, work, or a local meetup. I'm willing to bet your audience will not know the debugger is a web app! Write a blog post. We'd be happy to link to it here and it could go a really long way towards helping a newcomer grok the philosophy.
 
 - here are @amitzur's [slides][amit-slides] from his [talk][amit-tweet]
 

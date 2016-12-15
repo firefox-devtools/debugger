@@ -12,18 +12,12 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Reporting Bugs](#reporting-bugs-bug)
   * [Suggesting Enhancements](#suggesting-enhancements-new)
   * [Writing Documentation](#writing-documentation-book)
+  * [Share what you know](#share-what-you-know)
   * [Writing Code](#writing-code-computer)
     * [Your First Code Contribution](#your-first-code-contribution)
     * [Coding Standards](#coding-standards)
     * [Pull Requests](#pull-requests)
-    * [Hot Reloading](#hot-reloading-fire)
-    * [Logging](#logging)
-  * [Tests](#tests)
-    * [Unit Tests](#unit-tests)
-    * [Integration Tests](#integration-tests)
-    * [Linting](#linting)
-  * [Configuration](#configuration)
-    * [Create a local config file](#create-a-local-config-file)
+    * [Local Development](#local-development-computer)
   * [Issues and Pull Request labels](#issues-and-pull-requests)
   * [Project Overview](#project-overview)
     * [debugger.html](#debuggerhtml)
@@ -53,6 +47,13 @@ We are actively investigating ways of support enhancement requests in the projec
 ### Writing Documentation :book:
 
 Documentation is as important as code and we need your help to maintain clear and usable documentation.  If you find an error in here or other project documentation please [file an issue](https://github.com/devtools-html/debugger.html/issues/new) and tag it with the label [docs](https://github.com/devtools-html/debugger.html/labels/docs).
+
+### Share what you know
+
+Give a talk or write a blog post and help others get started. Very few developers know that the debugger is a web app. It's a lot of fun to hear the amazing tools others want to build once they learn that they can!
+
+We'd be happy to link to it here. It could go a long way towards helping a newcomer get started!
+
 
 ### Writing Code :computer:
 
