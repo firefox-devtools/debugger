@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "codemirror": "^5.1.0",
-    "devtools-client-adapters": "0.0.2",
+    "devtools-client-adapters": "0.0.3",
     "devtools-config": "^0.0.10",
     "devtools-local-toolbox": "^0.0.13",
     "devtools-modules": "^0.0.9",
