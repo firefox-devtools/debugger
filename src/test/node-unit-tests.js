@@ -1,5 +1,3 @@
-"use strict"; // eslint-disable-line
-
 require("amd-loader");
 require("babel-register");
 const mock = require("mock-require");
@@ -17,9 +15,9 @@ const setConfig = require("devtools-config").setConfig;
 const networkRequest = require("devtools-network-request");
 mock("devtools-network-request", networkRequest.stubNetworkRequest);
 mock("../utils/prefs", { prefs: { clientSourceMapsEnabled: true }});
+mock("devtools-modules", { Services: { appinfo: { OS: "darwin" }}});
 
 const baseWorkerURL = path.join(__dirname, "../../assets/build/");
-const packagesPath = path.join(__dirname, "../../packages");
 
 const envConfig = getConfig();
 setConfig(Object.assign({}, envConfig, { baseWorkerURL }));
@@ -38,7 +36,7 @@ delete webpackConfig.entry.bundle;
 // doesn't work in workers) so mock it with an alias, and tweak a few
 // things to make the stub fetcher work in node.
 webpackConfig.resolve.alias["devtools-network-request"] =
-  path.resolve(packagesPath, "devtools-network-request/stubNetworkRequest.js");
+  "devtools-network-request/stubNetworkRequest";
 
 webpackConfig.externals = [{ fs: "commonjs fs" }];
 webpackConfig.node = { __dirname: false };
