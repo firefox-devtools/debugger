@@ -51,7 +51,11 @@ const App = React.createClass({
       { className: "center-pane" },
       dom.div(
         { className: "editor-container" },
-        SourceTabs({ toggleSidebar: this.togglePane }),
+        SourceTabs({
+          togglePane: this.togglePane,
+          startPanelCollapsed: this.state.startPanelCollapsed,
+          endPanelCollapsed: this.state.endPanelCollapsed,
+        }),
         Editor(),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
         SourceSearch()
@@ -86,12 +90,12 @@ const App = React.createClass({
     });
   },
 
-  togglePane(side) {
-    if (side === "left") {
+  togglePane(position) {
+    if (position === "start") {
       this.setState({
         startPanelCollapsed: !this.state.startPanelCollapsed,
       });
-    } else if (side === "right") {
+    } else if (position === "end") {
       this.setState({
         endPanelCollapsed: !this.state.endPanelCollapsed,
       });

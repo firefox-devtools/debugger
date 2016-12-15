@@ -2,7 +2,6 @@
   border-bottom: 1px solid var(--theme-splitter-color);
   height: 30px;
   flex: 1;
-  display: flex;
 }
 
 .source-header * {
@@ -11,9 +10,10 @@
 }
 
 .source-tabs {
-  max-width: calc(100% - 60px);
+  max-width: calc(100% - 80px);
   overflow: hidden;
   float: left;
+  margin-left: 20px;
 }
 
 .source-header .new-tab-btn {
@@ -99,28 +99,30 @@
   display: block;
 }
 
-.toggle-button-left,
-.toggle-button-right {
+.toggle-button-start,
+.toggle-button-end {
+  position: absolute;
   width: 16px;
-  margin-top: 5px;
-  align-self: center;
-  transition: transform 0.5s ease;
+  height: 16px;
+  transition: transform 0.25s ease;
+  margin: 0 4px;
 }
 
-.toggle-button-left svg {
+.toggle-button-end svg {
   transform: rotate(180deg);
 }
 
-.toggle-button-left {
-  margin-left: 8px;
+.toggle-button-start {
+  top: 7px;
+  left: 0;
 }
 
-.toggle-button-right {
-  margin-right: 8px;
-  margin-left: auto;
+.toggle-button-end {
+  top: 7px;
+  right: 0;
 }
 
-.toggle-button-left.collapsed,
-.toggle-button-right.collapsed {
+.toggle-button-start.collapsed,
+.toggle-button-end.collapsed {
   transform: rotate(180deg);
 }
