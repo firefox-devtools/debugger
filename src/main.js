@@ -31,14 +31,22 @@ if (!isFirefoxPanel()) {
   window.L10N.setBundle(require("./strings.json"));
 }
 
-window.appStore = store;
-
 // Expose the bound actions so external things can do things like
 // selecting a source.
 window.actions = {
   selectSource: actions.selectSource,
   selectSourceURL: actions.selectSourceURL
 };
+
+// Globals needed for mocha integration tests
+window.getGlobalsForTesting = function () {
+  return {
+    debuggerStore: store,
+    launchpadStore: window.launchpadStore,
+    selectors,
+    actions
+  };
+}
 
 function unmountRoot() {
   const mount = document.querySelector("#mount");
