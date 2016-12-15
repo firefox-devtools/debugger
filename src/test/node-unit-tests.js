@@ -17,6 +17,7 @@ const setConfig = require("devtools-config").setConfig;
 const networkRequest = require("devtools-network-request");
 mock("devtools-network-request", networkRequest.stubNetworkRequest);
 mock("../utils/prefs", { prefs: { clientSourceMapsEnabled: true }});
+mock("devtools-modules", { Services: { appinfo: { OS: "darwin" }}});
 
 const baseWorkerURL = path.join(__dirname, "../../assets/build/");
 const packagesPath = path.join(__dirname, "../../packages");
