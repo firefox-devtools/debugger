@@ -50,12 +50,10 @@ if (isFirefoxPanel()) {
   const prettyPrint = require("./utils/pretty-print");
 
   module.exports = {
-    bootstrap: ({ threadClient, tabTarget, toolbox, L10N }: any) => {
-      // TODO (jlast) remove when the panel has L10N
-      if (L10N) {
+    bootstrap: ({ threadClient, tabTarget, toolbox }: any) => {
+      // jlast: remove when docker updates
+      if (!window.L10N) {
         window.L10N = L10N;
-      } else {
-        window.L10N = require("../packages/devtools-local-toolbox/src/utils/L10N");
         window.L10N.setBundle(require("./strings.json"));
       }
 

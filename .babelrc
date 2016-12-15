@@ -7,9 +7,6 @@
     "transform-async-to-generator",
 
     ["module-resolver", {
-      "root": [
-        "./packages/devtools-local-toolbox/src",
-      ],
       "alias": {
         "devtools/client/shared/vendor/react": "react",
         "devtools/client/shared/vendor/react-dom": "react-dom"
