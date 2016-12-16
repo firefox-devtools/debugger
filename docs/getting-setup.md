@@ -53,7 +53,7 @@ yarn start
 ```
 
 *What does this do?*
-This command starts a [development server](https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-local-toolbox/README.md).
+This command starts a [development server][dev-server].
 
 ### Step 5. Open the Debugger
 
@@ -168,5 +168,5 @@ C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -
 [windows-issue]:https://github.com/devtools-html/debugger.html/issues/1248
 [yarn-issue]:https://github.com/devtools-html/debugger.html/issues/1216
 [yarn]:https://yarnpkg.com
-[dev-server]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-local-toolbox/README.md#dev-server
+[dev-server]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/README.md#dev-server
 [first-activity]:./debugging-the-debugger.md
