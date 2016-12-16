@@ -7,5 +7,4 @@
 .*flow-coverage-report/.*
 
 [libs]
-./packages/devtools-config/flow-interface.js
 ./src/global-types.js

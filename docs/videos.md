@@ -8,9 +8,9 @@
 
 ### Getting Started
 This [video](https://youtu.be/9bQ0a3pnBZk) walks through the [getting setup][getting-setup] steps:
-1. starting the [dev server][dev-server]  
-2. starting chrome and firefox  
-3. launching the debugger  
+1. starting the [dev server][dev-server]
+2. starting chrome and firefox
+3. launching the debugger
 4. and then jumps in to [debugger inception][first-activity] because it's too cool not to!
 
 
@@ -26,6 +26,6 @@ This [video](https://youtu.be/NoMryxkNPk0) adds additional functionality to even
 
 
 [getting setup]:./getting-setup.md
-[dev-server]:../packages/devtools-local-toolbox/README.md#dev-server
+[dev-server]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-local-toolbox/README.md#dev-server
 [first-activity]:./debugging-the-debugger.md
 [event-listeners]:http://github.com/devtools-html/debugger.html/issues/1232
