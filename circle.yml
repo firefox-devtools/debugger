@@ -6,6 +6,8 @@ machine:
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
     YARN_PATH: "$HOME/.yarn-cache"
+    YARN_VERSION: 0.16.1
+    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   post:
     - mkdir -p $DOWNLOADS_PATH
     - mkdir -p $YARN_PATH
@@ -26,12 +28,15 @@ test:
 
 dependencies:
   pre:
+    - |
+      if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
+        curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
+      fi
   cache_directories:
     - ~/downloads
     - ~/.yarn-cache
     - ~/.yarn
   override:
-    - npm i -g yarn@0.16.1
     - npm i -g jasonlaster/lerna
     - yarn install
     - ./bin/update-docker
