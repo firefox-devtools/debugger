@@ -8,7 +8,7 @@ const {
   getSourceTabs,
   getFileSearchState
 } = require("../selectors");
-const { getFilename } = require("../utils/source");
+const { getFilename, getRawSourceURL } = require("../utils/source");
 const { isEnabled } = require("devtools-config");
 const classnames = require("classnames");
 const actions = require("../actions");
@@ -229,7 +229,7 @@ const SourceTabs = React.createClass({
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
         onContextMenu: (e) => this.onTabContextMenu(e, source.get("id")),
-        title: source.get("url")
+        title: getRawSourceURL(source.get("url"))
       },
       dom.div({ className: "filename" }, filename),
       CloseButton({ handleClick: onClickClose }));
