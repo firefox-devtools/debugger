@@ -35,6 +35,8 @@ dependencies:
     - npm i -g jasonlaster/lerna
     - yarn install
     - ./bin/update-docker
+  post:
+    - rm -rf ~/node_modules
 
 experimental:
   notify:
