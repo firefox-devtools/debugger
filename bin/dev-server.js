@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const toolbox = require("devtools-local-toolbox/index");
+const toolbox = require("devtools-launchpad/index");
 const feature = require("devtools-config");
 const getConfig = require("./getConfig");
 

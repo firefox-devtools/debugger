@@ -137,7 +137,7 @@ The Debugger supports two types of internationalization RTL (right to left) layo
 
 #### L10N
 
-[L10N](https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-local-toolbox/src/utils/L10N.js) is a global module with two methods `getStr` and `getFormatStr`.
+[L10N](https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/utils/L10N.js) is a global module with two methods `getStr` and `getFormatStr`.
 
 ```js
 L10N.getStr("scopes.header")
@@ -150,7 +150,7 @@ RTL stands for right to left and is an important feature for arabic languages an
 
 *How do I set the debugger to right to left?*
 
-`devtools-local-toolbox/index.html`
+`devtools-launchpad/index.html`
 ```html
 <!DOCTYPE html>
 <html dir="rtl">

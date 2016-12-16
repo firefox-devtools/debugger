@@ -9,7 +9,7 @@ const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
 const EditorSearchBar = createFactory(require("./EditorSearchBar"));
 const { renderConditionalPanel } = require("./EditorConditionalPanel");
-const { debugGlobal } = require("devtools-local-toolbox");
+const { debugGlobal } = require("devtools-launchpad");
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame,
