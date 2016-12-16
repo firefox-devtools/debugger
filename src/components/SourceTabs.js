@@ -65,7 +65,10 @@ const SourceTabs = React.createClass({
     closeTab: PropTypes.func.isRequired,
     closeTabs: PropTypes.func.isRequired,
     toggleFileSearch: PropTypes.func.isRequired,
-    showSource: PropTypes.func.isRequired
+    togglePane: PropTypes.func.isRequired,
+    showSource: PropTypes.func.isRequired,
+    startPanelCollapsed: PropTypes.bool.isRequired,
+    endPanelCollapsed: PropTypes.bool.isRequired,
   },
 
   displayName: "SourceTabs",
@@ -77,8 +80,10 @@ const SourceTabs = React.createClass({
     };
   },
 
-  componentDidUpdate() {
-    this.updateHiddenSourceTabs(this.props.sourceTabs);
+  componentDidUpdate(prevProps) {
+    if (!(prevProps === this.props)) {
+      this.updateHiddenSourceTabs(this.props.sourceTabs);
+    }
   },
 
   onTabContextMenu(event, tab) {
@@ -180,9 +185,7 @@ const SourceTabs = React.createClass({
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenSourceTabs = getHiddenTabs(sourceTabs, sourceTabEls);
 
-    if (!hiddenSourceTabs.equals(this.state.hiddenSourceTabs)) {
-      this.setState({ hiddenSourceTabs });
-    }
+    this.setState({ hiddenSourceTabs });
   },
 
   toggleSourcesDropdown(e) {
@@ -242,6 +245,13 @@ const SourceTabs = React.createClass({
     }, Svg("plus"));
   },
 
+  renderToggleButton(position, collapsed) {
+    return dom.div({
+      className: classnames(`toggle-button-${position}`, { collapsed }),
+      onClick: () => this.props.togglePane(position),
+    }, Svg("togglePanes"));
+  },
+
   renderDropdown() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
@@ -258,9 +268,11 @@ const SourceTabs = React.createClass({
 
   render() {
     return dom.div({ className: "source-header" },
+      this.renderToggleButton("start", !this.props.startPanelCollapsed),
       this.renderTabs(),
       this.renderNewButton(),
-      this.renderDropdown()
+      this.renderDropdown(),
+      this.renderToggleButton("end", !this.props.endPanelCollapsed)
     );
   }
 });

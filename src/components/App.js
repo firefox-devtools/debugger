@@ -51,7 +51,11 @@ const App = React.createClass({
       { className: "center-pane" },
       dom.div(
         { className: "editor-container" },
-        SourceTabs(),
+        SourceTabs({
+          togglePane: this.togglePane,
+          startPanelCollapsed: this.state.startPanelCollapsed,
+          endPanelCollapsed: this.state.endPanelCollapsed,
+        }),
         Editor(),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
         SourceSearch()
@@ -64,7 +68,9 @@ const App = React.createClass({
       ? verticalLayoutBreakpoint.matches : true;
 
     return {
-      vertical
+      vertical,
+      startPanelCollapsed: false,
+      endPanelCollapsed: false,
     };
   },
 
@@ -84,6 +90,18 @@ const App = React.createClass({
     });
   },
 
+  togglePane(position) {
+    if (position === "start") {
+      this.setState({
+        startPanelCollapsed: !this.state.startPanelCollapsed,
+      });
+    } else if (position === "end") {
+      this.setState({
+        endPanelCollapsed: !this.state.endPanelCollapsed,
+      });
+    }
+  },
+
   render: function() {
     return dom.div(
       { className: "debugger" },
@@ -94,6 +112,7 @@ const App = React.createClass({
         maxSize: "50%",
         splitterSize: 1,
         startPanel: Sources({ sources: this.props.sources }),
+        startPanelCollapsed: this.state.startPanelCollapsed,
         endPanel: SplitBox({
           initialSize: "300px",
           minSize: 10,
@@ -102,8 +121,9 @@ const App = React.createClass({
           endPanelControl: true,
           startPanel: this.renderCenterPane(this.props),
           endPanel: RightSidebar(),
+          endPanelCollapsed: this.state.endPanelCollapsed,
           vert: this.state.vertical
-        })
+        }),
       })
     );
   }
