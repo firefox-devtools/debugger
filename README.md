@@ -32,7 +32,7 @@ After the debugger is setup, you can:
 * practice [debugging the debugger][first-activity]
 * claim an [up for grabs][up-for-grabs] issues
 * read the [app overview][app-overview] or [contributing][contributing] guidelines
-* watch a debugger [screencast][getting-started-screencast]
+* watch a [screencast][getting-started-screencast]
 
 ### Getting Involved
 
@@ -58,7 +58,7 @@ We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on
 
 [getting-started]:./docs/getting-setup.md
 [contributing]:./CONTRIBUTING.md
-[getting-started-screencast]:/docs/videos#getting-started
+[getting-started-screencast]:/docs/videos.md#getting-started
 [up-for-grabs]:https://github.com/devtools-html/debugger.html/issues?q=is%3Aissue+is%3Aopen+label%3A%22up+for+grabs%22
 [app-overview]:./docs/debugger.html-react-redux-overview.md
 [first-activity]:./docs/debugging-the-debugger.md
