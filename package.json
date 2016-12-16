@@ -38,7 +38,7 @@
     "devtools-client-adapters": "0.0.2",
     "devtools-config": "^0.0.10",
     "devtools-local-toolbox": "^0.0.13",
-    "devtools-modules": "^0.0.9",
+    "devtools-modules": "^0.0.10",
     "devtools-network-request": "^0.0.9",
     "devtools-sham-modules": "^0.0.10",
     "documentation": "^4.0.0-beta11",
