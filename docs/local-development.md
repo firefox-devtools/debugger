@@ -29,7 +29,7 @@ Here are the most common development configuration options:
   * `debug` Enables listening for remotely debuggable Chrome browsers
 * `hotReloading` enables [Hot Reloading](./docs/local-development.md#hot-reloading) of CSS and React
 
-For a list of all the configuration options see the [packages/devtools-config/README.md](./packages/devtools-config/README.md)
+For a list of all the configuration options see the [packages/devtools-config/README.md](https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md)
 
 #### Creating a Local Config
 
@@ -137,7 +137,7 @@ The Debugger supports two types of internationalization RTL (right to left) layo
 
 #### L10N
 
-[L10N](https://github.com/devtools-html/debugger.html/blob/master/packages/devtools-local-toolbox/src/utils/L10N.js) is a global module with two methods `getStr` and `getFormatStr`.
+[L10N](https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-local-toolbox/src/utils/L10N.js) is a global module with two methods `getStr` and `getFormatStr`.
 
 ```js
 L10N.getStr("scopes.header")

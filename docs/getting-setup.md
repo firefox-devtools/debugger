@@ -7,10 +7,10 @@
 ```bash
 npm i -g yarn@0.16.1
 ```
-*Why Yarn and not NPM?*  
-NPM installs the latest versions. We use [Yarn][yarn] because we want to make sure everyone is using the same libraries.   
+*Why Yarn and not NPM?*
+NPM installs the latest versions. We use [Yarn][yarn] because we want to make sure everyone is using the same libraries.
 
-*Why Yarn 0.16.1?*  
+*Why Yarn 0.16.1?*
 Yarn is a new tool and it occasionally breaks.
 
 ### Step 2. Install dependencies
@@ -21,7 +21,7 @@ cd debugger.html
 yarn install
 ```
 
-*What should I do if I get an error?*  
+*What should I do if I get an error?*
 Yarn is still new, please comment on this [issue][yarn-issue] if you see anything weird.
 
 ### Step 3. Open Firefox
@@ -34,13 +34,13 @@ yarn run firefox
 
 After Firefox is open, go to a page you want to debug. I recommend, TodoMVC http://todomvc.com/examples/vanillajs/.
 
-*Why am I opening Firefox from the terminal?*  
+*Why am I opening Firefox from the terminal?*
 The firefox command opens firefox with special permissions that enable remote debugging.
 
-*What should I see?*  
-Here's a [screenshot][done-screenshot]  
+*What should I see?*
+Here's a [screenshot][done-screenshot]
 
-*What should I do if this doesn't work?*  
+*What should I do if this doesn't work?*
 You can either try to run it [manually](#starting-firefox) or comment on the [issue](https://github.com/devtools-html/debugger.html/issues/1341).
 
 ### Step 4. Start the Debugger
@@ -52,8 +52,8 @@ cd debugger.html
 yarn start
 ```
 
-*What does this do?*  
-This command starts a [development server](../packages/devtools-local-toolbox/README.md).
+*What does this do?*
+This command starts a [development server][dev-server].
 
 ### Step 5. Open the Debugger
 
@@ -168,5 +168,5 @@ C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -
 [windows-issue]:https://github.com/devtools-html/debugger.html/issues/1248
 [yarn-issue]:https://github.com/devtools-html/debugger.html/issues/1216
 [yarn]:https://yarnpkg.com
-[dev-server]:../packages/devtools-local-toolbox/README.md#dev-server
+[dev-server]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/README.md#dev-server
 [first-activity]:./debugging-the-debugger.md
