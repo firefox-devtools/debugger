@@ -50,8 +50,7 @@ let SourcesTree = React.createClass({
         this.state.sourceTree
       );
 
-      this.setState({ listItems });
-      return;
+      return this.setState({ listItems });
     }
 
     if (nextProps.sources === this.props.sources) {
@@ -138,7 +137,7 @@ let SourcesTree = React.createClass({
   },
 
   render: function() {
-    const { focusedItem, sourceTree, parentMap } = this.state;
+    const { focusedItem, sourceTree, parentMap, listItems } = this.state;
     const isEmpty = sourceTree.contents.length === 0;
 
     if (isEnabled("showSource")) {
@@ -163,7 +162,7 @@ let SourcesTree = React.createClass({
       autoExpandDepth: 1,
       autoExpandAll: false,
       onFocus: this.focusItem,
-      itemsList: this.state.listItems,
+      listItems,
       renderItem: this.renderItem
     });
 

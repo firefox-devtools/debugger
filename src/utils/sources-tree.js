@@ -275,33 +275,18 @@ function findSource(sourceTree: any, sourceUrl: string) {
       }
     } else if (!returnTarget &&
       subtree.path.replace(/http(s)?:\//, "") == sourceUrl) {
-      // subtree.path may contain http(s)://
       returnTarget = subtree;
-    } else if (!returnTarget) {
-      let n = subtree.path.indexOf("?");
-      let path = subtree.path.substring(0, n != -1 ? n : subtree.path.length);
-      // Handles the case where subtree.path contains ? and subsequent chars
-      if (path.replace(/http(s)?:\//, "") == sourceUrl) {
-        returnTarget = subtree;
-      }
     }
   }
 
-  // Don't link each top-level path to the "root" node because the
-  // user never sees the root
   sourceTree.contents.forEach(_traverse);
   return returnTarget;
 }
 
 function getDirectories(sourceUrl: string, sourceTree: any) {
   const url = getURL(sourceUrl);
-  let fullUrl = "";
-  if (url.group == "extensions://") {
-    // Retrieve extensions function name from url.path
-    fullUrl = `extensions::${url.path.substring(2)}`;
-  } else {
-    fullUrl = `/${url.group}${url.path}`;
-  }
+  const fullUrl = `/${url.group}${url.path}`;
+
   const parentMap = createParentMap(sourceTree);
   const source = findSource(sourceTree, fullUrl);
 

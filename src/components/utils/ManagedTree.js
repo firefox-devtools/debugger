@@ -16,7 +16,7 @@ let ManagedTree = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ listItems: nextProps.itemsList });
+    this.setState({ listItems: nextProps.listItems });
   },
 
   componentDidUpdate(nextProps) {
@@ -26,7 +26,7 @@ let ManagedTree = React.createClass({
         this.focusItem(listItemsLocal[0]);
       }
       else {
-        this.expandListItems(listItemsLocal, true);
+        this.expandListItems(listItemsLocal);
       }
       listItemsLocal.splice(listItemsLocal.length - 1, 1);
       this.setState({ listItems: listItemsLocal });
