@@ -229,7 +229,7 @@ const SourceTabs = React.createClass({
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
         onContextMenu: (e) => this.onTabContextMenu(e, source.get("id")),
-        title: source.get("url")
+        title: source.get("trueUrl") || source.get("url")
       },
       dom.div({ className: "filename" }, filename),
       CloseButton({ handleClick: onClickClose }));

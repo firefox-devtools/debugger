@@ -197,7 +197,12 @@ function togglePrettyPrint(sourceId: string) {
 
     const url = getPrettySourceURL(source.url);
     const id = generatedToOriginalId(source.id, url);
-    const originalSource = { url, id, isPrettyPrinted: false };
+    const originalSource = {
+      url,
+      id,
+      isPrettyPrinted: false,
+      trueUrl: source.url
+    };
     dispatch({
       type: constants.ADD_SOURCE,
       source: originalSource
