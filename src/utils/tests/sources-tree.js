@@ -395,4 +395,24 @@ describe("sources-tree", () => {
     expect(paths[1].path).to.be("/a");
     expect(paths[0].path).to.be("/a/b.js");
   });
+
+  it("handles 'https' in target url", function() {
+   const source1 = Map({
+     url: "https://a/b.js",
+     actor: "actor1"
+   });
+
+   const source2 = Map({
+     url: "https://b/b.js",
+     actor: "actor1"
+   });
+
+   const tree = createNode("root", "", []);
+   addToTree(tree, source1);
+   addToTree(tree, source2);
+   const paths = getDirectories("https://a/b.js", tree);
+
+   expect(paths[1].path).to.be("/a");
+   expect(paths[0].path).to.be("/a/b.js");
+ });
 });

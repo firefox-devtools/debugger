@@ -284,13 +284,6 @@ function findSource(sourceTree: any, sourceUrl: string) {
       if (path.replace(/http(s)?:\//, "") == sourceUrl) {
         returnTarget = subtree;
       }
-
-      let ns = sourceUrl.indexOf("?");
-      let pathSource = sourceUrl.substring(0, ns != -1 ? ns : sourceUrl.length);
-      // Handles the case where sourceUrl contains ? and subsequent chars
-      if (subtree.path == pathSource) {
-        returnTarget = subtree;
-      }
     }
   }
 
@@ -301,9 +294,16 @@ function findSource(sourceTree: any, sourceUrl: string) {
 }
 
 function getDirectories(sourceUrl: string, sourceTree: any) {
-  const url = sourceUrl.replace(/http(s)?:\//, "");
+  const url = getURL(sourceUrl);
+  let fullUrl = "";
+  if (url.group == "extensions://") {
+    // Retrieve extensions function name from url.path
+    fullUrl = `extensions::${url.path.substring(2)}`;
+  } else {
+    fullUrl = `/${url.group}${url.path}`;
+  }
   const parentMap = createParentMap(sourceTree);
-  const source = findSource(sourceTree, url);
+  const source = findSource(sourceTree, fullUrl);
 
   if (!source) {
     return [];
