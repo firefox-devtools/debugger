@@ -50,12 +50,22 @@ const RightSidebar = React.createClass({
           this.setState({
             expressionInputVisibility: !expressionInputVisibility
           });
-        }, className: "add-button", title: "Add Watch Expression" }, "+"),
+        },
+        key: "add-button",
+        className: "add-button",
+        title: L10N.getStr("watchExpressions.addButton")
+      },
+        "+"
+      ),
       debugBtn(
         evt => {
           evt.stopPropagation();
           this.props.evaluateExpressions();
-        }, "refresh", "refresh", "Refresh")
+        },
+        "refresh",
+        "refresh",
+        L10N.getStr("watchExpressions.refreshButton")
+      )
     ];
   },
 

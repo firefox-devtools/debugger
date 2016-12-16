@@ -23,6 +23,8 @@
   "sources.header": "Sources",
   "sources.search": "%S to search",
   "watchExpressions.header": "Watch Expressions",
+  "watchExpressions.addButton": "Add Watch Expression",
+  "watchExpressions.refreshButton": "Refresh",
   "welcome.search": "%S to search for files",
   "sourceSearch.search": "Search...",
   "sourceSearch.resultsSummary": "%d instances of \"%S\"",
