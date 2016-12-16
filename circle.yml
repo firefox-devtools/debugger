@@ -37,7 +37,6 @@ dependencies:
     - ~/.yarn-cache
     - ~/.yarn
   override:
-    - npm i -g jasonlaster/lerna
     - yarn install
     - ./bin/update-docker
 
