@@ -60,6 +60,14 @@ function getPrettySourceURL(url: string): string {
 }
 
 /**
+ * @memberof utils/source
+ * @static
+ */
+function getRawSourceURL(url: string): string {
+  return url.replace(/:formatted$/, "");
+}
+
+/**
  * Show a source url's filename.
  * If the source does not have a url, use the source id.
  *
@@ -81,5 +89,6 @@ module.exports = {
   isJavaScript,
   isPretty,
   getPrettySourceURL,
+  getRawSourceURL,
   getFilename
 };
