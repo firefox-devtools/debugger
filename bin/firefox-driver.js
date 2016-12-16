@@ -19,6 +19,12 @@ const shouldStart = args.start;
 const isTests = args.tests;
 const useWebSocket = args.websocket;
 
+if (isWindows) {
+  // https://github.com/devtools-html/debugger.html/pull/1309
+  var path = require('path');
+  process.env.PATH = `${path.resolve(__dirname, '../node_modules/geckodriver')};${process.env.PATH}`;
+}
+
 function binaryArgs() {
   return [
     (!isWindows ? "-" : "") +
