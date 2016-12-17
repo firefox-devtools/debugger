@@ -8,3 +8,5 @@ npm-debug.log
 /firefox
 lerna-debug.log
 flow-coverage
+.node-version
+yarn-error.log

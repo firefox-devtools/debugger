@@ -53,18 +53,25 @@ const CommandBar = React.createClass({
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.off("F8", this.props.resume);
-    shortcuts.off("F10", this.props.stepOver);
-    shortcuts.off(`${ctrlKey}F11`, this.props.stepIn);
-    shortcuts.off(`${ctrlKey}Shift+F11`, this.props.stepOut);
+    shortcuts.off("F8");
+    shortcuts.off("F10");
+    shortcuts.off(`${ctrlKey}F11`);
+    shortcuts.off(`${ctrlKey}Shift+F11`);
   },
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.on("F8", this.props.resume);
-    shortcuts.on("F10", this.props.stepOver);
-    shortcuts.on(`${ctrlKey}F11`, this.props.stepIn);
-    shortcuts.on(`${ctrlKey}Shift+F11`, this.props.stepOut);
+    const handleEvent = (e, func) => {
+      e.preventDefault();
+      e.stopPropagation();
+      func();
+    };
+
+    shortcuts.on("F8", (_, e) => handleEvent(e, this.props.resume));
+    shortcuts.on("F10", (_, e) => handleEvent(e, this.props.stepOver));
+    shortcuts.on(`${ctrlKey}F11`, (_, e) => handleEvent(e, this.props.stepIn));
+    shortcuts.on(`${ctrlKey}Shift+F11`,
+      (_, e) => handleEvent(e, this.props.stepOut));
   },
 
   renderStepButtons() {

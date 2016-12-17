@@ -8,7 +8,7 @@ const {
   getSourceTabs,
   getFileSearchState
 } = require("../selectors");
-const { getFilename } = require("../utils/source");
+const { getFilename, getRawSourceURL } = require("../utils/source");
 const { isEnabled } = require("devtools-config");
 const classnames = require("classnames");
 const actions = require("../actions");
@@ -42,6 +42,21 @@ function getHiddenTabs(sourceTabs, sourceTabEls) {
   });
 }
 
+/**
+ * Clipboard function taken from
+ * https://dxr.mozilla.org/mozilla-central/source/devtools/shared/platform/content/clipboard.js
+ */
+function copyToTheClipboard(string) {
+  let doCopy = function(e) {
+    e.clipboardData.setData("text/plain", string);
+    e.preventDefault();
+  };
+
+  document.addEventListener("copy", doCopy);
+  document.execCommand("copy", false, null);
+  document.removeEventListener("copy", doCopy);
+}
+
 const SourceTabs = React.createClass({
   propTypes: {
     sourceTabs: ImPropTypes.list,
@@ -50,7 +65,10 @@ const SourceTabs = React.createClass({
     closeTab: PropTypes.func.isRequired,
     closeTabs: PropTypes.func.isRequired,
     toggleFileSearch: PropTypes.func.isRequired,
-    showSource: PropTypes.func.isRequired
+    togglePane: PropTypes.func.isRequired,
+    showSource: PropTypes.func.isRequired,
+    startPanelCollapsed: PropTypes.bool.isRequired,
+    endPanelCollapsed: PropTypes.bool.isRequired,
   },
 
   displayName: "SourceTabs",
@@ -62,8 +80,10 @@ const SourceTabs = React.createClass({
     };
   },
 
-  componentDidUpdate() {
-    this.updateHiddenSourceTabs(this.props.sourceTabs);
+  componentDidUpdate(prevProps) {
+    if (!(prevProps === this.props)) {
+      this.updateHiddenSourceTabs(this.props.sourceTabs);
+    }
   },
 
   onTabContextMenu(event, tab) {
@@ -80,6 +100,7 @@ const SourceTabs = React.createClass({
     const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
 
     const tabs = sourceTabs.map(t => t.get("id"));
+    const sourceTab = sourceTabs.find(t => t.get("id") == tab);
 
     const closeTabMenuItem = {
       id: "node-menu-close-tab",
@@ -124,6 +145,14 @@ const SourceTabs = React.createClass({
       click: () => showSource(tab)
     };
 
+    const copySourceUrl = {
+      id: "node-menu-close-tabs-to-right",
+      label: "Copy Link Address",
+      accesskey: "X",
+      disabled: false,
+      click: () => copyToTheClipboard(sourceTab.get("url"))
+    };
+
     const items = [
       { item: closeTabMenuItem },
       { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
@@ -131,6 +160,11 @@ const SourceTabs = React.createClass({
          tabs.some((t, i) => t === tab && (tabs.size - 1) === i) },
       { item: closeAllTabsMenuItem },
     ];
+
+    if (isEnabled("copySource")) {
+      items.push({ item: { type: "separator" }});
+      items.push({ item: copySourceUrl });
+    }
 
     if (isEnabled("showSource")) {
       items.push({ item: showSourceMenuItem });
@@ -151,9 +185,7 @@ const SourceTabs = React.createClass({
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenSourceTabs = getHiddenTabs(sourceTabs, sourceTabEls);
 
-    if (!hiddenSourceTabs.equals(this.state.hiddenSourceTabs)) {
-      this.setState({ hiddenSourceTabs });
-    }
+    this.setState({ hiddenSourceTabs });
   },
 
   toggleSourcesDropdown(e) {
@@ -200,7 +232,7 @@ const SourceTabs = React.createClass({
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
         onContextMenu: (e) => this.onTabContextMenu(e, source.get("id")),
-        title: source.get("url")
+        title: getRawSourceURL(source.get("url"))
       },
       dom.div({ className: "filename" }, filename),
       CloseButton({ handleClick: onClickClose }));
@@ -211,6 +243,13 @@ const SourceTabs = React.createClass({
       className: "new-tab-btn",
       onClick: () => this.props.toggleFileSearch(true)
     }, Svg("plus"));
+  },
+
+  renderToggleButton(position, collapsed) {
+    return dom.div({
+      className: classnames(`toggle-button-${position}`, { collapsed }),
+      onClick: () => this.props.togglePane(position),
+    }, Svg("togglePanes"));
   },
 
   renderDropdown() {
@@ -229,9 +268,11 @@ const SourceTabs = React.createClass({
 
   render() {
     return dom.div({ className: "source-header" },
+      this.renderToggleButton("start", !this.props.startPanelCollapsed),
       this.renderTabs(),
       this.renderNewButton(),
-      this.renderDropdown()
+      this.renderDropdown(),
+      this.renderToggleButton("end", !this.props.endPanelCollapsed)
     );
   }
 });

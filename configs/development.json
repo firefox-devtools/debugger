@@ -10,10 +10,12 @@
   },
   "features": {
     "watchExpressions": false,
-    "showSource": true,
+    "copySource": false,
+    "showSource": false,
     "editorSearch": false,
     "whyPaused": false,
-    "verticalLayout": false
+    "verticalLayout": false,
+    "eventListeners": false
   },
   "chrome": {
     "debug": true,

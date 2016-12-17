@@ -11,25 +11,18 @@ let ManagedTree = React.createClass({
     return {
       expanded: new Set(),
       focusedItem: null,
-      listItems: []
+      treeListItems: []
     };
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ listItems: nextProps.itemsList });
+    this.setState({ treeListItems: nextProps.listItems });
   },
 
   componentDidUpdate(nextProps) {
-    const listItemsLocal = this.state.listItems;
-    if (listItemsLocal && listItemsLocal.length > 0) {
-      if (listItemsLocal.length == 1) {
-        this.focusItem(listItemsLocal[0]);
-      }
-      else {
-        this.expandListItems(listItemsLocal, true);
-      }
-      listItemsLocal.splice(listItemsLocal.length - 1, 1);
-      this.setState({ listItems: listItemsLocal });
+    const treeListItems = this.state.treeListItems;
+    if (treeListItems && treeListItems.length > 0) {
+      this.expandListItems(treeListItems);
     }
   },
 
@@ -50,11 +43,14 @@ let ManagedTree = React.createClass({
     }
   },
 
-  expandListItems(itemsList) {
-    const key = this.props.getKey(itemsList[itemsList.length - 1]);
+  expandListItems(treeListItems) {
     const expanded = this.state.expanded;
-    expanded.add(key);
-    this.setState({ expanded: expanded });
+    for (let i = treeListItems.length - 1; i >= 0; i--) {
+      const key = this.props.getKey(treeListItems[i]);
+      expanded.add(key);
+    }
+    this.focusItem(treeListItems[0]);
+    this.setState({ expanded: expanded, treeListItems: [] });
   },
 
   focusItem(item) {

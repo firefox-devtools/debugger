@@ -11,6 +11,7 @@ const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Expressions = React.createFactory(require("./Expressions"));
 const Scopes = React.createFactory(require("./Scopes"));
 const Frames = React.createFactory(require("./Frames"));
+const EventListeners = React.createFactory(require("./EventListeners"));
 const Accordion = React.createFactory(require("./Accordion"));
 const CommandBar = React.createFactory(require("./CommandBar"));
 require("./RightSidebar.css");
@@ -18,7 +19,7 @@ require("./RightSidebar.css");
 function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
   return dom.button(
-    { onClick, className, key: type },
+    { onClick, className, key: type, title: tooltip },
     Svg(type, { title: tooltip, "aria-label": tooltip })
   );
 }
@@ -43,20 +44,28 @@ const RightSidebar = React.createClass({
   watchExpressionHeaderButtons() {
     const { expressionInputVisibility } = this.state;
     return [
-      debugBtn(
-        evt => {
-          evt.stopPropagation();
-          this.props.evaluateExpressions();
-        }, "domain",
-        "accordion-button", "Refresh"),
-      debugBtn(
-        evt => {
+      dom.button({
+        onClick: evt => {
           evt.stopPropagation();
           this.setState({
             expressionInputVisibility: !expressionInputVisibility
           });
-        }, "file",
-        "accordion-button", "Add Watch Expression")
+        },
+        key: "add-button",
+        className: "add-button",
+        title: L10N.getStr("watchExpressions.addButton")
+      },
+        "+"
+      ),
+      debugBtn(
+        evt => {
+          evt.stopPropagation();
+          this.props.evaluateExpressions();
+        },
+        "refresh",
+        "refresh",
+        L10N.getStr("watchExpressions.refreshButton")
+      )
     ];
   },
 
@@ -72,6 +81,14 @@ const RightSidebar = React.createClass({
       { header: L10N.getStr("scopes.header"),
         component: Scopes }
     ];
+
+    if (isEnabled("eventListeners")) {
+      items.push({
+        header: L10N.getStr("eventListenersHeader"),
+        component: EventListeners
+      });
+    }
+
     if (isEnabled("watchExpressions")) {
       items.unshift({ header: L10N.getStr("watchExpressions.header"),
         buttons: this.watchExpressionHeaderButtons(),
@@ -80,6 +97,7 @@ const RightSidebar = React.createClass({
         opened: true
       });
     }
+
     return items;
   },
 

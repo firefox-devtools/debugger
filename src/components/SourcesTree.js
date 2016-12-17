@@ -1,7 +1,6 @@
 const React = require("react");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-
 const { DOM: dom, PropTypes } = React;
 const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
@@ -51,8 +50,7 @@ let SourcesTree = React.createClass({
         this.state.sourceTree
       );
 
-      this.setState({ listItems });
-      return;
+      return this.setState({ listItems });
     }
 
     if (nextProps.sources === this.props.sources) {
@@ -94,6 +92,12 @@ let SourcesTree = React.createClass({
     if (!nodeHasChildren(item)) {
       this.props.selectSource(item.contents.get("id"));
     }
+
+    // If listItems is not empty, focusedItem would be set incorrectly in
+    // ManagedTree.js's expandListItems function
+    if(this.state.listItems && this.state.listItems.length > 0) {
+      this.setState({ listItems: [] });
+    }
   },
 
   getIcon(item, depth) {
@@ -109,7 +113,8 @@ let SourcesTree = React.createClass({
   },
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
-    const arrow = Svg("arrow",
+    const arrow = Svg(
+      "arrow",
       {
         className: classnames(
           { expanded: expanded,
@@ -123,11 +128,12 @@ let SourcesTree = React.createClass({
     );
 
     const icon = this.getIcon(item, depth);
-
+    const paddingDir = document.body.parentElement.dir == "ltr" ?
+                       "paddingLeft" : "paddingRight";
     return dom.div(
       {
         className: classnames("node", { focused }),
-        style: { paddingLeft: `${depth * 15}px` },
+        style: { [paddingDir]: `${depth * 15}px` },
         key: item.path,
         onClick: () => this.selectItem(item),
         onDoubleClick: e => setExpanded(item, !expanded)
@@ -137,7 +143,7 @@ let SourcesTree = React.createClass({
   },
 
   render: function() {
-    const { focusedItem, sourceTree, parentMap } = this.state;
+    const { focusedItem, sourceTree, parentMap, listItems } = this.state;
     const isEmpty = sourceTree.contents.length === 0;
 
     const tree = ManagedTree({
@@ -153,11 +159,11 @@ let SourcesTree = React.createClass({
       },
       getRoots: () => sourceTree.contents,
       getKey: (item, i) => item.path,
-      itemHeight: 30,
+      itemHeight: 18,
       autoExpandDepth: 1,
       autoExpandAll: false,
       onFocus: this.focusItem,
-      itemsList: this.state.listItems,
+      listItems,
       renderItem: this.renderItem
     });
 

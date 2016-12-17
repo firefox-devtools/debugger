@@ -1,0 +1,45 @@
+
+.arrow,
+.folder,
+.domain,
+.file,
+.worker,
+.refresh,
+.add-button {
+  fill: var(--theme-splitter-color);
+}
+
+.worker,
+.folder {
+  position: relative;
+  top: 2px;
+}
+
+.domain,
+.file,
+.worker,
+.refresh,
+.add-button {
+  position: relative;
+  top: 1px;
+}
+
+.domain svg,
+.folder svg,
+.worker svg,
+.refresh svg,
+.add-button svg {
+  width: 15px;
+}
+
+.file svg {
+  width: 13px;
+}
+
+.file svg,
+.domain svg,
+.folder svg,
+.refresh svg,
+.worker svg {
+  margin-inline-end: 5px;
+}

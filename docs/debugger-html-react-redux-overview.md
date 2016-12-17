@@ -101,6 +101,7 @@ SourcesTree encapsulates ManagedTree.
 
 ![](https://docs.google.com/drawings/d/1dOCy4BePfX77ky3yUTlZRnAeeFIIi4UAJcYaYmYvUcY/pub?w=960&h=720)
 [Click here to Edit](https://docs.google.com/drawings/d/1dOCy4BePfX77ky3yUTlZRnAeeFIIi4UAJcYaYmYvUcY/edit?usp=sharing)
+
 ##Source editor/file search
 
 The center portion of the application displays either the source editor or a file search entry box. If the editor is displayed rendering is handled by three main components and one dynamic component.

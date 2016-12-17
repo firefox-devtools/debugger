@@ -534,6 +534,7 @@ const keyMappings = {
   "Enter": { code: "VK_RETURN" },
   "Up": { code: "VK_UP" },
   "Down": { code: "VK_DOWN" },
+  "Escape": { code: "VK_ESCAPE" },
   pauseKey: { code: "VK_F8" },
   resumeKey: { code: "VK_F8" },
   stepOverKey: { code: "VK_F10" },
