@@ -95,7 +95,7 @@ let SourcesTree = React.createClass({
 
     // If listItems is not empty, focusedItem would be set incorrectly in
     // ManagedTree.js's expandListItems function
-    if(this.state.listItems && this.state.listItems.length > 0) {
+    if (this.state.listItems && this.state.listItems.length > 0) {
       this.setState({ listItems: [] });
     }
   },
