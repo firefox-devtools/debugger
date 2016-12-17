@@ -47,4 +47,4 @@ deployment:
   greenkeeper:
     branch: /greenkeeper\/.*/
     commands:
-      - ./bin/update-yarn
+      - ./bin/update-yarn-lock-file
