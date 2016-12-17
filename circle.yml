@@ -42,3 +42,9 @@ experimental:
     branches:
       only:
         - master
+
+deployment:
+  greenkeeper:
+    branch: /greenkeeper\/.*/
+    commands:
+      - ./bin/update-yarn
