@@ -16,7 +16,8 @@ let ManagedTree = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     const listItems = nextProps.listItems;
-    if (listItems && listItems.length > 0) {
+    if (listItems &&  listItems != this.props.listItems &&
+       listItems.length > 0) {
       this.expandListItems(listItems);
     }
   },
@@ -38,13 +39,10 @@ let ManagedTree = React.createClass({
     }
   },
 
-  expandListItems(treeListItems) {
+  expandListItems(listItems) {
     const expanded = this.state.expanded;
-    for (let i = treeListItems.length - 1; i >= 0; i--) {
-      const key = this.props.getKey(treeListItems[i]);
-      expanded.add(key);
-    }
-    this.focusItem(treeListItems[0]);
+    listItems.forEach(item => expanded.add(this.props.getKey(item)));
+    this.focusItem(listItems[0]);
     this.setState({ expanded: expanded });
   },
 
