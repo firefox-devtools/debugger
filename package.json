@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "codemirror": "^5.1.0",
-    "devtools-client-adapters": "0.0.2",
     "devtools-config": "^0.0.10",
     "devtools-launchpad": "^0.0.17",
     "devtools-modules": "^0.0.10",

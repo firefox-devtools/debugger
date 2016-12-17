@@ -49,7 +49,6 @@ module.exports = {
   generatedToOriginalId,
   isGeneratedId,
   isOriginalId,
-
   getOriginalURLs,
   getGeneratedLocation,
   getOriginalLocation,

@@ -14,6 +14,14 @@ let ManagedTree = React.createClass({
     };
   },
 
+  componentWillReceiveProps(nextProps) {
+    const listItems = nextProps.listItems;
+    if (listItems &&  listItems != this.props.listItems &&
+       listItems.length > 0) {
+      this.expandListItems(listItems);
+    }
+  },
+
   setExpanded(item, isExpanded) {
     const expanded = this.state.expanded;
     const key = this.props.getKey(item);
@@ -29,6 +37,13 @@ let ManagedTree = React.createClass({
     } else if (!expanded && this.props.onCollapse) {
       this.props.onCollapse(item);
     }
+  },
+
+  expandListItems(listItems) {
+    const expanded = this.state.expanded;
+    listItems.forEach(item => expanded.add(this.props.getKey(item)));
+    this.focusItem(listItems[0]);
+    this.setState({ expanded: expanded });
   },
 
   focusItem(item) {
