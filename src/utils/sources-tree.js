@@ -267,7 +267,7 @@ function createTree(sources: any) {
 }
 
 function findSource(sourceTree: any, sourceUrl: string) {
-  const returnTarget = null;
+  let returnTarget = null;
   function _traverse(subtree) {
     if (nodeHasChildren(subtree)) {
       for (let child of subtree.contents) {
