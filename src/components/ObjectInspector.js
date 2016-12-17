@@ -86,7 +86,7 @@ const ObjectInspector = React.createClass({
   makeNodesForProperties(objProps, parentPath) {
     const { ownProperties, prototype } = objProps;
 
-    const nodes = Object.keys(ownProperties).filter(name => {
+    const nodes = Object.keys(ownProperties).sort().filter(name => {
       // Ignore non-concrete values like getters and setters
       // for now by making sure we have a value.
       return "value" in ownProperties[name];
