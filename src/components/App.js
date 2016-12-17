@@ -2,15 +2,14 @@ const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { cmdString } = require("../utils/text");
 const actions = require("../actions");
 const { getSources, getSelectedSource } = require("../selectors");
 
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
+const { formatKeyShortcut } = require("../utils/text");
 const { isEnabled } = require("devtools-config");
 
-const cmd = `${cmdString()}+P`;
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
 
 require("./App.css");
@@ -42,7 +41,7 @@ const App = React.createClass({
   renderWelcomeBox() {
     return dom.div(
       { className: "welcomebox" },
-      L10N.getFormatStr("welcome.search", cmd)
+      L10N.getFormatStr("welcome.search", formatKeyShortcut("CmdOrCtrl+P"))
     );
   },
 
