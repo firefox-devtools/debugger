@@ -17,6 +17,8 @@ require("./CommandBar.css");
 
 const isMacOS = (appinfo.OS === "Darwin");
 
+const COMMANDS = ["resume", "stepOver", "stepIn", "stepOut"];
+
 const KEYS = {
   "WINNT": {
     "resume": "F8",
@@ -97,13 +99,9 @@ const CommandBar = React.createClass({
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    ["resume", "stepOver", "stepIn", "stepOut"].forEach(
-      (action) => shortcuts.off(getKey(action))
-    );
+    COMMANDS.forEach((action) => shortcuts.off(getKey(action)));
     if (isMacOS) {
-      ["resume", "stepOver", "stepIn", "stepOut"].forEach(
-        (action) => shortcuts.off(getKeyForOS("WINNT", action))
-      );
+      COMMANDS.forEach((action) => shortcuts.off(getKeyForOS("WINNT", action)));
     }
   },
 
@@ -115,26 +113,18 @@ const CommandBar = React.createClass({
       func();
     };
 
-    shortcuts.on(getKey("resume"),
-      (_, e) => handleEvent(e, this.props.resume));
-    shortcuts.on(getKey("stepOver"),
-      (_, e) => handleEvent(e, this.props.stepOver));
-    shortcuts.on(getKey("stepIn"),
-      (_, e) => handleEvent(e, this.props.stepIn));
-    shortcuts.on(getKey("stepOut"),
-      (_, e) => handleEvent(e, this.props.stepOut));
+    COMMANDS.forEach((action) => shortcuts.on(
+      getKey(action),
+      (_, e) => handleEvent(e, this.props[action]))
+    );
 
     if (isMacOS) {
       // The Mac supports both the Windows Function keys
       // as well as the Mac non-Function keys
-      shortcuts.on(getKeyForOS("WINNT", "resume"),
-        (_, e) => handleEvent(e, this.props.resume));
-      shortcuts.on(getKeyForOS("WINNT", "stepOver"),
-        (_, e) => handleEvent(e, this.props.stepOver));
-      shortcuts.on(getKeyForOS("WINNT", "stepIn"),
-        (_, e) => handleEvent(e, this.props.stepIn));
-      shortcuts.on(getKeyForOS("WINNT", "stepOut"),
-        (_, e) => handleEvent(e, this.props.stepOut));
+      COMMANDS.forEach((action) => shortcuts.on(
+        getKeyForOS("WINNT", action),
+        (_, e) => handleEvent(e, this.props[action]))
+      );
     }
   },
 
