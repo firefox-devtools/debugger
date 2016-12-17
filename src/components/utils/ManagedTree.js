@@ -10,19 +10,14 @@ let ManagedTree = React.createClass({
   getInitialState() {
     return {
       expanded: new Set(),
-      focusedItem: null,
-      treeListItems: []
+      focusedItem: null
     };
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ treeListItems: nextProps.listItems });
-  },
-
-  componentDidUpdate(nextProps) {
-    const treeListItems = this.state.treeListItems;
-    if (treeListItems && treeListItems.length > 0) {
-      this.expandListItems(treeListItems);
+    const listItems = nextProps.listItems;
+    if (listItems && listItems.length > 0) {
+      this.expandListItems(listItems);
     }
   },
 
@@ -50,7 +45,7 @@ let ManagedTree = React.createClass({
       expanded.add(key);
     }
     this.focusItem(treeListItems[0]);
-    this.setState({ expanded: expanded, treeListItems: [] });
+    this.setState({ expanded: expanded });
   },
 
   focusItem(item) {
