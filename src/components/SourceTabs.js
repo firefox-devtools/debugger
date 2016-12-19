@@ -16,6 +16,7 @@ const CloseButton = require("./CloseButton");
 const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu, buildMenu } = require("../utils/menu");
+const { debounce } = require("lodash");
 
 require("./SourceTabs.css");
 require("./Dropdown.css");
@@ -82,8 +83,17 @@ const SourceTabs = React.createClass({
 
   componentDidUpdate(prevProps) {
     if (!(prevProps === this.props)) {
-      this.updateHiddenSourceTabs(this.props.sourceTabs);
+      this.updateHiddenSourceTabs();
     }
+  },
+
+  componentDidMount() {
+    this.updateHiddenSourceTabs();
+    window.addEventListener("resize", this.onResize, false);
+  },
+
+  componentDidDismount() {
+    window.removeEventListener("resize", this.onResize);
   },
 
   onTabContextMenu(event, tab) {
@@ -173,15 +183,20 @@ const SourceTabs = React.createClass({
     showMenu(e, buildMenu(items));
   },
 
+  onResize: debounce(function() {
+    this.updateHiddenSourceTabs();
+  }),
+
   /*
    * Updates the hiddenSourceTabs state, by
    * finding the source tabs who have wrapped and are not on the top row.
    */
-  updateHiddenSourceTabs(sourceTabs) {
+  updateHiddenSourceTabs() {
     if (!this.refs.sourceTabs) {
       return;
     }
 
+    const sourceTabs = this.props.sourceTabs;
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenSourceTabs = getHiddenTabs(sourceTabs, sourceTabEls);
 
