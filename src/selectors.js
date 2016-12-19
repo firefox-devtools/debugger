@@ -29,6 +29,7 @@ module.exports = {
   getBreakpointsLoading: breakpoints.getBreakpointsLoading,
 
   getPause: pause.getPause,
+  getChromeScopes: pause.getChromeScopes,
   getLoadedObjects: pause.getLoadedObjects,
   getExpressions: pause.getExpressions,
   getIsWaitingOnBreak: pause.getIsWaitingOnBreak,

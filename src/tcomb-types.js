@@ -11,7 +11,8 @@ const Frame = t.struct({
   displayName: t.String,
   location: Location,
   this: t.union([t.Object, t.Nil]),
-  scope: t.union([t.Object, t.Nil])
+  scope: t.union([t.Object, t.Nil]),
+  scopeChain: t.union([t.Array, t.Nil]),
 }, "Frame");
 
 module.exports = {
