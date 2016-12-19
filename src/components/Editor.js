@@ -24,6 +24,7 @@ const { shouldShowFooter } = require("../utils/editor");
 const { isFirefox } = require("devtools-config");
 const { showMenu } = require("../utils/menu");
 const { isEnabled } = require("devtools-config");
+const { isOriginalId } = require("../utils/source-map");
 
 require("./Editor.css");
 
@@ -68,6 +69,7 @@ const Editor = React.createClass({
     enableBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
     setBreakpointCondition: PropTypes.func,
+    jumpToMappedLocation: PropTypes.func,
     selectedFrame: PropTypes.object
   },
 
@@ -90,8 +92,44 @@ const Editor = React.createClass({
     this.toggleBreakpoint(line);
   },
 
-  onGutterContextMenu(event) {
+  onContextMenu(cm, event) {
+    if (event.target.classList.contains("CodeMirror-linenumber")) {
+      return this.onGutterContextMenu(cm, event);
+    }
+
+    event.stopPropagation();
     event.preventDefault();
+
+    const { line, ch } = this.editor.codeMirror.coordsChar({
+      left: event.clientX,
+      top: event.clientY
+    });
+
+    const sourceLocation = {
+      sourceId: this.props.selectedLocation.sourceId,
+      line: line,
+      column: ch
+    };
+
+    const pairedType = isOriginalId(this.props.selectedLocation.sourceId)
+      ? L10N.getStr("generated") : L10N.getStr("original");
+
+    const jumpLabel = {
+      accesskey: "C",
+      disabled: false,
+      label: L10N.getFormatStr("editor.jumpToMappedLocation", pairedType),
+      click: () => this.props.jumpToMappedLocation(sourceLocation)
+    };
+
+    showMenu(event, [
+      jumpLabel
+    ]);
+  },
+
+  onGutterContextMenu(cm, event) {
+    event.stopPropagation();
+    event.preventDefault();
+
     const line = this.editor.codeMirror.lineAtHeight(event.clientY);
     const bp = breakpointAtLine(this.props.breakpoints, line);
     this.showGutterMenu(event, line, bp);
@@ -358,10 +396,15 @@ const Editor = React.createClass({
         "gutterContextMenu",
         (cm, line, eventName, event) => this.onGutterContextMenu(event)
       );
+
+      this.editor.codeMirror.on(
+        "contextmenu",
+        (cm, event) => this.onContextMenu(cm, event)
+      );
     } else {
       this.editor.codeMirror.getWrapperElement().addEventListener(
         "contextmenu",
-        event => this.onGutterContextMenu(event),
+        event => this.onContextMenu(this.editor.codeMirror, event),
         false
       );
     }

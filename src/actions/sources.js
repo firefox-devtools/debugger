@@ -16,6 +16,7 @@ const { updateFrameLocations } = require("../utils/pause");
 const {
   getOriginalURLs, getOriginalSourceText,
   generatedToOriginalId, isOriginalId,
+  getOriginalLocation, getGeneratedLocation,
   isGeneratedId, applySourceMap, shouldSourceMap
 } = require("../utils/source-map");
 
@@ -144,6 +145,28 @@ function selectSource(id: string, options: SelectSourceOptions = {}) {
       tabIndex: options.tabIndex,
       line: options.line
     });
+  };
+}
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
+function jumpToMappedLocation(sourceLocation: any) {
+  return async function({ dispatch, getState, client }: ThunkArgs) {
+    if (!client) {
+      return;
+    }
+
+    const source = getSource(getState(), sourceLocation.sourceId);
+    const pairedLocation = isOriginalId(sourceLocation.sourceId)
+      ? await getGeneratedLocation(sourceLocation, source.toJS())
+      : await getOriginalLocation(sourceLocation, source.toJS());
+
+    return dispatch(selectSource(
+      pairedLocation.sourceId,
+      { line: pairedLocation.line }
+    ));
   };
 }
 
@@ -348,6 +371,7 @@ module.exports = {
   newSources,
   selectSource,
   selectSourceURL,
+  jumpToMappedLocation,
   closeTab,
   closeTabs,
   togglePrettyPrint,
