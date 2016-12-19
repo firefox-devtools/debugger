@@ -89,13 +89,11 @@ const SourceTabs = React.createClass({
 
   componentDidMount() {
     this.updateHiddenSourceTabs();
-    this.onResize = debounce(this.updateHiddenSourceTabs);
     window.addEventListener("resize", this.onResize, false);
   },
 
   componentDidDismount() {
     window.removeEventListener("resize", this.onResize);
-    this.onResize = null;
   },
 
   onTabContextMenu(event, tab) {
@@ -184,6 +182,10 @@ const SourceTabs = React.createClass({
 
     showMenu(e, buildMenu(items));
   },
+
+  onResize: debounce(function() {
+    this.updateHiddenSourceTabs();
+  }),
 
   /*
    * Updates the hiddenSourceTabs state, by
