@@ -3,14 +3,12 @@ const { DOM: dom, PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-const { cmdString } = require("../utils/text");
+const { formatKeyShortcut } = require("../utils/text");
 const SourcesTree = React.createFactory(require("./SourcesTree"));
 const actions = require("../actions");
 const { getSelectedSource, getSources } = require("../selectors");
 
 require("./Sources.css");
-
-const cmd = `${cmdString()}+P`;
 
 const Sources = React.createClass({
   propTypes: {
@@ -28,7 +26,7 @@ const Sources = React.createClass({
       dom.div({ className: "sources-header" },
         L10N.getStr("sources.header"),
         dom.span({ className: "sources-header-info" },
-          L10N.getFormatStr("sources.search", cmd)
+          L10N.getFormatStr("sources.search", formatKeyShortcut("CmdOrCtrl+P"))
         )
       ),
       SourcesTree({ sources, selectSource })

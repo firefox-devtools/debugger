@@ -8,14 +8,60 @@ const { getPause, getIsWaitingOnBreak, getBreakpointsDisabled,
       } = require("../selectors");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
+const { formatKeyShortcut } = require("../utils/text");
 
 const { Services: { appinfo }} = require("devtools-modules");
 
-const shiftKey = appinfo.OS === "Darwin" ? "\u21E7" : "Shift+";
-const ctrlKey = appinfo.OS === "Linux" ? "Ctrl+" : "";
-
 const actions = require("../actions");
 require("./CommandBar.css");
+
+const isMacOS = (appinfo.OS === "Darwin");
+
+const COMMANDS = ["resume", "stepOver", "stepIn", "stepOut"];
+
+const KEYS = {
+  "WINNT": {
+    "resume": "F8",
+    "pause": "F8",
+    "stepOver": "F10",
+    "stepIn": "F11",
+    "stepOut": "Shift+F11"
+  },
+  "Darwin": {
+    "resume": "Cmd+\\",
+    "pause": "Cmd+\\",
+    "stepOver": "Cmd+'",
+    "stepIn": "Cmd+;",
+    "stepOut": "Cmd+Shift+:",
+    "stepOutDisplay": "Cmd+Shift+;"
+  },
+  "Linux": {
+    "resume": "F8",
+    "pause": "F8",
+    "stepOver": "F10",
+    "stepIn": "Ctrl+F11",
+    "stepOut": "Ctrl+Shift+F11"
+  }
+};
+
+function getKey(action) {
+  return getKeyForOS(appinfo.OS, action);
+}
+
+function getKeyForOS(os, action) {
+  return KEYS[os][action];
+}
+
+function formatKey(action) {
+  const key = getKey(`${action}Display`) || getKey(action);
+  if (isMacOS) {
+    const winKey = getKeyForOS("WINNT", `${action}Display`) ||
+                   getKeyForOS("WINNT", action);
+    // display both Windows type and Mac specific keys
+    return formatKeyShortcut([key, winKey].join(" "));
+  }
+  return formatKeyShortcut(key);
+}
 
 function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
@@ -53,10 +99,10 @@ const CommandBar = React.createClass({
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.off("F8");
-    shortcuts.off("F10");
-    shortcuts.off(`${ctrlKey}F11`);
-    shortcuts.off(`${ctrlKey}Shift+F11`);
+    COMMANDS.forEach((action) => shortcuts.off(getKey(action)));
+    if (isMacOS) {
+      COMMANDS.forEach((action) => shortcuts.off(getKeyForOS("WINNT", action)));
+    }
   },
 
   componentDidMount() {
@@ -67,24 +113,32 @@ const CommandBar = React.createClass({
       func();
     };
 
-    shortcuts.on("F8", (_, e) => handleEvent(e, this.props.resume));
-    shortcuts.on("F10", (_, e) => handleEvent(e, this.props.stepOver));
-    shortcuts.on(`${ctrlKey}F11`, (_, e) => handleEvent(e, this.props.stepIn));
-    shortcuts.on(`${ctrlKey}Shift+F11`,
-      (_, e) => handleEvent(e, this.props.stepOut));
+    COMMANDS.forEach((action) => shortcuts.on(
+      getKey(action),
+      (_, e) => handleEvent(e, this.props[action]))
+    );
+
+    if (isMacOS) {
+      // The Mac supports both the Windows Function keys
+      // as well as the Mac non-Function keys
+      COMMANDS.forEach((action) => shortcuts.on(
+        getKeyForOS("WINNT", action),
+        (_, e) => handleEvent(e, this.props[action]))
+      );
+    }
   },
 
   renderStepButtons() {
     const className = this.props.pause ? "active" : "disabled";
     return [
       debugBtn(this.props.stepOver, "stepOver", className,
-        L10N.getStr("stepOverTooltip")
+        L10N.getFormatStr("stepOverTooltip1", formatKey("stepOver"))
       ),
       debugBtn(this.props.stepIn, "stepIn", className,
-        L10N.getFormatStr("stepInTooltip", ctrlKey)
+        L10N.getFormatStr("stepInTooltip1", formatKey("stepIn"))
       ),
       debugBtn(this.props.stepOut, "stepOut", className,
-        L10N.getFormatStr("stepOutTooltip", ctrlKey + shiftKey)
+        L10N.getFormatStr("stepOutTooltip1", formatKey("stepOut"))
       )
     ];
   },
@@ -94,7 +148,7 @@ const CommandBar = React.createClass({
 
     if (pause) {
       return debugBtn(this.props.resume, "resume", "active",
-        L10N.getStr("resumeButtonTooltip")
+        L10N.getFormatStr("resumeButtonTooltip1", formatKey("resume"))
       );
     }
 
@@ -105,7 +159,7 @@ const CommandBar = React.createClass({
     }
 
     return debugBtn(breakOnNext, "pause", "active",
-      L10N.getStr("pauseButtonTooltip")
+      L10N.getFormatStr("pauseButtonTooltip1", formatKey("pause"))
     );
   },
 
