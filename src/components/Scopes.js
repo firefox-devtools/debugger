@@ -45,10 +45,11 @@ function getSpecialVariables(pauseInfo, path) {
   }
 
   if (returned) {
+    const value = returned.toJS ? returned.toJS() : returned;
     vars.push({
       name: "<return>",
       path: `${path}/<return>`,
-      contents: { value: returned.toJS() }
+      contents: { value }
     });
   }
 

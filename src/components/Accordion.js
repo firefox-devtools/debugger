@@ -18,6 +18,16 @@ const Accordion = React.createClass({
       created: [] };
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    const newOpened = this.state.opened.map((isOpen, i) => {
+      const { shouldOpen } = nextProps.items[i];
+
+      return isOpen || (shouldOpen && shouldOpen());
+    });
+
+    this.setState({ opened: newOpened });
+  },
+
   handleHeaderClick: function(i) {
     const opened = [...this.state.opened];
     const created = [...this.state.created];
