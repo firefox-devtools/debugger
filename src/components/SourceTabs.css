@@ -72,6 +72,22 @@
   fill: var(--theme-body-color);
 }
 
+.source-tab .prettyPrint {
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 6px;
+}
+
+.source-tab .prettyPrint svg {
+  height: 1em;
+  width: 1em;
+}
+
+.source-tab .prettyPrint path {
+  fill: var(--theme-textbox-box-shadow);
+}
+
 .source-tab .close-btn {
   position: absolute;
   top: 3px;
@@ -80,6 +96,10 @@
 .source-tab .filename {
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.source-tab.pretty .filename {
+  padding-left: 12px;
 }
 
 .source-tab .close-btn {
