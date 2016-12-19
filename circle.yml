@@ -41,7 +41,7 @@ dependencies:
 
 general:
   artifacts:
-    - ./yarn-error.log
+    - "yarn-error.log"
 
 experimental:
   notify:
