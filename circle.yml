@@ -37,6 +37,10 @@ dependencies:
     - yarn install
     - ./bin/update-docker
 
+general:
+  artifacts:
+    - ./yarn-error.log
+
 experimental:
   notify:
     branches:
