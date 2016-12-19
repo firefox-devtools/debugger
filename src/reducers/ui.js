@@ -28,10 +28,7 @@ function update(state = State(), action: Action): Record<UIState> {
     }
 
     case constants.SHOW_SOURCE: {
-      let tempArr = [];
-      tempArr.push(action.sourceUrl);
-      tempArr.push(action.randomNum);
-      return state.set("shownSource", tempArr);
+      return state.set("shownSource", [action.sourceUrl, action.randomNum]);
     }
 
     default: {
