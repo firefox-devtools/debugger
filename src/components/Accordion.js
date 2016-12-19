@@ -19,11 +19,10 @@ const Accordion = React.createClass({
   },
 
   componentWillReceiveProps: function(nextProps) {
-    const opened = [...this.state.opened];
-    const newOpened = opened.map((isOpen, i) => {
-      const shouldOpen = this.props.items[i].shouldOpen;
+    const newOpened = this.state.opened.map((isOpen, i) => {
+      const { shouldOpen } = nextProps.items[i];
 
-      return isOpen ? isOpen : shouldOpen && shouldOpen();
+      return isOpen || (shouldOpen && shouldOpen());
     });
 
     this.setState({ opened: newOpened });
