@@ -142,7 +142,7 @@ const SourceTabs = React.createClass({
       label: "Show source",
       accesskey: "s",
       disabled: false,
-      click: () => showSource(tab)
+      click: () => showSource(tab, Math.random())
     };
 
     const copySourceUrl = {

@@ -10,12 +10,13 @@ function toggleFileSearch(searchOn: boolean) {
   };
 }
 
-function showSource(sourceId: string) {
+function showSource(sourceId: string, randomNum: number) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
     dispatch({
       type: constants.SHOW_SOURCE,
-      sourceUrl: source.get("url")
+      sourceUrl: source.get("url"),
+      randomNum
     });
   };
 }

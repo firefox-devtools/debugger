@@ -13,12 +13,12 @@ import type { Record } from "../utils/makeRecord";
 
 export type UIState = {
   searchOn: boolean,
-  shownSource: string
+  shownSource: array
 };
 
 const State = makeRecord(({
   searchOn: false,
-  shownSource: ""
+  shownSource: [],
 } : UIState));
 
 function update(state = State(), action: Action): Record<UIState> {
@@ -28,8 +28,12 @@ function update(state = State(), action: Action): Record<UIState> {
     }
 
     case constants.SHOW_SOURCE: {
-      return state.set("shownSource", action.sourceUrl);
+      let tempArr = [];
+      tempArr.push(action.sourceUrl);
+      tempArr.push(action.randomNum);
+      return state.set("shownSource", tempArr);
     }
+
     default: {
       return state;
     }
