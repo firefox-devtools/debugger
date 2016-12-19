@@ -65,7 +65,7 @@
   cursor: pointer;
 }
 
-.tree .node:hover {
+.tree-node:hover {
   background: var(--theme-tab-toolbar-background);
 }
 
