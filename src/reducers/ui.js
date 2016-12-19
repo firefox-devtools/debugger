@@ -13,7 +13,7 @@ import type { Record } from "../utils/makeRecord";
 
 export type UIState = {
   searchOn: boolean,
-  shownSource: array
+  shownSource: Array
 };
 
 const State = makeRecord(({
