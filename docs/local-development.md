@@ -144,6 +144,10 @@ L10N.getStr("scopes.header")
 L10N.getFormatStr("editor.searchResults", index + 1, count)
 ```
 
+Translated strings are added to the local [strings](https://github.com/devtools-html/debugger.html/blob/master/src/strings.json)
+file and m-c [debugger properties](https://dxr.mozilla.org/mozilla-central/source/devtools/client/locales/en-US/debugger.properties) file. We plan on [killing](https://github.com/devtools-html/debugger.html/issues/1030) `strings.json` soon!
+
+
 #### RTL
 
 RTL stands for right to left and is an important feature for arabic languages and hebrew. Here's what the debugger looks like right to left  [screenshot](https://cloud.githubusercontent.com/assets/394320/19226865/ef18b0d0-8eb9-11e6-82b4-8c4da702fe91.png).
@@ -171,8 +175,6 @@ html[dir="rtl"] .source-footer .command-bar {
 }
 ```
 
-Translated strings are added to the local [strings](https://github.com/devtools-html/debugger.html/blob/master/src/strings.json)
-file and m-c [debugger properties](https://dxr.mozilla.org/mozilla-central/source/devtools/client/locales/en-US/debugger.properties) file.
 
 ### Prefs
 
