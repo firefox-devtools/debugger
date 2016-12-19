@@ -8,7 +8,7 @@ const {
   getSourceTabs,
   getFileSearchState
 } = require("../selectors");
-const { getFilename, getRawSourceURL } = require("../utils/source");
+const { getFilename, getRawSourceURL, isPretty } = require("../utils/source");
 const { isEnabled } = require("devtools-config");
 const classnames = require("classnames");
 const actions = require("../actions");
@@ -218,8 +218,9 @@ const SourceTabs = React.createClass({
 
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
-    const filename = getFilename(source.toJS());
+    const filename = getRawSourceURL(getFilename(source.toJS()));
     const active = source.get("id") == selectedSource.get("id");
+    const isPrettyCode = isPretty({ url: source.get("url") });
 
     function onClickClose(ev) {
       ev.stopPropagation();
@@ -228,12 +229,16 @@ const SourceTabs = React.createClass({
 
     return dom.div(
       {
-        className: classnames("source-tab", { active }),
+        className: classnames("source-tab", {
+          active,
+          pretty: isPretty({ url: source.get("url") })
+        }),
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
         onContextMenu: (e) => this.onTabContextMenu(e, source.get("id")),
         title: getRawSourceURL(source.get("url"))
       },
+      isPrettyCode ? Svg("prettyPrint") : null,
       dom.div({ className: "filename" }, filename),
       CloseButton({ handleClick: onClickClose }));
   },
