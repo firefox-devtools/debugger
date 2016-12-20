@@ -20,7 +20,8 @@ let SourcesTree = React.createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
-    shownSource: PropTypes.array
+    shownSource: PropTypes.string,
+    showSource: PropTypes.func.isRequired
   },
 
   displayName: "SourcesTree",
@@ -43,15 +44,15 @@ let SourcesTree = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    // shownSource[1] is a random number, used to indicate reveal is clicked
-    if (isEnabled("showSource") &&
-    nextProps.shownSource[1] != this.props.shownSource[1]) {
+    if (isEnabled("showSource") && nextProps.shownSource != "" &&
+    nextProps.shownSource != this.props.shownSource) {
       const listItems = getDirectories(
-        nextProps.shownSource[0],
+        nextProps.shownSource,
         this.state.sourceTree
       );
 
-      return this.setState({ listItems });
+      this.props.showSource("");
+      this.setState({ listItems });
     }
 
     if (nextProps.sources === this.props.sources) {
