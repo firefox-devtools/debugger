@@ -12,7 +12,7 @@
     "watchExpressions": false,
     "chromeScopes": false,
     "copySource": false,
-    "showSource": true,
+    "showSource": false,
     "editorSearch": false,
     "whyPaused": false,
     "verticalLayout": false,
