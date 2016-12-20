@@ -52,7 +52,7 @@ let SourcesTree = React.createClass({
       );
 
       this.props.showSource("");
-      this.setState({ listItems });
+      return this.setState({ listItems });
     }
 
     if (nextProps.sources === this.props.sources) {
