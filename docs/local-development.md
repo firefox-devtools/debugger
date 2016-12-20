@@ -164,6 +164,8 @@ RTL stands for right to left and is an important feature for arabic languages an
 
 *How do I change how something looks in rtl?*
 
+We use [postcss-bidirection][bidirection] to support [logical CSS][logical] properties. In practice, this means we can write `float:left` or `margin-inline-block: start`, and it just works. Under the hood, `float: left` gets translated into two different CSS rules for `html[dir="rtl"]` and `html:not([dir="rtl"])`.
+
 `public/js/components/SourceFooter.css`
 ```css
 html:not([dir="rtl"]) .source-footer .command-bar {
@@ -393,3 +395,6 @@ To automatically fix many errors run the command:
 ```
 $ yarn run lint-fix
 ```
+
+[bidirection]: https://github.com/gasolin/postcss-bidirection
+[logical]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties
