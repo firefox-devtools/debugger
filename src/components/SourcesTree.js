@@ -20,7 +20,8 @@ let SourcesTree = React.createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
-    shownSource: PropTypes.string
+    shownSource: PropTypes.string,
+    showSource: PropTypes.func.isRequired
   },
 
   displayName: "SourcesTree",
@@ -43,13 +44,14 @@ let SourcesTree = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (isEnabled("showSource") &&
+    if (isEnabled("showSource") && nextProps.shownSource != "" &&
     nextProps.shownSource != this.props.shownSource) {
       const listItems = getDirectories(
         nextProps.shownSource,
         this.state.sourceTree
       );
 
+      this.props.showSource("");
       return this.setState({ listItems });
     }
 

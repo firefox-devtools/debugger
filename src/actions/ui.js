@@ -12,11 +12,18 @@ function toggleFileSearch(searchOn: boolean) {
 
 function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    const source = getSource(getState(), sourceId);
-    dispatch({
-      type: constants.SHOW_SOURCE,
-      sourceUrl: source.get("url")
-    });
+    if (sourceId == "") {
+      dispatch({
+        type: constants.SHOW_SOURCE,
+        sourceUrl: ""
+      });
+    } else {
+      const source = getSource(getState(), sourceId);
+      dispatch({
+        type: constants.SHOW_SOURCE,
+        sourceUrl: source.get("url")
+      });
+    }
   };
 }
 
