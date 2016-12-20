@@ -15,7 +15,7 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 Here's the *quick setup*, if you're getting started, we recommend the detailed [getting started][getting-started] instructions.
 
 ```bash
-npm i -g yarn@0.16.1
+curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.18.1
 git clone git@github.com:devtools-html/debugger.html.git
 
 cd debugger.html
