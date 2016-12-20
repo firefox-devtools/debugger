@@ -14,11 +14,13 @@ machine:
 
 checkout:
   post:
-    - mv configs/ci.json configs/local.json
+    - cp configs/ci.json configs/local.json
 test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
-    - node src/test/node-unit-tests.js --ci
+    - node src/test/node-unit-tests.js --ci:
+        environment:
+          MOCHA_FILE: $CIRCLE_TEST_REPORTS/mocha/test-results.xml
     - ./bin/run-mochitests-docker
     - npm run firefox-unit-test
   post:
