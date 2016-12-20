@@ -7,8 +7,9 @@
 .frames ul li {
   cursor: pointer;
   padding: 7px 10px 7px 21px;
-  clear: both;
   overflow: hidden;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Style the focused call frame like so:
@@ -27,13 +28,11 @@
 }
 
 .frames .location {
-  float: right;
   color: var(--theme-comment);
   font-weight: lighter;
 }
 
 .frames .title {
-  float: left;
   text-overflow: ellipsis;
   overflow: hidden;
   margin-right: 1em;
