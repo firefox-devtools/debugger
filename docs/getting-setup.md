@@ -4,14 +4,30 @@
 
 ### Step 1. Install Yarn
 
+See the [Yarn install][yarn-install] instructions for steps for your OS. Make sure to install the correct version of Yarn.
+
+<details>
+<summary>macOS</summary>
 ```bash
-npm i -g yarn@0.16.1
+brew install yarn
 ```
+</details>
+
+<details>
+<summary>Windows</summary>
+[Download Installer](https://yarnpkg.com/latest.msi)
+</details>
+
+```bash
+yarn --version
+0.18.1
+```
+
 *Why Yarn and not NPM?*
 NPM installs the latest versions. We use [Yarn][yarn] because we want to make sure everyone is using the same libraries.
 
-*Why Yarn 0.16.1?*
-Yarn is a new tool and it occasionally breaks.
+*Why not the latest version of Yarn?*
+Yarn ensures we all have the same version of the packages but to make sure that is true we need to ensure everyone has the same version of Yarn.  We try to update Yarn to the latest version assuming it doesn't break anything.  Feel free to submit a pull request updating us to the latest Yarn, like [this one][yarn-update].
 
 ### Step 2. Install dependencies
 
@@ -70,7 +86,7 @@ Try this [first activity][first-activity] if you want to start debugging the deb
 This setup is for people on the DevTools team and DevTools wizards.
 
 ```bash
-npm i -g yarn@0.16.1
+curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.18.1
 git clone git@github.com:devtools-html/debugger.html.git
 cd debugger.html
 yarn install
@@ -167,6 +183,8 @@ C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -
 [linux-issue]:https://github.com/devtools-html/debugger.html/issues/1082
 [windows-issue]:https://github.com/devtools-html/debugger.html/issues/1248
 [yarn-issue]:https://github.com/devtools-html/debugger.html/issues/1216
+[yarn-update]:https://github.com/devtools-html/debugger.html/pull/1483
 [yarn]:https://yarnpkg.com
+[yarn-install]:https://yarnpkg.com/en/docs/install
 [dev-server]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/README.md#dev-server
 [first-activity]:./debugging-the-debugger.md
