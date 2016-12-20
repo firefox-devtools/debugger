@@ -50,6 +50,7 @@ let SourcesTree = React.createClass({
         this.state.sourceTree
       );
 
+      this.selectItem(listItems[0]);
       return this.setState({ listItems });
     }
 
