@@ -83,10 +83,13 @@ function getURL(sourceUrl: string): { path: string, group: string } {
   const { pathname, protocol, host, path } = parse(url);
 
   // Retrieve filename from pathname
-  const filename = pathname.substring(pathname.lastIndexOf("/") + 1);
-  // This file does not have a name. Default should be (index).
-  if (filename == "" || !filename.includes(".")) {
-    filename = "(index)";
+  let filename = "(index)";
+  if (pathname) {
+    filename = pathname.substring(pathname.lastIndexOf("/") + 1);
+    // This file does not have a name. Default should be (index).
+    if (filename == "" || !filename.includes(".")) {
+      filename = "(index)";
+    }
   }
 
   switch (protocol) {
