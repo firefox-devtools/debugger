@@ -1,7 +1,8 @@
 const expect = require("expect.js");
 const { Map } = require("immutable");
 const {
-  createNode, nodeHasChildren, addToTree, collapseTree, getDirectories
+  createNode, nodeHasChildren, addToTree, collapseTree, getDirectories,
+  getURL
 } = require("../sources-tree.js");
 
 describe("sources-tree", () => {
@@ -414,5 +415,31 @@ describe("sources-tree", () => {
 
    expect(paths[1].path).to.be("/a");
    expect(paths[0].path).to.be("/a/b.js");
+ });
+
+ it("handles regular url with http and https for filename", function() {
+  const urlObject = getURL("https://a/b.js");
+  const urlObject2 = getURL("http://a/b.js");
+
+  expect(urlObject.filename).to.be("b.js");
+  expect(urlObject2.filename).to.be("b.js");
+ });
+
+ it("handles url with querystring for filename", function() {
+  const urlObject = getURL("https://a/b.js?key=randomeKey");
+
+  expect(urlObject.filename).to.be("b.js");
+ });
+
+ it("handles url with '#' for filename", function() {
+  const urlObject = getURL("https://a/b.js#specialSection");
+
+  expect(urlObject.filename).to.be("b.js");
+ });
+
+ it("handles url with no filename for filename", function() {
+  const urlObject = getURL("https://a/c");
+
+  expect(urlObject.filename).to.be("(index)");
  });
 });
