@@ -1,4 +1,8 @@
 
+.object-node.not-enumerable {
+  opacity: 0.6;
+}
+
 .object-label {
   color: var(--theme-highlight-blue);
 }
