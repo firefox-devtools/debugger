@@ -236,6 +236,7 @@ const SourceTabs = React.createClass({
     const filename = getRawSourceURL(getFilename(source.toJS()));
     const active = source.get("id") == selectedSource.get("id");
     const isPrettyCode = isPretty({ url: source.get("url") });
+    filename = filename.split("?")[0].split("#")[0];
 
     function onClickClose(ev) {
       ev.stopPropagation();
