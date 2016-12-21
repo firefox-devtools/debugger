@@ -13,12 +13,14 @@ import type { Record } from "../utils/makeRecord";
 
 export type UIState = {
   searchOn: boolean,
-  shownSource: string
+  shownSource: string,
+  hlightSourceURL: string
 };
 
 const State = makeRecord(({
   searchOn: false,
-  shownSource: ""
+  shownSource: "",
+  hlightSourceURL: ""
 } : UIState));
 
 function update(state = State(), action: Action): Record<UIState> {
@@ -29,6 +31,10 @@ function update(state = State(), action: Action): Record<UIState> {
 
     case constants.SHOW_SOURCE: {
       return state.set("shownSource", action.sourceUrl);
+    }
+
+    case constants.HIGHLIGHT_SOURCE: {
+      return state.set("hlightSourceURL", action.sourceUrl);
     }
     default: {
       return state;
@@ -48,9 +54,14 @@ function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");
 }
 
+function getHighlightURL(state: OuterState): boolean {
+  return state.ui.get("hlightSourceURL");
+}
+
 module.exports = {
   State,
   update,
   getFileSearchState,
-  getShownSource
+  getShownSource,
+  getHighlightURL
 };

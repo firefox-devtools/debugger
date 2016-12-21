@@ -6,7 +6,7 @@ const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
 const { Set } = require("immutable");
 const { isEnabled } = require("devtools-config");
-const { getShownSource } = require("../selectors");
+const { getShownSource, getHighlightURL } = require("../selectors");
 const {
   nodeHasChildren, createParentMap, addToTree,
   collapseTree, createTree, getDirectories
@@ -20,7 +20,8 @@ let SourcesTree = React.createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
-    shownSource: PropTypes.string
+    shownSource: PropTypes.string,
+    hlightSourceURL: PropTypes.string
   },
 
   displayName: "SourcesTree",
@@ -52,6 +53,15 @@ let SourcesTree = React.createClass({
 
       this.selectItem(listItems[0]);
       return this.setState({ listItems });
+    }
+
+    if (nextProps.hlightSourceURL != this.props.hlightSourceURL) {
+      const hLightItems = getDirectories(
+        nextProps.hlightSourceURL,
+        this.state.sourceTree
+      );
+
+      return this.setState({ hLightItems });
     }
 
     if (nextProps.sources === this.props.sources) {
@@ -138,7 +148,8 @@ let SourcesTree = React.createClass({
   },
 
   render: function() {
-    const { focusedItem, sourceTree, parentMap, listItems } = this.state;
+    const { focusedItem, sourceTree,
+      parentMap, listItems, hLightItems } = this.state;
     const isEmpty = sourceTree.contents.length === 0;
 
     const tree = ManagedTree({
@@ -159,6 +170,7 @@ let SourcesTree = React.createClass({
       autoExpandAll: false,
       onFocus: this.focusItem,
       listItems,
+      hLightItems,
       renderItem: this.renderItem
     });
 
@@ -175,9 +187,9 @@ let SourcesTree = React.createClass({
 
 module.exports = connect(
   state => {
-    const shownSource = getShownSource(state);
     return {
-      shownSource
+      shownSource: getShownSource(state),
+      hlightSourceURL: getHighlightURL(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

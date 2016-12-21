@@ -20,6 +20,12 @@ let ManagedTree = React.createClass({
        listItems.length > 0) {
       this.expandListItems(listItems);
     }
+
+    const hLightItems = nextProps.hLightItems;
+    if (hLightItems &&  hLightItems != this.props.hLightItems &&
+       hLightItems.length > 0) {
+      this.highlightItem(hLightItems);
+    }
   },
 
   setExpanded(item, isExpanded) {
@@ -44,6 +50,27 @@ let ManagedTree = React.createClass({
     listItems.forEach(item => expanded.add(this.props.getKey(item)));
     this.focusItem(listItems[0]);
     this.setState({ expanded: expanded });
+  },
+
+  highlightItem(hLightItems) {
+    const expanded = this.state.expanded;
+    let done = false;
+    let index = hLightItems.length - 1;
+    // Look at folders starting from the top-level until finds a
+    // closed folder and highlight this folder
+    while(!done && index >= 1) {
+      if (!expanded.has(this.props.getKey(hLightItems[index]))) {
+        this.focusItem(hLightItems[index]);
+        done = true;
+      }
+      index--;
+    }
+
+    // This item's top folders have all been opened, so highlight
+    // this file
+    if (!done) {
+      this.focusItem(hLightItems[0]);
+    }
   },
 
   focusItem(item) {

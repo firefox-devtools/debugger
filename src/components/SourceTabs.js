@@ -68,6 +68,7 @@ const SourceTabs = React.createClass({
     toggleFileSearch: PropTypes.func.isRequired,
     togglePane: PropTypes.func.isRequired,
     showSource: PropTypes.func.isRequired,
+    highlightSource: PropTypes.func.isRequired,
     startPanelCollapsed: PropTypes.bool.isRequired,
     endPanelCollapsed: PropTypes.bool.isRequired,
   },
@@ -249,7 +250,10 @@ const SourceTabs = React.createClass({
           pretty: isPretty({ url: source.get("url") })
         }),
         key: source.get("id"),
-        onClick: () => selectSource(source.get("id")),
+        onClick: () => {
+          selectSource(source.get("id"));
+          this.props.highlightSource(source.get("url"));
+        },
         onContextMenu: (e) => this.onTabContextMenu(e, source.get("id")),
         title: getRawSourceURL(source.get("url"))
       },
