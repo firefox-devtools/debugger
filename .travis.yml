@@ -1,0 +1,24 @@
+sudo: required
+
+language: node_js
+node_js:
+  - "7"
+
+cache:
+  yarn: true
+  directories:
+  - node_modules # NPM packages
+  - $HOME/downloads
+
+services:
+  - docker
+
+before_install:
+  - cp configs/ci.json configs/local.json
+  - ./bin/update-docker
+
+install:
+- yarn install
+
+script:
+  - ./bin/run-mochitests-docker
