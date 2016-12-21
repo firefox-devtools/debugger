@@ -220,6 +220,7 @@ const SourceTabs = React.createClass({
         // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
         const tabIndex = 0;
         selectSource(source.get("id"), { tabIndex });
+        this.props.highlightSource(source.get("url"));
       }
     }, filename);
   },
