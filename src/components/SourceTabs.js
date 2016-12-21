@@ -17,7 +17,7 @@ const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu, buildMenu } = require("../utils/menu");
 const { debounce } = require("lodash");
-
+const { getURL } = require("../utils/sources-tree.js");
 require("./SourceTabs.css");
 require("./Dropdown.css");
 
@@ -237,7 +237,9 @@ const SourceTabs = React.createClass({
     const active = source.get("id") == selectedSource.get("id");
     const isPrettyCode = isPretty({ url: source.get("url") });
     filename = filename.split("?")[0].split("#")[0];
-
+    const tryURL = getURL(source.get("url"));
+    debugger;
+    
     function onClickClose(ev) {
       ev.stopPropagation();
       closeTab(source.get("id"));

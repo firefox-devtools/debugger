@@ -312,5 +312,6 @@ module.exports = {
   addToTree,
   collapseTree,
   createTree,
-  getDirectories
+  getDirectories,
+  getURL
 };
