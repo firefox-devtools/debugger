@@ -417,7 +417,7 @@ describe("sources-tree", () => {
    expect(paths[0].path).to.be("/a/b.js");
  });
 
- it("handles regular url with http and https for filename", function() {
+ it("handles normal url with http and https for filename", function() {
   const urlObject = getURL("https://a/b.js");
   const urlObject2 = getURL("http://a/b.js");
 
