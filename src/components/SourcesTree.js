@@ -21,7 +21,7 @@ let SourcesTree = React.createClass({
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
     shownSource: PropTypes.string,
-    hlightSourceURL: PropTypes.string
+    highlightSourceURL: PropTypes.string
   },
 
   displayName: "SourcesTree",
@@ -55,9 +55,9 @@ let SourcesTree = React.createClass({
       return this.setState({ listItems });
     }
 
-    if (nextProps.hlightSourceURL != this.props.hlightSourceURL) {
+    if (nextProps.highlightSourceURL != this.props.highlightSourceURL) {
       const hLightItems = getDirectories(
-        nextProps.hlightSourceURL,
+        nextProps.highlightSourceURL,
         this.state.sourceTree
       );
 
@@ -189,7 +189,7 @@ module.exports = connect(
   state => {
     return {
       shownSource: getShownSource(state),
-      hlightSourceURL: getHighlightURL(state)
+      highlightSourceURL: getHighlightURL(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
