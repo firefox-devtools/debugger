@@ -75,12 +75,19 @@ function createParentMap(tree: any): WeakMap<any, any> {
  */
 function getURL(sourceUrl: string): { path: string, group: string } {
   const url = sourceUrl;
-  let def = { path: "", group: "" };
+  let def = { path: "", group: "", filename: "" };
   if (!url) {
     return def;
   }
 
   const { pathname, protocol, host, path } = parse(url);
+
+  // Retrieve filename from pathname
+  const filename = pathname.substring(pathname.lastIndexOf("/") + 1);
+  // This file does not have a name. Default should be (index).
+  if (filename == "" || !filename.includes(".")) {
+    filename = "(index)";
+  }
 
   switch (protocol) {
     case "javascript:":
@@ -91,7 +98,8 @@ function getURL(sourceUrl: string): { path: string, group: string } {
       // An about page is a special case
       return merge(def, {
         path: "/",
-        group: url
+        group: url,
+        filename: filename
       });
 
     case null:
@@ -100,14 +108,16 @@ function getURL(sourceUrl: string): { path: string, group: string } {
         // protocol
         return merge(def, {
           path: path,
-          group: "file://"
+          group: "file://",
+          filename: filename
         });
       } else if (host === null) {
         // We don't know what group to put this under, and it's a script
         // with a weird URL. Just group them all under an anonymous group.
         return merge(def, {
           path: url,
-          group: "(no domain)"
+          group: "(no domain)",
+          filename: filename
         });
       }
       break;
@@ -116,13 +126,15 @@ function getURL(sourceUrl: string): { path: string, group: string } {
     case "https:":
       return merge(def, {
         path: pathname,
-        group: host
+        group: host,
+        filename: filename
       });
   }
 
   return merge(def, {
     path: path,
-    group: protocol ? `${protocol}//` : ""
+    group: protocol ? `${protocol}//` : "",
+    filename: filename
   });
 }
 

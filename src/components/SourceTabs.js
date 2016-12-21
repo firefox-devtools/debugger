@@ -233,13 +233,11 @@ const SourceTabs = React.createClass({
 
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
-    const filename = getRawSourceURL(getFilename(source.toJS()));
+    const filename = getURL(source.get("url")).filename;
+    const oldName = getRawSourceURL(getFilename(source.toJS()));
     const active = source.get("id") == selectedSource.get("id");
     const isPrettyCode = isPretty({ url: source.get("url") });
-    filename = filename.split("?")[0].split("#")[0];
-    const tryURL = getURL(source.get("url"));
-    debugger;
-    
+
     function onClickClose(ev) {
       ev.stopPropagation();
       closeTab(source.get("id"));
