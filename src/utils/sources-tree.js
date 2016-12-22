@@ -73,6 +73,22 @@ function createParentMap(tree: any): WeakMap<any, any> {
  * @memberof utils/sources-tree
  * @static
  */
+ function getFilenameFromPath(pathname: string) {
+   let filename = "";
+   if (pathname) {
+     filename = pathname.substring(pathname.lastIndexOf("/") + 1);
+     // This file does not have a name. Default should be (index).
+     if (filename == "" || !filename.includes(".")) {
+       filename = "(index)";
+     }
+   }
+   return filename;
+ }
+
+/**
+ * @memberof utils/sources-tree
+ * @static
+ */
 function getURL(sourceUrl: string): { path: string, group: string } {
   const url = sourceUrl;
   let def = { path: "", group: "", filename: "" };
@@ -81,16 +97,7 @@ function getURL(sourceUrl: string): { path: string, group: string } {
   }
 
   const { pathname, protocol, host, path } = parse(url);
-
-  // Retrieve filename from pathname
-  let filename = "";
-  if (pathname) {
-    filename = pathname.substring(pathname.lastIndexOf("/") + 1);
-    // This file does not have a name. Default should be (index).
-    if (filename == "" || !filename.includes(".")) {
-      filename = "(index)";
-    }
-  }
+  const filename = getFilenameFromPath(pathname);
 
   switch (protocol) {
     case "javascript:":

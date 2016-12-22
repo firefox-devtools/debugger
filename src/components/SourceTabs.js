@@ -233,7 +233,7 @@ const SourceTabs = React.createClass({
 
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
-    const filename = getURL(source.get("url")).filename;
+    const filename = getRawSourceURL(getURL(source.get("url")).filename);
     const active = source.get("id") == selectedSource.get("id");
     const isPrettyCode = isPretty({ url: source.get("url") });
 
