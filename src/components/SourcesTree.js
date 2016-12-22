@@ -6,7 +6,7 @@ const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
 const { Set } = require("immutable");
 const { isEnabled } = require("devtools-config");
-const { getShownSource, getHighlightURL } = require("../selectors");
+const { getShownSource, getSelectedSource } = require("../selectors");
 const {
   nodeHasChildren, createParentMap, addToTree,
   collapseTree, createTree, getDirectories
@@ -21,7 +21,7 @@ let SourcesTree = React.createClass({
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
     shownSource: PropTypes.string,
-    highlightSourceURL: PropTypes.string
+    selectedSource: ImPropTypes.map
   },
 
   displayName: "SourcesTree",
@@ -55,9 +55,9 @@ let SourcesTree = React.createClass({
       return this.setState({ listItems });
     }
 
-    if (nextProps.highlightSourceURL != this.props.highlightSourceURL) {
+    if (nextProps.selectedSource != this.props.selectedSource) {
       const hLightItems = getDirectories(
-        nextProps.highlightSourceURL,
+        nextProps.selectedSource.get("url"),
         this.state.sourceTree
       );
 
@@ -189,7 +189,7 @@ module.exports = connect(
   state => {
     return {
       shownSource: getShownSource(state),
-      highlightSourceURL: getHighlightURL(state)
+      selectedSource: getSelectedSource(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

@@ -41,6 +41,5 @@ module.exports = {
   getEventListeners: eventListeners.getEventListeners,
 
   getFileSearchState: ui.getFileSearchState,
-  getShownSource: ui.getShownSource,
-  getHighlightURL: ui.getHighlightURL
+  getShownSource: ui.getShownSource
 };

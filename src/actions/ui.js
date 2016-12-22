@@ -20,15 +20,7 @@ function showSource(sourceId: string) {
   };
 }
 
-function highlightSource(sourceUrl: string) {
-  return {
-    type: constants.HIGHLIGHT_SOURCE,
-    sourceUrl
-  };
-}
-
 module.exports = {
   toggleFileSearch,
-  showSource,
-  highlightSource
+  showSource
 };
