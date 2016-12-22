@@ -249,9 +249,7 @@ const SourceTabs = React.createClass({
           pretty: isPretty({ url: source.get("url") })
         }),
         key: source.get("id"),
-        onClick: () => {
-          selectSource(source.get("id"));
-        },
+        onClick: () => selectSource(source.get("id")),
         onContextMenu: (e) => this.onTabContextMenu(e, source.get("id")),
         title: getRawSourceURL(source.get("url"))
       },
