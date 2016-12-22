@@ -73,7 +73,7 @@ function createParentMap(tree: any): WeakMap<any, any> {
  * @memberof utils/sources-tree
  * @static
  */
- function getFilenameFromPath(pathname: string) {
+function getFilenameFromPath(pathname: string) {
    let filename = "";
    if (pathname) {
      filename = pathname.substring(pathname.lastIndexOf("/") + 1);
