@@ -31,6 +31,8 @@ if (!isFirefoxPanel()) {
   window.L10N.setBundle(require("./strings.json"));
 }
 
+window.appStore = store;
+
 // Expose the bound actions so external things can do things like
 // selecting a source.
 window.actions = {
