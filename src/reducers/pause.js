@@ -86,10 +86,7 @@ function update(state = State(), action: Action): Record<PauseState> {
       break;
 
     case constants.NAVIGATE:
-      return State().merge({
-        shouldPauseOnExceptions: prefs.pauseOnExceptions,
-        shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions
-      });
+      return State();
 
     case constants.PAUSE_ON_EXCEPTIONS:
       const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
