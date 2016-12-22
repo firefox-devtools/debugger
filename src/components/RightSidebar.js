@@ -118,7 +118,7 @@ const RightSidebar = React.createClass({
         { className: "right-sidebar",
           style: { overflowX: "hidden" }},
         CommandBar(),
-        isEnabled("whyPaused") ? WhyPaused() : null,
+        WhyPaused(),
         Accordion({
           items: this.getItems()
         })
