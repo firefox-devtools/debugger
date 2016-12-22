@@ -151,7 +151,13 @@ const ObjectInspector = React.createClass({
     }
 
     return dom.div(
-      { className: classnames("node object-node", { focused }),
+      {
+        className: classnames("node object-node",
+          {
+            focused,
+            "not-enumerable": (!item.contents.enumerable &&
+                               !nodeHasChildren(item))
+          }),
         style: { marginLeft: depth * 15 },
         onClick: e => {
           e.stopPropagation();
