@@ -7,7 +7,6 @@ const Key = webdriver.Key;
 const minimist = require("minimist");
 const url = require('url');
 
-
 const args = minimist(process.argv.slice(2),
 {
   boolean: ["start", "tests", "websocket"],
