@@ -74,16 +74,16 @@ function createParentMap(tree: any): WeakMap<any, any> {
  * @static
  */
 function getFilenameFromPath(pathname: string) {
-   let filename = "";
-   if (pathname) {
-     filename = pathname.substring(pathname.lastIndexOf("/") + 1);
-     // This file does not have a name. Default should be (index).
-     if (filename == "" || !filename.includes(".")) {
-       filename = "(index)";
-     }
-   }
-   return filename;
- }
+  let filename = "";
+  if (pathname) {
+    filename = pathname.substring(pathname.lastIndexOf("/") + 1);
+    // This file does not have a name. Default should be (index).
+    if (filename == "" || !filename.includes(".")) {
+      filename = "(index)";
+    }
+  }
+  return filename;
+}
 
 /**
  * @memberof utils/sources-tree
