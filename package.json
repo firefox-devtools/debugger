@@ -30,8 +30,9 @@
     "chrome": "node bin/chrome-driver",
     "mochitests-watch": "OUTPUT_PATH=./firefox/devtools/client/debugger/new MOCHITESTS=true TARGET=firefox-panel webpack --watch",
     "build-docs": "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ src/types.js src/utils/ src/reducers/ src/actions/ src/test/mochitest/head.js",
+    "flow-coverage": "flow-coverage-report -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -t html -t text",
     "prepush": "npm run lint; node src/test/node-unit-tests.js --dots",
-    "flow-coverage": "flow-coverage-report -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -t html -t text"
+    "postmerge": "bin/post-merge"
   },
   "dependencies": {
     "codemirror": "^5.1.0",
