@@ -56,12 +56,12 @@ let SourcesTree = React.createClass({
     }
 
     if (nextProps.selectedSource != this.props.selectedSource) {
-      const hLightItems = getDirectories(
+      const highlightItems = getDirectories(
         nextProps.selectedSource.get("url"),
         this.state.sourceTree
       );
 
-      return this.setState({ hLightItems });
+      return this.setState({ highlightItems });
     }
 
     if (nextProps.sources === this.props.sources) {
@@ -149,7 +149,7 @@ let SourcesTree = React.createClass({
 
   render: function() {
     const { focusedItem, sourceTree,
-      parentMap, listItems, hLightItems } = this.state;
+      parentMap, listItems, highlightItems } = this.state;
     const isEmpty = sourceTree.contents.length === 0;
 
     const tree = ManagedTree({
@@ -170,7 +170,7 @@ let SourcesTree = React.createClass({
       autoExpandAll: false,
       onFocus: this.focusItem,
       listItems,
-      hLightItems,
+      highlightItems,
       renderItem: this.renderItem
     });
 
