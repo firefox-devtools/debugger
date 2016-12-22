@@ -19,9 +19,16 @@ function updateFrameLocations(frames: FrameType[]): Promise<FrameType[]> {
   );
 }
 
+// Map protocol pause "why" reason to a valid L10N key
+// These are the known unhandled reasons:
+// "breakpointConditionThrown", "clientEvaluated"
+// "interrupted", "attached"
 const reasons = {
-  "debuggerStatement": "Paused on a debugger; statement in the source code",
-  "breakpoint": "Paused on a breakpoint"
+  "debuggerStatement": "whyPaused.debuggerStatement",
+  "breakpoint": "whyPaused.breakpoint",
+  "exception": "whyPaused.exception",
+  "resumeLimit": "whyPaused.resumeLimit",
+  "pauseOnDOMEvents": "whyPaused.pauseOnDOMEvents"
 };
 
 function getPauseReason(pauseInfo: Pause): string | null {
@@ -31,7 +38,7 @@ function getPauseReason(pauseInfo: Pause): string | null {
 
   let reasonType = pauseInfo.getIn(["why"]).get("type");
   if (!reasons[reasonType]) {
-    console.log("reasonType", reasonType);
+    console.log("Please file an issue: reasonType=", reasonType);
   }
   return reasons[reasonType];
 }
