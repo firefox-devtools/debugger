@@ -93,7 +93,7 @@ const Autocomplete = React.createClass({
     return dom.li(
       {
         onClick: () => this.props.selectItem(result),
-        key: result.value,
+        key: `${result.id}${result.value}`,
         title: result.value,
         className: classnames({
           selected: index === this.state.selectedIndex
