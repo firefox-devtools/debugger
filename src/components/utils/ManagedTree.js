@@ -59,18 +59,11 @@ let ManagedTree = React.createClass({
     if (expanded.has(this.props.getKey(highlightItems[0]))) {
       this.focusItem(highlightItems[0]);
     } else {
-      let index = highlightItems.length - 1;
-
       // Look at folders starting from the top-level until finds a
       // closed folder and highlights this folder
-      highlightItems.some(item => {
-        if (!expanded.has(this.props.getKey(highlightItems[index]))) {
-          this.focusItem(highlightItems[index]);
-          return true;
-        }
-        index--;
-      });
-
+      const index = highlightItems.reverse().findIndex(item =>
+        !expanded.has(this.props.getKey(item)));
+      this.focusItem(highlightItems[index]);
     }
   },
 
