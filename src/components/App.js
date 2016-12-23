@@ -38,41 +38,6 @@ const App = React.createClass({
     return { shortcuts };
   },
 
-  renderWelcomeBox() {
-    return dom.div(
-      { className: "welcomebox" },
-      L10N.getFormatStr("welcome.search", formatKeyShortcut("CmdOrCtrl+P"))
-    );
-  },
-
-  renderCenterPane() {
-    return dom.div(
-      { className: "center-pane" },
-      dom.div(
-        { className: "editor-container" },
-        SourceTabs({
-          togglePane: this.togglePane,
-          startPanelCollapsed: this.state.startPanelCollapsed,
-          endPanelCollapsed: this.state.endPanelCollapsed,
-        }),
-        Editor(),
-        !this.props.selectedSource ? this.renderWelcomeBox() : null,
-        SourceSearch()
-      )
-    );
-  },
-
-  getInitialState() {
-    const vertical = isEnabled("verticalLayout")
-      ? verticalLayoutBreakpoint.matches : true;
-
-    return {
-      vertical,
-      startPanelCollapsed: false,
-      endPanelCollapsed: false,
-    };
-  },
-
   componentDidMount() {
     if (isEnabled("verticalLayout")) {
       verticalLayoutBreakpoint.addListener(this.onLayoutChange);
@@ -83,9 +48,20 @@ const App = React.createClass({
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
   },
 
+  getInitialState() {
+    const horizontal = isEnabled("verticalLayout")
+      ? verticalLayoutBreakpoint.matches : true;
+
+    return {
+      horizontal,
+      startPanelCollapsed: false,
+      endPanelCollapsed: false,
+    };
+  },
+
   onLayoutChange() {
     this.setState({
-      vertical: verticalLayoutBreakpoint.matches
+      horizontal: verticalLayoutBreakpoint.matches
     });
   },
 
@@ -101,7 +77,31 @@ const App = React.createClass({
     }
   },
 
-  render: function() {
+  renderWelcomeBox() {
+    return dom.div(
+      { className: "welcomebox" },
+      L10N.getFormatStr("welcome.search", formatKeyShortcut("CmdOrCtrl+P"))
+    );
+  },
+
+  renderEditorPane() {
+    return dom.div(
+      { className: "editor-pane" },
+      dom.div(
+        { className: "editor-container" },
+        SourceTabs({
+          togglePane: this.togglePane,
+          startPanelCollapsed: this.state.startPanelCollapsed,
+          endPanelCollapsed: this.state.endPanelCollapsed,
+        }),
+        Editor(),
+        !this.props.selectedSource ? this.renderWelcomeBox() : null,
+        SourceSearch()
+      )
+    );
+  },
+
+  renderHorizontalLayout() {
     return dom.div(
       { className: "debugger" },
       SplitBox({
@@ -118,13 +118,40 @@ const App = React.createClass({
           maxSize: "80%",
           splitterSize: 1,
           endPanelControl: true,
-          startPanel: this.renderCenterPane(this.props),
+          startPanel: this.renderEditorPane(this.props),
           endPanel: RightSidebar(),
           endPanelCollapsed: this.state.endPanelCollapsed,
-          vert: this.state.vertical
+          vert: this.state.horizontal
         }),
-      })
-    );
+      }));
+  },
+
+  renderVerticalLayout() {
+    return dom.div(
+      { className: "debugger" },
+      SplitBox({
+        style: { width: "100vw" },
+        initialSize: "300px",
+        minSize: 10,
+        maxSize: "50%",
+        splitterSize: 1,
+        vert: this.state.horizontal,
+        startPanel: SplitBox({
+          startPanelCollapsed: this.state.startPanelCollapsed,
+          startPanel: Sources({ sources: this.props.sources }),
+          endPanel: this.renderEditorPane(this.props),
+        }),
+        endPanel: RightSidebar(),
+        endPanelCollapsed: this.state.endPanelCollapsed,
+      }));
+  },
+
+  render: function() {
+    if (!this.state.horizontal) {
+      return this.renderVerticalLayout();
+    }
+
+    return this.renderHorizontalLayout();
   }
 });
 

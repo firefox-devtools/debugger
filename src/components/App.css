@@ -38,7 +38,7 @@ body {
   height: 100%;
 }
 
-.center-pane {
+.editor-pane {
   display: flex;
   position: relative;
   flex: 1;
