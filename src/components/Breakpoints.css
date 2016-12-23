@@ -17,13 +17,13 @@
   padding-bottom: 0.45em;
 }
 
+.breakpoints-list .breakpoint.is-conditional {
+  border-left-color: var(--theme-graphs-yellow);
+}
+
 .breakpoints-list .breakpoint.paused {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--breakpoint-active-color);
-}
-
-.breakpoints-list .breakpoint.is-conditional {
-  border-left-color: var(--theme-graphs-yellow);
 }
 
 .breakpoints-list .breakpoint.disabled .breakpoint-label {
