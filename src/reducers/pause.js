@@ -6,6 +6,7 @@
 const constants = require("../constants");
 const fromJS = require("../utils/fromJS");
 const makeRecord = require("../utils/makeRecord");
+const { prefs } = require("../utils/prefs");
 const I = require("immutable");
 
 import type { Frame, Pause, Expression } from "../types";
@@ -29,8 +30,8 @@ const State = makeRecord(({
   frames: undefined,
   selectedFrameId: undefined,
   loadedObjects: I.Map(),
-  shouldPauseOnExceptions: false,
-  shouldIgnoreCaughtExceptions: false,
+  shouldPauseOnExceptions: prefs.pauseOnExceptions,
+  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
   expressions: I.List()
 } : PauseState));
 
@@ -89,6 +90,10 @@ function update(state = State(), action: Action): Record<PauseState> {
 
     case constants.PAUSE_ON_EXCEPTIONS:
       const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
+
+      prefs.pauseOnExceptions = shouldPauseOnExceptions;
+      prefs.ignoreCaughtExceptions = shouldIgnoreCaughtExceptions;
+
       return state.merge({
         shouldPauseOnExceptions,
         shouldIgnoreCaughtExceptions
