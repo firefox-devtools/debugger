@@ -298,6 +298,7 @@ function findSource(sourceTree: any, sourceUrl: string) {
     } else if (!returnTarget &&
       subtree.path.replace(/http(s)?:\//, "") == sourceUrl) {
       returnTarget = subtree;
+      return;
     }
   }
 

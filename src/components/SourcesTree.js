@@ -6,7 +6,7 @@ const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
 const { Set } = require("immutable");
 const { isEnabled } = require("devtools-config");
-const { getShownSource } = require("../selectors");
+const { getShownSource, getSelectedSource } = require("../selectors");
 const {
   nodeHasChildren, createParentMap, addToTree,
   collapseTree, createTree, getDirectories
@@ -20,7 +20,8 @@ let SourcesTree = React.createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
-    shownSource: PropTypes.string
+    shownSource: PropTypes.string,
+    selectedSource: ImPropTypes.map
   },
 
   displayName: "SourcesTree",
@@ -43,6 +44,7 @@ let SourcesTree = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    const { selectedSource } = this.props;
     if (isEnabled("showSource") &&
     nextProps.shownSource != this.props.shownSource) {
       const listItems = getDirectories(
@@ -52,6 +54,16 @@ let SourcesTree = React.createClass({
 
       this.selectItem(listItems[0]);
       return this.setState({ listItems });
+    }
+
+    if (nextProps.selectedSource &&
+        nextProps.selectedSource != selectedSource) {
+      const highlightItems = getDirectories(
+        nextProps.selectedSource.get("url"),
+        this.state.sourceTree
+      );
+
+      return this.setState({ highlightItems });
     }
 
     if (nextProps.sources === this.props.sources) {
@@ -138,7 +150,8 @@ let SourcesTree = React.createClass({
   },
 
   render: function() {
-    const { focusedItem, sourceTree, parentMap, listItems } = this.state;
+    const { focusedItem, sourceTree,
+      parentMap, listItems, highlightItems } = this.state;
     const isEmpty = sourceTree.contents.length === 0;
 
     const tree = ManagedTree({
@@ -159,6 +172,7 @@ let SourcesTree = React.createClass({
       autoExpandAll: false,
       onFocus: this.focusItem,
       listItems,
+      highlightItems,
       renderItem: this.renderItem
     });
 
@@ -175,9 +189,9 @@ let SourcesTree = React.createClass({
 
 module.exports = connect(
   state => {
-    const shownSource = getShownSource(state);
     return {
-      shownSource
+      shownSource: getShownSource(state),
+      selectedSource: getSelectedSource(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
