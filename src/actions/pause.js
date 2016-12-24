@@ -3,8 +3,7 @@ const constants = require("../constants");
 const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 
-const { getExpressions, getSelectedFrame,
-        getPause } = require("../selectors");
+const { getExpressions, getSelectedFrame, getPause } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
 
 import type { Pause, Frame, Expression, Grip } from "../types";

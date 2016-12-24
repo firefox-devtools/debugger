@@ -5,6 +5,8 @@ const ReactDOM = require("react-dom");
 const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
+const classnames = require("classnames");
+
 const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
 const EditorSearchBar = createFactory(require("./EditorSearchBar"));
@@ -13,11 +15,13 @@ const { debugGlobal } = require("devtools-launchpad");
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame,
-  getSelectedSource
+  getSelectedSource, getHitCountForSource,
+  getCoverageEnabled
 } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const actions = require("../actions");
 const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
+const HitMarker = React.createFactory(require("./EditorHitMarker"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");
 const { shouldShowFooter } = require("../utils/editor");
@@ -61,6 +65,7 @@ function resizeBreakpointGutter(editor) {
 const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
+    hitCount: PropTypes.object,
     selectedLocation: PropTypes.object,
     selectedSource: ImPropTypes.map,
     sourceText: PropTypes.object,
@@ -70,6 +75,7 @@ const Editor = React.createClass({
     removeBreakpoint: PropTypes.func,
     setBreakpointCondition: PropTypes.func,
     jumpToMappedLocation: PropTypes.func,
+    coverageOn: PropTypes.bool,
     selectedFrame: PropTypes.object
   },
 
@@ -372,7 +378,7 @@ const Editor = React.createClass({
       matchBrackets: true,
       showAnnotationRuler: true,
       enableCodeFolding: false,
-      gutters: ["breakpoints"],
+      gutters: ["breakpoints", "hit-markers"],
       value: " ",
       extraKeys: {
         // Override code mirror keymap to avoid conflicts with split console.
@@ -533,6 +539,25 @@ const Editor = React.createClass({
     });
   },
 
+  renderHitCounts() {
+    const { hitCount, sourceText } = this.props;
+    const isLoading = sourceText && sourceText.get("loading");
+
+    if (isLoading || !hitCount) {
+      return;
+    }
+
+    return hitCount
+      .filter(marker => marker.get("count") > 0)
+      .map((marker) => {
+        return HitMarker({
+          key: marker.get("line"),
+          hitData: marker.toJS(),
+          editor: this.editor && this.editor.codeMirror
+        });
+      });
+  },
+
   editorHeight() {
     const { selectedSource } = this.props;
 
@@ -544,11 +569,16 @@ const Editor = React.createClass({
   },
 
   render() {
-    const { sourceText, selectedSource } = this.props;
+    const { sourceText, selectedSource, coverageOn } = this.props;
 
     return (
       dom.div(
-        { className: "editor-wrapper devtools-monospace" },
+        {
+          className: classnames(
+            "editor-wrapper devtools-monospace",
+            { "coverage-on": coverageOn }
+          )
+        },
         EditorSearchBar({
           editor: this.editor,
           selectedSource,
@@ -559,6 +589,7 @@ const Editor = React.createClass({
           style: { height: this.editorHeight() }
         }),
         this.renderBreakpoints(),
+        this.renderHitCounts(),
         SourceFooter({ editor: this.editor })
       )
     );
@@ -576,7 +607,9 @@ module.exports = connect(
       selectedSource,
       sourceText: getSourceText(state, sourceId),
       breakpoints: getBreakpointsForSource(state, sourceId),
-      selectedFrame: getSelectedFrame(state)
+      hitCount: getHitCountForSource(state, sourceId),
+      selectedFrame: getSelectedFrame(state),
+      coverageOn: getCoverageEnabled(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
