@@ -6,6 +6,7 @@ const sources = require("./sources");
 const pause = require("./pause");
 const navigation = require("./navigation");
 const ui = require("./ui");
+const coverage = require("./coverage");
 
 module.exports = (Object.assign(
   navigation,
@@ -13,5 +14,6 @@ module.exports = (Object.assign(
   eventListeners,
   sources,
   pause,
-  ui
+  ui,
+  coverage
 ) : typeof breakpoints);

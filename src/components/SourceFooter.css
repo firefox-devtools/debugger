@@ -44,3 +44,27 @@
   height: 1em;
   width: 1em;
 }
+
+.source-footer .commands .coverage {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--theme-content-color3);
+  font-weight: 600;
+  padding: 1px;
+  width: 16px;
+  height: 16px;
+}
+
+.source-footer .commands .coverage:hover {
+  border: 1px solid var(--theme-body-color-inactive);
+  border-radius: 2px;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.coverage-on .source-footer .commands .coverage {
+  color: var(--theme-highlight-blue);
+  border: 1px solid var(--theme-body-color-inactive);
+  border-radius: 2px;
+}

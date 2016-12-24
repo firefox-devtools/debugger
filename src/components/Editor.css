@@ -26,6 +26,15 @@ html[dir="rtl"] .editor-mount {
   left: 0;
 }
 
+.editor.hit-marker {
+  height: 14px;
+}
+
+.coverage-on .CodeMirror-code :not(.hit-marker) .CodeMirror-line,
+.coverage-on .CodeMirror-code :not(.hit-marker) .CodeMirror-gutter-wrapper {
+  opacity: 0.5;
+}
+
 .editor.new-breakpoint svg {
   fill: var(--theme-selection-background);
   width: 60px;

@@ -15,7 +15,8 @@
     "showSource": false,
     "editorSearch": false,
     "verticalLayout": false,
-    "eventListeners": false
+    "eventListeners": false,
+    "codeCoverage": false
   },
   "chrome": {
     "debug": true,

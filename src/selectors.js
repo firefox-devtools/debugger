@@ -5,6 +5,7 @@ const pause = require("./reducers/pause");
 const breakpoints = require("./reducers/breakpoints");
 const eventListeners = require("./reducers/event-listeners");
 const ui = require("./reducers/ui");
+const coverage = require("./reducers/coverage");
 
 /**
  * @param object - location
@@ -37,6 +38,9 @@ module.exports = {
   getShouldIgnoreCaughtExceptions: pause.getShouldIgnoreCaughtExceptions,
   getFrames: pause.getFrames,
   getSelectedFrame: pause.getSelectedFrame,
+
+  getHitCountForSource: coverage.getHitCountForSource,
+  getCoverageEnabled: coverage.getCoverageEnabled,
 
   getEventListeners: eventListeners.getEventListeners,
 

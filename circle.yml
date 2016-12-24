@@ -5,7 +5,7 @@ machine:
     - docker
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
-    YARN_PATH: "$HOME/.yarn-cache"
+    YARN_PATH: "$HOME/.yarn"
     YARN_VERSION: 0.18.1
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   post:
@@ -33,7 +33,7 @@ dependencies:
     - ./bin/install-yarn
   cache_directories:
     - ~/downloads
-    - ~/.yarn-cache
+    - ~/.cache/yarn
     - ~/.yarn
   override:
     - yarn install
