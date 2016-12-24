@@ -44,6 +44,7 @@ let SourcesTree = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    const { selectedSource } = this.props;
     if (isEnabled("showSource") &&
     nextProps.shownSource != this.props.shownSource) {
       const listItems = getDirectories(
@@ -55,7 +56,8 @@ let SourcesTree = React.createClass({
       return this.setState({ listItems });
     }
 
-    if (nextProps.selectedSource != this.props.selectedSource) {
+    if (nextProps.selectedSource &&
+        nextProps.selectedSource != selectedSource) {
       const highlightItems = getDirectories(
         nextProps.selectedSource.get("url"),
         this.state.sourceTree
