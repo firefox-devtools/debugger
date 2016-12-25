@@ -78,13 +78,15 @@ const Breakpoints = React.createClass({
     const line = breakpoint.location.line;
     const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
     const isDisabled = breakpoint.disabled;
+    const isConditional = breakpoint.condition !== null;
 
     return dom.div(
       {
         className: classnames({
           breakpoint,
           paused: isCurrentlyPaused,
-          disabled: isDisabled
+          disabled: isDisabled,
+          "is-conditional": isConditional
         }),
         key: locationId,
         onClick: () => this.selectBreakpoint(breakpoint)
