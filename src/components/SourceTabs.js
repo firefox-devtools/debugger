@@ -13,6 +13,7 @@ const { isEnabled } = require("devtools-config");
 const classnames = require("classnames");
 const actions = require("../actions");
 const CloseButton = require("./CloseButton");
+const PaneCollapseButton = require("./PaneCollapseButton");
 const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu, buildMenu } = require("../utils/menu");
@@ -68,6 +69,7 @@ const SourceTabs = React.createClass({
     toggleFileSearch: PropTypes.func.isRequired,
     togglePane: PropTypes.func.isRequired,
     showSource: PropTypes.func.isRequired,
+    horizontal: PropTypes.bool.isRequired,
     startPanelCollapsed: PropTypes.bool.isRequired,
     endPanelCollapsed: PropTypes.bool.isRequired,
   },
@@ -265,13 +267,6 @@ const SourceTabs = React.createClass({
     }, Svg("plus"));
   },
 
-  renderToggleButton(position, collapsed) {
-    return dom.div({
-      className: classnames(`toggle-button-${position}`, { collapsed }),
-      onClick: () => this.props.togglePane(position),
-    }, Svg("togglePanes"));
-  },
-
   renderDropdown() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
@@ -287,12 +282,28 @@ const SourceTabs = React.createClass({
   },
 
   render() {
+    let endPaneCollapseButton;
+
+    if (this.props.horizontal) {
+      endPaneCollapseButton = PaneCollapseButton({
+        position: "end",
+        collapsed: !this.props.endPanelCollapsed,
+        handleClick: this.props.togglePane,
+        horizontal: this.props.horizontal
+      });
+    }
+
     return dom.div({ className: "source-header" },
-      this.renderToggleButton("start", !this.props.startPanelCollapsed),
+      PaneCollapseButton({
+        position: "start",
+        collapsed: !this.props.startPanelCollapsed,
+        handleClick: this.props.togglePane,
+        horizontal: this.props.horizontal
+      }),
       this.renderTabs(),
       this.renderNewButton(),
       this.renderDropdown(),
-      this.renderToggleButton("end", !this.props.endPanelCollapsed)
+      endPaneCollapseButton
     );
   }
 });

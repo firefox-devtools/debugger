@@ -1,5 +1,5 @@
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
+const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { isEnabled } = require("devtools-config");
@@ -13,6 +13,8 @@ const WhyPaused = React.createFactory(require("./WhyPaused"));
 const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Expressions = React.createFactory(require("./Expressions"));
 
+let { SplitBox } = require("devtools-modules");
+SplitBox = createFactory(SplitBox);
 const Scopes = isEnabled("chromeScopes")
   ? React.createFactory(require("./ChromeScopes"))
   : React.createFactory(require("./Scopes"));
@@ -21,7 +23,7 @@ const Frames = React.createFactory(require("./Frames"));
 const EventListeners = React.createFactory(require("./EventListeners"));
 const Accordion = React.createFactory(require("./Accordion"));
 const CommandBar = React.createFactory(require("./CommandBar"));
-require("./RightSidebar.css");
+require("./InformationPanes.css");
 
 function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
@@ -31,17 +33,18 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
-const RightSidebar = React.createClass({
+const InformationPanes = React.createClass({
   propTypes: {
     evaluateExpressions: PropTypes.func,
-    pauseData: ImPropTypes.map
+    pauseData: ImPropTypes.map,
+    horizontal: PropTypes.bool
   },
 
   contextTypes: {
     shortcuts: PropTypes.object
   },
 
-  displayName: "RightSidebar",
+  displayName: "InformationPanes",
 
   getInitialState() {
     return {
@@ -79,6 +82,14 @@ const RightSidebar = React.createClass({
     const { expressionInputVisibility } = this.state;
     const isPaused = () => !!this.props.pauseData;
 
+    let scopesContent = {
+      header: L10N.getStr("scopes.header"),
+      component: Scopes, shouldOpen: isPaused };
+
+    if (!this.props.horizontal) {
+      scopesContent = null;
+    }
+
     const items = [
       { header: L10N.getStr("breakpoints.header"),
         component: Breakpoints,
@@ -86,9 +97,7 @@ const RightSidebar = React.createClass({
       { header: L10N.getStr("callStack.header"),
         component: Frames,
         shouldOpen: isPaused },
-      { header: L10N.getStr("scopes.header"),
-        component: Scopes,
-        shouldOpen: isPaused },
+      scopesContent
     ];
 
     if (isEnabled("eventListeners")) {
@@ -107,19 +116,41 @@ const RightSidebar = React.createClass({
       });
     }
 
-    return items;
+    return items.filter(item => item);
+  },
+
+  renderHorizontalLayout() {
+    return Accordion({
+      items: this.getItems()
+    });
+  },
+
+  renderVerticalLayout() {
+    return SplitBox({
+      style: { width: "100vw" },
+      initialSize: "300px",
+      minSize: 10,
+      maxSize: "50%",
+      splitterSize: 1,
+      startPanel: Accordion({ items: this.getItems() }),
+      endPanel: Scopes()
+    });
   },
 
   render() {
+    let paneContents = this.renderHorizontalLayout;
+
+    if (!this.props.horizontal) {
+      paneContents = this.renderVerticalLayout();
+    }
+
     return (
       dom.div(
-        { className: "right-sidebar",
+        { className: "information-panes",
           style: { overflowX: "hidden" }},
         CommandBar(),
         WhyPaused(),
-        Accordion({
-          items: this.getItems()
-        })
+        paneContents
       )
     );
   }
@@ -130,4 +161,4 @@ module.exports = connect(
     pauseData: getPause(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
-)(RightSidebar);
+)(InformationPanes);

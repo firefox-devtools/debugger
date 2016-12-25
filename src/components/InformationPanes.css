@@ -1,16 +1,16 @@
-.right-sidebar {
+.information-panes {
   display: flex;
   flex-direction: column;
   flex: 1;
   white-space: nowrap;
 }
 
-.right-siderbar * {
+.information-panes * {
   -moz-user-select: none;
   user-select: none;
 }
 
-.right-sidebar .accordion {
+.information-panes .accordion {
   overflow-y: auto;
   overflow-x: hidden;
 }

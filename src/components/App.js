@@ -22,7 +22,7 @@ SplitBox = createFactory(SplitBox);
 const SourceSearch = createFactory(require("./SourceSearch"));
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
-const RightSidebar = createFactory(require("./RightSidebar"));
+const InformationPanes = createFactory(require("./InformationPanes"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 
 const App = React.createClass({
@@ -94,6 +94,7 @@ const App = React.createClass({
           togglePane: this.togglePane,
           startPanelCollapsed: this.state.startPanelCollapsed,
           endPanelCollapsed: this.state.endPanelCollapsed,
+          horizontal: this.state.horizontal
         }),
         Editor(),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
@@ -120,7 +121,7 @@ const App = React.createClass({
           splitterSize: 1,
           endPanelControl: true,
           startPanel: this.renderEditorPane(this.props),
-          endPanel: RightSidebar(),
+          endPanel: InformationPanes(),
           endPanelCollapsed: this.state.endPanelCollapsed,
           vert: this.state.horizontal
         }),
@@ -132,17 +133,22 @@ const App = React.createClass({
       { className: "debugger" },
       SplitBox({
         style: { width: "100vw" },
-        initialSize: "300px",
+        initialSize: "500px",
         minSize: 10,
-        maxSize: "50%",
+        maxSize: "80%",
         splitterSize: 1,
         vert: this.state.horizontal,
         startPanel: SplitBox({
+          style: { width: "100vw" },
+          initialSize: "150px",
+          minSize: 10,
+          maxSize: "40%",
+          splitterSize: 1,
           startPanelCollapsed: this.state.startPanelCollapsed,
           startPanel: Sources({ sources: this.props.sources }),
           endPanel: this.renderEditorPane(this.props),
         }),
-        endPanel: RightSidebar(),
+        endPanel: InformationPanes({ horizontal: this.state.horizontal }),
         endPanelCollapsed: this.state.endPanelCollapsed,
       }));
   },
