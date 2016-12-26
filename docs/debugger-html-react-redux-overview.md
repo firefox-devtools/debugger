@@ -12,7 +12,12 @@ debugger.html
 
 Debugger.html is an open source project that is built on top of React and Redux that functions as a standalone debugger for Firefox, Chrome and Node. This project is being created to provide a debugger that is stand-alone and does not require a specific browser tool to do debugging.
 
-This document gives a detailed view of the components, actions and reducers that make up the debugger.html project. Prior knowledge of React and Redux  is suggested.React documentation can be found [here](https://facebook.github.io/react/docs/getting-started.html).Redux documentation can be found [here](http://redux.js.org/).As with most documentation related to code, this document may be out of date. The last edit date occurred on August 30, 2016. If you find issues in the documentation please file an issue as described in the [contributing](https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#writing-documentation-book) guide.
+This document gives a detailed view of the components, actions and reducers that make up the debugger.html project. Prior knowledge of React and Redux  is suggested.
+
+React documentation can be found [here](https://facebook.github.io/react/docs/getting-started.html).
+Redux documentation can be found [here](http://redux.js.org/).
+
+As with most documentation related to code, this document may be out of date. The last edit date occurred on August 30, 2016. If you find issues in the documentation please file an issue as described in the [contributing](https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#writing-documentation-book) guide.
 
 #Architecture <a name="Introduction"></a>
 
@@ -132,7 +137,7 @@ The farthest right section of the application is handled by many components. At 
 
 * The Frames component is responsible for rendering the current call stack when a breakpoint is reached.
 
-* The Scopes component is responsible for rendering the current variable scopes for the given breakpoint. It uses the ObjectInpector component to render the tree for all scopes and variables. The state of which nodes are collapsed/expanded are maintained using a ManagedTree component, in similar fashion to the SourcesTree component.
+* The Scopes component is responsible for rendering the current variable scopes for the given breakpoint. It uses the ObjectInspector component to render the tree for all scopes and variables. The state of which nodes are collapsed/expanded are maintained using a ManagedTree component, in similar fashion to the SourcesTree component.
 
 ![](https://docs.google.com/drawings/d/1zHogPebNmOFT9Xx6cZsaA6R6cTQLUzBXePV9sf62chA/pub?w=960&h=720)
 [Click here to Edit](https://docs.google.com/drawings/d/1zHogPebNmOFT9Xx6cZsaA6R6cTQLUzBXePV9sf62chA/edit?usp=sharing)
@@ -155,9 +160,11 @@ const actions = require("../actions");
 .
 
 module.exports = connect(
-state =&gt; ({ pauseInfo: getPause(state),
-expressions: getExpressions(state) }),
-dispatch => bindActionCreators(actions, dispatch)
+ state => ({ 
+  pauseInfo: getPause(state),
+  expressions: getExpressions(state) 
+ }),
+ dispatch => bindActionCreators(actions, dispatch)
 )(Expressions);
 ```
 
@@ -172,7 +179,7 @@ so the actions can be called directly from the component.
 
 
 The [Reducers](https://github.com/devtools-html/debugger.html/tree/master/src/reducers) are all located in the src/reducers folder and are
-all combined using Redux’s <code>combineReducters()</code> function. This function is
+all combined using Redux’s <code>combineReducers()</code> function. This function is
 executed in main.js as follows:
 
 ```javascript
@@ -189,9 +196,9 @@ All of the reducers are combined using the index.js file in the
 reducers folder. In the Debbuger.html project, each reducer has an
 <code>update()</code> function to handle actions for its slice of state.
 
-##Asynch-requests
+##Async-requests
 
-The **asynch-requests** reducer creates an array that stores a unique
+The **async-requests** reducer creates an array that stores a unique
 sequence number for every promise being executed from an action.
 It removes the sequence number from the array when a specific promise
 resolves or rejects. The following image shows a snapshot of the
