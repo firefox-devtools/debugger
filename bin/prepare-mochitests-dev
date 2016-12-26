@@ -7,6 +7,7 @@ FIREFOX_PATH="$ROOT/../firefox"
 "$ROOT/download-firefox-artifact"
 
 # Update the debugger files, build firefox, and run all the mochitests
-"$ROOT/make-firefox-bundle" "$FIREFOX_PATH" --symlink-mochitests
+node "$ROOT/copy-assets.js"
+
 cd "$FIREFOX_PATH"
 ./mach build
