@@ -22,7 +22,6 @@
 
 .expression-output-container {
   display: flex;
-  width: 100%;
 }
 
 .expression-output-container .close-btn {
