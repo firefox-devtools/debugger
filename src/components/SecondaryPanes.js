@@ -9,6 +9,7 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { getPause, getBreakpoints,
         getBreakpointsDisabled, getBreakpointsLoading
       } = require("../selectors");
+const { prefs } = require("../utils/prefs");
 
 const actions = require("../actions");
 const WhyPaused = React.createFactory(require("./WhyPaused"));
@@ -96,6 +97,10 @@ const SecondaryPanes = React.createClass({
     const scopesContent = this.props.horizontal ? {
       header: L10N.getStr("scopes.header"),
       component: Scopes,
+      opened: prefs.scopesVisible,
+      onToggle: opened => {
+        prefs.scopesVisible = opened;
+      },
       shouldOpen: isPaused
     } : null;
 
@@ -106,6 +111,10 @@ const SecondaryPanes = React.createClass({
         opened: true },
       { header: L10N.getStr("callStack.header"),
         component: Frames,
+        opened: prefs.callStackVisible,
+        onToggle: opened => {
+          prefs.callStackVisible = opened;
+        },
         shouldOpen: isPaused },
       scopesContent
     ];
