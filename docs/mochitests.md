@@ -50,7 +50,7 @@ In the shell, navigate to the debugger.html project folder, and follow the Getti
 The mochitest are running against the compiled debugger bundle inside the Firefox checkout. This means that you need to update the bundle whenever you make code changes. `prepare-mochitests-dev` does this for you initially, but you can manually update it with:
 
 ```
-./bin/make-firefox-bundle firefox
+npm run copy-assets
 ```
 
 That will build the debugger and copy over all the relevant files into `firefox`, including mochitests. If you want it to only symlink the mochitests directory, pass `--symlink-mochitests` (which is what `prepare-mochitests-dev` does).
@@ -58,7 +58,7 @@ That will build the debugger and copy over all the relevant files into `firefox`
 It's annoying to have to manually update the bundle every single time though. If you want to automatically update the bundle in Firefox whenever you make a change, run this:
 
 ```
-npm run mochitests-watch
+npm run copy-assets-watch
 ```
 
 Now you can make code changes the the bundle will be automatically built for you inside `firefox`, and you can simply run mochitests and edit code as much as you like.
