@@ -83,6 +83,21 @@ describe("sources", () => {
     expect(tabs.getIn([0, "id"])).to.equal("foo.js");
   });
 
+  it("should append a tab for a new source at the end - issue #1418", () => {
+    // See:
+    // https://github.com/devtools-html/debugger.html/issues/1418
+    const { dispatch, getState } = createStore({});
+    dispatch(actions.newSource(makeSource("first_opened.js")));
+    dispatch(actions.selectSource("first_opened.js"));
+    dispatch(actions.newSource(makeSource("second_opened.js")));
+    dispatch(actions.selectSource("second_opened.js"));
+
+    const tabs = getSourceTabs(getState());
+    expect(tabs.size).to.equal(2);
+    expect(tabs.getIn([0, "id"])).to.equal("first_opened.js");
+    expect(tabs.getIn([1, "id"])).to.equal("second_opened.js");
+  });
+
   it("should select previous tab on tab closed", () => {
     const { dispatch, getState } = createStore({});
     dispatch(actions.newSource(makeSource("foo.js")));
