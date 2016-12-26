@@ -213,7 +213,7 @@ const CommandBar = React.createClass({
       () => toggleAllBreakpoints(!breakpointsDisabled),
       "toggleBreakpoints",
       breakpointsDisabled ? "breakpoints-disabled" : "",
-      "Disable Breakpoints"
+      breakpointsDisabled ? "Enable Breakpoints" : "Disable Breakpoints"
     );
   },
 

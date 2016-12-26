@@ -48,6 +48,10 @@ function makeLocationId(location: Location) {
   return `${location.sourceId}:${location.line}`;
 }
 
+function allBreakpointsDisabled(state) {
+  return state.breakpoints.filter(x => !x.disabled).size <= 0;
+}
+
 function update(state = State(), action: Action) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
@@ -63,7 +67,8 @@ function update(state = State(), action: Action) {
           // empty strings to be truthy, i.e. an empty string is a valid
           // condition.
           condition: firstString(action.condition, bp.condition)
-        }));
+        }))
+        .set("breakpointsDisabled", false);
       } else if (action.status === "done") {
         const { id: breakpointId, text } = action.value;
         let location = action.breakpoint.location;
@@ -102,12 +107,20 @@ function update(state = State(), action: Action) {
 
         if (action.disabled) {
           const bp = state.breakpoints.get(id);
-          return state.setIn(["breakpoints", id], updateObj(bp, {
+          const updatedState = state.setIn(["breakpoints", id], updateObj(bp, {
             loading: false, disabled: true
           }));
+
+          return updatedState.set(
+            "breakpointsDisabled", allBreakpointsDisabled(updatedState)
+          );
         }
 
-        return state.deleteIn(["breakpoints", id]);
+        const updatedState = state.deleteIn(["breakpoints", id]);
+
+        return updatedState.set(
+          "breakpointsDisabled", allBreakpointsDisabled(updatedState)
+        );
       }
       break;
     }
