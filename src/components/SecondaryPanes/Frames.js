@@ -1,4 +1,5 @@
 // @flow
+
 import {
   DOM as dom, PropTypes, createClass
 } from "react";
@@ -9,6 +10,9 @@ import actions from "../../actions";
 import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
 import { getFrames, getSelectedFrame, getSource } from "../../selectors";
+import { showMenu } from "../shared/menu";
+import { isEnabled } from "devtools-config";
+import { copyToTheClipboard } from "../../utils/clipboard";
 import classNames from "classnames";
 
 import type { List } from "immutable";
@@ -62,6 +66,27 @@ const Frames = createClass({
     });
   },
 
+  onContextMenu(event, frame) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const source = frame.source;
+    const copySourceUrl = {
+      id: "node-menu-copy-source",
+      label: "Copy Source URL",
+      accesskey: "X",
+      disabled: false,
+      click: () => copyToTheClipboard(source.url)
+    };
+
+    let items = [];
+    if (isEnabled("copySource")) {
+      items.push(copySourceUrl);
+    }
+
+    showMenu(event, items);
+  },
+
   renderFrame(frame: Frame) {
     const { selectedFrame, selectFrame } = this.props;
 
@@ -70,12 +95,20 @@ const Frames = createClass({
         className: classNames("frame", {
           "selected": selectedFrame && selectedFrame.id === frame.id
         }),
-        onMouseDown: () => selectFrame(frame),
+        onMouseDown: (e) => this.onMouseDown(e, frame, selectedFrame),
+        onContextMenu: (e) => this.onContextMenu(e, frame),
         tabIndex: 0
       },
       renderFrameTitle(frame),
       renderFrameLocation(frame)
     );
+  },
+
+  onMouseDown(e, frame, selectedFrame) {
+    if (e.nativeEvent.which == 3 && selectedFrame.id != frame.id) {
+      return;
+    }
+    this.props.selectFrame(frame);
   },
 
   renderFrames(frames: List<Frame>) {

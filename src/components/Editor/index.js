@@ -31,6 +31,7 @@ const { isFirefox } = require("devtools-config");
 const { showMenu } = require("../shared/menu");
 const { isEnabled } = require("devtools-config");
 const { isOriginalId, hasMappedSource } = require("../../utils/source-map");
+const { copyToTheClipboard } = require("../../utils/clipboard");
 
 require("./Editor.css");
 
@@ -133,6 +134,15 @@ const Editor = React.createClass({
 
     const isMapped = await hasMappedSource(selectedLocation);
 
+    const source = this.props.selectedSource;
+    const copySourceUrl = {
+      id: "node-menu-copy-source",
+      label: "Copy Source URL",
+      accesskey: "X",
+      disabled: false,
+      click: () => copyToTheClipboard(source.get("url"))
+    };
+
     const { line, ch } = this.editor.codeMirror.coordsChar({
       left: event.clientX,
       top: event.clientY
@@ -173,7 +183,20 @@ const Editor = React.createClass({
       menuOptions.push(watchExpressionLabel);
     }
 
+    if (isEnabled("copySource")) {
+      menuOptions.push(copySourceUrl);
+    }
+
+    const showSourceMenuItem = {
+      id: "node-menu-show-source",
+      label: "Show source",
+      accesskey: "s",
+      disabled: false,
+      click: () => showSource(tab)
+    };
+
     showMenu(event, menuOptions);
+
   },
 
   onGutterContextMenu(event) {
