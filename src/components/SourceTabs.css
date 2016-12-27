@@ -1,7 +1,12 @@
 .source-header {
   border-bottom: 1px solid var(--theme-splitter-color);
   height: 30px;
+  display: flex;
   flex: 1;
+
+  flex-flow: row wrap;
+  -webkit-align-items: stretch;
+  align-items: stretch;
 }
 
 .source-header * {
@@ -23,9 +28,10 @@
   position: relative;
   top: 4px;
   margin: 4px;
-  margin-inline-start: 30px;
+  margin-inline-start: 20px;
   line-height: 0;
   fill: var(--theme-comment);
+
 }
 
 .source-tab {
@@ -134,6 +140,7 @@
 .toggle-button-start {
   top: 7px;
   left: 0;
+
 }
 
 .toggle-button-end {
@@ -144,4 +151,5 @@
 .toggle-button-start.collapsed,
 .toggle-button-end.collapsed {
   transform: rotate(180deg);
+  flex: 1;
 }
