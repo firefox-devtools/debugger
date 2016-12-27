@@ -1,6 +1,6 @@
 .source-header {
   border-bottom: 1px solid var(--theme-splitter-color);
-  height: 30px;
+  height: 24px;
   flex: 1;
 }
 
@@ -21,11 +21,12 @@
   height: 14px;
   display: inline-block;
   position: relative;
-  top: 4px;
-  margin: 4px;
+  top: 2px;
+  margin: 2px 6px;
   margin-inline-start: 30px;
   line-height: 0;
   fill: var(--theme-comment);
+  cursor: pointer;
 }
 
 .source-tab {
@@ -34,8 +35,8 @@
   border: 1px solid var(--theme-splitter-color);
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  height: 24px;
-  line-height: 20px;
+  height: 22px;
+  line-height: 18px;
   display: inline-block;
   position: relative;
   transition: all 0.25s ease;
@@ -49,7 +50,7 @@
   padding-inline-start: 12px;
   padding-inline-end: 20px;
 
-  margin-top: 6px;
+  margin-top: 2px;
   margin-inline-start: 8px;
 }
 
@@ -120,6 +121,7 @@
   width: 16px;
   height: 16px;
   margin: 0 4px;
+  cursor: pointer;
 }
 
 .toggle-button-start svg,
@@ -132,12 +134,12 @@
 }
 
 .toggle-button-start {
-  top: 7px;
+  top: 3px;
   left: 0;
 }
 
 .toggle-button-end {
-  top: 7px;
+  top: 3px;
   right: 0;
 }
 
