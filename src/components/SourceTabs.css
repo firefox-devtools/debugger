@@ -33,18 +33,6 @@
   transition: 0.1s ease;
 }
 
-.source-header .new-tab-btn :hover {
-  background: var(--theme-selection-background);
-  border-top-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-  transition: 0.2s ease;
-}
-
-.source-header .new-tab-btn :hover i.plus {
-  fill: white;
-  transition: 0.1s ease;
-}
-
 .source-tab {
   background-color: var(--theme-toolbar-background-alt);
   color: var(--theme-faded-tab-color);
