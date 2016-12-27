@@ -8,10 +8,10 @@
  * @module reducers/sources
  */
 
-const fromJS = require("../utils/fromJS");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
 const { getPrettySourceURL } = require("../utils/source");
+const { prefs } = require("../utils/prefs");
 
 import type { Source, Location } from "../types";
 import type { Action } from "../actions/types";
@@ -37,13 +37,14 @@ export type SourcesState = {
 const State = makeRecord(({
   sources: I.Map(),
   selectedLocation: undefined,
-  pendingSelectedLocation: undefined,
+  pendingSelectedLocation: prefs.pendingSelectedLocation,
   sourcesText: I.Map(),
-  tabs: I.List([])
+  tabs: I.List(restoreTabs())
 } : SourcesState));
 
 function update(state = State(), action: Action) : Record<SourcesState> {
   let availableTabs = null;
+  let location = null;
 
   switch (action.type) {
     case "ADD_SOURCE": {
@@ -52,31 +53,42 @@ function update(state = State(), action: Action) : Record<SourcesState> {
     }
 
     case "SELECT_SOURCE":
+      location = {
+        line: action.line,
+        url: action.source.url
+      };
+      prefs.pendingSelectedLocation = location;
+
       return state
         .set("selectedLocation", {
           sourceId: action.source.id,
           line: action.line
         })
-        .set("pendingSelectedLocation", null)
+        .set("pendingSelectedLocation", location)
         .merge({
-          tabs: updateTabList(state, fromJS(action.source), action.tabIndex)
+          tabs: updateTabList(state, action.source.url, action.tabIndex)
         });
 
     case "SELECT_SOURCE_URL":
-      return state.set("pendingSelectedLocation", {
+      location = {
         url: action.url,
         line: action.line
-      });
+      };
+
+      prefs.pendingSelectedLocation = location;
+      return state.set("pendingSelectedLocation", location);
 
     case "CLOSE_TAB":
-      availableTabs = removeSourceFromTabList(state.tabs, action.id);
+      availableTabs = removeSourceFromTabList(state.tabs, action.url);
+
       return state.merge({ tabs: availableTabs })
         .set("selectedLocation", {
           sourceId: getNewSelectedSourceId(state, availableTabs)
         });
 
     case "CLOSE_TABS":
-      availableTabs = removeSourcesFromTabList(state.tabs, action.ids);
+      availableTabs = removeSourcesFromTabList(state.tabs, action.urls);
+
       return state.merge({ tabs: availableTabs })
         .set("selectedLocation", {
           sourceId: getNewSelectedSourceId(state, availableTabs)
@@ -100,6 +112,7 @@ function update(state = State(), action: Action) : Record<SourcesState> {
     case "NAVIGATE":
       const source = getSelectedSource({ sources: state });
       const url = source && source.get("url");
+      prefs.pendingSelectedLocation = { url };
       return State()
         .set("pendingSelectedLocation", { url });
   }
@@ -136,12 +149,23 @@ function _updateText(state, action : any) : Record<SourcesState> {
   }));
 }
 
-function removeSourceFromTabList(tabs, id) {
-  return tabs.filter(tab => tab.get("id") != id);
+function removeSourceFromTabList(tabs, url) {
+  const newTabs = tabs.filter(tab => tab != url);
+  prefs.tabs = JSON.stringify(newTabs);
+  return newTabs;
 }
 
-function removeSourcesFromTabList(tabs, ids) {
-  return ids.reduce((t, id) => removeSourceFromTabList(t, id), tabs);
+function removeSourcesFromTabList(tabs, urls) {
+  return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
+}
+
+function restoreTabs() {
+  let prefsTabs = prefs.tabs;
+  if (Object.keys(prefsTabs).length == 0) {
+    return;
+  }
+
+  return JSON.parse(prefsTabs);
 }
 
 /**
@@ -149,22 +173,24 @@ function removeSourcesFromTabList(tabs, ids) {
  * @memberof reducers/sources
  * @static
  */
-function updateTabList(state, source, tabIndex) {
-  const tabs = state.get("tabs");
-  const sourceIndex = tabs.indexOf(source);
-  const includesSource = !!tabs.find((t) => t.get("id") == source.get("id"));
+function updateTabList(
+  state: OuterState, url: string, tabIndex: number) {
+  let tabs = state.get("tabs");
+  const urlIndex = tabs.indexOf(url);
+  const includesUrl = !!tabs.find(tab => tab == url);
 
-  if (includesSource) {
+  if (includesUrl) {
     if (tabIndex != undefined) {
-      return tabs
-        .delete(sourceIndex)
-        .insert(tabIndex, source);
+      tabs = tabs
+        .delete(urlIndex)
+        .insert(tabIndex, url);
     }
-
-    return tabs;
+  } else {
+    tabs = tabs.insert(0, url);
   }
 
-  return tabs.insert(0, source);
+  prefs.tabs = JSON.stringify(tabs);
+  return tabs;
 }
 
 /**
@@ -181,19 +207,24 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs) : string {
     return "";
   }
 
-  const selectedTabId = state.selectedLocation.sourceId;
-  const availableTabIds = availableTabs.map(s => s.get("id")).toJS();
-  const tabIds = state.tabs.map(s => s.get("id")).toJS();
+  const selectedTabUrl = state.sources.find(source =>
+    source.get("id") == state.selectedLocation.sourceId).get("url");
+  const tabUrls = state.tabs.toJS();
 
-  if (availableTabIds.includes(selectedTabId)) {
-    return selectedTabId;
+  if (availableTabs.includes(selectedTabUrl)) {
+    return state.sources.find(source =>
+      source.get("url") == selectedTabUrl).get("id");
   }
 
-  const leftNeighborIndex = Math.max(tabIds.indexOf(selectedTabId) - 1, 0);
-  const lastAvailbleTabIndex = availableTabIds.length - 1;
+  const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTabUrl) - 1, 0);
+  const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
-
-  return availableTabIds[newSelectedTabIndex];
+  let tabId = state.sources.find(source =>
+    source.get("url") == availableTabs.toJS()[newSelectedTabIndex]);
+  if (tabId) {
+    tabId = tabId.get("id");
+  }
+  return tabId;
 }
 
 // Selectors
@@ -228,12 +259,19 @@ function getSourceText(state: OuterState, id: string) {
 }
 
 function getSourceTabs(state: OuterState) {
-  return state.sources.tabs;
+  const selectedLocation = getSelectedLocation(state);
+  if (!selectedLocation) {
+    return new I.List([]);
+  }
+
+  return state.sources.tabs
+    .filter(tab => getSourceByURL(state, tab));
 }
 
 function getSelectedSource(state: OuterState) {
   if (state.sources.selectedLocation) {
-    return getSource(state, state.sources.selectedLocation.sourceId);
+    return state.sources.sources.find(source =>
+      source.get("id") == state.sources.selectedLocation.sourceId);
   }
   return undefined;
 }

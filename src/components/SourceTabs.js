@@ -4,9 +4,8 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const {
-  getSelectedSource,
-  getSourceTabs,
-  getFileSearchState
+  getSelectedSource, getSourceTabs,
+  getFileSearchState, getSourceByURL
 } = require("../selectors");
 const { getFilename, getRawSourceURL, isPretty } = require("../utils/source");
 const { isEnabled } = require("devtools-config");
@@ -119,7 +118,10 @@ const SourceTabs = React.createClass({
     const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
 
     const tabs = sourceTabs.map(t => t.get("id"));
+    const otherTabs = sourceTabs.filter(t => t.get("id") !== tab);
     const sourceTab = sourceTabs.find(t => t.get("id") == tab);
+    const tabURLs = sourceTabs.map(thisTab => thisTab.get("url"));
+    const otherTabURLs = otherTabs.map(thisTab => thisTab.get("url"));
     const isPrettySource = isPretty({ url: sourceTab.get("url") });
 
     const closeTabMenuItem = {
@@ -127,7 +129,7 @@ const SourceTabs = React.createClass({
       label: closeTabLabel,
       accesskey: "C",
       disabled: false,
-      click: () => closeTab(tab)
+      click: () => closeTab(sourceTab.get("url"))
     };
 
     const closeOtherTabsMenuItem = {
@@ -135,7 +137,7 @@ const SourceTabs = React.createClass({
       label: closeOtherTabsLabel,
       accesskey: "O",
       disabled: false,
-      click: () => closeTabs(tabs.filter(t => t !== tab))
+      click: () => closeTabs(otherTabURLs)
     };
 
     const closeTabsToRightMenuItem = {
@@ -145,7 +147,7 @@ const SourceTabs = React.createClass({
       disabled: false,
       click: () => {
         const tabIndex = tabs.findIndex(t => t == tab);
-        closeTabs(tabs.filter((t, i) => i > tabIndex));
+        closeTabs(tabURLs.filter((t, i) => i > tabIndex));
       }
     };
 
@@ -154,7 +156,7 @@ const SourceTabs = React.createClass({
       label: closeAllTabsLabel,
       accesskey: "A",
       disabled: false,
-      click: () => closeTabs(tabs)
+      click: () => closeTabs(tabURLs)
     };
 
     const showSourceMenuItem = {
@@ -261,7 +263,7 @@ const SourceTabs = React.createClass({
 
     function onClickClose(ev) {
       ev.stopPropagation();
-      closeTab(source.get("id"));
+      closeTab(source.get("url"));
     }
 
     return dom.div(
@@ -343,11 +345,18 @@ const SourceTabs = React.createClass({
   }
 });
 
+function getTabs(state) {
+  return getSourceTabs(state)
+    .map(url => getSourceByURL(state, url));
+}
+
 module.exports = connect(
-  state => ({
-    selectedSource: getSelectedSource(state),
-    sourceTabs: getSourceTabs(state),
-    searchOn: getFileSearchState(state)
-  }),
+  state => {
+    return {
+      selectedSource: getSelectedSource(state),
+      sourceTabs: getTabs(state),
+      searchOn: getFileSearchState(state)
+    };
+  },
   dispatch => bindActionCreators(actions, dispatch)
 )(SourceTabs);

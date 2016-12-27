@@ -10,6 +10,8 @@ if (isDevelopment()) {
   pref("devtools.debugger.scopes-visible", false);
   pref("devtools.debugger.start-panel-collapsed", false);
   pref("devtools.debugger.end-panel-collapsed", false);
+  pref("devtools.debugger.tabs", "{}");
+  pref("devtools.debugger.pending-selected-location", "{}");
 }
 
 const prefs = new PrefsHelper("devtools", {
@@ -19,7 +21,9 @@ const prefs = new PrefsHelper("devtools", {
   callStackVisible: ["Bool", "debugger.call-stack-visible"],
   scopesVisible: ["Bool", "debugger.scopes-visible"],
   startPanelCollapsed: ["Bool", "debugger.start-panel-collapsed"],
-  endPanelCollapsed: ["Bool", "debugger.end-panel-collapsed"]
+  endPanelCollapsed: ["Bool", "debugger.end-panel-collapsed"],
+  tabs: ["Char", "debugger.tabs"],
+  pendingSelectedLocation: ["Json", "debugger.pending-selected-location"]
 });
 
 module.exports = { prefs };
