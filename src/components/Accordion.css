@@ -38,7 +38,9 @@
 }
 
 .accordion ._header .header-buttons {
+  display: flex;
   margin-left: auto;
+  padding-right: 5px;
 }
 
 .accordion .header-buttons .add-button {

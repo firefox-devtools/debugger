@@ -52,18 +52,16 @@ const RightSidebar = React.createClass({
   watchExpressionHeaderButtons() {
     const { expressionInputVisibility } = this.state;
     return [
-      dom.button({
-        onClick: evt => {
+      debugBtn(
+        evt => {
           evt.stopPropagation();
           this.setState({
             expressionInputVisibility: !expressionInputVisibility
           });
         },
-        key: "add-button",
-        className: "add-button",
-        title: L10N.getStr("watchExpressions.addButton")
-      },
-        "+"
+        "plus",
+        "add-button",
+        L10N.getStr("watchExpressions.addButton")
       ),
       debugBtn(
         evt => {
