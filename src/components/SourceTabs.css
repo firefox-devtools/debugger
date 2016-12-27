@@ -3,7 +3,6 @@
   height: 30px;
   display: flex;
   flex: 1;
-
   flex-flow: row wrap;
   -webkit-align-items: stretch;
   align-items: stretch;
@@ -16,7 +15,6 @@
 
 .source-tabs {
   max-width: calc(100% - 80px);
-  overflow: hidden;
   float: left;
   margin-left: 20px;
 }
@@ -26,12 +24,25 @@
   height: 14px;
   display: inline-block;
   position: relative;
-  top: 4px;
+  top: 5px;
   margin: 4px;
-  margin-inline-start: 20px;
+  margin-inline-start: 8px;
   line-height: 0;
+  cursor: pointer;
   fill: var(--theme-comment);
+  transition: 0.1s ease;
+}
 
+.source-header .new-tab-btn :hover {
+  background: var(--theme-selection-background);
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  transition: 0.2s ease;
+}
+
+.source-header .new-tab-btn :hover i.plus {
+  fill: white;
+  transition: 0.1s ease;
 }
 
 .source-tab {
@@ -54,7 +65,6 @@
   padding-bottom: 2px;
   padding-inline-start: 12px;
   padding-inline-end: 20px;
-
   margin-top: 6px;
   margin-inline-start: 8px;
 }
@@ -138,13 +148,12 @@
 }
 
 .toggle-button-start {
-  top: 7px;
+  top: 8px;
   left: 0;
-
 }
 
 .toggle-button-end {
-  top: 7px;
+  top: 8px;
   right: 0;
 }
 
