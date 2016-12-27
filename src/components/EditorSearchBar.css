@@ -8,7 +8,7 @@
 
 .search-bar i {
   display: block;
-  padding: 13px 0 0 13px;
+  padding: 13px;
   width: 40px;
 }
 
@@ -52,4 +52,5 @@
   line-height: 40px;
   padding-right: 10px;
   color: var(--theme-body-color-inactive);
+  direction: ltr;
 }
