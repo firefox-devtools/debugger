@@ -204,16 +204,16 @@ const CommandBar = React.createClass({
             breakpointsDisabled, breakpointsLoading } = this.props;
 
     if (breakpoints.size == 0 || breakpointsLoading) {
-      return debugBtn(
-        null, "toggleBreakpoints", "disabled", "Disable Breakpoints"
-      );
+      return debugBtn(null, "toggleBreakpoints", "disabled",
+        L10N.getStr("breakpoints.disable"));
     }
 
     return debugBtn(
       () => toggleAllBreakpoints(!breakpointsDisabled),
       "toggleBreakpoints",
       breakpointsDisabled ? "breakpoints-disabled" : "",
-      breakpointsDisabled ? "Enable Breakpoints" : "Disable Breakpoints"
+      breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
+        L10N.getStr("breakpoints.disable")
     );
   },
 

@@ -1,6 +1,8 @@
 {
   "breakpoints.header": "Breakpoints",
   "breakpoints.none": "No Breakpoints",
+  "breakpoints.enable": "Enable Breakpoints",
+  "breakpoints.disable": "Disable Breakpoints",
   "callStack.header": "Call Stack",
   "callStack.notPaused": "Not Paused",
   "callStack.collapse": "Collapse Rows",
