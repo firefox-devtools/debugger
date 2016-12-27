@@ -40,6 +40,16 @@ window.actions = {
   selectSourceURL: actions.selectSourceURL
 };
 
+// Globals needed for mocha integration tests
+window.getGlobalsForTesting = function () {
+  return {
+    debuggerStore: store,
+    launchpadStore: window.launchpadStore,
+    selectors,
+    actions
+  };
+}
+
 function unmountRoot() {
   const mount = document.querySelector("#mount");
   ReactDOM.unmountComponentAtNode(mount);

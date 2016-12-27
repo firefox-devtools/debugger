@@ -10,7 +10,8 @@ function buildConfig(envConfig) {
       bundle: [path.join(projectPath, "main.js")],
       "source-map-worker": path.join(projectPath, "utils/source-map-worker.js"),
       "pretty-print-worker":
-              path.join(projectPath, "utils/pretty-print-worker.js")
+              path.join(projectPath, "utils/pretty-print-worker.js"),
+      "integration-tests": path.join(projectPath, "test/integration/tests.js"),
     },
 
     output: {
