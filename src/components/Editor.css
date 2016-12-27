@@ -110,9 +110,9 @@ html[dir="rtl"] .editor-mount {
   width: calc(100% - 1px);
 
   /* Offsetting it by 30px for the sources-header area */
-  height: calc(100% - 30px);
+  height: calc(100% - 24px);
   position: absolute;
-  top: 30px;
+  top: 24px;
   left: 0;
   padding: 50px 0;
   text-align: center;

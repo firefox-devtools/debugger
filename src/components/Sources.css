@@ -11,11 +11,11 @@
 }
 
 .sources-header {
-  height: 30px;
+  height: 24px;
   border-bottom: 1px solid var(--theme-splitter-color);
   padding-top: 0px;
   padding-bottom: 0px;
-  line-height: 30px;
+  line-height: 24px;
   font-size: 1.2em;
   display: flex;
   align-items: baseline;
