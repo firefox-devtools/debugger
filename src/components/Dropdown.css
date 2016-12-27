@@ -12,9 +12,9 @@
 
 .dropdown-button {
   position: absolute;
-  right: 20px;
-  top: 3px;
-  font-size: 16px;
+  right: 18px;
+  top: 4px;
+  font-size: 18px;
   color: var(--theme-body-color);
   cursor: pointer;
   background: none;
