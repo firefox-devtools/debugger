@@ -10,6 +10,7 @@
 
 .autocomplete .results-summary {
   margin: 10px;
+  text-align: start;
 }
 
 .autocomplete ul {
@@ -58,7 +59,7 @@
   line-height: 30px;
   font-size: 14px;
   height: 40px;
-  padding-left: 30px;
+  padding-inline-start: 30px;
 }
 
 .autocomplete input::placeholder {
@@ -69,7 +70,7 @@
   width: 16px;
   position: absolute;
   top: 12px;
-  left: 10px;
+  offset-inline-start: 10px;
 }
 
 .autocomplete.focused .magnifying-glass path,
@@ -96,7 +97,7 @@
 
 .autocomplete .no-result-msg .sad-face {
   width: 24px;
-  margin-right: 4px;
+  margin: 0 4px;
   line-height: 0;
   flex-shrink: 0;
 }
