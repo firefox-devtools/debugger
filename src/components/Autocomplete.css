@@ -10,7 +10,6 @@
 
 .autocomplete .results-summary {
   margin: 10px;
-  direction: ltr;
   text-align: start;
 }
 
@@ -94,7 +93,6 @@
   font-size: 24px;
   padding: 4px;
   word-break: break-all;
-  direction: ltr;
 }
 
 .autocomplete .no-result-msg .sad-face {

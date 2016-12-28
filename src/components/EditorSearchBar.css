@@ -28,7 +28,6 @@
 
 .search-bar .magnifying-glass {
   background-color: var(--theme-body-background);
-  width: 40px;
 }
 
 .search-bar .magnifying-glass path,
@@ -52,5 +51,4 @@
   line-height: 40px;
   padding-right: 10px;
   color: var(--theme-body-color-inactive);
-  direction: ltr;
 }
