@@ -124,6 +124,7 @@
   width: 16px;
   height: 16px;
   margin: 0 4px;
+  cursor: pointer;
 }
 
 .toggle-button-start svg,
