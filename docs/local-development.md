@@ -152,14 +152,13 @@ file and m-c [debugger properties](https://dxr.mozilla.org/mozilla-central/sourc
 
 RTL stands for right to left and is an important feature for arabic languages and hebrew. Here's what the debugger looks like right to left  [screenshot](https://cloud.githubusercontent.com/assets/394320/19226865/ef18b0d0-8eb9-11e6-82b4-8c4da702fe91.png).
 
-*How do I set the debugger to right to left?*
+*How do I set the Debugger to right to left?*
 
-`devtools-launchpad/index.html`
-```html
-<!DOCTYPE html>
-<html dir="rtl">
-   <head>
-     <title>Firefox Debugger</title>
+Set the `dir` field in your the local config to either "rtl" or "ltr".
+
+`configs/local.json`
+```json
+"dir": "rtl"
 ```
 
 *How do I change how something looks in rtl?*

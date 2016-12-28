@@ -3,6 +3,7 @@
   "environment": "development",
   "baseWorkerURL": "http://localhost:8000/assets/build/",
   "theme": "light",
+  "dir": "ltr",
   "logging": {
     "client": false,
     "firefoxProxy": false,
