@@ -32,6 +32,8 @@
   "watchExpressions.refreshButton": "Refresh",
   "welcome.search": "%S to search for files",
   "sourceSearch.search": "Search...",
+  "sourceSearch.search.key": "F",
+  "sourceSearch.search.again.key": "G",
   "sourceSearch.resultsSummary": "%d instances of \"%S\"",
   "sourceSearch.noResults": "No files matching %S found",
   "sourceFooter.debugBtnTooltip": "Prettify Source",
