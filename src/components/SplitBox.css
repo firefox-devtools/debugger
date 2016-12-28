@@ -24,11 +24,13 @@
   flex: 1;
   min-width: 0;
   overflow: auto;
+  transition: 0.03s ease-out;
 }
 
 .split-box > .controlled {
   display: flex;
   overflow: auto;
+  transition: 0.03s ease-out;
 }
 
 .split-box > .splitter {
