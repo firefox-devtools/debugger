@@ -49,7 +49,7 @@ function makeLocationId(location: Location) {
 }
 
 function allBreakpointsDisabled(state) {
-  return state.breakpoints.filter(x => !x.disabled).size <= 0;
+  return state.breakpoints.every(x => x.disabled);
 }
 
 function update(state = State(), action: Action) {
