@@ -41,14 +41,14 @@ window.actions = {
 };
 
 // Globals needed for mocha integration tests
-window.getGlobalsForTesting = function () {
+window.getGlobalsForTesting = () => {
   return {
     debuggerStore: store,
     launchpadStore: window.launchpadStore,
     selectors,
     actions
   };
-}
+};
 
 function unmountRoot() {
   const mount = document.querySelector("#mount");
