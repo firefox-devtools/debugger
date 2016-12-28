@@ -20,10 +20,18 @@
   color: var(--theme-body-background) !important;
 }
 
+.expression-output-container {
+  display: flex;
+}
+
 .expression-output-container .close-btn {
+  display: none;
+}
+
+.expression-container:hover .expression-output-container .close-btn {
   width: 6px;
   height: 6px;
-  float: right;
+  margin-left: auto;
   margin-right: 6px;
   display: block;
   cursor: pointer;
