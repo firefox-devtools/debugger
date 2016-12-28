@@ -26,7 +26,8 @@ const Sources = React.createClass({
       dom.div({ className: "sources-header" },
         L10N.getStr("sources.header"),
         dom.span({ className: "sources-header-info" },
-          L10N.getFormatStr("sources.search", formatKeyShortcut("CmdOrCtrl+P"))
+          L10N.getFormatStr("sources.search",
+            formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
         )
       ),
       SourcesTree({ sources, selectSource })

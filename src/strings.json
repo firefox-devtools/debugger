@@ -27,6 +27,7 @@
   "scopes.notPaused": "Not Paused",
   "sources.header": "Sources",
   "sources.search": "%S to search",
+  "sources.search.key": "P",
   "watchExpressions.header": "Watch Expressions",
   "watchExpressions.addButton": "Add Watch Expression",
   "watchExpressions.refreshButton": "Refresh",
