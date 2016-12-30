@@ -80,7 +80,8 @@ const App = React.createClass({
   renderWelcomeBox() {
     return dom.div(
       { className: "welcomebox" },
-      L10N.getFormatStr("welcome.search", formatKeyShortcut("CmdOrCtrl+P"))
+      L10N.getFormatStr("welcome.search",
+        formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
     );
   },
 

@@ -57,13 +57,14 @@ const Search = React.createClass({
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.off("CmdOrCtrl+P", this.toggle);
+    shortcuts.off(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`,
+      this.toggle);
     shortcuts.off("Escape", this.onEscape);
   },
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.on("CmdOrCtrl+P", this.toggle);
+    shortcuts.on(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`, this.toggle);
     shortcuts.on("Escape", this.onEscape);
   },
 
