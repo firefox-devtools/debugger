@@ -34,9 +34,8 @@
 }
 
 .source-tab {
-  background-color: var(--theme-toolbar-background-alt);
   color: var(--theme-faded-tab-color);
-  border: 1px solid var(--theme-splitter-color);
+  border: 1px solid transparent;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   height: 24px;
@@ -58,13 +57,15 @@
 }
 
 .source-tab:hover {
-  background: var(--theme-toolbar-background);
+  background-color: var(--theme-toolbar-background-alt);
+  border-color: var(--theme-splitter-color);
   cursor: pointer;
 }
 
 .source-tab.active {
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
+  border-color: var(--theme-splitter-color);
   border-bottom-color: transparent;
 }
 
