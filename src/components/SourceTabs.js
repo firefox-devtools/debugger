@@ -298,7 +298,6 @@ const SourceTabs = React.createClass({
         position: "start",
         collapsed: !this.props.startPanelCollapsed,
         handleClick: this.props.togglePane,
-        horizontal: this.props.horizontal
       }),
       this.renderTabs(),
       this.renderNewButton(),

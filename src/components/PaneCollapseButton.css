@@ -3,6 +3,7 @@
   position: absolute;
   width: 16px;
   height: 16px;
+  transition: transform 0.25s ease-in-out;
   margin: 0 4px;
 }
 
@@ -13,6 +14,14 @@
 
 .toggle-button-end svg {
   transform: rotate(180deg);
+}
+
+.toggle-button-start.vertical svg {
+  transform: rotate(-90deg);
+}
+
+.toggle-button-end.vertical svg {
+  transform: rotate(90deg);
 }
 
 .toggle-button-start {

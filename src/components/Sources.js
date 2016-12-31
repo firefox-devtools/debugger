@@ -13,22 +13,29 @@ require("./Sources.css");
 const Sources = React.createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
-    selectSource: PropTypes.func.isRequired
+    selectSource: PropTypes.func.isRequired,
+    horizontal: PropTypes.bool.isRequired
   },
 
   displayName: "Sources",
 
   render() {
-    const { sources, selectSource } = this.props;
+    const { sources, selectSource, horizontal } = this.props;
+
+    let shortcutMsg;
+
+    if (horizontal) {
+      shortcutMsg = dom.span({ className: "sources-header-info" },
+        L10N.getFormatStr("sources.search",
+          formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
+      );
+    }
 
     return dom.div(
       { className: "sources-panel" },
       dom.div({ className: "sources-header" },
         L10N.getStr("sources.header"),
-        dom.span({ className: "sources-header-info" },
-          L10N.getFormatStr("sources.search",
-            formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
-        )
+        shortcutMsg
       ),
       SourcesTree({ sources, selectSource })
     );

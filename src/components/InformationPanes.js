@@ -138,7 +138,7 @@ const InformationPanes = React.createClass({
   },
 
   render() {
-    let paneContents = this.renderHorizontalLayout;
+    let paneContents = this.renderHorizontalLayout();
 
     if (!this.props.horizontal) {
       paneContents = this.renderVerticalLayout();
