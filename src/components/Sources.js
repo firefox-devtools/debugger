@@ -19,23 +19,23 @@ const Sources = React.createClass({
 
   displayName: "Sources",
 
-  render() {
-    const { sources, selectSource, horizontal } = this.props;
-
-    let shortcutMsg;
-
-    if (horizontal) {
-      shortcutMsg = dom.span({ className: "sources-header-info" },
+  renderShortcut() {
+    if (this.props.horizontal) {
+      return dom.span({ className: "sources-header-info" },
         L10N.getFormatStr("sources.search",
           formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
       );
     }
+  },
+
+  render() {
+    const { sources, selectSource } = this.props;
 
     return dom.div(
       { className: "sources-panel" },
       dom.div({ className: "sources-header" },
         L10N.getStr("sources.header"),
-        shortcutMsg
+        this.renderShortcut()
       ),
       SourcesTree({ sources, selectSource })
     );

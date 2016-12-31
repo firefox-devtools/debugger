@@ -13,7 +13,7 @@ const { isEnabled } = require("devtools-config");
 const classnames = require("classnames");
 const actions = require("../actions");
 const CloseButton = require("./CloseButton");
-const PaneCollapseButton = require("./PaneCollapseButton");
+const PaneToggleButton = require("./PaneToggleButton");
 const Svg = require("./utils/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu, buildMenu } = require("../utils/menu");
@@ -285,7 +285,7 @@ const SourceTabs = React.createClass({
     let endPaneCollapseButton;
 
     if (this.props.horizontal) {
-      endPaneCollapseButton = PaneCollapseButton({
+      endPaneCollapseButton = PaneToggleButton({
         position: "end",
         collapsed: !this.props.endPanelCollapsed,
         handleClick: this.props.togglePane,
@@ -294,7 +294,7 @@ const SourceTabs = React.createClass({
     }
 
     return dom.div({ className: "source-header" },
-      PaneCollapseButton({
+      PaneToggleButton({
         position: "start",
         collapsed: !this.props.startPanelCollapsed,
         handleClick: this.props.togglePane,

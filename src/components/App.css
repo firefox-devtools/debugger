@@ -81,7 +81,7 @@ body {
   width: calc(100% - 1px);
 
   /* Offsetting it by 30px for the sources-header area */
-  height: calc(100% - 31px);
+  height: calc(100% - 30px);
   position: absolute;
   top: 30px;
   left: 0;

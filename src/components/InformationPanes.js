@@ -13,8 +13,7 @@ const WhyPaused = React.createFactory(require("./WhyPaused"));
 const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Expressions = React.createFactory(require("./Expressions"));
 
-let { SplitBox } = require("devtools-modules");
-SplitBox = createFactory(SplitBox);
+const SplitBox = createFactory(require("devtools-modules").SplitBox);
 const Scopes = isEnabled("chromeScopes")
   ? React.createFactory(require("./ChromeScopes"))
   : React.createFactory(require("./Scopes"));
@@ -84,7 +83,9 @@ const InformationPanes = React.createClass({
 
     let scopesContent = {
       header: L10N.getStr("scopes.header"),
-      component: Scopes, shouldOpen: isPaused };
+      component: Scopes,
+      shouldOpen: isPaused
+    };
 
     if (!this.props.horizontal) {
       scopesContent = null;
@@ -138,20 +139,13 @@ const InformationPanes = React.createClass({
   },
 
   render() {
-    let paneContents = this.renderHorizontalLayout();
-
-    if (!this.props.horizontal) {
-      paneContents = this.renderVerticalLayout();
-    }
-
-    return (
-      dom.div(
-        { className: "information-panes",
-          style: { overflowX: "hidden" }},
-        CommandBar(),
-        WhyPaused(),
-        paneContents
-      )
+    return dom.div(
+      { className: "information-panes",
+        style: { overflowX: "hidden" }},
+      CommandBar(),
+      WhyPaused(),
+      this.props.horizontal ?
+        this.renderHorizontalLayout() : this.renderVerticalLayout()
     );
   }
 });
