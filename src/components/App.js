@@ -22,7 +22,7 @@ SplitBox = createFactory(SplitBox);
 const SourceSearch = createFactory(require("./SourceSearch"));
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
-const InformationPanes = createFactory(require("./InformationPanes"));
+const SecondaryPanes = createFactory(require("./SecondaryPanes"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 
 const App = React.createClass({
@@ -125,7 +125,7 @@ const App = React.createClass({
           splitterSize: 1,
           endPanelControl: true,
           startPanel: this.renderEditorPane(),
-          endPanel: InformationPanes({ horizontal }),
+          endPanel: SecondaryPanes({ horizontal }),
           endPanelCollapsed,
           vert: horizontal
         }),
@@ -155,7 +155,7 @@ const App = React.createClass({
           startPanel: Sources({ sources, horizontal }),
           endPanel: this.renderEditorPane(),
         }),
-        endPanel: InformationPanes({ horizontal }),
+        endPanel: SecondaryPanes({ horizontal }),
         endPanelCollapsed,
       }));
   },

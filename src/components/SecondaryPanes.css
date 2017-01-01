@@ -1,16 +1,16 @@
-.information-panes {
+.secondary-panes {
   display: flex;
   flex-direction: column;
   flex: 1;
   white-space: nowrap;
 }
 
-.information-panes * {
+.secondary-panes * {
   -moz-user-select: none;
   user-select: none;
 }
 
-.information-panes .accordion {
+.secondary-panes .accordion {
   overflow-y: auto;
   overflow-x: hidden;
 }

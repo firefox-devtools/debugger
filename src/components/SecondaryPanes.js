@@ -22,7 +22,7 @@ const Frames = React.createFactory(require("./Frames"));
 const EventListeners = React.createFactory(require("./EventListeners"));
 const Accordion = React.createFactory(require("./Accordion"));
 const CommandBar = React.createFactory(require("./CommandBar"));
-require("./InformationPanes.css");
+require("./SecondaryPanes.css");
 
 function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
@@ -32,7 +32,7 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
-const InformationPanes = React.createClass({
+const SecondaryPanes = React.createClass({
   propTypes: {
     evaluateExpressions: PropTypes.func,
     pauseData: ImPropTypes.map,
@@ -43,7 +43,7 @@ const InformationPanes = React.createClass({
     shortcuts: PropTypes.object
   },
 
-  displayName: "InformationPanes",
+  displayName: "SecondaryPanes",
 
   getInitialState() {
     return {
@@ -140,7 +140,7 @@ const InformationPanes = React.createClass({
 
   render() {
     return dom.div(
-      { className: "information-panes",
+      { className: "secondary-panes",
         style: { overflowX: "hidden" }},
       CommandBar(),
       WhyPaused(),
@@ -155,4 +155,4 @@ module.exports = connect(
     pauseData: getPause(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
-)(InformationPanes);
+)(SecondaryPanes);
