@@ -51,6 +51,40 @@ const SecondaryPanes = React.createClass({
     };
   },
 
+  renderBreakpointsSwitch() {
+    const { toggleAllBreakpoints, breakpoints,
+            breakpointsDisabled, breakpointsLoading } = this.props;
+    const boxClassName = "breakpoints-toggle";
+
+    if (breakpoints.size == 0 || breakpointsLoading) {
+      return dom.input({
+        type: "checkbox",
+        className: boxClassName,
+        checked: true,
+        disabled: true,
+        title: L10N.getStr("breakpoints.disable")
+      });
+    }
+
+    return dom.input({
+      type: "checkbox",
+      className: boxClassName,
+      onClick: () => toggleAllBreakpoints(!breakpointsDisabled),
+      defaultChecked: true,
+      ref: (input) => {
+        if (input != null) {
+          const isIndeterminate = !breakpointsDisabled &&
+            breakpoints.some(x => x.disabled);
+          input.indeterminate = isIndeterminate;
+          // checked=true would override the indeterminate value
+          input.checked = !breakpointsDisabled && !isIndeterminate;
+        }
+      },
+      title: breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
+        L10N.getStr("breakpoints.disable")
+    });
+  },
+
   watchExpressionHeaderButtons() {
     const { expressionInputVisibility } = this.state;
     return [
@@ -89,6 +123,7 @@ const SecondaryPanes = React.createClass({
 
     const items = [
       { header: L10N.getStr("breakpoints.header"),
+        buttons: this.renderBreakpointsSwitch(),
         component: Breakpoints,
         opened: true },
       { header: L10N.getStr("callStack.header"),
@@ -148,7 +183,10 @@ const SecondaryPanes = React.createClass({
 
 module.exports = connect(
   state => ({
-    pauseData: getPause(state)
+    pauseData: getPause(state),
+    breakpoints: getBreakpoints(state),
+    breakpointsDisabled: getBreakpointsDisabled(state),
+    breakpointsLoading: getBreakpointsLoading(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SecondaryPanes);
