@@ -9,7 +9,7 @@ if [[ $CIRCLE_BRANCH != *"greenkeeper"* ]]; then
 	exit 0
 fi
 
-cd $CIRCLE_PROJECT_REPONAME
+cd $HOME/$CIRCLE_PROJECT_REPONAME
 
 # See if commit message includes "update"
 git log --name-status HEAD^..HEAD | grep "update" || exit 0
@@ -21,10 +21,10 @@ yarn check || exit 0
 yarn
 
 # Commit and push yarn.lock file
-git config --global user.email "CircleCI@users.noreply.github.com"
-git config --global user.name "CircleCI"
-git config --global push.default simple
+git config user.email "CircleCI@users.noreply.github.com"
+git config user.name "CircleCI"
+git config push.default simple
 
 git add yarn.lock
 git commit -m "chore: update yarn.lock"
-git push
+git push origin $CIRCLE_BRANCH
