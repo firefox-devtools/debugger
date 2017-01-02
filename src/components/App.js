@@ -22,7 +22,7 @@ SplitBox = createFactory(SplitBox);
 const SourceSearch = createFactory(require("./SourceSearch"));
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
-const RightSidebar = createFactory(require("./RightSidebar"));
+const SecondaryPanes = createFactory(require("./SecondaryPanes"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 
 const App = React.createClass({
@@ -86,14 +86,16 @@ const App = React.createClass({
   },
 
   renderEditorPane() {
+    const { startPanelCollapsed, endPanelCollapsed, horizontal } = this.state;
     return dom.div(
       { className: "editor-pane" },
       dom.div(
         { className: "editor-container" },
         SourceTabs({
           togglePane: this.togglePane,
-          startPanelCollapsed: this.state.startPanelCollapsed,
-          endPanelCollapsed: this.state.endPanelCollapsed,
+          startPanelCollapsed,
+          endPanelCollapsed,
+          horizontal
         }),
         Editor(),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
@@ -103,6 +105,9 @@ const App = React.createClass({
   },
 
   renderHorizontalLayout() {
+    const { sources } = this.props;
+    const { startPanelCollapsed, endPanelCollapsed, horizontal } = this.state;
+
     return dom.div(
       { className: "debugger" },
       SplitBox({
@@ -111,48 +116,53 @@ const App = React.createClass({
         minSize: 10,
         maxSize: "50%",
         splitterSize: 1,
-        startPanel: Sources({ sources: this.props.sources }),
-        startPanelCollapsed: this.state.startPanelCollapsed,
+        startPanel: Sources({ sources, horizontal }),
+        startPanelCollapsed,
         endPanel: SplitBox({
           initialSize: "300px",
           minSize: 10,
           maxSize: "80%",
           splitterSize: 1,
           endPanelControl: true,
-          startPanel: this.renderEditorPane(this.props),
-          endPanel: RightSidebar(),
-          endPanelCollapsed: this.state.endPanelCollapsed,
-          vert: this.state.horizontal
+          startPanel: this.renderEditorPane(),
+          endPanel: SecondaryPanes({ horizontal }),
+          endPanelCollapsed,
+          vert: horizontal
         }),
       }));
   },
 
   renderVerticalLayout() {
+    const { sources } = this.props;
+    const { startPanelCollapsed, endPanelCollapsed, horizontal } = this.state;
+
     return dom.div(
       { className: "debugger" },
       SplitBox({
         style: { width: "100vw" },
         initialSize: "300px",
-        minSize: 10,
-        maxSize: "50%",
+        minSize: 30,
+        maxSize: "95%",
         splitterSize: 1,
-        vert: this.state.horizontal,
+        vert: horizontal,
         startPanel: SplitBox({
-          startPanelCollapsed: this.state.startPanelCollapsed,
-          startPanel: Sources({ sources: this.props.sources }),
-          endPanel: this.renderEditorPane(this.props),
+          style: { width: "100vw" },
+          initialSize: "150px",
+          minSize: 10,
+          maxSize: "40%",
+          splitterSize: 1,
+          startPanelCollapsed,
+          startPanel: Sources({ sources, horizontal }),
+          endPanel: this.renderEditorPane(),
         }),
-        endPanel: RightSidebar(),
-        endPanelCollapsed: this.state.endPanelCollapsed,
+        endPanel: SecondaryPanes({ horizontal }),
+        endPanelCollapsed,
       }));
   },
 
-  render: function() {
-    if (!this.state.horizontal) {
-      return this.renderVerticalLayout();
-    }
-
-    return this.renderHorizontalLayout();
+  render() {
+    return this.state.horizontal ?
+      this.renderHorizontalLayout() : this.renderVerticalLayout();
   }
 });
 
