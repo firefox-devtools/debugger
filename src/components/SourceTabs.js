@@ -281,28 +281,34 @@ const SourceTabs = React.createClass({
     });
   },
 
-  render() {
-    let endPaneCollapseButton;
+  renderStartPanelToggleButton() {
+    return PaneToggleButton({
+      position: "start",
+      collapsed: !this.props.startPanelCollapsed,
+      handleClick: this.props.togglePane,
+    });
+  },
 
-    if (this.props.horizontal) {
-      endPaneCollapseButton = PaneToggleButton({
-        position: "end",
-        collapsed: !this.props.endPanelCollapsed,
-        handleClick: this.props.togglePane,
-        horizontal: this.props.horizontal
-      });
+  renderEndPanelToggleButton() {
+    if (!this.props.horizontal) {
+      return;
     }
 
+    return PaneToggleButton({
+      position: "end",
+      collapsed: !this.props.endPanelCollapsed,
+      handleClick: this.props.togglePane,
+      horizontal: this.props.horizontal
+    });
+  },
+
+  render() {
     return dom.div({ className: "source-header" },
-      PaneToggleButton({
-        position: "start",
-        collapsed: !this.props.startPanelCollapsed,
-        handleClick: this.props.togglePane,
-      }),
+      this.renderStartPanelToggleButton(),
       this.renderTabs(),
       this.renderNewButton(),
       this.renderDropdown(),
-      endPaneCollapseButton
+      this.renderEndPanelToggleButton()
     );
   }
 });

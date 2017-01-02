@@ -81,15 +81,11 @@ const SecondaryPanes = React.createClass({
     const { expressionInputVisibility } = this.state;
     const isPaused = () => !!this.props.pauseData;
 
-    let scopesContent = {
+    const scopesContent = this.props.horizontal ? {
       header: L10N.getStr("scopes.header"),
       component: Scopes,
       shouldOpen: isPaused
-    };
-
-    if (!this.props.horizontal) {
-      scopesContent = null;
-    }
+    } : null;
 
     const items = [
       { header: L10N.getStr("breakpoints.header"),
