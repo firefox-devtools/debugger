@@ -10,6 +10,7 @@ import type { Pause, Frame, Expression, Grip } from "../types";
 import type { ThunkArgs } from "./types";
 
 type CommandType = { type: string };
+type frameIdType = string | null;
 
 /**
  * Redux actions for the pause state
@@ -271,7 +272,7 @@ function deleteExpression(expression: Expression) {
  * @param {number} selectedFrameId
  * @static
  */
-function evaluateExpressions(selectedFrameId) {
+function evaluateExpressions(selectedFrameId: frameIdType) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     for (let expression of getExpressions(getState())) {
       await dispatch({
