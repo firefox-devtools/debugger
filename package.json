@@ -26,7 +26,7 @@
     "test-all": "npm run test; npm run lint; npm run flow; npm run firefox-unit-test",
     "mocha-server": "node bin/mocha-server.js",
     "firefox-unit-test": "node bin/firefox-driver --test",
-    "firefox": "node bin/firefox-driver --start",
+    "firefox": "node bin/firefox-driver --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome": "node bin/chrome-driver",
     "copy-assets": "node bin/copy-assets",
     "copy-assets-watch": "node bin/copy-assets --watch",
