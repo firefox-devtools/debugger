@@ -122,12 +122,23 @@ Read more about [Hot Reloading](./docs/local-development.md#hot-reloading)
 The local debugger supports three themes: [light](https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png), [firebug](https://cloud.githubusercontent.com/assets/254562/20676303/4cbb0570-b55d-11e6-98b5-d1dd124345cd.png), and [dark](https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png).
 
 
+#### Set a theme
 You can change the theme by setting the `theme` field in `local.json` to  `light`, `dark`, or `firebug`. [gif](http://g.recordit.co/nwBX4VBOBA.gif)
 
 `configs/local.json`
 ```json
 {
   "theme": "dark"
+}
+```
+
+#### Update a theme style
+
+It is possible to add a theme specific selector. For example, this selector updates the dark debugger button colors:
+
+```css
+:root.theme-dark .command-bar > span {
+  fill: var(--theme-body-color);
 }
 ```
 
