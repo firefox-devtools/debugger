@@ -77,6 +77,10 @@ function update(state = State(), action: Action): Record<PauseState> {
 
     case constants.LOAD_OBJECT_PROPERTIES:
       if (action.status === "done") {
+        if (!action.value) {
+          return state;
+        }
+
         const ownProperties = action.value.ownProperties;
         const prototype = action.value.prototype;
 

@@ -55,6 +55,29 @@ function nodeIsPrimitive(item) {
   return !nodeHasChildren(item) && !nodeHasProperties(item);
 }
 
+function makeNodesForProperties(objProps, parentPath) {
+  const { ownProperties, prototype } = objProps;
+
+  const nodes = Object.keys(ownProperties).sort().filter(name => {
+    // Ignore non-concrete values like getters and setters
+    // for now by making sure we have a value.
+    return "value" in ownProperties[name];
+  }).map(name => {
+    return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
+  });
+
+  // Add the prototype if it exists and is not null
+  if (prototype && prototype.type !== "null") {
+    nodes.push(createNode(
+      "__proto__",
+      `${parentPath}/__proto__`,
+      { value: prototype }
+    ));
+  }
+
+  return nodes;
+}
+
 function createNode(name, path, contents) {
   // The path is important to uniquely identify the item in the entire
   // tree. This helps debugging & optimizes React's rendering of large
@@ -83,29 +106,6 @@ const ObjectInspector = React.createClass({
     return {};
   },
 
-  makeNodesForProperties(objProps, parentPath) {
-    const { ownProperties, prototype } = objProps;
-
-    const nodes = Object.keys(ownProperties).sort().filter(name => {
-      // Ignore non-concrete values like getters and setters
-      // for now by making sure we have a value.
-      return "value" in ownProperties[name];
-    }).map(name => {
-      return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
-    });
-
-    // Add the prototype if it exists and is not null
-    if (prototype && prototype.type !== "null") {
-      nodes.push(createNode(
-        "__proto__",
-        `${parentPath}/__proto__`,
-        { value: prototype }
-      ));
-    }
-
-    return nodes;
-  },
-
   getChildren(item) {
     const { getObjectProperties } = this.props;
     const obj = item.contents;
@@ -114,7 +114,9 @@ const ObjectInspector = React.createClass({
     // properties that we need to go and fetch.
     if (nodeHasChildren(item)) {
       return item.contents;
-    } else if (nodeHasProperties(item)) {
+    }
+
+    if (nodeHasProperties(item)) {
       const actor = obj.value.actor;
 
       // Because we are dynamically creating the tree as the user
@@ -129,13 +131,16 @@ const ObjectInspector = React.createClass({
       }
 
       const loadedProps = getObjectProperties(actor);
-      if (loadedProps) {
-        const children = this.makeNodesForProperties(loadedProps, item.path);
-        this.actorCache[actor] = children;
-        return children;
+      const { ownProperties, prototype } = loadedProps || {};
+      if (!ownProperties && !prototype) {
+        return [];
       }
-      return [];
+
+      const children = makeNodesForProperties(loadedProps, item.path);
+      this.actorCache[actor] = children;
+      return children;
     }
+
     return [];
   },
 
