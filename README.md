@@ -44,7 +44,7 @@ We strive for collaboration with [mutual respect for each other][contributing]. 
 
 We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
 
-* **Open Office Hours** Every Tuesday, Thursday at 3pm EST. [Event](https://calendar.google.com/calendar/render#eventpage_6%7Ceid-MzBtZHBhNm5jcW44dXR0dm1yajliOWQzamNfMjAxNjExMjJUMjAwMDAwWiBodWtoZG9rbzNuMm5oNzZiZGw2dWUya2pqb0Bn-1-0-)
+* **Community Call** Every Tuesday, Thursday at 3pm EST. [Event](https://calendar.google.com/calendar/render#eventpage_6%7Ceid-MzBtZHBhNm5jcW44dXR0dm1yajliOWQzamNfMjAxNjExMjJUMjAwMDAwWiBodWtoZG9rbzNuMm5oNzZiZGw2dWUya2pqb0Bn-1-0-)
 * **DevTools Call** Every Tuesday at 12pm EST. [info](https://wiki.mozilla.org/DevTools)
 
 ### License
