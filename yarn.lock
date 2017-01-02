@@ -1733,11 +1733,17 @@ debounce@^1.0.0:
   dependencies:
     date-now "1.0.1"
 
-debug@2.2.0, debug@^2.0.0, debug@^2.1.1, debug@^2.2.0, debug@~2.2.0:
+debug@2.2.0, debug@~2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.2.0.tgz#f87057e995b1a1f6ae6a4960664137bc56f039da"
   dependencies:
     ms "0.7.1"
+
+debug@^2.0.0, debug@^2.1.1, debug@^2.2.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
+  dependencies:
+    ms "0.7.2"
 
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
@@ -1824,9 +1830,9 @@ devtools-config@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.10.tgz#955a5ec1790e9e06a40009fdb1eaf5f979d168dd"
 
-devtools-launchpad@^0.0.20:
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.20.tgz#c076fa44372ed1200433ca85460ad497db72144b"
+devtools-launchpad@^0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.21.tgz#05bb5885bc12d75f32e86d5bc86a1abccab959c1"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
@@ -2582,8 +2588,8 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
 
 fsevents@^1.0.0:
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.0.15.tgz#fa63f590f3c2ad91275e4972a6cea545fb0aae44"
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.0.17.tgz#8537f3f12272678765b4fd6528c0f1f66f8f4558"
   dependencies:
     nan "^2.3.0"
     node-pre-gyp "^0.6.29"
@@ -3850,8 +3856,8 @@ mocha-circleci-reporter@0.0.2:
     mocha-junit-reporter "^1.12.0"
 
 mocha-junit-reporter@^1.12.0:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/mocha-junit-reporter/-/mocha-junit-reporter-1.12.1.tgz#4d512ac03a55a20159d019abb5838f07ef3daee9"
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/mocha-junit-reporter/-/mocha-junit-reporter-1.12.2.tgz#3f29f0159843b5b9b5ae68989ec7272cbf2069a4"
   dependencies:
     debug "^2.2.0"
     md5 "^2.1.0"
@@ -3906,6 +3912,10 @@ mout@^0.11.0:
 ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
+
+ms@0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 
 multimatch@^2.0.0:
   version "2.1.0"
@@ -4541,8 +4551,8 @@ postcss-ordered-values@^2.1.0:
     postcss-value-parser "^3.0.1"
 
 postcss-reduce-idents@^2.2.2:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/postcss-reduce-idents/-/postcss-reduce-idents-2.3.1.tgz#024e8e219f52773313408573db9645ba62d2d2fe"
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/postcss-reduce-idents/-/postcss-reduce-idents-2.4.0.tgz#c2c6d20cc958284f6abfbe63f7609bf409059ad3"
   dependencies:
     postcss "^5.0.4"
     postcss-value-parser "^3.0.2"
@@ -6149,8 +6159,8 @@ webpack-env-loader-plugin@^0.1.4:
     yamljs "^0.2.6"
 
 webpack-hot-middleware@^2.12.0:
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.14.0.tgz#64bb8cf056ba84c699d148840ae77e54179abb6d"
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.15.0.tgz#71995af7c0025f109df482f86f1e10379526d026"
   dependencies:
     ansi-html "0.0.6"
     html-entities "^1.2.0"
