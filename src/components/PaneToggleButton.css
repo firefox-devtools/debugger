@@ -1,0 +1,40 @@
+.toggle-button-start,
+.toggle-button-end {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  transition: transform 0.25s ease-in-out;
+  margin: 0 4px;
+}
+
+.toggle-button-start svg,
+.toggle-button-end svg {
+  fill: var(--theme-comment);
+}
+
+.toggle-button-end svg {
+  transform: rotate(180deg);
+}
+
+.toggle-button-start.vertical svg {
+  transform: rotate(-90deg);
+}
+
+.toggle-button-end.vertical svg {
+  transform: rotate(90deg);
+}
+
+.toggle-button-start {
+  top: 7px;
+  left: 0;
+}
+
+.toggle-button-end {
+  top: 7px;
+  right: 0;
+}
+
+.toggle-button-start.collapsed,
+.toggle-button-end.collapsed {
+  transform: rotate(180deg);
+}

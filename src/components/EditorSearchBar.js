@@ -81,11 +81,7 @@ const EditorSearchBar = React.createClass({
                           && hasLoaded;
 
     if (doneLoading || changedFiles) {
-      const query = this.state.query;
-      const count = countMatches(query, sourceText.get("text"));
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ count: count, index: 0 });
-      this.search(query);
+      this.doSearch(this.state.query);
     }
   },
 
@@ -113,6 +109,7 @@ const EditorSearchBar = React.createClass({
     if (this.state.enabled) {
       const selection = this.props.editor.codeMirror.getSelection();
       this.setSearchValue(selection);
+      this.doSearch(selection);
       this.selectSearchInput();
     }
   },
@@ -136,12 +133,16 @@ const EditorSearchBar = React.createClass({
     return findDOMNode(this).querySelector("input");
   },
 
-  onChange(e) {
+  doSearch(query) {
     const sourceText = this.props.sourceText;
-    const query = e.target.value;
     const count = countMatches(query, sourceText.get("text"));
+    // eslint-disable-next-line react/no-did-update-set-state
     this.setState({ query, count, index: 0 });
     this.search(query);
+  },
+
+  onChange(e) {
+    this.doSearch(e.target.value);
   },
 
   traverseResultsPrev(e) {

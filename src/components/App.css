@@ -43,6 +43,7 @@ body {
   position: relative;
   flex: 1;
   background-color: var(--theme-tab-toolbar-background);
+  height: calc(100% - 1px);
   overflow: hidden;
 }
 
