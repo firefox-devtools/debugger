@@ -270,12 +270,13 @@ function deleteExpression(expression: Expression) {
  */
 function evaluateExpressions() {
   return async function({ dispatch, getState, client }: ThunkArgs) {
+    const pauseInfo = getPause(getState());
     const selectedFrame = getSelectedFrame(getState());
-    if (!selectedFrame) {
+    if (pauseInfo && !selectedFrame) {
       return;
     }
 
-    const frameId = selectedFrame.id;
+    const frameId = selectedFrame ? selectedFrame.id : null;
 
     for (let expression of getExpressions(getState())) {
       await dispatch({
