@@ -100,7 +100,7 @@ const Editor = React.createClass({
 
   onContextMenu(cm, event) {
     if (event.target.classList.contains("CodeMirror-linenumber")) {
-      return this.onGutterContextMenu(cm, event);
+      return this.onGutterContextMenu(event);
     }
 
     event.stopPropagation();
@@ -132,7 +132,7 @@ const Editor = React.createClass({
     ]);
   },
 
-  onGutterContextMenu(cm, event) {
+  onGutterContextMenu(event) {
     event.stopPropagation();
     event.preventDefault();
 
