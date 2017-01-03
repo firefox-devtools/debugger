@@ -6,7 +6,9 @@ const { isEnabled } = require("devtools-config");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 
-const { getPause } = require("../selectors");
+const { getPause, getBreakpoints,
+        getBreakpointsDisabled, getBreakpointsLoading
+      } = require("../selectors");
 
 const actions = require("../actions");
 const WhyPaused = React.createFactory(require("./WhyPaused"));
@@ -36,7 +38,11 @@ const SecondaryPanes = React.createClass({
   propTypes: {
     evaluateExpressions: PropTypes.func,
     pauseData: ImPropTypes.map,
-    horizontal: PropTypes.bool
+    horizontal: PropTypes.bool,
+    breakpoints: ImPropTypes.map,
+    breakpointsDisabled: PropTypes.bool,
+    breakpointsLoading: PropTypes.bool,
+    toggleAllBreakpoints: PropTypes.func
   },
 
   contextTypes: {
@@ -60,7 +66,6 @@ const SecondaryPanes = React.createClass({
       return dom.input({
         type: "checkbox",
         className: boxClassName,
-        checked: true,
         disabled: true,
         title: L10N.getStr("breakpoints.disable")
       });

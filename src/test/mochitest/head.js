@@ -593,7 +593,7 @@ const selectors = {
   stepOver: ".stepOver.active",
   stepOut: ".stepOut.active",
   stepIn: ".stepIn.active",
-  toggleBreakpoints: ".toggleBreakpoints",
+  toggleBreakpoints: ".breakpoints-toggle",
   prettyPrintButton: ".prettyPrint",
   sourceFooter: ".source-footer",
   sourceNode: i => `.sources-list .tree-node:nth-child(${i})`,
