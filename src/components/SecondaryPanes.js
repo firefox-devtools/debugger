@@ -45,26 +45,8 @@ const SecondaryPanes = React.createClass({
 
   displayName: "SecondaryPanes",
 
-  getInitialState() {
-    return {
-      expressionInputVisibility: true
-    };
-  },
-
   watchExpressionHeaderButtons() {
-    const { expressionInputVisibility } = this.state;
     return [
-      debugBtn(
-        evt => {
-          evt.stopPropagation();
-          this.setState({
-            expressionInputVisibility: !expressionInputVisibility
-          });
-        },
-        "plus",
-        "add-button",
-        L10N.getStr("watchExpressions.addButton")
-      ),
       debugBtn(
         evt => {
           evt.stopPropagation();
@@ -78,7 +60,6 @@ const SecondaryPanes = React.createClass({
   },
 
   getItems() {
-    const { expressionInputVisibility } = this.state;
     const isPaused = () => !!this.props.pauseData;
 
     const scopesContent = this.props.horizontal ? {
@@ -108,7 +89,6 @@ const SecondaryPanes = React.createClass({
       items.unshift({ header: L10N.getStr("watchExpressions.header"),
         buttons: this.watchExpressionHeaderButtons(),
         component: Expressions,
-        componentProps: { expressionInputVisibility },
         opened: true
       });
     }

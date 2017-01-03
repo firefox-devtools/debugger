@@ -10,6 +10,7 @@ import type { Pause, Frame, Expression, Grip } from "../types";
 import type { ThunkArgs } from "./types";
 
 type CommandType = { type: string };
+type frameIdType = string | null;
 
 /**
  * Redux actions for the pause state
@@ -51,7 +52,7 @@ function paused(pauseInfo: Pause) {
       selectedFrameId: frame.id
     });
 
-    dispatch(evaluateExpressions());
+    dispatch(evaluateExpressions(frame.id));
 
     dispatch(selectSource(frame.location.sourceId,
                           { line: frame.location.line }));
@@ -226,7 +227,9 @@ function addExpression(expression: Expression) {
       id: id,
       input: expression.input
     });
-    dispatch(evaluateExpressions());
+    const selectedFrame = getSelectedFrame(getState());
+    const selectedFrameId = selectedFrame ? selectedFrame.id : null;
+    dispatch(evaluateExpressions(selectedFrameId));
   };
 }
 
@@ -266,23 +269,17 @@ function deleteExpression(expression: Expression) {
 /**
  *
  * @memberof actions/pause
+ * @param {number} selectedFrameId
  * @static
  */
-function evaluateExpressions() {
+function evaluateExpressions(selectedFrameId: frameIdType) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
-    const selectedFrame = getSelectedFrame(getState());
-    if (!selectedFrame) {
-      return;
-    }
-
-    const frameId = selectedFrame.id;
-
     for (let expression of getExpressions(getState())) {
       await dispatch({
         type: constants.EVALUATE_EXPRESSION,
         id: expression.id,
         input: expression.input,
-        [PROMISE]: client.evaluate(expression.input, { frameId })
+        [PROMISE]: client.evaluate(expression.input, { selectedFrameId })
       });
     }
   };
