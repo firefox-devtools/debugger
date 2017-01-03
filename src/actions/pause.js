@@ -10,6 +10,7 @@ import type { Pause, Frame, Expression, Grip } from "../types";
 import type { ThunkArgs } from "./types";
 
 type CommandType = { type: string };
+type frameIdType = string | null;
 
 /**
  * Redux actions for the pause state
@@ -24,6 +25,8 @@ type CommandType = { type: string };
  */
 function resumed() {
   return ({ dispatch, client }: ThunkArgs) => {
+    dispatch(evaluateExpressions(null));
+
     return dispatch({
       type: constants.RESUME,
       value: undefined
@@ -51,7 +54,7 @@ function paused(pauseInfo: Pause) {
       selectedFrameId: frame.id
     });
 
-    dispatch(evaluateExpressions());
+    dispatch(evaluateExpressions(frame.id));
 
     dispatch(selectSource(frame.location.sourceId,
                           { line: frame.location.line }));
@@ -181,6 +184,7 @@ function breakOnNext() {
  */
 function selectFrame(frame: Frame) {
   return ({ dispatch }: ThunkArgs) => {
+    dispatch(evaluateExpressions(frame.id));
     dispatch(selectSource(frame.location.sourceId,
                           { line: frame.location.line }));
     dispatch({
@@ -220,13 +224,20 @@ function loadObjectProperties(grip: Grip) {
 function addExpression(expression: Expression) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const id = expression.id !== undefined ? parseInt(expression.id, 10) :
-      getExpressions(getState()).toSeq().size++;
+    getExpressions(getState()).toSeq().size++;
+
+    if (!expression.input) {
+      return;
+    }
+
     dispatch({
       type: constants.ADD_EXPRESSION,
       id: id,
       input: expression.input
     });
-    dispatch(evaluateExpressions());
+    const selectedFrame = getSelectedFrame(getState());
+    const selectedFrameId = selectedFrame ? selectedFrame.id : null;
+    dispatch(evaluateExpressions(selectedFrameId));
   };
 }
 
@@ -266,18 +277,17 @@ function deleteExpression(expression: Expression) {
 /**
  *
  * @memberof actions/pause
+ * @param {number} selectedFrameId
  * @static
  */
-function evaluateExpressions() {
+function evaluateExpressions(frameId: frameIdType) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
-    const selectedFrame = getSelectedFrame(getState());
-    if (!selectedFrame) {
-      return;
-    }
-
-    const frameId = selectedFrame.id;
-
     for (let expression of getExpressions(getState())) {
+      if (!expression.input) {
+        console.warn("Expressions should not be empty");
+        continue;
+      }
+
       await dispatch({
         type: constants.EVALUATE_EXPRESSION,
         id: expression.id,

@@ -55,6 +55,29 @@ function nodeIsPrimitive(item) {
   return !nodeHasChildren(item) && !nodeHasProperties(item);
 }
 
+function makeNodesForProperties(objProps, parentPath) {
+  const { ownProperties, prototype } = objProps;
+
+  const nodes = Object.keys(ownProperties).sort().filter(name => {
+    // Ignore non-concrete values like getters and setters
+    // for now by making sure we have a value.
+    return "value" in ownProperties[name];
+  }).map(name => {
+    return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
+  });
+
+  // Add the prototype if it exists and is not null
+  if (prototype && prototype.type !== "null") {
+    nodes.push(createNode(
+      "__proto__",
+      `${parentPath}/__proto__`,
+      { value: prototype }
+    ));
+  }
+
+  return nodes;
+}
+
 function createNode(name, path, contents) {
   // The path is important to uniquely identify the item in the entire
   // tree. This helps debugging & optimizes React's rendering of large
@@ -66,11 +89,13 @@ function createNode(name, path, contents) {
 
 const ObjectInspector = React.createClass({
   propTypes: {
+    autoExpandDepth: PropTypes.number,
     name: PropTypes.string,
     desc: PropTypes.object,
     roots: PropTypes.array,
     getObjectProperties: PropTypes.func.isRequired,
-    loadObjectProperties: PropTypes.func.isRequired
+    loadObjectProperties: PropTypes.func.isRequired,
+    onLabelClick: PropTypes.func
   },
 
   displayName: "ObjectInspector",
@@ -83,27 +108,11 @@ const ObjectInspector = React.createClass({
     return {};
   },
 
-  makeNodesForProperties(objProps, parentPath) {
-    const { ownProperties, prototype } = objProps;
-
-    const nodes = Object.keys(ownProperties).sort().filter(name => {
-      // Ignore non-concrete values like getters and setters
-      // for now by making sure we have a value.
-      return "value" in ownProperties[name];
-    }).map(name => {
-      return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
-    });
-
-    // Add the prototype if it exists and is not null
-    if (prototype && prototype.type !== "null") {
-      nodes.push(createNode(
-        "__proto__",
-        `${parentPath}/__proto__`,
-        { value: prototype }
-      ));
-    }
-
-    return nodes;
+  getDefaultProps() {
+    return {
+      onLabelClick: () => {},
+      autoExpandDepth: 1
+    };
   },
 
   getChildren(item) {
@@ -114,7 +123,9 @@ const ObjectInspector = React.createClass({
     // properties that we need to go and fetch.
     if (nodeHasChildren(item)) {
       return item.contents;
-    } else if (nodeHasProperties(item)) {
+    }
+
+    if (nodeHasProperties(item)) {
       const actor = obj.value.actor;
 
       // Because we are dynamically creating the tree as the user
@@ -129,13 +140,16 @@ const ObjectInspector = React.createClass({
       }
 
       const loadedProps = getObjectProperties(actor);
-      if (loadedProps) {
-        const children = this.makeNodesForProperties(loadedProps, item.path);
-        this.actorCache[actor] = children;
-        return children;
+      const { ownProperties, prototype } = loadedProps || {};
+      if (!ownProperties && !prototype) {
+        return [];
       }
-      return [];
+
+      const children = makeNodesForProperties(loadedProps, item.path);
+      this.actorCache[actor] = children;
+      return children;
     }
+
     return [];
   },
 
@@ -170,7 +184,16 @@ const ObjectInspector = React.createClass({
           hidden: nodeIsPrimitive(item)
         })
       }),
-      dom.span({ className: "object-label" }, item.name),
+      dom.span(
+        {
+          className: "object-label",
+          onClick: event => {
+            event.stopPropagation();
+            this.props.onLabelClick(item, { depth, focused, expanded });
+          }
+        },
+        item.name
+      ),
       dom.span({ className: "object-delimiter" },
                objectValue ? ": " : ""),
       dom.span({ className: "object-value" }, objectValue || "")
@@ -178,7 +201,8 @@ const ObjectInspector = React.createClass({
   },
 
   render() {
-    const { name, desc, loadObjectProperties } = this.props;
+    const { name, desc, loadObjectProperties,
+            autoExpandDepth } = this.props;
 
     let roots = this.props.roots;
     if (!roots) {
@@ -192,7 +216,7 @@ const ObjectInspector = React.createClass({
       getRoots: () => roots,
       getKey: item => item.path,
       autoExpand: 0,
-      autoExpandDepth: 1,
+      autoExpandDepth,
       autoExpandAll: false,
       disabledFocus: true,
       onExpand: item => {

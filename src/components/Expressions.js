@@ -3,12 +3,34 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const actions = require("../actions");
-const { getExpressions, getPause } = require("../selectors");
-const Rep = React.createFactory(require("./Rep"));
+const { getExpressions, getLoadedObjects, getPause } = require("../selectors");
 const CloseButton = React.createFactory(require("./CloseButton"));
+const ObjectInspector = React.createFactory(require("./ObjectInspector"));
 const { DOM: dom, PropTypes } = React;
 
 require("./Expressions.css");
+
+function getValue(expression) {
+  const value = expression.value;
+  if (!value) {
+    return {
+      path: expression.from,
+      value: "<not available>",
+    };
+  }
+
+  if (value.exception) {
+    return {
+      path: expression.from,
+      value: value.exception
+    };
+  }
+
+  return {
+    path: value.result.actor,
+    value: value.result
+  };
+}
 
 const Expressions = React.createClass({
   propTypes: {
@@ -16,7 +38,6 @@ const Expressions = React.createClass({
     addExpression: PropTypes.func,
     updateExpression: PropTypes.func,
     deleteExpression: PropTypes.func,
-    expressionInputVisibility: PropTypes.bool,
     loadObjectProperties: PropTypes.func,
     loadedObjects: ImPropTypes.map,
   },
@@ -29,36 +50,23 @@ const Expressions = React.createClass({
     }
     const { addExpression } = this.props;
     const expression = {
-      input: e.target.value
+      input: e.target.value,
+      id
     };
-    if (id !== undefined) {
-      expression.id = id;
-    }
+
     e.target.value = "";
     addExpression(expression);
   },
 
-  updateExpression(e, { id }) {
-    e.stopPropagation();
-    const { updateExpression } = this.props;
-    const expression = {
-      id,
-      input: e.target.textContent
-    };
-    updateExpression(expression);
-  },
+  updateExpression(expression, { depth }) {
+    if (depth > 0) {
+      return;
+    }
 
-  renderExpressionValue(value) {
-    if (!value) {
-      return dom.span(
-        { className: "expression-error" },
-        "<not available>"
-      );
-    }
-    if (value.exception) {
-      return Rep({ object: value.exception });
-    }
-    return Rep({ object: value.result });
+    this.props.updateExpression({
+      id: expression.id,
+      input: expression.input
+    });
   },
 
   deleteExpression(e, expression) {
@@ -84,33 +92,35 @@ const Expressions = React.createClass({
   },
 
   renderExpression(expression) {
-    return dom.span(
-      { className: "expression-output-container",
-        key: expression.id },
-      dom.span(
-        { className: "expression-input",
-          onClick: e => this.updateExpression(e, expression) },
-        expression.input
-      ),
-      dom.span(
-        { className: "expression-seperator" },
-        ": "
-      ),
-      dom.span(
-        { className: "expression-value" },
-        this.renderExpressionValue(expression.value)
-      ),
-      CloseButton({ handleClick: e => this.deleteExpression(e, expression) }),
-    );
-  },
+    const { loadObjectProperties, loadedObjects } = this.props;
 
-  renderExpressionContainer(expression) {
+    if (expression.updating) {
+      return this.renderExpressionUpdating(expression);
+    }
+
+    const { value, path } = getValue(expression);
+
+    const root = {
+      name: expression.input,
+      path,
+      contents: { value }
+    };
+
     return dom.div(
-      { className: "expression-container",
-        key: expression.id + expression.input },
-      expression.updating ?
-        this.renderExpressionUpdating(expression) :
-        this.renderExpression(expression)
+      {
+        className: "expression-container",
+        key: path
+      },
+      ObjectInspector({
+        roots: [root],
+        getObjectProperties: id => loadedObjects.get(id),
+        autoExpandDepth: 0,
+        onLabelClick: (item, options) => this.updateExpression(
+          expression, options
+        ),
+        loadObjectProperties
+      }),
+      CloseButton({ handleClick: e => this.deleteExpression(e, expression) }),
     );
   },
 
@@ -124,15 +134,13 @@ const Expressions = React.createClass({
     const { expressions } = this.props;
     return dom.span(
       { className: "pane expressions-list" },
-      this.props.expressionInputVisibility ?
+      expressions.toSeq().map(this.renderExpression),
       dom.input(
         { type: "text",
           className: "input-expression",
           placeholder: L10N.getStr("expressions.placeholder"),
           onKeyPress: e => this.inputKeyPress(e, {}) }
-      ) : null,
-      expressions.toSeq().map(expression =>
-        this.renderExpressionContainer(expression))
+      )
     );
   }
 });
@@ -140,6 +148,7 @@ const Expressions = React.createClass({
 module.exports = connect(
   state => ({ pauseInfo: getPause(state),
     expressions: getExpressions(state),
+    loadedObjects: getLoadedObjects(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Expressions);

@@ -51,13 +51,7 @@ const SecondaryPanes = React.createClass({
 
   displayName: "SecondaryPanes",
 
-  getInitialState() {
-    return {
-      expressionInputVisibility: true
-    };
-  },
-
-  renderBreakpointsSwitch() {
+  renderBreakpointsToggle() {
     const { toggleAllBreakpoints, breakpoints,
             breakpointsDisabled, breakpointsLoading } = this.props;
     const boxClassName = "breakpoints-toggle";
@@ -91,19 +85,7 @@ const SecondaryPanes = React.createClass({
   },
 
   watchExpressionHeaderButtons() {
-    const { expressionInputVisibility } = this.state;
     return [
-      debugBtn(
-        evt => {
-          evt.stopPropagation();
-          this.setState({
-            expressionInputVisibility: !expressionInputVisibility
-          });
-        },
-        "plus",
-        "add-button",
-        L10N.getStr("watchExpressions.addButton")
-      ),
       debugBtn(
         evt => {
           evt.stopPropagation();
@@ -117,7 +99,6 @@ const SecondaryPanes = React.createClass({
   },
 
   getItems() {
-    const { expressionInputVisibility } = this.state;
     const isPaused = () => !!this.props.pauseData;
 
     const scopesContent = this.props.horizontal ? {
@@ -128,7 +109,7 @@ const SecondaryPanes = React.createClass({
 
     const items = [
       { header: L10N.getStr("breakpoints.header"),
-        buttons: this.renderBreakpointsSwitch(),
+        buttons: this.renderBreakpointsToggle(),
         component: Breakpoints,
         opened: true },
       { header: L10N.getStr("callStack.header"),
@@ -148,7 +129,6 @@ const SecondaryPanes = React.createClass({
       items.unshift({ header: L10N.getStr("watchExpressions.header"),
         buttons: this.watchExpressionHeaderButtons(),
         component: Expressions,
-        componentProps: { expressionInputVisibility },
         opened: true
       });
     }
