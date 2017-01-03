@@ -223,13 +223,18 @@ function loadObjectProperties(grip: Grip) {
  */
 function addExpression(expression: Expression) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    const id = expression.id !== undefined ? parseInt(expression.id, 10) :
-    getExpressions(getState()).toSeq().size++;
-
     if (!expression.input) {
       return;
     }
 
+    const expressions = getExpressions(getState()).toSeq();
+    const matchedExpression = expressions
+      .find(e => e.input === expression.input);
+    if (matchedExpression !== undefined) {
+      return;
+    }
+    const id = expression.id !== undefined ? parseInt(expression.id, 10) :
+      expressions.size++;
     dispatch({
       type: constants.ADD_EXPRESSION,
       id: id,

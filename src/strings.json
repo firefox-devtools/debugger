@@ -29,7 +29,6 @@
   "sources.search": "%S to search",
   "sources.search.key": "P",
   "watchExpressions.header": "Watch Expressions",
-  "watchExpressions.addButton": "Add Watch Expression",
   "watchExpressions.refreshButton": "Refresh",
   "welcome.search": "%S to search for sources",
   "sourceSearch.search": "Search Sources...",
