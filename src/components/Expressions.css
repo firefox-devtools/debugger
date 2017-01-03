@@ -16,6 +16,7 @@
 .input-expression:focus {
   outline-color: var(--theme-selection-background-semitransparent);
   outline-width: 2px;
+  cursor: text;
 }
 
 .expression-container {
@@ -28,7 +29,7 @@
 }
 
 :root.theme-light .expression-container:hover {
-  background-color: var(--theme-selection-color);
+  background-color: var(--theme-tab-toolbar-background);
 }
 
 :root.theme-dark .expression-container:hover {

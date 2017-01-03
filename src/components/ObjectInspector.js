@@ -89,11 +89,13 @@ function createNode(name, path, contents) {
 
 const ObjectInspector = React.createClass({
   propTypes: {
+    autoExpandDepth: PropTypes.number,
     name: PropTypes.string,
     desc: PropTypes.object,
     roots: PropTypes.array,
     getObjectProperties: PropTypes.func.isRequired,
-    loadObjectProperties: PropTypes.func.isRequired
+    loadObjectProperties: PropTypes.func.isRequired,
+    onLabelClick: PropTypes.func
   },
 
   displayName: "ObjectInspector",
@@ -104,6 +106,13 @@ const ObjectInspector = React.createClass({
     // being inspected.
     this.actorCache = {};
     return {};
+  },
+
+  getDefaultProps() {
+    return {
+      onLabelClick: () => {},
+      autoExpandDepth: 1
+    };
   },
 
   getChildren(item) {
@@ -175,7 +184,16 @@ const ObjectInspector = React.createClass({
           hidden: nodeIsPrimitive(item)
         })
       }),
-      dom.span({ className: "object-label" }, item.name),
+      dom.span(
+        {
+          className: "object-label",
+          onClick: event => {
+            event.stopPropagation();
+            this.props.onLabelClick(item, { depth, focused, expanded });
+          }
+        },
+        item.name
+      ),
       dom.span({ className: "object-delimiter" },
                objectValue ? ": " : ""),
       dom.span({ className: "object-value" }, objectValue || "")
@@ -183,7 +201,8 @@ const ObjectInspector = React.createClass({
   },
 
   render() {
-    const { name, desc, loadObjectProperties } = this.props;
+    const { name, desc, loadObjectProperties,
+            autoExpandDepth } = this.props;
 
     let roots = this.props.roots;
     if (!roots) {
@@ -197,7 +216,7 @@ const ObjectInspector = React.createClass({
       getRoots: () => roots,
       getKey: item => item.path,
       autoExpand: 0,
-      autoExpandDepth: 1,
+      autoExpandDepth,
       autoExpandAll: false,
       disabledFocus: true,
       onExpand: item => {
