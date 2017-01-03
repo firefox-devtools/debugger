@@ -16,7 +16,6 @@ const Expressions = React.createClass({
     addExpression: PropTypes.func,
     updateExpression: PropTypes.func,
     deleteExpression: PropTypes.func,
-    expressionInputVisibility: PropTypes.bool,
     loadObjectProperties: PropTypes.func,
     loadedObjects: ImPropTypes.map,
   },
@@ -24,7 +23,7 @@ const Expressions = React.createClass({
   displayName: "Expressions",
 
   inputKeyPress(e, { id }) {
-    if (e.key !== "Enter") {
+    if (e.key !== "Enter" || !e.target.value) {
       return;
     }
     const { addExpression } = this.props;
@@ -85,7 +84,7 @@ const Expressions = React.createClass({
 
   renderExpression(expression) {
     return dom.span(
-      { className: "expression-output-container",
+      { className: "expression-container",
         key: expression.id },
       dom.span(
         { className: "expression-input",
@@ -93,7 +92,7 @@ const Expressions = React.createClass({
         expression.input
       ),
       dom.span(
-        { className: "expression-seperator" },
+        { className: "expression-separator" },
         ": "
       ),
       dom.span(
@@ -106,8 +105,7 @@ const Expressions = React.createClass({
 
   renderExpressionContainer(expression) {
     return dom.div(
-      { className: "expression-container",
-        key: expression.id + expression.input },
+      { key: expression.id + expression.input },
       expression.updating ?
         this.renderExpressionUpdating(expression) :
         this.renderExpression(expression)
@@ -124,15 +122,14 @@ const Expressions = React.createClass({
     const { expressions } = this.props;
     return dom.span(
       { className: "pane expressions-list" },
-      this.props.expressionInputVisibility ?
+      expressions.toSeq().map(expression =>
+        this.renderExpressionContainer(expression)),
       dom.input(
         { type: "text",
           className: "input-expression",
           placeholder: L10N.getStr("expressions.placeholder"),
           onKeyPress: e => this.inputKeyPress(e, {}) }
-      ) : null,
-      expressions.toSeq().map(expression =>
-        this.renderExpressionContainer(expression))
+      )
     );
   }
 });
