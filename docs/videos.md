@@ -13,20 +13,20 @@ This [video](https://youtu.be/9bQ0a3pnBZk) walks through the [getting setup][get
 3. launching the debugger
 4. and then jumps in to [debugger inception][first-activity] because it's too cool not to!
 
-![screen shot 2017-01-03 at 5 26 13 pm](https://cloud.githubusercontent.com/assets/254562/21625473/dd39c576-d1d9-11e6-965f-7b91758497db.png)
+<img src="https://cloud.githubusercontent.com/assets/254562/21625473/dd39c576-d1d9-11e6-965f-7b91758497db.png" width=450 />
 
 ###  Event Listeners part 1
 
 This [video](https://youtu.be/VOwn1U7K2qg) gives an overview of [event listeners][event-listeners], a new feature we're working on that lists the event handlers on the page. After that, we jump in and make each event listener link to where the handler is defined.
 
-![screen shot 2017-01-03 at 5 26 54 pm](https://cloud.githubusercontent.com/assets/254562/21625474/dd3aba3a-d1d9-11e6-8dc9-3e9beccd4b55.png)
+<img src="https://cloud.githubusercontent.com/assets/254562/21625474/dd3aba3a-d1d9-11e6-8dc9-3e9beccd4b55.png" width=450 />
 
 
 ### Event Listeners part 2
 
 This [video](https://youtu.be/NoMryxkNPk0) adds additional functionality to event listeners, such as a checkbox that enables and disables breakpoints for that listener and a close button that removes the breakpoint entirely. Along the way, fetch breakpoints, refactor the component, and squash lots of bugs as they emerge.
 
-![screen shot 2017-01-03 at 5 26 54 pm](https://cloud.githubusercontent.com/assets/254562/21625474/dd3aba3a-d1d9-11e6-8dc9-3e9beccd4b55.png)
+<img src="https://cloud.githubusercontent.com/assets/254562/21625474/dd3aba3a-d1d9-11e6-8dc9-3e9beccd4b55.png" width=450 />
 
 
 [getting-setup]:./getting-setup.md
