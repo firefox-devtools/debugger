@@ -7,18 +7,23 @@
 
 const constants = require("../constants");
 const makeRecord = require("../utils/makeRecord");
+const { prefs } = require("../utils/prefs");
 
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type UIState = {
   searchOn: boolean,
-  shownSource: string
+  shownSource: string,
+  startPanelCollapsed: boolean,
+  endPanelCollapsed: boolean,
 };
 
 const State = makeRecord(({
   searchOn: false,
-  shownSource: ""
+  shownSource: "",
+  startPanelCollapsed: prefs.startPanelCollapsed || false,
+  endPanelCollapsed: prefs.endPanelCollapsed || false
 } : UIState));
 
 function update(state = State(), action: Action): Record<UIState> {
@@ -30,6 +35,13 @@ function update(state = State(), action: Action): Record<UIState> {
     case constants.SHOW_SOURCE: {
       return state.set("shownSource", action.sourceUrl);
     }
+
+    case constants.TOGGLE_PANE: {
+      const paneCollapsed = `${action.position}PanelCollapsed`;
+      prefs[paneCollapsed] = action.paneCollapsed;
+      return state.set(paneCollapsed, action.paneCollapsed);
+    }
+
     default: {
       return state;
     }
@@ -48,9 +60,14 @@ function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");
 }
 
+function getPaneCollapse(state: OuterState, position: string): boolean {
+  return state.ui.get(`${position}PanelCollapsed`);
+}
+
 module.exports = {
   State,
   update,
   getFileSearchState,
-  getShownSource
+  getShownSource,
+  getPaneCollapse
 };
