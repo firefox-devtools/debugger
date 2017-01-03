@@ -45,28 +45,28 @@ const Expressions = React.createClass({
   displayName: "Expressions",
 
   inputKeyPress(e, { id }) {
-    if (e.key !== "Enter" || !e.target.value) {
+    if (e.key !== "Enter") {
       return;
     }
     const { addExpression } = this.props;
     const expression = {
-      input: e.target.value
+      input: e.target.value,
+      id
     };
-    if (id !== undefined) {
-      expression.id = id;
-    }
+
     e.target.value = "";
     addExpression(expression);
   },
 
-  updateExpression(e, { id }) {
-    e.stopPropagation();
-    const { updateExpression } = this.props;
-    const expression = {
-      id,
-      input: e.target.textContent
-    };
-    updateExpression(expression);
+  updateExpression(expression, { depth }) {
+    if (depth > 0) {
+      return;
+    }
+
+    this.props.updateExpression({
+      id: expression.id,
+      input: expression.input
+    });
   },
 
   deleteExpression(e, expression) {
@@ -94,6 +94,10 @@ const Expressions = React.createClass({
   renderExpression(expression) {
     const { loadObjectProperties, loadedObjects } = this.props;
 
+    if (expression.updating) {
+      return this.renderExpressionUpdating(expression);
+    }
+
     const { value, path } = getValue(expression);
 
     const root = {
@@ -102,26 +106,21 @@ const Expressions = React.createClass({
       contents: { value }
     };
 
-    return dom.span(
+    return dom.div(
       {
-        className: "expression-output-container",
-        key: expression.id
+        className: "expression-container",
+        key: path
       },
       ObjectInspector({
         roots: [root],
         getObjectProperties: id => loadedObjects.get(id),
+        autoExpandDepth: 0,
+        onLabelClick: (item, options) => this.updateExpression(
+          expression, options
+        ),
         loadObjectProperties
       }),
       CloseButton({ handleClick: e => this.deleteExpression(e, expression) }),
-    );
-  },
-
-  renderExpressionContainer(expression) {
-    return dom.div(
-      { key: expression.id + expression.input },
-      expression.updating ?
-        this.renderExpressionUpdating(expression) :
-        this.renderExpression(expression)
     );
   },
 
@@ -135,8 +134,7 @@ const Expressions = React.createClass({
     const { expressions } = this.props;
     return dom.span(
       { className: "pane expressions-list" },
-      expressions.toSeq().map(expression =>
-        this.renderExpressionContainer(expression)),
+      expressions.toSeq().map(this.renderExpression),
       dom.input(
         { type: "text",
           className: "input-expression",

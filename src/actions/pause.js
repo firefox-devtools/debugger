@@ -25,6 +25,8 @@ type frameIdType = string | null;
  */
 function resumed() {
   return ({ dispatch, client }: ThunkArgs) => {
+    dispatch(evaluateExpressions(null));
+
     return dispatch({
       type: constants.RESUME,
       value: undefined
@@ -182,6 +184,7 @@ function breakOnNext() {
  */
 function selectFrame(frame: Frame) {
   return ({ dispatch }: ThunkArgs) => {
+    dispatch(evaluateExpressions(frame.id));
     dispatch(selectSource(frame.location.sourceId,
                           { line: frame.location.line }));
     dispatch({
@@ -221,7 +224,12 @@ function loadObjectProperties(grip: Grip) {
 function addExpression(expression: Expression) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const id = expression.id !== undefined ? parseInt(expression.id, 10) :
-      getExpressions(getState()).toSeq().size++;
+    getExpressions(getState()).toSeq().size++;
+
+    if (!expression.input) {
+      return;
+    }
+
     dispatch({
       type: constants.ADD_EXPRESSION,
       id: id,
@@ -272,14 +280,19 @@ function deleteExpression(expression: Expression) {
  * @param {number} selectedFrameId
  * @static
  */
-function evaluateExpressions(selectedFrameId: frameIdType) {
+function evaluateExpressions(frameId: frameIdType) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     for (let expression of getExpressions(getState())) {
+      if (!expression.input) {
+        console.warn("Expressions should not be empty");
+        continue;
+      }
+
       await dispatch({
         type: constants.EVALUATE_EXPRESSION,
         id: expression.id,
         input: expression.input,
-        [PROMISE]: client.evaluate(expression.input, { selectedFrameId })
+        [PROMISE]: client.evaluate(expression.input, { frameId })
       });
     }
   };

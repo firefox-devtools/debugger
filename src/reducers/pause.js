@@ -127,10 +127,15 @@ function update(state = State(), action: Action): Record<PauseState> {
           updating: true });
 
     case constants.DELETE_EXPRESSION:
-      return state.deleteIn(["expressions", action.id]);
+      return deleteExpression(state, action.id);
   }
 
   return state;
+}
+
+function deleteExpression(state, id) {
+  const index = getExpressions({ pause: state }).findKey(e => e.id == id);
+  return state.deleteIn(["expressions", index]);
 }
 
 // Selectors
