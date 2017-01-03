@@ -60,8 +60,12 @@ function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");
 }
 
-function getPaneCollapse(state: OuterState, position: string): boolean {
-  return state.ui.get(`${position}PanelCollapsed`);
+function getPaneCollapse(state: OuterState, position: panelPositionType): boolean {
+  if (position == "start") {
+    return state.ui.get("startPanelCollapsed");
+  }
+
+  return state.ui.get("endPanelCollapsed");
 }
 
 module.exports = {
