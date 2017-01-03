@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "codemirror": "^5.1.0",
-    "devtools-launchpad": "^0.0.19",
+    "devtools-launchpad": "^0.0.20",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.12.0",
     "expect.js": "^0.3.1",
