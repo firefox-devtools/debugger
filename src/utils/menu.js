@@ -49,6 +49,11 @@ if (!isFirefoxPanel()) {
 function onShown(menu, popup) {
   popup.childNodes.forEach((menuitem, index) => {
     const item = menu.items[index];
+
+    if (item.disabled) {
+      return;
+    }
+
     menuitem.onclick = () => {
       item.click();
       popup.hidePopup();

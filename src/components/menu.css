@@ -25,6 +25,14 @@ menuitem:hover {
   cursor: pointer;
 }
 
+menuitem[disabled=true] {
+  color: #cccccc;
+}
+
+menuitem[disabled=true]:hover {
+  background-color: transparent;
+}
+
 menuseparator {
   border-bottom: 1px solid #cacdd3;
   width: 100%;
