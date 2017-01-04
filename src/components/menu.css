@@ -17,12 +17,23 @@ menuitem {
   line-height: 20px;
   font-weight: 500;
   font-size: 13px;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 menuitem:hover {
   background: #3780fb;
   color: white;
   cursor: pointer;
+}
+
+menuitem[disabled=true] {
+  color: #cccccc;
+}
+
+menuitem[disabled=true]:hover {
+  background-color: transparent;
+  cursor: default;
 }
 
 menuseparator {
