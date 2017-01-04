@@ -146,21 +146,16 @@ selector in floating-scrollbar-light.css across all platforms. */
 
 .cm-highlight-full:before {
   border: 1px solid var(--theme-comment-alt);
-  border-radius: 2px;
 }
 
 .cm-highlight-start:before {
   border-left-width: 1px;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
   border-left-style: solid;
   border-left-color: var(--theme-comment-alt);
 }
 
 .cm-highlight-end:before {
   border-right-width: 1px;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
   border-right-style: solid;
   border-right-color: var(--theme-comment-alt);
 }
