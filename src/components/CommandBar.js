@@ -2,9 +2,8 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { getPause, getIsWaitingOnBreak, getBreakpointsDisabled,
-        getShouldPauseOnExceptions, getShouldIgnoreCaughtExceptions,
-        getBreakpoints, getBreakpointsLoading
+const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions,
+        getShouldIgnoreCaughtExceptions,
       } = require("../selectors");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
@@ -79,16 +78,12 @@ const CommandBar = React.createClass({
     stepIn: PropTypes.func,
     stepOut: PropTypes.func,
     stepOver: PropTypes.func,
-    toggleAllBreakpoints: PropTypes.func,
     breakOnNext: PropTypes.func,
     pause: ImPropTypes.map,
     pauseOnExceptions: PropTypes.func,
     shouldPauseOnExceptions: PropTypes.bool,
     shouldIgnoreCaughtExceptions: PropTypes.bool,
-    breakpoints: ImPropTypes.map,
     isWaitingOnBreak: PropTypes.bool,
-    breakpointsDisabled: PropTypes.bool,
-    breakpointsLoading: PropTypes.bool,
   },
 
   contextTypes: {
@@ -199,31 +194,12 @@ const CommandBar = React.createClass({
     );
   },
 
-  renderDisableBreakpoints() {
-    const { toggleAllBreakpoints, breakpoints,
-            breakpointsDisabled, breakpointsLoading } = this.props;
-
-    if (breakpoints.size == 0 || breakpointsLoading) {
-      return debugBtn(null, "toggleBreakpoints", "disabled",
-        L10N.getStr("breakpoints.disable"));
-    }
-
-    return debugBtn(
-      () => toggleAllBreakpoints(!breakpointsDisabled),
-      "toggleBreakpoints",
-      breakpointsDisabled ? "breakpoints-disabled" : "",
-      breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
-        L10N.getStr("breakpoints.disable")
-    );
-  },
-
   render() {
     return (
       dom.div(
         { className: "command-bar" },
         this.renderPauseButton(),
         this.renderStepButtons(),
-        this.renderDisableBreakpoints(),
         this.renderPauseOnExceptions()
       )
     );
@@ -237,9 +213,6 @@ module.exports = connect(
       isWaitingOnBreak: getIsWaitingOnBreak(state),
       shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
       shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
-      breakpointsDisabled: getBreakpointsDisabled(state),
-      breakpoints: getBreakpoints(state),
-      breakpointsLoading: getBreakpointsLoading(state),
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

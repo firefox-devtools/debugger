@@ -6,7 +6,9 @@ const { isEnabled } = require("devtools-config");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 
-const { getPause } = require("../selectors");
+const { getPause, getBreakpoints,
+        getBreakpointsDisabled, getBreakpointsLoading
+      } = require("../selectors");
 
 const actions = require("../actions");
 const WhyPaused = React.createFactory(require("./WhyPaused"));
@@ -36,7 +38,11 @@ const SecondaryPanes = React.createClass({
   propTypes: {
     evaluateExpressions: PropTypes.func,
     pauseData: ImPropTypes.map,
-    horizontal: PropTypes.bool
+    horizontal: PropTypes.bool,
+    breakpoints: ImPropTypes.map,
+    breakpointsDisabled: PropTypes.bool,
+    breakpointsLoading: PropTypes.bool,
+    toggleAllBreakpoints: PropTypes.func
   },
 
   contextTypes: {
@@ -44,6 +50,31 @@ const SecondaryPanes = React.createClass({
   },
 
   displayName: "SecondaryPanes",
+
+  renderBreakpointsToggle() {
+    const { toggleAllBreakpoints, breakpoints,
+            breakpointsDisabled, breakpointsLoading } = this.props;
+    const boxClassName = "breakpoints-toggle";
+
+    const breakpointsExist = breakpoints.size > 0;
+    const isIndeterminate = !breakpointsDisabled &&
+      breakpoints.some(x => x.disabled);
+
+    return dom.input({
+      type: "checkbox",
+      className: boxClassName,
+      disabled: !breakpointsExist || breakpointsLoading,
+      onClick: () => toggleAllBreakpoints(!breakpointsDisabled),
+      checked: !breakpointsDisabled && !isIndeterminate && breakpointsExist,
+      ref: (input) => {
+        if (input) {
+          input.indeterminate = isIndeterminate;
+        }
+      },
+      title: breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
+        L10N.getStr("breakpoints.disable")
+    });
+  },
 
   watchExpressionHeaderButtons() {
     return [
@@ -70,6 +101,7 @@ const SecondaryPanes = React.createClass({
 
     const items = [
       { header: L10N.getStr("breakpoints.header"),
+        buttons: this.renderBreakpointsToggle(),
         component: Breakpoints,
         opened: true },
       { header: L10N.getStr("callStack.header"),
@@ -128,7 +160,10 @@ const SecondaryPanes = React.createClass({
 
 module.exports = connect(
   state => ({
-    pauseData: getPause(state)
+    pauseData: getPause(state),
+    breakpoints: getBreakpoints(state),
+    breakpointsDisabled: getBreakpointsDisabled(state),
+    breakpointsLoading: getBreakpointsLoading(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SecondaryPanes);
