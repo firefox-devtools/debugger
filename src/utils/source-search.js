@@ -48,9 +48,12 @@ function ignoreWhiteSpace(str) {
  * This returns a mode object used by CoeMirror's addOverlay function
  * to parse and style tokens in the file.
  * The mode object contains a tokenizer function (token) which takes
- * a character stream as input, advances it past a token, and returns
- * a style for that token. For more details see
+ * a character stream as input, advances it a character at a time,
+ * and returns style(s) for that token. For more details see
  * https://codemirror.net/doc/manual.html#modeapi
+ *
+ * Also the token function code is mainly based of work done
+ * by the chrome devtools team. Thanks guys! :)
  *
  * @memberof utils/source-search
  * @static
