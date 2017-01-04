@@ -14,8 +14,15 @@ const setConfig = require("devtools-config").setConfig;
 // local directory easily.
 const networkRequest = require("devtools-network-request");
 mock("devtools-network-request", networkRequest.stubNetworkRequest);
-mock("../utils/prefs", { prefs: { clientSourceMapsEnabled: true }});
 mock("devtools-modules", { Services: { appinfo: { OS: "darwin" }}});
+
+mock("../utils/prefs", {
+  prefs: {
+    clientSourceMapsEnabled: true,
+    startPanelCollapsed: false,
+    endPanelCollapsed: false
+  }
+});
 
 const baseWorkerURL = path.join(__dirname, "../../assets/build/");
 

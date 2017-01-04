@@ -22,8 +22,8 @@ export type UIState = {
 const State = makeRecord(({
   searchOn: false,
   shownSource: "",
-  startPanelCollapsed: prefs.startPanelCollapsed || false,
-  endPanelCollapsed: prefs.endPanelCollapsed || false
+  startPanelCollapsed: prefs.startPanelCollapsed,
+  endPanelCollapsed: prefs.endPanelCollapsed
 } : UIState));
 
 function update(state = State(), action: Action): Record<UIState> {
@@ -37,9 +37,13 @@ function update(state = State(), action: Action): Record<UIState> {
     }
 
     case constants.TOGGLE_PANE: {
-      const paneCollapsed = `${action.position}PanelCollapsed`;
-      prefs[paneCollapsed] = action.paneCollapsed;
-      return state.set(paneCollapsed, action.paneCollapsed);
+      if (action.position == "start") {
+        prefs.startPanelCollapsed = action.paneCollapsed;
+        return state.set("startPanelCollapsed", action.paneCollapsed);
+      }
+
+      prefs.endPanelCollapsed = action.paneCollapsed;
+      return state.set("endPanelCollapsed", action.paneCollapsed);
     }
 
     default: {

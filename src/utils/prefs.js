@@ -17,7 +17,7 @@ const prefs = new PrefsHelper("devtools", {
   pauseOnExceptions: ["Bool", "debugger.pause-on-exceptions"],
   ignoreCaughtExceptions: ["Bool", "debugger.ignore-caught-exceptions"],
   callStackVisible: ["Bool", "debugger.call-stack-visible"],
-  scopesVisible: ["Bool", "debugger.scopes-visible"]
+  scopesVisible: ["Bool", "debugger.scopes-visible"],
   startPanelCollapsed: ["Bool", "debugger.start-panel-collapsed"],
   endPanelCollapsed: ["Bool", "debugger.end-panel-collapsed"]
 });
