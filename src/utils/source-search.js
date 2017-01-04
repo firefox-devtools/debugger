@@ -55,23 +55,42 @@ function ignoreWhiteSpace(str) {
  * @memberof utils/source-search
  * @static
  */
-function searchOverlay(query) {
-  query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)), "g");
-  return {
-    token: function(stream) {
-      query.lastIndex = stream.pos;
-      let match = query.exec(stream.string);
-      if (match && match.index == stream.pos) {
-        stream.pos += match[0].length || 1;
-        return "selecting";
-      } else if (match) {
-        stream.pos = match.index;
-      } else {
-        stream.skipToEnd();
-      }
-    }
-  };
-}
+ function searchOverlay(query) {
+   query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)));
+   let matchLength = null;
+   return {
+     token: function(stream) {
+       if (stream.column() === 0) {
+          matchLength = null;
+       }
+       if (matchLength !== null) {
+         if (matchLength > 2) {
+           for (let i = 0; i < matchLength - 2; ++i) {
+             stream.next();
+           }
+           matchLength = 1;
+           return "highlight";
+         } else {
+           stream.next();
+           matchLength = null;
+           return "highlight highlight-end";
+         }
+       }
+       const match = stream.match(query, false);
+       if (match) {
+         stream.next();
+         const len = match[0].length;
+         if (len === 1) {
+           return "highlight highlight-full";
+         }
+         matchLength = len;
+         return "highlight highlight-start";
+       }
+       while (!stream.match(query, false) && stream.next()) {
+       }
+     }
+   };
+ }
 
 /**
  * @memberof utils/source-search
