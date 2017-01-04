@@ -9,7 +9,7 @@ const constants = require("../constants");
 const makeRecord = require("../utils/makeRecord");
 const { prefs } = require("../utils/prefs");
 
-import type { Action } from "../actions/types";
+import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type UIState = {
@@ -60,7 +60,8 @@ function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");
 }
 
-function getPaneCollapse(state: OuterState, position: panelPositionType): boolean {
+function getPaneCollapse(
+  state: OuterState, position: panelPositionType): boolean {
   if (position == "start") {
     return state.ui.get("startPanelCollapsed");
   }

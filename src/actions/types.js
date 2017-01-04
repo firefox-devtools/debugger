@@ -93,6 +93,8 @@ type SourceAction =
                frames: Frame[] }}
   | { type: "CLOSE_TAB", id: string };
 
+export type panelPositionType = "start" | "end";
+
 type UIAction =
   {
     type: "TOGGLE_FILE_SEARCH",
@@ -102,7 +104,7 @@ type UIAction =
     sourceUrl: string}
   | {
     type: "TOGGLE_PANE",
-    position: "start" | "end",
+    position: panelPositionType,
     paneCollapsed: boolean };
 
 type PauseAction =
