@@ -56,27 +56,19 @@ const SecondaryPanes = React.createClass({
             breakpointsDisabled, breakpointsLoading } = this.props;
     const boxClassName = "breakpoints-toggle";
 
-    if (breakpoints.size == 0 || breakpointsLoading) {
-      return dom.input({
-        type: "checkbox",
-        className: boxClassName,
-        disabled: true,
-        title: L10N.getStr("breakpoints.disable")
-      });
-    }
+    const breakpointsExist = breakpoints.size > 0;
+    const isIndeterminate = !breakpointsDisabled &&
+      breakpoints.some(x => x.disabled);
 
     return dom.input({
       type: "checkbox",
       className: boxClassName,
+      disabled: !breakpointsExist || breakpointsLoading,
       onClick: () => toggleAllBreakpoints(!breakpointsDisabled),
-      defaultChecked: true,
+      checked: !breakpointsDisabled && !isIndeterminate && breakpointsExist,
       ref: (input) => {
-        if (input != null) {
-          const isIndeterminate = !breakpointsDisabled &&
-            breakpoints.some(x => x.disabled);
+        if (input) {
           input.indeterminate = isIndeterminate;
-          // checked=true would override the indeterminate value
-          input.checked = !breakpointsDisabled && !isIndeterminate;
         }
       },
       title: breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
