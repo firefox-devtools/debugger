@@ -17,6 +17,8 @@ menuitem {
   line-height: 20px;
   font-weight: 500;
   font-size: 13px;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 menuitem:hover {
@@ -31,6 +33,7 @@ menuitem[disabled=true] {
 
 menuitem[disabled=true]:hover {
   background-color: transparent;
+  cursor: default;
 }
 
 menuseparator {

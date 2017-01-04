@@ -50,14 +50,12 @@ function onShown(menu, popup) {
   popup.childNodes.forEach((menuitem, index) => {
     const item = menu.items[index];
 
-    if (item.disabled) {
-      return;
+    if (!item.disabled) {
+      menuitem.onclick = () => {
+        item.click();
+        popup.hidePopup();
+      };
     }
-
-    menuitem.onclick = () => {
-      item.click();
-      popup.hidePopup();
-    };
   });
 }
 
