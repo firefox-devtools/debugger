@@ -58,13 +58,13 @@ function ignoreWhiteSpace(str) {
  * @memberof utils/source-search
  * @static
  */
- function searchOverlay(query) {
+function searchOverlay(query) {
    query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)));
    let matchLength = null;
    return {
      token: function(stream) {
        if (stream.column() === 0) {
-          matchLength = null;
+        matchLength = null;
        }
        if (matchLength !== null) {
          if (matchLength > 2) {
@@ -73,11 +73,10 @@ function ignoreWhiteSpace(str) {
            }
            matchLength = 1;
            return "highlight";
-         } else {
-           stream.next();
-           matchLength = null;
-           return "highlight highlight-end";
          }
+         stream.next();
+         matchLength = null;
+         return "highlight highlight-end";
        }
        const match = stream.match(query, false);
        if (match) {
@@ -89,8 +88,7 @@ function ignoreWhiteSpace(str) {
          matchLength = len;
          return "highlight highlight-start";
        }
-       while (!stream.match(query, false) && stream.next()) {
-       }
+       while (!stream.match(query, false) && stream.next()) {}
      }
    };
  }
