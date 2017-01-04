@@ -35,6 +35,7 @@
   white-space: nowrap;
   padding-inline-end: 10px;
   float: end;
+  cursor: pointer;
 }
 
 .sources-list {

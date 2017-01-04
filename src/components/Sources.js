@@ -14,14 +14,19 @@ const Sources = React.createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
-    horizontal: PropTypes.bool.isRequired
+    horizontal: PropTypes.bool.isRequired,
+    toggleFileSearch: PropTypes.func
   },
 
   displayName: "Sources",
 
   renderShortcut() {
     if (this.props.horizontal) {
-      return dom.span({ className: "sources-header-info" },
+      return dom.span(
+        {
+          className: "sources-header-info",
+          onClick: () => this.props.toggleFileSearch(true)
+        },
         L10N.getFormatStr("sources.search",
           formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
       );
