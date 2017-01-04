@@ -13,6 +13,13 @@ function start() {
   );
 
   copyFile(
+    path.resolve(projectPath, "assets/default-prefs.js"),
+    path.resolve(projectPath, "assets/build/default-prefs.js"),
+    {cwd: projectPath}
+  );
+
+
+  copyFile(
     path.resolve(projectPath, "src/test/mochitest"),
     path.resolve(projectPath, "assets/build"),
     { cwd: projectPath }
