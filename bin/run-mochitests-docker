@@ -6,7 +6,7 @@ docker run -it \
   -v `pwd`/assets/build/bundle.js:/firefox/devtools/client/debugger/new/bundle.js \
   -v `pwd`/assets/build/source-map-worker.js:/firefox/devtools/client/debugger/new/source-map-worker.js \
   -v `pwd`/assets/build/pretty-print-worker.js:/firefox/devtools/client/debugger/new/pretty-print-worker.js \
-  -v `pwd`/assets/build/styles.css:/firefox/devtools/client/debugger/new/styles.css \
+  -v `pwd`/assets/build/bundle.css:/firefox/devtools/client/debugger/new/styles.css \
   -v `pwd`/assets/build/debugger.properties:/firefox/devtools/client/locales/en-US/debugger.properties \
   -v `pwd`/assets/build/mochitest:/firefox/devtools/client/debugger/new/test/mochitest \
   -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
