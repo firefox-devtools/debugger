@@ -22,7 +22,6 @@ test:
         environment:
           MOCHA_FILE: $CIRCLE_TEST_REPORTS/mocha/test-results.xml
     - ./bin/run-mochitests-docker
-    - npm run firefox-unit-test
   post:
     - npm run lint-css
     - npm run lint-js
