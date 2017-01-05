@@ -59,39 +59,42 @@ function ignoreWhiteSpace(str) {
  * @static
  */
 function searchOverlay(query) {
-   query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)));
-   let matchLength = null;
-   return {
-     token: function(stream) {
-       if (stream.column() === 0) {
+  query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)));
+  let matchLength = null;
+  return {
+    token: function(stream) {
+      if (stream.column() === 0) {
         matchLength = null;
-       }
-       if (matchLength !== null) {
-         if (matchLength > 2) {
-           for (let i = 0; i < matchLength - 2; ++i) {
-             stream.next();
-           }
-           matchLength = 1;
-           return "highlight";
-         }
-         stream.next();
-         matchLength = null;
-         return "highlight highlight-end";
-       }
-       const match = stream.match(query, false);
-       if (match) {
-         stream.next();
-         const len = match[0].length;
-         if (len === 1) {
-           return "highlight highlight-full";
-         }
-         matchLength = len;
-         return "highlight highlight-start";
-       }
-       while (!stream.match(query, false) && stream.next()) {}
-     }
-   };
- }
+      }
+      if (matchLength !== null) {
+        if (matchLength > 2) {
+          for (let i = 0; i < matchLength - 2; ++i) {
+            stream.next();
+          }
+          matchLength = 1;
+          return "highlight";
+        }
+        stream.next();
+        matchLength = null;
+        return "highlight highlight-end";
+      }
+
+      const match = stream.match(query, false);
+      if (match) {
+        stream.next();
+        const len = match[0].length;
+        if (len === 1) {
+          return "highlight highlight-full";
+        }
+        matchLength = len;
+        return "highlight highlight-start";
+      }
+      while (!stream.match(query, false) && stream.peek()) {
+        stream.next();
+      }
+    }
+  };
+}
 
 /**
  * @memberof utils/source-search
