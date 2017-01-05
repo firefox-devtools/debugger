@@ -76,7 +76,8 @@ const Editor = React.createClass({
     setBreakpointCondition: PropTypes.func,
     jumpToMappedLocation: PropTypes.func,
     coverageOn: PropTypes.bool,
-    selectedFrame: PropTypes.object
+    selectedFrame: PropTypes.object,
+    addExpression: PropTypes.func
   },
 
   displayName: "Editor",
@@ -127,9 +128,24 @@ const Editor = React.createClass({
       click: () => this.props.jumpToMappedLocation(sourceLocation)
     };
 
-    showMenu(event, [
+    const watchExpressionLabel = {
+      accesskey: "E",
+      disabled: !this.editor.codeMirror.somethingSelected(),
+      label: L10N.getStr("expressions.placeholder"),
+      click: () => this.props.addExpression({
+        input: this.editor.codeMirror.getSelection()
+      })
+    };
+
+    const menuOptions = [
       jumpLabel
-    ]);
+    ];
+
+    if (isEnabled("watchExpressions")) {
+      menuOptions.push(watchExpressionLabel);
+    }
+
+    showMenu(event, menuOptions);
   },
 
   onGutterContextMenu(event) {
