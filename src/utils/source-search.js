@@ -48,26 +48,49 @@ function ignoreWhiteSpace(str) {
  * This returns a mode object used by CoeMirror's addOverlay function
  * to parse and style tokens in the file.
  * The mode object contains a tokenizer function (token) which takes
- * a character stream as input, advances it past a token, and returns
- * a style for that token. For more details see
+ * a character stream as input, advances it a character at a time,
+ * and returns style(s) for that token. For more details see
  * https://codemirror.net/doc/manual.html#modeapi
+ *
+ * Also the token function code is mainly based of work done
+ * by the chrome devtools team. Thanks guys! :)
  *
  * @memberof utils/source-search
  * @static
  */
 function searchOverlay(query) {
-  query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)), "g");
+  query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)));
+  let matchLength = null;
   return {
     token: function(stream) {
-      query.lastIndex = stream.pos;
-      let match = query.exec(stream.string);
-      if (match && match.index == stream.pos) {
-        stream.pos += match[0].length || 1;
-        return "selecting";
-      } else if (match) {
-        stream.pos = match.index;
-      } else {
-        stream.skipToEnd();
+      if (stream.column() === 0) {
+        matchLength = null;
+      }
+      if (matchLength !== null) {
+        if (matchLength > 2) {
+          for (let i = 0; i < matchLength - 2; ++i) {
+            stream.next();
+          }
+          matchLength = 1;
+          return "highlight";
+        }
+        stream.next();
+        matchLength = null;
+        return "highlight highlight-end";
+      }
+
+      const match = stream.match(query, false);
+      if (match) {
+        stream.next();
+        const len = match[0].length;
+        if (len === 1) {
+          return "highlight highlight-full";
+        }
+        matchLength = len;
+        return "highlight highlight-start";
+      }
+      while (!stream.match(query, false) && stream.peek()) {
+        stream.next();
       }
     }
   };

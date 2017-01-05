@@ -125,11 +125,39 @@ selector in floating-scrollbar-light.css across all platforms. */
   background-repeat: repeat-x;
 }
 
-.cm-selecting {
-  background: none;
-  outline-width: 1px;
-  outline-style: solid;
-  outline-color: var(--theme-comment-alt);
+.cm-highlight {
+  position: relative;
+}
+
+.cm-highlight:before {
+  position: absolute;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-top-color: var(--theme-comment-alt);
+  border-bottom-color: var(--theme-comment-alt);
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  top: -1px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  content: "";
+}
+
+.cm-highlight-full:before {
+  border: 1px solid var(--theme-comment-alt);
+}
+
+.cm-highlight-start:before {
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: var(--theme-comment-alt);
+}
+
+.cm-highlight-end:before {
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: var(--theme-comment-alt);
 }
 
 /* CodeMirror dialogs styling */
