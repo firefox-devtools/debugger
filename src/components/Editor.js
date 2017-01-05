@@ -138,9 +138,12 @@ const Editor = React.createClass({
     };
 
     const menuOptions = [
-      jumpLabel,
-      watchExpressionLabel
+      jumpLabel
     ];
+
+    if (isEnabled("watchExpressions")) {
+      menuOptions.push(watchExpressionLabel);
+    }
 
     showMenu(event, menuOptions);
   },

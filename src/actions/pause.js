@@ -12,6 +12,10 @@ import type { ThunkArgs } from "./types";
 type CommandType = { type: string };
 type frameIdType = string | null;
 
+function expressionExists(expressions, expression) {
+  return !!expressions.find(e => e.input == expression.input);
+}
+
 /**
  * Redux actions for the pause state
  * @module actions/pause
@@ -223,18 +227,13 @@ function loadObjectProperties(grip: Grip) {
  */
 function addExpression(expression: Expression) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    if (!expression.input) {
+    const expressions = getExpressions(getState()).toSeq();
+    if (!expression.input || expressionExists(expressions, expression)) {
       return;
     }
 
-    const expressions = getExpressions(getState()).toSeq();
-    const matchedExpression = expressions
-      .find(e => e.input === expression.input);
-    if (matchedExpression !== undefined) {
-      return;
-    }
-    const id = expression.id !== undefined ? parseInt(expression.id, 10) :
-      expressions.size++;
+    const id = parseInt(expression.id, 10) || expressions.size++;
+
     dispatch({
       type: constants.ADD_EXPRESSION,
       id: id,
