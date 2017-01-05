@@ -67,6 +67,7 @@ const SourceTabs = React.createClass({
     closeTab: PropTypes.func.isRequired,
     closeTabs: PropTypes.func.isRequired,
     toggleFileSearch: PropTypes.func.isRequired,
+    togglePrettyPrint: PropTypes.func.isRequired,
     togglePane: PropTypes.func.isRequired,
     showSource: PropTypes.func.isRequired,
     horizontal: PropTypes.bool.isRequired,
@@ -104,7 +105,12 @@ const SourceTabs = React.createClass({
   },
 
   showContextMenu(e, tab) {
-    const { closeTab, closeTabs, sourceTabs, showSource } = this.props;
+    const {
+      closeTab,
+      closeTabs,
+      sourceTabs,
+      showSource,
+      togglePrettyPrint } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
@@ -165,6 +171,14 @@ const SourceTabs = React.createClass({
       click: () => copyToTheClipboard(sourceTab.get("url"))
     };
 
+    const prettyPrint = {
+      id: "node-menu-pretty-print",
+      label: "Pretty Print Source",
+      accesskey: "Z",
+      disabled: false,
+      click: () => togglePrettyPrint(sourceTab.get("id"))
+    };
+
     const items = [
       { item: closeTabMenuItem },
       { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
@@ -181,6 +195,8 @@ const SourceTabs = React.createClass({
     if (isEnabled("showSource")) {
       items.push({ item: showSourceMenuItem });
     }
+
+    items.push({ item: prettyPrint });
 
     showMenu(e, buildMenu(items));
   },
