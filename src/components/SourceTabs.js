@@ -119,6 +119,7 @@ const SourceTabs = React.createClass({
 
     const tabs = sourceTabs.map(t => t.get("id"));
     const sourceTab = sourceTabs.find(t => t.get("id") == tab);
+    const isPrettySource = isPretty({ url: sourceTab.get("url") });
 
     const closeTabMenuItem = {
       id: "node-menu-close-tab",
@@ -196,7 +197,9 @@ const SourceTabs = React.createClass({
       items.push({ item: showSourceMenuItem });
     }
 
-    items.push({ item: prettyPrint });
+    if (!isPrettySource) {
+      items.push({ item: prettyPrint });
+    }
 
     showMenu(e, buildMenu(items));
   },
