@@ -23,9 +23,9 @@ test:
           MOCHA_FILE: $CIRCLE_TEST_REPORTS/mocha/test-results.xml
     - ./bin/run-mochitests-docker
   post:
-    - npm run lint-css
-    - npm run lint-js
-    - npm run flow
+    - yarn run lint-css
+    - yarn run lint-js
+    - yarn run flow
 
 dependencies:
   pre:
