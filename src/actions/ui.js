@@ -20,7 +20,16 @@ function showSource(sourceId: string) {
   };
 }
 
+function togglePaneCollapse(position: string, paneCollapsed: boolean) {
+  return {
+    type: constants.TOGGLE_PANE,
+    position,
+    paneCollapsed
+  };
+}
+
 module.exports = {
   toggleFileSearch,
-  showSource
+  showSource,
+  togglePaneCollapse
 };

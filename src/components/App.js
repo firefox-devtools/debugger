@@ -3,7 +3,7 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { getSources, getSelectedSource } = require("../selectors");
+const { getSources, getSelectedSource, getPaneCollapse } = require("../selectors");
 
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
@@ -30,6 +30,8 @@ const App = React.createClass({
     sources: PropTypes.object,
     selectSource: PropTypes.func,
     selectedSource: PropTypes.object,
+    startPanelCollapsed: PropTypes.bool,
+    endPanelCollapsed: PropTypes.bool,
   },
 
   displayName: "App",
@@ -52,29 +54,13 @@ const App = React.createClass({
     const horizontal = isEnabled("verticalLayout")
       ? verticalLayoutBreakpoint.matches : true;
 
-    return {
-      horizontal,
-      startPanelCollapsed: false,
-      endPanelCollapsed: false,
-    };
+    return { horizontal };
   },
 
   onLayoutChange() {
     this.setState({
       horizontal: verticalLayoutBreakpoint.matches
     });
-  },
-
-  togglePane(position) {
-    if (position === "start") {
-      this.setState({
-        startPanelCollapsed: !this.state.startPanelCollapsed,
-      });
-    } else if (position === "end") {
-      this.setState({
-        endPanelCollapsed: !this.state.endPanelCollapsed,
-      });
-    }
   },
 
   renderWelcomeBox() {
@@ -86,13 +72,13 @@ const App = React.createClass({
   },
 
   renderEditorPane() {
-    const { startPanelCollapsed, endPanelCollapsed, horizontal } = this.state;
+    const { startPanelCollapsed, endPanelCollapsed } = this.props;
+    const { horizontal } = this.state;
     return dom.div(
       { className: "editor-pane" },
       dom.div(
         { className: "editor-container" },
         SourceTabs({
-          togglePane: this.togglePane,
           startPanelCollapsed,
           endPanelCollapsed,
           horizontal
@@ -105,8 +91,8 @@ const App = React.createClass({
   },
 
   renderHorizontalLayout() {
-    const { sources } = this.props;
-    const { startPanelCollapsed, endPanelCollapsed, horizontal } = this.state;
+    const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
+    const { horizontal } = this.state;
 
     return dom.div(
       { className: "debugger" },
@@ -133,8 +119,8 @@ const App = React.createClass({
   },
 
   renderVerticalLayout() {
-    const { sources } = this.props;
-    const { startPanelCollapsed, endPanelCollapsed, horizontal } = this.state;
+    const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
+    const { horizontal } = this.state;
 
     return dom.div(
       { className: "debugger" },
@@ -173,6 +159,8 @@ App.childContextTypes = {
 module.exports = connect(
   state => ({ sources: getSources(state),
     selectedSource: getSelectedSource(state),
+    startPanelCollapsed: getPaneCollapse(state, "start"),
+    endPanelCollapsed: getPaneCollapse(state, "end"),
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);
