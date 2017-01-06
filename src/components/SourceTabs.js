@@ -19,6 +19,7 @@ const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu, buildMenu } = require("../utils/menu");
 const { debounce } = require("lodash");
 const { getURL } = require("../utils/sources-tree.js");
+const { formatKeyShortcut } = require("../utils/text");
 require("./SourceTabs.css");
 require("./Dropdown.css");
 
@@ -283,9 +284,12 @@ const SourceTabs = React.createClass({
   },
 
   renderNewButton() {
+    const newTabTooltip = L10N.getFormatStr("sourceTabs.newTabButtonTooltip",
+      formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`));
     return dom.div({
       className: "new-tab-btn",
-      onClick: () => this.props.toggleFileSearch(true)
+      onClick: () => this.props.toggleFileSearch(true),
+      title: newTabTooltip
     }, Svg("plus"));
   },
 
