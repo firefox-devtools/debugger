@@ -57,5 +57,7 @@
   "whyPaused.breakpoint": "Paused on breakpoint",
   "whyPaused.exception": "Paused on exception",
   "whyPaused.resumeLimit": "Paused while stepping",
-  "whyPaused.pauseOnDOMEvents": "Paused on event listener"
+  "whyPaused.pauseOnDOMEvents": "Paused on event listener",
+  "collapsePanes": "Collapse panes",
+  "expandPanes": "Expand panes"
 }

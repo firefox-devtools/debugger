@@ -308,6 +308,8 @@ const SourceTabs = React.createClass({
       position: "start",
       collapsed: !this.props.startPanelCollapsed,
       handleClick: this.props.togglePane,
+      tooltip: this.props.startPanelCollapsed ?
+        L10N.getStr("expandPanes") : L10N.getStr("collapsePanes")
     });
   },
 
@@ -320,7 +322,9 @@ const SourceTabs = React.createClass({
       position: "end",
       collapsed: !this.props.endPanelCollapsed,
       handleClick: this.props.togglePane,
-      horizontal: this.props.horizontal
+      horizontal: this.props.horizontal,
+      tooltip: this.props.endPanelCollapsed ?
+        L10N.getStr("expandPanes") : L10N.getStr("collapsePanes")
     });
   },
 
