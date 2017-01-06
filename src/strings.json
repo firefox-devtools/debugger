@@ -3,6 +3,7 @@
   "breakpoints.none": "No Breakpoints",
   "breakpoints.enable": "Enable Breakpoints",
   "breakpoints.disable": "Disable Breakpoints",
+  "breakpoints.removeBreakpointTooltip": "Remove Breakpoint",
   "callStack.header": "Call Stack",
   "callStack.notPaused": "Not Paused",
   "callStack.collapse": "Collapse Rows",
@@ -50,10 +51,14 @@
   "sourceTabs.closeOtherTabs": "Close others",
   "sourceTabs.closeTabsToRight": "Close tabs to the right",
   "sourceTabs.closeAllTabs": "Close all tabs",
+  "sourceTabs.closeTabButtonTooltip": "Close tab",
+  "sourceTabs.newTabButtonTooltip": "Search for sources (%S)",
   "loadingText": "Loading\u2026",
   "whyPaused.debuggerStatement": "Paused on debugger statement",
   "whyPaused.breakpoint": "Paused on breakpoint",
   "whyPaused.exception": "Paused on exception",
   "whyPaused.resumeLimit": "Paused while stepping",
-  "whyPaused.pauseOnDOMEvents": "Paused on event listener"
+  "whyPaused.pauseOnDOMEvents": "Paused on event listener",
+  "collapsePanes": "Collapse panes",
+  "expandPanes": "Expand panes"
 }

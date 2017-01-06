@@ -19,6 +19,7 @@ const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu, buildMenu } = require("../utils/menu");
 const { debounce } = require("lodash");
 const { getURL } = require("../utils/sources-tree.js");
+const { formatKeyShortcut } = require("../utils/text");
 require("./SourceTabs.css");
 require("./Dropdown.css");
 
@@ -276,13 +277,19 @@ const SourceTabs = React.createClass({
       },
       isPrettyCode ? Svg("prettyPrint") : null,
       dom.div({ className: "filename" }, filename),
-      CloseButton({ handleClick: onClickClose }));
+      CloseButton({
+        handleClick: onClickClose,
+        tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip")
+      }));
   },
 
   renderNewButton() {
+    const newTabTooltip = L10N.getFormatStr("sourceTabs.newTabButtonTooltip",
+      formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`));
     return dom.div({
       className: "new-tab-btn",
-      onClick: () => this.props.toggleFileSearch(true)
+      onClick: () => this.props.toggleFileSearch(true),
+      title: newTabTooltip
     }, Svg("plus"));
   },
 
@@ -305,6 +312,8 @@ const SourceTabs = React.createClass({
       position: "start",
       collapsed: !this.props.startPanelCollapsed,
       handleClick: this.props.togglePaneCollapse,
+      tooltip: this.props.startPanelCollapsed ?
+        L10N.getStr("expandPanes") : L10N.getStr("collapsePanes")
     });
   },
 
@@ -317,7 +326,9 @@ const SourceTabs = React.createClass({
       position: "end",
       collapsed: !this.props.endPanelCollapsed,
       handleClick: this.props.togglePaneCollapse,
-      horizontal: this.props.horizontal
+      horizontal: this.props.horizontal,
+      tooltip: this.props.endPanelCollapsed ?
+        L10N.getStr("expandPanes") : L10N.getStr("collapsePanes")
     });
   },
 

@@ -4,10 +4,11 @@ const Svg = require("./utils/Svg");
 
 require("./CloseButton.css");
 
-function CloseButton({ handleClick, buttonClass }) {
+function CloseButton({ handleClick, buttonClass, tooltip }) {
   return dom.div({
     className: buttonClass ? `close-btn-${buttonClass}` : "close-btn",
-    onClick: handleClick
+    onClick: handleClick,
+    title: tooltip
   },
     Svg("close"));
 }
