@@ -3,6 +3,7 @@
   "breakpoints.none": "No Breakpoints",
   "breakpoints.enable": "Enable Breakpoints",
   "breakpoints.disable": "Disable Breakpoints",
+  "breakpoints.removeBreakpointTooltip": "Remove Breakpoint",
   "callStack.header": "Call Stack",
   "callStack.notPaused": "Not Paused",
   "callStack.collapse": "Collapse Rows",

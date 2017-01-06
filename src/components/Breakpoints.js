@@ -106,7 +106,8 @@ const Breakpoints = React.createClass({
       ),
       dom.div({ className: "breakpoint-snippet" }, snippet),
       CloseButton({
-        handleClick: (ev) => this.removeBreakpoint(ev, breakpoint)
+        handleClick: (ev) => this.removeBreakpoint(ev, breakpoint),
+        tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip")
       }));
   },
 
