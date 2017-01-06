@@ -13,8 +13,12 @@ const ImPropTypes = require("react-immutable-proptypes");
 
 require("./SearchBar.css");
 
-function countMatches(query, text) {
-  const re = new RegExp(escapeRegExp(query), "g");
+function countMatches(query, text, caseSensitive, regexMatch) {
+  let re = new RegExp(query, `g${caseSensitive ? "" : "i"}`);
+
+  if (!regexMatch) {
+    re = new RegExp(escapeRegExp(query), `g${caseSensitive ? "" : "i"}`);
+  }
   const match = text.match(re);
   return match ? match.length : 0;
 }
@@ -23,8 +27,14 @@ const SearchBar = React.createClass({
 
   propTypes: {
     editor: PropTypes.object,
-    sourceText: ImPropTypes.map,
-    selectedSource: ImPropTypes.map
+    sourceText: PropTypes.object,
+    selectedSource: ImPropTypes.map,
+    caseSensitive: PropTypes.bool,
+    wholeWord: PropTypes.bool,
+    regexMatch: PropTypes.bool,
+    toggleModifier: PropTypes.func,
+    query: PropTypes.string,
+    updateQuery: PropTypes.func
   },
 
   displayName: "SearchBar",
@@ -32,7 +42,6 @@ const SearchBar = React.createClass({
   getInitialState() {
     return {
       enabled: false,
-      query: "",
       count: 0,
       index: 0
     };
@@ -79,7 +88,7 @@ const SearchBar = React.createClass({
                           && hasLoaded;
 
     if (doneLoading || changedFiles) {
-      this.doSearch(this.state.query);
+      this.doSearch(this.props.query);
     }
   },
 
@@ -134,15 +143,15 @@ const SearchBar = React.createClass({
   },
 
   doSearch(query: string) {
-    const sourceText = this.props.sourceText;
+    const { sourceText, caseSensitive, regexMatch } = this.props;
     if (!sourceText) {
       return;
     }
-
-    const count = countMatches(query, sourceText.get("text"));
-    // eslint-disable-next-line react/no-did-update-set-state
-    this.setState({ query, count, index: 0 });
+    this.props.updateQuery(query);
     this.search(query);
+    const count = countMatches(
+      query, sourceText.get("text"), caseSensitive, regexMatch);
+    this.setState({ count, index: 0 });
   },
 
   onChange(e: any) {
@@ -160,13 +169,22 @@ const SearchBar = React.createClass({
     }
 
     const ctx = { ed, cm: ed.codeMirror };
-    const { query, index, count } = this.state;
+    const {
+      index,
+      count,
+    } = this.state;
+    const {
+      query,
+      caseSensitive,
+      wholeWord,
+      regexMatch
+    } = this.props;
 
     if (query == "") {
       this.setState({ enabled: true });
     }
 
-    findPrev(ctx, query);
+    findPrev(ctx, query, caseSensitive, wholeWord, regexMatch);
     const nextIndex = index == 0 ? count - 1 : index - 1;
     this.setState({ index: nextIndex });
   },
@@ -182,13 +200,22 @@ const SearchBar = React.createClass({
     }
 
     const ctx = { ed, cm: ed.codeMirror };
-    const { query, index, count } = this.state;
+    const {
+      index,
+      count,
+    } = this.state;
+    const {
+      query,
+      caseSensitive,
+      wholeWord,
+      regexMatch
+    } = this.props;
 
     if (query == "") {
       this.setState({ enabled: true });
     }
 
-    findNext(ctx, query);
+    findNext(ctx, query, caseSensitive, wholeWord, regexMatch);
     const nextIndex = index == count - 1 ? 0 : index + 1;
     this.setState({ index: nextIndex });
   },
@@ -215,13 +242,15 @@ const SearchBar = React.createClass({
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
 
-    find(ctx, query);
+    const { caseSensitive, wholeWord, regexMatch } = this.props;
+
+    find(ctx, query, caseSensitive, wholeWord, regexMatch);
   }, 100),
 
   renderSummary() {
-    const { count, index, query } = this.state;
+    const { count, index } = this.state;
 
-    if (query.trim() == "") {
+    if (this.props.query.trim() == "") {
       return dom.div({});
     } else if (count == 0) {
       return dom.div(
@@ -237,13 +266,42 @@ const SearchBar = React.createClass({
   },
 
   renderSvg() {
-    const { count, query } = this.state;
+    const { count } = this.state;
 
-    if (count == 0 && query.trim() != "") {
+    if (count == 0 && this.props.query.trim() != "") {
       return Svg("sad-face");
     }
 
     return Svg("magnifying-glass");
+  },
+
+  renderSearchModifiers() {
+    const { regexMatch, caseSensitive, wholeWord, toggleModifier } = this.props;
+    return dom.div(
+      { className: "search-modifiers" },
+      // render buttons. On clicks toggle search modifiers.
+      dom.button({
+        className: classnames("regex-match-btn", { active: regexMatch }),
+        onClick: () => {
+          toggleModifier("regexMatch");
+          this.doSearch(this.props.query);
+        }
+      }, Svg("regex-match")),
+      dom.button({
+        className: classnames("case-sensitive-btn", { active: caseSensitive }),
+        onClick: () => {
+          toggleModifier("caseSensitive");
+          this.doSearch(this.props.query);
+        }
+      }, Svg("case-match")),
+      dom.button({
+        className: classnames("whole-word-btn", { active: wholeWord }),
+        onClick: () => {
+          toggleModifier("wholeWord");
+          this.doSearch(this.props.query);
+        }
+      }, Svg("whole-word-match")),
+    );
   },
 
   render() {
@@ -251,19 +309,20 @@ const SearchBar = React.createClass({
       return dom.div();
     }
 
-    const { count, query } = this.state;
+    const { count } = this.state;
 
     return dom.div(
       { className: "search-bar" },
+      this.renderSearchModifiers(),
       this.renderSvg(),
       dom.input({
         className: classnames({
-          empty: count == 0 && query.trim() != ""
+          empty: count == 0 && this.props.query.trim() != ""
         }),
         onChange: this.onChange,
         onKeyUp: this.onKeyUp,
         placeholder: "Search in file...",
-        value: this.state.query,
+        value: this.props.query,
         spellCheck: false
       }),
       this.renderSummary(),

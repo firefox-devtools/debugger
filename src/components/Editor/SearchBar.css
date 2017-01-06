@@ -52,3 +52,34 @@
   padding-right: 10px;
   color: var(--theme-body-color-inactive);
 }
+
+.search-bar .search-modifiers {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar .search-modifiers button {
+  padding: 0 3px;
+  margin: 0 3px;
+  border: none;
+  background: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
+
+.search-bar .search-modifiers button i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 16px;
+}
+
+.search-bar .search-modifiers button.active {
+  background-color: var(--theme-selection-background);
+}
+
+.search-bar .search-modifiers button.active svg {
+  fill: white;
+}
