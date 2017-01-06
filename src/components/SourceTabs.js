@@ -276,7 +276,10 @@ const SourceTabs = React.createClass({
       },
       isPrettyCode ? Svg("prettyPrint") : null,
       dom.div({ className: "filename" }, filename),
-      CloseButton({ handleClick: onClickClose }));
+      CloseButton({
+        handleClick: onClickClose,
+        tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip")
+      }));
   },
 
   renderNewButton() {
