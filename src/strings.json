@@ -52,7 +52,7 @@
   "sourceTabs.closeTabsToRight": "Close tabs to the right",
   "sourceTabs.closeAllTabs": "Close all tabs",
   "sourceTabs.closeTabButtonTooltip": "Close tab",
-  "sourceTabs.newTabButtonTooltip": "New tab (%S)",
+  "sourceTabs.newTabButtonTooltip": "Search for sources (%S)",
   "loadingText": "Loading\u2026",
   "whyPaused.debuggerStatement": "Paused on debugger statement",
   "whyPaused.breakpoint": "Paused on breakpoint",
