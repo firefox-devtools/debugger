@@ -10,7 +10,7 @@ function PaneToggleButton({
     className: classnames(`toggle-button-${position}`, {
       collapsed,
       vertical: horizontal != null ? !horizontal : false }),
-    onClick: () => handleClick(position),
+    onClick: () => handleClick(position, collapsed),
     title: tooltip
   }, Svg("togglePanes"));
 }

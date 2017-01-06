@@ -117,7 +117,8 @@ pref("devtools.debugger.ui.variables-only-enum-visible", false);
 pref("devtools.debugger.ui.variables-searchbox-visible", false);
 pref("devtools.debugger.call-stack-visible", false);
 pref("devtools.debugger.scopes-visible", false);
-
+pref("devtools.debugger.start-panel-collapsed", false);
+pref("devtools.debugger.end-panel-collapsed", false);
 
 // Enable the Memory tools
 pref("devtools.memory.enabled", true);

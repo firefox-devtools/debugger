@@ -69,7 +69,7 @@ const SourceTabs = React.createClass({
     closeTabs: PropTypes.func.isRequired,
     toggleFileSearch: PropTypes.func.isRequired,
     togglePrettyPrint: PropTypes.func.isRequired,
-    togglePane: PropTypes.func.isRequired,
+    togglePaneCollapse: PropTypes.func.isRequired,
     showSource: PropTypes.func.isRequired,
     horizontal: PropTypes.bool.isRequired,
     startPanelCollapsed: PropTypes.bool.isRequired,
@@ -311,7 +311,7 @@ const SourceTabs = React.createClass({
     return PaneToggleButton({
       position: "start",
       collapsed: !this.props.startPanelCollapsed,
-      handleClick: this.props.togglePane,
+      handleClick: this.props.togglePaneCollapse,
       tooltip: this.props.startPanelCollapsed ?
         L10N.getStr("expandPanes") : L10N.getStr("collapsePanes")
     });
@@ -325,7 +325,7 @@ const SourceTabs = React.createClass({
     return PaneToggleButton({
       position: "end",
       collapsed: !this.props.endPanelCollapsed,
-      handleClick: this.props.togglePane,
+      handleClick: this.props.togglePaneCollapse,
       horizontal: this.props.horizontal,
       tooltip: this.props.endPanelCollapsed ?
         L10N.getStr("expandPanes") : L10N.getStr("collapsePanes")
