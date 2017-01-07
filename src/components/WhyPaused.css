@@ -1,16 +1,16 @@
 
 .why-paused {
-  background-color: var(--breakpoint-active-color) !important;  
+  background-color: var(--breakpoint-active-color) !important;
   border: 1.7px solid var(--breakpoint-active-color);
   color: var(--theme-highlight-blue);
   padding: 10px 10px 10px 20px;
   white-space: normal;
   opacity: 0.9;
-  font-size : 12px;
+  font-size: 12px;
   text-align: center;
   font-weight: bold;
 }
 
 .theme-dark .why-paused {
-	color : white !important;
+  color: white !important;
 }
