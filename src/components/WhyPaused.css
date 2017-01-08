@@ -11,6 +11,6 @@
   font-weight: bold;
 }
 
-.theme-dark .why-paused {
-  color: white !important;
+.theme-dark .secondary-panes .why-paused {
+  color: white;
 }
