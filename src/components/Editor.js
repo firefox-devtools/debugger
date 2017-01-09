@@ -8,6 +8,7 @@ const { connect } = require("react-redux");
 const classnames = require("classnames");
 
 const SourceEditor = require("../utils/source-editor");
+const { find, findNext, findPrev, removeOverlay } = require("../utils/source-search");
 const SourceFooter = createFactory(require("./SourceFooter"));
 const SearchBar = createFactory(require("./Editor/SearchBar"));
 const { renderConditionalPanel } = require("./Editor/ConditionalPanel");
@@ -60,6 +61,25 @@ function resizeBreakpointGutter(editor) {
   const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
   const breakpoints = gutters.querySelector(".breakpoints");
   breakpoints.style.width = `${lineNumbers.clientWidth}px`;
+}
+
+function traverseResults(e, ctx, dir) {
+  e.stopPropagation() || e.preventDefault();
+  const query = ctx.cm.getSelection();
+  if (dir == "prev") {
+    findPrev(ctx, query);
+  } else if (dir == "next") {
+    findNext(ctx, query);
+  }
+}
+
+function onCursorActivity(ctx) {
+  if (ctx.cm.somethingSelected()) {
+    const query = ctx.cm.getSelection();
+    find(ctx, query, true);
+  } else {
+    removeOverlay(ctx);
+  }
 }
 
 const Editor = React.createClass({
@@ -413,6 +433,9 @@ const Editor = React.createClass({
 
     this.editor.codeMirror.on("gutterClick", this.onGutterClick);
 
+    const ctx = { ed: this.editor, cm: this.editor.codeMirror };
+    ctx.cm.on("cursorActivity", cm => onCursorActivity(ctx));
+
     if (!isFirefox()) {
       this.editor.codeMirror.on(
         "gutterContextMenu",
@@ -449,6 +472,12 @@ const Editor = React.createClass({
       }
     });
 
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
+      (_, e) => traverseResults(e, ctx, "prev"));
+    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
+      (_, e) => traverseResults(e, ctx, "next"));
+
     resizeBreakpointGutter(this.editor.codeMirror);
     debugGlobal("cm", this.editor.codeMirror);
 
@@ -461,9 +490,12 @@ const Editor = React.createClass({
     this.editor.destroy();
     this.editor = null;
 
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
     const shortcuts = this.context.shortcuts;
     shortcuts.off("CmdOrCtrl+B");
     shortcuts.off("CmdOrCtrl+Shift+B");
+    shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
+    shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
   },
 
   componentWillReceiveProps(nextProps) {
