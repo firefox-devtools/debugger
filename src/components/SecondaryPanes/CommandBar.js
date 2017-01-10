@@ -1,5 +1,6 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
+const { findDOMNode } = require("react-dom");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions,
@@ -62,10 +63,27 @@ function formatKey(action) {
   return formatKeyShortcut(key);
 }
 
+function handlePressAnimation(button) {
+  if (!button) {
+    return;
+  }
+
+  button.style.opacity = "0";
+  button.style.transform = "scale(1.3)";
+  setTimeout(() => {
+    button.style.opacity = "1";
+    button.style.transform = "none";
+  }, 200);
+}
+
 function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
   return dom.span(
-    { onClick, className, key: type },
+    {
+      onClick,
+      className,
+      key: type
+    },
     Svg(type, { title: tooltip })
   );
 }
@@ -102,37 +120,50 @@ const CommandBar = React.createClass({
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
-    const handleEvent = (e, func) => {
-      e.preventDefault();
-      e.stopPropagation();
-      func();
-    };
 
-    COMMANDS.forEach((action) => shortcuts.on(
+    COMMANDS.forEach(action => shortcuts.on(
       getKey(action),
-      (_, e) => handleEvent(e, this.props[action]))
-    );
+      (_, e) => this.handleEvent(e, action)
+    ));
 
     if (isMacOS) {
       // The Mac supports both the Windows Function keys
       // as well as the Mac non-Function keys
-      COMMANDS.forEach((action) => shortcuts.on(
+      COMMANDS.forEach(action => shortcuts.on(
         getKeyForOS("WINNT", action),
-        (_, e) => handleEvent(e, this.props[action]))
-      );
+        (_, e) => this.handleEvent(e, action)
+      ));
     }
+  },
+
+  handleEvent(e, action) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props[action]();
+    const button = findDOMNode(this).querySelector(`.${action}`);
+    handlePressAnimation(button);
   },
 
   renderStepButtons() {
     const className = this.props.pause ? "active" : "disabled";
     return [
-      debugBtn(this.props.stepOver, "stepOver", className,
+      debugBtn(
+        this.props.stepOver,
+        "stepOver",
+        className,
         L10N.getFormatStr("stepOverTooltip1", formatKey("stepOver"))
       ),
-      debugBtn(this.props.stepIn, "stepIn", className,
+      debugBtn(
+        this.props.stepIn,
+        "stepIn",
+        className,
         L10N.getFormatStr("stepInTooltip1", formatKey("stepIn"))
       ),
-      debugBtn(this.props.stepOut, "stepOut", className,
+      debugBtn(
+        this.props.stepOut,
+        "stepOut",
+        className,
         L10N.getFormatStr("stepOutTooltip1", formatKey("stepOut"))
       )
     ];
@@ -142,18 +173,27 @@ const CommandBar = React.createClass({
     const { pause, breakOnNext, isWaitingOnBreak } = this.props;
 
     if (pause) {
-      return debugBtn(this.props.resume, "resume", "active",
+      return debugBtn(
+        this.props.resume,
+        "resume",
+        "active",
         L10N.getFormatStr("resumeButtonTooltip1", formatKey("resume"))
       );
     }
 
     if (isWaitingOnBreak) {
-      return debugBtn(null, "pause", "disabled",
+      return debugBtn(
+        null,
+        "pause",
+        "disabled",
         L10N.getStr("pausePendingButtonTooltip")
       );
     }
 
-    return debugBtn(breakOnNext, "pause", "active",
+    return debugBtn(
+      breakOnNext,
+      "pause",
+      "active",
       L10N.getFormatStr("pauseButtonTooltip1", formatKey("pause"))
     );
   },
