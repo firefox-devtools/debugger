@@ -9,7 +9,7 @@ const classnames = require("classnames");
 
 const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
-const EditorSearchBar = createFactory(require("./EditorSearchBar"));
+const SearchBar = createFactory(require("./Editor/SearchBar"));
 const { renderConditionalPanel } = require("./EditorConditionalPanel");
 const { debugGlobal } = require("devtools-launchpad");
 const {
@@ -595,7 +595,7 @@ const Editor = React.createClass({
             { "coverage-on": coverageOn }
           )
         },
-        EditorSearchBar({
+        SearchBar({
           editor: this.editor,
           selectedSource,
           sourceText

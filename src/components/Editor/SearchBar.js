@@ -1,15 +1,15 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { findDOMNode } = require("react-dom");
-const Svg = require("./utils/Svg");
-const { find, findNext, findPrev, removeOverlay } = require("../utils/source-search");
+const Svg = require("../utils/Svg");
+const { find, findNext, findPrev, removeOverlay } = require("../../utils/source-search");
 const classnames = require("classnames");
 const { debounce, escapeRegExp } = require("lodash");
-const CloseButton = require("./CloseButton");
+const CloseButton = require("../CloseButton");
 const { isEnabled } = require("devtools-config");
 const ImPropTypes = require("react-immutable-proptypes");
 
-require("./EditorSearchBar.css");
+require("./SearchBar.css");
 
 function countMatches(query, text) {
   const re = new RegExp(escapeRegExp(query), "g");
@@ -17,7 +17,7 @@ function countMatches(query, text) {
   return match ? match.length : 0;
 }
 
-const EditorSearchBar = React.createClass({
+const SearchBar = React.createClass({
 
   propTypes: {
     editor: PropTypes.object,
@@ -25,7 +25,7 @@ const EditorSearchBar = React.createClass({
     selectedSource: ImPropTypes.map
   },
 
-  displayName: "EditorSearchBar",
+  displayName: "SearchBar",
 
   getInitialState() {
     return {
@@ -261,4 +261,4 @@ const EditorSearchBar = React.createClass({
   }
 });
 
-module.exports = EditorSearchBar;
+module.exports = SearchBar;
