@@ -59,7 +59,11 @@ const SecondaryPanes = React.createClass({
     const isIndeterminate = !breakpointsDisabled &&
       breakpoints.some(x => x.disabled);
 
-    return breakpoints.size > 0 ? dom.input({
+    if (breakpoints.size == 0) {
+      return null;
+    }
+
+    return dom.input({
       type: "checkbox",
       "aria-label": breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
         L10N.getStr("breakpoints.disable"),
@@ -74,7 +78,7 @@ const SecondaryPanes = React.createClass({
       },
       title: breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
         L10N.getStr("breakpoints.disable")
-    }) : null;
+    });
   },
 
   watchExpressionHeaderButtons() {
