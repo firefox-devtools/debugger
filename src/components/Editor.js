@@ -9,8 +9,8 @@ const classnames = require("classnames");
 
 const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
-const EditorSearchBar = createFactory(require("./EditorSearchBar"));
-const { renderConditionalPanel } = require("./EditorConditionalPanel");
+const SearchBar = createFactory(require("./Editor/SearchBar"));
+const { renderConditionalPanel } = require("./Editor/ConditionalPanel");
 const { debugGlobal } = require("devtools-launchpad");
 const {
   getSourceText, getBreakpointsForSource,
@@ -20,8 +20,8 @@ const {
 } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const actions = require("../actions");
-const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
-const HitMarker = React.createFactory(require("./EditorHitMarker"));
+const Breakpoint = React.createFactory(require("./Editor/Breakpoint"));
+const HitMarker = React.createFactory(require("./Editor/HitMarker"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");
 const { shouldShowFooter } = require("../utils/editor");
@@ -595,7 +595,7 @@ const Editor = React.createClass({
             { "coverage-on": coverageOn }
           )
         },
-        EditorSearchBar({
+        SearchBar({
           editor: this.editor,
           selectedSource,
           sourceText
