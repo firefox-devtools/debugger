@@ -20,7 +20,7 @@ const {
 } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const actions = require("../actions");
-const Breakpoint = React.createFactory(require("./EditorBreakpoint"));
+const Breakpoint = React.createFactory(require("./Editor/Breakpoint"));
 const HitMarker = React.createFactory(require("./EditorHitMarker"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");

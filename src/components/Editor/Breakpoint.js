@@ -3,13 +3,13 @@ const ReactDOM = require("react-dom");
 
 const { PropTypes } = React;
 const classnames = require("classnames");
-const Svg = require("./utils/Svg");
+const Svg = require("../utils/Svg");
 
-let breakpointSvg = document.createElement("div");
+const breakpointSvg = document.createElement("div");
 ReactDOM.render(Svg("breakpoint"), breakpointSvg);
 
 function makeMarker(isDisabled) {
-  let bp = breakpointSvg.cloneNode(true);
+  const bp = breakpointSvg.cloneNode(true);
   bp.className = classnames(
     "editor new-breakpoint",
     { "breakpoint-disabled": isDisabled }
