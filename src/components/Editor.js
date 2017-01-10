@@ -10,7 +10,7 @@ const classnames = require("classnames");
 const SourceEditor = require("../utils/source-editor");
 const SourceFooter = createFactory(require("./SourceFooter"));
 const SearchBar = createFactory(require("./Editor/SearchBar"));
-const { renderConditionalPanel } = require("./EditorConditionalPanel");
+const { renderConditionalPanel } = require("./Editor/ConditionalPanel");
 const { debugGlobal } = require("devtools-launchpad");
 const {
   getSourceText, getBreakpointsForSource,
