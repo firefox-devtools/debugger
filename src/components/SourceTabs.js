@@ -3,11 +3,9 @@ const { DOM: dom, PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const {
-  getSelectedSource,
-  getSourceTabs,
-  getFileSearchState
-} = require("../selectors");
+const { getSelectedSource, getSourceTabs, getFileSearchState } = require(
+  "../selectors"
+);
 const { getFilename, getRawSourceURL, isPretty } = require("../utils/source");
 const { isEnabled } = require("devtools-config");
 const classnames = require("classnames");
@@ -73,45 +71,36 @@ const SourceTabs = React.createClass({
     showSource: PropTypes.func.isRequired,
     horizontal: PropTypes.bool.isRequired,
     startPanelCollapsed: PropTypes.bool.isRequired,
-    endPanelCollapsed: PropTypes.bool.isRequired,
+    endPanelCollapsed: PropTypes.bool.isRequired
   },
-
   displayName: "SourceTabs",
-
   getInitialState() {
-    return {
-      dropdownShown: false,
-      hiddenSourceTabs: null
-    };
+    return { dropdownShown: false, hiddenSourceTabs: null };
   },
-
   componentDidUpdate(prevProps) {
     if (!(prevProps === this.props)) {
       this.updateHiddenSourceTabs();
     }
   },
-
   componentDidMount() {
     this.updateHiddenSourceTabs();
     window.addEventListener("resize", this.onResize, false);
   },
-
   componentDidDismount() {
     window.removeEventListener("resize", this.onResize);
   },
-
   onTabContextMenu(event, tab) {
     event.preventDefault();
     this.showContextMenu(event, tab);
   },
-
   showContextMenu(e, tab) {
     const {
       closeTab,
       closeTabs,
       sourceTabs,
       showSource,
-      togglePrettyPrint } = this.props;
+      togglePrettyPrint
+    } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
@@ -184,13 +173,15 @@ const SourceTabs = React.createClass({
     const items = [
       { item: closeTabMenuItem },
       { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
-      { item: closeTabsToRightMenuItem, hidden: () =>
-         tabs.some((t, i) => t === tab && (tabs.size - 1) === i) },
-      { item: closeAllTabsMenuItem },
+      {
+        item: closeTabsToRightMenuItem,
+        hidden: () => tabs.some((t, i) => t === tab && tabs.size - 1 === i)
+      },
+      { item: closeAllTabsMenuItem }
     ];
 
     if (isEnabled("copySource")) {
-      items.push({ item: { type: "separator" }});
+      items.push({ item: { type: "separator" } });
       items.push({ item: copySourceUrl });
     }
 
@@ -204,11 +195,9 @@ const SourceTabs = React.createClass({
 
     showMenu(e, buildMenu(items));
   },
-
   onResize: debounce(function() {
     this.updateHiddenSourceTabs();
   }),
-
   /*
    * Updates the hiddenSourceTabs state, by
    * finding the source tabs who have wrapped and are not on the top row.
@@ -224,27 +213,25 @@ const SourceTabs = React.createClass({
 
     this.setState({ hiddenSourceTabs });
   },
-
   toggleSourcesDropdown(e) {
-    this.setState({
-      dropdownShown: !this.state.dropdownShown,
-    });
+    this.setState({ dropdownShown: !this.state.dropdownShown });
   },
-
   renderDropdownSource(source) {
     const { selectSource } = this.props;
     const filename = getFilename(source.toJS());
 
-    return dom.li({
-      key: source.get("id"),
-      onClick: () => {
-        // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
-        const tabIndex = 0;
-        selectSource(source.get("id"), { tabIndex });
-      }
-    }, filename);
+    return dom.li(
+      {
+        key: source.get("id"),
+        onClick: () => {
+          // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
+          const tabIndex = 0;
+          selectSource(source.get("id"), { tabIndex });
+        }
+      },
+      filename
+    );
   },
-
   renderTabs() {
     const sourceTabs = this.props.sourceTabs;
     return dom.div(
@@ -252,7 +239,6 @@ const SourceTabs = React.createClass({
       sourceTabs.map(this.renderTab)
     );
   },
-
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
     const filename = getRawSourceURL(getURL(source.get("url")).filename);
@@ -272,7 +258,7 @@ const SourceTabs = React.createClass({
         }),
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
-        onContextMenu: (e) => this.onTabContextMenu(e, source.get("id")),
+        onContextMenu: e => this.onTabContextMenu(e, source.get("id")),
         title: getRawSourceURL(source.get("url"))
       },
       isPrettyCode ? Svg("prettyPrint") : null,
@@ -280,19 +266,23 @@ const SourceTabs = React.createClass({
       CloseButton({
         handleClick: onClickClose,
         tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip")
-      }));
+      })
+    );
   },
-
   renderNewButton() {
-    const newTabTooltip = L10N.getFormatStr("sourceTabs.newTabButtonTooltip",
-      formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`));
-    return dom.div({
-      className: "new-tab-btn",
-      onClick: () => this.props.toggleFileSearch(true),
-      title: newTabTooltip
-    }, Svg("plus"));
+    const newTabTooltip = L10N.getFormatStr(
+      "sourceTabs.newTabButtonTooltip",
+      formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`)
+    );
+    return dom.div(
+      {
+        className: "new-tab-btn",
+        onClick: () => this.props.toggleFileSearch(true),
+        title: newTabTooltip
+      },
+      Svg("plus")
+    );
   },
-
   renderDropdown() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
@@ -306,17 +296,16 @@ const SourceTabs = React.createClass({
       )
     });
   },
-
   renderStartPanelToggleButton() {
     return PaneToggleButton({
       position: "start",
       collapsed: !this.props.startPanelCollapsed,
       handleClick: this.props.togglePaneCollapse,
-      tooltip: this.props.startPanelCollapsed ?
-        L10N.getStr("expandPanes") : L10N.getStr("collapsePanes")
+      tooltip: this.props.startPanelCollapsed
+        ? L10N.getStr("expandPanes")
+        : L10N.getStr("collapsePanes")
     });
   },
-
   renderEndPanelToggleButton() {
     if (!this.props.horizontal) {
       return;
@@ -327,13 +316,14 @@ const SourceTabs = React.createClass({
       collapsed: !this.props.endPanelCollapsed,
       handleClick: this.props.togglePaneCollapse,
       horizontal: this.props.horizontal,
-      tooltip: this.props.endPanelCollapsed ?
-        L10N.getStr("expandPanes") : L10N.getStr("collapsePanes")
+      tooltip: this.props.endPanelCollapsed
+        ? L10N.getStr("expandPanes")
+        : L10N.getStr("collapsePanes")
     });
   },
-
   render() {
-    return dom.div({ className: "source-header" },
+    return dom.div(
+      { className: "source-header" },
       this.renderStartPanelToggleButton(),
       this.renderTabs(),
       this.renderNewButton(),

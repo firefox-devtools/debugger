@@ -7,25 +7,25 @@ const constants = require("../constants");
 const initialState = {
   activeEventNames: [],
   listeners: [],
-  fetchingListeners: false,
+  fetchingListeners: false
 };
 
 function update(state = initialState, action, emit) {
   switch (action.type) {
-    case constants.UPDATE_EVENT_BREAKPOINTS:
-      state.activeEventNames = action.eventNames;
-      // emit("activeEventNames", state.activeEventNames);
-      break;
-    case constants.FETCH_EVENT_LISTENERS:
-      if (action.status === "begin") {
-        state.fetchingListeners = true;
-      } else if (action.status === "done") {
-        state.fetchingListeners = false;
-        state.listeners = action.listeners;
-      }
-      break;
-    case constants.NAVIGATE:
-      return initialState;
+  case constants.UPDATE_EVENT_BREAKPOINTS:
+    state.activeEventNames = action.eventNames;
+    // emit("activeEventNames", state.activeEventNames);
+    break;
+  case constants.FETCH_EVENT_LISTENERS:
+    if (action.status === "begin") {
+      state.fetchingListeners = true;
+    } else if (action.status === "done") {
+      state.fetchingListeners = false;
+      state.listeners = action.listeners;
+    }
+    break;
+  case constants.NAVIGATE:
+    return initialState;
   }
 
   return state;
@@ -35,7 +35,4 @@ function getEventListeners(state) {
   return state.eventListeners.listeners;
 }
 
-module.exports = {
-  update,
-  getEventListeners
-};
+module.exports = { update, getEventListeners };

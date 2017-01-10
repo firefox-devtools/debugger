@@ -7,30 +7,23 @@ const Svg = require("./utils/Svg");
 require("./Accordion.css");
 
 const Accordion = React.createClass({
-  propTypes: {
-    items: PropTypes.array
-  },
-
+  propTypes: { items: PropTypes.array },
   displayName: "Accordion",
-
   getInitialState: function() {
-    return { opened: this.props.items.map(item => item.opened),
-      created: [] };
+    return { opened: this.props.items.map(item => item.opened), created: [] };
   },
-
   componentWillReceiveProps: function(nextProps) {
     const newOpened = this.state.opened.map((isOpen, i) => {
       const { shouldOpen } = nextProps.items[i];
 
-      return isOpen || (shouldOpen && shouldOpen());
+      return isOpen || shouldOpen && shouldOpen();
     });
 
     this.setState({ opened: newOpened });
   },
-
   handleHeaderClick: function(i) {
-    const opened = [...this.state.opened];
-    const created = [...this.state.created];
+    const opened = [ ...this.state.opened ];
+    const created = [ ...this.state.created ];
     const item = this.props.items[i];
 
     opened[i] = !opened[i];
@@ -46,35 +39,33 @@ const Accordion = React.createClass({
 
     this.setState({ opened, created });
   },
-
   renderContainer: function(item, i) {
     const { opened, created } = this.state;
-    const containerClassName =
-      `${item.header.toLowerCase().replace(/\s/g, "-")}-pane`;
+    const containerClassName = `${item.header
+      .toLowerCase()
+      .replace(/\s/g, "-")}-pane`;
 
     return div(
       { className: containerClassName, key: i },
-
       div(
-        { className: "_header",
-          onClick: () => this.handleHeaderClick(i) },
+        { className: "_header", onClick: () => this.handleHeaderClick(i) },
         Svg("arrow", { className: opened[i] ? "expanded" : "" }),
         item.header,
-        item.buttons ?
-        dom.div({ className: "header-buttons" }, item.buttons) : null
+        item.buttons
+          ? dom.div({ className: "header-buttons" }, item.buttons)
+          : null
       ),
-
-      (created[i] || opened[i]) ?
-        div(
-          { className: "_content",
+      created[i] || opened[i]
+        ? div(
+          {
+            className: "_content",
             style: { display: opened[i] ? "block" : "none" }
           },
           React.createElement(item.component, item.componentProps || {})
-        ) :
-        null
+        )
+        : null
     );
   },
-
   render: function() {
     return div(
       { className: "accordion" },

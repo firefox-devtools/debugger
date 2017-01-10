@@ -3,7 +3,9 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { getSources, getSelectedSource, getPaneCollapse } = require("../selectors");
+const { getSources, getSelectedSource, getPaneCollapse } = require(
+  "../selectors"
+);
 
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
@@ -31,46 +33,39 @@ const App = React.createClass({
     selectSource: PropTypes.func,
     selectedSource: PropTypes.object,
     startPanelCollapsed: PropTypes.bool,
-    endPanelCollapsed: PropTypes.bool,
+    endPanelCollapsed: PropTypes.bool
   },
-
   displayName: "App",
-
   getChildContext() {
     return { shortcuts };
   },
-
   componentDidMount() {
     if (isEnabled("verticalLayout")) {
       verticalLayoutBreakpoint.addListener(this.onLayoutChange);
     }
   },
-
   componentWillUnmount() {
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
   },
-
   getInitialState() {
     const horizontal = isEnabled("verticalLayout")
-      ? verticalLayoutBreakpoint.matches : true;
+      ? verticalLayoutBreakpoint.matches
+      : true;
 
     return { horizontal };
   },
-
   onLayoutChange() {
-    this.setState({
-      horizontal: verticalLayoutBreakpoint.matches
-    });
+    this.setState({ horizontal: verticalLayoutBreakpoint.matches });
   },
-
   renderWelcomeBox() {
     return dom.div(
       { className: "welcomebox" },
-      L10N.getFormatStr("welcome.search",
-        formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
+      L10N.getFormatStr(
+        "welcome.search",
+        formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`)
+      )
     );
   },
-
   renderEditorPane() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
@@ -78,18 +73,13 @@ const App = React.createClass({
       { className: "editor-pane" },
       dom.div(
         { className: "editor-container" },
-        SourceTabs({
-          startPanelCollapsed,
-          endPanelCollapsed,
-          horizontal
-        }),
+        SourceTabs({ startPanelCollapsed, endPanelCollapsed, horizontal }),
         Editor(),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
         SourceSearch()
       )
     );
   },
-
   renderHorizontalLayout() {
     const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
@@ -114,10 +104,10 @@ const App = React.createClass({
           endPanel: SecondaryPanes({ horizontal }),
           endPanelCollapsed,
           vert: horizontal
-        }),
-      }));
+        })
+      })
+    );
   },
-
   renderVerticalLayout() {
     const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
@@ -139,28 +129,28 @@ const App = React.createClass({
           splitterSize: 1,
           startPanelCollapsed,
           startPanel: Sources({ sources, horizontal }),
-          endPanel: this.renderEditorPane(),
+          endPanel: this.renderEditorPane()
         }),
         endPanel: SecondaryPanes({ horizontal }),
-        endPanelCollapsed,
-      }));
+        endPanelCollapsed
+      })
+    );
   },
-
   render() {
-    return this.state.horizontal ?
-      this.renderHorizontalLayout() : this.renderVerticalLayout();
+    return this.state.horizontal
+      ? this.renderHorizontalLayout()
+      : this.renderVerticalLayout();
   }
 });
 
-App.childContextTypes = {
-  shortcuts: PropTypes.object
-};
+App.childContextTypes = { shortcuts: PropTypes.object };
 
 module.exports = connect(
-  state => ({ sources: getSources(state),
+  state => ({
+    sources: getSources(state),
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
-    endPanelCollapsed: getPaneCollapse(state, "end"),
+    endPanelCollapsed: getPaneCollapse(state, "end")
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

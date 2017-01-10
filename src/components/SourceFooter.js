@@ -3,8 +3,9 @@ const { DOM: dom, PropTypes } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { getSelectedSource, getSourceText,
-        getPrettySource } = require("../selectors");
+const { getSelectedSource, getSourceText, getPrettySource } = require(
+  "../selectors"
+);
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
@@ -30,15 +31,12 @@ const SourceFooter = React.createClass({
     sourceText: ImPropTypes.map,
     selectSource: PropTypes.func,
     prettySource: ImPropTypes.map,
-    editor: PropTypes.object,
+    editor: PropTypes.object
   },
-
   displayName: "SourceFooter",
-
   onClickPrettyPrint() {
     this.props.togglePrettyPrint(this.props.selectedSource.get("id"));
   },
-
   prettyPrintButton() {
     const { selectedSource, sourceText } = this.props;
     const sourceLoaded = selectedSource && !sourceText.get("loading");
@@ -57,7 +55,6 @@ const SourceFooter = React.createClass({
       L10N.getStr("sourceFooter.debugBtnTooltip")
     );
   },
-
   coverageButton() {
     const { recordCoverage } = this.props;
 
@@ -65,13 +62,15 @@ const SourceFooter = React.createClass({
       return;
     }
 
-    return dom.button({
-      className: "coverage",
-      title: "Code Coverage",
-      onClick: () => recordCoverage()
-    }, "C");
+    return dom.button(
+      {
+        className: "coverage",
+        title: "Code Coverage",
+        onClick: () => recordCoverage()
+      },
+      "C"
+    );
   },
-
   render() {
     const { selectedSource } = this.props;
 
@@ -79,8 +78,10 @@ const SourceFooter = React.createClass({
       return null;
     }
 
-    return dom.div({ className: "source-footer" },
-      dom.div({ className: "commands" },
+    return dom.div(
+      { className: "source-footer" },
+      dom.div(
+        { className: "commands" },
         this.prettyPrintButton(),
         this.coverageButton()
       )
@@ -95,7 +96,7 @@ module.exports = connect(
     return {
       selectedSource,
       sourceText: getSourceText(state, selectedId),
-      prettySource: getPrettySource(state, selectedId),
+      prettySource: getPrettySource(state, selectedId)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

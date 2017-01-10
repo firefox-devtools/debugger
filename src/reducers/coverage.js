@@ -10,27 +10,23 @@ const makeRecord = require("../utils/makeRecord");
 const I = require("immutable");
 const fromJS = require("../utils/fromJS");
 
-import type { Action } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
+import type {Action} from "../actions/types";
+import type {Record} from "../utils/makeRecord";
 
-export type CoverageState = {
-  coverageOn: boolean,
-  hitCount: Object
-};
+export type CoverageState = { coverageOn: boolean, hitCount: Object };
 
-const State = makeRecord(({
-  coverageOn: false,
-  hitCount: I.Map()
-} : CoverageState));
+const State = makeRecord(
+  ({ coverageOn: false, hitCount: I.Map() }: CoverageState)
+);
 
 function update(state = State(), action: Action): Record<CoverageState> {
   switch (action.type) {
-    case constants.RECORD_COVERAGE:
-      return state
-        .mergeIn(["hitCount"], fromJS(action.value.coverage))
-        .setIn(["coverageOn"], true);
+  case constants.RECORD_COVERAGE:
+    return state
+      .mergeIn([ "hitCount" ], fromJS(action.value.coverage))
+      .setIn([ "coverageOn" ], true);
 
-    default: {
+  default: {
       return state;
     }
   }
@@ -49,9 +45,4 @@ function getCoverageEnabled(state: OuterState) {
   return state.coverage.get("coverageOn");
 }
 
-module.exports = {
-  State,
-  update,
-  getHitCountForSource,
-  getCoverageEnabled
-};
+module.exports = { State, update, getHitCountForSource, getCoverageEnabled };

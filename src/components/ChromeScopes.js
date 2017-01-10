@@ -10,12 +10,8 @@ const Svg = require("./utils/Svg");
 require("./Scopes.css");
 
 const Scopes = React.createClass({
-  propTypes: {
-    scopes: PropTypes.array
-  },
-
+  propTypes: { scopes: PropTypes.array },
   displayName: "Scopes",
-
   renderScopes() {
     const { scopes } = this.props;
 
@@ -23,36 +19,23 @@ const Scopes = React.createClass({
       return dom.div({}, "hi");
     }
 
-    return scopes.map(scope => dom.div({},
-      this.renderItem(scope.name || scope.type)
-    ));
+    return scopes.map(
+      scope => dom.div({}, this.renderItem(scope.name || scope.type))
+    );
   },
-
   renderItem(name) {
     return dom.div(
-      { className: classnames("node"),
-        style: { marginLeft: 15 },
-      },
-      Svg("arrow", {
-        className: classnames({
-          expanded: false,
-        })
-      }),
-      dom.span({ className: "object-label" }, name),
+      { className: classnames("node"), style: { marginLeft: 15 } },
+      Svg("arrow", { className: classnames({ expanded: false }) }),
+      dom.span({ className: "object-label" }, name)
     );
   },
-
   render() {
-    return dom.div(
-      { className: "pane scopes-list" },
-      this.renderScopes()
-    );
+    return dom.div({ className: "pane scopes-list" }, this.renderScopes());
   }
 });
 
 module.exports = connect(
-  state => ({
-    scopes: getChromeScopes(state),
-  }),
+  state => ({ scopes: getChromeScopes(state) }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Scopes);

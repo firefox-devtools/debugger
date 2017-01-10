@@ -5,16 +5,16 @@ const Svg = require("./utils/Svg");
 require("./CloseButton.css");
 
 function CloseButton({ handleClick, buttonClass, tooltip }) {
-  return dom.div({
-    className: buttonClass ? `close-btn-${buttonClass}` : "close-btn",
-    onClick: handleClick,
-    title: tooltip
-  },
-    Svg("close"));
+  return dom.div(
+    {
+      className: buttonClass ? `close-btn-${buttonClass}` : "close-btn",
+      onClick: handleClick,
+      title: tooltip
+    },
+    Svg("close")
+  );
 }
 
-CloseButton.propTypes = {
-  handleClick: PropTypes.func.isRequired
-};
+CloseButton.propTypes = { handleClick: PropTypes.func.isRequired };
 
 module.exports = CloseButton;

@@ -21,9 +21,7 @@ function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
   }
 
   const bpId = makeLocationId(breakpoint.location);
-  const pausedId = makeLocationId(
-    pause.getIn(["frame", "location"]).toJS()
-  );
+  const pausedId = makeLocationId(pause.getIn([ "frame", "location" ]).toJS());
 
   return bpId === pausedId;
 }
@@ -31,11 +29,9 @@ function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
 function renderSourceLocation(source, line) {
   const url = source.get("url") ? basename(source.get("url")) : null;
   // const line = url !== "" ? `: ${line}` : "";
-  return url ?
-    dom.div(
-      { className: "location" },
-      `${endTruncateStr(url, 30)}: ${line}`
-    ) : null;
+  return url
+    ? dom.div({ className: "location" }, `${endTruncateStr(url, 30)}: ${line}`)
+    : null;
 }
 
 const Breakpoints = React.createClass({
@@ -46,9 +42,7 @@ const Breakpoints = React.createClass({
     selectSource: PropTypes.func.isRequired,
     removeBreakpoint: PropTypes.func.isRequired
   },
-
   displayName: "Breakpoints",
-
   handleCheckbox(breakpoint) {
     if (breakpoint.loading) {
       return;
@@ -60,18 +54,15 @@ const Breakpoints = React.createClass({
       this.props.disableBreakpoint(breakpoint.location);
     }
   },
-
   selectBreakpoint(breakpoint) {
     const sourceId = breakpoint.location.sourceId;
     const line = breakpoint.location.line;
     this.props.selectSource(sourceId, { line });
   },
-
   removeBreakpoint(event, breakpoint) {
     event.stopPropagation();
     this.props.removeBreakpoint(breakpoint.location);
   },
-
   renderBreakpoint(breakpoint) {
     const snippet = truncateStr(breakpoint.text || "", 30);
     const locationId = breakpoint.locationId;
@@ -98,7 +89,7 @@ const Breakpoints = React.createClass({
         onChange: () => this.handleCheckbox(breakpoint),
         // Prevent clicking on the checkbox from triggering the onClick of
         // the surrounding div
-        onClick: (ev) => ev.stopPropagation()
+        onClick: ev => ev.stopPropagation()
       }),
       dom.div(
         { className: "breakpoint-label", title: breakpoint.text },
@@ -106,42 +97,41 @@ const Breakpoints = React.createClass({
       ),
       dom.div({ className: "breakpoint-snippet" }, snippet),
       CloseButton({
-        handleClick: (ev) => this.removeBreakpoint(ev, breakpoint),
+        handleClick: ev => this.removeBreakpoint(ev, breakpoint),
         tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip")
-      }));
+      })
+    );
   },
-
   render() {
     const { breakpoints } = this.props;
     return dom.div(
       { className: "pane breakpoints-list" },
-      (breakpoints.size === 0 ?
-       dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none")) :
-       breakpoints.valueSeq().map(bp => {
-         return this.renderBreakpoint(bp);
-       }))
+      breakpoints.size === 0
+        ? dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none"))
+        : breakpoints.valueSeq().map(bp => {
+          return this.renderBreakpoint(bp);
+        })
     );
   }
 });
 
 function _getBreakpoints(state) {
-  return getBreakpoints(state).map(bp => {
-    const source = getSource(state, bp.location.sourceId);
-    const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, bp);
-    const locationId = makeLocationId(bp.location);
+  return getBreakpoints(state)
+    .map(bp => {
+      const source = getSource(state, bp.location.sourceId);
+      const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, bp);
+      const locationId = makeLocationId(bp.location);
 
-    bp = Object.assign({}, bp);
-    bp.location.source = source;
-    bp.locationId = locationId;
-    bp.isCurrentlyPaused = isCurrentlyPaused;
-    return bp;
-  })
-  .filter(bp => bp.location.source);
+      bp = Object.assign({}, bp);
+      bp.location.source = source;
+      bp.locationId = locationId;
+      bp.isCurrentlyPaused = isCurrentlyPaused;
+      return bp;
+    })
+    .filter(bp => bp.location.source);
 }
 
 module.exports = connect(
-  (state, props) => ({
-    breakpoints: _getBreakpoints(state)
-  }),
+  (state, props) => ({ breakpoints: _getBreakpoints(state) }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);

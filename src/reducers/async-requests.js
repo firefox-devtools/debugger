@@ -13,7 +13,7 @@ function update(state = initialState, action) {
   } else if (seqId) {
     let newState;
     if (action.status === "start") {
-      newState = [...state, seqId];
+      newState = [ ...state, , seqId ];
     } else if (action.status === "error" || action.status === "done") {
       newState = state.filter(id => id !== seqId);
     }

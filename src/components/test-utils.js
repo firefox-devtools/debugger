@@ -1,7 +1,9 @@
 const { createElement, createFactory } = require("react");
 const ReactDOM = require("react-dom");
 
-const renderComponentFromFixture = require("../test/utils/renderComponentFromFixture");
+const renderComponentFromFixture = require(
+  "../test/utils/renderComponentFromFixture"
+);
 
 function createElementWithAttributes(tag, attrs) {
   const $el = document.createElement(tag);
@@ -41,6 +43,4 @@ function renderComponent(Component, fixtureName, options = {}) {
   return ReactDOM.render(component, $el);
 }
 
-module.exports = {
-  renderComponent
-};
+module.exports = { renderComponent };

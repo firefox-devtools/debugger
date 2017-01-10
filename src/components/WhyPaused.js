@@ -11,26 +11,20 @@ const { getPauseReason } = require("../utils/pause");
 require("./WhyPaused.css");
 
 const WhyPaused = React.createClass({
-  propTypes: {
-    pauseInfo: ImPropTypes.map
-  },
-
+  propTypes: { pauseInfo: ImPropTypes.map },
   displayName: "WhyPaused",
-
   render() {
     const { pauseInfo } = this.props;
     const reason = getPauseReason(pauseInfo);
 
     // => here
-    return reason ?
-      dom.div({ className: "pane why-paused" }, L10N.getStr(reason))
+    return reason
+      ? dom.div({ className: "pane why-paused" }, L10N.getStr(reason))
       : null;
   }
 });
 
 module.exports = connect(
-  state => ({
-    pauseInfo: getPause(state)
-  }),
+  state => ({ pauseInfo: getPause(state) }),
   dispatch => bindActionCreators(actions, dispatch)
 )(WhyPaused);

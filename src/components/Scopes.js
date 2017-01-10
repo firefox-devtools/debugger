@@ -3,7 +3,9 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const actions = require("../actions");
-const { getSelectedFrame, getLoadedObjects, getPause } = require("../selectors");
+const { getSelectedFrame, getLoadedObjects, getPause } = require(
+  "../selectors"
+);
 const ObjectInspector = React.createFactory(require("./ObjectInspector"));
 const { DOM: dom, PropTypes } = React;
 const toPairs = require("lodash/toPairs");
@@ -20,17 +22,20 @@ function getBindingVariables(bindings, parentName) {
   const args = bindings.arguments.map(arg => toPairs(arg)[0]);
   const variables = toPairs(bindings.variables);
 
-  return args.concat(variables)
-    .map(binding => ({
-      name: binding[0],
-      path: `${parentName}/${binding[0]}`,
-      contents: binding[1]
-    }));
+  return args
+    .concat(variables)
+    .map(
+      binding => ({
+        name: binding[0],
+        path: `${parentName}/${binding[0]}`,
+        contents: binding[1]
+      })
+    );
 }
 
 function getSpecialVariables(pauseInfo, path) {
-  let thrown = pauseInfo.getIn(["why", "frameFinished", "throw"]);
-  const returned = pauseInfo.getIn(["why", "frameFinished", "return"]);
+  let thrown = pauseInfo.getIn([ "why", "frameFinished", "throw" ]);
+  const returned = pauseInfo.getIn([ "why", "frameFinished", "return" ]);
   const vars = [];
 
   if (thrown) {
@@ -63,11 +68,7 @@ function getThisVariable(frame, path) {
     return null;
   }
 
-  return {
-    name: "<this>",
-    path: `${path}/<this>`,
-    contents: { value: this_ }
-  };
+  return { name: "<this>", path: `${path}/<this>`, contents: { value: this_ } };
 }
 
 function getScopes(pauseInfo, selectedFrame) {
@@ -84,7 +85,7 @@ function getScopes(pauseInfo, selectedFrame) {
   const scopes = [];
 
   let scope = selectedScope;
-  let pausedScopeActor = pauseInfo.getIn(["frame", "scope"]).get("actor");
+  let pausedScopeActor = pauseInfo.getIn([ "frame", "scope" ]).get("actor");
 
   do {
     const type = scope.type;
@@ -124,14 +125,10 @@ function getScopes(pauseInfo, selectedFrame) {
       if (value.class === "Window") {
         value = Object.assign({}, scope.object, { isGlobal: true });
       }
-      scopes.push({
-        name: scope.object.class,
-        path: key,
-        contents: { value }
-      });
+      scopes.push({ name: scope.object.class, path: key, contents: { value } });
     }
-  } while (scope = scope.parent); // eslint-disable-line no-cond-assign
-
+  } while (scope = scope.parent);
+  // eslint-disable-line no-cond-assign
   return scopes;
 }
 
@@ -142,14 +139,11 @@ const Scopes = React.createClass({
     loadObjectProperties: PropTypes.func,
     selectedFrame: PropTypes.object
   },
-
   displayName: "Scopes",
-
   getInitialState() {
     const { pauseInfo, selectedFrame } = this.props;
     return { scopes: getScopes(pauseInfo, selectedFrame) };
   },
-
   componentWillReceiveProps(nextProps) {
     const { pauseInfo, selectedFrame } = this.props;
     const pauseInfoChanged = pauseInfo !== nextProps.pauseInfo;
@@ -161,7 +155,6 @@ const Scopes = React.createClass({
       });
     }
   },
-
   render() {
     const { pauseInfo, loadObjectProperties, loadedObjects } = this.props;
     const { scopes } = this.state;
@@ -177,9 +170,7 @@ const Scopes = React.createClass({
 
     return dom.div(
       { className: "pane scopes-list" },
-      pauseInfo
-        ? scopeInspector
-        : info(L10N.getStr("scopes.notPaused"))
+      pauseInfo ? scopeInspector : info(L10N.getStr("scopes.notPaused"))
     );
   }
 });

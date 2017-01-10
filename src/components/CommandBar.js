@@ -2,21 +2,24 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions,
-        getShouldIgnoreCaughtExceptions,
-      } = require("../selectors");
+const {
+  getPause,
+  getIsWaitingOnBreak,
+  getShouldPauseOnExceptions,
+  getShouldIgnoreCaughtExceptions
+} = require("../selectors");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const { formatKeyShortcut } = require("../utils/text");
 
-const { Services: { appinfo }} = require("devtools-modules");
+const { Services: { appinfo } } = require("devtools-modules");
 
 const actions = require("../actions");
 require("./CommandBar.css");
 
-const isMacOS = (appinfo.OS === "Darwin");
+const isMacOS = appinfo.OS === "Darwin";
 
-const COMMANDS = ["resume", "stepOver", "stepIn", "stepOut"];
+const COMMANDS = [ "resume", "stepOver", "stepIn", "stepOut" ];
 
 const KEYS = {
   "WINNT": {
@@ -55,9 +58,9 @@ function formatKey(action) {
   const key = getKey(`${action}Display`) || getKey(action);
   if (isMacOS) {
     const winKey = getKeyForOS("WINNT", `${action}Display`) ||
-                   getKeyForOS("WINNT", action);
+      getKeyForOS("WINNT", action);
     // display both Windows type and Mac specific keys
-    return formatKeyShortcut([key, winKey].join(" "));
+    return formatKeyShortcut([ key, winKey ].join(" "));
   }
   return formatKeyShortcut(key);
 }
@@ -83,23 +86,17 @@ const CommandBar = React.createClass({
     pauseOnExceptions: PropTypes.func,
     shouldPauseOnExceptions: PropTypes.bool,
     shouldIgnoreCaughtExceptions: PropTypes.bool,
-    isWaitingOnBreak: PropTypes.bool,
+    isWaitingOnBreak: PropTypes.bool
   },
-
-  contextTypes: {
-    shortcuts: PropTypes.object
-  },
-
+  contextTypes: { shortcuts: PropTypes.object },
   displayName: "CommandBar",
-
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    COMMANDS.forEach((action) => shortcuts.off(getKey(action)));
+    COMMANDS.forEach(action => shortcuts.off(getKey(action)));
     if (isMacOS) {
-      COMMANDS.forEach((action) => shortcuts.off(getKeyForOS("WINNT", action)));
+      COMMANDS.forEach(action => shortcuts.off(getKeyForOS("WINNT", action)));
     }
   },
-
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     const handleEvent = (e, func) => {
@@ -108,56 +105,75 @@ const CommandBar = React.createClass({
       func();
     };
 
-    COMMANDS.forEach((action) => shortcuts.on(
-      getKey(action),
-      (_, e) => handleEvent(e, this.props[action]))
+    COMMANDS.forEach(
+      action => shortcuts.on(
+        getKey(action),
+        (_, e) => handleEvent(e, this.props[action])
+      )
     );
 
     if (isMacOS) {
       // The Mac supports both the Windows Function keys
       // as well as the Mac non-Function keys
-      COMMANDS.forEach((action) => shortcuts.on(
-        getKeyForOS("WINNT", action),
-        (_, e) => handleEvent(e, this.props[action]))
+      COMMANDS.forEach(
+        action => shortcuts.on(
+          getKeyForOS("WINNT", action),
+          (_, e) => handleEvent(e, this.props[action])
+        )
       );
     }
   },
-
   renderStepButtons() {
     const className = this.props.pause ? "active" : "disabled";
     return [
-      debugBtn(this.props.stepOver, "stepOver", className,
+      debugBtn(
+        this.props.stepOver,
+        "stepOver",
+        className,
         L10N.getFormatStr("stepOverTooltip", formatKey("stepOver"))
       ),
-      debugBtn(this.props.stepIn, "stepIn", className,
+      debugBtn(
+        this.props.stepIn,
+        "stepIn",
+        className,
         L10N.getFormatStr("stepInTooltip", formatKey("stepIn"))
       ),
-      debugBtn(this.props.stepOut, "stepOut", className,
+      debugBtn(
+        this.props.stepOut,
+        "stepOut",
+        className,
         L10N.getFormatStr("stepOutTooltip", formatKey("stepOut"))
       )
     ];
   },
-
   renderPauseButton() {
     const { pause, breakOnNext, isWaitingOnBreak } = this.props;
 
     if (pause) {
-      return debugBtn(this.props.resume, "resume", "active",
+      return debugBtn(
+        this.props.resume,
+        "resume",
+        "active",
         L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
       );
     }
 
     if (isWaitingOnBreak) {
-      return debugBtn(null, "pause", "disabled",
+      return debugBtn(
+        null,
+        "pause",
+        "disabled",
         L10N.getStr("pausePendingButtonTooltip")
       );
     }
 
-    return debugBtn(breakOnNext, "pause", "active",
+    return debugBtn(
+      breakOnNext,
+      "pause",
+      "active",
       L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
     );
   },
-
   /*
    * The pause on exception button has three states in this order:
    *  1. don't pause on exceptions      [false, false]
@@ -165,8 +181,11 @@ const CommandBar = React.createClass({
    *  3. pause on all exceptions        [true, false]
   */
   renderPauseOnExceptions() {
-    const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions,
-            pauseOnExceptions } = this.props;
+    const {
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
 
     if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
       return debugBtn(
@@ -193,15 +212,12 @@ const CommandBar = React.createClass({
       L10N.getStr("pauseOnExceptions")
     );
   },
-
   render() {
-    return (
-      dom.div(
-        { className: "command-bar" },
-        this.renderPauseButton(),
-        this.renderStepButtons(),
-        this.renderPauseOnExceptions()
-      )
+    return dom.div(
+      { className: "command-bar" },
+      this.renderPauseButton(),
+      this.renderStepButtons(),
+      this.renderPauseOnExceptions()
     );
   }
 });
@@ -212,7 +228,7 @@ module.exports = connect(
       pause: getPause(state),
       isWaitingOnBreak: getIsWaitingOnBreak(state),
       shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
+      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

@@ -17,9 +17,7 @@ const Sources = React.createClass({
     horizontal: PropTypes.bool.isRequired,
     toggleFileSearch: PropTypes.func
   },
-
   displayName: "Sources",
-
   renderShortcut() {
     if (this.props.horizontal) {
       return dom.span(
@@ -27,18 +25,20 @@ const Sources = React.createClass({
           className: "sources-header-info",
           onClick: () => this.props.toggleFileSearch(true)
         },
-        L10N.getFormatStr("sources.search",
-          formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
+        L10N.getFormatStr(
+          "sources.search",
+          formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`)
+        )
       );
     }
   },
-
   render() {
     const { sources, selectSource } = this.props;
 
     return dom.div(
       { className: "sources-panel" },
-      dom.div({ className: "sources-header" },
+      dom.div(
+        { className: "sources-header" },
         L10N.getStr("sources.header"),
         this.renderShortcut()
       ),
@@ -48,7 +48,9 @@ const Sources = React.createClass({
 });
 
 module.exports = connect(
-  state => ({ selectedSource: getSelectedSource(state),
-    sources: getSources(state) }),
+  state => ({
+    selectedSource: getSelectedSource(state),
+    sources: getSources(state)
+  }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Sources);

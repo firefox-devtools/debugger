@@ -11,8 +11,8 @@ const { getFilename } = require("../utils/source");
 const { getFrames, getSelectedFrame, getSource } = require("../selectors");
 const classNames = require("classnames");
 
-import type { List } from "immutable";
-import type { Frame } from "../types";
+import type {List} from "immutable";
+import type {Frame} from "../types";
 
 if (typeof window == "object") {
   require("./Frames.css");
@@ -26,10 +26,7 @@ function renderFrameTitle({ displayName }: Frame) {
 
 function renderFrameLocation({ source, location }: Frame) {
   const filename = getFilename(source);
-  return div(
-    { className: "location" },
-    `${filename}: ${location.line}`
-  );
+  return div({ className: "location" }, `${filename}: ${location.line}`);
 }
 
 const Frames = React.createClass({
@@ -38,24 +35,19 @@ const Frames = React.createClass({
     selectedFrame: PropTypes.object,
     selectFrame: PropTypes.func.isRequired
   },
-
   displayName: "Frames",
-
   getInitialState() {
     return { showAllFrames: false };
   },
-
   toggleFramesDisplay() {
-    this.setState({
-      showAllFrames: !this.state.showAllFrames
-    });
+    this.setState({ showAllFrames: !this.state.showAllFrames });
   },
-
   renderFrame(frame: Frame) {
     const { selectedFrame, selectFrame } = this.props;
 
     return dom.li(
-      { key: frame.id,
+      {
+        key: frame.id,
         className: classNames("frame", {
           "selected": selectedFrame && selectedFrame.id === frame.id
         }),
@@ -66,18 +58,18 @@ const Frames = React.createClass({
       renderFrameLocation(frame)
     );
   },
-
   renderFrames(frames: List<Frame>) {
-    const numFramesToShow =
-      this.state.showAllFrames ? frames.size : NUM_FRAMES_SHOWN;
+    const numFramesToShow = this.state.showAllFrames
+      ? frames.size
+      : NUM_FRAMES_SHOWN;
     const framesToShow = frames.slice(0, numFramesToShow);
 
     return dom.ul({}, framesToShow.map(this.renderFrame));
   },
-
   renderToggleButton(frames: List<Frame>) {
     let buttonMessage = this.state.showAllFrames
-      ? L10N.getStr("callStack.collapse") : L10N.getStr("callStack.expand");
+      ? L10N.getStr("callStack.collapse")
+      : L10N.getStr("callStack.expand");
 
     if (frames.size < NUM_FRAMES_SHOWN) {
       return null;
@@ -88,7 +80,6 @@ const Frames = React.createClass({
       buttonMessage
     );
   },
-
   render() {
     const { frames } = this.props;
 
@@ -115,10 +106,13 @@ function getAndProcessFrames(state) {
   if (!frames) {
     return null;
   }
-  return frames.filter(frame => getSource(state, frame.location.sourceId))
-               .map(frame => Object.assign({}, frame, {
-                 source: getSource(state, frame.location.sourceId).toJS()
-               }));
+  return frames
+    .filter(frame => getSource(state, frame.location.sourceId))
+    .map(
+      frame => Object.assign({}, frame, {
+        source: getSource(state, frame.location.sourceId).toJS()
+      })
+    );
 }
 
 module.exports = connect(

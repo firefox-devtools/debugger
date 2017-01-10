@@ -6,9 +6,12 @@ const { isEnabled } = require("devtools-config");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 
-const { getPause, getBreakpoints,
-        getBreakpointsDisabled, getBreakpointsLoading
-      } = require("../selectors");
+const {
+  getPause,
+  getBreakpoints,
+  getBreakpointsDisabled,
+  getBreakpointsLoading
+} = require("../selectors");
 const { prefs } = require("../utils/prefs");
 
 const actions = require("../actions");
@@ -45,16 +48,15 @@ const SecondaryPanes = React.createClass({
     breakpointsLoading: PropTypes.bool,
     toggleAllBreakpoints: PropTypes.func
   },
-
-  contextTypes: {
-    shortcuts: PropTypes.object
-  },
-
+  contextTypes: { shortcuts: PropTypes.object },
   displayName: "SecondaryPanes",
-
   renderBreakpointsToggle() {
-    const { toggleAllBreakpoints, breakpoints,
-            breakpointsDisabled, breakpointsLoading } = this.props;
+    const {
+      toggleAllBreakpoints,
+      breakpoints,
+      breakpointsDisabled,
+      breakpointsLoading
+    } = this.props;
     const boxClassName = "breakpoints-toggle";
 
     const breakpointsExist = breakpoints.size > 0;
@@ -67,16 +69,16 @@ const SecondaryPanes = React.createClass({
       disabled: !breakpointsExist || breakpointsLoading,
       onClick: () => toggleAllBreakpoints(!breakpointsDisabled),
       checked: !breakpointsDisabled && !isIndeterminate && breakpointsExist,
-      ref: (input) => {
+      ref: input => {
         if (input) {
           input.indeterminate = isIndeterminate;
         }
       },
-      title: breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
-        L10N.getStr("breakpoints.disable")
+      title: breakpointsDisabled
+        ? L10N.getStr("breakpoints.enable")
+        : L10N.getStr("breakpoints.disable")
     });
   },
-
   watchExpressionHeaderButtons() {
     return [
       debugBtn(
@@ -90,32 +92,35 @@ const SecondaryPanes = React.createClass({
       )
     ];
   },
-
   getItems() {
     const isPaused = () => !!this.props.pauseData;
 
     const scopesContent = this.props.horizontal ? {
-      header: L10N.getStr("scopes.header"),
-      component: Scopes,
-      opened: prefs.scopesVisible,
-      onToggle: opened => {
-        prefs.scopesVisible = opened;
-      },
-      shouldOpen: isPaused
-    } : null;
+        header: L10N.getStr("scopes.header"),
+        component: Scopes,
+        opened: prefs.scopesVisible,
+        onToggle: opened => {
+          prefs.scopesVisible = opened;
+        },
+        shouldOpen: isPaused
+      } : null;
 
     const items = [
-      { header: L10N.getStr("breakpoints.header"),
+      {
+        header: L10N.getStr("breakpoints.header"),
         buttons: this.renderBreakpointsToggle(),
         component: Breakpoints,
-        opened: true },
-      { header: L10N.getStr("callStack.header"),
+        opened: true
+      },
+      {
+        header: L10N.getStr("callStack.header"),
         component: Frames,
         opened: prefs.callStackVisible,
         onToggle: opened => {
           prefs.callStackVisible = opened;
         },
-        shouldOpen: isPaused },
+        shouldOpen: isPaused
+      },
       scopesContent
     ];
 
@@ -127,7 +132,8 @@ const SecondaryPanes = React.createClass({
     }
 
     if (isEnabled("watchExpressions")) {
-      items.unshift({ header: L10N.getStr("watchExpressions.header"),
+      items.unshift({
+        header: L10N.getStr("watchExpressions.header"),
         buttons: this.watchExpressionHeaderButtons(),
         component: Expressions,
         opened: true
@@ -136,13 +142,9 @@ const SecondaryPanes = React.createClass({
 
     return items.filter(item => item);
   },
-
   renderHorizontalLayout() {
-    return Accordion({
-      items: this.getItems()
-    });
+    return Accordion({ items: this.getItems() });
   },
-
   renderVerticalLayout() {
     return SplitBox({
       style: { width: "100vw" },
@@ -154,15 +156,14 @@ const SecondaryPanes = React.createClass({
       endPanel: Scopes()
     });
   },
-
   render() {
     return dom.div(
-      { className: "secondary-panes",
-        style: { overflowX: "hidden" }},
+      { className: "secondary-panes", style: { overflowX: "hidden" } },
       CommandBar(),
       WhyPaused(),
-      this.props.horizontal ?
-        this.renderHorizontalLayout() : this.renderVerticalLayout()
+      this.props.horizontal
+        ? this.renderHorizontalLayout()
+        : this.renderVerticalLayout()
     );
   }
 });

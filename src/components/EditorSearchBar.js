@@ -2,7 +2,9 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { findDOMNode } = require("react-dom");
 const Svg = require("./utils/Svg");
-const { find, findNext, findPrev, removeOverlay } = require("../utils/source-search");
+const { find, findNext, findPrev, removeOverlay } = require(
+  "../utils/source-search"
+);
 const classnames = require("classnames");
 const { debounce, escapeRegExp } = require("lodash");
 const CloseButton = require("./CloseButton");
@@ -18,28 +20,16 @@ function countMatches(query, text) {
 }
 
 const EditorSearchBar = React.createClass({
-
   propTypes: {
     editor: PropTypes.object,
     sourceText: PropTypes.object,
     selectedSource: ImPropTypes.map
   },
-
   displayName: "EditorSearchBar",
-
   getInitialState() {
-    return {
-      enabled: false,
-      query: "",
-      count: 0,
-      index: 0
-    };
+    return { enabled: false, query: "", count: 0, index: 0 };
   },
-
-  contextTypes: {
-    shortcuts: PropTypes.object
-  },
-
+  contextTypes: { shortcuts: PropTypes.object },
   componentWillUnmount() {
     if (isEnabled("editorSearch")) {
       const shortcuts = this.context.shortcuts;
@@ -50,21 +40,25 @@ const EditorSearchBar = React.createClass({
       shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
     }
   },
-
   componentDidMount() {
     if (isEnabled("editorSearch")) {
       const shortcuts = this.context.shortcuts;
       const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-      shortcuts.on(`CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`,
-        (_, e) => this.toggleSearch(e));
+      shortcuts.on(
+        `CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`,
+        (_, e) => this.toggleSearch(e)
+      );
       shortcuts.on("Escape", (_, e) => this.onEscape(e));
-      shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
-        (_, e) => this.traverseResultsPrev(e));
-      shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
-        (_, e) => this.traverseResultsNext(e));
+      shortcuts.on(
+        `CmdOrCtrl+Shift+${searchAgainKey}`,
+        (_, e) => this.traverseResultsPrev(e)
+      );
+      shortcuts.on(
+        `CmdOrCtrl+${searchAgainKey}`,
+        (_, e) => this.traverseResultsNext(e)
+      );
     }
   },
-
   componentDidUpdate(prevProps) {
     const { sourceText, selectedSource } = this.props;
 
@@ -73,22 +67,20 @@ const EditorSearchBar = React.createClass({
     }
 
     const hasLoaded = sourceText && !sourceText.get("loading");
-    const wasLoading = prevProps.sourceText
-                        && prevProps.sourceText.get("loading");
+    const wasLoading = prevProps.sourceText &&
+      prevProps.sourceText.get("loading");
 
     const doneLoading = wasLoading && hasLoaded;
-    const changedFiles = selectedSource != prevProps.selectedSource
-                          && hasLoaded;
+    const changedFiles = selectedSource != prevProps.selectedSource &&
+      hasLoaded;
 
     if (doneLoading || changedFiles) {
       this.doSearch(this.state.query);
     }
   },
-
   onEscape(e) {
     this.closeSearch(e);
   },
-
   closeSearch(e) {
     if (this.state.enabled) {
       this.setState({ enabled: false });
@@ -99,7 +91,6 @@ const EditorSearchBar = React.createClass({
       e.preventDefault();
     }
   },
-
   toggleSearch(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -113,7 +104,6 @@ const EditorSearchBar = React.createClass({
       this.selectSearchInput();
     }
   },
-
   setSearchValue(value: string) {
     if (value == "") {
       return;
@@ -121,18 +111,15 @@ const EditorSearchBar = React.createClass({
 
     this.searchInput().value = value;
   },
-
   selectSearchInput() {
     const node = this.searchInput();
     if (node) {
       node.setSelectionRange(0, node.value.length);
     }
   },
-
   searchInput() {
     return findDOMNode(this).querySelector("input");
   },
-
   doSearch(query) {
     const sourceText = this.props.sourceText;
     const count = countMatches(query, sourceText.get("text"));
@@ -140,11 +127,9 @@ const EditorSearchBar = React.createClass({
     this.setState({ query, count, index: 0 });
     this.search(query);
   },
-
   onChange(e) {
     this.doSearch(e.target.value);
   },
-
   traverseResultsPrev(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -161,7 +146,6 @@ const EditorSearchBar = React.createClass({
     const nextIndex = index == 0 ? count - 1 : index - 1;
     this.setState({ index: nextIndex });
   },
-
   traverseResultsNext(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -178,7 +162,6 @@ const EditorSearchBar = React.createClass({
     const nextIndex = index == count - 1 ? 0 : index + 1;
     this.setState({ index: nextIndex });
   },
-
   onKeyUp(e) {
     if (e.key != "Enter") {
       return;
@@ -190,30 +173,28 @@ const EditorSearchBar = React.createClass({
       this.traverseResultsNext(e);
     }
   },
+  search: debounce(
+    function(query) {
+      const sourceText = this.props.sourceText;
 
-  search: debounce(function(query) {
-    const sourceText = this.props.sourceText;
+      if (!sourceText || !sourceText.get("text")) {
+        return;
+      }
 
-    if (!sourceText || !sourceText.get("text")) {
-      return;
-    }
+      const ed = this.props.editor;
+      const ctx = { ed, cm: ed.codeMirror };
 
-    const ed = this.props.editor;
-    const ctx = { ed, cm: ed.codeMirror };
-
-    find(ctx, query);
-  }, 100),
-
+      find(ctx, query);
+    },
+    100
+  ),
   renderSummary() {
     const { count, index, query } = this.state;
 
     if (query.trim() == "") {
       return dom.div({});
     } else if (count == 0) {
-      return dom.div(
-        { className: "summary" },
-        L10N.getStr("editor.noResults")
-      );
+      return dom.div({ className: "summary" }, L10N.getStr("editor.noResults"));
     }
 
     return dom.div(
@@ -221,7 +202,6 @@ const EditorSearchBar = React.createClass({
       L10N.getFormatStr("editor.searchResults", index + 1, count)
     );
   },
-
   renderSvg() {
     const { count, query } = this.state;
 
@@ -231,7 +211,6 @@ const EditorSearchBar = React.createClass({
 
     return Svg("magnifying-glass");
   },
-
   render() {
     if (!this.state.enabled) {
       return dom.div();
@@ -243,9 +222,7 @@ const EditorSearchBar = React.createClass({
       { className: "search-bar" },
       this.renderSvg(),
       dom.input({
-        className: classnames({
-          empty: count == 0 && query.trim() != ""
-        }),
+        className: classnames({ empty: count == 0 && query.trim() != "" }),
         onChange: this.onChange,
         onKeyUp: this.onKeyUp,
         placeholder: "Search in file...",
@@ -253,10 +230,7 @@ const EditorSearchBar = React.createClass({
         spellCheck: false
       }),
       this.renderSummary(),
-      CloseButton({
-        handleClick: this.closeSearch,
-        buttonClass: "big"
-      })
+      CloseButton({ handleClick: this.closeSearch, buttonClass: "big" })
     );
   }
 });

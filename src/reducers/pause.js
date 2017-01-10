@@ -9,35 +9,37 @@ const makeRecord = require("../utils/makeRecord");
 const { prefs } = require("../utils/prefs");
 const I = require("immutable");
 
-import type { Frame, Pause, Expression } from "../types";
-import type { Action } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
+import type {Frame, Pause, Expression} from "../types";
+import type {Action} from "../actions/types";
+import type {Record} from "../utils/makeRecord";
 
 type PauseState = {
   pause: ?Pause,
   isWaitingOnBreak: boolean,
-  frames: ?Frame[],
+  frames: ?(Frame[]),
   selectedFrameId: ?string,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
   expressions: I.List<Expression>
-}
+};
 
-const State = makeRecord(({
-  pause: undefined,
-  isWaitingOnBreak: false,
-  frames: undefined,
-  selectedFrameId: undefined,
-  loadedObjects: I.Map(),
-  shouldPauseOnExceptions: prefs.pauseOnExceptions,
-  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
-  expressions: I.List()
-} : PauseState));
+const State = makeRecord(
+  ({
+    pause: undefined,
+    isWaitingOnBreak: false,
+    frames: undefined,
+    selectedFrameId: undefined,
+    loadedObjects: I.Map(),
+    shouldPauseOnExceptions: prefs.pauseOnExceptions,
+    shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
+    expressions: I.List()
+  }: PauseState)
+);
 
 function update(state = State(), action: Action): Record<PauseState> {
   switch (action.type) {
-    case constants.PAUSED: {
+  case constants.PAUSED: {
       const { selectedFrameId, frames, pauseInfo } = action;
       pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
 
@@ -49,85 +51,90 @@ function update(state = State(), action: Action): Record<PauseState> {
       });
     }
 
-    case constants.RESUME:
-      return state.merge({
-        pause: null,
-        frames: null,
-        selectedFrameId: null,
-        loadedObjects: {}
+  case constants.RESUME:
+    return state.merge({
+      pause: null,
+      frames: null,
+      selectedFrameId: null,
+      loadedObjects: {}
+    });
+
+  case constants.TOGGLE_PRETTY_PRINT:
+    if (action.status == "done") {
+      const frames = action.value.frames;
+      let pause = state.get("pause");
+      if (pause) {
+        pause = pause.set("frame", fromJS(frames[0]));
+      }
+
+      return state.merge({ pause, frames });
+    }
+
+    break;
+  case constants.BREAK_ON_NEXT:
+    return state.set("isWaitingOnBreak", true);
+
+  case constants.SELECT_FRAME:
+    return state.set("selectedFrameId", action.frame.id);
+
+  case constants.LOAD_OBJECT_PROPERTIES:
+    if (action.status === "done") {
+      if (!action.value) {
+        return state;
+      }
+
+      const ownProperties = action.value.ownProperties;
+      const prototype = action.value.prototype;
+
+      return state.setIn([ "loadedObjects", action.objectId ], {
+        ownProperties,
+        prototype
       });
+    }
+    break;
 
-    case constants.TOGGLE_PRETTY_PRINT:
-      if (action.status == "done") {
-        const frames = action.value.frames;
-        let pause = state.get("pause");
-        if (pause) {
-          pause = pause.set("frame", fromJS(frames[0]));
-        }
+  case constants.NAVIGATE:
+    return State();
 
-        return state.merge({ pause, frames });
-      }
+  case constants.PAUSE_ON_EXCEPTIONS:
+    const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
 
-      break;
-    case constants.BREAK_ON_NEXT:
-      return state.set("isWaitingOnBreak", true);
+    prefs.pauseOnExceptions = shouldPauseOnExceptions;
+    prefs.ignoreCaughtExceptions = shouldIgnoreCaughtExceptions;
 
-    case constants.SELECT_FRAME:
-      return state.set("selectedFrameId", action.frame.id);
+    return state.merge({
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions
+    });
 
-    case constants.LOAD_OBJECT_PROPERTIES:
-      if (action.status === "done") {
-        if (!action.value) {
-          return state;
-        }
+  case constants.ADD_EXPRESSION:
+    return state.setIn([ "expressions", action.id ], {
+      id: action.id,
+      input: action.input,
+      value: action.value,
+      updating: false
+    });
 
-        const ownProperties = action.value.ownProperties;
-        const prototype = action.value.prototype;
-
-        return state.setIn(["loadedObjects", action.objectId],
-                           { ownProperties, prototype });
-      }
-      break;
-
-    case constants.NAVIGATE:
-      return State();
-
-    case constants.PAUSE_ON_EXCEPTIONS:
-      const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
-
-      prefs.pauseOnExceptions = shouldPauseOnExceptions;
-      prefs.ignoreCaughtExceptions = shouldIgnoreCaughtExceptions;
-
-      return state.merge({
-        shouldPauseOnExceptions,
-        shouldIgnoreCaughtExceptions
+  case constants.EVALUATE_EXPRESSION:
+    if (action.status === "done") {
+      return state.mergeIn([ "expressions", action.id ], {
+        id: action.id,
+        input: action.input,
+        value: action.value,
+        updating: false
       });
+    }
+    break;
 
-    case constants.ADD_EXPRESSION:
-      return state.setIn(["expressions", action.id],
-        { id: action.id,
-          input: action.input,
-          value: action.value,
-          updating: false });
+  case constants.UPDATE_EXPRESSION:
+    return state.mergeIn([ "expressions", action.id ], {
+      id: action.id,
+      input: action.input,
+      updating: true
+    });
 
-    case constants.EVALUATE_EXPRESSION:
-      if (action.status === "done") {
-        return state.mergeIn(["expressions", action.id],
-          { id: action.id,
-            input: action.input,
-            value: action.value,
-            updating: false });
-      }
-      break;
-
-    case constants.UPDATE_EXPRESSION:
-      return state.mergeIn(["expressions", action.id],
-        { id: action.id,
-          input: action.input,
-          updating: true });
-
-    case constants.DELETE_EXPRESSION:
-      return deleteExpression(state, action.id);
+  case constants.DELETE_EXPRESSION:
+    return deleteExpression(state, action.id);
   }
 
   return state;
@@ -135,11 +142,10 @@ function update(state = State(), action: Action): Record<PauseState> {
 
 function deleteExpression(state, id) {
   const index = getExpressions({ pause: state }).findKey(e => e.id == id);
-  return state.deleteIn(["expressions", index]);
+  return state.deleteIn([ "expressions", index ]);
 }
 
 // Selectors
-
 // Unfortunately, it's really hard to make these functions accept just
 // the state that we care about and still type it with Flow. The
 // problem is that we want to re-export all selectors from a single

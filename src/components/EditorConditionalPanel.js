@@ -30,6 +30,4 @@ function renderConditionalPanel({ condition, closePanel, setBreakpoint }) {
   return panel;
 }
 
-module.exports = {
-  renderConditionalPanel
-};
+module.exports = { renderConditionalPanel };

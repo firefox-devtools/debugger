@@ -14,10 +14,15 @@ const { PROMISE } = require("../utils/redux/middleware/promise");
 const assert = require("../utils/assert");
 const { updateFrameLocations } = require("../utils/pause");
 const {
-  getOriginalURLs, getOriginalSourceText,
-  generatedToOriginalId, isOriginalId,
-  getOriginalLocation, getGeneratedLocation,
-  isGeneratedId, applySourceMap, shouldSourceMap
+  getOriginalURLs,
+  getOriginalSourceText,
+  generatedToOriginalId,
+  isOriginalId,
+  getOriginalLocation,
+  getGeneratedLocation,
+  isGeneratedId,
+  applySourceMap,
+  shouldSourceMap
 } = require("../utils/source-map");
 
 const { prettyPrint } = require("../utils/pretty-print");
@@ -27,12 +32,15 @@ const constants = require("../constants");
 const { removeDocument } = require("../utils/source-documents");
 
 const {
-  getSource, getSourceByURL, getSourceText,
-  getPendingSelectedLocation, getFrames
+  getSource,
+  getSourceByURL,
+  getSourceText,
+  getPendingSelectedLocation,
+  getFrames
 } = require("../selectors");
 
-import type { Source } from "../types";
-import type { ThunkArgs } from "./types";
+import type {Source} from "../types";
+import type {ThunkArgs} from "./types";
 
 /**
  * Handler for the debugger client's unsolicited newSource notification.
@@ -45,10 +53,7 @@ function newSource(source: Source) {
       dispatch(loadSourceMap(source));
     }
 
-    dispatch({
-      type: constants.ADD_SOURCE,
-      source
-    });
+    dispatch({ type: constants.ADD_SOURCE, source });
 
     // If a request has been made to show this source, go ahead and
     // select it.
@@ -61,7 +66,8 @@ function newSource(source: Source) {
 
 function newSources(sources: Source[]) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    sources.filter(source => !getSource(getState(), source.id))
+    sources
+      .filter(source => !getSource(getState(), source.id))
       .forEach(source => dispatch(newSource(source)));
   };
 }
@@ -90,10 +96,7 @@ function loadSourceMap(generatedSource) {
   };
 }
 
-type SelectSourceOptions = {
-  tabIndex?: number,
-  line?: number
-};
+type SelectSourceOptions = { tabIndex?: number, line?: number };
 
 /**
  * Deterministically select a source that has a given URL. This will
@@ -163,10 +166,9 @@ function jumpToMappedLocation(sourceLocation: any) {
       ? await getGeneratedLocation(sourceLocation, source.toJS())
       : await getOriginalLocation(sourceLocation, source.toJS());
 
-    return dispatch(selectSource(
-      pairedLocation.sourceId,
-      { line: pairedLocation.line }
-    ));
+    return dispatch(
+      selectSource(pairedLocation.sourceId, { line: pairedLocation.line })
+    );
   };
 }
 
@@ -176,10 +178,7 @@ function jumpToMappedLocation(sourceLocation: any) {
  */
 function closeTab(id: string) {
   removeDocument(id);
-  return {
-    type: constants.CLOSE_TAB,
-    id: id,
-  };
+  return { type: constants.CLOSE_TAB, id: id };
 }
 
 /**
@@ -188,10 +187,7 @@ function closeTab(id: string) {
  */
 function closeTabs(ids: string[]) {
   ids.forEach(removeDocument);
-  return {
-    type: constants.CLOSE_TABS,
-    ids: ids,
-  };
+  return { type: constants.CLOSE_TABS, ids: ids };
 }
 
 /**
@@ -215,35 +211,32 @@ function togglePrettyPrint(sourceId: string) {
       return {};
     }
 
-    assert(isGeneratedId(sourceId),
-           "Pretty-printing only allowed on generated sources");
+    assert(
+      isGeneratedId(sourceId),
+      "Pretty-printing only allowed on generated sources"
+    );
 
     const url = getPrettySourceURL(source.url);
     const id = generatedToOriginalId(source.id, url);
     const originalSource = { url, id, isPrettyPrinted: false };
-    dispatch({
-      type: constants.ADD_SOURCE,
-      source: originalSource
-    });
+    dispatch({ type: constants.ADD_SOURCE, source: originalSource });
 
     return dispatch({
       type: constants.TOGGLE_PRETTY_PRINT,
       source: originalSource,
-      [PROMISE]: (async function() {
+      [PROMISE]: async function() {
         const { code, mappings } = await prettyPrint({
-          source, sourceText, url
+          source,
+          sourceText,
+          url
         });
         await applySourceMap(source.id, url, code, mappings);
 
         const frames = await updateFrameLocations(getFrames(getState()));
         dispatch(selectSource(originalSource.id));
 
-        return {
-          text: code,
-          contentType: "text/javascript",
-          frames
-        };
-      })()
+        return { text: code, contentType: "text/javascript", frames };
+      }()
     });
   };
 }
@@ -264,7 +257,7 @@ function loadSourceText(source: Source) {
     return dispatch({
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
-      [PROMISE]: (async function() {
+      [PROMISE]: async function() {
         if (isOriginalId(source.id)) {
           return await getOriginalSourceText(source);
         }
@@ -274,7 +267,6 @@ function loadSourceText(source: Source) {
           text: response.source,
           contentType: response.contentType || "text/javascript"
         };
-
         // Automatically pretty print if enabled and the test is
         // detected to be "minified"
         // if (Prefs.autoPrettyPrint &&
@@ -282,7 +274,7 @@ function loadSourceText(source: Source) {
         //     SourceUtils.isMinified(source.id, response.source)) {
         //   dispatch(togglePrettyPrint(source));
         // }
-      })()
+      }()
     });
   };
 }
@@ -312,15 +304,17 @@ function getTextForSources(actors: any[]) {
     // everything is considered rejected, thus no other subsequent source will
     // be getting fetched. We don't want that. Something like Q's allSettled
     // would work like a charm here.
-
     // Try to fetch as many sources as possible.
     for (let actor of actors) {
       let source = getSource(getState(), actor);
-      dispatch(loadSourceText(source)).then(({ text, contentType }) => {
-        onFetch([source, text, contentType]);
-      }, err => {
-        onError(source, err);
-      });
+      dispatch(loadSourceText(source)).then(
+        ({ text, contentType }) => {
+          onFetch([ source, text, contentType ]);
+        },
+        err => {
+          onError(source, err);
+        }
+      );
     }
 
     setTimeout(onTimeout, FETCH_SOURCE_RESPONSE_DELAY);
@@ -332,18 +326,18 @@ function getTextForSources(actors: any[]) {
     }
 
     /* Called if fetching a source finishes successfully. */
-    function onFetch([aSource, aText, aContentType]: FetchedSourceType) {
+    function onFetch([ aSource, aText, aContentType ]: FetchedSourceType) {
       // If fetching the source has previously timed out, discard it this time.
       if (!pending.has(aSource.actor)) {
         return;
       }
       pending.delete(aSource.actor);
-      fetched.push([aSource.actor, aText, aContentType]);
+      fetched.push([ aSource.actor, aText, aContentType ]);
       maybeFinish();
     }
 
     /* Called if fetching a source failed because of an error. */
-    function onError([aSource, aError]) {
+    function onError([ aSource, aError ]) {
       pending.delete(aSource.actor);
       maybeFinish();
     }
@@ -356,7 +350,7 @@ function getTextForSources(actors: any[]) {
         // Sort the fetched sources alphabetically by their url.
         if (deferred) {
           deferred.resolve(
-            fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1)
+            fetched.sort(([ aFirst ], [ aSecond ]) => aFirst > aSecond ? -1 : 1)
           );
         }
       }

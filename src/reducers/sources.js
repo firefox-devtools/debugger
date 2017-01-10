@@ -13,95 +13,90 @@ const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
 const { getPrettySourceURL } = require("../utils/source");
 
-import type { Source, Location } from "../types";
-import type { Action } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
+import type {Source, Location} from "../types";
+import type {Action} from "../actions/types";
+import type {Record} from "../utils/makeRecord";
 
 export type SourcesState = {
   sources: I.Map<string, any>,
-  selectedLocation?: {
-    sourceId: string,
-    line?: number,
-    column?: number
-  },
-  pendingSelectedLocation?: {
-    url: string,
-    line?: number,
-    column?: number
-  },
+  selectedLocation?: { sourceId: string, line?: number, column?: number },
+  pendingSelectedLocation?: { url: string, line?: number, column?: number },
   selectedLocation?: Location,
   sourcesText: I.Map<string, any>,
   tabs: I.List<any>
 };
 
-const State = makeRecord(({
-  sources: I.Map(),
-  selectedLocation: undefined,
-  pendingSelectedLocation: undefined,
-  sourcesText: I.Map(),
-  tabs: I.List([])
-} : SourcesState));
+const State = makeRecord(
+  ({
+    sources: I.Map(),
+    selectedLocation: undefined,
+    pendingSelectedLocation: undefined,
+    sourcesText: I.Map(),
+    tabs: I.List([])
+  }: SourcesState)
+);
 
-function update(state = State(), action: Action) : Record<SourcesState> {
+function update(state = State(), action: Action): Record<SourcesState> {
   let availableTabs = null;
 
   switch (action.type) {
-    case "ADD_SOURCE": {
+  case "ADD_SOURCE": {
       const source: Source = action.source;
-      return state.mergeIn(["sources", action.source.id], source);
+      return state.mergeIn([ "sources", action.source.id ], source);
     }
 
-    case "SELECT_SOURCE":
-      return state
-        .set("selectedLocation", {
-          sourceId: action.source.id,
-          line: action.line
-        })
-        .set("pendingSelectedLocation", null)
-        .merge({
-          tabs: updateTabList(state, fromJS(action.source), action.tabIndex)
-        });
-
-    case "SELECT_SOURCE_URL":
-      return state.set("pendingSelectedLocation", {
-        url: action.url,
+  case "SELECT_SOURCE":
+    return state
+      .set("selectedLocation", {
+        sourceId: action.source.id,
         line: action.line
+      })
+      .set("pendingSelectedLocation", null)
+      .merge({
+        tabs: updateTabList(state, fromJS(action.source), action.tabIndex)
       });
 
-    case "CLOSE_TAB":
-      availableTabs = removeSourceFromTabList(state.tabs, action.id);
-      return state.merge({ tabs: availableTabs })
-        .set("selectedLocation", {
-          sourceId: getNewSelectedSourceId(state, availableTabs)
-        });
+  case "SELECT_SOURCE_URL":
+    return state.set("pendingSelectedLocation", {
+      url: action.url,
+      line: action.line
+    });
 
-    case "CLOSE_TABS":
-      availableTabs = removeSourcesFromTabList(state.tabs, action.ids);
-      return state.merge({ tabs: availableTabs })
-        .set("selectedLocation", {
-          sourceId: getNewSelectedSourceId(state, availableTabs)
-        });
+  case "CLOSE_TAB":
+    availableTabs = removeSourceFromTabList(state.tabs, action.id);
+    return state
+      .merge({ tabs: availableTabs })
+      .set("selectedLocation", {
+        sourceId: getNewSelectedSourceId(state, availableTabs)
+      });
 
-    case "LOAD_SOURCE_TEXT":
-      return _updateText(state, action);
+  case "CLOSE_TABS":
+    availableTabs = removeSourcesFromTabList(state.tabs, action.ids);
+    return state
+      .merge({ tabs: availableTabs })
+      .set("selectedLocation", {
+        sourceId: getNewSelectedSourceId(state, availableTabs)
+      });
 
-    case "BLACKBOX":
-      if (action.status === "done") {
-        return state.setIn(
-          ["sources", action.source.id, "isBlackBoxed"],
-          action.value.isBlackBoxed
-        );
-      }
-      break;
+  case "LOAD_SOURCE_TEXT":
+    return _updateText(state, action);
 
-    case "TOGGLE_PRETTY_PRINT":
-      return _updateText(state, action);
+  case "BLACKBOX":
+    if (action.status === "done") {
+      return state.setIn(
+        [ "sources", action.source.id, "isBlackBoxed" ],
+        action.value.isBlackBoxed
+      );
+    }
+    break;
 
-    case "NAVIGATE":
-      const source = getSelectedSource({ sources: state });
-      const url = source && source.get("url");
-      return State()
-        .set("pendingSelectedLocation", { url });
+  case "TOGGLE_PRETTY_PRINT":
+    return _updateText(state, action);
+
+  case "NAVIGATE":
+    const source = getSelectedSource({ sources: state });
+    const url = source && source.get("url");
+    return State().set("pendingSelectedLocation", { url });
   }
 
   return state;
@@ -111,7 +106,7 @@ function update(state = State(), action: Action) : Record<SourcesState> {
 // asynchronous actions is wrong. The `value` may be null for the
 // "start" and "error" states but we don't type it like that. We need
 // to rethink how we type async actions.
-function _updateText(state, action : any) : Record<SourcesState> {
+function _updateText(state, action: any): Record<SourcesState> {
   const source = action.source;
   const sourceText = action.value;
 
@@ -119,21 +114,20 @@ function _updateText(state, action : any) : Record<SourcesState> {
     // Merge this in, don't set it. That way the previous value is
     // still stored here, and we can retrieve it if whatever we're
     // doing fails.
-    return state.mergeIn(["sourcesText", source.id], {
-      loading: true
-    });
+    return state.mergeIn([ "sourcesText", source.id ], { loading: true });
   }
 
   if (action.status === "error") {
-    return state.setIn(["sourcesText", source.id], I.Map({
-      error: action.error
-    }));
+    return state.setIn(
+      [ "sourcesText", source.id ],
+      I.Map({ error: action.error })
+    );
   }
 
-  return state.setIn(["sourcesText", source.id], I.Map({
-    text: sourceText.text,
-    contentType: sourceText.contentType
-  }));
+  return state.setIn(
+    [ "sourcesText", source.id ],
+    I.Map({ text: sourceText.text, contentType: sourceText.contentType })
+  );
 }
 
 function removeSourceFromTabList(tabs, id) {
@@ -152,13 +146,11 @@ function removeSourcesFromTabList(tabs, ids) {
 function updateTabList(state, source, tabIndex) {
   const tabs = state.get("tabs");
   const sourceIndex = tabs.indexOf(source);
-  const includesSource = !!tabs.find((t) => t.get("id") == source.get("id"));
+  const includesSource = !!tabs.find(t => t.get("id") == source.get("id"));
 
   if (includesSource) {
     if (tabIndex != undefined) {
-      return tabs
-        .delete(sourceIndex)
-        .insert(tabIndex, source);
+      return tabs.delete(sourceIndex).insert(tabIndex, source);
     }
 
     return tabs;
@@ -176,7 +168,7 @@ function updateTabList(state, source, tabIndex) {
  * @memberof reducers/sources
  * @static
  */
-function getNewSelectedSourceId(state: SourcesState, availableTabs) : string {
+function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
   if (!state.selectedLocation) {
     return "";
   }
@@ -197,7 +189,6 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs) : string {
 }
 
 // Selectors
-
 // Unfortunately, it's really hard to make these functions accept just
 // the state that we care about and still type it with Flow. The
 // problem is that we want to re-export all selectors from a single

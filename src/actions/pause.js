@@ -6,8 +6,8 @@ const { PROMISE } = require("../utils/redux/middleware/promise");
 const { getExpressions, getSelectedFrame, getPause } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
 
-import type { Pause, Frame, Expression, Grip } from "../types";
-import type { ThunkArgs } from "./types";
+import type {Pause, Frame, Expression, Grip} from "../types";
+import type {ThunkArgs} from "./types";
 
 type CommandType = { type: string };
 type frameIdType = string | null;
@@ -20,7 +20,6 @@ function expressionExists(expressions, expression) {
  * Redux actions for the pause state
  * @module actions/pause
  */
-
 /**
  * Debugger has just resumed
  *
@@ -31,10 +30,7 @@ function resumed() {
   return ({ dispatch, client }: ThunkArgs) => {
     dispatch(evaluateExpressions(null));
 
-    return dispatch({
-      type: constants.RESUME,
-      value: undefined
-    });
+    return dispatch({ type: constants.RESUME, value: undefined });
   };
 }
 
@@ -60,8 +56,9 @@ function paused(pauseInfo: Pause) {
 
     dispatch(evaluateExpressions(frame.id));
 
-    dispatch(selectSource(frame.location.sourceId,
-                          { line: frame.location.line }));
+    dispatch(
+      selectSource(frame.location.sourceId, { line: frame.location.line })
+    );
   };
 }
 
@@ -71,7 +68,9 @@ function paused(pauseInfo: Pause) {
  * @static
  */
 function pauseOnExceptions(
-  shouldPauseOnExceptions: boolean, shouldIgnoreCaughtExceptions: boolean) {
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean
+) {
   return ({ dispatch, client }: ThunkArgs) => {
     dispatch({
       type: constants.PAUSE_ON_EXCEPTIONS,
@@ -97,10 +96,7 @@ function command({ type }: CommandType) {
     // execute debugger thread command e.g. stepIn, stepOver
     client[type]();
 
-    return dispatch({
-      type: constants.COMMAND,
-      value: undefined
-    });
+    return dispatch({ type: constants.COMMAND, value: undefined });
   };
 }
 
@@ -172,10 +168,7 @@ function breakOnNext() {
   return ({ dispatch, client }: ThunkArgs) => {
     client.breakOnNext();
 
-    return dispatch({
-      type: constants.BREAK_ON_NEXT,
-      value: true
-    });
+    return dispatch({ type: constants.BREAK_ON_NEXT, value: true });
   };
 }
 
@@ -189,12 +182,10 @@ function breakOnNext() {
 function selectFrame(frame: Frame) {
   return ({ dispatch }: ThunkArgs) => {
     dispatch(evaluateExpressions(frame.id));
-    dispatch(selectSource(frame.location.sourceId,
-                          { line: frame.location.line }));
-    dispatch({
-      type: constants.SELECT_FRAME,
-      frame
-    });
+    dispatch(
+      selectSource(frame.location.sourceId, { line: frame.location.line })
+    );
+    dispatch({ type: constants.SELECT_FRAME, frame });
   };
 }
 
@@ -271,10 +262,7 @@ function updateExpression(expression: Expression) {
  */
 function deleteExpression(expression: Expression) {
   return ({ dispatch }: ThunkArgs) => {
-    dispatch({
-      type: constants.DELETE_EXPRESSION,
-      id: expression.id
-    });
+    dispatch({ type: constants.DELETE_EXPRESSION, id: expression.id });
   };
 }
 

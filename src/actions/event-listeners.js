@@ -55,35 +55,33 @@ function fetchEventListeners() {
     }
 
     fetchListenersTimerID = setTimeout(
-        () => {
-          // In case there is still a request of listeners going on (it
-          // takes several RDP round trips right now), make sure we wait
-          // on a currently running request
-          if (getState().eventListeners.fetchingListeners) {
-            dispatch({
-              type: services.WAIT_UNTIL,
-              predicate: action => (
-                action.type === constants.FETCH_EVENT_LISTENERS &&
-                action.status === "done"
-              ),
-              run: dispatch => dispatch(fetchEventListeners())
-            });
-            return;
-          }
+      () => {
+        // In case there is still a request of listeners going on (it
+        // takes several RDP round trips right now), make sure we wait
+        // on a currently running request
+        if (getState().eventListeners.fetchingListeners) {
+          dispatch({
+            type: services.WAIT_UNTIL,
+            predicate: action => action.type ===
+              constants.FETCH_EVENT_LISTENERS &&
+              action.status === "done",
+            run: dispatch => dispatch(fetchEventListeners())
+          });
+          return;
+        }
 
+        dispatch({ type: constants.FETCH_EVENT_LISTENERS, status: "begin" });
+
+        asPaused(getState(), client, _getEventListeners).then(listeners => {
           dispatch({
             type: constants.FETCH_EVENT_LISTENERS,
-            status: "begin"
+            status: "done",
+            listeners: formatListeners(getState(), listeners)
           });
-
-          asPaused(getState(), client, _getEventListeners).then(listeners => {
-            dispatch({
-              type: constants.FETCH_EVENT_LISTENERS,
-              status: "done",
-              listeners: formatListeners(getState(), listeners)
-            });
-          });
-        }, FETCH_EVENT_LISTENERS_DELAY);
+        });
+      },
+      FETCH_EVENT_LISTENERS_DELAY
+    );
   };
 }
 

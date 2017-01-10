@@ -28,12 +28,10 @@ require("./ObjectInspector.css");
 //    roots: [{ name: ... }, ...],
 //    ...
 //  });
-
 // There are 3 types of nodes: a simple node with a children array, an
 // object that has properties that should be children when they are
 // fetched, and a primitive value that should be displayed with no
 // children.
-
 function nodeHasChildren(item) {
   return Array.isArray(item.contents);
 }
@@ -58,21 +56,23 @@ function nodeIsPrimitive(item) {
 function makeNodesForProperties(objProps, parentPath) {
   const { ownProperties, prototype } = objProps;
 
-  const nodes = Object.keys(ownProperties).sort().filter(name => {
-    // Ignore non-concrete values like getters and setters
-    // for now by making sure we have a value.
-    return "value" in ownProperties[name];
-  }).map(name => {
-    return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
-  });
+  const nodes = Object
+    .keys(ownProperties)
+    .sort()
+    .filter(name => {
+      // Ignore non-concrete values like getters and setters
+      // for now by making sure we have a value.
+      return "value" in ownProperties[name];
+    })
+    .map(name => {
+      return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
+    });
 
   // Add the prototype if it exists and is not null
   if (prototype && prototype.type !== "null") {
-    nodes.push(createNode(
-      "__proto__",
-      `${parentPath}/__proto__`,
-      { value: prototype }
-    ));
+    nodes.push(
+      createNode("__proto__", `${parentPath}/__proto__`, { value: prototype })
+    );
   }
 
   return nodes;
@@ -97,9 +97,7 @@ const ObjectInspector = React.createClass({
     loadObjectProperties: PropTypes.func.isRequired,
     onLabelClick: PropTypes.func
   },
-
   displayName: "ObjectInspector",
-
   getInitialState() {
     // Cache of dynamically built nodes. We shouldn't need to clear
     // this out ever, since we don't ever "switch out" the object
@@ -107,14 +105,9 @@ const ObjectInspector = React.createClass({
     this.actorCache = {};
     return {};
   },
-
   getDefaultProps() {
-    return {
-      onLabelClick: () => {},
-      autoExpandDepth: 1
-    };
+    return { onLabelClick: () => {}, autoExpandDepth: 1 };
   },
-
   getChildren(item) {
     const { getObjectProperties } = this.props;
     const obj = item.contents;
@@ -152,7 +145,6 @@ const ObjectInspector = React.createClass({
 
     return [];
   },
-
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     let objectValue;
     if (nodeIsOptimizedOut(item)) {
@@ -166,12 +158,10 @@ const ObjectInspector = React.createClass({
 
     return dom.div(
       {
-        className: classnames("node object-node",
-          {
-            focused,
-            "not-enumerable": (!item.contents.enumerable &&
-                               !nodeHasChildren(item))
-          }),
+        className: classnames("node object-node", {
+          focused,
+          "not-enumerable": !item.contents.enumerable && !nodeHasChildren(item)
+        }),
         style: { marginLeft: depth * 15 },
         onClick: e => {
           e.stopPropagation();
@@ -194,19 +184,16 @@ const ObjectInspector = React.createClass({
         },
         item.name
       ),
-      dom.span({ className: "object-delimiter" },
-               objectValue ? ": " : ""),
+      dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
       dom.span({ className: "object-value" }, objectValue || "")
     );
   },
-
   render() {
-    const { name, desc, loadObjectProperties,
-            autoExpandDepth } = this.props;
+    const { name, desc, loadObjectProperties, autoExpandDepth } = this.props;
 
     let roots = this.props.roots;
     if (!roots) {
-      roots = [createNode(name, name, desc)];
+      roots = [ createNode(name, name, desc) ];
     }
 
     return ManagedTree({
@@ -224,7 +211,6 @@ const ObjectInspector = React.createClass({
           loadObjectProperties(item.contents.value);
         }
       },
-
       renderItem: this.renderItem
     });
   }

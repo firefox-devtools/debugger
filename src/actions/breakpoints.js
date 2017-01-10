@@ -12,17 +12,14 @@ const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const { getBreakpoint, getBreakpoints, getSource } = require("../selectors");
 
-const {
-  getOriginalLocation, getGeneratedLocation, isOriginalId
-} = require("../utils/source-map");
+const { getOriginalLocation, getGeneratedLocation, isOriginalId } = require(
+  "../utils/source-map"
+);
 
-import type { ThunkArgs } from "./types";
-import type { Location } from "../types";
+import type {ThunkArgs} from "./types";
+import type {Location} from "../types";
 
-type addBreakpointOptions = {
-  condition: string,
-  getTextForLine: () => any,
-};
+type addBreakpointOptions = { condition: string, getTextForLine(): any };
 
 function _breakpointExists(state, location: Location) {
   const currentBp = getBreakpoint(state, location);
@@ -54,7 +51,8 @@ function enableBreakpoint(location: Location) {
  */
 function addBreakpoint(
   location: Location,
-  { condition, getTextForLine } : addBreakpointOptions = {}) {
+  { condition, getTextForLine }: addBreakpointOptions = {}
+) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
       return Promise.resolve();
@@ -66,7 +64,7 @@ function addBreakpoint(
       type: constants.ADD_BREAKPOINT,
       breakpoint: bp,
       condition: condition,
-      [PROMISE]: (async function() {
+      [PROMISE]: async function() {
         if (isOriginalId(bp.location.sourceId)) {
           const source = getSource(getState(), bp.location.sourceId);
           location = await getGeneratedLocation(bp.location, source.toJS());
@@ -88,7 +86,7 @@ function addBreakpoint(
         }
 
         return { id, actualLocation, text, hitCount };
-      })()
+      }()
     });
   };
 }
@@ -136,9 +134,9 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
     // simulating a successful server request to remove it, and it
     // will be removed completely from the state.
     if (!bp.disabled) {
-      return dispatch(Object.assign({}, action, {
-        [PROMISE]: client.removeBreakpoint(bp.id)
-      }));
+      return dispatch(
+        Object.assign({}, action, { [PROMISE]: client.removeBreakpoint(bp.id) })
+      );
     }
     return dispatch(Object.assign({}, action, { status: "done" }));
   };
@@ -156,15 +154,15 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
     return dispatch({
       type: constants.TOGGLE_BREAKPOINTS,
       shouldDisableBreakpoints,
-      [PROMISE]: (async function() {
-        for (let [, breakpoint] of breakpoints) {
+      [PROMISE]: async function() {
+        for (let [ , breakpoint ] of breakpoints) {
           if (shouldDisableBreakpoints) {
             await dispatch(disableBreakpoint(breakpoint.location));
           } else {
             await dispatch(enableBreakpoint(breakpoint.location));
           }
         }
-      })()
+      }()
     });
   };
 }
@@ -182,7 +180,8 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
  */
 function setBreakpointCondition(
   location: Location,
-  { condition, getTextForLine } : addBreakpointOptions = {}) {
+  { condition, getTextForLine }: addBreakpointOptions = {}
+) {
   // location: Location, condition: string, { getTextForLine }) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
