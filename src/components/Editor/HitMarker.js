@@ -9,13 +9,13 @@ function makeMarker() {
   return marker;
 }
 
-const EditorHitMarker = React.createClass({
+const HitMarker = React.createClass({
   propTypes: {
     hitData: PropTypes.object,
     editor: PropTypes.object
   },
 
-  displayName: "EditorHitMarker",
+  displayName: "HitMarker",
 
   addMarker() {
     const hitData = this.props.hitData;
@@ -64,4 +64,4 @@ const EditorHitMarker = React.createClass({
   }
 });
 
-module.exports = EditorHitMarker;
+module.exports = HitMarker;

@@ -21,7 +21,7 @@ const {
 const { makeLocationId } = require("../reducers/breakpoints");
 const actions = require("../actions");
 const Breakpoint = React.createFactory(require("./Editor/Breakpoint"));
-const HitMarker = React.createFactory(require("./EditorHitMarker"));
+const HitMarker = React.createFactory(require("./Editor/HitMarker"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");
 const { shouldShowFooter } = require("../utils/editor");
