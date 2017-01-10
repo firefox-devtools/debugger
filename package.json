@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "codemirror": "^5.1.0",
-    "devtools-launchpad": "^0.0.21",
+    "devtools-launchpad": "0.0.22",
     "devtools-reps": "^0.0.2",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.12.0",

@@ -7,7 +7,7 @@ const projectPath = path.join(__dirname, "src");
 function buildConfig(envConfig) {
   const webpackConfig = {
     entry: {
-      bundle: [path.join(projectPath, "main.js")],
+      debugger: [path.join(projectPath, "main.js")],
       "source-map-worker": path.join(projectPath, "utils/source-map-worker.js"),
       "pretty-print-worker":
               path.join(projectPath, "utils/pretty-print-worker.js"),

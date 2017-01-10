@@ -9,7 +9,7 @@ const envConfig = getConfig();
 feature.setConfig(envConfig);
 
 const webpackConfig = require("../webpack.config");
-let { app } = toolbox.startDevServer(envConfig, webpackConfig);
+let { app } = toolbox.startDevServer(envConfig, webpackConfig, __dirname);
 
 app.get("/integration", function(req, res) {
   res.sendFile(path.join(__dirname, "../src/test/integration/index.html"));
