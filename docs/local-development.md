@@ -1,6 +1,8 @@
 ## Local Development
 
 * [Configs](#configs)
+   * [Enabling a Feature Flag](#enabling-a-feature-flag)
+   * [Updating the config locally](#updating-the-config-locally)
 * [Hot Reloading](#hot-reloading)
 * [Themes](#themes)
 * [Internationalization](#internationalization)
@@ -31,19 +33,17 @@ Here are the most common development configuration options:
 
 For a list of all the configuration options see the [packages/devtools-config/README.md](https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md)
 
-#### Creating a Local Config
+#### Updating the config locally
 
 You can create a `configs/local.json` file to override development configs. This is great for enabling features locally or changing the theme.
 
 * Copy the `local-sample` to get started.
 
 ```bash
-cp configs/local-sample.json configs/local-sample.json
+cp configs/local-sample.json configs/local.json
 ```
 
 * Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
-
-#### Updating your Config
 
 You can quickly change your local config `configs/local.json`.
 
