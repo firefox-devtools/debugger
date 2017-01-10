@@ -17,7 +17,8 @@ function buildConfig(envConfig) {
     output: {
       path: path.join(__dirname, "assets/build"),
       filename: "[name].js",
-      publicPath: "/assets/build"
+      publicPath: "/assets/build",
+      library: "Debugger"
     },
 
     resolve: {
