@@ -292,9 +292,9 @@ const Editor = React.createClass({
     // happening ever again (in case CodeMirror re-applies the
     // class, etc).
     if (this.lastJumpLine) {
-      codeMirror.removeLineClass(
-        this.lastJumpLine - 1, "line", "highlight-line"
-      );
+      Array(codeMirror.lineCount()).fill().forEach((v, i) => {
+        codeMirror.removeLineClass(i, "line", "highlight-line");
+      });
     }
 
     const line = this.pendingJumpLine;
