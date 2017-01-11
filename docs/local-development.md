@@ -18,6 +18,7 @@
 * [Linting](#linting)
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
+* [FAQ](#FAQ)
 
 ### Configs
 
@@ -408,3 +409,13 @@ $ yarn run lint-fix
 
 [bidirection]: https://github.com/gasolin/postcss-bidirection
 [logical]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties
+
+### FAQ
+
+#### Why not JSX
+
+The reason is largely historical. Devtools historically has been developed inside the browser [1](https://dxr.mozilla.org/mozilla-central/source/devtools/client/debugger/debugger-view.js). The advantage of this approach is devtools could be written with ES6 and modules without a build step.
+
+When we started the Debugger, we were not sure if we would keep webpack and the website workflow and did not want to re-write the JSX to raw JS.
+
+Now that we *have* decided that working in github with webpack has a lot of benefits we could switch to JSX. We would be open to switching if someone could help us do it.
