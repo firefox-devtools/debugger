@@ -102,40 +102,9 @@ function update(state = State(), action: Action): Record<PauseState> {
         shouldPauseOnExceptions,
         shouldIgnoreCaughtExceptions
       });
-
-    case constants.ADD_EXPRESSION:
-      return state.setIn(["expressions", action.id],
-        { id: action.id,
-          input: action.input,
-          value: action.value,
-          updating: false });
-
-    case constants.EVALUATE_EXPRESSION:
-      if (action.status === "done") {
-        return state.mergeIn(["expressions", action.id],
-          { id: action.id,
-            input: action.input,
-            value: action.value,
-            updating: false });
-      }
-      break;
-
-    case constants.UPDATE_EXPRESSION:
-      return state.mergeIn(["expressions", action.id],
-        { id: action.id,
-          input: action.input,
-          updating: true });
-
-    case constants.DELETE_EXPRESSION:
-      return deleteExpression(state, action.id);
   }
 
   return state;
-}
-
-function deleteExpression(state, id) {
-  const index = getExpressions({ pause: state }).findKey(e => e.id == id);
-  return state.deleteIn(["expressions", index]);
 }
 
 // Selectors
@@ -155,10 +124,6 @@ function getPause(state: OuterState) {
 
 function getLoadedObjects(state: OuterState) {
   return state.pause.get("loadedObjects");
-}
-
-function getExpressions(state: OuterState) {
-  return state.pause.get("expressions");
 }
 
 function getIsWaitingOnBreak(state: OuterState) {
@@ -195,7 +160,6 @@ module.exports = {
   getPause,
   getChromeScopes,
   getLoadedObjects,
-  getExpressions,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,

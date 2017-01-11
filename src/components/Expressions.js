@@ -26,8 +26,15 @@ function getValue(expression) {
     };
   }
 
+  if (typeof value.result == "object") {
+    return {
+      path: value.result.actor,
+      value: value.result
+    };
+  }
+
   return {
-    path: value.result.actor,
+    path: value.input,
     value: value.result
   };
 }
@@ -146,7 +153,8 @@ const Expressions = React.createClass({
 });
 
 module.exports = connect(
-  state => ({ pauseInfo: getPause(state),
+  state => ({
+    pauseInfo: getPause(state),
     expressions: getExpressions(state),
     loadedObjects: getLoadedObjects(state)
   }),
