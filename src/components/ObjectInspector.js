@@ -3,6 +3,8 @@ const classnames = require("classnames");
 const ManagedTree = React.createFactory(require("./utils/ManagedTree"));
 const Svg = require("./utils/Svg");
 const Rep = require("./Rep");
+const { MODE } = require("devtools-reps");
+
 const { DOM: dom, PropTypes } = React;
 
 require("./ObjectInspector.css");
@@ -161,7 +163,7 @@ const ObjectInspector = React.createClass({
       objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
     } else if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
       const object = item.contents.value;
-      objectValue = Rep({ object, mode: "tiny" });
+      objectValue = Rep({ object, mode: MODE.TINY });
     }
 
     return dom.div(
