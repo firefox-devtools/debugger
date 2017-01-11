@@ -11,6 +11,7 @@ const { DOM: dom, PropTypes } = React;
 const { endTruncateStr } = require("../utils/utils");
 const { basename } = require("../utils/path");
 const CloseButton = require("./CloseButton");
+const CommandBar = React.createFactory(require("./CommandBar"));
 
 require("./Breakpoints.css");
 
@@ -115,6 +116,7 @@ const Breakpoints = React.createClass({
     const { breakpoints } = this.props;
     return dom.div(
       { className: "pane breakpoints-list" },
+      CommandBar(),
       (breakpoints.size === 0 ?
        dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none")) :
        breakpoints.valueSeq().map(bp => {

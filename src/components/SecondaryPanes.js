@@ -24,7 +24,6 @@ const Scopes = isEnabled("chromeScopes")
 const Frames = React.createFactory(require("./Frames"));
 const EventListeners = React.createFactory(require("./EventListeners"));
 const Accordion = React.createFactory(require("./Accordion"));
-const CommandBar = React.createFactory(require("./CommandBar"));
 require("./SecondaryPanes.css");
 
 function debugBtn(onClick, type, className, tooltip) {
@@ -163,7 +162,6 @@ const SecondaryPanes = React.createClass({
     return dom.div(
       { className: "secondary-panes",
         style: { overflowX: "hidden" }},
-      CommandBar(),
       WhyPaused(),
       this.props.horizontal ?
         this.renderHorizontalLayout() : this.renderVerticalLayout()
