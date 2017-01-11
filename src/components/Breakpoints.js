@@ -117,11 +117,7 @@ const Breakpoints = React.createClass({
     return dom.div(
       { className: "pane breakpoints-list" },
       CommandBar(),
-      (breakpoints.size === 0 ?
-       dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none")) :
-       breakpoints.valueSeq().map(bp => {
-         return this.renderBreakpoint(bp);
-       }))
+      breakpoints.valueSeq().map(this.renderBreakpoint)
     );
   }
 });
