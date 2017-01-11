@@ -414,7 +414,9 @@ const Editor = React.createClass({
       value: " ",
       extraKeys: {
         // Override code mirror keymap to avoid conflicts with split console.
-        Esc: false
+        Esc: false,
+        "Cmd-F": false,
+        "Cmd-G": false
       }
     });
 
