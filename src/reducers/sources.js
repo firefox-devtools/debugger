@@ -151,7 +151,7 @@ function _updateText(state, action : any) : Record<SourcesState> {
 
 function removeSourceFromTabList(tabs, url) {
   const newTabs = tabs.filter(tab => tab != url);
-  prefs.tabs = JSON.stringify(newTabs);
+  prefs.tabs = newTabs;
   return newTabs;
 }
 
@@ -160,12 +160,12 @@ function removeSourcesFromTabList(tabs, urls) {
 }
 
 function restoreTabs() {
-  let prefsTabs = prefs.tabs;
+  let prefsTabs = prefs.tabs || [];
   if (Object.keys(prefsTabs).length == 0) {
     return;
   }
 
-  return JSON.parse(prefsTabs);
+  return prefsTabs;
 }
 
 /**
@@ -189,7 +189,7 @@ function updateTabList(
     tabs = tabs.insert(0, url);
   }
 
-  prefs.tabs = JSON.stringify(tabs);
+  prefs.tabs = tabs.toJS();
   return tabs;
 }
 
