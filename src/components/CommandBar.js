@@ -199,7 +199,7 @@ const CommandBar = React.createClass({
       dom.div(
         { className: "command-bar" },
         this.renderPauseButton(),
-        this.renderStepButtons(),
+        this.props.pause ? this.renderStepButtons() : null,
         this.renderPauseOnExceptions()
       )
     );
