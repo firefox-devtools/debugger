@@ -490,7 +490,7 @@ const Editor = React.createClass({
     this.editor.destroy();
     this.editor = null;
 
-    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    const searchAgainKey = L10N.getStr("sourceSearch.search.next.key");
     const shortcuts = this.context.shortcuts;
     shortcuts.off("CmdOrCtrl+B");
     shortcuts.off("CmdOrCtrl+Shift+B");
