@@ -59,6 +59,7 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       };
       prefs.pendingSelectedLocation = location;
 
+      const sourceUrl = action.source.url || "";
       return state
         .set("selectedLocation", {
           sourceId: action.source.id,
@@ -66,7 +67,7 @@ function update(state = State(), action: Action) : Record<SourcesState> {
         })
         .set("pendingSelectedLocation", location)
         .merge({
-          tabs: updateTabList(state, action.source.url, action.tabIndex)
+          tabs: updateTabList({ sources: state }, sourceUrl, action.tabIndex)
         });
 
     case "SELECT_SOURCE_URL":
@@ -174,8 +175,9 @@ function restoreTabs() {
  * @static
  */
 function updateTabList(
-  state: OuterState, url: string, tabIndex: number) {
-  let tabs = state.get("tabs");
+  state: OuterState, url: string, tabIndex?: number) {
+  let tabs = state.sources.get("tabs");
+
   const urlIndex = tabs.indexOf(url);
   const includesUrl = !!tabs.find(tab => tab == url);
 
@@ -203,28 +205,46 @@ function updateTabList(
  * @static
  */
 function getNewSelectedSourceId(state: SourcesState, availableTabs) : string {
-  if (!state.selectedLocation) {
+  const selectedLocation = state.selectedLocation;
+  if (!selectedLocation) {
     return "";
   }
 
-  const selectedTabUrl = state.sources.find(source =>
-    source.get("id") == state.selectedLocation.sourceId).get("url");
-  const tabUrls = state.tabs.toJS();
+  const selectedTab = state.sources.find(
+    source => source.get("id") == selectedLocation.sourceId
+  );
+
+  const selectedTabUrl = selectedTab ? selectedTab.get("url") : "";
 
   if (availableTabs.includes(selectedTabUrl)) {
-    return state.sources.find(source =>
-      source.get("url") == selectedTabUrl).get("id");
+    const sources = state.sources;
+    if (!sources) {
+      return "";
+    }
+
+    const selectedSource = sources.find(
+      source => source.get("url") == selectedTabUrl
+    );
+
+    if (selectedSource) {
+      return selectedSource.get("id");
+    }
+
+    return "";
   }
 
+  const tabUrls = state.tabs.toJS();
   const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTabUrl) - 1, 0);
   const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
-  let tabId = state.sources.find(source =>
+  let tabSource = state.sources.find(source =>
     source.get("url") == availableTabs.toJS()[newSelectedTabIndex]);
-  if (tabId) {
-    tabId = tabId.get("id");
+
+  if (tabSource) {
+    return tabSource.get("id");
   }
-  return tabId;
+
+  return "";
 }
 
 // Selectors
@@ -269,11 +289,14 @@ function getSourceTabs(state: OuterState) {
 }
 
 function getSelectedSource(state: OuterState) {
-  if (state.sources.selectedLocation) {
-    return state.sources.sources.find(source =>
-      source.get("id") == state.sources.selectedLocation.sourceId);
+  const selectedLocation = state.sources.selectedLocation;
+  if (!selectedLocation) {
+    return;
   }
-  return undefined;
+
+  return state.sources.sources.find(source =>
+    source.get("id") == selectedLocation.sourceId
+  );
 }
 
 function getSelectedLocation(state: OuterState) {

@@ -188,9 +188,12 @@ function closeTab(url: string) {
  */
 function closeTabs(urls: string[]) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
-    urls.forEach(url => removeDocument(
-      getSourceByURL(getState(), url).get("id")
-    ));
+    urls.forEach(url => {
+      const source = getSourceByURL(getState(), url);
+      if (source) {
+        removeDocument(source.get("id"));
+      }
+    });
 
     dispatch({
       type: constants.CLOSE_TABS,
