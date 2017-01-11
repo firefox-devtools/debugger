@@ -4,7 +4,13 @@ const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
 const actions = require("../actions");
-const { getSource, getPause, getBreakpoints } = require("../selectors");
+const {
+  getSource,
+  getPause,
+  getBreakpoints,
+  getShouldPauseOnExceptions,
+  getShouldIgnoreCaughtExceptions,
+} = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
@@ -45,7 +51,10 @@ const Breakpoints = React.createClass({
     enableBreakpoint: PropTypes.func.isRequired,
     disableBreakpoint: PropTypes.func.isRequired,
     selectSource: PropTypes.func.isRequired,
-    removeBreakpoint: PropTypes.func.isRequired
+    removeBreakpoint: PropTypes.func.isRequired,
+    pauseOnExceptions: PropTypes.func.isRequired,
+    exceptionPauseModes: PropTypes.array.isRequired,
+    currentExceptionPauseMode: PropTypes.object.isRequired,
   },
 
   displayName: "Breakpoints",
@@ -71,6 +80,38 @@ const Breakpoints = React.createClass({
   removeBreakpoint(event, breakpoint) {
     event.stopPropagation();
     this.props.removeBreakpoint(breakpoint.location);
+  },
+
+  pauseExceptionModeToggled(event) {
+    const { pauseOnExceptions, exceptionPauseModes } = this.props;
+    const targetMode = exceptionPauseModes.filter(
+      item => item.mode === event.target.value
+    )[0];
+
+    pauseOnExceptions(targetMode.shouldPause, targetMode.shouldIgnoreCaught);
+  },
+
+  renderGlobalBreakpoints() {
+    const _createToggle = (fromMode) => {
+      return dom.label({
+        className: "breakpoint",
+        key: fromMode.mode,
+      },
+      dom.input({
+        type: "radio",
+        onChange: this.pauseExceptionModeToggled,
+        value: fromMode.mode,
+        checked: this.props.currentExceptionPauseMode.mode === fromMode.mode,
+      }),
+        dom.div({
+          className: "breakpoint-label"
+        }, fromMode.label)
+      );
+    };
+
+    return dom.div({},
+      this.props.exceptionPauseModes.map(_createToggle),
+    );
   },
 
   renderBreakpoint(breakpoint) {
@@ -117,6 +158,7 @@ const Breakpoints = React.createClass({
     return dom.div(
       { className: "pane breakpoints-list" },
       CommandBar(),
+      this.renderGlobalBreakpoints(),
       breakpoints.valueSeq().map(this.renderBreakpoint)
     );
   }
@@ -137,9 +179,56 @@ function _getBreakpoints(state) {
   .filter(bp => bp.location.source);
 }
 
+/*
+ * The pause on exception feature has three states in this order:
+ *  1. don't pause on exceptions      [false, false]
+ *  2. pause on uncaught exceptions   [true, true]
+ *  3. pause on all exceptions        [true, false]
+ */
+
+function _getModes() {
+  return [
+    {
+      mode: "no-pause",
+      label: "Do not pause on exceptions.",
+      shouldPause: false,
+      shouldIgnoreCaught: false,
+    },
+    {
+      mode: "no-caught",
+      label: "Pause on uncaught exceptions.",
+      shouldPause: true,
+      shouldIgnoreCaught: true,
+    },
+    {
+      mode: "with-caught",
+      label: "Pause on all exceptions",
+      shouldPause: true,
+      shouldIgnoreCaught: false,
+    },
+  ];
+}
+
+function _getPauseExceptionMode(state) {
+  const shouldPause = getShouldPauseOnExceptions(state);
+  const shouldIgnoreCaught = getShouldIgnoreCaughtExceptions(state);
+
+  if (shouldPause) {
+    if (shouldIgnoreCaught) {
+      return _getModes().filter(item => item.mode === "no-caught")[0];
+    }
+
+    return _getModes().filter(item => item.mode === "with-caught")[0];
+  }
+
+  return _getModes().filter(item => item.mode === "no-pause")[0];
+}
+
 module.exports = connect(
   (state, props) => ({
-    breakpoints: _getBreakpoints(state)
+    breakpoints: _getBreakpoints(state),
+    exceptionPauseModes: _getModes(),
+    currentExceptionPauseMode: _getPauseExceptionMode(state),
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);
