@@ -3,7 +3,7 @@ const { DOM: dom, PropTypes } = React;
 const { filter } = require("fuzzaldrin-plus");
 const classnames = require("classnames");
 const Svg = require("./Svg");
-const CloseButton = require("../shared/Button/Close");
+const CloseButton = require("./Button/Close");
 
 require("./Autocomplete.css");
 
