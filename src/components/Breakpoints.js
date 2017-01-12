@@ -10,6 +10,7 @@ const {
   getBreakpoints,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
+  getIsWaitingOnBreak,
 } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const { truncateStr } = require("../utils/utils");
@@ -17,7 +18,6 @@ const { DOM: dom, PropTypes } = React;
 const { endTruncateStr } = require("../utils/utils");
 const { basename } = require("../utils/path");
 const CloseButton = require("./CloseButton");
-const CommandBar = React.createFactory(require("./CommandBar"));
 
 require("./Breakpoints.css");
 
@@ -55,6 +55,8 @@ const Breakpoints = React.createClass({
     pauseOnExceptions: PropTypes.func.isRequired,
     exceptionPauseModes: PropTypes.array.isRequired,
     currentExceptionPauseMode: PropTypes.object.isRequired,
+    pause: ImPropTypes.map,
+    isWaitingOnBreak: PropTypes.bool,
   },
 
   displayName: "Breakpoints",
@@ -89,6 +91,19 @@ const Breakpoints = React.createClass({
     )[0];
 
     pauseOnExceptions(targetMode.shouldPause, targetMode.shouldIgnoreCaught);
+  },
+
+  renderPauseExecutionButton() {
+    const { pause, breakOnNext, isWaitingOnBreak } = this.props;
+
+    return dom.button({
+      className: "pause-execution",
+      disabled: isWaitingOnBreak,
+      onClick: breakOnNext,
+    }, isWaitingOnBreak ?
+      "Will pause on next execution" :
+      "Pause on next execution"
+    );
   },
 
   renderGlobalBreakpoints() {
@@ -161,7 +176,7 @@ const Breakpoints = React.createClass({
     const { breakpoints } = this.props;
     return dom.div(
       { className: "pane breakpoints-list" },
-      CommandBar(),
+      this.renderPauseExecutionButton(),
       this.renderGlobalBreakpoints(),
       (
         breakpoints.length > 0 ?
@@ -240,6 +255,8 @@ module.exports = connect(
     breakpoints: _getBreakpoints(state),
     exceptionPauseModes: _getModes(),
     currentExceptionPauseMode: _getPauseExceptionMode(state),
+    pause: getPause(state),
+    isWaitingOnBreak: getIsWaitingOnBreak(state),
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);
