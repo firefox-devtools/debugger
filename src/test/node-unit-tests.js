@@ -3,7 +3,7 @@ require("babel-register");
 const mock = require("mock-require");
 
 const glob = require("glob").sync;
-const path = require("path");
+let path = require("path");
 const Mocha = require("mocha");
 const minimist = require("minimist");
 
@@ -12,8 +12,6 @@ const setConfig = require("devtools-config").setConfig;
 
 // Mock various functions. This allows tests to load files from a
 // local directory easily.
-const networkRequest = require("devtools-network-request");
-mock("devtools-network-request", networkRequest.stubNetworkRequest);
 mock("devtools-modules", { Services: { appinfo: { OS: "darwin" }}});
 
 mock("../utils/prefs", {
@@ -39,13 +37,23 @@ const webpack = require("webpack");
 const webpackConfig = require("../../webpack.config");
 delete webpackConfig.entry.bundle;
 
-// The source map worker is compiled with webpack (and mock-require
-// doesn't work in workers) so mock it with an alias, and tweak a few
-// things to make the stub fetcher work in node.
-webpackConfig.resolve.alias["devtools-network-request"] =
-  "devtools-network-request/stubNetworkRequest";
+function stubNetworkRequest(url) {
+  return new Promise((resolve, reject) => {
+    const fs = require("fs");
+    path = require("path");
 
-webpackConfig.externals = [{ fs: "commonjs fs" }];
+    url = url.replace(/http:\/\/localhost:8000/, "");
+    const requestUrl = path.join(__dirname, "/../../src/test/mochitest/", url);
+    const content = fs.readFileSync(requestUrl, "utf8");
+
+    resolve({ content });
+  });
+}
+
+webpackConfig.externals = [{
+  fs: "commonjs fs",
+  "devtools-network-request": `var (${stubNetworkRequest})`
+}];
 webpackConfig.node = { __dirname: false };
 
 global.Worker = require("workerjs");
