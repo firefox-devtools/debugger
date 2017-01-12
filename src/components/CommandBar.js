@@ -60,8 +60,8 @@ function formatKey(action) {
   return formatKeyShortcut(key);
 }
 
-function debugBtn(onClick, type, className, tooltip) {
-  className = `${type} ${className}`;
+function debugBtn(onClick, type, tooltip) {
+  const className = `${type} active`;
   return dom.span(
     { onClick, className, key: type },
     Svg(type, { title: tooltip })
@@ -119,47 +119,29 @@ const CommandBar = React.createClass({
   },
 
   renderStepButtons() {
-    const className = this.props.pause ? "active" : "disabled";
     return [
-      debugBtn(this.props.stepOver, "stepOver", className,
+      debugBtn(this.props.resume, "resume",
+        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
+      ),
+      debugBtn(this.props.stepOver, "stepOver",
         L10N.getFormatStr("stepOverTooltip", formatKey("stepOver"))
       ),
-      debugBtn(this.props.stepIn, "stepIn", className,
+      debugBtn(this.props.stepIn, "stepIn",
         L10N.getFormatStr("stepInTooltip", formatKey("stepIn"))
       ),
-      debugBtn(this.props.stepOut, "stepOut", className,
+      debugBtn(this.props.stepOut, "stepOut",
         L10N.getFormatStr("stepOutTooltip", formatKey("stepOut"))
       )
     ];
   },
 
-  renderPauseButton() {
-    const { pause, breakOnNext, isWaitingOnBreak } = this.props;
-
-    if (pause) {
-      return debugBtn(this.props.resume, "resume", "active",
-        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
-      );
-    }
-
-    if (isWaitingOnBreak) {
-      return debugBtn(null, "pause", "disabled",
-        L10N.getStr("pausePendingButtonTooltip")
-      );
-    }
-
-    return debugBtn(breakOnNext, "pause", "active",
-      L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
-    );
-  },
-
   render() {
     return (
+      this.props.pause ?
       dom.div(
         { className: "command-bar" },
-        this.renderPauseButton(),
-        this.props.pause ? this.renderStepButtons() : null,
-      )
+        this.renderStepButtons(),
+      ) : null
     );
   }
 });
