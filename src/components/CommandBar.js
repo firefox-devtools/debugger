@@ -2,9 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions,
-        getShouldIgnoreCaughtExceptions,
-      } = require("../selectors");
+const { getPause, getIsWaitingOnBreak } = require("../selectors");
 const Svg = require("./utils/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const { formatKeyShortcut } = require("../utils/text");
@@ -80,9 +78,6 @@ const CommandBar = React.createClass({
     stepOver: PropTypes.func,
     breakOnNext: PropTypes.func,
     pause: ImPropTypes.map,
-    pauseOnExceptions: PropTypes.func,
-    shouldPauseOnExceptions: PropTypes.bool,
-    shouldIgnoreCaughtExceptions: PropTypes.bool,
     isWaitingOnBreak: PropTypes.bool,
   },
 
@@ -158,49 +153,12 @@ const CommandBar = React.createClass({
     );
   },
 
-  /*
-   * The pause on exception button has three states in this order:
-   *  1. don't pause on exceptions      [false, false]
-   *  2. pause on uncaught exceptions   [true, true]
-   *  3. pause on all exceptions        [true, false]
-  */
-  renderPauseOnExceptions() {
-    const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions,
-            pauseOnExceptions } = this.props;
-
-    if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => pauseOnExceptions(true, true),
-        "pause-exceptions",
-        "enabled",
-        L10N.getStr("ignoreExceptions")
-      );
-    }
-
-    if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => pauseOnExceptions(true, false),
-        "pause-exceptions",
-        "uncaught enabled",
-        L10N.getStr("pauseOnUncaughtExceptions")
-      );
-    }
-
-    return debugBtn(
-      () => pauseOnExceptions(false, false),
-      "pause-exceptions",
-      "all enabled",
-      L10N.getStr("pauseOnExceptions")
-    );
-  },
-
   render() {
     return (
       dom.div(
         { className: "command-bar" },
         this.renderPauseButton(),
         this.props.pause ? this.renderStepButtons() : null,
-        this.renderPauseOnExceptions()
       )
     );
   }
@@ -211,8 +169,6 @@ module.exports = connect(
     return {
       pause: getPause(state),
       isWaitingOnBreak: getIsWaitingOnBreak(state),
-      shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
