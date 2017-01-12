@@ -4,7 +4,7 @@ const { connect } = require("react-redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const actions = require("../actions");
 const { getSelectedFrame, getLoadedObjects, getPause } = require("../selectors");
-const ObjectInspector = React.createFactory(require("./ObjectInspector"));
+const ObjectInspector = React.createFactory(require("./shared/ObjectInspector"));
 const { DOM: dom, PropTypes } = React;
 const toPairs = require("lodash/toPairs");
 
