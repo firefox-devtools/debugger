@@ -14,7 +14,7 @@ const { isPretty } = require("../utils/source");
 
 require("./SourceSearch.css");
 
-const Autocomplete = createFactory(require("./utils/Autocomplete"));
+const Autocomplete = createFactory(require("./shared/Autocomplete"));
 
 function searchResults(sources) {
   function getSourcePath(source) {
