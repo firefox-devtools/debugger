@@ -179,11 +179,11 @@ const Breakpoints = React.createClass({
       this.renderPauseExecutionButton(),
       this.renderGlobalBreakpoints(),
       (
-        breakpoints.length > 0 ?
-          breakpoints.valueSeq().map(this.renderBreakpoint) :
-          dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none"))
+        breakpoints.size === 0 ?
+          dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none")) :
+          breakpoints.valueSeq().map(this.renderBreakpoint)
       ),
-  );
+    );
   }
 });
 
