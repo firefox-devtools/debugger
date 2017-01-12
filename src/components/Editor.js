@@ -319,8 +319,8 @@ const Editor = React.createClass({
   setMode(sourceText) {
     const contentType = sourceText.get("contentType");
 
-    if (contentType.includes("javascript")) {
-      this.editor.setMode({ name: "javascript" });
+    if (/coffeescript|javascript|typescript|jsx|elm/.test(contentType)) {
+      this.editor.setMode(contentType);
     } else if (contentType === "text/wasm") {
       this.editor.setMode({ name: "text" });
     } else if (sourceText.get("text").match(/^\s*</)) {

@@ -26,4 +26,4 @@ app.get("/integration/mocha.css", function(req, res) {
 startMochaServer(app)
 
 console.log("View debugger examples here:")
-console.log("https://github.com/jasonLaster/debugger-examples")
+console.log("https://github.com/devtools-html/debugger-examples")
