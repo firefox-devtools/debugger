@@ -2,9 +2,10 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { filter } = require("fuzzaldrin-plus");
 const classnames = require("classnames");
+const Svg = require("./Svg");
+const CloseButton = require("../CloseButton");
+
 require("./Autocomplete.css");
-const Svg = require("./utils/Svg");
-const CloseButton = require("./CloseButton");
 
 const INITIAL_SELECTED_INDEX = 0;
 
