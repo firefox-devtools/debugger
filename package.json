@@ -18,7 +18,7 @@
     "start": "node bin/dev-server",
     "start-app": "TARGET=application node bin/dev-server",
     "flow": "flow",
-    "lint": "yarn run lint-css -s; yarn run lint-js -s",
+    "lint": "yarn run lint-css -s && yarn run lint-js -s",
     "lint-css": "stylelint src/components/*.css",
     "lint-js": "eslint src/**/*.js",
     "lint-fix": "yarn run lint-js -- --fix",
@@ -31,7 +31,7 @@
     "copy-assets-watch": "node bin/copy-assets --watch",
     "build-docs": "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ src/types.js src/utils/ src/reducers/ src/actions/ src/test/mochitest/head.js",
     "flow-coverage": "flow-coverage-report -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -t html -t text",
-    "prepush": "yarn run lint; yarn run test -- --dots",
+    "prepush": "yarn run lint && yarn run test -- --dots",
     "postmerge": "bin/post-merge"
   },
   "dependencies": {
