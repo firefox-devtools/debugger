@@ -201,10 +201,25 @@ async function getOriginalSourceText(originalSource: Source) {
 
   return {
     text,
-    contentType: isJavaScript(originalSource.url || "") ?
-      "text/javascript" :
-      "text/plain"
+    contentType: getContentType(originalSource)
   };
+}
+
+function getContentType(originalSource) {
+  const url = originalSource.url || "";
+  if (isJavaScript(url)) {
+    return "text/javascript";
+  }
+
+  if (url.match(/ts|tsx/)) {
+    return "text/typescript";
+  }
+
+  if (url.match(/coffee$/)) {
+    return "text/x-coffeescript";
+  }
+
+  return "text/plain";
 }
 
 function applySourceMap(generatedId, url, code, mappings) {
