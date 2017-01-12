@@ -5,7 +5,7 @@ const { bindActionCreators } = require("redux");
 const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions,
         getShouldIgnoreCaughtExceptions,
       } = require("../selectors");
-const Svg = require("./utils/Svg");
+const Svg = require("./shared/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const { formatKeyShortcut } = require("../utils/text");
 

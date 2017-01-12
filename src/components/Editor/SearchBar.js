@@ -1,11 +1,11 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { findDOMNode } = require("react-dom");
-const Svg = require("../utils/Svg");
+const Svg = require("../shared/Svg");
 const { find, findNext, findPrev, removeOverlay } = require("../../utils/source-search");
 const classnames = require("classnames");
 const { debounce, escapeRegExp } = require("lodash");
-const CloseButton = require("../CloseButton");
+const CloseButton = require("../shared/Button/Close");
 const { isEnabled } = require("devtools-config");
 const ImPropTypes = require("react-immutable-proptypes");
 

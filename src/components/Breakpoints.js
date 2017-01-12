@@ -10,7 +10,7 @@ const { truncateStr } = require("../utils/utils");
 const { DOM: dom, PropTypes } = React;
 const { endTruncateStr } = require("../utils/utils");
 const { basename } = require("../utils/path");
-const CloseButton = require("./CloseButton");
+const CloseButton = require("./shared/Button/Close");
 
 require("./Breakpoints.css");
 

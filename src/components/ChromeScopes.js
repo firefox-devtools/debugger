@@ -5,7 +5,7 @@ const actions = require("../actions");
 const { getChromeScopes } = require("../selectors");
 const { DOM: dom, PropTypes } = React;
 const classnames = require("classnames");
-const Svg = require("./utils/Svg");
+const Svg = require("./shared/Svg");
 
 require("./Scopes.css");
 

@@ -11,9 +11,9 @@ const {
   nodeHasChildren, createParentMap, addToTree,
   collapseTree, createTree, getDirectories
 } = require("../utils/sources-tree.js");
-const ManagedTree = React.createFactory(require("./utils/ManagedTree"));
+const ManagedTree = React.createFactory(require("./shared/ManagedTree"));
 const actions = require("../actions");
-const Svg = require("./utils/Svg");
+const Svg = require("./shared/Svg");
 const { throttle } = require("../utils/utils");
 
 let SourcesTree = React.createClass({

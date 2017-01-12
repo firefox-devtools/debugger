@@ -3,7 +3,7 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { isEnabled } = require("devtools-config");
-const Svg = require("./utils/Svg");
+const Svg = require("./shared/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 
 const { getPause, getBreakpoints,
@@ -23,7 +23,7 @@ const Scopes = isEnabled("chromeScopes")
 
 const Frames = React.createFactory(require("./Frames"));
 const EventListeners = React.createFactory(require("./EventListeners"));
-const Accordion = React.createFactory(require("./Accordion"));
+const Accordion = React.createFactory(require("./shared/Accordion"));
 const CommandBar = React.createFactory(require("./CommandBar"));
 require("./SecondaryPanes.css");
 
