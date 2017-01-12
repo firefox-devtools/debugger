@@ -4,7 +4,7 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const actions = require("../actions");
 const { getEventListeners, getBreakpoint } = require("../selectors");
-const CloseButton = require("./CloseButton");
+const CloseButton = require("./shared/CloseButton");
 
 require("./EventListeners.css");
 

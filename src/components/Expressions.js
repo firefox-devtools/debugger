@@ -4,7 +4,7 @@ const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const actions = require("../actions");
 const { getExpressions, getLoadedObjects, getPause } = require("../selectors");
-const CloseButton = React.createFactory(require("./CloseButton"));
+const CloseButton = React.createFactory(require("./shared/CloseButton"));
 const ObjectInspector = React.createFactory(require("./ObjectInspector"));
 const { DOM: dom, PropTypes } = React;
 
