@@ -92,6 +92,7 @@ const Breakpoints = React.createClass({
   },
 
   renderGlobalBreakpoints() {
+    const { currentExceptionPauseMode } = this.props;
     const _createToggle = (fromMode) => {
       return dom.label({
         className: "breakpoint",
@@ -101,7 +102,7 @@ const Breakpoints = React.createClass({
         type: "radio",
         onChange: this.pauseExceptionModeToggled,
         value: fromMode.mode,
-        checked: this.props.currentExceptionPauseMode.mode === fromMode.mode,
+        checked: currentExceptionPauseMode.mode === fromMode.mode,
       }),
         dom.div({
           className: "breakpoint-label"
@@ -109,7 +110,10 @@ const Breakpoints = React.createClass({
       );
     };
 
-    return dom.div({},
+    return dom.details({},
+      dom.summary({},
+        `Exceptions - Pausing on: ${currentExceptionPauseMode.headerLabel}`
+      ),
       this.props.exceptionPauseModes.map(_createToggle),
     );
   },
@@ -159,8 +163,12 @@ const Breakpoints = React.createClass({
       { className: "pane breakpoints-list" },
       CommandBar(),
       this.renderGlobalBreakpoints(),
-      breakpoints.valueSeq().map(this.renderBreakpoint)
-    );
+      (
+        breakpoints.length > 0 ?
+          breakpoints.valueSeq().map(this.renderBreakpoint) :
+          dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none"))
+      ),
+  );
   }
 });
 
@@ -191,18 +199,21 @@ function _getModes() {
     {
       mode: "no-pause",
       label: "Do not pause on exceptions.",
+      headerLabel: "None",
       shouldPause: false,
       shouldIgnoreCaught: false,
     },
     {
       mode: "no-caught",
       label: "Pause on uncaught exceptions.",
+      headerLabel: "Uncaught",
       shouldPause: true,
       shouldIgnoreCaught: true,
     },
     {
       mode: "with-caught",
       label: "Pause on all exceptions",
+      headerLabel: "All",
       shouldPause: true,
       shouldIgnoreCaught: false,
     },
