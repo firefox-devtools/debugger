@@ -23,7 +23,7 @@ const Scopes = isEnabled("chromeScopes")
 
 const Frames = React.createFactory(require("./Frames"));
 const EventListeners = React.createFactory(require("./EventListeners"));
-const Accordion = React.createFactory(require("./Accordion"));
+const Accordion = React.createFactory(require("./utils/Accordion"));
 const CommandBar = React.createFactory(require("./CommandBar"));
 require("./SecondaryPanes.css");
 
