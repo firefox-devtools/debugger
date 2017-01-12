@@ -1,6 +1,6 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
-const Svg = require("../../utils/Svg");
+const Svg = require("../Svg");
 
 require("./Close.css");
 

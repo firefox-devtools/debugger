@@ -1,6 +1,6 @@
 const React = require("react");
 const classnames = require("classnames");
-const Svg = require("../../utils/Svg");
+const Svg = require("../Svg");
 
 require("./PaneToggle.css");
 

@@ -256,7 +256,7 @@ index 8c79f4d..6893673 100644
  const ImPropTypes = require("react-immutable-proptypes");
  const classnames = require("classnames");
  const actions = require("../actions");
-+const Svg = require("./utils/Svg");
++const Svg = require("./shared/Svg");
  const { getSource, getPause, getBreakpoints } = require("../selectors");
  const { makeLocationId } = require("../reducers/breakpoints");
  const { truncateStr } = require("../utils/utils");

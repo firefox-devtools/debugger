@@ -2,7 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 
 const { div } = dom;
-const Svg = require("../utils/Svg");
+const Svg = require("./Svg");
 
 require("./Accordion.css");
 

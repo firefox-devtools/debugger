@@ -3,7 +3,7 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { isEnabled } = require("devtools-config");
-const Svg = require("./utils/Svg");
+const Svg = require("./shared/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 
 const { getPause, getBreakpoints,
