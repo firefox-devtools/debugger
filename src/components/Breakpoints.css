@@ -75,6 +75,11 @@ If we do, change to a class target.
   cursor: pointer;
 }
 
+.breakpoints-list .user-breakpoints-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .breakpoints-list .pause-indicator {
   flex: 0 1 content;
   order: 3;

@@ -11,6 +11,8 @@ const {
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
   getIsWaitingOnBreak,
+  getBreakpointsDisabled,
+  getBreakpointsLoading,
 } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const { truncateStr } = require("../utils/utils");
@@ -58,6 +60,9 @@ const Breakpoints = React.createClass({
     pause: ImPropTypes.map,
     isWaitingOnBreak: PropTypes.bool,
     breakOnNext: PropTypes.func,
+    breakpointsDisabled: PropTypes.bool,
+    breakpointsLoading: PropTypes.bool,
+    toggleAllBreakpoints: PropTypes.func,
   },
 
   displayName: "Breakpoints",
@@ -134,6 +139,58 @@ const Breakpoints = React.createClass({
     );
   },
 
+  renderUserBreakpointsHeader() {
+    const { toggleAllBreakpoints, breakpointsDisabled,
+      breakpoints, breakpointsLoading } = this.props;
+    const label = breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
+      L10N.getStr("breakpoints.disable");
+    const isIndeterminate = !breakpointsDisabled &&
+      breakpoints.some(x => x.disabled);
+    return dom.div({
+      className: "user-breakpoints-header"
+    },
+      dom.input({
+        type: "checkbox",
+        "aria-label": label,
+        title: label,
+        disabled: breakpointsLoading,
+        onClick: () => toggleAllBreakpoints(!breakpointsDisabled),
+        checked: !breakpointsDisabled && !isIndeterminate,
+        ref: (input) => {
+          if (input) {
+            input.indeterminate = isIndeterminate;
+          }
+        },
+      }),
+      dom.button({
+        onClick: () => {
+          if (confirm("Are you sure you want to remove all breakpoints?")) {
+            breakpoints.forEach(
+              breakpoint => this.props.removeBreakpoint(breakpoint.location)
+            );
+          }
+        }
+      },
+        "Remove All"
+      ),
+    );
+  },
+
+  renderUserBreakpoints() {
+    const { breakpoints } = this.props;
+
+    if (breakpoints.size === 0) {
+      return dom.div({ className: "pane-info" },
+        L10N.getStr("breakpoints.none"),
+      );
+    }
+
+    return dom.div({},
+      this.renderUserBreakpointsHeader(),
+      breakpoints.valueSeq().map(this.renderBreakpoint)
+    );
+  },
+
   renderBreakpoint(breakpoint) {
     const snippet = truncateStr(breakpoint.text || "", 30);
     const locationId = breakpoint.locationId;
@@ -174,16 +231,11 @@ const Breakpoints = React.createClass({
   },
 
   render() {
-    const { breakpoints } = this.props;
     return dom.div(
       { className: "pane breakpoints-list" },
       this.renderPauseExecutionButton(),
       this.renderGlobalBreakpoints(),
-      (
-        breakpoints.size === 0 ?
-          dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none")) :
-          breakpoints.valueSeq().map(this.renderBreakpoint)
-      ),
+      this.renderUserBreakpoints(),
     );
   }
 });
@@ -258,6 +310,8 @@ module.exports = connect(
     currentExceptionPauseMode: _getPauseExceptionMode(state),
     pause: getPause(state),
     isWaitingOnBreak: getIsWaitingOnBreak(state),
+    breakpointsDisabled: getBreakpointsDisabled(state),
+    breakpointsLoading: getBreakpointsLoading(state),
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);
