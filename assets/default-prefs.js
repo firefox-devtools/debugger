@@ -107,6 +107,9 @@ pref("devtools.debugger.workers", false);
 pref("devtools.debugger.new-debugger-frontend", true);
 pref("devtools.debugger.call-stack-visible", false);
 pref("devtools.debugger.scopes-visible", false);
+pref("devtools.debugger.tabs", "[]");
+pref("devtools.debugger.pending-selected-location", "{}");
+
 
 // The default Debugger UI settings
 pref("devtools.debugger.ui.panes-workers-and-sources-width", 200);

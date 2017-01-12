@@ -174,11 +174,11 @@ function jumpToMappedLocation(sourceLocation: any) {
  * @memberof actions/sources
  * @static
  */
-function closeTab(id: string) {
-  removeDocument(id);
+function closeTab(url: string) {
+  removeDocument(url);
   return {
     type: constants.CLOSE_TAB,
-    id: id,
+    url
   };
 }
 
@@ -186,11 +186,19 @@ function closeTab(id: string) {
  * @memberof actions/sources
  * @static
  */
-function closeTabs(ids: string[]) {
-  ids.forEach(removeDocument);
-  return {
-    type: constants.CLOSE_TABS,
-    ids: ids,
+function closeTabs(urls: string[]) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    urls.forEach(url => {
+      const source = getSourceByURL(getState(), url);
+      if (source) {
+        removeDocument(source.get("id"));
+      }
+    });
+
+    dispatch({
+      type: constants.CLOSE_TABS,
+      urls
+    });
   };
 }
 

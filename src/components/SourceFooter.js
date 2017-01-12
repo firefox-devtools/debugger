@@ -41,7 +41,8 @@ const SourceFooter = React.createClass({
 
   prettyPrintButton() {
     const { selectedSource, sourceText } = this.props;
-    const sourceLoaded = selectedSource && !sourceText.get("loading");
+    const sourceLoaded = selectedSource && sourceText &&
+    !sourceText.get("loading");
 
     if (!shouldShowPrettyPrint(selectedSource.toJS())) {
       return;
