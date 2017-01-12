@@ -156,18 +156,22 @@ const SecondaryPanes = React.createClass({
     });
   },
 
-  getRightItems() {
+  getEndItems() {
     const items = [];
 
     if (!this.props.horizontal) {
       items.unshift(this.getScopeItem());
     }
 
-    if (isEnabled("watchExpressions")) {
+    if (isEnabled("watchExpressions") && !this.props.horizontal) {
       items.unshift(this.getWatchItem());
     }
 
     return items;
+  },
+
+  getItems() {
+    return [...this.getStartItems(), ...this.getEndItems()];
   },
 
   renderVerticalLayout() {
