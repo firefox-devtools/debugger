@@ -76,7 +76,6 @@ const CommandBar = React.createClass({
     stepIn: PropTypes.func,
     stepOut: PropTypes.func,
     stepOver: PropTypes.func,
-    breakOnNext: PropTypes.func,
     pause: ImPropTypes.map,
     isWaitingOnBreak: PropTypes.bool,
   },

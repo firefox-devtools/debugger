@@ -57,6 +57,7 @@ const Breakpoints = React.createClass({
     currentExceptionPauseMode: PropTypes.object.isRequired,
     pause: ImPropTypes.map,
     isWaitingOnBreak: PropTypes.bool,
+    breakOnNext: PropTypes.func,
   },
 
   displayName: "Breakpoints",
@@ -94,7 +95,7 @@ const Breakpoints = React.createClass({
   },
 
   renderPauseExecutionButton() {
-    const { pause, breakOnNext, isWaitingOnBreak } = this.props;
+    const { breakOnNext, isWaitingOnBreak } = this.props;
 
     return dom.button({
       className: "pause-execution",
