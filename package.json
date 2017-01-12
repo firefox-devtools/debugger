@@ -24,7 +24,6 @@
     "lint-fix": "yarn run lint-js -- --fix",
     "test": "node src/test/node-unit-tests.js",
     "test-all": "yarn run test; yarn run lint; yarn run flow",
-    "mocha-server": "node bin/mocha-server.js",
     "firefox": "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome": "./node_modules/.bin/start-chrome",
     "copy-assets": "node bin/copy-assets",
