@@ -211,12 +211,24 @@ function getContentType(originalSource) {
     return "text/javascript";
   }
 
-  if (url.match(/ts|tsx/)) {
+  if (url.match(/ts/)) {
     return "text/typescript";
   }
 
+  if (url.match(/tsx/)) {
+    return "text/typescript-jsx";
+  }
+
+  if (url.match(/jsx/)) {
+    return "text/jsx";
+  }
+
   if (url.match(/coffee$/)) {
-    return "text/x-coffeescript";
+    return "text/coffeescript";
+  }
+
+  if (url.match(/elm/)) {
+    return "text/elm";
   }
 
   return "text/plain";

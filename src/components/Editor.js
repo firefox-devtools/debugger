@@ -9,6 +9,7 @@ const classnames = require("classnames");
 
 const SourceEditor = require("../utils/source-editor");
 const { find, findNext, findPrev, removeOverlay } = require("../utils/source-search");
+const { getMode } = require("../utils/source");
 const SourceFooter = createFactory(require("./SourceFooter"));
 const SearchBar = createFactory(require("./Editor/SearchBar"));
 const { renderConditionalPanel } = require("./Editor/ConditionalPanel");
@@ -318,28 +319,12 @@ const Editor = React.createClass({
 
   setMode(sourceText) {
     const contentType = sourceText.get("contentType");
-
-    if (contentType.includes("javascript")) {
-      this.editor.setMode({ name: "javascript" });
-    } else if (contentType.includes("typescript")) {
-      this.editor.setMode({ name: "javascript", typescript: true });
-    } else if (contentType.includes("coffeescript")) {
-      this.editor.setMode("coffeescript");
-    } else if (contentType.includes("typescript-jsx")) {
-      this.editor.setMode({ name: "jsx",
-        base: { name: "javascript", typescript: true }});
-    } else if (contentType.includes("jsx")) {
-      this.editor.setMode("jsx");
-    } else if (contentType.includes("elm")) {
-      this.editor.setMode("elm");
-    } else if (contentType === "text/wasm") {
-      this.editor.setMode({ name: "text" });
+    if (/script|elm|jsx/.test(contentType)) {
+      this.editor.setMode(getMode(contentType));
     } else if (sourceText.get("text").match(/^\s*</)) {
       // Use HTML mode for files in which the first non whitespace
       // character is `<` regardless of extension.
-      this.editor.setMode({ name: "htmlmixed" });
-    } else {
-      this.editor.setMode({ name: "text" });
+      this.editor.setMode("text/html");
     }
   },
 

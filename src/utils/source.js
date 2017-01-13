@@ -86,10 +86,37 @@ function getFilename(source: Source) {
   return endTruncateStr(name, 50);
 }
 
+const contentTypeModeMap = {
+  "text/javascript": { name: "javascript" },
+  "text/typescript": { name: "javascript", typescript: true },
+  "text/coffeescript": "coffeescript",
+  "text/typescript-jsx": { name: "jsx",
+    base: { name: "javascript", typescript: true }},
+  "text/jsx": "jsx",
+  "text/x-elm": "elm",
+  "html": { name: "htmlmixed" }
+};
+
+/**
+ *
+ * Returns Code Mirror mode for source content type
+ * @param contentType
+ * @return String
+ * @memberof utils/source
+ * @static
+ */
+
+function getMode(contentType: string) {
+  if (contentType in contentTypeModeMap) {
+    return contentTypeModeMap[contentType];
+  }
+}
+
 module.exports = {
   isJavaScript,
   isPretty,
   getPrettySourceURL,
   getRawSourceURL,
-  getFilename
+  getFilename,
+  getMode
 };
