@@ -320,7 +320,13 @@ const Editor = React.createClass({
   setMode(sourceText) {
     const contentType = sourceText.get("contentType");
     if (/script|elm|jsx/.test(contentType)) {
-      this.editor.setMode(getMode(contentType));
+      // If the script contains "// @flow" pragma, use typescript
+      // mode to handle flow.
+      if (sourceText.get("text").match(/^\s*\/\/ @flow/)) {
+        this.editor.setMode(getMode("text/typescript"));
+      } else {
+        this.editor.setMode(getMode(contentType));
+      }
     } else if (sourceText.get("text").match(/^\s*</)) {
       // Use HTML mode for files in which the first non whitespace
       // character is `<` regardless of extension.
