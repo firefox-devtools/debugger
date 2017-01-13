@@ -319,8 +319,19 @@ const Editor = React.createClass({
   setMode(sourceText) {
     const contentType = sourceText.get("contentType");
 
-    if (/coffeescript|javascript|typescript|jsx|elm/.test(contentType)) {
-      this.editor.setMode({ name: contentType });
+    if (contentType.includes("javascript")) {
+      this.editor.setMode({ name: "javascript" });
+    } else if (contentType.includes("typescript")) {
+      this.editor.setMode({ name: "javascript", typescript: true });
+    } else if (contentType.includes("coffeescript")) {
+      this.editor.setMode("coffeescript");
+    } else if (contentType.includes("typescript-jsx")) {
+      this.editor.setMode({ name: "jsx",
+        base: { name: "javascript", typescript: true }});
+    } else if (contentType.includes("jsx")) {
+      this.editor.setMode("jsx");
+    } else if (contentType.includes("elm")) {
+      this.editor.setMode("elm");
     } else if (contentType === "text/wasm") {
       this.editor.setMode({ name: "text" });
     } else if (sourceText.get("text").match(/^\s*</)) {
