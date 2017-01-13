@@ -363,8 +363,8 @@ $ yarn run test-all
 
 * `yarn test` - Run tests headlessly
  * These are the basic unit tests which must always pass
-* `localhost:8000/mocha` - Run tests in the browser once you open `http://localhost:8003` [gif](http://g.recordit.co/Go1GOu1Pli.gif))
-
+* `yarn run mocha-server` - Run tests in the browser once you open `http://localhost:8003`
+ * This runs tests in the browser and is useful for fixing errors in the karma tests
 
 #### Integration tests
 

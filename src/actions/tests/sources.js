@@ -36,7 +36,7 @@ const threadClient = {
 process.on("unhandledRejection", (reason, p) => {});
 
 // Create a sourcemapped source that all the sourcemap tests can use.
-const bundleSource = makeSource("sourcemaps/bundle.js", {
+const bundleSource = makeSource("bundle.js", {
   sourceMapURL: "bundle.js.map"
 });
 
