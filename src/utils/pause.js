@@ -28,7 +28,16 @@ const reasons = {
   "breakpoint": "whyPaused.breakpoint",
   "exception": "whyPaused.exception",
   "resumeLimit": "whyPaused.resumeLimit",
-  "pauseOnDOMEvents": "whyPaused.pauseOnDOMEvents"
+  "pauseOnDOMEvents": "whyPaused.pauseOnDOMEvents",
+
+  // V8
+  "DOM": "whyPaused.breakpoint",
+  "EventListener": "whyPaused.pauseOnDOMEvents",
+  "XHR": "whyPaused.xhr",
+  "promiseRejection": "whyPaused.promiseRejection",
+  "assert": "whyPaused.assert",
+  "debugCommand": "whyPaused.debugCommand",
+  "other": "whyPaused.other"
 };
 
 function getPauseReason(pauseInfo: Pause): string | null {
