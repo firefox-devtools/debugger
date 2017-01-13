@@ -18,15 +18,8 @@ const PaneToggleButton = React.createClass({
   shouldComponentUpdate(nextProps, nextState) {
     const { collapsed, horizontal } = this.props;
 
-    if (collapsed !== nextProps.collapsed) {
-      return true;
-    }
-
-    if (horizontal !== nextProps.horizontal) {
-      return true;
-    }
-
-    return false;
+    return horizontal !== nextProps.horizontal
+      || collapsed !== nextProps.collapsed;
   },
 
   render() {
