@@ -6,7 +6,6 @@ const webpack = require("webpack");
 const express = require("express");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const fs = require("fs");
-var serveStatic = require('serve-static')
 
 function recursiveReaddirSync(dir) {
   let list = [];
