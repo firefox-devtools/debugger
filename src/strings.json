@@ -59,6 +59,14 @@
   "whyPaused.exception": "Paused on exception",
   "whyPaused.resumeLimit": "Paused while stepping",
   "whyPaused.pauseOnDOMEvents": "Paused on event listener",
+  "whyPaused.v8.breakpoint": "Paused on breakpoint",
+  "whyPaused.v8.eventListener": "Paused on event listener",
+  "whyPaused.v8.xhr": "Paused on XMLHttpRequest",
+  "whyPaused.v8.exception": "Paused on exception",
+  "whyPaused.v8.promiseRejection": "Paused on promise rejection",
+  "whyPaused.v8.assert": "Paused on assertion",
+  "whyPaused.v8.debugCommand": "Paused on debugged function",
+  "whyPaused.v8.other": "Debugger paused",
   "collapsePanes": "Collapse panes",
   "expandPanes": "Expand panes"
 }

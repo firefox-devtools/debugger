@@ -28,7 +28,17 @@ const reasons = {
   "breakpoint": "whyPaused.breakpoint",
   "exception": "whyPaused.exception",
   "resumeLimit": "whyPaused.resumeLimit",
-  "pauseOnDOMEvents": "whyPaused.pauseOnDOMEvents"
+  "pauseOnDOMEvents": "whyPaused.pauseOnDOMEvents",
+
+  // V8 mappings
+  "DOM": "whyPaused.v8.breakpoint",
+  "EventListener": "whyPaused.v8.eventListener",
+  "XHR": "whyPaused.v8.xhr",
+  "exception": "whyPaused.v8.exception",
+  "promiseRejection": "whyPaused.v8.promiseRejection",
+  "assert": "whyPaused.v8.assert",
+  "debugCommand": "whyPaused.v8.debugCommand",
+  "other": "whyPaused.v8.other"
 };
 
 function getPauseReason(pauseInfo: Pause): string | null {
