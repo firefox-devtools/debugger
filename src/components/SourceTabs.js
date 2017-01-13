@@ -8,7 +8,7 @@ const {
   getSourceTabs,
   getFileSearchState
 } = require("../selectors");
-const { getFilename, getRawSourceURL, isPretty } = require("../utils/source");
+const { getFilename, isPretty } = require("../utils/source");
 const { isEnabled } = require("devtools-config");
 const classnames = require("classnames");
 const actions = require("../actions");
@@ -18,7 +18,6 @@ const Svg = require("./shared/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu, buildMenu } = require("../utils/menu");
 const { debounce } = require("lodash");
-const { getURL } = require("../utils/sources-tree.js");
 const { formatKeyShortcut } = require("../utils/text");
 require("./SourceTabs.css");
 require("./Dropdown.css");
@@ -255,7 +254,7 @@ const SourceTabs = React.createClass({
 
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
-    const filename = getRawSourceURL(getURL(source.get("url")).filename);
+    const filename = getFilename(source.toJS());
     const active = source.get("id") == selectedSource.get("id");
     const isPrettyCode = isPretty({ url: source.get("url") });
 
@@ -273,7 +272,7 @@ const SourceTabs = React.createClass({
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
         onContextMenu: (e) => this.onTabContextMenu(e, source.get("id")),
-        title: getRawSourceURL(source.get("url"))
+        title: getFilename(source.toJS())
       },
       isPrettyCode ? Svg("prettyPrint") : null,
       dom.div({ className: "filename" }, filename),
