@@ -75,13 +75,14 @@ function getRawSourceURL(url: string): string {
  * @static
  */
 function getFilename(source: Source) {
-  const { url, id } = source;
+  let { url, id } = source;
   if (!url) {
     const sourceId = id.split("/")[1];
     return `SOURCE${sourceId}`;
   }
 
-  const name = basename(source.url || "") || "(index)";
+  url = getRawSourceURL(url || "");
+  const name = basename(url) || "(index)";
   return endTruncateStr(name, 50);
 }
 
