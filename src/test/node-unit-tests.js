@@ -3,7 +3,7 @@ require("babel-register");
 const mock = require("mock-require");
 
 const glob = require("glob").sync;
-let path = require("path");
+const path = require("path");
 const Mocha = require("mocha");
 const minimist = require("minimist");
 
@@ -39,11 +39,13 @@ delete webpackConfig.entry.bundle;
 
 function stubNetworkRequest(url) {
   return new Promise((resolve, reject) => {
+    // Avoid clashes with const path defined in the upper scope.
+    // This method is passed as a string so can't access upper scope variables.
+    const _path = require("path");
     const fs = require("fs");
-    path = require("path");
 
     url = url.replace(/http:\/\/localhost:8000/, "");
-    const requestUrl = path.join(__dirname, "/../../src/test/mochitest/", url);
+    const requestUrl = _path.join(__dirname, "/../../src/test/mochitest/", url);
     const content = fs.readFileSync(requestUrl, "utf8");
 
     resolve({ content });
