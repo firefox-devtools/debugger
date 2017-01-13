@@ -30,15 +30,14 @@ const reasons = {
   "resumeLimit": "whyPaused.resumeLimit",
   "pauseOnDOMEvents": "whyPaused.pauseOnDOMEvents",
 
-  // V8 mappings
-  "DOM": "whyPaused.v8.breakpoint",
-  "EventListener": "whyPaused.v8.eventListener",
-  "XHR": "whyPaused.v8.xhr",
-  "exception": "whyPaused.v8.exception",
-  "promiseRejection": "whyPaused.v8.promiseRejection",
-  "assert": "whyPaused.v8.assert",
-  "debugCommand": "whyPaused.v8.debugCommand",
-  "other": "whyPaused.v8.other"
+  // V8
+  "DOM": "whyPaused.breakpoint",
+  "EventListener": "whyPaused.pauseOnDOMEvents",
+  "XHR": "whyPaused.xhr",
+  "promiseRejection": "whyPaused.promiseRejection",
+  "assert": "whyPaused.assert",
+  "debugCommand": "whyPaused.debugCommand",
+  "other": "whyPaused.other"
 };
 
 function getPauseReason(pauseInfo: Pause): string | null {
