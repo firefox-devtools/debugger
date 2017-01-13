@@ -12,7 +12,7 @@ const { isEnabled } = require("devtools-config");
 const classnames = require("classnames");
 const actions = require("../actions");
 const CloseButton = require("./shared/Button/Close");
-const PaneToggleButton = require("./shared/Button/PaneToggle");
+const PaneToggleButton = React.createFactory(require("./shared/Button/PaneToggle"));
 const Svg = require("./shared/Svg");
 const Dropdown = React.createFactory(require("./Dropdown"));
 const { showMenu, buildMenu } = require("../utils/menu");
@@ -313,9 +313,7 @@ const SourceTabs = React.createClass({
     return PaneToggleButton({
       position: "start",
       collapsed: !this.props.startPanelCollapsed,
-      handleClick: this.props.togglePaneCollapse,
-      tooltip: this.props.startPanelCollapsed ?
-        L10N.getStr("expandPanes") : L10N.getStr("collapsePanes")
+      handleClick: this.props.togglePaneCollapse
     });
   },
 
@@ -328,9 +326,7 @@ const SourceTabs = React.createClass({
       position: "end",
       collapsed: !this.props.endPanelCollapsed,
       handleClick: this.props.togglePaneCollapse,
-      horizontal: this.props.horizontal,
-      tooltip: this.props.endPanelCollapsed ?
-        L10N.getStr("expandPanes") : L10N.getStr("collapsePanes")
+      horizontal: this.props.horizontal
     });
   },
 
