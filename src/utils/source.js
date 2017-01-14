@@ -112,7 +112,8 @@ const contentTypeModeMap = {
 function getMode(sourceText: SourceText) {
   const { contentType, text } = sourceText;
 
-  if (text.match(/^\s*\/\/ @flow/)) {
+  // // @flow or /* @flow */
+  if (text.match(/^\s*(\/\/ @flow|\/\* @flow \*\/)/)) {
     return contentTypeModeMap["text/typescript"];
   }
 

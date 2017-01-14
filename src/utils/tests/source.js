@@ -22,6 +22,14 @@ describe("sources", () => {
       expect(getMode(sourceText).typescript).to.be(true);
     });
 
+    it("/* @flow */", () => {
+      const sourceText = {
+        contentType: "text/javascript",
+        text: "   /* @flow */"
+      };
+      expect(getMode(sourceText).typescript).to.be(true);
+    });
+
     it("mixed html", () => {
       const sourceText = {
         contentType: "",
