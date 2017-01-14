@@ -11,7 +11,7 @@ const { prefs } = require("../utils/prefs");
 
 const actions = require("../actions");
 const WhyPaused = React.createFactory(require("./WhyPaused"));
-const Breakpoints = React.createFactory(require("./Breakpoints"));
+const Breakpoints = require("./Breakpoints");
 const Expressions = React.createFactory(require("./Expressions"));
 
 const SplitBox = createFactory(require("devtools-modules").SplitBox);

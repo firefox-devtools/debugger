@@ -16,7 +16,7 @@ const {
 } = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const { truncateStr } = require("../utils/utils");
-const { DOM: dom, PropTypes } = React;
+const { PropTypes } = React;
 const { endTruncateStr } = require("../utils/utils");
 const { basename } = require("../utils/path");
 const CloseButton = require("./shared/Button/Close");
@@ -41,9 +41,10 @@ function renderSourceLocation(source, line) {
   const url = source.get("url") ? basename(source.get("url")) : null;
   // const line = url !== "" ? `: ${line}` : "";
   return url ?
-    dom.div(
-      { className: "location" },
-      `${endTruncateStr(url, 30)}: ${line}`
+    (
+      <div className="location">
+        {endTruncateStr(url, 30)}: {line}
+      </div>
     ) : null;
 }
 
@@ -102,40 +103,42 @@ const Breakpoints = React.createClass({
   renderPauseExecutionButton() {
     const { breakOnNext, isWaitingOnBreak } = this.props;
 
-    return dom.button({
-      className: "pause-execution",
-      disabled: isWaitingOnBreak,
-      onClick: breakOnNext,
-    }, isWaitingOnBreak ?
-      "Will pause on next execution" :
-      "Pause on next execution"
+    return (
+      <button
+        className="pause-execution"
+        disabled={ isWaitingOnBreak }
+        onClick={ breakOnNext }
+      >
+        { isWaitingOnBreak ?
+          "Will pause on next execution" :
+          "Pause on next execution" }
+      </button>
     );
   },
 
   renderGlobalBreakpoints() {
     const { currentExceptionPauseMode } = this.props;
     const _createToggle = (fromMode) => {
-      return dom.label({
-        className: "breakpoint",
-        key: fromMode.mode,
-      },
-      dom.input({
-        type: "radio",
-        onChange: this.pauseExceptionModeToggled,
-        value: fromMode.mode,
-        checked: currentExceptionPauseMode.mode === fromMode.mode,
-      }),
-        dom.div({
-          className: "breakpoint-label"
-        }, fromMode.label)
+      return (
+        <label className="breakpoint" key={ fromMode.mode }>
+          <input
+            type="radio"
+            onChange={ this.pauseExceptionModeToggled }
+            value={ fromMode.mode }
+            checked={ currentExceptionPauseMode.mode === fromMode.mode }
+          />
+          <div className="breakpoint-label">{ fromMode.label }</div>
+        </label>
       );
     };
 
-    return dom.details({},
-      dom.summary({},
-        `Exceptions - Pausing on: ${currentExceptionPauseMode.headerLabel}`
-      ),
-      this.props.exceptionPauseModes.map(_createToggle),
+    return (
+      <details>
+        <summary className="_header">
+          { `Exceptions - Pausing on: ${currentExceptionPauseMode.headerLabel}` }
+          </summary>
+        { this.props.exceptionPauseModes.map(_createToggle) }
+      </details>
     );
   },
 
@@ -146,33 +149,33 @@ const Breakpoints = React.createClass({
       L10N.getStr("breakpoints.disable");
     const isIndeterminate = !breakpointsDisabled &&
       breakpoints.some(x => x.disabled);
-    return dom.div({
-      className: "user-breakpoints-header"
-    },
-      dom.input({
-        type: "checkbox",
-        "aria-label": label,
-        title: label,
-        disabled: breakpointsLoading,
-        onClick: () => toggleAllBreakpoints(!breakpointsDisabled),
-        checked: !breakpointsDisabled && !isIndeterminate,
-        ref: (input) => {
+    const clearAll = () => {
+      if (confirm("Are you sure you want to remove all breakpoints?")) {
+        breakpoints.forEach(
+          breakpoint => this.props.removeBreakpoint(breakpoint.location)
+        );
+      }
+    };
+
+    return (
+      <div className="user-breakpoints-header">
+        <input
+          type="checkbox"
+          aria-label={ label }
+          title={ label }
+          disabled={ breakpointsLoading }
+          onClick={ () => toggleAllBreakpoints(!breakpointsDisabled) }
+          checked={ !breakpointsDisabled && !isIndeterminate }
+          ref={ (input) => {
           if (input) {
             input.indeterminate = isIndeterminate;
           }
-        },
-      }),
-      dom.button({
-        onClick: () => {
-          if (confirm("Are you sure you want to remove all breakpoints?")) {
-            breakpoints.forEach(
-              breakpoint => this.props.removeBreakpoint(breakpoint.location)
-            );
-          }
-        }
-      },
-        "Remove All"
-      ),
+        } }
+        />
+        <button onClick={ clearAll }>
+          Remove All
+        </button>
+      </div>
     );
   },
 
@@ -180,14 +183,18 @@ const Breakpoints = React.createClass({
     const { breakpoints } = this.props;
 
     if (breakpoints.size === 0) {
-      return dom.div({ className: "pane-info" },
-        L10N.getStr("breakpoints.none"),
+      return (
+        <div className="pane-info">
+          { L10N.getStr("breakpoints.none") }
+        </div>
       );
     }
 
-    return dom.div({},
-      this.renderUserBreakpointsHeader(),
-      breakpoints.valueSeq().map(this.renderBreakpoint)
+    return (
+      <div>
+        { this.renderUserBreakpointsHeader() }
+        { breakpoints.valueSeq().map(this.renderBreakpoint) }
+      </div>
     );
   },
 
@@ -199,43 +206,52 @@ const Breakpoints = React.createClass({
     const isDisabled = breakpoint.disabled;
     const isConditional = breakpoint.condition !== null;
 
-    return dom.div(
-      {
-        className: classnames({
-          breakpoint,
+    return (
+      <div
+        className={ classnames({
+        breakpoint,
           paused: isCurrentlyPaused,
           disabled: isDisabled,
           "is-conditional": isConditional
-        }),
-        key: locationId,
-        onClick: () => this.selectBreakpoint(breakpoint)
-      },
-      dom.input({
-        type: "checkbox",
-        className: "breakpoint-checkbox",
-        checked: !isDisabled,
-        onChange: () => this.handleCheckbox(breakpoint),
-        // Prevent clicking on the checkbox from triggering the onClick of
-        // the surrounding div
-        onClick: (ev) => ev.stopPropagation()
-      }),
-      dom.div(
-        { className: "breakpoint-label", title: breakpoint.text },
-        dom.div({}, renderSourceLocation(breakpoint.location.source, line))
-      ),
-      dom.div({ className: "breakpoint-snippet" }, snippet),
-      CloseButton({
-        handleClick: (ev) => this.removeBreakpoint(ev, breakpoint),
-        tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip")
-      }));
+        }) }
+        key={ locationId }
+        onClick={ () => this.selectBreakpoint(breakpoint) }
+      >
+        <input
+          type="checkbox"
+          className="breakpoint-checkbox"
+          checked={ !isDisabled }
+          onChange={ () => this.handleCheckbox(breakpoint) }
+          onClick={ (ev) => ev.stopPropagation() }
+        />
+        <div
+          className="breakpoint-label"
+          title={ breakpoint.text }
+        >
+          <div>
+            { renderSourceLocation(breakpoint.location.source, line) }
+          </div>
+        </div>
+        <div
+          className="breakpoint-snippet"
+        >
+          { snippet }
+        </div>
+        { CloseButton({
+          handleClick: (ev) => this.removeBreakpoint(ev, breakpoint),
+          tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip")
+        }) }
+      </div>
+    );
   },
 
   render() {
-    return dom.div(
-      { className: "pane breakpoints-list" },
-      this.renderPauseExecutionButton(),
-      this.renderGlobalBreakpoints(),
-      this.renderUserBreakpoints(),
+    return (
+      <div className="pane breakpoints-list">
+        { this.renderPauseExecutionButton() }
+        { this.renderGlobalBreakpoints() }
+        { this.renderUserBreakpoints() }
+      </div>
     );
   }
 });
