@@ -30,6 +30,13 @@ const svg = {
 };
 
 module.exports = function(name, props) { // eslint-disable-line
+  if (typeof name === 'object') {
+    props = name;
+    name = name.name;
+    if (!name) {
+      throw new Error("An SVG name must be provided.");
+    }
+  }
   if (!svg[name]) {
     throw new Error("Unknown SVG: " + name);
   }

@@ -1,5 +1,5 @@
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
+const { PropTypes } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getPause, getIsWaitingOnBreak } = require("../selectors");
@@ -60,13 +60,16 @@ function formatKey(action) {
   return formatKeyShortcut(key);
 }
 
-function debugBtn(onClick, type, tooltip) {
-  const className = `${type} active`;
-  return dom.span(
-    { onClick, className, key: type },
-    Svg(type, { title: tooltip })
+function debugBtn(item) {
+  const className = `${item.type} active`;
+  return (
+    <span onClick={item.action} key={item.type}>
+      <Svg className={className} name={item.type} title={item.label} />
+    </span>
   );
 }
+
+debugBtn.displayName = "debugButton";
 
 const CommandBar = React.createClass({
   propTypes: {
@@ -118,29 +121,37 @@ const CommandBar = React.createClass({
   },
 
   renderStepButtons() {
-    return [
-      debugBtn(this.props.resume, "resume",
-        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
-      ),
-      debugBtn(this.props.stepOver, "stepOver",
-        L10N.getFormatStr("stepOverTooltip", formatKey("stepOver"))
-      ),
-      debugBtn(this.props.stepIn, "stepIn",
-        L10N.getFormatStr("stepInTooltip", formatKey("stepIn"))
-      ),
-      debugBtn(this.props.stepOut, "stepOut",
-        L10N.getFormatStr("stepOutTooltip", formatKey("stepOut"))
-      )
+    const buttons = [
+      {
+        action: this.props.resume,
+        type: "resume",
+        label: L10N.getFormatStr("resumeButtonTooltip", formatKey("resume")),
+      },
+      {
+        action: this.props.stepOver,
+        type: "stepOver",
+        label: L10N.getFormatStr("stepOverTooltip", formatKey("stepOver")),
+      },
+      {
+        action: this.props.stepIn,
+        type: "stepIn",
+        label: L10N.getFormatStr("stepInTooltip", formatKey("stepIn")),
+      },
+      {
+        action: this.props.stepOut,
+        type: "stepOut",
+        label: L10N.getFormatStr("stepOutTooltip", formatKey("stepOut")),
+      },
     ];
+    return buttons.map(debugBtn);
   },
 
   render() {
     return (
       this.props.pause ?
-      dom.div(
-        { className: "command-bar" },
-        this.renderStepButtons(),
-      ) : null
+        (<div className="command-bar">
+          {this.renderStepButtons()}
+        </div>) : null
     );
   }
 });
