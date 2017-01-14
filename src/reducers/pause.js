@@ -30,8 +30,8 @@ const State = makeRecord(({
   frames: undefined,
   selectedFrameId: undefined,
   loadedObjects: I.Map(),
-  shouldPauseOnExceptions: prefs.pauseOnExceptions,
-  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
+  shouldPauseOnExceptions: false,
+  shouldIgnoreCaughtExceptions: false,
   expressions: I.List()
 } : PauseState));
 
