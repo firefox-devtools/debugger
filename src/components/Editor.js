@@ -317,23 +317,6 @@ const Editor = React.createClass({
     this.editor.setText(text);
   },
 
-  setMode(sourceText) {
-    const contentType = sourceText.get("contentType");
-    if (/script|elm|jsx/.test(contentType)) {
-      // If the script contains "// @flow" pragma, use typescript
-      // mode to handle flow.
-      if (sourceText.get("text").match(/^\s*\/\/ @flow/)) {
-        this.editor.setMode(getMode("text/typescript"));
-      } else {
-        this.editor.setMode(getMode(contentType));
-      }
-    } else if (sourceText.get("text").match(/^\s*</)) {
-      // Use HTML mode for files in which the first non whitespace
-      // character is `<` regardless of extension.
-      this.editor.setMode("text/html");
-    }
-  },
-
   showGutterMenu(e, line, bp) {
     let breakpoint, conditional, disabled;
     if (!bp) {
@@ -541,7 +524,7 @@ const Editor = React.createClass({
     this.editor.replaceDocument(doc);
 
     this.setText(sourceText.get("text"));
-    this.setMode(sourceText);
+    this.editor.setMode(getMode(sourceText.toJS()));
   },
 
   componentDidUpdate(prevProps) {

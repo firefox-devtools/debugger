@@ -9,7 +9,7 @@ const networkRequest = require("devtools-network-request");
 const { parse } = require("url");
 const path = require("./path");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
-const { isJavaScript } = require("./source");
+const { getContentType } = require("./source");
 const assert = require("./assert");
 const {
   originalToGeneratedId,
@@ -201,37 +201,8 @@ async function getOriginalSourceText(originalSource: Source) {
 
   return {
     text,
-    contentType: getContentType(originalSource)
+    contentType: getContentType(originalSource.url || "")
   };
-}
-
-function getContentType(originalSource) {
-  const url = originalSource.url || "";
-  if (isJavaScript(url)) {
-    return "text/javascript";
-  }
-
-  if (url.match(/ts/)) {
-    return "text/typescript";
-  }
-
-  if (url.match(/tsx/)) {
-    return "text/typescript-jsx";
-  }
-
-  if (url.match(/jsx/)) {
-    return "text/jsx";
-  }
-
-  if (url.match(/coffee$/)) {
-    return "text/coffeescript";
-  }
-
-  if (url.match(/elm/)) {
-    return "text/elm";
-  }
-
-  return "text/plain";
 }
 
 function applySourceMap(generatedId, url, code, mappings) {
