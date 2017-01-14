@@ -120,7 +120,7 @@ const CommandBar = React.createClass({
   },
 
   renderStepButtons() {
-    const buttons = [
+    return [
       {
         action: this.props.resume,
         type: "resume",
@@ -141,8 +141,7 @@ const CommandBar = React.createClass({
         type: "stepOut",
         label: L10N.getFormatStr("stepOutTooltip", formatKey("stepOut")),
       },
-    ];
-    return buttons.map(debugBtn);
+    ].map(debugBtn);
   },
 
   render() {
