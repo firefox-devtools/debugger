@@ -19,9 +19,9 @@
   font-size: 1.2em;
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
   -moz-user-select: none;
   user-select: none;
+  justify-content: flex-end;
 }
 
 .sources-header {
@@ -34,7 +34,6 @@
   font-weight: lighter;
   white-space: nowrap;
   padding-inline-end: 10px;
-  float: end;
   cursor: pointer;
 }
 

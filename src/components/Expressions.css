@@ -6,6 +6,7 @@
   cursor: pointer;
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
+  line-height: 12px;
 }
 
 .input-expression::-webkit-input-placeholder {
