@@ -20,6 +20,7 @@ const { PropTypes } = React;
 const { endTruncateStr } = require("../utils/utils");
 const { basename } = require("../utils/path");
 const CloseButton = require("./shared/Button/Close");
+const Svg = require("../../assets/images/Svg");
 
 require("./Breakpoints.css");
 
@@ -47,6 +48,8 @@ function renderSourceLocation(source, line) {
       </div>
     ) : null;
 }
+
+renderSourceLocation.displayName = "SourceLocation";
 
 const Breakpoints = React.createClass({
   propTypes: {
@@ -109,6 +112,7 @@ const Breakpoints = React.createClass({
         disabled={ isWaitingOnBreak }
         onClick={ breakOnNext }
       >
+        <Svg name="pause" />
         { isWaitingOnBreak ?
           "Will pause on next execution" :
           "Pause on next execution" }
@@ -117,7 +121,7 @@ const Breakpoints = React.createClass({
   },
 
   renderGlobalBreakpoints() {
-    const { currentExceptionPauseMode } = this.props;
+    const currentMode = this.props.currentExceptionPauseMode;
     const _createToggle = (fromMode) => {
       return (
         <label className="breakpoint" key={ fromMode.mode }>
@@ -125,7 +129,7 @@ const Breakpoints = React.createClass({
             type="radio"
             onChange={ this.pauseExceptionModeToggled }
             value={ fromMode.mode }
-            checked={ currentExceptionPauseMode.mode === fromMode.mode }
+            checked={ currentMode.mode === fromMode.mode }
           />
           <div className="breakpoint-label">{ fromMode.label }</div>
         </label>
@@ -135,7 +139,7 @@ const Breakpoints = React.createClass({
     return (
       <details>
         <summary className="_header">
-          { `Exceptions - Pausing on: ${currentExceptionPauseMode.headerLabel}` }
+          { `Exceptions - Pausing on: ${currentMode.headerLabel}` }
           </summary>
         { this.props.exceptionPauseModes.map(_createToggle) }
       </details>
@@ -156,6 +160,14 @@ const Breakpoints = React.createClass({
         );
       }
     };
+    const toggleAll = () => {
+      toggleAllBreakpoints(!breakpointsDisabled);
+    };
+    const toggleIndeterminate = (input) => {
+      if (input) {
+        input.indeterminate = isIndeterminate;
+      }
+    };
 
     return (
       <div className="user-breakpoints-header">
@@ -164,13 +176,9 @@ const Breakpoints = React.createClass({
           aria-label={ label }
           title={ label }
           disabled={ breakpointsLoading }
-          onClick={ () => toggleAllBreakpoints(!breakpointsDisabled) }
+          onClick={ toggleAll }
           checked={ !breakpointsDisabled && !isIndeterminate }
-          ref={ (input) => {
-          if (input) {
-            input.indeterminate = isIndeterminate;
-          }
-        } }
+          ref={ toggleIndeterminate }
         />
         <button onClick={ clearAll }>
           Remove All
@@ -200,29 +208,30 @@ const Breakpoints = React.createClass({
 
   renderBreakpoint(breakpoint) {
     const snippet = truncateStr(breakpoint.text || "", 30);
-    const locationId = breakpoint.locationId;
     const line = breakpoint.location.line;
     const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
     const isDisabled = breakpoint.disabled;
     const isConditional = breakpoint.condition !== null;
+    const className = classnames({
+      breakpoint,
+      paused: isCurrentlyPaused,
+      disabled: isDisabled,
+      "is-conditional": isConditional
+    });
+    const selectBreakpoint = () => this.selectBreakpoint(breakpoint);
+    const toggleBreakpoint = () => this.handleCheckbox(breakpoint);
 
     return (
       <div
-        className={ classnames({
-        breakpoint,
-          paused: isCurrentlyPaused,
-          disabled: isDisabled,
-          "is-conditional": isConditional
-        }) }
-        key={ locationId }
-        onClick={ () => this.selectBreakpoint(breakpoint) }
+        className={ className }
+        key={ breakpoint.locationId }
+        onClick={ selectBreakpoint }
       >
         <input
           type="checkbox"
           className="breakpoint-checkbox"
           checked={ !isDisabled }
-          onChange={ () => this.handleCheckbox(breakpoint) }
-          onClick={ (ev) => ev.stopPropagation() }
+          onChange={ toggleBreakpoint }
         />
         <div
           className="breakpoint-label"
