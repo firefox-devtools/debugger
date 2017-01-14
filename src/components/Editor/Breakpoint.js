@@ -3,7 +3,7 @@ const ReactDOM = require("react-dom");
 
 const { PropTypes } = React;
 const classnames = require("classnames");
-const Svg = require("../utils/Svg");
+const Svg = require("../shared/Svg");
 
 const breakpointSvg = document.createElement("div");
 ReactDOM.render(Svg("breakpoint"), breakpointSvg);

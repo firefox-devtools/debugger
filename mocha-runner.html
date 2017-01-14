@@ -2,20 +2,24 @@
 <head>
   <meta charset="utf-8">
   <title>Mocha Tests</title>
-  <link href="mocha/mocha.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css" rel="stylesheet" />
 </head>
 <body>
   <div id="mocha"></div>
 
   <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
-  <script src="expect.js/index.js"></script>
-  <script src="mocha/mocha.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/expect.js/0.2.0/expect.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
 
   <script>mocha.setup('bdd')</script>
-  <script src="assets/build/bundle.js"></script>
-  <link rel="stylesheet" href="assets/build/styles.css">
+  <script src="/assets/build/debugger-unit-tests.js"></script>
+  <link rel="stylesheet" href="/assets/build/debugger.css">
+
   <script>
     mocha.globals(['jQuery']);
+    beforeEach(function() {
+      localStorage.clear();
+    })
     mocha.run();
   </script>
 </body>

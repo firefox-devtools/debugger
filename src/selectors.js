@@ -1,5 +1,5 @@
 // @flow
-
+const expressions = require("./reducers/expressions");
 const sources = require("./reducers/sources");
 const pause = require("./reducers/pause");
 const breakpoints = require("./reducers/breakpoints");
@@ -32,7 +32,6 @@ module.exports = {
   getPause: pause.getPause,
   getChromeScopes: pause.getChromeScopes,
   getLoadedObjects: pause.getLoadedObjects,
-  getExpressions: pause.getExpressions,
   getIsWaitingOnBreak: pause.getIsWaitingOnBreak,
   getShouldPauseOnExceptions: pause.getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions: pause.getShouldIgnoreCaughtExceptions,
@@ -46,5 +45,7 @@ module.exports = {
 
   getFileSearchState: ui.getFileSearchState,
   getShownSource: ui.getShownSource,
-  getPaneCollapse: ui.getPaneCollapse
+  getPaneCollapse: ui.getPaneCollapse,
+
+  getExpressions: expressions.getExpressions,
 };

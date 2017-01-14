@@ -10,19 +10,30 @@
   padding: 0.5em 1px;
   line-height: 1em;
   position: relative;
-  border-left: 4px solid transparent;
   transition: all 0.25s ease;
+}
+
+html[dir="rtl"] .breakpoints-list .breakpoint {
+  border-right: 4px solid transparent;
+}
+
+html:not([dir="rtl"]) .breakpoints-list .breakpoint {
+  border-left: 4px solid transparent;
 }
 
 .breakpoints-list .breakpoint:last-of-type {
   padding-bottom: 0.45em;
 }
 
-.breakpoints-list .breakpoint.is-conditional {
+html:not([dir="rtl"]) .breakpoints-list .breakpoint.is-conditional {
   border-left-color: var(--theme-graphs-yellow);
 }
 
-.breakpoints-list .breakpoint.paused {
+html[dir="rtl"] .breakpoints-list .breakpoint.is-conditional {
+  border-right-color: var(--theme-graphs-yellow);
+}
+
+html .breakpoints-list .breakpoint.paused {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--breakpoint-active-color);
 }
@@ -42,12 +53,12 @@
 }
 
 .breakpoints-list .breakpoint-checkbox {
-  margin-left: 0;
+  margin-inline-start: 0;
 }
 
 .breakpoints-list .breakpoint-label {
   display: inline-block;
-  padding-left: 2px;
+  padding-inline-start: 2px;
   padding-bottom: 4px;
 }
 
@@ -87,12 +98,12 @@ If we do, change to a class target.
 
 .breakpoint-snippet {
   color: var(--theme-comment);
-  padding-left: 18px;
+  padding-inline-start: 18px;
 }
 
 .breakpoint .close-btn {
   position: absolute;
-  right: 6px;
+  offset-inline-end: 6px;
   top: 12px;
 }
 

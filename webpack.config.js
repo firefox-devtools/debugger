@@ -4,14 +4,22 @@ const getConfig = require("./bin/getConfig");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
 
+
+/*
+ * builds a path that's relative to the project path
+ * returns an array so that we can prepend hot-module-reloading in local development
+ */
+function getEntry(filename) {
+  return [path.join(projectPath, filename)];
+}
+
 function buildConfig(envConfig) {
   const webpackConfig = {
     entry: {
-      debugger: [path.join(projectPath, "main.js")],
-      "source-map-worker": path.join(projectPath, "utils/source-map-worker.js"),
-      "pretty-print-worker":
-              path.join(projectPath, "utils/pretty-print-worker.js"),
-      "integration-tests": path.join(projectPath, "test/integration/tests.js"),
+      debugger: getEntry("main.js"),
+      "source-map-worker": getEntry("utils/source-map-worker.js"),
+      "pretty-print-worker": getEntry("utils/pretty-print-worker.js"),
+      "integration-tests": getEntry("test/integration/tests.js"),
     },
 
     output: {

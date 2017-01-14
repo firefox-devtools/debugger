@@ -69,7 +69,8 @@ type BreakpointAction =
 
 type SourceAction =
   { type: "ADD_SOURCE", source: Source }
-  | { type: "SELECT_SOURCE", source: Source,
+  | { type: "SELECT_SOURCE",
+      source: Source,
       line?: number,
       tabIndex?: number }
   | { type: "SELECT_SOURCE_URL", url: string, line?: number }
@@ -91,7 +92,7 @@ type SourceAction =
       value: { isPrettyPrinted: boolean,
                sourceText: SourceText,
                frames: Frame[] }}
-  | { type: "CLOSE_TAB", id: string };
+  | { type: "CLOSE_TAB", url: string };
 
 export type panelPositionType = "start" | "end";
 

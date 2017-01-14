@@ -5,7 +5,7 @@ const { bindActionCreators } = require("redux");
 const actions = require("../actions");
 const { getSelectedSource, getSourceText,
         getPrettySource } = require("../selectors");
-const Svg = require("./utils/Svg");
+const Svg = require("./shared/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
 const { isEnabled } = require("devtools-config");
@@ -41,7 +41,8 @@ const SourceFooter = React.createClass({
 
   prettyPrintButton() {
     const { selectedSource, sourceText } = this.props;
-    const sourceLoaded = selectedSource && !sourceText.get("loading");
+    const sourceLoaded = selectedSource && sourceText &&
+    !sourceText.get("loading");
 
     if (!shouldShowPrettyPrint(selectedSource.toJS())) {
       return;

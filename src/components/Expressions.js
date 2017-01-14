@@ -4,8 +4,8 @@ const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const actions = require("../actions");
 const { getExpressions, getLoadedObjects, getPause } = require("../selectors");
-const CloseButton = React.createFactory(require("./CloseButton"));
-const ObjectInspector = React.createFactory(require("./ObjectInspector"));
+const CloseButton = React.createFactory(require("./shared/Button/Close"));
+const ObjectInspector = React.createFactory(require("./shared/ObjectInspector"));
 const { DOM: dom, PropTypes } = React;
 
 require("./Expressions.css");
@@ -26,8 +26,15 @@ function getValue(expression) {
     };
   }
 
+  if (typeof value.result == "object") {
+    return {
+      path: value.result.actor,
+      value: value.result
+    };
+  }
+
   return {
-    path: value.result.actor,
+    path: value.input,
     value: value.result
   };
 }
@@ -146,7 +153,8 @@ const Expressions = React.createClass({
 });
 
 module.exports = connect(
-  state => ({ pauseInfo: getPause(state),
+  state => ({
+    pauseInfo: getPause(state),
     expressions: getExpressions(state),
     loadedObjects: getLoadedObjects(state)
   }),

@@ -25,7 +25,7 @@ const Breakpoint = React.createFactory(require("./Editor/Breakpoint"));
 const HitMarker = React.createFactory(require("./Editor/HitMarker"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");
-const { shouldShowFooter } = require("../utils/editor");
+const { shouldShowFooter, clearLineClass } = require("../utils/editor");
 const { isFirefox } = require("devtools-config");
 const { showMenu } = require("../utils/menu");
 const { isEnabled } = require("devtools-config");
@@ -278,23 +278,19 @@ const Editor = React.createClass({
     }
   },
 
+  // If the location has changed and a specific line is requested,
+  // move to that line and flash it.
   highlightLine() {
     if (!this.pendingJumpLine) {
       return;
     }
-
-    // If the location has changed and a specific line is requested,
-    // move to that line and flash it.
-    const codeMirror = this.editor.codeMirror;
 
     // Make sure to clean up after ourselves. Not only does this
     // cancel any existing animation, but it avoids it from
     // happening ever again (in case CodeMirror re-applies the
     // class, etc).
     if (this.lastJumpLine) {
-      codeMirror.removeLineClass(
-        this.lastJumpLine - 1, "line", "highlight-line"
-      );
+      clearLineClass(this.editor.codeMirror, "highlight-line");
     }
 
     const line = this.pendingJumpLine;
@@ -418,7 +414,9 @@ const Editor = React.createClass({
       value: " ",
       extraKeys: {
         // Override code mirror keymap to avoid conflicts with split console.
-        Esc: false
+        Esc: false,
+        "Cmd-F": false,
+        "Cmd-G": false
       }
     });
 
@@ -490,7 +488,7 @@ const Editor = React.createClass({
     this.editor.destroy();
     this.editor = null;
 
-    const searchAgainKey = L10N.getStr("sourceSearch.search.next.key");
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
     const shortcuts = this.context.shortcuts;
     shortcuts.off("CmdOrCtrl+B");
     shortcuts.off("CmdOrCtrl+Shift+B");

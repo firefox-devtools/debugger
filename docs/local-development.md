@@ -256,7 +256,7 @@ index 8c79f4d..6893673 100644
  const ImPropTypes = require("react-immutable-proptypes");
  const classnames = require("classnames");
  const actions = require("../actions");
-+const Svg = require("./utils/Svg");
++const Svg = require("./shared/Svg");
  const { getSource, getPause, getBreakpoints } = require("../selectors");
  const { makeLocationId } = require("../reducers/breakpoints");
  const { truncateStr } = require("../utils/utils");
@@ -363,8 +363,8 @@ $ yarn run test-all
 
 * `yarn test` - Run tests headlessly
  * These are the basic unit tests which must always pass
-* `yarn run mocha-server` - Run tests in the browser once you open `http://localhost:8003`
- * This runs tests in the browser and is useful for fixing errors in the karma tests
+* `localhost:8000/mocha` - Run tests in the browser once you open `http://localhost:8003` [gif](http://g.recordit.co/Go1GOu1Pli.gif))
+
 
 #### Integration tests
 

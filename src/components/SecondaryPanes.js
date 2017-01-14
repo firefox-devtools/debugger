@@ -3,7 +3,7 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { isEnabled } = require("devtools-config");
-const Svg = require("./utils/Svg");
+const Svg = require("./shared/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 
 const { getPause } = require("../selectors");
@@ -21,7 +21,7 @@ const Scopes = isEnabled("chromeScopes")
 
 const Frames = React.createFactory(require("./Frames"));
 const EventListeners = React.createFactory(require("./EventListeners"));
-const Accordion = React.createFactory(require("./Accordion"));
+const Accordion = React.createFactory(require("./shared/Accordion"));
 const CommandBar = require("./CommandBar");
 require("./SecondaryPanes.css");
 
@@ -61,10 +61,10 @@ const SecondaryPanes = React.createClass({
     ];
   },
 
-  getItems() {
+  getScopeItem() {
     const isPaused = () => !!this.props.pauseData;
 
-    const scopesContent = this.props.horizontal ? {
+    return {
       header: L10N.getStr("scopes.header"),
       component: Scopes,
       opened: prefs.scopesVisible,
@@ -72,7 +72,20 @@ const SecondaryPanes = React.createClass({
         prefs.scopesVisible = opened;
       },
       shouldOpen: isPaused
-    } : null;
+    };
+  },
+
+  getWatchItem() {
+    return { header: L10N.getStr("watchExpressions.header"),
+      buttons: this.watchExpressionHeaderButtons(),
+      component: Expressions,
+      opened: true
+    };
+  },
+
+  getStartItems() {
+    const scopesContent = this.props.horizontal ? this.getScopeItem() : null;
+    const isPaused = () => !!this.props.pauseData;
 
     const items = [
       { header: L10N.getStr("breakpoints.header"),
@@ -95,12 +108,8 @@ const SecondaryPanes = React.createClass({
       });
     }
 
-    if (isEnabled("watchExpressions")) {
-      items.unshift({ header: L10N.getStr("watchExpressions.header"),
-        buttons: this.watchExpressionHeaderButtons(),
-        component: Expressions,
-        opened: true
-      });
+    if (isEnabled("watchExpressions") && this.props.horizontal) {
+      items.unshift(this.getWatchItem());
     }
 
     return items.filter(item => item);
@@ -112,6 +121,24 @@ const SecondaryPanes = React.createClass({
     });
   },
 
+  getEndItems() {
+    const items = [];
+
+    if (!this.props.horizontal) {
+      items.unshift(this.getScopeItem());
+    }
+
+    if (isEnabled("watchExpressions") && !this.props.horizontal) {
+      items.unshift(this.getWatchItem());
+    }
+
+    return items;
+  },
+
+  getItems() {
+    return [...this.getStartItems(), ...this.getEndItems()];
+  },
+
   renderVerticalLayout() {
     return SplitBox({
       style: { width: "100vw" },
@@ -119,8 +146,8 @@ const SecondaryPanes = React.createClass({
       minSize: 10,
       maxSize: "50%",
       splitterSize: 1,
-      startPanel: Accordion({ items: this.getItems() }),
-      endPanel: Scopes()
+      startPanel: Accordion({ items: this.getStartItems() }),
+      endPanel: Accordion({ items: this.getEndItems() })
     });
   },
 

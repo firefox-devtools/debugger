@@ -28,6 +28,10 @@
   display: flex;
 }
 
+.expression-container .tree {
+  overflow: hidden;
+}
+
 :root.theme-light .expression-container:hover {
   background-color: var(--theme-tab-toolbar-background);
 }
@@ -41,10 +45,10 @@
 }
 
 .expression-container:hover .close-btn {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   margin-left: auto;
-  margin-right: 6px;
+  margin-right: 8px;
   display: block;
   cursor: pointer;
 }
