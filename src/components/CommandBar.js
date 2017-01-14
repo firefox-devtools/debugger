@@ -5,6 +5,7 @@ const { bindActionCreators } = require("redux");
 const { getPause, getIsWaitingOnBreak } = require("../selectors");
 const ImPropTypes = require("react-immutable-proptypes");
 const { formatKeyShortcut } = require("../utils/text");
+const Svg = React.createFactory(require("../../assets/images/Svg"));
 
 const { Services: { appinfo }} = require("devtools-modules");
 
