@@ -42,13 +42,13 @@
 }
 
 .command-bar .toggleBreakpoints.breakpoints-disabled path {
-  stroke: var(--theme-highlight-blue);
+  fill: var(--theme-highlight-blue);
 }
 
 .command-bar span.pause-exceptions.uncaught {
-  stroke: var(--theme-highlight-purple);
+  fill: var(--theme-highlight-purple);
 }
 
 .command-bar span.pause-exceptions.all {
-  stroke: var(--theme-highlight-blue);
+  fill: var(--theme-highlight-blue);
 }
