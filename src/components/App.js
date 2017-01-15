@@ -83,7 +83,7 @@ const App = React.createClass({
           endPanelCollapsed,
           horizontal
         }),
-        Editor(),
+        Editor({ horizontal }),
         !this.props.selectedSource ? this.renderWelcomeBox() : null,
         SourceSearch()
       )
@@ -128,7 +128,7 @@ const App = React.createClass({
         style: { width: "100vw" },
         initialSize: "300px",
         minSize: 30,
-        maxSize: "95%",
+        maxSize: "99%",
         splitterSize: 1,
         vert: horizontal,
         startPanel: SplitBox({

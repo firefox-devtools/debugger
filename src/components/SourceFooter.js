@@ -4,13 +4,16 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
 const { getSelectedSource, getSourceText,
-        getPrettySource } = require("../selectors");
+        getPrettySource, getPaneCollapse } = require("../selectors");
 const Svg = require("./shared/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
 const { isEnabled } = require("devtools-config");
 const { isPretty } = require("../utils/source");
 const { shouldShowFooter, shouldShowPrettyPrint } = require("../utils/editor");
+const PaneToggleButton = React.createFactory(
+  require("./shared/Button/PaneToggle")
+);
 
 require("./SourceFooter.css");
 
@@ -31,6 +34,9 @@ const SourceFooter = React.createClass({
     selectSource: PropTypes.func,
     prettySource: ImPropTypes.map,
     editor: PropTypes.object,
+    endPanelCollapsed: PropTypes.bool,
+    togglePaneCollapse: PropTypes.func,
+    horizontal: PropTypes.bool
   },
 
   displayName: "SourceFooter",
@@ -73,6 +79,19 @@ const SourceFooter = React.createClass({
     }, "C");
   },
 
+  renderToggleButton() {
+    if (this.props.horizontal) {
+      return;
+    }
+
+    return PaneToggleButton({
+      position: "end",
+      collapsed: !this.props.endPanelCollapsed,
+      horizontal: this.props.horizontal,
+      handleClick: this.props.togglePaneCollapse
+    });
+  },
+
   render() {
     const { selectedSource } = this.props;
 
@@ -84,7 +103,8 @@ const SourceFooter = React.createClass({
       dom.div({ className: "commands" },
         this.prettyPrintButton(),
         this.coverageButton()
-      )
+      ),
+      this.renderToggleButton()
     );
   }
 });
@@ -97,6 +117,7 @@ module.exports = connect(
       selectedSource,
       sourceText: getSourceText(state, selectedId),
       prettySource: getPrettySource(state, selectedId),
+      endPanelCollapsed: getPaneCollapse(state, "end")
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
