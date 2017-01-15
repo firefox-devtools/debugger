@@ -20,7 +20,8 @@ const Scopes = React.createClass({
     const { scopes } = this.props;
 
     if (!scopes) {
-      return dom.div({}, "hi");
+      return dom.div({ className: "pane-info" },
+        L10N.getStr("scopes.notAvailable"));
     }
 
     return scopes.map(scope => dom.div({},
