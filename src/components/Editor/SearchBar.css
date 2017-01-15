@@ -76,6 +76,10 @@
   width: 16px;
 }
 
+.search-bar .search-modifiers button svg {
+  fill: var(--theme-comment);
+}
+
 .search-bar .search-modifiers button.active {
   background-color: var(--theme-selection-background);
 }

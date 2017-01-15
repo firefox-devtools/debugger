@@ -7,6 +7,12 @@ const escapeRegExp = require("lodash/escapeRegExp");
  * @module utils/source-search
  */
 
+type ModifierTypes = {
+  caseSensitive: boolean,
+  wholeWord: boolean,
+  regexMatch: boolean
+};
+
 /**
  * @memberof utils/source-search
  * @static
@@ -28,20 +34,19 @@ function getSearchState(cm) {
  * @memberof utils/source-search
  * @static
  */
-function getSearchCursor(
-  cm, query, pos, caseSensitive, wholeWord, regexMatch) {
-  let moddedQuery = query;
+function getSearchCursor(cm, query, pos, modifiers) {
+  const { caseSensitive, regexMatch, wholeWord } = modifiers;
   if (regexMatch && query !== "") {
-    moddedQuery = new RegExp(query, caseSensitive ? "" : "i");
+    query = new RegExp(query, caseSensitive ? "" : "i");
   } else if (query !== "" && (wholeWord || (wholeWord && regexMatch))) {
-    moddedQuery = new RegExp(`\\b${query}\\b`, caseSensitive ? "" : "i");
+    query = new RegExp(`\\b${query}\\b`, caseSensitive ? "" : "i");
   }
 
-  if (query !== "" && typeof moddedQuery == "string") {
-    return cm.getSearchCursor(moddedQuery, pos, !caseSensitive);
+  if (typeof query == "string" && query !== "") {
+    return cm.getSearchCursor(query, pos, !caseSensitive);
   }
 
-  return cm.getSearchCursor(moddedQuery, pos);
+  return cm.getSearchCursor(query, pos);
 }
 
 /**
@@ -128,12 +133,13 @@ function startSearch(cm, state, query, regexMatch) {
  * @memberof utils/source-search
  * @static
  */
-function doSearch(ctx, rev, query, caseSensitive, wholeWord, regexMatch) {
+function doSearch(ctx, rev, query, keepSelection, modifiers: ModifierTypes) {
   let { cm } = ctx;
   let state = getSearchState(cm);
+  const { wholeWord, regexMatch } = modifiers;
 
   if (state.query) {
-    searchNext(ctx, rev, caseSensitive, wholeWord, regexMatch);
+    searchNext(ctx, rev, modifiers);
     return;
   }
 
@@ -143,7 +149,13 @@ function doSearch(ctx, rev, query, caseSensitive, wholeWord, regexMatch) {
     }
     startSearch(cm, state, query, regexMatch || wholeWord);
     state.query = query;
-    searchNext(ctx, rev, caseSensitive, wholeWord, regexMatch);
+    if (keepSelection) {
+      state.posTo = cm.getCursor("anchor");
+      state.posFrom = cm.getCursor("head");
+    } else {
+      state.posFrom = state.posTo = { line: 0, ch: 0 };
+    }
+    searchNext(ctx, rev, modifiers);
   });
 }
 
@@ -153,18 +165,18 @@ function doSearch(ctx, rev, query, caseSensitive, wholeWord, regexMatch) {
  * @memberof utils/source-search
  * @static
  */
-function searchNext(ctx, rev, caseSensitive, wholeWord, regexMatch) {
+function searchNext(ctx, rev, modifiers) {
   let { cm, ed } = ctx;
   cm.operation(function() {
     let state = getSearchState(cm);
     let cursor = getSearchCursor(cm, state.query,
       rev ? state.posFrom : state.posTo,
-      caseSensitive, wholeWord, regexMatch);
+      modifiers);
 
     if (!cursor.find(rev)) {
       cursor = getSearchCursor(cm, state.query, rev ?
         { line: cm.lastLine(), ch: null } : { line: cm.firstLine(), ch: 0 },
-        caseSensitive, wholeWord, regexMatch);
+        modifiers);
       if (!cursor.find(rev)) {
         return;
       }
@@ -210,10 +222,9 @@ function clearSearch(cm) {
  * @memberof utils/source-search
  * @static
  */
-function find(ctx, query, caseSensitive, wholeWord, regexMatch) {
+function find(ctx, query, keepSelection, modifiers: ModifierTypes) {
   clearSearch(ctx.cm);
-  doSearch(ctx, false, query,
-    caseSensitive, wholeWord, regexMatch);
+  doSearch(ctx, false, query, keepSelection, modifiers);
 }
 
 /**
@@ -222,8 +233,8 @@ function find(ctx, query, caseSensitive, wholeWord, regexMatch) {
  * @memberof utils/source-search
  * @static
  */
-function findNext(ctx, query, caseSensitive, wholeWord, regexMatch) {
-  doSearch(ctx, false, query, caseSensitive, wholeWord, regexMatch);
+function findNext(ctx, query, keepSelection, modifiers: ModifierTypes) {
+  doSearch(ctx, false, query, keepSelection, modifiers);
 }
 
 /**
@@ -232,8 +243,8 @@ function findNext(ctx, query, caseSensitive, wholeWord, regexMatch) {
  * @memberof utils/source-search
  * @static
  */
-function findPrev(ctx, query, caseSensitive, wholeWord, regexMatch) {
-  doSearch(ctx, true, query, caseSensitive, wholeWord, regexMatch);
+function findPrev(ctx, query, keepSelection, modifiers: ModifierTypes) {
+  doSearch(ctx, true, query, keepSelection, modifiers);
 }
 
 module.exports = { find, findNext, findPrev, removeOverlay };

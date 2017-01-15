@@ -64,19 +64,18 @@ function resizeBreakpointGutter(editor) {
   breakpoints.style.width = `${lineNumbers.clientWidth}px`;
 }
 
-function traverseResults(
-  e, ctx, query, dir, caseSensitive, wholeWord, regexMatch) {
+function traverseResults(e, ctx, query, dir, modifiers) {
   e.stopPropagation() || e.preventDefault();
   if (dir == "prev") {
-    findPrev(ctx, query, caseSensitive, wholeWord, regexMatch);
+    findPrev(ctx, query, true, modifiers);
   } else if (dir == "next") {
-    findNext(ctx, query, caseSensitive, wholeWord, regexMatch);
+    findNext(ctx, query, true, modifiers);
   }
 }
 
-function onCursorActivity(ctx, query, caseSensitive, wholeWord, regexMatch) {
+function onCursorActivity(ctx, query, modifiers) {
   if (ctx.cm.somethingSelected()) {
-    find(ctx, query, true, caseSensitive, wholeWord, regexMatch);
+    find(ctx, query, true, modifiers);
   } else {
     removeOverlay(ctx);
   }
@@ -106,9 +105,11 @@ const Editor = React.createClass({
   getInitialState() {
     return {
       query: "",
-      caseSensitive: true,
-      wholeWord: false,
-      regexMatch: false
+      searchModifiers: {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: false
+      }
     };
   },
 
@@ -116,8 +117,8 @@ const Editor = React.createClass({
     shortcuts: PropTypes.object
   },
 
-  toggleModifier(mod) {
-    this.setState({ [`${mod}`]: !this.state[`${mod}`] });
+  toggleModifier(searchModifiers) {
+    this.setState({ searchModifiers });
   },
 
   updateQuery(query) {
@@ -184,7 +185,7 @@ const Editor = React.createClass({
       menuOptions.push(jumpLabel);
     }
 
-    var textSelected = this.editor.codeMirror.somethingSelected()
+    const textSelected = this.editor.codeMirror.somethingSelected();
     if (isEnabled("watchExpressions") && textSelected) {
       menuOptions.push(watchExpressionLabel);
     }
@@ -443,9 +444,9 @@ const Editor = React.createClass({
       .addEventListener("keydown", e => onKeyDown(this.editor.codeMirror, e));
 
     const ctx = { ed: this.editor, cm: this.editor.codeMirror };
-    const { query, caseSensitive, wholeWord, regexMatch } = this.state;
+    const { query, searchModifiers } = this.state;
     ctx.cm.on("cursorActivity", cm =>
-      onCursorActivity(ctx, query, caseSensitive, wholeWord, regexMatch));
+      onCursorActivity(ctx, query, searchModifiers));
 
     if (!isFirefox()) {
       this.editor.codeMirror.on(
@@ -485,12 +486,10 @@ const Editor = React.createClass({
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
     shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
       (_, e) =>
-      traverseResults(
-        e, ctx, query, "prev", caseSensitive, wholeWord, regexMatch));
+      traverseResults(e, ctx, query, "prev", searchModifiers));
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
       (_, e) =>
-      traverseResults(
-        e, ctx, query, "next", caseSensitive, wholeWord, regexMatch));
+      traverseResults(e, ctx, query, "next", searchModifiers));
 
     resizeBreakpointGutter(this.editor.codeMirror);
     debugGlobal("cm", this.editor.codeMirror);
@@ -632,7 +631,6 @@ const Editor = React.createClass({
 
   render() {
     const { sourceText, selectedSource, coverageOn, horizontal } = this.props;
-    const { caseSensitive, wholeWord, regexMatch } = this.state;
 
     return (
       dom.div(
@@ -646,9 +644,7 @@ const Editor = React.createClass({
           editor: this.editor,
           selectedSource,
           sourceText,
-          caseSensitive,
-          wholeWord,
-          regexMatch,
+          modifiers: this.state.searchModifiers,
           toggleModifier: this.toggleModifier,
           query: this.state.query,
           updateQuery: this.updateQuery

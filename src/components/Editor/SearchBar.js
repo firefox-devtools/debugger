@@ -10,14 +10,35 @@ const escapeRegExp = require("lodash/escapeRegExp");
 const debounce = require("lodash/debounce");
 const CloseButton = require("../shared/Button/Close");
 const ImPropTypes = require("react-immutable-proptypes");
+const { isEnabled } = require("devtools-config");
 
 require("./SearchBar.css");
 
-function countMatches(query, text, caseSensitive, regexMatch) {
-  let re = new RegExp(query, `g${caseSensitive ? "" : "i"}`);
+
+type ModifierTypes = {
+  caseSensitive: boolean,
+  wholeWord: boolean,
+  regexMatch: boolean
+};
+
+function wholeMatch(query, wholeWord) {
+  if (wholeWord) {
+    return `\\b${query}\\b`;
+  }
+  return query;
+}
+
+function countMatches(query: string, text: string, modifiers: ModifierTypes) {
+  const { caseSensitive, regexMatch, wholeWord } = modifiers;
+  let flag = "g";
+  if (caseSensitive) {
+    flag = "gi";
+  }
+
+  let re = new RegExp(wholeMatch(query, wholeWord), flag);
 
   if (!regexMatch) {
-    re = new RegExp(escapeRegExp(query), `g${caseSensitive ? "" : "i"}`);
+    re = new RegExp(wholeMatch(escapeRegExp(query), wholeWord), flag);
   }
   const match = text.match(re);
   return match ? match.length : 0;
@@ -29,12 +50,10 @@ const SearchBar = React.createClass({
     editor: PropTypes.object,
     sourceText: PropTypes.object,
     selectedSource: ImPropTypes.map,
-    caseSensitive: PropTypes.bool,
-    wholeWord: PropTypes.bool,
-    regexMatch: PropTypes.bool,
-    toggleModifier: PropTypes.func,
-    query: PropTypes.string,
-    updateQuery: PropTypes.func
+    modifiers: PropTypes.object.isRequired,
+    toggleModifier: PropTypes.func.isRequired,
+    query: PropTypes.string.isRequired,
+    updateQuery: PropTypes.func.isRequired
   },
 
   displayName: "SearchBar",
@@ -73,7 +92,7 @@ const SearchBar = React.createClass({
   },
 
   componentDidUpdate(prevProps: any) {
-    const { sourceText, selectedSource } = this.props;
+    const { sourceText, selectedSource, modifiers } = this.props;
 
     if (this.searchInput()) {
       this.searchInput().focus();
@@ -86,8 +105,9 @@ const SearchBar = React.createClass({
     const doneLoading = wasLoading && hasLoaded;
     const changedFiles = selectedSource != prevProps.selectedSource
                           && hasLoaded;
+    const modifiersChanged = prevProps.modifiers != modifiers;
 
-    if (doneLoading || changedFiles) {
+    if (doneLoading || changedFiles || modifiersChanged) {
       this.doSearch(this.props.query);
     }
   },
@@ -143,14 +163,13 @@ const SearchBar = React.createClass({
   },
 
   doSearch(query: string) {
-    const { sourceText, caseSensitive, regexMatch } = this.props;
+    const { sourceText, modifiers } = this.props;
     if (!sourceText) {
       return;
     }
     this.props.updateQuery(query);
     this.search(query);
-    const count = countMatches(
-      query, sourceText.get("text"), caseSensitive, regexMatch);
+    const count = countMatches(query, sourceText.get("text"), modifiers);
     this.setState({ count, index: 0 });
   },
 
@@ -159,8 +178,7 @@ const SearchBar = React.createClass({
   },
 
   traverseResultsPrev(e: SyntheticKeyboardEvent) {
-    e.stopPropagation();
-    e.preventDefault();
+    e.stopPropagation() || e.preventDefault();
 
     const ed = this.props.editor;
 
@@ -173,25 +191,19 @@ const SearchBar = React.createClass({
       index,
       count,
     } = this.state;
-    const {
-      query,
-      caseSensitive,
-      wholeWord,
-      regexMatch
-    } = this.props;
+    const { query, modifiers } = this.props;
 
     if (query == "") {
       this.setState({ enabled: true });
     }
 
-    findPrev(ctx, query, caseSensitive, wholeWord, regexMatch);
+    findPrev(ctx, query, true, modifiers);
     const nextIndex = index == 0 ? count - 1 : index - 1;
     this.setState({ index: nextIndex });
   },
 
   traverseResultsNext(e: SyntheticEvent) {
-    e.stopPropagation();
-    e.preventDefault();
+    e.stopPropagation() || e.preventDefault();
 
     const ed = this.props.editor;
 
@@ -204,18 +216,13 @@ const SearchBar = React.createClass({
       index,
       count,
     } = this.state;
-    const {
-      query,
-      caseSensitive,
-      wholeWord,
-      regexMatch
-    } = this.props;
+    const { query, modifiers } = this.props;
 
     if (query == "") {
       this.setState({ enabled: true });
     }
 
-    findNext(ctx, query, caseSensitive, wholeWord, regexMatch);
+    findNext(ctx, query, true, modifiers);
     const nextIndex = index == count - 1 ? 0 : index + 1;
     this.setState({ index: nextIndex });
   },
@@ -242,9 +249,7 @@ const SearchBar = React.createClass({
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
 
-    const { caseSensitive, wholeWord, regexMatch } = this.props;
-
-    find(ctx, query, caseSensitive, wholeWord, regexMatch);
+    find(ctx, query, true, this.props.modifiers);
   }, 100),
 
   renderSummary() {
@@ -276,32 +281,43 @@ const SearchBar = React.createClass({
   },
 
   renderSearchModifiers() {
-    const { regexMatch, caseSensitive, wholeWord, toggleModifier } = this.props;
-    return dom.div(
-      { className: "search-modifiers" },
-      // render buttons. On clicks toggle search modifiers.
-      dom.button({
-        className: classnames("regex-match-btn", { active: regexMatch }),
-        onClick: () => {
-          toggleModifier("regexMatch");
-          this.doSearch(this.props.query);
-        }
-      }, Svg("regex-match")),
-      dom.button({
-        className: classnames("case-sensitive-btn", { active: caseSensitive }),
-        onClick: () => {
-          toggleModifier("caseSensitive");
-          this.doSearch(this.props.query);
-        }
-      }, Svg("case-match")),
-      dom.button({
-        className: classnames("whole-word-btn", { active: wholeWord }),
-        onClick: () => {
-          toggleModifier("wholeWord");
-          this.doSearch(this.props.query);
-        }
-      }, Svg("whole-word-match")),
-    );
+    const {
+      modifiers: { caseSensitive, wholeWord, regexMatch },
+      toggleModifier } = this.props;
+
+    if (isEnabled("searchModifiers")) {
+      return dom.div(
+        { className: "search-modifiers" },
+        // render buttons. On clicks toggle search modifiers.
+        dom.button({
+          className: classnames("regex-match-btn",
+            { active: regexMatch }),
+          onClick: () => {
+            toggleModifier(
+              { caseSensitive, wholeWord, regexMatch: !regexMatch });
+            this.doSearch(this.props.query);
+          }
+        }, Svg("regex-match")),
+        dom.button({
+          className: classnames("case-sensitive-btn",
+            { active: caseSensitive }),
+          onClick: () => {
+            toggleModifier(
+              { caseSensitive: !caseSensitive, wholeWord, regexMatch });
+            this.doSearch(this.props.query);
+          }
+        }, Svg("case-match")),
+        dom.button({
+          className: classnames("whole-word-btn",
+            { active: wholeWord }),
+          onClick: () => {
+            toggleModifier(
+              { caseSensitive, wholeWord: !wholeWord, regexMatch });
+            this.doSearch(this.props.query);
+          }
+        }, Svg("whole-word-match")),
+      );
+    }
   },
 
   render() {
