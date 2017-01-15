@@ -39,7 +39,6 @@ const Sources = React.createClass({
     return dom.div(
       { className: "sources-panel" },
       dom.div({ className: "sources-header" },
-        L10N.getStr("sources.header"),
         this.renderShortcut()
       ),
       SourcesTree({ sources, selectSource })

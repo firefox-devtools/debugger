@@ -5,6 +5,9 @@
   "clientLogging": false,
   "features": {
     "copySource": true,
-    "editorSearch": true
+    "editorSearch": true,
+    "showSource": true,
+    "editorSearch": true,
+    "verticalLayout": true
   }
 }
