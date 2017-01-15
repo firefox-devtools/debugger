@@ -606,9 +606,9 @@ const Editor = React.createClass({
   },
 
   editorHeight() {
-    const { selectedSource } = this.props;
+    const { selectedSource, horizontal } = this.props;
 
-    if (!selectedSource || !shouldShowFooter(selectedSource.toJS())) {
+    if (!shouldShowFooter(selectedSource, horizontal)) {
       return "100%";
     }
 

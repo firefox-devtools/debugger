@@ -50,7 +50,7 @@ const SourceFooter = React.createClass({
     const sourceLoaded = selectedSource && sourceText &&
     !sourceText.get("loading");
 
-    if (!shouldShowPrettyPrint(selectedSource.toJS())) {
+    if (!shouldShowPrettyPrint(selectedSource)) {
       return;
     }
 
@@ -92,18 +92,28 @@ const SourceFooter = React.createClass({
     });
   },
 
-  render() {
+  renderCommands() {
     const { selectedSource } = this.props;
 
-    if (!selectedSource || !shouldShowFooter(selectedSource.toJS())) {
+    if (!shouldShowPrettyPrint(selectedSource)) {
+      return null;
+    }
+
+    return dom.div({ className: "commands" },
+      this.prettyPrintButton(),
+      this.coverageButton()
+    );
+  },
+
+  render() {
+    const { selectedSource, horizontal } = this.props;
+
+    if (!shouldShowFooter(selectedSource, horizontal)) {
       return null;
     }
 
     return dom.div({ className: "source-footer" },
-      dom.div({ className: "commands" },
-        this.prettyPrintButton(),
-        this.coverageButton()
-      ),
+      this.renderCommands(),
       this.renderToggleButton()
     );
   }

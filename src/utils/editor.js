@@ -2,6 +2,11 @@ const { isPretty, isJavaScript } = require("./source");
 const { isOriginalId } = require("../utils/source-map");
 
 function shouldShowPrettyPrint(selectedSource) {
+  if (!selectedSource) {
+    return false;
+  }
+
+  selectedSource = selectedSource.toJS();
   const _isPretty = isPretty(selectedSource);
   const _isJavaScript = isJavaScript(selectedSource.url);
   const isOriginal = isOriginalId(selectedSource.id);
@@ -14,7 +19,11 @@ function shouldShowPrettyPrint(selectedSource) {
   return true;
 }
 
-function shouldShowFooter(selectedSource) {
+function shouldShowFooter(selectedSource, horizontal) {
+  if (!horizontal) {
+    return true;
+  }
+
   return shouldShowPrettyPrint(selectedSource);
 }
 
