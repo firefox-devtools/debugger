@@ -13,7 +13,6 @@
 
 .split-box.vert {
   flex-direction: row;
-  overflow-x: hidden;
 }
 
 .split-box.horz {
