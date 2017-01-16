@@ -4,13 +4,16 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
 const { getSelectedSource, getSourceText,
-        getPrettySource } = require("../selectors");
+        getPrettySource, getPaneCollapse } = require("../selectors");
 const Svg = require("./shared/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
 const { isEnabled } = require("devtools-config");
 const { isPretty } = require("../utils/source");
 const { shouldShowFooter, shouldShowPrettyPrint } = require("../utils/editor");
+const PaneToggleButton = React.createFactory(
+  require("./shared/Button/PaneToggle")
+);
 
 require("./SourceFooter.css");
 
@@ -31,6 +34,9 @@ const SourceFooter = React.createClass({
     selectSource: PropTypes.func,
     prettySource: ImPropTypes.map,
     editor: PropTypes.object,
+    endPanelCollapsed: PropTypes.bool,
+    togglePaneCollapse: PropTypes.func,
+    horizontal: PropTypes.bool
   },
 
   displayName: "SourceFooter",
@@ -44,7 +50,7 @@ const SourceFooter = React.createClass({
     const sourceLoaded = selectedSource && sourceText &&
     !sourceText.get("loading");
 
-    if (!shouldShowPrettyPrint(selectedSource.toJS())) {
+    if (!shouldShowPrettyPrint(selectedSource)) {
       return;
     }
 
@@ -73,18 +79,42 @@ const SourceFooter = React.createClass({
     }, "C");
   },
 
-  render() {
+  renderToggleButton() {
+    if (this.props.horizontal) {
+      return;
+    }
+
+    return PaneToggleButton({
+      position: "end",
+      collapsed: !this.props.endPanelCollapsed,
+      horizontal: this.props.horizontal,
+      handleClick: this.props.togglePaneCollapse
+    });
+  },
+
+  renderCommands() {
     const { selectedSource } = this.props;
 
-    if (!selectedSource || !shouldShowFooter(selectedSource.toJS())) {
+    if (!shouldShowPrettyPrint(selectedSource)) {
+      return null;
+    }
+
+    return dom.div({ className: "commands" },
+      this.prettyPrintButton(),
+      this.coverageButton()
+    );
+  },
+
+  render() {
+    const { selectedSource, horizontal } = this.props;
+
+    if (!shouldShowFooter(selectedSource, horizontal)) {
       return null;
     }
 
     return dom.div({ className: "source-footer" },
-      dom.div({ className: "commands" },
-        this.prettyPrintButton(),
-        this.coverageButton()
-      )
+      this.renderCommands(),
+      this.renderToggleButton()
     );
   }
 });
@@ -97,6 +127,7 @@ module.exports = connect(
       selectedSource,
       sourceText: getSourceText(state, selectedId),
       prettySource: getPrettySource(state, selectedId),
+      endPanelCollapsed: getPaneCollapse(state, "end")
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

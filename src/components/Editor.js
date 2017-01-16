@@ -97,7 +97,8 @@ const Editor = React.createClass({
     jumpToMappedLocation: PropTypes.func,
     coverageOn: PropTypes.bool,
     selectedFrame: PropTypes.object,
-    addExpression: PropTypes.func
+    addExpression: PropTypes.func,
+    horizontal: PropTypes.bool
   },
 
   displayName: "Editor",
@@ -605,9 +606,9 @@ const Editor = React.createClass({
   },
 
   editorHeight() {
-    const { selectedSource } = this.props;
+    const { selectedSource, horizontal } = this.props;
 
-    if (!selectedSource || !shouldShowFooter(selectedSource.toJS())) {
+    if (!shouldShowFooter(selectedSource, horizontal)) {
       return "100%";
     }
 
@@ -615,7 +616,7 @@ const Editor = React.createClass({
   },
 
   render() {
-    const { sourceText, selectedSource, coverageOn } = this.props;
+    const { sourceText, selectedSource, coverageOn, horizontal } = this.props;
 
     return (
       dom.div(
@@ -636,7 +637,7 @@ const Editor = React.createClass({
         }),
         this.renderBreakpoints(),
         this.renderHitCounts(),
-        SourceFooter({ editor: this.editor })
+        SourceFooter({ editor: this.editor, horizontal })
       )
     );
   }

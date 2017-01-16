@@ -7,7 +7,6 @@ const { getSources, getSelectedSource, getPaneCollapse } = require("../selectors
 
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
-const { formatKeyShortcut } = require("../utils/text");
 const { isEnabled } = require("devtools-config");
 
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
@@ -23,6 +22,7 @@ const SourceSearch = createFactory(require("./SourceSearch"));
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
 const SecondaryPanes = createFactory(require("./SecondaryPanes"));
+const WelcomeBox = createFactory(require("./WelcomeBox"));
 const SourceTabs = createFactory(require("./SourceTabs"));
 
 const App = React.createClass({
@@ -63,14 +63,6 @@ const App = React.createClass({
     });
   },
 
-  renderWelcomeBox() {
-    return dom.div(
-      { className: "welcomebox" },
-      L10N.getFormatStr("welcome.search",
-        formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
-    );
-  },
-
   renderEditorPane() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
@@ -83,8 +75,8 @@ const App = React.createClass({
           endPanelCollapsed,
           horizontal
         }),
-        Editor(),
-        !this.props.selectedSource ? this.renderWelcomeBox() : null,
+        Editor({ horizontal }),
+        !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
         SourceSearch()
       )
     );
@@ -128,7 +120,7 @@ const App = React.createClass({
         style: { width: "100vw" },
         initialSize: "300px",
         minSize: 30,
-        maxSize: "95%",
+        maxSize: "99%",
         splitterSize: 1,
         vert: horizontal,
         startPanel: SplitBox({
