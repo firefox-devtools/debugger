@@ -66,8 +66,17 @@ html .breakpoints-list .breakpoint.paused {
   order: 3;
 }
 
-.breakpoint-snippet {
+:root.theme-light .breakpoint-snippet,
+:root.theme-firebug .breakpoint-snippet {
   color: var(--theme-comment);
+}
+
+:root.theme-dark .breakpoint-snippet {
+  color: var(--theme-body-color);
+  opacity: 0.6;
+}
+
+.breakpoint-snippet {
   padding-inline-start: 18px;
 }
 
