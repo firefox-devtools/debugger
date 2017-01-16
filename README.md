@@ -61,7 +61,7 @@ We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on
 [contributing]:./CONTRIBUTING.md
 [getting-started-screencast]:/docs/videos.md#getting-started
 [up-for-grabs]:https://github.com/devtools-html/debugger.html/issues?q=is%3Aissue+is%3Aopen+label%3A%22up+for+grabs%22
-[app-overview]:./docs/debugger.html-react-redux-overview.md
+[app-overview]:./docs/debugger-html-react-redux-overview.md
 [first-activity]:./docs/debugging-the-debugger.md
 
 [irc-devtools-html]:irc://irc.mozilla.org/devtools-html
