@@ -86,6 +86,8 @@ const App = React.createClass({
     const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
 
+    const overflowX = endPanelCollapsed ? "hidden" : "auto";
+
     return dom.div(
       { className: "debugger" },
       SplitBox({
@@ -97,6 +99,7 @@ const App = React.createClass({
         startPanel: Sources({ sources, horizontal }),
         startPanelCollapsed,
         endPanel: SplitBox({
+          style: { overflowX },
           initialSize: "300px",
           minSize: 10,
           maxSize: "80%",
