@@ -4,10 +4,10 @@ const getConfig = require("./bin/getConfig");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
 
-
 /*
  * builds a path that's relative to the project path
- * returns an array so that we can prepend hot-module-reloading in local development
+ * returns an array so that we can prepend
+ * hot-module-reloading in local development
  */
 function getEntry(filename) {
   return [path.join(projectPath, filename)];
@@ -31,11 +31,12 @@ function buildConfig(envConfig) {
 
     resolve: {
       alias: {
+        "react-dom": "react-dom/dist/react-dom",
         "devtools/client/shared/vendor/react": "react",
         "devtools/client/shared/vendor/react-dom": "react-dom",
       }
     }
-  }
+  };
 
   return toolbox.toolboxConfig(webpackConfig, envConfig);
 }
