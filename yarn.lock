@@ -1911,9 +1911,9 @@ devtools-launchpad@0.0.21:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
-devtools-launchpad@0.0.23:
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.23.tgz#58dc9561d31013ccfafbc479e16f28d949362d2b"
+devtools-launchpad@0.0.24:
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.24.tgz#9db8b88806721b5b75812120b9b042e698f07ef2"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
@@ -1938,7 +1938,7 @@ devtools-launchpad@0.0.23:
     css-loader "^0.25.0"
     devtools-client-adapters "^0.0.6"
     devtools-config "^0.0.10"
-    devtools-modules "^0.0.12"
+    devtools-modules "^0.0.13"
     devtools-network-request "^0.0.9"
     devtools-sham-modules "^0.0.11"
     eslint "^3.12.0"
@@ -1979,9 +1979,9 @@ devtools-modules@^0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.11.tgz#02d403a24778326e5b5330db508e29b536a9025a"
 
-devtools-modules@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.12.tgz#51786e463eadd842ec429a7df42adfdcd4643b32"
+devtools-modules@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.13.tgz#8364bb4e971d581498076bc9e87ae5f27a4c7330"
 
 devtools-network-request@^0.0.9:
   version "0.0.9"
