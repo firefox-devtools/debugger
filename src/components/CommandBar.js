@@ -1,13 +1,11 @@
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
+const { PropTypes } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions,
-        getShouldIgnoreCaughtExceptions,
-      } = require("../selectors");
-const Svg = require("./shared/Svg");
+const { getPause, getIsWaitingOnBreak } = require("../selectors");
 const ImPropTypes = require("react-immutable-proptypes");
 const { formatKeyShortcut } = require("../utils/text");
+const Svg = React.createFactory(require("../../assets/images/Svg"));
 
 const { Services: { appinfo }} = require("devtools-modules");
 
@@ -62,13 +60,16 @@ function formatKey(action) {
   return formatKeyShortcut(key);
 }
 
-function debugBtn(onClick, type, className, tooltip) {
-  className = `${type} ${className}`;
-  return dom.span(
-    { onClick, className, key: type },
-    Svg(type, { title: tooltip })
+function debugBtn(item) {
+  const className = `${item.type} active`;
+  return (
+    <span onClick={item.action} key={item.type}>
+      <Svg className={className} name={item.type} title={item.label} />
+    </span>
   );
 }
+
+debugBtn.displayName = "debugButton";
 
 const CommandBar = React.createClass({
   propTypes: {
@@ -78,11 +79,7 @@ const CommandBar = React.createClass({
     stepIn: PropTypes.func,
     stepOut: PropTypes.func,
     stepOver: PropTypes.func,
-    breakOnNext: PropTypes.func,
     pause: ImPropTypes.map,
-    pauseOnExceptions: PropTypes.func,
-    shouldPauseOnExceptions: PropTypes.bool,
-    shouldIgnoreCaughtExceptions: PropTypes.bool,
     isWaitingOnBreak: PropTypes.bool,
   },
 
@@ -124,84 +121,36 @@ const CommandBar = React.createClass({
   },
 
   renderStepButtons() {
-    const className = this.props.pause ? "active" : "disabled";
     return [
-      debugBtn(this.props.stepOver, "stepOver", className,
-        L10N.getFormatStr("stepOverTooltip", formatKey("stepOver"))
-      ),
-      debugBtn(this.props.stepIn, "stepIn", className,
-        L10N.getFormatStr("stepInTooltip", formatKey("stepIn"))
-      ),
-      debugBtn(this.props.stepOut, "stepOut", className,
-        L10N.getFormatStr("stepOutTooltip", formatKey("stepOut"))
-      )
-    ];
-  },
-
-  renderPauseButton() {
-    const { pause, breakOnNext, isWaitingOnBreak } = this.props;
-
-    if (pause) {
-      return debugBtn(this.props.resume, "resume", "active",
-        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
-      );
-    }
-
-    if (isWaitingOnBreak) {
-      return debugBtn(null, "pause", "disabled",
-        L10N.getStr("pausePendingButtonTooltip")
-      );
-    }
-
-    return debugBtn(breakOnNext, "pause", "active",
-      L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
-    );
-  },
-
-  /*
-   * The pause on exception button has three states in this order:
-   *  1. don't pause on exceptions      [false, false]
-   *  2. pause on uncaught exceptions   [true, true]
-   *  3. pause on all exceptions        [true, false]
-  */
-  renderPauseOnExceptions() {
-    const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions,
-            pauseOnExceptions } = this.props;
-
-    if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => pauseOnExceptions(true, true),
-        "pause-exceptions",
-        "enabled",
-        L10N.getStr("ignoreExceptions")
-      );
-    }
-
-    if (shouldPauseOnExceptions && shouldIgnoreCaughtExceptions) {
-      return debugBtn(
-        () => pauseOnExceptions(true, false),
-        "pause-exceptions",
-        "uncaught enabled",
-        L10N.getStr("pauseOnUncaughtExceptions")
-      );
-    }
-
-    return debugBtn(
-      () => pauseOnExceptions(false, false),
-      "pause-exceptions",
-      "all enabled",
-      L10N.getStr("pauseOnExceptions")
-    );
+      {
+        action: this.props.resume,
+        type: "resume",
+        label: L10N.getFormatStr("resumeButtonTooltip", formatKey("resume")),
+      },
+      {
+        action: this.props.stepOver,
+        type: "stepOver",
+        label: L10N.getFormatStr("stepOverTooltip", formatKey("stepOver")),
+      },
+      {
+        action: this.props.stepIn,
+        type: "stepIn",
+        label: L10N.getFormatStr("stepInTooltip", formatKey("stepIn")),
+      },
+      {
+        action: this.props.stepOut,
+        type: "stepOut",
+        label: L10N.getFormatStr("stepOutTooltip", formatKey("stepOut")),
+      },
+    ].map(debugBtn);
   },
 
   render() {
     return (
-      dom.div(
-        { className: "command-bar" },
-        this.renderPauseButton(),
-        this.renderStepButtons(),
-        this.renderPauseOnExceptions()
-      )
+      this.props.pause ?
+        (<div className="command-bar">
+          {this.renderStepButtons()}
+        </div>) : null
     );
   }
 });
@@ -211,8 +160,6 @@ module.exports = connect(
     return {
       pause: getPause(state),
       isWaitingOnBreak: getIsWaitingOnBreak(state),
-      shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

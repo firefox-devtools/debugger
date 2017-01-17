@@ -4,6 +4,7 @@
 }
 
 .breakpoints-list .breakpoint {
+  display: block;
   font-size: 12px;
   color: var(--theme-content-color1);
   padding: 0.5em 1px;
@@ -59,6 +60,35 @@ html .breakpoints-list .breakpoint.paused {
   display: inline-block;
   padding-inline-start: 2px;
   padding-bottom: 4px;
+}
+
+.breakpoints-list .pause-execution {
+  display: flex;
+  width: 100%;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  padding: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.breakpoints-list .pause-execution:disabled {
+  cursor: no-drop;
+}
+
+/**
+Hack for demo. Will probably not use native details in final.
+If we do, change to a class target.
+ */
+.breakpoints-list details {
+  cursor: pointer;
+}
+
+.breakpoints-list .user-breakpoints-header {
+  display: flex;
+  justify-content: space-between;
 }
 
 .breakpoints-list .pause-indicator {

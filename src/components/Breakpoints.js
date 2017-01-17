@@ -4,13 +4,23 @@ const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
 const actions = require("../actions");
-const { getSource, getPause, getBreakpoints } = require("../selectors");
+const {
+  getSource,
+  getPause,
+  getBreakpoints,
+  getShouldPauseOnExceptions,
+  getShouldIgnoreCaughtExceptions,
+  getIsWaitingOnBreak,
+  getBreakpointsDisabled,
+  getBreakpointsLoading,
+} = require("../selectors");
 const { makeLocationId } = require("../reducers/breakpoints");
 const { truncateStr } = require("../utils/utils");
-const { DOM: dom, PropTypes } = React;
+const { PropTypes } = React;
 const { endTruncateStr } = require("../utils/utils");
 const { basename } = require("../utils/path");
 const CloseButton = require("./shared/Button/Close");
+const Svg = require("../../assets/images/Svg");
 
 require("./Breakpoints.css");
 
@@ -32,11 +42,14 @@ function renderSourceLocation(source, line) {
   const url = source.get("url") ? basename(source.get("url")) : null;
   // const line = url !== "" ? `: ${line}` : "";
   return url ?
-    dom.div(
-      { className: "location" },
-      `${endTruncateStr(url, 30)}: ${line}`
+    (
+      <div className="location">
+        {endTruncateStr(url, 30)}: {line}
+      </div>
     ) : null;
 }
+
+renderSourceLocation.displayName = "SourceLocation";
 
 const Breakpoints = React.createClass({
   propTypes: {
@@ -44,7 +57,16 @@ const Breakpoints = React.createClass({
     enableBreakpoint: PropTypes.func.isRequired,
     disableBreakpoint: PropTypes.func.isRequired,
     selectSource: PropTypes.func.isRequired,
-    removeBreakpoint: PropTypes.func.isRequired
+    removeBreakpoint: PropTypes.func.isRequired,
+    pauseOnExceptions: PropTypes.func.isRequired,
+    exceptionPauseModes: PropTypes.array.isRequired,
+    currentExceptionPauseMode: PropTypes.object.isRequired,
+    pause: ImPropTypes.map,
+    isWaitingOnBreak: PropTypes.bool,
+    breakOnNext: PropTypes.func,
+    breakpointsDisabled: PropTypes.bool,
+    breakpointsLoading: PropTypes.bool,
+    toggleAllBreakpoints: PropTypes.func,
   },
 
   displayName: "Breakpoints",
@@ -72,54 +94,173 @@ const Breakpoints = React.createClass({
     this.props.removeBreakpoint(breakpoint.location);
   },
 
+  pauseExceptionModeToggled(event) {
+    const { pauseOnExceptions, exceptionPauseModes } = this.props;
+    const targetMode = exceptionPauseModes.filter(
+      item => item.mode === event.target.value
+    )[0];
+
+    pauseOnExceptions(targetMode.shouldPause, targetMode.shouldIgnoreCaught);
+  },
+
+  renderPauseExecutionButton() {
+    const { breakOnNext, isWaitingOnBreak } = this.props;
+
+    return (
+      <button
+        className="pause-execution"
+        disabled={ isWaitingOnBreak }
+        onClick={ breakOnNext }
+      >
+        <Svg name="pause" />
+        { isWaitingOnBreak ?
+          "Will pause on next execution" :
+          "Pause on next execution" }
+      </button>
+    );
+  },
+
+  renderGlobalBreakpoints() {
+    const currentMode = this.props.currentExceptionPauseMode;
+    const _createToggle = (fromMode) => {
+      return (
+        <label className="breakpoint" key={ fromMode.mode }>
+          <input
+            type="radio"
+            onChange={ this.pauseExceptionModeToggled }
+            value={ fromMode.mode }
+            checked={ currentMode.mode === fromMode.mode }
+          />
+          <div className="breakpoint-label">{ fromMode.label }</div>
+        </label>
+      );
+    };
+
+    return (
+      <details>
+        <summary className="_header">
+          { `Exceptions - Pausing on: ${currentMode.headerLabel}` }
+          </summary>
+        { this.props.exceptionPauseModes.map(_createToggle) }
+      </details>
+    );
+  },
+
+  renderUserBreakpointsHeader() {
+    const { toggleAllBreakpoints, breakpointsDisabled,
+      breakpoints, breakpointsLoading } = this.props;
+    const label = breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
+      L10N.getStr("breakpoints.disable");
+    const isIndeterminate = !breakpointsDisabled &&
+      breakpoints.some(x => x.disabled);
+    const clearAll = () => {
+      if (confirm("Are you sure you want to remove all breakpoints?")) {
+        breakpoints.forEach(
+          breakpoint => this.props.removeBreakpoint(breakpoint.location)
+        );
+      }
+    };
+    const toggleAll = () => {
+      toggleAllBreakpoints(!breakpointsDisabled);
+    };
+    const toggleIndeterminate = (input) => {
+      if (input) {
+        input.indeterminate = isIndeterminate;
+      }
+    };
+
+    return (
+      <div className="user-breakpoints-header">
+        <input
+          type="checkbox"
+          aria-label={ label }
+          title={ label }
+          disabled={ breakpointsLoading }
+          onClick={ toggleAll }
+          checked={ !breakpointsDisabled && !isIndeterminate }
+          ref={ toggleIndeterminate }
+        />
+        <button onClick={ clearAll }>
+          Remove All
+        </button>
+      </div>
+    );
+  },
+
+  renderUserBreakpoints() {
+    const { breakpoints } = this.props;
+
+    if (breakpoints.size === 0) {
+      return (
+        <div className="pane-info">
+          { L10N.getStr("breakpoints.none") }
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        { this.renderUserBreakpointsHeader() }
+        { breakpoints.valueSeq().map(this.renderBreakpoint) }
+      </div>
+    );
+  },
+
   renderBreakpoint(breakpoint) {
     const snippet = truncateStr(breakpoint.text || "", 30);
-    const locationId = breakpoint.locationId;
     const line = breakpoint.location.line;
     const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
     const isDisabled = breakpoint.disabled;
     const isConditional = breakpoint.condition !== null;
+    const className = classnames({
+      breakpoint,
+      paused: isCurrentlyPaused,
+      disabled: isDisabled,
+      "is-conditional": isConditional
+    });
+    const selectBreakpoint = () => this.selectBreakpoint(breakpoint);
+    const toggleBreakpoint = () => this.handleCheckbox(breakpoint);
 
-    return dom.div(
-      {
-        className: classnames({
-          breakpoint,
-          paused: isCurrentlyPaused,
-          disabled: isDisabled,
-          "is-conditional": isConditional
-        }),
-        key: locationId,
-        onClick: () => this.selectBreakpoint(breakpoint)
-      },
-      dom.input({
-        type: "checkbox",
-        className: "breakpoint-checkbox",
-        checked: !isDisabled,
-        onChange: () => this.handleCheckbox(breakpoint),
-        // Prevent clicking on the checkbox from triggering the onClick of
-        // the surrounding div
-        onClick: (ev) => ev.stopPropagation()
-      }),
-      dom.div(
-        { className: "breakpoint-label", title: breakpoint.text },
-        dom.div({}, renderSourceLocation(breakpoint.location.source, line))
-      ),
-      dom.div({ className: "breakpoint-snippet" }, snippet),
-      CloseButton({
-        handleClick: (ev) => this.removeBreakpoint(ev, breakpoint),
-        tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip")
-      }));
+    return (
+      <div
+        className={ className }
+        key={ breakpoint.locationId }
+        onClick={ selectBreakpoint }
+      >
+        <input
+          type="checkbox"
+          className="breakpoint-checkbox"
+          checked={ !isDisabled }
+          onChange={ toggleBreakpoint }
+        />
+        <div
+          className="breakpoint-label"
+          title={ breakpoint.text }
+        >
+          <div>
+            { renderSourceLocation(breakpoint.location.source, line) }
+          </div>
+        </div>
+        <div
+          className="breakpoint-snippet"
+        >
+          { snippet }
+        </div>
+        { CloseButton({
+          handleClick: (ev) => this.removeBreakpoint(ev, breakpoint),
+          tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip")
+        }) }
+      </div>
+    );
   },
 
   render() {
-    const { breakpoints } = this.props;
-    return dom.div(
-      { className: "pane breakpoints-list" },
-      (breakpoints.size === 0 ?
-       dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none")) :
-       breakpoints.valueSeq().map(bp => {
-         return this.renderBreakpoint(bp);
-       }))
+    return (
+      <div className="pane breakpoints-list">
+        { this.renderPauseExecutionButton() }
+        { this.renderGlobalBreakpoints() }
+        { this.renderUserBreakpoints() }
+      </div>
     );
   }
 });
@@ -139,9 +280,63 @@ function _getBreakpoints(state) {
   .filter(bp => bp.location.source);
 }
 
+/*
+ * The pause on exception feature has three states in this order:
+ *  1. don't pause on exceptions      [false, false]
+ *  2. pause on uncaught exceptions   [true, true]
+ *  3. pause on all exceptions        [true, false]
+ */
+
+function _getModes() {
+  return [
+    {
+      mode: "no-pause",
+      label: "Do not pause on exceptions.",
+      headerLabel: "None",
+      shouldPause: false,
+      shouldIgnoreCaught: false,
+    },
+    {
+      mode: "no-caught",
+      label: "Pause on uncaught exceptions.",
+      headerLabel: "Uncaught",
+      shouldPause: true,
+      shouldIgnoreCaught: true,
+    },
+    {
+      mode: "with-caught",
+      label: "Pause on all exceptions",
+      headerLabel: "All",
+      shouldPause: true,
+      shouldIgnoreCaught: false,
+    },
+  ];
+}
+
+function _getPauseExceptionMode(state) {
+  const shouldPause = getShouldPauseOnExceptions(state);
+  const shouldIgnoreCaught = getShouldIgnoreCaughtExceptions(state);
+
+  if (shouldPause) {
+    if (shouldIgnoreCaught) {
+      return _getModes().filter(item => item.mode === "no-caught")[0];
+    }
+
+    return _getModes().filter(item => item.mode === "with-caught")[0];
+  }
+
+  return _getModes().filter(item => item.mode === "no-pause")[0];
+}
+
 module.exports = connect(
   (state, props) => ({
-    breakpoints: _getBreakpoints(state)
+    breakpoints: _getBreakpoints(state),
+    exceptionPauseModes: _getModes(),
+    currentExceptionPauseMode: _getPauseExceptionMode(state),
+    pause: getPause(state),
+    isWaitingOnBreak: getIsWaitingOnBreak(state),
+    breakpointsDisabled: getBreakpointsDisabled(state),
+    breakpointsLoading: getBreakpointsLoading(state),
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);

@@ -34,6 +34,7 @@
     "postmerge": "bin/post-merge"
   },
   "dependencies": {
+    "babel-plugin-transform-react-jsx": "^6.8.0",
     "codemirror": "^5.1.0",
     "devtools-launchpad": "0.0.24",
     "devtools-reps": "^0.0.2",
