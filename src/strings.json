@@ -59,6 +59,7 @@
   "whyPaused.exception": "Paused on exception",
   "whyPaused.resumeLimit": "Paused while stepping",
   "whyPaused.pauseOnDOMEvents": "Paused on event listener",
+  "whyPaused.breakpointConditionThrown": "Error with conditional breakpoint",
   "whyPaused.xhr": "Paused on XMLHttpRequest",
   "whyPaused.promiseRejection": "Paused on promise rejection",
   "whyPaused.assert": "Paused on assertion",
