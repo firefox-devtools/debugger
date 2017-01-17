@@ -15,7 +15,7 @@ const PaneToggleButton = React.createFactory(require("../shared/Button/PaneToggl
 const Svg = require("../shared/Svg");
 const Dropdown = React.createFactory(require("../shared/Dropdown"));
 const { showMenu, buildMenu } = require("../shared/menu");
-const { debounce } = require("lodash");
+const debounce = require("lodash/debounce");
 const { formatKeyShortcut } = require("../../utils/text");
 require("./Tabs.css");
 

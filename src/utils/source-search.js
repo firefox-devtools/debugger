@@ -1,4 +1,4 @@
-const { escapeRegExp } = require("lodash");
+const escapeRegExp = require("lodash/escapeRegExp");
 /**
  * These functions implement search within the debugger. Since
  * search in the debugger is different from other components,

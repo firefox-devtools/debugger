@@ -6,7 +6,8 @@ const { findDOMNode } = require("react-dom");
 const Svg = require("../shared/Svg");
 const { find, findNext, findPrev, removeOverlay } = require("../../utils/source-search");
 const classnames = require("classnames");
-const { debounce, escapeRegExp } = require("lodash");
+const escapeRegExp = require("lodash/escapeRegExp");
+const debounce = require("lodash/escapeRegExp");
 const CloseButton = require("../shared/Button/Close");
 const ImPropTypes = require("react-immutable-proptypes");
 
