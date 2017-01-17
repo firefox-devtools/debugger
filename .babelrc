@@ -1,5 +1,6 @@
-{ "plugins": [
-  "transform-es2015-block-scoping",
+{
+  "plugins": [
+    "transform-es2015-block-scoping",
     "transform-es2015-destructuring",
     "transform-es2015-parameters",
     "transform-es2015-spread",
@@ -8,8 +9,10 @@
 
     ["module-resolver", {
       "alias": {
+        "react-dom/dist/react-dom": "react-dom",
         "devtools/client/shared/vendor/react": "react",
         "devtools/client/shared/vendor/react-dom": "react-dom"
       }
     }]
-]}
+  ]
+}
