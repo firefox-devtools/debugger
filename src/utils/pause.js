@@ -29,6 +29,7 @@ const reasons = {
   "exception": "whyPaused.exception",
   "resumeLimit": "whyPaused.resumeLimit",
   "pauseOnDOMEvents": "whyPaused.pauseOnDOMEvents",
+  "breakpointConditionThrown": "whyPaused.breakpointConditionThrown",
 
   // V8
   "DOM": "whyPaused.breakpoint",
