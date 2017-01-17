@@ -28,8 +28,17 @@
 }
 
 .frames .location {
-  color: var(--theme-comment);
   font-weight: lighter;
+}
+
+:root.theme-light .frames .location,
+:root.theme-firebug .frames .location {
+  color: var(--theme-comment);
+}
+
+:root.theme-dark .frames .location {
+  color: var(--theme-body-color);
+  opacity: 0.6;
 }
 
 .frames .title {
