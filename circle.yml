@@ -28,6 +28,7 @@ test:
     - yarn run lint-js
     - yarn run flow
     - yarn run flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
+    - yarn check
     - bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/flow-coverage/flow-coverage.json
 
 dependencies:
