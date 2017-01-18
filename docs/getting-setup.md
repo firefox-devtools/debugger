@@ -20,7 +20,7 @@ brew install yarn
 
 ```bash
 yarn --version
-0.18.1
+0.19.1
 ```
 
 *Why Yarn and not NPM?*
@@ -86,7 +86,7 @@ Try this [first activity][first-activity] if you want to start debugging the deb
 This setup is for people on the DevTools team and DevTools wizards.
 
 ```bash
-curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.18.1
+curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.19.1
 git clone git@github.com:devtools-html/debugger.html.git
 cd debugger.html
 yarn install
