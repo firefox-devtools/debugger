@@ -8,6 +8,9 @@ const CodeMirror = require("codemirror");
 require("codemirror/lib/codemirror.css");
 require("codemirror/mode/javascript/javascript");
 require("codemirror/mode/htmlmixed/htmlmixed");
+require("codemirror/mode/coffeescript/coffeescript");
+require("codemirror/mode/jsx/jsx");
+require("codemirror/mode/elm/elm");
 require("../lib/codemirror-mozilla.css");
 require("codemirror/addon/search/searchcursor");
 

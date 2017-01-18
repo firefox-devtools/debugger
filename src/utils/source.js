@@ -8,7 +8,7 @@
 const { endTruncateStr } = require("./utils");
 const { basename } = require("../utils/path");
 
-import type { Source } from "../types";
+import type { Source, SourceText } from "../types";
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
@@ -86,10 +86,88 @@ function getFilename(source: Source) {
   return endTruncateStr(name, 50);
 }
 
+const contentTypeModeMap = {
+  "text/javascript": { name: "javascript" },
+  "text/typescript": { name: "javascript", typescript: true },
+  "text/coffeescript": "coffeescript",
+  "text/typescript-jsx": {
+    name: "jsx",
+    base: { name: "javascript", typescript: true }
+  },
+  "text/jsx": "jsx",
+  "text/x-elm": "elm",
+  "text/wasm": { name: "text" },
+  "html": { name: "htmlmixed" }
+};
+
+/**
+ *
+ * Returns Code Mirror mode for source content type
+ * @param contentType
+ * @return String
+ * @memberof utils/source
+ * @static
+ */
+
+function getMode(sourceText: SourceText) {
+  const { contentType, text } = sourceText;
+
+  // // @flow or /* @flow */
+  if (text.match(/^\s*(\/\/ @flow|\/\* @flow \*\/)/)) {
+    return contentTypeModeMap["text/typescript"];
+  }
+
+  if (/script|elm|jsx|wasm/.test(contentType)) {
+    if (contentType in contentTypeModeMap) {
+      return contentTypeModeMap[contentType];
+    }
+
+    return contentTypeModeMap["text/javascript"];
+  }
+
+  // Use HTML mode for files in which the first non whitespace
+  // character is `<` regardless of extension.
+  if (text.match(/^\s*</)) {
+    return { name: "htmlmixed" };
+  }
+
+  return { name: "text" };
+}
+
+function getContentType(url: string) {
+  if (isJavaScript(url)) {
+    return "text/javascript";
+  }
+
+  if (url.match(/ts$/)) {
+    return "text/typescript";
+  }
+
+  if (url.match(/tsx$/)) {
+    return "text/typescript-jsx";
+  }
+
+  if (url.match(/jsx$/)) {
+    return "text/jsx";
+  }
+
+  if (url.match(/coffee$/)) {
+    return "text/coffeescript";
+  }
+
+  if (url.match(/elm$/)) {
+    return "text/elm";
+  }
+
+  return "text/plain";
+}
+
 module.exports = {
   isJavaScript,
   isPretty,
   getPrettySourceURL,
   getRawSourceURL,
-  getFilename
+  getFilename,
+  getMode,
+  getContentType
 };
