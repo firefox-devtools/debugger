@@ -12,7 +12,8 @@
   fill: var(--theme-comment);
 }
 
-.toggle-button-end svg {
+html:not([dir="rtl"]) .toggle-button-end svg,
+html[dir="rtl"] .toggle-button-start svg {
   transform: rotate(180deg);
 }
 
@@ -26,12 +27,12 @@
 
 .toggle-button-start {
   top: 7px;
-  left: 0;
+  offset-inline-start: 0;
 }
 
 .toggle-button-end {
   top: 7px;
-  right: 0;
+  offset-inline-end: 0;
 }
 
 .toggle-button-start.collapsed,
