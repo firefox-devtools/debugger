@@ -5,7 +5,7 @@ const { PROMISE } = require("../utils/redux/middleware/promise");
 
 const { getExpressions, getSelectedFrame } = require("../selectors");
 
-import type { Expression } from "../types";
+import type { Expression } from "devtools-client-adapters/src/types";
 import type { ThunkArgs } from "./types";
 
 type frameIdType = string | null;

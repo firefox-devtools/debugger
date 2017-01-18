@@ -8,7 +8,7 @@
 const { endTruncateStr } = require("./utils");
 const { basename } = require("../utils/path");
 
-import type { Source, SourceText } from "../types";
+import type { Source, SourceText } from "devtools-client-adapters/src/types";
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.

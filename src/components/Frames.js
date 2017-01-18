@@ -12,7 +12,7 @@ const { getFrames, getSelectedFrame, getSource } = require("../selectors");
 const classNames = require("classnames");
 
 import type { List } from "immutable";
-import type { Frame } from "../types";
+import type { Frame, Source } from "devtools-client-adapters/src/types";
 
 if (typeof window == "object") {
   require("./Frames.css");
@@ -25,7 +25,12 @@ function renderFrameTitle({ displayName }: Frame) {
 }
 
 function renderFrameLocation({ source, location }: Frame) {
-  const filename = getFilename(source);
+  const thisSource : ?Source = source;
+  if (thisSource == null) {
+    return;
+  }
+
+  const filename = getFilename(thisSource);
   return div(
     { className: "location" },
     `${filename}: ${location.line}`

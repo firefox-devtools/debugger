@@ -9,7 +9,8 @@ const makeRecord = require("../utils/makeRecord");
 const { prefs } = require("../utils/prefs");
 const I = require("immutable");
 
-import type { Frame, Pause, Expression } from "../types";
+import type { Frame, Pause,
+  Expression } from "devtools-client-adapters/src/types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
