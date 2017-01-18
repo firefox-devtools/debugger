@@ -7,6 +7,8 @@ const { MODE } = require("devtools-reps");
 
 const { DOM: dom, PropTypes } = React;
 
+const WINDOW_PROPERTIES = Object.getOwnPropertyNames(window);
+
 require("./ObjectInspector.css");
 
 // This implements a component that renders an interactive inspector
@@ -58,8 +60,7 @@ function nodeIsPrimitive(item) {
 }
 
 function isDefault(item) {
-    const properties = Object.getOwnPropertyNames(window);
-    return properties.includes(item.name);
+  return WINDOW_PROPERTIES.includes(item.name);
 }
 
 function makeNodesForProperties(objProps, parentPath) {
