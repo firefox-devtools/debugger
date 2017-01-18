@@ -1,4 +1,5 @@
 const { createSource, firefox } = require("devtools-client-adapters");
+const { prefs } = require("./prefs");
 
 function onFirefoxConnect(actions) {
   const tabTarget = firefox.getTabTarget();
@@ -33,6 +34,14 @@ function onConnect(connection, actions) {
   // NOTE: the landing page does not connect to a JS process
   if (!connection) {
     return;
+  }
+
+  const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
+  if (pauseOnExceptions || ignoreCaughtExceptions) {
+    actions.pauseOnExceptions(
+      pauseOnExceptions,
+      ignoreCaughtExceptions
+    );
   }
 
   const { tab } = connection;
