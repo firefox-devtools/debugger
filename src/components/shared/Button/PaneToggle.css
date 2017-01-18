@@ -5,6 +5,7 @@
   height: 16px;
   transition: transform 0.25s ease-in-out;
   margin: 0 4px;
+  cursor: pointer;
 }
 
 .toggle-button-start svg,
