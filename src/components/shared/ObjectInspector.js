@@ -57,6 +57,11 @@ function nodeIsPrimitive(item) {
   return !nodeHasChildren(item) && !nodeHasProperties(item);
 }
 
+function isDefault(item) {
+    const properties = Object.getOwnPropertyNames(window);
+    return properties.includes(item.name);
+}
+
 function makeNodesForProperties(objProps, parentPath) {
   const { ownProperties, prototype } = objProps;
 
@@ -171,8 +176,7 @@ const ObjectInspector = React.createClass({
         className: classnames("node object-node",
           {
             focused,
-            "not-enumerable": (!item.contents.enumerable &&
-                               !nodeHasChildren(item))
+            "default-property": isDefault(item)
           }),
         style: { marginLeft: depth * 15 },
         onClick: e => {
