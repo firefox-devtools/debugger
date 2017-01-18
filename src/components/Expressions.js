@@ -51,6 +51,12 @@ const Expressions = React.createClass({
 
   displayName: "Expressions",
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { expressions, loadedObjects } = this.props;
+    return expressions !== nextProps.expressions
+      || loadedObjects !== nextProps.loadedObjects;
+  },
+
   inputKeyPress(e, { id }) {
     if (e.key !== "Enter") {
       return;

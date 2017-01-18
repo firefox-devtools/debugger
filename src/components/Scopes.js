@@ -145,6 +145,13 @@ const Scopes = React.createClass({
 
   displayName: "Scopes",
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { pauseInfo, selectedFrame, loadedObjects } = this.props;
+    return pauseInfo !== nextProps.pauseInfo
+      || selectedFrame !== nextProps.selectedFrame
+      || loadedObjects !== nextProps.loadedObjects;
+  },
+
   getInitialState() {
     const { pauseInfo, selectedFrame } = this.props;
     return { scopes: getScopes(pauseInfo, selectedFrame) };

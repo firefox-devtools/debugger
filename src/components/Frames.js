@@ -41,6 +41,14 @@ const Frames = React.createClass({
 
   displayName: "Frames",
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { frames, selectedFrame } = this.props;
+    const { showAllFrames } = this.state;
+    return frames !== nextProps.frames
+      || selectedFrame !== nextProps.selectedFrame
+      || showAllFrames !== nextState.showAllFrames;
+  },
+
   getInitialState() {
     return { showAllFrames: false };
   },
