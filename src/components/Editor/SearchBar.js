@@ -6,7 +6,6 @@ const { find, findNext, findPrev, removeOverlay } = require("../../utils/source-
 const classnames = require("classnames");
 const { debounce, escapeRegExp } = require("lodash");
 const CloseButton = require("../shared/Button/Close");
-const { isEnabled } = require("devtools-config");
 const ImPropTypes = require("react-immutable-proptypes");
 
 require("./SearchBar.css");
@@ -41,28 +40,24 @@ const SearchBar = React.createClass({
   },
 
   componentWillUnmount() {
-    if (isEnabled("editorSearch")) {
-      const shortcuts = this.context.shortcuts;
-      const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-      shortcuts.off(`CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`);
-      shortcuts.off("Escape");
-      shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
-      shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
-    }
+    const shortcuts = this.context.shortcuts;
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    shortcuts.off(`CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`);
+    shortcuts.off("Escape");
+    shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
+    shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
   },
 
   componentDidMount() {
-    if (isEnabled("editorSearch")) {
-      const shortcuts = this.context.shortcuts;
-      const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-      shortcuts.on(`CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`,
-        (_, e) => this.toggleSearch(e));
-      shortcuts.on("Escape", (_, e) => this.onEscape(e));
-      shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
-        (_, e) => this.traverseResultsPrev(e));
-      shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
-        (_, e) => this.traverseResultsNext(e));
-    }
+    const shortcuts = this.context.shortcuts;
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    shortcuts.on(`CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`,
+      (_, e) => this.toggleSearch(e));
+    shortcuts.on("Escape", (_, e) => this.onEscape(e));
+    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
+      (_, e) => this.traverseResultsPrev(e));
+    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
+      (_, e) => this.traverseResultsNext(e));
   },
 
   componentDidUpdate(prevProps) {

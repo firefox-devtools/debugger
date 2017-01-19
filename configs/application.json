@@ -10,7 +10,9 @@
   },
   "features": {
     "watchExpressions": false,
-    "editorSearch": false
+    "chromeScopes": false,
+    "eventListeners": false,
+    "codeCoverage": false
   },
   "chrome": {
     "debug": true,

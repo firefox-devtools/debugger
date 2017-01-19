@@ -7,7 +7,6 @@ const { getSources, getSelectedSource, getPaneCollapse } = require("../selectors
 
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
-const { isEnabled } = require("devtools-config");
 
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
 
@@ -41,9 +40,7 @@ const App = React.createClass({
   },
 
   componentDidMount() {
-    if (isEnabled("verticalLayout")) {
-      verticalLayoutBreakpoint.addListener(this.onLayoutChange);
-    }
+    verticalLayoutBreakpoint.addListener(this.onLayoutChange);
   },
 
   componentWillUnmount() {
@@ -51,10 +48,7 @@ const App = React.createClass({
   },
 
   getInitialState() {
-    const horizontal = isEnabled("verticalLayout")
-      ? verticalLayoutBreakpoint.matches : true;
-
-    return { horizontal };
+    return { horizontal: verticalLayoutBreakpoint.matches };
   },
 
   onLayoutChange() {
