@@ -69,9 +69,12 @@ If you find an `up for grabs` issue without a difficulty level set as a label or
 
 If you're looking for a good issue, you can look through the `up-for-grabs` issues. These issues should be actionable and well documented.
 
+Also look at the `Tracking Issue` labeled issues, these are issues that have lists of smaller associated issues that fall under one larger task. If something on the list interests you comment on the linked issue volunteering to work on it.
+
 There are several difficulty levels, *easy*, *medium*, *hard*. We recommend grabbing an *easy* issue, but it's up to you.
 
 * [up-for-grabs][labels-up-for-grabs] - issues that are not assigned to anyone and are available to be worked on.
+* [Tracking Issue][labels-tracking-issue] - issue that is made up of many smaller issues
 * [difficulty:easy][labels-difficulty-easy] - clear expectations and a mentor to help you through.
 * [difficulty:medium][labels-difficulty-medium] - more complex and may not have as clear expectations.
 * [difficulty:hard][labels-difficulty-hard] - complex and has some open technical questions.
@@ -138,6 +141,7 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 | Label name | query:mag_right: | Description |
 | --- | --- | --- |
 | `up-for-grabs` | [search][labels-up-for-grabs] | Good for contributors to work on |
+| `tracking-issue` | [search][labels-tracking-issue] | Issue that tracks smaller associated issues |
 | `difficulty:easy` | [search][labels-difficulty-easy] | Work that is small changes, updating tests, updating docs, expect very little review |
 | `difficulty:medium` | [search][labels-difficulty-medium] | Work that adapts existing code, adapts existing tests, expect quick review |
 | `difficulty:hard` | [search][labels-difficulty-hard] | Work that requires new tests, new code, and a good understanding of project; expect lots of review |
@@ -151,6 +155,7 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 | `not actionable` | [search][labels-not-actionable] | Issues need clearer requirements before work can be started |
 
 [labels-up-for-grabs]:https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
+[labels-tracking-issue]:https://github.com/devtools-html/debugger.html/labels/Tracking%20Issue
 [labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
 [labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
 [labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
