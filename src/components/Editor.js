@@ -30,7 +30,7 @@ const { shouldShowFooter, clearLineClass, onKeyDown } = require("../utils/editor
 const { isFirefox } = require("devtools-config");
 const { showMenu } = require("../utils/menu");
 const { isEnabled } = require("devtools-config");
-const { isOriginalId } = require("../utils/source-map");
+const { isOriginalId, hasMappedSource } = require("../utils/source-map");
 
 require("./Editor.css");
 
@@ -136,8 +136,8 @@ const Editor = React.createClass({
 
     const sourceLocation = {
       sourceId: this.props.selectedLocation.sourceId,
-      line: line,
-      column: ch
+      line: line + 1,
+      column: ch + 1
     };
 
     const pairedType = isOriginalId(this.props.selectedLocation.sourceId)
@@ -159,9 +159,11 @@ const Editor = React.createClass({
       })
     };
 
-    const menuOptions = [
-      jumpLabel
-    ];
+    const menuOptions = [];
+
+    if (this.state.hasMappedSource) {
+      menuOptions.push(jumpLabel);
+    }
 
     if (isEnabled("watchExpressions")) {
       menuOptions.push(watchExpressionLabel);
@@ -502,6 +504,12 @@ const Editor = React.createClass({
 
     this.setDebugLine(nextProps.selectedFrame, selectedLocation);
     resizeBreakpointGutter(this.editor.codeMirror);
+
+    if (selectedLocation) {
+      selectedLocation.line = selectedLocation.line || 1;
+      hasMappedSource(selectedLocation)
+        .then(value => this.setState({ hasMappedSource: value }));
+    }
   },
 
   showMessage(msg) {
@@ -601,6 +609,12 @@ const Editor = React.createClass({
     }
 
     return "";
+  },
+
+  getInitialState() {
+    return {
+      hasMappedSource: false
+    };
   },
 
   render() {
