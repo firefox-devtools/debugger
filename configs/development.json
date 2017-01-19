@@ -13,10 +13,6 @@
   "features": {
     "watchExpressions": false,
     "chromeScopes": false,
-    "copySource": true,
-    "showSource": true,
-    "editorSearch": true,
-    "verticalLayout": true,
     "eventListeners": false,
     "codeCoverage": false
   },

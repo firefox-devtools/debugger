@@ -8,7 +8,6 @@ const {
   getFileSearchState, getSourceByURL
 } = require("../selectors");
 const { getFilename, isPretty } = require("../utils/source");
-const { isEnabled } = require("devtools-config");
 const classnames = require("classnames");
 const actions = require("../actions");
 const CloseButton = require("./shared/Button/Close");
@@ -188,16 +187,10 @@ const SourceTabs = React.createClass({
       { item: closeTabsToRightMenuItem, hidden: () =>
          tabs.some((t, i) => t === tab && (tabs.size - 1) === i) },
       { item: closeAllTabsMenuItem },
+      { item: { type: "separator" }},
+      { item: copySourceUrl },
+      { item: showSourceMenuItem }
     ];
-
-    if (isEnabled("copySource")) {
-      items.push({ item: { type: "separator" }});
-      items.push({ item: copySourceUrl });
-    }
-
-    if (isEnabled("showSource")) {
-      items.push({ item: showSourceMenuItem });
-    }
 
     if (!isPrettySource) {
       items.push({ item: prettyPrint });
