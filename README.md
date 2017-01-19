@@ -33,6 +33,7 @@ After the debugger is setup, you can:
 * claim an [up for grabs][up-for-grabs] issues
 * read the [app overview][app-overview] or [contributing][contributing] guidelines
 * watch a [screencast][getting-started-screencast]
+* have a [look at the features and products page][tracking] to track what we're working on
 
 ### Getting Involved
 
@@ -63,6 +64,7 @@ We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on
 [up-for-grabs]:https://github.com/devtools-html/debugger.html/issues?q=is%3Aissue+is%3Aopen+label%3A%22up+for+grabs%22
 [app-overview]:./docs/debugger-html-react-redux-overview.md
 [first-activity]:./docs/debugging-the-debugger.md
+[tracking]:https://github.com/devtools-html/debugger.html/projects/10
 
 [irc-devtools-html]:irc://irc.mozilla.org/devtools-html
 
