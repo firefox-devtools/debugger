@@ -26,7 +26,7 @@ const Breakpoint = React.createFactory(require("./Editor/Breakpoint"));
 const HitMarker = React.createFactory(require("./Editor/HitMarker"));
 
 const { getDocument, setDocument } = require("../utils/source-documents");
-const { shouldShowFooter, clearLineClass } = require("../utils/editor");
+const { shouldShowFooter, clearLineClass, onKeyDown } = require("../utils/editor");
 const { isFirefox } = require("devtools-config");
 const { showMenu } = require("../utils/menu");
 const { isEnabled } = require("devtools-config");
@@ -414,6 +414,11 @@ const Editor = React.createClass({
     );
 
     this.editor.codeMirror.on("gutterClick", this.onGutterClick);
+
+    // Set code editor wrapper to be focusable
+    this.editor.codeMirror.getWrapperElement().tabIndex = 0;
+    this.editor.codeMirror.getWrapperElement()
+      .addEventListener("keydown", e => onKeyDown(this.editor.codeMirror, e));
 
     const ctx = { ed: this.editor, cm: this.editor.codeMirror };
     ctx.cm.on("cursorActivity", cm => onCursorActivity(ctx));

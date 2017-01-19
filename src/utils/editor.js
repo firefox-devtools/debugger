@@ -19,6 +19,22 @@ function shouldShowPrettyPrint(selectedSource) {
   return true;
 }
 
+function onKeyDown(codeMirror, e) {
+  let { key, target } = e;
+  let codeWrapper = codeMirror.getWrapperElement();
+  let textArea = codeWrapper.querySelector("textArea");
+
+  if (key === "Escape" && target == textArea) {
+    e.stopPropagation();
+    e.preventDefault();
+    codeWrapper.focus();
+  } else if (key === "Enter" && target == codeWrapper) {
+    e.preventDefault();
+    // Focus into editor's text area
+    textArea.focus();
+  }
+}
+
 function shouldShowFooter(selectedSource, horizontal) {
   if (!horizontal) {
     return true;
@@ -45,4 +61,5 @@ module.exports = {
   shouldShowPrettyPrint,
   shouldShowFooter,
   clearLineClass,
+  onKeyDown
 };
