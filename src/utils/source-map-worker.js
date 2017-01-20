@@ -18,7 +18,7 @@ const {
   isOriginalId
 } = require("./source-map-util");
 
-import type { Location, Source } from "../types";
+import type { Location, Source } from "devtools-client-adapters/src/types";
 type Message = {
   data: {
     id: string,

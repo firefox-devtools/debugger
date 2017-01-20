@@ -7,7 +7,7 @@ const { getPause } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
 const { evaluateExpressions } = require("./expressions");
 
-import type { Pause, Frame, Grip } from "../types";
+import type { Pause, Frame, Grip } from "devtools-client-adapters/src/types";
 import type { ThunkArgs } from "./types";
 
 type CommandType = { type: string };
