@@ -35,7 +35,11 @@ function buildConfig(envConfig) {
         "devtools/client/shared/vendor/react": "react",
         "devtools/client/shared/vendor/react-dom": "react-dom",
       }
-    }
+    },
+
+    // Used by launchpad webpack.config.devtools, devtoolsRequire is the method available
+    // to the debugger to load externals when loaded in a firefox panel.
+    externalsRequire: "devtoolsRequire"
   };
 
   return toolbox.toolboxConfig(webpackConfig, envConfig);
