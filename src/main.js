@@ -51,7 +51,7 @@ window.getGlobalsForTesting = () => {
 };
 
 function unmountRoot() {
-  const mount = document.querySelector("#mount");
+  const mount = document.querySelector("#mount div");
   ReactDOM.unmountComponentAtNode(mount);
 }
 
