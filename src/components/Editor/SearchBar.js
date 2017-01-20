@@ -1,3 +1,5 @@
+// @flow
+
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { findDOMNode } = require("react-dom");
@@ -19,8 +21,8 @@ function countMatches(query, text) {
 const SearchBar = React.createClass({
 
   propTypes: {
-    editor: PropTypes.object,
-    sourceText: PropTypes.object,
+    editor: PropTypes.object.isRequired,
+    sourceText: ImPropTypes.map.isRequired,
     selectedSource: ImPropTypes.map
   },
 
@@ -60,7 +62,7 @@ const SearchBar = React.createClass({
       (_, e) => this.traverseResultsNext(e));
   },
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     const { sourceText, selectedSource } = this.props;
 
     if (this.searchInput()) {
@@ -80,11 +82,11 @@ const SearchBar = React.createClass({
     }
   },
 
-  onEscape(e) {
+  onEscape(e: SyntheticKeyboardEvent) {
     this.closeSearch(e);
   },
 
-  closeSearch(e) {
+  closeSearch(e: SyntheticEvent) {
     if (this.state.enabled) {
       this.setState({ enabled: false });
       const ed = this.props.editor;
@@ -95,7 +97,7 @@ const SearchBar = React.createClass({
     }
   },
 
-  toggleSearch(e) {
+  toggleSearch(e: SyntheticKeyboardEvent) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -128,7 +130,7 @@ const SearchBar = React.createClass({
     return findDOMNode(this).querySelector("input");
   },
 
-  doSearch(query) {
+  doSearch(query: string) {
     const sourceText = this.props.sourceText;
     const count = countMatches(query, sourceText.get("text"));
     // eslint-disable-next-line react/no-did-update-set-state
@@ -136,11 +138,11 @@ const SearchBar = React.createClass({
     this.search(query);
   },
 
-  onChange(e) {
-    this.doSearch(e.target.value);
+  onChange(e: any) {
+    return this.doSearch(e.target.value);
   },
 
-  traverseResultsPrev(e) {
+  traverseResultsPrev(e: SyntheticKeyboardEvent) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -157,7 +159,7 @@ const SearchBar = React.createClass({
     this.setState({ index: nextIndex });
   },
 
-  traverseResultsNext(e) {
+  traverseResultsNext(e: SyntheticEvent) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -174,7 +176,7 @@ const SearchBar = React.createClass({
     this.setState({ index: nextIndex });
   },
 
-  onKeyUp(e) {
+  onKeyUp(e: SyntheticKeyboardEvent) {
     if (e.key != "Enter") {
       return;
     }
