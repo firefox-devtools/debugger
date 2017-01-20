@@ -18,8 +18,7 @@ html[dir="rtl"] .toggle-button-start svg {
   transform: rotate(180deg);
 }
 
-html:not([dir="rtl"]) .toggle-button-end.vertical svg,
-html[dir="rtl"] .toggle-button-end.vertical svg {
+html .toggle-button-end.vertical svg {
   transform: rotate(-90deg);
 }
 
