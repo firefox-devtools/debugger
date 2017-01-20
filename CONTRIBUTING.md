@@ -38,15 +38,21 @@ Here is a great GitHub guide on [contributing to Open Source](https://guides.git
 
 ### Reporting Bugs :bug:
 
-If you find an issue with the code please do [file an issue](https://github.com/devtools-html/debugger.html/issues/new) and tag it with the label [bug](https://github.com/devtools-html/debugger.html/labels/bug).  We'll do our best to review the issue in a timely manner and respond.
+If you find an issue with the code, please do [file an issue](https://github.com/devtools-html/debugger.html/issues/new).  We'll do our best to review the issue in a timely manner and respond.
+
+We will also tag it with the label [bug](https://github.com/devtools-html/debugger.html/labels/bug).
 
 ### Suggesting Enhancements :new:
 
-We are actively investigating ways of support enhancement requests in the project so these instructions are subject to change.  For now please create an issue, tag it with the [enhancement][labels-enhancement] label and we will attempt to respond.
+We are actively investigating ways of support enhancement requests in the project, so these instructions are subject to change. For now please create an issue, and we will attempt to respond.
+
+We will also tag it with the label [enhancement][labels-enhancement].
 
 ### Writing Documentation :book:
 
-Documentation is as important as code and we need your help to maintain clear and usable documentation.  If you find an error in here or other project documentation please [file an issue](https://github.com/devtools-html/debugger.html/issues/new) and tag it with the label [docs](https://github.com/devtools-html/debugger.html/labels/docs).
+Documentation is as important as code and we need your help to maintain clear and usable documentation.  If you find an error in here or other project documentation, please [file an issue](https://github.com/devtools-html/debugger.html/issues/new).
+
+We will tag it with the label [docs](https://github.com/devtools-html/debugger.html/labels/docs).
 
 ### Share what you know
 
