@@ -48,16 +48,16 @@ In this step, we'll open Firefox. [Chrome](#starting-chrome) and [Node](#startin
 yarn run firefox
 ```
 
-After Firefox is open, go to a page you want to debug. I recommend, TodoMVC http://todomvc.com/examples/vanillajs/.
+With Firefox open, you should be seeing a bunch of [debugger examples][debugger-examples], these are the test pages we use when working on features and bugs.
 
 *Why am I opening Firefox from the terminal?*
 The firefox command opens firefox with special permissions that enable remote debugging.
 
 *What should I see?*
-Here's a [screenshot][done-screenshot]
+Here's a [screenshot](https://cloud.githubusercontent.com/assets/2134/22162568/141de234-df04-11e6-9b86-77dd25822750.png)
 
 *What should I do if this doesn't work?*
-You can either try to run it [manually](#starting-firefox) or comment on the [issue](https://github.com/devtools-html/debugger.html/issues/1341).
+You can either try to run it [manually](#starting-firefox) or comment on the [issue][yarn-run-firefox-fails].
 
 ### Step 4. Start the Debugger
 
@@ -73,11 +73,11 @@ This command starts a [development server][dev-server].
 
 ### Step 5. Open the Debugger
 
-Go to `localhost:8000` in any browser to view the Debugger. If everything worked successfully, you should see this [screenshot](https://cloud.githubusercontent.com/assets/254562/20439428/7498808a-ad89-11e6-895d-d6db320c5009.png)
+Go to http://localhost:8000 in any browser to view the Debugger. If everything worked successfully, you should see something like this [screenshot](https://cloud.githubusercontent.com/assets/2134/22162697/913777b2-df04-11e6-9150-f6ad676c31ef.png) :sweat_smile:
 
 ### Next Steps
 
-Try this [first activity][first-activity] if you want to start debugging the debugger!
+Try this [first activity][first-activity] if you want to start debugging the debugger! :clap:
 
 ## Appendix
 
@@ -126,9 +126,9 @@ Close firefox and re-open it with the `firefox-bin` command.
 
 **Firefox GCLI**
 
-* open Firefox
-* *shift-F2* Open GCLI
-* *listen 6080* - start listening on 6080
+* Open Firefox
+* *<kbd>shift</kbd>+<kbd>F2</kbd>* Open GCLI
+* Type `listen 6080` into the GCLI
 
 NOTE: this assumes that you've set the other appropriate `about:configs`
 
@@ -152,15 +152,15 @@ Note that the [script](../bin/chrome-driver) just automates the command :)
 
 It's easy to start Node in a mode where DevTools will find it:
 
-* *--inspect* - tells node to open a debugger server
-* *--inspect=9223* - tells node to open a debugger server on 9223 instead of 9229.
-* *--debug-brk* - tells node to pause on the first statement
+* `--inspect` - tells node to open a debugger server
+* `--inspect=9223` - tells node to open a debugger server on 9223 instead of 9229.
+* `--debug-brk` - tells node to pause on the first statement
 
 ```bash
 node --inspect --debug-brk ./node_modules/.bin/webpack
 ```
 
-**Note** *./node_modules/.bin/webpack* could be anything. We're often debugging webpack these days so it's often appropriate :/
+**Note** *./node_modules/.bin/webpack* could be anything. We're often debugging webpack these days so it's often appropriate :unamused:
 
 **Note:** Currently Node.js debugging is limited in some ways, there isn't support for seeing variables or the console, but you can manage breakpoints and navigate code execution (pause, step-in, step-over, etc.) in the debugger across various sources.
 
@@ -173,13 +173,14 @@ If you find any issues on these two platforms comment on these issues:
 * [linux][linux-issue]
 
 **Firefox windows command**
-```
-C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -P development
+
+```bash
+"C:\Program Files (x86)\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -P development
 ```
 
 [debugger-intro-gif]:http://g.recordit.co/WjHZaXKifZ.gif
-[done-screenshot]:https://cloud.githubusercontent.com/assets/254562/20439409/55e3994a-ad89-11e6-8e76-55e18c7c0d75.png
-
+[debugger-examples]:https://devtools-html.github.io/debugger-examples/
+[yarn-run-firefox-fails]:https://github.com/devtools-html/debugger.html/issues/1341
 [linux-issue]:https://github.com/devtools-html/debugger.html/issues/1082
 [windows-issue]:https://github.com/devtools-html/debugger.html/issues/1248
 [yarn-issue]:https://github.com/devtools-html/debugger.html/issues/1216
