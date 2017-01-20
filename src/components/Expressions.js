@@ -61,14 +61,23 @@ const Expressions = React.createClass({
     if (e.key !== "Enter") {
       return;
     }
-    const { addExpression } = this.props;
-    const expression = {
-      input: e.target.value,
-      id
-    };
+
+    const {
+        addExpression,
+        deleteExpression
+    } = this.props;
+
+    if (e.target.value != null && e.target.value.trim()) {
+      const expression = {
+        input: e.target.value,
+        id
+      };
+      addExpression(expression);
+    } else {
+      deleteExpression({ id });
+    }
 
     e.target.value = "";
-    addExpression(expression);
   },
 
   updateExpression(expression, { depth }) {
