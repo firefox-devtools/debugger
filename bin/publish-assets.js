@@ -21,7 +21,7 @@ function start() {
 
   copyFile(
     path.resolve(projectPath, "src/test/mochitest"),
-    path.resolve(projectPath, "assets/build"),
+    path.resolve(projectPath, "assets/build/mochitest"),
     { cwd: projectPath }
   );
 
