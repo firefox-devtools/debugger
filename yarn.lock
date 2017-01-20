@@ -982,14 +982,14 @@ babel-register@^6.18.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.2"
 
-babel-runtime@6.11.6, babel-runtime@^6.9.0:
+babel-runtime@6.11.6:
   version "6.11.6"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.11.6.tgz#6db707fef2d49c49bfa3cb64efdb436b518b8222"
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.9.5"
 
-babel-runtime@^6.0.0, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.20.0, babel-runtime@^6.9.1:
+babel-runtime@^6.0.0, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.20.0, babel-runtime@^6.9.0, babel-runtime@^6.9.1:
   version "6.20.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.20.0.tgz#87300bdcf4cd770f09bf0048c64204e17806d16f"
   dependencies:
@@ -1843,6 +1843,17 @@ devtools-client-adapters@^0.0.6:
     devtools-sham-modules "^0.0.11"
     tcomb "^3.1.0"
 
+devtools-client-adapters@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.8.tgz#ec47b75ec77f7cfb9a7848a50eb9ea2ce4343836"
+  dependencies:
+    chrome-remote-interface "0.17.0"
+    devtools-config "^0.0.10"
+    devtools-modules "^0.0.14"
+    devtools-network-request "^0.0.9"
+    devtools-sham-modules "^0.0.12"
+    tcomb "^3.1.0"
+
 devtools-config@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.10.tgz#955a5ec1790e9e06a40009fdb1eaf5f979d168dd"
@@ -1911,9 +1922,9 @@ devtools-launchpad@0.0.21:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
-devtools-launchpad@0.0.24:
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.24.tgz#9db8b88806721b5b75812120b9b042e698f07ef2"
+devtools-launchpad@^0.0.28:
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.28.tgz#51499af8a3f440a0a474bd1782e16d6314ba2f08"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
@@ -1936,11 +1947,11 @@ devtools-launchpad@0.0.24:
     classnames "^2.2.5"
     co "=4.6.0"
     css-loader "^0.25.0"
-    devtools-client-adapters "^0.0.6"
+    devtools-client-adapters "^0.0.8"
     devtools-config "^0.0.10"
-    devtools-modules "^0.0.13"
+    devtools-modules "^0.0.14"
     devtools-network-request "^0.0.9"
-    devtools-sham-modules "^0.0.11"
+    devtools-sham-modules "^0.0.12"
     eslint "^3.12.0"
     eslint-plugin-babel "^3.3.0"
     eslint-plugin-flowtype "^2.20.0"
@@ -1979,17 +1990,17 @@ devtools-modules@^0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.11.tgz#02d403a24778326e5b5330db508e29b536a9025a"
 
-devtools-modules@^0.0.13:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.13.tgz#8364bb4e971d581498076bc9e87ae5f27a4c7330"
+devtools-modules@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.14.tgz#03edc685a8d03d39cff065d7e3acb12e9d381492"
 
 devtools-network-request@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.9.tgz#cdf51f4f21d7cb8cedba5b9d89e860ba531ddeb7"
 
-devtools-reps@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.0.2.tgz#23824c5c60cafd19672109b61a71a944605b6d4b"
+devtools-reps@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.0.4.tgz#0399564d6141cc44882efb878406000cd191927c"
   dependencies:
     devtools-launchpad "0.0.21"
     lodash "^4.17.2"
@@ -1997,6 +2008,10 @@ devtools-reps@^0.0.2:
 devtools-sham-modules@^0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.11.tgz#bd15ef2c5755b165ce795bb9ff65b7213c020c04"
+
+devtools-sham-modules@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.12.tgz#0fe0cb529e283e54207ef73bc2fed616cc501e8a"
 
 diff@1.4.0, diff@^1.3.2:
   version "1.4.0"
