@@ -121,13 +121,17 @@ const Editor = React.createClass({
     this.toggleBreakpoint(line);
   },
 
-  onContextMenu(cm, event) {
+  async onContextMenu(cm, event) {
     if (event.target.classList.contains("CodeMirror-linenumber")) {
       return this.onGutterContextMenu(event);
     }
 
+    const { selectedLocation } = this.props;
+
     event.stopPropagation();
     event.preventDefault();
+
+    const isMapped = await hasMappedSource(selectedLocation);
 
     const { line, ch } = this.editor.codeMirror.coordsChar({
       left: event.clientX,
@@ -161,7 +165,7 @@ const Editor = React.createClass({
 
     const menuOptions = [];
 
-    if (this.state.hasMappedSource) {
+    if (isMapped) {
       menuOptions.push(jumpLabel);
     }
 
@@ -504,12 +508,6 @@ const Editor = React.createClass({
 
     this.setDebugLine(nextProps.selectedFrame, selectedLocation);
     resizeBreakpointGutter(this.editor.codeMirror);
-
-    if (selectedLocation) {
-      selectedLocation.line = selectedLocation.line || 1;
-      hasMappedSource(selectedLocation)
-        .then(value => this.setState({ hasMappedSource: value }));
-    }
   },
 
   showMessage(msg) {
@@ -609,12 +607,6 @@ const Editor = React.createClass({
     }
 
     return "";
-  },
-
-  getInitialState() {
-    return {
-      hasMappedSource: false
-    };
   },
 
   render() {
