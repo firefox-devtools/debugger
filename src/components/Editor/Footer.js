@@ -15,7 +15,7 @@ const PaneToggleButton = React.createFactory(
   require("./shared/Button/PaneToggle")
 );
 
-require("./SourceFooter.css");
+require("./Footer.css");
 
 function debugBtn(onClick, type, className = "active", tooltip) {
   className = `${type} ${className} action`;
