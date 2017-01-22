@@ -6,18 +6,18 @@ const { bindActionCreators } = require("redux");
 const {
   getSelectedSource, getSourceTabs,
   getFileSearchState, getSourceByURL
-} = require("../selectors");
-const { getFilename, isPretty } = require("../utils/source");
+} = require("../../selectors");
+const { getFilename, isPretty } = require("../../utils/source");
 const classnames = require("classnames");
-const actions = require("../actions");
-const CloseButton = require("./shared/Button/Close");
-const PaneToggleButton = React.createFactory(require("./shared/Button/PaneToggle"));
-const Svg = require("./shared/Svg");
-const Dropdown = React.createFactory(require("./shared/Dropdown"));
-const { showMenu, buildMenu } = require("./shared/menu");
+const actions = require("../../actions");
+const CloseButton = require("../shared/Button/Close");
+const PaneToggleButton = React.createFactory(require("../shared/Button/PaneToggle"));
+const Svg = require("../shared/Svg");
+const Dropdown = React.createFactory(require("../shared/Dropdown"));
+const { showMenu, buildMenu } = require("../shared/menu");
 const { debounce } = require("lodash");
-const { formatKeyShortcut } = require("../utils/text");
-require("./SourceTabs.css");
+const { formatKeyShortcut } = require("../../utils/text");
+require("./Tabs.css");
 
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
