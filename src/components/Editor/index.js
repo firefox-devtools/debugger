@@ -150,7 +150,7 @@ const Editor = React.createClass({
     const jumpLabel = {
       accesskey: "C",
       disabled: false,
-      label: L10N.getFormatStr("editor.jumpToMappedLocation", pairedType),
+      label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
       click: () => this.props.jumpToMappedLocation(sourceLocation)
     };
 
