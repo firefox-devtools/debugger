@@ -118,7 +118,7 @@ When a person is assigned to an issue this indicates an _intent to implement_.  
  * The [integration tests](#integration-tests) will be run automatically by the CI or you can try running them locally as well
 * Once the tests have passed in the PR you must receive a review using the GitHub review system
  * To learn more about GitHub reviews take a look at their [documentation](https://help.github.com/articles/reviewing-changes-in-pull-requests/) and [video tutorial](https://youtu.be/HW0RPaJqm4g)
-* We have a number of contributors reviewing PRs fairly quickly, if you feel yours has been neglected please mention  [@jasonLaster](https://github.com/jasonLaster/) by name in the PR
+* We have a number of contributors reviewing PRs fairly quickly, if you feel yours has been neglected please mention the team name **@devtools-html/debugger** in the PR
 
 > **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
 
