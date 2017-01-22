@@ -10,6 +10,8 @@ const {
 } = require("./source-map-util");
 const { prefs } = require("./prefs");
 
+import type { Location } from "../types";
+
 let sourceMapWorker;
 function restartWorker() {
   if (sourceMapWorker) {
@@ -34,6 +36,15 @@ function shouldSourceMap(): boolean {
   return prefs.clientSourceMapsEnabled;
 }
 
+async function hasMappedSource(location: Location): Promise<boolean> {
+  if (isOriginalId(location.sourceId)) {
+    return true;
+  }
+
+  const loc = await getOriginalLocation(location);
+  return loc.sourceId !== location.sourceId;
+}
+
 const getOriginalURLs = workerTask(sourceMapWorker, "getOriginalURLs");
 const getGeneratedLocation = workerTask(sourceMapWorker,
                                         "getGeneratedLocation");
@@ -49,6 +60,7 @@ module.exports = {
   generatedToOriginalId,
   isGeneratedId,
   isOriginalId,
+  hasMappedSource,
   getOriginalURLs,
   getGeneratedLocation,
   getOriginalLocation,

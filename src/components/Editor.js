@@ -30,7 +30,7 @@ const { shouldShowFooter, clearLineClass, onKeyDown } = require("../utils/editor
 const { isFirefox } = require("devtools-config");
 const { showMenu } = require("../utils/menu");
 const { isEnabled } = require("devtools-config");
-const { isOriginalId } = require("../utils/source-map");
+const { isOriginalId, hasMappedSource } = require("../utils/source-map");
 
 require("./Editor.css");
 
@@ -121,13 +121,17 @@ const Editor = React.createClass({
     this.toggleBreakpoint(line);
   },
 
-  onContextMenu(cm, event) {
+  async onContextMenu(cm, event) {
     if (event.target.classList.contains("CodeMirror-linenumber")) {
       return this.onGutterContextMenu(event);
     }
 
+    const { selectedLocation } = this.props;
+
     event.stopPropagation();
     event.preventDefault();
+
+    const isMapped = await hasMappedSource(selectedLocation);
 
     const { line, ch } = this.editor.codeMirror.coordsChar({
       left: event.clientX,
@@ -136,8 +140,8 @@ const Editor = React.createClass({
 
     const sourceLocation = {
       sourceId: this.props.selectedLocation.sourceId,
-      line: line,
-      column: ch
+      line: line + 1,
+      column: ch + 1
     };
 
     const pairedType = isOriginalId(this.props.selectedLocation.sourceId)
@@ -159,9 +163,11 @@ const Editor = React.createClass({
       })
     };
 
-    const menuOptions = [
-      jumpLabel
-    ];
+    const menuOptions = [];
+
+    if (isMapped) {
+      menuOptions.push(jumpLabel);
+    }
 
     if (isEnabled("watchExpressions")) {
       menuOptions.push(watchExpressionLabel);
