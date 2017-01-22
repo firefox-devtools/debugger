@@ -3,14 +3,14 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
-const actions = require("../actions");
-const { getSource, getPause, getBreakpoints } = require("../selectors");
-const { makeLocationId } = require("../reducers/breakpoints");
-const { truncateStr } = require("../utils/utils");
+const actions = require("../../actions");
+const { getSource, getPause, getBreakpoints } = require("../../selectors");
+const { makeLocationId } = require("../../reducers/breakpoints");
+const { truncateStr } = require("../../utils/utils");
 const { DOM: dom, PropTypes } = React;
-const { endTruncateStr } = require("../utils/utils");
-const { basename } = require("../utils/path");
-const CloseButton = require("./shared/Button/Close");
+const { endTruncateStr } = require("../../utils/utils");
+const { basename } = require("../../utils/path");
+const CloseButton = require("../shared/Button/Close");
 
 require("./Breakpoints.css");
 

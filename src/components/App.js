@@ -11,9 +11,9 @@ const shortcuts = new KeyShortcuts({ window });
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
 
 require("./App.css");
-require("./menu.css");
-require("./SplitBox.css");
-require("./reps.css");
+require("./shared/menu.css");
+require("./shared/SplitBox.css");
+require("./shared/reps.css");
 let { SplitBox } = require("devtools-modules");
 SplitBox = createFactory(SplitBox);
 
@@ -22,7 +22,7 @@ const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
 const SecondaryPanes = createFactory(require("./SecondaryPanes"));
 const WelcomeBox = createFactory(require("./WelcomeBox"));
-const SourceTabs = createFactory(require("./SourceTabs"));
+const EditorTabs = createFactory(require("./Editor/Tabs"));
 
 const App = React.createClass({
   propTypes: {
@@ -64,7 +64,7 @@ const App = React.createClass({
       { className: "editor-pane" },
       dom.div(
         { className: "editor-container" },
-        SourceTabs({
+        EditorTabs({
           startPanelCollapsed,
           endPanelCollapsed,
           horizontal

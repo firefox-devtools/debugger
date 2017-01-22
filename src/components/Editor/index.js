@@ -7,30 +7,30 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
 
-const SourceEditor = require("../utils/source-editor");
-const { find, findNext, findPrev, removeOverlay } = require("../utils/source-search");
-const { getMode } = require("../utils/source");
-const SourceFooter = createFactory(require("./SourceFooter"));
-const SearchBar = createFactory(require("./Editor/SearchBar"));
-const { renderConditionalPanel } = require("./Editor/ConditionalPanel");
+const SourceEditor = require("../../utils/source-editor");
+const { find, findNext, findPrev, removeOverlay } = require("../../utils/source-search");
+const { getMode } = require("../../utils/source");
+const Footer = createFactory(require("./Footer"));
+const SearchBar = createFactory(require("./SearchBar"));
+const { renderConditionalPanel } = require("./ConditionalPanel");
 const { debugGlobal } = require("devtools-launchpad");
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame,
   getSelectedSource, getHitCountForSource,
   getCoverageEnabled
-} = require("../selectors");
-const { makeLocationId } = require("../reducers/breakpoints");
-const actions = require("../actions");
-const Breakpoint = React.createFactory(require("./Editor/Breakpoint"));
-const HitMarker = React.createFactory(require("./Editor/HitMarker"));
+} = require("../../selectors");
+const { makeLocationId } = require("../../reducers/breakpoints");
+const actions = require("../../actions");
+const Breakpoint = React.createFactory(require("./Breakpoint"));
+const HitMarker = React.createFactory(require("./HitMarker"));
 
-const { getDocument, setDocument } = require("../utils/source-documents");
-const { shouldShowFooter, clearLineClass, onKeyDown } = require("../utils/editor");
+const { getDocument, setDocument } = require("../../utils/source-documents");
+const { shouldShowFooter, clearLineClass, onKeyDown } = require("../../utils/editor");
 const { isFirefox } = require("devtools-config");
-const { showMenu } = require("../utils/menu");
+const { showMenu } = require("../shared/menu");
 const { isEnabled } = require("devtools-config");
-const { isOriginalId, hasMappedSource } = require("../utils/source-map");
+const { isOriginalId, hasMappedSource } = require("../../utils/source-map");
 
 require("./Editor.css");
 
@@ -631,7 +631,7 @@ const Editor = React.createClass({
         }),
         this.renderBreakpoints(),
         this.renderHitCounts(),
-        SourceFooter({ editor: this.editor, horizontal })
+        Footer({ editor: this.editor, horizontal })
       )
     );
   }
