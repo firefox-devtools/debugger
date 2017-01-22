@@ -2,11 +2,11 @@ const React = require("react");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const ImPropTypes = require("react-immutable-proptypes");
-const actions = require("../actions");
-const { getPause } = require("../selectors");
+const actions = require("../../actions");
+const { getPause } = require("../../selectors");
 const { DOM: dom } = React;
 
-const { getPauseReason } = require("../utils/pause");
+const { getPauseReason } = require("../../utils/pause");
 
 require("./WhyPaused.css");
 

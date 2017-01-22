@@ -1,11 +1,11 @@
 const React = require("react");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-const actions = require("../actions");
-const { getChromeScopes } = require("../selectors");
+const actions = require("../../actions");
+const { getChromeScopes } = require("../../selectors");
 const { DOM: dom, PropTypes } = React;
 const classnames = require("classnames");
-const Svg = require("./shared/Svg");
+const Svg = require("../shared/Svg");
 
 require("./Scopes.css");
 

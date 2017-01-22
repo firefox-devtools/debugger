@@ -5,10 +5,10 @@ const { div } = dom;
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const ImPropTypes = require("react-immutable-proptypes");
-const actions = require("../actions");
-const { endTruncateStr } = require("../utils/utils");
-const { getFilename } = require("../utils/source");
-const { getFrames, getSelectedFrame, getSource } = require("../selectors");
+const actions = require("../../actions");
+const { endTruncateStr } = require("../../utils/utils");
+const { getFilename } = require("../../utils/source");
+const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
 const classNames = require("classnames");
 
 import type { List } from "immutable";

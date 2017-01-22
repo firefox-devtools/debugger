@@ -4,14 +4,14 @@ const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions,
         getShouldIgnoreCaughtExceptions,
-      } = require("../selectors");
-const Svg = require("./shared/Svg");
+      } = require("../../selectors");
+const Svg = require("../shared/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
-const { formatKeyShortcut } = require("../utils/text");
+const { formatKeyShortcut } = require("../../utils/text");
 
 const { Services: { appinfo }} = require("devtools-modules");
 
-const actions = require("../actions");
+const actions = require("../../actions");
 require("./CommandBar.css");
 
 const isMacOS = (appinfo.OS === "Darwin");

@@ -2,9 +2,9 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
-const actions = require("../actions");
-const { getEventListeners, getBreakpoint } = require("../selectors");
-const CloseButton = require("./shared/Button/Close");
+const actions = require("../../actions");
+const { getEventListeners, getBreakpoint } = require("../../selectors");
+const CloseButton = require("../shared/Button/Close");
 
 require("./EventListeners.css");
 
