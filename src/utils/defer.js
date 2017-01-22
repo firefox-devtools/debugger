@@ -20,8 +20,8 @@ function defer(): Defer {
     reject = innerReject;
   });
   return {
-    resolve: Resolve,
-    reject: Reject,
+    resolve,
+    reject,
     promise
   };
 }
