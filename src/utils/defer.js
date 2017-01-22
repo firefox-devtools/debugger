@@ -10,8 +10,8 @@ export type Defer = {
 };
 
 function defer(): Defer {
-  let resolve: Resolve;
-  let reject: Reject;
+  let resolve: Resolve; // eslint-disable-line no-unused-vars
+  let reject: Reject;   // eslint-disable-line no-unused-vars
   const promise: Promise<any> = new Promise(function(
     innerResolve: Resolve,
     innerReject: Reject
