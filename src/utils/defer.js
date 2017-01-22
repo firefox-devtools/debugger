@@ -1,25 +1,28 @@
-/* flow */
+/* @flow */
 
-export type deferred = {
-  resolve: (result: any) => void,
-  reject: (result: any) => void,
-  promise: Promise
+declare var Resolve: (result: any) => void;
+declare var Reject: (result: any) => void;
+
+export type Defer = {
+  resolve: Resolve,
+  reject: Reject,
+  promise: Promise<any>
 };
 
-function defer(): deferred {
-  let resolve: (result: any) => void;
-  let reject: (result: any) => void;
-  let promise = new Promise(function(
-    innerResolve: (result: any) => void,
-    innerReject: (result: any) => void
+function defer(): Defer {
+  let resolve: Resolve; // eslint-disable-line no-unused-vars
+  let reject: Reject;   // eslint-disable-line no-unused-vars
+  const promise: Promise<any> = new Promise(function(
+    innerResolve: Resolve,
+    innerReject: Reject
   ) {
     resolve = innerResolve;
     reject = innerReject;
   });
   return {
-    resolve: resolve,
-    reject: reject,
-    promise: promise
+    resolve,
+    reject,
+    promise
   };
 }
 
