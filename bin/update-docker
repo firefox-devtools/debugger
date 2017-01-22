@@ -7,7 +7,7 @@ mkdir -p $DOWNLOADS_PATH
 if [[ -e $DOWNLOADS_PATH/mochitest-runner.tar ]]; then
   time docker load -i $DOWNLOADS_PATH/mochitest-runner.tar;
 else
-  time docker pull jlongster/mochitest-runner
+  time docker pull jasonlaster11/mochitest-runner
   docker images
-  time docker save jlongster/mochitest-runner > $DOWNLOADS_PATH/mochitest-runner.tar
+  time docker save jasonlaster11/mochitest-runner > $DOWNLOADS_PATH/mochitest-runner.tar
 fi
