@@ -36,14 +36,13 @@ function shouldSourceMap(): boolean {
   return prefs.clientSourceMapsEnabled;
 }
 
-function hasMappedSource(location: Location): Promise<boolean> {
+async function hasMappedSource(location: Location): Promise<boolean> {
   if (isOriginalId(location.sourceId)) {
-    return Promise.resolve(true);
+    return true;
   }
-  return new Promise(resolve => {
-    getOriginalLocation(location)
-      .then(loc => resolve(loc.sourceId !== location.sourceId));
-  });
+
+  const loc = await getOriginalLocation(location);
+  return loc.sourceId !== location.sourceId;
 }
 
 const getOriginalURLs = workerTask(sourceMapWorker, "getOriginalURLs");
