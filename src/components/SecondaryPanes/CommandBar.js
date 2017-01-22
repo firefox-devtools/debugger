@@ -127,13 +127,13 @@ const CommandBar = React.createClass({
     const className = this.props.pause ? "active" : "disabled";
     return [
       debugBtn(this.props.stepOver, "stepOver", className,
-        L10N.getFormatStr("stepOverTooltip", formatKey("stepOver"))
+        L10N.getFormatStr("stepOverTooltip1", formatKey("stepOver"))
       ),
       debugBtn(this.props.stepIn, "stepIn", className,
-        L10N.getFormatStr("stepInTooltip", formatKey("stepIn"))
+        L10N.getFormatStr("stepInTooltip1", formatKey("stepIn"))
       ),
       debugBtn(this.props.stepOut, "stepOut", className,
-        L10N.getFormatStr("stepOutTooltip", formatKey("stepOut"))
+        L10N.getFormatStr("stepOutTooltip1", formatKey("stepOut"))
       )
     ];
   },
@@ -143,7 +143,7 @@ const CommandBar = React.createClass({
 
     if (pause) {
       return debugBtn(this.props.resume, "resume", "active",
-        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
+        L10N.getFormatStr("resumeButtonTooltip1", formatKey("resume"))
       );
     }
 
@@ -154,7 +154,7 @@ const CommandBar = React.createClass({
     }
 
     return debugBtn(breakOnNext, "pause", "active",
-      L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
+      L10N.getFormatStr("pauseButtonTooltip1", formatKey("pause"))
     );
   },
 
