@@ -11,9 +11,9 @@ const shortcuts = new KeyShortcuts({ window });
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
 
 require("./App.css");
-require("./menu.css");
-require("./SplitBox.css");
-require("./reps.css");
+require("./shared/menu.css");
+require("./shared/SplitBox.css");
+require("./shared/reps.css");
 let { SplitBox } = require("devtools-modules");
 SplitBox = createFactory(SplitBox);
 

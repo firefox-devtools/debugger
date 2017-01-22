@@ -1,5 +1,6 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
+require("./Dropdown.css");
 
 const Dropdown = React.createClass({
   propTypes: {

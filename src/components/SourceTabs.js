@@ -13,12 +13,11 @@ const actions = require("../actions");
 const CloseButton = require("./shared/Button/Close");
 const PaneToggleButton = React.createFactory(require("./shared/Button/PaneToggle"));
 const Svg = require("./shared/Svg");
-const Dropdown = React.createFactory(require("./Dropdown"));
-const { showMenu, buildMenu } = require("../utils/menu");
+const Dropdown = React.createFactory(require("./shared/Dropdown"));
+const { showMenu, buildMenu } = require("./shared/menu");
 const { debounce } = require("lodash");
 const { formatKeyShortcut } = require("../utils/text");
 require("./SourceTabs.css");
-require("./Dropdown.css");
 
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
