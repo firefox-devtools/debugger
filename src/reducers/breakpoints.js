@@ -153,7 +153,8 @@ function update(state = State(), action: Action) {
       }
 
       break;
-    }}
+    }
+  }
 
   return state;
 }
