@@ -4,7 +4,7 @@
   box-shadow: 0 4px 4px 0 var(--theme-search-overlays-semitransparent);
   max-height: 300px;
   position: absolute;
-  right: 8px;
+  offset-inline-end: 8px;
   top: 35px;
   width: 150px;
   z-index: 1000;
@@ -12,13 +12,15 @@
 
 .dropdown-button {
   position: absolute;
-  right: 18px;
+  offset-inline-end: 18px;
   top: 4px;
   font-size: 18px;
-  color: var(--theme-body-color);
+  color: var(--theme-comment);
   cursor: pointer;
   background: none;
   border: none;
+  padding: 0 5px;
+  font-weight: 100;
 }
 
 .dropdown li {
