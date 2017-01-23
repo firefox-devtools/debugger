@@ -1,51 +1,60 @@
 .command-bar {
   height: 30px;
-  padding: 8px 5px;
   border-bottom: 1px solid var(--theme-splitter-color);
+  display: flex;
 }
 
-.command-bar > span {
+.command-bar > button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  width: 16px;
-  height: 17px;
   display: inline-block;
   text-align: center;
   transition: all 0.25s ease;
+  padding: 8px 5px;
+  position: relative;
+  fill: currentColor;
 }
 
-:root.theme-dark .command-bar > span {
-  fill: var(--theme-body-color);
+:root.theme-dark .command-bar > button {
+  color: var(--theme-body-color);
 }
 
-:root.theme-dark .command-bar > span:hover {
-  fill: var(--theme-selection-color);
-}
-
-.command-bar > span {
+.command-bar > button {
   margin-inline-end: 0.7em;
 }
 
-.command-bar > span.disabled {
+html .command-bar > button:disabled {
   opacity: 0.3;
   cursor: default;
 }
 
-.command-bar .stepOut {
-  margin-inline-end: 2em;
+.command-bar > button > i {
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+
+.command-bar > button > i > svg {
+  width: 16px;
+  height: 16px;
+}
+
+.command-bar button.pause-exceptions {
+  margin-inline-start: .5em;
 }
 
 .command-bar .subSettings {
   float: right;
 }
 
-.command-bar .toggleBreakpoints.breakpoints-disabled path {
-  fill: var(--theme-highlight-blue);
+.command-bar button.pause-exceptions.uncaught {
+  color: var(--theme-highlight-purple);
 }
 
-.command-bar span.pause-exceptions.uncaught {
-  fill: var(--theme-highlight-purple);
-}
-
-.command-bar span.pause-exceptions.all {
-  fill: var(--theme-highlight-blue);
+.command-bar button.pause-exceptions.all {
+  color: var(--theme-highlight-blue);
 }

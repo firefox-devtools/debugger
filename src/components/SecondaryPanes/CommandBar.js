@@ -76,15 +76,18 @@ function handlePressAnimation(button) {
   }, 200);
 }
 
-function debugBtn(onClick, type, className, tooltip) {
+
+function debugBtn(onClick, type, className, tooltip, disabled = false) {
   className = `${type} ${className}`;
-  return dom.span(
+  return dom.button(
     {
       onClick,
       className,
-      key: type
+      key: type,
+      "aria-label": tooltip,
+      disabled
     },
-    Svg(type, { title: tooltip })
+    Svg(type)
   );
 }
 
@@ -146,25 +149,31 @@ const CommandBar = React.createClass({
   },
 
   renderStepButtons() {
-    const className = this.props.pause ? "active" : "disabled";
+    const isPaused = this.props.pause;
+    const className = isPaused ? "active" : "disabled";
+    const isDisabled = !this.props.pause;
+
     return [
       debugBtn(
         this.props.stepOver,
         "stepOver",
         className,
-        L10N.getFormatStr("stepOverTooltip1", formatKey("stepOver"))
+        L10N.getFormatStr("stepOverTooltip1", formatKey("stepOver")),
+        isDisabled
       ),
       debugBtn(
         this.props.stepIn,
         "stepIn",
         className,
-        L10N.getFormatStr("stepInTooltip1", formatKey("stepIn"))
+        L10N.getFormatStr("stepInTooltip1", formatKey("stepIn")),
+        isDisabled
       ),
       debugBtn(
         this.props.stepOut,
         "stepOut",
         className,
-        L10N.getFormatStr("stepOutTooltip1", formatKey("stepOut"))
+        L10N.getFormatStr("stepOutTooltip1", formatKey("stepOut")),
+        isDisabled
       )
     ];
   },
@@ -186,7 +195,8 @@ const CommandBar = React.createClass({
         null,
         "pause",
         "disabled",
-        L10N.getStr("pausePendingButtonTooltip")
+        L10N.getStr("pausePendingButtonTooltip"),
+        true
       );
     }
 
