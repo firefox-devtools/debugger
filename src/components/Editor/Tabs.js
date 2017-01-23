@@ -89,10 +89,10 @@ const SourceTabs = React.createClass({
 
   componentDidMount() {
     this.updateHiddenSourceTabs();
-    window.addEventListener("resize", this.onResize, false);
+    window.addEventListener("resize", this.onResize);
   },
 
-  componentDidDismount() {
+  componentWillUnmount() {
     window.removeEventListener("resize", this.onResize);
   },
 
