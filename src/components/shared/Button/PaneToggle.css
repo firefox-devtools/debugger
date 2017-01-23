@@ -23,12 +23,12 @@ html[dir="rtl"] .toggle-button-start svg {
 }
 
 .toggle-button-start {
-  top: 8px;
+  top: 7px;
   offset-inline-start: 0;
 }
 
 .toggle-button-end {
-  top: 8px;
+  top: 7px;
   offset-inline-end: 0;
 }
 
