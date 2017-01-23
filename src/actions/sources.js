@@ -31,7 +31,7 @@ const {
   getPendingSelectedLocation, getFrames
 } = require("../selectors");
 
-import type { Source } from "devtools-client-adapters/src/types";
+import type { Source } from "../types";
 import type { ThunkArgs } from "./types";
 
 /**

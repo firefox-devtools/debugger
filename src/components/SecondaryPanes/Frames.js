@@ -12,7 +12,7 @@ const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
 const classNames = require("classnames");
 
 import type { List } from "immutable";
-import type { Frame, Source } from "devtools-client-adapters/src/types";
+import type { Frame, Source } from "../../types";
 
 if (typeof window == "object") {
   require("./Frames.css");

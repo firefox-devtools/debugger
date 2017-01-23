@@ -5,7 +5,7 @@ import type { Source,
               Location,
               SourceText,
               Frame,
-              Why } from "devtools-client-adapters/src/types";
+              Why } from "../types";
 
 /**
  * Flow types

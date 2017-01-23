@@ -3,7 +3,7 @@ const { Frame } = require("../tcomb-types");
 const { getOriginalLocation } = require("./source-map");
 
 import type { Pause,
-  Frame as FrameType } from "devtools-client-adapters/src/types";
+  Frame as FrameType } from "../types";
 
 function updateFrameLocations(frames: FrameType[]): Promise<FrameType[]> {
   if (!frames) {
