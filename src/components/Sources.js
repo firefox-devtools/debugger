@@ -25,6 +25,7 @@ const Sources = React.createClass({
       return dom.span(
         {
           className: "sources-header-info",
+          dir: "ltr",
           onClick: () => this.props.toggleFileSearch(true)
         },
         L10N.getFormatStr("sources.search",
