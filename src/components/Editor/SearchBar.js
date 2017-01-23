@@ -7,7 +7,7 @@ const Svg = require("../shared/Svg");
 const { find, findNext, findPrev, removeOverlay } = require("../../utils/source-search");
 const classnames = require("classnames");
 const escapeRegExp = require("lodash/escapeRegExp");
-const debounce = require("lodash/escapeRegExp");
+const debounce = require("lodash/debounce");
 const CloseButton = require("../shared/Button/Close");
 const ImPropTypes = require("react-immutable-proptypes");
 
