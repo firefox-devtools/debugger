@@ -68,7 +68,7 @@ if (isFirefoxPanel()) {
       firefox.setTabTarget(tabTarget);
       renderRoot(React, ReactDOM, App, store);
       firefox.initPage(actions);
-      onFirefoxConnect(actions, firefox);
+      return onFirefoxConnect(actions, firefox);
     },
     destroy: () => {
       unmountRoot(ReactDOM);

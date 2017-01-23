@@ -442,8 +442,7 @@ const Editor = React.createClass({
     } else {
       this.editor.codeMirror.getWrapperElement().addEventListener(
         "contextmenu",
-        event => this.onContextMenu(this.editor.codeMirror, event),
-        false
+        event => this.onContextMenu(this.editor.codeMirror, event)
       );
     }
     const shortcuts = this.context.shortcuts;
