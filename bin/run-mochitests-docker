@@ -13,5 +13,5 @@ docker run -it \
   -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
   -e "DISPLAY=unix$DISPLAY" \
   --ipc host \
-  jlongster/mochitest-runner \
+  jasonlaster11/mochitest- \
   /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/debugger/new/test/mochitest/browser.ini && ./mach build && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"
