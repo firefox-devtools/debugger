@@ -77,6 +77,8 @@ html .breakpoints-list .breakpoint.paused {
 }
 
 .breakpoint-snippet {
+  overflow: hidden;
+  text-overflow: ellipsis;
   padding-inline-start: 18px;
 }
 
