@@ -21,8 +21,8 @@ function countMatches(query, text) {
 const SearchBar = React.createClass({
 
   propTypes: {
-    editor: PropTypes.object.isRequired,
-    sourceText: ImPropTypes.map.isRequired,
+    editor: PropTypes.object,
+    sourceText: ImPropTypes.map,
     selectedSource: ImPropTypes.map
   },
 
@@ -87,9 +87,10 @@ const SearchBar = React.createClass({
   },
 
   closeSearch(e: SyntheticEvent) {
-    if (this.state.enabled) {
+    const ed = this.props.editor;
+
+    if (this.state.enabled && ed) {
       this.setState({ enabled: false });
-      const ed = this.props.editor;
       const ctx = { ed, cm: ed.codeMirror };
       removeOverlay(ctx);
       e.stopPropagation();
@@ -100,11 +101,12 @@ const SearchBar = React.createClass({
   toggleSearch(e: SyntheticKeyboardEvent) {
     e.stopPropagation();
     e.preventDefault();
+    const { editor } = this.props;
 
     this.setState({ enabled: !this.state.enabled });
 
-    if (this.state.enabled) {
-      const selection = this.props.editor.codeMirror.getSelection();
+    if (this.state.enabled && editor) {
+      const selection = editor.codeMirror.getSelection();
       this.setSearchValue(selection);
       this.doSearch(selection);
       this.selectSearchInput();
@@ -132,6 +134,10 @@ const SearchBar = React.createClass({
 
   doSearch(query: string) {
     const sourceText = this.props.sourceText;
+    if (!sourceText) {
+      return;
+    }
+
     const count = countMatches(query, sourceText.get("text"));
     // eslint-disable-next-line react/no-did-update-set-state
     this.setState({ query, count, index: 0 });
@@ -147,6 +153,11 @@ const SearchBar = React.createClass({
     e.preventDefault();
 
     const ed = this.props.editor;
+
+    if (!ed) {
+      return;
+    }
+
     const ctx = { ed, cm: ed.codeMirror };
     const { query, index, count } = this.state;
 
@@ -164,6 +175,11 @@ const SearchBar = React.createClass({
     e.preventDefault();
 
     const ed = this.props.editor;
+
+    if (!ed) {
+      return;
+    }
+
     const ctx = { ed, cm: ed.codeMirror };
     const { query, index, count } = this.state;
 
