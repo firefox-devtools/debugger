@@ -78,7 +78,7 @@ const Breakpoints = React.createClass({
   },
 
   renderBreakpoint(breakpoint) {
-    const snippet = truncateStr(breakpoint.text || "", 30);
+    const snippet = breakpoint.text || "";
     const locationId = breakpoint.locationId;
     const line = breakpoint.location.line;
     const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
