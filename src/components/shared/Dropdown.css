@@ -20,6 +20,7 @@
   background: none;
   border: none;
   padding: 0 5px;
+  font-weight: 100;
 }
 
 .dropdown li {
