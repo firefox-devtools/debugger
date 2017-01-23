@@ -17,7 +17,7 @@ const {
 } = require("../utils/source-map");
 
 import type { ThunkArgs } from "./types";
-import type { Location } from "devtools-client-adapters/src/types";
+import type { Location } from "../types";
 
 type addBreakpointOptions = {
   condition: string,

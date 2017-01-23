@@ -13,7 +13,7 @@ const makeRecord = require("../utils/makeRecord");
 const { getPrettySourceURL } = require("../utils/source");
 const { prefs } = require("../utils/prefs");
 
-import type { Source, Location } from "devtools-client-adapters/src/types";
+import type { Source, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 

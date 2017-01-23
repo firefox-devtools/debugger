@@ -13,7 +13,7 @@ const { updateObj } = require("../utils/utils");
 const I = require("immutable");
 const makeRecord = require("../utils/makeRecord");
 
-import type { Breakpoint, Location } from "devtools-client-adapters/src/types";
+import type { Breakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
