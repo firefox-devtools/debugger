@@ -23,12 +23,12 @@ html .toggle-button-end.vertical svg {
 }
 
 .toggle-button-start {
-  top: 7px;
+  top: 8px;
   offset-inline-start: 0;
 }
 
 .toggle-button-end {
-  top: 7px;
+  top: 8px;
   offset-inline-end: 0;
 }
 

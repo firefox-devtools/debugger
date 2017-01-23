@@ -13,12 +13,13 @@
 .dropdown-button {
   position: absolute;
   offset-inline-end: 18px;
-  top: 1px;
+  top: 4px;
   font-size: 18px;
   color: var(--theme-comment);
   cursor: pointer;
   background: none;
   border: none;
+  padding: 0 5px;
 }
 
 .dropdown li {
