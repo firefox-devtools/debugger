@@ -29,6 +29,7 @@
   "sources.header": "Sources",
   "sources.search": "%S to search",
   "sources.search.key": "P",
+  "sources.searchAlt.key": "O",
   "watchExpressions.header": "Watch Expressions",
   "watchExpressions.refreshButton": "Refresh",
   "welcome.search1": "%S to search for sources",
