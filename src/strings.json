@@ -49,11 +49,7 @@
   "pauseButtonTooltip1": "Pause %S",
   "sourceTabs.closeTab": "Close tab",
   "sourceTabs.closeOtherTabs": "Close others",
-<<<<<<< HEAD
   "sourceTabs.closeTabsToEnd": "Close tabs to the right",
-=======
-  "sourceTabs.closeTabsToEnd": "Close tabs to the end",
->>>>>>> fc61509ba037ec105856a2480c66f289cddc5086
   "sourceTabs.closeAllTabs": "Close all tabs",
   "sourceTabs.closeTabButtonTooltip": "Close tab",
   "sourceTabs.newTabButtonTooltip": "Search for sources (%S)",
