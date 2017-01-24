@@ -115,7 +115,7 @@ const SourceTabs = React.createClass({
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
-    const closeTabsToRightLabel = L10N.getStr("sourceTabs.closeTabsToRight");
+    const closeTabsToEndLabel = L10N.getStr("sourceTabs.closeTabsToEnd");
     const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
 
     const tabs = sourceTabs.map(t => t.get("id"));
@@ -138,9 +138,9 @@ const SourceTabs = React.createClass({
       click: () => closeTabs(tabs.filter(t => t !== tab))
     };
 
-    const closeTabsToRightMenuItem = {
-      id: "node-menu-close-tabs-to-right",
-      label: closeTabsToRightLabel,
+    const closeTabsToEndMenuItem = {
+      id: "node-menu-close-tabs-to-end",
+      label: closeTabsToEndLabel,
       accesskey: "R",
       disabled: false,
       click: () => {
@@ -184,7 +184,7 @@ const SourceTabs = React.createClass({
     const items = [
       { item: closeTabMenuItem },
       { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
-      { item: closeTabsToRightMenuItem, hidden: () =>
+      { item: closeTabsToEndMenuItem, hidden: () =>
          tabs.some((t, i) => t === tab && (tabs.size - 1) === i) },
       { item: closeAllTabsMenuItem },
     ];
