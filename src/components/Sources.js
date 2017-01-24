@@ -26,7 +26,7 @@ const Sources = React.createClass({
         {
           className: "sources-header-info",
           dir: "ltr",
-          onClick: () => this.props.toggleFileSearch()
+          onClick: () => this.props.toggleFileSearch(true)
         },
         L10N.getFormatStr("sources.search",
           formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))

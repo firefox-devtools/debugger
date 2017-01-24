@@ -7,7 +7,7 @@ describe("ui", () => {
   it("should toggle the visible state of file search", () => {
     const { dispatch, getState } = createStore();
     expect(getFileSearchState(getState())).to.be(false);
-    dispatch(actions.toggleFileSearch());
+    dispatch(actions.toggleFileSearch(true));
     expect(getFileSearchState(getState())).to.be(true);
   });
 
