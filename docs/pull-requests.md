@@ -1,4 +1,4 @@
-### Pull Requests
+## Pull Requests
 
 * [Screenshots](#screenshots)
 * [Test Steps](#test-steps)
@@ -6,7 +6,7 @@
 * [Reviews](#reviews)
 * [Updates](#updates)
 
-#### Screenshots
+### Screenshots
 
 Include screenshots and animated GIFs in your pull request whenever possible.
 
@@ -45,7 +45,7 @@ Include screenshots and animated GIFs in your pull request whenever possible.
 
 </details>
 
-#### Test Steps
+### Test Steps
 
 List any steps necessary to trigger the feature you've created or bug you are fixing
 
@@ -65,7 +65,7 @@ If you're working on style change to the close button you could say:
 </details>
 
 
-#### Testing
+### Testing
 
 We use [husky](https://github.com/typicode/husky) to check the PR before it is pushed.
 
@@ -74,15 +74,38 @@ Here are docs on [tests][test-docs] and [linting][linting-docs], which you can r
 
 The integration tests will be run automatically by the CI. Our integration tests are run with [mochitest][mochitest]. The local setup process is documented [here][mochitest-docs], but the process is a bit cumbersome, so reviewers will generally help debug.
 
-#### Reviews
+### Receiving Reviews
 
 Once the tests have passed in the PR you must receive a review using the GitHub review system
 
 We have a number of contributors reviewing PRs fairly quickly, if you feel yours has been neglected please mention the team name **@devtools-html/debugger** in the PR
 
-#### Updates
+### Reviewing a PR
 
-We value landing PRs smoothly. One way we minimize back and forth, is by pushing updates directly to PR branches.
+Giving valuable feedback is one of the best ways to contribute.
+
+Tips:
+
+1. It's not reserved to project maintainers. In fact, it's a great way to learn about the project and pick up on conventions
+2. Don't be afraid to ask a question or comment on style inconsistencies.
+3. Ask for screenshots and steps to reproduce. Often if it's not clear to you, it's not clear to others :)
+
+**Testing locally**
+
+Testing locally is the best way to pick up on inconsistencies.
+Many times you'll find small things like console warnings or small visual regressions.
+
+Steps:
+
+1. Find the username and branch name in the PR
+2. Add the user's remote: `git remote add <usenamer> <user's fork>` this is the URL you'd use to clone the user's fork.
+3. Fetch the user's branches `git fetch <username>`
+4. checkout the user's branch `git checkout --track <username>/<pr-branch>`. `--track` is helpful if you later want to pull down subsequent changes to the PR.
+
+
+### Updates
+
+We value landing PRs smoothly. One way we minimize back and forth is by pushing updates directly to PR branches.
 
 There are a couple times when we do this:
 * it's a small syntax or style change that's blocking a merge
@@ -92,10 +115,20 @@ There are a couple times when we do this:
 
 Here are the steps for pushing to a PR branch:
 
+Getting Setup:
+
 1. **http remote** [github help][github-remote]
 2. **2fa** [github help][github-2fa]
 3. **personal access tokens** [github help][github-pat]
 
+Pushing to a branch:
+
+`git push <username> <pr-branch>`
+
+Notes:
+
+* Don't worry about including `--force`, often it's inevitable if you're helping with a rebase.
+* It's best to include your work as a separate commit so the contributor can easily see the patch.
 
 [github-tables]:https://help.github.com/articles/organizing-information-with-tables/
 [github-remote]:https://help.github.com/articles/which-remote-url-should-i-use/
