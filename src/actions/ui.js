@@ -1,12 +1,15 @@
 // @flow
 const constants = require("../constants");
-const { getSource } = require("../selectors");
+const { getSource, getFileSearchState } = require("../selectors");
 import type { ThunkArgs } from "./types";
 
-function toggleFileSearch(searchOn: boolean) {
-  return {
-    type: constants.TOGGLE_FILE_SEARCH,
-    searchOn
+function toggleFileSearch() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const isSearchOn = getFileSearchState(getState());
+    dispatch({
+      type: constants.TOGGLE_FILE_SEARCH,
+      searchOn: !isSearchOn
+    });
   };
 }
 

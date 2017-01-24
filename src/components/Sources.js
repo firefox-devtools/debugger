@@ -6,8 +6,7 @@ const { connect } = require("react-redux");
 const { formatKeyShortcut } = require("../utils/text");
 const SourcesTree = React.createFactory(require("./SourcesTree"));
 const actions = require("../actions");
-const { getSelectedSource, getSources,
-  getFileSearchState } = require("../selectors");
+const { getSelectedSource, getSources } = require("../selectors");
 
 require("./Sources.css");
 
@@ -16,8 +15,7 @@ const Sources = React.createClass({
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
     horizontal: PropTypes.bool.isRequired,
-    toggleFileSearch: PropTypes.func,
-    searchOn: PropTypes.bool
+    toggleFileSearch: PropTypes.func
   },
 
   displayName: "Sources",
@@ -28,7 +26,7 @@ const Sources = React.createClass({
         {
           className: "sources-header-info",
           dir: "ltr",
-          onClick: () => this.props.toggleFileSearch(!this.props.searchOn)
+          onClick: () => this.props.toggleFileSearch()
         },
         L10N.getFormatStr("sources.search",
           formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
@@ -51,6 +49,6 @@ const Sources = React.createClass({
 
 module.exports = connect(
   state => ({ selectedSource: getSelectedSource(state),
-    sources: getSources(state), searchOn: getFileSearchState(state) }),
+    sources: getSources(state) }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Sources);
