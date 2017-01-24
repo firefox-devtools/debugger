@@ -58,7 +58,7 @@ const Search = React.createClass({
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
-      L10N.getStr("sources.searchAlt.key"), 
+      L10N.getStr("sources.searchAlt.key"),
       L10N.getStr("sources.search.key")
     ];
     searchKeys.forEach(key => shortcuts.off(`CmdOrCtrl+${key}`, this.toggle));
@@ -68,7 +68,7 @@ const Search = React.createClass({
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
-      L10N.getStr("sources.searchAlt.key"), 
+      L10N.getStr("sources.searchAlt.key"),
       L10N.getStr("sources.search.key")
     ];
     searchKeys.forEach(key => shortcuts.on(`CmdOrCtrl+${key}`, this.toggle));
