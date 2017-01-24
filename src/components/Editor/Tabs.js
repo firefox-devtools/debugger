@@ -70,6 +70,7 @@ const SourceTabs = React.createClass({
     horizontal: PropTypes.bool.isRequired,
     startPanelCollapsed: PropTypes.bool.isRequired,
     endPanelCollapsed: PropTypes.bool.isRequired,
+    searchOn: PropTypes.bool
   },
 
   displayName: "SourceTabs",
@@ -281,7 +282,7 @@ const SourceTabs = React.createClass({
       formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`));
     return dom.div({
       className: "new-tab-btn",
-      onClick: () => this.props.toggleFileSearch(true),
+      onClick: () => this.props.toggleFileSearch(!this.props.searchOn),
       title: newTabTooltip
     }, Svg("plus"));
   },
