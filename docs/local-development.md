@@ -3,6 +3,7 @@
 * [Configs](#configs)
    * [Enabling a Feature Flag](#enabling-a-feature-flag)
    * [Updating the config locally](#updating-the-config-locally)
+   * [Creating a new Feature Flag](#creating-a-new-feature-flag)
 * [Hot Reloading](#hot-reloading)
 * [Themes](#themes)
 * [Internationalization](#internationalization)
@@ -86,6 +87,65 @@ index fdbdb4e..4759c14 100644
 +    "watchExpressions": true
    },
 ```
+
+#### Creating a new Feature Flag
+
+When you're starting a new feature, it's always good to ask yourself if the feature should be added behind a feature flag.
+
+* does this feature need testing or introduce risk?
+* will this feature be built over several PRs?
+* is it possible we'll want to turn it off quickly?
+
+It's easy to add a new feature flag to the project.
+
+1. add the flag to `development.json` and `firefox-panel.json`
+2. add `isEnabled` calls in the code
+
+Here's an example of adding a new feature "awesome sauce" to the Debugger:
+
+```diff
+diff --git a/configs/development.json b/configs/development.json
+index c82b299..d9de5f3 100755
+--- a/configs/development.json
++++ b/configs/development.json
+@@ -14,7 +14,8 @@
+     "watchExpressions": false,
+     "chromeScopes": false,
+     "eventListeners": false,
+-    "codeCoverage": false
++    "codeCoverage": false,
++    "awesomeSauce": false
+   },
+   "chrome": {
+     "debug": true,
+diff --git a/configs/firefox-panel.json b/configs/firefox-panel.json
+index c91b562..bf485bb 100644
+--- a/configs/firefox-panel.json
++++ b/configs/firefox-panel.json
+@@ -10,6 +10,7 @@
+     "watchExpressions": false,
+     "chromeScopes": false,
+     "eventListeners": false,
+-    "codeCoverage": false
++    "codeCoverage": false,
++    "awesomeSauce": false
+   }
+ }
+
+diff --git a/src/components/Editor/index.js b/src/components/Editor/index.js
+index 038fd01..ea7a545 100644
+--- a/src/components/Editor/index.js
++++ b/src/components/Editor/index.js
+@@ -114,6 +114,10 @@ const Editor = React.createClass({
+       return;
+     }
+
++    if (isEnabled("awesomeSauce")) {
++      // sauce goops out of the breakpoint...
++    }
++
+```
+
 
 * Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
