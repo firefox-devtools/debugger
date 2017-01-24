@@ -15,6 +15,13 @@
   color: var(--theme-body-color);
 }
 
+.input-expression::-moz-placeholder {
+  text-align: center;
+  font-style: italic;
+  color: var(--theme-body-color);
+  opacity: 1;
+}
+
 .input-expression:focus {
   outline-color: var(--theme-selection-background-semitransparent);
   outline-width: 2px;
