@@ -156,7 +156,6 @@ const Editor = React.createClass({
 
     const watchExpressionLabel = {
       accesskey: "E",
-      disabled: !this.editor.codeMirror.somethingSelected(),
       label: L10N.getStr("expressions.placeholder"),
       click: () => this.props.addExpression({
         input: this.editor.codeMirror.getSelection()
@@ -169,7 +168,8 @@ const Editor = React.createClass({
       menuOptions.push(jumpLabel);
     }
 
-    if (isEnabled("watchExpressions")) {
+    var textSelected = this.editor.codeMirror.somethingSelected()
+    if (isEnabled("watchExpressions") && textSelected) {
       menuOptions.push(watchExpressionLabel);
     }
 
