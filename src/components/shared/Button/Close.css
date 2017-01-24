@@ -33,7 +33,6 @@
 }
 
 .close-btn-big path {
-  fill: var(--theme-body-color);
 }
 
 .close-btn-big .close {
