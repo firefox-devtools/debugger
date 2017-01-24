@@ -17,6 +17,7 @@
 .tree .node {
   padding: 2px 5px;
   position: relative;
+  cursor: pointer;
 }
 
 .tree .node.focused {
