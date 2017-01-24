@@ -58,12 +58,6 @@ if (isFirefoxPanel()) {
 
   module.exports = {
     bootstrap: ({ threadClient, tabTarget, toolbox }: any) => {
-      // jlast: remove when docker updates
-      if (!window.L10N) {
-        window.L10N = L10N;
-        window.L10N.setBundle(require("./strings.json"));
-      }
-
       firefox.setThreadClient(threadClient);
       firefox.setTabTarget(tabTarget);
       renderRoot(React, ReactDOM, App, store);

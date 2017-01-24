@@ -37,6 +37,7 @@ pref("devtools.toolbox.splitconsoleEnabled", false);
 pref("devtools.toolbox.splitconsoleHeight", 100);
 
 // Toolbox Button preferences
+pref("devtools.command-button-pick.enabled", true);
 pref("devtools.command-button-frames.enabled", true);
 pref("devtools.command-button-splitconsole.enabled", true);
 pref("devtools.command-button-paintflashing.enabled", false);
@@ -63,6 +64,8 @@ pref("devtools.inspector.showUserAgentStyles", false);
 pref("devtools.inspector.showAllAnonymousContent", false);
 // Enable the MDN docs tooltip
 pref("devtools.inspector.mdnDocsTooltip.enabled", true);
+// Enable the new color widget
+pref("devtools.inspector.colorWidget.enabled", false);
 
 // Enable the Font Inspector
 pref("devtools.fontinspector.enabled", true);
@@ -104,12 +107,12 @@ pref("devtools.debugger.pretty-print-enabled", true);
 pref("devtools.debugger.auto-pretty-print", false);
 pref("devtools.debugger.auto-black-box", true);
 pref("devtools.debugger.workers", false);
-pref("devtools.debugger.new-debugger-frontend", true);
-pref("devtools.debugger.call-stack-visible", false);
-pref("devtools.debugger.scopes-visible", false);
-pref("devtools.debugger.tabs", "[]");
-pref("devtools.debugger.pending-selected-location", "{}");
 
+#ifdef RELEASE_OR_BETA
+pref("devtools.debugger.new-debugger-frontend", false);
+#else
+pref("devtools.debugger.new-debugger-frontend", true);
+#endif
 
 // The default Debugger UI settings
 pref("devtools.debugger.ui.panes-workers-and-sources-width", 200);
@@ -122,6 +125,8 @@ pref("devtools.debugger.call-stack-visible", false);
 pref("devtools.debugger.scopes-visible", false);
 pref("devtools.debugger.start-panel-collapsed", false);
 pref("devtools.debugger.end-panel-collapsed", false);
+pref("devtools.debugger.tabs", "[]");
+pref("devtools.debugger.pending-selected-location", "{}");
 
 // Enable the Memory tools
 pref("devtools.memory.enabled", true);
@@ -184,7 +189,7 @@ pref("devtools.netmonitor.filters", "[\"all\"]");
 
 // The default Network monitor HAR export setting
 pref("devtools.netmonitor.har.defaultLogDir", "");
-pref("devtools.netmonitor.har.defaultFileName", "Archive %y-%m-%d %H-%M-%S");
+pref("devtools.netmonitor.har.defaultFileName", "Archive %date");
 pref("devtools.netmonitor.har.jsonp", false);
 pref("devtools.netmonitor.har.jsonpCallback", "");
 pref("devtools.netmonitor.har.includeResponseBodies", true);
@@ -366,13 +371,8 @@ pref("devtools.editor.autocomplete", true);
 // version for each user.
 pref("devtools.telemetry.tools.opened.version", "{}");
 
-// Enable the JSON View tool (an inspector for application/json documents) on
-// Nightly and Dev. Edition.
-#ifdef RELEASE_OR_BETA
-pref("devtools.jsonview.enabled", false);
-#else
+// Enable the JSON View tool (an inspector for application/json documents).
 pref("devtools.jsonview.enabled", true);
-#endif
 
 // Enable the HTML responsive design mode for all channels.
 pref("devtools.responsive.html.enabled", true);
