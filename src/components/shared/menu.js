@@ -60,6 +60,10 @@ function onShown(menu, popup) {
 }
 
 function showMenu(e, items) {
+  if (items.length === 0) {
+    return;
+  }
+
   const menu = new Menu();
   items.forEach(item => menu.append(new MenuItem(item)));
 
@@ -68,7 +72,7 @@ function showMenu(e, items) {
   }
 
   menu.on("open", (_, popup) => onShown(menu, popup));
-  return menu.popup(e.clientX, e.clientY, { doc: document });
+  menu.popup(e.clientX, e.clientY, { doc: document });
 }
 
 function buildMenu(items) {
