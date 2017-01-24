@@ -2,6 +2,7 @@
   "title": "Debugger",
   "environment": "development",
   "baseWorkerURL": "http://localhost:8000/assets/build/",
+  "favicon": "assets/images/favicon.png",
   "theme": "light",
   "dir": "ltr",
   "logging": {
@@ -12,10 +13,6 @@
   "features": {
     "watchExpressions": false,
     "chromeScopes": false,
-    "copySource": false,
-    "showSource": false,
-    "editorSearch": false,
-    "verticalLayout": false,
     "eventListeners": false,
     "codeCoverage": false
   },

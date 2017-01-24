@@ -1,6 +1,8 @@
 ## Local Development
 
 * [Configs](#configs)
+   * [Enabling a Feature Flag](#enabling-a-feature-flag)
+   * [Updating the config locally](#updating-the-config-locally)
 * [Hot Reloading](#hot-reloading)
 * [Themes](#themes)
 * [Internationalization](#internationalization)
@@ -16,10 +18,11 @@
 * [Linting](#linting)
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
+* [FAQ](#FAQ)
 
 ### Configs
 
-All default config values are in [`development.json`](../configs/development.json), to override these values you need to [create a local config file](#creating-a-local-config).
+All default config values are in [`development.json`](../configs/development.json), to override these values you need to [create a local config file][create-local-config].
 
 Here are the most common development configuration options:
 
@@ -29,21 +32,19 @@ Here are the most common development configuration options:
   * `debug` Enables listening for remotely debuggable Chrome browsers
 * `hotReloading` enables [Hot Reloading](./docs/local-development.md#hot-reloading) of CSS and React
 
-For a list of all the configuration options see the [packages/devtools-config/README.md](https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md)
+For a list of all the configuration options see the [packages/devtools-config/README.md][devtools-config-readme]
 
-#### Creating a Local Config
+#### Updating the config locally
 
 You can create a `configs/local.json` file to override development configs. This is great for enabling features locally or changing the theme.
 
-* Copy the `local-sample` to get started.
+* Copy the `local.sample.json` to get started.
 
 ```bash
-cp configs/local-sample.json configs/local-sample.json
+cp configs/local.sample.json configs/local.json
 ```
 
-* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
-
-#### Updating your Config
+* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 You can quickly change your local config `configs/local.json`.
 
@@ -64,7 +65,7 @@ index fdbdb4e..4759c14 100644
    },
 ```
 
-* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
+* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 #### Enabling a Feature Flag
 
@@ -86,7 +87,7 @@ index fdbdb4e..4759c14 100644
    },
 ```
 
-* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
+* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 ### Hot Reloading :fire:
 
@@ -94,7 +95,7 @@ Hot Reloading watches for changes in the React Components JS and CSS and propaga
 
 To enabled Hot Reloading:
 
-* [Create a local config file](#creating-a-local-config) if you don't already have one
+* [Create a local config file][create-local-config] if you don't already have one
 * edit `hotReloading`
 
 ```diff
@@ -112,18 +113,19 @@ index fdbdb4e..4759c14 100644
    },
 ```
 
-* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
-
-Read more about [Hot Reloading](./docs/local-development.md#hot-reloading)
-
+* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 ### Themes
 
-The local debugger supports three themes: [light](https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png), [firebug](https://cloud.githubusercontent.com/assets/254562/20676303/4cbb0570-b55d-11e6-98b5-d1dd124345cd.png), and [dark](https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png).
+The local debugger supports three themes:
 
+Light     | Dark      | Firebug
+--------- | --------- | ---------
+<a href="https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png"><img width="480" alt="light-theme" src="https://cloud.githubusercontent.com/assets/254562/20676302/4cb04a7c-b55d-11e6-855f-654395e2c26f.png"></a> | <a href="https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png"><img width="480" alt="dark-theme" src="https://cloud.githubusercontent.com/assets/254562/20676304/4cbfbf16-b55d-11e6-9b84-3ee5595e36be.png"></a> | <a href="https://cloud.githubusercontent.com/assets/254562/20676303/4cbb0570-b55d-11e6-98b5-d1dd124345cd.png"><img width="480" alt="firebug-theme" src="https://cloud.githubusercontent.com/assets/254562/20676303/4cbb0570-b55d-11e6-98b5-d1dd124345cd.png"></a>
 
 #### Set a theme
-You can change the theme by setting the `theme` field in `local.json` to  `light`, `dark`, or `firebug`. [gif](http://g.recordit.co/nwBX4VBOBA.gif)
+
+You can change the theme by setting the `theme` field in your `local.json` to  `light`, `dark`, or `firebug`. [Walkthrough GIF](http://g.recordit.co/nwBX4VBOBA.gif)
 
 `configs/local.json`
 ```json
@@ -156,8 +158,9 @@ L10N.getFormatStr("editor.searchResults", index + 1, count)
 ```
 
 Translated strings are added to the local [strings](https://github.com/devtools-html/debugger.html/blob/master/src/strings.json)
-file and m-c [debugger properties](https://dxr.mozilla.org/mozilla-central/source/devtools/client/locales/en-US/debugger.properties) file. We plan on [killing](https://github.com/devtools-html/debugger.html/issues/1030) `strings.json` soon!
+file and m-c [debugger properties](https://dxr.mozilla.org/mozilla-central/source/devtools/client/locales/en-US/debugger.properties) file. We plan on [removing](https://github.com/devtools-html/devtools-core/issues/18) `strings.json` soon!
 
+Go checkout the [L10N issues][l10n-issues]
 
 #### RTL
 
@@ -255,7 +258,7 @@ index 8c79f4d..6893673 100644
  const ImPropTypes = require("react-immutable-proptypes");
  const classnames = require("classnames");
  const actions = require("../actions");
-+const Svg = require("./utils/Svg");
++const Svg = require("./shared/Svg");
  const { getSource, getPause, getBreakpoints } = require("../selectors");
  const { makeLocationId } = require("../reducers/breakpoints");
  const { truncateStr } = require("../utils/utils");
@@ -307,18 +310,88 @@ Rationale:
 
 **How do I run flow?**
 ```
-> flow
+> yarn run flow
 ```
+
+Go checkout the [Flow related issues][flow-issues]
+
+**How do I add flow to a file?**
+
+Add `// @flow` to the top of the file.
+
+```patch
+diff --git a/src/components/Editor.js b/src/components/Editor.js
+index b0fe9a6..8889a56 100644
+--- a/src/components/Editor.js
++++ b/src/components/Editor.js
+@@ -1,3 +1,5 @@
++// @flow
++
+```
+
+Then run `yarn run flow` in your terminal. The first run will likely take 30 seconds to initialize, but subsequent runs will be fast.
+
+Here's a [gif](http://g.recordit.co/QYAyms9n3C.gif) of flow being added to the SearchBar and a couple of issues being resolved.
+
+**Common Errors**
+
+#### Required property
+
+Problem: In this case, flow is not sure that the editor property is defined.
+
+```
+src/components/Editor/SearchBar.js:172
+172:     const ctx = { ed, cm: ed.codeMirror };
+                                  ^^^^^^^^^^ property `codeMirror`. Property cannot be accessed on possibly undefined value
+172:     const ctx = { ed, cm: ed.codeMirror };
+                               ^^ undefined
+```
+
+Solution: make sure that the property is required.
+
+```patch
+--- a/src/components/Editor/SearchBar.js
++++ b/src/components/Editor/SearchBar.js
+@@ -22,7 +22,7 @@ function countMatches(query, text) {
+ const SearchBar = React.createClass({
+
+   propTypes: {
++    editor: PropTypes.object.isRequired,
+-    editor: PropTypes.object,
+     sourceText: ImPropTypes.map.isRequired,
+     selectedSource: ImPropTypes.map
+   },
+@@ -144,7 +144,8 @@ const SearchBar = Rea
+```
+
+
+###### Missing Annotation
+
+Solution: Add a type to the function param.
+
+```
+src/components/Editor/SearchBar.js:146
+146:   onChange(e) {
+                ^ parameter `e`. Missing annotation
+```
+
+**Where are types defined?***
+
+* Debugger [types](https://github.com/devtools-html/debugger.html/blob/master/src/types.js)
+* Debugger action [types](https://github.com/devtools-html/debugger.html/blob/master/src/actions/types.js)
+* Useful React and Global [types](http://www.saltycrane.com/blog/2016/06/flow-type-cheat-sheet/)
+* Builtin [types](https://flowtype.org/docs/quick-reference.html)
+
 
 **How do I see a file's coverage?**
+
 ```
-> flow coverage --color <path to file>
+flow coverage --color <path to file>
+yarn run flow-coverage  # will launch the flow coverage report
 ```
 
-**How do I see the Debugger's flow coverage?**
-```
-> npm run flow-coverage
-```
+
+
 
 ### Logging
 
@@ -326,7 +399,7 @@ Logging information can be very useful when developing, and there are a few logg
 
 To enable logging:
 
-* [Create a local config file](#creating-a-local-config) if you don't already have one
+* [Create a local config file][create-local-config] if you don't already have one
 * Edit your local config, changing the value of the logger type you want to see to `true`
 
 ```json
@@ -337,7 +410,7 @@ To enable logging:
   }
 ```
 
-* Restart your development server by typing `ctrl+c` in the Terminal and run `yarn start` again
+* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 
 Let's cover the logging types.
@@ -354,16 +427,16 @@ Your code must pass all tests to be merged in.  Your tests should pass locally b
 
 Here's how can run all the unit tests, lints, and integration tests at once:
 
-```
-$ yarn run test-all
+```bash
+yarn run test-all
 ```
 
 #### Unit Tests
 
-* `yarn test` - Run tests headlessly
+* `yarn test` - Run headless tests
  * These are the basic unit tests which must always pass
-* `yarn run mocha-server` - Run tests in the browser once you open `http://localhost:8003`
- * This runs tests in the browser and is useful for fixing errors in the karma tests
+* [http://localhost:8000/mocha](http://localhost:8000/mocha) - Run tests in the browser when you have `yarn start` running [gif](http://g.recordit.co/Go1GOu1Pli.gif))
+
 
 #### Integration tests
 
@@ -376,35 +449,49 @@ Learn more about mochitests in our [mochitests docs](./mochitests.md).
 
 Run all of lint checks (JS + CSS) run the following command:
 
-```
-$ yarn run lint
+```bash
+yarn run lint
 ```
 
 #### Lint CSS
 
-We use [Stylelint](http://stylelint.io/) to maintain our CSS styles.  The [.stylelintrc](https://github.com/devtools-html/debugger.html/blob/master/.stylelintrc) file contains the style definitions, please adhere to those styles when making changes.
+We use [Stylelint](http://stylelint.io/) to maintain our CSS styles.  The [.stylelintrc](../.stylelintrc) file contains the style definitions, please adhere to those styles when making changes.
 
 To test your CSS changes run the command:
 
-```
-$ yarn run lint-css
+```bash
+yarn run lint-css
 ```
 
 #### Lint JS
 
-We use [eslint](http://eslint.org/) to maintain our JavaScript styles.  The [.eslintrc](https://github.com/devtools-html/debugger.html/blob/master/.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
+We use [eslint](http://eslint.org/) to maintain our JavaScript styles.  The [.eslintrc](../.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
 
 To test your JS changes run the command:
 
-```
-$ yarn run lint-js
+```bash
+yarn run lint-js
 ```
 
 To automatically fix many errors run the command:
 
-```
-$ yarn run lint-fix
+```bash
+yarn run lint-fix
 ```
 
-[bidirection]: https://github.com/gasolin/postcss-bidirection
-[logical]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties
+### FAQ
+
+#### Why not JSX
+
+The reason is largely historical. Devtools historically has been developed inside the browser [1](https://dxr.mozilla.org/mozilla-central/source/devtools/client/debugger/debugger-view.js). The advantage of this approach is devtools could be written with ES6 and modules without a build step.
+
+When we started the Debugger, we were not sure if we would keep webpack and the website workflow and did not want to re-write the JSX to raw JS.
+
+Now that we *have* decided that working in github with webpack has a lot of benefits we could switch to JSX. We are open to switching if someone could help us do it, join the [discussion here](https://github.com/devtools-html/debugger.html/issues/1747).
+
+[devtools-config-readme]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md
+[create-local-config]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md#local-config
+[l10n-issues]:https://github.com/devtools-html/debugger.html/labels/localization
+[flow-issues]:https://github.com/devtools-html/debugger.html/labels/flow
+[bidirection]:https://github.com/gasolin/postcss-bidirection
+[logical]:https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties

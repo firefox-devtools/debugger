@@ -5,7 +5,9 @@ const { bindActionCreators, combineReducers } = require("redux");
 const ReactDOM = require("react-dom");
 
 const { getClient, firefox } = require("devtools-client-adapters");
-const { renderRoot, bootstrap, L10N } = require("devtools-launchpad");
+const {
+  renderRoot, bootstrap, L10N, unmountRoot
+} = require("devtools-launchpad");
 const { getValue, isFirefoxPanel } = require("devtools-config");
 
 const configureStore = require("./utils/create-store");
@@ -50,11 +52,6 @@ window.getGlobalsForTesting = () => {
   };
 };
 
-function unmountRoot() {
-  const mount = document.querySelector("#mount");
-  ReactDOM.unmountComponentAtNode(mount);
-}
-
 if (isFirefoxPanel()) {
   const sourceMap = require("./utils/source-map");
   const prettyPrint = require("./utils/pretty-print");
@@ -71,10 +68,10 @@ if (isFirefoxPanel()) {
       firefox.setTabTarget(tabTarget);
       renderRoot(React, ReactDOM, App, store);
       firefox.initPage(actions);
-      onFirefoxConnect(actions, firefox);
+      return onFirefoxConnect(actions, firefox);
     },
     destroy: () => {
-      unmountRoot();
+      unmountRoot(ReactDOM);
       sourceMap.destroyWorker();
       prettyPrint.destroyWorker();
     },

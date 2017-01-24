@@ -2,7 +2,8 @@
 const { Frame } = require("../tcomb-types");
 const { getOriginalLocation } = require("./source-map");
 
-import type { Pause, Frame as FrameType } from "../types";
+import type { Pause,
+  Frame as FrameType } from "../types";
 
 function updateFrameLocations(frames: FrameType[]): Promise<FrameType[]> {
   if (!frames) {
@@ -28,7 +29,17 @@ const reasons = {
   "breakpoint": "whyPaused.breakpoint",
   "exception": "whyPaused.exception",
   "resumeLimit": "whyPaused.resumeLimit",
-  "pauseOnDOMEvents": "whyPaused.pauseOnDOMEvents"
+  "pauseOnDOMEvents": "whyPaused.pauseOnDOMEvents",
+  "breakpointConditionThrown": "whyPaused.breakpointConditionThrown",
+
+  // V8
+  "DOM": "whyPaused.breakpoint",
+  "EventListener": "whyPaused.pauseOnDOMEvents",
+  "XHR": "whyPaused.xhr",
+  "promiseRejection": "whyPaused.promiseRejection",
+  "assert": "whyPaused.assert",
+  "debugCommand": "whyPaused.debugCommand",
+  "other": "whyPaused.other"
 };
 
 function getPauseReason(pauseInfo: Pause): string | null {

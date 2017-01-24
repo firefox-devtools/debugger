@@ -1,0 +1,51 @@
+.command-bar {
+  height: 30px;
+  padding: 8px 5px;
+  border-bottom: 1px solid var(--theme-splitter-color);
+}
+
+.command-bar > span {
+  cursor: pointer;
+  width: 16px;
+  height: 17px;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+:root.theme-dark .command-bar > span {
+  fill: var(--theme-body-color);
+}
+
+:root.theme-dark .command-bar > span:hover {
+  fill: var(--theme-selection-color);
+}
+
+.command-bar > span {
+  margin-inline-end: 0.7em;
+}
+
+.command-bar > span.disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.command-bar .stepOut {
+  margin-inline-end: 2em;
+}
+
+.command-bar .subSettings {
+  float: right;
+}
+
+.command-bar .toggleBreakpoints.breakpoints-disabled path {
+  fill: var(--theme-highlight-blue);
+}
+
+.command-bar span.pause-exceptions.uncaught {
+  fill: var(--theme-highlight-purple);
+}
+
+.command-bar span.pause-exceptions.all {
+  fill: var(--theme-highlight-blue);
+}

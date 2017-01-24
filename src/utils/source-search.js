@@ -1,4 +1,4 @@
-const { escapeRegExp } = require("lodash");
+const escapeRegExp = require("lodash/escapeRegExp");
 /**
  * These functions implement search within the debugger. Since
  * search in the debugger is different from other components,
@@ -114,7 +114,7 @@ function startSearch(cm, state, query) {
  * @memberof utils/source-search
  * @static
  */
-function doSearch(ctx, rev, query) {
+function doSearch(ctx, rev, query, keepSelection) {
   let { cm } = ctx;
   let state = getSearchState(cm);
 
@@ -129,7 +129,12 @@ function doSearch(ctx, rev, query) {
     }
     startSearch(cm, state, query);
     state.query = query;
-    state.posFrom = state.posTo = { line: 0, ch: 0 };
+    if (keepSelection) {
+      state.posTo = cm.getCursor("anchor");
+      state.posFrom = cm.getCursor("head");
+    } else {
+      state.posFrom = state.posTo = { line: 0, ch: 0 };
+    }
     searchNext(ctx, rev);
   });
 }
@@ -195,9 +200,9 @@ function clearSearch(cm) {
  * @memberof utils/source-search
  * @static
  */
-function find(ctx, query) {
+function find(ctx, query, keepSelection) {
   clearSearch(ctx.cm);
-  doSearch(ctx, false, query);
+  doSearch(ctx, false, query, keepSelection);
 }
 
 /**

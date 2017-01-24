@@ -6,7 +6,7 @@ machine:
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
     YARN_PATH: "$HOME/.yarn"
-    YARN_VERSION: 0.18.1
+    YARN_VERSION: 0.19.1
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   post:
     - mkdir -p $DOWNLOADS_PATH
@@ -28,6 +28,7 @@ test:
     - yarn run lint-js
     - yarn run flow
     - yarn run flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
+    - yarn check
     - bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/flow-coverage/flow-coverage.json
 
 dependencies:

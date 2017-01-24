@@ -4,8 +4,9 @@
 .*node_modules/npm.*
 .*node_modules/stylelint.*
 .*node_modules/config-chain.*
-.*firefox/.*
+<PROJECT_ROOT>/firefox/.*
 .*flow-coverage-report/.*
 
 [libs]
 ./src/global-types.js
+

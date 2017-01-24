@@ -36,7 +36,7 @@ const threadClient = {
 process.on("unhandledRejection", (reason, p) => {});
 
 // Create a sourcemapped source that all the sourcemap tests can use.
-const bundleSource = makeSource("bundle.js", {
+const bundleSource = makeSource("sourcemaps/bundle.js", {
   sourceMapURL: "bundle.js.map"
 });
 
@@ -56,15 +56,16 @@ describe("sources", () => {
   it("should select a source", () => {
     // Note that we pass an empty client in because the action checks
     // if it exists.
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
 
     dispatch(actions.newSource(makeSource("foo.js")));
     dispatch(actions.selectSource("foo.js"));
-    expect(getSelectedSource(getState()).get("id")).to.equal("foo.js");
+    expect(getSelectedSource(getState()).get("id"))
+      .to.equal("foo.js");
   });
 
   it("should automatically select a pending source", () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     const baseSource = makeSource("base.js");
     dispatch(actions.selectSourceURL(baseSource.url));
 
@@ -74,30 +75,31 @@ describe("sources", () => {
   });
 
   it("should open a tab for the source", () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     dispatch(actions.newSource(makeSource("foo.js")));
     dispatch(actions.selectSource("foo.js"));
 
     const tabs = getSourceTabs(getState());
     expect(tabs.size).to.equal(1);
-    expect(tabs.getIn([0, "id"])).to.equal("foo.js");
+    expect(tabs.get(0)).to
+      .equal("http://localhost:8000/examples/foo.js");
   });
 
   it("should select previous tab on tab closed", () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     dispatch(actions.newSource(makeSource("foo.js")));
     dispatch(actions.newSource(makeSource("bar.js")));
     dispatch(actions.newSource(makeSource("baz.js")));
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.selectSource("bar.js"));
     dispatch(actions.selectSource("baz.js"));
-    dispatch(actions.closeTab("baz.js"));
+    dispatch(actions.closeTab("http://localhost:8000/examples/baz.js"));
     expect(getSelectedSource(getState()).get("id")).to.be("bar.js");
     expect(getSourceTabs(getState()).size).to.be(2);
   });
 
   it("should select next tab on tab closed if no previous tab", () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     dispatch(actions.newSource(makeSource("foo.js")));
     dispatch(actions.newSource(makeSource("bar.js")));
     dispatch(actions.newSource(makeSource("baz.js")));
@@ -105,7 +107,7 @@ describe("sources", () => {
     dispatch(actions.selectSource("bar.js"));
     dispatch(actions.selectSource("baz.js"));
     dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.closeTab("foo.js"));
+    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
     expect(getSelectedSource(getState()).get("id")).to.be("bar.js");
     expect(getSourceTabs(getState()).size).to.be(2);
   });
@@ -174,44 +176,44 @@ describe("sources", () => {
 
 describe("closing tabs", () => {
   it("closing a tab", () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     dispatch(actions.newSource(makeSource("foo.js")));
     dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.closeTab("foo.js"));
+    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
     expect(getSelectedSource(getState())).to.be(undefined);
     expect(getSourceTabs(getState()).size).to.be(0);
   });
 
   it("closing the inactive tab", () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     dispatch(actions.newSource(makeSource("foo.js")));
     dispatch(actions.newSource(makeSource("bar.js")));
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.selectSource("bar.js"));
-    dispatch(actions.closeTab("foo.js"));
+    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
     expect(getSelectedSource(getState()).get("id")).to.be("bar.js");
     expect(getSourceTabs(getState()).size).to.be(1);
   });
 
   it("closing the only tab", () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     dispatch(actions.newSource(makeSource("foo.js")));
     dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.closeTab("foo.js"));
+    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
     expect(getSelectedSource(getState())).to.be(undefined);
     expect(getSourceTabs(getState()).size).to.be(0);
   });
 
   it("closing the active tab", () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     dispatch(actions.newSource(makeSource("foo.js")));
     dispatch(actions.newSource(makeSource("bar.js")));
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.selectSource("bar.js"));
-    dispatch(actions.closeTab("bar.js"));
+    dispatch(actions.closeTab("http://localhost:8000/examples/bar.js"));
 
     expect(getSelectedSource(getState()).get("id")).to.be("foo.js");
     expect(getSourceTabs(getState()).size).to.be(1);
@@ -225,7 +227,7 @@ describe("closing tabs", () => {
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.selectSource("bar.js"));
     dispatch(actions.selectSource("bazz.js"));
-    dispatch(actions.closeTabs(["foo.js", "bar.js"]));
+    dispatch(actions.closeTabs(["http://localhost:8000/examples/foo.js", "http://localhost:8000/examples/bar.js"]));
 
     expect(getSelectedSource(getState()).get("id")).to.be("bazz.js");
     expect(getSourceTabs(getState()).size).to.be(1);
@@ -239,7 +241,7 @@ describe("closing tabs", () => {
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.selectSource("bar.js"));
     dispatch(actions.selectSource("bazz.js"));
-    dispatch(actions.closeTabs(["bar.js", "bazz.js"]));
+    dispatch(actions.closeTabs(["http://localhost:8000/examples/bar.js", "http://localhost:8000/examples/bazz.js"]));
 
     expect(getSelectedSource(getState()).get("id")).to.be("foo.js");
     expect(getSourceTabs(getState()).size).to.be(1);
@@ -251,7 +253,7 @@ describe("closing tabs", () => {
     dispatch(actions.newSource(makeSource("bar.js")));
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.selectSource("bar.js"));
-    dispatch(actions.closeTabs(["foo.js", "bar.js"]));
+    dispatch(actions.closeTabs(["http://localhost:8000/examples/foo.js", "http://localhost:8000/examples/bar.js"]));
 
     expect(getSelectedSource(getState())).to.be(undefined);
     expect(getSourceTabs(getState()).size).to.be(0);

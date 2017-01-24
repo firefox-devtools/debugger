@@ -24,6 +24,12 @@ function start() {
     {cwd: projectPath}
   );
 
+  copyFile(
+    path.resolve(projectPath, "assets/default-prefs.js"),
+    path.resolve(projectPath, "firefox/devtools/client/preferences/devtools.js"),
+    {cwd: projectPath}
+  );
+
   symlinkTests({ projectPath, mcModulePath })
 
   makeBundle({

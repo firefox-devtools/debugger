@@ -25,6 +25,7 @@ const Sources = React.createClass({
       return dom.span(
         {
           className: "sources-header-info",
+          dir: "ltr",
           onClick: () => this.props.toggleFileSearch(true)
         },
         L10N.getFormatStr("sources.search",
@@ -39,7 +40,6 @@ const Sources = React.createClass({
     return dom.div(
       { className: "sources-panel" },
       dom.div({ className: "sources-header" },
-        L10N.getStr("sources.header"),
         this.renderShortcut()
       ),
       SourcesTree({ sources, selectSource })

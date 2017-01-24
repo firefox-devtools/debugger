@@ -8,7 +8,10 @@ const CodeMirror = require("codemirror");
 require("codemirror/lib/codemirror.css");
 require("codemirror/mode/javascript/javascript");
 require("codemirror/mode/htmlmixed/htmlmixed");
-require("../lib/codemirror-mozilla.css");
+require("codemirror/mode/coffeescript/coffeescript");
+require("codemirror/mode/jsx/jsx");
+require("codemirror/mode/elm/elm");
+require("../components/Editor/codemirror-mozilla.css");
 require("codemirror/addon/search/searchcursor");
 
 // Maximum allowed margin (in number of lines) from top or bottom of the editor

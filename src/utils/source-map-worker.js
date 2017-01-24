@@ -9,7 +9,7 @@ const networkRequest = require("devtools-network-request");
 const { parse } = require("url");
 const path = require("./path");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
-const { isJavaScript } = require("./source");
+const { getContentType } = require("./source");
 const assert = require("./assert");
 const {
   originalToGeneratedId,
@@ -201,9 +201,7 @@ async function getOriginalSourceText(originalSource: Source) {
 
   return {
     text,
-    contentType: isJavaScript(originalSource.url || "") ?
-      "text/javascript" :
-      "text/plain"
+    contentType: getContentType(originalSource.url || "")
   };
 }
 

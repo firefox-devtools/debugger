@@ -7,15 +7,13 @@ const { getSources, getSelectedSource, getPaneCollapse } = require("../selectors
 
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
-const { formatKeyShortcut } = require("../utils/text");
-const { isEnabled } = require("devtools-config");
 
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
 
 require("./App.css");
-require("./menu.css");
-require("./SplitBox.css");
-require("./reps.css");
+require("./shared/menu.css");
+require("./shared/SplitBox.css");
+require("./shared/reps.css");
 let { SplitBox } = require("devtools-modules");
 SplitBox = createFactory(SplitBox);
 
@@ -23,7 +21,8 @@ const SourceSearch = createFactory(require("./SourceSearch"));
 const Sources = createFactory(require("./Sources"));
 const Editor = createFactory(require("./Editor"));
 const SecondaryPanes = createFactory(require("./SecondaryPanes"));
-const SourceTabs = createFactory(require("./SourceTabs"));
+const WelcomeBox = createFactory(require("./WelcomeBox"));
+const EditorTabs = createFactory(require("./Editor/Tabs"));
 
 const App = React.createClass({
   propTypes: {
@@ -41,9 +40,7 @@ const App = React.createClass({
   },
 
   componentDidMount() {
-    if (isEnabled("verticalLayout")) {
-      verticalLayoutBreakpoint.addListener(this.onLayoutChange);
-    }
+    verticalLayoutBreakpoint.addListener(this.onLayoutChange);
   },
 
   componentWillUnmount() {
@@ -51,24 +48,13 @@ const App = React.createClass({
   },
 
   getInitialState() {
-    const horizontal = isEnabled("verticalLayout")
-      ? verticalLayoutBreakpoint.matches : true;
-
-    return { horizontal };
+    return { horizontal: verticalLayoutBreakpoint.matches };
   },
 
   onLayoutChange() {
     this.setState({
       horizontal: verticalLayoutBreakpoint.matches
     });
-  },
-
-  renderWelcomeBox() {
-    return dom.div(
-      { className: "welcomebox" },
-      L10N.getFormatStr("welcome.search",
-        formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
-    );
   },
 
   renderEditorPane() {
@@ -78,13 +64,13 @@ const App = React.createClass({
       { className: "editor-pane" },
       dom.div(
         { className: "editor-container" },
-        SourceTabs({
+        EditorTabs({
           startPanelCollapsed,
           endPanelCollapsed,
           horizontal
         }),
-        Editor(),
-        !this.props.selectedSource ? this.renderWelcomeBox() : null,
+        Editor({ horizontal }),
+        !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
         SourceSearch()
       )
     );
@@ -93,6 +79,8 @@ const App = React.createClass({
   renderHorizontalLayout() {
     const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
+
+    const overflowX = endPanelCollapsed ? "hidden" : "auto";
 
     return dom.div(
       { className: "debugger" },
@@ -105,6 +93,7 @@ const App = React.createClass({
         startPanel: Sources({ sources, horizontal }),
         startPanelCollapsed,
         endPanel: SplitBox({
+          style: { overflowX },
           initialSize: "300px",
           minSize: 10,
           maxSize: "80%",
@@ -128,7 +117,7 @@ const App = React.createClass({
         style: { width: "100vw" },
         initialSize: "300px",
         minSize: 30,
-        maxSize: "95%",
+        maxSize: "99%",
         splitterSize: 1,
         vert: horizontal,
         startPanel: SplitBox({

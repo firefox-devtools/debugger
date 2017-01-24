@@ -1,0 +1,74 @@
+.input-expression {
+  width: 100%;
+  padding: 8px 10px;
+  margin: 0px;
+  border: 1px;
+  cursor: pointer;
+  color: var(--theme-body-color);
+  background-color: var(--theme-body-background);
+  line-height: 12px;
+}
+
+.input-expression::-webkit-input-placeholder {
+  text-align: center;
+  font-style: italic;
+}
+
+.input-expression:focus {
+  outline-color: var(--theme-selection-background-semitransparent);
+  outline-width: 2px;
+  cursor: text;
+}
+
+.expression-container {
+  border: 1px;
+  padding: 8px 5px 0px 10px;
+  width: 100%;
+  color: var(--theme-body-color);
+  background-color: var(--theme-body-background);
+  display: flex;
+}
+
+.expression-container .tree {
+  overflow: hidden;
+}
+
+:root.theme-light .expression-container:hover {
+  background-color: var(--theme-tab-toolbar-background);
+}
+
+:root.theme-dark .expression-container:hover {
+  background-color: var(--theme-search-overlays-semitransparent);
+}
+
+.expression-container .close-btn {
+  display: none;
+}
+
+.expression-container:hover .close-btn {
+  width: 8px;
+  height: 8px;
+  margin-left: auto;
+  margin-right: 8px;
+  display: block;
+  cursor: pointer;
+}
+
+.expression-input {
+  cursor: pointer;
+  max-width: 50%;
+}
+
+.expression-separator {
+  padding: 0px 5px;
+}
+
+.expression-value {
+  overflow-x: scroll;
+  color: var(--theme-content-color2);
+  max-width: 50% !important;
+}
+
+.expression-error {
+  color: var(--theme-highlight-red);
+}

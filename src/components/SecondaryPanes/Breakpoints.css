@@ -1,0 +1,98 @@
+.breakpoints-list * {
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.breakpoints-list .breakpoint {
+  font-size: 12px;
+  color: var(--theme-content-color1);
+  padding: 0.5em 1px;
+  line-height: 1em;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+html[dir="rtl"] .breakpoints-list .breakpoint {
+  border-right: 4px solid transparent;
+}
+
+html:not([dir="rtl"]) .breakpoints-list .breakpoint {
+  border-left: 4px solid transparent;
+}
+
+.breakpoints-list .breakpoint:last-of-type {
+  padding-bottom: 0.45em;
+}
+
+html:not([dir="rtl"]) .breakpoints-list .breakpoint.is-conditional {
+  border-left-color: var(--theme-graphs-yellow);
+}
+
+html[dir="rtl"] .breakpoints-list .breakpoint.is-conditional {
+  border-right-color: var(--theme-graphs-yellow);
+}
+
+html .breakpoints-list .breakpoint.paused {
+  background-color: var(--theme-toolbar-background-alt);
+  border-color: var(--breakpoint-active-color);
+}
+
+.breakpoints-list .breakpoint.disabled .breakpoint-label {
+  color: var(--theme-content-color3);
+  transition: color 0.5s linear;
+}
+
+.breakpoints-list .breakpoint:hover {
+  cursor: pointer;
+  background-color: var(--theme-search-overlays-semitransparent);
+}
+
+.breakpoints-list .breakpoint.paused:hover {
+  border-color: var(--breakpoint-active-color-hover);
+}
+
+.breakpoints-list .breakpoint-checkbox {
+  margin-inline-start: 0;
+}
+
+.breakpoints-list .breakpoint-label {
+  display: inline-block;
+  padding-inline-start: 2px;
+  padding-bottom: 4px;
+}
+
+.breakpoints-list .pause-indicator {
+  flex: 0 1 content;
+  order: 3;
+}
+
+:root.theme-light .breakpoint-snippet,
+:root.theme-firebug .breakpoint-snippet {
+  color: var(--theme-comment);
+}
+
+:root.theme-dark .breakpoint-snippet {
+  color: var(--theme-body-color);
+  opacity: 0.6;
+}
+
+.breakpoint-snippet {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-inline-start: 18px;
+  padding-inline-end: 18px;
+}
+
+.breakpoint .close-btn {
+  position: absolute;
+  offset-inline-end: 6px;
+  top: 12px;
+}
+
+.breakpoint .close {
+  display: none;
+}
+
+.breakpoint:hover .close {
+  display: block;
+}
