@@ -43,7 +43,9 @@ We strive for collaboration with [mutual respect for each other][contributing]. 
 
 ### Discussion
 
-We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
+Our primary communication method is now on the [Slack app][slack]
+
+We are also on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
 
 * **Community Call** Every Tuesday, Thursday at 3pm EST. [Call][community-call]
 * **DevTools Call** Every Tuesday at 12pm EST. [info](https://wiki.mozilla.org/DevTools)
@@ -69,3 +71,4 @@ We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on
 [irc-devtools-html]:irc://irc.mozilla.org/devtools-html
 
 [GitHub Desktop]:https://desktop.github.com/
+[slack]:https://devtools-html-slack.herokuapp.com/
