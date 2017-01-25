@@ -1090,7 +1090,7 @@ bluebird@^2.9.34:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
 
-body-parser@^1.15.0:
+body-parser@^1.15.0, body-parser@^1.15.2:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.15.2.tgz#d7578cf4f1d11d5f6ea804cef35dc7a7ff6dae67"
   dependencies:
@@ -1922,9 +1922,9 @@ devtools-launchpad@0.0.21:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
-devtools-launchpad@^0.0.29:
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.29.tgz#a934cda80443af52d2823cce9f363790fc4fd1de"
+devtools-launchpad@^0.0.31:
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.31.tgz#67d20d06685cab95864514fa30ac179b447ed158"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
@@ -1942,7 +1942,7 @@ devtools-launchpad@^0.0.29:
     babel-plugin-webpack-alias "^2.1.1"
     babel-polyfill "^6.7.4"
     babel-register "^6.18.0"
-    body-parser "^1.15.0"
+    body-parser "^1.15.2"
     check-node-version "^1.1.2"
     classnames "^2.2.5"
     co "=4.6.0"
