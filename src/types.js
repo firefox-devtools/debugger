@@ -1,5 +1,11 @@
 // @flow
 
+export type SearchModifiers = {
+  caseSensitive: boolean,
+  wholeWord: boolean,
+  regexMatch: boolean
+};
+
 export type {
   Breakpoint,
   Expression,

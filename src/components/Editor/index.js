@@ -8,7 +8,9 @@ const { connect } = require("react-redux");
 const classnames = require("classnames");
 
 const SourceEditor = require("../../utils/source-editor");
-const { find, findNext, findPrev, removeOverlay } = require("../../utils/source-search");
+const {
+  find, findNext, findPrev, removeOverlay
+} = require("../../utils/source-search");
 const { getMode } = require("../../utils/source");
 const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
@@ -34,6 +36,12 @@ const { isOriginalId, hasMappedSource } = require("../../utils/source-map");
 const { copyToTheClipboard } = require("../../utils/clipboard");
 
 require("./Editor.css");
+
+const defaultModifiers = {
+  caseSensitive: true,
+  wholeWord: false,
+  regexMatch: false
+};
 
 function isTextForSource(sourceText) {
   return !sourceText.get("loading") && !sourceText.get("error");
@@ -69,16 +77,16 @@ function traverseResults(e, ctx, dir) {
   e.stopPropagation() || e.preventDefault();
   const query = ctx.cm.getSelection();
   if (dir == "prev") {
-    findPrev(ctx, query);
+    findPrev(ctx, query, true, defaultModifiers);
   } else if (dir == "next") {
-    findNext(ctx, query);
+    findNext(ctx, query, true, defaultModifiers);
   }
 }
 
 function onCursorActivity(ctx) {
   if (ctx.cm.somethingSelected()) {
     const query = ctx.cm.getSelection();
-    find(ctx, query, true);
+    find(ctx, query, true, defaultModifiers);
   } else {
     removeOverlay(ctx);
   }
@@ -183,7 +191,7 @@ const Editor = React.createClass({
       menuOptions.push(jumpLabel);
     }
 
-    var textSelected = this.editor.codeMirror.somethingSelected()
+    const textSelected = this.editor.codeMirror.somethingSelected();
     if (isEnabled("watchExpressions") && textSelected) {
       menuOptions.push(watchExpressionLabel);
     }

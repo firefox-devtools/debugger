@@ -13,6 +13,12 @@ const ImPropTypes = require("react-immutable-proptypes");
 
 require("./SearchBar.css");
 
+const defaultModifiers = {
+  caseSensitive: true,
+  wholeWord: false,
+  regexMatch: false
+};
+
 function countMatches(query, text) {
   const re = new RegExp(escapeRegExp(query), "g");
   const match = text.match(re);
@@ -166,7 +172,7 @@ const SearchBar = React.createClass({
       this.setState({ enabled: true });
     }
 
-    findPrev(ctx, query);
+    findPrev(ctx, query, false, defaultModifiers);
     const nextIndex = index == 0 ? count - 1 : index - 1;
     this.setState({ index: nextIndex });
   },
@@ -188,7 +194,7 @@ const SearchBar = React.createClass({
       this.setState({ enabled: true });
     }
 
-    findNext(ctx, query);
+    findNext(ctx, query, false, defaultModifiers);
     const nextIndex = index == count - 1 ? 0 : index + 1;
     this.setState({ index: nextIndex });
   },
@@ -215,7 +221,7 @@ const SearchBar = React.createClass({
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
 
-    find(ctx, query);
+    find(ctx, query, false, defaultModifiers);
   }, 100),
 
   renderSummary() {

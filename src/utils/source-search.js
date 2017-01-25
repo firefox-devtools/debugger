@@ -1,11 +1,8 @@
-const escapeRegExp = require("lodash/escapeRegExp");
-/**
- * These functions implement search within the debugger. Since
- * search in the debugger is different from other components,
- * we can't use search.js CodeMirror addon. This is a slightly
- * modified version of that addon. Depends on searchcursor.js.
- * @module utils/source-search
- */
+// @flow
+
+const buildQuery = require("./build-query");
+
+import type { SearchModifiers } from "../types";
 
 /**
  * @memberof utils/source-search
@@ -20,7 +17,7 @@ function SearchState() {
  * @memberof utils/source-search
  * @static
  */
-function getSearchState(cm) {
+function getSearchState(cm: any) {
   return cm.state.search || (cm.state.search = new SearchState());
 }
 
@@ -28,20 +25,11 @@ function getSearchState(cm) {
  * @memberof utils/source-search
  * @static
  */
-function getSearchCursor(cm, query, pos) {
-  // If the query string is all lowercase, do a case insensitive search.
-  return cm.getSearchCursor(query, pos,
-    typeof query == "string" && query == query.toLowerCase());
-}
+function getSearchCursor(cm, query: string, pos, modifiers: SearchModifiers) {
+  const { caseSensitive } = modifiers;
 
-/**
- * Ignore doing outline matches for less than 3 whitespaces
- *
- * @memberof utils/source-search
- * @static
- */
-function ignoreWhiteSpace(str) {
-  return /^\s{0,2}$/.test(str) ? "(?!\s*.*)" : str;
+  const regexQuery = buildQuery(query, modifiers, { isGlobal: false });
+  return cm.getSearchCursor(regexQuery, pos, !caseSensitive);
 }
 
 /**
@@ -58,8 +46,12 @@ function ignoreWhiteSpace(str) {
  * @memberof utils/source-search
  * @static
  */
-function searchOverlay(query) {
-  query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)));
+function searchOverlay(query, modifiers) {
+  const regexQuery = buildQuery(query, modifiers, {
+    isGlobal: false,
+    ignoreSpaces: true
+  });
+
   let matchLength = null;
   return {
     token: function(stream) {
@@ -79,7 +71,7 @@ function searchOverlay(query) {
         return "highlight highlight-end";
       }
 
-      const match = stream.match(query, false);
+      const match = stream.match(regexQuery, false);
       if (match) {
         stream.next();
         const len = match[0].length;
@@ -100,9 +92,10 @@ function searchOverlay(query) {
  * @memberof utils/source-search
  * @static
  */
-function startSearch(cm, state, query) {
+function startSearch(cm, state, query, modifiers) {
   cm.removeOverlay(state.overlay);
-  state.overlay = searchOverlay(query);
+
+  state.overlay = searchOverlay(query, modifiers);
   cm.addOverlay(state.overlay, { opaque: false });
 }
 
@@ -114,12 +107,12 @@ function startSearch(cm, state, query) {
  * @memberof utils/source-search
  * @static
  */
-function doSearch(ctx, rev, query, keepSelection) {
+function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
   let { cm } = ctx;
   let state = getSearchState(cm);
 
   if (state.query) {
-    searchNext(ctx, rev);
+    searchNext(ctx, rev, modifiers);
     return;
   }
 
@@ -127,7 +120,7 @@ function doSearch(ctx, rev, query, keepSelection) {
     if (state.query) {
       return;
     }
-    startSearch(cm, state, query);
+    startSearch(cm, state, query, modifiers);
     state.query = query;
     if (keepSelection) {
       state.posTo = cm.getCursor("anchor");
@@ -135,7 +128,7 @@ function doSearch(ctx, rev, query, keepSelection) {
     } else {
       state.posFrom = state.posTo = { line: 0, ch: 0 };
     }
-    searchNext(ctx, rev);
+    searchNext(ctx, rev, modifiers);
   });
 }
 
@@ -145,16 +138,25 @@ function doSearch(ctx, rev, query, keepSelection) {
  * @memberof utils/source-search
  * @static
  */
-function searchNext(ctx, rev) {
+function searchNext(ctx, rev, modifiers) {
   let { cm, ed } = ctx;
   cm.operation(function() {
     let state = getSearchState(cm);
     let cursor = getSearchCursor(cm, state.query,
-                                 rev ? state.posFrom : state.posTo);
+      rev ? state.posFrom : state.posTo,
+      modifiers);
+
+    const location = rev
+      ? { line: cm.lastLine(), ch: null }
+      : { line: cm.firstLine(), ch: 0 };
 
     if (!cursor.find(rev)) {
-      cursor = getSearchCursor(cm, state.query, rev ?
-        { line: cm.lastLine(), ch: null } : { line: cm.firstLine(), ch: 0 });
+      cursor = getSearchCursor(
+        cm,
+        state.query,
+        location,
+        modifiers
+      );
       if (!cursor.find(rev)) {
         return;
       }
@@ -173,7 +175,7 @@ function searchNext(ctx, rev) {
  * @memberof utils/source-search
  * @static
  */
-function removeOverlay(ctx) {
+function removeOverlay(ctx: any) {
   let state = getSearchState(ctx.cm);
   ctx.cm.removeOverlay(state.overlay);
 }
@@ -200,9 +202,10 @@ function clearSearch(cm) {
  * @memberof utils/source-search
  * @static
  */
-function find(ctx, query, keepSelection) {
+function find(
+  ctx: any, query: string, keepSelection: boolean, modifiers: SearchModifiers) {
   clearSearch(ctx.cm);
-  doSearch(ctx, false, query, keepSelection);
+  doSearch(ctx, false, query, keepSelection, modifiers);
 }
 
 /**
@@ -211,8 +214,9 @@ function find(ctx, query, keepSelection) {
  * @memberof utils/source-search
  * @static
  */
-function findNext(ctx, query) {
-  doSearch(ctx, false, query);
+function findNext(
+  ctx: any, query: string, keepSelection: boolean, modifiers: SearchModifiers) {
+  doSearch(ctx, false, query, keepSelection, modifiers);
 }
 
 /**
@@ -221,8 +225,23 @@ function findNext(ctx, query) {
  * @memberof utils/source-search
  * @static
  */
-function findPrev(ctx, query) {
-  doSearch(ctx, true, query);
+function findPrev(
+  ctx: any, query: string, keepSelection :boolean, modifiers: SearchModifiers) {
+  doSearch(ctx, true, query, keepSelection, modifiers);
 }
 
-module.exports = { find, findNext, findPrev, removeOverlay };
+function countMatches(
+  query: string, text: string, modifiers: SearchModifiers) {
+  const regexQuery = buildQuery(query, modifiers, { isGlobal: true });
+  const match = text.match(regexQuery);
+  return match ? match.length : 0;
+}
+
+module.exports = {
+  buildQuery,
+  countMatches,
+  find,
+  findNext,
+  findPrev,
+  removeOverlay
+};
