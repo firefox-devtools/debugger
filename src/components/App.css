@@ -1,37 +1,3 @@
-/* vim:set ts=2 sw=2 sts=2 et: */
-
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/. */
-
-:root.theme-light,
-:root .theme-light {
-  --theme-search-overlays-semitransparent: rgba(221, 225, 228, 0.66);
-  --theme-faded-tab-color: #7e7e7e;
-}
-
-:root.theme-dark,
-:root .theme-dark {
-  --theme-faded-tab-color: #6e7d8c;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
-#mount {
-  display: flex;
-  height: 100%;
-}
-
 .debugger {
   display: flex;
   flex: 1;
