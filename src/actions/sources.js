@@ -137,7 +137,7 @@ function selectSource(id: string, options: SelectSourceOptions = {}) {
     // Make sure to start a request to load the source text.
     dispatch(loadSourceText(source));
 
-    dispatch({ type: constants.TOGGLE_FILE_SEARCH, searchOn: false });
+    dispatch({ type: constants.SET_FILE_SEARCH, searchOn: false });
 
     dispatch({
       type: constants.SELECT_SOURCE,

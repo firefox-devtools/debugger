@@ -98,7 +98,7 @@ export type panelPositionType = "start" | "end";
 
 type UIAction =
   {
-    type: "TOGGLE_FILE_SEARCH",
+    type: "SET_FILE_SEARCH",
     searchOn: boolean }
   | {
     type: "SHOW_SOURCE",
