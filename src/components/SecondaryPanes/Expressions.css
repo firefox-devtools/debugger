@@ -12,13 +12,13 @@
 .input-expression::-webkit-input-placeholder {
   text-align: center;
   font-style: italic;
-  color: var(--theme-body-color);
+  color: var(--theme-body-color-inactive);
 }
 
 .input-expression::-moz-placeholder {
   text-align: center;
   font-style: italic;
-  color: var(--theme-body-color);
+  color: var(--theme-body-color-inactive);
   opacity: 1;
 }
 
