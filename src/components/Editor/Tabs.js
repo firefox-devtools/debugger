@@ -249,7 +249,7 @@ const SourceTabs = React.createClass({
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
     const filename = getFilename(source.toJS());
-    const active = source.get("id") == selectedSource.get("id");
+    const active = selectedSource && source.get("id") == selectedSource.get("id");
     const isPrettyCode = isPretty({ url: source.get("url") });
 
     function onClickClose(ev) {
