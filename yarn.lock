@@ -1922,9 +1922,9 @@ devtools-launchpad@0.0.21:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
-devtools-launchpad@^0.0.31:
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.31.tgz#67d20d06685cab95864514fa30ac179b447ed158"
+devtools-launchpad@^0.0.32:
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.32.tgz#467779bd4b1d88f146c435b29294d764c42c0153"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
