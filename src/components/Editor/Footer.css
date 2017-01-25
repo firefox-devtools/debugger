@@ -10,11 +10,12 @@
   z-index: 100;
   -moz-user-select: none;
   user-select: none;
+  height: 30px;
+  box-sizing: border-box;
 }
 
 .source-footer .commands {
   display: flex;
-  padding: 8px 0.7em;
 }
 
 .source-footer .commands * {
@@ -30,6 +31,14 @@
   transition: opacity 200ms;
   border: none;
   background: transparent;
+  padding: 8px 0.7em;
+}
+
+.source-footer > .commands > .action i {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 :root.theme-dark .source-footer > .commands > .action {
