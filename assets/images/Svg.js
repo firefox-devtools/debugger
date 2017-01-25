@@ -6,6 +6,7 @@ const svg = {
   "arrow": require("./arrow.svg"),
   "blackBox": require("./blackBox.svg"),
   "breakpoint": require("./breakpoint.svg"),
+  "case-match": require("./case-match.svg"),
   "close": require("./close.svg"),
   "domain": require("./domain.svg"),
   "file": require("./file.svg"),
@@ -16,6 +17,7 @@ const svg = {
   "pause-exceptions": require("./pause-exceptions.svg"),
   "plus": require("./plus.svg"),
   "prettyPrint": require("./prettyPrint.svg"),
+  "regex-match": require("./regex-match.svg"),
   "resume": require("./resume.svg"),
   "settings": require("./settings.svg"),
   "stepIn": require("./stepIn.svg"),
@@ -24,6 +26,7 @@ const svg = {
   "subSettings": require("./subSettings.svg"),
   "toggleBreakpoints": require("./toggle-breakpoints.svg"),
   "togglePanes": require("./toggle-panes.svg"),
+  "whole-word-match": require("./whole-word-match.svg"),
   "worker": require("./worker.svg"),
   "sad-face": require("./sad-face.svg"),
   "refresh": require("./refresh.svg")
