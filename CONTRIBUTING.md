@@ -16,6 +16,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Writing Code](#writing-code-computer)
     * [Your First Code Contribution](#your-first-code-contribution)
     * [Coding Standards](#coding-standards)
+    * [Issues](#issues)
     * [Pull Requests](#pull-requests)
     * [Local Development](#local-development-computer)
   * [Issues and Pull Request labels](#issues-and-pull-requests)
@@ -67,10 +68,6 @@ We have a number of tools to help you with your code contributions, the followin
 
 If you've contributed to an open source project before and would like to help this one please take a look through the `up for grabs` issues:
 
-* [up for grabs][labels-up-for-grabs] - issues should have clear requirements and a difficulty level set as a label
-
-If you find an `up for grabs` issue without a difficulty level set as a label or unclear requirements please comment in the issue so we can get that fixed.
-
 #### Your First Code Contribution
 
 If you're looking for a good issue, you can look through the `up-for-grabs` issues. These issues should be actionable and well documented.
@@ -100,15 +97,14 @@ Here are pointers to the DevTools general coding style and formatting guidelines
 
 #### Issues
 
-We use issues and milestones for planning purposes as well as tracking bugs.
-
-**Keep Issues Relevant**
-
-We try to keep the number of open issues to a minimum.  If work isn't going to be done in a timely manner we would rather close the issue than let them go stale.  Closed issues can always be reopened again when we are ready to start the work.  This process helps keep the focus of the project more understandable to others.
-
-**Intent to implement**
-
-When a person is assigned to an issue this indicates an _intent to implement_.  Please ask within the issue if you would like to work on a fix so multiple people don't create pull requests for it.
+* [Issue Titles](./docs/issuess.md#issue-titles)
+* [Issue Descriptions](./docs/issuess.md#issue-descriptions)
+* [Claiming Issues](./docs/issuess.md#claiming-issues)
+* [Labels](./docs/issuess.md#labels)
+* [Up For Grab Issues](./docs/issuess.md#up-for-grab-issues)
+* [Triaging](./docs/issuess.md#triaging)
+* [Issue Organization](./docs/issuess.md#issue-organization)
+* [Community Friendly](./docs/issuess.md#community-friendly)
 
 #### Pull Requests
 
@@ -136,39 +132,6 @@ Go to [local Development](./docs/local-development.md) to learn about:
 * [Testing](./docs/local-development.md#testing)
 * [Linting](./docs/local-development.md#linting)
 
-
-## Issues and Pull Request labels
-
-These are the [labels](https://github.com/devtools-html/debugger.html/labels) we use to help organize and communicate the state of issues and pull requests in the project.  If you find a label being used that isn't described here please file an issue to get it listed.
-
-| Label name | query:mag_right: | Description |
-| --- | --- | --- |
-| `up-for-grabs` | [search][labels-up-for-grabs] | Good for contributors to work on |
-| `difficulty:easy` | [search][labels-difficulty-easy] | Work that is small changes, updating tests, updating docs, expect very little review |
-| `difficulty:medium` | [search][labels-difficulty-medium] | Work that adapts existing code, adapts existing tests, expect quick review |
-| `difficulty:hard` | [search][labels-difficulty-hard] | Work that requires new tests, new code, and a good understanding of project; expect lots of review |
-| `docs` | [search][labels-docs] | Issues with our documentation |
-| `design` | [search][labels-design] | Issues that require design work |
-| `enhancement` | [search][labels-enhancement] | [Requests](#suggesting-enhancements-new) for features |
-| `bug` | [search][labels-bug] | [Reported Bugs](#reporting-bugs-bug) with the current code |
-| `chrome` | [search][labels-chrome] | Chrome only issues |
-| `firefox` | [search][labels-firefox] | Firefox only issues |
-| `infrastructure` | [search][labels-infrastructure] | Issues with testing / build infrastructure |
-| `not actionable` | [search][labels-not-actionable] | Issues need clearer requirements before work can be started |
-
-[labels-up-for-grabs]:https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
-[labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
-[labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
-[labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
-[labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard
-[labels-docs]:https://github.com/devtools-html/debugger.html/labels/docs
-[labels-design]:https://github.com/devtools-html/debugger.html/labels/design
-[labels-enhancement]:https://github.com/devtools-html/debugger.html/labels/enhancement
-[labels-bug]:https://github.com/devtools-html/debugger.html/labels/bug
-[labels-chrome]:https://github.com/devtools-html/debugger.html/labels/chrome
-[labels-firefox]:https://github.com/devtools-html/debugger.html/labels/firefox
-[labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
-[labels-not-actionable]:https://github.com/devtools-html/debugger.html/labels/not%20actionable
 
 [GitHub Desktop]:https://desktop.github.com/
 
