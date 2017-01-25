@@ -19,7 +19,7 @@ html[dir="rtl"] .toggle-button-start svg {
 }
 
 .toggle-button-end.vertical svg {
-  transform: rotate(-90deg);
+  transform: rotate(-90deg) !important;
 }
 
 .toggle-button-start {
