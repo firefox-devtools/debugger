@@ -146,7 +146,7 @@ Here's the slightly harder way.
  /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile
 ```
 
-Note that the [script](../bin/chrome-driver) just automates the command :)
+Note that the [script](https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/bin/chrome-driver.js) just automates the command :)
 
 ### Starting Node
 
