@@ -112,7 +112,7 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 | `chrome` | [search][labels-chrome] | Chrome only issues |
 | `firefox` | [search][labels-firefox] | Firefox only issues |
 | `infrastructure` | [search][labels-infrastructure] | Issues with testing / build infrastructure |
-| `not actionable` | [search][labels-not-actionable] | Issues need clearer requirements before work can be started |
+| `discussion` | [search][labels-discussion] | Issues need clearer requirements before work can be started |
 
 [labels-up-for-grabs]:https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
 [labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
@@ -126,7 +126,7 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 [labels-chrome]:https://github.com/devtools-html/debugger.html/labels/chrome
 [labels-firefox]:https://github.com/devtools-html/debugger.html/labels/firefox
 [labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
-[labels-not-actionable]:https://github.com/devtools-html/debugger.html/labels/not%20actionable
+[labels-discussion]:https://github.com/devtools-html/debugger.html/labels/discussion
 
 ### Up For Grab Issues
 
