@@ -117,6 +117,14 @@ const SourceTabs = React.createClass({
     const copyLinkLabel = L10N.getStr("sourceTabs.copyLink");
     const prettyPrintLabel = L10N.getStr("sourceTabs.prettyPrint");
 
+    const closeTabKey = L10N.getStr("sourceTabs.closeTab.key");
+    const closeOtherTabsKey = L10N.getStr("sourceTabs.closeOtherTabs.key");
+    const closeTabsToEndKey = L10N.getStr("sourceTabs.closeTabsToEnd.key");
+    const closeAllTabsKey = L10N.getStr("sourceTabs.closeAllTabs.key");
+    const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.key");
+    const copyLinkKey = L10N.getStr("sourceTabs.copyLink.key");
+    const prettyPrintKey = L10N.getStr("sourceTabs.prettyPrint.key");
+
     const tabs = sourceTabs.map(t => t.get("id"));
     const otherTabs = sourceTabs.filter(t => t.get("id") !== tab);
     const sourceTab = sourceTabs.find(t => t.get("id") == tab);
@@ -127,7 +135,7 @@ const SourceTabs = React.createClass({
     const closeTabMenuItem = {
       id: "node-menu-close-tab",
       label: closeTabLabel,
-      accesskey: "C",
+      accesskey: closeTabKey,
       disabled: false,
       click: () => closeTab(sourceTab.get("url"))
     };
@@ -135,7 +143,7 @@ const SourceTabs = React.createClass({
     const closeOtherTabsMenuItem = {
       id: "node-menu-close-other-tabs",
       label: closeOtherTabsLabel,
-      accesskey: "O",
+      accesskey: closeOtherTabsKey,
       disabled: false,
       click: () => closeTabs(otherTabURLs)
     };
@@ -143,7 +151,7 @@ const SourceTabs = React.createClass({
     const closeTabsToEndMenuItem = {
       id: "node-menu-close-tabs-to-end",
       label: closeTabsToEndLabel,
-      accesskey: "R",
+      accesskey: closeTabsToEndKey,
       disabled: false,
       click: () => {
         const tabIndex = tabs.findIndex(t => t == tab);
@@ -154,7 +162,7 @@ const SourceTabs = React.createClass({
     const closeAllTabsMenuItem = {
       id: "node-menu-close-all-tabs",
       label: closeAllTabsLabel,
-      accesskey: "A",
+      accesskey: closeAllTabsKey,
       disabled: false,
       click: () => closeTabs(tabURLs)
     };
@@ -162,7 +170,7 @@ const SourceTabs = React.createClass({
     const showSourceMenuItem = {
       id: "node-menu-show-source",
       label: revealInTreeLabel,
-      accesskey: "s",
+      accesskey: revealInTreeKey,
       disabled: false,
       click: () => showSource(tab)
     };
@@ -170,7 +178,7 @@ const SourceTabs = React.createClass({
     const copySourceUrl = {
       id: "node-menu-close-tabs-to-right",
       label: copyLinkLabel,
-      accesskey: "X",
+      accesskey: copyLinkKey,
       disabled: false,
       click: () => copyToTheClipboard(sourceTab.get("url"))
     };
@@ -178,7 +186,7 @@ const SourceTabs = React.createClass({
     const prettyPrint = {
       id: "node-menu-pretty-print",
       label: prettyPrintLabel,
-      accesskey: "Z",
+      accesskey: prettyPrintKey,
       disabled: false,
       click: () => togglePrettyPrint(sourceTab.get("id"))
     };
