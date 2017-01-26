@@ -11,6 +11,8 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Slack](https://img.shields.io/badge/Slack-join-brightgreen.svg?style=flat-square)](https://devtools-html-slack.herokuapp.com/)
 
+<img src="https://devtools-html-slack.herokuapp.com/badge.svg">
+
 ### Getting Setup
 
 Here's the *quick setup*, if you're getting started, we recommend the detailed [getting started][getting-started] instructions.
