@@ -1,12 +1,21 @@
 // @flow
 const constants = require("../constants");
-const { getSource } = require("../selectors");
+const { getSource, getFileSearchState } = require("../selectors");
 import type { ThunkArgs } from "./types";
 
-function toggleFileSearch(searchOn: boolean) {
+function toggleFileSearch() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    dispatch({
+      type: constants.SET_FILE_SEARCH,
+      searchOn: !getFileSearchState(getState())
+    });
+  };
+}
+
+function closeFileSearch() {
   return {
-    type: constants.TOGGLE_FILE_SEARCH,
-    searchOn
+    type: constants.SET_FILE_SEARCH,
+    searchOn: false
   };
 }
 
@@ -30,6 +39,7 @@ function togglePaneCollapse(position: string, paneCollapsed: boolean) {
 
 module.exports = {
   toggleFileSearch,
+  closeFileSearch,
   showSource,
   togglePaneCollapse
 };

@@ -28,7 +28,7 @@ const State = makeRecord(({
 
 function update(state = State(), action: Action): Record<UIState> {
   switch (action.type) {
-    case constants.TOGGLE_FILE_SEARCH: {
+    case constants.SET_FILE_SEARCH: {
       return state.set("searchOn", action.searchOn);
     }
 

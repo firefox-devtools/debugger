@@ -40,6 +40,7 @@ const Search = React.createClass({
     selectSource: PropTypes.func,
     selectedSource: PropTypes.object,
     toggleFileSearch: PropTypes.func,
+    closeFileSearch: PropTypes.func,
     searchOn: PropTypes.bool
   },
 
@@ -77,20 +78,20 @@ const Search = React.createClass({
 
   toggle(key, e) {
     e.preventDefault();
-    this.props.toggleFileSearch(!this.props.searchOn);
+    this.props.toggleFileSearch();
   },
 
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
       e.preventDefault();
       this.setState({ inputValue: "" });
-      this.props.toggleFileSearch(false);
+      this.props.closeFileSearch();
     }
   },
 
   close(inputValue = "") {
     this.setState({ inputValue });
-    this.props.toggleFileSearch(false);
+    this.props.closeFileSearch();
   },
 
   render() {
@@ -100,7 +101,7 @@ const Search = React.createClass({
         selectItem: result => {
           this.props.selectSource(result.id);
           this.setState({ inputValue: "" });
-          this.props.toggleFileSearch(false);
+          this.props.closeFileSearch();
         },
         close: this.close,
         items: searchResults(this.props.sources),
