@@ -9,8 +9,6 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 ![Circle CI status](https://circleci.com/gh/devtools-html/debugger.html.svg??&style=shield)
 [![npm version](https://img.shields.io/npm/v/debugger.html.svg)](https://www.npmjs.com/package/debugger.html)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![Slack](https://img.shields.io/badge/Slack-join-brightgreen.svg?style=flat-square)](https://devtools-html-slack.herokuapp.com/)
-
 <img src="https://devtools-html-slack.herokuapp.com/badge.svg">
 
 ### Getting Setup
