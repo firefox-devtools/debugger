@@ -9,6 +9,7 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 ![Circle CI status](https://circleci.com/gh/devtools-html/debugger.html.svg??&style=shield)
 [![npm version](https://img.shields.io/npm/v/debugger.html.svg)](https://www.npmjs.com/package/debugger.html)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![Slack](https://img.shields.io/badge/Slack-join-brightgreen.svg?style=flat-square)](https://devtools-html-slack.herokuapp.com/)
 
 ### Getting Setup
 
@@ -43,7 +44,7 @@ We strive for collaboration with [mutual respect for each other][contributing]. 
 
 ### Discussion
 
-We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
+Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
 
 * **Community Call** Every Tuesday, Thursday at 3pm EST. [Call][community-call]
 * **DevTools Call** Every Tuesday at 12pm EST. [info](https://wiki.mozilla.org/DevTools)
@@ -69,3 +70,4 @@ We're all on Mozilla's IRC in the [#devtools-html][irc-devtools-html] channel on
 [irc-devtools-html]:irc://irc.mozilla.org/devtools-html
 
 [GitHub Desktop]:https://desktop.github.com/
+[slack]:https://devtools-html-slack.herokuapp.com/
