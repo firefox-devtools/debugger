@@ -71,7 +71,6 @@ We use [husky](https://github.com/typicode/husky) to check the PR before it is p
 
 Here are docs on [tests][test-docs] and [linting][linting-docs], which you can run locally.
 
-
 The integration tests will be run automatically by the CI. Our integration tests are run with [mochitest][mochitest]. The local setup process is documented [here][mochitest-docs], but the process is a bit cumbersome, so reviewers will generally help debug.
 
 ### Receiving Reviews
