@@ -2631,17 +2631,19 @@ flow-bin@^0.38.0:
   version "0.38.0"
   resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.38.0.tgz#3ae096d401c969cc8b5798253fb82381e2d0237a"
 
-flow-coverage-report@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/flow-coverage-report/-/flow-coverage-report-0.2.0.tgz#8529729ecc440c676c5960b32d1393d2eeddad57"
+flow-coverage-report@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/flow-coverage-report/-/flow-coverage-report-0.3.0.tgz#a22d52fc9fa9c24ae0be02712a6fe1ac156f0d93"
   dependencies:
     array.prototype.find "2.0.0"
     babel-runtime "6.11.6"
     glob "7.0.5"
     minimatch "3.0.3"
     mkdirp "0.5.1"
+    parse-json "2.2.0"
     react "15.3.1"
     react-dom "15.3.1"
+    strip-json-comments "2.0.1"
     temp "0.8.3"
     terminal-table "0.0.12"
     yargs "5.0.0"
@@ -4358,7 +4360,7 @@ parse-glob@^3.0.4:
     is-extglob "^1.0.0"
     is-glob "^2.0.0"
 
-parse-json@^2.1.0, parse-json@^2.2.0:
+parse-json@2.2.0, parse-json@^2.1.0, parse-json@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/parse-json/-/parse-json-2.2.0.tgz#f480f40434ef80741f8469099f8dea18f55a4dc9"
   dependencies:
@@ -5632,7 +5634,7 @@ strip-indent@^1.0.1:
   dependencies:
     get-stdin "^4.0.1"
 
-strip-json-comments@^2.0.0, strip-json-comments@^2.0.1, strip-json-comments@~2.0.1:
+strip-json-comments@2.0.1, strip-json-comments@^2.0.0, strip-json-comments@^2.0.1, strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
