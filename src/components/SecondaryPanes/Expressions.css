@@ -15,7 +15,7 @@
   color: var(--theme-body-color-inactive);
 }
 
-.input-expression::-moz-placeholder {
+.input-expression::placeholder {
   text-align: center;
   font-style: italic;
   color: var(--theme-body-color-inactive);
