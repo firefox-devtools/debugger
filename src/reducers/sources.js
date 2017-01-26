@@ -279,11 +279,6 @@ function getSourceText(state: OuterState, id: string) {
 }
 
 function getSourceTabs(state: OuterState) {
-  const selectedLocation = getSelectedLocation(state);
-  if (!selectedLocation) {
-    return new I.List([]);
-  }
-
   return state.sources.tabs
     .filter(tab => getSourceByURL(state, tab));
 }
