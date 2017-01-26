@@ -12,6 +12,15 @@
 * [Prefs](#prefs)
 * [SVGs](#svgs)
 * [Flow](#flow)
+  * [Adding flow to a file](#adding-flow-to-a-file)
+  * [Running flow](#running-flow)
+  * [Missing Annotation](#missing-annotation)
+  * [Where are types defined?](#where-are-types-defined?)
+  * [Checking flow coverage](#checking-flow-coverage)
+  * [Common Errors](#common-errors)
+    * [Required property](#required-property)
+    * [Missing Annotation](#missing-annotation)
+    * [Type Inconsistencies](#type-inconsistencies)
 * [Logging](#logging)
 * [Testing](#testing)
   * [Unit Tests](#unit-tests)
@@ -357,100 +366,17 @@ index 5996700..bb828d8 100644
 +  fill: var(--theme-graphs-full-red);
 +}
 ```
-
-
 ### Flow
 
-The debugger uses Facebook's [flow](https://flowtype.org/) type checker.
-
-Rationale:
-* *code clarity* - helps team members understand the code
-* *refactoring* - guarantees functions integrate well
-* *code reviews* - adds a static check like linting
-
-**How do I run flow?**
-```
-> yarn run flow
-```
-
-Go checkout the [Flow related issues][flow-issues]
-
-**How do I add flow to a file?**
-
-Add `// @flow` to the top of the file.
-
-```patch
-diff --git a/src/components/Editor.js b/src/components/Editor.js
-index b0fe9a6..8889a56 100644
---- a/src/components/Editor.js
-+++ b/src/components/Editor.js
-@@ -1,3 +1,5 @@
-+// @flow
-+
-```
-
-Then run `yarn run flow` in your terminal. The first run will likely take 30 seconds to initialize, but subsequent runs will be fast.
-
-Here's a [gif](http://g.recordit.co/QYAyms9n3C.gif) of flow being added to the SearchBar and a couple of issues being resolved.
-
-**Common Errors**
-
-#### Required property
-
-Problem: In this case, flow is not sure that the editor property is defined.
-
-```
-src/components/Editor/SearchBar.js:172
-172:     const ctx = { ed, cm: ed.codeMirror };
-                                  ^^^^^^^^^^ property `codeMirror`. Property cannot be accessed on possibly undefined value
-172:     const ctx = { ed, cm: ed.codeMirror };
-                               ^^ undefined
-```
-
-Solution: make sure that the property is required.
-
-```patch
---- a/src/components/Editor/SearchBar.js
-+++ b/src/components/Editor/SearchBar.js
-@@ -22,7 +22,7 @@ function countMatches(query, text) {
- const SearchBar = React.createClass({
-
-   propTypes: {
-+    editor: PropTypes.object.isRequired,
--    editor: PropTypes.object,
-     sourceText: ImPropTypes.map.isRequired,
-     selectedSource: ImPropTypes.map
-   },
-@@ -144,7 +144,8 @@ const SearchBar = Rea
-```
-
-
-###### Missing Annotation
-
-Solution: Add a type to the function param.
-
-```
-src/components/Editor/SearchBar.js:146
-146:   onChange(e) {
-                ^ parameter `e`. Missing annotation
-```
-
-**Where are types defined?***
-
-* Debugger [types](https://github.com/devtools-html/debugger.html/blob/master/src/types.js)
-* Debugger action [types](https://github.com/devtools-html/debugger.html/blob/master/src/actions/types.js)
-* Useful React and Global [types](http://www.saltycrane.com/blog/2016/06/flow-type-cheat-sheet/)
-* Builtin [types](https://flowtype.org/docs/quick-reference.html)
-
-
-**How do I see a file's coverage?**
-
-```
-flow coverage --color <path to file>
-yarn run flow-coverage  # will launch the flow coverage report
-```
-
-
+- [Adding flow to a file](./flow#adding-flow-to-a-file)
+- [Running flow](./flow#running-flow)
+- [Missing Annotation](./flow#missing-annotation)
+- [Where are types defined?](./flow#where-are-types-defined?)
+- [Checking flow coverage](./flow#checking-flow-coverage)
+- [Common Errors](./flow#common-errors)
+  - [Required property](./flow#required-property)
+  - [Missing Annotation](./flow#missing-annotation)
+  - [Type Inconsistencies](./flow#type-inconsistencies)
 
 
 ### Logging
