@@ -113,6 +113,9 @@ const SourceTabs = React.createClass({
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
     const closeTabsToEndLabel = L10N.getStr("sourceTabs.closeTabsToEnd");
     const closeAllTabsLabel = L10N.getStr("sourceTabs.closeAllTabs");
+    const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
+    const copyLinkLabel = L10N.getStr("sourceTabs.copyLink");
+    const prettyPrintLabel = L10N.getStr("sourceTabs.prettyPrint");
 
     const tabs = sourceTabs.map(t => t.get("id"));
     const otherTabs = sourceTabs.filter(t => t.get("id") !== tab);
@@ -158,7 +161,7 @@ const SourceTabs = React.createClass({
 
     const showSourceMenuItem = {
       id: "node-menu-show-source",
-      label: "Reveal in Tree",
+      label: revealInTreeLabel,
       accesskey: "s",
       disabled: false,
       click: () => showSource(tab)
@@ -166,7 +169,7 @@ const SourceTabs = React.createClass({
 
     const copySourceUrl = {
       id: "node-menu-close-tabs-to-right",
-      label: "Copy Link Address",
+      label: copyLinkLabel,
       accesskey: "X",
       disabled: false,
       click: () => copyToTheClipboard(sourceTab.get("url"))
@@ -174,7 +177,7 @@ const SourceTabs = React.createClass({
 
     const prettyPrint = {
       id: "node-menu-pretty-print",
-      label: "Pretty Print Source",
+      label: prettyPrintLabel,
       accesskey: "Z",
       disabled: false,
       click: () => togglePrettyPrint(sourceTab.get("id"))
