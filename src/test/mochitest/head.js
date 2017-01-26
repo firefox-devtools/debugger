@@ -439,7 +439,7 @@ function resume(dbg) {
  * @static
  */
 function reload(dbg, ...sources) {
-  return dbg.client.reload().then(() => waitForSources(...sources));
+  return dbg.client.reload().then(() => waitForSources(dbg, ...sources));
 }
 
 /**
