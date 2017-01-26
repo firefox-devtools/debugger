@@ -50,14 +50,14 @@ const SourceFooter = React.createClass({
     const type = "prettyPrint";
 
     return dom.button({
-        onClick: this.onClickPrettyPrint,
-        className: classnames('action', type, {
-            active: sourceLoaded,
-            pretty: isPretty(selectedSource.toJS())
-        }),
-        key: type,
-        title: tooltip,
-        "aria-label": tooltip
+      onClick: this.onClickPrettyPrint,
+      className: classnames("action", type, {
+        active: sourceLoaded,
+        pretty: isPretty(selectedSource.toJS())
+      }),
+      key: type,
+      title: tooltip,
+      "aria-label": tooltip
     },
       Svg(type)
     );
@@ -70,18 +70,12 @@ const SourceFooter = React.createClass({
       return;
     }
 
-    const type = "coverage";
-    const className = classnames({
-      action: true,
-      type,
-    });
-
     return dom.button({
-      className,
+      className: "coverage action",
       title: "Code Coverage",
       onClick: () => recordCoverage(),
       "aria-label": "Code Coverage"
-  }, "C");
+    }, "C");
   },
 
   renderToggleButton() {
