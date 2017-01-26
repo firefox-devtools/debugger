@@ -50,8 +50,8 @@
 }
 
 .source-footer > .commands > .action svg {
-  height: 1em;
-  width: 1em;
+  height: 16px;
+  width: 16px;
 }
 
 .source-footer .commands .coverage {
