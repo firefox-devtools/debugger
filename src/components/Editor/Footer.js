@@ -17,14 +17,6 @@ const PaneToggleButton = React.createFactory(
 
 require("./Footer.css");
 
-function debugBtn(onClick, type, className = "active", tooltip) {
-  className = `${type} ${className} action`;
-  return dom.button(
-    { onClick, className, key: type },
-    Svg(type, { title: tooltip, "aria-label": tooltip })
-  );
-}
-
 const SourceFooter = React.createClass({
   propTypes: {
     selectedSource: ImPropTypes.map,
@@ -54,14 +46,20 @@ const SourceFooter = React.createClass({
       return;
     }
 
-    return debugBtn(
-      this.onClickPrettyPrint,
-      "prettyPrint",
-      classnames({
+    const tooltip = L10N.getStr("sourceFooter.debugBtnTooltip");
+    const type = "prettyPrint";
+
+    return dom.button({
+      onClick: this.onClickPrettyPrint,
+      className: classnames("action", type, {
         active: sourceLoaded,
         pretty: isPretty(selectedSource.toJS())
       }),
-      L10N.getStr("sourceFooter.debugBtnTooltip")
+      key: type,
+      title: tooltip,
+      "aria-label": tooltip
+    },
+      Svg(type)
     );
   },
 
@@ -73,9 +71,10 @@ const SourceFooter = React.createClass({
     }
 
     return dom.button({
-      className: "coverage",
+      className: "coverage action",
       title: "Code Coverage",
-      onClick: () => recordCoverage()
+      onClick: () => recordCoverage(),
+      "aria-label": "Code Coverage"
     }, "C");
   },
 
