@@ -30,6 +30,7 @@
 .accordion ._header button svg,
 .accordion ._header:hover button svg {
   fill: currentColor;
+  height: 16px;
 }
 
 .accordion ._content {

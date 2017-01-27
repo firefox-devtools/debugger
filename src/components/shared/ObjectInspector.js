@@ -9,8 +9,6 @@ const { DOM: dom, PropTypes } = React;
 
 const WINDOW_PROPERTIES = Object.getOwnPropertyNames(window);
 
-require("./ObjectInspector.css");
-
 // This implements a component that renders an interactive inspector
 // for looking at JavaScript objects. It expects descriptions of
 // objects from the protocol, and will dynamically fetch child
@@ -103,7 +101,8 @@ const ObjectInspector = React.createClass({
     roots: PropTypes.array,
     getObjectProperties: PropTypes.func.isRequired,
     loadObjectProperties: PropTypes.func.isRequired,
-    onLabelClick: PropTypes.func
+    onLabelClick: PropTypes.func,
+    onDoubleClick: PropTypes.func
   },
 
   displayName: "ObjectInspector",
@@ -119,6 +118,7 @@ const ObjectInspector = React.createClass({
   getDefaultProps() {
     return {
       onLabelClick: () => {},
+      onDoubleClick: () => {},
       autoExpandDepth: 1
     };
   },
@@ -174,15 +174,20 @@ const ObjectInspector = React.createClass({
 
     return dom.div(
       {
-        className: classnames("node object-node",
-          {
-            focused,
-            "default-property": isDefault(item)
-          }),
+        className: classnames("node object-node", {
+          focused,
+          "default-property": isDefault(item)
+        }),
         style: { marginLeft: depth * 15 },
         onClick: e => {
           e.stopPropagation();
           setExpanded(item, !expanded);
+        },
+        onDoubleClick: event => {
+          event.stopPropagation();
+          this.props.onDoubleClick(item, {
+            depth, focused, expanded
+          });
         }
       },
       Svg("arrow", {

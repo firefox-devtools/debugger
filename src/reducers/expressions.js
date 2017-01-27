@@ -1,3 +1,5 @@
+// @flow
+
 const constants = require("../constants");
 const makeRecord = require("../utils/makeRecord");
 const I = require("immutable");
@@ -18,37 +20,51 @@ function update(state = State(), action: Action): Record<ExpressionState> {
   switch (action.type) {
 
     case constants.ADD_EXPRESSION:
-      return state.setIn(["expressions", action.id],
-        { id: action.id,
-          input: action.input,
-          value: action.value,
-          updating: false });
-
+      return appendToList(state, ["expressions"], {
+        input: action.input,
+        value: null,
+        updating: true
+      });
+    case constants.UPDATE_EXPRESSION:
+      const key = action.expression.input;
+      return updateItemInList(state, ["expressions"], key, {
+        input: action.input,
+        value: null,
+        updating: true
+      });
     case constants.EVALUATE_EXPRESSION:
       if (action.status === "done") {
-        return state.mergeIn(["expressions", action.id],
-          { id: action.id,
-            input: action.input,
-            value: action.value,
-            updating: false });
+        return updateItemInList(state, ["expressions"], action.input, {
+          input: action.input,
+          value: action.value,
+          updating: false
+        });
       }
       break;
-
-    case constants.UPDATE_EXPRESSION:
-      return state.mergeIn(["expressions", action.id],
-        { id: action.id,
-          input: action.input,
-          updating: true });
-
     case constants.DELETE_EXPRESSION:
-      return deleteExpression(state, action.id);
+      return deleteExpression(state, action.input);
   }
 
   return state;
 }
 
-function deleteExpression(state, id) {
-  const index = getExpressions({ pause: state }).findKey(e => e.id == id);
+function appendToList(state: State, path: array, value: any) {
+  return state.updateIn(path, () => {
+    return state.getIn(path).push(value);
+  });
+}
+
+function updateItemInList(state, path, key, value) {
+  return state.updateIn(path, () => {
+    const list = state.getIn(path);
+    const index = list.findIndex(e => e.input == key);
+    return list.update(index, () => value);
+  });
+}
+
+function deleteExpression(state, input) {
+  const index = getExpressions({ expressions: state })
+    .findKey(e => e.input == input);
   return state.deleteIn(["expressions", index]);
 }
 

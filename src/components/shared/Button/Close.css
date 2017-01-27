@@ -4,12 +4,12 @@
 
 .close-btn .close {
   cursor: pointer;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   padding: 2px;
   text-align: center;
   margin-top: 2px;
-  line-height: 5px;
+  line-height: 7px;
   transition: all 0.25s easeinout;
 }
 
@@ -17,12 +17,16 @@
   width: 6px;
 }
 
-.close-btn .close:hover {
+.close-btn:hover {
+  display: block;
+}
+
+.close-btn:hover .close {
   background: var(--theme-selection-background);
   border-radius: 2px;
 }
 
-.close-btn .close:hover path {
+.close-btn:hover .close path {
   fill: white;
 }
 
