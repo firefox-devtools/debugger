@@ -14,7 +14,8 @@
     "watchExpressions": false,
     "chromeScopes": false,
     "eventListeners": false,
-    "codeCoverage": false
+    "codeCoverage": false,
+    "searchModifiers": false
   },
   "chrome": {
     "debug": true,

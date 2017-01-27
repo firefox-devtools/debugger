@@ -7,6 +7,12 @@ const escapeRegExp = require("lodash/escapeRegExp");
  * @module utils/source-search
  */
 
+type ModifierTypes = {
+  caseSensitive: boolean,
+  wholeWord: boolean,
+  regexMatch: boolean
+};
+
 /**
  * @memberof utils/source-search
  * @static
@@ -28,10 +34,19 @@ function getSearchState(cm) {
  * @memberof utils/source-search
  * @static
  */
-function getSearchCursor(cm, query, pos) {
-  // If the query string is all lowercase, do a case insensitive search.
-  return cm.getSearchCursor(query, pos,
-    typeof query == "string" && query == query.toLowerCase());
+function getSearchCursor(cm, query, pos, modifiers) {
+  const { caseSensitive, regexMatch, wholeWord } = modifiers;
+  if (regexMatch && query !== "") {
+    query = new RegExp(query, caseSensitive ? "" : "i");
+  } else if (query !== "" && (wholeWord || (wholeWord && regexMatch))) {
+    query = new RegExp(`\\b${query}\\b`, caseSensitive ? "" : "i");
+  }
+
+  if (typeof query == "string" && query !== "") {
+    return cm.getSearchCursor(query, pos, !caseSensitive);
+  }
+
+  return cm.getSearchCursor(query, pos);
 }
 
 /**
@@ -58,8 +73,12 @@ function ignoreWhiteSpace(str) {
  * @memberof utils/source-search
  * @static
  */
-function searchOverlay(query) {
-  query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)));
+function searchOverlay(query, regexMatch) {
+  if (regexMatch && query !== "") {
+    query = new RegExp(ignoreWhiteSpace(query));
+  } else {
+    query = new RegExp(escapeRegExp(ignoreWhiteSpace(query)));
+  }
   let matchLength = null;
   return {
     token: function(stream) {
@@ -100,9 +119,9 @@ function searchOverlay(query) {
  * @memberof utils/source-search
  * @static
  */
-function startSearch(cm, state, query) {
+function startSearch(cm, state, query, regexMatch) {
   cm.removeOverlay(state.overlay);
-  state.overlay = searchOverlay(query);
+  state.overlay = searchOverlay(query, regexMatch);
   cm.addOverlay(state.overlay, { opaque: false });
 }
 
@@ -114,12 +133,13 @@ function startSearch(cm, state, query) {
  * @memberof utils/source-search
  * @static
  */
-function doSearch(ctx, rev, query, keepSelection) {
+function doSearch(ctx, rev, query, keepSelection, modifiers: ModifierTypes) {
   let { cm } = ctx;
   let state = getSearchState(cm);
+  const { wholeWord, regexMatch } = modifiers;
 
   if (state.query) {
-    searchNext(ctx, rev);
+    searchNext(ctx, rev, modifiers);
     return;
   }
 
@@ -127,7 +147,7 @@ function doSearch(ctx, rev, query, keepSelection) {
     if (state.query) {
       return;
     }
-    startSearch(cm, state, query);
+    startSearch(cm, state, query, regexMatch || wholeWord);
     state.query = query;
     if (keepSelection) {
       state.posTo = cm.getCursor("anchor");
@@ -135,7 +155,7 @@ function doSearch(ctx, rev, query, keepSelection) {
     } else {
       state.posFrom = state.posTo = { line: 0, ch: 0 };
     }
-    searchNext(ctx, rev);
+    searchNext(ctx, rev, modifiers);
   });
 }
 
@@ -145,16 +165,18 @@ function doSearch(ctx, rev, query, keepSelection) {
  * @memberof utils/source-search
  * @static
  */
-function searchNext(ctx, rev) {
+function searchNext(ctx, rev, modifiers) {
   let { cm, ed } = ctx;
   cm.operation(function() {
     let state = getSearchState(cm);
     let cursor = getSearchCursor(cm, state.query,
-                                 rev ? state.posFrom : state.posTo);
+      rev ? state.posFrom : state.posTo,
+      modifiers);
 
     if (!cursor.find(rev)) {
       cursor = getSearchCursor(cm, state.query, rev ?
-        { line: cm.lastLine(), ch: null } : { line: cm.firstLine(), ch: 0 });
+        { line: cm.lastLine(), ch: null } : { line: cm.firstLine(), ch: 0 },
+        modifiers);
       if (!cursor.find(rev)) {
         return;
       }
@@ -200,9 +222,9 @@ function clearSearch(cm) {
  * @memberof utils/source-search
  * @static
  */
-function find(ctx, query, keepSelection) {
+function find(ctx, query, keepSelection, modifiers: ModifierTypes) {
   clearSearch(ctx.cm);
-  doSearch(ctx, false, query, keepSelection);
+  doSearch(ctx, false, query, keepSelection, modifiers);
 }
 
 /**
@@ -211,8 +233,8 @@ function find(ctx, query, keepSelection) {
  * @memberof utils/source-search
  * @static
  */
-function findNext(ctx, query) {
-  doSearch(ctx, false, query);
+function findNext(ctx, query, keepSelection, modifiers: ModifierTypes) {
+  doSearch(ctx, false, query, keepSelection, modifiers);
 }
 
 /**
@@ -221,8 +243,8 @@ function findNext(ctx, query) {
  * @memberof utils/source-search
  * @static
  */
-function findPrev(ctx, query) {
-  doSearch(ctx, true, query);
+function findPrev(ctx, query, keepSelection, modifiers: ModifierTypes) {
+  doSearch(ctx, true, query, keepSelection, modifiers);
 }
 
 module.exports = { find, findNext, findPrev, removeOverlay };
