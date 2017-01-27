@@ -3,9 +3,9 @@
 - [Adding flow to a file](#adding-flow-to-a-file)
 - [Running flow](#running-flow)
 - [Missing Annotation](#missing-annotation)
-- [Where are types defined?](#where-are-types-defined?)
+- [Where are types defined?](#where-are-types-defined)
 - [Checking flow coverage](#checking-flow-coverage)
-- [Flow Conventions][#flow-conventions]
+- [Flow Conventions](#flow-conventions)
 - [Common Errors](#common-errors)
   - [Required property](#required-property)
   - [Missing Annotation](#missing-annotation)
