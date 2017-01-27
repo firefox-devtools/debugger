@@ -21,7 +21,7 @@ Rationale:
 
 ### Running flow
 ```
-> yarn run flow
+yarn run flow
 ```
 
 Go checkout the [Flow related issues][flow-issues]
@@ -30,7 +30,7 @@ Go checkout the [Flow related issues][flow-issues]
 
 Add `// @flow` to the top of the file.
 
-```patch
+```diff
 diff --git a/src/components/Editor.js b/src/components/Editor.js
 index b0fe9a6..8889a56 100644
 --- a/src/components/Editor.js
@@ -90,7 +90,7 @@ src/components/Editor/SearchBar.js:172
 
 Solution: make sure that the property is required.
 
-```patch
+```diff
 --- a/src/components/Editor/SearchBar.js
 +++ b/src/components/Editor/SearchBar.js
 @@ -22,7 +22,7 @@ function countMatches(query, text) {
