@@ -24,6 +24,7 @@ We respect your time and want to help you make the most of it as you learn more 
     * [debugger.html](#debuggerhtml)
     * [devtools.html](#devtoolshtml)
     * [Firefox Developer Tools](#firefox-developer-tools)
+  * [Joining the Team](#joining-the-team)
 
 ## Getting Started
 
@@ -151,5 +152,12 @@ From that original demo the devtools.html project has progressed quite a bit.  T
 
 The debugger.html project is targeted to land in Firefox for Firefox 52.  However if you're looking to work directly on the DevTools project which ships developer tools for Firefox and Firefox Developer Edition right now you can find more information on the Mozilla wiki [DevTools / Get Involved](https://wiki.mozilla.org/DevTools/GetInvolved).
 
+## Joining the Team
+
+Mozilla has and continues to hire many people from within the Open Source Software community, bringing contributors directly into the team; however contribution is not necessarily a path to employment.  Our internal hiring criteria is about more than contributions, we are also looking at a number of other factors that create a diverse and healthy team.
+
+**Ask**. Take a look at the current openings in [https://careers.mozilla.org/](https://careers.mozilla.org/) to see if there is a good fit for you.  If you’re interested in a job with Mozilla feel free to ask employees what it’s like to work here.  However employees can’t help you get hired outside of being a referral for you.
+
+**Referrals**. If you’ve been making reasonable and regular contributions to the project we’d be happy to be a reference for you.  We can make internal referrals to Mozilla or act as your reference to other companies.  Please be considerate when making this request, we are happy to help you and want to see you find a job you want but can’t do this for everyone who contributes.
 
 [getting-setup]:./docs/getting-setup.md
