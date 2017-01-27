@@ -68,7 +68,7 @@ yarn run flow-utils
 
 We are currently using the following conventions
 
-- the type names should be CamelCased (e.g. `SourcText`)
+- the type names should be CamelCased (e.g. `SourceText`)
 - the types used to annotate functions or methods defined in a module should be exported only when
   they are supposed to be used by other modules (`export type ExtensionManifest = ...`)
 - any type imported from the other modules should be in the module preamble (near to the regular ES6 imports)
