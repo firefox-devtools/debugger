@@ -94,7 +94,11 @@ index fdbdb4e..4759c14 100644
  {
    "theme": "light",
    "features": {
-+    "watchExpressions": true
+     "watchExpressions": {
+       "label": "Watch Expressions",
+-      "enabled": false
++      "enabled": true
+     }
    },
 ```
 
@@ -119,12 +123,19 @@ index c82b299..d9de5f3 100755
 --- a/configs/development.json
 +++ b/configs/development.json
 @@ -14,7 +14,8 @@
-     "watchExpressions": false,
-     "chromeScopes": false,
-     "eventListeners": false,
--    "codeCoverage": false
-+    "codeCoverage": false,
-+    "awesomeSauce": false
+     "eventListeners": {
+       "label": "Event Listeners",
+       "enabled": false
+     },
+     "codeCoverage": {
+       "label": "Code Coverage",
+       "enabled": false
+-    }
++    },
++    "awesomeSauce": {
++      "label": "Awesome Sauce",
++      "enabled": false
++    }
    },
    "chrome": {
      "debug": true,
@@ -133,12 +144,19 @@ index c91b562..bf485bb 100644
 --- a/configs/firefox-panel.json
 +++ b/configs/firefox-panel.json
 @@ -10,6 +10,7 @@
-     "watchExpressions": false,
-     "chromeScopes": false,
-     "eventListeners": false,
--    "codeCoverage": false
-+    "codeCoverage": false,
-+    "awesomeSauce": false
+     "eventListeners": {
+       "label": "Event Listeners",
+       "enabled": false
+     },
+     "codeCoverage": {
+       "label": "Code Coverage",
+       "enabled": false
+-    }
++    },
++    "awesomeSauce": {
++      "label": "Awesome Sauce",
++      "enabled": false
++    }
    }
  }
 
