@@ -10,7 +10,7 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 [![npm version](https://img.shields.io/npm/v/debugger.html.svg)](https://www.npmjs.com/package/debugger.html)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<a href="https://devtools-html.slack.com/messages/general/"> 
+<a href="https://devtools-html.slack.com/messages/general/">
   <img src="https://devtools-html-slack.herokuapp.com/badge.svg">
 </a>
 
@@ -32,19 +32,22 @@ cd debugger.html
 yarn start
 ```
 
-After the debugger is setup, you can:
+#### Next Steps
 
-* practice [debugging the debugger][first-activity]
-* claim an [up for grabs][up-for-grabs] issues
-* read the [app overview][app-overview] or [contributing][contributing] guidelines
-* watch a [screencast][getting-started-screencast]
-* have a [look at the features and products page][tracking] to track what we're working on
+* Claim an [up for grabs][up-for-grabs] issues
+* Do our getting started activity [debugging the debugger][first-activity]
+* Read the [app overview][app-overview] or [contributing][contributing] guidelines
+* Watch a [video][getting-started-screencast] on contributing to the Debugger.
+* Go to the [features[tracking] board to see what we're working on
 
 ### Getting Involved
 
 This is an open source project and we would love your help. We have prepared a [CONTRIBUTING][contributing] guide to help you get started.
 
-We strive for collaboration with [mutual respect for each other][contributing].   Mozilla also has a set of [participation guidelines](https://www.mozilla.org/en-US/about/governance/policies/participation/) which goes into greater detail specific to Mozilla employees and contributors.
+If this is your first PR or you're not sure where to get started,
+say hi in [slack][slack] and a team member would be happy to mentor you.
+
+We strive for collaboration with [mutual respect for each other][contributing]. Mozilla also has a set of [participation guidelines](https://www.mozilla.org/en-US/about/governance/policies/participation/) which goes into greater detail specific to Mozilla employees and contributors.
 
 ### Discussion
 
@@ -52,6 +55,7 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 
 * **Community Call** Every Tuesday, Thursday at 3pm EST. [Call][community-call]
 * **DevTools Call** Every Tuesday at 12pm EST. [info](https://wiki.mozilla.org/DevTools)
+* **Pairing** Ask in [slack][slack] and you'll either find someone or be able to schedule a time for later.
 
 ### License
 
