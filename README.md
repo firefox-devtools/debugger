@@ -4,15 +4,18 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 [Mozilla][mozilla] created this debugger for use in the [Firefox][mozilla-firefox] Developer Tools.  And we've purposely created this project in GitHub, using modern toolchains.  We hope to not only to create a great debugger that works with the [Firefox](https://wiki.mozilla.org/Remote_Debugging_Protocol) and [Chrome Debugging Protocol](https://chromedevtools.github.io/debugger-protocol-viewer/1-1/) but development community that can embed this debugger in your own projects with tools like [NPM](http://npmjs.com/).
 
+<p align="center">
+  <a href="https://devtools-html.slack.com/messages/general/">
+    <img src="https://devtools-html-slack.herokuapp.com/badge.svg">
+  </a>
+</p>
+
 <img width="1240" alt="debugger-screenshot" src="https://cloud.githubusercontent.com/assets/2134/20220906/29932702-a7e4-11e6-8754-69ee914a30d5.png">
 
 ![Circle CI status](https://circleci.com/gh/devtools-html/debugger.html.svg??&style=shield)
 [![npm version](https://img.shields.io/npm/v/debugger.html.svg)](https://www.npmjs.com/package/debugger.html)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<a href="https://devtools-html.slack.com/messages/general/">
-  <img src="https://devtools-html-slack.herokuapp.com/badge.svg">
-</a>
 
 
 ### Getting Setup
@@ -38,7 +41,7 @@ yarn start
 * Do our getting started activity [debugging the debugger][first-activity]
 * Read the [app overview][app-overview] or [contributing][contributing] guidelines
 * Watch a [video][getting-started-screencast] on contributing to the Debugger.
-* Go to the [features[tracking] board to see what we're working on
+* Go to the [features][tracking] board to see what we're working on
 
 ### Getting Involved
 
