@@ -12,7 +12,7 @@ const { getPause, getBreakpoints,
 const { prefs } = require("../../utils/prefs");
 
 const actions = require("../../actions");
-const WhyPaused = React.createFactory(require("./WhyPaused"));
+const WhyPaused = React.createFactory(require("./WhyPaused").default);
 const Breakpoints = React.createFactory(require("./Breakpoints"));
 const Expressions = React.createFactory(require("./Expressions"));
 

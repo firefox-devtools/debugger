@@ -1,21 +1,15 @@
-const React = require("react");
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-const ImPropTypes = require("react-immutable-proptypes");
-const actions = require("../../actions");
-const { getPause } = require("../../selectors");
-const { DOM: dom } = React;
+import { DOM as dom, Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import ImPropTypes from "react-immutable-proptypes";
+import actions from "../../actions";
+import { getPause } from "../../selectors";
 
-const { getPauseReason } = require("../../utils/pause");
+import { getPauseReason } from "../../utils/pause";
 
-require("./WhyPaused.css");
+import "./WhyPaused.css";
 
-const WhyPaused = React.createClass({
-  propTypes: {
-    pauseInfo: ImPropTypes.map
-  },
-
-  displayName: "WhyPaused",
+class WhyPaused extends Component {
 
   render() {
     const { pauseInfo } = this.props;
@@ -29,9 +23,15 @@ const WhyPaused = React.createClass({
         message ? dom.div(null, message) : null])
         : null;
   }
-});
+}
 
-module.exports = connect(
+WhyPaused.displayName = "WhyPaused";
+
+WhyPaused.propTypes = {
+  pauseInfo: ImPropTypes.map
+};
+
+export default connect(
   state => ({
     pauseInfo: getPause(state)
   }),
