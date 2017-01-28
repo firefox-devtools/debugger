@@ -1,8 +1,17 @@
 {
   "features": {
-    "sourceMaps": true,
-    "prettyPrint": true,
-    "watchExpressions": true
+    "sourceMaps": {
+      "label": "Source Maps",
+      "enabled": true
+    },
+    "prettyPrint": {
+      "label": "Pretty Print",
+      "enabled": true
+    },
+    "watchExpressions": {
+      "label": "Watch Expressions",
+      "enabled": true
+    }
   },
   "chrome": {
     "debug": true

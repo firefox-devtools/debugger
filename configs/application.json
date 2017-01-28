@@ -9,10 +9,22 @@
     "actions": false
   },
   "features": {
-    "watchExpressions": false,
-    "chromeScopes": false,
-    "eventListeners": false,
-    "codeCoverage": false
+    "watchExpressions": {
+      "label": "Watch Expressions",
+      "enabled": false
+    },
+    "chromeScopes": {
+      "label": "Chrome Scopes",
+      "enabled": false
+    },
+    "eventListeners": {
+      "label": "Event Listeners",
+      "enabled": false
+    },
+    "codeCoverage": {
+      "label": "Code Coverage",
+      "enabled": false
+    }
   },
   "chrome": {
     "debug": true,
