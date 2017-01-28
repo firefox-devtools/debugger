@@ -34,7 +34,7 @@ yarn start
 
 #### Next Steps
 
-* Claim an [up for grabs][up-for-grabs] issues
+* Claim an [up for grabs][up-for-grabs] issues. If you get stuck, ask a [ninja][ninja].
 * Do our getting started activity [debugging the debugger][first-activity]
 * Read the [app overview][app-overview] or [contributing][contributing] guidelines
 * Watch a [video][getting-started-screencast] on contributing to the Debugger.
@@ -74,7 +74,7 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [app-overview]:./docs/debugger-html-react-redux-overview.md
 [first-activity]:./docs/debugging-the-debugger.md
 [tracking]:https://github.com/devtools-html/debugger.html/projects/10
-
+[ninja][ninja]:./docs/local-development.md#ninja
 [irc-devtools-html]:irc://irc.mozilla.org/devtools-html
 
 [GitHub Desktop]:https://desktop.github.com/

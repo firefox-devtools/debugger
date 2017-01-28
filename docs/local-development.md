@@ -29,6 +29,7 @@
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
 * [FAQ](#FAQ)
+* [Ninjas](#ninjas)
 
 ### Configs
 
@@ -475,9 +476,52 @@ When we started the Debugger, we were not sure if we would keep webpack and the 
 
 Now that we *have* decided that working in github with webpack has a lot of benefits we could switch to JSX. We are open to switching if someone could help us do it, join the [discussion here](https://github.com/devtools-html/debugger.html/issues/1747).
 
+
+### Ninjas
+
+One of the best ways to get started on a new codebase
+is to ask someone who knows what they're talking about.
+
+We have a great [slack][slack] room where you can ask anyone, but
+we also have component experts who will be able to point
+you in the right direction.
+
+|Component|Screen Shot|Ninjas|
+|----------|------|-----|
+|Editor|![][editor]|   ![][jasonlaster]  [@jasonlaster][@jasonlaster]       </br>  ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy] |
+|Sources|![][sources]| ![][arthur801031] [@arthur801031][@arthur801031]     </br>  ![][bomsy] [@bomsy][@bomsy] |
+|Call Stack|![][call-stack]|![][zacqary] [@zacqary][@zacqary]               </br>  ![][wldcordeiro] [@wldcordeiro][@wldcordeiro]|
+|Scopes & Variables|![][scopes]|![][bomsy] [@bomsy][@bomsy]                 </br>  ![][arthur801031] [@arthur801031][@arthur801031]|
+|Breakpoints|![][breakpoints]|![][wldcordeiro] [@wldcordeiro][@wldcordeiro] </br>  ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy]|
+|Product & UI||![][clarkbw] [@clarkbw][@clarkbw]                            </br>  ![][jasonlaster] [@jasonlaster][@jasonlaster]|
+
 [devtools-config-readme]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md
 [create-local-config]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md#local-config
 [l10n-issues]:https://github.com/devtools-html/debugger.html/labels/localization
 [flow-issues]:https://github.com/devtools-html/debugger.html/labels/flow
 [bidirection]:https://github.com/gasolin/postcss-bidirection
 [logical]:https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties
+
+[scopes]:https://cloud.githubusercontent.com/assets/254562/22392764/019de6e6-e4cb-11e6-8445-2c4ec87cb4a6.png
+[call-stack]:https://cloud.githubusercontent.com/assets/254562/22392766/019eca70-e4cb-11e6-8b1a-e92b33a7cecb.png
+[editor]:https://cloud.githubusercontent.com/assets/254562/22392767/01a45fbc-e4cb-11e6-80e7-59ae74d587fe.png
+[sources]:https://cloud.githubusercontent.com/assets/254562/22392768/01a51c2c-e4cb-11e6-8fb0-4ededa83ed5e.png
+[breakpoints]:https://cloud.githubusercontent.com/assets/254562/22392822/9a15d1f4-e4cb-11e6-9519-04ed772e6f1a.png
+[jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
+[bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
+[wldcordeiro]:https://avatars.githubusercontent.com/wldcordeiro?size=56
+[clarkbw]:https://avatars.githubusercontent.com/clarkbw?size=56
+[jbhoosreddy]:https://avatars.githubusercontent.com/jbhoosreddy?size=56
+[arthur801031]:https://avatars.githubusercontent.com/arthur801031?size=56
+[zacqary]:https://avatars.githubusercontent.com/zacqary?size=56
+[@zacqary]:https://github.com/zacqary
+[@jasonlaster]:https://github.com/jasonlaster
+[@bomsy]:https://github.com/bomsy
+[@wldcordeiro]:https://github.com/wldcordeiro
+[@clarkbw]:https://github.com/clarkbw
+[@jbhoosreddy]:https://github.com/jbhoosreddy
+[@arthur801031]:https://github.com/arthur801031
+[@zacqary]:https://github.com/zacqary
+
+
+[slack]:https://devtools-html-slack.herokuapp.com/
