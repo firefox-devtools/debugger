@@ -1,3 +1,9 @@
+<style>
+a {
+  color: red
+}
+</style>
+
 ## Local Development
 
 * [Configs](#configs)
