@@ -24,7 +24,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Firefox Developer Tools](#firefox-developer-tools)
 * [About Us][#about-us]
   * [Team Members](#team-members)
-  * [Joining the Team](#joining-the-team)
+  * [Joining Mozilla](#joining-mozilla)
 
 ## Getting Started
 
@@ -154,14 +154,24 @@ The debugger.html project is targeted to land in Firefox for Firefox 52.  Howeve
 
 ## About Us
 
+debugger.html is an Open Source [Mozilla][mozilla] [Firefox][mozilla-firefox] Developer Tools project.
+Our goal is to work with the community to build a universal JS debugger for modern times.
 
-
-[Mozilla][mozilla] created this debugger for use in the [Firefox][mozilla-firefox] Developer Tools.  And we've purposely created this project in GitHub, using modern toolchains.  We hope to not only to create a great debugger that works with the [Firefox](https://wiki.mozilla.org/Remote_Debugging_Protocol) and [Chrome Debugging Protocol](https://chromedevtools.github.io/debugger-protocol-viewer/1-1/) but development community that can embed this debugger in your own projects with tools like [NPM](http://npmjs.com/).
-
+|||
+|----------|------|
+|![][jasonlaster] <br/> [@jasonlaster][@jasonlaster]|![][clarkbw] <br/> [@clarkbw][@clarkbw]|
 
 ### Team Members
 
-## Joining the Team
+debugger.html community team members help shephard the community.
+They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
+They are a fantastic resource and genuinely friendly human beings.
+
+||||
+|----------|------|-----|
+|![][bomsy] <br /> [@bomsy][@bomsy]|![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy]|![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro]|
+
+### Joining Mozilla
 
 Mozilla has and continues to hire many people from within the Open Source Software community, bringing contributors directly into the team; however contribution is not necessarily a path to employment.  Our internal hiring criteria is about more than contributions, we are also looking at a number of other factors that create a diverse and healthy team.
 
@@ -175,3 +185,17 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
 [labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
 [labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard
+
+[@jasonlaster]:https://github.com/jasonlaster
+[@bomsy]:https://github.com/bomsy
+[@wldcordeiro]:https://github.com/wldcordeiro
+[@clarkbw]:https://github.com/clarkbw
+[@jbhoosreddy]:https://github.com/jbhoosreddy
+[jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
+[bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
+[wldcordeiro]:https://avatars.githubusercontent.com/wldcordeiro?size=56
+[clarkbw]:https://avatars.githubusercontent.com/clarkbw?size=56
+[jbhoosreddy]:https://avatars.githubusercontent.com/jbhoosreddy?size=56
+
+[mozilla]:https://www.mozilla.org/
+[mozilla-firefox]:https://www.mozilla.org/firefox/
