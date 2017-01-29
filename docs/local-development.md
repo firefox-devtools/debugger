@@ -29,7 +29,7 @@
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
 * [FAQ](#FAQ)
-* [Ninjas](#ninjas)
+* [Getting Help](#getting-help)
 
 ### Configs
 
@@ -379,7 +379,6 @@ index 5996700..bb828d8 100644
   - [Missing Annotation](./flow#missing-annotation)
   - [Type Inconsistencies](./flow#type-inconsistencies)
 
-
 ### Logging
 
 Logging information can be very useful when developing, and there are a few logging options available to you.
@@ -477,16 +476,12 @@ When we started the Debugger, we were not sure if we would keep webpack and the 
 Now that we *have* decided that working in github with webpack has a lot of benefits we could switch to JSX. We are open to switching if someone could help us do it, join the [discussion here](https://github.com/devtools-html/debugger.html/issues/1747).
 
 
-### Ninjas
+### Getting Help
 
-One of the best ways to get started on a new codebase
-is to ask someone who knows what they're talking about.
+There are lots of helpful folks who'd be happy to answer
+your questions on [slack][slack].
 
-We have a great [slack][slack] room where you can ask anyone, but
-we also have component experts who will be able to point
-you in the right direction.
-
-|Component|Screen Shot|Ninjas|
+|Component||:dog: :panda_face: :hamster:|
 |----------|------|-----|
 |Editor|![][editor]|   ![][jasonlaster]  [@jasonlaster][@jasonlaster]       </br>  ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy] |
 |Sources|![][sources]| ![][arthur801031] [@arthur801031][@arthur801031]     </br>  ![][bomsy] [@bomsy][@bomsy] |
@@ -522,6 +517,5 @@ you in the right direction.
 [@jbhoosreddy]:https://github.com/jbhoosreddy
 [@arthur801031]:https://github.com/arthur801031
 [@zacqary]:https://github.com/zacqary
-
 
 [slack]:https://devtools-html-slack.herokuapp.com/
