@@ -10,7 +10,9 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Reporting Bugs](#reporting-bugs-bug)
   * [Suggesting Enhancements](#suggesting-enhancements-new)
   * [Writing Documentation](#writing-documentation-book)
-  * [Share what you know](#share-what-you-know)
+  * [Give a talk](#give-a-talk-speech_balloon)
+  * [Write a blog post](#write-a-blog-post-pencil2)
+  * [Organize a meetup](#organize-a-meetup-beer)
 * [Writing Code](#writing-code-computer)
   * [Your First Code Contribution](#your-first-code-contribution)
   * [Coding Standards](#coding-standards)
@@ -22,7 +24,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [debugger.html](#debuggerhtml)
   * [devtools.html](#devtoolshtml)
   * [Firefox Developer Tools](#firefox-developer-tools)
-* [About Us][#about-us]
+* [About Us](#about-us)
   * [Team Members](#team-members)
   * [Joining Mozilla](#joining-mozilla)
 
@@ -56,12 +58,45 @@ Documentation is as important as code and we need your help to maintain clear an
 
 We will tag it with the label [docs](https://github.com/devtools-html/debugger.html/labels/docs).
 
-### Share what you know
+### Give a Talk :speech_balloon:
+
+The best thing about giving a talk on the debugger is that you
+can demo debugging the debugger and watch a roomful of minds explode.
+
+The best talks can be as simple as walking through how the debugger works
+and adding a small feature. For the audience in the room, this will likely be
+the first time they've seen the internals of a developer tool.
+
+Here are two example talks [Debugging the Debugger][jlongster-talk] and [Inspector Inception][jlast-talk].
+Ofcourse, feel free to ask questions in [slack][slack] or share talk slides or videos in channel.
+
+### Write a Blog Post :pencil2:
+
+Our primary goal is to help developers understand they have the skills
+to improve their environment. Writing about DevTools is the best way
+to dispell the myth that what we do is magic.
+
+Writing is a great way to share what you learn and articulate your passion.
+Blog posts can either be technical "how x works" or narrative "how we built x".
+The most important piece is that it helps people feel welcome.
+
+If you would like to write a post and have questions ask one of us in [slack][slack].
+Also, ofcourse share what you've written in [slack][slack]!
+Here are some examples [search boxes][search-boxes], [getting into the flow][getting-into-the-flow], [better source maps][better-sourcemaps], [stepping debugger][stepping-debugger].
+
+### Organize a meetup :beer:
+
+OSS Workshops are a great way to bring people together and contribute.
+The best thing about workshops is that it's the best way for new comers to make their first PR.
+It's also a lot of fun!
+
+There's been four workshops so far. Two in New York, one in Tel Aviv, and one in Vancouver.
+The workshops have helped close to 100 people get started. In all of the cases, the workshop was organized
+in collaboration with a local meetup group that was interested in promoting open source.
+
+Feel free to reach out to us on [slack][slack] if you're interested in organizing one. Here is a [guide][meetup-guide] and [example][meetup-example] document.
 
 Give a talk or write a blog post and help others get started. Very few developers know that the debugger is a web app. It's a lot of fun to hear the amazing tools others want to build once they learn that they can!
-
-We'd be happy to link to it here. It could go a long way towards helping a newcomer get started!
-
 
 ### Writing Code :computer:
 
@@ -199,3 +234,16 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 
 [mozilla]:https://www.mozilla.org/
 [mozilla-firefox]:https://www.mozilla.org/firefox/
+
+[meetup-example]:https://docs.google.com/document/d/1jJ27v-qnVtFrAmrJ8tWAOHOXvrQ7RN8oID44VPYXWrM/edit?usp=sharing
+[meetup-guide]:https://docs.google.com/document/d/1SMbF2IEkTsQAd28-Xzhn7HS7yAORmxCVktlRkSdwmpQ/edit#heading=h.qqrdmxv84ec2
+
+
+[search-boxes]:http://jasonlaster.github.io/devtools/js/2017/01/05/searching.html
+[getting-into-the-flow]:http://jasonlaster.github.io/devtools/js/2017/01/20/typing-the-debugger.html
+[better-sourcemaps]:http://jlongster.com/On-the-Road-to-Better-Sourcemaps-in-the-Firefox-Developer-Tools
+[stepping-debugger]:http://jlongster.com/Implementing-Stepping-Debugger-JavaScript
+
+
+[jlongster-talk]:https://www.youtube.com/watch?v=gvVpSezT5_M
+[jlast-talk]:https://www.youtube.com/watch?v=O_xViL2TGrU
