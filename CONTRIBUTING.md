@@ -4,26 +4,26 @@
 
 We respect your time and want to help you make the most of it as you learn more about this project.
 
-#### Table Of Contents
-
 [Getting Started](#getting-started)
 
-[How Can I Contribute?](#how-can-i-contribute)
+* [How Can I Contribute?](#how-can-i-contribute)
   * [Reporting Bugs](#reporting-bugs-bug)
   * [Suggesting Enhancements](#suggesting-enhancements-new)
   * [Writing Documentation](#writing-documentation-book)
   * [Share what you know](#share-what-you-know)
-  * [Writing Code](#writing-code-computer)
-    * [Your First Code Contribution](#your-first-code-contribution)
-    * [Coding Standards](#coding-standards)
-    * [Issues](#issues)
-    * [Pull Requests](#pull-requests)
-    * [Local Development](#local-development-computer)
+* [Writing Code](#writing-code-computer)
+  * [Your First Code Contribution](#your-first-code-contribution)
+  * [Coding Standards](#coding-standards)
+  * [Local Development](#local-development-computer)
+  * [Issues](#issues)
+  * [Pull Requests](#pull-requests)
   * [Issues and Pull Request labels](#issues-and-pull-requests)
-  * [Project Overview](#project-overview)
-    * [debugger.html](#debuggerhtml)
-    * [devtools.html](#devtoolshtml)
-    * [Firefox Developer Tools](#firefox-developer-tools)
+* [Project Overview](#project-overview)
+  * [debugger.html](#debuggerhtml)
+  * [devtools.html](#devtoolshtml)
+  * [Firefox Developer Tools](#firefox-developer-tools)
+* [About Us][#about-us]
+  * [Team Members](#team-members)
   * [Joining the Team](#joining-the-team)
 
 ## Getting Started
@@ -152,6 +152,15 @@ From that original demo the devtools.html project has progressed quite a bit.  T
 
 The debugger.html project is targeted to land in Firefox for Firefox 52.  However if you're looking to work directly on the DevTools project which ships developer tools for Firefox and Firefox Developer Edition right now you can find more information on the Mozilla wiki [DevTools / Get Involved](https://wiki.mozilla.org/DevTools/GetInvolved).
 
+## About Us
+
+
+
+[Mozilla][mozilla] created this debugger for use in the [Firefox][mozilla-firefox] Developer Tools.  And we've purposely created this project in GitHub, using modern toolchains.  We hope to not only to create a great debugger that works with the [Firefox](https://wiki.mozilla.org/Remote_Debugging_Protocol) and [Chrome Debugging Protocol](https://chromedevtools.github.io/debugger-protocol-viewer/1-1/) but development community that can embed this debugger in your own projects with tools like [NPM](http://npmjs.com/).
+
+
+### Team Members
+
 ## Joining the Team
 
 Mozilla has and continues to hire many people from within the Open Source Software community, bringing contributors directly into the team; however contribution is not necessarily a path to employment.  Our internal hiring criteria is about more than contributions, we are also looking at a number of other factors that create a diverse and healthy team.
@@ -161,3 +170,8 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 **Referrals**. If you’ve been making reasonable and regular contributions to the project we’d be happy to be a reference for you.  We can make internal referrals to Mozilla or act as your reference to other companies.  Please be considerate when making this request, we are happy to help you and want to see you find a job you want but can’t do this for everyone who contributes.
 
 [getting-setup]:./docs/getting-setup.md
+[labels-up-for-grabs]:https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
+[labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
+[labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
+[labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
+[labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard

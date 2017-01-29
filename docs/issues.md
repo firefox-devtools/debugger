@@ -114,20 +114,6 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 | `infrastructure` | [search][labels-infrastructure] | Issues with testing / build infrastructure |
 | `discussion` | [search][labels-discussion] | Issues need clearer requirements before work can be started |
 
-[labels-up-for-grabs]:https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
-[labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
-[labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
-[labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
-[labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard
-[labels-docs]:https://github.com/devtools-html/debugger.html/labels/docs
-[labels-design]:https://github.com/devtools-html/debugger.html/labels/design
-[labels-enhancement]:https://github.com/devtools-html/debugger.html/labels/enhancement
-[labels-bug]:https://github.com/devtools-html/debugger.html/labels/bug
-[labels-chrome]:https://github.com/devtools-html/debugger.html/labels/chrome
-[labels-firefox]:https://github.com/devtools-html/debugger.html/labels/firefox
-[labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
-[labels-discussion]:https://github.com/devtools-html/debugger.html/labels/discussion
-
 ### Up For Grab Issues
 
 [up for grabs][labels-up-for-grabs] issues have clear requirements and a difficulty level.
@@ -165,3 +151,17 @@ We focus on being community friendly for many reasons.
 * There's an educational value in having a large community of engineers who understand DevTools.
 * There's an incredible diversity of talent to help us with topics ranging from testing to internationalization.
 * Focusing on *contributor experience* helps us build the best development environment. For instance, if you find it's hard to describe how to make an accessibility change, maybe we should improve how we support tab navigation.
+
+[labels-up-for-grabs]:https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
+[labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
+[labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
+[labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
+[labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard
+[labels-docs]:https://github.com/devtools-html/debugger.html/labels/docs
+[labels-design]:https://github.com/devtools-html/debugger.html/labels/design
+[labels-enhancement]:https://github.com/devtools-html/debugger.html/labels/enhancement
+[labels-bug]:https://github.com/devtools-html/debugger.html/labels/bug
+[labels-chrome]:https://github.com/devtools-html/debugger.html/labels/chrome
+[labels-firefox]:https://github.com/devtools-html/debugger.html/labels/firefox
+[labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
+[labels-discussion]:https://github.com/devtools-html/debugger.html/labels/discussion
