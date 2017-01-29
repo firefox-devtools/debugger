@@ -1532,6 +1532,10 @@ concat-stream@~1.5.0:
     readable-stream "~2.0.0"
     typedarray "~0.0.5"
 
+connected-domain@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/connected-domain/-/connected-domain-1.0.0.tgz#bfe77238c74be453a79f0cb6058deeb4f2358e93"
+
 console-browserify@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-browserify/-/console-browserify-1.1.0.tgz#f0241c45730a9fc6323b206dbf38edc741d0bb10"
@@ -1922,9 +1926,9 @@ devtools-launchpad@0.0.21:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
-devtools-launchpad@^0.0.32:
-  version "0.0.32"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.32.tgz#467779bd4b1d88f146c435b29294d764c42c0153"
+devtools-launchpad@^0.0.33:
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.33.tgz#a8c328f9a4b53c72a98a0ade952b5a4abae5ed5e"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
@@ -1970,6 +1974,7 @@ devtools-launchpad@^0.0.32:
     postcss "^5.2.6"
     postcss-bidirection "^2.0.3"
     postcss-loader "^1.2.0"
+    ps-node "^0.1.4"
     react "=0.14.7"
     react-dom "=0.14.7"
     react-hot-loader "^1.3.1"
@@ -4831,6 +4836,12 @@ prr@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/prr/-/prr-0.0.0.tgz#1a84b85908325501411853d0081ee3fa86e2926a"
 
+ps-node@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ps-node/-/ps-node-0.1.4.tgz#85e5673ce84e94e91a5da01c40af3cfb5a24fc21"
+  dependencies:
+    table-parser "^0.1.3"
+
 punycode@1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.3.2.tgz#9653a036fb7c1ee42342f2325cceefea3926c48d"
@@ -5770,6 +5781,12 @@ synesthesia@^1.0.1:
   resolved "https://registry.yarnpkg.com/synesthesia/-/synesthesia-1.0.1.tgz#5ef95ea548c0d5c6e6f9bb4b0d0731dff864a777"
   dependencies:
     css-color-names "0.0.3"
+
+table-parser@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/table-parser/-/table-parser-0.1.3.tgz#0441cfce16a59481684c27d1b5a67ff15a43c7b0"
+  dependencies:
+    connected-domain "^1.0.0"
 
 table@^3.7.8:
   version "3.8.3"
