@@ -1,19 +1,22 @@
-const React = require("react");
+import React from "react";
 const { DOM: dom, PropTypes } = React;
+// import { findDOMNode } from 'react-dom';
 const { findDOMNode } = require("react-dom");
-const { connect } = require("react-redux");
-const { bindActionCreators } = require("redux");
-const { getPause, getIsWaitingOnBreak, getShouldPauseOnExceptions,
-        getShouldIgnoreCaughtExceptions,
-      } = require("../../selectors");
-const Svg = require("../shared/Svg");
-const ImPropTypes = require("react-immutable-proptypes");
-const { formatKeyShortcut } = require("../../utils/text");
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {
+  getPause,
+  getIsWaitingOnBreak,
+  getShouldPauseOnExceptions,
+  getShouldIgnoreCaughtExceptions
+} from "../../selectors";
+import Svg from "../shared/Svg";
+import ImPropTypes from "react-immutable-proptypes";
+import { formatKeyShortcut } from "../../utils/text";
+import actions from "../../actions";
+import "./CommandBar.css";
 
 const { Services: { appinfo }} = require("devtools-modules");
-
-const actions = require("../../actions");
-require("./CommandBar.css");
 
 const isMacOS = (appinfo.OS === "Darwin");
 
@@ -75,7 +78,6 @@ function handlePressAnimation(button) {
     button.style.transform = "none";
   }, 200);
 }
-
 
 function debugBtn(onClick, type, className, tooltip, disabled = false) {
   className = `${type} ${className}`;
@@ -256,7 +258,7 @@ const CommandBar = React.createClass({
   }
 });
 
-module.exports = connect(
+export default connect(
   state => {
     return {
       pause: getPause(state),

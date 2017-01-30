@@ -1,22 +1,20 @@
 // @flow
-const React = require("react");
+import React from "react";
 const { DOM: dom, PropTypes } = React;
 const { div } = dom;
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-const ImPropTypes = require("react-immutable-proptypes");
-const actions = require("../../actions");
-const { endTruncateStr } = require("../../utils/utils");
-const { getFilename } = require("../../utils/source");
-const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
-const classNames = require("classnames");
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import ImPropTypes from "react-immutable-proptypes";
+import actions from "../../actions";
+import { endTruncateStr } from "../../utils/utils";
+import { getFilename } from "../../utils/source";
+import { getFrames, getSelectedFrame, getSource } from "../../selectors";
+import classNames from "classnames";
 
 import type { List } from "immutable";
 import type { Frame, Source } from "../../types";
 
-if (typeof window == "object") {
-  require("./Frames.css");
-}
+import "./Frames.css";
 
 const NUM_FRAMES_SHOWN = 7;
 
@@ -134,7 +132,7 @@ function getAndProcessFrames(state) {
                }));
 }
 
-module.exports = connect(
+export default connect(
   state => ({
     frames: getAndProcessFrames(state),
     selectedFrame: getSelectedFrame(state)

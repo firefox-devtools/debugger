@@ -1,14 +1,13 @@
-const React = require("react");
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-const ImPropTypes = require("react-immutable-proptypes");
-const actions = require("../../actions");
-const { getSelectedFrame, getLoadedObjects, getPause } = require("../../selectors");
+import React from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import ImPropTypes from "react-immutable-proptypes";
+import actions from "../../actions";
+import { getSelectedFrame, getLoadedObjects, getPause } from "../../selectors";
 const ObjectInspector = React.createFactory(require("../shared/ObjectInspector"));
 const { DOM: dom, PropTypes } = React;
-const toPairs = require("lodash/toPairs");
-
-require("./Scopes.css");
+import toPairs from "lodash/toPairs";
+import "./Scopes.css";
 
 function info(text) {
   return dom.div({ className: "pane-info" }, text);
@@ -191,7 +190,7 @@ const Scopes = React.createClass({
   }
 });
 
-module.exports = connect(
+export default connect(
   state => ({
     pauseInfo: getPause(state),
     selectedFrame: getSelectedFrame(state),

@@ -1,14 +1,14 @@
-const React = require("react");
-const { connect } = require("react-redux");
-const { bindActionCreators } = require("redux");
-const ImPropTypes = require("react-immutable-proptypes");
-const actions = require("../../actions");
-const { getExpressions, getLoadedObjects, getPause } = require("../../selectors");
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import ImPropTypes from "react-immutable-proptypes";
+import actions from "../../actions";
+import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
 const CloseButton = React.createFactory(require("../shared/Button/Close"));
 const ObjectInspector = React.createFactory(require("../shared/ObjectInspector"));
 const { DOM: dom, PropTypes } = React;
 
-require("./Expressions.css");
+import "./Expressions.css";
 
 function getValue(expression) {
   const value = expression.value;
@@ -158,7 +158,7 @@ const Expressions = React.createClass({
   }
 });
 
-module.exports = connect(
+export default connect(
   state => ({
     pauseInfo: getPause(state),
     expressions: getExpressions(state),
