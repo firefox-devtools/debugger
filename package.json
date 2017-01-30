@@ -34,7 +34,7 @@
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
     "prepush": "yarn run lint && yarn run test -- --dots",
-    "postmerge": "bin/post-merge"
+    "postmerge": "node bin/post-merge.js"
   },
   "dependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
