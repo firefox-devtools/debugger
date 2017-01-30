@@ -13,7 +13,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Give a talk](#give-a-talk-speech_balloon)
   * [Write a blog post](#write-a-blog-post-pencil2)
   * [Organize a meetup](#organize-a-meetup-beer)
-* [Getting Started](#getting-started)
+* [Getting Started](#getting-started-runner)
   * [Your First Code Contribution](#your-first-code-contribution)
   * [Coding Standards](#coding-standards)
   * [Local Development](#local-development-computer)
@@ -87,7 +87,7 @@ Here are some examples [search boxes][search-boxes], [getting into the flow][get
 
 ### Organize a meetup :beer:
 
-OSS Workshops are a great way to bring people together and contribute.
+Open source workshops are a great way to bring people together and contribute.
 The best thing about workshops is that it's the best way for new comers to make their first PR.
 It's also a lot of fun!
 
@@ -101,17 +101,17 @@ Give a talk or write a blog post and help others get started. Very few developer
 
 ### Getting Started :runner:
 
-Getting started on an OSS project is like starting a new job.
+Getting started on an open source project is like starting a new job.
 Expect to spend the first day learning the codebase and meeting
 the team.
 
-The best thing to do first, is to answer specific questions like:
+The best thing to do first is to answer specific questions like:
 "how are sources shown on the left?". Here is a guided [activity][first-activity]
 to help you get started.
 
 It's also helpful to think about *who* is working on the
 Debugger and people you might want to ask for help early on.
-We are luck to have lots of [nice people][getting-help] here.
+We are lucky to have lots of [nice people][getting-help] here.
 
 #### Your First Code Contribution
 
