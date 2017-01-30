@@ -1,4 +1,4 @@
-import React from "react";
+import { DOM as dom, PropTypes, createClass } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
@@ -6,8 +6,6 @@ import classnames from "classnames";
 import actions from "../../actions";
 import { getSource, getPause, getBreakpoints } from "../../selectors";
 import { makeLocationId } from "../../reducers/breakpoints";
-import { truncateStr } from "../../utils/utils";
-const { DOM: dom, PropTypes } = React;
 import { endTruncateStr } from "../../utils/utils";
 import { basename } from "../../utils/path";
 import CloseButton from "../shared/Button/Close";
@@ -37,7 +35,7 @@ function renderSourceLocation(source, line) {
     ) : null;
 }
 
-const Breakpoints = React.createClass({
+const Breakpoints = createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
     enableBreakpoint: PropTypes.func.isRequired,

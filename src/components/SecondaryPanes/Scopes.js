@@ -1,11 +1,12 @@
-import React from "react";
+import {
+  DOM as dom, PropTypes, createClass, createFactory
+} from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import { getSelectedFrame, getLoadedObjects, getPause } from "../../selectors";
-const ObjectInspector = React.createFactory(require("../shared/ObjectInspector"));
-const { DOM: dom, PropTypes } = React;
+const ObjectInspector = createFactory(require("../shared/ObjectInspector"));
 import toPairs from "lodash/toPairs";
 import "./Scopes.css";
 
@@ -134,7 +135,7 @@ function getScopes(pauseInfo, selectedFrame) {
   return scopes;
 }
 
-const Scopes = React.createClass({
+const Scopes = createClass({
   propTypes: {
     pauseInfo: ImPropTypes.map,
     loadedObjects: ImPropTypes.map,

@@ -1,6 +1,7 @@
-import React from "react";
-const { DOM: dom, PropTypes } = React;
-// import { findDOMNode } from 'react-dom';
+import {
+  DOM as dom, PropTypes, createClass
+} from "react";
+
 const { findDOMNode } = require("react-dom");
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -93,7 +94,7 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
   );
 }
 
-const CommandBar = React.createClass({
+const CommandBar = createClass({
   propTypes: {
     sources: PropTypes.object,
     selectedSource: PropTypes.object,

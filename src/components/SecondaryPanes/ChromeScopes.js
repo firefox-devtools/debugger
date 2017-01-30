@@ -1,19 +1,15 @@
-const React = require("react");
-
-const ImPropTypes = require("react-immutable-proptypes");
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-const actions = require("../../actions");
-const {
-  getChromeScopes, getLoadedObjects, getPause
-} = require("../../selectors");
-const ManagedTree = React.createFactory(require("../shared/ManagedTree"));
-
-const { DOM: dom, PropTypes } = React;
-const classnames = require("classnames");
-const Svg = require("../shared/Svg");
-
-require("./Scopes.css");
+import {
+  DOM as dom, PropTypes, createClass, createFactory
+} from "react";
+import ImPropTypes from "react-immutable-proptypes";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import actions from "../../actions";
+import { getChromeScopes, getLoadedObjects, getPause } from "../../selectors";
+const ManagedTree = createFactory(require("../shared/ManagedTree"));
+import classnames from "classnames";
+import Svg from "../shared/Svg";
+import "./Scopes.css";
 
 function info(text) {
   return dom.div({ className: "pane-info" }, text);
@@ -41,7 +37,7 @@ function createNode(name, path, contents) {
   return { name, path, contents };
 }
 
-const Scopes = React.createClass({
+const Scopes = createClass({
   propTypes: {
     scopes: PropTypes.array,
     loadedObjects: ImPropTypes.map
@@ -139,7 +135,7 @@ const Scopes = React.createClass({
       const loadedProps = this.getObjectProperties(item);
       if (loadedProps) {
         const children = this.makeNodesForProperties(loadedProps, item.path);
-        this.objectCache[actor] = children;
+        this.objectCache[objectId] = children;
         return children;
       }
       return [];
@@ -151,7 +147,7 @@ const Scopes = React.createClass({
     const { loadObjectProperties } = this.props;
 
     if (nodeHasProperties(item)) {
-      this.props.loadObjectProperties(item.contents.value);
+      loadObjectProperties(item.contents.value);
     }
   },
 
@@ -170,7 +166,7 @@ const Scopes = React.createClass({
 
   render() {
     const {
-      scopes, pauseInfo, loadObjectProperties, loadedObjects
+      pauseInfo, loadObjectProperties, loadedObjects
     } = this.props;
 
     if (!pauseInfo) {
@@ -201,7 +197,7 @@ const Scopes = React.createClass({
   }
 });
 
-module.exports = connect(
+export default connect(
   state => ({
     pauseInfo: getPause(state),
     loadedObjects: getLoadedObjects(state),

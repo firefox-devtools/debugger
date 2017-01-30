@@ -1,7 +1,7 @@
 // @flow
-import React from "react";
-const { DOM: dom, PropTypes } = React;
-const { div } = dom;
+import {
+  DOM as dom, PropTypes, createClass
+} from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ImPropTypes from "react-immutable-proptypes";
@@ -19,7 +19,7 @@ import "./Frames.css";
 const NUM_FRAMES_SHOWN = 7;
 
 function renderFrameTitle({ displayName }: Frame) {
-  return div({ className: "title" }, endTruncateStr(displayName, 40));
+  return dom.div({ className: "title" }, endTruncateStr(displayName, 40));
 }
 
 function renderFrameLocation({ source, location }: Frame) {
@@ -29,13 +29,13 @@ function renderFrameLocation({ source, location }: Frame) {
   }
 
   const filename = getFilename(thisSource);
-  return div(
+  return dom.div(
     { className: "location" },
     `${filename}: ${location.line}`
   );
 }
 
-const Frames = React.createClass({
+const Frames = createClass({
   propTypes: {
     frames: ImPropTypes.list,
     selectedFrame: PropTypes.object,
@@ -104,16 +104,16 @@ const Frames = React.createClass({
     const { frames } = this.props;
 
     if (!frames) {
-      return div(
+      return dom.div(
         { className: "pane frames" },
-        div(
+        dom.div(
           { className: "pane-info empty" },
           L10N.getStr("callStack.notPaused")
         )
       );
     }
 
-    return div(
+    return dom.div(
       { className: "pane frames" },
       this.renderFrames(frames),
       this.renderToggleButton(frames)
