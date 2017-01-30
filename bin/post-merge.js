@@ -3,8 +3,8 @@
 
 const execFile = require("child_process").execFile;
 
-execFile("git diff-tree",
-  ["-r", "--name-only", "--no-commit-id", "ORIG_HEAD", "HEAD"],
+execFile("git",
+  ["diff-tree", "-r", "--name-only", "--no-commit-id", "ORIG_HEAD", "HEAD"],
   (error, stdout, stderr) => {
   if (error) {
     console.error("stderr", stderr);
