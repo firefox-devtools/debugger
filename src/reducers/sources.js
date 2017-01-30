@@ -46,6 +46,16 @@ function update(state = State(), action: Action) : Record<SourcesState> {
   let availableTabs = null;
   let location = null;
 
+  // Reset to default when first source is received
+  if (action.source && action.source.id == "33") {
+    return state
+      .set("sources", I.Map())
+      .set("selectedLocation", undefined)
+      .set("pendingSelectedLocation", prefs.pendingSelectedLocation)
+      .set("sourcesText", I.Map())
+      .set("tabs", I.List(restoreTabs()));
+  }
+
   switch (action.type) {
     case "ADD_SOURCE": {
       const source: Source = action.source;
