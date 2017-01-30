@@ -5,6 +5,7 @@ export type {
   Expression,
   Frame,
   Grip,
+  LoadedObject,
   Location,
   Source,
   SourceText,

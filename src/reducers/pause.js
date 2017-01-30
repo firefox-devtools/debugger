@@ -39,14 +39,21 @@ const State = makeRecord(({
 function update(state = State(), action: Action): Record<PauseState> {
   switch (action.type) {
     case constants.PAUSED: {
-      const { selectedFrameId, frames, pauseInfo } = action;
+      const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
       pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
+
+      // turn this into an object keyed by object id
+      let objectMap = {};
+      loadedObjects.forEach(obj => {
+        objectMap[obj.value.objectId] = obj;
+      });
 
       return state.merge({
         isWaitingOnBreak: false,
         pause: fromJS(pauseInfo),
         selectedFrameId,
-        frames
+        frames,
+        loadedObjects: objectMap
       });
     }
 
@@ -127,6 +134,15 @@ function getLoadedObjects(state: OuterState) {
   return state.pause.get("loadedObjects");
 }
 
+function getLoadedObject(state: OuterState, objectId: string) {
+  return getLoadedObjects(state).get(objectId);
+}
+
+function getObjectProperties(state: OuterState, parentId: string) {
+  return getLoadedObjects(state)
+    .filter(obj => obj.get("parentId") == parentId);
+}
+
 function getIsWaitingOnBreak(state: OuterState) {
   return state.pause.get("isWaitingOnBreak");
 }
@@ -161,6 +177,8 @@ module.exports = {
   getPause,
   getChromeScopes,
   getLoadedObjects,
+  getLoadedObject,
+  getObjectProperties,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,

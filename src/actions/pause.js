@@ -7,7 +7,7 @@ const { getPause } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
 const { evaluateExpressions } = require("./expressions");
 
-import type { Pause, Frame, Grip } from "../types";
+import type { Pause, Frame } from "../types";
 import type { ThunkArgs } from "./types";
 
 type CommandType = { type: string };
@@ -43,7 +43,7 @@ function resumed() {
  */
 function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
-    let { frames, why } = pauseInfo;
+    let { frames, why, loadedObjects } = pauseInfo;
     frames = await updateFrameLocations(frames);
     const frame = frames[0];
 
@@ -51,7 +51,8 @@ function paused(pauseInfo: Pause) {
       type: constants.PAUSED,
       pauseInfo: { why, frame },
       frames: frames,
-      selectedFrameId: frame.id
+      selectedFrameId: frame.id,
+      loadedObjects: loadedObjects || []
     });
 
     dispatch(evaluateExpressions(frame.id));
@@ -203,12 +204,12 @@ function selectFrame(frame: Frame) {
  * @memberof actions/pause
  * @static
  */
-function loadObjectProperties(grip: Grip) {
+function loadObjectProperties(object: any) {
   return ({ dispatch, client }: ThunkArgs) => {
     dispatch({
       type: constants.LOAD_OBJECT_PROPERTIES,
-      objectId: grip.actor,
-      [PROMISE]: client.getProperties(grip)
+      objectId: object.actor || object.objectId,
+      [PROMISE]: client.getProperties(object)
     });
   };
 }

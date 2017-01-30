@@ -2,6 +2,7 @@
 
 import type { Source,
               Breakpoint,
+              LoadedObject,
               Location,
               SourceText,
               Frame,
@@ -117,7 +118,8 @@ type PauseAction =
                   isInterrupted?: boolean },
       frames: Frame[],
       selectedFrameId: string,
-      }
+      loadedObjects: LoadedObject[]
+    }
   | { type: "PAUSE_ON_EXCEPTIONS",
       shouldPauseOnExceptions: boolean,
       shouldIgnoreCaughtExceptions: boolean }
