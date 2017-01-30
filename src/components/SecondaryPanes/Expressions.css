@@ -6,17 +6,24 @@
   cursor: pointer;
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
-  line-height: 12px;
+  font-size: 12px;
 }
 
 .input-expression::-webkit-input-placeholder {
   text-align: center;
   font-style: italic;
+  color: var(--theme-body-color-inactive);
+}
+
+.input-expression::placeholder {
+  text-align: center;
+  font-style: italic;
+  color: var(--theme-body-color-inactive);
+  opacity: 1;
 }
 
 .input-expression:focus {
-  outline-color: var(--theme-selection-background-semitransparent);
-  outline-width: 2px;
+  outline: none;
   cursor: text;
 }
 
