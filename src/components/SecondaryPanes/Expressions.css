@@ -23,7 +23,7 @@
 }
 
 .input-expression:focus {
-  outline: 2px solid var(--theme-selection-background-semitransparent);
+  outline: none;
   cursor: text;
 }
 
