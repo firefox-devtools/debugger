@@ -13,13 +13,14 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Give a talk](#give-a-talk-speech_balloon)
   * [Write a blog post](#write-a-blog-post-pencil2)
   * [Organize a meetup](#organize-a-meetup-beer)
-* [Writing Code](#writing-code-computer)
+* [Getting Started](#getting-started)
   * [Your First Code Contribution](#your-first-code-contribution)
   * [Coding Standards](#coding-standards)
   * [Local Development](#local-development-computer)
   * [Issues](#issues)
   * [Pull Requests](#pull-requests)
   * [Issues and Pull Request labels](#issues-and-pull-requests)
+  * [Pro Tips](#pro-tips)
 * [Project Overview](#project-overview)
   * [debugger.html](#debuggerhtml)
   * [devtools.html](#devtoolshtml)
@@ -98,22 +99,25 @@ Feel free to reach out to us on [slack][slack] if you're interested in organizin
 
 Give a talk or write a blog post and help others get started. Very few developers know that the debugger is a web app. It's a lot of fun to hear the amazing tools others want to build once they learn that they can!
 
-### Writing Code :computer:
+### Getting Started :runner:
 
-We have a number of tools to help you with your code contributions, the following describes them all and how you can make use of them.
+Getting started on an OSS project is like starting a new job.
+Expect to spend the first day learning the codebase and meeting
+the team.
 
-If you've contributed to an open source project before and would like to help this one please take a look through the `up for grabs` issues:
+The best thing to do first, is to answer specific questions like:
+"how are sources shown on the left?". Here is a guided [activity][first-activity]
+to help you get started.
+
+It's also helpful to think about *who* is working on the
+Debugger and people you might want to ask for help early on.
+We are luck to have lots of [nice people][getting-help] here.
 
 #### Your First Code Contribution
 
-If you're looking for a good issue, you can look through the `up-for-grabs` issues. These issues should be actionable and well documented.
-
-There are several difficulty levels, *easy*, *medium*, *hard*. We recommend grabbing an *easy* issue, but it's up to you.
-
-* [up-for-grabs][labels-up-for-grabs] - issues that are not assigned to anyone and are available to be worked on.
-* [difficulty:easy][labels-difficulty-easy] - clear expectations and a mentor to help you through.
-* [difficulty:medium][labels-difficulty-medium] - more complex and may not have as clear expectations.
-* [difficulty:hard][labels-difficulty-hard] - complex and has some open technical questions.
+If you're looking for a good issue, you can look through
+the [up-for-grabs][labels-up-for-grabs] issues.
+These issues should be actionable and well documented.
 
 To begin your work make sure you follow these steps:
 
@@ -168,8 +172,20 @@ Go to [local Development](./docs/local-development.md) to learn about:
 * [Testing](./docs/local-development.md#testing)
 * [Linting](./docs/local-development.md#linting)
 
-
 [GitHub Desktop]:https://desktop.github.com/
+
+### Pro Tips
+
+Here are some tips from fellow contributors.
+
+* **Time management** is really important. Try your best to balance obligations.
+* **Communicate** Communicate early and often. Share your work often and try to land the smallest possible pieces.
+* **Goals** It's helpful to set realistic goals.
+* **Work** Consider talking with your manager about OSS time at work. There are several reasons why this makes sense for your employer:
+  * **expertise** teams benefit from having a resident expert on debugging or other tools
+  * **marketing** your manager can market his team as OSS friendly to candidates and other employees.
+  * **career development** the skills you learn in OSS translate to your own growth.
+  * **sponsoring** your team benefits from having quality OSS tools. Sponsoring your OSS time is a great way to give back.
 
 ## Project Overview
 
@@ -247,3 +263,4 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 
 [jlongster-talk]:https://www.youtube.com/watch?v=gvVpSezT5_M
 [jlast-talk]:https://www.youtube.com/watch?v=O_xViL2TGrU
+[getting-help]:./local-development.md#getting-help
