@@ -137,13 +137,12 @@ let SourcesTree = React.createClass({
 
       if (isEnabled("copySource")) {
         menuOptions.push(copySourceUrl);
-      }      
+      }
     }
 
     const menuOptions = [];
 
     showMenu(event, menuOptions);
-
   },
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {

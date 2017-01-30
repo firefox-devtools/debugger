@@ -154,7 +154,7 @@ function getURL(sourceUrl: string): { path: string, group: string } {
  */
 function isDirectory(url: string) {
   const parts = url.path.split("/").filter(p => p !== "");
-  
+
   return (parts.length === 0 ||
                  parts[parts.length - 1].indexOf(".") === -1);
 }
