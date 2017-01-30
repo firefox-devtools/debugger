@@ -4,27 +4,30 @@
 
 We respect your time and want to help you make the most of it as you learn more about this project.
 
-#### Table Of Contents
-
 [Getting Started](#getting-started)
 
-[How Can I Contribute?](#how-can-i-contribute)
+* [How Can I Contribute?](#how-can-i-contribute)
   * [Reporting Bugs](#reporting-bugs-bug)
   * [Suggesting Enhancements](#suggesting-enhancements-new)
   * [Writing Documentation](#writing-documentation-book)
-  * [Share what you know](#share-what-you-know)
-  * [Writing Code](#writing-code-computer)
-    * [Your First Code Contribution](#your-first-code-contribution)
-    * [Coding Standards](#coding-standards)
-    * [Issues](#issues)
-    * [Pull Requests](#pull-requests)
-    * [Local Development](#local-development-computer)
+  * [Give a talk](#give-a-talk-speech_balloon)
+  * [Write a blog post](#write-a-blog-post-pencil2)
+  * [Organize a meetup](#organize-a-meetup-beer)
+* [Getting Started](#getting-started-runner)
+  * [Your First Code Contribution](#your-first-code-contribution)
+  * [Coding Standards](#coding-standards)
+  * [Local Development](#local-development-computer)
+  * [Issues](#issues)
+  * [Pull Requests](#pull-requests)
   * [Issues and Pull Request labels](#issues-and-pull-requests)
-  * [Project Overview](#project-overview)
-    * [debugger.html](#debuggerhtml)
-    * [devtools.html](#devtoolshtml)
-    * [Firefox Developer Tools](#firefox-developer-tools)
-  * [Joining the Team](#joining-the-team)
+  * [Pro Tips](#pro-tips)
+* [Project Overview](#project-overview)
+  * [debugger.html](#debuggerhtml)
+  * [devtools.html](#devtoolshtml)
+  * [Firefox Developer Tools](#firefox-developer-tools)
+* [About Us](#about-us)
+  * [Team Members](#team-members)
+  * [Joining Mozilla](#joining-mozilla)
 
 ## Getting Started
 
@@ -56,29 +59,65 @@ Documentation is as important as code and we need your help to maintain clear an
 
 We will tag it with the label [docs](https://github.com/devtools-html/debugger.html/labels/docs).
 
-### Share what you know
+### Give a Talk :speech_balloon:
+
+The best thing about giving a talk on the debugger is that you
+can demo debugging the debugger and watch a roomful of minds explode.
+
+The best talks can be as simple as walking through how the debugger works
+and adding a small feature. For the audience in the room, this will likely be
+the first time they've seen the internals of a developer tool.
+
+Here are two example talks [Debugging the Debugger][jlongster-talk] and [Inspector Inception][jlast-talk].
+Ofcourse, feel free to ask questions in [slack][slack] or share talk slides or videos in channel.
+
+### Write a Blog Post :pencil2:
+
+Our primary goal is to help developers understand they have the skills
+to improve their environment. Writing about DevTools is the best way
+to dispell the myth that what we do is magic.
+
+Writing is a great way to share what you learn and articulate your passion.
+Blog posts can either be technical "how x works" or narrative "how we built x".
+The most important piece is that it helps people feel welcome.
+
+If you would like to write a post and have questions ask one of us in [slack][slack].
+Also, ofcourse share what you've written in [slack][slack]!
+Here are some examples [search boxes][search-boxes], [getting into the flow][getting-into-the-flow], [better source maps][better-sourcemaps], [stepping debugger][stepping-debugger].
+
+### Organize a meetup :beer:
+
+Open source workshops are a great way to bring people together and contribute.
+The best thing about workshops is that it's the best way for new comers to make their first PR.
+It's also a lot of fun!
+
+There's been four workshops so far. Two in New York, one in Tel Aviv, and one in Vancouver.
+The workshops have helped close to 100 people get started. In all of the cases, the workshop was organized
+in collaboration with a local meetup group that was interested in promoting open source.
+
+Feel free to reach out to us on [slack][slack] if you're interested in organizing one. Here is a [guide][meetup-guide] and [example][meetup-example] document.
 
 Give a talk or write a blog post and help others get started. Very few developers know that the debugger is a web app. It's a lot of fun to hear the amazing tools others want to build once they learn that they can!
 
-We'd be happy to link to it here. It could go a long way towards helping a newcomer get started!
+### Getting Started :runner:
 
+Getting started on an open source project is like starting a new job.
+Expect to spend the first day learning the codebase and meeting
+the team.
 
-### Writing Code :computer:
+The best thing to do first is to answer specific questions like:
+"how are sources shown on the left?". Here is a guided [activity][first-activity]
+to help you get started.
 
-We have a number of tools to help you with your code contributions, the following describes them all and how you can make use of them.
-
-If you've contributed to an open source project before and would like to help this one please take a look through the `up for grabs` issues:
+It's also helpful to think about *who* is working on the
+Debugger and people you might want to ask for help early on.
+We are lucky to have lots of [nice people][getting-help] here.
 
 #### Your First Code Contribution
 
-If you're looking for a good issue, you can look through the `up-for-grabs` issues. These issues should be actionable and well documented.
-
-There are several difficulty levels, *easy*, *medium*, *hard*. We recommend grabbing an *easy* issue, but it's up to you.
-
-* [up-for-grabs][labels-up-for-grabs] - issues that are not assigned to anyone and are available to be worked on.
-* [difficulty:easy][labels-difficulty-easy] - clear expectations and a mentor to help you through.
-* [difficulty:medium][labels-difficulty-medium] - more complex and may not have as clear expectations.
-* [difficulty:hard][labels-difficulty-hard] - complex and has some open technical questions.
+If you're looking for a good issue, you can look through
+the [up-for-grabs][labels-up-for-grabs] issues.
+These issues should be actionable and well documented.
 
 To begin your work make sure you follow these steps:
 
@@ -133,8 +172,20 @@ Go to [local Development](./docs/local-development.md) to learn about:
 * [Testing](./docs/local-development.md#testing)
 * [Linting](./docs/local-development.md#linting)
 
-
 [GitHub Desktop]:https://desktop.github.com/
+
+### Pro Tips
+
+Here are some tips from fellow contributors.
+
+* **Time management** is really important. Try your best to balance obligations.
+* **Communicate** Communicate early and often. Share your work often and try to land the smallest possible pieces.
+* **Goals** It's helpful to set realistic goals.
+* **Work** Consider talking with your manager about OSS time at work. There are several reasons why this makes sense for your employer:
+  * **expertise** teams benefit from having a resident expert on debugging or other tools
+  * **marketing** your manager can market his team as OSS friendly to candidates and other employees.
+  * **career development** the skills you learn in OSS translate to your own growth.
+  * **sponsoring** your team benefits from having quality OSS tools. Sponsoring your OSS time is a great way to give back.
 
 ## Project Overview
 
@@ -152,7 +203,26 @@ From that original demo the devtools.html project has progressed quite a bit.  T
 
 The debugger.html project is targeted to land in Firefox for Firefox 52.  However if you're looking to work directly on the DevTools project which ships developer tools for Firefox and Firefox Developer Edition right now you can find more information on the Mozilla wiki [DevTools / Get Involved](https://wiki.mozilla.org/DevTools/GetInvolved).
 
-## Joining the Team
+## About Us
+
+debugger.html is an Open Source [Mozilla][mozilla] [Firefox][mozilla-firefox] Developer Tools project.
+Our goal is to work with the community to build a universal JS debugger for modern times.
+
+|||
+|----------|------|
+|![][jasonlaster] <br/> [@jasonlaster][@jasonlaster]|![][clarkbw] <br/> [@clarkbw][@clarkbw]|
+
+### Team Members
+
+debugger.html community team members help shephard the community.
+They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
+They are a fantastic resource and genuinely friendly human beings.
+
+||||
+|----------|------|-----|
+|![][bomsy] <br /> [@bomsy][@bomsy]|![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy]|![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro]|
+
+### Joining Mozilla
 
 Mozilla has and continues to hire many people from within the Open Source Software community, bringing contributors directly into the team; however contribution is not necessarily a path to employment.  Our internal hiring criteria is about more than contributions, we are also looking at a number of other factors that create a diverse and healthy team.
 
@@ -161,3 +231,36 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 **Referrals**. If you’ve been making reasonable and regular contributions to the project we’d be happy to be a reference for you.  We can make internal referrals to Mozilla or act as your reference to other companies.  Please be considerate when making this request, we are happy to help you and want to see you find a job you want but can’t do this for everyone who contributes.
 
 [getting-setup]:./docs/getting-setup.md
+[labels-up-for-grabs]:https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
+[labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
+[labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
+[labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
+[labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard
+
+[@jasonlaster]:https://github.com/jasonlaster
+[@bomsy]:https://github.com/bomsy
+[@wldcordeiro]:https://github.com/wldcordeiro
+[@clarkbw]:https://github.com/clarkbw
+[@jbhoosreddy]:https://github.com/jbhoosreddy
+[jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
+[bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
+[wldcordeiro]:https://avatars.githubusercontent.com/wldcordeiro?size=56
+[clarkbw]:https://avatars.githubusercontent.com/clarkbw?size=56
+[jbhoosreddy]:https://avatars.githubusercontent.com/jbhoosreddy?size=56
+
+[mozilla]:https://www.mozilla.org/
+[mozilla-firefox]:https://www.mozilla.org/firefox/
+
+[meetup-example]:https://docs.google.com/document/d/1jJ27v-qnVtFrAmrJ8tWAOHOXvrQ7RN8oID44VPYXWrM/edit?usp=sharing
+[meetup-guide]:https://docs.google.com/document/d/1SMbF2IEkTsQAd28-Xzhn7HS7yAORmxCVktlRkSdwmpQ/edit#heading=h.qqrdmxv84ec2
+
+
+[search-boxes]:http://jasonlaster.github.io/devtools/js/2017/01/05/searching.html
+[getting-into-the-flow]:http://jasonlaster.github.io/devtools/js/2017/01/20/typing-the-debugger.html
+[better-sourcemaps]:http://jlongster.com/On-the-Road-to-Better-Sourcemaps-in-the-Firefox-Developer-Tools
+[stepping-debugger]:http://jlongster.com/Implementing-Stepping-Debugger-JavaScript
+
+
+[jlongster-talk]:https://www.youtube.com/watch?v=gvVpSezT5_M
+[jlast-talk]:https://www.youtube.com/watch?v=O_xViL2TGrU
+[getting-help]:./local-development.md#getting-help
