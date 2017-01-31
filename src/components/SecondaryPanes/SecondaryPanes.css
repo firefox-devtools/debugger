@@ -13,6 +13,7 @@
 .secondary-panes .accordion {
   overflow-y: auto;
   overflow-x: hidden;
+  flex: 1 0 auto;
 }
 
 .pane {
