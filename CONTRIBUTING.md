@@ -35,8 +35,6 @@ The developer tools in most major browsers are just web applications.  They are 
 
 We strive for collaboration with [mutual respect for each other](./CODE_OF_CONDUCT.md).   Mozilla also has a set of [participation guidelines](https://www.mozilla.org/en-US/about/governance/policies/participation/) which goes into greater detail specific to Mozilla employees and contributors.
 
-[Getting Started][getting-setup]
-
 ## How Can I Contribute?
 
 Here is a great GitHub guide on [contributing to Open Source](https://guides.github.com/activities/contributing-to-open-source/) to help you get started.
@@ -263,4 +261,5 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 
 [jlongster-talk]:https://www.youtube.com/watch?v=gvVpSezT5_M
 [jlast-talk]:https://www.youtube.com/watch?v=O_xViL2TGrU
-[getting-help]:./local-development.md#getting-help
+[getting-help]:./docs/local-development.md#getting-help
+[first-activity]:./docs/debugging-the-debugger.md
