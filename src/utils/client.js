@@ -1,9 +1,11 @@
-const { createSource, firefox } = require("devtools-client-adapters");
+const { firefox } = require("devtools-client-adapters");
 const { prefs } = require("./prefs");
 
 async function onFirefoxConnect(actions) {
   const tabTarget = firefox.getTabTarget();
   const threadClient = firefox.getThreadClient();
+  const client = firefox.clientCommands;
+  const { newSources } = actions;
 
   if (!tabTarget) {
     return;
@@ -20,8 +22,8 @@ async function onFirefoxConnect(actions) {
   // the debugger (if it's paused already, or if loading the page from
   // bfcache) so explicity fire `newSource` events for all returned
   // sources.
-  const { sources } = await threadClient.getSources();
-  actions.newSources(sources.map(createSource));
+  const sources = await client.fetchSources();
+  newSources(sources);
 
   // If the threadClient is already paused, make sure to show a
   // paused state.

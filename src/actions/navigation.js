@@ -1,8 +1,9 @@
 const constants = require("../constants");
 const { clearSourceMaps } = require("../utils/source-map");
 const { clearDocuments } = require("../utils/source-documents");
-const { firefox } = require("devtools-client-adapters");
 const { getSources } = require("../reducers/sources");
+const { timeout } = require("../utils/utils");
+const { newSources } = require("./sources");
 
 /**
  * Redux actions for the navigation state
@@ -25,13 +26,14 @@ function willNavigate() {
  * @static
  */
 function navigated() {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    setTimeout(() => {
+  return ({ dispatch, client, getState }) => {
+    (async function() {
+      await timeout(100);
       if (getSources(getState()).size == 0) {
-        const threadClient = firefox.getThreadClient();
-        threadClient.getSources();
+        const sources = await client.fetchSources();
+        dispatch(newSources(sources));
       }
-    }, 100);
+    })();
   };
 }
 
