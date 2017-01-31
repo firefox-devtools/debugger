@@ -116,11 +116,6 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       prefs.pendingSelectedLocation = { url };
       return State()
         .set("pendingSelectedLocation", { url });
-
-    case "LOADSOURCES":
-      if (state.sources.size == 0) {
-        client.reload();
-      }
   }
 
   return state;

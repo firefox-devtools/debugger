@@ -27,7 +27,6 @@ exports.SELECT_SOURCE_URL = "SELECT_SOURCE_URL";
 exports.CLOSE_TAB = "CLOSE_TAB";
 exports.CLOSE_TABS = "CLOSE_TABS";
 exports.NAVIGATE = "NAVIGATE";
-exports.LOADSOURCES = "LOADSOURCES";
 exports.RELOAD = "RELOAD";
 
 exports.ADD_TABS = "ADD_TABS";

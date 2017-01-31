@@ -1,6 +1,8 @@
 const constants = require("../constants");
 const { clearSourceMaps } = require("../utils/source-map");
 const { clearDocuments } = require("../utils/source-documents");
+const { firefox } = require("devtools-client-adapters");
+const { getSources } = require("../reducers/sources");
 
 /**
  * Redux actions for the navigation state
@@ -23,7 +25,14 @@ function willNavigate() {
  * @static
  */
 function navigated() {
-  return { type: constants.LOADSOURCES };
+  return ({ dispatch, getState }: ThunkArgs) => {
+    setTimeout(() => {
+      if (getSources(getState()).size == 0) {
+        const threadClient = firefox.getThreadClient();
+        threadClient.getSources();
+      }
+    }, 100);
+  };
 }
 
 module.exports = {
