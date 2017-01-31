@@ -8,6 +8,7 @@
   opacity: 0.9;
   font-size: 12px;
   font-weight: bold;
+  flex: 0 1 auto;
 }
 
 .theme-dark .secondary-panes .why-paused {
