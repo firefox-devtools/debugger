@@ -28,6 +28,25 @@ function start() {
   );
 
   copyFile(
+    path.resolve(projectPath, "assets/panel.js"),
+    path.resolve(projectPath, "assets/build/panel.js"),
+    {cwd: projectPath}
+  );
+
+
+  copyFile(
+    path.resolve(projectPath, "assets/index.html"),
+    path.resolve(projectPath, "assets/build/index.html"),
+    {cwd: projectPath}
+  );
+
+  copyFile(
+    path.resolve(projectPath, "assets/moz.build"),
+    path.resolve(projectPath, "assets/build/moz.build"),
+    {cwd: projectPath}
+  );
+
+  copyFile(
     path.resolve(projectPath, "src/test/mochitest"),
     path.resolve(projectPath, "assets/build/mochitest"),
     { cwd: projectPath }

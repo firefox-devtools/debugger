@@ -37,25 +37,13 @@ const webpack = require("webpack");
 const webpackConfig = require("../../webpack.config");
 delete webpackConfig.entry.bundle;
 
-function stubNetworkRequest(url) {
-  return new Promise((resolve, reject) => {
-    // Avoid clashes with const path defined in the upper scope.
-    // This method is passed as a string so can't access upper scope variables.
-    const _path = require("path");
-    const fs = require("fs");
-
-    url = url.replace(/http:\/\/localhost:8000/, "");
-    const requestUrl = _path.join(__dirname, "/../../src/test/mochitest/", url);
-    const content = fs.readFileSync(requestUrl, "utf8");
-
-    resolve({ content });
-  });
-}
-
 webpackConfig.externals = [{
   fs: "commonjs fs",
-  "devtools-network-request": `var (${stubNetworkRequest})`
 }];
+
+webpackConfig.resolve.alias["devtools-network-request"] =
+  "devtools-network-request/stubNetworkRequest";
+
 webpackConfig.node = { __dirname: false };
 
 global.Worker = require("workerjs");

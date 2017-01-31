@@ -1,5 +1,6 @@
 const toolbox = require("./node_modules/devtools-launchpad/index");
 const getConfig = require("./bin/getConfig");
+const {isDevelopment} = require("devtools-config");
 
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
@@ -26,7 +27,7 @@ function buildConfig(envConfig) {
       path: path.join(__dirname, "assets/build"),
       filename: "[name].js",
       publicPath: "/assets/build",
-      library: "Debugger"
+      libraryTarget: "umd"
     },
 
     resolve: {
@@ -35,15 +36,17 @@ function buildConfig(envConfig) {
         "devtools/client/shared/vendor/react": "react",
         "devtools/client/shared/vendor/react-dom": "react-dom",
       }
-    },
-
-    // Used by launchpad webpack.config.devtools, devtoolsRequire is the method available
-    // to the debugger to load externals when loaded in a firefox panel.
-    externalsRequire: "devtoolsRequire"
+    }
   };
+
+  if (!isDevelopment()) {
+    webpackConfig.output.libraryTarget = "umd";
+  }
 
   return toolbox.toolboxConfig(webpackConfig, envConfig);
 }
+
+
 
 const envConfig = getConfig();
 
