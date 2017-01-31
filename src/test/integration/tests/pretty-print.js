@@ -1,5 +1,21 @@
-/* Any copyright is dedicated to the Public Domain.
- * http://creativecommons.org/publicdomain/zero/1.0/ */
+const {
+  selectSource,
+  addBreakpoint,
+  stepOver,
+  resume,
+  clickElement,
+  invokeInTab
+} = require("../utils/commands");
+
+const {
+  findElement,
+  findSource
+} = require("../utils/shared");
+
+const {
+  waitForDispatch,
+  waitForPaused
+} = require("../utils/wait");
 
 // Tests basic pretty-printing functionality.
 
@@ -15,7 +31,7 @@ async function prettyPrintTest() {
 
   await addBreakpoint(dbg, ppSrc, 18);
 
-  invokeInTab("arithmetic");
+  invokeInTab(dbg, "arithmetic()");
   await waitForPaused(dbg);
   assertPausedLocation(dbg, ppSrc, 18);
   await stepOver(dbg);

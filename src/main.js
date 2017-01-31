@@ -43,14 +43,13 @@ window.actions = {
 };
 
 // Globals needed for mocha integration tests
-window.getGlobalsForTesting = () => {
-  return {
-    debuggerStore: store,
-    launchpadStore: window.launchpadStore,
-    selectors,
-    actions
-  };
-};
+window.getGlobalsForTesting = () => ({
+  debuggerStore: store,
+  launchpadStore: window.launchpadStore,
+  threadClient: firefox.getThreadClient(),
+  selectors,
+  actions
+});
 
 if (isFirefoxPanel()) {
   const sourceMap = require("./utils/source-map");
