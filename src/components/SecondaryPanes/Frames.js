@@ -42,7 +42,7 @@ function renderFrameLocation({ source, location }: Frame) {
 const Frames = createClass({
   propTypes: {
     frames: ImPropTypes.list,
-    selectedFrame: PropTypes.object,
+    selectedFrame: PropTypes.object.isRequired,
     selectFrame: PropTypes.func.isRequired
   },
 
@@ -66,14 +66,13 @@ const Frames = createClass({
     });
   },
 
-  onContextMenu(event, frame) {
+  onContextMenu(event: SyntheticKeyboardEvent, frame: Frame) {
     event.stopPropagation();
     event.preventDefault();
 
-    const source = frame.source;
-
     const menuOptions = [];
 
+    const source = frame.source;
     if (source) {
       const copySourceUrl = {
         id: "node-menu-copy-source",
@@ -108,10 +107,8 @@ const Frames = createClass({
     );
   },
 
-  onMouseDown(e, frame, selectedFrame) {
-    if (e.nativeEvent.which == 3 
-        && selectedFrame
-        && selectedFrame.id != frame.id) {
+  onMouseDown(e: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
+    if (e.nativeEvent.which == 3 && selectedFrame.id != frame.id) {
       return;
     }
     this.props.selectFrame(frame);

@@ -123,11 +123,14 @@ const Editor = React.createClass({
   },
 
   async onContextMenu(cm, event) {
+    const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
+    const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.key");
+
     if (event.target.classList.contains("CodeMirror-linenumber")) {
       return this.onGutterContextMenu(event);
     }
 
-    const { selectedLocation } = this.props;
+    const { selectedLocation, showSource } = this.props;
 
     event.stopPropagation();
     event.preventDefault();
@@ -189,11 +192,12 @@ const Editor = React.createClass({
 
     const showSourceMenuItem = {
       id: "node-menu-show-source",
-      label: "Show source",
-      accesskey: "s",
+      label: revealInTreeLabel,
+      accesskey: revealInTreeKey,
       disabled: false,
-      click: () => showSource(tab)
+      click: () => showSource(source.get("id"))
     };
+    menuOptions.push(showSourceMenuItem);
 
     showMenu(event, menuOptions);
 
