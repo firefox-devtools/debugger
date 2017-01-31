@@ -152,7 +152,7 @@ function getURL(sourceUrl: string): { path: string, group: string } {
  * @memberof utils/sources-tree
  * @static
  */
-function isDirectory(url: string) {
+function isDirectory(url: Object) {
   const parts = url.path.split("/").filter(p => p !== "");
 
   return (parts.length === 0 ||

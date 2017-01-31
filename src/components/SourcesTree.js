@@ -125,6 +125,8 @@ let SourcesTree = React.createClass({
     event.stopPropagation();
     event.preventDefault();
 
+    const menuOptions = [];
+
     if (!isDirectory(item)) {
       const source = item.contents.get("url");
       const copySourceUrl = {
@@ -139,8 +141,6 @@ let SourcesTree = React.createClass({
         menuOptions.push(copySourceUrl);
       }
     }
-
-    const menuOptions = [];
 
     showMenu(event, menuOptions);
   },

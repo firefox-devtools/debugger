@@ -71,20 +71,24 @@ const Frames = createClass({
     event.preventDefault();
 
     const source = frame.source;
-    const copySourceUrl = {
-      id: "node-menu-copy-source",
-      label: "Copy Source URL",
-      accesskey: "X",
-      disabled: false,
-      click: () => copyToTheClipboard(source.url)
-    };
 
-    let items = [];
-    if (isEnabled("copySource")) {
-      items.push(copySourceUrl);
+    const menuOptions = [];
+
+    if (source) {
+      const copySourceUrl = {
+        id: "node-menu-copy-source",
+        label: "Copy Source URL",
+        accesskey: "X",
+        disabled: false,
+        click: () => copyToTheClipboard(source.url)
+      };
+
+      if (isEnabled("copySource")) {
+        menuOptions.push(copySourceUrl);
+      }      
     }
 
-    showMenu(event, items);
+    showMenu(event, menuOptions);
   },
 
   renderFrame(frame: Frame) {
@@ -105,7 +109,9 @@ const Frames = createClass({
   },
 
   onMouseDown(e, frame, selectedFrame) {
-    if (e.nativeEvent.which == 3 && selectedFrame.id != frame.id) {
+    if (e.nativeEvent.which == 3 
+        && selectedFrame
+        && selectedFrame.id != frame.id) {
       return;
     }
     this.props.selectFrame(frame);
