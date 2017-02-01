@@ -4,20 +4,25 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { findDOMNode } = require("react-dom");
 const Svg = require("../shared/Svg");
-const { find, findNext, findPrev, removeOverlay } = require("../../utils/source-search");
+const {
+  find,
+  findNext,
+  findPrev,
+  removeOverlay,
+  countMatches
+} = require("../../utils/source-search");
 const classnames = require("classnames");
-const escapeRegExp = require("lodash/escapeRegExp");
 const debounce = require("lodash/debounce");
 const CloseButton = require("../shared/Button/Close");
 const ImPropTypes = require("react-immutable-proptypes");
 
 require("./SearchBar.css");
 
-function countMatches(query, text) {
-  const re = new RegExp(escapeRegExp(query), "g");
-  const match = text.match(re);
-  return match ? match.length : 0;
-}
+const defaultModifiers = {
+  caseSensitive: true,
+  wholeWord: false,
+  regexMatch: false
+};
 
 const SearchBar = React.createClass({
 
@@ -63,7 +68,7 @@ const SearchBar = React.createClass({
       (_, e) => this.traverseResultsNext(e));
   },
 
-  componentDidUpdate(prevProps: any) {
+  componentDidUpdate(prevProps: any, prevState: any) {
     const { sourceText, selectedSource } = this.props;
 
     if (this.searchInput()) {
@@ -78,7 +83,7 @@ const SearchBar = React.createClass({
     const changedFiles = selectedSource != prevProps.selectedSource
                           && hasLoaded;
 
-    if (doneLoading || changedFiles) {
+    if (doneLoading || changedFiles || this.state.query != prevState.query) {
       this.doSearch(this.state.query);
     }
   },
@@ -139,7 +144,7 @@ const SearchBar = React.createClass({
       return;
     }
 
-    const count = countMatches(query, sourceText.get("text"));
+    const count = countMatches(query, sourceText.get("text"), defaultModifiers);
     // eslint-disable-next-line react/no-did-update-set-state
     this.setState({ query, count, index: 0 });
     this.search(query);
@@ -166,7 +171,7 @@ const SearchBar = React.createClass({
       this.setState({ enabled: true });
     }
 
-    findPrev(ctx, query);
+    findPrev(ctx, query, true, defaultModifiers);
     const nextIndex = index == 0 ? count - 1 : index - 1;
     this.setState({ index: nextIndex });
   },
@@ -188,7 +193,7 @@ const SearchBar = React.createClass({
       this.setState({ enabled: true });
     }
 
-    findNext(ctx, query);
+    findNext(ctx, query, true, defaultModifiers);
     const nextIndex = index == count - 1 ? 0 : index + 1;
     this.setState({ index: nextIndex });
   },
@@ -215,7 +220,7 @@ const SearchBar = React.createClass({
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
 
-    find(ctx, query);
+    find(ctx, query, true, defaultModifiers);
   }, 100),
 
   renderSummary() {
