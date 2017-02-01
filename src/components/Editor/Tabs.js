@@ -131,10 +131,7 @@ const SourceTabs = React.createClass({
     const sourceTab = sourceTabs.find(t => t.get("id") == tab);
     const tabURLs = sourceTabs.map(thisTab => thisTab.get("url"));
     const otherTabURLs = otherTabs.map(thisTab => thisTab.get("url"));
-    const isPrettySource = isPretty({
-      id: sourceTab.get("id"),
-      url: sourceTab.get("url")
-    });
+    const isPrettySource = isPretty(sourceTab.toJS());
 
     const closeTabMenuItem = {
       id: "node-menu-close-tab",
@@ -266,10 +263,7 @@ const SourceTabs = React.createClass({
     const filename = getFilename(source.toJS());
     const active = selectedSource &&
                    (source.get("id") == selectedSource.get("id"));
-    const isPrettyCode = isPretty({
-      id: source.get("id"),
-      url: source.get("url")
-    });
+    const isPrettyCode = isPretty(source.toJS());
 
     function onClickClose(ev) {
       ev.stopPropagation();
@@ -280,7 +274,7 @@ const SourceTabs = React.createClass({
       {
         className: classnames("source-tab", {
           active,
-          pretty: isPretty({ id: source.get("id"), url: source.get("url") })
+          pretty: isPrettyCode
         }),
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
