@@ -31,6 +31,7 @@ const { isFirefox } = require("devtools-config");
 const { showMenu } = require("../shared/menu");
 const { isEnabled } = require("devtools-config");
 const { isOriginalId, hasMappedSource } = require("../../utils/source-map");
+const { copyToTheClipboard } = require("../../utils/clipboard");
 
 require("./Editor.css");
 
@@ -122,16 +123,30 @@ const Editor = React.createClass({
   },
 
   async onContextMenu(cm, event) {
+    const copySourceUrlLabel = L10N.getStr("copySourceUrl");
+    const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
+    const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
+    const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.key");
+
     if (event.target.classList.contains("CodeMirror-linenumber")) {
       return this.onGutterContextMenu(event);
     }
 
-    const { selectedLocation } = this.props;
+    const { selectedLocation, showSource } = this.props;
 
     event.stopPropagation();
     event.preventDefault();
 
     const isMapped = await hasMappedSource(selectedLocation);
+
+    const source = this.props.selectedSource;
+    const copySourceUrl = {
+      id: "node-menu-copy-source",
+      label: copySourceUrlLabel,
+      accesskey: copySourceUrlKey,
+      disabled: false,
+      click: () => copyToTheClipboard(source.get("url"))
+    };
 
     const { line, ch } = this.editor.codeMirror.coordsChar({
       left: event.clientX,
@@ -173,7 +188,21 @@ const Editor = React.createClass({
       menuOptions.push(watchExpressionLabel);
     }
 
+    if (isEnabled("copySource")) {
+      menuOptions.push(copySourceUrl);
+    }
+
+    const showSourceMenuItem = {
+      id: "node-menu-show-source",
+      label: revealInTreeLabel,
+      accesskey: revealInTreeKey,
+      disabled: false,
+      click: () => showSource(source.get("id"))
+    };
+    menuOptions.push(showSourceMenuItem);
+
     showMenu(event, menuOptions);
+
   },
 
   onGutterContextMenu(event) {

@@ -152,6 +152,17 @@ function getURL(sourceUrl: string): { path: string, group: string } {
  * @memberof utils/sources-tree
  * @static
  */
+function isDirectory(url: Object) {
+  const parts = url.path.split("/").filter(p => p !== "");
+
+  return (parts.length === 0 ||
+                 parts[parts.length - 1].indexOf(".") === -1);
+}
+
+/**
+ * @memberof utils/sources-tree
+ * @static
+ */
 function addToTree(tree: any, source: TmpSource) {
   const url = getURL(source.get("url"));
 
@@ -165,8 +176,7 @@ function addToTree(tree: any, source: TmpSource) {
   url.path = decodeURIComponent(url.path);
 
   const parts = url.path.split("/").filter(p => p !== "");
-  const isDir = (parts.length === 0 ||
-                 parts[parts.length - 1].indexOf(".") === -1);
+  const isDir = isDirectory(url);
   parts.unshift(url.group);
 
   let path = "";
@@ -332,6 +342,7 @@ module.exports = {
   createNode,
   nodeHasChildren,
   createParentMap,
+  isDirectory,
   addToTree,
   collapseTree,
   createTree,

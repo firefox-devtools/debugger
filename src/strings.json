@@ -77,5 +77,7 @@
   "whyPaused.debugCommand": "Paused on debugged function",
   "whyPaused.other": "Debugger paused",
   "collapsePanes": "Collapse panes",
-  "expandPanes": "Expand panes"
+  "expandPanes": "Expand panes",
+  "copySourceUrl": "Copy Source Url",
+  "copySourceUrl.key": "Copy Source Url"
 }

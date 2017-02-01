@@ -8,12 +8,14 @@ const { Set } = require("immutable");
 const { isEnabled } = require("devtools-config");
 const { getShownSource, getSelectedSource } = require("../selectors");
 const {
-  nodeHasChildren, createParentMap, addToTree,
+  nodeHasChildren, createParentMap, isDirectory, addToTree,
   collapseTree, createTree, getDirectories
 } = require("../utils/sources-tree.js");
 const ManagedTree = React.createFactory(require("./shared/ManagedTree"));
 const actions = require("../actions");
 const Svg = require("./shared/Svg");
+const { showMenu } = require("./shared/menu");
+const { copyToTheClipboard } = require("../utils/clipboard");
 const { throttle } = require("../utils/utils");
 
 let SourcesTree = React.createClass({
@@ -119,6 +121,33 @@ let SourcesTree = React.createClass({
     return Svg("folder");
   },
 
+  onContextMenu(event, item) {
+    const copySourceUrlLabel = L10N.getStr("copySourceUrl");
+    const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
+
+    event.stopPropagation();
+    event.preventDefault();
+
+    const menuOptions = [];
+
+    if (!isDirectory(item)) {
+      const source = item.contents.get("url");
+      const copySourceUrl = {
+        id: "node-menu-copy-source",
+        label: copySourceUrlLabel,
+        accesskey: copySourceUrlKey,
+        disabled: false,
+        click: () => copyToTheClipboard(source)
+      };
+
+      if (isEnabled("copySource")) {
+        menuOptions.push(copySourceUrl);
+      }
+    }
+
+    showMenu(event, menuOptions);
+  },
+
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     const arrow = Svg(
       "arrow",
@@ -143,7 +172,8 @@ let SourcesTree = React.createClass({
         style: { [paddingDir]: `${depth * 15}px` },
         key: item.path,
         onClick: () => this.selectItem(item),
-        onDoubleClick: e => setExpanded(item, !expanded)
+        onDoubleClick: e => setExpanded(item, !expanded),
+        onContextMenu: (e) => this.onContextMenu(e, item)
       },
       dom.div(null, arrow, icon, item.name)
     );
