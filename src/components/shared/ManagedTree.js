@@ -16,14 +16,13 @@ let ManagedTree = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     const listItems = nextProps.listItems;
-    if (listItems &&  listItems != this.props.listItems &&
-       listItems.length > 0) {
+    if (listItems && listItems != this.props.listItems && listItems.length) {
       this.expandListItems(listItems);
     }
 
     const highlightItems = nextProps.highlightItems;
-    if (highlightItems &&  highlightItems != this.props.highlightItems &&
-       highlightItems.length > 0) {
+    if (highlightItems && highlightItems != this.props.highlightItems &&
+       highlightItems.length) {
       this.highlightItem(highlightItems);
     }
   },
