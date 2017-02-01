@@ -4,9 +4,9 @@ const escapeRegExp = require("lodash/escapeRegExp");
 import type { SearchModifiers } from "../types";
 
 type QueryOptions = {
-  isGlobal: boolean,
+  isGlobal?: boolean,
   ignoreSpaces?: boolean
-}
+};
 
 /**
  * Ignore doing outline matches for less than 3 whitespaces
@@ -26,30 +26,27 @@ function wholeMatch(query: string, wholeWord: boolean): string {
   return `\\b${query}\\b`;
 }
 
-function buildFlags(modifiers, isGlobal) {
-  const { caseSensitive } = modifiers;
-
-  if (caseSensitive && !isGlobal) {
-    return undefined;
-  }
-
-  if (isGlobal && caseSensitive) {
+function buildFlags(caseSensitive: boolean, isGlobal: boolean): ?RegExp$flags {
+  if (caseSensitive && isGlobal) {
     return "g";
   }
 
-  if (isGlobal && !caseSensitive) {
+  if (!caseSensitive && isGlobal) {
     return "gi";
   }
 
-  return "i";
+  if (!caseSensitive && !isGlobal) {
+    return "i";
+  }
+
+  return;
 }
 
-function buildQuery(
-  originalQuery: string, modifiers: SearchModifiers, {
-    isGlobal = false,
-    ignoreSpaces = false
-  }: QueryOptions): RegExp {
-  const { regexMatch, wholeWord } = modifiers;
+function buildQuery(originalQuery: string, modifiers: SearchModifiers, {
+  isGlobal = false,
+  ignoreSpaces = false
+}: QueryOptions): RegExp {
+  const { caseSensitive, regexMatch, wholeWord } = modifiers;
 
   if (originalQuery == "") {
     return new RegExp(originalQuery);
@@ -65,9 +62,13 @@ function buildQuery(
   }
 
   query = wholeMatch(query, wholeWord);
-  const flags = buildFlags(modifiers, isGlobal);
+  const flags = buildFlags(caseSensitive, isGlobal);
 
-  return new RegExp(query, flags);
+  if (flags) {
+    return new RegExp(query, flags);
+  }
+
+  return new RegExp(query);
 }
 
 module.exports = buildQuery;

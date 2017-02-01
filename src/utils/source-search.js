@@ -26,10 +26,8 @@ function getSearchState(cm: any) {
  * @static
  */
 function getSearchCursor(cm, query: string, pos, modifiers: SearchModifiers) {
-  const { caseSensitive } = modifiers;
-
-  const regexQuery = buildQuery(query, modifiers, { isGlobal: false });
-  return cm.getSearchCursor(regexQuery, pos, !caseSensitive);
+  const regexQuery = buildQuery(query, modifiers, { isGlobal: true });
+  return cm.getSearchCursor(regexQuery, pos);
 }
 
 /**
@@ -47,11 +45,7 @@ function getSearchCursor(cm, query: string, pos, modifiers: SearchModifiers) {
  * @static
  */
 function searchOverlay(query, modifiers) {
-  const regexQuery = buildQuery(query, modifiers, {
-    isGlobal: false,
-    ignoreSpaces: true
-  });
-
+  const regexQuery = buildQuery(query, modifiers, { ignoreSpaces: true });
   let matchLength = null;
   return {
     token: function(stream) {
@@ -231,8 +225,10 @@ function findPrev(
 }
 
 function countMatches(
-  query: string, text: string, modifiers: SearchModifiers) {
-  const regexQuery = buildQuery(query, modifiers, { isGlobal: true });
+  query: string, text: string, modifiers: SearchModifiers): number {
+  const regexQuery = buildQuery(query, modifiers, {
+    isGlobal: true
+  });
   const match = text.match(regexQuery);
   return match ? match.length : 0;
 }
