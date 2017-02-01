@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
@@ -46,7 +47,7 @@ function getHiddenTabs(sourceTabs, sourceTabEls) {
  * https://dxr.mozilla.org/mozilla-central/source/devtools/shared/platform/content/clipboard.js
  */
 function copyToTheClipboard(string) {
-  let doCopy = function(e) {
+  let doCopy = function(e: any) {
     e.clipboardData.setData("text/plain", string);
     e.preventDefault();
   };
@@ -58,7 +59,7 @@ function copyToTheClipboard(string) {
 
 const SourceTabs = React.createClass({
   propTypes: {
-    sourceTabs: ImPropTypes.list,
+    sourceTabs: ImPropTypes.list.isRequired,
     selectedSource: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
     closeTab: PropTypes.func.isRequired,
@@ -130,7 +131,7 @@ const SourceTabs = React.createClass({
     const sourceTab = sourceTabs.find(t => t.get("id") == tab);
     const tabURLs = sourceTabs.map(thisTab => thisTab.get("url"));
     const otherTabURLs = otherTabs.map(thisTab => thisTab.get("url"));
-    const isPrettySource = isPretty({ url: sourceTab.get("url") });
+    const isPrettySource = isPretty(sourceTab.toJS());
 
     const closeTabMenuItem = {
       id: "node-menu-close-tab",
@@ -260,8 +261,9 @@ const SourceTabs = React.createClass({
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
     const filename = getFilename(source.toJS());
-    const active = selectedSource && source.get("id") == selectedSource.get("id");
-    const isPrettyCode = isPretty({ url: source.get("url") });
+    const active = selectedSource &&
+                   (source.get("id") == selectedSource.get("id"));
+    const isPrettyCode = isPretty(source.toJS());
 
     function onClickClose(ev) {
       ev.stopPropagation();
@@ -272,7 +274,7 @@ const SourceTabs = React.createClass({
       {
         className: classnames("source-tab", {
           active,
-          pretty: isPretty({ url: source.get("url") })
+          pretty: isPrettyCode
         }),
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
@@ -304,10 +306,7 @@ const SourceTabs = React.createClass({
     }
 
     return Dropdown({
-      panel: dom.ul(
-        {},
-        this.state.hiddenSourceTabs.map(this.renderDropdownSource)
-      )
+      panel: dom.ul({}, hiddenSourceTabs.map(this.renderDropdownSource))
     });
   },
 

@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { PropTypes } = React;
 
@@ -11,8 +12,8 @@ function makeMarker() {
 
 const HitMarker = React.createClass({
   propTypes: {
-    hitData: PropTypes.object,
-    editor: PropTypes.object
+    hitData: PropTypes.object.isRequired,
+    editor: PropTypes.object.isRequired
   },
 
   displayName: "HitMarker",
@@ -30,7 +31,7 @@ const HitMarker = React.createClass({
     this.props.editor.addLineClass(line, "line", "hit-marker");
   },
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: any) {
     return this.props.editor !== nextProps.editor ||
       this.props.hitData !== nextProps.hitData;
   },

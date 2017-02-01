@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const ReactDOM = require("react-dom");
 
@@ -8,7 +9,7 @@ const Svg = require("../shared/Svg");
 const breakpointSvg = document.createElement("div");
 ReactDOM.render(Svg("breakpoint"), breakpointSvg);
 
-function makeMarker(isDisabled) {
+function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);
   bp.className = classnames(
     "editor new-breakpoint",
@@ -20,8 +21,8 @@ function makeMarker(isDisabled) {
 
 const Breakpoint = React.createClass({
   propTypes: {
-    breakpoint: PropTypes.object,
-    editor: PropTypes.object
+    breakpoint: PropTypes.object.isRequired,
+    editor: PropTypes.object.isRequired
   },
 
   displayName: "Breakpoint",
@@ -41,7 +42,7 @@ const Breakpoint = React.createClass({
     }
   },
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: any) {
     return this.props.editor !== nextProps.editor ||
       this.props.breakpoint.disabled !== nextProps.breakpoint.disabled ||
       this.props.breakpoint.condition !== nextProps.breakpoint.condition;
