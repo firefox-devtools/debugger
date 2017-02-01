@@ -1,18 +1,22 @@
+// @flow
 const React = require("react");
 const { DOM: dom } = React;
 
 const ReactDOM = require("react-dom");
 
-function renderConditionalPanel({ condition, closePanel, setBreakpoint }) {
+function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
+  { condition: boolean, closePanel: Function, setBreakpoint: Function }) {
   let panel = document.createElement("div");
 
-  function onKey(e) {
+  function onKey(e: SyntheticKeyboardEvent) {
     if (e.key != "Enter") {
       return;
     }
 
-    setBreakpoint(e.target.value);
-    closePanel();
+    if (e.target && e.target.value) {
+      setBreakpoint(e.target.value);
+      closePanel();
+    }
   }
 
   ReactDOM.render(
