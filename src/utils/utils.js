@@ -196,6 +196,10 @@ function throttle(func: any, ms: number) {
   };
 }
 
+function waitForMs(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 module.exports = {
   handleError,
   promisify,
@@ -208,5 +212,6 @@ module.exports = {
   mapObject,
   compose,
   updateObj,
-  throttle
+  throttle,
+  waitForMs
 };

@@ -1,6 +1,9 @@
 const constants = require("../constants");
 const { clearSourceMaps } = require("../utils/source-map");
 const { clearDocuments } = require("../utils/source-documents");
+const { getSources } = require("../reducers/sources");
+const { waitForMs } = require("../utils/utils");
+const { newSources } = require("./sources");
 
 /**
  * Redux actions for the navigation state
@@ -23,15 +26,12 @@ function willNavigate() {
  * @static
  */
 function navigated() {
-  return ({ dispatch }) => {
-    // We need to load all the sources again because they might have
-    // come from bfcache, so we won't get a `newSource` notification.
-    //
-    // TODO: This seems to be buggy on the debugger server side. When
-    // the page is loaded from bfcache, we still get sources from the
-    // *previous* page as well. For now, emulate the current debugger
-    // behavior by not showing sources loaded by bfcache.
-    // return dispatch(sources.loadSources());
+  return async function({ dispatch, getState, client }: ThunkArgs) {
+    await waitForMs(100);
+    if (getSources(getState()).size == 0) {
+      const sources = await client.fetchSources();
+      dispatch(newSources(sources));
+    }
   };
 }
 
