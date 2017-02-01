@@ -184,7 +184,7 @@ function updateObj<T: Object>(obj: T, fields: $Shape<T>) : T {
  * @static
  */
 function throttle(func: any, ms: number) {
-  let timeout, _this; // eslint-disable-line no-shadow
+  let timeout, _this;
   return function(...args: any) {
     _this = this;
     if (!timeout) {
@@ -196,7 +196,7 @@ function throttle(func: any, ms: number) {
   };
 }
 
-function timeout(ms: number) {
+function waitForMs(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -213,5 +213,5 @@ module.exports = {
   compose,
   updateObj,
   throttle,
-  timeout
+  waitForMs
 };

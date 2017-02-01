@@ -2,7 +2,7 @@ const constants = require("../constants");
 const { clearSourceMaps } = require("../utils/source-map");
 const { clearDocuments } = require("../utils/source-documents");
 const { getSources } = require("../reducers/sources");
-const { timeout } = require("../utils/utils");
+const { waitForMs } = require("../utils/utils");
 const { newSources } = require("./sources");
 
 /**
@@ -28,7 +28,7 @@ function willNavigate() {
 function navigated() {
   return ({ dispatch, client, getState }) => {
     (async function() {
-      await timeout(100);
+      await waitForMs(100);
       if (getSources(getState()).size == 0) {
         const sources = await client.fetchSources();
         dispatch(newSources(sources));
