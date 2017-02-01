@@ -33,6 +33,24 @@ function start() {
     {cwd: projectPath}
   );
 
+  copyFile(
+    path.join(projectPath, "./assets/index.html"),
+    path.join(projectPath, mcPath, "devtools/client/debugger/new/index.html"),
+    {cwd: projectPath}
+  );
+
+  copyFile(
+    path.join(projectPath, "./assets/panel.js"),
+    path.join(projectPath, mcPath, "devtools/client/debugger/new/panel.js"),
+    {cwd: projectPath}
+  );
+
+  copyFile(
+    path.join(projectPath, "./assets/moz.build"),
+    path.join(projectPath, mcPath, "devtools/client/debugger/new/moz.build"),
+    {cwd: projectPath}
+  );
+
   if (shouldSymLink) {
     symlinkTests({ projectPath, mcModulePath })
   } else {
