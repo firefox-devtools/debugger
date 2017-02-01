@@ -67,6 +67,9 @@ const Frames = createClass({
   },
 
   onContextMenu(event: SyntheticKeyboardEvent, frame: Frame) {
+    const copySourceUrlLabel = L10N.getStr("copySourceUrl");
+    const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
+    
     event.stopPropagation();
     event.preventDefault();
 
@@ -76,8 +79,8 @@ const Frames = createClass({
     if (source) {
       const copySourceUrl = {
         id: "node-menu-copy-source",
-        label: "Copy Source URL",
-        accesskey: "X",
+        label: copySourceUrlLabel,
+        accesskey: copySourceUrlKey,
         disabled: false,
         click: () => copyToTheClipboard(source.url)
       };

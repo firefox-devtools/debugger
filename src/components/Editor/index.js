@@ -123,6 +123,8 @@ const Editor = React.createClass({
   },
 
   async onContextMenu(cm, event) {
+    const copySourceUrlLabel = L10N.getStr("copySourceUrl");
+    const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
     const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
     const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.key");
 
@@ -140,8 +142,8 @@ const Editor = React.createClass({
     const source = this.props.selectedSource;
     const copySourceUrl = {
       id: "node-menu-copy-source",
-      label: "Copy Source URL",
-      accesskey: "X",
+      label: copySourceUrlLabel,
+      accesskey: copySourceUrlKey,
       disabled: false,
       click: () => copyToTheClipboard(source.get("url"))
     };
