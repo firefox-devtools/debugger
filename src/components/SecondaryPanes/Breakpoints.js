@@ -1,18 +1,15 @@
-const React = require("react");
-const { connect } = require("react-redux");
-const { bindActionCreators } = require("redux");
-const ImPropTypes = require("react-immutable-proptypes");
-const classnames = require("classnames");
-const actions = require("../../actions");
-const { getSource, getPause, getBreakpoints } = require("../../selectors");
-const { makeLocationId } = require("../../reducers/breakpoints");
-const { truncateStr } = require("../../utils/utils");
-const { DOM: dom, PropTypes } = React;
-const { endTruncateStr } = require("../../utils/utils");
-const { basename } = require("../../utils/path");
-const CloseButton = require("../shared/Button/Close");
-
-require("./Breakpoints.css");
+import { DOM as dom, PropTypes, createClass } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import ImPropTypes from "react-immutable-proptypes";
+import classnames from "classnames";
+import actions from "../../actions";
+import { getSource, getPause, getBreakpoints } from "../../selectors";
+import { makeLocationId } from "../../reducers/breakpoints";
+import { endTruncateStr } from "../../utils/utils";
+import { basename } from "../../utils/path";
+import CloseButton from "../shared/Button/Close";
+import "./Breakpoints.css";
 
 function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
   const pause = getPause(state);
@@ -38,7 +35,7 @@ function renderSourceLocation(source, line) {
     ) : null;
 }
 
-const Breakpoints = React.createClass({
+const Breakpoints = createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
     enableBreakpoint: PropTypes.func.isRequired,
@@ -144,7 +141,7 @@ function _getBreakpoints(state) {
   .filter(bp => bp.location.source);
 }
 
-module.exports = connect(
+export default connect(
   (state, props) => ({
     breakpoints: _getBreakpoints(state)
   }),

@@ -1,12 +1,11 @@
-const React = require("react");
+import React from 'react';
 const { DOM: dom, PropTypes } = React;
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-const actions = require("../../actions");
-const { getEventListeners, getBreakpoint } = require("../../selectors");
-const CloseButton = require("../shared/Button/Close");
-
-require("./EventListeners.css");
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import actions from '../../actions';
+import { getEventListeners, getBreakpoint } from '../../selectors';
+import CloseButton from '../shared/Button/Close';
+import './EventListeners.css';
 
 const EventListeners = React.createClass({
   propTypes: {
@@ -75,7 +74,7 @@ const EventListeners = React.createClass({
   }
 });
 
-module.exports = connect(
+export default connect(
   state => {
     const listeners = getEventListeners(state)
       .map(l => Object.assign({}, l, {

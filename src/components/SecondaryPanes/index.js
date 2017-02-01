@@ -12,19 +12,22 @@ const { getPause, getBreakpoints,
 const { prefs } = require("../../utils/prefs");
 
 const actions = require("../../actions");
+
 const WhyPaused = React.createFactory(require("./WhyPaused").default);
-const Breakpoints = React.createFactory(require("./Breakpoints"));
-const Expressions = React.createFactory(require("./Expressions"));
+const Breakpoints = React.createFactory(require("./Breakpoints").default);
+
+import _Expressions from "./Expressions";
+const Expressions = React.createFactory(_Expressions.default);
 
 const SplitBox = createFactory(require("devtools-modules").SplitBox);
 const Scopes = isEnabled("chromeScopes")
-  ? React.createFactory(require("./ChromeScopes"))
-  : React.createFactory(require("./Scopes"));
+  ? React.createFactory(require("./ChromeScopes").default)
+  : React.createFactory(require("./Scopes").default);
 
-const Frames = React.createFactory(require("./Frames"));
-const EventListeners = React.createFactory(require("./EventListeners"));
+const Frames = React.createFactory(require("./Frames").default);
+const EventListeners = React.createFactory(require("./EventListeners").default);
 const Accordion = React.createFactory(require("../shared/Accordion"));
-const CommandBar = React.createFactory(require("./CommandBar"));
+const CommandBar = React.createFactory(require("./CommandBar").default);
 require("./SecondaryPanes.css");
 
 function debugBtn(onClick, type, className, tooltip) {
