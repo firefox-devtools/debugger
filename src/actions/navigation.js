@@ -26,14 +26,12 @@ function willNavigate() {
  * @static
  */
 function navigated() {
-  return ({ dispatch, client, getState }) => {
-    (async function() {
-      await waitForMs(100);
-      if (getSources(getState()).size == 0) {
-        const sources = await client.fetchSources();
-        dispatch(newSources(sources));
-      }
-    })();
+  return async function({ dispatch, getState, client }: ThunkArgs) {
+    await waitForMs(100);
+    if (getSources(getState()).size == 0) {
+      const sources = await client.fetchSources();
+      dispatch(newSources(sources));
+    }
   };
 }
 
