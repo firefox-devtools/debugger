@@ -1,10 +1,12 @@
-const prettyPrint = require("./tests/pretty-print");
+const prettyPrint = require("./tests/pretty-print")
+const { setupTestRunner } = require("./utils/mocha")
+const { isDevelopment } = require("devtools-config");
 
-if (false) {
-  require("mocha/mocha");
+if (isDevelopment()) {
+  require("./runner");
 }
 
-
 module.exports = {
+  setupTestRunner,
   prettyPrint
 }

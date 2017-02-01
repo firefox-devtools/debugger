@@ -1,6 +1,6 @@
 const { info } = require("./shared");
 
-const { invokeInTab } = require("./mochi");
+const { invokeInTab } = require("./mocha");
 
 const { selectors, findSource, getSelector } = require("./shared");
 const {
@@ -27,11 +27,7 @@ async function selectSource(dbg, url, line) {
   await dbg.actions.selectSource(source.id, { line });
 
   if (!hasText) {
-    info("!!! no text")
     await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
-    return;
-  } else {
-    info('!!! has text')
   }
 }
 

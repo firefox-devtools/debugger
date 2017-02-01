@@ -1,7 +1,7 @@
 const toolbox = require("./node_modules/devtools-launchpad/index");
 const getConfig = require("./bin/getConfig");
 const {isDevelopment} = require("devtools-config");
-
+const { NormalModuleReplacementPlugin } = require("webpack");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
 
@@ -34,13 +34,26 @@ function buildConfig(envConfig) {
       alias: {
         "react-dom": "react-dom/dist/react-dom",
         "devtools/client/shared/vendor/react": "react",
-        "devtools/client/shared/vendor/react-dom": "react-dom",
+        "devtools/client/shared/vendor/react-dom": "react-dom"
       }
     }
   };
 
   if (!isDevelopment()) {
     webpackConfig.output.libraryTarget = "umd";
+    webpackConfig.plugins = []
+
+    const mappings = [
+      [/\.\/mocha/, "./mochitest"],
+      [/\.\.\/utils\/mocha/, "../utils/mochitest"],
+      [/\.\/utils\/mocha/, "./utils/mochitest"]
+    ]
+
+    mappings.forEach(([regex, res]) => {
+      webpackConfig.plugins.push(
+        new NormalModuleReplacementPlugin(regex, res)
+      )
+    })
   }
 
   return toolbox.toolboxConfig(webpackConfig, envConfig);

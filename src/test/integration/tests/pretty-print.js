@@ -1,6 +1,6 @@
-
 const { waitForPaused, waitForDispatch } = require("../utils/wait");
 const { findSource, findElement } = require("../utils/shared");
+
 const {
   selectSource,
   clickElement,
@@ -12,13 +12,10 @@ const {
 
 const { assertPausedLocation } = require("../utils/assert");
 
-const { setupTestRunner, initDebugger } = require("../utils/mochi")
+const { setupTestRunner, initDebugger } = require("../utils/mocha")
 
-async function prettyPrint () {
-  const { ok, is } = this;
-  const ctx = {ok, is};
-  setupTestRunner(this);
-
+async function prettyPrint(ctx) {
+  const { ok, is } = ctx;
   const dbg = await initDebugger("doc-minified.html");
 
   await selectSource(dbg, "math.min.js");
@@ -31,9 +28,10 @@ async function prettyPrint () {
 
   await addBreakpoint(dbg, ppSrc, 18);
 
-  invokeInTab("arithmetic");
+  invokeInTab(dbg, "arithmetic");
   await waitForPaused(dbg);
   assertPausedLocation(dbg, ctx, ppSrc, 18);
+
   await stepOver(dbg);
   assertPausedLocation(dbg, ctx, ppSrc, 27);
   await resume(dbg);
@@ -43,7 +41,7 @@ async function prettyPrint () {
   ok(!findElement(dbg, "sourceFooter"), "Footer is hidden");
 
   await selectSource(dbg, "math.min.js");
-  ok(this.findElement(dbg, "sourceFooter"), "Footer is hidden");
+  ok(findElement(dbg, "sourceFooter"), "Footer is hidden");
 }
 
 module.exports = prettyPrint;
