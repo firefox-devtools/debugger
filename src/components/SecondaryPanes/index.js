@@ -17,7 +17,7 @@ const WhyPaused = React.createFactory(require("./WhyPaused").default);
 const Breakpoints = React.createFactory(require("./Breakpoints").default);
 
 import _Expressions from "./Expressions";
-const Expressions = React.createFactory(_Expressions.default);
+const Expressions = React.createFactory(_Expressions);
 
 const SplitBox = createFactory(require("devtools-modules").SplitBox);
 const Scopes = isEnabled("chromeScopes")
