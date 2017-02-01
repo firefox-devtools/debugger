@@ -22,31 +22,31 @@ function start() {
   const mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
 
   copyFile(
-    path.join(projectPath, "./assets/locales/debugger.properties"),
+    path.join(projectPath, "./assets/panel/debugger.properties"),
     path.join(projectPath, mcPath, "/devtools/client/locales/en-US/debugger.properties"),
     {cwd: projectPath}
   );
 
   copyFile(
-    path.join(projectPath, "./assets/default-prefs.js"),
+    path.join(projectPath, "./assets/panel/prefs.js"),
     path.join(projectPath, mcPath, "devtools/client/preferences/devtools.js"),
     {cwd: projectPath}
   );
 
   copyFile(
-    path.join(projectPath, "./assets/index.html"),
+    path.join(projectPath, "./assets/panel/index.html"),
     path.join(projectPath, mcPath, "devtools/client/debugger/new/index.html"),
     {cwd: projectPath}
   );
 
   copyFile(
-    path.join(projectPath, "./assets/panel.js"),
+    path.join(projectPath, "./assets/panel/panel.js"),
     path.join(projectPath, mcPath, "devtools/client/debugger/new/panel.js"),
     {cwd: projectPath}
   );
 
   copyFile(
-    path.join(projectPath, "./assets/moz.build"),
+    path.join(projectPath, "./assets/panel/moz.build"),
     path.join(projectPath, mcPath, "devtools/client/debugger/new/moz.build"),
     {cwd: projectPath}
   );

@@ -33,7 +33,7 @@
 
 ### Configs
 
-All default config values are in [`development.json`](../configs/development.json), to override these values you need to [create a local config file][create-local-config].
+All default config values are in [`development.json`][development-json], to override these values you need to [create a local config file][create-local-config].
 
 Here are the most common development configuration options:
 
@@ -238,21 +238,21 @@ The Debugger supports two types of internationalization RTL (right to left) layo
 
 #### L10N
 
-[L10N](https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/utils/L10N.js) is a global module with two methods `getStr` and `getFormatStr`.
+[L10N][l10n] is a global module with two methods `getStr` and `getFormatStr`.
 
 ```js
 L10N.getStr("scopes.header")
 L10N.getFormatStr("editor.searchResults", index + 1, count)
 ```
 
-Translated strings are added to the local [strings](https://github.com/devtools-html/debugger.html/blob/master/src/strings.json)
-file and m-c [debugger properties](https://dxr.mozilla.org/mozilla-central/source/devtools/client/locales/en-US/debugger.properties) file. We plan on [removing](https://github.com/devtools-html/devtools-core/issues/18) `strings.json` soon!
+Translated strings are added to the local [strings][strings-json]
+file and m-c [debugger properties][debugger-properties] file. We plan on [removing][kill-strings] `strings.json` soon!
 
 Go checkout the [L10N issues][l10n-issues]
 
 #### RTL
 
-RTL stands for right to left and is an important feature for arabic languages and hebrew. Here's what the debugger looks like right to left  [screenshot](https://cloud.githubusercontent.com/assets/394320/19226865/ef18b0d0-8eb9-11e6-82b4-8c4da702fe91.png).
+RTL stands for right to left and is an important feature for arabic languages and hebrew. Here's what the debugger looks like right to left  [screenshot][rtl-screenshot].
 
 *How do I set the Debugger to right to left?*
 
@@ -537,3 +537,10 @@ your questions on [slack][slack].
 [@zacqary]:https://github.com/zacqary
 
 [slack]:https://devtools-html-slack.herokuapp.com/
+[kill-strings]:https://github.com/devtools-html/devtools-core/issues/57
+[l10n]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/utils/L10N.js
+[rtl-screenshot]:https://cloud.githubusercontent.com/assets/394320/19226865/ef18b0d0-8eb9-11e6-82b4-8c4da702fe91.png
+
+[strings-json]:../src/strings.json
+[debugger-properties]:../assets/panel/debugger.properties
+[development-json]:../configs/development.json
