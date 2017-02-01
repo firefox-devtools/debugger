@@ -41,6 +41,10 @@ Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", true);
 Services.prefs.clearUserPref("devtools.debugger.tabs")
 Services.prefs.clearUserPref("devtools.debugger.pending-selected-location")
 
+this.gBrowser = gBrowser;
+this.Services = Services;
+this.EXAMPLE_URL = EXAMPLE_URL;
+
 registerCleanupFunction(() => {
   Services.prefs.clearUserPref("devtools.debugger.new-debugger-frontend");
   delete window.resumeTest;
@@ -288,6 +292,7 @@ function createDebuggerContext(toolbox) {
     getState: store.getState,
     store: store,
     client: win.Debugger.client,
+    threadClient: toolbox.threadClient,
     toolbox: toolbox,
     win: win
   };
@@ -524,6 +529,7 @@ function togglePauseOnExceptions(dbg,
  * @return {Promise}
  * @static
  */
+
 function invokeInTab(fnc) {
   info(`Invoking function ${fnc} in tab`);
   return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function* (fnc) {

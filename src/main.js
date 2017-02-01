@@ -48,7 +48,8 @@ window.getGlobalsForTesting = () => {
     debuggerStore: store,
     launchpadStore: window.launchpadStore,
     selectors,
-    actions
+    actions,
+    threadClient: firefox.getThreadClient()
   };
 };
 
