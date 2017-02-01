@@ -1,24 +1,28 @@
 
+const { waitForPaused, waitForDispatch } = require("../utils/wait");
+const { findSource, findElement } = require("../utils/shared");
+const {
+  selectSource,
+  clickElement,
+  addBreakpoint,
+  stepOver,
+  invokeInTab,
+  resume
+} = require("../utils/commands");
+
+const { assertPausedLocation } = require("../utils/assert");
+
+const { setupTestRunner, initDebugger } = require("../utils/mochi")
+
 async function prettyPrint () {
-  const {
-    initDebugger,
-    selectSource,
-    clickElement,
-    waitForDispatch,
-    findSource,
-    addBreakpoint,
-    invokeInTab,
-    waitForPaused,
-    stepOver,
-    assertPausedLocation,
-    resume,
-    findElement,
-    ok
-  } = this;
+  const { ok, is } = this;
+  const ctx = {ok, is};
+  setupTestRunner(this);
 
   const dbg = await initDebugger("doc-minified.html");
 
   await selectSource(dbg, "math.min.js");
+
   clickElement(dbg, "prettyPrintButton");
   await waitForDispatch(dbg, "TOGGLE_PRETTY_PRINT");
 
@@ -29,9 +33,9 @@ async function prettyPrint () {
 
   invokeInTab("arithmetic");
   await waitForPaused(dbg);
-  assertPausedLocation(dbg, ppSrc, 18);
+  assertPausedLocation(dbg, ctx, ppSrc, 18);
   await stepOver(dbg);
-  assertPausedLocation(dbg, ppSrc, 27);
+  assertPausedLocation(dbg, ctx, ppSrc, 27);
   await resume(dbg);
 
   // The pretty-print button should go away in the pretty-printed
