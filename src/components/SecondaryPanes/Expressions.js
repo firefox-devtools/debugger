@@ -46,40 +46,31 @@ const Expressions = React.createClass({
     updateExpression: PropTypes.func,
     deleteExpression: PropTypes.func,
     loadObjectProperties: PropTypes.func,
-    loadedObjects: ImPropTypes.map,
+    loadedObjects: ImPropTypes.map
   },
 
   displayName: "Expressions",
 
+  getInitialState() {
+    return {
+      editing: null
+    };
+  },
+
   shouldComponentUpdate(nextProps, nextState) {
+    const { editing } = this.state;
     const { expressions, loadedObjects } = this.props;
     return expressions !== nextProps.expressions
-      || loadedObjects !== nextProps.loadedObjects;
+      || loadedObjects !== nextProps.loadedObjects
+      || editing !== nextState.editing;
   },
 
-  inputKeyPress(e, { id }) {
-    if (e.key !== "Enter") {
-      return;
-    }
-    const { addExpression } = this.props;
-    const expression = {
-      input: e.target.value,
-      id
-    };
-
-    e.target.value = "";
-    addExpression(expression);
-  },
-
-  updateExpression(expression, { depth }) {
+  editExpression(expression, { depth }) {
     if (depth > 0) {
       return;
     }
 
-    this.props.updateExpression({
-      id: expression.id,
-      input: expression.input
-    });
+    this.setState({ editing: expression.input });
   },
 
   deleteExpression(e, expression) {
@@ -88,13 +79,34 @@ const Expressions = React.createClass({
     deleteExpression(expression);
   },
 
-  renderExpressionUpdating(expression) {
+  inputKeyPress(e, expression) {
+    if (e.key !== "Enter") {
+      return;
+    }
+
+    const value = e.target.value;
+    if (value == "") {
+      return;
+    }
+
+    this.setState({ editing: null });
+    e.target.value = "";
+    this.props.updateExpression(
+      value,
+      expression
+    );
+  },
+
+  renderExpressionEditInput(expression) {
     return dom.span(
       { className: "expression-input-container" },
       dom.input(
         { type: "text",
           className: "input-expression",
           onKeyPress: e => this.inputKeyPress(e, expression),
+          onBlur: () => {
+            this.setState({ editing: null });
+          },
           defaultValue: expression.input,
           ref: (c) => {
             this._input = c;
@@ -106,9 +118,10 @@ const Expressions = React.createClass({
 
   renderExpression(expression) {
     const { loadObjectProperties, loadedObjects } = this.props;
-
-    if (expression.updating) {
-      return this.renderExpressionUpdating(expression);
+    const { editing } = this.state;
+    const { input } = expression;
+    if (editing == input) {
+      return this.renderExpressionEditInput(expression);
     }
 
     const { value, path } = getValue(expression);
@@ -122,13 +135,13 @@ const Expressions = React.createClass({
     return dom.div(
       {
         className: "expression-container",
-        key: path
+        key: path || input
       },
       ObjectInspector({
         roots: [root],
         getObjectProperties: id => loadedObjects.get(id),
         autoExpandDepth: 0,
-        onLabelClick: (item, options) => this.updateExpression(
+        onDoubleClick: (item, options) => this.editExpression(
           expression, options
         ),
         loadObjectProperties
@@ -143,17 +156,39 @@ const Expressions = React.createClass({
     }
   },
 
+  renderNewExpressionInput() {
+    const onKeyPress = e => {
+      if (e.key !== "Enter") {
+        return;
+      }
+
+      const value = e.target.value;
+      if (value == "") {
+        return;
+      }
+
+      e.stopPropagation();
+      e.target.value = "";
+      this.props.addExpression(value);
+    };
+    return dom.span(
+      { className: "expression-input-container" },
+       dom.input({
+         type: "text",
+         className: "input-expression",
+         placeholder: L10N.getStr("expressions.placeholder"),
+         onBlur: e => (e.target.value = ""),
+         onKeyPress
+       })
+    );
+  },
+
   render() {
     const { expressions } = this.props;
     return dom.span(
       { className: "pane expressions-list" },
-      expressions.toSeq().map(this.renderExpression),
-      dom.input(
-        { type: "text",
-          className: "input-expression",
-          placeholder: L10N.getStr("expressions.placeholder"),
-          onKeyPress: e => this.inputKeyPress(e, {}) }
-      )
+      expressions.map(this.renderExpression),
+      this.renderNewExpressionInput()
     );
   }
 });

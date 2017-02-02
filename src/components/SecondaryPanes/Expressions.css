@@ -1,12 +1,13 @@
 .input-expression {
   width: 100%;
-  padding: 8px 10px;
   margin: 0px;
   border: 1px;
   cursor: pointer;
-  color: var(--theme-body-color);
   background-color: var(--theme-body-background);
   font-size: 12px;
+  padding: 0px 20px;
+  line-height: 20px;
+  color: var(--theme-highlight-blue);
 }
 
 .input-expression::-webkit-input-placeholder {
@@ -27,17 +28,23 @@
   cursor: text;
 }
 
+.expression-input-container {
+  padding: 8px 0px 0px 0px;
+  display: flex;
+}
+
 .expression-container {
   border: 1px;
-  padding: 8px 5px 0px 10px;
+  padding: 8px 5px 0px 0px;
   width: 100%;
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
   display: flex;
 }
 
-.expression-container .tree {
+.expression-container > .tree {
   overflow: hidden;
+  display: flex;
 }
 
 :root.theme-light .expression-container:hover {
@@ -50,15 +57,15 @@
 
 .expression-container .close-btn {
   display: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  margin: 0;
 }
 
 .expression-container:hover .close-btn {
-  width: 8px;
-  height: 8px;
-  margin-left: auto;
-  margin-right: 8px;
-  display: block;
-  cursor: pointer;
+  display: flex;
 }
 
 .expression-input {
