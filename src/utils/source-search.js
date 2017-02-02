@@ -45,7 +45,10 @@ function getSearchCursor(cm, query: string, pos, modifiers: SearchModifiers) {
  * @static
  */
 function searchOverlay(query, modifiers) {
-  const regexQuery = buildQuery(query, modifiers, { ignoreSpaces: true });
+  const regexQuery = buildQuery(query, modifiers, {
+    ignoreSpaces: false
+  });
+
   let matchLength = null;
   return {
     token: function(stream) {
@@ -86,11 +89,20 @@ function searchOverlay(query, modifiers) {
  * @memberof utils/source-search
  * @static
  */
-function startSearch(cm, state, query, modifiers) {
+function updateOverlay(cm, state, query, modifiers) {
   cm.removeOverlay(state.overlay);
-
   state.overlay = searchOverlay(query, modifiers);
   cm.addOverlay(state.overlay, { opaque: false });
+}
+
+function updateCursor(cm, state, keepSelection) {
+  state.posTo = cm.getCursor("anchor");
+  state.posFrom = cm.getCursor("head");
+
+  if (!keepSelection) {
+    state.posTo = { line: 0, ch: 0 };
+    state.posFrom = { line: 0, ch: 0 };
+  }
 }
 
 /**
@@ -103,25 +115,16 @@ function startSearch(cm, state, query, modifiers) {
  */
 function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
   let { cm } = ctx;
-  let state = getSearchState(cm);
-
-  if (state.query) {
-    searchNext(ctx, rev, modifiers);
-    return;
-  }
-
   cm.operation(function() {
-    if (state.query) {
+    if (!query) {
       return;
     }
-    startSearch(cm, state, query, modifiers);
+
+    let state = getSearchState(cm);
     state.query = query;
-    if (keepSelection) {
-      state.posTo = cm.getCursor("anchor");
-      state.posFrom = cm.getCursor("head");
-    } else {
-      state.posFrom = state.posTo = { line: 0, ch: 0 };
-    }
+
+    updateOverlay(cm, state, query, modifiers);
+    updateCursor(cm, state, keepSelection);
     searchNext(ctx, rev, modifiers);
   });
 }
@@ -136,9 +139,13 @@ function searchNext(ctx, rev, modifiers) {
   let { cm, ed } = ctx;
   cm.operation(function() {
     let state = getSearchState(cm);
-    let cursor = getSearchCursor(cm, state.query,
-      rev ? state.posFrom : state.posTo,
-      modifiers);
+    const pos = rev ? state.posTo : state.posFrom;
+    let cursor = getSearchCursor(
+      cm,
+      state.query,
+      pos,
+      modifiers
+    );
 
     const location = rev
       ? { line: cm.lastLine(), ch: null }
@@ -156,8 +163,13 @@ function searchNext(ctx, rev, modifiers) {
       }
     }
 
-    ed.alignLine(cursor.from().line, "center");
-    cm.setSelection(cursor.from(), cursor.to());
+    // We don't want to jump the editor
+    // when we're selecting text
+    if (!cm.state.selectingText) {
+      ed.alignLine(cursor.from().line, "center");
+      cm.setSelection(cursor.from(), cursor.to());
+    }
+
     state.posFrom = cursor.from();
     state.posTo = cursor.to();
   });
