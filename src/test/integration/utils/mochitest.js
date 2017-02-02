@@ -1,4 +1,3 @@
-
 function info(msg) {
   dump(`info: ${msg}\n`);
 }
@@ -13,7 +12,7 @@ function setupTestRunner(context) {
   EXAMPLE_URL = context.EXAMPLE_URL;
 }
 
-function invokeInTab(fnc) {
+function invokeInTab(dbg, fnc) {
   info(`Invoking function ${fnc} in tab`);
   return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function* (fnc) {
     content.wrappedJSObject[fnc](); // eslint-disable-line mozilla/no-cpows-in-tests, max-len

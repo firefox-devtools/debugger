@@ -3,5 +3,13 @@
 
 // Tests basic pretty-printing functionality.
 
-const { prettyPrint } = require("devtools/client/debugger/new/integration-tests");
-add_task(prettyPrint);
+const {
+  prettyPrint,
+  setupTestRunner
+} = require("devtools/client/debugger/new/integration-tests");
+
+add_task(function*() {
+  setupTestRunner(this);
+  const { ok, is } = this;
+  yield prettyPrint({ ok, is });
+});

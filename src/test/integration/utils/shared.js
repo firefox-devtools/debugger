@@ -1,5 +1,5 @@
 const mapValues = require("lodash/mapValues");
-const { info } = require("./mochi");
+const { info } = require("./mocha");
 
 const selectors = {
   callStackHeader: ".call-stack-pane ._header",
