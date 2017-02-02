@@ -2,3 +2,6 @@ theme: jekyll-theme-cayman
 markdown: kramdown
 kramdown:
   input: GFM
+exclude:
+  - firefox/
+  - node_modules/
