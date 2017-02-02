@@ -26,6 +26,10 @@
     "codeCoverage": {
       "label": "Code Coverage",
       "enabled": false
+    },
+    "searchModifiers": {
+      "label": "Search Modifiers",
+      "enabled": false
     }
   },
   "chrome": {
