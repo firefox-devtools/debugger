@@ -2,6 +2,7 @@
 
 import type { Source,
               Breakpoint,
+              Expression,
               LoadedObject,
               Location,
               SourceText,
@@ -135,16 +136,15 @@ type PauseAction =
       input: string,
       value: string }
   | { type: "EVALUATE_EXPRESSION",
-      id: number,
       input: string,
       status: string,
       value: Object,
       "@@dispatch/promise": any }
   | { type: "UPDATE_EXPRESSION",
-      id: number,
+      expression: Expression,
       input: string }
   | { type: "DELETE_EXPRESSION",
-      id: number };
+      input: string };
 
 /**
  * Actions: Source, Breakpoint, and Navigation

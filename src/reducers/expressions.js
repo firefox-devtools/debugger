@@ -48,13 +48,14 @@ function update(state = State(), action: Action): Record<ExpressionState> {
   return state;
 }
 
-function appendToList(state: State, path: array, value: any) {
+function appendToList(state: State, path: string[], value: any) {
   return state.updateIn(path, () => {
     return state.getIn(path).push(value);
   });
 }
 
-function updateItemInList(state, path, key, value) {
+function updateItemInList(
+  state: State, path: string[], key: string, value: any) {
   return state.updateIn(path, () => {
     const list = state.getIn(path);
     const index = list.findIndex(e => e.input == key);
@@ -62,11 +63,13 @@ function updateItemInList(state, path, key, value) {
   });
 }
 
-function deleteExpression(state, input) {
+function deleteExpression(state: State, input: string) {
   const index = getExpressions({ expressions: state })
     .findKey(e => e.input == input);
   return state.deleteIn(["expressions", index]);
 }
+
+type OuterState = { expressions: Record<ExpressionState> };
 
 function getExpressions(state: OuterState) {
   return state.expressions.get("expressions");

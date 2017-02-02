@@ -6,9 +6,13 @@ export type SearchModifiers = {
   regexMatch: boolean
 };
 
+export type Expression = {
+   value: Object,
+   input: string
+ };
+
 export type {
   Breakpoint,
-  Expression,
   Frame,
   Grip,
   LoadedObject,
