@@ -1,3 +1,7 @@
+---
+permalink: docs/
+---
+
 ## debugger.html docs
 
 [debugger.html react / redux overview](./debugger-html-react-redux-overview.md)

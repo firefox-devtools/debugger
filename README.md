@@ -72,7 +72,7 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 
 [getting-started]: ./docs/getting-setup.md
 [contributing]: ./CONTRIBUTING.md
-[getting-started-screencast]: ./docs/videos.md#getting-started
+[getting-started-screencast]: ./docs/videos.md
 [up-for-grabs]: https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
 [app-overview]: ./docs/debugger-html-react-redux-overview.md
 [first-activity]: ./docs/debugging-the-debugger.md

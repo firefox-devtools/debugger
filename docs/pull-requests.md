@@ -143,6 +143,6 @@ Notes:
 [github-pat]:https://help.github.com/articles/creating-an-access-token-for-command-line-use
 
 [mochitest]:https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest
-[mochitest-docs]:./mochitests.md
-[test-docs]:./local-development.md#unit-tests
-[linting-docs]:./local-development.md#linting
+[mochitest-docs]: ./mochitests.md
+[test-docs]: ./local-development.md#unit-tests
+[linting-docs]: ./local-development.md#linting

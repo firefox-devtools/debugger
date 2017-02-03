@@ -19,7 +19,7 @@ Redux documentation can be found [here](http://redux.js.org/).
 
 As with most documentation related to code, this document may be out of date. The last edit date occurred on August 30, 2016. If you find issues in the documentation please file an issue as described in the [contributing](https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#writing-documentation-book) guide.
 
-#Architecture <a name="Introduction"></a>
+# Architecture <a name="Introduction"></a>
 
 
 Debugger.html is a React-Redux based application — the UI is constructed using React Components. the follow illustration provides a simplictic high level view:
@@ -59,7 +59,7 @@ is not modified.
 React uses a Virtual DOM; only required changes to the
 actual DOM will be rendered.
 
-#[Components](https://github.com/devtools-html/debugger.html/tree/master/src/components) <a name="components"></a>
+# [Components](https://github.com/devtools-html/debugger.html/tree/master/src/components) <a name="components"></a>
 
 
 debbuger.html uses React [Components](https://github.com/devtools-html/debugger.html/tree/master/src/components) to render portions of the
@@ -84,7 +84,7 @@ collapsed.
 
 ![](https://docs.google.com/drawings/d/1lAEyyci8SQZzh4Dk-EowX0wGnvyOISGO3sqdtzgQqoo/pub?w=960&h=720)
 [Click here to Edit](https://docs.google.com/drawings/d/1lAEyyci8SQZzh4Dk-EowX0wGnvyOISGO3sqdtzgQqoo/edit?usp=sharing)
-##Source tree view
+## Source tree view
 
 The left-most section of the application displays the source tree for
 the application being debugged. Three components are used to manage
@@ -107,7 +107,7 @@ SourcesTree encapsulates ManagedTree.
 ![](https://docs.google.com/drawings/d/1dOCy4BePfX77ky3yUTlZRnAeeFIIi4UAJcYaYmYvUcY/pub?w=960&h=720)
 [Click here to Edit](https://docs.google.com/drawings/d/1dOCy4BePfX77ky3yUTlZRnAeeFIIi4UAJcYaYmYvUcY/edit?usp=sharing)
 
-##Source editor/file search
+## Source editor/file search
 
 The center portion of the application displays either the source editor or a file search entry box. If the editor is displayed rendering is handled by three main components and one dynamic component.
 
@@ -129,7 +129,7 @@ Autocomplete component.
 
 ![](images/search.png)
 
-##Tools view
+## Tools view
 
 The farthest right section of the application is handled by many components. At the top of the component architecture is the RightSidebar component, which renders the play/pause command bar and encapsulates the Accordion component, responsible for formatting and rendering the layout including the arrow icons and headers. This component encapsulates the Breakpoints, Frames, and Scopes component:
 
@@ -142,7 +142,7 @@ The farthest right section of the application is handled by many components. At 
 ![](https://docs.google.com/drawings/d/1zHogPebNmOFT9Xx6cZsaA6R6cTQLUzBXePV9sf62chA/pub?w=960&h=720)
 [Click here to Edit](https://docs.google.com/drawings/d/1zHogPebNmOFT9Xx6cZsaA6R6cTQLUzBXePV9sf62chA/edit?usp=sharing)
 
-#Component Data <a name="componentdata"></a>
+# Component Data <a name="componentdata"></a>
 
 Some components in Debugger.html are aware of the Redux store; others are
 not and are just rendering passed in properties. The Redux-aware
@@ -175,7 +175,7 @@ the Redux state. Finally, all of the actions in the actions folder are
 combined and the contained <code>actionCreators</code> in each of the files are setup
 so the actions can be called directly from the component.
 
-#[Reducers](https://github.com/devtools-html/debugger.html/tree/master/src/reducers) <a name="reducers"></a>
+# [Reducers](https://github.com/devtools-html/debugger.html/tree/master/src/reducers) <a name="reducers"></a>
 
 
 The [Reducers](https://github.com/devtools-html/debugger.html/tree/master/src/reducers) are all located in the src/reducers folder and are
@@ -196,7 +196,7 @@ All of the reducers are combined using the index.js file in the
 reducers folder. In the Debbuger.html project, each reducer has an
 <code>update()</code> function to handle actions for its slice of state.
 
-##Async-requests
+## Async-requests
 
 The **async-requests** reducer creates an array that stores a unique
 sequence number for every promise being executed from an action.
@@ -206,7 +206,7 @@ debugger.html state with an active promise.
 
 ![](images/asynchreducer.png)
 
-##Breakpoints
+## Breakpoints
 
 The **breakpoints reducer** is responsible for handling breakpoint
 state. It adds an Immutable Map of breakpoint objects and a Boolean
@@ -261,7 +261,7 @@ breakpoints for the currently opened file.
 
 
 
-##Events-listeners
+## Events-listeners
 
 The **events-listeners** reducer is responsible for managing the state
 for the current list of DOM events that currently have listeners bound
@@ -275,7 +275,7 @@ did not see gThreadClient created.
 
 ![](images/eventlisteners.png)
 
-##Pause
+## Pause
 
 The **pause** reducer is responsible for managing state variables needed
 to primarily handle pause and resume conditions in the debugger. These
@@ -343,7 +343,7 @@ The pause reducer also has many getter functions to retrieve portions of
 state that are stored by this reducer.
 
 
-##Sources
+## Sources
 
 The **sources** reducer is responsible for maintaining state variables
 that are used in the managing of opening and closing source files in the
@@ -412,7 +412,7 @@ The sources reducer handles the following action types:
 The sources reducer also has many getter functions to retrieve portions
 of state that are handled in this reducer.
 
-##Tabs
+## Tabs
 
 The **tabs** reducer is used to track which connected application is
 being debugged. When the main debugger is started every connected
@@ -439,7 +439,7 @@ The tabs reducer handles the following action types:
 -   <code>SELECT\_TAB</code> – This action type is triggered when a specific
     application is selected for debugging.
 
-#[Actions](https://github.com/devtools-html/debugger.html/tree/master/src/actions) <a name="actions"></a>
+# [Actions](https://github.com/devtools-html/debugger.html/tree/master/src/actions) <a name="actions"></a>
 
 The [actions](https://github.com/devtools-html/debugger.html/tree/master/src/actions) in debugger.html are all located in the
 src/actions folder; there is an action file corresponding to
@@ -449,7 +449,7 @@ section we will cover each action file. As stated earlier, many of the
 actions defined in these files are <code>actionCreators</code> that are setup to use
 in a component via the <code>bindActionsCreator()</code> Redux method.
 
-##breakpoints
+## breakpoints
 
 The **breakpoints** action file handles manipulating breakpoints in the
 debugger
@@ -487,7 +487,7 @@ The breakpoints file exports the following functions:
 
 -   <code>setBreakpointCondition()</code> – Currently not implemented.
 
-##event-listeners
+## event-listeners
 
 The **event-listeners** action file handles retrieving a list of all the
 DOM events that currently have listeners bound in the web application
@@ -506,7 +506,7 @@ The event-listeners file exports the following functions:
     Once retrieved the <code>fetchEventListeners()</code> function dispatches the
     <code>FETCH\_EVENT\_LISTENERS</code> action.
 
-##pause
+## pause
 
 The **pause** action file handles all functions responsible for
 pausing, resuming and manipulating the debugger by stepping through
@@ -591,7 +591,7 @@ file exports the following functions:
     <code>LOAD\_OBJECT\_PROPERTIES</code> action.
 
 
-##sources
+## sources
 
 The **sources** action is responsible for providing functions that
 support opening files in the editor, managing the tabs within the
@@ -663,7 +663,7 @@ action file exports the following functions:
     calls <code>loadSourceText()</code> to load each file. Currently this function is
     not used in debugger.html.
 
-##tabs
+## tabs
 
 The **tabs** action is responsible for gathering all connected
 clients that can be debugged, and gathering the tabs for each application that can be debugged on the connected client. The tabs action

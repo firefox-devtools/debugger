@@ -2,3 +2,6 @@ theme: jekyll-theme-cayman
 markdown: kramdown
 kramdown:
   input: GFM
+gems:
+  - jemoji
+  - jekyll-mentions

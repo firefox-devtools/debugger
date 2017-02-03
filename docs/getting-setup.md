@@ -157,7 +157,7 @@ If you find any issues on these two platforms comment on these issues:
 [Yarn]:https://yarnpkg.com
 [yarn-install]:https://yarnpkg.com/en/docs/install
 [dev-server]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/README.md#dev-server
-[first-activity]:./debugging-the-debugger.md
+[first-activity]: ./debugging-the-debugger.md
 [slack]:https://devtools-html-slack.herokuapp.com/
 
 [launchpad-screenshot]:https://cloud.githubusercontent.com/assets/2134/22162697/913777b2-df04-11e6-9150-f6ad676c31ef.png
