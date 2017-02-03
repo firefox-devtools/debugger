@@ -22,7 +22,7 @@ require("./SearchBar.css");
 const SearchBar = React.createClass({
 
   propTypes: {
-    editor: PropTypes.object.isRequired,
+    editor: PropTypes.object,
     sourceText: ImPropTypes.map,
     selectedSource: ImPropTypes.map,
     modifiers: PropTypes.object.isRequired,
@@ -237,39 +237,41 @@ const SearchBar = React.createClass({
       modifiers: { caseSensitive, wholeWord, regexMatch },
       toggleModifier } = this.props;
 
-    if (isEnabled("searchModifiers")) {
-      return dom.div(
-        { className: "search-modifiers" },
-        // render buttons. On clicks toggle search modifiers.
-        dom.button({
-          className: classnames("regex-match-btn",
-            { active: regexMatch }),
-          onClick: () => {
-            toggleModifier(
-              { caseSensitive, wholeWord, regexMatch: !regexMatch });
-            this.doSearch(this.props.query);
-          }
-        }, Svg("regex-match")),
-        dom.button({
-          className: classnames("case-sensitive-btn",
-            { active: caseSensitive }),
-          onClick: () => {
-            toggleModifier(
-              { caseSensitive: !caseSensitive, wholeWord, regexMatch });
-            this.doSearch(this.props.query);
-          }
-        }, Svg("case-match")),
-        dom.button({
-          className: classnames("whole-word-btn",
-            { active: wholeWord }),
-          onClick: () => {
-            toggleModifier(
-              { caseSensitive, wholeWord: !wholeWord, regexMatch });
-            this.doSearch(this.props.query);
-          }
-        }, Svg("whole-word-match")),
-      );
+    if (!isEnabled("searchModifiers")) {
+      return;
     }
+
+    return dom.div(
+      { className: "search-modifiers" },
+      // render buttons. On clicks toggle search modifiers.
+      dom.button({
+        className: classnames("regex-match-btn",
+          { active: regexMatch }),
+        onClick: () => {
+          toggleModifier(
+            { caseSensitive, wholeWord, regexMatch: !regexMatch });
+          this.doSearch(this.props.query);
+        }
+      }, Svg("regex-match")),
+      dom.button({
+        className: classnames("case-sensitive-btn",
+          { active: caseSensitive }),
+        onClick: () => {
+          toggleModifier(
+            { caseSensitive: !caseSensitive, wholeWord, regexMatch });
+          this.doSearch(this.props.query);
+        }
+      }, Svg("case-match")),
+      dom.button({
+        className: classnames("whole-word-btn",
+          { active: wholeWord }),
+        onClick: () => {
+          toggleModifier(
+            { caseSensitive, wholeWord: !wholeWord, regexMatch });
+          this.doSearch(this.props.query);
+        }
+      }, Svg("whole-word-match")),
+    );
   },
 
   render() {
