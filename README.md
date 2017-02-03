@@ -56,7 +56,7 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [Mozilla]:https://www.mozilla.org/
 [Firefox]:https://www.mozilla.org/firefox/
 [firefox-rdp]: https://wiki.mozilla.org/Remote_Debugging_Protocol
-[chrome-rdp]: https://chromedevtools.github.io/debugger-protocol-viewer/1-1/
+[chrome-rdp]: https://chromedevtools.github.io/debugger-protocol-viewer/1-2/
 
 [slack-badge]: https://devtools-html-slack.herokuapp.com/badge.svg
 [slack]:https://devtools-html-slack.herokuapp.com/
