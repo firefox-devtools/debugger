@@ -1,4 +1,4 @@
-//@flow
+// @flow
 
 const I = require("immutable");
 const { fromJS } = I;

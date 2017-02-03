@@ -1,4 +1,4 @@
-//@flow
+// @flow
 
 const { firefox } = require("devtools-client-adapters");
 const { prefs } = require("./prefs");
