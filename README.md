@@ -32,7 +32,7 @@ yarn start
 
 #### Next Steps
 
-* Claim an [up-for-grabs] issues. If you get stuck, we'd be happy to [help].
+* Claim an [up-for-grabs] issue. If you get stuck, we'd be happy to [help].
 * Do our getting started activity [debugging the debugger][first-activity]
 * Read the [app overview][app-overview] or [contributing][contributing] guidelines
 * Watch a [video][getting-started-screencast] on contributing to the Debugger.
