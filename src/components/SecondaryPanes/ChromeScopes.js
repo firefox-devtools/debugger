@@ -165,9 +165,7 @@ const Scopes = createClass({
   },
 
   render() {
-    const {
-      pauseInfo, loadObjectProperties, loadedObjects
-    } = this.props;
+    const { pauseInfo } = this.props;
 
     if (!pauseInfo) {
       return dom.div(
