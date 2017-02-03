@@ -1,18 +1,10 @@
-# debugger.html
+# debugger.html &middot; [![slack-badge]][slack] ![][ci-status] [![npm-version]][npm-package] [![PRs Welcome]][make-a-pull-request]
 
 debugger.html is a hackable debugger for modern times, built from the ground up using [React] and [Redux].  It is designed to be approachable, yet powerful.  And it is engineered to be predictable, understandable, and testable.
 
 [Mozilla] created this debugger for use in the [Firefox] Developer Tools.  And we've purposely created this project in GitHub, using modern toolchains.  We hope to not only to create a great debugger that works with the [Firefox][firefox-rdp] and [Chrome][chrome-rdp] debugging protocols but develop a broader community that wants to create great tools for the web.
 
-<p align="center">
-  [![slack-badge]][slack]
-</p>
-
 [![debugger-screenshot]][debugger-screenshot]
-
-<p align="center">
-  ![][ci-status] [![npm-version]][npm-package] [![PRs Welcome]][make-a-pull-request]
-</p>
 
 ### Quick Setup
 
