@@ -4,3 +4,4 @@ kramdown:
   input: GFM
 gems:
   - jemoji
+  - jekyll-mentions
