@@ -2,6 +2,14 @@
 
 ![][debugger-intro-gif]
 
+### You will need a garden varetiy verison of Firefox for this
+
+If you are using a macOS
+
+```$ brew cask install firefox```
+
+If you are using another system, obtain and install firefox.
+
 ### Step 1. Install Yarn
 
 See the [Yarn install][yarn-install] instructions for steps for your OS. Make sure to install the correct version of Yarn.
