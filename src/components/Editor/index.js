@@ -74,7 +74,8 @@ function resizeBreakpointGutter(editor) {
 }
 
 function traverseResults(e, ctx, dir) {
-  e.stopPropagation() || e.preventDefault();
+  e.stopPropagation();
+  e.preventDefault();
   const query = ctx.cm.getSelection();
   if (dir == "prev") {
     findPrev(ctx, query, true, defaultModifiers);
@@ -83,7 +84,7 @@ function traverseResults(e, ctx, dir) {
   }
 }
 
-function onCursorActivity(ctx) {
+function onMouseUp(ctx) {
   if (ctx.cm.somethingSelected()) {
     const query = ctx.cm.getSelection();
     find(ctx, query, true, defaultModifiers);
@@ -210,7 +211,6 @@ const Editor = React.createClass({
     menuOptions.push(showSourceMenuItem);
 
     showMenu(event, menuOptions);
-
   },
 
   onGutterContextMenu(event) {
@@ -464,7 +464,8 @@ const Editor = React.createClass({
       .addEventListener("keydown", e => onKeyDown(this.editor.codeMirror, e));
 
     const ctx = { ed: this.editor, cm: this.editor.codeMirror };
-    ctx.cm.on("cursorActivity", cm => onCursorActivity(ctx));
+    this.editor.codeMirror.display.wrapper
+      .addEventListener("mouseup", () => onMouseUp(ctx));
 
     if (!isFirefox()) {
       this.editor.codeMirror.on(

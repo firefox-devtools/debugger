@@ -63,9 +63,9 @@ const SearchBar = React.createClass({
       (_, e) => this.toggleSearch(e));
     shortcuts.on("Escape", (_, e) => this.onEscape(e));
     shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
-      (_, e) => this.traverseResultsPrev(e));
+      (_, e) => this.traverseResults(e, true));
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
-      (_, e) => this.traverseResultsNext(e));
+      (_, e) => this.traverseResults(e, false));
   },
 
   componentDidUpdate(prevProps: any, prevState: any) {
@@ -144,7 +144,12 @@ const SearchBar = React.createClass({
       return;
     }
 
-    const count = countMatches(query, sourceText.get("text"), defaultModifiers);
+    const count = countMatches(
+      query,
+      sourceText.get("text"),
+      defaultModifiers
+    );
+
     // eslint-disable-next-line react/no-did-update-set-state
     this.setState({ query, count, index: 0 });
     this.search(query);
@@ -154,7 +159,7 @@ const SearchBar = React.createClass({
     return this.doSearch(e.target.value);
   },
 
-  traverseResultsPrev(e: SyntheticKeyboardEvent) {
+  traverseResults(e: SyntheticEvent, rev: boolean) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -167,33 +172,12 @@ const SearchBar = React.createClass({
     const ctx = { ed, cm: ed.codeMirror };
     const { query, index, count } = this.state;
 
-    if (query == "") {
+    if (query === "") {
       this.setState({ enabled: true });
     }
 
-    findPrev(ctx, query, true, defaultModifiers);
-    const nextIndex = index == 0 ? count - 1 : index - 1;
-    this.setState({ index: nextIndex });
-  },
-
-  traverseResultsNext(e: SyntheticEvent) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    const ed = this.props.editor;
-
-    if (!ed) {
-      return;
-    }
-
-    const ctx = { ed, cm: ed.codeMirror };
-    const { query, index, count } = this.state;
-
-    if (query == "") {
-      this.setState({ enabled: true });
-    }
-
-    findNext(ctx, query, true, defaultModifiers);
+    const findFnc = rev ? findPrev : findNext;
+    findFnc(ctx, query, true, defaultModifiers);
     const nextIndex = index == count - 1 ? 0 : index + 1;
     this.setState({ index: nextIndex });
   },
@@ -203,11 +187,7 @@ const SearchBar = React.createClass({
       return;
     }
 
-    if (e.shiftKey) {
-      this.traverseResultsPrev(e);
-    } else {
-      this.traverseResultsNext(e);
-    }
+    this.traverseResults(e, e.shiftKey);
   },
 
   search: debounce(function(query) {
