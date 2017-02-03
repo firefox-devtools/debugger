@@ -98,7 +98,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 .highlight-line .CodeMirror-line {
-  animation: fade-highlight-out 4s normal forwards;
+  animation: fade-highlight-out 3s normal forwards;
 }
 
 @keyframes fade-highlight-out {
