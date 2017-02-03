@@ -3,6 +3,7 @@
 The debugger.html project has a system for [feature flags](https://en.wikipedia.org/wiki/Feature_toggle), a system that allows us to ship certain features which are off by default.  Features must be in active development with the intention of landing in the core; feature flags are not intended for landing broken code or features which are not under active development.
 
 Feature flags toggle features that are either:
+
 * experimental or in a testing phase
 * designed to be configured locally
 
