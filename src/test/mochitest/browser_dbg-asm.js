@@ -6,6 +6,7 @@
 
 add_task(function* () {
   const dbg = yield initDebugger("doc-asm.html");
+  const { selectors: { getSelectedSource }, getState } = dbg;
 
   yield reload(dbg);
 
@@ -22,7 +23,7 @@ add_task(function* () {
   clickElement(dbg, "sourceArrow", 2);
   is(findAllElements(dbg, "sourceNodes").length, 4);
 
-  selectSource(dbg, "asm.js");
+  selectSource(dbg, 'asm.js');
 
   yield addBreakpoint(dbg, "asm.js", 7);
   invokeInTab("runAsm");

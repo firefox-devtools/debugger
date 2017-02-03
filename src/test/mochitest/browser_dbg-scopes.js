@@ -1,6 +1,10 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
+function toggleNode(dbg, index) {
+  clickElement(dbg, "scopeNode", index);
+}
+
 function getLabel(dbg, index) {
   return findElement(dbg, "scopeNode", index).innerText;
 }

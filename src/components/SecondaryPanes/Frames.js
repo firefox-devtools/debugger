@@ -69,7 +69,7 @@ const Frames = createClass({
   onContextMenu(event: SyntheticKeyboardEvent, frame: Frame) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
     const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
-
+    
     event.stopPropagation();
     event.preventDefault();
 
@@ -87,14 +87,14 @@ const Frames = createClass({
 
       if (isEnabled("copySource")) {
         menuOptions.push(copySourceUrl);
-      }
+      }      
     }
 
     showMenu(event, menuOptions);
   },
 
   renderFrame(frame: Frame) {
-    const { selectedFrame } = this.props;
+    const { selectedFrame, selectFrame } = this.props;
 
     return dom.li(
       { key: frame.id,

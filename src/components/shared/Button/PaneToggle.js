@@ -24,9 +24,7 @@ const PaneToggleButton = React.createClass({
 
   render() {
     const { position, collapsed, horizontal, handleClick } = this.props;
-    const title = !collapsed ?
-      L10N.getStr("expandPanes") :
-      L10N.getStr("collapsePanes");
+    const title = !collapsed ? L10N.getStr("expandPanes") : L10N.getStr("collapsePanes");
 
     return dom.div({
       className: classnames(`toggle-button-${position}`, {
