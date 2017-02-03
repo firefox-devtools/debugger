@@ -1,5 +1,5 @@
 ---
-permalink: /docs/
+permalink: docs/
 ---
 
 ## debugger.html docs
