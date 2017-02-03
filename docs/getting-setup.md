@@ -38,7 +38,7 @@ tab to debug.
 
 ![][launchpad-screenshot]
 
-Congradulations! You're now up and running. :sweat_smile:
+Congratulations! You're now up and running. :sweat_smile:
 
 *What should I do if I get an error?*
 
