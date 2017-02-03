@@ -37,12 +37,6 @@ const { copyToTheClipboard } = require("../../utils/clipboard");
 
 require("./Editor.css");
 
-const defaultModifiers = {
-  caseSensitive: true,
-  wholeWord: false,
-  regexMatch: false
-};
-
 function isTextForSource(sourceText) {
   return !sourceText.get("loading") && !sourceText.get("error");
 }
@@ -73,21 +67,20 @@ function resizeBreakpointGutter(editor) {
   breakpoints.style.width = `${lineNumbers.clientWidth}px`;
 }
 
-function traverseResults(e, ctx, dir) {
+function traverseResults(e, ctx, query, dir, modifiers) {
   e.stopPropagation();
   e.preventDefault();
-  const query = ctx.cm.getSelection();
   if (dir == "prev") {
-    findPrev(ctx, query, true, defaultModifiers);
+    findPrev(ctx, query, true, modifiers);
   } else if (dir == "next") {
-    findNext(ctx, query, true, defaultModifiers);
+    findNext(ctx, query, true, modifiers);
   }
 }
 
-function onMouseUp(ctx) {
+function onMouseUp(ctx, modifiers) {
+  const query = ctx.cm.getSelection();
   if (ctx.cm.somethingSelected()) {
-    const query = ctx.cm.getSelection();
-    find(ctx, query, true, defaultModifiers);
+    find(ctx, query, true, modifiers);
   } else {
     removeOverlay(ctx);
   }
@@ -114,8 +107,27 @@ const Editor = React.createClass({
 
   displayName: "Editor",
 
+  getInitialState() {
+    return {
+      query: "",
+      searchModifiers: {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: false
+      }
+    };
+  },
+
   contextTypes: {
     shortcuts: PropTypes.object
+  },
+
+  toggleModifier(searchModifiers) {
+    this.setState({ searchModifiers });
+  },
+
+  updateQuery(query) {
+    this.setState({ query });
   },
 
   onGutterClick(cm, line, gutter, ev) {
@@ -464,8 +476,9 @@ const Editor = React.createClass({
       .addEventListener("keydown", e => onKeyDown(this.editor.codeMirror, e));
 
     const ctx = { ed: this.editor, cm: this.editor.codeMirror };
+    const { query, searchModifiers } = this.state;
     this.editor.codeMirror.display.wrapper
-      .addEventListener("mouseup", () => onMouseUp(ctx));
+      .addEventListener("mouseup", () => onMouseUp(ctx, searchModifiers));
 
     if (!isFirefox()) {
       this.editor.codeMirror.on(
@@ -504,9 +517,9 @@ const Editor = React.createClass({
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
     shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
-      (_, e) => traverseResults(e, ctx, "prev"));
+      (_, e) => traverseResults(e, ctx, query, "prev", searchModifiers));
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
-      (_, e) => traverseResults(e, ctx, "next"));
+      (_, e) => traverseResults(e, ctx, query, "next", searchModifiers));
 
     resizeBreakpointGutter(this.editor.codeMirror);
     debugGlobal("cm", this.editor.codeMirror);
@@ -660,7 +673,11 @@ const Editor = React.createClass({
         SearchBar({
           editor: this.editor,
           selectedSource,
-          sourceText
+          sourceText,
+          modifiers: this.state.searchModifiers,
+          toggleModifier: this.toggleModifier,
+          query: this.state.query,
+          updateQuery: this.updateQuery
         }),
         dom.div({
           className: "editor-mount",

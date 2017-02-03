@@ -46,10 +46,11 @@ function getSearchCursor(cm, query: string, pos, modifiers: SearchModifiers) {
  */
 function searchOverlay(query, modifiers) {
   const regexQuery = buildQuery(query, modifiers, {
-    ignoreSpaces: false
+    ignoreSpaces: true
   });
 
   let matchLength = null;
+
   return {
     token: function(stream) {
       if (stream.column() === 0) {
