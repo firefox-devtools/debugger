@@ -541,6 +541,6 @@ your questions on [slack][slack].
 [l10n]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/utils/L10N.js
 [rtl-screenshot]:https://cloud.githubusercontent.com/assets/394320/19226865/ef18b0d0-8eb9-11e6-82b4-8c4da702fe91.png
 
-[strings-json]:../src/strings.json
-[debugger-properties]:../assets/panel/debugger.properties
-[development-json]:../configs/development.json
+[strings-json]: ../src/strings.json
+[debugger-properties]: ../assets/panel/debugger.properties
+[development-json]: ../configs/development.json
