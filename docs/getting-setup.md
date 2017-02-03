@@ -2,34 +2,13 @@
 
 ![][debugger-intro-gif]
 
-### Step 1. Install Yarn
+### Step 1. Installing the Debugger
 
-See the [Yarn install][yarn-install] instructions for steps for your OS. Make sure to install the correct version of Yarn.
+First, we'll clone the debugger locally, then we'll install its
+dependencies with [Yarn]. If you don't have Yarn, you can install it [here][yarn-install].
 
-<details>
-<summary>macOS</summary>
-```bash
-brew install yarn
-```
-</details>
-
-<details>
-<summary>Windows</summary>
-[Download Installer](https://yarnpkg.com/latest.msi)
-</details>
-
-```bash
-yarn --version
-0.19.1
-```
-
-*Why Yarn and not NPM?*
-NPM installs the latest versions. We use [Yarn][yarn] because we want to make sure everyone is using the same libraries.
-
-*Why not the latest version of Yarn?*
-Yarn ensures we all have the same version of the packages but to make sure that is true we need to ensure everyone has the same version of Yarn.  We try to update Yarn to the latest version assuming it doesn't break anything.  Feel free to submit a pull request updating us to the latest Yarn, like [this one][yarn-update].
-
-### Step 2. Install dependencies
+Also, before you start, it's helpful to make sure you have node 7.
+We recommend, [nvm] for updating the latest node.
 
 ```bash
 git clone git@github.com:devtools-html/debugger.html.git
@@ -38,42 +17,32 @@ yarn install
 ```
 
 *What should I do if I get an error?*
-Yarn is still new, please comment on this [issue][yarn-issue] if you see anything weird.
 
-### Step 3. Open Firefox
+Ask in our [slack] channel or file an issue [issue][yarn-issue] here.
 
-In this step, we'll open Firefox. [Chrome](#starting-chrome) and [Node](#starting-node) are also available in the Appendix. It's not required, but it's generally nice to close other browsers first.
+*Why Yarn and not NPM?*
 
-```bash
-yarn run firefox
-```
+We like [Yarn] because it makes sure everyone is using the same library versions.
 
-With Firefox open, you should be seeing a bunch of [debugger examples][debugger-examples], these are the test pages we use when working on features and bugs.
+### Step 2. Start the Debugger
 
-*Why am I opening Firefox from the terminal?*
-The firefox command opens firefox with special permissions that enable remote debugging.
-
-*What should I see?*
-Here's a [screenshot](https://cloud.githubusercontent.com/assets/2134/22162568/141de234-df04-11e6-9b86-77dd25822750.png)
-
-*What should I do if this doesn't work?*
-You can either try to run it [manually](#starting-firefox) or comment on the [issue][yarn-run-firefox-fails].
-
-### Step 4. Start the Debugger
-
-Now that Firefox is open, lets start the [development server][dev-server]. In a new terminal tab, run these commands:
+Next, we'll start the debugger and run it [locally][dev-server].
 
 ```bash
-cd debugger.html
 yarn start
 ```
 
-*What does this do?*
-This command starts a [development server][dev-server].
+Open `http://localhost:8000` in any browser and launch
+Firefox or Chrome. You should now be able to select a
+tab to debug.
 
-### Step 5. Open the Debugger
+![][launchpad-screenshot]
 
-Go to http://localhost:8000 in any browser to view the Debugger. If everything worked successfully, you should see something like this [screenshot](https://cloud.githubusercontent.com/assets/2134/22162697/913777b2-df04-11e6-9150-f6ad676c31ef.png) :sweat_smile:
+Congratulations! You're now up and running. :sweat_smile:
+
+*What should I do if I get an error?*
+
+Ask in our [slack] channel or file an issue [issue][yarn-run-firefox-fails] here.
 
 ### Next Steps
 
@@ -185,7 +154,11 @@ If you find any issues on these two platforms comment on these issues:
 [windows-issue]:https://github.com/devtools-html/debugger.html/issues/1248
 [yarn-issue]:https://github.com/devtools-html/debugger.html/issues/1216
 [yarn-update]:https://github.com/devtools-html/debugger.html/pull/1483
-[yarn]:https://yarnpkg.com
+[Yarn]:https://yarnpkg.com
 [yarn-install]:https://yarnpkg.com/en/docs/install
 [dev-server]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/README.md#dev-server
 [first-activity]:./debugging-the-debugger.md
+[slack]:https://devtools-html-slack.herokuapp.com/
+
+[launchpad-screenshot]:https://cloud.githubusercontent.com/assets/2134/22162697/913777b2-df04-11e6-9150-f6ad676c31ef.png
+[nvm]:https://github.com/creationix/nvm
