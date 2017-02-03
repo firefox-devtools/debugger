@@ -91,8 +91,8 @@ Now that you've internalized the debugger philosophy, it's time to start putting
 
 
 
-[contributing]:../CONTRIBUTING.md
-[getting-setup]:./getting-setup.md
+[contributing]: ../CONTRIBUTING.md
+[getting-setup]: ./getting-setup.md
 [getting-started-issue]:https://github.com/devtools-html/debugger.html/issues/1247
 
 [debugger-intro-gif]:http://g.recordit.co/WjHZaXKifZ.gif
