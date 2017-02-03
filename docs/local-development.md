@@ -268,6 +268,7 @@ Set the `dir` field in your the local config to either "rtl" or "ltr".
 We use [postcss-bidirection][bidirection] to support [logical CSS][logical] properties. In practice, this means we can write `float:left` or `margin-inline-block: start`, and it just works. Under the hood, `float: left` gets translated into two different CSS rules for `html[dir="rtl"]` and `html:not([dir="rtl"])`.
 
 `public/js/components/SourceFooter.css`
+
 ```css
 html:not([dir="rtl"]) .source-footer .command-bar {
   float: right;
