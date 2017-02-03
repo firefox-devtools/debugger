@@ -1,9 +1,11 @@
+//@flow
+
 const I = require("immutable");
 const { fromJS } = I;
-const SourcesState = require("../reducers/sources").State;
+const SourcesState: any = require("../reducers/sources").State;
 const BreakpointsState = require("../reducers/breakpoints").State;
 
-function dehydrate(jsState) {
+function dehydrate(jsState: Object) {
   return {
     sources: SourcesState({
       sources: fromJS(jsState.sources.sources),
