@@ -2,7 +2,7 @@
 
 #### Table Of Contents
 
-[Firefox](#firefox)
+* [Firefox](#firefox)
   * [MacOS](#macos)
     * [Firefox](#firefox-release)
     * [Firefox Nightly](#firefox-nightly)
@@ -11,7 +11,7 @@
     * [Firefox (64 bit)](#firefox-64-bit)
   * [Android](#android)
 
-[Chrome](#chrome)
+* [Chrome](#chrome)
   * [MacOS](#macos-1)
     * [Chrome (release)](#chrome-release)
     * [Chrome Canary](#chrome-canary)
@@ -19,7 +19,7 @@
     * [Chrome (all versions)](#chrome-all-versions)
     * [Chrome (64 bit)](#chrome-64-bit)
 
-[Safari](#safari)
+* [Safari](#safari)
   * [iOS Simulator](#ios-simulator-mac-only)
 
 Here are quick instructions for getting the Firefox and Chrome web browsers running in a remotely debuggable state.

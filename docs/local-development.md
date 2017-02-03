@@ -4,7 +4,7 @@
    * [Enabling a Feature Flag](#enabling-a-feature-flag)
    * [Updating the config locally](#updating-the-config-locally)
    * [Creating a new Feature Flag](#creating-a-new-feature-flag)
-* [Hot Reloading](#hot-reloading)
+* [Hot Reloading](#hot-reloading-fire)
 * [Themes](#themes)
 * [Internationalization](#internationalization)
   * [L10N](#l10n)
@@ -385,6 +385,7 @@ index 5996700..bb828d8 100644
 +  fill: var(--theme-graphs-full-red);
 +}
 ```
+
 ### Flow
 
 - [Adding flow to a file](./flow#adding-flow-to-a-file)
@@ -501,12 +502,12 @@ your questions on [slack][slack].
 
 |Component||:dog: :panda_face: :hamster:|
 |----------|------|-----|
-|Editor|![][editor]|   ![][jasonlaster]  [@jasonlaster][@jasonlaster]       </br>  ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy] |
-|Sources|![][sources]| ![][arthur801031] [@arthur801031][@arthur801031]     </br>  ![][bomsy] [@bomsy][@bomsy] |
-|Call Stack|![][call-stack]|![][zacqary] [@zacqary][@zacqary]               </br>  ![][wldcordeiro] [@wldcordeiro][@wldcordeiro]|
-|Scopes & Variables|![][scopes]|![][bomsy] [@bomsy][@bomsy]                 </br>  ![][arthur801031] [@arthur801031][@arthur801031]|
-|Breakpoints|![][breakpoints]|![][wldcordeiro] [@wldcordeiro][@wldcordeiro] </br>  ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy]|
-|Product & UI||![][clarkbw] [@clarkbw][@clarkbw]                            </br>  ![][jasonlaster] [@jasonlaster][@jasonlaster]|
+|Editor|![][editor]|   ![][jasonlaster]  [@jasonlaster][@jasonlaster]       <br />  ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy] |
+|Sources|![][sources]| ![][arthur801031] [@arthur801031][@arthur801031]     <br />  ![][bomsy] [@bomsy][@bomsy] |
+|Call Stack|![][call-stack]|![][zacqary] [@zacqary][@zacqary]               <br />  ![][wldcordeiro] [@wldcordeiro][@wldcordeiro]|
+|Scopes & Variables|![][scopes]|![][bomsy] [@bomsy][@bomsy]                 <br />  ![][arthur801031] [@arthur801031][@arthur801031]|
+|Breakpoints|![][breakpoints]|![][wldcordeiro] [@wldcordeiro][@wldcordeiro] <br />  ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy]|
+|Product & UI||![][clarkbw] [@clarkbw][@clarkbw]                            <br />  ![][jasonlaster] [@jasonlaster][@jasonlaster]|
 
 [devtools-config-readme]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md
 [create-local-config]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md#local-config
