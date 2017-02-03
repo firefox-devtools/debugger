@@ -41,6 +41,26 @@ function fromJS(value: any) : any {
     return value;
   }
 
+  // Immutable.Seq recognizes any object with numeric length property as
+  // an array. Replacing array-like grip with something that does not behave
+  // length property.
+  if (typeof value.length === "number" && ("items" in value) &&
+      value.kind === "ArrayLike") {
+    value = Object.create(value, {
+      length: {
+        get: () => void 0,
+        enumerable: true,
+        configurable: true
+      },
+      size: {
+        value: value.length,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      },
+    });
+  }
+
   // Otherwise, treat it like an object. We can't reliably detect if
   // it's a plain object because we might be objects from other JS
   // contexts so `Object !== Object`.
