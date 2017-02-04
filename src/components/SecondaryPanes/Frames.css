@@ -53,6 +53,10 @@
   color: white;
 }
 
+.frames ul li.selected:focus {
+  background-color: blue;
+}
+
 :root.theme-light .frames ul li:hover .location,
 :root.theme-light .frames ul li.selected .location,
 :root.theme-firebug .frames ul li:hover .location,
