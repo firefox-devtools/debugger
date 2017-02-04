@@ -75,6 +75,10 @@ function loadSourceMap(generatedSource) {
     const urls = await getOriginalURLs(generatedSource);
     if (!urls) {
       // If this source doesn't have a sourcemap, do nothing.
+      dispatch({
+        type: constants.SOURCE_MAP_MISSING,
+        id: generatedSource.id
+      });
       return;
     }
 

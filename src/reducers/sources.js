@@ -52,6 +52,9 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       return state.mergeIn(["sources", action.source.id], source);
     }
 
+    case "SOURCE_MAP_MISSING":
+      return state.setIn(["sources", action.id, "sourceMapURL"], null);
+
     case "SELECT_SOURCE":
       location = {
         line: action.line,
