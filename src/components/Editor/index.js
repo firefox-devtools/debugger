@@ -7,10 +7,6 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
 
-const SourceEditor = require("../../utils/source-editor");
-const {
-  find, findNext, findPrev, removeOverlay
-} = require("../../utils/source-search");
 const { getMode } = require("../../utils/source");
 const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
@@ -27,8 +23,18 @@ const actions = require("../../actions");
 const Breakpoint = React.createFactory(require("./Breakpoint"));
 const HitMarker = React.createFactory(require("./HitMarker"));
 
-const { getDocument, setDocument } = require("../../utils/source-documents");
-const { shouldShowFooter, clearLineClass, onKeyDown } = require("../../utils/editor");
+const {
+  find,
+  findNext,
+  findPrev,
+  removeOverlay,
+  getDocument,
+  setDocument,
+  shouldShowFooter,
+  clearLineClass,
+  onKeyDown,
+  SourceEditor
+} = require("../../utils/editor");
 const { isFirefox } = require("devtools-config");
 const { showMenu } = require("../shared/menu");
 const { isEnabled } = require("devtools-config");
