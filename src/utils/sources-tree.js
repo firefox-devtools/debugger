@@ -179,8 +179,6 @@ function addToTree(tree: any, source: TmpSource) {
   const isDir = isDirectory(url);
   parts.unshift(url.group);
 
-  //console.log(url, parts);
-
   let path = "";
   let subtree = tree;
 
