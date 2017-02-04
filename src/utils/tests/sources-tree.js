@@ -122,7 +122,7 @@ describe("sources-tree", () => {
 
     const [
       bFolderNode,
-      b2FolderNode,
+      b2FileNode,
       dFolderNode,
       aFileNode,
       cFileNode,
@@ -132,9 +132,7 @@ describe("sources-tree", () => {
     expect(bFolderNode.contents.length).to.be(1);
     expect(bFolderNode.contents[0].name).to.be("b_source.js");
 
-    expect(b2FolderNode.name).to.be("b2");
-    expect(b2FolderNode.contents.length).to.be(1);
-    expect(b2FolderNode.contents[0].name).to.be("(index)");
+    expect(b2FileNode.name).to.be("b2");
 
     expect(dFolderNode.name).to.be("d");
     expect(dFolderNode.contents.length).to.be(1);
@@ -145,7 +143,7 @@ describe("sources-tree", () => {
     expect(cFileNode.name).to.be("c.js");
   });
 
-  it("puts (index) at the top of the sort", () => {
+  it("puts folder at the top of the sort", () => {
     const sources = [
       Map({
         url: "http://example.com/folder/a.js",
@@ -156,10 +154,6 @@ describe("sources-tree", () => {
         actor: "actor2"
       }),
       Map({
-        url: "http://example.com/folder",
-        actor: "actor1"
-      }),
-      Map({
         url: "http://example.com/folder/c/",
         actor: "actor1"
       }),
@@ -168,13 +162,10 @@ describe("sources-tree", () => {
     const tree = createNode("root", "", []);
     sources.forEach(source => addToTree(tree, source));
     const [
-      indexNode,
       bFolderNode,
       cFolderNode,
       aFileNode,
     ] = tree.contents[0].contents[0].contents;
-
-    expect(indexNode.name).to.be("(index)");
 
     expect(bFolderNode.name).to.be("b");
     expect(bFolderNode.contents.length).to.be(1);
