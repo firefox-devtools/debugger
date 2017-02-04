@@ -47,17 +47,23 @@
   margin-right: 1em;
 }
 
-.frames ul li:hover,
+.frames ul li:hover {
+  background-color: rgba(236, 236, 236,0.6);
+}
+
+:root.theme-light .frames ul li:hover .location {
+  color: #49444c;
+}
+
 .frames ul li.selected {
   background-color: var(--theme-selection-background);
   color: white;
 }
 
 .frames ul li.selected:focus {
-  background-color: blue;
+  background-color: #4676b7;
 }
 
-:root.theme-light .frames ul li:hover .location,
 :root.theme-light .frames ul li.selected .location,
 :root.theme-firebug .frames ul li:hover .location,
 :root.theme-firebug .frames ul li.selected .location,
