@@ -16,7 +16,7 @@ const { setupTestRunner, initDebugger } = require("../utils/mocha")
 
 async function prettyPrint(ctx) {
   const { ok, is } = ctx;
-  const dbg = await initDebugger("doc-minified.html");
+  const dbg = await initDebugger("doc-minified.html", "math.min");
 
   await selectSource(dbg, "math.min.js");
 

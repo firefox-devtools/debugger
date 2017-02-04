@@ -1,4 +1,8 @@
-const { info } = require("./shared");
+const {findElementWithSelector} = require("./shared")
+
+function info(msg) {
+  console.log('>>> ' + msg)
+}
 
 /**
  * Waits for `predicate(state)` to be true. `state` is the redux app state.
@@ -50,12 +54,16 @@ async function waitForPaused(dbg) {
  * @return {Promise}
  * @static
  */
-async function waitForDispatch(dbg, type, eventRepeat = 1) {
+async function waitForDispatch(
+  dbg, type, { useLaunchpad = false, eventRepeat = 1 } = {}
+) {
+
+  const store = useLaunchpad ? dbg.launchpadStore : dbg.store ;
   let count = 0;
 
   info("Waiting for " + type + " to dispatch " + eventRepeat + " time(s)");
   while (count < eventRepeat) {
-    await _afterDispatchDone(dbg.store, type);
+    await _afterDispatchDone(store, type);
     count++;
     info(type + " dispatched " + count + " time(s)");
   }
@@ -109,28 +117,44 @@ async function waitForTime(time) {
   });
 }
 
-function sourceExists(state, url) {
-  return getSources(state).some(s => {
-    return s.get("url").includes(url);
-  });
-}
+
 
 async function waitForSources(dbg, ...sources) {
   if (sources.length === 0) {
     return Promise.resolve();
   }
 
+  function sourceExists(state, url) {
+    return getSources(state).some(s => {
+      return s.get("url").includes(url);
+    });
+  }
+
   info("Waiting on sources: " + sources.join(", "));
   const { selectors: { getSources }, store } = dbg;
   return Promise.all(sources.map(url => {
     if (!sourceExists(store.getState(), url)) {
-      return waitForState(dbg, sourceExists);
+      return waitForState(
+        dbg,
+        () => sourceExists(store.getState(), url)
+      );
     }
   }));
 }
 
 async function waitForElement(dbg, selector) {
   return waitUntil(() => findElementWithSelector(dbg, selector))
+}
+
+async function waitUntil(predicate) {
+  return new Promise(resolve => {
+    const timer = setInterval(() => {
+      if (predicate()) {
+        clearInterval(timer);
+        resolve();
+      }
+    }, 20)
+  })
 }
 
 /**

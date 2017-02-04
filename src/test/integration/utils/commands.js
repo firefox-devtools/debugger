@@ -1,4 +1,9 @@
-const { info } = require("./shared");
+// const { info } = require("./shared");
+
+
+function info(msg) {
+  console.log(`info: ${msg}\n`);
+}
 
 const { invokeInTab } = require("./mocha");
 

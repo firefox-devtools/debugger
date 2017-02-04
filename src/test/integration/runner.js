@@ -3,6 +3,7 @@ const expect = require("expect.js");
 
 const { prefs } = require("../../utils/prefs")
 const prettyPrint = require("./tests/pretty-print")
+const breaking = require("./tests/breaking")
 
 function ok(expected) {
   expect(expected).to.be.truthy
@@ -19,6 +20,10 @@ describe("Tests", () => {
   beforeEach(() => {
     prefs.pendingSelectedLocation = {};
     prefs.tabs = [];
+  });
+
+  it("breaking", async function() {
+    await breaking({ ok, is });
   });
 
   it("pretty print", async function() {
