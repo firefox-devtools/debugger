@@ -4,6 +4,7 @@ const expect = require("expect.js");
 const { prefs } = require("../../utils/prefs")
 const prettyPrint = require("./tests/pretty-print")
 const breaking = require("./tests/breaking")
+const breakpointCond = require("./tests/breakpoints-cond")
 
 window.ok = function ok(expected) {
   expect(expected).to.be.truthy
@@ -31,6 +32,10 @@ describe("Tests", () => {
 
   it("pretty print", async function() {
     await prettyPrint({ ok, is });
+  });
+
+  it("conditional breakpoints", async function() {
+    await breakpointCond({ ok, is });
   });
 });
 
