@@ -1,5 +1,7 @@
 const mapValues = require("lodash/mapValues");
 const injectDebuggee = require("./debuggee");
+const {waitForElement, waitForThreadEvents, waitForSources} = require("./wait");
+
 
 async function waitForTime(time) {
   return new Promise(function(resolve, reject) {
@@ -52,6 +54,13 @@ function createDebuggerContext(iframe) {
   }
 }
 
+async function waitForLoad(iframe) {
+  return new Promise(resolve => {
+    iframe.onload = resolve;
+  })
+}
+
+
 async function createIframe() {
   let container = window["app-container"];
   let iframe = document.createElement("iframe");
@@ -59,9 +68,12 @@ async function createIframe() {
   let id = document.createAttribute("id");
   id.value = "debuggerWindow";
   container.innerHTML = "";
+  const loaded = waitForLoad(iframe);
   container.appendChild(iframe);
+  await loaded;
 
-  await waitForTime(2000);
+  const dbg = createDebuggerContext(iframe);
+  await waitForElement(dbg, ".tab")
   return iframe;
 }
 
@@ -72,27 +84,29 @@ async function navigateToTab(dbg) {
   }).get("id");
 
   dbg.win.location = `/?firefox-tab=${tabId}`;
-  await waitForTime(3000);
+  return waitForElement(dbg, ".debugger");
+
 }
 
 async function navigate(dbg, url) {
   dbg.win.client.navigate(`${url}`);
-  return waitForTime(3000);
+  return waitForThreadEvents(dbg, "resumed");
 }
 
-async function initDebugger(url) {
+async function initDebugger(url, ...sources) {
   const iframe = await createIframe();
   const dbg = createDebuggerContext(iframe);
 
   await navigateToTab(dbg);
   dbg = createDebuggerContext(iframe);
 
-
   await navigate(
     dbg,
     `http://localhost:8000/integration/examples/${url}`
   );
   dbg = createDebuggerContext(iframe);
+
+  await waitForSources(dbg, ...sources)
 
   return dbg;
 }

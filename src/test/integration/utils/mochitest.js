@@ -1,6 +1,4 @@
-function info(msg) {
-  dump(`info: ${msg}\n`);
-}
+const {info} = require("./shared");
 
 var ContentTask, gBrowser, openNewTabAndToolbox, Services, EXAMPLE_URL;
 

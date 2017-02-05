@@ -1,5 +1,4 @@
 const mapValues = require("lodash/mapValues");
-const { info } = require("./mocha");
 
 const selectors = {
   callStackHeader: ".call-stack-pane ._header",
@@ -71,8 +70,18 @@ function findSource(dbg, url) {
   return source.toJS();
 }
 
+function info(msg) {
+  const message = `INFO: ${msg}\n`;
+  if (typeof dump == "function") {
+    dump(message);
+  }
+
+  console.log(message)
+}
+
 module.exports = {
   findElement,
+  findElementWithSelector,
   findSource,
   selectors,
   getSelector,
