@@ -1,6 +1,6 @@
 const { invokeInTab } = require("./mocha");
 
-const { selectors, findSource, getSelector } = require("./shared");
+const { selectors, findSource, getSelector, info } = require("./shared");
 const {
   waitForSources,
   waitForDispatch,

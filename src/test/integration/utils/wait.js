@@ -1,8 +1,4 @@
-const {findElementWithSelector} = require("./shared")
-
-function info(msg) {
-  console.log('>>> ' + msg)
-}
+const { findElementWithSelector, info } = require("./shared")
 
 /**
  * Waits for `predicate(state)` to be true. `state` is the redux app state.
