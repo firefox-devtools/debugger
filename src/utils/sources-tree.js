@@ -155,8 +155,8 @@ function getURL(sourceUrl: string): { path: string, group: string } {
 function isDirectory(url: Object) {
   const parts = url.path.split("/").filter(p => p !== "");
 
-  return (parts.length === 0 ||
-                 parts[parts.length - 1].indexOf(".") === -1);
+  // Assume that all urls point to files except when they end with '/'
+  return (parts.length === 0 || url.path.slice(-1) === "/");
 }
 
 /**
