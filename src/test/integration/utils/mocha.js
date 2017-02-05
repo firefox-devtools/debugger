@@ -1,6 +1,6 @@
 const mapValues = require("lodash/mapValues");
 const injectDebuggee = require("./debuggee");
-const {waitForElement, waitForDispatch, waitForSources} = require("./wait");
+const {waitForElement, waitForThreadEvents, waitForSources} = require("./wait");
 
 
 async function waitForTime(time) {
@@ -68,9 +68,9 @@ async function createIframe() {
   let id = document.createAttribute("id");
   id.value = "debuggerWindow";
   container.innerHTML = "";
+  const loaded = waitForLoad(iframe);
   container.appendChild(iframe);
-
-  await waitForLoad(iframe);
+  await loaded;
 
   const dbg = createDebuggerContext(iframe);
   await waitForElement(dbg, ".tab")
@@ -90,7 +90,7 @@ async function navigateToTab(dbg) {
 
 async function navigate(dbg, url) {
   dbg.win.client.navigate(`${url}`);
-  return waitForDispatch(dbg, "RESUME");
+  return waitForThreadEvents(dbg, "resumed");
 }
 
 async function initDebugger(url, ...sources) {

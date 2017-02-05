@@ -5,18 +5,21 @@ const { prefs } = require("../../utils/prefs")
 const prettyPrint = require("./tests/pretty-print")
 const breaking = require("./tests/breaking")
 
-function ok(expected) {
+window.ok = function ok(expected) {
   expect(expected).to.be.truthy
 }
 
-function is(expected, actual) {
+window.is = function is(expected, actual) {
   expect(expected).to.equal(actual)
+}
+
+window.info = function info(msg) {
+  console.log(`info: ${msg}\n`);
 }
 
 mocha.setup({ timeout: 20000, ui: 'bdd' });
 
 describe("Tests", () => {
-
   beforeEach(() => {
     prefs.pendingSelectedLocation = {};
     prefs.tabs = [];
