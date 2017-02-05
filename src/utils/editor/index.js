@@ -1,5 +1,22 @@
-const { isPretty, isJavaScript } = require("./source");
-const { isOriginalId } = require("../utils/source-map");
+const { isPretty, isJavaScript } = require("../source");
+const { isOriginalId } = require("../source-map");
+const { buildQuery } = require("./build-query");
+const {
+  getDocument,
+  setDocument,
+  removeDocument,
+  clearDocuments
+} = require("./source-documents");
+
+const {
+  countMatches,
+  find,
+  findNext,
+  findPrev,
+  removeOverlay
+} = require("./source-search");
+
+const SourceEditor = require("./source-editor");
 
 function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
@@ -61,5 +78,16 @@ module.exports = {
   shouldShowPrettyPrint,
   shouldShowFooter,
   clearLineClass,
-  onKeyDown
+  onKeyDown,
+  buildQuery,
+  getDocument,
+  setDocument,
+  removeDocument,
+  clearDocuments,
+  countMatches,
+  find,
+  findNext,
+  findPrev,
+  removeOverlay,
+  SourceEditor
 };

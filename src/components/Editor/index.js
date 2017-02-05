@@ -7,13 +7,11 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
 
-const SourceEditor = require("../../utils/source-editor");
-const {
-  find, findNext, findPrev, removeOverlay
-} = require("../../utils/source-search");
 const { getMode } = require("../../utils/source");
 const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
+const GutterMenu = require("./GutterMenu");
+const EditorMenu = require("./EditorMenu");
 const { renderConditionalPanel } = require("./ConditionalPanel");
 const { debugGlobal } = require("devtools-launchpad");
 const {
@@ -27,13 +25,19 @@ const actions = require("../../actions");
 const Breakpoint = React.createFactory(require("./Breakpoint"));
 const HitMarker = React.createFactory(require("./HitMarker"));
 
-const { getDocument, setDocument } = require("../../utils/source-documents");
-const { shouldShowFooter, clearLineClass, onKeyDown } = require("../../utils/editor");
+const {
+  find,
+  findNext,
+  findPrev,
+  removeOverlay,
+  getDocument,
+  setDocument,
+  shouldShowFooter,
+  clearLineClass,
+  onKeyDown,
+  SourceEditor
+} = require("../../utils/editor");
 const { isFirefox } = require("devtools-config");
-const { showMenu } = require("../shared/menu");
-const { isEnabled } = require("devtools-config");
-const { isOriginalId, hasMappedSource } = require("../../utils/source-map");
-const { copyToTheClipboard } = require("../../utils/clipboard");
 
 require("./Editor.css");
 
@@ -99,6 +103,7 @@ const Editor = React.createClass({
     removeBreakpoint: PropTypes.func,
     setBreakpointCondition: PropTypes.func,
     jumpToMappedLocation: PropTypes.func,
+    showSource: PropTypes.func,
     coverageOn: PropTypes.bool,
     selectedFrame: PropTypes.object,
     addExpression: PropTypes.func,
@@ -143,95 +148,16 @@ const Editor = React.createClass({
     this.toggleBreakpoint(line);
   },
 
-  async onContextMenu(cm, event) {
-    const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-    const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
-    const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
-    const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.key");
-
-    if (event.target.classList.contains("CodeMirror-linenumber")) {
-      return this.onGutterContextMenu(event);
-    }
-
-    const { selectedLocation, showSource } = this.props;
-
-    event.stopPropagation();
-    event.preventDefault();
-
-    const isMapped = await hasMappedSource(selectedLocation);
-
-    const source = this.props.selectedSource;
-    const copySourceUrl = {
-      id: "node-menu-copy-source",
-      label: copySourceUrlLabel,
-      accesskey: copySourceUrlKey,
-      disabled: false,
-      click: () => copyToTheClipboard(source.get("url"))
-    };
-
-    const { line, ch } = this.editor.codeMirror.coordsChar({
-      left: event.clientX,
-      top: event.clientY
-    });
-
-    const sourceLocation = {
-      sourceId: this.props.selectedLocation.sourceId,
-      line: line + 1,
-      column: ch + 1
-    };
-
-    const pairedType = isOriginalId(this.props.selectedLocation.sourceId)
-      ? L10N.getStr("generated") : L10N.getStr("original");
-
-    const jumpLabel = {
-      accesskey: "C",
-      disabled: false,
-      label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
-      click: () => this.props.jumpToMappedLocation(sourceLocation)
-    };
-
-    const watchExpressionLabel = {
-      accesskey: "E",
-      label: L10N.getStr("expressions.placeholder"),
-      click: () => this.props.addExpression({
-        input: this.editor.codeMirror.getSelection()
-      })
-    };
-
-    const menuOptions = [];
-
-    if (isMapped) {
-      menuOptions.push(jumpLabel);
-    }
-
-    const textSelected = this.editor.codeMirror.somethingSelected();
-    if (isEnabled("watchExpressions") && textSelected) {
-      menuOptions.push(watchExpressionLabel);
-    }
-
-    if (isEnabled("copySource")) {
-      menuOptions.push(copySourceUrl);
-    }
-
-    const showSourceMenuItem = {
-      id: "node-menu-show-source",
-      label: revealInTreeLabel,
-      accesskey: revealInTreeKey,
-      disabled: false,
-      click: () => showSource(source.get("id"))
-    };
-    menuOptions.push(showSourceMenuItem);
-
-    showMenu(event, menuOptions);
-  },
-
   onGutterContextMenu(event) {
-    event.stopPropagation();
-    event.preventDefault();
-
     const line = this.editor.codeMirror.lineAtHeight(event.clientY);
     const bp = breakpointAtLine(this.props.breakpoints, line);
-    this.showGutterMenu(event, line, bp);
+    GutterMenu({ event, line, bp,
+      toggleBreakpoint: this.toggleBreakpoint,
+      showConditionalPanel: this.showConditionalPanel,
+      toggleBreakpointDisabledStatus: this.toggleBreakpointDisabledStatus,
+      isCbPanelOpen: this.isCbPanelOpen(),
+      closeConditionalPanel: this.closeConditionalPanel
+    });
   },
 
   showConditionalPanel(line) {
@@ -372,73 +298,6 @@ const Editor = React.createClass({
     this.editor.setText(text);
   },
 
-  showGutterMenu(e, line, bp) {
-    let breakpoint, conditional, disabled;
-    if (!bp) {
-      breakpoint = {
-        id: "node-menu-add-breakpoint",
-        label: L10N.getStr("editor.addBreakpoint")
-      };
-      conditional = {
-        id: "node-menu-add-conditional-breakpoint",
-        label: L10N.getStr("editor.addConditionalBreakpoint")
-      };
-    } else {
-      breakpoint = {
-        id: "node-menu-remove-breakpoint",
-        label: L10N.getStr("editor.removeBreakpoint")
-      };
-      conditional = {
-        id: "node-menu-edit-conditional-breakpoint",
-        label: L10N.getStr("editor.editBreakpoint")
-      };
-      if (bp.disabled) {
-        disabled = {
-          id: "node-menu-enable-breakpoint",
-          label: L10N.getStr("editor.enableBreakpoint")
-        };
-      } else {
-        disabled = {
-          id: "node-menu-disable-breakpoint",
-          label: L10N.getStr("editor.disableBreakpoint")
-        };
-      }
-    }
-
-    const toggleBreakpoint = Object.assign({
-      accesskey: "B",
-      disabled: false,
-      click: () => {
-        this.toggleBreakpoint(line);
-        if (this.isCbPanelOpen()) {
-          this.closeConditionalPanel();
-        }
-      }
-    }, breakpoint);
-
-    const conditionalBreakpoint = Object.assign({
-      accesskey: "C",
-      disabled: false,
-      click: () => this.showConditionalPanel(line)
-    }, conditional);
-
-    let items = [
-      toggleBreakpoint,
-      conditionalBreakpoint
-    ];
-
-    if (bp) {
-      const disableBreakpoint = Object.assign({
-        accesskey: "D",
-        disabled: false,
-        click: () => this.toggleBreakpointDisabledStatus(line)
-      }, disabled);
-      items.push(disableBreakpoint);
-    }
-
-    showMenu(e, items);
-  },
-
   componentDidMount() {
     this.cbPanel = null;
 
@@ -488,12 +347,32 @@ const Editor = React.createClass({
 
       this.editor.codeMirror.on(
         "contextmenu",
-        (cm, event) => this.onContextMenu(cm, event)
+        (cm, event) => EditorMenu({
+          cm,
+          event,
+          editor: this.editor,
+          selectedLocation: this.props.selectedLocation,
+          selectedSource: this.props.selectedSource,
+          showSource: this.props.showSource,
+          onGutterContextMenu: this.onGutterContextMenu,
+          jumpToMappedLocation: this.props.jumpToMappedLocation,
+          addExpression: this.props.addExpression
+        })
       );
     } else {
       this.editor.codeMirror.getWrapperElement().addEventListener(
         "contextmenu",
-        event => this.onContextMenu(this.editor.codeMirror, event)
+        event => EditorMenu({
+          cm: this.editor.codeMirror,
+          event,
+          editor: this.editor,
+          selectedLocation: this.props.selectedLocation,
+          selectedSource: this.props.selectedSource,
+          showSource: this.props.showSource,
+          onGutterContextMenu: this.onGutterContextMenu,
+          jumpToMappedLocation: this.props.jumpToMappedLocation,
+          addExpression: this.props.addExpression
+        })
       );
     }
     const shortcuts = this.context.shortcuts;
@@ -691,21 +570,18 @@ const Editor = React.createClass({
   }
 });
 
-module.exports = connect(
-  state => {
-    const selectedLocation = getSelectedLocation(state);
-    const sourceId = selectedLocation && selectedLocation.sourceId;
-    const selectedSource = getSelectedSource(state);
+module.exports = connect(state => {
+  const selectedLocation = getSelectedLocation(state);
+  const sourceId = selectedLocation && selectedLocation.sourceId;
+  const selectedSource = getSelectedSource(state);
 
-    return {
-      selectedLocation,
-      selectedSource,
-      sourceText: getSourceText(state, sourceId),
-      breakpoints: getBreakpointsForSource(state, sourceId),
-      hitCount: getHitCountForSource(state, sourceId),
-      selectedFrame: getSelectedFrame(state),
-      coverageOn: getCoverageEnabled(state)
-    };
-  },
-  dispatch => bindActionCreators(actions, dispatch)
-)(Editor);
+  return {
+    selectedLocation,
+    selectedSource,
+    sourceText: getSourceText(state, sourceId),
+    breakpoints: getBreakpointsForSource(state, sourceId),
+    hitCount: getHitCountForSource(state, sourceId),
+    selectedFrame: getSelectedFrame(state),
+    coverageOn: getCoverageEnabled(state)
+  };
+}, dispatch => bindActionCreators(actions, dispatch))(Editor);

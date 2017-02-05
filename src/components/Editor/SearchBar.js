@@ -11,7 +11,7 @@ const {
   findPrev,
   removeOverlay,
   countMatches
-} = require("../../utils/source-search");
+} = require("../../utils/editor");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
 const CloseButton = require("../shared/Button/Close");

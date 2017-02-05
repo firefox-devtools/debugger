@@ -11,7 +11,7 @@ require("codemirror/mode/htmlmixed/htmlmixed");
 require("codemirror/mode/coffeescript/coffeescript");
 require("codemirror/mode/jsx/jsx");
 require("codemirror/mode/elm/elm");
-require("../components/Editor/codemirror-mozilla.css");
+require("../../components/Editor/codemirror-mozilla.css");
 require("codemirror/addon/search/searchcursor");
 
 // Maximum allowed margin (in number of lines) from top or bottom of the editor

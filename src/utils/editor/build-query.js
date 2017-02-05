@@ -1,7 +1,7 @@
 // @flow
 const escapeRegExp = require("lodash/escapeRegExp");
 
-import type { SearchModifiers } from "../types";
+import type { SearchModifiers } from "../../types";
 
 type QueryOptions = {
   isGlobal?: boolean,

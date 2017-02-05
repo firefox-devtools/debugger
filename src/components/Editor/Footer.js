@@ -10,7 +10,10 @@ const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
 const { isEnabled } = require("devtools-config");
 const { isPretty } = require("../../utils/source");
-const { shouldShowFooter, shouldShowPrettyPrint } = require("../../utils/editor");
+const {
+  shouldShowFooter,
+  shouldShowPrettyPrint
+} = require("../../utils/editor");
 const PaneToggleButton = React.createFactory(
   require("../shared/Button/PaneToggle")
 );

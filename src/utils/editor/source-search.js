@@ -2,7 +2,7 @@
 
 const buildQuery = require("./build-query");
 
-import type { SearchModifiers } from "../types";
+import type { SearchModifiers } from "../../types";
 
 /**
  * @memberof utils/source-search
