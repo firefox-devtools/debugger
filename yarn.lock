@@ -1839,13 +1839,13 @@ detective@^4.0.0, detective@^4.3.1:
     acorn "^3.1.0"
     defined "^1.0.0"
 
-devtools-client-adapters@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.12.tgz#3d8bff4d077c125d918c815ae9937504edf47763"
+devtools-client-adapters@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.13.tgz#f947a7fb252c2aef6ddf2a173086cedd96f13b9d"
   dependencies:
     chrome-remote-interface "0.17.0"
     devtools-config "^0.0.11"
-    devtools-modules "^0.0.14"
+    devtools-modules "^0.0.15"
     devtools-network-request "^0.0.10"
     devtools-sham-modules "^0.0.12"
     tcomb "^3.1.0"
@@ -1933,9 +1933,9 @@ devtools-launchpad@0.0.21:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
-devtools-launchpad@^0.0.37:
-  version "0.0.37"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.37.tgz#70c01798d20b1217ccefe75d5cc1ba24e6eeb2eb"
+devtools-launchpad@^0.0.38:
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.38.tgz#e986e40eef998337555a647732aa0086e6650143"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
@@ -1958,9 +1958,9 @@ devtools-launchpad@^0.0.37:
     classnames "^2.2.5"
     co "=4.6.0"
     css-loader "^0.25.0"
-    devtools-client-adapters "^0.0.12"
+    devtools-client-adapters "^0.0.13"
     devtools-config "^0.0.11"
-    devtools-modules "^0.0.14"
+    devtools-modules "^0.0.15"
     devtools-network-request "^0.0.10"
     devtools-sham-modules "^0.0.12"
     eslint "^3.12.0"
@@ -2003,9 +2003,9 @@ devtools-modules@^0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.11.tgz#02d403a24778326e5b5330db508e29b536a9025a"
 
-devtools-modules@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.14.tgz#03edc685a8d03d39cff065d7e3acb12e9d381492"
+devtools-modules@^0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.15.tgz#cdea5c65afc34bad581900bb03464be2a8fdfabd"
 
 devtools-network-request@^0.0.10:
   version "0.0.10"
