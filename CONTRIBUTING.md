@@ -265,3 +265,4 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [getting-help]:./docs/local-development.md#getting-help
 [first-activity]:./docs/debugging-the-debugger.md
 [goodness-squad]:https://hackernoon.com/goodness-squad-a8704d594a7a#.qllq19koq
+[slack]:https://devtools-html-slack.herokuapp.com/
