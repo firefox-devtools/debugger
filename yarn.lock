@@ -1838,16 +1838,15 @@ detective@^4.0.0, detective@^4.3.1:
     acorn "^3.1.0"
     defined "^1.0.0"
 
-devtools-client-adapters@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.14.tgz#0f1c439864451d967bae4fa555febed2631af135"
+devtools-client-adapters@^0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.15.tgz#20a82ec9b6bdaf3b661d443eab7ae64ec271a499"
   dependencies:
     chrome-remote-interface "0.17.0"
     devtools-config "^0.0.12"
-    devtools-modules "^0.0.15"
+    devtools-modules "^0.0.16"
     devtools-network-request "^0.0.11"
-    devtools-sham-modules "^0.0.12"
-    tcomb "^3.1.0"
+    devtools-sham-modules "^0.0.13"
 
 devtools-client-adapters@^0.0.8:
   version "0.0.8"
@@ -1933,9 +1932,9 @@ devtools-launchpad@0.0.29:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
-devtools-launchpad@^0.0.39:
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.39.tgz#8617d15a7a6138ebd5d3d3b9c17f6e440860eaf6"
+devtools-launchpad@^0.0.40:
+  version "0.0.40"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.40.tgz#cfb7047006de29db8dd32c91210b9ffad488870c"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
@@ -1958,11 +1957,11 @@ devtools-launchpad@^0.0.39:
     classnames "^2.2.5"
     co "=4.6.0"
     css-loader "^0.25.0"
-    devtools-client-adapters "^0.0.14"
+    devtools-client-adapters "^0.0.15"
     devtools-config "^0.0.12"
-    devtools-modules "^0.0.15"
+    devtools-modules "^0.0.16"
     devtools-network-request "^0.0.11"
-    devtools-sham-modules "^0.0.12"
+    devtools-sham-modules "^0.0.13"
     eslint "^3.12.0"
     eslint-plugin-babel "^3.3.0"
     eslint-plugin-flowtype "^2.20.0"
@@ -2003,9 +2002,9 @@ devtools-modules@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.14.tgz#03edc685a8d03d39cff065d7e3acb12e9d381492"
 
-devtools-modules@^0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.15.tgz#cdea5c65afc34bad581900bb03464be2a8fdfabd"
+devtools-modules@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.16.tgz#49452f23875fdcc183434876eb8035b19d4a9435"
 
 devtools-network-request@^0.0.11:
   version "0.0.11"
@@ -2025,6 +2024,10 @@ devtools-reps@^0.0.5:
 devtools-sham-modules@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.12.tgz#0fe0cb529e283e54207ef73bc2fed616cc501e8a"
+
+devtools-sham-modules@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.13.tgz#adf77140789b5454375d1c2f642e6f69be36d811"
 
 diff@1.4.0, diff@^1.3.2:
   version "1.4.0"
