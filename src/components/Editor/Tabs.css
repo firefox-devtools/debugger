@@ -17,6 +17,9 @@
   max-width: calc(100% - 80px);
   float: left;
   margin-inline-start: 21px;
+  /*align-self: center;*/
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .source-header .new-tab-btn {
@@ -36,6 +39,7 @@
 .source-tab {
   color: var(--theme-faded-tab-color);
   border: 1px solid transparent;
+  border-bottom: 0; 
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   height: 24px;
@@ -45,11 +49,10 @@
   transition: all 0.25s ease;
   min-width: 40px;
   overflow: hidden;
+  align-self: center;
 }
 
 .source-tab {
-  padding-top: 2px;
-  padding-bottom: 2px;
   padding-inline-start: 12px;
   padding-inline-end: 20px;
   margin-top: 6px;
