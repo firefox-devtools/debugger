@@ -24,7 +24,7 @@ const { prettyPrint } = require("../utils/pretty-print");
 const { getPrettySourceURL } = require("../utils/source");
 
 const constants = require("../constants");
-const { removeDocument } = require("../utils/editor/source-documents");
+const { removeDocument } = require("../utils/editor");
 
 const {
   getSource, getSourceByURL, getSourceText,

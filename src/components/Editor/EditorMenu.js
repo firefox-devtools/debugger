@@ -3,7 +3,9 @@ const { isEnabled } = require("devtools-config");
 const { isOriginalId, hasMappedSource } = require("../../utils/source-map");
 const { copyToTheClipboard } = require("../../utils/clipboard");
 
-async function EditorMenu({ cm, event, editor,
+async function EditorMenu({
+  codeMirror,
+  event,
   selectedLocation,
   selectedSource,
   showSource,
@@ -33,7 +35,7 @@ async function EditorMenu({ cm, event, editor,
     click: () => copyToTheClipboard(selectedSource.get("url"))
   };
 
-  const { line, ch } = editor.codeMirror.coordsChar({
+  const { line, ch } = codeMirror.coordsChar({
     left: event.clientX,
     top: event.clientY
   });
@@ -58,7 +60,7 @@ async function EditorMenu({ cm, event, editor,
     accesskey: "E",
     label: L10N.getStr("expressions.placeholder"),
     click: () => addExpression({
-      input: editor.codeMirror.getSelection()
+      input: codeMirror.getSelection()
     })
   };
 
@@ -68,7 +70,7 @@ async function EditorMenu({ cm, event, editor,
     menuOptions.push(jumpLabel);
   }
 
-  const textSelected = editor.codeMirror.somethingSelected();
+  const textSelected = codeMirror.somethingSelected();
   if (isEnabled("watchExpressions") && textSelected) {
     menuOptions.push(watchExpressionLabel);
   }
