@@ -6,8 +6,6 @@
 
 We respect your time and want to help you make the most of it as you learn more about this project.
 
-[Getting Started](#getting-started)
-
 * [How Can I Contribute?](#how-can-i-contribute)
   * [Reporting Bugs](#reporting-bugs-bug)
   * [Suggesting Enhancements](#suggesting-enhancements-new)
@@ -95,7 +93,7 @@ There's been four workshops so far. Two in New York, one in Tel Aviv, and one in
 The workshops have helped close to 100 people get started. In all of the cases, the workshop was organized
 in collaboration with a local meetup group that was interested in promoting open source.
 
-Feel free to reach out to us on [slack][slack] if you're interested in organizing one. Here is a [guide][meetup-guide] and [example][meetup-example] document.
+Feel free to reach out to us on [slack][slack] if you're interested in organizing one. Here is a [guide][meetup-guide] and [example][meetup-example] document. Amit's [goodness squad][goodness-squad] is a must read.
 
 Give a talk or write a blog post and help others get started. Very few developers know that the debugger is a web app. It's a lot of fun to hear the amazing tools others want to build once they learn that they can!
 
@@ -236,6 +234,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
 [labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
 [labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%hard
+[labels-enhancement]:https://devtools-html.github.io/debugger.html/CONTRIBUTING.html#suggesting-enhancements-new
 
 [@jasonlaster]:https://github.com/jasonlaster
 [@bomsy]:https://github.com/bomsy
@@ -265,3 +264,4 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [jlast-talk]:https://www.youtube.com/watch?v=O_xViL2TGrU
 [getting-help]:./docs/local-development.md#getting-help
 [first-activity]:./docs/debugging-the-debugger.md
+[goodness-squad]:https://hackernoon.com/goodness-squad-a8704d594a7a#.qllq19koq
