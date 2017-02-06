@@ -311,7 +311,8 @@ function initDebugger(url, ...sources) {
   return Task.spawn(function* () {
     Services.prefs.clearUserPref("devtools.debugger.tabs")
     Services.prefs.clearUserPref("devtools.debugger.pending-selected-location")
-    const toolbox = yield openNewTabAndToolbox(EXAMPLE_URL + url, "jsdebugger");
+    url = url.startsWith("data:") ? url : EXAMPLE_URL + url;
+    const toolbox = yield openNewTabAndToolbox(url, "jsdebugger");
     return createDebuggerContext(toolbox);
   });
 }
