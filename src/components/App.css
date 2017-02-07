@@ -16,6 +16,7 @@
 .editor-container {
   display: flex;
   flex: 1;
+  width: 100%;
 }
 
 .subsettings:hover {
