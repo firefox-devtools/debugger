@@ -1,6 +1,6 @@
 .source-header {
   border-bottom: 1px solid var(--theme-splitter-color);
-  /*width: 100%;*/
+  width: 100%;
   height: 30px;
   display: flex;
   justify-content: space-between;
@@ -22,8 +22,8 @@
 }
 
 .source-tabs {
-  /*max-width: calc(100% - 80px);
-  margin-inline-start: 21px;*/
+  max-width: calc(100% - 80px);
+  /*margin-inline-start: 21px;*/
   align-self: flex-end;
   display: flex;
   padding: 0;
