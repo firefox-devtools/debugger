@@ -29,7 +29,8 @@ const svg = {
   "whole-word-match": require("./whole-word-match.svg"),
   "worker": require("./worker.svg"),
   "sad-face": require("./sad-face.svg"),
-  "refresh": require("./refresh.svg")
+  "refresh": require("./refresh.svg"),
+  "fastForward": require("./fast-forward.svg")
 };
 
 module.exports = function(name, props) { // eslint-disable-line
