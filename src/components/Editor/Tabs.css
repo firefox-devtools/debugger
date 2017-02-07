@@ -1,11 +1,9 @@
 .source-header {
   border-bottom: 1px solid var(--theme-splitter-color);
+  /*width: 100%;*/
   height: 30px;
   display: flex;
-  flex: 1;
-  flex-flow: row wrap;
-  -webkit-align-items: stretch;
-  align-items: stretch;
+  justify-content: space-between;
 }
 
 .source-header * {
@@ -13,27 +11,24 @@
   user-select: none;
 }
 
-.source-tabs {
-  max-width: calc(100% - 80px);
-  float: left;
-  margin-inline-start: 21px;
-  /*align-self: center;*/
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .source-header .new-tab-btn {
   width: 14px;
-  height: 14px;
-  display: inline-block;
-  position: relative;
-  top: 4px;
-  margin: 4px;
-  margin-inline-start: 8px;
-  line-height: 0;
+  /*margin-inline-start: 8px;*/
+  align-self: flex-end;
+  padding: 2px;
   cursor: pointer;
   fill: var(--theme-comment);
   transition: 0.1s ease;
+}
+
+.source-tabs {
+  /*max-width: calc(100% - 80px);
+  margin-inline-start: 21px;*/
+  align-self: flex-end;
+  display: flex;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
 }
 
 .source-tab {
@@ -42,20 +37,16 @@
   border-bottom: 0; 
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  height: 24px;
-  line-height: 20px;
-  display: inline-block;
   position: relative;
   transition: all 0.25s ease;
   min-width: 40px;
-  overflow: hidden;
-  align-self: center;
 }
 
 .source-tab {
+  padding-top: 2px;
+  padding-bottom: 2px;
   padding-inline-start: 12px;
   padding-inline-end: 20px;
-  margin-top: 6px;
   margin-inline-start: 8px;
 }
 
@@ -102,6 +93,7 @@
 }
 
 .source-tab .filename {
+  white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -114,10 +106,12 @@
   offset-inline-end: 4px;
 }
 
-.source-tab .close {
-  display: none;
+.source-tab .close-btn {
+  /*display: none;*/
+  visibility: hidden;
 }
 
-.source-tab:hover .close {
-  display: block;
+.source-tab:hover .close-btn {
+  /*display: none;*/
+  visibility: visible;
 }

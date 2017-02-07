@@ -11,11 +11,13 @@
 }
 
 .dropdown-button {
-  position: absolute;
-  top: 9px;
+  /*position: absolute;
+  top: 9px;*/
   cursor: pointer;
-  width: 10px;
+  width: 14px;
   fill: var(--theme-comment);
+  align-self: flex-end;
+  padding: 2px;
 }
 
 .dropdown li {
