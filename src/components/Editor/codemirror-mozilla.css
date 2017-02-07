@@ -5,16 +5,14 @@
 :root {
   /* --breakpoint-background: url("chrome://devtools/skin/images/breakpoint.svg#light"); */
   /* --breakpoint-hover-background: url("chrome://devtools/skin/images/breakpoint.svg#light-hover"); */
-  --breakpoint-active-color: rgba(44,187,15,.2);
-  --breakpoint-active-color-hover: rgba(44,187,15,.5);
+  --breakpoint-active-color: rgba(239,192,82,.6);
+  --breakpoint-active-color-hover: rgba(239,192,82,.8);
   /* --breakpoint-conditional-background: url("chrome://devtools/skin/images/breakpoint.svg#light-conditional"); */
 }
 
 .theme-dark:root {
   /* --breakpoint-background: url("chrome://devtools/skin/images/breakpoint.svg#dark"); */
   /* --breakpoint-hover-background: url("chrome://devtools/skin/images/breakpoint.svg#dark-hover"); */
-  --breakpoint-active-color: rgba(0,255,175,.4);
-  --breakpoint-active-color-hover: rgba(0,255,175,.7);
   /* --breakpoint-conditional-background: url("chrome://devtools/skin/images/breakpoint.svg#dark-conditional"); */
 }
 
@@ -74,10 +72,6 @@
 
 .conditional .CodeMirror-linenumber:before {
   background-image: var(--breakpoint-conditional-background) !important;
-}
-
-.debug-line .CodeMirror-linenumber {
-  background-color: var(--breakpoint-active-color);
 }
 
 .theme-dark .debug-line .CodeMirror-linenumber {
