@@ -11,28 +11,11 @@
 }
 
 .dropdown-button {
-  /*position: absolute;
-  offset-inline-end: 18px;
-  top: 4px;
-  font-size: 18px;
-  color: var(--theme-comment);
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0 5px;
-  font-weight: 100;*/
-
   position: absolute;
-  /* right: 18px; 
-  font-size: 18px;*/
   top: 9px;
   cursor: pointer;
-  /* background: none; */
-  /* border: none; */
-  /* padding: 0 5px; */
-  /* font-weight: 100; */
   width: 10px;
-  /* height: 14px; */
+  fill: var(--theme-comment);
 }
 
 .dropdown li {
