@@ -29,7 +29,7 @@ require("./Tabs.css");
  *
  * @returns Immutable.list
  */
-function getHiddenTabs(sourceTabs, sourceTabEls) {
+/*function getHiddenTabs(sourceTabs, sourceTabEls) {
   sourceTabEls = [].slice.call(sourceTabEls);
   function getTopOffset() {
     const topOffsets = sourceTabEls.map(t => t.getBoundingClientRect().top);
@@ -39,6 +39,19 @@ function getHiddenTabs(sourceTabs, sourceTabEls) {
   const tabTopOffset = getTopOffset();
   return sourceTabs.filter((tab, index) => {
     return sourceTabEls[index].getBoundingClientRect().top > tabTopOffset;
+  });
+}*/
+
+function getHiddenTabs(sourceTabs, sourceTabEls) {
+  sourceTabEls = [].slice.call(sourceTabEls);
+  function getLeftOffset() {
+    const leftOffsets = sourceTabEls.map(t => t.getBoundingClientRect().left);
+    return Math.min(...leftOffsets);
+  }
+
+  const tabLeftOffset = getLeftOffset();
+  return sourceTabs.filter((tab, index) => {
+    return sourceTabEls[index].getBoundingClientRect().left > tabLeftOffset;
   });
 }
 
