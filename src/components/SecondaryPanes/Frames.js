@@ -5,11 +5,12 @@ import {
 } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
+
 import { getFrames, getSelectedFrame, getSource } from "../../selectors";
+
 import { showMenu } from "../shared/menu";
 import { isEnabled } from "devtools-config";
 import { copyToTheClipboard } from "../../utils/clipboard";
@@ -41,8 +42,8 @@ function renderFrameLocation({ source, location }: Frame) {
 
 const Frames = createClass({
   propTypes: {
-    frames: ImPropTypes.list,
-    selectedFrame: PropTypes.object.isRequired,
+    frames: PropTypes.array,
+    selectedFrame: PropTypes.object,
     selectFrame: PropTypes.func.isRequired
   },
 
@@ -69,7 +70,7 @@ const Frames = createClass({
   onContextMenu(event: SyntheticKeyboardEvent, frame: Frame) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
     const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
-    
+
     event.stopPropagation();
     event.preventDefault();
 
@@ -87,14 +88,14 @@ const Frames = createClass({
 
       if (isEnabled("copySource")) {
         menuOptions.push(copySourceUrl);
-      }      
+      }
     }
 
     showMenu(event, menuOptions);
   },
 
   renderFrame(frame: Frame) {
-    const { selectedFrame, selectFrame } = this.props;
+    const { selectedFrame } = this.props;
 
     return dom.li(
       { key: frame.id,
@@ -117,9 +118,9 @@ const Frames = createClass({
     this.props.selectFrame(frame);
   },
 
-  renderFrames(frames: List<Frame>) {
+  renderFrames(frames: Frame[]) {
     const numFramesToShow =
-      this.state.showAllFrames ? frames.size : NUM_FRAMES_SHOWN;
+      this.state.showAllFrames ? frames.length : NUM_FRAMES_SHOWN;
     const framesToShow = frames.slice(0, numFramesToShow);
 
     return dom.ul({}, framesToShow.map(this.renderFrame));
@@ -160,15 +161,22 @@ const Frames = createClass({
   }
 });
 
+function getSourceForFrame(state, frame) {
+  return getSource(state, frame.location.sourceId);
+}
+
 function getAndProcessFrames(state) {
   const frames = getFrames(state);
   if (!frames) {
     return null;
   }
-  return frames.filter(frame => getSource(state, frame.location.sourceId))
-               .map(frame => Object.assign({}, frame, {
-                 source: getSource(state, frame.location.sourceId).toJS()
-               }));
+
+  return frames
+    .toJS()
+    .filter(frame => getSourceForFrame(state, frame))
+    .map(frame => Object.assign({}, frame, {
+      source: getSourceForFrame(state, frame).toJS()
+    }));
 }
 
 export default connect(

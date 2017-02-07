@@ -162,7 +162,13 @@ function getFrames(state: OuterState) {
 function getSelectedFrame(state: OuterState) {
   const selectedFrameId = state.pause.get("selectedFrameId");
   const frames = state.pause.get("frames");
-  return frames && frames.find(frame => frame.id == selectedFrameId);
+  if (!frames) {
+    return null;
+  }
+
+  return frames.find(
+    frame => frame.get("id") == selectedFrameId
+  ).toJS();
 }
 
 // NOTE: currently only used for chrome

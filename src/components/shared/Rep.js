@@ -1,5 +1,6 @@
 const React = require("react");
-let { Rep, Grip } = require("devtools-reps");
+
+let { REPS: { Rep, Grip }} = require("devtools-reps");
 Rep = React.createFactory(Rep);
 
 function renderRep({ object, mode }) {
