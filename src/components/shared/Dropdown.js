@@ -52,7 +52,7 @@ const Dropdown = React.createClass({
   },
 
   render() {
-    return dom.div({},
+    return dom.div({className: "dropdown-parent"},
       this.renderPanel(),
       this.renderButton(),
       this.renderMask()
