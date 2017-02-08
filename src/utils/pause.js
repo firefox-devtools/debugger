@@ -4,9 +4,10 @@ const { getOriginalLocation } = require("./source-map");
 import type { Pause, Frame } from "../types";
 
 function updateFrameLocations(frames: Frame[]): Promise<Frame[]> {
-  if (!frames) {
+  if (!frames || frames.length == 0) {
     return Promise.resolve(frames);
   }
+
   return Promise.all(
     frames.map(frame => {
       return getOriginalLocation(frame.location).then(loc => {

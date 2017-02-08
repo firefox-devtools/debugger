@@ -241,9 +241,14 @@ function togglePrettyPrint(sourceId: string) {
         const { code, mappings } = await prettyPrint({
           source, sourceText, url
         });
+
         await applySourceMap(source.id, url, code, mappings);
 
-        const frames = await updateFrameLocations(getFrames(getState()));
+        const frames = getFrames(getState());
+        if (frames) {
+          frames = await updateFrameLocations(frames.toJS());
+        }
+
         dispatch(selectSource(originalSource.id));
 
         return {

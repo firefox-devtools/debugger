@@ -9,14 +9,13 @@ import actions from "../../actions";
 import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
 
-import { getFrames, getSelectedFrame, getSource } from "../../selectors";
+const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
 
 import { showMenu } from "../shared/menu";
 import { isEnabled } from "devtools-config";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import classNames from "classnames";
 
-import type { List } from "immutable";
 import type { Frame, Source } from "../../types";
 
 import "./Frames.css";
@@ -126,11 +125,11 @@ const Frames = createClass({
     return dom.ul({}, framesToShow.map(this.renderFrame));
   },
 
-  renderToggleButton(frames: List<Frame>) {
+  renderToggleButton(frames: Frame[]) {
     let buttonMessage = this.state.showAllFrames
       ? L10N.getStr("callStack.collapse") : L10N.getStr("callStack.expand");
 
-    if (frames.size < NUM_FRAMES_SHOWN) {
+    if (frames.length < NUM_FRAMES_SHOWN) {
       return null;
     }
 
