@@ -18,7 +18,4 @@ docker run -it \
   -e "DISPLAY=unix$DISPLAY" \
   --ipc host \
   jasonlaster11/mochitest-runner \
-  /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/debugger/new/test/mochitest/browser.ini && ./mach build && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/" \
-| grep -v 'Declaration dropped.' \
-| grep -v 'Unknown pseudo-class or pseudo-element' \
-| grep -v 'Property contained reference to invalid variable.'
+  /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/debugger/new/test/mochitest/browser.ini && ./mach build && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"

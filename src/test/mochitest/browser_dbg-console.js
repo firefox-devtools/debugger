@@ -27,7 +27,9 @@ function getSplitConsole(dbg) {
 
 add_task(function* () {
   Services.prefs.setBoolPref("devtools.toolbox.splitconsoleEnabled", true);
-  const dbg = yield initDebugger("data:text/html;charset=utf-8,");
+  const dbg = yield initDebugger(
+    "doc-script-switching.html"
+  );
 
   yield selectSource(dbg, "switching-01");
 
