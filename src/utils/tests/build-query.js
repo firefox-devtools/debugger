@@ -1,7 +1,6 @@
 const expect = require("expect.js");
 const escapeRegExp = require("lodash/escapeRegExp");
-
-const buildQuery = require("../editor");
+const { buildQuery } = require("../editor");
 
 describe("build-query", () => {
   it("case-sensitive, whole-word, regex search", () => {

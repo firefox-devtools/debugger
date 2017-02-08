@@ -1,6 +1,6 @@
 const { isPretty, isJavaScript } = require("../source");
 const { isOriginalId } = require("../source-map");
-const { buildQuery } = require("./build-query");
+const buildQuery = require("./build-query");
 const {
   getDocument,
   setDocument,
