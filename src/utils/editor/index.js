@@ -123,7 +123,29 @@ function onMouseUp(ctx, modifiers) {
   }
 }
 
+function createEditor() {
+  return new SourceEditor({
+    mode: "javascript",
+    readOnly: true,
+    lineNumbers: true,
+    theme: "mozilla",
+    lineWrapping: false,
+    matchBrackets: true,
+    showAnnotationRuler: true,
+    enableCodeFolding: false,
+    gutters: ["breakpoints", "hit-markers"],
+    value: " ",
+    extraKeys: {
+      // Override code mirror keymap to avoid conflicts with split console.
+      Esc: false,
+      "Cmd-F": false,
+      "Cmd-G": false
+    }
+  });
+}
+
 module.exports = {
+  createEditor,
   shouldShowPrettyPrint,
   shouldShowFooter,
   clearLineClass,
@@ -138,7 +160,6 @@ module.exports = {
   findNext,
   findPrev,
   removeOverlay,
-  SourceEditor,
   isTextForSource,
   breakpointAtLine,
   getTextForLine,
