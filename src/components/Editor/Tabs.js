@@ -21,41 +21,21 @@ const { formatKeyShortcut } = require("../../utils/text");
 require("./Tabs.css");
 
 /*
- * Finds the hidden tabs by comparing the tabs' top offset.
- * hidden tabs will have a great top offset.
+ * Finds the hidden tabs by comparing the tabs' left offset with the right offset of parent.
+ * hidden tabs will have a greater left offset.
  *
  * @param sourceTabs Immutable.list
  * @param sourceTabEls HTMLCollection
  *
  * @returns Immutable.list
  */
-/*function getHiddenTabs(sourceTabs, sourceTabEls) {
+function getHiddenTabs(sourceTabsParent, sourceTabs, sourceTabEls) {
+  const parentRightOffset = sourceTabsParent.getBoundingClientRect().right;
+  const sourceTabMinWidth = 80; // this value is set in tabs.css
   sourceTabEls = [].slice.call(sourceTabEls);
-  function getTopOffset() {
-    const topOffsets = sourceTabEls.map(t => t.getBoundingClientRect().top);
-    return Math.min(...topOffsets);
-  }
-
-  const tabTopOffset = getTopOffset();
+  
   return sourceTabs.filter((tab, index) => {
-    return sourceTabEls[index].getBoundingClientRect().top > tabTopOffset;
-  });
-}*/
-
-function getHiddenTabs(parent, sourceTabs, sourceTabEls) {
-  const parentRightOffset = parent.getBoundingClientRect().right;
-  console.log('parent right offset', parentRightOffset);
-
-  sourceTabEls = [].slice.call(sourceTabEls);
-  function getLeftOffset() {
-    const leftOffsets = sourceTabEls.map(t => t.getBoundingClientRect().left);
-    console.log('all left offset values', leftOffsets);
-    return Math.max(...leftOffsets);
-  }
-
-  const tabLeftOffset = getLeftOffset();
-  return sourceTabs.filter((tab, index) => {
-    return (sourceTabEls[index].getBoundingClientRect().left + 80) > parentRightOffset;
+    return (sourceTabEls[index].getBoundingClientRect().left + sourceTabMinWidth) > parentRightOffset;
   });
 }
 
@@ -241,8 +221,9 @@ const SourceTabs = React.createClass({
     }
 
     const sourceTabs = this.props.sourceTabs;
+    const sourceTabsParent = this.refs.SourceTabs;
     const sourceTabEls = this.refs.sourceTabs.children;
-    const hiddenSourceTabs = getHiddenTabs(this.refs.sourceTabs, sourceTabs, sourceTabEls);
+    const hiddenSourceTabs = getHiddenTabs(sourceTabsParent, sourceTabs, sourceTabEls);
 
     this.setState({ hiddenSourceTabs });
   },
