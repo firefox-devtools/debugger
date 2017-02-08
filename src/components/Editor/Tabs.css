@@ -39,7 +39,7 @@
   border-top-right-radius: 2px;
   position: relative;
   transition: all 0.25s ease;
-  min-width: 40px;
+  min-width: 80px;
 }
 
 .source-tab {

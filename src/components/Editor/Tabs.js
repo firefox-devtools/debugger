@@ -42,16 +42,20 @@ require("./Tabs.css");
   });
 }*/
 
-function getHiddenTabs(sourceTabs, sourceTabEls) {
+function getHiddenTabs(parent, sourceTabs, sourceTabEls) {
+  const parentRightOffset = parent.getBoundingClientRect().right;
+  console.log('parent right offset', parentRightOffset);
+
   sourceTabEls = [].slice.call(sourceTabEls);
   function getLeftOffset() {
     const leftOffsets = sourceTabEls.map(t => t.getBoundingClientRect().left);
-    return Math.min(...leftOffsets);
+    console.log('all left offset values', leftOffsets);
+    return Math.max(...leftOffsets);
   }
 
   const tabLeftOffset = getLeftOffset();
   return sourceTabs.filter((tab, index) => {
-    return sourceTabEls[index].getBoundingClientRect().left > tabLeftOffset;
+    return (sourceTabEls[index].getBoundingClientRect().left + 80) > parentRightOffset;
   });
 }
 
@@ -238,7 +242,7 @@ const SourceTabs = React.createClass({
 
     const sourceTabs = this.props.sourceTabs;
     const sourceTabEls = this.refs.sourceTabs.children;
-    const hiddenSourceTabs = getHiddenTabs(sourceTabs, sourceTabEls);
+    const hiddenSourceTabs = getHiddenTabs(this.refs.sourceTabs, sourceTabs, sourceTabEls);
 
     this.setState({ hiddenSourceTabs });
   },
