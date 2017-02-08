@@ -389,15 +389,15 @@ index 5996700..bb828d8 100644
 
 ### Flow
 
-- [Adding flow to a file](./flow#adding-flow-to-a-file)
-- [Running flow](./flow#running-flow)
-- [Missing Annotation](./flow#missing-annotation)
-- [Where are types defined?](./flow#where-are-types-defined?)
-- [Checking flow coverage](./flow#checking-flow-coverage)
-- [Common Errors](./flow#common-errors)
-  - [Required property](./flow#required-property)
-  - [Missing Annotation](./flow#missing-annotation)
-  - [Type Inconsistencies](./flow#type-inconsistencies)
+- [Adding flow to a file](./flow.md#adding-flow-to-a-file)
+- [Running flow](./flow.md#running-flow)
+- [Missing Annotation](./flow.md#missing-annotation)
+- [Where are types defined?](./flow.md#where-are-types-defined?)
+- [Checking flow coverage](./flow.md#checking-flow-coverage)
+- [Common Errors](./flow.md#common-errors)
+  - [Required property](./flow.md#required-property)
+  - [Missing Annotation](./flow.md#missing-annotation)
+  - [Type Inconsistencies](./flow.md#type-inconsistencies)
 
 ### Logging
 

@@ -135,14 +135,14 @@ Here are pointers to the DevTools general coding style and formatting guidelines
 
 #### Issues
 
-* [Issue Titles](./docs/issuess.md#issue-titles)
-* [Issue Descriptions](./docs/issuess.md#issue-descriptions)
-* [Claiming Issues](./docs/issuess.md#claiming-issues)
-* [Labels](./docs/issuess.md#labels)
-* [Up For Grab Issues](./docs/issuess.md#up-for-grab-issues)
-* [Triaging](./docs/issuess.md#triaging)
-* [Issue Organization](./docs/issuess.md#issue-organization)
-* [Community Friendly](./docs/issuess.md#community-friendly)
+* [Issue Titles](./docs/issues.md#issue-titles)
+* [Issue Descriptions](./docs/issues.md#issue-descriptions)
+* [Claiming Issues](./docs/issues.md#claiming-issues)
+* [Labels](./docs/issues.md#labels)
+* [Up For Grab Issues](./docs/issues.md#up-for-grab-issues)
+* [Triaging](./docs/issues.md#triaging)
+* [Issue Organization](./docs/issues.md#issue-organization)
+* [Community Friendly](./docs/issues.md#community-friendly)
 
 #### Pull Requests
 
