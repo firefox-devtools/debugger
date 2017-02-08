@@ -10,17 +10,18 @@
   z-index: 1000;
 }
 
-.dropdown-parent {
+.dropdown-block {
   align-self: flex-end;
-  padding: 2px;
-  width: 14px;
+  padding: 4px 2px;
   position: relative;
 }
 
 .dropdown-button {
-  /*position: absolute;
-  top: 9px;*/
   cursor: pointer;
+}
+
+.dropdown-button svg {
+  width: 10px;
   fill: var(--theme-comment);
 }
 

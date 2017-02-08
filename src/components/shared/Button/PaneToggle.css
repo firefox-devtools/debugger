@@ -1,14 +1,14 @@
 .toggle-button-start,
 .toggle-button-end {
-  width: 14px;
   transition: transform 0.25s ease-in-out;
   cursor: pointer;
   align-self: flex-end;
-  padding: 2px;
+  padding: 4px 2px;
 }
 
 .toggle-button-start svg,
 .toggle-button-end svg {
+  width: 14px;
   fill: var(--theme-comment);
 }
 
