@@ -1,7 +1,5 @@
 const { parse, getFunctions } = require("../parser");
 
-require("./bar");
-
 const func = `
 function square(n) {
   return n * n;
