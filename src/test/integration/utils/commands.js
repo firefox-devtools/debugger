@@ -1,4 +1,4 @@
-const {clickEl, rightClickEl} = require("./mouse-events")
+const { clickEl, rightClickEl } = require("./mouse-events");
 
 function info(msg) {
   console.log(`info: ${msg}\n`);
@@ -25,7 +25,11 @@ const {
  * @static
  */
 async function selectSource(dbg, url, line) {
-  info("Selecting source: " + url);
+  info(`Selecting source: ${url}`);
+  if (!dbg.selectors) {
+    throw new Error("dbg is required");
+  }
+
   const source = findSource(dbg, url);
   const hasText = !!dbg.selectors.getSourceText(dbg.getState(), source.id);
   await dbg.actions.selectSource(source.id, { line });
@@ -188,8 +192,14 @@ async function clickElement(dbg, elementName, ...args) {
 async function rightClickElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
   const el = dbg.win.document.querySelector(selector);
-  info('right click on the gutter', el)
+  info("right click on the gutter", el);
   rightClickEl(dbg.win, el);
+}
+
+async function stop() {
+  return new Promise(() => {
+
+  });
 }
 
 module.exports = {
@@ -204,10 +214,10 @@ module.exports = {
   removeBreakpoint,
   togglePauseOnExceptions,
   clickElement,
-  navigate,
   invokeInTab,
   rightClickElement,
   selectMenuItem,
   type,
-  pressKey
-}
+  pressKey,
+  stop
+};
