@@ -125,7 +125,7 @@ Steps:
 ```bash
 git remote add username https://github.com/<username>/debugger.html.git
 git fetch <username>
-git checkout --track <username> <pr-branch>
+git checkout --track <username>/<pr-branch>
 git pull --rebase # if you want to get new changes
 git push <username> <pr-branch>  
 git push -f <username> <pr-branch>  # sadly you often need to push force
