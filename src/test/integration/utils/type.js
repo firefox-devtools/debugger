@@ -2,11 +2,11 @@ const specialKeysMap = {
   "{enter}": 13
 };
 
-function keyEvent(eventType, key) {
-  const event = new Event(eventType, {
+function keyEvent(eventType, key, win) {
+  let event = new win.Event(eventType, {
     bubbles: true,
     cancelable: false,
-    view: window
+    view: win
   });
 
   const { charCode, keyCode, which } = keyInfo(key, eventType);
@@ -23,18 +23,18 @@ function keyEvent(eventType, key) {
   });
 }
 
-function pressKey(element, key) {
-  element.dispatchEvent(keyEvent("keydown", key));
-  element.dispatchEvent(keyEvent("keypress", key));
+function pressKey(win, element, key) {
+  element.dispatchEvent(keyEvent("keydown", key, win));
+  element.dispatchEvent(keyEvent("keypress", key, win));
   if (key.length == 1) {
     element.value += key;
   }
-  element.dispatchEvent(keyEvent("keyup", key));
+  element.dispatchEvent(keyEvent("keyup", key, win));
 }
 
-function type(element, string) {
+function type(win, element, string) {
   string.split("")
-        .forEach(char => pressKey(element, char));
+        .forEach(char => pressKey(win, element, char));
 }
 
 function keyInfo(key, eventType) {

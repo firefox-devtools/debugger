@@ -1,6 +1,6 @@
 
 function triggerMouseEvent({type, props = {}, win, el}) {
-  let event = new Event(type, {
+  let event = new win.Event(type, {
     "view": win,
     "bubbles": true,
     "cancelable": true,

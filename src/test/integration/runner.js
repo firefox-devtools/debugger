@@ -18,6 +18,8 @@ window.info = function info(msg) {
   console.log(`info: ${msg}\n`);
 }
 
+const ctx = { ok, is, info};
+
 mocha.setup({ timeout: 20000, ui: 'bdd' });
 
 describe("Tests", () => {
@@ -27,15 +29,15 @@ describe("Tests", () => {
   });
 
   it("breaking", async function() {
-    await breaking({ ok, is });
+    await breaking(ctx);
   });
 
   it("pretty print", async function() {
-    await prettyPrint({ ok, is });
+    await prettyPrint(ctx);
   });
 
   it("conditional breakpoints", async function() {
-    await breakpointCond({ ok, is });
+    await breakpointCond(ctx);
   });
 });
 

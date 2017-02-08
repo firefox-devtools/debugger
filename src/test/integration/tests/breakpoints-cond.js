@@ -35,12 +35,12 @@ async function setConditionalBreakpoint(dbg, index, condition) {
   await waitForElement(dbg, cbInput);
   const el = findElementWithSelector(dbg, cbInput);
 
-  type(el, condition);
-  pressKey(el, "{enter}");
+  type(dbg, el, condition);
+  pressKey(dbg, el, "{enter}");
 }
 
 module.exports = async function breakpointsCond(ctx) {
-  const { ok, is } = ctx;
+  const { ok, is, info } = ctx;
 
   const dbg = await initDebugger("doc-scripts.html", "simple2");
   await selectSource(dbg, "simple2");

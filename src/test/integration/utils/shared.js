@@ -61,7 +61,10 @@ function findSource(dbg, url) {
   }
 
   const sources = dbg.selectors.getSources(dbg.getState());
-  const source = sources.find(s => s.get("url").includes(url));
+  const source = sources.find(s => {
+    const sourceUrl = s.get("url");
+    return sourceUrl && sourceUrl.includes(url)
+  });
 
   if (!source) {
     throw new Error("Unable to find source: " + url);
