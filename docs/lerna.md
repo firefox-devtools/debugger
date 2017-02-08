@@ -1,6 +1,6 @@
 ## Lerna
 
-The debugger uses [Lerna](https://github.com/lerna/lerna)to manage setting up
+The debugger uses [Lerna](https://github.com/lerna/lerna) to manage setting up
 the Debugger and its packages.
 
 ### How does it work?
