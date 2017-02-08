@@ -39,7 +39,7 @@
   "dependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
     "codemirror": "^5.1.0",
-    "devtools-launchpad": "^0.0.39",
+    "devtools-launchpad": "^0.0.41",
     "devtools-reps": "^0.0.6",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.12.0",
