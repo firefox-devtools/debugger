@@ -221,7 +221,7 @@ const SourceTabs = React.createClass({
     }
 
     const sourceTabs = this.props.sourceTabs;
-    const sourceTabsParent = this.refs.SourceTabs;
+    const sourceTabsParent = this.refs.sourceTabs;
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenSourceTabs = getHiddenTabs(sourceTabsParent, sourceTabs, sourceTabEls);
 
