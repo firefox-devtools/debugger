@@ -7,6 +7,11 @@ const {
 } = require("./wait");
 
 
+function info(msg) {
+  console.log(`info: ${msg}\n`);
+}
+
+
 async function waitForTime(time) {
   return new Promise(function(resolve, reject) {
     setTimeout(resolve, time);
@@ -32,6 +37,17 @@ async function debuggee(callback) {
 
 async function invokeInTab(dbg, fnc) {
   return dbg.client.debuggeeCommand(`${fnc}()`);
+}
+
+function selectMenuItem(dbg, index) {
+  const doc =  dbg.win.document;
+
+  info('select menu item', doc)
+  const popup = doc.querySelector("menupopup[menu-api=\"true\"]");
+  info('found popup',popup)
+  const item = popup.querySelector(`menuitem:nth-child(${index})`);
+  info('found item', item)
+  item.click();
 }
 
 function createDebuggerContext(iframe) {
@@ -115,8 +131,9 @@ async function initDebugger(url, ...sources) {
 }
 
 function setupTestRunner() {
-
 }
+
+
 
 function info(msg) {
   console.log(`info: ${msg}\n`);
@@ -124,6 +141,7 @@ function info(msg) {
 
 module.exports = {
   invokeInTab,
+  selectMenuItem,
   initDebugger,
   setupTestRunner,
   info

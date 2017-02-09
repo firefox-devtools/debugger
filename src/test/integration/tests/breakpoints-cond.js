@@ -54,7 +54,7 @@ module.exports = async function breakpointsCond(ctx) {
   is(bp.condition, "1", "breakpoint is created with the condition");
 
   info("Editing a conditional Breakpoint")
-  await setConditionalBreakpoint(dbg, 5, "2");
+  await setConditionalBreakpoint(dbg, ctx, 5, "2");
   await waitForDispatch(dbg, "SET_BREAKPOINT_CONDITION");
   bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.condition, "12", "breakpoint is created with the condition");
@@ -68,7 +68,7 @@ module.exports = async function breakpointsCond(ctx) {
   info("Adding a condition to a breakpoint")
   clickElement(dbg, "gutter", 5);
   await waitForDispatch(dbg, "ADD_BREAKPOINT");
-  await setConditionalBreakpoint(dbg, 5, "1");
+  await setConditionalBreakpoint(dbg, ctx, 5, "1");
   bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.condition, "1", "breakpoint is created with the condition");
 };

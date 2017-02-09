@@ -44,6 +44,7 @@ Services.prefs.clearUserPref("devtools.debugger.pending-selected-location")
 this.gBrowser = gBrowser;
 this.Services = Services;
 this.EXAMPLE_URL = EXAMPLE_URL;
+this.EventUtils = EventUtils;
 
 registerCleanupFunction(() => {
   Services.prefs.clearUserPref("devtools.debugger.new-debugger-frontend");

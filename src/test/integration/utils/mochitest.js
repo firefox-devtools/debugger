@@ -1,6 +1,7 @@
 const {info} = require("./shared");
 
-var ContentTask, gBrowser, openNewTabAndToolbox, Services, EXAMPLE_URL;
+var ContentTask, gBrowser,
+    openNewTabAndToolbox, Services, EXAMPLE_URL, EventUtils;
 
 function setupTestRunner(context) {
   ContentTask = context.ContentTask;
@@ -8,6 +9,7 @@ function setupTestRunner(context) {
   openNewTabAndToolbox = context.openNewTabAndToolbox;
   Services = context.Services;
   EXAMPLE_URL = context.EXAMPLE_URL;
+  EventUtils = context.EventUtils;
 }
 
 function invokeInTab(dbg, fnc) {
@@ -15,6 +17,17 @@ function invokeInTab(dbg, fnc) {
   return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function* (fnc) {
     content.wrappedJSObject[fnc](); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
   });
+}
+
+function selectMenuItem(dbg, index) {
+  // the context menu is in the toolbox window
+  const doc = dbg.toolbox.win.document;
+
+  // there are several context menus, we want the one with the menu-api
+  const popup = doc.querySelector("menupopup[menu-api=\"true\"]");
+
+  const item = popup.querySelector(`menuitem:nth-child(${index})`);
+  return EventUtils.synthesizeMouseAtCenter(item, {}, dbg.toolbox.win );
 }
 
 function createDebuggerContext(toolbox) {
@@ -44,6 +57,7 @@ async function initDebugger(url, ...sources) {
 
 module.exports = {
   invokeInTab,
+  selectMenuItem,
   setupTestRunner,
   info,
   initDebugger
