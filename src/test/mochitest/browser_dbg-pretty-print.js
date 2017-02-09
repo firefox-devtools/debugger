@@ -10,6 +10,5 @@ const {
 
 add_task(function*() {
   setupTestRunner(this);
-  const { ok, is } = this;
-  yield prettyPrint({ ok, is });
+  yield prettyPrint(this);
 });

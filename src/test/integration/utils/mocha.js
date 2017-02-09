@@ -1,6 +1,16 @@
 const mapValues = require("lodash/mapValues");
 const injectDebuggee = require("./debuggee");
-const {waitForElement, waitForThreadEvents, waitForSources} = require("./wait");
+const {
+  waitForElement,
+  waitForSources,
+  waitForTargetEvent
+} = require("./wait");
+
+const {type, pressKey} = require("./type")
+
+function info(msg) {
+  console.log(`info: ${msg}\n`);
+}
 
 
 async function waitForTime(time) {
@@ -30,6 +40,14 @@ async function invokeInTab(dbg, fnc) {
   return dbg.client.debuggeeCommand(`${fnc}()`);
 }
 
+function selectMenuItem(dbg, index) {
+  const doc =  dbg.win.document;
+
+  const popup = doc.querySelector("menupopup[menu-api=\"true\"]");
+  const item = popup.querySelector(`menuitem:nth-child(${index})`);
+  item.click();
+}
+
 function createDebuggerContext(iframe) {
   const win = iframe.contentWindow.window;
 
@@ -49,6 +67,7 @@ function createDebuggerContext(iframe) {
     store,
     client: win.client,
     threadClient: globals.threadClient,
+    tabTarget: globals.target,
     win: win,
     launchpadStore: globals.launchpadStore
   }
@@ -59,7 +78,6 @@ async function waitForLoad(iframe) {
     iframe.onload = resolve;
   })
 }
-
 
 async function createIframe() {
   let container = window["app-container"];
@@ -90,7 +108,7 @@ async function navigateToTab(dbg) {
 
 async function navigate(dbg, url) {
   dbg.win.client.navigate(`${url}`);
-  return waitForThreadEvents(dbg, "resumed");
+  return waitForTargetEvent(dbg, "navigate");
 }
 
 async function initDebugger(url, ...sources) {
@@ -107,12 +125,10 @@ async function initDebugger(url, ...sources) {
   dbg = createDebuggerContext(iframe);
 
   await waitForSources(dbg, ...sources)
-
   return dbg;
 }
 
 function setupTestRunner() {
-
 }
 
 
@@ -123,6 +139,9 @@ function info(msg) {
 
 module.exports = {
   invokeInTab,
+  selectMenuItem,
+  type,
+  pressKey,
   initDebugger,
   setupTestRunner,
   info

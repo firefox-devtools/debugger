@@ -12,7 +12,7 @@ const {
 
 const { assertPausedLocation } = require("../utils/assert");
 
-const { setupTestRunner, initDebugger } = require("../utils/mocha")
+const { initDebugger } = require("../utils/mocha")
 
 async function prettyPrint(ctx) {
   const { ok, is } = ctx;

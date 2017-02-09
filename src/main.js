@@ -49,7 +49,8 @@ window.getGlobalsForTesting = () => {
     launchpadStore: window.launchpadStore,
     selectors,
     actions,
-    threadClient: firefox.getThreadClient()
+    threadClient: firefox.getThreadClient(),
+    target: firefox.getTabTarget()
   };
 };
 

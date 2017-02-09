@@ -1,4 +1,10 @@
-const { invokeInTab } = require("./mocha");
+const {clickEl, rightClickEl} = require("./mouse-events")
+
+function info(msg) {
+  console.log(`info: ${msg}\n`);
+}
+
+const { invokeInTab, selectMenuItem, pressKey, type } = require("./mocha");
 
 const { selectors, findSource, getSelector, info } = require("./shared");
 const {
@@ -176,10 +182,15 @@ async function togglePauseOnExceptions(
 async function clickElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
   const el = dbg.win.document.querySelector(selector);
-  el.click();
+  clickEl(dbg.win, el);
 }
 
-
+async function rightClickElement(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const el = dbg.win.document.querySelector(selector);
+  info('right click on the gutter', el)
+  rightClickEl(dbg.win, el);
+}
 
 module.exports = {
   selectSource,
@@ -194,5 +205,9 @@ module.exports = {
   togglePauseOnExceptions,
   clickElement,
   navigate,
-  invokeInTab
+  invokeInTab,
+  rightClickElement,
+  selectMenuItem,
+  type,
+  pressKey
 }

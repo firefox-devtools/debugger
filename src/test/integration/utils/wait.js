@@ -122,7 +122,8 @@ async function waitForSources(dbg, ...sources) {
 
   function sourceExists(state, url) {
     return getSources(state).some(s => {
-      return s.get("url").includes(url);
+      const sourceUrl = s.get("url");
+      return sourceUrl && sourceUrl.includes(url);
     });
   }
 
@@ -167,13 +168,27 @@ async function waitForThreadEvents(dbg, eventName) {
   const thread = dbg.threadClient;
 
   return new Promise(function(resolve, reject) {
-    thread.addListener(eventName, function onEvent(eventName, ...args) {
+    thread.addListener(eventName, function onEvent(eventName) {
       info("Thread event '" + eventName + "' fired.");
       thread.removeListener(eventName, onEvent);
-      resolve.apply(resolve, args);
+      resolve.apply(resolve);
     });
   });
 }
+
+async function waitForTargetEvent(dbg, eventName) {
+  info("Waiting for target event '" + eventName + "' to fire.");
+  const tabTarget = dbg.tabTarget;
+
+  return new Promise(function(resolve, reject) {
+    tabTarget.on(eventName, function onEvent(eventName) {
+      info("Thread event '" + eventName + "' fired.");
+      tabTarget.off(eventName, onEvent);
+      resolve.apply(resolve);
+    });
+  });
+}
+
 
 module.exports = {
   waitForPaused,
@@ -181,5 +196,6 @@ module.exports = {
   waitForTime,
   waitForSources,
   waitForElement,
+  waitForTargetEvent,
   waitForThreadEvents
 }
