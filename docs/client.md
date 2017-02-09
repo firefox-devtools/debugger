@@ -1,7 +1,7 @@
 ## Debugger Architecture
 
 * [Debugger Protocol](#debugger-protocol)
-* [Client and Actors](#client-and-actors)
+* [Client and Actors](#clients-and-actors)
 
 ### Debugger Protocol
 
