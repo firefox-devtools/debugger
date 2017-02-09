@@ -1,5 +1,12 @@
 {
+  "presets": ["lint-recommended"],
   "plugins": {
+    "lint": {
+      "list-item-indent": false,
+      "no-unused-definitions": false,
+      "no-shortcut-reference-link": false,
+      "no-shortcut-reference-image": false
+    },
     "validate-links": {
       "repository": ""
     }
