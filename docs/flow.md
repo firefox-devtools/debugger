@@ -164,3 +164,5 @@ and evaluate the actual reason, e.g.:
 
 - it is possible that we wrote some of the property names wrong (in the code or in the type definitions)
 - or the defined type is supposed to contain a new property and it is not yet in the related type definitions
+
+[flow-issues]: https://github.com/devtools-html/debugger.html/issues?q=is%3Aopen+is%3Aissue+label%3Aflow

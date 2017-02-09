@@ -28,8 +28,8 @@ Issue titles should include a component at the front e.g. `[Editor]`
 
 The best issue titles are framed in terms of the impact on the user. i.e.
 
-* [Editor] search skips odd matches
-* [WatchExpressions] can't remove an expression after it's been edited
+* `[Editor] search skips odd matches`
+* `[WatchExpressions] can't remove an expression after it's been edited`
 
 Things to try and avoid in the title
 * implementation details where possible. Refactoring is an exception where it's okay
@@ -165,3 +165,4 @@ We focus on being community friendly for many reasons.
 [labels-firefox]:https://github.com/devtools-html/debugger.html/labels/firefox
 [labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
 [labels-discussion]:https://github.com/devtools-html/debugger.html/labels/discussion
+[github-tables]: ./pull-requests.md#screenshots

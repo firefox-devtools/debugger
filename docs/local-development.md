@@ -1,9 +1,9 @@
 ## Local Development
 
 * [Configs](#configs)
-   * [Enabling a Feature Flag](#enabling-a-feature-flag)
-   * [Updating the config locally](#updating-the-config-locally)
-   * [Creating a new Feature Flag](#creating-a-new-feature-flag)
+  * [Enabling a Feature Flag](#enabling-a-feature-flag)
+  * [Updating the config locally](#updating-the-config-locally)
+  * [Creating a new Feature Flag](#creating-a-new-feature-flag)
 * [Hot Reloading](#hot-reloading-fire)
 * [Themes](#themes)
 * [Internationalization](#internationalization)
@@ -432,7 +432,7 @@ yarn run test-all
 #### Unit Tests
 
 * `yarn test` - Run headless tests
- * These are the basic unit tests which must always pass
+  * These are the basic unit tests which must always pass
 * [http://localhost:8000/mocha](http://localhost:8000/mocha) - Run tests in the browser when you have `yarn start` running [gif](http://g.recordit.co/Go1GOu1Pli.gif))
 
 
@@ -486,7 +486,7 @@ for each theme: [light][light-theme], [dark][dark-theme], [firebug][firebug-them
 
 #### Making a color change
 
-Most color changes can be made by finding a different [css variable][devtools-css-variable].
+Most color changes can be made by finding a different [css variable][devtools-css-variables].
 For instance, `--theme-splitter-color` is often good for border colors. The advantage to using an existing variable is that you know it'll look good in all the themes.
 
 When you need to update a variable, you should check to make sure it looks good in the other places it is being used.
@@ -538,7 +538,6 @@ your questions on [slack][slack].
 [jbhoosreddy]:https://avatars.githubusercontent.com/jbhoosreddy?size=56
 [arthur801031]:https://avatars.githubusercontent.com/arthur801031?size=56
 [zacqary]:https://avatars.githubusercontent.com/zacqary?size=56
-[@zacqary]:https://github.com/zacqary
 [@jasonlaster]:https://github.com/jasonlaster
 [@bomsy]:https://github.com/bomsy
 [@wldcordeiro]:https://github.com/wldcordeiro
