@@ -17,7 +17,7 @@ This [video](https://youtu.be/9bQ0a3pnBZk) walks through the [getting setup][get
 
 <img src="https://cloud.githubusercontent.com/assets/254562/21625473/dd39c576-d1d9-11e6-965f-7b91758497db.png" width="450" >
 
-###  Event Listeners part 1
+### Event Listeners part 1
 
 This [video](https://youtu.be/VOwn1U7K2qg) gives an overview of [event listeners][event-listeners], a new feature we're working on that lists the event handlers on the page. After that, we jump in and make each event listener link to where the handler is defined.
 

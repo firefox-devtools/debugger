@@ -50,8 +50,8 @@ These are the flags necessary to start the remote debug server and use an altern
 
 * debug server `--start-debugger-server 6080`
 * separate profile `-P development` (not required)
- * **Note**: if you are prompted with the profile manager you will need to create a profile named `development`
- * **Note**: in windows replace `--start-debugger-server 6080` with `-start-debugger-server 6080`
+  * **Note**: if you are prompted with the profile manager you will need to create a profile named `development`
+  * **Note**: in windows replace `--start-debugger-server 6080` with `-start-debugger-server 6080`
 
 ##### Firefox (release)
 
@@ -175,5 +175,5 @@ ios_webkit_debug_proxy
 
 * Run the [debugger.html](https://github.com/devtools-html/debugger.html)
   * `npm start`
-* Connect using the following URL  
+* Connect using the following URL
   * [http://localhost:8000/?ws=localhost:9222/devtools/page/1](http://localhost:8000/?ws=localhost:9222/devtools/page/1)
