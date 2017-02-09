@@ -31,7 +31,7 @@ const {
   shouldShowFooter,
   clearLineClass,
   onKeyDown,
-  SourceEditor,
+  createEditor,
   isTextForSource,
   breakpointAtLine,
   getTextForLine,
@@ -103,24 +103,7 @@ const Editor = React.createClass({
   componentDidMount() {
     this.cbPanel = null;
 
-    this.editor = new SourceEditor({
-      mode: "javascript",
-      readOnly: true,
-      lineNumbers: true,
-      theme: "mozilla",
-      lineWrapping: false,
-      matchBrackets: true,
-      showAnnotationRuler: true,
-      enableCodeFolding: false,
-      gutters: ["breakpoints", "hit-markers"],
-      value: " ",
-      extraKeys: {
-        // Override code mirror keymap to avoid conflicts with split console.
-        Esc: false,
-        "Cmd-F": false,
-        "Cmd-G": false
-      }
-    });
+    this.editor = createEditor();
 
     // disables the default search shortcuts
     this.editor._initShortcuts = () => {};
@@ -149,39 +132,29 @@ const Editor = React.createClass({
 
       this.editor.codeMirror.on(
         "contextmenu",
-        (codeMirror, event) => EditorMenu({
-          codeMirror,
-          event,
-          selectedLocation: this.props.selectedLocation,
-          selectedSource: this.props.selectedSource,
-          showSource: this.props.showSource,
-          onGutterContextMenu: this.onGutterContextMenu,
-          jumpToMappedLocation: this.props.jumpToMappedLocation,
-          addExpression: this.props.addExpression
-        })
+        (codeMirror, event) => this.openMenu(event, codeMirror)
       );
     } else {
       this.editor.codeMirror.getWrapperElement().addEventListener(
         "contextmenu",
-        event => EditorMenu({
-          codeMirror: this.editor.codeMirror,
-          event,
-          selectedLocation: this.props.selectedLocation,
-          selectedSource: this.props.selectedSource,
-          showSource: this.props.showSource,
-          onGutterContextMenu: this.onGutterContextMenu,
-          jumpToMappedLocation: this.props.jumpToMappedLocation,
-          addExpression: this.props.addExpression
-        })
+        event => this.openMenu(event, this.editor.codeMirror)
       );
     }
     const shortcuts = this.context.shortcuts;
-    shortcuts.on("CmdOrCtrl+B", () => this.toggleBreakpoint(
-      getCursorLine(this.editor.codeMirror)
-    ));
-    shortcuts.on("CmdOrCtrl+Shift+B", () => this.showConditionalPanel(
-      getCursorLine(this.editor.codeMirror)
-    ));
+
+    shortcuts.on("CmdOrCtrl+B", (key, e) => {
+      e.preventDefault();
+      this.toggleBreakpoint(
+        getCursorLine(this.editor.codeMirror)
+      );
+    });
+
+    shortcuts.on("CmdOrCtrl+Shift+B", (key, e) => {
+      e.preventDefault();
+      this.toggleConditionalPanel(
+        getCursorLine(this.editor.codeMirror)
+      );
+    });
     // The default Esc command is overridden in the CodeMirror keymap to allow
     // the Esc keypress event to be catched by the toolbox and trigger the
     // split console. Restore it here, but preventDefault if and only if there
@@ -247,6 +220,19 @@ const Editor = React.createClass({
     }
   },
 
+  openMenu(event, codeMirror) {
+    return EditorMenu({
+      codeMirror,
+      event,
+      selectedLocation: this.props.selectedLocation,
+      selectedSource: this.props.selectedSource,
+      showSource: this.props.showSource,
+      onGutterContextMenu: this.onGutterContextMenu,
+      jumpToMappedLocation: this.props.jumpToMappedLocation,
+      addExpression: this.props.addExpression
+    });
+  },
+
   toggleModifier(searchModifiers) {
     this.setState({ searchModifiers });
   },
@@ -273,16 +259,16 @@ const Editor = React.createClass({
     const bp = breakpointAtLine(this.props.breakpoints, line);
     GutterMenu({ event, line, bp,
       toggleBreakpoint: this.toggleBreakpoint,
-      showConditionalPanel: this.showConditionalPanel,
+      showConditionalPanel: this.toggleConditionalPanel,
       toggleBreakpointDisabledStatus: this.toggleBreakpointDisabledStatus,
       isCbPanelOpen: this.isCbPanelOpen(),
       closeConditionalPanel: this.closeConditionalPanel
     });
   },
 
-  showConditionalPanel(line) {
+  toggleConditionalPanel(line) {
     if (this.isCbPanelOpen()) {
-      return;
+      return this.closeConditionalPanel();
     }
 
     const { selectedLocation: { sourceId },
