@@ -48,10 +48,18 @@
 }
 
 .frames ul li:hover {
-  background-color: rgba(236, 236, 236,0.6);
+   background-color: var(--theme-toolbar-background-alt);
 }
 
-:root.theme-light .frames ul li:hover .location {
+:root.theme-light .frames ul li:focus,
+:root.theme-firebug .frames ul li:focus {
+  background-color: #4676b7;
+  outline: none;
+}
+
+:root.theme-light .frames ul li:hover .location,
+:root.theme-firebug .frames ul li:hover .location,
+ {
   color: #49444c;
 }
 
@@ -60,12 +68,12 @@
   color: white;
 }
 
-.frames ul li.selected:focus {
-  background-color: #4676b7;
+:root.theme-dark .frames ul li:focus {
+  background-color: #314c86; 
+  outline: none;
 }
 
 :root.theme-light .frames ul li.selected .location,
-:root.theme-firebug .frames ul li:hover .location,
 :root.theme-firebug .frames ul li.selected .location,
 :root.theme-dark .frames ul li:hover .location,
 :root.theme-dark .frames ul li.selected .location {
