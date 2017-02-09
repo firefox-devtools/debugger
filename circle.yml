@@ -26,6 +26,7 @@ test:
   post:
     - yarn run lint-css
     - yarn run lint-js
+    - yarn run lint-md
     - yarn run flow
     - yarn run flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
     - yarn check
