@@ -47,14 +47,17 @@ let SourcesTree = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     const { selectedSource } = this.props;
-    if (isEnabled("showSource") &&
-    nextProps.shownSource != this.props.shownSource) {
+    if (nextProps.shownSource &&
+        nextProps.shownSource != this.props.shownSource) {
       const listItems = getDirectories(
         nextProps.shownSource,
         this.state.sourceTree
       );
 
-      this.selectItem(listItems[0]);
+      if (listItems && listItems[0]) {
+        this.selectItem(listItems[0]);
+      }
+
       return this.setState({ listItems });
     }
 

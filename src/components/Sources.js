@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
@@ -15,7 +16,7 @@ const Sources = React.createClass({
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
     horizontal: PropTypes.bool.isRequired,
-    toggleFileSearch: PropTypes.func
+    toggleFileSearch: PropTypes.func.isRequired
   },
 
   displayName: "Sources",

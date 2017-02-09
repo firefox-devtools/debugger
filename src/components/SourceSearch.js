@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
@@ -36,11 +37,11 @@ function searchResults(sources) {
 
 const Search = React.createClass({
   propTypes: {
-    sources: PropTypes.object,
-    selectSource: PropTypes.func,
+    sources: PropTypes.object.isRequired,
+    selectSource: PropTypes.func.isRequired,
     selectedSource: PropTypes.object,
-    toggleFileSearch: PropTypes.func,
-    closeFileSearch: PropTypes.func,
+    toggleFileSearch: PropTypes.func.isRequired,
+    closeFileSearch: PropTypes.func.isRequired,
     searchOn: PropTypes.bool
   },
 
