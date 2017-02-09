@@ -161,7 +161,7 @@ Go to [Pull Requests](./docs/pull-requests.md) to learn about:
 Go to [local Development](./docs/local-development.md) to learn about:
 
 * [Configs](./docs/local-development.md#configs)
-* [Hot Reloading](./docs/local-development.md#hot-reloading)
+* [Hot Reloading](./docs/local-development.md#hot-reloading-fire)
 * [Themes](./docs/local-development.md#themes)
 * [Internationalization](./docs/local-development.md#internationalization)
 * [Prefs](./docs/local-development.md#prefs)
