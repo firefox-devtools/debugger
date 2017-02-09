@@ -19,7 +19,6 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Local Development](#local-development-computer)
   * [Issues](#issues)
   * [Pull Requests](#pull-requests)
-  * [Issues and Pull Request labels](#issues-and-pull-requests)
   * [Pro Tips](#pro-tips)
 * [Project Overview](#project-overview)
   * [debugger.html](#debuggerhtml)
@@ -161,7 +160,7 @@ Go to [Pull Requests](./docs/pull-requests.md) to learn about:
 Go to [local Development](./docs/local-development.md) to learn about:
 
 * [Configs](./docs/local-development.md#configs)
-* [Hot Reloading](./docs/local-development.md#hot-reloading)
+* [Hot Reloading](./docs/local-development.md#hot-reloading-fire)
 * [Themes](./docs/local-development.md#themes)
 * [Internationalization](./docs/local-development.md#internationalization)
 * [Prefs](./docs/local-development.md#prefs)

@@ -12,15 +12,6 @@
 * [Prefs](#prefs)
 * [SVGs](#svgs)
 * [Flow](#flow)
-  * [Adding flow to a file](#adding-flow-to-a-file)
-  * [Running flow](#running-flow)
-  * [Missing Annotation](#missing-annotation)
-  * [Where are types defined?](#where-are-types-defined?)
-  * [Checking flow coverage](#checking-flow-coverage)
-  * [Common Errors](#common-errors)
-    * [Required property](#required-property)
-    * [Missing Annotation](#missing-annotation)
-    * [Type Inconsistencies](#type-inconsistencies)
 * [Logging](#logging)
 * [Testing](#testing)
   * [Unit Tests](#unit-tests)
@@ -29,7 +20,7 @@
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
 * [Colors](#colors)
-* [FAQ](#FAQ)
+* [FAQ](#faq)
 * [Getting Help](#getting-help)
 
 ### Configs
@@ -42,7 +33,7 @@ Here are the most common development configuration options:
   * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `yarn start`
 * `chrome`
   * `debug` Enables listening for remotely debuggable Chrome browsers
-* `hotReloading` enables [Hot Reloading](./docs/local-development.md#hot-reloading) of CSS and React
+* `hotReloading` enables [Hot Reloading](#hot-reloading-fire) of CSS and React
 
 For a list of all the configuration options see the [packages/devtools-config/README.md][devtools-config-readme]
 
@@ -393,7 +384,7 @@ index 5996700..bb828d8 100644
 - [Adding flow to a file](./flow.md#adding-flow-to-a-file)
 - [Running flow](./flow.md#running-flow)
 - [Missing Annotation](./flow.md#missing-annotation)
-- [Where are types defined?](./flow.md#where-are-types-defined?)
+- [Where are types defined?](./flow.md#where-are-types-defined)
 - [Checking flow coverage](./flow.md#checking-flow-coverage)
 - [Common Errors](./flow.md#common-errors)
   - [Required property](./flow.md#required-property)

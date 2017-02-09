@@ -1,7 +1,7 @@
 # Table of Contents
-1. [Architecture](#Introduction)
+1. [Architecture](#architecture)
 2. [Components](#components)
-3. [Component Data](#componentdata)
+3. [Component Data](#component-data)
 4. [Reducers](#reducers)
 5. [Actions](#actions)
 
@@ -19,7 +19,7 @@ Redux documentation can be found [here](http://redux.js.org/).
 
 As with most documentation related to code, this document may be out of date. The last edit date occurred on August 30, 2016. If you find issues in the documentation please file an issue as described in the [contributing](https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#writing-documentation-book) guide.
 
-# Architecture <a name="Introduction"></a>
+# Architecture
 
 
 Debugger.html is a React-Redux based application — the UI is constructed using React Components. the follow illustration provides a simplictic high level view:
@@ -59,7 +59,7 @@ is not modified.
 React uses a Virtual DOM; only required changes to the
 actual DOM will be rendered.
 
-# [Components](https://github.com/devtools-html/debugger.html/tree/master/src/components) <a name="components"></a>
+# Components
 
 
 debbuger.html uses React [Components](https://github.com/devtools-html/debugger.html/tree/master/src/components) to render portions of the
@@ -142,7 +142,7 @@ The farthest right section of the application is handled by many components. At 
 ![](https://docs.google.com/drawings/d/1zHogPebNmOFT9Xx6cZsaA6R6cTQLUzBXePV9sf62chA/pub?w=960&h=720)
 [Click here to Edit](https://docs.google.com/drawings/d/1zHogPebNmOFT9Xx6cZsaA6R6cTQLUzBXePV9sf62chA/edit?usp=sharing)
 
-# Component Data <a name="componentdata"></a>
+# Component Data
 
 Some components in Debugger.html are aware of the Redux store; others are
 not and are just rendering passed in properties. The Redux-aware
@@ -175,7 +175,7 @@ the Redux state. Finally, all of the actions in the actions folder are
 combined and the contained <code>actionCreators</code> in each of the files are setup
 so the actions can be called directly from the component.
 
-# [Reducers](https://github.com/devtools-html/debugger.html/tree/master/src/reducers) <a name="reducers"></a>
+# Reducers
 
 
 The [Reducers](https://github.com/devtools-html/debugger.html/tree/master/src/reducers) are all located in the src/reducers folder and are
@@ -439,7 +439,7 @@ The tabs reducer handles the following action types:
 -   <code>SELECT\_TAB</code> – This action type is triggered when a specific
     application is selected for debugging.
 
-# [Actions](https://github.com/devtools-html/debugger.html/tree/master/src/actions) <a name="actions"></a>
+# Actions
 
 The [actions](https://github.com/devtools-html/debugger.html/tree/master/src/actions) in debugger.html are all located in the
 src/actions folder; there is an action file corresponding to

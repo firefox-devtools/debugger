@@ -14,4 +14,3 @@ permalink: docs/
 * [Lerna](./lerna.md)
 * [Debugging the debugger](./debugging-the-debugger.md)
 
-[Reference Documentation](./reference)

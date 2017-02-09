@@ -107,8 +107,8 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 | `difficulty:hard` | [search][labels-difficulty-hard] | Work that requires new tests, new code, and a good understanding of project; expect lots of review |
 | `docs` | [search][labels-docs] | Issues with our documentation |
 | `design` | [search][labels-design] | Issues that require design work |
-| `enhancement` | [search][labels-enhancement] | [Requests](#suggesting-enhancements-new) for features |
-| `bug` | [search][labels-bug] | [Reported Bugs](#reporting-bugs-bug) with the current code |
+| `enhancement` | [search][labels-enhancement] | [Requests](../CONTRIBUTING.md#suggesting-enhancements-new) for features |
+| `bug` | [search][labels-bug] | [Reported Bugs](../CONTRIBUTING.md#reporting-bugs-bug) with the current code |
 | `chrome` | [search][labels-chrome] | Chrome only issues |
 | `firefox` | [search][labels-firefox] | Firefox only issues |
 | `infrastructure` | [search][labels-infrastructure] | Issues with testing / build infrastructure |

@@ -73,13 +73,14 @@ Here are docs on [tests][test-docs] and [linting][linting-docs], which you can r
 
 The integration tests will be run automatically by the CI. Our integration tests are run with [mochitest][mochitest]. The local setup process is documented [here][mochitest-docs], but the process is a bit cumbersome, so reviewers will generally help debug.
 
-### Receiving Reviews
+### Reviews
+#### Receiving Reviews
 
 Once the tests have passed in the PR you must receive a review using the GitHub review system
 
 We have a number of contributors reviewing PRs fairly quickly, if you feel yours has been neglected please mention the team name **@devtools-html/debugger** in the PR
 
-### Reviewing a PR
+#### Reviewing a PR
 
 Giving valuable feedback is one of the best ways to contribute.
 
