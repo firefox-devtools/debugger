@@ -6,6 +6,7 @@ const {
   waitForTargetEvent
 } = require("./wait");
 
+const {type, pressKey} = require("./type")
 
 function info(msg) {
   console.log(`info: ${msg}\n`);
@@ -42,11 +43,8 @@ async function invokeInTab(dbg, fnc) {
 function selectMenuItem(dbg, index) {
   const doc =  dbg.win.document;
 
-  info('select menu item', doc)
   const popup = doc.querySelector("menupopup[menu-api=\"true\"]");
-  info('found popup',popup)
   const item = popup.querySelector(`menuitem:nth-child(${index})`);
-  info('found item', item)
   item.click();
 }
 
@@ -142,6 +140,8 @@ function info(msg) {
 module.exports = {
   invokeInTab,
   selectMenuItem,
+  type,
+  pressKey,
   initDebugger,
   setupTestRunner,
   info

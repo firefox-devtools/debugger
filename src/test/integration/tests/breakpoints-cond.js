@@ -32,13 +32,12 @@ function findBreakpoint(dbg, url, line) {
 async function setConditionalBreakpoint(dbg, {info}, index, condition) {
   info("right click on the gutter")
   rightClickElement(dbg, "gutter", index);
-  info('slect a menu item')
   selectMenuItem(dbg, 2);
   await waitForElement(dbg, cbInput);
   const el = findElementWithSelector(dbg, cbInput);
 
   type(dbg, el, condition);
-  pressKey(dbg, el, "{enter}");
+  pressKey(dbg, el, "Enter");
 }
 
 module.exports = async function breakpointsCond(ctx) {

@@ -1,27 +1,10 @@
-const {type: _type, pressKey: _pressKey} = require("./type")
 const {clickEl, rightClickEl} = require("./mouse-events")
 
 function info(msg) {
   console.log(`info: ${msg}\n`);
 }
 
-function getWindow(dbg) {
-  if (dbg.toolbox) {
-    return dbg.toolbox.win;
-  }
-
-  return dbg.win;
-}
-
-function getDocument(dbg) {
-  if (dbg.toolbox) {
-    return dbg.toolbox.doc;
-  }
-
-  return dbg.win.document;
-}
-
-const { invokeInTab, selectMenuItem } = require("./mocha");
+const { invokeInTab, selectMenuItem, pressKey, type } = require("./mocha");
 
 const { selectors, findSource, getSelector, info } = require("./shared");
 const {
@@ -207,15 +190,6 @@ async function rightClickElement(dbg, elementName, ...args) {
   const el = dbg.win.document.querySelector(selector);
   info('right click on the gutter', el)
   rightClickEl(dbg.win, el);
-}
-
-function type(dbg, el, string) {
-  info('typing in the input', dbg)
-  _type(getWindow(dbg), el, string)
-}
-
-function pressKey(dbg, el, key) {
-  _pressKey(getWindow(dbg), el, key)
 }
 
 module.exports = {

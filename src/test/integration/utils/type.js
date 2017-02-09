@@ -1,5 +1,5 @@
 const specialKeysMap = {
-  "{enter}": 13
+  "Enter": 13
 };
 
 function keyEvent(eventType, key, win) {
@@ -23,7 +23,8 @@ function keyEvent(eventType, key, win) {
   });
 }
 
-function pressKey(win, element, key) {
+function pressKey(dbg, element, key) {
+  const win = dbg.win;
   element.dispatchEvent(keyEvent("keydown", key, win));
   element.dispatchEvent(keyEvent("keypress", key, win));
   if (key.length == 1) {
@@ -32,9 +33,9 @@ function pressKey(win, element, key) {
   element.dispatchEvent(keyEvent("keyup", key, win));
 }
 
-function type(win, element, string) {
+function type(dbg, element, string) {
   string.split("")
-        .forEach(char => pressKey(win, element, char));
+        .forEach(char => pressKey(dbg, element, char));
 }
 
 function keyInfo(key, eventType) {

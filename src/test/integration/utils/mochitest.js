@@ -1,6 +1,21 @@
 const {info} = require("./shared");
 
-var ContentTask, gBrowser,
+const keyMappings = {
+  sourceSearch: { code: "p", modifiers: cmdOrCtrl},
+  fileSearch: { code: "f", modifiers: cmdOrCtrl},
+  "Enter": { code: "VK_RETURN" },
+  "Up": { code: "VK_UP" },
+  "Down": { code: "VK_DOWN" },
+  "Tab": { code: "VK_TAB" },
+  "Escape": { code: "VK_ESCAPE" },
+  pauseKey: { code: "VK_F8" },
+  resumeKey: { code: "VK_F8" },
+  stepOverKey: { code: "VK_F10" },
+  stepInKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux }},
+  stepOutKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux, shiftKey: true }}
+};
+
+var ContentTask, gBrowser, isLinux, cmdOrCtrl,
     openNewTabAndToolbox, Services, EXAMPLE_URL, EventUtils;
 
 function setupTestRunner(context) {
@@ -10,6 +25,8 @@ function setupTestRunner(context) {
   Services = context.Services;
   EXAMPLE_URL = context.EXAMPLE_URL;
   EventUtils = context.EventUtils;
+  isLinux = Services.appinfo.OS === "Linux";
+  cmdOrCtrl = isLinux ? { ctrlKey: true } : { metaKey: true };
 }
 
 function invokeInTab(dbg, fnc) {
@@ -28,6 +45,33 @@ function selectMenuItem(dbg, index) {
 
   const item = popup.querySelector(`menuitem:nth-child(${index})`);
   return EventUtils.synthesizeMouseAtCenter(item, {}, dbg.toolbox.win );
+}
+
+
+/**
+ * Simulates a key press in the debugger window.
+ *
+ * @memberof mochitest/helpers
+ * @param {Object} dbg
+ * @param {String} keyName
+ * @return {Promise}
+ * @static
+ */
+function pressKey(dbg, el, keyName) {
+  let keyEvent = keyMappings[keyName];
+
+  const { code, modifiers } = keyEvent;
+  return EventUtils.synthesizeKey(
+    code,
+    modifiers || {},
+    dbg.win
+  );
+}
+
+function type(dbg, el, string) {
+  string.split("").forEach(char => {
+    EventUtils.synthesizeKey(char, {}, dbg.win);
+  });
 }
 
 function createDebuggerContext(toolbox) {
@@ -58,6 +102,8 @@ async function initDebugger(url, ...sources) {
 module.exports = {
   invokeInTab,
   selectMenuItem,
+  pressKey,
+  type,
   setupTestRunner,
   info,
   initDebugger
