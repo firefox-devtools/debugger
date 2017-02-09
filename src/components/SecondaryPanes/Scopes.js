@@ -178,7 +178,10 @@ const Scopes = createClass({
       scopeInspector = ObjectInspector({
         roots: scopes,
         getObjectProperties: id => loadedObjects.get(id),
-        loadObjectProperties: loadObjectProperties
+        loadObjectProperties: loadObjectProperties,
+        onLabelClick: (item, { expanded, setExpanded }) => {
+          setExpanded(item, !expanded);
+        }
       });
     }
 

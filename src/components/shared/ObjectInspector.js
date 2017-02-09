@@ -201,7 +201,7 @@ const ObjectInspector = React.createClass({
           className: "object-label",
           onClick: event => {
             event.stopPropagation();
-            this.props.onLabelClick(item, { depth, focused, expanded });
+            this.props.onLabelClick(item, { depth, focused, expanded, setExpanded });
           }
         },
         item.name
