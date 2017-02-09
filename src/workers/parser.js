@@ -39,7 +39,44 @@ function getFunctions(source) {
   return false;
 }
 
+function nodeContainsLocation({ node, location }) {
+  const { start, end } = node.loc;
+  const { line, column } = location;
+
+  if (start.line > line) {
+    return false;
+  }
+  if (start.line === line && start.column > column) {
+    return false;
+  }
+
+  if (end.line < line) {
+    return false;
+  }
+  if (end.line === line && end.column < column) {
+    return false;
+  }
+
+  return true;
+}
+
+function getPathClosestToLocation(source, location) {
+  const ast = getAst(source);
+  const pathClosestToLocation = null;
+
+  traverse(ast, {
+    enter(path) {
+      if (nodeContainsLocation({ node: path.node, location })) {
+        pathClosestToLocation = path;
+      }
+    }
+  });
+
+  return pathClosestToLocation;
+}
+
 module.exports = {
   parse,
-  getFunctions
+  getFunctions,
+  getPathClosestToLocation
 };

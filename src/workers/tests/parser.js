@@ -1,4 +1,4 @@
-const { parse, getFunctions } = require("../parser");
+const { parse, getFunctions, getPathClosestToLocation } = require("../parser");
 
 const func = `
 function square(n) {
@@ -14,4 +14,33 @@ describe("parser", () => {
       expect(fncs).to.equal(false);
     });
   });
+
+
+  describe.only("getPathClosestToLocation", () => {
+    parse({text: func}, {id: "func"})
+
+    it("Can find the function declaration for square", () => {
+        var closestPath = getPathClosestToLocation(
+          {id: "func"},
+          {
+            line: 2,
+            column: 1
+          }
+        );
+
+        expect(closestPath.type).to.be("FunctionDeclaration");
+    })
+
+    it("Can find the path at the exact column", () => {
+        var closestPath = getPathClosestToLocation(
+          {id: "func"},
+          {
+            line: 2,
+            column: 10
+          }
+        );
+
+        expect(closestPath.type).to.be("Identifier");
+    })
+  })
 });
