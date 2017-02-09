@@ -1,7 +1,9 @@
+// @flow
+
 const { firefox } = require("devtools-client-adapters");
 const { prefs } = require("./prefs");
 
-async function onFirefoxConnect(actions) {
+async function onFirefoxConnect(actions: Object) {
   const tabTarget = firefox.getTabTarget();
   const threadClient = firefox.getThreadClient();
   const client = firefox.clientCommands;
@@ -33,7 +35,7 @@ async function onFirefoxConnect(actions) {
   }
 }
 
-async function onConnect(connection, actions) {
+async function onConnect(connection: Object, actions: Object) {
   // NOTE: the landing page does not connect to a JS process
   if (!connection) {
     return;

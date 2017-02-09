@@ -24,7 +24,7 @@ const { prettyPrint } = require("../utils/pretty-print");
 const { getPrettySourceURL } = require("../utils/source");
 
 const constants = require("../constants");
-const { removeDocument } = require("../utils/editor/source-documents");
+const { removeDocument } = require("../utils/editor");
 
 const {
   getSource, getSourceByURL, getSourceText,
@@ -244,7 +244,7 @@ function togglePrettyPrint(sourceId: string) {
 
         await applySourceMap(source.id, url, code, mappings);
 
-        const frames = getFrames(getState());
+        let frames = getFrames(getState());
         if (frames) {
           frames = await updateFrameLocations(frames.toJS());
         }

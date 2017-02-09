@@ -1,6 +1,6 @@
 const expect = require("expect.js");
 
-const { countMatches } = require("../editor/source-search");
+const { countMatches } = require("../editor");
 
 describe("source-search", () => {
   it("counts basic string match", () => {

@@ -26,69 +26,23 @@ const Breakpoint = React.createFactory(require("./Breakpoint"));
 const HitMarker = React.createFactory(require("./HitMarker"));
 
 const {
-  find,
-  findNext,
-  findPrev,
-  removeOverlay,
   getDocument,
   setDocument,
   shouldShowFooter,
   clearLineClass,
   onKeyDown,
-  SourceEditor
+  createEditor,
+  isTextForSource,
+  breakpointAtLine,
+  getTextForLine,
+  getCursorLine,
+  resizeBreakpointGutter,
+  traverseResults,
+  onMouseUp
 } = require("../../utils/editor");
 const { isFirefox } = require("devtools-config");
 
 require("./Editor.css");
-
-function isTextForSource(sourceText) {
-  return !sourceText.get("loading") && !sourceText.get("error");
-}
-
-function breakpointAtLine(breakpoints, line) {
-  return breakpoints.find(b => {
-    return b.location.line === line + 1;
-  });
-}
-
-function getTextForLine(codeMirror, line) {
-  return codeMirror.getLine(line - 1).trim();
-}
-
-function getCursorLine(codeMirror) {
-  return codeMirror.getCursor().line;
-}
-/**
- * Forces the breakpoint gutter to be the same size as the line
- * numbers gutter. Editor CSS will absolutely position the gutter
- * beneath the line numbers. This makes it easy to be flexible with
- * how we overlay breakpoints.
- */
-function resizeBreakpointGutter(editor) {
-  const gutters = editor.display.gutters;
-  const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
-  const breakpoints = gutters.querySelector(".breakpoints");
-  breakpoints.style.width = `${lineNumbers.clientWidth}px`;
-}
-
-function traverseResults(e, ctx, query, dir, modifiers) {
-  e.stopPropagation();
-  e.preventDefault();
-  if (dir == "prev") {
-    findPrev(ctx, query, true, modifiers);
-  } else if (dir == "next") {
-    findNext(ctx, query, true, modifiers);
-  }
-}
-
-function onMouseUp(ctx, modifiers) {
-  const query = ctx.cm.getSelection();
-  if (ctx.cm.somethingSelected()) {
-    find(ctx, query, true, modifiers);
-  } else {
-    removeOverlay(ctx);
-  }
-}
 
 const Editor = React.createClass({
   propTypes: {
@@ -127,6 +81,158 @@ const Editor = React.createClass({
     shortcuts: PropTypes.object
   },
 
+  componentWillReceiveProps(nextProps) {
+    // This lifecycle method is responsible for updating the editor
+    // text.
+    const { sourceText, selectedLocation } = nextProps;
+    this.clearDebugLine(this.props.selectedFrame);
+
+    if (!sourceText) {
+      this.showMessage("");
+    } else if (!isTextForSource(sourceText)) {
+      this.showMessage(sourceText.get("error") ||
+        L10N.getStr("loadingText"));
+    } else if (this.props.sourceText !== sourceText) {
+      this.showSourceText(sourceText, selectedLocation);
+    }
+
+    this.setDebugLine(nextProps.selectedFrame, selectedLocation);
+    resizeBreakpointGutter(this.editor.codeMirror);
+  },
+
+  componentDidMount() {
+    this.cbPanel = null;
+
+    this.editor = createEditor();
+
+    // disables the default search shortcuts
+    this.editor._initShortcuts = () => {};
+
+    this.editor.appendToLocalElement(
+      ReactDOM.findDOMNode(this).querySelector(".editor-mount")
+    );
+
+    this.editor.codeMirror.on("gutterClick", this.onGutterClick);
+
+    // Set code editor wrapper to be focusable
+    this.editor.codeMirror.getWrapperElement().tabIndex = 0;
+    this.editor.codeMirror.getWrapperElement()
+      .addEventListener("keydown", e => onKeyDown(this.editor.codeMirror, e));
+
+    const ctx = { ed: this.editor, cm: this.editor.codeMirror };
+    const { query, searchModifiers } = this.state;
+    this.editor.codeMirror.display.wrapper
+      .addEventListener("mouseup", () => onMouseUp(ctx, searchModifiers));
+
+    if (!isFirefox()) {
+      this.editor.codeMirror.on(
+        "gutterContextMenu",
+        (cm, line, eventName, event) => this.onGutterContextMenu(event)
+      );
+
+      this.editor.codeMirror.on(
+        "contextmenu",
+        (codeMirror, event) => this.openMenu(event, codeMirror)
+      );
+    } else {
+      this.editor.codeMirror.getWrapperElement().addEventListener(
+        "contextmenu",
+        event => this.openMenu(event, this.editor.codeMirror)
+      );
+    }
+    const shortcuts = this.context.shortcuts;
+
+    shortcuts.on("CmdOrCtrl+B", (key, e) => {
+      e.preventDefault();
+      this.toggleBreakpoint(
+        getCursorLine(this.editor.codeMirror)
+      );
+    });
+
+    shortcuts.on("CmdOrCtrl+Shift+B", (key, e) => {
+      e.preventDefault();
+      this.toggleConditionalPanel(
+        getCursorLine(this.editor.codeMirror)
+      );
+    });
+    // The default Esc command is overridden in the CodeMirror keymap to allow
+    // the Esc keypress event to be catched by the toolbox and trigger the
+    // split console. Restore it here, but preventDefault if and only if there
+    // is a multiselection.
+    shortcuts.on("Esc", (key, e) => {
+      let cm = this.editor.codeMirror;
+      if (cm.listSelections().length > 1) {
+        cm.execCommand("singleSelection");
+        e.preventDefault();
+      }
+    });
+
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
+      (_, e) => traverseResults(e, ctx, query, "prev", searchModifiers));
+    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
+      (_, e) => traverseResults(e, ctx, query, "next", searchModifiers));
+
+    resizeBreakpointGutter(this.editor.codeMirror);
+    debugGlobal("cm", this.editor.codeMirror);
+
+    if (this.props.sourceText) {
+      this.setText(this.props.sourceText.get("text"));
+    }
+  },
+
+  componentWillUnmount() {
+    this.editor.destroy();
+    this.editor = null;
+
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    const shortcuts = this.context.shortcuts;
+    shortcuts.off("CmdOrCtrl+B");
+    shortcuts.off("CmdOrCtrl+Shift+B");
+    shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
+    shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
+  },
+
+  componentDidUpdate(prevProps) {
+    // This is in `componentDidUpdate` so helper functions can expect
+    // `this.props` to be the current props. This lifecycle method is
+    // responsible for updating the editor annotations.
+    const { selectedLocation } = this.props;
+
+    // If the location is different and a new line is requested,
+    // update the pending jump line. Note that if jumping to a line in
+    // a source where the text hasn't been loaded yet, we will set the
+    // line here but not jump until rendering the actual source.
+    if (prevProps.selectedLocation !== selectedLocation) {
+      if (selectedLocation &&
+          selectedLocation.line != undefined) {
+        this.pendingJumpLine = selectedLocation.line;
+      } else {
+        this.pendingJumpLine = null;
+      }
+    }
+
+    // Only update and jump around in real source texts. This will
+    // keep the jump state around until the real source text is
+    // loaded.
+    if (this.props.sourceText && isTextForSource(this.props.sourceText)) {
+      this.highlightLine();
+    }
+  },
+
+  openMenu(event, codeMirror) {
+    return EditorMenu({
+      codeMirror,
+      event,
+      selectedLocation: this.props.selectedLocation,
+      selectedSource: this.props.selectedSource,
+      showSource: this.props.showSource,
+      onGutterContextMenu: this.onGutterContextMenu,
+      jumpToMappedLocation: this.props.jumpToMappedLocation,
+      addExpression: this.props.addExpression
+    });
+  },
+
   toggleModifier(searchModifiers) {
     this.setState({ searchModifiers });
   },
@@ -153,16 +259,16 @@ const Editor = React.createClass({
     const bp = breakpointAtLine(this.props.breakpoints, line);
     GutterMenu({ event, line, bp,
       toggleBreakpoint: this.toggleBreakpoint,
-      showConditionalPanel: this.showConditionalPanel,
+      showConditionalPanel: this.toggleConditionalPanel,
       toggleBreakpointDisabledStatus: this.toggleBreakpointDisabledStatus,
       isCbPanelOpen: this.isCbPanelOpen(),
       closeConditionalPanel: this.closeConditionalPanel
     });
   },
 
-  showConditionalPanel(line) {
+  toggleConditionalPanel(line) {
     if (this.isCbPanelOpen()) {
-      return;
+      return this.closeConditionalPanel();
     }
 
     const { selectedLocation: { sourceId },
@@ -172,12 +278,10 @@ const Editor = React.createClass({
     const location = { sourceId, line: line + 1 };
     const condition = bp ? bp.condition : "";
 
-    const setBreakpoint = value => {
-      setBreakpointCondition(location, {
-        condition: value,
-        getTextForLine: l => getTextForLine(this.editor.codeMirror, l)
-      });
-    };
+    const setBreakpoint = value => setBreakpointCondition(location, {
+      condition: value,
+      getTextForLine: l => getTextForLine(this.editor.codeMirror, l)
+    });
 
     const panel = renderConditionalPanel({
       condition,
@@ -298,147 +402,6 @@ const Editor = React.createClass({
     this.editor.setText(text);
   },
 
-  componentDidMount() {
-    this.cbPanel = null;
-
-    this.editor = new SourceEditor({
-      mode: "javascript",
-      readOnly: true,
-      lineNumbers: true,
-      theme: "mozilla",
-      lineWrapping: false,
-      matchBrackets: true,
-      showAnnotationRuler: true,
-      enableCodeFolding: false,
-      gutters: ["breakpoints", "hit-markers"],
-      value: " ",
-      extraKeys: {
-        // Override code mirror keymap to avoid conflicts with split console.
-        Esc: false,
-        "Cmd-F": false,
-        "Cmd-G": false
-      }
-    });
-
-    // disables the default search shortcuts
-    this.editor._initShortcuts = () => {};
-
-    this.editor.appendToLocalElement(
-      ReactDOM.findDOMNode(this).querySelector(".editor-mount")
-    );
-
-    this.editor.codeMirror.on("gutterClick", this.onGutterClick);
-
-    // Set code editor wrapper to be focusable
-    this.editor.codeMirror.getWrapperElement().tabIndex = 0;
-    this.editor.codeMirror.getWrapperElement()
-      .addEventListener("keydown", e => onKeyDown(this.editor.codeMirror, e));
-
-    const ctx = { ed: this.editor, cm: this.editor.codeMirror };
-    const { query, searchModifiers } = this.state;
-    this.editor.codeMirror.display.wrapper
-      .addEventListener("mouseup", () => onMouseUp(ctx, searchModifiers));
-
-    if (!isFirefox()) {
-      this.editor.codeMirror.on(
-        "gutterContextMenu",
-        (cm, line, eventName, event) => this.onGutterContextMenu(event)
-      );
-
-      this.editor.codeMirror.on(
-        "contextmenu",
-        (cm, event) => EditorMenu({
-          cm,
-          event,
-          editor: this.editor,
-          selectedLocation: this.props.selectedLocation,
-          selectedSource: this.props.selectedSource,
-          showSource: this.props.showSource,
-          onGutterContextMenu: this.onGutterContextMenu,
-          jumpToMappedLocation: this.props.jumpToMappedLocation,
-          addExpression: this.props.addExpression
-        })
-      );
-    } else {
-      this.editor.codeMirror.getWrapperElement().addEventListener(
-        "contextmenu",
-        event => EditorMenu({
-          cm: this.editor.codeMirror,
-          event,
-          editor: this.editor,
-          selectedLocation: this.props.selectedLocation,
-          selectedSource: this.props.selectedSource,
-          showSource: this.props.showSource,
-          onGutterContextMenu: this.onGutterContextMenu,
-          jumpToMappedLocation: this.props.jumpToMappedLocation,
-          addExpression: this.props.addExpression
-        })
-      );
-    }
-    const shortcuts = this.context.shortcuts;
-    shortcuts.on("CmdOrCtrl+B", () => this.toggleBreakpoint(
-      getCursorLine(this.editor.codeMirror)
-    ));
-    shortcuts.on("CmdOrCtrl+Shift+B", () => this.showConditionalPanel(
-      getCursorLine(this.editor.codeMirror)
-    ));
-    // The default Esc command is overridden in the CodeMirror keymap to allow
-    // the Esc keypress event to be catched by the toolbox and trigger the
-    // split console. Restore it here, but preventDefault if and only if there
-    // is a multiselection.
-    shortcuts.on("Esc", (key, e) => {
-      let cm = this.editor.codeMirror;
-      if (cm.listSelections().length > 1) {
-        cm.execCommand("singleSelection");
-        e.preventDefault();
-      }
-    });
-
-    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
-      (_, e) => traverseResults(e, ctx, query, "prev", searchModifiers));
-    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
-      (_, e) => traverseResults(e, ctx, query, "next", searchModifiers));
-
-    resizeBreakpointGutter(this.editor.codeMirror);
-    debugGlobal("cm", this.editor.codeMirror);
-
-    if (this.props.sourceText) {
-      this.setText(this.props.sourceText.get("text"));
-    }
-  },
-
-  componentWillUnmount() {
-    this.editor.destroy();
-    this.editor = null;
-
-    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-    const shortcuts = this.context.shortcuts;
-    shortcuts.off("CmdOrCtrl+B");
-    shortcuts.off("CmdOrCtrl+Shift+B");
-    shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
-    shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
-  },
-
-  componentWillReceiveProps(nextProps) {
-    // This lifecycle method is responsible for updating the editor
-    // text.
-    const { sourceText, selectedLocation } = nextProps;
-    this.clearDebugLine(this.props.selectedFrame);
-
-    if (!sourceText) {
-      this.showMessage("");
-    } else if (!isTextForSource(sourceText)) {
-      this.showMessage(sourceText.get("error") ||
-        L10N.getStr("loadingText"));
-    } else if (this.props.sourceText !== sourceText) {
-      this.showSourceText(sourceText, selectedLocation);
-    }
-
-    this.setDebugLine(nextProps.selectedFrame, selectedLocation);
-    resizeBreakpointGutter(this.editor.codeMirror);
-  },
-
   showMessage(msg) {
     this.editor.replaceDocument(this.editor.createDocument());
     this.setText(msg);
@@ -465,33 +428,6 @@ const Editor = React.createClass({
     this.editor.setMode(getMode(sourceText.toJS()));
   },
 
-  componentDidUpdate(prevProps) {
-    // This is in `componentDidUpdate` so helper functions can expect
-    // `this.props` to be the current props. This lifecycle method is
-    // responsible for updating the editor annotations.
-    const { selectedLocation } = this.props;
-
-    // If the location is different and a new line is requested,
-    // update the pending jump line. Note that if jumping to a line in
-    // a source where the text hasn't been loaded yet, we will set the
-    // line here but not jump until rendering the actual source.
-    if (prevProps.selectedLocation !== selectedLocation) {
-      if (selectedLocation &&
-          selectedLocation.line != undefined) {
-        this.pendingJumpLine = selectedLocation.line;
-      } else {
-        this.pendingJumpLine = null;
-      }
-    }
-
-    // Only update and jump around in real source texts. This will
-    // keep the jump state around until the real source text is
-    // loaded.
-    if (this.props.sourceText && isTextForSource(this.props.sourceText)) {
-      this.highlightLine();
-    }
-  },
-
   renderBreakpoints() {
     const { breakpoints, sourceText } = this.props;
     const isLoading = sourceText && sourceText.get("loading");
@@ -500,13 +436,13 @@ const Editor = React.createClass({
       return;
     }
 
-    return breakpoints.valueSeq().map(bp => {
-      return Breakpoint({
+    return breakpoints
+      .valueSeq()
+      .map(bp => Breakpoint({
         key: makeLocationId(bp.location),
         breakpoint: bp,
         editor: this.editor && this.editor.codeMirror
-      });
-    });
+      }));
   },
 
   renderHitCounts() {
@@ -519,13 +455,11 @@ const Editor = React.createClass({
 
     return hitCount
       .filter(marker => marker.get("count") > 0)
-      .map((marker) => {
-        return HitMarker({
-          key: marker.get("line"),
-          hitData: marker.toJS(),
-          editor: this.editor && this.editor.codeMirror
-        });
-      });
+      .map(marker => HitMarker({
+        key: marker.get("line"),
+        hitData: marker.toJS(),
+        editor: this.editor && this.editor.codeMirror
+      }));
   },
 
   editorHeight() {

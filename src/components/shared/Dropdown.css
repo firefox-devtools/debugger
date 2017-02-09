@@ -29,6 +29,7 @@
   overflow: hidden;
   height: 30px;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dropdown li:hover {

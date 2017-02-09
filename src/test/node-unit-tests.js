@@ -13,6 +13,7 @@ const setConfig = require("devtools-config").setConfig;
 // Mock various functions. This allows tests to load files from a
 // local directory easily.
 mock("devtools-modules", { Services: { appinfo: { OS: "darwin" }}});
+mock("../utils/editor/source-editor", {});
 
 mock("../utils/prefs", {
   prefs: {

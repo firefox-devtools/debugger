@@ -28,6 +28,7 @@
 * [Linting](#linting)
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
+* [Colors](#colors)
 * [FAQ](#FAQ)
 * [Getting Help](#getting-help)
 
@@ -485,6 +486,23 @@ To automatically fix many errors run the command:
 yarn run lint-fix
 ```
 
+### Colors
+
+The Debugger has a [styleguide][mdn-colors] that we use to keep the colors consistent across tools and themes.
+
+The common colors are represented as [css variables] in a [devtools variables][devtools-css-variables] file. This lets define the colors
+for each theme: [light][light-theme], [dark][dark-theme], [firebug][firebug-theme].
+
+#### Making a color change
+
+Most color changes can be made by finding a different [css variable][devtools-css-variable].
+For instance, `--theme-splitter-color` is often good for border colors. The advantage to using an existing variable is that you know it'll look good in all the themes.
+
+When you need to update a variable, you should check to make sure it looks good in the other places it is being used.
+Often, it is more practicle to create a new variable.
+
+It's helpful to share the changes as a themes [table][pr-table] when you're done.
+
 ### FAQ
 
 #### Why not JSX
@@ -546,3 +564,14 @@ your questions on [slack][slack].
 [strings-json]: ../src/strings.json
 [debugger-properties]: ../assets/panel/debugger.properties
 [development-json]: ../configs/development.json
+
+[mdn-colors]: https://developer.mozilla.org/en-US/docs/Tools/DevToolsColors
+[light-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/light-theme.css#L1
+[dark-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/dark-theme.css#L1
+[firebug-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/firebug-theme.css#L1
+[devtools-css-variables]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/variables.css#L1
+[css variables]: https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
+
+[firebug-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209733/94970458-e1ad-11e6-83d4-8b082217b989.png
+[light-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209736/9b194f2a-e1ad-11e6-9de0-561dd529d5f0.png
+[pr-table]: ./pull-requests.md#screenshots
