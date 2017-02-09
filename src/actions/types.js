@@ -27,6 +27,8 @@ export type ThunkArgs = {
   client: any
 };
 
+export type ActionType = Object | Function;
+
 /**
  * Tri-state status for async operations
  *

@@ -33,7 +33,7 @@
     "flow-utils": "flow-coverage-report -i 'src/utils/*.js' -t text",
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
-    "prepush": "yarn run lint && yarn run test -- --dots",
+    "prepush": "yarn run lint && yarn run test -- --dots && yarn run flow",
     "postmerge": "node bin/post-merge.js"
   },
   "dependencies": {

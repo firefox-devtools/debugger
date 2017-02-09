@@ -1,5 +1,27 @@
+// @flow
+
 const prettyFast = require("pretty-fast");
 const assert = require("./assert");
+
+type Mappings = {
+  _array: Mapping[]
+}
+
+type Mapping = {
+  originalLine: number,
+  originalColumn: number,
+  source?: string,
+  generatedLine?: number,
+  generatedColumn?: number,
+  name?: string
+}
+
+type InvertedMapping = {
+  generated: Object,
+  source?: any,
+  original?: any,
+  name?: string
+}
 
 function prettyPrint({ url, indent, source }) {
   try {
@@ -13,13 +35,13 @@ function prettyPrint({ url, indent, source }) {
       mappings: prettified.map._mappings
     };
   } catch (e) {
-    return new Error(`${e.message}\n${e.stack}`);
+    throw new Error(`${e.message}\n${e.stack}`);
   }
 }
 
-function invertMappings(mappings) {
-  return mappings._array.map(m => {
-    let mapping = {
+function invertMappings(mappings: Mappings) {
+  return mappings._array.map((m: Mapping) => {
+    let mapping: InvertedMapping = {
       generated: {
         line: m.originalLine,
         column: m.originalColumn

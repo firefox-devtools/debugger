@@ -1,3 +1,6 @@
+// @flow
+
+import type { ThunkArgs, ActionType } from "../../../actions/types";
 
 /**
  * A middleware that allows thunks (functions) to be dispatched. If
@@ -6,11 +9,11 @@
  * middleware constructure. This allows the action to create multiple
  * actions (most likely asynchronously).
  */
-function thunk(makeArgs) {
-  return ({ dispatch, getState }) => {
+function thunk(makeArgs: any) {
+  return ({ dispatch, getState }: ThunkArgs) => {
     const args = { dispatch, getState };
 
-    return next => action => {
+    return (next: Function) => (action: ActionType) => {
       return (typeof action === "function")
         ? action(makeArgs ? makeArgs(args, getState()) : args)
         : next(action);
