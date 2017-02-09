@@ -57,9 +57,8 @@ function selectMenuItem(dbg, index) {
  * @return {Promise}
  * @static
  */
-function pressKey(dbg, el, keyName) {
+function pressKey(dbg, keyName) {
   let keyEvent = keyMappings[keyName];
-
   const { code, modifiers } = keyEvent;
   return EventUtils.synthesizeKey(
     code,
@@ -68,7 +67,7 @@ function pressKey(dbg, el, keyName) {
   );
 }
 
-function type(dbg, el, string) {
+function type(dbg, string) {
   string.split("").forEach(char => {
     EventUtils.synthesizeKey(char, {}, dbg.win);
   });

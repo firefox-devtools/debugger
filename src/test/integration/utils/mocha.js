@@ -3,7 +3,8 @@ const injectDebuggee = require("./debuggee");
 const {
   waitForElement,
   waitForSources,
-  waitForTargetEvent
+  waitForTargetEvent,
+  waitForPaused
 } = require("./wait");
 
 const {type, pressKey} = require("./type")
@@ -108,7 +109,12 @@ async function navigateToTab(dbg) {
 
 async function navigate(dbg, url) {
   dbg.win.client.navigate(`${url}`);
-  return waitForTargetEvent(dbg, "navigate");
+
+  console.log("waiting for navigation")
+  return Promise.race([
+    waitForPaused(dbg),
+    waitForTargetEvent(dbg, "navigate")
+  ]);
 }
 
 async function initDebugger(url, ...sources) {

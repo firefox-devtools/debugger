@@ -4,8 +4,8 @@
 // Tests the breakpoints are hit in various situations.
 
 const {
-  breaking,
-  setupTestRunner
+  setupTestRunner,
+  breaking
 } = require("devtools/client/debugger/new/integration-tests");
 
 add_task(function*() {

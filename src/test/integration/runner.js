@@ -2,9 +2,15 @@ require("mocha/mocha");
 const expect = require("expect.js");
 
 const { prefs } = require("../../utils/prefs")
-const prettyPrint = require("./tests/pretty-print")
-const breaking = require("./tests/breaking")
-const breakpointCond = require("./tests/breakpoints-cond")
+
+const {
+  asm,
+  breaking,
+  breakpointsCond,
+  prettyPrint,
+  keyboardNavigation,
+  keyboardShortcuts
+} = require("./tests/index")
 
 window.ok = function ok(expected) {
   expect(expected).to.be.truthy
@@ -28,6 +34,10 @@ describe("Tests", () => {
     prefs.tabs = [];
   });
 
+  it("asm", async function() {
+    await asm(ctx);
+  });
+
   it("breaking", async function() {
     await breaking(ctx);
   });
@@ -37,8 +47,16 @@ describe("Tests", () => {
   });
 
   it("conditional breakpoints", async function() {
-    await breakpointCond(ctx);
+    await breakpointsCond(ctx);
   });
+
+  xit("keyboard navigation", async function() {
+    await keyboardNavigation(ctx);
+  });
+
+  xit("keyboard shortcuts", async function() {
+    await keyboardShortcuts(ctx);
+  })
 });
 
 mocha.run();
