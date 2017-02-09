@@ -29,8 +29,10 @@ function findBreakpoint(dbg, url, line) {
   return getBreakpoint(getState(), { sourceId: source.id, line });
 }
 
-async function setConditionalBreakpoint(dbg, index, condition) {
+async function setConditionalBreakpoint(dbg, {info}, index, condition) {
+  info("right click on the gutter")
   rightClickElement(dbg, "gutter", index);
+  info('slect a menu item')
   selectMenuItem(dbg, 2);
   await waitForElement(dbg, cbInput);
   const el = findElementWithSelector(dbg, cbInput);
@@ -46,7 +48,7 @@ module.exports = async function breakpointsCond(ctx) {
   await selectSource(dbg, "simple2");
 
   info("Adding a conditional Breakpoint")
-  await setConditionalBreakpoint(dbg, 5, "1");
+  await setConditionalBreakpoint(dbg, ctx, 5, "1");
   await waitForDispatch(dbg, "ADD_BREAKPOINT");
   let bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.condition, "1", "breakpoint is created with the condition");

@@ -205,18 +205,23 @@ async function clickElement(dbg, elementName, ...args) {
 async function rightClickElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
   const el = dbg.win.document.querySelector(selector);
+  info('right click on the gutter', el)
   rightClickEl(dbg.win, el);
 }
 
 function selectMenuItem(dbg, index) {
   const doc =  getDocument(dbg);
 
+  info('select menu item', doc)
   const popup = doc.querySelector("menupopup[menu-api=\"true\"]");
+  info('found popup',popup)
   const item = popup.querySelector(`menuitem:nth-child(${index})`);
+  info('found item', item)
   item.click();
 }
 
 function type(dbg, el, string) {
+  info('typing in the input', dbg)
   _type(getWindow(dbg), el, string)
 }
 
