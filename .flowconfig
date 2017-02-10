@@ -10,3 +10,6 @@
 [libs]
 ./src/global-types.js
 
+
+[options]
+emoji=true
