@@ -35,7 +35,7 @@ const WelcomeBox = React.createClass({
   },
 
   render() {
-    const searchLabel = L10N.getFormatStr("welcome.search1",
+    const searchLabel = L10N.getFormatStr("welcome.search",
       formatKeyShortcut(
         `CmdOrCtrl+${L10N.getStr("sources.search.key")}`
       )
