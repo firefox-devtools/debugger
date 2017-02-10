@@ -38,7 +38,7 @@ function trimUrlQuery(url: string): string {
  * @memberof utils/source
  * @static
  */
-function isJavaScript(url: string, contentType: string = ""): boolean {
+function isJavaScript(url: ?string, contentType: string = ""): boolean {
   return (url && /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
          contentType.includes("javascript");
 }

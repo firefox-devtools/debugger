@@ -1,21 +1,32 @@
+// @flow
+
 const { getValue } = require("devtools-config");
 const { workerTask } = require("./utils");
 const { isJavaScript } = require("./source");
 const assert = require("./assert");
+
+import type { Source, SourceText } from "../types";
 
 let prettyPrintWorker = new Worker(
   `${getValue("baseWorkerURL")}pretty-print-worker.js`
 );
 
 function destroyWorker() {
-  prettyPrintWorker.terminate();
-  prettyPrintWorker = null;
+  if (prettyPrintWorker != null) {
+    prettyPrintWorker.terminate();
+    prettyPrintWorker = null;
+  }
 }
 
 const _prettyPrint = workerTask(prettyPrintWorker, "prettyPrint");
 
-async function prettyPrint({ source, sourceText, url }) {
-  const contentType = sourceText ? sourceText.contentType : null;
+type PrettyPrintOpts = {
+  source: Source,
+  sourceText: SourceText,
+  url: string
+};
+async function prettyPrint({ source, sourceText, url }: PrettyPrintOpts) {
+  const contentType = sourceText ? sourceText.contentType : "";
   const indent = 2;
 
   assert(
