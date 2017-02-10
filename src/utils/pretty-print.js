@@ -20,8 +20,12 @@ function destroyWorker() {
 
 const _prettyPrint = workerTask(prettyPrintWorker, "prettyPrint");
 
-async function prettyPrint({ source, sourceText, url }:
-  {source: Source, sourceText: SourceText, url: string}) {
+type PrettyPrintOpts = {
+  source: Source,
+  sourceText: SourceText,
+  url: string
+};
+async function prettyPrint({ source, sourceText, url }: PrettyPrintOpts) {
   const contentType = sourceText ? sourceText.contentType : "";
   const indent = 2;
 
