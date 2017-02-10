@@ -10,6 +10,8 @@
 [libs]
 ./src/global-types.js
 
+[include]
+./node_modules/devtools-client-adapters
 
 [options]
 emoji=true
