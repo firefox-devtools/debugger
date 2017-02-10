@@ -1,3 +1,4 @@
+const expect = require("expect.js");
 const { parse, getFunctions, getPathClosestToLocation } = require("../parser");
 
 const func = `
@@ -49,7 +50,7 @@ describe("parser", () => {
       expect(closestPath.node.id.name).to.be("square");
       expect(closestPath.node.loc.start).to.eql({
         line: 2,
-        column: 1
+        column: 0
       });
       expect(closestPath.type).to.be("FunctionDeclaration");
     });
@@ -65,7 +66,7 @@ describe("parser", () => {
 
       expect(closestPath.node.loc.start).to.eql({
         line: 2,
-        column: 10
+        column: 9
       });
       expect(closestPath.type).to.be("Identifier");
     });
