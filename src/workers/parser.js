@@ -43,21 +43,12 @@ function nodeContainsLocation({ node, location }) {
   const { start, end } = node.loc;
   const { line, column } = location;
 
-  if (start.line > line) {
-    return false;
-  }
-  if (start.line === line && start.column > column) {
-    return false;
-  }
-
-  if (end.line < line) {
-    return false;
-  }
-  if (end.line === line && end.column < column) {
-    return false;
-  }
-
-  return true;
+  return !(
+        (start.line > line)
+     || (start.line === line && start.column > column)
+     || (end.line < line)
+     || (end.line === line && end.column < column)
+   );
 }
 
 function getPathClosestToLocation(source, location) {

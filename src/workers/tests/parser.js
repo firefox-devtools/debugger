@@ -15,32 +15,40 @@ describe("parser", () => {
     });
   });
 
-
-  describe.only("getPathClosestToLocation", () => {
-    parse({text: func}, {id: "func"})
+  describe("getPathClosestToLocation", () => {
+    parse({ text: func }, { id: "func" });
 
     it("Can find the function declaration for square", () => {
-        var closestPath = getPathClosestToLocation(
-          {id: "func"},
-          {
-            line: 2,
-            column: 1
-          }
-        );
+      var closestPath = getPathClosestToLocation(
+        { id: "func" },
+        {
+          line: 2,
+          column: 1
+        }
+      );
 
-        expect(closestPath.type).to.be("FunctionDeclaration");
-    })
+      expect(closestPath.node.id.name).to.be("square");
+      expect(closestPath.node.loc.start).to.equal({
+        line: 2,
+        column: 10
+      });
+      expect(closestPath.type).to.be("FunctionDeclaration");
+    });
 
     it("Can find the path at the exact column", () => {
-        var closestPath = getPathClosestToLocation(
-          {id: "func"},
-          {
-            line: 2,
-            column: 10
-          }
-        );
+      var closestPath = getPathClosestToLocation(
+        { id: "func" },
+        {
+          line: 2,
+          column: 10
+        }
+      );
 
-        expect(closestPath.type).to.be("Identifier");
-    })
-  })
+      expect(closestPath.node.loc.start).to.equal({
+        line: 2,
+        column: 10
+      });
+      expect(closestPath.type).to.be("Identifier");
+    });
+  });
 });
