@@ -6,12 +6,31 @@ function square(n) {
 }
 `;
 
+const math = `
+function math(n) {
+  function square(n) { n * n}
+  const two = square(2);
+  const four = squaare(4);
+  return two * four;
+}
+`;
+
 describe("parser", () => {
   describe("getFunctions", () => {
-    it("simple", () => {
+    it("finds square", () => {
       parse({ text: func }, { id: "func" });
       const fncs = getFunctions({ id: "func" });
-      expect(fncs).to.equal(false);
+      const names = fncs.map(f => f.name);
+
+      expect(names).to.eql(["square"]);
+    });
+
+    it("finds nested functions", () => {
+      parse({ text: math }, { id: "math" });
+      const fncs = getFunctions({ id: "math" });
+      const names = fncs.map(f => f.name);
+
+      expect(names).to.eql(["math", "square"]);
     });
   });
 
@@ -28,9 +47,9 @@ describe("parser", () => {
       );
 
       expect(closestPath.node.id.name).to.be("square");
-      expect(closestPath.node.loc.start).to.equal({
+      expect(closestPath.node.loc.start).to.eql({
         line: 2,
-        column: 10
+        column: 1
       });
       expect(closestPath.type).to.be("FunctionDeclaration");
     });
@@ -44,7 +63,7 @@ describe("parser", () => {
         }
       );
 
-      expect(closestPath.node.loc.start).to.equal({
+      expect(closestPath.node.loc.start).to.eql({
         line: 2,
         column: 10
       });

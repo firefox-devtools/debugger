@@ -1,5 +1,6 @@
 const babylon = require("babylon");
 const traverse = require("babel-traverse").default;
+const t = require("babel-types");
 
 import type { SourceText, Source } from "../types";
 
@@ -32,11 +33,20 @@ function getAst(source) {
 function getFunctions(source) {
   const ast = getAst(source);
 
+  const functions = [];
+
   traverse(ast, {
-    enter(path) {}
+    enter(path) {
+      if (t.isFunctionDeclaration(path)) {
+        functions.push({
+          name: path.node.id.name,
+          location: path.node.loc
+        });
+      }
+    }
   });
 
-  return false;
+  return functions;
 }
 
 function nodeContainsLocation({ node, location }) {
