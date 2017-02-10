@@ -8,6 +8,31 @@
 
 const Immutable = require("immutable");
 
+/*
+  creates an immutable map, where each of the value's
+  items are transformed into their own map.
+
+  NOTE: we guard agains `length` being a property because
+  length confuses Immutable's internal algorithm.
+*/
+function createMap(value) {
+  if (value.hasOwnProperty("length")) {
+    value.length = `${ value.length}`;
+  }
+
+  let map = Immutable.Seq(value).map(fromJS).toMap();
+
+  if (map.has("length")) {
+    map = map.set("length", parseInt(map.get("length"), 10));
+  }
+
+  return map;
+}
+
+function createList(value) {
+  return Immutable.Seq(value).map(fromJS).toList();
+}
+
 /**
  * When our app state is fully typed, we should be able to get rid of
  * this function. This is only temporarily necessary to support
@@ -19,7 +44,7 @@ const Immutable = require("immutable");
  */
 function fromJS(value: any) : any {
   if (Array.isArray(value)) {
-    return Immutable.Seq(value).map(fromJS).toList();
+    return createList(value);
   }
   if (value && value.constructor.meta) {
     // This adds support for tcomb objects which are native JS objects
@@ -28,9 +53,9 @@ function fromJS(value: any) : any {
     // special checks for them.
     const kind = value.constructor.meta.kind;
     if (kind === "struct") {
-      return Immutable.Seq(value).map(fromJS).toMap();
+      return createMap(value);
     } else if (kind === "list") {
-      return Immutable.Seq(value).map(fromJS).toList();
+      return createList(value);
     }
   }
 
@@ -44,7 +69,8 @@ function fromJS(value: any) : any {
   // Otherwise, treat it like an object. We can't reliably detect if
   // it's a plain object because we might be objects from other JS
   // contexts so `Object !== Object`.
-  return Immutable.Seq(value).map(fromJS).toMap();
+
+  return createMap(value);
 }
 
 module.exports = fromJS;
