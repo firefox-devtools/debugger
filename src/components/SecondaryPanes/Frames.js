@@ -85,9 +85,7 @@ const Frames = createClass({
         click: () => copyToTheClipboard(source.url)
       };
 
-      if (isEnabled("copySource")) {
-        menuOptions.push(copySourceUrl);
-      }
+      menuOptions.push(copySourceUrl);
     }
 
     showMenu(event, menuOptions);
