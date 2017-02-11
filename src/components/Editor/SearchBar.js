@@ -152,7 +152,7 @@ const SearchBar = React.createClass({
 
     // eslint-disable-next-line react/no-did-update-set-state
     this.setState({ count, index: 0 });
-    this.search(query);
+    this.search(query.trim());
   },
 
   onChange(e: any) {
@@ -178,7 +178,7 @@ const SearchBar = React.createClass({
     }
 
     const findFnc = rev ? findPrev : findNext;
-    findFnc(ctx, query, true, modifiers);
+    findFnc(ctx, query.trim(), true, modifiers);
     const nextIndex = index == count - 1 ? 0 : index + 1;
     this.setState({ index: nextIndex });
   },
