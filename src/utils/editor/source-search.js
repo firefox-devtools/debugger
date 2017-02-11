@@ -30,6 +30,10 @@ function getSearchCursor(cm, query: string, pos, modifiers: SearchModifiers) {
   return cm.getSearchCursor(regexQuery, pos);
 }
 
+function isWhitespace(query) {
+  return !query.match(/\S/);
+}
+
 /**
  * This returns a mode object used by CoeMirror's addOverlay function
  * to parse and style tokens in the file.
@@ -117,7 +121,7 @@ function updateCursor(cm, state, keepSelection) {
 function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
   let { cm } = ctx;
   cm.operation(function() {
-    if (!query) {
+    if (!query || isWhitespace(query)) {
       return;
     }
 

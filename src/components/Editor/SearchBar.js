@@ -152,10 +152,7 @@ const SearchBar = React.createClass({
 
     // eslint-disable-next-line react/no-did-update-set-state
     this.setState({ count, index: 0 });
-    // Only perform a search if query contains a non-whitespace character
-    if (query.match(/\S/)) {
-      this.search(query);
-    }
+    this.search(query);
   },
 
   onChange(e: any) {
@@ -181,10 +178,8 @@ const SearchBar = React.createClass({
     }
 
     const findFnc = rev ? findPrev : findNext;
-    // Only perform a search if query contains a non-whitespace character
-    if (query.match(/\S/)) {
-      findFnc(ctx, query, true, modifiers);
-    }
+    findFnc(ctx, query, true, modifiers);
+
     const nextIndex = index == count - 1 ? 0 : index + 1;
     this.setState({ index: nextIndex });
   },
