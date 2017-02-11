@@ -52,7 +52,7 @@ async function EditorMenu({
   const jumpLabel = {
     accesskey: "C",
     disabled: false,
-    label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
+    label: L10N.getFormatStr("editor.jumpToMappedLocation", pairedType),
     click: () => jumpToMappedLocation(sourceLocation)
   };
 
