@@ -6,8 +6,12 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
+const { isEnabled } = require("devtools-config");
 
 const { getMode } = require("../../utils/source");
+const {getFunctions} = require("../../utils/parser");
+const Autocomplete = createFactory(require("../shared/autocomplete"));
+
 const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
 const GutterMenu = require("./GutterMenu");
@@ -73,7 +77,9 @@ const Editor = React.createClass({
         caseSensitive: true,
         wholeWord: false,
         regexMatch: false
-      }
+      },
+      functionSearchEnabled: false,
+      functionDeclarations: null
     };
   },
 
@@ -172,6 +178,11 @@ const Editor = React.createClass({
       (_, e) => traverseResults(e, ctx, query, "prev", searchModifiers));
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
       (_, e) => traverseResults(e, ctx, query, "next", searchModifiers));
+
+
+    if (isEnabled("functionSearch")) {
+      shortcuts.on(`CmdOrCtrl+e`, (_, e) => this.toggleFunctionSearch(e))
+    }
 
     resizeBreakpointGutter(this.editor.codeMirror);
     debugGlobal("cm", this.editor.codeMirror);
@@ -472,6 +483,56 @@ const Editor = React.createClass({
     return "";
   },
 
+  toggleFunctionSearch(e) {
+    if (e) {
+      e.preventDefault();
+    }
+
+    if (this.state.functionSearchEnabled) {
+      return this.setState({functionSearchEnabled: false})
+    }
+
+    const functionDeclarations = getFunctions(
+      this.props.selectedSource.toJS()
+    ).map(dec => ({
+      id: dec.name,
+      title: dec.name,
+      subtitle: "",
+      value: dec.name,
+      location: dec.location
+    }));
+
+    this.setState({
+      functionSearchEnabled: true,
+      functionDeclarations
+    })
+  },
+
+  renderFunctionSearch() {
+    if (!this.state.functionSearchEnabled) {
+      return;
+    }
+
+    const { selectSource, selectedSource } = this.props;
+
+    return dom.div({
+      className: 'function-search'
+    },
+      Autocomplete({
+        selectItem: (item) => {
+          this.toggleFunctionSearch();
+          selectSource(
+            selectedSource.get("id"),
+            {line: item.location.start.line}
+          )
+        },
+        close: () => {},
+        items: this.state.functionDeclarations,
+        inputValue: ""
+      })
+    )
+  },
+
   render() {
     const { sourceText, selectedSource, coverageOn, horizontal } = this.props;
 
@@ -492,6 +553,7 @@ const Editor = React.createClass({
           query: this.state.query,
           updateQuery: this.updateQuery
         }),
+        this.renderFunctionSearch(),
         dom.div({
           className: "editor-mount",
           style: { height: this.editorHeight() }

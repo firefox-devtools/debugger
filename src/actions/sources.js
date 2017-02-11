@@ -13,6 +13,9 @@ const defer = require("../utils/defer");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const assert = require("../utils/assert");
 const { updateFrameLocations } = require("../utils/pause");
+const { parse } = require("../utils/parser");
+const { isEnabled } = require("devtools-config");
+
 const {
   getOriginalURLs, getOriginalSourceText,
   generatedToOriginalId, isOriginalId,
@@ -283,11 +286,17 @@ function loadSourceText(source: Source) {
         }
 
         const response = await client.sourceContents(source.id);
-        return {
+
+        const sourceText = {
           text: response.source,
           contentType: response.contentType || "text/javascript"
         };
 
+        if (isEnabled("functionSearch")) {
+          parse(sourceText, source)
+        }
+
+        return sourceText;
         // Automatically pretty print if enabled and the test is
         // detected to be "minified"
         // if (Prefs.autoPrettyPrint &&

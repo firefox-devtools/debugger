@@ -30,6 +30,10 @@
     "searchModifiers": {
       "label": "Search Modifiers",
       "enabled": false
+    },
+    "functionSearch": {
+      "label": "function Search",
+      "enabled": false
     }
   },
   "chrome": {
