@@ -161,21 +161,21 @@ const CommandBar = createClass({
         this.props.stepOver,
         "stepOver",
         className,
-        L10N.getFormatStr("stepOverTooltip1", formatKey("stepOver")),
+        L10N.getFormatStr("stepOverTooltip", formatKey("stepOver")),
         isDisabled
       ),
       debugBtn(
         this.props.stepIn,
         "stepIn",
         className,
-        L10N.getFormatStr("stepInTooltip1", formatKey("stepIn")),
+        L10N.getFormatStr("stepInTooltip", formatKey("stepIn")),
         isDisabled
       ),
       debugBtn(
         this.props.stepOut,
         "stepOut",
         className,
-        L10N.getFormatStr("stepOutTooltip1", formatKey("stepOut")),
+        L10N.getFormatStr("stepOutTooltip", formatKey("stepOut")),
         isDisabled
       )
     ];
@@ -189,7 +189,7 @@ const CommandBar = createClass({
         this.props.resume,
         "resume",
         "active",
-        L10N.getFormatStr("resumeButtonTooltip1", formatKey("resume"))
+        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
       );
     }
 
@@ -207,7 +207,7 @@ const CommandBar = createClass({
       breakOnNext,
       "pause",
       "active",
-      L10N.getFormatStr("pauseButtonTooltip1", formatKey("pause"))
+      L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
     );
   },
 
