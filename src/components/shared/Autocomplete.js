@@ -117,7 +117,7 @@ const Autocomplete = React.createClass({
         onFocus: e => this.setState({ focused: true }),
         onBlur: e => this.setState({ focused: false }),
         onKeyDown: this.onKeyDown,
-        placeholder: L10N.getStr("sourceSearch.search1")
+        placeholder: L10N.getStr("sourceSearch.search")
       }
     );
   },
@@ -142,7 +142,7 @@ const Autocomplete = React.createClass({
     let resultCountSummary = "";
     if (this.state.inputValue) {
       resultCountSummary = L10N.getFormatStr(
-        "sourceSearch1.resultsSummary",
+        "sourceSearch.resultsSummary",
         searchResults.length,
         this.state.inputValue);
     }
