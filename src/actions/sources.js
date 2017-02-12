@@ -293,7 +293,7 @@ function loadSourceText(source: Source) {
         };
 
         if (isEnabled("functionSearch")) {
-          parse(sourceText, source)
+          parse(sourceText, source);
         }
 
         return sourceText;

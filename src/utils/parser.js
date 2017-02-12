@@ -30,6 +30,21 @@ function getAst(source) {
   return ASTs.get(source.id);
 }
 
+function getFunctionName(path) {
+  if (path.node.id) {
+    return path.node.id.name;
+  }
+
+  const parent = path.parent;
+  if (parent.type == "ObjectProperty") {
+    return parent.key.name;
+  }
+
+  if (parent.type == "VariableDeclarator") {
+    return parent.id.name;
+  }
+}
+
 function getFunctions(source) {
   const ast = getAst(source);
 
@@ -37,9 +52,9 @@ function getFunctions(source) {
 
   traverse(ast, {
     enter(path) {
-      if (t.isFunctionDeclaration(path)) {
+      if (t.isFunction(path)) {
         functions.push({
-          name: path.node.id.name,
+          name: getFunctionName(path),
           location: path.node.loc
         });
       }

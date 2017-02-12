@@ -16,6 +16,20 @@ function math(n) {
 }
 `;
 
+const proto = `
+const foo = function() {}
+
+const bar = () => {}
+
+const TodoView = Backbone.View.extend({
+  tagName:  'li',
+  initialize: function () {},
+  render: function () {
+    return this;
+  },
+});
+`
+
 describe("parser", () => {
   describe("getFunctions", () => {
     it("finds square", () => {
@@ -33,6 +47,14 @@ describe("parser", () => {
 
       expect(names).to.eql(["math", "square"]);
     });
+
+    it.only("finds object properties", () => {
+      parse({ text: proto }, { id: "proto" });
+      const fncs = getFunctions({ id: "proto" });
+      const names = fncs.map(f => f.name);
+
+      expect(names).to.eql([ "foo", "bar", "initialize", "render"]);
+    })
   });
 
   describe("getPathClosestToLocation", () => {

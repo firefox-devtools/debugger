@@ -169,8 +169,6 @@ const SearchBar = React.createClass({
       return;
     }
 
-    // look here
-
     const ctx = { ed, cm: ed.codeMirror };
     const { index, count } = this.state;
     const { query, modifiers } = this.props;

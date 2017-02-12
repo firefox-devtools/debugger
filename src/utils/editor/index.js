@@ -108,7 +108,6 @@ function traverseResults(e, ctx, query, dir, modifiers) {
   e.stopPropagation();
   e.preventDefault();
 
-  // look here...
   if (dir == "prev") {
     findPrev(ctx, query, true, modifiers);
   } else if (dir == "next") {
