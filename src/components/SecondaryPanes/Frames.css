@@ -47,12 +47,14 @@
   margin-right: 1em;
 }
 
-.frames ul li:hover {
+.frames ul li:hover,
+.frames ul li:focus {
    background-color: var(--theme-toolbar-background-alt);
+   outline: none;
 }
 
-:root.theme-light .frames ul li:focus,
-:root.theme-firebug .frames ul li:focus {
+:root.theme-light .frames ul li.selected:focus,
+:root.theme-firebug .frames ul li.selected:focus {
   background-color: #4676b7;
   outline: none;
 }
@@ -68,7 +70,7 @@
   color: white;
 }
 
-:root.theme-dark .frames ul li:focus {
+:root.theme-dark .frames ul li.selected:focus {
   background-color: #314c86; 
   outline: none;
 }
