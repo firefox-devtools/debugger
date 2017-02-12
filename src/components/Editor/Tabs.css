@@ -41,6 +41,7 @@
   position: relative;
   transition: all 0.25s ease;
   min-width: 80px;
+  line-height: 16px;
 }
 
 .source-tab {
@@ -110,4 +111,12 @@
 
 .source-tab:hover .close-btn {
   visibility: visible;
+}
+
+.source-tab .close-btn .close {
+  padding: 0;
+  margin-top: 0;
+  line-height: 0;
+  line-height: 13px;
+  display: inline-block;
 }
