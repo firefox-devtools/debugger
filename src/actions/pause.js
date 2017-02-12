@@ -3,7 +3,7 @@ const constants = require("../constants");
 const { selectSource } = require("./sources");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 
-const { getPause } = require("../selectors");
+const { getPause, getLoadedObject } = require("../selectors");
 const { updateFrameLocations } = require("../utils/pause");
 const { evaluateExpressions } = require("./expressions");
 
@@ -205,10 +205,16 @@ function selectFrame(frame: Frame) {
  * @static
  */
 function loadObjectProperties(object: any) {
-  return ({ dispatch, client }: ThunkArgs) => {
+  return ({ dispatch, client, getState }: ThunkArgs) => {
+    const objectId = object.actor || object.objectId;
+
+    if (getLoadedObject(getState(), objectId)) {
+      return;
+    }
+
     dispatch({
       type: constants.LOAD_OBJECT_PROPERTIES,
-      objectId: object.actor || object.objectId,
+      objectId,
       [PROMISE]: client.getProperties(object)
     });
   };
