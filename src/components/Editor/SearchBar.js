@@ -179,6 +179,7 @@ const SearchBar = React.createClass({
 
     const findFnc = rev ? findPrev : findNext;
     findFnc(ctx, query, true, modifiers);
+
     const nextIndex = index == count - 1 ? 0 : index + 1;
     this.setState({ index: nextIndex });
   },
