@@ -1,5 +1,10 @@
 const expect = require("expect.js");
-const { parse, getFunctions, getPathClosestToLocation } = require("../parser");
+const {
+  parse,
+  getFunctions,
+  getVariablesInScope,
+  getPathClosestToLocation
+} = require("../parser");
 
 // re-formats the code to correct for webpack indentations
 function formatCode(text) {
@@ -98,6 +103,23 @@ describe("parser", () => {
         column: 9
       });
       expect(closestPath.type).to.be("Identifier");
+    });
+
+    it("finds scope binding variables", () => {
+      parse({ text: math }, { id: "math" });
+      var vars = getVariablesInScope(
+        { id: "math" },
+        {
+          line: 2,
+          column: 5
+        }
+      );
+
+      expect(vars.map(v => v.name)).to.eql(["n", "square", "two", "four"]);
+      expect(vars[1].references[0].node.loc.start).to.eql({
+        column: 14,
+        line: 4
+      });
     });
   });
 });
