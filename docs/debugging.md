@@ -1,14 +1,23 @@
+## Debugging Tips
 
++ [Components](#components)
++ [Actions](#actions)
++ [Reducers](#reducers)
++ [Client](#client)
++ [Communication](#communication)
 
 The best thing about React and Redux is that it simplifies the development workflow.
+
 Generally speaking, code belongs in one of four buckets: component, action, reducer, or client.
 
 There are different strategies for debugging each bucket, which we'll outline below.
 
+Also, because the Debugger is just a web page, all of your web development debugging strategies will carry over as well.
+
 ### Components
 
 The first thing you want to find the component to work on.
-The react devtools extension is useful for find the correct component.
+The react devtools extension is useful for finding the correct component.
 
 Once you find the component, check the component's state and props and monitor the render calls.
 The easiest way to do this is to add a breakpoint in the render function.
@@ -40,7 +49,7 @@ For instance, what does a breakpoint look like?
 In Redux, the reducers are like the application database and it's tremendously useful to be able to inspect them.
 
 It's easy to view the current Debugger state in the console with
-the `appStore` global. Because the data is immutable, you'll need to request the state as a pojo.
+the `appStore` global. Because the data is immutable, you'll need to request the state each time you want to see it.
 
 ```js
 appStore.getState().sources.toJS()
@@ -54,12 +63,12 @@ getGlobalsForTesting().selectors.getBreakpoints(appStore.getState())
 
 ### Client
 
-Perhaps, the most interesting question you can ask about the Debugge is how does it work?
-This questions often takes the form of, "how is a breakpoint added?" or "what happens when the debugger pauses?".
+Perhaps, the most interesting question you can ask about the Debugger is how does it work?
+This question often takes the form of, "how is a breakpoint added?" or "what happens when the debugger pauses?".
 
 To answer these questions, you need to look at the Debugger's client, which talks to the server over a websocket.
 
-The client commarnds are available on the console at `client` for testing purposes:
+The client commands are available on the console at `client` for testing purposes:
 
 ```js
 client.setBreakpoint(...) // will add a breakpoint
@@ -85,7 +94,7 @@ Here's a sample of some websocket frames from the Debugger attaching:
 
 Lastly, it's worth mentioning that Developer Tools is an *advanced* subject
 you're actually inquiring into how JS works. It's awesome that you're curious and there
-are lots of people in our [slack] channel who are learning along side of you.
+are lots of people in our [slack] channel who are learning alongside of you.
 
 The best thing to do is to join our slack and share what you're learning and ask others questions.
 They'll be plenty of people who are curious and happy to share what they know.
