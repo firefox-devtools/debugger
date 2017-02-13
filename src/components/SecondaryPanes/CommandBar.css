@@ -2,6 +2,8 @@
   flex: 0 0 30px;
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
+  height: 30px;
+  overflow: hidden;
 }
 
 .command-bar > button {
