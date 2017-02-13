@@ -5,7 +5,6 @@ const { DOM: dom, PropTypes } = React;
 const classnames = require("classnames");
 const ImPropTypes = require("react-immutable-proptypes");
 const { Set } = require("immutable");
-const { isEnabled } = require("devtools-config");
 const { getShownSource, getSelectedSource } = require("../selectors");
 const {
   nodeHasChildren, createParentMap, isDirectory, addToTree,
@@ -143,9 +142,7 @@ let SourcesTree = React.createClass({
         click: () => copyToTheClipboard(source)
       };
 
-      if (isEnabled("copySource")) {
-        menuOptions.push(copySourceUrl);
-      }
+      menuOptions.push(copySourceUrl);
     }
 
     showMenu(event, menuOptions);
