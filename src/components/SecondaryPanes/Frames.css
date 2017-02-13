@@ -53,30 +53,15 @@
    outline: none;
 }
 
-:root.theme-light .frames ul li.selected:focus,
-:root.theme-firebug .frames ul li.selected:focus {
-  background-color: #4676b7;
-  outline: none;
-}
-
-:root.theme-light .frames ul li:hover .location,
-:root.theme-firebug .frames ul li:hover .location,
- {
-  color: #49444c;
-}
-
 .frames ul li.selected {
   background-color: var(--theme-selection-background);
   color: white;
 }
 
-:root.theme-dark .frames ul li.selected:focus {
-  background-color: #314c86; 
-  outline: none;
-}
-
+:root.theme-light .frames ul li:hover .location,
 :root.theme-light .frames ul li.selected .location,
 :root.theme-firebug .frames ul li.selected .location,
+:root.theme-firebug .frames ul li:hover .location,
 :root.theme-dark .frames ul li:hover .location,
 :root.theme-dark .frames ul li.selected .location {
   color: white;
