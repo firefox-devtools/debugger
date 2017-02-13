@@ -12,18 +12,22 @@ const Immutable = require("immutable");
   creates an immutable map, where each of the value's
   items are transformed into their own map.
 
-  NOTE: we guard agains `length` being a property because
+  NOTE: we guard against `length` being a property because
   length confuses Immutable's internal algorithm.
 */
 function createMap(value) {
-  if (value.hasOwnProperty("length")) {
+  const hasLength = value.hasOwnProperty("length");
+  const length = value.length;
+
+  if (hasLength) {
     value.length = `${ value.length}`;
   }
 
   let map = Immutable.Seq(value).map(fromJS).toMap();
 
-  if (map.has("length")) {
-    map = map.set("length", parseInt(map.get("length"), 10));
+  if (hasLength) {
+    map = map.set("length", length);
+    value.length = length;
   }
 
   return map;
