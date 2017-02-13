@@ -30,12 +30,16 @@ require("./Tabs.css");
  * @returns Immutable.list
  */
 function getHiddenTabs(sourceTabsParent, sourceTabs, sourceTabEls) {
-  const parentRightOffset = sourceTabsParent.getBoundingClientRect().right;
-  const sourceTabMinWidth = 80; // this value is set in tabs.css
   sourceTabEls = [].slice.call(sourceTabEls);
   
+  const sourceTabMinWidth = sourceTabEls.length ? 
+    window.getComputedStyle(sourceTabEls[0]).getPropertyValue('min-width') :
+    0;
+  const parentRightOffset = sourceTabsParent.getBoundingClientRect().right;
+
   return sourceTabs.filter((tab, index) => {
-    return (sourceTabEls[index].getBoundingClientRect().left + sourceTabMinWidth) > parentRightOffset;
+    return (sourceTabEls[index].getBoundingClientRect().left + 
+      parseInt(sourceTabMinWidth)) > parentRightOffset;
   });
 }
 
