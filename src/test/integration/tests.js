@@ -1,6 +1,7 @@
 const prettyPrint = require("./tests/pretty-print");
 const breakpointsCond = require("./tests/breakpoints-cond");
 const breaking = require("./tests/breaking");
+const editorSearch = require("./tests/editor-search");
 const { setupTestRunner } = require("./utils/mocha")
 const { isDevelopment } = require("devtools-config");
 
@@ -12,5 +13,6 @@ module.exports = {
   setupTestRunner,
   prettyPrint,
   breaking,
-  breakpointsCond
+  breakpointsCond,
+  editorSearch
 }
