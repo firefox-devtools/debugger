@@ -5,7 +5,6 @@
   -o-user-select: none;
   user-select: none;
 
-  flex: 1;
   white-space: nowrap;
   overflow: auto;
 }

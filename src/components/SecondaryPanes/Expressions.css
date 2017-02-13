@@ -43,9 +43,7 @@
 }
 
 .expression-container > .tree {
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
+  width: calc(100% - 20px);
 }
 
 :root.theme-light .expression-container:hover {
