@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 const { DOM: dom, PropTypes } = React;
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import actions from '../../actions';
-import { getEventListeners, getBreakpoint } from '../../selectors';
-import CloseButton from '../shared/Button/Close';
-import './EventListeners.css';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import actions from "../../actions";
+import { getEventListeners, getBreakpoint } from "../../selectors";
+import CloseButton from "../shared/Button/Close";
+import "./EventListeners.css";
 
 const EventListeners = React.createClass({
   propTypes: {

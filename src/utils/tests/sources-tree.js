@@ -389,48 +389,48 @@ describe("sources-tree", () => {
   });
 
   it("handles 'https' in target url", function() {
-   const source1 = Map({
-     url: "https://a/b.js",
-     actor: "actor1"
-   });
+    const source1 = Map({
+      url: "https://a/b.js",
+      actor: "actor1"
+    });
 
-   const source2 = Map({
-     url: "https://b/b.js",
-     actor: "actor1"
-   });
+    const source2 = Map({
+      url: "https://b/b.js",
+      actor: "actor1"
+    });
 
-   const tree = createNode("root", "", []);
-   addToTree(tree, source1);
-   addToTree(tree, source2);
-   const paths = getDirectories("https://a/b.js", tree);
+    const tree = createNode("root", "", []);
+    addToTree(tree, source1);
+    addToTree(tree, source2);
+    const paths = getDirectories("https://a/b.js", tree);
 
-   expect(paths[1].path).to.be("/a");
-   expect(paths[0].path).to.be("/a/b.js");
- });
+    expect(paths[1].path).to.be("/a");
+    expect(paths[0].path).to.be("/a/b.js");
+  });
 
- it("handles normal url with http and https for filename", function() {
-  const urlObject = getURL("https://a/b.js");
-  const urlObject2 = getURL("http://a/b.js");
+  it("handles normal url with http and https for filename", function() {
+    const urlObject = getURL("https://a/b.js");
+    const urlObject2 = getURL("http://a/b.js");
 
-  expect(urlObject.filename).to.be("b.js");
-  expect(urlObject2.filename).to.be("b.js");
- });
+    expect(urlObject.filename).to.be("b.js");
+    expect(urlObject2.filename).to.be("b.js");
+  });
 
- it("handles url with querystring for filename", function() {
-  const urlObject = getURL("https://a/b.js?key=randomeKey");
+  it("handles url with querystring for filename", function() {
+    const urlObject = getURL("https://a/b.js?key=randomeKey");
 
-  expect(urlObject.filename).to.be("b.js");
- });
+    expect(urlObject.filename).to.be("b.js");
+  });
 
- it("handles url with '#' for filename", function() {
-  const urlObject = getURL("https://a/b.js#specialSection");
+  it("handles url with '#' for filename", function() {
+    const urlObject = getURL("https://a/b.js#specialSection");
 
-  expect(urlObject.filename).to.be("b.js");
- });
+    expect(urlObject.filename).to.be("b.js");
+  });
 
- it("handles url with no filename for filename", function() {
-  const urlObject = getURL("https://a/c");
+  it("handles url with no filename for filename", function() {
+    const urlObject = getURL("https://a/c");
 
-  expect(urlObject.filename).to.be("(index)");
- });
+    expect(urlObject.filename).to.be("(index)");
+  });
 });

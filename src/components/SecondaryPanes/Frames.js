@@ -12,7 +12,6 @@ import { getFilename } from "../../utils/source";
 const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
 
 import { showMenu } from "../shared/menu";
-import { isEnabled } from "devtools-config";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import classNames from "classnames";
 
