@@ -64,10 +64,13 @@ function isDefault(item) {
 function sortProperties(properties) {
   return properties.sort((a, b) => {
     // Sort numbers in ascending order and sort strings lexicographically
-    const aInt = parseInt(a, 10), bInt = parseInt(b, 10);
+    const aInt = parseInt(a, 10);
+    const bInt = parseInt(b, 10);
+
     if (isNaN(aInt) || isNaN(bInt)) {
       return a > b ? 1 : -1;
     }
+
     return aInt - bInt;
   });
 }
