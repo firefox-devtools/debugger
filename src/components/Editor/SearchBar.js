@@ -144,14 +144,24 @@ const SearchBar = React.createClass({
     }
 
     updateQuery(query);
+
+    const ed = this.props.editor;
+
+    if (!ed) {
+      return;
+    }
+
+    const ctx = { ed, cm: ed.codeMirror };
+
     const count = countMatches(
+      ctx,
       query,
       sourceText.get("text"),
       modifiers
     );
 
     // eslint-disable-next-line react/no-did-update-set-state
-    this.setState({ count, index: 0 });
+    this.setState({ count });
     this.search(query);
   },
 
@@ -170,7 +180,7 @@ const SearchBar = React.createClass({
     }
 
     const ctx = { ed, cm: ed.codeMirror };
-    const { index, count } = this.state;
+
     const { query, modifiers } = this.props;
 
     if (query === "") {
@@ -178,9 +188,8 @@ const SearchBar = React.createClass({
     }
 
     const findFnc = rev ? findPrev : findNext;
-    findFnc(ctx, query, true, modifiers);
 
-    const nextIndex = index == count - 1 ? 0 : index + 1;
+    const nextIndex = findFnc(ctx, query, true, modifiers);
     this.setState({ index: nextIndex });
   },
 
@@ -202,7 +211,8 @@ const SearchBar = React.createClass({
     const ed = this.props.editor;
     const ctx = { ed, cm: ed.codeMirror };
 
-    find(ctx, query, true, this.props.modifiers);
+    const index = find(ctx, query, true, this.props.modifiers);
+    this.setState({ index });
   }, 100),
 
   renderSummary() {
