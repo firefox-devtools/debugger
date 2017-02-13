@@ -20,7 +20,7 @@
     "flow": "flow",
     "lint": "yarn run lint-css -s && yarn run lint-js -s && yarn run lint-md",
     "lint-css": "stylelint src/components/*.css",
-    "lint-js": "eslint src/**/*.js",
+    "lint-js": "eslint src",
     "lint-md": "remark -q src docs README.md CONTRIBUTING.md",
     "lint-fix": "yarn run lint-js -- --fix",
     "test": "node src/test/node-unit-tests.js",

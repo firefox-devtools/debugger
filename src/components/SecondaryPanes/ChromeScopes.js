@@ -40,7 +40,9 @@ function createNode(name, path, contents) {
 const Scopes = createClass({
   propTypes: {
     scopes: PropTypes.array,
-    loadedObjects: ImPropTypes.map
+    loadedObjects: ImPropTypes.map,
+    loadObjectProperties: PropTypes.function,
+    pauseInfo: PropTypes.object
   },
 
   displayName: "Scopes",
@@ -165,9 +167,7 @@ const Scopes = createClass({
   },
 
   render() {
-    const {
-      pauseInfo, loadObjectProperties, loadedObjects
-    } = this.props;
+    const { pauseInfo } = this.props;
 
     if (!pauseInfo) {
       return dom.div(

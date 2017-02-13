@@ -17,8 +17,8 @@ function getLineEl(dbg, line) {
 function assertEditorBreakpoint(dbg, line, shouldExist) {
   const exists = !!getLineEl(dbg, line).querySelector(".new-breakpoint");
   ok(exists === shouldExist,
-     "Breakpoint " + (shouldExist ? "exists" : "does not exist") +
-     " on line " + line);
+     `Breakpoint ${ shouldExist ? "exists" : "does not exist"
+     } on line ${ line}`);
 }
 
 add_task(function* () {

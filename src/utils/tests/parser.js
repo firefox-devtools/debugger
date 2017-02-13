@@ -39,7 +39,7 @@ describe("parser", () => {
     parse({ text: func }, { id: "func" });
 
     it("Can find the function declaration for square", () => {
-      var closestPath = getPathClosestToLocation(
+      const closestPath = getPathClosestToLocation(
         { id: "func" },
         {
           line: 2,
@@ -56,7 +56,7 @@ describe("parser", () => {
     });
 
     it("Can find the path at the exact column", () => {
-      var closestPath = getPathClosestToLocation(
+      const closestPath = getPathClosestToLocation(
         { id: "func" },
         {
           line: 2,
