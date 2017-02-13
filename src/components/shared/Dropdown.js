@@ -38,7 +38,7 @@ const Dropdown = React.createClass({
         className: "dropdown-button",
         onClick: this.toggleDropdown
       },
-      ">>"
+      "»"
     );
   },
 
@@ -51,7 +51,7 @@ const Dropdown = React.createClass({
   },
 
   render() {
-    return dom.div({className: "dropdown-block"},
+    return dom.div({ className: "dropdown-block" },
       this.renderPanel(),
       this.renderButton(),
       this.renderMask()
