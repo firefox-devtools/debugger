@@ -25,6 +25,7 @@
 
 .source-tabs {
   max-width: calc(100% - 80px);
+  height: 100%;
   align-self: flex-end;
   display: flex;
   padding: 0;
@@ -41,12 +42,11 @@
   position: relative;
   transition: all 0.25s ease;
   min-width: 80px;
-  line-height: 16px;
   padding-top: 4px;
-  padding-bottom: 4px;
   padding-inline-start: 12px;
   padding-inline-end: 20px;
   margin-inline-start: 8px;
+  margin-top: 6px;
 }
 
 html[dir="ltr"] .source-tab:hover,
