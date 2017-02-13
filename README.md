@@ -63,7 +63,7 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [chrome-rdp]: https://chromedevtools.github.io/debugger-protocol-viewer/1-2/
 
 [slack-badge]: https://devtools-html-slack.herokuapp.com/badge.svg
-[slack]:https://devtools-html-slack.herokuapp.com/
+[slack]: https://devtools-html-slack.herokuapp.com/
 
 [debugger-screenshot]: https://cloud.githubusercontent.com/assets/2134/22579643/a184f3ce-e986-11e6-82e2-b896077aec4a.png
 

@@ -19,6 +19,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Local Development](#local-development-computer)
   * [Issues](#issues)
   * [Pull Requests](#pull-requests)
+  * [Debugging Tips](#debugging-tips)
   * [Pro Tips](#pro-tips)
 * [Project Overview](#project-overview)
   * [debugger.html](#debuggerhtml)
@@ -132,29 +133,6 @@ Here are pointers to the DevTools general coding style and formatting guidelines
 * [JS Coding Style](https://wiki.mozilla.org/DevTools/CodingStandards#Code_style)
 * [Formatting Comments](https://wiki.mozilla.org/DevTools/CodingStandards#Comments)
 
-#### Issues
-
-* [Issue Titles](./docs/issues.md#issue-titles)
-* [Issue Descriptions](./docs/issues.md#issue-descriptions)
-* [Claiming Issues](./docs/issues.md#claiming-issues)
-* [Labels](./docs/issues.md#labels)
-* [Up For Grab Issues](./docs/issues.md#up-for-grab-issues)
-* [Triaging](./docs/issues.md#triaging)
-* [Issue Organization](./docs/issues.md#issue-organization)
-* [Community Friendly](./docs/issues.md#community-friendly)
-
-#### Pull Requests
-
-Go to [Pull Requests](./docs/pull-requests.md) to learn about:
-
-* [Screenshots](./docs/pull-requests.md#screenshots)
-* [Test Steps](./docs/pull-requests.md#test-steps)
-* [Testing](./docs/pull-requests.md#testing)
-* [Reviews](./docs/pull-requests.md#reviews)
-* [Updates](./docs/pull-requests.md#updates)
-
-> **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
-
 ### Local Development :computer:
 
 Go to [local Development](./docs/local-development.md) to learn about:
@@ -169,7 +147,35 @@ Go to [local Development](./docs/local-development.md) to learn about:
 * [Testing](./docs/local-development.md#testing)
 * [Linting](./docs/local-development.md#linting)
 
-[GitHub Desktop]:https://desktop.github.com/
+### Issues
+
+* [Issue Titles](./docs/issues.md#issue-titles)
+* [Issue Descriptions](./docs/issues.md#issue-descriptions)
+* [Claiming Issues](./docs/issues.md#claiming-issues)
+* [Labels](./docs/issues.md#labels)
+* [Up For Grab Issues](./docs/issues.md#up-for-grab-issues)
+* [Triaging](./docs/issues.md#triaging)
+* [Issue Organization](./docs/issues.md#issue-organization)
+* [Community Friendly](./docs/issues.md#community-friendly)
+
+### Pull Requests
+
+Go to [Pull Requests](./docs/pull-requests.md) to learn about:
+
+* [Screenshots](./docs/pull-requests.md#screenshots)
+* [Test Steps](./docs/pull-requests.md#test-steps)
+* [Testing](./docs/pull-requests.md#testing)
+* [Reviews](./docs/pull-requests.md#reviews)
+* [Updates](./docs/pull-requests.md#updates)
+
+> **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
+
+### Debugging Tips
+
++ [Components](./docs/debugging.md#components)
++ [Actions](./docs/debugging.md#actions)
++ [Reducers](./docs/debugging.md#reducers)
++ [Client](./docs/debugging.md#client)
 
 ### Pro Tips
 
