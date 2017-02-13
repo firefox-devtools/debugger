@@ -30,23 +30,9 @@
   align-self: flex-start;
 }
 
-.source-header .new-tab-btn svg {
-  width: 12px;
-}
-
-.source-tabs {
-  max-width: calc(100% - 80px);
-  align-self: flex-end;
-  display: flex;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-}
-
 .source-tab {
   color: var(--theme-faded-tab-color);
   border: 1px solid transparent;
-  border-bottom: 0; 
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   height: 26px;
