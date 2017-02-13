@@ -56,7 +56,8 @@ html[dir="rtl"] .source-tab:hover {
   cursor: pointer;
 }
 
-.source-tab.active {
+html[dir="ltr"] .source-tab.active,
+html[dir="rtl"] .source-tab.active {
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
   border-color: var(--theme-splitter-color);
