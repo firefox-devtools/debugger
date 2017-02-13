@@ -61,10 +61,24 @@ function isDefault(item) {
   return WINDOW_PROPERTIES.includes(item.name);
 }
 
+function sortProperties(properties) {
+  return properties.sort((a, b) => {
+    // Sort numbers in ascending order and sort strings lexicographically
+    const aInt = parseInt(a, 10);
+    const bInt = parseInt(b, 10);
+
+    if (isNaN(aInt) || isNaN(bInt)) {
+      return a > b ? 1 : -1;
+    }
+
+    return aInt - bInt;
+  });
+}
+
 function makeNodesForProperties(objProps, parentPath) {
   const { ownProperties, prototype } = objProps;
 
-  const nodes = Object.keys(ownProperties).sort().filter(name => {
+  const nodes = sortProperties(Object.keys(ownProperties)).filter(name => {
     // Ignore non-concrete values like getters and setters
     // for now by making sure we have a value.
     return "value" in ownProperties[name];
