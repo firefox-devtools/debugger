@@ -1,22 +1,29 @@
 const expect = require("expect.js");
 const { parse, getFunctions, getPathClosestToLocation } = require("../parser");
 
-const func = `
+// re-formats the code to correct for webpack indentations
+function formatCode(text) {
+  const lines = text.split("\n")
+  const indent = lines[1].match(/^\s*/)[0].length
+  return lines.map(line => line.slice(indent)).join("\n")
+}
+
+const func = formatCode(`
 function square(n) {
   return n * n;
 }
-`;
+`);
 
-const math = `
+const math = formatCode(`
 function math(n) {
   function square(n) { n * n}
   const two = square(2);
   const four = squaare(4);
   return two * four;
 }
-`;
+`);
 
-const proto = `
+const proto = formatCode(`
 const foo = function() {}
 
 const bar = () => {}
@@ -28,7 +35,7 @@ const TodoView = Backbone.View.extend({
     return this;
   },
 });
-`
+`);
 
 describe("parser", () => {
   describe("getFunctions", () => {
@@ -48,7 +55,7 @@ describe("parser", () => {
       expect(names).to.eql(["math", "square"]);
     });
 
-    it.only("finds object properties", () => {
+    it("finds object properties", () => {
       parse({ text: proto }, { id: "proto" });
       const fncs = getFunctions({ id: "proto" });
       const names = fncs.map(f => f.name);
