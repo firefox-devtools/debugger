@@ -8,8 +8,18 @@ const {
   breaking,
   breakpointsCond,
   prettyPrint,
+  prettyPrintPaused,
   keyboardNavigation,
-  keyboardShortcuts
+  keyboardShortcuts,
+  callStack,
+  debuggerButtons,
+  iframes,
+  pauseOnExceptions,
+  scopes,
+  sources,
+  sourceMaps,
+  sourceMaps2,
+  sourceMapsBogus
 } = require("./tests/index")
 
 window.ok = function ok(expected) {
@@ -57,6 +67,57 @@ describe("Tests", () => {
   xit("keyboard shortcuts", async function() {
     await keyboardShortcuts(ctx);
   })
+
+  xit("callStack", async function() {
+    await callStack(ctx);
+  });
+
+  it("debuggerButtons", async function() {
+    await debuggerButtons(ctx);
+  });
+
+  it("iframes", async function() {
+    await iframes(ctx);
+  });
+
+  // expected 17 to equal 15
+  xit("pauseOnExceptions", async function() {
+    await pauseOnExceptions(ctx);
+  });
+
+  it("prettyPrint", async function() {
+    await prettyPrint(ctx);
+  });
+
+  // timed out
+  xit("prettyPrintPaused", async function() {
+    await prettyPrintPaused(ctx);
+  });
+
+  // timed out
+  xit("scopes", async function() {
+    await scopes(ctx);
+  });
+
+  // expected 0 to equal 2
+  xit("sources", async function() {
+    await sources(ctx);
+  });
+
+  // timed out
+  xit("sourceMaps", async function() {
+    await sourceMaps(ctx);
+  });
+
+  it("sourceMaps2", async function() {
+    await sourceMaps2(ctx);
+  });
+
+  // expected 2 to equal 1
+  xit("sourceMapsBogus", async function() {
+    await sourceMapsBogus(ctx);
+  });
+
 });
 
 mocha.run();

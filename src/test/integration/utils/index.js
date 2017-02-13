@@ -5,7 +5,8 @@ const {
   waitForSources,
   waitForElement,
   waitForTargetEvent,
-  waitForThreadEvents
+  waitForThreadEvents,
+  waitUntil
 } = require("./wait");
 
 const {
@@ -29,6 +30,7 @@ const {
   togglePauseOnExceptions,
   clickElement,
   navigate,
+  evalInTab,
   invokeInTab,
   rightClickElement,
   selectMenuItem,
@@ -41,6 +43,7 @@ const {
   findElementWithSelector,
   findAllElements,
   findSource,
+  isPaused,
   getSelector
 } = require("./shared")
 
@@ -52,6 +55,7 @@ module.exports = {
   findElementWithSelector,
   findAllElements,
   findSource,
+  isPaused,
   getSelector,
   selectSource,
   stepOver,
@@ -64,6 +68,7 @@ module.exports = {
   removeBreakpoint,
   togglePauseOnExceptions,
   clickElement,
+  evalInTab,
   invokeInTab,
   rightClickElement,
   selectMenuItem,
@@ -75,5 +80,6 @@ module.exports = {
   waitForSources,
   waitForElement,
   waitForTargetEvent,
-  waitForThreadEvents
+  waitForThreadEvents,
+  waitUntil
 }

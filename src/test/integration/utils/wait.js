@@ -197,5 +197,6 @@ module.exports = {
   waitForSources,
   waitForElement,
   waitForTargetEvent,
-  waitForThreadEvents
+  waitForThreadEvents,
+  waitUntil
 }

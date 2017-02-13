@@ -4,9 +4,13 @@ function info(msg) {
   console.log(`info: ${msg}\n`);
 }
 
-const { invokeInTab, selectMenuItem, pressKey, type } = require("./mocha");
+const {
+  evalInTab, invokeInTab, selectMenuItem, pressKey, type
+} = require("./mocha");
 
-const { selectors, findSource, getSelector, info } = require("./shared");
+const {
+  selectors, findSource, getSelector, info, isPaused
+} = require("./shared");
 const {
   waitForSources,
   waitForDispatch,
@@ -207,6 +211,7 @@ module.exports = {
   clickElement,
   navigate,
   invokeInTab,
+  evalInTab,
   rightClickElement,
   selectMenuItem,
   type,

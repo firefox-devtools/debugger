@@ -39,6 +39,12 @@ function invokeInTab(dbg, fnc) {
   });
 }
 
+function evalInTab(dbg, script) {
+  ContentTask.spawn(gBrowser.selectedBrowser, script, function(script) {
+    content.eval(script);
+  });
+}
+
 function selectMenuItem(dbg, index) {
   // the context menu is in the toolbox window
   const doc = dbg.toolbox.win.document;
@@ -103,6 +109,7 @@ async function initDebugger(url, ...sources) {
 
 module.exports = {
   invokeInTab,
+  evalInTab,
   selectMenuItem,
   pressKey,
   type,
