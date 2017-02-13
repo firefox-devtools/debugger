@@ -238,7 +238,7 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs) : string {
   const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
   let tabSource = state.sources.find(source =>
-    source.get("url") == availableTabs.toJS()[newSelectedTabIndex]);
+    source.get("url") === availableTabs.toJS()[newSelectedTabIndex]);
 
   if (tabSource) {
     return tabSource.get("id");
