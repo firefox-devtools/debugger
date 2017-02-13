@@ -49,7 +49,8 @@
   margin-inline-start: 8px;
 }
 
-.source-tab:hover {
+html[dir="ltr"] .source-tab:hover,
+html[dir="rtl"] .source-tab:hover {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--theme-splitter-color);
   cursor: pointer;
@@ -103,7 +104,8 @@
   visibility: hidden;
 }
 
-.source-tab:hover .close-btn {
+html[dir="ltr"] .source-tab:hover .close-btn,
+html[dir="rtl"] .source-tab:hover .close-btn {
   visibility: visible;
 }
 
