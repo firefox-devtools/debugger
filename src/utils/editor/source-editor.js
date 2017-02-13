@@ -1,3 +1,5 @@
+// @flow
+
 /**
  * CodeMirror source editor utils
  * @module utils/source-editor
@@ -18,12 +20,29 @@ require("codemirror/addon/search/searchcursor");
 // while shifting to a line which was initially out of view.
 const MAX_VERTICAL_OFFSET = 3;
 
+type SourceEditorOpts = {
+  enableCodeFolding: boolean,
+  extraKeys: Object,
+  gutters: string[],
+  lineNumbers: boolean,
+  lineWrapping: boolean,
+  matchBrackets: boolean,
+  mode: string,
+  readOnly: boolean,
+  showAnnotationRuler: boolean,
+  theme: string,
+  value: string,
+};
+
 class SourceEditor {
-  constructor(opts) {
+  opts: SourceEditorOpts;
+  editor: any;
+
+  constructor(opts: SourceEditorOpts) {
     this.opts = opts;
   }
 
-  appendToLocalElement(node) {
+  appendToLocalElement(node: any) {
     this.editor = CodeMirror(node, this.opts);
   }
 
@@ -31,11 +50,11 @@ class SourceEditor {
     // No need to do anything.
   }
 
-  get codeMirror() {
+  get codeMirror(): any {
     return this.editor;
   }
 
-  setText(str) {
+  setText(str: string) {
     this.editor.setValue(str);
   }
 
@@ -43,7 +62,7 @@ class SourceEditor {
     return this.editor.getValue();
   }
 
-  setMode(value) {
+  setMode(value: Object) {
     this.editor.setOption("mode", value);
   }
 
@@ -51,7 +70,7 @@ class SourceEditor {
    * Replaces the current document with a new source document
    * @memberof utils/source-editor
    */
-  replaceDocument(doc) {
+  replaceDocument(doc: any) {
     this.editor.swapDoc(doc);
   }
 
@@ -70,7 +89,7 @@ class SourceEditor {
    * bottom.
    * @memberof utils/source-editor
    */
-  alignLine(line, align = "top") {
+  alignLine(line: number, align: string = "top") {
     let cm = this.editor;
     let from = cm.lineAtHeight(0, "page");
     let to = cm.lineAtHeight(cm.getWrapperElement().clientHeight, "page");
@@ -102,7 +121,7 @@ class SourceEditor {
    * Scrolls the view such that the given line number is the first visible line.
    * @memberof utils/source-editor
    */
-  setFirstVisibleLine(line) {
+  setFirstVisibleLine(line: number) {
     let { top } = this.editor.charCoords({ line: line, ch: 0 }, "local");
     this.editor.scrollTo(0, top);
   }
