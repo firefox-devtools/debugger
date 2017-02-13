@@ -10,7 +10,7 @@ const { isEnabled } = require("devtools-config");
 
 const { getMode } = require("../../utils/source");
 const {getFunctions} = require("../../utils/parser");
-const Autocomplete = createFactory(require("../shared/autocomplete"));
+const Autocomplete = createFactory(require("../shared/Autocomplete"));
 
 const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
@@ -181,7 +181,8 @@ const Editor = React.createClass({
 
 
     if (isEnabled("functionSearch")) {
-      shortcuts.on(`CmdOrCtrl+e`, (_, e) => this.toggleFunctionSearch(e))
+      // NOTE: we'll localize the shortcut key when we decide the UX
+      shortcuts.on(`CmdOrCtrl+Shift+o`, (_, e) => this.toggleFunctionSearch(e))
     }
 
     resizeBreakpointGutter(this.editor.codeMirror);
