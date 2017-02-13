@@ -10,17 +10,21 @@
   z-index: 1000;
 }
 
+.dropdown-block {
+  padding: 0px 2px;
+  position: relative;
+  align-self: center;
+}
+
 .dropdown-button {
-  position: absolute;
-  offset-inline-end: 18px;
-  top: 4px;
-  font-size: 18px;
-  color: var(--theme-comment);
   cursor: pointer;
+  color: var(--theme-comment);
   background: none;
   border: none;
-  padding: 0 5px;
+  padding: 0;
   font-weight: 100;
+  margin-top: 6px;
+  font-size: 14px;
 }
 
 .dropdown li {

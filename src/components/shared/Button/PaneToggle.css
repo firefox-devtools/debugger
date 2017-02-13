@@ -1,16 +1,19 @@
 .toggle-button-start,
 .toggle-button-end {
-  position: absolute;
-  width: 16px;
-  height: 16px;
+  transform: translate(0, 2px);
   transition: transform 0.25s ease-in-out;
-  margin: 0 4px;
   cursor: pointer;
+  padding: 4px 2px;
 }
 
 .toggle-button-start svg,
 .toggle-button-end svg {
+  width: 14px;
   fill: var(--theme-comment);
+}
+
+.toggle-button-end {
+  margin-left: auto;
 }
 
 html:not([dir="rtl"]) .toggle-button-end svg,
@@ -20,16 +23,6 @@ html[dir="rtl"] .toggle-button-start svg {
 
 html .toggle-button-end.vertical svg {
   transform: rotate(-90deg);
-}
-
-.toggle-button-start {
-  top: 7px;
-  offset-inline-start: 0;
-}
-
-.toggle-button-end {
-  top: 7px;
-  offset-inline-end: 0;
 }
 
 .toggle-button-start.collapsed,

@@ -3,6 +3,7 @@
   background: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
   position: absolute;
+  display: flex;
   bottom: 0;
   left: 0;
   right: 1px;

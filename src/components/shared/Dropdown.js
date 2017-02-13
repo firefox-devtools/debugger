@@ -51,7 +51,7 @@ const Dropdown = React.createClass({
   },
 
   render() {
-    return dom.div({},
+    return dom.div({ className: "dropdown-block" },
       this.renderPanel(),
       this.renderButton(),
       this.renderMask()
