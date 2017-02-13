@@ -1,6 +1,7 @@
 // @flow
 
 const buildQuery = require("./build-query");
+const findIndex = require("lodash/findIndex");
 
 import type { SearchModifiers } from "../../types";
 
@@ -11,6 +12,8 @@ import type { SearchModifiers } from "../../types";
 function SearchState() {
   this.posFrom = this.posTo = this.query = null;
   this.overlay = null;
+  this.results = [];
+  this.matchIndex = -1;
 }
 
 /**
@@ -120,6 +123,7 @@ function updateCursor(cm, state, keepSelection) {
  */
 function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
   let { cm } = ctx;
+  let matchIndex;
   cm.operation(function() {
     if (!query || isWhitespace(query)) {
       return;
@@ -130,8 +134,19 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
 
     updateOverlay(cm, state, query, modifiers);
     updateCursor(cm, state, keepSelection);
-    searchNext(ctx, rev, modifiers);
+
+    const nextMatch = searchNext(ctx, rev, modifiers);
+
+    if (nextMatch) {
+      if (state.matchIndex === -1) {
+        state.matchIndex = findIndex(state.results, nextMatch);
+      } else {
+        state.matchIndex = rev ? state.matchIndex - 1 : state.matchIndex + 1;
+      }
+      matchIndex = (state.matchIndex + state.results.length) % state.results.length;
+    }
   });
+  return matchIndex;
 }
 
 /**
@@ -142,6 +157,7 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
  */
 function searchNext(ctx, rev, modifiers) {
   let { cm, ed } = ctx;
+  let nextMatch;
   cm.operation(function() {
     let state = getSearchState(cm);
     const pos = rev ? state.posTo : state.posFrom;
@@ -175,9 +191,9 @@ function searchNext(ctx, rev, modifiers) {
       cm.setSelection(cursor.from(), cursor.to());
     }
 
-    state.posFrom = cursor.from();
-    state.posTo = cursor.to();
+    nextMatch = { from: cursor.from(), to: cursor.to() };
   });
+  return nextMatch;
 }
 
 /**
@@ -200,6 +216,9 @@ function removeOverlay(ctx: any) {
 function clearSearch(cm) {
   let state = getSearchState(cm);
 
+  state.resultSet = [];
+  state.matchIndex = -1;
+
   if (!state.query) {
     return;
   }
@@ -216,7 +235,7 @@ function clearSearch(cm) {
 function find(
   ctx: any, query: string, keepSelection: boolean, modifiers: SearchModifiers) {
   clearSearch(ctx.cm);
-  doSearch(ctx, false, query, keepSelection, modifiers);
+  return doSearch(ctx, false, query, keepSelection, modifiers);
 }
 
 /**
@@ -227,7 +246,7 @@ function find(
  */
 function findNext(
   ctx: any, query: string, keepSelection: boolean, modifiers: SearchModifiers) {
-  doSearch(ctx, false, query, keepSelection, modifiers);
+  return doSearch(ctx, false, query, keepSelection, modifiers);
 }
 
 /**
@@ -238,16 +257,23 @@ function findNext(
  */
 function findPrev(
   ctx: any, query: string, keepSelection :boolean, modifiers: SearchModifiers) {
-  doSearch(ctx, true, query, keepSelection, modifiers);
+  return doSearch(ctx, true, query, keepSelection, modifiers);
 }
 
 function countMatches(
-  query: string, text: string, modifiers: SearchModifiers): number {
-  const regexQuery = buildQuery(query, modifiers, {
-    isGlobal: true
-  });
-  const match = text.match(regexQuery);
-  return match ? match.length : 0;
+  ctx: any, query: string, text: string, modifiers: SearchModifiers): number {
+
+  if (!query || isWhitespace(query)) {
+    return;
+  }
+
+  let state = getSearchState(ctx.cm);
+  let cursor = getSearchCursor(ctx.cm, query, null, modifiers);
+  state.results = [];
+  while (cursor.findNext()) {
+    state.results.push(cursor.pos);
+  }
+  return state.results.length;
 }
 
 module.exports = {
