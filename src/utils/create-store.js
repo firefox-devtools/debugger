@@ -23,7 +23,7 @@ const { thunk } = require("./redux/middleware/thunk");
  */
 type ReduxStoreOptions = {
   makeThunkArgs?: Function,
-  history?: boolean,
+  history?: Array<Object>,
   middleware?: Function[],
   log?: boolean
 };

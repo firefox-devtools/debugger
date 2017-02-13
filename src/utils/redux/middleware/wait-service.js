@@ -1,6 +1,4 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+// @flow
 
 /**
  * A middleware which acts like a service, because it is stateful
@@ -24,7 +22,9 @@
  */
 const NAME = exports.NAME = "@@service/waitUntil";
 
-function waitUntilService({ dispatch, getState }) {
+import type { ThunkArgs } from "../../../actions/types";
+
+function waitUntilService({ dispatch, getState }: ThunkArgs) {
   let pending = [];
 
   function checkPending(action) {
@@ -50,7 +50,7 @@ function waitUntilService({ dispatch, getState }) {
     }
   }
 
-  return next => action => {
+  return (next: Function) => (action: Object) => {
     if (action.type === NAME) {
       pending.push(action);
       return null;
