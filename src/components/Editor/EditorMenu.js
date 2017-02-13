@@ -75,9 +75,7 @@ async function EditorMenu({
     menuOptions.push(watchExpressionLabel);
   }
 
-  if (isEnabled("copySource")) {
-    menuOptions.push(copySourceUrl);
-  }
+  menuOptions.push(copySourceUrl);
 
   const showSourceMenuItem = {
     id: "node-menu-show-source",
