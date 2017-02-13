@@ -1,4 +1,8 @@
-const { findSource } = require("./shared");
+const {
+  findSource,
+  findElement,
+  isVisibleWithin
+} = require("./shared");
 
 function assertPausedLocation(dbg, ctx, source, line) {
   const { selectors: { getSelectedSource, getPause }, getState } = dbg;
@@ -19,6 +23,24 @@ function assertPausedLocation(dbg, ctx, source, line) {
      "Line is highlighted as paused");
 }
 
+function assertHighlightLocation(dbg, ctx, source, line) {
+  const { selectors: { getSelectedSource, getPause }, getState } = dbg;
+  const { is, ok } = ctx;
+  source = findSource(dbg, source);
+
+  // Check the selected source
+  is(getSelectedSource(getState()).get("url"), source.url);
+
+  // Check the highlight line
+  const lineEl = findElement(dbg, "highlightLine");
+  ok(lineEl, "Line is highlighted");
+  ok(isVisibleWithin(findElement(dbg, "codeMirror"), lineEl),
+     "Highlighted line is visible");
+  ok(dbg.win.cm.lineInfo(line - 1).wrapClass.includes("highlight-line"),
+     "Line is highlighted");
+}
+
 module.exports = {
-  assertPausedLocation
+  assertPausedLocation,
+  assertHighlightLocation
 }

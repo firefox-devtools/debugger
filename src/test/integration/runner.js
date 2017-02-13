@@ -6,20 +6,26 @@ const { prefs } = require("../../utils/prefs")
 const {
   asm,
   breaking,
+  breakpoints,
   breakpointsCond,
-  prettyPrint,
-  prettyPrintPaused,
-  keyboardNavigation,
-  keyboardShortcuts,
   callStack,
   debuggerButtons,
+  editorSelect,
+  editorGutter,
+  editorHighlight,
+  keyboardNavigation,
+  keyboardShortcuts,
   iframes,
+  navigation,
   pauseOnExceptions,
+  prettyPrint,
+  prettyPrintPaused,
   scopes,
+  searching,
   sources,
   sourceMaps,
   sourceMaps2,
-  sourceMapsBogus
+  sourceMapsBogus,
 } = require("./tests/index")
 
 window.ok = function ok(expected) {
@@ -34,9 +40,13 @@ window.info = function info(msg) {
   console.log(`info: ${msg}\n`);
 }
 
-const ctx = { ok, is, info};
+window.requestLongerTimeout = function() {
 
-mocha.setup({ timeout: 20000, ui: 'bdd' });
+}
+
+const ctx = { ok, is, info, requestLongerTimeout};
+
+mocha.setup({ timeout: 5000, ui: 'bdd' });
 
 describe("Tests", () => {
   beforeEach(() => {
@@ -44,11 +54,19 @@ describe("Tests", () => {
     prefs.tabs = [];
   });
 
-  it("asm", async function() {
+  xit("asm", async function() {
     await asm(ctx);
   });
 
-  it("breaking", async function() {
+  it("breakpoints - toggle", async function() {
+    await breakpoints.toggle(ctx);
+  });
+
+  it("breakpoints - toggleAll", async function() {
+    await breakpoints.toggleAll(ctx);
+  });
+
+  xit("breaking", async function() {
     await breaking(ctx);
   });
 
@@ -60,6 +78,18 @@ describe("Tests", () => {
     await breakpointsCond(ctx);
   });
 
+  it("editor select", async function() {
+    await editorSelect(ctx);
+  });
+
+  it("editor gutter", async function() {
+    await editorGutter(ctx);
+  });
+
+  xit("editor highlight", async function() {
+    await editorHighlight(ctx);
+  });
+
   xit("keyboard navigation", async function() {
     await keyboardNavigation(ctx);
   });
@@ -68,15 +98,19 @@ describe("Tests", () => {
     await keyboardShortcuts(ctx);
   })
 
+  xit("navigation", async function() {
+    await navigation(ctx);
+  })
+
   xit("callStack", async function() {
     await callStack(ctx);
   });
 
-  it("debuggerButtons", async function() {
+  xit("debuggerButtons", async function() {
     await debuggerButtons(ctx);
   });
 
-  it("iframes", async function() {
+  xit("iframes", async function() {
     await iframes(ctx);
   });
 
@@ -93,6 +127,10 @@ describe("Tests", () => {
   xit("prettyPrintPaused", async function() {
     await prettyPrintPaused(ctx);
   });
+
+  xit("searching", async function() {
+    await searching(ctx);
+  })
 
   // timed out
   xit("scopes", async function() {
