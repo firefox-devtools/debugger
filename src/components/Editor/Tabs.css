@@ -13,7 +13,7 @@
 
 .source-header .new-tab-btn {
   align-self: flex-end;
-  padding: 4px 2px;
+  padding: 4px;
   cursor: pointer;
   fill: var(--theme-comment);
   transition: 0.1s ease;
@@ -42,9 +42,6 @@
   transition: all 0.25s ease;
   min-width: 80px;
   line-height: 16px;
-}
-
-.source-tab {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-inline-start: 12px;
@@ -89,12 +86,6 @@
   fill: var(--theme-textbox-box-shadow);
 }
 
-.source-tab .close-btn {
-  position: absolute;
-  top: 3px;
-  offset-inline-end: 4px;
-}
-
 .source-tab .filename {
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -106,6 +97,9 @@
 }
 
 .source-tab .close-btn {
+  position: absolute;
+  top: 3px;
+  offset-inline-end: 4px;
   visibility: hidden;
 }
 
