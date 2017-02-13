@@ -22,7 +22,7 @@ require("./Tabs.css");
 
 /*
  * Finds the hidden tabs by comparing the tabs' left offset with the right offset of parent.
- * hidden tabs will have a greater left offset.
+ * hidden tabs will have a greater left offset. (dir="ltr")
  *
  * @param sourceTabs Immutable.list
  * @param sourceTabEls HTMLCollection
@@ -33,13 +33,24 @@ function getHiddenTabs(sourceTabsParent, sourceTabs, sourceTabEls) {
   sourceTabEls = [].slice.call(sourceTabEls);
   
   const sourceTabMinWidth = sourceTabEls.length ? 
-    window.getComputedStyle(sourceTabEls[0]).getPropertyValue('min-width') :
+    window.getComputedStyle(sourceTabEls[0]).getPropertyValue("min-width") :
     0;
-  const parentRightOffset = sourceTabsParent.getBoundingClientRect().right;
+  const sourceTabDirection = sourceTabEls.length ? 
+    window.getComputedStyle(sourceTabEls[0]).getPropertyValue("direction") :
+    "ltr";
+  const parentOffset = sourceTabDirection === "ltr" ?
+    sourceTabsParent.getBoundingClientRect().right :
+    sourceTabsParent.getBoundingClientRect().left;
+
+  if (sourceTabDirection === "ltr") {
+    return sourceTabs.filter((tab, index) => {
+      return (sourceTabEls[index].getBoundingClientRect().left + 
+        parseInt(sourceTabMinWidth)) > parentOffset;
+    });  
+  }
 
   return sourceTabs.filter((tab, index) => {
-    return (sourceTabEls[index].getBoundingClientRect().left + 
-      parseInt(sourceTabMinWidth)) > parentRightOffset;
+    return sourceTabEls[index].getBoundingClientRect().left < parentOffset;
   });
 }
 
