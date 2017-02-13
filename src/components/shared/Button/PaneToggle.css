@@ -3,7 +3,6 @@
   transform: translate(0, 2px);
   transition: transform 0.25s ease-in-out;
   cursor: pointer;
-  align-self: flex-end;
   padding: 4px 2px;
 }
 

@@ -11,9 +11,9 @@
 }
 
 .dropdown-block {
-  align-self: flex-end;
-  padding: 4px 2px;
+  padding: 0px 2px;
   position: relative;
+  align-self: center;
 }
 
 .dropdown-button {
@@ -23,6 +23,7 @@
   border: none;
   padding: 0;
   font-weight: 100;
+  margin-top: 6px;
 }
 
 .dropdown li {

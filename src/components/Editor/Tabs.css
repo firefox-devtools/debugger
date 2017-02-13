@@ -4,6 +4,7 @@
   height: 30px;
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
 }
 
 .source-header * {
@@ -12,11 +13,12 @@
 }
 
 .source-header .new-tab-btn {
-  align-self: flex-end;
-  padding: 4px;
+  padding: 0px 4px;
+  margin-top: 8px;
   cursor: pointer;
   fill: var(--theme-comment);
   transition: 0.1s ease;
+  align-self: center;
 }
 
 .source-header .new-tab-btn svg {
@@ -25,23 +27,20 @@
 
 .source-tabs {
   max-width: calc(100% - 80px);
-  height: 100%;
-  align-self: flex-end;
-  display: flex;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
+  align-self: flex-start;
 }
 
 .source-tab {
   color: var(--theme-faded-tab-color);
   border: 1px solid transparent;
-  border-bottom: 0; 
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
+  height: 26px;
+  display: inline-block;
   position: relative;
   transition: all 0.25s ease;
-  min-width: 80px;
+  min-width: 40px;
+  overflow: hidden;
   padding-top: 4px;
   padding-inline-start: 12px;
   padding-inline-end: 20px;
