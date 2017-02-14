@@ -83,5 +83,24 @@ describe("object-inspector", () => {
         "root/bar", "root/__proto__"
       ]);
     });
+
+    it("bucketing", () => {
+      let objProps = { ownProperties: {}};
+      for (let i = 0; i < 331; i++) {
+        objProps.ownProperties[i] = { value: {}};
+      }
+      const nodes = makeNodesForProperties(objProps, "root");
+
+      const names = nodes.map(n => n.name);
+      const paths = nodes.map(n => n.path);
+
+      expect(names).to.eql([
+        "[0..99]", "[100..199]", "[200..299]", "[300..331]"
+      ]);
+
+      expect(paths).to.eql([
+        "root/bucket1", "root/bucket2", "root/bucket3", "root/bucket4"
+      ]);
+    });
   });
 });

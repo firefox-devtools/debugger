@@ -5,8 +5,12 @@ if (typeof window == "object") {
   WINDOW_PROPERTIES = Object.getOwnPropertyNames(window);
 }
 
+function isBucket(item) {
+  return item.path.match(/bucket(\d+)$/);
+}
+
 function nodeHasChildren(item) {
-  return Array.isArray(item.contents);
+  return Array.isArray(item.contents) || isBucket(item);
 }
 
 function nodeIsOptimizedOut(item) {
@@ -44,17 +48,52 @@ function sortProperties(properties) {
   });
 }
 
-function makeNodesForProperties(objProps, parentPath) {
+/*
+
+ * Ignore non-concrete values like getters and setters
+ * for now by making sure we have a value.
+*/
+function makeNodesForProperties(objProps, parentPath, {
+  bucketSize = 100
+} = {}) {
   const { ownProperties, prototype, ownSymbols } = objProps;
 
-  const nodes = sortProperties(Object.keys(ownProperties))
-    .filter(name => {
-    // Ignore non-concrete values like getters and setters
-    // for now by making sure we have a value.
-      return "value" in ownProperties[name];
-    }).map(name => {
-      return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
-    });
+  const properties = sortProperties(Object.keys(ownProperties))
+    .filter(name => ownProperties[name].hasOwnProperty("value"));
+
+  let nodes;
+  const numProperties = properties.length;
+
+  if (numProperties > bucketSize) {
+    const numBuckets = Math.ceil(numProperties / bucketSize);
+    let buckets = [];
+    for (let i = 1; i <= numBuckets; i++) {
+      const bucketKey = `bucket${i}`;
+      const minKey = (i - 1) * bucketSize;
+      const maxKey = Math.min(i * bucketSize - 1, numProperties);
+      const bucketName = `[${minKey}..${maxKey}]`;
+      const bucketProperties = properties.slice(minKey, maxKey);
+
+      const bucketNodes = bucketProperties.map(name => createNode(
+        name,
+        `${parentPath}/${bucketKey}/${name}`,
+        ownProperties[name]
+      ));
+
+      buckets.push(createNode(
+        bucketName,
+        `${parentPath}/${bucketKey}`,
+        bucketNodes
+      ));
+    }
+    nodes = buckets;
+  } else {
+    nodes = properties.map(name => createNode(
+      name,
+      `${parentPath}/${name}`,
+      ownProperties[name]
+    ));
+  }
 
   for (let index in ownSymbols) {
     nodes.push(createNode(ownSymbols[index].name,
@@ -83,6 +122,52 @@ function createNode(name, path, contents) {
   return { name, path, contents };
 }
 
+function getChildren({
+  getObjectProperties,
+  actors,
+  item
+}) {
+  const obj = item.contents;
+
+  // Nodes can either have children already, or be an object with
+  // properties that we need to go and fetch.
+  if (nodeHasChildren(item)) {
+    return item.contents;
+  }
+
+  if (nodeHasProperties(item)) {
+    const actor = obj.value.actor;
+
+    // Because we are dynamically creating the tree as the user
+    // expands it (not precalcuated tree structure), we cache child
+    // arrays. This not only helps performance, but is necessary
+    // because the expanded state depends on instances of nodes
+    // being the same across renders. If we didn't do this, each
+    // node would be a new instance every render.
+    const key = item.path;
+    if (actors[key]) {
+      return actors[key];
+    }
+
+    if (isBucket(item)) {
+      return item.contents.children;
+    }
+
+    const loadedProps = getObjectProperties(actor);
+    const { ownProperties, prototype } = loadedProps || {};
+
+    if (!ownProperties && !prototype) {
+      return [];
+    }
+
+    const children = makeNodesForProperties(loadedProps, item.path);
+    actors[actor] = children;
+    return children;
+  }
+
+  return [];
+}
+
 module.exports = {
   nodeHasChildren,
   nodeIsOptimizedOut,
@@ -92,5 +177,6 @@ module.exports = {
   isDefault,
   sortProperties,
   makeNodesForProperties,
+  getChildren,
   createNode
 };
