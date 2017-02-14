@@ -3,9 +3,9 @@ const { parse, getFunctions, getPathClosestToLocation } = require("../parser");
 
 // re-formats the code to correct for webpack indentations
 function formatCode(text) {
-  const lines = text.split("\n")
-  const indent = lines[1].match(/^\s*/)[0].length
-  return lines.map(line => line.slice(indent)).join("\n")
+  const lines = text.split("\n");
+  const indent = lines[1].match(/^\s*/)[0].length;
+  return lines.map(line => line.slice(indent)).join("\n");
 }
 
 const func = formatCode(`
@@ -61,7 +61,7 @@ describe("parser", () => {
       const names = fncs.map(f => f.name);
 
       expect(names).to.eql([ "foo", "bar", "initialize", "render"]);
-    })
+    });
   });
 
   describe("getPathClosestToLocation", () => {

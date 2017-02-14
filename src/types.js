@@ -11,7 +11,7 @@ export type Expression = {
    input: string
  };
 
- export type Mode = String | {
+export type Mode = String | {
    name: string,
    typescript?: boolean,
    base?: {

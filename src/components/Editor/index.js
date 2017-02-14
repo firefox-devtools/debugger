@@ -9,7 +9,7 @@ const classnames = require("classnames");
 const { isEnabled } = require("devtools-config");
 
 const { getMode } = require("../../utils/source");
-const {getFunctions} = require("../../utils/parser");
+const { getFunctions } = require("../../utils/parser");
 const Autocomplete = createFactory(require("../shared/Autocomplete"));
 
 const Footer = createFactory(require("./Footer"));
@@ -60,6 +60,7 @@ const Editor = React.createClass({
     enableBreakpoint: PropTypes.func,
     removeBreakpoint: PropTypes.func,
     setBreakpointCondition: PropTypes.func,
+    selectSource: PropTypes.func,
     jumpToMappedLocation: PropTypes.func,
     showSource: PropTypes.func,
     coverageOn: PropTypes.bool,
@@ -179,10 +180,9 @@ const Editor = React.createClass({
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
       (_, e) => traverseResults(e, ctx, query, "next", searchModifiers));
 
-
     if (isEnabled("functionSearch")) {
       // NOTE: we'll localize the shortcut key when we decide the UX
-      shortcuts.on(`CmdOrCtrl+Shift+o`, (_, e) => this.toggleFunctionSearch(e))
+      shortcuts.on("CmdOrCtrl+Shift+o", (_, e) => this.toggleFunctionSearch(e));
     }
 
     resizeBreakpointGutter(this.editor.codeMirror);
@@ -490,7 +490,7 @@ const Editor = React.createClass({
     }
 
     if (this.state.functionSearchEnabled) {
-      return this.setState({functionSearchEnabled: false})
+      return this.setState({ functionSearchEnabled: false });
     }
 
     const functionDeclarations = getFunctions(
@@ -506,7 +506,7 @@ const Editor = React.createClass({
     this.setState({
       functionSearchEnabled: true,
       functionDeclarations
-    })
+    });
   },
 
   renderFunctionSearch() {
@@ -517,21 +517,21 @@ const Editor = React.createClass({
     const { selectSource, selectedSource } = this.props;
 
     return dom.div({
-      className: 'function-search'
+      className: "function-search"
     },
       Autocomplete({
         selectItem: (item) => {
           this.toggleFunctionSearch();
           selectSource(
             selectedSource.get("id"),
-            {line: item.location.start.line}
-          )
+            { line: item.location.start.line }
+          );
         },
         close: () => {},
         items: this.state.functionDeclarations,
         inputValue: ""
       })
-    )
+    );
   },
 
   render() {
