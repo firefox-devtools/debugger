@@ -3,9 +3,19 @@
 const { firefox } = require("devtools-client-adapters");
 const { prefs } = require("./prefs");
 
-async function onFirefoxConnect(actions: Object) {
-  const tabTarget = firefox.getTabTarget();
-  const threadClient = firefox.getThreadClient();
+import type {
+  Actions,
+  Connection
+} from "devtools-client-adapters/src/types";
+
+import type {
+  TabTarget,
+  ThreadClient
+} from "devtools-client-adapters/src/firefox/types";
+
+async function onFirefoxConnect(actions: Actions) {
+  const tabTarget: TabTarget | null = firefox.getTabTarget();
+  const threadClient: ThreadClient | null = firefox.getThreadClient();
   const client = firefox.clientCommands;
   const { newSources } = actions;
 
@@ -16,7 +26,9 @@ async function onFirefoxConnect(actions: Object) {
   tabTarget.on("will-navigate", actions.willNavigate);
   tabTarget.on("navigate", actions.navigated);
 
-  await threadClient.reconfigure({ observeAsmJS: true });
+  if (threadClient) {
+    await threadClient.reconfigure({ observeAsmJS: true });
+  }
 
   // In Firefox, we need to initially request all of the sources. This
   // usually fires off individual `newSource` notifications as the
@@ -27,15 +39,17 @@ async function onFirefoxConnect(actions: Object) {
   const sources = await client.fetchSources();
   newSources(sources);
 
-  // If the threadClient is already paused, make sure to show a
-  // paused state.
-  const pausedPacket = threadClient.getLastPausePacket();
-  if (pausedPacket) {
-    firefox.clientEvents.paused(null, pausedPacket);
+  if (threadClient) {
+    // If the threadClient is already paused, make sure to show a
+    // paused state.
+    const pausedPacket = threadClient.getLastPausePacket();
+    if (pausedPacket) {
+      firefox.clientEvents.paused("paused", pausedPacket);
+    }
   }
 }
 
-async function onConnect(connection: Object, actions: Object) {
+async function onConnect(connection?: Connection, actions: Actions) {
   // NOTE: the landing page does not connect to a JS process
   if (!connection) {
     return;
