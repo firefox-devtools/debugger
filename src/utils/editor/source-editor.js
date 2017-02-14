@@ -16,6 +16,8 @@ require("codemirror/mode/elm/elm");
 require("../../components/Editor/codemirror-mozilla.css");
 require("codemirror/addon/search/searchcursor");
 
+import type { Mode, AlignOpts } from "../../types";
+
 // Maximum allowed margin (in number of lines) from top or bottom of the editor
 // while shifting to a line which was initially out of view.
 const MAX_VERTICAL_OFFSET = 3;
@@ -62,7 +64,7 @@ class SourceEditor {
     return this.editor.getValue();
   }
 
-  setMode(value: Object) {
+  setMode(value: Mode) {
     this.editor.setOption("mode", value);
   }
 
@@ -89,7 +91,7 @@ class SourceEditor {
    * bottom.
    * @memberof utils/source-editor
    */
-  alignLine(line: number, align: string = "top") {
+  alignLine(line: number, align: AlignOpts = "top") {
     let cm = this.editor;
     let from = cm.lineAtHeight(0, "page");
     let to = cm.lineAtHeight(cm.getWrapperElement().clientHeight, "page");
