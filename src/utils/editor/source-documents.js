@@ -1,14 +1,16 @@
+// @flow
+
 let sourceDocs = {};
 
-function getDocument(key) {
+function getDocument(key: string) {
   return sourceDocs[key];
 }
 
-function setDocument(key, doc) {
+function setDocument(key: string, doc: any) {
   sourceDocs[key] = doc;
 }
 
-function removeDocument(key) {
+function removeDocument(key: string) {
   delete sourceDocs[key];
 }
 

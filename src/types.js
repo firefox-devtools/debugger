@@ -11,6 +11,17 @@ export type Expression = {
    input: string
  };
 
+ export type Mode = String | {
+   name: string,
+   typescript?: boolean,
+   base?: {
+     name: string,
+     typescript: boolean
+   }
+ }
+
+export type AlignOpts = "top" | "center" | "bottom";
+
 export type {
   Breakpoint,
   Frame,
