@@ -85,6 +85,7 @@ function info(msg) {
 module.exports = {
   findElement,
   findElementWithSelector,
+  findAllElements,
   findSource,
   selectors,
   getSelector,

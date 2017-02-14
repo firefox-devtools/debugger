@@ -1,19 +1,19 @@
-const { waitForPaused, waitForDispatch } = require("../utils/wait");
-const { findSource, findElement } = require("../utils/shared");
-
 const {
+  assertPausedLocation,
+  findSource,
+  findElement,
   selectSource,
   clickElement,
   addBreakpoint,
   reload,
   stepOver,
   invokeInTab,
-  resume
-} = require("../utils/commands");
-
-const { assertPausedLocation } = require("../utils/assert");
-
-const { setupTestRunner, initDebugger } = require("../utils/mocha")
+  resume,
+  waitForPaused,
+  waitForDispatch,
+  setupTestRunner,
+  initDebugger
+} = require("../utils");
 
 module.exports = async function breaking (ctx) {
   const { ok, is } = ctx;

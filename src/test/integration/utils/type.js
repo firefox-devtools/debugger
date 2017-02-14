@@ -1,5 +1,7 @@
 const specialKeysMap = {
-  "Enter": 13
+  "Enter": 13,
+  "Escape": 27,
+  "Tab": 9
 };
 
 function keyEvent(eventType, key, win) {
@@ -11,20 +13,31 @@ function keyEvent(eventType, key, win) {
 
   const { charCode, keyCode, which } = keyInfo(key, eventType);
 
-  return Object.assign(event, {
+  event = Object.assign(event, {
     charCode: charCode,
     keyCode: keyCode,
     which: which,
+    key: key,
+    code: "",
+    location: 0,
     detail: 0,
     layerX: 0,
     layerY: 0,
     pageX: 0,
-    pageY: 0
+    pageY: 0,
+    shiftKey: false,
+    altKey: false,
+    ctrlKey: false,
+    metaKey: false
   });
+
+  return event;
 }
 
-function pressKey(dbg, element, key) {
+function pressKey(dbg, key) {
   const win = dbg.win;
+  const element = dbg.win.document.activeElement;
+
   element.dispatchEvent(keyEvent("keydown", key, win));
   element.dispatchEvent(keyEvent("keypress", key, win));
   if (key.length == 1) {
@@ -33,9 +46,9 @@ function pressKey(dbg, element, key) {
   element.dispatchEvent(keyEvent("keyup", key, win));
 }
 
-function type(dbg, element, string) {
+function type(dbg, string) {
   string.split("")
-        .forEach(char => pressKey(dbg, element, char));
+        .forEach(char => pressKey(dbg, char));
 }
 
 function keyInfo(key, eventType) {
@@ -54,4 +67,4 @@ function keyInfo(key, eventType) {
   };
 }
 
-module.exports = {type, pressKey};
+module.exports = { type, pressKey };

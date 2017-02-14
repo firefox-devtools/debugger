@@ -1,27 +1,20 @@
 const {
   waitForPaused,
   waitForElement,
-  waitForDispatch
-} = require("../utils/wait");
-
-const {
+  waitForDispatch,
   findSource,
   findElement,
-  findElementWithSelector
-} = require("../utils/shared");
-
-const {
+  findElementWithSelector,
   selectSource,
   clickElement,
   rightClickElement,
   selectMenuItem,
   type,
-  pressKey
-} = require("../utils/commands");
+  pressKey,
+  initDebugger
+} = require("../utils");
 
 const cbInput = ".conditional-breakpoint-panel input"
-
-const { initDebugger } = require("../utils/mocha")
 
 function findBreakpoint(dbg, url, line) {
   const { selectors: { getBreakpoint }, getState } = dbg;
@@ -36,8 +29,8 @@ async function setConditionalBreakpoint(dbg, {info}, index, condition) {
   await waitForElement(dbg, cbInput);
   const el = findElementWithSelector(dbg, cbInput);
 
-  type(dbg, el, condition);
-  pressKey(dbg, el, "Enter");
+  type(dbg, condition);
+  pressKey(dbg, "Enter");
 }
 
 module.exports = async function breakpointsCond(ctx) {

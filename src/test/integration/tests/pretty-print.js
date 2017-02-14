@@ -1,18 +1,18 @@
-const { waitForPaused, waitForDispatch } = require("../utils/wait");
-const { findSource, findElement } = require("../utils/shared");
 
 const {
+  initDebugger,
+  assertPausedLocation,
+  waitForPaused,
+  waitForDispatch,
+  findSource,
+  findElement,
   selectSource,
   clickElement,
   addBreakpoint,
   stepOver,
   invokeInTab,
   resume
-} = require("../utils/commands");
-
-const { assertPausedLocation } = require("../utils/assert");
-
-const { initDebugger } = require("../utils/mocha")
+} = require("../utils");
 
 async function prettyPrint(ctx) {
   const { ok, is } = ctx;
