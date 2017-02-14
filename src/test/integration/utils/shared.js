@@ -21,7 +21,7 @@ const selectors = {
   toggleBreakpoints: ".breakpoints-toggle",
   prettyPrintButton: ".prettyPrint",
   sourceFooter: ".source-footer",
-  sourceNode: i => `.sources-list .tree-node:nth-child(${i})`,
+  sourceNode: i => `.sources-list .tree-node:nth-child(${i}) .node`,
   sourceNodes: ".sources-list .tree-node",
   sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`,
 };
@@ -73,6 +73,11 @@ function findSource(dbg, url) {
   return source.toJS();
 }
 
+function isPaused(dbg) {
+  const { selectors: { getPause }, getState } = dbg;
+  return !!getPause(getState());
+}
+
 function info(msg) {
   const message = `INFO: ${msg}\n`;
   if (typeof dump == "function") {
@@ -89,5 +94,6 @@ module.exports = {
   findSource,
   selectors,
   getSelector,
+  isPaused,
   info
 }

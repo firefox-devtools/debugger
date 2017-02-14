@@ -40,6 +40,10 @@ async function invokeInTab(dbg, fnc) {
   return dbg.client.debuggeeCommand(`${fnc}()`);
 }
 
+async function evalInTab(dbg, script) {
+  return dbg.client.debuggeeCommand(script);
+}
+
 function selectMenuItem(dbg, index) {
   const doc =  dbg.win.document;
 
@@ -137,6 +141,7 @@ function setupTestRunner() {
 
 module.exports = {
   invokeInTab,
+  evalInTab,
   selectMenuItem,
   type,
   pressKey,
