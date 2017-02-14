@@ -28,6 +28,7 @@ function pressStepOut(dbg) {
 }
 
 async function keyboardShortcuts(ctx) {
+  const {info} = ctx;
   const dbg = await initDebugger("doc-debugger-statements.html");
 
   await reload(dbg);

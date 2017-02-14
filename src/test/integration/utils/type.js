@@ -31,7 +31,6 @@ function keyEvent(eventType, key, win) {
     metaKey: false
   });
 
-  console.log(event)
   return event;
 }
 
@@ -68,4 +67,4 @@ function keyInfo(key, eventType) {
   };
 }
 
-module.exports = {type, pressKey};
+module.exports = { type, pressKey };

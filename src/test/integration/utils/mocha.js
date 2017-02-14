@@ -13,7 +13,6 @@ function info(msg) {
   console.log(`info: ${msg}\n`);
 }
 
-
 async function waitForTime(time) {
   return new Promise(function(resolve, reject) {
     setTimeout(resolve, time);
@@ -110,7 +109,6 @@ async function navigateToTab(dbg) {
 async function navigate(dbg, url) {
   dbg.win.client.navigate(`${url}`);
 
-  console.log("waiting for navigation")
   return Promise.race([
     waitForPaused(dbg),
     waitForTargetEvent(dbg, "navigate")
@@ -135,12 +133,6 @@ async function initDebugger(url, ...sources) {
 }
 
 function setupTestRunner() {
-}
-
-
-
-function info(msg) {
-  console.log(`info: ${msg}\n`);
 }
 
 module.exports = {

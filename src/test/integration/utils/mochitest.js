@@ -1,22 +1,24 @@
-const {info} = require("./shared");
+const { info } = require("./shared");
 
-const keyMappings = {
-  sourceSearch: { code: "p", modifiers: cmdOrCtrl},
-  fileSearch: { code: "f", modifiers: cmdOrCtrl},
-  "Enter": { code: "VK_RETURN" },
-  "Up": { code: "VK_UP" },
-  "Down": { code: "VK_DOWN" },
-  "Tab": { code: "VK_TAB" },
-  "Escape": { code: "VK_ESCAPE" },
-  pauseKey: { code: "VK_F8" },
-  resumeKey: { code: "VK_F8" },
-  stepOverKey: { code: "VK_F10" },
-  stepInKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux }},
-  stepOutKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux, shiftKey: true }}
-};
-
-var ContentTask, gBrowser, isLinux, cmdOrCtrl,
+var ContentTask, gBrowser, isLinux, cmdOrCtrl, keyMappings,
     openNewTabAndToolbox, Services, EXAMPLE_URL, EventUtils;
+
+function setKeyboardMapping(isLinux, cmdOrCtrl) {
+  return {
+    sourceSearch: { code: "p", modifiers: cmdOrCtrl},
+    fileSearch: { code: "f", modifiers: cmdOrCtrl},
+    "Enter": { code: "VK_RETURN" },
+    "Up": { code: "VK_UP" },
+    "Down": { code: "VK_DOWN" },
+    "Tab": { code: "VK_TAB" },
+    "Escape": { code: "VK_ESCAPE" },
+    pauseKey: { code: "VK_F8" },
+    resumeKey: { code: "VK_F8" },
+    stepOverKey: { code: "VK_F10" },
+    stepInKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux }},
+    stepOutKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux, shiftKey: true }}
+  };
+}
 
 function setupTestRunner(context) {
   ContentTask = context.ContentTask;
@@ -27,6 +29,7 @@ function setupTestRunner(context) {
   EventUtils = context.EventUtils;
   isLinux = Services.appinfo.OS === "Linux";
   cmdOrCtrl = isLinux ? { ctrlKey: true } : { metaKey: true };
+  keyMappings = setKeyboardMapping(isLinux, cmdOrCtrl);
 }
 
 function invokeInTab(dbg, fnc) {

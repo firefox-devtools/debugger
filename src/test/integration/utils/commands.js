@@ -1,4 +1,4 @@
-const {clickEl, rightClickEl} = require("./mouse-events")
+const { clickEl, rightClickEl } = require("./mouse-events")
 
 function info(msg) {
   console.log(`info: ${msg}\n`);
@@ -101,7 +101,8 @@ async function resume(dbg) {
  * @static
  */
 async function reload(dbg, ...sources) {
-  return dbg.client.reload().then(() => waitForSources(dbg, ...sources));
+  return dbg.client.reload()
+    .then(() => waitForSources(dbg, ...sources));
 }
 
 /**
