@@ -107,6 +107,7 @@ function resizeBreakpointGutter(editor) {
 function traverseResults(e, ctx, query, dir, modifiers) {
   e.stopPropagation();
   e.preventDefault();
+
   if (dir == "prev") {
     findPrev(ctx, query, true, modifiers);
   } else if (dir == "next") {

@@ -26,6 +26,14 @@ html[dir="rtl"] .editor-mount {
   left: 0;
 }
 
+.function-search {
+  max-height: 300px;
+}
+
+.function-search .results {
+  height: auto;
+}
+
 .editor.hit-marker {
   height: 14px;
 }
