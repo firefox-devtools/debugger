@@ -32,10 +32,15 @@ function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
   ReactDOM.render(
     dom.div(
       { className: "conditional-breakpoint-panel" },
-      Svg('guillemet'),
+      Svg("guillemet"),
       inputA,
-      dom.a({ onClick: closePanel }, L10N.getStr("editor.conditionalPanel.cancel"))
-      // TODO: add 'set' link, and add a state for input and callback for clicking this link.
+      dom.a(
+        { onClick: closePanel },
+        L10N.getStr("editor.conditionalPanel.cancel")
+      )
+      // TODO: add <a>set<a/>
+      // TODO: add a state for input
+      // TODO: callback for clicking this link.
       // dom.a({}, L10N.getStr("editor.conditionalPanel.setBreakpoint"))
     ),
     panel
