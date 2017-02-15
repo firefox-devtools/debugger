@@ -136,6 +136,7 @@ html[dir="rtl"] .editor-mount {
 .conditional-breakpoint-panel {
   cursor: initial;
   margin: 1em 0;
+  padding: 6px 1em;
   position: relative;
   background: var(--theme-toolbar-background);
   border-top: 1px solid var(--theme-splitter-color);
@@ -154,4 +155,23 @@ html[dir="rtl"] .editor-mount {
 
 .conditional-breakpoint-panel input:focus {
   outline-width: 0;
+}
+
+.conditional-breakpoint-panel a {
+  color: var(--theme-highlight-blue);
+  margin: 5px 10px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.conditional-breakpoint-panel a:hover {
+  opacity: 0.5;
+}
+
+.conditional-breakpoint-panel .guillemet {
+  width: 16px;
+  position: absolute;
+  top: 20px;
+  left: 5px;
+  stroke: var(--theme-highlight-blue);
 }
