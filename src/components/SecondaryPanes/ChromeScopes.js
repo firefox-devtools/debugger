@@ -1,3 +1,4 @@
+// @flow
 import {
   DOM as dom, PropTypes, createClass, createFactory
 } from "react";
@@ -41,7 +42,7 @@ const Scopes = createClass({
   propTypes: {
     scopes: PropTypes.array,
     loadedObjects: ImPropTypes.map,
-    loadObjectProperties: PropTypes.function,
+    loadObjectProperties: PropTypes.func,
     pauseInfo: PropTypes.object
   },
 

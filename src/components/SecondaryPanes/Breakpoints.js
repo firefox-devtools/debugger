@@ -1,3 +1,4 @@
+// @flow
 import { DOM as dom, PropTypes, createClass } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -10,6 +11,7 @@ import { endTruncateStr } from "../../utils/utils";
 import { basename } from "../../utils/path";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
+import type { Breakpoint } from "../../types";
 
 function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
   const pause = getPause(state);
