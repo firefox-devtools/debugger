@@ -12,6 +12,14 @@ import { basename } from "../../utils/path";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
 
+import type { Breakpoint } from "../../types";
+
+type LocalBreakpoint = Breakpoint & {
+  location: any,
+  isCurrentlyPaused: boolean,
+  locationId: string
+}
+
 function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
   const pause = getPause(state);
   if (!pause || pause.get("isInterrupted")) {
@@ -127,18 +135,27 @@ const Breakpoints = createClass({
   }
 });
 
-function _getBreakpoints(state) {
-  return getBreakpoints(state).map(bp => {
-    const source = getSource(state, bp.location.sourceId);
-    const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, bp);
-    const locationId = makeLocationId(bp.location);
+function updateLocation(state, bp): LocalBreakpoint {
+  const source = getSource(state, bp.location.sourceId);
+  const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, bp);
+  const locationId = makeLocationId(bp.location);
 
-    bp = Object.assign({}, bp);
-    bp.location.source = source;
-    bp.locationId = locationId;
-    bp.isCurrentlyPaused = isCurrentlyPaused;
-    return bp;
-  })
+  const location = Object.assign({}, bp.location, {
+    source
+  });
+
+  const localBP = Object.assign({}, bp, {
+    location,
+    locationId,
+    isCurrentlyPaused
+  });
+
+  return localBP;
+}
+
+function _getBreakpoints(state) {
+  return getBreakpoints(state)
+  .map(bp => updateLocation(state, bp))
   .filter(bp => bp.location.source);
 }
 
