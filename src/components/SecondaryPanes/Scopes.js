@@ -136,6 +136,9 @@ function getScopes(pauseInfo, selectedFrame) {
   return scopes;
 }
 
+let expandedCache = new Set();
+let actorsCache = [];
+
 const Scopes = createClass({
   propTypes: {
     pauseInfo: ImPropTypes.map,
@@ -180,6 +183,14 @@ const Scopes = createClass({
         roots: scopes,
         getObjectProperties: id => loadedObjects.get(id),
         loadObjectProperties: loadObjectProperties,
+        getExpanded: expanded => {
+          expandedCache = expanded;
+        },
+        setExpanded: () => expandedCache,
+        getActors: actors => {
+          actorsCache = actors;
+        },
+        setActors: () => actorsCache,
         onLabelClick: (item, { expanded, setExpanded }) => {
           setExpanded(item, !expanded);
         }

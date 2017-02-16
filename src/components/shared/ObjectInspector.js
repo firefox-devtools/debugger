@@ -54,7 +54,11 @@ const ObjectInspector = React.createClass({
     getObjectProperties: PropTypes.func.isRequired,
     loadObjectProperties: PropTypes.func.isRequired,
     onLabelClick: PropTypes.func,
-    onDoubleClick: PropTypes.func
+    onDoubleClick: PropTypes.func,
+    getExpanded: PropTypes.func,
+    setExpanded: PropTypes.func,
+    getActors: PropTypes.func,
+    setActors: PropTypes.func
   },
 
   displayName: "ObjectInspector",
@@ -63,7 +67,8 @@ const ObjectInspector = React.createClass({
     // Cache of dynamically built nodes. We shouldn't need to clear
     // this out ever, since we don't ever "switch out" the object
     // being inspected.
-    this.actorCache = {};
+    const { setActors } = this.props;
+    this.actors = setActors ? setActors() : {};
     return {};
   },
 
@@ -73,6 +78,12 @@ const ObjectInspector = React.createClass({
       onDoubleClick: () => {},
       autoExpandDepth: 1
     };
+  },
+
+  componentWillUnmount() {
+    if (this.props.getActors) {
+      this.props.getActors(this.actors);
+    }
   },
 
   getChildren(item) {
@@ -95,8 +106,8 @@ const ObjectInspector = React.createClass({
       // being the same across renders. If we didn't do this, each
       // node would be a new instance every render.
       const key = item.path;
-      if (this.actorCache[key]) {
-        return this.actorCache[key];
+      if (this.actors[key]) {
+        return this.actors[key];
       }
 
       const loadedProps = getObjectProperties(actor);
@@ -106,7 +117,7 @@ const ObjectInspector = React.createClass({
       }
 
       const children = makeNodesForProperties(loadedProps, item.path);
-      this.actorCache[actor] = children;
+      this.actors[key] = children;
       return children;
     }
 
@@ -168,7 +179,7 @@ const ObjectInspector = React.createClass({
 
   render() {
     const { name, desc, loadObjectProperties,
-            autoExpandDepth } = this.props;
+            autoExpandDepth, getExpanded, setExpanded } = this.props;
 
     let roots = this.props.roots;
     if (!roots) {
@@ -190,7 +201,8 @@ const ObjectInspector = React.createClass({
           loadObjectProperties(item.contents.value);
         }
       },
-
+      getExpanded,
+      setExpanded,
       renderItem: this.renderItem
     });
   }
