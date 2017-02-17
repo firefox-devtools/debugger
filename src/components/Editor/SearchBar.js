@@ -92,12 +92,12 @@ const SearchBar = React.createClass({
   },
 
   closeSearch(e: SyntheticEvent) {
-    const ed = this.props.editor;
+    const { editor: ed, query, modifiers } = this.props;
 
     if (this.state.enabled && ed) {
       this.setState({ enabled: false });
       const ctx = { ed, cm: ed.codeMirror };
-      removeOverlay(ctx);
+      removeOverlay(ctx, query, modifiers);
       e.stopPropagation();
       e.preventDefault();
     }
@@ -156,7 +156,7 @@ const SearchBar = React.createClass({
 
     const ctx = { ed, cm: ed.codeMirror };
 
-    const count = countMatches(ctx, query, sourceText.get("text"), modifiers);
+    const count = countMatches(query, sourceText.get("text"), modifiers);
     const index = find(ctx, query, true, modifiers);
 
     debounce(() => this.setState({ count, index }), 100)();
