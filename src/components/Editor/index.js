@@ -184,8 +184,9 @@ const Editor = React.createClass({
       (_, e) => traverseResults(e, ctx, query, "next", searchModifiers));
 
     if (isEnabled("functionSearch")) {
-      // NOTE: we'll localize the shortcut key when we decide the UX
-      shortcuts.on("CmdOrCtrl+Shift+o", (_, e) => this.toggleFunctionSearch(e));
+      const fnSearchKey = L10N.getStr("functionSearch.search.key");
+      shortcuts.on(`CmdOrCtrl+Shift+${fnSearchKey}`,
+        (_, e) => this.toggleFunctionSearch(e));
     }
 
     resizeBreakpointGutter(this.editor.codeMirror);
@@ -501,7 +502,7 @@ const Editor = React.createClass({
     ).map(dec => ({
       id: dec.name,
       title: dec.name,
-      subtitle: "",
+      subtitle: `:${dec.location.start.line}`,
       value: dec.name,
       location: dec.location
     }));
@@ -530,9 +531,16 @@ const Editor = React.createClass({
             { line: item.location.start.line }
           );
         },
+        onSelectedItem: (item) => {
+          selectSource(
+            selectedSource.get("id"),
+            { line: item.location.start.line }
+          );
+        },
         close: () => {},
         items: this.state.functionDeclarations,
-        inputValue: ""
+        inputValue: "",
+        placeholder: L10N.getStr("functionSearch.search.placeholder")
       })
     );
   },
