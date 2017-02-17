@@ -100,8 +100,8 @@ const ObjectInspector = React.createClass({
       }
 
       const loadedProps = getObjectProperties(actor);
-      const { ownProperties, prototype } = loadedProps || {};
-      if (!ownProperties && !prototype) {
+      const { ownProperties, prototype, ownSymbols } = loadedProps || {};
+      if (!ownProperties && !prototype && !ownSymbols) {
         return [];
       }
 
