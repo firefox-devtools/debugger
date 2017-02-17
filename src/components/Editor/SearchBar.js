@@ -138,14 +138,17 @@ const SearchBar = React.createClass({
   },
 
   doSearch(query: string) {
-    const { sourceText, modifiers, updateQuery } = this.props;
-    if (!sourceText) {
+    const {
+      sourceText,
+      modifiers,
+      updateQuery,
+      editor: ed,
+    } = this.props;
+    if (!sourceText || !sourceText.get("text")) {
       return;
     }
 
     updateQuery(query);
-
-    const ed = this.props.editor;
 
     if (!ed) {
       return;
@@ -153,16 +156,10 @@ const SearchBar = React.createClass({
 
     const ctx = { ed, cm: ed.codeMirror };
 
-    const count = countMatches(
-      ctx,
-      query,
-      sourceText.get("text"),
-      modifiers
-    );
+    const count = countMatches(ctx, query, sourceText.get("text"), modifiers);
+    const index = find(ctx, query, true, modifiers);
 
-    // eslint-disable-next-line react/no-did-update-set-state
-    this.setState({ count });
-    this.search(query);
+    debounce(() => this.setState({ count, index }), 100)();
   },
 
   onChange(e: any) {
@@ -200,20 +197,6 @@ const SearchBar = React.createClass({
 
     this.traverseResults(e, e.shiftKey);
   },
-
-  search: debounce(function(query: string) {
-    const sourceText = this.props.sourceText;
-
-    if (!sourceText || !sourceText.get("text")) {
-      return;
-    }
-
-    const ed = this.props.editor;
-    const ctx = { ed, cm: ed.codeMirror };
-
-    const index = find(ctx, query, true, this.props.modifiers);
-    this.setState({ index });
-  }, 100),
 
   renderSummary() {
     const { count, index } = this.state;
