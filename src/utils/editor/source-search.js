@@ -143,7 +143,8 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
       } else {
         state.matchIndex = rev ? state.matchIndex - 1 : state.matchIndex + 1;
       }
-      matchIndex = (state.matchIndex + state.results.length) % state.results.length;
+      matchIndex =
+        (state.matchIndex + state.results.length) % state.results.length;
     }
   });
   return matchIndex;
@@ -262,7 +263,6 @@ function findPrev(
 
 function countMatches(
   ctx: any, query: string, text: string, modifiers: SearchModifiers): number {
-
   if (!query || isWhitespace(query)) {
     return;
   }
