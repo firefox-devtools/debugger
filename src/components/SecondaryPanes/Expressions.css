@@ -43,7 +43,8 @@
 }
 
 .expression-container > .tree {
-  width: calc(100% - 20px);
+  width: 100%;
+  overflow: hidden;
 }
 
 :root.theme-light .expression-container:hover {
