@@ -78,6 +78,13 @@ function isPaused(dbg) {
   return !!getPause(getState());
 }
 
+function isVisibleWithin(outerEl, innerEl) {
+  const innerRect = innerEl.getBoundingClientRect();
+  const outerRect = outerEl.getBoundingClientRect();
+  return innerRect.top > outerRect.top &&
+    innerRect.bottom < outerRect.bottom;
+}
+
 function info(msg) {
   const message = `INFO: ${msg}\n`;
   if (typeof dump == "function") {
@@ -95,5 +102,6 @@ module.exports = {
   selectors,
   getSelector,
   isPaused,
+  isVisibleWithin,
   info
 }

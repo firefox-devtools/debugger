@@ -10,7 +10,8 @@ const {
 } = require("./wait");
 
 const {
-  assertPausedLocation
+  assertPausedLocation,
+  assertHighlightLocation
 } = require("./assert");
 
 const {
@@ -44,6 +45,7 @@ const {
   findAllElements,
   findSource,
   isPaused,
+  isVisibleWithin,
   getSelector
 } = require("./shared")
 
@@ -51,11 +53,13 @@ module.exports = {
   initDebugger,
   setupTestRunner,
   assertPausedLocation,
+  assertHighlightLocation,
   findElement,
   findElementWithSelector,
   findAllElements,
   findSource,
   isPaused,
+  isVisibleWithin,
   getSelector,
   selectSource,
   stepOver,
