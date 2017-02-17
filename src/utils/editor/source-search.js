@@ -32,6 +32,8 @@ function SearchState() {
 function getSearchState(cm: any, query, modifiers) {
   let state = cm.state.search || (cm.state.search = new SearchState());
   let cursor = getSearchCursor(cm, query, null, modifiers);
+
+  state.results = [];
   while (cursor.findNext()) {
     state.results.push(cursor.pos);
   }
@@ -119,6 +121,24 @@ function updateCursor(cm, state, keepSelection) {
   }
 }
 
+function getMatchIndex(state: Object, rev: boolean, nextMatch: Object) {
+  let matchIndex;
+  const count = state.results.length;
+
+  if (state.matchIndex === -1) {
+    return findIndex(state.results, nextMatch);
+  }
+
+  matchIndex = rev ? state.matchIndex - 1 : state.matchIndex + 1;
+  matchIndex = matchIndex % count;
+
+  if (matchIndex == 0) {
+    matchIndex = rev ? count : 1;
+  }
+
+  return matchIndex;
+}
+
 /**
  * If there's a saved search, selects the next results.
  * Otherwise, creates a new search and selects the first
@@ -142,17 +162,12 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
     updateCursor(cm, state, keepSelection);
 
     const nextMatch = searchNext(ctx, rev, query, modifiers);
-
     if (nextMatch) {
-      if (state.matchIndex === -1) {
-        state.matchIndex = findIndex(state.results, nextMatch);
-      } else {
-        state.matchIndex = rev ? state.matchIndex - 1 : state.matchIndex + 1;
-      }
-      matchIndex =
-        (state.matchIndex + state.results.length) % state.results.length;
+      matchIndex = getMatchIndex(state, rev, nextMatch);
+      state.matchIndex = matchIndex;
     }
   });
+
   return matchIndex;
 }
 
@@ -282,5 +297,6 @@ module.exports = {
   find,
   findNext,
   findPrev,
-  removeOverlay
+  removeOverlay,
+  getMatchIndex
 };
