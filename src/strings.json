@@ -36,7 +36,7 @@
   "sourceSearch.search": "Search Sources...",
   "sourceSearch.search.key": "F",
   "sourceSearch.search.again.key": "G",
-  "sourceSearch.resultsSummary": "%d results",
+  "sourceSearch.resultsSummary1": "%d results",
   "sourceSearch.noResults": "No files matching %S found",
   "sourceFooter.debugBtnTooltip": "Prettify Source",
   "ignoreExceptions": "Ignore exceptions. Click to pause on uncaught exceptions",
