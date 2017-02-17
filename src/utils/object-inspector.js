@@ -45,7 +45,7 @@ function sortProperties(properties) {
 }
 
 function makeNodesForProperties(objProps, parentPath) {
-  const { ownProperties, prototype } = objProps;
+  const { ownProperties, prototype, ownSymbols } = objProps;
 
   const nodes = sortProperties(Object.keys(ownProperties))
     .filter(name => {
@@ -55,6 +55,12 @@ function makeNodesForProperties(objProps, parentPath) {
     }).map(name => {
       return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
     });
+
+  for (let index in ownSymbols) {
+    nodes.push(createNode(ownSymbols[index].name,
+                          `${parentPath}/##symbol-${index}`,
+                          ownSymbols[index].descriptor));
+  }
 
   // Add the prototype if it exists and is not null
   if (prototype && prototype.type !== "null") {

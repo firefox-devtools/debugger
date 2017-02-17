@@ -90,10 +90,11 @@ function update(state = State(), action: Action): Record<PauseState> {
         }
 
         const ownProperties = action.value.ownProperties;
+        const ownSymbols = action.value.ownSymbols || [];
         const prototype = action.value.prototype;
 
         return state.setIn(["loadedObjects", action.objectId],
-                           { ownProperties, prototype });
+                           { ownProperties, prototype, ownSymbols });
       }
       break;
 
