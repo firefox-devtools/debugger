@@ -5,10 +5,10 @@
  * @module reducers/coverage
  */
 
-const constants = require("../constants");
-const makeRecord = require("../utils/makeRecord");
-const I = require("immutable");
-const fromJS = require("../utils/fromJS");
+import constants from "../constants";
+import makeRecord from "../utils/makeRecord";
+import I from "immutable";
+import fromJS from "../utils/fromJS";
 
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
@@ -49,7 +49,7 @@ function getCoverageEnabled(state: OuterState) {
   return state.coverage.get("coverageOn");
 }
 
-module.exports = {
+export default {
   State,
   update,
   getHitCountForSource,

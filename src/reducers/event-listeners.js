@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const constants = require("../constants");
+import constants from "../constants";
 
 const initialState = {
   activeEventNames: [],
@@ -35,7 +35,7 @@ function getEventListeners(state) {
   return state.eventListeners.listeners;
 }
 
-module.exports = {
+export default {
   update,
   getEventListeners
 };

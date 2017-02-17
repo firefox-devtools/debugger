@@ -1,8 +1,8 @@
 // @flow
 
-const constants = require("../constants");
-const makeRecord = require("../utils/makeRecord");
-const I = require("immutable");
+import constants from "../constants";
+import makeRecord from "../utils/makeRecord";
+import I from "immutable";
 
 import type { Expression } from "../types";
 import type { Action } from "../actions/types";
@@ -75,7 +75,7 @@ function getExpressions(state: OuterState) {
   return state.expressions.get("expressions");
 }
 
-module.exports = {
+export default {
   State,
   update,
   getExpressions
