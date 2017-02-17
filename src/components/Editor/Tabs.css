@@ -36,7 +36,7 @@
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   height: 26px;
-  display: inline-block;
+  display: inline-flex;
   position: relative;
   transition: all 0.25s ease;
   min-width: 40px;
@@ -98,7 +98,6 @@ html[dir="rtl"] .source-tab.active {
 }
 
 .source-tab .close-btn {
-  position: absolute;
   top: 3px;
   offset-inline-end: 4px;
   visibility: hidden;
