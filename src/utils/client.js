@@ -9,7 +9,7 @@ async function onFirefoxConnect(actions: Object) {
   const client = firefox.clientCommands;
   const { newSources } = actions;
 
-  if (!tabTarget) {
+  if (!tabTarget || !threadClient) {
     return;
   }
 
@@ -31,7 +31,7 @@ async function onFirefoxConnect(actions: Object) {
   // paused state.
   const pausedPacket = threadClient.getLastPausePacket();
   if (pausedPacket) {
-    firefox.clientEvents.paused(null, pausedPacket);
+    firefox.clientEvents.paused("paused", pausedPacket);
   }
 }
 
