@@ -32,7 +32,7 @@ module.exports = {
   getPause: pause.getPause,
   getChromeScopes: pause.getChromeScopes,
   getLoadedObjects: pause.getLoadedObjects,
-  getLoadedObject: pause.getLoadedObjects,
+  getLoadedObject: pause.getLoadedObject,
   getObjectProperties: pause.getObjectProperties,
   getIsWaitingOnBreak: pause.getIsWaitingOnBreak,
   getShouldPauseOnExceptions: pause.getShouldPauseOnExceptions,

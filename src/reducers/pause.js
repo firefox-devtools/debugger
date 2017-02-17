@@ -84,6 +84,13 @@ function update(state = State(), action: Action): Record<PauseState> {
       return state.set("selectedFrameId", action.frame.id);
 
     case constants.LOAD_OBJECT_PROPERTIES:
+      if (action.status === "start") {
+        return state.setIn(
+          ["loadedObjects", action.objectId],
+          {}
+        );
+      }
+
       if (action.status === "done") {
         if (!action.value) {
           return state;
