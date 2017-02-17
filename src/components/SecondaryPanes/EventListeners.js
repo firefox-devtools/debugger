@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 const { DOM: dom, PropTypes } = React;
 import { bindActionCreators } from "redux";
@@ -9,12 +10,12 @@ import "./EventListeners.css";
 
 const EventListeners = React.createClass({
   propTypes: {
-    listeners: PropTypes.array,
-    selectSource: PropTypes.func,
-    addBreakpoint: PropTypes.func,
-    enableBreakpoint: PropTypes.func,
-    disableBreakpoint: PropTypes.func,
-    removeBreakpoint: PropTypes.func
+    listeners: PropTypes.array.isRequired,
+    selectSource: PropTypes.func.isRequired,
+    addBreakpoint: PropTypes.func.isRequired,
+    enableBreakpoint: PropTypes.func.isRequired,
+    disableBreakpoint: PropTypes.func.isRequired,
+    removeBreakpoint: PropTypes.func.isRequired
   },
 
   displayName: "EventListeners",

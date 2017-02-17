@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -40,13 +41,15 @@ function getValue(expression) {
 }
 
 const Expressions = React.createClass({
+  _input: (null: any),
+
   propTypes: {
-    expressions: ImPropTypes.list,
-    addExpression: PropTypes.func,
-    updateExpression: PropTypes.func,
-    deleteExpression: PropTypes.func,
+    expressions: ImPropTypes.list.isRequired,
+    addExpression: PropTypes.func.isRequired,
+    updateExpression: PropTypes.func.isRequired,
+    deleteExpression: PropTypes.func.isRequired,
     loadObjectProperties: PropTypes.func,
-    loadedObjects: ImPropTypes.map
+    loadedObjects: ImPropTypes.map.isRequired
   },
 
   displayName: "Expressions",
