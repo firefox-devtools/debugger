@@ -91,8 +91,20 @@ function getPathClosestToLocation(source, location) {
   return pathClosestToLocation;
 }
 
+function getVariablesInScope(source, location) {
+  const path = getPathClosestToLocation(source, location);
+
+  return Object.entries(path.scope.bindings)
+    .map(([name, binding]) => ({
+      name,
+      references: binding.referencePaths
+    })
+  );
+}
+
 module.exports = {
   parse,
   getFunctions,
-  getPathClosestToLocation
+  getPathClosestToLocation,
+  getVariablesInScope
 };
