@@ -161,11 +161,11 @@ const Autocomplete = React.createClass({
       dom.div({ className: "searchinput-container" },
       Svg("magnifying-glass"),
       this.renderInput(),
+      this.renderSummary(searchResults),
       CloseButton({
         buttonClass: "big",
         handleClick: e => this.props.close()
       })),
-      this.renderSummary(searchResults),
       this.renderResults(searchResults));
   }
 });

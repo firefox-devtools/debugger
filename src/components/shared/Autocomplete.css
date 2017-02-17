@@ -8,11 +8,6 @@
   user-select: none;
 }
 
-.autocomplete .results-summary {
-  margin: 10px;
-  text-align: start;
-}
-
 .autocomplete ul {
   list-style: none;
   width: 100%;
@@ -54,15 +49,21 @@
   border: none;
   background-color: var(--theme-body-background);
   color: var(--theme-comment);
-  border-bottom: 1px solid var(--theme-splitter-color);
   outline: none;
   line-height: 30px;
   font-size: 14px;
   height: 40px;
   padding-inline-start: 30px;
+  flex: 1;
 }
 
 .autocomplete input::placeholder {
+  color: var(--theme-body-color-inactive);
+}
+
+.autocomplete .results-summary {
+  line-height: 40px;
+  padding-right: 10px;
   color: var(--theme-body-color-inactive);
 }
 

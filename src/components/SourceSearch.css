@@ -21,8 +21,5 @@
 
 .searchinput-container {
   display: flex;
-}
-
-.searchinput-container .close-btn-big {
   border-bottom: 1px solid var(--theme-splitter-color);
 }
