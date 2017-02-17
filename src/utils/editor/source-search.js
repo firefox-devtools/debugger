@@ -9,6 +9,15 @@ import type { SearchModifiers } from "../../types";
  * @memberof utils/source-search
  * @static
  */
+function getSearchCursor(cm, query: string, pos, modifiers: SearchModifiers) {
+  const regexQuery = buildQuery(query, modifiers, { isGlobal: true });
+  return cm.getSearchCursor(regexQuery, pos);
+}
+
+/**
+ * @memberof utils/source-search
+ * @static
+ */
 function SearchState() {
   this.posFrom = this.posTo = this.query = null;
   this.overlay = null;
@@ -20,17 +29,14 @@ function SearchState() {
  * @memberof utils/source-search
  * @static
  */
-function getSearchState(cm: any) {
-  return cm.state.search || (cm.state.search = new SearchState());
-}
+function getSearchState(cm: any, query, modifiers) {
+  let state = cm.state.search || (cm.state.search = new SearchState());
+  let cursor = getSearchCursor(cm, query, null, modifiers);
+  while (cursor.findNext()) {
+    state.results.push(cursor.pos);
+  }
 
-/**
- * @memberof utils/source-search
- * @static
- */
-function getSearchCursor(cm, query: string, pos, modifiers: SearchModifiers) {
-  const regexQuery = buildQuery(query, modifiers, { isGlobal: true });
-  return cm.getSearchCursor(regexQuery, pos);
+  return state;
 }
 
 function isWhitespace(query) {
@@ -129,13 +135,13 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
       return;
     }
 
-    let state = getSearchState(cm);
+    let state = getSearchState(cm, query, modifiers);
     state.query = query;
 
     updateOverlay(cm, state, query, modifiers);
     updateCursor(cm, state, keepSelection);
 
-    const nextMatch = searchNext(ctx, rev, modifiers);
+    const nextMatch = searchNext(ctx, rev, query, modifiers);
 
     if (nextMatch) {
       if (state.matchIndex === -1) {
@@ -156,11 +162,11 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
  * @memberof utils/source-search
  * @static
  */
-function searchNext(ctx, rev, modifiers) {
+function searchNext(ctx, rev, query, modifiers) {
   let { cm, ed } = ctx;
   let nextMatch;
   cm.operation(function() {
-    let state = getSearchState(cm);
+    let state = getSearchState(cm, query, modifiers);
     const pos = rev ? state.posTo : state.posFrom;
     let cursor = getSearchCursor(
       cm,
@@ -203,8 +209,8 @@ function searchNext(ctx, rev, modifiers) {
  * @memberof utils/source-search
  * @static
  */
-function removeOverlay(ctx: any) {
-  let state = getSearchState(ctx.cm);
+function removeOverlay(ctx: any, query: string, modifiers: SearchModifiers) {
+  let state = getSearchState(ctx.cm, query, modifiers);
   ctx.cm.removeOverlay(state.overlay);
 }
 
@@ -214,10 +220,10 @@ function removeOverlay(ctx: any) {
  * @memberof utils/source-search
  * @static
  */
-function clearSearch(cm) {
-  let state = getSearchState(cm);
+function clearSearch(cm, query: string, modifiers: SearchModifiers) {
+  let state = getSearchState(cm, query, modifiers);
 
-  state.resultSet = [];
+  state.results = [];
   state.matchIndex = -1;
 
   if (!state.query) {
@@ -235,7 +241,7 @@ function clearSearch(cm) {
  */
 function find(
   ctx: any, query: string, keepSelection: boolean, modifiers: SearchModifiers) {
-  clearSearch(ctx.cm);
+  clearSearch(ctx.cm, query, modifiers);
   return doSearch(ctx, false, query, keepSelection, modifiers);
 }
 
@@ -262,18 +268,12 @@ function findPrev(
 }
 
 function countMatches(
-  ctx: any, query: string, text: string, modifiers: SearchModifiers): number {
-  if (!query || isWhitespace(query)) {
-    return;
-  }
-
-  let state = getSearchState(ctx.cm);
-  let cursor = getSearchCursor(ctx.cm, query, null, modifiers);
-  state.results = [];
-  while (cursor.findNext()) {
-    state.results.push(cursor.pos);
-  }
-  return state.results.length;
+  query: string, text: string, modifiers: SearchModifiers): number {
+  const regexQuery = buildQuery(query, modifiers, {
+    isGlobal: true
+  });
+  const match = text.match(regexQuery);
+  return match ? match.length : 0;
 }
 
 module.exports = {
