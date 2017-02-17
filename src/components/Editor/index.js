@@ -171,6 +171,9 @@ const Editor = React.createClass({
       if (cm.listSelections().length > 1) {
         cm.execCommand("singleSelection");
         e.preventDefault();
+      } else if (this.state.functionSearchEnabled) {
+        e.preventDefault();
+        this.toggleFunctionSearch(e);
       }
     });
 

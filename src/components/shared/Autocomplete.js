@@ -142,7 +142,7 @@ const Autocomplete = React.createClass({
     let resultCountSummary = "";
     if (this.state.inputValue) {
       resultCountSummary = L10N.getFormatStr(
-        "sourceSearch.resultsSummary",
+        "sourceSearch.resultsSummary1",
         searchResults.length,
         this.state.inputValue);
     }
