@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
@@ -30,6 +31,24 @@ const Accordion = React.createFactory(require("../shared/Accordion"));
 const CommandBar = React.createFactory(require("./CommandBar").default);
 require("./SecondaryPanes.css");
 
+type StartItems = {
+  button?: any,
+  component: any,
+  header: string,
+  opened?: boolean,
+  onToggle?: () => any,
+  shouldOpen?: () => any
+};
+
+type EndItems = {
+  header: string,
+  component: any,
+  opened?: boolean,
+  onToggle?: () => any,
+  shouldOpen?: () => any,
+  buttons?: any
+};
+
 function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
   return dom.button(
@@ -40,13 +59,13 @@ function debugBtn(onClick, type, className, tooltip) {
 
 const SecondaryPanes = React.createClass({
   propTypes: {
-    evaluateExpressions: PropTypes.func,
+    evaluateExpressions: PropTypes.func.isRequired,
     pauseData: ImPropTypes.map,
     horizontal: PropTypes.bool,
-    breakpoints: ImPropTypes.map,
+    breakpoints: ImPropTypes.map.isRequired,
     breakpointsDisabled: PropTypes.bool,
     breakpointsLoading: PropTypes.bool,
-    toggleAllBreakpoints: PropTypes.func
+    toggleAllBreakpoints: PropTypes.func.isRequired
   },
 
   contextTypes: {
@@ -121,10 +140,10 @@ const SecondaryPanes = React.createClass({
   },
 
   getStartItems() {
-    const scopesContent = this.props.horizontal ? this.getScopeItem() : null;
+    const scopesContent: any = this.props.horizontal ? this.getScopeItem() : null;
     const isPaused = () => !!this.props.pauseData;
 
-    const items = [
+    const items: Array<StartItems> = [
       { header: L10N.getStr("breakpoints.header"),
         buttons: this.renderBreakpointsToggle(),
         component: Breakpoints,
@@ -160,7 +179,7 @@ const SecondaryPanes = React.createClass({
   },
 
   getEndItems() {
-    const items = [];
+    const items: Array<EndItems> = [];
 
     if (!this.props.horizontal) {
       items.unshift(this.getScopeItem());
