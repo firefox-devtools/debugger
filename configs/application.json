@@ -2,6 +2,7 @@
   "title": "Debugger",
   "environment": "development",
   "baseWorkerURL": "http://localhost:8000/assets/build/",
+  "sourceMapWorkerURL": "http://localhost:8000/assets/build/source-map-worker.js",
   "theme": "light",
   "logging": {
     "client": false,

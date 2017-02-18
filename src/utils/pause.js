@@ -1,5 +1,5 @@
 // @flow
-const { getOriginalLocation } = require("./source-map");
+const { getOriginalLocation } = require("devtools-source-map");
 
 import type { Pause, Frame } from "../types";
 
