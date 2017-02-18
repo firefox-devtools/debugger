@@ -3,7 +3,7 @@
 const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 
-import selectors from "../selectors"
+import selectors from "../selectors";
 const { getExpressions, getSelectedFrame } = selectors;
 
 import type { Expression } from "../types";

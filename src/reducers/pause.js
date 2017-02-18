@@ -7,7 +7,7 @@ import constants from "../constants";
 import fromJS from "../utils/fromJS";
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
-import {Map, List} from "immutable";
+import { Map, List } from "immutable";
 
 import type { Frame, Pause,
   Expression } from "../types";

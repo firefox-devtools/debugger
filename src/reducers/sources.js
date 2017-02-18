@@ -8,7 +8,7 @@
  * @module reducers/sources
  */
 
-import { Map, List} from "immutable";
+import { Map, List } from "immutable";
 import makeRecord from "../utils/makeRecord";
 import { getPrettySourceURL } from "../utils/source";
 import { prefs } from "../utils/prefs";
