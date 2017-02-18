@@ -10,19 +10,19 @@
 
 import fromJS from "../utils/fromJS";
 import { updateObj } from "../utils/utils";
-import I from "immutable";
+import { Map } from "immutable";
 import makeRecord from "../utils/makeRecord";
 import type { Breakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type BreakpointsState = {
-    breakpoints: I.Map<string, Breakpoint>,
+    breakpoints: Map<string, Breakpoint>,
   breakpointsDisabled: false
 }
 
 const State = makeRecord(({
-  breakpoints: I.Map(),
+  breakpoints: Map(),
   breakpointsDisabled: false
 } : BreakpointsState));
 
@@ -51,7 +51,7 @@ function allBreakpointsDisabled(state) {
   return state.breakpoints.every(x => x.disabled);
 }
 
-function update(state = State(), action: Action) {
+function update(state: any = State(), action: Action) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const id = makeLocationId(action.breakpoint.location);

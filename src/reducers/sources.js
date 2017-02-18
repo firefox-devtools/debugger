@@ -8,7 +8,7 @@
  * @module reducers/sources
  */
 
-import I from "immutable";
+import { Map, List} from "immutable";
 import makeRecord from "../utils/makeRecord";
 import { getPrettySourceURL } from "../utils/source";
 import { prefs } from "../utils/prefs";
@@ -18,7 +18,7 @@ import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type SourcesState = {
-    sources: I.Map<string, any>,
+    sources: Map<string, any>,
   selectedLocation?: {
     sourceId: string,
     line?: number,
@@ -30,19 +30,19 @@ export type SourcesState = {
     column?: number
   },
   selectedLocation?: Location,
-  sourcesText: I.Map<string, any>,
-  tabs: I.List<any>
+  sourcesText: Map<string, any>,
+  tabs: List<any>
 };
 
 const State = makeRecord(({
-  sources: I.Map(),
+  sources: Map(),
   selectedLocation: undefined,
   pendingSelectedLocation: prefs.pendingSelectedLocation,
-  sourcesText: I.Map(),
-  tabs: I.List(restoreTabs())
+  sourcesText: Map(),
+  tabs: List(restoreTabs())
 } : SourcesState));
 
-function update(state = State(), action: Action) : Record<SourcesState> {
+function update(state: any = State(), action: Action) : Record<SourcesState> {
   let availableTabs = null;
   let location = null;
 
@@ -139,12 +139,12 @@ function _updateText(state, action : any) : Record<SourcesState> {
   }
 
   if (action.status === "error") {
-    return state.setIn(["sourcesText", source.id], I.Map({
+    return state.setIn(["sourcesText", source.id], Map({
       error: action.error
     }));
   }
 
-  return state.setIn(["sourcesText", source.id], I.Map({
+  return state.setIn(["sourcesText", source.id], Map({
     text: sourceText.text,
     contentType: sourceText.contentType
   }));

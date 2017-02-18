@@ -7,7 +7,7 @@ import constants from "../constants";
 import fromJS from "../utils/fromJS";
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
-import I from "immutable";
+import {Map, List} from "immutable";
 
 import type { Frame, Pause,
   Expression } from "../types";
@@ -22,7 +22,7 @@ type PauseState = {
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
-  expressions: I.List<Expression>
+  expressions: List<Expression>
 }
 
 const State = makeRecord(({
@@ -30,13 +30,13 @@ const State = makeRecord(({
   isWaitingOnBreak: false,
   frames: undefined,
   selectedFrameId: undefined,
-  loadedObjects: I.Map(),
+  loadedObjects: Map(),
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
-  expressions: I.List()
+  expressions: List()
 } : PauseState));
 
-function update(state = State(), action: Action): Record<PauseState> {
+function update(state: any = State(), action: Action): Record<PauseState> {
   switch (action.type) {
     case constants.PAUSED: {
       const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;

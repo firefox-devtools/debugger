@@ -7,7 +7,7 @@
 
 import constants from "../constants";
 import makeRecord from "../utils/makeRecord";
-import I from "immutable";
+import { Map } from "immutable";
 import fromJS from "../utils/fromJS";
 
 import type { Action } from "../actions/types";
@@ -20,10 +20,10 @@ export type CoverageState = {
 
 const State = makeRecord(({
   coverageOn: false,
-  hitCount: I.Map()
+  hitCount: Map()
 } : CoverageState));
 
-function update(state = State(), action: Action): Record<CoverageState> {
+function update(state: any = State(), action: Action): Record<CoverageState> {
   switch (action.type) {
     case constants.RECORD_COVERAGE:
       return state

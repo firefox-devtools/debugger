@@ -4,10 +4,11 @@ const { DOM: dom, PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
+import selectors from "../../selectors";
 const {
   getSelectedSource, getSourceTabs,
   getFileSearchState, getSourceByURL
-} = require("../../selectors");
+} = selectors;
 const { getFilename, isPretty } = require("../../utils/source");
 const classnames = require("classnames");
 const actions = require("../../actions");
