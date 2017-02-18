@@ -5,7 +5,7 @@
 
 /**
  * Sources reducer
- * @module reducers/sources
+ * @module reducers/sources //
  */
 
 import { Map, List } from "immutable";
