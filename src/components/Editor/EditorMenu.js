@@ -1,6 +1,6 @@
 const { showMenu } = require("../shared/menu");
 const { isEnabled } = require("devtools-config");
-const { isOriginalId, hasMappedSource } = require("../../utils/source-map");
+const { isOriginalId, hasMappedSource } = require("devtools-source-map");
 const { copyToTheClipboard } = require("../../utils/clipboard");
 
 async function EditorMenu({

@@ -1910,6 +1910,16 @@ detective@^4.0.0:
     acorn "^4.0.3"
     defined "^1.0.0"
 
+devtools-client-adapters@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.19.tgz#6985b4ad2a6643a7e78b1477b72d4d8f1abd6903"
+  dependencies:
+    chrome-remote-interface "0.17.0"
+    devtools-config "^0.x.x"
+    devtools-modules "^0.x.x"
+    devtools-network-request "^0.x.x"
+    devtools-sham-modules "^0.x.x"
+
 devtools-client-adapters@^0.x.x:
   version "0.0.20"
   resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.20.tgz#49a39ad099d9d898c85fa53cb27b3b3f7fd6089c"
@@ -1920,7 +1930,7 @@ devtools-client-adapters@^0.x.x:
     devtools-network-request "^0.x.x"
     devtools-sham-modules "^0.x.x"
 
-devtools-config@^0.x.x:
+devtools-config@^0.0.12, devtools-config@^0.x.x:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
 
@@ -1995,9 +2005,9 @@ devtools-modules@^0.x.x:
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.17.tgz#baaccd878ec70928d863878005fd814e2d86e048"
 
-devtools-network-request@^0.x.x:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.13.tgz#9dec00174ee9d990cd538ae8fb3c95c742c1a175"
+devtools-network-request@^0.0.11, devtools-network-request@^0.x.x:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.11.tgz#e3a2b9927eb4ee657f2a93909dc7eb83e13bd994"
 
 devtools-reps@^0.4.0:
   version "0.4.0"
@@ -2009,6 +2019,17 @@ devtools-reps@^0.4.0:
 devtools-sham-modules@^0.x.x:
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.15.tgz#350c147af3686d840fa47c5df6a769a61ea70a89"
+
+devtools-source-map@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.1.0.tgz#4aebf12cf25b4be8e171a8234910011de96f6e12"
+  dependencies:
+    devtools-client-adapters "^0.0.19"
+    devtools-config "^0.0.12"
+    devtools-network-request "^0.0.11"
+    md5 "^2.2.1"
+    source-map "^0.5.6"
+    url "^0.11.0"
 
 diff@1.4.0, diff@^1.3.2:
   version "1.4.0"
@@ -5295,11 +5316,11 @@ ps-node@^0.1.4:
   dependencies:
     table-parser "^0.1.3"
 
-punycode@1.3.2:
+punycode@1.3.2, punycode@^1.2.4:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.3.2.tgz#9653a036fb7c1ee42342f2325cceefea3926c48d"
 
-punycode@^1.2.4, punycode@^1.4.1:
+punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 

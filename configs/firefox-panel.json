@@ -1,6 +1,7 @@
 {
   "environment": "firefox-panel",
   "baseWorkerURL": "resource://devtools/client/debugger/new/",
+  "sourceMapWorkerURL": "resource://devtools/client/debugger/new/source-map-worker.js",
   "logging": false,
   "clientLogging": false,
   "firefox": {

@@ -31,5 +31,8 @@ const setConfig = require("devtools-config").setConfig;
 const baseWorkerURL = path.join(__dirname, "../../assets/build/");
 
 const envConfig = getConfig();
-setConfig(Object.assign({}, envConfig, { baseWorkerURL }));
+setConfig(Object.assign({}, envConfig, {
+  baseWorkerURL,
+  sourceMapWorkerURL: path.join(baseWorkerURL, "source-map-worker.js"),
+}));
 

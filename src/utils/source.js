@@ -139,38 +139,6 @@ function getMode(sourceText: SourceText) {
   return { name: "text" };
 }
 
-function getContentType(url: string) {
-  if (isJavaScript(url)) {
-    return "text/javascript";
-  }
-
-  if (url.match(/ts$/)) {
-    return "text/typescript";
-  }
-
-  if (url.match(/tsx$/)) {
-    return "text/typescript-jsx";
-  }
-
-  if (url.match(/jsx$/)) {
-    return "text/jsx";
-  }
-
-  if (url.match(/coffee$/)) {
-    return "text/coffeescript";
-  }
-
-  if (url.match(/elm$/)) {
-    return "text/elm";
-  }
-
-  if (url.match(/cljs$/)) {
-    return "text/x-clojure";
-  }
-
-  return "text/plain";
-}
-
 module.exports = {
   isJavaScript,
   isPretty,
@@ -179,5 +147,4 @@ module.exports = {
   getFilename,
   getFilenameFromURL,
   getMode,
-  getContentType
 };

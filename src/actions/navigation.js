@@ -1,5 +1,5 @@
 const constants = require("../constants");
-const { clearSourceMaps } = require("../utils/source-map");
+const { clearSourceMaps } = require("devtools-source-map");
 const { clearDocuments } = require("../utils/editor");
 const { getSources } = require("../reducers/sources");
 const { waitForMs } = require("../utils/utils");

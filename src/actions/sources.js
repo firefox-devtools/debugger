@@ -17,14 +17,15 @@ const {
   getOriginalURLs, getOriginalSourceText,
   generatedToOriginalId, isOriginalId,
   getOriginalLocation, getGeneratedLocation,
-  isGeneratedId, applySourceMap, shouldSourceMap
-} = require("../utils/source-map");
+  isGeneratedId, applySourceMap
+} = require("devtools-source-map");
 
 const { prettyPrint } = require("../utils/pretty-print");
 const { getPrettySourceURL } = require("../utils/source");
 
 const constants = require("../constants");
 const { removeDocument } = require("../utils/editor");
+const { prefs } = require("../utils/prefs");
 
 const {
   getSource, getSourceByURL, getSourceText,
@@ -41,7 +42,7 @@ import type { ThunkArgs } from "./types";
  */
 function newSource(source: Source) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    if (shouldSourceMap()) {
+    if (prefs.clientSourceMapsEnabled) {
       dispatch(loadSourceMap(source));
     }
 

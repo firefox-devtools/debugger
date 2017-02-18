@@ -47,6 +47,7 @@
     "codemirror": "^5.1.0",
     "devtools-launchpad": "^0.0.55",
     "devtools-reps": "^0.4.0",
+    "devtools-source-map": "^0.1.0",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.12.0",
     "expect.js": "^0.3.1",
@@ -64,7 +65,6 @@
     "react": "=15.3.2",
     "react-dom": "=15.3.2",
     "rimraf": "^2.6.1",
-    "source-map": "^0.5.6",
     "stylelint": "^7.8.0",
     "svg-inline-react": "^1.0.2",
     "webpack": "1.14.0",
@@ -100,6 +100,9 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/test/"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!devtools-source-map)"
     ],
     "setupFiles": [
       "<rootDir>/test/tests-boot.js"

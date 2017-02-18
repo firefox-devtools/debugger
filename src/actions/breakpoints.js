@@ -14,7 +14,7 @@ const { getBreakpoint, getBreakpoints, getSource } = require("../selectors");
 
 const {
   getOriginalLocation, getGeneratedLocation, isOriginalId
-} = require("../utils/source-map");
+} = require("devtools-source-map");
 
 import type { ThunkArgs } from "./types";
 import type { Location } from "../types";

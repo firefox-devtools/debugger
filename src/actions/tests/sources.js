@@ -8,7 +8,7 @@ const {
   getSourceByURL, getSourceById, getSources, getSelectedSource,
   getSourceText, getSourceTabs
 } = selectors;
-const sourceMap = require("../../utils/source-map");
+const sourceMap = require("devtools-source-map");
 
 const threadClient = {
   sourceContents: function(sourceId) {

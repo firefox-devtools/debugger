@@ -55,7 +55,7 @@ window.getGlobalsForTesting = () => {
 };
 
 if (isFirefoxPanel()) {
-  const sourceMap = require("./utils/source-map");
+  const sourceMap = require("devtools-source-map");
   const prettyPrint = require("./utils/pretty-print");
 
   module.exports = {
