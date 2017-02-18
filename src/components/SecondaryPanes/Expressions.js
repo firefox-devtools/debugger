@@ -41,8 +41,6 @@ function getValue(expression) {
 }
 
 const Expressions = React.createClass({
-  _input: (null: any),
-
   propTypes: {
     expressions: ImPropTypes.list.isRequired,
     addExpression: PropTypes.func.isRequired,
@@ -51,6 +49,8 @@ const Expressions = React.createClass({
     loadObjectProperties: PropTypes.func,
     loadedObjects: ImPropTypes.map.isRequired
   },
+
+  _input: (null: any),
 
   displayName: "Expressions",
 

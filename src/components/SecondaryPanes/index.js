@@ -140,7 +140,8 @@ const SecondaryPanes = React.createClass({
   },
 
   getStartItems() {
-    const scopesContent: any = this.props.horizontal ? this.getScopeItem() : null;
+    const scopesContent: any = this.props.horizontal ?
+      this.getScopeItem() : null;
     const isPaused = () => !!this.props.pauseData;
 
     const items: Array<StartItems> = [
