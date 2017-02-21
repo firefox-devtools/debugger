@@ -1,8 +1,8 @@
 version: 2
 executorType: docker
 containerInfo:
-  - image: ubuntu:14.04
-    cmd: ["/bin/bash"] # specify if image does not already have Command set
+  - image: node:7
+    cmd: ["/bin/bash"]
   - image: jasonlaster11/mochitest-runner:latest
     cmd: ["/bin/bash"]
     env:
@@ -12,20 +12,25 @@ stages:
   build:
     workDir: ~/debugger
     steps:
+      - type: shell
+        shell: /bin/sh
+        pwd: /
+        command: apk -U add git
+
       - type: checkout
 
-      # copy config
       - type: shell
+        name: Copy Config Files
         shell: /bin/bash
         command: cp configs/ci.json configs/local.json
 
-      # install deps
       - type: shell
+        name: Yarn Install
         shell: /bin/bash
         command: yarn
 
-      # Run linting checks
       - type: shell
+        name: Yarn Lint
         shell: /bin/bash
         command: |
             set -exu
@@ -33,16 +38,16 @@ stages:
             yarn run lint-js
             yarn run lint-md
 
-      # Run flow checks
       - type: shell
+        name: Flow
         shell: /bin/bash
         command: |
             set -exu
             yarn run flow
             yarn run flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
 
-      # Run flow checks
       - type: shell
+        name: Yarn Check yarn.lock
         shell: /bin/bash
         command: |
             set -exu
@@ -50,6 +55,7 @@ stages:
 
       # Run tests
       - type: shell
+        name: Node Unit Tests
         shell: /bin/bash
         command: |
             set -exu
@@ -60,11 +66,13 @@ stages:
 
       # run docker mochitests
       - type: shell
+        name: Docker Mochitests
         shell: /bin/bash
         command: ./bin/run-mochitests-docker
 
       # Create flow coverage artifacts
       - type: shell
+        name: Flow Coverage Report
         shell: /bin/bash
         command: |
             set -exu
