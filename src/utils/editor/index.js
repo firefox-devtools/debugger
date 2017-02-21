@@ -13,7 +13,8 @@ const {
   find,
   findNext,
   findPrev,
-  removeOverlay
+  removeOverlay,
+  clearIndex
 } = require("./source-search");
 
 const SourceEditor = require("./source-editor");
@@ -115,15 +116,6 @@ function traverseResults(e, ctx, query, dir, modifiers) {
   }
 }
 
-function onMouseUp(ctx, modifiers) {
-  const query = ctx.cm.getSelection();
-  if (ctx.cm.somethingSelected()) {
-    find(ctx, query, true, modifiers);
-  } else {
-    removeOverlay(ctx, query, modifiers);
-  }
-}
-
 function createEditor() {
   return new SourceEditor({
     mode: "javascript",
@@ -160,12 +152,12 @@ module.exports = {
   find,
   findNext,
   findPrev,
+  clearIndex,
   removeOverlay,
   isTextForSource,
   breakpointAtLine,
   getTextForLine,
   getCursorLine,
   resizeBreakpointGutter,
-  traverseResults,
-  onMouseUp
+  traverseResults
 };

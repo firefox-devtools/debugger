@@ -297,6 +297,11 @@ function findPrev(
   return doSearch(ctx, true, query, keepSelection, modifiers);
 }
 
+function clearIndex(ctx: any, query: string, modifiers: SearchModifiers) {
+  let state = getSearchState(ctx.cm, query, modifiers);
+  state.matchIndex = -1;
+}
+
 function countMatches(
   query: string, text: string, modifiers: SearchModifiers): number {
   const regexQuery = buildQuery(query, modifiers, {
@@ -308,6 +313,7 @@ function countMatches(
 
 module.exports = {
   buildQuery,
+  clearIndex,
   countMatches,
   find,
   findNext,
