@@ -28,13 +28,19 @@ stages:
             apt-get update -qq
             apt-get install -y -qq yarn ocaml libelf-dev
 
+      - type: cache-restore
+        keys:
+          - debugger-{{ checksum "yarn.lock" }}
+          # Providing keys in decreasing specificity means it's more likely a new cache can be built from an existing one.
+          - debugger-
+
       - type: shell
         name: Yarn Install
         shell: /bin/bash --login
         command: yarn
 
       - type: cache-save
-        key: debugger-{{ .Branch }}-{{ checksum "yarn.lock" }}
+        key: debugger-{{ checksum "yarn.lock" }}
         paths:
           - ~/.yarn-cache
 
