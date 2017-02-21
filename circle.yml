@@ -53,6 +53,8 @@ stages:
         command: |
             set -exu
             yarn run flow
+        environment:
+          TERM: dumb
 
       - type: shell
         name: Yarn Check yarn.lock
