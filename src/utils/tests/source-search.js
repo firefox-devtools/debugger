@@ -52,67 +52,29 @@ describe("source-search", () => {
   });
 
   describe("getMatchIndex", () => {
-    it("finds first item", () => {
-      const items = [
-        { type: "apple" }, { type: "banana" }, { type: "tomato" }
-      ];
-      const state = {
-        results: items,
-        matchIndex: -1
-      };
+    it("iterates in the matches", () => {
+      const count = 3;
 
-      let matchIndex = getMatchIndex(state, true, { type: "apple" });
+      // reverse 2, 1, 0, 2
+
+      let matchIndex = getMatchIndex(count, 2, true);
+      expect(matchIndex).to.be(1);
+
+      matchIndex = getMatchIndex(count, 1, true);
       expect(matchIndex).to.be(0);
 
-      matchIndex = getMatchIndex(state, true, { type: "banana" });
-      expect(matchIndex).to.be(1);
-    });
-
-    it("iterates in the matches", () => {
-      const items = [
-        { type: "apple" },
-        { type: "banana" },
-        { type: "tomato" }
-      ];
-
-      let state = {
-        results: items,
-        matchIndex: 2
-      };
-
-      let matchIndex = getMatchIndex(state, true, { type: "apple" });
-      expect(matchIndex).to.be(1);
-
-      state = {
-        results: items,
-        matchIndex: 1
-      };
-
-      matchIndex = getMatchIndex(state, false, { type: "banana" });
+      matchIndex = getMatchIndex(count, 0, true);
       expect(matchIndex).to.be(2);
-    });
 
-    it("wraps matches", () => {
-      const items = [
-        { type: "apple" },
-        { type: "banana" },
-        { type: "tomato" }
-      ];
+      // forward 1, 2, 0, 1
 
-      let state = {
-        results: items,
-        matchIndex: 1
-      };
+      matchIndex = getMatchIndex(count, 1, false);
+      expect(matchIndex).to.be(2);
 
-      let matchIndex = getMatchIndex(state, true, { type: "apple" });
-      expect(matchIndex).to.be(3);
+      matchIndex = getMatchIndex(count, 2, false);
+      expect(matchIndex).to.be(0);
 
-      state = {
-        results: items,
-        matchIndex: 3
-      };
-
-      matchIndex = getMatchIndex(state, false, { type: "banana" });
+      matchIndex = getMatchIndex(count, 0, false);
       expect(matchIndex).to.be(1);
     });
   });

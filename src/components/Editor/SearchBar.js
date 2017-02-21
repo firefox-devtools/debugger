@@ -108,7 +108,9 @@ const SearchBar = React.createClass({
     e.preventDefault();
     const { editor } = this.props;
 
-    this.setState({ enabled: !this.state.enabled });
+    if (!this.state.enabled) {
+      this.setState({ enabled: true });
+    }
 
     if (this.state.enabled && editor) {
       const selection = editor.codeMirror.getSelection();

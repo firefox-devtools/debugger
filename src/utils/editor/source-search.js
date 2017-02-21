@@ -121,22 +121,20 @@ function updateCursor(cm, state, keepSelection) {
   }
 }
 
-function getMatchIndex(state: Object, rev: boolean, nextMatch: Object) {
-  let matchIndex;
-  const count = state.results.length;
+function getMatchIndex(count: number, currentIndex: number, rev: boolean) {
+  if (!rev) {
+    if (currentIndex == count - 1) {
+      return 0;
+    }
 
-  if (state.matchIndex === -1) {
-    return findIndex(state.results, nextMatch);
+    return currentIndex + 1;
   }
 
-  matchIndex = rev ? state.matchIndex - 1 : state.matchIndex + 1;
-  matchIndex = matchIndex % count;
-
-  if (matchIndex == 0) {
-    matchIndex = rev ? count : 1;
+  if (currentIndex == 0) {
+    return count - 1;
   }
 
-  return matchIndex;
+  return currentIndex - 1;
 }
 
 /**
@@ -156,19 +154,35 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
     }
 
     let state = getSearchState(cm, query, modifiers);
+    const newQuery = state.query != query;
     state.query = query;
 
     updateOverlay(cm, state, query, modifiers);
     updateCursor(cm, state, keepSelection);
 
-    const nextMatch = searchNext(ctx, rev, query, modifiers);
+    const nextMatch = searchNext(ctx, rev, query, newQuery, modifiers);
     if (nextMatch) {
-      matchIndex = getMatchIndex(state, rev, nextMatch);
+      if (state.matchIndex === -1) {
+        matchIndex = findIndex(state.results, nextMatch);
+      } else {
+        const count = state.results.length;
+        const currentIndex = state.matchIndex;
+        matchIndex = getMatchIndex(count, currentIndex, rev);
+      }
+
       state.matchIndex = matchIndex;
     }
   });
 
   return matchIndex;
+}
+
+function getCursorPos(newQuery, rev, state) {
+  if (newQuery) {
+    return rev ? state.posFrom : state.posTo;
+  }
+
+  return rev ? state.posTo : state.posFrom;
 }
 
 /**
@@ -177,12 +191,12 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
  * @memberof utils/source-search
  * @static
  */
-function searchNext(ctx, rev, query, modifiers) {
+function searchNext(ctx, rev, query, newQuery, modifiers) {
   let { cm, ed } = ctx;
   let nextMatch;
   cm.operation(function() {
     let state = getSearchState(cm, query, modifiers);
-    const pos = rev ? state.posTo : state.posFrom;
+    const pos = getCursorPos(newQuery, rev, state);
     let cursor = getSearchCursor(
       cm,
       state.query,
@@ -215,6 +229,7 @@ function searchNext(ctx, rev, query, modifiers) {
 
     nextMatch = { from: cursor.from(), to: cursor.to() };
   });
+
   return nextMatch;
 }
 
