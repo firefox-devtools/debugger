@@ -20,13 +20,13 @@ stages:
         command: cp configs/ci.json configs/local.json
 
       - type: shell
-        name: Install Yarn
+        name: Install System Packages
         shell: /bin/bash --login
         command: |
             apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
             echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
             apt-get update -qq
-            apt-get install -y -qq yarn
+            apt-get install -y -qq yarn ocaml libelf-dev
 
       - type: shell
         name: Yarn Install
