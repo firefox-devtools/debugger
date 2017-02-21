@@ -96,18 +96,21 @@ const Search = React.createClass({
   },
 
   render() {
-    return this.props.searchOn ?
-      dom.div({ className: "search-container" },
+    if (!this.props.searchOn) {
+      return null;
+    }
+
+    return dom.div({ className: "search-container" },
       Autocomplete({
         selectItem: result => {
           this.props.selectSource(result.id);
-          this.setState({ inputValue: "" });
-          this.props.closeFileSearch();
+          this.close();
         },
         close: this.close,
         items: searchResults(this.props.sources),
-        inputValue: this.state.inputValue
-      })) : null;
+        inputValue: this.state.inputValue,
+        placeholder: L10N.getStr("sourceSearch.search")
+      }));
   }
 
 });

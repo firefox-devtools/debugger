@@ -12,9 +12,11 @@ const INITIAL_SELECTED_INDEX = 0;
 const Autocomplete = React.createClass({
   propTypes: {
     selectItem: PropTypes.func,
+    onSelectedItem: PropTypes.func,
     items: PropTypes.array,
     close: PropTypes.func,
-    inputValue: PropTypes.string
+    inputValue: PropTypes.string,
+    placeholder: PropTypes.string
   },
 
   displayName: "Autocomplete",
@@ -68,14 +70,21 @@ const Autocomplete = React.createClass({
       resultCount = searchResults.length;
 
     if (e.key === "ArrowUp") {
-      this.setState({
-        selectedIndex: Math.max(0, this.state.selectedIndex - 1)
-      });
+      const selectedIndex = Math.max(0, this.state.selectedIndex - 1);
+      this.setState({ selectedIndex });
+      if (this.props.onSelectedItem) {
+        this.props.onSelectedItem(searchResults[selectedIndex]);
+      }
       e.preventDefault();
     } else if (e.key === "ArrowDown") {
-      this.setState({
-        selectedIndex: Math.min(resultCount - 1, this.state.selectedIndex + 1)
-      });
+      const selectedIndex = Math.min(
+        resultCount - 1,
+        this.state.selectedIndex + 1
+      );
+      this.setState({ selectedIndex });
+      if (this.props.onSelectedItem) {
+        this.props.onSelectedItem(searchResults[selectedIndex]);
+      }
       e.preventDefault();
     } else if (e.key === "Enter") {
       if (searchResults.length) {
@@ -117,7 +126,7 @@ const Autocomplete = React.createClass({
         onFocus: e => this.setState({ focused: true }),
         onBlur: e => this.setState({ focused: false }),
         onKeyDown: this.onKeyDown,
-        placeholder: L10N.getStr("sourceSearch.search")
+        placeholder: this.props.placeholder
       }
     );
   },

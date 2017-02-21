@@ -61,10 +61,16 @@
   color: var(--theme-body-color-inactive);
 }
 
+.autocomplete .close-btn-big {
+  color: var(--theme-body-color-inactive);
+  background-color: var(--theme-body-background);
+}
+
 .autocomplete .results-summary {
   line-height: 40px;
   padding-right: 10px;
   color: var(--theme-body-color-inactive);
+  background-color: var(--theme-body-background);
 }
 
 .autocomplete .magnifying-glass svg {
