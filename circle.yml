@@ -35,7 +35,7 @@ dependencies:
     - ~/downloads
     - ~/.cache/yarn
   pre:
-    - npm i -g flow-coverage-report
+    - yarn global add flow-coverage-report
   override:
     - yarn
   post:
