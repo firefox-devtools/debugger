@@ -12,6 +12,7 @@ const svg = {
   "file": require("./file.svg"),
   "folder": require("./folder.svg"),
   "globe": require("./globe.svg"),
+  "guillemet": require("./magnifying-glass.svg"), // TODO: add wanted svg here
   "magnifying-glass": require("./magnifying-glass.svg"),
   "pause": require("./pause.svg"),
   "pause-exceptions": require("./pause-exceptions.svg"),
