@@ -77,8 +77,10 @@ const Autocomplete = React.createClass({
       }
       e.preventDefault();
     } else if (e.key === "ArrowDown") {
-      const selectedIndex = Math.min(resultCount - 1,
-                                     this.state.selectedIndex + 1);
+      const selectedIndex = Math.min(
+        resultCount - 1,
+        this.state.selectedIndex + 1
+      );
       this.setState({ selectedIndex });
       if (this.props.onSelectedItem) {
         this.props.onSelectedItem(searchResults[selectedIndex]);
