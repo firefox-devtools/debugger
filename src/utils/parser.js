@@ -1,6 +1,7 @@
 const babylon = require("babylon");
 const traverse = require("babel-traverse").default;
 const t = require("babel-types");
+const { isDevelopment } = require("devtools-config");
 
 import type { SourceText, Source } from "../types";
 
@@ -21,7 +22,16 @@ function parse(sourceText: SourceText, source: Source) {
   if (ASTs.has(source.id)) {
     return ASTs.get(source.id);
   }
-  const ast = _parse(sourceText.text);
+  let ast;
+  try {
+    ast = _parse(sourceText.text);
+  } catch (error) {
+    if (isDevelopment()) {
+      console.warn("parse failed", sourceText);
+    }
+
+    ast = {};
+  }
   ASTs.set(source.id, ast);
   return ast;
 }
