@@ -16,11 +16,12 @@ stages:
 
       - type: shell
         name: Copy Config Files
-        shell: /bin/bash
+        shell: /bin/bash --login
         command: cp configs/ci.json configs/local.json
 
       - type: shell
         name: Install Yarn
+        shell: /bin/bash --login
         command: |
             apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
             echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
@@ -29,15 +30,17 @@ stages:
 
       - type: shell
         name: Yarn Install
+        shell: /bin/bash --login
         command: yarn
 
       - type: cache-save
-        key: projectname-{{ .Branch }}-{{ checksum "yarn.lock" }}
+        key: debugger-{{ .Branch }}-{{ checksum "yarn.lock" }}
         paths:
           - ~/.yarn-cache
 
       - type: shell
         name: Yarn Lint
+        shell: /bin/bash --login
         command: |
             set -exu
             yarn run lint-css
@@ -46,13 +49,14 @@ stages:
 
       - type: shell
         name: Flow
+        shell: /bin/bash --login
         command: |
             set -exu
             yarn run flow
-            yarn run flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
 
       - type: shell
         name: Yarn Check yarn.lock
+        shell: /bin/bash --login
         command: |
             set -exu
             yarn check
@@ -60,6 +64,7 @@ stages:
       # Run tests
       - type: shell
         name: Node Unit Tests
+        shell: /bin/bash --login
         command: |
             set -exu
             mkdir -p /tmp/test-results/mocha
@@ -70,11 +75,13 @@ stages:
       # run docker mochitests
       - type: shell
         name: Docker Mochitests
+        shell: /bin/bash --login
         command: ./bin/run-mochitests-docker
 
       # Create flow coverage artifacts
       - type: shell
         name: Flow Coverage Report
+        shell: /bin/bash --login
         command: |
             set -exu
             mkdir -p /tmp/test-results/flow-coverage
