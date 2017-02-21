@@ -500,7 +500,7 @@ const Editor = React.createClass({
     const functionDeclarations = getFunctions(
       this.props.selectedSource.toJS()
     ).map(dec => ({
-      id: dec.name,
+      id: `${dec.name}:${dec.location.start.line}`,
       title: dec.name,
       subtitle: `:${dec.location.start.line}`,
       value: dec.name,
