@@ -12,11 +12,6 @@ stages:
   build:
     workDir: ~/debugger
     steps:
-      - type: shell
-        shell: /bin/sh
-        pwd: /
-        command: apk -U add git
-
       - type: checkout
 
       - type: shell
