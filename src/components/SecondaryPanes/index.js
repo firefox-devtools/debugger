@@ -31,16 +31,7 @@ const Accordion = React.createFactory(require("../shared/Accordion"));
 const CommandBar = React.createFactory(require("./CommandBar").default);
 require("./SecondaryPanes.css");
 
-type StartItems = {
-  button?: any,
-  component: any,
-  header: string,
-  opened?: boolean,
-  onToggle?: () => any,
-  shouldOpen?: () => any
-};
-
-type EndItems = {
+type SecondaryPanesItems = {
   header: string,
   component: any,
   opened?: boolean,
@@ -144,7 +135,7 @@ const SecondaryPanes = React.createClass({
       this.getScopeItem() : null;
     const isPaused = () => !!this.props.pauseData;
 
-    const items: Array<StartItems> = [
+    const items: Array<SecondaryPanesItems> = [
       { header: L10N.getStr("breakpoints.header"),
         buttons: this.renderBreakpointsToggle(),
         component: Breakpoints,
@@ -180,7 +171,7 @@ const SecondaryPanes = React.createClass({
   },
 
   getEndItems() {
-    const items: Array<EndItems> = [];
+    const items: Array<SecondaryPanesItems> = [];
 
     if (!this.props.horizontal) {
       items.unshift(this.getScopeItem());
