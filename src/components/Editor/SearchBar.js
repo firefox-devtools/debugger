@@ -212,7 +212,7 @@ const SearchBar = React.createClass({
 
     return dom.div(
       { className: "summary" },
-      L10N.getFormatStr("editor.searchResults", index + 1, count)
+      L10N.getFormatStr("editor.searchResults", index, count)
     );
   },
 

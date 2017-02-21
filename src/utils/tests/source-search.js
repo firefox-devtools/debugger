@@ -52,68 +52,23 @@ describe("source-search", () => {
   });
 
   describe("getMatchIndex", () => {
-    it("finds first item", () => {
-      const items = [
-        { type: "apple" }, { type: "banana" }, { type: "tomato" }
-      ];
-      const state = {
-        results: items,
-        matchIndex: -1
-      };
+    it("iterates in the matches", () => {
+      const count = 3;
 
-      let matchIndex = getMatchIndex(state, true, { type: "apple" });
+      let matchIndex = getMatchIndex(count, 2, true);
+      expect(matchIndex).to.be(1);
+
+      matchIndex = getMatchIndex(count, 1, true);
       expect(matchIndex).to.be(0);
 
-      matchIndex = getMatchIndex(state, true, { type: "banana" });
-      expect(matchIndex).to.be(1);
-    });
-
-    it("iterates in the matches", () => {
-      const items = [
-        { type: "apple" },
-        { type: "banana" },
-        { type: "tomato" }
-      ];
-
-      let state = {
-        results: items,
-        matchIndex: 2
-      };
-
-      let matchIndex = getMatchIndex(state, true, { type: "apple" });
-      expect(matchIndex).to.be(1);
-
-      state = {
-        results: items,
-        matchIndex: 1
-      };
-
-      matchIndex = getMatchIndex(state, false, { type: "banana" });
-      expect(matchIndex).to.be(2);
-    });
-
-    it("wraps matches", () => {
-      const items = [
-        { type: "apple" },
-        { type: "banana" },
-        { type: "tomato" }
-      ];
-
-      let state = {
-        results: items,
-        matchIndex: 1
-      };
-
-      let matchIndex = getMatchIndex(state, true, { type: "apple" });
+      matchIndex = getMatchIndex(count, 0, true);
       expect(matchIndex).to.be(3);
 
-      state = {
-        results: items,
-        matchIndex: 3
-      };
+      matchIndex = getMatchIndex(count, 1, false);
+      expect(matchIndex).to.be(2);
 
-      matchIndex = getMatchIndex(state, false, { type: "banana" });
-      expect(matchIndex).to.be(1);
+      matchIndex = getMatchIndex(count, 3, false);
+      expect(matchIndex).to.be(0);
     });
   });
 });
