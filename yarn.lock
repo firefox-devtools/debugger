@@ -1910,9 +1910,9 @@ devtools-network-request@^0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.11.tgz#e3a2b9927eb4ee657f2a93909dc7eb83e13bd994"
 
-devtools-reps@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.1.1.tgz#7ae1c4da4a5846ea277171a5a732eff9916286e0"
+devtools-reps@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.2.1.tgz#3fc75e640ae69e2d05c764adf6d2ebc6bc715db9"
   dependencies:
     lodash "^4.17.2"
     svg-inline-react "^1.0.2"
@@ -2976,11 +2976,11 @@ husky@^0.13.1:
     is-ci "^1.0.9"
     normalize-path "^1.0.0"
 
-iconv-lite@0.4.13, iconv-lite@~0.4.13:
+iconv-lite@0.4.13:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
 
-iconv-lite@0.4.15:
+iconv-lite@0.4.15, iconv-lite@~0.4.13:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
 
