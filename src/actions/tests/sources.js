@@ -16,13 +16,13 @@ const threadClient = {
       switch (sourceId) {
         case "foo1":
           resolve({
-            source: "function() {\n  return 5;\n}",
+            source: "function foo1() {\n  return 5;\n}",
             contentType: "text/javascript"
           });
           break;
         case "foo2":
           resolve({
-            source: "function(x, y) {\n  return x + y;\n}",
+            source: "function foo2(x, y) {\n  return x + y;\n}",
             contentType: "text/javascript"
           });
           break;
