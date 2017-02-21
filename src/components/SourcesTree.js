@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
@@ -17,6 +18,15 @@ const { showMenu } = require("./shared/menu");
 const { copyToTheClipboard } = require("../utils/clipboard");
 const { throttle } = require("../utils/utils");
 
+type CreateTree = {
+  focusedItem?: any,
+  parentMap: any,
+  sourceTree: any,
+  uncollapsedTree: any,
+  listItems?: any,
+  highlightItems?: any
+}
+
 let SourcesTree = React.createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
@@ -27,7 +37,7 @@ let SourcesTree = React.createClass({
 
   displayName: "SourcesTree",
 
-  getInitialState() {
+  getInitialState(): CreateTree {
     return createTree(this.props.sources);
   },
 
@@ -164,8 +174,12 @@ let SourcesTree = React.createClass({
     );
 
     const icon = this.getIcon(item, depth);
-    const paddingDir = document.body.parentElement.dir == "ltr" ?
-                       "paddingLeft" : "paddingRight";
+    let paddingDir = "paddingRight";
+    if (document.body && document.body.parentElement) {
+      paddingDir = document.body.parentElement.dir == "ltr" ?
+                         "paddingLeft" : "paddingRight";
+    }
+
     return dom.div(
       {
         className: classnames("node", { focused }),

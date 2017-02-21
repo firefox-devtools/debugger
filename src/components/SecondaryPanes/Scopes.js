@@ -1,3 +1,4 @@
+// @flow
 import {
   DOM as dom, PropTypes, createClass, createFactory
 } from "react";

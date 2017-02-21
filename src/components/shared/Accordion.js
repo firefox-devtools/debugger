@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 
@@ -6,19 +7,32 @@ const Svg = require("./Svg");
 
 require("./Accordion.css");
 
+type AccordionItem = {
+  buttons?: Array<Object>,
+  component: () => any,
+  header: string,
+  opened: boolean,
+  onToggle?: () => any,
+  shouldOpen?: () => any
+};
+
+type Props = {
+  items: Array<Object>
+};
+
 const Accordion = React.createClass({
   propTypes: {
-    items: PropTypes.array
+    items: PropTypes.array.isRequired
   },
 
   displayName: "Accordion",
 
-  getInitialState: function() {
+  getInitialState() {
     return { opened: this.props.items.map(item => item.opened),
       created: [] };
   },
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     const newOpened = this.state.opened.map((isOpen, i) => {
       const { shouldOpen } = nextProps.items[i];
 
@@ -28,7 +42,7 @@ const Accordion = React.createClass({
     this.setState({ opened: newOpened });
   },
 
-  handleHeaderClick: function(i) {
+  handleHeaderClick(i: number) {
     const opened = [...this.state.opened];
     const created = [...this.state.created];
     const item = this.props.items[i];
@@ -47,7 +61,7 @@ const Accordion = React.createClass({
     this.setState({ opened, created });
   },
 
-  renderContainer: function(item, i) {
+  renderContainer(item: AccordionItem, i: number) {
     const { opened, created } = this.state;
     const containerClassName =
       `${item.header.toLowerCase().replace(/\s/g, "-")}-pane`;
@@ -75,7 +89,7 @@ const Accordion = React.createClass({
     );
   },
 
-  render: function() {
+  render() {
     return div(
       { className: "accordion" },
       this.props.items.map(this.renderContainer)
