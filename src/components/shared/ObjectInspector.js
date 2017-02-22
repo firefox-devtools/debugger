@@ -67,8 +67,6 @@ const ObjectInspector = React.createClass({
     // Cache of dynamically built nodes. We shouldn't need to clear
     // this out ever, since we don't ever "switch out" the object
     // being inspected.
-    const { setActors } = this.props;
-    this.actors = setActors ? setActors() : {};
     return {};
   },
 
@@ -80,9 +78,15 @@ const ObjectInspector = React.createClass({
     };
   },
 
-  componentWillUnmount() {
+  componentWillMount() {
     if (this.props.getActors) {
-      this.props.getActors(this.actors);
+      this.actors = this.props.getActors();
+    }
+  },
+
+  componentWillUnmount() {
+    if (this.props.setActors) {
+      this.props.setActors(this.actors);
     }
   },
 
@@ -178,8 +182,10 @@ const ObjectInspector = React.createClass({
   },
 
   render() {
-    const { name, desc, loadObjectProperties,
-            autoExpandDepth, getExpanded, setExpanded } = this.props;
+    const {
+      name, desc, loadObjectProperties,
+      autoExpandDepth, getExpanded, setExpanded
+    } = this.props;
 
     let roots = this.props.roots;
     if (!roots) {

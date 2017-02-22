@@ -22,7 +22,7 @@ function makeMarker(isDisabled: boolean) {
 const Breakpoint = React.createClass({
   propTypes: {
     breakpoint: PropTypes.object.isRequired,
-    editor: PropTypes.object
+    editor: PropTypes.object.isRequired
   },
 
   displayName: "Breakpoint",

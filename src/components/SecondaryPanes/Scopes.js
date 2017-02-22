@@ -183,14 +183,14 @@ const Scopes = createClass({
         roots: scopes,
         getObjectProperties: id => loadedObjects.get(id),
         loadObjectProperties: loadObjectProperties,
-        getExpanded: expanded => {
+        setExpanded: expanded => {
           expandedCache = expanded;
         },
-        setExpanded: () => expandedCache,
-        getActors: actors => {
+        getExpanded: () => expandedCache,
+        setActors: actors => {
           actorsCache = actors;
         },
-        setActors: () => actorsCache,
+        getActors: () => actorsCache,
         onLabelClick: (item, { expanded, setExpanded }) => {
           setExpanded(item, !expanded);
         }

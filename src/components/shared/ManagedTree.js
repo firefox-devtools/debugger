@@ -40,9 +40,8 @@ let ManagedTree = createClass({
   displayName: "ManagedTree",
 
   getInitialState(): InitialState {
-    const { setExpanded } = this.props;
     return {
-      expanded: setExpanded ? setExpanded() : new Set(),
+      expanded: new Set(),
       focusedItem: null
     };
   },
@@ -60,9 +59,16 @@ let ManagedTree = createClass({
     }
   },
 
-  componentWillUnmount() {
+  componentWillMount() {
     if (this.props.getExpanded) {
-      this.props.getExpanded(this.state.expanded);
+      const expanded = this.props.getExpanded();
+      this.setState({ expanded });
+    }
+  },
+
+  componentWillUnmount() {
+    if (this.props.setExpanded) {
+      this.props.setExpanded(this.state.expanded);
     }
   },
 
