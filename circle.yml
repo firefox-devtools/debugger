@@ -1,0 +1,61 @@
+machine:
+  node:
+    version: 7.0
+  services:
+    - docker
+  environment:
+    DOWNLOADS_PATH: "$HOME/downloads"
+    YARN_PATH: "$HOME/.yarn"
+    YARN_VERSION: 0.19.1
+    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+  post:
+    - mkdir -p $DOWNLOADS_PATH
+    - mkdir -p $YARN_PATH
+
+checkout:
+  post:
+    - cp configs/ci.json configs/local.json
+test:
+  override:
+    - mkdir -p $CIRCLE_TEST_REPORTS/mocha
+    - mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
+    - node src/test/node-unit-tests.js --ci:
+        environment:
+          MOCHA_FILE: $CIRCLE_TEST_REPORTS/mocha/test-results.xml
+    - ./bin/run-mochitests-docker
+  post:
+    - yarn run lint-css
+    - yarn run lint-js
+    - yarn run lint-md
+    - yarn run flow
+    - yarn run flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
+    - yarn check
+    - bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/flow-coverage/flow-coverage.json
+
+dependencies:
+  pre:
+    - ./bin/install-yarn
+  cache_directories:
+    - ~/downloads
+    - ~/.cache/yarn
+    - ~/.yarn
+  override:
+    - yarn install
+    - npm i -g flow-coverage-report
+    - ./bin/update-docker
+
+general:
+  artifacts:
+    - "yarn-error.log"
+
+experimental:
+  notify:
+    branches:
+      only:
+        - master
+
+deployment:
+  greenkeeper:
+    branch: /greenkeeper\/.*/
+    commands:
+      - ./bin/update-yarn-lock-file
