@@ -1,20 +1,46 @@
+// @flow
 const React = require("react");
 const Tree = React.createFactory(require("devtools-sham-modules").Tree);
 require("./ManagedTree.css");
+
+type ManagedTreeItem = {
+  contents: Array<ManagedTreeItem>,
+  name: string,
+  path: string
+};
+
+type NextProps = {
+  autoExpandAll: boolean,
+  autoExpandDepth: number,
+  getChildren: () => any,
+  getKey: (ManagedTreeItem, number) => string,
+  getParent: (ManagedTreeItem) => any,
+  getRoots: () => any,
+  highlightItems: Array<ManagedTreeItem>,
+  itemHeight: number,
+  listItems?: Array<ManagedTreeItem>,
+  onFocus: () => any,
+  renderItem: () => any
+};
+
+type InitialState = {
+  expanded: any,
+  focusedItem: ?ManagedTreeItem
+};
 
 let ManagedTree = React.createClass({
   propTypes: Tree.propTypes,
 
   displayName: "ManagedTree",
 
-  getInitialState() {
+  getInitialState(): InitialState {
     return {
       expanded: new Set(),
       focusedItem: null
     };
   },
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: NextProps) {
     const listItems = nextProps.listItems;
     if (listItems && listItems != this.props.listItems && listItems.length) {
       this.expandListItems(listItems);
@@ -27,7 +53,7 @@ let ManagedTree = React.createClass({
     }
   },
 
-  setExpanded(item, isExpanded) {
+  setExpanded(item: ManagedTreeItem, isExpanded: boolean) {
     const expanded = this.state.expanded;
     const key = this.props.getKey(item);
     if (isExpanded) {
@@ -44,14 +70,14 @@ let ManagedTree = React.createClass({
     }
   },
 
-  expandListItems(listItems) {
+  expandListItems(listItems: Array<ManagedTreeItem>) {
     const expanded = this.state.expanded;
     listItems.forEach(item => expanded.add(this.props.getKey(item)));
     this.focusItem(listItems[0]);
     this.setState({ expanded: expanded });
   },
 
-  highlightItem(highlightItems) {
+  highlightItem(highlightItems: Array<ManagedTreeItem>) {
     const expanded = this.state.expanded;
 
     // This file is visible, so we highlight it.
@@ -66,7 +92,7 @@ let ManagedTree = React.createClass({
     }
   },
 
-  focusItem(item) {
+  focusItem(item: ManagedTreeItem) {
     if (!this.props.disabledFocus && this.state.focusedItem !== item) {
       this.setState({ focusedItem: item });
 

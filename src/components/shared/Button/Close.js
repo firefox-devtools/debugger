@@ -1,10 +1,17 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const Svg = require("../Svg");
 
 require("./Close.css");
 
-function CloseButton({ handleClick, buttonClass, tooltip }) {
+type CloseButtonType = {
+  handleClick: any,
+  buttonClass?: string,
+  tooltip?: string
+};
+
+function CloseButton({ handleClick, buttonClass, tooltip }: CloseButtonType) {
   return dom.div({
     className: buttonClass ? `close-btn-${buttonClass}` : "close-btn",
     onClick: handleClick,
