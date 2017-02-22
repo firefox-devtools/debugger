@@ -24,10 +24,7 @@ function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
   ReactDOM.render(
     dom.div(
       { className: "conditional-breakpoint-panel" },
-      dom.div({
-        className: "prompt",
-        dangerouslySetInnerHTML: { __html: "&raquo;" }
-      }),
+      dom.div({ className: "prompt" }, "»"),
       dom.input({
         defaultValue: condition,
         placeholder: L10N.getStr("editor.conditionalPanel.placeholder"),
