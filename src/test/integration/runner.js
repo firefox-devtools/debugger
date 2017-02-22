@@ -46,7 +46,7 @@ window.requestLongerTimeout = function() {
 
 const ctx = { ok, is, info, requestLongerTimeout};
 
-mocha.setup({ timeout: 5000, ui: 'bdd' });
+mocha.setup({ timeout: 20000, ui: 'bdd' });
 
 describe("Tests", () => {
   beforeEach(() => {
@@ -133,7 +133,7 @@ describe("Tests", () => {
   })
 
   // timed out
-  xit("scopes", async function() {
+  it("scopes", async function() {
     await scopes(ctx);
   });
 
