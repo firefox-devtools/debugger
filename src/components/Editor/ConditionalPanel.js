@@ -6,7 +6,6 @@ const ReactDOM = require("react-dom");
 
 require("./ConditionalPanel.css");
 
-
 function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
   { condition: boolean, closePanel: Function, setBreakpoint: Function }) {
   let panel = document.createElement("div");
