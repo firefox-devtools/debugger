@@ -120,7 +120,7 @@ function onMouseUp(ctx, modifiers) {
   if (ctx.cm.somethingSelected()) {
     find(ctx, query, true, modifiers);
   } else {
-    removeOverlay(ctx, query, modifiers);
+    removeOverlay(ctx);
   }
 }
 
