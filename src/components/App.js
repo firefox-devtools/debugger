@@ -72,7 +72,7 @@ const App = React.createClass({
         }),
         Editor({ horizontal }),
         !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
-        SourceSearch()
+        horizontal ? SourceSearch() : null
       )
     );
   },
@@ -114,6 +114,7 @@ const App = React.createClass({
 
     return dom.div(
       { className: "debugger" },
+      SourceSearch(),
       SplitBox({
         style: { width: "100vw" },
         initialSize: "300px",
