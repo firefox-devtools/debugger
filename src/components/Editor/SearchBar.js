@@ -10,7 +10,8 @@ const {
   findNext,
   findPrev,
   removeOverlay,
-  countMatches
+  countMatches,
+  clearIndex
 } = require("../../utils/editor");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
@@ -25,10 +26,12 @@ const SearchBar = React.createClass({
     editor: PropTypes.object,
     sourceText: ImPropTypes.map,
     selectedSource: ImPropTypes.map,
+    searchResults: PropTypes.object.isRequired,
     modifiers: PropTypes.object.isRequired,
     toggleModifier: PropTypes.func.isRequired,
     query: PropTypes.string.isRequired,
-    updateQuery: PropTypes.func.isRequired
+    updateQuery: PropTypes.func.isRequired,
+    updateSearchResults: PropTypes.func.isRequired
   },
 
   displayName: "SearchBar",
@@ -37,7 +40,7 @@ const SearchBar = React.createClass({
     return {
       enabled: false,
       count: 0,
-      index: 0
+      index: -1
     };
   },
 
@@ -145,6 +148,7 @@ const SearchBar = React.createClass({
       modifiers,
       updateQuery,
       editor: ed,
+      searchResults: { index }
     } = this.props;
     if (!sourceText || !sourceText.get("text")) {
       return;
@@ -158,10 +162,21 @@ const SearchBar = React.createClass({
 
     const ctx = { ed, cm: ed.codeMirror };
 
-    const count = countMatches(query, sourceText.get("text"), modifiers);
-    const index = find(ctx, query, true, modifiers);
+    const newCount = countMatches(query, sourceText.get("text"), modifiers);
 
-    debounce(() => this.setState({ count, index }), 100)();
+    if (index == -1) {
+      clearIndex(ctx, query, modifiers);
+    }
+
+    const newIndex = find(ctx, query, true, modifiers);
+
+    debounce(
+      () => this.props.updateSearchResults({
+        count: newCount,
+        index: newIndex
+      }),
+      100
+    )();
   },
 
   onChange(e: any) {
@@ -180,16 +195,27 @@ const SearchBar = React.createClass({
 
     const ctx = { ed, cm: ed.codeMirror };
 
-    const { query, modifiers } = this.props;
+    const {
+      query,
+      modifiers,
+      updateSearchResults,
+      searchResults: { count, index }
+    } = this.props;
 
     if (query === "") {
       this.setState({ enabled: true });
     }
 
-    const findFnc = rev ? findPrev : findNext;
+    if (index == -1) {
+      clearIndex(ctx, query, modifiers);
+    }
 
-    const nextIndex = findFnc(ctx, query, true, modifiers);
-    this.setState({ index: nextIndex });
+    const findFnc = rev ? findPrev : findNext;
+    const newIndex = findFnc(ctx, query, true, modifiers);
+    updateSearchResults({
+      index: newIndex,
+      count
+    });
   },
 
   onKeyUp(e: SyntheticKeyboardEvent) {
@@ -201,14 +227,23 @@ const SearchBar = React.createClass({
   },
 
   renderSummary() {
-    const { count, index } = this.state;
+    const { searchResults: { count, index }} = this.props;
 
     if (this.props.query.trim() == "") {
       return dom.div({});
-    } else if (count == 0) {
+    }
+
+    if (count == 0) {
       return dom.div(
         { className: "summary" },
         L10N.getStr("editor.noResults")
+      );
+    }
+
+    if (index == -1) {
+      return dom.div(
+        { className: "summary" },
+        L10N.getFormatStr("sourceSearch.resultsSummary1", count)
       );
     }
 
@@ -219,7 +254,7 @@ const SearchBar = React.createClass({
   },
 
   renderSvg() {
-    const { count } = this.state;
+    const { searchResults: { count }} = this.props;
 
     if (count == 0 && this.props.query.trim() != "") {
       return Svg("sad-face");
@@ -275,7 +310,7 @@ const SearchBar = React.createClass({
       return dom.div();
     }
 
-    const { count } = this.state;
+    const { searchResults: { count }} = this.props;
 
     return dom.div(
       { className: "search-bar" },

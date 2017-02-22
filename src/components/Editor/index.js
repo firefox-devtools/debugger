@@ -41,8 +41,7 @@ const {
   getTextForLine,
   getCursorLine,
   resizeBreakpointGutter,
-  traverseResults,
-  onMouseUp
+  traverseResults
 } = require("../../utils/editor");
 const { isFirefox } = require("devtools-config");
 
@@ -74,6 +73,10 @@ const Editor = React.createClass({
   getInitialState() {
     return {
       query: "",
+      searchResults: {
+        index: -1,
+        count: 0
+      },
       searchModifiers: {
         caseSensitive: true,
         wholeWord: false,
@@ -129,7 +132,7 @@ const Editor = React.createClass({
     const ctx = { ed: this.editor, cm: this.editor.codeMirror };
     const { query, searchModifiers } = this.state;
     this.editor.codeMirror.display.wrapper
-      .addEventListener("mouseup", () => onMouseUp(ctx, searchModifiers));
+      .addEventListener("mouseup", () => this.onMouseUp(ctx, searchModifiers));
 
     if (!isFirefox()) {
       this.editor.codeMirror.on(
@@ -236,6 +239,16 @@ const Editor = React.createClass({
     }
   },
 
+  onMouseUp(ctx, modifiers) {
+    const query = ctx.cm.getSelection();
+    const { searchResults: { count }} = this.state;
+    if (ctx.cm.somethingSelected()) {
+      find(ctx, query, true, modifiers);
+    } else {
+      this.updateSearchResults({ count, index: -1 });
+    }
+  },
+
   openMenu(event, codeMirror) {
     return EditorMenu({
       codeMirror,
@@ -259,6 +272,10 @@ const Editor = React.createClass({
     }
 
     this.setState({ query });
+  },
+
+  updateSearchResults({ count, index }) {
+    this.setState({ searchResults: { count, index }});
   },
 
   onGutterClick(cm, line, gutter, ev) {
@@ -550,7 +567,11 @@ const Editor = React.createClass({
   },
 
   render() {
-    const { sourceText, selectedSource, coverageOn, horizontal } = this.props;
+    const {
+      sourceText, selectedSource, coverageOn, horizontal
+    } = this.props;
+
+    const { searchResults } = this.state;
 
     return (
       dom.div(
@@ -564,10 +585,12 @@ const Editor = React.createClass({
           editor: this.editor,
           selectedSource,
           sourceText,
+          searchResults,
           modifiers: this.state.searchModifiers,
           toggleModifier: this.toggleModifier,
           query: this.state.query,
-          updateQuery: this.updateQuery
+          updateQuery: this.updateQuery,
+          updateSearchResults: this.updateSearchResults
         }),
         this.renderFunctionSearch(),
         dom.div({
