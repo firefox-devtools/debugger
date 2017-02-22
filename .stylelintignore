@@ -1,2 +1,3 @@
-src/components/SplitBox.css
-src/components/reps.css
+src/components/Editor/codemirror-mozilla.css
+src/components/shared/SplitBox.css
+src/components/shared/reps.css
