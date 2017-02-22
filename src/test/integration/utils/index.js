@@ -16,7 +16,9 @@ const {
 
 const {
   initDebugger,
-  setupTestRunner
+  setupTestRunner,
+  environment,
+  countSources,
 } = require("./mocha");
 
 const {
@@ -52,6 +54,8 @@ const {
 module.exports = {
   initDebugger,
   setupTestRunner,
+  environment,
+  countSources,
   assertPausedLocation,
   assertHighlightLocation,
   findElement,
@@ -85,5 +89,5 @@ module.exports = {
   waitForElement,
   waitForTargetEvent,
   waitForThreadEvents,
-  waitUntil
+  waitUntil,
 }

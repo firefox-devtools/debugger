@@ -137,6 +137,13 @@ async function initDebugger(url, ...sources) {
   return dbg;
 }
 
+function countSources(dbg) {
+  const sources = dbg.selectors.getSources(dbg.getState());
+
+  // the web test runner has one extra source because it injects the debuggee script
+  return sources.size - 1;
+}
+
 function setupTestRunner() {
 }
 
@@ -146,7 +153,9 @@ module.exports = {
   selectMenuItem,
   type,
   pressKey,
+  countSources,
   initDebugger,
   setupTestRunner,
-  info
+  info,
+  environment: "mocha"
 }
