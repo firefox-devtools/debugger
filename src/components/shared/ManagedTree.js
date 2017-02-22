@@ -1,6 +1,6 @@
 // @flow
-const React = require("react");
-const Tree = React.createFactory(require("devtools-sham-modules").Tree);
+import { createClass, PropTypes, createFactory } from "react";
+const Tree = createFactory(require("devtools-sham-modules").Tree);
 require("./ManagedTree.css");
 
 type ManagedTreeItem = {
@@ -13,8 +13,8 @@ type NextProps = {
   autoExpandAll: boolean,
   autoExpandDepth: number,
   getChildren: () => any,
-  getKey: (ManagedTreeItem, number) => string,
-  getParent: (ManagedTreeItem) => any,
+  getKey: () => string,
+  getParent: () => any,
   getRoots: () => any,
   highlightItems: Array<ManagedTreeItem>,
   itemHeight: number,
@@ -28,8 +28,14 @@ type InitialState = {
   focusedItem: ?ManagedTreeItem
 };
 
-let ManagedTree = React.createClass({
-  propTypes: Tree.propTypes,
+let ManagedTree = createClass({
+  propTypes: Object.assign({},
+    Tree.propTypes,
+    {
+      getExpanded: PropTypes.func,
+      setExpanded: PropTypes.func
+    }
+  ),
 
   displayName: "ManagedTree",
 
@@ -50,6 +56,19 @@ let ManagedTree = React.createClass({
     if (highlightItems && highlightItems != this.props.highlightItems &&
        highlightItems.length) {
       this.highlightItem(highlightItems);
+    }
+  },
+
+  componentWillMount() {
+    if (this.props.getExpanded) {
+      const expanded = this.props.getExpanded();
+      this.setState({ expanded });
+    }
+  },
+
+  componentWillUnmount() {
+    if (this.props.setExpanded) {
+      this.props.setExpanded(this.state.expanded);
     }
   },
 
