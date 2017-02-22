@@ -44,18 +44,16 @@
   overflow: hidden;
   padding: 6px;
   margin-inline-start: 8px;
-  margin-top: 6px;
+  margin-top: 2px;
 }
 
-html[dir="ltr"] .source-tab:hover,
-html[dir="rtl"] .source-tab:hover {
+.source-tab:hover {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--theme-splitter-color);
   cursor: pointer;
 }
 
-html[dir="ltr"] .source-tab.active,
-html[dir="rtl"] .source-tab.active {
+.source-tab.active {
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
   border-color: var(--theme-splitter-color);
@@ -90,24 +88,20 @@ html[dir="rtl"] .source-tab.active {
 }
 
 .source-tab.pretty .filename {
-  padding-left: 8px;
+  padding-inline-start: 8px;
 }
 
 .source-tab .close-btn {
   visibility: hidden;
   line-height: 0;
+  margin-inline-start: 6px;
 }
 
-html[dir="ltr"] .source-tab .close-btn {
-  margin-left: 6px;
+.source-tab.active .close-btn {
+  visibility: visible;
 }
 
-html[dir="rtl"] .source-tab .close-btn {
-  margin-right: 6px;
-}
-
-html[dir="ltr"] .source-tab:hover .close-btn,
-html[dir="rtl"] .source-tab:hover .close-btn {
+.source-tab:hover .close-btn {
   visibility: visible;
 }
 
