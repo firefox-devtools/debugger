@@ -35,15 +35,14 @@
   border: 1px solid transparent;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  height: 26px;
+  height: 30px;
   display: inline-flex;
+  align-items: center;
   position: relative;
   transition: all 0.25s ease;
   min-width: 40px;
   overflow: hidden;
-  padding-top: 4px;
-  padding-inline-start: 12px;
-  padding-inline-end: 20px;
+  padding: 6px;
   margin-inline-start: 8px;
   margin-top: 6px;
 }
@@ -72,15 +71,12 @@ html[dir="rtl"] .source-tab.active {
 }
 
 .source-tab .prettyPrint {
-  display: block;
-  position: absolute;
-  top: 3px;
-  left: 6px;
+  line-height: 0;
 }
 
 .source-tab .prettyPrint svg {
-  height: 1em;
-  width: 1em;
+  height: 12px;
+  width: 12px;
 }
 
 .source-tab .prettyPrint path {
@@ -94,13 +90,20 @@ html[dir="rtl"] .source-tab.active {
 }
 
 .source-tab.pretty .filename {
-  padding-left: 12px;
+  padding-left: 8px;
 }
 
 .source-tab .close-btn {
-  top: 3px;
-  offset-inline-end: 4px;
   visibility: hidden;
+  line-height: 0;
+}
+
+html[dir="ltr"] .source-tab .close-btn {
+  margin-left: 6px;
+}
+
+html[dir="rtl"] .source-tab .close-btn {
+  margin-right: 6px;
 }
 
 html[dir="ltr"] .source-tab:hover .close-btn,
