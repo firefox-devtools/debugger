@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 require("./Dropdown.css");
@@ -15,7 +16,7 @@ const Dropdown = React.createClass({
     };
   },
 
-  toggleDropdown(e) {
+  toggleDropdown(e: SyntheticKeyboardEvent) {
     this.setState({
       dropdownShown: !this.state.dropdownShown,
     });

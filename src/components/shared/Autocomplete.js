@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { filter } = require("fuzzaldrin-plus");
@@ -8,14 +9,22 @@ const CloseButton = require("./Button/Close");
 require("./Autocomplete.css");
 
 const INITIAL_SELECTED_INDEX = 0;
+const INITIAL_FOCUSED = false;
+
+type SearchItemResult = {
+    id: string,
+    subtitle: string,
+    title: string,
+    value: string
+};
 
 const Autocomplete = React.createClass({
   propTypes: {
-    selectItem: PropTypes.func,
+    selectItem: PropTypes.func.isRequired,
     onSelectedItem: PropTypes.func,
     items: PropTypes.array,
-    close: PropTypes.func,
-    inputValue: PropTypes.string,
+    close: PropTypes.func.isRequired,
+    inputValue: PropTypes.string.isRequired,
     placeholder: PropTypes.string
   },
 
@@ -24,7 +33,8 @@ const Autocomplete = React.createClass({
   getInitialState() {
     return {
       inputValue: this.props.inputValue,
-      selectedIndex: INITIAL_SELECTED_INDEX
+      selectedIndex: INITIAL_SELECTED_INDEX,
+      focused: INITIAL_FOCUSED
     };
   },
 
@@ -65,7 +75,7 @@ const Autocomplete = React.createClass({
     });
   },
 
-  onKeyDown(e) {
+  onKeyDown(e: SyntheticKeyboardEvent) {
     const searchResults = this.getSearchResults(),
       resultCount = searchResults.length;
 
@@ -99,7 +109,7 @@ const Autocomplete = React.createClass({
     }
   },
 
-  renderSearchItem(result, index) {
+  renderSearchItem(result: SearchItemResult, index: number) {
     return dom.li(
       {
         onClick: () => this.props.selectItem(result),
@@ -173,7 +183,7 @@ const Autocomplete = React.createClass({
       this.renderSummary(searchResults),
       CloseButton({
         buttonClass: "big",
-        handleClick: e => this.props.close()
+        handleClick: e => this.props.close()
       })),
       this.renderResults(searchResults));
   }
