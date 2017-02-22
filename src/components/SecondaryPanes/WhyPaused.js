@@ -12,17 +12,32 @@ import "./WhyPaused.css";
 
 class WhyPaused extends Component {
 
+  renderMessage(pauseInfo) {
+    if (!pauseInfo) {
+      return null;
+    }
+
+    const message = pauseInfo.getIn(["why"]).get("message");
+    if (!message) {
+      return null;
+    }
+
+    return dom.div(null, message);
+  }
+
   render() {
     const { pauseInfo } = this.props;
     const reason = getPauseReason(pauseInfo);
-    const message = pauseInfo ? pauseInfo.getIn(["why"]).get("message") : null;
 
-    // => here
-    return reason ?
-      dom.div({ className: "pane why-paused" }, [
-        dom.div(null, L10N.getStr(reason)),
-        message ? dom.div(null, message) : null])
-        : null;
+    if (!reason) {
+      return null;
+    }
+
+    return dom.div(
+      { className: "pane why-paused" },
+      dom.div(null, L10N.getStr(reason)),
+      this.renderMessage(pauseInfo)
+    );
   }
 }
 
