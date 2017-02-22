@@ -55,6 +55,8 @@ describe("source-search", () => {
     it("iterates in the matches", () => {
       const count = 3;
 
+      // reverse 2, 1, 0, 2
+
       let matchIndex = getMatchIndex(count, 2, true);
       expect(matchIndex).to.be(1);
 
@@ -62,13 +64,18 @@ describe("source-search", () => {
       expect(matchIndex).to.be(0);
 
       matchIndex = getMatchIndex(count, 0, true);
-      expect(matchIndex).to.be(3);
+      expect(matchIndex).to.be(2);
+
+      // forward 1, 2, 0, 1
 
       matchIndex = getMatchIndex(count, 1, false);
       expect(matchIndex).to.be(2);
 
-      matchIndex = getMatchIndex(count, 3, false);
+      matchIndex = getMatchIndex(count, 2, false);
       expect(matchIndex).to.be(0);
+
+      matchIndex = getMatchIndex(count, 0, false);
+      expect(matchIndex).to.be(1);
     });
   });
 });

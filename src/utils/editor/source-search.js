@@ -123,7 +123,7 @@ function updateCursor(cm, state, keepSelection) {
 
 function getMatchIndex(count: number, currentIndex: number, rev: boolean) {
   if (!rev) {
-    if (currentIndex == count) {
+    if (currentIndex == count - 1) {
       return 0;
     }
 
@@ -131,7 +131,7 @@ function getMatchIndex(count: number, currentIndex: number, rev: boolean) {
   }
 
   if (currentIndex == 0) {
-    return count;
+    return count - 1;
   }
 
   return currentIndex - 1;
@@ -162,7 +162,7 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
 
     const nextMatch = searchNext(ctx, rev, query, newQuery, modifiers);
     if (nextMatch) {
-      if (nextMatch === -1) {
+      if (state.matchIndex === -1) {
         matchIndex = findIndex(state.results, nextMatch);
       } else {
         const count = state.results.length;
