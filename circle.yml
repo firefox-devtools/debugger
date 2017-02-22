@@ -6,7 +6,7 @@ containerInfo:
   - image: jasonlaster11/mochitest-runner:latest
     cmd: ["/bin/bash"]
     env:
-      - DISPLAY=unix$DISPLAY
+      - DISPLAY=unix:99
       - SHELL=/bin/bash
 stages:
   build:
@@ -93,7 +93,9 @@ stages:
       - type: shell
         name: Test Docker Client
         shell: /bin/bash --login
-        command: docker ps
+        command: |
+            docker --version
+            docker ps
 
       - type: shell
         name: Publish Assets
@@ -117,7 +119,7 @@ stages:
               -v `pwd`/assets/build/panel/moz.build:/firefox/devtools/client/debugger/new/moz.build \
               -v `pwd`/assets/build/mochitest:/firefox/devtools/client/debugger/new/test/mochitest \
               -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-              -e "DISPLAY=unix$DISPLAY" \
+              -e "DISPLAY=unix:99" \
               --ipc host \
               jasonlaster11/mochitest-runner:latest \
               /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/debugger/new/test/mochitest/browser.ini && ./mach build && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"
