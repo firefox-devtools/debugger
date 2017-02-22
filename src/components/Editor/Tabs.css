@@ -35,28 +35,25 @@
   border: 1px solid transparent;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  height: 26px;
-  display: inline-block;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
   position: relative;
   transition: all 0.25s ease;
   min-width: 40px;
   overflow: hidden;
-  padding-top: 4px;
-  padding-inline-start: 12px;
-  padding-inline-end: 20px;
+  padding: 6px;
   margin-inline-start: 8px;
-  margin-top: 6px;
+  margin-top: 2px;
 }
 
-html[dir="ltr"] .source-tab:hover,
-html[dir="rtl"] .source-tab:hover {
+.source-tab:hover {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--theme-splitter-color);
   cursor: pointer;
 }
 
-html[dir="ltr"] .source-tab.active,
-html[dir="rtl"] .source-tab.active {
+.source-tab.active {
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
   border-color: var(--theme-splitter-color);
@@ -72,15 +69,12 @@ html[dir="rtl"] .source-tab.active {
 }
 
 .source-tab .prettyPrint {
-  display: block;
-  position: absolute;
-  top: 3px;
-  left: 6px;
+  line-height: 0;
 }
 
 .source-tab .prettyPrint svg {
-  height: 1em;
-  width: 1em;
+  height: 12px;
+  width: 12px;
 }
 
 .source-tab .prettyPrint path {
@@ -94,18 +88,20 @@ html[dir="rtl"] .source-tab.active {
 }
 
 .source-tab.pretty .filename {
-  padding-left: 12px;
+  padding-inline-start: 8px;
 }
 
 .source-tab .close-btn {
-  position: absolute;
-  top: 3px;
-  offset-inline-end: 4px;
   visibility: hidden;
+  line-height: 0;
+  margin-inline-start: 6px;
 }
 
-html[dir="ltr"] .source-tab:hover .close-btn,
-html[dir="rtl"] .source-tab:hover .close-btn {
+.source-tab.active .close-btn {
+  visibility: visible;
+}
+
+.source-tab:hover .close-btn {
   visibility: visible;
 }
 
