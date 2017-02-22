@@ -4,7 +4,6 @@ containerInfo:
   - image: node:7
     cmd: ["/bin/bash"]
   - image: jasonlaster11/mochitest-runner:latest
-    cmd: ["/bin/bash"]
     env:
       - DISPLAY=unix:99
       - SHELL=/bin/bash
