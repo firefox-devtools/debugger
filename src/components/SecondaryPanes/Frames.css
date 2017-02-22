@@ -49,8 +49,8 @@
 
 .frames ul li:hover,
 .frames ul li:focus {
-   background-color: var(--theme-toolbar-background-alt);
-   outline: none;
+  background-color: var(--theme-toolbar-background-alt);
+  outline: none;
 }
 
 .frames ul li.selected {

@@ -46,7 +46,7 @@ html .command-bar > button:disabled {
 }
 
 .command-bar button.pause-exceptions {
-  margin-inline-start: .5em;
+  margin-inline-start: 0.5em;
 }
 
 .command-bar .subSettings {
