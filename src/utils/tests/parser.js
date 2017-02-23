@@ -45,7 +45,7 @@ const TodoView = Backbone.View.extend({
 describe("parser", () => {
   describe("getFunctions", () => {
     it("finds square", () => {
-      parse({ text: func }, { id: "func" });
+      parse({ text: func, id: "func" });
       const fncs = getFunctions({ id: "func" });
       const names = fncs.map(f => f.name);
 
@@ -53,7 +53,7 @@ describe("parser", () => {
     });
 
     it("finds nested functions", () => {
-      parse({ text: math }, { id: "math" });
+      parse({ text: math, id: "math" });
       const fncs = getFunctions({ id: "math" });
       const names = fncs.map(f => f.name);
 
@@ -61,7 +61,7 @@ describe("parser", () => {
     });
 
     it("finds object properties", () => {
-      parse({ text: proto }, { id: "proto" });
+      parse({ text: proto, id: "proto" });
       const fncs = getFunctions({ id: "proto" });
       const names = fncs.map(f => f.name);
 
@@ -70,7 +70,7 @@ describe("parser", () => {
   });
 
   describe("getPathClosestToLocation", () => {
-    parse({ text: func }, { id: "func" });
+    parse({ text: func, id: "func" });
 
     it("Can find the function declaration for square", () => {
       const closestPath = getPathClosestToLocation(
@@ -106,7 +106,7 @@ describe("parser", () => {
     });
 
     it("finds scope binding variables", () => {
-      parse({ text: math }, { id: "math" });
+      parse({ text: math, id: "math" });
       var vars = getVariablesInScope(
         { id: "math" },
         {
