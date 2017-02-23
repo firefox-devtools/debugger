@@ -16,7 +16,7 @@ const actions = require("../actions");
 const Svg = require("./shared/Svg");
 const { showMenu } = require("./shared/menu");
 const { copyToTheClipboard } = require("../utils/clipboard");
-const { throttle } = require("../utils/utils");
+const throttle = require("lodash/throttle");
 
 type CreateTree = {
   focusedItem?: any,
