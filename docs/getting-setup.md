@@ -70,7 +70,8 @@ yarn start
 
 ### Starting Firefox
 
-If you're looking for an alternative to `yarn run firefox`, you have two options: cli, gcli.
+If you're looking for an alternative to `yarn run firefox`, you have several
+alternatives.
 
 #### Firefox CLI
 
@@ -101,6 +102,29 @@ Close firefox and re-open it with the `firefox-bin` command.
 
 NOTE: This assumes that you've already set the other preferences in
 `about:config`.
+
+#### Firefox using WebSocket transport
+
+The default, traditional way to connect to Firefox uses a custom TCP protocol.
+However, Firefox also now supports connecting via WebSockets as well.  To use
+this mode:
+
+1. Create a `configs/local.json` file in your `debugger.html` clone with:
+```
+{
+  "firefox": {
+    "webSocketConnection": true,
+    "webSocketHost": "localhost:6080"
+  }
+}
+```
+2. Enable WebSocket mode when opening the server socket
+  * With the Firefox CLI approach, add the `ws:` prefix to the port:
+  ```bash
+  /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server ws:6080 -P development
+  ```
+  * With the GCLI approach, enter `listen 6080 websocket`
+
 
 ### Starting Chrome
 
