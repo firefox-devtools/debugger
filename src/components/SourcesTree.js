@@ -185,7 +185,10 @@ let SourcesTree = React.createClass({
         className: classnames("node", { focused }),
         style: { [paddingDir]: `${depth * 15}px` },
         key: item.path,
-        onClick: () => this.selectItem(item),
+        onClick: () => {
+          this.selectItem(item);
+          setExpanded(item, !expanded);
+        },
         onDoubleClick: e => setExpanded(item, !expanded),
         onContextMenu: (e) => this.onContextMenu(e, item)
       },
