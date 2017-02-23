@@ -135,37 +135,37 @@ function getChildren({
     return item.contents;
   }
 
-  if (nodeHasProperties(item)) {
-    const actor = obj.value.actor;
-
-    // Because we are dynamically creating the tree as the user
-    // expands it (not precalcuated tree structure), we cache child
-    // arrays. This not only helps performance, but is necessary
-    // because the expanded state depends on instances of nodes
-    // being the same across renders. If we didn't do this, each
-    // node would be a new instance every render.
-    const key = item.path;
-    if (actors[key]) {
-      return actors[key];
-    }
-
-    if (isBucket(item)) {
-      return item.contents.children;
-    }
-
-    const loadedProps = getObjectProperties(actor);
-    const { ownProperties, prototype } = loadedProps || {};
-
-    if (!ownProperties && !prototype) {
-      return [];
-    }
-
-    const children = makeNodesForProperties(loadedProps, item.path);
-    actors[actor] = children;
-    return children;
+  if (!nodeHasProperties(item)) {
+    return [];
   }
 
-  return [];
+  const actor = obj.value.actor;
+
+  // Because we are dynamically creating the tree as the user
+  // expands it (not precalcuated tree structure), we cache child
+  // arrays. This not only helps performance, but is necessary
+  // because the expanded state depends on instances of nodes
+  // being the same across renders. If we didn't do this, each
+  // node would be a new instance every render.
+  const key = item.path;
+  if (actors[key]) {
+    return actors[key];
+  }
+
+  if (isBucket(item)) {
+    return item.contents.children;
+  }
+
+  const loadedProps = getObjectProperties(actor);
+  const { ownProperties, prototype } = loadedProps || {};
+
+  if (!ownProperties && !prototype) {
+    return [];
+  }
+
+  const children = makeNodesForProperties(loadedProps, item.path);
+  actors[key] = children;
+  return children;
 }
 
 module.exports = {
