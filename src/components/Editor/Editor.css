@@ -134,28 +134,6 @@ html[dir="rtl"] .editor-mount {
   user-select: none;
 }
 
-.conditional-breakpoint-panel {
-  cursor: initial;
-  margin: 1em 0;
-  position: relative;
-  background: var(--theme-toolbar-background);
-  border-top: 1px solid var(--theme-splitter-color);
-  border-bottom: 1px solid var(--theme-splitter-color);
-}
-
-.conditional-breakpoint-panel input {
-  margin: 5px 10px;
-  width: calc(100% - 2em);
-  border: none;
-  background: var(--theme-toolbar-background);
-  font-size: 14px;
-  color: var(--theme-comment);
-  line-height: 30px;
-}
-
-.conditional-breakpoint-panel input:focus {
-  outline-width: 0;
-}
 
 .function-search .autocomplete li:first-child {
   border-top: none;
