@@ -14,7 +14,7 @@ The integration tests are async functions that drive the debugger in two context
 ### Running Tests
 
 * Running: `localhost:8000/integration`
-* Selecting a test: Go to `runner.js` and add `it.only` to select which tests to ren
+* Selecting a test: Go to `runner.js` and add `it.only` to select which tests to run
 * Skipping a test: Go to `runner.js` and replace `it` with `xit` to skip a test
 
 ### Writing Tests
