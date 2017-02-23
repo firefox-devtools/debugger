@@ -5,6 +5,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { fromPairs } from "lodash";
+
 /**
  * Utils for utils, by utils
  * @module utils/utils
@@ -93,23 +95,9 @@ function entries(obj: any) {
  * @static
  */
 function mapObject(obj: any, iteratee: any) {
-  return toObject(entries(obj).map(([key, value]) => {
+  return fromPairs(entries(obj).map(([key, value]) => {
     return [key, iteratee(key, value)];
   }));
-}
-
-/**
- * Takes an array of 2-element arrays as key/values pairs and
- * constructs an object using them.
- * @memberof utils/utils
- * @static
- */
-function toObject(arr: any) {
-  const obj = {};
-  for (let pair of arr) {
-    obj[pair[0]] = pair[1];
-  }
-  return obj;
 }
 
 /**
@@ -167,7 +155,6 @@ module.exports = {
   endTruncateStr,
   workerTask,
   entries,
-  toObject,
   mapObject,
   compose,
   updateObj,
