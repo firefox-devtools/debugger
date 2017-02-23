@@ -76,26 +76,6 @@ function workerTask(worker: any, method: string) {
 }
 
 /**
- * Composes the given functions into a single function, which will
- * apply the results of each function right-to-left, starting with
- * applying the given arguments to the right-most function.
- * `compose(foo, bar, baz)` === `args => foo(bar(baz(args)`
- *
- * @param ...function funcs
- * @returns function
- * @memberof utils/utils
- * @static
- */
-function compose(...funcs: any) {
-  return (...args: any) => {
-    const initialValue = funcs[funcs.length - 1].apply(null, args);
-    const leftFuncs = funcs.slice(0, -1);
-    return leftFuncs.reduceRight((composed, f) => f(composed),
-                                 initialValue);
-  };
-}
-
-/**
  * @memberof utils/utils
  * @static
  */
@@ -112,7 +92,6 @@ module.exports = {
   promisify,
   endTruncateStr,
   workerTask,
-  compose,
   updateObj,
   waitForMs
 };
