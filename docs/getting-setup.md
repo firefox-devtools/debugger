@@ -72,16 +72,16 @@ yarn start
 
 If you're looking for an alternative to `yarn run firefox`, you have two options: cli, gcli.
 
-**Firefox CLI**
+#### Firefox CLI
 
-1. Run `firefox-bin` from the command line
+##### 1. Run `firefox-bin` from the command line
 ```bash
 /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
 ```
 
 You'll be shown a prompt to create a new "development" profile. The development profile is where your remote development user settings will be kept. *It's a good thing :)*
 
-1. Go to `about:config` and set these configs
+##### 2. Go to `about:config` and set these preferences
 
 Navigate to `about:config` and accept any warning message. Then search for the following preferences and double click them to toggle their values to the following. [example](http://g.recordit.co/3VsHIooZ9q.gif)
 
@@ -89,17 +89,18 @@ Navigate to `about:config` and accept any warning message. Then search for the f
 * `devtools.chrome.enabled` to `true`
 * `devtools.debugger.prompt-connection` to `false`
 
-1. Restart Firefox
+##### 3. Restart Firefox
 
 Close firefox and re-open it with the `firefox-bin` command.
 
-**Firefox GCLI**
+#### Firefox GCLI
 
-* Open Firefox
-* *<kbd>shift</kbd>+<kbd>F2</kbd>* Open GCLI
-* Type `listen 6080` into the GCLI
+1. Open Firefox
+2. Press <kbd>shift</kbd>+<kbd>F2</kbd> to open GCLI
+3. Type `listen 6080` into GCLI
 
-NOTE: this assumes that you've set the other appropriate `about:configs`
+NOTE: This assumes that you've already set the other preferences in
+`about:config`.
 
 ### Starting Chrome
 
