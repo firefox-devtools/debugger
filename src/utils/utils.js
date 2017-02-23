@@ -39,17 +39,6 @@ function promisify(context: any, method: any, ...args: any) {
  * @memberof utils/utils
  * @static
  */
-function truncateStr(str: any, size: any) {
-  if (str.length > size) {
-    return `${str.slice(0, size)}...`;
-  }
-  return str;
-}
-
-/**
- * @memberof utils/utils
- * @static
- */
 function endTruncateStr(str: any, size: any) {
   if (str.length > size) {
     return `...${str.slice(str.length - size)}`;
@@ -203,7 +192,6 @@ function waitForMs(ms: number) {
 module.exports = {
   handleError,
   promisify,
-  truncateStr,
   endTruncateStr,
   workerTask,
   zip,
