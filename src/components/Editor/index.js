@@ -143,7 +143,11 @@ const Editor = React.createClass({
 
     codeMirrorWrapper
       .addEventListener("mouseleave", e => {
-        if (this.popover && !this.popover.el.contains(e.relatedTarget) && this.popover.el !== e.relatedTarget) {
+        // if mouseleave is not due to hovering over the popover itself -
+        // only then it needs to be destroyed
+        if (this.popover &&
+            !this.popover.el.contains(e.relatedTarget) &&
+            this.popover.el !== e.relatedTarget) {
           this.popover.destroy();
           delete this.popover;
         }
@@ -166,7 +170,7 @@ const Editor = React.createClass({
 
       codeMirror.on(
         "contextmenu",
-        (codeMirror, event) => this.openMenu(event, codeMirror)
+        (cm, event) => this.openMenu(event, cm)
       );
     } else {
       codeMirrorWrapper.addEventListener(
