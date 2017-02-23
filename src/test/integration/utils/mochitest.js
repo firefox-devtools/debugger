@@ -82,6 +82,11 @@ function type(dbg, string) {
   });
 }
 
+function countSources(dbg) {
+  const sources = dbg.selectors.getSources(dbg.getState());
+  return sources.size;
+}
+
 function createDebuggerContext(toolbox) {
   const win = toolbox.getPanel("jsdebugger").panelWin;
   const store = win.Debugger.store;
@@ -106,14 +111,15 @@ async function initDebugger(url, ...sources) {
   return createDebuggerContext(toolbox);
 }
 
-
 module.exports = {
   invokeInTab,
   evalInTab,
   selectMenuItem,
   pressKey,
   type,
+  countSources,
   setupTestRunner,
   info,
-  initDebugger
+  initDebugger,
+  environment: "mochitest"
 }

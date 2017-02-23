@@ -46,15 +46,17 @@ window.requestLongerTimeout = function() {
 
 const ctx = { ok, is, info, requestLongerTimeout};
 
-mocha.setup({ timeout: 5000, ui: 'bdd' });
+mocha.setup({ timeout: 10000, ui: 'bdd' });
 
 describe("Tests", () => {
   beforeEach(() => {
+    prefs.pauseOnExceptions = false;
+    prefs.ignoreCaughtExceptions = false;
     prefs.pendingSelectedLocation = {};
     prefs.tabs = [];
   });
 
-  xit("asm", async function() {
+  it("asm", async function() {
     await asm(ctx);
   });
 
@@ -66,7 +68,7 @@ describe("Tests", () => {
     await breakpoints.toggleAll(ctx);
   });
 
-  xit("breaking", async function() {
+  it("breaking", async function() {
     await breaking(ctx);
   });
 
@@ -102,29 +104,33 @@ describe("Tests", () => {
     await navigation(ctx);
   })
 
-  xit("callStack", async function() {
-    await callStack(ctx);
+  it("call stack test 1", async function() {
+    await callStack.test1(ctx);
   });
 
-  xit("debuggerButtons", async function() {
+  it("call stack test 2", async function() {
+    await callStack.test2(ctx);
+  });
+
+  it("debugger buttons", async function() {
     await debuggerButtons(ctx);
   });
 
-  xit("iframes", async function() {
+  it("iframes", async function() {
     await iframes(ctx);
   });
 
   // expected 17 to equal 15
-  xit("pauseOnExceptions", async function() {
+  it("pause on exceptions", async function() {
     await pauseOnExceptions(ctx);
   });
 
-  it("prettyPrint", async function() {
+  it("pretty print", async function() {
     await prettyPrint(ctx);
   });
 
   // timed out
-  xit("prettyPrintPaused", async function() {
+  it("pretty print paused", async function() {
     await prettyPrintPaused(ctx);
   });
 
@@ -133,26 +139,27 @@ describe("Tests", () => {
   })
 
   // timed out
-  xit("scopes", async function() {
+  it("scopes", async function() {
     await scopes(ctx);
   });
 
   // expected 0 to equal 2
-  xit("sources", async function() {
+  it("sources", async function() {
     await sources(ctx);
   });
 
   // timed out
-  xit("sourceMaps", async function() {
+  // requires firefox nightly for noSliding
+  xit("source maps", async function() {
     await sourceMaps(ctx);
   });
 
-  it("sourceMaps2", async function() {
+  it("source maps 2", async function() {
     await sourceMaps2(ctx);
   });
 
   // expected 2 to equal 1
-  xit("sourceMapsBogus", async function() {
+  xit("source maps bogus", async function() {
     await sourceMapsBogus(ctx);
   });
 

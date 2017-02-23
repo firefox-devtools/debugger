@@ -1,5 +1,6 @@
 const {
   initDebugger,
+  countSources,
   assertPausedLocation,
   selectSource,
   addBreakpoint,
@@ -27,5 +28,5 @@ module.exports = async function(ctx) {
 
   // Make sure that only the single generated source exists. The
   // sourcemap failed to download.
-  is(getSources(getState()).size, 1, "Only 1 source exists");
+  is(countSources(dbg), 1, "Only 1 source exists");
 }
