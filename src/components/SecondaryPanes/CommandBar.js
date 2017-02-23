@@ -89,6 +89,7 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
       className,
       key: type,
       "aria-label": tooltip,
+      title: tooltip,
       disabled
     },
     Svg(type)
