@@ -6,7 +6,7 @@ if (typeof window == "object") {
 }
 
 function isBucket(item) {
-  return item.path.match(/bucket(\d+)$/);
+  return item.path && item.path.match(/bucket(\d+)$/);
 }
 
 function nodeHasChildren(item) {
