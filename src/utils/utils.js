@@ -76,34 +76,6 @@ function workerTask(worker: any, method: string) {
 }
 
 /**
- * Interleaves two arrays element by element, returning the combined array, like
- * a zip. In the case of arrays with different sizes, undefined values will be
- * interleaved at the end along with the extra values of the larger array.
- *
- * @param Array a
- * @param Array b
- * @returns Array
- *          The combined array, in the form [a1, b1, a2, b2, ...]
- * @memberof utils/utils
- * @static
- */
-function zip(a: any, b: any) {
-  if (!b) {
-    return a;
-  }
-  if (!a) {
-    return b;
-  }
-  const pairs = [];
-  for (let i = 0, aLength = a.length, bLength = b.length;
-       i < aLength || i < bLength;
-       i++) {
-    pairs.push([a[i], b[i]]);
-  }
-  return pairs;
-}
-
-/**
  * Converts an object into an array with 2-element arrays as key/value
  * pairs of the object. `{ foo: 1, bar: 2}` would become
  * `[[foo, 1], [bar 2]]` (order not guaranteed);
@@ -194,7 +166,6 @@ module.exports = {
   promisify,
   endTruncateStr,
   workerTask,
-  zip,
   entries,
   toObject,
   mapObject,
