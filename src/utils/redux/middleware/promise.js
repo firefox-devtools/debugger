@@ -6,7 +6,7 @@
 
 const defer = require("../../defer");
 const { entries } = require("../../utils");
-const { fromPairs } = require("lodash");
+const fromPairs = require("lodash/fromPairs");
 const { executeSoon } = require("../../DevToolsUtils");
 
 import type { ThunkArgs } from "../../../actions/types";
