@@ -5,8 +5,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { fromPairs } from "lodash";
-
 /**
  * Utils for utils, by utils
  * @module utils/utils
@@ -91,16 +89,6 @@ function entries(obj: any) {
 }
 
 /**
- * @memberof utils/utils
- * @static
- */
-function mapObject(obj: any, iteratee: any) {
-  return fromPairs(entries(obj).map(([key, value]) => {
-    return [key, iteratee(key, value)];
-  }));
-}
-
-/**
  * Composes the given functions into a single function, which will
  * apply the results of each function right-to-left, starting with
  * applying the given arguments to the right-most function.
@@ -155,7 +143,6 @@ module.exports = {
   endTruncateStr,
   workerTask,
   entries,
-  mapObject,
   compose,
   updateObj,
   throttle,
