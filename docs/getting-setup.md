@@ -109,7 +109,7 @@ The default, traditional way to connect to Firefox uses a custom TCP protocol.
 However, Firefox also now supports connecting via WebSockets as well.  To use
 this mode:
 
-1. Create a `configs/local.json` file in your `debugger.html` clone with:
+##### 1. Create a `configs/local.json` file in your `debugger.html` clone with:
 ```
 {
   "firefox": {
@@ -118,7 +118,7 @@ this mode:
   }
 }
 ```
-2. Enable WebSocket mode when opening the server socket
+##### 2. Enable WebSocket mode when opening the server socket
   * With the Firefox CLI approach, add the `ws:` prefix to the port:
   ```bash
   /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server ws:6080 -P development
