@@ -39,7 +39,7 @@ function promisify(context: any, method: any, ...args: any) {
  * @memberof utils/utils
  * @static
  */
-function endTruncateStr(str: any, size: any) {
+function endTruncateStr(str: any, size: number) {
   if (str.length > size) {
     return `...${str.slice(str.length - size)}`;
   }
