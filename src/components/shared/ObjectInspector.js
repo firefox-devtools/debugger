@@ -67,6 +67,7 @@ const ObjectInspector = React.createClass({
     // Cache of dynamically built nodes. We shouldn't need to clear
     // this out ever, since we don't ever "switch out" the object
     // being inspected.
+    this.actors = {};
     return {};
   },
 
