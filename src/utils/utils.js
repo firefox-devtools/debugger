@@ -76,19 +76,6 @@ function workerTask(worker: any, method: string) {
 }
 
 /**
- * Converts an object into an array with 2-element arrays as key/value
- * pairs of the object. `{ foo: 1, bar: 2}` would become
- * `[[foo, 1], [bar 2]]` (order not guaranteed);
- *
- * @returns array
- * @memberof utils/utils
- * @static
- */
-function entries(obj: any) {
-  return Object.keys(obj).map(k => [k, obj[k]]);
-}
-
-/**
  * Composes the given functions into a single function, which will
  * apply the results of each function right-to-left, starting with
  * applying the given arguments to the right-most function.
@@ -125,7 +112,6 @@ module.exports = {
   promisify,
   endTruncateStr,
   workerTask,
-  entries,
   compose,
   updateObj,
   waitForMs
