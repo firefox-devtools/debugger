@@ -40,7 +40,8 @@ function invokeInTab(dbg, fnc) {
 }
 
 function evalInTab(dbg, script) {
-  ContentTask.spawn(gBrowser.selectedBrowser, script, function(script) {
+  info(`evaling script ${script}`)
+  return ContentTask.spawn(gBrowser.selectedBrowser, script, function(script) {
     content.eval(script);
   });
 }
