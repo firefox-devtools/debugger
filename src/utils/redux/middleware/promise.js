@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const defer = require("../../defer");
-const { entries } = require("../../utils");
+const toPairs = require("lodash/toPairs");
 const fromPairs = require("lodash/fromPairs");
 const { executeSoon } = require("../../DevToolsUtils");
 
@@ -20,7 +20,7 @@ function seqIdGen() {
 
 function filterAction(action: Object): Object {
   return fromPairs(
-    entries(action).filter(pair => pair[0] !== PROMISE)
+    toPairs(action).filter(pair => pair[0] !== PROMISE)
   );
 }
 
