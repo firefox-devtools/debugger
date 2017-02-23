@@ -268,10 +268,6 @@ const SearchBar = React.createClass({
       modifiers: { caseSensitive, wholeWord, regexMatch },
       toggleModifier } = this.props;
 
-    if (!isEnabled("searchModifiers")) {
-      return;
-    }
-
     return dom.div(
       { className: "search-modifiers" },
       // render buttons. On clicks toggle search modifiers.
@@ -305,16 +301,10 @@ const SearchBar = React.createClass({
     );
   },
 
-  render() {
-    if (!this.state.enabled) {
-      return dom.div();
-    }
-
+  renderSearchField() {
     const { searchResults: { count }} = this.props;
-
     return dom.div(
-      { className: "search-bar" },
-      this.renderSearchModifiers(),
+      { className: "search-field" },
       this.renderSvg(),
       dom.input({
         className: classnames({
@@ -331,6 +321,29 @@ const SearchBar = React.createClass({
         handleClick: this.closeSearch,
         buttonClass: "big"
       })
+    );
+  },
+
+  renderBottomBar() {
+    if (!isEnabled("searchModifiers") || !isEnabled("functionSearch")) {
+      return;
+    }
+
+    return dom.div(
+      { className: "search-bottom-bar" },
+      this.renderSearchModifiers()
+    );
+  },
+
+  render() {
+    if (!this.state.enabled) {
+      return dom.div();
+    }
+
+    return dom.div(
+      { className: "search-bar" },
+      this.renderSearchField(),
+      this.renderBottomBar()
     );
   }
 });

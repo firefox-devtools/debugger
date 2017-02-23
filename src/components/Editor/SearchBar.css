@@ -1,4 +1,9 @@
 .search-bar {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-field {
   width: calc(100% - 1px);
   height: 40px;
   background-color: var(--theme-body-background);
@@ -6,17 +11,17 @@
   display: flex;
 }
 
-.search-bar i {
+.search-field i {
   display: block;
   padding: 13px;
   width: 40px;
 }
 
-.search-bar i svg {
+.search-field i svg {
   width: 16px;
 }
 
-.search-bar input {
+.search-field input {
   border: none;
   line-height: 30px;
   font-size: 14px;
@@ -26,39 +31,48 @@
   flex: 1;
 }
 
-.search-bar .magnifying-glass {
+.search-field .magnifying-glass {
   background-color: var(--theme-body-background);
 }
 
-.search-bar .magnifying-glass path,
-.search-bar .magnifying-glass ellipse {
+.search-field .magnifying-glass path,
+.search-field .magnifying-glass ellipse {
   stroke: var(--theme-splitter-color);
 }
 
-.search-bar input::placeholder {
+.search-field input::placeholder {
   color: var(--theme-body-color-inactive);
 }
 
-.search-bar input:focus {
+.search-field input:focus {
   outline-width: 0;
 }
 
-.search-bar input.empty {
+.search-field input.empty {
   color: var(--theme-highlight-orange);
 }
 
-.search-bar .summary {
+.search-field .summary {
   line-height: 40px;
   padding-right: 10px;
   color: var(--theme-body-color-inactive);
 }
 
-.search-bar .search-modifiers {
+.search-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 1px);
+  height: 40px;
+  background-color: var(--theme-body-background);
+  border-bottom: 1px solid var(--theme-splitter-color);
+}
+
+.search-bottom-bar .search-modifiers {
   display: flex;
   align-items: center;
 }
 
-.search-bar .search-modifiers button {
+.search-bottom-bar .search-modifiers button {
   padding: 0 3px;
   margin: 0 3px;
   border: none;
@@ -68,7 +82,7 @@
   border-radius: 3px;
 }
 
-.search-bar .search-modifiers button i {
+.search-bottom-bar .search-modifiers button i {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,14 +90,14 @@
   width: 16px;
 }
 
-.search-bar .search-modifiers button svg {
+.search-bottom-bar .search-modifiers button svg {
   fill: var(--theme-comment);
 }
 
-.search-bar .search-modifiers button.active {
+.search-bottom-bar .search-modifiers button.active {
   background-color: var(--theme-selection-background);
 }
 
-.search-bar .search-modifiers button.active svg {
+.search-bottom-bar .search-modifiers button.active svg {
   fill: white;
 }
