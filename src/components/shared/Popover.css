@@ -1,0 +1,8 @@
+.popover {
+  position: absolute;
+  background: white;
+  z-index: 4;
+  min-width: 200px;
+  min-height: 80px;
+  border: 1px solid #cccccc;
+}

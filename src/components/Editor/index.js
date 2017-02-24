@@ -16,6 +16,7 @@ const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
 const GutterMenu = require("./GutterMenu");
 const EditorMenu = require("./EditorMenu");
+const createPopup = require("../shared/Popover");
 const { renderConditionalPanel } = require("./ConditionalPanel");
 const { debugGlobal } = require("devtools-launchpad");
 const {
@@ -122,32 +123,38 @@ const Editor = React.createClass({
       ReactDOM.findDOMNode(this).querySelector(".editor-mount")
     );
 
-    this.editor.codeMirror.on("gutterClick", this.onGutterClick);
+    const codeMirror = this.editor.codeMirror;
+    const codeMirrorWrapper = codeMirror.getWrapperElement();
+
+    codeMirror.on("gutterClick", this.onGutterClick);
 
     // Set code editor wrapper to be focusable
-    this.editor.codeMirror.getWrapperElement().tabIndex = 0;
-    this.editor.codeMirror.getWrapperElement()
-      .addEventListener("keydown", e => onKeyDown(this.editor.codeMirror, e));
+    codeMirrorWrapper.tabIndex = 0;
+    codeMirrorWrapper
+      .addEventListener("keydown", e => onKeyDown(codeMirror, e));
 
-    const ctx = { ed: this.editor, cm: this.editor.codeMirror };
+    const ctx = { ed: this.editor, cm: codeMirror };
     const { query, searchModifiers } = this.state;
-    this.editor.codeMirror.display.wrapper
-      .addEventListener("mouseup", () => this.onMouseUp(ctx, searchModifiers));
+
+    codeMirror.display.wrapper
+      .addEventListener("mouseup", e => this.onMouseUp(
+        e, ctx, searchModifiers
+      ));
 
     if (!isFirefox()) {
-      this.editor.codeMirror.on(
+      codeMirror.on(
         "gutterContextMenu",
         (cm, line, eventName, event) => this.onGutterContextMenu(event)
       );
 
-      this.editor.codeMirror.on(
+      codeMirror.on(
         "contextmenu",
-        (codeMirror, event) => this.openMenu(event, codeMirror)
+        (cm, event) => this.openMenu(event, cm)
       );
     } else {
-      this.editor.codeMirror.getWrapperElement().addEventListener(
+      codeMirrorWrapper.addEventListener(
         "contextmenu",
-        event => this.openMenu(event, this.editor.codeMirror)
+        event => this.openMenu(event, codeMirror)
       );
     }
     const shortcuts = this.context.shortcuts;
@@ -155,14 +162,14 @@ const Editor = React.createClass({
     shortcuts.on("CmdOrCtrl+B", (key, e) => {
       e.preventDefault();
       this.toggleBreakpoint(
-        getCursorLine(this.editor.codeMirror)
+        getCursorLine(codeMirror)
       );
     });
 
     shortcuts.on("CmdOrCtrl+Shift+B", (key, e) => {
       e.preventDefault();
       this.toggleConditionalPanel(
-        getCursorLine(this.editor.codeMirror)
+        getCursorLine(codeMirror)
       );
     });
     // The default Esc command is overridden in the CodeMirror keymap to allow
@@ -170,9 +177,8 @@ const Editor = React.createClass({
     // split console. Restore it here, but preventDefault if and only if there
     // is a multiselection.
     shortcuts.on("Esc", (key, e) => {
-      let cm = this.editor.codeMirror;
-      if (cm.listSelections().length > 1) {
-        cm.execCommand("singleSelection");
+      if (codeMirror.listSelections().length > 1) {
+        codeMirror.execCommand("singleSelection");
         e.preventDefault();
       } else if (this.state.functionSearchEnabled) {
         e.preventDefault();
@@ -192,8 +198,8 @@ const Editor = React.createClass({
         (_, e) => this.toggleFunctionSearch(e));
     }
 
-    resizeBreakpointGutter(this.editor.codeMirror);
-    debugGlobal("cm", this.editor.codeMirror);
+    resizeBreakpointGutter(codeMirror);
+    debugGlobal("cm", codeMirror);
 
     if (this.props.sourceText) {
       this.setText(this.props.sourceText.get("text"));
@@ -239,7 +245,12 @@ const Editor = React.createClass({
     }
   },
 
-  onMouseUp(ctx, modifiers) {
+  onMouseUp(e, ctx, modifiers) {
+    if (e.metaKey) {
+      this.popover = createPopup(e);
+      return;
+    }
+
     const query = ctx.cm.getSelection();
     const { searchResults: { count }} = this.state;
     if (ctx.cm.somethingSelected()) {
