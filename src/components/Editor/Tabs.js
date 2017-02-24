@@ -118,10 +118,11 @@ const SourceTabs = React.createClass({
     const copyLinkLabel = L10N.getStr("sourceTabs.copyLink");
     const prettyPrintLabel = L10N.getStr("sourceTabs.prettyPrint");
 
-    const closeTabKey = L10N.getStr("sourceTabs.closeTab.key");
-    const closeOtherTabsKey = L10N.getStr("sourceTabs.closeOtherTabs.key");
-    const closeTabsToEndKey = L10N.getStr("sourceTabs.closeTabsToEnd.key");
-    const closeAllTabsKey = L10N.getStr("sourceTabs.closeAllTabs.key");
+    const closeTabKey = L10N.getStr("sourceTabs.closeTab.accessKey");
+    const closeOtherTabsKey = L10N.getStr("sourceTabs.closeOtherTabs.accesKey");
+    const closeTabsToEndKey =
+      L10N.getStr("sourceTabs.closeTabsToEnd.accessKey");
+    const closeAllTabsKey = L10N.getStr("sourceTabs.closeAllTabs.accessKey");
     const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.key");
     const copyLinkKey = L10N.getStr("sourceTabs.copyLink.key");
     const prettyPrintKey = L10N.getStr("sourceTabs.prettyPrint.key");

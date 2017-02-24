@@ -14,7 +14,7 @@ async function EditorMenu({
   addExpression
   }) {
   const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
+  const copySourceUrlKey = L10N.getStr("copySourceUrl.accessKey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
   const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.key");
 
