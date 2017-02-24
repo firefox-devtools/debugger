@@ -63,9 +63,6 @@ const ObjectInspector = React.createClass({
   displayName: "ObjectInspector",
 
   getInitialState() {
-    // Cache of dynamically built nodes. We shouldn't need to clear
-    // this out ever, since we don't ever "switch out" the object
-    // being inspected.
     return {};
   },
 
@@ -73,14 +70,18 @@ const ObjectInspector = React.createClass({
     return {
       onLabelClick: () => {},
       onDoubleClick: () => {},
-      autoExpandDepth: 1
+      autoExpandDepth: 1,
+      getActors: () => {
+        return {};
+      }
     };
   },
 
   componentWillMount() {
-    if (this.props.getActors) {
-      this.actors = this.props.getActors();
-    }
+    // Cache of dynamically built nodes. We shouldn't need to clear
+    // this out ever, since we don't ever "switch out" the object
+    // being inspected.
+    this.actors = this.props.getActors();
   },
 
   componentWillUnmount() {
