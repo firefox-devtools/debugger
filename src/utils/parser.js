@@ -4,7 +4,7 @@ const babylon = require("babylon");
 const traverse = require("babel-traverse").default;
 const t = require("babel-types");
 const { isDevelopment } = require("devtools-config");
-const { entries } = require("./utils");
+const toPairs = require("lodash/toPairs");
 const get = require("lodash/get");
 
 import type { SourceText, Source, Location } from "../types";
@@ -111,7 +111,7 @@ function getVariablesInScope(source: Source, location: Location) {
   const path = getPathClosestToLocation(source, location);
   const bindings = get(path, "scope.bindings", {});
 
-  return entries(bindings)
+  return toPairs(bindings)
     .map(([name, binding]) => ({
       name,
       references: binding.referencePaths

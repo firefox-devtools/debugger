@@ -342,7 +342,6 @@ index 8c79f4d..6893673 100644
 +const Svg = require("./shared/Svg");
  const { getSource, getPause, getBreakpoints } = require("../selectors");
  const { makeLocationId } = require("../reducers/breakpoints");
- const { truncateStr } = require("../utils/utils");
 @@ -89,6 +90,7 @@ const Breakpoints = React.createClass({
          key: locationId,
          onClick: () => this.selectBreakpoint(breakpoint)

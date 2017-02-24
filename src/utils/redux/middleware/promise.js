@@ -5,7 +5,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const defer = require("../../defer");
-const { entries, toObject } = require("../../utils");
+const toPairs = require("lodash/toPairs");
+const fromPairs = require("lodash/fromPairs");
 const { executeSoon } = require("../../DevToolsUtils");
 
 import type { ThunkArgs } from "../../../actions/types";
@@ -18,8 +19,8 @@ function seqIdGen() {
 }
 
 function filterAction(action: Object): Object {
-  return toObject(
-    entries(action).filter(pair => pair[0] !== PROMISE)
+  return fromPairs(
+    toPairs(action).filter(pair => pair[0] !== PROMISE)
   );
 }
 
