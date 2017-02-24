@@ -135,7 +135,7 @@ let SourcesTree = React.createClass({
 
   onContextMenu(event, item) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-    const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
+    const copySourceUrlKey = L10N.getStr("copySourceUrl.accessKey");
 
     event.stopPropagation();
     event.preventDefault();
