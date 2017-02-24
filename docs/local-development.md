@@ -1,4 +1,4 @@
-## Local Development
+## Development Guide
 
 * [Configs](#configs)
   * [Enabling a Feature Flag](#enabling-a-feature-flag)
@@ -435,12 +435,16 @@ yarn run test-all
 * [http://localhost:8000/mocha](http://localhost:8000/mocha) - Run tests in the browser when you have `yarn start` running [gif](http://g.recordit.co/Go1GOu1Pli.gif))
 
 
-#### Integration tests
+#### Integration Tests
 
-We use [mochitests](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest) to do integration testing.  Running these integration tests locally requires some finesse and so as a contributor we only ask that you run the unit tests.   The mochitests will be run by the automated testing which runs once you've made a pull request and the maintainers are happy to help you through any issues which arise from that.
+The Debugger integration tests are run in two contexts: [firefox][mochitest] and the [web][mocha].
+We recommend running the tests in the browser as it's an easier development environment.
 
-Learn more about mochitests in our [mochitests docs](./mochitests.md).
-
++ [Overview](./integration-tests.md#overview)
++ [Running the Tests](./integration-tests.md#running-the-tests)
++ [Gotchas](./integration-tests.md#gotchas)
++ [Writing Tests](./integration-tests.md#writing-tests)
++ [Adding a New Test](./integration-tests.md#adding-a-new-test)
 
 ### Linting
 
@@ -564,3 +568,6 @@ your questions on [slack][slack].
 [firebug-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209733/94970458-e1ad-11e6-83d4-8b082217b989.png
 [light-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209736/9b194f2a-e1ad-11e6-9de0-561dd529d5f0.png
 [pr-table]: ./pull-requests.md#screenshots
+
+[mochitest]: ./mochitests.md
+[mocha]: ./integration-tests.md

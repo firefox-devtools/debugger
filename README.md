@@ -1,4 +1,4 @@
-# debugger.html 
+# debugger.html
 
 [![slack-badge]][slack] ![][ci-status] [![npm-version]][npm-package] [![PRs Welcome]][make-a-pull-request]
 
@@ -40,6 +40,20 @@ If this is your [first PR][make-a-pull-request] or you're not sure where to get 
 say hi in [slack] and a team member would be happy to mentor you.
 
 We strive for collaboration with [mutual respect for each other][contributing]. Mozilla also has a set of [participation guidelines] which goes into greater detail specific to Mozilla employees and contributors.
+
+### Development Guide
+
+We strive to make the Debugger as development friendly as possible. If you have a question that's not answered in the guide, ask us in [slack]. We also :heart: documentation PRs!
+
+* [Configs](./docs/local-development.md#configs)
+* [Hot Reloading](./docs/local-development.md#hot-reloading-fire)
+* [Themes](./docs/local-development.md#themes)
+* [Internationalization](./docs/local-development.md#internationalization)
+* [Prefs](./docs/local-development.md#prefs)
+* [Flow](./docs/local-development.md#flow)
+* [Logging](./docs/local-development.md#logging)
+* [Testing](./docs/local-development.md#testing)
+* [Linting](./docs/local-development.md#linting)
 
 ### Discussion
 

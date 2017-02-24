@@ -16,7 +16,7 @@ We respect your time and want to help you make the most of it as you learn more 
 * [Getting Started](#getting-started-runner)
   * [Your First Code Contribution](#your-first-code-contribution)
   * [Coding Standards](#coding-standards)
-  * [Local Development](#local-development-computer)
+  * [Development Guide](#development-guide-computer)
   * [Issues](#issues)
   * [Pull Requests](#pull-requests)
   * [Debugging Tips](#debugging-tips)
@@ -133,7 +133,7 @@ Here are pointers to the DevTools general coding style and formatting guidelines
 * [JS Coding Style](https://wiki.mozilla.org/DevTools/CodingStandards#Code_style)
 * [Formatting Comments](https://wiki.mozilla.org/DevTools/CodingStandards#Comments)
 
-### Local Development :computer:
+### Development Guide :computer:
 
 Go to [local Development](./docs/local-development.md) to learn about:
 
