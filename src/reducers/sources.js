@@ -52,6 +52,14 @@ function update(state = State(), action: Action) : Record<SourcesState> {
       return state.mergeIn(["sources", action.source.id], source);
     }
 
+    case "ADD_SOURCES": {
+      action.sources.forEach(source => {
+        state = state.mergeIn(["sources", source.id], source);
+      });
+
+      return state;
+    }
+
     case "SELECT_SOURCE":
       location = {
         line: action.line,

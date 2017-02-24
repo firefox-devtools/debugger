@@ -89,7 +89,10 @@ function loadSourceMap(generatedSource) {
       };
     });
 
-    originalSources.forEach(s => dispatch(newSource(s)));
+    dispatch({
+      type: "ADD_SOURCES",
+      sources: originalSources
+    });
   };
 }
 
