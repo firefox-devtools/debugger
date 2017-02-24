@@ -1,7 +1,5 @@
 ## Development Guide
 
-* [Configs](#configs)
-* [Hot Reloading](#hot-reloading-fire)
 * [Themes](#themes)
 * [Internationalization](#internationalization)
   * [L10N](#l10n)
@@ -17,117 +15,10 @@
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
 * [Colors](#colors)
+* [Configs](#configs)
+* [Hot Reloading](#hot-reloading-fire)
 * [FAQ](#faq)
 * [Getting Help](#getting-help)
-
-### Configs
-
-The Debugger uses configs for settings like `theme`, `hotReloading`, and feature flags.
-
-The default development configs are in [development-json]. It's easy to change a setting in the Launchpad's settings tab or by updating your `configs/local.json` file.
-
-#### Creating a new Feature Flag
-
-When you're starting a new feature, it's always good to ask yourself if the feature should be added behind a feature flag.
-
-* does this feature need testing or introduce risk?
-* will this feature be built over several PRs?
-* is it possible we'll want to turn it off quickly?
-
-It's easy to add a new feature flag to the project.
-
-1. add the flag to `development.json` and `firefox-panel.json`
-2. add `isEnabled` calls in the code
-
-Here's an example of adding a new feature "awesome sauce" to the Debugger:
-
-```diff
-diff --git a/configs/development.json b/configs/development.json
-index c82b299..d9de5f3 100755
---- a/configs/development.json
-+++ b/configs/development.json
-@@ -14,7 +14,8 @@
-     "eventListeners": {
-       "label": "Event Listeners",
-       "enabled": false
-     },
-     "codeCoverage": {
-       "label": "Code Coverage",
-       "enabled": false
--    }
-+    },
-+    "awesomeSauce": {
-+      "label": "Awesome Sauce",
-+      "enabled": false
-+    }
-   },
-   "chrome": {
-     "debug": true,
-diff --git a/configs/firefox-panel.json b/configs/firefox-panel.json
-index c91b562..bf485bb 100644
---- a/configs/firefox-panel.json
-+++ b/configs/firefox-panel.json
-@@ -10,6 +10,7 @@
-     "eventListeners": {
-       "label": "Event Listeners",
-       "enabled": false
-     },
-     "codeCoverage": {
-       "label": "Code Coverage",
-       "enabled": false
--    }
-+    },
-+    "awesomeSauce": {
-+      "label": "Awesome Sauce",
-+      "enabled": false
-+    }
-   }
- }
-
-diff --git a/src/components/Editor/index.js b/src/components/Editor/index.js
-index 038fd01..ea7a545 100644
---- a/src/components/Editor/index.js
-+++ b/src/components/Editor/index.js
-@@ -114,6 +114,10 @@ const Editor = React.createClass({
-       return;
-     }
-
-+    if (isEnabled("awesomeSauce")) {
-+      // sauce goops out of the breakpoint...
-+    }
-+
-```
-
-
-* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
-
-### Hot Reloading :fire:
-
-:construction: Hot Reloading is currently broken as we need to upgrade `react-hot-reloader` 3.0 [issue](https://github.com/devtools-html/devtools-core/issues/195)
-
-Hot Reloading watches for changes in the React Components JS and CSS and propagates those changes up to the application without changing the state of the application.  You want this turned on.
-
-To enabled Hot Reloading:
-
-* [Create a local config file][create-local-config] if you don't already have one
-* edit `hotReloading`
-
-```diff
-diff --git a/configs/local.json b/configs/local.json
-index fdbdb4e..4759c14 100644
---- a/configs/local.json
-+++ b/configs/local.json
-@@ -1,6 +1,6 @@
- {
-   "theme": "light",
--  "hotReloading": false,
-+  "hotReloading": true,
-   "logging": {
-     "actions": false
-   },
-```
-
-* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 ### Themes
 
@@ -429,6 +320,115 @@ When you need to update a variable, you should check to make sure it looks good 
 Often, it is more practicle to create a new variable.
 
 It's helpful to share the changes as a themes [table][pr-table] when you're done.
+
+### Configs
+
+The Debugger uses configs for settings like `theme`, `hotReloading`, and feature flags.
+
+The default development configs are in [development-json]. It's easy to change a setting in the Launchpad's settings tab or by updating your `configs/local.json` file.
+
+#### Creating a new Feature Flag
+
+When you're starting a new feature, it's always good to ask yourself if the feature should be added behind a feature flag.
+
+* does this feature need testing or introduce risk?
+* will this feature be built over several PRs?
+* is it possible we'll want to turn it off quickly?
+
+It's easy to add a new feature flag to the project.
+
+1. add the flag to `development.json` and `firefox-panel.json`
+2. add `isEnabled` calls in the code
+
+Here's an example of adding a new feature "awesome sauce" to the Debugger:
+
+```diff
+diff --git a/configs/development.json b/configs/development.json
+index c82b299..d9de5f3 100755
+--- a/configs/development.json
++++ b/configs/development.json
+@@ -14,7 +14,8 @@
+     "eventListeners": {
+       "label": "Event Listeners",
+       "enabled": false
+     },
+     "codeCoverage": {
+       "label": "Code Coverage",
+       "enabled": false
+-    }
++    },
++    "awesomeSauce": {
++      "label": "Awesome Sauce",
++      "enabled": false
++    }
+   },
+   "chrome": {
+     "debug": true,
+diff --git a/configs/firefox-panel.json b/configs/firefox-panel.json
+index c91b562..bf485bb 100644
+--- a/configs/firefox-panel.json
++++ b/configs/firefox-panel.json
+@@ -10,6 +10,7 @@
+     "eventListeners": {
+       "label": "Event Listeners",
+       "enabled": false
+     },
+     "codeCoverage": {
+       "label": "Code Coverage",
+       "enabled": false
+-    }
++    },
++    "awesomeSauce": {
++      "label": "Awesome Sauce",
++      "enabled": false
++    }
+   }
+ }
+
+diff --git a/src/components/Editor/index.js b/src/components/Editor/index.js
+index 038fd01..ea7a545 100644
+--- a/src/components/Editor/index.js
++++ b/src/components/Editor/index.js
+@@ -114,6 +114,10 @@ const Editor = React.createClass({
+       return;
+     }
+
++    if (isEnabled("awesomeSauce")) {
++      // sauce goops out of the breakpoint...
++    }
++
+```
+
+
+* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
+
+### Hot Reloading :fire:
+
+:construction: Hot Reloading is currently broken as we need to upgrade `react-hot-reloader` 3.0 [issue](https://github.com/devtools-html/devtools-core/issues/195)
+
+Hot Reloading watches for changes in the React Components JS and CSS and propagates those changes up to the application without changing the state of the application.  You want this turned on.
+
+To enabled Hot Reloading:
+
+* [Create a local config file][create-local-config] if you don't already have one
+* edit `hotReloading`
+
+```diff
+diff --git a/configs/local.json b/configs/local.json
+index fdbdb4e..4759c14 100644
+--- a/configs/local.json
++++ b/configs/local.json
+@@ -1,6 +1,6 @@
+ {
+   "theme": "light",
+-  "hotReloading": false,
++  "hotReloading": true,
+   "logging": {
+     "actions": false
+   },
+```
+
+* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 ### FAQ
 

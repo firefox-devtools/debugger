@@ -48,6 +48,14 @@ We strive to make the Debugger as development friendly as possible. If you have 
 |||
 |------|-----|
 |[Themes]|theming changes for light, dark, firebug|
+|[Internationalization]|using or adding a localized string *(l10n)*|
+|[Prefs]|using or adding a preferences|
+|[Flow]|flow best practices and common gotchas|
+|[Logging]|tips for logging redux and client|
+|[Testing]|unit and integration test tips|
+|[Linting]|css, js, markdown linting|
+|[Configs]|how to use debugger settings locally|
+|[Hot Reloading]|steps for enabling hot reloading|
 
 ### Discussion
 
