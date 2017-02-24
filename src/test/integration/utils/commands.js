@@ -197,6 +197,22 @@ async function rightClickElement(dbg, elementName, ...args) {
   rightClickEl(dbg.win, el);
 }
 
+// NOTE: we should fix this for mochitests. It's likely that `this` would work.
+const winObj = (typeof window == "Object") ? window : {};
+winObj.resumeTest = undefined;
+
+/**
+ * Pause the test and let you interact with the debugger.
+ * The test can be resumed by invoking `resumeTest` in the console.
+ *
+ * @memberof mochitest
+ * @static
+ */
+function pauseTest() {
+  info("Test paused. Invoke resumeTest to continue.");
+  return new Promise(resolve => resumeTest = resolve);
+}
+
 module.exports = {
   selectSource,
   stepOver,
@@ -215,5 +231,6 @@ module.exports = {
   rightClickElement,
   selectMenuItem,
   type,
-  pressKey
+  pressKey,
+  pauseTest
 }

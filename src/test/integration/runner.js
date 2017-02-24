@@ -20,6 +20,7 @@ const {
   pauseOnExceptions,
   prettyPrint,
   prettyPrintPaused,
+  returnvalues,
   scopes,
   searching,
   sources,
@@ -132,6 +133,10 @@ describe("Tests", () => {
   // timed out
   it("pretty print paused", async function() {
     await prettyPrintPaused(ctx);
+  });
+
+  it("returnvalues", async function() {
+    await returnvalues(ctx);
   });
 
   xit("searching", async function() {

@@ -15,6 +15,7 @@ module.exports = {
   pauseOnExceptions: require("./pause-exceptions"),
   prettyPrint: require("./pretty-print"),
   prettyPrintPaused: require("./pretty-print-paused"),
+  returnvalues: require("./returnvalues"),
   scopes: require("./scopes"),
   searching: require("./searching"),
   sources: require("./sources"),

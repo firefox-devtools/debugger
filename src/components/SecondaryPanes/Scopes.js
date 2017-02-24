@@ -30,11 +30,12 @@ function getBindingVariables(bindings, parentName) {
 }
 
 function getSpecialVariables(pauseInfo, path) {
-  let thrown = pauseInfo.getIn(["why", "frameFinished", "throw"]);
-  const returned = pauseInfo.getIn(["why", "frameFinished", "return"]);
+  let thrown = pauseInfo.getIn(["why", "frameFinished", "throw"], undefined);
+  const returned = pauseInfo.getIn(["why", "frameFinished", "return"],
+                                   undefined);
   const vars = [];
 
-  if (thrown) {
+  if (thrown !== undefined) {
     // handle dehydrating exception strings and errors.
     thrown = thrown.toJS ? thrown.toJS() : thrown;
 
@@ -45,7 +46,7 @@ function getSpecialVariables(pauseInfo, path) {
     });
   }
 
-  if (returned) {
+  if (returned !== undefined) {
     const value = returned.toJS ? returned.toJS() : returned;
     vars.push({
       name: "<return>",
