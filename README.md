@@ -45,17 +45,9 @@ We strive for collaboration with [mutual respect for each other][contributing]. 
 
 We strive to make the Debugger as development friendly as possible. If you have a question that's not answered in the guide, ask us in [slack]. We also :heart: documentation PRs!
 
-| Topics | Overview |
-|--|--|
-| [Themes] | theming changes for light, dark, firebug |
-| [Internationalization] | using or adding localized text (l10n) |
-| [Prefs] | using or adding a preferences |
-| [Flow] | flow best practices and common gotchas |
-| [Logging] | tips for logging redux and client |
-| [Testing] | unit and integration test tips |
-| [Linting] | css, js, markdown linting |
-| [Configs] | overview of debugger settings |
-| [Hot Reloading] | steps for enabling hot reloading |
+|||
+|------|-----|
+|[Themes]|theming changes for light, dark, firebug|
 
 ### Discussion
 
