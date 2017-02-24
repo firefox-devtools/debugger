@@ -6,7 +6,6 @@
   background-color: var(--theme-body-background);
   font-size: 12px;
   padding: 0px 20px;
-  line-height: 20px;
   color: var(--theme-highlight-blue);
 }
 
@@ -29,7 +28,7 @@
 }
 
 .expression-input-container {
-  padding: 8px 0px 0px 0px;
+  padding: 0.5em;
   display: flex;
 }
 
