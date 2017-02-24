@@ -45,15 +45,17 @@ We strive for collaboration with [mutual respect for each other][contributing]. 
 
 We strive to make the Debugger as development friendly as possible. If you have a question that's not answered in the guide, ask us in [slack]. We also :heart: documentation PRs!
 
-* [Configs](./docs/local-development.md#configs)
-* [Hot Reloading](./docs/local-development.md#hot-reloading-fire)
-* [Themes](./docs/local-development.md#themes)
-* [Internationalization](./docs/local-development.md#internationalization)
-* [Prefs](./docs/local-development.md#prefs)
-* [Flow](./docs/local-development.md#flow)
-* [Logging](./docs/local-development.md#logging)
-* [Testing](./docs/local-development.md#testing)
-* [Linting](./docs/local-development.md#linting)
+| Topics | Overview |
+|--|--|
+| [Themes] | theming changes for light, dark, firebug |
+| [Internationalization] | using or adding localized text (l10n) |
+| [Prefs] | using or adding a preferences |
+| [Flow] | flow best practices and common gotchas |
+| [Logging] | tips for logging redux and client |
+| [Testing] | unit and integration test tips |
+| [Linting] | css, js, markdown linting |
+| [Configs] | overview of debugger settings |
+| [Hot Reloading] | steps for enabling hot reloading |
 
 ### Discussion
 
@@ -98,3 +100,13 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [irc-devtools-html]: irc://irc.mozilla.org/devtools-html
 [community-call]: https://hangouts.google.com/hangouts/_/calendar/amFzb24ubGFzdGVyLjExQGdtYWlsLmNvbQ.30mdpa6ncqn8uttvmrj9b9d3jc
 [devtools-call]: https://wiki.mozilla.org/DevTools
+
+[Configs]: ./docs/local-development.md#configs
+[Hot Reloading]: ./docs/local-development.md#hot-reloading-fire
+[Themes]: ./docs/local-development.md#themes
+[Internationalization]: ./docs/local-development.md#internationalization
+[Prefs]: ./docs/local-development.md#prefs
+[Flow]: ./docs/local-development.md#flow
+[Logging]: ./docs/local-development.md#logging
+[Testing]: ./docs/local-development.md#testing
+[Linting]: ./docs/local-development.md#linting

@@ -1,9 +1,6 @@
 ## Development Guide
 
 * [Configs](#configs)
-  * [Enabling a Feature Flag](#enabling-a-feature-flag)
-  * [Updating the config locally](#updating-the-config-locally)
-  * [Creating a new Feature Flag](#creating-a-new-feature-flag)
 * [Hot Reloading](#hot-reloading-fire)
 * [Themes](#themes)
 * [Internationalization](#internationalization)
@@ -25,74 +22,9 @@
 
 ### Configs
 
-All default config values are in [`development.json`][development-json], to override these values you need to [create a local config file][create-local-config].
+The Debugger uses configs for settings like `theme`, `hotReloading`, and feature flags.
 
-Here are the most common development configuration options:
-
-* `logging`
-  * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `yarn start`
-* `chrome`
-  * `debug` Enables listening for remotely debuggable Chrome browsers
-* `hotReloading` enables [Hot Reloading](#hot-reloading-fire) of CSS and React
-
-For a list of all the configuration options see the [packages/devtools-config/README.md][devtools-config-readme]
-
-#### Updating the config locally
-
-You can create a `configs/local.json` file to override development configs. This is great for enabling features locally or changing the theme.
-
-* Copy the `local.sample.json` to get started.
-
-```bash
-cp configs/local.sample.json configs/local.json
-```
-
-* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
-
-You can quickly change your local config `configs/local.json`.
-
-* edit the `configs/local.json`
-
-```diff
-diff --git a/configs/local.json b/configs/local.json
-index fdbdb4e..4759c14 100644
---- a/configs/local.json
-+++ b/configs/local.json
-@@ -1,6 +1,6 @@
- {
-   "theme": "light",
--  "hotReloading": false,
-+  "hotReloading": true,
-   "logging": {
-     "actions": false
-   },
-```
-
-* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
-
-#### Enabling a Feature Flag
-
-Feature flags help us work on features darkly. We've used them to work on source tabs, watch expressions, and many other features.
-
-The features are listed in the configs [development.json](../configs/development.json), [firefox-panel.json](../configs/firefox-panel.json). You can turn a feature on, by adding it to your local config.
-
-
-```diff
-diff --git a/configs/local.json b/configs/local.json
-index fdbdb4e..4759c14 100644
---- a/configs/local.json
-+++ b/configs/local.json
-@@ -1,6 +1,6 @@
- {
-   "theme": "light",
-   "features": {
-     "watchExpressions": {
-       "label": "Watch Expressions",
--      "enabled": false
-+      "enabled": true
-     }
-   },
-```
+The default development configs are in [development-json]. It's easy to change a setting in the Launchpad's settings tab or by updating your `configs/local.json` file.
 
 #### Creating a new Feature Flag
 
@@ -170,6 +102,8 @@ index 038fd01..ea7a545 100644
 * Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 ### Hot Reloading :fire:
+
+:construction: Hot Reloading is currently broken as we need to upgrade `react-hot-reloader` 3.0 [issue](https://github.com/devtools-html/devtools-core/issues/195)
 
 Hot Reloading watches for changes in the React Components JS and CSS and propagates those changes up to the application without changing the state of the application.  You want this turned on.
 
@@ -448,11 +382,12 @@ We recommend running the tests in the browser as it's an easier development envi
 
 ### Linting
 
-Run all of lint checks (JS + CSS) run the following command:
-
-```bash
-yarn run lint
-```
+| | |
+|--|--|
+| all | `yarn run lint` |
+| css | `yarn run lint-css` |
+| js | `yarn run lint-js` |
+| markdown | `yarn run lint-md` |
 
 #### Lint CSS
 
@@ -468,17 +403,15 @@ yarn run lint-css
 
 We use [eslint](http://eslint.org/) to maintain our JavaScript styles.  The [.eslintrc](../.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
 
-To test your JS changes run the command:
-
-```bash
-yarn run lint-js
-```
-
 To automatically fix many errors run the command:
 
 ```bash
 yarn run lint-fix
 ```
+
+#### Lint Markdown
+
+We use [remark](https://github.com/wooorm/remark-lint) to help lint our markdown. It checks for broken images, links, and a set of style rules.
 
 ### Colors
 
