@@ -16,7 +16,7 @@ const actions = require("../actions");
 const Svg = require("./shared/Svg");
 const { showMenu } = require("./shared/menu");
 const { copyToTheClipboard } = require("../utils/clipboard");
-const throttle = require("lodash/throttle");
+const debounce = require("lodash/debounce");
 
 type CreateTree = {
   focusedItem?: any,
@@ -41,15 +41,15 @@ let SourcesTree = React.createClass({
     return createTree(this.props.sources);
   },
 
-  queueUpdate: throttle(function() {
+  queueUpdate: debounce(function() {
     if (!this.isMounted()) {
       return;
     }
 
     this.forceUpdate();
-  }, 50),
+  }, 100, { maxWait: 250, leading: false, trailing: true }),
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps, nextState) {
     this.queueUpdate();
     return false;
   },
