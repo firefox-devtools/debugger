@@ -264,6 +264,10 @@ const SearchBar = React.createClass({
   },
 
   renderSearchModifiers() {
+    if (!isEnabled("searchModifiers")) {
+      return;
+    }
+
     const {
       modifiers: { caseSensitive, wholeWord, regexMatch },
       toggleModifier } = this.props;
@@ -301,6 +305,21 @@ const SearchBar = React.createClass({
     );
   },
 
+  renderFunctionSearchToggle() {
+    if (!isEnabled("functionSearch")) {
+      return;
+    }
+
+    return dom.section(
+      { className: "search-type-toggles" },
+      dom.h1(
+        { className: "search-toggle-title" },
+        "Search for:"
+      ),
+      dom.button({ className: "search-type-btn" }, "functions")
+    );
+  },
+
   renderSearchField() {
     const { searchResults: { count }} = this.props;
     return dom.div(
@@ -331,6 +350,7 @@ const SearchBar = React.createClass({
 
     return dom.div(
       { className: "search-bottom-bar" },
+      this.renderFunctionSearchToggle(),
       this.renderSearchModifiers()
     );
   },
