@@ -1,7 +1,7 @@
 // @flow
 
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
+const { DOM: dom, PropTypes, createFactory } = React;
 const { findDOMNode } = require("react-dom");
 const { isEnabled } = require("devtools-config");
 const Svg = require("../shared/Svg");
@@ -13,8 +13,10 @@ const {
   countMatches,
   clearIndex
 } = require("../../utils/editor");
+const { getFunctions } = require("../../utils/parser");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
+const Autocomplete = createFactory(require("../shared/Autocomplete"));
 const CloseButton = require("../shared/Button/Close");
 const ImPropTypes = require("react-immutable-proptypes");
 
@@ -25,7 +27,8 @@ const SearchBar = React.createClass({
   propTypes: {
     editor: PropTypes.object,
     sourceText: ImPropTypes.map,
-    selectedSource: ImPropTypes.map,
+    selectSource: PropTypes.func.isRequired,
+    selectedSource: ImPropTypes.map.isRequired,
     searchResults: PropTypes.object.isRequired,
     modifiers: PropTypes.object.isRequired,
     toggleModifier: PropTypes.func.isRequired,
@@ -39,6 +42,8 @@ const SearchBar = React.createClass({
   getInitialState() {
     return {
       enabled: false,
+      functionSearchEnabled: false,
+      functionDeclarations: [],
       count: 0,
       index: -1
     };
@@ -51,15 +56,18 @@ const SearchBar = React.createClass({
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    const fnSearchKey = L10N.getStr("functionSearch.search.key");
     shortcuts.off(`CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`);
     shortcuts.off("Escape");
     shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
     shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
+    shortcuts.off(`CmdOrCtrl+Shift+${fnSearchKey}`);
   },
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    const fnSearchKey = L10N.getStr("functionSearch.search.key");
     shortcuts.on(`CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`,
       (_, e) => this.toggleSearch(e));
     shortcuts.on("Escape", (_, e) => this.onEscape(e));
@@ -67,6 +75,10 @@ const SearchBar = React.createClass({
       (_, e) => this.traverseResults(e, true));
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
       (_, e) => this.traverseResults(e, false));
+    if (isEnabled("functionSearch")) {
+      shortcuts.on(`CmdOrCtrl+Shift+${fnSearchKey}`,
+        (_, e) => this.toggleFunctionSearch(e));
+    }
   },
 
   componentDidUpdate(prevProps: any) {
@@ -91,6 +103,9 @@ const SearchBar = React.createClass({
   },
 
   onEscape(e: SyntheticKeyboardEvent) {
+    if (this.state.functionSearchEnabled) {
+      this.toggleFunctionSearch(e);
+    }
     this.closeSearch(e);
   },
 
@@ -121,6 +136,31 @@ const SearchBar = React.createClass({
       this.doSearch(selection);
       this.selectSearchInput();
     }
+  },
+
+  toggleFunctionSearch(e?: SyntheticKeyboardEvent) {
+    if (e) {
+      e.preventDefault();
+    }
+
+    if (this.state.functionSearchEnabled) {
+      return this.setState({ functionSearchEnabled: false });
+    }
+
+    const functionDeclarations = getFunctions(
+      this.props.selectedSource.toJS()
+    ).map(dec => ({
+      id: `${dec.name}:${dec.location.start.line}`,
+      title: dec.name,
+      subtitle: `:${dec.location.start.line}`,
+      value: dec.name,
+      location: dec.location
+    }));
+
+    this.setState({
+      functionSearchEnabled: true,
+      functionDeclarations
+    });
   },
 
   setSearchValue(value: string) {
@@ -316,7 +356,44 @@ const SearchBar = React.createClass({
         { className: "search-toggle-title" },
         "Search for:"
       ),
-      dom.button({ className: "search-type-btn" }, "functions")
+      dom.button({
+        className: classnames("search-type-btn", {
+          active: this.state.functionSearchEnabled
+        }),
+        onClick: this.toggleFunctionSearch
+      }, "functions")
+    );
+  },
+
+  renderFunctionSearch() {
+    if (!this.state.functionSearchEnabled) {
+      return;
+    }
+
+    const { selectSource, selectedSource } = this.props;
+
+    return dom.div({
+      className: "function-search"
+    },
+      Autocomplete({
+        selectItem: (item) => {
+          this.toggleFunctionSearch();
+          selectSource(
+            selectedSource.get("id"),
+            { line: item.location.start.line }
+          );
+        },
+        onSelectedItem: (item) => {
+          selectSource(
+            selectedSource.get("id"),
+            { line: item.location.start.line }
+          );
+        },
+        close: () => {},
+        items: this.state.functionDeclarations,
+        inputValue: "",
+        placeholder: L10N.getStr("functionSearch.search.placeholder")
+      })
     );
   },
 
@@ -363,7 +440,8 @@ const SearchBar = React.createClass({
     return dom.div(
       { className: "search-bar" },
       this.renderSearchField(),
-      this.renderBottomBar()
+      this.renderBottomBar(),
+      this.renderFunctionSearch()
     );
   }
 });
