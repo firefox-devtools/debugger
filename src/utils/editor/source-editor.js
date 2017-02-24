@@ -49,7 +49,10 @@ class SourceEditor {
   }
 
   destroy() {
-    // No need to do anything.
+    // Unlink the current document.
+    if (this.editor.doc) {
+      this.editor.doc.cm = null;
+    }
   }
 
   get codeMirror(): any {
