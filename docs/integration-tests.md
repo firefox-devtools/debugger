@@ -1,7 +1,8 @@
 ## Integration Tests
 
 + [Overview](#overview)
-+ [Running Tests](#running-tests)
++ [Running the Tests](#running-the-tests)
++ [Gotchas](#gotchas)
 + [Writing Tests](#writing-tests)
 + [Adding a New Test](#adding-a-new-test)
 
@@ -12,13 +13,26 @@ The integration tests are async functions that drive the debugger in two context
 **Firefox** the tests are run in the panel with [mochitest].
 **Web** the tests are run in an iframe with [mocha].
 
-### Running Tests
+### Running the Tests
 
-* Launch firefox
-* Make sure the other debugger windows are closed
-* Running: `localhost:8000/integration`
-* Selecting a test: Go to `runner.js` and add `it.only` to select which tests to run
-* Skipping a test: Go to `runner.js` and replace `it` with `xit` to skip a test
+Open `localhost:8000/integration`
+
+Tips:
+
+* You can select tests to run or skip in the `runner.js` by replacing `it` with `it.only` and `xit`.
+
+### Gotchas
+
+#### Make sure firefox is running
+
+The tests communicate with firefox over a websocket like the launchpad, so it's important firefox is running.
+
+One easy thing to do to start firefox, is click the "launch Firefox" button in the launchpad app.
+
+#### Make sure the other debugger windows are closed
+
+Because the tests communicate over the same websocket connection as the launchpad, it's important that the other debugger windows are closed. Keeping them open means that some of the messages could be dropped!
+
 
 ### Writing Tests
 
@@ -27,7 +41,6 @@ The integration tests are async functions that drive the debugger in two context
 * Environment specific utilities [mocha.js] [mochitest.js]
 * Assertions: `ok`, `is`
 * HTML Examples are [here][examples-dir]
-
 
 **Example:**
 
