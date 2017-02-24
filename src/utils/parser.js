@@ -9,6 +9,22 @@ const get = require("lodash/get");
 
 import type { SourceText, Source, Location } from "../types";
 
+type ASTLocation = {
+  start: {
+    line: number,
+    column: number
+  },
+  end: {
+    line: number,
+    column: number
+  }
+};
+
+type FunctionDeclaration = {
+  name: string,
+  location: ASTLocation
+};
+
 const ASTs = new Map();
 
 function _parse(code) {
@@ -59,9 +75,11 @@ function getFunctionName(path) {
   if (parent.type == "VariableDeclarator") {
     return parent.id.name;
   }
+
+  return "anonymous";
 }
 
-function getFunctions(source: Source) {
+function getFunctions(source: Source): Array<FunctionDeclaration> {
   const ast = getAst(source);
 
   const functions = [];

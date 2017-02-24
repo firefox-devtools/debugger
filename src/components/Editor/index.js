@@ -6,11 +6,8 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
-const { isEnabled } = require("devtools-config");
 
 const { getMode } = require("../../utils/source");
-const { getFunctions } = require("../../utils/parser");
-const Autocomplete = createFactory(require("../shared/Autocomplete"));
 
 const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
@@ -83,8 +80,6 @@ const Editor = React.createClass({
         wholeWord: false,
         regexMatch: false
       },
-      functionSearchEnabled: false,
-      functionDeclarations: null
     };
   },
 
@@ -180,9 +175,6 @@ const Editor = React.createClass({
       if (codeMirror.listSelections().length > 1) {
         codeMirror.execCommand("singleSelection");
         e.preventDefault();
-      } else if (this.state.functionSearchEnabled) {
-        e.preventDefault();
-        this.toggleFunctionSearch(e);
       }
     });
 
@@ -191,12 +183,6 @@ const Editor = React.createClass({
       (_, e) => traverseResults(e, ctx, query, "prev", searchModifiers));
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
       (_, e) => traverseResults(e, ctx, query, "next", searchModifiers));
-
-    if (isEnabled("functionSearch")) {
-      const fnSearchKey = L10N.getStr("functionSearch.search.key");
-      shortcuts.on(`CmdOrCtrl+Shift+${fnSearchKey}`,
-        (_, e) => this.toggleFunctionSearch(e));
-    }
 
     resizeBreakpointGutter(codeMirror);
     debugGlobal("cm", codeMirror);
@@ -523,66 +509,9 @@ const Editor = React.createClass({
     return "";
   },
 
-  toggleFunctionSearch(e) {
-    if (e) {
-      e.preventDefault();
-    }
-
-    if (this.state.functionSearchEnabled) {
-      return this.setState({ functionSearchEnabled: false });
-    }
-
-    const functionDeclarations = getFunctions(
-      this.props.selectedSource.toJS()
-    ).map(dec => ({
-      id: `${dec.name}:${dec.location.start.line}`,
-      title: dec.name,
-      subtitle: `:${dec.location.start.line}`,
-      value: dec.name,
-      location: dec.location
-    }));
-
-    this.setState({
-      functionSearchEnabled: true,
-      functionDeclarations
-    });
-  },
-
-  renderFunctionSearch() {
-    if (!this.state.functionSearchEnabled) {
-      return;
-    }
-
-    const { selectSource, selectedSource } = this.props;
-
-    return dom.div({
-      className: "function-search"
-    },
-      Autocomplete({
-        selectItem: (item) => {
-          this.toggleFunctionSearch();
-          selectSource(
-            selectedSource.get("id"),
-            { line: item.location.start.line }
-          );
-        },
-        onSelectedItem: (item) => {
-          selectSource(
-            selectedSource.get("id"),
-            { line: item.location.start.line }
-          );
-        },
-        close: () => {},
-        items: this.state.functionDeclarations,
-        inputValue: "",
-        placeholder: L10N.getStr("functionSearch.search.placeholder")
-      })
-    );
-  },
-
   render() {
     const {
-      sourceText, selectedSource, coverageOn, horizontal
+      sourceText, selectSource, selectedSource, coverageOn, horizontal
     } = this.props;
 
     const { searchResults } = this.state;
@@ -597,6 +526,7 @@ const Editor = React.createClass({
         },
         SearchBar({
           editor: this.editor,
+          selectSource,
           selectedSource,
           sourceText,
           searchResults,
@@ -606,7 +536,6 @@ const Editor = React.createClass({
           updateQuery: this.updateQuery,
           updateSearchResults: this.updateSearchResults
         }),
-        this.renderFunctionSearch(),
         dom.div({
           className: "editor-mount",
           style: { height: this.editorHeight() }
