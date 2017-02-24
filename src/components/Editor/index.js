@@ -201,7 +201,10 @@ const Editor = React.createClass({
     resizeBreakpointGutter(codeMirror);
     debugGlobal("cm", codeMirror);
 
-    if (this.props.sourceText) {
+    if (this.props.selectedSource) {
+      let sourceId = this.props.selectedSource.get("id");
+      this.editor.replaceDocument(getDocument(sourceId));
+    } else if (this.props.sourceText) {
       this.setText(this.props.sourceText.get("text"));
     }
   },
