@@ -7,7 +7,6 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
 const { isEnabled } = require("devtools-config");
-const debounce = require("lodash/debounce");
 
 const { getMode } = require("../../utils/source");
 const { getFunctions } = require("../../utils/parser");
@@ -17,7 +16,7 @@ const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
 const GutterMenu = require("./GutterMenu");
 const EditorMenu = require("./EditorMenu");
-const Popover = require("../shared/Popover");
+const createPopup = require("../shared/Popover");
 const { renderConditionalPanel } = require("./ConditionalPanel");
 const { debugGlobal } = require("devtools-launchpad");
 const {
@@ -134,33 +133,13 @@ const Editor = React.createClass({
     codeMirrorWrapper
       .addEventListener("keydown", e => onKeyDown(codeMirror, e));
 
-    const onMouseMove = debounce(this.onMouseStop, 500);
-    codeMirrorWrapper
-      .addEventListener("mouseenter", e => {
-        codeMirrorWrapper
-          .addEventListener("mousemove", onMouseMove);
-      });
-
-    codeMirrorWrapper
-      .addEventListener("mouseleave", e => {
-        // if mouseleave is not due to hovering over the popover itself -
-        // only then it needs to be destroyed
-        if (this.popover &&
-            !this.popover.el.contains(e.relatedTarget) &&
-            this.popover.el !== e.relatedTarget) {
-          this.popover.destroy();
-          delete this.popover;
-        }
-
-        onMouseMove.cancel();
-        codeMirrorWrapper
-          .removeEventListener("mousemove", onMouseMove);
-      });
-
     const ctx = { ed: this.editor, cm: codeMirror };
     const { query, searchModifiers } = this.state;
+
     codeMirror.display.wrapper
-      .addEventListener("mouseup", () => this.onMouseUp(ctx, searchModifiers));
+      .addEventListener("mouseup", e => this.onMouseUp(
+        e, ctx, searchModifiers
+      ));
 
     if (!isFirefox()) {
       codeMirror.on(
@@ -266,7 +245,12 @@ const Editor = React.createClass({
     }
   },
 
-  onMouseUp(ctx, modifiers) {
+  onMouseUp(e, ctx, modifiers) {
+    if (e.metaKey) {
+      this.popover = createPopup(e);
+      return;
+    }
+
     const query = ctx.cm.getSelection();
     const { searchResults: { count }} = this.state;
     if (ctx.cm.somethingSelected()) {
@@ -286,17 +270,6 @@ const Editor = React.createClass({
       onGutterContextMenu: this.onGutterContextMenu,
       jumpToMappedLocation: this.props.jumpToMappedLocation,
       addExpression: this.props.addExpression
-    });
-  },
-
-  onMouseStop(e) {
-    if (this.popover) {
-      this.popover.destroy();
-    }
-
-    this.popover = Popover({
-      content: dom.div({ className: "you-know" }, "just some content"),
-      pos: { top: e.pageY, left: e.pageX }
     });
   },
 

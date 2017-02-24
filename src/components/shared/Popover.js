@@ -1,3 +1,6 @@
+const React = require("react");
+const { DOM: dom } = React;
+
 const ReactDOM = require("react-dom");
 
 require("./Popover.css");
@@ -11,10 +14,22 @@ function Popover({ content, pos }) {
   el.style.left = `${(pos.left - rect.width / 2)}px`;
   el.style.top = `${(pos.top + 10)}px`;
 
-  return {
-    el,
-    destroy: () => el.parentNode.removeChild(el)
-  };
+  el.addEventListener(
+    "mouseleave",
+    () => el.parentNode.removeChild(el)
+  );
+
+  return el;
 }
 
-module.exports = Popover;
+function createPopup(e, content) {
+  return Popover({
+    content: dom.div(
+      { className: "popover-content" },
+      ""
+    ),
+    pos: { top: e.pageY, left: e.pageX }
+  });
+}
+
+module.exports = createPopup;
