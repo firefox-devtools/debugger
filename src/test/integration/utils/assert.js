@@ -1,7 +1,8 @@
 const {
   findSource,
   findElement,
-  isVisibleWithin
+  isVisibleWithin,
+  isPaused
 } = require("./shared");
 
 function assertPausedLocation(dbg, ctx, source, line) {
@@ -23,6 +24,11 @@ function assertPausedLocation(dbg, ctx, source, line) {
      "Line is highlighted as paused");
 }
 
+function assertNotPaused(dbg, ctx) {
+  const { ok } = ctx;
+  ok(!isPaused(dbg), "not paused");
+}
+
 function assertHighlightLocation(dbg, ctx, source, line) {
   const { selectors: { getSelectedSource, getPause }, getState } = dbg;
   const { is, ok } = ctx;
@@ -42,5 +48,6 @@ function assertHighlightLocation(dbg, ctx, source, line) {
 
 module.exports = {
   assertPausedLocation,
+  assertNotPaused,
   assertHighlightLocation
 }
