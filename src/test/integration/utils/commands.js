@@ -1,4 +1,4 @@
-const { clickEl, rightClickEl } = require("./mouse-events")
+const { clickEl, rightClickEl, dblClickEl } = require("./mouse-events")
 
 function info(msg) {
   console.log(`info: ${msg}\n`);
@@ -190,6 +190,12 @@ async function clickElement(dbg, elementName, ...args) {
   clickEl(dbg.win, el);
 }
 
+async function dblClickElement(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const el = dbg.win.document.querySelector(selector);
+  dblClickEl(dbg.win, el);
+}
+
 async function rightClickElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
   const el = dbg.win.document.querySelector(selector);
@@ -229,6 +235,7 @@ module.exports = {
   invokeInTab,
   evalInTab,
   rightClickElement,
+  dblClickElement,
   selectMenuItem,
   type,
   pressKey,

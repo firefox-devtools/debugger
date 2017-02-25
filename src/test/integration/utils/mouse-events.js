@@ -44,7 +44,16 @@ function rightClickEl(win, el) {
   });
 }
 
+function dblClickEl(win, el) {
+  return triggerMouseEvent({
+    type: "dblclick",
+    win,
+    el
+  });
+}
+
 module.exports = {
   clickEl,
-  rightClickEl
+  rightClickEl,
+  dblClickEl
 }
