@@ -9,6 +9,7 @@ const {
   breakpoints,
   breakpointsCond,
   callStack,
+  expressions,
   debuggerButtons,
   editorSelect,
   editorGutter,
@@ -79,6 +80,10 @@ describe("Tests", () => {
 
   it("conditional breakpoints", async function() {
     await breakpointsCond(ctx);
+  });
+
+  it("expressions", async function() {
+    await expressions(ctx);
   });
 
   it("editor select", async function() {
