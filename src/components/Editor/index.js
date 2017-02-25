@@ -189,7 +189,8 @@ const Editor = React.createClass({
 
     if (this.props.selectedSource) {
       let sourceId = this.props.selectedSource.get("id");
-      this.editor.replaceDocument(getDocument(sourceId));
+      const doc = getDocument(sourceId) || this.editor.createDocument();
+      this.editor.replaceDocument(doc);
     } else if (this.props.sourceText) {
       this.setText(this.props.sourceText.get("text"));
     }
