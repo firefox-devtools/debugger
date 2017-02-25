@@ -3,6 +3,7 @@
 
 function secondCall() {
   // This comment is useful: ☺
+  let f = 2;
   debugger;
   function foo() {}
   if (x) {
