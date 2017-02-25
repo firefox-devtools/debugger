@@ -103,8 +103,8 @@ function update(state = State(), action: Action): Record<PauseState> {
         // Create a reason object for Promise
         if (action.reason) {
           const promiseReason = { value: action.reason.type == "undefined" ?
-            action.reason["type"] : action.reason };
-          ownProperties["reason"] = promiseReason;
+            action.reason.type : action.reason };
+          ownProperties.reason = promiseReason;
         }
 
         return state.setIn(["loadedObjects", action.objectId],
