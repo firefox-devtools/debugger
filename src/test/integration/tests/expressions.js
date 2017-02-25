@@ -21,7 +21,10 @@ const {
  * 2. edit watch expressions
  * 3. delete watch expressions
  */
-const exprInput  = "input.input-expression";
+
+const selectors = {
+  input: "input.input-expression"
+}
 
 function getLabel(dbg, index) {
   return findElement(dbg, "expressionNode", index).innerText;
@@ -31,42 +34,45 @@ function getValue(dbg, index) {
   return findElement(dbg, "expressionValue", index).innerText;
 }
 
+async function addExpression(dbg, input) {
+  info("Adding an expression")
+  findElementWithSelector(dbg, selectors.input).focus();
+  type(dbg, input);
+  pressKey(dbg, "Enter");
+
+  await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
+}
+
+async function editExpression(dbg, input) {
+  info("updating the expression")
+  dblClickElement(dbg, "expressionNode", 1);
+  type(dbg, input);
+  pressKey(dbg, "Enter");
+  await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
+}
+
+async function deleteExpression(dbg, index) {
+  info("Deleting the expression");
+  const deleteExpression = waitForDispatch(dbg, "DELETE_EXPRESSION");
+  clickElement(dbg, "expressionClose", index)
+  await deleteExpression;
+}
+
 module.exports = async function(ctx) {
   const { ok, is, info, requestLongerTimeout } = ctx;
-
   const dbg = await initDebugger("doc-script-switching.html");
-
 
   invokeInTab(dbg, "firstCall");
   await waitForPaused(dbg);
 
-  info("Adding an expression")
-  findElementWithSelector(dbg, exprInput).focus();
-  type(dbg, "f");
-  pressKey(dbg, "Enter");
-
-  await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
-
+  await addExpression(dbg, "f")
   is(getLabel(dbg, 1), "f");
-  is(getValue(dbg, 1), "2");
+  is(getValue(dbg, 1), "ReferenceError");
 
-  info("updating the expression")
-  dblClickElement(dbg, "expressionNode", 1);
-  type(dbg, "oo");
-  pressKey(dbg, "Enter");
-
-  await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
-
+  await editExpression(dbg, "oo")
   is(getLabel(dbg, 1), "foo");
   is(getValue(dbg, 1), "function foo()");
 
-  info("Deleting the expression");
-  // The DELETE_EXPRESSION was getting dispatched before
-  // the waitForDispatch was setup, this avoids that.
-  setTimeout(() => {
-    clickElement(dbg, "expressionClose", 1)
-  }, 0);
-  await waitForDispatch(dbg, "DELETE_EXPRESSION");
-
+  await deleteExpression(dbg, 1);
   is(findAllElements(dbg, "expressionNodes").length, 0);
 };
