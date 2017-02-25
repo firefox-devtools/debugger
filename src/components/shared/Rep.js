@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 
 let { REPS: { Rep, Grip }} = require("devtools-reps");
