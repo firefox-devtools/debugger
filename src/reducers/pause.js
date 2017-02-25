@@ -102,8 +102,9 @@ function update(state = State(), action: Action): Record<PauseState> {
 
         // Create a reason object for Promise
         if (action.reason) {
-          const promiseReason = { value: action.reason.type == "undefined" ?
-            action.reason.type : action.reason };
+          const actionReason: any = action.reason;
+          const promiseReason = { value: actionReason.type == "undefined" ?
+            actionReason.type : actionReason };
           ownProperties.reason = promiseReason;
         }
 
