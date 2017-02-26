@@ -5,7 +5,8 @@ const {
   togglePauseOnExceptions,
   waitForPaused,
   isPaused,
-  resume
+  resume,
+  reload
 } = require("../utils");
 
 function uncaughtException(dbg) {
@@ -16,6 +17,20 @@ function caughtException(dbg) {
   return invokeInTab(dbg, "caughtException");
 }
 
+function assertPOEState(dbg, ctx, pause, ignore) {
+  const { is } = ctx;
+  const {
+    getState,
+    selectors: {
+      getShouldPauseOnExceptions,
+      getShouldIgnoreCaughtExceptions
+    }
+  } = dbg;
+
+  is(getShouldPauseOnExceptions(getState()), pause);
+  is(getShouldIgnoreCaughtExceptions(getState()), ignore);
+}
+
 /*
   Tests Pausing on exception
   1. skip an uncaught exception
@@ -23,8 +38,9 @@ function caughtException(dbg) {
   3. pause on a caught error
   4. skip a caught error
 */
-module.exports = async function(ctx) { const { ok, is, info } = ctx;
+async function testButton(ctx) {
 
+  const { ok, is, info } = ctx;
   const dbg = await initDebugger("doc-exceptions.html");
 
   // test skipping an uncaught exception
@@ -52,4 +68,24 @@ module.exports = async function(ctx) { const { ok, is, info } = ctx;
   await waitForPaused(dbg);
   assertPausedLocation(dbg, ctx, "exceptions.js", 17);
   await resume(dbg);
+}
+
+async function testReloading(ctx) {
+  const { ok, is, info } = ctx;
+
+  let dbg = await initDebugger("doc-exceptions.html");
+
+  await togglePauseOnExceptions(dbg, true, false);
+  dbg = await initDebugger("doc-exceptions.html");
+  assertPOEState(dbg, ctx, true, false)
+
+  await togglePauseOnExceptions(dbg, true, true);
+  dbg = await initDebugger("doc-exceptions.html");
+  assertPOEState(dbg, ctx, true, true)
+}
+
+
+module.exports = {
+  testButton,
+  testReloading
 }
