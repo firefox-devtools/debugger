@@ -94,7 +94,7 @@ const SearchBar = React.createClass({
     }
 
     if (this.refs.resultList && this.refs.resultList.refs) {
-      scrollList(this, this.state.selectedResultIndex);
+      scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
 
     const hasLoaded = sourceText && !sourceText.get("loading");
@@ -301,7 +301,7 @@ const SearchBar = React.createClass({
   },
 
   onKeyDown(e: SyntheticKeyboardEvent) {
-    if (!this.state.functionEnabled || this.props.query == "") {
+    if (!this.state.functionSearchEnabled || this.props.query == "") {
       return;
     }
 
