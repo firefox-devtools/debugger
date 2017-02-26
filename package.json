@@ -37,7 +37,7 @@
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
     "prepush": "yarn run lint && yarn run test -- --dots && yarn run flow",
     "postmerge": "node bin/post-merge.js",
-    "nom": "rm -rf node_modules yarn.log; yarn install"
+    "nom": "rm -rf node_modules yarn.lock; yarn install"
   },
   "dependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
