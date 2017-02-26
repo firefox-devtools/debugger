@@ -13,14 +13,15 @@ const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
 const GutterMenu = require("./GutterMenu");
 const EditorMenu = require("./EditorMenu");
-const createPopup = require("../shared/Popover");
+const Popover = createFactory(require("../shared/Popover"));
 const { renderConditionalPanel } = require("./ConditionalPanel");
+const ObjectInspector = React.createFactory(require("../shared/ObjectInspector"));
 const { debugGlobal } = require("devtools-launchpad");
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame,
   getSelectedSource, getHitCountForSource,
-  getCoverageEnabled
+  getCoverageEnabled, getLoadedObjects
 } = require("../../selectors");
 const { makeLocationId } = require("../../reducers/breakpoints");
 const actions = require("../../actions");
@@ -75,6 +76,7 @@ const Editor = React.createClass({
         index: -1,
         count: 0
       },
+      popoverPos: null,
       searchModifiers: {
         caseSensitive: true,
         wholeWord: false,
@@ -152,6 +154,9 @@ const Editor = React.createClass({
         event => this.openMenu(event, codeMirror)
       );
     }
+
+    codeMirror.on("scroll", this.onScroll);
+
     const shortcuts = this.context.shortcuts;
 
     shortcuts.on("CmdOrCtrl+B", (key, e) => {
@@ -235,10 +240,14 @@ const Editor = React.createClass({
     }
   },
 
+  onScroll(e) {
+    return this.setState({ popoverPos: null });
+  },
+
   onMouseUp(e, ctx, modifiers) {
     if (e.metaKey) {
-      this.popover = createPopup(e);
-      return;
+      const pos = { top: e.pageY, left: e.pageX };
+      return this.setState({ popoverPos: pos });
     }
 
     const query = ctx.cm.getSelection();
@@ -510,6 +519,41 @@ const Editor = React.createClass({
     return "";
   },
 
+  renderPopover() {
+    const { loadObjectProperties, loadedObjects, selectedFrame } = this.props;
+    const { popoverPos } = this.state;
+
+    if (!popoverPos || !selectedFrame) {
+      return;
+    }
+
+    debugger;
+    const value = selectedFrame.scope.bindings.variables.obj.value;
+    const root = {
+      name: "",
+      path: "",
+      contents: { value }
+    };
+
+    const preview = ObjectInspector({
+      roots: [root],
+      getObjectProperties: id => loadedObjects.get(id),
+      autoExpandDepth: 0,
+      onDoubleClick: () => {},
+      loadObjectProperties
+    });
+
+    return Popover(
+      {
+        pos: popoverPos
+      },
+      dom.div(
+        {},
+        preview
+      )
+    );
+  },
+
   render() {
     const {
       sourceText, selectSource, selectedSource, coverageOn, horizontal
@@ -543,7 +587,8 @@ const Editor = React.createClass({
         }),
         this.renderBreakpoints(),
         this.renderHitCounts(),
-        Footer({ editor: this.editor, horizontal })
+        Footer({ editor: this.editor, horizontal }),
+        this.renderPopover()
       )
     );
   }
@@ -558,6 +603,7 @@ module.exports = connect(state => {
     selectedLocation,
     selectedSource,
     sourceText: getSourceText(state, sourceId),
+    loadedObjects: getLoadedObjects(state),
     breakpoints: getBreakpointsForSource(state, sourceId),
     hitCount: getHitCountForSource(state, sourceId),
     selectedFrame: getSelectedFrame(state),

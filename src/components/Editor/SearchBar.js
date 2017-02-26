@@ -32,7 +32,7 @@ const SearchBar = React.createClass({
     editor: PropTypes.object,
     sourceText: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
-    selectedSource: ImPropTypes.map.isRequired,
+    selectedSource: ImPropTypes.map,
     searchResults: PropTypes.object.isRequired,
     modifiers: PropTypes.object.isRequired,
     toggleModifier: PropTypes.func.isRequired,
