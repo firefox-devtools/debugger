@@ -16,8 +16,8 @@ const {
 const { getFunctions } = require("../../utils/parser");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
+const SearchInput = createFactory(require("../shared/SearchInput"));
 const Autocomplete = createFactory(require("../shared/Autocomplete"));
-const CloseButton = require("../shared/Button/Close");
 const ImPropTypes = require("react-immutable-proptypes");
 
 require("./SearchBar.css");
@@ -266,41 +266,25 @@ const SearchBar = React.createClass({
     this.traverseResults(e, e.shiftKey);
   },
 
-  renderSummary() {
-    const { searchResults: { count, index }} = this.props;
+  buildSummaryMsg() {
+    const {
+      searchResults: { count, index },
+      query
+    } = this.props;
 
-    if (this.props.query.trim() == "") {
-      return dom.div({});
+    if (query.trim() == "") {
+      return "";
     }
 
     if (count == 0) {
-      return dom.div(
-        { className: "summary" },
-        L10N.getStr("editor.noResults")
-      );
+      return L10N.getStr("editor.noResults");
     }
 
     if (index == -1) {
-      return dom.div(
-        { className: "summary" },
-        L10N.getFormatStr("sourceSearch.resultsSummary1", count)
-      );
+      return L10N.getFormatStr("sourceSearch.resultsSummary1", count);
     }
 
-    return dom.div(
-      { className: "summary" },
-      L10N.getFormatStr("editor.searchResults", index + 1, count)
-    );
-  },
-
-  renderSvg() {
-    const { searchResults: { count }} = this.props;
-
-    if (count == 0 && this.props.query.trim() != "") {
-      return Svg("sad-face");
-    }
-
-    return Svg("magnifying-glass");
+    return L10N.getFormatStr("editor.searchResults", index + 1, count);
   },
 
   renderSearchModifiers() {
@@ -397,29 +381,6 @@ const SearchBar = React.createClass({
     );
   },
 
-  renderSearchField() {
-    const { searchResults: { count }} = this.props;
-    return dom.div(
-      { className: "search-field" },
-      this.renderSvg(),
-      dom.input({
-        className: classnames({
-          empty: count == 0 && this.props.query.trim() != ""
-        }),
-        onChange: this.onChange,
-        onKeyUp: this.onKeyUp,
-        placeholder: "Search in file...",
-        value: this.props.query,
-        spellCheck: false
-      }),
-      this.renderSummary(),
-      CloseButton({
-        handleClick: this.closeSearch,
-        buttonClass: "big"
-      })
-    );
-  },
-
   renderBottomBar() {
     if (!isEnabled("searchModifiers") || !isEnabled("functionSearch")) {
       return;
@@ -433,15 +394,27 @@ const SearchBar = React.createClass({
   },
 
   render() {
+    const {
+      searchResults: { count },
+      query,
+    } = this.props;
+
     if (!this.state.enabled) {
       return dom.div();
     }
 
     return dom.div(
       { className: "search-bar" },
-      this.renderSearchField(),
+      SearchInput({
+        query,
+        count,
+        placeholder: "Search in file...",
+        summaryMsg: this.buildSummaryMsg(),
+        onChange: this.onChange,
+        onKeyUp: this.onKeyUp,
+        handleClose: this.closeSearch
+      }),
       this.renderBottomBar(),
-      this.renderFunctionSearch()
     );
   }
 });

@@ -3,61 +3,6 @@
   flex-direction: column;
 }
 
-.search-field {
-  width: calc(100% - 1px);
-  height: 40px;
-  background-color: var(--theme-body-background);
-  border-bottom: 1px solid var(--theme-splitter-color);
-  display: flex;
-}
-
-.search-field i {
-  display: block;
-  padding: 13px;
-  width: 40px;
-}
-
-.search-field i svg {
-  width: 16px;
-}
-
-.search-field input {
-  border: none;
-  line-height: 30px;
-  font-size: 14px;
-  background-color: var(--theme-body-background);
-  color: var(--theme-comment);
-  width: calc(100% - 38px);
-  flex: 1;
-}
-
-.search-field .magnifying-glass {
-  background-color: var(--theme-body-background);
-}
-
-.search-field .magnifying-glass path,
-.search-field .magnifying-glass ellipse {
-  stroke: var(--theme-splitter-color);
-}
-
-.search-field input::placeholder {
-  color: var(--theme-body-color-inactive);
-}
-
-.search-field input:focus {
-  outline-width: 0;
-}
-
-.search-field input.empty {
-  color: var(--theme-highlight-orange);
-}
-
-.search-field .summary {
-  line-height: 40px;
-  padding-right: 10px;
-  color: var(--theme-body-color-inactive);
-}
-
 .search-bottom-bar {
   display: flex;
   justify-content: space-between;

@@ -1,10 +1,11 @@
 // @flow
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
+const { DOM: dom, PropTypes, createFactory } = React;
+const { findDOMNode } = require("react-dom");
 const { filter } = require("fuzzaldrin-plus");
 const classnames = require("classnames");
 const Svg = require("./Svg");
-const CloseButton = require("./Button/Close");
+const SearchInput = createFactory(require("./SearchInput"));
 
 require("./Autocomplete.css");
 
@@ -40,8 +41,9 @@ const Autocomplete = React.createClass({
 
   componentDidMount() {
     const endOfInput = this.state.inputValue.length;
-    this.refs.searchInput.focus();
-    this.refs.searchInput.setSelectionRange(endOfInput, endOfInput);
+    const searchInput = findDOMNode(this).querySelector("input");
+    searchInput.focus();
+    searchInput.setSelectionRange(endOfInput, endOfInput);
   },
 
   componentDidUpdate() {
@@ -124,23 +126,6 @@ const Autocomplete = React.createClass({
     );
   },
 
-  renderInput() {
-    return dom.input(
-      {
-        ref: "searchInput",
-        value: this.state.inputValue,
-        onChange: (e) => this.setState({
-          inputValue: e.target.value,
-          selectedIndex: INITIAL_SELECTED_INDEX
-        }),
-        onFocus: e => this.setState({ focused: true }),
-        onBlur: e => this.setState({ focused: false }),
-        onKeyDown: this.onKeyDown,
-        placeholder: this.props.placeholder
-      }
-    );
-  },
-
   renderResults(results) {
     if (results.length) {
       return dom.ul({ className: "results", ref: "results" },
@@ -153,38 +138,29 @@ const Autocomplete = React.createClass({
     }
   },
 
-  renderSummary(searchResults) {
-    if (searchResults && searchResults.length === 0) {
-      return;
-    }
-
-    let resultCountSummary = "";
-    if (this.state.inputValue) {
-      resultCountSummary = L10N.getFormatStr(
-        "sourceSearch.resultsSummary1",
-        searchResults.length,
-        this.state.inputValue);
-    }
-    return dom.div({ className: "results-summary" }, resultCountSummary);
-  },
-
   render() {
+    const { focused } = this.state;
     const searchResults = this.getSearchResults();
+    const summaryMsg = L10N.getFormatStr(
+      "sourceSearch.resultsSummary1",
+      searchResults.length
+    );
     return dom.div(
-      { className:
-        classnames({
-          autocomplete: true,
-          focused: this.state.focused
-        })
-      },
-      dom.div({ className: "searchinput-container" },
-      Svg("magnifying-glass"),
-      this.renderInput(),
-      this.renderSummary(searchResults),
-      CloseButton({
-        buttonClass: "big",
-        handleClick: e => this.props.close()
-      })),
+      { className: classnames("autocomplete", { focused }) },
+      SearchInput({
+        query: this.state.inputValue,
+        count: searchResults.length,
+        placeholder: this.props.placeholder,
+        summaryMsg,
+        onChange: e => this.setState({
+          inputValue: e.target.value,
+          selectedIndex: INITIAL_SELECTED_INDEX
+        }),
+        onFocus: () => this.setState({ focused: true }),
+        onBlur: () => this.setState({ focused: false }),
+        onKeyDown: this.onKeyDown,
+        handleClose: this.props.close
+      }),
       this.renderResults(searchResults));
   }
 });

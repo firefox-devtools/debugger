@@ -44,52 +44,6 @@
   word-break: break-all;
 }
 
-.autocomplete input {
-  width: 100%;
-  border: none;
-  background-color: var(--theme-body-background);
-  color: var(--theme-comment);
-  outline: none;
-  line-height: 30px;
-  font-size: 14px;
-  height: 40px;
-  padding-inline-start: 30px;
-  flex: 1;
-}
-
-.autocomplete input::placeholder {
-  color: var(--theme-body-color-inactive);
-}
-
-.autocomplete .close-btn-big {
-  color: var(--theme-body-color-inactive);
-  background-color: var(--theme-body-background);
-}
-
-.autocomplete .results-summary {
-  line-height: 40px;
-  padding-right: 10px;
-  color: var(--theme-body-color-inactive);
-  background-color: var(--theme-body-background);
-}
-
-.autocomplete .magnifying-glass svg {
-  width: 16px;
-  position: absolute;
-  top: 12px;
-  offset-inline-start: 10px;
-}
-
-.autocomplete.focused .magnifying-glass path,
-.autocomplete.focused .magnifying-glass ellipse {
-  stroke: var(--theme-highlight-blue);
-}
-
-.autocomplete .magnifying-glass path,
-.autocomplete .magnifying-glass ellipse {
-  stroke: var(--theme-splitter-color);
-}
-
 .autocomplete .no-result-msg {
   display: flex;
   align-items: center;
