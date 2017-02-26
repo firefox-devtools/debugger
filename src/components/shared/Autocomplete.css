@@ -1,47 +1,7 @@
 
 .autocomplete {
+  flex: 1;
   width: 100%;
-}
-
-.autocomplete .results * {
-  -moz-user-select: none;
-  user-select: none;
-}
-
-.autocomplete ul {
-  list-style: none;
-  width: 100%;
-  max-height: calc(100% - 32px);
-  margin: 0px;
-  padding: 0px;
-  overflow: auto;
-}
-
-.autocomplete li {
-  border: 2px solid var(--theme-splitter-color);
-  background-color: var(--theme-tab-toolbar-background);
-  padding: 10px;
-  margin: 10px;
-}
-
-.autocomplete li:hover {
-  background: var(--theme-tab-toolbar-background);
-  cursor: pointer;
-}
-
-.autocomplete li.selected {
-  border: 2px solid var(--theme-selection-background);
-}
-
-.autocomplete li .title {
-  line-height: 1.5em;
-  word-break: break-all;
-}
-
-.autocomplete li .subtitle {
-  line-height: 1.5em;
-  color: grey;
-  word-break: break-all;
 }
 
 .autocomplete .no-result-msg {

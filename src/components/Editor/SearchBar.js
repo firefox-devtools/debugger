@@ -415,6 +415,7 @@ const SearchBar = React.createClass({
         handleClose: this.closeSearch
       }),
       this.renderBottomBar(),
+      this.renderFunctionSearch()
     );
   }
 });

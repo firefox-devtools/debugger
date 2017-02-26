@@ -15,10 +15,6 @@
   background-color: var(--theme-body-background);
 }
 
-.search-container .autocomplete {
-  flex: 1;
-}
-
 .searchinput-container {
   display: flex;
   border-bottom: 1px solid var(--theme-splitter-color);
