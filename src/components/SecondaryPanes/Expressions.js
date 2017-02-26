@@ -10,7 +10,6 @@ const ObjectInspector = React.createFactory(require("../shared/ObjectInspector")
 const { DOM: dom, PropTypes } = React;
 
 import "./Expressions.css";
-
 function getValue(expression) {
   const value = expression.value;
   if (!value) {
