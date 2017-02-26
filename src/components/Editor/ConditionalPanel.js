@@ -3,6 +3,7 @@ const React = require("react");
 const { DOM: dom } = React;
 
 const ReactDOM = require("react-dom");
+const CloseButton = require("../shared/Button/Close");
 
 require("./ConditionalPanel.css");
 
@@ -29,6 +30,10 @@ function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
         defaultValue: condition,
         placeholder: L10N.getStr("editor.conditionalPanel.placeholder"),
         onKeyPress: onKey
+      }),
+      CloseButton({
+        handleClick: closePanel,
+        buttonClass: "big"
       })
     ),
     panel
