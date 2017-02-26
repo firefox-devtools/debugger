@@ -1,19 +1,6 @@
-const { findDOMNode } = require("react-dom");
-
-function scrollList(elem, index) {
-  const resultsEl = findDOMNode(elem).querySelector(".result-list");
-  if (!resultsEl || resultsEl.children.length === 0) {
-    return;
-  }
-
-  const resultsHeight = resultsEl.clientHeight;
-  const itemHeight = resultsEl.children[0].clientHeight;
-  const numVisible = resultsHeight / itemHeight;
-  const positionsToScroll = index - numVisible + 1;
-  const itemOffset = resultsHeight % itemHeight;
-  const scroll = positionsToScroll * (itemHeight + 2) + itemOffset;
-
-  resultsEl.scrollTop = Math.max(0, scroll);
+function scrollList(resultList, index) {
+  const resultEl = resultList[index];
+  resultEl.scrollIntoView({ block: "end", behavior: "smooth" });
 }
 
 function handleKeyDown(e: SyntheticKeyboardEvent) {

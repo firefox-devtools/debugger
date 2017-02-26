@@ -25,7 +25,8 @@ const ResultList = React.createClass({
     return dom.li(
       {
         onClick: () => this.props.selectItem(item),
-        key: `${item.id}${item.value}`,
+        key: `${item.id}${item.value}${index}`,
+        ref: index,
         title: item.value,
         className: classnames({
           selected: index === this.props.selected
