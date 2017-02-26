@@ -13,10 +13,10 @@ const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
 const GutterMenu = require("./GutterMenu");
 const EditorMenu = require("./EditorMenu");
-const Popover = createFactory(require("../shared/Popover"));
+const Preview = createFactory(require("./Preview").default);
 const { renderConditionalPanel } = require("./ConditionalPanel");
-const ObjectInspector = React.createFactory(require("../shared/ObjectInspector"));
 const { debugGlobal } = require("devtools-launchpad");
+const { isEnabled } = require("devtools-config");
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame,
@@ -77,6 +77,7 @@ const Editor = React.createClass({
         count: 0
       },
       popoverPos: null,
+      selectedToken: null,
       searchModifiers: {
         caseSensitive: true,
         wholeWord: false,
@@ -246,8 +247,12 @@ const Editor = React.createClass({
 
   onMouseUp(e, ctx, modifiers) {
     if (e.metaKey) {
+      const token = e.target.innerText;
       const pos = { top: e.pageY, left: e.pageX };
-      return this.setState({ popoverPos: pos });
+      return this.setState({
+        popoverPos: pos,
+        selectedToken: token
+      });
     }
 
     const query = ctx.cm.getSelection();
@@ -519,39 +524,35 @@ const Editor = React.createClass({
     return "";
   },
 
-  renderPopover() {
-    const { loadObjectProperties, loadedObjects, selectedFrame } = this.props;
-    const { popoverPos } = this.state;
+  renderPreview() {
+    const { popoverPos, selectedToken } = this.state;
+    const { selectedFrame } = this.props;
 
-    if (!popoverPos || !selectedFrame) {
+    if (!popoverPos || !selectedFrame || !isEnabled("editorPreview")) {
       return;
     }
 
-    debugger;
-    const value = selectedFrame.scope.bindings.variables.obj.value;
+    const variables = selectedFrame.scope.bindings.variables;
+
+    if (!variables.hasOwnProperty(selectedToken)) {
+      return;
+    }
+
+    const value = variables[selectedToken].value;
     const root = {
-      name: "",
-      path: "",
+      name: selectedToken,
+      path: selectedToken,
       contents: { value }
     };
 
-    const preview = ObjectInspector({
+    return Preview({
       roots: [root],
-      getObjectProperties: id => loadedObjects.get(id),
-      autoExpandDepth: 0,
-      onDoubleClick: () => {},
-      loadObjectProperties
+      popoverPos,
+      onClose: () => this.setState({
+        popoverPos: null,
+        selectedToken: null
+      })
     });
-
-    return Popover(
-      {
-        pos: popoverPos
-      },
-      dom.div(
-        {},
-        preview
-      )
-    );
   },
 
   render() {
@@ -588,7 +589,7 @@ const Editor = React.createClass({
         this.renderBreakpoints(),
         this.renderHitCounts(),
         Footer({ editor: this.editor, horizontal }),
-        this.renderPopover()
+        this.renderPreview()
       )
     );
   }
