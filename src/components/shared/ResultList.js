@@ -17,7 +17,6 @@ const ResultList = React.createClass({
     items: PropTypes.array.isRequired,
     selected: PropTypes.number.isRequired,
     selectItem: PropTypes.func.isRequired,
-    close: PropTypes.func.isRequired,
   },
 
   displayName: "ResultList",

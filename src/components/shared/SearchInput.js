@@ -46,13 +46,10 @@ const SearchInput = React.createClass({
       handleClose,
     } = this.props;
 
-    return dom.div(
-      { className: "search-field" },
+    return dom.div({ className: "search-field" },
       this.renderSvg(),
       dom.input({
-        className: classnames({
-          empty: count == 0 && query.trim() != ""
-        }),
+        className: classnames({ empty: count == 0 && query.trim() != "" }),
         onChange,
         onKeyDown,
         onKeyUp,
@@ -62,10 +59,7 @@ const SearchInput = React.createClass({
         value: query,
         spellCheck: false,
       }),
-      dom.div(
-        { className: "summary" },
-        query != "" ? summaryMsg : ""
-      ),
+      dom.div({ className: "summary" }, query != "" ? summaryMsg : ""),
       CloseButton({
         handleClick: handleClose,
         buttonClass: "big"

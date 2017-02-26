@@ -4,6 +4,7 @@ const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 const { findDOMNode } = require("react-dom");
 const { isEnabled } = require("devtools-config");
+const { filter } = require("fuzzaldrin-plus");
 const Svg = require("../shared/Svg");
 const {
   find,
@@ -14,11 +15,14 @@ const {
   clearIndex
 } = require("../../utils/editor");
 const { getFunctions } = require("../../utils/parser");
+const { scrollList } = require("../../utils/result-list");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
 const SearchInput = createFactory(require("../shared/SearchInput"));
-const Autocomplete = createFactory(require("../shared/Autocomplete"));
+const ResultList = createFactory(require("../shared/ResultList"));
 const ImPropTypes = require("react-immutable-proptypes");
+
+import type { FunctionDeclaration } from "../../utils/parser";
 
 require("./SearchBar.css");
 
@@ -44,6 +48,7 @@ const SearchBar = React.createClass({
       enabled: false,
       functionSearchEnabled: false,
       functionDeclarations: [],
+      selectedResultIndex: 0,
       count: 0,
       index: -1
     };
@@ -86,6 +91,10 @@ const SearchBar = React.createClass({
 
     if (this.searchInput()) {
       this.searchInput().focus();
+    }
+
+    if (this.resultList()) {
+      scrollList(this, this.state.selectedResultIndex);
     }
 
     const hasLoaded = sourceText && !sourceText.get("loading");
@@ -143,8 +152,12 @@ const SearchBar = React.createClass({
       e.preventDefault();
     }
 
+    if (!this.state.enabled) {
+      this.setState({ enabled: true });
+    }
+
     if (this.state.functionSearchEnabled) {
-      return this.setState({ functionSearchEnabled: false });
+      return this.setState({ enabled: false, functionSearchEnabled: false });
     }
 
     const functionDeclarations = getFunctions(
@@ -180,6 +193,10 @@ const SearchBar = React.createClass({
 
   searchInput() {
     return findDOMNode(this).querySelector("input");
+  },
+
+  resultList() {
+    return findDOMNode(this).querySelector(".result-list");
   },
 
   doSearch(query: string) {
@@ -219,10 +236,6 @@ const SearchBar = React.createClass({
     )();
   },
 
-  onChange(e: any) {
-    return this.doSearch(e.target.value);
-  },
-
   traverseResults(e: SyntheticEvent, rev: boolean) {
     e.stopPropagation();
     e.preventDefault();
@@ -258,6 +271,31 @@ const SearchBar = React.createClass({
     });
   },
 
+  getFunctionResults() {
+    const { query } = this.props;
+    if (query == "") {
+      return [];
+    }
+
+    return filter(this.state.functionDeclarations, query, { key: "value" });
+  },
+
+  // Handlers
+  selectResultItem(item: FunctionDeclaration) {
+    const { selectSource, selectedSource } = this.props;
+    this.toggleFunctionSearch();
+    selectSource(selectedSource.get("id"), { line: item.location.start.line });
+  },
+
+  onSelectResultItem(item: FunctionDeclaration) {
+    const { selectSource, selectedSource } = this.props;
+    selectSource(selectedSource.get("id"), { line: item.location.start.line });
+  },
+
+  onChange(e: any) {
+    return this.doSearch(e.target.value);
+  },
+
   onKeyUp(e: SyntheticKeyboardEvent) {
     if (e.key != "Enter") {
       return;
@@ -266,6 +304,36 @@ const SearchBar = React.createClass({
     this.traverseResults(e, e.shiftKey);
   },
 
+  onKeyDown(e: SyntheticKeyboardEvent) {
+    const searchResults = this.getFunctionResults(),
+      resultCount = searchResults.length;
+
+    if (e.key === "ArrowUp") {
+      const selectedResultIndex = Math
+        .max(0, this.state.selectedResultIndex - 1);
+      this.setState({ selectedResultIndex });
+      this.onSelectResultItem(searchResults[selectedResultIndex]);
+      e.preventDefault();
+    } else if (e.key === "ArrowDown") {
+      const selectedResultIndex = Math
+        .min(resultCount - 1, this.state.selectedResultIndex + 1);
+      this.setState({ selectedResultIndex });
+      this.onSelectResultItem(searchResults[selectedResultIndex]);
+      e.preventDefault();
+    } else if (e.key === "Enter") {
+      if (searchResults.length) {
+        this.selectResultItem(searchResults[this.state.selectedResultIndex]);
+      } else {
+        this.closeSearch(e);
+      }
+      e.preventDefault();
+    } else if (e.key === "Tab") {
+      this.closeSearch(e);
+      e.preventDefault();
+    }
+  },
+
+  // Renderers
   buildSummaryMsg() {
     const {
       searchResults: { count, index },
@@ -285,6 +353,14 @@ const SearchBar = React.createClass({
     }
 
     return L10N.getFormatStr("editor.searchResults", index + 1, count);
+  },
+
+  buildPlaceHolder() {
+    if (this.state.functionSearchEnabled) {
+      return "Search for function...";
+    }
+
+    return "Search in file...";
   },
 
   renderSearchModifiers() {
@@ -329,7 +405,7 @@ const SearchBar = React.createClass({
     );
   },
 
-  renderFunctionSearchToggle() {
+  renderSearchTypeToggle() {
     if (!isEnabled("functionSearch")) {
       return;
     }
@@ -349,38 +425,6 @@ const SearchBar = React.createClass({
     );
   },
 
-  renderFunctionSearch() {
-    if (!this.state.functionSearchEnabled) {
-      return;
-    }
-
-    const { selectSource, selectedSource } = this.props;
-
-    return dom.div({
-      className: "function-search"
-    },
-      Autocomplete({
-        selectItem: (item) => {
-          this.toggleFunctionSearch();
-          selectSource(
-            selectedSource.get("id"),
-            { line: item.location.start.line }
-          );
-        },
-        onSelectedItem: (item) => {
-          selectSource(
-            selectedSource.get("id"),
-            { line: item.location.start.line }
-          );
-        },
-        close: () => {},
-        items: this.state.functionDeclarations,
-        inputValue: "",
-        placeholder: L10N.getStr("functionSearch.search.placeholder")
-      })
-    );
-  },
-
   renderBottomBar() {
     if (!isEnabled("searchModifiers") || !isEnabled("functionSearch")) {
       return;
@@ -388,9 +432,22 @@ const SearchBar = React.createClass({
 
     return dom.div(
       { className: "search-bottom-bar" },
-      this.renderFunctionSearchToggle(),
+      this.renderSearchTypeToggle(),
       this.renderSearchModifiers()
     );
+  },
+
+  renderResults() {
+    const results = this.getFunctionResults();
+    if (!this.state.functionSearchEnabled || !results.length) {
+      return;
+    }
+
+    return ResultList({
+      items: results,
+      selected: this.state.selectedResultIndex,
+      selectItem: this.selectResultItem,
+    });
   },
 
   render() {
@@ -408,14 +465,15 @@ const SearchBar = React.createClass({
       SearchInput({
         query,
         count,
-        placeholder: "Search in file...",
+        placeholder: this.buildPlaceHolder(),
         summaryMsg: this.buildSummaryMsg(),
         onChange: this.onChange,
         onKeyUp: this.onKeyUp,
+        onKeyDown: this.state.functionSearchEnabled ? this.onKeyDown : null,
         handleClose: this.closeSearch
       }),
       this.renderBottomBar(),
-      this.renderFunctionSearch()
+      this.renderResults()
     );
   }
 });
