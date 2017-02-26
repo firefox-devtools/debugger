@@ -93,7 +93,7 @@ const SearchBar = React.createClass({
       this.searchInput().focus();
     }
 
-    if (this.resultList()) {
+    if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this, this.state.selectedResultIndex);
     }
 
@@ -193,10 +193,6 @@ const SearchBar = React.createClass({
 
   searchInput() {
     return findDOMNode(this).querySelector("input");
-  },
-
-  resultList() {
-    return findDOMNode(this).querySelector(".result-list");
   },
 
   doSearch(query: string) {
@@ -305,6 +301,10 @@ const SearchBar = React.createClass({
   },
 
   onKeyDown(e: SyntheticKeyboardEvent) {
+    if (!this.state.functionEnabled || this.props.query == "") {
+      return;
+    }
+
     const searchResults = this.getFunctionResults(),
       resultCount = searchResults.length;
 
@@ -447,6 +447,7 @@ const SearchBar = React.createClass({
       items: results,
       selected: this.state.selectedResultIndex,
       selectItem: this.selectResultItem,
+      ref: "resultList"
     });
   },
 
@@ -469,7 +470,7 @@ const SearchBar = React.createClass({
         summaryMsg: this.buildSummaryMsg(),
         onChange: this.onChange,
         onKeyUp: this.onKeyUp,
-        onKeyDown: this.state.functionSearchEnabled ? this.onKeyDown : null,
+        onKeyDown: this.onKeyDown,
         handleClose: this.closeSearch
       }),
       this.renderBottomBar(),

@@ -39,7 +39,9 @@ const Autocomplete = React.createClass({
   },
 
   componentDidUpdate() {
-    scrollList(this, this.state.selectedIndex);
+    if (this.refs.resultList && this.refs.resultList.refs) {
+      scrollList(this.refs.resultList.refs, this.state.selectedIndex);
+    }
   },
 
   getSearchResults() {
@@ -94,6 +96,7 @@ const Autocomplete = React.createClass({
         selected: this.state.selectedIndex,
         selectItem: this.props.selectItem,
         close: this.props.close,
+        ref: "resultList"
       });
     } else if (this.state.inputValue && !results.length) {
       return dom.div({ className: "no-result-msg" },
