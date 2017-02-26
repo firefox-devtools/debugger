@@ -20,7 +20,7 @@ type ASTLocation = {
   }
 };
 
-type FunctionDeclaration = {
+export type FunctionDeclaration = {
   name: string,
   location: ASTLocation
 };

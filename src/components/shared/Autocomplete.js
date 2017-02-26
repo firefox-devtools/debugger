@@ -1,22 +1,15 @@
 // @flow
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
+const { DOM: dom, PropTypes, createFactory } = React;
+const { findDOMNode } = require("react-dom");
 const { filter } = require("fuzzaldrin-plus");
 const classnames = require("classnames");
+const { scrollList } = require("../../utils/result-list");
 const Svg = require("./Svg");
-const CloseButton = require("./Button/Close");
+const SearchInput = createFactory(require("./SearchInput"));
+const ResultList = createFactory(require("./ResultList"));
 
 require("./Autocomplete.css");
-
-const INITIAL_SELECTED_INDEX = 0;
-const INITIAL_FOCUSED = false;
-
-type SearchItemResult = {
-    id: string,
-    subtitle: string,
-    title: string,
-    value: string
-};
 
 const Autocomplete = React.createClass({
   propTypes: {
@@ -33,35 +26,20 @@ const Autocomplete = React.createClass({
   getInitialState() {
     return {
       inputValue: this.props.inputValue,
-      selectedIndex: INITIAL_SELECTED_INDEX,
-      focused: INITIAL_FOCUSED
+      selectedIndex: 0,
+      focused: false
     };
   },
 
   componentDidMount() {
     const endOfInput = this.state.inputValue.length;
-    this.refs.searchInput.focus();
-    this.refs.searchInput.setSelectionRange(endOfInput, endOfInput);
+    const searchInput = findDOMNode(this).querySelector("input");
+    searchInput.focus();
+    searchInput.setSelectionRange(endOfInput, endOfInput);
   },
 
   componentDidUpdate() {
-    this.scrollList();
-  },
-
-  scrollList() {
-    const resultsEl = this.refs.results;
-    if (!resultsEl || resultsEl.children.length === 0) {
-      return;
-    }
-
-    const resultsHeight = resultsEl.clientHeight;
-    const itemHeight = resultsEl.children[0].clientHeight;
-    const numVisible = resultsHeight / itemHeight;
-    const positionsToScroll = this.state.selectedIndex - numVisible + 1;
-    const itemOffset = resultsHeight % itemHeight;
-    const scroll = positionsToScroll * (itemHeight + 2) + itemOffset;
-
-    resultsEl.scrollTop = Math.max(0, scroll);
+    scrollList(this, this.state.selectedIndex);
   },
 
   getSearchResults() {
@@ -109,42 +87,14 @@ const Autocomplete = React.createClass({
     }
   },
 
-  renderSearchItem(result: SearchItemResult, index: number) {
-    return dom.li(
-      {
-        onClick: () => this.props.selectItem(result),
-        key: `${result.id}${result.value}`,
-        title: result.value,
-        className: classnames({
-          selected: index === this.state.selectedIndex
-        })
-      },
-      dom.div({ className: "title" }, result.title),
-      dom.div({ className: "subtitle" }, result.subtitle)
-    );
-  },
-
-  renderInput() {
-    return dom.input(
-      {
-        ref: "searchInput",
-        value: this.state.inputValue,
-        onChange: (e) => this.setState({
-          inputValue: e.target.value,
-          selectedIndex: INITIAL_SELECTED_INDEX
-        }),
-        onFocus: e => this.setState({ focused: true }),
-        onBlur: e => this.setState({ focused: false }),
-        onKeyDown: this.onKeyDown,
-        placeholder: this.props.placeholder
-      }
-    );
-  },
-
   renderResults(results) {
     if (results.length) {
-      return dom.ul({ className: "results", ref: "results" },
-      results.map(this.renderSearchItem));
+      return ResultList({
+        items: results,
+        selected: this.state.selectedIndex,
+        selectItem: this.props.selectItem,
+        close: this.props.close,
+      });
     } else if (this.state.inputValue && !results.length) {
       return dom.div({ className: "no-result-msg" },
         Svg("sad-face"),
@@ -153,38 +103,29 @@ const Autocomplete = React.createClass({
     }
   },
 
-  renderSummary(searchResults) {
-    if (searchResults && searchResults.length === 0) {
-      return;
-    }
-
-    let resultCountSummary = "";
-    if (this.state.inputValue) {
-      resultCountSummary = L10N.getFormatStr(
-        "sourceSearch.resultsSummary1",
-        searchResults.length,
-        this.state.inputValue);
-    }
-    return dom.div({ className: "results-summary" }, resultCountSummary);
-  },
-
   render() {
+    const { focused } = this.state;
     const searchResults = this.getSearchResults();
+    const summaryMsg = L10N.getFormatStr(
+      "sourceSearch.resultsSummary1",
+      searchResults.length
+    );
     return dom.div(
-      { className:
-        classnames({
-          autocomplete: true,
-          focused: this.state.focused
-        })
-      },
-      dom.div({ className: "searchinput-container" },
-      Svg("magnifying-glass"),
-      this.renderInput(),
-      this.renderSummary(searchResults),
-      CloseButton({
-        buttonClass: "big",
-        handleClick: e => this.props.close()
-      })),
+      { className: classnames("autocomplete", { focused }) },
+      SearchInput({
+        query: this.state.inputValue,
+        count: searchResults.length,
+        placeholder: this.props.placeholder,
+        summaryMsg,
+        onChange: e => this.setState({
+          inputValue: e.target.value,
+          selectedIndex: 0
+        }),
+        onFocus: () => this.setState({ focused: true }),
+        onBlur: () => this.setState({ focused: false }),
+        onKeyDown: this.onKeyDown,
+        handleClose: this.props.close
+      }),
       this.renderResults(searchResults));
   }
 });
