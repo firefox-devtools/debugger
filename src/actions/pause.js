@@ -199,7 +199,7 @@ function selectFrame(frame: Frame) {
  * Load an object.
  *
  * @param grip
- * TODO: Right now this if Firefox specific and is not implemented
+ * TODO: Right now this is Firefox specific and is not implemented
  * for Chrome, which is why it takes a grip.
  * @memberof actions/pause
  * @static
