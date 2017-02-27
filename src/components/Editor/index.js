@@ -6,7 +6,6 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
-const { debounce } = require("lodash")
 
 const { getMode } = require("../../utils/source");
 
