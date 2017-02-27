@@ -10,14 +10,24 @@ require("./ConditionalPanel.css");
 function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
   { condition: boolean, closePanel: Function, setBreakpoint: Function }) {
   let panel = document.createElement("div");
+  let input = null;
 
-  function onKey(e: SyntheticKeyboardEvent) {
-    if (e.key != "Enter") {
-      return;
+  function setInput(node) {
+    input = node;
+  }
+
+  function saveAndClose() {
+    if (input) {
+      setBreakpoint(input.value);
     }
 
-    if (e.target && e.target.value) {
-      setBreakpoint(e.target.value);
+    closePanel();
+  }
+
+  function onKey(e: SyntheticKeyboardEvent) {
+    if (e.key === "Enter") {
+      saveAndClose();
+    } else if (e.key === "Escape") {
       closePanel();
     }
   }
@@ -29,10 +39,11 @@ function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
       dom.input({
         defaultValue: condition,
         placeholder: L10N.getStr("editor.conditionalPanel.placeholder"),
-        onKeyPress: onKey
+        onKeyDown: onKey,
+        ref: setInput
       }),
       CloseButton({
-        handleClick: closePanel,
+        handleClick: saveAndClose,
         buttonClass: "big"
       })
     ),
