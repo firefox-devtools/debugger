@@ -1,8 +1,13 @@
+const get = require("lodash/get");
 
 let WINDOW_PROPERTIES = {};
 
 if (typeof window == "object") {
   WINDOW_PROPERTIES = Object.getOwnPropertyNames(window);
+}
+
+function getValue(item) {
+  return get(item, "contents.value", undefined);
 }
 
 function isBucket(item) {
@@ -13,21 +18,37 @@ function nodeHasChildren(item) {
   return Array.isArray(item.contents) || isBucket(item);
 }
 
+function nodeIsObject(item) {
+  const value = getValue(item);
+  return value && value.type === "object";
+}
+
 function nodeIsOptimizedOut(item) {
-  return !nodeHasChildren(item) && item.contents.value.optimizedOut === true;
+  const value = getValue(item);
+  return !nodeHasChildren(item) && value && value.optimizedOut;
 }
 
 function nodeIsMissingArguments(item) {
-  return !nodeHasChildren(item) &&
-    item.contents.value.missingArguments === true;
+  const value = getValue(item);
+  return !nodeHasChildren(item) && value && value.missingArguments;
 }
 
 function nodeHasProperties(item) {
-  return !nodeHasChildren(item) && item.contents.value.type === "object";
+  return !nodeHasChildren(item) && nodeIsObject(item);
 }
 
 function nodeIsPrimitive(item) {
   return !nodeHasChildren(item) && !nodeHasProperties(item);
+}
+
+function isPromise(item) {
+  const value = getValue(item);
+  return value.class == "Promise";
+}
+
+function getPromiseProperties(item) {
+  const { promiseState: { reason }} = getValue(item);
+  return createNode("reason", `${item.path}/reason`, { value: reason });
 }
 
 function isDefault(item) {
@@ -163,7 +184,10 @@ function getChildren({
     return [];
   }
 
-  const children = makeNodesForProperties(loadedProps, item.path);
+  let children = makeNodesForProperties(loadedProps, item.path);
+  if (isPromise(item)) {
+    children.unshift(getPromiseProperties(item));
+  }
   actors[key] = children;
   return children;
 }

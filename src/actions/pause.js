@@ -215,8 +215,7 @@ function loadObjectProperties(object: any) {
     dispatch({
       type: constants.LOAD_OBJECT_PROPERTIES,
       objectId,
-      [PROMISE]: client.getProperties(object),
-      reason: object.promiseState ? object.promiseState.reason : undefined
+      [PROMISE]: client.getProperties(object)
     });
   };
 }
