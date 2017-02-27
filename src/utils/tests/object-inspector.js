@@ -1,7 +1,7 @@
 const expect = require("expect.js");
 
 const {
-  makeNodesForProperties
+  makeNodesForProperties, isPromise, getPromiseProperties
 } = require("../object-inspector");
 
 const objProperties = {
@@ -102,5 +102,78 @@ describe("object-inspector", () => {
         "root/bucket1", "root/bucket2", "root/bucket3", "root/bucket4"
       ]);
     });
+  });
+});
+
+describe("promises", () => {
+  it("is promise", () => {
+    const promise = {
+      "contents": {
+        "enumerable": true,
+        "configurable": false,
+        "value": {
+          "frozen": false,
+          "ownPropertyLength": 0,
+          "preview": {
+            "kind": "Object",
+            "ownProperties": {},
+            "ownPropertiesLength": 0,
+            "safeGetterValues": {}
+          },
+          "actor": "server2.conn2.child1/pausedobj36",
+          "promiseState": {
+            "state": "rejected",
+            "reason": {
+              "type": "undefined"
+            },
+            "creationTimestamp": 1486584316133.3994,
+            "timeToSettle": 0.001713000237941742
+          },
+          "class": "Promise",
+          "type": "object",
+          "extensible": true,
+          "sealed": false
+        },
+        "writable": true
+      }
+    };
+
+    expect(isPromise(promise)).to.eql(true);
+  });
+
+  it("getPromiseProperties", () => {
+    const promise = {
+      "contents": {
+        "enumerable": true,
+        "configurable": false,
+        "value": {
+          "frozen": false,
+          "ownPropertyLength": 0,
+          "preview": {
+            "kind": "Object",
+            "ownProperties": {},
+            "ownPropertiesLength": 0,
+            "safeGetterValues": {}
+          },
+          "actor": "server2.conn2.child1/pausedobj36",
+          "promiseState": {
+            "state": "rejected",
+            "reason": {
+              "type": "3"
+            },
+            "creationTimestamp": 1486584316133.3994,
+            "timeToSettle": 0.001713000237941742
+          },
+          "class": "Promise",
+          "type": "object",
+          "extensible": true,
+          "sealed": false
+        },
+        "writable": true
+      }
+    };
+
+    const node = getPromiseProperties(promise);
+    expect(node.contents.value.type).to.eql("3");
   });
 });

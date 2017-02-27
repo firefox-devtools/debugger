@@ -202,5 +202,7 @@ module.exports = {
   sortProperties,
   makeNodesForProperties,
   getChildren,
-  createNode
+  createNode,
+  isPromise,
+  getPromiseProperties
 };
