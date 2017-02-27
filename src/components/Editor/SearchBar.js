@@ -32,7 +32,7 @@ const SearchBar = React.createClass({
     editor: PropTypes.object,
     sourceText: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
-    selectedSource: ImPropTypes.map.isRequired,
+    selectedSource: ImPropTypes.map,
     searchResults: PropTypes.object.isRequired,
     modifiers: PropTypes.object.isRequired,
     toggleModifier: PropTypes.func.isRequired,
@@ -160,20 +160,22 @@ const SearchBar = React.createClass({
       return this.setState({ enabled: false, functionSearchEnabled: false });
     }
 
-    const functionDeclarations = getFunctions(
-      this.props.selectedSource.toJS()
-    ).map(dec => ({
-      id: `${dec.name}:${dec.location.start.line}`,
-      title: dec.name,
-      subtitle: `:${dec.location.start.line}`,
-      value: dec.name,
-      location: dec.location
-    }));
+    if (this.props.selectedSource) {
+      const functionDeclarations = getFunctions(
+        this.props.selectedSource.toJS()
+      ).map(dec => ({
+        id: `${dec.name}:${dec.location.start.line}`,
+        title: dec.name,
+        subtitle: `:${dec.location.start.line}`,
+        value: dec.name,
+        location: dec.location
+      }));
 
-    this.setState({
-      functionSearchEnabled: true,
-      functionDeclarations
-    });
+      this.setState({
+        functionSearchEnabled: true,
+        functionDeclarations
+      });
+    }
   },
 
   setSearchValue(value: string) {
@@ -280,12 +282,18 @@ const SearchBar = React.createClass({
   selectResultItem(item: FunctionDeclaration) {
     const { selectSource, selectedSource } = this.props;
     this.toggleFunctionSearch();
-    selectSource(selectedSource.get("id"), { line: item.location.start.line });
+    if (selectedSource) {
+      selectSource(
+        selectedSource.get("id"), { line: item.location.start.line });
+    }
   },
 
   onSelectResultItem(item: FunctionDeclaration) {
     const { selectSource, selectedSource } = this.props;
-    selectSource(selectedSource.get("id"), { line: item.location.start.line });
+    if (selectedSource) {
+      selectSource(
+        selectedSource.get("id"), { line: item.location.start.line });
+    }
   },
 
   onChange(e: any) {
