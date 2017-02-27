@@ -55,6 +55,14 @@ const Frames = createClass({
       || showAllFrames !== nextState.showAllFrames;
   },
 
+  componentWillMount() {
+    document.addEventListener("keydown", this.onKeyDown, false);
+  },
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.onKeyDown, false);
+  },
+
   getInitialState() {
     return { showAllFrames: false };
   },
@@ -90,6 +98,23 @@ const Frames = createClass({
     showMenu(event, menuOptions);
   },
 
+  onMouseEnter(frame: Frame) {
+    this.setState({ hoveredFrame: frame });
+  },
+
+  onMouseLeave() {
+    this.setState({ hoveredFrame: null });
+  },
+
+  onKeyDown(event: SyntheticKeyboardEvent) {
+    let frames = this.props.frames;
+    let newFrame = frames.find(frame => frame.id == this.state.hoveredFrame.id);
+
+    if (newFrame && event.key == "Enter") {
+      this.props.selectFrame(newFrame);
+    }
+  },
+
   renderFrame(frame: Frame) {
     const { selectedFrame } = this.props;
 
@@ -100,6 +125,8 @@ const Frames = createClass({
         }),
         onMouseDown: (e) => this.onMouseDown(e, frame, selectedFrame),
         onContextMenu: (e) => this.onContextMenu(e, frame),
+        onMouseEnter: () => this.onMouseEnter(frame),
+        onMouseLeave: () => this.onMouseLeave(),
         tabIndex: 0
       },
       renderFrameTitle(frame),
