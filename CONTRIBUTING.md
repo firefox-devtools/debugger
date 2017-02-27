@@ -19,6 +19,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Development Guide](#development-guide-computer)
   * [Issues](#issues)
   * [Pull Requests](#pull-requests)
+  * [Maintainer Tips](#maintainer-tips)
   * [Debugging Tips](#debugging-tips)
   * [Pro Tips](#pro-tips)
 * [Project Overview](#project-overview)
@@ -169,6 +170,14 @@ Go to [Pull Requests](./docs/pull-requests.md) to learn about:
 * [Updates](./docs/pull-requests.md#updates)
 
 > **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
+
+### Maintainer Tips
+
+Helping maintain a project is the best way to contribute to its overall health.
+
++ [Pushing to a branch](./docs/maintainer.md#pushing-to-a-branch)
++ [Triaging issues](./docs/maintainer.md#triaging-issues)
++ [Adding a Patch](./docs/maintainer.md#adding-a-patch)
 
 ### Debugging Tips
 
