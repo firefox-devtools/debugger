@@ -44,7 +44,7 @@ You can change the theme by setting the `theme` field in your `local.json` to  `
 It is possible to add a theme specific selector. For example, this selector updates the dark debugger button colors:
 
 ```css
-:root.theme-dark .command-bar > span {
+.theme-dark .command-bar > span {
   fill: var(--theme-body-color);
 }
 ```
