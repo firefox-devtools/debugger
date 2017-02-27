@@ -14,9 +14,9 @@ async function EditorMenu({
   addExpression
   }) {
   const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accessKey");
+  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
-  const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.key");
+  const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
 
   if (event.target.classList.contains("CodeMirror-linenumber")) {
     return onGutterContextMenu(event);
