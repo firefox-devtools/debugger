@@ -47,8 +47,9 @@ function isPromise(item) {
 }
 
 function getPromiseProperties(item) {
-  const { promiseState: { reason }} = getValue(item);
-  return createNode("reason", `${item.path}/reason`, { value: reason });
+  const { promiseState: { reason, value }} = getValue(item);
+  return createNode("reason", `${item.path}/reason`,
+    { value: !reason ? value : reason });
 }
 
 function isDefault(item) {
