@@ -139,7 +139,7 @@ function createNode(name, path, contents) {
   // The path is important to uniquely identify the item in the entire
   // tree. This helps debugging & optimizes React's rendering of large
   // lists. The path will be separated by property name,
-  // i.e. `{ foo: { bar: { baz: 5 }}}l` will have a path of `foo/bar/baz`
+  // i.e. `{ foo: { bar: { baz: 5 }}}` will have a path of `foo/bar/baz`
   // for the inner object.
   return { name, path, contents };
 }
