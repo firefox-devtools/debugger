@@ -42,3 +42,7 @@
   display: flex;
   overflow: hidden;
 }
+
+:root.theme-dark .sources-list .tree .node:not(.focused) svg {
+  fill: var(--theme-comment);
+}

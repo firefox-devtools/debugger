@@ -27,3 +27,7 @@
   -moz-user-select: none;
   user-select: none;
 }
+
+:root.theme-dark .secondary-panes .accordion .arrow svg {
+  fill: var(--theme-comment);
+}
