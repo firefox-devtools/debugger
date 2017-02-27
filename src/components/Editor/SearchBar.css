@@ -1,10 +1,12 @@
 .search-bar {
   display: flex;
   flex-direction: column;
+  max-height: 50%;
 }
 
 .search-bottom-bar {
   display: flex;
+  flex-shrink: 0;
   justify-content: space-between;
   width: calc(100% - 1px);
   height: 40px;
@@ -69,6 +71,10 @@
 .search-bottom-bar .search-type-toggles .search-type-btn.active {
   color: var(--theme-selection-background);
   font-weight: bold;
+}
+
+.search-bar .result-list {
+  max-height: calc(100% - 80px);
 }
 
 .search-bar .result-list li:first-child {
