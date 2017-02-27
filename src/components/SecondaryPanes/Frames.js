@@ -56,11 +56,11 @@ const Frames = createClass({
   },
 
   componentWillMount() {
-    document.addEventListener("keydown", this.onKeyDown, false);
+    document.addEventListener("keyup", this.onKeyUp, false);
   },
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.onKeyDown, false);
+    document.removeEventListener("keyup", this.onKeyUp, false);
   },
 
   getInitialState() {
@@ -106,7 +106,7 @@ const Frames = createClass({
     this.setState({ hoveredFrame: null });
   },
 
-  onKeyDown(event: SyntheticKeyboardEvent) {
+  onKeyUp(event: SyntheticKeyboardEvent) {
     let frames = this.props.frames;
     let newFrame = frames.find(frame => frame.id == this.state.hoveredFrame.id);
 
