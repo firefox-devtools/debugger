@@ -556,14 +556,10 @@ const Editor = React.createClass({
     }
 
     const value = variables[selectedToken].value;
-    const root = {
-      name: selectedToken,
-      path: selectedToken,
-      contents: { value }
-    };
 
     return Preview({
-      roots: [root],
+      value,
+      expression: selectedToken,
       popoverPos,
       onClose: () => this.setState({
         popoverPos: null,

@@ -199,6 +199,7 @@ module.exports = {
   nodeIsMissingArguments,
   nodeHasProperties,
   nodeIsPrimitive,
+  nodeIsObject,
   isDefault,
   sortProperties,
   makeNodesForProperties,

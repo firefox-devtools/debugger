@@ -67,6 +67,12 @@ function getRawSourceURL(url: string): string {
   return url.replace(/:formatted$/, "");
 }
 
+function getFilenameFromURL(url: string) {
+  url = getRawSourceURL(url || "");
+  const name = basename(url) || "(index)";
+  return endTruncateStr(name, 50);
+}
+
 /**
  * Show a source url's filename.
  * If the source does not have a url, use the source id.
@@ -81,9 +87,7 @@ function getFilename(source: Source) {
     return `SOURCE${sourceId}`;
   }
 
-  url = getRawSourceURL(url || "");
-  const name = basename(url) || "(index)";
-  return endTruncateStr(name, 50);
+  return getFilenameFromURL(url);
 }
 
 const contentTypeModeMap = {
@@ -168,6 +172,7 @@ module.exports = {
   getPrettySourceURL,
   getRawSourceURL,
   getFilename,
+  getFilenameFromURL,
   getMode,
   getContentType
 };
