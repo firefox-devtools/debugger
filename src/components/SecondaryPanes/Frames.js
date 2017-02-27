@@ -55,14 +55,6 @@ const Frames = createClass({
       || showAllFrames !== nextState.showAllFrames;
   },
 
-  componentWillMount() {
-    document.addEventListener("keyup", this.onKeyUp, false);
-  },
-
-  componentWillUnmount() {
-    document.removeEventListener("keyup", this.onKeyUp, false);
-  },
-
   getInitialState() {
     return { showAllFrames: false };
   },
@@ -98,23 +90,6 @@ const Frames = createClass({
     showMenu(event, menuOptions);
   },
 
-  onMouseEnter(frame: Frame) {
-    this.setState({ hoveredFrame: frame });
-  },
-
-  onMouseLeave() {
-    this.setState({ hoveredFrame: null });
-  },
-
-  onKeyUp(event: SyntheticKeyboardEvent) {
-    let frames = this.props.frames;
-    let newFrame = frames.find(frame => frame.id == this.state.hoveredFrame.id);
-
-    if (newFrame && event.key == "Enter") {
-      this.props.selectFrame(newFrame);
-    }
-  },
-
   renderFrame(frame: Frame) {
     const { selectedFrame } = this.props;
 
@@ -124,9 +99,8 @@ const Frames = createClass({
           "selected": selectedFrame && selectedFrame.id === frame.id
         }),
         onMouseDown: (e) => this.onMouseDown(e, frame, selectedFrame),
+        onKeyUp: (e) => this.onKeyUp(e, frame, selectedFrame),
         onContextMenu: (e) => this.onContextMenu(e, frame),
-        onMouseEnter: () => this.onMouseEnter(frame),
-        onMouseLeave: () => this.onMouseLeave(),
         tabIndex: 0
       },
       renderFrameTitle(frame),
@@ -136,6 +110,13 @@ const Frames = createClass({
 
   onMouseDown(e: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
     if (e.nativeEvent.which == 3 && selectedFrame.id != frame.id) {
+      return;
+    }
+    this.props.selectFrame(frame);
+  },
+
+  onKeyUp(event: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
+    if (event.key != "Enter" || selectedFrame.id == frame.id) {
       return;
     }
     this.props.selectFrame(frame);
