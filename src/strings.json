@@ -17,6 +17,7 @@
   "editor.editBreakpoint": "Edit Breakpoint",
   "editor.addConditionalBreakpoint": "Add Conditional Breakpoint",
   "editor.conditionalPanel.placeholder": "This breakpoint will pause when the expression is true",
+  "editor.conditionalPanel.close": "Save breakpoint and close",
   "editor.jumpToMappedLocation": "Jump to %S location",
   "generated": "generated",
   "original": "original",
