@@ -230,9 +230,9 @@ debugger.html community team members help shephard the community.
 They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
-||||
-|----------|------|-----|
-|![][bomsy] <br /> [@bomsy][@bomsy]|![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy]|![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro]|
+|||||
+|----------|------|-----|----|
+|![][bomsy] <br /> [@bomsy][@bomsy]|![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy]|![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro]|![][irfanhudda] <br />[@irfanhudda][@irfanhudda]|
 
 ### Joining Mozilla
 
@@ -255,11 +255,13 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [@wldcordeiro]:https://github.com/wldcordeiro
 [@clarkbw]:https://github.com/clarkbw
 [@jbhoosreddy]:https://github.com/jbhoosreddy
+[@irfanhudda]:https://github.com/irfanhudda
 [jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
 [bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
 [wldcordeiro]:https://avatars.githubusercontent.com/wldcordeiro?size=56
 [clarkbw]:https://avatars.githubusercontent.com/clarkbw?size=56
 [jbhoosreddy]:https://avatars.githubusercontent.com/jbhoosreddy?size=56
+[irfanhudda]:https://avatars.githubusercontent.com/irfanhudda?size=56
 
 [mozilla]:https://www.mozilla.org/
 [mozilla-firefox]:https://www.mozilla.org/firefox/
