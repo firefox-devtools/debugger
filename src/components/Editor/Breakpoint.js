@@ -39,6 +39,8 @@ const Breakpoint = React.createClass({
     this.props.editor.addLineClass(line, "line", "new-breakpoint");
     if (bp.condition) {
       this.props.editor.addLineClass(line, "line", "has-condition");
+    } else {
+      this.props.editor.removeLineClass(line, "line", "has-condition");
     }
   },
 
