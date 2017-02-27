@@ -177,9 +177,6 @@ function breakOnNext() {
 }
 
 /**
- * Select a frame
- *
- * @param frame
  * @memberof actions/pause
  * @static
  */
@@ -196,11 +193,6 @@ function selectFrame(frame: Frame) {
 }
 
 /**
- * Load an object.
- *
- * @param grip
- * TODO: Right now this if Firefox specific and is not implemented
- * for Chrome, which is why it takes a grip.
  * @memberof actions/pause
  * @static
  */
