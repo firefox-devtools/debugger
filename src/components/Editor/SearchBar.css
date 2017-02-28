@@ -20,6 +20,10 @@
   padding: 0 13px;
 }
 
+.search-bottom-bar button:focus {
+  outline: none;
+}
+
 .search-bottom-bar .search-modifiers {
   display: flex;
   align-items: center;
