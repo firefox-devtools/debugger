@@ -40,6 +40,8 @@
 
 .search-bottom-bar .search-modifiers button svg {
   fill: var(--theme-comment);
+  height: 16px;
+  width: 16px;
 }
 
 .search-bottom-bar .search-modifiers button.active {
