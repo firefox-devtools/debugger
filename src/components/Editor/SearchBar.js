@@ -232,6 +232,7 @@ const SearchBar = React.createClass({
       const functionSearchResults = filter(
         this.state.functionDeclarations, query, { key: "value" });
 
+      this.props.updateSearchResults({ count: functionSearchResults.length });
       return this.setState({ functionSearchResults });
     }
 
