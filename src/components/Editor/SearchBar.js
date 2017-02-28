@@ -106,7 +106,9 @@ const SearchBar = React.createClass({
                           && hasLoaded;
     const modifiersUpdated = modifiers != prevProps.modifiers;
 
-    if (doneLoading || changedFiles || modifiersUpdated) {
+    const isOpen = this.state.enabled || this.state.functionSearchEnabled;
+
+    if (isOpen && (doneLoading || changedFiles || modifiersUpdated)) {
       this.doSearch(query);
     }
   },
