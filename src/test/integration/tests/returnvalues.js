@@ -7,8 +7,6 @@ const {
   resume,
   stepIn,
   waitForPaused,
-  pauseTest,
-  resumeTest
 } = require("../utils");
 
 function getLabel(dbg, index) {
@@ -39,7 +37,7 @@ async function testReturnValue(dbg, ctx, val) {
   is(getValue(dbg, 2), val, `check value is ${val}`);
 
   await resume(dbg);
-  assertNotPaused(dbg, ctx)
+  assertNotPaused(dbg, ctx);
 }
 
 async function testThrowValue(dbg, ctx, val) {
@@ -57,11 +55,11 @@ async function testThrowValue(dbg, ctx, val) {
   await resume(dbg);
   await waitForPaused(dbg);
   await resume(dbg);
-  assertNotPaused(dbg, ctx)
+  assertNotPaused(dbg, ctx);
 }
 
 module.exports = async function(ctx) {
-  const { is, info } = ctx;
+  const { info } = ctx;
   const dbg = await initDebugger("doc-return-values.html");
   toggleScopes(dbg);
   await togglePauseOnExceptions(dbg, true, false);
@@ -69,7 +67,7 @@ module.exports = async function(ctx) {
   const TESTS = ["57", "0", "false", "undefined", "null"];
 
   for (let test of TESTS) {
-    info(`testing ${test}`)
+    info(`testing ${test}`);
     await testReturnValue(dbg, ctx, test);
     await testThrowValue(dbg, ctx, test);
   }
