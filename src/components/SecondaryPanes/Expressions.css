@@ -85,3 +85,7 @@
 .expression-error {
   color: var(--theme-highlight-red);
 }
+
+.selected-token {
+  background-color: yellow;
+}
