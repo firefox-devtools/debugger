@@ -1,34 +1,9 @@
 require("mocha/mocha");
 const expect = require("expect.js");
+let { prefs } = require("../../utils/prefs")
 
-const { prefs } = require("../../utils/prefs")
-
-const {
-  asm,
-  breaking,
-  breakpoints,
-  breakpointsCond,
-  callStack,
-  expressions,
-  debuggerButtons,
-  editorSelect,
-  editorGutter,
-  editorHighlight,
-  keyboardNavigation,
-  keyboardShortcuts,
-  iframes,
-  navigation,
-  pauseOnExceptions,
-  prettyPrint,
-  prettyPrintPaused,
-  returnvalues,
-  scopes,
-  searching,
-  sources,
-  sourceMaps,
-  sourceMaps2,
-  sourceMapsBogus,
-} = require("./tests/index")
+const tests = require("./tests/index");
+Object.assign(window, { prefs }, tests);
 
 window.ok = function ok(expected) {
   expect(expected).to.be.truthy
@@ -42,9 +17,7 @@ window.info = function info(msg) {
   console.log(`info: ${msg}\n`);
 }
 
-window.requestLongerTimeout = function() {
-
-}
+window.requestLongerTimeout = function() {}
 
 const ctx = { ok, is, info, requestLongerTimeout};
 
@@ -126,16 +99,18 @@ describe("Tests", () => {
     await iframes(ctx);
   });
 
-  // expected 17 to equal 15
-  it("pause on exceptions", async function() {
-    await pauseOnExceptions(ctx);
+  it("pause on exceptions - button", async function() {
+    await pauseOnExceptions.testButton(ctx);
+  });
+
+  it("pause on exceptions - reloading", async function() {
+    await pauseOnExceptions.testReloading(ctx);
   });
 
   it("pretty print", async function() {
     await prettyPrint(ctx);
   });
 
-  // timed out
   it("pretty print paused", async function() {
     await prettyPrintPaused(ctx);
   });
@@ -148,7 +123,6 @@ describe("Tests", () => {
     await searching(ctx);
   })
 
-  // timed out
   it("scopes", async function() {
     await scopes(ctx);
   });

@@ -14,16 +14,31 @@ function getBindingVariables(bindings, parentName) {
     }));
 }
 
+// Support dehydrating immutable objects, while ignoring
+// primitive values like strings, numbers...
+function dehydrateValue(value) {
+  if (typeof value == "object" && !!value && value.toJS) {
+    value = value.toJS();
+  }
+
+  return value;
+}
+
 function getSpecialVariables(pauseInfo, path) {
-  let thrown = pauseInfo.getIn(["why", "frameFinished", "throw"], undefined);
-  const returned = pauseInfo.getIn(["why", "frameFinished", "return"],
-                                   undefined);
+  let thrown = pauseInfo.getIn(
+    ["why", "frameFinished", "throw"],
+    undefined
+  );
+
+  let returned = pauseInfo.getIn(
+    ["why", "frameFinished", "return"],
+    undefined
+  );
+
   const vars = [];
 
   if (thrown !== undefined) {
-    // handle dehydrating exception strings and errors.
-    thrown = thrown.toJS ? thrown.toJS() : thrown;
-
+    thrown = dehydrateValue(thrown);
     vars.push({
       name: "<exception>",
       path: `${path}/<exception>`,
@@ -32,13 +47,14 @@ function getSpecialVariables(pauseInfo, path) {
   }
 
   if (returned !== undefined) {
-    const value = returned.toJS ? returned.toJS() : returned;
-    // Do not display a return value of "undefined".
-    if (!value.type || value.type !== "undefined") {
+    returned = dehydrateValue(returned);
+
+    // Do not display a return value of "undefined",
+    if (!returned || !returned.type || returned.type !== "undefined") {
       vars.push({
         name: "<return>",
         path: `${path}/<return>`,
-        contents: { value }
+        contents: { value: returned }
       });
     }
   }
@@ -126,5 +142,6 @@ function getScopes(pauseInfo, selectedFrame) {
 }
 
 module.exports = {
-  getScopes
+  getScopes,
+  getSpecialVariables
 };

@@ -70,11 +70,6 @@ module.exports = async function(ctx) {
   toggleScopes(dbg);
   await togglePauseOnExceptions(dbg, true, false);
 
-  const TESTS = ["57", "0", "false", "undefined", "null", "\"undefined\""];
-
-  for (let test of TESTS) {
-    info(`testing ${test}`);
-    await testReturnValue(dbg, ctx, test);
-    await testThrowValue(dbg, ctx, test);
-  }
+  await testReturnValue(dbg, ctx, "57");
+  await testThrowValue(dbg, ctx, "57");
 };
