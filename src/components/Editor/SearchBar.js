@@ -24,7 +24,21 @@ const ImPropTypes = require("react-immutable-proptypes");
 
 import type { FunctionDeclaration } from "../../utils/parser";
 
+type ToggleFunctionSearchOpts = {
+  toggle: boolean
+}
+
 require("./SearchBar.css");
+
+function getFunctionDeclarations(selectedSource) {
+  return getFunctions(selectedSource).map(dec => ({
+    id: `${dec.name}:${dec.location.start.line}`,
+    title: dec.name,
+    subtitle: `:${dec.location.start.line}`,
+    value: dec.name,
+    location: dec.location
+  }));
+}
 
 const SearchBar = React.createClass({
 
@@ -83,7 +97,7 @@ const SearchBar = React.createClass({
       (_, e) => this.traverseResults(e, false));
     if (isEnabled("functionSearch")) {
       shortcuts.on(`CmdOrCtrl+Shift+${fnSearchKey}`,
-        (_, e) => this.toggleFunctionSearch(e));
+        (_, e) => this.toggleFunctionSearch(e, { toggle: false }));
     }
   },
 
@@ -160,9 +174,16 @@ const SearchBar = React.createClass({
     }
   },
 
-  toggleFunctionSearch(e?: SyntheticKeyboardEvent) {
+  toggleFunctionSearch(
+    e?: SyntheticKeyboardEvent, { toggle }: ToggleFunctionSearchOpts = {}) {
+    const { selectedSource } = this.props;
+
     if (e) {
       e.preventDefault();
+    }
+
+    if (!selectedSource) {
+      return;
     }
 
     if (!this.state.enabled) {
@@ -170,20 +191,18 @@ const SearchBar = React.createClass({
     }
 
     if (this.state.functionSearchEnabled) {
-      return this.setState({ functionSearchEnabled: false });
+      if (toggle) {
+        this.setState({ functionSearchEnabled: false });
+      }
+
+      return;
     }
 
-    if (this.props.selectedSource) {
-      const functionDeclarations = getFunctions(
-        this.props.selectedSource.toJS()
-      ).map(dec => ({
-        id: `${dec.name}:${dec.location.start.line}`,
-        title: dec.name,
-        subtitle: `:${dec.location.start.line}`,
-        value: dec.name,
-        location: dec.location
-      }));
+    const functionDeclarations = getFunctionDeclarations(
+      selectedSource.toJS()
+    );
 
+    if (this.props.selectedSource) {
       this.clearSearch();
       this.setState({
         functionSearchEnabled: true,
@@ -437,7 +456,7 @@ const SearchBar = React.createClass({
         className: classnames("search-type-btn", {
           active: this.state.functionSearchEnabled
         }),
-        onClick: this.toggleFunctionSearch
+        onClick: e => this.toggleFunctionSearch(e, { toggle: true })
       }, "functions")
     );
   },
