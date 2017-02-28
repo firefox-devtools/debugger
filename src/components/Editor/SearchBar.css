@@ -4,6 +4,11 @@
   max-height: 50%;
 }
 
+.search-bottom-bar * {
+  -moz-user-select: none;
+  user-select: none;
+}
+
 .search-bottom-bar {
   display: flex;
   flex-shrink: 0;
@@ -39,17 +44,21 @@
 }
 
 .search-bottom-bar .search-modifiers button svg {
-  fill: var(--theme-comment);
+  fill: var(--theme-comment-alt);
   height: 16px;
   width: 16px;
 }
 
-.search-bottom-bar .search-modifiers button.active {
-  background-color: var(--theme-selection-background);
+.search-bottom-bar .search-modifiers button svg:hover {
+  cursor: pointer;
+}
+
+.search-bottom-bar .search-modifiers button:active {
+  outline: none;
 }
 
 .search-bottom-bar .search-modifiers button.active svg {
-  fill: white;
+  fill: var(--theme-selection-background);
 }
 
 .search-bottom-bar .search-modifiers button.disabled svg {
@@ -61,8 +70,8 @@
   align-items: center;
 }
 
-.search-bottom-bar .search-type-toggles h1 {
-  color: var(--theme-comment);
+.search-bottom-bar .search-type-toggles .search-toggle-title {
+  color: var(--theme-comment-alt);
   font-size: 12px;
   margin: 0;
 }
@@ -72,6 +81,14 @@
   border: none;
   background: transparent;
   color: var(--theme-comment-alt);
+}
+
+.search-bottom-bar .search-type-toggles .search-type-btn:hover {
+  cursor: pointer;
+}
+
+.search-bottom-bar .search-type-toggles .search-type-btn:active {
+  outline: none;
 }
 
 .search-bottom-bar .search-type-toggles .search-type-btn.active {
