@@ -48,6 +48,7 @@ const SearchBar = React.createClass({
       enabled: false,
       functionSearchEnabled: false,
       functionDeclarations: [],
+      functionSearchResults: [],
       selectedResultIndex: 0,
       count: 0,
       index: -1
@@ -180,6 +181,7 @@ const SearchBar = React.createClass({
         location: dec.location
       }));
 
+      this.props.updateQuery("");
       this.clearSearch();
 
       this.setState({
@@ -223,7 +225,14 @@ const SearchBar = React.createClass({
     updateQuery(query);
 
     if (this.state.functionSearchEnabled) {
-      return;
+      if (query == "") {
+        return;
+      }
+
+      const functionSearchResults = filter(
+        this.state.functionDeclarations, query, { key: "value" });
+
+      return this.setState({ functionSearchResults });
     }
 
     if (!ed) {
@@ -284,15 +293,6 @@ const SearchBar = React.createClass({
     });
   },
 
-  getFunctionResults() {
-    const { query } = this.props;
-    if (query == "") {
-      return [];
-    }
-
-    return filter(this.state.functionDeclarations, query, { key: "value" });
-  },
-
   // Handlers
   selectResultItem(item: FunctionDeclaration) {
     const { selectSource, selectedSource } = this.props;
@@ -328,7 +328,7 @@ const SearchBar = React.createClass({
       return;
     }
 
-    const searchResults = this.getFunctionResults(),
+    const searchResults = this.state.functionSearchResults,
       resultCount = searchResults.length;
 
     if (e.key === "ArrowUp") {
@@ -358,10 +358,11 @@ const SearchBar = React.createClass({
 
   // Renderers
   buildSummaryMsg() {
-    const {
-      searchResults: { count, index },
-      query
-    } = this.props;
+    if (this.state.functionSearchEnabled) {
+      return L10N.getFormatStr("sourceSearch.resultsSummary1",
+        this.state.functionSearchResults.length);
+    }
+    const { searchResults: { count, index }, query } = this.props;
 
     if (query.trim() == "") {
       return "";
@@ -461,14 +462,18 @@ const SearchBar = React.createClass({
   },
 
   renderResults() {
-    const results = this.getFunctionResults();
-    if (!this.state.functionSearchEnabled || !results.length) {
+    const {
+      functionSearchEnabled, functionSearchResults, selectedResultIndex
+    } = this.state;
+    const { query } = this.props;
+    if (query == "" ||
+      !functionSearchEnabled || !functionSearchResults.length) {
       return;
     }
 
     return ResultList({
-      items: results,
-      selected: this.state.selectedResultIndex,
+      items: functionSearchResults,
+      selected: selectedResultIndex,
       selectItem: this.selectResultItem,
       ref: "resultList"
     });
