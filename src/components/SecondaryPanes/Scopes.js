@@ -48,11 +48,14 @@ function getSpecialVariables(pauseInfo, path) {
 
   if (returned !== undefined) {
     const value = returned.toJS ? returned.toJS() : returned;
-    vars.push({
-      name: "<return>",
-      path: `${path}/<return>`,
-      contents: { value }
-    });
+    // Do not display a return value of "undefined".
+    if (!value.type || value.type !== "undefined") {
+      vars.push({
+        name: "<return>",
+        path: `${path}/<return>`,
+        contents: { value }
+      });
+    }
   }
 
   return vars;
