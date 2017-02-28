@@ -120,13 +120,20 @@ const SearchBar = React.createClass({
     this.closeSearch(e);
   },
 
-  closeSearch(e: SyntheticEvent) {
+  clearSearch() {
     const { editor: ed, query, modifiers } = this.props;
+    if (ed) {
+      const ctx = { ed, cm: ed.codeMirror };
+      removeOverlay(ctx, query, modifiers);
+    }
+  },
+
+  closeSearch(e: SyntheticEvent) {
+    const { editor: ed } = this.props;
 
     if (this.state.enabled && ed) {
       this.setState({ enabled: false });
-      const ctx = { ed, cm: ed.codeMirror };
-      removeOverlay(ctx, query, modifiers);
+      this.clearSearch();
       e.stopPropagation();
       e.preventDefault();
     }
@@ -173,6 +180,8 @@ const SearchBar = React.createClass({
         location: dec.location
       }));
 
+      this.clearSearch();
+
       this.setState({
         functionSearchEnabled: true,
         functionDeclarations
@@ -212,6 +221,10 @@ const SearchBar = React.createClass({
     }
 
     updateQuery(query);
+
+    if (this.state.functionSearchEnabled) {
+      return;
+    }
 
     if (!ed) {
       return;
