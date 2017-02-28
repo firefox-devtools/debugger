@@ -262,16 +262,26 @@ const Editor = React.createClass({
 
   previewSelectedToken(e, ctx, modifiers) {
     const { selectedFrame } = this.props;
-    const token = e.target.innerText;
-    const pos = { top: e.pageY, left: e.offsetX };
+    const { selectedToken } = this.state;
+    const token = e.target;
+    const rect = e.target.getBoundingClientRect();
+    const pos = {
+      top: rect.top + rect.height,
+      left: rect.left + rect.width / 4
+    };
 
     if (!selectedFrame || !isEnabled("editorPreview")) {
       return;
     }
 
+    if (selectedToken) {
+      selectedToken.classList.remove("selected-token");
+    }
+
     const variables = selectedFrame.scope.bindings.variables;
 
-    if (!variables.hasOwnProperty(token)) {
+    if (!variables.hasOwnProperty(token.innerText)) {
+      this.setState({ popoverPos: null, selectedToken: null });
       return;
     }
 
@@ -549,26 +559,28 @@ const Editor = React.createClass({
       return;
     }
 
+    const token = selectedToken.innerText;
     const variables = selectedFrame.scope.bindings.variables;
 
-    if (!variables.hasOwnProperty(selectedToken)) {
+    if (!variables.hasOwnProperty(token)) {
       return;
     }
 
-    const value = variables[selectedToken].value;
-    const root = {
-      name: selectedToken,
-      path: selectedToken,
-      contents: { value }
-    };
+    selectedToken.classList.add("selected-token");
+
+    const value = variables[token].value;
 
     return Preview({
-      roots: [root],
+      value,
+      expression: token,
       popoverPos,
-      onClose: () => this.setState({
-        popoverPos: null,
-        selectedToken: null
-      })
+      onClose: () => {
+        selectedToken.classList.remove("selected-token");
+        this.setState({
+          popoverPos: null,
+          selectedToken: null
+        });
+      }
     });
   },
 

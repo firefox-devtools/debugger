@@ -17,6 +17,7 @@ class Popover extends Component {
         onMouseLeave,
         style: { display, top, left }
       },
+      dom.div({ className: "popover-gap" }),
       children
     );
   }
