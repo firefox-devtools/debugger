@@ -1,0 +1,54 @@
+.preview {
+  background: white;
+  min-width: 200px;
+  min-height: 80px;
+  border: 1px solid #cccccc;
+  padding: 10px;
+  height: auto;
+  min-height: inherit;
+  max-height: 130px;
+  overflow: scroll;
+  max-width: 400px;
+}
+
+.preview .header {
+  width: 100%;
+  line-height: 20px;
+  border-bottom: 1px solid #cccccc;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview .header .link {
+  align-self: flex-end;
+  color: var(--theme-highlight-blue);
+  text-decoration: underline;
+}
+.preview .header .link:hover {
+  cursor: pointer;
+}
+
+.preview .function-signature {
+  padding-top: 10px;
+}
+
+.function-signature {
+  line-height: 20px;
+  align-self: center;
+}
+
+.function-signature .function-name {
+  color: var(--theme-highlight-blue);
+}
+
+.function-signature .param {
+  color: var(--string-color);
+}
+
+.function-signature .paren {
+  color: var(--object-color);
+}
+
+.function-signature .comma {
+  color: var(--object-colosr);
+}
