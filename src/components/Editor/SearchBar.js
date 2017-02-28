@@ -394,37 +394,28 @@ const SearchBar = React.createClass({
     const {
       modifiers: { caseSensitive, wholeWord, regexMatch },
       toggleModifier } = this.props;
+    const { functionSearchEnabled } = this.state;
+
+    function searchModBtn(modVal, className, svgName) {
+      const defaultMods = { caseSensitive, wholeWord, regexMatch };
+      return dom.button({
+        className: classnames(className, {
+          active: !functionSearchEnabled && !Object.values(modVal)[0],
+          disabled: functionSearchEnabled
+        }),
+        onClick: () => !functionSearchEnabled ?
+        toggleModifier(Object.assign(defaultMods, modVal)) : null
+      }, Svg(svgName));
+    }
 
     return dom.div(
       { className: "search-modifiers" },
-      // render buttons. On clicks toggle search modifiers.
-      dom.button({
-        className: classnames("regex-match-btn",
-          { active: regexMatch }),
-        onClick: () => {
-          toggleModifier(
-            { caseSensitive, wholeWord, regexMatch: !regexMatch });
-          this.doSearch(this.props.query);
-        }
-      }, Svg("regex-match")),
-      dom.button({
-        className: classnames("case-sensitive-btn",
-          { active: caseSensitive }),
-        onClick: () => {
-          toggleModifier(
-            { caseSensitive: !caseSensitive, wholeWord, regexMatch });
-          this.doSearch(this.props.query);
-        }
-      }, Svg("case-match")),
-      dom.button({
-        className: classnames("whole-word-btn",
-          { active: wholeWord }),
-        onClick: () => {
-          toggleModifier(
-            { caseSensitive, wholeWord: !wholeWord, regexMatch });
-          this.doSearch(this.props.query);
-        }
-      }, Svg("whole-word-match")),
+      searchModBtn({
+        regexMatch: !regexMatch }, "regex-match-btn", "regex-match"),
+      searchModBtn({
+        caseSensitive: !caseSensitive }, "case-sensitive-btn", "case-match"),
+      searchModBtn({
+        wholeWord: !wholeWord }, "whole-word-btn", "whole-word-match")
     );
   },
 
