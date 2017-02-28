@@ -21,7 +21,7 @@ import type { Location } from "../types";
 
 type addBreakpointOptions = {
   condition: string,
-  getTextForLine: () => any,
+  getTextForLine?: () => any,
 };
 
 function _breakpointExists(state, location: Location) {

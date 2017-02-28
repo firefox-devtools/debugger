@@ -25,6 +25,7 @@ module.exports = {
 
   getBreakpoint: breakpoints.getBreakpoint,
   getBreakpoints: breakpoints.getBreakpoints,
+  getPendingBreakpoints: breakpoints.getPendingBreakpoints,
   getBreakpointsForSource: breakpoints.getBreakpointsForSource,
   getBreakpointsDisabled: breakpoints.getBreakpointsDisabled,
   getBreakpointsLoading: breakpoints.getBreakpointsLoading,

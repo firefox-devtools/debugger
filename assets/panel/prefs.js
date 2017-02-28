@@ -1,9 +1,10 @@
 pref("devtools.debugger.client-source-maps-enabled", true);
-pref("devtools.debugger.pause-on-exceptions", false);
-pref("devtools.debugger.ignore-caught-exceptions", false);
 pref("devtools.debugger.call-stack-visible", false);
 pref("devtools.debugger.scopes-visible", false);
 pref("devtools.debugger.start-panel-collapsed", false);
 pref("devtools.debugger.end-panel-collapsed", false);
 pref("devtools.debugger.tabs", "[]");
 pref("devtools.debugger.pending-selected-location", "{}");
+pref("devtools.debugger.pending-breakpoints", "[]");
+pref("devtools.debugger.pause-on-exceptions", false);
+pref("devtools.debugger.ignore-caught-exceptions", false);

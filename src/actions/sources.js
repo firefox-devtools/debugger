@@ -13,6 +13,8 @@ const defer = require("../utils/defer");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const assert = require("../utils/assert");
 const { updateFrameLocations } = require("../utils/pause");
+const { addBreakpoint } = require("./breakpoints");
+
 const {
   getOriginalURLs, getOriginalSourceText,
   generatedToOriginalId, isOriginalId,
@@ -24,16 +26,48 @@ const { prettyPrint } = require("../utils/pretty-print");
 const { getPrettySourceURL } = require("../utils/source");
 
 const constants = require("../constants");
-const { removeDocument } = require("../utils/editor");
 const { prefs } = require("../utils/prefs");
+const { removeDocument } = require("../utils/editor");
 
 const {
-  getSource, getSourceByURL, getSourceText,
-  getPendingSelectedLocation, getFrames
+  getSource, getSourceByURL, getSourceText, getBreakpoint,
+  getPendingSelectedLocation, getPendingBreakpoints, getFrames
 } = require("../selectors");
 
 import type { Source, SourceText } from "../types";
 import type { ThunkArgs } from "./types";
+
+// If a request has been made to show this source, go ahead and
+// select it.
+function checkSelectedSource(state, dispatch, source) {
+  const pendingLocation = getPendingSelectedLocation(state);
+  if (pendingLocation && pendingLocation.url === source.url) {
+    dispatch(selectSource(source.id, { line: pendingLocation.line }));
+  }
+}
+
+function checkPendingBreakpoints(state, dispatch, source) {
+  const pendingBreakpoints = getPendingBreakpoints(state);
+
+  if (pendingBreakpoints) {
+    pendingBreakpoints.forEach(pendingBreakpoint => {
+      const { location: { line, sourceUrl }, condition } = pendingBreakpoint;
+      const sameSource = sourceUrl && sourceUrl == source.url;
+
+      const location = {
+        sourceId: source.id,
+        sourceUrl,
+        line
+      };
+
+      const bp = getBreakpoint(state, location);
+
+      if (sameSource && !bp) {
+        dispatch(addBreakpoint(location, { condition }));
+      }
+    });
+  }
+}
 
 /**
  * Handler for the debugger client's unsolicited newSource notification.
@@ -51,12 +85,8 @@ function newSource(source: Source) {
       source
     });
 
-    // If a request has been made to show this source, go ahead and
-    // select it.
-    const pendingLocation = getPendingSelectedLocation(getState());
-    if (pendingLocation && pendingLocation.url === source.url) {
-      dispatch(selectSource(source.id, { line: pendingLocation.line }));
-    }
+    checkSelectedSource(getState(), dispatch, source);
+    checkPendingBreakpoints(getState(), dispatch, source);
   };
 }
 
@@ -79,6 +109,7 @@ function loadSourceMap(generatedSource) {
       return;
     }
 
+    let state = getState();
     const originalSources = urls.map(originalUrl => {
       return {
         url: originalUrl,
@@ -90,6 +121,11 @@ function loadSourceMap(generatedSource) {
     dispatch({
       type: constants.ADD_SOURCES,
       sources: originalSources
+    });
+
+    originalSources.forEach(source => {
+      checkSelectedSource(state, dispatch, source);
+      checkPendingBreakpoints(state, dispatch, source);
     });
   };
 }
@@ -136,7 +172,13 @@ function selectSource(id: string, options: SelectSourceOptions = {}) {
       return;
     }
 
-    const source = getSource(getState(), id).toJS();
+    let source = getSource(getState(), id);
+
+    if (!source) {
+      return;
+    }
+
+    source = source.toJS();
 
     // Make sure to start a request to load the source text.
     dispatch(loadSourceText(source));
