@@ -115,9 +115,6 @@ const SearchBar = React.createClass({
   },
 
   onEscape(e: SyntheticKeyboardEvent) {
-    if (this.state.functionSearchEnabled) {
-      this.toggleFunctionSearch(e);
-    }
     this.closeSearch(e);
   },
 
@@ -125,6 +122,7 @@ const SearchBar = React.createClass({
     const { editor: ed, query, modifiers } = this.props;
     if (ed) {
       const ctx = { ed, cm: ed.codeMirror };
+      this.props.updateQuery("");
       removeOverlay(ctx, query, modifiers);
     }
   },
@@ -133,8 +131,8 @@ const SearchBar = React.createClass({
     const { editor: ed } = this.props;
 
     if (this.state.enabled && ed) {
-      this.setState({ enabled: false });
       this.clearSearch();
+      this.setState({ enabled: false, functionSearchEnabled: false });
       e.stopPropagation();
       e.preventDefault();
     }
@@ -147,6 +145,11 @@ const SearchBar = React.createClass({
 
     if (!this.state.enabled) {
       this.setState({ enabled: true });
+    }
+
+    if (this.state.functionSearchEnabled) {
+      this.clearSearch();
+      this.setState({ functionSearchEnabled: false });
     }
 
     if (this.state.enabled && editor) {
@@ -167,7 +170,7 @@ const SearchBar = React.createClass({
     }
 
     if (this.state.functionSearchEnabled) {
-      return this.setState({ enabled: false, functionSearchEnabled: false });
+      return this.setState({ functionSearchEnabled: false });
     }
 
     if (this.props.selectedSource) {
@@ -181,9 +184,7 @@ const SearchBar = React.createClass({
         location: dec.location
       }));
 
-      this.props.updateQuery("");
       this.clearSearch();
-
       this.setState({
         functionSearchEnabled: true,
         functionDeclarations
