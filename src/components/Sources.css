@@ -24,6 +24,10 @@
   justify-content: flex-end;
 }
 
+.theme-dark .sources-header {
+  background-color: var(--theme-tab-toolbar-background);
+}
+
 .sources-header {
   padding-inline-start: 10px;
 }
