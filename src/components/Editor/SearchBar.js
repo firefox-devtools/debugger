@@ -382,10 +382,10 @@ const SearchBar = React.createClass({
 
   buildPlaceHolder() {
     if (this.state.functionSearchEnabled) {
-      return "Search for function...";
+      return L10N.getStr("functionSearch.search.placeholder");
     }
 
-    return "Search in file...";
+    return L10N.getStr("sourceSearch.search.placeholder");
   },
 
   renderSearchModifiers() {

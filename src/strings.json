@@ -36,6 +36,7 @@
   "welcome.search": "%S to search for sources",
   "sourceSearch.search": "Search Sources...",
   "sourceSearch.search.key": "F",
+  "sourceSearch.search.placeholder": "Search in file…",
   "sourceSearch.search.again.key": "G",
   "sourceSearch.resultsSummary1": "%d results",
   "sourceSearch.noResults": "No files matching %S found",
