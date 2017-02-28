@@ -78,10 +78,6 @@ async function testReloading(ctx) {
   await togglePauseOnExceptions(dbg, true, false);
   dbg = await initDebugger("doc-exceptions.html");
   assertPOEState(dbg, ctx, true, false)
-
-  await togglePauseOnExceptions(dbg, true, true);
-  dbg = await initDebugger("doc-exceptions.html");
-  assertPOEState(dbg, ctx, true, true)
 }
 
 

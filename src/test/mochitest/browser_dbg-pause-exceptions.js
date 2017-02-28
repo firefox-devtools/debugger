@@ -10,8 +10,3 @@ add_task(function*() {
   setupTestRunner(this);
   yield pauseOnExceptions.testButton(this);
 });
-
-add_task(function*() {
-  setupTestRunner(this);
-  yield pauseOnExceptions.testReloading(this);
-});
