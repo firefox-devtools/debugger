@@ -4,6 +4,7 @@
   background-color: var(--theme-body-background);
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
+  flex-shrink: 0;
 }
 
 .search-field i {
