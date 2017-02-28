@@ -34,7 +34,7 @@ const {
   getPendingSelectedLocation, getFrames
 } = require("../selectors");
 
-import type { Source } from "../types";
+import type { Source, SourceText } from "../types";
 import type { ThunkArgs } from "./types";
 
 /**
@@ -89,7 +89,10 @@ function loadSourceMap(generatedSource) {
       };
     });
 
-    originalSources.forEach(s => dispatch(newSource(s)));
+    dispatch({
+      type: "ADD_SOURCES",
+      sources: originalSources
+    });
   };
 }
 
@@ -287,13 +290,14 @@ function loadSourceText(source: Source) {
 
         const response = await client.sourceContents(source.id);
 
-        const sourceText = {
+        const sourceText: SourceText = {
+          id: source.id,
           text: response.source,
           contentType: response.contentType || "text/javascript"
         };
 
         if (isEnabled("functionSearch")) {
-          parse(sourceText, source);
+          parse(sourceText);
         }
 
         return sourceText;

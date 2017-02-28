@@ -1,10 +1,5 @@
-## Local Development
+## Development Guide
 
-* [Configs](#configs)
-  * [Enabling a Feature Flag](#enabling-a-feature-flag)
-  * [Updating the config locally](#updating-the-config-locally)
-  * [Creating a new Feature Flag](#creating-a-new-feature-flag)
-* [Hot Reloading](#hot-reloading-fire)
 * [Themes](#themes)
 * [Internationalization](#internationalization)
   * [L10N](#l10n)
@@ -20,180 +15,10 @@
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
 * [Colors](#colors)
+* [Configs](#configs)
+* [Hot Reloading](#hot-reloading-fire)
 * [FAQ](#faq)
 * [Getting Help](#getting-help)
-
-### Configs
-
-All default config values are in [`development.json`][development-json], to override these values you need to [create a local config file][create-local-config].
-
-Here are the most common development configuration options:
-
-* `logging`
-  * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `yarn start`
-* `chrome`
-  * `debug` Enables listening for remotely debuggable Chrome browsers
-* `hotReloading` enables [Hot Reloading](#hot-reloading-fire) of CSS and React
-
-For a list of all the configuration options see the [packages/devtools-config/README.md][devtools-config-readme]
-
-#### Updating the config locally
-
-You can create a `configs/local.json` file to override development configs. This is great for enabling features locally or changing the theme.
-
-* Copy the `local.sample.json` to get started.
-
-```bash
-cp configs/local.sample.json configs/local.json
-```
-
-* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
-
-You can quickly change your local config `configs/local.json`.
-
-* edit the `configs/local.json`
-
-```diff
-diff --git a/configs/local.json b/configs/local.json
-index fdbdb4e..4759c14 100644
---- a/configs/local.json
-+++ b/configs/local.json
-@@ -1,6 +1,6 @@
- {
-   "theme": "light",
--  "hotReloading": false,
-+  "hotReloading": true,
-   "logging": {
-     "actions": false
-   },
-```
-
-* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
-
-#### Enabling a Feature Flag
-
-Feature flags help us work on features darkly. We've used them to work on source tabs, watch expressions, and many other features.
-
-The features are listed in the configs [development.json](../configs/development.json), [firefox-panel.json](../configs/firefox-panel.json). You can turn a feature on, by adding it to your local config.
-
-
-```diff
-diff --git a/configs/local.json b/configs/local.json
-index fdbdb4e..4759c14 100644
---- a/configs/local.json
-+++ b/configs/local.json
-@@ -1,6 +1,6 @@
- {
-   "theme": "light",
-   "features": {
-     "watchExpressions": {
-       "label": "Watch Expressions",
--      "enabled": false
-+      "enabled": true
-     }
-   },
-```
-
-#### Creating a new Feature Flag
-
-When you're starting a new feature, it's always good to ask yourself if the feature should be added behind a feature flag.
-
-* does this feature need testing or introduce risk?
-* will this feature be built over several PRs?
-* is it possible we'll want to turn it off quickly?
-
-It's easy to add a new feature flag to the project.
-
-1. add the flag to `development.json` and `firefox-panel.json`
-2. add `isEnabled` calls in the code
-
-Here's an example of adding a new feature "awesome sauce" to the Debugger:
-
-```diff
-diff --git a/configs/development.json b/configs/development.json
-index c82b299..d9de5f3 100755
---- a/configs/development.json
-+++ b/configs/development.json
-@@ -14,7 +14,8 @@
-     "eventListeners": {
-       "label": "Event Listeners",
-       "enabled": false
-     },
-     "codeCoverage": {
-       "label": "Code Coverage",
-       "enabled": false
--    }
-+    },
-+    "awesomeSauce": {
-+      "label": "Awesome Sauce",
-+      "enabled": false
-+    }
-   },
-   "chrome": {
-     "debug": true,
-diff --git a/configs/firefox-panel.json b/configs/firefox-panel.json
-index c91b562..bf485bb 100644
---- a/configs/firefox-panel.json
-+++ b/configs/firefox-panel.json
-@@ -10,6 +10,7 @@
-     "eventListeners": {
-       "label": "Event Listeners",
-       "enabled": false
-     },
-     "codeCoverage": {
-       "label": "Code Coverage",
-       "enabled": false
--    }
-+    },
-+    "awesomeSauce": {
-+      "label": "Awesome Sauce",
-+      "enabled": false
-+    }
-   }
- }
-
-diff --git a/src/components/Editor/index.js b/src/components/Editor/index.js
-index 038fd01..ea7a545 100644
---- a/src/components/Editor/index.js
-+++ b/src/components/Editor/index.js
-@@ -114,6 +114,10 @@ const Editor = React.createClass({
-       return;
-     }
-
-+    if (isEnabled("awesomeSauce")) {
-+      // sauce goops out of the breakpoint...
-+    }
-+
-```
-
-
-* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
-
-### Hot Reloading :fire:
-
-Hot Reloading watches for changes in the React Components JS and CSS and propagates those changes up to the application without changing the state of the application.  You want this turned on.
-
-To enabled Hot Reloading:
-
-* [Create a local config file][create-local-config] if you don't already have one
-* edit `hotReloading`
-
-```diff
-diff --git a/configs/local.json b/configs/local.json
-index fdbdb4e..4759c14 100644
---- a/configs/local.json
-+++ b/configs/local.json
-@@ -1,6 +1,6 @@
- {
-   "theme": "light",
--  "hotReloading": false,
-+  "hotReloading": true,
-   "logging": {
-     "actions": false
-   },
-```
-
-* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 ### Themes
 
@@ -219,7 +44,7 @@ You can change the theme by setting the `theme` field in your `local.json` to  `
 It is possible to add a theme specific selector. For example, this selector updates the dark debugger button colors:
 
 ```css
-:root.theme-dark .command-bar > span {
+.theme-dark .command-bar > span {
   fill: var(--theme-body-color);
 }
 ```
@@ -342,7 +167,6 @@ index 8c79f4d..6893673 100644
 +const Svg = require("./shared/Svg");
  const { getSource, getPause, getBreakpoints } = require("../selectors");
  const { makeLocationId } = require("../reducers/breakpoints");
- const { truncateStr } = require("../utils/utils");
 @@ -89,6 +90,7 @@ const Breakpoints = React.createClass({
          key: locationId,
          onClick: () => this.selectBreakpoint(breakpoint)
@@ -436,20 +260,25 @@ yarn run test-all
 * [http://localhost:8000/mocha](http://localhost:8000/mocha) - Run tests in the browser when you have `yarn start` running [gif](http://g.recordit.co/Go1GOu1Pli.gif))
 
 
-#### Integration tests
+#### Integration Tests
 
-We use [mochitests](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest) to do integration testing.  Running these integration tests locally requires some finesse and so as a contributor we only ask that you run the unit tests.   The mochitests will be run by the automated testing which runs once you've made a pull request and the maintainers are happy to help you through any issues which arise from that.
+The Debugger integration tests are run in two contexts: [firefox][mochitest] and the [web][mocha].
+We recommend running the tests in the browser as it's an easier development environment.
 
-Learn more about mochitests in our [mochitests docs](./mochitests.md).
-
++ [Overview](./integration-tests.md#overview)
++ [Running the Tests](./integration-tests.md#running-the-tests)
++ [Gotchas](./integration-tests.md#gotchas)
++ [Writing Tests](./integration-tests.md#writing-tests)
++ [Adding a New Test](./integration-tests.md#adding-a-new-test)
 
 ### Linting
 
-Run all of lint checks (JS + CSS) run the following command:
-
-```bash
-yarn run lint
-```
+| | |
+|--|--|
+| all | `yarn run lint` |
+| css | `yarn run lint-css` |
+| js | `yarn run lint-js` |
+| markdown | `yarn run lint-md` |
 
 #### Lint CSS
 
@@ -465,17 +294,15 @@ yarn run lint-css
 
 We use [eslint](http://eslint.org/) to maintain our JavaScript styles.  The [.eslintrc](../.eslintrc) file contains our style definitions, please adhere to those styles when making changes.
 
-To test your JS changes run the command:
-
-```bash
-yarn run lint-js
-```
-
 To automatically fix many errors run the command:
 
 ```bash
 yarn run lint-fix
 ```
+
+#### Lint Markdown
+
+We use [remark](https://github.com/wooorm/remark-lint) to help lint our markdown. It checks for broken images, links, and a set of style rules.
 
 ### Colors
 
@@ -493,6 +320,115 @@ When you need to update a variable, you should check to make sure it looks good 
 Often, it is more practicle to create a new variable.
 
 It's helpful to share the changes as a themes [table][pr-table] when you're done.
+
+### Configs
+
+The Debugger uses configs for settings like `theme`, `hotReloading`, and feature flags.
+
+The default development configs are in [development-json]. It's easy to change a setting in the Launchpad's settings tab or by updating your `configs/local.json` file.
+
+#### Creating a new Feature Flag
+
+When you're starting a new feature, it's always good to ask yourself if the feature should be added behind a feature flag.
+
+* does this feature need testing or introduce risk?
+* will this feature be built over several PRs?
+* is it possible we'll want to turn it off quickly?
+
+It's easy to add a new feature flag to the project.
+
+1. add the flag to `development.json` and `firefox-panel.json`
+2. add `isEnabled` calls in the code
+
+Here's an example of adding a new feature "awesome sauce" to the Debugger:
+
+```diff
+diff --git a/configs/development.json b/configs/development.json
+index c82b299..d9de5f3 100755
+--- a/configs/development.json
++++ b/configs/development.json
+@@ -14,7 +14,8 @@
+     "eventListeners": {
+       "label": "Event Listeners",
+       "enabled": false
+     },
+     "codeCoverage": {
+       "label": "Code Coverage",
+       "enabled": false
+-    }
++    },
++    "awesomeSauce": {
++      "label": "Awesome Sauce",
++      "enabled": false
++    }
+   },
+   "chrome": {
+     "debug": true,
+diff --git a/configs/firefox-panel.json b/configs/firefox-panel.json
+index c91b562..bf485bb 100644
+--- a/configs/firefox-panel.json
++++ b/configs/firefox-panel.json
+@@ -10,6 +10,7 @@
+     "eventListeners": {
+       "label": "Event Listeners",
+       "enabled": false
+     },
+     "codeCoverage": {
+       "label": "Code Coverage",
+       "enabled": false
+-    }
++    },
++    "awesomeSauce": {
++      "label": "Awesome Sauce",
++      "enabled": false
++    }
+   }
+ }
+
+diff --git a/src/components/Editor/index.js b/src/components/Editor/index.js
+index 038fd01..ea7a545 100644
+--- a/src/components/Editor/index.js
++++ b/src/components/Editor/index.js
+@@ -114,6 +114,10 @@ const Editor = React.createClass({
+       return;
+     }
+
++    if (isEnabled("awesomeSauce")) {
++      // sauce goops out of the breakpoint...
++    }
++
+```
+
+
+* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
+
+### Hot Reloading :fire:
+
+:construction: Hot Reloading is currently broken as we need to upgrade `react-hot-reloader` 3.0 [issue](https://github.com/devtools-html/devtools-core/issues/195)
+
+Hot Reloading watches for changes in the React Components JS and CSS and propagates those changes up to the application without changing the state of the application.  You want this turned on.
+
+To enabled Hot Reloading:
+
+* [Create a local config file][create-local-config] if you don't already have one
+* edit `hotReloading`
+
+```diff
+diff --git a/configs/local.json b/configs/local.json
+index fdbdb4e..4759c14 100644
+--- a/configs/local.json
++++ b/configs/local.json
+@@ -1,6 +1,6 @@
+ {
+   "theme": "light",
+-  "hotReloading": false,
++  "hotReloading": true,
+   "logging": {
+     "actions": false
+   },
+```
+
+* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 ### FAQ
 
@@ -565,3 +501,6 @@ your questions on [slack][slack].
 [firebug-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209733/94970458-e1ad-11e6-83d4-8b082217b989.png
 [light-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209736/9b194f2a-e1ad-11e6-9de0-561dd529d5f0.png
 [pr-table]: ./pull-requests.md#screenshots
+
+[mochitest]: ./mochitests.md
+[mocha]: ./integration-tests.md

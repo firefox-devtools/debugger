@@ -37,10 +37,12 @@ async function debuggee(callback) {
 }
 
 async function invokeInTab(dbg, fnc) {
+  info(`invoking function ${fnc}()`)
   return dbg.client.debuggeeCommand(`${fnc}()`);
 }
 
 async function evalInTab(dbg, script) {
+  info(`evaling script ${script}`)
   return dbg.client.debuggeeCommand(script);
 }
 
@@ -107,7 +109,6 @@ async function navigateToTab(dbg) {
 
   dbg.win.location = `/?firefox-tab=${tabId}`;
   return waitForElement(dbg, ".debugger");
-
 }
 
 async function navigate(dbg, url) {
@@ -136,6 +137,13 @@ async function initDebugger(url, ...sources) {
   return dbg;
 }
 
+function countSources(dbg) {
+  const sources = dbg.selectors.getSources(dbg.getState());
+
+  // the web test runner has one extra source because it injects the debuggee script
+  return sources.size - 1;
+}
+
 function setupTestRunner() {
 }
 
@@ -145,7 +153,9 @@ module.exports = {
   selectMenuItem,
   type,
   pressKey,
+  countSources,
   initDebugger,
   setupTestRunner,
-  info
+  info,
+  environment: "mocha"
 }

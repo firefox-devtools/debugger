@@ -16,9 +16,10 @@ We respect your time and want to help you make the most of it as you learn more 
 * [Getting Started](#getting-started-runner)
   * [Your First Code Contribution](#your-first-code-contribution)
   * [Coding Standards](#coding-standards)
-  * [Local Development](#local-development-computer)
+  * [Development Guide](#development-guide-computer)
   * [Issues](#issues)
   * [Pull Requests](#pull-requests)
+  * [Maintainer Tips](#maintainer-tips)
   * [Debugging Tips](#debugging-tips)
   * [Pro Tips](#pro-tips)
 * [Project Overview](#project-overview)
@@ -133,7 +134,7 @@ Here are pointers to the DevTools general coding style and formatting guidelines
 * [JS Coding Style](https://wiki.mozilla.org/DevTools/CodingStandards#Code_style)
 * [Formatting Comments](https://wiki.mozilla.org/DevTools/CodingStandards#Comments)
 
-### Local Development :computer:
+### Development Guide :computer:
 
 Go to [local Development](./docs/local-development.md) to learn about:
 
@@ -169,6 +170,14 @@ Go to [Pull Requests](./docs/pull-requests.md) to learn about:
 * [Updates](./docs/pull-requests.md#updates)
 
 > **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
+
+### Maintainer Tips
+
+Helping maintain a project is the best way to contribute to its overall health.
+
++ [Pushing to a branch](./docs/maintainer.md#pushing-to-a-branch)
++ [Triaging issues](./docs/maintainer.md#triaging-issues)
++ [Adding a Patch](./docs/maintainer.md#adding-a-patch)
 
 ### Debugging Tips
 
@@ -221,9 +230,9 @@ debugger.html community team members help shephard the community.
 They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
-||||
-|----------|------|-----|
-|![][bomsy] <br /> [@bomsy][@bomsy]|![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy]|![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro]|
+|||||
+|----------|------|-----|----|
+|![][bomsy] <br /> [@bomsy][@bomsy]|![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy]|![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro]|![][irfanhudda] <br />[@irfanhudda][@irfanhudda]|
 
 ### Joining Mozilla
 
@@ -246,11 +255,13 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [@wldcordeiro]:https://github.com/wldcordeiro
 [@clarkbw]:https://github.com/clarkbw
 [@jbhoosreddy]:https://github.com/jbhoosreddy
+[@irfanhudda]:https://github.com/irfanhudda
 [jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
 [bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
 [wldcordeiro]:https://avatars.githubusercontent.com/wldcordeiro?size=56
 [clarkbw]:https://avatars.githubusercontent.com/clarkbw?size=56
 [jbhoosreddy]:https://avatars.githubusercontent.com/jbhoosreddy?size=56
+[irfanhudda]:https://avatars.githubusercontent.com/irfanhudda?size=56
 
 [mozilla]:https://www.mozilla.org/
 [mozilla-firefox]:https://www.mozilla.org/firefox/

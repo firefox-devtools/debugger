@@ -40,6 +40,7 @@ module.exports = async function(ctx) { const { ok, is, info } = ctx;
   await resume(dbg);
 
   // Test pausing on a caught Error
+  await togglePauseOnExceptions(dbg, true, false);
   caughtException(dbg);
   await waitForPaused(dbg);
   assertPausedLocation(dbg, ctx, "exceptions.js", 15);

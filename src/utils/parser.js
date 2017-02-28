@@ -1,9 +1,29 @@
+// @flow
+
 const babylon = require("babylon");
 const traverse = require("babel-traverse").default;
 const t = require("babel-types");
 const { isDevelopment } = require("devtools-config");
+const toPairs = require("lodash/toPairs");
+const get = require("lodash/get");
 
-import type { SourceText, Source } from "../types";
+import type { SourceText, Source, Location } from "../types";
+
+type ASTLocation = {
+  start: {
+    line: number,
+    column: number
+  },
+  end: {
+    line: number,
+    column: number
+  }
+};
+
+export type FunctionDeclaration = {
+  name: string,
+  location: ASTLocation
+};
 
 const ASTs = new Map();
 
@@ -18,10 +38,11 @@ function _parse(code) {
   });
 }
 
-function parse(sourceText: SourceText, source: Source) {
-  if (ASTs.has(source.id)) {
-    return ASTs.get(source.id);
+function parse(sourceText: SourceText) {
+  if (ASTs.has(sourceText.id)) {
+    return ASTs.get(sourceText.id);
   }
+
   let ast;
   try {
     ast = _parse(sourceText.text);
@@ -32,7 +53,8 @@ function parse(sourceText: SourceText, source: Source) {
 
     ast = {};
   }
-  ASTs.set(source.id, ast);
+
+  ASTs.set(sourceText.id, ast);
   return ast;
 }
 
@@ -53,9 +75,11 @@ function getFunctionName(path) {
   if (parent.type == "VariableDeclarator") {
     return parent.id.name;
   }
+
+  return "anonymous";
 }
 
-function getFunctions(source) {
+function getFunctions(source: Source): Array<FunctionDeclaration> {
   const ast = getAst(source);
 
   const functions = [];
@@ -86,9 +110,9 @@ function nodeContainsLocation({ node, location }) {
    );
 }
 
-function getPathClosestToLocation(source, location) {
+function getPathClosestToLocation(source: Source, location: Location) {
   const ast = getAst(source);
-  const pathClosestToLocation = null;
+  let pathClosestToLocation = null;
 
   traverse(ast, {
     enter(path) {
@@ -101,10 +125,11 @@ function getPathClosestToLocation(source, location) {
   return pathClosestToLocation;
 }
 
-function getVariablesInScope(source, location) {
+function getVariablesInScope(source: Source, location: Location) {
   const path = getPathClosestToLocation(source, location);
+  const bindings = get(path, "scope.bindings", {});
 
-  return Object.entries(path.scope.bindings)
+  return toPairs(bindings)
     .map(([name, binding]) => ({
       name,
       references: binding.referencePaths

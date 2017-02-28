@@ -2,7 +2,9 @@
   "presets": ["lint-recommended"],
   "plugins": {
     "lint": {
+      "list-item-bullet-indent": false,
       "list-item-indent": false,
+      "ordered-list-marker-style": false,
       "no-unused-definitions": false,
       "no-shortcut-reference-link": false,
       "no-shortcut-reference-image": false

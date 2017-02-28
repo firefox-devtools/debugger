@@ -6,13 +6,12 @@ const Rep = require("./Rep");
 const { MODE } = require("devtools-reps");
 
 const {
-  nodeHasChildren,
   nodeIsOptimizedOut,
   nodeIsMissingArguments,
   nodeHasProperties,
   nodeIsPrimitive,
   isDefault,
-  makeNodesForProperties,
+  getChildren,
   createNode
 } = require("../../utils/object-inspector");
 
@@ -64,9 +63,6 @@ const ObjectInspector = React.createClass({
   displayName: "ObjectInspector",
 
   getInitialState() {
-    // Cache of dynamically built nodes. We shouldn't need to clear
-    // this out ever, since we don't ever "switch out" the object
-    // being inspected.
     return {};
   },
 
@@ -74,14 +70,18 @@ const ObjectInspector = React.createClass({
     return {
       onLabelClick: () => {},
       onDoubleClick: () => {},
-      autoExpandDepth: 1
+      autoExpandDepth: 1,
+      getActors: () => {
+        return {};
+      }
     };
   },
 
   componentWillMount() {
-    if (this.props.getActors) {
-      this.actors = this.props.getActors();
-    }
+    // Cache of dynamically built nodes. We shouldn't need to clear
+    // this out ever, since we don't ever "switch out" the object
+    // being inspected.
+    this.actors = this.props.getActors();
   },
 
   componentWillUnmount() {
@@ -92,40 +92,12 @@ const ObjectInspector = React.createClass({
 
   getChildren(item) {
     const { getObjectProperties } = this.props;
-    const obj = item.contents;
-
-    // Nodes can either have children already, or be an object with
-    // properties that we need to go and fetch.
-    if (nodeHasChildren(item)) {
-      return item.contents;
-    }
-
-    if (nodeHasProperties(item)) {
-      const actor = obj.value.actor;
-
-      // Because we are dynamically creating the tree as the user
-      // expands it (not precalcuated tree structure), we cache child
-      // arrays. This not only helps performance, but is necessary
-      // because the expanded state depends on instances of nodes
-      // being the same across renders. If we didn't do this, each
-      // node would be a new instance every render.
-      const key = item.path;
-      if (this.actors[key]) {
-        return this.actors[key];
-      }
-
-      const loadedProps = getObjectProperties(actor);
-      const { ownProperties, prototype, ownSymbols } = loadedProps || {};
-      if (!ownProperties && !prototype && !ownSymbols) {
-        return [];
-      }
-
-      const children = makeNodesForProperties(loadedProps, item.path);
-      this.actors[key] = children;
-      return children;
-    }
-
-    return [];
+    const { actors } = this;
+    return getChildren({
+      getObjectProperties,
+      actors,
+      item
+    });
   },
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {

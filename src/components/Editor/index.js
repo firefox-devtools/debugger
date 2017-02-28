@@ -6,25 +6,22 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
-const { isEnabled } = require("devtools-config");
-const debounce = require("lodash/debounce");
 
 const { getMode } = require("../../utils/source");
-const { getFunctions } = require("../../utils/parser");
-const Autocomplete = createFactory(require("../shared/Autocomplete"));
 
 const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
 const GutterMenu = require("./GutterMenu");
 const EditorMenu = require("./EditorMenu");
-const Popover = require("../shared/Popover");
+const Preview = createFactory(require("./Preview").default);
 const { renderConditionalPanel } = require("./ConditionalPanel");
 const { debugGlobal } = require("devtools-launchpad");
+const { isEnabled } = require("devtools-config");
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame,
   getSelectedSource, getHitCountForSource,
-  getCoverageEnabled
+  getCoverageEnabled, getLoadedObjects
 } = require("../../selectors");
 const { makeLocationId } = require("../../reducers/breakpoints");
 const actions = require("../../actions");
@@ -79,13 +76,13 @@ const Editor = React.createClass({
         index: -1,
         count: 0
       },
+      popoverPos: null,
+      selectedToken: null,
       searchModifiers: {
         caseSensitive: true,
         wholeWord: false,
         regexMatch: false
       },
-      functionSearchEnabled: false,
-      functionDeclarations: null
     };
   },
 
@@ -134,29 +131,18 @@ const Editor = React.createClass({
     codeMirrorWrapper
       .addEventListener("keydown", e => onKeyDown(codeMirror, e));
 
-    const onMouseMove = debounce(this.onMouseStop, 500);
-    codeMirrorWrapper
-      .addEventListener("mouseenter", e => {
-        codeMirrorWrapper
-          .addEventListener("mousemove", onMouseMove);
-      });
-
-    codeMirrorWrapper
-      .addEventListener("mouseleave", e => {
-        if (this.popover && !this.popover.el.contains(e.relatedTarget) && this.popover.el !== e.relatedTarget) {
-          this.popover.destroy();
-          delete this.popover;
-        }
-
-        onMouseMove.cancel();
-        codeMirrorWrapper
-          .removeEventListener("mousemove", onMouseMove);
-      });
-
     const ctx = { ed: this.editor, cm: codeMirror };
     const { query, searchModifiers } = this.state;
-    codeMirror.display.wrapper
-      .addEventListener("mouseup", () => this.onMouseUp(ctx, searchModifiers));
+
+    codeMirrorWrapper
+      .addEventListener("mouseup", e => this.onMouseUp(
+        e, ctx, searchModifiers
+      ));
+
+    codeMirrorWrapper
+      .addEventListener("mouseover", e => this.onMouseOver(
+        e, ctx, searchModifiers
+      ));
 
     if (!isFirefox()) {
       codeMirror.on(
@@ -166,7 +152,7 @@ const Editor = React.createClass({
 
       codeMirror.on(
         "contextmenu",
-        (codeMirror, event) => this.openMenu(event, codeMirror)
+        (cm, event) => this.openMenu(event, cm)
       );
     } else {
       codeMirrorWrapper.addEventListener(
@@ -174,6 +160,9 @@ const Editor = React.createClass({
         event => this.openMenu(event, codeMirror)
       );
     }
+
+    codeMirror.on("scroll", this.onScroll);
+
     const shortcuts = this.context.shortcuts;
 
     shortcuts.on("CmdOrCtrl+B", (key, e) => {
@@ -197,9 +186,6 @@ const Editor = React.createClass({
       if (codeMirror.listSelections().length > 1) {
         codeMirror.execCommand("singleSelection");
         e.preventDefault();
-      } else if (this.state.functionSearchEnabled) {
-        e.preventDefault();
-        this.toggleFunctionSearch(e);
       }
     });
 
@@ -209,16 +195,14 @@ const Editor = React.createClass({
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
       (_, e) => traverseResults(e, ctx, query, "next", searchModifiers));
 
-    if (isEnabled("functionSearch")) {
-      const fnSearchKey = L10N.getStr("functionSearch.search.key");
-      shortcuts.on(`CmdOrCtrl+Shift+${fnSearchKey}`,
-        (_, e) => this.toggleFunctionSearch(e));
-    }
-
     resizeBreakpointGutter(codeMirror);
     debugGlobal("cm", codeMirror);
 
-    if (this.props.sourceText) {
+    if (this.props.selectedSource) {
+      let sourceId = this.props.selectedSource.get("id");
+      const doc = getDocument(sourceId) || this.editor.createDocument();
+      this.editor.replaceDocument(doc);
+    } else if (this.props.sourceText) {
       this.setText(this.props.sourceText.get("text"));
     }
   },
@@ -262,14 +246,39 @@ const Editor = React.createClass({
     }
   },
 
-  onMouseUp(ctx, modifiers) {
-    const query = ctx.cm.getSelection();
-    const { searchResults: { count }} = this.state;
-    if (ctx.cm.somethingSelected()) {
-      find(ctx, query, true, modifiers);
-    } else {
-      this.updateSearchResults({ count, index: -1 });
+  onScroll(e) {
+    return this.setState({ popoverPos: null });
+  },
+
+  onMouseUp(e, ctx, modifiers) {
+    if (e.metaKey) {
+      this.previewSelectedToken(e, ctx, modifiers);
     }
+  },
+
+  onMouseOver(e, ctx, modifiers) {
+    this.previewSelectedToken(e, ctx, modifiers);
+  },
+
+  previewSelectedToken(e, ctx, modifiers) {
+    const { selectedFrame } = this.props;
+    const token = e.target.innerText;
+    const pos = { top: e.pageY, left: e.offsetX };
+
+    if (!selectedFrame || !isEnabled("editorPreview")) {
+      return;
+    }
+
+    const variables = selectedFrame.scope.bindings.variables;
+
+    if (!variables.hasOwnProperty(token)) {
+      return;
+    }
+
+    this.setState({
+      popoverPos: pos,
+      selectedToken: token
+    });
   },
 
   openMenu(event, codeMirror) {
@@ -282,17 +291,6 @@ const Editor = React.createClass({
       onGutterContextMenu: this.onGutterContextMenu,
       jumpToMappedLocation: this.props.jumpToMappedLocation,
       addExpression: this.props.addExpression
-    });
-  },
-
-  onMouseStop(e) {
-    if (this.popover) {
-      this.popover.destroy();
-    }
-
-    this.popover = Popover({
-      content: dom.div({ className: "you-know" }, "just some content"),
-      pos: { top: e.pageY, left: e.pageX }
     });
   },
 
@@ -543,66 +541,40 @@ const Editor = React.createClass({
     return "";
   },
 
-  toggleFunctionSearch(e) {
-    if (e) {
-      e.preventDefault();
-    }
+  renderPreview() {
+    const { popoverPos, selectedToken } = this.state;
+    const { selectedFrame } = this.props;
 
-    if (this.state.functionSearchEnabled) {
-      return this.setState({ functionSearchEnabled: false });
-    }
-
-    const functionDeclarations = getFunctions(
-      this.props.selectedSource.toJS()
-    ).map(dec => ({
-      id: `${dec.name}:${dec.location.start.line}`,
-      title: dec.name,
-      subtitle: `:${dec.location.start.line}`,
-      value: dec.name,
-      location: dec.location
-    }));
-
-    this.setState({
-      functionSearchEnabled: true,
-      functionDeclarations
-    });
-  },
-
-  renderFunctionSearch() {
-    if (!this.state.functionSearchEnabled) {
+    if (!popoverPos || !selectedFrame || !isEnabled("editorPreview")) {
       return;
     }
 
-    const { selectSource, selectedSource } = this.props;
+    const variables = selectedFrame.scope.bindings.variables;
 
-    return dom.div({
-      className: "function-search"
-    },
-      Autocomplete({
-        selectItem: (item) => {
-          this.toggleFunctionSearch();
-          selectSource(
-            selectedSource.get("id"),
-            { line: item.location.start.line }
-          );
-        },
-        onSelectedItem: (item) => {
-          selectSource(
-            selectedSource.get("id"),
-            { line: item.location.start.line }
-          );
-        },
-        close: () => {},
-        items: this.state.functionDeclarations,
-        inputValue: "",
-        placeholder: L10N.getStr("functionSearch.search.placeholder")
+    if (!variables.hasOwnProperty(selectedToken)) {
+      return;
+    }
+
+    const value = variables[selectedToken].value;
+    const root = {
+      name: selectedToken,
+      path: selectedToken,
+      contents: { value }
+    };
+
+    return Preview({
+      roots: [root],
+      popoverPos,
+      onClose: () => this.setState({
+        popoverPos: null,
+        selectedToken: null
       })
-    );
+    });
   },
 
   render() {
     const {
-      sourceText, selectedSource, coverageOn, horizontal
+      sourceText, selectSource, selectedSource, coverageOn, horizontal
     } = this.props;
 
     const { searchResults } = this.state;
@@ -617,6 +589,7 @@ const Editor = React.createClass({
         },
         SearchBar({
           editor: this.editor,
+          selectSource,
           selectedSource,
           sourceText,
           searchResults,
@@ -626,14 +599,14 @@ const Editor = React.createClass({
           updateQuery: this.updateQuery,
           updateSearchResults: this.updateSearchResults
         }),
-        this.renderFunctionSearch(),
         dom.div({
           className: "editor-mount",
           style: { height: this.editorHeight() }
         }),
         this.renderBreakpoints(),
         this.renderHitCounts(),
-        Footer({ editor: this.editor, horizontal })
+        Footer({ editor: this.editor, horizontal }),
+        this.renderPreview()
       )
     );
   }
@@ -648,6 +621,7 @@ module.exports = connect(state => {
     selectedLocation,
     selectedSource,
     sourceText: getSourceText(state, sourceId),
+    loadedObjects: getLoadedObjects(state),
     breakpoints: getBreakpointsForSource(state, sourceId),
     hitCount: getHitCountForSource(state, sourceId),
     selectedFrame: getSelectedFrame(state),

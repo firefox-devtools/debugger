@@ -113,8 +113,6 @@ async function waitForTime(time) {
   });
 }
 
-
-
 async function waitForSources(dbg, ...sources) {
   if (sources.length === 0) {
     return Promise.resolve();

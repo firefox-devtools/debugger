@@ -25,7 +25,7 @@ type CreateTree = {
   uncollapsedTree: any,
   listItems?: any,
   highlightItems?: any
-}
+};
 
 let SourcesTree = React.createClass({
   propTypes: {
@@ -135,7 +135,7 @@ let SourcesTree = React.createClass({
 
   onContextMenu(event, item) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-    const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
+    const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
 
     event.stopPropagation();
     event.preventDefault();
@@ -185,8 +185,10 @@ let SourcesTree = React.createClass({
         className: classnames("node", { focused }),
         style: { [paddingDir]: `${depth * 15}px` },
         key: item.path,
-        onClick: () => this.selectItem(item),
-        onDoubleClick: e => setExpanded(item, !expanded),
+        onClick: () => {
+          this.selectItem(item);
+          setExpanded(item, !expanded);
+        },
         onContextMenu: (e) => this.onContextMenu(e, item)
       },
       dom.div(null, arrow, icon, item.name)

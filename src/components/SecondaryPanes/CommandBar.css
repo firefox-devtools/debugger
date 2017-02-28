@@ -4,6 +4,10 @@
   display: flex;
   height: 30px;
   overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--theme-body-background);
 }
 
 .command-bar > button {
@@ -46,7 +50,7 @@ html .command-bar > button:disabled {
 }
 
 .command-bar button.pause-exceptions {
-  margin-inline-start: .5em;
+  margin-inline-start: 0.5em;
 }
 
 .command-bar .subSettings {

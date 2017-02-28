@@ -34,6 +34,10 @@
     "functionSearch": {
       "label": "function Search",
       "enabled": false
+    },
+    "editorPreview": {
+      "label": "Editor Preview",
+      "enabled": false
     }
   },
   "chrome": {
@@ -49,7 +53,7 @@
   "firefox": {
     "webSocketConnection": false,
     "proxyHost": "localhost:9000",
-    "websocketHost": "localhost:6080",
+    "webSocketHost": "localhost:6080",
     "mcPath": "./firefox"
   },
   "development": {

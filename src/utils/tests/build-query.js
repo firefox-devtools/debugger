@@ -173,7 +173,7 @@ describe("build-query", () => {
       regexMatch: false
     }, { ignoreSpaces: true });
 
-    expect(query.source).to.be(escapeRegExp("(?!\s*.*)"));
+    expect(query.source).to.be(escapeRegExp("(?!\\s*.*)"));
     expect(query.flags).to.be("");
     expect(query.global).to.be(false);
     expect(query.ignoreCase).to.be(false);
@@ -186,7 +186,7 @@ describe("build-query", () => {
       regexMatch: false
     }, { isGlobal: true, ignoreSpaces: true });
 
-    expect(query.source).to.be(escapeRegExp("(?!\s*.*)"));
+    expect(query.source).to.be(escapeRegExp("(?!\\s*.*)"));
     expect(query.flags).to.be("g");
     expect(query.global).to.be(true);
     expect(query.ignoreCase).to.be(false);

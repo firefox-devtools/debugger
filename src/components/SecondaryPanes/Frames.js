@@ -67,7 +67,7 @@ const Frames = createClass({
 
   onContextMenu(event: SyntheticKeyboardEvent, frame: Frame) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-    const copySourceUrlKey = L10N.getStr("copySourceUrl.key");
+    const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
 
     event.stopPropagation();
     event.preventDefault();
@@ -99,6 +99,7 @@ const Frames = createClass({
           "selected": selectedFrame && selectedFrame.id === frame.id
         }),
         onMouseDown: (e) => this.onMouseDown(e, frame, selectedFrame),
+        onKeyUp: (e) => this.onKeyUp(e, frame, selectedFrame),
         onContextMenu: (e) => this.onContextMenu(e, frame),
         tabIndex: 0
       },
@@ -109,6 +110,13 @@ const Frames = createClass({
 
   onMouseDown(e: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
     if (e.nativeEvent.which == 3 && selectedFrame.id != frame.id) {
+      return;
+    }
+    this.props.selectFrame(frame);
+  },
+
+  onKeyUp(event: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
+    if (event.key != "Enter" || selectedFrame.id == frame.id) {
       return;
     }
     this.props.selectFrame(frame);

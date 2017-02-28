@@ -1,4 +1,4 @@
-const { clickEl, rightClickEl } = require("./mouse-events")
+const { clickEl, rightClickEl, dblClickEl } = require("./mouse-events")
 
 function info(msg) {
   console.log(`info: ${msg}\n`);
@@ -190,11 +190,33 @@ async function clickElement(dbg, elementName, ...args) {
   clickEl(dbg.win, el);
 }
 
+async function dblClickElement(dbg, elementName, ...args) {
+  const selector = getSelector(elementName, ...args);
+  const el = dbg.win.document.querySelector(selector);
+  dblClickEl(dbg.win, el);
+}
+
 async function rightClickElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
   const el = dbg.win.document.querySelector(selector);
   info('right click on the gutter', el)
   rightClickEl(dbg.win, el);
+}
+
+// NOTE: we should fix this for mochitests. It's likely that `this` would work.
+const winObj = (typeof window == "Object") ? window : {};
+winObj.resumeTest = undefined;
+
+/**
+ * Pause the test and let you interact with the debugger.
+ * The test can be resumed by invoking `resumeTest` in the console.
+ *
+ * @memberof mochitest
+ * @static
+ */
+function pauseTest() {
+  info("Test paused. Invoke resumeTest to continue.");
+  return new Promise(resolve => resumeTest = resolve);
 }
 
 module.exports = {
@@ -213,7 +235,9 @@ module.exports = {
   invokeInTab,
   evalInTab,
   rightClickElement,
+  dblClickElement,
   selectMenuItem,
   type,
-  pressKey
+  pressKey,
+  pauseTest
 }

@@ -40,7 +40,8 @@ function invokeInTab(dbg, fnc) {
 }
 
 function evalInTab(dbg, script) {
-  ContentTask.spawn(gBrowser.selectedBrowser, script, function(script) {
+  info(`evaling script ${script}`)
+  return ContentTask.spawn(gBrowser.selectedBrowser, script, function(script) {
     content.eval(script);
   });
 }
@@ -82,6 +83,11 @@ function type(dbg, string) {
   });
 }
 
+function countSources(dbg) {
+  const sources = dbg.selectors.getSources(dbg.getState());
+  return sources.size;
+}
+
 function createDebuggerContext(toolbox) {
   const win = toolbox.getPanel("jsdebugger").panelWin;
   const store = win.Debugger.store;
@@ -106,14 +112,15 @@ async function initDebugger(url, ...sources) {
   return createDebuggerContext(toolbox);
 }
 
-
 module.exports = {
   invokeInTab,
   evalInTab,
   selectMenuItem,
   pressKey,
   type,
+  countSources,
   setupTestRunner,
   info,
-  initDebugger
+  initDebugger,
+  environment: "mochitest"
 }

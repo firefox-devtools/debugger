@@ -118,13 +118,15 @@ const SourceTabs = React.createClass({
     const copyLinkLabel = L10N.getStr("sourceTabs.copyLink");
     const prettyPrintLabel = L10N.getStr("sourceTabs.prettyPrint");
 
-    const closeTabKey = L10N.getStr("sourceTabs.closeTab.key");
-    const closeOtherTabsKey = L10N.getStr("sourceTabs.closeOtherTabs.key");
-    const closeTabsToEndKey = L10N.getStr("sourceTabs.closeTabsToEnd.key");
-    const closeAllTabsKey = L10N.getStr("sourceTabs.closeAllTabs.key");
-    const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.key");
-    const copyLinkKey = L10N.getStr("sourceTabs.copyLink.key");
-    const prettyPrintKey = L10N.getStr("sourceTabs.prettyPrint.key");
+    const closeTabKey = L10N.getStr("sourceTabs.closeTab.accesskey");
+    const closeOtherTabsKey =
+      L10N.getStr("sourceTabs.closeOtherTabs.accesskey");
+    const closeTabsToEndKey =
+      L10N.getStr("sourceTabs.closeTabsToEnd.accesskey");
+    const closeAllTabsKey = L10N.getStr("sourceTabs.closeAllTabs.accesskey");
+    const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
+    const copyLinkKey = L10N.getStr("sourceTabs.copyLink.accesskey");
+    const prettyPrintKey = L10N.getStr("sourceTabs.prettyPrint.accesskey");
 
     const tabs = sourceTabs.map(t => t.get("id"));
     const otherTabs = sourceTabs.filter(t => t.get("id") !== tab);

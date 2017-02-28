@@ -1,89 +1,13 @@
-const {
-  waitForPaused,
-  waitForDispatch,
-  waitForTime,
-  waitForSources,
-  waitForElement,
-  waitForTargetEvent,
-  waitForThreadEvents,
-  waitUntil
-} = require("./wait");
+const wait = require("./wait");
+const assert = require("./assert");
+const mocha = require("./mocha");
+const commands = require("./commands");
+const shared = require("./shared")
 
-const {
-  assertPausedLocation,
-  assertHighlightLocation
-} = require("./assert");
-
-const {
-  initDebugger,
-  setupTestRunner
-} = require("./mocha");
-
-const {
-  selectSource,
-  stepOver,
-  stepIn,
-  stepOut,
-  resume,
-  reload,
-  addBreakpoint,
-  removeBreakpoint,
-  togglePauseOnExceptions,
-  clickElement,
-  navigate,
-  evalInTab,
-  invokeInTab,
-  rightClickElement,
-  selectMenuItem,
-  type,
-  pressKey
-} = require("./commands");
-
-const {
-  findElement,
-  findElementWithSelector,
-  findAllElements,
-  findSource,
-  isPaused,
-  isVisibleWithin,
-  getSelector
-} = require("./shared")
-
-module.exports = {
-  initDebugger,
-  setupTestRunner,
-  assertPausedLocation,
-  assertHighlightLocation,
-  findElement,
-  findElementWithSelector,
-  findAllElements,
-  findSource,
-  isPaused,
-  isVisibleWithin,
-  getSelector,
-  selectSource,
-  stepOver,
-  stepIn,
-  stepOut,
-  resume,
-  reload,
-  navigate,
-  addBreakpoint,
-  removeBreakpoint,
-  togglePauseOnExceptions,
-  clickElement,
-  evalInTab,
-  invokeInTab,
-  rightClickElement,
-  selectMenuItem,
-  type,
-  pressKey,
-  waitForPaused,
-  waitForDispatch,
-  waitForTime,
-  waitForSources,
-  waitForElement,
-  waitForTargetEvent,
-  waitForThreadEvents,
-  waitUntil
-}
+module.exports = Object.assign({},
+  wait,
+  assert,
+  mocha,
+  commands,
+  shared
+);

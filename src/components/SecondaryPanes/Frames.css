@@ -49,8 +49,8 @@
 
 .frames ul li:hover,
 .frames ul li:focus {
-   background-color: var(--theme-toolbar-background-alt);
-   outline: none;
+  background-color: var(--theme-toolbar-background-alt);
+  outline: none;
 }
 
 .frames ul li.selected {
@@ -58,11 +58,8 @@
   color: white;
 }
 
-:root.theme-light .frames ul li:hover .location,
 :root.theme-light .frames ul li.selected .location,
 :root.theme-firebug .frames ul li.selected .location,
-:root.theme-firebug .frames ul li:hover .location,
-:root.theme-dark .frames ul li:hover .location,
 :root.theme-dark .frames ul li.selected .location {
   color: white;
 }

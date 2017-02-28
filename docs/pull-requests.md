@@ -111,32 +111,7 @@ There are a couple times when we do this:
 * it's a small syntax or style change that's blocking a merge
 * we want to suggest a refactor. At this point, feel free to offer your opinion.
 
-**For Team Members**
-
-Here are the steps for getting a PR branch and then updating it
-
-Getting Setup:
-
-1. **http remote** [github help][github-remote]
-2. **2fa** [github help][github-2fa]
-3. **personal access tokens** [github help][github-pat]
-
-Steps:
-
-```bash
-git remote add username https://github.com/<username>/debugger.html.git
-git fetch <username>
-git checkout --track <username>/<pr-branch>
-git pull --rebase # if you want to get new changes
-git push <username> <pr-branch>  
-git push -f <username> <pr-branch>  # sadly you often need to push force
-
-````
-
-Notes:
-
-* Don't worry about including `--force`, often it's inevitable if you're helping with a rebase.
-* It's best to include your work as a separate commit so the contributor can easily see the patch.
+Here are the steps for [pushing to a branch].
 
 [github-tables]:https://help.github.com/articles/organizing-information-with-tables/
 [github-remote]:https://help.github.com/articles/which-remote-url-should-i-use/
@@ -147,3 +122,4 @@ Notes:
 [mochitest-docs]: ./mochitests.md
 [test-docs]: ./local-development.md#unit-tests
 [linting-docs]: ./local-development.md#linting
+[pushing to a branch]: ./maintainer.md#pushing-to-a-branch

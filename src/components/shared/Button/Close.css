@@ -36,9 +36,6 @@
   height: 40px;
 }
 
-.close-btn-big path {
-}
-
 .close-btn-big .close {
   cursor: pointer;
   display: inline-block;

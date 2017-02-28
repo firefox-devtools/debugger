@@ -64,7 +64,8 @@
   fill: var(--theme-faded-tab-color);
 }
 
-.source-tab.active path {
+.source-tab.active path,
+.source-tab:hover path {
   fill: var(--theme-body-color);
 }
 

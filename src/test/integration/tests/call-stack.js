@@ -1,5 +1,6 @@
 const {
   initDebugger,
+  environment,
   assertPausedLocation,
   waitForPaused,
   invokeInTab,
@@ -8,7 +9,6 @@ const {
   findAllElements,
   reload
 } = require("../utils")
-
 
 // checks to see if the frame is selected and the title is correct
 function isFrameSelected(dbg, index, title) {
@@ -37,7 +37,7 @@ async function test1(ctx) {
 
   toggleCallStack(dbg);
 
-  const notPaused = findElement(dbg, "callStackBody").innerText;
+  const notPaused = findElement(dbg, "callStackBody").innerText.trim();
   is(notPaused, "Not Paused", "Not paused message is shown");
 
   invokeInTab(dbg, "firstCall");
@@ -75,7 +75,10 @@ async function test2(ctx) {
   button = toggleButton(dbg);
   frames = findAllElements(dbg, "frames");
   is(button.innerText, "Collapse Rows", "toggle button should be collapse");
-  is(frames.length, 22, "All of the frames should be shown");
+
+  // the web runner uses an console eval to call the function, which adds an extra frame
+  const frameCount = environment == "mocha" ? 23 : 22;
+  is(frames.length, frameCount, "All of the frames should be shown");
 }
 
 module.exports = {

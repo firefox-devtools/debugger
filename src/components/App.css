@@ -32,10 +32,6 @@
   background-color: var(--theme-search-overlays-semitransparent);
 }
 
-.search-container .autocomplete {
-  flex: 1;
-}
-
 .search-container .close-button {
   width: 16px;
   margin-top: 25px;

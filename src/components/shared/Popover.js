@@ -1,22 +1,37 @@
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
-const ReactDOM = require("react-dom");
+const { DOM: dom, PropTypes, Component } = React;
 
 require("./Popover.css");
 
-function Popover({ content, pos }) {
-  const el = document.createElement("div");
-  el.classList.add("popover");
-  document.body.appendChild(el);
-  ReactDOM.render(content, el);
-  const rect = el.getBoundingClientRect();
-  el.style.left = (pos.left - rect.width / 2) + "px";
-  el.style.top = (pos.top + 10) + "px";
+class Popover extends Component {
+  render() {
+    const { pos, children, onMouseLeave } = this.props;
+    const left = pos ? pos.left : 0;
+    const top = pos ? pos.top : 0;
+    const shown = !!pos;
+    const display = shown ? "block" : "none";
 
-  return {
-    el,
-    destroy: () => el.parentNode.removeChild(el)
-  };
+    return dom.div(
+      {
+        className: "popover",
+        onMouseLeave,
+        style: { display, top, left }
+      },
+      children
+    );
+  }
 }
+
+Popover.propTypes = {
+  pos: PropTypes.object,
+  children: PropTypes.object,
+  onMouseLeave: PropTypes.func
+};
+
+Popover.defaultProps = {
+  onMouseLeave: () => {}
+};
+
+Popover.displayName = "Popover";
 
 module.exports = Popover;
