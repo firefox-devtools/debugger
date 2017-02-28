@@ -134,8 +134,13 @@ const Editor = React.createClass({
     const ctx = { ed: this.editor, cm: codeMirror };
     const { query, searchModifiers } = this.state;
 
-    codeMirror.display.wrapper
+    codeMirrorWrapper
       .addEventListener("mouseup", e => this.onMouseUp(
+        e, ctx, searchModifiers
+      ));
+
+    codeMirrorWrapper
+      .addEventListener("mouseover", e => this.onMouseOver(
         e, ctx, searchModifiers
       ));
 
@@ -247,21 +252,33 @@ const Editor = React.createClass({
 
   onMouseUp(e, ctx, modifiers) {
     if (e.metaKey) {
-      const token = e.target.innerText;
-      const pos = { top: e.pageY, left: e.pageX };
-      return this.setState({
-        popoverPos: pos,
-        selectedToken: token
-      });
+      this.previewSelectedToken(e, ctx, modifiers);
+    }
+  },
+
+  onMouseOver(e, ctx, modifiers) {
+    this.previewSelectedToken(e, ctx, modifiers);
+  },
+
+  previewSelectedToken(e, ctx, modifiers) {
+    const { selectedFrame } = this.props;
+    const token = e.target.innerText;
+    const pos = { top: e.pageY, left: e.offsetX };
+
+    if (!selectedFrame || !isEnabled("editorPreview")) {
+      return;
     }
 
-    const query = ctx.cm.getSelection();
-    const { searchResults: { count }} = this.state;
-    if (ctx.cm.somethingSelected()) {
-      find(ctx, query, true, modifiers);
-    } else {
-      this.updateSearchResults({ count, index: -1 });
+    const variables = selectedFrame.scope.bindings.variables;
+
+    if (!variables.hasOwnProperty(token)) {
+      return;
     }
+
+    this.setState({
+      popoverPos: pos,
+      selectedToken: token
+    });
   },
 
   openMenu(event, codeMirror) {
