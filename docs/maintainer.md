@@ -33,14 +33,16 @@ If you find an issue that is not actionable you can:
 
 #### Following up on "In Progress" work
 
-Folllowing up on in progress work is delicate, but tremendously important.
-When done well, the recipient feels like his work is appreciated and feels comfortable asking questions that could be blocking the work.
-When done poorly, the reicpient he's being rushed and is not sure how to complete it.
+Following up on in progress work is delicate, but tremendously important.
+
+When done well, the recipient feels like their work is appreciated and feels comfortable asking questions that could be blocking the work.
+
+When done poorly, the recipient feels like they're being rushed and is not sure how to complete it.
 
 Some good rules of thumb are:
 
-1. asking what his timeline is
-2. asking if he is blocked or if you can help
+1. asking what their timeline is
+2. asking if they are blocked or if you can help
 3. offer to pair or talk on slack.
 4. try to breakdown the work so small pieces can be merged
 
