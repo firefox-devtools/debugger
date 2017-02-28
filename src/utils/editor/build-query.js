@@ -15,7 +15,7 @@ type QueryOptions = {
  * @static
  */
 function ignoreWhiteSpace(str: string): string {
-  return /^\s{0,2}$/.test(str) ? "(?!\s*.*)" : str;
+  return /^\s{0,2}$/.test(str) ? "(?!\\s*.*)" : str;
 }
 
 function wholeMatch(query: string, wholeWord: boolean): string {

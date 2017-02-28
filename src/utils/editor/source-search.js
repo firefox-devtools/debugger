@@ -94,7 +94,7 @@ function searchOverlay(query, modifiers) {
         matchLength = len;
         return "highlight highlight-start";
       }
-      while (!stream.match(query, false) && stream.peek()) {
+      while (!stream.match(regexQuery, false) && stream.peek()) {
         stream.next();
       }
     }
@@ -147,7 +147,7 @@ function getMatchIndex(count: number, currentIndex: number, rev: boolean) {
  */
 function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
   let { cm } = ctx;
-  let matchIndex;
+  let matchIndex = 0;
   cm.operation(function() {
     if (!query || isWhitespace(query)) {
       return;
