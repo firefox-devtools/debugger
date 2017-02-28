@@ -1,14 +1,9 @@
 .popover {
-  position: absolute;
-  background: white;
+  position: fixed;
   z-index: 4;
-  min-width: 200px;
-  min-height: 80px;
-  border: 1px solid #cccccc;
-  padding: 10px;
-  height: auto;
-  min-height: inherit;
-  max-height: 130px;
-  overflow: scroll;
-  max-width: 400px;
+}
+
+.popover-gap {
+  height: 20px;
+  background-color: none;
 }

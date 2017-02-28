@@ -6,49 +6,22 @@ import { bindActionCreators } from "redux";
 import actions from "../../actions";
 const ObjectInspector = React.createFactory(require("../shared/ObjectInspector"));
 const Popover = React.createFactory(require("../shared/Popover"));
+const previewFunction = require("../shared/previewFunction");
 
 import { getLoadedObjects } from "../../selectors";
 import { getChildren } from "../../utils/object-inspector";
 import { getFilenameFromURL } from "../../utils/source";
 
-const times = require("lodash/times");
-const zip = require("lodash/zip");
-const flatten = require("lodash/flatten");
+const Rep = require("../shared/Rep");
+const { MODE } = require("devtools-reps");
 
 const { DOM: dom, PropTypes, Component } = React;
 
 require("./Preview.css");
 
-function formatFunctionSignature(value) {
-  const { displayName, parameterNames } = value;
-
-  let params = parameterNames.map(param => dom.span(
-    { className: "param" },
-    param
-  ));
-
-  const commas = times(params.length - 1).map(() => dom.span(
-    { className: "delimiter" },
-    ", "
-  ));
-
-  params = flatten(zip(params, commas));
-
-  return dom.div(
-    { className: "function-signature" },
-    dom.span(
-      { className: "function-name" },
-      displayName,
-    ),
-    dom.span({ className: "paren" }, "("),
-    ...params,
-    dom.span({ className: "paren" }, ")"),
-  );
-}
-
 class Preview extends Component {
 
-  componentDidUpdate() {
+  componentDidMount() {
     const { loadObjectProperties, loadedObjects, value } = this.props;
 
     if (!value || !value.type == "object") {
@@ -95,7 +68,7 @@ class Preview extends Component {
           filename
         )
       ),
-      formatFunctionSignature(value)
+      previewFunction(value)
     );
   }
 
@@ -108,8 +81,8 @@ class Preview extends Component {
 
   renderSimplePreview(value) {
     return dom.div(
-      {},
-      value
+      { className: "preview" },
+       Rep({ object: value, mode: MODE.LONG })
     );
   }
 
@@ -174,7 +147,8 @@ Preview.propTypes = {
   popoverPos: PropTypes.object,
   value: PropTypes.any,
   expression: PropTypes.string,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  selectSourceURL: PropTypes.func
 };
 
 Preview.displayName = "Preview";

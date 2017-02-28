@@ -1,11 +1,20 @@
 .preview {
-
+  background: white;
+  min-width: 200px;
+  min-height: 80px;
+  border: 1px solid #cccccc;
+  padding: 10px;
+  height: auto;
+  min-height: inherit;
+  max-height: 130px;
+  overflow: scroll;
+  max-width: 400px;
 }
 
 .preview .header {
   width: 100%;
   line-height: 20px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #cccccc;
   display: flex;
   flex-direction: column;
 }

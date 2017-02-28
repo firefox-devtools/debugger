@@ -264,7 +264,11 @@ const Editor = React.createClass({
     const { selectedFrame } = this.props;
     const { selectedToken } = this.state;
     const token = e.target;
-    const pos = { top: e.pageY - 20, left: e.offsetX };
+    const rect = e.target.getBoundingClientRect();
+    const pos = {
+      top: rect.top + rect.height,
+      left: rect.left + rect.width / 4
+    };
 
     if (!selectedFrame || !isEnabled("editorPreview")) {
       return;
