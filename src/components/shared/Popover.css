@@ -5,6 +5,7 @@
 
 .popover-gap {
   height: 10px;
+  padding-top: 10px;
 }
 
 .popover::before,
@@ -14,15 +15,15 @@
   width: 0;
   position: absolute;
   border: 10px solid transparent;
-  left: calc(50% - 10px);
+  left: calc(20% - 10px); /* corresponds to calculation in Popover.js */
 }
 
 .popover::before {
-  border-bottom-color: #cccccc;
+  border-bottom-color: var(--theme-comment);
   top: -10px;
 }
 
 .popover::after {
-  border-bottom-color: white;
-  top: -9px;
+  border-bottom-color: var(--theme-body-background);
+  top: -8px;
 }

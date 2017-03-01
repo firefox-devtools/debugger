@@ -20,7 +20,8 @@ class Popover extends Component {
             width: targetWidth,
             bottom: targetBottom } = this.props.target.getBoundingClientRect();
 
-    const left = targetLeft + targetWidth / 2 - width / 2;
+    // width division corresponds to calc in Popover.css
+    const left = targetLeft + targetWidth / 2 - width / 5;
     const top = targetBottom;
 
     this.setState({ left, top });
