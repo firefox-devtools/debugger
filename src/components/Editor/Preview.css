@@ -28,6 +28,15 @@
   cursor: pointer;
 }
 
+.selected-token {
+  background-color: var(--theme-search-overlays-semitransparent);
+  color: var(--theme-selection-color);
+}
+
+.selected-token:hover {
+  cursor: pointer;
+}
+
 .preview .function-signature {
   padding-top: 10px;
 }
