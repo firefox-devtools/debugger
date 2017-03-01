@@ -3,10 +3,10 @@
 const { firefox } = require("devtools-client-adapters");
 const { prefs } = require("./prefs");
 
-async function loadFromPrefs(actions: Object) {
+function loadFromPrefs(actions: Object) {
   const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
   if (pauseOnExceptions || ignoreCaughtExceptions) {
-    await actions.pauseOnExceptions(
+    actions.pauseOnExceptions(
       pauseOnExceptions,
       ignoreCaughtExceptions
     );
@@ -19,9 +19,14 @@ async function onFirefoxConnect(actions: Object) {
   const client = firefox.clientCommands;
   const { newSources } = actions;
 
+  console.log(">>> onFirefoxConnect!");
+
   if (!tabTarget || !threadClient) {
     return;
   }
+
+  console.log(">>> loading prefs!");
+  loadFromPrefs(actions);
 
   tabTarget.on("will-navigate", actions.willNavigate);
   tabTarget.on("navigate", actions.navigated);
@@ -37,16 +42,12 @@ async function onFirefoxConnect(actions: Object) {
   const sources = await client.fetchSources();
   newSources(sources);
 
-  await loadFromPrefs(actions);
-
   // If the threadClient is already paused, make sure to show a
   // paused state.
   const pausedPacket = threadClient.getLastPausePacket();
   if (pausedPacket) {
     firefox.clientEvents.paused("paused", pausedPacket);
   }
-
-  window.dispatchEvent(new Event("connected"));
 }
 
 async function onChromeConnect(actions: Object) {
@@ -61,7 +62,7 @@ async function onConnect(connection: Object, actions: Object) {
 
   const { tab } = connection;
   if (tab.clientType == "firefox") {
-    await onFirefoxConnect(actions);
+    return onFirefoxConnect(actions);
   }
 
   return onChromeConnect(actions);
