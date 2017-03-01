@@ -2,7 +2,7 @@
   background: var(--theme-body-background);
   min-width: 200px;
   min-height: 80px;
-  border: 1px solid #cccccc;
+  border: 1px solid var(--theme-comment);
   padding: 10px;
   height: auto;
   min-height: inherit;
@@ -50,7 +50,7 @@
 }
 
 .function-signature .comma {
-  color: var(--object-colosr);
+  color: var(--object-color);
 }
 
 .theme-dark .preview {
@@ -58,5 +58,5 @@
 }
 
 .theme-dark .preview .arrow svg {
-  fill: var(--theme-comment);;
+  fill: var(--theme-comment);
 }
