@@ -4,6 +4,25 @@
 }
 
 .popover-gap {
-  height: 20px;
-  background-color: none;
+  height: 10px;
+}
+
+.popover::before,
+.popover::after {
+  content: '';
+  height: 0;
+  width: 0;
+  position: absolute;
+  border: 10px solid transparent;
+  left: calc(50% - 10px);
+}
+
+.popover::before {
+  border-bottom-color: #cccccc;
+  top: -10px;
+}
+
+.popover::after {
+  border-bottom-color: white;
+  top: -9px;
 }

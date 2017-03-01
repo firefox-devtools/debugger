@@ -76,7 +76,6 @@ const Editor = React.createClass({
         index: -1,
         count: 0
       },
-      popoverPos: null,
       selectedToken: null,
       searchModifiers: {
         caseSensitive: true,
@@ -247,7 +246,7 @@ const Editor = React.createClass({
   },
 
   onScroll(e) {
-    return this.setState({ popoverPos: null });
+    return this.setState({ selectedToken: null });
   },
 
   onMouseUp(e, ctx, modifiers) {
@@ -264,11 +263,6 @@ const Editor = React.createClass({
     const { selectedFrame } = this.props;
     const { selectedToken } = this.state;
     const token = e.target;
-    const rect = e.target.getBoundingClientRect();
-    const pos = {
-      top: rect.top + rect.height,
-      left: rect.left + rect.width / 4
-    };
 
     if (!selectedFrame || !isEnabled("editorPreview")) {
       return;
@@ -281,12 +275,11 @@ const Editor = React.createClass({
     const variables = selectedFrame.scope.bindings.variables;
 
     if (!variables.hasOwnProperty(token.innerText)) {
-      this.setState({ popoverPos: null, selectedToken: null });
+      this.setState({ selectedToken: null });
       return;
     }
 
     this.setState({
-      popoverPos: pos,
       selectedToken: token
     });
   },
@@ -552,10 +545,10 @@ const Editor = React.createClass({
   },
 
   renderPreview() {
-    const { popoverPos, selectedToken } = this.state;
+    const { selectedToken } = this.state;
     const { selectedFrame } = this.props;
 
-    if (!popoverPos || !selectedFrame || !isEnabled("editorPreview")) {
+    if (!selectedToken || !selectedFrame || !isEnabled("editorPreview")) {
       return;
     }
 
@@ -573,11 +566,10 @@ const Editor = React.createClass({
     return Preview({
       value,
       expression: token,
-      popoverPos,
+      popoverTarget: selectedToken,
       onClose: () => {
         selectedToken.classList.remove("selected-token");
         this.setState({
-          popoverPos: null,
           selectedToken: null
         });
       }
