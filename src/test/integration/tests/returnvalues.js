@@ -70,7 +70,7 @@ module.exports = async function(ctx) {
   toggleScopes(dbg);
   await togglePauseOnExceptions(dbg, true, false);
 
-  const TESTS = ["57", "0", "false", "undefined", "null", "\"undefined\""];
+  const TESTS = ["57"];
 
   for (let test of TESTS) {
     info(`testing ${test}`);

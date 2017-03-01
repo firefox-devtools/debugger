@@ -3,6 +3,16 @@
 const { firefox } = require("devtools-client-adapters");
 const { prefs } = require("./prefs");
 
+async function loadFromPrefs(actions: Object) {
+  const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
+  if (pauseOnExceptions || ignoreCaughtExceptions) {
+    await actions.pauseOnExceptions(
+      pauseOnExceptions,
+      ignoreCaughtExceptions
+    );
+  }
+}
+
 async function onFirefoxConnect(actions: Object) {
   const tabTarget = firefox.getTabTarget();
   const threadClient = firefox.getThreadClient();
@@ -27,12 +37,20 @@ async function onFirefoxConnect(actions: Object) {
   const sources = await client.fetchSources();
   newSources(sources);
 
+  await loadFromPrefs(actions);
+
   // If the threadClient is already paused, make sure to show a
   // paused state.
   const pausedPacket = threadClient.getLastPausePacket();
   if (pausedPacket) {
     firefox.clientEvents.paused("paused", pausedPacket);
   }
+
+  window.dispatchEvent(new Event("connected"));
+}
+
+async function onChromeConnect(actions: Object) {
+  loadFromPrefs(actions);
 }
 
 async function onConnect(connection: Object, actions: Object) {
@@ -41,18 +59,12 @@ async function onConnect(connection: Object, actions: Object) {
     return;
   }
 
-  const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
-  if (pauseOnExceptions || ignoreCaughtExceptions) {
-    actions.pauseOnExceptions(
-      pauseOnExceptions,
-      ignoreCaughtExceptions
-    );
-  }
-
   const { tab } = connection;
   if (tab.clientType == "firefox") {
-    return onFirefoxConnect(actions);
+    await onFirefoxConnect(actions);
   }
+
+  return onChromeConnect(actions);
 }
 
 module.exports = {

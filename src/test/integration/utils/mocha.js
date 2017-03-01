@@ -60,12 +60,6 @@ function createDebuggerContext(iframe) {
   const globals = win.getGlobalsForTesting();
   const { debuggerStore: store, selectors } = globals;
 
-  selectors = mapValues(globals.selectors, (selector) => {
-    return function() {
-      return selector(store.getState(), ...arguments);
-    };
-  });
-
   return {
     actions: globals.actions,
     selectors: globals.selectors,
@@ -82,7 +76,13 @@ function createDebuggerContext(iframe) {
 async function waitForLoad(iframe) {
   return new Promise(resolve => {
     iframe.onload = resolve;
-  })
+  });
+}
+
+async function waitForConnection(win) {
+  return new Promise(resolve => {
+    win.addEventListener("connected", resolve);
+  });
 }
 
 async function createIframe() {
@@ -127,13 +127,15 @@ async function initDebugger(url, ...sources) {
   await navigateToTab(dbg);
   dbg = createDebuggerContext(iframe);
 
+  const connected = waitForConnection(dbg.win);
   await navigate(
     dbg,
     `http://localhost:8000/integration/examples/${url}`
   );
-  dbg = createDebuggerContext(iframe);
 
-  await waitForSources(dbg, ...sources)
+  await connected
+  dbg = createDebuggerContext(iframe);
+  await waitForSources(dbg, ...sources);
   return dbg;
 }
 
