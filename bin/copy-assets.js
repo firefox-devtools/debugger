@@ -19,50 +19,52 @@ function start() {
   console.log("start: copy assets")
   const projectPath = path.resolve(__dirname, "..")
   const mcModulePath =  "devtools/client/debugger/new";
-  const mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
+  let mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
+
+  // resolving against the project path in case it's relative. If it's absolute
+  // it will override whatever is in projectPath.
+  mcPath = path.resolve(projectPath, mcPath);
 
   copyFile(
     path.join(projectPath, "./assets/panel/debugger.properties"),
-    path.join(projectPath, mcPath, "/devtools/client/locales/en-US/debugger.properties"),
+    path.join(mcPath, "devtools/client/locales/en-US/debugger.properties"),
     {cwd: projectPath}
   );
 
   copyFile(
     path.join(projectPath, "./assets/panel/prefs.js"),
-    path.join(projectPath, mcPath, "devtools/client/preferences/devtools.js"),
+    path.join(mcPath, "devtools/client/preferences/devtools.js"),
     {cwd: projectPath}
   );
 
   copyFile(
     path.join(projectPath, "./assets/panel/index.html"),
-    path.join(projectPath, mcPath, "devtools/client/debugger/new/index.html"),
+    path.join(mcPath, "devtools/client/debugger/new/index.html"),
     {cwd: projectPath}
   );
 
   copyFile(
     path.join(projectPath, "./assets/panel/panel.js"),
-    path.join(projectPath, mcPath, "devtools/client/debugger/new/panel.js"),
+    path.join(mcPath, "devtools/client/debugger/new/panel.js"),
     {cwd: projectPath}
   );
 
   copyFile(
     path.join(projectPath, "./assets/panel/moz.build"),
-    path.join(projectPath, mcPath, "devtools/client/debugger/new/moz.build"),
+    path.join(mcPath, "devtools/client/debugger/new/moz.build"),
     {cwd: projectPath}
   );
 
+  const projectTestPath = path.join(projectPath, "src/test/mochitest");
+  const mcTestPath = path.join(mcPath, mcModulePath, "test/mochitest");
   if (shouldSymLink) {
-    symlinkTests({ projectPath, mcModulePath })
+    symlinkTests({ projectPath, mcTestPath, projectTestPath })
   } else {
-    copyFile(
-      path.resolve(projectPath, "src/test/mochitest"),
-      path.join(projectPath, mcPath, mcModulePath, "test/mochitest"),
-      { cwd: projectPath }
-    );
+    copyFile(projectTestPath, mcTestPath, { cwd: projectPath });
   }
 
   makeBundle({
-    outputPath: path.join(projectPath, mcPath, mcModulePath),
+    outputPath: path.join(mcPath, mcModulePath),
     projectPath,
     watch: args.watch
   }).then(() => {
