@@ -19,13 +19,10 @@ async function onFirefoxConnect(actions: Object) {
   const client = firefox.clientCommands;
   const { newSources } = actions;
 
-  console.log(">>> onFirefoxConnect!");
-
   if (!tabTarget || !threadClient) {
     return;
   }
 
-  console.log(">>> loading prefs!");
   loadFromPrefs(actions);
 
   tabTarget.on("will-navigate", actions.willNavigate);
