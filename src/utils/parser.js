@@ -20,7 +20,7 @@ type ASTLocation = {
   }
 };
 
-export type FunctionDeclaration = {
+export type SymbolDeclaration = {
   name: string,
   location: ASTLocation
 };
@@ -91,7 +91,7 @@ function isFunction(path) {
     t.isObjectMethod(path) || t.isClassMethod(path);
 }
 
-function getFunctions(source: SourceText): Array<FunctionDeclaration> {
+function getFunctions(source: SourceText): Array<SymbolDeclaration> {
   const ast = getAst(source);
 
   const functions = [];
