@@ -22,9 +22,13 @@
   line-height: 30px;
   font-size: 14px;
   background-color: var(--theme-body-background);
-  color: var(--theme-comment);
+  color: var(--theme-comment-alt);
   width: calc(100% - 38px);
   flex: 1;
+}
+
+.theme-dark .search-field input {
+  color: var(--theme-comment-alt);
 }
 
 .search-field .magnifying-glass {
@@ -37,7 +41,7 @@
 }
 
 .search-field input::placeholder {
-  color: var(--theme-body-color-inactive);
+  color: var(--theme-comment-alt);
 }
 
 .search-field input:focus {
