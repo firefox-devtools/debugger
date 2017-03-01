@@ -13,8 +13,6 @@ const defer = require("../utils/defer");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const assert = require("../utils/assert");
 const { updateFrameLocations } = require("../utils/pause");
-const { isEnabled } = require("devtools-config");
-
 const {
   getOriginalURLs, getOriginalSourceText,
   generatedToOriginalId, isOriginalId,

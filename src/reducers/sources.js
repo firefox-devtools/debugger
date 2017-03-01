@@ -154,6 +154,7 @@ function _updateText(state, action : any) : Record<SourcesState> {
 
   return state.setIn(["sourcesText", source.id], I.Map({
     text: sourceText.text,
+    id: source.id,
     contentType: sourceText.contentType
   }));
 }
