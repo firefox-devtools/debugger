@@ -220,6 +220,30 @@ const SearchBar = React.createClass({
     return findDOMNode(this).querySelector("input");
   },
 
+  updateFunctionSearchResults(query: string) {
+    const {
+      sourceText,
+      updateSearchResults
+    } = this.props;
+
+    if (query == "" || !sourceText) {
+      return;
+    }
+
+    const functionDeclarations = getFunctionDeclarations(
+      sourceText.toJS()
+    );
+
+    const functionSearchResults = filter(
+      functionDeclarations,
+      query,
+      { key: "value" }
+    );
+
+    updateSearchResults({ count: functionSearchResults.length });
+    return this.setState({ functionSearchResults });
+  },
+
   doSearch(query: string) {
     const {
       sourceText,
@@ -235,15 +259,7 @@ const SearchBar = React.createClass({
     updateQuery(query);
 
     if (this.state.functionSearchEnabled) {
-      if (query == "") {
-        return;
-      }
-
-      const functionSearchResults = filter(
-        this.state.functionDeclarations, query, { key: "value" });
-
-      this.props.updateSearchResults({ count: functionSearchResults.length });
-      return this.setState({ functionSearchResults });
+      return this.updateFunctionSearchResults(query);
     }
 
     if (!ed) {
