@@ -2,7 +2,7 @@
   --width: 150px;
   background: var(--theme-body-background);
   border: 1px solid var(--theme-splitter-color);
-  box-shadow: 0 4px 4px 0 var(--theme-search-overlays-semitransparent);
+  box-shadow: 0 4px 4px 0 var(--search-overlays-semitransparent);
   max-height: 300px;
   position: absolute;
   right: 8px;
@@ -42,7 +42,7 @@ html[dir="rtl"] .dropdown {
 }
 
 .dropdown li:hover {
-  background-color: var(--theme-search-overlays-semitransparent);
+  background-color: var(--search-overlays-semitransparent);
   cursor: pointer;
 }
 

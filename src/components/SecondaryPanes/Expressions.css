@@ -52,7 +52,7 @@
 }
 
 :root.theme-dark .expression-container:hover {
-  background-color: var(--theme-search-overlays-semitransparent);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 .expression-container .close-btn {
