@@ -368,7 +368,9 @@ const Editor = React.createClass({
       closePanel: this.closeConditionalPanel
     });
 
-    this.cbPanel = this.editor.codeMirror.addLineWidget(line, panel);
+    this.cbPanel = this.editor.codeMirror.addLineWidget(line, panel, {
+      coverGutter: true
+    });
     this.cbPanel.node.querySelector("input").focus();
   },
 
