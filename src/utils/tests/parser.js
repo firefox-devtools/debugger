@@ -36,14 +36,29 @@ const bar = () => {}
 const TodoView = Backbone.View.extend({
   tagName:  'li',
   initialize: function () {},
+  doThing() {
+    console.log('hi');
+  },
   render: function () {
     return this;
   },
 });
 `);
 
+const classTest = formatCode(`
+  class Test {
+    constructor() {
+      this.foo = "foo"
+    }
+
+    bar() {
+      console.log("bar");
+    }
+  }
+`);
+
 function getSourceText(name) {
-  const sources = { func, math, proto };
+  const sources = { func, math, proto, classTest };
   return {
     id: name,
     text: sources[name],
@@ -72,7 +87,13 @@ describe("parser", () => {
       const fncs = getFunctions(getSourceText("proto"));
       const names = fncs.map(f => f.name);
 
-      expect(names).to.eql([ "foo", "bar", "initialize", "render"]);
+      expect(names).to.eql([ "foo", "bar", "initialize", "doThing", "render"]);
+    });
+
+    it("finds class methods", () => {
+      const fncs = getFunctions(getSourceText("classTest"));
+      const names = fncs.map(f => f.name);
+      expect(names).to.eql([ "constructor", "bar"]);
     });
   });
 

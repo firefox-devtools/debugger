@@ -75,11 +75,20 @@ function getFunctionName(path) {
     return parent.key.name;
   }
 
+  if (parent.type == "ObjectExpression" || path.node.type == "ClassMethod") {
+    return path.node.key.name;
+  }
+
   if (parent.type == "VariableDeclarator") {
     return parent.id.name;
   }
 
   return "anonymous";
+}
+
+function isFunction(path) {
+  return t.isFunction(path) || t.isArrowFunctionExpression(path) ||
+    t.isObjectMethod(path) || t.isClassMethod(path);
 }
 
 function getFunctions(source: SourceText): Array<FunctionDeclaration> {
@@ -89,7 +98,7 @@ function getFunctions(source: SourceText): Array<FunctionDeclaration> {
 
   traverse(ast, {
     enter(path) {
-      if (t.isFunction(path)) {
+      if (isFunction(path)) {
         functions.push({
           name: getFunctionName(path),
           location: path.node.loc
