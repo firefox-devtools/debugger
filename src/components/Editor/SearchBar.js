@@ -14,7 +14,7 @@ const {
   countMatches,
   clearIndex
 } = require("../../utils/editor");
-const { getFunctions } = require("../../utils/parser");
+const { getFunctionDeclarations } = require("../../utils/parser");
 const { scrollList } = require("../../utils/result-list");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
@@ -29,16 +29,6 @@ type ToggleFunctionSearchOpts = {
 }
 
 require("./SearchBar.css");
-
-function getFunctionDeclarations(selectedSource) {
-  return getFunctions(selectedSource).map(dec => ({
-    id: `${dec.name}:${dec.location.start.line}`,
-    title: dec.name,
-    subtitle: `:${dec.location.start.line}`,
-    value: dec.name,
-    location: dec.location
-  }));
-}
 
 const SearchBar = React.createClass({
 
@@ -176,13 +166,13 @@ const SearchBar = React.createClass({
 
   toggleFunctionSearch(
     e?: SyntheticKeyboardEvent, { toggle }: ToggleFunctionSearchOpts = {}) {
-    const { selectedSource } = this.props;
+    const { sourceText } = this.props;
 
     if (e) {
       e.preventDefault();
     }
 
-    if (!selectedSource) {
+    if (!sourceText) {
       return;
     }
 
@@ -199,7 +189,7 @@ const SearchBar = React.createClass({
     }
 
     const functionDeclarations = getFunctionDeclarations(
-      selectedSource.toJS()
+      sourceText.toJS()
     );
 
     if (this.props.selectedSource) {
@@ -317,7 +307,6 @@ const SearchBar = React.createClass({
   // Handlers
   selectResultItem(item: FunctionDeclaration) {
     const { selectSource, selectedSource } = this.props;
-    this.toggleFunctionSearch();
     if (selectedSource) {
       selectSource(
         selectedSource.get("id"), { line: item.location.start.line });
@@ -367,9 +356,8 @@ const SearchBar = React.createClass({
     } else if (e.key === "Enter") {
       if (searchResults.length) {
         this.selectResultItem(searchResults[this.state.selectedResultIndex]);
-      } else {
-        this.closeSearch(e);
       }
+      this.closeSearch(e);
       e.preventDefault();
     } else if (e.key === "Tab") {
       this.closeSearch(e);
