@@ -22,7 +22,7 @@ const SearchInput = createFactory(require("../shared/SearchInput"));
 const ResultList = createFactory(require("../shared/ResultList"));
 const ImPropTypes = require("react-immutable-proptypes");
 
-import type { FunctionDeclaration } from "../../utils/parser";
+import type { SymbolDeclaration } from "../../utils/parser";
 
 type ToggleFunctionSearchOpts = {
   toggle: boolean
@@ -188,16 +188,9 @@ const SearchBar = React.createClass({
       return;
     }
 
-    const functionDeclarations = getFunctionDeclarations(
-      sourceText.toJS()
-    );
-
     if (this.props.selectedSource) {
       this.clearSearch();
-      this.setState({
-        functionSearchEnabled: true,
-        functionDeclarations
-      });
+      this.setState({ functionSearchEnabled: true });
     }
   },
 
@@ -321,7 +314,7 @@ const SearchBar = React.createClass({
   },
 
   // Handlers
-  selectResultItem(item: FunctionDeclaration) {
+  selectResultItem(item: SymbolDeclaration) {
     const { selectSource, selectedSource } = this.props;
     if (selectedSource) {
       selectSource(
@@ -329,7 +322,7 @@ const SearchBar = React.createClass({
     }
   },
 
-  onSelectResultItem(item: FunctionDeclaration) {
+  onSelectResultItem(item: SymbolDeclaration) {
     const { selectSource, selectedSource } = this.props;
     if (selectedSource) {
       selectSource(

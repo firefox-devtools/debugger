@@ -20,7 +20,7 @@ type ASTLocation = {
   }
 };
 
-export type FunctionDeclaration = {
+export type SymbolDeclaration = {
   name: string,
   location: ASTLocation
 };
@@ -75,6 +75,10 @@ function getFunctionName(path) {
     return parent.key.name;
   }
 
+  if (parent.type == "ObjectExpression" || path.node.type == "ClassMethod") {
+    return path.node.key.name;
+  }
+
   if (parent.type == "VariableDeclarator") {
     return parent.id.name;
   }
@@ -82,14 +86,19 @@ function getFunctionName(path) {
   return "anonymous";
 }
 
-function getFunctions(source: SourceText): Array<FunctionDeclaration> {
+function isFunction(path) {
+  return t.isFunction(path) || t.isArrowFunctionExpression(path) ||
+    t.isObjectMethod(path) || t.isClassMethod(path);
+}
+
+function getFunctions(source: SourceText): Array<SymbolDeclaration> {
   const ast = getAst(source);
 
   const functions = [];
 
   traverse(ast, {
     enter(path) {
-      if (t.isFunction(path)) {
+      if (isFunction(path)) {
         functions.push({
           name: getFunctionName(path),
           location: path.node.loc
