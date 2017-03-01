@@ -1,5 +1,5 @@
 .preview {
-  background: white;
+  background: var(--theme-body-background);
   min-width: 200px;
   min-height: 80px;
   border: 1px solid #cccccc;
@@ -51,4 +51,12 @@
 
 .function-signature .comma {
   color: var(--object-colosr);
+}
+
+.theme-dark .preview {
+  border-color: var(--theme-body-color);
+}
+
+.theme-dark .preview .arrow svg {
+  fill: var(--theme-comment);;
 }
