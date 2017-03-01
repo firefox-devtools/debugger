@@ -7,7 +7,7 @@
   height: auto;
   min-height: inherit;
   max-height: 130px;
-  overflow: scroll;
+  overflow: auto;
   max-width: 400px;
 }
 
@@ -25,6 +25,15 @@
   text-decoration: underline;
 }
 .preview .header .link:hover {
+  cursor: pointer;
+}
+
+.selected-token {
+  background-color: var(--theme-search-overlays-semitransparent);
+  color: var(--theme-selection-color);
+}
+
+.selected-token:hover {
   cursor: pointer;
 }
 

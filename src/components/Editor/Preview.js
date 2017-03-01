@@ -124,7 +124,7 @@ class Preview extends Component {
 
   render() {
     const {
-      popoverPos,
+      popoverTarget,
       onClose,
       value,
       expression
@@ -132,7 +132,7 @@ class Preview extends Component {
 
     return Popover(
       {
-        pos: popoverPos,
+        target: popoverTarget,
         onMouseLeave: onClose
       },
       this.renderPreview(expression, value)
@@ -144,7 +144,7 @@ Preview.propTypes = {
   loadObjectProperties: PropTypes.func,
   loadedObjects: PropTypes.object,
   selectedFrame: PropTypes.object,
-  popoverPos: PropTypes.object,
+  popoverTarget: PropTypes.object,
   value: PropTypes.any,
   expression: PropTypes.string,
   onClose: PropTypes.func,
