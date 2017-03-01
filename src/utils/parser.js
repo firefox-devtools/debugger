@@ -7,7 +7,7 @@ const { isDevelopment } = require("devtools-config");
 const toPairs = require("lodash/toPairs");
 const get = require("lodash/get");
 
-import type { SourceText, Source, Location } from "../types";
+import type { SourceText, Location } from "../types";
 
 type ASTLocation = {
   start: {
@@ -27,6 +27,8 @@ export type FunctionDeclaration = {
 
 const ASTs = new Map();
 
+const functionDeclarations = new Map();
+
 function _parse(code) {
   return babylon.parse(code, {
     sourceType: "module",
@@ -39,10 +41,6 @@ function _parse(code) {
 }
 
 function parse(sourceText: SourceText) {
-  if (ASTs.has(sourceText.id)) {
-    return ASTs.get(sourceText.id);
-  }
-
   let ast;
   try {
     ast = _parse(sourceText.text);
@@ -54,12 +52,17 @@ function parse(sourceText: SourceText) {
     ast = {};
   }
 
-  ASTs.set(sourceText.id, ast);
   return ast;
 }
 
-function getAst(source) {
-  return ASTs.get(source.id);
+function getAst(sourceText: SourceText) {
+  if (ASTs.has(sourceText.id)) {
+    return ASTs.get(sourceText.id);
+  }
+
+  const ast = parse(sourceText);
+  ASTs.set(sourceText.id, ast);
+  return ast;
 }
 
 function getFunctionName(path) {
@@ -79,7 +82,7 @@ function getFunctionName(path) {
   return "anonymous";
 }
 
-function getFunctions(source: Source): Array<FunctionDeclaration> {
+function getFunctions(source: SourceText): Array<FunctionDeclaration> {
   const ast = getAst(source);
 
   const functions = [];
@@ -98,6 +101,23 @@ function getFunctions(source: Source): Array<FunctionDeclaration> {
   return functions;
 }
 
+function getFunctionDeclarations(sourceText: SourceText) {
+  if (functionDeclarations.has(sourceText.id)) {
+    return functionDeclarations.get(sourceText.id);
+  }
+
+  const functions = getFunctions(sourceText).map(dec => ({
+    id: `${dec.name}:${dec.location.start.line}`,
+    title: dec.name,
+    subtitle: `:${dec.location.start.line}`,
+    value: dec.name,
+    location: dec.location
+  }));
+
+  functionDeclarations.set(sourceText.id, functions);
+  return functions;
+}
+
 function nodeContainsLocation({ node, location }) {
   const { start, end } = node.loc;
   const { line, column } = location;
@@ -110,7 +130,7 @@ function nodeContainsLocation({ node, location }) {
    );
 }
 
-function getPathClosestToLocation(source: Source, location: Location) {
+function getPathClosestToLocation(source: SourceText, location: Location) {
   const ast = getAst(source);
   let pathClosestToLocation = null;
 
@@ -125,7 +145,7 @@ function getPathClosestToLocation(source: Source, location: Location) {
   return pathClosestToLocation;
 }
 
-function getVariablesInScope(source: Source, location: Location) {
+function getVariablesInScope(source: SourceText, location: Location) {
   const path = getPathClosestToLocation(source, location);
   const bindings = get(path, "scope.bindings", {});
 
@@ -140,6 +160,7 @@ function getVariablesInScope(source: Source, location: Location) {
 module.exports = {
   parse,
   getFunctions,
+  getFunctionDeclarations,
   getPathClosestToLocation,
   getVariablesInScope
 };
