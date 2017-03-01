@@ -1,13 +1,18 @@
 .dropdown {
+  --width: 150px;
   background: var(--theme-body-background);
   border: 1px solid var(--theme-splitter-color);
   box-shadow: 0 4px 4px 0 var(--theme-search-overlays-semitransparent);
   max-height: 300px;
   position: absolute;
-  offset-inline-end: 8px;
+  right: 8px;
   top: 35px;
-  width: 150px;
+  width: var(--width);
   z-index: 1000;
+}
+
+html[dir="rtl"] .dropdown {
+  right: calc((var(--width) - 11px) * (-1));
 }
 
 .dropdown-block {
