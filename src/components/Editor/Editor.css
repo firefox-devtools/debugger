@@ -96,6 +96,10 @@ html[dir="rtl"] .editor-mount {
   line-height: 14px;
 }
 
+.theme-dark .editor-wrapper .CodeMirror-line .cm-comment {
+  color: var(--theme-content-color3);
+}
+
 .debug-line .CodeMirror-line {
   background-color: var(--breakpoint-active-color) !important;
 }

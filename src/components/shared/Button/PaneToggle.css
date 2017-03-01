@@ -12,6 +12,11 @@
   fill: var(--theme-comment);
 }
 
+.theme-dark .toggle-button-start svg,
+.theme-dark .toggle-button-end svg {
+  fill: var(--theme-comment-alt);
+}
+
 .toggle-button-end {
   margin-left: auto;
 }

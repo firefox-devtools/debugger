@@ -7,21 +7,13 @@
     "mcPath": "./firefox"
   },
   "features": {
-    "watchExpressions": {
-      "label": "Watch Expressions",
-      "enabled": false
-    },
-    "chromeScopes": {
-      "label": "Chrome Scopes",
-      "enabled": false
-    },
-    "eventListeners": {
-      "label": "Event Listeners",
-      "enabled": false
-    },
-    "codeCoverage": {
-      "label": "Code Coverage",
-      "enabled": false
-    }
+    "watchExpressions": { "enabled": true },
+    "chromeScopes": { "enabled": false },
+    "eventListeners": { "enabled": false },
+    "codeCoverage": { "enabled": false },
+    "searchModifiers": { "enabled": true },
+    "functionSearch": { "enabled": true },
+    "editorPreview": { "enabled": true },
+    "showSource": { "enabled": true   }
   }
 }

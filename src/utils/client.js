@@ -3,6 +3,16 @@
 const { firefox } = require("devtools-client-adapters");
 const { prefs } = require("./prefs");
 
+function loadFromPrefs(actions: Object) {
+  const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
+  if (pauseOnExceptions || ignoreCaughtExceptions) {
+    actions.pauseOnExceptions(
+      pauseOnExceptions,
+      ignoreCaughtExceptions
+    );
+  }
+}
+
 async function onFirefoxConnect(actions: Object) {
   const tabTarget = firefox.getTabTarget();
   const threadClient = firefox.getThreadClient();
@@ -12,6 +22,8 @@ async function onFirefoxConnect(actions: Object) {
   if (!tabTarget || !threadClient) {
     return;
   }
+
+  loadFromPrefs(actions);
 
   tabTarget.on("will-navigate", actions.willNavigate);
   tabTarget.on("navigate", actions.navigated);
@@ -35,24 +47,22 @@ async function onFirefoxConnect(actions: Object) {
   }
 }
 
+async function onChromeConnect(actions: Object) {
+  loadFromPrefs(actions);
+}
+
 async function onConnect(connection: Object, actions: Object) {
   // NOTE: the landing page does not connect to a JS process
   if (!connection) {
     return;
   }
 
-  const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
-  if (pauseOnExceptions || ignoreCaughtExceptions) {
-    actions.pauseOnExceptions(
-      pauseOnExceptions,
-      ignoreCaughtExceptions
-    );
-  }
-
   const { tab } = connection;
   if (tab.clientType == "firefox") {
     return onFirefoxConnect(actions);
   }
+
+  return onChromeConnect(actions);
 }
 
 module.exports = {

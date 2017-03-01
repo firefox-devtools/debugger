@@ -36,45 +36,71 @@ const bar = () => {}
 const TodoView = Backbone.View.extend({
   tagName:  'li',
   initialize: function () {},
+  doThing() {
+    console.log('hi');
+  },
   render: function () {
     return this;
   },
 });
 `);
 
+const classTest = formatCode(`
+  class Test {
+    constructor() {
+      this.foo = "foo"
+    }
+
+    bar() {
+      console.log("bar");
+    }
+  }
+`);
+
+function getSourceText(name) {
+  const sources = { func, math, proto, classTest };
+  return {
+    id: name,
+    text: sources[name],
+    contentType: "text/javascript"
+  };
+}
+
 describe("parser", () => {
   describe("getFunctions", () => {
     it("finds square", () => {
-      parse({ text: func, id: "func" });
-      const fncs = getFunctions({ id: "func" });
+      const fncs = getFunctions(getSourceText("func"));
+
       const names = fncs.map(f => f.name);
 
       expect(names).to.eql(["square"]);
     });
 
     it("finds nested functions", () => {
-      parse({ text: math, id: "math" });
-      const fncs = getFunctions({ id: "math" });
+      const fncs = getFunctions(getSourceText("math"));
       const names = fncs.map(f => f.name);
 
       expect(names).to.eql(["math", "square"]);
     });
 
     it("finds object properties", () => {
-      parse({ text: proto, id: "proto" });
-      const fncs = getFunctions({ id: "proto" });
+      const fncs = getFunctions(getSourceText("proto"));
       const names = fncs.map(f => f.name);
 
-      expect(names).to.eql([ "foo", "bar", "initialize", "render"]);
+      expect(names).to.eql([ "foo", "bar", "initialize", "doThing", "render"]);
+    });
+
+    it("finds class methods", () => {
+      const fncs = getFunctions(getSourceText("classTest"));
+      const names = fncs.map(f => f.name);
+      expect(names).to.eql([ "constructor", "bar"]);
     });
   });
 
   describe("getPathClosestToLocation", () => {
-    parse({ text: func, id: "func" });
-
     it("Can find the function declaration for square", () => {
       const closestPath = getPathClosestToLocation(
-        { id: "func" },
+        getSourceText("func"),
         {
           line: 2,
           column: 1
@@ -91,7 +117,7 @@ describe("parser", () => {
 
     it("Can find the path at the exact column", () => {
       const closestPath = getPathClosestToLocation(
-        { id: "func" },
+        getSourceText("func"),
         {
           line: 2,
           column: 10
@@ -108,7 +134,7 @@ describe("parser", () => {
     it("finds scope binding variables", () => {
       parse({ text: math, id: "math" });
       var vars = getVariablesInScope(
-        { id: "math" },
+        getSourceText("math"),
         {
           line: 2,
           column: 5
