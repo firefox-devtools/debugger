@@ -14,7 +14,7 @@ const {
   countMatches,
   clearIndex
 } = require("../../utils/editor");
-const { getFunctionDeclarations } = require("../../utils/parser");
+const { getSymbolDeclarations } = require("../../utils/parser");
 const { scrollList } = require("../../utils/result-list");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
@@ -22,7 +22,7 @@ const SearchInput = createFactory(require("../shared/SearchInput"));
 const ResultList = createFactory(require("../shared/ResultList"));
 const ImPropTypes = require("react-immutable-proptypes");
 
-import type { SymbolDeclaration } from "../../utils/parser";
+import type { FormattedSymbolDeclaration } from "../../utils/parser";
 
 type ToggleFunctionSearchOpts = {
   toggle: boolean
@@ -223,9 +223,9 @@ const SearchBar = React.createClass({
       return;
     }
 
-    const functionDeclarations = getFunctionDeclarations(
+    const functionDeclarations = getSymbolDeclarations(
       sourceText.toJS()
-    );
+    ).functions;
 
     const functionSearchResults = filter(
       functionDeclarations,
@@ -314,7 +314,7 @@ const SearchBar = React.createClass({
   },
 
   // Handlers
-  selectResultItem(item: SymbolDeclaration) {
+  selectResultItem(item: FormattedSymbolDeclaration) {
     const { selectSource, selectedSource } = this.props;
     if (selectedSource) {
       selectSource(
@@ -322,7 +322,7 @@ const SearchBar = React.createClass({
     }
   },
 
-  onSelectResultItem(item: SymbolDeclaration) {
+  onSelectResultItem(item: FormattedSymbolDeclaration) {
     const { selectSource, selectedSource } = this.props;
     if (selectedSource) {
       selectSource(

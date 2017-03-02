@@ -25,15 +25,29 @@ export type SymbolDeclaration = {
   location: ASTLocation
 };
 
+export type FormattedSymbolDeclaration = {
+  id: string,
+  title: string,
+  subtitle: string,
+  value: string,
+  location: ASTLocation
+};
+
 export type SymbolDeclarations = {
   functions: Array<SymbolDeclaration>,
   variables: Array<SymbolDeclaration>,
   classes: Array<SymbolDeclaration>,
 };
 
+export type FormattedSymbolDeclarations = {
+  functions: Array<FormattedSymbolDeclaration>,
+  variables: Array<FormattedSymbolDeclaration>,
+  classes: Array<FormattedSymbolDeclaration>,
+}
+
 const ASTs = new Map();
 
-const functionDeclarations = new Map();
+const symbolDeclarations = new Map();
 
 function _parse(code) {
   return babylon.parse(code, {
@@ -155,22 +169,32 @@ function getSymbols(source: SourceText): SymbolDeclarations {
   return symbols;
 }
 
-function getFunctionDeclarations(sourceText: SourceText) {
-  if (functionDeclarations.has(sourceText.id)) {
-    return functionDeclarations.get(sourceText.id);
+function formatDeclarations(
+  declarations: Array<SymbolDeclaration>): Array<FormattedSymbolDeclaration> {
+  return declarations.map(dec => ({
+    id: `${dec.name}:${dec.location.start.line}`,
+    title: dec.name,
+    subtitle: `:${dec.location.start.line}`,
+    value: dec.name,
+    location: dec.location
+  }));
+}
+
+function getSymbolDeclarations(
+  sourceText: SourceText): FormattedSymbolDeclarations {
+  if (symbolDeclarations.has(sourceText.id)) {
+    const symbols = symbolDeclarations.get(sourceText.id);
+    if (symbols) {
+      return symbols;
+    }
   }
 
-  const functions = getSymbols(sourceText)
-    .functions.map(dec => ({
-      id: `${dec.name}:${dec.location.start.line}`,
-      title: dec.name,
-      subtitle: `:${dec.location.start.line}`,
-      value: dec.name,
-      location: dec.location
-    }));
-
-  functionDeclarations.set(sourceText.id, functions);
-  return functions;
+  const symbols = getSymbols(sourceText);
+  const functions = formatDeclarations(symbols.functions);
+  const variables = formatDeclarations(symbols.variables);
+  const classes = formatDeclarations(symbols.classes);
+  symbolDeclarations.set(sourceText.id, { functions, variables, classes });
+  return { functions, variables, classes };
 }
 
 function nodeContainsLocation({ node, location }) {
@@ -215,7 +239,7 @@ function getVariablesInScope(source: SourceText, location: Location) {
 module.exports = {
   parse,
   getSymbols,
-  getFunctionDeclarations,
+  getSymbolDeclarations,
   getPathClosestToLocation,
   getVariablesInScope
 };
