@@ -14,7 +14,7 @@ const {
   countMatches,
   clearIndex
 } = require("../../utils/editor");
-const { getSymbolDeclarations } = require("../../utils/parser");
+const { getSymbols } = require("../../utils/parser");
 const { scrollList } = require("../../utils/result-list");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
@@ -223,9 +223,7 @@ const SearchBar = React.createClass({
       return;
     }
 
-    const functionDeclarations = getSymbolDeclarations(
-      sourceText.toJS()
-    ).functions;
+    const functionDeclarations = getSymbols(sourceText.toJS()).functions;
 
     const functionSearchResults = filter(
       functionDeclarations,

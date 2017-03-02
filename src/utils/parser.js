@@ -34,16 +34,10 @@ export type FormattedSymbolDeclaration = {
 };
 
 export type SymbolDeclarations = {
-  functions: Array<SymbolDeclaration>,
-  variables: Array<SymbolDeclaration>,
-  classes: Array<SymbolDeclaration>,
-};
-
-export type FormattedSymbolDeclarations = {
   functions: Array<FormattedSymbolDeclaration>,
   variables: Array<FormattedSymbolDeclaration>,
   classes: Array<FormattedSymbolDeclaration>,
-}
+};
 
 const ASTs = new Map();
 
@@ -111,24 +105,34 @@ function isFunction(path) {
     t.isObjectMethod(path) || t.isClassMethod(path);
 }
 
+function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
+  return {
+    id: `${symbol.name}:${symbol.location.start.line}`,
+    title: symbol.name,
+    subtitle: `:${symbol.location.start.line}`,
+    value: symbol.name,
+    location: symbol.location
+  };
+}
+
 function getVariableNames(path) {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
-    return [{
+    return [formatSymbol({
       name: path.node.key.name,
       location: path.node.loc
-    }];
+    })];
   }
 
   if (!path.node.declarations) {
     return path.node.params
-    .map(dec => ({
+    .map(dec => formatSymbol({
       name: dec.name,
       location: dec.loc
     }));
   }
 
   return path.node.declarations
-    .map(dec => ({
+    .map(dec => formatSymbol({
       name: dec.id.name,
       location: dec.loc
     }));
@@ -141,6 +145,13 @@ function isVariable(path) {
 }
 
 function getSymbols(source: SourceText): SymbolDeclarations {
+  if (symbolDeclarations.has(source.id)) {
+    const symbols = symbolDeclarations.get(source.id);
+    if (symbols) {
+      return symbols;
+    }
+  }
+
   const ast = getAst(source);
   const symbols = { functions: [], variables: [], classes: [] };
 
@@ -151,50 +162,23 @@ function getSymbols(source: SourceText): SymbolDeclarations {
       }
 
       if (isFunction(path)) {
-        symbols.functions.push({
+        symbols.functions.push(formatSymbol({
           name: getFunctionName(path),
           location: path.node.loc
-        });
+        }));
       }
 
       if (t.isClassDeclaration(path)) {
-        symbols.classes.push({
+        symbols.classes.push(formatSymbol({
           name: path.node.id.name,
           location: path.node.loc
-        });
+        }));
       }
     }
   });
 
+  symbolDeclarations.set(source.id, symbols);
   return symbols;
-}
-
-function formatDeclarations(
-  declarations: Array<SymbolDeclaration>): Array<FormattedSymbolDeclaration> {
-  return declarations.map(dec => ({
-    id: `${dec.name}:${dec.location.start.line}`,
-    title: dec.name,
-    subtitle: `:${dec.location.start.line}`,
-    value: dec.name,
-    location: dec.location
-  }));
-}
-
-function getSymbolDeclarations(
-  sourceText: SourceText): FormattedSymbolDeclarations {
-  if (symbolDeclarations.has(sourceText.id)) {
-    const symbols = symbolDeclarations.get(sourceText.id);
-    if (symbols) {
-      return symbols;
-    }
-  }
-
-  const symbols = getSymbols(sourceText);
-  const functions = formatDeclarations(symbols.functions);
-  const variables = formatDeclarations(symbols.variables);
-  const classes = formatDeclarations(symbols.classes);
-  symbolDeclarations.set(sourceText.id, { functions, variables, classes });
-  return { functions, variables, classes };
 }
 
 function nodeContainsLocation({ node, location }) {
@@ -239,7 +223,6 @@ function getVariablesInScope(source: SourceText, location: Location) {
 module.exports = {
   parse,
   getSymbols,
-  getSymbolDeclarations,
   getPathClosestToLocation,
   getVariablesInScope
 };

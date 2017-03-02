@@ -107,28 +107,28 @@ describe("parser", () => {
     it("finds square", () => {
       const fncs = getSymbols(getSourceText("func")).functions;
 
-      const names = fncs.map(f => f.name);
+      const names = fncs.map(f => f.value);
 
       expect(names).to.eql(["square"]);
     });
 
     it("finds nested functions", () => {
       const fncs = getSymbols(getSourceText("math")).functions;
-      const names = fncs.map(f => f.name);
+      const names = fncs.map(f => f.value);
 
       expect(names).to.eql(["math", "square"]);
     });
 
     it("finds object properties", () => {
       const fncs = getSymbols(getSourceText("proto")).functions;
-      const names = fncs.map(f => f.name);
+      const names = fncs.map(f => f.value);
 
       expect(names).to.eql([ "foo", "bar", "initialize", "doThing", "render"]);
     });
 
     it("finds class methods", () => {
       const fncs = getSymbols(getSourceText("classTest")).functions;
-      const names = fncs.map(f => f.name);
+      const names = fncs.map(f => f.value);
       expect(names).to.eql([ "constructor", "bar"]);
     });
   });
@@ -136,15 +136,15 @@ describe("parser", () => {
   describe("getSymbols -> variables", () => {
     it("finds var, let, const", () => {
       const vars = getSymbols(getSourceText("varTest")).variables;
-      const names = vars.map(v => v.name);
+      const names = vars.map(v => v.value);
       expect(names).to.eql(["foo", "bar", "baz", "a", "b"]);
     });
 
     it("finds arguments, properties", () => {
       const protoVars = getSymbols(getSourceText("proto")).variables;
       const classVars = getSymbols(getSourceText("classTest")).variables;
-      const protoNames = protoVars.map(v => v.name);
-      const classNames = classVars.map(v => v.name);
+      const protoNames = protoVars.map(v => v.value);
+      const classNames = classVars.map(v => v.value);
       expect(protoNames).to.eql(["foo", "bar", "TodoView", "tagName", "b"]);
       expect(classNames).to.eql(["a"]);
     });
@@ -153,7 +153,7 @@ describe("parser", () => {
   describe("getSymbols -> classes", () => {
     it("finds class declarations", () => {
       const classClasses = getSymbols(getSourceText("classTest")).classes;
-      const classNames = classClasses.map(c => c.name);
+      const classNames = classClasses.map(c => c.value);
       expect(classNames).to.eql(["Test", "Test2"]);
     });
   });
@@ -161,7 +161,7 @@ describe("parser", () => {
   describe("getSymbols -> All together", () => {
     it("finds function, variable and class declarations", () => {
       const allSymbols = getSymbols(getSourceText("allSymbols"));
-      expect(allSymbols.functions.map(f => f.name)).to.eql([
+      expect(allSymbols.functions.map(f => f.value)).to.eql([
         "incrementCounter",
         "sum",
         "doThing",
@@ -169,7 +169,7 @@ describe("parser", () => {
         "constructor",
         "beAwesome"
       ]);
-      expect(allSymbols.variables.map(v => v.name)).to.eql([
+      expect(allSymbols.variables.map(v => v.value)).to.eql([
         "TIME",
         "count",
         "counter",
@@ -180,7 +180,7 @@ describe("parser", () => {
         "foo",
         "person"
       ]);
-      expect(allSymbols.classes.map(c => c.name)).to.eql(["Ultra"]);
+      expect(allSymbols.classes.map(c => c.value)).to.eql(["Ultra"]);
     });
   });
 
