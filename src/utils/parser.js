@@ -28,6 +28,7 @@ export type SymbolDeclaration = {
 export type SymbolDeclarations = {
   functions: Array<SymbolDeclaration>,
   variables: Array<SymbolDeclaration>,
+  classes: Array<SymbolDeclaration>,
 };
 
 const ASTs = new Map();
@@ -127,11 +128,7 @@ function isVariable(path) {
 
 function getSymbols(source: SourceText): SymbolDeclarations {
   const ast = getAst(source);
-
-  const symbols = {
-    functions: [],
-    variables: []
-  };
+  const symbols = { functions: [], variables: [], classes: [] };
 
   traverse(ast, {
     enter(path) {
@@ -142,6 +139,13 @@ function getSymbols(source: SourceText): SymbolDeclarations {
       if (isFunction(path)) {
         symbols.functions.push({
           name: getFunctionName(path),
+          location: path.node.loc
+        });
+      }
+
+      if (t.isClassDeclaration(path)) {
+        symbols.classes.push({
+          name: path.node.id.name,
           location: path.node.loc
         });
       }

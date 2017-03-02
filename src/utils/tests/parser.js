@@ -52,7 +52,9 @@ const SOURCES = {
       bar(a) {
         console.log("bar", a);
       }
-    }
+    };
+
+    class Test2 {}
   `),
   varTest: formatCode(`
     var foo = 1;
@@ -60,6 +62,36 @@ const SOURCES = {
     const baz = 3;
     const a = 4, b = 5;
   `),
+  allSymbols: formatCode(`
+    const TIME = 60;
+    let count = 0;
+
+    function incrementCounter(counter) {
+      return counter++;
+    }
+
+    const sum = (a, b) => a + b;
+
+    const Obj = {
+      foo: 1,
+      doThing() {
+        console.log('hey');
+      },
+      doOtherThing: function() {
+        return 42;
+      }
+    };
+
+    class Ultra {
+      constructor() {
+        this.awesome = true;
+      }
+
+      beAwesome(person) {
+        console.log(person + " is Awesome!");
+      }
+    };
+  `)
 };
 
 function getSourceText(name) {
@@ -115,6 +147,40 @@ describe("parser", () => {
       const classNames = classVars.map(v => v.name);
       expect(protoNames).to.eql(["foo", "bar", "TodoView", "tagName", "b"]);
       expect(classNames).to.eql(["a"]);
+    });
+  });
+
+  describe("getSymbols -> classes", () => {
+    it("finds class declarations", () => {
+      const classClasses = getSymbols(getSourceText("classTest")).classes;
+      const classNames = classClasses.map(c => c.name);
+      expect(classNames).to.eql(["Test", "Test2"]);
+    });
+  });
+
+  describe("getSymbols -> All together", () => {
+    it("finds function, variable and class declarations", () => {
+      const allSymbols = getSymbols(getSourceText("allSymbols"));
+      expect(allSymbols.functions.map(f => f.name)).to.eql([
+        "incrementCounter",
+        "sum",
+        "doThing",
+        "doOtherThing",
+        "constructor",
+        "beAwesome"
+      ]);
+      expect(allSymbols.variables.map(v => v.name)).to.eql([
+        "TIME",
+        "count",
+        "counter",
+        "sum",
+        "a",
+        "b",
+        "Obj",
+        "foo",
+        "person"
+      ]);
+      expect(allSymbols.classes.map(c => c.name)).to.eql(["Ultra"]);
     });
   });
 
