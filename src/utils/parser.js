@@ -111,6 +111,13 @@ function getFunctions(source: SourceText): Array<SymbolDeclaration> {
 }
 
 function getVariableNames(path) {
+  if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
+    return [{
+      name: path.node.key.name,
+      location: path.node.loc
+    }];
+  }
+
   if (!path.node.declarations) {
     return path.node.params
     .map(dec => ({
@@ -118,6 +125,7 @@ function getVariableNames(path) {
       location: dec.loc
     }));
   }
+
   return path.node.declarations
     .map(dec => ({
       name: dec.id.name,
@@ -127,7 +135,8 @@ function getVariableNames(path) {
 
 function isVariable(path) {
   return t.isVariableDeclaration(path) ||
-    (isFunction(path) && path.node.params.length);
+    (isFunction(path) && path.node.params.length) ||
+    (t.isObjectProperty(path) && !isFunction(path.node.value));
 }
 
 function getVariables(source: SourceText): Array<SymbolDeclaration> {

@@ -114,7 +114,7 @@ describe("parser", () => {
       const classVars = getVariables(getSourceText("classTest"));
       const protoNames = protoVars.map(v => v.name);
       const classNames = classVars.map(v => v.name);
-      expect(protoNames).to.eql(["foo", "bar", "TodoView", "b"]);
+      expect(protoNames).to.eql(["foo", "bar", "TodoView", "tagName", "b"]);
       expect(classNames).to.eql(["a"]);
     });
   });
