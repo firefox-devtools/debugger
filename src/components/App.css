@@ -29,7 +29,7 @@
   height: 100%;
   display: flex;
   z-index: 200;
-  background-color: var(--theme-search-overlays-semitransparent);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 .search-container .close-button {

@@ -44,7 +44,7 @@ html .breakpoints-list .breakpoint.paused {
 
 .breakpoints-list .breakpoint:hover {
   cursor: pointer;
-  background-color: var(--theme-search-overlays-semitransparent);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 .breakpoints-list .breakpoint.paused:hover {

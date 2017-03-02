@@ -11,6 +11,7 @@ const shortcuts = new KeyShortcuts({ window });
 
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
 
+require("./variables.css");
 require("./App.css");
 require("./shared/menu.css");
 require("./shared/SplitBox.css");
