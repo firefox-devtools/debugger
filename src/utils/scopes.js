@@ -141,7 +141,31 @@ function getScopes(pauseInfo, selectedFrame) {
   return scopes;
 }
 
+/**
+ * Returns variables that are visible from this scope.
+ * TODO: returns global variables as well
+ */
+function getVisibleVariablesFromScope(pauseInfo, selectedFrame) {
+  const result = new Map();
+
+  const scopes = getScopes(pauseInfo, selectedFrame);
+  if (!scopes) {
+    return result;
+  }
+
+  // reverse so that the local variables shadow global variables
+  let scopeContents = scopes.reverse().map(scope => scope.contents);
+  scopeContents = [].concat(...scopeContents);
+
+  scopeContents.forEach(content => {
+    result.set(content.name || null, content);
+  });
+
+  return result;
+}
+
 module.exports = {
   getScopes,
-  getSpecialVariables
+  getSpecialVariables,
+  getVisibleVariablesFromScope,
 };

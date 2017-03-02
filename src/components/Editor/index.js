@@ -9,7 +9,6 @@ const { connect } = require("react-redux");
 const classnames = require("classnames");
 
 const { getMode } = require("../../utils/source");
-const { getExpression } = require("../../utils/parser");
 
 const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
@@ -23,7 +22,7 @@ const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame,
   getSelectedSource, getHitCountForSource,
-  getCoverageEnabled, getLoadedObjects
+  getCoverageEnabled, getLoadedObjects, getPause
 } = require("../../selectors");
 const { makeLocationId } = require("../../reducers/breakpoints");
 const actions = require("../../actions");
@@ -43,19 +42,13 @@ const {
   breakpointAtLine,
   getTextForLine,
   getCursorLine,
-  getTokenLocation,
+  getSelectedExpression,
   resizeBreakpointGutter,
   traverseResults
 } = require("../../utils/editor");
 const { isFirefox } = require("devtools-config");
 
 require("./Editor.css");
-
-async function getExpressionFromToken(
-  cm: any, sourceText, token: HTMLElement) {
-  const loc = getTokenLocation(token, cm);
-  return await getExpression(sourceText.toJS(), token.innerText || "", loc);
-}
 
 const Editor = React.createClass({
   propTypes: {
@@ -263,7 +256,7 @@ const Editor = React.createClass({
   },
 
   onScroll(e) {
-    return this.setState({ selectedToken: null });
+    return this.setState({ selectedToken: null, selectedExpression: null });
   },
 
   onMouseUp(e, ctx, modifiers) {
@@ -277,11 +270,9 @@ const Editor = React.createClass({
   },
 
   async previewSelectedToken(e, modifiers) {
-    const { selectedFrame, sourceText } = this.props;
+    const { selectedFrame, pauseData, sourceText } = this.props;
     const { selectedToken } = this.state;
-    const cm = this.editor.codeMirror;
     const token = e.target;
-    const tokenText = token.innerText;
 
     if (!selectedFrame || !sourceText || !isEnabled("editorPreview")) {
       return;
@@ -289,17 +280,17 @@ const Editor = React.createClass({
 
     if (selectedToken) {
       selectedToken.classList.remove("selected-token");
-      this.setState({ selectedToken: null });
+      this.setState({ selectedToken: null, selectedExpression: null });
     }
 
-    const variables = selectedFrame.scope.bindings.variables;
-    const expression = await getExpressionFromToken(cm, sourceText, token);
-
-    if (variables.hasOwnProperty(tokenText) || expression ||
-      tokenText == "this" && selectedFrame.this) {
+    const selectedExpression = await getSelectedExpression(
+      this.editor.codeMirror, token,
+      { selectedFrame, pauseData, sourceText }
+    );
+    if (selectedExpression) {
       this.setState({
         selectedToken: token,
-        selectedExpression: expression
+        selectedExpression,
       });
     }
   },
@@ -585,29 +576,15 @@ const Editor = React.createClass({
       return null;
     }
 
-    if (!selectedToken || !selectedFrame || !isEnabled("editorPreview")) {
+    if (!selectedToken || !selectedFrame || !selectedExpression ||
+        !isEnabled("editorPreview")) {
       return;
     }
 
-    const token = selectedToken.innerText;
-    const variables = selectedFrame.scope.bindings.variables;
-    if (!variables.hasOwnProperty(token) && !selectedExpression &&
-      token != "this") {
-      return;
-    }
-
+    const token = selectedToken.textContent;
     selectedToken.classList.add("selected-token");
-    let value = "";
 
-    if (variables.hasOwnProperty(token)) {
-      value = variables[token].value;
-    } else if (token == "this" && selectedFrame.this) {
-      value = selectedFrame.this;
-    }
-
-    if (selectedExpression && isEnabled("previewMemberExpressions")) {
-      value = selectedExpression.value;
-    }
+    const value = selectedExpression.value || selectedExpression.contents.value;
 
     return Preview({
       value,
@@ -616,7 +593,8 @@ const Editor = React.createClass({
       onClose: () => {
         selectedToken.classList.remove("selected-token");
         this.setState({
-          selectedToken: null
+          selectedToken: null,
+          selectedExpression: null,
         });
       }
     });
@@ -675,6 +653,7 @@ module.exports = connect(state => {
     breakpoints: getBreakpointsForSource(state, sourceId),
     hitCount: getHitCountForSource(state, sourceId),
     selectedFrame: getSelectedFrame(state),
+    pauseData: getPause(state),
     coverageOn: getCoverageEnabled(state)
   };
 }, dispatch => bindActionCreators(actions, dispatch))(Editor);

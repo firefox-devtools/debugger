@@ -8,6 +8,12 @@ const {
   clearDocuments
 } = require("./source-documents");
 
+import {
+  getTokenLocation,
+  getExpressionFromToken,
+  getSelectedExpression,
+} from "./expression.js";
+
 const {
   countMatches,
   find,
@@ -93,16 +99,6 @@ function getCursorLine(codeMirror) {
   return codeMirror.getCursor().line;
 }
 
-function getTokenLocation(tokenEl, codeMirror) {
-  const lineOffset = 1;
-  const { left, top } = tokenEl.getBoundingClientRect();
-  const { line, ch } = codeMirror.coordsChar({ left, top });
-
-  return {
-    line: line + lineOffset,
-    column: ch
-  };
-}
 /**
  * Forces the breakpoint gutter to be the same size as the line
  * numbers gutter. Editor CSS will absolutely position the gutter
@@ -169,7 +165,9 @@ module.exports = {
   breakpointAtLine,
   getTextForLine,
   getCursorLine,
-  getTokenLocation,
   resizeBreakpointGutter,
-  traverseResults
+  traverseResults,
+  getTokenLocation,
+  getExpressionFromToken,
+  getSelectedExpression,
 };
