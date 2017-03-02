@@ -25,6 +25,11 @@ export type SymbolDeclaration = {
   location: ASTLocation
 };
 
+export type SymbolDeclarations = {
+  functions: Array<SymbolDeclaration>,
+  variables: Array<SymbolDeclaration>,
+};
+
 const ASTs = new Map();
 
 const functionDeclarations = new Map();
@@ -91,25 +96,6 @@ function isFunction(path) {
     t.isObjectMethod(path) || t.isClassMethod(path);
 }
 
-function getFunctions(source: SourceText): Array<SymbolDeclaration> {
-  const ast = getAst(source);
-
-  const functions = [];
-
-  traverse(ast, {
-    enter(path) {
-      if (isFunction(path)) {
-        functions.push({
-          name: getFunctionName(path),
-          location: path.node.loc
-        });
-      }
-    }
-  });
-
-  return functions;
-}
-
 function getVariableNames(path) {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
     return [{
@@ -139,20 +125,30 @@ function isVariable(path) {
     (t.isObjectProperty(path) && !isFunction(path.node.value));
 }
 
-function getVariables(source: SourceText): Array<SymbolDeclaration> {
+function getSymbols(source: SourceText): SymbolDeclarations {
   const ast = getAst(source);
 
-  const variables = [];
+  const symbols = {
+    functions: [],
+    variables: []
+  };
 
   traverse(ast, {
     enter(path) {
       if (isVariable(path)) {
-        variables.push(...getVariableNames(path));
+        symbols.variables.push(...getVariableNames(path));
+      }
+
+      if (isFunction(path)) {
+        symbols.functions.push({
+          name: getFunctionName(path),
+          location: path.node.loc
+        });
       }
     }
   });
 
-  return variables;
+  return symbols;
 }
 
 function getFunctionDeclarations(sourceText: SourceText) {
@@ -160,13 +156,14 @@ function getFunctionDeclarations(sourceText: SourceText) {
     return functionDeclarations.get(sourceText.id);
   }
 
-  const functions = getFunctions(sourceText).map(dec => ({
-    id: `${dec.name}:${dec.location.start.line}`,
-    title: dec.name,
-    subtitle: `:${dec.location.start.line}`,
-    value: dec.name,
-    location: dec.location
-  }));
+  const functions = getSymbols(sourceText)
+    .functions.map(dec => ({
+      id: `${dec.name}:${dec.location.start.line}`,
+      title: dec.name,
+      subtitle: `:${dec.location.start.line}`,
+      value: dec.name,
+      location: dec.location
+    }));
 
   functionDeclarations.set(sourceText.id, functions);
   return functions;
@@ -213,8 +210,7 @@ function getVariablesInScope(source: SourceText, location: Location) {
 
 module.exports = {
   parse,
-  getFunctions,
-  getVariables,
+  getSymbols,
   getFunctionDeclarations,
   getPathClosestToLocation,
   getVariablesInScope

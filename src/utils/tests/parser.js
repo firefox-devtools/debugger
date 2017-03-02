@@ -1,8 +1,7 @@
 const expect = require("expect.js");
 const {
   parse,
-  getFunctions,
-  getVariables,
+  getSymbols,
   getVariablesInScope,
   getPathClosestToLocation
 } = require("../parser");
@@ -72,9 +71,9 @@ function getSourceText(name) {
 }
 
 describe("parser", () => {
-  describe("getFunctions", () => {
+  describe("getSymbols -> functions", () => {
     it("finds square", () => {
-      const fncs = getFunctions(getSourceText("func"));
+      const fncs = getSymbols(getSourceText("func")).functions;
 
       const names = fncs.map(f => f.name);
 
@@ -82,36 +81,36 @@ describe("parser", () => {
     });
 
     it("finds nested functions", () => {
-      const fncs = getFunctions(getSourceText("math"));
+      const fncs = getSymbols(getSourceText("math")).functions;
       const names = fncs.map(f => f.name);
 
       expect(names).to.eql(["math", "square"]);
     });
 
     it("finds object properties", () => {
-      const fncs = getFunctions(getSourceText("proto"));
+      const fncs = getSymbols(getSourceText("proto")).functions;
       const names = fncs.map(f => f.name);
 
       expect(names).to.eql([ "foo", "bar", "initialize", "doThing", "render"]);
     });
 
     it("finds class methods", () => {
-      const fncs = getFunctions(getSourceText("classTest"));
+      const fncs = getSymbols(getSourceText("classTest")).functions;
       const names = fncs.map(f => f.name);
       expect(names).to.eql([ "constructor", "bar"]);
     });
   });
 
-  describe("getVariables", () => {
+  describe("getSymbols -> variables", () => {
     it("finds var, let, const", () => {
-      const vars = getVariables(getSourceText("varTest"));
+      const vars = getSymbols(getSourceText("varTest")).variables;
       const names = vars.map(v => v.name);
       expect(names).to.eql(["foo", "bar", "baz", "a", "b"]);
     });
 
     it("finds arguments, properties", () => {
-      const protoVars = getVariables(getSourceText("proto"));
-      const classVars = getVariables(getSourceText("classTest"));
+      const protoVars = getSymbols(getSourceText("proto")).variables;
+      const classVars = getSymbols(getSourceText("classTest")).variables;
       const protoNames = protoVars.map(v => v.name);
       const classNames = classVars.map(v => v.name);
       expect(protoNames).to.eql(["foo", "bar", "TodoView", "tagName", "b"]);
