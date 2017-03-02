@@ -242,6 +242,8 @@ function searchNext(ctx, rev, query, newQuery, modifiers) {
 function removeOverlay(ctx: any, query: string, modifiers: SearchModifiers) {
   let state = getSearchState(ctx.cm, query, modifiers);
   ctx.cm.removeOverlay(state.overlay);
+  ctx.cm.doc.setSelection(
+    { line: 0, ch: 0 }, { line: 0, ch: 0 }, { scroll: false });
 }
 
 /**
