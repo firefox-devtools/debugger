@@ -110,6 +110,30 @@ function getFunctions(source: SourceText): Array<SymbolDeclaration> {
   return functions;
 }
 
+function getVariableNames(path) {
+  return path.node.declarations
+    .map(dec => ({
+      name: dec.id.name,
+      location: dec.loc
+    }));
+}
+
+function getVariables(source: SourceText): Array<SymbolDeclaration> {
+  const ast = getAst(source);
+
+  const variables = [];
+
+  traverse(ast, {
+    enter(path) {
+      if (t.isVariableDeclaration(path)) {
+        variables.push(...getVariableNames(path));
+      }
+    }
+  });
+
+  return variables;
+}
+
 function getFunctionDeclarations(sourceText: SourceText) {
   if (functionDeclarations.has(sourceText.id)) {
     return functionDeclarations.get(sourceText.id);
@@ -169,6 +193,7 @@ function getVariablesInScope(source: SourceText, location: Location) {
 module.exports = {
   parse,
   getFunctions,
+  getVariables,
   getFunctionDeclarations,
   getPathClosestToLocation,
   getVariablesInScope

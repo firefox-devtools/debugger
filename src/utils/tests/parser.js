@@ -2,6 +2,7 @@ const expect = require("expect.js");
 const {
   parse,
   getFunctions,
+  getVariables,
   getVariablesInScope,
   getPathClosestToLocation
 } = require("../parser");
@@ -57,8 +58,15 @@ const classTest = formatCode(`
   }
 `);
 
+const varTest = formatCode(`
+  var foo = 1;
+  let bar = 2;
+  const baz = 3;
+  const a = 4, b = 5;
+`);
+
 function getSourceText(name) {
-  const sources = { func, math, proto, classTest };
+  const sources = { func, math, proto, classTest, varTest };
   return {
     id: name,
     text: sources[name],
@@ -94,6 +102,14 @@ describe("parser", () => {
       const fncs = getFunctions(getSourceText("classTest"));
       const names = fncs.map(f => f.name);
       expect(names).to.eql([ "constructor", "bar"]);
+    });
+  });
+
+  describe("getVariables", () => {
+    it("finds var, let, const", () => {
+      const vars = getVariables(getSourceText("varTest"));
+      const names = vars.map(v => v.name);
+      expect(names).to.eql(["foo", "bar", "baz", "a", "b"]);
     });
   });
 
