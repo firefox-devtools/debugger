@@ -14,62 +14,59 @@ function formatCode(text) {
   return lines.map(line => line.slice(indent)).join("\n");
 }
 
-const func = formatCode(`
-function square(n) {
-  return n * n;
-}
-`);
-
-const math = formatCode(`
-function math(n) {
-  function square(n) { n * n}
-  const two = square(2);
-  const four = squaare(4);
-  return two * four;
-}
-`);
-
-const proto = formatCode(`
-const foo = function() {}
-
-const bar = () => {}
-
-const TodoView = Backbone.View.extend({
-  tagName:  'li',
-  initialize: function () {},
-  doThing() {
-    console.log('hi');
-  },
-  render: function () {
-    return this;
-  },
-});
-`);
-
-const classTest = formatCode(`
-  class Test {
-    constructor() {
-      this.foo = "foo"
+const SOURCES = {
+  func: formatCode(`
+    function square(n) {
+      return n * n;
     }
-
-    bar() {
-      console.log("bar");
+  `),
+  math: formatCode(`
+    function math(n) {
+      function square(n) { n * n}
+      const two = square(2);
+      const four = squaare(4);
+      return two * four;
     }
-  }
-`);
+  `),
+  proto: formatCode(`
+    const foo = function() {}
 
-const varTest = formatCode(`
-  var foo = 1;
-  let bar = 2;
-  const baz = 3;
-  const a = 4, b = 5;
-`);
+    const bar = () => {}
+
+    const TodoView = Backbone.View.extend({
+      tagName:  'li',
+      initialize: function () {},
+      doThing(b) {
+        console.log('hi', b);
+      },
+      render: function () {
+        return this;
+      },
+    });
+  `),
+  classTest: formatCode(`
+    class Test {
+      constructor() {
+        this.foo = "foo"
+      }
+
+      bar(a) {
+        console.log("bar", a);
+      }
+    }
+  `),
+  varTest: formatCode(`
+    var foo = 1;
+    let bar = 2;
+    const baz = 3;
+    const a = 4, b = 5;
+  `),
+};
 
 function getSourceText(name) {
-  const sources = { func, math, proto, classTest, varTest };
   return {
     id: name,
-    text: sources[name],
+    text: SOURCES[name],
     contentType: "text/javascript"
   };
 }
@@ -111,6 +108,15 @@ describe("parser", () => {
       const names = vars.map(v => v.name);
       expect(names).to.eql(["foo", "bar", "baz", "a", "b"]);
     });
+
+    it("finds arguments, properties", () => {
+      const protoVars = getVariables(getSourceText("proto"));
+      const classVars = getVariables(getSourceText("classTest"));
+      const protoNames = protoVars.map(v => v.name);
+      const classNames = classVars.map(v => v.name);
+      expect(protoNames).to.eql(["foo", "bar", "TodoView", "b"]);
+      expect(classNames).to.eql(["a"]);
+    });
   });
 
   describe("getPathClosestToLocation", () => {
@@ -148,7 +154,7 @@ describe("parser", () => {
     });
 
     it("finds scope binding variables", () => {
-      parse({ text: math, id: "math" });
+      parse({ text: SOURCES.math, id: "math" });
       var vars = getVariablesInScope(
         getSourceText("math"),
         {
