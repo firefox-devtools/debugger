@@ -314,7 +314,7 @@ const SearchBar = React.createClass({
   },
 
   // Handlers
-  selectResultItem(event: SyntheticEvent, item: SymbolDeclaration, index: number) {
+  selectResultItem(e: SyntheticEvent, item: SymbolDeclaration, index: number) {
     const { selectSource, selectedSource } = this.props;
 
     if (selectedSource) {
@@ -323,7 +323,7 @@ const SearchBar = React.createClass({
       selectSource(
         selectedSource.get("id"), { line: item.location.start.line });
 
-      this.closeSearch(event);
+      this.closeSearch(e);
     }
   },
 
