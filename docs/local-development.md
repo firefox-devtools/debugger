@@ -273,8 +273,8 @@ We recommend running the tests in the browser as it's an easier development envi
 
 ### Linting
 
-| | |
-|--|--|
+| Type | Command |
+| ---- | ------- |
 | all | `yarn run lint` |
 | css | `yarn run lint-css` |
 | js | `yarn run lint-js` |
