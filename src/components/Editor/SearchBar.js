@@ -215,7 +215,7 @@ const SearchBar = React.createClass({
 
     if (this.state.symbolSearchEnabled) {
       if (toggle) {
-        this.setState({ symbolSearchEnabled: false, selectedSymbolType: "" });
+        this.setState({ symbolSearchEnabled: false });
       } else {
         this.setState({ selectedSymbolType: searchType });
       }
@@ -433,9 +433,12 @@ const SearchBar = React.createClass({
   },
 
   buildPlaceHolder() {
-    if (this.state.symbolSearchEnabled) {
+    const { symbolSearchEnabled, selectedSymbolType } = this.state;
+    if (symbolSearchEnabled) {
       return L10N.getFormatStr(
-        "symbolSearch.search.placeholder", this.state.selectedSymbolType);
+        "symbolSearch.search.placeholder",
+        L10N.getStr(`symbolSearch.search.${selectedSymbolType}Placeholder`)
+      );
     }
 
     return L10N.getStr("sourceSearch.search.placeholder");
@@ -493,7 +496,7 @@ const SearchBar = React.createClass({
           }
           toggleSymbolSearch(e, { toggle: false, searchType });
         }
-      }, searchType);
+      }, L10N.getStr(`symbolSearch.search.${searchType}Placeholder`));
     }
 
     return dom.section(
