@@ -24,7 +24,7 @@ const ResultList = React.createClass({
   renderListItem(item: ResultListItem, index: number) {
     return dom.li(
       {
-        onClick: () => this.props.selectItem(item),
+        onClick: event => this.props.selectItem(event, item, index),
         key: `${item.id}${item.value}${index}`,
         ref: index,
         title: item.value,
