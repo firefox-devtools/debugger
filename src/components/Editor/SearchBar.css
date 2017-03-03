@@ -108,7 +108,7 @@
 }
 
 .search-bar .result-list {
-  max-height: calc(100% - 80px);
+  max-height: 230px;
   border-bottom: 1px solid var(--theme-splitter-color);
   background-color: var(--theme-body-background);
 }
