@@ -1,7 +1,7 @@
 const expect = require("expect.js");
 const {
   parse,
-  getFunctions,
+  getSymbols,
   getVariablesInScope,
   getPathClosestToLocation
 } = require("../parser");
@@ -13,87 +13,174 @@ function formatCode(text) {
   return lines.map(line => line.slice(indent)).join("\n");
 }
 
-const func = formatCode(`
-function square(n) {
-  return n * n;
-}
-`);
+const SOURCES = {
+  func: formatCode(`
+    function square(n) {
+      return n * n;
+    }
+  `),
+  math: formatCode(`
+    function math(n) {
+      function square(n) { n * n}
+      const two = square(2);
+      const four = squaare(4);
+      return two * four;
+    }
+  `),
+  proto: formatCode(`
+    const foo = function() {}
 
-const math = formatCode(`
-function math(n) {
-  function square(n) { n * n}
-  const two = square(2);
-  const four = squaare(4);
-  return two * four;
-}
-`);
+    const bar = () => {}
 
-const proto = formatCode(`
-const foo = function() {}
+    const TodoView = Backbone.View.extend({
+      tagName:  'li',
+      initialize: function () {},
+      doThing(b) {
+        console.log('hi', b);
+      },
+      render: function () {
+        return this;
+      },
+    });
+  `),
+  classTest: formatCode(`
+    class Test {
+      constructor() {
+        this.foo = "foo"
+      }
 
-const bar = () => {}
+      bar(a) {
+        console.log("bar", a);
+      }
+    };
 
-const TodoView = Backbone.View.extend({
-  tagName:  'li',
-  initialize: function () {},
-  doThing() {
-    console.log('hi');
-  },
-  render: function () {
-    return this;
-  },
-});
-`);
+    class Test2 {}
+  `),
+  varTest: formatCode(`
+    var foo = 1;
+    let bar = 2;
+    const baz = 3;
+    const a = 4, b = 5;
+  `),
+  allSymbols: formatCode(`
+    const TIME = 60;
+    let count = 0;
 
-const classTest = formatCode(`
-  class Test {
-    constructor() {
-      this.foo = "foo"
+    function incrementCounter(counter) {
+      return counter++;
     }
 
-    bar() {
-      console.log("bar");
-    }
-  }
-`);
+    const sum = (a, b) => a + b;
+
+    const Obj = {
+      foo: 1,
+      doThing() {
+        console.log('hey');
+      },
+      doOtherThing: function() {
+        return 42;
+      }
+    };
+
+    class Ultra {
+      constructor() {
+        this.awesome = true;
+      }
+
+      beAwesome(person) {
+        console.log(person + " is Awesome!");
+      }
+    };
+  `)
+};
 
 function getSourceText(name) {
-  const sources = { func, math, proto, classTest };
   return {
     id: name,
-    text: sources[name],
+    text: SOURCES[name],
     contentType: "text/javascript"
   };
 }
 
 describe("parser", () => {
-  describe("getFunctions", () => {
+  describe("getSymbols -> functions", () => {
     it("finds square", () => {
-      const fncs = getFunctions(getSourceText("func"));
+      const fncs = getSymbols(getSourceText("func")).functions;
 
-      const names = fncs.map(f => f.name);
+      const names = fncs.map(f => f.value);
 
       expect(names).to.eql(["square"]);
     });
 
     it("finds nested functions", () => {
-      const fncs = getFunctions(getSourceText("math"));
-      const names = fncs.map(f => f.name);
+      const fncs = getSymbols(getSourceText("math")).functions;
+      const names = fncs.map(f => f.value);
 
       expect(names).to.eql(["math", "square"]);
     });
 
     it("finds object properties", () => {
-      const fncs = getFunctions(getSourceText("proto"));
-      const names = fncs.map(f => f.name);
+      const fncs = getSymbols(getSourceText("proto")).functions;
+      const names = fncs.map(f => f.value);
 
       expect(names).to.eql([ "foo", "bar", "initialize", "doThing", "render"]);
     });
 
     it("finds class methods", () => {
-      const fncs = getFunctions(getSourceText("classTest"));
-      const names = fncs.map(f => f.name);
+      const fncs = getSymbols(getSourceText("classTest")).functions;
+      const names = fncs.map(f => f.value);
       expect(names).to.eql([ "constructor", "bar"]);
+    });
+  });
+
+  describe("getSymbols -> variables", () => {
+    it("finds var, let, const", () => {
+      const vars = getSymbols(getSourceText("varTest")).variables;
+      const names = vars.map(v => v.value);
+      expect(names).to.eql(["foo", "bar", "baz", "a", "b"]);
+    });
+
+    it("finds arguments, properties", () => {
+      const protoVars = getSymbols(getSourceText("proto")).variables;
+      const classVars = getSymbols(getSourceText("classTest")).variables;
+      const protoNames = protoVars.map(v => v.value);
+      const classNames = classVars.map(v => v.value);
+      expect(protoNames).to.eql(["foo", "bar", "TodoView", "tagName", "b"]);
+      expect(classNames).to.eql(["a"]);
+    });
+  });
+
+  describe("getSymbols -> classes", () => {
+    it("finds class declarations", () => {
+      const classClasses = getSymbols(getSourceText("classTest")).classes;
+      const classNames = classClasses.map(c => c.value);
+      expect(classNames).to.eql(["Test", "Test2"]);
+    });
+  });
+
+  describe("getSymbols -> All together", () => {
+    it("finds function, variable and class declarations", () => {
+      const allSymbols = getSymbols(getSourceText("allSymbols"));
+      expect(allSymbols.functions.map(f => f.value)).to.eql([
+        "incrementCounter",
+        "sum",
+        "doThing",
+        "doOtherThing",
+        "constructor",
+        "beAwesome"
+      ]);
+      expect(allSymbols.variables.map(v => v.value)).to.eql([
+        "TIME",
+        "count",
+        "counter",
+        "sum",
+        "a",
+        "b",
+        "Obj",
+        "foo",
+        "person"
+      ]);
+      expect(allSymbols.classes.map(c => c.value)).to.eql(["Ultra"]);
     });
   });
 
@@ -132,7 +219,7 @@ describe("parser", () => {
     });
 
     it("finds scope binding variables", () => {
-      parse({ text: math, id: "math" });
+      parse({ text: SOURCES.math, id: "math" });
       var vars = getVariablesInScope(
         getSourceText("math"),
         {
