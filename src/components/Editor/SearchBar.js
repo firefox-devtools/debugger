@@ -26,7 +26,7 @@ import type { FormattedSymbolDeclaration } from "../../utils/parser";
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-  const fnSearchKey = L10N.getStr("functionSearch.search.key");
+  const fnSearchKey = L10N.getStr("symbolSearch.search.key");
 
   return {
     shiftSearchAgainShortcut: `CmdOrCtrl+Shift+${searchAgainKey}`,
@@ -110,10 +110,13 @@ const SearchBar = React.createClass({
       (_, e) => this.traverseResults(e, false)
     );
 
-    if (isEnabled("functionSearch")) {
+    if (isEnabled("symbolSearch")) {
       shortcuts.on(
         symbolSearchShortcut,
-        (_, e) => this.toggleFunctionSearch(e, { toggle: false })
+        (_, e) => this.toggleSymbolSearch(e, {
+          toggle: false,
+          searchType: "functions"
+        })
       );
     }
   },
