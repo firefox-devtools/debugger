@@ -483,6 +483,7 @@ const SearchBar = React.createClass({
     }
     const { toggleSymbolSearch } = this;
     const { symbolSearchEnabled, selectedSymbolType } = this.state;
+    const { sourceText } = this.props;
 
     function searchTypeBtn(searchType) {
       return dom.button({
@@ -499,6 +500,14 @@ const SearchBar = React.createClass({
       }, L10N.getStr(`symbolSearch.search.${searchType}Placeholder`));
     }
 
+    let classSearchBtn;
+    if (sourceText) {
+      const symbolDeclarations = getSymbols(sourceText.toJS());
+      if (symbolDeclarations.classes.length) {
+        classSearchBtn = searchTypeBtn("classes");
+      }
+    }
+
     return dom.section(
       { className: "search-type-toggles" },
       dom.h1(
@@ -507,7 +516,7 @@ const SearchBar = React.createClass({
       ),
       searchTypeBtn("functions"),
       searchTypeBtn("variables"),
-      searchTypeBtn("classes")
+      classSearchBtn
     );
   },
 
