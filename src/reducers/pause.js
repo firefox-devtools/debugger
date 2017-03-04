@@ -9,8 +9,7 @@ const makeRecord = require("../utils/makeRecord");
 const { prefs } = require("../utils/prefs");
 const I = require("immutable");
 
-import type { Frame, Pause,
-  Expression } from "../types";
+import type { Frame, Pause } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -21,8 +20,7 @@ type PauseState = {
   selectedFrameId: ?string,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean,
-  expressions: I.List<Expression>
+  shouldIgnoreCaughtExceptions: boolean
 }
 
 const State = makeRecord(({
@@ -32,8 +30,7 @@ const State = makeRecord(({
   selectedFrameId: undefined,
   loadedObjects: I.Map(),
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
-  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
-  expressions: I.List()
+  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions
 } : PauseState));
 
 function update(state = State(), action: Action): Record<PauseState> {
