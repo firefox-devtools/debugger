@@ -1,22 +1,22 @@
 // @flow
 
-const constants = require("../constants");
-const makeRecord = require("../utils/makeRecord");
-const I = require("immutable");
+import constants from "../constants";
+import makeRecord from "../utils/makeRecord";
+import { List } from "immutable";
 
 import type { Expression } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type ExpressionState = {
-  expressions: I.List<Expression>
+  expressions: List<Expression>
 }
 
 const State = makeRecord(({
-  expressions: I.List()
+  expressions: List()
 } : ExpressionState));
 
-function update(state = State(), action: Action): Record<ExpressionState> {
+function update(state: any = State(), action: Action): Record<ExpressionState> {
   switch (action.type) {
 
     case constants.ADD_EXPRESSION:
@@ -75,7 +75,7 @@ function getExpressions(state: OuterState) {
   return state.expressions.get("expressions");
 }
 
-module.exports = {
+export default {
   State,
   update,
   getExpressions

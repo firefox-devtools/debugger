@@ -26,10 +26,11 @@ const { getPrettySourceURL } = require("../utils/source");
 const constants = require("../constants");
 const { removeDocument } = require("../utils/editor");
 
+import selectors from "../selectors";
 const {
   getSource, getSourceByURL, getSourceText,
   getPendingSelectedLocation, getFrames
-} = require("../selectors");
+} = selectors;
 
 import type { Source, SourceText } from "../types";
 import type { ThunkArgs } from "./types";
@@ -227,7 +228,7 @@ function togglePrettyPrint(sourceId: string) {
     }
 
     assert(isGeneratedId(sourceId),
-           "Pretty-printing only allowed on generated sources");
+      "Pretty-printing only allowed on generated sources");
 
     const url = getPrettySourceURL(source.url);
     const id = generatedToOriginalId(source.id, url);

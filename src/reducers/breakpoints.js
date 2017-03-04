@@ -8,22 +8,21 @@
  * @module reducers/breakpoints
  */
 
-const fromJS = require("../utils/fromJS");
-const { updateObj } = require("../utils/utils");
-const I = require("immutable");
-const makeRecord = require("../utils/makeRecord");
-
+import fromJS from "../utils/fromJS";
+import { updateObj } from "../utils/utils";
+import { Map } from "immutable";
+import makeRecord from "../utils/makeRecord";
 import type { Breakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type BreakpointsState = {
-  breakpoints: I.Map<string, Breakpoint>,
+    breakpoints: Map<string, Breakpoint>,
   breakpointsDisabled: false
 }
 
 const State = makeRecord(({
-  breakpoints: I.Map(),
+  breakpoints: Map(),
   breakpointsDisabled: false
 } : BreakpointsState));
 
@@ -41,7 +40,7 @@ function firstString(...args) {
 function locationMoved(location, newLocation) {
   return location.line !== newLocation.line ||
     (location.column != null &&
-     location.column !== newLocation.column);
+    location.column !== newLocation.column);
 }
 
 function makeLocationId(location: Location) {
@@ -52,7 +51,7 @@ function allBreakpointsDisabled(state) {
   return state.breakpoints.every(x => x.disabled);
 }
 
-function update(state = State(), action: Action) {
+function update(state: any = State(), action: Action) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const id = makeLocationId(action.breakpoint.location);
@@ -68,7 +67,7 @@ function update(state = State(), action: Action) {
           // condition.
           condition: firstString(action.condition, bp.condition)
         }))
-        .set("breakpointsDisabled", false);
+          .set("breakpointsDisabled", false);
       } else if (action.status === "done") {
         const { id: breakpointId, text } = action.value;
         let location = action.breakpoint.location;
@@ -80,7 +79,7 @@ function update(state = State(), action: Action) {
 
           const movedId = makeLocationId(actualLocation);
           const currentBp = (state.breakpoints.get(movedId) ||
-                             fromJS(action.breakpoint));
+          fromJS(action.breakpoint));
           const newBp = updateObj(currentBp, { location: actualLocation });
           state = state.setIn(["breakpoints", movedId], newBp);
           location = actualLocation;
@@ -184,13 +183,13 @@ function getBreakpointsDisabled(state: OuterState): boolean {
 function getBreakpointsLoading(state: OuterState) {
   const breakpoints = getBreakpoints(state);
   const isLoading = !!breakpoints.valueSeq()
-                    .filter(bp => bp.loading)
-                    .first();
+    .filter(bp => bp.loading)
+    .first();
 
   return breakpoints.size > 0 && isLoading;
 }
 
-module.exports = {
+export default {
   State,
   update,
   makeLocationId,

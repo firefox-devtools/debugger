@@ -7,7 +7,8 @@ const { connect } = require("react-redux");
 const { formatKeyShortcut } = require("../utils/text");
 const SourcesTree = React.createFactory(require("./SourcesTree"));
 const actions = require("../actions");
-const { getSelectedSource, getSources } = require("../selectors");
+import selectors from "../selectors";
+const { getSelectedSource, getSources } = selectors;
 
 require("./Sources.css");
 

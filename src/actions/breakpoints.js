@@ -8,10 +8,11 @@
  * @module actions/breakpoints
  */
 
-const constants = require("../constants");
-const { PROMISE } = require("../utils/redux/middleware/promise");
-const { getBreakpoint, getBreakpoints, getSource } = require("../selectors");
+import constants from "../constants";
+import { PROMISE } from "../utils/redux/middleware/promise";
+import selectors from "../selectors";
 
+const { getBreakpoint, getBreakpoints, getSource } = selectors;
 const {
   getOriginalLocation, getGeneratedLocation, isOriginalId
 } = require("../utils/source-map");

@@ -5,11 +5,11 @@
  * @module utils/test-head
  */
 
-const { combineReducers } = require("redux");
-const reducers = require("../reducers");
-const actions = require("../actions");
-const selectors = require("../selectors");
-const constants = require("../constants");
+import { combineReducers } from "redux";
+import reducers from "../reducers";
+import selectors from "../selectors";
+import actions from "../actions";
+import constants from "../constants";
 
 const configureStore = require("../utils/create-store");
 

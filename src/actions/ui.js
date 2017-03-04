@@ -1,6 +1,8 @@
 // @flow
 const constants = require("../constants");
-const { getSource, getFileSearchState } = require("../selectors");
+import selectors from "../selectors";
+
+const { getSource, getFileSearchState } = selectors;
 import type { ThunkArgs } from "./types";
 
 function toggleFileSearch() {

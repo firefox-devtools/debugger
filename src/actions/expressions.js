@@ -3,7 +3,8 @@
 const constants = require("../constants");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 
-const { getExpressions, getSelectedFrame } = require("../selectors");
+import selectors from "../selectors";
+const { getExpressions, getSelectedFrame } = selectors;
 
 import type { Expression } from "../types";
 import type { ThunkArgs } from "./types";

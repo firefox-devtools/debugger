@@ -8,17 +8,17 @@
  * @module reducers/sources
  */
 
-const I = require("immutable");
-const makeRecord = require("../utils/makeRecord");
-const { getPrettySourceURL } = require("../utils/source");
-const { prefs } = require("../utils/prefs");
+import { Map, List } from "immutable";
+import makeRecord from "../utils/makeRecord";
+import { getPrettySourceURL } from "../utils/source";
+import { prefs } from "../utils/prefs";
 
 import type { Source, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type SourcesState = {
-  sources: I.Map<string, any>,
+    sources: Map<string, any>,
   selectedLocation?: {
     sourceId: string,
     line?: number,
@@ -30,19 +30,19 @@ export type SourcesState = {
     column?: number
   },
   selectedLocation?: Location,
-  sourcesText: I.Map<string, any>,
-  tabs: I.List<any>
+  sourcesText: Map<string, any>,
+  tabs: List<any>
 };
 
 const State = makeRecord(({
-  sources: I.Map(),
+  sources: Map(),
   selectedLocation: undefined,
   pendingSelectedLocation: prefs.pendingSelectedLocation,
-  sourcesText: I.Map(),
-  tabs: I.List(restoreTabs())
+  sourcesText: Map(),
+  tabs: List(restoreTabs())
 } : SourcesState));
 
-function update(state = State(), action: Action) : Record<SourcesState> {
+function update(state: any = State(), action: Action) : Record<SourcesState> {
   let availableTabs = null;
   let location = null;
 
@@ -147,12 +147,12 @@ function _updateText(state, action : any) : Record<SourcesState> {
   }
 
   if (action.status === "error") {
-    return state.setIn(["sourcesText", source.id], I.Map({
+    return state.setIn(["sourcesText", source.id], Map({
       error: action.error
     }));
   }
 
-  return state.setIn(["sourcesText", source.id], I.Map({
+  return state.setIn(["sourcesText", source.id], Map({
     text: sourceText.text,
     id: source.id,
     contentType: sourceText.contentType
@@ -247,7 +247,7 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs) : string {
   const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
   let tabSource = state.sources.find(source =>
-    source.get("url") === availableTabs.toJS()[newSelectedTabIndex]);
+  source.get("url") === availableTabs.toJS()[newSelectedTabIndex]);
 
   if (tabSource) {
     return tabSource.get("id");
@@ -320,7 +320,7 @@ function getPrettySource(state: OuterState, id: string) {
   return getSourceByURL(state, getPrettySourceURL(source.get("url")));
 }
 
-module.exports = {
+export default {
   State,
   update,
   getSource,

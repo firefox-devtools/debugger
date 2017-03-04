@@ -4,11 +4,12 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
+import selectors from "../selectors";
 const {
   getSources,
   getSelectedSource,
   getFileSearchState
-} = require("../selectors");
+} = selectors;
 const { endTruncateStr } = require("../utils/utils");
 const { parse: parseURL } = require("url");
 const { isPretty } = require("../utils/source");

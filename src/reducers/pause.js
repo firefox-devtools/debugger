@@ -3,11 +3,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const constants = require("../constants");
-const fromJS = require("../utils/fromJS");
-const makeRecord = require("../utils/makeRecord");
-const { prefs } = require("../utils/prefs");
-const I = require("immutable");
+import constants from "../constants";
+import fromJS from "../utils/fromJS";
+import makeRecord from "../utils/makeRecord";
+import { prefs } from "../utils/prefs";
+import { Map, List } from "immutable";
 
 import type { Frame, Pause,
   Expression } from "../types";
@@ -22,7 +22,7 @@ type PauseState = {
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
-  expressions: I.List<Expression>
+  expressions: List<Expression>
 }
 
 const State = makeRecord(({
@@ -30,13 +30,13 @@ const State = makeRecord(({
   isWaitingOnBreak: false,
   frames: undefined,
   selectedFrameId: undefined,
-  loadedObjects: I.Map(),
+  loadedObjects: Map(),
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
-  expressions: I.List()
+  expressions: List()
 } : PauseState));
 
-function update(state = State(), action: Action): Record<PauseState> {
+function update(state: any = State(), action: Action): Record<PauseState> {
   switch (action.type) {
     case constants.PAUSED: {
       const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
@@ -100,8 +100,10 @@ function update(state = State(), action: Action): Record<PauseState> {
         const ownSymbols = action.value.ownSymbols || [];
         const prototype = action.value.prototype;
 
-        return state.setIn(["loadedObjects", action.objectId],
-                           { ownProperties, prototype, ownSymbols });
+        return state.setIn(
+           ["loadedObjects", action.objectId],
+           { ownProperties, prototype, ownSymbols }
+        );
       }
       break;
 
@@ -185,7 +187,7 @@ function getChromeScopes(state: OuterState) {
   return frame ? frame.scopeChain : undefined;
 }
 
-module.exports = {
+export default {
   State,
   update,
   getPause,

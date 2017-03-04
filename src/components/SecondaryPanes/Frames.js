@@ -8,8 +8,9 @@ import { connect } from "react-redux";
 import actions from "../../actions";
 import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
+import selectors from "../../selectors";
 
-const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
+const { getFrames, getSelectedFrame, getSource } = selectors;
 
 import { showMenu } from "../shared/menu";
 import { copyToTheClipboard } from "../../utils/clipboard";

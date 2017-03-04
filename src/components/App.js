@@ -4,7 +4,8 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../actions");
-const { getSources, getSelectedSource, getPaneCollapse } = require("../selectors");
+import selectors from "../selectors";
+const { getSources, getSelectedSource, getPaneCollapse } = selectors;
 
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });

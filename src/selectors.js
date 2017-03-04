@@ -1,17 +1,17 @@
 // @flow
-const expressions = require("./reducers/expressions");
-const sources = require("./reducers/sources");
-const pause = require("./reducers/pause");
-const breakpoints = require("./reducers/breakpoints");
-const eventListeners = require("./reducers/event-listeners");
-const ui = require("./reducers/ui");
-const coverage = require("./reducers/coverage");
+import expressions from "./reducers/expressions";
+import sources from "./reducers/sources";
+import pause from "./reducers/pause";
+import breakpoints from "./reducers/breakpoints";
+import eventListeners from "./reducers/event-listeners";
+import ui from "./reducers/ui";
+import coverage from "./reducers/coverage";
 
 /**
  * @param object - location
  */
 
-module.exports = {
+export default {
   getSource: sources.getSource,
   getSourceByURL: sources.getSourceByURL,
   getSourceById: sources.getSourceById,
