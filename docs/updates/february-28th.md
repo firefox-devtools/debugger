@@ -123,6 +123,25 @@ We were blocked on adding the feature, while we waited for parser support. This 
 * [clean up testing docs][pr-34] - [@jasonLaster]
 * [Add some maintainer docs][pr-47] - [@jasonLaster]
 
+#### Screenshots
+
+| Persist Scopes |
+|----------------|
+|![gif-1]|
+
+| Editor Preview |
+|----------------|
+|![gif-2]|
+
+| Text Search |
+|-------------|
+|![gif-3]!
+
+
+[gif-1]:https://cloud.githubusercontent.com/assets/792924/23188424/948ff100-f886-11e6-9420-bab20d56d289.gif
+[gif-2]:https://cloud.githubusercontent.com/assets/792924/23385436/b5e22ae2-fd47-11e6-9a55-e26365b3849e.gif
+[gif-3]:https://camo.githubusercontent.com/c528900a4ca7a817e34cd43bd0d8a9f44c4c3a6e/687474703a2f2f672e7265636f726469742e636f2f494d385370645a784d722e676966
+
 [pr-0]:https://github.com/devtools-html/debugger.html/pull/2005
 [pr-1]:https://github.com/devtools-html/debugger.html/pull/2048
 [pr-2]:https://github.com/devtools-html/debugger.html/pull/2058
