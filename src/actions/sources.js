@@ -87,7 +87,7 @@ function loadSourceMap(generatedSource) {
     });
 
     dispatch({
-      type: "ADD_SOURCES",
+      type: constants.ADD_SOURCES,
       sources: originalSources
     });
   };
