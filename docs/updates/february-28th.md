@@ -2,12 +2,12 @@
 
 #### Overview
 
-Last week was nothing short or epic. We made tons of progress on:
+Last week was nothing short or epic. 
 
-1. function search, text search, and editor preview.
-2. squashed mountains of UI and perf bugs
-3. improved the scopes pane
-4. added integration tests and general QA
+1. We made tons of progress on function search, text search, and editor preview 
+2. We squashed mountains of UI and perf bugs 
+3. We added great features to the scopes pane
+4. We focused on integration testing and general QA.
 
 There's no way we could have gotten this done without the help of many people: [@rrandom], [@arthur801031], [@bomsy], [@wldcordeiro], [@jryans], [@irfanhudda], [@soapdog], [@amitzur], [@juliandescottes], [@Garbee], [@zystvan], [@najamkhn], [@jcreighton], [@jbhoosreddy], [@tromey], [@ryanjduffy], [@sole], [@lasfin]!
 
