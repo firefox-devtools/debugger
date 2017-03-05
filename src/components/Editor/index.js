@@ -597,7 +597,7 @@ const Editor = React.createClass({
       dom.div(
         {
           className: classnames(
-            "editor-wrapper devtools-monospace",
+            "editor-wrapper",
             { "coverage-on": coverageOn }
           )
         },
@@ -614,7 +614,7 @@ const Editor = React.createClass({
           updateSearchResults: this.updateSearchResults
         }),
         dom.div({
-          className: "editor-mount",
+          className: "editor-mount devtools-monospace",
           style: { height: this.editorHeight() }
         }),
         this.renderBreakpoints(),

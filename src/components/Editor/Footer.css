@@ -1,6 +1,6 @@
 
 .source-footer {
-  background: var(--theme-body-background);
+  background: var(--theme-toolbar-background);
   border-top: 1px solid var(--theme-splitter-color);
   position: absolute;
   display: flex;
@@ -11,7 +11,7 @@
   z-index: 100;
   -moz-user-select: none;
   user-select: none;
-  height: 30px;
+  height: 27px;
   box-sizing: border-box;
 }
 

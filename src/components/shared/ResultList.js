@@ -17,9 +17,16 @@ const ResultList = React.createClass({
     items: PropTypes.array.isRequired,
     selected: PropTypes.number.isRequired,
     selectItem: PropTypes.func.isRequired,
+    size: PropTypes.string
   },
 
   displayName: "ResultList",
+
+  getDefaultProps() {
+    return {
+      size: ""
+    };
+  },
 
   renderListItem(item: ResultListItem, index: number) {
     return dom.li(
@@ -38,7 +45,12 @@ const ResultList = React.createClass({
   },
 
   render() {
-    return dom.ul({ className: "result-list" },
+    let { size } = this.props;
+    size = size || "";
+    return dom.ul(
+      {
+        className: `result-list ${size}`
+      },
     this.props.items.map(this.renderListItem));
   }
 });

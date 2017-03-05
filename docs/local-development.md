@@ -321,6 +321,12 @@ Often, it is more practicle to create a new variable.
 
 It's helpful to share the changes as a themes [table][pr-table] when you're done.
 
+#### Checking Contrast
+
+It's important to make sure that the contrast ratio is sufficient.
+
+You can check the background / text color contrast ratio with this [tool][contrast-ratio-tool].
+
 ### Configs
 
 The Debugger uses configs for settings like `theme`, `hotReloading`, and feature flags.
@@ -504,3 +510,4 @@ your questions on [slack][slack].
 
 [mochitest]: ./mochitests.md
 [mocha]: ./integration-tests.md
+[contrast-ratio-tool]: http://leaverou.github.io/contrast-ratio/#rgb%28204%2C%20209%2C%20213%29-on-rgb%28252%2C%20252%2C%20252%29

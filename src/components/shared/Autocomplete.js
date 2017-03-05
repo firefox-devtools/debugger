@@ -18,7 +18,8 @@ const Autocomplete = React.createClass({
     items: PropTypes.array,
     close: PropTypes.func.isRequired,
     inputValue: PropTypes.string.isRequired,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    size: PropTypes.string
   },
 
   displayName: "Autocomplete",
@@ -28,6 +29,12 @@ const Autocomplete = React.createClass({
       inputValue: this.props.inputValue,
       selectedIndex: 0,
       focused: false
+    };
+  },
+
+  getDefaultProps() {
+    return {
+      size: ""
     };
   },
 
@@ -90,12 +97,15 @@ const Autocomplete = React.createClass({
   },
 
   renderResults(results) {
+    const { size } = this.props;
+
     if (results.length) {
       return ResultList({
         items: results,
         selected: this.state.selectedIndex,
         selectItem: this.props.selectItem,
         close: this.props.close,
+        size,
         ref: "resultList"
       });
     } else if (this.state.inputValue && !results.length) {
@@ -108,6 +118,7 @@ const Autocomplete = React.createClass({
 
   render() {
     const { focused } = this.state;
+    const { size } = this.props;
     const searchResults = this.getSearchResults();
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
@@ -119,6 +130,7 @@ const Autocomplete = React.createClass({
         query: this.state.inputValue,
         count: searchResults.length,
         placeholder: this.props.placeholder,
+        size,
         summaryMsg,
         onChange: e => this.setState({
           inputValue: e.target.value,
