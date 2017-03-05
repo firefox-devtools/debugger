@@ -2,7 +2,7 @@
 
 #### Overview
 
-Last week  was nothing short or epic. We made tons of progress on:
+Last week was nothing short or epic. We made tons of progress on:
 
 1. function search, text search, and editor preview.
 2. squashed mountains of UI and perf bugs
@@ -74,7 +74,7 @@ on the UI we'll be able to launch a really beautiful feature.
 #### Scopes
 
 The scopes component is one of the most used features of a Debugger and also introduces some of the most complexity.
-This week we looked at showing promises, large arrrays, sparse arrays, and promises.
+This week we looked at showing promises, large arrrays, sparse arrays.
 [@Bomsy] also tackled keeping variables expanded as the debugger steps through the code. This was a difficulty `hard` bug!
 
 * [Persist scopes as you step][pr-6] - [@bomsy]
