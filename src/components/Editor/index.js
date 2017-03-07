@@ -291,7 +291,6 @@ const Editor = React.createClass({
 
     if (!variables.hasOwnProperty(token.innerText)
      && !getExpression(sourceText.toJS(), token.innerText, loc)) {
-
       this.setState({
         selectedToken: null,
         selectedTokenLocation: null
@@ -578,9 +577,9 @@ const Editor = React.createClass({
 
     const token = selectedToken.innerText;
     const variables = selectedFrame.scope.bindings.variables;
-    const expressionValue = getExpression(sourceText.toJS(), token, selectedTokenLocation);
+    const expr = getExpression(sourceText.toJS(), token, selectedTokenLocation);
 
-    if (!variables.hasOwnProperty(token) && !expressionValue) {
+    if (!variables.hasOwnProperty(token) && !expr) {
       return;
     }
 

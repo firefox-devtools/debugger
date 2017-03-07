@@ -213,7 +213,6 @@ function getExpression(source: SourceText, token, location: Location) {
   return expression;
 }
 
-
 function nodeContainsLocation({ node, location }) {
   const { start, end } = node.loc;
   const { line, column } = location;
