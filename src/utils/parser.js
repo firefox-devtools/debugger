@@ -189,6 +189,8 @@ function getExpression(source: SourceText, token: string, location: Location) {
     if (node.type === "MemberExpression") {
       expr.unshift(node.property.name);
       getMemberExpression(node.object, expr);
+    } else if (node.type === "ThisExpression") {
+      expr.unshift('this');
     } else {
       expr.unshift(node.name);
     }
