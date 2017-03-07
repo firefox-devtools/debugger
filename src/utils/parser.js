@@ -185,15 +185,20 @@ function getExpression(source: SourceText, token: string, location: Location) {
   let expression = null;
   const ast = getAst(source);
 
-  function getMemberExpression(node, expr) {
+  function _getMemberExpression(node, expr) {
     if (node.type === "MemberExpression") {
-      expr.unshift(node.property.name);
-      getMemberExpression(node.object, expr);
-    } else if (node.type === "ThisExpression") {
-      expr.unshift('this');
-    } else {
-      expr.unshift(node.name);
+      expr = [node.property.name].concat(expr);
+      return _getMemberExpression(node.object, expr);
     }
+
+    if (node.type === "ThisExpression") {
+      return ['this'].concat(expr);
+    }
+    return [node.name].concat(expr);
+  }
+
+  function getMemberExpression(node) {
+    return _getMemberExpression(node, []);
   }
 
   traverse(ast, {
@@ -201,9 +206,7 @@ function getExpression(source: SourceText, token: string, location: Location) {
       const node = path.node;
       if (node.type === "MemberExpression" && node.property.name === token
         && nodeContainsLocation({ node, location })) {
-        const expr = [];
-        expr.unshift(node.property.name);
-        getMemberExpression(node.object, expr);
+        const expr = getMemberExpression(node)
         expression = {
           value: expr.join("."),
           location: node.loc
