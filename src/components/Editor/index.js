@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 
@@ -28,6 +29,8 @@ const actions = require("../../actions");
 const Breakpoint = React.createFactory(require("./Breakpoint"));
 const HitMarker = React.createFactory(require("./HitMarker"));
 
+import type { Location } from "../../types";
+
 const {
   getDocument,
   setDocument,
@@ -50,14 +53,14 @@ const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
     hitCount: PropTypes.object,
-    selectedLocation: PropTypes.object,
+    selectedLocation: PropTypes.object.isRequired,
     selectedSource: ImPropTypes.map,
     sourceText: PropTypes.object,
-    addBreakpoint: PropTypes.func,
-    disableBreakpoint: PropTypes.func,
-    enableBreakpoint: PropTypes.func,
-    removeBreakpoint: PropTypes.func,
-    setBreakpointCondition: PropTypes.func,
+    addBreakpoint: PropTypes.func.isRequired,
+    disableBreakpoint: PropTypes.func.isRequired,
+    enableBreakpoint: PropTypes.func.isRequired,
+    removeBreakpoint: PropTypes.func.isRequired,
+    setBreakpointCondition: PropTypes.func.isRequired,
     selectSource: PropTypes.func,
     jumpToMappedLocation: PropTypes.func,
     showSource: PropTypes.func,
@@ -66,6 +69,11 @@ const Editor = React.createClass({
     addExpression: PropTypes.func,
     horizontal: PropTypes.bool
   },
+
+  cbPanel: (null : any),
+  editor: (null : any),
+  pendingJumpLine: (null : any),
+  lastJumpLine: (null : any),
 
   displayName: "Editor",
 
@@ -619,8 +627,8 @@ const Editor = React.createClass({
 });
 
 module.exports = connect(state => {
-  const selectedLocation = getSelectedLocation(state);
-  const sourceId = selectedLocation && selectedLocation.sourceId;
+  const selectedLocation: ?Location = getSelectedLocation(state);
+  const sourceId: ?string = selectedLocation && selectedLocation.sourceId;
   const selectedSource = getSelectedSource(state);
 
   return {

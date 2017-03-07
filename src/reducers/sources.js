@@ -283,8 +283,10 @@ function getSources(state: OuterState) {
   return state.sources.sources;
 }
 
-function getSourceText(state: OuterState, id: string) {
-  return state.sources.sourcesText.get(id);
+function getSourceText(state: OuterState, id: ?string) {
+  if (id) {
+    return state.sources.sourcesText.get(id);
+  }
 }
 
 function getSourceTabs(state: OuterState) {

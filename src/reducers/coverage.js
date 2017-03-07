@@ -40,7 +40,7 @@ function update(state = State(), action: Action): Record<CoverageState> {
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { coverage: Record<CoverageState> };
 
-function getHitCountForSource(state: OuterState, sourceId: string) {
+function getHitCountForSource(state: OuterState, sourceId: ?string) {
   const hitCount = state.coverage.get("hitCount");
   return hitCount.get(sourceId);
 }

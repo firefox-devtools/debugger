@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const classnames = require("classnames");
 const ManagedTree = React.createFactory(require("./ManagedTree"));
@@ -16,6 +17,34 @@ const {
 } = require("../../utils/object-inspector");
 
 const { DOM: dom, PropTypes } = React;
+
+export type ObjectInspectorItemContentsValue = {
+    actor: string,
+    class: string,
+    displayClass: string,
+    extensible: boolean,
+    frozen: boolean,
+    ownPropertyLength: number,
+    preview: Object,
+    sealed: boolean,
+    type: string
+};
+
+type ObjectInspectorItemContents = {
+    value: ObjectInspectorItemContentsValue
+};
+
+type ObjectInspectorItem = {
+    contents: Array<ObjectInspectorItem> & ObjectInspectorItemContents,
+    name: string,
+    path: string
+};
+
+type DefaultProps = {
+    onLabelClick: any,
+    onDoubleClick: any,
+    autoExpandDepth: number
+};
 
 // This implements a component that renders an interactive inspector
 // for looking at JavaScript objects. It expects descriptions of
@@ -52,13 +81,15 @@ const ObjectInspector = React.createClass({
     roots: PropTypes.array,
     getObjectProperties: PropTypes.func.isRequired,
     loadObjectProperties: PropTypes.func.isRequired,
-    onLabelClick: PropTypes.func,
-    onDoubleClick: PropTypes.func,
+    onLabelClick: PropTypes.func.isRequired,
+    onDoubleClick: PropTypes.func.isRequired,
     getExpanded: PropTypes.func,
     setExpanded: PropTypes.func,
-    getActors: PropTypes.func,
+    getActors: PropTypes.func.isRequired,
     setActors: PropTypes.func
   },
+
+  actors: (null: any),
 
   displayName: "ObjectInspector",
 
@@ -66,7 +97,7 @@ const ObjectInspector = React.createClass({
     return {};
   },
 
-  getDefaultProps() {
+  getDefaultProps(): DefaultProps {
     return {
       onLabelClick: () => {},
       onDoubleClick: () => {},
@@ -90,7 +121,7 @@ const ObjectInspector = React.createClass({
     }
   },
 
-  getChildren(item) {
+  getChildren(item: ObjectInspectorItem) {
     const { getObjectProperties } = this.props;
     const { actors } = this;
     return getChildren({
@@ -100,7 +131,8 @@ const ObjectInspector = React.createClass({
     });
   },
 
-  renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+  renderItem(item: ObjectInspectorItem, depth: number, focused: boolean,
+    _: Object, expanded: boolean, { setExpanded }: () => any) {
     let objectValue;
     if (nodeIsOptimizedOut(item)) {
       objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
