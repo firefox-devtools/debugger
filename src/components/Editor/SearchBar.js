@@ -30,6 +30,42 @@ type ToggleFunctionSearchOpts = {
 
 require("./SearchBar.css");
 
+const keyDownHandlers = {
+  ArrowUp(event, searchResults, resultCount) {
+    const selectedResultIndex = Math.max(0, this.state.selectedResultIndex - 1);
+
+    this.setState({ selectedResultIndex });
+    this.onSelectResultItem(searchResults[selectedResultIndex]);
+
+    event.preventDefault();
+  },
+
+  ArrowDown(event, searchResults, resultCount) {
+    const newIndex = this.state.selectedResultIndex + 1;
+    const selectedResultIndex = Math.min(resultCount - 1, newIndex);
+
+    this.setState({ selectedResultIndex });
+    this.onSelectResultItem(searchResults[selectedResultIndex]);
+
+    event.preventDefault();
+  },
+
+  Enter(event, searchResults) {
+    if (searchResults.length) {
+      const resultItem = searchResults[this.state.selectedResultIndex];
+      this.selectResultItem(event, resultItem, 0);
+    }
+
+    this.closeSearch(event);
+    event.preventDefault();
+  },
+
+  Tab(event) {
+    this.closeSearch(event);
+    event.preventDefault();
+  }
+};
+
 const SearchBar = React.createClass({
 
   propTypes: {
@@ -104,11 +140,11 @@ const SearchBar = React.createClass({
 
     const hasLoaded = sourceText && !sourceText.get("loading");
     const wasLoading = prevProps.sourceText
-                        && prevProps.sourceText.get("loading");
+      && prevProps.sourceText.get("loading");
 
     const doneLoading = wasLoading && hasLoaded;
     const changedFiles = selectedSource != prevProps.selectedSource
-                          && hasLoaded;
+      && hasLoaded;
     const modifiersUpdated = modifiers != prevProps.modifiers;
 
     const isOpen = this.state.enabled || this.state.functionSearchEnabled;
@@ -166,359 +202,338 @@ const SearchBar = React.createClass({
 
   toggleFunctionSearch(
     e?: SyntheticKeyboardEvent, { toggle }: ToggleFunctionSearchOpts = {}) {
-    const { sourceText } = this.props;
+      const { sourceText } = this.props;
 
-    if (e) {
-      e.preventDefault();
-    }
+      if (e) {
+        e.preventDefault();
+      }
 
     if (!sourceText) {
-      return;
+    return;
     }
 
-    if (!this.state.enabled) {
-      this.setState({ enabled: true });
-    }
+if (!this.state.enabled) {
+  this.setState({ enabled: true });
+}
 
-    if (this.state.functionSearchEnabled) {
-      if (toggle) {
-        this.setState({ functionSearchEnabled: false });
-      }
+if (this.state.functionSearchEnabled) {
+  if (toggle) {
+    this.setState({ functionSearchEnabled: false });
+  }
 
-      return;
-    }
+  return;
+}
 
-    if (this.props.selectedSource) {
-      this.clearSearch();
-      this.setState({ functionSearchEnabled: true });
-    }
+if (this.props.selectedSource) {
+  this.clearSearch();
+  this.setState({ functionSearchEnabled: true });
+}
   },
 
-  setSearchValue(value: string) {
-    if (value == "") {
-      return;
-    }
+setSearchValue(value: string) {
+  if (value == "") {
+    return;
+  }
 
-    this.searchInput().value = value;
-  },
+  this.searchInput().value = value;
+},
 
-  selectSearchInput() {
-    const node = this.searchInput();
-    if (node) {
-      node.setSelectionRange(0, node.value.length);
-    }
-  },
+selectSearchInput() {
+  const node = this.searchInput();
+  if (node) {
+    node.setSelectionRange(0, node.value.length);
+  }
+},
 
-  searchInput() {
-    return findDOMNode(this).querySelector("input");
-  },
+searchInput() {
+  return findDOMNode(this).querySelector("input");
+},
 
-  updateFunctionSearchResults(query: string) {
-    const {
+updateFunctionSearchResults(query: string) {
+  const {
       sourceText,
-      updateSearchResults
+    updateSearchResults
     } = this.props;
 
-    if (query == "" || !sourceText) {
-      return;
-    }
+  if (query == "" || !sourceText) {
+    return;
+  }
 
-    const functionDeclarations = getFunctionDeclarations(
-      sourceText.toJS()
-    );
+  const functionDeclarations = getFunctionDeclarations(
+    sourceText.toJS()
+  );
 
-    const functionSearchResults = filter(
-      functionDeclarations,
-      query,
-      { key: "value" }
-    );
+  const functionSearchResults = filter(
+    functionDeclarations,
+    query,
+    { key: "value" }
+  );
 
-    updateSearchResults({ count: functionSearchResults.length });
-    return this.setState({ functionSearchResults });
-  },
+  updateSearchResults({ count: functionSearchResults.length });
+  return this.setState({ functionSearchResults });
+},
 
-  doSearch(query: string) {
-    const {
+doSearch(query: string) {
+  const {
       sourceText,
-      modifiers,
-      updateQuery,
-      editor: ed,
-      searchResults: { index }
+    modifiers,
+    updateQuery,
+    editor: ed,
+    searchResults: { index }
     } = this.props;
-    if (!sourceText || !sourceText.get("text")) {
-      return;
-    }
+  if (!sourceText || !sourceText.get("text")) {
+    return;
+  }
 
-    updateQuery(query);
+  updateQuery(query);
 
-    if (this.state.functionSearchEnabled) {
-      return this.updateFunctionSearchResults(query);
-    }
+  if (this.state.functionSearchEnabled) {
+    return this.updateFunctionSearchResults(query);
+  }
 
-    if (!ed) {
-      return;
-    }
+  if (!ed) {
+    return;
+  }
 
-    const ctx = { ed, cm: ed.codeMirror };
+  const ctx = { ed, cm: ed.codeMirror };
 
-    const newCount = countMatches(query, sourceText.get("text"), modifiers);
+  const newCount = countMatches(query, sourceText.get("text"), modifiers);
 
-    if (index == -1) {
-      clearIndex(ctx, query, modifiers);
-    }
+  if (index == -1) {
+    clearIndex(ctx, query, modifiers);
+  }
 
-    const newIndex = find(ctx, query, true, modifiers);
+  const newIndex = find(ctx, query, true, modifiers);
 
-    debounce(
-      () => this.props.updateSearchResults({
-        count: newCount,
-        index: newIndex
-      }),
-      100
-    )();
-  },
+  debounce(
+    () => this.props.updateSearchResults({
+      count: newCount,
+      index: newIndex
+    }),
+    100
+  )();
+},
 
-  traverseResults(e: SyntheticEvent, rev: boolean) {
-    e.stopPropagation();
-    e.preventDefault();
+traverseResults(e: SyntheticEvent, rev: boolean) {
+  e.stopPropagation();
+  e.preventDefault();
 
-    const ed = this.props.editor;
+  const ed = this.props.editor;
 
-    if (!ed) {
-      return;
-    }
+  if (!ed) {
+    return;
+  }
 
-    const ctx = { ed, cm: ed.codeMirror };
+  const ctx = { ed, cm: ed.codeMirror };
 
-    const {
+  const {
       query,
-      modifiers,
-      updateSearchResults,
-      searchResults: { count, index }
+    modifiers,
+    updateSearchResults,
+    searchResults: { count, index }
     } = this.props;
 
-    if (query === "") {
-      this.setState({ enabled: true });
-    }
+  if (query === "") {
+    this.setState({ enabled: true });
+  }
 
-    if (index == -1) {
-      clearIndex(ctx, query, modifiers);
-    }
+  if (index == -1) {
+    clearIndex(ctx, query, modifiers);
+  }
 
-    const findFnc = rev ? findPrev : findNext;
-    const newIndex = findFnc(ctx, query, true, modifiers);
-    updateSearchResults({
-      index: newIndex,
-      count
-    });
-  },
+  const findFnc = rev ? findPrev : findNext;
+  const newIndex = findFnc(ctx, query, true, modifiers);
+  updateSearchResults({
+    index: newIndex,
+    count
+  });
+},
 
-  // Handlers
-  selectResultItem(e: SyntheticEvent, item: SymbolDeclaration, index: number) {
-    const { selectSource, selectedSource } = this.props;
+// Handlers
+selectResultItem(e: SyntheticEvent, item: SymbolDeclaration, index: number) {
+  const { selectSource, selectedSource } = this.props;
 
-    if (selectedSource) {
-      this.setState({ selectedResultIndex: index });
+  if (selectedSource) {
+    this.setState({ selectedResultIndex: index });
 
-      selectSource(
-        selectedSource.get("id"), { line: item.location.start.line });
+    selectSource(
+      selectedSource.get("id"), { line: item.location.start.line });
 
-      this.closeSearch(e);
-    }
-  },
+    this.closeSearch(e);
+  }
+},
 
-  onSelectResultItem(item: SymbolDeclaration) {
-    const { selectSource, selectedSource } = this.props;
-    if (selectedSource) {
-      selectSource(
-        selectedSource.get("id"), { line: item.location.start.line });
-    }
-  },
+onSelectResultItem(item: SymbolDeclaration) {
+  const { selectSource, selectedSource } = this.props;
+  if (selectedSource) {
+    selectSource(
+      selectedSource.get("id"), { line: item.location.start.line });
+  }
+},
 
-  onChange(e: any) {
-    return this.doSearch(e.target.value);
-  },
+onChange(e: any) {
+  return this.doSearch(e.target.value);
+},
 
-  onKeyUp(e: SyntheticKeyboardEvent) {
-    if (e.key != "Enter") {
-      return;
-    }
+onKeyUp(e: SyntheticKeyboardEvent) {
+  if (e.key != "Enter") {
+    return;
+  }
 
-    this.traverseResults(e, e.shiftKey);
-  },
+  this.traverseResults(e, e.shiftKey);
+},
 
-  onKeyDown(e: SyntheticKeyboardEvent) {
-    if (!this.state.functionSearchEnabled || this.props.query == "") {
-      return;
-    }
+onKeyDown(e: SyntheticKeyboardEvent) {
+  if (!this.state.functionSearchEnabled || this.props.query == "") {
+    return;
+  }
 
-    const searchResults = this.state.functionSearchResults,
-      resultCount = searchResults.length;
+  const searchResults = this.state.functionSearchResults,
+    resultCount = searchResults.length;
 
-    if (e.key === "ArrowUp") {
-      const selectedResultIndex = Math
-        .max(0, this.state.selectedResultIndex - 1);
-      this.setState({ selectedResultIndex });
-      this.onSelectResultItem(searchResults[selectedResultIndex]);
-      e.preventDefault();
-    } else if (e.key === "ArrowDown") {
-      const selectedResultIndex = Math
-        .min(resultCount - 1, this.state.selectedResultIndex + 1);
-      this.setState({ selectedResultIndex });
-      this.onSelectResultItem(searchResults[selectedResultIndex]);
-      e.preventDefault();
-    } else if (e.key === "Enter") {
-      if (searchResults.length) {
-        this.selectResultItem(searchResults[this.state.selectedResultIndex]);
-      }
-      this.closeSearch(e);
-      e.preventDefault();
-    } else if (e.key === "Tab") {
-      this.closeSearch(e);
-      e.preventDefault();
-    }
-  },
+  keyDownHandlers[e.key] && keyDownHandlers[e.key].call(this, e, searchResults, resultCount);
+},
 
-  // Renderers
-  buildSummaryMsg() {
-    if (this.state.functionSearchEnabled) {
-      return L10N.getFormatStr("sourceSearch.resultsSummary1",
-        this.state.functionSearchResults.length);
-    }
-    const { searchResults: { count, index }, query } = this.props;
+// Renderers
+buildSummaryMsg() {
+  if (this.state.functionSearchEnabled) {
+    return L10N.getFormatStr("sourceSearch.resultsSummary1",
+      this.state.functionSearchResults.length);
+  }
+  const { searchResults: { count, index }, query } = this.props;
 
-    if (query.trim() == "") {
-      return "";
-    }
+  if (query.trim() == "") {
+    return "";
+  }
 
-    if (count == 0) {
-      return L10N.getStr("editor.noResults");
-    }
+  if (count == 0) {
+    return L10N.getStr("editor.noResults");
+  }
 
-    if (index == -1) {
-      return L10N.getFormatStr("sourceSearch.resultsSummary1", count);
-    }
+  if (index == -1) {
+    return L10N.getFormatStr("sourceSearch.resultsSummary1", count);
+  }
 
-    return L10N.getFormatStr("editor.searchResults", index + 1, count);
-  },
+  return L10N.getFormatStr("editor.searchResults", index + 1, count);
+},
 
-  buildPlaceHolder() {
-    if (this.state.functionSearchEnabled) {
-      return L10N.getStr("functionSearch.search.placeholder");
-    }
+buildPlaceHolder() {
+  if (this.state.functionSearchEnabled) {
+    return L10N.getStr("functionSearch.search.placeholder");
+  }
 
-    return L10N.getStr("sourceSearch.search.placeholder");
-  },
+  return L10N.getStr("sourceSearch.search.placeholder");
+},
 
-  renderSearchModifiers() {
-    if (!isEnabled("searchModifiers")) {
-      return;
-    }
+renderSearchModifiers() {
+  if (!isEnabled("searchModifiers")) {
+    return;
+  }
 
-    const {
+  const {
       modifiers: { caseSensitive, wholeWord, regexMatch },
-      toggleModifier } = this.props;
-    const { functionSearchEnabled } = this.state;
+    toggleModifier } = this.props;
+  const { functionSearchEnabled } = this.state;
 
-    function searchModBtn(modVal, className, svgName) {
-      const defaultMods = { caseSensitive, wholeWord, regexMatch };
-      return dom.button({
-        className: classnames(className, {
-          active: !functionSearchEnabled && !Object.values(modVal)[0],
-          disabled: functionSearchEnabled
-        }),
-        onClick: () => !functionSearchEnabled ?
+  function searchModBtn(modVal, className, svgName) {
+    const defaultMods = { caseSensitive, wholeWord, regexMatch };
+    return dom.button({
+      className: classnames(className, {
+        active: !functionSearchEnabled && !Object.values(modVal)[0],
+        disabled: functionSearchEnabled
+      }),
+      onClick: () => !functionSearchEnabled ?
         toggleModifier(Object.assign(defaultMods, modVal)) : null
-      }, Svg(svgName));
-    }
+    }, Svg(svgName));
+  }
 
-    return dom.div(
-      { className: "search-modifiers" },
-      searchModBtn({
-        regexMatch: !regexMatch }, "regex-match-btn", "regex-match"),
-      searchModBtn({
-        caseSensitive: !caseSensitive }, "case-sensitive-btn", "case-match"),
-      searchModBtn({
-        wholeWord: !wholeWord }, "whole-word-btn", "whole-word-match")
-    );
-  },
+  return dom.div(
+    { className: "search-modifiers" },
+    searchModBtn({
+      regexMatch: !regexMatch }, "regex-match-btn", "regex-match"),
+    searchModBtn({
+      caseSensitive: !caseSensitive }, "case-sensitive-btn", "case-match"),
+    searchModBtn({
+      wholeWord: !wholeWord }, "whole-word-btn", "whole-word-match")
+  );
+},
 
-  renderSearchTypeToggle() {
-    if (!isEnabled("functionSearch")) {
-      return;
-    }
+renderSearchTypeToggle() {
+  if (!isEnabled("functionSearch")) {
+    return;
+  }
 
-    return dom.section(
-      { className: "search-type-toggles" },
-      dom.h1(
-        { className: "search-toggle-title" },
-        "Search for:"
-      ),
-      dom.button({
-        className: classnames("search-type-btn", {
-          active: this.state.functionSearchEnabled
-        }),
-        onClick: e => this.toggleFunctionSearch(e, { toggle: true })
-      }, "functions")
-    );
-  },
+  return dom.section(
+    { className: "search-type-toggles" },
+    dom.h1(
+      { className: "search-toggle-title" },
+      "Search for:"
+    ),
+    dom.button({
+      className: classnames("search-type-btn", {
+        active: this.state.functionSearchEnabled
+      }),
+      onClick: e => this.toggleFunctionSearch(e, { toggle: true })
+    }, "functions")
+  );
+},
 
-  renderBottomBar() {
-    if (!isEnabled("searchModifiers") || !isEnabled("functionSearch")) {
-      return;
-    }
+renderBottomBar() {
+  if (!isEnabled("searchModifiers") || !isEnabled("functionSearch")) {
+    return;
+  }
 
-    return dom.div(
-      { className: "search-bottom-bar" },
-      this.renderSearchTypeToggle(),
-      this.renderSearchModifiers()
-    );
-  },
+  return dom.div(
+    { className: "search-bottom-bar" },
+    this.renderSearchTypeToggle(),
+    this.renderSearchModifiers()
+  );
+},
 
-  renderResults() {
-    const {
+renderResults() {
+  const {
       functionSearchEnabled, functionSearchResults, selectedResultIndex
     } = this.state;
-    const { query } = this.props;
-    if (query == "" ||
-      !functionSearchEnabled || !functionSearchResults.length) {
-      return;
-    }
+  const { query } = this.props;
+  if (query == "" ||
+    !functionSearchEnabled || !functionSearchResults.length) {
+    return;
+  }
 
-    return ResultList({
-      items: functionSearchResults,
-      selected: selectedResultIndex,
-      selectItem: this.selectResultItem,
-      ref: "resultList"
-    });
-  },
+  return ResultList({
+    items: functionSearchResults,
+    selected: selectedResultIndex,
+    selectItem: this.selectResultItem,
+    ref: "resultList"
+  });
+},
 
-  render() {
-    const {
+render() {
+  const {
       searchResults: { count },
-      query,
+    query,
     } = this.props;
 
-    if (!this.state.enabled) {
-      return dom.div();
-    }
-
-    return dom.div(
-      { className: "search-bar" },
-      SearchInput({
-        query,
-        count,
-        placeholder: this.buildPlaceHolder(),
-        summaryMsg: this.buildSummaryMsg(),
-        onChange: this.onChange,
-        onKeyUp: this.onKeyUp,
-        onKeyDown: this.onKeyDown,
-        handleClose: this.closeSearch
-      }),
-      this.renderBottomBar(),
-      this.renderResults()
-    );
+  if (!this.state.enabled) {
+    return dom.div();
   }
+
+  return dom.div(
+    { className: "search-bar" },
+    SearchInput({
+      query,
+      count,
+      placeholder: this.buildPlaceHolder(),
+      summaryMsg: this.buildSummaryMsg(),
+      onChange: this.onChange,
+      onKeyUp: this.onKeyUp,
+      onKeyDown: this.onKeyDown,
+      handleClose: this.closeSearch
+    }),
+    this.renderBottomBar(),
+    this.renderResults()
+  );
+}
 });
 
 module.exports = SearchBar;
