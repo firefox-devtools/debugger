@@ -284,7 +284,9 @@ function getSources(state: OuterState) {
 }
 
 function getSourceText(state: OuterState, id: ?string) {
-  return id ? state.sources.sourcesText.get(id) : undefined;
+  if (id) {
+    return state.sources.sourcesText.get(id);
+  }
 }
 
 function getSourceTabs(state: OuterState) {

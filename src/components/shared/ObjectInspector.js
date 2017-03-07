@@ -18,7 +18,17 @@ const {
 
 const { DOM: dom, PropTypes } = React;
 
-import type { ObjectInspectorItemContentsValue } from "../../types";
+export type ObjectInspectorItemContentsValue = {
+    actor: string,
+    class: string,
+    displayClass: string,
+    extensible: boolean,
+    frozen: boolean,
+    ownPropertyLength: number,
+    preview: Object,
+    sealed: boolean,
+    type: string
+};
 
 type ObjectInspectorItemContents = {
     value: ObjectInspectorItemContentsValue

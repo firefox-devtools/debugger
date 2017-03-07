@@ -22,18 +22,6 @@ export type Mode = String | {
 
 export type AlignOpts = "top" | "center" | "bottom";
 
-export type ObjectInspectorItemContentsValue = {
-    actor: string,
-    class: string,
-    displayClass: string,
-    extensible: boolean,
-    frozen: boolean,
-    ownPropertyLength: number,
-    preview: Object,
-    sealed: boolean,
-    type: string
-};
-
 export type {
   Breakpoint,
   Frame,
