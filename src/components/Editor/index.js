@@ -9,6 +9,7 @@ const { connect } = require("react-redux");
 const classnames = require("classnames");
 
 const { getMode } = require("../../utils/source");
+const { getExpression } = require("../../utils/parser");
 
 const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
@@ -85,6 +86,7 @@ const Editor = React.createClass({
         count: 0
       },
       selectedToken: null,
+      selectedTokenLocation: null,
       searchModifiers: {
         caseSensitive: true,
         wholeWord: false,
@@ -268,7 +270,7 @@ const Editor = React.createClass({
   },
 
   previewSelectedToken(e, ctx, modifiers) {
-    const { selectedFrame } = this.props;
+    const { selectedFrame, sourceText } = this.props;
     const { selectedToken } = this.state;
     const token = e.target;
 
@@ -280,15 +282,26 @@ const Editor = React.createClass({
       selectedToken.classList.remove("selected-token");
     }
 
+    const lineOffset = 1;
+    const { left, top } = token.getBoundingClientRect();
+    const { line, ch } = ctx.cm.coordsChar({ left, top });
+    const loc = { line: line + lineOffset, column: ch };
+
     const variables = selectedFrame.scope.bindings.variables;
 
-    if (!variables.hasOwnProperty(token.innerText)) {
-      this.setState({ selectedToken: null });
+    if (!variables.hasOwnProperty(token.innerText)
+     && !getExpression(sourceText.toJS(), token.innerText, loc)) {
+
+      this.setState({
+        selectedToken: null,
+        selectedTokenLocation: null
+      });
       return;
     }
 
     this.setState({
-      selectedToken: token
+      selectedToken: token,
+      selectedTokenLocation: loc
     });
   },
 
@@ -556,8 +569,8 @@ const Editor = React.createClass({
   },
 
   renderPreview() {
-    const { selectedToken } = this.state;
-    const { selectedFrame } = this.props;
+    const { selectedToken, selectedTokenLocation } = this.state;
+    const { selectedFrame, sourceText } = this.props;
 
     if (!selectedToken || !selectedFrame || !isEnabled("editorPreview")) {
       return;
@@ -565,8 +578,9 @@ const Editor = React.createClass({
 
     const token = selectedToken.innerText;
     const variables = selectedFrame.scope.bindings.variables;
+    const expressionValue = getExpression(sourceText.toJS(), token, selectedTokenLocation);
 
-    if (!variables.hasOwnProperty(token)) {
+    if (!variables.hasOwnProperty(token) && !expressionValue) {
       return;
     }
 
@@ -581,7 +595,8 @@ const Editor = React.createClass({
       onClose: () => {
         selectedToken.classList.remove("selected-token");
         this.setState({
-          selectedToken: null
+          selectedToken: null,
+          selectedTokenLocation: null
         });
       }
     });

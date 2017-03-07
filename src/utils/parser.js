@@ -181,6 +181,39 @@ function getSymbols(source: SourceText): SymbolDeclarations {
   return symbols;
 }
 
+function getExpression(source: SourceText, token, location: Location) {
+  const expression = null;
+  const ast = getAst(source);
+
+  function getMemberExpression(node, expr) {
+    if (node.type === "MemberExpression") {
+      expr.unshift(node.property.name);
+      getMemberExpression(node.object, expr);
+    } else {
+      expr.unshift(node.name);
+    }
+  }
+
+  traverse(ast, {
+    enter(path) {
+      if (path.node.type === "MemberExpression"
+       && path.node.property.name === token
+        && nodeContainsLocation({ node: path.node, location })) {
+        const expr = [];
+        expr.unshift(path.node.property.name);
+        getMemberExpression(path.node.object, expr);
+        expression = {
+          value: expr.join("."),
+          location: path.node.loc
+        };
+      }
+    }
+  });
+
+  return expression;
+}
+
+
 function nodeContainsLocation({ node, location }) {
   const { start, end } = node.loc;
   const { line, column } = location;
@@ -224,5 +257,6 @@ module.exports = {
   parse,
   getSymbols,
   getPathClosestToLocation,
-  getVariablesInScope
+  getVariablesInScope,
+  getExpression
 };
