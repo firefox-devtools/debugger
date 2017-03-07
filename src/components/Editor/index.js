@@ -584,8 +584,15 @@ const Editor = React.createClass({
     }
 
     selectedToken.classList.add("selected-token");
+    let value = "";
 
-    const value = variables[token].value;
+    if (variables.hasOwnProperty(token)) {
+      value = variables[token].value;
+    }
+
+    if (expr) {
+      value = expr.value;
+    }
 
     return Preview({
       value,

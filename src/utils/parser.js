@@ -181,8 +181,8 @@ function getSymbols(source: SourceText): SymbolDeclarations {
   return symbols;
 }
 
-function getExpression(source: SourceText, token, location: Location) {
-  const expression = null;
+function getExpression(source: SourceText, token: string, location: Location) {
+  let expression = null;
   const ast = getAst(source);
 
   function getMemberExpression(node, expr) {
@@ -196,15 +196,15 @@ function getExpression(source: SourceText, token, location: Location) {
 
   traverse(ast, {
     enter(path) {
-      if (path.node.type === "MemberExpression"
-       && path.node.property.name === token
-        && nodeContainsLocation({ node: path.node, location })) {
+      const node = path.node;
+      if (node.type === "MemberExpression" && node.property.name === token
+        && nodeContainsLocation({ node, location })) {
         const expr = [];
-        expr.unshift(path.node.property.name);
-        getMemberExpression(path.node.object, expr);
+        expr.unshift(node.property.name);
+        getMemberExpression(node.object, expr);
         expression = {
           value: expr.join("."),
-          location: path.node.loc
+          location: node.loc
         };
       }
     }
