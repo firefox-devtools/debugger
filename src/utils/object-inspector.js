@@ -1,4 +1,5 @@
 const get = require("lodash/get");
+const { maybeEscapePropertyName } = require("devtools-reps");
 
 let WINDOW_PROPERTIES = {};
 
@@ -111,7 +112,7 @@ function makeNodesForProperties(objProps, parentPath, {
     nodes = buckets;
   } else {
     nodes = properties.map(name => createNode(
-      name,
+      maybeEscapePropertyName(name),
       `${parentPath}/${name}`,
       ownProperties[name]
     ));
@@ -199,6 +200,7 @@ module.exports = {
   nodeIsMissingArguments,
   nodeHasProperties,
   nodeIsPrimitive,
+  nodeIsObject,
   isDefault,
   sortProperties,
   makeNodesForProperties,

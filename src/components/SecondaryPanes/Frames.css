@@ -78,5 +78,5 @@
 }
 
 .show-more:hover {
-  background-color: var(--theme-search-overlays-semitransparent);
+  background-color: var(--search-overlays-semitransparent);
 }

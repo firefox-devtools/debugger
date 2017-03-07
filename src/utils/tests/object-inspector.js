@@ -102,6 +102,26 @@ describe("object-inspector", () => {
         "root/bucket1", "root/bucket2", "root/bucket3", "root/bucket4"
       ]);
     });
+
+    it("quotes property names", () => {
+      const nodes = makeNodesForProperties({
+        ownProperties: {
+          // Numbers are ok.
+          332217: { value: {}},
+          "needs-quotes": { value: {}},
+          unquoted: { value: {}},
+          "": { value: {}},
+        }
+      }, "root");
+
+      const names = nodes.map(n => n.name);
+      const paths = nodes.map(n => n.path);
+
+      expect(names).to.eql(["\"\"", "332217", "\"needs-quotes\"", "unquoted"]);
+      expect(paths).to.eql([
+        "root/", "root/332217", "root/needs-quotes", "root/unquoted"
+      ]);
+    });
   });
 });
 

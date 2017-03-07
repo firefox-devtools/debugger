@@ -3,7 +3,6 @@
   width: 100%;
   height: 30px;
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
 }
 
@@ -31,7 +30,6 @@
 }
 
 .source-tab {
-  color: var(--theme-faded-tab-color);
   border: 1px solid transparent;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
@@ -58,10 +56,6 @@
   background-color: var(--theme-body-background);
   border-color: var(--theme-splitter-color);
   border-bottom-color: transparent;
-}
-
-.source-tab path {
-  fill: var(--theme-faded-tab-color);
 }
 
 .source-tab.active path,
@@ -109,7 +103,6 @@
 .source-tab .close-btn .close {
   padding: 0;
   margin-top: 0;
-  line-height: 0;
-  line-height: 13px;
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
 }

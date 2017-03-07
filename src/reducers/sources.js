@@ -154,6 +154,7 @@ function _updateText(state, action : any) : Record<SourcesState> {
 
   return state.setIn(["sourcesText", source.id], I.Map({
     text: sourceText.text,
+    id: source.id,
     contentType: sourceText.contentType
   }));
 }
@@ -282,8 +283,10 @@ function getSources(state: OuterState) {
   return state.sources.sources;
 }
 
-function getSourceText(state: OuterState, id: string) {
-  return state.sources.sourcesText.get(id);
+function getSourceText(state: OuterState, id: ?string) {
+  if (id) {
+    return state.sources.sourcesText.get(id);
+  }
 }
 
 function getSourceTabs(state: OuterState) {

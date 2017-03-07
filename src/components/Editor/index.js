@@ -1,3 +1,4 @@
+// @flow
 const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 
@@ -28,6 +29,8 @@ const actions = require("../../actions");
 const Breakpoint = React.createFactory(require("./Breakpoint"));
 const HitMarker = React.createFactory(require("./HitMarker"));
 
+import type { Location } from "../../types";
+
 const {
   getDocument,
   setDocument,
@@ -50,14 +53,14 @@ const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
     hitCount: PropTypes.object,
-    selectedLocation: PropTypes.object,
+    selectedLocation: PropTypes.object.isRequired,
     selectedSource: ImPropTypes.map,
     sourceText: PropTypes.object,
-    addBreakpoint: PropTypes.func,
-    disableBreakpoint: PropTypes.func,
-    enableBreakpoint: PropTypes.func,
-    removeBreakpoint: PropTypes.func,
-    setBreakpointCondition: PropTypes.func,
+    addBreakpoint: PropTypes.func.isRequired,
+    disableBreakpoint: PropTypes.func.isRequired,
+    enableBreakpoint: PropTypes.func.isRequired,
+    removeBreakpoint: PropTypes.func.isRequired,
+    setBreakpointCondition: PropTypes.func.isRequired,
     selectSource: PropTypes.func,
     jumpToMappedLocation: PropTypes.func,
     showSource: PropTypes.func,
@@ -66,6 +69,11 @@ const Editor = React.createClass({
     addExpression: PropTypes.func,
     horizontal: PropTypes.bool
   },
+
+  cbPanel: (null : any),
+  editor: (null : any),
+  pendingJumpLine: (null : any),
+  lastJumpLine: (null : any),
 
   displayName: "Editor",
 
@@ -76,7 +84,6 @@ const Editor = React.createClass({
         index: -1,
         count: 0
       },
-      popoverPos: null,
       selectedToken: null,
       searchModifiers: {
         caseSensitive: true,
@@ -247,7 +254,7 @@ const Editor = React.createClass({
   },
 
   onScroll(e) {
-    return this.setState({ popoverPos: null });
+    return this.setState({ selectedToken: null });
   },
 
   onMouseUp(e, ctx, modifiers) {
@@ -262,21 +269,25 @@ const Editor = React.createClass({
 
   previewSelectedToken(e, ctx, modifiers) {
     const { selectedFrame } = this.props;
-    const token = e.target.innerText;
-    const pos = { top: e.pageY, left: e.offsetX };
+    const { selectedToken } = this.state;
+    const token = e.target;
 
     if (!selectedFrame || !isEnabled("editorPreview")) {
       return;
     }
 
+    if (selectedToken) {
+      selectedToken.classList.remove("selected-token");
+    }
+
     const variables = selectedFrame.scope.bindings.variables;
 
-    if (!variables.hasOwnProperty(token)) {
+    if (!variables.hasOwnProperty(token.innerText)) {
+      this.setState({ selectedToken: null });
       return;
     }
 
     this.setState({
-      popoverPos: pos,
       selectedToken: token
     });
   },
@@ -358,7 +369,9 @@ const Editor = React.createClass({
       closePanel: this.closeConditionalPanel
     });
 
-    this.cbPanel = this.editor.codeMirror.addLineWidget(line, panel);
+    this.cbPanel = this.editor.codeMirror.addLineWidget(line, panel, {
+      coverGutter: true
+    });
     this.cbPanel.node.querySelector("input").focus();
   },
 
@@ -542,33 +555,34 @@ const Editor = React.createClass({
   },
 
   renderPreview() {
-    const { popoverPos, selectedToken } = this.state;
+    const { selectedToken } = this.state;
     const { selectedFrame } = this.props;
 
-    if (!popoverPos || !selectedFrame || !isEnabled("editorPreview")) {
+    if (!selectedToken || !selectedFrame || !isEnabled("editorPreview")) {
       return;
     }
 
+    const token = selectedToken.innerText;
     const variables = selectedFrame.scope.bindings.variables;
 
-    if (!variables.hasOwnProperty(selectedToken)) {
+    if (!variables.hasOwnProperty(token)) {
       return;
     }
 
-    const value = variables[selectedToken].value;
-    const root = {
-      name: selectedToken,
-      path: selectedToken,
-      contents: { value }
-    };
+    selectedToken.classList.add("selected-token");
+
+    const value = variables[token].value;
 
     return Preview({
-      roots: [root],
-      popoverPos,
-      onClose: () => this.setState({
-        popoverPos: null,
-        selectedToken: null
-      })
+      value,
+      expression: token,
+      popoverTarget: selectedToken,
+      onClose: () => {
+        selectedToken.classList.remove("selected-token");
+        this.setState({
+          selectedToken: null
+        });
+      }
     });
   },
 
@@ -613,8 +627,8 @@ const Editor = React.createClass({
 });
 
 module.exports = connect(state => {
-  const selectedLocation = getSelectedLocation(state);
-  const sourceId = selectedLocation && selectedLocation.sourceId;
+  const selectedLocation: ?Location = getSelectedLocation(state);
+  const sourceId: ?string = selectedLocation && selectedLocation.sourceId;
   const selectedSource = getSelectedSource(state);
 
   return {

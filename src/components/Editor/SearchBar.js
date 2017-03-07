@@ -14,7 +14,7 @@ const {
   countMatches,
   clearIndex
 } = require("../../utils/editor");
-const { getFunctions } = require("../../utils/parser");
+const { getSymbols } = require("../../utils/parser");
 const { scrollList } = require("../../utils/result-list");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
@@ -22,23 +22,13 @@ const SearchInput = createFactory(require("../shared/SearchInput"));
 const ResultList = createFactory(require("../shared/ResultList"));
 const ImPropTypes = require("react-immutable-proptypes");
 
-import type { FunctionDeclaration } from "../../utils/parser";
+import type { FormattedSymbolDeclaration } from "../../utils/parser";
 
 type ToggleFunctionSearchOpts = {
   toggle: boolean
 }
 
 require("./SearchBar.css");
-
-function getFunctionDeclarations(selectedSource) {
-  return getFunctions(selectedSource).map(dec => ({
-    id: `${dec.name}:${dec.location.start.line}`,
-    title: dec.name,
-    subtitle: `:${dec.location.start.line}`,
-    value: dec.name,
-    location: dec.location
-  }));
-}
 
 const SearchBar = React.createClass({
 
@@ -176,13 +166,13 @@ const SearchBar = React.createClass({
 
   toggleFunctionSearch(
     e?: SyntheticKeyboardEvent, { toggle }: ToggleFunctionSearchOpts = {}) {
-    const { selectedSource } = this.props;
+    const { sourceText } = this.props;
 
     if (e) {
       e.preventDefault();
     }
 
-    if (!selectedSource) {
+    if (!sourceText) {
       return;
     }
 
@@ -198,16 +188,9 @@ const SearchBar = React.createClass({
       return;
     }
 
-    const functionDeclarations = getFunctionDeclarations(
-      selectedSource.toJS()
-    );
-
     if (this.props.selectedSource) {
       this.clearSearch();
-      this.setState({
-        functionSearchEnabled: true,
-        functionDeclarations
-      });
+      this.setState({ functionSearchEnabled: true });
     }
   },
 
@@ -230,6 +213,28 @@ const SearchBar = React.createClass({
     return findDOMNode(this).querySelector("input");
   },
 
+  updateFunctionSearchResults(query: string) {
+    const {
+      sourceText,
+      updateSearchResults
+    } = this.props;
+
+    if (query == "" || !sourceText) {
+      return;
+    }
+
+    const functionDeclarations = getSymbols(sourceText.toJS()).functions;
+
+    const functionSearchResults = filter(
+      functionDeclarations,
+      query,
+      { key: "value" }
+    );
+
+    updateSearchResults({ count: functionSearchResults.length });
+    return this.setState({ functionSearchResults });
+  },
+
   doSearch(query: string) {
     const {
       sourceText,
@@ -245,15 +250,7 @@ const SearchBar = React.createClass({
     updateQuery(query);
 
     if (this.state.functionSearchEnabled) {
-      if (query == "") {
-        return;
-      }
-
-      const functionSearchResults = filter(
-        this.state.functionDeclarations, query, { key: "value" });
-
-      this.props.updateSearchResults({ count: functionSearchResults.length });
-      return this.setState({ functionSearchResults });
+      return this.updateFunctionSearchResults(query);
     }
 
     if (!ed) {
@@ -315,16 +312,15 @@ const SearchBar = React.createClass({
   },
 
   // Handlers
-  selectResultItem(item: FunctionDeclaration) {
+  selectResultItem(item: FormattedSymbolDeclaration) {
     const { selectSource, selectedSource } = this.props;
-    this.toggleFunctionSearch();
     if (selectedSource) {
       selectSource(
         selectedSource.get("id"), { line: item.location.start.line });
     }
   },
 
-  onSelectResultItem(item: FunctionDeclaration) {
+  onSelectResultItem(item: FormattedSymbolDeclaration) {
     const { selectSource, selectedSource } = this.props;
     if (selectedSource) {
       selectSource(
@@ -367,9 +363,8 @@ const SearchBar = React.createClass({
     } else if (e.key === "Enter") {
       if (searchResults.length) {
         this.selectResultItem(searchResults[this.state.selectedResultIndex]);
-      } else {
-        this.closeSearch(e);
       }
+      this.closeSearch(e);
       e.preventDefault();
     } else if (e.key === "Tab") {
       this.closeSearch(e);

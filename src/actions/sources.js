@@ -13,9 +13,6 @@ const defer = require("../utils/defer");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const assert = require("../utils/assert");
 const { updateFrameLocations } = require("../utils/pause");
-const { parse } = require("../utils/parser");
-const { isEnabled } = require("devtools-config");
-
 const {
   getOriginalURLs, getOriginalSourceText,
   generatedToOriginalId, isOriginalId,
@@ -90,7 +87,7 @@ function loadSourceMap(generatedSource) {
     });
 
     dispatch({
-      type: "ADD_SOURCES",
+      type: constants.ADD_SOURCES,
       sources: originalSources
     });
   };
@@ -223,9 +220,12 @@ function closeTabs(urls: string[]) {
 function togglePrettyPrint(sourceId: string) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
-    const sourceText = getSourceText(getState(), sourceId).toJS();
+    let sourceText = getSourceText(getState(), sourceId);
+    if (sourceText) {
+      sourceText = sourceText.toJS();
+    }
 
-    if (sourceText.loading) {
+    if (sourceText && sourceText.loading) {
       return {};
     }
 
@@ -295,10 +295,6 @@ function loadSourceText(source: Source) {
           text: response.source,
           contentType: response.contentType || "text/javascript"
         };
-
-        if (isEnabled("functionSearch")) {
-          parse(sourceText);
-        }
 
         return sourceText;
         // Automatically pretty print if enabled and the test is

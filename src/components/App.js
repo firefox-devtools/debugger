@@ -9,8 +9,9 @@ const { getSources, getSelectedSource, getPaneCollapse } = require("../selectors
 const { KeyShortcuts } = require("devtools-sham-modules");
 const shortcuts = new KeyShortcuts({ window });
 
-const verticalLayoutBreakpoint = window.matchMedia("(min-width: 700px)");
+const verticalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
 
+require("./variables.css");
 require("./App.css");
 require("./shared/menu.css");
 require("./shared/SplitBox.css");
@@ -87,7 +88,7 @@ const App = React.createClass({
       { className: "debugger" },
       SplitBox({
         style: { width: "100vw" },
-        initialSize: "300px",
+        initialSize: "250px",
         minSize: 10,
         maxSize: "50%",
         splitterSize: 1,
@@ -123,7 +124,7 @@ const App = React.createClass({
         vert: horizontal,
         startPanel: SplitBox({
           style: { width: "100vw" },
-          initialSize: "150px",
+          initialSize: "250px",
           minSize: 10,
           maxSize: "40%",
           splitterSize: 1,

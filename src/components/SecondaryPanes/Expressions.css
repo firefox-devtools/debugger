@@ -39,6 +39,7 @@
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
   display: flex;
+  position: relative;
 }
 
 .expression-container > .tree {
@@ -51,20 +52,21 @@
 }
 
 :root.theme-dark .expression-container:hover {
-  background-color: var(--theme-search-overlays-semitransparent);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 .expression-container .close-btn {
-  display: none;
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  padding: 0 4px;
-  margin: 0;
+  position: absolute;
+  offset-inline-end: 6px;
+  top: 6px;
 }
 
-.expression-container:hover .close-btn {
-  display: flex;
+.expression-container .close {
+  display: none;
+}
+
+.expression-container:hover .close {
+  display: block;
 }
 
 .expression-input {
