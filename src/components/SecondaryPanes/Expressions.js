@@ -146,7 +146,8 @@ const Expressions = React.createClass({
         onDoubleClick: (item, options) => this.editExpression(
           expression, options
         ),
-        loadObjectProperties
+        loadObjectProperties,
+        getActors: () => {}
       }),
       CloseButton({ handleClick: e => this.deleteExpression(e, expression) }),
     );

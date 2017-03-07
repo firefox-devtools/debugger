@@ -24,6 +24,7 @@ class Popover extends Component {
     const left = targetLeft + targetWidth / 2 - width / 5;
     const top = targetBottom;
 
+    // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({ left, top });
   }
 

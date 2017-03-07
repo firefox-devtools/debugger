@@ -18,17 +18,7 @@ const {
 
 const { DOM: dom, PropTypes } = React;
 
-type ObjectInspectorItemContentsValue = {
-    actor: string,
-    class: string,
-    displayClass: string,
-    extensible: boolean,
-    frozen: boolean,
-    ownPropertyLength: number,
-    preview: Object,
-    sealed: boolean,
-    type: string
-};
+import type { ObjectInspectorItemContentsValue } from "../../types";
 
 type ObjectInspectorItemContents = {
     value: ObjectInspectorItemContentsValue
@@ -85,7 +75,7 @@ const ObjectInspector = React.createClass({
     onDoubleClick: PropTypes.func.isRequired,
     getExpanded: PropTypes.func,
     setExpanded: PropTypes.func,
-    getActors: PropTypes.func,
+    getActors: PropTypes.func.isRequired,
     setActors: PropTypes.func
   },
 

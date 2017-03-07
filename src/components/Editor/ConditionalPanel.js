@@ -8,7 +8,7 @@ const CloseButton = require("../shared/Button/Close");
 require("./ConditionalPanel.css");
 
 function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
-  { condition: boolean, closePanel: Function, setBreakpoint: Function }) {
+  { condition: ?string, closePanel: Function, setBreakpoint: Function }) {
   let panel = document.createElement("div");
   let input = null;
 

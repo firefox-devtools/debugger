@@ -171,7 +171,7 @@ function getBreakpoints(state: OuterState) {
   return state.breakpoints.breakpoints;
 }
 
-function getBreakpointsForSource(state: OuterState, sourceId: string) {
+function getBreakpointsForSource(state: OuterState, sourceId: ?string) {
   return state.breakpoints.breakpoints.filter(bp => {
     return bp.location.sourceId === sourceId;
   });
