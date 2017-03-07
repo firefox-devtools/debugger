@@ -1,3 +1,5 @@
+// @flow
+
 const { isFirefox } = require("devtools-config");
 
 function scrollList(resultList, index) {

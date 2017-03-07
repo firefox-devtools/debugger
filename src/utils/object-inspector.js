@@ -1,3 +1,5 @@
+// @flow
+
 const get = require("lodash/get");
 const { maybeEscapePropertyName } = require("devtools-reps");
 
