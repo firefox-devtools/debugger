@@ -196,6 +196,7 @@ const SearchBar = React.createClass({
 
     if (e) {
       e.preventDefault();
+      e.stopPropagation();
     }
 
     if (!sourceText) {
