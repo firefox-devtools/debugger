@@ -59,9 +59,7 @@ async function EditorMenu({
   const watchExpressionLabel = {
     accesskey: "E",
     label: L10N.getStr("expressions.placeholder"),
-    click: () => addExpression({
-      input: codeMirror.getSelection()
-    })
+    click: () => addExpression(codeMirror.getSelection())
   };
 
   const menuOptions = [];
