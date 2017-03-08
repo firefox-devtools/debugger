@@ -192,7 +192,7 @@ function getExpression(source: SourceText, token: string, location: Location) {
     }
 
     if (node.type === "ThisExpression") {
-      return ['this'].concat(expr);
+      return ["this"].concat(expr);
     }
     return [node.name].concat(expr);
   }
@@ -206,7 +206,7 @@ function getExpression(source: SourceText, token: string, location: Location) {
       const node = path.node;
       if (node.type === "MemberExpression" && node.property.name === token
         && nodeContainsLocation({ node, location })) {
-        const expr = getMemberExpression(node)
+        const expr = getMemberExpression(node);
         expression = {
           value: expr.join("."),
           location: node.loc
