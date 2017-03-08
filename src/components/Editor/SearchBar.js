@@ -498,7 +498,7 @@ const SearchBar = React.createClass({
           }
           toggleSymbolSearch(e, { toggle: false, searchType });
         }
-      }, L10N.getStr(`symbolSearch.search.${searchType}Placeholder`));
+      }, searchType);
     }
 
     let classSearchBtn;
