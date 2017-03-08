@@ -123,9 +123,10 @@ const SearchBar = React.createClass({
 
   componentDidUpdate(prevProps: any) {
     const { sourceText, selectedSource, query, modifiers } = this.props;
+    const searchInput = this.searchInput();
 
-    if (this.searchInput()) {
-      this.searchInput().focus();
+    if (searchInput) {
+      searchInput.focus();
     }
 
     if (this.refs.resultList && this.refs.resultList.refs) {
@@ -237,18 +238,29 @@ const SearchBar = React.createClass({
       return;
     }
 
-    this.searchInput().value = value;
-  },
+    const searchInput = this.searchInput();
 
-  selectSearchInput() {
-    const node = this.searchInput();
-    if (node) {
-      node.setSelectionRange(0, node.value.length);
+    if (searchInput) {
+      searchInput.value = value;
     }
   },
 
-  searchInput() {
-    return findDOMNode(this).querySelector("input");
+  selectSearchInput() {
+    const searchInput = this.searchInput();
+    if (searchInput) {
+      searchInput.setSelectionRange(0, searchInput.value.length);
+    }
+  },
+
+  searchInput(): ?HTMLInputElement {
+    const node = findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      const input = node.querySelector("input");
+      if (input instanceof HTMLInputElement) {
+        return input;
+      }
+    }
+    return null;
   },
 
   updateSymbolSearchResults(query: string) {

@@ -76,8 +76,10 @@ function handlePressAnimation(button) {
   button.style.opacity = "0";
   button.style.transform = "scale(1.3)";
   setTimeout(() => {
-    button.style.opacity = "1";
-    button.style.transform = "none";
+    if (button) {
+      button.style.opacity = "1";
+      button.style.transform = "none";
+    }
   }, 200);
 }
 
@@ -100,13 +102,13 @@ const CommandBar = createClass({
   propTypes: {
     sources: PropTypes.object,
     selectedSource: PropTypes.object,
-    resume: PropTypes.func,
-    stepIn: PropTypes.func,
-    stepOut: PropTypes.func,
-    stepOver: PropTypes.func,
-    breakOnNext: PropTypes.func,
+    resume: PropTypes.func.isRequired,
+    stepIn: PropTypes.func.isRequired,
+    stepOut: PropTypes.func.isRequired,
+    stepOver: PropTypes.func.isRequired,
+    breakOnNext: PropTypes.func.isRequired,
     pause: ImPropTypes.map,
-    pauseOnExceptions: PropTypes.func,
+    pauseOnExceptions: PropTypes.func.isRequired,
     shouldPauseOnExceptions: PropTypes.bool,
     shouldIgnoreCaughtExceptions: PropTypes.bool,
     isWaitingOnBreak: PropTypes.bool,
@@ -149,8 +151,10 @@ const CommandBar = createClass({
     e.stopPropagation();
 
     this.props[action]();
-    const button = findDOMNode(this).querySelector(`.${action}`);
-    handlePressAnimation(button);
+    const node = findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      handlePressAnimation(node.querySelector(`.${action}`));
+    }
   },
 
   renderStepButtons() {

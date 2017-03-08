@@ -60,7 +60,8 @@ const Scopes = createClass({
     if (scopes) {
       scopeInspector = ObjectInspector({
         roots: scopes,
-        getObjectProperties: id => loadedObjects.get(id),
+        getObjectProperties:
+          !loadedObjects ? undefined : id => loadedObjects.get(id),
         loadObjectProperties: loadObjectProperties,
         setExpanded: expanded => {
           expandedCache = expanded;

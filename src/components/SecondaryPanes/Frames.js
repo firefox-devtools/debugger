@@ -93,6 +93,10 @@ const Frames = createClass({
   renderFrame(frame: Frame) {
     const { selectedFrame } = this.props;
 
+    if (!selectedFrame) {
+      return;
+    }
+
     return dom.li(
       { key: frame.id,
         className: classNames("frame", {

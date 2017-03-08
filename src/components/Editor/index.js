@@ -124,9 +124,10 @@ const Editor = React.createClass({
     // disables the default search shortcuts
     this.editor._initShortcuts = () => {};
 
-    this.editor.appendToLocalElement(
-      ReactDOM.findDOMNode(this).querySelector(".editor-mount")
-    );
+    const node = ReactDOM.findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      this.editor.appendToLocalElement(node.querySelector(".editor-mount"));
+    }
 
     const codeMirror = this.editor.codeMirror;
     const codeMirrorWrapper = codeMirror.getWrapperElement();
@@ -515,6 +516,10 @@ const Editor = React.createClass({
     const isLoading = sourceText && sourceText.get("loading");
 
     if (isLoading) {
+      return;
+    }
+
+    if (!breakpoints) {
       return;
     }
 

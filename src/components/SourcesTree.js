@@ -84,13 +84,15 @@ let SourcesTree = React.createClass({
       return;
     }
 
-    if (nextProps.sources.size === 0) {
+    if (nextProps.sources && nextProps.sources.size === 0) {
       this.setState(createTree(nextProps.sources));
       return;
     }
 
-    const next = Set(nextProps.sources.valueSeq());
-    const prev = Set(this.props.sources.valueSeq());
+    const next = !nextProps.sources ?
+      Set() : Set(nextProps.sources.valueSeq());
+    const prev = !this.props.sources ?
+      Set() : Set(this.props.sources.valueSeq());
     const newSet = next.subtract(prev);
 
     const uncollapsedTree = this.state.uncollapsedTree;

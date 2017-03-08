@@ -29,6 +29,11 @@ function nodeHasChildren(item) {
   return Array.isArray(item.contents);
 }
 
+// Cache of dynamically built nodes. We shouldn't need to clear
+// this out ever, since we don't ever "switch out" the object
+// being inspected.
+let objectCache = new Map();
+
 function createNode(name, path, contents) {
   // The path is important to uniquely identify the item in the entire
   // tree. This helps debugging & optimizes React's rendering of large
@@ -40,19 +45,15 @@ function createNode(name, path, contents) {
 
 const Scopes = createClass({
   propTypes: {
-    scopes: PropTypes.array,
+    scopes: PropTypes.array.isRequired,
     loadedObjects: ImPropTypes.map,
-    loadObjectProperties: PropTypes.func,
+    loadObjectProperties: PropTypes.func.isRequired,
     pauseInfo: PropTypes.object
   },
 
   displayName: "Scopes",
 
   getInitialState() {
-    // Cache of dynamically built nodes. We shouldn't need to clear
-    // this out ever, since we don't ever "switch out" the object
-    // being inspected.
-    this.objectCache = {};
     return {};
   },
 
@@ -111,7 +112,11 @@ const Scopes = createClass({
   },
 
   getObjectProperties(item) {
-    this.props.loadedObjects.get(item.contents.value.objectId);
+    const { loadedObjects } = this.props;
+    if (loadedObjects) {
+      return loadedObjects.get(item.contents.value.objectId);
+    }
+    return null;
   },
 
   getChildren(item) {
@@ -131,14 +136,14 @@ const Scopes = createClass({
       // being the same across renders. If we didn't do this, each
       // node would be a new instance every render.
       const key = item.path;
-      if (this.objectCache[key]) {
-        return this.objectCache[key];
+      if (objectCache.has(key)) {
+        return objectCache.get(key);
       }
 
       const loadedProps = this.getObjectProperties(item);
       if (loadedProps) {
         const children = this.makeNodesForProperties(loadedProps, item.path);
-        this.objectCache[objectId] = children;
+        objectCache.set(objectId, children);
         return children;
       }
       return [];

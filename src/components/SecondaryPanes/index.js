@@ -69,10 +69,10 @@ const SecondaryPanes = React.createClass({
     const { toggleAllBreakpoints, breakpoints,
             breakpointsDisabled, breakpointsLoading } = this.props;
     const boxClassName = "breakpoints-toggle";
-    const isIndeterminate = !breakpointsDisabled &&
+    const isIndeterminate = !breakpointsDisabled && breakpoints &&
       breakpoints.some(x => x.disabled);
 
-    if (breakpoints.size == 0) {
+    if (breakpoints && breakpoints.size == 0) {
       return null;
     }
 

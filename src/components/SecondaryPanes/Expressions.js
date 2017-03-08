@@ -141,7 +141,8 @@ const Expressions = React.createClass({
       },
       ObjectInspector({
         roots: [root],
-        getObjectProperties: id => loadedObjects.get(id),
+        getObjectProperties:
+          !loadedObjects ? undefined : id => loadedObjects.get(id),
         autoExpandDepth: 0,
         onDoubleClick: (item, options) => this.editExpression(
           expression, options
@@ -188,6 +189,11 @@ const Expressions = React.createClass({
 
   render() {
     const { expressions } = this.props;
+
+    if (!expressions) {
+      return;
+    }
+
     return dom.span(
       { className: "pane expressions-list" },
       expressions.map(this.renderExpression),
