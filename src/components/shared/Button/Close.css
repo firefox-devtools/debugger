@@ -1,5 +1,5 @@
 .close-btn path {
-  fill: var(--theme-body-color);
+  fill: var(--theme-comment-alt);
 }
 
 .close-btn .close {
@@ -31,8 +31,8 @@
 }
 
 .close-btn-big {
-  padding: 13px;
-  width: 40px;
+  padding: 11px;
+  width: 27px;
   height: 40px;
 }
 
@@ -53,10 +53,5 @@
 }
 
 .close-btn-big .close:hover {
-  background: var(--theme-selection-background);
   border-radius: 2px;
-}
-
-.close-btn-big .close:hover path {
-  fill: white;
 }

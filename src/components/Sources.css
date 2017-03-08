@@ -50,3 +50,7 @@
 .theme-dark .sources-list .tree .node:not(.focused) svg {
   fill: var(--theme-comment);
 }
+
+.theme-dark .source-list .tree .node.focused {
+  background-color: var(--theme-tab-toolbar-background);
+}

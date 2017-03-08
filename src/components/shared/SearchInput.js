@@ -18,9 +18,16 @@ const SearchInput = React.createClass({
     onKeyDown: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
+    size: PropTypes.string
   },
 
   displayName: "SearchInput",
+
+  getDefaultProps() {
+    return {
+      size: ""
+    };
+  },
 
   renderSvg() {
     const { count, query } = this.props;
@@ -44,12 +51,18 @@ const SearchInput = React.createClass({
       onFocus,
       onBlur,
       handleClose,
+      size
     } = this.props;
 
-    return dom.div({ className: "search-field" },
+    return dom.div(
+      {
+        className: `search-field ${size}`
+      },
       this.renderSvg(),
       dom.input({
-        className: classnames({ empty: count == 0 && query.trim() != "" }),
+        className: classnames({
+          empty: count == 0 && query.trim() != ""
+        }),
         onChange,
         onKeyDown,
         onKeyUp,
@@ -62,7 +75,7 @@ const SearchInput = React.createClass({
       dom.div({ className: "summary" }, query != "" ? summaryMsg : ""),
       CloseButton({
         handleClick: handleClose,
-        buttonClass: "big"
+        buttonClass: size
       })
     );
   }
