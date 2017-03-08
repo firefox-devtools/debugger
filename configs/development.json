@@ -31,8 +31,8 @@
       "label": "Search Modifiers",
       "enabled": false
     },
-    "functionSearch": {
-      "label": "function Search",
+    "symbolSearch": {
+      "label": "Symbol Search",
       "enabled": false
     },
     "editorPreview": {
