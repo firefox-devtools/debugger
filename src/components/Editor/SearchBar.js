@@ -24,6 +24,18 @@ const ImPropTypes = require("react-immutable-proptypes");
 
 import type { FormattedSymbolDeclaration } from "../../utils/parser";
 
+function getShortcuts() {
+  const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+  const fnSearchKey = L10N.getStr("functionSearch.search.key");
+
+  return {
+    shiftSearchAgainShortcut: `CmdOrCtrl+Shift+${searchAgainKey}`,
+    searchAgainShortcut: `CmdOrCtrl+${searchAgainKey}`,
+    functionSearchShortcut: `CmdOrCtrl+Shift+${fnSearchKey}`,
+    searchShortcut: `CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`
+  };
+}
+
 type ToggleFunctionSearchOpts = {
   toggle: boolean
 }
@@ -65,29 +77,43 @@ const SearchBar = React.createClass({
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-    const fnSearchKey = L10N.getStr("functionSearch.search.key");
-    shortcuts.off(`CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`);
+    const {
+      searchShortcut, searchAgainShortcut,
+      shiftSearchAgainShortcut, functionSearchShortcut
+    } = getShortcuts();
+
+    shortcuts.off(searchShortcut);
     shortcuts.off("Escape");
-    shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
-    shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
-    shortcuts.off(`CmdOrCtrl+Shift+${fnSearchKey}`);
+    shortcuts.off(searchAgainShortcut);
+    shortcuts.off(shiftSearchAgainShortcut);
+    shortcuts.off(functionSearchShortcut);
   },
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
-    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-    const fnSearchKey = L10N.getStr("functionSearch.search.key");
-    shortcuts.on(`CmdOrCtrl+${L10N.getStr("sourceSearch.search.key")}`,
-      (_, e) => this.toggleSearch(e));
+    const {
+      searchShortcut, searchAgainShortcut,
+      shiftSearchAgainShortcut, functionSearchShortcut
+    } = getShortcuts();
+
+    shortcuts.on(searchShortcut, (_, e) => this.toggleSearch(e));
     shortcuts.on("Escape", (_, e) => this.onEscape(e));
-    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
-      (_, e) => this.traverseResults(e, true));
-    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
-      (_, e) => this.traverseResults(e, false));
+
+    shortcuts.on(
+      shiftSearchAgainShortcut,
+      (_, e) => this.traverseResults(e, true)
+    );
+
+    shortcuts.on(
+      searchAgainShortcut,
+      (_, e) => this.traverseResults(e, false)
+    );
+
     if (isEnabled("functionSearch")) {
-      shortcuts.on(`CmdOrCtrl+Shift+${fnSearchKey}`,
-        (_, e) => this.toggleFunctionSearch(e, { toggle: false }));
+      shortcuts.on(
+        functionSearchShortcut,
+        (_, e) => this.toggleFunctionSearch(e, { toggle: false })
+      );
     }
   },
 
@@ -170,6 +196,7 @@ const SearchBar = React.createClass({
 
     if (e) {
       e.preventDefault();
+      e.stopPropagation();
     }
 
     if (!sourceText) {
