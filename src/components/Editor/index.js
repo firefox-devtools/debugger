@@ -51,13 +51,19 @@ const { isFirefox } = require("devtools-config");
 
 require("./Editor.css");
 
+function getExpresionFromToken(
+  cm: any, sourceText, token: HTMLElement) {
+  const loc = getTokenLocation(token, cm);
+  return getExpression(sourceText.toJS(), token.innerText || "", loc);
+}
+
 const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
     hitCount: PropTypes.object,
     selectedLocation: PropTypes.object.isRequired,
     selectedSource: ImPropTypes.map,
-    sourceText: PropTypes.object,
+    sourceText: ImPropTypes.map,
     addBreakpoint: PropTypes.func.isRequired,
     disableBreakpoint: PropTypes.func.isRequired,
     enableBreakpoint: PropTypes.func.isRequired,
@@ -87,7 +93,6 @@ const Editor = React.createClass({
         count: 0
       },
       selectedToken: null,
-      previewExpression: null,
       searchModifiers: {
         caseSensitive: true,
         wholeWord: false,
@@ -151,7 +156,7 @@ const Editor = React.createClass({
 
     codeMirrorWrapper
       .addEventListener("mouseover", e => this.onMouseOver(
-        e, ctx, searchModifiers
+        e, searchModifiers
       ));
 
     if (!isFirefox()) {
@@ -266,40 +271,29 @@ const Editor = React.createClass({
     }
   },
 
-  onMouseOver(e, ctx, modifiers) {
-    this.previewSelectedToken(e, ctx, modifiers);
+  onMouseOver(e, modifiers) {
+    this.previewSelectedToken(e, modifiers);
   },
 
-  previewSelectedToken(e, ctx, modifiers) {
+  previewSelectedToken(e, modifiers) {
     const { selectedFrame, sourceText } = this.props;
     const { selectedToken } = this.state;
+    const cm = this.editor.codeMirror;
     const token = e.target;
 
-    if (!selectedFrame || !isEnabled("editorPreview")) {
+    if (!selectedFrame || !selectedToken ||
+        !sourceText || !isEnabled("editorPreview")) {
       return;
     }
 
-    if (selectedToken) {
-      selectedToken.classList.remove("selected-token");
-    }
-
-    const loc = getTokenLocation(token, ctx.cm);
-
+    selectedToken.classList.remove("selected-token");
     const variables = selectedFrame.scope.bindings.variables;
-    const expression = getExpression(sourceText.toJS(), token.innerText, loc);
-
+    const expression = getExpresionFromToken(cm, sourceText, token);
     if (!variables.hasOwnProperty(token.innerText) && !expression) {
-      this.setState({
-        selectedToken: null,
-        previewExpression: null
-      });
-      return;
+      return this.setState({ selectedToken: null });
     }
 
-    this.setState({
-      selectedToken: token,
-      previewExpression: expression
-    });
+    this.setState({ selectedToken: token });
   },
 
   openMenu(event, codeMirror) {
@@ -566,8 +560,14 @@ const Editor = React.createClass({
   },
 
   renderPreview() {
-    const { selectedToken, previewExpression } = this.state;
-    const { selectedFrame } = this.props;
+    const { selectedToken } = this.state;
+    const { selectedFrame, sourceText } = this.props;
+
+    if (!this.editor || !sourceText) {
+      return null;
+    }
+
+    const cm = this.editor.codeMirror;
 
     if (!selectedToken || !selectedFrame || !isEnabled("editorPreview")) {
       return;
@@ -575,7 +575,11 @@ const Editor = React.createClass({
 
     const token = selectedToken.innerText;
     const variables = selectedFrame.scope.bindings.variables;
-
+    const previewExpression = getExpresionFromToken(
+      cm,
+      sourceText,
+      selectedToken
+    );
     if (!variables.hasOwnProperty(token) && !previewExpression) {
       return;
     }
@@ -587,7 +591,7 @@ const Editor = React.createClass({
       value = variables[token].value;
     }
 
-    if (previewExpression) {
+    if (previewExpression && isEnabled("previewMemberExpressions")) {
       value = previewExpression.value;
     }
 
@@ -598,8 +602,7 @@ const Editor = React.createClass({
       onClose: () => {
         selectedToken.classList.remove("selected-token");
         this.setState({
-          selectedToken: null,
-          selectedTokenLocation: null
+          selectedToken: null
         });
       }
     });

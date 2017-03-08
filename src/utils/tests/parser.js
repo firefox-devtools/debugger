@@ -1,6 +1,5 @@
 const expect = require("expect.js");
 const {
-  parse,
   getSymbols,
   getVariablesInScope,
   getExpression,
@@ -279,7 +278,6 @@ describe("parser", () => {
     });
 
     it("finds scope binding variables", () => {
-      parse({ text: SOURCES.math, id: "math" });
       var vars = getVariablesInScope(
         getSourceText("math"),
         {
