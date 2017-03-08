@@ -438,10 +438,8 @@ const SearchBar = React.createClass({
   buildPlaceHolder() {
     const { symbolSearchEnabled, selectedSymbolType } = this.state;
     if (symbolSearchEnabled) {
-      return L10N.getFormatStr(
-        "symbolSearch.search.placeholder",
-        L10N.getStr(`symbolSearch.search.${selectedSymbolType}Placeholder`)
-      );
+      return L10N
+        .getFormatStr(`symbolSearch.search.${selectedSymbolType}Placeholder`);
     }
 
     return L10N.getStr("sourceSearch.search.placeholder");
