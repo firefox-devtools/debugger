@@ -3,6 +3,7 @@ const {
   parse,
   getSymbols,
   getVariablesInScope,
+  getExpression,
   getPathClosestToLocation
 } = require("../parser");
 
@@ -61,6 +62,27 @@ const SOURCES = {
     let bar = 2;
     const baz = 3;
     const a = 4, b = 5;
+  `),
+  expressionTest: formatCode(`
+    function expr() {
+      const obj = { a: { b: 2 }};
+      const obj2 = { c: { b: 3 }};
+      const foo = obj2.c.b;
+      return obj.a.b;
+    }
+  `),
+  thisExpressionTest: formatCode(`
+    class Test {
+      constructor() {
+        this.foo = {
+          a: "foobar"
+        }
+      }
+
+      bar() {
+        console.log(this.foo.a);
+      }
+    };
   `),
   allSymbols: formatCode(`
     const TIME = 60;
@@ -181,6 +203,44 @@ describe("parser", () => {
         "person"
       ]);
       expect(allSymbols.classes.map(c => c.value)).to.eql(["Ultra"]);
+    });
+  });
+
+  describe("getExpression", () => {
+    it("should get the expression for the token at location", () => {
+      const expression = getExpression(
+        getSourceText("expressionTest"), "b", { line: 6, column: 14 });
+
+      expect(expression.value).to.be("obj.a.b");
+      expect(expression.location.start).to.eql({
+        line: 6,
+        column: 9
+      });
+    });
+
+    it("should not find any expression", () => {
+      const expression = getExpression(
+        getSourceText("expressionTest"), "d", { line: 6, column: 14 });
+
+      expect(expression).to.be(null);
+    });
+
+    it("should not find the expression at a wrong location", () => {
+      const expression = getExpression(
+        getSourceText("expressionTest"), "b", { line: 6, column: 0 });
+
+      expect(expression).to.be(null);
+    });
+
+    it("should get the expression with 'this'", () => {
+      const expression = getExpression(
+        getSourceText("thisExpressionTest"), "a", { line: 10, column: 25 });
+
+      expect(expression.value).to.be("this.foo.a");
+      expect(expression.location.start).to.eql({
+        line: 10,
+        column: 16
+      });
     });
   });
 
