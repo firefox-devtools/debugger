@@ -39,6 +39,7 @@ module.exports = {
   getShouldIgnoreCaughtExceptions: pause.getShouldIgnoreCaughtExceptions,
   getFrames: pause.getFrames,
   getSelectedFrame: pause.getSelectedFrame,
+  getDebuggeeUrl: pause.getDebuggeeUrl,
 
   getHitCountForSource: coverage.getHitCountForSource,
   getCoverageEnabled: coverage.getCoverageEnabled,
