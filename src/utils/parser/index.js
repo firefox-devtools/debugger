@@ -1,31 +1,7 @@
 // @flow
 
-const { workerTask } = require("../utils");
+const { workerTask } = require("../worker");
 const { getValue } = require("devtools-config");
-const {
-  getSymbols: getSymbolsUtil,
-  getVariablesInScope: getVariablesInScopeUtil
-} = require("./parser-utils");
-
-const publicInterface = {
-  getSymbolsUtil,
-  getVariablesInScopeUtil
-};
-
-import type { Message } from "../../types";
-
-self.onmessage = function(msg: Message) {
-  const { id, method, args } = msg.data;
-  const response = publicInterface[method].apply(null, args);
-
-  if (response instanceof Promise) {
-    response
-      .then(val => self.postMessage({ id, response: val }))
-      .catch(error => self.postMessage({ id, error }));
-  } else {
-    self.postMessage({ id, response });
-  }
-};
 
 let worker;
 
@@ -46,8 +22,8 @@ function destroyWorker() {
   }
 }
 
-const getSymbols = workerTask(worker, "getSymbolsUtil");
-const getVariablesInScope = workerTask(worker, "getVariablesInScopeUtil");
+const getSymbols = workerTask(worker, "getSymbols");
+const getVariablesInScope = workerTask(worker, "getVariablesInScope");
 
 module.exports = {
   getSymbols,
