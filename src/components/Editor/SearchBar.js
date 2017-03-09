@@ -14,7 +14,7 @@ const {
   countMatches,
   clearIndex
 } = require("../../utils/editor");
-const { getSymbols } = require("../../utils/parser");
+const { getSymbols } = require("../../utils/parser/parser-utils");
 const { scrollList } = require("../../utils/result-list");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
@@ -22,7 +22,9 @@ const SearchInput = createFactory(require("../shared/SearchInput"));
 const ResultList = createFactory(require("../shared/ResultList"));
 const ImPropTypes = require("react-immutable-proptypes");
 
-import type { FormattedSymbolDeclaration } from "../../utils/parser";
+import type {
+  FormattedSymbolDeclaration
+} from "../../utils/parser/parser-utils";
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
