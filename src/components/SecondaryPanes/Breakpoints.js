@@ -111,6 +111,9 @@ class Breakpoints extends Component {
 
   render() {
     const { breakpoints } = this.props;
+    if (!breakpoints) {
+      return;
+    }
     return dom.div(
       { className: "pane breakpoints-list" },
       breakpoints.size === 0
