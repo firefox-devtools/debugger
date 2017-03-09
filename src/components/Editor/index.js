@@ -9,6 +9,7 @@ const { connect } = require("react-redux");
 const classnames = require("classnames");
 
 const { getMode } = require("../../utils/source");
+const { getExpression } = require("../../utils/parser");
 
 const Footer = createFactory(require("./Footer"));
 const SearchBar = createFactory(require("./SearchBar"));
@@ -42,6 +43,7 @@ const {
   breakpointAtLine,
   getTextForLine,
   getCursorLine,
+  getTokenLocation,
   resizeBreakpointGutter,
   traverseResults
 } = require("../../utils/editor");
@@ -49,13 +51,19 @@ const { isFirefox } = require("devtools-config");
 
 require("./Editor.css");
 
+function getExpresionFromToken(
+  cm: any, sourceText, token: HTMLElement) {
+  const loc = getTokenLocation(token, cm);
+  return getExpression(sourceText.toJS(), token.innerText || "", loc);
+}
+
 const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
     hitCount: PropTypes.object,
     selectedLocation: PropTypes.object.isRequired,
     selectedSource: ImPropTypes.map,
-    sourceText: PropTypes.object,
+    sourceText: ImPropTypes.map,
     addBreakpoint: PropTypes.func.isRequired,
     disableBreakpoint: PropTypes.func.isRequired,
     enableBreakpoint: PropTypes.func.isRequired,
@@ -148,7 +156,7 @@ const Editor = React.createClass({
 
     codeMirrorWrapper
       .addEventListener("mouseover", e => this.onMouseOver(
-        e, ctx, searchModifiers
+        e, searchModifiers
       ));
 
     if (!isFirefox()) {
@@ -263,33 +271,29 @@ const Editor = React.createClass({
     }
   },
 
-  onMouseOver(e, ctx, modifiers) {
-    this.previewSelectedToken(e, ctx, modifiers);
+  onMouseOver(e, modifiers) {
+    this.previewSelectedToken(e, modifiers);
   },
 
-  previewSelectedToken(e, ctx, modifiers) {
-    const { selectedFrame } = this.props;
+  previewSelectedToken(e, modifiers) {
+    const { selectedFrame, sourceText } = this.props;
     const { selectedToken } = this.state;
+    const cm = this.editor.codeMirror;
     const token = e.target;
 
-    if (!selectedFrame || !isEnabled("editorPreview")) {
+    if (!selectedFrame || !selectedToken ||
+        !sourceText || !isEnabled("editorPreview")) {
       return;
     }
 
-    if (selectedToken) {
-      selectedToken.classList.remove("selected-token");
-    }
-
+    selectedToken.classList.remove("selected-token");
     const variables = selectedFrame.scope.bindings.variables;
-
-    if (!variables.hasOwnProperty(token.innerText)) {
-      this.setState({ selectedToken: null });
-      return;
+    const expression = getExpresionFromToken(cm, sourceText, token);
+    if (!variables.hasOwnProperty(token.innerText) && !expression) {
+      return this.setState({ selectedToken: null });
     }
 
-    this.setState({
-      selectedToken: token
-    });
+    this.setState({ selectedToken: token });
   },
 
   openMenu(event, codeMirror) {
@@ -557,7 +561,13 @@ const Editor = React.createClass({
 
   renderPreview() {
     const { selectedToken } = this.state;
-    const { selectedFrame } = this.props;
+    const { selectedFrame, sourceText } = this.props;
+
+    if (!this.editor || !sourceText) {
+      return null;
+    }
+
+    const cm = this.editor.codeMirror;
 
     if (!selectedToken || !selectedFrame || !isEnabled("editorPreview")) {
       return;
@@ -565,14 +575,25 @@ const Editor = React.createClass({
 
     const token = selectedToken.innerText;
     const variables = selectedFrame.scope.bindings.variables;
-
-    if (!variables.hasOwnProperty(token)) {
+    const previewExpression = getExpresionFromToken(
+      cm,
+      sourceText,
+      selectedToken
+    );
+    if (!variables.hasOwnProperty(token) && !previewExpression) {
       return;
     }
 
     selectedToken.classList.add("selected-token");
+    let value = "";
 
-    const value = variables[token].value;
+    if (variables.hasOwnProperty(token)) {
+      value = variables[token].value;
+    }
+
+    if (previewExpression && isEnabled("previewMemberExpressions")) {
+      value = previewExpression.value;
+    }
 
     return Preview({
       value,
