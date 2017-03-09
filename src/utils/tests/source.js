@@ -69,5 +69,21 @@ describe("sources", () => {
       };
       expect(getMode(sourceText).base.typescript).to.be(true);
     });
+
+    it("clojure", () => {
+      const sourceText = {
+        contentType: "text/x-clojure",
+        text: ""
+      };
+      expect(getMode(sourceText)).to.be("clojure");
+    });
+
+    it("coffeescript", () => {
+      const sourceText = {
+        contentType: "text/coffeescript",
+        text: ""
+      };
+      expect(getMode(sourceText)).to.be("coffeescript");
+    });
   });
 });
