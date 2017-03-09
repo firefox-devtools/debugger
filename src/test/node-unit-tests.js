@@ -2,6 +2,7 @@ require("amd-loader");
 require("babel-register");
 const mock = require("mock-require");
 
+
 const glob = require("glob").sync;
 const path = require("path");
 const Mocha = require("mocha");
