@@ -1,9 +1,9 @@
 function localStorage() {
-  var storage = {};
+  let storage = {};
 
   return {
     setItem: function(key, value) {
-      storage[key] = value || '';
+      storage[key] = value || "";
     },
     getItem: function(key) {
       return storage[key] || null;
@@ -15,7 +15,7 @@ function localStorage() {
       return Object.keys(storage).length;
     },
     key: function(i) {
-      var keys = Object.keys(storage);
+      let keys = Object.keys(storage);
       return keys[i] || null;
     }
   };
