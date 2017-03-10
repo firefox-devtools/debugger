@@ -41,7 +41,7 @@ We currently don't have anything awesome as a demo. If you come up with somethin
 
 ### Pausing FTW :red_circle:
 
-When the debugger pauses, the fun begins. Here's a [gif](http://g.recordit.co/qutDioRQvy.gif) of what the debugger does normally when it pauses. You're mission if you choose to accept it, is to make it do something truly weird.
+When the debugger pauses, the fun begins. Here's a [gif](http://g.recordit.co/qutDioRQvy.gif) of what the debugger does normally when it pauses. Your mission if you choose to accept it, is to make it do something truly weird.
 
 Here's a patch to get you started where we check in the Editor to see if we're paused in a re-render.
 
