@@ -3718,6 +3718,12 @@ jest-jasmine2@^19.0.2:
     jest-message-util "^19.0.0"
     jest-snapshot "^19.0.2"
 
+jest-junit-reporter@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/jest-junit-reporter/-/jest-junit-reporter-1.0.1.tgz#e29e7a0ebc3033fe62aeacea02b71fe8d88871bb"
+  dependencies:
+    xml "^1.0.1"
+
 jest-matcher-utils@^19.0.0:
   version "19.0.0"
   resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-19.0.0.tgz#5ecd9b63565d2b001f61fbf7ec4c7f537964564d"
@@ -7251,7 +7257,7 @@ xml2js@^0.4.17, xml2js@~0.4.4:
     sax ">=0.6.0"
     xmlbuilder "^4.1.0"
 
-xml@^1.0.0:
+xml@^1.0.0, xml@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/xml/-/xml-1.0.1.tgz#78ba72020029c5bc87b8a81a3cfcd74b4a2fc1e5"
 

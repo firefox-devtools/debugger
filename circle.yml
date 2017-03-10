@@ -19,16 +19,14 @@ test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
-    - node src/test/node-unit-tests.js --ci:
-        environment:
-          MOCHA_FILE: $CIRCLE_TEST_REPORTS/mocha/test-results.xml
+    - node ./node_modules/.bin/jest --forceExit --testResultsProcessor jest-junit-reporter
+    - yarn lint-css
+    - yarn lint-js
+    - yarn lint-md
+    - yarn flow
     - ./bin/run-mochitests-docker
   post:
-    - yarn run lint-css
-    - yarn run lint-js
-    - yarn run lint-md
-    - yarn run flow
-    - yarn run flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
+    - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
     - yarn check
     - bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/flow-coverage/flow-coverage.json
 
