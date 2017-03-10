@@ -93,6 +93,10 @@ const SearchBar = React.createClass({
   },
 
   componentDidMount() {
+    // overwrite searchContents with a debounced version to reduce the
+    // frequency of queries which improves perf on large files
+    this.searchContents = debounce(this.searchContents, 100);
+
     const shortcuts = this.context.shortcuts;
     const {
       searchShortcut, searchAgainShortcut,
@@ -283,10 +287,8 @@ const SearchBar = React.createClass({
   async doSearch(query: string) {
     const {
       sourceText,
-      modifiers,
       updateQuery,
       editor: ed,
-      searchResults: { index }
     } = this.props;
     if (!sourceText || !sourceText.get("text")) {
       return;
@@ -296,9 +298,20 @@ const SearchBar = React.createClass({
 
     if (this.state.symbolSearchEnabled) {
       return await this.updateSymbolSearchResults(query);
+    } else if (ed) {
+      this.searchContents(query);
     }
+  },
 
-    if (!ed) {
+  searchContents(query: string) {
+    const {
+      sourceText,
+      modifiers,
+      editor: ed,
+      searchResults: { index }
+    } = this.props;
+
+    if (!ed || !sourceText || !sourceText.get("text")) {
       return;
     }
 
@@ -311,14 +324,10 @@ const SearchBar = React.createClass({
     }
 
     const newIndex = find(ctx, query, true, modifiers);
-
-    debounce(
-      () => this.props.updateSearchResults({
-        count: newCount,
-        index: newIndex
-      }),
-      100
-    )();
+    this.props.updateSearchResults({
+      count: newCount,
+      index: newIndex
+    });
   },
 
   traverseResults(e: SyntheticEvent, rev: boolean) {

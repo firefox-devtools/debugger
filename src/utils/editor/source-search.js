@@ -31,11 +31,15 @@ function SearchState() {
  */
 function getSearchState(cm: any, query, modifiers) {
   let state = cm.state.search || (cm.state.search = new SearchState());
-  let cursor = getSearchCursor(cm, query, null, modifiers);
 
-  state.results = [];
-  while (cursor.findNext()) {
-    state.results.push(cursor.pos);
+  // avoid generating a cursor and iterating over the results for an empty query
+  if (query) {
+    let cursor = getSearchCursor(cm, query, null, modifiers);
+
+    state.results = [];
+    while (cursor.findNext()) {
+      state.results.push(cursor.pos);
+    }
   }
 
   return state;
