@@ -255,10 +255,10 @@ yarn run test-all
 
 #### Unit Tests
 
-* `yarn test` - Run headless tests
-  * These are the basic unit tests which must always pass
-* [http://localhost:8000/mocha](http://localhost:8000/mocha) - Run tests in the browser when you have `yarn start` running [gif](http://g.recordit.co/Go1GOu1Pli.gif))
+`yarn test` - Run tests with [jest].
 
+* [matchers][jest-matchers]
+* [mock functions][jest-mock]
 
 #### Integration Tests
 
@@ -492,6 +492,10 @@ your questions on [slack][slack].
 [kill-strings]:https://github.com/devtools-html/devtools-core/issues/57
 [l10n]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/utils/L10N.js
 [rtl-screenshot]:https://cloud.githubusercontent.com/assets/394320/19226865/ef18b0d0-8eb9-11e6-82b4-8c4da702fe91.png
+
+[jest]: https://facebook.github.io/jest/
+[jest-matchers]: https://facebook.github.io/jest/docs/using-matchers.html#content
+[jest-mock]: https://facebook.github.io/jest/docs/mock-functions.html#content
 
 [strings-json]: ../src/strings.json
 [debugger-properties]: ../assets/panel/debugger.properties
