@@ -170,6 +170,7 @@ const ObjectInspector = React.createClass({
       dom.span(
         {
           className: "object-label",
+          dir: "ltr",
           onClick: event => {
             event.stopPropagation();
             this.props.onLabelClick(item, {
