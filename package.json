@@ -45,7 +45,7 @@
     "babel-types": "^6.22.0",
     "babylon": "^6.15.0",
     "codemirror": "^5.1.0",
-    "devtools-launchpad": "^0.0.53",
+    "devtools-launchpad": "^0.0.54",
     "devtools-reps": "^0.4.0",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.12.0",
