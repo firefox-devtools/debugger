@@ -83,23 +83,6 @@ function updateObj<T: Object>(obj: T, fields: $Shape<T>) : T {
   return Object.assign({}, obj, fields);
 }
 
-/**
- * @memberof utils/utils
- * @static
- */
-function throttle(func: any, ms: number) {
-  let timeout, _this;
-  return function(...args: any) {
-    _this = this;
-    if (!timeout) {
-      timeout = setTimeout(() => {
-        func.apply(_this, ...args);
-        timeout = null;
-      }, ms);
-    }
-  };
-}
-
 function waitForMs(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -110,6 +93,5 @@ module.exports = {
   endTruncateStr,
   workerTask,
   updateObj,
-  throttle,
   waitForMs
 };
