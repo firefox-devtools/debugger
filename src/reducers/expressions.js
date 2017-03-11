@@ -3,6 +3,7 @@
 const constants = require("../constants");
 const makeRecord = require("../utils/makeRecord");
 const I = require("immutable");
+const { prefs } = require("../utils/prefs");
 
 import type { Expression } from "../types";
 import type { Action } from "../actions/types";
@@ -27,11 +28,13 @@ function update(state = State(), action: Action): Record<ExpressionState> {
       });
     case constants.UPDATE_EXPRESSION:
       const key = action.expression.input;
-      return updateItemInList(state, ["expressions"], key, {
+      const newState = updateItemInList(state, ["expressions"], key, {
         input: action.input,
         value: null,
         updating: true
       });
+      persistExpressions(newState);
+      return newState;
     case constants.EVALUATE_EXPRESSION:
       if (action.status === "done") {
         return updateItemInList(state, ["expressions"], action.input, {
@@ -48,25 +51,42 @@ function update(state = State(), action: Action): Record<ExpressionState> {
   return state;
 }
 
+function restoreExpressions() {
+  const prefExpressions = prefs.expressions || [];
+  if (Object.keys(prefExpressions).length == 0) {
+    return;
+  }
+  return prefExpressions;
+}
+
+function persistExpressions(state: State) {
+  prefs.expressions = state.getIn(["expressions"]).toJS();
+}
+
 function appendToList(state: State, path: string[], value: any) {
-  return state.updateIn(path, () => {
+  const newState = state.updateIn(path, () => {
     return state.getIn(path).push(value);
   });
+  persistExpressions(newState);
+  return newState;
 }
 
 function updateItemInList(
   state: State, path: string[], key: string, value: any) {
-  return state.updateIn(path, () => {
+  const newState = state.updateIn(path, () => {
     const list = state.getIn(path);
     const index = list.findIndex(e => e.input == key);
     return list.update(index, () => value);
   });
+  return newState;
 }
 
 function deleteExpression(state: State, input: string) {
   const index = getExpressions({ expressions: state })
     .findKey(e => e.input == input);
-  return state.deleteIn(["expressions", index]);
+  const newState = state.deleteIn(["expressions", index]);
+  persistExpressions(newState);
+  return newState;
 }
 
 type OuterState = { expressions: Record<ExpressionState> };
