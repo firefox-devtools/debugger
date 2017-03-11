@@ -286,10 +286,9 @@ const Editor = React.createClass({
       return;
     }
 
-    this.setState({ selectedToken: null });
-
     if (selectedToken) {
       selectedToken.classList.remove("selected-token");
+      this.setState({ selectedToken: null });
     }
 
     const variables = selectedFrame.scope.bindings.variables;
