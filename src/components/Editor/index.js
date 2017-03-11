@@ -281,14 +281,17 @@ const Editor = React.createClass({
     const cm = this.editor.codeMirror;
     const token = e.target;
 
-    if (!selectedFrame || !selectedToken ||
-        !sourceText || !isEnabled("editorPreview")) {
+    if (!selectedFrame || !sourceText || !isEnabled("editorPreview")) {
       return;
     }
 
-    selectedToken.classList.remove("selected-token");
+    if (selectedToken) {
+      selectedToken.classList.remove("selected-token");
+    }
+
     const variables = selectedFrame.scope.bindings.variables;
     const expression = getExpresionFromToken(cm, sourceText, token);
+
     if (!variables.hasOwnProperty(token.innerText) && !expression) {
       return this.setState({ selectedToken: null });
     }
