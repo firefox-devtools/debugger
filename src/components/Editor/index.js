@@ -51,7 +51,7 @@ const { isFirefox } = require("devtools-config");
 
 require("./Editor.css");
 
-function getExpresionFromToken(
+function getExpressionFromToken(
   cm: any, sourceText, token: HTMLElement) {
   const loc = getTokenLocation(token, cm);
   return getExpression(sourceText.toJS(), token.innerText || "", loc);
@@ -280,20 +280,25 @@ const Editor = React.createClass({
     const { selectedToken } = this.state;
     const cm = this.editor.codeMirror;
     const token = e.target;
+    const tokenText = token.innerText;
 
-    if (!selectedFrame || !selectedToken ||
-        !sourceText || !isEnabled("editorPreview")) {
+    if (!selectedFrame || !sourceText || !isEnabled("editorPreview")) {
       return;
     }
 
-    selectedToken.classList.remove("selected-token");
-    const variables = selectedFrame.scope.bindings.variables;
-    const expression = getExpresionFromToken(cm, sourceText, token);
-    if (!variables.hasOwnProperty(token.innerText) && !expression) {
-      return this.setState({ selectedToken: null });
+    this.setState({ selectedToken: null });
+
+    if (selectedToken) {
+      selectedToken.classList.remove("selected-token");
     }
 
-    this.setState({ selectedToken: token });
+    const variables = selectedFrame.scope.bindings.variables;
+    const expression = getExpressionFromToken(cm, sourceText, token);
+
+    if (variables.hasOwnProperty(tokenText) || expression ||
+      tokenText == "this" && selectedFrame.this) {
+      this.setState({ selectedToken: token });
+    }
   },
 
   openMenu(event, codeMirror) {
@@ -574,12 +579,14 @@ const Editor = React.createClass({
 
     const token = selectedToken.innerText;
     const variables = selectedFrame.scope.bindings.variables;
-    const previewExpression = getExpresionFromToken(
+    const previewExpression = getExpressionFromToken(
       cm,
       sourceText,
       selectedToken
     );
-    if (!variables.hasOwnProperty(token) && !previewExpression) {
+
+    if (!variables.hasOwnProperty(token) && !previewExpression &&
+      token != "this") {
       return;
     }
 
@@ -588,6 +595,8 @@ const Editor = React.createClass({
 
     if (variables.hasOwnProperty(token)) {
       value = variables[token].value;
+    } else if (token == "this" && selectedFrame.this) {
+      value = selectedFrame.this;
     }
 
     if (previewExpression && isEnabled("previewMemberExpressions")) {

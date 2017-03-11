@@ -31,6 +31,7 @@ class Popover extends Component {
   render() {
     const { children, onMouseLeave } = this.props;
     const { top, left } = this.state;
+
     return dom.div(
       {
         className: "popover",
