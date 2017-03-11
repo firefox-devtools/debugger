@@ -30,11 +30,13 @@ function update(state = State(), action: Action): Record<ExpressionState> {
       });
     case constants.UPDATE_EXPRESSION:
       const key = action.expression.input;
-      return updateItemInList(state, ["expressions"], key, {
+      const newState = updateItemInList(state, ["expressions"], key, {
         input: action.input,
         value: null,
         updating: true,
       });
+      persistExpressions(newState);
+      return newState;
     case constants.EVALUATE_EXPRESSION:
       if (action.status === "done") {
         return updateItemInList(state, ["expressions"], action.input, {
