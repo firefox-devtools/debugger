@@ -147,7 +147,9 @@ const Expressions = React.createClass({
           expression, options
         ),
         loadObjectProperties,
-        getActors: () => { return {}; }
+        getActors: () => {
+          return {};
+        }
       }),
       CloseButton({ handleClick: e => this.deleteExpression(e, expression) }),
     );
