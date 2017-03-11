@@ -13,7 +13,7 @@
   "features": {
     "watchExpressions": {
       "label": "Watch Expressions",
-      "enabled": false
+      "enabled": true
     },
     "chromeScopes": {
       "label": "Chrome Scopes",
@@ -29,15 +29,23 @@
     },
     "searchModifiers": {
       "label": "Search Modifiers",
+      "enabled": true
+    },
+    "symbolSearch": {
+      "label": "Symbol Search",
       "enabled": false
     },
     "functionSearch": {
       "label": "function Search",
-      "enabled": false
+      "enabled": true
     },
     "editorPreview": {
       "label": "Editor Preview",
-      "enabled": false
+      "enabled": true
+    },
+    "previewMemberExpressions": {
+      "label": "Editor member expression Preview",
+      "enabled": true
     }
   },
   "chrome": {

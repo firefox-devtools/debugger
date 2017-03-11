@@ -1,3 +1,4 @@
+// @flow
 const { Menu, MenuItem } = require("devtools-sham-modules");
 const { isFirefoxPanel } = require("devtools-config");
 
@@ -17,7 +18,9 @@ function createPopup(doc) {
   if (!mask) {
     mask = doc.createElement("div");
     mask.id = "contextmenu-mask";
-    document.body.appendChild(mask);
+    if (document.body) {
+      document.body.appendChild(mask);
+    }
   }
 
   mask.onclick = () => popup.hidePopup();
@@ -27,7 +30,9 @@ function createPopup(doc) {
     this.style.setProperty("top", `${clientY}px`);
     mask = document.querySelector("#contextmenu-mask");
     window.onwheel = preventDefault;
-    mask.classList.add("show");
+    if (mask) {
+      mask.classList.add("show");
+    }
     this.dispatchEvent(new Event("popupshown"));
     this.popupshown;
   };
@@ -35,7 +40,9 @@ function createPopup(doc) {
   popup.hidePopup = function() {
     this.remove();
     mask = document.querySelector("#contextmenu-mask");
-    mask.classList.remove("show");
+    if (mask) {
+      mask.classList.remove("show");
+    }
     window.onwheel = null;
   };
 
@@ -59,7 +66,7 @@ function onShown(menu, popup) {
   });
 }
 
-function showMenu(e, items) {
+function showMenu(e: any, items: Array<any>) {
   if (items.length === 0) {
     return;
   }
@@ -75,7 +82,7 @@ function showMenu(e, items) {
   menu.popup(e.clientX, e.clientY, { doc: document });
 }
 
-function buildMenu(items) {
+function buildMenu(items: Array<any>) {
   return items.map(itm => {
     const hide = typeof itm.hidden === "function" ? itm.hidden() : itm.hidden;
     return hide ? null : itm.item;

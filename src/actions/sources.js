@@ -87,7 +87,7 @@ function loadSourceMap(generatedSource) {
     });
 
     dispatch({
-      type: "ADD_SOURCES",
+      type: constants.ADD_SOURCES,
       sources: originalSources
     });
   };
@@ -220,9 +220,12 @@ function closeTabs(urls: string[]) {
 function togglePrettyPrint(sourceId: string) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
-    const sourceText = getSourceText(getState(), sourceId).toJS();
+    let sourceText = getSourceText(getState(), sourceId);
+    if (sourceText) {
+      sourceText = sourceText.toJS();
+    }
 
-    if (sourceText.loading) {
+    if (sourceText && sourceText.loading) {
       return {};
     }
 

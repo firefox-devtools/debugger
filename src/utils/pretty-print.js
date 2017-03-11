@@ -22,9 +22,10 @@ const _prettyPrint = workerTask(prettyPrintWorker, "prettyPrint");
 
 type PrettyPrintOpts = {
   source: Source,
-  sourceText: SourceText,
+  sourceText: ?SourceText,
   url: string
 };
+
 async function prettyPrint({ source, sourceText, url }: PrettyPrintOpts) {
   const contentType = sourceText ? sourceText.contentType : "";
   const indent = 2;
@@ -37,7 +38,7 @@ async function prettyPrint({ source, sourceText, url }: PrettyPrintOpts) {
   return await _prettyPrint({
     url,
     indent,
-    source: sourceText.text
+    source: sourceText ? sourceText.text : undefined
   });
 }
 

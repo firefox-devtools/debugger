@@ -273,8 +273,8 @@ We recommend running the tests in the browser as it's an easier development envi
 
 ### Linting
 
-| | |
-|--|--|
+| Type | Command |
+| ---- | ------- |
 | all | `yarn run lint` |
 | css | `yarn run lint-css` |
 | js | `yarn run lint-js` |
@@ -320,6 +320,12 @@ When you need to update a variable, you should check to make sure it looks good 
 Often, it is more practicle to create a new variable.
 
 It's helpful to share the changes as a themes [table][pr-table] when you're done.
+
+#### Checking Contrast
+
+It's important to make sure that the contrast ratio is sufficient.
+
+You can check the background / text color contrast ratio with this [tool][contrast-ratio-tool].
 
 ### Configs
 
@@ -504,3 +510,4 @@ your questions on [slack][slack].
 
 [mochitest]: ./mochitests.md
 [mocha]: ./integration-tests.md
+[contrast-ratio-tool]: http://leaverou.github.io/contrast-ratio/#rgb%28204%2C%20209%2C%20213%29-on-rgb%28252%2C%20252%2C%20252%29
