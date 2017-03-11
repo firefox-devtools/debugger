@@ -102,9 +102,7 @@ const ObjectInspector = React.createClass({
       onLabelClick: () => {},
       onDoubleClick: () => {},
       autoExpandDepth: 1,
-      getActors: () => {
-        return {};
-      }
+      getActors: () => ({})
     };
   },
 
@@ -124,6 +122,7 @@ const ObjectInspector = React.createClass({
   getChildren(item: ObjectInspectorItem) {
     const { getObjectProperties } = this.props;
     const { actors } = this;
+
     return getChildren({
       getObjectProperties,
       actors,
