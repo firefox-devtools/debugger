@@ -53,7 +53,7 @@ const Editor = React.createClass({
   propTypes: {
     breakpoints: ImPropTypes.map.isRequired,
     hitCount: PropTypes.object,
-    selectedLocation: PropTypes.object.isRequired,
+    selectedLocation: PropTypes.object,
     selectedSource: ImPropTypes.map,
     sourceText: PropTypes.object,
     addBreakpoint: PropTypes.func.isRequired,
@@ -351,8 +351,9 @@ const Editor = React.createClass({
       return this.closeConditionalPanel();
     }
 
-    const { selectedLocation: { sourceId },
-            setBreakpointCondition, breakpoints } = this.props;
+    const { selectedLocation, setBreakpointCondition,
+      breakpoints } = this.props;
+    const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
     const bp = breakpointAtLine(breakpoints, line);
     const location = { sourceId, line: line + 1 };
@@ -391,14 +392,18 @@ const Editor = React.createClass({
       return;
     }
 
+    let sourceId = this.props.selectedLocation ?
+      this.props.selectedLocation.sourceId :
+      "";
+
     if (bp) {
       this.props.removeBreakpoint({
-        sourceId: this.props.selectedLocation.sourceId,
+        sourceId: sourceId,
         line: line + 1
       });
     } else {
       this.props.addBreakpoint(
-        { sourceId: this.props.selectedLocation.sourceId,
+        { sourceId: sourceId,
           line: line + 1 },
         // Pass in a function to get line text because the breakpoint
         // may slide and it needs to compute the value at the new
@@ -415,18 +420,22 @@ const Editor = React.createClass({
       return;
     }
 
+    let sourceId = this.props.selectedLocation ?
+      this.props.selectedLocation.sourceId :
+      "";
+
     if (!bp) {
       throw new Error("attempt to disable breakpoint that does not exist");
     }
 
     if (!bp.disabled) {
       this.props.disableBreakpoint({
-        sourceId: this.props.selectedLocation.sourceId,
+        sourceId: sourceId,
         line: line + 1
       });
     } else {
       this.props.enableBreakpoint({
-        sourceId: this.props.selectedLocation.sourceId,
+        sourceId: sourceId,
         line: line + 1
       });
     }
@@ -496,6 +505,9 @@ const Editor = React.createClass({
    *
    */
   showSourceText(sourceText, selectedLocation) {
+    if (!selectedLocation) {
+      return;
+    }
     let doc = getDocument(selectedLocation.sourceId);
     if (doc) {
       this.editor.replaceDocument(doc);
