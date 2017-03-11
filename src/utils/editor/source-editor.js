@@ -13,6 +13,7 @@ require("codemirror/mode/htmlmixed/htmlmixed");
 require("codemirror/mode/coffeescript/coffeescript");
 require("codemirror/mode/jsx/jsx");
 require("codemirror/mode/elm/elm");
+require("codemirror/mode/clojure/clojure");
 require("../../components/Editor/codemirror-mozilla.css");
 require("codemirror/addon/search/searchcursor");
 
