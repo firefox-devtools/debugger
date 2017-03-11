@@ -5,20 +5,18 @@ machine:
     - docker
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
-    YARN_PATH: "$HOME/.yarn"
-    YARN_VERSION: 0.19.1
-    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   post:
     - mkdir -p $DOWNLOADS_PATH
-    - mkdir -p $YARN_PATH
 
 checkout:
   post:
     - cp configs/ci.json configs/local.json
 test:
-  override:
+  pre:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
+  override:
     - node src/test/node-unit-tests.js --ci:
         environment:
           MOCHA_FILE: $CIRCLE_TEST_REPORTS/mocha/test-results.xml
@@ -33,15 +31,14 @@ test:
     - bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/flow-coverage/flow-coverage.json
 
 dependencies:
-  pre:
-    - ./bin/install-yarn
   cache_directories:
     - ~/downloads
     - ~/.cache/yarn
-    - ~/.yarn
+  pre:
+    - yarn global add flow-coverage-report
   override:
-    - yarn install
-    - npm i -g flow-coverage-report
+    - yarn
+  post:
     - ./bin/update-docker
 
 general:
