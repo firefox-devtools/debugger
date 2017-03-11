@@ -171,7 +171,7 @@ function getChildren({
   // being the same across renders. If we didn't do this, each
   // node would be a new instance every render.
   const key = item.path;
-  if (actors[key]) {
+  if (actors && actors[key]) {
     return actors[key];
   }
 
