@@ -1,19 +1,19 @@
 // @flow
-const React = require("react");
-const { DOM: dom, PropTypes, createFactory } = React;
-const { connect } = require("react-redux");
-const { bindActionCreators } = require("redux");
-const actions = require("../actions");
+import { DOM as dom, PropTypes, createClass, createFactory } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-const { getPaneCollapse } = require("../selectors");
-const { formatKeyShortcut } = require("../utils/text");
+import actions from "../actions";
+import { getPaneCollapse } from "../selectors";
+import { formatKeyShortcut } from "../utils/text";
+
 const PaneToggleButton = createFactory(
   require("./shared/Button/PaneToggle")
 );
 
 require("./WelcomeBox.css");
 
-const WelcomeBox = React.createClass({
+const WelcomeBox = createClass({
   propTypes: {
     horizontal: PropTypes.bool,
     togglePaneCollapse: PropTypes.func,
