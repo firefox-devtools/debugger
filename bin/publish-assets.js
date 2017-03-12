@@ -1,6 +1,7 @@
 const { tools: { makeBundle, symlinkTests, copyFile }} = require("devtools-launchpad/index");
 const path = require("path");
 const fs = require("fs");
+const rimraf = require("rimraf");
 
 function start() {
   console.log("start: publish assets")
@@ -10,10 +11,10 @@ function start() {
   const buildDir = path.resolve(projectPath, "assets/build");
   const assetsDir = path.resolve(projectPath, "assets");
 
-  if (!fs.existsSync(buildDir)) {
-    fs.mkdirSync(assetsDir);
-    fs.mkdirSync(buildDir);
+  if (fs.existsSync(buildDir)) {
+    rimraf(buildDir);
   }
+  fs.mkdirSync(buildDir);
 
   copyFile(
     path.resolve(projectPath, "assets/panel"),
