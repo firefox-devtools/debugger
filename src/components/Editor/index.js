@@ -93,6 +93,7 @@ const Editor = React.createClass({
         count: 0
       },
       selectedToken: null,
+      expression: null,
       searchModifiers: {
         caseSensitive: true,
         wholeWord: false,
@@ -292,11 +293,11 @@ const Editor = React.createClass({
     }
 
     const variables = selectedFrame.scope.bindings.variables;
-    const expression = getExpressionFromToken(cm, sourceText, token);
+    const expression = await getExpressionFromToken(cm, sourceText, token);
 
     if (variables.hasOwnProperty(tokenText) || expression ||
       tokenText == "this" && selectedFrame.this) {
-      this.setState({ selectedToken: token });
+      this.setState({ selectedToken: token, expression });
     }
   },
 
@@ -562,15 +563,13 @@ const Editor = React.createClass({
     return "";
   },
 
-  async renderPreview() {
-    const { selectedToken } = this.state;
+  renderPreview() {
+    const { selectedToken, expression } = this.state;
     const { selectedFrame, sourceText } = this.props;
 
     if (!this.editor || !sourceText) {
       return null;
     }
-
-    const cm = this.editor.codeMirror;
 
     if (!selectedToken || !selectedFrame || !isEnabled("editorPreview")) {
       return;
@@ -578,13 +577,7 @@ const Editor = React.createClass({
 
     const token = selectedToken.innerText;
     const variables = selectedFrame.scope.bindings.variables;
-    const previewExpression = await getExpressionFromToken(
-      cm,
-      sourceText,
-      selectedToken
-    );
-
-    if (!variables.hasOwnProperty(token) && !previewExpression &&
+    if (!variables.hasOwnProperty(token) && !expression &&
       token != "this") {
       return;
     }
@@ -598,8 +591,8 @@ const Editor = React.createClass({
       value = selectedFrame.this;
     }
 
-    if (previewExpression && isEnabled("previewMemberExpressions")) {
-      value = previewExpression.value;
+    if (expression && isEnabled("previewMemberExpressions")) {
+      value = expression.value;
     }
 
     return Preview({
