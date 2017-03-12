@@ -51,10 +51,10 @@ const { isFirefox } = require("devtools-config");
 
 require("./Editor.css");
 
-function getExpressionFromToken(
+async function getExpressionFromToken(
   cm: any, sourceText, token: HTMLElement) {
   const loc = getTokenLocation(token, cm);
-  return getExpression(sourceText.toJS(), token.innerText || "", loc);
+  return await getExpression(sourceText.toJS(), token.innerText || "", loc);
 }
 
 const Editor = React.createClass({
@@ -275,7 +275,7 @@ const Editor = React.createClass({
     this.previewSelectedToken(e, modifiers);
   },
 
-  previewSelectedToken(e, modifiers) {
+  async previewSelectedToken(e, modifiers) {
     const { selectedFrame, sourceText } = this.props;
     const { selectedToken } = this.state;
     const cm = this.editor.codeMirror;
@@ -562,7 +562,7 @@ const Editor = React.createClass({
     return "";
   },
 
-  renderPreview() {
+  async renderPreview() {
     const { selectedToken } = this.state;
     const { selectedFrame, sourceText } = this.props;
 
@@ -578,7 +578,7 @@ const Editor = React.createClass({
 
     const token = selectedToken.innerText;
     const variables = selectedFrame.scope.bindings.variables;
-    const previewExpression = getExpressionFromToken(
+    const previewExpression = await getExpressionFromToken(
       cm,
       sourceText,
       selectedToken
