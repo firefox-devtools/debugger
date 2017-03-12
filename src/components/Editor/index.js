@@ -387,14 +387,13 @@ const Editor = React.createClass({
 
   toggleBreakpoint(line) {
     const bp = breakpointAtLine(this.props.breakpoints, line);
+    const { selectedLocation } = this.props;
 
-    if (bp && bp.loading) {
+    if ((bp && bp.loading) || !selectedLocation) {
       return;
     }
 
-    let sourceId = this.props.selectedLocation ?
-      this.props.selectedLocation.sourceId :
-      "";
+    const { sourceId } = selectedLocation;
 
     if (bp) {
       this.props.removeBreakpoint({
@@ -415,14 +414,13 @@ const Editor = React.createClass({
 
   toggleBreakpointDisabledStatus(line) {
     const bp = breakpointAtLine(this.props.breakpoints, line);
+    const { selectedLocation } = this.props;
 
-    if (bp && bp.loading) {
+    if ((bp && bp.loading) || !selectedLocation) {
       return;
     }
 
-    let sourceId = this.props.selectedLocation ?
-      this.props.selectedLocation.sourceId :
-      "";
+    const { sourceId } = selectedLocation;
 
     if (!bp) {
       throw new Error("attempt to disable breakpoint that does not exist");
@@ -508,6 +506,7 @@ const Editor = React.createClass({
     if (!selectedLocation) {
       return;
     }
+
     let doc = getDocument(selectedLocation.sourceId);
     if (doc) {
       this.editor.replaceDocument(doc);
