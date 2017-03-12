@@ -16,7 +16,7 @@ const { onConnect, onFirefoxConnect } = require("./utils/client");
 const reducers = require("./reducers");
 const selectors = require("./selectors");
 
-const App = require("./components/App");
+const App = require("./components/App").default;
 
 const createStore = configureStore({
   log: getValue("logging.actions"),

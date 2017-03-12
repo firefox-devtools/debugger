@@ -1,23 +1,23 @@
 // @flow
-const React = require("react");
+import React from "react";
 const { DOM: dom, PropTypes, createFactory } = React;
-const { connect } = require("react-redux");
-const { bindActionCreators } = require("redux");
-const actions = require("../actions");
-const { getSources, getSelectedSource, getPaneCollapse } = require("../selectors");
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import actions from "../actions";
+import { getSources, getSelectedSource, getPaneCollapse } from "../selectors";
 
-const { KeyShortcuts } = require("devtools-sham-modules");
+import { KeyShortcuts } from "devtools-sham-modules";
 const shortcuts = new KeyShortcuts({ window });
 
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
 
-require("./variables.css");
-require("./App.css");
-require("./shared/menu.css");
-require("./shared/SplitBox.css");
-require("./shared/reps.css");
-let { SplitBox } = require("devtools-modules");
-SplitBox = createFactory(SplitBox);
+import "./variables.css";
+import "./App.css";
+import "./shared/menu.css";
+import "./shared/SplitBox.css";
+import "./shared/reps.css";
+
+const SplitBox = createFactory(require("devtools-modules").SplitBox);
 
 const SourceSearch = createFactory(require("./SourceSearch"));
 const Sources = createFactory(require("./Sources"));
@@ -26,38 +26,35 @@ const SecondaryPanes = createFactory(require("./SecondaryPanes"));
 const WelcomeBox = createFactory(require("./WelcomeBox"));
 const EditorTabs = createFactory(require("./Editor/Tabs"));
 
-const App = React.createClass({
-  propTypes: {
-    sources: PropTypes.object,
-    selectSource: PropTypes.func,
-    selectedSource: PropTypes.object,
-    startPanelCollapsed: PropTypes.bool,
-    endPanelCollapsed: PropTypes.bool,
-  },
+class App extends React.Component {
+  state: {
+    horizontal: verticalLayoutBreakpoint.matches
+  }
 
-  displayName: "App",
+  constructor(props) {
+    super(props);
+    this.state = {
+      horizontal: verticalLayoutBreakpoint.matches
+    };
+  }
 
   getChildContext() {
     return { shortcuts };
-  },
+  }
 
   componentDidMount() {
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
-  },
+  }
 
   componentWillUnmount() {
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
-  },
-
-  getInitialState() {
-    return { horizontal: verticalLayoutBreakpoint.matches };
-  },
+  }
 
   onLayoutChange() {
     this.setState({
       horizontal: verticalLayoutBreakpoint.matches
     });
-  },
+  }
 
   renderEditorPane() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
@@ -76,7 +73,7 @@ const App = React.createClass({
         SourceSearch()
       )
     );
-  },
+  }
 
   renderHorizontalLayout() {
     const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
@@ -107,7 +104,7 @@ const App = React.createClass({
           vert: horizontal
         }),
       }));
-  },
+  }
 
   renderVerticalLayout() {
     const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
@@ -135,19 +132,29 @@ const App = React.createClass({
         endPanel: SecondaryPanes({ horizontal }),
         endPanelCollapsed,
       }));
-  },
+  }
 
   render() {
     return this.state.horizontal ?
       this.renderHorizontalLayout() : this.renderVerticalLayout();
   }
-});
+}
+
+App.propTypes = {
+  sources: PropTypes.object,
+  selectSource: PropTypes.func,
+  selectedSource: PropTypes.object,
+  startPanelCollapsed: PropTypes.bool,
+  endPanelCollapsed: PropTypes.bool,
+};
+
+App.displayName = "App";
 
 App.childContextTypes = {
   shortcuts: PropTypes.object
 };
 
-module.exports = connect(
+export default connect(
   state => ({ sources: getSources(state),
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
