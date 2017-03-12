@@ -49,7 +49,7 @@ const WelcomeBox = createClass({
   }
 });
 
-module.exports = connect(
+export default connect(
   state => ({
     endPanelCollapsed: getPaneCollapse(state, "end"),
   }),
