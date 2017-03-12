@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 declare var Resolve: (result: any) => void;
 declare var Reject: (result: any) => void;

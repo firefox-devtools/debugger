@@ -1,3 +1,5 @@
+// @flow
+
 import toPairs from "lodash/toPairs";
 
 // Create the tree nodes representing all the variables and arguments

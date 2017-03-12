@@ -1,9 +1,13 @@
+// @flow
+
 const constants = require("../constants");
 const { clearSourceMaps } = require("../utils/source-map");
 const { clearDocuments } = require("../utils/editor");
 const { getSources } = require("../reducers/sources");
 const { waitForMs } = require("../utils/utils");
 const { newSources } = require("./sources");
+
+import type { ThunkArgs } from "./types";
 
 /**
  * Redux actions for the navigation state
@@ -14,11 +18,14 @@ const { newSources } = require("./sources");
  * @memberof actions/navigation
  * @static
  */
-function willNavigate() {
+function willNavigate(_: any, event: any) {
   clearSourceMaps();
   clearDocuments();
 
-  return { type: constants.NAVIGATE };
+  return {
+    type: constants.NAVIGATE,
+    url: event.url
+  };
 }
 
 /**

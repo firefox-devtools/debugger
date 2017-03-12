@@ -1,3 +1,5 @@
+// @flow
+
 /**
  * A middleware that logs all actions coming through the system
  * to the console.

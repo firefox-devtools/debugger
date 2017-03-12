@@ -1,3 +1,5 @@
+// @flow
+
 const assert = require("./assert");
 
 function reportException(who, exception) {
