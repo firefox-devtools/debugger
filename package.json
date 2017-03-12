@@ -24,7 +24,7 @@
     "lint-js": "eslint \"src/**/*.js\"",
     "lint-md": "remark -q *.md src/**/*.md configs/*.md docs/**/*.md",
     "lint-fix": "yarn run lint-js -- --fix",
-    "test": "node src/test/node-unit-tests.js",
+    "test": "yarn jest --forceExit",
     "test-all": "yarn run test; yarn run lint; yarn run flow",
     "firefox": "start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome": "start-chrome --location https://devtools-html.github.io/debugger-examples/",
@@ -55,14 +55,15 @@
     "fuzzaldrin-plus": "^0.4.1",
     "glob": "^7.0.3",
     "husky": "^0.13.1",
+    "jest-junit-reporter": "^1.0.1",
     "lodash": "^4.17.4",
     "md5": "^2.2.1",
     "mocha": "^3.1.2",
-    "mocha-circleci-reporter": "0.0.2",
     "mock-require": "^2.0.0",
     "pretty-fast": "^0.2.0",
     "react": "=15.3.2",
     "react-dom": "=15.3.2",
+    "rimraf": "^2.6.1",
     "source-map": "^0.5.6",
     "stylelint": "^7.8.0",
     "svg-inline-react": "^1.0.2",
@@ -93,7 +94,9 @@
   },
   "jest": {
     "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/test/"
