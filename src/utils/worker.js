@@ -1,4 +1,10 @@
-import type { Message } from "../types";
+export type Message = {
+  data: {
+    id: string,
+    method: string,
+    args: Array<any>
+  }
+};
 
 let msgId = 1;
 /**

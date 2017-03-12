@@ -18,7 +18,9 @@ const {
   isOriginalId
 } = require("./source-map-util");
 
-import type { Location, Source, Message } from "../types";
+import type { Location, Source } from "../types";
+import type { Message } from "./worker";
+
 let sourceMapRequests = new Map();
 let sourceMapsEnabled = false;
 

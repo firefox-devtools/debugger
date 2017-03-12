@@ -20,14 +20,6 @@ export type Mode = String | {
   }
 }
 
-export type Message = {
-  data: {
-    id: string,
-    method: string,
-    args: Array<any>
-  }
-};
-
 export type AlignOpts = "top" | "center" | "bottom";
 
 export type {
