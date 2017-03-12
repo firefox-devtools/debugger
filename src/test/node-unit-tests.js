@@ -47,6 +47,8 @@ webpackConfig.resolve.alias["devtools-network-request"] =
 
 webpackConfig.node = { __dirname: false };
 
+webpackConfig.target = "node";
+
 global.Worker = require("workerjs");
 
 // disable unecessary require calls
