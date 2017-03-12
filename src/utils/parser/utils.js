@@ -8,7 +8,11 @@ const toPairs = require("lodash/toPairs");
 const get = require("lodash/get");
 const isEmpty = require("lodash/isEmpty");
 
-import type { SourceText, Location } from "../types";
+import type { SourceText, Location } from "../../types";
+
+const ASTs = new Map();
+
+const symbolDeclarations = new Map();
 
 type ASTLocation = {
   start: {
@@ -39,10 +43,6 @@ export type SymbolDeclarations = {
   variables: Array<FormattedSymbolDeclaration>,
   classes: Array<FormattedSymbolDeclaration>,
 };
-
-const ASTs = new Map();
-
-const symbolDeclarations = new Map();
 
 function _parse(code) {
   return babylon.parse(code, {
@@ -267,7 +267,6 @@ function getVariablesInScope(source: SourceText, location: Location) {
 }
 
 module.exports = {
-  parse,
   getSymbols,
   getPathClosestToLocation,
   getVariablesInScope,

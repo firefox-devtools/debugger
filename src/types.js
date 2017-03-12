@@ -7,18 +7,18 @@ export type SearchModifiers = {
 };
 
 export type Expression = {
-   value: Object,
-   input: string
+  value: Object,
+  input: string
  };
 
 export type Mode = String | {
-   name: string,
-   typescript?: boolean,
-   base?: {
-     name: string,
-     typescript: boolean
-   }
- }
+  name: string,
+  typescript?: boolean,
+  base?: {
+    name: string,
+    typescript: boolean
+  }
+}
 
 export type AlignOpts = "top" | "center" | "bottom";
 

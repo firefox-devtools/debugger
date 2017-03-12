@@ -19,13 +19,7 @@ const {
 } = require("./source-map-util");
 
 import type { Location, Source } from "../types";
-type Message = {
-  data: {
-    id: string,
-    method: string,
-    args: Array<any>
-  }
-}
+import type { Message } from "./worker";
 
 let sourceMapRequests = new Map();
 let sourceMapsEnabled = false;

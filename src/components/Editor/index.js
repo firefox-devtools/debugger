@@ -51,10 +51,10 @@ const { isFirefox } = require("devtools-config");
 
 require("./Editor.css");
 
-function getExpressionFromToken(
+async function getExpressionFromToken(
   cm: any, sourceText, token: HTMLElement) {
   const loc = getTokenLocation(token, cm);
-  return getExpression(sourceText.toJS(), token.innerText || "", loc);
+  return await getExpression(sourceText.toJS(), token.innerText || "", loc);
 }
 
 const Editor = React.createClass({
@@ -93,6 +93,7 @@ const Editor = React.createClass({
         count: 0
       },
       selectedToken: null,
+      selectedExpression: null,
       searchModifiers: {
         caseSensitive: true,
         wholeWord: false,
@@ -275,7 +276,7 @@ const Editor = React.createClass({
     this.previewSelectedToken(e, modifiers);
   },
 
-  previewSelectedToken(e, modifiers) {
+  async previewSelectedToken(e, modifiers) {
     const { selectedFrame, sourceText } = this.props;
     const { selectedToken } = this.state;
     const cm = this.editor.codeMirror;
@@ -292,11 +293,14 @@ const Editor = React.createClass({
     }
 
     const variables = selectedFrame.scope.bindings.variables;
-    const expression = getExpressionFromToken(cm, sourceText, token);
+    const expression = await getExpressionFromToken(cm, sourceText, token);
 
     if (variables.hasOwnProperty(tokenText) || expression ||
       tokenText == "this" && selectedFrame.this) {
-      this.setState({ selectedToken: token });
+      this.setState({
+        selectedToken: token,
+        selectedExpression: expression
+      });
     }
   },
 
@@ -563,14 +567,12 @@ const Editor = React.createClass({
   },
 
   renderPreview() {
-    const { selectedToken } = this.state;
+    const { selectedToken, selectedExpression } = this.state;
     const { selectedFrame, sourceText } = this.props;
 
     if (!this.editor || !sourceText) {
       return null;
     }
-
-    const cm = this.editor.codeMirror;
 
     if (!selectedToken || !selectedFrame || !isEnabled("editorPreview")) {
       return;
@@ -578,13 +580,7 @@ const Editor = React.createClass({
 
     const token = selectedToken.innerText;
     const variables = selectedFrame.scope.bindings.variables;
-    const previewExpression = getExpressionFromToken(
-      cm,
-      sourceText,
-      selectedToken
-    );
-
-    if (!variables.hasOwnProperty(token) && !previewExpression &&
+    if (!variables.hasOwnProperty(token) && !selectedExpression &&
       token != "this") {
       return;
     }
@@ -598,8 +594,8 @@ const Editor = React.createClass({
       value = selectedFrame.this;
     }
 
-    if (previewExpression && isEnabled("previewMemberExpressions")) {
-      value = previewExpression.value;
+    if (selectedExpression && isEnabled("previewMemberExpressions")) {
+      value = selectedExpression.value;
     }
 
     return Preview({

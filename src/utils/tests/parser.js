@@ -4,7 +4,7 @@ const {
   getVariablesInScope,
   getExpression,
   getPathClosestToLocation
-} = require("../parser");
+} = require("../parser/utils");
 
 // re-formats the code to correct for webpack indentations
 function formatCode(text) {

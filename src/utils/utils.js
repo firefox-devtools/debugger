@@ -46,35 +46,6 @@ function endTruncateStr(str: any, size: number) {
   return str;
 }
 
-let msgId = 1;
-/**
- * @memberof utils/utils
- * @static
- */
-function workerTask(worker: any, method: string) {
-  return function(...args: any) {
-    return new Promise((resolve, reject) => {
-      const id = msgId++;
-      worker.postMessage({ id, method, args });
-
-      const listener = ({ data: result }) => {
-        if (result.id !== id) {
-          return;
-        }
-
-        worker.removeEventListener("message", listener);
-        if (result.error) {
-          reject(result.error);
-        } else {
-          resolve(result.response);
-        }
-      };
-
-      worker.addEventListener("message", listener);
-    });
-  };
-}
-
 /**
  * @memberof utils/utils
  * @static
@@ -108,7 +79,6 @@ module.exports = {
   handleError,
   promisify,
   endTruncateStr,
-  workerTask,
   updateObj,
   throttle,
   waitForMs

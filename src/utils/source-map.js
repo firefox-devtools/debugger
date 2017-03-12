@@ -1,7 +1,7 @@
 // @flow
 
 const { getValue } = require("devtools-config");
-const { workerTask } = require("./utils");
+const { workerTask } = require("./worker");
 const {
   originalToGeneratedId,
   generatedToOriginalId,

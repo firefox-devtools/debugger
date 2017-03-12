@@ -22,7 +22,9 @@ const SearchInput = createFactory(require("../shared/SearchInput"));
 const ResultList = createFactory(require("../shared/ResultList"));
 const ImPropTypes = require("react-immutable-proptypes");
 
-import type { FormattedSymbolDeclaration } from "../../utils/parser";
+import type {
+  FormattedSymbolDeclaration
+} from "../../utils/parser/utils";
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
@@ -256,7 +258,7 @@ const SearchBar = React.createClass({
     return findDOMNode(this).querySelector("input");
   },
 
-  updateSymbolSearchResults(query: string) {
+  async updateSymbolSearchResults(query: string) {
     const {
       sourceText,
       updateSearchResults
@@ -267,11 +269,9 @@ const SearchBar = React.createClass({
       return;
     }
 
-    const symbolDeclarations = getSymbols(
-      sourceText.toJS())[selectedSymbolType];
-
+    const symbolDeclarations = await getSymbols(sourceText.toJS());
     const symbolSearchResults = filter(
-      symbolDeclarations,
+      symbolDeclarations[selectedSymbolType],
       query,
       { key: "value" }
     );
@@ -280,7 +280,7 @@ const SearchBar = React.createClass({
     return this.setState({ symbolSearchResults });
   },
 
-  doSearch(query: string) {
+  async doSearch(query: string) {
     const {
       sourceText,
       modifiers,
@@ -295,7 +295,7 @@ const SearchBar = React.createClass({
     updateQuery(query);
 
     if (this.state.symbolSearchEnabled) {
-      return this.updateSymbolSearchResults(query);
+      return await this.updateSymbolSearchResults(query);
     }
 
     if (!ed) {
@@ -373,7 +373,7 @@ const SearchBar = React.createClass({
     }
   },
 
-  onChange(e: any) {
+  async onChange(e: any) {
     return this.doSearch(e.target.value);
   },
 
@@ -489,7 +489,6 @@ const SearchBar = React.createClass({
     }
     const { toggleSymbolSearch } = this;
     const { symbolSearchEnabled, selectedSymbolType } = this.state;
-    const { sourceText } = this.props;
 
     function searchTypeBtn(searchType) {
       return dom.button({
@@ -507,12 +506,6 @@ const SearchBar = React.createClass({
     }
 
     let classSearchBtn;
-    if (sourceText) {
-      const symbolDeclarations = getSymbols(sourceText.toJS());
-      if (symbolDeclarations.classes.length) {
-        classSearchBtn = searchTypeBtn("classes");
-      }
-    }
 
     return dom.section(
       { className: "search-type-toggles" },
