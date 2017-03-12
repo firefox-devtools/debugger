@@ -47,7 +47,7 @@
     "codemirror": "^5.1.0",
     "devtools-launchpad": "^0.0.55",
     "devtools-reps": "^0.4.0",
-    "devtools-source-map": "^0.1.0",
+    "devtools-source-map": "^0.2.0",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.12.0",
     "expect.js": "^0.3.1",
