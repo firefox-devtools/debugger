@@ -11,7 +11,7 @@ const PaneToggleButton = createFactory(
   require("./shared/Button/PaneToggle")
 );
 
-require("./WelcomeBox.css");
+import "./WelcomeBox.css";
 
 const WelcomeBox = createClass({
   propTypes: {
