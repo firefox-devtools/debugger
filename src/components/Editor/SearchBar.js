@@ -121,7 +121,7 @@ const SearchBar = React.createClass({
     }
   },
 
-  componentDidUpdate(prevProps: any) {
+  componentDidUpdate(prevProps: any, prevState: any) {
     const { sourceText, selectedSource, query, modifiers } = this.props;
 
     if (this.searchInput()) {
@@ -142,8 +142,12 @@ const SearchBar = React.createClass({
     const modifiersUpdated = modifiers != prevProps.modifiers;
 
     const isOpen = this.state.enabled || this.state.symbolSearchEnabled;
+    const { selectedSymbolType, symbolSearchEnabled } = this.state;
+    const changedSearchType = selectedSymbolType != prevState.selectedSymbolType
+                        || symbolSearchEnabled != prevState.symbolSearchEnabled;
 
-    if (isOpen && (doneLoading || changedFiles || modifiersUpdated)) {
+    if (isOpen &&
+      (doneLoading || changedFiles || modifiersUpdated || changedSearchType)) {
       this.doSearch(query);
     }
   },
