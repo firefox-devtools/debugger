@@ -1,17 +1,18 @@
 // @flow
-const React = require("react");
-const { DOM: dom, PropTypes } = React;
-const ImPropTypes = require("react-immutable-proptypes");
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-const { formatKeyShortcut } = require("../utils/text");
-const SourcesTree = React.createFactory(require("./SourcesTree"));
-const actions = require("../actions");
-const { getSelectedSource, getSources } = require("../selectors");
+import { DOM as dom, PropTypes, createClass, createFactory } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import ImPropTypes from "react-immutable-proptypes";
+
+import actions from "../actions";
+import { getSelectedSource, getSources } from "../selectors";
+import { formatKeyShortcut } from "../utils/text";
+
+const SourcesTree = createFactory(require("./SourcesTree"));
 
 require("./Sources.css");
 
-const Sources = React.createClass({
+const Sources = createClass({
   propTypes: {
     sources: ImPropTypes.map.isRequired,
     selectSource: PropTypes.func.isRequired,
@@ -48,7 +49,7 @@ const Sources = React.createClass({
   }
 });
 
-module.exports = connect(
+export default connect(
   state => ({ selectedSource: getSelectedSource(state),
     sources: getSources(state) }),
   dispatch => bindActionCreators(actions, dispatch)

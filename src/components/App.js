@@ -20,7 +20,7 @@ import "./shared/reps.css";
 const SplitBox = createFactory(require("devtools-modules").SplitBox);
 
 const SourceSearch = createFactory(require("./SourceSearch"));
-const Sources = createFactory(require("./Sources"));
+const Sources = createFactory(require("./Sources").default);
 const Editor = createFactory(require("./Editor"));
 const SecondaryPanes = createFactory(require("./SecondaryPanes"));
 const WelcomeBox = createFactory(require("./WelcomeBox"));
