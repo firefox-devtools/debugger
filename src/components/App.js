@@ -1,6 +1,6 @@
 // @flow
-import React from "react";
-const { DOM: dom, PropTypes, createFactory } = React;
+
+import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
@@ -20,13 +20,13 @@ import "./shared/reps.css";
 const SplitBox = createFactory(require("devtools-modules").SplitBox);
 
 const SourceSearch = createFactory(require("./SourceSearch"));
-const Sources = createFactory(require("./Sources"));
+const Sources = createFactory(require("./Sources").default);
 const Editor = createFactory(require("./Editor"));
 const SecondaryPanes = createFactory(require("./SecondaryPanes"));
 const WelcomeBox = createFactory(require("./WelcomeBox"));
 const EditorTabs = createFactory(require("./Editor/Tabs"));
 
-class App extends React.Component {
+class App extends Component {
   state: {
     horizontal: verticalLayoutBreakpoint.matches
   }
