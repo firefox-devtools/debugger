@@ -87,5 +87,5 @@
 }
 
 .show-more:hover {
-  background-color: var(--search-overlays-semitransparent);
+  background-color: var(--theme-toolbar-background-hover);
 }
