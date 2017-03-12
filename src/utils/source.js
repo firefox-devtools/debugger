@@ -100,6 +100,7 @@ const contentTypeModeMap = {
   },
   "text/jsx": "jsx",
   "text/x-elm": "elm",
+  "text/x-clojure": "clojure",
   "text/wasm": { name: "text" },
   "html": { name: "htmlmixed" }
 };
@@ -121,7 +122,7 @@ function getMode(sourceText: SourceText) {
     return contentTypeModeMap["text/typescript"];
   }
 
-  if (/script|elm|jsx|wasm/.test(contentType)) {
+  if (/script|elm|jsx|clojure|wasm/.test(contentType)) {
     if (contentType in contentTypeModeMap) {
       return contentTypeModeMap[contentType];
     }
@@ -161,6 +162,10 @@ function getContentType(url: string) {
 
   if (url.match(/elm$/)) {
     return "text/elm";
+  }
+
+  if (url.match(/cljs$/)) {
+    return "text/x-clojure";
   }
 
   return "text/plain";
