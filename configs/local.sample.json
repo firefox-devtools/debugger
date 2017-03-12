@@ -20,6 +20,18 @@
     "codeCoverage": {
       "label": "Code Coverage",
       "enabled": false
+    },
+    "searchModifiers": {
+      "label": "Search Modifiers",
+      "enabled": false
+    },
+    "symbolSearch": {
+      "label": "symbol Search",
+      "enabled": false
+    },
+    "editorPreview": {
+      "label": "Editor Preview",
+      "enabled": false
     }
   }
 }

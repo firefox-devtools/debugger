@@ -18,6 +18,7 @@ git log --name-status HEAD^..HEAD | grep "update" || exit 0
 yarn check || exit 0
 
 # Run yarn to create/update lockfile
+rm yarn.lock
 yarn
 
 # Commit and push yarn.lock file

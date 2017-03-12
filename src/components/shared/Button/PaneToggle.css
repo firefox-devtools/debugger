@@ -8,7 +8,7 @@
 
 .toggle-button-start svg,
 .toggle-button-end svg {
-  width: 14px;
+  width: 16px;
   fill: var(--theme-comment);
 }
 
@@ -19,6 +19,11 @@
 
 .toggle-button-end {
   margin-left: auto;
+  margin-right: 5px;
+}
+
+.toggle-button-start {
+  margin-left: 5px;
 }
 
 html:not([dir="rtl"]) .toggle-button-end svg,
@@ -28,6 +33,10 @@ html[dir="rtl"] .toggle-button-start svg {
 
 html .toggle-button-end.vertical svg {
   transform: rotate(-90deg);
+}
+
+.toggle-button-end.vertical {
+  margin-bottom: 2px;
 }
 
 .toggle-button-start.collapsed,

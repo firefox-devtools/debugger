@@ -1,38 +1,60 @@
+
 .search-field {
   width: calc(100% - 1px);
-  height: 40px;
-  background-color: var(--theme-body-background);
+  height: 27px;
+  background-color: var(--theme-toolbar-background);
   border-bottom: 1px solid var(--theme-splitter-color);
+  padding-right: 10px;
   display: flex;
   flex-shrink: 0;
 }
 
+.search-field.big {
+  height: 40px;
+  font-size: 14px;
+}
+
+.search-field.big input {
+  font-size: 14px;
+}
+
 .search-field i {
   display: block;
-  padding: 13px;
-  width: 40px;
+  padding: 0;
+  width: 16px;
 }
 
 .search-field i svg {
   width: 16px;
 }
 
+.search-field.big input {
+  line-height: 40px;
+}
+
 .search-field input {
   border: none;
   line-height: 30px;
-  font-size: 14px;
-  background-color: var(--theme-body-background);
-  color: var(--theme-comment-alt);
+  background-color: var(--theme-toolbar-background);
+  color: var(--theme-body-color-inactive);
   width: calc(100% - 38px);
   flex: 1;
 }
 
 .theme-dark .search-field input {
-  color: var(--theme-comment-alt);
+  color: var(--theme-body-color-inactive);
 }
 
-.search-field .magnifying-glass {
-  background-color: var(--theme-body-background);
+.search-field i.magnifying-glass,
+.search-field i.sad-face {
+  padding: 6px;
+  width: 24px;
+}
+
+.search-field.big i.magnifying-glass,
+.search-field.big i.sad-face {
+  padding: 14px;
+  width: 40px;
 }
 
 .search-field .magnifying-glass path,
@@ -40,8 +62,12 @@
   stroke: var(--theme-splitter-color);
 }
 
+.search-field ::-webkit-input-placeholder {
+  color: var(--theme-body-color-inactive);
+}
+
 .search-field input::placeholder {
-  color: var(--theme-comment-alt);
+  color: var(--theme-body-color-inactive);
 }
 
 .search-field input:focus {
@@ -52,8 +78,12 @@
   color: var(--theme-highlight-orange);
 }
 
-.search-field .summary {
+.search-field.big .summary {
   line-height: 40px;
+}
+
+.search-field .summary {
+  line-height: 27px;
   padding-right: 10px;
   color: var(--theme-body-color-inactive);
 }

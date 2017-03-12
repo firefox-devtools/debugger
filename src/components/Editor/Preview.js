@@ -28,7 +28,7 @@ class Preview extends Component {
       return;
     }
 
-    if (!loadedObjects.has(value.actor)) {
+    if (value.actor && !loadedObjects.has(value.actor)) {
       loadObjectProperties(value);
     }
   }
@@ -101,7 +101,7 @@ class Preview extends Component {
       autoExpandDepth: 0,
       onDoubleClick: () => {},
       loadObjectProperties,
-      getActors: () => {}
+      getActors: () => ({})
     });
   }
 

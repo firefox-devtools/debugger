@@ -109,7 +109,8 @@ const Search = React.createClass({
         close: this.close,
         items: searchResults(this.props.sources),
         inputValue: this.state.inputValue,
-        placeholder: L10N.getStr("sourceSearch.search")
+        placeholder: L10N.getStr("sourceSearch.search"),
+        size: "big"
       }));
   }
 

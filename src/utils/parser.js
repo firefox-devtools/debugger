@@ -6,6 +6,7 @@ const t = require("babel-types");
 const { isDevelopment } = require("devtools-config");
 const toPairs = require("lodash/toPairs");
 const get = require("lodash/get");
+const isEmpty = require("lodash/isEmpty");
 
 import type { SourceText, Location } from "../types";
 
@@ -54,13 +55,17 @@ function _parse(code) {
   });
 }
 
-function parse(sourceText: SourceText) {
+function parse(text: string) {
   let ast;
+  if (!text) {
+    return;
+  }
+
   try {
-    ast = _parse(sourceText.text);
+    ast = _parse(text);
   } catch (error) {
     if (isDevelopment()) {
-      console.warn("parse failed", sourceText);
+      console.warn("parse failed", text);
     }
 
     ast = {};
@@ -74,7 +79,7 @@ function getAst(sourceText: SourceText) {
     return ASTs.get(sourceText.id);
   }
 
-  const ast = parse(sourceText);
+  const ast = parse(sourceText.text);
   ASTs.set(sourceText.id, ast);
   return ast;
 }
@@ -144,6 +149,22 @@ function isVariable(path) {
     (t.isObjectProperty(path) && !isFunction(path.node.value));
 }
 
+function getMemberExpression(root) {
+  function _getMemberExpression(node, expr) {
+    if (t.isMemberExpression(node)) {
+      expr = [node.property.name].concat(expr);
+      return _getMemberExpression(node.object, expr);
+    }
+
+    if (t.isThisExpression(node)) {
+      return ["this"].concat(expr);
+    }
+    return [node.name].concat(expr);
+  }
+
+  return _getMemberExpression(root, []);
+}
+
 function getSymbols(source: SourceText): SymbolDeclarations {
   if (symbolDeclarations.has(source.id)) {
     const symbols = symbolDeclarations.get(source.id);
@@ -179,6 +200,31 @@ function getSymbols(source: SourceText): SymbolDeclarations {
 
   symbolDeclarations.set(source.id, symbols);
   return symbols;
+}
+
+function getExpression(source: SourceText, token: string, location: Location) {
+  let expression = null;
+  const ast = getAst(source);
+
+  if (isEmpty(ast)) {
+    return;
+  }
+
+  traverse(ast, {
+    enter(path) {
+      const node = path.node;
+      if (t.isMemberExpression(node) && node.property.name === token
+        && nodeContainsLocation({ node, location })) {
+        const expr = getMemberExpression(node);
+        expression = {
+          value: expr.join("."),
+          location: node.loc
+        };
+      }
+    }
+  });
+
+  return expression;
 }
 
 function nodeContainsLocation({ node, location }) {
@@ -224,5 +270,6 @@ module.exports = {
   parse,
   getSymbols,
   getPathClosestToLocation,
-  getVariablesInScope
+  getVariablesInScope,
+  getExpression
 };
