@@ -82,7 +82,8 @@
   cursor: pointer;
   text-align: center;
   padding: 8px 0px;
-  border-top: 1px solid var(--theme-splitter-color);
+  margin: 7px 10px 7px 7px;
+  border: 1px solid var(--theme-splitter-color);
   background-color: var(--theme-tab-toolbar-background);
 }
 
