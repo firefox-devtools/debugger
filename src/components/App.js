@@ -23,7 +23,7 @@ const SourceSearch = createFactory(require("./SourceSearch"));
 const Sources = createFactory(require("./Sources").default);
 const Editor = createFactory(require("./Editor"));
 const SecondaryPanes = createFactory(require("./SecondaryPanes"));
-const WelcomeBox = createFactory(require("./WelcomeBox"));
+const WelcomeBox = createFactory(require("./WelcomeBox").default);
 const EditorTabs = createFactory(require("./Editor/Tabs"));
 
 class App extends Component {
