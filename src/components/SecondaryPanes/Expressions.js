@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
+import { prefs } from "../../utils/prefs";
 import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
 const CloseButton = React.createFactory(require("../shared/Button/Close").default);
 const ObjectInspector = React.createFactory(require("../shared/ObjectInspector"));
@@ -57,6 +58,15 @@ class Expressions extends React.Component {
 
     this.renderExpression = this.renderExpression.bind(this);
   }
+
+  componentDidMount() {
+    const { addExpression } = this.props;
+    if (prefs.expressions.length > 0) {
+      prefs.expressions.forEach(expression => {
+        addExpression(expression.input);
+      });
+    }
+  },
 
   shouldComponentUpdate(nextProps, nextState) {
     const { editing } = this.state;
@@ -211,10 +221,16 @@ Expressions.propTypes = {
 
 Expressions.displayName = "Expressions";
 
+function loadExpressions(state) {
+  const expressions = getExpressions(state);
+  prefs.expressions = expressions.toJS();
+  return expressions;
+}
+
 export default connect(
   state => ({
     pauseInfo: getPause(state),
-    expressions: getExpressions(state),
+    expressions: loadExpressions(state),
     loadedObjects: getLoadedObjects(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
