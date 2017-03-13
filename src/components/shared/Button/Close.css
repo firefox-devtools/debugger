@@ -10,7 +10,7 @@
   text-align: center;
   margin-top: 2px;
   line-height: 7px;
-  transition: all 0.25s easeinout;
+  transition: all 0.25s ease-in-out;
 }
 
 .close-btn .close svg {
