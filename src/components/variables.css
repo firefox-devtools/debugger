@@ -7,7 +7,3 @@
 :root .theme-dark {
   --search-overlays-semitransparent: rgba(42, 46, 56, 0.66);
 }
-
-:root {
-  --editor-footer-height: 27px;
-}
