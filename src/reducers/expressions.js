@@ -14,7 +14,7 @@ type ExpressionState = {
 }
 
 const State = makeRecord(({
-  expressions: I.List()
+  expressions: I.List(restoreExpressions())
 } : ExpressionState));
 
 function update(state = State(), action: Action): Record<ExpressionState> {
@@ -49,25 +49,43 @@ function update(state = State(), action: Action): Record<ExpressionState> {
   return state;
 }
 
+function restoreExpressions() {
+  const exprs = prefs.expressions;
+  if (exprs.length == 0) {
+    return;
+  }
+  return exprs;
+}
+
+function storeExpressions(state) {
+  prefs.expressions = state.getIn(["expressions"]).toJS();
+}
+
 function appendToList(state: State, path: string[], value: any) {
-  return state.updateIn(path, () => {
+  const newState = state.updateIn(path, () => {
     return state.getIn(path).push(value);
   });
+  storeExpressions(newState);
+  return newState;
 }
 
 function updateItemInList(
   state: State, path: string[], key: string, value: any) {
-  return state.updateIn(path, () => {
+  const newState = state.updateIn(path, () => {
     const list = state.getIn(path);
     const index = list.findIndex(e => e.input == key);
     return list.update(index, () => value);
   });
+  storeExpressions(newState);
+  return newState;
 }
 
 function deleteExpression(state: State, input: string) {
   const index = getExpressions({ expressions: state })
     .findKey(e => e.input == input);
-  return state.deleteIn(["expressions", index]);
+  const newState = state.deleteIn(["expressions", index]);
+  storeExpressions(newState);
+  return newState;
 }
 
 type OuterState = { expressions: Record<ExpressionState> };
