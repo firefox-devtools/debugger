@@ -33,7 +33,7 @@ function start() {
 
   copyFile(
     path.join(projectPath, "./assets/panel/prefs.js"),
-    path.join(mcPath, "devtools/client/preferences/devtools.js"),
+    path.join(mcPath, "devtools/client/preferences/debugger.js"),
     {cwd: projectPath}
   );
 
