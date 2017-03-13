@@ -27,15 +27,22 @@ const WelcomeBox = createFactory(require("./WelcomeBox"));
 const EditorTabs = createFactory(require("./Editor/Tabs"));
 
 class App extends Component {
-  state: {
-    horizontal: verticalLayoutBreakpoint.matches
-  }
+  state: Object
+  onLayoutChange: Function
+  getChildContext: Function
+  renderEditorPane: Function
+  renderVerticalLayout: Function
 
   constructor(props) {
     super(props);
     this.state = {
       horizontal: verticalLayoutBreakpoint.matches
     };
+
+    this.getChildContext = this.getChildContext.bind(this);
+    this.onLayoutChange = this.onLayoutChange.bind(this);
+    this.renderEditorPane = this.renderEditorPane.bind(this);
+    this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
   }
 
   getChildContext() {
