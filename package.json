@@ -24,7 +24,7 @@
     "lint-js": "eslint \"src/**/*.js\"",
     "lint-md": "remark -q *.md src/**/*.md configs/*.md docs/**/*.md",
     "lint-fix": "yarn run lint-js -- --fix",
-    "test": "yarn jest --forceExit",
+    "test": "jest --forceExit",
     "test-all": "yarn run test; yarn run lint; yarn run flow",
     "firefox": "start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome": "start-chrome --location https://devtools-html.github.io/debugger-examples/",
@@ -35,7 +35,7 @@
     "flow-utils": "flow-coverage-report -i 'src/utils/*.js' -t text",
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
-    "prepush": "yarn run lint && yarn run test -- --dots && yarn run flow",
+    "prepush": "yarn run lint && yarn test && yarn run flow",
     "postmerge": "node bin/post-merge.js",
     "nom": "rm -rf node_modules yarn.lock; yarn install"
   },
