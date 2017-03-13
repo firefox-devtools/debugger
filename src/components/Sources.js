@@ -5,12 +5,20 @@ import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../utils/text";
-const SourcesTree = createFactory(require("./SourcesTree"));
+const SourcesTree = createFactory(require("./SourcesTree").default);
 import actions from "../actions";
 import { getSelectedSource, getSources } from "../selectors";
 import "./Sources.css";
 
 class Sources extends Component {
+
+  renderShortcut: Function
+
+  constructor(props) {
+    super(props);
+    this.renderShortcut = this.renderShortcut.bind(this);
+  }
+
   renderShortcut() {
     if (this.props.horizontal) {
       return dom.span(
