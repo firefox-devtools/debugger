@@ -6,7 +6,7 @@
   background-color: var(--theme-body-background);
   font-size: 12px;
   padding: 0px 20px;
-  color: var(--theme-highlight-blue);
+  color: var(--theme-body-color);
 }
 
 .input-expression::-webkit-input-placeholder {

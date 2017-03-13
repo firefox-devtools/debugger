@@ -27,6 +27,10 @@
   background-color: var(--theme-tab-toolbar-background);
 }
 
+.theme-dark .frames ul li:nth-of-type(2n) {
+  background-color: var(--theme-toolbar-background-alt);
+}
+
 .frames .location {
   font-weight: lighter;
 }
@@ -53,6 +57,11 @@
   outline: none;
 }
 
+.theme-dark .frames ul li:hover,
+.theme-dark .frames ul li:focus {
+  background-color: var(--theme-tab-toolbar-background);
+}
+
 .frames ul li.selected {
   background-color: var(--theme-selection-background);
   color: white;
@@ -73,10 +82,11 @@
   cursor: pointer;
   text-align: center;
   padding: 8px 0px;
-  border-top: 1px solid var(--theme-splitter-color);
+  margin: 7px 10px 7px 7px;
+  border: 1px solid var(--theme-splitter-color);
   background-color: var(--theme-tab-toolbar-background);
 }
 
 .show-more:hover {
-  background-color: var(--search-overlays-semitransparent);
+  background-color: var(--theme-toolbar-background-hover);
 }

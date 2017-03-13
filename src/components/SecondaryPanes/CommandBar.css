@@ -29,6 +29,10 @@
   fill: currentColor;
 }
 
+.command-bar > button:hover {
+  background: var(--theme-toolbar-background-hover);
+}
+
 :root.theme-dark .command-bar > button {
   color: var(--theme-body-color);
 }
