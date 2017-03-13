@@ -22,7 +22,7 @@ const SplitBox = createFactory(require("devtools-modules").SplitBox);
 const SourceSearch = createFactory(require("./SourceSearch"));
 const Sources = createFactory(require("./Sources").default);
 const Editor = createFactory(require("./Editor"));
-const SecondaryPanes = createFactory(require("./SecondaryPanes"));
+const SecondaryPanes = createFactory(require("./SecondaryPanes").default);
 const WelcomeBox = createFactory(require("./WelcomeBox").default);
 const EditorTabs = createFactory(require("./Editor/Tabs"));
 
