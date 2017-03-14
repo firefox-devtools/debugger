@@ -19,7 +19,7 @@ import "./shared/reps.css";
 
 const SplitBox = createFactory(require("devtools-modules").SplitBox);
 
-const SourceSearch = createFactory(require("./SourceSearch"));
+const SourceSearch = createFactory(require("./SourceSearch").default);
 const Sources = createFactory(require("./Sources").default);
 const Editor = createFactory(require("./Editor"));
 const SecondaryPanes = createFactory(require("./SecondaryPanes").default);
@@ -27,7 +27,9 @@ const WelcomeBox = createFactory(require("./WelcomeBox").default);
 const EditorTabs = createFactory(require("./Editor/Tabs"));
 
 class App extends Component {
-  state: Object
+  state: {
+    horizontal: boolean
+  }
   onLayoutChange: Function
   getChildContext: Function
   renderEditorPane: Function
