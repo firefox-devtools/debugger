@@ -18,6 +18,7 @@ function createPopup(doc) {
   if (!mask) {
     mask = doc.createElement("div");
     mask.id = "contextmenu-mask";
+    mask.oncontextmenu = preventDefault;
     if (document.body) {
       document.body.appendChild(mask);
     }
