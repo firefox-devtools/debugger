@@ -45,7 +45,7 @@ module.exports = {
 
   getEventListeners: eventListeners.getEventListeners,
 
-  getFileSearchState: ui.getFileSearchState,
+  getSearchFieldState: ui.getSearchFieldState,
   getShownSource: ui.getShownSource,
   getPaneCollapse: ui.getPaneCollapse,
 

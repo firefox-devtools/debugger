@@ -1,22 +1,22 @@
 const { createStore, selectors, actions } = require("../../utils/test-head");
 const expect = require("expect.js");
 
-const { getFileSearchState, getPaneCollapse } = selectors;
+const { getSearchFieldState, getPaneCollapse } = selectors;
 
 describe("ui", () => {
-  it("should toggle the visible state of file search", () => {
+  it("should toggle the visible state of project search", () => {
     const { dispatch, getState } = createStore();
-    expect(getFileSearchState(getState())).to.be(false);
-    dispatch(actions.toggleFileSearch());
-    expect(getFileSearchState(getState())).to.be(true);
+    expect(getSearchFieldState(getState(), "project")).to.be(false);
+    dispatch(actions.toggleSearchVisibility("project"));
+    expect(getSearchFieldState(getState(), "project")).to.be(true);
   });
 
-  it("should close file search", () => {
+  it("should close project search", () => {
     const { dispatch, getState } = createStore();
-    expect(getFileSearchState(getState())).to.be(false);
-    dispatch(actions.toggleFileSearch());
-    dispatch(actions.closeFileSearch());
-    expect(getFileSearchState(getState())).to.be(false);
+    expect(getSearchFieldState(getState(), "project")).to.be(false);
+    dispatch(actions.toggleSearchVisibility("project"));
+    dispatch(actions.toggleSearchVisibility("project", false));
+    expect(getSearchFieldState(getState(), "project")).to.be(false);
   });
 
   it("should toggle the collapse state of a pane", () => {

@@ -104,7 +104,8 @@ export type panelPositionType = "start" | "end";
 type UIAction =
   {
     type: "SET_FILE_SEARCH",
-    searchOn: boolean }
+    field: string,
+    value: boolean }
   | {
     type: "SHOW_SOURCE",
     sourceUrl: string}

@@ -16,6 +16,7 @@ const I = require("immutable");
  */
 export type Record<T: Object> = {
   get<A>(key: $Keys<T>): A;
+  getIn<A>(keyPath: Array<any>, ...iterables: Array<any>): A;
   set<A>(key: $Keys<T>, value: A): Record<T>;
   setIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>;
   merge(values: $Shape<T>): Record<T>;

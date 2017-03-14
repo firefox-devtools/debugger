@@ -12,15 +12,23 @@ const { prefs } = require("../utils/prefs");
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
+type searchVisibilityType = {
+    project: boolean,
+    document: boolean
+};
+
 export type UIState = {
-  searchOn: boolean,
+  searchVisibility: Record<searchVisibilityType>,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
 };
 
 const State = makeRecord(({
-  searchOn: false,
+  searchVisibility: makeRecord({
+    project: false,
+    document: false
+  })(),
   shownSource: "",
   startPanelCollapsed: prefs.startPanelCollapsed,
   endPanelCollapsed: prefs.endPanelCollapsed
@@ -29,7 +37,7 @@ const State = makeRecord(({
 function update(state = State(), action: Action): Record<UIState> {
   switch (action.type) {
     case constants.SET_FILE_SEARCH: {
-      return state.set("searchOn", action.searchOn);
+      return state.setIn(["searchVisibility", action.field], action.value);
     }
 
     case constants.SHOW_SOURCE: {
@@ -56,8 +64,8 @@ function update(state = State(), action: Action): Record<UIState> {
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ui: Record<UIState> };
 
-function getFileSearchState(state: OuterState): boolean {
-  return state.ui.get("searchOn");
+function getSearchFieldState(state: OuterState, field: string): boolean {
+  return state.ui.getIn(["searchVisibility", field]);
 }
 
 function getShownSource(state: OuterState): boolean {
@@ -76,7 +84,7 @@ function getPaneCollapse(
 module.exports = {
   State,
   update,
-  getFileSearchState,
+  getSearchFieldState,
   getShownSource,
   getPaneCollapse
 };

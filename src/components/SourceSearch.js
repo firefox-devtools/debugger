@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
 import {
-  getSources, getSelectedSource, getFileSearchState
+  getSources, getSelectedSource, getSearchFieldState
 } from "../selectors";
 import { endTruncateStr } from "../utils/utils";
 import { parse as parseURL } from "url";
@@ -72,21 +72,21 @@ class Search extends Component {
 
   toggle(key, e) {
     e.preventDefault();
-    this.props.toggleFileSearch();
-  }
+    this.props.toggleSearchVisibility("project");
+  },
 
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
       e.preventDefault();
       this.setState({ inputValue: "" });
-      this.props.closeFileSearch();
+      this.props.toggleSearchVisibility("project", false);
     }
   }
 
   close(inputValue = "") {
     this.setState({ inputValue });
-    this.props.closeFileSearch();
-  }
+    this.props.toggleSearchVisibility("project", false);
+  },
 
   render() {
     if (!this.props.searchOn) {
@@ -128,7 +128,7 @@ export default connect(
   state => ({
     sources: getSources(state),
     selectedSource: getSelectedSource(state),
-    searchOn: getFileSearchState(state)
+    searchOn: getSearchFieldState(state, "project")
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Search);
