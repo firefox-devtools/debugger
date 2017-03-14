@@ -1916,16 +1916,6 @@ detective@^4.0.0:
     acorn "^4.0.3"
     defined "^1.0.0"
 
-devtools-client-adapters@^0.0.19:
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.19.tgz#6985b4ad2a6643a7e78b1477b72d4d8f1abd6903"
-  dependencies:
-    chrome-remote-interface "0.17.0"
-    devtools-config "^0.x.x"
-    devtools-modules "^0.x.x"
-    devtools-network-request "^0.x.x"
-    devtools-sham-modules "^0.x.x"
-
 devtools-client-adapters@^0.0.21:
   version "0.0.21"
   resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.21.tgz#2bb6a08c9dac24a55cf00492394d43a55e2eef5d"
@@ -1936,7 +1926,7 @@ devtools-client-adapters@^0.0.21:
     devtools-network-request "^0.0.14"
     devtools-sham-modules "^0.0.16"
 
-devtools-config@^0.0.12, devtools-config@^0.x.x:
+devtools-config@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
 
@@ -2008,15 +1998,11 @@ devtools-launchpad@^0.0.56:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
-devtools-modules@^0.0.17, devtools-modules@^0.x.x:
+devtools-modules@^0.0.17:
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.17.tgz#baaccd878ec70928d863878005fd814e2d86e048"
 
-devtools-network-request@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.11.tgz#e3a2b9927eb4ee657f2a93909dc7eb83e13bd994"
-
-devtools-network-request@^0.0.14, devtools-network-request@^0.x.x:
+devtools-network-request@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.14.tgz#427f13a20728ab7367ca885708e57f065742db57"
 
@@ -2027,17 +2013,17 @@ devtools-reps@^0.4.0:
     lodash "^4.17.2"
     svg-inline-react "^1.0.2"
 
-devtools-sham-modules@^0.0.16, devtools-sham-modules@^0.x.x:
+devtools-sham-modules@^0.0.16:
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.16.tgz#82c74831918877b075cabba4cd39933ae80c0d81"
 
-devtools-source-map@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.2.0.tgz#a073e9d4dacc14ef889de48c3d1e9569cf281e94"
+devtools-source-map@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.2.1.tgz#2fc51b4fab38be0a558dfc43afe336c20e827649"
   dependencies:
-    devtools-client-adapters "^0.0.19"
+    devtools-client-adapters "^0.0.21"
     devtools-config "^0.0.12"
-    devtools-network-request "^0.0.11"
+    devtools-network-request "^0.0.14"
     md5 "^2.2.1"
     source-map "^0.5.6"
     url "^0.11.0"
@@ -2197,15 +2183,9 @@ encoding@^0.1.11:
   dependencies:
     iconv-lite "~0.4.13"
 
-end-of-stream@1.0.0:
+end-of-stream@1.0.0, end-of-stream@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.0.0.tgz#d4596e702734a93e40e9af864319eabd99ff2f0e"
-  dependencies:
-    once "~1.3.0"
-
-end-of-stream@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.2.0.tgz#bce82685eab6262e2a780ae740e6334027c01622"
   dependencies:
     once "~1.3.0"
 
@@ -4420,17 +4400,13 @@ mime@1.3.4, mime@>=1.2.9, mime@^1.3.4:
   dependencies:
     brace-expansion "^1.0.0"
 
-minimist@0.0.8:
+minimist@0.0.8, minimist@~0.0.1:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
 minimist@^1.1.0, minimist@^1.1.1, minimist@^1.1.3, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
-
-minimist@~0.0.1:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
 mkdirp@0.5.1, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.1"
