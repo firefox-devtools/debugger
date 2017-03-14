@@ -2,10 +2,14 @@
 
 const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
+const { connect } = require("react-redux");
+const { bindActionCreators } = require("redux");
 const { findDOMNode } = require("react-dom");
 const { isEnabled } = require("devtools-config");
 const { filter } = require("fuzzaldrin-plus");
 const Svg = require("../shared/Svg");
+const actions = require("../../actions");
+const { getSearchFieldState } = require("../../selectors");
 const {
   find,
   findNext,
@@ -52,6 +56,8 @@ const SearchBar = React.createClass({
     sourceText: ImPropTypes.map,
     selectSource: PropTypes.func.isRequired,
     selectedSource: ImPropTypes.map,
+    searchOn: PropTypes.bool,
+    toggleSearchVisibility: PropTypes.func.isRequired,
     searchResults: PropTypes.object.isRequired,
     modifiers: PropTypes.object.isRequired,
     toggleModifier: PropTypes.func.isRequired,
@@ -64,7 +70,6 @@ const SearchBar = React.createClass({
 
   getInitialState() {
     return {
-      enabled: false,
       symbolSearchEnabled: false,
       selectedSymbolType: "functions",
       symbolSearchResults: [],
@@ -147,7 +152,7 @@ const SearchBar = React.createClass({
                           && hasLoaded;
     const modifiersUpdated = modifiers != prevProps.modifiers;
 
-    const isOpen = this.state.enabled || this.state.symbolSearchEnabled;
+    const isOpen = this.props.searchOn || this.state.symbolSearchEnabled;
     const { selectedSymbolType, symbolSearchEnabled } = this.state;
     const changedSearchType = selectedSymbolType != prevState.selectedSymbolType
                         || symbolSearchEnabled != prevState.symbolSearchEnabled;
@@ -173,10 +178,10 @@ const SearchBar = React.createClass({
   closeSearch(e: SyntheticEvent) {
     const { editor: ed } = this.props;
 
-    if (this.state.enabled && ed) {
+    if (this.props.searchOn && ed) {
       this.clearSearch();
+      this.props.toggleSearchVisibility("document", false);
       this.setState({
-        enabled: false,
         symbolSearchEnabled: false,
         selectedSymbolType: "functions"
       });
@@ -190,8 +195,8 @@ const SearchBar = React.createClass({
     e.preventDefault();
     const { editor } = this.props;
 
-    if (!this.state.enabled) {
-      this.setState({ enabled: true });
+    if (!this.props.searchOn) {
+      this.props.toggleSearchVisibility("document");
     }
 
     if (this.state.symbolSearchEnabled) {
@@ -200,7 +205,7 @@ const SearchBar = React.createClass({
         symbolSearchEnabled: false, selectedSymbolType: "functions" });
     }
 
-    if (this.state.enabled && editor) {
+    if (this.props.searchOn && editor) {
       const selection = editor.codeMirror.getSelection();
       this.setSearchValue(selection);
       if (selection !== "") {
@@ -223,8 +228,8 @@ const SearchBar = React.createClass({
       return;
     }
 
-    if (!this.state.enabled) {
-      this.setState({ enabled: true });
+    if (!this.props.searchOn) {
+      this.props.toggleSearchVisibility("document");
     }
 
     if (this.state.symbolSearchEnabled) {
@@ -350,7 +355,7 @@ const SearchBar = React.createClass({
     } = this.props;
 
     if (query === "") {
-      this.setState({ enabled: true });
+      this.props.toggleSearchVisibility("document", true);
     }
 
     if (index == -1) {
@@ -564,7 +569,7 @@ const SearchBar = React.createClass({
       query,
     } = this.props;
 
-    if (!this.state.enabled) {
+    if (!this.props.searchOn) {
       return dom.div();
     }
 
@@ -586,4 +591,8 @@ const SearchBar = React.createClass({
   }
 });
 
-module.exports = SearchBar;
+module.exports = connect(state => {
+  return {
+    searchOn: getSearchFieldState(state, "document")
+  };
+}, dispatch => bindActionCreators(actions, dispatch))(SearchBar);

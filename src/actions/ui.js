@@ -3,7 +3,7 @@ const constants = require("../constants");
 const { getSource, getSearchFieldState } = require("../selectors");
 import type { ThunkArgs } from "./types";
 
-function toggleSearchVisibility(field: string, toggleValue: boolean) {
+function toggleSearchVisibility(field: string, toggleValue?: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (toggleValue != null) {
       dispatch({
