@@ -121,9 +121,14 @@ const Expressions = React.createClass({
   renderExpression(expression) {
     const { loadObjectProperties, loadedObjects } = this.props;
     const { editing } = this.state;
-    const { input } = expression;
+    const { input, updating } = expression;
+
     if (editing == input) {
       return this.renderExpressionEditInput(expression);
+    }
+
+    if (updating) {
+      return;
     }
 
     const { value, path } = getValue(expression);
