@@ -78,7 +78,10 @@ const Expressions = React.createClass({
   }
 
   componentDidMount() {
-    this.props.evaluateExpressions();
+    const { expressions, evaluateExpressions } = this.props;
+    if (expressions.size > 0) {
+      evaluateExpressions();
+    }
   },
 
   shouldComponentUpdate(nextProps, nextState) {
