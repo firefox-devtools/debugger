@@ -1,19 +1,16 @@
 // @flow
-const React = require("react");
-const { DOM: dom, PropTypes, createFactory } = React;
-const { connect } = require("react-redux");
-const { bindActionCreators } = require("redux");
-const actions = require("../actions");
-const {
-  getSources,
-  getSelectedSource,
-  getFileSearchState
-} = require("../selectors");
-const { endTruncateStr } = require("../utils/utils");
-const { parse: parseURL } = require("url");
-const { isPretty } = require("../utils/source");
 
-require("./SourceSearch.css");
+import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import actions from "../actions";
+import {
+  getSources, getSelectedSource, getFileSearchState
+} from "../selectors";
+import { endTruncateStr } from "../utils/utils";
+import { parse as parseURL } from "url";
+import { isPretty } from "../utils/source";
+import "./SourceSearch.css";
 
 const Autocomplete = createFactory(require("./shared/Autocomplete"));
 
@@ -35,27 +32,23 @@ function searchResults(sources) {
     .toJS();
 }
 
-const Search = React.createClass({
-  propTypes: {
-    sources: PropTypes.object.isRequired,
-    selectSource: PropTypes.func.isRequired,
-    selectedSource: PropTypes.object,
-    toggleFileSearch: PropTypes.func.isRequired,
-    closeFileSearch: PropTypes.func.isRequired,
-    searchOn: PropTypes.bool
-  },
+class Search extends Component {
 
-  contextTypes: {
-    shortcuts: PropTypes.object
-  },
+  state: Object
+  toggle: Function
+  onEscape: Function
+  close: Function
 
-  displayName: "Search",
-
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props);
+    this.state = {
       inputValue: ""
     };
-  },
+
+    this.toggle = this.toggle.bind(this);
+    this.onEscape = this.onEscape.bind(this);
+    this.close = this.close.bind(this);
+  }
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
@@ -65,7 +58,7 @@ const Search = React.createClass({
     ];
     searchKeys.forEach(key => shortcuts.off(`CmdOrCtrl+${key}`, this.toggle));
     shortcuts.off("Escape", this.onEscape);
-  },
+  }
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
@@ -75,12 +68,12 @@ const Search = React.createClass({
     ];
     searchKeys.forEach(key => shortcuts.on(`CmdOrCtrl+${key}`, this.toggle));
     shortcuts.on("Escape", this.onEscape);
-  },
+  }
 
   toggle(key, e) {
     e.preventDefault();
     this.props.toggleFileSearch();
-  },
+  }
 
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
@@ -88,12 +81,12 @@ const Search = React.createClass({
       this.setState({ inputValue: "" });
       this.props.closeFileSearch();
     }
-  },
+  }
 
   close(inputValue = "") {
     this.setState({ inputValue });
     this.props.closeFileSearch();
-  },
+  }
 
   render() {
     if (!this.props.searchOn) {
@@ -114,9 +107,24 @@ const Search = React.createClass({
       }));
   }
 
-});
+}
 
-module.exports = connect(
+Search.propTypes = {
+  sources: PropTypes.object.isRequired,
+  selectSource: PropTypes.func.isRequired,
+  selectedSource: PropTypes.object,
+  toggleFileSearch: PropTypes.func.isRequired,
+  closeFileSearch: PropTypes.func.isRequired,
+  searchOn: PropTypes.bool
+};
+
+Search.contextTypes = {
+  shortcuts: PropTypes.object
+};
+
+Search.displayName = "Search";
+
+export default connect(
   state => ({
     sources: getSources(state),
     selectedSource: getSelectedSource(state),
