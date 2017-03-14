@@ -1,21 +1,43 @@
 // @flow
 const constants = require("../constants");
-const { getSource, getSearchFieldState } = require("../selectors");
+const {
+  getSource,
+  getProjectSearchState,
+  getFileSearchState
+} = require("../selectors");
 import type { ThunkArgs } from "./types";
 
-function toggleSearchVisibility(field: string, toggleValue?: boolean) {
+function toggleProjectSearch(toggleValue?: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (toggleValue != null) {
       dispatch({
-        type: constants.SET_FILE_SEARCH,
-        field,
+        type: constants.TOGGLE_SEARCH,
+        field: "projectSearchOn",
         value: toggleValue
       });
     } else {
       dispatch({
-        type: constants.SET_FILE_SEARCH,
-        field,
-        value: !getSearchFieldState(getState(), field)
+        type: constants.TOGGLE_SEARCH,
+        field: "projectSearchOn",
+        value: !getProjectSearchState(getState())
+      });
+    }
+  };
+}
+
+function toggleFileSearch(toggleValue?: boolean) {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (toggleValue != null) {
+      dispatch({
+        type: constants.TOGGLE_SEARCH,
+        field: "fileSearchOn",
+        value: toggleValue
+      });
+    } else {
+      dispatch({
+        type: constants.TOGGLE_SEARCH,
+        field: "fileSearchOn",
+        value: !getFileSearchState(getState())
       });
     }
   };
@@ -40,7 +62,8 @@ function togglePaneCollapse(position: string, paneCollapsed: boolean) {
 }
 
 module.exports = {
-  toggleSearchVisibility,
+  toggleFileSearch,
+  toggleProjectSearch,
   showSource,
   togglePaneCollapse
 };

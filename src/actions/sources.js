@@ -142,8 +142,8 @@ function selectSource(id: string, options: SelectSourceOptions = {}) {
     dispatch(loadSourceText(source));
 
     dispatch({
-      type: constants.SET_FILE_SEARCH,
-      field: "project",
+      type: constants.TOGGLE_SEARCH,
+      field: "projectSearchOn",
       value: false
     });
 

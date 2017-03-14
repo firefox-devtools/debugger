@@ -12,23 +12,17 @@ const { prefs } = require("../utils/prefs");
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-type searchVisibilityType = {
-    project: boolean,
-    document: boolean
-};
-
 export type UIState = {
-  searchVisibility: Record<searchVisibilityType>,
+  fileSearchOn: boolean,
+  projectSearchOn: boolean,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
 };
 
 const State = makeRecord(({
-  searchVisibility: makeRecord({
-    project: false,
-    document: false
-  })(),
+  fileSearchOn: false,
+  projectSearchOn: false,
   shownSource: "",
   startPanelCollapsed: prefs.startPanelCollapsed,
   endPanelCollapsed: prefs.endPanelCollapsed
@@ -36,8 +30,8 @@ const State = makeRecord(({
 
 function update(state = State(), action: Action): Record<UIState> {
   switch (action.type) {
-    case constants.SET_FILE_SEARCH: {
-      return state.setIn(["searchVisibility", action.field], action.value);
+    case constants.TOGGLE_SEARCH: {
+      return state.set(action.field, action.value);
     }
 
     case constants.SHOW_SOURCE: {
@@ -64,9 +58,13 @@ function update(state = State(), action: Action): Record<UIState> {
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ui: Record<UIState> };
 
-function getSearchFieldState(state: OuterState, field: string): boolean {
-  return state.ui.getIn(["searchVisibility", field]);
+type SearchFieldType = "projectSearchOn" | "fileSearchOn";
+function getSearchState(field: SearchFieldType, state: OuterState): boolean {
+  return state.ui.get(field);
 }
+
+const getProjectSearchState = getSearchState.bind(null, "projectSearchOn");
+const getFileSearchState = getSearchState.bind(null, "fileSearchOn");
 
 function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");
@@ -84,7 +82,8 @@ function getPaneCollapse(
 module.exports = {
   State,
   update,
-  getSearchFieldState,
+  getProjectSearchState,
+  getFileSearchState,
   getShownSource,
   getPaneCollapse
 };

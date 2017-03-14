@@ -9,7 +9,7 @@ const { isEnabled } = require("devtools-config");
 const { filter } = require("fuzzaldrin-plus");
 const Svg = require("../shared/Svg");
 const actions = require("../../actions");
-const { getSearchFieldState } = require("../../selectors");
+const { getFileSearchState } = require("../../selectors");
 const {
   find,
   findNext,
@@ -57,7 +57,7 @@ const SearchBar = React.createClass({
     selectSource: PropTypes.func.isRequired,
     selectedSource: ImPropTypes.map,
     searchOn: PropTypes.bool,
-    toggleSearchVisibility: PropTypes.func.isRequired,
+    toggleFileSearch: PropTypes.func.isRequired,
     searchResults: PropTypes.object.isRequired,
     modifiers: PropTypes.object.isRequired,
     toggleModifier: PropTypes.func.isRequired,
@@ -180,7 +180,7 @@ const SearchBar = React.createClass({
 
     if (this.props.searchOn && ed) {
       this.clearSearch();
-      this.props.toggleSearchVisibility("document", false);
+      this.props.toggleFileSearch(false);
       this.setState({
         symbolSearchEnabled: false,
         selectedSymbolType: "functions"
@@ -196,7 +196,7 @@ const SearchBar = React.createClass({
     const { editor } = this.props;
 
     if (!this.props.searchOn) {
-      this.props.toggleSearchVisibility("document");
+      this.props.toggleFileSearch();
     }
 
     if (this.state.symbolSearchEnabled) {
@@ -229,7 +229,7 @@ const SearchBar = React.createClass({
     }
 
     if (!this.props.searchOn) {
-      this.props.toggleSearchVisibility("document");
+      this.props.toggleFileSearch();
     }
 
     if (this.state.symbolSearchEnabled) {
@@ -355,7 +355,7 @@ const SearchBar = React.createClass({
     } = this.props;
 
     if (query === "") {
-      this.props.toggleSearchVisibility("document", true);
+      this.props.toggleFileSearch(true);
     }
 
     if (index == -1) {
@@ -593,6 +593,6 @@ const SearchBar = React.createClass({
 
 module.exports = connect(state => {
   return {
-    searchOn: getSearchFieldState(state, "document")
+    searchOn: getFileSearchState(state)
   };
 }, dispatch => bindActionCreators(actions, dispatch))(SearchBar);
