@@ -23,6 +23,27 @@ class SearchInput extends Component {
     return Svg("magnifying-glass");
   }
 
+  renderNav() {
+    const { count, handleNext, handlePrev } = this.props;
+    if (!count || count == 1) {
+      return;
+    }
+
+    return dom.div(
+      { className: "search-nav-buttons" },
+      Svg("arrow-down", {
+        className: classnames("nav-btn", "next"),
+        onClick: handleNext,
+        title: "Next Result"
+      }),
+      Svg("arrow-up", {
+        className: classnames("nav-btn", "prev"),
+        onClick: handlePrev,
+        title: "Previous Result"
+      })
+    );
+  }
+
   render() {
     const {
       query,
@@ -57,6 +78,7 @@ class SearchInput extends Component {
         spellCheck: false
       }),
       dom.div({ className: "summary" }, query != "" ? summaryMsg : ""),
+      this.renderNav(),
       CloseButton({
         handleClick: handleClose,
         buttonClass: size
@@ -76,7 +98,9 @@ SearchInput.propTypes = {
   onKeyDown: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
-  size: PropTypes.string
+  size: PropTypes.string,
+  handleNext: PropTypes.func,
+  handlePrev: PropTypes.func
 };
 
 export default SearchInput;
