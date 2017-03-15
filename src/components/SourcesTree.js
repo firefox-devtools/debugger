@@ -238,6 +238,13 @@ class SourcesTree extends Component {
       renderItem: this.renderItem
     });
 
+    const noSourcesMessage = dom.div({
+        className: "no-sources-message"
+      }, 'This page has no sources.');
+
+    if (isEmpty) {
+      return noSourcesMessage;
+    } else {
     return dom.div({
       className: "sources-list",
       onKeyDown: e => {
@@ -246,6 +253,7 @@ class SourcesTree extends Component {
         }
       }
     }, tree);
+    }
   }
 }
 
