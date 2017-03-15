@@ -3,6 +3,7 @@ const expect = require("expect.js");
 
 const {
   getFileSearchState,
+  getFileSearchQueryState,
   getFileSearchModifierState,
   getProjectSearchState,
   getPaneCollapse
@@ -39,7 +40,16 @@ describe("ui", () => {
     expect(getFileSearchState(getState())).to.be(false);
   });
 
-  it("should toggle a search modifier", () => {
+  it("should update the  file search query", () => {
+    const { dispatch, getState } = createStore();
+    let fileSearchQueryState = getFileSearchQueryState(getState());
+    expect(fileSearchQueryState).to.be("");
+    dispatch(actions.setFileSearchQuery("foobar"));
+    fileSearchQueryState = getFileSearchQueryState(getState());
+    expect(fileSearchQueryState).to.be("foobar");
+  });
+
+  it("should toggle a file search modifier", () => {
     const { dispatch, getState } = createStore();
     let fileSearchModState = getFileSearchModifierState(getState());
     expect(fileSearchModState.get("caseSensitive")).to.be(true);

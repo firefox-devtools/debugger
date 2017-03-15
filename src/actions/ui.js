@@ -39,6 +39,13 @@ function toggleFileSearch(toggleValue?: boolean) {
   };
 }
 
+function setFileSearchQuery(query: string) {
+  return {
+    type: constants.UPDATE_FILE_SEARCH_QUERY,
+    query
+  };
+}
+
 function toggleFileSearchModifier(modifier: string) {
   return { type: constants.TOGGLE_FILE_SEARCH_MODIFIER, modifier };
 }
@@ -63,6 +70,7 @@ function togglePaneCollapse(position: string, paneCollapsed: boolean) {
 
 module.exports = {
   toggleFileSearch,
+  setFileSearchQuery,
   toggleFileSearchModifier,
   toggleProjectSearch,
   showSource,

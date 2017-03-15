@@ -20,6 +20,7 @@ type fileSearchModifiersType = {
 
 export type UIState = {
   fileSearchOn: boolean,
+  fileSearchQuery: string,
   fileSearchModifiers: Record<fileSearchModifiersType>,
   projectSearchOn: boolean,
   shownSource: string,
@@ -29,6 +30,7 @@ export type UIState = {
 
 const State = makeRecord(({
   fileSearchOn: false,
+  fileSearchQuery: "",
   fileSearchModifiers: makeRecord({
     caseSensitive: true,
     wholeWord: false,
@@ -48,6 +50,10 @@ function update(state = State(), action: Action): Record<UIState> {
 
     case constants.TOGGLE_FILE_SEARCH: {
       return state.set("fileSearchOn", action.value);
+    }
+
+    case constants.UPDATE_FILE_SEARCH_QUERY: {
+      return state.set("fileSearchQuery", action.query);
     }
 
     case constants.TOGGLE_FILE_SEARCH_MODIFIER: {
@@ -86,6 +92,10 @@ function getSearchState(field: SearchFieldType, state: OuterState): boolean {
   return state.ui.get(field);
 }
 
+function getFileSearchQueryState(state: OuterState): string {
+  return state.ui.get("fileSearchQuery");
+}
+
 function getFileSearchModifierState(
   state: OuterState): Record<fileSearchModifiersType> {
   return state.ui.get("fileSearchModifiers");
@@ -112,6 +122,7 @@ module.exports = {
   update,
   getProjectSearchState,
   getFileSearchState,
+  getFileSearchQueryState,
   getFileSearchModifierState,
   getShownSource,
   getPaneCollapse

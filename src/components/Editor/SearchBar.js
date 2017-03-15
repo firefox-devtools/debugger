@@ -11,6 +11,7 @@ const Svg = require("../shared/Svg");
 const actions = require("../../actions");
 const {
   getFileSearchState,
+  getFileSearchQueryState,
   getFileSearchModifierState
 } = require("../../selectors");
 const {
@@ -69,7 +70,7 @@ const SearchBar = React.createClass({
     }).isRequired,
     toggleFileSearchModifier: PropTypes.func.isRequired,
     query: PropTypes.string.isRequired,
-    updateQuery: PropTypes.func.isRequired,
+    setFileSearchQuery: PropTypes.func.isRequired,
     updateSearchResults: PropTypes.func.isRequired
   },
 
@@ -157,7 +158,7 @@ const SearchBar = React.createClass({
     const doneLoading = wasLoading && hasLoaded;
     const changedFiles = selectedSource != prevProps.selectedSource
                           && hasLoaded;
-    const modifiersUpdated = modifiers.equals(prevProps.modifiers);
+    const modifiersUpdated = !modifiers.equals(prevProps.modifiers);
 
     const isOpen = this.props.searchOn || this.state.symbolSearchEnabled;
     const { selectedSymbolType, symbolSearchEnabled } = this.state;
@@ -299,14 +300,14 @@ const SearchBar = React.createClass({
   async doSearch(query: string) {
     const {
       sourceText,
-      updateQuery,
+      setFileSearchQuery,
       editor: ed,
     } = this.props;
     if (!sourceText || !sourceText.get("text")) {
       return;
     }
 
-    updateQuery(query);
+    setFileSearchQuery(query);
 
     if (this.state.symbolSearchEnabled) {
       return await this.updateSymbolSearchResults(query);
@@ -598,6 +599,7 @@ const SearchBar = React.createClass({
 module.exports = connect(state => {
   return {
     searchOn: getFileSearchState(state),
+    query: getFileSearchQueryState(state),
     modifiers: getFileSearchModifierState(state)
   };
 }, dispatch => bindActionCreators(actions, dispatch))(SearchBar);

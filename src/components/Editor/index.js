@@ -21,8 +21,9 @@ const { isEnabled } = require("devtools-config");
 const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame,
-  getSelectedSource, getHitCountForSource, getFileSearchModifierState,
-  getCoverageEnabled, getLoadedObjects, getPause
+  getSelectedSource, getHitCountForSource,
+  getCoverageEnabled, getLoadedObjects, getPause,
+  getFileSearchQueryState, getFileSearchModifierState
 } = require("../../selectors");
 const { makeLocationId } = require("../../reducers/breakpoints");
 const actions = require("../../actions");
@@ -72,6 +73,7 @@ const Editor = React.createClass({
     selectedFrame: PropTypes.object,
     addExpression: PropTypes.func,
     horizontal: PropTypes.bool,
+    query: PropTypes.string.isRequired,
     searchModifiers: ImPropTypes.recordOf({
       caseSensitive: PropTypes.bool.isRequired,
       regexMatch: PropTypes.bool.isRequired,
@@ -88,7 +90,6 @@ const Editor = React.createClass({
 
   getInitialState() {
     return {
-      query: "",
       searchResults: {
         index: -1,
         count: 0
@@ -144,8 +145,7 @@ const Editor = React.createClass({
       .addEventListener("keydown", e => onKeyDown(codeMirror, e));
 
     const ctx = { ed: this.editor, cm: codeMirror };
-    const { query } = this.state;
-    const { searchModifiers } = this.props;
+    const { query, searchModifiers } = this.props;
 
     codeMirrorWrapper
       .addEventListener("mouseup", e => this.onMouseUp(e, ctx));
@@ -314,13 +314,6 @@ const Editor = React.createClass({
       jumpToMappedLocation: this.props.jumpToMappedLocation,
       addExpression: this.props.addExpression
     });
-  },
-
-  updateQuery(query) {
-    if (this.state.query == query) {
-      return;
-    }
-    this.setState({ query });
   },
 
   updateSearchResults({ count, index }) {
@@ -625,8 +618,6 @@ const Editor = React.createClass({
           selectedSource,
           sourceText,
           searchResults,
-          query: this.state.query,
-          updateQuery: this.updateQuery,
           updateSearchResults: this.updateSearchResults
         }),
         dom.div({
@@ -657,6 +648,7 @@ module.exports = connect(state => {
     selectedFrame: getSelectedFrame(state),
     pauseData: getPause(state),
     coverageOn: getCoverageEnabled(state),
+    query: getFileSearchQueryState(state),
     searchModifiers: getFileSearchModifierState(state)
   };
 }, dispatch => bindActionCreators(actions, dispatch))(Editor);
