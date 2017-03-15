@@ -10,7 +10,7 @@ import {
 import { endTruncateStr } from "../utils/utils";
 import { parse as parseURL } from "url";
 import { isPretty } from "../utils/source";
-import "./SourceSearch.css";
+import "./ProjectSearch.css";
 
 const Autocomplete = createFactory(require("./shared/Autocomplete"));
 
@@ -32,7 +32,7 @@ function searchResults(sources) {
     .toJS();
 }
 
-class Search extends Component {
+class ProjectSearch extends Component {
 
   state: Object
   toggle: Function
@@ -109,7 +109,7 @@ class Search extends Component {
 
 }
 
-Search.propTypes = {
+ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
   selectSource: PropTypes.func.isRequired,
   selectedSource: PropTypes.object,
@@ -117,11 +117,11 @@ Search.propTypes = {
   searchOn: PropTypes.bool
 };
 
-Search.contextTypes = {
+ProjectSearch.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-Search.displayName = "Search";
+ProjectSearch.displayName = "ProjectSearch";
 
 export default connect(
   state => ({
@@ -130,4 +130,4 @@ export default connect(
     searchOn: getProjectSearchState(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
-)(Search);
+)(ProjectSearch);
