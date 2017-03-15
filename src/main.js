@@ -81,4 +81,4 @@ if (isFirefoxPanel()) {
     .then(conn => onConnect(conn, actions));
 }
 
-2;
+4;
