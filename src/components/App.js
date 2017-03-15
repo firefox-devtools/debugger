@@ -79,7 +79,7 @@ class App extends Component {
         }),
         Editor({ horizontal }),
         !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
-        SourceSearch()
+        horizontal ? SourceSearch() : null
       )
     );
   }
@@ -121,6 +121,7 @@ class App extends Component {
 
     return dom.div(
       { className: "debugger" },
+      SourceSearch(),
       SplitBox({
         style: { width: "100vw" },
         initialSize: "300px",
