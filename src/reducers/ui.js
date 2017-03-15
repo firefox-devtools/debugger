@@ -12,8 +12,15 @@ const { prefs } = require("../utils/prefs");
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
+type fileSearchModifiersType = {
+  caseSensitive: boolean,
+  wholeWord: boolean,
+  regexMatch: boolean
+};
+
 export type UIState = {
   fileSearchOn: boolean,
+  fileSearchModifiers: Record<fileSearchModifiersType>,
   projectSearchOn: boolean,
   shownSource: string,
   startPanelCollapsed: boolean,
@@ -22,6 +29,11 @@ export type UIState = {
 
 const State = makeRecord(({
   fileSearchOn: false,
+  fileSearchModifiers: makeRecord({
+    caseSensitive: true,
+    wholeWord: false,
+    regexMatch: false
+  })(),
   projectSearchOn: false,
   shownSource: "",
   startPanelCollapsed: prefs.startPanelCollapsed,
@@ -30,8 +42,17 @@ const State = makeRecord(({
 
 function update(state = State(), action: Action): Record<UIState> {
   switch (action.type) {
-    case constants.TOGGLE_SEARCH: {
-      return state.set(action.field, action.value);
+    case constants.TOGGLE_PROJECT_SEARCH: {
+      return state.set("projectSearchOn", action.value);
+    }
+
+    case constants.TOGGLE_FILE_SEARCH: {
+      return state.set("fileSearchOn", action.value);
+    }
+
+    case constants.TOGGLE_FILE_SEARCH_MODIFIER: {
+      return state
+        .setIn(["fileSearchModifiers", action.modifier], action.modifierValue);
     }
 
     case constants.SHOW_SOURCE: {
@@ -63,6 +84,11 @@ function getSearchState(field: SearchFieldType, state: OuterState): boolean {
   return state.ui.get(field);
 }
 
+function getFileSearchModifierState(
+  state: OuterState): Record<fileSearchModifiersType> {
+  return state.ui.get("fileSearchModifiers");
+}
+
 const getProjectSearchState = getSearchState.bind(null, "projectSearchOn");
 const getFileSearchState = getSearchState.bind(null, "fileSearchOn");
 
@@ -84,6 +110,7 @@ module.exports = {
   update,
   getProjectSearchState,
   getFileSearchState,
+  getFileSearchModifierState,
   getShownSource,
   getPaneCollapse
 };

@@ -142,8 +142,7 @@ function selectSource(id: string, options: SelectSourceOptions = {}) {
     dispatch(loadSourceText(source));
 
     dispatch({
-      type: constants.TOGGLE_SEARCH,
-      field: "projectSearchOn",
+      type: constants.TOGGLE_PROJECT_SEARCH,
       value: false
     });
 
