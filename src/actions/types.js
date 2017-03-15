@@ -111,7 +111,6 @@ type UIAction =
   | {
     type: "TOGGLE_FILE_SEARCH_MODIFIER",
     modifier: "caseSensitive" | "wholeWord" | "regexMatch",
-    modifierValue: boolean
     }
   | {
     type: "SHOW_SOURCE",

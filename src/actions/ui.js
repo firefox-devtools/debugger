@@ -39,14 +39,8 @@ function toggleFileSearch(toggleValue?: boolean) {
   };
 }
 
-function toggleFileSearchModifier(modifier: string, modifierValue: boolean) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: constants.TOGGLE_FILE_SEARCH_MODIFIER,
-      modifier,
-      modifierValue
-    });
-  };
+function toggleFileSearchModifier(modifier: string) {
+  return { type: constants.TOGGLE_FILE_SEARCH_MODIFIER, modifier };
 }
 
 function showSource(sourceId: string) {

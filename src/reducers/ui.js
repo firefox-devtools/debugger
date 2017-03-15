@@ -52,7 +52,9 @@ function update(state = State(), action: Action): Record<UIState> {
 
     case constants.TOGGLE_FILE_SEARCH_MODIFIER: {
       return state
-        .setIn(["fileSearchModifiers", action.modifier], action.modifierValue);
+        .setIn(["fileSearchModifiers", action.modifier],
+        !state.getIn(["fileSearchModifiers", action.modifier])
+      );
     }
 
     case constants.SHOW_SOURCE: {

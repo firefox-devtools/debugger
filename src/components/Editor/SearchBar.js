@@ -489,7 +489,7 @@ const SearchBar = React.createClass({
           disabled: symbolSearchEnabled
         }),
         onClick: () => !symbolSearchEnabled ?
-        toggleFileSearchModifier(modVal, !modifiers.get(modVal)) : null
+        toggleFileSearchModifier(modVal) : null
       }, Svg(svgName));
     }
 
