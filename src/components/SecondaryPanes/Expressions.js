@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
-const CloseButton = React.createFactory(require("../shared/Button/Close"));
+const CloseButton = React.createFactory(require("../shared/Button/Close").default);
 const ObjectInspector = React.createFactory(require("../shared/ObjectInspector"));
 const { DOM: dom, PropTypes } = React;
 

@@ -8,7 +8,7 @@ import { getPaneCollapse } from "../selectors";
 import { formatKeyShortcut } from "../utils/text";
 
 const PaneToggleButton = createFactory(
-  require("./shared/Button/PaneToggle")
+  require("./shared/Button/PaneToggle").default
 );
 
 import "./WelcomeBox.css";

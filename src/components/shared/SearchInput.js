@@ -2,7 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const classnames = require("classnames");
 const Svg = require("./Svg");
-const CloseButton = require("./Button/Close");
+const CloseButton = require("./Button/Close").default;
 
 require("./SearchInput.css");
 

@@ -1,10 +1,9 @@
 // @flow
-const React = require("react");
-const { DOM: dom, PropTypes } = React;
-const classnames = require("classnames");
-const Svg = require("../Svg");
 
-require("./PaneToggle.css");
+import { DOM as dom, PropTypes, Component } from "react";
+import classnames from "classnames";
+import Svg from "../Svg";
+import "./PaneToggle.css";
 
 type NextProps = {
   collapsed: boolean,
@@ -13,22 +12,13 @@ type NextProps = {
   position: string
 };
 
-const PaneToggleButton = React.createClass({
-  propTypes: {
-    position: PropTypes.string.isRequired,
-    collapsed: PropTypes.bool.isRequired,
-    horizontal: PropTypes.bool,
-    handleClick: PropTypes.func.isRequired
-  },
-
-  displayName: "PaneToggleButton",
-
+class PaneToggleButton extends Component {
   shouldComponentUpdate(nextProps: NextProps) {
     const { collapsed, horizontal } = this.props;
 
     return horizontal !== nextProps.horizontal
       || collapsed !== nextProps.collapsed;
-  },
+  }
 
   render() {
     const { position, collapsed, horizontal, handleClick } = this.props;
@@ -45,6 +35,15 @@ const PaneToggleButton = React.createClass({
       title
     }, Svg("togglePanes"));
   }
-});
+}
 
-module.exports = PaneToggleButton;
+PaneToggleButton.propTypes = {
+  position: PropTypes.string.isRequired,
+  collapsed: PropTypes.bool.isRequired,
+  horizontal: PropTypes.bool,
+  handleClick: PropTypes.func.isRequired
+};
+
+PaneToggleButton.displayName = "PaneToggleButton";
+
+export default PaneToggleButton;

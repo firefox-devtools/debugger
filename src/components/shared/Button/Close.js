@@ -1,9 +1,7 @@
 // @flow
-const React = require("react");
-const { DOM: dom, PropTypes } = React;
-const Svg = require("../Svg");
-
-require("./Close.css");
+import { DOM as dom, PropTypes } from "react";
+import Svg from "../Svg";
+import "./Close.css";
 
 type CloseButtonType = {
   handleClick: any,
@@ -24,4 +22,4 @@ CloseButton.propTypes = {
   handleClick: PropTypes.func.isRequired
 };
 
-module.exports = CloseButton;
+export default CloseButton;
