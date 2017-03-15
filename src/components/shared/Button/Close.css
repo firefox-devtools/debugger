@@ -11,6 +11,8 @@
   margin-top: 2px;
   line-height: 7px;
   transition: all 0.25s ease-in-out;
+  border: 1px solid transparent;
+  border-radius: 2px;
 }
 
 .close-btn .close svg {
@@ -24,7 +26,6 @@
 .close-btn-big:hover .close,
 .close-btn:hover .close {
   background: var(--theme-selection-background);
-  border-radius: 2px;
 }
 
 .close-btn-big:hover .close path,
