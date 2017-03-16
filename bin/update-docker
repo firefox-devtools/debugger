@@ -4,10 +4,10 @@ DOWNLOADS_PATH=${DOWNLOADS_PATH:-"$HOME/downloads"}
 
 mkdir -p $DOWNLOADS_PATH
 
-if [[ -e $DOWNLOADS_PATH/local-mc5.tar ]]; then
-  time docker load -i $DOWNLOADS_PATH/local-mc5.tar;
+if [[ -e $DOWNLOADS_PATH/local-mc12.tar ]]; then
+  time docker load -i $DOWNLOADS_PATH/local-mc12.tar;
 else
-  time docker pull jasonlaster11/local-mc5
+  time docker pull jasonlaster11/local-mc12
   docker images
-  time docker save jasonlaster11/local-mc5 > $DOWNLOADS_PATH/local-mc5.tar
+  time docker save jasonlaster11/local-mc12 > $DOWNLOADS_PATH/local-mc12.tar
 fi

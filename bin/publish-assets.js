@@ -12,7 +12,7 @@ function start() {
   const assetsDir = path.resolve(projectPath, "assets");
 
   if (fs.existsSync(buildDir)) {
-    rimraf(buildDir);
+    rimraf(buildDir, {}, () => {});
   }
   fs.mkdirSync(buildDir);
 
