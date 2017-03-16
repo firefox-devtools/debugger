@@ -226,7 +226,7 @@ Our goal is to work with the community to build a universal JS debugger for mode
 
 ### Team Members
 
-debugger.html community team members help shephard the community.
+debugger.html community team members help shepherd the community.
 They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
