@@ -80,3 +80,4 @@ if (isFirefoxPanel()) {
   bootstrap(React, ReactDOM, App, actions, store)
     .then(conn => onConnect(conn, actions));
 }
+
