@@ -39,25 +39,18 @@ function getValue(expression) {
   };
 }
 
-const Expressions = React.createClass({
-  propTypes: {
-    expressions: ImPropTypes.list.isRequired,
-    addExpression: PropTypes.func.isRequired,
-    updateExpression: PropTypes.func.isRequired,
-    deleteExpression: PropTypes.func.isRequired,
-    loadObjectProperties: PropTypes.func,
-    loadedObjects: ImPropTypes.map.isRequired
-  },
+class Expressions extends React.Component {
+  _input: (null|any)
 
-  _input: (null: any),
+  constructor(...args) {
+    super(...args);
 
-  displayName: "Expressions",
-
-  getInitialState() {
-    return {
+    this.state = {
       editing: null
     };
-  },
+
+    this.renderExpression = this.renderExpression.bind(this);
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     const { editing } = this.state;
@@ -65,7 +58,7 @@ const Expressions = React.createClass({
     return expressions !== nextProps.expressions
       || loadedObjects !== nextProps.loadedObjects
       || editing !== nextState.editing;
-  },
+  }
 
   editExpression(expression, { depth }) {
     if (depth > 0) {
@@ -73,13 +66,13 @@ const Expressions = React.createClass({
     }
 
     this.setState({ editing: expression.input });
-  },
+  }
 
   deleteExpression(e, expression) {
     e.stopPropagation();
     const { deleteExpression } = this.props;
     deleteExpression(expression);
-  },
+  }
 
   inputKeyPress(e, expression) {
     if (e.key !== "Enter") {
@@ -97,7 +90,7 @@ const Expressions = React.createClass({
       value,
       expression
     );
-  },
+  }
 
   renderExpressionEditInput(expression) {
     return dom.span(
@@ -116,7 +109,7 @@ const Expressions = React.createClass({
         }
       )
     );
-  },
+  }
 
   renderExpression(expression) {
     const { loadObjectProperties, loadedObjects } = this.props;
@@ -151,13 +144,13 @@ const Expressions = React.createClass({
       }),
       CloseButton({ handleClick: e => this.deleteExpression(e, expression) }),
     );
-  },
+  }
 
   componentDidUpdate() {
     if (this._input) {
       this._input.focus();
     }
-  },
+  }
 
   renderNewExpressionInput() {
     const onKeyPress = e => {
@@ -184,7 +177,7 @@ const Expressions = React.createClass({
          onKeyPress
        })
     );
-  },
+  }
 
   render() {
     const { expressions } = this.props;
@@ -194,7 +187,18 @@ const Expressions = React.createClass({
       this.renderNewExpressionInput()
     );
   }
-});
+}
+
+Expressions.propTypes = {
+  expressions: ImPropTypes.list.isRequired,
+  addExpression: PropTypes.func.isRequired,
+  updateExpression: PropTypes.func.isRequired,
+  deleteExpression: PropTypes.func.isRequired,
+  loadObjectProperties: PropTypes.func,
+  loadedObjects: ImPropTypes.map.isRequired
+};
+
+Expressions.displayName = "Expressions";
 
 export default connect(
   state => ({

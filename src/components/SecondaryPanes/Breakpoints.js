@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, createClass } from "react";
+import { DOM as dom, PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
@@ -44,21 +44,12 @@ function renderSourceLocation(source, line) {
     ) : null;
 }
 
-const Breakpoints = createClass({
-  propTypes: {
-    breakpoints: ImPropTypes.map.isRequired,
-    enableBreakpoint: PropTypes.func.isRequired,
-    disableBreakpoint: PropTypes.func.isRequired,
-    selectSource: PropTypes.func.isRequired,
-    removeBreakpoint: PropTypes.func.isRequired
-  },
-
-  displayName: "Breakpoints",
+class Breakpoints extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { breakpoints } = this.props;
     return breakpoints !== nextProps.breakpoints;
-  },
+  }
 
   handleCheckbox(breakpoint) {
     if (breakpoint.loading) {
@@ -70,18 +61,18 @@ const Breakpoints = createClass({
     } else {
       this.props.disableBreakpoint(breakpoint.location);
     }
-  },
+  }
 
   selectBreakpoint(breakpoint) {
     const sourceId = breakpoint.location.sourceId;
     const line = breakpoint.location.line;
     this.props.selectSource(sourceId, { line });
-  },
+  }
 
   removeBreakpoint(event, breakpoint) {
     event.stopPropagation();
     this.props.removeBreakpoint(breakpoint.location);
-  },
+  }
 
   renderBreakpoint(breakpoint) {
     const snippet = breakpoint.text || "";
@@ -120,7 +111,7 @@ const Breakpoints = createClass({
         handleClick: (ev) => this.removeBreakpoint(ev, breakpoint),
         tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip")
       }));
-  },
+  }
 
   render() {
     const { breakpoints } = this.props;
@@ -133,7 +124,17 @@ const Breakpoints = createClass({
        }))
     );
   }
-});
+}
+
+Breakpoints.displayName = "Breakpoints";
+
+Breakpoints.propTypes = {
+  breakpoints: ImPropTypes.map.isRequired,
+  enableBreakpoint: PropTypes.func.isRequired,
+  disableBreakpoint: PropTypes.func.isRequired,
+  selectSource: PropTypes.func.isRequired,
+  removeBreakpoint: PropTypes.func.isRequired
+};
 
 function updateLocation(state, bp): LocalBreakpoint {
   const source = getSource(state, bp.location.sourceId);
