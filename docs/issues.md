@@ -130,10 +130,10 @@ It's one of the most helpful ways to help a project.
 
 There are a couple of ways to think about it:
 * it's great to be able to close issues that are done or stale
-* it's great to make issue descriptions as clear as possible. Our goal is for every issue to be *actionable* i.e. it's clear what needs to be done.
+* it's great to make issue descriptions as clear as possible. Our goal is for every issue to be `available` i.e. it's clear what needs to be done.
 * it's really helpful to double check a new bug and see if you can reproduce it.
-* it's great to ask questions that help make the issue actionable or call out vague issues.
-* it's great to sort the issues by oldest first and help make stale issues actionable.
+* it's great to ask questions that help make the issue available or call out vague issues.
+* it's great to sort the issues by oldest first and help make stale issues available.
 
 ### Issue Organization
 

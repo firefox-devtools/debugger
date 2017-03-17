@@ -116,7 +116,8 @@ We are lucky to have lots of [nice people][getting-help] here.
 
 If you're looking for a good issue, you can look through
 the [available][labels-available] issues.
-These issues should be actionable and well documented.
+
+These issues should be well documented.
 
 To begin your work make sure you follow these steps:
 
