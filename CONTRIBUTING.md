@@ -115,7 +115,7 @@ We are lucky to have lots of [nice people][getting-help] here.
 #### Your First Code Contribution
 
 If you're looking for a good issue, you can look through
-the [up-for-grabs][labels-up-for-grabs] issues.
+the [available][labels-available] issues.
 These issues should be actionable and well documented.
 
 To begin your work make sure you follow these steps:
@@ -154,7 +154,7 @@ Go to [local Development](./docs/local-development.md) to learn about:
 * [Issue Descriptions](./docs/issues.md#issue-descriptions)
 * [Claiming Issues](./docs/issues.md#claiming-issues)
 * [Labels](./docs/issues.md#labels)
-* [Up For Grab Issues](./docs/issues.md#up-for-grab-issues)
+* [Available Issues](./docs/issues.md#available-issues)
 * [Triaging](./docs/issues.md#triaging)
 * [Issue Organization](./docs/issues.md#issue-organization)
 * [Community Friendly](./docs/issues.md#community-friendly)
@@ -243,7 +243,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 **Referrals**. If you’ve been making reasonable and regular contributions to the project we’d be happy to be a reference for you.  We can make internal referrals to Mozilla or act as your reference to other companies.  Please be considerate when making this request, we are happy to help you and want to see you find a job you want but can’t do this for everyone who contributes.
 
 [getting-setup]:./docs/getting-setup.md
-[labels-up-for-grabs]:https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
+[labels-available]:https://github.com/devtools-html/debugger.html/labels/available
 [labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
 [labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
 [labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium

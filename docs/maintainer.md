@@ -17,7 +17,7 @@ We define *stale* as issues that are 30 days or older. Stale is often an indicat
 * *broad* - create more focused issues, such as "add flow types to `WhyPaused` component"
 * *low priority* - close it and add it to the [enhancements board]
 
-#### Making Issues Actionable a.k.a "Up for Grabs"
+#### Making Issues Actionable a.k.a `available`
 
 Actionable is short for two things:
 
@@ -56,7 +56,7 @@ I recommend [ship] for tracking issues.
 
 Patches are a great way to clarify what work needs to be done.
 
-Patches on "up for grabs" issues help clarify where the code should go and are often clearer than english.
+Patches on `available` issues help clarify where the code should go and are often clearer than English.
 
 Tips:
 
