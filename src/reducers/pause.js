@@ -20,7 +20,8 @@ type PauseState = {
   selectedFrameId: ?string,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean
+  shouldIgnoreCaughtExceptions: boolean,
+  debuggeeUrl: string,
 }
 
 const State = makeRecord(({
@@ -30,7 +31,8 @@ const State = makeRecord(({
   selectedFrameId: undefined,
   loadedObjects: I.Map(),
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
-  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions
+  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
+  debuggeeUrl: "",
 } : PauseState));
 
 function update(state = State(), action: Action): Record<PauseState> {
@@ -103,7 +105,7 @@ function update(state = State(), action: Action): Record<PauseState> {
       break;
 
     case constants.NAVIGATE:
-      return State();
+      return State().set("debuggeeUrl", action.url);
 
     case constants.PAUSE_ON_EXCEPTIONS:
       const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
@@ -176,6 +178,10 @@ function getSelectedFrame(state: OuterState) {
   ).toJS();
 }
 
+function getDebuggeeUrl(state: OuterState) {
+  return state.pause.get("debuggeeUrl");
+}
+
 // NOTE: currently only used for chrome
 function getChromeScopes(state: OuterState) {
   const frame = getSelectedFrame(state);
@@ -194,5 +200,6 @@ module.exports = {
   getShouldPauseOnExceptions,
   getShouldIgnoreCaughtExceptions,
   getFrames,
-  getSelectedFrame
+  getSelectedFrame,
+  getDebuggeeUrl
 };

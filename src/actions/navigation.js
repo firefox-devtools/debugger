@@ -14,11 +14,14 @@ const { newSources } = require("./sources");
  * @memberof actions/navigation
  * @static
  */
-function willNavigate() {
+function willNavigate(_, event) {
   clearSourceMaps();
   clearDocuments();
 
-  return { type: constants.NAVIGATE };
+  return {
+    type: constants.NAVIGATE,
+    url: event.url
+  };
 }
 
 /**

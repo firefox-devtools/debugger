@@ -156,6 +156,8 @@ type PauseAction =
   | { type: "DELETE_EXPRESSION",
       input: string };
 
+type NavigateAction = { type: "NAVIGATE", url: string };
+
 /**
  * Actions: Source, Breakpoint, and Navigation
  *
@@ -166,5 +168,5 @@ export type Action =
   SourceAction
   | BreakpointAction
   | PauseAction
-  | { type: "NAVIGATE" }
+  | NavigateAction
   | UIAction;

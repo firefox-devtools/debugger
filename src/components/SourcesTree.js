@@ -6,7 +6,10 @@ import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import classnames from "classnames";
 import ImPropTypes from "react-immutable-proptypes";
 import { Set } from "immutable";
-import { getShownSource, getSelectedSource } from "../selectors";
+import {
+  getShownSource, getSelectedSource, getDebuggeeUrl
+} from "../selectors";
+
 import {
   nodeHasChildren, createParentMap, isDirectory, addToTree, collapseTree,
   createTree, getDirectories
@@ -40,7 +43,7 @@ class SourcesTree extends Component {
 
   constructor(props) {
     super(props);
-    this.state = createTree(this.props.sources);
+    this.state = createTree(this.props.sources, this.props.debuggeeUrl);
 
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
@@ -101,7 +104,9 @@ class SourcesTree extends Component {
     }
 
     if (nextProps.sources.size === 0) {
-      this.setState(createTree(nextProps.sources));
+      this.setState(
+        createTree(nextProps.sources, this.props.debuggeeUrl)
+      );
       return;
     }
 
@@ -111,7 +116,7 @@ class SourcesTree extends Component {
 
     const uncollapsedTree = this.state.uncollapsedTree;
     for (let source of newSet) {
-      addToTree(uncollapsedTree, source);
+      addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
     }
 
     // TODO: recreating the tree every time messes with the expanded
@@ -260,7 +265,8 @@ SourcesTree.propTypes = {
   sources: ImPropTypes.map.isRequired,
   selectSource: PropTypes.func.isRequired,
   shownSource: PropTypes.string,
-  selectedSource: ImPropTypes.map
+  selectedSource: ImPropTypes.map,
+  debuggeeUrl: PropTypes.string.isRequired
 };
 
 SourcesTree.displayName = "SourcesTree";
@@ -269,7 +275,8 @@ export default connect(
   state => {
     return {
       shownSource: getShownSource(state),
-      selectedSource: getSelectedSource(state)
+      selectedSource: getSelectedSource(state),
+      debuggeeUrl: getDebuggeeUrl(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

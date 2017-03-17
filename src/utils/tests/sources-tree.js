@@ -2,7 +2,7 @@ const expect = require("expect.js");
 const { Map } = require("immutable");
 const {
   createNode, nodeHasChildren, addToTree, collapseTree, getDirectories,
-  getURL
+  getURL, isExactUrlMatch
 } = require("../sources-tree.js");
 
 describe("sources-tree", () => {
@@ -176,6 +176,38 @@ describe("sources-tree", () => {
     expect(cFolderNode.contents[0].name).to.be("(index)");
 
     expect(aFileNode.name).to.be("a.js");
+  });
+
+  it("puts root debugee url at the top of the sort", () => {
+    const sources = [
+      Map({
+        url: "http://api.example.com/a.js",
+        actor: "actor1"
+      }),
+      Map({
+        url: "http://example.com/b.js",
+        actor: "actor2"
+      }),
+      Map({
+        url: "http://demo.com/c.js",
+        actor: "actor3"
+      }),
+    ];
+
+    const rootA = "http://example.com/path/to/file.html";
+    const rootB = "https://www.demo.com/index.html";
+    const treeA = createNode("root", "", []);
+    const treeB = createNode("root", "", []);
+    sources.forEach(source => {
+      addToTree(treeA, source, rootA);
+      addToTree(treeB, source, rootB);
+    });
+
+    expect(treeA.contents[0].contents[0].name).to.be("b.js");
+    expect(treeA.contents[1].contents[0].name).to.be("a.js");
+
+    expect(treeB.contents[0].contents[0].name).to.be("c.js");
+    expect(treeB.contents[1].contents[0].name).to.be("a.js");
   });
 
   it("excludes javascript: URLs from the tree", () => {
@@ -432,5 +464,24 @@ describe("sources-tree", () => {
     const urlObject = getURL("https://a/c");
 
     expect(urlObject.filename).to.be("(index)");
+  });
+
+  it("recognizes root url match", () => {
+    const rootA = "http://example.com/path/to/file.html";
+    const rootB = "https://www.demo.com/index.html";
+
+    expect(isExactUrlMatch("example.com", rootA)).to.be(true);
+    expect(isExactUrlMatch("www.example.com", rootA)).to.be(true);
+    expect(isExactUrlMatch("api.example.com", rootA)).to.be(false);
+    expect(isExactUrlMatch("example.example.com", rootA)).to.be(false);
+    expect(isExactUrlMatch("www.example.example.com", rootA)).to.be(false);
+    expect(isExactUrlMatch("demo.com", rootA)).to.be(false);
+
+    expect(isExactUrlMatch("demo.com", rootB)).to.be(true);
+    expect(isExactUrlMatch("www.demo.com", rootB)).to.be(true);
+    expect(isExactUrlMatch("maps.demo.com", rootB)).to.be(false);
+    expect(isExactUrlMatch("demo.demo.com", rootB)).to.be(false);
+    expect(isExactUrlMatch("www.demo.demo.com", rootB)).to.be(false);
+    expect(isExactUrlMatch("example.com", rootB)).to.be(false);
   });
 });
