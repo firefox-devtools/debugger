@@ -12,7 +12,9 @@ import { getFilename, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-const PaneToggleButton = createFactory(require("../shared/Button/PaneToggle"));
+const PaneToggleButton = createFactory(
+  require("../shared/Button/PaneToggle").default
+);
 import Svg from "../shared/Svg";
 const Dropdown = createFactory(require("../shared/Dropdown"));
 import { showMenu, buildMenu } from "../shared/menu";

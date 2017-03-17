@@ -3,7 +3,7 @@ const React = require("react");
 const { DOM: dom } = React;
 
 const ReactDOM = require("react-dom");
-const CloseButton = require("../shared/Button/Close");
+const CloseButton = require("../shared/Button/Close").default;
 
 require("./ConditionalPanel.css");
 

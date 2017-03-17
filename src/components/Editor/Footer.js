@@ -15,7 +15,7 @@ const {
   shouldShowPrettyPrint
 } = require("../../utils/editor");
 const PaneToggleButton = React.createFactory(
-  require("../shared/Button/PaneToggle")
+  require("../shared/Button/PaneToggle").default
 );
 
 require("./Footer.css");
