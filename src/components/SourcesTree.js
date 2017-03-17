@@ -238,6 +238,13 @@ class SourcesTree extends Component {
       renderItem: this.renderItem
     });
 
+    const noSourcesMessage = dom.div({
+      className: "no-sources-message"
+    }, L10N.getStr("sources.noSourcesAvailable"));
+
+    if (isEmpty) {
+      return noSourcesMessage;
+    }
     return dom.div({
       className: "sources-list",
       onKeyDown: e => {

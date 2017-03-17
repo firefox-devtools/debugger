@@ -31,6 +31,7 @@
   "sources.search": "%S to search",
   "sources.search.key": "P",
   "sources.searchAlt.key": "O",
+  "sources.noSourcesAvailable": "This page has no sources",
   "watchExpressions.header": "Watch Expressions",
   "watchExpressions.refreshButton": "Refresh",
   "welcome.search": "%S to search for sources",

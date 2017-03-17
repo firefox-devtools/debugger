@@ -54,3 +54,11 @@
 .theme-dark .source-list .tree .node.focused {
   background-color: var(--theme-tab-toolbar-background);
 }
+
+.no-sources-message {
+  font-size: 12px;
+  color: var(--theme-comment-alt);
+  font-weight: lighter;
+  padding-top: 5px;
+  text-align: center;
+}
