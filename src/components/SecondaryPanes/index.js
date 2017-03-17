@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, createClass, createFactory } from "react";
+import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
@@ -48,22 +48,7 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
-const SecondaryPanes = createClass({
-  propTypes: {
-    evaluateExpressions: PropTypes.func.isRequired,
-    pauseData: ImPropTypes.map,
-    horizontal: PropTypes.bool,
-    breakpoints: ImPropTypes.map.isRequired,
-    breakpointsDisabled: PropTypes.bool,
-    breakpointsLoading: PropTypes.bool,
-    toggleAllBreakpoints: PropTypes.func.isRequired
-  },
-
-  contextTypes: {
-    shortcuts: PropTypes.object
-  },
-
-  displayName: "SecondaryPanes",
+class SecondaryPanes extends Component {
 
   renderBreakpointsToggle() {
     const { toggleAllBreakpoints, breakpoints,
@@ -92,7 +77,7 @@ const SecondaryPanes = createClass({
       title: breakpointsDisabled ? L10N.getStr("breakpoints.enable") :
         L10N.getStr("breakpoints.disable")
     });
-  },
+  }
 
   watchExpressionHeaderButtons() {
     return [
@@ -106,7 +91,7 @@ const SecondaryPanes = createClass({
         L10N.getStr("watchExpressions.refreshButton")
       )
     ];
-  },
+  }
 
   getScopeItem() {
     const isPaused = () => !!this.props.pauseData;
@@ -120,7 +105,7 @@ const SecondaryPanes = createClass({
       },
       shouldOpen: isPaused
     };
-  },
+  }
 
   getWatchItem() {
     return { header: L10N.getStr("watchExpressions.header"),
@@ -128,7 +113,7 @@ const SecondaryPanes = createClass({
       component: Expressions,
       opened: true
     };
-  },
+  }
 
   getStartItems() {
     const scopesContent: any = this.props.horizontal ?
@@ -162,13 +147,13 @@ const SecondaryPanes = createClass({
     }
 
     return items.filter(item => item);
-  },
+  }
 
   renderHorizontalLayout() {
     return Accordion({
       items: this.getItems()
     });
-  },
+  }
 
   getEndItems() {
     const items: Array<SecondaryPanesItems> = [];
@@ -182,11 +167,11 @@ const SecondaryPanes = createClass({
     }
 
     return items;
-  },
+  }
 
   getItems() {
     return [...this.getStartItems(), ...this.getEndItems()];
-  },
+  }
 
   renderVerticalLayout() {
     return SplitBox({
@@ -198,7 +183,7 @@ const SecondaryPanes = createClass({
       startPanel: Accordion({ items: this.getStartItems() }),
       endPanel: Accordion({ items: this.getEndItems() })
     });
-  },
+  }
 
   render() {
     return dom.div(
@@ -210,7 +195,23 @@ const SecondaryPanes = createClass({
         this.renderHorizontalLayout() : this.renderVerticalLayout()
     );
   }
-});
+}
+
+SecondaryPanes.propTypes = {
+  evaluateExpressions: PropTypes.func.isRequired,
+  pauseData: ImPropTypes.map,
+  horizontal: PropTypes.bool,
+  breakpoints: ImPropTypes.map.isRequired,
+  breakpointsDisabled: PropTypes.bool,
+  breakpointsLoading: PropTypes.bool,
+  toggleAllBreakpoints: PropTypes.func.isRequired
+};
+
+SecondaryPanes.contextTypes = {
+  shortcuts: PropTypes.object
+};
+
+SecondaryPanes.displayName = "SecondaryPanes";
 
 export default connect(
   state => ({

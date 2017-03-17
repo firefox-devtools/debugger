@@ -1,6 +1,6 @@
 // @flow
 import {
-  DOM as dom, PropTypes, createClass, createFactory
+  DOM as dom, PropTypes, Component, createFactory
 } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -18,27 +18,28 @@ function info(text) {
 let expandedCache = new Set();
 let actorsCache = [];
 
-const Scopes = createClass({
-  propTypes: {
-    pauseInfo: ImPropTypes.map,
-    loadedObjects: ImPropTypes.map,
-    loadObjectProperties: PropTypes.func,
-    selectedFrame: PropTypes.object
-  },
+class Scopes extends Component {
 
-  displayName: "Scopes",
+  state: {
+    scopes: any
+  }
+
+  constructor(props, ...args) {
+    const { pauseInfo, selectedFrame } = props;
+
+    super(props, ...args);
+
+    this.state = {
+      scopes: getScopes(pauseInfo, selectedFrame)
+    };
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     const { pauseInfo, selectedFrame, loadedObjects } = this.props;
     return pauseInfo !== nextProps.pauseInfo
       || selectedFrame !== nextProps.selectedFrame
       || loadedObjects !== nextProps.loadedObjects;
-  },
-
-  getInitialState() {
-    const { pauseInfo, selectedFrame } = this.props;
-    return { scopes: getScopes(pauseInfo, selectedFrame) };
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     const { pauseInfo, selectedFrame } = this.props;
@@ -50,7 +51,7 @@ const Scopes = createClass({
         scopes: getScopes(nextProps.pauseInfo, nextProps.selectedFrame)
       });
     }
-  },
+  }
 
   render() {
     const { pauseInfo, loadObjectProperties, loadedObjects } = this.props;
@@ -83,7 +84,16 @@ const Scopes = createClass({
         : info(L10N.getStr("scopes.notPaused"))
     );
   }
-});
+}
+
+Scopes.propTypes = {
+  pauseInfo: ImPropTypes.map,
+  loadedObjects: ImPropTypes.map,
+  loadObjectProperties: PropTypes.func,
+  selectedFrame: PropTypes.object
+};
+
+Scopes.displayName = "Scopes";
 
 export default connect(
   state => ({

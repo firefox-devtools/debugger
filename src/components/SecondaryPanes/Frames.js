@@ -1,7 +1,7 @@
 // @flow
 
 import {
-  DOM as dom, PropTypes, createClass
+  DOM as dom, PropTypes, Component
 } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -38,14 +38,25 @@ function renderFrameLocation({ source, location }: Frame) {
   );
 }
 
-const Frames = createClass({
-  propTypes: {
-    frames: PropTypes.array,
-    selectedFrame: PropTypes.object,
-    selectFrame: PropTypes.func.isRequired
-  },
+class Frames extends Component {
 
-  displayName: "Frames",
+  state: {
+    showAllFrames: boolean
+  }
+
+  renderFrame: Function
+  toggleFramesDisplay: Function
+
+  constructor(...args) {
+    super(...args);
+
+    this.state = {
+      showAllFrames: false
+    };
+
+    this.renderFrame = this.renderFrame.bind(this);
+    this.toggleFramesDisplay = this.toggleFramesDisplay.bind(this);
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     const { frames, selectedFrame } = this.props;
@@ -53,17 +64,13 @@ const Frames = createClass({
     return frames !== nextProps.frames
       || selectedFrame !== nextProps.selectedFrame
       || showAllFrames !== nextState.showAllFrames;
-  },
-
-  getInitialState() {
-    return { showAllFrames: false };
-  },
+  }
 
   toggleFramesDisplay() {
     this.setState({
       showAllFrames: !this.state.showAllFrames
     });
-  },
+  }
 
   onContextMenu(event: SyntheticKeyboardEvent, frame: Frame) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
@@ -88,7 +95,7 @@ const Frames = createClass({
     }
 
     showMenu(event, menuOptions);
-  },
+  }
 
   renderFrame(frame: Frame) {
     const { selectedFrame } = this.props;
@@ -106,21 +113,21 @@ const Frames = createClass({
       renderFrameTitle(frame),
       renderFrameLocation(frame)
     );
-  },
+  }
 
   onMouseDown(e: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
     if (e.nativeEvent.which == 3 && selectedFrame.id != frame.id) {
       return;
     }
     this.props.selectFrame(frame);
-  },
+  }
 
   onKeyUp(event: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
     if (event.key != "Enter" || selectedFrame.id == frame.id) {
       return;
     }
     this.props.selectFrame(frame);
-  },
+  }
 
   renderFrames(frames: Frame[]) {
     const numFramesToShow =
@@ -128,7 +135,7 @@ const Frames = createClass({
     const framesToShow = frames.slice(0, numFramesToShow);
 
     return dom.ul({}, framesToShow.map(this.renderFrame));
-  },
+  }
 
   renderToggleButton(frames: Frame[]) {
     let buttonMessage = this.state.showAllFrames
@@ -142,7 +149,7 @@ const Frames = createClass({
       { className: "show-more", onClick: this.toggleFramesDisplay },
       buttonMessage
     );
-  },
+  }
 
   render() {
     const { frames } = this.props;
@@ -163,7 +170,15 @@ const Frames = createClass({
       this.renderToggleButton(frames)
     );
   }
-});
+}
+
+Frames.propTypes = {
+  frames: PropTypes.array,
+  selectedFrame: PropTypes.object,
+  selectFrame: PropTypes.func.isRequired
+};
+
+Frames.displayName = "Frames";
 
 function getSourceForFrame(state, frame) {
   return getSource(state, frame.location.sourceId);

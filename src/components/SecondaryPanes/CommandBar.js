@@ -1,6 +1,6 @@
 // @flow
 import {
-  DOM as dom, PropTypes, createClass
+  DOM as dom, PropTypes, Component
 } from "react";
 
 const { findDOMNode } = require("react-dom");
@@ -96,35 +96,14 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
   );
 }
 
-const CommandBar = createClass({
-  propTypes: {
-    sources: PropTypes.object,
-    selectedSource: PropTypes.object,
-    resume: PropTypes.func,
-    stepIn: PropTypes.func,
-    stepOut: PropTypes.func,
-    stepOver: PropTypes.func,
-    breakOnNext: PropTypes.func,
-    pause: ImPropTypes.map,
-    pauseOnExceptions: PropTypes.func,
-    shouldPauseOnExceptions: PropTypes.bool,
-    shouldIgnoreCaughtExceptions: PropTypes.bool,
-    isWaitingOnBreak: PropTypes.bool,
-  },
-
-  contextTypes: {
-    shortcuts: PropTypes.object
-  },
-
-  displayName: "CommandBar",
-
+class CommandBar extends Component {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     COMMANDS.forEach((action) => shortcuts.off(getKey(action)));
     if (isMacOS) {
       COMMANDS.forEach((action) => shortcuts.off(getKeyForOS("WINNT", action)));
     }
-  },
+  }
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
@@ -142,7 +121,7 @@ const CommandBar = createClass({
         (_, e) => this.handleEvent(e, action)
       ));
     }
-  },
+  }
 
   handleEvent(e, action) {
     e.preventDefault();
@@ -151,7 +130,7 @@ const CommandBar = createClass({
     this.props[action]();
     const button = findDOMNode(this).querySelector(`.${action}`);
     handlePressAnimation(button);
-  },
+  }
 
   renderStepButtons() {
     const isPaused = this.props.pause;
@@ -181,7 +160,7 @@ const CommandBar = createClass({
         isDisabled
       )
     ];
-  },
+  }
 
   renderPauseButton() {
     const { pause, breakOnNext, isWaitingOnBreak } = this.props;
@@ -211,7 +190,7 @@ const CommandBar = createClass({
       "active",
       L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
     );
-  },
+  }
 
   /*
    * The pause on exception button has three states in this order:
@@ -247,7 +226,7 @@ const CommandBar = createClass({
       "all enabled",
       L10N.getStr("pauseOnExceptions")
     );
-  },
+  }
 
   render() {
     return (
@@ -259,7 +238,28 @@ const CommandBar = createClass({
       )
     );
   }
-});
+}
+
+CommandBar.propTypes = {
+  sources: PropTypes.object,
+  selectedSource: PropTypes.object,
+  resume: PropTypes.func,
+  stepIn: PropTypes.func,
+  stepOut: PropTypes.func,
+  stepOver: PropTypes.func,
+  breakOnNext: PropTypes.func,
+  pause: ImPropTypes.map,
+  pauseOnExceptions: PropTypes.func,
+  shouldPauseOnExceptions: PropTypes.bool,
+  shouldIgnoreCaughtExceptions: PropTypes.bool,
+  isWaitingOnBreak: PropTypes.bool,
+};
+
+CommandBar.contextTypes = {
+  shortcuts: PropTypes.object
+};
+
+CommandBar.displayName = "CommandBar";
 
 export default connect(
   state => {

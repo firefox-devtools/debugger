@@ -1,6 +1,6 @@
 // @flow
 import {
-  DOM as dom, PropTypes, createClass, createFactory
+  DOM as dom, PropTypes, Component, createFactory
 } from "react";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
@@ -38,23 +38,24 @@ function createNode(name, path, contents) {
   return { name, path, contents };
 }
 
-const Scopes = createClass({
-  propTypes: {
-    scopes: PropTypes.array,
-    loadedObjects: ImPropTypes.map,
-    loadObjectProperties: PropTypes.func,
-    pauseInfo: PropTypes.object
-  },
+class Scopes extends Component {
+  objectCache: Object
+  getChildren: Function
+  onExpand: Function
+  renderItem: Function
 
-  displayName: "Scopes",
+  constructor(...args) {
+    super(...args);
 
-  getInitialState() {
     // Cache of dynamically built nodes. We shouldn't need to clear
     // this out ever, since we don't ever "switch out" the object
     // being inspected.
     this.objectCache = {};
-    return {};
-  },
+
+    this.getChildren = this.getChildren.bind(this);
+    this.onExpand = this.onExpand.bind(this);
+    this.renderItem = this.renderItem.bind(this);
+  }
 
   makeNodesForProperties(objProps, parentPath) {
     const { ownProperties, prototype } = objProps;
@@ -77,7 +78,7 @@ const Scopes = createClass({
     }
 
     return nodes;
-  },
+  }
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     const notEnumberable = false;
@@ -108,11 +109,11 @@ const Scopes = createClass({
                objectValue ? ": " : ""),
       dom.span({ className: "object-value" }, objectValue || "")
     );
-  },
+  }
 
   getObjectProperties(item) {
     this.props.loadedObjects.get(item.contents.value.objectId);
-  },
+  }
 
   getChildren(item) {
     const obj = item.contents;
@@ -144,7 +145,7 @@ const Scopes = createClass({
       return [];
     }
     return [];
-  },
+  }
 
   onExpand(item) {
     const { loadObjectProperties } = this.props;
@@ -152,7 +153,7 @@ const Scopes = createClass({
     if (nodeHasProperties(item)) {
       loadObjectProperties(item.contents.value);
     }
-  },
+  }
 
   getRoots() {
     return this.props.scopes.map(scope => {
@@ -165,7 +166,7 @@ const Scopes = createClass({
         contents: { value: scope.object }
       };
     });
-  },
+  }
 
   render() {
     const { pauseInfo } = this.props;
@@ -196,7 +197,16 @@ const Scopes = createClass({
       })
   );
   }
-});
+}
+
+Scopes.propTypes = {
+  scopes: PropTypes.array,
+  loadedObjects: ImPropTypes.map,
+  loadObjectProperties: PropTypes.func,
+  pauseInfo: PropTypes.object
+};
+
+Scopes.displayName = "Scopes";
 
 export default connect(
   state => ({

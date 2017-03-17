@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-const { DOM: dom, PropTypes } = React;
+const { DOM: dom, PropTypes, Component } = React;
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
@@ -8,17 +8,15 @@ import { getEventListeners, getBreakpoint } from "../../selectors";
 import CloseButton from "../shared/Button/Close";
 import "./EventListeners.css";
 
-const EventListeners = React.createClass({
-  propTypes: {
-    listeners: PropTypes.array.isRequired,
-    selectSource: PropTypes.func.isRequired,
-    addBreakpoint: PropTypes.func.isRequired,
-    enableBreakpoint: PropTypes.func.isRequired,
-    disableBreakpoint: PropTypes.func.isRequired,
-    removeBreakpoint: PropTypes.func.isRequired
-  },
+class EventListeners extends Component {
 
-  displayName: "EventListeners",
+  renderListener: Function
+
+  constructor(...args) {
+    super(...args);
+
+    this.renderListener = this.renderListener.bind(this);
+  }
 
   renderListener({ type, selector, line, sourceId, breakpoint }) {
     const checked = breakpoint && !breakpoint.disabled;
@@ -42,7 +40,7 @@ const EventListeners = React.createClass({
         handleClick: (ev) => this.removeBreakpoint(ev, breakpoint)
       }) : ""
     );
-  },
+  }
 
   handleCheckbox(breakpoint, location) {
     if (!breakpoint) {
@@ -58,12 +56,12 @@ const EventListeners = React.createClass({
     } else {
       this.props.disableBreakpoint(breakpoint.location);
     }
-  },
+  }
 
   removeBreakpoint(event, breakpoint) {
     event.stopPropagation();
     this.props.removeBreakpoint(breakpoint.location);
-  },
+  }
 
   render() {
     const { listeners } = this.props;
@@ -73,7 +71,18 @@ const EventListeners = React.createClass({
       listeners.map(this.renderListener)
     );
   }
-});
+}
+
+EventListeners.propTypes = {
+  listeners: PropTypes.array.isRequired,
+  selectSource: PropTypes.func.isRequired,
+  addBreakpoint: PropTypes.func.isRequired,
+  enableBreakpoint: PropTypes.func.isRequired,
+  disableBreakpoint: PropTypes.func.isRequired,
+  removeBreakpoint: PropTypes.func.isRequired
+};
+
+EventListeners.displayName = "EventListeners";
 
 export default connect(
   state => {
