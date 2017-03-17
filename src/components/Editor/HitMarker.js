@@ -13,7 +13,7 @@ function makeMarker() {
 const HitMarker = React.createClass({
   propTypes: {
     hitData: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired
+    editor: PropTypes.object.isRequired,
   },
 
   displayName: "HitMarker",
@@ -22,11 +22,7 @@ const HitMarker = React.createClass({
     const hitData = this.props.hitData;
     const line = hitData.line - 1;
 
-    this.props.editor.setGutterMarker(
-      line,
-      "hit-markers",
-      makeMarker()
-    );
+    this.props.editor.setGutterMarker(line, "hit-markers", makeMarker());
 
     this.props.editor.addLineClass(line, "line", "hit-marker");
   },
@@ -62,7 +58,7 @@ const HitMarker = React.createClass({
 
   render() {
     return null;
-  }
+  },
 });
 
 module.exports = HitMarker;

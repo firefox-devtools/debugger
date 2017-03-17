@@ -1,11 +1,17 @@
 const expect = require("expect.js");
 const { Task } = require("../../utils/task");
 const {
-  actions, selectors, createStore, makeSource
+  actions,
+  selectors,
+  createStore,
+  makeSource,
 } = require("../../utils/test-head");
 const {
-  getSourceById, getSources, getSelectedSource,
-  getSourceText, getSourceTabs
+  getSourceById,
+  getSources,
+  getSelectedSource,
+  getSourceText,
+  getSourceTabs,
 } = selectors;
 
 const threadClient = {
@@ -15,20 +21,20 @@ const threadClient = {
         case "foo1":
           resolve({
             source: "function foo1() {\n  return 5;\n}",
-            contentType: "text/javascript"
+            contentType: "text/javascript",
           });
           break;
         case "foo2":
           resolve({
             source: "function foo2(x, y) {\n  return x + y;\n}",
-            contentType: "text/javascript"
+            contentType: "text/javascript",
           });
           break;
       }
 
-      reject(`unknown source: ${ sourceId}`);
+      reject(`unknown source: ${sourceId}`);
     });
-  }
+  },
 };
 
 process.on("unhandledRejection", (reason, p) => {});
@@ -53,8 +59,7 @@ describe("sources", () => {
 
     dispatch(actions.newSource(makeSource("foo.js")));
     dispatch(actions.selectSource("foo.js"));
-    expect(getSelectedSource(getState()).get("id"))
-      .to.equal("foo.js");
+    expect(getSelectedSource(getState()).get("id")).to.equal("foo.js");
   });
 
   it("should automatically select a pending source", () => {
@@ -74,8 +79,7 @@ describe("sources", () => {
 
     const tabs = getSourceTabs(getState());
     expect(tabs.size).to.equal(1);
-    expect(tabs.get(0)).to
-      .equal("http://localhost:8000/examples/foo.js");
+    expect(tabs.get(0)).to.equal("http://localhost:8000/examples/foo.js");
   });
 
   it("should select previous tab on tab closed", () => {
@@ -105,46 +109,58 @@ describe("sources", () => {
     expect(getSourceTabs(getState()).size).to.be(2);
   });
 
-  it("should load source text", Task.async(function* () {
-    const { dispatch, getState } = createStore(threadClient);
+  it(
+    "should load source text",
+    Task.async(function*() {
+      const { dispatch, getState } = createStore(threadClient);
 
-    yield dispatch(actions.loadSourceText({ id: "foo1" }));
-    const fooSourceText = getSourceText(getState(), "foo1");
-    expect(fooSourceText.get("text").indexOf("return 5")).to.not.be(-1);
+      yield dispatch(actions.loadSourceText({ id: "foo1" }));
+      const fooSourceText = getSourceText(getState(), "foo1");
+      expect(fooSourceText.get("text").indexOf("return 5")).to.not.be(-1);
 
-    yield dispatch(actions.loadSourceText({ id: "foo2" }));
-    const foo2SourceText = getSourceText(getState(), "foo2");
-    expect(foo2SourceText.get("text").indexOf("return x + y")).to.not.be(-1);
-  }));
+      yield dispatch(actions.loadSourceText({ id: "foo2" }));
+      const foo2SourceText = getSourceText(getState(), "foo2");
+      expect(foo2SourceText.get("text").indexOf("return x + y")).to.not.be(-1);
+    }),
+  );
 
-  it("should cache subsequent source text loads", Task.async(function* () {
-    const { dispatch, getState } = createStore(threadClient);
+  it(
+    "should cache subsequent source text loads",
+    Task.async(function*() {
+      const { dispatch, getState } = createStore(threadClient);
 
-    yield dispatch(actions.loadSourceText({ id: "foo1" }));
-    const prevText = getSourceText(getState(), "foo1");
+      yield dispatch(actions.loadSourceText({ id: "foo1" }));
+      const prevText = getSourceText(getState(), "foo1");
 
-    yield dispatch(actions.loadSourceText({ id: "foo1" }));
-    const curText = getSourceText(getState(), "foo1");
+      yield dispatch(actions.loadSourceText({ id: "foo1" }));
+      const curText = getSourceText(getState(), "foo1");
 
-    expect(prevText === curText).to.be.ok();
-  }));
+      expect(prevText === curText).to.be.ok();
+    }),
+  );
 
-  it("should indicate a loading source text", Task.async(function*() {
-    const { dispatch, getState } = createStore(threadClient);
+  it(
+    "should indicate a loading source text",
+    Task.async(function*() {
+      const { dispatch, getState } = createStore(threadClient);
 
-    // Don't block on this so we can check the loading state.
-    dispatch(actions.loadSourceText({ id: "foo1" }));
-    const fooSourceText = getSourceText(getState(), "foo1");
-    expect(fooSourceText.get("loading")).to.equal(true);
-  }));
+      // Don't block on this so we can check the loading state.
+      dispatch(actions.loadSourceText({ id: "foo1" }));
+      const fooSourceText = getSourceText(getState(), "foo1");
+      expect(fooSourceText.get("loading")).to.equal(true);
+    }),
+  );
 
-  it("should indicate an errored source text", Task.async(function* () {
-    const { dispatch, getState } = createStore(threadClient);
+  it(
+    "should indicate an errored source text",
+    Task.async(function*() {
+      const { dispatch, getState } = createStore(threadClient);
 
-    yield dispatch(actions.loadSourceText({ id: "bad-id" })).catch(() => {});
-    const badText = getSourceText(getState(), "bad-id");
-    expect(badText.get("error").indexOf("unknown source")).to.not.be(-1);
-  }));
+      yield dispatch(actions.loadSourceText({ id: "bad-id" })).catch(() => {});
+      const badText = getSourceText(getState(), "bad-id");
+      expect(badText.get("error").indexOf("unknown source")).to.not.be(-1);
+    }),
+  );
 });
 
 describe("closing tabs", () => {
@@ -200,7 +216,12 @@ describe("closing tabs", () => {
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.selectSource("bar.js"));
     dispatch(actions.selectSource("bazz.js"));
-    dispatch(actions.closeTabs(["http://localhost:8000/examples/foo.js", "http://localhost:8000/examples/bar.js"]));
+    dispatch(
+      actions.closeTabs([
+        "http://localhost:8000/examples/foo.js",
+        "http://localhost:8000/examples/bar.js",
+      ]),
+    );
 
     expect(getSelectedSource(getState()).get("id")).to.be("bazz.js");
     expect(getSourceTabs(getState()).size).to.be(1);
@@ -214,7 +235,12 @@ describe("closing tabs", () => {
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.selectSource("bar.js"));
     dispatch(actions.selectSource("bazz.js"));
-    dispatch(actions.closeTabs(["http://localhost:8000/examples/bar.js", "http://localhost:8000/examples/bazz.js"]));
+    dispatch(
+      actions.closeTabs([
+        "http://localhost:8000/examples/bar.js",
+        "http://localhost:8000/examples/bazz.js",
+      ]),
+    );
 
     expect(getSelectedSource(getState()).get("id")).to.be("foo.js");
     expect(getSourceTabs(getState()).size).to.be(1);
@@ -226,7 +252,12 @@ describe("closing tabs", () => {
     dispatch(actions.newSource(makeSource("bar.js")));
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.selectSource("bar.js"));
-    dispatch(actions.closeTabs(["http://localhost:8000/examples/foo.js", "http://localhost:8000/examples/bar.js"]));
+    dispatch(
+      actions.closeTabs([
+        "http://localhost:8000/examples/foo.js",
+        "http://localhost:8000/examples/bar.js",
+      ]),
+    );
 
     expect(getSelectedSource(getState())).to.be(undefined);
     expect(getSourceTabs(getState()).size).to.be(0);

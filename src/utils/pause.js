@@ -12,10 +12,10 @@ function updateFrameLocations(frames: Frame[]): Promise<Frame[]> {
     frames.map(frame => {
       return getOriginalLocation(frame.location).then(loc => {
         return Object.assign(frame, {
-          location: loc
+          location: loc,
         });
       });
-    })
+    }),
   );
 }
 
@@ -24,21 +24,21 @@ function updateFrameLocations(frames: Frame[]): Promise<Frame[]> {
 // "breakpointConditionThrown", "clientEvaluated"
 // "interrupted", "attached"
 const reasons = {
-  "debuggerStatement": "whyPaused.debuggerStatement",
-  "breakpoint": "whyPaused.breakpoint",
-  "exception": "whyPaused.exception",
-  "resumeLimit": "whyPaused.resumeLimit",
-  "pauseOnDOMEvents": "whyPaused.pauseOnDOMEvents",
-  "breakpointConditionThrown": "whyPaused.breakpointConditionThrown",
+  debuggerStatement: "whyPaused.debuggerStatement",
+  breakpoint: "whyPaused.breakpoint",
+  exception: "whyPaused.exception",
+  resumeLimit: "whyPaused.resumeLimit",
+  pauseOnDOMEvents: "whyPaused.pauseOnDOMEvents",
+  breakpointConditionThrown: "whyPaused.breakpointConditionThrown",
 
   // V8
-  "DOM": "whyPaused.breakpoint",
-  "EventListener": "whyPaused.pauseOnDOMEvents",
-  "XHR": "whyPaused.xhr",
-  "promiseRejection": "whyPaused.promiseRejection",
-  "assert": "whyPaused.assert",
-  "debugCommand": "whyPaused.debugCommand",
-  "other": "whyPaused.other"
+  DOM: "whyPaused.breakpoint",
+  EventListener: "whyPaused.pauseOnDOMEvents",
+  XHR: "whyPaused.xhr",
+  promiseRejection: "whyPaused.promiseRejection",
+  assert: "whyPaused.assert",
+  debugCommand: "whyPaused.debugCommand",
+  other: "whyPaused.other",
 };
 
 function getPauseReason(pauseInfo: Pause): string | null {
@@ -55,5 +55,5 @@ function getPauseReason(pauseInfo: Pause): string | null {
 
 module.exports = {
   updateFrameLocations,
-  getPauseReason
+  getPauseReason,
 };

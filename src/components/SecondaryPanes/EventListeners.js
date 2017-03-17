@@ -9,8 +9,7 @@ import CloseButton from "../shared/Button/Close";
 import "./EventListeners.css";
 
 class EventListeners extends Component {
-
-  renderListener: Function
+  renderListener: Function;
 
   constructor(...args) {
     super(...args);
@@ -22,11 +21,12 @@ class EventListeners extends Component {
     const checked = breakpoint && !breakpoint.disabled;
     const location = { sourceId, line };
 
-    return dom.div({
-      className: "listener",
-      onClick: () => this.props.selectSource(sourceId, { line }),
-      key: `${type}.${selector}.${sourceId}.${line}`
-    },
+    return dom.div(
+      {
+        className: "listener",
+        onClick: () => this.props.selectSource(sourceId, { line }),
+        key: `${type}.${selector}.${sourceId}.${line}`,
+      },
       dom.input({
         type: "checkbox",
         className: "listener-checkbox",
@@ -35,10 +35,11 @@ class EventListeners extends Component {
       }),
       dom.span({ className: "type" }, type),
       dom.span({ className: "selector" }, selector),
-      breakpoint ?
-      CloseButton({
-        handleClick: (ev) => this.removeBreakpoint(ev, breakpoint)
-      }) : ""
+      breakpoint
+        ? CloseButton({
+            handleClick: ev => this.removeBreakpoint(ev, breakpoint),
+          })
+        : "",
     );
   }
 
@@ -65,10 +66,11 @@ class EventListeners extends Component {
 
   render() {
     const { listeners } = this.props;
-    return dom.div({
-      className: "pane event-listeners"
-    },
-      listeners.map(this.renderListener)
+    return dom.div(
+      {
+        className: "pane event-listeners",
+      },
+      listeners.map(this.renderListener),
     );
   }
 }
@@ -79,19 +81,22 @@ EventListeners.propTypes = {
   addBreakpoint: PropTypes.func.isRequired,
   enableBreakpoint: PropTypes.func.isRequired,
   disableBreakpoint: PropTypes.func.isRequired,
-  removeBreakpoint: PropTypes.func.isRequired
+  removeBreakpoint: PropTypes.func.isRequired,
 };
 
 EventListeners.displayName = "EventListeners";
 
 export default connect(
   state => {
-    const listeners = getEventListeners(state)
-      .map(l => Object.assign({}, l, {
-        breakpoint: getBreakpoint(state, { sourceId: l.sourceId, line: l.line })
+    const listeners = getEventListeners(state).map(l =>
+      Object.assign({}, l, {
+        breakpoint: getBreakpoint(state, {
+          sourceId: l.sourceId,
+          line: l.line,
+        }),
       }));
 
     return { listeners };
   },
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => bindActionCreators(actions, dispatch),
 )(EventListeners);

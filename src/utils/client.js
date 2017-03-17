@@ -6,10 +6,7 @@ const { prefs } = require("./prefs");
 function loadFromPrefs(actions: Object) {
   const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
   if (pauseOnExceptions || ignoreCaughtExceptions) {
-    actions.pauseOnExceptions(
-      pauseOnExceptions,
-      ignoreCaughtExceptions
-    );
+    actions.pauseOnExceptions(pauseOnExceptions, ignoreCaughtExceptions);
   }
 }
 
@@ -67,5 +64,5 @@ async function onConnect(connection: Object, actions: Object) {
 
 module.exports = {
   onFirefoxConnect,
-  onConnect
+  onConnect,
 };

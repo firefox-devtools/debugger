@@ -3,8 +3,12 @@ const { DOM: dom, PropTypes } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const actions = require("../../actions");
-const { getSelectedSource, getSourceText,
-        getPrettySource, getPaneCollapse } = require("../../selectors");
+const {
+  getSelectedSource,
+  getSourceText,
+  getPrettySource,
+  getPaneCollapse,
+} = require("../../selectors");
 const Svg = require("../shared/Svg");
 const ImPropTypes = require("react-immutable-proptypes");
 const classnames = require("classnames");
@@ -12,10 +16,10 @@ const { isEnabled } = require("devtools-config");
 const { isPretty } = require("../../utils/source");
 const {
   shouldShowFooter,
-  shouldShowPrettyPrint
+  shouldShowPrettyPrint,
 } = require("../../utils/editor");
 const PaneToggleButton = React.createFactory(
-  require("../shared/Button/PaneToggle").default
+  require("../shared/Button/PaneToggle").default,
 );
 
 require("./Footer.css");
@@ -31,7 +35,7 @@ const SourceFooter = React.createClass({
     editor: PropTypes.object,
     endPanelCollapsed: PropTypes.bool,
     togglePaneCollapse: PropTypes.func,
-    horizontal: PropTypes.bool
+    horizontal: PropTypes.bool,
   },
 
   displayName: "SourceFooter",
@@ -42,8 +46,9 @@ const SourceFooter = React.createClass({
 
   prettyPrintButton() {
     const { selectedSource, sourceText } = this.props;
-    const sourceLoaded = selectedSource && sourceText &&
-    !sourceText.get("loading");
+    const sourceLoaded = selectedSource &&
+      sourceText &&
+      !sourceText.get("loading");
 
     if (!shouldShowPrettyPrint(selectedSource)) {
       return;
@@ -52,17 +57,18 @@ const SourceFooter = React.createClass({
     const tooltip = L10N.getStr("sourceFooter.debugBtnTooltip");
     const type = "prettyPrint";
 
-    return dom.button({
-      onClick: this.onClickPrettyPrint,
-      className: classnames("action", type, {
-        active: sourceLoaded,
-        pretty: isPretty(selectedSource.toJS())
-      }),
-      key: type,
-      title: tooltip,
-      "aria-label": tooltip
-    },
-      Svg(type)
+    return dom.button(
+      {
+        onClick: this.onClickPrettyPrint,
+        className: classnames("action", type, {
+          active: sourceLoaded,
+          pretty: isPretty(selectedSource.toJS()),
+        }),
+        key: type,
+        title: tooltip,
+        "aria-label": tooltip,
+      },
+      Svg(type),
     );
   },
 
@@ -73,12 +79,15 @@ const SourceFooter = React.createClass({
       return;
     }
 
-    return dom.button({
-      className: "coverage action",
-      title: "Code Coverage",
-      onClick: () => recordCoverage(),
-      "aria-label": "Code Coverage"
-    }, "C");
+    return dom.button(
+      {
+        className: "coverage action",
+        title: "Code Coverage",
+        onClick: () => recordCoverage(),
+        "aria-label": "Code Coverage",
+      },
+      "C",
+    );
   },
 
   renderToggleButton() {
@@ -90,7 +99,7 @@ const SourceFooter = React.createClass({
       position: "end",
       collapsed: !this.props.endPanelCollapsed,
       horizontal: this.props.horizontal,
-      handleClick: this.props.togglePaneCollapse
+      handleClick: this.props.togglePaneCollapse,
     });
   },
 
@@ -101,9 +110,10 @@ const SourceFooter = React.createClass({
       return null;
     }
 
-    return dom.div({ className: "commands" },
+    return dom.div(
+      { className: "commands" },
       this.prettyPrintButton(),
-      this.coverageButton()
+      this.coverageButton(),
     );
   },
 
@@ -114,11 +124,12 @@ const SourceFooter = React.createClass({
       return null;
     }
 
-    return dom.div({ className: "source-footer" },
+    return dom.div(
+      { className: "source-footer" },
       this.renderCommands(),
-      this.renderToggleButton()
+      this.renderToggleButton(),
     );
-  }
+  },
 });
 
 module.exports = connect(
@@ -129,8 +140,8 @@ module.exports = connect(
       selectedSource,
       sourceText: getSourceText(state, selectedId),
       prettySource: getPrettySource(state, selectedId),
-      endPanelCollapsed: getPaneCollapse(state, "end")
+      endPanelCollapsed: getPaneCollapse(state, "end"),
     };
   },
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => bindActionCreators(actions, dispatch),
 )(SourceFooter);

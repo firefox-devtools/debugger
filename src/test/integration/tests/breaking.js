@@ -12,10 +12,10 @@ const {
   waitForPaused,
   waitForDispatch,
   setupTestRunner,
-  initDebugger
+  initDebugger,
 } = require("../utils");
 
-module.exports = async function breaking (ctx) {
+module.exports = async function breaking(ctx) {
   const { ok, is } = ctx;
   const dbg = await initDebugger("doc-scripts.html", "scripts.html");
   const { selectors: { getSelectedSource }, getState } = dbg;

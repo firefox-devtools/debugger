@@ -12,7 +12,7 @@ const {
   waitForSources,
   waitForDispatch,
   waitUntil,
-  waitForTime
+  waitForTime,
 } = require("../utils");
 
 // Tests that the source tree works.
@@ -30,18 +30,18 @@ function clickNode(dbg, index) {
 }
 
 function getSourceNode(dbg, index) {
-  return findElement(dbg, "sourceNode", index).textContent
+  return findElement(dbg, "sourceNode", index).textContent;
 }
 
 function getFocusedNode(dbg) {
-  return findElementWithSelector(dbg, ".sources-list .focused")
+  return findElementWithSelector(dbg, ".sources-list .focused");
 }
 
 async function waitForSourceCount(dbg, i) {
   // We are forced to wait until the DOM nodes appear because the
   // source tree batches its rendering.
   await waitUntil(() => {
-    return  countSources(dbg) === i;
+    return countSources(dbg) === i;
   });
 }
 
@@ -52,18 +52,22 @@ module.exports = async function(ctx) {
   const { selectors: { getSelectedSource }, getState } = dbg;
 
   await waitForSources(
-    dbg, "simple1", "simple2", "nested-source", "long.js", "doc-sources.html"
+    dbg,
+    "simple1",
+    "simple2",
+    "nested-source",
+    "long.js",
+    "doc-sources.html",
   );
 
   // wait for source render to debounce
-  await waitForTime(200)
+  await waitForTime(200);
 
   // Expand nodes and make sure more sources appear.
   is(countSources(dbg), 2);
 
   toggleDirectory(dbg, 2);
   is(countSources(dbg), 7);
-
 
   toggleDirectory(dbg, 3);
 
@@ -73,18 +77,18 @@ module.exports = async function(ctx) {
   ok(!getFocusedNode(dbg), "Source is not focused");
 
   const selected = waitForDispatch(dbg, "SELECT_SOURCE");
-  clickNode(dbg, 4)
+  clickNode(dbg, 4);
   await selected;
 
   ok(getFocusedNode(dbg), "Source is focused");
 
   ok(
     getSelectedSource(getState()).get("url").includes("nested-source.js"),
-    "The right source is selected"
+    "The right source is selected",
   );
 
   // Make sure new sources appear in the list.
-  invokeInTab(dbg, "loadScript")
+  invokeInTab(dbg, "loadScript");
 
   await waitForSourceCount(dbg, 9);
 
@@ -92,16 +96,13 @@ module.exports = async function(ctx) {
 
   if (environment == "mochitest") {
     // Make sure named eval sources appear in the list.
-    evalInTab(
-      dbg,
-      "window.evaledFunc = function() {} //# sourceURL=evaled.js"
-    )
+    evalInTab(dbg, "window.evaledFunc = function() {} //# sourceURL=evaled.js");
 
     await waitForSourceCount(dbg, 11);
     is(
       findElement(dbg, "sourceNode", 2).textContent,
-       "evaled.js",
-       "The eval script exists"
-     );
+      "evaled.js",
+      "The eval script exists",
+    );
   }
-}
+};

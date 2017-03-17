@@ -2,36 +2,36 @@ const expect = require("expect.js");
 const fromJS = require("../fromJS");
 
 const preview = {
-  "kind": "ArrayLike",
-  "length": 201,
-  "items": [
+  kind: "ArrayLike",
+  length: 201,
+  items: [
     {
-      "type": "null"
+      type: "null",
     },
     "a test",
     "a",
     {
-      "type": "null"
+      type: "null",
     },
     {
-      "type": "null"
+      type: "null",
     },
     {
-      "type": "null"
+      type: "null",
     },
     {
-      "type": "null"
+      type: "null",
     },
     {
-      "type": "null"
+      type: "null",
     },
     {
-      "type": "null"
+      type: "null",
     },
     {
-      "type": "null"
-    }
-  ]
+      type: "null",
+    },
+  ],
 };
 
 describe("fromJS", () => {

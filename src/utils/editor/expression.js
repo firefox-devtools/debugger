@@ -11,12 +11,14 @@ export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
 
   return {
     line: line + lineOffset,
-    column: ch
+    column: ch,
   };
 }
 
 export async function getExpressionFromToken(
-  cm: any, token: HTMLElement, sourceText: Record<SourceText>
+  cm: any,
+  token: HTMLElement,
+  sourceText: Record<SourceText>,
 ) {
   const loc = getTokenLocation(cm, token);
   return await getExpression(sourceText.toJS(), token.textContent || "", loc);
@@ -36,11 +38,11 @@ type PreviewExpressionArgs = {
   expression: Expression,
   selectedFrame: Frame,
   tokenText: string,
-  variables: Map<(string | null), Object>,
+  variables: Map<string | null, Object>,
 };
 
 export function previewExpression(
-  { expression, selectedFrame, variables, tokenText }: PreviewExpressionArgs
+  { expression, selectedFrame, variables, tokenText }: PreviewExpressionArgs,
 ) {
   if (!tokenText) {
     return null;

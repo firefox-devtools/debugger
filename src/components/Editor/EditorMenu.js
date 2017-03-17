@@ -3,16 +3,18 @@ const { isEnabled } = require("devtools-config");
 const { isOriginalId, hasMappedSource } = require("devtools-source-map");
 const { copyToTheClipboard } = require("../../utils/clipboard");
 
-async function EditorMenu({
-  codeMirror,
-  event,
-  selectedLocation,
-  selectedSource,
-  showSource,
-  onGutterContextMenu,
-  jumpToMappedLocation,
-  addExpression
-  }) {
+async function EditorMenu(
+  {
+    codeMirror,
+    event,
+    selectedLocation,
+    selectedSource,
+    showSource,
+    onGutterContextMenu,
+    jumpToMappedLocation,
+    addExpression,
+  },
+) {
   const copySourceUrlLabel = L10N.getStr("copySourceUrl");
   const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
@@ -32,34 +34,35 @@ async function EditorMenu({
     label: copySourceUrlLabel,
     accesskey: copySourceUrlKey,
     disabled: false,
-    click: () => copyToTheClipboard(selectedSource.get("url"))
+    click: () => copyToTheClipboard(selectedSource.get("url")),
   };
 
   const { line, ch } = codeMirror.coordsChar({
     left: event.clientX,
-    top: event.clientY
+    top: event.clientY,
   });
 
   const sourceLocation = {
     sourceId: selectedLocation.sourceId,
     line: line + 1,
-    column: ch + 1
+    column: ch + 1,
   };
 
   const pairedType = isOriginalId(selectedLocation.sourceId)
-    ? L10N.getStr("generated") : L10N.getStr("original");
+    ? L10N.getStr("generated")
+    : L10N.getStr("original");
 
   const jumpLabel = {
     accesskey: "C",
     disabled: false,
     label: L10N.getFormatStr("editor.jumpToMappedLocation", pairedType),
-    click: () => jumpToMappedLocation(sourceLocation)
+    click: () => jumpToMappedLocation(sourceLocation),
   };
 
   const watchExpressionLabel = {
     accesskey: "E",
     label: L10N.getStr("expressions.placeholder"),
-    click: () => addExpression(codeMirror.getSelection())
+    click: () => addExpression(codeMirror.getSelection()),
   };
 
   const menuOptions = [];
@@ -80,7 +83,7 @@ async function EditorMenu({
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
     disabled: false,
-    click: () => showSource(selectedSource.get("id"))
+    click: () => showSource(selectedSource.get("id")),
   };
   menuOptions.push(showSourceMenuItem);
 

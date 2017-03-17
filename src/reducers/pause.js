@@ -16,24 +16,26 @@ import type { Record } from "../utils/makeRecord";
 type PauseState = {
   pause: ?Pause,
   isWaitingOnBreak: boolean,
-  frames: ?Frame[],
+  frames: ?(Frame[]),
   selectedFrameId: ?string,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
   debuggeeUrl: string,
-}
+};
 
-const State = makeRecord(({
-  pause: undefined,
-  isWaitingOnBreak: false,
-  frames: undefined,
-  selectedFrameId: undefined,
-  loadedObjects: I.Map(),
-  shouldPauseOnExceptions: prefs.pauseOnExceptions,
-  shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
-  debuggeeUrl: "",
-} : PauseState));
+const State = makeRecord(
+  ({
+    pause: undefined,
+    isWaitingOnBreak: false,
+    frames: undefined,
+    selectedFrameId: undefined,
+    loadedObjects: I.Map(),
+    shouldPauseOnExceptions: prefs.pauseOnExceptions,
+    shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
+    debuggeeUrl: "",
+  }: PauseState),
+);
 
 function update(state = State(), action: Action): Record<PauseState> {
   switch (action.type) {
@@ -52,7 +54,7 @@ function update(state = State(), action: Action): Record<PauseState> {
         pause: fromJS(pauseInfo),
         selectedFrameId,
         frames,
-        loadedObjects: objectMap
+        loadedObjects: objectMap,
       });
     }
 
@@ -61,7 +63,7 @@ function update(state = State(), action: Action): Record<PauseState> {
         pause: null,
         frames: null,
         selectedFrameId: null,
-        loadedObjects: {}
+        loadedObjects: {},
       });
 
     case constants.TOGGLE_PRETTY_PRINT:
@@ -84,10 +86,7 @@ function update(state = State(), action: Action): Record<PauseState> {
 
     case constants.LOAD_OBJECT_PROPERTIES:
       if (action.status === "start") {
-        return state.setIn(
-          ["loadedObjects", action.objectId],
-          {}
-        );
+        return state.setIn(["loadedObjects", action.objectId], {});
       }
 
       if (action.status === "done") {
@@ -99,8 +98,11 @@ function update(state = State(), action: Action): Record<PauseState> {
         const ownSymbols = action.value.ownSymbols || [];
         const prototype = action.value.prototype;
 
-        return state.setIn(["loadedObjects", action.objectId],
-                           { ownProperties, prototype, ownSymbols });
+        return state.setIn(["loadedObjects", action.objectId], {
+          ownProperties,
+          prototype,
+          ownSymbols,
+        });
       }
       break;
 
@@ -115,7 +117,7 @@ function update(state = State(), action: Action): Record<PauseState> {
 
       return state.merge({
         shouldPauseOnExceptions,
-        shouldIgnoreCaughtExceptions
+        shouldIgnoreCaughtExceptions,
       });
   }
 
@@ -146,8 +148,7 @@ function getLoadedObject(state: OuterState, objectId: string) {
 }
 
 function getObjectProperties(state: OuterState, parentId: string) {
-  return getLoadedObjects(state)
-    .filter(obj => obj.get("parentId") == parentId);
+  return getLoadedObjects(state).filter(obj => obj.get("parentId") == parentId);
 }
 
 function getIsWaitingOnBreak(state: OuterState) {
@@ -173,9 +174,7 @@ function getSelectedFrame(state: OuterState) {
     return null;
   }
 
-  return frames.find(
-    frame => frame.get("id") == selectedFrameId
-  ).toJS();
+  return frames.find(frame => frame.get("id") == selectedFrameId).toJS();
 }
 
 function getDebuggeeUrl(state: OuterState) {
@@ -201,5 +200,5 @@ module.exports = {
   getShouldIgnoreCaughtExceptions,
   getFrames,
   getSelectedFrame,
-  getDebuggeeUrl
+  getDebuggeeUrl,
 };

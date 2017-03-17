@@ -22,5 +22,5 @@ module.exports = {
   sources: require("./sources"),
   sourceMaps: require("./sourcemaps"),
   sourceMaps2: require("./sourcemaps2"),
-  sourceMapsBogus: require("./sourcemaps-bogus")
-}
+  sourceMapsBogus: require("./sourcemaps-bogus"),
+};

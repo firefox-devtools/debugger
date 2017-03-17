@@ -20,7 +20,7 @@ function createMap(value) {
   const length = value.length;
 
   if (hasLength) {
-    value.length = `${ value.length}`;
+    value.length = `${value.length}`;
   }
 
   let map = Immutable.Seq(value).map(fromJS).toMap();
@@ -46,7 +46,7 @@ function createList(value) {
  * @memberof utils/fromJS
  * @static
  */
-function fromJS(value: any) : any {
+function fromJS(value: any): any {
   if (Array.isArray(value)) {
     return createList(value);
   }
@@ -66,7 +66,7 @@ function fromJS(value: any) : any {
   // If it's a primitive type, just return the value. Note `==` check
   // for null, which is intentionally used to match either `null` or
   // `undefined`.
-  if (value == null || (typeof value !== "object")) {
+  if (value == null || typeof value !== "object") {
     return value;
   }
 
