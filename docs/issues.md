@@ -4,7 +4,7 @@
 * [Issue Descriptions](#issue-descriptions)
 * [Claiming Issues](#claiming-issues)
 * [Labels](#labels)
-* [Up For Grab Issues](#up-for-grab-issues)
+* [Available Issues](#available-issues)
 * [Triaging](#triaging)
 * [Issue Organization](#issue-organization)
 * [Community Friendly](#community-friendly)
@@ -101,7 +101,7 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 
 | Label name | query:mag_right: | Description |
 | --- | --- | --- |
-| `up-for-grabs` | [search][labels-up-for-grabs] | Good for contributors to work on |
+| `available` | [search][labels-available] | Good for contributors to work on |
 | `difficulty:easy` | [search][labels-difficulty-easy] | Work that is small changes, updating tests, updating docs, expect very little review |
 | `difficulty:medium` | [search][labels-difficulty-medium] | Work that adapts existing code, adapts existing tests, expect quick review |
 | `difficulty:hard` | [search][labels-difficulty-hard] | Work that requires new tests, new code, and a good understanding of project; expect lots of review |
@@ -114,15 +114,14 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 | `infrastructure` | [search][labels-infrastructure] | Issues with testing / build infrastructure |
 | `discussion` | [search][labels-discussion] | Issues need clearer requirements before work can be started |
 
-### Up For Grab Issues
+### Available Issues
 
-[up for grabs][labels-up-for-grabs] issues have clear requirements and a difficulty level.
+[available][labels-available] issues have clear requirements and a difficulty level.
 
 They often have a patch, which should be a good starting off point.
 Sometimes the patches are enough to fix the bug!
 
-One reason we file up for grabs issues when the solution is somewhat simple is that it's great to get a second
-set of eyes. Running the fix locally and QAing it thoroughly is a huge help. A lot of times you'll discover things that we missed.
+One reason we file `available` issues when the solution is somewhat simple is that it's great to get a second set of eyes. Running the fix locally and QAing it thoroughly is a huge help. A lot of times you'll discover things that we missed.
 
 ### Triaging
 
@@ -131,10 +130,10 @@ It's one of the most helpful ways to help a project.
 
 There are a couple of ways to think about it:
 * it's great to be able to close issues that are done or stale
-* it's great to make issue descriptions as clear as possible. Our goal is for every issue to be *actionable* i.e. it's clear what needs to be done.
+* it's great to make issue descriptions as clear as possible. Our goal is for every issue to be `available` i.e. it's clear what needs to be done.
 * it's really helpful to double check a new bug and see if you can reproduce it.
-* it's great to ask questions that help make the issue actionable or call out vague issues.
-* it's great to sort the issues by oldest first and help make stale issues actionable.
+* it's great to ask questions that help make the issue available or call out vague issues.
+* it's great to sort the issues by oldest first and help make stale issues available.
 
 ### Issue Organization
 
@@ -152,7 +151,7 @@ We focus on being community friendly for many reasons.
 * There's an incredible diversity of talent to help us with topics ranging from testing to internationalization.
 * Focusing on *contributor experience* helps us build the best development environment. For instance, if you find it's hard to describe how to make an accessibility change, maybe we should improve how we support tab navigation.
 
-[labels-up-for-grabs]:https://github.com/devtools-html/debugger.html/labels/up%20for%20grabs
+[labels-available]:https://github.com/devtools-html/debugger.html/labels/available
 [labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
 [labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
 [labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%medium
