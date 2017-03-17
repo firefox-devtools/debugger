@@ -103,6 +103,9 @@ const SOURCES = {
       }
     };
 
+    Obj.property = () => {}
+    Obj.otherProperty = 1;
+
     class Ultra {
       constructor() {
         this.awesome = true;
@@ -187,6 +190,7 @@ describe("parser", () => {
         "sum",
         "doThing",
         "doOtherThing",
+        "property",
         "constructor",
         "beAwesome"
       ]);
@@ -195,6 +199,7 @@ describe("parser", () => {
         "count",
         "counter",
         "sum",
+        // "property",
         "a",
         "b",
         "Obj",

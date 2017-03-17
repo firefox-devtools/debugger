@@ -102,6 +102,14 @@ function getFunctionName(path) {
     return parent.id.name;
   }
 
+  if (parent.right && parent.right.type == "ArrowFunctionExpression") {
+    return parent.left.property.name;
+  }
+
+  if (parent.right && parent.right.type == "FunctionExpression") {
+    return parent.left.property.name;
+  }
+
   return "anonymous";
 }
 
