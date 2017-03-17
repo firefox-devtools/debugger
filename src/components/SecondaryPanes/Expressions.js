@@ -42,6 +42,12 @@ function getValue(expression) {
 class Expressions extends React.Component {
   _input: (null|any)
 
+  state: {
+    editing: (null|Node)
+  }
+
+  renderExpression: Function
+
   constructor(...args) {
     super(...args);
 

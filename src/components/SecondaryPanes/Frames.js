@@ -40,6 +40,13 @@ function renderFrameLocation({ source, location }: Frame) {
 
 class Frames extends Component {
 
+  state: {
+    showAllFrames: boolean
+  }
+
+  renderFrame: Function
+  toggleFramesDisplay: Function
+
   constructor(...args) {
     super(...args);
 

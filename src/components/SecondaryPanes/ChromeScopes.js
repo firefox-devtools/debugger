@@ -40,6 +40,9 @@ function createNode(name, path, contents) {
 
 class Scopes extends Component {
   objectCache: Object
+  getChildren: Function
+  onExpand: Function
+  renderItem: Function
 
   constructor(...args) {
     super(...args);
@@ -48,7 +51,6 @@ class Scopes extends Component {
     // this out ever, since we don't ever "switch out" the object
     // being inspected.
     this.objectCache = {};
-    this.state = {};
 
     this.getChildren = this.getChildren.bind(this);
     this.onExpand = this.onExpand.bind(this);

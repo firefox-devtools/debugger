@@ -10,6 +10,8 @@ import "./EventListeners.css";
 
 class EventListeners extends Component {
 
+  renderListener: Function
+
   constructor(...args) {
     super(...args);
 

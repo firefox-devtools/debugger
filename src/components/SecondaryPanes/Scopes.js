@@ -20,6 +20,10 @@ let actorsCache = [];
 
 class Scopes extends Component {
 
+  state: {
+    scopes: any
+  }
+
   constructor(props, ...args) {
     const { pauseInfo, selectedFrame } = props;
 
