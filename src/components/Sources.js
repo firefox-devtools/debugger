@@ -25,7 +25,7 @@ class Sources extends Component {
         {
           className: "sources-header-info",
           dir: "ltr",
-          onClick: () => this.props.toggleFileSearch()
+          onClick: () => this.props.toggleProjectSearch()
         },
         L10N.getFormatStr("sources.search",
           formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
@@ -50,7 +50,7 @@ Sources.propTypes = {
   sources: ImPropTypes.map.isRequired,
   selectSource: PropTypes.func.isRequired,
   horizontal: PropTypes.bool.isRequired,
-  toggleFileSearch: PropTypes.func.isRequired
+  toggleProjectSearch: PropTypes.func.isRequired
 };
 
 Sources.displayName = "Sources";

@@ -22,7 +22,8 @@ const {
   getSourceText, getBreakpointsForSource,
   getSelectedLocation, getSelectedFrame,
   getSelectedSource, getHitCountForSource,
-  getCoverageEnabled, getLoadedObjects, getPause
+  getCoverageEnabled, getLoadedObjects, getPause,
+  getFileSearchQueryState, getFileSearchModifierState
 } = require("../../selectors");
 const { makeLocationId } = require("../../reducers/breakpoints");
 const actions = require("../../actions");
@@ -68,9 +69,16 @@ const Editor = React.createClass({
     jumpToMappedLocation: PropTypes.func,
     showSource: PropTypes.func,
     coverageOn: PropTypes.bool,
+    pauseData: ImPropTypes.map,
     selectedFrame: PropTypes.object,
     addExpression: PropTypes.func,
-    horizontal: PropTypes.bool
+    horizontal: PropTypes.bool,
+    query: PropTypes.string.isRequired,
+    searchModifiers: ImPropTypes.recordOf({
+      caseSensitive: PropTypes.bool.isRequired,
+      regexMatch: PropTypes.bool.isRequired,
+      wholeWord: PropTypes.bool.isRequired,
+    }).isRequired
   },
 
   cbPanel: (null : any),
@@ -82,18 +90,12 @@ const Editor = React.createClass({
 
   getInitialState() {
     return {
-      query: "",
       searchResults: {
         index: -1,
         count: 0
       },
       selectedToken: null,
       selectedExpression: null,
-      searchModifiers: {
-        caseSensitive: true,
-        wholeWord: false,
-        regexMatch: false
-      },
     };
   },
 
@@ -143,17 +145,13 @@ const Editor = React.createClass({
       .addEventListener("keydown", e => onKeyDown(codeMirror, e));
 
     const ctx = { ed: this.editor, cm: codeMirror };
-    const { query, searchModifiers } = this.state;
+    const { query, searchModifiers } = this.props;
 
     codeMirrorWrapper
-      .addEventListener("mouseup", e => this.onMouseUp(
-        e, ctx, searchModifiers
-      ));
+      .addEventListener("mouseup", e => this.onMouseUp(e, ctx));
 
     codeMirrorWrapper
-      .addEventListener("mouseover", e => this.onMouseOver(
-        e, searchModifiers
-      ));
+      .addEventListener("mouseover", e => this.onMouseOver(e));
 
     if (!isFirefox()) {
       codeMirror.on(
@@ -202,9 +200,9 @@ const Editor = React.createClass({
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
     shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
-      (_, e) => traverseResults(e, ctx, query, "prev", searchModifiers));
+      (_, e) => traverseResults(e, ctx, query, "prev", searchModifiers.toJS()));
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
-      (_, e) => traverseResults(e, ctx, query, "next", searchModifiers));
+      (_, e) => traverseResults(e, ctx, query, "next", searchModifiers.toJS()));
 
     resizeBreakpointGutter(codeMirror);
     debugGlobal("cm", codeMirror);
@@ -261,17 +259,17 @@ const Editor = React.createClass({
     return this.setState({ selectedToken: null, selectedExpression: null });
   },
 
-  onMouseUp(e, ctx, modifiers) {
+  onMouseUp(e, ctx) {
     if (e.metaKey) {
-      this.previewSelectedToken(e, ctx, modifiers);
+      this.previewSelectedToken(e, ctx);
     }
   },
 
-  onMouseOver(e, modifiers) {
-    this.previewSelectedToken(e, modifiers);
+  onMouseOver(e) {
+    this.previewSelectedToken(e);
   },
 
-  async previewSelectedToken(e, modifiers) {
+  async previewSelectedToken(e) {
     const { selectedFrame, pauseData, sourceText } = this.props;
     const { selectedToken } = this.state;
     const token = e.target;
@@ -316,17 +314,6 @@ const Editor = React.createClass({
       jumpToMappedLocation: this.props.jumpToMappedLocation,
       addExpression: this.props.addExpression
     });
-  },
-
-  toggleModifier(searchModifiers) {
-    this.setState({ searchModifiers });
-  },
-
-  updateQuery(query) {
-    if (this.state.query == query) {
-      return;
-    }
-    this.setState({ query });
   },
 
   updateSearchResults({ count, index }) {
@@ -631,10 +618,6 @@ const Editor = React.createClass({
           selectedSource,
           sourceText,
           searchResults,
-          modifiers: this.state.searchModifiers,
-          toggleModifier: this.toggleModifier,
-          query: this.state.query,
-          updateQuery: this.updateQuery,
           updateSearchResults: this.updateSearchResults
         }),
         dom.div({
@@ -664,6 +647,8 @@ module.exports = connect(state => {
     hitCount: getHitCountForSource(state, sourceId),
     selectedFrame: getSelectedFrame(state),
     pauseData: getPause(state),
-    coverageOn: getCoverageEnabled(state)
+    coverageOn: getCoverageEnabled(state),
+    query: getFileSearchQueryState(state),
+    searchModifiers: getFileSearchModifierState(state)
   };
 }, dispatch => bindActionCreators(actions, dispatch))(Editor);

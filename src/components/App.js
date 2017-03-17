@@ -19,7 +19,7 @@ import "./shared/reps.css";
 
 const SplitBox = createFactory(require("devtools-modules").SplitBox);
 
-const SourceSearch = createFactory(require("./SourceSearch").default);
+const ProjectSearch = createFactory(require("./ProjectSearch").default);
 const Sources = createFactory(require("./Sources").default);
 const Editor = createFactory(require("./Editor"));
 const SecondaryPanes = createFactory(require("./SecondaryPanes").default);
@@ -79,7 +79,7 @@ class App extends Component {
         }),
         Editor({ horizontal }),
         !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
-        SourceSearch()
+        ProjectSearch()
       )
     );
   }

@@ -103,8 +103,15 @@ export type panelPositionType = "start" | "end";
 
 type UIAction =
   {
-    type: "SET_FILE_SEARCH",
-    searchOn: boolean }
+    type: "TOGGLE_FILE_SEARCH",
+    value: boolean }
+  | {
+    type: "TOGGLE_PROJECT_SEARCH",
+    value: boolean }
+  | {
+    type: "TOGGLE_FILE_SEARCH_MODIFIER",
+    modifier: "caseSensitive" | "wholeWord" | "regexMatch",
+    }
   | {
     type: "SHOW_SOURCE",
     sourceUrl: string}

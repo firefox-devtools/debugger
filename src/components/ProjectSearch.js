@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
 import {
-  getSources, getSelectedSource, getFileSearchState
+  getSources, getSelectedSource, getProjectSearchState
 } from "../selectors";
 import { endTruncateStr } from "../utils/utils";
 import { parse as parseURL } from "url";
 import { isPretty } from "../utils/source";
-import "./SourceSearch.css";
+import "./ProjectSearch.css";
 
 const Autocomplete = createFactory(require("./shared/Autocomplete"));
 
@@ -32,7 +32,7 @@ function searchResults(sources) {
     .toJS();
 }
 
-class Search extends Component {
+class ProjectSearch extends Component {
 
   state: Object
   toggle: Function
@@ -72,20 +72,20 @@ class Search extends Component {
 
   toggle(key, e) {
     e.preventDefault();
-    this.props.toggleFileSearch();
+    this.props.toggleProjectSearch();
   }
 
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
       e.preventDefault();
       this.setState({ inputValue: "" });
-      this.props.closeFileSearch();
+      this.props.toggleProjectSearch(false);
     }
   }
 
   close(inputValue = "") {
     this.setState({ inputValue });
-    this.props.closeFileSearch();
+    this.props.toggleProjectSearch(false);
   }
 
   render() {
@@ -109,26 +109,25 @@ class Search extends Component {
 
 }
 
-Search.propTypes = {
+ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
   selectSource: PropTypes.func.isRequired,
   selectedSource: PropTypes.object,
-  toggleFileSearch: PropTypes.func.isRequired,
-  closeFileSearch: PropTypes.func.isRequired,
+  toggleProjectSearch: PropTypes.func.isRequired,
   searchOn: PropTypes.bool
 };
 
-Search.contextTypes = {
+ProjectSearch.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-Search.displayName = "Search";
+ProjectSearch.displayName = "ProjectSearch";
 
 export default connect(
   state => ({
     sources: getSources(state),
     selectedSource: getSelectedSource(state),
-    searchOn: getFileSearchState(state)
+    searchOn: getProjectSearchState(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
-)(Search);
+)(ProjectSearch);

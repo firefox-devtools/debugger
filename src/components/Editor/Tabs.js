@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
   getSelectedSource, getSourceTabs,
-  getFileSearchState, getSourceByURL
+  getProjectSearchState, getSourceByURL
 } from "../../selectors";
 import { getFilename, isPretty } from "../../utils/source";
 import classnames from "classnames";
@@ -315,7 +315,7 @@ class SourceTabs extends Component {
       formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`));
     return dom.div({
       className: "new-tab-btn",
-      onClick: () => this.props.toggleFileSearch(),
+      onClick: () => this.props.toggleProjectSearch(),
       title: newTabTooltip
     }, Svg("plus"));
   }
@@ -369,7 +369,7 @@ SourceTabs.propTypes = {
   selectSource: PropTypes.func.isRequired,
   closeTab: PropTypes.func.isRequired,
   closeTabs: PropTypes.func.isRequired,
-  toggleFileSearch: PropTypes.func.isRequired,
+  toggleProjectSearch: PropTypes.func.isRequired,
   togglePrettyPrint: PropTypes.func.isRequired,
   togglePaneCollapse: PropTypes.func.isRequired,
   showSource: PropTypes.func.isRequired,
@@ -390,7 +390,7 @@ module.exports = connect(
     return {
       selectedSource: getSelectedSource(state),
       sourceTabs: getTabs(state),
-      searchOn: getFileSearchState(state)
+      searchOn: getProjectSearchState(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
