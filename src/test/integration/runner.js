@@ -28,6 +28,7 @@ describe("Tests", () => {
     prefs.pauseOnExceptions = false;
     prefs.ignoreCaughtExceptions = false;
     prefs.pendingSelectedLocation = {};
+    prefs.pendingBreakpoints = [];
     prefs.tabs = [];
   });
 

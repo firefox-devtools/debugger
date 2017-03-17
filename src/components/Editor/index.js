@@ -30,8 +30,6 @@ const actions = require("../../actions");
 const Breakpoint = React.createFactory(require("./Breakpoint"));
 const HitMarker = React.createFactory(require("./HitMarker"));
 
-import type { Location } from "../../types";
-
 const {
   getDocument,
   setDocument,
@@ -386,24 +384,33 @@ const Editor = React.createClass({
   },
 
   toggleBreakpoint(line) {
-    const bp = breakpointAtLine(this.props.breakpoints, line);
-    const { selectedLocation } = this.props;
+    const {
+      selectedSource,
+      selectedLocation,
+      breakpoints,
+      addBreakpoint,
+      removeBreakpoint
+    } = this.props;
+    const bp = breakpointAtLine(breakpoints, line);
 
-    if ((bp && bp.loading) || !selectedLocation) {
+    if ((bp && bp.loading) || !selectedLocation || !selectedSource) {
       return;
     }
 
     const { sourceId } = selectedLocation;
 
     if (bp) {
-      this.props.removeBreakpoint({
+      removeBreakpoint({
         sourceId: sourceId,
         line: line + 1
       });
     } else {
-      this.props.addBreakpoint(
-        { sourceId: sourceId,
-          line: line + 1 },
+      addBreakpoint(
+        {
+          sourceId: sourceId,
+          sourceUrl: selectedSource.get("url"),
+          line: line + 1
+        },
         // Pass in a function to get line text because the breakpoint
         // may slide and it needs to compute the value at the new
         // line.
@@ -634,8 +641,8 @@ const Editor = React.createClass({
 });
 
 module.exports = connect(state => {
-  const selectedLocation: ?Location = getSelectedLocation(state);
-  const sourceId: ?string = selectedLocation && selectedLocation.sourceId;
+  const selectedLocation = getSelectedLocation(state);
+  const sourceId = selectedLocation && selectedLocation.sourceId;
   const selectedSource = getSelectedSource(state);
 
   return {
@@ -643,7 +650,7 @@ module.exports = connect(state => {
     selectedSource,
     sourceText: getSourceText(state, sourceId),
     loadedObjects: getLoadedObjects(state),
-    breakpoints: getBreakpointsForSource(state, sourceId),
+    breakpoints: getBreakpointsForSource(state, sourceId || ""),
     hitCount: getHitCountForSource(state, sourceId),
     selectedFrame: getSelectedFrame(state),
     pauseData: getPause(state),
