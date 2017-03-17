@@ -240,7 +240,7 @@ class SourcesTree extends Component {
 
     const noSourcesMessage = dom.div({
       className: "no-sources-message"
-    }, "This page has no sources.");
+    }, L10N.getStr("sources.noSourcesAvailable"));
 
     if (isEmpty) {
       return noSourcesMessage;
