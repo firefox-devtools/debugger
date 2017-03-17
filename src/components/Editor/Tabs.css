@@ -99,10 +99,3 @@
 .source-tab:hover .close-btn {
   visibility: visible;
 }
-
-.source-tab .close-btn .close {
-  padding: 0;
-  margin-top: 0;
-  display: inline-flex;
-  justify-content: center;
-}
