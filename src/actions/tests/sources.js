@@ -1,14 +1,12 @@
 const expect = require("expect.js");
 const { Task } = require("../../utils/task");
 const {
-  actions, selectors, createStore, makeSource,
-  waitForState
+  actions, selectors, createStore, makeSource
 } = require("../../utils/test-head");
 const {
-  getSourceByURL, getSourceById, getSources, getSelectedSource,
+  getSourceById, getSources, getSelectedSource,
   getSourceText, getSourceTabs
 } = selectors;
-const sourceMap = require("devtools-source-map");
 
 const threadClient = {
   sourceContents: function(sourceId) {
@@ -34,11 +32,6 @@ const threadClient = {
 };
 
 process.on("unhandledRejection", (reason, p) => {});
-
-// Create a sourcemapped source that all the sourcemap tests can use.
-const bundleSource = makeSource("sourcemaps/bundle.js", {
-  sourceMapURL: "bundle.js.map"
-});
 
 describe("sources", () => {
   it("should add sources to state", () => {
@@ -151,26 +144,6 @@ describe("sources", () => {
     yield dispatch(actions.loadSourceText({ id: "bad-id" })).catch(() => {});
     const badText = getSourceText(getState(), "bad-id");
     expect(badText.get("error").indexOf("unknown source")).to.not.be(-1);
-  }));
-
-  it("should download a sourcemap and create sources", Task.async(function* () {
-    const store = createStore();
-    const { dispatch, getState } = store;
-    dispatch(actions.newSource(bundleSource));
-    yield waitForState(store, state => getSourceByURL(state, "webpack:///entry.js"));
-
-    expect(getSources(getState()).size).to.be(6);
-    const entrySource = getSourceByURL(getState(), "webpack:///entry.js");
-    const times2Source = getSourceByURL(getState(), "webpack:///times2.js");
-    const optsSource = getSourceByURL(getState(), "webpack:///opts.js");
-
-    expect(entrySource).to.be.ok();
-    expect(times2Source).to.be.ok();
-    expect(optsSource).to.be.ok();
-    expect(sourceMap.isGeneratedId(bundleSource.id)).to.be.ok();
-    expect(sourceMap.isOriginalId(entrySource.get("id"))).to.be.ok();
-    expect(sourceMap.isOriginalId(times2Source.get("id"))).to.be.ok();
-    expect(sourceMap.isOriginalId(optsSource.get("id"))).to.be.ok();
   }));
 });
 
