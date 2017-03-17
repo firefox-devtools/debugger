@@ -8,7 +8,7 @@ const toPairs = require("lodash/toPairs");
 const get = require("lodash/get");
 const isEmpty = require("lodash/isEmpty");
 
-import type { SourceText, Location } from "../../types";
+import type { SourceText, Location, Expression } from "../../types";
 
 const ASTs = new Map();
 
@@ -202,7 +202,8 @@ function getSymbols(source: SourceText): SymbolDeclarations {
   return symbols;
 }
 
-function getExpression(source: SourceText, token: string, location: Location) {
+function getExpression(source: SourceText, token: string, location: Location)
+  : ?Expression {
   let expression = null;
   const ast = getAst(source);
 
