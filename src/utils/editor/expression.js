@@ -1,6 +1,5 @@
 // @flow
 
-import { getVisibleVariablesFromScope } from "../scopes";
 import { getExpression } from "../parser";
 
 export function getTokenLocation(codeMirror, tokenEl) {
@@ -21,25 +20,26 @@ export async function getExpressionFromToken(
   return await getExpression(sourceText.toJS(), token.textContent || "", loc);
 }
 
-export async function getSelectedExpression(cm: any, token: HTMLElement, {
-  selectedFrame, pauseData, sourceText
-}) {
-  const tokenText = token.textContent;
+export function getThisFromFrame(tokenText, selectedFrame) {
+  if ("this" in selectedFrame) {
+    return { value: selectedFrame.this };
+  }
 
+  return null;
+}
+
+export function previewExpression({ expression, variables, tokenText }) {
   if (!tokenText) {
     return null;
   }
 
-  if (tokenText == "this" && ("this" in selectedFrame)) {
-    return { value: selectedFrame.this };
+  if (tokenText === "this") {
+    return getThisFromFrame();
   }
 
-  const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
   if (variables.has(tokenText)) {
     return variables.get(tokenText);
   }
-
-  const expression = await getExpressionFromToken(cm, token, sourceText);
 
   return expression || null;
 }

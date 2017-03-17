@@ -11,7 +11,7 @@ const {
 import {
   getTokenLocation,
   getExpressionFromToken,
-  getSelectedExpression,
+  previewExpression,
 } from "./expression.js";
 
 const {
@@ -169,5 +169,5 @@ module.exports = {
   traverseResults,
   getTokenLocation,
   getExpressionFromToken,
-  getSelectedExpression,
+  previewExpression,
 };

@@ -138,11 +138,6 @@ describe("scopes", () => {
     const frame = {
       id: "server2.conn1.frame37",
       displayName: "func",
-      location: {
-        sourceId: "server2.conn1.source35",
-        line: 10,
-        column: 4
-      },
       this: "this",
       scope: {
         actor: "server2.conn1.environment39",
@@ -150,169 +145,43 @@ describe("scopes", () => {
         parent: {
           actor: "server2.conn1.environment40",
           type: "function",
-          parent: {
-            actor: "server2.conn1.environment41",
-            type: "block",
-            parent: {
-              actor: "server2.conn1.environment42",
-              type: "object",
-              object: {
-                type: "object",
-                class: "Window",
-                actor: "server2.conn1.pausedobj43",
-                extensible: true,
-                frozen: false,
-                sealed: false,
-                ownPropertyLength: 706,
-                preview: {
-                  kind: "ObjectWithURL",
-                  url: "file://index.html"
-                }
-              }
-            },
-            bindings: {
-              arguments: [],
-              variables: {}
-            }
-          },
           function: {
             type: "object",
             class: "Function",
             actor: "server2.conn1.pausedobj44",
-            extensible: true,
-            frozen: false,
-            sealed: false,
-            parameterNames: [],
-            location: {
-              url: "file://script.js",
-              line: 3
-            }
           },
           bindings: {
             arguments: [],
             variables: {
-              a: {
-                enumerable: true,
-                configurable: false,
-                value: "a",
-                writable: true
-              },
-              b: {
-                enumerable: true,
-                configurable: false,
-                value: "b",
-                writable: true
-              },
-              c: {
-                enumerable: true,
-                configurable: false,
-                value: "c",
-                writable: true
-              },
+              a: { value: "a" },
+              b: { value: "b" },
+              c: { value: "c" },
               func: {
-                enumerable: true,
-                configurable: false,
                 value: {
-                  frozen: false,
                   name: "func",
                   displayName: "func",
                   actor: "server2.conn1.pausedobj45",
-                  location: {
-                    url: "file://script.js",
-                    line: 8
-                  },
                   class: "Function",
                   type: "object",
-                  extensible: true,
-                  sealed: false,
-                  parameterNames: [ "b", "d" ]
                 },
-                writable: true
               },
-              arguments: {
-                enumerable: true,
-                configurable: false,
-                value: {
-                  type: "object",
-                  class: "Arguments",
-                  actor: "server2.conn1.pausedobj46",
-                  extensible: true,
-                  frozen: false,
-                  sealed: false,
-                  ownPropertyLength: 3,
-                  preview: {
-                    kind: "Object",
-                    ownProperties: {},
-                    ownPropertiesLength: 3,
-                    safeGetterValues: {}
-                  }
-                },
-                writable: true
-              }
             }
           }
         },
         function: {
-          frozen: false,
           name: "func",
           displayName: "func",
           actor: "server2.conn1.pausedobj45",
-          location: {
-            url: "file://script.js",
-            line: 8
-          },
           class: "Function",
           type: "object",
-          extensible: true,
-          sealed: false,
-          parameterNames: [ "b", "d" ]
         },
         bindings: {
           arguments: [
-            {
-              b: {
-                enumerable: true,
-                configurable: false,
-                value: "bb",
-                writable: true
-              }
-            },
-            {
-              d: {
-                enumerable: true,
-                configurable: false,
-                value: "dd",
-                writable: true
-              }
-            }
+            { b: { value: "bb" }},
+            { d: { value: "dd" }},
           ],
           variables: {
-            c: {
-              enumerable: true,
-              configurable: false,
-              value: "cc",
-              writable: true
-            },
-            arguments: {
-              enumerable: true,
-              configurable: false,
-              value: {
-                type: "object",
-                class: "Arguments",
-                actor: "server2.conn1.pausedobj47",
-                extensible: true,
-                frozen: false,
-                sealed: false,
-                ownPropertyLength: 5,
-                preview: {
-                  kind: "Object",
-                  ownProperties: {},
-                  ownPropertiesLength: 5,
-                  safeGetterValues: {}
-                }
-              },
-              writable: true
-            }
+            c: { value: "cc" },
           }
         }
       }

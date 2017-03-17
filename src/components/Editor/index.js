@@ -42,10 +42,12 @@ const {
   breakpointAtLine,
   getTextForLine,
   getCursorLine,
-  getSelectedExpression,
+  getExpressionFromToken,
+  previewExpression,
   resizeBreakpointGutter,
   traverseResults
 } = require("../../utils/editor");
+const { getVisibleVariablesFromScope } = require("../../utils/scopes");
 const { isFirefox } = require("devtools-config");
 
 require("./Editor.css");
@@ -283,14 +285,22 @@ const Editor = React.createClass({
       this.setState({ selectedToken: null, selectedExpression: null });
     }
 
-    const selectedExpression = await getSelectedExpression(
-      this.editor.codeMirror, token,
-      { selectedFrame, pauseData, sourceText }
+    const expressionFromToken = await getExpressionFromToken(
+      this.editor.codeMirror, token, sourceText
     );
-    if (selectedExpression) {
+
+    const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
+
+    const displayedExpression = previewExpression({
+      expression: expressionFromToken,
+      variables,
+      tokenText: token.textContent,
+    });
+
+    if (displayedExpression) {
       this.setState({
         selectedToken: token,
-        selectedExpression,
+        selectedExpression: displayedExpression,
       });
     }
   },
