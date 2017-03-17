@@ -18,12 +18,9 @@
     "devtools": true,
     "dump": true,
     "EventEmitter": true,
-    "exports": true,
     "isWorker": true,
     "loader": true,
-    "module": true,
     "reportError": true,
-    "require": true,
     "Services": true,
     "Task": true,
     "XPCNativeWrapper": true,
@@ -31,14 +28,14 @@
     "_Iterator": true,
     "__dirname": true,
     "process": true,
-    "expect": true,
     "global": true,
     "L10N": true
   },
   "env": {
       "es6": true,
       "browser": true,
-      "mocha": true
+      "commonjs": true,
+      "jest": true
   },
   "rules": {
     // These are the rules that have been configured so far to match the

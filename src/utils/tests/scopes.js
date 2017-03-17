@@ -1,4 +1,7 @@
-const { getSpecialVariables } = require("../scopes");
+const {
+  getSpecialVariables,
+  getVisibleVariablesFromScope
+} = require("../scopes");
 const fromJS = require("../fromJS");
 
 const expect = require("expect.js");
@@ -101,6 +104,122 @@ describe("scopes", () => {
         expect(vars[0].name).to.equal("<exception>");
         expect(vars[0].contents.value).to.eql({ type: "undefined" });
       });
+    });
+  });
+
+  describe("getVisibleVariablesFromScope", function() {
+    /* These are real-life pauseInfo and frames with some shadowed variables
+     * coming from the following JS code:
+     *
+     * (function() {
+     *   var a = 'a';
+     *   var b = 'b';
+     *   var c = 'c';
+     *
+     *   function func(b, d) {
+     *     var c = 'cc';
+     *     debugger; // This is where we are paused.
+     *   }
+     *
+     *   document.querySelector('button').onclick =
+     *     () => func.call('this', 'bb', 'dd');
+     *  })();
+     *
+     *
+     * We use a IIFE because we don't support global variables yet, so this is
+     * necessary to get variables in the outer scope. This can be removed once
+     * getVisibleVariablesFromScope supports global variables.
+     *
+     * `b` is shadowed by a function parameter, `c` is shadowed by a local
+     * variable, but `a` is not shadowed. `this` is a string containing te value
+     * `"this"`.
+     */
+
+    const frame = {
+      id: "server2.conn1.frame37",
+      displayName: "func",
+      this: "this",
+      scope: {
+        actor: "server2.conn1.environment39",
+        type: "function",
+        parent: {
+          actor: "server2.conn1.environment40",
+          type: "function",
+          function: {
+            type: "object",
+            class: "Function",
+            actor: "server2.conn1.pausedobj44",
+          },
+          bindings: {
+            arguments: [],
+            variables: {
+              a: { value: "a" },
+              b: { value: "b" },
+              c: { value: "c" },
+              func: {
+                value: {
+                  name: "func",
+                  displayName: "func",
+                  actor: "server2.conn1.pausedobj45",
+                  class: "Function",
+                  type: "object",
+                },
+              },
+            }
+          }
+        },
+        function: {
+          name: "func",
+          displayName: "func",
+          actor: "server2.conn1.pausedobj45",
+          class: "Function",
+          type: "object",
+        },
+        bindings: {
+          arguments: [
+            { b: { value: "bb" }},
+            { d: { value: "dd" }},
+          ],
+          variables: {
+            c: { value: "cc" },
+          }
+        }
+      }
+    };
+
+    let pauseInfo;
+
+    beforeEach(function() {
+      // Default pauseInfo is using the innermost frame in the stack.
+      pauseInfo = fromJS({
+        why: {
+          type: "debuggerStatement"
+        },
+        frame,
+        isInterrupted: false
+      });
+
+      global.L10N = { getStr: () => "" };
+    });
+
+    afterEach(function() {
+      delete global.L10N;
+    });
+
+    it("Returns variables from the outer scope", function() {
+      const variables = getVisibleVariablesFromScope(pauseInfo, frame);
+
+      const expectations = {
+        a: "a",
+        b: "bb",
+        c: "cc",
+        d: "dd"
+      };
+
+      for (const variableName in expectations) {
+        const variable = variables.get(variableName);
+        expect(variable.contents.value).equal(expectations[variableName]);
+      }
     });
   });
 });
