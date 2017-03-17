@@ -3,7 +3,7 @@ const {
   assertPausedLocation,
   reload,
   resume,
-  waitForPaused
+  waitForPaused,
 } = require("../utils");
 
 /**
@@ -30,4 +30,4 @@ module.exports = async function(ctx) {
   await resume(dbg);
   await waitForPaused(dbg);
   assertPausedLocation(dbg, ctx, "debugger-statements.html", 12);
-}
+};

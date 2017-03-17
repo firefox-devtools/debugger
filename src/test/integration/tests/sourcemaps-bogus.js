@@ -5,7 +5,7 @@ const {
   selectSource,
   addBreakpoint,
   invokeInTab,
-  waitForPaused
+  waitForPaused,
 } = require("../utils");
 
 // Test that an error while loading a sourcemap does not break
@@ -29,4 +29,4 @@ module.exports = async function(ctx) {
   // Make sure that only the single generated source exists. The
   // sourcemap failed to download.
   is(countSources(dbg), 1, "Only 1 source exists");
-}
+};

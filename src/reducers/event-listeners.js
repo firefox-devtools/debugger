@@ -37,5 +37,5 @@ function getEventListeners(state) {
 
 module.exports = {
   update,
-  getEventListeners
+  getEventListeners,
 };

@@ -17,8 +17,8 @@ import type { Breakpoint } from "../../types";
 type LocalBreakpoint = Breakpoint & {
   location: any,
   isCurrentlyPaused: boolean,
-  locationId: string
-}
+  locationId: string,
+};
 
 function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
   const pause = getPause(state);
@@ -27,9 +27,7 @@ function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
   }
 
   const bpId = makeLocationId(breakpoint.location);
-  const pausedId = makeLocationId(
-    pause.getIn(["frame", "location"]).toJS()
-  );
+  const pausedId = makeLocationId(pause.getIn(["frame", "location"]).toJS());
 
   return bpId === pausedId;
 }
@@ -37,15 +35,12 @@ function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
 function renderSourceLocation(source, line) {
   const url = source.get("url") ? basename(source.get("url")) : null;
   // const line = url !== "" ? `: ${line}` : "";
-  return url ?
-    dom.div(
-      { className: "location" },
-      `${endTruncateStr(url, 30)}: ${line}`
-    ) : null;
+  return url
+    ? dom.div({ className: "location" }, `${endTruncateStr(url, 30)}: ${line}`)
+    : null;
 }
 
 class Breakpoints extends Component {
-
   shouldComponentUpdate(nextProps, nextState) {
     const { breakpoints } = this.props;
     return breakpoints !== nextProps.breakpoints;
@@ -88,10 +83,10 @@ class Breakpoints extends Component {
           breakpoint,
           paused: isCurrentlyPaused,
           disabled: isDisabled,
-          "is-conditional": isConditional
+          "is-conditional": isConditional,
         }),
         key: locationId,
-        onClick: () => this.selectBreakpoint(breakpoint)
+        onClick: () => this.selectBreakpoint(breakpoint),
       },
       dom.input({
         type: "checkbox",
@@ -100,28 +95,29 @@ class Breakpoints extends Component {
         onChange: () => this.handleCheckbox(breakpoint),
         // Prevent clicking on the checkbox from triggering the onClick of
         // the surrounding div
-        onClick: (ev) => ev.stopPropagation()
+        onClick: ev => ev.stopPropagation(),
       }),
       dom.div(
         { className: "breakpoint-label", title: breakpoint.text },
-        dom.div({}, renderSourceLocation(breakpoint.location.source, line))
+        dom.div({}, renderSourceLocation(breakpoint.location.source, line)),
       ),
       dom.div({ className: "breakpoint-snippet" }, snippet),
       CloseButton({
-        handleClick: (ev) => this.removeBreakpoint(ev, breakpoint),
-        tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip")
-      }));
+        handleClick: ev => this.removeBreakpoint(ev, breakpoint),
+        tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip"),
+      }),
+    );
   }
 
   render() {
     const { breakpoints } = this.props;
     return dom.div(
       { className: "pane breakpoints-list" },
-      (breakpoints.size === 0 ?
-       dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none")) :
-       breakpoints.valueSeq().map(bp => {
-         return this.renderBreakpoint(bp);
-       }))
+      breakpoints.size === 0
+        ? dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none"))
+        : breakpoints.valueSeq().map(bp => {
+            return this.renderBreakpoint(bp);
+          }),
     );
   }
 }
@@ -133,7 +129,7 @@ Breakpoints.propTypes = {
   enableBreakpoint: PropTypes.func.isRequired,
   disableBreakpoint: PropTypes.func.isRequired,
   selectSource: PropTypes.func.isRequired,
-  removeBreakpoint: PropTypes.func.isRequired
+  removeBreakpoint: PropTypes.func.isRequired,
 };
 
 function updateLocation(state, bp): LocalBreakpoint {
@@ -142,13 +138,13 @@ function updateLocation(state, bp): LocalBreakpoint {
   const locationId = makeLocationId(bp.location);
 
   const location = Object.assign({}, bp.location, {
-    source
+    source,
   });
 
   const localBP = Object.assign({}, bp, {
     location,
     locationId,
-    isCurrentlyPaused
+    isCurrentlyPaused,
   });
 
   return localBP;
@@ -156,13 +152,13 @@ function updateLocation(state, bp): LocalBreakpoint {
 
 function _getBreakpoints(state) {
   return getBreakpoints(state)
-  .map(bp => updateLocation(state, bp))
-  .filter(bp => bp.location.source);
+    .map(bp => updateLocation(state, bp))
+    .filter(bp => bp.location.source);
 }
 
 export default connect(
   (state, props) => ({
-    breakpoints: _getBreakpoints(state)
+    breakpoints: _getBreakpoints(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => bindActionCreators(actions, dispatch),
 )(Breakpoints);

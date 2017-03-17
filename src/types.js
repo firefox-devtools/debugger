@@ -3,22 +3,24 @@
 export type SearchModifiers = {
   caseSensitive: boolean,
   wholeWord: boolean,
-  regexMatch: boolean
+  regexMatch: boolean,
 };
 
 export type Expression = {
   value: Object,
-  input: string
- };
+  input: string,
+};
 
-export type Mode = String | {
-  name: string,
-  typescript?: boolean,
-  base?: {
-    name: string,
-    typescript: boolean
-  }
-}
+export type Mode =
+  | String
+  | {
+      name: string,
+      typescript?: boolean,
+      base?: {
+        name: string,
+        typescript: boolean,
+      },
+    };
 
 export type AlignOpts = "top" | "center" | "bottom";
 
@@ -31,5 +33,5 @@ export type {
   Source,
   SourceText,
   Pause,
-  Why
+  Why,
 } from "devtools-client-adapters/src/types";

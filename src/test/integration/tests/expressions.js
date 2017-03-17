@@ -12,8 +12,8 @@ const {
   findAllElements,
   invokeInTab,
   clickElement,
-  dblClickElement
-} = require("../utils")
+  dblClickElement,
+} = require("../utils");
 
 /**
  * tests the watch expressions component
@@ -23,8 +23,8 @@ const {
  */
 
 const selectors = {
-  input: "input.input-expression"
-}
+  input: "input.input-expression",
+};
 
 function getLabel(dbg, index) {
   return findElement(dbg, "expressionNode", index).innerText;
@@ -35,7 +35,7 @@ function getValue(dbg, index) {
 }
 
 async function addExpression(dbg, input) {
-  info("Adding an expression")
+  info("Adding an expression");
   findElementWithSelector(dbg, selectors.input).focus();
   type(dbg, input);
   pressKey(dbg, "Enter");
@@ -44,7 +44,7 @@ async function addExpression(dbg, input) {
 }
 
 async function editExpression(dbg, input) {
-  info("updating the expression")
+  info("updating the expression");
   dblClickElement(dbg, "expressionNode", 1);
   type(dbg, input);
   pressKey(dbg, "Enter");
@@ -54,7 +54,7 @@ async function editExpression(dbg, input) {
 async function deleteExpression(dbg, index) {
   info("Deleting the expression");
   const deleteExpression = waitForDispatch(dbg, "DELETE_EXPRESSION");
-  clickElement(dbg, "expressionClose", index)
+  clickElement(dbg, "expressionClose", index);
   await deleteExpression;
 }
 
@@ -65,11 +65,11 @@ module.exports = async function(ctx) {
   invokeInTab(dbg, "firstCall");
   await waitForPaused(dbg);
 
-  await addExpression(dbg, "f")
+  await addExpression(dbg, "f");
   is(getLabel(dbg, 1), "f");
   is(getValue(dbg, 1), "ReferenceError");
 
-  await editExpression(dbg, "oo")
+  await editExpression(dbg, "oo");
   is(getLabel(dbg, 1), "foo");
   is(getValue(dbg, 1), "function foo()");
 

@@ -4,7 +4,7 @@ const {
   findElement,
   findElementWithSelector,
   selectSource,
-  pressKey
+  pressKey,
 } = require("../utils");
 
 async function keyboardNavigation(ctx) {
@@ -20,15 +20,15 @@ async function keyboardNavigation(ctx) {
   const textarea = findElementWithSelector(dbg, "textarea");
   editor.focus();
 
-  info("Enter code editor")
+  info("Enter code editor");
   pressKey(dbg, "Enter");
   is(textarea, doc.activeElement, "Editor is enabled");
 
-  info("Exit code editor and focus on container")
+  info("Exit code editor and focus on container");
   pressKey(dbg, "Escape");
   is(editor, doc.activeElement, "Focused on container");
 
-  info("Enter code editor")
+  info("Enter code editor");
   pressKey(dbg, "Tab");
   is(textarea, doc.activeElement, "Editor is enabled");
 }

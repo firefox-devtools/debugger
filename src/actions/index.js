@@ -17,5 +17,5 @@ module.exports = (Object.assign(
   sources,
   pause,
   ui,
-  coverage
-) : typeof breakpoints);
+  coverage,
+): typeof breakpoints);

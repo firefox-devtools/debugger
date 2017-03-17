@@ -1,8 +1,6 @@
 // @flow
 
-import {
-  DOM as dom, PropTypes, Component
-} from "react";
+import { DOM as dom, PropTypes, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
@@ -26,32 +24,28 @@ function renderFrameTitle({ displayName }: Frame) {
 }
 
 function renderFrameLocation({ source, location }: Frame) {
-  const thisSource : ?Source = source;
+  const thisSource: ?Source = source;
   if (thisSource == null) {
     return;
   }
 
   const filename = getFilename(thisSource);
-  return dom.div(
-    { className: "location" },
-    `${filename}: ${location.line}`
-  );
+  return dom.div({ className: "location" }, `${filename}: ${location.line}`);
 }
 
 class Frames extends Component {
-
   state: {
-    showAllFrames: boolean
-  }
+    showAllFrames: boolean,
+  };
 
-  renderFrame: Function
-  toggleFramesDisplay: Function
+  renderFrame: Function;
+  toggleFramesDisplay: Function;
 
   constructor(...args) {
     super(...args);
 
     this.state = {
-      showAllFrames: false
+      showAllFrames: false,
     };
 
     this.renderFrame = this.renderFrame.bind(this);
@@ -61,14 +55,14 @@ class Frames extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     const { frames, selectedFrame } = this.props;
     const { showAllFrames } = this.state;
-    return frames !== nextProps.frames
-      || selectedFrame !== nextProps.selectedFrame
-      || showAllFrames !== nextState.showAllFrames;
+    return frames !== nextProps.frames ||
+      selectedFrame !== nextProps.selectedFrame ||
+      showAllFrames !== nextState.showAllFrames;
   }
 
   toggleFramesDisplay() {
     this.setState({
-      showAllFrames: !this.state.showAllFrames
+      showAllFrames: !this.state.showAllFrames,
     });
   }
 
@@ -88,7 +82,7 @@ class Frames extends Component {
         label: copySourceUrlLabel,
         accesskey: copySourceUrlKey,
         disabled: false,
-        click: () => copyToTheClipboard(source.url)
+        click: () => copyToTheClipboard(source.url),
       };
 
       menuOptions.push(copySourceUrl);
@@ -101,17 +95,18 @@ class Frames extends Component {
     const { selectedFrame } = this.props;
 
     return dom.li(
-      { key: frame.id,
+      {
+        key: frame.id,
         className: classNames("frame", {
-          "selected": selectedFrame && selectedFrame.id === frame.id
+          selected: selectedFrame && selectedFrame.id === frame.id,
         }),
-        onMouseDown: (e) => this.onMouseDown(e, frame, selectedFrame),
-        onKeyUp: (e) => this.onKeyUp(e, frame, selectedFrame),
-        onContextMenu: (e) => this.onContextMenu(e, frame),
-        tabIndex: 0
+        onMouseDown: e => this.onMouseDown(e, frame, selectedFrame),
+        onKeyUp: e => this.onKeyUp(e, frame, selectedFrame),
+        onContextMenu: e => this.onContextMenu(e, frame),
+        tabIndex: 0,
       },
       renderFrameTitle(frame),
-      renderFrameLocation(frame)
+      renderFrameLocation(frame),
     );
   }
 
@@ -130,8 +125,9 @@ class Frames extends Component {
   }
 
   renderFrames(frames: Frame[]) {
-    const numFramesToShow =
-      this.state.showAllFrames ? frames.length : NUM_FRAMES_SHOWN;
+    const numFramesToShow = this.state.showAllFrames
+      ? frames.length
+      : NUM_FRAMES_SHOWN;
     const framesToShow = frames.slice(0, numFramesToShow);
 
     return dom.ul({}, framesToShow.map(this.renderFrame));
@@ -139,7 +135,8 @@ class Frames extends Component {
 
   renderToggleButton(frames: Frame[]) {
     let buttonMessage = this.state.showAllFrames
-      ? L10N.getStr("callStack.collapse") : L10N.getStr("callStack.expand");
+      ? L10N.getStr("callStack.collapse")
+      : L10N.getStr("callStack.expand");
 
     if (frames.length < NUM_FRAMES_SHOWN) {
       return null;
@@ -147,7 +144,7 @@ class Frames extends Component {
 
     return dom.div(
       { className: "show-more", onClick: this.toggleFramesDisplay },
-      buttonMessage
+      buttonMessage,
     );
   }
 
@@ -159,15 +156,15 @@ class Frames extends Component {
         { className: "pane frames" },
         dom.div(
           { className: "pane-info empty" },
-          L10N.getStr("callStack.notPaused")
-        )
+          L10N.getStr("callStack.notPaused"),
+        ),
       );
     }
 
     return dom.div(
       { className: "pane frames" },
       this.renderFrames(frames),
-      this.renderToggleButton(frames)
+      this.renderToggleButton(frames),
     );
   }
 }
@@ -175,7 +172,7 @@ class Frames extends Component {
 Frames.propTypes = {
   frames: PropTypes.array,
   selectedFrame: PropTypes.object,
-  selectFrame: PropTypes.func.isRequired
+  selectFrame: PropTypes.func.isRequired,
 };
 
 Frames.displayName = "Frames";
@@ -193,15 +190,16 @@ function getAndProcessFrames(state) {
   return frames
     .toJS()
     .filter(frame => getSourceForFrame(state, frame))
-    .map(frame => Object.assign({}, frame, {
-      source: getSourceForFrame(state, frame).toJS()
-    }));
+    .map(frame =>
+      Object.assign({}, frame, {
+        source: getSourceForFrame(state, frame).toJS(),
+      }));
 }
 
 export default connect(
   state => ({
     frames: getAndProcessFrames(state),
-    selectedFrame: getSelectedFrame(state)
+    selectedFrame: getSelectedFrame(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => bindActionCreators(actions, dispatch),
 )(Frames);

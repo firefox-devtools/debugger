@@ -20,7 +20,7 @@ function willNavigate(_, event) {
 
   return {
     type: constants.NAVIGATE,
-    url: event.url
+    url: event.url,
   };
 }
 
@@ -40,5 +40,5 @@ function navigated() {
 
 module.exports = {
   willNavigate,
-  navigated
+  navigated,
 };

@@ -113,9 +113,9 @@ class SourceEditor {
     let offset = Math.min(halfVisible, MAX_VERTICAL_OFFSET);
 
     let topLine = {
-      "center": Math.max(line - halfVisible, 0),
-      "bottom": Math.max(line - linesVisible + offset, 0),
-      "top": Math.max(line - offset, 0)
+      center: Math.max(line - halfVisible, 0),
+      bottom: Math.max(line - linesVisible + offset, 0),
+      top: Math.max(line - offset, 0),
     }[align || "top"] || offset;
 
     // Bringing down the topLine to total lines in the editor if exceeding.

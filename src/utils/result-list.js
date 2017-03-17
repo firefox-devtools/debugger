@@ -40,7 +40,7 @@ function handleKeyDown(e: SyntheticKeyboardEvent) {
   } else if (e.key === "ArrowDown") {
     const selectedIndex = Math.min(
       resultCount - 1,
-      this.state.selectedIndex + 1
+      this.state.selectedIndex + 1,
     );
     this.setState({ selectedIndex });
     if (this.props.onSelectedItem) {
@@ -62,5 +62,5 @@ function handleKeyDown(e: SyntheticKeyboardEvent) {
 
 module.exports = {
   scrollList,
-  handleKeyDown
+  handleKeyDown,
 };

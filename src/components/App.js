@@ -28,17 +28,17 @@ const EditorTabs = createFactory(require("./Editor/Tabs"));
 
 class App extends Component {
   state: {
-    horizontal: boolean
-  }
-  onLayoutChange: Function
-  getChildContext: Function
-  renderEditorPane: Function
-  renderVerticalLayout: Function
+    horizontal: boolean,
+  };
+  onLayoutChange: Function;
+  getChildContext: Function;
+  renderEditorPane: Function;
+  renderVerticalLayout: Function;
 
   constructor(props) {
     super(props);
     this.state = {
-      horizontal: verticalLayoutBreakpoint.matches
+      horizontal: verticalLayoutBreakpoint.matches,
     };
 
     this.getChildContext = this.getChildContext.bind(this);
@@ -61,7 +61,7 @@ class App extends Component {
 
   onLayoutChange() {
     this.setState({
-      horizontal: verticalLayoutBreakpoint.matches
+      horizontal: verticalLayoutBreakpoint.matches,
     });
   }
 
@@ -75,12 +75,12 @@ class App extends Component {
         EditorTabs({
           startPanelCollapsed,
           endPanelCollapsed,
-          horizontal
+          horizontal,
         }),
         Editor({ horizontal }),
         !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
-        ProjectSearch()
-      )
+        ProjectSearch(),
+      ),
     );
   }
 
@@ -110,9 +110,10 @@ class App extends Component {
           startPanel: this.renderEditorPane(),
           endPanel: SecondaryPanes({ horizontal }),
           endPanelCollapsed,
-          vert: horizontal
+          vert: horizontal,
         }),
-      }));
+      }),
+    );
   }
 
   renderVerticalLayout() {
@@ -140,12 +141,14 @@ class App extends Component {
         }),
         endPanel: SecondaryPanes({ horizontal }),
         endPanelCollapsed,
-      }));
+      }),
+    );
   }
 
   render() {
-    return this.state.horizontal ?
-      this.renderHorizontalLayout() : this.renderVerticalLayout();
+    return this.state.horizontal
+      ? this.renderHorizontalLayout()
+      : this.renderVerticalLayout();
   }
 }
 
@@ -160,14 +163,15 @@ App.propTypes = {
 App.displayName = "App";
 
 App.childContextTypes = {
-  shortcuts: PropTypes.object
+  shortcuts: PropTypes.object,
 };
 
 export default connect(
-  state => ({ sources: getSources(state),
+  state => ({
+    sources: getSources(state),
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
     endPanelCollapsed: getPaneCollapse(state, "end"),
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => bindActionCreators(actions, dispatch),
 )(App);

@@ -1,7 +1,5 @@
 // @flow
-import {
-  DOM as dom, PropTypes, Component, createFactory
-} from "react";
+import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -18,12 +16,10 @@ function info(text) {
 
 // check to see if its an object with propertie
 function nodeHasProperties(item) {
-  return !nodeHasChildren(item)
-    && item.contents.value.type === "object";
+  return !nodeHasChildren(item) && item.contents.value.type === "object";
 }
 
-function nodeIsPrimitive(item) {
-}
+function nodeIsPrimitive(item) {}
 
 function nodeHasChildren(item) {
   return Array.isArray(item.contents);
@@ -39,10 +35,10 @@ function createNode(name, path, contents) {
 }
 
 class Scopes extends Component {
-  objectCache: Object
-  getChildren: Function
-  onExpand: Function
-  renderItem: Function
+  objectCache: Object;
+  getChildren: Function;
+  onExpand: Function;
+  renderItem: Function;
 
   constructor(...args) {
     super(...args);
@@ -60,21 +56,24 @@ class Scopes extends Component {
   makeNodesForProperties(objProps, parentPath) {
     const { ownProperties, prototype } = objProps;
 
-    const nodes = Object.keys(ownProperties).sort().filter(name => {
-      // Ignore non-concrete values like getters and setters
-      // for now by making sure we have a value.
-      return "value" in ownProperties[name];
-    }).map(name => {
-      return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
-    });
+    const nodes = Object.keys(ownProperties)
+      .sort()
+      .filter(name => {
+        // Ignore non-concrete values like getters and setters
+        // for now by making sure we have a value.
+        return "value" in ownProperties[name];
+      })
+      .map(name => {
+        return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
+      });
 
     // Add the prototype if it exists and is not null
     if (prototype && prototype.type !== "null") {
-      nodes.push(createNode(
-        "__proto__",
-        `${parentPath}/__proto__`,
-        { value: prototype }
-      ));
+      nodes.push(
+        createNode("__proto__", `${parentPath}/__proto__`, {
+          value: prototype,
+        }),
+      );
     }
 
     return nodes;
@@ -86,28 +85,26 @@ class Scopes extends Component {
 
     return dom.div(
       {
-        className: classnames("node object-node",
-          {
-            focused: false,
-            "not-enumerable": notEnumberable
-          }),
+        className: classnames("node object-node", {
+          focused: false,
+          "not-enumerable": notEnumberable,
+        }),
         style: { marginLeft: depth * 15 },
         key: item.path,
         onClick: e => {
           e.stopPropagation();
           setExpanded(item, !expanded);
-        }
+        },
       },
       Svg("arrow", {
         className: classnames({
           expanded: expanded,
-          hidden: nodeIsPrimitive(item)
-        })
+          hidden: nodeIsPrimitive(item),
+        }),
       }),
       dom.span({ className: "object-label" }, item.name),
-      dom.span({ className: "object-delimiter" },
-               objectValue ? ": " : ""),
-      dom.span({ className: "object-value" }, objectValue || "")
+      dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
+      dom.span({ className: "object-value" }, objectValue || ""),
     );
   }
 
@@ -157,13 +154,12 @@ class Scopes extends Component {
 
   getRoots() {
     return this.props.scopes.map(scope => {
-      const name = scope.name ||
-        (scope.type == "global" ? "Window" : "");
+      const name = scope.name || (scope.type == "global" ? "Window" : "");
 
       return {
         name: name,
         path: name,
-        contents: { value: scope.object }
+        contents: { value: scope.object },
       };
     });
   }
@@ -174,7 +170,7 @@ class Scopes extends Component {
     if (!pauseInfo) {
       return dom.div(
         { className: "pane scopes-list" },
-        info(L10N.getStr("scopes.notPaused"))
+        info(L10N.getStr("scopes.notPaused")),
       );
     }
 
@@ -193,9 +189,9 @@ class Scopes extends Component {
         autoExpandAll: false,
         disabledFocus: true,
         onExpand: this.onExpand,
-        renderItem: this.renderItem
-      })
-  );
+        renderItem: this.renderItem,
+      }),
+    );
   }
 }
 
@@ -203,7 +199,7 @@ Scopes.propTypes = {
   scopes: PropTypes.array,
   loadedObjects: ImPropTypes.map,
   loadObjectProperties: PropTypes.func,
-  pauseInfo: PropTypes.object
+  pauseInfo: PropTypes.object,
 };
 
 Scopes.displayName = "Scopes";
@@ -212,7 +208,7 @@ export default connect(
   state => ({
     pauseInfo: getPause(state),
     loadedObjects: getLoadedObjects(state),
-    scopes: getChromeScopes(state)
+    scopes: getChromeScopes(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => bindActionCreators(actions, dispatch),
 )(Scopes);

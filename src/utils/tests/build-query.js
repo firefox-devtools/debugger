@@ -4,11 +4,15 @@ const { buildQuery } = require("../editor");
 
 describe("build-query", () => {
   it("case-sensitive, whole-word, regex search", () => {
-    const query = buildQuery("hi.*", {
-      caseSensitive: true,
-      wholeWord: true,
-      regexMatch: true
-    }, {});
+    const query = buildQuery(
+      "hi.*",
+      {
+        caseSensitive: true,
+        wholeWord: true,
+        regexMatch: true,
+      },
+      {},
+    );
 
     expect(query.source).to.be("\\bhi.*\\b");
     expect(query.flags).to.be("");
@@ -16,11 +20,15 @@ describe("build-query", () => {
   });
 
   it("case-sensitive, whole-word, regex search, global", () => {
-    const query = buildQuery("hi.*", {
-      caseSensitive: true,
-      wholeWord: true,
-      regexMatch: true
-    }, { isGlobal: true });
+    const query = buildQuery(
+      "hi.*",
+      {
+        caseSensitive: true,
+        wholeWord: true,
+        regexMatch: true,
+      },
+      { isGlobal: true },
+    );
 
     expect(query.source).to.be("\\bhi.*\\b");
     expect(query.flags).to.be("g");
@@ -28,11 +36,15 @@ describe("build-query", () => {
   });
 
   it("case-insensitive, non-whole, string search", () => {
-    const query = buildQuery("hi", {
-      caseSensitive: false,
-      wholeWord: false,
-      regexMatch: false
-    }, {});
+    const query = buildQuery(
+      "hi",
+      {
+        caseSensitive: false,
+        wholeWord: false,
+        regexMatch: false,
+      },
+      {},
+    );
 
     expect(query.source).to.be("hi");
     expect(query.flags).to.be("i");
@@ -40,11 +52,15 @@ describe("build-query", () => {
   });
 
   it("case-insensitive, non-whole, string search, global", () => {
-    const query = buildQuery("hi", {
-      caseSensitive: false,
-      wholeWord: false,
-      regexMatch: false
-    }, { isGlobal: true });
+    const query = buildQuery(
+      "hi",
+      {
+        caseSensitive: false,
+        wholeWord: false,
+        regexMatch: false,
+      },
+      { isGlobal: true },
+    );
 
     expect(query.source).to.be("hi");
     expect(query.flags).to.be("gi");
@@ -52,11 +68,15 @@ describe("build-query", () => {
   });
 
   it("case-sensitive string search", () => {
-    const query = buildQuery("hi", {
-      caseSensitive: true,
-      wholeWord: false,
-      regexMatch: false
-    }, {});
+    const query = buildQuery(
+      "hi",
+      {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: false,
+      },
+      {},
+    );
 
     expect(query.source).to.be("hi");
     expect(query.flags).to.be("");
@@ -64,11 +84,15 @@ describe("build-query", () => {
   });
 
   it("string search with wholeWord", () => {
-    const query = buildQuery("hi", {
-      caseSensitive: false,
-      wholeWord: true,
-      regexMatch: false
-    }, {});
+    const query = buildQuery(
+      "hi",
+      {
+        caseSensitive: false,
+        wholeWord: true,
+        regexMatch: false,
+      },
+      {},
+    );
 
     expect(query.source).to.be("\\bhi\\b");
     expect(query.flags).to.be("i");
@@ -76,11 +100,15 @@ describe("build-query", () => {
   });
 
   it("case-insensitive, regex search", () => {
-    const query = buildQuery("hi.*", {
-      caseSensitive: false,
-      wholeWord: false,
-      regexMatch: true
-    }, {});
+    const query = buildQuery(
+      "hi.*",
+      {
+        caseSensitive: false,
+        wholeWord: false,
+        regexMatch: true,
+      },
+      {},
+    );
 
     expect(query.source).to.be("hi.*");
     expect(query.flags).to.be("i");
@@ -89,11 +117,15 @@ describe("build-query", () => {
   });
 
   it("string search with wholeWord and case sensitivity", () => {
-    const query = buildQuery("hi", {
-      caseSensitive: true,
-      wholeWord: true,
-      regexMatch: false
-    }, {});
+    const query = buildQuery(
+      "hi",
+      {
+        caseSensitive: true,
+        wholeWord: true,
+        regexMatch: false,
+      },
+      {},
+    );
 
     expect(query.source).to.be("\\bhi\\b");
     expect(query.flags).to.be("");
@@ -102,11 +134,15 @@ describe("build-query", () => {
   });
 
   it("string search with wholeWord and case sensitivity, global", () => {
-    const query = buildQuery("hi", {
-      caseSensitive: true,
-      wholeWord: true,
-      regexMatch: false
-    }, { isGlobal: true });
+    const query = buildQuery(
+      "hi",
+      {
+        caseSensitive: true,
+        wholeWord: true,
+        regexMatch: false,
+      },
+      { isGlobal: true },
+    );
 
     expect(query.source).to.be("\\bhi\\b");
     expect(query.flags).to.be("g");
@@ -115,11 +151,15 @@ describe("build-query", () => {
   });
 
   it("string search with regex chars escaped", () => {
-    const query = buildQuery("hi.*", {
-      caseSensitive: true,
-      wholeWord: true,
-      regexMatch: false
-    }, {});
+    const query = buildQuery(
+      "hi.*",
+      {
+        caseSensitive: true,
+        wholeWord: true,
+        regexMatch: false,
+      },
+      {},
+    );
 
     expect(query.source).to.be("\\bhi\\.\\*\\b");
     expect(query.flags).to.be("");
@@ -128,11 +168,15 @@ describe("build-query", () => {
   });
 
   it("string search with regex chars escaped, global", () => {
-    const query = buildQuery("hi.*", {
-      caseSensitive: true,
-      wholeWord: true,
-      regexMatch: false
-    }, { isGlobal: true });
+    const query = buildQuery(
+      "hi.*",
+      {
+        caseSensitive: true,
+        wholeWord: true,
+        regexMatch: false,
+      },
+      { isGlobal: true },
+    );
 
     expect(query.source).to.be("\\bhi\\.\\*\\b");
     expect(query.flags).to.be("g");
@@ -141,11 +185,15 @@ describe("build-query", () => {
   });
 
   it("ignore spaces w/o spaces", () => {
-    const query = buildQuery("hi", {
-      caseSensitive: true,
-      wholeWord: false,
-      regexMatch: false
-    }, { ignoreSpaces: true });
+    const query = buildQuery(
+      "hi",
+      {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: false,
+      },
+      { ignoreSpaces: true },
+    );
 
     expect(query.source).to.be("hi");
     expect(query.flags).to.be("");
@@ -154,11 +202,15 @@ describe("build-query", () => {
   });
 
   it("ignore spaces w/o spaces, global", () => {
-    const query = buildQuery("hi", {
-      caseSensitive: true,
-      wholeWord: false,
-      regexMatch: false
-    }, { isGlobal: true, ignoreSpaces: true });
+    const query = buildQuery(
+      "hi",
+      {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: false,
+      },
+      { isGlobal: true, ignoreSpaces: true },
+    );
 
     expect(query.source).to.be("hi");
     expect(query.flags).to.be("g");
@@ -167,11 +219,15 @@ describe("build-query", () => {
   });
 
   it("ignore spaces w/ spaces", () => {
-    const query = buildQuery("  ", {
-      caseSensitive: true,
-      wholeWord: false,
-      regexMatch: false
-    }, { ignoreSpaces: true });
+    const query = buildQuery(
+      "  ",
+      {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: false,
+      },
+      { ignoreSpaces: true },
+    );
 
     expect(query.source).to.be(escapeRegExp("(?!\\s*.*)"));
     expect(query.flags).to.be("");
@@ -180,11 +236,15 @@ describe("build-query", () => {
   });
 
   it("ignore spaces w/ spaces, global", () => {
-    const query = buildQuery("  ", {
-      caseSensitive: true,
-      wholeWord: false,
-      regexMatch: false
-    }, { isGlobal: true, ignoreSpaces: true });
+    const query = buildQuery(
+      "  ",
+      {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: false,
+      },
+      { isGlobal: true, ignoreSpaces: true },
+    );
 
     expect(query.source).to.be(escapeRegExp("(?!\\s*.*)"));
     expect(query.flags).to.be("g");

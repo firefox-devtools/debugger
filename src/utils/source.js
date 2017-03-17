@@ -21,9 +21,11 @@ function trimUrlQuery(url: string): string {
   let q1 = url.indexOf("?");
   let q2 = url.indexOf("&");
   let q3 = url.indexOf("#");
-  let q = Math.min(q1 != -1 ? q1 : length,
-                   q2 != -1 ? q2 : length,
-                   q3 != -1 ? q3 : length);
+  let q = Math.min(
+    q1 != -1 ? q1 : length,
+    q2 != -1 ? q2 : length,
+    q3 != -1 ? q3 : length,
+  );
 
   return url.slice(0, q);
 }
@@ -40,7 +42,7 @@ function trimUrlQuery(url: string): string {
  */
 function isJavaScript(url: ?string, contentType: string = ""): boolean {
   return (url && /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
-         contentType.includes("javascript");
+    contentType.includes("javascript");
 }
 
 /**
@@ -96,13 +98,13 @@ const contentTypeModeMap = {
   "text/coffeescript": "coffeescript",
   "text/typescript-jsx": {
     name: "jsx",
-    base: { name: "javascript", typescript: true }
+    base: { name: "javascript", typescript: true },
   },
   "text/jsx": "jsx",
   "text/x-elm": "elm",
   "text/x-clojure": "clojure",
   "text/wasm": { name: "text" },
-  "html": { name: "htmlmixed" }
+  html: { name: "htmlmixed" },
 };
 
 /**

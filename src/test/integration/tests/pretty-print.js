@@ -1,4 +1,3 @@
-
 const {
   initDebugger,
   assertPausedLocation,
@@ -11,7 +10,7 @@ const {
   addBreakpoint,
   stepOver,
   invokeInTab,
-  resume
+  resume,
 } = require("../utils");
 
 async function prettyPrint(ctx) {
