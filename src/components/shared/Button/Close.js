@@ -11,7 +11,7 @@ type CloseButtonType = {
 
 function CloseButton({ handleClick, buttonClass, tooltip }: CloseButtonType) {
   return dom.div({
-    className: buttonClass ? `close-btn-${buttonClass}` : "close-btn",
+    className: buttonClass ? `close-btn ${buttonClass}` : "close-btn",
     onClick: handleClick,
     title: tooltip
   },

@@ -90,9 +90,9 @@ html .breakpoints-list .breakpoint.paused {
 }
 
 .breakpoint .close {
-  display: none;
+  visibility: hidden;
 }
 
 .breakpoint:hover .close {
-  display: block;
+  visibility: visible;
 }
