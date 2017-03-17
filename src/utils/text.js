@@ -28,7 +28,10 @@ function formatKeyShortcut(shortcut: string): string {
                    .replace(/CommandOrControl\+|CmdOrCtrl\+/g, "\u2318+")
                    .replace(/Alt\+/g, "\u2325+");
   }
-  return shortcut.replace(/CommandOrControl\+|CmdOrCtrl\+/g, "Ctrl+");
+  return shortcut.replace(
+    /CommandOrControl\+|CmdOrCtrl\+/g,
+    `${L10N.getStr("ctrl")}+`
+  );
 }
 
 module.exports = {
