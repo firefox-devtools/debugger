@@ -85,5 +85,6 @@
   "collapsePanes": "Collapse panes",
   "expandPanes": "Expand panes",
   "copySourceUrl": "Copy Source Url",
-  "copySourceUrl.accesskey": "c"
+  "copySourceUrl.accesskey": "c",
+  "ctrl": "Ctrl"
 }
