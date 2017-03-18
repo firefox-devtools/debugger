@@ -46,4 +46,8 @@ describe("fromJS", () => {
     expect(iItems.getIn([0, "type"])).to.equal("null");
     expect(iItems.size).to.equal(10);
   });
+
+  it("supports objects without a prototype", () => {
+    expect(() => fromJS(Object.create(null))).to.not.throwException();
+  });
 });

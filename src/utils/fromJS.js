@@ -16,7 +16,7 @@ const Immutable = require("immutable");
   length confuses Immutable's internal algorithm.
 */
 function createMap(value) {
-  const hasLength = value.hasOwnProperty("length");
+  const hasLength = value.hasOwnProperty && value.hasOwnProperty("length");
   const length = value.length;
 
   if (hasLength) {
@@ -50,7 +50,7 @@ function fromJS(value: any): any {
   if (Array.isArray(value)) {
     return createList(value);
   }
-  if (value && value.constructor.meta) {
+  if (value && value.constructor && value.constructor.meta) {
     // This adds support for tcomb objects which are native JS objects
     // but are not "plain", so the above checks fail. Since they
     // behave the same we can use the same constructors, but we need
