@@ -80,8 +80,7 @@ class ProjectSearch extends Component {
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
       e.preventDefault();
-      this.setState({ inputValue: "" });
-      this.props.toggleProjectSearch(false);
+      this.close();
     }
   }
 
