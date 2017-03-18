@@ -16,10 +16,14 @@ const { updateFrameLocations } = require("../utils/pause");
 const { addBreakpoint } = require("./breakpoints");
 
 const {
-  getOriginalURLs, getOriginalSourceText,
-  generatedToOriginalId, isOriginalId,
-  getOriginalLocation, getGeneratedLocation,
-  isGeneratedId, applySourceMap
+  getOriginalURLs,
+  getOriginalSourceText,
+  generatedToOriginalId,
+  isOriginalId,
+  getOriginalLocation,
+  getGeneratedLocation,
+  isGeneratedId,
+  applySourceMap,
 } = require("devtools-source-map");
 
 const { prettyPrint } = require("../utils/pretty-print");
@@ -30,8 +34,13 @@ const { prefs } = require("../utils/prefs");
 const { removeDocument } = require("../utils/editor");
 
 const {
-  getSource, getSourceByURL, getSourceText, getBreakpoint,
-  getPendingSelectedLocation, getPendingBreakpoints, getFrames
+  getSource,
+  getSourceByURL,
+  getSourceText,
+  getBreakpoint,
+  getPendingSelectedLocation,
+  getPendingBreakpoints,
+  getFrames,
 } = require("../selectors");
 
 import type { Source, SourceText } from "../types";
@@ -57,7 +66,7 @@ function checkPendingBreakpoints(state, dispatch, source) {
       const location = {
         sourceId: source.id,
         sourceUrl,
-        line
+        line,
       };
 
       const bp = getBreakpoint(state, location);
@@ -82,7 +91,7 @@ function newSource(source: Source) {
 
     dispatch({
       type: constants.ADD_SOURCE,
-      source
+      source,
     });
 
     checkSelectedSource(getState(), dispatch, source);
@@ -92,7 +101,8 @@ function newSource(source: Source) {
 
 function newSources(sources: Source[]) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    sources.filter(source => !getSource(getState(), source.id))
+    sources
+      .filter(source => !getSource(getState(), source.id))
       .forEach(source => dispatch(newSource(source)));
   };
 }
@@ -114,13 +124,13 @@ function loadSourceMap(generatedSource) {
       return {
         url: originalUrl,
         id: generatedToOriginalId(generatedSource.id, originalUrl),
-        isPrettyPrinted: false
+        isPrettyPrinted: false,
       };
     });
 
     dispatch({
       type: constants.ADD_SOURCES,
-      sources: originalSources
+      sources: originalSources,
     });
 
     originalSources.forEach(source => {
@@ -132,7 +142,7 @@ function loadSourceMap(generatedSource) {
 
 type SelectSourceOptions = {
   tabIndex?: number,
-  line?: number
+  line?: number,
 };
 
 /**
@@ -154,7 +164,7 @@ function selectSourceURL(url: string, options: SelectSourceOptions = {}) {
         type: constants.SELECT_SOURCE_URL,
         url: url,
         tabIndex: options.tabIndex,
-        line: options.line
+        line: options.line,
       });
     }
   };
@@ -185,14 +195,14 @@ function selectSource(id: string, options: SelectSourceOptions = {}) {
 
     dispatch({
       type: constants.TOGGLE_PROJECT_SEARCH,
-      value: false
+      value: false,
     });
 
     dispatch({
       type: constants.SELECT_SOURCE,
       source: source,
       tabIndex: options.tabIndex,
-      line: options.line
+      line: options.line,
     });
   };
 }
@@ -212,10 +222,9 @@ function jumpToMappedLocation(sourceLocation: any) {
       ? await getGeneratedLocation(sourceLocation, source.toJS())
       : await getOriginalLocation(sourceLocation, source.toJS());
 
-    return dispatch(selectSource(
-      pairedLocation.sourceId,
-      { line: pairedLocation.line }
-    ));
+    return dispatch(
+      selectSource(pairedLocation.sourceId, { line: pairedLocation.line }),
+    );
   };
 }
 
@@ -227,7 +236,7 @@ function closeTab(url: string) {
   removeDocument(url);
   return {
     type: constants.CLOSE_TAB,
-    url
+    url,
   };
 }
 
@@ -246,7 +255,7 @@ function closeTabs(urls: string[]) {
 
     dispatch({
       type: constants.CLOSE_TABS,
-      urls
+      urls,
     });
   };
 }
@@ -275,15 +284,17 @@ function togglePrettyPrint(sourceId: string) {
       return {};
     }
 
-    assert(isGeneratedId(sourceId),
-           "Pretty-printing only allowed on generated sources");
+    assert(
+      isGeneratedId(sourceId),
+      "Pretty-printing only allowed on generated sources",
+    );
 
     const url = getPrettySourceURL(source.url);
     const id = generatedToOriginalId(source.id, url);
     const originalSource = { url, id, isPrettyPrinted: false };
     dispatch({
       type: constants.ADD_SOURCE,
-      source: originalSource
+      source: originalSource,
     });
 
     return dispatch({
@@ -291,7 +302,9 @@ function togglePrettyPrint(sourceId: string) {
       source: originalSource,
       [PROMISE]: (async function() {
         const { code, mappings } = await prettyPrint({
-          source, sourceText, url
+          source,
+          sourceText,
+          url,
         });
 
         await applySourceMap(source.id, url, code, mappings);
@@ -306,9 +319,9 @@ function togglePrettyPrint(sourceId: string) {
         return {
           text: code,
           contentType: "text/javascript",
-          frames
+          frames,
         };
-      })()
+      })(),
     });
   };
 }
@@ -339,7 +352,7 @@ function loadSourceText(source: Source) {
         const sourceText: SourceText = {
           id: source.id,
           text: response.source,
-          contentType: response.contentType || "text/javascript"
+          contentType: response.contentType || "text/javascript",
         };
 
         return sourceText;
@@ -350,7 +363,7 @@ function loadSourceText(source: Source) {
         //     SourceUtils.isMinified(source.id, response.source)) {
         //   dispatch(togglePrettyPrint(source));
         // }
-      })()
+      })(),
     });
   };
 }
@@ -384,11 +397,14 @@ function getTextForSources(actors: any[]) {
     // Try to fetch as many sources as possible.
     for (let actor of actors) {
       let source = getSource(getState(), actor);
-      dispatch(loadSourceText(source)).then(({ text, contentType }) => {
-        onFetch([source, text, contentType]);
-      }, err => {
-        onError(source, err);
-      });
+      dispatch(loadSourceText(source)).then(
+        ({ text, contentType }) => {
+          onFetch([source, text, contentType]);
+        },
+        err => {
+          onError(source, err);
+        },
+      );
     }
 
     setTimeout(onTimeout, FETCH_SOURCE_RESPONSE_DELAY);
@@ -424,7 +440,7 @@ function getTextForSources(actors: any[]) {
         // Sort the fetched sources alphabetically by their url.
         if (deferred) {
           deferred.resolve(
-            fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1)
+            fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1),
           );
         }
       }
@@ -444,5 +460,5 @@ module.exports = {
   closeTabs,
   togglePrettyPrint,
   loadSourceText,
-  getTextForSources
+  getTextForSources,
 };

@@ -2,8 +2,8 @@ export type Message = {
   data: {
     id: string,
     method: string,
-    args: Array<any>
-  }
+    args: Array<any>,
+  },
 };
 
 let msgId = 1;
@@ -42,8 +42,8 @@ function workerHandler(publicInterface) {
 
     if (response instanceof Promise) {
       response
-          .then(val => self.postMessage({ id, response: val }))
-          .catch(error => self.postMessage({ id, error }));
+        .then(val => self.postMessage({ id, response: val }))
+        .catch(error => self.postMessage({ id, error }));
     } else {
       self.postMessage({ id, response });
     }
@@ -52,5 +52,5 @@ function workerHandler(publicInterface) {
 
 module.exports = {
   workerTask,
-  workerHandler
+  workerHandler,
 };

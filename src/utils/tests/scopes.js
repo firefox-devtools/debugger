@@ -1,49 +1,49 @@
 const {
   getSpecialVariables,
-  getVisibleVariablesFromScope
+  getVisibleVariablesFromScope,
 } = require("../scopes");
 const fromJS = require("../fromJS");
 
 const expect = require("expect.js");
 
 const errorGrip = {
-  "type": "object",
-  "actor": "server2.conn66.child1/pausedobj243",
-  "class": "Error",
-  "extensible": true,
-  "frozen": false,
-  "sealed": false,
-  "ownPropertyLength": 4,
-  "preview": {
-    "kind": "Error",
-    "name": "Error",
-    "message": "blah",
-    "stack": "onclick@http://localhost:8000/examples/doc-return-values.html:1:18\n",
-    "fileName": "http://localhost:8000/examples/doc-return-values.html",
-    "lineNumber": 1,
-    "columnNumber": 18
-  }
+  type: "object",
+  actor: "server2.conn66.child1/pausedobj243",
+  class: "Error",
+  extensible: true,
+  frozen: false,
+  sealed: false,
+  ownPropertyLength: 4,
+  preview: {
+    kind: "Error",
+    name: "Error",
+    message: "blah",
+    stack: "onclick@http://localhost:8000/examples/doc-return-values.html:1:18\n",
+    fileName: "http://localhost:8000/examples/doc-return-values.html",
+    lineNumber: 1,
+    columnNumber: 18,
+  },
 };
 
 function returnWhy(grip) {
   return {
     why: {
-      "type": "resumeLimit",
-      "frameFinished": {
-        "return": grip
-      }
-    }
+      type: "resumeLimit",
+      frameFinished: {
+        return: grip,
+      },
+    },
   };
 }
 
 function throwWhy(grip) {
   return {
     why: {
-      "type": "resumeLimit",
-      "frameFinished": {
-        "throw": grip
-      }
-    }
+      type: "resumeLimit",
+      frameFinished: {
+        throw: grip,
+      },
+    },
   };
 }
 
@@ -51,7 +51,7 @@ describe("scopes", () => {
   describe("getSpecialVariables", () => {
     describe("falsey values", () => {
       // NOTE: null and undefined are treated like objects and given a type
-      const falsey = { false: false, "0": 0, null: { type: "null" }};
+      const falsey = { false: false, "0": 0, null: { type: "null" } };
       for (const test in falsey) {
         const value = falsey[test];
         it(`shows ${test} returns`, () => {
@@ -165,8 +165,8 @@ describe("scopes", () => {
                   type: "object",
                 },
               },
-            }
-          }
+            },
+          },
         },
         function: {
           name: "func",
@@ -176,15 +176,12 @@ describe("scopes", () => {
           type: "object",
         },
         bindings: {
-          arguments: [
-            { b: { value: "bb" }},
-            { d: { value: "dd" }},
-          ],
+          arguments: [{ b: { value: "bb" } }, { d: { value: "dd" } }],
           variables: {
             c: { value: "cc" },
-          }
-        }
-      }
+          },
+        },
+      },
     };
 
     let pauseInfo;
@@ -193,10 +190,10 @@ describe("scopes", () => {
       // Default pauseInfo is using the innermost frame in the stack.
       pauseInfo = fromJS({
         why: {
-          type: "debuggerStatement"
+          type: "debuggerStatement",
         },
         frame,
-        isInterrupted: false
+        isInterrupted: false,
       });
 
       global.L10N = { getStr: () => "" };
@@ -213,7 +210,7 @@ describe("scopes", () => {
         a: "a",
         b: "bb",
         c: "cc",
-        d: "dd"
+        d: "dd",
       };
 
       for (const variableName in expectations) {

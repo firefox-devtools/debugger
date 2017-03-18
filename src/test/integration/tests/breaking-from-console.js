@@ -15,7 +15,7 @@ module.exports = async function(ctx) {
   jsterm.execute("debugger");
 
   // Wait for the debugger to be selected and make sure it's paused
-  await new Promise((resolve) => {
+  await new Promise(resolve => {
     toolbox.on("jsdebugger-selected", resolve);
   });
   is(toolbox.threadClient.state, "paused");
@@ -29,4 +29,4 @@ module.exports = async function(ctx) {
   is(dbg.win.cm.getValue(), "debugger");
   const source = getSelectedSource(getState()).toJS();
   assertPausedLocation(dbg, ctx, source, 1);
-}
+};

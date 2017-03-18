@@ -5,7 +5,9 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
 import {
-  getSources, getSelectedSource, getProjectSearchState
+  getSources,
+  getSelectedSource,
+  getProjectSearchState,
 } from "../selectors";
 import { endTruncateStr } from "../utils/utils";
 import { parse as parseURL } from "url";
@@ -18,31 +20,31 @@ function searchResults(sources) {
   function getSourcePath(source) {
     const { path, href } = parseURL(source.get("url"));
     // for URLs like "about:home" the path is null so we pass the full href
-    return (path || href);
+    return path || href;
   }
 
-  return sources.valueSeq()
+  return sources
+    .valueSeq()
     .filter(source => !isPretty(source.toJS()) && source.get("url"))
     .map(source => ({
       value: getSourcePath(source),
       title: getSourcePath(source).split("/").pop(),
       subtitle: endTruncateStr(getSourcePath(source), 100),
-      id: source.get("id")
+      id: source.get("id"),
     }))
     .toJS();
 }
 
 class ProjectSearch extends Component {
-
-  state: Object
-  toggle: Function
-  onEscape: Function
-  close: Function
+  state: Object;
+  toggle: Function;
+  onEscape: Function;
+  close: Function;
 
   constructor(props) {
     super(props);
     this.state = {
-      inputValue: ""
+      inputValue: "",
     };
 
     this.toggle = this.toggle.bind(this);
@@ -54,7 +56,7 @@ class ProjectSearch extends Component {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
       L10N.getStr("sources.search.key"),
-      L10N.getStr("sources.searchAlt.key")
+      L10N.getStr("sources.searchAlt.key"),
     ];
     searchKeys.forEach(key => shortcuts.off(`CmdOrCtrl+${key}`, this.toggle));
     shortcuts.off("Escape", this.onEscape);
@@ -64,7 +66,7 @@ class ProjectSearch extends Component {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
       L10N.getStr("sources.search.key"),
-      L10N.getStr("sources.searchAlt.key")
+      L10N.getStr("sources.searchAlt.key"),
     ];
     searchKeys.forEach(key => shortcuts.on(`CmdOrCtrl+${key}`, this.toggle));
     shortcuts.on("Escape", this.onEscape);
@@ -78,13 +80,12 @@ class ProjectSearch extends Component {
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
       e.preventDefault();
-      this.setState({ inputValue: "" });
-      this.props.toggleProjectSearch(false);
+      this.close();
     }
   }
 
-  close(inputValue = "") {
-    this.setState({ inputValue });
+  close() {
+    this.setState({ inputValue: "" });
     this.props.toggleProjectSearch(false);
   }
 
@@ -93,7 +94,8 @@ class ProjectSearch extends Component {
       return null;
     }
 
-    return dom.div({ className: "search-container" },
+    return dom.div(
+      { className: "search-container" },
       Autocomplete({
         selectItem: result => {
           this.props.selectSource(result.id);
@@ -103,10 +105,10 @@ class ProjectSearch extends Component {
         items: searchResults(this.props.sources),
         inputValue: this.state.inputValue,
         placeholder: L10N.getStr("sourceSearch.search"),
-        size: "big"
-      }));
+        size: "big",
+      }),
+    );
   }
-
 }
 
 ProjectSearch.propTypes = {
@@ -114,11 +116,11 @@ ProjectSearch.propTypes = {
   selectSource: PropTypes.func.isRequired,
   selectedSource: PropTypes.object,
   toggleProjectSearch: PropTypes.func.isRequired,
-  searchOn: PropTypes.bool
+  searchOn: PropTypes.bool,
 };
 
 ProjectSearch.contextTypes = {
-  shortcuts: PropTypes.object
+  shortcuts: PropTypes.object,
 };
 
 ProjectSearch.displayName = "ProjectSearch";
@@ -127,7 +129,7 @@ export default connect(
   state => ({
     sources: getSources(state),
     selectedSource: getSelectedSource(state),
-    searchOn: getProjectSearchState(state)
+    searchOn: getProjectSearchState(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => bindActionCreators(actions, dispatch),
 )(ProjectSearch);

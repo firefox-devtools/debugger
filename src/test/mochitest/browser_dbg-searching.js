@@ -2,7 +2,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 // Testing source search
-add_task(function* () {
+add_task(function*() {
   const dbg = yield initDebugger("doc-script-switching.html");
 
   pressKey(dbg, "sourceSearch");

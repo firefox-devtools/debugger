@@ -43,7 +43,7 @@ function createNode(name: any, path: any, contents?: any): Node {
   return {
     name,
     path,
-    contents: contents || null
+    contents: contents || null,
   };
 }
 
@@ -109,7 +109,7 @@ function getURL(sourceUrl: string): { path: string, group: string } {
       return merge(def, {
         path: "/",
         group: url,
-        filename: filename
+        filename: filename,
       });
 
     case null:
@@ -119,7 +119,7 @@ function getURL(sourceUrl: string): { path: string, group: string } {
         return merge(def, {
           path: path,
           group: "file://",
-          filename: filename
+          filename: filename,
         });
       } else if (host === null) {
         // We don't know what group to put this under, and it's a script
@@ -127,7 +127,7 @@ function getURL(sourceUrl: string): { path: string, group: string } {
         return merge(def, {
           path: url,
           group: "(no domain)",
-          filename: filename
+          filename: filename,
         });
       }
       break;
@@ -137,14 +137,14 @@ function getURL(sourceUrl: string): { path: string, group: string } {
       return merge(def, {
         path: pathname,
         group: host,
-        filename: filename
+        filename: filename,
       });
   }
 
   return merge(def, {
     path: path,
     group: protocol ? `${protocol}//` : "",
-    filename: filename
+    filename: filename,
   });
 }
 
@@ -156,7 +156,7 @@ function isDirectory(url: Object) {
   const parts = url.path.split("/").filter(p => p !== "");
 
   // Assume that all urls point to files except when they end with '/'
-  return (parts.length === 0 || url.path.slice(-1) === "/");
+  return parts.length === 0 || url.path.slice(-1) === "/";
 }
 
 /**
@@ -166,10 +166,12 @@ function isDirectory(url: Object) {
 function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
   const url = getURL(source.get("url"));
 
-  if (IGNORED_URLS.indexOf(url) != -1 ||
-      !source.get("url") ||
-      !url.group ||
-      isPretty(source.toJS())) {
+  if (
+    IGNORED_URLS.indexOf(url) != -1 ||
+    !source.get("url") ||
+    !url.group ||
+    isPretty(source.toJS())
+  ) {
     return;
   }
 
@@ -195,8 +197,12 @@ function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
     assert(nodeHasChildren(subtree), `${subtree.name} should have children`);
     const children = subtree.contents;
 
-    let index = determineFileSortOrder(children, part, isLastPart,
-      i === 0 ? debuggeeUrl : "");
+    let index = determineFileSortOrder(
+      children,
+      part,
+      isLastPart,
+      i === 0 ? debuggeeUrl : "",
+    );
 
     if (index >= 0 && children[index].name === part) {
       // A node with the same name already exists, simply traverse
@@ -228,7 +234,7 @@ function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
  * @memberof utils/sources-tree
  * @static
  */
-function isExactUrlMatch(pathPart:string, debuggeeUrl:string) {
+function isExactUrlMatch(pathPart: string, debuggeeUrl: string) {
   // compare to hostname with an optional 'www.' prefix
   const { host } = parse(debuggeeUrl);
   if (!host) {
@@ -243,8 +249,12 @@ function isExactUrlMatch(pathPart:string, debuggeeUrl:string) {
  * @memberof utils/sources-tree
  * @static
  */
-function determineFileSortOrder(nodes:Array<Node>, pathPart:string,
-                                isLastPart:boolean, debuggeeUrl:string) {
+function determineFileSortOrder(
+  nodes: Array<Node>,
+  pathPart: string,
+  isLastPart: boolean,
+  debuggeeUrl: string,
+) {
   const partIsDir = !isLastPart || pathPart.indexOf(".") === -1;
 
   return nodes.findIndex(node => {
@@ -299,12 +309,16 @@ function collapseTree(node: any, depth: number = 0) {
       if (nodeHasChildren(next)) {
         return collapseTree(
           createNode(`${node.name}/${next.name}`, next.path, next.contents),
-          depth + 1);
+          depth + 1,
+        );
       }
     }
     // Map the contents.
-    return createNode(node.name, node.path,
-                      node.contents.map(next => collapseTree(next, depth + 1)));
+    return createNode(
+      node.name,
+      node.path,
+      node.contents.map(next => collapseTree(next, depth + 1)),
+    );
   }
   // Node is a leaf, not a folder, do not modify it.
   return node;
@@ -321,10 +335,12 @@ function createTree(sources: any, debuggeeUrl: string) {
   }
   const sourceTree = collapseTree(uncollapsedTree);
 
-  return { uncollapsedTree,
+  return {
+    uncollapsedTree,
     sourceTree,
     parentMap: createParentMap(sourceTree),
-    focusedItem: null };
+    focusedItem: null,
+  };
 }
 
 function findSource(sourceTree: any, sourceUrl: string) {
@@ -334,8 +350,9 @@ function findSource(sourceTree: any, sourceUrl: string) {
       for (let child of subtree.contents) {
         _traverse(child);
       }
-    } else if (!returnTarget &&
-      subtree.path.replace(/http(s)?:\//, "") == sourceUrl) {
+    } else if (
+      !returnTarget && subtree.path.replace(/http(s)?:\//, "") == sourceUrl
+    ) {
       returnTarget = subtree;
       return;
     }
@@ -377,5 +394,5 @@ module.exports = {
   createTree,
   getDirectories,
   getURL,
-  isExactUrlMatch
+  isExactUrlMatch,
 };

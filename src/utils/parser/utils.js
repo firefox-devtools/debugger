@@ -17,17 +17,17 @@ const symbolDeclarations = new Map();
 type ASTLocation = {
   start: {
     line: number,
-    column: number
+    column: number,
   },
   end: {
     line: number,
-    column: number
-  }
+    column: number,
+  },
 };
 
 export type SymbolDeclaration = {
   name: string,
-  location: ASTLocation
+  location: ASTLocation,
 };
 
 export type FormattedSymbolDeclaration = {
@@ -35,7 +35,7 @@ export type FormattedSymbolDeclaration = {
   title: string,
   subtitle: string,
   value: string,
-  location: ASTLocation
+  location: ASTLocation,
 };
 
 export type SymbolDeclarations = {
@@ -48,10 +48,7 @@ function _parse(code) {
   return babylon.parse(code, {
     sourceType: "module",
 
-    plugins: [
-      "jsx",
-      "flow"
-    ]
+    plugins: ["jsx", "flow"],
   });
 }
 
@@ -106,8 +103,10 @@ function getFunctionName(path) {
 }
 
 function isFunction(path) {
-  return t.isFunction(path) || t.isArrowFunctionExpression(path) ||
-    t.isObjectMethod(path) || t.isClassMethod(path);
+  return t.isFunction(path) ||
+    t.isArrowFunctionExpression(path) ||
+    t.isObjectMethod(path) ||
+    t.isClassMethod(path);
 }
 
 function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
@@ -116,30 +115,32 @@ function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
     title: symbol.name,
     subtitle: `:${symbol.location.start.line}`,
     value: symbol.name,
-    location: symbol.location
+    location: symbol.location,
   };
 }
 
 function getVariableNames(path) {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
-    return [formatSymbol({
-      name: path.node.key.name,
-      location: path.node.loc
-    })];
+    return [
+      formatSymbol({
+        name: path.node.key.name,
+        location: path.node.loc,
+      }),
+    ];
   }
 
   if (!path.node.declarations) {
-    return path.node.params
-    .map(dec => formatSymbol({
-      name: dec.name,
-      location: dec.loc
-    }));
+    return path.node.params.map(dec =>
+      formatSymbol({
+        name: dec.name,
+        location: dec.loc,
+      }));
   }
 
-  return path.node.declarations
-    .map(dec => formatSymbol({
+  return path.node.declarations.map(dec =>
+    formatSymbol({
       name: dec.id.name,
-      location: dec.loc
+      location: dec.loc,
     }));
 }
 
@@ -183,27 +184,34 @@ function getSymbols(source: SourceText): SymbolDeclarations {
       }
 
       if (isFunction(path)) {
-        symbols.functions.push(formatSymbol({
-          name: getFunctionName(path),
-          location: path.node.loc
-        }));
+        symbols.functions.push(
+          formatSymbol({
+            name: getFunctionName(path),
+            location: path.node.loc,
+          }),
+        );
       }
 
       if (t.isClassDeclaration(path)) {
-        symbols.classes.push(formatSymbol({
-          name: path.node.id.name,
-          location: path.node.loc
-        }));
+        symbols.classes.push(
+          formatSymbol({
+            name: path.node.id.name,
+            location: path.node.loc,
+          }),
+        );
       }
-    }
+    },
   });
 
   symbolDeclarations.set(source.id, symbols);
   return symbols;
 }
 
-function getExpression(source: SourceText, token: string, location: Location)
-  : ?Expression {
+function getExpression(
+  source: SourceText,
+  token: string,
+  location: Location,
+): ?Expression {
   let expression = null;
   const ast = getAst(source);
 
@@ -214,15 +222,18 @@ function getExpression(source: SourceText, token: string, location: Location)
   traverse(ast, {
     enter(path) {
       const node = path.node;
-      if (t.isMemberExpression(node) && node.property.name === token
-        && nodeContainsLocation({ node, location })) {
+      if (
+        t.isMemberExpression(node) &&
+        node.property.name === token &&
+        nodeContainsLocation({ node, location })
+      ) {
         const expr = getMemberExpression(node);
         expression = {
           value: expr.join("."),
-          location: node.loc
+          location: node.loc,
         };
       }
-    }
+    },
   });
 
   return expression;
@@ -232,12 +243,10 @@ function nodeContainsLocation({ node, location }) {
   const { start, end } = node.loc;
   const { line, column } = location;
 
-  return !(
-        (start.line > line)
-     || (start.line === line && start.column > column)
-     || (end.line < line)
-     || (end.line === line && end.column < column)
-   );
+  return !(start.line > line ||
+    (start.line === line && start.column > column) ||
+    end.line < line ||
+    (end.line === line && end.column < column));
 }
 
 function getPathClosestToLocation(source: SourceText, location: Location) {
@@ -249,7 +258,7 @@ function getPathClosestToLocation(source: SourceText, location: Location) {
       if (nodeContainsLocation({ node: path.node, location })) {
         pathClosestToLocation = path;
       }
-    }
+    },
   });
 
   return pathClosestToLocation;
@@ -259,17 +268,15 @@ function getVariablesInScope(source: SourceText, location: Location) {
   const path = getPathClosestToLocation(source, location);
   const bindings = get(path, "scope.bindings", {});
 
-  return toPairs(bindings)
-    .map(([name, binding]) => ({
-      name,
-      references: binding.referencePaths
-    })
-  );
+  return toPairs(bindings).map(([name, binding]) => ({
+    name,
+    references: binding.referencePaths,
+  }));
 }
 
 module.exports = {
   getSymbols,
   getPathClosestToLocation,
   getVariablesInScope,
-  getExpression
+  getExpression,
 };

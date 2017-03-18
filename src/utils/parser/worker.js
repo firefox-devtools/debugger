@@ -5,5 +5,5 @@ const { workerHandler } = require("../worker");
 self.onmessage = workerHandler({
   getSymbols,
   getVariablesInScope,
-  getExpression
+  getExpression,
 });

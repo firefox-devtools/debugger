@@ -84,13 +84,15 @@ function showMenu(e: any, items: Array<any>) {
 }
 
 function buildMenu(items: Array<any>) {
-  return items.map(itm => {
-    const hide = typeof itm.hidden === "function" ? itm.hidden() : itm.hidden;
-    return hide ? null : itm.item;
-  }).filter(itm => itm !== null);
+  return items
+    .map(itm => {
+      const hide = typeof itm.hidden === "function" ? itm.hidden() : itm.hidden;
+      return hide ? null : itm.item;
+    })
+    .filter(itm => itm !== null);
 }
 
 module.exports = {
   showMenu,
-  buildMenu
+  buildMenu,
 };

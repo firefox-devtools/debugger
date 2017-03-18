@@ -55,35 +55,36 @@ function fetchEventListeners() {
     }
 
     fetchListenersTimerID = setTimeout(
-        () => {
-          // In case there is still a request of listeners going on (it
-          // takes several RDP round trips right now), make sure we wait
-          // on a currently running request
-          if (getState().eventListeners.fetchingListeners) {
-            dispatch({
-              type: services.WAIT_UNTIL,
-              predicate: action => (
-                action.type === constants.FETCH_EVENT_LISTENERS &&
-                action.status === "done"
-              ),
-              run: dispatch => dispatch(fetchEventListeners())
-            });
-            return;
-          }
+      () => {
+        // In case there is still a request of listeners going on (it
+        // takes several RDP round trips right now), make sure we wait
+        // on a currently running request
+        if (getState().eventListeners.fetchingListeners) {
+          dispatch({
+            type: services.WAIT_UNTIL,
+            predicate: action =>
+              action.type === constants.FETCH_EVENT_LISTENERS &&
+              action.status === "done",
+            run: dispatch => dispatch(fetchEventListeners()),
+          });
+          return;
+        }
 
+        dispatch({
+          type: constants.FETCH_EVENT_LISTENERS,
+          status: "begin",
+        });
+
+        asPaused(getState(), client, _getEventListeners).then(listeners => {
           dispatch({
             type: constants.FETCH_EVENT_LISTENERS,
-            status: "begin"
+            status: "done",
+            listeners: formatListeners(getState(), listeners),
           });
-
-          asPaused(getState(), client, _getEventListeners).then(listeners => {
-            dispatch({
-              type: constants.FETCH_EVENT_LISTENERS,
-              status: "done",
-              listeners: formatListeners(getState(), listeners)
-            });
-          });
-        }, FETCH_EVENT_LISTENERS_DELAY);
+        });
+      },
+      FETCH_EVENT_LISTENERS_DELAY,
+    );
   };
 }
 
@@ -93,7 +94,7 @@ function formatListeners(state, listeners) {
       selector: l.node.selector,
       type: l.type,
       sourceId: getSourceByURL(state, l.function.location.url).get("id"),
-      line: l.function.location.line
+      line: l.function.location.line,
     };
   });
 }
@@ -115,7 +116,7 @@ async function _getEventListeners(threadClient) {
     } else if (listener.function.class == "Function") {
       definitionSite = await _getDefinitionSite(
         threadClient,
-        listener.function
+        listener.function,
       );
       if (!definitionSite) {
         // We don"t know where this listener comes from so don"t show it in
@@ -162,7 +163,7 @@ function updateEventBreakpoints(eventNames) {
 
         dispatch({
           type: constants.UPDATE_EVENT_BREAKPOINTS,
-          eventNames: eventNames
+          eventNames: eventNames,
         });
       });
     });

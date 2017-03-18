@@ -5,14 +5,14 @@ require("./Dropdown.css");
 
 const Dropdown = React.createClass({
   propTypes: {
-    panel: PropTypes.object
+    panel: PropTypes.object,
   },
 
   displayName: "Dropdown",
 
   getInitialState() {
     return {
-      dropdownShown: false
+      dropdownShown: false,
     };
   },
 
@@ -27,9 +27,9 @@ const Dropdown = React.createClass({
       {
         className: "dropdown",
         onClick: this.toggleDropdown,
-        style: { display: (this.state.dropdownShown ? "block" : "none") }
+        style: { display: this.state.dropdownShown ? "block" : "none" },
       },
-      this.props.panel
+      this.props.panel,
     );
   },
 
@@ -37,9 +37,9 @@ const Dropdown = React.createClass({
     return dom.button(
       {
         className: "dropdown-button",
-        onClick: this.toggleDropdown
+        onClick: this.toggleDropdown,
       },
-      "»"
+      "»",
     );
   },
 
@@ -47,18 +47,18 @@ const Dropdown = React.createClass({
     return dom.div({
       className: "dropdown-mask",
       onClick: this.toggleDropdown,
-      style: { display: (this.state.dropdownShown ? "block" : "none") }
+      style: { display: this.state.dropdownShown ? "block" : "none" },
     });
   },
 
   render() {
-    return dom.div({ className: "dropdown-block" },
+    return dom.div(
+      { className: "dropdown-block" },
       this.renderPanel(),
       this.renderButton(),
-      this.renderMask()
+      this.renderMask(),
     );
-  }
-
+  },
 });
 
 module.exports = Dropdown;

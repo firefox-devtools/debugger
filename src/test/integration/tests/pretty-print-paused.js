@@ -7,7 +7,7 @@ const {
   resume,
   waitForPaused,
   waitForDispatch,
-  clickElement
+  clickElement,
 } = require("../utils");
 
 // Tests pretty-printing a source that is currently paused.
@@ -30,4 +30,4 @@ module.exports = async function(ctx) {
   assertPausedLocation(dbg, ctx, "math.min.js:formatted", 18);
 
   await resume(dbg);
-}
+};

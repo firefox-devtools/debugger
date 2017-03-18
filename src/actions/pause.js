@@ -29,7 +29,7 @@ function resumed() {
 
     return dispatch({
       type: constants.RESUME,
-      value: undefined
+      value: undefined,
     });
   };
 }
@@ -52,13 +52,14 @@ function paused(pauseInfo: Pause) {
       pauseInfo: { why, frame },
       frames: frames,
       selectedFrameId: frame.id,
-      loadedObjects: loadedObjects || []
+      loadedObjects: loadedObjects || [],
     });
 
     dispatch(evaluateExpressions(frame.id));
 
-    dispatch(selectSource(frame.location.sourceId,
-                          { line: frame.location.line }));
+    dispatch(
+      selectSource(frame.location.sourceId, { line: frame.location.line }),
+    );
   };
 }
 
@@ -68,7 +69,9 @@ function paused(pauseInfo: Pause) {
  * @static
  */
 function pauseOnExceptions(
-  shouldPauseOnExceptions: boolean, shouldIgnoreCaughtExceptions: boolean) {
+  shouldPauseOnExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean,
+) {
   return ({ dispatch, client }: ThunkArgs) => {
     dispatch({
       type: constants.PAUSE_ON_EXCEPTIONS,
@@ -76,8 +79,8 @@ function pauseOnExceptions(
       shouldIgnoreCaughtExceptions,
       [PROMISE]: client.pauseOnExceptions(
         shouldPauseOnExceptions,
-        shouldIgnoreCaughtExceptions
-      )
+        shouldIgnoreCaughtExceptions,
+      ),
     });
   };
 }
@@ -96,7 +99,7 @@ function command({ type }: CommandType) {
 
     return dispatch({
       type: constants.COMMAND,
-      value: undefined
+      value: undefined,
     });
   };
 }
@@ -171,7 +174,7 @@ function breakOnNext() {
 
     return dispatch({
       type: constants.BREAK_ON_NEXT,
-      value: true
+      value: true,
     });
   };
 }
@@ -183,11 +186,12 @@ function breakOnNext() {
 function selectFrame(frame: Frame) {
   return ({ dispatch }: ThunkArgs) => {
     dispatch(evaluateExpressions(frame.id));
-    dispatch(selectSource(frame.location.sourceId,
-                          { line: frame.location.line }));
+    dispatch(
+      selectSource(frame.location.sourceId, { line: frame.location.line }),
+    );
     dispatch({
       type: constants.SELECT_FRAME,
-      frame
+      frame,
     });
   };
 }
@@ -207,7 +211,7 @@ function loadObjectProperties(object: any) {
     dispatch({
       type: constants.LOAD_OBJECT_PROPERTIES,
       objectId,
-      [PROMISE]: client.getProperties(object)
+      [PROMISE]: client.getProperties(object),
     });
   };
 }
@@ -223,5 +227,5 @@ module.exports = {
   resume,
   breakOnNext,
   selectFrame,
-  loadObjectProperties
+  loadObjectProperties,
 };

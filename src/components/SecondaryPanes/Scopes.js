@@ -1,7 +1,5 @@
 // @flow
-import {
-  DOM as dom, PropTypes, Component, createFactory
-} from "react";
+import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ImPropTypes from "react-immutable-proptypes";
@@ -19,10 +17,9 @@ let expandedCache = new Set();
 let actorsCache = [];
 
 class Scopes extends Component {
-
   state: {
-    scopes: any
-  }
+    scopes: any,
+  };
 
   constructor(props, ...args) {
     const { pauseInfo, selectedFrame } = props;
@@ -30,15 +27,15 @@ class Scopes extends Component {
     super(props, ...args);
 
     this.state = {
-      scopes: getScopes(pauseInfo, selectedFrame)
+      scopes: getScopes(pauseInfo, selectedFrame),
     };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     const { pauseInfo, selectedFrame, loadedObjects } = this.props;
-    return pauseInfo !== nextProps.pauseInfo
-      || selectedFrame !== nextProps.selectedFrame
-      || loadedObjects !== nextProps.loadedObjects;
+    return pauseInfo !== nextProps.pauseInfo ||
+      selectedFrame !== nextProps.selectedFrame ||
+      loadedObjects !== nextProps.loadedObjects;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,7 +45,7 @@ class Scopes extends Component {
 
     if (pauseInfoChanged || selectedFrameChange) {
       this.setState({
-        scopes: getScopes(nextProps.pauseInfo, nextProps.selectedFrame)
+        scopes: getScopes(nextProps.pauseInfo, nextProps.selectedFrame),
       });
     }
   }
@@ -73,15 +70,13 @@ class Scopes extends Component {
         getActors: () => actorsCache,
         onLabelClick: (item, { expanded, setExpanded }) => {
           setExpanded(item, !expanded);
-        }
+        },
       });
     }
 
     return dom.div(
       { className: "pane scopes-list" },
-      pauseInfo
-        ? scopeInspector
-        : info(L10N.getStr("scopes.notPaused"))
+      pauseInfo ? scopeInspector : info(L10N.getStr("scopes.notPaused")),
     );
   }
 }
@@ -90,7 +85,7 @@ Scopes.propTypes = {
   pauseInfo: ImPropTypes.map,
   loadedObjects: ImPropTypes.map,
   loadObjectProperties: PropTypes.func,
-  selectedFrame: PropTypes.object
+  selectedFrame: PropTypes.object,
 };
 
 Scopes.displayName = "Scopes";
@@ -99,7 +94,7 @@ export default connect(
   state => ({
     pauseInfo: getPause(state),
     selectedFrame: getSelectedFrame(state),
-    loadedObjects: getLoadedObjects(state)
+    loadedObjects: getLoadedObjects(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => bindActionCreators(actions, dispatch),
 )(Scopes);

@@ -5,8 +5,12 @@ import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
-const CloseButton = React.createFactory(require("../shared/Button/Close").default);
-const ObjectInspector = React.createFactory(require("../shared/ObjectInspector"));
+const CloseButton = React.createFactory(
+  require("../shared/Button/Close").default,
+);
+const ObjectInspector = React.createFactory(
+  require("../shared/ObjectInspector"),
+);
 const { DOM: dom, PropTypes } = React;
 
 import "./Expressions.css";
@@ -22,37 +26,37 @@ function getValue(expression) {
   if (value.exception) {
     return {
       path: expression.from,
-      value: value.exception
+      value: value.exception,
     };
   }
 
   if (typeof value.result == "object") {
     return {
       path: value.result.actor,
-      value: value.result
+      value: value.result,
     };
   }
 
   return {
     path: value.input,
-    value: value.result
+    value: value.result,
   };
 }
 
 class Expressions extends React.Component {
-  _input: (null|any)
+  _input: null | any;
 
   state: {
-    editing: (null|Node)
-  }
+    editing: null | Node,
+  };
 
-  renderExpression: Function
+  renderExpression: Function;
 
   constructor(...args) {
     super(...args);
 
     this.state = {
-      editing: null
+      editing: null,
     };
 
     this.renderExpression = this.renderExpression.bind(this);
@@ -68,9 +72,9 @@ class Expressions extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     const { editing } = this.state;
     const { expressions, loadedObjects } = this.props;
-    return expressions !== nextProps.expressions
-      || loadedObjects !== nextProps.loadedObjects
-      || editing !== nextState.editing;
+    return expressions !== nextProps.expressions ||
+      loadedObjects !== nextProps.loadedObjects ||
+      editing !== nextState.editing;
   }
 
   editExpression(expression, { depth }) {
@@ -99,28 +103,24 @@ class Expressions extends React.Component {
 
     this.setState({ editing: null });
     e.target.value = "";
-    this.props.updateExpression(
-      value,
-      expression
-    );
+    this.props.updateExpression(value, expression);
   }
 
   renderExpressionEditInput(expression) {
     return dom.span(
       { className: "expression-input-container" },
-      dom.input(
-        { type: "text",
-          className: "input-expression",
-          onKeyPress: e => this.inputKeyPress(e, expression),
-          onBlur: () => {
-            this.setState({ editing: null });
-          },
-          defaultValue: expression.input,
-          ref: (c) => {
-            this._input = c;
-          }
-        }
-      )
+      dom.input({
+        type: "text",
+        className: "input-expression",
+        onKeyPress: e => this.inputKeyPress(e, expression),
+        onBlur: () => {
+          this.setState({ editing: null });
+        },
+        defaultValue: expression.input,
+        ref: c => {
+          this._input = c;
+        },
+      }),
     );
   }
 
@@ -142,23 +142,22 @@ class Expressions extends React.Component {
     const root = {
       name: expression.input,
       path,
-      contents: { value }
+      contents: { value },
     };
 
     return dom.div(
       {
         className: "expression-container",
-        key: path || input
+        key: path || input,
       },
       ObjectInspector({
         roots: [root],
         getObjectProperties: id => loadedObjects.get(id),
         autoExpandDepth: 0,
-        onDoubleClick: (item, options) => this.editExpression(
-          expression, options
-        ),
+        onDoubleClick: (item, options) =>
+          this.editExpression(expression, options),
         loadObjectProperties,
-        getActors: () => ({})
+        getActors: () => ({}),
       }),
       CloseButton({ handleClick: e => this.deleteExpression(e, expression) }),
     );
@@ -187,13 +186,15 @@ class Expressions extends React.Component {
     };
     return dom.span(
       { className: "expression-input-container" },
-       dom.input({
-         type: "text",
-         className: "input-expression",
-         placeholder: L10N.getStr("expressions.placeholder"),
-         onBlur: e => (e.target.value = ""),
-         onKeyPress
-       })
+      dom.input({
+        type: "text",
+        className: "input-expression",
+        placeholder: L10N.getStr("expressions.placeholder"),
+        onBlur: e => {
+          e.target.value = "";
+        },
+        onKeyPress,
+      }),
     );
   }
 
@@ -202,7 +203,7 @@ class Expressions extends React.Component {
     return dom.span(
       { className: "pane expressions-list" },
       expressions.map(this.renderExpression),
-      this.renderNewExpressionInput()
+      this.renderNewExpressionInput(),
     );
   }
 }
@@ -214,7 +215,7 @@ Expressions.propTypes = {
   updateExpression: PropTypes.func.isRequired,
   deleteExpression: PropTypes.func.isRequired,
   loadObjectProperties: PropTypes.func,
-  loadedObjects: ImPropTypes.map.isRequired
+  loadedObjects: ImPropTypes.map.isRequired,
 };
 
 Expressions.displayName = "Expressions";
@@ -223,7 +224,7 @@ export default connect(
   state => ({
     pauseInfo: getPause(state),
     expressions: getExpressions(state),
-    loadedObjects: getLoadedObjects(state)
+    loadedObjects: getLoadedObjects(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => bindActionCreators(actions, dispatch),
 )(Expressions);

@@ -5,7 +5,7 @@ const {
   getDocument,
   setDocument,
   removeDocument,
-  clearDocuments
+  clearDocuments,
 } = require("./source-documents");
 
 import {
@@ -20,7 +20,7 @@ const {
   findNext,
   findPrev,
   removeOverlay,
-  clearIndex
+  clearIndex,
 } = require("./source-search");
 
 const SourceEditor = require("./source-editor");
@@ -139,8 +139,8 @@ function createEditor() {
       // Override code mirror keymap to avoid conflicts with split console.
       Esc: false,
       "Cmd-F": false,
-      "Cmd-G": false
-    }
+      "Cmd-G": false,
+    },
   });
 }
 

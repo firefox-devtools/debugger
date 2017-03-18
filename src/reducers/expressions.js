@@ -10,35 +10,37 @@ import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type ExpressionState = {
-  expressions: I.List<Expression>
-}
+  expressions: I.List<Expression>,
+};
 
-const State = makeRecord(({
-  expressions: I.List(restoreExpressions())
-} : ExpressionState));
+
+const State = makeRecord(
+  ({
+    expressions: I.List(restoreExpressions()),
+  }: ExpressionState),
+);
 
 function update(state = State(), action: Action): Record<ExpressionState> {
   switch (action.type) {
-
     case constants.ADD_EXPRESSION:
       return appendToList(state, ["expressions"], {
         input: action.input,
         value: null,
-        updating: true
+        updating: true,
       });
     case constants.UPDATE_EXPRESSION:
       const key = action.expression.input;
       return updateItemInList(state, ["expressions"], key, {
         input: action.input,
         value: null,
-        updating: true
+        updating: true,
       });
     case constants.EVALUATE_EXPRESSION:
       if (action.status === "done") {
         return updateItemInList(state, ["expressions"], action.input, {
           input: action.input,
           value: action.value,
-          updating: false
+          updating: false,
         });
       }
       break;
@@ -70,7 +72,11 @@ function appendToList(state: State, path: string[], value: any) {
 }
 
 function updateItemInList(
-  state: State, path: string[], key: string, value: any) {
+  state: State,
+  path: string[],
+  key: string,
+  value: any,
+) {
   const newState = state.updateIn(path, () => {
     const list = state.getIn(path);
     const index = list.findIndex(e => e.input == key);
@@ -81,8 +87,9 @@ function updateItemInList(
 }
 
 function deleteExpression(state: State, input: string) {
-  const index = getExpressions({ expressions: state })
-    .findKey(e => e.input == input);
+  const index = getExpressions({ expressions: state }).findKey(
+    e => e.input == input,
+  );
   const newState = state.deleteIn(["expressions", index]);
   storeExpressions(newState);
   return newState;
@@ -97,5 +104,5 @@ function getExpressions(state: OuterState) {
 module.exports = {
   State,
   update,
-  getExpressions
+  getExpressions,
 };

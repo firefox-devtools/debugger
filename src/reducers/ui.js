@@ -15,7 +15,7 @@ import type { Record } from "../utils/makeRecord";
 type fileSearchModifiersType = {
   caseSensitive: boolean,
   wholeWord: boolean,
-  regexMatch: boolean
+  regexMatch: boolean,
 };
 
 export type UIState = {
@@ -28,19 +28,21 @@ export type UIState = {
   endPanelCollapsed: boolean,
 };
 
-const State = makeRecord(({
-  fileSearchOn: false,
-  fileSearchQuery: "",
-  fileSearchModifiers: makeRecord({
-    caseSensitive: true,
-    wholeWord: false,
-    regexMatch: false
-  })(),
-  projectSearchOn: false,
-  shownSource: "",
-  startPanelCollapsed: prefs.startPanelCollapsed,
-  endPanelCollapsed: prefs.endPanelCollapsed
-} : UIState));
+const State = makeRecord(
+  ({
+    fileSearchOn: false,
+    fileSearchQuery: "",
+    fileSearchModifiers: makeRecord({
+      caseSensitive: true,
+      wholeWord: false,
+      regexMatch: false,
+    })(),
+    projectSearchOn: false,
+    shownSource: "",
+    startPanelCollapsed: prefs.startPanelCollapsed,
+    endPanelCollapsed: prefs.endPanelCollapsed,
+  }: UIState),
+);
 
 function update(state = State(), action: Action): Record<UIState> {
   switch (action.type) {
@@ -57,9 +59,9 @@ function update(state = State(), action: Action): Record<UIState> {
     }
 
     case constants.TOGGLE_FILE_SEARCH_MODIFIER: {
-      return state
-        .setIn(["fileSearchModifiers", action.modifier],
-        !state.getIn(["fileSearchModifiers", action.modifier])
+      return state.setIn(
+        ["fileSearchModifiers", action.modifier],
+        !state.getIn(["fileSearchModifiers", action.modifier]),
       );
     }
 
@@ -97,7 +99,8 @@ function getFileSearchQueryState(state: OuterState): string {
 }
 
 function getFileSearchModifierState(
-  state: OuterState): Record<fileSearchModifiersType> {
+  state: OuterState,
+): Record<fileSearchModifiersType> {
   return state.ui.get("fileSearchModifiers");
 }
 
@@ -109,7 +112,9 @@ function getShownSource(state: OuterState): boolean {
 }
 
 function getPaneCollapse(
-  state: OuterState, position: panelPositionType): boolean {
+  state: OuterState,
+  position: panelPositionType,
+): boolean {
   if (position == "start") {
     return state.ui.get("startPanelCollapsed");
   }
@@ -125,5 +130,5 @@ module.exports = {
   getFileSearchQueryState,
   getFileSearchModifierState,
   getShownSource,
-  getPaneCollapse
+  getPaneCollapse,
 };

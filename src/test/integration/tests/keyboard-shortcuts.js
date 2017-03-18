@@ -4,7 +4,7 @@ const {
   waitForPaused,
   assertPausedLocation,
   pressKey,
-  reload
+  reload,
 } = require("../utils");
 
 function pressResume(dbg) {
@@ -28,12 +28,12 @@ function pressStepOut(dbg) {
 }
 
 async function keyboardShortcuts(ctx) {
-  const {info} = ctx;
+  const { info } = ctx;
   const dbg = await initDebugger("doc-debugger-statements.html");
 
   await reload(dbg);
   await waitForPaused(dbg);
-  assertPausedLocation(dbg, ctx,  "debugger-statements.html", 8);
+  assertPausedLocation(dbg, ctx, "debugger-statements.html", 8);
 
   await pressResume(dbg);
   assertPausedLocation(dbg, ctx, "debugger-statements.html", 12);
@@ -46,6 +46,6 @@ async function keyboardShortcuts(ctx) {
 
   await pressStepOver(dbg);
   assertPausedLocation(dbg, ctx, "debugger-statements.html", 9);
-};
+}
 
 module.exports = keyboardShortcuts;

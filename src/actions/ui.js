@@ -3,7 +3,7 @@ const constants = require("../constants");
 const {
   getSource,
   getProjectSearchState,
-  getFileSearchState
+  getFileSearchState,
 } = require("../selectors");
 import type { ThunkArgs } from "./types";
 
@@ -12,12 +12,12 @@ function toggleProjectSearch(toggleValue?: boolean) {
     if (toggleValue != null) {
       dispatch({
         type: constants.TOGGLE_PROJECT_SEARCH,
-        value: toggleValue
+        value: toggleValue,
       });
     } else {
       dispatch({
         type: constants.TOGGLE_PROJECT_SEARCH,
-        value: !getProjectSearchState(getState())
+        value: !getProjectSearchState(getState()),
       });
     }
   };
@@ -28,12 +28,12 @@ function toggleFileSearch(toggleValue?: boolean) {
     if (toggleValue != null) {
       dispatch({
         type: constants.TOGGLE_FILE_SEARCH,
-        value: toggleValue
+        value: toggleValue,
       });
     } else {
       dispatch({
         type: constants.TOGGLE_FILE_SEARCH,
-        value: !getFileSearchState(getState())
+        value: !getFileSearchState(getState()),
       });
     }
   };
@@ -42,7 +42,7 @@ function toggleFileSearch(toggleValue?: boolean) {
 function setFileSearchQuery(query: string) {
   return {
     type: constants.UPDATE_FILE_SEARCH_QUERY,
-    query
+    query,
   };
 }
 
@@ -55,7 +55,7 @@ function showSource(sourceId: string) {
     const source = getSource(getState(), sourceId);
     dispatch({
       type: constants.SHOW_SOURCE,
-      sourceUrl: source.get("url")
+      sourceUrl: source.get("url"),
     });
   };
 }
@@ -64,7 +64,7 @@ function togglePaneCollapse(position: string, paneCollapsed: boolean) {
   return {
     type: constants.TOGGLE_PANE,
     position,
-    paneCollapsed
+    paneCollapsed,
   };
 }
 
@@ -74,5 +74,5 @@ module.exports = {
   toggleFileSearchModifier,
   toggleProjectSearch,
   showSource,
-  togglePaneCollapse
+  togglePaneCollapse,
 };

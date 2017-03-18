@@ -1,27 +1,27 @@
 require("mocha/mocha");
 const expect = require("expect.js");
-let { prefs } = require("../../utils/prefs")
+let { prefs } = require("../../utils/prefs");
 
 const tests = require("./tests/index");
 Object.assign(window, { prefs }, tests);
 
 window.ok = function ok(expected) {
-  expect(expected).to.be.truthy
-}
+  expect(expected).to.be.truthy;
+};
 
 window.is = function is(expected, actual) {
-  expect(expected).to.equal(actual)
-}
+  expect(expected).to.equal(actual);
+};
 
 window.info = function info(msg) {
   console.log(`info: ${msg}\n`);
-}
+};
 
-window.requestLongerTimeout = function() {}
+window.requestLongerTimeout = function() {};
 
-const ctx = { ok, is, info, requestLongerTimeout};
+const ctx = { ok, is, info, requestLongerTimeout };
 
-mocha.setup({ timeout: 10000, ui: 'bdd' });
+mocha.setup({ timeout: 10000, ui: "bdd" });
 
 describe("Tests", () => {
   beforeEach(() => {
@@ -78,11 +78,11 @@ describe("Tests", () => {
 
   xit("keyboard shortcuts", async function() {
     await keyboardShortcuts(ctx);
-  })
+  });
 
   xit("navigation", async function() {
     await navigation(ctx);
-  })
+  });
 
   it("call stack test 1", async function() {
     await callStack.test1(ctx);
@@ -122,7 +122,7 @@ describe("Tests", () => {
 
   xit("searching", async function() {
     await searching(ctx);
-  })
+  });
 
   it("scopes", async function() {
     await scopes(ctx);
@@ -147,7 +147,6 @@ describe("Tests", () => {
   xit("source maps bogus", async function() {
     await sourceMapsBogus(ctx);
   });
-
 });
 
 mocha.run();
