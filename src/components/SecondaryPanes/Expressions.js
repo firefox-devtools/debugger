@@ -62,6 +62,13 @@ class Expressions extends React.Component {
     this.renderExpression = this.renderExpression.bind(this);
   }
 
+  componentDidMount() {
+    const { expressions, evaluateExpressions } = this.props;
+    if (expressions.size > 0) {
+      evaluateExpressions();
+    }
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     const { editing } = this.state;
     const { expressions, loadedObjects } = this.props;
@@ -204,6 +211,7 @@ class Expressions extends React.Component {
 Expressions.propTypes = {
   expressions: ImPropTypes.list.isRequired,
   addExpression: PropTypes.func.isRequired,
+  evaluateExpressions: PropTypes.func.isRequired,
   updateExpression: PropTypes.func.isRequired,
   deleteExpression: PropTypes.func.isRequired,
   loadObjectProperties: PropTypes.func,
