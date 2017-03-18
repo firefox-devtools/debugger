@@ -199,7 +199,6 @@ describe("parser", () => {
         "count",
         "counter",
         "sum",
-        // "property",
         "a",
         "b",
         "Obj",
