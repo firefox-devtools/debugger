@@ -85,8 +85,8 @@ class ProjectSearch extends Component {
     }
   }
 
-  close(inputValue = "") {
-    this.setState({ inputValue });
+  close() {
+    this.setState({ inputValue: "" });
     this.props.toggleProjectSearch(false);
   }
 
