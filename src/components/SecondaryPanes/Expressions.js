@@ -43,16 +43,8 @@ function getValue(expression) {
   };
 }
 
-const Expressions = React.createClass({
-  propTypes: {
-    expressions: ImPropTypes.list.isRequired,
-    addExpression: PropTypes.func.isRequired,
-    updateExpression: PropTypes.func.isRequired,
-    deleteExpression: PropTypes.func.isRequired,
-    evaluateExpressions: PropTypes.func.isRequired,
-    loadObjectProperties: PropTypes.func,
-    loadedObjects: ImPropTypes.map.isRequired
-  },
+class Expressions extends React.Component {
+  _input: null | any;
 
   state: {
     editing: null | Node,
@@ -76,13 +68,6 @@ const Expressions = React.createClass({
       evaluateExpressions();
     }
   }
-
-  componentDidMount() {
-    const { expressions, evaluateExpressions } = this.props;
-    if (expressions.size > 0) {
-      evaluateExpressions();
-    }
-  },
 
   shouldComponentUpdate(nextProps, nextState) {
     const { editing } = this.state;
@@ -239,7 +224,7 @@ export default connect(
   state => ({
     pauseInfo: getPause(state),
     expressions: getExpressions(state),
-    loadedObjects: getLoadedObjects(state)
+    loadedObjects: getLoadedObjects(state),
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )(Expressions);
