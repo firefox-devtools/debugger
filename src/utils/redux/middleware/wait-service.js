@@ -20,7 +20,7 @@
  * }
  * ```
  */
-const NAME = exports.NAME = "@@service/waitUntil";
+const NAME = (exports.NAME = "@@service/waitUntil");
 
 import type { ThunkArgs } from "../../../actions/types";
 
@@ -50,14 +50,15 @@ function waitUntilService({ dispatch, getState }: ThunkArgs) {
     }
   }
 
-  return (next: Function) => (action: Object) => {
-    if (action.type === NAME) {
-      pending.push(action);
-      return null;
-    }
-    let result = next(action);
-    checkPending(action);
-    return result;
-  };
+  return (next: Function) =>
+    (action: Object) => {
+      if (action.type === NAME) {
+        pending.push(action);
+        return null;
+      }
+      let result = next(action);
+      checkPending(action);
+      return result;
+    };
 }
 exports.waitUntilService = waitUntilService;

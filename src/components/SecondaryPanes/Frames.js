@@ -1,8 +1,6 @@
 // @flow
 
-import {
-  DOM as dom, PropTypes, createClass
-} from "react";
+import { DOM as dom, PropTypes, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
@@ -26,44 +24,47 @@ function renderFrameTitle({ displayName }: Frame) {
 }
 
 function renderFrameLocation({ source, location }: Frame) {
-  const thisSource : ?Source = source;
+  const thisSource: ?Source = source;
   if (thisSource == null) {
     return;
   }
 
   const filename = getFilename(thisSource);
-  return dom.div(
-    { className: "location" },
-    `${filename}: ${location.line}`
-  );
+  return dom.div({ className: "location" }, `${filename}: ${location.line}`);
 }
 
-const Frames = createClass({
-  propTypes: {
-    frames: PropTypes.array,
-    selectedFrame: PropTypes.object,
-    selectFrame: PropTypes.func.isRequired
-  },
+class Frames extends Component {
+  state: {
+    showAllFrames: boolean,
+  };
 
-  displayName: "Frames",
+  renderFrame: Function;
+  toggleFramesDisplay: Function;
+
+  constructor(...args) {
+    super(...args);
+
+    this.state = {
+      showAllFrames: false,
+    };
+
+    this.renderFrame = this.renderFrame.bind(this);
+    this.toggleFramesDisplay = this.toggleFramesDisplay.bind(this);
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     const { frames, selectedFrame } = this.props;
     const { showAllFrames } = this.state;
-    return frames !== nextProps.frames
-      || selectedFrame !== nextProps.selectedFrame
-      || showAllFrames !== nextState.showAllFrames;
-  },
-
-  getInitialState() {
-    return { showAllFrames: false };
-  },
+    return frames !== nextProps.frames ||
+      selectedFrame !== nextProps.selectedFrame ||
+      showAllFrames !== nextState.showAllFrames;
+  }
 
   toggleFramesDisplay() {
     this.setState({
-      showAllFrames: !this.state.showAllFrames
+      showAllFrames: !this.state.showAllFrames,
     });
-  },
+  }
 
   onContextMenu(event: SyntheticKeyboardEvent, frame: Frame) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
@@ -81,58 +82,61 @@ const Frames = createClass({
         label: copySourceUrlLabel,
         accesskey: copySourceUrlKey,
         disabled: false,
-        click: () => copyToTheClipboard(source.url)
+        click: () => copyToTheClipboard(source.url),
       };
 
       menuOptions.push(copySourceUrl);
     }
 
     showMenu(event, menuOptions);
-  },
+  }
 
   renderFrame(frame: Frame) {
     const { selectedFrame } = this.props;
 
     return dom.li(
-      { key: frame.id,
+      {
+        key: frame.id,
         className: classNames("frame", {
-          "selected": selectedFrame && selectedFrame.id === frame.id
+          selected: selectedFrame && selectedFrame.id === frame.id,
         }),
-        onMouseDown: (e) => this.onMouseDown(e, frame, selectedFrame),
-        onKeyUp: (e) => this.onKeyUp(e, frame, selectedFrame),
-        onContextMenu: (e) => this.onContextMenu(e, frame),
-        tabIndex: 0
+        onMouseDown: e => this.onMouseDown(e, frame, selectedFrame),
+        onKeyUp: e => this.onKeyUp(e, frame, selectedFrame),
+        onContextMenu: e => this.onContextMenu(e, frame),
+        tabIndex: 0,
       },
       renderFrameTitle(frame),
-      renderFrameLocation(frame)
+      renderFrameLocation(frame),
     );
-  },
+  }
 
   onMouseDown(e: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
     if (e.nativeEvent.which == 3 && selectedFrame.id != frame.id) {
       return;
     }
     this.props.selectFrame(frame);
-  },
+  }
 
   onKeyUp(event: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
     if (event.key != "Enter" || selectedFrame.id == frame.id) {
       return;
     }
     this.props.selectFrame(frame);
-  },
+  }
 
   renderFrames(frames: Frame[]) {
-    const numFramesToShow =
-      this.state.showAllFrames ? frames.length : NUM_FRAMES_SHOWN;
+    const numFramesToShow = this.state.showAllFrames
+      ? frames.length
+      : NUM_FRAMES_SHOWN;
     const framesToShow = frames.slice(0, numFramesToShow);
 
     return dom.ul({}, framesToShow.map(this.renderFrame));
-  },
+  }
 
   renderToggleButton(frames: Frame[]) {
     let buttonMessage = this.state.showAllFrames
-      ? L10N.getStr("callStack.collapse") : L10N.getStr("callStack.expand");
+      ? L10N.getStr("callStack.collapse")
+      : L10N.getStr("callStack.expand");
 
     if (frames.length < NUM_FRAMES_SHOWN) {
       return null;
@@ -140,9 +144,9 @@ const Frames = createClass({
 
     return dom.div(
       { className: "show-more", onClick: this.toggleFramesDisplay },
-      buttonMessage
+      buttonMessage,
     );
-  },
+  }
 
   render() {
     const { frames } = this.props;
@@ -152,18 +156,26 @@ const Frames = createClass({
         { className: "pane frames" },
         dom.div(
           { className: "pane-info empty" },
-          L10N.getStr("callStack.notPaused")
-        )
+          L10N.getStr("callStack.notPaused"),
+        ),
       );
     }
 
     return dom.div(
       { className: "pane frames" },
       this.renderFrames(frames),
-      this.renderToggleButton(frames)
+      this.renderToggleButton(frames),
     );
   }
-});
+}
+
+Frames.propTypes = {
+  frames: PropTypes.array,
+  selectedFrame: PropTypes.object,
+  selectFrame: PropTypes.func.isRequired,
+};
+
+Frames.displayName = "Frames";
 
 function getSourceForFrame(state, frame) {
   return getSource(state, frame.location.sourceId);
@@ -178,15 +190,16 @@ function getAndProcessFrames(state) {
   return frames
     .toJS()
     .filter(frame => getSourceForFrame(state, frame))
-    .map(frame => Object.assign({}, frame, {
-      source: getSourceForFrame(state, frame).toJS()
-    }));
+    .map(frame =>
+      Object.assign({}, frame, {
+        source: getSourceForFrame(state, frame).toJS(),
+      }));
 }
 
 export default connect(
   state => ({
     frames: getAndProcessFrames(state),
-    selectedFrame: getSelectedFrame(state)
+    selectedFrame: getSelectedFrame(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => bindActionCreators(actions, dispatch),
 )(Frames);

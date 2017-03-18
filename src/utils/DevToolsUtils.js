@@ -12,5 +12,5 @@ function executeSoon(fn) {
 module.exports = {
   reportException,
   executeSoon,
-  assert
+  assert,
 };

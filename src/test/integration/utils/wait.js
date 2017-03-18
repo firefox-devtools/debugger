@@ -1,4 +1,4 @@
-const { findElementWithSelector, info } = require("./shared")
+const { findElementWithSelector, info } = require("./shared");
 
 /**
  * Waits for `predicate(state)` to be true. `state` is the redux app state.
@@ -24,8 +24,7 @@ async function waitForPaused(dbg) {
   // We want to make sure that we get both a real paused event and
   // that the state is fully populated. The client may do some more
   // work (call other client methods) before populating the state.
-  await waitForThreadEvents(dbg, "paused"),
-  await waitForState(dbg, state => {
+  await waitForThreadEvents(dbg, "paused"), await waitForState(dbg, state => {
     const pause = dbg.selectors.getPause(state);
     // Make sure we have the paused state.
     if (!pause) {
@@ -51,10 +50,11 @@ async function waitForPaused(dbg) {
  * @static
  */
 async function waitForDispatch(
-  dbg, type, { useLaunchpad = false, eventRepeat = 1 } = {}
+  dbg,
+  type,
+  { useLaunchpad = false, eventRepeat = 1 } = {},
 ) {
-
-  const store = useLaunchpad ? dbg.launchpadStore : dbg.store ;
+  const store = useLaunchpad ? dbg.launchpadStore : dbg.store;
   let count = 0;
 
   info("Waiting for " + type + " to dispatch " + eventRepeat + " time(s)");
@@ -76,14 +76,14 @@ async function _afterDispatchDone(store, type) {
       type: "@@service/waitUntil",
       predicate: action => {
         if (action.type === type) {
-          return action.status ?
-            (action.status === "done" || action.status === "error") :
-            true;
+          return action.status
+            ? action.status === "done" || action.status === "error"
+            : true;
         }
       },
       run: (dispatch, getState, action) => {
         resolve(action);
-      }
+      },
     });
   });
 }
@@ -102,7 +102,7 @@ async function waitForNextDispatch(store, type) {
       predicate: action => action.type === type,
       run: (dispatch, getState, action) => {
         resolve(action);
-      }
+      },
     });
   });
 }
@@ -127,29 +127,31 @@ async function waitForSources(dbg, ...sources) {
 
   info("Waiting on sources: " + sources.join(", "));
   const { selectors: { getSources }, store } = dbg;
-  return Promise.all(sources.map(url => {
-    if (!sourceExists(store.getState(), url)) {
-      return waitForState(
-        dbg,
-        () => sourceExists(store.getState(), url)
-      );
-    }
-  }));
+  return Promise.all(
+    sources.map(url => {
+      if (!sourceExists(store.getState(), url)) {
+        return waitForState(dbg, () => sourceExists(store.getState(), url));
+      }
+    }),
+  );
 }
 
 async function waitForElement(dbg, selector) {
-  return waitUntil(() => findElementWithSelector(dbg, selector))
+  return waitUntil(() => findElementWithSelector(dbg, selector));
 }
 
-async function waitUntil(predicate, interval=20) {
+async function waitUntil(predicate, interval = 20) {
   return new Promise(resolve => {
-    const timer = setInterval(() => {
-      if (predicate()) {
-        clearInterval(timer);
-        resolve();
-      }
-    }, interval)
-  })
+    const timer = setInterval(
+      () => {
+        if (predicate()) {
+          clearInterval(timer);
+          resolve();
+        }
+      },
+      interval,
+    );
+  });
 }
 
 /**
@@ -187,7 +189,6 @@ async function waitForTargetEvent(dbg, eventName) {
   });
 }
 
-
 module.exports = {
   waitForPaused,
   waitForDispatch,
@@ -196,5 +197,5 @@ module.exports = {
   waitForElement,
   waitForTargetEvent,
   waitForThreadEvents,
-  waitUntil
-}
+  waitUntil,
+};

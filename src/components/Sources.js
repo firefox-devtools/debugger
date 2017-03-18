@@ -11,8 +11,7 @@ import { getSelectedSource, getSources } from "../selectors";
 import "./Sources.css";
 
 class Sources extends Component {
-
-  renderShortcut: Function
+  renderShortcut: Function;
 
   constructor(props) {
     super(props);
@@ -25,10 +24,12 @@ class Sources extends Component {
         {
           className: "sources-header-info",
           dir: "ltr",
-          onClick: () => this.props.toggleFileSearch()
+          onClick: () => this.props.toggleProjectSearch(),
         },
-        L10N.getFormatStr("sources.search",
-          formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`))
+        L10N.getFormatStr(
+          "sources.search",
+          formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`),
+        ),
       );
     }
   }
@@ -38,10 +39,8 @@ class Sources extends Component {
 
     return dom.div(
       { className: "sources-panel" },
-      dom.div({ className: "sources-header" },
-        this.renderShortcut()
-      ),
-      SourcesTree({ sources, selectSource })
+      dom.div({ className: "sources-header" }, this.renderShortcut()),
+      SourcesTree({ sources, selectSource }),
     );
   }
 }
@@ -50,13 +49,15 @@ Sources.propTypes = {
   sources: ImPropTypes.map.isRequired,
   selectSource: PropTypes.func.isRequired,
   horizontal: PropTypes.bool.isRequired,
-  toggleFileSearch: PropTypes.func.isRequired
+  toggleProjectSearch: PropTypes.func.isRequired,
 };
 
 Sources.displayName = "Sources";
 
 export default connect(
-  state => ({ selectedSource: getSelectedSource(state),
-    sources: getSources(state) }),
-  dispatch => bindActionCreators(actions, dispatch)
+  state => ({
+    selectedSource: getSelectedSource(state),
+    sources: getSources(state),
+  }),
+  dispatch => bindActionCreators(actions, dispatch),
 )(Sources);

@@ -11,10 +11,9 @@ ReactDOM.render(Svg("breakpoint"), breakpointSvg);
 
 function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);
-  bp.className = classnames(
-    "editor new-breakpoint",
-    { "breakpoint-disabled": isDisabled }
-  );
+  bp.className = classnames("editor new-breakpoint", {
+    "breakpoint-disabled": isDisabled,
+  });
 
   return bp;
 }
@@ -22,7 +21,7 @@ function makeMarker(isDisabled: boolean) {
 const Breakpoint = React.createClass({
   propTypes: {
     breakpoint: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired
+    editor: PropTypes.object.isRequired,
   },
 
   displayName: "Breakpoint",
@@ -34,7 +33,7 @@ const Breakpoint = React.createClass({
     this.props.editor.setGutterMarker(
       line,
       "breakpoints",
-      makeMarker(bp.disabled)
+      makeMarker(bp.disabled),
     );
     this.props.editor.addLineClass(line, "line", "new-breakpoint");
     if (bp.condition) {
@@ -77,7 +76,7 @@ const Breakpoint = React.createClass({
 
   render() {
     return null;
-  }
+  },
 });
 
 module.exports = Breakpoint;

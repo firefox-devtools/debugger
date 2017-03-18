@@ -2,7 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const classnames = require("classnames");
 const Svg = require("./Svg");
-const CloseButton = require("./Button/Close");
+const CloseButton = require("./Button/Close").default;
 
 require("./SearchInput.css");
 
@@ -18,14 +18,14 @@ const SearchInput = React.createClass({
     onKeyDown: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
-    size: PropTypes.string
+    size: PropTypes.string,
   },
 
   displayName: "SearchInput",
 
   getDefaultProps() {
     return {
-      size: ""
+      size: "",
     };
   },
 
@@ -51,17 +51,17 @@ const SearchInput = React.createClass({
       onFocus,
       onBlur,
       handleClose,
-      size
+      size,
     } = this.props;
 
     return dom.div(
       {
-        className: `search-field ${size}`
+        className: `search-field ${size}`,
       },
       this.renderSvg(),
       dom.input({
         className: classnames({
-          empty: count == 0 && query.trim() != ""
+          empty: count == 0 && query.trim() != "",
         }),
         onChange,
         onKeyDown,
@@ -75,10 +75,10 @@ const SearchInput = React.createClass({
       dom.div({ className: "summary" }, query != "" ? summaryMsg : ""),
       CloseButton({
         handleClick: handleClose,
-        buttonClass: size
-      })
+        buttonClass: size,
+      }),
     );
-  }
+  },
 });
 
 module.exports = SearchInput;

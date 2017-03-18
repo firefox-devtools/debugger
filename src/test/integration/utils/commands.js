@@ -1,21 +1,29 @@
-const { clickEl, rightClickEl, dblClickEl } = require("./mouse-events")
+const { clickEl, rightClickEl, dblClickEl } = require("./mouse-events");
 
 function info(msg) {
   console.log(`info: ${msg}\n`);
 }
 
 const {
-  evalInTab, invokeInTab, selectMenuItem, pressKey, type
+  evalInTab,
+  invokeInTab,
+  selectMenuItem,
+  pressKey,
+  type,
 } = require("./mocha");
 
 const {
-  selectors, findSource, getSelector, info, isPaused
+  selectors,
+  findSource,
+  getSelector,
+  info,
+  isPaused,
 } = require("./shared");
 const {
   waitForSources,
   waitForDispatch,
   waitForPaused,
-  waitForThreadEvents
+  waitForThreadEvents,
 } = require("./wait");
 
 /**
@@ -105,8 +113,7 @@ async function resume(dbg) {
  * @static
  */
 async function reload(dbg, ...sources) {
-  return dbg.client.reload()
-    .then(() => waitForSources(dbg, ...sources));
+  return dbg.client.reload().then(() => waitForSources(dbg, ...sources));
 }
 
 /**
@@ -170,11 +177,11 @@ async function removeBreakpoint(dbg, sourceId, line, col) {
 async function togglePauseOnExceptions(
   dbg,
   pauseOnExceptions,
-  ignoreCaughtExceptions
+  ignoreCaughtExceptions,
 ) {
   const command = dbg.actions.pauseOnExceptions(
     pauseOnExceptions,
-    ignoreCaughtExceptions
+    ignoreCaughtExceptions,
   );
 
   if (!isPaused(dbg)) {
@@ -199,12 +206,12 @@ async function dblClickElement(dbg, elementName, ...args) {
 async function rightClickElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
   const el = dbg.win.document.querySelector(selector);
-  info('right click on the gutter', el)
+  info("right click on the gutter", el);
   rightClickEl(dbg.win, el);
 }
 
 // NOTE: we should fix this for mochitests. It's likely that `this` would work.
-const winObj = (typeof window == "Object") ? window : {};
+const winObj = typeof window == "Object" ? window : {};
 winObj.resumeTest = undefined;
 
 /**
@@ -239,5 +246,5 @@ module.exports = {
   selectMenuItem,
   type,
   pressKey,
-  pauseTest
-}
+  pauseTest,
+};

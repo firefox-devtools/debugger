@@ -33,13 +33,16 @@
  */
 
 // shared-head.js handles imports, constants, and utility functions
-Services.scriptloader.loadSubScript("chrome://mochitests/content/browser/devtools/client/framework/test/shared-head.js", this);
+Services.scriptloader.loadSubScript(
+  "chrome://mochitests/content/browser/devtools/client/framework/test/shared-head.js",
+  this,
+);
 var { Toolbox } = require("devtools/client/framework/toolbox");
 const EXAMPLE_URL = "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/";
 
 Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", true);
-Services.prefs.clearUserPref("devtools.debugger.tabs")
-Services.prefs.clearUserPref("devtools.debugger.pending-selected-location")
+Services.prefs.clearUserPref("devtools.debugger.tabs");
+Services.prefs.clearUserPref("devtools.debugger.pending-selected-location");
 
 registerCleanupFunction(() => {
   Services.prefs.clearUserPref("devtools.debugger.new-debugger-frontend");
@@ -60,7 +63,7 @@ function waitForNextDispatch(store, type) {
       predicate: action => action.type === type,
       run: (dispatch, getState, action) => {
         resolve(action);
-      }
+      },
     });
   });
 }
@@ -76,14 +79,14 @@ function _afterDispatchDone(store, type) {
       type: "@@service/waitUntil",
       predicate: action => {
         if (action.type === type) {
-          return action.status ?
-            (action.status === "done" || action.status === "error") :
-            true;
+          return action.status
+            ? action.status === "done" || action.status === "error"
+            : true;
         }
       },
       run: (dispatch, getState, action) => {
         resolve(action);
-      }
+      },
     });
   });
 }
@@ -102,7 +105,7 @@ function _afterDispatchDone(store, type) {
 function waitForDispatch(dbg, type, eventRepeat = 1) {
   let count = 0;
 
-  return Task.spawn(function* () {
+  return Task.spawn(function*() {
     info("Waiting for " + type + " to dispatch " + eventRepeat + " time(s)");
     while (count < eventRepeat) {
       yield _afterDispatchDone(dbg.store, type);
@@ -170,21 +173,23 @@ function waitForSources(dbg, ...sources) {
 
   info("Waiting on sources: " + sources.join(", "));
   const { selectors: { getSources }, store } = dbg;
-  return Promise.all(sources.map(url => {
-    function sourceExists(state) {
-      return getSources(state).some(s => {
-        return s.get("url").includes(url);
-      });
-    }
+  return Promise.all(
+    sources.map(url => {
+      function sourceExists(state) {
+        return getSources(state).some(s => {
+          return s.get("url").includes(url);
+        });
+      }
 
-    if (!sourceExists(store.getState())) {
-      return waitForState(dbg, sourceExists);
-    }
-  }));
+      if (!sourceExists(store.getState())) {
+        return waitForState(dbg, sourceExists);
+      }
+    }),
+  );
 }
 
 function waitForElement(dbg, selector) {
-  return waitUntil(() => findElementWithSelector(dbg, selector))
+  return waitUntil(() => findElementWithSelector(dbg, selector));
 }
 
 /**
@@ -209,8 +214,10 @@ function assertPausedLocation(dbg, source, line) {
   is(location.get("line"), line);
 
   // Check the debug line
-  ok(dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
-     "Line is highlighted as paused");
+  ok(
+    dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
+    "Line is highlighted as paused",
+  );
 }
 
 /**
@@ -234,8 +241,10 @@ function assertHighlightLocation(dbg, source, line) {
   ok(lineEl, "Line is highlighted");
   // ok(isVisibleWithin(findElement(dbg, "codeMirror"), lineEl),
   //    "Highlighted line is visible");
-  ok(dbg.win.cm.lineInfo(line - 1).wrapClass.includes("highlight-line"),
-     "Line is highlighted");
+  ok(
+    dbg.win.cm.lineInfo(line - 1).wrapClass.includes("highlight-line"),
+    "Line is highlighted",
+  );
 }
 
 /**
@@ -258,12 +267,11 @@ function isPaused(dbg) {
  * @static
  */
 function waitForPaused(dbg) {
-  return Task.spawn(function* () {
+  return Task.spawn(function*() {
     // We want to make sure that we get both a real paused event and
     // that the state is fully populated. The client may do some more
     // work (call other client methods) before populating the state.
-    yield waitForThreadEvents(dbg, "paused"),
-    yield waitForState(dbg, state => {
+    yield waitForThreadEvents(dbg, "paused"), yield waitForState(dbg, state => {
       const pause = dbg.selectors.getPause(state);
       // Make sure we have the paused state.
       if (!pause) {
@@ -289,7 +297,7 @@ function createDebuggerContext(toolbox) {
     store: store,
     client: win.Debugger.client,
     toolbox: toolbox,
-    win: win
+    win: win,
   };
 }
 
@@ -303,9 +311,9 @@ function createDebuggerContext(toolbox) {
  * @static
  */
 function initDebugger(url, ...sources) {
-  return Task.spawn(function* () {
-    Services.prefs.clearUserPref("devtools.debugger.tabs")
-    Services.prefs.clearUserPref("devtools.debugger.pending-selected-location")
+  return Task.spawn(function*() {
+    Services.prefs.clearUserPref("devtools.debugger.tabs");
+    Services.prefs.clearUserPref("devtools.debugger.pending-breakpoints");
     const toolbox = yield openNewTabAndToolbox(EXAMPLE_URL + url, "jsdebugger");
     return createDebuggerContext(toolbox);
   });
@@ -500,11 +508,14 @@ function removeBreakpoint(dbg, sourceId, line, col) {
  * @return {Promise}
  * @static
  */
-function togglePauseOnExceptions(dbg,
-  pauseOnExceptions, ignoreCaughtExceptions) {
+function togglePauseOnExceptions(
+  dbg,
+  pauseOnExceptions,
+  ignoreCaughtExceptions,
+) {
   const command = dbg.actions.pauseOnExceptions(
     pauseOnExceptions,
-    ignoreCaughtExceptions
+    ignoreCaughtExceptions,
   );
 
   if (!isPaused(dbg)) {
@@ -526,7 +537,7 @@ function togglePauseOnExceptions(dbg,
  */
 function invokeInTab(fnc) {
   info(`Invoking function ${fnc} in tab`);
-  return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function* (fnc) {
+  return ContentTask.spawn(gBrowser.selectedBrowser, fnc, function*(fnc) {
     content.wrappedJSObject[fnc](); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
   });
 }
@@ -534,18 +545,21 @@ function invokeInTab(fnc) {
 const isLinux = Services.appinfo.OS === "Linux";
 const cmdOrCtrl = isLinux ? { ctrlKey: true } : { metaKey: true };
 const keyMappings = {
-  sourceSearch: { code: "p", modifiers: cmdOrCtrl},
-  fileSearch: { code: "f", modifiers: cmdOrCtrl},
-  "Enter": { code: "VK_RETURN" },
-  "Up": { code: "VK_UP" },
-  "Down": { code: "VK_DOWN" },
-  "Tab": { code: "VK_TAB" },
-  "Escape": { code: "VK_ESCAPE" },
+  sourceSearch: { code: "p", modifiers: cmdOrCtrl },
+  fileSearch: { code: "f", modifiers: cmdOrCtrl },
+  Enter: { code: "VK_RETURN" },
+  Up: { code: "VK_UP" },
+  Down: { code: "VK_DOWN" },
+  Tab: { code: "VK_TAB" },
+  Escape: { code: "VK_ESCAPE" },
   pauseKey: { code: "VK_F8" },
   resumeKey: { code: "VK_F8" },
   stepOverKey: { code: "VK_F10" },
-  stepInKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux }},
-  stepOutKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux, shiftKey: true }}
+  stepInKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux } },
+  stepOutKey: {
+    code: "VK_F11",
+    modifiers: { ctrlKey: isLinux, shiftKey: true },
+  },
 };
 
 /**
@@ -561,11 +575,7 @@ function pressKey(dbg, keyName) {
   let keyEvent = keyMappings[keyName];
 
   const { code, modifiers } = keyEvent;
-  return EventUtils.synthesizeKey(
-    code,
-    modifiers || {},
-    dbg.win
-  );
+  return EventUtils.synthesizeKey(code, modifiers || {}, dbg.win);
 }
 
 function type(dbg, string) {
@@ -578,8 +588,7 @@ function isVisibleWithin(outerEl, innerEl) {
   const innerRect = innerEl.getBoundingClientRect();
   const outerRect = outerEl.getBoundingClientRect();
 
-  return innerRect.top > outerRect.top &&
-    innerRect.bottom < outerRect.bottom;
+  return innerRect.top > outerRect.top && innerRect.bottom < outerRect.bottom;
 }
 
 const selectors = {
@@ -650,7 +659,7 @@ function clickElement(dbg, elementName, ...args) {
   return EventUtils.synthesizeMouseAtCenter(
     findElementWithSelector(dbg, selector),
     {},
-    dbg.win
+    dbg.win,
   );
 }
 
@@ -659,8 +668,8 @@ function rightClickElement(dbg, elementName, ...args) {
   const doc = dbg.win.document;
   return EventUtils.synthesizeMouseAtCenter(
     doc.querySelector(selector),
-    {type: "contextmenu"},
-    dbg.win
+    { type: "contextmenu" },
+    dbg.win,
   );
 }
 
@@ -669,10 +678,10 @@ function selectMenuItem(dbg, index) {
   const doc = dbg.toolbox.win.document;
 
   // there are several context menus, we want the one with the menu-api
-  const popup = doc.querySelector("menupopup[menu-api=\"true\"]");
+  const popup = doc.querySelector('menupopup[menu-api="true"]');
 
   const item = popup.querySelector(`menuitem:nth-child(${index})`);
-  return EventUtils.synthesizeMouseAtCenter(item, {}, dbg.toolbox.win );
+  return EventUtils.synthesizeMouseAtCenter(item, {}, dbg.toolbox.win);
 }
 
 /**

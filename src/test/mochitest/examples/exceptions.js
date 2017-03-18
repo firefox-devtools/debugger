@@ -1,5 +1,5 @@
 function uncaughtException() {
-  throw "unreachable"
+  throw "unreachable";
 }
 
 function caughtError() {

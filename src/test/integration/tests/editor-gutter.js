@@ -7,8 +7,8 @@ const {
   addBreakpoint,
   assertHighlightLocation,
   waitForPaused,
-  waitForDispatch
-} = require("../utils")
+  waitForDispatch,
+} = require("../utils");
 
 // Tests the breakpoint gutter and making sure breakpoint icons exist
 // correctly
@@ -26,9 +26,13 @@ function getLineEl(dbg, line) {
 function assertEditorBreakpoint(dbg, ctx, line, shouldExist) {
   const { ok } = ctx;
   const exists = !!getLineEl(dbg, line).querySelector(".new-breakpoint");
-  ok(exists === shouldExist,
-     "Breakpoint " + (shouldExist ? "exists" : "does not exist") +
-     " on line " + line);
+  ok(
+    exists === shouldExist,
+    "Breakpoint " +
+      (shouldExist ? "exists" : "does not exist") +
+      " on line " +
+      line,
+  );
 }
 
 module.exports = async function(ctx) {
@@ -56,8 +60,10 @@ module.exports = async function(ctx) {
   clickGutter(dbg, 2);
   await waitForDispatch(dbg, "ADD_BREAKPOINT");
   is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
-  ok(getBreakpoint(getState(), { sourceId: source.id, line: 4 }),
-     "Breakpoint has correct line");
+  ok(
+    getBreakpoint(getState(), { sourceId: source.id, line: 4 }),
+    "Breakpoint has correct line",
+  );
   assertEditorBreakpoint(dbg, ctx, 2, false);
   assertEditorBreakpoint(dbg, ctx, 4, true);
 
@@ -73,4 +79,4 @@ module.exports = async function(ctx) {
   await waitForDispatch(dbg, "REMOVE_BREAKPOINT");
   is(getBreakpoints(getState()).size, 0, "No breakpoints exist");
   assertEditorBreakpoint(dbg, ctx, 4, false);
-}
+};

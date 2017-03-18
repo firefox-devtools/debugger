@@ -6,10 +6,10 @@ const classnames = require("classnames");
 require("./ResultList.css");
 
 type ResultListItem = {
-    id: string,
-    subtitle: string,
-    title: string,
-    value: string
+  id: string,
+  subtitle: string,
+  title: string,
+  value: string,
 };
 
 const ResultList = React.createClass({
@@ -17,14 +17,14 @@ const ResultList = React.createClass({
     items: PropTypes.array.isRequired,
     selected: PropTypes.number.isRequired,
     selectItem: PropTypes.func.isRequired,
-    size: PropTypes.string
+    size: PropTypes.string,
   },
 
   displayName: "ResultList",
 
   getDefaultProps() {
     return {
-      size: ""
+      size: "",
     };
   },
 
@@ -36,11 +36,11 @@ const ResultList = React.createClass({
         ref: index,
         title: item.value,
         className: classnames({
-          selected: index === this.props.selected
-        })
+          selected: index === this.props.selected,
+        }),
       },
       dom.div({ className: "title" }, item.title),
-      dom.div({ className: "subtitle" }, item.subtitle)
+      dom.div({ className: "subtitle" }, item.subtitle),
     );
   },
 
@@ -49,10 +49,11 @@ const ResultList = React.createClass({
     size = size || "";
     return dom.ul(
       {
-        className: `result-list ${size}`
+        className: `result-list ${size}`,
       },
-    this.props.items.map(this.renderListItem));
-  }
+      this.props.items.map(this.renderListItem),
+    );
+  },
 });
 
 module.exports = ResultList;

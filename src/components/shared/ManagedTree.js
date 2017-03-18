@@ -6,7 +6,7 @@ require("./ManagedTree.css");
 type ManagedTreeItem = {
   contents: Array<ManagedTreeItem>,
   name: string,
-  path: string
+  path: string,
 };
 
 type NextProps = {
@@ -20,29 +20,26 @@ type NextProps = {
   itemHeight: number,
   listItems?: Array<ManagedTreeItem>,
   onFocus: () => any,
-  renderItem: () => any
+  renderItem: () => any,
 };
 
 type InitialState = {
   expanded: any,
-  focusedItem: ?ManagedTreeItem
+  focusedItem: ?ManagedTreeItem,
 };
 
 let ManagedTree = createClass({
-  propTypes: Object.assign({},
-    Tree.propTypes,
-    {
-      getExpanded: PropTypes.func,
-      setExpanded: PropTypes.func
-    }
-  ),
+  propTypes: Object.assign({}, Tree.propTypes, {
+    getExpanded: PropTypes.func,
+    setExpanded: PropTypes.func,
+  }),
 
   displayName: "ManagedTree",
 
   getInitialState(): InitialState {
     return {
       expanded: new Set(),
-      focusedItem: null
+      focusedItem: null,
     };
   },
 
@@ -53,8 +50,11 @@ let ManagedTree = createClass({
     }
 
     const highlightItems = nextProps.highlightItems;
-    if (highlightItems && highlightItems != this.props.highlightItems &&
-       highlightItems.length) {
+    if (
+      highlightItems &&
+      highlightItems != this.props.highlightItems &&
+      highlightItems.length
+    ) {
       this.highlightItem(highlightItems);
     }
   },
@@ -105,8 +105,9 @@ let ManagedTree = createClass({
     } else {
       // Look at folders starting from the top-level until finds a
       // closed folder and highlights this folder
-      const index = highlightItems.reverse().findIndex(item =>
-        !expanded.has(this.props.getKey(item)));
+      const index = highlightItems
+        .reverse()
+        .findIndex(item => !expanded.has(this.props.getKey(item)));
       this.focusItem(highlightItems[index]);
     }
   },
@@ -134,13 +135,13 @@ let ManagedTree = createClass({
 
       renderItem: (...args) => {
         return this.props.renderItem(...args, {
-          setExpanded: this.setExpanded
+          setExpanded: this.setExpanded,
         });
-      }
+      },
     });
 
     return Tree(props);
-  }
+  },
 });
 
 module.exports = ManagedTree;

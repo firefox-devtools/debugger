@@ -5,10 +5,10 @@ import type { ObjectInspectorItemContentsValue } from "./ObjectInspector";
 
 type RenderRepOptions = {
   object: ObjectInspectorItemContentsValue,
-  mode: string
+  mode: string,
 };
 
-let { REPS: { Rep, Grip }} = require("devtools-reps");
+let { REPS: { Rep, Grip } } = require("devtools-reps");
 Rep = React.createFactory(Rep);
 
 function renderRep({ object, mode }: RenderRepOptions) {

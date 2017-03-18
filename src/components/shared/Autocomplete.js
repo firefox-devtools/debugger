@@ -19,7 +19,7 @@ const Autocomplete = React.createClass({
     close: PropTypes.func.isRequired,
     inputValue: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
-    size: PropTypes.string
+    size: PropTypes.string,
   },
 
   displayName: "Autocomplete",
@@ -28,13 +28,13 @@ const Autocomplete = React.createClass({
     return {
       inputValue: this.props.inputValue,
       selectedIndex: 0,
-      focused: false
+      focused: false,
     };
   },
 
   getDefaultProps() {
     return {
-      size: ""
+      size: "",
     };
   },
 
@@ -58,7 +58,7 @@ const Autocomplete = React.createClass({
       return [];
     }
     return filter(this.props.items, this.state.inputValue, {
-      key: "value"
+      key: "value",
     });
   },
 
@@ -76,7 +76,7 @@ const Autocomplete = React.createClass({
     } else if (e.key === "ArrowDown") {
       const selectedIndex = Math.min(
         resultCount - 1,
-        this.state.selectedIndex + 1
+        this.state.selectedIndex + 1,
       );
       this.setState({ selectedIndex });
       if (this.props.onSelectedItem) {
@@ -106,12 +106,13 @@ const Autocomplete = React.createClass({
         selectItem: this.props.selectItem,
         close: this.props.close,
         size,
-        ref: "resultList"
+        ref: "resultList",
       });
     } else if (this.state.inputValue && !results.length) {
-      return dom.div({ className: "no-result-msg" },
+      return dom.div(
+        { className: "no-result-msg" },
         Svg("sad-face"),
-        L10N.getFormatStr("sourceSearch.noResults", this.state.inputValue)
+        L10N.getFormatStr("sourceSearch.noResults", this.state.inputValue),
       );
     }
   },
@@ -122,7 +123,7 @@ const Autocomplete = React.createClass({
     const searchResults = this.getSearchResults();
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
-      searchResults.length
+      searchResults.length,
     );
     return dom.div(
       { className: classnames("autocomplete", { focused }) },
@@ -132,17 +133,19 @@ const Autocomplete = React.createClass({
         placeholder: this.props.placeholder,
         size,
         summaryMsg,
-        onChange: e => this.setState({
-          inputValue: e.target.value,
-          selectedIndex: 0
-        }),
+        onChange: e =>
+          this.setState({
+            inputValue: e.target.value,
+            selectedIndex: 0,
+          }),
         onFocus: () => this.setState({ focused: true }),
         onBlur: () => this.setState({ focused: false }),
         onKeyDown: this.onKeyDown,
-        handleClose: this.props.close
+        handleClose: this.props.close,
       }),
-      this.renderResults(searchResults));
-  }
+      this.renderResults(searchResults),
+    );
+  },
 });
 
 module.exports = Autocomplete;

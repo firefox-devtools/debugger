@@ -1,7 +1,7 @@
 // @flow
 
 var { PrefsHelper } = require("devtools-sham-modules");
-const { Services: { pref }} = require("devtools-modules");
+const { Services: { pref } } = require("devtools-modules");
 const { isDevelopment } = require("devtools-config");
 
 if (isDevelopment()) {
@@ -14,6 +14,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.end-panel-collapsed", false);
   pref("devtools.debugger.tabs", "[]");
   pref("devtools.debugger.pending-selected-location", "{}");
+  pref("devtools.debugger.pending-breakpoints", "[]");
 }
 
 const prefs = new PrefsHelper("devtools", {
@@ -25,7 +26,8 @@ const prefs = new PrefsHelper("devtools", {
   startPanelCollapsed: ["Bool", "debugger.start-panel-collapsed"],
   endPanelCollapsed: ["Bool", "debugger.end-panel-collapsed"],
   tabs: ["Json", "debugger.tabs"],
-  pendingSelectedLocation: ["Json", "debugger.pending-selected-location"]
+  pendingSelectedLocation: ["Json", "debugger.pending-selected-location"],
+  pendingBreakpoints: ["Json", "debugger.pending-breakpoints"],
 });
 
 module.exports = { prefs };

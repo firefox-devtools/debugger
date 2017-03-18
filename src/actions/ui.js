@@ -1,22 +1,53 @@
 // @flow
 const constants = require("../constants");
-const { getSource, getFileSearchState } = require("../selectors");
+const {
+  getSource,
+  getProjectSearchState,
+  getFileSearchState,
+} = require("../selectors");
 import type { ThunkArgs } from "./types";
 
-function toggleFileSearch() {
+function toggleProjectSearch(toggleValue?: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: constants.SET_FILE_SEARCH,
-      searchOn: !getFileSearchState(getState())
-    });
+    if (toggleValue != null) {
+      dispatch({
+        type: constants.TOGGLE_PROJECT_SEARCH,
+        value: toggleValue,
+      });
+    } else {
+      dispatch({
+        type: constants.TOGGLE_PROJECT_SEARCH,
+        value: !getProjectSearchState(getState()),
+      });
+    }
   };
 }
 
-function closeFileSearch() {
-  return {
-    type: constants.SET_FILE_SEARCH,
-    searchOn: false
+function toggleFileSearch(toggleValue?: boolean) {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    if (toggleValue != null) {
+      dispatch({
+        type: constants.TOGGLE_FILE_SEARCH,
+        value: toggleValue,
+      });
+    } else {
+      dispatch({
+        type: constants.TOGGLE_FILE_SEARCH,
+        value: !getFileSearchState(getState()),
+      });
+    }
   };
+}
+
+function setFileSearchQuery(query: string) {
+  return {
+    type: constants.UPDATE_FILE_SEARCH_QUERY,
+    query,
+  };
+}
+
+function toggleFileSearchModifier(modifier: string) {
+  return { type: constants.TOGGLE_FILE_SEARCH_MODIFIER, modifier };
 }
 
 function showSource(sourceId: string) {
@@ -24,7 +55,7 @@ function showSource(sourceId: string) {
     const source = getSource(getState(), sourceId);
     dispatch({
       type: constants.SHOW_SOURCE,
-      sourceUrl: source.get("url")
+      sourceUrl: source.get("url"),
     });
   };
 }
@@ -33,13 +64,15 @@ function togglePaneCollapse(position: string, paneCollapsed: boolean) {
   return {
     type: constants.TOGGLE_PANE,
     position,
-    paneCollapsed
+    paneCollapsed,
   };
 }
 
 module.exports = {
   toggleFileSearch,
-  closeFileSearch,
+  setFileSearchQuery,
+  toggleFileSearchModifier,
+  toggleProjectSearch,
   showSource,
-  togglePaneCollapse
+  togglePaneCollapse,
 };

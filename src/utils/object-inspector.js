@@ -48,9 +48,10 @@ function isPromise(item) {
 }
 
 function getPromiseProperties(item) {
-  const { promiseState: { reason, value }} = getValue(item);
-  return createNode("reason", `${item.path}/reason`,
-    { value: !reason ? value : reason });
+  const { promiseState: { reason, value } } = getValue(item);
+  return createNode("reason", `${item.path}/reason`, {
+    value: !reason ? value : reason,
+  });
 }
 
 function isDefault(item) {
@@ -76,13 +77,17 @@ function sortProperties(properties) {
  * Ignore non-concrete values like getters and setters
  * for now by making sure we have a value.
 */
-function makeNodesForProperties(objProps, parentPath, {
-  bucketSize = 100
-} = {}) {
+function makeNodesForProperties(
+  objProps,
+  parentPath,
+  {
+    bucketSize = 100,
+  } = {},
+) {
   const { ownProperties, prototype, ownSymbols } = objProps;
 
-  const properties = sortProperties(Object.keys(ownProperties))
-    .filter(name => ownProperties[name].hasOwnProperty("value"));
+  const properties = sortProperties(Object.keys(ownProperties)).filter(name =>
+    ownProperties[name].hasOwnProperty("value"));
 
   let nodes;
   const numProperties = properties.length;
@@ -97,40 +102,42 @@ function makeNodesForProperties(objProps, parentPath, {
       const bucketName = `[${minKey}..${maxKey}]`;
       const bucketProperties = properties.slice(minKey, maxKey);
 
-      const bucketNodes = bucketProperties.map(name => createNode(
-        name,
-        `${parentPath}/${bucketKey}/${name}`,
-        ownProperties[name]
-      ));
+      const bucketNodes = bucketProperties.map(name =>
+        createNode(
+          name,
+          `${parentPath}/${bucketKey}/${name}`,
+          ownProperties[name],
+        ));
 
-      buckets.push(createNode(
-        bucketName,
-        `${parentPath}/${bucketKey}`,
-        bucketNodes
-      ));
+      buckets.push(
+        createNode(bucketName, `${parentPath}/${bucketKey}`, bucketNodes),
+      );
     }
     nodes = buckets;
   } else {
-    nodes = properties.map(name => createNode(
-      maybeEscapePropertyName(name),
-      `${parentPath}/${name}`,
-      ownProperties[name]
-    ));
+    nodes = properties.map(name =>
+      createNode(
+        maybeEscapePropertyName(name),
+        `${parentPath}/${name}`,
+        ownProperties[name],
+      ));
   }
 
   for (let index in ownSymbols) {
-    nodes.push(createNode(ownSymbols[index].name,
-                          `${parentPath}/##symbol-${index}`,
-                          ownSymbols[index].descriptor));
+    nodes.push(
+      createNode(
+        ownSymbols[index].name,
+        `${parentPath}/##symbol-${index}`,
+        ownSymbols[index].descriptor,
+      ),
+    );
   }
 
   // Add the prototype if it exists and is not null
   if (prototype && prototype.type !== "null") {
-    nodes.push(createNode(
-      "__proto__",
-      `${parentPath}/__proto__`,
-      { value: prototype }
-    ));
+    nodes.push(
+      createNode("__proto__", `${parentPath}/__proto__`, { value: prototype }),
+    );
   }
 
   return nodes;
@@ -145,11 +152,13 @@ function createNode(name, path, contents) {
   return { name, path, contents };
 }
 
-function getChildren({
-  getObjectProperties,
-  actors,
-  item
-}) {
+function getChildren(
+  {
+    getObjectProperties,
+    actors,
+    item,
+  },
+) {
   const obj = item.contents;
 
   // Nodes can either have children already, or be an object with
@@ -207,5 +216,5 @@ module.exports = {
   getChildren,
   createNode,
   isPromise,
-  getPromiseProperties
+  getPromiseProperties,
 };

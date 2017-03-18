@@ -27,17 +27,17 @@ const Task = {
       const callNext = lastValue => {
         const iteration = iterator.next(lastValue);
         Promise.resolve(iteration.value)
-               .then(value => {
-                 if (iteration.done) {
-                   resolve(value);
-                 } else {
-                   callNext(value);
-                 }
-               })
-               .catch(error => {
-                 reject(error);
-                 iterator.throw(error);
-               });
+          .then(value => {
+            if (iteration.done) {
+              resolve(value);
+            } else {
+              callNext(value);
+            }
+          })
+          .catch(error => {
+            reject(error);
+            iterator.throw(error);
+          });
       };
 
       callNext(undefined);

@@ -7,9 +7,12 @@ const selectors = {
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
   scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
   scopeValue: i => `.scopes-list .tree-node:nth-child(${i}) .object-value`,
-  expressionNode: i => `.expressions-list .tree-node:nth-child(${i}) .object-label`,
-  expressionValue: i => `.expressions-list .tree-node:nth-child(${i}) .object-value`,
-  expressionClose: i => `.expressions-list .expression-container:nth-child(${i}) .close-btn`,
+  expressionNode: i =>
+    `.expressions-list .tree-node:nth-child(${i}) .object-label`,
+  expressionValue: i =>
+    `.expressions-list .tree-node:nth-child(${i}) .object-value`,
+  expressionClose: i =>
+    `.expressions-list .expression-container:nth-child(${i}) .close-btn`,
   expressionNodes: ".expressions-list .tree-node",
   frame: i => `.frames ul li:nth-child(${i})`,
   frames: ".frames ul li",
@@ -68,7 +71,7 @@ function findSource(dbg, url) {
   const sources = dbg.selectors.getSources(dbg.getState());
   const source = sources.find(s => {
     const sourceUrl = s.get("url");
-    return sourceUrl && sourceUrl.includes(url)
+    return sourceUrl && sourceUrl.includes(url);
   });
 
   if (!source) {
@@ -86,8 +89,7 @@ function isPaused(dbg) {
 function isVisibleWithin(outerEl, innerEl) {
   const innerRect = innerEl.getBoundingClientRect();
   const outerRect = outerEl.getBoundingClientRect();
-  return innerRect.top > outerRect.top &&
-    innerRect.bottom < outerRect.bottom;
+  return innerRect.top > outerRect.top && innerRect.bottom < outerRect.bottom;
 }
 
 function info(msg) {
@@ -96,7 +98,7 @@ function info(msg) {
     dump(message);
   }
 
-  console.log(message)
+  console.log(message);
 }
 
 module.exports = {
@@ -108,5 +110,5 @@ module.exports = {
   getSelector,
   isPaused,
   isVisibleWithin,
-  info
-}
+  info,
+};

@@ -14,15 +14,19 @@ const I = require("immutable");
  * @memberof utils/makeRecord
  * @static
  */
-export type Record<T: Object> = {
-  get<A>(key: $Keys<T>): A;
-  set<A>(key: $Keys<T>, value: A): Record<T>;
-  setIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>;
-  merge(values: $Shape<T>): Record<T>;
-  mergeIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>;
-  delete<A>(key: $Keys<T>, value: A): Record<T>;
-  deleteIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>;
-} & T;
+export type Record<T: Object> =
+  & {
+    get<A>(key: $Keys<T>, notSetValue?: any): A,
+    getIn<A>(keyPath: Array<any>, notSetValue?: any): A,
+    set<A>(key: $Keys<T>, value: A): Record<T>,
+    setIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>,
+    merge(values: $Shape<T>): Record<T>,
+    mergeIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>,
+    delete<A>(key: $Keys<T>, value: A): Record<T>,
+    deleteIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>,
+    toJS(): T,
+  }
+  & T;
 
 /**
  * Make an immutable record type
@@ -32,9 +36,7 @@ export type Record<T: Object> = {
  * @memberof utils/makeRecord
  * @static
  */
-function makeRecord<T>(
-  spec: T & Object
-): (init: $Shape<T>) => Record<T> {
+function makeRecord<T>(spec: T & Object): (init: $Shape<T>) => Record<T> {
   return I.Record(spec);
 }
 

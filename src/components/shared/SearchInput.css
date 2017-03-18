@@ -62,10 +62,6 @@
   stroke: var(--theme-splitter-color);
 }
 
-.search-field ::-webkit-input-placeholder {
-  color: var(--theme-body-color-inactive);
-}
-
 .search-field input::placeholder {
   color: var(--theme-body-color-inactive);
 }

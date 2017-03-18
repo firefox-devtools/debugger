@@ -7,8 +7,8 @@ const {
   clickElement,
   findElement,
   findAllElements,
-  reload
-} = require("../utils")
+  reload,
+} = require("../utils");
 
 // checks to see if the frame is selected and the title is correct
 function isFrameSelected(dbg, index, title) {
@@ -83,5 +83,5 @@ async function test2(ctx) {
 
 module.exports = {
   test1,
-  test2
-}
+  test2,
+};

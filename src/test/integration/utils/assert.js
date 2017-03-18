@@ -2,7 +2,7 @@ const {
   findSource,
   findElement,
   isVisibleWithin,
-  isPaused
+  isPaused,
 } = require("./shared");
 
 function assertPausedLocation(dbg, ctx, source, line) {
@@ -20,8 +20,10 @@ function assertPausedLocation(dbg, ctx, source, line) {
   is(location.get("line"), line);
 
   // Check the debug line
-  ok(dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
-     "Line is highlighted as paused");
+  ok(
+    dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
+    "Line is highlighted as paused",
+  );
 }
 
 function assertNotPaused(dbg, ctx) {
@@ -40,14 +42,18 @@ function assertHighlightLocation(dbg, ctx, source, line) {
   // Check the highlight line
   const lineEl = findElement(dbg, "highlightLine");
   ok(lineEl, "Line is highlighted");
-  ok(isVisibleWithin(findElement(dbg, "codeMirror"), lineEl),
-     "Highlighted line is visible");
-  ok(dbg.win.cm.lineInfo(line - 1).wrapClass.includes("highlight-line"),
-     "Line is highlighted");
+  ok(
+    isVisibleWithin(findElement(dbg, "codeMirror"), lineEl),
+    "Highlighted line is visible",
+  );
+  ok(
+    dbg.win.cm.lineInfo(line - 1).wrapClass.includes("highlight-line"),
+    "Line is highlighted",
+  );
 }
 
 module.exports = {
   assertPausedLocation,
   assertNotPaused,
-  assertHighlightLocation
-}
+  assertHighlightLocation,
+};

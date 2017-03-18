@@ -13,11 +13,12 @@ function thunk(makeArgs: any) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const args = { dispatch, getState };
 
-    return (next: Function) => (action: ActionType) => {
-      return (typeof action === "function")
-        ? action(makeArgs ? makeArgs(args, getState()) : args)
-        : next(action);
-    };
+    return (next: Function) =>
+      (action: ActionType) => {
+        return typeof action === "function"
+          ? action(makeArgs ? makeArgs(args, getState()) : args)
+          : next(action);
+      };
   };
 }
 exports.thunk = thunk;

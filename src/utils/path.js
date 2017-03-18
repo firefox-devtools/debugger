@@ -22,5 +22,9 @@ function join(base: string, dir: string) {
 }
 
 module.exports = {
-  basename, dirname, isURL, isAbsolute, join
+  basename,
+  dirname,
+  isURL,
+  isAbsolute,
+  join,
 };

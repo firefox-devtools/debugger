@@ -5,8 +5,14 @@ const {
   getDocument,
   setDocument,
   removeDocument,
-  clearDocuments
+  clearDocuments,
 } = require("./source-documents");
+
+import {
+  getTokenLocation,
+  getExpressionFromToken,
+  previewExpression,
+} from "./expression.js";
 
 const {
   countMatches,
@@ -14,7 +20,7 @@ const {
   findNext,
   findPrev,
   removeOverlay,
-  clearIndex
+  clearIndex,
 } = require("./source-search");
 
 const SourceEditor = require("./source-editor");
@@ -93,16 +99,6 @@ function getCursorLine(codeMirror) {
   return codeMirror.getCursor().line;
 }
 
-function getTokenLocation(tokenEl, codeMirror) {
-  const lineOffset = 1;
-  const { left, top } = tokenEl.getBoundingClientRect();
-  const { line, ch } = codeMirror.coordsChar({ left, top });
-
-  return {
-    line: line + lineOffset,
-    column: ch
-  };
-}
 /**
  * Forces the breakpoint gutter to be the same size as the line
  * numbers gutter. Editor CSS will absolutely position the gutter
@@ -143,8 +139,8 @@ function createEditor() {
       // Override code mirror keymap to avoid conflicts with split console.
       Esc: false,
       "Cmd-F": false,
-      "Cmd-G": false
-    }
+      "Cmd-G": false,
+    },
   });
 }
 
@@ -169,7 +165,9 @@ module.exports = {
   breakpointAtLine,
   getTextForLine,
   getCursorLine,
-  getTokenLocation,
   resizeBreakpointGutter,
-  traverseResults
+  traverseResults,
+  getTokenLocation,
+  getExpressionFromToken,
+  previewExpression,
 };
