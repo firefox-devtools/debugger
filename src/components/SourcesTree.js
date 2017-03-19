@@ -198,7 +198,6 @@ class SourcesTree extends Component {
         hidden: !nodeHasChildren(item),
       }),
       onClick: e => {
-        e.stopPropagation();
         setExpanded(item, !expanded);
       },
     });
