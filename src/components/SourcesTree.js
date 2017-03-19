@@ -191,7 +191,7 @@ class SourcesTree extends Component {
     showMenu(event, menuOptions);
   }
 
-  renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+  renderItem(item, depth, focused, _, expanded, blurred, { setExpanded }) {
     const arrow = Svg("arrow", {
       className: classnames({
         expanded: expanded,
@@ -213,7 +213,7 @@ class SourcesTree extends Component {
 
     return dom.div(
       {
-        className: classnames("node", { focused }),
+        className: classnames("node", { focused }, { blurred }),
         style: { [paddingDir]: `${depth * 15}px` },
         key: item.path,
         onClick: () => {

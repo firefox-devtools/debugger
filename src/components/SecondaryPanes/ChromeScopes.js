@@ -79,7 +79,7 @@ class Scopes extends Component {
     return nodes;
   }
 
-  renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+  renderItem(item, depth, focused, _, expanded, blurred, { setExpanded }) {
     const notEnumberable = false;
     const objectValue = "";
 

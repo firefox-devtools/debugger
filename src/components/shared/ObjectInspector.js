@@ -91,145 +91,148 @@ const ObjectInspector = React.createClass({
 
   actors: (null: any),
 
-  displayName: "ObjectInspector",
+displayName: "ObjectInspector",
 
   getInitialState() {
-    return {};
-  },
+  return {};
+},
 
-  getDefaultProps(): DefaultProps {
-    return {
-      onLabelClick: () => {},
-      onDoubleClick: () => {},
-      autoExpandDepth: 1,
-      getActors: () => ({}),
-    };
-  },
+getDefaultProps(): DefaultProps {
+  return {
+    onLabelClick: () => {},
+    onDoubleClick: () => {},
+    autoExpandDepth: 1,
+    getActors: () => ({}),
+  };
+},
 
-  componentWillMount() {
-    // Cache of dynamically built nodes. We shouldn't need to clear
-    // this out ever, since we don't ever "switch out" the object
-    // being inspected.
-    this.actors = this.props.getActors();
-  },
+componentWillMount() {
+  // Cache of dynamically built nodes. We shouldn't need to clear
+  // this out ever, since we don't ever "switch out" the object
+  // being inspected.
+  this.actors = this.props.getActors();
+},
 
-  componentWillUnmount() {
-    if (this.props.setActors) {
-      this.props.setActors(this.actors);
-    }
-  },
+componentWillUnmount() {
+  if (this.props.setActors) {
+    this.props.setActors(this.actors);
+  }
+},
 
-  getChildren(item: ObjectInspectorItem) {
-    const { getObjectProperties } = this.props;
-    const { actors } = this;
+getChildren(item: ObjectInspectorItem) {
+  const { getObjectProperties } = this.props;
+  const { actors } = this;
 
-    return getChildren({
-      getObjectProperties,
-      actors,
-      item,
-    });
-  },
+  return getChildren({
+    getObjectProperties,
+    actors,
+    item,
+  });
+},
 
-  renderItem(
-    item: ObjectInspectorItem,
-    depth: number,
-    focused: boolean,
-    _: Object,
-    expanded: boolean,
-    { setExpanded }: () => any,
-  ) {
-    let objectValue;
-    if (nodeIsOptimizedOut(item)) {
-      objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
-    } else if (nodeIsMissingArguments(item)) {
-      objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
-    } else if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
-      const object = item.contents.value;
-      objectValue = Rep({ object, mode: MODE.TINY });
-    }
+renderItem(
+  item: ObjectInspectorItem,
+  depth: number,
+  focused: boolean,
+  _: Object,
+  expanded: boolean,
+  blurred: boolean,
+  { setExpanded }: () => any,
+) {
+  let objectValue;
+  if (nodeIsOptimizedOut(item)) {
+    objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
+  } else if (nodeIsMissingArguments(item)) {
+    objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
+  } else if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
+    const object = item.contents.value;
+    objectValue = Rep({ object, mode: MODE.TINY });
+  }
 
-    return dom.div(
-      {
-        className: classnames("node object-node", {
+  return dom.div(
+    {
+      className: classnames("node object-node", {
+        focused,
+        "default-property": isDefault(item),
+      }, {
+        blurred
+      }),
+      style: { marginLeft: depth * 15 },
+      onClick: e => {
+        e.stopPropagation();
+        setExpanded(item, !expanded);
+      },
+      onDoubleClick: event => {
+        event.stopPropagation();
+        this.props.onDoubleClick(item, {
+          depth,
           focused,
-          "default-property": isDefault(item),
-        }),
-        style: { marginLeft: depth * 15 },
-        onClick: e => {
-          e.stopPropagation();
-          setExpanded(item, !expanded);
-        },
-        onDoubleClick: event => {
+          expanded,
+        });
+      },
+    },
+    Svg("arrow", {
+      className: classnames({
+        expanded: expanded,
+        hidden: nodeIsPrimitive(item),
+      }),
+    }),
+    dom.span(
+      {
+        className: "object-label",
+        dir: "ltr",
+        onClick: event => {
           event.stopPropagation();
-          this.props.onDoubleClick(item, {
+          this.props.onLabelClick(item, {
             depth,
             focused,
             expanded,
+            setExpanded,
           });
         },
       },
-      Svg("arrow", {
-        className: classnames({
-          expanded: expanded,
-          hidden: nodeIsPrimitive(item),
-        }),
-      }),
-      dom.span(
-        {
-          className: "object-label",
-          dir: "ltr",
-          onClick: event => {
-            event.stopPropagation();
-            this.props.onLabelClick(item, {
-              depth,
-              focused,
-              expanded,
-              setExpanded,
-            });
-          },
-        },
-        item.name,
-      ),
-      dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
-      dom.span({ className: "object-value" }, objectValue || ""),
-    );
-  },
+      item.name,
+    ),
+    dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
+    dom.span({ className: "object-value" }, objectValue || ""),
+  );
+},
 
-  render() {
-    const {
-      name,
-      desc,
-      loadObjectProperties,
-      autoExpandDepth,
-      getExpanded,
-      setExpanded,
-    } = this.props;
+render() {
+  const {
+    name,
+    desc,
+    loadObjectProperties,
+    autoExpandDepth,
+    getExpanded,
+    setExpanded,
+  } = this.props;
 
-    let roots = this.props.roots;
-    if (!roots) {
-      roots = [createNode(name, name, desc)];
-    }
+  let roots = this.props.roots;
+  if (!roots) {
+    roots = [createNode(name, name, desc)];
+  }
 
-    return ManagedTree({
-      itemHeight: 20,
-      getParent: item => null,
-      getChildren: this.getChildren,
-      getRoots: () => roots,
-      getKey: item => item.path,
-      autoExpand: 0,
-      autoExpandDepth,
-      autoExpandAll: false,
-      disabledFocus: true,
-      onExpand: item => {
-        if (nodeHasProperties(item)) {
-          loadObjectProperties(item.contents.value);
-        }
-      },
-      getExpanded,
-      setExpanded,
-      renderItem: this.renderItem,
-    });
-  },
+  return ManagedTree({
+    itemHeight: 20,
+    getParent: item => null,
+    getChildren: this.getChildren,
+    getRoots: () => roots,
+    getKey: item => item.path,
+    autoExpand: 0,
+    autoExpandDepth,
+    autoExpandAll: false,
+    disabledFocus: true,
+    onExpand: item => {
+      if (nodeHasProperties(item)) {
+        loadObjectProperties(item.contents.value);
+      }
+    },
+    getExpanded,
+    setExpanded,
+    renderItem: this.renderItem,
+  });
+},
 });
 
 module.exports = ObjectInspector;
