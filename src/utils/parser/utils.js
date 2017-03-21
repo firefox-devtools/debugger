@@ -103,10 +103,6 @@ function getFunctionName(path) {
     return parent.left.property.name;
   }
 
-  if (parent.right && isFunction(parent.right)) {
-    return parent.left.property.name;
-  }
-
   return "anonymous";
 }
 
