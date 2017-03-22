@@ -7,7 +7,10 @@
       "ordered-list-marker-style": false,
       "no-unused-definitions": false,
       "no-shortcut-reference-link": false,
-      "no-shortcut-reference-image": false
+      "no-shortcut-reference-image": false,
+      "no-table-indentation": true,
+      "table-cell-padding": "consistent",
+      "table-pipes": false
     },
     "validate-links": {
       "repository": ""
