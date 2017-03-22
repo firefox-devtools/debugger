@@ -59,3 +59,7 @@
   width: 16px;
   height: 16px;
 }
+
+accordion .header-buttons button::-moz-focus-inner {        
+  border: none;
+}
