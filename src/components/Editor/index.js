@@ -284,6 +284,7 @@ const Editor = React.createClass({
 
     const displayedExpression = previewExpression({
       expression: expressionFromToken,
+      selectedFrame,
       variables,
       tokenText: token.textContent,
     });
