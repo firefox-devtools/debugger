@@ -484,9 +484,12 @@ const Editor = React.createClass({
 
     // We only want to do the flashing animation if it's not a debug
     // line, which has it's own styling.
+    // Also, if it the first time the debugger is being loaded, we don't want
+    // to flash the previously saved selected line.
     if (
-      !this.props.selectedFrame ||
-      this.props.selectedFrame.location.line !== line
+      this.lastJumpLine &&
+      (!this.props.selectedFrame ||
+        this.props.selectedFrame.location.line !== line)
     ) {
       this.editor.codeMirror.addLineClass(line - 1, "line", "highlight-line");
     }
