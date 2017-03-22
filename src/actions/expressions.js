@@ -82,7 +82,8 @@ export function deleteExpression(expression: Expression) {
  */
 export function evaluateExpressions(frameId: frameIdType) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
-    for (let expression of getExpressions(getState())) {
+    const expressions = getExpressions(getState()).toJS();
+    for (let expression of expressions) {
       await dispatch(evaluateExpression(expression, frameId));
     }
   };

@@ -102,3 +102,7 @@ type OuterState = { expressions: Record<ExpressionState> };
 export function getExpressions(state: OuterState) {
   return state.expressions.get("expressions");
 }
+
+export function getExpression(state: OuterState, input: string) {
+  return getExpressions(state).find(exp => exp.input == input);
+}
