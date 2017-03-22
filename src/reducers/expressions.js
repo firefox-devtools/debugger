@@ -100,8 +100,13 @@ function getExpressions(state: OuterState) {
   return state.expressions.get("expressions");
 }
 
+function getExpression(state: OuterState, input: string) {
+  return getExpressions(state).find(exp => exp.input == input);
+}
+
 module.exports = {
   State,
   update,
   getExpressions,
+  getExpression,
 };

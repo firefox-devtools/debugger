@@ -7,6 +7,8 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
+const debounce = require("lodash/debounce");
+const get = require("lodash/get");
 
 const { getMode } = require("../../utils/source");
 
@@ -24,6 +26,7 @@ const {
   getSelectedLocation,
   getSelectedFrame,
   getSelectedSource,
+  getExpression,
   getHitCountForSource,
   getCoverageEnabled,
   getLoadedObjects,
@@ -75,7 +78,8 @@ const Editor = React.createClass({
     coverageOn: PropTypes.bool,
     pauseData: ImPropTypes.map,
     selectedFrame: PropTypes.object,
-    addExpression: PropTypes.func,
+    getExpression: PropTypes.func.isRequired,
+    addExpression: PropTypes.func.isRequired,
     horizontal: PropTypes.bool,
     query: PropTypes.string.isRequired,
     searchModifiers: ImPropTypes.recordOf({
@@ -150,8 +154,6 @@ const Editor = React.createClass({
     const ctx = { ed: this.editor, cm: codeMirror };
     const { query, searchModifiers } = this.props;
 
-    codeMirrorWrapper.addEventListener("mouseup", e => this.onMouseUp(e, ctx));
-
     codeMirrorWrapper.addEventListener("mouseover", e => this.onMouseOver(e));
 
     if (!isFirefox()) {
@@ -204,6 +206,8 @@ const Editor = React.createClass({
     } else if (this.props.sourceText) {
       this.setText(this.props.sourceText.get("text"));
     }
+
+    this.previewSelectedToken = debounce(this.previewSelectedToken, 50);
   },
 
   componentWillUnmount() {
@@ -248,18 +252,12 @@ const Editor = React.createClass({
     return this.setState({ selectedToken: null, selectedExpression: null });
   },
 
-  onMouseUp(e, ctx) {
-    if (e.metaKey) {
-      this.previewSelectedToken(e, ctx);
-    }
-  },
-
   onMouseOver(e) {
     this.previewSelectedToken(e);
   },
 
   async previewSelectedToken(e) {
-    const { selectedFrame, pauseData, sourceText } = this.props;
+    const { selectedFrame, pauseData, sourceText, addExpression } = this.props;
     const { selectedToken } = this.state;
     const token = e.target;
 
@@ -277,6 +275,10 @@ const Editor = React.createClass({
       token,
       sourceText,
     );
+
+    if (expressionFromToken) {
+      addExpression(expressionFromToken.value);
+    }
 
     const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
 
@@ -584,10 +586,10 @@ const Editor = React.createClass({
     }
 
     if (
+      !isEnabled("editorPreview") ||
       !selectedToken ||
       !selectedFrame ||
-      !selectedExpression ||
-      !isEnabled("editorPreview")
+      !selectedExpression
     ) {
       return;
     }
@@ -595,7 +597,15 @@ const Editor = React.createClass({
     const token = selectedToken.textContent;
     selectedToken.classList.add("selected-token");
 
-    const value = selectedExpression.value || selectedExpression.contents.value;
+    let value = get(selectedExpression, "contents.value");
+    if (!value) {
+      const exp = this.props.getExpression(selectedExpression.value);
+      value = get(exp, "value.result");
+    }
+
+    if (!value) {
+      return;
+    }
 
     return Preview({
       value,
@@ -660,6 +670,7 @@ module.exports = connect(
       breakpoints: getBreakpointsForSource(state, sourceId || ""),
       hitCount: getHitCountForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state),
+      getExpression: getExpression.bind(null, state),
       pauseData: getPause(state),
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),
