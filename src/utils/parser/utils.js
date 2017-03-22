@@ -99,6 +99,10 @@ function getFunctionName(path) {
     return parent.id.name;
   }
 
+  if (parent.right && isFunction(parent.right)) {
+    return parent.left.property.name;
+  }
+
   return "anonymous";
 }
 
@@ -106,7 +110,8 @@ function isFunction(path) {
   return t.isFunction(path) ||
     t.isArrowFunctionExpression(path) ||
     t.isObjectMethod(path) ||
-    t.isClassMethod(path);
+    t.isClassMethod(path) ||
+    t.isFunctionExpression(path);
 }
 
 function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
