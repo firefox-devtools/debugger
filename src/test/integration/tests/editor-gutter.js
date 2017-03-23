@@ -31,7 +31,7 @@ function assertEditorBreakpoint(dbg, ctx, line, shouldExist) {
     "Breakpoint " +
       (shouldExist ? "exists" : "does not exist") +
       " on line " +
-      line,
+      line
   );
 }
 
@@ -62,7 +62,7 @@ module.exports = async function(ctx) {
   is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
   ok(
     getBreakpoint(getState(), { sourceId: source.id, line: 4 }),
-    "Breakpoint has correct line",
+    "Breakpoint has correct line"
   );
   assertEditorBreakpoint(dbg, ctx, 2, false);
   assertEditorBreakpoint(dbg, ctx, 4, true);

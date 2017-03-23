@@ -32,7 +32,7 @@ add_task(function*() {
   is(
     findAllElements(dbg, "highlightLine").length,
     1,
-    "Only 1 line is highlighted",
+    "Only 1 line is highlighted"
   );
 
   // Test jumping to a line in a source that exists but hasn't been

@@ -41,7 +41,7 @@ const State = makeRecord(
     shownSource: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
-  }: UIState),
+  }: UIState)
 );
 
 function update(state = State(), action: Action): Record<UIState> {
@@ -61,7 +61,7 @@ function update(state = State(), action: Action): Record<UIState> {
     case constants.TOGGLE_FILE_SEARCH_MODIFIER: {
       return state.setIn(
         ["fileSearchModifiers", action.modifier],
-        !state.getIn(["fileSearchModifiers", action.modifier]),
+        !state.getIn(["fileSearchModifiers", action.modifier])
       );
     }
 
@@ -99,7 +99,7 @@ function getFileSearchQueryState(state: OuterState): string {
 }
 
 function getFileSearchModifierState(
-  state: OuterState,
+  state: OuterState
 ): Record<fileSearchModifiersType> {
   return state.ui.get("fileSearchModifiers");
 }
@@ -113,7 +113,7 @@ function getShownSource(state: OuterState): boolean {
 
 function getPaneCollapse(
   state: OuterState,
-  position: panelPositionType,
+  position: panelPositionType
 ): boolean {
   if (position == "start") {
     return state.ui.get("startPanelCollapsed");

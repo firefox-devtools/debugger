@@ -177,11 +177,11 @@ async function removeBreakpoint(dbg, sourceId, line, col) {
 async function togglePauseOnExceptions(
   dbg,
   pauseOnExceptions,
-  ignoreCaughtExceptions,
+  ignoreCaughtExceptions
 ) {
   const command = dbg.actions.pauseOnExceptions(
     pauseOnExceptions,
-    ignoreCaughtExceptions,
+    ignoreCaughtExceptions
   );
 
   if (!isPaused(dbg)) {

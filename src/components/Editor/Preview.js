@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
 const ObjectInspector = React.createFactory(
-  require("../shared/ObjectInspector"),
+  require("../shared/ObjectInspector")
 );
 const Popover = React.createFactory(require("../shared/Popover"));
 const previewFunction = require("../shared/previewFunction");
@@ -66,10 +66,10 @@ class Preview extends Component {
             className: "link",
             onClick: () => selectSourceURL(url, { line }),
           },
-          filename,
-        ),
+          filename
+        )
       ),
-      previewFunction(value),
+      previewFunction(value)
     );
   }
 
@@ -80,7 +80,7 @@ class Preview extends Component {
   renderSimplePreview(value) {
     return dom.div(
       { className: "preview" },
-      Rep({ object: value, mode: MODE.LONG }),
+      Rep({ object: value, mode: MODE.LONG })
     );
   }
 
@@ -134,7 +134,7 @@ class Preview extends Component {
         target: popoverTarget,
         onMouseLeave: onClose,
       },
-      this.renderPreview(expression, value),
+      this.renderPreview(expression, value)
     );
   }
 }
@@ -156,5 +156,5 @@ export default connect(
   state => ({
     loadedObjects: getLoadedObjects(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(Preview);

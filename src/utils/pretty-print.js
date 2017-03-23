@@ -8,7 +8,7 @@ const assert = require("./assert");
 import type { Source, SourceText } from "../types";
 
 let prettyPrintWorker = new Worker(
-  `${getValue("baseWorkerURL")}pretty-print-worker.js`,
+  `${getValue("baseWorkerURL")}pretty-print-worker.js`
 );
 
 function destroyWorker() {
@@ -32,7 +32,7 @@ async function prettyPrint({ source, sourceText, url }: PrettyPrintOpts) {
 
   assert(
     isJavaScript(source.url, contentType),
-    "Can't prettify non-javascript files.",
+    "Can't prettify non-javascript files."
   );
 
   return await _prettyPrint({

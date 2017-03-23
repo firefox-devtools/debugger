@@ -6,10 +6,10 @@ import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
 const CloseButton = React.createFactory(
-  require("../shared/Button/Close").default,
+  require("../shared/Button/Close").default
 );
 const ObjectInspector = React.createFactory(
-  require("../shared/ObjectInspector"),
+  require("../shared/ObjectInspector")
 );
 const { DOM: dom, PropTypes } = React;
 
@@ -120,7 +120,7 @@ class Expressions extends React.Component {
         ref: c => {
           this._input = c;
         },
-      }),
+      })
     );
   }
 
@@ -159,7 +159,7 @@ class Expressions extends React.Component {
         loadObjectProperties,
         getActors: () => ({}),
       }),
-      CloseButton({ handleClick: e => this.deleteExpression(e, expression) }),
+      CloseButton({ handleClick: e => this.deleteExpression(e, expression) })
     );
   }
 
@@ -194,7 +194,7 @@ class Expressions extends React.Component {
           e.target.value = "";
         },
         onKeyPress,
-      }),
+      })
     );
   }
 
@@ -203,7 +203,7 @@ class Expressions extends React.Component {
     return dom.span(
       { className: "pane expressions-list" },
       expressions.map(this.renderExpression),
-      this.renderNewExpressionInput(),
+      this.renderNewExpressionInput()
     );
   }
 }
@@ -226,5 +226,5 @@ export default connect(
     expressions: getExpressions(state),
     loadedObjects: getLoadedObjects(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(Expressions);

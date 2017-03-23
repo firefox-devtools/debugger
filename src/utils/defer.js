@@ -16,7 +16,7 @@ function defer(): Defer {
     function(innerResolve: Resolve, innerReject: Reject) {
       resolve = innerResolve;
       reject = innerReject;
-    },
+    }
   );
   return {
     resolve,

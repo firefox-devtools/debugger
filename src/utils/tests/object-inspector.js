@@ -42,7 +42,7 @@ describe("object-inspector", () => {
             bar: {},
           },
         },
-        "root",
+        "root"
       );
 
       const names = nodes.map(n => n.name);
@@ -63,7 +63,7 @@ describe("object-inspector", () => {
             _bar: { value: {} },
           },
         },
-        "root",
+        "root"
       );
 
       const names = nodes.map(n => n.name);
@@ -87,7 +87,7 @@ describe("object-inspector", () => {
           },
           prototype: { value: {} },
         },
-        "root",
+        "root"
       );
 
       const names = nodes.map(n => n.name);
@@ -133,7 +133,7 @@ describe("object-inspector", () => {
             "": { value: {} },
           },
         },
-        "root",
+        "root"
       );
 
       const names = nodes.map(n => n.name);

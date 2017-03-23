@@ -35,7 +35,7 @@
 // shared-head.js handles imports, constants, and utility functions
 Services.scriptloader.loadSubScript(
   "chrome://mochitests/content/browser/devtools/client/framework/test/shared-head.js",
-  this,
+  this
 );
 var { Toolbox } = require("devtools/client/framework/toolbox");
 const EXAMPLE_URL = "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/";
@@ -184,7 +184,7 @@ function waitForSources(dbg, ...sources) {
       if (!sourceExists(store.getState())) {
         return waitForState(dbg, sourceExists);
       }
-    }),
+    })
   );
 }
 
@@ -216,7 +216,7 @@ function assertPausedLocation(dbg, source, line) {
   // Check the debug line
   ok(
     dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
-    "Line is highlighted as paused",
+    "Line is highlighted as paused"
   );
 }
 
@@ -243,7 +243,7 @@ function assertHighlightLocation(dbg, source, line) {
   //    "Highlighted line is visible");
   ok(
     dbg.win.cm.lineInfo(line - 1).wrapClass.includes("highlight-line"),
-    "Line is highlighted",
+    "Line is highlighted"
   );
 }
 
@@ -511,11 +511,11 @@ function removeBreakpoint(dbg, sourceId, line, col) {
 function togglePauseOnExceptions(
   dbg,
   pauseOnExceptions,
-  ignoreCaughtExceptions,
+  ignoreCaughtExceptions
 ) {
   const command = dbg.actions.pauseOnExceptions(
     pauseOnExceptions,
-    ignoreCaughtExceptions,
+    ignoreCaughtExceptions
   );
 
   if (!isPaused(dbg)) {
@@ -659,7 +659,7 @@ function clickElement(dbg, elementName, ...args) {
   return EventUtils.synthesizeMouseAtCenter(
     findElementWithSelector(dbg, selector),
     {},
-    dbg.win,
+    dbg.win
   );
 }
 
@@ -669,7 +669,7 @@ function rightClickElement(dbg, elementName, ...args) {
   return EventUtils.synthesizeMouseAtCenter(
     doc.querySelector(selector),
     { type: "contextmenu" },
-    dbg.win,
+    dbg.win
   );
 }
 

@@ -82,7 +82,7 @@ function makeNodesForProperties(
   parentPath,
   {
     bucketSize = 100,
-  } = {},
+  } = {}
 ) {
   const { ownProperties, prototype, ownSymbols } = objProps;
 
@@ -106,11 +106,11 @@ function makeNodesForProperties(
         createNode(
           name,
           `${parentPath}/${bucketKey}/${name}`,
-          ownProperties[name],
+          ownProperties[name]
         ));
 
       buckets.push(
-        createNode(bucketName, `${parentPath}/${bucketKey}`, bucketNodes),
+        createNode(bucketName, `${parentPath}/${bucketKey}`, bucketNodes)
       );
     }
     nodes = buckets;
@@ -119,7 +119,7 @@ function makeNodesForProperties(
       createNode(
         maybeEscapePropertyName(name),
         `${parentPath}/${name}`,
-        ownProperties[name],
+        ownProperties[name]
       ));
   }
 
@@ -128,15 +128,15 @@ function makeNodesForProperties(
       createNode(
         ownSymbols[index].name,
         `${parentPath}/##symbol-${index}`,
-        ownSymbols[index].descriptor,
-      ),
+        ownSymbols[index].descriptor
+      )
     );
   }
 
   // Add the prototype if it exists and is not null
   if (prototype && prototype.type !== "null") {
     nodes.push(
-      createNode("__proto__", `${parentPath}/__proto__`, { value: prototype }),
+      createNode("__proto__", `${parentPath}/__proto__`, { value: prototype })
     );
   }
 
@@ -157,7 +157,7 @@ function getChildren(
     getObjectProperties,
     actors,
     item,
-  },
+  }
 ) {
   const obj = item.contents;
 

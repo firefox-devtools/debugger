@@ -76,7 +76,7 @@ class Scopes extends Component {
 
     return dom.div(
       { className: "pane scopes-list" },
-      pauseInfo ? scopeInspector : info(L10N.getStr("scopes.notPaused")),
+      pauseInfo ? scopeInspector : info(L10N.getStr("scopes.notPaused"))
     );
   }
 }
@@ -96,5 +96,5 @@ export default connect(
     selectedFrame: getSelectedFrame(state),
     loadedObjects: getLoadedObjects(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(Scopes);

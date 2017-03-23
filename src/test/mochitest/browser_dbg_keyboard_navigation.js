@@ -17,7 +17,7 @@ add_task(function*() {
   is(
     findElementWithSelector(dbg, "textarea"),
     doc.activeElement,
-    "Editor is enabled",
+    "Editor is enabled"
   );
 
   // Exit code editor and focus on container
@@ -25,7 +25,7 @@ add_task(function*() {
   is(
     findElementWithSelector(dbg, ".CodeMirror"),
     doc.activeElement,
-    "Focused on container",
+    "Focused on container"
   );
 
   // Enter code editor
@@ -33,6 +33,6 @@ add_task(function*() {
   is(
     findElementWithSelector(dbg, "textarea"),
     doc.activeElement,
-    "Editor is enabled",
+    "Editor is enabled"
   );
 });

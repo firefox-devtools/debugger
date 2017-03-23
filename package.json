@@ -106,7 +106,7 @@
   },
   "lint-staged": {
     "src/**/*.js": [
-      "prettier --write --trailing-comma=all --bracket-spacing=true",
+      "prettier --write --trailing-comma es5 --bracket-spacing=true",
       "git add"
     ]
   },

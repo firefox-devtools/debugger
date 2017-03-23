@@ -29,7 +29,7 @@ const Dropdown = React.createClass({
         onClick: this.toggleDropdown,
         style: { display: this.state.dropdownShown ? "block" : "none" },
       },
-      this.props.panel,
+      this.props.panel
     );
   },
 
@@ -39,7 +39,7 @@ const Dropdown = React.createClass({
         className: "dropdown-button",
         onClick: this.toggleDropdown,
       },
-      "»",
+      "»"
     );
   },
 
@@ -56,7 +56,7 @@ const Dropdown = React.createClass({
       { className: "dropdown-block" },
       this.renderPanel(),
       this.renderButton(),
-      this.renderMask(),
+      this.renderMask()
     );
   },
 });

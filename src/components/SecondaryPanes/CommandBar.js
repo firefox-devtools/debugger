@@ -78,7 +78,7 @@ function handlePressAnimation(button) {
       button.style.opacity = "1";
       button.style.transform = "none";
     },
-    200,
+    200
   );
 }
 
@@ -93,7 +93,7 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
       title: tooltip,
       disabled,
     },
-    Svg(type),
+    Svg(type)
   );
 }
 
@@ -141,21 +141,21 @@ class CommandBar extends Component {
         "stepOver",
         className,
         L10N.getFormatStr("stepOverTooltip", formatKey("stepOver")),
-        isDisabled,
+        isDisabled
       ),
       debugBtn(
         this.props.stepIn,
         "stepIn",
         className,
         L10N.getFormatStr("stepInTooltip", formatKey("stepIn")),
-        isDisabled,
+        isDisabled
       ),
       debugBtn(
         this.props.stepOut,
         "stepOut",
         className,
         L10N.getFormatStr("stepOutTooltip", formatKey("stepOut")),
-        isDisabled,
+        isDisabled
       ),
     ];
   }
@@ -168,7 +168,7 @@ class CommandBar extends Component {
         this.props.resume,
         "resume",
         "active",
-        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume")),
+        L10N.getFormatStr("resumeButtonTooltip", formatKey("resume"))
       );
     }
 
@@ -178,7 +178,7 @@ class CommandBar extends Component {
         "pause",
         "disabled",
         L10N.getStr("pausePendingButtonTooltip"),
-        true,
+        true
       );
     }
 
@@ -186,7 +186,7 @@ class CommandBar extends Component {
       breakOnNext,
       "pause",
       "active",
-      L10N.getFormatStr("pauseButtonTooltip", formatKey("pause")),
+      L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
     );
   }
 
@@ -208,7 +208,7 @@ class CommandBar extends Component {
         () => pauseOnExceptions(true, true),
         "pause-exceptions",
         "enabled",
-        L10N.getStr("ignoreExceptions"),
+        L10N.getStr("ignoreExceptions")
       );
     }
 
@@ -217,7 +217,7 @@ class CommandBar extends Component {
         () => pauseOnExceptions(true, false),
         "pause-exceptions",
         "uncaught enabled",
-        L10N.getStr("pauseOnUncaughtExceptions"),
+        L10N.getStr("pauseOnUncaughtExceptions")
       );
     }
 
@@ -225,7 +225,7 @@ class CommandBar extends Component {
       () => pauseOnExceptions(false, false),
       "pause-exceptions",
       "all enabled",
-      L10N.getStr("pauseOnExceptions"),
+      L10N.getStr("pauseOnExceptions")
     );
   }
 
@@ -234,7 +234,7 @@ class CommandBar extends Component {
       { className: "command-bar" },
       this.renderPauseButton(),
       this.renderStepButtons(),
-      this.renderPauseOnExceptions(),
+      this.renderPauseOnExceptions()
     );
   }
 }
@@ -269,5 +269,5 @@ export default connect(
       shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
     };
   },
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(CommandBar);

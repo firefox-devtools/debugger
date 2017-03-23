@@ -10,7 +10,7 @@ function GutterMenu(
     toggleBreakpointDisabledStatus,
     isCbPanelOpen,
     closeConditionalPanel,
-  },
+  }
 ) {
   event.stopPropagation();
   event.preventDefault();
@@ -56,7 +56,7 @@ function GutterMenu(
         }
       },
     },
-    breakpoint,
+    breakpoint
   );
 
   const conditionalBreakpoint = Object.assign(
@@ -65,7 +65,7 @@ function GutterMenu(
       disabled: false,
       click: () => showConditionalPanel(line),
     },
-    conditional,
+    conditional
   );
 
   let items = [toggleBreakpointItem, conditionalBreakpoint];
@@ -77,7 +77,7 @@ function GutterMenu(
         disabled: false,
         click: () => toggleBreakpointDisabledStatus(line),
       },
-      disabled,
+      disabled
     );
     items.push(disableBreakpoint);
   }

@@ -48,7 +48,7 @@ function promiseMiddleware({ dispatch, getState }: ThunkArgs) {
               Object.assign({}, action, {
                 status: "done",
                 value: value,
-              }),
+              })
             );
             deferred.resolve(value);
           });
@@ -59,11 +59,11 @@ function promiseMiddleware({ dispatch, getState }: ThunkArgs) {
               Object.assign({}, action, {
                 status: "error",
                 error: error.message || error,
-              }),
+              })
             );
             deferred.reject(error);
           });
-        },
+        }
       );
       return deferred.promise;
     };

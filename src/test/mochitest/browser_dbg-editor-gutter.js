@@ -21,7 +21,7 @@ function assertEditorBreakpoint(dbg, line, shouldExist) {
     "Breakpoint " +
       (shouldExist ? "exists" : "does not exist") +
       " on line " +
-      line,
+      line
   );
 }
 
@@ -50,7 +50,7 @@ add_task(function*() {
   is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
   ok(
     getBreakpoint(getState(), { sourceId: source.id, line: 4 }),
-    "Breakpoint has correct line",
+    "Breakpoint has correct line"
   );
   assertEditorBreakpoint(dbg, 2, false);
   assertEditorBreakpoint(dbg, 4, true);

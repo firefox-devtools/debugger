@@ -106,7 +106,7 @@ class Frames extends Component {
         tabIndex: 0,
       },
       renderFrameTitle(frame),
-      renderFrameLocation(frame),
+      renderFrameLocation(frame)
     );
   }
 
@@ -144,7 +144,7 @@ class Frames extends Component {
 
     return dom.div(
       { className: "show-more", onClick: this.toggleFramesDisplay },
-      buttonMessage,
+      buttonMessage
     );
   }
 
@@ -156,15 +156,15 @@ class Frames extends Component {
         { className: "pane frames" },
         dom.div(
           { className: "pane-info empty" },
-          L10N.getStr("callStack.notPaused"),
-        ),
+          L10N.getStr("callStack.notPaused")
+        )
       );
     }
 
     return dom.div(
       { className: "pane frames" },
       this.renderFrames(frames),
-      this.renderToggleButton(frames),
+      this.renderToggleButton(frames)
     );
   }
 }
@@ -201,5 +201,5 @@ export default connect(
     frames: getAndProcessFrames(state),
     selectedFrame: getSelectedFrame(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(Frames);

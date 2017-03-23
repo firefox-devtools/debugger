@@ -27,9 +27,7 @@ const WelcomeBox = createFactory(require("./WelcomeBox").default);
 const EditorTabs = createFactory(require("./Editor/Tabs"));
 
 class App extends Component {
-  state: {
-    horizontal: boolean,
-  };
+  state: { horizontal: boolean };
   onLayoutChange: Function;
   getChildContext: Function;
   renderEditorPane: Function;
@@ -37,9 +35,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      horizontal: verticalLayoutBreakpoint.matches,
-    };
+    this.state = { horizontal: verticalLayoutBreakpoint.matches };
 
     this.getChildContext = this.getChildContext.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
@@ -60,9 +56,7 @@ class App extends Component {
   }
 
   onLayoutChange() {
-    this.setState({
-      horizontal: verticalLayoutBreakpoint.matches,
-    });
+    this.setState({ horizontal: verticalLayoutBreakpoint.matches });
   }
 
   renderEditorPane() {
@@ -72,15 +66,11 @@ class App extends Component {
       { className: "editor-pane" },
       dom.div(
         { className: "editor-container" },
-        EditorTabs({
-          startPanelCollapsed,
-          endPanelCollapsed,
-          horizontal,
-        }),
+        EditorTabs({ startPanelCollapsed, endPanelCollapsed, horizontal }),
         Editor({ horizontal }),
         !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
-        ProjectSearch(),
-      ),
+        ProjectSearch()
+      )
     );
   }
 
@@ -112,7 +102,7 @@ class App extends Component {
           endPanelCollapsed,
           vert: horizontal,
         }),
-      }),
+      })
     );
   }
 
@@ -141,7 +131,7 @@ class App extends Component {
         }),
         endPanel: SecondaryPanes({ horizontal }),
         endPanelCollapsed,
-      }),
+      })
     );
   }
 
@@ -162,9 +152,7 @@ App.propTypes = {
 
 App.displayName = "App";
 
-App.childContextTypes = {
-  shortcuts: PropTypes.object,
-};
+App.childContextTypes = { shortcuts: PropTypes.object };
 
 export default connect(
   state => ({
@@ -173,5 +161,5 @@ export default connect(
     startPanelCollapsed: getPaneCollapse(state, "start"),
     endPanelCollapsed: getPaneCollapse(state, "end"),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(App);

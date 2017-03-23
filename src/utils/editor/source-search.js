@@ -269,7 +269,7 @@ function find(
   ctx: any,
   query: string,
   keepSelection: boolean,
-  modifiers: SearchModifiers,
+  modifiers: SearchModifiers
 ) {
   clearSearch(ctx.cm, query, modifiers);
   return doSearch(ctx, false, query, keepSelection, modifiers);
@@ -285,7 +285,7 @@ function findNext(
   ctx: any,
   query: string,
   keepSelection: boolean,
-  modifiers: SearchModifiers,
+  modifiers: SearchModifiers
 ) {
   return doSearch(ctx, false, query, keepSelection, modifiers);
 }
@@ -300,7 +300,7 @@ function findPrev(
   ctx: any,
   query: string,
   keepSelection: boolean,
-  modifiers: SearchModifiers,
+  modifiers: SearchModifiers
 ) {
   return doSearch(ctx, true, query, keepSelection, modifiers);
 }
@@ -313,7 +313,7 @@ function clearIndex(ctx: any, query: string, modifiers: SearchModifiers) {
 function countMatches(
   query: string,
   text: string,
-  modifiers: SearchModifiers,
+  modifiers: SearchModifiers
 ): number {
   const regexQuery = buildQuery(query, modifiers, {
     isGlobal: true,

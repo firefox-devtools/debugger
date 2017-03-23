@@ -22,7 +22,7 @@ function assertPausedLocation(dbg, ctx, source, line) {
   // Check the debug line
   ok(
     dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
-    "Line is highlighted as paused",
+    "Line is highlighted as paused"
   );
 }
 
@@ -44,11 +44,11 @@ function assertHighlightLocation(dbg, ctx, source, line) {
   ok(lineEl, "Line is highlighted");
   ok(
     isVisibleWithin(findElement(dbg, "codeMirror"), lineEl),
-    "Highlighted line is visible",
+    "Highlighted line is visible"
   );
   ok(
     dbg.win.cm.lineInfo(line - 1).wrapClass.includes("highlight-line"),
-    "Line is highlighted",
+    "Line is highlighted"
   );
 }
 

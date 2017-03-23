@@ -224,7 +224,7 @@ const SearchBar = React.createClass({
 
   toggleSymbolSearch(
     e: SyntheticKeyboardEvent,
-    { toggle, searchType }: ToggleSymbolSearchOpts = {},
+    { toggle, searchType }: ToggleSymbolSearchOpts = {}
   ) {
     const { sourceText } = this.props;
 
@@ -293,7 +293,7 @@ const SearchBar = React.createClass({
     const symbolSearchResults = filter(
       symbolDeclarations[selectedSymbolType],
       query,
-      { key: "value" },
+      { key: "value" }
     );
 
     updateSearchResults({ count: symbolSearchResults.length });
@@ -336,7 +336,7 @@ const SearchBar = React.createClass({
     const newCount = countMatches(
       query,
       sourceText.get("text"),
-      modifiers.toJS(),
+      modifiers.toJS()
     );
 
     if (index == -1) {
@@ -427,7 +427,7 @@ const SearchBar = React.createClass({
     if (e.key === "ArrowUp") {
       const selectedResultIndex = Math.max(
         0,
-        this.state.selectedResultIndex - 1,
+        this.state.selectedResultIndex - 1
       );
       this.setState({ selectedResultIndex });
       this.onSelectResultItem(searchResults[selectedResultIndex]);
@@ -435,7 +435,7 @@ const SearchBar = React.createClass({
     } else if (e.key === "ArrowDown") {
       const selectedResultIndex = Math.min(
         resultCount - 1,
-        this.state.selectedResultIndex + 1,
+        this.state.selectedResultIndex + 1
       );
       this.setState({ selectedResultIndex });
       this.onSelectResultItem(searchResults[selectedResultIndex]);
@@ -457,7 +457,7 @@ const SearchBar = React.createClass({
     if (this.state.symbolSearchEnabled) {
       return L10N.getFormatStr(
         "sourceSearch.resultsSummary1",
-        this.state.symbolSearchResults.length,
+        this.state.symbolSearchResults.length
       );
     }
     const { searchResults: { count, index }, query } = this.props;
@@ -481,7 +481,7 @@ const SearchBar = React.createClass({
     const { symbolSearchEnabled, selectedSymbolType } = this.state;
     if (symbolSearchEnabled) {
       return L10N.getFormatStr(
-        `symbolSearch.search.${selectedSymbolType}Placeholder`,
+        `symbolSearch.search.${selectedSymbolType}Placeholder`
       );
     }
 
@@ -509,7 +509,7 @@ const SearchBar = React.createClass({
           onClick: () =>
             !symbolSearchEnabled ? toggleFileSearchModifier(modVal) : null,
         },
-        Svg(svgName),
+        Svg(svgName)
       );
     }
 
@@ -517,7 +517,7 @@ const SearchBar = React.createClass({
       { className: "search-modifiers" },
       searchModBtn("regexMatch", "regex-match-btn", "regex-match"),
       searchModBtn("caseSensitive", "case-sensitive-btn", "case-match"),
-      searchModBtn("wholeWord", "whole-word-btn", "whole-word-match"),
+      searchModBtn("wholeWord", "whole-word-btn", "whole-word-match")
     );
   },
 
@@ -542,7 +542,7 @@ const SearchBar = React.createClass({
             toggleSymbolSearch(e, { toggle: false, searchType });
           },
         },
-        searchType,
+        searchType
       );
     }
 
@@ -553,7 +553,7 @@ const SearchBar = React.createClass({
       dom.h1({ className: "search-toggle-title" }, "Search for:"),
       searchTypeBtn("functions"),
       searchTypeBtn("variables"),
-      classSearchBtn,
+      classSearchBtn
     );
   },
 
@@ -565,7 +565,7 @@ const SearchBar = React.createClass({
     return dom.div(
       { className: "search-bottom-bar" },
       this.renderSearchTypeToggle(),
-      this.renderSearchModifiers(),
+      this.renderSearchModifiers()
     );
   },
 
@@ -611,7 +611,7 @@ const SearchBar = React.createClass({
         handleClose: this.closeSearch,
       }),
       this.renderResults(),
-      this.renderBottomBar(),
+      this.renderBottomBar()
     );
   },
 });
@@ -624,5 +624,5 @@ module.exports = connect(
       modifiers: getFileSearchModifierState(state),
     };
   },
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(SearchBar);

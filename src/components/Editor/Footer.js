@@ -19,7 +19,7 @@ const {
   shouldShowPrettyPrint,
 } = require("../../utils/editor");
 const PaneToggleButton = React.createFactory(
-  require("../shared/Button/PaneToggle").default,
+  require("../shared/Button/PaneToggle").default
 );
 
 require("./Footer.css");
@@ -68,7 +68,7 @@ const SourceFooter = React.createClass({
         title: tooltip,
         "aria-label": tooltip,
       },
-      Svg(type),
+      Svg(type)
     );
   },
 
@@ -86,7 +86,7 @@ const SourceFooter = React.createClass({
         onClick: () => recordCoverage(),
         "aria-label": "Code Coverage",
       },
-      "C",
+      "C"
     );
   },
 
@@ -113,7 +113,7 @@ const SourceFooter = React.createClass({
     return dom.div(
       { className: "commands" },
       this.prettyPrintButton(),
-      this.coverageButton(),
+      this.coverageButton()
     );
   },
 
@@ -127,7 +127,7 @@ const SourceFooter = React.createClass({
     return dom.div(
       { className: "source-footer" },
       this.renderCommands(),
-      this.renderToggleButton(),
+      this.renderToggleButton()
     );
   },
 });
@@ -143,5 +143,5 @@ module.exports = connect(
       endPanelCollapsed: getPaneCollapse(state, "end"),
     };
   },
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(SourceFooter);

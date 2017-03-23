@@ -136,7 +136,7 @@ const ObjectInspector = React.createClass({
     focused: boolean,
     _: Object,
     expanded: boolean,
-    { setExpanded }: () => any,
+    { setExpanded }: () => any
   ) {
     let objectValue;
     if (nodeIsOptimizedOut(item)) {
@@ -188,10 +188,10 @@ const ObjectInspector = React.createClass({
             });
           },
         },
-        item.name,
+        item.name
       ),
       dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
-      dom.span({ className: "object-value" }, objectValue || ""),
+      dom.span({ className: "object-value" }, objectValue || "")
     );
   },
 

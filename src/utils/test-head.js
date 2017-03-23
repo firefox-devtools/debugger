@@ -44,7 +44,7 @@ function makeSource(name: string, props: any = {}) {
       id: name,
       url: `http://localhost:8000/examples/${name}`,
     },
-    props,
+    props
   );
 }
 

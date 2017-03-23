@@ -39,7 +39,7 @@ class EventListeners extends Component {
         ? CloseButton({
             handleClick: ev => this.removeBreakpoint(ev, breakpoint),
           })
-        : "",
+        : ""
     );
   }
 
@@ -70,7 +70,7 @@ class EventListeners extends Component {
       {
         className: "pane event-listeners",
       },
-      listeners.map(this.renderListener),
+      listeners.map(this.renderListener)
     );
   }
 }
@@ -98,5 +98,5 @@ export default connect(
 
     return { listeners };
   },
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(EventListeners);

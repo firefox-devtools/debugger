@@ -41,7 +41,7 @@ class Popover extends Component {
         style: { top, left },
       },
       dom.div({ className: "popover-gap" }),
-      children,
+      children
     );
   }
 }

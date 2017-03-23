@@ -29,7 +29,7 @@ const State = makeRecord(
     breakpoints: I.Map(),
     pendingBreakpoints: restorePendingBreakpoints(),
     breakpointsDisabled: false,
-  }: BreakpointsState),
+  }: BreakpointsState)
 );
 
 // Return the first argument that is a string, or null if nothing is a
@@ -76,7 +76,7 @@ function update(state = State(), action: Action) {
       if (action.status === "start") {
         return state.set(
           "breakpointsDisabled",
-          action.shouldDisableBreakpoints,
+          action.shouldDisableBreakpoints
         );
       }
       break;
@@ -92,7 +92,7 @@ function update(state = State(), action: Action) {
           updateObj(bp, {
             loading: true,
             condition: action.condition,
-          }),
+          })
         );
       } else if (action.status === "done") {
         const bp = state.breakpoints.get(id);
@@ -101,7 +101,7 @@ function update(state = State(), action: Action) {
           updateObj(bp, {
             id: action.value.id,
             loading: false,
-          }),
+          })
         );
       } else if (action.status === "error") {
         return state.deleteIn(["breakpoints", id]);
@@ -130,7 +130,7 @@ function addBreakpoint(state, action) {
           // empty strings to be truthy, i.e. an empty string is a valid
           // condition.
           condition: firstString(action.condition, bp.condition),
-        }),
+        })
       )
       .set("breakpointsDisabled", false);
   }
@@ -161,7 +161,7 @@ function addBreakpoint(state, action) {
         disabled: false,
         loading: false,
         text: text,
-      }),
+      })
     );
   }
 
@@ -182,12 +182,12 @@ function removeBreakpoint(state, action) {
         updateObj(bp, {
           loading: false,
           disabled: true,
-        }),
+        })
       );
 
       return updatedState.set(
         "breakpointsDisabled",
-        allBreakpointsDisabled(updatedState),
+        allBreakpointsDisabled(updatedState)
       );
     }
 
@@ -195,7 +195,7 @@ function removeBreakpoint(state, action) {
 
     return updatedState.set(
       "breakpointsDisabled",
-      allBreakpointsDisabled(updatedState),
+      allBreakpointsDisabled(updatedState)
     );
   }
 

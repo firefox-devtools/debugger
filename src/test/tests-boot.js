@@ -35,5 +35,5 @@ setConfig(
   Object.assign({}, envConfig, {
     baseWorkerURL,
     sourceMapWorkerURL: path.join(baseWorkerURL, "source-map-worker.js"),
-  }),
+  })
 );

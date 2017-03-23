@@ -58,7 +58,7 @@ function paused(pauseInfo: Pause) {
     dispatch(evaluateExpressions(frame.id));
 
     dispatch(
-      selectSource(frame.location.sourceId, { line: frame.location.line }),
+      selectSource(frame.location.sourceId, { line: frame.location.line })
     );
   };
 }
@@ -70,7 +70,7 @@ function paused(pauseInfo: Pause) {
  */
 function pauseOnExceptions(
   shouldPauseOnExceptions: boolean,
-  shouldIgnoreCaughtExceptions: boolean,
+  shouldIgnoreCaughtExceptions: boolean
 ) {
   return ({ dispatch, client }: ThunkArgs) => {
     dispatch({
@@ -79,7 +79,7 @@ function pauseOnExceptions(
       shouldIgnoreCaughtExceptions,
       [PROMISE]: client.pauseOnExceptions(
         shouldPauseOnExceptions,
-        shouldIgnoreCaughtExceptions,
+        shouldIgnoreCaughtExceptions
       ),
     });
   };
@@ -187,7 +187,7 @@ function selectFrame(frame: Frame) {
   return ({ dispatch }: ThunkArgs) => {
     dispatch(evaluateExpressions(frame.id));
     dispatch(
-      selectSource(frame.location.sourceId, { line: frame.location.line }),
+      selectSource(frame.location.sourceId, { line: frame.location.line })
     );
     dispatch({
       type: constants.SELECT_FRAME,

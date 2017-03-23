@@ -48,7 +48,7 @@ function buildQuery(
   {
     isGlobal = false,
     ignoreSpaces = false,
-  }: QueryOptions,
+  }: QueryOptions
 ): RegExp {
   const { caseSensitive, regexMatch, wholeWord } = modifiers;
 

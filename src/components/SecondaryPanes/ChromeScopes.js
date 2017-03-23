@@ -72,7 +72,7 @@ class Scopes extends Component {
       nodes.push(
         createNode("__proto__", `${parentPath}/__proto__`, {
           value: prototype,
-        }),
+        })
       );
     }
 
@@ -104,7 +104,7 @@ class Scopes extends Component {
       }),
       dom.span({ className: "object-label" }, item.name),
       dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
-      dom.span({ className: "object-value" }, objectValue || ""),
+      dom.span({ className: "object-value" }, objectValue || "")
     );
   }
 
@@ -170,7 +170,7 @@ class Scopes extends Component {
     if (!pauseInfo) {
       return dom.div(
         { className: "pane scopes-list" },
-        info(L10N.getStr("scopes.notPaused")),
+        info(L10N.getStr("scopes.notPaused"))
       );
     }
 
@@ -190,7 +190,7 @@ class Scopes extends Component {
         disabledFocus: true,
         onExpand: this.onExpand,
         renderItem: this.renderItem,
-      }),
+      })
     );
   }
 }
@@ -210,5 +210,5 @@ export default connect(
     loadedObjects: getLoadedObjects(state),
     scopes: getChromeScopes(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(Scopes);

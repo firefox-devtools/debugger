@@ -134,7 +134,7 @@ const Editor = React.createClass({
     this.editor._initShortcuts = () => {};
 
     this.editor.appendToLocalElement(
-      ReactDOM.findDOMNode(this).querySelector(".editor-mount"),
+      ReactDOM.findDOMNode(this).querySelector(".editor-mount")
     );
 
     const codeMirror = this.editor.codeMirror;
@@ -275,7 +275,7 @@ const Editor = React.createClass({
     const expressionFromToken = await getExpressionFromToken(
       this.editor.codeMirror,
       token,
-      sourceText,
+      sourceText
     );
 
     const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
@@ -414,7 +414,7 @@ const Editor = React.createClass({
         // Pass in a function to get line text because the breakpoint
         // may slide and it needs to compute the value at the new
         // line.
-        { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) },
+        { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) }
       );
     }
   },
@@ -644,7 +644,7 @@ const Editor = React.createClass({
       this.renderBreakpoints(),
       this.renderHitCounts(),
       Footer({ editor: this.editor, horizontal }),
-      this.renderPreview(),
+      this.renderPreview()
     );
   },
 });
@@ -669,5 +669,5 @@ module.exports = connect(
       searchModifiers: getFileSearchModifierState(state),
     };
   },
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(Editor);

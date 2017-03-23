@@ -47,7 +47,7 @@ module.exports = async function(ctx) {
     "simple1.js",
     "simple2.js",
     "long.js",
-    "scripts.html",
+    "scripts.html"
   );
 
   is(countSources(dbg), 4, "4 sources are loaded.");
@@ -57,6 +57,6 @@ module.exports = async function(ctx) {
   await reload(dbg, "long.js");
   ok(
     getSelectedSource(getState()).get("url").includes("long.js"),
-    "Selected source is long.js",
+    "Selected source is long.js"
   );
 };

@@ -13,7 +13,7 @@ async function EditorMenu(
     onGutterContextMenu,
     jumpToMappedLocation,
     addExpression,
-  },
+  }
 ) {
   const copySourceUrlLabel = L10N.getStr("copySourceUrl");
   const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");

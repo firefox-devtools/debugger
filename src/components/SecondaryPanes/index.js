@@ -47,7 +47,7 @@ function debugBtn(onClick, type, className, tooltip) {
   className = `${type} ${className}`;
   return dom.button(
     { onClick, className, key: type, title: tooltip },
-    Svg(type, { title: tooltip, "aria-label": tooltip }),
+    Svg(type, { title: tooltip, "aria-label": tooltip })
   );
 }
 
@@ -96,7 +96,7 @@ class SecondaryPanes extends Component {
         },
         "refresh",
         "refresh",
-        L10N.getStr("watchExpressions.refreshButton"),
+        L10N.getStr("watchExpressions.refreshButton")
       ),
     ];
   }
@@ -209,7 +209,7 @@ class SecondaryPanes extends Component {
       WhyPaused(),
       this.props.horizontal
         ? this.renderHorizontalLayout()
-        : this.renderVerticalLayout(),
+        : this.renderVerticalLayout()
     );
   }
 }
@@ -237,5 +237,5 @@ export default connect(
     breakpointsDisabled: getBreakpointsDisabled(state),
     breakpointsLoading: getBreakpointsLoading(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(SecondaryPanes);

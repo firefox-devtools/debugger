@@ -52,7 +52,7 @@ async function waitForPaused(dbg) {
 async function waitForDispatch(
   dbg,
   type,
-  { useLaunchpad = false, eventRepeat = 1 } = {},
+  { useLaunchpad = false, eventRepeat = 1 } = {}
 ) {
   const store = useLaunchpad ? dbg.launchpadStore : dbg.store;
   let count = 0;
@@ -132,7 +132,7 @@ async function waitForSources(dbg, ...sources) {
       if (!sourceExists(store.getState(), url)) {
         return waitForState(dbg, () => sourceExists(store.getState(), url));
       }
-    }),
+    })
   );
 }
 
@@ -149,7 +149,7 @@ async function waitUntil(predicate, interval = 20) {
           resolve();
         }
       },
-      interval,
+      interval
     );
   });
 }
