@@ -43,22 +43,6 @@ function shouldShowPrettyPrint(selectedSource) {
   return true;
 }
 
-function onKeyDown(codeMirror, e) {
-  let { key, target } = e;
-  let codeWrapper = codeMirror.getWrapperElement();
-  let textArea = codeWrapper.querySelector("textArea");
-
-  if (key === "Escape" && target == textArea) {
-    e.stopPropagation();
-    e.preventDefault();
-    codeWrapper.focus();
-  } else if (key === "Enter" && target == codeWrapper) {
-    e.preventDefault();
-    // Focus into editor's text area
-    textArea.focus();
-  }
-}
-
 function shouldShowFooter(selectedSource, horizontal) {
   if (!horizontal) {
     return true;
@@ -144,12 +128,21 @@ function createEditor() {
   });
 }
 
+function updateDocument(editor, selectedSource, sourceText) {
+  if (selectedSource) {
+    let sourceId = selectedSource.get("id");
+    const doc = getDocument(sourceId) || editor.createDocument();
+    editor.replaceDocument(doc);
+  } else if (sourceText) {
+    this.setText(sourceText.get("text"));
+  }
+}
+
 module.exports = {
   createEditor,
   shouldShowPrettyPrint,
   shouldShowFooter,
   clearLineClass,
-  onKeyDown,
   buildQuery,
   getDocument,
   setDocument,
@@ -170,4 +163,5 @@ module.exports = {
   getTokenLocation,
   getExpressionFromToken,
   previewExpression,
+  updateDocument,
 };

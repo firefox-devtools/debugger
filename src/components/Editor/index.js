@@ -39,9 +39,9 @@ const HitMarker = React.createFactory(require("./HitMarker"));
 const {
   getDocument,
   setDocument,
+  updateDocument,
   shouldShowFooter,
   clearLineClass,
-  onKeyDown,
   createEditor,
   isTextForSource,
   breakpointAtLine,
@@ -125,34 +125,32 @@ const Editor = React.createClass({
     resizeBreakpointGutter(this.editor.codeMirror);
   },
 
-  componentDidMount() {
-    this.cbPanel = null;
-
-    this.editor = createEditor();
+  setupEditor() {
+    const editor = createEditor();
 
     // disables the default search shortcuts
-    this.editor._initShortcuts = () => {};
+    editor._initShortcuts = () => {};
 
     const node = ReactDOM.findDOMNode(this);
     if (node instanceof HTMLElement) {
-      this.editor.appendToLocalElement(node.querySelector(".editor-mount"));
+      editor.appendToLocalElement(node.querySelector(".editor-mount"));
     }
 
-    const codeMirror = this.editor.codeMirror;
+    const { codeMirror } = editor;
     const codeMirrorWrapper = codeMirror.getWrapperElement();
+
+    resizeBreakpointGutter(codeMirror);
+    debugGlobal("cm", codeMirror);
 
     codeMirror.on("gutterClick", this.onGutterClick);
 
     // Set code editor wrapper to be focusable
     codeMirrorWrapper.tabIndex = 0;
-    codeMirrorWrapper.addEventListener("keydown", e =>
-      onKeyDown(codeMirror, e));
+    codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
 
-    const ctx = { ed: this.editor, cm: codeMirror };
-    const { query, searchModifiers } = this.props;
+    const ctx = { ed: editor, cm: codeMirror };
 
     codeMirrorWrapper.addEventListener("mouseup", e => this.onMouseUp(e, ctx));
-
     codeMirrorWrapper.addEventListener("mouseover", e => this.onMouseOver(e));
 
     if (!isFirefox()) {
@@ -167,46 +165,25 @@ const Editor = React.createClass({
 
     codeMirror.on("scroll", this.onScroll);
 
-    const shortcuts = this.context.shortcuts;
+    return editor;
+  },
 
-    shortcuts.on("CmdOrCtrl+B", (key, e) => {
-      e.preventDefault();
-      this.toggleBreakpoint(getCursorLine(codeMirror));
-    });
+  componentDidMount() {
+    this.cbPanel = null;
+    this.editor = this.setupEditor();
 
-    shortcuts.on("CmdOrCtrl+Shift+B", (key, e) => {
-      e.preventDefault();
-      this.toggleConditionalPanel(getCursorLine(codeMirror));
-    });
-    // The default Esc command is overridden in the CodeMirror keymap to allow
-    // the Esc keypress event to be catched by the toolbox and trigger the
-    // split console. Restore it here, but preventDefault if and only if there
-    // is a multiselection.
-    shortcuts.on("Esc", (key, e) => {
-      if (codeMirror.listSelections().length > 1) {
-        codeMirror.execCommand("singleSelection");
-        e.preventDefault();
-      }
-    });
+    const { selectedSource, sourceText } = this.props;
+    const { shortcuts } = this.context;
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-    if (searchModifiers) {
-      shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`, (_, e) =>
-        traverseResults(e, ctx, query, "prev", searchModifiers.toJS()));
-      shortcuts.on(`CmdOrCtrl+${searchAgainKey}`, (_, e) =>
-        traverseResults(e, ctx, query, "next", searchModifiers.toJS()));
-    }
 
-    resizeBreakpointGutter(codeMirror);
-    debugGlobal("cm", codeMirror);
+    shortcuts.on("CmdOrCtrl+B", this.onToggleBreakpoint);
+    shortcuts.on("CmdOrCtrl+Shift+B", this.onToggleBreakpoint);
+    shortcuts.on("Esc", this.onEscape);
+    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`, this.onSearchAgain);
+    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`, this.onSearchAgain);
 
-    if (this.props.selectedSource) {
-      let sourceId = this.props.selectedSource.get("id");
-      const doc = getDocument(sourceId) || this.editor.createDocument();
-      this.editor.replaceDocument(doc);
-    } else if (this.props.sourceText) {
-      this.setText(this.props.sourceText.get("text"));
-    }
+    updateDocument(this.editor, selectedSource, sourceText);
   },
 
   componentWillUnmount() {
@@ -247,6 +224,49 @@ const Editor = React.createClass({
     }
   },
 
+  onToggleBreakpoint(key, e) {
+    e.preventDefault();
+    const { codeMirror } = this.editor;
+    const line = getCursorLine(codeMirror);
+
+    if (e.shiftKey) {
+      this.toggleConditionalPanel(line);
+    } else {
+      this.toggleBreakpoint(line);
+    }
+  },
+
+  onKeyDown(e) {
+    const { codeMirror } = this.editor;
+    let { key, target } = e;
+    let codeWrapper = codeMirror.getWrapperElement();
+    let textArea = codeWrapper.querySelector("textArea");
+
+    if (key === "Escape" && target == textArea) {
+      e.stopPropagation();
+      e.preventDefault();
+      codeWrapper.focus();
+    } else if (key === "Enter" && target == codeWrapper) {
+      e.preventDefault();
+      // Focus into editor's text area
+      textArea.focus();
+    }
+  },
+
+  /*
+   * The default Esc command is overridden in the CodeMirror keymap to allow
+   * the Esc keypress event to be catched by the toolbox and trigger the
+   * split console. Restore it here, but preventDefault if and only if there
+   * is a multiselection.
+  */
+  onEscape(key, e) {
+    const { codeMirror } = this.editor;
+    if (codeMirror.listSelections().length > 1) {
+      codeMirror.execCommand("singleSelection");
+      e.preventDefault();
+    }
+  },
+
   onScroll(e) {
     return this.setState({ selectedToken: null, selectedExpression: null });
   },
@@ -259,6 +279,19 @@ const Editor = React.createClass({
 
   onMouseOver(e) {
     this.previewSelectedToken(e);
+  },
+
+  onSearchAgain(_, e) {
+    const { query, searchModifiers } = this.props;
+    const { editor: { codeMirror } } = this.editor;
+    const ctx = { ed: this.editor, cm: codeMirror };
+
+    if (!searchModifiers) {
+      return;
+    }
+
+    const direction = e.shiftKey ? "prev" : "next";
+    traverseResults(e, ctx, query, direction, searchModifiers.toJS());
   },
 
   async previewSelectedToken(e) {
