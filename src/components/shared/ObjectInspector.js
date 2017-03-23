@@ -136,6 +136,7 @@ const ObjectInspector = React.createClass({
     focused: boolean,
     _: Object,
     expanded: boolean,
+    blurred: boolean,
     { setExpanded }: () => any,
   ) {
     let objectValue;
@@ -152,6 +153,7 @@ const ObjectInspector = React.createClass({
       {
         className: classnames("node object-node", {
           focused,
+          blurred,
           "default-property": isDefault(item),
         }),
         style: { marginLeft: depth * 15 },

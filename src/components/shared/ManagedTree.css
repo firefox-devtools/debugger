@@ -25,6 +25,10 @@
   background-color: var(--theme-selection-background);
 }
 
+.tree .node.focused.blurred {
+  background-color: var(--theme-selection-background-semitransparent);
+}
+
 html:not([dir="rtl"]) .tree .node > div {
   margin-left: 10px;
 }
