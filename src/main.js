@@ -33,7 +33,8 @@ const actions = bindActionCreators(require("./actions"), store.dispatch);
 
 if (!isFirefoxPanel()) {
   window.L10N = L10N;
-  window.L10N.setBundle(require("./strings.json"));
+  // $FlowIgnore:
+  window.L10N.setBundle(require("../assets/panel/debugger.properties"));
 }
 
 window.appStore = store;
