@@ -60,6 +60,6 @@
   height: 16px;
 }
 
-accordion .header-buttons button::-moz-focus-inner {        
+.accordion .header-buttons button::-moz-focus-inner {
   border: none;
 }
