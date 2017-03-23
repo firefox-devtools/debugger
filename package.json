@@ -27,6 +27,7 @@
     "lint-md": "remark -q *.md src/**/*.md configs/*.md docs/**/*.md",
     "lint-fix": "yarn lint-js -- --fix",
     "test": "jest --forceExit",
+    "test-coverage": "yarn test -- --coverage",
     "test-all": "yarn test; yarn lint",
     "firefox": "start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome": "start-chrome --location https://devtools-html.github.io/debugger-examples/",
