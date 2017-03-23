@@ -19,10 +19,10 @@ let webpackConfig = {
   entry: {
     debugger: getEntry("main.js"),
     "source-map-worker": getEntry(
-      "../node_modules/devtools-source-map/src/worker.js",
+      "../node_modules/devtools-source-map/src/worker.js"
     ),
     "parser-worker": getEntry("utils/parser/worker.js"),
-    "pretty-print-worker": getEntry("utils/pretty-print-worker.js"),
+    "pretty-print-worker": getEntry("utils/pretty-print/worker.js"),
     "integration-tests": getEntry("test/integration/tests.js"),
   },
 

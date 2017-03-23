@@ -1,7 +1,7 @@
 // @flow
 
 const prettyFast = require("pretty-fast");
-const assert = require("./assert");
+const assert = require("../assert");
 
 type Mappings = {
   _array: Mapping[],

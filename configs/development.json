@@ -1,8 +1,6 @@
 {
   "title": "Debugger",
   "environment": "development",
-  "baseWorkerURL": "http://localhost:8000/assets/build/",
-  "sourceMapWorkerURL": "http://localhost:8000/assets/build/source-map-worker.js",
   "favicon": "assets/images/favicon.png",
   "theme": "light",
   "dir": "ltr",
@@ -10,6 +8,11 @@
     "client": false,
     "firefoxProxy": false,
     "actions": false
+  },
+  "workers": {
+    "parserURL": "http://localhost:8000/assets/build/parser-worker.js",
+    "sourceMapURL": "http://localhost:8000/assets/build/source-map-worker.js",
+    "prettyPrintURL": "http://localhost:8000/assets/build/pretty-print-worker.js"
   },
   "features": {
     "watchExpressions": {
