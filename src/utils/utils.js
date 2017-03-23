@@ -68,7 +68,7 @@ function throttle(func: any, ms: number) {
           func.apply(_this, ...args);
           timeout = null;
         },
-        ms,
+        ms
       );
     }
   };

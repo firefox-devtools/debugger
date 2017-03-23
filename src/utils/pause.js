@@ -15,7 +15,7 @@ function updateFrameLocations(frames: Frame[]): Promise<Frame[]> {
           location: loc,
         });
       });
-    }),
+    })
   );
 }
 

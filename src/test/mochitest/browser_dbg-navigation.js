@@ -35,7 +35,7 @@ add_task(function*() {
     "simple1.js",
     "simple2.js",
     "long.js",
-    "scripts.html",
+    "scripts.html"
   );
 
   is(countSources(dbg), 4, "4 sources are loaded.");
@@ -45,6 +45,6 @@ add_task(function*() {
   yield reload(dbg, "long.js");
   ok(
     getSelectedSource(getState()).get("url").includes("long.js"),
-    "Selected source is long.js",
+    "Selected source is long.js"
   );
 });

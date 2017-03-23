@@ -188,7 +188,7 @@ function getSymbols(source: SourceText): SymbolDeclarations {
           formatSymbol({
             name: getFunctionName(path),
             location: path.node.loc,
-          }),
+          })
         );
       }
 
@@ -197,7 +197,7 @@ function getSymbols(source: SourceText): SymbolDeclarations {
           formatSymbol({
             name: path.node.id.name,
             location: path.node.loc,
-          }),
+          })
         );
       }
     },
@@ -210,7 +210,7 @@ function getSymbols(source: SourceText): SymbolDeclarations {
 function getExpression(
   source: SourceText,
   token: string,
-  location: Location,
+  location: Location
 ): ?Expression {
   let expression = null;
   const ast = getAst(source);

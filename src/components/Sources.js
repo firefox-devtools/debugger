@@ -28,8 +28,8 @@ class Sources extends Component {
         },
         L10N.getFormatStr(
           "sources.search",
-          formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`),
-        ),
+          formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`)
+        )
       );
     }
   }
@@ -40,7 +40,7 @@ class Sources extends Component {
     return dom.div(
       { className: "sources-panel" },
       dom.div({ className: "sources-header" }, this.renderShortcut()),
-      SourcesTree({ sources, selectSource }),
+      SourcesTree({ sources, selectSource })
     );
   }
 }
@@ -59,5 +59,5 @@ export default connect(
     selectedSource: getSelectedSource(state),
     sources: getSources(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(Sources);

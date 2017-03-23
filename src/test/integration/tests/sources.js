@@ -57,7 +57,7 @@ module.exports = async function(ctx) {
     "simple2",
     "nested-source",
     "long.js",
-    "doc-sources.html",
+    "doc-sources.html"
   );
 
   // wait for source render to debounce
@@ -84,7 +84,7 @@ module.exports = async function(ctx) {
 
   ok(
     getSelectedSource(getState()).get("url").includes("nested-source.js"),
-    "The right source is selected",
+    "The right source is selected"
   );
 
   // Make sure new sources appear in the list.
@@ -102,7 +102,7 @@ module.exports = async function(ctx) {
     is(
       findElement(dbg, "sourceNode", 2).textContent,
       "evaled.js",
-      "The eval script exists",
+      "The eval script exists"
     );
   }
 };

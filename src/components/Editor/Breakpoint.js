@@ -23,9 +23,7 @@ const Breakpoint = React.createClass({
     breakpoint: PropTypes.object.isRequired,
     editor: PropTypes.object.isRequired,
   },
-
   displayName: "Breakpoint",
-
   addBreakpoint() {
     const bp = this.props.breakpoint;
     const line = bp.location.line - 1;
@@ -33,7 +31,7 @@ const Breakpoint = React.createClass({
     this.props.editor.setGutterMarker(
       line,
       "breakpoints",
-      makeMarker(bp.disabled),
+      makeMarker(bp.disabled)
     );
     this.props.editor.addLineClass(line, "line", "new-breakpoint");
     if (bp.condition) {
@@ -42,13 +40,11 @@ const Breakpoint = React.createClass({
       this.props.editor.removeLineClass(line, "line", "has-condition");
     }
   },
-
   shouldComponentUpdate(nextProps: any) {
     return this.props.editor !== nextProps.editor ||
       this.props.breakpoint.disabled !== nextProps.breakpoint.disabled ||
       this.props.breakpoint.condition !== nextProps.breakpoint.condition;
   },
-
   componentDidMount() {
     if (!this.props.editor) {
       return;
@@ -56,11 +52,9 @@ const Breakpoint = React.createClass({
 
     this.addBreakpoint();
   },
-
   componentDidUpdate() {
     this.addBreakpoint();
   },
-
   componentWillUnmount() {
     if (!this.props.editor) {
       return;
@@ -73,7 +67,6 @@ const Breakpoint = React.createClass({
     this.props.editor.removeLineClass(line, "line", "new-breakpoint");
     this.props.editor.removeLineClass(line, "line", "has-condition");
   },
-
   render() {
     return null;
   },

@@ -9,7 +9,7 @@ message.addEventListener(
   function() {
     message.value = "";
   },
-  false,
+  false
 );
 
 var logMessageButton = document.getElementById("log-message");
@@ -19,5 +19,5 @@ logMessageButton.addEventListener(
   function() {
     logMessage();
   },
-  false,
+  false
 );

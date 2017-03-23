@@ -76,7 +76,7 @@ const SearchInput = React.createClass({
       CloseButton({
         handleClick: handleClose,
         buttonClass: size,
-      }),
+      })
     );
   },
 });

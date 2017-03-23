@@ -99,13 +99,13 @@ class Breakpoints extends Component {
       }),
       dom.div(
         { className: "breakpoint-label", title: breakpoint.text },
-        dom.div({}, renderSourceLocation(breakpoint.location.source, line)),
+        dom.div({}, renderSourceLocation(breakpoint.location.source, line))
       ),
       dom.div({ className: "breakpoint-snippet" }, snippet),
       CloseButton({
         handleClick: ev => this.removeBreakpoint(ev, breakpoint),
         tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip"),
-      }),
+      })
     );
   }
 
@@ -117,7 +117,7 @@ class Breakpoints extends Component {
         ? dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none"))
         : breakpoints.valueSeq().map(bp => {
             return this.renderBreakpoint(bp);
-          }),
+          })
     );
   }
 }
@@ -137,9 +137,7 @@ function updateLocation(state, bp): LocalBreakpoint {
   const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, bp);
   const locationId = makeLocationId(bp.location);
 
-  const location = Object.assign({}, bp.location, {
-    source,
-  });
+  const location = Object.assign({}, bp.location, { source });
 
   const localBP = Object.assign({}, bp, {
     location,
@@ -157,8 +155,6 @@ function _getBreakpoints(state) {
 }
 
 export default connect(
-  (state, props) => ({
-    breakpoints: _getBreakpoints(state),
-  }),
-  dispatch => bindActionCreators(actions, dispatch),
+  (state, props) => ({ breakpoints: _getBreakpoints(state) }),
+  dispatch => bindActionCreators(actions, dispatch)
 )(Breakpoints);

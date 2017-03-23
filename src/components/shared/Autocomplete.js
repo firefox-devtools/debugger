@@ -76,7 +76,7 @@ const Autocomplete = React.createClass({
     } else if (e.key === "ArrowDown") {
       const selectedIndex = Math.min(
         resultCount - 1,
-        this.state.selectedIndex + 1,
+        this.state.selectedIndex + 1
       );
       this.setState({ selectedIndex });
       if (this.props.onSelectedItem) {
@@ -112,7 +112,7 @@ const Autocomplete = React.createClass({
       return dom.div(
         { className: "no-result-msg" },
         Svg("sad-face"),
-        L10N.getFormatStr("sourceSearch.noResults", this.state.inputValue),
+        L10N.getFormatStr("sourceSearch.noResults", this.state.inputValue)
       );
     }
   },
@@ -123,7 +123,7 @@ const Autocomplete = React.createClass({
     const searchResults = this.getSearchResults();
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
-      searchResults.length,
+      searchResults.length
     );
     return dom.div(
       { className: classnames("autocomplete", { focused }) },
@@ -143,7 +143,7 @@ const Autocomplete = React.createClass({
         onKeyDown: this.onKeyDown,
         handleClose: this.props.close,
       }),
-      this.renderResults(searchResults),
+      this.renderResults(searchResults)
     );
   },
 });

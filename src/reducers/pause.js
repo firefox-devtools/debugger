@@ -34,7 +34,7 @@ const State = makeRecord(
     shouldPauseOnExceptions: prefs.pauseOnExceptions,
     shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
     debuggeeUrl: "",
-  }: PauseState),
+  }: PauseState)
 );
 
 function update(state = State(), action: Action): Record<PauseState> {

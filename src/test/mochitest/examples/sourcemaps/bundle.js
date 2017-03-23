@@ -20,7 +20,7 @@
       module.exports,
       module,
       module.exports,
-      __webpack_require__,
+      __webpack_require__
     ); // Flag the module as loaded
     /******/
     /******/ /******/ module.loaded = true; // Return the exports of the module
@@ -89,6 +89,6 @@
       /***/
     },
     /******/
-  ],
+  ]
 );
 //# sourceMappingURL=bundle.js.map

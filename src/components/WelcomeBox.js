@@ -8,7 +8,7 @@ import { getPaneCollapse } from "../selectors";
 import { formatKeyShortcut } from "../utils/text";
 
 const PaneToggleButton = createFactory(
-  require("./shared/Button/PaneToggle").default,
+  require("./shared/Button/PaneToggle").default
 );
 
 import "./WelcomeBox.css";
@@ -38,12 +38,12 @@ const WelcomeBox = createClass({
   render() {
     const searchLabel = L10N.getFormatStr(
       "welcome.search",
-      formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`),
+      formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`)
     );
     return dom.div(
       { className: "welcomebox" },
       searchLabel,
-      this.renderToggleButton(),
+      this.renderToggleButton()
     );
   },
 });
@@ -52,5 +52,5 @@ export default connect(
   state => ({
     endPanelCollapsed: getPaneCollapse(state, "end"),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(WelcomeBox);

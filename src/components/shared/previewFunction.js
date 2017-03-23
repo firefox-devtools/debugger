@@ -31,7 +31,7 @@ function previewFunction(value) {
     renderFunctionName(value),
     renderParen("("),
     ...renderParams(value),
-    renderParen(")"),
+    renderParen(")")
   );
 }
 

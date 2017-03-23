@@ -11,7 +11,7 @@ describe("build-query", () => {
         wholeWord: true,
         regexMatch: true,
       },
-      {},
+      {}
     );
 
     expect(query.source).to.be("\\bhi.*\\b");
@@ -27,7 +27,7 @@ describe("build-query", () => {
         wholeWord: true,
         regexMatch: true,
       },
-      { isGlobal: true },
+      { isGlobal: true }
     );
 
     expect(query.source).to.be("\\bhi.*\\b");
@@ -43,7 +43,7 @@ describe("build-query", () => {
         wholeWord: false,
         regexMatch: false,
       },
-      {},
+      {}
     );
 
     expect(query.source).to.be("hi");
@@ -59,7 +59,7 @@ describe("build-query", () => {
         wholeWord: false,
         regexMatch: false,
       },
-      { isGlobal: true },
+      { isGlobal: true }
     );
 
     expect(query.source).to.be("hi");
@@ -75,7 +75,7 @@ describe("build-query", () => {
         wholeWord: false,
         regexMatch: false,
       },
-      {},
+      {}
     );
 
     expect(query.source).to.be("hi");
@@ -91,7 +91,7 @@ describe("build-query", () => {
         wholeWord: true,
         regexMatch: false,
       },
-      {},
+      {}
     );
 
     expect(query.source).to.be("\\bhi\\b");
@@ -107,7 +107,7 @@ describe("build-query", () => {
         wholeWord: false,
         regexMatch: true,
       },
-      {},
+      {}
     );
 
     expect(query.source).to.be("hi.*");
@@ -124,7 +124,7 @@ describe("build-query", () => {
         wholeWord: true,
         regexMatch: false,
       },
-      {},
+      {}
     );
 
     expect(query.source).to.be("\\bhi\\b");
@@ -141,7 +141,7 @@ describe("build-query", () => {
         wholeWord: true,
         regexMatch: false,
       },
-      { isGlobal: true },
+      { isGlobal: true }
     );
 
     expect(query.source).to.be("\\bhi\\b");
@@ -158,7 +158,7 @@ describe("build-query", () => {
         wholeWord: true,
         regexMatch: false,
       },
-      {},
+      {}
     );
 
     expect(query.source).to.be("\\bhi\\.\\*\\b");
@@ -175,7 +175,7 @@ describe("build-query", () => {
         wholeWord: true,
         regexMatch: false,
       },
-      { isGlobal: true },
+      { isGlobal: true }
     );
 
     expect(query.source).to.be("\\bhi\\.\\*\\b");
@@ -192,7 +192,7 @@ describe("build-query", () => {
         wholeWord: false,
         regexMatch: false,
       },
-      { ignoreSpaces: true },
+      { ignoreSpaces: true }
     );
 
     expect(query.source).to.be("hi");
@@ -209,7 +209,7 @@ describe("build-query", () => {
         wholeWord: false,
         regexMatch: false,
       },
-      { isGlobal: true, ignoreSpaces: true },
+      { isGlobal: true, ignoreSpaces: true }
     );
 
     expect(query.source).to.be("hi");
@@ -226,7 +226,7 @@ describe("build-query", () => {
         wholeWord: false,
         regexMatch: false,
       },
-      { ignoreSpaces: true },
+      { ignoreSpaces: true }
     );
 
     expect(query.source).to.be(escapeRegExp("(?!\\s*.*)"));
@@ -243,7 +243,7 @@ describe("build-query", () => {
         wholeWord: false,
         regexMatch: false,
       },
-      { isGlobal: true, ignoreSpaces: true },
+      { isGlobal: true, ignoreSpaces: true }
     );
 
     expect(query.source).to.be(escapeRegExp("(?!\\s*.*)"));

@@ -31,7 +31,7 @@ function formatKeyShortcut(shortcut: string): string {
   }
   return shortcut.replace(
     /CommandOrControl\+|CmdOrCtrl\+/g,
-    `${L10N.getStr("ctrl")}+`,
+    `${L10N.getStr("ctrl")}+`
   );
 }
 

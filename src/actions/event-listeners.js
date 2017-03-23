@@ -83,7 +83,7 @@ function fetchEventListeners() {
           });
         });
       },
-      FETCH_EVENT_LISTENERS_DELAY,
+      FETCH_EVENT_LISTENERS_DELAY
     );
   };
 }
@@ -116,7 +116,7 @@ async function _getEventListeners(threadClient) {
     } else if (listener.function.class == "Function") {
       definitionSite = await _getDefinitionSite(
         threadClient,
-        listener.function,
+        listener.function
       );
       if (!definitionSite) {
         // We don"t know where this listener comes from so don"t show it in

@@ -35,7 +35,7 @@ class PaneToggleButton extends Component {
         onClick: () => handleClick(position, collapsed),
         title,
       },
-      Svg("togglePanes"),
+      Svg("togglePanes")
     );
   }
 }

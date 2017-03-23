@@ -201,7 +201,7 @@ function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
       children,
       part,
       isLastPart,
-      i === 0 ? debuggeeUrl : "",
+      i === 0 ? debuggeeUrl : ""
     );
 
     if (index >= 0 && children[index].name === part) {
@@ -253,7 +253,7 @@ function determineFileSortOrder(
   nodes: Array<Node>,
   pathPart: string,
   isLastPart: boolean,
-  debuggeeUrl: string,
+  debuggeeUrl: string
 ) {
   const partIsDir = !isLastPart || pathPart.indexOf(".") === -1;
 
@@ -309,7 +309,7 @@ function collapseTree(node: any, depth: number = 0) {
       if (nodeHasChildren(next)) {
         return collapseTree(
           createNode(`${node.name}/${next.name}`, next.path, next.contents),
-          depth + 1,
+          depth + 1
         );
       }
     }
@@ -317,7 +317,7 @@ function collapseTree(node: any, depth: number = 0) {
     return createNode(
       node.name,
       node.path,
-      node.contents.map(next => collapseTree(next, depth + 1)),
+      node.contents.map(next => collapseTree(next, depth + 1))
     );
   }
   // Node is a leaf, not a folder, do not modify it.

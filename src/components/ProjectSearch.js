@@ -106,7 +106,7 @@ class ProjectSearch extends Component {
         inputValue: this.state.inputValue,
         placeholder: L10N.getStr("sourceSearch.search"),
         size: "big",
-      }),
+      })
     );
   }
 }
@@ -131,5 +131,5 @@ export default connect(
     selectedSource: getSelectedSource(state),
     searchOn: getProjectSearchState(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);

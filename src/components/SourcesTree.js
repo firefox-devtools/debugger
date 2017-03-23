@@ -66,7 +66,7 @@ class SourcesTree extends Component {
 
         this.forceUpdate();
       },
-      50,
+      50
     );
   }
 
@@ -90,7 +90,7 @@ class SourcesTree extends Component {
     ) {
       const listItems = getDirectories(
         nextProps.shownSource,
-        this.state.sourceTree,
+        this.state.sourceTree
       );
 
       if (listItems && listItems[0]) {
@@ -105,7 +105,7 @@ class SourcesTree extends Component {
     ) {
       const highlightItems = getDirectories(
         nextProps.selectedSource.get("url"),
-        this.state.sourceTree,
+        this.state.sourceTree
       );
 
       return this.setState({ highlightItems });
@@ -222,7 +222,7 @@ class SourcesTree extends Component {
         },
         onContextMenu: e => this.onContextMenu(e, item),
       },
-      dom.div(null, arrow, icon, item.name),
+      dom.div(null, arrow, icon, item.name)
     );
   }
 
@@ -262,7 +262,7 @@ class SourcesTree extends Component {
       {
         className: "no-sources-message",
       },
-      L10N.getStr("sources.noSourcesAvailable"),
+      L10N.getStr("sources.noSourcesAvailable")
     );
 
     if (isEmpty) {
@@ -277,7 +277,7 @@ class SourcesTree extends Component {
           }
         },
       },
-      tree,
+      tree
     );
   }
 }
@@ -300,5 +300,5 @@ export default connect(
       debuggeeUrl: getDebuggeeUrl(state),
     };
   },
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(SourcesTree);

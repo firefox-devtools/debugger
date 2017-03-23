@@ -19,7 +19,7 @@ const SOURCES = {
     function square(n) {
       return n * n;
     }
-  `,
+  `
   ),
   math: formatCode(
     `
@@ -29,7 +29,7 @@ const SOURCES = {
       const four = squaare(4);
       return two * four;
     }
-  `,
+  `
   ),
   proto: formatCode(
     `
@@ -47,7 +47,7 @@ const SOURCES = {
         return this;
       },
     });
-  `,
+  `
   ),
   classTest: formatCode(
     `
@@ -62,7 +62,7 @@ const SOURCES = {
     };
 
     class Test2 {}
-  `,
+  `
   ),
   varTest: formatCode(
     `
@@ -70,7 +70,7 @@ const SOURCES = {
     let bar = 2;
     const baz = 3;
     const a = 4, b = 5;
-  `,
+  `
   ),
   expressionTest: formatCode(
     `
@@ -80,7 +80,7 @@ const SOURCES = {
       const foo = obj2.c.b;
       return obj.a.b;
     }
-  `,
+  `
   ),
   thisExpressionTest: formatCode(
     `
@@ -95,7 +95,7 @@ const SOURCES = {
         console.log(this.foo.a);
       }
     };
-  `,
+  `
   ),
   allSymbols: formatCode(
     `
@@ -127,7 +127,7 @@ const SOURCES = {
         console.log(person + " is Awesome!");
       }
     };
-  `,
+  `
   ),
 };
 
@@ -257,7 +257,7 @@ describe("parser", () => {
       const expression = getExpression(
         getSourceText("thisExpressionTest"),
         "a",
-        { line: 10, column: 25 },
+        { line: 10, column: 25 }
       );
 
       expect(expression.value).to.be("this.foo.a");

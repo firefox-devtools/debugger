@@ -18,7 +18,7 @@ export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
 export async function getExpressionFromToken(
   cm: any,
   token: HTMLElement,
-  sourceText: Record<SourceText>,
+  sourceText: Record<SourceText>
 ) {
   const loc = getTokenLocation(cm, token);
   return await getExpression(sourceText.toJS(), token.textContent || "", loc);
@@ -42,7 +42,7 @@ type PreviewExpressionArgs = {
 };
 
 export function previewExpression(
-  { expression, selectedFrame, variables, tokenText }: PreviewExpressionArgs,
+  { expression, selectedFrame, variables, tokenText }: PreviewExpressionArgs
 ) {
   if (!tokenText) {
     return null;

@@ -31,7 +31,7 @@ module.exports = async function(ctx) {
   is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
   ok(
     getBreakpoint(getState(), { sourceId: mainSrc.id, line: 4 }),
-    "Breakpoint has correct line",
+    "Breakpoint has correct line"
   );
 
   invokeInTab(dbg, "logMessage");

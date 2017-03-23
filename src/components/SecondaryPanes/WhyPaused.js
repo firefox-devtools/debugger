@@ -35,7 +35,7 @@ class WhyPaused extends Component {
     return dom.div(
       { className: "pane why-paused" },
       dom.div(null, L10N.getStr(reason)),
-      this.renderMessage(pauseInfo),
+      this.renderMessage(pauseInfo)
     );
   }
 }
@@ -50,5 +50,5 @@ export default connect(
   state => ({
     pauseInfo: getPause(state),
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(WhyPaused);

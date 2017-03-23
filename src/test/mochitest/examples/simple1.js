@@ -18,7 +18,7 @@ function doEval() {
           return foo + bar;
         };
       }.toString() +
-      ")()",
+      ")()"
   );
 }
 
@@ -34,6 +34,6 @@ function doNamedEval() {
           return foo + bar;
         };
       }.toString() +
-      ")();\n //# sourceURL=evaled.js",
+      ")();\n //# sourceURL=evaled.js"
   );
 }

@@ -29,18 +29,18 @@ add_task(function*() {
   // Select a source.
   ok(
     !findElementWithSelector(dbg, ".sources-list .focused"),
-    "Source is not focused",
+    "Source is not focused"
   );
   const selected = waitForDispatch(dbg, "SELECT_SOURCE");
   clickElement(dbg, "sourceNode", 4);
   yield selected;
   ok(
     findElementWithSelector(dbg, ".sources-list .focused"),
-    "Source is focused",
+    "Source is focused"
   );
   ok(
     getSelectedSource(getState()).get("url").includes("nested-source.js"),
-    "The right source is selected",
+    "The right source is selected"
   );
 
   // Make sure new sources appear in the list.
@@ -54,7 +54,7 @@ add_task(function*() {
   is(
     findElement(dbg, "sourceNode", 7).textContent,
     "math.min.js",
-    "The dynamic script exists",
+    "The dynamic script exists"
   );
 
   // Make sure named eval sources appear in the list.
@@ -65,6 +65,6 @@ add_task(function*() {
   is(
     findElement(dbg, "sourceNode", 2).textContent,
     "evaled.js",
-    "The eval script exists",
+    "The eval script exists"
   );
 });

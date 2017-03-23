@@ -22,7 +22,7 @@ const State = makeRecord(
   ({
     coverageOn: false,
     hitCount: I.Map(),
-  }: CoverageState),
+  }: CoverageState)
 );
 
 function update(state = State(), action: Action): Record<CoverageState> {

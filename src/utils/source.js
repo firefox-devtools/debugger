@@ -24,7 +24,7 @@ function trimUrlQuery(url: string): string {
   let q = Math.min(
     q1 != -1 ? q1 : length,
     q2 != -1 ? q2 : length,
-    q3 != -1 ? q3 : length,
+    q3 != -1 ? q3 : length
   );
 
   return url.slice(0, q);

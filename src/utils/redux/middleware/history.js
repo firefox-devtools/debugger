@@ -15,7 +15,7 @@ exports.history = (log: Object[] = []) =>
       console.warn(
         "Using history middleware stores all actions in state for " +
           "testing and devtools is not currently running in test " +
-          "mode. Be sure this is intentional.",
+          "mode. Be sure this is intentional."
       );
     }
     return (next: Function) =>

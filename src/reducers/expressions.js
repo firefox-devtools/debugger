@@ -16,7 +16,7 @@ type ExpressionState = {
 const State = makeRecord(
   ({
     expressions: I.List(restoreExpressions()),
-  }: ExpressionState),
+  }: ExpressionState)
 );
 
 function update(state = State(), action: Action): Record<ExpressionState> {
@@ -74,7 +74,7 @@ function updateItemInList(
   state: State,
   path: string[],
   key: string,
-  value: any,
+  value: any
 ) {
   const newState = state.updateIn(path, () => {
     const list = state.getIn(path);
@@ -87,7 +87,7 @@ function updateItemInList(
 
 function deleteExpression(state: State, input: string) {
   const index = getExpressions({ expressions: state }).findKey(
-    e => e.input == input,
+    e => e.input == input
   );
   const newState = state.deleteIn(["expressions", index]);
   storeExpressions(newState);

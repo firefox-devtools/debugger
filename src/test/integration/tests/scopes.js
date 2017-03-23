@@ -28,7 +28,7 @@ module.exports = async function(ctx) {
   const dbg = await initDebugger(
     "doc-script-switching.html",
     "script-switching-01",
-    "script-switching-02",
+    "script-switching-02"
   );
 
   toggleScopes(dbg);

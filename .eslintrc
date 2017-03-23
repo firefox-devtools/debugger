@@ -448,6 +448,6 @@
     "operator-linebreak": 0,
 
     // Rules from the prettier plugin
-    "prettier/prettier": ["error", { "trailingComma": "all", "bracketSpacing": true }],
+    "prettier/prettier": ["error", { "trailingComma": "es5", "bracketSpacing": true }],
   }
 }

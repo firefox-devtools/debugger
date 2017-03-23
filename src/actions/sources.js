@@ -63,11 +63,7 @@ function checkPendingBreakpoints(state, dispatch, source) {
       const { location: { line, sourceUrl }, condition } = pendingBreakpoint;
       const sameSource = sourceUrl && sourceUrl == source.url;
 
-      const location = {
-        sourceId: source.id,
-        sourceUrl,
-        line,
-      };
+      const location = { sourceId: source.id, sourceUrl, line };
 
       const bp = getBreakpoint(state, location);
 
@@ -89,10 +85,7 @@ function newSource(source: Source) {
       dispatch(loadSourceMap(source));
     }
 
-    dispatch({
-      type: constants.ADD_SOURCE,
-      source,
-    });
+    dispatch({ type: constants.ADD_SOURCE, source });
 
     checkSelectedSource(getState(), dispatch, source);
     checkPendingBreakpoints(getState(), dispatch, source);
@@ -128,10 +121,7 @@ function loadSourceMap(generatedSource) {
       };
     });
 
-    dispatch({
-      type: constants.ADD_SOURCES,
-      sources: originalSources,
-    });
+    dispatch({ type: constants.ADD_SOURCES, sources: originalSources });
 
     originalSources.forEach(source => {
       checkSelectedSource(state, dispatch, source);
@@ -140,10 +130,7 @@ function loadSourceMap(generatedSource) {
   };
 }
 
-type SelectSourceOptions = {
-  tabIndex?: number,
-  line?: number,
-};
+type SelectSourceOptions = { tabIndex?: number, line?: number };
 
 /**
  * Deterministically select a source that has a given URL. This will
@@ -193,10 +180,7 @@ function selectSource(id: string, options: SelectSourceOptions = {}) {
     // Make sure to start a request to load the source text.
     dispatch(loadSourceText(source));
 
-    dispatch({
-      type: constants.TOGGLE_PROJECT_SEARCH,
-      value: false,
-    });
+    dispatch({ type: constants.TOGGLE_PROJECT_SEARCH, value: false });
 
     dispatch({
       type: constants.SELECT_SOURCE,
@@ -223,7 +207,7 @@ function jumpToMappedLocation(sourceLocation: any) {
       : await getOriginalLocation(sourceLocation, source.toJS());
 
     return dispatch(
-      selectSource(pairedLocation.sourceId, { line: pairedLocation.line }),
+      selectSource(pairedLocation.sourceId, { line: pairedLocation.line })
     );
   };
 }
@@ -234,10 +218,7 @@ function jumpToMappedLocation(sourceLocation: any) {
  */
 function closeTab(url: string) {
   removeDocument(url);
-  return {
-    type: constants.CLOSE_TAB,
-    url,
-  };
+  return { type: constants.CLOSE_TAB, url };
 }
 
 /**
@@ -253,10 +234,7 @@ function closeTabs(urls: string[]) {
       }
     });
 
-    dispatch({
-      type: constants.CLOSE_TABS,
-      urls,
-    });
+    dispatch({ type: constants.CLOSE_TABS, urls });
   };
 }
 
@@ -286,16 +264,13 @@ function togglePrettyPrint(sourceId: string) {
 
     assert(
       isGeneratedId(sourceId),
-      "Pretty-printing only allowed on generated sources",
+      "Pretty-printing only allowed on generated sources"
     );
 
     const url = getPrettySourceURL(source.url);
     const id = generatedToOriginalId(source.id, url);
     const originalSource = { url, id, isPrettyPrinted: false };
-    dispatch({
-      type: constants.ADD_SOURCE,
-      source: originalSource,
-    });
+    dispatch({ type: constants.ADD_SOURCE, source: originalSource });
 
     return dispatch({
       type: constants.TOGGLE_PRETTY_PRINT,
@@ -316,11 +291,7 @@ function togglePrettyPrint(sourceId: string) {
 
         dispatch(selectSource(originalSource.id));
 
-        return {
-          text: code,
-          contentType: "text/javascript",
-          frames,
-        };
+        return { text: code, contentType: "text/javascript", frames };
       })(),
     });
   };
@@ -393,7 +364,6 @@ function getTextForSources(actors: any[]) {
     // everything is considered rejected, thus no other subsequent source will
     // be getting fetched. We don't want that. Something like Q's allSettled
     // would work like a charm here.
-
     // Try to fetch as many sources as possible.
     for (let actor of actors) {
       let source = getSource(getState(), actor);
@@ -403,7 +373,7 @@ function getTextForSources(actors: any[]) {
         },
         err => {
           onError(source, err);
-        },
+        }
       );
     }
 
@@ -440,7 +410,7 @@ function getTextForSources(actors: any[]) {
         // Sort the fetched sources alphabetically by their url.
         if (deferred) {
           deferred.resolve(
-            fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1),
+            fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1)
           );
         }
       }

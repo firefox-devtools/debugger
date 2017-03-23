@@ -21,10 +21,7 @@ const {
 import type { ThunkArgs } from "./types";
 import type { Location } from "../types";
 
-type addBreakpointOptions = {
-  condition: string,
-  getTextForLine?: () => any,
-};
+type addBreakpointOptions = { condition: string, getTextForLine?: () => any };
 
 function _breakpointExists(state, location: Location) {
   const currentBp = getBreakpoint(state, location);
@@ -56,7 +53,7 @@ function enableBreakpoint(location: Location) {
  */
 function addBreakpoint(
   location: Location,
-  { condition, getTextForLine }: addBreakpointOptions = {},
+  { condition, getTextForLine }: addBreakpointOptions = {}
 ) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
@@ -78,7 +75,7 @@ function addBreakpoint(
         let { id, actualLocation, hitCount } = await client.setBreakpoint(
           location,
           bp.condition,
-          isOriginalId(bp.location.sourceId),
+          isOriginalId(bp.location.sourceId)
         );
 
         actualLocation = await getOriginalLocation(actualLocation);
@@ -142,7 +139,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
       return dispatch(
         Object.assign({}, action, {
           [PROMISE]: client.removeBreakpoint(bp.id),
-        }),
+        })
       );
     }
     return dispatch(Object.assign({}, action, { status: "done" }));
@@ -187,7 +184,7 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
  */
 function setBreakpointCondition(
   location: Location,
-  { condition, getTextForLine }: addBreakpointOptions = {},
+  { condition, getTextForLine }: addBreakpointOptions = {}
 ) {
   // location: Location, condition: string, { getTextForLine }) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
@@ -210,7 +207,7 @@ function setBreakpointCondition(
         bp.id,
         location,
         condition,
-        isOriginalId(bp.location.sourceId),
+        isOriginalId(bp.location.sourceId)
       ),
     });
   };

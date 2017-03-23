@@ -28,7 +28,7 @@ module.exports = async function(ctx) {
   await selectSource(dbg, entrySrc);
   ok(
     dbg.win.cm.getValue().includes("window.keepMeAlive"),
-    "Original source text loaded correctly",
+    "Original source text loaded correctly"
   );
 
   // Test that breakpoint sliding is not attempted. The breakpoint
@@ -37,7 +37,7 @@ module.exports = async function(ctx) {
   is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
   ok(
     getBreakpoint(getState(), { sourceId: entrySrc.id, line: 13 }),
-    "Breakpoint has correct line",
+    "Breakpoint has correct line"
   );
 
   // Test breaking on a breakpoint
@@ -45,7 +45,7 @@ module.exports = async function(ctx) {
   is(getBreakpoints(getState()).size, 2, "Two breakpoints exist");
   ok(
     getBreakpoint(getState(), { sourceId: entrySrc.id, line: 15 }),
-    "Breakpoint has correct line",
+    "Breakpoint has correct line"
   );
 
   invokeInTab(dbg, "keepMeAlive");

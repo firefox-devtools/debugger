@@ -41,7 +41,7 @@ const State = makeRecord(
     pendingSelectedLocation: prefs.pendingSelectedLocation,
     sourcesText: I.Map(),
     tabs: I.List(restoreTabs()),
-  }: SourcesState),
+  }: SourcesState)
 );
 
 function update(state = State(), action: Action): Record<SourcesState> {
@@ -110,7 +110,7 @@ function update(state = State(), action: Action): Record<SourcesState> {
       if (action.status === "done") {
         return state.setIn(
           ["sources", action.source.id, "isBlackBoxed"],
-          action.value.isBlackBoxed,
+          action.value.isBlackBoxed
         );
       }
       break;
@@ -150,7 +150,7 @@ function _updateText(state, action: any): Record<SourcesState> {
       ["sourcesText", source.id],
       I.Map({
         error: action.error,
-      }),
+      })
     );
   }
 
@@ -160,7 +160,7 @@ function _updateText(state, action: any): Record<SourcesState> {
       text: sourceText.text,
       id: source.id,
       contentType: sourceText.contentType,
-    }),
+    })
   );
 }
 
@@ -222,7 +222,7 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
   }
 
   const selectedTab = state.sources.find(
-    source => source.get("id") == selectedLocation.sourceId,
+    source => source.get("id") == selectedLocation.sourceId
   );
 
   const selectedTabUrl = selectedTab ? selectedTab.get("url") : "";
@@ -234,7 +234,7 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
     }
 
     const selectedSource = sources.find(
-      source => source.get("url") == selectedTabUrl,
+      source => source.get("url") == selectedTabUrl
     );
 
     if (selectedSource) {
@@ -249,7 +249,7 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
   const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
   let tabSource = state.sources.find(
-    source => source.get("url") === availableTabs.toJS()[newSelectedTabIndex],
+    source => source.get("url") === availableTabs.toJS()[newSelectedTabIndex]
   );
 
   if (tabSource) {
@@ -303,7 +303,7 @@ function getSelectedSource(state: OuterState) {
   }
 
   return state.sources.sources.find(
-    source => source.get("id") == selectedLocation.sourceId,
+    source => source.get("id") == selectedLocation.sourceId
   );
 }
 

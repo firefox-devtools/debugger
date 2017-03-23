@@ -40,7 +40,7 @@ const ResultList = React.createClass({
         }),
       },
       dom.div({ className: "title" }, item.title),
-      dom.div({ className: "subtitle" }, item.subtitle),
+      dom.div({ className: "subtitle" }, item.subtitle)
     );
   },
 
@@ -51,7 +51,7 @@ const ResultList = React.createClass({
       {
         className: `result-list ${size}`,
       },
-      this.props.items.map(this.renderListItem),
+      this.props.items.map(this.renderListItem)
     );
   },
 });

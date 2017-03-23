@@ -15,7 +15,7 @@ import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
 const PaneToggleButton = createFactory(
-  require("../shared/Button/PaneToggle").default,
+  require("../shared/Button/PaneToggle").default
 );
 import Svg from "../shared/Svg";
 const Dropdown = createFactory(require("../shared/Dropdown"));
@@ -98,10 +98,10 @@ class SourceTabs extends Component {
     this.renderNewButton = this.renderNewButton.bind(this);
     this.renderDropDown = this.renderDropdown.bind(this);
     this.renderStartPanelToggleButton = this.renderStartPanelToggleButton.bind(
-      this,
+      this
     );
     this.renderEndPanelToggleButton = this.renderEndPanelToggleButton.bind(
-      this,
+      this
     );
 
     this.onResize = debounce(() => {
@@ -148,10 +148,10 @@ class SourceTabs extends Component {
 
     const closeTabKey = L10N.getStr("sourceTabs.closeTab.accesskey");
     const closeOtherTabsKey = L10N.getStr(
-      "sourceTabs.closeOtherTabs.accesskey",
+      "sourceTabs.closeOtherTabs.accesskey"
     );
     const closeTabsToEndKey = L10N.getStr(
-      "sourceTabs.closeTabsToEnd.accesskey",
+      "sourceTabs.closeTabsToEnd.accesskey"
     );
     const closeAllTabsKey = L10N.getStr("sourceTabs.closeAllTabs.accesskey");
     const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
@@ -279,7 +279,7 @@ class SourceTabs extends Component {
           selectSource(source.get("id"), { tabIndex });
         },
       },
-      filename,
+      filename
     );
   }
 
@@ -287,7 +287,7 @@ class SourceTabs extends Component {
     const sourceTabs = this.props.sourceTabs;
     return dom.div(
       { className: "source-tabs", ref: "sourceTabs" },
-      sourceTabs.map(this.renderTab),
+      sourceTabs.map(this.renderTab)
     );
   }
 
@@ -319,14 +319,14 @@ class SourceTabs extends Component {
       CloseButton({
         handleClick: onClickClose,
         tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip"),
-      }),
+      })
     );
   }
 
   renderNewButton() {
     const newTabTooltip = L10N.getFormatStr(
       "sourceTabs.newTabButtonTooltip",
-      formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`),
+      formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`)
     );
     return dom.div(
       {
@@ -334,7 +334,7 @@ class SourceTabs extends Component {
         onClick: () => this.props.toggleProjectSearch(),
         title: newTabTooltip,
       },
-      Svg("plus"),
+      Svg("plus")
     );
   }
 
@@ -377,7 +377,7 @@ class SourceTabs extends Component {
       this.renderTabs(),
       this.renderNewButton(),
       this.renderDropdown(),
-      this.renderEndPanelToggleButton(),
+      this.renderEndPanelToggleButton()
     );
   }
 }
@@ -411,5 +411,5 @@ module.exports = connect(
       searchOn: getProjectSearchState(state),
     };
   },
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )(SourceTabs);
