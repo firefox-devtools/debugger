@@ -28,12 +28,18 @@ const path = require("path");
 const getConfig = require("../../bin/getConfig");
 const setConfig = require("devtools-config").setConfig;
 
-const baseWorkerURL = path.join(__dirname, "../../assets/build/");
+const rootPath = path.join(__dirname, "../../");
 
 const envConfig = getConfig();
 setConfig(
   Object.assign({}, envConfig, {
-    baseWorkerURL,
-    sourceMapWorkerURL: path.join(baseWorkerURL, "source-map-worker.js"),
+    workers: {
+      sourceMapURL: path.join(
+        rootPath,
+        "node_modules/devtools-source-map/src/worker.js"
+      ),
+      parserURL: path.join(rootPath, "src/utils/parser/worker.js"),
+      prettyPrintURL: path.join(rootPath, "src/utils/pretty-print/worker.js"),
+    },
   })
 );

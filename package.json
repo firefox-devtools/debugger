@@ -49,9 +49,9 @@
     "babel-types": "^6.22.0",
     "babylon": "^6.15.0",
     "codemirror": "^5.1.0",
-    "devtools-launchpad": "^0.0.57",
+    "devtools-launchpad": "^0.0.59",
     "devtools-reps": "^0.4.0",
-    "devtools-source-map": "^0.2.1",
+    "devtools-source-map": "^0.2.2",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.12.0",
     "eslint-config-prettier": "^1.5.0",
@@ -78,7 +78,7 @@
     "stylelint": "^7.8.0",
     "svg-inline-react": "^1.0.2",
     "webpack": "1.14.0",
-    "workerjs": "github:jlongster/workerjs"
+    "workerjs": "github:jasonLaster/workerjs"
   },
   "files": [
     "src",
@@ -106,7 +106,7 @@
   },
   "lint-staged": {
     "src/**/*.js": [
-      "prettier --write --trailing-comma es5 --bracket-spacing=true",
+      "prettier --write --trailing-comma=es5 --bracket-spacing=true",
       "git add"
     ]
   },
@@ -120,7 +120,7 @@
       "<rootDir>/test/"
     ],
     "transformIgnorePatterns": [
-      "/node_modules/(?!devtools-source-map)"
+      "node_modules/(?!devtools-)"
     ],
     "setupFiles": [
       "<rootDir>/test/tests-boot.js"

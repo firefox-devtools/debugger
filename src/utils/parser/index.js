@@ -1,6 +1,6 @@
 // @flow
 
-const { workerTask } = require("../worker");
+const { workerUtils: { workerTask } } = require("devtools-modules");
 const { getValue } = require("devtools-config");
 
 let worker;
@@ -10,7 +10,7 @@ function restartWorker() {
     worker.terminate();
   }
 
-  worker = new Worker(`${getValue("baseWorkerURL")}parser-worker.js`);
+  worker = new Worker(getValue("workers.parserURL"));
 }
 
 restartWorker();
