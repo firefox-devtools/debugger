@@ -15,6 +15,8 @@
   top: 30px;
   left: 0px;
   --editor-footer-height: 27px;
+  --editor-searchbar-height: 27px;
+  --editor-second-searchbar-height: 27px;
 }
 
 html[dir="rtl"] .editor-mount {
@@ -73,12 +75,7 @@ html[dir="rtl"] .editor-mount {
 
 .editor-wrapper .editor-mount {
   width: 100%;
-  height: calc(100% - var(--editor-footer-height));
   background-color: var(--theme-body-background);
-}
-
-.search-bar ~ .editor-mount {
-  height: calc(100% - 72px);
 }
 
 .CodeMirror-linenumber {
