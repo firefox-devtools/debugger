@@ -183,6 +183,7 @@ type PauseAction =
       input: string,
       status: string,
       value: Object,
+      visible: boolean,
       "@@dispatch/promise": any,
     }
   | {

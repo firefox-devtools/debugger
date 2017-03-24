@@ -9,6 +9,7 @@ export type SearchModifiers = {
 export type Expression = {
   value: Object,
   input: string,
+  visible: boolean,
 };
 
 export type Mode =

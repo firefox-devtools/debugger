@@ -22,9 +22,9 @@ function expressionExists(expressions, input) {
  * @memberof actions/pause
  * @static
  */
-export function addExpression(input: string) {
+export function addExpression(input: string, visible: boolean = true) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    const expressions = getExpressions(getState());
+    const expressions = getExpressions(getState(), visible);
     if (!input || expressionExists(expressions, input)) {
       return;
     }
@@ -32,11 +32,12 @@ export function addExpression(input: string) {
     dispatch({
       type: constants.ADD_EXPRESSION,
       input,
+      visible,
     });
 
     const selectedFrame = getSelectedFrame(getState());
     const selectedFrameId = selectedFrame ? selectedFrame.id : null;
-    dispatch(evaluateExpression({ input }, selectedFrameId));
+    dispatch(evaluateExpression({ input, visible }, selectedFrameId));
   };
 }
 
@@ -80,9 +81,9 @@ export function deleteExpression(expression: Expression) {
  * @param {number} selectedFrameId
  * @static
  */
-export function evaluateExpressions(frameId: frameIdType) {
+export function evaluateExpressions(frameId: frameIdType, visible: boolean = true) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
-    const expressions = getExpressions(getState()).toJS();
+    const expressions = getExpressions(getState(), visible).toJS();
     for (let expression of expressions) {
       await dispatch(evaluateExpression(expression, frameId));
     }
@@ -99,6 +100,7 @@ function evaluateExpression(expression, frameId: frameIdType) {
     return dispatch({
       type: constants.EVALUATE_EXPRESSION,
       input: expression.input,
+      visible: expression.visible == undefined ? true : expression.visible,
       [PROMISE]: client.evaluate(expression.input, { frameId }),
     });
   };
