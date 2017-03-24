@@ -34,6 +34,10 @@ import "./Tabs.css";
  * @returns Immutable.list
  */
 function getHiddenTabs(sourceTabs, sourceTabEls) {
+  if (!sourceTabs) {
+    return;
+  }
+
   sourceTabEls = [].slice.call(sourceTabEls);
   function getTopOffset() {
     const topOffsets = sourceTabEls.map(t => t.getBoundingClientRect().top);
@@ -137,6 +141,10 @@ class SourceTabs extends Component {
       showSource,
       togglePrettyPrint,
     } = this.props;
+
+    if (!sourceTabs) {
+      return;
+    }
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
@@ -285,6 +293,11 @@ class SourceTabs extends Component {
 
   renderTabs() {
     const sourceTabs = this.props.sourceTabs;
+
+    if (!sourceTabs) {
+      return;
+    }
+
     return dom.div(
       { className: "source-tabs", ref: "sourceTabs" },
       sourceTabs.map(this.renderTab)
