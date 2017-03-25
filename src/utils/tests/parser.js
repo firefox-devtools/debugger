@@ -19,6 +19,8 @@ const SOURCES = {
     function square(n) {
       return n * n;
     }
+
+    child = function() {}
   `
   ),
   math: formatCode(
@@ -29,6 +31,9 @@ const SOURCES = {
       const four = squaare(4);
       return two * four;
     }
+
+    var child = function() {};
+    child2 = function() {};
   `
   ),
   proto: formatCode(
@@ -149,14 +154,14 @@ describe("parser", () => {
 
       const names = fncs.map(f => f.value);
 
-      expect(names).to.eql(["square"]);
+      expect(names).to.eql(["square", "child"]);
     });
 
     it("finds nested functions", () => {
       const fncs = getSymbols(getSourceText("math")).functions;
       const names = fncs.map(f => f.value);
 
-      expect(names).to.eql(["math", "square"]);
+      expect(names).to.eql(["math", "square", "child", "child2"]);
     });
 
     it("finds object properties", () => {
