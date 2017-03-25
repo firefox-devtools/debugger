@@ -20,7 +20,9 @@ const SOURCES = {
       return n * n;
     }
 
-    child = function() {}
+    child = function() {};
+
+    (function () { 2 })();
   `
   ),
   math: formatCode(
@@ -149,12 +151,12 @@ function getSourceText(name) {
 
 describe("parser", () => {
   describe("getSymbols -> functions", () => {
-    it("finds square", () => {
+    it("finds functions", () => {
       const fncs = getSymbols(getSourceText("func")).functions;
 
       const names = fncs.map(f => f.value);
 
-      expect(names).to.eql(["square", "child"]);
+      expect(names).to.eql(["square", "child", "anonymous"]);
     });
 
     it("finds nested functions", () => {

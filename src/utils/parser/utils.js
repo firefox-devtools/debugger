@@ -99,14 +99,12 @@ function getFunctionName(path) {
     return parent.id.name;
   }
 
-  if (parent.type == "AssignmentExpression" && isFunction(parent.right)) {
-    if (parent.left.name) {
-      // child = function() {}
-      return parent.left.name;
-    } else if (parent.left.type == "MemberExpression") {
-      // Obj.property = () => {}
+  if (parent.type == "AssignmentExpression") {
+    if (parent.left.type == "MemberExpression") {
       return parent.left.property.name;
     }
+
+    return parent.left.name;
   }
 
   return "anonymous";
