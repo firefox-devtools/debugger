@@ -221,9 +221,9 @@ The debugger.html project is targeted to land in Firefox for Firefox 52.  Howeve
 debugger.html is an Open Source [Mozilla][mozilla] [Firefox][mozilla-firefox] Developer Tools project.
 Our goal is to work with the community to build a universal JS debugger for modern times.
 
-|||
-|----------|------|
-|![][jasonlaster] <br/> [@jasonlaster][@jasonlaster]|![][clarkbw] <br/> [@clarkbw][@clarkbw]|
+| | |
+| ---------- | ------ |
+| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][clarkbw] <br/> [@clarkbw][@clarkbw] |
 
 ### Team Members
 
@@ -231,9 +231,9 @@ debugger.html community team members help shepherd the community.
 They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
-|||||
-|----------|------|-----|----|
-|![][bomsy] <br /> [@bomsy][@bomsy]|![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy]|![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro]|![][irfanhudda] <br />[@irfanhudda][@irfanhudda]|
+| | | | |
+| ---------- | ------ | ----- | ---- |
+| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] |
 
 ### Joining Mozilla
 
