@@ -9,9 +9,9 @@ import type { Expression } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-const expressionType = visible => {
+function expressionType(visible) {
   return visible ? "visible" : "hidden";
-};
+}
 
 type ExpressionState = {
   expressions: List<Expression>,
@@ -36,7 +36,7 @@ export function update(
           input: action.input,
           value: null,
           updating: true,
-        },
+        }
       );
     case constants.UPDATE_EXPRESSION:
       const key = action.expression.input;
@@ -48,7 +48,7 @@ export function update(
           input: action.input,
           value: null,
           updating: true,
-        },
+        }
       );
     case constants.EVALUATE_EXPRESSION:
       if (action.status === "done") {
@@ -60,7 +60,7 @@ export function update(
             input: action.input,
             value: action.value,
             updating: false,
-          },
+          }
         );
       }
       break;
@@ -111,10 +111,10 @@ function updateItemInList(
 function deleteExpression(
   state: State,
   input: string,
-  visible: boolean = true,
+  visible: boolean = true
 ) {
   const index = getExpressions({ expressions: state }, visible).findKey(
-    e => e.input == input,
+    e => e.input == input
   );
   const newState = state.deleteIn([
     "expressions",
@@ -134,7 +134,7 @@ export function getExpressions(state: OuterState, visible: boolean = true) {
 export function getExpression(
   state: OuterState,
   input: string,
-  visible: boolean = true,
+  visible: boolean = true
 ) {
   return getExpressions(state, visible).find(exp => exp.input == input);
 }

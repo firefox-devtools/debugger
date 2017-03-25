@@ -177,6 +177,7 @@ type PauseAction =
       id: number,
       input: string,
       value: string,
+      visible: boolean,
     }
   | {
       type: "EVALUATE_EXPRESSION",
@@ -190,6 +191,7 @@ type PauseAction =
       type: "UPDATE_EXPRESSION",
       expression: Expression,
       input: string,
+      visible: boolean,
     }
   | {
       type: "DELETE_EXPRESSION",
