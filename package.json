@@ -51,7 +51,7 @@
     "codemirror": "^5.1.0",
     "devtools-launchpad": "^0.0.60",
     "devtools-reps": "^0.4.0",
-    "devtools-source-map": "^0.2.2",
+    "devtools-source-map": "^0.2.4",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.12.0",
     "eslint-config-prettier": "^1.5.0",

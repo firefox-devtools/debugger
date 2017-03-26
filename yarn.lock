@@ -1967,16 +1967,6 @@ detective@^4.0.0:
     acorn "^4.0.3"
     defined "^1.0.0"
 
-devtools-client-adapters@^0.0.23:
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.23.tgz#c0b05b07ec4419b6553c5f171a59a5e35502d13e"
-  dependencies:
-    chrome-remote-interface "0.17.0"
-    devtools-config "^0.0.12"
-    devtools-modules "^0.0.18"
-    devtools-network-request "^0.0.14"
-    devtools-sham-modules "^0.0.17"
-
 devtools-client-adapters@^0.0.24:
   version "0.0.24"
   resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.24.tgz#cd16b654248207b763551fdc25d759cf308aed87"
@@ -2076,21 +2066,17 @@ devtools-reps@^0.4.0:
     lodash "^4.17.2"
     svg-inline-react "^1.0.2"
 
-devtools-sham-modules@^0.0.17:
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.17.tgz#26dd2741ac26a27b424e07690e16d7deaa5102fa"
-
 devtools-sham-modules@^0.0.18:
   version "0.0.18"
   resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.18.tgz#0e2d89b164a4a642bd0948a4eb036aa72fc185ee"
 
-devtools-source-map@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.2.2.tgz#b042f45268cb1061b8018a83466527d4e2cb6b27"
+devtools-source-map@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.2.4.tgz#ff65494355e67f93ccc4cc86235b78aaa372b393"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
-    devtools-client-adapters "^0.0.23"
+    devtools-client-adapters "^0.0.24"
     devtools-config "^0.0.12"
     devtools-modules "^0.0.18"
     devtools-network-request "^0.0.14"
@@ -6808,7 +6794,7 @@ sugarss@^0.2.0:
   dependencies:
     postcss "^5.2.4"
 
-supports-color@3.1.2:
+supports-color@3.1.2, supports-color@^3.1.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
@@ -6818,7 +6804,7 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^3.1.0, supports-color@^3.1.2, supports-color@^3.2.3:
+supports-color@^3.1.2, supports-color@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
