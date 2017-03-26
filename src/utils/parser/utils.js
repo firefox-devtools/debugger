@@ -99,8 +99,12 @@ function getFunctionName(path) {
     return parent.id.name;
   }
 
-  if (parent.right && isFunction(parent.right)) {
-    return parent.left.property.name;
+  if (parent.type == "AssignmentExpression") {
+    if (parent.left.type == "MemberExpression") {
+      return parent.left.property.name;
+    }
+
+    return parent.left.name;
   }
 
   return "anonymous";
