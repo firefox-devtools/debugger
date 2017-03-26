@@ -1977,13 +1977,23 @@ devtools-client-adapters@^0.0.23:
     devtools-network-request "^0.0.14"
     devtools-sham-modules "^0.0.17"
 
+devtools-client-adapters@^0.0.24:
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.24.tgz#cd16b654248207b763551fdc25d759cf308aed87"
+  dependencies:
+    chrome-remote-interface "0.17.0"
+    devtools-config "^0.0.12"
+    devtools-modules "^0.0.18"
+    devtools-network-request "^0.0.14"
+    devtools-sham-modules "^0.0.18"
+
 devtools-config@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
 
-devtools-launchpad@^0.0.59:
-  version "0.0.59"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.59.tgz#f0f4311dd919710fbd6a11d3b0aadeaef80dba8d"
+devtools-launchpad@^0.0.60:
+  version "0.0.60"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.60.tgz#dae5a8631c6b826a23f5d6fc75e5c6af85e5c277"
   dependencies:
     amd-loader "0.0.5"
     autoprefixer "^6.7.6"
@@ -2008,11 +2018,11 @@ devtools-launchpad@^0.0.59:
     classnames "^2.2.5"
     co "=4.6.0"
     css-loader "^0.26.1"
-    devtools-client-adapters "^0.0.23"
+    devtools-client-adapters "^0.0.24"
     devtools-config "^0.0.12"
     devtools-modules "^0.0.18"
     devtools-network-request "^0.0.14"
-    devtools-sham-modules "^0.0.17"
+    devtools-sham-modules "^0.0.18"
     eslint "^3.12.0"
     eslint-plugin-babel "^3.3.0"
     eslint-plugin-flowtype "^2.20.0"
@@ -2022,7 +2032,7 @@ devtools-launchpad@^0.0.59:
     extract-text-webpack-plugin "^1.0.1"
     fs-extra "^2.0.0"
     fuzzaldrin-plus "^0.4.0"
-    geckodriver "^1.2.0"
+    geckodriver "=1.4.0"
     immutable "^3.7.6"
     json-loader "^0.5.4"
     minimist "^1.2.0"
@@ -2069,6 +2079,10 @@ devtools-reps@^0.4.0:
 devtools-sham-modules@^0.0.17:
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.17.tgz#26dd2741ac26a27b424e07690e16d7deaa5102fa"
+
+devtools-sham-modules@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.18.tgz#0e2d89b164a4a642bd0948a4eb036aa72fc185ee"
 
 devtools-source-map@^0.2.2:
   version "0.2.2"
@@ -2908,9 +2922,9 @@ gauge@~2.7.1:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-geckodriver@^1.2.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-1.5.0.tgz#5ea6bafc01863ac31e39dd30e9f6637f7f36a966"
+geckodriver@=1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-1.4.0.tgz#f3bc1e4e6139e9e09b44e0777225c628e41d129c"
   dependencies:
     adm-zip "0.4.7"
     bluebird "3.4.6"
@@ -3058,8 +3072,8 @@ globals-docs@2.2.0:
   resolved "https://registry.yarnpkg.com/globals-docs/-/globals-docs-2.2.0.tgz#28d9e2937cb9a6bce7e786510a5d4e337d61d3ef"
 
 globals@^9.0.0, globals@^9.14.0:
-  version "9.16.0"
-  resolved "https://registry.yarnpkg.com/globals/-/globals-9.16.0.tgz#63e903658171ec2d9f51b1d31de5e2b8dc01fb80"
+  version "9.17.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-9.17.0.tgz#0c0ca696d9b9bb694d2e5470bd37777caad50286"
 
 globby@^4.0.0:
   version "4.1.0"
@@ -3381,9 +3395,9 @@ invert-kv@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
 
-ipaddr.js@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.2.0.tgz#8aba49c9192799585bdd643e0ccb50e8ae777ba4"
+ipaddr.js@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.3.0.tgz#1e03a52fdad83a8bbb2b25cbf4998b4cffcd3dec"
 
 irregular-plurals@^1.0.0:
   version "1.2.0"
@@ -4593,13 +4607,17 @@ mime@1.3.4, mime@>=1.2.9, mime@^1.3.4:
   dependencies:
     brace-expansion "^1.0.0"
 
-minimist@0.0.8, minimist@~0.0.1:
+minimist@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
 
 minimist@1.2.0, minimist@>=0.2.0, minimist@^1.1.0, minimist@^1.1.1, minimist@^1.1.3, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
+
+minimist@~0.0.1:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
 mkdirp@0.5.1, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   version "0.5.1"
@@ -5556,19 +5574,19 @@ protocols@^1.1.0, protocols@^1.4.0:
   resolved "https://registry.yarnpkg.com/protocols/-/protocols-1.4.5.tgz#21de1f441c4ef7094408ed9f1c94f7a114b87557"
 
 proxy-addr@~1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-1.1.3.tgz#dc97502f5722e888467b3fa2297a7b1ff47df074"
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-1.1.4.tgz#27e545f6960a44a627d9b44467e35c1b6b4ce2f3"
   dependencies:
     forwarded "~0.1.0"
-    ipaddr.js "1.2.0"
+    ipaddr.js "1.3.0"
 
 prr@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/prr/-/prr-0.0.0.tgz#1a84b85908325501411853d0081ee3fa86e2926a"
 
 ps-node@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/ps-node/-/ps-node-0.1.4.tgz#85e5673ce84e94e91a5da01c40af3cfb5a24fc21"
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/ps-node/-/ps-node-0.1.5.tgz#b51e5dd5650fe12ab4785d76ac4770dfbc56f986"
   dependencies:
     table-parser "^0.1.3"
 
@@ -6790,7 +6808,7 @@ sugarss@^0.2.0:
   dependencies:
     postcss "^5.2.4"
 
-supports-color@3.1.2, supports-color@^3.1.0:
+supports-color@3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
@@ -6800,7 +6818,7 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-supports-color@^3.1.2, supports-color@^3.2.3:
+supports-color@^3.1.0, supports-color@^3.1.2, supports-color@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
