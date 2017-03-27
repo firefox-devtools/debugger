@@ -133,9 +133,10 @@ const Editor = React.createClass({
     // disables the default search shortcuts
     this.editor._initShortcuts = () => {};
 
-    this.editor.appendToLocalElement(
-      ReactDOM.findDOMNode(this).querySelector(".editor-mount")
-    );
+    const node = ReactDOM.findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      this.editor.appendToLocalElement(node.querySelector(".editor-mount"));
+    }
 
     const codeMirror = this.editor.codeMirror;
     const codeMirrorWrapper = codeMirror.getWrapperElement();
@@ -189,10 +190,12 @@ const Editor = React.createClass({
     });
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`, (_, e) =>
-      traverseResults(e, ctx, query, "prev", searchModifiers.toJS()));
-    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`, (_, e) =>
-      traverseResults(e, ctx, query, "next", searchModifiers.toJS()));
+    if (searchModifiers) {
+      shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`, (_, e) =>
+        traverseResults(e, ctx, query, "prev", searchModifiers.toJS()));
+      shortcuts.on(`CmdOrCtrl+${searchAgainKey}`, (_, e) =>
+        traverseResults(e, ctx, query, "next", searchModifiers.toJS()));
+    }
 
     resizeBreakpointGutter(codeMirror);
     debugGlobal("cm", codeMirror);
@@ -540,7 +543,7 @@ const Editor = React.createClass({
     const { breakpoints, sourceText } = this.props;
     const isLoading = sourceText && sourceText.get("loading");
 
-    if (isLoading) {
+    if (isLoading || !breakpoints) {
       return;
     }
 

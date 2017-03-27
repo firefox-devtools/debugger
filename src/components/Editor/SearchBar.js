@@ -107,6 +107,7 @@ const SearchBar = React.createClass({
   componentDidMount() {
     // overwrite searchContents with a debounced version to reduce the
     // frequency of queries which improves perf on large files
+    // $FlowIgnore
     this.searchContents = debounce(this.searchContents, 100);
 
     const shortcuts = this.context.shortcuts;
@@ -136,9 +137,10 @@ const SearchBar = React.createClass({
 
   componentDidUpdate(prevProps: any, prevState: any) {
     const { sourceText, selectedSource, query, modifiers } = this.props;
+    const searchInput = this.searchInput();
 
-    if (this.searchInput()) {
-      this.searchInput().focus();
+    if (searchInput) {
+      searchInput.focus();
     }
 
     if (this.refs.resultList && this.refs.resultList.refs) {
@@ -152,7 +154,8 @@ const SearchBar = React.createClass({
     const doneLoading = wasLoading && hasLoaded;
     const changedFiles = selectedSource != prevProps.selectedSource &&
       hasLoaded;
-    const modifiersUpdated = !modifiers.equals(prevProps.modifiers);
+    const modifiersUpdated = modifiers &&
+      !modifiers.equals(prevProps.modifiers);
 
     const isOpen = this.props.searchOn || this.state.symbolSearchEnabled;
     const { selectedSymbolType, symbolSearchEnabled } = this.state;
@@ -174,7 +177,7 @@ const SearchBar = React.createClass({
 
   clearSearch() {
     const { editor: ed, query, modifiers } = this.props;
-    if (ed) {
+    if (ed && modifiers) {
       const ctx = { ed, cm: ed.codeMirror };
       removeOverlay(ctx, query, modifiers.toJS());
     }
@@ -260,22 +263,30 @@ const SearchBar = React.createClass({
   },
 
   setSearchValue(value: string) {
-    if (value == "") {
+    const searchInput = this.searchInput();
+    if (value == "" || !searchInput) {
       return;
     }
 
-    this.searchInput().value = value;
+    searchInput.value = value;
   },
 
   selectSearchInput() {
-    const node = this.searchInput();
-    if (node) {
-      node.setSelectionRange(0, node.value.length);
+    const searchInput = this.searchInput();
+    if (searchInput) {
+      searchInput.setSelectionRange(0, searchInput.value.length);
     }
   },
 
-  searchInput() {
-    return findDOMNode(this).querySelector("input");
+  searchInput(): ?HTMLInputElement {
+    const node = findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      const input = node.querySelector("input");
+      if (input instanceof HTMLInputElement) {
+        return input;
+      }
+    }
+    return null;
   },
 
   async updateSymbolSearchResults(query: string) {
@@ -327,7 +338,7 @@ const SearchBar = React.createClass({
       searchResults: { index },
     } = this.props;
 
-    if (!ed || !sourceText || !sourceText.get("text")) {
+    if (!ed || !sourceText || !sourceText.get("text") || !modifiers) {
       return;
     }
 
@@ -373,16 +384,18 @@ const SearchBar = React.createClass({
       this.props.toggleFileSearch(true);
     }
 
-    if (index == -1) {
+    if (index == -1 && modifiers) {
       clearIndex(ctx, query, modifiers.toJS());
     }
 
-    const findFnc = rev ? findPrev : findNext;
-    const newIndex = findFnc(ctx, query, true, modifiers.toJS());
-    updateSearchResults({
-      index: newIndex,
-      count,
-    });
+    if (modifiers) {
+      const findFnc = rev ? findPrev : findNext;
+      const newIndex = findFnc(ctx, query, true, modifiers.toJS());
+      updateSearchResults({
+        index: newIndex,
+        count,
+      });
+    }
   },
 
   // Handlers
@@ -503,7 +516,7 @@ const SearchBar = React.createClass({
       return dom.button(
         {
           className: classnames(className, {
-            active: !symbolSearchEnabled && modifiers.get(modVal),
+            active: !symbolSearchEnabled && modifiers && modifiers.get(modVal),
             disabled: symbolSearchEnabled,
           }),
           onClick: () =>

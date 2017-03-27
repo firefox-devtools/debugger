@@ -75,8 +75,10 @@ function handlePressAnimation(button) {
   button.style.transform = "scale(1.3)";
   setTimeout(
     () => {
-      button.style.opacity = "1";
-      button.style.transform = "none";
+      if (button) {
+        button.style.opacity = "1";
+        button.style.transform = "none";
+      }
     },
     200
   );
@@ -126,8 +128,10 @@ class CommandBar extends Component {
     e.stopPropagation();
 
     this.props[action]();
-    const button = findDOMNode(this).querySelector(`.${action}`);
-    handlePressAnimation(button);
+    const node = findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      handlePressAnimation(node.querySelector(`.${action}`));
+    }
   }
 
   renderStepButtons() {
