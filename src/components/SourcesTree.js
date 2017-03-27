@@ -1,18 +1,13 @@
 // @flow
-
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
-import classnames from "classnames";
-import ImPropTypes from "react-immutable-proptypes";
-import { Set } from "immutable";
-import {
-  getShownSource,
-  getSelectedSource,
-  getDebuggeeUrl,
-} from "../selectors";
-
-import {
+const React = require("react");
+const { bindActionCreators } = require("redux");
+const { connect } = require("react-redux");
+const { DOM: dom, PropTypes } = React;
+const classnames = require("classnames");
+const ImPropTypes = require("react-immutable-proptypes");
+const { Set } = require("immutable");
+const { getShownSource, getSelectedSource } = require("../selectors");
+const {
   nodeHasChildren,
   createParentMap,
   isDirectory,
@@ -20,14 +15,13 @@ import {
   collapseTree,
   createTree,
   getDirectories,
-} from "../utils/sources-tree.js";
-
-const ManagedTree = createFactory(require("./shared/ManagedTree"));
-import actions from "../actions";
-import Svg from "./shared/Svg";
-import { showMenu } from "./shared/menu";
-import { copyToTheClipboard } from "../utils/clipboard";
-import { throttle } from "../utils/utils";
+} = require("../utils/sources-tree.js");
+const ManagedTree = React.createFactory(require("./shared/ManagedTree"));
+const actions = require("../actions");
+const Svg = require("./shared/Svg");
+const { showMenu } = require("./shared/menu");
+const { copyToTheClipboard } = require("../utils/clipboard");
+const { throttle } = require("../utils/utils");
 
 type CreateTree = {
   focusedItem?: any,
@@ -38,50 +32,35 @@ type CreateTree = {
   highlightItems?: any,
 };
 
-class SourcesTree extends Component {
-  state: CreateTree;
-  focusItem: Function;
-  selectItem: Function;
-  getIcon: Function;
-  queueUpdate: Function;
-  onContextMenu: Function;
-  renderItem: Function;
-  mounted: boolean;
+let SourcesTree = React.createClass({
+  propTypes: {
+    sources: ImPropTypes.map.isRequired,
+    selectSource: PropTypes.func.isRequired,
+    shownSource: PropTypes.string,
+    selectedSource: ImPropTypes.map,
+  },
 
-  constructor(props) {
-    super(props);
-    this.state = createTree(this.props.sources, this.props.debuggeeUrl);
+  displayName: "SourcesTree",
 
-    this.focusItem = this.focusItem.bind(this);
-    this.selectItem = this.selectItem.bind(this);
-    this.getIcon = this.getIcon.bind(this);
-    this.onContextMenu = this.onContextMenu.bind(this);
-    this.renderItem = this.renderItem.bind(this);
+  getInitialState(): CreateTree {
+    return createTree(this.props.sources, "");
+  },
 
-    this.queueUpdate = throttle(
-      function() {
-        if (!this.mounted) {
-          return;
-        }
+  queueUpdate: throttle(
+    function() {
+      if (!this.isMounted()) {
+        return;
+      }
 
-        this.forceUpdate();
-      },
-      50
-    );
-  }
-
-  componentDidMount() {
-    this.mounted = true;
-  }
-
-  componentWillUnMount() {
-    this.mounted = false;
-  }
+      this.forceUpdate();
+    },
+    50
+  ),
 
   shouldComponentUpdate() {
     this.queueUpdate();
     return false;
-  }
+  },
 
   componentWillReceiveProps(nextProps) {
     const { selectedSource } = this.props;
@@ -115,18 +94,20 @@ class SourcesTree extends Component {
       return;
     }
 
-    if (nextProps.sources.size === 0) {
-      this.setState(createTree(nextProps.sources, this.props.debuggeeUrl));
+    if (nextProps.sources && nextProps.sources.size === 0) {
+      this.setState(createTree(nextProps.sources, ""));
       return;
     }
 
-    const next = Set(nextProps.sources.valueSeq());
-    const prev = Set(this.props.sources.valueSeq());
+    const next = !nextProps.sources ? Set() : Set(nextProps.sources.valueSeq());
+    const prev = !this.props.sources
+      ? Set()
+      : Set(this.props.sources.valueSeq());
     const newSet = next.subtract(prev);
 
     const uncollapsedTree = this.state.uncollapsedTree;
     for (let source of newSet) {
-      addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
+      addToTree(uncollapsedTree, source, "");
     }
 
     // TODO: recreating the tree every time messes with the expanded
@@ -142,17 +123,17 @@ class SourcesTree extends Component {
       sourceTree,
       parentMap: createParentMap(sourceTree),
     });
-  }
+  },
 
   focusItem(item) {
     this.setState({ focusedItem: item });
-  }
+  },
 
   selectItem(item) {
     if (!nodeHasChildren(item)) {
       this.props.selectSource(item.contents.get("id"));
     }
-  }
+  },
 
   getIcon(item, depth) {
     if (depth === 0) {
@@ -164,7 +145,7 @@ class SourcesTree extends Component {
     }
 
     return Svg("folder");
-  }
+  },
 
   onContextMenu(event, item) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
@@ -189,7 +170,7 @@ class SourcesTree extends Component {
     }
 
     showMenu(event, menuOptions);
-  }
+  },
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
     const arrow = Svg("arrow", {
@@ -224,9 +205,9 @@ class SourcesTree extends Component {
       },
       dom.div(null, arrow, icon, item.name)
     );
-  }
+  },
 
-  render() {
+  render: function() {
     const {
       focusedItem,
       sourceTree,
@@ -258,16 +239,6 @@ class SourcesTree extends Component {
       renderItem: this.renderItem,
     });
 
-    const noSourcesMessage = dom.div(
-      {
-        className: "no-sources-message",
-      },
-      L10N.getStr("sources.noSourcesAvailable")
-    );
-
-    if (isEmpty) {
-      return noSourcesMessage;
-    }
     return dom.div(
       {
         className: "sources-list",
@@ -279,25 +250,14 @@ class SourcesTree extends Component {
       },
       tree
     );
-  }
-}
+  },
+});
 
-SourcesTree.propTypes = {
-  sources: ImPropTypes.map.isRequired,
-  selectSource: PropTypes.func.isRequired,
-  shownSource: PropTypes.string,
-  selectedSource: ImPropTypes.map,
-  debuggeeUrl: PropTypes.string.isRequired,
-};
-
-SourcesTree.displayName = "SourcesTree";
-
-export default connect(
+module.exports = connect(
   state => {
     return {
       shownSource: getShownSource(state),
       selectedSource: getSelectedSource(state),
-      debuggeeUrl: getDebuggeeUrl(state),
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

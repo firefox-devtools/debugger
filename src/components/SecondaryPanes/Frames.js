@@ -94,6 +94,10 @@ class Frames extends Component {
   renderFrame(frame: Frame) {
     const { selectedFrame } = this.props;
 
+    if (!selectedFrame) {
+      return;
+    }
+
     return dom.li(
       {
         key: frame.id,
