@@ -263,7 +263,7 @@ const SearchBar = React.createClass({
   },
 
   setSearchValue(value: string) {
-    const searchInput: any = this.searchInput();
+    const searchInput = this.searchInput();
     if (value == "" || !searchInput) {
       return;
     }
@@ -272,7 +272,7 @@ const SearchBar = React.createClass({
   },
 
   selectSearchInput() {
-    const searchInput: any = this.searchInput();
+    const searchInput = this.searchInput();
     if (searchInput) {
       searchInput.setSelectionRange(0, searchInput.value.length);
     }
