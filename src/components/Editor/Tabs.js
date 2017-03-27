@@ -18,7 +18,7 @@ const PaneToggleButton = createFactory(
   require("../shared/Button/PaneToggle").default
 );
 import Svg from "../shared/Svg";
-const Dropdown = createFactory(require("../shared/Dropdown"));
+const Dropdown = createFactory(require("../shared/Dropdown").default);
 import { showMenu, buildMenu } from "../shared/menu";
 import debounce from "lodash/debounce";
 import { formatKeyShortcut } from "../../utils/text";
