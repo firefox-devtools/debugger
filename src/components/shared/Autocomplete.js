@@ -40,9 +40,14 @@ const Autocomplete = React.createClass({
 
   componentDidMount() {
     const endOfInput = this.state.inputValue.length;
-    const searchInput = findDOMNode(this).querySelector("input");
-    searchInput.focus();
-    searchInput.setSelectionRange(endOfInput, endOfInput);
+    const node = findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      const searchInput = node.querySelector("input");
+      if (searchInput instanceof HTMLInputElement) {
+        searchInput.focus();
+        searchInput.setSelectionRange(endOfInput, endOfInput);
+      }
+    }
   },
 
   componentDidUpdate() {
