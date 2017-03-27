@@ -7,3 +7,4 @@ permalink: docs/updates
 * [February 28th](./updates-2-28-2017.md)
 * [March 7th](./updates-3-7-2017.md)
 * [March 14th](./updates-3-14-2017.md)
+* [March 21st](./updates-3-21-2017.md)
