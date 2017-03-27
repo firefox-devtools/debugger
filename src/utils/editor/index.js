@@ -96,14 +96,20 @@ function traverseResults(e, ctx, query, dir, modifiers) {
 function createEditor() {
   return new SourceEditor({
     mode: "javascript",
+    foldGutter: true,
     readOnly: true,
     lineNumbers: true,
     theme: "mozilla",
     lineWrapping: false,
     matchBrackets: true,
     showAnnotationRuler: true,
-    enableCodeFolding: false,
-    gutters: ["breakpoints", "hit-markers"],
+    enableCodeFolding: true,
+    gutters: [
+      "breakpoints",
+      "hit-markers",
+      "CodeMirror-linenumbers",
+      "CodeMirror-foldgutter",
+    ],
     value: " ",
     extraKeys: {
       // Override code mirror keymap to avoid conflicts with split console.

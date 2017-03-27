@@ -399,7 +399,9 @@ const Editor = React.createClass({
       return this.closeConditionalPanel(line);
     }
 
-    this.toggleBreakpoint(line);
+    if (gutter !== "CodeMirror-foldgutter") {
+      this.toggleBreakpoint(line);
+    }
   },
 
   onGutterContextMenu(event) {
