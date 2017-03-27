@@ -19,10 +19,14 @@ const { renderConditionalPanel } = require("./ConditionalPanel");
 const { debugGlobal } = require("devtools-launchpad");
 const { isEnabled } = require("devtools-config");
 const {
-  getSourceText, getBreakpointsForSource,
-  getSelectedLocation, getSelectedFrame,
-  getSelectedSource, getHitCountForSource,
-  getCoverageEnabled, getLoadedObjects
+  getSourceText,
+  getBreakpointsForSource,
+  getSelectedLocation,
+  getSelectedFrame,
+  getSelectedSource,
+  getHitCountForSource,
+  getCoverageEnabled,
+  getLoadedObjects,
 } = require("../../selectors");
 const { makeLocationId } = require("../../reducers/breakpoints");
 const actions = require("../../actions");
@@ -43,7 +47,7 @@ const {
   getTextForLine,
   getCursorLine,
   resizeBreakpointGutter,
-  traverseResults
+  traverseResults,
 } = require("../../utils/editor");
 const { isFirefox } = require("devtools-config");
 
@@ -67,13 +71,13 @@ const Editor = React.createClass({
     coverageOn: PropTypes.bool,
     selectedFrame: PropTypes.object,
     addExpression: PropTypes.func,
-    horizontal: PropTypes.bool
+    horizontal: PropTypes.bool,
   },
 
-  cbPanel: (null : any),
-  editor: (null : any),
-  pendingJumpLine: (null : any),
-  lastJumpLine: (null : any),
+  cbPanel: (null: any),
+  editor: (null: any),
+  pendingJumpLine: (null: any),
+  lastJumpLine: (null: any),
 
   displayName: "Editor",
 
@@ -82,19 +86,19 @@ const Editor = React.createClass({
       query: "",
       searchResults: {
         index: -1,
-        count: 0
+        count: 0,
       },
       selectedToken: null,
       searchModifiers: {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: false
+        regexMatch: false,
       },
     };
   },
 
   contextTypes: {
-    shortcuts: PropTypes.object
+    shortcuts: PropTypes.object,
   },
 
   componentWillReceiveProps(nextProps) {
@@ -106,8 +110,7 @@ const Editor = React.createClass({
     if (!sourceText) {
       this.showMessage("");
     } else if (!isTextForSource(sourceText)) {
-      this.showMessage(sourceText.get("error") ||
-        L10N.getStr("loadingText"));
+      this.showMessage(sourceText.get("error") || L10N.getStr("loadingText"));
     } else if (this.props.sourceText !== sourceText) {
       this.showSourceText(sourceText, selectedLocation);
     }
@@ -136,37 +139,26 @@ const Editor = React.createClass({
 
     // Set code editor wrapper to be focusable
     codeMirrorWrapper.tabIndex = 0;
-    codeMirrorWrapper
-      .addEventListener("keydown", e => onKeyDown(codeMirror, e));
+    codeMirrorWrapper.addEventListener("keydown", e =>
+      onKeyDown(codeMirror, e));
 
     const ctx = { ed: this.editor, cm: codeMirror };
     const { query, searchModifiers } = this.state;
 
-    codeMirrorWrapper
-      .addEventListener("mouseup", e => this.onMouseUp(
-        e, ctx, searchModifiers
-      ));
+    codeMirrorWrapper.addEventListener("mouseup", e =>
+      this.onMouseUp(e, ctx, searchModifiers));
 
-    codeMirrorWrapper
-      .addEventListener("mouseover", e => this.onMouseOver(
-        e, ctx, searchModifiers
-      ));
+    codeMirrorWrapper.addEventListener("mouseover", e =>
+      this.onMouseOver(e, ctx, searchModifiers));
 
     if (!isFirefox()) {
-      codeMirror.on(
-        "gutterContextMenu",
-        (cm, line, eventName, event) => this.onGutterContextMenu(event)
-      );
+      codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
+        this.onGutterContextMenu(event));
 
-      codeMirror.on(
-        "contextmenu",
-        (cm, event) => this.openMenu(event, cm)
-      );
+      codeMirror.on("contextmenu", (cm, event) => this.openMenu(event, cm));
     } else {
-      codeMirrorWrapper.addEventListener(
-        "contextmenu",
-        event => this.openMenu(event, codeMirror)
-      );
+      codeMirrorWrapper.addEventListener("contextmenu", event =>
+        this.openMenu(event, codeMirror));
     }
 
     codeMirror.on("scroll", this.onScroll);
@@ -175,16 +167,12 @@ const Editor = React.createClass({
 
     shortcuts.on("CmdOrCtrl+B", (key, e) => {
       e.preventDefault();
-      this.toggleBreakpoint(
-        getCursorLine(codeMirror)
-      );
+      this.toggleBreakpoint(getCursorLine(codeMirror));
     });
 
     shortcuts.on("CmdOrCtrl+Shift+B", (key, e) => {
       e.preventDefault();
-      this.toggleConditionalPanel(
-        getCursorLine(codeMirror)
-      );
+      this.toggleConditionalPanel(getCursorLine(codeMirror));
     });
     // The default Esc command is overridden in the CodeMirror keymap to allow
     // the Esc keypress event to be catched by the toolbox and trigger the
@@ -198,10 +186,10 @@ const Editor = React.createClass({
     });
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`,
-      (_, e) => traverseResults(e, ctx, query, "prev", searchModifiers));
-    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`,
-      (_, e) => traverseResults(e, ctx, query, "next", searchModifiers));
+    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`, (_, e) =>
+      traverseResults(e, ctx, query, "prev", searchModifiers));
+    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`, (_, e) =>
+      traverseResults(e, ctx, query, "next", searchModifiers));
 
     resizeBreakpointGutter(codeMirror);
     debugGlobal("cm", codeMirror);
@@ -238,8 +226,7 @@ const Editor = React.createClass({
     // a source where the text hasn't been loaded yet, we will set the
     // line here but not jump until rendering the actual source.
     if (prevProps.selectedLocation !== selectedLocation) {
-      if (selectedLocation &&
-          selectedLocation.line != undefined) {
+      if (selectedLocation && selectedLocation.line != undefined) {
         this.pendingJumpLine = selectedLocation.line;
       } else {
         this.pendingJumpLine = null;
@@ -289,7 +276,7 @@ const Editor = React.createClass({
     }
 
     this.setState({
-      selectedToken: token
+      selectedToken: token,
     });
   },
 
@@ -302,7 +289,7 @@ const Editor = React.createClass({
       showSource: this.props.showSource,
       onGutterContextMenu: this.onGutterContextMenu,
       jumpToMappedLocation: this.props.jumpToMappedLocation,
-      addExpression: this.props.addExpression
+      addExpression: this.props.addExpression,
     });
   },
 
@@ -319,7 +306,7 @@ const Editor = React.createClass({
   },
 
   updateSearchResults({ count, index }) {
-    this.setState({ searchResults: { count, index }});
+    this.setState({ searchResults: { count, index } });
   },
 
   onGutterClick(cm, line, gutter, ev) {
@@ -338,12 +325,15 @@ const Editor = React.createClass({
   onGutterContextMenu(event) {
     const line = this.editor.codeMirror.lineAtHeight(event.clientY);
     const bp = breakpointAtLine(this.props.breakpoints, line);
-    GutterMenu({ event, line, bp,
+    GutterMenu({
+      event,
+      line,
+      bp,
       toggleBreakpoint: this.toggleBreakpoint,
       showConditionalPanel: this.toggleConditionalPanel,
       toggleBreakpointDisabledStatus: this.toggleBreakpointDisabledStatus,
       isCbPanelOpen: this.isCbPanelOpen(),
-      closeConditionalPanel: this.closeConditionalPanel
+      closeConditionalPanel: this.closeConditionalPanel,
     });
   },
 
@@ -352,26 +342,30 @@ const Editor = React.createClass({
       return this.closeConditionalPanel();
     }
 
-    const { selectedLocation: { sourceId },
-            setBreakpointCondition, breakpoints } = this.props;
+    const {
+      selectedLocation: { sourceId },
+      setBreakpointCondition,
+      breakpoints,
+    } = this.props;
 
     const bp = breakpointAtLine(breakpoints, line);
     const location = { sourceId, line: line + 1 };
     const condition = bp ? bp.condition : "";
 
-    const setBreakpoint = value => setBreakpointCondition(location, {
-      condition: value,
-      getTextForLine: l => getTextForLine(this.editor.codeMirror, l)
-    });
+    const setBreakpoint = value =>
+      setBreakpointCondition(location, {
+        condition: value,
+        getTextForLine: l => getTextForLine(this.editor.codeMirror, l),
+      });
 
     const panel = renderConditionalPanel({
       condition,
       setBreakpoint,
-      closePanel: this.closeConditionalPanel
+      closePanel: this.closeConditionalPanel,
     });
 
     this.cbPanel = this.editor.codeMirror.addLineWidget(line, panel, {
-      coverGutter: true
+      coverGutter: true,
     });
     this.cbPanel.node.querySelector("input").focus();
   },
@@ -395,12 +389,14 @@ const Editor = React.createClass({
     if (bp) {
       this.props.removeBreakpoint({
         sourceId: this.props.selectedLocation.sourceId,
-        line: line + 1
+        line: line + 1,
       });
     } else {
       this.props.addBreakpoint(
-        { sourceId: this.props.selectedLocation.sourceId,
-          line: line + 1 },
+        {
+          sourceId: this.props.selectedLocation.sourceId,
+          line: line + 1,
+        },
         // Pass in a function to get line text because the breakpoint
         // may slide and it needs to compute the value at the new
         // line.
@@ -423,12 +419,12 @@ const Editor = React.createClass({
     if (!bp.disabled) {
       this.props.disableBreakpoint({
         sourceId: this.props.selectedLocation.sourceId,
-        line: line + 1
+        line: line + 1,
       });
     } else {
       this.props.enableBreakpoint({
         sourceId: this.props.selectedLocation.sourceId,
-        line: line + 1
+        line: line + 1,
       });
     }
   },
@@ -441,8 +437,11 @@ const Editor = React.createClass({
   },
 
   setDebugLine(selectedFrame, selectedLocation) {
-    if (selectedFrame && selectedLocation &&
-        selectedFrame.location.sourceId === selectedLocation.sourceId) {
+    if (
+      selectedFrame &&
+      selectedLocation &&
+      selectedFrame.location.sourceId === selectedLocation.sourceId
+    ) {
       const line = selectedFrame.location.line;
       this.editor.codeMirror.addLineClass(line - 1, "line", "debug-line");
     }
@@ -468,8 +467,10 @@ const Editor = React.createClass({
 
     // We only want to do the flashing animation if it's not a debug
     // line, which has it's own styling.
-    if (!this.props.selectedFrame ||
-        this.props.selectedFrame.location.line !== line) {
+    if (
+      !this.props.selectedFrame ||
+      this.props.selectedFrame.location.line !== line
+    ) {
       this.editor.codeMirror.addLineClass(line - 1, "line", "highlight-line");
     }
 
@@ -523,12 +524,11 @@ const Editor = React.createClass({
       return;
     }
 
-    return breakpoints
-      .valueSeq()
-      .map(bp => Breakpoint({
+    return breakpoints.valueSeq().map(bp =>
+      Breakpoint({
         key: makeLocationId(bp.location),
         breakpoint: bp,
-        editor: this.editor && this.editor.codeMirror
+        editor: this.editor && this.editor.codeMirror,
       }));
   },
 
@@ -540,12 +540,11 @@ const Editor = React.createClass({
       return;
     }
 
-    return hitCount
-      .filter(marker => marker.get("count") > 0)
-      .map(marker => HitMarker({
+    return hitCount.filter(marker => marker.get("count") > 0).map(marker =>
+      HitMarker({
         key: marker.get("line"),
         hitData: marker.toJS(),
-        editor: this.editor && this.editor.codeMirror
+        editor: this.editor && this.editor.codeMirror,
       }));
   },
 
@@ -585,65 +584,67 @@ const Editor = React.createClass({
       onClose: () => {
         selectedToken.classList.remove("selected-token");
         this.setState({
-          selectedToken: null
+          selectedToken: null,
         });
-      }
+      },
     });
   },
 
   render() {
     const {
-      sourceText, selectSource, selectedSource, coverageOn, horizontal
+      sourceText,
+      selectSource,
+      selectedSource,
+      coverageOn,
+      horizontal,
     } = this.props;
 
     const { searchResults } = this.state;
 
-    return (
-      dom.div(
-        {
-          className: classnames(
-            "editor-wrapper",
-            { "coverage-on": coverageOn }
-          )
-        },
-        SearchBar({
-          editor: this.editor,
-          selectSource,
-          selectedSource,
-          sourceText,
-          searchResults,
-          modifiers: this.state.searchModifiers,
-          toggleModifier: this.toggleModifier,
-          query: this.state.query,
-          updateQuery: this.updateQuery,
-          updateSearchResults: this.updateSearchResults
-        }),
-        dom.div({
-          className: "editor-mount devtools-monospace",
-          style: { height: this.editorHeight() }
-        }),
-        this.renderBreakpoints(),
-        this.renderHitCounts(),
-        Footer({ editor: this.editor, horizontal }),
-        this.renderPreview()
-      )
+    return dom.div(
+      {
+        className: classnames("editor-wrapper", { "coverage-on": coverageOn }),
+      },
+      SearchBar({
+        editor: this.editor,
+        selectSource,
+        selectedSource,
+        sourceText,
+        searchResults,
+        modifiers: this.state.searchModifiers,
+        toggleModifier: this.toggleModifier,
+        query: this.state.query,
+        updateQuery: this.updateQuery,
+        updateSearchResults: this.updateSearchResults,
+      }),
+      dom.div({
+        className: "editor-mount devtools-monospace",
+        style: { height: this.editorHeight() },
+      }),
+      this.renderBreakpoints(),
+      this.renderHitCounts(),
+      Footer({ editor: this.editor, horizontal }),
+      this.renderPreview()
     );
-  }
+  },
 });
 
-module.exports = connect(state => {
-  const selectedLocation: ?Location = getSelectedLocation(state);
-  const sourceId: ?string = selectedLocation && selectedLocation.sourceId;
-  const selectedSource = getSelectedSource(state);
+module.exports = connect(
+  state => {
+    const selectedLocation: ?Location = getSelectedLocation(state);
+    const sourceId: ?string = selectedLocation && selectedLocation.sourceId;
+    const selectedSource = getSelectedSource(state);
 
-  return {
-    selectedLocation,
-    selectedSource,
-    sourceText: getSourceText(state, sourceId),
-    loadedObjects: getLoadedObjects(state),
-    breakpoints: getBreakpointsForSource(state, sourceId),
-    hitCount: getHitCountForSource(state, sourceId),
-    selectedFrame: getSelectedFrame(state),
-    coverageOn: getCoverageEnabled(state)
-  };
-}, dispatch => bindActionCreators(actions, dispatch))(Editor);
+    return {
+      selectedLocation,
+      selectedSource,
+      sourceText: getSourceText(state, sourceId),
+      loadedObjects: getLoadedObjects(state),
+      breakpoints: getBreakpointsForSource(state, sourceId),
+      hitCount: getHitCountForSource(state, sourceId),
+      selectedFrame: getSelectedFrame(state),
+      coverageOn: getCoverageEnabled(state),
+    };
+  },
+  dispatch => bindActionCreators(actions, dispatch)
+)(Editor);
