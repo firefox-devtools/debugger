@@ -146,6 +146,10 @@ class SourceTabs extends Component {
       return;
     }
 
+    if (!sourceTabs) {
+      return;
+    }
+
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
     const closeTabsToEndLabel = L10N.getStr("sourceTabs.closeTabsToEnd");
