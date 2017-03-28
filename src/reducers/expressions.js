@@ -1,9 +1,10 @@
 // @flow
+// import { Menu, MenuItem } from "devtools-sham-modules";
 
-const constants = require("../constants");
-const makeRecord = require("../utils/makeRecord");
-const I = require("immutable");
-const { prefs } = require("../utils/prefs");
+import { constants } from "../constants";
+import { makeRecord } from "../utils/makeRecord";
+import { I } from "immutable";
+import { prefs } from "../utils/prefs";
 
 import type { Expression } from "../types";
 import type { Action } from "../actions/types";
@@ -13,13 +14,16 @@ type ExpressionState = {
   expressions: I.List<Expression>,
 };
 
-const State = makeRecord(
+export const State = makeRecord(
   ({
     expressions: I.List(restoreExpressions()),
   }: ExpressionState)
 );
 
-function update(state = State(), action: Action): Record<ExpressionState> {
+export function update(
+  state = State(),
+  action: Action
+): Record<ExpressionState> {
   switch (action.type) {
     case constants.ADD_EXPRESSION:
       return appendToList(state, ["expressions"], {
@@ -96,12 +100,6 @@ function deleteExpression(state: State, input: string) {
 
 type OuterState = { expressions: Record<ExpressionState> };
 
-function getExpressions(state: OuterState) {
+export function getExpressions(state: OuterState) {
   return state.expressions.get("expressions");
 }
-
-module.exports = {
-  State,
-  update,
-  getExpressions,
-};
