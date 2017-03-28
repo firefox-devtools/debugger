@@ -1,8 +1,8 @@
 // @flow
 
-import { constants } from "../constants";
-import { makeRecord } from "../utils/makeRecord";
-import I from "immutable";
+import constants from "../constants";
+import makeRecord from "../utils/makeRecord";
+import { List } from "immutable";
 import { prefs } from "../utils/prefs";
 
 import type { Expression } from "../types";
@@ -10,12 +10,12 @@ import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type ExpressionState = {
-  expressions: I.List<Expression>,
+  expressions: List<Expression>,
 };
 
 export const State = makeRecord(
   ({
-    expressions: I.List(restoreExpressions()),
+    expressions: List(restoreExpressions()),
   }: ExpressionState)
 );
 
