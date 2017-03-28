@@ -314,7 +314,7 @@ const Editor = React.createClass({
     );
 
     if (expressionFromToken) {
-      addExpression(expressionFromToken.value, false);
+      addExpression(expressionFromToken.value, { visible: false });
     }
 
     const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
@@ -640,7 +640,7 @@ const Editor = React.createClass({
 
     let value = get(selectedExpression, "contents.value");
     if (!value) {
-      const exp = this.props.getExpression(selectedExpression.value, false);
+      const exp = this.props.getExpression(selectedExpression.value);
       value = get(exp, "value.result");
     }
 

@@ -223,7 +223,7 @@ Expressions.displayName = "Expressions";
 export default connect(
   state => ({
     pauseInfo: getPause(state),
-    expressions: getExpressions(state),
+    expressions: getExpressions(state, true),
     loadedObjects: getLoadedObjects(state),
   }),
   dispatch => bindActionCreators(actions, dispatch)
