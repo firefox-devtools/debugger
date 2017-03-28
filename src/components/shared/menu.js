@@ -1,6 +1,6 @@
 // @flow
 import { Menu, MenuItem } from "devtools-sham-modules";
-const { isFirefoxPanel } = require("devtools-config");
+import { isFirefoxPanel } from "devtools-config";
 
 function createPopup(doc) {
   let popup = doc.createElement("menupopup");
@@ -92,7 +92,7 @@ function buildMenu(items: Array<any>) {
     .filter(itm => itm !== null);
 }
 
-module.exports = {
+export default {
   showMenu,
   buildMenu,
 };
