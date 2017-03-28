@@ -1,5 +1,5 @@
 // @flow
-const { Menu, MenuItem } = require("devtools-sham-modules");
+import { Menu, MenuItem } from "devtools-sham-modules";
 const { isFirefoxPanel } = require("devtools-config");
 
 function createPopup(doc) {
