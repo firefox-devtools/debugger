@@ -1,9 +1,9 @@
-const constants = require("../constants");
-const { clearSourceMaps } = require("devtools-source-map");
-const { clearDocuments } = require("../utils/editor");
-const { getSources } = require("../reducers/sources");
-const { waitForMs } = require("../utils/utils");
-const { newSources } = require("./sources");
+import constants from "../constants";
+import { clearSourceMaps } from "devtools-source-map";
+import { clearDocuments } from "../utils/editor";
+import { getSources } from "../reducers/sources";
+import { waitForMs } from "../utils/utils";
+import { newSources } from "./sources";
 
 /**
  * Redux actions for the navigation state
@@ -14,7 +14,7 @@ const { newSources } = require("./sources");
  * @memberof actions/navigation
  * @static
  */
-function willNavigate(_, event) {
+export function willNavigate(_, event) {
   clearSourceMaps();
   clearDocuments();
 
@@ -28,7 +28,7 @@ function willNavigate(_, event) {
  * @memberof actions/navigation
  * @static
  */
-function navigated() {
+export function navigated() {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     await waitForMs(100);
     if (getSources(getState()).size == 0) {
@@ -37,8 +37,3 @@ function navigated() {
     }
   };
 }
-
-module.exports = {
-  willNavigate,
-  navigated,
-};
