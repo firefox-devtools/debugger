@@ -20,7 +20,7 @@ export const State = makeRecord(
 );
 
 export function update(
-  state = State(),
+  state: Record<ExpressionState> = State(),
   action: Action
 ): Record<ExpressionState> {
   switch (action.type) {
