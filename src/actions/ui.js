@@ -1,13 +1,13 @@
 // @flow
-const constants = require("../constants");
-const {
+import constants from "../constants";
+import {
   getSource,
   getProjectSearchState,
   getFileSearchState,
-} = require("../selectors");
+} from "../selectors";
 import type { ThunkArgs } from "./types";
 
-function toggleProjectSearch(toggleValue?: boolean) {
+export function toggleProjectSearch(toggleValue?: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (toggleValue != null) {
       dispatch({
@@ -23,7 +23,7 @@ function toggleProjectSearch(toggleValue?: boolean) {
   };
 }
 
-function toggleFileSearch(toggleValue?: boolean) {
+export function toggleFileSearch(toggleValue?: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (toggleValue != null) {
       dispatch({
@@ -39,18 +39,18 @@ function toggleFileSearch(toggleValue?: boolean) {
   };
 }
 
-function setFileSearchQuery(query: string) {
+export function setFileSearchQuery(query: string) {
   return {
     type: constants.UPDATE_FILE_SEARCH_QUERY,
     query,
   };
 }
 
-function toggleFileSearchModifier(modifier: string) {
+export function toggleFileSearchModifier(modifier: string) {
   return { type: constants.TOGGLE_FILE_SEARCH_MODIFIER, modifier };
 }
 
-function showSource(sourceId: string) {
+export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
     dispatch({
@@ -60,19 +60,10 @@ function showSource(sourceId: string) {
   };
 }
 
-function togglePaneCollapse(position: string, paneCollapsed: boolean) {
+export function togglePaneCollapse(position: string, paneCollapsed: boolean) {
   return {
     type: constants.TOGGLE_PANE,
     position,
     paneCollapsed,
   };
 }
-
-module.exports = {
-  toggleFileSearch,
-  setFileSearchQuery,
-  toggleFileSearchModifier,
-  toggleProjectSearch,
-  showSource,
-  togglePaneCollapse,
-};
