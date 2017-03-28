@@ -1,4 +1,4 @@
-const { showMenu } = require("../shared/menu");
+const { showMenu } = require("../shared/menu").default;
 const { isEnabled } = require("devtools-config");
 const { isOriginalId, hasMappedSource } = require("devtools-source-map");
 const { copyToTheClipboard } = require("../../utils/clipboard");

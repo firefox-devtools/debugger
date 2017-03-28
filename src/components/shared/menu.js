@@ -92,9 +92,7 @@ function buildMenu(items: Array<any>) {
     .filter(itm => itm !== null);
 }
 
-// export default Dropdown;
-
-module.exports = {
+export default {
   showMenu,
   buildMenu,
 };
