@@ -1,4 +1,4 @@
-const { showMenu } = require("../shared/menu").default;
+const { showMenu } = require("../shared/menu");
 
 function GutterMenu(
   {
