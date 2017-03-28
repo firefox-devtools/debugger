@@ -1,9 +1,8 @@
 // @flow
-const React = require("react");
-const { DOM: dom, PropTypes } = React;
-const classnames = require("classnames");
+import { DOM as dom, PropTypes, createClass } from "react";
+import classnames from "classnames";
 
-require("./ResultList.css");
+import "./ResultList.css";
 
 type ResultListItem = {
   id: string,
@@ -12,7 +11,7 @@ type ResultListItem = {
   value: string,
 };
 
-const ResultList = React.createClass({
+const ResultList = createClass({
   propTypes: {
     items: PropTypes.array.isRequired,
     selected: PropTypes.number.isRequired,
@@ -56,4 +55,4 @@ const ResultList = React.createClass({
   },
 });
 
-module.exports = ResultList;
+export default ResultList;

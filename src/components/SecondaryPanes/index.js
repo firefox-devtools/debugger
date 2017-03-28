@@ -29,7 +29,7 @@ const Scopes = isEnabled("chromeScopes")
 
 const Frames = createFactory(require("./Frames").default);
 const EventListeners = createFactory(require("./EventListeners").default);
-const Accordion = createFactory(require("../shared/Accordion"));
+const Accordion = createFactory(require("../shared/Accordion").default);
 const CommandBar = createFactory(require("./CommandBar").default);
 
 import "./SecondaryPanes.css";
