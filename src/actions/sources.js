@@ -9,13 +9,13 @@
  * @module actions/sources
  */
 
-const defer = require("../utils/defer");
-const { PROMISE } = require("../utils/redux/middleware/promise");
-const assert = require("../utils/assert");
-const { updateFrameLocations } = require("../utils/pause");
-const { addBreakpoint } = require("./breakpoints");
+import defer from "../utils/defer";
+import { PROMISE } from "../utils/redux/middleware/promise";
+import assert from "../utils/assert";
+import { updateFrameLocations } from "../utils/pause";
+import { addBreakpoint } from "./breakpoints";
 
-const {
+import {
   getOriginalURLs,
   getOriginalSourceText,
   generatedToOriginalId,
@@ -24,16 +24,16 @@ const {
   getGeneratedLocation,
   isGeneratedId,
   applySourceMap,
-} = require("devtools-source-map");
+} from "devtools-source-map";
 
-const { prettyPrint } = require("../utils/pretty-print");
-const { getPrettySourceURL } = require("../utils/source");
+import { prettyPrint } from "../utils/pretty-print";
+import { getPrettySourceURL } from "../utils/source";
 
-const constants = require("../constants");
-const { prefs } = require("../utils/prefs");
-const { removeDocument } = require("../utils/editor");
+import constants from "../constants";
+import { prefs } from "../utils/prefs";
+import { removeDocument } from "../utils/editor";
 
-const {
+import {
   getSource,
   getSourceByURL,
   getSourceText,
@@ -41,7 +41,7 @@ const {
   getPendingSelectedLocation,
   getPendingBreakpoints,
   getFrames,
-} = require("../selectors");
+} from "../selectors";
 
 import type { Source, SourceText } from "../types";
 import type { ThunkArgs } from "./types";
@@ -79,7 +79,7 @@ function checkPendingBreakpoints(state, dispatch, source) {
  * @memberof actions/sources
  * @static
  */
-function newSource(source: Source) {
+export function newSource(source: Source) {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (prefs.clientSourceMapsEnabled) {
       dispatch(loadSourceMap(source));
@@ -92,7 +92,7 @@ function newSource(source: Source) {
   };
 }
 
-function newSources(sources: Source[]) {
+export function newSources(sources: Source[]) {
   return ({ dispatch, getState }: ThunkArgs) => {
     sources
       .filter(source => !getSource(getState(), source.id))
@@ -141,7 +141,10 @@ type SelectSourceOptions = { tabIndex?: number, line?: number };
  * @memberof actions/sources
  * @static
  */
-function selectSourceURL(url: string, options: SelectSourceOptions = {}) {
+export function selectSourceURL(
+  url: string,
+  options: SelectSourceOptions = {}
+) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (source) {
@@ -161,7 +164,7 @@ function selectSourceURL(url: string, options: SelectSourceOptions = {}) {
  * @memberof actions/sources
  * @static
  */
-function selectSource(id: string, options: SelectSourceOptions = {}) {
+export function selectSource(id: string, options: SelectSourceOptions = {}) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
@@ -195,7 +198,7 @@ function selectSource(id: string, options: SelectSourceOptions = {}) {
  * @memberof actions/sources
  * @static
  */
-function jumpToMappedLocation(sourceLocation: any) {
+export function jumpToMappedLocation(sourceLocation: any) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     if (!client) {
       return;
@@ -216,7 +219,7 @@ function jumpToMappedLocation(sourceLocation: any) {
  * @memberof actions/sources
  * @static
  */
-function closeTab(url: string) {
+export function closeTab(url: string) {
   removeDocument(url);
   return { type: constants.CLOSE_TAB, url };
 }
@@ -225,7 +228,7 @@ function closeTab(url: string) {
  * @memberof actions/sources
  * @static
  */
-function closeTabs(urls: string[]) {
+export function closeTabs(urls: string[]) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     urls.forEach(url => {
       const source = getSourceByURL(getState(), url);
@@ -250,7 +253,7 @@ function closeTabs(urls: string[]) {
  *          A promise that resolves to [aSource, prettyText] or rejects to
  *          [aSource, error].
  */
-function togglePrettyPrint(sourceId: string) {
+export function togglePrettyPrint(sourceId: string) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
     let sourceText = getSourceText(getState(), sourceId);
@@ -301,7 +304,7 @@ function togglePrettyPrint(sourceId: string) {
  * @memberof actions/sources
  * @static
  */
-function loadSourceText(source: Source) {
+export function loadSourceText(source: Source) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     // Fetch the source text only once.
     let textInfo = getSourceText(getState(), source.id);
@@ -353,7 +356,7 @@ const FETCH_SOURCE_RESPONSE_DELAY = 200;
  * @returns {Promise}
  *         A promise that is resolved after source texts have been fetched.
  */
-function getTextForSources(actors: any[]) {
+export function getTextForSources(actors: any[]) {
   return ({ dispatch, getState }: ThunkArgs) => {
     let deferred = defer();
     let pending = new Set(actors);
@@ -419,16 +422,3 @@ function getTextForSources(actors: any[]) {
     return deferred.promise;
   };
 }
-
-module.exports = {
-  newSource,
-  newSources,
-  selectSource,
-  selectSourceURL,
-  jumpToMappedLocation,
-  closeTab,
-  closeTabs,
-  togglePrettyPrint,
-  loadSourceText,
-  getTextForSources,
-};

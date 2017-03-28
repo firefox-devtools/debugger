@@ -1,15 +1,15 @@
 // @flow
 
-const breakpoints = require("./breakpoints");
-const expressions = require("./expressions");
-const eventListeners = require("./event-listeners");
-const sources = require("./sources");
-const pause = require("./pause");
-const navigation = require("./navigation");
-const ui = require("./ui");
-const coverage = require("./coverage");
+import * as breakpoints from "./breakpoints";
+import * as expressions from "./expressions";
+import * as eventListeners from "./event-listeners";
+import * as sources from "./sources";
+import * as pause from "./pause";
+import * as navigation from "./navigation";
+import * as ui from "./ui";
+import * as coverage from "./coverage";
 
-module.exports = (Object.assign(
+export default Object.assign(
   navigation,
   breakpoints,
   expressions,
@@ -18,4 +18,4 @@ module.exports = (Object.assign(
   pause,
   ui,
   coverage
-): typeof breakpoints);
+);

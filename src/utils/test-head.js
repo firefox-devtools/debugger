@@ -7,7 +7,7 @@
 
 const { combineReducers } = require("redux");
 const reducers = require("../reducers");
-const actions = require("../actions");
+const actions = require("../actions").default;
 const selectors = require("../selectors");
 const constants = require("../constants");
 

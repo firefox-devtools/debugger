@@ -9,9 +9,9 @@
  * @module actions/event-listeners
  */
 
-const constants = require("../constants");
-const { reportException } = require("../utils/DevToolsUtils");
-const { getPause, getSourceByURL } = require("../selectors");
+import constants from "../constants";
+import { reportException } from "../utils/DevToolsUtils";
+import { getPause, getSourceByURL } from "../selectors";
 
 // delay is in ms
 const FETCH_EVENT_LISTENERS_DELAY = 200;
@@ -46,7 +46,7 @@ async function asPaused(state: any, client: any, func: any) {
  * @memberof actions/event-listeners
  * @static
  */
-function fetchEventListeners() {
+export function fetchEventListeners() {
   return ({ dispatch, getState, client }) => {
     // Make sure we"re not sending a batch of closely repeated requests.
     // This can easily happen whenever new sources are fetched.
@@ -154,7 +154,7 @@ async function _getDefinitionSite(threadClient, func) {
  * @static
  * @param {string} eventNames
  */
-function updateEventBreakpoints(eventNames) {
+export function updateEventBreakpoints(eventNames) {
   return dispatch => {
     setNamedTimeout("event-breakpoints-update", 0, () => {
       gThreadClient.pauseOnDOMEvents(eventNames, function() {
@@ -169,5 +169,3 @@ function updateEventBreakpoints(eventNames) {
     });
   };
 }
-
-module.exports = { updateEventBreakpoints, fetchEventListeners };

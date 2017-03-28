@@ -1,8 +1,8 @@
 // @flow
-const constants = require("../constants");
+import constants from "../constants";
 import type { ThunkArgs } from "./types";
 
-function recordCoverage() {
+export function recordCoverage() {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     const { coverage } = await client.recordCoverage();
 
@@ -12,7 +12,3 @@ function recordCoverage() {
     });
   };
 }
-
-module.exports = {
-  recordCoverage,
-};

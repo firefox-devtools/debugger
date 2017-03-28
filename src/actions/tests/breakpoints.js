@@ -1,6 +1,6 @@
-const { createStore, selectors, actions } = require("../../utils/test-head");
-const { Task } = require("../../utils/task");
-const expect = require("expect.js");
+import { createStore, selectors, actions } from "../../utils/test-head";
+import { Task } from "../../utils/task";
+import expect from "expect.js";
 
 const simpleMockThreadClient = {
   setBreakpoint: (location, condition) => {

@@ -1,9 +1,9 @@
 // @flow
 
-const constants = require("../constants");
-const { PROMISE } = require("../utils/redux/middleware/promise");
+import constants from "../constants";
+import { PROMISE } from "../utils/redux/middleware/promise";
 
-const { getExpressions, getSelectedFrame } = require("../selectors");
+import { getExpressions, getSelectedFrame } from "../selectors";
 
 import type { Expression } from "../types";
 import type { ThunkArgs } from "./types";
@@ -22,7 +22,7 @@ function expressionExists(expressions, input) {
  * @memberof actions/pause
  * @static
  */
-function addExpression(input: string) {
+export function addExpression(input: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const expressions = getExpressions(getState());
     if (!input || expressionExists(expressions, input)) {
@@ -40,7 +40,7 @@ function addExpression(input: string) {
   };
 }
 
-function updateExpression(input: string, expression: Expression) {
+export function updateExpression(input: string, expression: Expression) {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (!input || input == expression.input) {
       return;
@@ -65,7 +65,7 @@ function updateExpression(input: string, expression: Expression) {
  * @memberof actions/pause
  * @static
  */
-function deleteExpression(expression: Expression) {
+export function deleteExpression(expression: Expression) {
   return ({ dispatch }: ThunkArgs) => {
     dispatch({
       type: constants.DELETE_EXPRESSION,
@@ -80,7 +80,7 @@ function deleteExpression(expression: Expression) {
  * @param {number} selectedFrameId
  * @static
  */
-function evaluateExpressions(frameId: frameIdType) {
+export function evaluateExpressions(frameId: frameIdType) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     for (let expression of getExpressions(getState())) {
       await dispatch(evaluateExpression(expression, frameId));
@@ -102,10 +102,3 @@ function evaluateExpression(expression, frameId: frameIdType) {
     });
   };
 }
-
-module.exports = {
-  addExpression,
-  updateExpression,
-  deleteExpression,
-  evaluateExpressions,
-};

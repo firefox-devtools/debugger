@@ -8,15 +8,15 @@
  * @module actions/breakpoints
  */
 
-const constants = require("../constants");
-const { PROMISE } = require("../utils/redux/middleware/promise");
-const { getBreakpoint, getBreakpoints, getSource } = require("../selectors");
+import constants from "../constants";
+import { PROMISE } from "../utils/redux/middleware/promise";
+import { getBreakpoint, getBreakpoints, getSource } from "../selectors";
 
-const {
+import {
   getOriginalLocation,
   getGeneratedLocation,
   isOriginalId,
-} = require("devtools-source-map");
+} from "devtools-source-map";
 
 import type { ThunkArgs } from "./types";
 import type { Location } from "../types";
@@ -39,7 +39,7 @@ function _getOrCreateBreakpoint(state, location, condition) {
  * @memberof actions/breakpoints
  * @static
  */
-function enableBreakpoint(location: Location) {
+export function enableBreakpoint(location: Location) {
   return addBreakpoint(location);
 }
 
@@ -51,7 +51,7 @@ function enableBreakpoint(location: Location) {
  * @param {String} $1.condition Conditional breakpoint condition value
  * @param {Function} $1.getTextForLine Get the text to represent the line
  */
-function addBreakpoint(
+export function addBreakpoint(
   location: Location,
   { condition, getTextForLine }: addBreakpointOptions = {}
 ) {
@@ -99,7 +99,7 @@ function addBreakpoint(
  * @memberof actions/breakpoints
  * @static
  */
-function disableBreakpoint(location: Location) {
+export function disableBreakpoint(location: Location) {
   return _removeOrDisableBreakpoint(location, true);
 }
 
@@ -109,7 +109,7 @@ function disableBreakpoint(location: Location) {
  * @memberof actions/breakpoints
  * @static
  */
-function removeBreakpoint(location: Location) {
+export function removeBreakpoint(location: Location) {
   return _removeOrDisableBreakpoint(location);
 }
 
@@ -152,7 +152,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
  * @memberof actions/breakpoints
  * @static
  */
-function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
+export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
     return dispatch({
@@ -182,7 +182,7 @@ function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
  * @param {string} condition
  *        The condition to set on the breakpoint
  */
-function setBreakpointCondition(
+export function setBreakpointCondition(
   location: Location,
   { condition, getTextForLine }: addBreakpointOptions = {}
 ) {
@@ -212,12 +212,3 @@ function setBreakpointCondition(
     });
   };
 }
-
-module.exports = {
-  enableBreakpoint,
-  addBreakpoint,
-  disableBreakpoint,
-  removeBreakpoint,
-  toggleAllBreakpoints,
-  setBreakpointCondition,
-};
