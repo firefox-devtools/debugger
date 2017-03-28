@@ -14,7 +14,7 @@ import { getLoadedObjects } from "../../selectors";
 import { getChildren } from "../../utils/object-inspector";
 import { getFilenameFromURL } from "../../utils/source";
 
-const Rep = require("../shared/Rep");
+const Rep = require("../shared/Rep").default;
 const { MODE } = require("devtools-reps");
 
 const { DOM: dom, PropTypes, Component } = React;
