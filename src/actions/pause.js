@@ -1,11 +1,11 @@
 // @flow
-const constants = require("../constants");
-const { selectSource } = require("./sources");
-const { PROMISE } = require("../utils/redux/middleware/promise");
+import constants from "../constants";
+import { selectSource } from "./sources";
+import { PROMISE } from "../utils/redux/middleware/promise";
 
-const { getPause, getLoadedObject } = require("../selectors");
-const { updateFrameLocations } = require("../utils/pause");
-const { evaluateExpressions } = require("./expressions");
+import { getPause, getLoadedObject } from "../selectors";
+import { updateFrameLocations } from "../utils/pause";
+import { evaluateExpressions } from "./expressions";
 
 import type { Pause, Frame } from "../types";
 import type { ThunkArgs } from "./types";
@@ -23,7 +23,7 @@ type CommandType = { type: string };
  * @memberof actions/pause
  * @static
  */
-function resumed() {
+export function resumed() {
   return ({ dispatch, client }: ThunkArgs) => {
     // dispatch(evaluateExpressions(null));
 
@@ -41,7 +41,7 @@ function resumed() {
  * @memberof actions/pause
  * @static
  */
-function paused(pauseInfo: Pause) {
+export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     let { frames, why, loadedObjects } = pauseInfo;
     frames = await updateFrameLocations(frames);
@@ -68,7 +68,7 @@ function paused(pauseInfo: Pause) {
  * @memberof actions/pause
  * @static
  */
-function pauseOnExceptions(
+export function pauseOnExceptions(
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean
 ) {
@@ -92,7 +92,7 @@ function pauseOnExceptions(
  * @memberof actions/pause
  * @static
  */
-function command({ type }: CommandType) {
+export function command({ type }: CommandType) {
   return ({ dispatch, client }: ThunkArgs) => {
     // execute debugger thread command e.g. stepIn, stepOver
     client[type]();
@@ -110,7 +110,7 @@ function command({ type }: CommandType) {
  * @static
  * @returns {Function} {@link command}
  */
-function stepIn() {
+export function stepIn() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
       return dispatch(command({ type: "stepIn" }));
@@ -124,7 +124,7 @@ function stepIn() {
  * @static
  * @returns {Function} {@link command}
  */
-function stepOver() {
+export function stepOver() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
       return dispatch(command({ type: "stepOver" }));
@@ -138,7 +138,7 @@ function stepOver() {
  * @static
  * @returns {Function} {@link command}
  */
-function stepOut() {
+export function stepOut() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
       return dispatch(command({ type: "stepOut" }));
@@ -152,7 +152,7 @@ function stepOut() {
  * @static
  * @returns {Function} {@link command}
  */
-function resume() {
+export function resume() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
       return dispatch(command({ type: "resume" }));
@@ -168,7 +168,7 @@ function resume() {
  * @memberof actions/pause
  * @static
  */
-function breakOnNext() {
+export function breakOnNext() {
   return ({ dispatch, client }: ThunkArgs) => {
     client.breakOnNext();
 
@@ -183,7 +183,7 @@ function breakOnNext() {
  * @memberof actions/pause
  * @static
  */
-function selectFrame(frame: Frame) {
+export function selectFrame(frame: Frame) {
   return ({ dispatch }: ThunkArgs) => {
     dispatch(evaluateExpressions(frame.id));
     dispatch(
@@ -200,7 +200,7 @@ function selectFrame(frame: Frame) {
  * @memberof actions/pause
  * @static
  */
-function loadObjectProperties(object: any) {
+export function loadObjectProperties(object: any) {
   return ({ dispatch, client, getState }: ThunkArgs) => {
     const objectId = object.actor || object.objectId;
 
@@ -215,17 +215,3 @@ function loadObjectProperties(object: any) {
     });
   };
 }
-
-module.exports = {
-  resumed,
-  paused,
-  pauseOnExceptions,
-  command,
-  stepIn,
-  stepOut,
-  stepOver,
-  resume,
-  breakOnNext,
-  selectFrame,
-  loadObjectProperties,
-};
