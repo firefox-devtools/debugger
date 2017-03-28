@@ -1,9 +1,9 @@
 // @flow
-const { getOriginalLocation } = require("devtools-source-map");
+import { getOriginalLocation } from "devtools-source-map";
 
 import type { Pause, Frame } from "../types";
 
-function updateFrameLocations(frames: Frame[]): Promise<Frame[]> {
+export function updateFrameLocations(frames: Frame[]): Promise<Frame[]> {
   if (!frames || frames.length == 0) {
     return Promise.resolve(frames);
   }
@@ -41,7 +41,7 @@ const reasons = {
   other: "whyPaused.other",
 };
 
-function getPauseReason(pauseInfo: Pause): string | null {
+export function getPauseReason(pauseInfo: Pause): string | null {
   if (!pauseInfo) {
     return null;
   }
@@ -52,8 +52,3 @@ function getPauseReason(pauseInfo: Pause): string | null {
   }
   return reasons[reasonType];
 }
-
-module.exports = {
-  updateFrameLocations,
-  getPauseReason,
-};
