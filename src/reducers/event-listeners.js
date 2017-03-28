@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const constants = require("../constants");
+import constants from "../constants";
 
 const initialState = {
   activeEventNames: [],
@@ -10,7 +10,7 @@ const initialState = {
   fetchingListeners: false,
 };
 
-function update(state = initialState, action, emit) {
+export function update(state = initialState, action, emit) {
   switch (action.type) {
     case constants.UPDATE_EVENT_BREAKPOINTS:
       state.activeEventNames = action.eventNames;
@@ -31,11 +31,6 @@ function update(state = initialState, action, emit) {
   return state;
 }
 
-function getEventListeners(state) {
+export function getEventListeners(state) {
   return state.eventListeners.listeners;
 }
-
-module.exports = {
-  update,
-  getEventListeners,
-};
