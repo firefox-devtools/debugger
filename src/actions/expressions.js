@@ -2,8 +2,7 @@
 
 import constants from "../constants";
 import { PROMISE } from "../utils/redux/middleware/promise";
-
-import { getExpressions, getSelectedFrame } from "../selectors";
+import { getExpression, getExpressions, getSelectedFrame } from "../selectors";
 
 import type { Expression } from "../types";
 import type { ThunkArgs } from "./types";
@@ -22,11 +21,17 @@ function expressionExists(expressions, input) {
  * @memberof actions/pause
  * @static
  */
-export function addExpression(input: string, visible: boolean = true) {
+
+export function addExpression(input: string, { visible = true } = {}) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    const expressions = getExpressions(getState(), visible);
+    const expressions = getExpressions(getState());
     if (!input || expressionExists(expressions, input)) {
-      return;
+      const expression = getExpression(getState(), input);
+      if (!expression.visible && visible) {
+        dispatch(deleteExpression(expression));
+      } else {
+        return;
+      }
     }
 
     dispatch({
@@ -51,6 +56,7 @@ export function updateExpression(input: string, expression: Expression) {
       type: constants.UPDATE_EXPRESSION,
       expression,
       input: input,
+      visible: expression.visible,
     });
 
     const selectedFrame = getSelectedFrame(getState());
@@ -81,9 +87,9 @@ export function deleteExpression(expression: Expression) {
  * @param {number} selectedFrameId
  * @static
  */
-export function evaluateExpressions(frameId: frameIdType, visible: boolean = true) {
+export function evaluateExpressions(frameId: frameIdType) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
-    const expressions = getExpressions(getState(), visible).toJS();
+    const expressions = getExpressions(getState()).toJS();
     for (let expression of expressions) {
       await dispatch(evaluateExpression(expression, frameId));
     }
@@ -100,7 +106,7 @@ function evaluateExpression(expression, frameId: frameIdType) {
     return dispatch({
       type: constants.EVALUATE_EXPRESSION,
       input: expression.input,
-      visible: expression.visible == undefined ? true : expression.visible,
+      visible: expression.visible,
       [PROMISE]: client.evaluate(expression.input, { frameId }),
     });
   };
