@@ -8,7 +8,7 @@ const { findDOMNode } = require("react-dom");
 const { isEnabled } = require("devtools-config");
 const { filter } = require("fuzzaldrin-plus");
 const Svg = require("../shared/Svg");
-const actions = require("../../actions");
+const actions = require("../../actions").default;
 const {
   getFileSearchState,
   getFileSearchQueryState,
