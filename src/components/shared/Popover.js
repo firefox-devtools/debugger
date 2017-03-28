@@ -9,16 +9,18 @@ class Popover extends Component {
     super();
     this.state = {
       left: 0,
-      top: 0
+      top: 0,
     };
   }
 
   componentDidMount() {
     const el = ReactDOM.findDOMNode(this);
     const { width } = el.getBoundingClientRect();
-    const { left: targetLeft,
-            width: targetWidth,
-            bottom: targetBottom } = this.props.target.getBoundingClientRect();
+    const {
+      left: targetLeft,
+      width: targetWidth,
+      bottom: targetBottom,
+    } = this.props.target.getBoundingClientRect();
 
     // width division corresponds to calc in Popover.css
     const left = targetLeft + targetWidth / 2 - width / 5;
@@ -36,7 +38,7 @@ class Popover extends Component {
       {
         className: "popover",
         onMouseLeave,
-        style: { top, left }
+        style: { top, left },
       },
       dom.div({ className: "popover-gap" }),
       children
@@ -47,11 +49,11 @@ class Popover extends Component {
 Popover.propTypes = {
   target: PropTypes.object,
   children: PropTypes.object,
-  onMouseLeave: PropTypes.func
+  onMouseLeave: PropTypes.func,
 };
 
 Popover.defaultProps = {
-  onMouseLeave: () => {}
+  onMouseLeave: () => {},
 };
 
 Popover.displayName = "Popover";

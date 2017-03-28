@@ -12,7 +12,7 @@ describe("sources reducer", () => {
     let state = State();
     state = update(state, {
       type: "ADD_SOURCE",
-      source: fakeSources.fooSourceActor
+      source: fakeSources.fooSourceActor,
     });
     expect(state.sources.size).to.be(1);
   });

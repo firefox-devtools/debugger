@@ -5,7 +5,7 @@ import type { SearchModifiers } from "../../types";
 
 type QueryOptions = {
   isGlobal?: boolean,
-  ignoreSpaces?: boolean
+  ignoreSpaces?: boolean,
 };
 
 /**
@@ -42,10 +42,14 @@ function buildFlags(caseSensitive: boolean, isGlobal: boolean): ?RegExp$flags {
   return;
 }
 
-function buildQuery(originalQuery: string, modifiers: SearchModifiers, {
-  isGlobal = false,
-  ignoreSpaces = false
-}: QueryOptions): RegExp {
+function buildQuery(
+  originalQuery: string,
+  modifiers: SearchModifiers,
+  {
+    isGlobal = false,
+    ignoreSpaces = false,
+  }: QueryOptions
+): RegExp {
   const { caseSensitive, regexMatch, wholeWord } = modifiers;
 
   if (originalQuery == "") {

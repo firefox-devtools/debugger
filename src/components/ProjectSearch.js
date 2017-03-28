@@ -1,19 +1,18 @@
 // @flow
-const React = require("react");
-const { DOM: dom, PropTypes, createFactory } = React;
-const { connect } = require("react-redux");
-const { bindActionCreators } = require("redux");
-const actions = require("../actions");
-const {
+
+import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import actions from "../actions";
+import {
   getSources,
   getSelectedSource,
-  getFileSearchState
-} = require("../selectors");
-const { endTruncateStr } = require("../utils/utils");
-const { parse: parseURL } = require("url");
-const { isPretty } = require("../utils/source");
-
-require("./SourceSearch.css");
+  getProjectSearchState,
+} from "../selectors";
+import { endTruncateStr } from "../utils/utils";
+import { parse as parseURL } from "url";
+import { isPretty } from "../utils/source";
+import "./ProjectSearch.css";
 
 const Autocomplete = createFactory(require("./shared/Autocomplete"));
 
@@ -21,86 +20,82 @@ function searchResults(sources) {
   function getSourcePath(source) {
     const { path, href } = parseURL(source.get("url"));
     // for URLs like "about:home" the path is null so we pass the full href
-    return (path || href);
+    return path || href;
   }
 
-  return sources.valueSeq()
+  return sources
+    .valueSeq()
     .filter(source => !isPretty(source.toJS()) && source.get("url"))
     .map(source => ({
       value: getSourcePath(source),
       title: getSourcePath(source).split("/").pop(),
       subtitle: endTruncateStr(getSourcePath(source), 100),
-      id: source.get("id")
+      id: source.get("id"),
     }))
     .toJS();
 }
 
-const Search = React.createClass({
-  propTypes: {
-    sources: PropTypes.object.isRequired,
-    selectSource: PropTypes.func.isRequired,
-    selectedSource: PropTypes.object,
-    toggleFileSearch: PropTypes.func.isRequired,
-    closeFileSearch: PropTypes.func.isRequired,
-    searchOn: PropTypes.bool
-  },
+class ProjectSearch extends Component {
+  state: Object;
+  toggle: Function;
+  onEscape: Function;
+  close: Function;
 
-  contextTypes: {
-    shortcuts: PropTypes.object
-  },
-
-  displayName: "Search",
-
-  getInitialState() {
-    return {
-      inputValue: ""
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputValue: "",
     };
-  },
+
+    this.toggle = this.toggle.bind(this);
+    this.onEscape = this.onEscape.bind(this);
+    this.close = this.close.bind(this);
+  }
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
       L10N.getStr("sources.search.key"),
-      L10N.getStr("sources.searchAlt.key")
+      L10N.getStr("sources.searchAlt.key"),
     ];
     searchKeys.forEach(key => shortcuts.off(`CmdOrCtrl+${key}`, this.toggle));
     shortcuts.off("Escape", this.onEscape);
-  },
+  }
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
       L10N.getStr("sources.search.key"),
-      L10N.getStr("sources.searchAlt.key")
+      L10N.getStr("sources.searchAlt.key"),
     ];
     searchKeys.forEach(key => shortcuts.on(`CmdOrCtrl+${key}`, this.toggle));
     shortcuts.on("Escape", this.onEscape);
-  },
+  }
 
   toggle(key, e) {
     e.preventDefault();
-    this.props.toggleFileSearch();
-  },
+    this.props.toggleProjectSearch();
+  }
 
   onEscape(shortcut, e) {
     if (this.props.searchOn) {
       e.preventDefault();
-      this.setState({ inputValue: "" });
-      this.props.closeFileSearch();
+      this.close();
     }
-  },
+  }
 
-  close(inputValue = "") {
-    this.setState({ inputValue });
-    this.props.closeFileSearch();
-  },
+  close() {
+    this.setState({ inputValue: "" });
+    this.props.toggleProjectSearch(false);
+  }
 
   render() {
     if (!this.props.searchOn) {
       return null;
     }
 
-    return dom.div({ className: "search-container" },
+    return dom.div(
+      { className: "search-container" },
       Autocomplete({
         selectItem: result => {
           this.props.selectSource(result.id);
@@ -110,17 +105,31 @@ const Search = React.createClass({
         items: searchResults(this.props.sources),
         inputValue: this.state.inputValue,
         placeholder: L10N.getStr("sourceSearch.search"),
-        size: "big"
-      }));
+        size: "big",
+      })
+    );
   }
+}
 
-});
+ProjectSearch.propTypes = {
+  sources: PropTypes.object.isRequired,
+  selectSource: PropTypes.func.isRequired,
+  selectedSource: PropTypes.object,
+  toggleProjectSearch: PropTypes.func.isRequired,
+  searchOn: PropTypes.bool,
+};
 
-module.exports = connect(
+ProjectSearch.contextTypes = {
+  shortcuts: PropTypes.object,
+};
+
+ProjectSearch.displayName = "ProjectSearch";
+
+export default connect(
   state => ({
     sources: getSources(state),
     selectedSource: getSelectedSource(state),
-    searchOn: getFileSearchState(state)
+    searchOn: getProjectSearchState(state),
   }),
   dispatch => bindActionCreators(actions, dispatch)
-)(Search);
+)(ProjectSearch);

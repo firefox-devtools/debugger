@@ -6,7 +6,10 @@ const ReactDOM = require("react-dom");
 
 const { getClient, firefox } = require("devtools-client-adapters");
 const {
-  renderRoot, bootstrap, L10N, unmountRoot
+  renderRoot,
+  bootstrap,
+  L10N,
+  unmountRoot,
 } = require("devtools-launchpad");
 const { getValue, isFirefoxPanel } = require("devtools-config");
 
@@ -22,7 +25,7 @@ const createStore = configureStore({
   log: getValue("logging.actions"),
   makeThunkArgs: (args, state) => {
     return Object.assign({}, args, { client: getClient(state) });
-  }
+  },
 });
 
 const store = createStore(combineReducers(reducers));
@@ -30,7 +33,8 @@ const actions = bindActionCreators(require("./actions"), store.dispatch);
 
 if (!isFirefoxPanel()) {
   window.L10N = L10N;
-  window.L10N.setBundle(require("./strings.json"));
+  // $FlowIgnore:
+  window.L10N.setBundle(require("../assets/panel/debugger.properties"));
 }
 
 window.appStore = store;
@@ -39,7 +43,7 @@ window.appStore = store;
 // selecting a source.
 window.actions = {
   selectSource: actions.selectSource,
-  selectSourceURL: actions.selectSourceURL
+  selectSourceURL: actions.selectSourceURL,
 };
 
 // Globals needed for mocha integration tests
@@ -50,7 +54,7 @@ window.getGlobalsForTesting = () => {
     selectors,
     actions,
     threadClient: firefox.getThreadClient(),
-    target: firefox.getTabTarget()
+    target: firefox.getTabTarget(),
   };
 };
 
@@ -74,9 +78,9 @@ if (isFirefoxPanel()) {
     store: store,
     actions: actions,
     selectors: selectors,
-    client: firefox.clientCommands
+    client: firefox.clientCommands,
   };
 } else {
-  bootstrap(React, ReactDOM, App, actions, store)
-    .then(conn => onConnect(conn, actions));
+  bootstrap(React, ReactDOM, App, actions, store).then(conn =>
+    onConnect(conn, actions));
 }

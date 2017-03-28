@@ -15,13 +15,15 @@ import type { Record } from "../utils/makeRecord";
 
 export type CoverageState = {
   coverageOn: boolean,
-  hitCount: Object
+  hitCount: Object,
 };
 
-const State = makeRecord(({
-  coverageOn: false,
-  hitCount: I.Map()
-} : CoverageState));
+const State = makeRecord(
+  ({
+    coverageOn: false,
+    hitCount: I.Map(),
+  }: CoverageState)
+);
 
 function update(state = State(), action: Action): Record<CoverageState> {
   switch (action.type) {
@@ -53,5 +55,5 @@ module.exports = {
   State,
   update,
   getHitCountForSource,
-  getCoverageEnabled
+  getCoverageEnabled,
 };

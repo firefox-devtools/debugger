@@ -3,12 +3,17 @@ const React = require("react");
 const { DOM: dom } = React;
 
 const ReactDOM = require("react-dom");
-const CloseButton = require("../shared/Button/Close");
+const CloseButton = require("../shared/Button/Close").default;
 
 require("./ConditionalPanel.css");
 
-function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
-  { condition: ?string, closePanel: Function, setBreakpoint: Function }) {
+function renderConditionalPanel(
+  {
+    condition,
+    closePanel,
+    setBreakpoint,
+  }: { condition: ?string, closePanel: Function, setBreakpoint: Function }
+) {
   let panel = document.createElement("div");
   let input = null;
 
@@ -40,12 +45,12 @@ function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
         defaultValue: condition,
         placeholder: L10N.getStr("editor.conditionalPanel.placeholder"),
         onKeyDown: onKey,
-        ref: setInput
+        ref: setInput,
       }),
       CloseButton({
         handleClick: closePanel,
         buttonClass: "big",
-        tooltip: L10N.getStr("editor.conditionalPanel.close")
+        tooltip: L10N.getStr("editor.conditionalPanel.close"),
       })
     ),
     panel
@@ -55,5 +60,5 @@ function renderConditionalPanel({ condition, closePanel, setBreakpoint }:
 }
 
 module.exports = {
-  renderConditionalPanel
+  renderConditionalPanel,
 };

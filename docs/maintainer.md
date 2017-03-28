@@ -10,22 +10,22 @@ Helping maintain a project is the best way to contribute to its overall health.
 
 #### Closing Stale Issues
 
-We define *stale* as issues that are 30 days or older. Stale is often an indicator of another issue: it is unecessary, too vague, too broad, or a low priority.
+We define *stale* as issues that are 30 days or older. Stale is often an indicator of another issue: it is unnecessary, too vague, too broad, or a low priority.
 
-* *unecessary* - close it
-* *vague* - clarify the issue and make it more actionable
+* *unnecessary* - close it
+* *vague* - clarify the issue and make it more available
 * *broad* - create more focused issues, such as "add flow types to `WhyPaused` component"
 * *low priority* - close it and add it to the [enhancements board]
 
-#### Making Issues Actionable a.k.a "Up for Grabs"
+#### Making Issues `available`
 
-Actionable is short for two things:
+Available is short for two things:
 
 1. a clearly defined specification (end-state)
 2. a clear implementation plan
 
-Our goal is to have 100% of our issues actionable or blocked by another actionable ticket.
-If you find an issue that is not actionable you can:
+Our goal is to have 100% of our issues available or blocked by another available ticket.
+If you find an issue that is not available you can:
 
 1. investigate the issue and answer questions that you have
 2. share questions or offer reasonable solutions that can be implemented
@@ -56,7 +56,7 @@ I recommend [ship] for tracking issues.
 
 Patches are a great way to clarify what work needs to be done.
 
-Patches on "up for grabs" issues help clarify where the code should go and are often clearer than english.
+Patches on `available` issues help clarify where the code should go and are often clearer than English.
 
 Tips:
 

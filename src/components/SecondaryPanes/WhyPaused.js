@@ -11,7 +11,6 @@ import { getPauseReason } from "../../utils/pause";
 import "./WhyPaused.css";
 
 class WhyPaused extends Component {
-
   renderMessage(pauseInfo) {
     if (!pauseInfo) {
       return null;
@@ -44,12 +43,12 @@ class WhyPaused extends Component {
 WhyPaused.displayName = "WhyPaused";
 
 WhyPaused.propTypes = {
-  pauseInfo: ImPropTypes.map
+  pauseInfo: ImPropTypes.map,
 };
 
 export default connect(
   state => ({
-    pauseInfo: getPause(state)
+    pauseInfo: getPause(state),
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(WhyPaused);

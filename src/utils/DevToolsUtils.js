@@ -9,8 +9,4 @@ function executeSoon(fn) {
   setTimeout(fn, 0);
 }
 
-module.exports = {
-  reportException,
-  executeSoon,
-  assert
-};
+module.exports = { reportException, executeSoon, assert };

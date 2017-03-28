@@ -62,5 +62,5 @@ function handleKeyDown(e: SyntheticKeyboardEvent) {
 
 module.exports = {
   scrollList,
-  handleKeyDown
+  handleKeyDown,
 };

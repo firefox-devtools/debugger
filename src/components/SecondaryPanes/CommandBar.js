@@ -1,7 +1,5 @@
 // @flow
-import {
-  DOM as dom, PropTypes, createClass
-} from "react";
+import { DOM as dom, PropTypes, Component } from "react";
 
 const { findDOMNode } = require("react-dom");
 import { connect } from "react-redux";
@@ -10,7 +8,7 @@ import {
   getPause,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
-  getShouldIgnoreCaughtExceptions
+  getShouldIgnoreCaughtExceptions,
 } from "../../selectors";
 import Svg from "../shared/Svg";
 import ImPropTypes from "react-immutable-proptypes";
@@ -18,35 +16,35 @@ import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
 import "./CommandBar.css";
 
-const { Services: { appinfo }} = require("devtools-modules");
+const { Services: { appinfo } } = require("devtools-modules");
 
-const isMacOS = (appinfo.OS === "Darwin");
+const isMacOS = appinfo.OS === "Darwin";
 
 const COMMANDS = ["resume", "stepOver", "stepIn", "stepOut"];
 
 const KEYS = {
-  "WINNT": {
-    "resume": "F8",
-    "pause": "F8",
-    "stepOver": "F10",
-    "stepIn": "F11",
-    "stepOut": "Shift+F11"
+  WINNT: {
+    resume: "F8",
+    pause: "F8",
+    stepOver: "F10",
+    stepIn: "F11",
+    stepOut: "Shift+F11",
   },
-  "Darwin": {
-    "resume": "Cmd+\\",
-    "pause": "Cmd+\\",
-    "stepOver": "Cmd+'",
-    "stepIn": "Cmd+;",
-    "stepOut": "Cmd+Shift+:",
-    "stepOutDisplay": "Cmd+Shift+;"
+  Darwin: {
+    resume: "Cmd+\\",
+    pause: "Cmd+\\",
+    stepOver: "Cmd+'",
+    stepIn: "Cmd+;",
+    stepOut: "Cmd+Shift+:",
+    stepOutDisplay: "Cmd+Shift+;",
   },
-  "Linux": {
-    "resume": "F8",
-    "pause": "F8",
-    "stepOver": "F10",
-    "stepIn": "Ctrl+F11",
-    "stepOut": "Ctrl+Shift+F11"
-  }
+  Linux: {
+    resume: "F8",
+    pause: "F8",
+    stepOver: "F10",
+    stepIn: "Ctrl+F11",
+    stepOut: "Ctrl+Shift+F11",
+  },
 };
 
 function getKey(action) {
@@ -61,7 +59,7 @@ function formatKey(action) {
   const key = getKey(`${action}Display`) || getKey(action);
   if (isMacOS) {
     const winKey = getKeyForOS("WINNT", `${action}Display`) ||
-                   getKeyForOS("WINNT", action);
+      getKeyForOS("WINNT", action);
     // display both Windows type and Mac specific keys
     return formatKeyShortcut([key, winKey].join(" "));
   }
@@ -75,10 +73,15 @@ function handlePressAnimation(button) {
 
   button.style.opacity = "0";
   button.style.transform = "scale(1.3)";
-  setTimeout(() => {
-    button.style.opacity = "1";
-    button.style.transform = "none";
-  }, 200);
+  setTimeout(
+    () => {
+      if (button) {
+        button.style.opacity = "1";
+        button.style.transform = "none";
+      }
+    },
+    200
+  );
 }
 
 function debugBtn(onClick, type, className, tooltip, disabled = false) {
@@ -90,68 +93,46 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
       key: type,
       "aria-label": tooltip,
       title: tooltip,
-      disabled
+      disabled,
     },
     Svg(type)
   );
 }
 
-const CommandBar = createClass({
-  propTypes: {
-    sources: PropTypes.object,
-    selectedSource: PropTypes.object,
-    resume: PropTypes.func,
-    stepIn: PropTypes.func,
-    stepOut: PropTypes.func,
-    stepOver: PropTypes.func,
-    breakOnNext: PropTypes.func,
-    pause: ImPropTypes.map,
-    pauseOnExceptions: PropTypes.func,
-    shouldPauseOnExceptions: PropTypes.bool,
-    shouldIgnoreCaughtExceptions: PropTypes.bool,
-    isWaitingOnBreak: PropTypes.bool,
-  },
-
-  contextTypes: {
-    shortcuts: PropTypes.object
-  },
-
-  displayName: "CommandBar",
-
+class CommandBar extends Component {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    COMMANDS.forEach((action) => shortcuts.off(getKey(action)));
+    COMMANDS.forEach(action => shortcuts.off(getKey(action)));
     if (isMacOS) {
-      COMMANDS.forEach((action) => shortcuts.off(getKeyForOS("WINNT", action)));
+      COMMANDS.forEach(action => shortcuts.off(getKeyForOS("WINNT", action)));
     }
-  },
+  }
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
 
-    COMMANDS.forEach(action => shortcuts.on(
-      getKey(action),
-      (_, e) => this.handleEvent(e, action)
-    ));
+    COMMANDS.forEach(action =>
+      shortcuts.on(getKey(action), (_, e) => this.handleEvent(e, action)));
 
     if (isMacOS) {
       // The Mac supports both the Windows Function keys
       // as well as the Mac non-Function keys
-      COMMANDS.forEach(action => shortcuts.on(
-        getKeyForOS("WINNT", action),
-        (_, e) => this.handleEvent(e, action)
-      ));
+      COMMANDS.forEach(action =>
+        shortcuts.on(getKeyForOS("WINNT", action), (_, e) =>
+          this.handleEvent(e, action)));
     }
-  },
+  }
 
   handleEvent(e, action) {
     e.preventDefault();
     e.stopPropagation();
 
     this.props[action]();
-    const button = findDOMNode(this).querySelector(`.${action}`);
-    handlePressAnimation(button);
-  },
+    const node = findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      handlePressAnimation(node.querySelector(`.${action}`));
+    }
+  }
 
   renderStepButtons() {
     const isPaused = this.props.pause;
@@ -179,9 +160,9 @@ const CommandBar = createClass({
         className,
         L10N.getFormatStr("stepOutTooltip", formatKey("stepOut")),
         isDisabled
-      )
+      ),
     ];
-  },
+  }
 
   renderPauseButton() {
     const { pause, breakOnNext, isWaitingOnBreak } = this.props;
@@ -211,7 +192,7 @@ const CommandBar = createClass({
       "active",
       L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
     );
-  },
+  }
 
   /*
    * The pause on exception button has three states in this order:
@@ -220,8 +201,11 @@ const CommandBar = createClass({
    *  3. pause on all exceptions        [true, false]
   */
   renderPauseOnExceptions() {
-    const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions,
-            pauseOnExceptions } = this.props;
+    const {
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions,
+    } = this.props;
 
     if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
       return debugBtn(
@@ -247,19 +231,38 @@ const CommandBar = createClass({
       "all enabled",
       L10N.getStr("pauseOnExceptions")
     );
-  },
+  }
 
   render() {
-    return (
-      dom.div(
-        { className: "command-bar" },
-        this.renderPauseButton(),
-        this.renderStepButtons(),
-        this.renderPauseOnExceptions()
-      )
+    return dom.div(
+      { className: "command-bar" },
+      this.renderPauseButton(),
+      this.renderStepButtons(),
+      this.renderPauseOnExceptions()
     );
   }
-});
+}
+
+CommandBar.propTypes = {
+  sources: PropTypes.object,
+  selectedSource: PropTypes.object,
+  resume: PropTypes.func,
+  stepIn: PropTypes.func,
+  stepOut: PropTypes.func,
+  stepOver: PropTypes.func,
+  breakOnNext: PropTypes.func,
+  pause: ImPropTypes.map,
+  pauseOnExceptions: PropTypes.func,
+  shouldPauseOnExceptions: PropTypes.bool,
+  shouldIgnoreCaughtExceptions: PropTypes.bool,
+  isWaitingOnBreak: PropTypes.bool,
+};
+
+CommandBar.contextTypes = {
+  shortcuts: PropTypes.object,
+};
+
+CommandBar.displayName = "CommandBar";
 
 export default connect(
   state => {

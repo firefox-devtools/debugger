@@ -9,7 +9,7 @@ function getLabel(dbg, index) {
   return findElement(dbg, "scopeNode", index).innerText;
 }
 
-add_task(function* () {
+add_task(function*() {
   const dbg = yield initDebugger("doc-script-switching.html");
 
   toggleScopes(dbg);

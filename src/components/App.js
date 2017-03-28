@@ -19,7 +19,7 @@ import "./shared/reps.css";
 
 const SplitBox = createFactory(require("devtools-modules").SplitBox);
 
-const SourceSearch = createFactory(require("./SourceSearch"));
+const ProjectSearch = createFactory(require("./ProjectSearch").default);
 const Sources = createFactory(require("./Sources").default);
 const Editor = createFactory(require("./Editor"));
 const SecondaryPanes = createFactory(require("./SecondaryPanes").default);
@@ -27,17 +27,15 @@ const WelcomeBox = createFactory(require("./WelcomeBox").default);
 const EditorTabs = createFactory(require("./Editor/Tabs"));
 
 class App extends Component {
-  state: Object
-  onLayoutChange: Function
-  getChildContext: Function
-  renderEditorPane: Function
-  renderVerticalLayout: Function
+  state: { horizontal: boolean };
+  onLayoutChange: Function;
+  getChildContext: Function;
+  renderEditorPane: Function;
+  renderVerticalLayout: Function;
 
   constructor(props) {
     super(props);
-    this.state = {
-      horizontal: verticalLayoutBreakpoint.matches
-    };
+    this.state = { horizontal: verticalLayoutBreakpoint.matches };
 
     this.getChildContext = this.getChildContext.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
@@ -58,9 +56,7 @@ class App extends Component {
   }
 
   onLayoutChange() {
-    this.setState({
-      horizontal: verticalLayoutBreakpoint.matches
-    });
+    this.setState({ horizontal: verticalLayoutBreakpoint.matches });
   }
 
   renderEditorPane() {
@@ -70,14 +66,10 @@ class App extends Component {
       { className: "editor-pane" },
       dom.div(
         { className: "editor-container" },
-        EditorTabs({
-          startPanelCollapsed,
-          endPanelCollapsed,
-          horizontal
-        }),
+        EditorTabs({ startPanelCollapsed, endPanelCollapsed, horizontal }),
         Editor({ horizontal }),
         !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
-        SourceSearch()
+        ProjectSearch()
       )
     );
   }
@@ -108,9 +100,10 @@ class App extends Component {
           startPanel: this.renderEditorPane(),
           endPanel: SecondaryPanes({ horizontal }),
           endPanelCollapsed,
-          vert: horizontal
+          vert: horizontal,
         }),
-      }));
+      })
+    );
   }
 
   renderVerticalLayout() {
@@ -138,12 +131,14 @@ class App extends Component {
         }),
         endPanel: SecondaryPanes({ horizontal }),
         endPanelCollapsed,
-      }));
+      })
+    );
   }
 
   render() {
-    return this.state.horizontal ?
-      this.renderHorizontalLayout() : this.renderVerticalLayout();
+    return this.state.horizontal
+      ? this.renderHorizontalLayout()
+      : this.renderVerticalLayout();
   }
 }
 
@@ -157,12 +152,11 @@ App.propTypes = {
 
 App.displayName = "App";
 
-App.childContextTypes = {
-  shortcuts: PropTypes.object
-};
+App.childContextTypes = { shortcuts: PropTypes.object };
 
 export default connect(
-  state => ({ sources: getSources(state),
+  state => ({
+    sources: getSources(state),
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
     endPanelCollapsed: getPaneCollapse(state, "end"),

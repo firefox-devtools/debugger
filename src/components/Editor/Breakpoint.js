@@ -11,10 +11,9 @@ ReactDOM.render(Svg("breakpoint"), breakpointSvg);
 
 function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);
-  bp.className = classnames(
-    "editor new-breakpoint",
-    { "breakpoint-disabled": isDisabled }
-  );
+  bp.className = classnames("editor new-breakpoint", {
+    "breakpoint-disabled": isDisabled,
+  });
 
   return bp;
 }
@@ -22,11 +21,9 @@ function makeMarker(isDisabled: boolean) {
 const Breakpoint = React.createClass({
   propTypes: {
     breakpoint: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired
+    editor: PropTypes.object.isRequired,
   },
-
   displayName: "Breakpoint",
-
   addBreakpoint() {
     const bp = this.props.breakpoint;
     const line = bp.location.line - 1;
@@ -43,13 +40,11 @@ const Breakpoint = React.createClass({
       this.props.editor.removeLineClass(line, "line", "has-condition");
     }
   },
-
   shouldComponentUpdate(nextProps: any) {
     return this.props.editor !== nextProps.editor ||
       this.props.breakpoint.disabled !== nextProps.breakpoint.disabled ||
       this.props.breakpoint.condition !== nextProps.breakpoint.condition;
   },
-
   componentDidMount() {
     if (!this.props.editor) {
       return;
@@ -57,11 +52,9 @@ const Breakpoint = React.createClass({
 
     this.addBreakpoint();
   },
-
   componentDidUpdate() {
     this.addBreakpoint();
   },
-
   componentWillUnmount() {
     if (!this.props.editor) {
       return;
@@ -74,10 +67,9 @@ const Breakpoint = React.createClass({
     this.props.editor.removeLineClass(line, "line", "new-breakpoint");
     this.props.editor.removeLineClass(line, "line", "has-condition");
   },
-
   render() {
     return null;
-  }
+  },
 });
 
 module.exports = Breakpoint;

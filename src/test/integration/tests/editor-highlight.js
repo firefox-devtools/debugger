@@ -7,8 +7,8 @@ const {
   selectSource,
   findAllElements,
   waitForPaused,
-  waitForDispatch
-} = require("../utils")
+  waitForDispatch,
+} = require("../utils");
 
 // Tests that the editor will always highight the right line, no
 // matter if the source text doesn't exist yet or even if the source
@@ -40,8 +40,11 @@ module.exports = async function(ctx) {
   await selectSource(dbg, "long.js", 17);
   await selectSource(dbg, "long.js", 18);
   assertHighlightLocation(dbg, ctx, "long.js", 18);
-  is(findAllElements(dbg, "highlightLine").length, 1,
-     "Only 1 line is highlighted");
+  is(
+    findAllElements(dbg, "highlightLine").length,
+    1,
+    "Only 1 line is highlighted"
+  );
 
   // Test jumping to a line in a source that exists but hasn't been
   // loaded yet.
@@ -54,4 +57,4 @@ module.exports = async function(ctx) {
   await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
   ok(getSourceText(getState(), simple1.id).get("text"));
   assertHighlightLocation(dbg, ctx, "simple1.js", 6);
-}
+};

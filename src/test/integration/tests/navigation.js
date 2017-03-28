@@ -8,7 +8,7 @@ const {
   waitForPaused,
   waitForDispatch,
   assertPausedLocation,
-  reload
+  reload,
 } = require("../utils");
 
 function countSources(dbg) {
@@ -41,7 +41,8 @@ module.exports = async function(ctx) {
   is(countSources(dbg), 0, "0 sources are loaded.");
   ok(!getPause(getState()), "No pause state exists");
 
-  await navigate(dbg,
+  await navigate(
+    dbg,
     "doc-scripts.html",
     "simple1.js",
     "simple2.js",
@@ -54,6 +55,8 @@ module.exports = async function(ctx) {
   // Test that the current select source persists across reloads
   await selectSource(dbg, "long.js");
   await reload(dbg, "long.js");
-  ok(getSelectedSource(getState()).get("url").includes("long.js"),
-     "Selected source is long.js");
-}
+  ok(
+    getSelectedSource(getState()).get("url").includes("long.js"),
+    "Selected source is long.js"
+  );
+};

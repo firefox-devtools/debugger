@@ -120,6 +120,15 @@ html[dir="rtl"] .editor-mount {
   100% { background-color: transparent; }
 }
 
+.theme-dark .highlight-line .CodeMirror-line {
+  animation: fade-highlight-out-dark 1.5s normal forwards;
+}
+
+@keyframes fade-highlight-out-dark {
+  0% { background-color: var(--theme-content-color3); }
+  100% { background-color: transparent; }
+}
+
 .welcomebox {
   width: calc(100% - 1px);
 

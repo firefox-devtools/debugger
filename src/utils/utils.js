@@ -50,7 +50,7 @@ function endTruncateStr(str: any, size: number) {
  * @memberof utils/utils
  * @static
  */
-function updateObj<T: Object>(obj: T, fields: $Shape<T>) : T {
+function updateObj<T: Object>(obj: T, fields: $Shape<T>): T {
   return Object.assign({}, obj, fields);
 }
 
@@ -63,10 +63,13 @@ function throttle(func: any, ms: number) {
   return function(...args: any) {
     _this = this;
     if (!timeout) {
-      timeout = setTimeout(() => {
-        func.apply(_this, ...args);
-        timeout = null;
-      }, ms);
+      timeout = setTimeout(
+        () => {
+          func.apply(_this, ...args);
+          timeout = null;
+        },
+        ms
+      );
     }
   };
 }
@@ -81,5 +84,5 @@ module.exports = {
   endTruncateStr,
   updateObj,
   throttle,
-  waitForMs
+  waitForMs,
 };

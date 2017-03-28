@@ -19,7 +19,7 @@ const Autocomplete = React.createClass({
     close: PropTypes.func.isRequired,
     inputValue: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
-    size: PropTypes.string
+    size: PropTypes.string,
   },
 
   displayName: "Autocomplete",
@@ -28,21 +28,26 @@ const Autocomplete = React.createClass({
     return {
       inputValue: this.props.inputValue,
       selectedIndex: 0,
-      focused: false
+      focused: false,
     };
   },
 
   getDefaultProps() {
     return {
-      size: ""
+      size: "",
     };
   },
 
   componentDidMount() {
     const endOfInput = this.state.inputValue.length;
-    const searchInput = findDOMNode(this).querySelector("input");
-    searchInput.focus();
-    searchInput.setSelectionRange(endOfInput, endOfInput);
+    const node = findDOMNode(this);
+    if (node instanceof HTMLElement) {
+      const searchInput = node.querySelector("input");
+      if (searchInput instanceof HTMLInputElement) {
+        searchInput.focus();
+        searchInput.setSelectionRange(endOfInput, endOfInput);
+      }
+    }
   },
 
   componentDidUpdate() {
@@ -58,7 +63,7 @@ const Autocomplete = React.createClass({
       return [];
     }
     return filter(this.props.items, this.state.inputValue, {
-      key: "value"
+      key: "value",
     });
   },
 
@@ -106,10 +111,11 @@ const Autocomplete = React.createClass({
         selectItem: this.props.selectItem,
         close: this.props.close,
         size,
-        ref: "resultList"
+        ref: "resultList",
       });
     } else if (this.state.inputValue && !results.length) {
-      return dom.div({ className: "no-result-msg" },
+      return dom.div(
+        { className: "no-result-msg" },
         Svg("sad-face"),
         L10N.getFormatStr("sourceSearch.noResults", this.state.inputValue)
       );
@@ -132,17 +138,19 @@ const Autocomplete = React.createClass({
         placeholder: this.props.placeholder,
         size,
         summaryMsg,
-        onChange: e => this.setState({
-          inputValue: e.target.value,
-          selectedIndex: 0
-        }),
+        onChange: e =>
+          this.setState({
+            inputValue: e.target.value,
+            selectedIndex: 0,
+          }),
         onFocus: () => this.setState({ focused: true }),
         onBlur: () => this.setState({ focused: false }),
         onKeyDown: this.onKeyDown,
-        handleClose: this.props.close
+        handleClose: this.props.close,
       }),
-      this.renderResults(searchResults));
-  }
+      this.renderResults(searchResults)
+    );
+  },
 });
 
 module.exports = Autocomplete;

@@ -13,27 +13,66 @@ const defer = require("../utils/defer");
 const { PROMISE } = require("../utils/redux/middleware/promise");
 const assert = require("../utils/assert");
 const { updateFrameLocations } = require("../utils/pause");
+const { addBreakpoint } = require("./breakpoints");
+
 const {
-  getOriginalURLs, getOriginalSourceText,
-  generatedToOriginalId, isOriginalId,
-  getOriginalLocation, getGeneratedLocation,
-  isGeneratedId, applySourceMap
+  getOriginalURLs,
+  getOriginalSourceText,
+  generatedToOriginalId,
+  isOriginalId,
+  getOriginalLocation,
+  getGeneratedLocation,
+  isGeneratedId,
+  applySourceMap,
 } = require("devtools-source-map");
 
 const { prettyPrint } = require("../utils/pretty-print");
 const { getPrettySourceURL } = require("../utils/source");
 
 const constants = require("../constants");
-const { removeDocument } = require("../utils/editor");
 const { prefs } = require("../utils/prefs");
+const { removeDocument } = require("../utils/editor");
 
 const {
-  getSource, getSourceByURL, getSourceText,
-  getPendingSelectedLocation, getFrames
+  getSource,
+  getSourceByURL,
+  getSourceText,
+  getBreakpoint,
+  getPendingSelectedLocation,
+  getPendingBreakpoints,
+  getFrames,
 } = require("../selectors");
 
 import type { Source, SourceText } from "../types";
 import type { ThunkArgs } from "./types";
+
+// If a request has been made to show this source, go ahead and
+// select it.
+function checkSelectedSource(state, dispatch, source) {
+  const pendingLocation = getPendingSelectedLocation(state);
+  if (pendingLocation && pendingLocation.url === source.url) {
+    dispatch(selectSource(source.id, { line: pendingLocation.line }));
+  }
+}
+
+function checkPendingBreakpoints(state, dispatch, source) {
+  const pendingBreakpoints = getPendingBreakpoints(state);
+
+  if (pendingBreakpoints) {
+    pendingBreakpoints.forEach(pendingBreakpoint => {
+      const { location: { line, sourceUrl }, condition } = pendingBreakpoint;
+      const sameSource = sourceUrl && sourceUrl == source.url;
+
+      const location = { sourceId: source.id, sourceUrl, line };
+
+      const bp = getBreakpoint(state, location);
+
+      if (sameSource && !bp) {
+        dispatch(addBreakpoint(location, { condition }));
+      }
+    });
+  }
+}
 
 /**
  * Handler for the debugger client's unsolicited newSource notification.
@@ -46,23 +85,17 @@ function newSource(source: Source) {
       dispatch(loadSourceMap(source));
     }
 
-    dispatch({
-      type: constants.ADD_SOURCE,
-      source
-    });
+    dispatch({ type: constants.ADD_SOURCE, source });
 
-    // If a request has been made to show this source, go ahead and
-    // select it.
-    const pendingLocation = getPendingSelectedLocation(getState());
-    if (pendingLocation && pendingLocation.url === source.url) {
-      dispatch(selectSource(source.id, { line: pendingLocation.line }));
-    }
+    checkSelectedSource(getState(), dispatch, source);
+    checkPendingBreakpoints(getState(), dispatch, source);
   };
 }
 
 function newSources(sources: Source[]) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    sources.filter(source => !getSource(getState(), source.id))
+    sources
+      .filter(source => !getSource(getState(), source.id))
       .forEach(source => dispatch(newSource(source)));
   };
 }
@@ -79,25 +112,25 @@ function loadSourceMap(generatedSource) {
       return;
     }
 
+    let state = getState();
     const originalSources = urls.map(originalUrl => {
       return {
         url: originalUrl,
         id: generatedToOriginalId(generatedSource.id, originalUrl),
-        isPrettyPrinted: false
+        isPrettyPrinted: false,
       };
     });
 
-    dispatch({
-      type: constants.ADD_SOURCES,
-      sources: originalSources
+    dispatch({ type: constants.ADD_SOURCES, sources: originalSources });
+
+    originalSources.forEach(source => {
+      checkSelectedSource(state, dispatch, source);
+      checkPendingBreakpoints(state, dispatch, source);
     });
   };
 }
 
-type SelectSourceOptions = {
-  tabIndex?: number,
-  line?: number
-};
+type SelectSourceOptions = { tabIndex?: number, line?: number };
 
 /**
  * Deterministically select a source that has a given URL. This will
@@ -118,7 +151,7 @@ function selectSourceURL(url: string, options: SelectSourceOptions = {}) {
         type: constants.SELECT_SOURCE_URL,
         url: url,
         tabIndex: options.tabIndex,
-        line: options.line
+        line: options.line,
       });
     }
   };
@@ -136,18 +169,24 @@ function selectSource(id: string, options: SelectSourceOptions = {}) {
       return;
     }
 
-    const source = getSource(getState(), id).toJS();
+    let source = getSource(getState(), id);
+
+    if (!source) {
+      return;
+    }
+
+    source = source.toJS();
 
     // Make sure to start a request to load the source text.
     dispatch(loadSourceText(source));
 
-    dispatch({ type: constants.SET_FILE_SEARCH, searchOn: false });
+    dispatch({ type: constants.TOGGLE_PROJECT_SEARCH, value: false });
 
     dispatch({
       type: constants.SELECT_SOURCE,
       source: source,
       tabIndex: options.tabIndex,
-      line: options.line
+      line: options.line,
     });
   };
 }
@@ -167,10 +206,9 @@ function jumpToMappedLocation(sourceLocation: any) {
       ? await getGeneratedLocation(sourceLocation, source.toJS())
       : await getOriginalLocation(sourceLocation, source.toJS());
 
-    return dispatch(selectSource(
-      pairedLocation.sourceId,
-      { line: pairedLocation.line }
-    ));
+    return dispatch(
+      selectSource(pairedLocation.sourceId, { line: pairedLocation.line })
+    );
   };
 }
 
@@ -180,10 +218,7 @@ function jumpToMappedLocation(sourceLocation: any) {
  */
 function closeTab(url: string) {
   removeDocument(url);
-  return {
-    type: constants.CLOSE_TAB,
-    url
-  };
+  return { type: constants.CLOSE_TAB, url };
 }
 
 /**
@@ -199,10 +234,7 @@ function closeTabs(urls: string[]) {
       }
     });
 
-    dispatch({
-      type: constants.CLOSE_TABS,
-      urls
-    });
+    dispatch({ type: constants.CLOSE_TABS, urls });
   };
 }
 
@@ -230,23 +262,24 @@ function togglePrettyPrint(sourceId: string) {
       return {};
     }
 
-    assert(isGeneratedId(sourceId),
-           "Pretty-printing only allowed on generated sources");
+    assert(
+      isGeneratedId(sourceId),
+      "Pretty-printing only allowed on generated sources"
+    );
 
     const url = getPrettySourceURL(source.url);
     const id = generatedToOriginalId(source.id, url);
     const originalSource = { url, id, isPrettyPrinted: false };
-    dispatch({
-      type: constants.ADD_SOURCE,
-      source: originalSource
-    });
+    dispatch({ type: constants.ADD_SOURCE, source: originalSource });
 
     return dispatch({
       type: constants.TOGGLE_PRETTY_PRINT,
       source: originalSource,
       [PROMISE]: (async function() {
         const { code, mappings } = await prettyPrint({
-          source, sourceText, url
+          source,
+          sourceText,
+          url,
         });
 
         await applySourceMap(source.id, url, code, mappings);
@@ -258,12 +291,8 @@ function togglePrettyPrint(sourceId: string) {
 
         dispatch(selectSource(originalSource.id));
 
-        return {
-          text: code,
-          contentType: "text/javascript",
-          frames
-        };
-      })()
+        return { text: code, contentType: "text/javascript", frames };
+      })(),
     });
   };
 }
@@ -294,7 +323,7 @@ function loadSourceText(source: Source) {
         const sourceText: SourceText = {
           id: source.id,
           text: response.source,
-          contentType: response.contentType || "text/javascript"
+          contentType: response.contentType || "text/javascript",
         };
 
         return sourceText;
@@ -305,7 +334,7 @@ function loadSourceText(source: Source) {
         //     SourceUtils.isMinified(source.id, response.source)) {
         //   dispatch(togglePrettyPrint(source));
         // }
-      })()
+      })(),
     });
   };
 }
@@ -335,15 +364,17 @@ function getTextForSources(actors: any[]) {
     // everything is considered rejected, thus no other subsequent source will
     // be getting fetched. We don't want that. Something like Q's allSettled
     // would work like a charm here.
-
     // Try to fetch as many sources as possible.
     for (let actor of actors) {
       let source = getSource(getState(), actor);
-      dispatch(loadSourceText(source)).then(({ text, contentType }) => {
-        onFetch([source, text, contentType]);
-      }, err => {
-        onError(source, err);
-      });
+      dispatch(loadSourceText(source)).then(
+        ({ text, contentType }) => {
+          onFetch([source, text, contentType]);
+        },
+        err => {
+          onError(source, err);
+        }
+      );
     }
 
     setTimeout(onTimeout, FETCH_SOURCE_RESPONSE_DELAY);
@@ -399,5 +430,5 @@ module.exports = {
   closeTabs,
   togglePrettyPrint,
   loadSourceText,
-  getTextForSources
+  getTextForSources,
 };

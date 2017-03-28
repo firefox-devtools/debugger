@@ -4,7 +4,7 @@
 // Test that an error while loading a sourcemap does not break
 // debugging.
 
-add_task(function* () {
+add_task(function*() {
   const dbg = yield initDebugger("doc-sourcemap-bogus.html");
   const { selectors: { getSources }, getState } = dbg;
 

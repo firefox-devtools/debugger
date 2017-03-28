@@ -8,8 +8,8 @@ const {
   invokeInTab,
   clickElement,
   findElement,
-  waitForDispatch
-} = require("../utils")
+  waitForDispatch,
+} = require("../utils");
 
 // Testing source search
 module.exports = async function(ctx) {
@@ -36,4 +36,4 @@ module.exports = async function(ctx) {
   await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
   source = dbg.selectors.getSelectedSource(dbg.getState());
   ok(source.get("url").match(/switching-02/), "second source is selected");
-}
+};

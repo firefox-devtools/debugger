@@ -5,8 +5,14 @@ const {
   getDocument,
   setDocument,
   removeDocument,
-  clearDocuments
+  clearDocuments,
 } = require("./source-documents");
+
+import {
+  getTokenLocation,
+  getExpressionFromToken,
+  previewExpression,
+} from "./expression.js";
 
 const {
   countMatches,
@@ -14,7 +20,7 @@ const {
   findNext,
   findPrev,
   removeOverlay,
-  clearIndex
+  clearIndex,
 } = require("./source-search");
 
 const SourceEditor = require("./source-editor");
@@ -35,22 +41,6 @@ function shouldShowPrettyPrint(selectedSource) {
   }
 
   return true;
-}
-
-function onKeyDown(codeMirror, e) {
-  let { key, target } = e;
-  let codeWrapper = codeMirror.getWrapperElement();
-  let textArea = codeWrapper.querySelector("textArea");
-
-  if (key === "Escape" && target == textArea) {
-    e.stopPropagation();
-    e.preventDefault();
-    codeWrapper.focus();
-  } else if (key === "Enter" && target == codeWrapper) {
-    e.preventDefault();
-    // Focus into editor's text area
-    textArea.focus();
-  }
 }
 
 function shouldShowFooter(selectedSource, horizontal) {
@@ -93,16 +83,6 @@ function getCursorLine(codeMirror) {
   return codeMirror.getCursor().line;
 }
 
-function getTokenLocation(tokenEl, codeMirror) {
-  const lineOffset = 1;
-  const { left, top } = tokenEl.getBoundingClientRect();
-  const { line, ch } = codeMirror.coordsChar({ left, top });
-
-  return {
-    line: line + lineOffset,
-    column: ch
-  };
-}
 /**
  * Forces the breakpoint gutter to be the same size as the line
  * numbers gutter. Editor CSS will absolutely position the gutter
@@ -143,9 +123,19 @@ function createEditor() {
       // Override code mirror keymap to avoid conflicts with split console.
       Esc: false,
       "Cmd-F": false,
-      "Cmd-G": false
-    }
+      "Cmd-G": false,
+    },
   });
+}
+
+function updateDocument(editor, selectedSource, sourceText) {
+  if (selectedSource) {
+    let sourceId = selectedSource.get("id");
+    const doc = getDocument(sourceId) || editor.createDocument();
+    editor.replaceDocument(doc);
+  } else if (sourceText) {
+    this.setText(sourceText.get("text"));
+  }
 }
 
 module.exports = {
@@ -153,7 +143,6 @@ module.exports = {
   shouldShowPrettyPrint,
   shouldShowFooter,
   clearLineClass,
-  onKeyDown,
   buildQuery,
   getDocument,
   setDocument,
@@ -169,7 +158,10 @@ module.exports = {
   breakpointAtLine,
   getTextForLine,
   getCursorLine,
-  getTokenLocation,
   resizeBreakpointGutter,
-  traverseResults
+  traverseResults,
+  getTokenLocation,
+  getExpressionFromToken,
+  previewExpression,
+  updateDocument,
 };

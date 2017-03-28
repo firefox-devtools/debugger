@@ -25,6 +25,7 @@ module.exports = {
 
   getBreakpoint: breakpoints.getBreakpoint,
   getBreakpoints: breakpoints.getBreakpoints,
+  getPendingBreakpoints: breakpoints.getPendingBreakpoints,
   getBreakpointsForSource: breakpoints.getBreakpointsForSource,
   getBreakpointsDisabled: breakpoints.getBreakpointsDisabled,
   getBreakpointsLoading: breakpoints.getBreakpointsLoading,
@@ -39,13 +40,17 @@ module.exports = {
   getShouldIgnoreCaughtExceptions: pause.getShouldIgnoreCaughtExceptions,
   getFrames: pause.getFrames,
   getSelectedFrame: pause.getSelectedFrame,
+  getDebuggeeUrl: pause.getDebuggeeUrl,
 
   getHitCountForSource: coverage.getHitCountForSource,
   getCoverageEnabled: coverage.getCoverageEnabled,
 
   getEventListeners: eventListeners.getEventListeners,
 
+  getProjectSearchState: ui.getProjectSearchState,
   getFileSearchState: ui.getFileSearchState,
+  getFileSearchQueryState: ui.getFileSearchQueryState,
+  getFileSearchModifierState: ui.getFileSearchModifierState,
   getShownSource: ui.getShownSource,
   getPaneCollapse: ui.getPaneCollapse,
 

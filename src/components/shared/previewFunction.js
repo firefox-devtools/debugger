@@ -7,23 +7,16 @@ const flatten = require("lodash/flatten");
 
 function renderFunctionName(value) {
   const name = value.userDisplayName || value.displayName || value.name || "";
-  return dom.span(
-    { className: "function-name" },
-    name
-  );
+  return dom.span({ className: "function-name" }, name);
 }
 
 function renderParams(value) {
   const { parameterNames } = value;
-  let params = parameterNames.map(param => dom.span(
-    { className: "param" },
-    param
-  ));
+  let params = parameterNames.map(param =>
+    dom.span({ className: "param" }, param));
 
-  const commas = times(params.length - 1).map(() => dom.span(
-    { className: "delimiter" },
-    ", "
-  ));
+  const commas = times(params.length - 1).map(() =>
+    dom.span({ className: "delimiter" }, ", "));
 
   return flatten(zip(params, commas));
 }

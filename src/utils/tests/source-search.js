@@ -10,7 +10,7 @@ describe("source-search", () => {
       const count = countMatches(query, text, {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: false
+        regexMatch: false,
       });
       expect(count).to.be(3);
     });
@@ -21,33 +21,31 @@ describe("source-search", () => {
       const count = countMatches(query, text, {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: false
+        regexMatch: false,
       });
       expect(count).to.be(1);
     });
 
     it("counts whole word string match", () => {
-      const text =
-        "the test string with test in it multiple times whoatestthe.";
+      const text = "the test string test in it multiple times whoatestthe.";
       const query = "test";
       const count = countMatches(query, text, {
         caseSensitive: true,
         wholeWord: true,
-        regexMatch: false
+        regexMatch: false,
       });
       expect(count).to.be(2);
     });
 
     it("counts regex match", () => {
-      const text =
-        "the test string with test in it multiple times whoatestthe.";
+      const text = "the test string test in it multiple times whoatestthe.";
       const query = "(\\w+)\\s+(\\w+)";
       const count = countMatches(query, text, {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: true
+        regexMatch: true,
       });
-      expect(count).to.be(5);
+      expect(count).to.be(4);
     });
   });
 

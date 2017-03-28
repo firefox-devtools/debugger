@@ -10,8 +10,8 @@ const {
   stepIn,
   stepOut,
   resume,
-  isVisibleWithin
-} = require("../utils")
+  isVisibleWithin,
+} = require("../utils");
 
 // Tests that the editor highlights the correct location when the
 // debugger pauses
@@ -65,4 +65,4 @@ module.exports = async function(ctx) {
   await waitForPaused(dbg);
   assertPausedLocation(dbg, ctx, longSrc, 66);
   ok(isElementVisible(dbg, "breakpoint"), "Breakpoint is visible");
-}
+};

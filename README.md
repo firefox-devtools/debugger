@@ -45,8 +45,8 @@ We strive for collaboration with [mutual respect for each other][contributing]. 
 
 We strive to make the Debugger as development friendly as possible. If you have a question that's not answered in the guide, ask us in [slack]. We also :heart: documentation PRs!
 
-|||
-|------|-----|
+| | |
+|:----:|:---:|
 |[Themes]|theming changes for light, dark, firebug|
 |[Internationalization]|using or adding a localized string *(l10n)*|
 |[Prefs]|using or adding a preferences|

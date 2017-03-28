@@ -3,5 +3,4 @@ src/test/examples/**
 src/test/integration/**
 src/test/unit-sources/**
 src/test/mochitest/**
-webpack.config.*
 bin/

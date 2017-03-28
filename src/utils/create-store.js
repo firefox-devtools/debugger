@@ -25,7 +25,7 @@ type ReduxStoreOptions = {
   makeThunkArgs?: Function,
   history?: Array<Object>,
   middleware?: Function[],
-  log?: boolean
+  log?: boolean,
 };
 
 /**
@@ -50,7 +50,7 @@ const configureStore = (opts: ReduxStoreOptions = {}) => {
     // operate on "already transformed" actions. Actions going through
     // them shouldn't have any special fields like promises, they
     // should just be normal JSON objects.
-    waitUntilService
+    waitUntilService,
   ];
 
   if (opts.history) {
@@ -66,9 +66,9 @@ const configureStore = (opts: ReduxStoreOptions = {}) => {
   }
 
   // Hook in the redux devtools browser extension if it exists
-  const devtoolsExt = typeof window === "object" && window.devToolsExtension ?
-    window.devToolsExtension() :
-    f => f;
+  const devtoolsExt = typeof window === "object" && window.devToolsExtension
+    ? window.devToolsExtension()
+    : f => f;
 
   return applyMiddleware(...middleware)(devtoolsExt(createStore));
 };

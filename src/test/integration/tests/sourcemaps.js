@@ -9,13 +9,14 @@ const {
   stepOut,
   stepOver,
   invokeInTab,
-  waitForPaused
+  waitForPaused,
 } = require("../utils");
 
 // Tests loading sourcemapped sources, setting breakpoints, and
 // stepping in them.
 
-module.exports = async function(ctx) { const { ok, is, info } = ctx;
+module.exports = async function(ctx) {
+  const { ok, is, info } = ctx;
 
   const dbg = await initDebugger("doc-sourcemaps.html");
   const { selectors: { getBreakpoint, getBreakpoints }, getState } = dbg;
@@ -25,21 +26,27 @@ module.exports = async function(ctx) { const { ok, is, info } = ctx;
   const entrySrc = findSource(dbg, "entry.js");
 
   await selectSource(dbg, entrySrc);
-  ok(dbg.win.cm.getValue().includes("window.keepMeAlive"),
-     "Original source text loaded correctly");
+  ok(
+    dbg.win.cm.getValue().includes("window.keepMeAlive"),
+    "Original source text loaded correctly"
+  );
 
   // Test that breakpoint sliding is not attempted. The breakpoint
   // should not move anywhere.
   await addBreakpoint(dbg, entrySrc, 13);
   is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
-  ok(getBreakpoint(getState(), { sourceId: entrySrc.id, line: 13 }),
-     "Breakpoint has correct line");
+  ok(
+    getBreakpoint(getState(), { sourceId: entrySrc.id, line: 13 }),
+    "Breakpoint has correct line"
+  );
 
   // Test breaking on a breakpoint
   await addBreakpoint(dbg, "entry.js", 15);
   is(getBreakpoints(getState()).size, 2, "Two breakpoints exist");
-  ok(getBreakpoint(getState(), { sourceId: entrySrc.id, line: 15 }),
-     "Breakpoint has correct line");
+  ok(
+    getBreakpoint(getState(), { sourceId: entrySrc.id, line: 15 }),
+    "Breakpoint has correct line"
+  );
 
   invokeInTab(dbg, "keepMeAlive");
   await waitForPaused(dbg);
@@ -53,4 +60,4 @@ module.exports = async function(ctx) { const { ok, is, info } = ctx;
   await stepOut(dbg);
   await stepOut(dbg);
   assertPausedLocation(dbg, ctx, "entry.js", 16);
-}
+};

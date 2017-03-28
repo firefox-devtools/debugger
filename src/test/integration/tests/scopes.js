@@ -7,8 +7,8 @@ const {
   findElement,
   waitForTime,
   waitForDispatch,
-  stepOver
-} = require("../utils")
+  stepOver,
+} = require("../utils");
 
 function toggleNode(dbg, index) {
   clickElement(dbg, "scopeNode", index);
@@ -24,7 +24,7 @@ function toggleScopes(dbg) {
 
 module.exports = async function(ctx) {
   const { ok, is, info } = ctx;
-  console.log('>>> starting')
+  console.log(">>> starting");
   const dbg = await initDebugger(
     "doc-script-switching.html",
     "script-switching-01",
@@ -35,17 +35,17 @@ module.exports = async function(ctx) {
   invokeInTab(dbg, "firstCall");
 
   await waitForPaused(dbg);
-  console.log('>>> first call and paused')
+  console.log(">>> first call and paused");
 
   is(getLabel(dbg, 1), "secondCall");
   is(getLabel(dbg, 2), "<this>");
   is(getLabel(dbg, 4), "foo");
 
-  toggleNode(dbg, 4)
+  toggleNode(dbg, 4);
   await waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
   is(getLabel(dbg, 5), "length");
 
   await stepOver(dbg);
   is(getLabel(dbg, 4), "foo");
   is(getLabel(dbg, 5), "length");
-}
+};

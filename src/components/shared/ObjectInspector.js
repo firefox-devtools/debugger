@@ -3,7 +3,7 @@ const React = require("react");
 const classnames = require("classnames");
 const ManagedTree = React.createFactory(require("./ManagedTree"));
 const Svg = require("./Svg");
-const Rep = require("./Rep");
+const Rep = require("./Rep").default;
 const { MODE } = require("devtools-reps");
 
 const {
@@ -13,37 +13,37 @@ const {
   nodeIsPrimitive,
   isDefault,
   getChildren,
-  createNode
+  createNode,
 } = require("../../utils/object-inspector");
 
 const { DOM: dom, PropTypes } = React;
 
 export type ObjectInspectorItemContentsValue = {
-    actor: string,
-    class: string,
-    displayClass: string,
-    extensible: boolean,
-    frozen: boolean,
-    ownPropertyLength: number,
-    preview: Object,
-    sealed: boolean,
-    type: string
+  actor: string,
+  class: string,
+  displayClass: string,
+  extensible: boolean,
+  frozen: boolean,
+  ownPropertyLength: number,
+  preview: Object,
+  sealed: boolean,
+  type: string,
 };
 
 type ObjectInspectorItemContents = {
-    value: ObjectInspectorItemContentsValue
+  value: ObjectInspectorItemContentsValue,
 };
 
 type ObjectInspectorItem = {
-    contents: Array<ObjectInspectorItem> & ObjectInspectorItemContents,
-    name: string,
-    path: string
+  contents: Array<ObjectInspectorItem> & ObjectInspectorItemContents,
+  name: string,
+  path: string,
 };
 
 type DefaultProps = {
-    onLabelClick: any,
-    onDoubleClick: any,
-    autoExpandDepth: number
+  onLabelClick: any,
+  onDoubleClick: any,
+  autoExpandDepth: number,
 };
 
 // This implements a component that renders an interactive inspector
@@ -86,7 +86,7 @@ const ObjectInspector = React.createClass({
     getExpanded: PropTypes.func,
     setExpanded: PropTypes.func,
     getActors: PropTypes.func.isRequired,
-    setActors: PropTypes.func
+    setActors: PropTypes.func,
   },
 
   actors: (null: any),
@@ -102,7 +102,7 @@ const ObjectInspector = React.createClass({
       onLabelClick: () => {},
       onDoubleClick: () => {},
       autoExpandDepth: 1,
-      getActors: () => ({})
+      getActors: () => ({}),
     };
   },
 
@@ -126,12 +126,18 @@ const ObjectInspector = React.createClass({
     return getChildren({
       getObjectProperties,
       actors,
-      item
+      item,
     });
   },
 
-  renderItem(item: ObjectInspectorItem, depth: number, focused: boolean,
-    _: Object, expanded: boolean, { setExpanded }: () => any) {
+  renderItem(
+    item: ObjectInspectorItem,
+    depth: number,
+    focused: boolean,
+    _: Object,
+    expanded: boolean,
+    { setExpanded }: () => any
+  ) {
     let objectValue;
     if (nodeIsOptimizedOut(item)) {
       objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
@@ -146,7 +152,7 @@ const ObjectInspector = React.createClass({
       {
         className: classnames("node object-node", {
           focused,
-          "default-property": isDefault(item)
+          "default-property": isDefault(item),
         }),
         style: { marginLeft: depth * 15 },
         onClick: e => {
@@ -156,15 +162,17 @@ const ObjectInspector = React.createClass({
         onDoubleClick: event => {
           event.stopPropagation();
           this.props.onDoubleClick(item, {
-            depth, focused, expanded
+            depth,
+            focused,
+            expanded,
           });
-        }
+        },
       },
       Svg("arrow", {
         className: classnames({
           expanded: expanded,
-          hidden: nodeIsPrimitive(item)
-        })
+          hidden: nodeIsPrimitive(item),
+        }),
       }),
       dom.span(
         {
@@ -173,22 +181,28 @@ const ObjectInspector = React.createClass({
           onClick: event => {
             event.stopPropagation();
             this.props.onLabelClick(item, {
-              depth, focused, expanded, setExpanded
+              depth,
+              focused,
+              expanded,
+              setExpanded,
             });
-          }
+          },
         },
         item.name
       ),
-      dom.span({ className: "object-delimiter" },
-               objectValue ? ": " : ""),
+      dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
       dom.span({ className: "object-value" }, objectValue || "")
     );
   },
 
   render() {
     const {
-      name, desc, loadObjectProperties,
-      autoExpandDepth, getExpanded, setExpanded
+      name,
+      desc,
+      loadObjectProperties,
+      autoExpandDepth,
+      getExpanded,
+      setExpanded,
     } = this.props;
 
     let roots = this.props.roots;
@@ -213,9 +227,9 @@ const ObjectInspector = React.createClass({
       },
       getExpanded,
       setExpanded,
-      renderItem: this.renderItem
+      renderItem: this.renderItem,
     });
-  }
+  },
 });
 
 module.exports = ObjectInspector;

@@ -4,7 +4,8 @@
     "react",
     "mozilla",
     "flowtype",
-    "babel"
+    "babel",
+    "prettier"
   ],
   "globals": {
     "atob": true,
@@ -18,12 +19,9 @@
     "devtools": true,
     "dump": true,
     "EventEmitter": true,
-    "exports": true,
     "isWorker": true,
     "loader": true,
-    "module": true,
     "reportError": true,
-    "require": true,
     "Services": true,
     "Task": true,
     "XPCNativeWrapper": true,
@@ -31,14 +29,17 @@
     "_Iterator": true,
     "__dirname": true,
     "process": true,
-    "expect": true,
     "global": true,
     "L10N": true
   },
+  "extends": [
+    "prettier"
+  ],
   "env": {
       "es6": true,
       "browser": true,
-      "mocha": true
+      "commonjs": true,
+      "jest": true
   },
   "rules": {
     // These are the rules that have been configured so far to match the
@@ -78,16 +79,16 @@
     "block-scoped-var": 2,
     // Enforce one true brace style (opening brace on the same line) and avoid
     // start and end braces on the same line.
-    "brace-style": [2, "1tbs", {"allowSingleLine": false}],
+    //"brace-style": [2, "1tbs", {"allowSingleLine": false}],
     // Require camel case names
     "camelcase": 2,
     // Allow trailing commas for easy list extension.  Having them does not
     // impair readability, but also not required either.
     "comma-dangle": 0,
     // Enforce spacing before and after comma
-    "comma-spacing": [2, {"before": false, "after": true}],
+    //"comma-spacing": [2, {"before": false, "after": true}],
     // Enforce one true comma style.
-    "comma-style": [2, "last"],
+    //"comma-style": [2, "last"],
     // Warn about cyclomatic complexity in functions.
     "complexity": 2,
     // Don't warn for inconsistent naming when capturing this (not so important
@@ -99,11 +100,11 @@
     // add a bogus default when you know all possible cases are handled.
     "default-case": 0,
     // Enforce dots on the next line with property name.
-    "dot-location": [2, "property"],
+    //"dot-location": [2, "property"],
     // Encourage the use of dot notation whenever possible.
     "dot-notation": 2,
     // Enforce newline at the end of file, with no multiple empty lines.
-    "eol-last": 2,
+    //"eol-last": 2,
     // Allow using == instead of ===, in the interest of landing something since
     // the devtools codebase is split on convention here.
     "eqeqeq": 0,
@@ -122,9 +123,9 @@
     // Only useful in a node environment.
     "handle-callback-err": 0,
     // Tab width.
-    "indent": [2, 2, {"SwitchCase": 1}],
+    //"indent": [2, 2, {"SwitchCase": 1}],
     // Enforces spacing between keys and values in object literal properties.
-    "key-spacing": [2, {"beforeColon": false, "afterColon": true}],
+    //"key-spacing": [2, {"beforeColon": false, "afterColon": true}],
     // Allow mixed 'LF' and 'CRLF' as linebreaks.
     "linebreak-style": 0,
     // Don't enforce the maximum depth that blocks can be nested. The complexity
@@ -145,7 +146,7 @@
     "new-cap": [2, {"capIsNew": false}],
     // Disallow the omission of parentheses when invoking a constructor with no
     // arguments.
-    "new-parens": 2,
+    //"new-parens": 2,
     // Disallow use of the Array constructor.
     "no-array-constructor": 2,
     // Allow use of bitwise operators.
@@ -206,7 +207,7 @@
     // Allow unnecessary parentheses, as they may make the code more readable.
     "no-extra-parens": 0,
     // Disallow unnecessary semicolons.
-    "no-extra-semi": 2,
+    //"no-extra-semi": 2,
     // Deprecated, will be removed in 1.0.
     "no-extra-strict": 0,
     // Disallow fallthrough of case statements, except if there is a comment.
@@ -220,16 +221,16 @@
     // Allow mixing regular variable and require declarations (not a node env).
     "no-mixed-requires": 0,
     // Disallow mixed spaces and tabs for indentation.
-    "no-mixed-spaces-and-tabs": 2,
+    //"no-mixed-spaces-and-tabs": 2,
     // Disallow use of multiple spaces (sometimes used to align const values,
     // array or object items, etc.). It's hard to maintain and doesn't add that
     // much benefit.
-    "no-multi-spaces": 2,
+    //"no-multi-spaces": 2,
     // Disallow use of multiline strings (use template strings instead).
     "no-multi-str": 2,
     "prefer-template": "error",
     // Disallow multiple empty lines.
-    "no-multiple-empty-lines": [2, {"max": 1}],
+    //"no-multiple-empty-lines": [2, {"max": 1}],
     // Disallow reassignments of native objects.
     "no-native-reassign": 2,
     // Disallow nested ternary expressions, they make the code hard to read.
@@ -278,7 +279,7 @@
     // Deprecated, will be removed in 1.0.
     "no-space-before-semi": 0,
     // Disallow space between function identifier and application.
-    "no-spaced-func": 2,
+    //"no-spaced-func": 2,
     // Disallow sparse arrays, eg. let arr = [,,2].
     // Array destructuring is fine though:
     // for (let [, breakpointPromise] of aPromises)
@@ -291,7 +292,7 @@
     // throw new Error("error")).
     "no-throw-literal": 2,
     // Disallow trailing whitespace at the end of lines.
-    "no-trailing-spaces": 2,
+    //"no-trailing-spaces": 2,
     // Disallow use of undeclared variables unless mentioned in a /*global */
     // block. Note that globals from head.js are automatically imported in tests
     // by the import-headjs-globals rule form the mozilla eslint plugin.
@@ -316,9 +317,9 @@
     "no-warning-comments": 0,
     // Disallow use of the with statement.
     "no-with": 2,
-    "object-curly-spacing": ["error", "always", {
-      "objectsInObjects": false,
-    }],
+    //"object-curly-spacing": ["error", "always", {
+    //  "objectsInObjects": false,
+    //}],
     // Dont require method and property shorthand syntax for object literals.
     // We use this in the code a lot, but not consistently, and this seems more
     // like something to check at code review time.
@@ -326,7 +327,7 @@
     // Allow more than one variable declaration per function.
     "one-var": 0,
     // Disallow padding within blocks.
-    "padded-blocks": [2, "never"],
+    //"padded-blocks": [2, "never"],
     // Dont require quotes around object literal property names.
     "quote-props": 0,
     // Double quotes should be used.
@@ -334,33 +335,33 @@
     // Require use of the second argument for parseInt().
     "radix": 2,
     // Always require use of semicolons wherever they are valid.
-    "semi": [2, "always"],
+    //"semi": [2, "always"],
     // Enforce spacing after semicolons.
-    "semi-spacing": [2, {"before": false, "after": true}],
+    //"semi-spacing": [2, {"before": false, "after": true}],
     // Dont require to sort variables within the same declaration block.
     // Anyway, one-var is disabled.
     "sort-vars": 0,
     // Deprecated, will be removed in 1.0.
     "space-after-function-name": 0,
     // Require a space after keywords.
-    "keyword-spacing": 2,
+    //"keyword-spacing": 2,
     // Require a space before the start brace of a block.
-    "space-before-blocks": [2, "always"],
+    //"space-before-blocks": [2, "always"],
     // Deprecated, will be removed in 1.0.
     "space-before-function-parentheses": 0,
     // Disallow space before function opening parenthesis.
-    "space-before-function-paren": [2, "never"],
+    //"space-before-function-paren": [2, "never"],
     // Disable the rule that checks if spaces inside {} and [] are there or not.
     // Our code is split on conventions, and itd be nice to have 2 rules
     // instead, one for [] and one for {}. So, disabling until we write them.
     "space-in-brackets": 0,
     // Disallow spaces inside parentheses.
-    "space-in-parens": [2, "never"],
+    //"space-in-parens": [2, "never"],
     // Require spaces around operators, except for a|0.
-    "space-infix-ops": [2, {"int32Hint": true}],
+    //"space-infix-ops": [2, {"int32Hint": true}],
     // Require spaces before/after unary operators (words on by default,
     // nonwords off by default).
-    "space-unary-ops": [2, { "words": true, "nonwords": false }],
+    //"space-unary-ops": [2, { "words": true, "nonwords": false }],
     // Deprecated, will be removed in 1.0.
     "space-unary-word-ops": 0,
     // Require a space immediately following the // in a line comment.
@@ -445,5 +446,8 @@
     "operator-assignment": 0,
     // enforce operators to be placed before or after line breaks
     "operator-linebreak": 0,
+
+    // Rules from the prettier plugin
+    "prettier/prettier": ["error", { "trailingComma": "es5", "bracketSpacing": true }],
   }
 }

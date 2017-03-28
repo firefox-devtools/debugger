@@ -6,7 +6,7 @@
 .breakpoints-list .breakpoint {
   font-size: 12px;
   color: var(--theme-content-color1);
-  padding: 0.5em 1px;
+  padding: 0.5em 12px 0.5em 5px;
   line-height: 1em;
   position: relative;
   transition: all 0.25s ease;
@@ -85,14 +85,14 @@ html .breakpoints-list .breakpoint.paused {
 
 .breakpoint .close-btn {
   position: absolute;
-  offset-inline-end: 6px;
+  offset-inline-end: 16px;
   top: 12px;
 }
 
 .breakpoint .close {
-  display: none;
+  visibility: hidden;
 }
 
 .breakpoint:hover .close {
-  display: block;
+  visibility: visible;
 }

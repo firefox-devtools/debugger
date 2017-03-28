@@ -17,6 +17,7 @@
 * [Colors](#colors)
 * [Configs](#configs)
 * [Hot Reloading](#hot-reloading-fire)
+* [Contributing to other packages](#contributing-to-other-packages)
 * [FAQ](#faq)
 * [Getting Help](#getting-help)
 
@@ -436,6 +437,26 @@ index fdbdb4e..4759c14 100644
 
 * Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
+### Contributing to other packages
+
+The debugger depends on several other devtools packages. Sometimes a debugger feature will necessitate working on one of these other packages. In these cases, you'll need to get the project and work on it directly.
+
+| | |
+|:----:|:---:|
+|[Launchpad]|Development environment|
+|[Reps]|Variable formatter|
+|[Client Adapters]|Browser connection library|
+|[Modules]|Shared modules|
+|[Source Maps]|Library for working with source maps|
+
+#### Testing a change in the debugger
+
+There are three ways to test a change to a 3rd party package.
+
+1. [yarn link](https://yarnpkg.com/lang/en/docs/cli/link/)
+2. create a local version with **npm pack** and [yarn add](https://yarnpkg.com/lang/en/docs/cli/add/#toc-adding-dependencies)
+3. change the file directly in the debugger's `node_modules` directory.
+
 ### FAQ
 
 #### Why not JSX
@@ -515,3 +536,9 @@ your questions on [slack][slack].
 [mochitest]: ./mochitests.md
 [mocha]: ./integration-tests.md
 [contrast-ratio-tool]: http://leaverou.github.io/contrast-ratio/#rgb%28204%2C%20209%2C%20213%29-on-rgb%28252%2C%20252%2C%20252%29
+
+[Launchpad]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad
+[Reps]: https://github.com/devtools-html/reps
+[Client Adapters]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-client-adapters
+[Modules]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-modules
+[Source Maps]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map

@@ -1,6 +1,6 @@
 // @flow
-const { Menu, MenuItem } = require("devtools-sham-modules");
-const { isFirefoxPanel } = require("devtools-config");
+import { Menu, MenuItem } from "devtools-sham-modules";
+import { isFirefoxPanel } from "devtools-config";
 
 function createPopup(doc) {
   let popup = doc.createElement("menupopup");
@@ -18,6 +18,7 @@ function createPopup(doc) {
   if (!mask) {
     mask = doc.createElement("div");
     mask.id = "contextmenu-mask";
+    mask.oncontextmenu = preventDefault;
     if (document.body) {
       document.body.appendChild(mask);
     }
@@ -66,7 +67,7 @@ function onShown(menu, popup) {
   });
 }
 
-function showMenu(e: any, items: Array<any>) {
+export function showMenu(e: any, items: Array<any>) {
   if (items.length === 0) {
     return;
   }
@@ -82,14 +83,11 @@ function showMenu(e: any, items: Array<any>) {
   menu.popup(e.clientX, e.clientY, { doc: document });
 }
 
-function buildMenu(items: Array<any>) {
-  return items.map(itm => {
-    const hide = typeof itm.hidden === "function" ? itm.hidden() : itm.hidden;
-    return hide ? null : itm.item;
-  }).filter(itm => itm !== null);
+export function buildMenu(items: Array<any>) {
+  return items
+    .map(itm => {
+      const hide = typeof itm.hidden === "function" ? itm.hidden() : itm.hidden;
+      return hide ? null : itm.item;
+    })
+    .filter(itm => itm !== null);
 }
-
-module.exports = {
-  showMenu,
-  buildMenu
-};
