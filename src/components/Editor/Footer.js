@@ -2,7 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes } = React;
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const actions = require("../../actions");
+const actions = require("../../actions").default;
 const {
   getSelectedSource,
   getSourceText,

@@ -32,7 +32,7 @@ const {
   getFileSearchModifierState,
 } = require("../../selectors");
 const { makeLocationId } = require("../../reducers/breakpoints");
-const actions = require("../../actions");
+const actions = require("../../actions").default;
 const Breakpoint = React.createFactory(require("./Breakpoint"));
 const HitMarker = React.createFactory(require("./HitMarker"));
 

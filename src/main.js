@@ -29,7 +29,10 @@ const createStore = configureStore({
 });
 
 const store = createStore(combineReducers(reducers));
-const actions = bindActionCreators(require("./actions"), store.dispatch);
+const actions = bindActionCreators(
+  require("./actions").default,
+  store.dispatch
+);
 
 if (!isFirefoxPanel()) {
   window.L10N = L10N;
