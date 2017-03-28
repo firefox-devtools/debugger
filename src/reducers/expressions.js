@@ -1,9 +1,8 @@
 // @flow
-// import { Menu, MenuItem } from "devtools-sham-modules";
 
 import { constants } from "../constants";
 import { makeRecord } from "../utils/makeRecord";
-import { I } from "immutable";
+import I from "immutable";
 import { prefs } from "../utils/prefs";
 
 import type { Expression } from "../types";
