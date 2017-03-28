@@ -1,11 +1,11 @@
-const expect = require("expect.js");
-const { Task } = require("../../utils/task");
-const {
+import expect from "expect.js";
+import { Task } from "../../utils/task";
+import {
   actions,
   selectors,
   createStore,
   makeSource,
-} = require("../../utils/test-head");
+} from "../../utils/test-head";
 const {
   getSourceById,
   getSources,

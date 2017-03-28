@@ -1,5 +1,5 @@
-const { createStore, selectors, actions } = require("../../utils/test-head");
-const expect = require("expect.js");
+import { createStore, selectors, actions } from "../../utils/test-head";
+import expect from "expect.js";
 
 const {
   getFileSearchState,
