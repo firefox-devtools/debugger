@@ -21,8 +21,7 @@ function expressionExists(expressions, input) {
  * @memberof actions/pause
  * @static
  */
-
-export function addExpression(input: string, { visible = true } = {}) {
+export function addExpression(input: string, { visible = true }: Object = {}) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const expressions = getExpressions(getState());
     if (!input || expressionExists(expressions, input)) {
