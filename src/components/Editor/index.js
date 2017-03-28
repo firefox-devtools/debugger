@@ -188,7 +188,7 @@ const Editor = React.createClass({
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`, this.onSearchAgain);
 
     updateDocument(this.editor, selectedSource, sourceText);
-    this.previewSelectedToken = debounce(this.previewSelectedToken, 50);
+    this.previewSelectedToken = debounce(this.previewSelectedToken, 100);
   },
 
   componentWillUnmount() {
