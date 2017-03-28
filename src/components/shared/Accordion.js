@@ -1,11 +1,8 @@
 // @flow
-const React = require("react");
-const { DOM: dom, PropTypes } = React;
+import { DOM as dom, PropTypes, createClass, createElement } from "react";
+import Svg from "./Svg";
 
-const { div } = dom;
-const Svg = require("./Svg");
-
-require("./Accordion.css");
+import "./Accordion.css";
 
 type AccordionItem = {
   buttons?: Array<Object>,
@@ -18,7 +15,7 @@ type AccordionItem = {
 
 type Props = { items: Array<Object> };
 
-const Accordion = React.createClass({
+const Accordion = createClass({
   propTypes: { items: PropTypes.array.isRequired },
   displayName: "Accordion",
   getInitialState() {
@@ -57,9 +54,9 @@ const Accordion = React.createClass({
       .toLowerCase()
       .replace(/\s/g, "-")}-pane`;
 
-    return div(
+    return dom.div(
       { className: containerClassName, key: i },
-      div(
+      dom.div(
         { className: "_header", onClick: () => this.handleHeaderClick(i) },
         Svg("arrow", { className: opened[i] ? "expanded" : "" }),
         item.header,
@@ -68,22 +65,22 @@ const Accordion = React.createClass({
           : null
       ),
       created[i] || opened[i]
-        ? div(
+        ? dom.div(
             {
               className: "_content",
               style: { display: opened[i] ? "block" : "none" },
             },
-            React.createElement(item.component, item.componentProps || {})
+            createElement(item.component, item.componentProps || {})
           )
         : null
     );
   },
   render() {
-    return div(
+    return dom.div(
       { className: "accordion" },
       this.props.items.map(this.renderContainer)
     );
   },
 });
 
-module.exports = Accordion;
+export default Accordion;
