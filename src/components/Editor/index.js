@@ -295,11 +295,16 @@ const Editor = React.createClass({
   },
 
   async previewSelectedToken(e) {
-    const { selectedFrame, pauseData, sourceText } = this.props;
+    const { selectedFrame, selectedSource, pauseData, sourceText } = this.props;
     const { selectedToken } = this.state;
     const token = e.target;
 
-    if (!selectedFrame || !sourceText || !isEnabled("editorPreview")) {
+    if (
+      !selectedFrame ||
+      !sourceText ||
+      !isEnabled("editorPreview") ||
+      selectedFrame.location.sourceId !== selectedSource.get("id")
+    ) {
       return;
     }
 
@@ -319,6 +324,7 @@ const Editor = React.createClass({
     const displayedExpression = previewExpression({
       expression: expressionFromToken,
       variables,
+      selectedFrame,
       tokenText: token.textContent,
     });
 
