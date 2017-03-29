@@ -272,6 +272,12 @@ const Editor = React.createClass({
     }
   },
 
+  onMouseUp(e, ctx) {
+    if (e.metaKey) {
+      this.previewSelectedToken(e, ctx);
+    }
+  },
+
   onScroll(e) {
     return this.setState({ selectedToken: null, selectedExpression: null });
   },
