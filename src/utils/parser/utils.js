@@ -113,8 +113,7 @@ function isFunction(path) {
   return t.isFunction(path) ||
     t.isArrowFunctionExpression(path) ||
     t.isObjectMethod(path) ||
-    t.isClassMethod(path) ||
-    t.isFunctionExpression(path);
+    t.isClassMethod(path);
 }
 
 function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
