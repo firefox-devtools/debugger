@@ -559,14 +559,11 @@ const SearchBar = React.createClass({
       );
     }
 
-    let classSearchBtn;
-
     return dom.section(
       { className: "search-type-toggles" },
       dom.h1({ className: "search-toggle-title" }, "Search for:"),
       searchTypeBtn("functions"),
-      searchTypeBtn("variables"),
-      classSearchBtn
+      searchTypeBtn("variables")
     );
   },
 

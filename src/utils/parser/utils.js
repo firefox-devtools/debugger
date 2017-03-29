@@ -184,7 +184,7 @@ function getSymbols(source: SourceText): SymbolDeclarations {
   }
 
   const ast = getAst(source);
-  const symbols = { functions: [], variables: [], classes: [] };
+  const symbols = { functions: [], variables: [] };
 
   traverse(ast, {
     enter(path) {
@@ -202,7 +202,7 @@ function getSymbols(source: SourceText): SymbolDeclarations {
       }
 
       if (t.isClassDeclaration(path)) {
-        symbols.classes.push(
+        symbols.variables.push(
           formatSymbol({
             name: path.node.id.name,
             location: path.node.loc,
