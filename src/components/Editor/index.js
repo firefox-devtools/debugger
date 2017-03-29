@@ -343,7 +343,7 @@ const Editor = React.createClass({
     });
   },
 
-  updateSearchResults({ count, index }) {
+  updateSearchResults({ count, index = -1 }: { count: number, index: number }) {
     this.setState({ searchResults: { count, index } });
   },
 
