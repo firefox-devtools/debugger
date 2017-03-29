@@ -307,7 +307,8 @@ const SearchBar = React.createClass({
       { key: "value" }
     );
 
-    updateSearchResults({ count: symbolSearchResults.length });
+    // symbol search doesn't use index so we pass the default value
+    updateSearchResults({ count: symbolSearchResults.length, index: -1 });
     return this.setState({ symbolSearchResults });
   },
 
