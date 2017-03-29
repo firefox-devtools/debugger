@@ -22,12 +22,12 @@ function expressionExists(expressions, input) {
  * @static
  */
 export function addExpression(input: string, { visible = true }: Object = {}) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState }: ThunkArgs) => {
     const expressions = getExpressions(getState());
     if (!input || expressionExists(expressions, input)) {
       const expression = getExpression(getState(), input);
       if (!expression.visible && visible) {
-        dispatch(deleteExpression(expression));
+        await dispatch(deleteExpression(expression));
       } else {
         return;
       }
