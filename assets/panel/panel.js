@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+"use strict";
 
 const { Task } = require("devtools/shared/task");
 var { LocalizationHelper } = require("devtools/shared/l10n");
@@ -15,7 +16,7 @@ function DebuggerPanel(iframeWindow, toolbox) {
 }
 
 DebuggerPanel.prototype = {
-  open: Task.async(function*() {
+  open: Task.async(function* () {
     if (!this.toolbox.target.isRemote) {
       yield this.toolbox.target.makeRemote();
     }
@@ -37,11 +38,11 @@ DebuggerPanel.prototype = {
     return this;
   }),
 
-  _getState: function() {
+  _getState: function () {
     return this._store.getState();
   },
 
-  getFrames: function() {
+  getFrames: function () {
     let frames = this._selectors.getFrames(this._getState());
 
     // Frames is null when the debugger is not paused.
@@ -63,7 +64,7 @@ DebuggerPanel.prototype = {
     return { frames, selected };
   },
 
-  destroy: function() {
+  destroy: function () {
     this.panelWin.Debugger.destroy();
     this.emit("destroyed");
   },

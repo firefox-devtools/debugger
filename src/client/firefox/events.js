@@ -25,11 +25,11 @@ function setupEvents(dependencies: Dependencies) {
   threadClient = dependencies.threadClient;
   actions = dependencies.actions;
 
-  Object.keys(clientEvents).forEach(eventName => {
-    if (threadClient) {
+  if (threadClient) {
+    Object.keys(clientEvents).forEach(eventName => {
       threadClient.addListener(eventName, clientEvents[eventName]);
-    }
-  });
+    });
+  }
 }
 
 async function paused(_: "paused", packet: PausedPacket) {

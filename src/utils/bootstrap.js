@@ -1,7 +1,7 @@
 const React = require("react");
 const { bindActionCreators, combineReducers } = require("redux");
 const ReactDOM = require("react-dom");
-const { getValue, isFirefoxPanel } = require("devtools-config");
+const { getValue } = require("devtools-config");
 const { renderRoot } = require("devtools-launchpad");
 
 const configureStore = require("./create-store");
@@ -30,8 +30,6 @@ export function bootstrapStore(client) {
 }
 
 export function bootstrapApp(connection, { store, actions }) {
-  const { clientType } = connection;
-
   window.appStore = store;
 
   // Expose the bound actions so external things can do things like
@@ -39,18 +37,6 @@ export function bootstrapApp(connection, { store, actions }) {
   window.actions = {
     selectSource: actions.selectSource,
     selectSourceURL: actions.selectSourceURL,
-  };
-
-  // Globals needed for mocha integration tests
-  window.getGlobalsForTesting = () => {
-    return {
-      debuggerStore: store,
-      launchpadStore: window.launchpadStore,
-      selectors,
-      actions,
-      threadClient: firefox.getThreadClient(),
-      target: firefox.getTabTarget(),
-    };
   };
 
   renderRoot(React, ReactDOM, App, store);
