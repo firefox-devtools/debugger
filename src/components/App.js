@@ -14,7 +14,6 @@ const verticalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
 import "./variables.css";
 import "./App.css";
 import "./shared/menu.css";
-import "./shared/SplitBox.css";
 import "./shared/reps.css";
 
 const SplitBox = createFactory(require("devtools-modules").SplitBox);
