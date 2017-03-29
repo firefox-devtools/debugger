@@ -105,14 +105,14 @@ function deleteExpression(state: State, input: string) {
 
 type OuterState = { expressions: Record<ExpressionState> };
 
-export function getExpressions(state: OuterState, visible: boolean = true) {
-  const expressions = state.expressions.get("expressions");
-  return visible ? expressions.filter(e => e.visible) : expressions;
+export function getExpressions(state: OuterState) {
+  return state.expressions.get("expressions");
 }
 
-export function getExpression(
-  state: OuterState,
-  input: string,
-) {
+export function getVisibleExpressions(state: OuterState) {
+  return state.expressions.get("expressions").filter(e => e.visible);
+}
+
+export function getExpression(state: OuterState, input: string) {
   return getExpressions(state).find(exp => exp.input == input);
 }
