@@ -254,11 +254,11 @@ const Editor = React.createClass({
   },
 
   /*
-   * The default Esc command is overridden in the CodeMirror keymap to allow
-   * the Esc keypress event to be catched by the toolbox and trigger the
-   * split console. Restore it here, but preventDefault if and only if there
-   * is a multiselection.
-  */
+     * The default Esc command is overridden in the CodeMirror keymap to allow
+     * the Esc keypress event to be catched by the toolbox and trigger the
+     * split console. Restore it here, but preventDefault if and only if there
+     * is a multiselection.
+     */
   onEscape(key, e) {
     const { codeMirror } = this.editor;
     if (codeMirror.listSelections().length > 1) {
@@ -549,10 +549,10 @@ const Editor = React.createClass({
   },
 
   /**
-   * Handle getting the source document or creating a new
-   * document with the correct mode and text.
-   *
-   */
+     * Handle getting the source document or creating a new
+     * document with the correct mode and text.
+     *
+     */
   showSourceText(sourceText, selectedLocation) {
     if (!selectedLocation) {
       return;

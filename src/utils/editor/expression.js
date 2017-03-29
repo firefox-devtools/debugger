@@ -33,7 +33,7 @@ export function getThisFromFrame(selectedFrame: Frame) {
 }
 
 // TODO Better define the value for `variables` map once we do it in
-// devtools-client-adapter.
+// debugger-html
 type PreviewExpressionArgs = {
   expression: Expression,
   selectedFrame: Frame,

@@ -34,4 +34,4 @@ export type {
   SourceText,
   Pause,
   Why,
-} from "devtools-client-adapters/src/types";
+} from "debugger-html";
