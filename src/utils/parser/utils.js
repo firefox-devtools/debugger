@@ -41,7 +41,6 @@ export type FormattedSymbolDeclaration = {
 export type SymbolDeclarations = {
   functions: Array<FormattedSymbolDeclaration>,
   variables: Array<FormattedSymbolDeclaration>,
-  classes: Array<FormattedSymbolDeclaration>,
 };
 
 function _parse(code) {
