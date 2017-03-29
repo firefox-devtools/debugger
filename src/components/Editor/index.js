@@ -303,6 +303,7 @@ const Editor = React.createClass({
       !selectedFrame ||
       !sourceText ||
       !isEnabled("editorPreview") ||
+      !selectedSource ||
       selectedFrame.location.sourceId !== selectedSource.get("id")
     ) {
       return;
