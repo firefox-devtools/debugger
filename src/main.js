@@ -11,6 +11,7 @@ const {
 const { isFirefoxPanel } = require("devtools-config");
 
 const { onConnect } = require("./client");
+const { teardownWorkers } = require("./utils/teardown");
 
 if (!isFirefoxPanel()) {
   window.L10N = L10N;
@@ -19,9 +20,6 @@ if (!isFirefoxPanel()) {
 }
 
 if (isFirefoxPanel()) {
-  const sourceMap = require("devtools-source-map");
-  const prettyPrint = require("./utils/pretty-print");
-
   module.exports = {
     bootstrap: ({ threadClient, tabTarget, debuggerClient }: any) => {
       return onConnect({
@@ -31,8 +29,7 @@ if (isFirefoxPanel()) {
     },
     destroy: () => {
       unmountRoot(ReactDOM);
-      sourceMap.destroyWorker();
-      prettyPrint.destroyWorker();
+      teardownWorkers();
     },
   };
 } else {

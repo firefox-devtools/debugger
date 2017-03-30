@@ -3,7 +3,11 @@
 const firefox = require("./firefox");
 const chrome = require("./chrome");
 const { prefs } = require("../utils/prefs");
-const { bootstrapApp, bootstrapStore } = require("../utils/bootstrap");
+const {
+  bootstrapApp,
+  bootstrapStore,
+  bootstrapWorker,
+} = require("../utils/bootstrap");
 
 function loadFromPrefs(actions: Object) {
   const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
@@ -26,6 +30,7 @@ async function onConnect(connection: Object) {
   const client = getClient(connection);
   const { store, actions, selectors } = bootstrapStore(client);
 
+  bootstrapWorker();
   await client.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
