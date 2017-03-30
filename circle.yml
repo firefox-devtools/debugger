@@ -6,7 +6,7 @@ machine:
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
     YARN_PATH: "$HOME/.yarn"
-    YARN_VERSION: 0.19.1
+    YARN_VERSION: 0.21.3
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   post:
     - mkdir -p $DOWNLOADS_PATH
@@ -39,7 +39,7 @@ dependencies:
     - ~/.yarn
   override:
     - yarn install
-    - npm i -g flow-coverage-report
+    - yarn global add flow-coverage-report
     - ./bin/update-docker
 
 general:
