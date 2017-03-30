@@ -6,7 +6,7 @@ const { prefs } = require("../utils/prefs");
 const {
   bootstrapApp,
   bootstrapStore,
-  bootstrapWorker,
+  bootstrapWorkers,
 } = require("../utils/bootstrap");
 
 function loadFromPrefs(actions: Object) {
@@ -21,7 +21,7 @@ function getClient(connection: any) {
   return clientType == "firefox" ? firefox : chrome;
 }
 
-async function onConnect(connection: Object) {
+async function onConnect(connection: Object, services: Object) {
   // NOTE: the landing page does not connect to a JS process
   if (!connection) {
     return;
@@ -29,9 +29,9 @@ async function onConnect(connection: Object) {
 
   const client = getClient(connection);
   const commands = client.clientCommands;
-  const { store, actions, selectors } = bootstrapStore(commands);
+  const { store, actions, selectors } = bootstrapStore(commands, services);
 
-  bootstrapWorker();
+  bootstrapWorkers();
   await client.onConnect(connection, actions);
   await loadFromPrefs(actions);
 

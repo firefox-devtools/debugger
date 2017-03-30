@@ -1,16 +1,17 @@
 // @flow
-import { getOriginalLocation } from "devtools-source-map";
-
 import type { Pause, Frame } from "../types";
 
-export function updateFrameLocations(frames: Frame[]): Promise<Frame[]> {
+export function updateFrameLocations(
+  frames: Frame[],
+  sourceMaps: any
+): Promise<Frame[]> {
   if (!frames || frames.length == 0) {
     return Promise.resolve(frames);
   }
 
   return Promise.all(
     frames.map(frame => {
-      return getOriginalLocation(frame.location).then(loc => {
+      return sourceMaps.getOriginalLocation(frame.location).then(loc => {
         return Object.assign(frame, {
           location: loc,
         });

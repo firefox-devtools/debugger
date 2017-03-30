@@ -1,11 +1,20 @@
 const React = require("react");
 const { bindActionCreators, combineReducers } = require("redux");
 const ReactDOM = require("react-dom");
-const { getValue } = require("devtools-config");
+const { getValue, isFirefoxPanel } = require("devtools-config");
 const { renderRoot } = require("devtools-launchpad");
-const { startSourceMapWorker } = require("devtools-source-map");
-const { startPrettyPrintWorker } = require("../utils/pretty-print");
-const { startParserWorker } = require("../utils/parser");
+const {
+  startSourceMapWorker,
+  stopSourceMapWorker,
+} = require("devtools-source-map");
+const {
+  startPrettyPrintWorker,
+  stopPrettyPrintWorker,
+} = require("../utils/pretty-print");
+const {
+  startParserWorker,
+  stopParserWorker,
+} = require("../utils/parser");
 
 const configureStore = require("./create-store");
 const reducers = require("../reducers");
@@ -13,11 +22,11 @@ const selectors = require("../selectors");
 
 const App = require("../components/App").default;
 
-export function bootstrapStore(client) {
+export function bootstrapStore(client, services) {
   const createStore = configureStore({
     log: getValue("logging.actions"),
     makeThunkArgs: (args, state) => {
-      return Object.assign({}, args, { client });
+      return Object.assign({}, args, { client }, services);
     },
   });
 
@@ -43,8 +52,20 @@ export function bootstrapApp(connection, { store, actions }) {
   renderRoot(React, ReactDOM, App, store);
 }
 
-export function bootstrapWorker() {
-  startSourceMapWorker(getValue("workers.sourceMapURL"));
+export function bootstrapWorkers() {
+  if (!isFirefoxPanel()) {
+    // When used in Firefox, the toolbox manages the source map worker.
+    startSourceMapWorker(getValue("workers.sourceMapURL"));
+  }
   startPrettyPrintWorker(getValue("workers.prettyPrintURL"));
   startParserWorker(getValue("workers.parserURL"));
+}
+
+export function teardownWorkers() {
+  if (!isFirefoxPanel()) {
+    // When used in Firefox, the toolbox manages the source map worker.
+    stopSourceMapWorker();
+  }
+  stopPrettyPrintWorker();
+  stopParserWorker();
 }

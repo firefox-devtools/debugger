@@ -9,5 +9,4 @@ DevToolsModules(
     'panel.js',
     'parser-worker.js',
     'pretty-print-worker.js',
-    'source-map-worker.js'
 )

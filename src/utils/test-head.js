@@ -1,11 +1,12 @@
 // @flow
 
 /**
- * Utils for mochitest
+ * Utils for Jest
  * @module utils/test-head
  */
 
 const { combineReducers } = require("redux");
+const sourceMaps = require("devtools-source-map");
 const reducers = require("../reducers");
 const actions = require("../actions").default;
 const selectors = require("../selectors");
@@ -21,7 +22,10 @@ function createStore(client: any, initialState: any = {}) {
   return configureStore({
     log: false,
     makeThunkArgs: args => {
-      return Object.assign({}, args, { client });
+      return Object.assign({}, args, {
+        client,
+        sourceMaps,
+      });
     },
   })(combineReducers(reducers), initialState);
 }

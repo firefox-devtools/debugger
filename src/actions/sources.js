@@ -15,17 +15,6 @@ import assert from "../utils/assert";
 import { updateFrameLocations } from "../utils/pause";
 import { addBreakpoint } from "./breakpoints";
 
-import {
-  getOriginalURLs,
-  getOriginalSourceText,
-  generatedToOriginalId,
-  isOriginalId,
-  getOriginalLocation,
-  getGeneratedLocation,
-  isGeneratedId,
-  applySourceMap,
-} from "devtools-source-map";
-
 import { prettyPrint } from "../utils/pretty-print";
 import { getPrettySourceURL } from "../utils/source";
 
@@ -105,8 +94,8 @@ export function newSources(sources: Source[]) {
  * @static
  */
 function loadSourceMap(generatedSource) {
-  return async function({ dispatch, getState }: ThunkArgs) {
-    const urls = await getOriginalURLs(generatedSource);
+  return async function({ dispatch, getState, sourceMaps }: ThunkArgs) {
+    const urls = await sourceMaps.getOriginalURLs(generatedSource);
     if (!urls) {
       // If this source doesn't have a sourcemap, do nothing.
       return;
@@ -116,7 +105,7 @@ function loadSourceMap(generatedSource) {
     const originalSources = urls.map(originalUrl => {
       return {
         url: originalUrl,
-        id: generatedToOriginalId(generatedSource.id, originalUrl),
+        id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
         isPrettyPrinted: false,
       };
     });
@@ -199,15 +188,24 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
  * @static
  */
 export function jumpToMappedLocation(sourceLocation: any) {
-  return async function({ dispatch, getState, client }: ThunkArgs) {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     if (!client) {
       return;
     }
 
     const source = getSource(getState(), sourceLocation.sourceId);
-    const pairedLocation = isOriginalId(sourceLocation.sourceId)
-      ? await getGeneratedLocation(sourceLocation, source.toJS())
-      : await getOriginalLocation(sourceLocation, source.toJS());
+    let pairedLocation;
+    if (sourceMaps.isOriginalId(sourceLocation.sourceId)) {
+      pairedLocation = await sourceMaps.getGeneratedLocation(
+        sourceLocation,
+        source.toJS()
+      );
+    } else {
+      pairedLocation = await sourceMaps.getOriginalLocation(
+        sourceLocation,
+        source.toJS()
+      );
+    }
 
     return dispatch(
       selectSource(pairedLocation.sourceId, { line: pairedLocation.line })
@@ -254,7 +252,7 @@ export function closeTabs(urls: string[]) {
  *          [aSource, error].
  */
 export function togglePrettyPrint(sourceId: string) {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
     let sourceText = getSourceText(getState(), sourceId);
     if (sourceText) {
@@ -266,12 +264,12 @@ export function togglePrettyPrint(sourceId: string) {
     }
 
     assert(
-      isGeneratedId(sourceId),
+      sourceMaps.isGeneratedId(sourceId),
       "Pretty-printing only allowed on generated sources"
     );
 
     const url = getPrettySourceURL(source.url);
-    const id = generatedToOriginalId(source.id, url);
+    const id = sourceMaps.generatedToOriginalId(source.id, url);
     const originalSource = { url, id, isPrettyPrinted: false };
     dispatch({ type: constants.ADD_SOURCE, source: originalSource });
 
@@ -285,11 +283,11 @@ export function togglePrettyPrint(sourceId: string) {
           url,
         });
 
-        await applySourceMap(source.id, url, code, mappings);
+        await sourceMaps.applySourceMap(source.id, url, code, mappings);
 
         let frames = getFrames(getState());
         if (frames) {
-          frames = await updateFrameLocations(frames.toJS());
+          frames = await updateFrameLocations(frames.toJS(), sourceMaps);
         }
 
         dispatch(selectSource(originalSource.id));
@@ -305,7 +303,7 @@ export function togglePrettyPrint(sourceId: string) {
  * @static
  */
 export function loadSourceText(source: Source) {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     // Fetch the source text only once.
     let textInfo = getSourceText(getState(), source.id);
     if (textInfo) {
@@ -317,8 +315,8 @@ export function loadSourceText(source: Source) {
       type: constants.LOAD_SOURCE_TEXT,
       source: source,
       [PROMISE]: (async function() {
-        if (isOriginalId(source.id)) {
-          return await getOriginalSourceText(source);
+        if (sourceMaps.isOriginalId(source.id)) {
+          return await sourceMaps.getOriginalSourceText(source);
         }
 
         const response = await client.sourceContents(source.id);

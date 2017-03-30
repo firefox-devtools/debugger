@@ -30,6 +30,7 @@ DebuggerPanel.prototype = {
       threadClient: this.toolbox.threadClient,
       tabTarget: this.toolbox.target,
       debuggerClient: this.toolbox.target._client,
+      sourceMaps: this.toolbox.sourceMapService,
     });
 
     this._actions = actions;
