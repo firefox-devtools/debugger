@@ -20,9 +20,17 @@ cd debugger.html
 yarn install
 yarn run firefox
 
-# create a new terminal tab
+# In a separate terminal tab you will need to run
+
 yarn start
+
+# Go to the localhost url provided in your terminal
 ```
+
+## How do you know it's working?
+
+You screen should look like this:
+![gif of two tabs](http://g.recordit.co/WjHZaXKifZ.gif "Logo Title Text 1")
 
 #### Next Steps
 
