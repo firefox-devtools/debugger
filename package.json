@@ -61,7 +61,6 @@
     "flow-bin": "^0.41.0",
     "fuzzaldrin-plus": "^0.4.1",
     "glob": "^7.0.3",
-    "husky": "^0.13.1",
     "jest-junit-reporter": "^1.0.1",
     "lodash": "^4.17.4",
     "md5": "^2.2.1",
