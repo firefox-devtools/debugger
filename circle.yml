@@ -41,6 +41,8 @@ dependencies:
     - yarn install
     - npm i -g flow-coverage-report
     - ./bin/update-docker
+  post:
+    - rm -rf ~/node_modules
 
 general:
   artifacts:
