@@ -29,6 +29,7 @@ export function update(
         input: action.input,
         value: null,
         updating: true,
+        visible: action.visible,
       });
     case constants.UPDATE_EXPRESSION:
       const key = action.expression.input;
@@ -36,6 +37,7 @@ export function update(
         input: action.input,
         value: null,
         updating: true,
+        visible: action.visible,
       });
     case constants.EVALUATE_EXPRESSION:
       if (action.status === "done") {
@@ -43,6 +45,7 @@ export function update(
           input: action.input,
           value: action.value,
           updating: false,
+          visible: action.visible,
         });
       }
       break;
@@ -62,7 +65,10 @@ function restoreExpressions() {
 }
 
 function storeExpressions(state) {
-  prefs.expressions = state.getIn(["expressions"]).toJS();
+  prefs.expressions = state
+    .getIn(["expressions"])
+    .filter(e => e.visible)
+    .toJS();
 }
 
 function appendToList(state: State, path: string[], value: any) {
@@ -101,4 +107,12 @@ type OuterState = { expressions: Record<ExpressionState> };
 
 export function getExpressions(state: OuterState) {
   return state.expressions.get("expressions");
+}
+
+export function getVisibleExpressions(state: OuterState) {
+  return state.expressions.get("expressions").filter(e => e.visible);
+}
+
+export function getExpression(state: OuterState, input: string) {
+  return getExpressions(state).find(exp => exp.input == input);
 }
