@@ -69,6 +69,8 @@ const SOURCES = {
     };
 
     class Test2 {}
+
+    let expressiveClass  = class {}
   `
   ),
   varTest: formatCode(
@@ -193,15 +195,7 @@ describe("parser", () => {
       const protoNames = protoVars.map(v => v.value);
       const classNames = classVars.map(v => v.value);
       expect(protoNames).to.eql(["foo", "bar", "TodoView", "tagName", "b"]);
-      expect(classNames).to.eql(["a"]);
-    });
-  });
-
-  describe("getSymbols -> classes", () => {
-    it("finds class declarations", () => {
-      const classClasses = getSymbols(getSourceText("classTest")).classes;
-      const classNames = classClasses.map(c => c.value);
-      expect(classNames).to.eql(["Test", "Test2"]);
+      expect(classNames).to.eql(["Test", "a", "Test2", "expressiveClass"]);
     });
   });
 
@@ -226,9 +220,9 @@ describe("parser", () => {
         "b",
         "Obj",
         "foo",
+        "Ultra",
         "person",
       ]);
-      expect(allSymbols.classes.map(c => c.value)).to.eql(["Ultra"]);
     });
   });
 
