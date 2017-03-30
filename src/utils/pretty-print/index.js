@@ -1,22 +1,13 @@
 // @flow
 
-const { getValue } = require("devtools-config");
-const { workerUtils: { workerTask } } = require("devtools-modules");
+const { workerUtils: { WorkerDispatcher } } = require("devtools-utils");
 const { isJavaScript } = require("../source");
 const assert = require("../assert");
 
 import type { Source, SourceText } from "../../types";
 
-let prettyPrintWorker = new Worker(getValue("workers.prettyPrintURL"));
-
-function destroyWorker() {
-  if (prettyPrintWorker != null) {
-    prettyPrintWorker.terminate();
-    prettyPrintWorker = null;
-  }
-}
-
-const _prettyPrint = workerTask(prettyPrintWorker, "prettyPrint");
+const dispatcher = new WorkerDispatcher();
+const _prettyPrint = dispatcher.task("prettyPrint");
 
 type PrettyPrintOpts = {
   source: Source,
@@ -42,5 +33,6 @@ async function prettyPrint({ source, sourceText, url }: PrettyPrintOpts) {
 
 module.exports = {
   prettyPrint,
-  destroyWorker,
+  startPrettyPrintWorker: dispatcher.start.bind(dispatcher),
+  stopPrettyPrintWorker: dispatcher.stop.bind(dispatcher),
 };
