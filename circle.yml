@@ -32,7 +32,8 @@ dependencies:
     - ~/downloads
     - ~/.cache/yarn
   override:
-    - yarn install
+    - yarn
+  post:
     - yarn global add flow-coverage-report
     - ./bin/update-docker
 
