@@ -5,12 +5,9 @@ machine:
     - docker
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
-    YARN_PATH: "$HOME/.yarn"
-    YARN_VERSION: 0.19.1
-    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   post:
     - mkdir -p $DOWNLOADS_PATH
-    - mkdir -p $YARN_PATH
 
 checkout:
   post:
@@ -31,12 +28,9 @@ test:
     - bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/jest-coverage/coverage-final.json
 
 dependencies:
-  pre:
-    - ./bin/install-yarn
   cache_directories:
     - ~/downloads
     - ~/.cache/yarn
-    - ~/.yarn
   override:
     - yarn install
     - npm i -g flow-coverage-report
