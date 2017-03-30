@@ -33,7 +33,7 @@ dependencies:
     - ~/.cache/yarn
   override:
     - yarn install
-    - npm i -g flow-coverage-report
+    - yarn global add flow-coverage-report
     - ./bin/update-docker
 
 general:
