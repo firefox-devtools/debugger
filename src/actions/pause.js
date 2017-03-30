@@ -42,9 +42,9 @@ export function resumed() {
  * @static
  */
 export function paused(pauseInfo: Pause) {
-  return async function({ dispatch, getState, client }: ThunkArgs) {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     let { frames, why, loadedObjects } = pauseInfo;
-    frames = await updateFrameLocations(frames);
+    frames = await updateFrameLocations(frames, sourceMaps);
     const frame = frames[0];
 
     dispatch({

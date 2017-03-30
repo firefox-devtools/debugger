@@ -1,6 +1,6 @@
 const toolbox = require("./node_modules/devtools-launchpad/index");
 const getConfig = require("./bin/getConfig");
-const { isDevelopment } = require("devtools-config");
+const { isDevelopment, isFirefoxPanel } = require("devtools-config");
 const { NormalModuleReplacementPlugin } = require("webpack");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
@@ -15,12 +15,8 @@ function getEntry(filename) {
 }
 
 let webpackConfig = {
-  // TODO: Could probably set context here and use less full paths?
   entry: {
     debugger: getEntry("main.js"),
-    "source-map-worker": getEntry(
-      "../node_modules/devtools-source-map/src/worker.js"
-    ),
     "parser-worker": getEntry("utils/parser/worker.js"),
     "pretty-print-worker": getEntry("utils/pretty-print/worker.js"),
     "integration-tests": getEntry("test/integration/tests.js"),
@@ -54,6 +50,17 @@ function buildConfig(envConfig) {
     mappings.forEach(([regex, res]) => {
       webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
     });
+  }
+
+  // TODO: It would be nice to stop bundling `devtools-source-map` entirely for
+  // the Firefox panel, but at the moment we still use `isOriginalId` from a
+  // required copy of the module, instead of using the one from the toolbox.
+  if (!isFirefoxPanel()) {
+    // When used as a Firefox panel, the toolbox supplies its own source map
+    // service and worker, so we only need to build this when running in a tab.
+    webpackConfig.entry["source-map-worker"] = getEntry(
+      "../node_modules/devtools-source-map/src/worker.js"
+    );
   }
 
   return toolbox.toolboxConfig(webpackConfig, envConfig);

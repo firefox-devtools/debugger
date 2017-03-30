@@ -27,6 +27,7 @@ export type ThunkArgs = {
   dispatch: () => Promise<any>,
   getState: () => any,
   client: any,
+  sourceMaps: any,
 };
 
 export type ActionType = Object | Function;
