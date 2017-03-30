@@ -17,11 +17,9 @@ curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.19.1
 git clone git@github.com:devtools-html/debugger.html.git
 
 cd debugger.html
-yarn install
-yarn run firefox
-
-# create a new terminal tab
+yarn
 yarn start
+# Go to http://localhost:8000
 ```
 
 #### Next Steps
