@@ -66,6 +66,10 @@
   cursor: pointer;
 }
 
+.search-bottom-bar .search-modifiers button:hover {
+  background: var(--theme-toolbar-background-hover);
+}
+
 .search-bottom-bar .search-modifiers button:active {
   outline: none;
 }
@@ -80,6 +84,7 @@
 
 .search-bottom-bar .search-modifiers button.disabled svg {
   fill: var(--theme-comment-alt);
+  cursor: default;
 }
 
 .search-bottom-bar .search-type-toggles {
