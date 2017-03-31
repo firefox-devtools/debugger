@@ -12,7 +12,7 @@ const {
 function loadFromPrefs(actions: Object) {
   const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
   if (pauseOnExceptions || ignoreCaughtExceptions) {
-    actions.pauseOnExceptions(pauseOnExceptions, ignoreCaughtExceptions);
+    return actions.pauseOnExceptions(pauseOnExceptions, ignoreCaughtExceptions);
   }
 }
 
@@ -28,7 +28,8 @@ async function onConnect(connection: Object) {
   }
 
   const client = getClient(connection);
-  const { store, actions, selectors } = bootstrapStore(client);
+  const commands = client.clientCommands;
+  const { store, actions, selectors } = bootstrapStore(commands);
 
   bootstrapWorker();
   await client.onConnect(connection, actions);
@@ -36,7 +37,7 @@ async function onConnect(connection: Object) {
 
   bootstrapApp(connection, { store, actions });
 
-  return { store, actions, selectors };
+  return { store, actions, selectors, client: commands };
 }
 
 module.exports = { onConnect };

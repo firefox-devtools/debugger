@@ -11,7 +11,7 @@ function isElementVisible(dbg, elementName) {
   return bpLine && isVisibleWithin(cm, bpLine);
 }
 
-add_task(function*() {
+add_task(function* () {
   // This test runs too slowly on linux debug. I'd like to figure out
   // which is the slowest part of this and make it run faster, but to
   // fix a frequent failure allow a longer timeout.
@@ -50,5 +50,5 @@ add_task(function*() {
   invokeInTab("testModel");
   yield waitForPaused(dbg);
   assertPausedLocation(dbg, longSrc, 66);
-  // ok(isElementVisible(dbg, "breakpoint"), "Breakpoint is visible");
+  ok(isElementVisible(dbg, "breakpoint"), "Breakpoint is visible");
 });

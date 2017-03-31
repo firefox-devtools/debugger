@@ -17,7 +17,7 @@ function toggleButton(dbg) {
   return callStackBody.querySelector(".show-more");
 }
 
-add_task(function*() {
+add_task(function* () {
   const dbg = yield initDebugger("doc-script-switching.html");
 
   toggleCallStack(dbg);
@@ -34,7 +34,7 @@ add_task(function*() {
   ok(!button, "toggle button shouldn't be there");
 });
 
-add_task(function*() {
+add_task(function* () {
   const dbg = yield initDebugger("doc-frames.html");
 
   toggleCallStack(dbg);

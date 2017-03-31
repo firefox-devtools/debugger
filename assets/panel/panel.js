@@ -16,16 +16,17 @@ function DebuggerPanel(iframeWindow, toolbox) {
 }
 
 DebuggerPanel.prototype = {
-  open: Task.async(function* () {
+  open: async function () {
     if (!this.toolbox.target.isRemote) {
-      yield this.toolbox.target.makeRemote();
+      await this.toolbox.target.makeRemote();
     }
 
     const {
       actions,
       store,
       selectors,
-    } = yield this.panelWin.Debugger.bootstrap({
+      client,
+    } = await this.panelWin.Debugger.bootstrap({
       threadClient: this.toolbox.threadClient,
       tabTarget: this.toolbox.target,
       debuggerClient: this.toolbox.target._client,
@@ -34,9 +35,19 @@ DebuggerPanel.prototype = {
     this._actions = actions;
     this._store = store;
     this._selectors = selectors;
+    this._client = client;
     this.isReady = true;
     return this;
-  }),
+  },
+
+  getVarsForTests () {
+    return {
+      store: this._store,
+      selectors: this._selectors,
+      actions: this._actions,
+      client: this._client,
+    };
+  },
 
   _getState: function () {
     return this._store.getState();

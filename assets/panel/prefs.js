@@ -12,7 +12,7 @@ pref("devtools.debugger.chrome-debugging-websocket", false);
 pref("devtools.debugger.remote-host", "localhost");
 pref("devtools.debugger.remote-timeout", 20000);
 pref("devtools.debugger.pause-on-exceptions", false);
-pref("devtools.debugger.ignore-caught-exceptions", true);
+pref("devtools.debugger.ignore-caught-exceptions", false);
 pref("devtools.debugger.source-maps-enabled", true);
 pref("devtools.debugger.client-source-maps-enabled", true);
 pref("devtools.debugger.pretty-print-enabled", true);
