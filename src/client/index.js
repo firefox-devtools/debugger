@@ -12,7 +12,7 @@ const {
 function loadFromPrefs(actions: Object) {
   const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
   if (pauseOnExceptions || ignoreCaughtExceptions) {
-    actions.pauseOnExceptions(pauseOnExceptions, ignoreCaughtExceptions);
+    return actions.pauseOnExceptions(pauseOnExceptions, ignoreCaughtExceptions);
   }
 }
 
