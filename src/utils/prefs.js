@@ -1,6 +1,6 @@
 // @flow
 
-var { PrefsHelper } = require("devtools-sham-modules");
+var { PrefsHelper } = require("devtools-modules");
 const { Services: { pref } } = require("devtools-modules");
 const { isDevelopment } = require("devtools-config");
 

@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import actions from "../actions";
 import { getSources, getSelectedSource, getPaneCollapse } from "../selectors";
 
-import { KeyShortcuts } from "devtools-sham-modules";
+import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
 
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
