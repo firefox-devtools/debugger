@@ -124,7 +124,12 @@ const ObjectInspector = React.createClass({
     const { actors } = this;
     const key = item.path;
 
-    if (item.contents.value && item.contents.value.preview && actors[key]) {
+    if (
+      item.contents.value &&
+      item.contents.value.preview &&
+      actors &&
+      actors[key]
+    ) {
       const properties = item.contents.value.preview.ownProperties;
       let thisActor = actors[key];
       for (let pKey in properties) {

@@ -162,7 +162,7 @@ class Expressions extends React.Component {
           this.editExpression(expression, options),
         loadObjectProperties,
         getActors: () => ({}),
-        setActors: () => {},
+        setActors: () => ({}),
       }),
       CloseButton({ handleClick: e => this.deleteExpression(e, expression) })
     );
