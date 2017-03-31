@@ -38,8 +38,6 @@ var { Toolbox } = require("devtools/client/framework/toolbox");
 const EXAMPLE_URL = "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/";
 
 Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", true);
-Services.prefs.clearUserPref("devtools.debugger.tabs")
-Services.prefs.clearUserPref("devtools.debugger.pending-selected-location")
 
 registerCleanupFunction(() => {
   Services.prefs.clearUserPref("devtools.debugger.new-debugger-frontend");
@@ -305,8 +303,8 @@ function createDebuggerContext(toolbox) {
  */
 function initDebugger(url, ...sources) {
   return Task.spawn(function* () {
-    Services.prefs.clearUserPref("devtools.debugger.pause-on-exceptions", false);
-    Services.prefs.clearUserPref("devtools.debugger.ignore-caught-exceptions", false);
+    Services.prefs.clearUserPref("devtools.debugger.pause-on-exceptions");
+    Services.prefs.clearUserPref("devtools.debugger.ignore-caught-exceptions");
     Services.prefs.clearUserPref("devtools.debugger.tabs")
     Services.prefs.clearUserPref("devtools.debugger.pending-selected-location");
     Services.prefs.clearUserPref("devtools.debugger.pending-breakpoints");
