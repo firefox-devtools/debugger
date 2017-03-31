@@ -63,10 +63,7 @@ L10N.getStr("scopes.header")
 L10N.getFormatStr("editor.searchResults", index + 1, count)
 ```
 
-Translated strings are added to the local [strings][strings-json]
-file and m-c [debugger properties][debugger-properties] file. We plan on [removing][kill-strings] `strings.json` soon!
-
-Go checkout the [L10N issues][l10n-issues]
+Translated strings are added to the [debugger properties][debugger-properties] file. 
 
 #### RTL
 
