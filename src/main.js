@@ -24,7 +24,11 @@ if (isFirefoxPanel()) {
     bootstrap: ({ threadClient, tabTarget, debuggerClient }: any) => {
       return onConnect({
         tab: { clientType: "firefox" },
-        tabConnection: { tabTarget, threadClient, debuggerClient },
+        tabConnection: {
+          tabTarget,
+          threadClient,
+          debuggerClient,
+        },
       });
     },
     destroy: () => {

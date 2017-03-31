@@ -3,7 +3,7 @@
 
 // Tests that the editor sets the correct mode for different file
 // types
-add_task(function*() {
+add_task(function* () {
   const dbg = yield initDebugger("doc-scripts.html");
 
   yield selectSource(dbg, "simple1.js");

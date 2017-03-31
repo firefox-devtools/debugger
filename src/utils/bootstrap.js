@@ -14,12 +14,10 @@ const selectors = require("../selectors");
 const App = require("../components/App").default;
 
 export function bootstrapStore(client) {
-  const commands = client.clientCommands;
-
   const createStore = configureStore({
     log: getValue("logging.actions"),
     makeThunkArgs: (args, state) => {
-      return Object.assign({}, args, { client: commands });
+      return Object.assign({}, args, { client });
     },
   });
 
@@ -29,7 +27,7 @@ export function bootstrapStore(client) {
     store.dispatch
   );
 
-  return { store, actions };
+  return { store, actions, selectors };
 }
 
 export function bootstrapApp(connection, { store, actions }) {
@@ -43,8 +41,6 @@ export function bootstrapApp(connection, { store, actions }) {
   };
 
   renderRoot(React, ReactDOM, App, store);
-
-  return { store, actions, selectors };
 }
 
 export function bootstrapWorker() {

@@ -5,7 +5,7 @@
 // matter if the source text doesn't exist yet or even if the source
 // doesn't exist.
 
-add_task(function*() {
+add_task(function* () {
   const dbg = yield initDebugger("doc-scripts.html");
   const { selectors: { getSourceText }, getState } = dbg;
   const sourceUrl = EXAMPLE_URL + "long.js";
@@ -29,11 +29,8 @@ add_task(function*() {
   yield selectSource(dbg, "long.js", 17);
   yield selectSource(dbg, "long.js", 18);
   assertHighlightLocation(dbg, "long.js", 18);
-  is(
-    findAllElements(dbg, "highlightLine").length,
-    1,
-    "Only 1 line is highlighted"
-  );
+  is(findAllElements(dbg, "highlightLine").length, 1,
+     "Only 1 line is highlighted");
 
   // Test jumping to a line in a source that exists but hasn't been
   // loaded yet.

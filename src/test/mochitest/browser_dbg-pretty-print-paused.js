@@ -3,7 +3,7 @@
 
 // Tests pretty-printing a source that is currently paused.
 
-add_task(function*() {
+add_task(function* () {
   const dbg = yield initDebugger("doc-minified.html");
 
   yield selectSource(dbg, "math.min.js");
