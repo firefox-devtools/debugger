@@ -181,7 +181,19 @@ function getChildren(
   // node would be a new instance every render.
   const key = item.path;
   if (actors && actors[key]) {
-    return actors[key];
+    const properties = item.contents.value.preview.ownProperties;
+    let thisActor = actors[key];
+    for (let pKey in properties) {
+      if (properties.hasOwnProperty(pKey)) {
+        const cacheObject = thisActor.filter(a => a.name == pKey)[0];
+        const cacheObjectIndex = thisActor.findIndex(a => a.name == pKey);
+        // Assign new values to the cache actor if it becomes stale
+        if (cacheObject && getValue(cacheObject) != properties[pKey].value) {
+          thisActor[cacheObjectIndex].contents = properties[pKey];
+        }
+      }
+    }
+    return thisActor;
   }
 
   if (isBucket(item)) {
