@@ -1,13 +1,11 @@
 // @flow
-const React = require("react");
-const ReactDOM = require("react-dom");
+import { DOM as dom, PropTypes, Component } from "react";
 
-const { PropTypes } = React;
-const classnames = require("classnames");
-const Svg = require("../shared/Svg");
+import classnames from "classnames";
+import Svg from "../shared/Svg";
 
 const breakpointSvg = document.createElement("div");
-ReactDOM.render(Svg("breakpoint"), breakpointSvg);
+dom.render(Svg("breakpoint"), breakpointSvg);
 
 function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);
