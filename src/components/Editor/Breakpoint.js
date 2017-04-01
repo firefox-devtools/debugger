@@ -4,8 +4,7 @@ import { DOM as dom, PropTypes, Component } from "react";
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 
-const breakpointSvg = document.createElement("div");
-dom.render(Svg("breakpoint"), breakpointSvg);
+const breakpointSvg = dom.div(Svg("breakpoint"));
 
 function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);
