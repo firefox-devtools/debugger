@@ -1,6 +1,5 @@
 // @flow
-const React = require("react");
-const { PropTypes } = React;
+import { Component, PropTypes } from "react";
 
 let markerEl = document.createElement("div");
 
@@ -10,13 +9,8 @@ function makeMarker() {
   return marker;
 }
 
-const HitMarker = React.createClass({
-  propTypes: {
-    hitData: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired
-  },
-
-  displayName: "HitMarker",
+class HitMarker extends Component {
+  displayName: "HitMarker";
 
   addMarker() {
     const hitData = this.props.hitData;
@@ -25,12 +19,12 @@ const HitMarker = React.createClass({
     this.props.editor.setGutterMarker(line, "hit-markers", makeMarker());
 
     this.props.editor.addLineClass(line, "line", "hit-marker");
-  },
+  }
 
   shouldComponentUpdate(nextProps: any) {
     return this.props.editor !== nextProps.editor ||
       this.props.hitData !== nextProps.hitData;
-  },
+  }
 
   componentDidMount() {
     if (!this.props.editor) {
@@ -38,11 +32,11 @@ const HitMarker = React.createClass({
     }
 
     this.addMarker();
-  },
+  }
 
   componentDidUpdate() {
     this.addMarker();
-  },
+  }
 
   componentWillUnmount() {
     if (!this.props.editor) {
@@ -54,11 +48,16 @@ const HitMarker = React.createClass({
 
     this.props.editor.setGutterMarker(line, "hit-markers", null);
     this.props.editor.removeLineClass(line, "line", "hit-marker");
-  },
+  }
 
   render() {
     return null;
   }
-});
+}
 
-module.exports = HitMarker;
+HitMarker.propTypes = {
+  hitData: PropTypes.object.isRequired,
+  editor: PropTypes.object.isRequired
+};
+
+export default HitMarker;
