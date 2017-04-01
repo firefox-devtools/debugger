@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dom as dom, PropTypes } from "react";
+import { DOM as dom, PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
@@ -46,7 +46,7 @@ class SourceFooter extends Component {
           pretty: isPretty(selectedSource.toJS()),
         }),
         key: type,
-        tittle: tooltip,
+        title: tooltip,
         "aria-label": tooltip,
       },
       Svg(type)
@@ -92,16 +92,16 @@ class SourceFooter extends Component {
     }
 
     return dom.div(
-      { classnames: "commands" },
+      { className: "commands" },
       this.prettyPrintButton(),
       this.coverageButton()
     );
   }
 
   render() {
-    const { selectSource, horizontal } = this.props;
+    const { selectedSource, horizontal } = this.props;
 
-    if (!shouldShowFooter(selectSource, horizontal)) {
+    if (!shouldShowFooter(selectedSource, horizontal)) {
       return null;
     }
 
