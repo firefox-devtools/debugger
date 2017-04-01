@@ -100,7 +100,6 @@ class Preview extends Component {
       onDoubleClick: () => {},
       loadObjectProperties,
       getActors: () => ({}),
-      setActors: () => ({}),
     });
   }
 

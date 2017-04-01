@@ -35,7 +35,7 @@ type ObjectInspectorItemContents = {
 };
 
 type ObjectInspectorItem = {
-  contents: ObjectInspectorItemContents & Array<ObjectInspectorItem>,
+  contents: Array<ObjectInspectorItem> & ObjectInspectorItemContents,
   name: string,
   path: string,
 };
@@ -86,7 +86,7 @@ const ObjectInspector = React.createClass({
     getExpanded: PropTypes.func,
     setExpanded: PropTypes.func,
     getActors: PropTypes.func.isRequired,
-    setActors: PropTypes.func.isRequired,
+    setActors: PropTypes.func,
   },
 
   actors: (null: any),
