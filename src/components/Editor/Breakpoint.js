@@ -71,4 +71,4 @@ Breakpoint.propTypes = {
 
 Breakpoint.displayName = "Breakpoint";
 
-module.exports = Breakpoint;
+export default Breakpoint;
