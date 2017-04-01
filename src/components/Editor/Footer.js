@@ -7,24 +7,20 @@ import {
   getSelectedSource,
   getSourceText,
   getPrettySource,
-  getPanelCollapse,
+  getPaneCollapse,
 } from "../../selectors";
 import Svg from "../shared/Svg";
 import ImPropTypes from "react-immutable-proptypes";
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
 import { isPretty } from "../../utils/source";
-import {
-  shouldShowFooter,
-  shouldShowPrettyPrint,
-} from "../../utils/editor";
+import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 import _PaneToggleButton from "../shared/Button/PaneToggle";
 const PaneToggleButton = React.createFactory(_PaneToggleButton.default);
 
 import "./Footer.css";
 
 class SourceFooter extends Component {
-
   onClickPrettyPrint() {
     this.props.togglePrettyPrint(this.props.selectedSource.get("id"));
   }
@@ -89,7 +85,7 @@ class SourceFooter extends Component {
   }
 
   renderCommands() {
-    const { selectSource } = this.props;
+    const { selectedSource } = this.props;
 
     if (!shouldShowPrettyPrint(selectedSource)) {
       return null;
@@ -117,18 +113,31 @@ class SourceFooter extends Component {
   }
 }
 
+SourceFooter.propTypes = {
+  selectedSource: ImPropTypes.map,
+  togglePrettyPrint: PropTypes.func,
+  recordCoverage: PropTypes.func,
+  sourceText: ImPropTypes.map,
+  selectSource: PropTypes.func,
+  prettySource: ImPropTypes.map,
+  editor: PropTypes.object,
+  endPanelCollapsed: PropTypes.bool,
+  togglePaneCollapse: PropTypes.func,
+  horizontal: PropTypes.bool,
+};
 
-  SourceFooter.propTypes = {
-    selectedSource: ImPropTypes.map,
-      togglePrettyPrint: PropTypes.func,
-      recordCoverage: PropTypes.func,
-      sourceText: ImPropTypes.map,
-      selectSource: PropTypes.func,
-      prettySource: ImPropTypes.map,
-      editor: PropTypes.object,
-      endPanelCollapsed: PropTypes.bool,
-      togglePaneCollapse: PropTypes.func,
-      horizontal: PropTypes.bool,
-  };
+SourceFooter.displayName = "SourceFooter";
 
-  SourceFooter.displayName = "SourceFooter";
+export default connect(
+  state => {
+    const selectedSource = getSelectedSource(state);
+    const selectedId = selectedSource && selectedSource.get("id");
+    return {
+      selectedSource,
+      sourceText: getSourceText(state, selectedId),
+      prettySource: getPrettySource(state, selectedId),
+      endPanelCollapsed: getPaneCollapse(state, "end"),
+    };
+  },
+  dispatch => bindActionCreators(actions, dispatch)
+)(SourceFooter);
