@@ -122,31 +122,6 @@ const ObjectInspector = React.createClass({
   getChildren(item: ObjectInspectorItem) {
     const { getObjectProperties } = this.props;
     const { actors } = this;
-    const key = item.path;
-
-    if (
-      item.contents.value &&
-      item.contents.value.preview &&
-      actors &&
-      actors[key]
-    ) {
-      const properties = item.contents.value.preview.ownProperties;
-      let thisActor = actors[key];
-      for (let pKey in properties) {
-        if (properties.hasOwnProperty(pKey)) {
-          const cacheObject = thisActor.filter(a => a.name == pKey)[0];
-          const cacheObjectIndex = thisActor.findIndex(a => a.name == pKey);
-          // Assign new values to the cache actor if it becomes stale
-          if (
-            cacheObject && cacheObject.contents.value != properties[pKey].value
-          ) {
-            thisActor[cacheObjectIndex].contents = properties[pKey];
-          }
-        }
-      }
-      actors[key] = thisActor;
-      this.props.setActors(actors);
-    }
 
     return getChildren({
       getObjectProperties,
