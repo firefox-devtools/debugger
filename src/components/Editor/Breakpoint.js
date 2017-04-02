@@ -1,10 +1,12 @@
 // @flow
-import { DOM as dom, PropTypes, Component } from "react";
+import { PropTypes, Component } from "react";
+const ReactDOM = require("react-dom");
 
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 
-const breakpointSvg = dom.div(Svg("breakpoint"));
+const breakpointSvg = document.createElement("div");
+ReactDOM.render(Svg("breakpoint"), breakpointSvg);
 
 function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);
@@ -16,6 +18,13 @@ function makeMarker(isDisabled: boolean) {
 }
 
 class Breakpoint extends Component {
+  addBreakpoint: Function;
+
+  constructor(props) {
+    super(props);
+    this.addBreakpoint = this.addBreakpoint.bind(this);
+  }
+
   addBreakpoint() {
     const bp = this.props.breakpoint;
     const line = bp.location.line - 1;
