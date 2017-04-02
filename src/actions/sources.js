@@ -298,6 +298,18 @@ export function togglePrettyPrint(sourceId: string) {
   };
 }
 
+export function toggleBlackBox(source: Source) {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const { isBlackBoxed, id } = source;
+
+    return dispatch({
+      type: constants.BLACKBOX,
+      source,
+      [PROMISE]: client.blackBox(id, isBlackBoxed)
+    });
+  };
+}
+
 /**
  * @memberof actions/sources
  * @static

@@ -138,7 +138,6 @@ function updateLocation(state, bp): LocalBreakpoint {
   const locationId = makeLocationId(bp.location);
 
   const location = Object.assign({}, bp.location, { source });
-
   const localBP = Object.assign({}, bp, {
     location,
     locationId,
@@ -151,7 +150,9 @@ function updateLocation(state, bp): LocalBreakpoint {
 function _getBreakpoints(state) {
   return getBreakpoints(state)
     .map(bp => updateLocation(state, bp))
-    .filter(bp => bp.location.source);
+    .filter(
+      bp => bp.location.source && !bp.location.source.get("isBlackBoxed")
+    );
 }
 
 export default connect(

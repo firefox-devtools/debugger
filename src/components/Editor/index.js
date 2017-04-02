@@ -74,6 +74,7 @@ const Editor = React.createClass({
     setBreakpointCondition: PropTypes.func.isRequired,
     selectSource: PropTypes.func,
     jumpToMappedLocation: PropTypes.func,
+    toggleBlackBox: PropTypes.func,
     showSource: PropTypes.func,
     coverageOn: PropTypes.bool,
     pauseData: ImPropTypes.map,
@@ -358,15 +359,25 @@ const Editor = React.createClass({
   },
 
   openMenu(event, codeMirror) {
+    const {
+      selectedSource,
+      selectedLocation,
+      showSource,
+      jumpToMappedLocation,
+      addExpression,
+      toggleBlackBox
+    } = this.props;
+
     return EditorMenu({
       codeMirror,
       event,
-      selectedLocation: this.props.selectedLocation,
-      selectedSource: this.props.selectedSource,
-      showSource: this.props.showSource,
-      onGutterContextMenu: this.onGutterContextMenu,
-      jumpToMappedLocation: this.props.jumpToMappedLocation,
-      addExpression: this.props.addExpression
+      selectedLocation,
+      selectedSource,
+      showSource,
+      jumpToMappedLocation,
+      addExpression,
+      toggleBlackBox,
+      onGutterContextMenu: this.onGutterContextMenu
     });
   },
 
@@ -375,8 +386,12 @@ const Editor = React.createClass({
   },
 
   onGutterClick(cm, line, gutter, ev) {
+    const { selectedSource } = this.props;
+
     // ignore right clicks in the gutter
-    if (ev.which === 3) {
+    if (
+      ev.which === 3 || (selectedSource && selectedSource.get("isBlackBoxed"))
+    ) {
       return;
     }
 
@@ -388,6 +403,13 @@ const Editor = React.createClass({
   },
 
   onGutterContextMenu(event) {
+    const { selectedSource } = this.props;
+
+    if (selectedSource && selectedSource.get("isBlackBoxed")) {
+      event.preventDefault();
+      return;
+    }
+
     const line = this.editor.codeMirror.lineAtHeight(event.clientY);
     const bp = breakpointAtLine(this.props.breakpoints, line);
     GutterMenu({
@@ -600,10 +622,14 @@ const Editor = React.createClass({
   },
 
   renderBreakpoints() {
-    const { breakpoints, sourceText } = this.props;
+    const { breakpoints, sourceText, selectedSource } = this.props;
     const isLoading = sourceText && sourceText.get("loading");
 
-    if (isLoading || !breakpoints) {
+    if (
+      isLoading ||
+      !breakpoints ||
+      (selectedSource && selectedSource.get("isBlackBoxed"))
+    ) {
       return;
     }
 

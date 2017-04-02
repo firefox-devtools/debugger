@@ -36,7 +36,8 @@ function createSource(source: SourcePayload): Source {
     id: source.actor,
     url: source.url,
     isPrettyPrinted: false,
-    sourceMapURL: source.sourceMapURL
+    sourceMapURL: source.sourceMapURL,
+    isBlackBoxed: false
   };
 }
 
