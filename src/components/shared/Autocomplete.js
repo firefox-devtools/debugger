@@ -6,7 +6,7 @@ const { filter } = require("fuzzaldrin-plus");
 const classnames = require("classnames");
 const { scrollList } = require("../../utils/result-list");
 const Svg = require("./Svg");
-const SearchInput = createFactory(require("./SearchInput"));
+const SearchInput = createFactory(require("./SearchInput").default);
 const ResultList = createFactory(require("./ResultList").default);
 
 require("./Autocomplete.css");

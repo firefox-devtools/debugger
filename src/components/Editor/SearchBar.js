@@ -26,7 +26,7 @@ const { getSymbols } = require("../../utils/parser");
 const { scrollList } = require("../../utils/result-list");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
-const SearchInput = createFactory(require("../shared/SearchInput"));
+const SearchInput = createFactory(require("../shared/SearchInput").default);
 const ResultList = createFactory(require("../shared/ResultList").default);
 const ImPropTypes = require("react-immutable-proptypes");
 
