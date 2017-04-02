@@ -20,8 +20,8 @@ function makeMarker(isDisabled: boolean) {
 class Breakpoint extends Component {
   addBreakpoint: Function;
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.addBreakpoint = this.addBreakpoint.bind(this);
   }
 
