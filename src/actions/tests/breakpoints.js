@@ -16,4 +16,24 @@ describe("breakpoints", () => {
     await store.dispatch(actions.addBreakpoint({ sourceId: "b", line: 6 }));
     expect(selectors.getBreakpoints(store.getState()).size).to.be(2);
   });
+
+  it("should disable a breakpoint", () => {
+
+  });
+
+  it("should enable a breakpoint", () => {
+
+  });
+
+  it("should remove a breakpoint", () => {
+
+  });
+
+  it("should toggle all breakpoints", () => {
+
+  });
+
+  it("should set breakpoint condition", () => {
+
+  });
 });
