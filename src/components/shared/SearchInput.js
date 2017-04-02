@@ -1,33 +1,17 @@
-const React = require("react");
-const { DOM: dom, PropTypes } = React;
-const classnames = require("classnames");
-const Svg = require("./Svg");
-const CloseButton = require("./Button/Close").default;
+import { DOM as dom, PropTypes, Component } from "react";
+import Svg from "./Svg";
+import classnames from "classnames";
+import CloseButton from "./Button/Close";
+import "./SearchInput.css";
 
-require("./SearchInput.css");
+class SearchInput extends Component {
+  displayName: "SearchInput";
 
-const SearchInput = React.createClass({
-  propTypes: {
-    query: PropTypes.string.isRequired,
-    count: PropTypes.number.isRequired,
-    placeholder: PropTypes.string.isRequired,
-    summaryMsg: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    handleClose: PropTypes.func.isRequired,
-    onKeyUp: PropTypes.func,
-    onKeyDown: PropTypes.func,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    size: PropTypes.string,
-  },
-
-  displayName: "SearchInput",
-
-  getDefaultProps() {
+  static get defaultProps() {
     return {
       size: "",
     };
-  },
+  }
 
   renderSvg() {
     const { count, query } = this.props;
@@ -37,7 +21,7 @@ const SearchInput = React.createClass({
     }
 
     return Svg("magnifying-glass");
-  },
+  }
 
   render() {
     const {
@@ -78,7 +62,21 @@ const SearchInput = React.createClass({
         buttonClass: size,
       })
     );
-  },
-});
+  }
+}
 
-module.exports = SearchInput;
+SearchInput.propTypes = {
+  query: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  summaryMsg: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  onKeyUp: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  size: PropTypes.string,
+};
+
+export default SearchInput;
