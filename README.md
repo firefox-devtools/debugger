@@ -13,15 +13,13 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 > Or take a look at our detailed [getting started][getting-started] instructions.
 
 ```bash
-curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.19.1
+curl -o- -L https://yarnpkg.com/install.sh | bash -s
 git clone git@github.com:devtools-html/debugger.html.git
 
 cd debugger.html
-yarn install
-yarn run firefox
-
-# create a new terminal tab
+yarn
 yarn start
+# Go to http://localhost:8000
 ```
 
 #### Next Steps

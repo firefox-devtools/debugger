@@ -1,36 +1,19 @@
 // @flow
 
-const { workerUtils: { workerTask } } = require("devtools-modules");
-const { getValue } = require("devtools-config");
+const { workerUtils: { WorkerDispatcher } } = require("devtools-utils");
 
-let worker;
+const dispatcher = new WorkerDispatcher();
 
-function restartWorker() {
-  if (worker) {
-    worker.terminate();
-  }
-
-  worker = new Worker(getValue("workers.parserURL"));
-}
-
-restartWorker();
-
-function destroyWorker() {
-  if (worker) {
-    worker.terminate();
-    worker = null;
-  }
-}
-
-const getSymbols = workerTask(worker, "getSymbols");
-const getVariablesInScope = workerTask(worker, "getVariablesInScope");
-const getExpression = workerTask(worker, "getExpression");
-const resolveToken = workerTask(worker, "resolveToken");
+const getSymbols = dispatcher.task("getSymbols");
+const getVariablesInScope = dispatcher.task("getVariablesInScope");
+const getExpression = dispatcher.task("getExpression");
+const resolveToken = dispatcher.task("resolveToken");
 
 module.exports = {
   getSymbols,
   getVariablesInScope,
   getExpression,
   resolveToken,
-  destroyWorker,
+  startParserWorker: dispatcher.start.bind(dispatcher),
+  stopParserWorker: dispatcher.stop.bind(dispatcher),
 };

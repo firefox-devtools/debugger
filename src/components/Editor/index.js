@@ -7,6 +7,8 @@ const ImPropTypes = require("react-immutable-proptypes");
 const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
+const debounce = require("lodash/debounce");
+const get = require("lodash/get");
 
 const { getMode } = require("../../utils/source");
 
@@ -24,6 +26,7 @@ const {
   getSelectedLocation,
   getSelectedFrame,
   getSelectedSource,
+  getExpression,
   getHitCountForSource,
   getCoverageEnabled,
   getLoadedObjects,
@@ -33,7 +36,7 @@ const {
 } = require("../../selectors");
 const { makeLocationId } = require("../../reducers/breakpoints");
 const actions = require("../../actions").default;
-const Breakpoint = React.createFactory(require("./Breakpoint"));
+const Breakpoint = React.createFactory(require("./Breakpoint").default);
 const HitMarker = React.createFactory(require("./HitMarker"));
 
 const {
@@ -75,7 +78,8 @@ const Editor = React.createClass({
     coverageOn: PropTypes.bool,
     pauseData: ImPropTypes.map,
     selectedFrame: PropTypes.object,
-    addExpression: PropTypes.func,
+    getExpression: PropTypes.func.isRequired,
+    addExpression: PropTypes.func.isRequired,
     horizontal: PropTypes.bool,
     query: PropTypes.string.isRequired,
     searchModifiers: ImPropTypes.recordOf({
@@ -184,6 +188,7 @@ const Editor = React.createClass({
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`, this.onSearchAgain);
 
     updateDocument(this.editor, selectedSource, sourceText);
+    (this: any).previewSelectedToken = debounce(this.previewSelectedToken, 100);
   },
 
   componentWillUnmount() {
@@ -254,11 +259,11 @@ const Editor = React.createClass({
   },
 
   /*
-   * The default Esc command is overridden in the CodeMirror keymap to allow
-   * the Esc keypress event to be catched by the toolbox and trigger the
-   * split console. Restore it here, but preventDefault if and only if there
-   * is a multiselection.
-  */
+     * The default Esc command is overridden in the CodeMirror keymap to allow
+     * the Esc keypress event to be catched by the toolbox and trigger the
+     * split console. Restore it here, but preventDefault if and only if there
+     * is a multiselection.
+     */
   onEscape(key, e) {
     const { codeMirror } = this.editor;
     if (codeMirror.listSelections().length > 1) {
@@ -267,14 +272,14 @@ const Editor = React.createClass({
     }
   },
 
-  onScroll(e) {
-    return this.setState({ selectedToken: null, selectedExpression: null });
-  },
-
   onMouseUp(e, ctx) {
     if (e.metaKey) {
       this.previewSelectedToken(e, ctx);
     }
+  },
+
+  onScroll(e) {
+    return this.setState({ selectedToken: null, selectedExpression: null });
   },
 
   onMouseOver(e) {
@@ -295,7 +300,7 @@ const Editor = React.createClass({
   },
 
   async previewSelectedToken(e) {
-    const { selectedFrame, selectedSource, pauseData, sourceText } = this.props;
+    const { selectedFrame, selectedSource, pauseData, sourceText, addExpression } = this.props;
     const { selectedToken } = this.state;
     const token = e.target;
 
@@ -323,6 +328,10 @@ const Editor = React.createClass({
 
     if (resolution.inScope) {
       const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
+
+      if (resolution.expression) {
+        addExpression(resolution.expression.value, { visible: false });
+      }
 
       const displayedExpression = previewExpression({
         expression: resolution.expression,
@@ -353,7 +362,7 @@ const Editor = React.createClass({
     });
   },
 
-  updateSearchResults({ count, index }) {
+  updateSearchResults({ count, index = -1 }: { count: number, index: number }) {
     this.setState({ searchResults: { count, index } });
   },
 
@@ -559,10 +568,10 @@ const Editor = React.createClass({
   },
 
   /**
-   * Handle getting the source document or creating a new
-   * document with the correct mode and text.
-   *
-   */
+     * Handle getting the source document or creating a new
+     * document with the correct mode and text.
+     *
+     */
   showSourceText(sourceText, selectedLocation) {
     if (!selectedLocation) {
       return;
@@ -633,10 +642,10 @@ const Editor = React.createClass({
     }
 
     if (
+      !isEnabled("editorPreview") ||
       !selectedToken ||
       !selectedFrame ||
-      !selectedExpression ||
-      !isEnabled("editorPreview")
+      !selectedExpression
     ) {
       return;
     }
@@ -644,7 +653,15 @@ const Editor = React.createClass({
     const token = selectedToken.textContent;
     selectedToken.classList.add("selected-token");
 
-    const value = selectedExpression.value || selectedExpression.contents.value;
+    let value = get(selectedExpression, "contents.value");
+    if (!value) {
+      const exp = this.props.getExpression(selectedExpression.value);
+      value = get(exp, "value.result");
+    }
+
+    if (!value) {
+      return;
+    }
 
     return Preview({
       value,
@@ -709,6 +726,7 @@ module.exports = connect(
       breakpoints: getBreakpointsForSource(state, sourceId || ""),
       hitCount: getHitCountForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state),
+      getExpression: getExpression.bind(null, state),
       pauseData: getPause(state),
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),

@@ -1,6 +1,6 @@
 const { showMenu } = require("../shared/menu");
 const { isEnabled } = require("devtools-config");
-const { isOriginalId, hasMappedSource } = require("devtools-source-map");
+const { isOriginalId } = require("devtools-source-map");
 const { copyToTheClipboard } = require("../../utils/clipboard");
 
 async function EditorMenu(
@@ -26,8 +26,6 @@ async function EditorMenu(
 
   event.stopPropagation();
   event.preventDefault();
-
-  const isMapped = await hasMappedSource(selectedLocation);
 
   const copySourceUrl = {
     id: "node-menu-copy-source",
@@ -67,9 +65,8 @@ async function EditorMenu(
 
   const menuOptions = [];
 
-  if (isMapped) {
-    menuOptions.push(jumpLabel);
-  }
+  // TODO: Find a new way to only add this for mapped sources?
+  menuOptions.push(jumpLabel);
 
   const textSelected = codeMirror.somethingSelected();
   if (isEnabled("watchExpressions") && textSelected) {

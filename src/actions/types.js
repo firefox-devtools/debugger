@@ -27,6 +27,7 @@ export type ThunkArgs = {
   dispatch: () => Promise<any>,
   getState: () => any,
   client: any,
+  sourceMaps: any,
 };
 
 export type ActionType = Object | Function;
@@ -177,18 +178,21 @@ type PauseAction =
       id: number,
       input: string,
       value: string,
+      visible: boolean,
     }
   | {
       type: "EVALUATE_EXPRESSION",
       input: string,
       status: string,
       value: Object,
+      visible: boolean,
       "@@dispatch/promise": any,
     }
   | {
       type: "UPDATE_EXPRESSION",
       expression: Expression,
       input: string,
+      visible: boolean,
     }
   | {
       type: "DELETE_EXPRESSION",

@@ -6,7 +6,7 @@ const isWindows = /^win/.test(process.platform);
 const prettierCmd = path.resolve(__dirname, "../node_modules/.bin/" + (isWindows ? "prettier.cmd" : "prettier"));
 
 const args = [
-  "--trailing-comma=all",
+  "--trailing-comma=es5",
   "--bracket-spacing=true"
 ];
 

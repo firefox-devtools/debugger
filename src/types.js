@@ -9,6 +9,7 @@ export type SearchModifiers = {
 export type Expression = {
   value: Object,
   input: string,
+  visible: boolean,
 };
 
 export type TokenResolution = {
@@ -39,4 +40,4 @@ export type {
   SourceText,
   Pause,
   Why,
-} from "devtools-client-adapters/src/types";
+} from "debugger-html";

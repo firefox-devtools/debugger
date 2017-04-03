@@ -26,7 +26,7 @@ global.Worker = require("workerjs");
 
 const path = require("path");
 const getConfig = require("../../bin/getConfig");
-const setConfig = require("devtools-config").setConfig;
+const { setConfig } = require("devtools-config");
 
 const rootPath = path.join(__dirname, "../../");
 

@@ -41,7 +41,6 @@ export type FormattedSymbolDeclaration = {
 export type SymbolDeclarations = {
   functions: Array<FormattedSymbolDeclaration>,
   variables: Array<FormattedSymbolDeclaration>,
-  classes: Array<FormattedSymbolDeclaration>,
 };
 
 function _parse(code) {
@@ -114,8 +113,7 @@ function isFunction(path) {
   return t.isFunction(path) ||
     t.isArrowFunctionExpression(path) ||
     t.isObjectMethod(path) ||
-    t.isClassMethod(path) ||
-    t.isFunctionExpression(path);
+    t.isClassMethod(path);
 }
 
 function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
@@ -184,7 +182,7 @@ function getSymbols(source: SourceText): SymbolDeclarations {
   }
 
   const ast = getAst(source);
-  const symbols = { functions: [], variables: [], classes: [] };
+  const symbols = { functions: [], variables: [] };
 
   traverse(ast, {
     enter(path) {
@@ -202,7 +200,7 @@ function getSymbols(source: SourceText): SymbolDeclarations {
       }
 
       if (t.isClassDeclaration(path)) {
-        symbols.classes.push(
+        symbols.variables.push(
           formatSymbol({
             name: path.node.id.name,
             location: path.node.loc,

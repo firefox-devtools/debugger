@@ -4,7 +4,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
-import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
+import {
+  getVisibleExpressions,
+  getLoadedObjects,
+  getPause,
+} from "../../selectors";
 const CloseButton = React.createFactory(
   require("../shared/Button/Close").default
 );
@@ -223,7 +227,7 @@ Expressions.displayName = "Expressions";
 export default connect(
   state => ({
     pauseInfo: getPause(state),
-    expressions: getExpressions(state),
+    expressions: getVisibleExpressions(state),
     loadedObjects: getLoadedObjects(state),
   }),
   dispatch => bindActionCreators(actions, dispatch)

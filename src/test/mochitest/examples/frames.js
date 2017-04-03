@@ -5,7 +5,7 @@ function recurseA(i) {
   }
 
   // down into the rabbit hole we go
-  return i % 2 ? recurseA(++i) : recurseB(++i);
+  return (i % 2) ? recurseA(++i) : recurseB(++i);
 }
 
 function recurseB(i) {
@@ -15,9 +15,10 @@ function recurseB(i) {
   }
 
   // down into the rabbit hole we go
-  return i % 2 ? recurseA(++i) : recurseB(++i);
+  return (i % 2) ? recurseA(++i) : recurseB(++i);
 }
+
 
 window.startRecursion = function() {
   return recurseA(0);
-};
+}

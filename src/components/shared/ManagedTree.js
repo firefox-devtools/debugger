@@ -1,6 +1,6 @@
 // @flow
 import { createClass, PropTypes, createFactory } from "react";
-const Tree = createFactory(require("devtools-sham-modules").Tree);
+const Tree = createFactory(require("devtools-modules").Tree);
 require("./ManagedTree.css");
 
 type ManagedTreeItem = {

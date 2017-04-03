@@ -55,4 +55,6 @@ module.exports = {
   getPaneCollapse: ui.getPaneCollapse,
 
   getExpressions: expressions.getExpressions,
+  getVisibleExpressions: expressions.getVisibleExpressions,
+  getExpression: expressions.getExpression,
 };

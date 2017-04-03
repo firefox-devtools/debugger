@@ -26,7 +26,7 @@ const { getSymbols } = require("../../utils/parser");
 const { scrollList } = require("../../utils/result-list");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
-const SearchInput = createFactory(require("../shared/SearchInput"));
+const SearchInput = createFactory(require("../shared/SearchInput").default);
 const ResultList = createFactory(require("../shared/ResultList").default);
 const ImPropTypes = require("react-immutable-proptypes");
 
@@ -512,7 +512,7 @@ const SearchBar = React.createClass({
     } = this.props;
     const { symbolSearchEnabled } = this.state;
 
-    function searchModBtn(modVal, className, svgName) {
+    function searchModBtn(modVal, className, svgName, tooltip) {
       return dom.button(
         {
           className: classnames(className, {
@@ -521,6 +521,7 @@ const SearchBar = React.createClass({
           }),
           onClick: () =>
             !symbolSearchEnabled ? toggleFileSearchModifier(modVal) : null,
+          title: tooltip,
         },
         Svg(svgName)
       );
@@ -528,9 +529,24 @@ const SearchBar = React.createClass({
 
     return dom.div(
       { className: "search-modifiers" },
-      searchModBtn("regexMatch", "regex-match-btn", "regex-match"),
-      searchModBtn("caseSensitive", "case-sensitive-btn", "case-match"),
-      searchModBtn("wholeWord", "whole-word-btn", "whole-word-match")
+      searchModBtn(
+        "regexMatch",
+        "regex-match-btn",
+        "regex-match",
+        L10N.getStr("symbolSearch.searchModifier.regex")
+      ),
+      searchModBtn(
+        "caseSensitive",
+        "case-sensitive-btn",
+        "case-match",
+        L10N.getStr("symbolSearch.searchModifier.caseSensitive")
+      ),
+      searchModBtn(
+        "wholeWord",
+        "whole-word-btn",
+        "whole-word-match",
+        L10N.getStr("symbolSearch.searchModifier.wholeWord")
+      )
     );
   },
 
@@ -559,14 +575,11 @@ const SearchBar = React.createClass({
       );
     }
 
-    let classSearchBtn;
-
     return dom.section(
       { className: "search-type-toggles" },
       dom.h1({ className: "search-toggle-title" }, "Search for:"),
       searchTypeBtn("functions"),
-      searchTypeBtn("variables"),
-      classSearchBtn
+      searchTypeBtn("variables")
     );
   },
 

@@ -7,7 +7,6 @@
   },
   "workers": {
     "parserURL": "resource://devtools/client/debugger/new/parser-worker.js",
-    "sourceMapURL": "resource://devtools/client/debugger/new/source-map-worker.js",
     "prettyPrintURL": "resource://devtools/client/debugger/new/pretty-print-worker.js"
   },
   "features": {
