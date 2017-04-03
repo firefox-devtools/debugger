@@ -143,7 +143,11 @@ const SearchBar = React.createClass({
       searchInput.focus();
     }
 
-    if (this.refs.resultList && this.refs.resultList.refs) {
+    if (
+      this.refs.resultList &&
+      this.refs.resultList.refs &&
+      this.props.searchResults.length > this.state.selectedResultIndex
+    ) {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
 
