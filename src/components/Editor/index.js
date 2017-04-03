@@ -47,7 +47,7 @@ const {
   breakpointAtLine,
   getTextForLine,
   getCursorLine,
-  getExpressionFromToken,
+  resolveToken,
   previewExpression,
   resizeBreakpointGutter,
   traverseResults,
@@ -314,26 +314,29 @@ const Editor = React.createClass({
       this.setState({ selectedToken: null, selectedExpression: null });
     }
 
-    const expressionFromToken = await getExpressionFromToken(
+    const resolution = await resolveToken(
       this.editor.codeMirror,
       token,
-      sourceText
+      sourceText,
+      selectedFrame
     );
 
-    const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
+    if (resolution.inScope) {
+      const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
 
-    const displayedExpression = previewExpression({
-      expression: expressionFromToken,
-      variables,
-      selectedFrame,
-      tokenText: token.textContent,
-    });
-
-    if (displayedExpression) {
-      this.setState({
-        selectedToken: token,
-        selectedExpression: displayedExpression,
+      const displayedExpression = previewExpression({
+        expression: resolution.expression,
+        variables,
+        selectedFrame,
+        tokenText: token.textContent,
       });
+
+      if (displayedExpression) {
+        this.setState({
+          selectedToken: token,
+          selectedExpression: displayedExpression,
+        });
+      }
     }
   },
 

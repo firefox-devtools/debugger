@@ -11,6 +11,11 @@ export type Expression = {
   input: string,
 };
 
+export type TokenResolution = {
+  expression?: Object | null,
+  inScope: boolean,
+};
+
 export type Mode =
   | String
   | {

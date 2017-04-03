@@ -25,10 +25,12 @@ function destroyWorker() {
 const getSymbols = workerTask(worker, "getSymbols");
 const getVariablesInScope = workerTask(worker, "getVariablesInScope");
 const getExpression = workerTask(worker, "getExpression");
+const resolveToken = workerTask(worker, "resolveToken");
 
 module.exports = {
   getSymbols,
   getVariablesInScope,
   getExpression,
+  resolveToken,
   destroyWorker,
 };

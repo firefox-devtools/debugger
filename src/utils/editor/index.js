@@ -10,7 +10,7 @@ const {
 
 import {
   getTokenLocation,
-  getExpressionFromToken,
+  resolveToken,
   previewExpression,
 } from "./expression.js";
 
@@ -161,7 +161,7 @@ module.exports = {
   resizeBreakpointGutter,
   traverseResults,
   getTokenLocation,
-  getExpressionFromToken,
+  resolveToken,
   previewExpression,
   updateDocument,
 };
