@@ -1,48 +1,34 @@
-const React = require("react");
-const { DOM: dom, PropTypes } = React;
-const { connect } = require("react-redux");
-const { bindActionCreators } = require("redux");
-const actions = require("../../actions").default;
-const {
+import React, { Component } from "react";
+import { DOM as dom, PropTypes } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import actions from "../../actions";
+import {
   getSelectedSource,
   getSourceText,
   getPrettySource,
   getPaneCollapse,
-} = require("../../selectors");
-const Svg = require("../shared/Svg");
-const ImPropTypes = require("react-immutable-proptypes");
-const classnames = require("classnames");
-const { isEnabled } = require("devtools-config");
-const { isPretty } = require("../../utils/source");
-const {
-  shouldShowFooter,
-  shouldShowPrettyPrint,
-} = require("../../utils/editor");
-const PaneToggleButton = React.createFactory(
-  require("../shared/Button/PaneToggle").default
-);
+} from "../../selectors";
+import Svg from "../shared/Svg";
+import ImPropTypes from "react-immutable-proptypes";
+import classnames from "classnames";
+import { isEnabled } from "devtools-config";
+import { isPretty } from "../../utils/source";
+import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
+import _PaneToggleButton from "../shared/Button/PaneToggle";
+const PaneToggleButton = React.createFactory(_PaneToggleButton.default);
 
-require("./Footer.css");
+import "./Footer.css";
 
-const SourceFooter = React.createClass({
-  propTypes: {
-    selectedSource: ImPropTypes.map,
-    togglePrettyPrint: PropTypes.func,
-    recordCoverage: PropTypes.func,
-    sourceText: ImPropTypes.map,
-    selectSource: PropTypes.func,
-    prettySource: ImPropTypes.map,
-    editor: PropTypes.object,
-    endPanelCollapsed: PropTypes.bool,
-    togglePaneCollapse: PropTypes.func,
-    horizontal: PropTypes.bool,
-  },
-
-  displayName: "SourceFooter",
+class SourceFooter extends Component {
+  constructor() {
+    super();
+    this.onClickPrettyPrint = this.onClickPrettyPrint.bind(this);
+  }
 
   onClickPrettyPrint() {
     this.props.togglePrettyPrint(this.props.selectedSource.get("id"));
-  },
+  }
 
   prettyPrintButton() {
     const { selectedSource, sourceText } = this.props;
@@ -70,7 +56,7 @@ const SourceFooter = React.createClass({
       },
       Svg(type)
     );
-  },
+  }
 
   coverageButton() {
     const { recordCoverage } = this.props;
@@ -88,7 +74,7 @@ const SourceFooter = React.createClass({
       },
       "C"
     );
-  },
+  }
 
   renderToggleButton() {
     if (this.props.horizontal) {
@@ -101,7 +87,7 @@ const SourceFooter = React.createClass({
       horizontal: this.props.horizontal,
       handleClick: this.props.togglePaneCollapse,
     });
-  },
+  }
 
   renderCommands() {
     const { selectedSource } = this.props;
@@ -115,7 +101,7 @@ const SourceFooter = React.createClass({
       this.prettyPrintButton(),
       this.coverageButton()
     );
-  },
+  }
 
   render() {
     const { selectedSource, horizontal } = this.props;
@@ -129,10 +115,25 @@ const SourceFooter = React.createClass({
       this.renderCommands(),
       this.renderToggleButton()
     );
-  },
-});
+  }
+}
 
-module.exports = connect(
+SourceFooter.propTypes = {
+  selectedSource: ImPropTypes.map,
+  togglePrettyPrint: PropTypes.func,
+  recordCoverage: PropTypes.func,
+  sourceText: ImPropTypes.map,
+  selectSource: PropTypes.func,
+  prettySource: ImPropTypes.map,
+  editor: PropTypes.object,
+  endPanelCollapsed: PropTypes.bool,
+  togglePaneCollapse: PropTypes.func,
+  horizontal: PropTypes.bool,
+};
+
+SourceFooter.displayName = "SourceFooter";
+
+export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
     const selectedId = selectedSource && selectedSource.get("id");
