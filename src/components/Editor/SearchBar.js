@@ -30,7 +30,10 @@ const SearchInput = createFactory(require("../shared/SearchInput").default);
 const ResultList = createFactory(require("../shared/ResultList").default);
 const ImPropTypes = require("react-immutable-proptypes");
 
-import type { FormattedSymbolDeclaration, SymbolDeclaration } from "../../utils/parser/utils";
+import type {
+  FormattedSymbolDeclaration,
+  SymbolDeclaration,
+} from "../../utils/parser/utils";
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
