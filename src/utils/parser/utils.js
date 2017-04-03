@@ -8,7 +8,7 @@ const toPairs = require("lodash/toPairs");
 const get = require("lodash/get");
 const isEmpty = require("lodash/isEmpty");
 
-import type { SourceText, Location, Expression } from "../../types";
+import type { SourceText, Location, Frame, TokenResolution } from "../../types";
 
 const ASTs = new Map();
 
@@ -214,13 +214,45 @@ function getSymbols(source: SourceText): SymbolDeclarations {
   return symbols;
 }
 
-function getExpression(
+function resolveExpression(path, token: string, location: Location): ?Object {
+  const node = path.node;
+  if (
+    t.isMemberExpression(node) &&
+    node.property.name === token &&
+    nodeContainsLocation({ node, location })
+  ) {
+    const expr = getMemberExpression(node);
+    return {
+      value: expr.join("."),
+      location: node.loc,
+    };
+  }
+
+  return null;
+}
+
+function resolveScope(path, location: Location) {
+  const node = path.node;
+  if (
+    (isFunction(path) || t.isProgram(path)) &&
+    nodeContainsLocation({ node, location })
+  ) {
+    return path;
+  }
+}
+
+// Resolves a token (at location) in the source to determine if it is in scope
+// of the given frame and the expression (if any) to which it belongs
+function resolveToken(
   source: SourceText,
   token: string,
-  location: Location
-): ?Expression {
-  let expression = null;
+  location: Location,
+  frame: Frame
+): ?TokenResolution {
   const ast = getAst(source);
+  const scopes = [];
+  let expression = null;
+  let inScope = false;
 
   if (isEmpty(ast)) {
     return;
@@ -228,22 +260,30 @@ function getExpression(
 
   traverse(ast, {
     enter(path) {
-      const node = path.node;
-      if (
-        t.isMemberExpression(node) &&
-        node.property.name === token &&
-        nodeContainsLocation({ node, location })
-      ) {
-        const expr = getMemberExpression(node);
-        expression = {
-          value: expr.join("."),
-          location: node.loc,
-        };
+      let scope = null;
+
+      // if we haven't found an expression yet, determine if the token is part
+      // of one
+      if (!expression) {
+        expression = resolveExpression(path, token, location);
+      }
+
+      // determine if the current path is a function or program containing the
+      // frame
+      scope = resolveScope(path, frame.location);
+      if (scope) {
+        scopes.unshift(scope);
       }
     },
   });
 
-  return expression;
+  // determine if the narrowest scope contains the token's location
+  inScope = nodeContainsLocation({ node: scopes[0].node, location });
+
+  return {
+    expression,
+    inScope,
+  };
 }
 
 function nodeContainsLocation({ node, location }) {
@@ -285,5 +325,5 @@ module.exports = {
   getSymbols,
   getPathClosestToLocation,
   getVariablesInScope,
-  getExpression,
+  resolveToken,
 };

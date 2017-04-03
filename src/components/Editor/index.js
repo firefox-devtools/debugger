@@ -50,7 +50,7 @@ const {
   breakpointAtLine,
   getTextForLine,
   getCursorLine,
-  getExpressionFromToken,
+  resolveToken,
   previewExpression,
   resizeBreakpointGutter,
   traverseResults,
@@ -300,11 +300,23 @@ const Editor = React.createClass({
   },
 
   async previewSelectedToken(e) {
-    const { selectedFrame, pauseData, sourceText, addExpression } = this.props;
+    const {
+      selectedFrame,
+      selectedSource,
+      pauseData,
+      sourceText,
+      addExpression,
+    } = this.props;
     const { selectedToken } = this.state;
     const token = e.target;
 
-    if (!selectedFrame || !sourceText || !isEnabled("editorPreview")) {
+    if (
+      !selectedFrame ||
+      !sourceText ||
+      !isEnabled("editorPreview") ||
+      !selectedSource ||
+      selectedFrame.location.sourceId !== selectedSource.get("id")
+    ) {
       return;
     }
 
@@ -313,22 +325,27 @@ const Editor = React.createClass({
       this.setState({ selectedToken: null, selectedExpression: null });
     }
 
-    const expressionFromToken = await getExpressionFromToken(
+    const { expression, inScope } = await resolveToken(
       this.editor.codeMirror,
       token,
-      sourceText
+      sourceText,
+      selectedFrame
     );
 
-    if (expressionFromToken) {
-      addExpression(expressionFromToken.value, { visible: false });
+    if (!inScope) {
+      return;
     }
 
     const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
 
+    if (expression) {
+      addExpression(expression.value, { visible: false });
+    }
+
     const displayedExpression = previewExpression({
-      expression: expressionFromToken,
-      selectedFrame,
+      expression: expression,
       variables,
+      selectedFrame,
       tokenText: token.textContent,
     });
 
