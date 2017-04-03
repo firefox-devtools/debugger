@@ -1,10 +1,9 @@
 // @flow
-const React = require("react");
+import { PropTypes, Component } from "react";
 const ReactDOM = require("react-dom");
 
-const { PropTypes } = React;
-const classnames = require("classnames");
-const Svg = require("../shared/Svg");
+import classnames from "classnames";
+import Svg from "../shared/Svg";
 
 const breakpointSvg = document.createElement("div");
 ReactDOM.render(Svg("breakpoint"), breakpointSvg);
@@ -18,12 +17,14 @@ function makeMarker(isDisabled: boolean) {
   return bp;
 }
 
-const Breakpoint = React.createClass({
-  propTypes: {
-    breakpoint: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired,
-  },
-  displayName: "Breakpoint",
+class Breakpoint extends Component {
+  addBreakpoint: Function;
+
+  constructor() {
+    super();
+    this.addBreakpoint = this.addBreakpoint.bind(this);
+  }
+
   addBreakpoint() {
     const bp = this.props.breakpoint;
     const line = bp.location.line - 1;
@@ -39,22 +40,22 @@ const Breakpoint = React.createClass({
     } else {
       this.props.editor.removeLineClass(line, "line", "has-condition");
     }
-  },
+  }
   shouldComponentUpdate(nextProps: any) {
     return this.props.editor !== nextProps.editor ||
       this.props.breakpoint.disabled !== nextProps.breakpoint.disabled ||
       this.props.breakpoint.condition !== nextProps.breakpoint.condition;
-  },
+  }
   componentDidMount() {
     if (!this.props.editor) {
       return;
     }
 
     this.addBreakpoint();
-  },
+  }
   componentDidUpdate() {
     this.addBreakpoint();
-  },
+  }
   componentWillUnmount() {
     if (!this.props.editor) {
       return;
@@ -66,10 +67,17 @@ const Breakpoint = React.createClass({
     this.props.editor.setGutterMarker(line, "breakpoints", null);
     this.props.editor.removeLineClass(line, "line", "new-breakpoint");
     this.props.editor.removeLineClass(line, "line", "has-condition");
-  },
+  }
   render() {
     return null;
-  },
-});
+  }
+}
 
-module.exports = Breakpoint;
+Breakpoint.propTypes = {
+  breakpoint: PropTypes.object.isRequired,
+  editor: PropTypes.object.isRequired,
+};
+
+Breakpoint.displayName = "Breakpoint";
+
+export default Breakpoint;

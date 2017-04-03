@@ -36,7 +36,7 @@ const {
 } = require("../../selectors");
 const { makeLocationId } = require("../../reducers/breakpoints");
 const actions = require("../../actions").default;
-const Breakpoint = React.createFactory(require("./Breakpoint"));
+const Breakpoint = React.createFactory(require("./Breakpoint").default);
 const HitMarker = React.createFactory(require("./HitMarker"));
 
 const {
