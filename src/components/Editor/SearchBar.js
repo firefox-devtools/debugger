@@ -399,7 +399,11 @@ const SearchBar = React.createClass({
   },
 
   // Handlers
-  selectResultItem(item: FormattedSymbolDeclaration) {
+  selectResultItem(
+    item: FormattedSymbolDeclaration,
+    selectedResultIndex: Number
+  ) {
+    this.setState({ selectedResultIndex });
     const { selectSource, selectedSource } = this.props;
     if (selectedSource) {
       selectSource(selectedSource.get("id"), {
@@ -455,7 +459,10 @@ const SearchBar = React.createClass({
       e.preventDefault();
     } else if (e.key === "Enter") {
       if (searchResults.length) {
-        this.selectResultItem(searchResults[this.state.selectedResultIndex]);
+        this.selectResultItem(
+          searchResults[this.state.selectedResultIndex],
+          this.state.selectedResultIndex
+        );
       }
       this.closeSearch(e);
       e.preventDefault();
