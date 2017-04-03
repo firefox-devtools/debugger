@@ -12,7 +12,7 @@ const get = require("lodash/get");
 
 const { getMode } = require("../../utils/source");
 
-const Footer = createFactory(require("./Footer"));
+const Footer = createFactory(require("./Footer").default);
 const SearchBar = createFactory(require("./SearchBar"));
 const GutterMenu = require("./GutterMenu");
 const EditorMenu = require("./EditorMenu");
