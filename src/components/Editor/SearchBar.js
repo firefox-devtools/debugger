@@ -399,12 +399,14 @@ const SearchBar = React.createClass({
   },
 
   // Handlers
-  selectResultItem(item: FormattedSymbolDeclaration) {
+  selectResultItem(e: SyntheticEvent, item: SymbolDeclaration, index: number) {
     const { selectSource, selectedSource } = this.props;
     if (selectedSource) {
+      this.setState({ selectedResultIndex: index });
       selectSource(selectedSource.get("id"), {
         line: item.location.start.line,
       });
+      this.closeSearch(e);
     }
   },
 
