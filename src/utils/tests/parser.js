@@ -4,6 +4,7 @@ const {
   getVariablesInScope,
   getExpression,
   getPathClosestToLocation,
+  resolveToken,
 } = require("../parser/utils");
 
 // re-formats the code to correct for webpack indentations
@@ -140,6 +141,29 @@ const SOURCES = {
       }
     };
   `
+  ),
+  resolveTokenTest: formatCode(
+    `
+    const a = 1;
+    let b = 0;
+
+    function getA() {  // line 5
+      return a;
+    }
+
+    function setB(newB) { // line 9
+      b = newB;
+    }
+
+    const plusAB = (function (x, y) {  // line 13
+      const obj = {x, y};
+      function insideClosure(alpha, beta) { // line 15
+        return alpha + beta + obj.x + obj.y;
+      }
+
+      return insideClosure;
+    })(a, b);
+    `
   ),
 };
 
@@ -312,6 +336,152 @@ describe("parser", () => {
         column: 14,
         line: 4,
       });
+    });
+  });
+
+  describe("resolveToken", () => {
+    // copied the tests from getExpression because its
+    // usage was replaced for Editor by resolveToken
+
+    it("should get the expression for the token at location", () => {
+      const { expression } = resolveToken(
+        getSourceText("expressionTest"),
+        "b",
+        {
+          line: 6,
+          column: 14,
+        },
+        {
+          location: {
+            line: 1,
+            column: 1,
+          },
+        }
+      );
+
+      expect(expression.value).to.be("obj.a.b");
+      expect(expression.location.start).to.eql({
+        line: 6,
+        column: 9,
+      });
+    });
+
+    it("should not find any expression", () => {
+      const { expression } = resolveToken(
+        getSourceText("expressionTest"),
+        "d",
+        {
+          line: 6,
+          column: 14,
+        },
+        {
+          location: {
+            line: 1,
+            column: 1,
+          },
+        }
+      );
+
+      expect(expression).to.be(null);
+    });
+
+    it("should not find the expression at a wrong location", () => {
+      const { expression } = resolveToken(
+        getSourceText("expressionTest"),
+        "b",
+        {
+          line: 6,
+          column: 0,
+        },
+        {
+          location: {
+            line: 1,
+            column: 1,
+          },
+        }
+      );
+
+      expect(expression).to.be(null);
+    });
+
+    it("should get the expression with 'this'", () => {
+      const { expression } = resolveToken(
+        getSourceText("thisExpressionTest"),
+        "a",
+        { line: 10, column: 25 },
+        {
+          location: {
+            line: 1,
+            column: 1,
+          },
+        }
+      );
+
+      expect(expression.value).to.be("this.foo.a");
+      expect(expression.location.start).to.eql({
+        line: 10,
+        column: 16,
+      });
+    });
+
+    it("should report in scope when in the same function as frame", () => {
+      const { inScope } = resolveToken(
+        getSourceText("resolveTokenTest"),
+        "newB",
+        {
+          line: 10,
+          column: 11,
+        },
+        {
+          // on b = newB;
+          location: {
+            line: 10,
+            column: 7,
+          },
+        }
+      );
+
+      expect(inScope).to.be(true);
+    });
+
+    it("should report out of scope when in a different function", () => {
+      const { inScope } = resolveToken(
+        getSourceText("resolveTokenTest"),
+        "newB",
+        {
+          line: 10,
+          column: 11,
+        },
+        {
+          // on return a;
+          location: {
+            line: 6,
+            column: 7,
+          },
+        }
+      );
+
+      expect(inScope).to.be(false);
+    });
+
+    it("should report in scope within a function inside the frame", () => {
+      const { inScope } = resolveToken(
+        getSourceText("resolveTokenTest"),
+        "x",
+        {
+          line: 16,
+          column: 35,
+        },
+        {
+          // on return insideClosure;
+          location: {
+            line: 19,
+            column: 7,
+          },
+        }
+      );
+
+      expect(inScope).to.be(true);
     });
   });
 });
