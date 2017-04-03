@@ -30,7 +30,7 @@ const SearchInput = createFactory(require("../shared/SearchInput").default);
 const ResultList = createFactory(require("../shared/ResultList").default);
 const ImPropTypes = require("react-immutable-proptypes");
 
-import type { FormattedSymbolDeclaration } from "../../utils/parser/utils";
+import type { FormattedSymbolDeclaration, SymbolDeclaration } from "../../utils/parser/utils";
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
@@ -399,7 +399,7 @@ const SearchBar = React.createClass({
   },
 
   // Handlers
-  selectResultItem(e: SyntheticEvent, item: SymbolDeclaration, index: number) {
+  selectResultItem(e: SyntheticEvent, item: SymbolDeclaration, index?: number) {
     const { selectSource, selectedSource } = this.props;
     if (selectedSource) {
       this.setState({ selectedResultIndex: index });
@@ -457,7 +457,7 @@ const SearchBar = React.createClass({
       e.preventDefault();
     } else if (e.key === "Enter") {
       if (searchResults.length) {
-        this.selectResultItem(searchResults[this.state.selectedResultIndex]);
+        this.selectResultItem(e, searchResults[this.state.selectedResultIndex]);
       }
       this.closeSearch(e);
       e.preventDefault();
