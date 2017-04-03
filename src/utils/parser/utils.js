@@ -275,6 +275,7 @@ function resolveToken(
   const ast = getAst(source);
   const scopes = [];
   let expression = null;
+  let inScope = false;
 
   if (isEmpty(ast)) {
     return;
@@ -282,6 +283,8 @@ function resolveToken(
 
   traverse(ast, {
     enter(path) {
+      let scope = null;
+
       // if we haven't found an expression yet, determine if the token is part
       // of one
       if (!expression) {
@@ -290,18 +293,15 @@ function resolveToken(
 
       // determine if the current path is a function or program containing the
       // frame
-      const scope = resolveScope(path, frame.location);
+      scope = resolveScope(path, frame.location);
       if (scope) {
         scopes.unshift(scope);
       }
     },
   });
 
-  let inScope = false;
-  if (scopes.length > 0) {
-    // determine if the narrowest scope contains the token's location
-    inScope = nodeContainsLocation({ node: scopes[0].node, location });
-  }
+  // determine if the narrowest scope contains the token's location
+  inScope = nodeContainsLocation({ node: scopes[0].node, location });
 
   return {
     expression,

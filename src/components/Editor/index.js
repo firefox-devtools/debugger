@@ -300,7 +300,13 @@ const Editor = React.createClass({
   },
 
   async previewSelectedToken(e) {
-    const { selectedFrame, selectedSource, pauseData, sourceText, addExpression } = this.props;
+    const {
+      selectedFrame,
+      selectedSource,
+      pauseData,
+      sourceText,
+      addExpression,
+    } = this.props;
     const { selectedToken } = this.state;
     const token = e.target;
 
@@ -319,33 +325,35 @@ const Editor = React.createClass({
       this.setState({ selectedToken: null, selectedExpression: null });
     }
 
-    const resolution = await resolveToken(
+    const { expression, inScope } = await resolveToken(
       this.editor.codeMirror,
       token,
       sourceText,
       selectedFrame
     );
 
-    if (resolution.inScope) {
-      const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
+    if (!inScope) {
+      return;
+    }
 
-      if (resolution.expression) {
-        addExpression(resolution.expression.value, { visible: false });
-      }
+    const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
 
-      const displayedExpression = previewExpression({
-        expression: resolution.expression,
-        variables,
-        selectedFrame,
-        tokenText: token.textContent,
+    if (expression) {
+      addExpression(expression.value, { visible: false });
+    }
+
+    const displayedExpression = previewExpression({
+      expression: expression,
+      variables,
+      selectedFrame,
+      tokenText: token.textContent,
+    });
+
+    if (displayedExpression) {
+      this.setState({
+        selectedToken: token,
+        selectedExpression: displayedExpression,
       });
-
-      if (displayedExpression) {
-        this.setState({
-          selectedToken: token,
-          selectedExpression: displayedExpression,
-        });
-      }
     }
   },
 
