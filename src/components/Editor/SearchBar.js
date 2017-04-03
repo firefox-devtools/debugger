@@ -54,6 +54,42 @@ type ToggleSymbolSearchOpts = {
 
 require("./SearchBar.css");
 
+const keyDownHandlers = {
+  ArrowUp(event, searchResults, resultCount) {
+    const selectedResultIndex = Math.max(0, this.state.selectedResultIndex - 1);
+
+    this.setState({ selectedResultIndex });
+    this.onSelectResultItem(searchResults[selectedResultIndex]);
+
+    event.preventDefault();
+  },
+
+  ArrowDown(event, searchResults, resultCount) {
+    const newIndex = this.state.selectedResultIndex + 1;
+    const selectedResultIndex = Math.min(resultCount - 1, newIndex);
+
+    this.setState({ selectedResultIndex });
+    this.onSelectResultItem(searchResults[selectedResultIndex]);
+
+    event.preventDefault();
+  },
+
+  Enter(event, searchResults) {
+    if (searchResults.length) {
+      const resultItem = searchResults[this.state.selectedResultIndex];
+      this.selectResultItem(event, resultItem, 0);
+    }
+
+    this.closeSearch(event);
+    event.preventDefault();
+  },
+
+  Tab(event) {
+    this.closeSearch(event);
+    event.preventDefault();
+  }
+};
+
 const SearchBar = React.createClass({
   propTypes: {
     editor: PropTypes.object,
@@ -404,11 +440,10 @@ const SearchBar = React.createClass({
   // Handlers
   selectResultItem(e: SyntheticEvent, item: SymbolDeclaration, index?: number) {
     const { selectSource, selectedSource } = this.props;
+
     if (selectedSource) {
-      this.setState({ selectedResultIndex: index });
-      selectSource(selectedSource.get("id"), {
-        line: item.location.start.line,
-      });
+      selectSource(
+        selectedSource.get("id"), { line: item.location.start.line });
       this.closeSearch(e);
     }
   },

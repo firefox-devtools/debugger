@@ -30,7 +30,7 @@ const ResultList = createClass({
   renderListItem(item: ResultListItem, index: number) {
     return dom.li(
       {
-        onClick: e => this.props.selectItem(e, item, index),
+        onClick: event => this.props.selectItem(event, item, index),
         key: `${item.id}${item.value}${index}`,
         ref: index,
         title: item.value,
