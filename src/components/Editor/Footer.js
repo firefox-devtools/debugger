@@ -16,7 +16,7 @@ import { isEnabled } from "devtools-config";
 import { isPretty } from "../../utils/source";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 import _PaneToggleButton from "../shared/Button/PaneToggle";
-const PaneToggleButton = React.createFactory(_PaneToggleButton.default);
+const PaneToggleButton = React.createFactory(_PaneToggleButton);
 
 import "./Footer.css";
 
