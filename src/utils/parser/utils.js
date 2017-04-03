@@ -241,29 +241,6 @@ function resolveScope(path, location: Location) {
   }
 }
 
-function getExpression(
-  source: SourceText,
-  token: string,
-  location: Location
-): ?Object {
-  let expression = null;
-  const ast = getAst(source);
-
-  if (isEmpty(ast)) {
-    return;
-  }
-
-  traverse(ast, {
-    enter(path) {
-      if (!expression) {
-        expression = resolveExpression(path, token, location);
-      }
-    },
-  });
-
-  return expression;
-}
-
 // Resolves a token (at location) in the source to determine if it is in scope
 // of the given frame and the expression (if any) to which it belongs
 function resolveToken(
@@ -348,6 +325,5 @@ module.exports = {
   getSymbols,
   getPathClosestToLocation,
   getVariablesInScope,
-  getExpression,
   resolveToken,
 };

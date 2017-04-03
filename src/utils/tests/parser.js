@@ -2,7 +2,6 @@ const expect = require("expect.js");
 const {
   getSymbols,
   getVariablesInScope,
-  getExpression,
   getPathClosestToLocation,
   resolveToken,
 } = require("../parser/utils");
@@ -250,53 +249,6 @@ describe("parser", () => {
     });
   });
 
-  describe("getExpression", () => {
-    it("should get the expression for the token at location", () => {
-      const expression = getExpression(getSourceText("expressionTest"), "b", {
-        line: 6,
-        column: 14,
-      });
-
-      expect(expression.value).to.be("obj.a.b");
-      expect(expression.location.start).to.eql({
-        line: 6,
-        column: 9,
-      });
-    });
-
-    it("should not find any expression", () => {
-      const expression = getExpression(getSourceText("expressionTest"), "d", {
-        line: 6,
-        column: 14,
-      });
-
-      expect(expression).to.be(null);
-    });
-
-    it("should not find the expression at a wrong location", () => {
-      const expression = getExpression(getSourceText("expressionTest"), "b", {
-        line: 6,
-        column: 0,
-      });
-
-      expect(expression).to.be(null);
-    });
-
-    it("should get the expression with 'this'", () => {
-      const expression = getExpression(
-        getSourceText("thisExpressionTest"),
-        "a",
-        { line: 10, column: 25 }
-      );
-
-      expect(expression.value).to.be("this.foo.a");
-      expect(expression.location.start).to.eql({
-        line: 10,
-        column: 16,
-      });
-    });
-  });
-
   describe("getPathClosestToLocation", () => {
     it("Can find the function declaration for square", () => {
       const closestPath = getPathClosestToLocation(getSourceText("func"), {
@@ -340,9 +292,6 @@ describe("parser", () => {
   });
 
   describe("resolveToken", () => {
-    // copied the tests from getExpression because its
-    // usage was replaced for Editor by resolveToken
-
     it("should get the expression for the token at location", () => {
       const { expression } = resolveToken(
         getSourceText("expressionTest"),
