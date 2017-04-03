@@ -7,7 +7,7 @@ const {
   clickElement,
   findElement,
   findAllElements,
-  reload,
+  reload
 } = require("../utils");
 
 // checks to see if the frame is selected and the title is correct
@@ -83,5 +83,5 @@ async function test2(ctx) {
 
 module.exports = {
   test1,
-  test2,
+  test2
 };

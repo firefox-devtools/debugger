@@ -7,7 +7,7 @@ const {
   resume,
   waitForPaused,
   waitForDispatch,
-  clickElement,
+  clickElement
 } = require("../utils");
 
 // Tests pretty-printing a source that is currently paused.

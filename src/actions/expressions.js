@@ -36,7 +36,7 @@ export function addExpression(input: string, { visible = true }: Object = {}) {
     dispatch({
       type: constants.ADD_EXPRESSION,
       input,
-      visible,
+      visible
     });
 
     const selectedFrame = getSelectedFrame(getState());
@@ -55,7 +55,7 @@ export function updateExpression(input: string, expression: Expression) {
       type: constants.UPDATE_EXPRESSION,
       expression,
       input: input,
-      visible: expression.visible,
+      visible: expression.visible
     });
 
     const selectedFrame = getSelectedFrame(getState());
@@ -75,7 +75,7 @@ export function deleteExpression(expression: Expression) {
   return ({ dispatch }: ThunkArgs) => {
     dispatch({
       type: constants.DELETE_EXPRESSION,
-      input: expression.input,
+      input: expression.input
     });
   };
 }
@@ -106,7 +106,7 @@ function evaluateExpression(expression, frameId: frameIdType) {
       type: constants.EVALUATE_EXPRESSION,
       input: expression.input,
       visible: expression.visible,
-      [PROMISE]: client.evaluate(expression.input, { frameId }),
+      [PROMISE]: client.evaluate(expression.input, { frameId })
     });
   };
 }

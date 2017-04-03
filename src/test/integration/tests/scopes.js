@@ -7,7 +7,7 @@ const {
   findElement,
   waitForTime,
   waitForDispatch,
-  stepOver,
+  stepOver
 } = require("../utils");
 
 function toggleNode(dbg, index) {

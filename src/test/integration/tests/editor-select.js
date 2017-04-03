@@ -10,7 +10,7 @@ const {
   stepIn,
   stepOut,
   resume,
-  isVisibleWithin,
+  isVisibleWithin
 } = require("../utils");
 
 // Tests that the editor highlights the correct location when the

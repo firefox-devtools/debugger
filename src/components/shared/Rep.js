@@ -5,7 +5,7 @@ import type { ObjectInspectorItemContentsValue } from "./ObjectInspector";
 
 type RenderRepOptions = {
   object: ObjectInspectorItemContentsValue,
-  mode: string,
+  mode: string
 };
 
 let { REPS: { Rep, Grip } } = require("devtools-reps");

@@ -13,5 +13,5 @@ module.exports = {
   getVariablesInScope,
   resolveToken,
   startParserWorker: dispatcher.start.bind(dispatcher),
-  stopParserWorker: dispatcher.stop.bind(dispatcher),
+  stopParserWorker: dispatcher.stop.bind(dispatcher)
 };

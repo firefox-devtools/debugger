@@ -11,7 +11,7 @@ export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
 
   return {
     line: line + lineOffset,
-    column: ch,
+    column: ch
   };
 }
 
@@ -44,7 +44,7 @@ type PreviewExpressionArgs = {
   expression: Expression,
   selectedFrame: Frame,
   tokenText: string,
-  variables: Map<string | null, Object>,
+  variables: Map<string | null, Object>
 };
 
 export function previewExpression(

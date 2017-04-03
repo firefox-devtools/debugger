@@ -12,7 +12,7 @@ const {
   findAllElements,
   invokeInTab,
   clickElement,
-  dblClickElement,
+  dblClickElement
 } = require("../utils");
 
 /**
@@ -23,7 +23,7 @@ const {
  */
 
 const selectors = {
-  input: "input.input-expression",
+  input: "input.input-expression"
 };
 
 function getLabel(dbg, index) {

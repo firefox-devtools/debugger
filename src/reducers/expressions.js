@@ -10,12 +10,12 @@ import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type ExpressionState = {
-  expressions: List<Expression>,
+  expressions: List<Expression>
 };
 
 export const State = makeRecord(
   ({
-    expressions: List(restoreExpressions()),
+    expressions: List(restoreExpressions())
   }: ExpressionState)
 );
 
@@ -29,7 +29,7 @@ export function update(
         input: action.input,
         value: null,
         updating: true,
-        visible: action.visible,
+        visible: action.visible
       });
     case constants.UPDATE_EXPRESSION:
       const key = action.expression.input;
@@ -37,7 +37,7 @@ export function update(
         input: action.input,
         value: null,
         updating: true,
-        visible: action.visible,
+        visible: action.visible
       });
     case constants.EVALUATE_EXPRESSION:
       if (action.status === "done") {
@@ -45,7 +45,7 @@ export function update(
           input: action.input,
           value: action.value,
           updating: false,
-          visible: action.visible,
+          visible: action.visible
         });
       }
       break;

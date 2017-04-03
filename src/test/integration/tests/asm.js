@@ -9,7 +9,7 @@ const {
   waitForPaused,
   resume,
   selectSource,
-  waitForSources,
+  waitForSources
 } = require("../utils");
 
 async function asm(ctx) {

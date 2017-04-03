@@ -13,7 +13,7 @@ export function updateFrameLocations(
     frames.map(frame => {
       return sourceMaps.getOriginalLocation(frame.location).then(loc => {
         return Object.assign(frame, {
-          location: loc,
+          location: loc
         });
       });
     })
@@ -39,7 +39,7 @@ const reasons = {
   promiseRejection: "whyPaused.promiseRejection",
   assert: "whyPaused.assert",
   debugCommand: "whyPaused.debugCommand",
-  other: "whyPaused.other",
+  other: "whyPaused.other"
 };
 
 export function getPauseReason(pauseInfo: Pause): string | null {

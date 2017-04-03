@@ -7,21 +7,21 @@ const {
   collapseTree,
   getDirectories,
   getURL,
-  isExactUrlMatch,
+  isExactUrlMatch
 } = require("../sources-tree.js");
 
 describe("sources-tree", () => {
   const abcSource = Map({
     url: "http://example.com/a/b/c.js",
-    actor: "actor1",
+    actor: "actor1"
   });
   const abcdeSource = Map({
     url: "http://example.com/a/b/c/d/e.js",
-    actor: "actor2",
+    actor: "actor2"
   });
   const abxSource = Map({
     url: "http://example.com/a/b/x.js",
-    actor: "actor3",
+    actor: "actor3"
   });
 
   it("should provide node API", () => {
@@ -40,7 +40,7 @@ describe("sources-tree", () => {
   it("builds a path-based tree", () => {
     const source1 = Map({
       url: "http://example.com/foo/source1.js",
-      actor: "actor1",
+      actor: "actor1"
     });
     const tree = createNode("root", "", []);
 
@@ -62,15 +62,15 @@ describe("sources-tree", () => {
   it("alphabetically sorts children", () => {
     const source1 = Map({
       url: "http://example.com/source1.js",
-      actor: "actor1",
+      actor: "actor1"
     });
     const source2 = Map({
       url: "http://example.com/foo/b_source2.js",
-      actor: "actor2",
+      actor: "actor2"
     });
     const source3 = Map({
       url: "http://example.com/foo/a_source3.js",
-      actor: "actor3",
+      actor: "actor3"
     });
     const tree = createNode("root", "", []);
 
@@ -97,28 +97,28 @@ describe("sources-tree", () => {
     const sources = [
       Map({
         url: "http://example.com/a.js",
-        actor: "actor1",
+        actor: "actor1"
       }),
       Map({
         url: "http://example.com/b.js/b_source.js",
-        actor: "actor2",
+        actor: "actor2"
       }),
       Map({
         url: "http://example.com/c.js",
-        actor: "actor1",
+        actor: "actor1"
       }),
       Map({
         url: "http://example.com",
-        actor: "actor1",
+        actor: "actor1"
       }),
       Map({
         url: "http://example.com/d/d_source.js",
-        actor: "actor3",
+        actor: "actor3"
       }),
       Map({
         url: "http://example.com/b2",
-        actor: "actor2",
-      }),
+        actor: "actor2"
+      })
     ];
 
     const tree = createNode("root", "", []);
@@ -130,7 +130,7 @@ describe("sources-tree", () => {
       b2FileNode,
       dFolderNode,
       aFileNode,
-      cFileNode,
+      cFileNode
     ] = domain.contents;
 
     expect(bFolderNode.name).to.be("b.js");
@@ -152,16 +152,16 @@ describe("sources-tree", () => {
     const sources = [
       Map({
         url: "http://example.com/folder/a.js",
-        actor: "actor1",
+        actor: "actor1"
       }),
       Map({
         url: "http://example.com/folder/b/b.js",
-        actor: "actor2",
+        actor: "actor2"
       }),
       Map({
         url: "http://example.com/folder/c/",
-        actor: "actor1",
-      }),
+        actor: "actor1"
+      })
     ];
 
     const tree = createNode("root", "", []);
@@ -185,16 +185,16 @@ describe("sources-tree", () => {
     const sources = [
       Map({
         url: "http://api.example.com/a.js",
-        actor: "actor1",
+        actor: "actor1"
       }),
       Map({
         url: "http://example.com/b.js",
-        actor: "actor2",
+        actor: "actor2"
       }),
       Map({
         url: "http://demo.com/c.js",
-        actor: "actor3",
-      }),
+        actor: "actor3"
+      })
     ];
 
     const rootA = "http://example.com/path/to/file.html";
@@ -216,15 +216,15 @@ describe("sources-tree", () => {
   it("excludes javascript: URLs from the tree", () => {
     const source1 = Map({
       url: "javascript:alert('Hello World')",
-      actor: "actor1",
+      actor: "actor1"
     });
     const source2 = Map({
       url: "http://example.com/source1.js",
-      actor: "actor2",
+      actor: "actor2"
     });
     const source3 = Map({
       url: "javascript:let i = 10; while (i > 0) i--; console.log(i);",
-      actor: "actor3",
+      actor: "actor3"
     });
     const tree = createNode("root", "", []);
 
@@ -336,7 +336,7 @@ describe("sources-tree", () => {
   it("correctly parses webpack sources correctly", () => {
     const source = Map({
       url: "webpack:///a/b.js",
-      actor: "actor1",
+      actor: "actor1"
     });
     const tree = createNode("root", "", []);
 
@@ -358,7 +358,7 @@ describe("sources-tree", () => {
   it("correctly parses file sources correctly", () => {
     const source = Map({
       url: "file:///a/b.js",
-      actor: "actor1",
+      actor: "actor1"
     });
     const tree = createNode("root", "", []);
 
@@ -380,17 +380,17 @@ describe("sources-tree", () => {
   it("gets a source's ancestor directories", function() {
     const source1 = Map({
       url: "http://a/b.js",
-      actor: "actor1",
+      actor: "actor1"
     });
 
     const source2 = Map({
       url: "http://a/c.js",
-      actor: "actor1",
+      actor: "actor1"
     });
 
     const source3 = Map({
       url: "http://b/c.js",
-      actor: "actor1",
+      actor: "actor1"
     });
 
     const tree = createNode("root", "", []);
@@ -406,12 +406,12 @@ describe("sources-tree", () => {
   it("handles '?' in target url", function() {
     const source1 = Map({
       url: "http://a/b.js",
-      actor: "actor1",
+      actor: "actor1"
     });
 
     const source2 = Map({
       url: "http://b/b.js",
-      actor: "actor1",
+      actor: "actor1"
     });
 
     const tree = createNode("root", "", []);
@@ -426,12 +426,12 @@ describe("sources-tree", () => {
   it("handles 'https' in target url", function() {
     const source1 = Map({
       url: "https://a/b.js",
-      actor: "actor1",
+      actor: "actor1"
     });
 
     const source2 = Map({
       url: "https://b/b.js",
-      actor: "actor1",
+      actor: "actor1"
     });
 
     const tree = createNode("root", "", []);

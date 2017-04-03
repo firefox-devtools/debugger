@@ -3,7 +3,7 @@ const {
   getSymbols,
   getVariablesInScope,
   getPathClosestToLocation,
-  resolveToken,
+  resolveToken
 } = require("../parser/utils");
 
 // re-formats the code to correct for webpack indentations
@@ -163,14 +163,14 @@ const SOURCES = {
       return insideClosure;
     })(a, b);
     `
-  ),
+  )
 };
 
 function getSourceText(name) {
   return {
     id: name,
     text: SOURCES[name],
-    contentType: "text/javascript",
+    contentType: "text/javascript"
   };
 }
 
@@ -232,7 +232,7 @@ describe("parser", () => {
         "doOtherThing",
         "property",
         "constructor",
-        "beAwesome",
+        "beAwesome"
       ]);
       expect(allSymbols.variables.map(v => v.value)).to.eql([
         "TIME",
@@ -244,7 +244,7 @@ describe("parser", () => {
         "Obj",
         "foo",
         "Ultra",
-        "person",
+        "person"
       ]);
     });
   });
@@ -253,13 +253,13 @@ describe("parser", () => {
     it("Can find the function declaration for square", () => {
       const closestPath = getPathClosestToLocation(getSourceText("func"), {
         line: 2,
-        column: 1,
+        column: 1
       });
 
       expect(closestPath.node.id.name).to.be("square");
       expect(closestPath.node.loc.start).to.eql({
         line: 2,
-        column: 0,
+        column: 0
       });
       expect(closestPath.type).to.be("FunctionDeclaration");
     });
@@ -267,12 +267,12 @@ describe("parser", () => {
     it("Can find the path at the exact column", () => {
       const closestPath = getPathClosestToLocation(getSourceText("func"), {
         line: 2,
-        column: 10,
+        column: 10
       });
 
       expect(closestPath.node.loc.start).to.eql({
         line: 2,
-        column: 9,
+        column: 9
       });
       expect(closestPath.type).to.be("Identifier");
     });
@@ -280,13 +280,13 @@ describe("parser", () => {
     it("finds scope binding variables", () => {
       var vars = getVariablesInScope(getSourceText("math"), {
         line: 2,
-        column: 5,
+        column: 5
       });
 
       expect(vars.map(v => v.name)).to.eql(["n", "square", "two", "four"]);
       expect(vars[1].references[0].node.loc.start).to.eql({
         column: 14,
-        line: 4,
+        line: 4
       });
     });
   });
@@ -298,20 +298,20 @@ describe("parser", () => {
         "b",
         {
           line: 6,
-          column: 14,
+          column: 14
         },
         {
           location: {
             line: 1,
-            column: 1,
-          },
+            column: 1
+          }
         }
       );
 
       expect(expression.value).to.be("obj.a.b");
       expect(expression.location.start).to.eql({
         line: 6,
-        column: 9,
+        column: 9
       });
     });
 
@@ -321,13 +321,13 @@ describe("parser", () => {
         "d",
         {
           line: 6,
-          column: 14,
+          column: 14
         },
         {
           location: {
             line: 1,
-            column: 1,
-          },
+            column: 1
+          }
         }
       );
 
@@ -340,13 +340,13 @@ describe("parser", () => {
         "b",
         {
           line: 6,
-          column: 0,
+          column: 0
         },
         {
           location: {
             line: 1,
-            column: 1,
-          },
+            column: 1
+          }
         }
       );
 
@@ -361,15 +361,15 @@ describe("parser", () => {
         {
           location: {
             line: 1,
-            column: 1,
-          },
+            column: 1
+          }
         }
       );
 
       expect(expression.value).to.be("this.foo.a");
       expect(expression.location.start).to.eql({
         line: 10,
-        column: 16,
+        column: 16
       });
     });
 
@@ -379,14 +379,14 @@ describe("parser", () => {
         "newB",
         {
           line: 10,
-          column: 11,
+          column: 11
         },
         {
           // on b = newB;
           location: {
             line: 10,
-            column: 7,
-          },
+            column: 7
+          }
         }
       );
 
@@ -399,14 +399,14 @@ describe("parser", () => {
         "newB",
         {
           line: 10,
-          column: 11,
+          column: 11
         },
         {
           // on return a;
           location: {
             line: 6,
-            column: 7,
-          },
+            column: 7
+          }
         }
       );
 
@@ -419,14 +419,14 @@ describe("parser", () => {
         "x",
         {
           line: 16,
-          column: 35,
+          column: 35
         },
         {
           // on return insideClosure;
           location: {
             line: 19,
-            column: 7,
-          },
+            column: 7
+          }
         }
       );
 

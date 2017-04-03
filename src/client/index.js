@@ -6,7 +6,7 @@ const { prefs } = require("../utils/prefs");
 const {
   bootstrapApp,
   bootstrapStore,
-  bootstrapWorkers,
+  bootstrapWorkers
 } = require("../utils/bootstrap");
 
 function loadFromPrefs(actions: Object) {

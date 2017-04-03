@@ -9,7 +9,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: true,
-        regexMatch: true,
+        regexMatch: true
       },
       {}
     );
@@ -25,7 +25,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: true,
-        regexMatch: true,
+        regexMatch: true
       },
       { isGlobal: true }
     );
@@ -41,7 +41,7 @@ describe("build-query", () => {
       {
         caseSensitive: false,
         wholeWord: false,
-        regexMatch: false,
+        regexMatch: false
       },
       {}
     );
@@ -57,7 +57,7 @@ describe("build-query", () => {
       {
         caseSensitive: false,
         wholeWord: false,
-        regexMatch: false,
+        regexMatch: false
       },
       { isGlobal: true }
     );
@@ -73,7 +73,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: false,
+        regexMatch: false
       },
       {}
     );
@@ -89,7 +89,7 @@ describe("build-query", () => {
       {
         caseSensitive: false,
         wholeWord: true,
-        regexMatch: false,
+        regexMatch: false
       },
       {}
     );
@@ -105,7 +105,7 @@ describe("build-query", () => {
       {
         caseSensitive: false,
         wholeWord: false,
-        regexMatch: true,
+        regexMatch: true
       },
       {}
     );
@@ -122,7 +122,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: true,
-        regexMatch: false,
+        regexMatch: false
       },
       {}
     );
@@ -139,7 +139,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: true,
-        regexMatch: false,
+        regexMatch: false
       },
       { isGlobal: true }
     );
@@ -156,7 +156,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: true,
-        regexMatch: false,
+        regexMatch: false
       },
       {}
     );
@@ -173,7 +173,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: true,
-        regexMatch: false,
+        regexMatch: false
       },
       { isGlobal: true }
     );
@@ -190,7 +190,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: false,
+        regexMatch: false
       },
       { ignoreSpaces: true }
     );
@@ -207,7 +207,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: false,
+        regexMatch: false
       },
       { isGlobal: true, ignoreSpaces: true }
     );
@@ -224,7 +224,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: false,
+        regexMatch: false
       },
       { ignoreSpaces: true }
     );
@@ -241,7 +241,7 @@ describe("build-query", () => {
       {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: false,
+        regexMatch: false
       },
       { isGlobal: true, ignoreSpaces: true }
     );

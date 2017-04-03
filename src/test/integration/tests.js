@@ -10,5 +10,5 @@ if (isDevelopment()) {
 
 module.exports = Object.assign({}, tests, {
   setupTestRunner,
-  utils,
+  utils
 });

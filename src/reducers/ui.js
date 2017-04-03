@@ -15,7 +15,7 @@ import type { Record } from "../utils/makeRecord";
 type fileSearchModifiersType = {
   caseSensitive: boolean,
   wholeWord: boolean,
-  regexMatch: boolean,
+  regexMatch: boolean
 };
 
 export type UIState = {
@@ -25,7 +25,7 @@ export type UIState = {
   projectSearchOn: boolean,
   shownSource: string,
   startPanelCollapsed: boolean,
-  endPanelCollapsed: boolean,
+  endPanelCollapsed: boolean
 };
 
 const State = makeRecord(
@@ -35,12 +35,12 @@ const State = makeRecord(
     fileSearchModifiers: makeRecord({
       caseSensitive: true,
       wholeWord: false,
-      regexMatch: false,
+      regexMatch: false
     })(),
     projectSearchOn: false,
     shownSource: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
-    endPanelCollapsed: prefs.endPanelCollapsed,
+    endPanelCollapsed: prefs.endPanelCollapsed
   }: UIState)
 );
 
@@ -130,5 +130,5 @@ module.exports = {
   getFileSearchQueryState,
   getFileSearchModifierState,
   getShownSource,
-  getPaneCollapse,
+  getPaneCollapse
 };

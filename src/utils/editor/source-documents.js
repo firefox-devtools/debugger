@@ -22,5 +22,5 @@ module.exports = {
   getDocument,
   setDocument,
   removeDocument,
-  clearDocuments,
+  clearDocuments
 };

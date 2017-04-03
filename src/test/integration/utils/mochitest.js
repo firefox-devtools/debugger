@@ -25,8 +25,8 @@ function setKeyboardMapping(isLinux, cmdOrCtrl) {
     stepInKey: { code: "VK_F11", modifiers: { ctrlKey: isLinux } },
     stepOutKey: {
       code: "VK_F11",
-      modifiers: { ctrlKey: isLinux, shiftKey: true },
-    },
+      modifiers: { ctrlKey: isLinux, shiftKey: true }
+    }
   };
 }
 
@@ -105,7 +105,7 @@ function createDebuggerContext(toolbox) {
     client: win.Debugger.client,
     threadClient: toolbox.threadClient,
     toolbox: toolbox,
-    win: win,
+    win: win
   };
 }
 
@@ -127,5 +127,5 @@ module.exports = {
   setupTestRunner,
   info,
   initDebugger,
-  environment: "mochitest",
+  environment: "mochitest"
 };

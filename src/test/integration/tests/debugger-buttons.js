@@ -5,7 +5,7 @@ const {
   invokeInTab,
   clickElement,
   findElement,
-  reload,
+  reload
 } = require("../utils");
 
 function clickStepOver(dbg) {

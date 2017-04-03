@@ -6,7 +6,7 @@ const simpleMockThreadClient = {
     return new Promise((resolve, reject) => {
       resolve({ id: "hi", actualLocation: location });
     });
-  },
+  }
 };
 
 describe("breakpoints", () => {

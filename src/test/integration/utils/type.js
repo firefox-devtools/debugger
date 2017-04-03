@@ -1,14 +1,14 @@
 const specialKeysMap = {
   Enter: 13,
   Escape: 27,
-  Tab: 9,
+  Tab: 9
 };
 
 function keyEvent(eventType, key, win) {
   let event = new win.Event(eventType, {
     bubbles: true,
     cancelable: false,
-    view: win,
+    view: win
   });
 
   const { charCode, keyCode, which } = keyInfo(key, eventType);
@@ -28,7 +28,7 @@ function keyEvent(eventType, key, win) {
     shiftKey: false,
     altKey: false,
     ctrlKey: false,
-    metaKey: false,
+    metaKey: false
   });
 
   return event;
@@ -62,7 +62,7 @@ function keyInfo(key, eventType) {
   return {
     charCode: eventType == "keypress" ? 0 : charCodeAt,
     keyCode: charCodeAt,
-    which: charCodeAt,
+    which: charCodeAt
   };
 }
 
