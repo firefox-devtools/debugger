@@ -21,6 +21,11 @@ const PaneToggleButton = React.createFactory(_PaneToggleButton.default);
 import "./Footer.css";
 
 class SourceFooter extends Component {
+  constructor() {
+    super();
+    this.onClickPrettyPrint = this.onClickPrettyPrint.bind(this);
+  }
+
   onClickPrettyPrint() {
     this.props.togglePrettyPrint(this.props.selectedSource.get("id"));
   }
