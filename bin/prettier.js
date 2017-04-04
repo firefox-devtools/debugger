@@ -8,8 +8,8 @@ const prettierCmd = path.resolve(
 );
 
 const args = [
-  "--trailing-comma es5",
-  "--bracket-spacing true",
+  "--trailing-comma=none",
+  "--bracket-spacing=true",
   "--write",
   "*.js",
   "src/*.js",
