@@ -30,7 +30,7 @@ const SearchInput = createFactory(require("../shared/SearchInput").default);
 const ResultList = createFactory(require("../shared/ResultList").default);
 const ImPropTypes = require("react-immutable-proptypes");
 
-import type {
+import type, {
   FormattedSymbolDeclaration,
   SymbolDeclaration
 } from "../../utils/parser/utils";
