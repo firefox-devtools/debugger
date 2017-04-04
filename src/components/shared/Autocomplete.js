@@ -12,13 +12,19 @@ const ResultList = createFactory(require("./ResultList").default);
 require("./Autocomplete.css");
 
 export default class Autocomplete extends Component {
-  state = {
-    inputValue: this.props.inputValue,
-    selectedIndex: 0,
-    focused: false
-  };
   constructor(props) {
     super(props);
+    this.state = {
+      inputValue: this.props.inputValue,
+      selectedIndex: 0,
+      focused: false
+    };
+  }
+
+  getDefaultProps() {
+    return {
+      size: ""
+    };
   }
 
   componentDidMount() {
