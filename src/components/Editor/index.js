@@ -8,7 +8,6 @@ const { bindActionCreators } = require("redux");
 const { connect } = require("react-redux");
 const classnames = require("classnames");
 const debounce = require("lodash/debounce");
-const get = require("lodash/get");
 
 const { getMode } = require("../../utils/source");
 
@@ -52,6 +51,7 @@ const {
   getCursorLine,
   resolveToken,
   previewExpression,
+  getExpressionValue,
   resizeBreakpointGutter,
   traverseResults
 } = require("../../utils/editor");
@@ -687,11 +687,9 @@ const Editor = React.createClass({
     const token = selectedToken.textContent;
     selectedToken.classList.add("selected-token");
 
-    let value = get(selectedExpression, "contents.value");
-    if (!value) {
-      const exp = this.props.getExpression(selectedExpression.value);
-      value = get(exp, "value.result");
-    }
+    const value = getExpressionValue(selectedExpression, {
+      getExpression: this.props.getExpression
+    });
 
     if (!value) {
       return;
