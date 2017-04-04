@@ -21,6 +21,24 @@ const { DOM: dom, PropTypes, Component } = React;
 
 require("./Preview.css");
 
+function renderLink(location, { selectSourceURL }) {
+  if (!location) {
+    return;
+  }
+
+  const { url, line } = location;
+
+  const filename = getFilenameFromURL(url);
+
+  return dom.a(
+    {
+      className: "link",
+      onClick: () => selectSourceURL(url, { line })
+    },
+    filename
+  );
+}
+
 class Preview extends Component {
   componentDidMount() {
     const { loadObjectProperties, loadedObjects, value } = this.props;
@@ -50,24 +68,15 @@ class Preview extends Component {
     return [root];
   }
 
-  renderFunctionPreview(expression, root) {
+  renderFunctionPreview(value, root) {
     const { selectSourceURL } = this.props;
-
-    const value = root.contents.value;
-    const { location: { url, line } } = value;
-    const filename = getFilenameFromURL(url);
+    const { location } = value;
 
     return dom.div(
       { className: "preview" },
       dom.div(
         { className: "header" },
-        dom.a(
-          {
-            className: "link",
-            onClick: () => selectSourceURL(url, { line })
-          },
-          filename
-        )
+        renderLink(location, { selectSourceURL })
       ),
       previewFunction(value)
     );
@@ -111,7 +120,7 @@ class Preview extends Component {
     };
 
     if (value.class === "Function") {
-      return this.renderFunctionPreview(expression, root);
+      return this.renderFunctionPreview(value, root);
     }
 
     if (value.type === "object") {

@@ -3,6 +3,7 @@
 import { resolveToken as resolveTokenFromParser } from "../parser";
 import type { Expression, Frame, SourceText } from "../../types";
 import type { Record } from "../makeRecord";
+const get = require("lodash/get");
 
 export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
   const lineOffset = 1;
@@ -63,4 +64,26 @@ export function previewExpression(
   }
 
   return expression || null;
+}
+
+// `getExpressionValue` and `previewExpression` are utility functions
+// for resolving which expression to show in the preview.
+// Get ExpressionValue, knows how to get the appropriate value for each type:
+// variable, expression, raw value.
+export function getExpressionValue(
+  selectedExpression: Expression,
+  { getExpression }: Object
+) {
+  const variableValue = get(selectedExpression, "contents.value");
+  if (variableValue) {
+    return variableValue;
+  }
+
+  const expressionValue = getExpression(selectedExpression.value);
+  if (expressionValue) {
+    return get(expressionValue, "value.result");
+  }
+
+  const rawValue = selectedExpression.value;
+  return rawValue;
 }
