@@ -12,8 +12,9 @@ function renderFunctionName(value) {
 
 function renderParams(value) {
   const { parameterNames } = value;
-  let params = parameterNames.map(param =>
-    dom.span({ className: "param" }, param));
+  let params = parameterNames
+    .filter(i => i)
+    .map(param => dom.span({ className: "param" }, param));
 
   const commas = times(params.length - 1).map(() =>
     dom.span({ className: "delimiter" }, ", "));

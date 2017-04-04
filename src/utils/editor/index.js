@@ -1,27 +1,13 @@
 const { isPretty, isJavaScript } = require("../source");
 const { isOriginalId } = require("devtools-source-map");
 const buildQuery = require("./build-query");
-const {
-  getDocument,
-  setDocument,
-  removeDocument,
-  clearDocuments
-} = require("./source-documents");
+const sourceDocumentUtils = require("./source-documents");
+const { getDocument } = sourceDocumentUtils;
 
-import {
-  getTokenLocation,
-  resolveToken,
-  previewExpression
-} from "./expression.js";
+import * as expressionUtils from "./expression.js";
 
-const {
-  countMatches,
-  find,
-  findNext,
-  findPrev,
-  removeOverlay,
-  clearIndex
-} = require("./source-search");
+const sourceSearchUtils = require("./source-search");
+const { findNext, findPrev } = sourceSearchUtils;
 
 const SourceEditor = require("./source-editor");
 
@@ -138,30 +124,23 @@ function updateDocument(editor, selectedSource, sourceText) {
   }
 }
 
-module.exports = {
-  createEditor,
-  shouldShowPrettyPrint,
-  shouldShowFooter,
-  clearLineClass,
-  buildQuery,
-  getDocument,
-  setDocument,
-  removeDocument,
-  clearDocuments,
-  countMatches,
-  find,
-  findNext,
-  findPrev,
-  clearIndex,
-  removeOverlay,
-  isTextForSource,
-  breakpointAtLine,
-  getTextForLine,
-  getCursorLine,
-  resizeBreakpointGutter,
-  traverseResults,
-  getTokenLocation,
-  resolveToken,
-  previewExpression,
-  updateDocument
-};
+module.exports = Object.assign(
+  {},
+  expressionUtils,
+  sourceDocumentUtils,
+  sourceSearchUtils,
+  {
+    createEditor,
+    shouldShowPrettyPrint,
+    shouldShowFooter,
+    clearLineClass,
+    buildQuery,
+    isTextForSource,
+    breakpointAtLine,
+    getTextForLine,
+    getCursorLine,
+    resizeBreakpointGutter,
+    traverseResults,
+    updateDocument
+  }
+);
