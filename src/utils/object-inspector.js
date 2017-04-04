@@ -180,21 +180,8 @@ function getChildren(
   // being the same across renders. If we didn't do this, each
   // node would be a new instance every render.
   const key = item.path;
-  if (actors && actors[key] && item.contents.value.preview) {
-    let thisActor = actors[key];
-    let index = 0;
-    const properties = item.contents.value.preview.ownProperties;
-    thisActor.forEach(object => {
-      if (
-        properties[object.name] &&
-        !(properties[object.name] instanceof Function) &&
-        object.name != "__proto__"
-      ) {
-        thisActor[index].contents = properties[object.name];
-      }
-      index++;
-    });
-    return thisActor;
+  if (actors && actors[key]) {
+    return actors[key];
   }
 
   if (isBucket(item)) {
