@@ -32,7 +32,7 @@ const ImPropTypes = require("react-immutable-proptypes");
 
 import type {
   FormattedSymbolDeclaration,
-  SymbolDeclaration,
+  SymbolDeclaration
 } from "../../utils/parser/utils";
 
 function getShortcuts() {
