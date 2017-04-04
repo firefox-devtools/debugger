@@ -14,6 +14,7 @@ require("./Autocomplete.css");
 export default class Autocomplete extends Component {
   constructor(props) {
     super(props);
+    // initial state
     this.state = {
       inputValue: this.props.inputValue,
       selectedIndex: 0,
