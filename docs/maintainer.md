@@ -78,7 +78,7 @@ Getting Setup:
 Steps:
 
 ```bash
-git remote add username https://github.com/<username>/debugger.html.git
+git remote add <username> https://github.com/<username>/debugger.html.git
 git fetch <username>
 git checkout --track <username>/<pr-branch>
 git pull --rebase # if you want to get new changes
