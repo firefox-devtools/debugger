@@ -6,7 +6,7 @@ declare var Reject: (result: any) => void;
 export type Defer = {
   resolve: Resolve,
   reject: Reject,
-  promise: Promise<any>,
+  promise: Promise<any>
 };
 
 function defer(): Defer {
@@ -21,7 +21,7 @@ function defer(): Defer {
   return {
     resolve,
     reject,
-    promise,
+    promise
   };
 }
 

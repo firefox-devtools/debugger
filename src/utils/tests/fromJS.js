@@ -6,32 +6,32 @@ const preview = {
   length: 201,
   items: [
     {
-      type: "null",
+      type: "null"
     },
     "a test",
     "a",
     {
-      type: "null",
+      type: "null"
     },
     {
-      type: "null",
+      type: "null"
     },
     {
-      type: "null",
+      type: "null"
     },
     {
-      type: "null",
+      type: "null"
     },
     {
-      type: "null",
+      type: "null"
     },
     {
-      type: "null",
+      type: "null"
     },
     {
-      type: "null",
-    },
-  ],
+      type: "null"
+    }
+  ]
 };
 
 describe("fromJS", () => {

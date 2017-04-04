@@ -5,7 +5,7 @@ import type {
   ResumedPacket,
   PausedPacket,
   ThreadClient,
-  Actions,
+  Actions
 } from "./types";
 
 const { createPause, createSource } = require("./create");
@@ -15,7 +15,7 @@ const CALL_STACK_PAGE_SIZE = 1000;
 
 type Dependencies = {
   threadClient: ThreadClient,
-  actions: Actions,
+  actions: Actions
 };
 
 let threadClient: ThreadClient;
@@ -63,10 +63,10 @@ function newSource(_: "newSource", { source }: SourcePacket) {
 const clientEvents = {
   paused,
   resumed,
-  newSource,
+  newSource
 };
 
 module.exports = {
   setupEvents,
-  clientEvents,
+  clientEvents
 };

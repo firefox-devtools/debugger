@@ -85,7 +85,7 @@ export function addBreakpoint(
         }
 
         return { id, actualLocation, text, hitCount };
-      })(),
+      })()
     });
   };
 }
@@ -125,7 +125,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
     const action = {
       type: constants.REMOVE_BREAKPOINT,
       breakpoint: bp,
-      disabled: isDisabled,
+      disabled: isDisabled
     };
 
     // If the breakpoint is already disabled, we don't need to remove
@@ -135,7 +135,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
     if (!bp.disabled) {
       return dispatch(
         Object.assign({}, action, {
-          [PROMISE]: client.removeBreakpoint(bp.id),
+          [PROMISE]: client.removeBreakpoint(bp.id)
         })
       );
     }
@@ -163,7 +163,7 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
             await dispatch(enableBreakpoint(breakpoint.location));
           }
         }
-      })(),
+      })()
     });
   };
 }
@@ -205,7 +205,7 @@ export function setBreakpointCondition(
         location,
         condition,
         sourceMaps.isOriginalId(bp.location.sourceId)
-      ),
+      )
     });
   };
 }

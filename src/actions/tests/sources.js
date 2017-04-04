@@ -3,14 +3,14 @@ import {
   actions,
   selectors,
   createStore,
-  makeSource,
+  makeSource
 } from "../../utils/test-head";
 const {
   getSourceById,
   getSources,
   getSelectedSource,
   getSourceText,
-  getSourceTabs,
+  getSourceTabs
 } = selectors;
 
 const threadClient = {
@@ -20,20 +20,20 @@ const threadClient = {
         case "foo1":
           resolve({
             source: "function foo1() {\n  return 5;\n}",
-            contentType: "text/javascript",
+            contentType: "text/javascript"
           });
           break;
         case "foo2":
           resolve({
             source: "function foo2(x, y) {\n  return x + y;\n}",
-            contentType: "text/javascript",
+            contentType: "text/javascript"
           });
           break;
       }
 
       reject(`unknown source: ${sourceId}`);
     });
-  },
+  }
 };
 
 process.on("unhandledRejection", (reason, p) => {});
@@ -206,7 +206,7 @@ describe("closing tabs", () => {
     dispatch(
       actions.closeTabs([
         "http://localhost:8000/examples/foo.js",
-        "http://localhost:8000/examples/bar.js",
+        "http://localhost:8000/examples/bar.js"
       ])
     );
 
@@ -225,7 +225,7 @@ describe("closing tabs", () => {
     dispatch(
       actions.closeTabs([
         "http://localhost:8000/examples/bar.js",
-        "http://localhost:8000/examples/bazz.js",
+        "http://localhost:8000/examples/bazz.js"
       ])
     );
 
@@ -242,7 +242,7 @@ describe("closing tabs", () => {
     dispatch(
       actions.closeTabs([
         "http://localhost:8000/examples/foo.js",
-        "http://localhost:8000/examples/bar.js",
+        "http://localhost:8000/examples/bar.js"
       ])
     );
 

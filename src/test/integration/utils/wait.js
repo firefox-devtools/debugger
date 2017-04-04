@@ -83,7 +83,7 @@ async function _afterDispatchDone(store, type) {
       },
       run: (dispatch, getState, action) => {
         resolve(action);
-      },
+      }
     });
   });
 }
@@ -102,7 +102,7 @@ async function waitForNextDispatch(store, type) {
       predicate: action => action.type === type,
       run: (dispatch, getState, action) => {
         resolve(action);
-      },
+      }
     });
   });
 }
@@ -197,5 +197,5 @@ module.exports = {
   waitForElement,
   waitForTargetEvent,
   waitForThreadEvents,
-  waitUntil,
+  waitUntil
 };

@@ -17,7 +17,7 @@ import type { Breakpoint } from "../../types";
 type LocalBreakpoint = Breakpoint & {
   location: any,
   isCurrentlyPaused: boolean,
-  locationId: string,
+  locationId: string
 };
 
 function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
@@ -83,10 +83,10 @@ class Breakpoints extends Component {
           breakpoint,
           paused: isCurrentlyPaused,
           disabled: isDisabled,
-          "is-conditional": isConditional,
+          "is-conditional": isConditional
         }),
         key: locationId,
-        onClick: () => this.selectBreakpoint(breakpoint),
+        onClick: () => this.selectBreakpoint(breakpoint)
       },
       dom.input({
         type: "checkbox",
@@ -95,7 +95,7 @@ class Breakpoints extends Component {
         onChange: () => this.handleCheckbox(breakpoint),
         // Prevent clicking on the checkbox from triggering the onClick of
         // the surrounding div
-        onClick: ev => ev.stopPropagation(),
+        onClick: ev => ev.stopPropagation()
       }),
       dom.div(
         { className: "breakpoint-label", title: breakpoint.text },
@@ -104,7 +104,7 @@ class Breakpoints extends Component {
       dom.div({ className: "breakpoint-snippet" }, snippet),
       CloseButton({
         handleClick: ev => this.removeBreakpoint(ev, breakpoint),
-        tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip"),
+        tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip")
       })
     );
   }
@@ -129,7 +129,7 @@ Breakpoints.propTypes = {
   enableBreakpoint: PropTypes.func.isRequired,
   disableBreakpoint: PropTypes.func.isRequired,
   selectSource: PropTypes.func.isRequired,
-  removeBreakpoint: PropTypes.func.isRequired,
+  removeBreakpoint: PropTypes.func.isRequired
 };
 
 function updateLocation(state, bp): LocalBreakpoint {
@@ -142,7 +142,7 @@ function updateLocation(state, bp): LocalBreakpoint {
   const localBP = Object.assign({}, bp, {
     location,
     locationId,
-    isCurrentlyPaused,
+    isCurrentlyPaused
   });
 
   return localBP;

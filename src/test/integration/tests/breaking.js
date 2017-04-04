@@ -12,7 +12,7 @@ const {
   waitForPaused,
   waitForDispatch,
   setupTestRunner,
-  initDebugger,
+  initDebugger
 } = require("../utils");
 
 module.exports = async function breaking(ctx) {

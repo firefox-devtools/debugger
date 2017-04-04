@@ -8,7 +8,7 @@ import {
   getPause,
   getIsWaitingOnBreak,
   getShouldPauseOnExceptions,
-  getShouldIgnoreCaughtExceptions,
+  getShouldIgnoreCaughtExceptions
 } from "../../selectors";
 import Svg from "../shared/Svg";
 import ImPropTypes from "react-immutable-proptypes";
@@ -28,7 +28,7 @@ const KEYS = {
     pause: "F8",
     stepOver: "F10",
     stepIn: "F11",
-    stepOut: "Shift+F11",
+    stepOut: "Shift+F11"
   },
   Darwin: {
     resume: "Cmd+\\",
@@ -36,15 +36,15 @@ const KEYS = {
     stepOver: "Cmd+'",
     stepIn: "Cmd+;",
     stepOut: "Cmd+Shift+:",
-    stepOutDisplay: "Cmd+Shift+;",
+    stepOutDisplay: "Cmd+Shift+;"
   },
   Linux: {
     resume: "F8",
     pause: "F8",
     stepOver: "F10",
     stepIn: "Ctrl+F11",
-    stepOut: "Ctrl+Shift+F11",
-  },
+    stepOut: "Ctrl+Shift+F11"
+  }
 };
 
 function getKey(action) {
@@ -93,7 +93,7 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
       key: type,
       "aria-label": tooltip,
       title: tooltip,
-      disabled,
+      disabled
     },
     Svg(type)
   );
@@ -160,7 +160,7 @@ class CommandBar extends Component {
         className,
         L10N.getFormatStr("stepOutTooltip", formatKey("stepOut")),
         isDisabled
-      ),
+      )
     ];
   }
 
@@ -204,7 +204,7 @@ class CommandBar extends Component {
     const {
       shouldPauseOnExceptions,
       shouldIgnoreCaughtExceptions,
-      pauseOnExceptions,
+      pauseOnExceptions
     } = this.props;
 
     if (!shouldPauseOnExceptions && !shouldIgnoreCaughtExceptions) {
@@ -255,11 +255,11 @@ CommandBar.propTypes = {
   pauseOnExceptions: PropTypes.func,
   shouldPauseOnExceptions: PropTypes.bool,
   shouldIgnoreCaughtExceptions: PropTypes.bool,
-  isWaitingOnBreak: PropTypes.bool,
+  isWaitingOnBreak: PropTypes.bool
 };
 
 CommandBar.contextTypes = {
-  shortcuts: PropTypes.object,
+  shortcuts: PropTypes.object
 };
 
 CommandBar.displayName = "CommandBar";
@@ -270,7 +270,7 @@ export default connect(
       pause: getPause(state),
       isWaitingOnBreak: getIsWaitingOnBreak(state),
       shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
-      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state),
+      shouldIgnoreCaughtExceptions: getShouldIgnoreCaughtExceptions(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

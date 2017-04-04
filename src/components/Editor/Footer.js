@@ -7,7 +7,7 @@ import {
   getSelectedSource,
   getSourceText,
   getPrettySource,
-  getPaneCollapse,
+  getPaneCollapse
 } from "../../selectors";
 import Svg from "../shared/Svg";
 import ImPropTypes from "react-immutable-proptypes";
@@ -48,11 +48,11 @@ class SourceFooter extends Component {
         onClick: this.onClickPrettyPrint,
         className: classnames("action", type, {
           active: sourceLoaded,
-          pretty: isPretty(selectedSource.toJS()),
+          pretty: isPretty(selectedSource.toJS())
         }),
         key: type,
         title: tooltip,
-        "aria-label": tooltip,
+        "aria-label": tooltip
       },
       Svg(type)
     );
@@ -70,7 +70,7 @@ class SourceFooter extends Component {
         className: "coverage action",
         title: "Code Coverage",
         onClick: () => recordCoverage(),
-        "aria-label": "Code Coverage",
+        "aria-label": "Code Coverage"
       },
       "C"
     );
@@ -85,7 +85,7 @@ class SourceFooter extends Component {
       position: "end",
       collapsed: !this.props.endPanelCollapsed,
       horizontal: this.props.horizontal,
-      handleClick: this.props.togglePaneCollapse,
+      handleClick: this.props.togglePaneCollapse
     });
   }
 
@@ -128,7 +128,7 @@ SourceFooter.propTypes = {
   editor: PropTypes.object,
   endPanelCollapsed: PropTypes.bool,
   togglePaneCollapse: PropTypes.func,
-  horizontal: PropTypes.bool,
+  horizontal: PropTypes.bool
 };
 
 SourceFooter.displayName = "SourceFooter";
@@ -141,7 +141,7 @@ export default connect(
       selectedSource,
       sourceText: getSourceText(state, selectedId),
       prettySource: getPrettySource(state, selectedId),
-      endPanelCollapsed: getPaneCollapse(state, "end"),
+      endPanelCollapsed: getPaneCollapse(state, "end")
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

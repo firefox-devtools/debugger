@@ -6,7 +6,7 @@ const ReactDOM = require("react-dom");
 const {
   bootstrap,
   L10N,
-  unmountRoot,
+  unmountRoot
 } = require("devtools-launchpad");
 const { isFirefoxPanel } = require("devtools-config");
 
@@ -24,18 +24,18 @@ if (isFirefoxPanel()) {
           tabConnection: {
             tabTarget,
             threadClient,
-            debuggerClient,
-          },
+            debuggerClient
+          }
         },
         {
-          sourceMaps,
+          sourceMaps
         }
       );
     },
     destroy: () => {
       unmountRoot(ReactDOM);
       teardownWorkers();
-    },
+    }
   };
 } else {
   window.L10N = L10N;
@@ -44,7 +44,7 @@ if (isFirefoxPanel()) {
 
   bootstrap(React, ReactDOM).then(connection => {
     onConnect(connection, {
-      sourceMaps: require("devtools-source-map"),
+      sourceMaps: require("devtools-source-map")
     });
   });
 }

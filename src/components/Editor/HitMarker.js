@@ -13,7 +13,7 @@ function makeMarker() {
 const HitMarker = React.createClass({
   propTypes: {
     hitData: PropTypes.object.isRequired,
-    editor: PropTypes.object.isRequired,
+    editor: PropTypes.object.isRequired
   },
 
   displayName: "HitMarker",
@@ -58,7 +58,7 @@ const HitMarker = React.createClass({
 
   render() {
     return null;
-  },
+  }
 });
 
 module.exports = HitMarker;

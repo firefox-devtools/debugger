@@ -2,13 +2,13 @@ function triggerMouseEvent({ type, props = {}, win, el }) {
   let event = new win.Event(type, {
     view: win,
     bubbles: true,
-    cancelable: true,
+    cancelable: true
   });
 
   const rect = el.getBoundingClientRect();
   event = Object.assign(event, props, {
     clientX: (rect.left + rect.right) / 2,
-    clientY: (rect.top + rect.bottom) / 2,
+    clientY: (rect.top + rect.bottom) / 2
   });
 
   el.dispatchEvent(event);
@@ -18,19 +18,19 @@ function clickEl(win, el) {
   triggerMouseEvent({
     type: "mousedown",
     win: win,
-    el,
+    el
   });
 
   triggerMouseEvent({
     type: "click",
     win: win,
-    el,
+    el
   });
 
   return triggerMouseEvent({
     type: "mouseup",
     win: win,
-    el,
+    el
   });
 }
 
@@ -39,7 +39,7 @@ function rightClickEl(win, el) {
     type: "contextmenu",
     props: { which: 3 },
     win,
-    el,
+    el
   });
 }
 
@@ -47,12 +47,12 @@ function dblClickEl(win, el) {
   return triggerMouseEvent({
     type: "dblclick",
     win,
-    el,
+    el
   });
 }
 
 module.exports = {
   clickEl,
   rightClickEl,
-  dblClickEl,
+  dblClickEl
 };

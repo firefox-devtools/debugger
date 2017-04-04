@@ -42,7 +42,7 @@ const Task = {
 
       callNext(undefined);
     });
-  },
+  }
 };
 
 module.exports = { Task };

@@ -2,7 +2,7 @@ const {
   findSource,
   findElement,
   isVisibleWithin,
-  isPaused,
+  isPaused
 } = require("./shared");
 
 function assertPausedLocation(dbg, ctx, source, line) {
@@ -55,5 +55,5 @@ function assertHighlightLocation(dbg, ctx, source, line) {
 module.exports = {
   assertPausedLocation,
   assertNotPaused,
-  assertHighlightLocation,
+  assertHighlightLocation
 };

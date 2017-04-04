@@ -30,7 +30,7 @@ function scriptParsed(
     isLiveEdit,
     sourceMapURL,
     hasSourceURL,
-    deprecatedCommentWasUsed,
+    deprecatedCommentWasUsed
   }: any
 ) {
   if (isContentScript) {
@@ -45,7 +45,7 @@ function scriptParsed(
     id: scriptId,
     url,
     sourceMapURL,
-    isPrettyPrinted: false,
+    isPrettyPrinted: false
   });
 }
 
@@ -57,7 +57,7 @@ async function paused(
     reason,
     data,
     hitBreakpoints,
-    asyncStackTrace,
+    asyncStackTrace
   }: any
 ) {
   const frames = callFrames.map(createFrame);
@@ -65,14 +65,14 @@ async function paused(
   const why = Object.assign(
     {},
     {
-      type: reason,
+      type: reason
     },
     data
   );
 
   const objectId = frame.scopeChain[0].object.objectId;
   const { result } = await runtimeAgent.getProperties({
-    objectId,
+    objectId
   });
 
   const loadedObjects = result.map(createLoadedObject);
@@ -114,7 +114,7 @@ const clientEvents = {
   scriptFailedToParse,
   paused,
   resumed,
-  globalObjectCleared,
+  globalObjectCleared
 };
 
 const pageEvents = {
@@ -122,11 +122,11 @@ const pageEvents = {
   frameStartedLoading,
   domContentEventFired,
   loadEventFired,
-  frameStoppedLoading,
+  frameStoppedLoading
 };
 
 module.exports = {
   setupEvents,
   pageEvents,
-  clientEvents,
+  clientEvents
 };

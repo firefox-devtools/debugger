@@ -9,7 +9,7 @@ class SearchInput extends Component {
 
   static get defaultProps() {
     return {
-      size: "",
+      size: ""
     };
   }
 
@@ -35,17 +35,17 @@ class SearchInput extends Component {
       onFocus,
       onBlur,
       handleClose,
-      size,
+      size
     } = this.props;
 
     return dom.div(
       {
-        className: `search-field ${size}`,
+        className: `search-field ${size}`
       },
       this.renderSvg(),
       dom.input({
         className: classnames({
-          empty: count == 0 && query.trim() != "",
+          empty: count == 0 && query.trim() != ""
         }),
         onChange,
         onKeyDown,
@@ -54,12 +54,12 @@ class SearchInput extends Component {
         onBlur,
         placeholder,
         value: query,
-        spellCheck: false,
+        spellCheck: false
       }),
       dom.div({ className: "summary" }, query != "" ? summaryMsg : ""),
       CloseButton({
         handleClick: handleClose,
-        buttonClass: size,
+        buttonClass: size
       })
     );
   }
@@ -76,7 +76,7 @@ SearchInput.propTypes = {
   onKeyDown: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
-  size: PropTypes.string,
+  size: PropTypes.string
 };
 
 export default SearchInput;

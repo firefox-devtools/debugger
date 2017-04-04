@@ -8,7 +8,7 @@ import {
   getSelectedSource,
   getSourceTabs,
   getProjectSearchState,
-  getSourceByURL,
+  getSourceByURL
 } from "../../selectors";
 import { getFilename, isPretty } from "../../utils/source";
 import classnames from "classnames";
@@ -63,7 +63,7 @@ function copyToTheClipboard(string) {
 
 type State = {
   dropdownShown: boolean,
-  hiddenSourceTabs: Array<Object> | null,
+  hiddenSourceTabs: Array<Object> | null
 };
 
 class SourceTabs extends Component {
@@ -85,7 +85,7 @@ class SourceTabs extends Component {
     super(props);
     this.state = {
       dropdownShown: false,
-      hiddenSourceTabs: null,
+      hiddenSourceTabs: null
     };
 
     this.onTabContextMenu = this.onTabContextMenu.bind(this);
@@ -135,7 +135,7 @@ class SourceTabs extends Component {
       closeTabs,
       sourceTabs,
       showSource,
-      togglePrettyPrint,
+      togglePrettyPrint
     } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
@@ -170,7 +170,7 @@ class SourceTabs extends Component {
       label: closeTabLabel,
       accesskey: closeTabKey,
       disabled: false,
-      click: () => closeTab(sourceTab.get("url")),
+      click: () => closeTab(sourceTab.get("url"))
     };
 
     const closeOtherTabsMenuItem = {
@@ -178,7 +178,7 @@ class SourceTabs extends Component {
       label: closeOtherTabsLabel,
       accesskey: closeOtherTabsKey,
       disabled: false,
-      click: () => closeTabs(otherTabURLs),
+      click: () => closeTabs(otherTabURLs)
     };
 
     const closeTabsToEndMenuItem = {
@@ -189,7 +189,7 @@ class SourceTabs extends Component {
       click: () => {
         const tabIndex = tabs.findIndex(t => t == tab);
         closeTabs(tabURLs.filter((t, i) => i > tabIndex));
-      },
+      }
     };
 
     const closeAllTabsMenuItem = {
@@ -197,7 +197,7 @@ class SourceTabs extends Component {
       label: closeAllTabsLabel,
       accesskey: closeAllTabsKey,
       disabled: false,
-      click: () => closeTabs(tabURLs),
+      click: () => closeTabs(tabURLs)
     };
 
     const showSourceMenuItem = {
@@ -205,7 +205,7 @@ class SourceTabs extends Component {
       label: revealInTreeLabel,
       accesskey: revealInTreeKey,
       disabled: false,
-      click: () => showSource(tab),
+      click: () => showSource(tab)
     };
 
     const copySourceUrl = {
@@ -213,7 +213,7 @@ class SourceTabs extends Component {
       label: copyLinkLabel,
       accesskey: copyLinkKey,
       disabled: false,
-      click: () => copyToTheClipboard(sourceTab.get("url")),
+      click: () => copyToTheClipboard(sourceTab.get("url"))
     };
 
     const prettyPrint = {
@@ -221,7 +221,7 @@ class SourceTabs extends Component {
       label: prettyPrintLabel,
       accesskey: prettyPrintKey,
       disabled: false,
-      click: () => togglePrettyPrint(sourceTab.get("id")),
+      click: () => togglePrettyPrint(sourceTab.get("id"))
     };
 
     const items = [
@@ -229,12 +229,12 @@ class SourceTabs extends Component {
       { item: closeOtherTabsMenuItem, hidden: () => tabs.size === 1 },
       {
         item: closeTabsToEndMenuItem,
-        hidden: () => tabs.some((t, i) => t === tab && tabs.size - 1 === i),
+        hidden: () => tabs.some((t, i) => t === tab && tabs.size - 1 === i)
       },
       { item: closeAllTabsMenuItem },
       { item: { type: "separator" } },
       { item: copySourceUrl },
-      { item: showSourceMenuItem },
+      { item: showSourceMenuItem }
     ];
 
     if (!isPrettySource) {
@@ -262,7 +262,7 @@ class SourceTabs extends Component {
 
   toggleSourcesDropdown(e) {
     this.setState({
-      dropdownShown: !this.state.dropdownShown,
+      dropdownShown: !this.state.dropdownShown
     });
   }
 
@@ -277,7 +277,7 @@ class SourceTabs extends Component {
           // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
           const tabIndex = 0;
           selectSource(source.get("id"), { tabIndex });
-        },
+        }
       },
       filename
     );
@@ -307,18 +307,18 @@ class SourceTabs extends Component {
       {
         className: classnames("source-tab", {
           active,
-          pretty: isPrettyCode,
+          pretty: isPrettyCode
         }),
         key: source.get("id"),
         onClick: () => selectSource(source.get("id")),
         onContextMenu: e => this.onTabContextMenu(e, source.get("id")),
-        title: getFilename(source.toJS()),
+        title: getFilename(source.toJS())
       },
       isPrettyCode ? Svg("prettyPrint") : null,
       dom.div({ className: "filename" }, filename),
       CloseButton({
         handleClick: onClickClose,
-        tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip"),
+        tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip")
       })
     );
   }
@@ -332,7 +332,7 @@ class SourceTabs extends Component {
       {
         className: "new-tab-btn",
         onClick: () => this.props.toggleProjectSearch(),
-        title: newTabTooltip,
+        title: newTabTooltip
       },
       Svg("plus")
     );
@@ -345,7 +345,7 @@ class SourceTabs extends Component {
     }
 
     return Dropdown({
-      panel: dom.ul({}, hiddenSourceTabs.map(this.renderDropdownSource)),
+      panel: dom.ul({}, hiddenSourceTabs.map(this.renderDropdownSource))
     });
   }
 
@@ -353,7 +353,7 @@ class SourceTabs extends Component {
     return PaneToggleButton({
       position: "start",
       collapsed: !this.props.startPanelCollapsed,
-      handleClick: this.props.togglePaneCollapse,
+      handleClick: this.props.togglePaneCollapse
     });
   }
 
@@ -366,7 +366,7 @@ class SourceTabs extends Component {
       position: "end",
       collapsed: !this.props.endPanelCollapsed,
       handleClick: this.props.togglePaneCollapse,
-      horizontal: this.props.horizontal,
+      horizontal: this.props.horizontal
     });
   }
 
@@ -394,7 +394,7 @@ SourceTabs.propTypes = {
   showSource: PropTypes.func.isRequired,
   horizontal: PropTypes.bool.isRequired,
   startPanelCollapsed: PropTypes.bool.isRequired,
-  endPanelCollapsed: PropTypes.bool.isRequired,
+  endPanelCollapsed: PropTypes.bool.isRequired
 };
 
 SourceTabs.displayName = "SourceTabs";
@@ -408,7 +408,7 @@ module.exports = connect(
     return {
       selectedSource: getSelectedSource(state),
       sourceTabs: getTabs(state),
-      searchOn: getProjectSearchState(state),
+      searchOn: getProjectSearchState(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

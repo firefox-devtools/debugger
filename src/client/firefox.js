@@ -5,7 +5,7 @@ const { setupEvents, clientEvents } = require("./firefox/events");
 
 export async function onConnect(connection: any, actions: Object) {
   const {
-    tabConnection: { tabTarget, threadClient, debuggerClient },
+    tabConnection: { tabTarget, threadClient, debuggerClient }
   } = connection;
 
   if (!tabTarget || !threadClient || !debuggerClient) {

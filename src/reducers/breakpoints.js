@@ -21,14 +21,14 @@ import type { Record } from "../utils/makeRecord";
 export type BreakpointsState = {
   breakpoints: I.Map<string, Breakpoint>,
   pendingBreakpoints: ?I.Map<string, any>,
-  breakpointsDisabled: false,
+  breakpointsDisabled: false
 };
 
 const State = makeRecord(
   ({
     breakpoints: I.Map(),
     pendingBreakpoints: restorePendingBreakpoints(),
-    breakpointsDisabled: false,
+    breakpointsDisabled: false
   }: BreakpointsState)
 );
 
@@ -91,7 +91,7 @@ function update(state = State(), action: Action) {
           ["breakpoints", id],
           updateObj(bp, {
             loading: true,
-            condition: action.condition,
+            condition: action.condition
           })
         );
       } else if (action.status === "done") {
@@ -100,7 +100,7 @@ function update(state = State(), action: Action) {
           ["breakpoints", id],
           updateObj(bp, {
             id: action.value.id,
-            loading: false,
+            loading: false
           })
         );
       } else if (action.status === "error") {
@@ -129,7 +129,7 @@ function addBreakpoint(state, action) {
           // We want to do an OR here, but we can't because we need
           // empty strings to be truthy, i.e. an empty string is a valid
           // condition.
-          condition: firstString(action.condition, bp.condition),
+          condition: firstString(action.condition, bp.condition)
         })
       )
       .set("breakpointsDisabled", false);
@@ -160,7 +160,7 @@ function addBreakpoint(state, action) {
         id: breakpointId,
         disabled: false,
         loading: false,
-        text: text,
+        text: text
       })
     );
   }
@@ -181,7 +181,7 @@ function removeBreakpoint(state, action) {
         ["breakpoints", id],
         updateObj(bp, {
           loading: false,
-          disabled: true,
+          disabled: true
         })
       );
 
@@ -206,7 +206,7 @@ function makePendingBreakpoint(bp: any) {
   const {
     location: { sourceUrl, line },
     condition,
-    disabled,
+    disabled
   } = bp;
 
   const location = { sourceUrl, line };
@@ -269,5 +269,5 @@ module.exports = {
   getBreakpointsForSource,
   getBreakpointsDisabled,
   getBreakpointsLoading,
-  getPendingBreakpoints,
+  getPendingBreakpoints
 };

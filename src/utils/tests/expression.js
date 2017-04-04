@@ -6,7 +6,7 @@ describe("utils/editor/expression", function() {
       const expression = previewExpression({
         tokenText: "a",
         variables: new Map([["a", "value-a"]]),
-        expression: "expression",
+        expression: "expression"
       });
       expect(expression).toBe("value-a");
     });
@@ -15,7 +15,7 @@ describe("utils/editor/expression", function() {
       const expression = previewExpression({
         tokenText: "b",
         variables: new Map([["a", "value-a"]]),
-        expression: "expression",
+        expression: "expression"
       });
       expect(expression).toBe("expression");
     });
@@ -24,7 +24,7 @@ describe("utils/editor/expression", function() {
       const expression = previewExpression({
         tokenText: "{",
         variables: new Map([["a", "value-a"]]),
-        expression: null,
+        expression: null
       });
       expect(expression).toBe(null);
     });

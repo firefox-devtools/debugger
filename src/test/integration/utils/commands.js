@@ -9,7 +9,7 @@ const {
   invokeInTab,
   selectMenuItem,
   pressKey,
-  type,
+  type
 } = require("./mocha");
 
 const {
@@ -17,13 +17,13 @@ const {
   findSource,
   getSelector,
   info,
-  isPaused,
+  isPaused
 } = require("./shared");
 const {
   waitForSources,
   waitForDispatch,
   waitForPaused,
-  waitForThreadEvents,
+  waitForThreadEvents
 } = require("./wait");
 
 /**
@@ -246,5 +246,5 @@ module.exports = {
   selectMenuItem,
   type,
   pressKey,
-  pauseTest,
+  pauseTest
 };

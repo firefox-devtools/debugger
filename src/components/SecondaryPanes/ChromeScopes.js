@@ -71,7 +71,7 @@ class Scopes extends Component {
     if (prototype && prototype.type !== "null") {
       nodes.push(
         createNode("__proto__", `${parentPath}/__proto__`, {
-          value: prototype,
+          value: prototype
         })
       );
     }
@@ -87,20 +87,20 @@ class Scopes extends Component {
       {
         className: classnames("node object-node", {
           focused: false,
-          "not-enumerable": notEnumberable,
+          "not-enumerable": notEnumberable
         }),
         style: { marginLeft: depth * 15 },
         key: item.path,
         onClick: e => {
           e.stopPropagation();
           setExpanded(item, !expanded);
-        },
+        }
       },
       Svg("arrow", {
         className: classnames({
           expanded: expanded,
-          hidden: nodeIsPrimitive(item),
-        }),
+          hidden: nodeIsPrimitive(item)
+        })
       }),
       dom.span({ className: "object-label" }, item.name),
       dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
@@ -159,7 +159,7 @@ class Scopes extends Component {
       return {
         name: name,
         path: name,
-        contents: { value: scope.object },
+        contents: { value: scope.object }
       };
     });
   }
@@ -189,7 +189,7 @@ class Scopes extends Component {
         autoExpandAll: false,
         disabledFocus: true,
         onExpand: this.onExpand,
-        renderItem: this.renderItem,
+        renderItem: this.renderItem
       })
     );
   }
@@ -199,7 +199,7 @@ Scopes.propTypes = {
   scopes: PropTypes.array,
   loadedObjects: ImPropTypes.map,
   loadObjectProperties: PropTypes.func,
-  pauseInfo: PropTypes.object,
+  pauseInfo: PropTypes.object
 };
 
 Scopes.displayName = "Scopes";
@@ -208,7 +208,7 @@ export default connect(
   state => ({
     pauseInfo: getPause(state),
     loadedObjects: getLoadedObjects(state),
-    scopes: getChromeScopes(state),
+    scopes: getChromeScopes(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Scopes);

@@ -8,7 +8,7 @@ const {
   waitForPaused,
   waitForDispatch,
   assertPausedLocation,
-  reload,
+  reload
 } = require("../utils");
 
 function countSources(dbg) {

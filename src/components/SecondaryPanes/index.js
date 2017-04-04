@@ -9,7 +9,7 @@ import {
   getPause,
   getBreakpoints,
   getBreakpointsDisabled,
-  getBreakpointsLoading,
+  getBreakpointsLoading
 } from "../../selectors";
 
 import { isEnabled } from "devtools-config";
@@ -40,7 +40,7 @@ type SecondaryPanesItems = {
   opened?: boolean,
   onToggle?: () => any,
   shouldOpen?: () => any,
-  buttons?: any,
+  buttons?: any
 };
 
 function debugBtn(onClick, type, className, tooltip) {
@@ -57,7 +57,7 @@ class SecondaryPanes extends Component {
       toggleAllBreakpoints,
       breakpoints,
       breakpointsDisabled,
-      breakpointsLoading,
+      breakpointsLoading
     } = this.props;
     const boxClassName = "breakpoints-toggle";
     const isIndeterminate = !breakpointsDisabled &&
@@ -83,7 +83,7 @@ class SecondaryPanes extends Component {
       },
       title: breakpointsDisabled
         ? L10N.getStr("breakpoints.enable")
-        : L10N.getStr("breakpoints.disable"),
+        : L10N.getStr("breakpoints.disable")
     });
   }
 
@@ -97,7 +97,7 @@ class SecondaryPanes extends Component {
         "refresh",
         "refresh",
         L10N.getStr("watchExpressions.refreshButton")
-      ),
+      )
     ];
   }
 
@@ -111,7 +111,7 @@ class SecondaryPanes extends Component {
       onToggle: opened => {
         prefs.scopesVisible = opened;
       },
-      shouldOpen: isPaused,
+      shouldOpen: isPaused
     };
   }
 
@@ -120,7 +120,7 @@ class SecondaryPanes extends Component {
       header: L10N.getStr("watchExpressions.header"),
       buttons: this.watchExpressionHeaderButtons(),
       component: Expressions,
-      opened: true,
+      opened: true
     };
   }
 
@@ -135,7 +135,7 @@ class SecondaryPanes extends Component {
         header: L10N.getStr("breakpoints.header"),
         buttons: this.renderBreakpointsToggle(),
         component: Breakpoints,
-        opened: true,
+        opened: true
       },
       {
         header: L10N.getStr("callStack.header"),
@@ -144,15 +144,15 @@ class SecondaryPanes extends Component {
         onToggle: opened => {
           prefs.callStackVisible = opened;
         },
-        shouldOpen: isPaused,
+        shouldOpen: isPaused
       },
-      scopesContent,
+      scopesContent
     ];
 
     if (isEnabled("eventListeners")) {
       items.push({
         header: L10N.getStr("eventListenersHeader"),
-        component: EventListeners,
+        component: EventListeners
       });
     }
 
@@ -165,7 +165,7 @@ class SecondaryPanes extends Component {
 
   renderHorizontalLayout() {
     return Accordion({
-      items: this.getItems(),
+      items: this.getItems()
     });
   }
 
@@ -195,7 +195,7 @@ class SecondaryPanes extends Component {
       maxSize: "50%",
       splitterSize: 1,
       startPanel: Accordion({ items: this.getStartItems() }),
-      endPanel: Accordion({ items: this.getEndItems() }),
+      endPanel: Accordion({ items: this.getEndItems() })
     });
   }
 
@@ -203,7 +203,7 @@ class SecondaryPanes extends Component {
     return dom.div(
       {
         className: "secondary-panes",
-        style: { overflowX: "hidden" },
+        style: { overflowX: "hidden" }
       },
       CommandBar(),
       WhyPaused(),
@@ -221,11 +221,11 @@ SecondaryPanes.propTypes = {
   breakpoints: ImPropTypes.map.isRequired,
   breakpointsDisabled: PropTypes.bool,
   breakpointsLoading: PropTypes.bool,
-  toggleAllBreakpoints: PropTypes.func.isRequired,
+  toggleAllBreakpoints: PropTypes.func.isRequired
 };
 
 SecondaryPanes.contextTypes = {
-  shortcuts: PropTypes.object,
+  shortcuts: PropTypes.object
 };
 
 SecondaryPanes.displayName = "SecondaryPanes";
@@ -235,7 +235,7 @@ export default connect(
     pauseData: getPause(state),
     breakpoints: getBreakpoints(state),
     breakpointsDisabled: getBreakpointsDisabled(state),
-    breakpointsLoading: getBreakpointsLoading(state),
+    breakpointsLoading: getBreakpointsLoading(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(SecondaryPanes);

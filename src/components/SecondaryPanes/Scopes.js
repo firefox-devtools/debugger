@@ -18,7 +18,7 @@ let actorsCache = [];
 
 class Scopes extends Component {
   state: {
-    scopes: any,
+    scopes: any
   };
 
   constructor(props, ...args) {
@@ -27,7 +27,7 @@ class Scopes extends Component {
     super(props, ...args);
 
     this.state = {
-      scopes: getScopes(pauseInfo, selectedFrame),
+      scopes: getScopes(pauseInfo, selectedFrame)
     };
   }
 
@@ -45,7 +45,7 @@ class Scopes extends Component {
 
     if (pauseInfoChanged || selectedFrameChange) {
       this.setState({
-        scopes: getScopes(nextProps.pauseInfo, nextProps.selectedFrame),
+        scopes: getScopes(nextProps.pauseInfo, nextProps.selectedFrame)
       });
     }
   }
@@ -70,7 +70,7 @@ class Scopes extends Component {
         getActors: () => actorsCache,
         onLabelClick: (item, { expanded, setExpanded }) => {
           setExpanded(item, !expanded);
-        },
+        }
       });
     }
 
@@ -85,7 +85,7 @@ Scopes.propTypes = {
   pauseInfo: ImPropTypes.map,
   loadedObjects: ImPropTypes.map,
   loadObjectProperties: PropTypes.func,
-  selectedFrame: PropTypes.object,
+  selectedFrame: PropTypes.object
 };
 
 Scopes.displayName = "Scopes";
@@ -94,7 +94,7 @@ export default connect(
   state => ({
     pauseInfo: getPause(state),
     selectedFrame: getSelectedFrame(state),
-    loadedObjects: getLoadedObjects(state),
+    loadedObjects: getLoadedObjects(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Scopes);

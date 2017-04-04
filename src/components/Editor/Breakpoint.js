@@ -11,7 +11,7 @@ ReactDOM.render(Svg("breakpoint"), breakpointSvg);
 function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);
   bp.className = classnames("editor new-breakpoint", {
-    "breakpoint-disabled": isDisabled,
+    "breakpoint-disabled": isDisabled
   });
 
   return bp;
@@ -75,7 +75,7 @@ class Breakpoint extends Component {
 
 Breakpoint.propTypes = {
   breakpoint: PropTypes.object.isRequired,
-  editor: PropTypes.object.isRequired,
+  editor: PropTypes.object.isRequired
 };
 
 Breakpoint.displayName = "Breakpoint";

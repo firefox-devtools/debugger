@@ -24,9 +24,9 @@ function createStore(client: any, initialState: any = {}) {
     makeThunkArgs: args => {
       return Object.assign({}, args, {
         client,
-        sourceMaps,
+        sourceMaps
       });
-    },
+    }
   })(combineReducers(reducers), initialState);
 }
 
@@ -46,7 +46,7 @@ function makeSource(name: string, props: any = {}) {
   return Object.assign(
     {
       id: name,
-      url: `http://localhost:8000/examples/${name}`,
+      url: `http://localhost:8000/examples/${name}`
     },
     props
   );
@@ -75,5 +75,5 @@ module.exports = {
   createStore,
   commonLog,
   makeSource,
-  waitForState,
+  waitForState
 };

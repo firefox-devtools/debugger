@@ -1,16 +1,16 @@
 const {
   startSourceMapWorker,
-  stopSourceMapWorker,
+  stopSourceMapWorker
 } = require("devtools-source-map");
 
 const {
   startPrettyPrintWorker,
-  stopPrettyPrintWorker,
+  stopPrettyPrintWorker
 } = require("../utils/pretty-print");
 
 const {
   startParserWorker,
-  stopParserWorker,
+  stopParserWorker
 } = require("../utils/parser");
 
 const { getValue } = require("devtools-config");

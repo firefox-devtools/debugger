@@ -1,7 +1,7 @@
 const {
   getSymbols,
   getVariablesInScope,
-  resolveToken,
+  resolveToken
 } = require("./utils");
 
 const { workerHandler } = require("../worker");
@@ -9,5 +9,5 @@ const { workerHandler } = require("../worker");
 self.onmessage = workerHandler({
   getSymbols,
   getVariablesInScope,
-  resolveToken,
+  resolveToken
 });

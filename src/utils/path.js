@@ -26,5 +26,5 @@ module.exports = {
   dirname,
   isURL,
   isAbsolute,
-  join,
+  join
 };

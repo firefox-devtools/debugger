@@ -19,21 +19,21 @@ let webpackConfig = {
     debugger: getEntry("main.js"),
     "parser-worker": getEntry("utils/parser/worker.js"),
     "pretty-print-worker": getEntry("utils/pretty-print/worker.js"),
-    "integration-tests": getEntry("test/integration/tests.js"),
+    "integration-tests": getEntry("test/integration/tests.js")
   },
 
   output: {
     path: path.join(__dirname, "assets/build"),
     filename: "[name].js",
     publicPath: "/assets/build",
-    libraryTarget: "umd",
+    libraryTarget: "umd"
   },
 
   resolve: {
     alias: {
-      "react-dom": "react-dom/dist/react-dom",
-    },
-  },
+      "react-dom": "react-dom/dist/react-dom"
+    }
+  }
 };
 
 function buildConfig(envConfig) {
@@ -44,7 +44,7 @@ function buildConfig(envConfig) {
     const mappings = [
       [/\.\/mocha/, "./mochitest"],
       [/\.\.\/utils\/mocha/, "../utils/mochitest"],
-      [/\.\/utils\/mocha/, "./utils/mochitest"],
+      [/\.\/utils\/mocha/, "./utils/mochitest"]
     ];
 
     mappings.forEach(([regex, res]) => {

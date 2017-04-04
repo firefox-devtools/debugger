@@ -12,7 +12,7 @@ const _prettyPrint = dispatcher.task("prettyPrint");
 type PrettyPrintOpts = {
   source: Source,
   sourceText: ?SourceText,
-  url: string,
+  url: string
 };
 
 async function prettyPrint({ source, sourceText, url }: PrettyPrintOpts) {
@@ -27,12 +27,12 @@ async function prettyPrint({ source, sourceText, url }: PrettyPrintOpts) {
   return await _prettyPrint({
     url,
     indent,
-    source: sourceText ? sourceText.text : undefined,
+    source: sourceText ? sourceText.text : undefined
   });
 }
 
 module.exports = {
   prettyPrint,
   startPrettyPrintWorker: dispatcher.start.bind(dispatcher),
-  stopPrettyPrintWorker: dispatcher.stop.bind(dispatcher),
+  stopPrettyPrintWorker: dispatcher.stop.bind(dispatcher)
 };
