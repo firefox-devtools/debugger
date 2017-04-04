@@ -5,9 +5,10 @@ import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../utils/text";
+const Outline = createFactory(require("./Outline").default);
 const SourcesTree = createFactory(require("./SourcesTree").default);
 import actions from "../actions";
-import { getSelectedSource, getSources } from "../selectors";
+import { getSources } from "../selectors";
 import "./Sources.css";
 
 class Sources extends Component {
@@ -40,7 +41,8 @@ class Sources extends Component {
     return dom.div(
       { className: "sources-panel" },
       dom.div({ className: "sources-header" }, this.renderShortcut()),
-      SourcesTree({ sources, selectSource })
+      SourcesTree({ sources, selectSource }),
+      Outline({})
     );
   }
 }
@@ -56,7 +58,6 @@ Sources.displayName = "Sources";
 
 export default connect(
   state => ({
-    selectedSource: getSelectedSource(state),
     sources: getSources(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)

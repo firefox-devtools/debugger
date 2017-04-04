@@ -4,11 +4,7 @@ import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
-import {
-  getSources,
-  getSelectedSource,
-  getProjectSearchState
-} from "../selectors";
+import { getSources, getProjectSearchState } from "../selectors";
 import { endTruncateStr } from "../utils/utils";
 import { parse as parseURL } from "url";
 import { isPretty } from "../utils/source";
@@ -114,7 +110,6 @@ class ProjectSearch extends Component {
 ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
   selectSource: PropTypes.func.isRequired,
-  selectedSource: PropTypes.object,
   toggleProjectSearch: PropTypes.func.isRequired,
   searchOn: PropTypes.bool
 };
@@ -128,7 +123,6 @@ ProjectSearch.displayName = "ProjectSearch";
 export default connect(
   state => ({
     sources: getSources(state),
-    selectedSource: getSelectedSource(state),
     searchOn: getProjectSearchState(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)

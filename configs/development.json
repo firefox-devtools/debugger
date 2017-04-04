@@ -54,6 +54,10 @@
     "previewMemberExpressions": {
       "label": "Editor member expression Preview",
       "enabled": true
+    },
+    "outline": {
+      "label": "Source Outline",
+      "enabled": false
     }
   },
   "chrome": {
