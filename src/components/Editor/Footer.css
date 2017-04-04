@@ -16,6 +16,7 @@
 
 .source-footer .commands {
   display: flex;
+  align-items: center;
 }
 
 .source-footer .commands * {
@@ -41,6 +42,10 @@
   justify-content: center;
 }
 
+.source-footer > .commands > button.action:focus {
+  outline: none;
+}
+
 :root.theme-dark .source-footer > .commands > .action {
   fill: var(--theme-body-color);
 }
@@ -62,4 +67,12 @@
   color: var(--theme-highlight-blue);
   border: 1px solid var(--theme-body-color-inactive);
   border-radius: 2px;
+}
+
+.source-footer .black-box.blackboxed svg {
+  fill: var(--theme-highlight-blue);
+}
+
+.source-footer .blackbox-summary {
+  color: var(--theme-body-color);
 }

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import actions from "../../actions";
 import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
+import get from "lodash/get";
 
 const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
 
@@ -15,6 +16,10 @@ import classNames from "classnames";
 
 import type { Frame, Source } from "../../types";
 
+type LocalFrame = Frame & {
+  library: string
+};
+
 import "./Frames.css";
 
 const NUM_FRAMES_SHOWN = 7;
@@ -23,10 +28,14 @@ function renderFrameTitle({ displayName }: Frame) {
   return dom.div({ className: "title" }, endTruncateStr(displayName, 40));
 }
 
-function renderFrameLocation({ source, location }: Frame) {
+function renderFrameLocation({ source, location, library }: LocalFrame) {
   const thisSource: ?Source = source;
   if (thisSource == null) {
     return;
+  }
+
+  if (library) {
+    return dom.div({ className: "location" }, library);
   }
 
   const filename = getFilename(thisSource);
@@ -91,7 +100,7 @@ class Frames extends Component {
     showMenu(event, menuOptions);
   }
 
-  renderFrame(frame: Frame) {
+  renderFrame(frame: LocalFrame) {
     const { selectedFrame } = this.props;
 
     return dom.li(
@@ -128,6 +137,7 @@ class Frames extends Component {
     const numFramesToShow = this.state.showAllFrames
       ? frames.length
       : NUM_FRAMES_SHOWN;
+
     const framesToShow = frames.slice(0, numFramesToShow);
 
     return dom.ul({}, framesToShow.map(this.renderFrame));
@@ -182,7 +192,7 @@ function getSourceForFrame(state, frame) {
 }
 
 function getAndProcessFrames(state) {
-  const frames = getFrames(state);
+  let frames = getFrames(state);
   if (!frames) {
     return null;
   }
@@ -193,7 +203,8 @@ function getAndProcessFrames(state) {
     .map(frame =>
       Object.assign({}, frame, {
         source: getSourceForFrame(state, frame).toJS()
-      }));
+      }))
+    .filter(frame => !get(frame, "source.isBlackBoxed"));
 }
 
 export default connect(

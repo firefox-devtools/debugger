@@ -9,7 +9,7 @@ import type {
   SourceText,
   Frame,
   Why
-} from "../types";
+} from "debugger-html";
 
 /**
  * Flow types
@@ -102,7 +102,6 @@ type SourceAction =
   | {
       type: "BLACKBOX",
       source: Source,
-      status: AsyncStatus,
       error: string,
       value: { isBlackBoxed: boolean }
     }
