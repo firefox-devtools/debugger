@@ -402,7 +402,7 @@ const SearchBar = React.createClass({
   },
 
   // Handlers
-  selectResultItem(e: SyntheticEvent, item: SymbolDeclaration, index?: number) {
+  selectResultItem(e: SyntheticEvent, item: SymbolDeclaration) {
     const { selectSource, selectedSource } = this.props;
 
     if (selectedSource) {
