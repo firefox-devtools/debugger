@@ -15,6 +15,10 @@
     "prettyPrintURL": "http://localhost:8000/assets/build/pretty-print-worker.js"
   },
   "features": {
+    "blackbox": {
+      "label": "Black Box",
+      "enabled": true
+    },
     "watchExpressions": {
       "label": "Watch Expressions",
       "enabled": true

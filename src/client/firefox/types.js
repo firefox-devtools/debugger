@@ -297,7 +297,9 @@ export type SourceClient = {
     }
   ) => Promise<BreakpointResponse>,
   prettyPrint: (number) => Promise<*>,
-  disablePrettyPrint: () => Promise<*>
+  disablePrettyPrint: () => Promise<*>,
+  blackBox: () => Promise<*>,
+  unblackBox: () => Promise<*>
 };
 
 /**

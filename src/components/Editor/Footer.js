@@ -21,17 +21,8 @@ const PaneToggleButton = React.createFactory(_PaneToggleButton);
 import "./Footer.css";
 
 class SourceFooter extends Component {
-  constructor() {
-    super();
-    this.onClickPrettyPrint = this.onClickPrettyPrint.bind(this);
-  }
-
-  onClickPrettyPrint() {
-    this.props.togglePrettyPrint(this.props.selectedSource.get("id"));
-  }
-
   prettyPrintButton() {
-    const { selectedSource, sourceText } = this.props;
+    const { selectedSource, sourceText, togglePrettyPrint } = this.props;
     const sourceLoaded = selectedSource &&
       sourceText &&
       !sourceText.get("loading");
@@ -40,12 +31,12 @@ class SourceFooter extends Component {
       return;
     }
 
-    const tooltip = L10N.getStr("sourceFooter.debugBtnTooltip");
+    const tooltip = L10N.getStr("sourceTabs.prettyPrint");
     const type = "prettyPrint";
 
     return dom.button(
       {
-        onClick: this.onClickPrettyPrint,
+        onClick: () => togglePrettyPrint(selectedSource.get("id")),
         className: classnames("action", type, {
           active: sourceLoaded,
           pretty: isPretty(selectedSource.toJS())
@@ -55,6 +46,50 @@ class SourceFooter extends Component {
         "aria-label": tooltip
       },
       Svg(type)
+    );
+  }
+
+  blackBoxButton() {
+    const { selectedSource, sourceText, toggleBlackBox } = this.props;
+    const sourceLoaded = selectedSource &&
+      sourceText &&
+      !sourceText.get("loading");
+
+    const blackboxed = selectedSource.get("isBlackBoxed");
+
+    if (!isEnabled("blackbox")) {
+      return;
+    }
+
+    const tooltip = L10N.getStr("sourceFooter.blackbox");
+    const type = "black-box";
+
+    return dom.button(
+      {
+        onClick: () => toggleBlackBox(selectedSource.toJS()),
+        className: classnames("action", type, {
+          active: sourceLoaded,
+          blackboxed
+        }),
+        key: type,
+        title: tooltip,
+        "aria-label": tooltip
+      },
+      Svg("blackBox")
+    );
+  }
+
+  blackBoxSummary() {
+    const { selectedSource } = this.props;
+    const blackboxed = selectedSource.get("isBlackBoxed");
+
+    if (!blackboxed) {
+      return;
+    }
+
+    return dom.span(
+      { className: "blackbox-summary" },
+      L10N.getStr("sourceFooter.blackboxed")
     );
   }
 
@@ -91,7 +126,6 @@ class SourceFooter extends Component {
 
   renderCommands() {
     const { selectedSource } = this.props;
-
     if (!shouldShowPrettyPrint(selectedSource)) {
       return null;
     }
@@ -99,6 +133,8 @@ class SourceFooter extends Component {
     return dom.div(
       { className: "commands" },
       this.prettyPrintButton(),
+      this.blackBoxButton(),
+      this.blackBoxSummary(),
       this.coverageButton()
     );
   }
@@ -121,10 +157,10 @@ class SourceFooter extends Component {
 SourceFooter.propTypes = {
   selectedSource: ImPropTypes.map,
   togglePrettyPrint: PropTypes.func,
+  toggleBlackBox: PropTypes.func,
   recordCoverage: PropTypes.func,
   sourceText: ImPropTypes.map,
   selectSource: PropTypes.func,
-  prettySource: ImPropTypes.map,
   editor: PropTypes.object,
   endPanelCollapsed: PropTypes.bool,
   togglePaneCollapse: PropTypes.func,

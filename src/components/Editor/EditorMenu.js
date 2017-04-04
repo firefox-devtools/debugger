@@ -3,15 +3,15 @@ const { isEnabled } = require("devtools-config");
 const { isOriginalId } = require("devtools-source-map");
 const { copyToTheClipboard } = require("../../utils/clipboard");
 
-async function EditorMenu(
+function getMenuItems(
   {
     codeMirror,
-    event,
     selectedLocation,
     selectedSource,
     showSource,
     onGutterContextMenu,
     jumpToMappedLocation,
+    toggleBlackBox,
     addExpression
   }
 ) {
@@ -19,13 +19,12 @@ async function EditorMenu(
   const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
   const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
-
-  if (event.target.classList.contains("CodeMirror-linenumber")) {
-    return onGutterContextMenu(event);
-  }
-
-  event.stopPropagation();
-  event.preventDefault();
+  const blackboxLabel = L10N.getStr("sourceFooter.blackbox");
+  const unblackboxLabel = L10N.getStr("sourceFooter.unblackbox");
+  const blackboxKey = L10N.getStr("sourceFooter.blackbox.accessKey");
+  const toggleBlackBoxLabel = selectedSource.get("isBlackBoxed")
+    ? unblackboxLabel
+    : blackboxLabel;
 
   const copySourceUrl = {
     id: "node-menu-copy-source",
@@ -63,17 +62,16 @@ async function EditorMenu(
     click: () => addExpression(codeMirror.getSelection())
   };
 
-  const menuOptions = [];
+  const blackBoxMenuItem = {
+    id: "node-menu-blackbox",
+    label: toggleBlackBoxLabel,
+    accesskey: blackboxKey,
+    disabled: false,
+    click: () => toggleBlackBox(selectedSource.toJS())
+  };
 
   // TODO: Find a new way to only add this for mapped sources?
-  menuOptions.push(jumpLabel);
-
   const textSelected = codeMirror.somethingSelected();
-  if (isEnabled("watchExpressions") && textSelected) {
-    menuOptions.push(watchExpressionLabel);
-  }
-
-  menuOptions.push(copySourceUrl);
 
   const showSourceMenuItem = {
     id: "node-menu-show-source",
@@ -82,9 +80,36 @@ async function EditorMenu(
     disabled: false,
     click: () => showSource(selectedSource.get("id"))
   };
-  menuOptions.push(showSourceMenuItem);
 
-  showMenu(event, menuOptions);
+  if (selectedSource && selectedSource.get("isBlackBoxed")) {
+    return [blackBoxMenuItem];
+  }
+
+  let menuItems = [
+    copySourceUrl,
+    jumpLabel,
+    showSourceMenuItem,
+    blackBoxMenuItem
+  ];
+
+  if (isEnabled("watchExpressions") && textSelected) {
+    menuItems.push(watchExpressionLabel);
+  }
+
+  return menuItems;
+}
+
+async function EditorMenu(options) {
+  const { event, onGutterContextMenu } = options;
+
+  if (event.target.classList.contains("CodeMirror-linenumber")) {
+    return onGutterContextMenu(event);
+  }
+
+  event.stopPropagation();
+  event.preventDefault();
+
+  showMenu(event, getMenuItems(options));
 }
 
 module.exports = EditorMenu;

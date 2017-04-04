@@ -197,6 +197,17 @@ function prettyPrint(sourceId: SourceId, indentSize: number): Promise<*> {
   return sourceClient.prettyPrint(indentSize);
 }
 
+async function blackBox(sourceId: SourceId, isBlackBoxed: boolean): Promise<*> {
+  const sourceClient = threadClient.source({ actor: sourceId });
+  if (isBlackBoxed) {
+    await sourceClient.unblackBox();
+  } else {
+    await sourceClient.blackBox();
+  }
+
+  return { isBlackBoxed: !isBlackBoxed };
+}
+
 function disablePrettyPrint(sourceId: SourceId): Promise<*> {
   const sourceClient = threadClient.source({ actor: sourceId });
   return sourceClient.disablePrettyPrint();
@@ -220,6 +231,7 @@ async function fetchSources() {
 }
 
 const clientCommands = {
+  blackBox,
   interrupt,
   eventListeners,
   pauseGrip,
