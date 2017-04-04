@@ -142,14 +142,14 @@ class Autocomplete extends Component {
 }
 
 Autocomplete.propTypes = {
-    selectItem: PropTypes.func.isRequired,
-    onSelectedItem: PropTypes.func,
-    items: PropTypes.array,
-    close: PropTypes.func.isRequired,
-    inputValue: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
-    size: PropTypes.string
-}
+  selectItem: PropTypes.func.isRequired,
+  onSelectedItem: PropTypes.func,
+  items: PropTypes.array,
+  close: PropTypes.func.isRequired,
+  inputValue: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  size: PropTypes.string
+};
 
 Autocomplete.displayName = "Autocomplete";
 
