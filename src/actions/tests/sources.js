@@ -1,17 +1,16 @@
 import expect from "expect.js";
-import { Task } from "../../utils/task";
 import {
   actions,
   selectors,
   createStore,
-  makeSource,
+  makeSource
 } from "../../utils/test-head";
 const {
   getSourceById,
   getSources,
   getSelectedSource,
   getSourceText,
-  getSourceTabs,
+  getSourceTabs
 } = selectors;
 
 const threadClient = {
@@ -21,20 +20,20 @@ const threadClient = {
         case "foo1":
           resolve({
             source: "function foo1() {\n  return 5;\n}",
-            contentType: "text/javascript",
+            contentType: "text/javascript"
           });
           break;
         case "foo2":
           resolve({
             source: "function foo2(x, y) {\n  return x + y;\n}",
-            contentType: "text/javascript",
+            contentType: "text/javascript"
           });
           break;
       }
 
       reject(`unknown source: ${sourceId}`);
     });
-  },
+  }
 };
 
 process.on("unhandledRejection", (reason, p) => {});
@@ -109,58 +108,46 @@ describe("sources", () => {
     expect(getSourceTabs(getState()).size).to.be(2);
   });
 
-  it(
-    "should load source text",
-    Task.async(function*() {
-      const { dispatch, getState } = createStore(threadClient);
+  it("should load source text", async () => {
+    const { dispatch, getState } = createStore(threadClient);
 
-      yield dispatch(actions.loadSourceText({ id: "foo1" }));
-      const fooSourceText = getSourceText(getState(), "foo1");
-      expect(fooSourceText.get("text").indexOf("return 5")).to.not.be(-1);
+    await dispatch(actions.loadSourceText({ id: "foo1" }));
+    const fooSourceText = getSourceText(getState(), "foo1");
+    expect(fooSourceText.get("text").indexOf("return 5")).to.not.be(-1);
 
-      yield dispatch(actions.loadSourceText({ id: "foo2" }));
-      const foo2SourceText = getSourceText(getState(), "foo2");
-      expect(foo2SourceText.get("text").indexOf("return x + y")).to.not.be(-1);
-    })
-  );
+    await dispatch(actions.loadSourceText({ id: "foo2" }));
+    const foo2SourceText = getSourceText(getState(), "foo2");
+    expect(foo2SourceText.get("text").indexOf("return x + y")).to.not.be(-1);
+  });
 
-  it(
-    "should cache subsequent source text loads",
-    Task.async(function*() {
-      const { dispatch, getState } = createStore(threadClient);
+  it("should cache subsequent source text loads", async () => {
+    const { dispatch, getState } = createStore(threadClient);
 
-      yield dispatch(actions.loadSourceText({ id: "foo1" }));
-      const prevText = getSourceText(getState(), "foo1");
+    await dispatch(actions.loadSourceText({ id: "foo1" }));
+    const prevText = getSourceText(getState(), "foo1");
 
-      yield dispatch(actions.loadSourceText({ id: "foo1" }));
-      const curText = getSourceText(getState(), "foo1");
+    await dispatch(actions.loadSourceText({ id: "foo1" }));
+    const curText = getSourceText(getState(), "foo1");
 
-      expect(prevText === curText).to.be.ok();
-    })
-  );
+    expect(prevText === curText).to.be.ok();
+  });
 
-  it(
-    "should indicate a loading source text",
-    Task.async(function*() {
-      const { dispatch, getState } = createStore(threadClient);
+  it("should indicate a loading source text", async () => {
+    const { dispatch, getState } = createStore(threadClient);
 
-      // Don't block on this so we can check the loading state.
-      dispatch(actions.loadSourceText({ id: "foo1" }));
-      const fooSourceText = getSourceText(getState(), "foo1");
-      expect(fooSourceText.get("loading")).to.equal(true);
-    })
-  );
+    // Don't block on this so we can check the loading state.
+    dispatch(actions.loadSourceText({ id: "foo1" }));
+    const fooSourceText = getSourceText(getState(), "foo1");
+    expect(fooSourceText.get("loading")).to.equal(true);
+  });
 
-  it(
-    "should indicate an errored source text",
-    Task.async(function*() {
-      const { dispatch, getState } = createStore(threadClient);
+  it("should indicate an errored source text", async () => {
+    const { dispatch, getState } = createStore(threadClient);
 
-      yield dispatch(actions.loadSourceText({ id: "bad-id" })).catch(() => {});
-      const badText = getSourceText(getState(), "bad-id");
-      expect(badText.get("error").indexOf("unknown source")).to.not.be(-1);
-    })
-  );
+    await dispatch(actions.loadSourceText({ id: "bad-id" })).catch(() => {});
+    const badText = getSourceText(getState(), "bad-id");
+    expect(badText.get("error").indexOf("unknown source")).to.not.be(-1);
+  });
 });
 
 describe("closing tabs", () => {
@@ -219,7 +206,7 @@ describe("closing tabs", () => {
     dispatch(
       actions.closeTabs([
         "http://localhost:8000/examples/foo.js",
-        "http://localhost:8000/examples/bar.js",
+        "http://localhost:8000/examples/bar.js"
       ])
     );
 
@@ -238,7 +225,7 @@ describe("closing tabs", () => {
     dispatch(
       actions.closeTabs([
         "http://localhost:8000/examples/bar.js",
-        "http://localhost:8000/examples/bazz.js",
+        "http://localhost:8000/examples/bazz.js"
       ])
     );
 
@@ -255,7 +242,7 @@ describe("closing tabs", () => {
     dispatch(
       actions.closeTabs([
         "http://localhost:8000/examples/foo.js",
-        "http://localhost:8000/examples/bar.js",
+        "http://localhost:8000/examples/bar.js"
       ])
     );
 

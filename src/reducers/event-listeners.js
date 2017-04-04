@@ -7,7 +7,7 @@ import constants from "../constants";
 const initialState = {
   activeEventNames: [],
   listeners: [],
-  fetchingListeners: false,
+  fetchingListeners: false
 };
 
 export function update(state = initialState, action, emit) {

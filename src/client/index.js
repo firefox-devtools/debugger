@@ -6,13 +6,13 @@ const { prefs } = require("../utils/prefs");
 const {
   bootstrapApp,
   bootstrapStore,
-  bootstrapWorker,
+  bootstrapWorkers
 } = require("../utils/bootstrap");
 
 function loadFromPrefs(actions: Object) {
   const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
   if (pauseOnExceptions || ignoreCaughtExceptions) {
-    actions.pauseOnExceptions(pauseOnExceptions, ignoreCaughtExceptions);
+    return actions.pauseOnExceptions(pauseOnExceptions, ignoreCaughtExceptions);
   }
 }
 
@@ -21,22 +21,23 @@ function getClient(connection: any) {
   return clientType == "firefox" ? firefox : chrome;
 }
 
-async function onConnect(connection: Object) {
+async function onConnect(connection: Object, services: Object) {
   // NOTE: the landing page does not connect to a JS process
   if (!connection) {
     return;
   }
 
   const client = getClient(connection);
-  const { store, actions, selectors } = bootstrapStore(client);
+  const commands = client.clientCommands;
+  const { store, actions, selectors } = bootstrapStore(commands, services);
 
-  bootstrapWorker();
+  bootstrapWorkers();
   await client.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
   bootstrapApp(connection, { store, actions });
 
-  return { store, actions, selectors };
+  return { store, actions, selectors, client: commands };
 }
 
 module.exports = { onConnect };

@@ -9,7 +9,7 @@ const {
   stepOut,
   stepOver,
   invokeInTab,
-  waitForPaused,
+  waitForPaused
 } = require("../utils");
 
 // Tests loading sourcemapped sources, setting breakpoints, and

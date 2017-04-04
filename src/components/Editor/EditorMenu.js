@@ -1,6 +1,6 @@
 const { showMenu } = require("../shared/menu");
 const { isEnabled } = require("devtools-config");
-const { isOriginalId, hasMappedSource } = require("devtools-source-map");
+const { isOriginalId } = require("devtools-source-map");
 const { copyToTheClipboard } = require("../../utils/clipboard");
 
 async function EditorMenu(
@@ -12,7 +12,7 @@ async function EditorMenu(
     showSource,
     onGutterContextMenu,
     jumpToMappedLocation,
-    addExpression,
+    addExpression
   }
 ) {
   const copySourceUrlLabel = L10N.getStr("copySourceUrl");
@@ -27,25 +27,23 @@ async function EditorMenu(
   event.stopPropagation();
   event.preventDefault();
 
-  const isMapped = await hasMappedSource(selectedLocation);
-
   const copySourceUrl = {
     id: "node-menu-copy-source",
     label: copySourceUrlLabel,
     accesskey: copySourceUrlKey,
     disabled: false,
-    click: () => copyToTheClipboard(selectedSource.get("url")),
+    click: () => copyToTheClipboard(selectedSource.get("url"))
   };
 
   const { line, ch } = codeMirror.coordsChar({
     left: event.clientX,
-    top: event.clientY,
+    top: event.clientY
   });
 
   const sourceLocation = {
     sourceId: selectedLocation.sourceId,
     line: line + 1,
-    column: ch + 1,
+    column: ch + 1
   };
 
   const pairedType = isOriginalId(selectedLocation.sourceId)
@@ -56,20 +54,19 @@ async function EditorMenu(
     accesskey: "C",
     disabled: false,
     label: L10N.getFormatStr("editor.jumpToMappedLocation", pairedType),
-    click: () => jumpToMappedLocation(sourceLocation),
+    click: () => jumpToMappedLocation(sourceLocation)
   };
 
   const watchExpressionLabel = {
     accesskey: "E",
     label: L10N.getStr("expressions.placeholder"),
-    click: () => addExpression(codeMirror.getSelection()),
+    click: () => addExpression(codeMirror.getSelection())
   };
 
   const menuOptions = [];
 
-  if (isMapped) {
-    menuOptions.push(jumpLabel);
-  }
+  // TODO: Find a new way to only add this for mapped sources?
+  menuOptions.push(jumpLabel);
 
   const textSelected = codeMirror.somethingSelected();
   if (isEnabled("watchExpressions") && textSelected) {
@@ -83,7 +80,7 @@ async function EditorMenu(
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
     disabled: false,
-    click: () => showSource(selectedSource.get("id")),
+    click: () => showSource(selectedSource.get("id"))
   };
   menuOptions.push(showSourceMenuItem);
 

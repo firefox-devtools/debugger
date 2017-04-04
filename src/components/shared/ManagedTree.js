@@ -1,12 +1,12 @@
 // @flow
 import { createClass, PropTypes, createFactory } from "react";
-const Tree = createFactory(require("devtools-sham-modules").Tree);
+const Tree = createFactory(require("devtools-modules").Tree);
 require("./ManagedTree.css");
 
 type ManagedTreeItem = {
   contents: Array<ManagedTreeItem>,
   name: string,
-  path: string,
+  path: string
 };
 
 type NextProps = {
@@ -20,18 +20,18 @@ type NextProps = {
   itemHeight: number,
   listItems?: Array<ManagedTreeItem>,
   onFocus: () => any,
-  renderItem: () => any,
+  renderItem: () => any
 };
 
 type InitialState = {
   expanded: any,
-  focusedItem: ?ManagedTreeItem,
+  focusedItem: ?ManagedTreeItem
 };
 
 let ManagedTree = createClass({
   propTypes: Object.assign({}, Tree.propTypes, {
     getExpanded: PropTypes.func,
-    setExpanded: PropTypes.func,
+    setExpanded: PropTypes.func
   }),
 
   displayName: "ManagedTree",
@@ -39,7 +39,7 @@ let ManagedTree = createClass({
   getInitialState(): InitialState {
     return {
       expanded: new Set(),
-      focusedItem: null,
+      focusedItem: null
     };
   },
 
@@ -135,13 +135,13 @@ let ManagedTree = createClass({
 
       renderItem: (...args) => {
         return this.props.renderItem(...args, {
-          setExpanded: this.setExpanded,
+          setExpanded: this.setExpanded
         });
-      },
+      }
     });
 
     return Tree(props);
-  },
+  }
 });
 
 module.exports = ManagedTree;

@@ -1,5 +1,4 @@
 import constants from "../constants";
-import { clearSourceMaps } from "devtools-source-map";
 import { clearDocuments } from "../utils/editor";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
@@ -15,12 +14,14 @@ import { newSources } from "./sources";
  * @static
  */
 export function willNavigate(_, event) {
-  clearSourceMaps();
-  clearDocuments();
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    await sourceMaps.clearSourceMaps();
+    clearDocuments();
 
-  return {
-    type: constants.NAVIGATE,
-    url: event.url,
+    dispatch({
+      type: constants.NAVIGATE,
+      url: event.url
+    });
   };
 }
 

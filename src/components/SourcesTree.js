@@ -9,7 +9,7 @@ import { Set } from "immutable";
 import {
   getShownSource,
   getSelectedSource,
-  getDebuggeeUrl,
+  getDebuggeeUrl
 } from "../selectors";
 
 import {
@@ -19,7 +19,7 @@ import {
   addToTree,
   collapseTree,
   createTree,
-  getDirectories,
+  getDirectories
 } from "../utils/sources-tree.js";
 
 const ManagedTree = createFactory(require("./shared/ManagedTree"));
@@ -35,7 +35,7 @@ type CreateTree = {
   sourceTree: any,
   uncollapsedTree: any,
   listItems?: any,
-  highlightItems?: any,
+  highlightItems?: any
 };
 
 class SourcesTree extends Component {
@@ -140,7 +140,7 @@ class SourcesTree extends Component {
     this.setState({
       uncollapsedTree,
       sourceTree,
-      parentMap: createParentMap(sourceTree),
+      parentMap: createParentMap(sourceTree)
     });
   }
 
@@ -182,7 +182,7 @@ class SourcesTree extends Component {
         label: copySourceUrlLabel,
         accesskey: copySourceUrlKey,
         disabled: false,
-        click: () => copyToTheClipboard(source),
+        click: () => copyToTheClipboard(source)
       };
 
       menuOptions.push(copySourceUrl);
@@ -195,12 +195,12 @@ class SourcesTree extends Component {
     const arrow = Svg("arrow", {
       className: classnames({
         expanded: expanded,
-        hidden: !nodeHasChildren(item),
+        hidden: !nodeHasChildren(item)
       }),
       onClick: e => {
         e.stopPropagation();
         setExpanded(item, !expanded);
-      },
+      }
     });
 
     const icon = this.getIcon(item, depth);
@@ -220,7 +220,7 @@ class SourcesTree extends Component {
           this.selectItem(item);
           setExpanded(item, !expanded);
         },
-        onContextMenu: e => this.onContextMenu(e, item),
+        onContextMenu: e => this.onContextMenu(e, item)
       },
       dom.div(null, arrow, icon, item.name)
     );
@@ -232,7 +232,7 @@ class SourcesTree extends Component {
       sourceTree,
       parentMap,
       listItems,
-      highlightItems,
+      highlightItems
     } = this.state;
     const isEmpty = sourceTree.contents.length === 0;
 
@@ -255,12 +255,12 @@ class SourcesTree extends Component {
       onFocus: this.focusItem,
       listItems,
       highlightItems,
-      renderItem: this.renderItem,
+      renderItem: this.renderItem
     });
 
     const noSourcesMessage = dom.div(
       {
-        className: "no-sources-message",
+        className: "no-sources-message"
       },
       L10N.getStr("sources.noSourcesAvailable")
     );
@@ -275,7 +275,7 @@ class SourcesTree extends Component {
           if (e.keyCode === 13 && focusedItem) {
             this.selectItem(focusedItem);
           }
-        },
+        }
       },
       tree
     );
@@ -287,7 +287,7 @@ SourcesTree.propTypes = {
   selectSource: PropTypes.func.isRequired,
   shownSource: PropTypes.string,
   selectedSource: ImPropTypes.map,
-  debuggeeUrl: PropTypes.string.isRequired,
+  debuggeeUrl: PropTypes.string.isRequired
 };
 
 SourcesTree.displayName = "SourcesTree";
@@ -297,7 +297,7 @@ export default connect(
     return {
       shownSource: getShownSource(state),
       selectedSource: getSelectedSource(state),
-      debuggeeUrl: getDebuggeeUrl(state),
+      debuggeeUrl: getDebuggeeUrl(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

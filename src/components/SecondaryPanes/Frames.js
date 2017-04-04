@@ -35,7 +35,7 @@ function renderFrameLocation({ source, location }: Frame) {
 
 class Frames extends Component {
   state: {
-    showAllFrames: boolean,
+    showAllFrames: boolean
   };
 
   renderFrame: Function;
@@ -45,7 +45,7 @@ class Frames extends Component {
     super(...args);
 
     this.state = {
-      showAllFrames: false,
+      showAllFrames: false
     };
 
     this.renderFrame = this.renderFrame.bind(this);
@@ -62,7 +62,7 @@ class Frames extends Component {
 
   toggleFramesDisplay() {
     this.setState({
-      showAllFrames: !this.state.showAllFrames,
+      showAllFrames: !this.state.showAllFrames
     });
   }
 
@@ -82,7 +82,7 @@ class Frames extends Component {
         label: copySourceUrlLabel,
         accesskey: copySourceUrlKey,
         disabled: false,
-        click: () => copyToTheClipboard(source.url),
+        click: () => copyToTheClipboard(source.url)
       };
 
       menuOptions.push(copySourceUrl);
@@ -98,12 +98,12 @@ class Frames extends Component {
       {
         key: frame.id,
         className: classNames("frame", {
-          selected: selectedFrame && selectedFrame.id === frame.id,
+          selected: selectedFrame && selectedFrame.id === frame.id
         }),
         onMouseDown: e => this.onMouseDown(e, frame, selectedFrame),
         onKeyUp: e => this.onKeyUp(e, frame, selectedFrame),
         onContextMenu: e => this.onContextMenu(e, frame),
-        tabIndex: 0,
+        tabIndex: 0
       },
       renderFrameTitle(frame),
       renderFrameLocation(frame)
@@ -172,7 +172,7 @@ class Frames extends Component {
 Frames.propTypes = {
   frames: PropTypes.array,
   selectedFrame: PropTypes.object,
-  selectFrame: PropTypes.func.isRequired,
+  selectFrame: PropTypes.func.isRequired
 };
 
 Frames.displayName = "Frames";
@@ -192,14 +192,14 @@ function getAndProcessFrames(state) {
     .filter(frame => getSourceForFrame(state, frame))
     .map(frame =>
       Object.assign({}, frame, {
-        source: getSourceForFrame(state, frame).toJS(),
+        source: getSourceForFrame(state, frame).toJS()
       }));
 }
 
 export default connect(
   state => ({
     frames: getAndProcessFrames(state),
-    selectedFrame: getSelectedFrame(state),
+    selectedFrame: getSelectedFrame(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Frames);

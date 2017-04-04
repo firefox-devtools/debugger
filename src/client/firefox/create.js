@@ -6,7 +6,7 @@ import type {
   PausedPacket,
   FramesResponse,
   FramePacket,
-  SourcePayload,
+  SourcePayload
 } from "./types";
 
 function createFrame(frame: FramePacket): Frame {
@@ -24,10 +24,10 @@ function createFrame(frame: FramePacket): Frame {
     location: {
       sourceId: frame.where.source.actor,
       line: frame.where.line,
-      column: frame.where.column,
+      column: frame.where.column
     },
     this: frame.this,
-    scope: frame.environment,
+    scope: frame.environment
   };
 }
 
@@ -36,7 +36,7 @@ function createSource(source: SourcePayload): Source {
     id: source.actor,
     url: source.url,
     isPrettyPrinted: false,
-    sourceMapURL: source.sourceMapURL,
+    sourceMapURL: source.sourceMapURL
   };
 }
 
@@ -46,12 +46,12 @@ function createPause(packet: PausedPacket, response: FramesResponse): any {
 
   return Object.assign({}, packet, {
     frame: createFrame(frame),
-    frames: response.frames.map(createFrame),
+    frames: response.frames.map(createFrame)
   });
 }
 
 module.exports = {
   createFrame,
   createSource,
-  createPause,
+  createPause
 };

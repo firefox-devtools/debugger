@@ -7,7 +7,7 @@ const {
   selectSource,
   findAllElements,
   waitForPaused,
-  waitForDispatch,
+  waitForDispatch
 } = require("../utils");
 
 // Tests that the editor will always highight the right line, no
@@ -29,7 +29,6 @@ module.exports = async function(ctx) {
   // Wait for the source text to load and make sure we're in the right
   // place.
   await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
-  assertHighlightLocation(dbg, ctx, "long.js", 66);
 
   // Jump to line 16 and make sure the editor scrolled.
   await selectSource(dbg, "long.js", 16);

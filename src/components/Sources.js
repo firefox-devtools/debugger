@@ -24,7 +24,7 @@ class Sources extends Component {
         {
           className: "sources-header-info",
           dir: "ltr",
-          onClick: () => this.props.toggleProjectSearch(),
+          onClick: () => this.props.toggleProjectSearch()
         },
         L10N.getFormatStr(
           "sources.search",
@@ -49,7 +49,7 @@ Sources.propTypes = {
   sources: ImPropTypes.map.isRequired,
   selectSource: PropTypes.func.isRequired,
   horizontal: PropTypes.bool.isRequired,
-  toggleProjectSearch: PropTypes.func.isRequired,
+  toggleProjectSearch: PropTypes.func.isRequired
 };
 
 Sources.displayName = "Sources";
@@ -57,7 +57,7 @@ Sources.displayName = "Sources";
 export default connect(
   state => ({
     selectedSource: getSelectedSource(state),
-    sources: getSources(state),
+    sources: getSources(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Sources);

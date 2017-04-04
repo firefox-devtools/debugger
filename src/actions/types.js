@@ -8,7 +8,7 @@ import type {
   Location,
   SourceText,
   Frame,
-  Why,
+  Why
 } from "../types";
 
 /**
@@ -27,6 +27,7 @@ export type ThunkArgs = {
   dispatch: () => Promise<any>,
   getState: () => any,
   client: any,
+  sourceMaps: any
 };
 
 export type ActionType = Object | Function;
@@ -46,7 +47,7 @@ export type AsyncStatus = "start" | "done" | "error";
 type BreakpointResult = {
   actualLocation: Location,
   id: string,
-  text: string,
+  text: string
 };
 
 type BreakpointAction =
@@ -56,14 +57,14 @@ type BreakpointAction =
       condition: string,
       status: AsyncStatus,
       error: string,
-      value: BreakpointResult,
+      value: BreakpointResult
     }
   | {
       type: "REMOVE_BREAKPOINT",
       breakpoint: Breakpoint,
       status: AsyncStatus,
       error: string,
-      disabled: boolean,
+      disabled: boolean
     }
   | {
       type: "SET_BREAKPOINT_CONDITION",
@@ -71,14 +72,14 @@ type BreakpointAction =
       condition: string,
       status: AsyncStatus,
       value: BreakpointResult,
-      error: string,
+      error: string
     }
   | {
       type: "TOGGLE_BREAKPOINTS",
       shouldDisableBreakpoints: boolean,
       status: AsyncStatus,
       error: string,
-      value: any,
+      value: any
     };
 
 type SourceAction =
@@ -88,7 +89,7 @@ type SourceAction =
       type: "SELECT_SOURCE",
       source: Source,
       line?: number,
-      tabIndex?: number,
+      tabIndex?: number
     }
   | { type: "SELECT_SOURCE_URL", url: string, line?: number }
   | {
@@ -96,14 +97,14 @@ type SourceAction =
       source: Source,
       status: AsyncStatus,
       error: string,
-      value: SourceText,
+      value: SourceText
     }
   | {
       type: "BLACKBOX",
       source: Source,
       status: AsyncStatus,
       error: string,
-      value: { isBlackBoxed: boolean },
+      value: { isBlackBoxed: boolean }
     }
   | {
       type: "TOGGLE_PRETTY_PRINT",
@@ -114,8 +115,8 @@ type SourceAction =
       value: {
         isPrettyPrinted: boolean,
         sourceText: SourceText,
-        frames: Frame[],
-      },
+        frames: Frame[]
+      }
     }
   | { type: "CLOSE_TAB", url: string };
 
@@ -124,24 +125,24 @@ export type panelPositionType = "start" | "end";
 type UIAction =
   | {
       type: "TOGGLE_FILE_SEARCH",
-      value: boolean,
+      value: boolean
     }
   | {
       type: "TOGGLE_PROJECT_SEARCH",
-      value: boolean,
+      value: boolean
     }
   | {
       type: "TOGGLE_FILE_SEARCH_MODIFIER",
-      modifier: "caseSensitive" | "wholeWord" | "regexMatch",
+      modifier: "caseSensitive" | "wholeWord" | "regexMatch"
     }
   | {
       type: "SHOW_SOURCE",
-      sourceUrl: string,
+      sourceUrl: string
     }
   | {
       type: "TOGGLE_PANE",
       position: panelPositionType,
-      paneCollapsed: boolean,
+      paneCollapsed: boolean
     };
 
 type PauseAction =
@@ -152,16 +153,16 @@ type PauseAction =
       pauseInfo: {
         why: Why,
         frame: Frame,
-        isInterrupted?: boolean,
+        isInterrupted?: boolean
       },
       frames: Frame[],
       selectedFrameId: string,
-      loadedObjects: LoadedObject[],
+      loadedObjects: LoadedObject[]
     }
   | {
       type: "PAUSE_ON_EXCEPTIONS",
       shouldPauseOnExceptions: boolean,
-      shouldIgnoreCaughtExceptions: boolean,
+      shouldIgnoreCaughtExceptions: boolean
     }
   | { type: "COMMAND", value: void }
   | { type: "SELECT_FRAME", frame: Frame }
@@ -170,14 +171,14 @@ type PauseAction =
       objectId: string,
       status: string,
       value: Object,
-      "@@dispatch/promise": any,
+      "@@dispatch/promise": any
     }
   | {
       type: "ADD_EXPRESSION",
       id: number,
       input: string,
       value: string,
-      visible: boolean,
+      visible: boolean
     }
   | {
       type: "EVALUATE_EXPRESSION",
@@ -185,17 +186,17 @@ type PauseAction =
       status: string,
       value: Object,
       visible: boolean,
-      "@@dispatch/promise": any,
+      "@@dispatch/promise": any
     }
   | {
       type: "UPDATE_EXPRESSION",
       expression: Expression,
       input: string,
-      visible: boolean,
+      visible: boolean
     }
   | {
       type: "DELETE_EXPRESSION",
-      input: string,
+      input: string
     };
 
 type NavigateAction = { type: "NAVIGATE", url: string };

@@ -4,7 +4,7 @@ const {
   findElement,
   findElementWithSelector,
   selectSource,
-  pressKey,
+  pressKey
 } = require("../utils");
 
 async function keyboardNavigation(ctx) {

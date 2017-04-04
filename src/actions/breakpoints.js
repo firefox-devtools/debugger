@@ -12,12 +12,6 @@ import constants from "../constants";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import { getBreakpoint, getBreakpoints, getSource } from "../selectors";
 
-import {
-  getOriginalLocation,
-  getGeneratedLocation,
-  isOriginalId,
-} from "devtools-source-map";
-
 import type { ThunkArgs } from "./types";
 import type { Location } from "../types";
 
@@ -55,7 +49,7 @@ export function addBreakpoint(
   location: Location,
   { condition, getTextForLine }: addBreakpointOptions = {}
 ) {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
       return Promise.resolve();
     }
@@ -67,18 +61,21 @@ export function addBreakpoint(
       breakpoint: bp,
       condition: condition,
       [PROMISE]: (async function() {
-        if (isOriginalId(bp.location.sourceId)) {
+        if (sourceMaps.isOriginalId(bp.location.sourceId)) {
           const source = getSource(getState(), bp.location.sourceId);
-          location = await getGeneratedLocation(bp.location, source.toJS());
+          location = await sourceMaps.getGeneratedLocation(
+            bp.location,
+            source.toJS()
+          );
         }
 
         let { id, actualLocation, hitCount } = await client.setBreakpoint(
           location,
           bp.condition,
-          isOriginalId(bp.location.sourceId)
+          sourceMaps.isOriginalId(bp.location.sourceId)
         );
 
-        actualLocation = await getOriginalLocation(actualLocation);
+        actualLocation = await sourceMaps.getOriginalLocation(actualLocation);
 
         // If this breakpoint is being re-enabled, it already has a
         // text snippet.
@@ -88,7 +85,7 @@ export function addBreakpoint(
         }
 
         return { id, actualLocation, text, hitCount };
-      })(),
+      })()
     });
   };
 }
@@ -128,7 +125,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
     const action = {
       type: constants.REMOVE_BREAKPOINT,
       breakpoint: bp,
-      disabled: isDisabled,
+      disabled: isDisabled
     };
 
     // If the breakpoint is already disabled, we don't need to remove
@@ -138,7 +135,7 @@ function _removeOrDisableBreakpoint(location, isDisabled) {
     if (!bp.disabled) {
       return dispatch(
         Object.assign({}, action, {
-          [PROMISE]: client.removeBreakpoint(bp.id),
+          [PROMISE]: client.removeBreakpoint(bp.id)
         })
       );
     }
@@ -166,7 +163,7 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
             await dispatch(enableBreakpoint(breakpoint.location));
           }
         }
-      })(),
+      })()
     });
   };
 }
@@ -187,7 +184,7 @@ export function setBreakpointCondition(
   { condition, getTextForLine }: addBreakpointOptions = {}
 ) {
   // location: Location, condition: string, { getTextForLine }) {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
       return dispatch(addBreakpoint(location, { condition, getTextForLine }));
@@ -207,8 +204,8 @@ export function setBreakpointCondition(
         bp.id,
         location,
         condition,
-        isOriginalId(bp.location.sourceId)
-      ),
+        sourceMaps.isOriginalId(bp.location.sourceId)
+      )
     });
   };
 }

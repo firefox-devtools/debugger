@@ -29,7 +29,7 @@ export function resumed() {
 
     return dispatch({
       type: constants.RESUME,
-      value: undefined,
+      value: undefined
     });
   };
 }
@@ -42,9 +42,9 @@ export function resumed() {
  * @static
  */
 export function paused(pauseInfo: Pause) {
-  return async function({ dispatch, getState, client }: ThunkArgs) {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     let { frames, why, loadedObjects } = pauseInfo;
-    frames = await updateFrameLocations(frames);
+    frames = await updateFrameLocations(frames, sourceMaps);
     const frame = frames[0];
 
     dispatch({
@@ -52,7 +52,7 @@ export function paused(pauseInfo: Pause) {
       pauseInfo: { why, frame },
       frames: frames,
       selectedFrameId: frame.id,
-      loadedObjects: loadedObjects || [],
+      loadedObjects: loadedObjects || []
     });
 
     dispatch(evaluateExpressions(frame.id));
@@ -80,7 +80,7 @@ export function pauseOnExceptions(
       [PROMISE]: client.pauseOnExceptions(
         shouldPauseOnExceptions,
         shouldIgnoreCaughtExceptions
-      ),
+      )
     });
   };
 }
@@ -99,7 +99,7 @@ export function command({ type }: CommandType) {
 
     return dispatch({
       type: constants.COMMAND,
-      value: undefined,
+      value: undefined
     });
   };
 }
@@ -174,7 +174,7 @@ export function breakOnNext() {
 
     return dispatch({
       type: constants.BREAK_ON_NEXT,
-      value: true,
+      value: true
     });
   };
 }
@@ -191,7 +191,7 @@ export function selectFrame(frame: Frame) {
     );
     dispatch({
       type: constants.SELECT_FRAME,
-      frame,
+      frame
     });
   };
 }
@@ -211,7 +211,7 @@ export function loadObjectProperties(object: any) {
     dispatch({
       type: constants.LOAD_OBJECT_PROPERTIES,
       objectId,
-      [PROMISE]: client.getProperties(object),
+      [PROMISE]: client.getProperties(object)
     });
   };
 }

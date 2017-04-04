@@ -11,7 +11,7 @@ function renderConditionalPanel(
   {
     condition,
     closePanel,
-    setBreakpoint,
+    setBreakpoint
   }: { condition: ?string, closePanel: Function, setBreakpoint: Function }
 ) {
   let panel = document.createElement("div");
@@ -45,12 +45,12 @@ function renderConditionalPanel(
         defaultValue: condition,
         placeholder: L10N.getStr("editor.conditionalPanel.placeholder"),
         onKeyDown: onKey,
-        ref: setInput,
+        ref: setInput
       }),
       CloseButton({
         handleClick: closePanel,
         buttonClass: "big",
-        tooltip: L10N.getStr("editor.conditionalPanel.close"),
+        tooltip: L10N.getStr("editor.conditionalPanel.close")
       })
     ),
     panel
@@ -60,5 +60,5 @@ function renderConditionalPanel(
 }
 
 module.exports = {
-  renderConditionalPanel,
+  renderConditionalPanel
 };

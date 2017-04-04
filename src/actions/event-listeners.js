@@ -65,21 +65,21 @@ export function fetchEventListeners() {
             predicate: action =>
               action.type === constants.FETCH_EVENT_LISTENERS &&
               action.status === "done",
-            run: dispatch => dispatch(fetchEventListeners()),
+            run: dispatch => dispatch(fetchEventListeners())
           });
           return;
         }
 
         dispatch({
           type: constants.FETCH_EVENT_LISTENERS,
-          status: "begin",
+          status: "begin"
         });
 
         asPaused(getState(), client, _getEventListeners).then(listeners => {
           dispatch({
             type: constants.FETCH_EVENT_LISTENERS,
             status: "done",
-            listeners: formatListeners(getState(), listeners),
+            listeners: formatListeners(getState(), listeners)
           });
         });
       },
@@ -94,7 +94,7 @@ function formatListeners(state, listeners) {
       selector: l.node.selector,
       type: l.type,
       sourceId: getSourceByURL(state, l.function.location.url).get("id"),
-      line: l.function.location.line,
+      line: l.function.location.line
     };
   });
 }
@@ -163,7 +163,7 @@ export function updateEventBreakpoints(eventNames) {
 
         dispatch({
           type: constants.UPDATE_EVENT_BREAKPOINTS,
-          eventNames: eventNames,
+          eventNames: eventNames
         });
       });
     });

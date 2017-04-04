@@ -5,13 +5,13 @@ const {
   getDocument,
   setDocument,
   removeDocument,
-  clearDocuments,
+  clearDocuments
 } = require("./source-documents");
 
 import {
   getTokenLocation,
-  getExpressionFromToken,
-  previewExpression,
+  resolveToken,
+  previewExpression
 } from "./expression.js";
 
 const {
@@ -20,7 +20,7 @@ const {
   findNext,
   findPrev,
   removeOverlay,
-  clearIndex,
+  clearIndex
 } = require("./source-search");
 
 const SourceEditor = require("./source-editor");
@@ -123,8 +123,8 @@ function createEditor() {
       // Override code mirror keymap to avoid conflicts with split console.
       Esc: false,
       "Cmd-F": false,
-      "Cmd-G": false,
-    },
+      "Cmd-G": false
+    }
   });
 }
 
@@ -161,7 +161,7 @@ module.exports = {
   resizeBreakpointGutter,
   traverseResults,
   getTokenLocation,
-  getExpressionFromToken,
+  resolveToken,
   previewExpression,
-  updateDocument,
+  updateDocument
 };

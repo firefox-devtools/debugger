@@ -1,6 +1,6 @@
 // @flow
 
-import { getExpression } from "../parser";
+import { resolveToken as resolveTokenFromParser } from "../parser";
 import type { Expression, Frame, SourceText } from "../../types";
 import type { Record } from "../makeRecord";
 
@@ -11,17 +11,23 @@ export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
 
   return {
     line: line + lineOffset,
-    column: ch,
+    column: ch
   };
 }
 
-export async function getExpressionFromToken(
+export async function resolveToken(
   cm: any,
   token: HTMLElement,
-  sourceText: Record<SourceText>
+  sourceText: Record<SourceText>,
+  frame: Frame
 ) {
   const loc = getTokenLocation(cm, token);
-  return await getExpression(sourceText.toJS(), token.textContent || "", loc);
+  return await resolveTokenFromParser(
+    sourceText.toJS(),
+    token.textContent || "",
+    loc,
+    frame
+  );
 }
 
 export function getThisFromFrame(selectedFrame: Frame) {
@@ -38,7 +44,7 @@ type PreviewExpressionArgs = {
   expression: Expression,
   selectedFrame: Frame,
   tokenText: string,
-  variables: Map<string | null, Object>,
+  variables: Map<string | null, Object>
 };
 
 export function previewExpression(

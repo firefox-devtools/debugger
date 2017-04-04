@@ -4,7 +4,7 @@ const {
   waitForPaused,
   assertPausedLocation,
   pressKey,
-  reload,
+  reload
 } = require("../utils");
 
 function pressResume(dbg) {

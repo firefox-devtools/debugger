@@ -6,7 +6,7 @@ const {
   getFileSearchQueryState,
   getFileSearchModifierState,
   getProjectSearchState,
-  getPaneCollapse,
+  getPaneCollapse
 } = selectors;
 
 describe("ui", () => {

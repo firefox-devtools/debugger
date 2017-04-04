@@ -8,7 +8,7 @@ export function recordCoverage() {
 
     return dispatch({
       type: constants.RECORD_COVERAGE,
-      value: { coverage },
+      value: { coverage }
     });
   };
 }

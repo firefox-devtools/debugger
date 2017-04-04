@@ -9,38 +9,38 @@ function GutterMenu(
     showConditionalPanel,
     toggleBreakpointDisabledStatus,
     isCbPanelOpen,
-    closeConditionalPanel,
+    closeConditionalPanel
   }
 ) {
   event.stopPropagation();
   event.preventDefault();
   let breakpoint = {
     id: "node-menu-add-breakpoint",
-    label: L10N.getStr("editor.addBreakpoint"),
+    label: L10N.getStr("editor.addBreakpoint")
   },
     conditional = {
       id: "node-menu-add-conditional-breakpoint",
-      label: L10N.getStr("editor.addConditionalBreakpoint"),
+      label: L10N.getStr("editor.addConditionalBreakpoint")
     },
     disabled;
   if (bp) {
     breakpoint = {
       id: "node-menu-remove-breakpoint",
-      label: L10N.getStr("editor.removeBreakpoint"),
+      label: L10N.getStr("editor.removeBreakpoint")
     };
     conditional = {
       id: "node-menu-edit-conditional-breakpoint",
-      label: L10N.getStr("editor.editBreakpoint"),
+      label: L10N.getStr("editor.editBreakpoint")
     };
     if (bp.disabled) {
       disabled = {
         id: "node-menu-enable-breakpoint",
-        label: L10N.getStr("editor.enableBreakpoint"),
+        label: L10N.getStr("editor.enableBreakpoint")
       };
     } else {
       disabled = {
         id: "node-menu-disable-breakpoint",
-        label: L10N.getStr("editor.disableBreakpoint"),
+        label: L10N.getStr("editor.disableBreakpoint")
       };
     }
   }
@@ -54,7 +54,7 @@ function GutterMenu(
         if (isCbPanelOpen) {
           closeConditionalPanel();
         }
-      },
+      }
     },
     breakpoint
   );
@@ -63,7 +63,7 @@ function GutterMenu(
     {
       accesskey: "C",
       disabled: false,
-      click: () => showConditionalPanel(line),
+      click: () => showConditionalPanel(line)
     },
     conditional
   );
@@ -75,7 +75,7 @@ function GutterMenu(
       {
         accesskey: "D",
         disabled: false,
-        click: () => toggleBreakpointDisabledStatus(line),
+        click: () => toggleBreakpointDisabledStatus(line)
       },
       disabled
     );

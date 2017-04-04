@@ -9,7 +9,7 @@ function getBindingVariables(bindings, parentName) {
   return args.concat(variables).map(binding => ({
     name: binding[0],
     path: `${parentName}/${binding[0]}`,
-    contents: binding[1],
+    contents: binding[1]
   }));
 }
 
@@ -35,7 +35,7 @@ function getSpecialVariables(pauseInfo, path) {
     vars.push({
       name: "<exception>",
       path: `${path}/<exception>`,
-      contents: { value: thrown },
+      contents: { value: thrown }
     });
   }
 
@@ -47,7 +47,7 @@ function getSpecialVariables(pauseInfo, path) {
       vars.push({
         name: "<return>",
         path: `${path}/<return>`,
-        contents: { value: returned },
+        contents: { value: returned }
       });
     }
   }
@@ -65,7 +65,7 @@ function getThisVariable(frame, path) {
   return {
     name: "<this>",
     path: `${path}/<this>`,
-    contents: { value: this_ },
+    contents: { value: this_ }
   };
 }
 
@@ -126,7 +126,7 @@ function getScopes(pauseInfo, selectedFrame) {
       scopes.push({
         name: scope.object.class,
         path: key,
-        contents: { value },
+        contents: { value }
       });
     }
   } while ((scope = scope.parent)); // eslint-disable-line no-cond-assign
@@ -160,5 +160,5 @@ function getVisibleVariablesFromScope(pauseInfo, selectedFrame) {
 module.exports = {
   getScopes,
   getSpecialVariables,
-  getVisibleVariablesFromScope,
+  getVisibleVariablesFromScope
 };

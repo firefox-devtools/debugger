@@ -50,7 +50,7 @@ function isPromise(item) {
 function getPromiseProperties(item) {
   const { promiseState: { reason, value } } = getValue(item);
   return createNode("reason", `${item.path}/reason`, {
-    value: !reason ? value : reason,
+    value: !reason ? value : reason
   });
 }
 
@@ -81,7 +81,7 @@ function makeNodesForProperties(
   objProps,
   parentPath,
   {
-    bucketSize = 100,
+    bucketSize = 100
   } = {}
 ) {
   const { ownProperties, prototype, ownSymbols } = objProps;
@@ -156,7 +156,7 @@ function getChildren(
   {
     getObjectProperties,
     actors,
-    item,
+    item
   }
 ) {
   const obj = item.contents;
@@ -216,5 +216,5 @@ module.exports = {
   getChildren,
   createNode,
   isPromise,
-  getPromiseProperties,
+  getPromiseProperties
 };

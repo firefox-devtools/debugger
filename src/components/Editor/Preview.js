@@ -40,7 +40,7 @@ class Preview extends Component {
     const children = getChildren({
       getObjectProperties,
       actors,
-      item: root,
+      item: root
     });
 
     if (children.length > 0) {
@@ -64,7 +64,7 @@ class Preview extends Component {
         dom.a(
           {
             className: "link",
-            onClick: () => selectSourceURL(url, { line }),
+            onClick: () => selectSourceURL(url, { line })
           },
           filename
         )
@@ -87,7 +87,7 @@ class Preview extends Component {
   renderObjectInspector(root) {
     const {
       loadObjectProperties,
-      loadedObjects,
+      loadedObjects
     } = this.props;
 
     const getObjectProperties = id => loadedObjects.get(id);
@@ -99,8 +99,8 @@ class Preview extends Component {
       autoExpandDepth: 0,
       onDoubleClick: () => {},
       loadObjectProperties,
-      getActors: () => ({}),
       setActors: () => ({}),
+      getActors: () => ({})
     });
   }
 
@@ -108,7 +108,7 @@ class Preview extends Component {
     const root = {
       name: expression,
       path: expression,
-      contents: { value },
+      contents: { value }
     };
 
     if (value.class === "Function") {
@@ -127,13 +127,13 @@ class Preview extends Component {
       popoverTarget,
       onClose,
       value,
-      expression,
+      expression
     } = this.props;
 
     return Popover(
       {
         target: popoverTarget,
-        onMouseLeave: onClose,
+        onMouseLeave: onClose
       },
       this.renderPreview(expression, value)
     );
@@ -148,14 +148,14 @@ Preview.propTypes = {
   value: PropTypes.any,
   expression: PropTypes.string,
   onClose: PropTypes.func,
-  selectSourceURL: PropTypes.func,
+  selectSourceURL: PropTypes.func
 };
 
 Preview.displayName = "Preview";
 
 export default connect(
   state => ({
-    loadedObjects: getLoadedObjects(state),
+    loadedObjects: getLoadedObjects(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Preview);

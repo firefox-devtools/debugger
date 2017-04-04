@@ -65,7 +65,7 @@ function isWhitespace(query) {
  */
 function searchOverlay(query, modifiers) {
   const regexQuery = buildQuery(query, modifiers, {
-    ignoreSpaces: true,
+    ignoreSpaces: true
   });
 
   let matchLength = null;
@@ -101,7 +101,7 @@ function searchOverlay(query, modifiers) {
       while (!stream.match(regexQuery, false) && stream.peek()) {
         stream.next();
       }
-    },
+    }
   };
 }
 
@@ -316,7 +316,7 @@ function countMatches(
   modifiers: SearchModifiers
 ): number {
   const regexQuery = buildQuery(query, modifiers, {
-    isGlobal: true,
+    isGlobal: true
   });
   const match = text.match(regexQuery);
   return match ? match.length : 0;
@@ -330,5 +330,5 @@ module.exports = {
   findNext,
   findPrev,
   removeOverlay,
-  getMatchIndex,
+  getMatchIndex
 };

@@ -6,7 +6,7 @@ const {
   selectSource,
   addBreakpoint,
   invokeInTab,
-  waitForPaused,
+  waitForPaused
 } = require("../utils");
 
 // Tests loading sourcemapped sources, setting breakpoints, and

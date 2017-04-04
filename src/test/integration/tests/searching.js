@@ -8,7 +8,7 @@ const {
   invokeInTab,
   clickElement,
   findElement,
-  waitForDispatch,
+  waitForDispatch
 } = require("../utils");
 
 // Testing source search

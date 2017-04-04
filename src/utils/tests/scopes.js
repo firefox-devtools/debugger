@@ -1,6 +1,6 @@
 const {
   getSpecialVariables,
-  getVisibleVariablesFromScope,
+  getVisibleVariablesFromScope
 } = require("../scopes");
 const fromJS = require("../fromJS");
 
@@ -21,8 +21,8 @@ const errorGrip = {
     stack: "onclick@http://localhost:8000/examples/doc-return-values.html:1:18\n",
     fileName: "http://localhost:8000/examples/doc-return-values.html",
     lineNumber: 1,
-    columnNumber: 18,
-  },
+    columnNumber: 18
+  }
 };
 
 function returnWhy(grip) {
@@ -30,9 +30,9 @@ function returnWhy(grip) {
     why: {
       type: "resumeLimit",
       frameFinished: {
-        return: grip,
-      },
-    },
+        return: grip
+      }
+    }
   };
 }
 
@@ -41,9 +41,9 @@ function throwWhy(grip) {
     why: {
       type: "resumeLimit",
       frameFinished: {
-        throw: grip,
-      },
-    },
+        throw: grip
+      }
+    }
   };
 }
 
@@ -148,7 +148,7 @@ describe("scopes", () => {
           function: {
             type: "object",
             class: "Function",
-            actor: "server2.conn1.pausedobj44",
+            actor: "server2.conn1.pausedobj44"
           },
           bindings: {
             arguments: [],
@@ -162,26 +162,26 @@ describe("scopes", () => {
                   displayName: "func",
                   actor: "server2.conn1.pausedobj45",
                   class: "Function",
-                  type: "object",
-                },
-              },
-            },
-          },
+                  type: "object"
+                }
+              }
+            }
+          }
         },
         function: {
           name: "func",
           displayName: "func",
           actor: "server2.conn1.pausedobj45",
           class: "Function",
-          type: "object",
+          type: "object"
         },
         bindings: {
           arguments: [{ b: { value: "bb" } }, { d: { value: "dd" } }],
           variables: {
-            c: { value: "cc" },
-          },
-        },
-      },
+            c: { value: "cc" }
+          }
+        }
+      }
     };
 
     let pauseInfo;
@@ -190,10 +190,10 @@ describe("scopes", () => {
       // Default pauseInfo is using the innermost frame in the stack.
       pauseInfo = fromJS({
         why: {
-          type: "debuggerStatement",
+          type: "debuggerStatement"
         },
         frame,
-        isInterrupted: false,
+        isInterrupted: false
       });
 
       global.L10N = { getStr: () => "" };
@@ -210,7 +210,7 @@ describe("scopes", () => {
         a: "a",
         b: "bb",
         c: "cc",
-        d: "dd",
+        d: "dd"
       };
 
       for (const variableName in expectations) {

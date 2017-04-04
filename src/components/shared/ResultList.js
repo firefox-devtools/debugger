@@ -8,7 +8,7 @@ type ResultListItem = {
   id: string,
   subtitle: string,
   title: string,
-  value: string,
+  value: string
 };
 
 const ResultList = createClass({
@@ -16,27 +16,27 @@ const ResultList = createClass({
     items: PropTypes.array.isRequired,
     selected: PropTypes.number.isRequired,
     selectItem: PropTypes.func.isRequired,
-    size: PropTypes.string,
+    size: PropTypes.string
   },
 
   displayName: "ResultList",
 
   getDefaultProps() {
     return {
-      size: "",
+      size: ""
     };
   },
 
   renderListItem(item: ResultListItem, index: number) {
     return dom.li(
       {
-        onClick: () => this.props.selectItem(item),
+        onClick: event => this.props.selectItem(event, item, index),
         key: `${item.id}${item.value}${index}`,
         ref: index,
         title: item.value,
         className: classnames({
-          selected: index === this.props.selected,
-        }),
+          selected: index === this.props.selected
+        })
       },
       dom.div({ className: "title" }, item.title),
       dom.div({ className: "subtitle" }, item.subtitle)
@@ -48,11 +48,11 @@ const ResultList = createClass({
     size = size || "";
     return dom.ul(
       {
-        className: `result-list ${size}`,
+        className: `result-list ${size}`
       },
       this.props.items.map(this.renderListItem)
     );
-  },
+  }
 });
 
 export default ResultList;

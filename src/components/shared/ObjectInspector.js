@@ -13,7 +13,7 @@ const {
   nodeIsPrimitive,
   isDefault,
   getChildren,
-  createNode,
+  createNode
 } = require("../../utils/object-inspector");
 
 const { DOM: dom, PropTypes } = React;
@@ -27,23 +27,23 @@ export type ObjectInspectorItemContentsValue = {
   ownPropertyLength: number,
   preview: Object,
   sealed: boolean,
-  type: string,
+  type: string
 };
 
 type ObjectInspectorItemContents = {
-  value: ObjectInspectorItemContentsValue,
+  value: ObjectInspectorItemContentsValue
 };
 
 type ObjectInspectorItem = {
   contents: ObjectInspectorItemContents & Array<ObjectInspectorItem>,
   name: string,
-  path: string,
+  path: string
 };
 
 type DefaultProps = {
   onLabelClick: any,
   onDoubleClick: any,
-  autoExpandDepth: number,
+  autoExpandDepth: number
 };
 
 // This implements a component that renders an interactive inspector
@@ -86,7 +86,7 @@ const ObjectInspector = React.createClass({
     getExpanded: PropTypes.func,
     setExpanded: PropTypes.func,
     getActors: PropTypes.func.isRequired,
-    setActors: PropTypes.func.isRequired,
+    setActors: PropTypes.func.isRequired
   },
 
   actors: (null: any),
@@ -102,7 +102,7 @@ const ObjectInspector = React.createClass({
       onLabelClick: () => {},
       onDoubleClick: () => {},
       autoExpandDepth: 1,
-      getActors: () => ({}),
+      getActors: () => ({})
     };
   },
 
@@ -156,7 +156,7 @@ const ObjectInspector = React.createClass({
     return getChildren({
       getObjectProperties,
       actors,
-      item,
+      item
     });
   },
 
@@ -182,7 +182,7 @@ const ObjectInspector = React.createClass({
       {
         className: classnames("node object-node", {
           focused,
-          "default-property": isDefault(item),
+          "default-property": isDefault(item)
         }),
         style: { marginLeft: depth * 15 },
         onClick: e => {
@@ -194,15 +194,15 @@ const ObjectInspector = React.createClass({
           this.props.onDoubleClick(item, {
             depth,
             focused,
-            expanded,
+            expanded
           });
-        },
+        }
       },
       Svg("arrow", {
         className: classnames({
           expanded: expanded,
-          hidden: nodeIsPrimitive(item),
-        }),
+          hidden: nodeIsPrimitive(item)
+        })
       }),
       dom.span(
         {
@@ -214,9 +214,9 @@ const ObjectInspector = React.createClass({
               depth,
               focused,
               expanded,
-              setExpanded,
+              setExpanded
             });
-          },
+          }
         },
         item.name
       ),
@@ -232,7 +232,7 @@ const ObjectInspector = React.createClass({
       loadObjectProperties,
       autoExpandDepth,
       getExpanded,
-      setExpanded,
+      setExpanded
     } = this.props;
 
     let roots = this.props.roots;
@@ -257,9 +257,9 @@ const ObjectInspector = React.createClass({
       },
       getExpanded,
       setExpanded,
-      renderItem: this.renderItem,
+      renderItem: this.renderItem
     });
-  },
+  }
 });
 
 module.exports = ObjectInspector;

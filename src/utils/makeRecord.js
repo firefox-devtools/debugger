@@ -24,7 +24,7 @@ export type Record<T: Object> =
     mergeIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>,
     delete<A>(key: $Keys<T>, value: A): Record<T>,
     deleteIn(keyPath: Array<any>, ...iterables: Array<any>): Record<T>,
-    toJS(): T,
+    toJS(): T
   }
   & T;
 

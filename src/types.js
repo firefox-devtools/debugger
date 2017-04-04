@@ -3,13 +3,18 @@
 export type SearchModifiers = {
   caseSensitive: boolean,
   wholeWord: boolean,
-  regexMatch: boolean,
+  regexMatch: boolean
 };
 
 export type Expression = {
   value: Object,
   input: string,
-  visible: boolean,
+  visible: boolean
+};
+
+export type TokenResolution = {
+  expression?: Object | null,
+  inScope: boolean
 };
 
 export type Mode =
@@ -19,8 +24,8 @@ export type Mode =
       typescript?: boolean,
       base?: {
         name: string,
-        typescript: boolean,
-      },
+        typescript: boolean
+      }
     };
 
 export type AlignOpts = "top" | "center" | "bottom";
@@ -34,5 +39,5 @@ export type {
   Source,
   SourceText,
   Pause,
-  Why,
+  Why
 } from "debugger-html";

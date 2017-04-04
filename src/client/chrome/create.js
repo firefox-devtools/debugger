@@ -8,7 +8,7 @@ function fromServerLocation(serverLocation?: ServerLocation): ?Location {
     return {
       sourceId: serverLocation.scriptId,
       line: serverLocation.lineNumber + 1,
-      column: serverLocation.columnNumber,
+      column: serverLocation.columnNumber
     };
   }
 }
@@ -16,7 +16,7 @@ function fromServerLocation(serverLocation?: ServerLocation): ?Location {
 function toServerLocation(location: Location): ServerLocation {
   return {
     scriptId: location.sourceId,
-    lineNumber: location.line - 1,
+    lineNumber: location.line - 1
   };
 }
 
@@ -25,7 +25,7 @@ function createFrame(frame: any) {
     id: frame.callFrameId,
     displayName: frame.functionName,
     scopeChain: frame.scopeChain,
-    location: fromServerLocation(frame.location),
+    location: fromServerLocation(frame.location)
   };
 }
 
@@ -36,7 +36,7 @@ function createLoadedObject(serverObject: any, parentId: string): LoadedObject {
     objectId: value.objectId,
     parentId,
     name,
-    value,
+    value
   };
 }
 
@@ -44,5 +44,5 @@ module.exports = {
   fromServerLocation,
   toServerLocation,
   createFrame,
-  createLoadedObject,
+  createLoadedObject
 };

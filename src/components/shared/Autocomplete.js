@@ -6,7 +6,7 @@ const { filter } = require("fuzzaldrin-plus");
 const classnames = require("classnames");
 const { scrollList } = require("../../utils/result-list");
 const Svg = require("./Svg");
-const SearchInput = createFactory(require("./SearchInput"));
+const SearchInput = createFactory(require("./SearchInput").default);
 const ResultList = createFactory(require("./ResultList").default);
 
 require("./Autocomplete.css");
@@ -19,7 +19,7 @@ const Autocomplete = React.createClass({
     close: PropTypes.func.isRequired,
     inputValue: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
-    size: PropTypes.string,
+    size: PropTypes.string
   },
 
   displayName: "Autocomplete",
@@ -28,13 +28,13 @@ const Autocomplete = React.createClass({
     return {
       inputValue: this.props.inputValue,
       selectedIndex: 0,
-      focused: false,
+      focused: false
     };
   },
 
   getDefaultProps() {
     return {
-      size: "",
+      size: ""
     };
   },
 
@@ -63,7 +63,7 @@ const Autocomplete = React.createClass({
       return [];
     }
     return filter(this.props.items, this.state.inputValue, {
-      key: "value",
+      key: "value"
     });
   },
 
@@ -111,7 +111,7 @@ const Autocomplete = React.createClass({
         selectItem: this.props.selectItem,
         close: this.props.close,
         size,
-        ref: "resultList",
+        ref: "resultList"
       });
     } else if (this.state.inputValue && !results.length) {
       return dom.div(
@@ -141,16 +141,16 @@ const Autocomplete = React.createClass({
         onChange: e =>
           this.setState({
             inputValue: e.target.value,
-            selectedIndex: 0,
+            selectedIndex: 0
           }),
         onFocus: () => this.setState({ focused: true }),
         onBlur: () => this.setState({ focused: false }),
         onKeyDown: this.onKeyDown,
-        handleClose: this.props.close,
+        handleClose: this.props.close
       }),
       this.renderResults(searchResults)
     );
-  },
+  }
 });
 
 module.exports = Autocomplete;

@@ -12,7 +12,7 @@ const {
   waitForSources,
   waitForDispatch,
   waitUntil,
-  waitForTime,
+  waitForTime
 } = require("../utils");
 
 // Tests that the source tree works.

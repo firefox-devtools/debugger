@@ -21,7 +21,7 @@ type PauseState = {
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
-  debuggeeUrl: string,
+  debuggeeUrl: string
 };
 
 const State = makeRecord(
@@ -33,7 +33,7 @@ const State = makeRecord(
     loadedObjects: I.Map(),
     shouldPauseOnExceptions: prefs.pauseOnExceptions,
     shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
-    debuggeeUrl: "",
+    debuggeeUrl: ""
   }: PauseState)
 );
 
@@ -54,7 +54,7 @@ function update(state = State(), action: Action): Record<PauseState> {
         pause: fromJS(pauseInfo),
         selectedFrameId,
         frames,
-        loadedObjects: objectMap,
+        loadedObjects: objectMap
       });
     }
 
@@ -63,7 +63,7 @@ function update(state = State(), action: Action): Record<PauseState> {
         pause: null,
         frames: null,
         selectedFrameId: null,
-        loadedObjects: {},
+        loadedObjects: {}
       });
 
     case constants.TOGGLE_PRETTY_PRINT:
@@ -101,7 +101,7 @@ function update(state = State(), action: Action): Record<PauseState> {
         return state.setIn(["loadedObjects", action.objectId], {
           ownProperties,
           prototype,
-          ownSymbols,
+          ownSymbols
         });
       }
       break;
@@ -117,7 +117,7 @@ function update(state = State(), action: Action): Record<PauseState> {
 
       return state.merge({
         shouldPauseOnExceptions,
-        shouldIgnoreCaughtExceptions,
+        shouldIgnoreCaughtExceptions
       });
   }
 
@@ -200,5 +200,5 @@ module.exports = {
   getShouldIgnoreCaughtExceptions,
   getFrames,
   getSelectedFrame,
-  getDebuggeeUrl,
+  getDebuggeeUrl
 };

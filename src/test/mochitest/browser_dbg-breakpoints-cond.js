@@ -8,7 +8,7 @@ function findBreakpoint(dbg, url, line) {
 }
 
 function setConditionalBreakpoint(dbg, index, condition) {
-  return Task.spawn(function*() {
+  return Task.spawn(function* () {
     rightClickElement(dbg, "gutter", index);
     selectMenuItem(dbg, 2);
     yield waitForElement(dbg, ".conditional-breakpoint-panel input");
@@ -18,7 +18,7 @@ function setConditionalBreakpoint(dbg, index, condition) {
   });
 }
 
-add_task(function*() {
+add_task(function* () {
   const dbg = yield initDebugger("doc-scripts.html");
   yield selectSource(dbg, "simple2");
 
@@ -47,3 +47,4 @@ add_task(function*() {
   bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.condition, "1", "breakpoint is created with the condition");
 });
+

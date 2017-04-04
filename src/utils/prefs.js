@@ -1,6 +1,6 @@
 // @flow
 
-var { PrefsHelper } = require("devtools-sham-modules");
+var { PrefsHelper } = require("devtools-modules");
 const { Services: { pref } } = require("devtools-modules");
 const { isDevelopment } = require("devtools-config");
 
@@ -29,7 +29,7 @@ const prefs = new PrefsHelper("devtools", {
   tabs: ["Json", "debugger.tabs"],
   pendingSelectedLocation: ["Json", "debugger.pending-selected-location"],
   pendingBreakpoints: ["Json", "debugger.pending-breakpoints"],
-  expressions: ["Json", "debugger.expressions"],
+  expressions: ["Json", "debugger.expressions"]
 });
 
 module.exports = { prefs };

@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import actions from "../actions";
 import { getSources, getSelectedSource, getPaneCollapse } from "../selectors";
 
-import { KeyShortcuts } from "devtools-sham-modules";
+import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
 
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
@@ -100,8 +100,8 @@ class App extends Component {
           startPanel: this.renderEditorPane(),
           endPanel: SecondaryPanes({ horizontal }),
           endPanelCollapsed,
-          vert: horizontal,
-        }),
+          vert: horizontal
+        })
       })
     );
   }
@@ -127,10 +127,10 @@ class App extends Component {
           splitterSize: 1,
           startPanelCollapsed,
           startPanel: Sources({ sources, horizontal }),
-          endPanel: this.renderEditorPane(),
+          endPanel: this.renderEditorPane()
         }),
         endPanel: SecondaryPanes({ horizontal }),
-        endPanelCollapsed,
+        endPanelCollapsed
       })
     );
   }
@@ -147,7 +147,7 @@ App.propTypes = {
   selectSource: PropTypes.func,
   selectedSource: PropTypes.object,
   startPanelCollapsed: PropTypes.bool,
-  endPanelCollapsed: PropTypes.bool,
+  endPanelCollapsed: PropTypes.bool
 };
 
 App.displayName = "App";
@@ -159,7 +159,7 @@ export default connect(
     sources: getSources(state),
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
-    endPanelCollapsed: getPaneCollapse(state, "end"),
+    endPanelCollapsed: getPaneCollapse(state, "end")
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

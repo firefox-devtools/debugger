@@ -25,19 +25,19 @@ class EventListeners extends Component {
       {
         className: "listener",
         onClick: () => this.props.selectSource(sourceId, { line }),
-        key: `${type}.${selector}.${sourceId}.${line}`,
+        key: `${type}.${selector}.${sourceId}.${line}`
       },
       dom.input({
         type: "checkbox",
         className: "listener-checkbox",
         checked,
-        onChange: () => this.handleCheckbox(breakpoint, location),
+        onChange: () => this.handleCheckbox(breakpoint, location)
       }),
       dom.span({ className: "type" }, type),
       dom.span({ className: "selector" }, selector),
       breakpoint
         ? CloseButton({
-            handleClick: ev => this.removeBreakpoint(ev, breakpoint),
+            handleClick: ev => this.removeBreakpoint(ev, breakpoint)
           })
         : ""
     );
@@ -68,7 +68,7 @@ class EventListeners extends Component {
     const { listeners } = this.props;
     return dom.div(
       {
-        className: "pane event-listeners",
+        className: "pane event-listeners"
       },
       listeners.map(this.renderListener)
     );
@@ -81,7 +81,7 @@ EventListeners.propTypes = {
   addBreakpoint: PropTypes.func.isRequired,
   enableBreakpoint: PropTypes.func.isRequired,
   disableBreakpoint: PropTypes.func.isRequired,
-  removeBreakpoint: PropTypes.func.isRequired,
+  removeBreakpoint: PropTypes.func.isRequired
 };
 
 EventListeners.displayName = "EventListeners";
@@ -92,8 +92,8 @@ export default connect(
       Object.assign({}, l, {
         breakpoint: getBreakpoint(state, {
           sourceId: l.sourceId,
-          line: l.line,
-        }),
+          line: l.line
+        })
       }));
 
     return { listeners };

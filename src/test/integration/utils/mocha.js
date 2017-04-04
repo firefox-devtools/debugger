@@ -4,7 +4,7 @@ const {
   waitForElement,
   waitForSources,
   waitForTargetEvent,
-  waitForPaused,
+  waitForPaused
 } = require("./wait");
 
 const { type, pressKey } = require("./type");
@@ -69,7 +69,7 @@ function createDebuggerContext(iframe) {
     threadClient: globals.threadClient,
     tabTarget: globals.target,
     win: win,
-    launchpadStore: globals.launchpadStore,
+    launchpadStore: globals.launchpadStore
   };
 }
 
@@ -118,7 +118,7 @@ async function navigate(dbg, url) {
 
   return Promise.race([
     waitForPaused(dbg),
-    waitForTargetEvent(dbg, "navigate"),
+    waitForTargetEvent(dbg, "navigate")
   ]);
 }
 
@@ -157,5 +157,5 @@ module.exports = {
   initDebugger,
   setupTestRunner,
   info,
-  environment: "mocha",
+  environment: "mocha"
 };

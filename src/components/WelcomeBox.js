@@ -17,7 +17,7 @@ const WelcomeBox = createClass({
   propTypes: {
     horizontal: PropTypes.bool,
     togglePaneCollapse: PropTypes.func,
-    endPanelCollapsed: PropTypes.bool,
+    endPanelCollapsed: PropTypes.bool
   },
 
   displayName: "WelcomeBox",
@@ -31,7 +31,7 @@ const WelcomeBox = createClass({
       position: "end",
       collapsed: !this.props.endPanelCollapsed,
       horizontal: this.props.horizontal,
-      handleClick: this.props.togglePaneCollapse,
+      handleClick: this.props.togglePaneCollapse
     });
   },
 
@@ -45,12 +45,12 @@ const WelcomeBox = createClass({
       searchLabel,
       this.renderToggleButton()
     );
-  },
+  }
 });
 
 export default connect(
   state => ({
-    endPanelCollapsed: getPaneCollapse(state, "end"),
+    endPanelCollapsed: getPaneCollapse(state, "end")
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(WelcomeBox);

@@ -8,7 +8,7 @@ import type {
   Location,
   Script,
   Source,
-  SourceId,
+  SourceId
 } from "../types";
 
 import type {
@@ -18,7 +18,7 @@ import type {
   ThreadClient,
   ObjectClient,
   BreakpointClient,
-  BreakpointResponse,
+  BreakpointResponse
 } from "./types";
 
 const { createSource } = require("./create");
@@ -31,7 +31,7 @@ let debuggerClient: DebuggerClient | null;
 type Dependencies = {
   threadClient: ThreadClient,
   tabTarget: TabTarget,
-  debuggerClient: DebuggerClient | null,
+  debuggerClient: DebuggerClient | null
 };
 
 function setupCommands(dependencies: Dependencies): void {
@@ -86,7 +86,7 @@ function setBreakpoint(
       line: location.line,
       column: location.column,
       condition,
-      noSliding,
+      noSliding
     })
     .then((res: BreakpointResponse) => onNewBreakpoint(location, res));
 }
@@ -106,13 +106,13 @@ function onNewBreakpoint(
     ? {
         sourceId: actualLocation.source.actor,
         line: actualLocation.line,
-        column: actualLocation.column,
+        column: actualLocation.column
       }
     : location;
 
   return {
     id: bpClient.actor,
-    actualLocation,
+    actualLocation
   };
 }
 
@@ -137,7 +137,7 @@ function setBreakpointCondition(
 }
 
 type EvaluateParam = {
-  frameId?: FrameId,
+  frameId?: FrameId
 };
 
 function evaluate(script: Script, { frameId }: EvaluateParam) {
@@ -240,10 +240,10 @@ const clientCommands = {
   pauseOnExceptions,
   prettyPrint,
   disablePrettyPrint,
-  fetchSources,
+  fetchSources
 };
 
 module.exports = {
   setupCommands,
-  clientCommands,
+  clientCommands
 };

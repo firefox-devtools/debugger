@@ -3,23 +3,23 @@ const expect = require("expect.js");
 const {
   makeNodesForProperties,
   isPromise,
-  getPromiseProperties,
+  getPromiseProperties
 } = require("../object-inspector");
 
 const objProperties = {
   ownProperties: {
     "0": {
-      value: {},
+      value: {}
     },
     "2": {},
     length: {
-      value: 3,
-    },
+      value: 3
+    }
   },
   prototype: {
     type: "object",
-    actor: "server2.conn1.child1/pausedobj618",
-  },
+    actor: "server2.conn1.child1/pausedobj618"
+  }
 };
 
 describe("object-inspector", () => {
@@ -39,8 +39,8 @@ describe("object-inspector", () => {
         {
           ownProperties: {
             foo: { value: "foo" },
-            bar: {},
-          },
+            bar: {}
+          }
         },
         "root"
       );
@@ -60,8 +60,8 @@ describe("object-inspector", () => {
             1: { value: {} },
             11: { value: {} },
             2: { value: {} },
-            _bar: { value: {} },
-          },
+            _bar: { value: {} }
+          }
         },
         "root"
       );
@@ -75,7 +75,7 @@ describe("object-inspector", () => {
         "root/2",
         "root/11",
         "root/_bar",
-        "root/bar",
+        "root/bar"
       ]);
     });
 
@@ -83,9 +83,9 @@ describe("object-inspector", () => {
       const nodes = makeNodesForProperties(
         {
           ownProperties: {
-            bar: { value: {} },
+            bar: { value: {} }
           },
-          prototype: { value: {} },
+          prototype: { value: {} }
         },
         "root"
       );
@@ -111,14 +111,14 @@ describe("object-inspector", () => {
         "[0..99]",
         "[100..199]",
         "[200..299]",
-        "[300..331]",
+        "[300..331]"
       ]);
 
       expect(paths).to.eql([
         "root/bucket1",
         "root/bucket2",
         "root/bucket3",
-        "root/bucket4",
+        "root/bucket4"
       ]);
     });
 
@@ -130,8 +130,8 @@ describe("object-inspector", () => {
             332217: { value: {} },
             "needs-quotes": { value: {} },
             unquoted: { value: {} },
-            "": { value: {} },
-          },
+            "": { value: {} }
+          }
         },
         "root"
       );
@@ -144,7 +144,7 @@ describe("object-inspector", () => {
         "root/",
         "root/332217",
         "root/needs-quotes",
-        "root/unquoted",
+        "root/unquoted"
       ]);
     });
   });
@@ -163,24 +163,24 @@ describe("promises", () => {
             kind: "Object",
             ownProperties: {},
             ownPropertiesLength: 0,
-            safeGetterValues: {},
+            safeGetterValues: {}
           },
           actor: "server2.conn2.child1/pausedobj36",
           promiseState: {
             state: "rejected",
             reason: {
-              type: "undefined",
+              type: "undefined"
             },
             creationTimestamp: 1486584316133.3994,
-            timeToSettle: 0.001713000237941742,
+            timeToSettle: 0.001713000237941742
           },
           class: "Promise",
           type: "object",
           extensible: true,
-          sealed: false,
+          sealed: false
         },
-        writable: true,
-      },
+        writable: true
+      }
     };
 
     expect(isPromise(promise)).to.eql(true);
@@ -198,24 +198,24 @@ describe("promises", () => {
             kind: "Object",
             ownProperties: {},
             ownPropertiesLength: 0,
-            safeGetterValues: {},
+            safeGetterValues: {}
           },
           actor: "server2.conn2.child1/pausedobj36",
           promiseState: {
             state: "rejected",
             reason: {
-              type: "3",
+              type: "3"
             },
             creationTimestamp: 1486584316133.3994,
-            timeToSettle: 0.001713000237941742,
+            timeToSettle: 0.001713000237941742
           },
           class: "Promise",
           type: "object",
           extensible: true,
-          sealed: false,
+          sealed: false
         },
-        writable: true,
-      },
+        writable: true
+      }
     };
 
     const node = getPromiseProperties(promise);
