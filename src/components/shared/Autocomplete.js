@@ -1,6 +1,5 @@
 // @flow
-const React = require("react");
-const { DOM: dom, PropTypes, createFactory } = React;
+import { Component, DOM as dom, PropTypes, createFactory } from "react";
 const { findDOMNode } = require("react-dom");
 const { filter } = require("fuzzaldrin-plus");
 const classnames = require("classnames");
@@ -11,32 +10,21 @@ const ResultList = createFactory(require("./ResultList").default);
 
 require("./Autocomplete.css");
 
-const Autocomplete = React.createClass({
-  propTypes: {
-    selectItem: PropTypes.func.isRequired,
-    onSelectedItem: PropTypes.func,
-    items: PropTypes.array,
-    close: PropTypes.func.isRequired,
-    inputValue: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
-    size: PropTypes.string
-  },
-
-  displayName: "Autocomplete",
-
-  getInitialState() {
-    return {
+class Autocomplete extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       inputValue: this.props.inputValue,
       selectedIndex: 0,
       focused: false
     };
-  },
+  }
 
   getDefaultProps() {
     return {
       size: ""
     };
-  },
+  }
 
   componentDidMount() {
     const endOfInput = this.state.inputValue.length;
@@ -48,13 +36,13 @@ const Autocomplete = React.createClass({
         searchInput.setSelectionRange(endOfInput, endOfInput);
       }
     }
-  },
+  }
 
   componentDidUpdate() {
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedIndex);
     }
-  },
+  }
 
   getSearchResults() {
     let inputValue = this.state.inputValue;
@@ -65,7 +53,7 @@ const Autocomplete = React.createClass({
     return filter(this.props.items, this.state.inputValue, {
       key: "value"
     });
-  },
+  }
 
   onKeyDown(e: SyntheticKeyboardEvent) {
     const searchResults = this.getSearchResults(),
@@ -99,7 +87,7 @@ const Autocomplete = React.createClass({
       this.props.close(this.state.inputValue);
       e.preventDefault();
     }
-  },
+  }
 
   renderResults(results) {
     const { size } = this.props;
@@ -120,7 +108,7 @@ const Autocomplete = React.createClass({
         L10N.getFormatStr("sourceSearch.noResults", this.state.inputValue)
       );
     }
-  },
+  }
 
   render() {
     const { focused } = this.state;
@@ -151,6 +139,18 @@ const Autocomplete = React.createClass({
       this.renderResults(searchResults)
     );
   }
-});
+}
+
+Autocomplete.propTypes = {
+    selectItem: PropTypes.func.isRequired,
+    onSelectedItem: PropTypes.func,
+    items: PropTypes.array,
+    close: PropTypes.func.isRequired,
+    inputValue: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
+    size: PropTypes.string
+}
+
+Autocomplete.displayName = "Autocomplete";
 
 module.exports = Autocomplete;
