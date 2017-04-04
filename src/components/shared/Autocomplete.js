@@ -1,28 +1,23 @@
 // @flow
 import { Component, DOM as dom, PropTypes, createFactory } from "react";
+import { filter } from "fuzzaldrin-plus";
+import classnames from "classnames";
+import { scrollList } from "../../utils/result-list";
+import Svg from "./Svg";
+
 const { findDOMNode } = require("react-dom");
-const { filter } = require("fuzzaldrin-plus");
-const classnames = require("classnames");
-const { scrollList } = require("../../utils/result-list");
-const Svg = require("./Svg");
 const SearchInput = createFactory(require("./SearchInput").default);
 const ResultList = createFactory(require("./ResultList").default);
 
 require("./Autocomplete.css");
 
-class Autocomplete extends Component {
+export default class Autocomplete extends Component {
   constructor(props) {
     super(props);
     this.state = {
       inputValue: this.props.inputValue,
       selectedIndex: 0,
       focused: false
-    };
-  }
-
-  getDefaultProps() {
-    return {
-      size: ""
     };
   }
 
@@ -152,5 +147,3 @@ Autocomplete.propTypes = {
 };
 
 Autocomplete.displayName = "Autocomplete";
-
-module.exports = Autocomplete;
