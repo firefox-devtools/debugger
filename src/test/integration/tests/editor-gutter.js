@@ -7,7 +7,7 @@ const {
   addBreakpoint,
   assertHighlightLocation,
   waitForPaused,
-  waitForDispatch,
+  waitForDispatch
 } = require("../utils");
 
 // Tests the breakpoint gutter and making sure breakpoint icons exist

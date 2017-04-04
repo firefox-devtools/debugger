@@ -32,7 +32,7 @@ const {
   getLoadedObjects,
   getPause,
   getFileSearchQueryState,
-  getFileSearchModifierState,
+  getFileSearchModifierState
 } = require("../../selectors");
 const { makeLocationId } = require("../../reducers/breakpoints");
 const actions = require("../../actions").default;
@@ -53,7 +53,7 @@ const {
   resolveToken,
   previewExpression,
   resizeBreakpointGutter,
-  traverseResults,
+  traverseResults
 } = require("../../utils/editor");
 const { getVisibleVariablesFromScope } = require("../../utils/scopes");
 const { isFirefox } = require("devtools-config");
@@ -85,8 +85,8 @@ const Editor = React.createClass({
     searchModifiers: ImPropTypes.recordOf({
       caseSensitive: PropTypes.bool.isRequired,
       regexMatch: PropTypes.bool.isRequired,
-      wholeWord: PropTypes.bool.isRequired,
-    }).isRequired,
+      wholeWord: PropTypes.bool.isRequired
+    }).isRequired
   },
 
   cbPanel: (null: any),
@@ -100,15 +100,15 @@ const Editor = React.createClass({
     return {
       searchResults: {
         index: -1,
-        count: 0,
+        count: 0
       },
       selectedToken: null,
-      selectedExpression: null,
+      selectedExpression: null
     };
   },
 
   contextTypes: {
-    shortcuts: PropTypes.object,
+    shortcuts: PropTypes.object
   },
 
   componentWillReceiveProps(nextProps) {
@@ -305,7 +305,7 @@ const Editor = React.createClass({
       selectedSource,
       pauseData,
       sourceText,
-      addExpression,
+      addExpression
     } = this.props;
     const { selectedToken } = this.state;
     const token = e.target;
@@ -346,13 +346,13 @@ const Editor = React.createClass({
       expression: expression,
       variables,
       selectedFrame,
-      tokenText: token.textContent,
+      tokenText: token.textContent
     });
 
     if (displayedExpression) {
       this.setState({
         selectedToken: token,
-        selectedExpression: displayedExpression,
+        selectedExpression: displayedExpression
       });
     }
   },
@@ -366,7 +366,7 @@ const Editor = React.createClass({
       showSource: this.props.showSource,
       onGutterContextMenu: this.onGutterContextMenu,
       jumpToMappedLocation: this.props.jumpToMappedLocation,
-      addExpression: this.props.addExpression,
+      addExpression: this.props.addExpression
     });
   },
 
@@ -398,7 +398,7 @@ const Editor = React.createClass({
       showConditionalPanel: this.toggleConditionalPanel,
       toggleBreakpointDisabledStatus: this.toggleBreakpointDisabledStatus,
       isCbPanelOpen: this.isCbPanelOpen(),
-      closeConditionalPanel: this.closeConditionalPanel,
+      closeConditionalPanel: this.closeConditionalPanel
     });
   },
 
@@ -410,7 +410,7 @@ const Editor = React.createClass({
     const {
       selectedLocation,
       setBreakpointCondition,
-      breakpoints,
+      breakpoints
     } = this.props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
@@ -421,18 +421,18 @@ const Editor = React.createClass({
     const setBreakpoint = value =>
       setBreakpointCondition(location, {
         condition: value,
-        getTextForLine: l => getTextForLine(this.editor.codeMirror, l),
+        getTextForLine: l => getTextForLine(this.editor.codeMirror, l)
       });
 
     const panel = renderConditionalPanel({
       condition,
       setBreakpoint,
-      closePanel: this.closeConditionalPanel,
+      closePanel: this.closeConditionalPanel
     });
 
     this.cbPanel = this.editor.codeMirror.addLineWidget(line, panel, {
       coverGutter: true,
-      noHScroll: true,
+      noHScroll: true
     });
     this.cbPanel.node.querySelector("input").focus();
   },
@@ -452,7 +452,7 @@ const Editor = React.createClass({
       selectedLocation,
       breakpoints,
       addBreakpoint,
-      removeBreakpoint,
+      removeBreakpoint
     } = this.props;
     const bp = breakpointAtLine(breakpoints, line);
 
@@ -465,14 +465,14 @@ const Editor = React.createClass({
     if (bp) {
       removeBreakpoint({
         sourceId: sourceId,
-        line: line + 1,
+        line: line + 1
       });
     } else {
       addBreakpoint(
         {
           sourceId: sourceId,
           sourceUrl: selectedSource.get("url"),
-          line: line + 1,
+          line: line + 1
         },
         // Pass in a function to get line text because the breakpoint
         // may slide and it needs to compute the value at the new
@@ -499,12 +499,12 @@ const Editor = React.createClass({
     if (!bp.disabled) {
       this.props.disableBreakpoint({
         sourceId: sourceId,
-        line: line + 1,
+        line: line + 1
       });
     } else {
       this.props.enableBreakpoint({
         sourceId: sourceId,
-        line: line + 1,
+        line: line + 1
       });
     }
   },
@@ -611,7 +611,7 @@ const Editor = React.createClass({
       Breakpoint({
         key: makeLocationId(bp.location),
         breakpoint: bp,
-        editor: this.editor && this.editor.codeMirror,
+        editor: this.editor && this.editor.codeMirror
       }));
   },
 
@@ -627,7 +627,7 @@ const Editor = React.createClass({
       HitMarker({
         key: marker.get("line"),
         hitData: marker.toJS(),
-        editor: this.editor && this.editor.codeMirror,
+        editor: this.editor && this.editor.codeMirror
       }));
   },
 
@@ -679,9 +679,9 @@ const Editor = React.createClass({
         selectedToken.classList.remove("selected-token");
         this.setState({
           selectedToken: null,
-          selectedExpression: null,
+          selectedExpression: null
         });
-      },
+      }
     });
   },
 
@@ -691,14 +691,14 @@ const Editor = React.createClass({
       selectSource,
       selectedSource,
       coverageOn,
-      horizontal,
+      horizontal
     } = this.props;
 
     const { searchResults } = this.state;
 
     return dom.div(
       {
-        className: classnames("editor-wrapper", { "coverage-on": coverageOn }),
+        className: classnames("editor-wrapper", { "coverage-on": coverageOn })
       },
       SearchBar({
         editor: this.editor,
@@ -706,18 +706,18 @@ const Editor = React.createClass({
         selectedSource,
         sourceText,
         searchResults,
-        updateSearchResults: this.updateSearchResults,
+        updateSearchResults: this.updateSearchResults
       }),
       dom.div({
         className: "editor-mount devtools-monospace",
-        style: { height: this.editorHeight() },
+        style: { height: this.editorHeight() }
       }),
       this.renderBreakpoints(),
       this.renderHitCounts(),
       Footer({ editor: this.editor, horizontal }),
       this.renderPreview()
     );
-  },
+  }
 });
 
 module.exports = connect(
@@ -738,7 +738,7 @@ module.exports = connect(
       pauseData: getPause(state),
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),
-      searchModifiers: getFileSearchModifierState(state),
+      searchModifiers: getFileSearchModifierState(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

@@ -3,7 +3,7 @@ const {
   assertPausedLocation,
   reload,
   resume,
-  waitForPaused,
+  waitForPaused
 } = require("../utils");
 
 /**

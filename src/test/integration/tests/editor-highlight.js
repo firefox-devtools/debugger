@@ -7,7 +7,7 @@ const {
   selectSource,
   findAllElements,
   waitForPaused,
-  waitForDispatch,
+  waitForDispatch
 } = require("../utils");
 
 // Tests that the editor will always highight the right line, no

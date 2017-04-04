@@ -7,7 +7,7 @@ import actions from "../actions";
 import {
   getSources,
   getSelectedSource,
-  getProjectSearchState,
+  getProjectSearchState
 } from "../selectors";
 import { endTruncateStr } from "../utils/utils";
 import { parse as parseURL } from "url";
@@ -30,7 +30,7 @@ function searchResults(sources) {
       value: getSourcePath(source),
       title: getSourcePath(source).split("/").pop(),
       subtitle: endTruncateStr(getSourcePath(source), 100),
-      id: source.get("id"),
+      id: source.get("id")
     }))
     .toJS();
 }
@@ -44,7 +44,7 @@ class ProjectSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValue: "",
+      inputValue: ""
     };
 
     this.toggle = this.toggle.bind(this);
@@ -56,7 +56,7 @@ class ProjectSearch extends Component {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
       L10N.getStr("sources.search.key"),
-      L10N.getStr("sources.searchAlt.key"),
+      L10N.getStr("sources.searchAlt.key")
     ];
     searchKeys.forEach(key => shortcuts.off(`CmdOrCtrl+${key}`, this.toggle));
     shortcuts.off("Escape", this.onEscape);
@@ -66,7 +66,7 @@ class ProjectSearch extends Component {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
       L10N.getStr("sources.search.key"),
-      L10N.getStr("sources.searchAlt.key"),
+      L10N.getStr("sources.searchAlt.key")
     ];
     searchKeys.forEach(key => shortcuts.on(`CmdOrCtrl+${key}`, this.toggle));
     shortcuts.on("Escape", this.onEscape);
@@ -105,7 +105,7 @@ class ProjectSearch extends Component {
         items: searchResults(this.props.sources),
         inputValue: this.state.inputValue,
         placeholder: L10N.getStr("sourceSearch.search"),
-        size: "big",
+        size: "big"
       })
     );
   }
@@ -116,11 +116,11 @@ ProjectSearch.propTypes = {
   selectSource: PropTypes.func.isRequired,
   selectedSource: PropTypes.object,
   toggleProjectSearch: PropTypes.func.isRequired,
-  searchOn: PropTypes.bool,
+  searchOn: PropTypes.bool
 };
 
 ProjectSearch.contextTypes = {
-  shortcuts: PropTypes.object,
+  shortcuts: PropTypes.object
 };
 
 ProjectSearch.displayName = "ProjectSearch";
@@ -129,7 +129,7 @@ export default connect(
   state => ({
     sources: getSources(state),
     selectedSource: getSelectedSource(state),
-    searchOn: getProjectSearchState(state),
+    searchOn: getProjectSearchState(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);

@@ -98,13 +98,13 @@ const contentTypeModeMap = {
   "text/coffeescript": "coffeescript",
   "text/typescript-jsx": {
     name: "jsx",
-    base: { name: "javascript", typescript: true },
+    base: { name: "javascript", typescript: true }
   },
   "text/jsx": "jsx",
   "text/x-elm": "elm",
   "text/x-clojure": "clojure",
   "text/wasm": { name: "text" },
-  html: { name: "htmlmixed" },
+  html: { name: "htmlmixed" }
 };
 
 /**
@@ -148,5 +148,5 @@ module.exports = {
   getRawSourceURL,
   getFilename,
   getFilenameFromURL,
-  getMode,
+  getMode
 };

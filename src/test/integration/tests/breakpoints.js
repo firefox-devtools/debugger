@@ -6,7 +6,7 @@ const {
   selectSource,
   clickElement,
   addBreakpoint,
-  waitForDispatch,
+  waitForDispatch
 } = require("../utils");
 
 function toggleBreakpoint(dbg, index) {
@@ -103,5 +103,5 @@ async function toggleAll(ctx) {
 
 module.exports = {
   toggle,
-  toggleAll,
+  toggleAll
 };

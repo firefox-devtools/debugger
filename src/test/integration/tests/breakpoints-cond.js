@@ -11,7 +11,7 @@ const {
   selectMenuItem,
   type,
   pressKey,
-  initDebugger,
+  initDebugger
 } = require("../utils");
 
 const cbInput = ".conditional-breakpoint-panel input";

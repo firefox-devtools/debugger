@@ -6,7 +6,7 @@ const {
   togglePauseOnExceptions,
   resume,
   stepIn,
-  waitForPaused,
+  waitForPaused
 } = require("../utils");
 
 function getLabel(dbg, index) {

@@ -6,7 +6,7 @@ const {
   waitForPaused,
   isPaused,
   resume,
-  reload,
+  reload
 } = require("../utils");
 
 function uncaughtException(dbg) {
@@ -23,8 +23,8 @@ function assertPOEState(dbg, ctx, pause, ignore) {
     getState,
     selectors: {
       getShouldPauseOnExceptions,
-      getShouldIgnoreCaughtExceptions,
-    },
+      getShouldIgnoreCaughtExceptions
+    }
   } = dbg;
 
   is(getShouldPauseOnExceptions(getState()), pause);
@@ -81,5 +81,5 @@ async function testReloading(ctx) {
 
 module.exports = {
   testButton,
-  testReloading,
+  testReloading
 };

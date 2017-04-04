@@ -43,7 +43,7 @@ function createNode(name: any, path: any, contents?: any): Node {
   return {
     name,
     path,
-    contents: contents || null,
+    contents: contents || null
   };
 }
 
@@ -109,7 +109,7 @@ function getURL(sourceUrl: string): { path: string, group: string } {
       return merge(def, {
         path: "/",
         group: url,
-        filename: filename,
+        filename: filename
       });
 
     case null:
@@ -119,7 +119,7 @@ function getURL(sourceUrl: string): { path: string, group: string } {
         return merge(def, {
           path: path,
           group: "file://",
-          filename: filename,
+          filename: filename
         });
       } else if (host === null) {
         // We don't know what group to put this under, and it's a script
@@ -127,7 +127,7 @@ function getURL(sourceUrl: string): { path: string, group: string } {
         return merge(def, {
           path: url,
           group: "(no domain)",
-          filename: filename,
+          filename: filename
         });
       }
       break;
@@ -137,14 +137,14 @@ function getURL(sourceUrl: string): { path: string, group: string } {
       return merge(def, {
         path: pathname,
         group: host,
-        filename: filename,
+        filename: filename
       });
   }
 
   return merge(def, {
     path: path,
     group: protocol ? `${protocol}//` : "",
-    filename: filename,
+    filename: filename
   });
 }
 
@@ -339,7 +339,7 @@ function createTree(sources: any, debuggeeUrl: string) {
     uncollapsedTree,
     sourceTree,
     parentMap: createParentMap(sourceTree),
-    focusedItem: null,
+    focusedItem: null
   };
 }
 
@@ -394,5 +394,5 @@ module.exports = {
   createTree,
   getDirectories,
   getURL,
-  isExactUrlMatch,
+  isExactUrlMatch
 };

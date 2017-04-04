@@ -5,15 +5,15 @@ const { getValue, isFirefoxPanel } = require("devtools-config");
 const { renderRoot } = require("devtools-launchpad");
 const {
   startSourceMapWorker,
-  stopSourceMapWorker,
+  stopSourceMapWorker
 } = require("devtools-source-map");
 const {
   startPrettyPrintWorker,
-  stopPrettyPrintWorker,
+  stopPrettyPrintWorker
 } = require("../utils/pretty-print");
 const {
   startParserWorker,
-  stopParserWorker,
+  stopParserWorker
 } = require("../utils/parser");
 
 const configureStore = require("./create-store");
@@ -27,7 +27,7 @@ export function bootstrapStore(client, services) {
     log: getValue("logging.actions"),
     makeThunkArgs: (args, state) => {
       return Object.assign({}, args, { client }, services);
-    },
+    }
   });
 
   const store = createStore(combineReducers(reducers));
@@ -46,7 +46,7 @@ export function bootstrapApp(connection, { store, actions }) {
   // selecting a source.
   window.actions = {
     selectSource: actions.selectSource,
-    selectSourceURL: actions.selectSourceURL,
+    selectSourceURL: actions.selectSourceURL
   };
 
   renderRoot(React, ReactDOM, App, store);

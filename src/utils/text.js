@@ -36,5 +36,5 @@ function formatKeyShortcut(shortcut: string): string {
 }
 
 module.exports = {
-  formatKeyShortcut,
+  formatKeyShortcut
 };

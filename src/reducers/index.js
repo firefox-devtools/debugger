@@ -19,5 +19,5 @@ module.exports = {
   pause: pause.update,
   asyncRequests,
   ui: ui.update,
-  coverage: coverage.update,
+  coverage: coverage.update
 };

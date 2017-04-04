@@ -9,7 +9,7 @@ type NextProps = {
   collapsed: boolean,
   handleClick: () => any,
   horizontal?: boolean,
-  position: string,
+  position: string
 };
 
 class PaneToggleButton extends Component {
@@ -30,10 +30,10 @@ class PaneToggleButton extends Component {
       {
         className: classnames(`toggle-button-${position}`, {
           collapsed,
-          vertical: horizontal != null ? !horizontal : false,
+          vertical: horizontal != null ? !horizontal : false
         }),
         onClick: () => handleClick(position, collapsed),
-        title,
+        title
       },
       Svg("togglePanes")
     );
@@ -44,7 +44,7 @@ PaneToggleButton.propTypes = {
   position: PropTypes.string.isRequired,
   collapsed: PropTypes.bool.isRequired,
   horizontal: PropTypes.bool,
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired
 };
 
 PaneToggleButton.displayName = "PaneToggleButton";

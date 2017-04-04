@@ -6,7 +6,7 @@ import "./Close.css";
 type CloseButtonType = {
   handleClick: any,
   buttonClass?: string,
-  tooltip?: string,
+  tooltip?: string
 };
 
 function CloseButton({ handleClick, buttonClass, tooltip }: CloseButtonType) {
@@ -14,14 +14,14 @@ function CloseButton({ handleClick, buttonClass, tooltip }: CloseButtonType) {
     {
       className: buttonClass ? `close-btn ${buttonClass}` : "close-btn",
       onClick: handleClick,
-      title: tooltip,
+      title: tooltip
     },
     Svg("close")
   );
 }
 
 CloseButton.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired
 };
 
 export default CloseButton;

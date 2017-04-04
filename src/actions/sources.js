@@ -29,7 +29,7 @@ import {
   getBreakpoint,
   getPendingSelectedLocation,
   getPendingBreakpoints,
-  getFrames,
+  getFrames
 } from "../selectors";
 
 import type { Source, SourceText } from "../types";
@@ -106,7 +106,7 @@ function loadSourceMap(generatedSource) {
       return {
         url: originalUrl,
         id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
-        isPrettyPrinted: false,
+        isPrettyPrinted: false
       };
     });
 
@@ -143,7 +143,7 @@ export function selectSourceURL(
         type: constants.SELECT_SOURCE_URL,
         url: url,
         tabIndex: options.tabIndex,
-        line: options.line,
+        line: options.line
       });
     }
   };
@@ -178,7 +178,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       type: constants.SELECT_SOURCE,
       source: source,
       tabIndex: options.tabIndex,
-      line: options.line,
+      line: options.line
     });
   };
 }
@@ -280,7 +280,7 @@ export function togglePrettyPrint(sourceId: string) {
         const { code, mappings } = await prettyPrint({
           source,
           sourceText,
-          url,
+          url
         });
 
         await sourceMaps.applySourceMap(source.id, url, code, mappings);
@@ -293,7 +293,7 @@ export function togglePrettyPrint(sourceId: string) {
         dispatch(selectSource(originalSource.id));
 
         return { text: code, contentType: "text/javascript", frames };
-      })(),
+      })()
     });
   };
 }
@@ -324,7 +324,7 @@ export function loadSourceText(source: Source) {
         const sourceText: SourceText = {
           id: source.id,
           text: response.source,
-          contentType: response.contentType || "text/javascript",
+          contentType: response.contentType || "text/javascript"
         };
 
         return sourceText;
@@ -335,7 +335,7 @@ export function loadSourceText(source: Source) {
         //     SourceUtils.isMinified(source.id, response.source)) {
         //   dispatch(togglePrettyPrint(source));
         // }
-      })(),
+      })()
     });
   };
 }

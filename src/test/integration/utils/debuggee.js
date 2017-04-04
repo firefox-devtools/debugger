@@ -13,12 +13,12 @@ function Debuggee() {
     return new MouseEvent(eventType, {
       view: window,
       bubbles: true,
-      cancelable: true,
+      cancelable: true
     });
   }
 
   const specialKeysMap = {
-    "{enter}": 13,
+    "{enter}": 13
   };
 
   // Special character examples {enter}, {esc}, {leftarrow} ..
@@ -38,7 +38,7 @@ function Debuggee() {
     return {
       charCode: eventType == "keypress" ? 0 : charCodeAt,
       keyCode: charCodeAt,
-      which: charCodeAt,
+      which: charCodeAt
     };
   }
 
@@ -46,7 +46,7 @@ function Debuggee() {
     const event = new Event(eventType, {
       bubbles: true,
       cancelable: false,
-      view: window,
+      view: window
     });
 
     const { charCode, keyCode, which } = keyInfo(key, eventType);
@@ -59,7 +59,7 @@ function Debuggee() {
       layerX: 0,
       layerY: 0,
       pageX: 0,
-      pageY: 0,
+      pageY: 0
     });
   }
 
@@ -100,7 +100,7 @@ function Debuggee() {
   return {
     click,
     dblclick,
-    type,
+    type
   };
 }
 

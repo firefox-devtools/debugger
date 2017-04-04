@@ -10,7 +10,7 @@ type AccordionItem = {
   header: string,
   opened: boolean,
   onToggle?: () => any,
-  shouldOpen?: () => any,
+  shouldOpen?: () => any
 };
 
 type Props = { items: Array<Object> };
@@ -68,7 +68,7 @@ const Accordion = createClass({
         ? dom.div(
             {
               className: "_content",
-              style: { display: opened[i] ? "block" : "none" },
+              style: { display: opened[i] ? "block" : "none" }
             },
             createElement(item.component, item.componentProps || {})
           )
@@ -80,7 +80,7 @@ const Accordion = createClass({
       { className: "accordion" },
       this.props.items.map(this.renderContainer)
     );
-  },
+  }
 });
 
 export default Accordion;

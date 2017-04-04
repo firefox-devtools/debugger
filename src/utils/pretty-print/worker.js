@@ -4,7 +4,7 @@ const prettyFast = require("pretty-fast");
 const assert = require("../assert");
 
 type Mappings = {
-  _array: Mapping[],
+  _array: Mapping[]
 };
 
 type Mapping = {
@@ -13,26 +13,26 @@ type Mapping = {
   source?: string,
   generatedLine?: number,
   generatedColumn?: number,
-  name?: string,
+  name?: string
 };
 
 type InvertedMapping = {
   generated: Object,
   source?: any,
   original?: any,
-  name?: string,
+  name?: string
 };
 
 function prettyPrint({ url, indent, source }) {
   try {
     const prettified = prettyFast(source, {
       url: url,
-      indent: " ".repeat(indent),
+      indent: " ".repeat(indent)
     });
 
     return {
       code: prettified.code,
-      mappings: prettified.map._mappings,
+      mappings: prettified.map._mappings
     };
   } catch (e) {
     throw new Error(`${e.message}\n${e.stack}`);
@@ -44,14 +44,14 @@ function invertMappings(mappings: Mappings) {
     let mapping: InvertedMapping = {
       generated: {
         line: m.originalLine,
-        column: m.originalColumn,
-      },
+        column: m.originalColumn
+      }
     };
     if (m.source) {
       mapping.source = m.source;
       mapping.original = {
         line: m.generatedLine,
-        column: m.generatedColumn,
+        column: m.generatedColumn
       };
       mapping.name = m.name;
     }
@@ -69,8 +69,8 @@ self.onmessage = function(msg) {
       id,
       response: {
         code,
-        mappings: invertMappings(mappings),
-      },
+        mappings: invertMappings(mappings)
+      }
     });
   } catch (e) {
     self.postMessage({ id, error: e });

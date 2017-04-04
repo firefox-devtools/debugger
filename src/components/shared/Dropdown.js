@@ -4,7 +4,7 @@ import "./Dropdown.css";
 
 class Dropdown extends Component {
   state: {
-    dropdownShown: boolean,
+    dropdownShown: boolean
   };
   toggleDropdown: Function;
   renderPanel: Function;
@@ -14,7 +14,7 @@ class Dropdown extends Component {
   constructor(props: any) {
     super(props);
     this.state = {
-      dropdownShown: false,
+      dropdownShown: false
     };
 
     this.toggleDropdown = this.toggleDropdown.bind(this);
@@ -25,7 +25,7 @@ class Dropdown extends Component {
 
   toggleDropdown(e: SyntheticKeyboardEvent) {
     this.setState({
-      dropdownShown: !this.state.dropdownShown,
+      dropdownShown: !this.state.dropdownShown
     });
   }
 
@@ -34,7 +34,7 @@ class Dropdown extends Component {
       {
         className: "dropdown",
         onClick: this.toggleDropdown,
-        style: { display: this.state.dropdownShown ? "block" : "none" },
+        style: { display: this.state.dropdownShown ? "block" : "none" }
       },
       this.props.panel
     );
@@ -44,7 +44,7 @@ class Dropdown extends Component {
     return dom.button(
       {
         className: "dropdown-button",
-        onClick: this.toggleDropdown,
+        onClick: this.toggleDropdown
       },
       "»"
     );
@@ -54,7 +54,7 @@ class Dropdown extends Component {
     return dom.div({
       className: "dropdown-mask",
       onClick: this.toggleDropdown,
-      style: { display: this.state.dropdownShown ? "block" : "none" },
+      style: { display: this.state.dropdownShown ? "block" : "none" }
     });
   }
 
@@ -69,7 +69,7 @@ class Dropdown extends Component {
 }
 
 Dropdown.propTypes = {
-  panel: PropTypes.object,
+  panel: PropTypes.object
 };
 
 Dropdown.displayName = "Dropdown";

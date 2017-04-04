@@ -84,5 +84,5 @@ module.exports = {
   endTruncateStr,
   updateObj,
   throttle,
-  waitForMs,
+  waitForMs
 };

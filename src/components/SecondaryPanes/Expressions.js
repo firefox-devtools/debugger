@@ -7,7 +7,7 @@ import actions from "../../actions";
 import {
   getVisibleExpressions,
   getLoadedObjects,
-  getPause,
+  getPause
 } from "../../selectors";
 const CloseButton = React.createFactory(
   require("../shared/Button/Close").default
@@ -23,27 +23,27 @@ function getValue(expression) {
   if (!value) {
     return {
       path: expression.from,
-      value: "<not available>",
+      value: "<not available>"
     };
   }
 
   if (value.exception) {
     return {
       path: expression.from,
-      value: value.exception,
+      value: value.exception
     };
   }
 
   if (typeof value.result == "object") {
     return {
       path: value.result.actor,
-      value: value.result,
+      value: value.result
     };
   }
 
   return {
     path: value.input,
-    value: value.result,
+    value: value.result
   };
 }
 
@@ -51,7 +51,7 @@ class Expressions extends React.Component {
   _input: null | any;
 
   state: {
-    editing: null | Node,
+    editing: null | Node
   };
 
   renderExpression: Function;
@@ -60,7 +60,7 @@ class Expressions extends React.Component {
     super(...args);
 
     this.state = {
-      editing: null,
+      editing: null
     };
 
     this.renderExpression = this.renderExpression.bind(this);
@@ -123,7 +123,7 @@ class Expressions extends React.Component {
         defaultValue: expression.input,
         ref: c => {
           this._input = c;
-        },
+        }
       })
     );
   }
@@ -146,13 +146,13 @@ class Expressions extends React.Component {
     const root = {
       name: expression.input,
       path,
-      contents: { value },
+      contents: { value }
     };
 
     return dom.div(
       {
         className: "expression-container",
-        key: path || input,
+        key: path || input
       },
       ObjectInspector({
         roots: [root],
@@ -161,7 +161,7 @@ class Expressions extends React.Component {
         onDoubleClick: (item, options) =>
           this.editExpression(expression, options),
         loadObjectProperties,
-        getActors: () => ({}),
+        getActors: () => ({})
       }),
       CloseButton({ handleClick: e => this.deleteExpression(e, expression) })
     );
@@ -197,7 +197,7 @@ class Expressions extends React.Component {
         onBlur: e => {
           e.target.value = "";
         },
-        onKeyPress,
+        onKeyPress
       })
     );
   }
@@ -219,7 +219,7 @@ Expressions.propTypes = {
   updateExpression: PropTypes.func.isRequired,
   deleteExpression: PropTypes.func.isRequired,
   loadObjectProperties: PropTypes.func,
-  loadedObjects: ImPropTypes.map.isRequired,
+  loadedObjects: ImPropTypes.map.isRequired
 };
 
 Expressions.displayName = "Expressions";
@@ -228,7 +228,7 @@ export default connect(
   state => ({
     pauseInfo: getPause(state),
     expressions: getVisibleExpressions(state),
-    loadedObjects: getLoadedObjects(state),
+    loadedObjects: getLoadedObjects(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Expressions);

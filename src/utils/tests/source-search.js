@@ -10,7 +10,7 @@ describe("source-search", () => {
       const count = countMatches(query, text, {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: false,
+        regexMatch: false
       });
       expect(count).to.be(3);
     });
@@ -21,7 +21,7 @@ describe("source-search", () => {
       const count = countMatches(query, text, {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: false,
+        regexMatch: false
       });
       expect(count).to.be(1);
     });
@@ -32,7 +32,7 @@ describe("source-search", () => {
       const count = countMatches(query, text, {
         caseSensitive: true,
         wholeWord: true,
-        regexMatch: false,
+        regexMatch: false
       });
       expect(count).to.be(2);
     });
@@ -43,7 +43,7 @@ describe("source-search", () => {
       const count = countMatches(query, text, {
         caseSensitive: true,
         wholeWord: false,
-        regexMatch: true,
+        regexMatch: true
       });
       expect(count).to.be(4);
     });

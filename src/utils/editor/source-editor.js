@@ -34,7 +34,7 @@ type SourceEditorOpts = {
   readOnly: boolean,
   showAnnotationRuler: boolean,
   theme: string,
-  value: string,
+  value: string
 };
 
 class SourceEditor {
@@ -115,7 +115,7 @@ class SourceEditor {
     let topLine = {
       center: Math.max(line - halfVisible, 0),
       bottom: Math.max(line - linesVisible + offset, 0),
-      top: Math.max(line - offset, 0),
+      top: Math.max(line - offset, 0)
     }[align || "top"] || offset;
 
     // Bringing down the topLine to total lines in the editor if exceeding.

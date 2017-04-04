@@ -20,7 +20,7 @@ export function willNavigate(_, event) {
 
     dispatch({
       type: constants.NAVIGATE,
-      url: event.url,
+      url: event.url
     });
   };
 }

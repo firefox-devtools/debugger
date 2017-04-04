@@ -11,7 +11,7 @@ import type {
   Script,
   Source,
   Pause,
-  SourceId,
+  SourceId
 } from "../types";
 
 type URL = string;
@@ -67,7 +67,7 @@ export type FramePacket = {
   depth?: number,
   oldest?: boolean,
   type: "pause" | "call",
-  where: ActualLocation,
+  where: ActualLocation
 };
 
 /**
@@ -85,7 +85,7 @@ export type SourcePayload = {
   isPrettyPrinted: boolean,
   isSourceMapped: boolean,
   sourceMapURL?: URL,
-  url: URL,
+  url: URL
 };
 
 /**
@@ -97,7 +97,7 @@ export type SourcePayload = {
 export type SourcePacket = {
   from: ActorId,
   source: SourcePayload,
-  type: string,
+  type: string
 };
 
 /**
@@ -107,7 +107,7 @@ export type SourcePacket = {
  */
 export type SourcesPacket = {
   from: ActorId,
-  sources: SourcePayload[],
+  sources: SourcePayload[]
 };
 
 /**
@@ -124,13 +124,13 @@ export type PausedPacket = {
   why: {
     actors: ActorId[],
     type: string,
-    onNext?: Function,
-  },
+    onNext?: Function
+  }
 };
 
 export type ResumedPacket = {
   from: ActorId,
-  type: string,
+  type: string
 };
 
 /**
@@ -144,7 +144,7 @@ export type ResumedPacket = {
 export type ActualLocation = {
   source: SourcePayload,
   line: number,
-  column?: number,
+  column?: number
 };
 
 /**
@@ -154,7 +154,7 @@ export type ActualLocation = {
  */
 export type FramesResponse = {
   frames: FramePacket[],
-  from: ActorId,
+  from: ActorId
 };
 
 export type TabPayload = {
@@ -187,7 +187,7 @@ export type TabPayload = {
   url: URL,
   webExtensionInspectedWindowActor: ActorId,
   webaudioActor: ActorId,
-  webglActor: ActorId,
+  webglActor: ActorId
 };
 
 /**
@@ -204,7 +204,7 @@ export type ListTabsResponse = {
   heapSnapshotFileActor: ActorId,
   preferenceActor: ActorId,
   selected: number,
-  tabs: TabPayload[],
+  tabs: TabPayload[]
 };
 
 /**
@@ -216,7 +216,7 @@ export type Actions = {
   paused: (Pause) => void,
   resumed: (ResumedPacket) => void,
   newSource: (Source) => void,
-  fetchEventListeners: () => void,
+  fetchEventListeners: () => void
 };
 
 /**
@@ -231,14 +231,14 @@ export type TabTarget = {
       script: Script,
       func: Function,
       params?: { frameActor?: FrameId }
-    ) => void,
+    ) => void
   },
   form: { consoleActor: any },
   activeTab: {
     navigateTo: (string) => Promise<*>,
-    reload: () => Promise<*>,
+    reload: () => Promise<*>
   },
-  destroy: () => void,
+  destroy: () => void
 };
 
 /**
@@ -255,10 +255,10 @@ export type TabTarget = {
 export type DebuggerClient = {
   _activeRequests: {
     get: (any) => any,
-    delete: (any) => void,
+    delete: (any) => void
   },
   connect: () => Promise<*>,
-  listTabs: () => Promise<*>,
+  listTabs: () => Promise<*>
 };
 
 /**
@@ -278,7 +278,7 @@ export type DebuggerClient = {
  */
 // FIXME: need Grip definition
 export type Grip = {
-  actor: string,
+  actor: string
 };
 
 /**
@@ -293,11 +293,11 @@ export type SourceClient = {
       line: number,
       column?: number,
       condition: boolean,
-      noSliding: boolean,
+      noSliding: boolean
     }
   ) => Promise<BreakpointResponse>,
   prettyPrint: (number) => Promise<*>,
-  disablePrettyPrint: () => Promise<*>,
+  disablePrettyPrint: () => Promise<*>
 };
 
 /**
@@ -306,7 +306,7 @@ export type SourceClient = {
  * @static
  */
 export type ObjectClient = {
-  getPrototypeAndProperties: () => any,
+  getPrototypeAndProperties: () => any
 };
 
 /**
@@ -330,7 +330,7 @@ export type ThreadClient = {
   addListener: (string, Function) => void,
   getSources: () => Promise<SourcesPacket>,
   reconfigure: ({ observeAsmJS: boolean }) => Promise<*>,
-  getLastPausePacket: () => ?PausedPacket,
+  getLastPausePacket: () => ?PausedPacket
 };
 
 /**
@@ -346,19 +346,19 @@ export type BreakpointClient = {
   // getCondition: () => any,
   // hasCondition: () => any,
   // request: any,
-  source: SourceClient,
+  source: SourceClient
 };
 
 export type BreakpointResponse = [{
   actor?: ActorId,
   from?: ActorId,
   isPending?: boolean,
-  actualLocation?: ActualLocation,
+  actualLocation?: ActualLocation
 }, BreakpointClient];
 
 export type FirefoxClientConnection = {
   getTabTarget: () => TabTarget,
   getThreadClient: () => ThreadClient,
   setTabTarget: (target: TabTarget) => void,
-  setThreadClient: (client: ThreadClient) => void,
+  setThreadClient: (client: ThreadClient) => void
 };

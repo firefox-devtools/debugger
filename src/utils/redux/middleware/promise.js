@@ -47,7 +47,7 @@ function promiseMiddleware({ dispatch, getState }: ThunkArgs) {
             dispatch(
               Object.assign({}, action, {
                 status: "done",
-                value: value,
+                value: value
               })
             );
             deferred.resolve(value);
@@ -58,7 +58,7 @@ function promiseMiddleware({ dispatch, getState }: ThunkArgs) {
             dispatch(
               Object.assign({}, action, {
                 status: "error",
-                error: error.message || error,
+                error: error.message || error
               })
             );
             deferred.reject(error);

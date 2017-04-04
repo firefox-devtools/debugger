@@ -5,7 +5,7 @@ const {
   selectSource,
   addBreakpoint,
   invokeInTab,
-  waitForPaused,
+  waitForPaused
 } = require("../utils");
 
 // Test that an error while loading a sourcemap does not break
