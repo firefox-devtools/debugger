@@ -16,7 +16,7 @@ import "./App.css";
 import "./shared/menu.css";
 import "./shared/reps.css";
 
-const SplitBox = createFactory(require("devtools-splitter").default);
+const SplitBox = createFactory(require("devtools-splitter"));
 const ProjectSearch = createFactory(require("./ProjectSearch").default);
 const Sources = createFactory(require("./Sources").default);
 const Editor = createFactory(require("./Editor"));

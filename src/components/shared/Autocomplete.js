@@ -1,4 +1,5 @@
 // @flow
+
 import { Component, DOM as dom, PropTypes, createFactory } from "react";
 import { filter } from "fuzzaldrin-plus";
 import classnames from "classnames";
@@ -10,26 +11,24 @@ const SearchInput = createFactory(require("./SearchInput").default);
 const ResultList = createFactory(require("./ResultList").default);
 
 import "./Autocomplete.css";
+type State = {
+  inputValue: string,
+  selectedIndex: number,
+  focused: boolean
+};
 
 export default class Autocomplete extends Component {
-  state: {
-    inputValue: string,
-    selectedIndex: number,
-    focused: boolean
-  };
-  constructor() {
-    super();
-    // initial state
+  state: State;
+  static defaultProps: Object;
+
+  constructor(props: any) {
+    super(props);
+
+    (this: any).onKeyDown = this.onKeyDown.bind(this);
     this.state = {
-      inputValue: this.props.inputValue,
+      inputValue: props.inputValue,
       selectedIndex: 0,
       focused: false
-    };
-  }
-
-  getDefaultProps() {
-    return {
-      size: ""
     };
   }
 
@@ -96,7 +95,7 @@ export default class Autocomplete extends Component {
     }
   }
 
-  renderResults(results) {
+  renderResults(results: Object[]) {
     const { size } = this.props;
 
     if (results.length) {
@@ -159,3 +158,7 @@ Autocomplete.propTypes = {
 };
 
 Autocomplete.displayName = "Autocomplete";
+
+Autocomplete.defaultProps = {
+  size: ""
+};

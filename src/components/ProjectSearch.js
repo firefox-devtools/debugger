@@ -10,7 +10,7 @@ import { parse as parseURL } from "url";
 import { isPretty } from "../utils/source";
 import "./ProjectSearch.css";
 
-const Autocomplete = createFactory(require("./shared/Autocomplete"));
+const Autocomplete = createFactory(require("./shared/Autocomplete").default);
 
 function searchResults(sources) {
   function getSourcePath(source) {
@@ -39,6 +39,7 @@ class ProjectSearch extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       inputValue: ""
     };
