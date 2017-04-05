@@ -1,9 +1,5 @@
 import expect from "expect.js";
-import {
-  actions,
-  selectors,
-  createStore
-} from "../../utils/test-head";
+import { actions, selectors, createStore } from "../../utils/test-head";
 
 const mockThreadClient = {
   evaluate: (script, { frameId }) => {
@@ -11,7 +7,7 @@ const mockThreadClient = {
       resolve("bla");
     });
   }
-}
+};
 
 describe("expressions", () => {
   it("should add an expression", () => {
@@ -32,7 +28,6 @@ describe("expressions", () => {
     dispatch(actions.updateExpression("bar", expression));
 
     expect(selectors.getExpression(getState(), "bar").input).to.be("bar");
-
   });
 
   it("should delete an expression", () => {
@@ -64,7 +59,6 @@ describe("expressions", () => {
 
     expect(selectors.getExpression(getState(), "foo").value).to.be("bla");
     expect(selectors.getExpression(getState(), "bar").value).to.be("bla");
-
   });
 
 });
