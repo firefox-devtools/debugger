@@ -9,11 +9,16 @@ const { findDOMNode } = require("react-dom");
 const SearchInput = createFactory(require("./SearchInput").default);
 const ResultList = createFactory(require("./ResultList").default);
 
-require("./Autocomplete.css");
+import "./Autocomplete.css";
 
 export default class Autocomplete extends Component {
-  constructor(props) {
-    super(props);
+  state: {
+    inputValue: string,
+    selectedIndex: number,
+    focused: boolean
+  };
+  constructor() {
+    super();
     // initial state
     this.state = {
       inputValue: this.props.inputValue,
