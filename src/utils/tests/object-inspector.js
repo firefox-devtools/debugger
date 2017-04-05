@@ -3,7 +3,8 @@ const expect = require("expect.js");
 const {
   makeNodesForProperties,
   isPromise,
-  getPromiseProperties
+  getPromiseProperties,
+  getChildren
 } = require("../object-inspector");
 
 const objProperties = {
@@ -220,5 +221,64 @@ describe("promises", () => {
 
     const node = getPromiseProperties(promise);
     expect(node.contents.value.type).to.eql("3");
+  });
+
+  it("update actors when necessary", () => {
+    const item = {
+      contents: {
+        enumerable: true,
+        configurable: false,
+        value: {
+          frozen: false,
+          ownPropertyLength: 0,
+          preview: {
+            kind: "Object",
+            ownProperties: {
+              color: {
+                configurable: true,
+                enumerable: true,
+                value: "red",
+                writable: true
+              }
+            },
+            ownPropertiesLength: 1,
+            safeGetterValues: {}
+          },
+          actor: "server2.conn2.child1/pausedobj36",
+          promiseState: {
+            state: "rejected",
+            reason: {
+              type: "3"
+            },
+            creationTimestamp: 1486584316133.3994,
+            timeToSettle: 0.001713000237941742
+          },
+          class: "Promise",
+          type: "object",
+          extensible: true,
+          sealed: false
+        },
+        writable: true
+      },
+      name: "car",
+      path: "Block/car"
+    };
+
+    let actors = new Object();
+    actors["Block/car"] = [
+      {
+        contents: {
+          configureable: true,
+          enumerable: true,
+          value: "white",
+          writable: true
+        },
+        name: "color",
+        path: "Block/car/color"
+      }
+    ];
+
+    const children = getChildren({ function() {}, actors, item });
+    expect(children[0].contents.value).to.eql("red");
   });
 });
