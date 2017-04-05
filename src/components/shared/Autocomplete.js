@@ -95,30 +95,6 @@ export default class Autocomplete extends Component {
     }
   }
 
-  handlePrev() {
-    const { selectedIndex } = this.state;
-    const searchResults = this.getSearchResults();
-
-    let prevIndex = Math.max(0, selectedIndex - 1);
-
-    if (selectedIndex === 0) {
-      prevIndex = searchResults.length - 1;
-    }
-    this.setState({ selectedIndex: prevIndex });
-  }
-
-  handleNext() {
-    const { selectedIndex } = this.state;
-    const searchResults = this.getSearchResults();
-
-    let nextIndex = Math.min(searchResults.length - 1, selectedIndex + 1);
-
-    if (selectedIndex === searchResults.length - 1) {
-      nextIndex = 0;
-    }
-    this.setState({ selectedIndex: nextIndex });
-  }
-
   renderResults(results: Object[]) {
     const { size } = this.props;
 
@@ -164,9 +140,7 @@ export default class Autocomplete extends Component {
         onFocus: () => this.setState({ focused: true }),
         onBlur: () => this.setState({ focused: false }),
         onKeyDown: this.onKeyDown,
-        handleClose: this.props.close,
-        handleNext: this.handleNext,
-        handlePrev: this.handlePrev
+        handleClose: this.props.close
       }),
       this.renderResults(searchResults)
     );

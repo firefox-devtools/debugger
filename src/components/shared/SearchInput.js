@@ -25,7 +25,7 @@ class SearchInput extends Component {
 
   renderNav() {
     const { count, handleNext, handlePrev } = this.props;
-    if (!count || count == 1) {
+    if ((!handleNext && !handlePrev) || (!count || count == 1)) {
       return;
     }
 
