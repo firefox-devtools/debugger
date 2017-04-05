@@ -54,10 +54,9 @@ describe("expressions", () => {
 
     expect(selectors.getExpression(getState(), "foo").value).to.be(null);
     expect(selectors.getExpression(getState(), "bar").value).to.be(null);
-    await dispatch(actions.evaluateExpressions(frameId))
+    await dispatch(actions.evaluateExpressions(frameId));
 
     expect(selectors.getExpression(getState(), "foo").value).to.be("bla");
     expect(selectors.getExpression(getState(), "bar").value).to.be("bla");
   });
-
 });
