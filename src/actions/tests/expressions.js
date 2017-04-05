@@ -2,8 +2,7 @@ import expect from "expect.js";
 import {
   actions,
   selectors,
-  createStore,
-  makeSource,
+  createStore
 } from "../../utils/test-head";
 
 const mockThreadClient = {
