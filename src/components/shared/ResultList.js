@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, createClass } from "react";
+import { DOM as dom, PropTypes, Component } from "react";
 import classnames from "classnames";
 
 import "./ResultList.css";
@@ -11,21 +11,15 @@ type ResultListItem = {
   value: string
 };
 
-const ResultList = createClass({
-  propTypes: {
-    items: PropTypes.array.isRequired,
-    selected: PropTypes.number.isRequired,
-    selectItem: PropTypes.func.isRequired,
-    size: PropTypes.string
-  },
+export default class ResultList extends Component {
+  displayName: "ResultList";
 
-  displayName: "ResultList",
+  static defaultProps: Object;
 
-  getDefaultProps() {
-    return {
-      size: ""
-    };
-  },
+  constructor(props: any) {
+    super(props);
+    (this: any).renderListItem = this.renderListItem.bind(this);
+  }
 
   renderListItem(item: ResultListItem, index: number) {
     return dom.li(
@@ -41,7 +35,7 @@ const ResultList = createClass({
       dom.div({ className: "title" }, item.title),
       dom.div({ className: "subtitle" }, item.subtitle)
     );
-  },
+  }
 
   render() {
     let { size } = this.props;
@@ -53,6 +47,15 @@ const ResultList = createClass({
       this.props.items.map(this.renderListItem)
     );
   }
-});
+}
 
-export default ResultList;
+ResultList.propTypes = {
+  items: PropTypes.array.isRequired,
+  selected: PropTypes.number.isRequired,
+  selectItem: PropTypes.func.isRequired,
+  size: PropTypes.string
+};
+
+ResultList.defaultProps = {
+  size: ""
+};
