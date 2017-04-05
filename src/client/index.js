@@ -35,6 +35,16 @@ async function onConnect(connection: Object, services: Object) {
   await client.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
+  window.getGlobalsForTesting = () => {
+    return {
+      store,
+      actions,
+      selectors,
+      client: client.clientCommands,
+      connection
+    };
+  };
+
   bootstrapApp(connection, { store, actions });
 
   return { store, actions, selectors, client: commands };

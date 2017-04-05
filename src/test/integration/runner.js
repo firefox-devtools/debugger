@@ -32,7 +32,7 @@ describe("Tests", () => {
     prefs.tabs = [];
   });
 
-  it("asm", async function() {
+  xit("asm", async function() {
     await asm(ctx);
   });
 
@@ -70,6 +70,10 @@ describe("Tests", () => {
 
   xit("editor highlight", async function() {
     await editorHighlight(ctx);
+  });
+
+  xit("editor preview", async function() {
+    await editorPreview(ctx);
   });
 
   xit("keyboard navigation", async function() {
