@@ -470,35 +470,18 @@ const SearchBar = React.createClass({
   },
 
   onKeyDown(e: SyntheticKeyboardEvent) {
-    const {
-      symbolSearchEnabled,
-      symbolSearchResults,
-      selectedResultIndex
-    } = this.state;
+    const { symbolSearchEnabled, symbolSearchResults } = this.state;
     if (!symbolSearchEnabled || this.props.query == "") {
       return;
     }
 
-    const searchResults = symbolSearchResults,
-      resultCount = searchResults.length;
+    const searchResults = symbolSearchResults;
 
     if (e.key === "ArrowUp") {
-      let nextResultIndex = Math.max(0, selectedResultIndex - 1);
-
-      if (selectedResultIndex === 0) {
-        nextResultIndex = resultCount - 1;
-      }
-      this.setState({ selectedResultIndex: nextResultIndex });
-      this.onSelectResultItem(searchResults[nextResultIndex]);
+      this.traverseSymbolResults(true);
       e.preventDefault();
     } else if (e.key === "ArrowDown") {
-      let nextResultIndex = Math.min(resultCount - 1, selectedResultIndex + 1);
-
-      if (selectedResultIndex === resultCount - 1) {
-        nextResultIndex = 0;
-      }
-      this.setState({ selectedResultIndex: nextResultIndex });
-      this.onSelectResultItem(searchResults[nextResultIndex]);
+      this.traverseSymbolResults(false);
       e.preventDefault();
     } else if (e.key === "Enter") {
       if (searchResults.length) {
