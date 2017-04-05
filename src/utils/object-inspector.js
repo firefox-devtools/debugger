@@ -182,19 +182,7 @@ function getChildren(
   const key = item.path;
   if (actors && actors[key]) {
     if (item.contents.value && item.contents.value.preview) {
-      const properties = item.contents.value.preview.ownProperties;
-      for (let pKey in properties) {
-        if (properties.hasOwnProperty(pKey)) {
-          const cacheObject = actors[key].filter(a => a.name == pKey)[0];
-          const cacheObjectIndex = actors[key].findIndex(a => a.name == pKey);
-          // Assign new values to the cache actor if it goes stale
-          if (
-            cacheObject && cacheObject.contents.value != properties[pKey].value
-          ) {
-            actors[key][cacheObjectIndex].contents = properties[pKey];
-          }
-        }
-      }
+      actors[key] = updateActor(item, actors, key);
     }
 
     return actors[key];
@@ -217,6 +205,21 @@ function getChildren(
   }
   actors[key] = children;
   return children;
+}
+
+function updateActor(item, actors, key) {
+  const properties = item.contents.value.preview.ownProperties;
+  for (let pKey in properties) {
+    if (properties.hasOwnProperty(pKey)) {
+      const cacheObject = actors[key].filter(a => a.name == pKey)[0];
+      const cacheObjectIndex = actors[key].findIndex(a => a.name == pKey);
+      // Assign new values to the cache actor if it goes stale
+      if (cacheObject && cacheObject.contents.value != properties[pKey].value) {
+        actors[key][cacheObjectIndex].contents = properties[pKey];
+      }
+    }
+  }
+  return actors[key];
 }
 
 module.exports = {

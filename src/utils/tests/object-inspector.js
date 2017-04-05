@@ -226,39 +226,16 @@ describe("promises", () => {
   it("update actors when necessary", () => {
     const item = {
       contents: {
-        enumerable: true,
-        configurable: false,
         value: {
-          frozen: false,
-          ownPropertyLength: 0,
           preview: {
-            kind: "Object",
             ownProperties: {
               color: {
-                configurable: true,
-                enumerable: true,
-                value: "red",
-                writable: true
+                value: "red"
               }
-            },
-            ownPropertiesLength: 1,
-            safeGetterValues: {}
+            }
           },
-          actor: "server2.conn2.child1/pausedobj36",
-          promiseState: {
-            state: "rejected",
-            reason: {
-              type: "3"
-            },
-            creationTimestamp: 1486584316133.3994,
-            timeToSettle: 0.001713000237941742
-          },
-          class: "Promise",
-          type: "object",
-          extensible: true,
-          sealed: false
-        },
-        writable: true
+          type: "object"
+        }
       },
       name: "car",
       path: "Block/car"
@@ -268,10 +245,7 @@ describe("promises", () => {
     actors["Block/car"] = [
       {
         contents: {
-          configureable: true,
-          enumerable: true,
-          value: "white",
-          writable: true
+          value: "white"
         },
         name: "color",
         path: "Block/car/color"
