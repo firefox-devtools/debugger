@@ -1,11 +1,12 @@
 .popover {
   position: fixed;
   z-index: 100;
+  box-shadow: 1px 2px 4px 1px #f3f3f3;
 }
 
 .popover-gap {
-  height: 10px;
-  padding-top: 10px;
+  height: 5px;
+  padding-top: 5px;
 }
 
 .popover::before,
@@ -14,13 +15,13 @@
   height: 0;
   width: 0;
   position: absolute;
-  border: 10px solid transparent;
-  left: calc(20% - 10px); /* corresponds to calculation in Popover.js */
+  border: 7px solid transparent;
+  left: calc(15% - 7px); /* corresponds to calculation in Popover.js */
 }
 
 .popover::before {
-  border-bottom-color: var(--theme-comment);
-  top: -10px;
+  border-bottom-color: var(--theme-splitter-color);
+  top: -9px;
 }
 
 .popover::after {
