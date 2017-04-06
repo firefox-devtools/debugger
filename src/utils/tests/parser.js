@@ -1,10 +1,10 @@
 const expect = require("expect.js");
-const {
+import {
   getSymbols,
   getVariablesInScope,
   getPathClosestToLocation,
   resolveToken
-} = require("../parser/utils");
+} from "../parser/utils";
 
 // re-formats the code to correct for webpack indentations
 function formatCode(text) {
