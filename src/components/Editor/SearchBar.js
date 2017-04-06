@@ -364,10 +364,31 @@ const SearchBar = React.createClass({
     });
   },
 
-  traverseResults(e: SyntheticEvent, rev: boolean) {
-    e.stopPropagation();
-    e.preventDefault();
+  traverseSymbolResults(rev: boolean) {
+    const { symbolSearchResults, selectedResultIndex } = this.state;
+    const searchResults = symbolSearchResults;
+    const resultCount = searchResults.length;
 
+    if (rev) {
+      let nextResultIndex = Math.max(0, selectedResultIndex - 1);
+
+      if (selectedResultIndex === 0) {
+        nextResultIndex = resultCount - 1;
+      }
+      this.setState({ selectedResultIndex: nextResultIndex });
+      this.onSelectResultItem(searchResults[nextResultIndex]);
+    } else {
+      let nextResultIndex = Math.min(resultCount - 1, selectedResultIndex + 1);
+
+      if (selectedResultIndex === resultCount - 1) {
+        nextResultIndex = 0;
+      }
+      this.setState({ selectedResultIndex: nextResultIndex });
+      this.onSelectResultItem(searchResults[nextResultIndex]);
+    }
+  },
+
+  traverseCodeResults(rev: boolean) {
     const ed = this.props.editor;
 
     if (!ed) {
@@ -399,6 +420,19 @@ const SearchBar = React.createClass({
         count
       });
     }
+  },
+
+  traverseResults(e: SyntheticEvent, rev: boolean) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const { symbolSearchEnabled } = this.state;
+
+    if (symbolSearchEnabled) {
+      return this.traverseSymbolResults(rev);
+    }
+
+    this.traverseCodeResults(rev);
   },
 
   // Handlers
@@ -436,28 +470,18 @@ const SearchBar = React.createClass({
   },
 
   onKeyDown(e: SyntheticKeyboardEvent) {
-    if (!this.state.symbolSearchEnabled || this.props.query == "") {
+    const { symbolSearchEnabled, symbolSearchResults } = this.state;
+    if (!symbolSearchEnabled || this.props.query == "") {
       return;
     }
 
-    const searchResults = this.state.symbolSearchResults,
-      resultCount = searchResults.length;
+    const searchResults = symbolSearchResults;
 
     if (e.key === "ArrowUp") {
-      const selectedResultIndex = Math.max(
-        0,
-        this.state.selectedResultIndex - 1
-      );
-      this.setState({ selectedResultIndex });
-      this.onSelectResultItem(searchResults[selectedResultIndex]);
+      this.traverseSymbolResults(true);
       e.preventDefault();
     } else if (e.key === "ArrowDown") {
-      const selectedResultIndex = Math.min(
-        resultCount - 1,
-        this.state.selectedResultIndex + 1
-      );
-      this.setState({ selectedResultIndex });
-      this.onSelectResultItem(searchResults[selectedResultIndex]);
+      this.traverseSymbolResults(false);
       e.preventDefault();
     } else if (e.key === "Enter") {
       if (searchResults.length) {
@@ -623,10 +647,11 @@ const SearchBar = React.createClass({
   render() {
     const {
       searchResults: { count },
-      query
+      query,
+      searchOn
     } = this.props;
 
-    if (!this.props.searchOn) {
+    if (!searchOn) {
       return dom.div();
     }
 
@@ -640,6 +665,8 @@ const SearchBar = React.createClass({
         onChange: this.onChange,
         onKeyUp: this.onKeyUp,
         onKeyDown: this.onKeyDown,
+        handleNext: e => this.traverseResults(e, false),
+        handlePrev: e => this.traverseResults(e, true),
         handleClose: this.closeSearch
       }),
       this.renderResults(),

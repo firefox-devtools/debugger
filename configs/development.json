@@ -39,13 +39,13 @@
       "label": "Search Modifiers",
       "enabled": true
     },
+    "searchNav": {
+      "label": "Search Navigation",
+      "enabled": false
+    },
     "symbolSearch": {
       "label": "Symbol Search",
       "enabled": false
-    },
-    "functionSearch": {
-      "label": "function Search",
-      "enabled": true
     },
     "editorPreview": {
       "label": "Editor Preview",

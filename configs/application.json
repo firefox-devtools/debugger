@@ -33,6 +33,10 @@
       "label": "Search Modifiers",
       "enabled": false
     },
+    "searchNav": {
+      "label": "Search Navigation",
+      "enabled": false
+    },
     "symbolSearch": {
       "label": "symbol Search",
       "enabled": false
