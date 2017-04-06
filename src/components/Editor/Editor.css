@@ -51,7 +51,7 @@ html[dir="rtl"] .editor-mount {
   height: 14px;
   position: absolute;
   top: 0px;
-  right: -4px;
+  right: -16px;
 }
 
 .new-breakpoint.has-condition svg {
@@ -80,6 +80,8 @@ html[dir="rtl"] .editor-mount {
 .CodeMirror-linenumber {
   font-size: 11px;
   line-height: 14px;
+  text-align: left;
+  padding: 0 0 0 2px;
 }
 
 /* set the linenumber white when there is a breakpoint */
@@ -87,8 +89,8 @@ html[dir="rtl"] .editor-mount {
   color: white;
 }
 
-/* move the breakpoint below the linenumber */
-.new-breakpoint .CodeMirror-gutter-elt:last-child {
+/* move the breakpoint below the other gutter elements */
+.new-breakpoint .CodeMirror-gutter-elt:nth-child(2) {
   z-index: 0;
 }
 

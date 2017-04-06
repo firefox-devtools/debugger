@@ -103,12 +103,11 @@ function createEditor() {
     lineWrapping: false,
     matchBrackets: true,
     showAnnotationRuler: true,
-    enableCodeFolding: true,
     gutters: [
       "breakpoints",
       "hit-markers",
       "CodeMirror-linenumbers",
-      "CodeMirror-foldgutter",
+      "CodeMirror-foldgutter"
     ],
     value: " ",
     extraKeys: {
