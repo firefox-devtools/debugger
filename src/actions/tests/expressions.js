@@ -4,7 +4,11 @@ import { actions, selectors, createStore } from "../../utils/test-head";
 const mockThreadClient = {
   evaluate: (script, { frameId }) => {
     return new Promise((resolve, reject) => {
-      resolve("bla");
+      if (!frameId) {
+        resolve("bla");
+      } else {
+        resolve("boo");
+      }
     });
   }
 };
@@ -45,18 +49,31 @@ describe("expressions", () => {
     expect(selectors.getExpression(getState(), "bar").input).to.be("bar");
   });
 
-  it("should evaluate expressions", async () => {
+  it("should evaluate expressions global scope", async () => {
     const { dispatch, getState } = createStore(mockThreadClient);
-    const frameId = "baa";
 
     dispatch(actions.addExpression("foo"));
     dispatch(actions.addExpression("bar", { visible: false }));
 
     expect(selectors.getExpression(getState(), "foo").value).to.be(null);
     expect(selectors.getExpression(getState(), "bar").value).to.be(null);
-    await dispatch(actions.evaluateExpressions(frameId));
+    await dispatch(actions.evaluateExpressions());
 
     expect(selectors.getExpression(getState(), "foo").value).to.be("bla");
     expect(selectors.getExpression(getState(), "bar").value).to.be("bla");
+  });
+
+  it("should evaluate expressions in specific scope", async () => {
+    const { dispatch, getState } = createStore(mockThreadClient);
+
+    dispatch(actions.addExpression("foo"));
+    dispatch(actions.addExpression("bar", { visible: false }));
+
+    expect(selectors.getExpression(getState(), "foo").value).to.be(null);
+    expect(selectors.getExpression(getState(), "bar").value).to.be(null);
+    await dispatch(actions.evaluateExpressions('boo'));
+
+    expect(selectors.getExpression(getState(), "foo").value).to.be("boo");
+    expect(selectors.getExpression(getState(), "bar").value).to.be("boo");
   });
 });
