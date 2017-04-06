@@ -473,8 +473,10 @@ const SearchBar = React.createClass({
 
   // Renderers
   buildSummaryMsg() {
-    if (this.state.symbolSearchEnabled
-      && this.state.symbolSearchResults.length > 0) {
+    if (
+      this.state.symbolSearchEnabled &&
+      this.state.symbolSearchResults.length > 0
+    ) {
       return L10N.getFormatStr(
         "editor.searchResults",
         this.state.selectedResultIndex + 1,
