@@ -10,7 +10,7 @@ import get from "lodash/get";
 
 const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
 
-import { showMenu } from "../shared/menu";
+import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import classNames from "classnames";
 

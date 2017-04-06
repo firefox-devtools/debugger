@@ -5,7 +5,8 @@
   * [L10N](#l10n)
   * [RTL](#rtl)
 * [Prefs](#prefs)
-* [SVGs](#svgs)
+* [https://github.com/devtools-html/debugger.html#development-guide](#svgs)
+* [ContextMenus](#context-menu)
 * [Flow](#flow)
 * [Logging](#logging)
 * [Testing](#testing)
@@ -63,7 +64,7 @@ L10N.getStr("scopes.header")
 L10N.getFormatStr("editor.searchResults", index + 1, count)
 ```
 
-Translated strings are added to the [debugger properties][debugger-properties] file. 
+Translated strings are added to the [debugger properties][debugger-properties] file.
 
 #### RTL
 
@@ -124,7 +125,7 @@ const { prefs } = require("./utils/prefs");
 prefs.clientSourceMapsEnabled = false;
 ```
 
-### SVGs
+### https://github.com/devtools-html/debugger.html#development-guide
 
 We use SVGs in DevTools because they look good at any resolution.
 
@@ -199,6 +200,66 @@ index 5996700..bb828d8 100644
 +  left: 10px;
 +  fill: var(--theme-graphs-full-red);
 +}
+```
+
+### Context Menus
+
+The Debugger can create its own [context menus][context-menus]. In the launchpad, it uses a [shimmed][shimmed-context-menus] context menu library. In Firefox, it has special permission to create native context menus.
+
+Here's a simple example:
+
+```js
+const { showMenu } = require("devtools-launchpad");
+
+function onClick(event) {
+  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
+  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+
+  showMenu(event, [{
+    id: "node-menu-copy-source",
+    label: copySourceUrlLabel,
+    accesskey: copySourceUrlKey,
+    disabled: false,
+    click: () => copyToClipboad(url),
+    hidden: () => url.match(/chrome:\/\//)
+  }]);
+}
+```
+
+Notes:
+
+- `id` helps screen readers and accessibility
+- `label` menu item label shown
+- `accesskey` keyboard shortcut used
+- `disabled` inert item
+- `click` on click callback
+- `hidden` dynamically hide items
+
+#### Context Menu Groups
+
+You can use a menu item separator to create menu groups.
+
+```js
+const { showMenu } = require("devtools-launchpad");
+
+function onClick(event) {
+  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
+  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+
+  const menuItem = {
+    id: "node-menu-copy-source",
+    label: copySourceUrlLabel,
+    accesskey: copySourceUrlKey,
+    disabled: false,
+    click: () => copyToClipboad(url),
+    hidden: () => url.match(/chrome:\/\//)
+  }
+
+  showMenu(event, [
+    menuItem,
+    { item: { type: "separator" } },
+  ]);
+}
 ```
 
 ### Flow
@@ -539,3 +600,6 @@ your questions on [slack][slack].
 [Client Adapters]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-client-adapters
 [Modules]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-modules
 [Source Maps]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map
+
+[shimmed-context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/menu.js
+[context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-modules/client/framework/menu.js

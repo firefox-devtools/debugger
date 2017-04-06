@@ -19,7 +19,7 @@ const PaneToggleButton = createFactory(
 );
 import Svg from "../shared/Svg";
 const Dropdown = createFactory(require("../shared/Dropdown").default);
-import { showMenu, buildMenu } from "../shared/menu";
+import { showMenu, buildMenu } from "devtools-launchpad";
 import debounce from "lodash/debounce";
 import { formatKeyShortcut } from "../../utils/text";
 import "./Tabs.css";
