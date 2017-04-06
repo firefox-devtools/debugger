@@ -173,7 +173,7 @@ function getMemberExpression(root) {
   return _getMemberExpression(root, []);
 }
 
-function getSymbols(source: SourceText): SymbolDeclarations {
+export function getSymbols(source: SourceText): SymbolDeclarations {
   if (symbolDeclarations.has(source.id)) {
     const symbols = symbolDeclarations.get(source.id);
     if (symbols) {
@@ -243,7 +243,7 @@ function resolveScope(path, location: Location) {
 
 // Resolves a token (at location) in the source to determine if it is in scope
 // of the given frame and the expression (if any) to which it belongs
-function resolveToken(
+export function resolveToken(
   source: SourceText,
   token: string,
   location: Location,
@@ -296,7 +296,10 @@ function nodeContainsLocation({ node, location }) {
     (end.line === line && end.column < column));
 }
 
-function getPathClosestToLocation(source: SourceText, location: Location) {
+export function getPathClosestToLocation(
+  source: SourceText,
+  location: Location
+) {
   const ast = getAst(source);
   let pathClosestToLocation = null;
 
@@ -311,7 +314,7 @@ function getPathClosestToLocation(source: SourceText, location: Location) {
   return pathClosestToLocation;
 }
 
-function getVariablesInScope(source: SourceText, location: Location) {
+export function getVariablesInScope(source: SourceText, location: Location) {
   const path = getPathClosestToLocation(source, location);
   const bindings = get(path, "scope.bindings", {});
 
@@ -320,10 +323,3 @@ function getVariablesInScope(source: SourceText, location: Location) {
     references: binding.referencePaths
   }));
 }
-
-module.exports = {
-  getSymbols,
-  getPathClosestToLocation,
-  getVariablesInScope,
-  resolveToken
-};

@@ -1,10 +1,7 @@
-const {
-  getSymbols,
-  getVariablesInScope,
-  resolveToken
-} = require("./utils");
+import { getSymbols, getVariablesInScope, resolveToken } from "./utils";
 
-const { workerHandler } = require("../worker");
+import { workerUtils } from "devtools-utils";
+const { workerHandler } = workerUtils;
 
 self.onmessage = workerHandler({
   getSymbols,
