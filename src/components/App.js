@@ -25,7 +25,11 @@ const WelcomeBox = createFactory(require("./WelcomeBox").default);
 const EditorTabs = createFactory(require("./Editor/Tabs"));
 
 class App extends Component {
-  state: { horizontal: boolean };
+  state: {
+    horizontal: boolean,
+    startPanelSize: number,
+    endPanelSize: number
+  };
   onLayoutChange: Function;
   getChildContext: Function;
   renderEditorPane: Function;
@@ -33,7 +37,11 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { horizontal: verticalLayoutBreakpoint.matches };
+    this.state = {
+      horizontal: verticalLayoutBreakpoint.matches,
+      startPanelSize: 0,
+      endPanelSize: 0
+    };
 
     this.getChildContext = this.getChildContext.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
@@ -59,12 +67,17 @@ class App extends Component {
 
   renderEditorPane() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const { horizontal } = this.state;
+    const { horizontal, endPanelSize } = this.state;
     return dom.div(
       { className: "editor-pane" },
       dom.div(
         { className: "editor-container" },
-        EditorTabs({ startPanelCollapsed, endPanelCollapsed, horizontal }),
+        EditorTabs({
+          startPanelCollapsed,
+          endPanelCollapsed,
+          horizontal,
+          endPanelSize
+        }),
         Editor({ horizontal }),
         !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
         ProjectSearch()
@@ -86,6 +99,7 @@ class App extends Component {
         minSize: 10,
         maxSize: "50%",
         splitterSize: 1,
+        onResizeEnd: size => this.setState({ startPanelSize: size }),
         startPanel: Sources({ sources, horizontal }),
         startPanelCollapsed,
         endPanel: SplitBox({
@@ -94,6 +108,7 @@ class App extends Component {
           minSize: 10,
           maxSize: "80%",
           splitterSize: 1,
+          onResizeEnd: size => this.setState({ endPanelSize: size }),
           endPanelControl: true,
           startPanel: this.renderEditorPane(),
           endPanel: SecondaryPanes({ horizontal }),
