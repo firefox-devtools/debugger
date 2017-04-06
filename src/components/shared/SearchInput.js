@@ -1,4 +1,5 @@
 import { DOM as dom, PropTypes, Component } from "react";
+import { isEnabled } from "devtools-config";
 import Svg from "./Svg";
 import classnames from "classnames";
 import CloseButton from "./Button/Close";
@@ -21,6 +22,31 @@ class SearchInput extends Component {
     }
 
     return Svg("magnifying-glass");
+  }
+
+  renderNav() {
+    if (!isEnabled("searchNav")) {
+      return;
+    }
+
+    const { count, handleNext, handlePrev } = this.props;
+    if ((!handleNext && !handlePrev) || (!count || count == 1)) {
+      return;
+    }
+
+    return dom.div(
+      { className: "search-nav-buttons" },
+      Svg("arrow-down", {
+        className: classnames("nav-btn", "next"),
+        onClick: handleNext,
+        title: "Next Result"
+      }),
+      Svg("arrow-up", {
+        className: classnames("nav-btn", "prev"),
+        onClick: handlePrev,
+        title: "Previous Result"
+      })
+    );
   }
 
   render() {
@@ -57,6 +83,7 @@ class SearchInput extends Component {
         spellCheck: false
       }),
       dom.div({ className: "summary" }, query != "" ? summaryMsg : ""),
+      this.renderNav(),
       CloseButton({
         handleClick: handleClose,
         buttonClass: size
@@ -76,7 +103,9 @@ SearchInput.propTypes = {
   onKeyDown: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
-  size: PropTypes.string
+  size: PropTypes.string,
+  handleNext: PropTypes.func,
+  handlePrev: PropTypes.func
 };
 
 export default SearchInput;
