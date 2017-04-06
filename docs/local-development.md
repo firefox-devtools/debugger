@@ -125,7 +125,7 @@ const { prefs } = require("./utils/prefs");
 prefs.clientSourceMapsEnabled = false;
 ```
 
-### https://github.com/devtools-html/debugger.html#development-guide
+### SVGs
 
 We use SVGs in DevTools because they look good at any resolution.
 
