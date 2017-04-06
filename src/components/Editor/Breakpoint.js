@@ -1,5 +1,6 @@
 // @flow
 import { PropTypes, Component } from "react";
+import { isEnabled } from "devtools-config";
 const ReactDOM = require("react-dom");
 
 import classnames from "classnames";
@@ -11,7 +12,8 @@ ReactDOM.render(Svg("breakpoint"), breakpointSvg);
 function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);
   bp.className = classnames("editor new-breakpoint", {
-    "breakpoint-disabled": isDisabled
+    "breakpoint-disabled": isDisabled,
+    "folding-enabled": isEnabled("codeFolding")
   });
 
   return bp;

@@ -95,6 +95,12 @@ function traverseResults(e, ctx, query, dir, modifiers) {
 }
 
 function createEditor() {
+  const gutters = ["breakpoints", "hit-markers", "CodeMirror-linenumbers"];
+
+  if (isEnabled("codeFolding")) {
+    gutters.push("CodeMirror-foldgutter");
+  }
+
   return new SourceEditor({
     mode: "javascript",
     foldGutter: isEnabled("codeFolding"),
@@ -104,12 +110,7 @@ function createEditor() {
     lineWrapping: false,
     matchBrackets: true,
     showAnnotationRuler: true,
-    gutters: [
-      "breakpoints",
-      "hit-markers",
-      "CodeMirror-linenumbers",
-      "CodeMirror-foldgutter"
-    ],
+    gutters,
     value: " ",
     extraKeys: {
       // Override code mirror keymap to avoid conflicts with split console.
