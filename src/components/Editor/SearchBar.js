@@ -473,9 +473,10 @@ const SearchBar = React.createClass({
 
   // Renderers
   buildSummaryMsg() {
-    if (this.state.symbolSearchEnabled) {
+    if (this.state.symbolSearchResults.length > 0) {
       return L10N.getFormatStr(
         "sourceSearch.resultsSummary1",
+        this.state.selectedResultIndex + 1,
         this.state.symbolSearchResults.length
       );
     }
