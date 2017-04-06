@@ -1,14 +1,13 @@
 .preview {
   background: var(--theme-body-background);
-  min-width: 200px;
+  width: 350px;
   min-height: 80px;
-  border: 1px solid var(--theme-comment);
+  border: 1px solid var(--theme-splitter-color);
   padding: 10px;
   height: auto;
   min-height: inherit;
-  max-height: 130px;
+  max-height: 200px;
   overflow: auto;
-  max-width: 400px;
 }
 
 .preview .header {
