@@ -32,14 +32,7 @@ Light     | Dark      | Firebug
 
 #### Set a theme
 
-You can change the theme by setting the `theme` field in your `local.json` to  `light`, `dark`, or `firebug`. [Walkthrough GIF](http://g.recordit.co/nwBX4VBOBA.gif)
-
-`configs/local.json`
-```json
-{
-  "theme": "dark"
-}
-```
+You can change the theme by going to the Settings panel in the launchpad and changing the theme to either `firebug` or `dark`.
 
 #### Update a theme style
 
