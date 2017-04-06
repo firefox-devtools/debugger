@@ -25,7 +25,7 @@ import {
 const ManagedTree = createFactory(require("./shared/ManagedTree"));
 import actions from "../actions";
 import Svg from "./shared/Svg";
-import { showMenu } from "./shared/menu";
+import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../utils/clipboard";
 import { throttle } from "../utils/utils";
 
