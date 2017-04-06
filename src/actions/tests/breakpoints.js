@@ -11,9 +11,11 @@ const simpleMockThreadClient = {
 
 describe("breakpoints", () => {
   it("should add a breakpoint", async () => {
-    const store = createStore(simpleMockThreadClient);
-    await store.dispatch(actions.addBreakpoint({ sourceId: "a", line: 5 }));
-    await store.dispatch(actions.addBreakpoint({ sourceId: "b", line: 6 }));
-    expect(selectors.getBreakpoints(store.getState()).size).to.be(2);
+    const { dispatch, getState } = createStore(simpleMockThreadClient);
+
+    await dispatch(actions.addBreakpoint({ sourceId: "a", line: 5 }));
+    await dispatch(actions.addBreakpoint({ sourceId: "b", line: 6 }));
+
+    expect(selectors.getBreakpoints(getState()).size).to.be(2);
   });
 });
