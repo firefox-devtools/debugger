@@ -90,7 +90,7 @@ export function evaluateExpressions(frameId: frameIdType) {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     const expressions = getExpressions(getState()).toJS();
     if (!frameId) {
-      const selectedFrame = getSelectedFrame(getState())
+      const selectedFrame = getSelectedFrame(getState());
       frameId = selectedFrame ? selectedFrame.id : null;
     }
     for (let expression of expressions) {

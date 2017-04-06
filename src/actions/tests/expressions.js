@@ -71,7 +71,7 @@ describe("expressions", () => {
 
     expect(selectors.getExpression(getState(), "foo").value).to.be(null);
     expect(selectors.getExpression(getState(), "bar").value).to.be(null);
-    await dispatch(actions.evaluateExpressions('boo'));
+    await dispatch(actions.evaluateExpressions("boo"));
 
     expect(selectors.getExpression(getState(), "foo").value).to.be("boo");
     expect(selectors.getExpression(getState(), "bar").value).to.be("boo");
