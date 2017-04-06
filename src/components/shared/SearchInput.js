@@ -1,4 +1,5 @@
 import { DOM as dom, PropTypes, Component } from "react";
+import { isEnabled } from "devtools-config";
 import Svg from "./Svg";
 import classnames from "classnames";
 import CloseButton from "./Button/Close";
@@ -24,6 +25,10 @@ class SearchInput extends Component {
   }
 
   renderNav() {
+    if (!isEnabled("searchNav")) {
+      return;
+    }
+
     const { count, handleNext, handlePrev } = this.props;
     if ((!handleNext && !handlePrev) || (!count || count == 1)) {
       return;

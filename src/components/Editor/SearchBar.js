@@ -650,7 +650,6 @@ const SearchBar = React.createClass({
       query,
       searchOn
     } = this.props;
-    const { symbolSearchEnabled } = this.state;
 
     if (!searchOn) {
       return dom.div();
@@ -666,10 +665,8 @@ const SearchBar = React.createClass({
         onChange: this.onChange,
         onKeyUp: this.onKeyUp,
         onKeyDown: this.onKeyDown,
-        handleNext: e =>
-          !symbolSearchEnabled ? this.traverseResults(e, false) : null,
-        handlePrev: e =>
-          !symbolSearchEnabled ? this.traverseResults(e, true) : null,
+        handleNext: e => this.traverseResults(e, false),
+        handlePrev: e => this.traverseResults(e, true),
         handleClose: this.closeSearch
       }),
       this.renderResults(),
