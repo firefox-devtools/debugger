@@ -1,3 +1,4 @@
+const { isEnabled } = require("devtools-config");
 const { isPretty, isJavaScript } = require("../source");
 const { isOriginalId } = require("devtools-source-map");
 const buildQuery = require("./build-query");
@@ -96,7 +97,7 @@ function traverseResults(e, ctx, query, dir, modifiers) {
 function createEditor() {
   return new SourceEditor({
     mode: "javascript",
-    foldGutter: true,
+    foldGutter: isEnabled("codeFolding"),
     readOnly: true,
     lineNumbers: true,
     theme: "mozilla",
