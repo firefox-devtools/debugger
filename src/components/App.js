@@ -28,7 +28,7 @@ class App extends Component {
   state: {
     horizontal: boolean,
     startPanelSize: number,
-    endPanelSize: number,
+    endPanelSize: number
   };
   onLayoutChange: Function;
   getChildContext: Function;
@@ -40,7 +40,7 @@ class App extends Component {
     this.state = {
       horizontal: verticalLayoutBreakpoint.matches,
       startPanelSize: 0,
-      endPanelSize: 0,
+      endPanelSize: 0
     };
 
     this.getChildContext = this.getChildContext.bind(this);
@@ -76,7 +76,7 @@ class App extends Component {
           startPanelCollapsed,
           endPanelCollapsed,
           horizontal,
-          endPanelSize,
+          endPanelSize
         }),
         Editor({ horizontal }),
         !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
@@ -99,7 +99,7 @@ class App extends Component {
         minSize: 10,
         maxSize: "50%",
         splitterSize: 1,
-        onStopResize: size => this.setState({ startPanelSize: size }),
+        onResizeEnd: size => this.setState({ startPanelSize: size }),
         startPanel: Sources({ sources, horizontal }),
         startPanelCollapsed,
         endPanel: SplitBox({
@@ -108,7 +108,7 @@ class App extends Component {
           minSize: 10,
           maxSize: "80%",
           splitterSize: 1,
-          onStopResize: size => this.setState({ endPanelSize: size }),
+          onResizeEnd: size => this.setState({ endPanelSize: size }),
           endPanelControl: true,
           startPanel: this.renderEditorPane(),
           endPanel: SecondaryPanes({ horizontal }),
