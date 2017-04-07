@@ -14,6 +14,16 @@ class Popover extends Component {
   }
 
   componentDidMount() {
+    const { type } = this.props;
+    const { left, top } = type == "popover"
+      ? this.getPopoverCoords()
+      : this.getTooltipCoords();
+
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({ left, top });
+  }
+
+  getPopoverCoords() {
     const el = ReactDOM.findDOMNode(this);
     const { width } = el.getBoundingClientRect();
     const {
@@ -23,14 +33,27 @@ class Popover extends Component {
     } = this.props.target.getBoundingClientRect();
 
     // width division corresponds to calc in Popover.css
-    const left = targetLeft + targetWidth / 2 - width / 5;
-    const top = targetBottom;
-
-    // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({ left, top });
+    let left = targetLeft + targetWidth / 2 - width / 5;
+    let top = targetBottom;
+    return { left, top };
   }
 
-  render() {
+  getTooltipCoords() {
+    const el = ReactDOM.findDOMNode(this);
+    const { height } = el.getBoundingClientRect();
+    const {
+      left: targetLeft,
+      width: targetWidth,
+      top: targetTop
+    } = this.props.target.getBoundingClientRect();
+
+    const left = targetLeft + targetWidth / 4;
+    const top = targetTop - height - 4;
+
+    return { left, top };
+  }
+
+  renderPopover() {
     const { children, onMouseLeave } = this.props;
     const { top, left } = this.state;
 
@@ -44,16 +67,42 @@ class Popover extends Component {
       children
     );
   }
+
+  renderTooltip() {
+    const { children, onMouseLeave } = this.props;
+    const { top, left } = this.state;
+
+    return dom.div(
+      {
+        className: "tooltip-content",
+        onMouseLeave,
+        style: { top, left }
+      },
+      children
+    );
+  }
+
+  render() {
+    const { type } = this.props;
+
+    if (type === "tooltip") {
+      return this.renderTooltip();
+    }
+
+    return this.renderPopover();
+  }
 }
 
 Popover.propTypes = {
   target: PropTypes.object,
   children: PropTypes.object,
-  onMouseLeave: PropTypes.func
+  onMouseLeave: PropTypes.func,
+  type: PropTypes.string
 };
 
 Popover.defaultProps = {
-  onMouseLeave: () => {}
+  onMouseLeave: () => {},
+  type: "popover"
 };
 
 Popover.displayName = "Popover";
