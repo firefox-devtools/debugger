@@ -41,9 +41,25 @@ type ObjectInspectorItem = {
 };
 
 type DefaultProps = {
-  onLabelClick: any,
-  onDoubleClick: any,
-  autoExpandDepth: number
+  onLabelClick: (
+    item: ObjectInspectorItem,
+    params: {
+      depth: number,
+      focused: boolean,
+      expanded: boolean,
+      setExpanded: () => any
+    }
+  ) => void,
+  onDoubleClick: (
+    item: ObjectInspectorItem,
+    params: {
+      depth: number,
+      focused: boolean,
+      expanded: boolean
+    }
+  ) => void,
+  autoExpandDepth: number,
+  getActors: () => any
 };
 
 // This implements a component that renders an interactive inspector
@@ -73,51 +89,32 @@ type DefaultProps = {
 // fetched, and a primitive value that should be displayed with no
 // children.
 
-const ObjectInspector = React.createClass({
-  propTypes: {
-    autoExpandDepth: PropTypes.number,
-    name: PropTypes.string,
-    desc: PropTypes.object,
-    roots: PropTypes.array,
-    getObjectProperties: PropTypes.func.isRequired,
-    loadObjectProperties: PropTypes.func.isRequired,
-    onLabelClick: PropTypes.func.isRequired,
-    onDoubleClick: PropTypes.func.isRequired,
-    getExpanded: PropTypes.func,
-    setExpanded: PropTypes.func,
-    getActors: PropTypes.func.isRequired,
-    setActors: PropTypes.func
-  },
+class ObjectInspector extends React.Component {
+  static defaultProps: DefaultProps;
+  actors: any;
 
-  actors: (null: any),
+  constructor() {
+    super();
 
-  displayName: "ObjectInspector",
+    this.actors = null;
 
-  getInitialState() {
-    return {};
-  },
-
-  getDefaultProps(): DefaultProps {
-    return {
-      onLabelClick: () => {},
-      onDoubleClick: () => {},
-      autoExpandDepth: 1,
-      getActors: () => ({})
-    };
-  },
+    const self: any = this;
+    self.getChildren = this.getChildren.bind(this);
+    self.renderItem = this.renderItem.bind(this);
+  }
 
   componentWillMount() {
     // Cache of dynamically built nodes. We shouldn't need to clear
     // this out ever, since we don't ever "switch out" the object
     // being inspected.
     this.actors = this.props.getActors();
-  },
+  }
 
   componentWillUnmount() {
     if (this.props.setActors) {
       this.props.setActors(this.actors);
     }
-  },
+  }
 
   getChildren(item: ObjectInspectorItem) {
     const { getObjectProperties } = this.props;
@@ -128,7 +125,7 @@ const ObjectInspector = React.createClass({
       actors,
       item
     });
-  },
+  }
 
   renderItem(
     item: ObjectInspectorItem,
@@ -193,7 +190,7 @@ const ObjectInspector = React.createClass({
       dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
       dom.span({ className: "object-value" }, objectValue || "")
     );
-  },
+  }
 
   render() {
     const {
@@ -230,6 +227,30 @@ const ObjectInspector = React.createClass({
       renderItem: this.renderItem
     });
   }
-});
+}
+
+ObjectInspector.displayName = "ObjectInspector";
+
+ObjectInspector.propTypes = {
+  autoExpandDepth: PropTypes.number,
+  name: PropTypes.string,
+  desc: PropTypes.object,
+  roots: PropTypes.array,
+  getObjectProperties: PropTypes.func.isRequired,
+  loadObjectProperties: PropTypes.func.isRequired,
+  onLabelClick: PropTypes.func.isRequired,
+  onDoubleClick: PropTypes.func.isRequired,
+  getExpanded: PropTypes.func,
+  setExpanded: PropTypes.func,
+  getActors: PropTypes.func.isRequired,
+  setActors: PropTypes.func
+};
+
+ObjectInspector.defaultProps = {
+  onLabelClick: () => {},
+  onDoubleClick: () => {},
+  autoExpandDepth: 1,
+  getActors: () => ({})
+};
 
 module.exports = ObjectInspector;
