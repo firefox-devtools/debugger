@@ -190,13 +190,15 @@ selector in floating-scrollbar-light.css across all platforms. */
 }
 
 .CodeMirror-foldgutter {
-  width: 16px; /* Same as breakpoints gutter above */
+  width: 10px;
 }
 
 .CodeMirror-foldgutter-open,
 .CodeMirror-foldgutter-folded {
   color: #555;
   cursor: pointer;
+  line-height: 1;
+  padding: 0 1px;
 }
 
 .CodeMirror-foldgutter-open:after {

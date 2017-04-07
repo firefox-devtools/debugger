@@ -16,6 +16,10 @@ require("codemirror/mode/elm/elm");
 require("codemirror/mode/clojure/clojure");
 require("../../components/Editor/codemirror-mozilla.css");
 require("codemirror/addon/search/searchcursor");
+require("codemirror/addon/fold/foldcode");
+require("codemirror/addon/fold/brace-fold");
+require("codemirror/addon/fold/indent-fold");
+require("codemirror/addon/fold/foldgutter");
 
 import type { Mode, AlignOpts } from "../../types";
 
@@ -27,6 +31,7 @@ type SourceEditorOpts = {
   enableCodeFolding: boolean,
   extraKeys: Object,
   gutters: string[],
+  foldGutter: boolean,
   lineNumbers: boolean,
   lineWrapping: boolean,
   matchBrackets: boolean,

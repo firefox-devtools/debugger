@@ -54,6 +54,10 @@ html[dir="rtl"] .editor-mount {
   right: -4px;
 }
 
+.editor.new-breakpoint.folding-enabled svg {
+  right: -16px;
+}
+
 .new-breakpoint.has-condition svg {
   fill: var(--theme-graphs-yellow);
 }
@@ -82,13 +86,18 @@ html[dir="rtl"] .editor-mount {
   line-height: 14px;
 }
 
+.folding-enabled .CodeMirror-linenumber {
+  text-align: left;
+  padding: 0 0 0 2px;
+}
+
 /* set the linenumber white when there is a breakpoint */
 .new-breakpoint .CodeMirror-gutter-wrapper .CodeMirror-linenumber {
   color: white;
 }
 
-/* move the breakpoint below the linenumber */
-.new-breakpoint .CodeMirror-gutter-elt:last-child {
+/* move the breakpoint below the other gutter elements */
+.new-breakpoint .CodeMirror-gutter-elt:nth-child(2) {
   z-index: 0;
 }
 
