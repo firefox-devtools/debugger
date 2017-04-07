@@ -48,7 +48,7 @@ class Popover extends Component {
     } = this.props.target.getBoundingClientRect();
 
     const left = targetLeft + targetWidth / 4;
-    const top = targetTop - height - 4;
+    const top = targetTop - height;
 
     return { left, top };
   }
@@ -78,7 +78,8 @@ class Popover extends Component {
         onMouseLeave,
         style: { top, left }
       },
-      children
+      children,
+      dom.div({ className: "tooltip-gap" })
     );
   }
 
