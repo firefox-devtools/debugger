@@ -13,8 +13,8 @@ const { getMode } = require("../../utils/source");
 
 const Footer = createFactory(require("./Footer").default);
 const SearchBar = createFactory(require("./SearchBar"));
-const GutterMenu = require("./GutterMenu");
-const EditorMenu = require("./EditorMenu");
+const GutterMenu = require("./GutterMenu").default;
+const EditorMenu = require("./EditorMenu").default;
 const Preview = createFactory(require("./Preview").default);
 const { renderConditionalPanel } = require("./ConditionalPanel");
 const { debugGlobal } = require("devtools-launchpad");

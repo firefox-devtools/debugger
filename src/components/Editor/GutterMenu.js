@@ -1,6 +1,6 @@
-const { showMenu } = require("devtools-launchpad");
+import { showMenu } from "devtools-launchpad";
 
-function GutterMenu(
+export default function GutterMenu(
   {
     bp,
     line,
@@ -84,5 +84,3 @@ function GutterMenu(
 
   showMenu(event, items);
 }
-
-module.exports = GutterMenu;

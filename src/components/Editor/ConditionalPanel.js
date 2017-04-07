@@ -1,11 +1,9 @@
 // @flow
-const React = require("react");
-const { DOM: dom } = React;
+import { DOM as dom } from "react";
 
 const ReactDOM = require("react-dom");
-const CloseButton = require("../shared/Button/Close").default;
-
-require("./ConditionalPanel.css");
+import CloseButton from "../shared/Button/Close";
+import "./ConditionalPanel.css";
 
 function renderConditionalPanel(
   {
@@ -59,6 +57,4 @@ function renderConditionalPanel(
   return panel;
 }
 
-module.exports = {
-  renderConditionalPanel
-};
+export { renderConditionalPanel };

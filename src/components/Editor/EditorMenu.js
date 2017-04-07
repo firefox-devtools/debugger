@@ -1,7 +1,7 @@
-const { showMenu } = require("devtools-launchpad");
-const { isEnabled } = require("devtools-config");
-const { isOriginalId } = require("devtools-source-map");
-const { copyToTheClipboard } = require("../../utils/clipboard");
+import { showMenu } from "devtools-launchpad";
+import { isEnabled } from "devtools-config";
+import { isOriginalId } from "devtools-source-map";
+import { copyToTheClipboard } from "../../utils/clipboard";
 
 function getMenuItems(
   {
@@ -112,4 +112,4 @@ async function EditorMenu(options) {
   showMenu(event, getMenuItems(options));
 }
 
-module.exports = EditorMenu;
+export default EditorMenu;
