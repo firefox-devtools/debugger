@@ -16,7 +16,7 @@
   width: 0;
   position: absolute;
   border: 7px solid transparent;
-  left: calc(15% - 7px); /* corresponds to calculation in Popover.js */
+  left: calc(20% - 7px); /* corresponds to calculation in Popover.js */
 }
 
 .popover::before {
