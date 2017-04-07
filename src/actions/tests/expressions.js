@@ -15,7 +15,7 @@ const mockThreadClient = {
 
 describe("expressions", () => {
   it("should add an expression", () => {
-    const { dispatch, getState } = createStore();
+    const { dispatch, getState } = createStore(mockThreadClient);
 
     dispatch(actions.addExpression("foo"));
     dispatch(actions.addExpression("bar", { visible: false }));
@@ -25,7 +25,7 @@ describe("expressions", () => {
   });
 
   it("should update an expression", () => {
-    const { dispatch, getState } = createStore();
+    const { dispatch, getState } = createStore(mockThreadClient);
 
     dispatch(actions.addExpression("foo"));
     const expression = selectors.getExpression(getState(), "foo");
@@ -35,7 +35,7 @@ describe("expressions", () => {
   });
 
   it("should delete an expression", () => {
-    const { dispatch, getState } = createStore();
+    const { dispatch, getState } = createStore(mockThreadClient);
 
     dispatch(actions.addExpression("foo"));
     dispatch(actions.addExpression("bar", { visible: false }));
