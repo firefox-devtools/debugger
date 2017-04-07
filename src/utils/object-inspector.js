@@ -24,6 +24,11 @@ function nodeIsObject(item) {
   return value && value.type === "object";
 }
 
+function nodeIsFunction(item) {
+  const value = getValue(item);
+  return value && value.class === "Function";
+}
+
 function nodeIsOptimizedOut(item) {
   const value = getValue(item);
   return !nodeHasChildren(item) && value && value.optimizedOut;
@@ -229,6 +234,7 @@ module.exports = {
   nodeHasProperties,
   nodeIsPrimitive,
   nodeIsObject,
+  nodeIsFunction,
   isDefault,
   sortProperties,
   makeNodesForProperties,
