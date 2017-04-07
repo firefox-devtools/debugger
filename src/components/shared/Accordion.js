@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, createClass, createElement } from "react";
+import React, { DOM as dom, PropTypes, createElement } from "react";
 import Svg from "./Svg";
 
 import "./Accordion.css";
@@ -15,12 +15,26 @@ type AccordionItem = {
 
 type Props = { items: Array<Object> };
 
-const Accordion = createClass({
-  propTypes: { items: PropTypes.array.isRequired },
-  displayName: "Accordion",
-  getInitialState() {
-    return { opened: this.props.items.map(item => item.opened), created: [] };
-  },
+type AccordionState = {
+  opened: boolean[],
+  created: boolean[]
+};
+
+class Accordion extends React.Component {
+  state: AccordionState;
+
+  constructor(props: Props) {
+    super();
+
+    this.state = {
+      opened: props.items.map(item => item.opened),
+      created: []
+    };
+
+    const self: any = this;
+    self.renderContainer = this.renderContainer.bind(this);
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     const newOpened = this.state.opened.map((isOpen, i) => {
       const { shouldOpen } = nextProps.items[i];
@@ -29,7 +43,8 @@ const Accordion = createClass({
     });
 
     this.setState({ opened: newOpened });
-  },
+  }
+
   handleHeaderClick(i: number) {
     const opened = [...this.state.opened];
     const created = [...this.state.created];
@@ -47,7 +62,8 @@ const Accordion = createClass({
     }
 
     this.setState({ opened, created });
-  },
+  }
+
   renderContainer(item: AccordionItem, i: number) {
     const { opened, created } = this.state;
     const containerClassName = `${item.header
@@ -74,13 +90,20 @@ const Accordion = createClass({
           )
         : null
     );
-  },
+  }
+
   render() {
     return dom.div(
       { className: "accordion" },
       this.props.items.map(this.renderContainer)
     );
   }
-});
+}
+
+Accordion.displayName = "Accordion";
+
+Accordion.propTypes = {
+  items: PropTypes.array.isRequired
+};
 
 export default Accordion;

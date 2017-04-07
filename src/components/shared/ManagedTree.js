@@ -1,5 +1,5 @@
 // @flow
-import { createClass, PropTypes, createFactory } from "react";
+import React, { PropTypes, createFactory } from "react";
 const Tree = createFactory(require("devtools-modules").Tree);
 require("./ManagedTree.css");
 
@@ -23,25 +23,26 @@ type NextProps = {
   renderItem: () => any
 };
 
-type InitialState = {
+type ManagedTreeState = {
   expanded: any,
   focusedItem: ?ManagedTreeItem
 };
 
-let ManagedTree = createClass({
-  propTypes: Object.assign({}, Tree.propTypes, {
-    getExpanded: PropTypes.func,
-    setExpanded: PropTypes.func
-  }),
+class ManagedTree extends React.Component {
+  state: ManagedTreeState;
 
-  displayName: "ManagedTree",
+  constructor() {
+    super();
 
-  getInitialState(): InitialState {
-    return {
+    this.state = {
       expanded: new Set(),
       focusedItem: null
     };
-  },
+
+    const self: any = this;
+    self.setExpanded = this.setExpanded.bind(this);
+    self.focusItem = this.focusItem.bind(this);
+  }
 
   componentWillReceiveProps(nextProps: NextProps) {
     const listItems = nextProps.listItems;
@@ -57,20 +58,20 @@ let ManagedTree = createClass({
     ) {
       this.highlightItem(highlightItems);
     }
-  },
+  }
 
   componentWillMount() {
     if (this.props.getExpanded) {
       const expanded = this.props.getExpanded();
       this.setState({ expanded });
     }
-  },
+  }
 
   componentWillUnmount() {
     if (this.props.setExpanded) {
       this.props.setExpanded(this.state.expanded);
     }
-  },
+  }
 
   setExpanded(item: ManagedTreeItem, isExpanded: boolean) {
     const expanded = this.state.expanded;
@@ -87,14 +88,14 @@ let ManagedTree = createClass({
     } else if (!expanded && this.props.onCollapse) {
       this.props.onCollapse(item);
     }
-  },
+  }
 
   expandListItems(listItems: Array<ManagedTreeItem>) {
     const expanded = this.state.expanded;
     listItems.forEach(item => expanded.add(this.props.getKey(item)));
     this.focusItem(listItems[0]);
     this.setState({ expanded: expanded });
-  },
+  }
 
   highlightItem(highlightItems: Array<ManagedTreeItem>) {
     const expanded = this.state.expanded;
@@ -110,7 +111,7 @@ let ManagedTree = createClass({
         .findIndex(item => !expanded.has(this.props.getKey(item)));
       this.focusItem(highlightItems[index]);
     }
-  },
+  }
 
   focusItem(item: ManagedTreeItem) {
     if (!this.props.disabledFocus && this.state.focusedItem !== item) {
@@ -120,7 +121,7 @@ let ManagedTree = createClass({
         this.props.onFocus(item);
       }
     }
-  },
+  }
 
   render() {
     const { expanded, focusedItem } = this.state;
@@ -142,6 +143,13 @@ let ManagedTree = createClass({
 
     return Tree(props);
   }
+}
+
+ManagedTree.displayName = "ManagedTree";
+
+ManagedTree.propTypes = Object.assign({}, Tree.propTypes, {
+  getExpanded: PropTypes.func,
+  setExpanded: PropTypes.func
 });
 
 module.exports = ManagedTree;
