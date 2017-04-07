@@ -118,7 +118,6 @@ class Preview extends Component {
       expression
     } = this.props;
 
-    // Preview will be either a tooltip or a popover
     let type = value.class === "Function" ? "tooltip" : "popover";
 
     return Popover(

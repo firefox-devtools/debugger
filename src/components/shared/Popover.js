@@ -14,26 +14,43 @@ class Popover extends Component {
   }
 
   componentDidMount() {
-    const el = ReactDOM.findDOMNode(this);
-    const { width, height } = el.getBoundingClientRect();
     const { type } = this.props;
-    const {
-      left: targetLeft,
-      width: targetWidth,
-      bottom: targetBottom,
-      top: targetTop
-    } = this.props.target.getBoundingClientRect();
-
-    // width division corresponds to calc in Popover.css
-    const left = targetLeft + targetWidth / 2 - width / 5;
-    const top = targetBottom;
-
-    if (type === "tooltip") {
-      top = targetTop - height;
-    }
+    const { left, top } = type == "popover"
+      ? this.getPopoverCoords()
+      : this.getTooltipCoords();
 
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({ left, top });
+  }
+
+  getPopoverCoords() {
+    const el = ReactDOM.findDOMNode(this);
+    const { width } = el.getBoundingClientRect();
+    const {
+      left: targetLeft,
+      width: targetWidth,
+      bottom: targetBottom
+    } = this.props.target.getBoundingClientRect();
+
+    // width division corresponds to calc in Popover.css
+    let left = targetLeft + targetWidth / 2 - width / 5;
+    let top = targetBottom;
+    return { left, top };
+  }
+
+  getTooltipCoords() {
+    const el = ReactDOM.findDOMNode(this);
+    const { height } = el.getBoundingClientRect();
+    const {
+      left: targetLeft,
+      width: targetWidth,
+      top: targetTop
+    } = this.props.target.getBoundingClientRect();
+
+    const left = targetLeft + targetWidth / 4;
+    const top = targetTop - height - 4;
+
+    return { left, top };
   }
 
   renderPopover() {
@@ -68,11 +85,11 @@ class Popover extends Component {
   render() {
     const { type } = this.props;
 
-    if (type === "popover") {
-      return this.renderPopover();
+    if (type === "tooltip") {
+      return this.renderTooltip();
     }
 
-    return this.renderTooltip();
+    return this.renderPopover();
   }
 }
 
@@ -84,7 +101,8 @@ Popover.propTypes = {
 };
 
 Popover.defaultProps = {
-  onMouseLeave: () => {}
+  onMouseLeave: () => {},
+  type: "popover"
 };
 
 Popover.displayName = "Popover";
