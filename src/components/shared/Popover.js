@@ -15,22 +15,28 @@ class Popover extends Component {
 
   componentDidMount() {
     const el = ReactDOM.findDOMNode(this);
-    const { width } = el.getBoundingClientRect();
+    const { width, height } = el.getBoundingClientRect();
+    const { type } = this.props;
     const {
       left: targetLeft,
       width: targetWidth,
-      bottom: targetBottom
+      bottom: targetBottom,
+      top: targetTop
     } = this.props.target.getBoundingClientRect();
 
     // width division corresponds to calc in Popover.css
     const left = targetLeft + targetWidth / 2 - width / 5;
     const top = targetBottom;
 
+    if (type === "tooltip") {
+      top = targetTop - height;
+    }
+
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({ left, top });
   }
 
-  render() {
+  renderPopover() {
     const { children, onMouseLeave } = this.props;
     const { top, left } = this.state;
 
@@ -44,12 +50,37 @@ class Popover extends Component {
       children
     );
   }
+
+  renderTooltip() {
+    const { children, onMouseLeave } = this.props;
+    const { top, left } = this.state;
+
+    return dom.div(
+      {
+        className: "tooltip-content",
+        onMouseLeave,
+        style: { top, left }
+      },
+      children
+    );
+  }
+
+  render() {
+    const { type } = this.props;
+
+    if (type === "popover") {
+      return this.renderPopover();
+    }
+
+    return this.renderTooltip();
+  }
 }
 
 Popover.propTypes = {
   target: PropTypes.object,
   children: PropTypes.object,
-  onMouseLeave: PropTypes.func
+  onMouseLeave: PropTypes.func,
+  type: PropTypes.string
 };
 
 Popover.defaultProps = {

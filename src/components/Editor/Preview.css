@@ -68,3 +68,22 @@
 .theme-dark .preview .arrow svg {
   fill: var(--theme-comment);
 }
+
+.tooltip {
+  background: var(--theme-toolbar-background);
+  max-width: 350px;
+  min-height: 80px;
+  border: 1px solid var(--theme-splitter-color);
+  padding: 5px;
+  height: auto;
+  min-height: inherit;
+  max-height: 200px;
+  overflow: auto;
+  cursor: pointer;
+}
+
+.tooltip-content {
+  position: fixed;
+  z-index: 100;
+  box-shadow: 1px 2px 4px 1px #f3f3f3;
+}

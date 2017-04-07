@@ -12,7 +12,6 @@ const previewFunction = require("../shared/previewFunction");
 
 import { getLoadedObjects } from "../../selectors";
 import { getChildren } from "../../utils/object-inspector";
-import { getFilenameFromURL } from "../../utils/source";
 
 const Rep = require("../shared/Rep").default;
 const { MODE } = require("devtools-reps");
@@ -20,24 +19,6 @@ const { MODE } = require("devtools-reps");
 const { DOM: dom, PropTypes, Component } = React;
 
 require("./Preview.css");
-
-function renderLink(location, { selectSourceURL }) {
-  if (!location) {
-    return;
-  }
-
-  const { url, line } = location;
-
-  const filename = getFilenameFromURL(url);
-
-  return dom.a(
-    {
-      className: "link",
-      onClick: () => selectSourceURL(url, { line })
-    },
-    filename
-  );
-}
 
 class Preview extends Component {
   componentDidMount() {
@@ -73,11 +54,10 @@ class Preview extends Component {
     const { location } = value;
 
     return dom.div(
-      { className: "preview" },
-      dom.div(
-        { className: "header" },
-        renderLink(location, { selectSourceURL })
-      ),
+      {
+        className: "tooltip",
+        onClick: () => selectSourceURL(location.url, { line: location.line })
+      },
       previewFunction(value)
     );
   }
@@ -138,10 +118,14 @@ class Preview extends Component {
       expression
     } = this.props;
 
+    // Preview will be either a tooltip or a popover
+    let type = value.class === "Function" ? "tooltip" : "popover";
+
     return Popover(
       {
         target: popoverTarget,
-        onMouseLeave: onClose
+        onMouseLeave: onClose,
+        type
       },
       this.renderPreview(expression, value)
     );
