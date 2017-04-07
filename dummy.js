@@ -1,12 +1,12 @@
 // @flow
 
-export type SearchModifiers = { caseSensitive: boolean, wholeWord: boolean, regexMatch: boolean };
-
-export type Expression = {
-  value: Object,
-  input: string,
-  visible: boolean
+export type SearchModifiers = {
+  caseSensitive: boolean,
+  wholeWord: boolean,
+  regexMatch: boolean
 };
+
+export type Expression = { value: Object, input: string, visible: boolean };
 
 export type TokenResolution = {
   expression?: Object | null,
