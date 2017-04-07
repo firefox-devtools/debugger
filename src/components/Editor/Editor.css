@@ -84,6 +84,9 @@ html[dir="rtl"] .editor-mount {
 .CodeMirror-linenumber {
   font-size: 11px;
   line-height: 14px;
+}
+
+.folding-enabled .CodeMirror-linenumber {
   text-align: left;
   padding: 0 0 0 2px;
 }
