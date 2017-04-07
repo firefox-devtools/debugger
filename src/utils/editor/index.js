@@ -1,3 +1,4 @@
+const { isEnabled } = require("devtools-config");
 const { isPretty, isJavaScript } = require("../source");
 const { isOriginalId } = require("devtools-source-map");
 const buildQuery = require("./build-query");
@@ -94,16 +95,22 @@ function traverseResults(e, ctx, query, dir, modifiers) {
 }
 
 function createEditor() {
+  const gutters = ["breakpoints", "hit-markers", "CodeMirror-linenumbers"];
+
+  if (isEnabled("codeFolding")) {
+    gutters.push("CodeMirror-foldgutter");
+  }
+
   return new SourceEditor({
     mode: "javascript",
+    foldGutter: isEnabled("codeFolding"),
     readOnly: true,
     lineNumbers: true,
     theme: "mozilla",
     lineWrapping: false,
     matchBrackets: true,
     showAnnotationRuler: true,
-    enableCodeFolding: false,
-    gutters: ["breakpoints", "hit-markers"],
+    gutters,
     value: " ",
     extraKeys: {
       // Override code mirror keymap to avoid conflicts with split console.
