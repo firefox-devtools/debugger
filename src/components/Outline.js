@@ -9,6 +9,9 @@ import { isEnabled } from "devtools-config";
 import { getSymbols } from "../utils/parser";
 import "./Outline.css";
 
+import type { Record } from "../utils/makeRecord";
+import type { SourceText } from "debugger-html";
+
 class Outline extends Component {
   state: any;
 
@@ -18,10 +21,12 @@ class Outline extends Component {
   }
 
   componentWillUpdate({ sourceText }) {
-    this.setSymbolDeclarations(sourceText);
+    if (sourceText) {
+      this.setSymbolDeclarations(sourceText);
+    }
   }
 
-  async setSymbolDeclarations(sourceText) {
+  async setSymbolDeclarations(sourceText: Record<SourceText>) {
     const symbolDeclarations = await getSymbols(sourceText.toJS());
 
     this.setState({
