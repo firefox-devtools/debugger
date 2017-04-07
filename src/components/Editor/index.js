@@ -60,45 +60,31 @@ const { isFirefox } = require("devtools-config");
 
 require("./Editor.css");
 
-const Editor = React.createClass({
-  propTypes: {
-    breakpoints: ImPropTypes.map.isRequired,
-    hitCount: PropTypes.object,
-    selectedLocation: PropTypes.object,
-    selectedSource: ImPropTypes.map,
-    sourceText: ImPropTypes.map,
-    addBreakpoint: PropTypes.func.isRequired,
-    disableBreakpoint: PropTypes.func.isRequired,
-    enableBreakpoint: PropTypes.func.isRequired,
-    removeBreakpoint: PropTypes.func.isRequired,
-    setBreakpointCondition: PropTypes.func.isRequired,
-    selectSource: PropTypes.func,
-    jumpToMappedLocation: PropTypes.func,
-    toggleBlackBox: PropTypes.func,
-    showSource: PropTypes.func,
-    coverageOn: PropTypes.bool,
-    pauseData: ImPropTypes.map,
-    selectedFrame: PropTypes.object,
-    getExpression: PropTypes.func.isRequired,
-    addExpression: PropTypes.func.isRequired,
-    horizontal: PropTypes.bool,
-    query: PropTypes.string.isRequired,
-    searchModifiers: ImPropTypes.recordOf({
-      caseSensitive: PropTypes.bool.isRequired,
-      regexMatch: PropTypes.bool.isRequired,
-      wholeWord: PropTypes.bool.isRequired
-    }).isRequired
+type EditorState = {
+  searchResults: {
+    index: number,
+    count: number
   },
+  selectedToken: ?Object,
+  selectedExpression: ?Object
+};
 
-  cbPanel: (null: any),
-  editor: (null: any),
-  pendingJumpLine: (null: any),
-  lastJumpLine: (null: any),
+class Editor extends React.Component {
+  cbPanel: any;
+  editor: any;
+  pendingJumpLine: any;
+  lastJumpLine: any;
+  state: EditorState;
 
-  displayName: "Editor",
+  constructor() {
+    super();
 
-  getInitialState() {
-    return {
+    this.cbPanel = null;
+    this.editor = null;
+    this.pendingJumpLine = null;
+    this.lastJumpLine = null;
+
+    this.state = {
       searchResults: {
         index: -1,
         count: 0
@@ -106,11 +92,27 @@ const Editor = React.createClass({
       selectedToken: null,
       selectedExpression: null
     };
-  },
 
-  contextTypes: {
-    shortcuts: PropTypes.object
-  },
+    const self: any = this;
+    self.closeConditionalPanel = this.closeConditionalPanel.bind(this);
+    self.onEscape = this.onEscape.bind(this);
+    self.onGutterClick = this.onGutterClick.bind(this);
+    self.onGutterContextMenu = this.onGutterContextMenu.bind(this);
+    self.onScroll = this.onScroll.bind(this);
+    self.onSearchAgain = this.onSearchAgain.bind(this);
+    self.onToggleBreakpoint = this.onToggleBreakpoint.bind(this);
+    self.previewSelectedToken = debounce(
+      this.previewSelectedToken.bind(this),
+      100
+    );
+    self.toggleBreakpoint = this.toggleBreakpoint.bind(this);
+    // eslint-disable-next-line max-len
+    self.toggleBreakpointDisabledStatus = this.toggleBreakpointDisabledStatus.bind(
+      this
+    );
+    self.toggleConditionalPanel = this.toggleConditionalPanel.bind(this);
+    self.updateSearchResults = this.updateSearchResults.bind(this);
+  }
 
   componentWillReceiveProps(nextProps) {
     // This lifecycle method is responsible for updating the editor
@@ -128,7 +130,7 @@ const Editor = React.createClass({
 
     this.setDebugLine(nextProps.selectedFrame, selectedLocation);
     resizeBreakpointGutter(this.editor.codeMirror);
-  },
+  }
 
   setupEditor() {
     const editor = createEditor();
@@ -171,7 +173,7 @@ const Editor = React.createClass({
     codeMirror.on("scroll", this.onScroll);
 
     return editor;
-  },
+  }
 
   componentDidMount() {
     this.cbPanel = null;
@@ -189,8 +191,7 @@ const Editor = React.createClass({
     shortcuts.on(`CmdOrCtrl+${searchAgainKey}`, this.onSearchAgain);
 
     updateDocument(this.editor, selectedSource, sourceText);
-    (this: any).previewSelectedToken = debounce(this.previewSelectedToken, 100);
-  },
+  }
 
   componentWillUnmount() {
     this.editor.destroy();
@@ -202,7 +203,7 @@ const Editor = React.createClass({
     shortcuts.off("CmdOrCtrl+Shift+B");
     shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
     shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
-  },
+  }
 
   componentDidUpdate(prevProps) {
     // This is in `componentDidUpdate` so helper functions can expect
@@ -228,7 +229,7 @@ const Editor = React.createClass({
     if (this.props.sourceText && isTextForSource(this.props.sourceText)) {
       this.highlightLine();
     }
-  },
+  }
 
   onToggleBreakpoint(key, e) {
     e.preventDefault();
@@ -240,7 +241,7 @@ const Editor = React.createClass({
     } else {
       this.toggleBreakpoint(line);
     }
-  },
+  }
 
   onKeyDown(e) {
     const { codeMirror } = this.editor;
@@ -257,35 +258,35 @@ const Editor = React.createClass({
       // Focus into editor's text area
       textArea.focus();
     }
-  },
+  }
 
   /*
-     * The default Esc command is overridden in the CodeMirror keymap to allow
-     * the Esc keypress event to be catched by the toolbox and trigger the
-     * split console. Restore it here, but preventDefault if and only if there
-     * is a multiselection.
-     */
+   * The default Esc command is overridden in the CodeMirror keymap to allow
+   * the Esc keypress event to be catched by the toolbox and trigger the
+   * split console. Restore it here, but preventDefault if and only if there
+   * is a multiselection.
+   */
   onEscape(key, e) {
     const { codeMirror } = this.editor;
     if (codeMirror.listSelections().length > 1) {
       codeMirror.execCommand("singleSelection");
       e.preventDefault();
     }
-  },
+  }
 
   onMouseUp(e, ctx) {
     if (e.metaKey) {
       this.previewSelectedToken(e, ctx);
     }
-  },
+  }
 
   onScroll(e) {
     return this.setState({ selectedToken: null, selectedExpression: null });
-  },
+  }
 
   onMouseOver(e) {
     this.previewSelectedToken(e);
-  },
+  }
 
   onSearchAgain(_, e) {
     const { query, searchModifiers } = this.props;
@@ -298,7 +299,7 @@ const Editor = React.createClass({
 
     const direction = e.shiftKey ? "prev" : "next";
     traverseResults(e, ctx, query, direction, searchModifiers.toJS());
-  },
+  }
 
   async previewSelectedToken(e) {
     const {
@@ -356,7 +357,7 @@ const Editor = React.createClass({
         selectedExpression: displayedExpression
       });
     }
-  },
+  }
 
   openMenu(event, codeMirror) {
     const {
@@ -379,11 +380,11 @@ const Editor = React.createClass({
       toggleBlackBox,
       onGutterContextMenu: this.onGutterContextMenu
     });
-  },
+  }
 
   updateSearchResults({ count, index = -1 }: { count: number, index: number }) {
     this.setState({ searchResults: { count, index } });
-  },
+  }
 
   onGutterClick(cm, line, gutter, ev) {
     const { selectedSource } = this.props;
@@ -402,7 +403,7 @@ const Editor = React.createClass({
     if (gutter !== "CodeMirror-foldgutter") {
       this.toggleBreakpoint(line);
     }
-  },
+  }
 
   onGutterContextMenu(event) {
     const { selectedSource } = this.props;
@@ -424,7 +425,7 @@ const Editor = React.createClass({
       isCbPanelOpen: this.isCbPanelOpen(),
       closeConditionalPanel: this.closeConditionalPanel
     });
-  },
+  }
 
   toggleConditionalPanel(line) {
     if (this.isCbPanelOpen()) {
@@ -459,16 +460,16 @@ const Editor = React.createClass({
       noHScroll: true
     });
     this.cbPanel.node.querySelector("input").focus();
-  },
+  }
 
   closeConditionalPanel() {
     this.cbPanel.clear();
     this.cbPanel = null;
-  },
+  }
 
   isCbPanelOpen() {
     return !!this.cbPanel;
-  },
+  }
 
   toggleBreakpoint(line) {
     const {
@@ -504,7 +505,7 @@ const Editor = React.createClass({
         { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) }
       );
     }
-  },
+  }
 
   toggleBreakpointDisabledStatus(line) {
     const bp = breakpointAtLine(this.props.breakpoints, line);
@@ -531,14 +532,14 @@ const Editor = React.createClass({
         line: line + 1
       });
     }
-  },
+  }
 
   clearDebugLine(selectedFrame) {
     if (selectedFrame) {
       const line = selectedFrame.location.line;
       this.editor.codeMirror.removeLineClass(line - 1, "line", "debug-line");
     }
-  },
+  }
 
   setDebugLine(selectedFrame, selectedLocation) {
     if (
@@ -549,7 +550,7 @@ const Editor = React.createClass({
       const line = selectedFrame.location.line;
       this.editor.codeMirror.addLineClass(line - 1, "line", "debug-line");
     }
-  },
+  }
 
   // If the location has changed and a specific line is requested,
   // move to that line and flash it.
@@ -583,7 +584,7 @@ const Editor = React.createClass({
 
     this.lastJumpLine = line;
     this.pendingJumpLine = null;
-  },
+  }
 
   setText(text) {
     if (!text || !this.editor) {
@@ -591,19 +592,19 @@ const Editor = React.createClass({
     }
 
     this.editor.setText(text);
-  },
+  }
 
   showMessage(msg) {
     this.editor.replaceDocument(this.editor.createDocument());
     this.setText(msg);
     this.editor.setMode({ name: "text" });
-  },
+  }
 
   /**
-     * Handle getting the source document or creating a new
-     * document with the correct mode and text.
-     *
-     */
+   * Handle getting the source document or creating a new
+   * document with the correct mode and text.
+   *
+   */
   showSourceText(sourceText, selectedLocation) {
     if (!selectedLocation) {
       return;
@@ -621,7 +622,7 @@ const Editor = React.createClass({
 
     this.setText(sourceText.get("text"));
     this.editor.setMode(getMode(sourceText.toJS()));
-  },
+  }
 
   renderBreakpoints() {
     const { breakpoints, sourceText, selectedSource } = this.props;
@@ -641,7 +642,7 @@ const Editor = React.createClass({
         breakpoint: bp,
         editor: this.editor && this.editor.codeMirror
       }));
-  },
+  }
 
   renderHitCounts() {
     const { hitCount, sourceText } = this.props;
@@ -657,7 +658,7 @@ const Editor = React.createClass({
         hitData: marker.toJS(),
         editor: this.editor && this.editor.codeMirror
       }));
-  },
+  }
 
   editorHeight() {
     const { selectedSource, horizontal } = this.props;
@@ -667,7 +668,7 @@ const Editor = React.createClass({
     }
 
     return "";
-  },
+  }
 
   renderPreview() {
     const { selectedToken, selectedExpression } = this.state;
@@ -709,7 +710,7 @@ const Editor = React.createClass({
         });
       }
     });
-  },
+  }
 
   render() {
     const {
@@ -744,7 +745,42 @@ const Editor = React.createClass({
       this.renderPreview()
     );
   }
-});
+}
+
+Editor.displayName = "Editor";
+
+Editor.propTypes = {
+  breakpoints: ImPropTypes.map.isRequired,
+  hitCount: PropTypes.object,
+  selectedLocation: PropTypes.object,
+  selectedSource: ImPropTypes.map,
+  sourceText: ImPropTypes.map,
+  addBreakpoint: PropTypes.func.isRequired,
+  disableBreakpoint: PropTypes.func.isRequired,
+  enableBreakpoint: PropTypes.func.isRequired,
+  removeBreakpoint: PropTypes.func.isRequired,
+  setBreakpointCondition: PropTypes.func.isRequired,
+  selectSource: PropTypes.func,
+  jumpToMappedLocation: PropTypes.func,
+  toggleBlackBox: PropTypes.func,
+  showSource: PropTypes.func,
+  coverageOn: PropTypes.bool,
+  pauseData: ImPropTypes.map,
+  selectedFrame: PropTypes.object,
+  getExpression: PropTypes.func.isRequired,
+  addExpression: PropTypes.func.isRequired,
+  horizontal: PropTypes.bool,
+  query: PropTypes.string.isRequired,
+  searchModifiers: ImPropTypes.recordOf({
+    caseSensitive: PropTypes.bool.isRequired,
+    regexMatch: PropTypes.bool.isRequired,
+    wholeWord: PropTypes.bool.isRequired
+  }).isRequired
+};
+
+Editor.contextTypes = {
+  shortcuts: PropTypes.object
+};
 
 module.exports = connect(
   state => {
