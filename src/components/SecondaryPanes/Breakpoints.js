@@ -75,7 +75,7 @@ class Breakpoints extends Component {
     const line = breakpoint.location.line;
     const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
     const isDisabled = breakpoint.disabled;
-    const isConditional = breakpoint.condition !== null;
+    const isConditional = !!breakpoint.condition;
 
     return dom.div(
       {
