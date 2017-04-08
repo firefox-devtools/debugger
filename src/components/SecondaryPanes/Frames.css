@@ -99,8 +99,9 @@
   background-color: var(--theme-toolbar-background-hover);
 }
 
-.annotation-logo svg {
-  width: 21px;
+.annotation-logo {
+  width: 12px;
+  margin-left: 2px;
 }
 
 :root.theme-dark .annotation-logo svg path {

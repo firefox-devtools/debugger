@@ -43,8 +43,8 @@ function renderFrameLocation({ source, location, library }: LocalFrame) {
   if (library) {
     return dom.div(
       { className: "location" },
-      Svg(library.toLowerCase(), { className: "annotation-logo" }),
-      library
+      library,
+      Svg(library.toLowerCase(), { className: "annotation-logo" })
     );
   }
 
