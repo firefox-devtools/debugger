@@ -33,16 +33,11 @@ class Popover extends Component {
       top: targetTop
     } = this.props.target.getBoundingClientRect();
 
-    let dir = "down";
-
     // width division corresponds to calc in Popover.css
-    let left = targetLeft + targetWidth / 2 - width / 5;
-    let top = targetBottom;
-    if (top + height > window.innerHeight) {
-      console.log("Going out of bounds");
-      dir = "up";
-      top = targetTop - height;
-    }
+    const left = targetLeft + targetWidth / 2 - width / 5;
+    const dir = targetBottom + height > window.innerHeight ? "up" : "down";
+    const top = dir == "down" ? targetBottom : targetTop - height;
+
     return { left, top, dir };
   }
 
