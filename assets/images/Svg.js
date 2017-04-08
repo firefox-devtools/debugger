@@ -3,38 +3,40 @@ const InlineSVG = require("svg-inline-react");
 
 const svg = {
   "angle-brackets": require("./angle-brackets.svg"),
-  "arrow": require("./arrow.svg"),
-  "blackBox": require("./blackBox.svg"),
-  "breakpoint": require("./breakpoint.svg"),
+  arrow: require("./arrow.svg"),
+  blackBox: require("./blackBox.svg"),
+  breakpoint: require("./breakpoint.svg"),
   "case-match": require("./case-match.svg"),
-  "close": require("./close.svg"),
-  "domain": require("./domain.svg"),
-  "file": require("./file.svg"),
-  "folder": require("./folder.svg"),
-  "globe": require("./globe.svg"),
+  close: require("./close.svg"),
+  domain: require("./domain.svg"),
+  file: require("./file.svg"),
+  folder: require("./folder.svg"),
+  globe: require("./globe.svg"),
   "magnifying-glass": require("./magnifying-glass.svg"),
   "arrow-up": require("./arrow-up.svg"),
   "arrow-down": require("./arrow-down.svg"),
-  "pause": require("./pause.svg"),
+  pause: require("./pause.svg"),
   "pause-exceptions": require("./pause-exceptions.svg"),
-  "plus": require("./plus.svg"),
-  "prettyPrint": require("./prettyPrint.svg"),
+  plus: require("./plus.svg"),
+  prettyPrint: require("./prettyPrint.svg"),
+  react: require("./react.svg"),
   "regex-match": require("./regex-match.svg"),
-  "resume": require("./resume.svg"),
-  "settings": require("./settings.svg"),
-  "stepIn": require("./stepIn.svg"),
-  "stepOut": require("./stepOut.svg"),
-  "stepOver": require("./stepOver.svg"),
-  "subSettings": require("./subSettings.svg"),
-  "toggleBreakpoints": require("./toggle-breakpoints.svg"),
-  "togglePanes": require("./toggle-panes.svg"),
+  resume: require("./resume.svg"),
+  settings: require("./settings.svg"),
+  stepIn: require("./stepIn.svg"),
+  stepOut: require("./stepOut.svg"),
+  stepOver: require("./stepOver.svg"),
+  subSettings: require("./subSettings.svg"),
+  toggleBreakpoints: require("./toggle-breakpoints.svg"),
+  togglePanes: require("./toggle-panes.svg"),
   "whole-word-match": require("./whole-word-match.svg"),
-  "worker": require("./worker.svg"),
+  worker: require("./worker.svg"),
   "sad-face": require("./sad-face.svg"),
-  "refresh": require("./refresh.svg")
+  refresh: require("./refresh.svg")
 };
 
-module.exports = function(name, props) { // eslint-disable-line
+module.exports = function(name, props) {
+  // eslint-disable-line
   if (!svg[name]) {
     throw new Error("Unknown SVG: " + name);
   }
