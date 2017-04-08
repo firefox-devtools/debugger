@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import actions from "../../actions";
 import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
+import simplifyDisplayName from "../../utils/function";
 import get from "lodash/get";
 
 const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
@@ -25,7 +26,9 @@ import "./Frames.css";
 const NUM_FRAMES_SHOWN = 7;
 
 function renderFrameTitle({ displayName }: Frame) {
-  return dom.div({ className: "title" }, endTruncateStr(displayName, 40));
+  const simplifiedDisplaName = simplifyDisplayName(displayName);
+  const truncatedDisplayName = endTruncateStr(simplifiedDisplaName, 40);
+  return dom.div({ className: "title" }, truncatedDisplayName);
 }
 
 function renderFrameLocation({ source, location, library }: LocalFrame) {
