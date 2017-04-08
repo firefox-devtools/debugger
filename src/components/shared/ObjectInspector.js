@@ -191,7 +191,7 @@ class ObjectInspector extends React.Component {
             });
           }
         },
-        label,
+        label
       ),
       dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
       dom.span({ className: "object-value" }, objectValue || "")
