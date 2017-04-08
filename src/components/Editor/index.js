@@ -12,7 +12,7 @@ const debounce = require("lodash/debounce");
 const { getMode } = require("../../utils/source");
 
 const Footer = createFactory(require("./Footer").default);
-const SearchBar = createFactory(require("./SearchBar"));
+const SearchBar = createFactory(require("./SearchBar").default);
 const GutterMenu = require("./GutterMenu").default;
 const EditorMenu = require("./EditorMenu").default;
 const Preview = createFactory(require("./Preview").default);
