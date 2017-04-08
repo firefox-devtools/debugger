@@ -28,8 +28,6 @@ export type Mode =
       }
     };
 
-export type AlignOpts = "top" | "center" | "bottom";
-
 export type {
   Breakpoint,
   Frame,
