@@ -10,7 +10,7 @@ import * as expressionUtils from "./expression.js";
 const sourceSearchUtils = require("./source-search");
 const { findNext, findPrev } = sourceSearchUtils;
 
-const SourceEditor = require("./source-editor");
+const SourceEditor = require("devtools-source-editor");
 
 function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
