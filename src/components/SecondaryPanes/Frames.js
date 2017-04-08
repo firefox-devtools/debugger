@@ -10,6 +10,7 @@ import simplifyDisplayName from "../../utils/function";
 import get from "lodash/get";
 import zip from "lodash/zip";
 import Svg from "../shared/Svg";
+import { isEnabled } from "devtools-config";
 
 const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
 
@@ -212,6 +213,9 @@ function filterFrameworkFrames(frames) {
 }
 
 function annotateFrame(frame: Frame) {
+  if (!isEnabled("collapseFrame")) {
+    return frame;
+  }
   const { source } = frame;
   if (source && source.url && source.url.match(/react/i)) {
     return Object.assign({}, frame, {

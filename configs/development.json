@@ -62,6 +62,10 @@
     "outline": {
       "label": "Source Outline",
       "enabled": false
+    },
+    "collapseFrame": {
+      "label": "Collapse Call Frames",
+      "enabled": true
     }
   },
   "chrome": {
