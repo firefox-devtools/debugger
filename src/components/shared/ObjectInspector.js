@@ -4,12 +4,14 @@ const classnames = require("classnames");
 const ManagedTree = React.createFactory(require("./ManagedTree"));
 const Svg = require("./Svg");
 const Rep = require("./Rep").default;
+const previewFunction = require("./previewFunction");
 const { MODE } = require("devtools-reps");
 
 const {
   nodeIsOptimizedOut,
   nodeIsMissingArguments,
   nodeHasProperties,
+  nodeIsFunction,
   nodeIsPrimitive,
   isDefault,
   getChildren,
@@ -136,10 +138,14 @@ class ObjectInspector extends React.Component {
     { setExpanded }: () => any
   ) {
     let objectValue;
+    let label = item.name;
     if (nodeIsOptimizedOut(item)) {
       objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
     } else if (nodeIsMissingArguments(item)) {
       objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
+    } else if (nodeIsFunction(item)) {
+      objectValue = null;
+      label = previewFunction(item.contents.value);
     } else if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
       const object = item.contents.value;
       objectValue = Rep({ object, mode: MODE.TINY });
@@ -185,7 +191,7 @@ class ObjectInspector extends React.Component {
             });
           }
         },
-        item.name
+        label
       ),
       dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
       dom.span({ className: "object-value" }, objectValue || "")
