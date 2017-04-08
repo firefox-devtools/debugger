@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, createClass, createFactory } from "react";
+import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -13,15 +13,7 @@ const PaneToggleButton = createFactory(
 
 import "./WelcomeBox.css";
 
-const WelcomeBox = createClass({
-  propTypes: {
-    horizontal: PropTypes.bool,
-    togglePaneCollapse: PropTypes.func,
-    endPanelCollapsed: PropTypes.bool
-  },
-
-  displayName: "WelcomeBox",
-
+class WelcomeBox extends Component {
   renderToggleButton() {
     if (this.props.horizontal) {
       return;
@@ -33,7 +25,7 @@ const WelcomeBox = createClass({
       horizontal: this.props.horizontal,
       handleClick: this.props.togglePaneCollapse
     });
-  },
+  }
 
   render() {
     const searchLabel = L10N.getFormatStr(
@@ -46,7 +38,15 @@ const WelcomeBox = createClass({
       this.renderToggleButton()
     );
   }
-});
+}
+
+WelcomeBox.propTypes = {
+  horizontal: PropTypes.bool,
+  togglePaneCollapse: PropTypes.func,
+  endPanelCollapsed: PropTypes.bool
+};
+
+WelcomeBox.displayName = "WelcomeBox";
 
 export default connect(
   state => ({
