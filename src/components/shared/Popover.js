@@ -15,27 +15,35 @@ class Popover extends Component {
 
   componentDidMount() {
     const { type } = this.props;
-    const { left, top } = type == "popover"
+    const { left, top, dir } = type == "popover"
       ? this.getPopoverCoords()
       : this.getTooltipCoords();
 
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({ left, top });
+    this.setState({ left, top, dir });
   }
 
   getPopoverCoords() {
     const el = ReactDOM.findDOMNode(this);
-    const { width } = el.getBoundingClientRect();
+    const { width, height } = el.getBoundingClientRect();
     const {
       left: targetLeft,
       width: targetWidth,
-      bottom: targetBottom
+      bottom: targetBottom,
+      top: targetTop
     } = this.props.target.getBoundingClientRect();
+
+    let dir = "down";
 
     // width division corresponds to calc in Popover.css
     let left = targetLeft + targetWidth / 2 - width / 5;
     let top = targetBottom;
-    return { left, top };
+    if (top + height > window.innerHeight) {
+      console.log("Going out of bounds");
+      dir = "up";
+      top = targetTop - height;
+    }
+    return { left, top, dir };
   }
 
   getTooltipCoords() {
@@ -50,12 +58,24 @@ class Popover extends Component {
     const left = targetLeft + targetWidth / 4;
     const top = targetTop - height;
 
-    return { left, top };
+    return { left, top, dir: "up" };
   }
 
   renderPopover() {
     const { children, onMouseLeave } = this.props;
-    const { top, left } = this.state;
+    const { top, left, dir } = this.state;
+
+    if (dir === "up") {
+      return dom.div(
+        {
+          className: "popover popover-up",
+          onMouseLeave,
+          style: { top, left }
+        },
+        children,
+        dom.div({ className: "popover-gap" })
+      );
+    }
 
     return dom.div(
       {
