@@ -8,6 +8,7 @@
   min-height: inherit;
   max-height: 200px;
   overflow: auto;
+  box-shadow: 1px 2px 4px 1px var(--theme-toolbar-background-alt);
 }
 
 .preview .header {
@@ -74,6 +75,7 @@
   max-width: 350px;
   min-height: 80px;
   border: 1px solid var(--theme-splitter-color);
+  box-shadow: 1px 2px 4px 1px var(--theme-toolbar-background-alt);
   padding: 5px;
   height: auto;
   min-height: inherit;
@@ -82,10 +84,37 @@
   cursor: pointer;
 }
 
+.theme-dark .tooltip {
+  border-color: var(--theme-body-color);
+}
+
+.tooltip::before,
+.tooltip::after {
+  content: '';
+  height: 0;
+  width: 0;
+  position: absolute;
+  border: 7px solid transparent;
+  left: calc(20% - 7px); /* corresponds to calculation in Popover.js */
+}
+
+.tooltip::before {
+  border-top-color: var(--theme-splitter-color);
+  bottom: -9px;
+}
+
+.theme-dark .tooltip::before {
+  border-top-color: var(--theme-body-color);
+}
+
+.tooltip::after {
+  border-top-color: var(--theme-toolbar-background);
+  bottom: -8px;
+}
+
 .tooltip-content {
   position: fixed;
   z-index: 100;
-  box-shadow: 1px 2px 4px 1px #f3f3f3;
 }
 
 .tooltip-gap {

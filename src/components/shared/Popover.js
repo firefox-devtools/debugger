@@ -1,6 +1,6 @@
-const React = require("react");
-const { DOM: dom, PropTypes, Component } = React;
+import { DOM as dom, PropTypes, Component } from "react";
 const ReactDOM = require("react-dom");
+import classNames from "classnames";
 
 require("./Popover.css");
 
@@ -50,41 +50,41 @@ class Popover extends Component {
       top: targetTop
     } = this.props.target.getBoundingClientRect();
 
-    const left = targetLeft + targetWidth / 4;
+    const left = targetLeft + targetWidth / 4 - 10;
     const top = targetTop - height;
 
     return { left, top, dir: "up" };
   }
 
-  renderPopover() {
-    const { children, onMouseLeave } = this.props;
-    const { top, left, dir } = this.state;
+  getChildren(type) {
+    const { children } = this.props;
+    const { dir } = this.state;
 
-    if (dir === "up") {
-      return dom.div(
-        {
-          className: "popover popover-up",
-          onMouseLeave,
-          style: { top, left }
-        },
-        children,
-        dom.div({ className: "popover-gap" })
-      );
+    if (type === "popover") {
+      return dir === "up"
+        ? [children, dom.div({ className: "popover-gap" })]
+        : [dom.div({ className: "popover-gap" }), children];
     }
+
+    return [children, dom.div({ className: "tooltip-gap" })];
+  }
+
+  renderPopover() {
+    const { onMouseLeave } = this.props;
+    const { top, left, dir } = this.state;
 
     return dom.div(
       {
-        className: "popover",
+        className: classNames("popover", { up: dir === "up" }),
         onMouseLeave,
         style: { top, left }
       },
-      dom.div({ className: "popover-gap" }),
-      children
+      this.getChildren("popover")
     );
   }
 
   renderTooltip() {
-    const { children, onMouseLeave } = this.props;
+    const { onMouseLeave } = this.props;
     const { top, left } = this.state;
 
     return dom.div(
@@ -93,8 +93,7 @@ class Popover extends Component {
         onMouseLeave,
         style: { top, left }
       },
-      children,
-      dom.div({ className: "tooltip-gap" })
+      this.getChildren("tooltip")
     );
   }
 
