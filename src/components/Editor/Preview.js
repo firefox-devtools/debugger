@@ -55,7 +55,7 @@ class Preview extends Component {
 
     return dom.div(
       {
-        className: "tooltip",
+        className: "preview",
         onClick: () => selectSourceURL(location.url, { line: location.line })
       },
       previewFunction(value)
