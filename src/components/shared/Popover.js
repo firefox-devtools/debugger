@@ -1,6 +1,6 @@
-const React = require("react");
-const { DOM: dom, PropTypes, Component } = React;
+import { DOM as dom, PropTypes, Component } from "react";
 const ReactDOM = require("react-dom");
+import classNames from "classnames";
 
 require("./Popover.css");
 
@@ -15,27 +15,30 @@ class Popover extends Component {
 
   componentDidMount() {
     const { type } = this.props;
-    const { left, top } = type == "popover"
+    const { left, top, dir } = type == "popover"
       ? this.getPopoverCoords()
       : this.getTooltipCoords();
 
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({ left, top });
+    this.setState({ left, top, dir });
   }
 
   getPopoverCoords() {
     const el = ReactDOM.findDOMNode(this);
-    const { width } = el.getBoundingClientRect();
+    const { width, height } = el.getBoundingClientRect();
     const {
       left: targetLeft,
       width: targetWidth,
-      bottom: targetBottom
+      bottom: targetBottom,
+      top: targetTop
     } = this.props.target.getBoundingClientRect();
 
     // width division corresponds to calc in Popover.css
-    let left = targetLeft + targetWidth / 2 - width / 5;
-    let top = targetBottom;
-    return { left, top };
+    const left = targetLeft + targetWidth / 2 - width / 5;
+    const dir = targetBottom + height > window.innerHeight ? "up" : "down";
+    const top = dir == "down" ? targetBottom : targetTop - height;
+
+    return { left, top, dir };
   }
 
   getTooltipCoords() {
@@ -47,39 +50,44 @@ class Popover extends Component {
       top: targetTop
     } = this.props.target.getBoundingClientRect();
 
-    const left = targetLeft + targetWidth / 4;
+    const left = targetLeft + targetWidth / 4 - 10;
     const top = targetTop - height;
 
-    return { left, top };
+    return { left, top, dir: "up" };
+  }
+
+  getChildren() {
+    const { children } = this.props;
+    const { dir } = this.state;
+    const gap = dom.div({ className: "gap", key: "gap" });
+    return dir === "up" ? [children, gap] : [gap, children];
   }
 
   renderPopover() {
-    const { children, onMouseLeave } = this.props;
-    const { top, left } = this.state;
+    const { onMouseLeave } = this.props;
+    const { top, left, dir } = this.state;
 
     return dom.div(
       {
-        className: "popover",
+        className: classNames("popover", { up: dir === "up" }),
         onMouseLeave,
         style: { top, left }
       },
-      dom.div({ className: "popover-gap" }),
-      children
+      this.getChildren()
     );
   }
 
   renderTooltip() {
-    const { children, onMouseLeave } = this.props;
+    const { onMouseLeave } = this.props;
     const { top, left } = this.state;
 
     return dom.div(
       {
-        className: "tooltip-content",
+        className: "tooltip",
         onMouseLeave,
         style: { top, left }
       },
-      children,
-      dom.div({ className: "tooltip-gap" })
+      this.getChildren()
     );
   }
 
