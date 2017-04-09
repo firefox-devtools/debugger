@@ -3,7 +3,7 @@
   z-index: 100;
 }
 
-.popover-gap {
+.popover .gap {
   height: 5px;
   padding-top: 5px;
 }

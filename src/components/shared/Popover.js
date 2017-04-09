@@ -56,17 +56,11 @@ class Popover extends Component {
     return { left, top, dir: "up" };
   }
 
-  getChildren(type) {
+  getChildren() {
     const { children } = this.props;
     const { dir } = this.state;
-
-    if (type === "popover") {
-      return dir === "up"
-        ? [children, dom.div({ className: "popover-gap" })]
-        : [dom.div({ className: "popover-gap" }), children];
-    }
-
-    return [children, dom.div({ className: "tooltip-gap" })];
+    const gap = dom.div({ className: "gap", key: "gap" });
+    return dir === "up" ? [children, gap] : [gap, children];
   }
 
   renderPopover() {
@@ -79,7 +73,7 @@ class Popover extends Component {
         onMouseLeave,
         style: { top, left }
       },
-      this.getChildren("popover")
+      this.getChildren()
     );
   }
 
@@ -89,11 +83,11 @@ class Popover extends Component {
 
     return dom.div(
       {
-        className: "tooltip-content",
+        className: "tooltip",
         onMouseLeave,
         style: { top, left }
       },
-      this.getChildren("tooltip")
+      this.getChildren()
     );
   }
 

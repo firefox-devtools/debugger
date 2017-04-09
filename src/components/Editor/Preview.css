@@ -1,4 +1,4 @@
-.preview {
+.popover .preview {
   background: var(--theme-body-background);
   width: 350px;
   min-height: 80px;
@@ -11,7 +11,7 @@
   box-shadow: 1px 2px 4px 1px var(--theme-toolbar-background-alt);
 }
 
-.preview .header {
+.popover .preview .header {
   width: 100%;
   line-height: 20px;
   border-bottom: 1px solid #cccccc;
@@ -19,12 +19,12 @@
   flex-direction: column;
 }
 
-.preview .header .link {
+.popover .preview .header .link {
   align-self: flex-end;
   color: var(--theme-highlight-blue);
   text-decoration: underline;
 }
-.preview .header .link:hover {
+.popover .preview .header .link:hover {
   cursor: pointer;
 }
 
@@ -37,40 +37,24 @@
   cursor: pointer;
 }
 
-.preview .function-signature {
+.popover .preview .function-signature {
   padding-top: 10px;
 }
 
-.function-signature {
-  line-height: 20px;
-  align-self: center;
-}
-
-.function-signature .function-name {
-  color: var(--theme-highlight-blue);
-}
-
-.function-signature .param {
-  color: var(--string-color);
-}
-
-.function-signature .paren {
-  color: var(--object-color);
-}
-
-.function-signature .comma {
-  color: var(--object-color);
-}
-
-.theme-dark .preview {
+.theme-dark .popover .preview {
   border-color: var(--theme-body-color);
 }
 
-.theme-dark .preview .arrow svg {
+.theme-dark .popover .preview .arrow svg {
   fill: var(--theme-comment);
 }
 
 .tooltip {
+  position: fixed;
+  z-index: 100;
+}
+
+.tooltip .preview {
   background: var(--theme-toolbar-background);
   max-width: 350px;
   min-height: 80px;
@@ -84,40 +68,11 @@
   cursor: pointer;
 }
 
-.theme-dark .tooltip {
+.theme-dark .tooltip .preview {
   border-color: var(--theme-body-color);
 }
 
-.tooltip::before,
-.tooltip::after {
-  content: '';
-  height: 0;
-  width: 0;
-  position: absolute;
-  border: 7px solid transparent;
-  left: calc(20% - 7px); /* corresponds to calculation in Popover.js */
-}
-
-.tooltip::before {
-  border-top-color: var(--theme-splitter-color);
-  bottom: -9px;
-}
-
-.theme-dark .tooltip::before {
-  border-top-color: var(--theme-body-color);
-}
-
-.tooltip::after {
-  border-top-color: var(--theme-toolbar-background);
-  bottom: -8px;
-}
-
-.tooltip-content {
-  position: fixed;
-  z-index: 100;
-}
-
-.tooltip-gap {
+.tooltip .gap {
   height: 4px;
   padding-top: 4px;
 }
