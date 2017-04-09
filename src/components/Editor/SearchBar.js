@@ -622,7 +622,10 @@ class SearchBar extends Component {
 
     return dom.section(
       { className: "search-type-toggles" },
-      dom.h1({ className: "search-toggle-title" }, "Search for:"),
+      dom.h1(
+        { className: "search-toggle-title" },
+        L10N.getStr("editor.searchTypeToggleTitle")
+      ),
       searchTypeBtn("functions"),
       searchTypeBtn("variables")
     );
