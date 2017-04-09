@@ -473,16 +473,18 @@ const SearchBar = React.createClass({
 
   // Renderers
   buildSummaryMsg() {
-    if (
-      this.state.symbolSearchEnabled &&
-      this.state.symbolSearchResults.length > 0
-    ) {
-      return L10N.getFormatStr(
-        "editor.searchResults",
-        this.state.selectedResultIndex + 1,
-        this.state.symbolSearchResults.length
-      );
+    if (this.state.symbolSearchEnabled) {
+      if (this.state.symbolSearchResults.length > 1) {
+        return L10N.getFormatStr(
+          "editor.searchResults",
+          this.state.selectedResultIndex + 1,
+          this.state.symbolSearchResults.length
+        );
+      } else if (this.state.symbolSearchResults.length === 1) {
+        return L10N.getFormatStr("editor.singleResult");
+      }
     }
+
     const { searchResults: { count, index }, query } = this.props;
 
     if (query.trim() == "") {
