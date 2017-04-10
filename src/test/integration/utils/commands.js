@@ -1,4 +1,4 @@
-const { clickEl, rightClickEl, dblClickEl } = require("./mouse-events");
+const { clickEl, rightClickEl, dblClickEl, mouseOverEl } = require("./mouse-events");
 
 function info(msg) {
   console.log(`info: ${msg}\n`);
@@ -238,6 +238,7 @@ module.exports = {
   removeBreakpoint,
   togglePauseOnExceptions,
   clickElement,
+  mouseOverEl,
   navigate,
   invokeInTab,
   evalInTab,

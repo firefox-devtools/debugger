@@ -13,14 +13,15 @@ let webpackConfig = require("../webpack.config");
 
 let { app } = toolbox.startDevServer(envConfig, webpackConfig, __dirname);
 
-app.use(
-  "/integration/examples",
-  express.static("src/test/mochitest/examples")
-);
+app.use("/integration/examples", express.static("src/test/mochitest/examples"));
 
 app.get("/integration", function(req, res) {
   res.sendFile(path.join(__dirname, "../src/test/integration/index.html"));
 });
 
-console.log("View debugger examples here:")
-console.log("https://github.com/devtools-html/debugger-examples")
+app.get("/integration/mocha.css", function(req, res) {
+  res.sendFile(path.join(__dirname, "../node_modules/mocha/mocha.css"));
+});
+
+console.log("View debugger examples here:");
+console.log("https://github.com/devtools-html/debugger-examples");

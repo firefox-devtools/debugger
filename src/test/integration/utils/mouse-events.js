@@ -51,8 +51,17 @@ function dblClickEl(win, el) {
   });
 }
 
+function mouseOverEl(win, el) {
+  triggerMouseEvent({
+    type: "mouseover",
+    win: win,
+    el
+  });
+}
+
 module.exports = {
   clickEl,
   rightClickEl,
-  dblClickEl
+  dblClickEl,
+  mouseOverEl
 };

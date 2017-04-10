@@ -150,10 +150,6 @@ class Editor extends Component {
     // Set code editor wrapper to be focusable
     codeMirrorWrapper.tabIndex = 0;
     codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
-
-    const ctx = { ed: editor, cm: codeMirror };
-
-    codeMirrorWrapper.addEventListener("mouseup", e => this.onMouseUp(e, ctx));
     codeMirrorWrapper.addEventListener("mouseover", e => this.onMouseOver(e));
 
     if (!isFirefox()) {
@@ -267,12 +263,6 @@ class Editor extends Component {
     if (codeMirror.listSelections().length > 1) {
       codeMirror.execCommand("singleSelection");
       e.preventDefault();
-    }
-  }
-
-  onMouseUp(e, ctx) {
-    if (e.metaKey) {
-      this.previewSelectedToken(e, ctx);
     }
   }
 
