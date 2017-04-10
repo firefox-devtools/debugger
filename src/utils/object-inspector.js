@@ -52,6 +52,11 @@ function isPromise(item) {
   return value.class == "Promise";
 }
 
+function isWindow(item) {
+  const prototype = get(item, "prototype", undefined);
+  return (prototype.class = "WindowPrototype");
+}
+
 function getPromiseProperties(item) {
   const { promiseState: { reason, value } } = getValue(item);
   return createNode("reason", `${item.path}/reason`, {
@@ -61,6 +66,10 @@ function getPromiseProperties(item) {
 
 function isDefault(item) {
   return WINDOW_PROPERTIES.includes(item.name);
+}
+
+function isDefaultProp(name) {
+  return WINDOW_PROPERTIES.includes(name);
 }
 
 function sortProperties(properties) {
@@ -75,6 +84,50 @@ function sortProperties(properties) {
 
     return aInt - bInt;
   });
+}
+
+function makeNumericalBuckets(props, bucketSize, parentPath, ownProperties) {
+  const numProperties = props.length;
+  const numBuckets = Math.ceil(numProperties / bucketSize);
+  let buckets = [];
+  for (let i = 1; i <= numBuckets; i++) {
+    const bucketKey = `bucket${i}`;
+    const minKey = (i - 1) * bucketSize;
+    const maxKey = Math.min(i * bucketSize - 1, numProperties);
+    const bucketName = `[${minKey}..${maxKey}]`;
+    const bucketProperties = props.slice(minKey, maxKey);
+
+    const bucketNodes = bucketProperties.map(name =>
+      createNode(
+        name,
+        `${parentPath}/${bucketKey}/${name}`,
+        ownProperties[name]
+      ));
+
+    buckets.push(
+      createNode(bucketName, `${parentPath}/${bucketKey}`, bucketNodes)
+    );
+  }
+  return buckets;
+}
+
+function makeDefaultPropsBuckets(props, parentPath, ownProperties) {
+  const userProps = props.filter(name => !isDefaultProp(name));
+  const defaultProps = props.filter(name => isDefaultProp(name));
+  let nodes = userProps.map(name =>
+    createNode(name, `${parentPath}/${name}`, ownProperties[name]));
+  if (defaultProps.length > 0) {
+    const defaultNodes = defaultProps.map((name, index) =>
+      createNode(
+        name,
+        `${parentPath}/bucket${index}/${name}`,
+        ownProperties[name]
+      ));
+    nodes.push(
+      createNode("[default properties]", `${parentPath}/default`, defaultNodes)
+    );
+  }
+  return nodes;
 }
 
 /*
@@ -96,29 +149,15 @@ function makeNodesForProperties(
 
   let nodes;
   const numProperties = properties.length;
-
-  if (numProperties > bucketSize) {
-    const numBuckets = Math.ceil(numProperties / bucketSize);
-    let buckets = [];
-    for (let i = 1; i <= numBuckets; i++) {
-      const bucketKey = `bucket${i}`;
-      const minKey = (i - 1) * bucketSize;
-      const maxKey = Math.min(i * bucketSize - 1, numProperties);
-      const bucketName = `[${minKey}..${maxKey}]`;
-      const bucketProperties = properties.slice(minKey, maxKey);
-
-      const bucketNodes = bucketProperties.map(name =>
-        createNode(
-          name,
-          `${parentPath}/${bucketKey}/${name}`,
-          ownProperties[name]
-        ));
-
-      buckets.push(
-        createNode(bucketName, `${parentPath}/${bucketKey}`, bucketNodes)
-      );
-    }
-    nodes = buckets;
+  if (isWindow(objProps)) {
+    nodes = makeDefaultPropsBuckets(properties, parentPath, ownProperties);
+  } else if (numProperties > bucketSize) {
+    nodes = makeNumericalBuckets(
+      properties,
+      bucketSize,
+      parentPath,
+      ownProperties
+    );
   } else {
     nodes = properties.map(name =>
       createNode(
