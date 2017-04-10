@@ -33,7 +33,7 @@ permalink: docs/updates
 [April 10th - Call Stack Plans](./call-stack-4-10-2017.md)
 
 * :diamond_shape_with_a_dot_inside: Highlighting libraries
-* :spaghetti: Collapsing Libarary frames
 * :envelope: Simplifying Function Names
+* :spaghetti: Collapsing Libarary frames
 * :baby: Naming Library frames
 * :black_medium_small_square: Blackboxing libraries
