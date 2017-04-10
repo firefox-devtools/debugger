@@ -1,5 +1,5 @@
 // @flow
-import React, { PropTypes, createFactory } from "react";
+import { PropTypes, createFactory, Component } from "react";
 const Tree = createFactory(require("devtools-modules").Tree);
 require("./ManagedTree.css");
 
@@ -28,7 +28,7 @@ type ManagedTreeState = {
   focusedItem: ?ManagedTreeItem
 };
 
-class ManagedTree extends React.Component {
+class ManagedTree extends Component {
   state: ManagedTreeState;
 
   constructor() {
@@ -152,4 +152,4 @@ ManagedTree.propTypes = Object.assign({}, Tree.propTypes, {
   setExpanded: PropTypes.func
 });
 
-module.exports = ManagedTree;
+export default ManagedTree;

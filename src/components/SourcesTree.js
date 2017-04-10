@@ -22,7 +22,7 @@ import {
   getDirectories
 } from "../utils/sources-tree.js";
 
-const ManagedTree = createFactory(require("./shared/ManagedTree"));
+const ManagedTree = createFactory(require("./shared/ManagedTree").default);
 import actions from "../actions";
 import Svg from "./shared/Svg";
 import { showMenu } from "devtools-launchpad";

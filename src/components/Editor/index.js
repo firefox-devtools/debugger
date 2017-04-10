@@ -1,25 +1,22 @@
 // @flow
-const React = require("react");
-const { DOM: dom, PropTypes, createFactory } = React;
-
+import { DOM as dom, PropTypes, createFactory, Component } from "react";
 const ReactDOM = require("react-dom");
-const ImPropTypes = require("react-immutable-proptypes");
-const { bindActionCreators } = require("redux");
-const { connect } = require("react-redux");
-const classnames = require("classnames");
-const debounce = require("lodash/debounce");
-
-const { getMode } = require("../../utils/source");
+import ImPropTypes from "react-immutable-proptypes";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import classnames from "classnames";
+import debounce from "lodash/debounce";
+import { getMode } from "../../utils/source";
 
 const Footer = createFactory(require("./Footer").default);
 const SearchBar = createFactory(require("./SearchBar").default);
-const GutterMenu = require("./GutterMenu").default;
-const EditorMenu = require("./EditorMenu").default;
+import GutterMenu from "./GutterMenu";
+import EditorMenu from "./EditorMenu";
 const Preview = createFactory(require("./Preview").default);
-const { renderConditionalPanel } = require("./ConditionalPanel");
-const { debugGlobal } = require("devtools-launchpad");
-const { isEnabled } = require("devtools-config");
-const {
+import { renderConditionalPanel } from "./ConditionalPanel";
+import { debugGlobal } from "devtools-launchpad";
+import { isEnabled } from "devtools-config";
+import {
   getSourceText,
   getBreakpointsForSource,
   getSelectedLocation,
@@ -32,13 +29,13 @@ const {
   getPause,
   getFileSearchQueryState,
   getFileSearchModifierState
-} = require("../../selectors");
-const { makeLocationId } = require("../../reducers/breakpoints");
-const actions = require("../../actions").default;
-const Breakpoint = React.createFactory(require("./Breakpoint").default);
-const HitMarker = React.createFactory(require("./HitMarker").default);
+} from "../../selectors";
+import { makeLocationId } from "../../reducers/breakpoints";
+import actions from "../../actions";
+const Breakpoint = createFactory(require("./Breakpoint").default);
+const HitMarker = createFactory(require("./HitMarker").default);
 
-const {
+import {
   getDocument,
   setDocument,
   updateDocument,
@@ -54,11 +51,10 @@ const {
   getExpressionValue,
   resizeBreakpointGutter,
   traverseResults
-} = require("../../utils/editor");
-const { getVisibleVariablesFromScope } = require("../../utils/scopes");
-const { isFirefox } = require("devtools-config");
-
-require("./Editor.css");
+} from "../../utils/editor";
+import { getVisibleVariablesFromScope } from "../../utils/scopes";
+import { isFirefox } from "devtools-config";
+import "./Editor.css";
 
 type EditorState = {
   searchResults: {
@@ -69,7 +65,7 @@ type EditorState = {
   selectedExpression: ?Object
 };
 
-class Editor extends React.Component {
+class Editor extends Component {
   cbPanel: any;
   editor: any;
   pendingJumpLine: any;
@@ -782,7 +778,7 @@ Editor.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-module.exports = connect(
+export default connect(
   state => {
     const selectedLocation = getSelectedLocation(state);
     const sourceId = selectedLocation && selectedLocation.sourceId;
