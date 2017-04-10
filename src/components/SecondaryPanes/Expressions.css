@@ -55,11 +55,11 @@
   top: 6px;
 }
 
-.expression-container .close {
+.expression-container .close-btn {
   display: none;
 }
 
-.expression-container:hover .close {
+.expression-container:hover .close-btn {
   display: block;
 }
 
