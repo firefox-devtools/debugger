@@ -24,7 +24,7 @@ We're going to start highlighting library frames in the call stack. We'll do thi
 
 This will help users differentiate between application and library frames.
 
-![highlighting]
+![highlight]
 
 #### Simplifying Anonymous Function Names
 
@@ -34,13 +34,13 @@ In practice, the function `success` could be named `app.AppView<.success`.
 It's important to be able to scan the call stack. So in this context, it's helpful to see the simplest name possible.
 
 
-![simplifying]
+![simplify]
 
 #### Collapsing Libarary frames
 
 We're going to experiment with collapsing library frames by default. This will shrink framework call stacks dramatically and reduce a lot of the visual noise.
 
-![collapsing]
+![collapse]
 
 
 #### Naming Library frames
