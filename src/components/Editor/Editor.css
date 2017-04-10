@@ -156,3 +156,11 @@ html[dir="rtl"] .editor-mount {
   -moz-user-select: none;
   user-select: none;
 }
+
+.CodeMirror-guttermarker-subtle {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
