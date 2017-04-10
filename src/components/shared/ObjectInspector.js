@@ -1,7 +1,7 @@
 // @flow
 const React = require("react");
 const classnames = require("classnames");
-const ManagedTree = React.createFactory(require("./ManagedTree"));
+const ManagedTree = React.createFactory(require("./ManagedTree").default);
 const Svg = require("./Svg");
 const Rep = require("./Rep").default;
 const previewFunction = require("./previewFunction");

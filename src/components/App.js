@@ -19,7 +19,7 @@ import "./shared/reps.css";
 const SplitBox = createFactory(require("devtools-splitter"));
 const ProjectSearch = createFactory(require("./ProjectSearch").default);
 const Sources = createFactory(require("./Sources").default);
-const Editor = createFactory(require("./Editor"));
+const Editor = createFactory(require("./Editor").default);
 const SecondaryPanes = createFactory(require("./SecondaryPanes").default);
 const WelcomeBox = createFactory(require("./WelcomeBox").default);
 const EditorTabs = createFactory(require("./Editor/Tabs"));
