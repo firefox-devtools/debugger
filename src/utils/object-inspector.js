@@ -54,7 +54,7 @@ function isPromise(item) {
 
 function isWindow(item) {
   const prototype = get(item, "prototype", undefined);
-  return (prototype.class = "WindowPrototype");
+  return prototype.class == "WindowPrototype";
 }
 
 function getPromiseProperties(item) {
