@@ -7,6 +7,7 @@ module.exports = {
   expressions: require("./expressions"),
   debuggerButtons: require("./debugger-buttons"),
   editorSelect: require("./editor-select"),
+  editorPreview: require("./editor-preview"),
   editorGutter: require("./editor-gutter"),
   editorHighlight: require("./editor-highlight"),
   keyboardNavigation: require("./keyboard-navigation"),
