@@ -10,7 +10,7 @@ import * as expressionUtils from "./expression.js";
 const sourceSearchUtils = require("./source-search");
 const { findNext, findPrev } = sourceSearchUtils;
 
-const SourceEditor = require("devtools-source-editor");
+const { SourceEditor, SourceEditorUtils } = require("devtools-source-editor");
 
 function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
@@ -38,20 +38,6 @@ function shouldShowFooter(selectedSource, horizontal) {
   return shouldShowPrettyPrint(selectedSource);
 }
 
-function forEachLine(codeMirror, iter) {
-  codeMirror.doc.iter(0, codeMirror.lineCount(), iter);
-}
-
-function removeLineClass(codeMirror, line, className) {
-  codeMirror.removeLineClass(line, "line", className);
-}
-
-function clearLineClass(codeMirror, className) {
-  forEachLine(codeMirror, line => {
-    removeLineClass(codeMirror, line, className);
-  });
-}
-
 function isTextForSource(sourceText) {
   return !sourceText.get("loading") && !sourceText.get("error");
 }
@@ -60,27 +46,6 @@ function breakpointAtLine(breakpoints, line) {
   return breakpoints.find(b => {
     return b.location.line === line + 1;
   });
-}
-
-function getTextForLine(codeMirror, line) {
-  return codeMirror.getLine(line - 1).trim();
-}
-
-function getCursorLine(codeMirror) {
-  return codeMirror.getCursor().line;
-}
-
-/**
- * Forces the breakpoint gutter to be the same size as the line
- * numbers gutter. Editor CSS will absolutely position the gutter
- * beneath the line numbers. This makes it easy to be flexible with
- * how we overlay breakpoints.
- */
-function resizeBreakpointGutter(editor) {
-  const gutters = editor.display.gutters;
-  const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
-  const breakpoints = gutters.querySelector(".breakpoints");
-  breakpoints.style.width = `${lineNumbers.clientWidth}px`;
 }
 
 function traverseResults(e, ctx, query, dir, modifiers) {
@@ -136,17 +101,14 @@ module.exports = Object.assign(
   expressionUtils,
   sourceDocumentUtils,
   sourceSearchUtils,
+  SourceEditorUtils,
   {
     createEditor,
     shouldShowPrettyPrint,
     shouldShowFooter,
-    clearLineClass,
     buildQuery,
     isTextForSource,
     breakpointAtLine,
-    getTextForLine,
-    getCursorLine,
-    resizeBreakpointGutter,
     traverseResults,
     updateDocument
   }
