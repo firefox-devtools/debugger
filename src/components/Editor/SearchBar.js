@@ -513,11 +513,17 @@ class SearchBar extends Component {
   // Renderers
   buildSummaryMsg() {
     if (this.state.symbolSearchEnabled) {
-      return L10N.getFormatStr(
-        "sourceSearch.resultsSummary1",
-        this.state.symbolSearchResults.length
-      );
+      if (this.state.symbolSearchResults.length > 1) {
+        return L10N.getFormatStr(
+          "editor.searchResults",
+          this.state.selectedResultIndex + 1,
+          this.state.symbolSearchResults.length
+        );
+      } else if (this.state.symbolSearchResults.length === 1) {
+        return L10N.getFormatStr("editor.singleResult");
+      }
     }
+
     const { searchResults: { count, index }, query } = this.props;
 
     if (query.trim() == "") {
