@@ -19,7 +19,8 @@ const objProperties = {
   },
   prototype: {
     type: "object",
-    actor: "server2.conn1.child1/pausedobj618"
+    actor: "server2.conn1.child1/pausedobj618",
+    class: "bla"
   }
 };
 
@@ -29,10 +30,10 @@ describe("object-inspector", () => {
       const nodes = makeNodesForProperties(objProperties, "root");
 
       const names = nodes.map(n => n.name);
-      expect(names).to.eql(["0", "length", "__proto__"]);
+      expect(names).to.eql(["0", "[default properties]", "__proto__"]);
 
       const paths = nodes.map(n => n.path);
-      expect(paths).to.eql(["root/0", "root/length", "root/__proto__"]);
+      expect(paths).to.eql(["root/0", "root/default", "root/__proto__"]);
     });
 
     it("excludes getters", () => {
@@ -41,6 +42,9 @@ describe("object-inspector", () => {
           ownProperties: {
             foo: { value: "foo" },
             bar: {}
+          },
+          prototype: {
+            class: "bla"
           }
         },
         "root"
@@ -49,8 +53,8 @@ describe("object-inspector", () => {
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
 
-      expect(names).to.eql(["foo"]);
-      expect(paths).to.eql(["root/foo"]);
+      expect(names).to.eql(["foo", "__proto__"]);
+      expect(paths).to.eql(["root/foo", "root/__proto__"]);
     });
 
     it("sorts keys", () => {
@@ -62,6 +66,9 @@ describe("object-inspector", () => {
             11: { value: {} },
             2: { value: {} },
             _bar: { value: {} }
+          },
+          prototype: {
+            class: "bla"
           }
         },
         "root"
@@ -70,13 +77,14 @@ describe("object-inspector", () => {
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
 
-      expect(names).to.eql(["1", "2", "11", "_bar", "bar"]);
+      expect(names).to.eql(["1", "2", "11", "_bar", "bar", "__proto__"]);
       expect(paths).to.eql([
         "root/1",
         "root/2",
         "root/11",
         "root/_bar",
-        "root/bar"
+        "root/bar",
+        "root/__proto__"
       ]);
     });
 
@@ -86,7 +94,7 @@ describe("object-inspector", () => {
           ownProperties: {
             bar: { value: {} }
           },
-          prototype: { value: {} }
+          prototype: { value: {}, class: "bla" }
         },
         "root"
       );
@@ -98,8 +106,9 @@ describe("object-inspector", () => {
       expect(paths).to.eql(["root/bar", "root/__proto__"]);
     });
 
-    it("bucketing", () => {
-      let objProps = { ownProperties: {} };
+    // For large arrays
+    it("numerical buckets", () => {
+      let objProps = { ownProperties: {}, prototype: { class: "Array" } };
       for (let i = 0; i < 331; i++) {
         objProps.ownProperties[i] = { value: {} };
       }
@@ -112,14 +121,16 @@ describe("object-inspector", () => {
         "[0..99]",
         "[100..199]",
         "[200..299]",
-        "[300..331]"
+        "[300..331]",
+        "__proto__"
       ]);
 
       expect(paths).to.eql([
         "root/bucket1",
         "root/bucket2",
         "root/bucket3",
-        "root/bucket4"
+        "root/bucket4",
+        "root/__proto__"
       ]);
     });
 
@@ -132,6 +143,9 @@ describe("object-inspector", () => {
             "needs-quotes": { value: {} },
             unquoted: { value: {} },
             "": { value: {} }
+          },
+          prototype: {
+            class: "WindowPrototype"
           }
         },
         "root"
@@ -140,12 +154,19 @@ describe("object-inspector", () => {
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
 
-      expect(names).to.eql(['""', "332217", '"needs-quotes"', "unquoted"]);
+      expect(names).to.eql([
+        '""',
+        "332217",
+        '"needs-quotes"',
+        "unquoted",
+        "__proto__"
+      ]);
       expect(paths).to.eql([
         "root/",
         "root/332217",
         "root/needs-quotes",
-        "root/unquoted"
+        "root/unquoted",
+        "root/__proto__"
       ]);
     });
   });
