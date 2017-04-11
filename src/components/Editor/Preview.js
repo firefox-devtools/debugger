@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
 const ObjectInspector = React.createFactory(
-  require("../shared/ObjectInspector")
+  require("../shared/ObjectInspector").default
 );
 const Popover = React.createFactory(require("../shared/Popover"));
 const previewFunction = require("../shared/previewFunction");
