@@ -8,7 +8,7 @@ const ObjectInspector = React.createFactory(
   require("../shared/ObjectInspector").default
 );
 const Popover = React.createFactory(require("../shared/Popover"));
-const previewFunction = require("../shared/previewFunction");
+const previewFunction = require("../shared/previewFunction").default;
 
 import { getLoadedObjects } from "../../selectors";
 import { getChildren } from "../../utils/object-inspector";
