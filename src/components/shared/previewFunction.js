@@ -30,7 +30,7 @@ function previewFunction(value) {
   return dom.span(
     { className: "function-signature" },
     renderFunctionName(value),
-    renderParen("("),
+    renderParen(": function("),
     ...renderParams(value),
     renderParen(")")
   );
