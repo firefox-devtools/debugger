@@ -11,7 +11,7 @@ function renderFunctionName(value) {
 }
 
 function renderParams(value) {
-  const { parameterNames } = value;
+  const { parameterNames = [] } = value;
   let params = parameterNames
     .filter(i => i)
     .map(param => dom.span({ className: "param" }, param));
@@ -27,7 +27,7 @@ function renderParen(paren) {
 }
 
 function previewFunction(value) {
-  return dom.div(
+  return dom.span(
     { className: "function-signature" },
     renderFunctionName(value),
     renderParen("("),
