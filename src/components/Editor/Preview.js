@@ -7,7 +7,7 @@ import actions from "../../actions";
 const ObjectInspector = React.createFactory(
   require("../shared/ObjectInspector").default
 );
-const Popover = React.createFactory(require("../shared/Popover"));
+const Popover = React.createFactory(require("../shared/Popover").default);
 const previewFunction = require("../shared/previewFunction").default;
 
 import { getLoadedObjects } from "../../selectors";
