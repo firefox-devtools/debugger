@@ -116,4 +116,4 @@ Popover.defaultProps = {
 
 Popover.displayName = "Popover";
 
-module.exports = Popover;
+export default Popover;

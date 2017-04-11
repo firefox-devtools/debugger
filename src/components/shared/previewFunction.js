@@ -1,9 +1,8 @@
-import React from "react";
-const { DOM: dom } = React;
+import { DOM as dom } from "react";
 
-const times = require("lodash/times");
-const zip = require("lodash/zip");
-const flatten = require("lodash/flatten");
+import times from "lodash/times";
+import zip from "lodash/zip";
+import flatten from "lodash/flatten";
 
 function renderFunctionName(value) {
   const name = value.userDisplayName || value.displayName || value.name || "";
@@ -36,4 +35,4 @@ function previewFunction(value) {
   );
 }
 
-module.exports = previewFunction;
+export default previewFunction;

@@ -13,7 +13,7 @@ const CloseButton = React.createFactory(
   require("../shared/Button/Close").default
 );
 const ObjectInspector = React.createFactory(
-  require("../shared/ObjectInspector")
+  require("../shared/ObjectInspector").default
 );
 const { DOM: dom, PropTypes } = React;
 
