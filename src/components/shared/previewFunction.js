@@ -4,6 +4,8 @@ import times from "lodash/times";
 import zip from "lodash/zip";
 import flatten from "lodash/flatten";
 
+require("./previewFunction.css");
+
 function renderFunctionName(value) {
   const name = value.userDisplayName || value.displayName || value.name || "";
   return dom.span({ className: "function-name" }, name);
