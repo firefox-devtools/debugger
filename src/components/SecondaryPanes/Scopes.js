@@ -6,7 +6,9 @@ import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import { getSelectedFrame, getLoadedObjects, getPause } from "../../selectors";
 import { getScopes } from "../../utils/scopes";
-const ObjectInspector = createFactory(require("../shared/ObjectInspector"));
+const ObjectInspector = createFactory(
+  require("../shared/ObjectInspector").default
+);
 import "./Scopes.css";
 
 function info(text) {

@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
 const ObjectInspector = React.createFactory(
-  require("../shared/ObjectInspector")
+  require("../shared/ObjectInspector").default
 );
-const Popover = React.createFactory(require("../shared/Popover"));
-const previewFunction = require("../shared/previewFunction");
+const Popover = React.createFactory(require("../shared/Popover").default);
+const previewFunction = require("../shared/previewFunction").default;
 
 import { getLoadedObjects } from "../../selectors";
 import { getChildren } from "../../utils/object-inspector";

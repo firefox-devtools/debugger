@@ -1,13 +1,12 @@
 // @flow
-const React = require("react");
-const classnames = require("classnames");
-const ManagedTree = React.createFactory(require("./ManagedTree").default);
-const Svg = require("./Svg");
-const Rep = require("./Rep").default;
-const previewFunction = require("./previewFunction");
-const { MODE } = require("devtools-reps");
-
-const {
+import { DOM as dom, PropTypes, createFactory, Component } from "react";
+import classnames from "classnames";
+const ManagedTree = createFactory(require("./ManagedTree").default);
+import Svg from "./Svg";
+import Rep from "./Rep";
+import previewFunction from "./previewFunction";
+import { MODE } from "devtools-reps";
+import {
   nodeIsOptimizedOut,
   nodeIsMissingArguments,
   nodeHasProperties,
@@ -16,9 +15,7 @@ const {
   isDefault,
   getChildren,
   createNode
-} = require("../../utils/object-inspector");
-
-const { DOM: dom, PropTypes } = React;
+} from "../../utils/object-inspector";
 
 export type ObjectInspectorItemContentsValue = {
   actor: string,
@@ -91,7 +88,7 @@ type DefaultProps = {
 // fetched, and a primitive value that should be displayed with no
 // children.
 
-class ObjectInspector extends React.Component {
+class ObjectInspector extends Component {
   static defaultProps: DefaultProps;
   actors: any;
 
@@ -259,4 +256,4 @@ ObjectInspector.defaultProps = {
   getActors: () => ({})
 };
 
-module.exports = ObjectInspector;
+export default ObjectInspector;
