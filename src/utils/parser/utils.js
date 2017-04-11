@@ -75,7 +75,11 @@ function getAst(sourceText: SourceText) {
     return ASTs.get(sourceText.id);
   }
 
-  const ast = parse(sourceText.text);
+  let ast = {};
+  if (sourceText.contentType == "text/javascript") {
+    ast = parse(sourceText.text);
+  }
+
   ASTs.set(sourceText.id, ast);
   return ast;
 }
