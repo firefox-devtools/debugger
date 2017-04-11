@@ -30,10 +30,10 @@ describe("object-inspector", () => {
       const nodes = makeNodesForProperties(objProperties, "root");
 
       const names = nodes.map(n => n.name);
-      expect(names).to.eql(["0", "length", "__proto__"]);
+      expect(names).to.eql(["0", "[default properties]", "__proto__"]);
 
       const paths = nodes.map(n => n.path);
-      expect(paths).to.eql(["root/0", "root/length", "root/__proto__"]);
+      expect(paths).to.eql(["root/0", "root/default", "root/__proto__"]);
     });
 
     it("excludes getters", () => {
@@ -106,8 +106,9 @@ describe("object-inspector", () => {
       expect(paths).to.eql(["root/bar", "root/__proto__"]);
     });
 
-    it("bucketing", () => {
-      let objProps = { ownProperties: {}, prototype: { class: "bla" } };
+    // For large arrays
+    it("numerical buckets", () => {
+      let objProps = { ownProperties: {}, prototype: { class: "Array" } };
       for (let i = 0; i < 331; i++) {
         objProps.ownProperties[i] = { value: {} };
       }
@@ -154,7 +155,7 @@ describe("object-inspector", () => {
       const paths = nodes.map(n => n.path);
 
       expect(names).to.eql([
-        "",
+        '""',
         "332217",
         '"needs-quotes"',
         "unquoted",

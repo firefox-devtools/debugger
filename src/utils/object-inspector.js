@@ -24,6 +24,10 @@ function nodeIsObject(item) {
   return value && value.type === "object";
 }
 
+function nodeIsArray(value) {
+  return value && value.class === "Array";
+}
+
 function nodeIsFunction(item) {
   const value = getValue(item);
   return value && value.class === "Function";
@@ -52,11 +56,6 @@ function isPromise(item) {
   return value.class == "Promise";
 }
 
-function isWindow(item) {
-  const prototype = get(item, "prototype", undefined);
-  return prototype.class == "WindowPrototype";
-}
-
 function getPromiseProperties(item) {
   const { promiseState: { reason, value } } = getValue(item);
   return createNode("reason", `${item.path}/reason`, {
@@ -66,10 +65,6 @@ function getPromiseProperties(item) {
 
 function isDefault(item) {
   return WINDOW_PROPERTIES.includes(item.name);
-}
-
-function isDefaultProp(name) {
-  return WINDOW_PROPERTIES.includes(name);
 }
 
 function sortProperties(properties) {
@@ -111,15 +106,21 @@ function makeNumericalBuckets(props, bucketSize, parentPath, ownProperties) {
   return buckets;
 }
 
-function makeDefaultPropsBuckets(props, parentPath, ownProperties) {
-  const userProps = props.filter(name => !isDefaultProp(name));
-  const defaultProps = props.filter(name => isDefaultProp(name));
+function makeDefaultPropsBucket(props, parentPath, ownProperties) {
+  const userProps = props.filter(name => !isDefault({ name }));
+  const defaultProps = props.filter(name => isDefault({ name }));
+
   let nodes = userProps.map(name =>
-    createNode(name, `${parentPath}/${name}`, ownProperties[name]));
+    createNode(
+      maybeEscapePropertyName(name),
+      `${parentPath}/${name}`,
+      ownProperties[name]
+    ));
+
   if (defaultProps.length > 0) {
     const defaultNodes = defaultProps.map((name, index) =>
       createNode(
-        name,
+        maybeEscapePropertyName(name),
         `${parentPath}/bucket${index}/${name}`,
         ownProperties[name]
       ));
@@ -147,11 +148,10 @@ function makeNodesForProperties(
   const properties = sortProperties(Object.keys(ownProperties)).filter(name =>
     ownProperties[name].hasOwnProperty("value"));
 
-  let nodes;
   const numProperties = properties.length;
-  if (isWindow(objProps)) {
-    nodes = makeDefaultPropsBuckets(properties, parentPath, ownProperties);
-  } else if (numProperties > bucketSize) {
+
+  let nodes = [];
+  if (nodeIsArray(prototype) && numProperties > bucketSize) {
     nodes = makeNumericalBuckets(
       properties,
       bucketSize,
@@ -159,12 +159,7 @@ function makeNodesForProperties(
       ownProperties
     );
   } else {
-    nodes = properties.map(name =>
-      createNode(
-        maybeEscapePropertyName(name),
-        `${parentPath}/${name}`,
-        ownProperties[name]
-      ));
+    nodes = makeDefaultPropsBucket(properties, parentPath, ownProperties);
   }
 
   for (let index in ownSymbols) {
