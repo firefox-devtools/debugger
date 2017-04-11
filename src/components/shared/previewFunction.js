@@ -5,6 +5,8 @@ const times = require("lodash/times");
 const zip = require("lodash/zip");
 const flatten = require("lodash/flatten");
 
+require("./previewFunction.css");
+
 function renderFunctionName(value) {
   const name = value.userDisplayName || value.displayName || value.name || "";
   return dom.span({ className: "function-name" }, name);
