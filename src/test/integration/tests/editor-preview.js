@@ -24,11 +24,11 @@ module.exports = async function(ctx) {
 
   invokeInTab(dbg, "toggleModel");
   await waitForPaused(dbg);
-  const el = dbg.win.cm.getWrapperElement()
+  const el = dbg.win.cm
+    .getWrapperElement()
     .querySelectorAll(".CodeMirror-line ")[50]
-    .querySelector(".cm-variable-2")
+    .querySelector(".cm-variable-2");
 
   mouseOverEl(dbg.win, el);
   assertPausedLocation(dbg, ctx, "long.js", 82);
-
 };
