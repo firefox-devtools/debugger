@@ -17,7 +17,7 @@ ShallowWrapper {
         className="close"
         element="i"
         raw={false}
-        src={Object {}}
+        src="<svg></svg>"
     />
 </div>,
   "nodes": Array [
@@ -30,7 +30,7 @@ ShallowWrapper {
             className="close"
             element="i"
             raw={false}
-            src={Object {}}
+            src="<svg></svg>"
       />
 </div>,
   ],
@@ -85,7 +85,7 @@ ShallowWrapper {
                     className="close"
                     element="i"
                     raw={false}
-                    src={Object {}}
+                    src="<svg></svg>"
           />
 </div>,
         "_debugID": 4,
@@ -98,7 +98,7 @@ ShallowWrapper {
                     className="close"
                     element="i"
                     raw={false}
-                    src={Object {}}
+                    src="<svg></svg>"
           />
 </div>,
       },
