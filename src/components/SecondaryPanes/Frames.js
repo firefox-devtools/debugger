@@ -4,10 +4,12 @@ import { DOM as dom, PropTypes, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
-import { endTruncateStr } from "../../utils/utils";
+import { endTruncateStr, filterDuplicates } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
 import simplifyDisplayName from "../../utils/function";
 import get from "lodash/get";
+import Svg from "../shared/Svg";
+import { isEnabled } from "devtools-config";
 
 const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
 
@@ -38,7 +40,11 @@ function renderFrameLocation({ source, location, library }: LocalFrame) {
   }
 
   if (library) {
-    return dom.div({ className: "location" }, library);
+    return dom.div(
+      { className: "location" },
+      library,
+      Svg(library.toLowerCase(), { className: "annotation-logo" })
+    );
   }
 
   const filename = getFilename(thisSource);
@@ -105,7 +111,6 @@ class Frames extends Component {
 
   renderFrame(frame: LocalFrame) {
     const { selectedFrame } = this.props;
-
     return dom.li(
       {
         key: frame.id,
@@ -194,20 +199,50 @@ function getSourceForFrame(state, frame) {
   return getSource(state, frame.location.sourceId);
 }
 
+function filterFrameworkFrames(frames) {
+  return filterDuplicates(
+    frames,
+    ([prev, item]) => !(prev.library && prev.library == item.library)
+  );
+}
+
+function annotateFrame(frame: Frame) {
+  if (!isEnabled("collapseFrame")) {
+    return frame;
+  }
+  const { source } = frame;
+  if (source && source.url && source.url.match(/react/i)) {
+    return Object.assign({}, frame, {
+      library: "React"
+    });
+  }
+  return frame;
+}
+
+function appendSource(state, frame) {
+  return Object.assign({}, frame, {
+    source: getSourceForFrame(state, frame).toJS()
+  });
+}
+
 function getAndProcessFrames(state) {
   let frames = getFrames(state);
   if (!frames) {
     return null;
   }
 
-  return frames
+  frames = frames
     .toJS()
     .filter(frame => getSourceForFrame(state, frame))
     .map(frame =>
       Object.assign({}, frame, {
         source: getSourceForFrame(state, frame).toJS()
       }))
-    .filter(frame => !get(frame, "source.isBlackBoxed"));
+    .filter(frame => !get(frame, "source.isBlackBoxed"))
+    .map(frame => appendSource(state, frame))
+    .map(annotateFrame);
+  frames = filterFrameworkFrames(frames);
+  return frames;
 }
 
 export default connect(
