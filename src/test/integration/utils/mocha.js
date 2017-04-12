@@ -7,7 +7,6 @@ const {
   waitForPaused
 } = require("./wait");
 
-
 const { type, pressKey } = require("./type");
 
 function info(msg) {
@@ -21,7 +20,7 @@ async function waitForTime(time) {
 }
 
 async function waitForElement(win, selector) {
-  return waitUntil(() => win.document.querySelector(selector))
+  return waitUntil(() => win.document.querySelector(selector));
 }
 
 async function debuggee(callback) {
@@ -63,8 +62,11 @@ function createDebuggerContext(iframe) {
   const win = iframe.contentWindow.window;
 
   const {
-    store, selectors, actions, client,
-    connection: { tabConnection: { threadClient, tabTarget }}
+    store,
+    selectors,
+    actions,
+    client,
+    connection: { tabConnection: { threadClient, tabTarget } }
   } = win.getGlobalsForTesting();
 
   return {
@@ -86,7 +88,7 @@ async function waitForLoad(iframe) {
 }
 
 async function waitForConnection(win) {
-  return
+  return;
 }
 
 async function createIframe() {
@@ -115,7 +117,7 @@ async function navigateToTab(iframe) {
 
   await waitForElement(win, ".tab");
   win.location = `/?firefox-tab=${tabId}`;
-  await waitForElement(win, ".debugger")
+  await waitForElement(win, ".debugger");
 }
 
 async function navigate(dbg, url) {

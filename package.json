@@ -97,9 +97,11 @@
   "main": "src/main.js",
   "author": "Jason Laster <jlaster@mozilla.com>",
   "devDependencies": {
+    "enzyme": "^2.8.0",
     "husky": "^0.13.2",
     "jest": "^19.0.2",
     "lint-staged": "^3.4.0",
+    "react-addons-test-utils": "=15.3.2",
     "remark-cli": "^3.0.0",
     "remark-lint": "^6.0.0",
     "remark-preset-lint-recommended": "^2.0.0",
