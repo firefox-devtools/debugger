@@ -146,7 +146,8 @@
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/test/tests-framework.js",
     "moduleNameMapper": {
-      "\\.(css|svg)$": "<rootDir>/test/__mocks__/styleMock.js"
+      "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
+      "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js"
     }
   }
 }
