@@ -4,11 +4,10 @@ import { DOM as dom, PropTypes, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
-import { endTruncateStr } from "../../utils/utils";
+import { endTruncateStr, filterDuplicates } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
 import simplifyDisplayName from "../../utils/function";
 import get from "lodash/get";
-import zip from "lodash/zip";
 import Svg from "../shared/Svg";
 import { isEnabled } from "devtools-config";
 
@@ -198,11 +197,6 @@ Frames.displayName = "Frames";
 
 function getSourceForFrame(state, frame) {
   return getSource(state, frame.location.sourceId);
-}
-
-function filterDuplicates(list, predicate) {
-  const pairs = zip(list.slice(1), list.slice(0, -1));
-  return pairs.filter(predicate).map(([prev, item]) => item);
 }
 
 function filterFrameworkFrames(frames) {
