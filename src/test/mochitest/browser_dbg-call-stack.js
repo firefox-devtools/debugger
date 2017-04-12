@@ -17,27 +17,28 @@ function toggleButton(dbg) {
   return callStackBody.querySelector(".show-more");
 }
 
-add_task(function* () {
-  const dbg = yield initDebugger("doc-script-switching.html");
+// add_task(function* () {
+//   const dbg = yield initDebugger("doc-script-switching.html");
+//
+//   toggleCallStack(dbg);
+//
+//   const notPaused = findElement(dbg, "callStackBody").innerText;
+//   is(notPaused, "Not Paused", "Not paused message is shown");
+//
+//   invokeInTab("firstCall");
+//   yield waitForPaused(dbg);
+//
+//   ok(isFrameSelected(dbg, 1, "secondCall"), "the first frame is selected");
+//
+//   let button = toggleButton(dbg);
+//   ok(!button, "toggle button shouldn't be there");
+// });
 
-  toggleCallStack(dbg);
-
-  const notPaused = findElement(dbg, "callStackBody").innerText;
-  is(notPaused, "Not Paused", "Not paused message is shown");
-
-  invokeInTab("firstCall");
-  yield waitForPaused(dbg);
-
-  ok(isFrameSelected(dbg, 1, "secondCall"), "the first frame is selected");
-
-  let button = toggleButton(dbg);
-  ok(!button, "toggle button shouldn't be there");
-});
-
-add_task(function* () {
+add_task(function*() {
   const dbg = yield initDebugger("doc-frames.html");
 
   toggleCallStack(dbg);
+  yield new Promise(() => {});
 
   invokeInTab("startRecursion");
   yield waitForPaused(dbg);

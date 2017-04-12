@@ -70,8 +70,8 @@ module.exports = async function(ctx) {
   is(getValue(dbg, 1), "ReferenceError");
 
   await editExpression(dbg, "oo");
-  is(getLabel(dbg, 1), "foo");
-  is(getValue(dbg, 1), "function foo()");
+  is(getLabel(dbg, 1), "foo()");
+  is(getValue(dbg, 1), "");
 
   await deleteExpression(dbg, 1);
   is(findAllElements(dbg, "expressionNodes").length, 0);
