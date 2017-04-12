@@ -1,20 +1,3 @@
-const {
-  initDebugger,
-  assertPausedLocation,
-  findSource,
-  addBreakpoint,
-  waitForPaused,
-  waitForDispatch,
-  type,
-  pressKey,
-  findElementWithSelector,
-  findElement,
-  findAllElements,
-  invokeInTab,
-  clickElement,
-  dblClickElement
-} = require("../utils");
-
 /**
  * tests the watch expressions component
  * 1. add watch expressions
@@ -22,7 +5,7 @@ const {
  * 3. delete watch expressions
  */
 
-const selectors = {
+const expressionSelectors = {
   input: "input.input-expression"
 };
 
@@ -36,7 +19,7 @@ function getValue(dbg, index) {
 
 async function addExpression(dbg, input) {
   info("Adding an expression");
-  findElementWithSelector(dbg, selectors.input).focus();
+  findElementWithSelector(dbg, expressionSelectors.input).focus();
   type(dbg, input);
   pressKey(dbg, "Enter");
 
@@ -51,28 +34,20 @@ async function editExpression(dbg, input) {
   await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
 }
 
-async function deleteExpression(dbg, index) {
-  info("Deleting the expression");
-  const deleteExpression = waitForDispatch(dbg, "DELETE_EXPRESSION");
-  clickElement(dbg, "expressionClose", index);
-  await deleteExpression;
-}
+add_task(function* () {
+  const dbg = yield initDebugger("doc-script-switching.html");
 
-module.exports = async function(ctx) {
-  const { ok, is, info, requestLongerTimeout } = ctx;
-  const dbg = await initDebugger("doc-script-switching.html");
+  invokeInTab("firstCall");
+  yield waitForPaused(dbg);
 
-  invokeInTab(dbg, "firstCall");
-  await waitForPaused(dbg);
-
-  await addExpression(dbg, "f");
+  yield addExpression(dbg, "f");
   is(getLabel(dbg, 1), "f");
   is(getValue(dbg, 1), "ReferenceError");
 
-  await editExpression(dbg, "oo");
+  yield editExpression(dbg, "oo");
   is(getLabel(dbg, 1), "foo()");
   is(getValue(dbg, 1), "");
 
-  await deleteExpression(dbg, 1);
+  yield deleteExpression(dbg, "foo");
   is(findAllElements(dbg, "expressionNodes").length, 0);
-};
+});
