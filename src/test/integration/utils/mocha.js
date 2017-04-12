@@ -87,10 +87,6 @@ async function waitForLoad(iframe) {
   });
 }
 
-async function waitForConnection(win) {
-  return;
-}
-
 async function createIframe() {
   let container = window["app-container"];
   let iframe = document.createElement("iframe");
@@ -132,10 +128,8 @@ async function navigate(dbg, url) {
 async function initDebugger(url, ...sources) {
   const iframe = await createIframe();
   await navigateToTab(iframe);
-  const connected = waitForConnection(iframe.contentWindow.window);
   let dbg = createDebuggerContext(iframe);
   await navigate(dbg, `http://localhost:8000/integration/examples/${url}`);
-  await connected;
 
   dbg = createDebuggerContext(iframe);
   await waitForSources(dbg, ...sources);
