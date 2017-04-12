@@ -35,7 +35,6 @@ module.exports = async function(ctx) {
   invokeInTab(dbg, "firstCall");
 
   await waitForPaused(dbg);
-  console.log(">>> first call and paused");
 
   is(getLabel(dbg, 1), "secondCall");
   is(getLabel(dbg, 2), "<this>");
