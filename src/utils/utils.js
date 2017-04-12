@@ -1,9 +1,6 @@
 // @flow
-/* -*- indent-tabs-mode: nil; js-indent-level: 2 -*- */
-/* vim: set ft=javascript ts=2 et sw=2 tw=80: */
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+import zip from "lodash/zip";
 
 /**
  * Utils for utils, by utils
@@ -78,11 +75,19 @@ function waitForMs(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+type duplicatesPredicate = (any, any) => boolean;
+function filterDuplicates(list: Object[], predicate: duplicatesPredicate) {
+  const lastItem = list[list.length - 1];
+  const pairs = zip(list.slice(1), list.slice(0, -1));
+  return pairs.filter(predicate).map(([prev, item]) => item).concat(lastItem);
+}
+
 module.exports = {
   handleError,
   promisify,
   endTruncateStr,
   updateObj,
   throttle,
-  waitForMs
+  waitForMs,
+  filterDuplicates
 };

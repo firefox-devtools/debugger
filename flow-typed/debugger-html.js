@@ -35,7 +35,7 @@ declare module "debugger-html" {
     sourceId: SourceId,
     line: number,
     column?: number,
-    sourceUrl?: string,
+    sourceUrl?: string
   };
 
   /**
@@ -50,7 +50,7 @@ declare module "debugger-html" {
     loading: boolean,
     disabled: boolean,
     text: string,
-    condition: ?string,
+    condition: ?string
   };
 
   /**
@@ -61,7 +61,7 @@ declare module "debugger-html" {
  */
   declare type BreakpointResult = {
     id: ActorId,
-    actualLocation: Location,
+    actualLocation: Location
   };
 
   /**
@@ -85,6 +85,7 @@ declare module "debugger-html" {
     scope: Scope,
     // FIXME Define this type more clearly
     this: Object,
+    framework?: string
   };
 
   /**
@@ -93,7 +94,7 @@ declare module "debugger-html" {
  * @static
  */
   declare type Why = {
-    type: string,
+    type: string
   };
 
   /**
@@ -106,14 +107,14 @@ declare module "debugger-html" {
  * @static
  */
   declare type WhyPaused = {
-    type: string,
+    type: string
   };
 
   declare type LoadedObject = {
     objectId: string,
     parentId: string,
     name: string,
-    value: any,
+    value: any
   };
 
   /**
@@ -125,7 +126,7 @@ declare module "debugger-html" {
     frames: Frame[],
     why: Why,
     getIn: (string[]) => any,
-    loadedObjects?: LoadedObject[],
+    loadedObjects?: LoadedObject[]
   };
   /**
  * Expression
@@ -134,7 +135,7 @@ declare module "debugger-html" {
  */
   declare type Expression = {
     id: number,
-    input: string,
+    input: string
   };
 
   /**
@@ -151,10 +152,10 @@ declare module "debugger-html" {
     ownPropertyLength: number,
     preview: {
       kind: string,
-      url: string,
+      url: string
     },
     sealed: boolean,
-    type: string,
+    type: string
   };
 
   /**
@@ -168,7 +169,7 @@ declare module "debugger-html" {
     url?: string,
     sourceMapURL?: string,
     isBlackBoxed: boolean,
-    isPrettyPrinted: boolean,
+    isPrettyPrinted: boolean
   };
 
   /**
@@ -179,7 +180,7 @@ declare module "debugger-html" {
   declare type SourceText = {
     id: string,
     text: string,
-    contentType: string,
+    contentType: string
   };
 
   /**
@@ -202,7 +203,7 @@ declare module "debugger-html" {
     bindings: {
       // FIXME Define these types more clearly
       arguments: Array<Object>,
-      variables: Object,
+      variables: Object
     },
     function: {
       actor: ActorId,
@@ -210,8 +211,8 @@ declare module "debugger-html" {
       displayName: string,
       location: Location,
       // FIXME Define this type more clearly
-      parameterNames: Array<Object>,
+      parameterNames: Array<Object>
     },
-    type: string,
+    type: string
   };
 }

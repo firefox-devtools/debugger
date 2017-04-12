@@ -10,6 +10,9 @@
   overflow: hidden;
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
 }
 
 /* Style the focused call frame like so:
@@ -33,6 +36,11 @@
 
 .frames .location {
   font-weight: lighter;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
 }
 
 :root.theme-light .frames .location,
@@ -89,4 +97,13 @@
 
 .show-more:hover {
   background-color: var(--theme-toolbar-background-hover);
+}
+
+.annotation-logo {
+  width: 12px;
+  margin-left: 2px;
+}
+
+:root.theme-dark .annotation-logo svg path {
+  fill: var(--theme-highlight-blue);
 }
