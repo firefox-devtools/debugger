@@ -18,6 +18,7 @@ import { debugGlobal } from "devtools-launchpad";
 import { isEnabled } from "devtools-config";
 import {
   getSourceText,
+  getFileSearchState,
   getBreakpointsForSource,
   getSelectedLocation,
   getSelectedFrame,
@@ -55,6 +56,12 @@ import {
 import { getVisibleVariablesFromScope } from "../../utils/scopes";
 import { isFirefox } from "devtools-config";
 import "./Editor.css";
+
+const cssVars = {
+  searchbarHeight: "var(--editor-searchbar-height)",
+  secondSearchbarHeight: "var(--editor-second-searchbar-height)",
+  footerHeight: "var(--editor-footer-height)"
+};
 
 type EditorState = {
   searchResults: {
@@ -646,14 +653,31 @@ class Editor extends Component {
       }));
   }
 
-  editorHeight() {
-    const { selectedSource, horizontal } = this.props;
+  getInlineEditorStyles() {
+    const { selectedSource, horizontal, searchOn } = this.props;
 
-    if (!shouldShowFooter(selectedSource, horizontal)) {
-      return "100%";
+    let subtractions = [];
+
+    if (shouldShowFooter(selectedSource, horizontal)) {
+      subtractions.push(cssVars.footerHeight);
     }
 
-    return "";
+    if (searchOn) {
+      subtractions.push(cssVars.searchbarHeight);
+
+      const secondSearchBarOn = isEnabled("searchModifiers") &&
+        isEnabled("symbolSearch");
+
+      if (secondSearchBarOn) {
+        subtractions.push(cssVars.secondSearchbarHeight);
+      }
+    }
+
+    return {
+      height: subtractions.length === 0
+        ? "100%"
+        : `calc(100% - ${subtractions.join(" - ")})`
+    };
   }
 
   renderPreview() {
@@ -723,7 +747,7 @@ class Editor extends Component {
       }),
       dom.div({
         className: "editor-mount devtools-monospace",
-        style: { height: this.editorHeight() }
+        style: this.getInlineEditorStyles()
       }),
       this.renderBreakpoints(),
       this.renderHitCounts(),
@@ -741,6 +765,7 @@ Editor.propTypes = {
   selectedLocation: PropTypes.object,
   selectedSource: ImPropTypes.map,
   sourceText: ImPropTypes.map,
+  searchOn: PropTypes.bool,
   addBreakpoint: PropTypes.func.isRequired,
   disableBreakpoint: PropTypes.func.isRequired,
   enableBreakpoint: PropTypes.func.isRequired,
@@ -777,6 +802,7 @@ export default connect(
     return {
       selectedLocation,
       selectedSource,
+      searchOn: getFileSearchState(state),
       sourceText: getSourceText(state, sourceId),
       loadedObjects: getLoadedObjects(state),
       breakpoints: getBreakpointsForSource(state, sourceId || ""),

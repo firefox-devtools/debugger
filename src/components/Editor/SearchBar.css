@@ -2,11 +2,11 @@
 .search-bar {
   display: flex;
   flex-direction: column;
-  max-height: 50%;
 }
 
 .search-bar .search-field {
   padding-left: 7px;
+  height: var(--editor-searchbar-height);
 }
 
 .search-bar .close-btn {
@@ -23,7 +23,7 @@
   flex-shrink: 0;
   justify-content: space-between;
   width: calc(100% - 1px);
-  height: 27px;
+  height: var(--editor-second-searchbar-height);
   background-color: var(--theme-toolbar-background);
   border-bottom: 1px solid var(--theme-splitter-color);
   padding: 0 13px;
