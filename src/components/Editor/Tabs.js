@@ -233,11 +233,11 @@ class SourceTabs extends Component {
       },
       { item: closeAllTabsMenuItem },
       { item: { type: "separator" } },
-      { item: copySourceUrl },
-      { item: showSourceMenuItem }
+      { item: copySourceUrl }
     ];
 
     if (!isPrettySource) {
+      items.push({ item: showSourceMenuItem });
       items.push({ item: prettyPrint });
     }
 
