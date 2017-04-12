@@ -7,6 +7,8 @@ const {
   clickElement,
   findElement,
   findAllElements,
+  isPaused,
+  resume,
   reload
 } = require("../utils");
 
@@ -56,6 +58,11 @@ async function test2(ctx) {
   const { ok, is, info } = ctx;
 
   const dbg = await initDebugger("doc-frames.html");
+
+  // NOTE: The web test runner pauses on the inline debugger statement where the mochitest skips it.
+  if (isPaused(dbg)) {
+    await resume(dbg);
+  }
 
   toggleCallStack(dbg);
 
