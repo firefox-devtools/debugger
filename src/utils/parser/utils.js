@@ -186,7 +186,12 @@ export function getSymbols(source: SourceText): SymbolDeclarations {
   }
 
   const ast = getAst(source);
+
   const symbols = { functions: [], variables: [] };
+
+  if (!ast || isEmpty(ast)) {
+    return symbols;
+  }
 
   traverse(ast, {
     enter(path) {
@@ -259,7 +264,7 @@ export function resolveToken(
   let inScope = false;
 
   if (isEmpty(ast)) {
-    return;
+    return { expression: null, inScope: false };
   }
 
   traverse(ast, {
