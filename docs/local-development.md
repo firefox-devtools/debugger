@@ -312,6 +312,44 @@ yarn run test-all
 * [matchers][jest-matchers]
 * [mock functions][jest-mock]
 
+##### Testing Components
+
+There are two styles of component tests: interaction, snapshot.
+
+###### Interaction Testing
+
+We shallow render the component and simulate an UI interaction like `click`.
+
+```js
+it("should call handleClick function", () => {
+  const onClick = jest.genMockFunction();
+  const wrapper = shallow(new CloseButton({ handleClick: onClick }));
+
+  wrapper.simulate("click");
+  expect(onClick).toBeCalled();
+});
+```
+
+###### Snapshot Testing
+
+We shallow render the component to a JSON and save it to a fixture. Subsequent runs are compared to the fixture.
+
+```js
+it("should render a button", () => {
+  const onClick = jest.genMockFunction();
+  const buttonClass = "class";
+  const wrapper = shallow(
+    new CloseButton({
+      handleClick: onClick,
+      buttonClass: buttonClass,
+      tooltip: "Close button"
+    })
+  );
+
+  expect(wrapper).toMatchSnapshot();
+});
+```
+
 #### Integration Tests
 
 The Debugger integration tests are run in two contexts: [firefox][mochitest] and the [web][mocha].
