@@ -142,15 +142,12 @@ async function waitForElement(dbg, selector) {
 
 async function waitUntil(predicate, interval = 20) {
   return new Promise(resolve => {
-    const timer = setInterval(
-      () => {
-        if (predicate()) {
-          clearInterval(timer);
-          resolve();
-        }
-      },
-      interval
-    );
+    const timer = setInterval(() => {
+      if (predicate()) {
+        clearInterval(timer);
+        resolve();
+      }
+    }, interval);
   });
 }
 

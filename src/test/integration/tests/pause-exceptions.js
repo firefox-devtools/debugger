@@ -21,10 +21,7 @@ function assertPOEState(dbg, ctx, pause, ignore) {
   const { is } = ctx;
   const {
     getState,
-    selectors: {
-      getShouldPauseOnExceptions,
-      getShouldIgnoreCaughtExceptions
-    }
+    selectors: { getShouldPauseOnExceptions, getShouldIgnoreCaughtExceptions }
   } = dbg;
 
   is(getShouldPauseOnExceptions(getState()), pause);

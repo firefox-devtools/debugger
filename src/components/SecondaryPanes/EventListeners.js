@@ -94,7 +94,8 @@ export default connect(
           sourceId: l.sourceId,
           line: l.line
         })
-      }));
+      })
+    );
 
     return { listeners };
   },

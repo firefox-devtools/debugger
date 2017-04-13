@@ -76,9 +76,11 @@ class Expressions extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     const { editing } = this.state;
     const { expressions, loadedObjects } = this.props;
-    return expressions !== nextProps.expressions ||
+    return (
+      expressions !== nextProps.expressions ||
       loadedObjects !== nextProps.loadedObjects ||
-      editing !== nextState.editing;
+      editing !== nextState.editing
+    );
   }
 
   editExpression(expression, { depth }) {

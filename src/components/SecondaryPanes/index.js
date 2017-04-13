@@ -60,8 +60,8 @@ class SecondaryPanes extends Component {
       breakpointsLoading
     } = this.props;
     const boxClassName = "breakpoints-toggle";
-    const isIndeterminate = !breakpointsDisabled &&
-      breakpoints.some(x => x.disabled);
+    const isIndeterminate =
+      !breakpointsDisabled && breakpoints.some(x => x.disabled);
 
     if (breakpoints.size == 0) {
       return null;

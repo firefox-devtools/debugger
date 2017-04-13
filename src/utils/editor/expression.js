@@ -48,9 +48,12 @@ type PreviewExpressionArgs = {
   variables: Map<string | null, Object>
 };
 
-export function previewExpression(
-  { expression, selectedFrame, variables, tokenText }: PreviewExpressionArgs
-) {
+export function previewExpression({
+  expression,
+  selectedFrame,
+  variables,
+  tokenText
+}: PreviewExpressionArgs) {
   if (!tokenText) {
     return null;
   }

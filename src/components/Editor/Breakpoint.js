@@ -44,9 +44,11 @@ class Breakpoint extends Component {
     }
   }
   shouldComponentUpdate(nextProps: any) {
-    return this.props.editor !== nextProps.editor ||
+    return (
+      this.props.editor !== nextProps.editor ||
       this.props.breakpoint.disabled !== nextProps.breakpoint.disabled ||
-      this.props.breakpoint.condition !== nextProps.breakpoint.condition;
+      this.props.breakpoint.condition !== nextProps.breakpoint.condition
+    );
   }
   componentDidMount() {
     if (!this.props.editor) {

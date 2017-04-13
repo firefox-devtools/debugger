@@ -1,8 +1,5 @@
 const expect = require("expect.js");
-const {
-  getFilename,
-  getMode
-} = require("../source.js");
+const { getFilename, getMode } = require("../source.js");
 
 describe("sources", () => {
   describe("getFilename", () => {

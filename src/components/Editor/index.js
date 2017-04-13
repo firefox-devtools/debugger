@@ -161,12 +161,14 @@ class Editor extends Component {
 
     if (!isFirefox()) {
       codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
-        this.onGutterContextMenu(event));
+        this.onGutterContextMenu(event)
+      );
 
       codeMirror.on("contextmenu", (cm, event) => this.openMenu(event, cm));
     } else {
       codeMirrorWrapper.addEventListener("contextmenu", event =>
-        this.openMenu(event, codeMirror));
+        this.openMenu(event, codeMirror)
+      );
     }
 
     codeMirror.on("scroll", this.onScroll);
@@ -425,11 +427,8 @@ class Editor extends Component {
       return this.closeConditionalPanel();
     }
 
-    const {
-      selectedLocation,
-      setBreakpointCondition,
-      breakpoints
-    } = this.props;
+    const { selectedLocation, setBreakpointCondition, breakpoints } = this
+      .props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
     const bp = breakpointAtLine(breakpoints, line);
@@ -634,7 +633,8 @@ class Editor extends Component {
         key: makeLocationId(bp.location),
         breakpoint: bp,
         editor: this.editor && this.editor.codeMirror
-      }));
+      })
+    );
   }
 
   renderHitCounts() {
@@ -650,7 +650,8 @@ class Editor extends Component {
         key: marker.get("line"),
         hitData: marker.toJS(),
         editor: this.editor && this.editor.codeMirror
-      }));
+      })
+    );
   }
 
   getInlineEditorStyles() {
@@ -665,8 +666,8 @@ class Editor extends Component {
     if (searchOn) {
       subtractions.push(cssVars.searchbarHeight);
 
-      const secondSearchBarOn = isEnabled("searchModifiers") &&
-        isEnabled("symbolSearch");
+      const secondSearchBarOn =
+        isEnabled("searchModifiers") && isEnabled("symbolSearch");
 
       if (secondSearchBarOn) {
         subtractions.push(cssVars.secondSearchbarHeight);
