@@ -7,7 +7,8 @@ const {
   collapseTree,
   getDirectories,
   getURL,
-  isExactUrlMatch
+  isExactUrlMatch,
+  isDirectory
 } = require("../sources-tree.js");
 
 describe("sources-tree", () => {
@@ -486,5 +487,29 @@ describe("sources-tree", () => {
     expect(isExactUrlMatch("demo.demo.com", rootB)).to.be(false);
     expect(isExactUrlMatch("www.demo.demo.com", rootB)).to.be(false);
     expect(isExactUrlMatch("example.com", rootB)).to.be(false);
+  });
+
+  it("identifies directories correctly", () => {
+    const sources = [
+      Map({
+        url: "http://example.com/a.js",
+        actor: "actor1"
+      }),
+      Map({
+        url: "http://example.com/b/c/d.js",
+        actor: "actor2"
+      })
+    ];
+
+    const tree = createNode("root", "", []);
+    sources.forEach(source => addToTree(tree, source));
+    const [bFolderNode, aFileNode] = tree.contents[0].contents;
+    const [cFolderNode] = bFolderNode.contents;
+    const [dFileNode] = cFolderNode.contents;
+
+    expect(isDirectory(bFolderNode)).to.be(true);
+    expect(isDirectory(aFileNode)).to.be(false);
+    expect(isDirectory(cFolderNode)).to.be(true);
+    expect(isDirectory(dFileNode)).to.be(false);
   });
 });
