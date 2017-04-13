@@ -44,3 +44,10 @@ permalink: docs/updates
 * :spaghetti: Collapsing Libarary frames
 * :baby: Naming Library frames
 * :black_medium_small_square: Blackboxing libraries
+
+### April 11th
+
+* Bucket Window Properties
+* Display popover intelligently
+* Simplify function names
+* Formatting Functions

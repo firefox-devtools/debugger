@@ -1,3 +1,6 @@
+/* Any copyright is dedicated to the Public Domain.
+ * http://creativecommons.org/publicdomain/zero/1.0/ */
+
 /**
  * tests the watch expressions component
  * 1. add watch expressions
@@ -34,7 +37,7 @@ async function editExpression(dbg, input) {
   await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
 }
 
-add_task(function* () {
+add_task(function*() {
   const dbg = yield initDebugger("doc-script-switching.html");
 
   invokeInTab("firstCall");
