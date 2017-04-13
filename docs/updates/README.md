@@ -45,9 +45,8 @@ permalink: docs/updates
 * :baby: Naming Library frames
 * :black_medium_small_square: Blackboxing libraries
 
-### April 11th
+#### [April 11th](./updates-4-11-2017.md)
 
-* Bucket Window Properties
-* Display popover intelligently
-* Simplify function names
-* Formatting Functions
+* :ant: Bucket Window Properties
+* :eyes: Display popover intelligently
+* :baby: Formatting Functions
