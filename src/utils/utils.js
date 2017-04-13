@@ -60,13 +60,10 @@ function throttle(func: any, ms: number) {
   return function(...args: any) {
     _this = this;
     if (!timeout) {
-      timeout = setTimeout(
-        () => {
-          func.apply(_this, ...args);
-          timeout = null;
-        },
-        ms
-      );
+      timeout = setTimeout(() => {
+        func.apply(_this, ...args);
+        timeout = null;
+      }, ms);
     }
   };
 }

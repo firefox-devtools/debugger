@@ -58,8 +58,8 @@ function getKeyForOS(os, action) {
 function formatKey(action) {
   const key = getKey(`${action}Display`) || getKey(action);
   if (isMacOS) {
-    const winKey = getKeyForOS("WINNT", `${action}Display`) ||
-      getKeyForOS("WINNT", action);
+    const winKey =
+      getKeyForOS("WINNT", `${action}Display`) || getKeyForOS("WINNT", action);
     // display both Windows type and Mac specific keys
     return formatKeyShortcut([key, winKey].join(" "));
   }
@@ -73,15 +73,12 @@ function handlePressAnimation(button) {
 
   button.style.opacity = "0";
   button.style.transform = "scale(1.3)";
-  setTimeout(
-    () => {
-      if (button) {
-        button.style.opacity = "1";
-        button.style.transform = "none";
-      }
-    },
-    200
-  );
+  setTimeout(() => {
+    if (button) {
+      button.style.opacity = "1";
+      button.style.transform = "none";
+    }
+  }, 200);
 }
 
 function debugBtn(onClick, type, className, tooltip, disabled = false) {
@@ -112,14 +109,17 @@ class CommandBar extends Component {
     const shortcuts = this.context.shortcuts;
 
     COMMANDS.forEach(action =>
-      shortcuts.on(getKey(action), (_, e) => this.handleEvent(e, action)));
+      shortcuts.on(getKey(action), (_, e) => this.handleEvent(e, action))
+    );
 
     if (isMacOS) {
       // The Mac supports both the Windows Function keys
       // as well as the Mac non-Function keys
       COMMANDS.forEach(action =>
         shortcuts.on(getKeyForOS("WINNT", action), (_, e) =>
-          this.handleEvent(e, action)));
+          this.handleEvent(e, action)
+        )
+      );
     }
   }
 

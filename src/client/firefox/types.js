@@ -213,9 +213,9 @@ export type ListTabsResponse = {
  * @static
  */
 export type Actions = {
-  paused: (Pause) => void,
-  resumed: (ResumedPacket) => void,
-  newSource: (Source) => void,
+  paused: Pause => void,
+  resumed: ResumedPacket => void,
+  newSource: Source => void,
   fetchEventListeners: () => void
 };
 
@@ -235,7 +235,7 @@ export type TabTarget = {
   },
   form: { consoleActor: any },
   activeTab: {
-    navigateTo: (string) => Promise<*>,
+    navigateTo: string => Promise<*>,
     reload: () => Promise<*>
   },
   destroy: () => void
@@ -254,8 +254,8 @@ export type TabTarget = {
  */
 export type DebuggerClient = {
   _activeRequests: {
-    get: (any) => any,
-    delete: (any) => void
+    get: any => any,
+    delete: any => void
   },
   connect: () => Promise<*>,
   listTabs: () => Promise<*>
@@ -288,15 +288,13 @@ export type Grip = {
  */
 export type SourceClient = {
   source: () => Source,
-  setBreakpoint: (
-    {
-      line: number,
-      column?: number,
-      condition: boolean,
-      noSliding: boolean
-    }
-  ) => Promise<BreakpointResponse>,
-  prettyPrint: (number) => Promise<*>,
+  setBreakpoint: ({
+    line: number,
+    column?: number,
+    condition: boolean,
+    noSliding: boolean
+  }) => Promise<BreakpointResponse>,
+  prettyPrint: number => Promise<*>,
   disablePrettyPrint: () => Promise<*>,
   blackBox: () => Promise<*>,
   unblackBox: () => Promise<*>
@@ -316,6 +314,7 @@ export type ObjectClient = {
  * @memberof firefox
  * @static
  */
+// prettier-ignore
 export type ThreadClient = {
   resume: (Function) => Promise<*>,
   stepIn: (Function) => Promise<*>,
@@ -351,12 +350,15 @@ export type BreakpointClient = {
   source: SourceClient
 };
 
-export type BreakpointResponse = [{
-  actor?: ActorId,
-  from?: ActorId,
-  isPending?: boolean,
-  actualLocation?: ActualLocation
-}, BreakpointClient];
+export type BreakpointResponse = [
+  {
+    actor?: ActorId,
+    from?: ActorId,
+    isPending?: boolean,
+    actualLocation?: ActualLocation
+  },
+  BreakpointClient
+];
 
 export type FirefoxClientConnection = {
   getTabTarget: () => TabTarget,

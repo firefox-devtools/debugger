@@ -74,10 +74,7 @@ class Preview extends Component {
   }
 
   renderObjectInspector(root) {
-    const {
-      loadObjectProperties,
-      loadedObjects
-    } = this.props;
+    const { loadObjectProperties, loadedObjects } = this.props;
 
     const getObjectProperties = id => loadedObjects.get(id);
     const roots = this.getChildren(root, getObjectProperties);
@@ -111,12 +108,7 @@ class Preview extends Component {
   }
 
   render() {
-    const {
-      popoverTarget,
-      onClose,
-      value,
-      expression
-    } = this.props;
+    const { popoverTarget, onClose, value, expression } = this.props;
 
     let type = value.class === "Function" ? "tooltip" : "popover";
 

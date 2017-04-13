@@ -15,24 +15,22 @@ function setupEvents(dependencies: any) {
 }
 
 // Debugger Events
-function scriptParsed(
-  {
-    scriptId,
-    url,
-    startLine,
-    startColumn,
-    endLine,
-    endColumn,
-    executionContextId,
-    hash,
-    isContentScript,
-    isInternalScript,
-    isLiveEdit,
-    sourceMapURL,
-    hasSourceURL,
-    deprecatedCommentWasUsed
-  }: any
-) {
+function scriptParsed({
+  scriptId,
+  url,
+  startLine,
+  startColumn,
+  endLine,
+  endColumn,
+  executionContextId,
+  hash,
+  isContentScript,
+  isInternalScript,
+  isLiveEdit,
+  sourceMapURL,
+  hasSourceURL,
+  deprecatedCommentWasUsed
+}: any) {
   if (isContentScript) {
     return;
   }
@@ -51,15 +49,13 @@ function scriptParsed(
 
 function scriptFailedToParse() {}
 
-async function paused(
-  {
-    callFrames,
-    reason,
-    data,
-    hitBreakpoints,
-    asyncStackTrace
-  }: any
-) {
+async function paused({
+  callFrames,
+  reason,
+  data,
+  hitBreakpoints,
+  asyncStackTrace
+}: any) {
   const frames = callFrames.map(createFrame);
   const frame = frames[0];
   const why = Object.assign(

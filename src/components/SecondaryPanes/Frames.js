@@ -73,9 +73,11 @@ class Frames extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     const { frames, selectedFrame } = this.props;
     const { showAllFrames } = this.state;
-    return frames !== nextProps.frames ||
+    return (
+      frames !== nextProps.frames ||
       selectedFrame !== nextProps.selectedFrame ||
-      showAllFrames !== nextState.showAllFrames;
+      showAllFrames !== nextState.showAllFrames
+    );
   }
 
   toggleFramesDisplay() {
@@ -237,7 +239,8 @@ function getAndProcessFrames(state) {
     .map(frame =>
       Object.assign({}, frame, {
         source: getSourceForFrame(state, frame).toJS()
-      }))
+      })
+    )
     .filter(frame => !get(frame, "source.isBlackBoxed"))
     .map(frame => appendSource(state, frame))
     .map(annotateFrame);

@@ -19,7 +19,7 @@ function getSearchCursor(cm, query: string, pos, modifiers: SearchModifiers) {
  * @static
  */
 function SearchState() {
-  this.posFrom = (this.posTo = (this.query = null));
+  this.posFrom = this.posTo = this.query = null;
   this.overlay = null;
   this.results = [];
   this.matchIndex = -1;

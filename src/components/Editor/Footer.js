@@ -23,9 +23,8 @@ import "./Footer.css";
 class SourceFooter extends Component {
   prettyPrintButton() {
     const { selectedSource, sourceText, togglePrettyPrint } = this.props;
-    const sourceLoaded = selectedSource &&
-      sourceText &&
-      !sourceText.get("loading");
+    const sourceLoaded =
+      selectedSource && sourceText && !sourceText.get("loading");
 
     if (!shouldShowPrettyPrint(selectedSource)) {
       return;
@@ -51,9 +50,8 @@ class SourceFooter extends Component {
 
   blackBoxButton() {
     const { selectedSource, sourceText, toggleBlackBox } = this.props;
-    const sourceLoaded = selectedSource &&
-      sourceText &&
-      !sourceText.get("loading");
+    const sourceLoaded =
+      selectedSource && sourceText && !sourceText.get("loading");
 
     const blackboxed = selectedSource.get("isBlackBoxed");
 

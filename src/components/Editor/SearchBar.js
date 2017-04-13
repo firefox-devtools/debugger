@@ -140,7 +140,8 @@ class SearchBar extends Component {
     shortcuts.on("Escape", (_, e) => this.onEscape(e));
 
     shortcuts.on(shiftSearchAgainShortcut, (_, e) =>
-      this.traverseResults(e, true));
+      this.traverseResults(e, true)
+    );
 
     shortcuts.on(searchAgainShortcut, (_, e) => this.traverseResults(e, false));
 
@@ -149,7 +150,8 @@ class SearchBar extends Component {
         this.toggleSymbolSearch(e, {
           toggle: false,
           searchType: "functions"
-        }));
+        })
+      );
     }
   }
 
@@ -166,19 +168,19 @@ class SearchBar extends Component {
     }
 
     const hasLoaded = sourceText && !sourceText.get("loading");
-    const wasLoading = prevProps.sourceText &&
-      prevProps.sourceText.get("loading");
+    const wasLoading =
+      prevProps.sourceText && prevProps.sourceText.get("loading");
 
     const doneLoading = wasLoading && hasLoaded;
-    const changedFiles = selectedSource != prevProps.selectedSource &&
-      hasLoaded;
-    const modifiersUpdated = modifiers &&
-      !modifiers.equals(prevProps.modifiers);
+    const changedFiles =
+      selectedSource != prevProps.selectedSource && hasLoaded;
+    const modifiersUpdated =
+      modifiers && !modifiers.equals(prevProps.modifiers);
 
     const isOpen = this.props.searchOn || this.state.symbolSearchEnabled;
     const { selectedSymbolType, symbolSearchEnabled } = this.state;
-    const changedSearchType = selectedSymbolType !=
-      prevState.selectedSymbolType ||
+    const changedSearchType =
+      selectedSymbolType != prevState.selectedSymbolType ||
       symbolSearchEnabled != prevState.symbolSearchEnabled;
 
     if (
@@ -308,10 +310,7 @@ class SearchBar extends Component {
   }
 
   async updateSymbolSearchResults(query: string) {
-    const {
-      sourceText,
-      updateSearchResults
-    } = this.props;
+    const { sourceText, updateSearchResults } = this.props;
     const { selectedSymbolType } = this.state;
 
     if (query == "" || !sourceText) {
@@ -330,11 +329,7 @@ class SearchBar extends Component {
   }
 
   async doSearch(query: string) {
-    const {
-      sourceText,
-      setFileSearchQuery,
-      editor: ed
-    } = this.props;
+    const { sourceText, setFileSearchQuery, editor: ed } = this.props;
     if (!sourceText || !sourceText.get("text")) {
       return;
     }
@@ -349,12 +344,8 @@ class SearchBar extends Component {
   }
 
   searchContents(query: string) {
-    const {
-      sourceText,
-      modifiers,
-      editor: ed,
-      searchResults: { index }
-    } = this.props;
+    const { sourceText, modifiers, editor: ed, searchResults: { index } } = this
+      .props;
 
     if (!ed || !sourceText || !sourceText.get("text") || !modifiers) {
       return;
@@ -557,10 +548,7 @@ class SearchBar extends Component {
       return;
     }
 
-    const {
-      modifiers,
-      toggleFileSearchModifier
-    } = this.props;
+    const { modifiers, toggleFileSearchModifier } = this.props;
     const { symbolSearchEnabled } = this.state;
 
     function searchModBtn(modVal, className, svgName, tooltip) {
@@ -571,7 +559,7 @@ class SearchBar extends Component {
             disabled: symbolSearchEnabled
           }),
           onClick: () =>
-            !symbolSearchEnabled ? toggleFileSearchModifier(modVal) : null,
+            (!symbolSearchEnabled ? toggleFileSearchModifier(modVal) : null),
           title: tooltip
         },
         Svg(svgName)
@@ -669,11 +657,7 @@ class SearchBar extends Component {
   }
 
   render() {
-    const {
-      searchResults: { count },
-      query,
-      searchOn
-    } = this.props;
+    const { searchResults: { count }, query, searchOn } = this.props;
 
     if (!searchOn) {
       return dom.div();

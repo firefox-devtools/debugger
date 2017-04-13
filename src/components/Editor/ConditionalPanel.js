@@ -5,13 +5,11 @@ const ReactDOM = require("react-dom");
 import CloseButton from "../shared/Button/Close";
 import "./ConditionalPanel.css";
 
-function renderConditionalPanel(
-  {
-    condition,
-    closePanel,
-    setBreakpoint
-  }: { condition: ?string, closePanel: Function, setBreakpoint: Function }
-) {
+function renderConditionalPanel({
+  condition,
+  closePanel,
+  setBreakpoint
+}: { condition: ?string, closePanel: Function, setBreakpoint: Function }) {
   let panel = document.createElement("div");
   let input = null;
 

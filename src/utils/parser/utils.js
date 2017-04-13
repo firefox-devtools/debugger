@@ -114,10 +114,12 @@ function getFunctionName(path) {
 }
 
 function isFunction(path) {
-  return t.isFunction(path) ||
+  return (
+    t.isFunction(path) ||
     t.isArrowFunctionExpression(path) ||
     t.isObjectMethod(path) ||
-    t.isClassMethod(path);
+    t.isClassMethod(path)
+  );
 }
 
 function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
@@ -145,20 +147,24 @@ function getVariableNames(path) {
       formatSymbol({
         name: dec.name,
         location: dec.loc
-      }));
+      })
+    );
   }
 
   return path.node.declarations.map(dec =>
     formatSymbol({
       name: dec.id.name,
       location: dec.loc
-    }));
+    })
+  );
 }
 
 function isVariable(path) {
-  return t.isVariableDeclaration(path) ||
+  return (
+    t.isVariableDeclaration(path) ||
     (isFunction(path) && path.node.params.length) ||
-    (t.isObjectProperty(path) && !isFunction(path.node.value));
+    (t.isObjectProperty(path) && !isFunction(path.node.value))
+  );
 }
 
 function getMemberExpression(root) {

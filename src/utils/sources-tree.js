@@ -157,9 +157,9 @@ function isDirectory(url: Object) {
 
   // Assume that all urls point to files except when they end with '/'
   // Or directory node has children
-  return parts.length === 0 ||
-    url.path.slice(-1) === "/" ||
-    nodeHasChildren(url);
+  return (
+    parts.length === 0 || url.path.slice(-1) === "/" || nodeHasChildren(url)
+  );
 }
 
 /**

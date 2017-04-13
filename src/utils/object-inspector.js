@@ -97,7 +97,8 @@ function makeNumericalBuckets(props, bucketSize, parentPath, ownProperties) {
         name,
         `${parentPath}/${bucketKey}/${name}`,
         ownProperties[name]
-      ));
+      )
+    );
 
     buckets.push(
       createNode(bucketName, `${parentPath}/${bucketKey}`, bucketNodes)
@@ -115,7 +116,8 @@ function makeDefaultPropsBucket(props, parentPath, ownProperties) {
       maybeEscapePropertyName(name),
       `${parentPath}/${name}`,
       ownProperties[name]
-    ));
+    )
+  );
 
   if (defaultProps.length > 0) {
     const defaultNodes = defaultProps.map((name, index) =>
@@ -123,7 +125,8 @@ function makeDefaultPropsBucket(props, parentPath, ownProperties) {
         maybeEscapePropertyName(name),
         `${parentPath}/bucket${index}/${name}`,
         ownProperties[name]
-      ));
+      )
+    );
     nodes.push(
       createNode("[default properties]", `${parentPath}/default`, defaultNodes)
     );
@@ -139,14 +142,13 @@ function makeDefaultPropsBucket(props, parentPath, ownProperties) {
 function makeNodesForProperties(
   objProps,
   parentPath,
-  {
-    bucketSize = 100
-  } = {}
+  { bucketSize = 100 } = {}
 ) {
   const { ownProperties, prototype, ownSymbols } = objProps;
 
   const properties = sortProperties(Object.keys(ownProperties)).filter(name =>
-    ownProperties[name].hasOwnProperty("value"));
+    ownProperties[name].hasOwnProperty("value")
+  );
 
   const numProperties = properties.length;
 
@@ -191,13 +193,7 @@ function createNode(name, path, contents) {
   return { name, path, contents };
 }
 
-function getChildren(
-  {
-    getObjectProperties,
-    actors,
-    item
-  }
-) {
+function getChildren({ getObjectProperties, actors, item }) {
   const obj = item.contents;
 
   // Nodes can either have children already, or be an object with

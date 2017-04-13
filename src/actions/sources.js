@@ -423,7 +423,7 @@ export function getTextForSources(actors: any[]) {
         // Sort the fetched sources alphabetically by their url.
         if (deferred) {
           deferred.resolve(
-            fetched.sort(([aFirst], [aSecond]) => aFirst > aSecond ? -1 : 1)
+            fetched.sort(([aFirst], [aSecond]) => (aFirst > aSecond ? -1 : 1))
           );
         }
       }

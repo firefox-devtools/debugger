@@ -18,7 +18,8 @@ function renderParams(value) {
     .map(param => dom.span({ className: "param" }, param));
 
   const commas = times(params.length - 1).map(() =>
-    dom.span({ className: "delimiter" }, ", "));
+    dom.span({ className: "delimiter" }, ", ")
+  );
 
   return flatten(zip(params, commas));
 }
