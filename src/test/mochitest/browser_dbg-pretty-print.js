@@ -1,6 +1,9 @@
+/* Any copyright is dedicated to the Public Domain.
+ * http://creativecommons.org/publicdomain/zero/1.0/ */
+
 // Tests basic pretty-printing functionality.
 
-add_task(function* () {
+add_task(function*() {
   const dbg = yield initDebugger("doc-minified.html");
 
   yield selectSource(dbg, "math.min.js");
