@@ -152,6 +152,10 @@ describe("Tests", () => {
   xit("source maps bogus", async function() {
     await sourceMapsBogus(ctx);
   });
+
+  it("tabs", async function() {
+    await tabs(ctx);
+  });
 });
 
 mocha.run();
