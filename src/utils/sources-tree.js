@@ -156,7 +156,10 @@ function isDirectory(url: Object) {
   const parts = url.path.split("/").filter(p => p !== "");
 
   // Assume that all urls point to files except when they end with '/'
-  return parts.length === 0 || url.path.slice(-1) === "/";
+  // Or directory node has children
+  return parts.length === 0 ||
+    url.path.slice(-1) === "/" ||
+    nodeHasChildren(url);
 }
 
 /**
