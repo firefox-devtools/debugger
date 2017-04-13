@@ -252,10 +252,13 @@ class SourceTabs extends Component {
     if (!this.refs.sourceTabs) {
       return;
     }
-
-    const sourceTabs = this.props.sourceTabs;
+    const { selectedSource, sourceTabs, selectSource } = this.props;
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenSourceTabs = getHiddenTabs(sourceTabs, sourceTabEls);
+
+    if (hiddenSourceTabs.indexOf(selectedSource) !== -1) {
+      return selectSource(selectedSource.get("id"), { tabIndex: 0 });
+    }
 
     this.setState({ hiddenSourceTabs });
   }
