@@ -11,10 +11,7 @@ const {
   startPrettyPrintWorker,
   stopPrettyPrintWorker
 } = require("../utils/pretty-print");
-const {
-  startParserWorker,
-  stopParserWorker
-} = require("../utils/parser");
+const { startParserWorker, stopParserWorker } = require("../utils/parser");
 
 const configureStore = require("./create-store");
 const reducers = require("../reducers");

@@ -54,37 +54,34 @@ export function fetchEventListeners() {
       clearTimeout(fetchListenersTimerID);
     }
 
-    fetchListenersTimerID = setTimeout(
-      () => {
-        // In case there is still a request of listeners going on (it
-        // takes several RDP round trips right now), make sure we wait
-        // on a currently running request
-        if (getState().eventListeners.fetchingListeners) {
-          dispatch({
-            type: services.WAIT_UNTIL,
-            predicate: action =>
-              action.type === constants.FETCH_EVENT_LISTENERS &&
-              action.status === "done",
-            run: dispatch => dispatch(fetchEventListeners())
-          });
-          return;
-        }
+    fetchListenersTimerID = setTimeout(() => {
+      // In case there is still a request of listeners going on (it
+      // takes several RDP round trips right now), make sure we wait
+      // on a currently running request
+      if (getState().eventListeners.fetchingListeners) {
+        dispatch({
+          type: services.WAIT_UNTIL,
+          predicate: action =>
+            action.type === constants.FETCH_EVENT_LISTENERS &&
+            action.status === "done",
+          run: dispatch => dispatch(fetchEventListeners())
+        });
+        return;
+      }
 
+      dispatch({
+        type: constants.FETCH_EVENT_LISTENERS,
+        status: "begin"
+      });
+
+      asPaused(getState(), client, _getEventListeners).then(listeners => {
         dispatch({
           type: constants.FETCH_EVENT_LISTENERS,
-          status: "begin"
+          status: "done",
+          listeners: formatListeners(getState(), listeners)
         });
-
-        asPaused(getState(), client, _getEventListeners).then(listeners => {
-          dispatch({
-            type: constants.FETCH_EVENT_LISTENERS,
-            status: "done",
-            listeners: formatListeners(getState(), listeners)
-          });
-        });
-      },
-      FETCH_EVENT_LISTENERS_DELAY
-    );
+      });
+    }, FETCH_EVENT_LISTENERS_DELAY);
   };
 }
 
@@ -104,7 +101,7 @@ async function _getEventListeners(threadClient) {
 
   // Make sure all the listeners are sorted by the event type, since
   // they"re not guaranteed to be clustered together.
-  response.listeners.sort((a, b) => a.type > b.type ? 1 : -1);
+  response.listeners.sort((a, b) => (a.type > b.type ? 1 : -1));
 
   // Add all the listeners in the debugger view event linsteners container.
   let fetchedDefinitions = new Map();

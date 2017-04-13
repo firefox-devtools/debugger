@@ -297,8 +297,8 @@ class SourceTabs extends Component {
   renderTab(source) {
     const { selectedSource, selectSource, closeTab } = this.props;
     const filename = getFilename(source.toJS());
-    const active = selectedSource &&
-      source.get("id") == selectedSource.get("id");
+    const active =
+      selectedSource && source.get("id") == selectedSource.get("id");
     const isPrettyCode = isPretty(source.toJS());
 
     function onClickClose(ev) {

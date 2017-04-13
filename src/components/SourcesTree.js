@@ -58,16 +58,13 @@ class SourcesTree extends Component {
     this.onContextMenu = this.onContextMenu.bind(this);
     this.renderItem = this.renderItem.bind(this);
 
-    this.queueUpdate = throttle(
-      function() {
-        if (!this.mounted) {
-          return;
-        }
+    this.queueUpdate = throttle(function() {
+      if (!this.mounted) {
+        return;
+      }
 
-        this.forceUpdate();
-      },
-      50
-    );
+      this.forceUpdate();
+    }, 50);
   }
 
   componentDidMount() {

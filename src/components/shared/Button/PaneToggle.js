@@ -16,8 +16,9 @@ class PaneToggleButton extends Component {
   shouldComponentUpdate(nextProps: NextProps) {
     const { collapsed, horizontal } = this.props;
 
-    return horizontal !== nextProps.horizontal ||
-      collapsed !== nextProps.collapsed;
+    return (
+      horizontal !== nextProps.horizontal || collapsed !== nextProps.collapsed
+    );
   }
 
   render() {

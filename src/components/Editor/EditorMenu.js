@@ -3,18 +3,16 @@ import { isEnabled } from "devtools-config";
 import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 
-function getMenuItems(
-  {
-    codeMirror,
-    selectedLocation,
-    selectedSource,
-    showSource,
-    onGutterContextMenu,
-    jumpToMappedLocation,
-    toggleBlackBox,
-    addExpression
-  }
-) {
+function getMenuItems({
+  codeMirror,
+  selectedLocation,
+  selectedSource,
+  showSource,
+  onGutterContextMenu,
+  jumpToMappedLocation,
+  toggleBlackBox,
+  addExpression
+}) {
   const copySourceUrlLabel = L10N.getStr("copySourceUrl");
   const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");

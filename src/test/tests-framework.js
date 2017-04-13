@@ -8,10 +8,7 @@ const {
   stopPrettyPrintWorker
 } = require("../utils/pretty-print");
 
-const {
-  startParserWorker,
-  stopParserWorker
-} = require("../utils/parser");
+const { startParserWorker, stopParserWorker } = require("../utils/parser");
 
 const { getValue } = require("devtools-config");
 

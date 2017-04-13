@@ -35,9 +35,11 @@ class Scopes extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { pauseInfo, selectedFrame, loadedObjects } = this.props;
-    return pauseInfo !== nextProps.pauseInfo ||
+    return (
+      pauseInfo !== nextProps.pauseInfo ||
       selectedFrame !== nextProps.selectedFrame ||
-      loadedObjects !== nextProps.loadedObjects;
+      loadedObjects !== nextProps.loadedObjects
+    );
   }
 
   componentWillReceiveProps(nextProps) {

@@ -44,8 +44,10 @@ function firstString(...args) {
 }
 
 function locationMoved(location, newLocation) {
-  return location.line !== newLocation.line ||
-    (location.column != null && location.column !== newLocation.column);
+  return (
+    location.line !== newLocation.line ||
+    (location.column != null && location.column !== newLocation.column)
+  );
 }
 
 function makeLocationId(location: Location) {
@@ -145,8 +147,8 @@ function addBreakpoint(state, action) {
       state = state.deleteIn(["breakpoints", id]);
 
       const movedId = makeLocationId(actualLocation);
-      const currentBp = state.breakpoints.get(movedId) ||
-        fromJS(action.breakpoint);
+      const currentBp =
+        state.breakpoints.get(movedId) || fromJS(action.breakpoint);
       const newBp = updateObj(currentBp, { location: actualLocation });
       state = state.setIn(["breakpoints", movedId], newBp);
       location = actualLocation;
@@ -203,11 +205,7 @@ function removeBreakpoint(state, action) {
 }
 
 function makePendingBreakpoint(bp: any) {
-  const {
-    location: { sourceUrl, line },
-    condition,
-    disabled
-  } = bp;
+  const { location: { sourceUrl, line }, condition, disabled } = bp;
 
   const location = { sourceUrl, line };
   return { condition, disabled, location };

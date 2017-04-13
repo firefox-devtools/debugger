@@ -1,17 +1,15 @@
 import { showMenu } from "devtools-launchpad";
 
-export default function GutterMenu(
-  {
-    bp,
-    line,
-    event,
-    toggleBreakpoint,
-    showConditionalPanel,
-    toggleBreakpointDisabledStatus,
-    isCbPanelOpen,
-    closeConditionalPanel
-  }
-) {
+export default function GutterMenu({
+  bp,
+  line,
+  event,
+  toggleBreakpoint,
+  showConditionalPanel,
+  toggleBreakpointDisabledStatus,
+  isCbPanelOpen,
+  closeConditionalPanel
+}) {
   event.stopPropagation();
   event.preventDefault();
   let breakpoint = {

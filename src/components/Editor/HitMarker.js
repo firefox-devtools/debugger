@@ -20,8 +20,10 @@ class HitMarker extends Component {
   }
 
   shouldComponentUpdate(nextProps: any) {
-    return this.props.editor !== nextProps.editor ||
-      this.props.hitData !== nextProps.hitData;
+    return (
+      this.props.editor !== nextProps.editor ||
+      this.props.hitData !== nextProps.hitData
+    );
   }
 
   componentDidMount() {
