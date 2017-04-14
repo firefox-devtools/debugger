@@ -129,6 +129,10 @@ async function initDebugger(url, ...sources) {
   const iframe = await createIframe();
   await navigateToTab(iframe);
   let dbg = createDebuggerContext(iframe);
+  await navigate(
+    dbg,
+    "http://localhost:8000/integration/examples/doc-minified.html"
+  );
   await navigate(dbg, `http://localhost:8000/integration/examples/${url}`);
 
   dbg = createDebuggerContext(iframe);

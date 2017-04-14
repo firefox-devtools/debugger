@@ -42,7 +42,9 @@ function getHiddenTabs(sourceTabs, sourceTabEls) {
 
   const tabTopOffset = getTopOffset();
   return sourceTabs.filter((tab, index) => {
-    return sourceTabEls[index].getBoundingClientRect().top > tabTopOffset;
+    // adding 10px helps account for cases where the tab might be offset by
+    // styling such as selected tabs which don't have a border.
+    return sourceTabEls[index].getBoundingClientRect().top > tabTopOffset + 10;
   });
 }
 

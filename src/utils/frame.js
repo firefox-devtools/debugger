@@ -4,19 +4,20 @@ import { endTruncateStr } from "./utils";
 
 import type { Frame } from "debugger-html";
 
+function getFrameUrl(frame) {
+  return get(frame, "source.url", "") || "";
+}
+
 function isBackbone(frame) {
-  const url = get(frame, "source.url", "");
-  return url.match(/backbone/i);
+  return getFrameUrl(frame).match(/backbone/i);
 }
 
 function isJQuery(frame) {
-  const url = get(frame, "source.url", "");
-  return url.match(/jquery/i);
+  return getFrameUrl(frame).match(/jquery/i);
 }
 
 function isReact(frame) {
-  const url = get(frame, "source.url", "");
-  return url.match(/react/i);
+  return getFrameUrl(frame).match(/react/i);
 }
 
 const displayNameMap = {

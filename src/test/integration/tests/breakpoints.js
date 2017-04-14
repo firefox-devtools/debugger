@@ -49,7 +49,7 @@ function findBreakpoints(dbg) {
 
 async function toggle(ctx) {
   const { ok, is, info } = ctx;
-  const dbg = await initDebugger("doc-scripts.html");
+  const dbg = await initDebugger("doc-scripts.html", "simple2");
 
   // Create two breakpoints
   await selectSource(dbg, "simple2");

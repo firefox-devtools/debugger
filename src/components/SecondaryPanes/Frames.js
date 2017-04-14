@@ -221,14 +221,10 @@ function getAndProcessFrames(state) {
   frames = frames
     .toJS()
     .filter(frame => getSourceForFrame(state, frame))
-    .map(frame =>
-      Object.assign({}, frame, {
-        source: getSourceForFrame(state, frame).toJS()
-      })
-    )
     .filter(frame => !get(frame, "source.isBlackBoxed"))
     .map(frame => appendSource(state, frame))
     .map(annotateFrame);
+
   frames = filterFrameworkFrames(frames);
   return frames;
 }
