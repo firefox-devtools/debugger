@@ -133,6 +133,10 @@ describe("Tests", () => {
     await scopes(ctx);
   });
 
+  it("render the expected scopes when variable mutates while stepping", async function() {
+    await scopesMutations(ctx);
+  });
+
   // expected 0 to equal 2
   it("sources", async function() {
     await sources(ctx);
