@@ -153,3 +153,45 @@ html[dir="rtl"] .editor-mount {
   -moz-user-select: none;
   user-select: none;
 }
+
+.CodeMirror-foldgutter-open::after,
+.CodeMirror-foldgutter-open::before,
+.CodeMirror-foldgutter-folded::after,
+.CodeMirror-foldgutter-folded::before {
+  content: '';
+  height: 0;
+  width: 0;
+  position: absolute;
+  border: 4px solid transparent;
+}
+
+.CodeMirror-foldgutter-open::after {
+  border-top-color: var(--theme-codemirror-gutter-background);
+  top: 4px;
+}
+
+.CodeMirror-foldgutter-open::before {
+  border-top-color: var(--theme-body-color);
+  top: 5px;
+}
+
+.new-breakpoint .CodeMirror-foldgutter-open::after {
+  border-top-color: var(--theme-selection-background);
+}
+
+
+.CodeMirror-foldgutter-folded::after {
+  border-left-color: var(--theme-codemirror-gutter-background);
+  left: 3px;
+  top: 3px;
+}
+
+.CodeMirror-foldgutter-folded::before {
+  border-left-color: var(--theme-body-color);
+  left: 4px;
+  top: 3px;
+}
+
+.new-breakpoint .CodeMirror-foldgutter-folded::after {
+  border-left-color: var(--theme-selection-background);
+}
