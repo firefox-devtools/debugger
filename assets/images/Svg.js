@@ -4,6 +4,7 @@ const InlineSVG = require("svg-inline-react");
 const svg = {
   "angle-brackets": require("./angle-brackets.svg"),
   arrow: require("./arrow.svg"),
+  backbone: require("./backbone.svg"),
   blackBox: require("./blackBox.svg"),
   breakpoint: require("./breakpoint.svg"),
   "case-match": require("./case-match.svg"),
@@ -12,6 +13,7 @@ const svg = {
   file: require("./file.svg"),
   folder: require("./folder.svg"),
   globe: require("./globe.svg"),
+  jquery: require("./jquery.svg"),
   "magnifying-glass": require("./magnifying-glass.svg"),
   "arrow-up": require("./arrow-up.svg"),
   "arrow-down": require("./arrow-down.svg"),
