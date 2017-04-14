@@ -54,5 +54,8 @@ describe("utils", () => {
 
       expect(filtered.length).toEqual(5);
     });
+    it("empty list", () => {
+      expect(filterDuplicates([], () => true)).toEqual([]);
+    });
   });
 });

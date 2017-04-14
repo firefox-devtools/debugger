@@ -14,11 +14,11 @@ module.exports = async function(ctx) {
 
   const dbg = await initDebugger("doc-scripts.html", "simple1", "simple2");
 
-  selectSource(dbg, "simple1");
-  selectSource(dbg, "simple2");
-
+  await selectSource(dbg, "simple1");
+  await selectSource(dbg, "simple2");
   expect(countTabs(dbg)).to.equal(2);
-  await reload(dbg, "simple2");
+
+  await reload(dbg, "simple1", "simple2");
   await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
 
   // NOTE: when we fix persisted tabs we should have two

@@ -15,9 +15,7 @@ let { app } = toolbox.startDevServer(envConfig, webpackConfig, __dirname);
 
 app.use("/integration/examples", express.static("src/test/mochitest/examples"));
 
-app.get("/integration", function(req, res) {
-  res.sendFile(path.join(__dirname, "../src/test/integration/index.html"));
-});
+app.use("/integration", express.static("src/test/integration/runner"));
 
 app.get("/integration/mocha.css", function(req, res) {
   res.sendFile(path.join(__dirname, "../node_modules/mocha/mocha.css"));
