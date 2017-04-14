@@ -4,17 +4,16 @@ import { DOM as dom, PropTypes, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
-import { endTruncateStr, filterDuplicates } from "../../utils/utils";
+import { filterDuplicates } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
-import simplifyDisplayName from "../../utils/function";
-import get from "lodash/get";
 import Svg from "../shared/Svg";
-import { isEnabled } from "devtools-config";
+import get from "lodash/get";
 
-const { getFrames, getSelectedFrame, getSource } = require("../../selectors");
+import { getFrames, getSelectedFrame, getSource } from "../../selectors";
 
 import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../utils/clipboard";
+import { formatDisplayName, annotateFrame } from "../../utils/frame";
 import classNames from "classnames";
 
 import type { Frame, Source } from "../../types";
@@ -27,10 +26,9 @@ import "./Frames.css";
 
 const NUM_FRAMES_SHOWN = 7;
 
-function renderFrameTitle({ displayName }: Frame) {
-  const simplifiedDisplaName = simplifyDisplayName(displayName);
-  const truncatedDisplayName = endTruncateStr(simplifiedDisplaName, 40);
-  return dom.div({ className: "title" }, truncatedDisplayName);
+function renderFrameTitle(frame: Frame) {
+  const displayName = formatDisplayName(frame);
+  return dom.div({ className: "title" }, displayName);
 }
 
 function renderFrameLocation({ source, location, library }: LocalFrame) {
@@ -206,19 +204,6 @@ function filterFrameworkFrames(frames) {
     frames,
     ([prev, item]) => !(prev.library && prev.library == item.library)
   );
-}
-
-function annotateFrame(frame: Frame) {
-  if (!isEnabled("collapseFrame")) {
-    return frame;
-  }
-  const { source } = frame;
-  if (source && source.url && source.url.match(/react/i)) {
-    return Object.assign({}, frame, {
-      library: "React"
-    });
-  }
-  return frame;
 }
 
 function appendSource(state, frame) {
