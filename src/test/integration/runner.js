@@ -33,133 +33,80 @@ describe("Tests", () => {
     prefs.tabs = [];
   });
 
-  xit("asm", async function() {
-    await asm(ctx);
+  afterEach(() => {
+    prefs.pauseOnExceptions = false;
+    prefs.ignoreCaughtExceptions = false;
+    prefs.pendingSelectedLocation = {};
+    prefs.expressions = [];
+    prefs.pendingBreakpoints = [];
+    prefs.tabs = [];
   });
 
-  it("breakpoints - toggle", async function() {
-    await breakpoints.toggle(ctx);
-  });
+  it("asm", async () => await asm(ctx));
 
-  it("breakpoints - toggleAll", async function() {
-    await breakpoints.toggleAll(ctx);
-  });
+  it("breakpoints - toggle", async () => await breakpoints.toggle(ctx));
 
-  it("breaking", async function() {
-    await breaking(ctx);
-  });
+  it("breakpoints - toggleAll", async () => await breakpoints.toggleAll(ctx));
 
-  it("pretty print", async function() {
-    await prettyPrint(ctx);
-  });
+  it("breaking", async () => await breaking(ctx));
 
-  it("conditional breakpoints", async function() {
-    await breakpointsCond(ctx);
-  });
+  it("conditional breakpoints", async () => await breakpointsCond(ctx));
 
-  it("expressions", async function() {
-    await expressions(ctx);
-  });
+  it("expressions", async () => await expressions(ctx));
 
-  it("editor select", async function() {
-    await editorSelect(ctx);
-  });
+  it("editor select", async () => await editorSelect(ctx));
 
-  it("editor gutter", async function() {
-    await editorGutter(ctx);
-  });
+  it("editor gutter", async () => await editorGutter(ctx));
 
-  xit("editor highlight", async function() {
-    await editorHighlight(ctx);
-  });
+  xit("editor highlight", async () => await editorHighlight(ctx));
 
-  xit("editor preview", async function() {
-    await editorPreview(ctx);
-  });
+  xit("editor preview", async () => await editorPreview(ctx));
 
-  xit("keyboard navigation", async function() {
-    await keyboardNavigation(ctx);
-  });
+  xit("keyboard navigation", async () => await keyboardNavigation(ctx));
 
-  xit("keyboard shortcuts", async function() {
-    await keyboardShortcuts(ctx);
-  });
+  xit("keyboard shortcuts", async () => await keyboardShortcuts(ctx));
 
-  xit("navigation", async function() {
-    await navigation(ctx);
-  });
+  xit("navigation", async () => await navigation(ctx));
 
-  it("call stack test 1", async function() {
-    await callStack.test1(ctx);
-  });
+  it("call stack test 1", async () => await callStack.test1(ctx));
 
-  it("call stack test 2", async function() {
-    await callStack.test2(ctx);
-  });
+  it("call stack test 2", async () => await callStack.test2(ctx));
 
-  it("debugger buttons", async function() {
-    await debuggerButtons(ctx);
-  });
+  it("debugger buttons", async () => await debuggerButtons(ctx));
 
-  it("iframes", async function() {
-    await iframes(ctx);
-  });
+  it("iframes", async () => await iframes(ctx));
 
-  it("pause on exceptions - button", async function() {
-    await pauseOnExceptions.testButton(ctx);
-  });
+  it("pause on exceptions - button", async () =>
+    await pauseOnExceptions.testButton(ctx));
 
-  it("pause on exceptions - reloading", async function() {
-    await pauseOnExceptions.testReloading(ctx);
-  });
+  it("pause on exceptions - reloading", async () =>
+    await pauseOnExceptions.testReloading(ctx));
 
-  it("pretty print", async function() {
-    await prettyPrint(ctx);
-  });
+  it("pretty print", async () => await prettyPrint(ctx));
 
-  it("pretty print paused", async function() {
-    await prettyPrintPaused(ctx);
-  });
+  it("pretty print paused", async () => await prettyPrintPaused(ctx));
 
-  it("returnvalues", async function() {
-    await returnvalues(ctx);
-  });
+  it("returnvalues", async () => await returnvalues(ctx));
 
-  xit("searching", async function() {
-    await searching(ctx);
-  });
+  xit("searching", async () => await searching(ctx));
 
-  it("scopes", async function() {
-    await scopes(ctx);
-  });
+  it("scopes", async () => await scopes(ctx));
 
-  it("render the expected scopes when variable mutates while stepping", async function() {
-    await scopesMutations(ctx);
-  });
+  it("render the expected scopes when variable mutates while stepping", async () =>
+    await scopesMutations(ctx));
 
-  // expected 0 to equal 2
-  it("sources", async function() {
-    await sources(ctx);
-  });
+  it("sources", async () => await sources(ctx));
 
   // timed out
   // requires firefox nightly for noSliding
-  xit("source maps", async function() {
-    await sourceMaps(ctx);
-  });
+  xit("source maps", async () => await sourceMaps(ctx));
 
-  it("source maps 2", async function() {
-    await sourceMaps2(ctx);
-  });
+  it("source maps 2", async () => await sourceMaps2(ctx));
 
   // expected 2 to equal 1
-  xit("source maps bogus", async function() {
-    await sourceMapsBogus(ctx);
-  });
+  xit("source maps bogus", async () => await sourceMapsBogus(ctx));
 
-  it("tabs", async function() {
-    await tabs(ctx);
-  });
+  it("tabs", async () => await tabs(ctx));
 });
 
 mocha.run();

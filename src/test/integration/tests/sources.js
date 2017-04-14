@@ -89,7 +89,6 @@ module.exports = async function(ctx) {
 
   // Make sure new sources appear in the list.
   invokeInTab(dbg, "loadScript");
-
   await waitForSourceCount(dbg, 9);
 
   is(getSourceNode(dbg, 7), "math.min.js", "The dynamic script exists");

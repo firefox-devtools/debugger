@@ -23,6 +23,7 @@ function toggleScopes(dbg) {
 
 async function testReturnValue(dbg, ctx, val) {
   const { is, ok } = ctx;
+
   evalInTab(dbg, `return_something(${val})`);
   await waitForPaused(dbg);
 
@@ -31,8 +32,8 @@ async function testReturnValue(dbg, ctx, val) {
   await stepIn(dbg);
   await stepIn(dbg);
   await stepIn(dbg);
-
   is(getLabel(dbg, 1), "return_something", "check for return_something");
+
   // We don't show "undefined" but we do show other falsy values.
   let label = getLabel(dbg, 2);
   if (val === "undefined") {

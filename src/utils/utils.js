@@ -74,6 +74,10 @@ function waitForMs(ms: number) {
 
 type duplicatesPredicate = (any, any) => boolean;
 function filterDuplicates(list: Object[], predicate: duplicatesPredicate) {
+  if (list.length == 0) {
+    return [];
+  }
+
   const lastItem = list[list.length - 1];
   const pairs = zip(list.slice(1), list.slice(0, -1));
   return pairs.filter(predicate).map(([prev, item]) => item).concat(lastItem);

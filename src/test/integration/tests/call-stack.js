@@ -57,7 +57,7 @@ async function test1(ctx) {
 async function test2(ctx) {
   const { ok, is, info } = ctx;
 
-  const dbg = await initDebugger("doc-frames.html");
+  const dbg = await initDebugger("doc-frames.html", "frames");
 
   // NOTE: The web test runner pauses on the inline debugger statement where the mochitest skips it.
   if (isPaused(dbg)) {
