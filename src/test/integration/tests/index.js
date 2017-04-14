@@ -19,6 +19,7 @@ module.exports = {
   prettyPrintPaused: require("./pretty-print-paused"),
   returnvalues: require("./returnvalues"),
   scopes: require("./scopes"),
+  scopesMutations: require("./scopes-mutations"),
   searching: require("./searching"),
   sources: require("./sources"),
   sourceMaps: require("./sourcemaps"),
