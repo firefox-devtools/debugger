@@ -13,7 +13,7 @@ We have five features that will make the Call Stack a lot more usable:
 
 * :diamond_shape_with_a_dot_inside: Highlighting libraries
 * :envelope: Simplifying Function Names
-* :spaghetti: Collapsing Libarary frames
+* :spaghetti: Collapsing Library frames
 * :baby: Naming Library frames
 * :black_medium_small_square: Blackboxing libraries
 
@@ -41,7 +41,7 @@ It's important to be able to scan the call stack. So in this context, it's helpf
 
 ![simplify]
 
-#### :spaghetti: Collapsing Libarary frames
+#### :spaghetti: Collapsing Library frames
 
 We're going to experiment with collapsing library frames by default. This will shrink framework call stacks dramatically and reduce a lot of the visual noise.
 
