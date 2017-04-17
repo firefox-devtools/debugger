@@ -2,5 +2,6 @@ assets/*
 src/test/examples/**
 src/test/integration/**
 src/test/unit-sources/**
+src/utils/tests/fixtures/**
 src/test/mochitest/**
 bin/
