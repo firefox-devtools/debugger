@@ -5,8 +5,8 @@ const traverse = require("babel-traverse").default;
 const t = require("babel-types");
 const { isDevelopment } = require("devtools-config");
 const toPairs = require("lodash/toPairs");
-const get = require("lodash/get");
 const isEmpty = require("lodash/isEmpty");
+const uniq = require("lodash/uniq");
 
 import type { SourceText, Location, Frame, TokenResolution } from "../../types";
 
@@ -183,6 +183,39 @@ function getMemberExpression(root) {
   return _getMemberExpression(root, []);
 }
 
+function getScopeVariables(scope) {
+  const bindings = scope.bindings;
+  return toPairs(bindings).map(([name, binding]) => ({
+    name,
+    references: binding.referencePaths
+  }));
+}
+
+function getScopeChain(scope) {
+  const scopes = [scope];
+
+  do {
+    scopes.push(scope);
+  } while ((scope = scope.parent));
+
+  return scopes;
+}
+
+function nodeContainsLocation({ node, location }) {
+  const { start, end } = node.loc;
+  const { line, column } = location;
+
+  const onSameLine =
+    start.line === line && start.column <= column && end.column >= column;
+  const inBody = start.line < line && end.line > line;
+
+  return onSameLine || inBody;
+}
+
+function isLexicalScope(path) {
+  return isFunction(path) || t.isProgram(path);
+}
+
 export function getSymbols(source: SourceText): SymbolDeclarations {
   if (symbolDeclarations.has(source.id)) {
     const symbols = symbolDeclarations.get(source.id);
@@ -229,31 +262,42 @@ export function getSymbols(source: SourceText): SymbolDeclarations {
   return symbols;
 }
 
-function resolveExpression(path, token: string, location: Location): ?Object {
-  const node = path.node;
-  if (
-    t.isMemberExpression(node) &&
-    node.property.name === token &&
-    nodeContainsLocation({ node, location })
-  ) {
-    const expr = getMemberExpression(node);
-    return {
-      value: expr.join("."),
-      location: node.loc
-    };
+function getClosestMemberExpression(source, token, location) {
+  const ast = getAst(source);
+  if (isEmpty(ast)) {
+    null;
   }
 
-  return null;
+  let expression = null;
+  traverse(ast, {
+    enter(path) {
+      const { node } = path;
+      if (
+        t.isMemberExpression(node) &&
+        node.property.name === token &&
+        nodeContainsLocation({ node, location })
+      ) {
+        const memberExpression = getMemberExpression(node);
+        expression = {
+          value: memberExpression.join("."),
+          location: node.loc
+        };
+      }
+    }
+  });
+
+  return expression;
 }
 
-function resolveScope(path, location: Location) {
-  const node = path.node;
-  if (
-    (isFunction(path) || t.isProgram(path)) &&
-    nodeContainsLocation({ node, location })
-  ) {
-    return path;
+export function getClosestExpression(source, token, location) {
+  const memberExpression = getClosestMemberExpression(source, token, location);
+  if (memberExpression) {
+    return memberExpression;
   }
+
+  const path = getClosestPath(source, location);
+  const { node: { loc, name } } = path;
+  return { value: name, location: loc };
 }
 
 // Resolves a token (at location) in the source to determine if it is in scope
@@ -264,36 +308,14 @@ export function resolveToken(
   location: Location,
   frame: Frame
 ): ?TokenResolution {
-  const ast = getAst(source);
-  const scopes = [];
-  let expression = null;
-  let inScope = false;
+  const expression = getClosestExpression(source, token, location);
+  const scope = getClosestScope(source, location);
 
-  if (isEmpty(ast)) {
+  if (!expression.value) {
     return { expression: null, inScope: false };
   }
 
-  traverse(ast, {
-    enter(path) {
-      let scope = null;
-
-      // if we haven't found an expression yet, determine if the token is part
-      // of one
-      if (!expression) {
-        expression = resolveExpression(path, token, location);
-      }
-
-      // determine if the current path is a function or program containing the
-      // frame
-      scope = resolveScope(path, frame.location);
-      if (scope) {
-        scopes.unshift(scope);
-      }
-    }
-  });
-
-  // determine if the narrowest scope contains the token's location
-  inScope = nodeContainsLocation({ node: scopes[0].node, location });
+  const inScope = isExpressionInScope(expression.value, scope);
 
   return {
     expression,
@@ -301,40 +323,54 @@ export function resolveToken(
   };
 }
 
-function nodeContainsLocation({ node, location }) {
-  const { start, end } = node.loc;
-  const { line, column } = location;
-
-  return !(start.line > line ||
-    (start.line === line && start.column > column) ||
-    end.line < line ||
-    (end.line === line && end.column < column));
-}
-
-export function getPathClosestToLocation(
-  source: SourceText,
-  location: Location
-) {
+export function getClosestScope(source: SourceText, location: Location) {
   const ast = getAst(source);
-  let pathClosestToLocation = null;
+  let closestPath = null;
 
   traverse(ast, {
     enter(path) {
-      if (nodeContainsLocation({ node: path.node, location })) {
-        pathClosestToLocation = path;
+      if (
+        isLexicalScope(path) &&
+        nodeContainsLocation({ node: path.node, location })
+      ) {
+        closestPath = path;
       }
     }
   });
 
-  return pathClosestToLocation;
+  return closestPath.scope;
 }
 
-export function getVariablesInScope(source: SourceText, location: Location) {
-  const path = getPathClosestToLocation(source, location);
-  const bindings = get(path, "scope.bindings", {});
+export function getClosestPath(source: SourceText, location: Location) {
+  const ast = getAst(source);
+  let closestPath = null;
 
-  return toPairs(bindings).map(([name, binding]) => ({
-    name,
-    references: binding.referencePaths
-  }));
+  traverse(ast, {
+    enter(path) {
+      if (nodeContainsLocation({ node: path.node, location })) {
+        closestPath = path;
+      }
+    }
+  });
+
+  return closestPath;
+}
+
+export function getVariablesInLocalScope(scope) {
+  return getScopeVariables(scope);
+}
+
+export function getVariablesInScope(scope) {
+  const scopes = getScopeChain(scope);
+  const scopeVars = scopes.map(getScopeVariables);
+  const vars = [{ name: "this" }, { name: "arguments" }]
+    .concat(...scopeVars)
+    .map(variable => variable.name);
+  return uniq(vars);
+}
+
+export function isExpressionInScope(expression, scope) {
+  const variables = getVariablesInScope(scope);
+  const firstPart = expression.split(/\./)[0];
+  return variables.includes(firstPart);
 }
