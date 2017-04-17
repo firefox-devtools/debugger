@@ -136,7 +136,8 @@
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "<rootDir>/test/"
+      "<rootDir>/test/",
+      "<rootDir>/utils/tests/fixtures/"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!devtools-)"
