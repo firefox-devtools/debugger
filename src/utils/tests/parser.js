@@ -6,170 +6,17 @@ import {
   resolveToken
 } from "../parser/utils";
 
-// re-formats the code to correct for webpack indentations
-function formatCode(text) {
-  const lines = text.split("\n");
-  const indent = lines[1].match(/^\s*/)[0].length;
-  return lines.map(line => line.slice(indent)).join("\n");
-}
-
-const SOURCES = {
-  func: formatCode(
-    `
-    function square(n) {
-      return n * n;
-    }
-
-    child = function() {};
-
-    (function () { 2 })();
-  `
-  ),
-  math: formatCode(
-    `
-    function math(n) {
-      function square(n) { n * n}
-      const two = square(2);
-      const four = squaare(4);
-      return two * four;
-    }
-
-    var child = function() {};
-    child2 = function() {};
-  `
-  ),
-  proto: formatCode(
-    `
-    const foo = function() {}
-
-    const bar = () => {}
-
-    const TodoView = Backbone.View.extend({
-      tagName:  'li',
-      initialize: function () {},
-      doThing(b) {
-        console.log('hi', b);
-      },
-      render: function () {
-        return this;
-      },
-    });
-  `
-  ),
-  classTest: formatCode(
-    `
-    class Test {
-      constructor() {
-        this.foo = "foo"
-      }
-
-      bar(a) {
-        console.log("bar", a);
-      }
-    };
-
-    class Test2 {}
-
-    let expressiveClass  = class {}
-  `
-  ),
-  varTest: formatCode(
-    `
-    var foo = 1;
-    let bar = 2;
-    const baz = 3;
-    const a = 4, b = 5;
-  `
-  ),
-  expressionTest: formatCode(
-    `
-    function expr() {
-      const obj = { a: { b: 2 }};
-      const obj2 = { c: { b: 3 }};
-      const foo = obj2.c.b;
-      return obj.a.b;
-    }
-  `
-  ),
-  thisExpressionTest: formatCode(
-    `
-    class Test {
-      constructor() {
-        this.foo = {
-          a: "foobar"
-        }
-      }
-
-      bar() {
-        console.log(this.foo.a);
-      }
-    };
-  `
-  ),
-  allSymbols: formatCode(
-    `
-    const TIME = 60;
-    let count = 0;
-
-    function incrementCounter(counter) {
-      return counter++;
-    }
-
-    const sum = (a, b) => a + b;
-
-    const Obj = {
-      foo: 1,
-      doThing() {
-        console.log('hey');
-      },
-      doOtherThing: function() {
-        return 42;
-      }
-    };
-
-    Obj.property = () => {}
-    Obj.otherProperty = 1;
-
-    class Ultra {
-      constructor() {
-        this.awesome = true;
-      }
-
-      beAwesome(person) {
-        console.log(person + " is Awesome!");
-      }
-    };
-  `
-  ),
-  resolveTokenTest: formatCode(
-    `
-    const a = 1;
-    let b = 0;
-
-    function getA() {  // line 5
-      return a;
-    }
-
-    function setB(newB) { // line 9
-      b = newB;
-    }
-
-    const plusAB = (function (x, y) {  // line 13
-      const obj = {x, y};
-      function insideClosure(alpha, beta) { // line 15
-        return alpha + beta + obj.x + obj.y;
-      }
-
-      return insideClosure;
-    })(a, b);
-    `
-  )
-};
+const fs = require("fs");
+const path = require("path");
 
 function getSourceText(name) {
+  const text = fs.readFileSync(
+    path.join(__dirname, `fixtures/${name}.js`),
+    "utf8"
+  );
   return {
     id: name,
-    text: SOURCES[name],
+    text: text,
     contentType: "text/javascript"
   };
 }
@@ -199,22 +46,22 @@ describe("parser", () => {
     });
 
     it("finds class methods", () => {
-      const fncs = getSymbols(getSourceText("classTest")).functions;
+      const fncs = getSymbols(getSourceText("class")).functions;
       const names = fncs.map(f => f.value);
       expect(names).to.eql(["constructor", "bar"]);
     });
   });
 
   describe("getSymbols -> variables", () => {
-    it("finds var, let, const", () => {
-      const vars = getSymbols(getSourceText("varTest")).variables;
+    it.only("finds var, let, const", () => {
+      const vars = getSymbols(getSourceText("var")).variables;
       const names = vars.map(v => v.value);
       expect(names).to.eql(["foo", "bar", "baz", "a", "b"]);
     });
 
     it("finds arguments, properties", () => {
       const protoVars = getSymbols(getSourceText("proto")).variables;
-      const classVars = getSymbols(getSourceText("classTest")).variables;
+      const classVars = getSymbols(getSourceText("class")).variables;
       const protoNames = protoVars.map(v => v.value);
       const classNames = classVars.map(v => v.value);
       expect(protoNames).to.eql(["foo", "bar", "TodoView", "tagName", "b"]);
@@ -252,13 +99,13 @@ describe("parser", () => {
   describe("getPathClosestToLocation", () => {
     it("Can find the function declaration for square", () => {
       const closestPath = getPathClosestToLocation(getSourceText("func"), {
-        line: 2,
+        line: 1,
         column: 1
       });
 
       expect(closestPath.node.id.name).to.be("square");
       expect(closestPath.node.loc.start).to.eql({
-        line: 2,
+        line: 1,
         column: 0
       });
       expect(closestPath.type).to.be("FunctionDeclaration");
@@ -279,14 +126,14 @@ describe("parser", () => {
 
     it("finds scope binding variables", () => {
       var vars = getVariablesInScope(getSourceText("math"), {
-        line: 2,
+        line: 1,
         column: 5
       });
 
       expect(vars.map(v => v.name)).to.eql(["n", "square", "two", "four"]);
       expect(vars[1].references[0].node.loc.start).to.eql({
         column: 14,
-        line: 4
+        line: 5
       });
     });
   });
@@ -294,10 +141,10 @@ describe("parser", () => {
   describe("resolveToken", () => {
     it("should get the expression for the token at location", () => {
       const { expression } = resolveToken(
-        getSourceText("expressionTest"),
+        getSourceText("expression"),
         "b",
         {
-          line: 6,
+          line: 5,
           column: 14
         },
         {
@@ -310,14 +157,14 @@ describe("parser", () => {
 
       expect(expression.value).to.be("obj.a.b");
       expect(expression.location.start).to.eql({
-        line: 6,
+        line: 5,
         column: 9
       });
     });
 
     it("should not find any expression", () => {
       const { expression } = resolveToken(
-        getSourceText("expressionTest"),
+        getSourceText("expression"),
         "d",
         {
           line: 6,
@@ -336,7 +183,7 @@ describe("parser", () => {
 
     it("should not find the expression at a wrong location", () => {
       const { expression } = resolveToken(
-        getSourceText("expressionTest"),
+        getSourceText("expression"),
         "b",
         {
           line: 6,
@@ -355,9 +202,9 @@ describe("parser", () => {
 
     it("should get the expression with 'this'", () => {
       const { expression } = resolveToken(
-        getSourceText("thisExpressionTest"),
+        getSourceText("thisExpression"),
         "a",
-        { line: 10, column: 25 },
+        { line: 9, column: 25 },
         {
           location: {
             line: 1,
@@ -368,23 +215,23 @@ describe("parser", () => {
 
       expect(expression.value).to.be("this.foo.a");
       expect(expression.location.start).to.eql({
-        line: 10,
+        line: 9,
         column: 16
       });
     });
 
     it("should report in scope when in the same function as frame", () => {
       const { inScope } = resolveToken(
-        getSourceText("resolveTokenTest"),
+        getSourceText("resolveToken"),
         "newB",
         {
-          line: 10,
+          line: 8,
           column: 11
         },
         {
           // on b = newB;
           location: {
-            line: 10,
+            line: 9,
             column: 7
           }
         }
@@ -395,16 +242,16 @@ describe("parser", () => {
 
     it("should report out of scope when in a different function", () => {
       const { inScope } = resolveToken(
-        getSourceText("resolveTokenTest"),
+        getSourceText("resolveToken"),
         "newB",
         {
-          line: 10,
+          line: 8,
           column: 11
         },
         {
           // on return a;
           location: {
-            line: 6,
+            line: 5,
             column: 7
           }
         }
@@ -415,7 +262,7 @@ describe("parser", () => {
 
     it("should report in scope within a function inside the frame", () => {
       const { inScope } = resolveToken(
-        getSourceText("resolveTokenTest"),
+        getSourceText("resolveToken"),
         "x",
         {
           line: 16,
