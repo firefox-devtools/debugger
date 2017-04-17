@@ -53,7 +53,7 @@ describe("parser", () => {
   });
 
   describe("getSymbols -> variables", () => {
-    it.only("finds var, let, const", () => {
+    it("finds var, let, const", () => {
       const vars = getSymbols(getSourceText("var")).variables;
       const names = vars.map(v => v.value);
       expect(names).to.eql(["foo", "bar", "baz", "a", "b"]);
