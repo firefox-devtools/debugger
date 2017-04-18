@@ -126,8 +126,13 @@ describe("sources-tree", () => {
     sources.forEach(source => addToTree(tree, source));
     const domain = tree.contents[0];
 
-    const [bFolderNode, b2FileNode, dFolderNode, aFileNode, cFileNode] =
-      domain.contents;
+    const [
+      bFolderNode,
+      b2FileNode,
+      dFolderNode,
+      aFileNode,
+      cFileNode
+    ] = domain.contents;
 
     expect(bFolderNode.name).to.be("b.js");
     expect(bFolderNode.contents.length).to.be(1);
@@ -162,8 +167,9 @@ describe("sources-tree", () => {
 
     const tree = createNode("root", "", []);
     sources.forEach(source => addToTree(tree, source));
-    const [bFolderNode, cFolderNode, aFileNode] =
-      tree.contents[0].contents[0].contents;
+    const [bFolderNode, cFolderNode, aFileNode] = tree.contents[0].contents[
+      0
+    ].contents;
 
     expect(bFolderNode.name).to.be("b");
     expect(bFolderNode.contents.length).to.be(1);
