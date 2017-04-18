@@ -163,11 +163,7 @@ class SearchBar extends Component {
       searchInput.focus();
     }
 
-    if (
-      this.refs.resultList &&
-      this.refs.resultList.refs &&
-      this.state.symbolSearchResults.length > this.state.selectedResultIndex
-    ) {
+    if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
 
