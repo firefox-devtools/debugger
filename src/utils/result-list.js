@@ -1,6 +1,10 @@
 const { isFirefox } = require("devtools-config");
 
 function scrollList(resultList, index) {
+  if (!resultList.hasOwnProperty(index)) {
+    return;
+  }
+
   const resultEl = resultList[index];
 
   if (isFirefox()) {
