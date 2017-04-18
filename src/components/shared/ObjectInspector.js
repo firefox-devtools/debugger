@@ -61,6 +61,75 @@ type DefaultProps = {
   getActors: () => any
 };
 
+export function renderItem(
+  item: ObjectInspectorItem,
+  depth: number,
+  focused: boolean,
+  _: Object,
+  expanded: boolean,
+  { setExpanded }: () => any
+) {
+  let objectValue;
+  let label = item.name;
+  if (nodeIsOptimizedOut(item)) {
+    objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
+  } else if (nodeIsMissingArguments(item)) {
+    objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
+  } else if (nodeIsFunction(item)) {
+    objectValue = null;
+    label = previewFunction(item);
+  } else if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
+    const object = item.contents.value;
+    objectValue = Rep({ object, mode: MODE.TINY });
+  }
+
+  return dom.div(
+    {
+      className: classnames("node object-node", {
+        focused,
+        "default-property": isDefault(item)
+      }),
+      style: { marginLeft: depth * 15 },
+      onClick: e => {
+        e.stopPropagation();
+        setExpanded(item, !expanded);
+      },
+      onDoubleClick: event => {
+        event.stopPropagation();
+        this.props.onDoubleClick(item, {
+          depth,
+          focused,
+          expanded
+        });
+      }
+    },
+    Svg("arrow", {
+      className: classnames({
+        expanded: expanded,
+        hidden: nodeIsPrimitive(item)
+      })
+    }),
+    dom.span(
+      {
+        className: "object-label",
+        dir: "ltr",
+        onClick: event => {
+          event.stopPropagation();
+          this.props.onLabelClick(item, {
+            depth,
+            focused,
+            expanded,
+            setExpanded
+          });
+        }
+      },
+      label
+    ),
+    dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
+    dom.span({ className: "object-value" }, objectValue || "")
+  );
+  // return dom.div({}, "hi");
+}
 // This implements a component that renders an interactive inspector
 // for looking at JavaScript objects. It expects descriptions of
 // objects from the protocol, and will dynamically fetch child
@@ -99,7 +168,6 @@ class ObjectInspector extends Component {
 
     const self: any = this;
     self.getChildren = this.getChildren.bind(this);
-    self.renderItem = this.renderItem.bind(this);
   }
 
   componentWillMount() {
@@ -124,75 +192,6 @@ class ObjectInspector extends Component {
       actors,
       item
     });
-  }
-
-  renderItem(
-    item: ObjectInspectorItem,
-    depth: number,
-    focused: boolean,
-    _: Object,
-    expanded: boolean,
-    { setExpanded }: () => any
-  ) {
-    let objectValue;
-    let label = item.name;
-    if (nodeIsOptimizedOut(item)) {
-      objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
-    } else if (nodeIsMissingArguments(item)) {
-      objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
-    } else if (nodeIsFunction(item)) {
-      objectValue = null;
-      label = previewFunction(item);
-    } else if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
-      const object = item.contents.value;
-      objectValue = Rep({ object, mode: MODE.TINY });
-    }
-
-    return dom.div(
-      {
-        className: classnames("node object-node", {
-          focused,
-          "default-property": isDefault(item)
-        }),
-        style: { marginLeft: depth * 15 },
-        onClick: e => {
-          e.stopPropagation();
-          setExpanded(item, !expanded);
-        },
-        onDoubleClick: event => {
-          event.stopPropagation();
-          this.props.onDoubleClick(item, {
-            depth,
-            focused,
-            expanded
-          });
-        }
-      },
-      Svg("arrow", {
-        className: classnames({
-          expanded: expanded,
-          hidden: nodeIsPrimitive(item)
-        })
-      }),
-      dom.span(
-        {
-          className: "object-label",
-          dir: "ltr",
-          onClick: event => {
-            event.stopPropagation();
-            this.props.onLabelClick(item, {
-              depth,
-              focused,
-              expanded,
-              setExpanded
-            });
-          }
-        },
-        label
-      ),
-      dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
-      dom.span({ className: "object-value" }, objectValue || "")
-    );
   }
 
   render() {
@@ -227,7 +226,7 @@ class ObjectInspector extends Component {
       },
       getExpanded,
       setExpanded,
-      renderItem: this.renderItem
+      renderItem: renderItem
     });
   }
 }

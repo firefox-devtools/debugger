@@ -243,7 +243,8 @@ describe("promises", () => {
     const node = getPromiseProperties(promise);
     expect(node.contents.value.type).to.eql("3");
   });
-
+});
+describe("getChildren", () => {
   it("update actors when necessary", () => {
     const item = {
       contents: {

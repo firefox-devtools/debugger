@@ -1,0 +1,952 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectInspector should render arrays ([foo: 2]) 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        foo
+    </span>
+    <span
+        className="object-delimiter"
+    >
+        : 
+    </span>
+    <span
+        className="object-value"
+    >
+        <Rep
+            defaultRep={
+                Object {
+                    "rep": [Function],
+                    "supportsObject": [Function],
+                  }
+            }
+            mode={Symbol(TINY)}
+            object={
+                Object {
+                    "class": "Array",
+                    "preview": Object {
+                      "items": Array [
+                        Object {},
+                      ],
+                      "kind": "ArrayLike",
+                      "length": 1,
+                    },
+                    "type": "object",
+                  }
+            }
+        />
+    </span>
+</div>,
+  "nodes": Array [
+    <div
+      className="node object-node"
+      onClick={[Function]}
+      onDoubleClick={[Function]}
+      style={
+            Object {
+                  "marginLeft": 0,
+                }
+      }
+>
+      <InlineSVG
+            className="arrow"
+            element="i"
+            raw={false}
+            src="<svg></svg>"
+      />
+      <span
+            className="object-label"
+            dir="ltr"
+            onClick={[Function]}
+      >
+            foo
+      </span>
+      <span
+            className="object-delimiter"
+      >
+            : 
+      </span>
+      <span
+            className="object-value"
+      >
+            <Rep
+                  defaultRep={
+                        Object {
+                              "rep": [Function],
+                              "supportsObject": [Function],
+                            }
+                  }
+                  mode={Symbol(TINY)}
+                  object={
+                        Object {
+                              "class": "Array",
+                              "preview": Object {
+                                "items": Array [
+                                  Object {},
+                                ],
+                                "kind": "ArrayLike",
+                                "length": 1,
+                              },
+                              "type": "object",
+                            }
+                  }
+            />
+      </span>
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": null,
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        foo
+    </span>
+    <span
+        className="object-delimiter"
+    >
+        : 
+    </span>
+    <span
+        className="object-value"
+    >
+        <Rep
+            defaultRep={
+                Object {
+                    "rep": [Function],
+                    "supportsObject": [Function],
+                  }
+            }
+            mode={Symbol(TINY)}
+            object={
+                Object {
+                    "class": "Array",
+                    "preview": Object {
+                      "items": Array [
+                        Object {},
+                      ],
+                      "kind": "ArrayLike",
+                      "length": 1,
+                    },
+                    "type": "object",
+                  }
+            }
+        />
+    </span>
+</div>,
+}
+`;
+
+exports[`ObjectInspector should render expanded arrays ([foo: 2]) 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow expanded"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        foo
+    </span>
+    <span
+        className="object-delimiter"
+    >
+        : 
+    </span>
+    <span
+        className="object-value"
+    >
+        <Rep
+            defaultRep={
+                Object {
+                    "rep": [Function],
+                    "supportsObject": [Function],
+                  }
+            }
+            mode={Symbol(TINY)}
+            object={
+                Object {
+                    "class": "Array",
+                    "preview": Object {
+                      "items": Array [
+                        Object {},
+                      ],
+                      "kind": "ArrayLike",
+                      "length": 1,
+                    },
+                    "type": "object",
+                  }
+            }
+        />
+    </span>
+</div>,
+  "nodes": Array [
+    <div
+      className="node object-node"
+      onClick={[Function]}
+      onDoubleClick={[Function]}
+      style={
+            Object {
+                  "marginLeft": 0,
+                }
+      }
+>
+      <InlineSVG
+            className="arrow expanded"
+            element="i"
+            raw={false}
+            src="<svg></svg>"
+      />
+      <span
+            className="object-label"
+            dir="ltr"
+            onClick={[Function]}
+      >
+            foo
+      </span>
+      <span
+            className="object-delimiter"
+      >
+            : 
+      </span>
+      <span
+            className="object-value"
+      >
+            <Rep
+                  defaultRep={
+                        Object {
+                              "rep": [Function],
+                              "supportsObject": [Function],
+                            }
+                  }
+                  mode={Symbol(TINY)}
+                  object={
+                        Object {
+                              "class": "Array",
+                              "preview": Object {
+                                "items": Array [
+                                  Object {},
+                                ],
+                                "kind": "ArrayLike",
+                                "length": 1,
+                              },
+                              "type": "object",
+                            }
+                  }
+            />
+      </span>
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": null,
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow expanded"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        foo
+    </span>
+    <span
+        className="object-delimiter"
+    >
+        : 
+    </span>
+    <span
+        className="object-value"
+    >
+        <Rep
+            defaultRep={
+                Object {
+                    "rep": [Function],
+                    "supportsObject": [Function],
+                  }
+            }
+            mode={Symbol(TINY)}
+            object={
+                Object {
+                    "class": "Array",
+                    "preview": Object {
+                      "items": Array [
+                        Object {},
+                      ],
+                      "kind": "ArrayLike",
+                      "length": 1,
+                    },
+                    "type": "object",
+                  }
+            }
+        />
+    </span>
+</div>,
+}
+`;
+
+exports[`ObjectInspector should render functions 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow expanded"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        <span
+            className="function-signature"
+        >
+            <span
+                className="function-name"
+            >
+                foo
+            </span>
+            <span
+                className="paren"
+            >
+                (
+            </span>
+            <span
+                className="paren"
+            >
+                )
+            </span>
+        </span>
+    </span>
+    <span
+        className="object-delimiter"
+    />
+    <span
+        className="object-value"
+    />
+</div>,
+  "nodes": Array [
+    <div
+      className="node object-node"
+      onClick={[Function]}
+      onDoubleClick={[Function]}
+      style={
+            Object {
+                  "marginLeft": 0,
+                }
+      }
+>
+      <InlineSVG
+            className="arrow expanded"
+            element="i"
+            raw={false}
+            src="<svg></svg>"
+      />
+      <span
+            className="object-label"
+            dir="ltr"
+            onClick={[Function]}
+      >
+            <span
+                  className="function-signature"
+            >
+                  <span
+                        className="function-name"
+                  >
+                        foo
+                  </span>
+                  <span
+                        className="paren"
+                  >
+                        (
+                  </span>
+                  <span
+                        className="paren"
+                  >
+                        )
+                  </span>
+            </span>
+      </span>
+      <span
+            className="object-delimiter"
+      />
+      <span
+            className="object-value"
+      />
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": null,
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow expanded"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        <span
+            className="function-signature"
+        >
+            <span
+                className="function-name"
+            >
+                foo
+            </span>
+            <span
+                className="paren"
+            >
+                (
+            </span>
+            <span
+                className="paren"
+            >
+                )
+            </span>
+        </span>
+    </span>
+    <span
+        className="object-delimiter"
+    />
+    <span
+        className="object-value"
+    />
+</div>,
+}
+`;
+
+exports[`ObjectInspector should render missing arguments 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow expanded hidden"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        foo
+    </span>
+    <span
+        className="object-delimiter"
+    >
+        : 
+    </span>
+    <span
+        className="object-value"
+    >
+        <span
+            className="unavailable"
+        >
+            (unavailable)
+        </span>
+    </span>
+</div>,
+  "nodes": Array [
+    <div
+      className="node object-node"
+      onClick={[Function]}
+      onDoubleClick={[Function]}
+      style={
+            Object {
+                  "marginLeft": 0,
+                }
+      }
+>
+      <InlineSVG
+            className="arrow expanded hidden"
+            element="i"
+            raw={false}
+            src="<svg></svg>"
+      />
+      <span
+            className="object-label"
+            dir="ltr"
+            onClick={[Function]}
+      >
+            foo
+      </span>
+      <span
+            className="object-delimiter"
+      >
+            : 
+      </span>
+      <span
+            className="object-value"
+      >
+            <span
+                  className="unavailable"
+            >
+                  (unavailable)
+            </span>
+      </span>
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": null,
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow expanded hidden"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        foo
+    </span>
+    <span
+        className="object-delimiter"
+    >
+        : 
+    </span>
+    <span
+        className="object-value"
+    >
+        <span
+            className="unavailable"
+        >
+            (unavailable)
+        </span>
+    </span>
+</div>,
+}
+`;
+
+exports[`ObjectInspector should render optimized items 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow expanded hidden"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        foo
+    </span>
+    <span
+        className="object-delimiter"
+    >
+        : 
+    </span>
+    <span
+        className="object-value"
+    >
+        <span
+            className="unavailable"
+        >
+            (optimized away)
+        </span>
+    </span>
+</div>,
+  "nodes": Array [
+    <div
+      className="node object-node"
+      onClick={[Function]}
+      onDoubleClick={[Function]}
+      style={
+            Object {
+                  "marginLeft": 0,
+                }
+      }
+>
+      <InlineSVG
+            className="arrow expanded hidden"
+            element="i"
+            raw={false}
+            src="<svg></svg>"
+      />
+      <span
+            className="object-label"
+            dir="ltr"
+            onClick={[Function]}
+      >
+            foo
+      </span>
+      <span
+            className="object-delimiter"
+      >
+            : 
+      </span>
+      <span
+            className="object-value"
+      >
+            <span
+                  className="unavailable"
+            >
+                  (optimized away)
+            </span>
+      </span>
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": null,
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow expanded hidden"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        foo
+    </span>
+    <span
+        className="object-delimiter"
+    >
+        : 
+    </span>
+    <span
+        className="object-value"
+    >
+        <span
+            className="unavailable"
+        >
+            (optimized away)
+        </span>
+    </span>
+</div>,
+}
+`;
+
+exports[`ObjectInspector should render simple values (foo: 2) 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow hidden"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        foo
+    </span>
+    <span
+        className="object-delimiter"
+    >
+        : 
+    </span>
+    <span
+        className="object-value"
+    >
+        <Rep
+            defaultRep={
+                Object {
+                    "rep": [Function],
+                    "supportsObject": [Function],
+                  }
+            }
+            mode={Symbol(TINY)}
+            object={2}
+        />
+    </span>
+</div>,
+  "nodes": Array [
+    <div
+      className="node object-node"
+      onClick={[Function]}
+      onDoubleClick={[Function]}
+      style={
+            Object {
+                  "marginLeft": 0,
+                }
+      }
+>
+      <InlineSVG
+            className="arrow hidden"
+            element="i"
+            raw={false}
+            src="<svg></svg>"
+      />
+      <span
+            className="object-label"
+            dir="ltr"
+            onClick={[Function]}
+      >
+            foo
+      </span>
+      <span
+            className="object-delimiter"
+      >
+            : 
+      </span>
+      <span
+            className="object-value"
+      >
+            <Rep
+                  defaultRep={
+                        Object {
+                              "rep": [Function],
+                              "supportsObject": [Function],
+                            }
+                  }
+                  mode={Symbol(TINY)}
+                  object={2}
+            />
+      </span>
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": null,
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <div
+    className="node object-node"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    style={
+        Object {
+            "marginLeft": 0,
+          }
+    }
+>
+    <InlineSVG
+        className="arrow hidden"
+        element="i"
+        raw={false}
+        src="<svg></svg>"
+    />
+    <span
+        className="object-label"
+        dir="ltr"
+        onClick={[Function]}
+    >
+        foo
+    </span>
+    <span
+        className="object-delimiter"
+    >
+        : 
+    </span>
+    <span
+        className="object-value"
+    >
+        <Rep
+            defaultRep={
+                Object {
+                    "rep": [Function],
+                    "supportsObject": [Function],
+                  }
+            }
+            mode={Symbol(TINY)}
+            object={2}
+        />
+    </span>
+</div>,
+}
+`;
