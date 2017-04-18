@@ -427,11 +427,8 @@ class Editor extends Component {
       return this.closeConditionalPanel();
     }
 
-    const {
-      selectedLocation,
-      setBreakpointCondition,
-      breakpoints
-    } = this.props;
+    const { selectedLocation, setBreakpointCondition, breakpoints } = this
+      .props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
     const bp = breakpointAtLine(breakpoints, line);
