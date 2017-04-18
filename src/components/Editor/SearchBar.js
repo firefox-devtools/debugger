@@ -344,8 +344,12 @@ class SearchBar extends Component {
   }
 
   searchContents(query: string) {
-    const { sourceText, modifiers, editor: ed, searchResults: { index } } = this
-      .props;
+    const {
+      sourceText,
+      modifiers,
+      editor: ed,
+      searchResults: { index }
+    } = this.props;
 
     if (!ed || !sourceText || !sourceText.get("text") || !modifiers) {
       return;
