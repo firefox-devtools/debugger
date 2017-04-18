@@ -432,7 +432,6 @@ class Editor extends Component {
       setBreakpointCondition,
       breakpoints
     } = this.props;
-
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
     const bp = breakpointAtLine(breakpoints, line);
