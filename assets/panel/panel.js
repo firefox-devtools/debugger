@@ -6,7 +6,7 @@
 const { Task } = require("devtools/shared/task");
 var { LocalizationHelper } = require("devtools/shared/l10n");
 
-const DBG_STRINGS_URI = "devtools/client/locales/debugger.properties";
+const DBG_STRINGS_URI = "devtools/shared/locales/debugger.properties";
 var L10N = new LocalizationHelper(DBG_STRINGS_URI);
 
 function DebuggerPanel(iframeWindow, toolbox) {
@@ -16,7 +16,7 @@ function DebuggerPanel(iframeWindow, toolbox) {
 }
 
 DebuggerPanel.prototype = {
-  open: async function () {
+  open: async function() {
     if (!this.toolbox.target.isRemote) {
       await this.toolbox.target.makeRemote();
     }
@@ -25,12 +25,12 @@ DebuggerPanel.prototype = {
       actions,
       store,
       selectors,
-      client,
+      client
     } = await this.panelWin.Debugger.bootstrap({
       threadClient: this.toolbox.threadClient,
       tabTarget: this.toolbox.target,
       debuggerClient: this.toolbox.target._client,
-      sourceMaps: this.toolbox.sourceMapService,
+      sourceMaps: this.toolbox.sourceMapService
     });
 
     this._actions = actions;
@@ -41,27 +41,27 @@ DebuggerPanel.prototype = {
     return this;
   },
 
-  getVarsForTests () {
+  getVarsForTests() {
     return {
       store: this._store,
       selectors: this._selectors,
       actions: this._actions,
-      client: this._client,
+      client: this._client
     };
   },
 
-  _getState: function () {
+  _getState: function() {
     return this._store.getState();
   },
 
-  getFrames: function () {
+  getFrames: function() {
     let frames = this._selectors.getFrames(this._getState());
 
     // Frames is null when the debugger is not paused.
     if (!frames) {
       return {
         frames: [],
-        selected: -1,
+        selected: -1
       };
     }
 
@@ -76,10 +76,10 @@ DebuggerPanel.prototype = {
     return { frames, selected };
   },
 
-  destroy: function () {
+  destroy: function() {
     this.panelWin.Debugger.destroy();
     this.emit("destroyed");
-  },
+  }
 };
 
 exports.DebuggerPanel = DebuggerPanel;
