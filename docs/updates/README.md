@@ -50,3 +50,10 @@ permalink: docs/updates
 * :ant: Bucket Window Properties
 * :eyes: Display popover intelligently
 * :baby: Formatting Functions
+
+
+### [April 18th](./updates-4-18-2017.md)
+
+* :orange_book: Framework Frames
+* :mag: Previewing Windows
+* :ant: Component + Integration Tests
