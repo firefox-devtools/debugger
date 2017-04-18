@@ -187,6 +187,7 @@ function getProperties(grip: Grip): Promise<*> {
         ownProperties[name] = safeGetterValues[name];
       }
     }
+
     return resp;
   });
 }
