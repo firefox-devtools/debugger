@@ -473,6 +473,7 @@ class SearchBar extends Component {
     }
 
     this.traverseResults(e, e.shiftKey);
+    e.preventDefault();
   }
 
   onKeyDown(e: SyntheticKeyboardEvent) {
