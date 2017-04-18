@@ -473,6 +473,7 @@ class SearchBar extends Component {
     }
 
     this.traverseResults(e, e.shiftKey);
+    e.preventDefault();
   }
 
   onKeyDown(e: SyntheticKeyboardEvent) {
@@ -485,20 +486,17 @@ class SearchBar extends Component {
 
     if (e.key === "ArrowUp") {
       this.traverseSymbolResults(true);
-      e.preventDefault();
     } else if (e.key === "ArrowDown") {
       this.traverseSymbolResults(false);
-      e.preventDefault();
     } else if (e.key === "Enter") {
       if (searchResults.length) {
         this.selectResultItem(e, searchResults[this.state.selectedResultIndex]);
       }
       this.closeSearch(e);
-      e.preventDefault();
     } else if (e.key === "Tab") {
       this.closeSearch(e);
-      e.preventDefault();
     }
+    e.preventDefault();
   }
 
   // Renderers
