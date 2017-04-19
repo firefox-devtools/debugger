@@ -159,6 +159,20 @@ class Editor extends Component {
     codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
     codeMirrorWrapper.addEventListener("mouseover", e => this.onMouseOver(e));
 
+    const toggleFoldMarkerVisibility = e => {
+      if (node instanceof HTMLElement) {
+        node
+          .querySelectorAll(".CodeMirror-guttermarker-subtle")
+          .forEach(elem => {
+            elem.classList.toggle("visible");
+          });
+      }
+    };
+
+    const codeMirrorGutter = codeMirror.getGutterElement();
+    codeMirrorGutter.addEventListener("mouseleave", toggleFoldMarkerVisibility);
+    codeMirrorGutter.addEventListener("mouseenter", toggleFoldMarkerVisibility);
+
     if (!isFirefox()) {
       codeMirror.on("gutterContextMenu", (cm, line, eventName, event) =>
         this.onGutterContextMenu(event)
