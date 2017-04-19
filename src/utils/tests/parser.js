@@ -289,6 +289,26 @@ describe("parser", () => {
       });
     });
 
+    it("should get 'this' expression", () => {
+      const { expression } = resolveToken(
+        getSourceText("thisExpression"),
+        "this",
+        { line: 3, column: 5 },
+        {
+          location: {
+            line: 2,
+            column: 18
+          }
+        }
+      );
+
+      expect(expression.value).to.be("this");
+      expect(expression.location.start).to.eql({
+        line: 3,
+        column: 4
+      });
+    });
+
     it("should report in scope when in the same function as frame", () => {
       const frame = {
         location: {
