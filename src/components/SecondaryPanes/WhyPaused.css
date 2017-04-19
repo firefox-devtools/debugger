@@ -13,3 +13,7 @@
 .theme-dark .secondary-panes .why-paused {
   color: white;
 }
+
+.why-paused .message {
+  font-size: 10px;
+}
