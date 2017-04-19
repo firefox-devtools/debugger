@@ -1,7 +1,7 @@
 import { createFactory } from "react";
 import { shallow } from "enzyme";
 
-import Close from "../../components/shared/Button/Close";
+import Close from "../shared/Button/Close";
 
 const CloseButton = createFactory(Close);
 
