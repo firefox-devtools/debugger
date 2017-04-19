@@ -228,7 +228,7 @@ winObj.resumeTest = undefined;
  */
 function pauseTest() {
   info("Test paused. Invoke resumeTest to continue.");
-  return new Promise(resolve => resumeTest = resolve);
+  return new Promise(resolve => (resumeTest = resolve));
 }
 
 module.exports = {

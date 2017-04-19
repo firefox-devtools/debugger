@@ -56,12 +56,12 @@ function breakOnNext() {
 }
 
 function sourceContents(sourceId: string) {
-  return debuggerAgent.getScriptSource({ scriptId: sourceId }).then(({
-    scriptSource
-  }) => ({
-    source: scriptSource,
-    contentType: null
-  }));
+  return debuggerAgent
+    .getScriptSource({ scriptId: sourceId })
+    .then(({ scriptSource }) => ({
+      source: scriptSource,
+      contentType: null
+    }));
 }
 
 async function setBreakpoint(location: Location, condition: string) {
