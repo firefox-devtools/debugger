@@ -93,6 +93,14 @@ function getAst(sourceText: SourceText) {
   return ast;
 }
 
+function getNodeValue(node) {
+  if (t.isThisExpression(node)) {
+    return "this";
+  }
+
+  return node.name;
+}
+
 function getFunctionName(path) {
   if (path.node.id) {
     return path.node.id.name;
@@ -313,8 +321,8 @@ export function getClosestExpression(
     return;
   }
 
-  const { node: { loc, name } } = path;
-  return { value: name, location: loc };
+  const { node } = path;
+  return { value: getNodeValue(node), location: node.loc };
 }
 
 // Resolves a token (at location) in the source to determine if it is in scope
