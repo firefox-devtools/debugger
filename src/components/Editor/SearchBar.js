@@ -11,7 +11,9 @@ import actions from "../../actions";
 import {
   getFileSearchState,
   getFileSearchQueryState,
-  getFileSearchModifierState
+  getFileSearchModifierState,
+  getSymbolSearchState,
+  getSymbolSearchType
 } from "../../selectors";
 
 import {
@@ -54,8 +56,6 @@ type ToggleSymbolSearchOpts = {
 };
 
 type SearchBarState = {
-  symbolSearchEnabled: boolean,
-  selectedSymbolType: string,
   symbolSearchResults: Array<any>,
   selectedResultIndex: number,
   count: number,
@@ -70,8 +70,6 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      symbolSearchEnabled: false,
-      selectedSymbolType: "functions",
       symbolSearchResults: [],
       selectedResultIndex: 0,
       count: 0,
@@ -156,7 +154,15 @@ class SearchBar extends Component {
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    const { sourceText, selectedSource, query, modifiers } = this.props;
+    const {
+      sourceText,
+      selectedSource,
+      query,
+      modifiers,
+      searchOn,
+      symbolSearchOn,
+      selectedSymbolType
+    } = this.props;
     const searchInput = this.searchInput();
 
     if (searchInput) {
@@ -177,11 +183,10 @@ class SearchBar extends Component {
     const modifiersUpdated =
       modifiers && !modifiers.equals(prevProps.modifiers);
 
-    const isOpen = this.props.searchOn || this.state.symbolSearchEnabled;
-    const { selectedSymbolType, symbolSearchEnabled } = this.state;
+    const isOpen = searchOn || symbolSearchOn;
     const changedSearchType =
-      selectedSymbolType != prevState.selectedSymbolType ||
-      symbolSearchEnabled != prevState.symbolSearchEnabled;
+      selectedSymbolType != prevProps.selectedSymbolType ||
+      symbolSearchOn != prevProps.symbolSearchOn;
 
     if (
       isOpen &&
@@ -209,10 +214,8 @@ class SearchBar extends Component {
     if (this.props.searchOn && ed) {
       this.clearSearch();
       this.props.toggleFileSearch(false);
-      this.setState({
-        symbolSearchEnabled: false,
-        selectedSymbolType: "functions"
-      });
+      this.props.toggleSymbolSearch(false);
+      this.props.setSelectedSymbolType("functions");
       e.stopPropagation();
       e.preventDefault();
     }
@@ -227,12 +230,10 @@ class SearchBar extends Component {
       this.props.toggleFileSearch();
     }
 
-    if (this.state.symbolSearchEnabled) {
+    if (this.props.symbolSearchOn) {
       this.clearSearch();
-      this.setState({
-        symbolSearchEnabled: false,
-        selectedSymbolType: "functions"
-      });
+      this.props.toggleSymbolSearch(false);
+      this.props.setSelectedSymbolType("functions");
     }
 
     if (this.props.searchOn && editor) {
@@ -264,21 +265,19 @@ class SearchBar extends Component {
       this.props.toggleFileSearch();
     }
 
-    if (this.state.symbolSearchEnabled) {
+    if (this.props.symbolSearchOn) {
       if (toggle) {
-        this.setState({ symbolSearchEnabled: false });
+        this.props.toggleSymbolSearch(false);
       } else {
-        this.setState({ selectedSymbolType: searchType });
+        this.props.setSelectedSymbolType(searchType);
       }
       return;
     }
 
     if (this.props.selectedSource) {
       this.clearSearch();
-      this.setState({
-        symbolSearchEnabled: true,
-        selectedSymbolType: searchType
-      });
+      this.props.toggleSymbolSearch(true);
+      this.props.setSelectedSymbolType(searchType);
     }
   }
 
@@ -310,8 +309,7 @@ class SearchBar extends Component {
   }
 
   async updateSymbolSearchResults(query: string) {
-    const { sourceText, updateSearchResults } = this.props;
-    const { selectedSymbolType } = this.state;
+    const { sourceText, updateSearchResults, selectedSymbolType } = this.props;
 
     if (query == "" || !sourceText) {
       return;
@@ -336,7 +334,7 @@ class SearchBar extends Component {
 
     setFileSearchQuery(query);
 
-    if (this.state.symbolSearchEnabled) {
+    if (this.props.symbolSearchOn) {
       return await this.updateSymbolSearchResults(query);
     } else if (ed) {
       this.searchContents(query);
@@ -436,9 +434,9 @@ class SearchBar extends Component {
     e.stopPropagation();
     e.preventDefault();
 
-    const { symbolSearchEnabled } = this.state;
+    const { symbolSearchOn } = this.props;
 
-    if (symbolSearchEnabled) {
+    if (symbolSearchOn) {
       return this.traverseSymbolResults(rev);
     }
 
@@ -481,8 +479,9 @@ class SearchBar extends Component {
   }
 
   onKeyDown(e: SyntheticKeyboardEvent) {
-    const { symbolSearchEnabled, symbolSearchResults } = this.state;
-    if (!symbolSearchEnabled || this.props.query == "") {
+    const { symbolSearchOn } = this.props;
+    const { symbolSearchResults } = this.state;
+    if (!symbolSearchOn || this.props.query == "") {
       return;
     }
 
@@ -508,7 +507,7 @@ class SearchBar extends Component {
 
   // Renderers
   buildSummaryMsg() {
-    if (this.state.symbolSearchEnabled) {
+    if (this.props.symbolSearchOn) {
       if (this.state.symbolSearchResults.length > 1) {
         return L10N.getFormatStr(
           "editor.searchResults",
@@ -538,8 +537,8 @@ class SearchBar extends Component {
   }
 
   buildPlaceHolder() {
-    const { symbolSearchEnabled, selectedSymbolType } = this.state;
-    if (symbolSearchEnabled) {
+    const { symbolSearchOn, selectedSymbolType } = this.props;
+    if (symbolSearchOn) {
       return L10N.getFormatStr(
         `symbolSearch.search.${selectedSymbolType}Placeholder`
       );
@@ -553,18 +552,17 @@ class SearchBar extends Component {
       return;
     }
 
-    const { modifiers, toggleFileSearchModifier } = this.props;
-    const { symbolSearchEnabled } = this.state;
+    const { modifiers, toggleFileSearchModifier, symbolSearchOn } = this.props;
 
     function searchModBtn(modVal, className, svgName, tooltip) {
       return dom.button(
         {
           className: classnames(className, {
-            active: !symbolSearchEnabled && modifiers && modifiers.get(modVal),
-            disabled: symbolSearchEnabled
+            active: !symbolSearchOn && modifiers && modifiers.get(modVal),
+            disabled: symbolSearchOn
           }),
           onClick: () =>
-            (!symbolSearchEnabled ? toggleFileSearchModifier(modVal) : null),
+            (!symbolSearchOn ? toggleFileSearchModifier(modVal) : null),
           title: tooltip
         },
         Svg(svgName)
@@ -599,13 +597,13 @@ class SearchBar extends Component {
       return;
     }
     const { toggleSymbolSearch } = this;
-    const { symbolSearchEnabled, selectedSymbolType } = this.state;
+    const { symbolSearchOn, selectedSymbolType } = this.props;
 
     function searchTypeBtn(searchType) {
       return dom.button(
         {
           className: classnames("search-type-btn", {
-            active: symbolSearchEnabled && selectedSymbolType == searchType
+            active: symbolSearchOn && selectedSymbolType == searchType
           }),
           onClick: e => {
             if (selectedSymbolType == searchType) {
@@ -643,13 +641,9 @@ class SearchBar extends Component {
   }
 
   renderResults() {
-    const {
-      symbolSearchEnabled,
-      symbolSearchResults,
-      selectedResultIndex
-    } = this.state;
-    const { query } = this.props;
-    if (query == "" || !symbolSearchEnabled || !symbolSearchResults.length) {
+    const { symbolSearchResults, selectedResultIndex } = this.state;
+    const { query, symbolSearchOn } = this.props;
+    if (query == "" || !symbolSearchOn || !symbolSearchResults.length) {
       return;
     }
 
@@ -702,6 +696,10 @@ SearchBar.propTypes = {
     wholeWord: PropTypes.bool.isRequired
   }).isRequired,
   toggleFileSearchModifier: PropTypes.func.isRequired,
+  symbolSearchOn: PropTypes.bool.isRequired,
+  selectedSymbolType: PropTypes.string,
+  toggleSymbolSearch: PropTypes.func.isRequired,
+  setSelectedSymbolType: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   setFileSearchQuery: PropTypes.func.isRequired,
   updateSearchResults: PropTypes.func.isRequired
@@ -718,7 +716,9 @@ export default connect(
     return {
       searchOn: getFileSearchState(state),
       query: getFileSearchQueryState(state),
-      modifiers: getFileSearchModifierState(state)
+      modifiers: getFileSearchModifierState(state),
+      symbolSearchOn: getSymbolSearchState(state),
+      selectedSymbolType: getSymbolSearchType(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

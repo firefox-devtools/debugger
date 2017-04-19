@@ -23,6 +23,8 @@ export type UIState = {
   fileSearchQuery: string,
   fileSearchModifiers: Record<fileSearchModifiersType>,
   projectSearchOn: boolean,
+  symbolSearchOn: boolean,
+  symbolSearchType: "functions" | "variables",
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean
@@ -38,6 +40,8 @@ const State = makeRecord(
       regexMatch: false
     })(),
     projectSearchOn: false,
+    symbolSearchOn: false,
+    symbolSearchType: "functions",
     shownSource: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed
@@ -54,6 +58,10 @@ function update(state = State(), action: Action): Record<UIState> {
       return state.set("fileSearchOn", action.value);
     }
 
+    case constants.TOGGLE_SYMBOL_SEARCH: {
+      return state.set("symbolSearchOn", action.value);
+    }
+
     case constants.UPDATE_FILE_SEARCH_QUERY: {
       return state.set("fileSearchQuery", action.query);
     }
@@ -63,6 +71,10 @@ function update(state = State(), action: Action): Record<UIState> {
         ["fileSearchModifiers", action.modifier],
         !state.getIn(["fileSearchModifiers", action.modifier])
       );
+    }
+
+    case constants.SET_SYMBOL_SEARCH_TYPE: {
+      return state.set("symbolSearchType", action.symbolType);
     }
 
     case constants.SHOW_SOURCE: {
@@ -89,7 +101,7 @@ function update(state = State(), action: Action): Record<UIState> {
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ui: Record<UIState> };
 
-type SearchFieldType = "projectSearchOn" | "fileSearchOn";
+type SearchFieldType = "projectSearchOn" | "fileSearchOn" | "symbolSearchOn";
 function getSearchState(field: SearchFieldType, state: OuterState): boolean {
   return state.ui.get(field);
 }
@@ -104,8 +116,14 @@ function getFileSearchModifierState(
   return state.ui.get("fileSearchModifiers");
 }
 
+type SymbolSearchType = "functions" | "variables";
+function getSymbolSearchType(state: OuterState): SymbolSearchType {
+  return state.ui.get("symbolSearchType");
+}
+
 const getProjectSearchState = getSearchState.bind(null, "projectSearchOn");
 const getFileSearchState = getSearchState.bind(null, "fileSearchOn");
+const getSymbolSearchState = getSearchState.bind(null, "symbolSearchOn");
 
 function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");
@@ -129,6 +147,8 @@ module.exports = {
   getFileSearchState,
   getFileSearchQueryState,
   getFileSearchModifierState,
+  getSymbolSearchState,
+  getSymbolSearchType,
   getShownSource,
   getPaneCollapse
 };
