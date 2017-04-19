@@ -43,6 +43,15 @@ export type SymbolDeclarations = {
   variables: Array<FormattedSymbolDeclaration>
 };
 
+type Scope = {
+  location: {
+    line: number,
+    column: number
+  },
+  parent: Scope,
+  bindings: Object[]
+};
+
 function _parse(code) {
   return babylon.parse(code, {
     sourceType: "module",
@@ -183,7 +192,7 @@ function getMemberExpression(root) {
   return _getMemberExpression(root, []);
 }
 
-function getScopeVariables(scope) {
+function getScopeVariables(scope: Scope) {
   const bindings = scope.bindings;
   return toPairs(bindings).map(([name, binding]) => ({
     name,
@@ -191,7 +200,7 @@ function getScopeVariables(scope) {
   }));
 }
 
-function getScopeChain(scope) {
+function getScopeChain(scope: Scope): Scope[] {
   const scopes = [scope];
 
   do {
@@ -289,13 +298,21 @@ function getClosestMemberExpression(source, token, location) {
   return expression;
 }
 
-export function getClosestExpression(source, token, location) {
+export function getClosestExpression(
+  source: SourceText,
+  token: string,
+  location: Location
+) {
   const memberExpression = getClosestMemberExpression(source, token, location);
   if (memberExpression) {
     return memberExpression;
   }
 
   const path = getClosestPath(source, location);
+  if (!path || !path.node) {
+    return;
+  }
+
   const { node: { loc, name } } = path;
   return { value: name, location: loc };
 }
@@ -311,7 +328,7 @@ export function resolveToken(
   const expression = getClosestExpression(source, token, location);
   const scope = getClosestScope(source, location);
 
-  if (!expression.value) {
+  if (!expression || !expression.value) {
     return { expression: null, inScope: false };
   }
 
@@ -338,6 +355,10 @@ export function getClosestScope(source: SourceText, location: Location) {
     }
   });
 
+  if (!closestPath) {
+    return;
+  }
+
   return closestPath.scope;
 }
 
@@ -356,11 +377,11 @@ export function getClosestPath(source: SourceText, location: Location) {
   return closestPath;
 }
 
-export function getVariablesInLocalScope(scope) {
+export function getVariablesInLocalScope(scope: Scope) {
   return getScopeVariables(scope);
 }
 
-export function getVariablesInScope(scope) {
+export function getVariablesInScope(scope: Scope) {
   const scopes = getScopeChain(scope);
   const scopeVars = scopes.map(getScopeVariables);
   const vars = [{ name: "this" }, { name: "arguments" }]
@@ -369,7 +390,11 @@ export function getVariablesInScope(scope) {
   return uniq(vars);
 }
 
-export function isExpressionInScope(expression, scope) {
+export function isExpressionInScope(expression: string, scope?: Scope) {
+  if (!scope) {
+    return false;
+  }
+
   const variables = getVariablesInScope(scope);
   const firstPart = expression.split(/\./)[0];
   return variables.includes(firstPart);
