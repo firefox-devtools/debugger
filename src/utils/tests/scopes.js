@@ -1,6 +1,7 @@
 const {
   getSpecialVariables,
-  getVisibleVariablesFromScope
+  getVisibleVariablesFromScope,
+  getScopes
 } = require("../scopes");
 const fromJS = require("../fromJS");
 
@@ -217,6 +218,81 @@ describe("scopes", () => {
         const variable = variables.get(variableName);
         expect(variable.contents.value).equal(expectations[variableName]);
       }
+    });
+  });
+
+  describe("getScopes", () => {
+    it("single scope", () => {
+      const pauseData = {
+        frame: {
+          scope: {
+            actor: "actor1"
+          },
+          this: {}
+        }
+      };
+
+      const selectedFrame = {
+        scope: {
+          actor: "actor1",
+          type: "block",
+          bindings: {
+            arguments: [],
+            variables: {}
+          },
+          parent: null
+        },
+        this: {}
+      };
+
+      const scopes = getScopes(fromJS(pauseData), selectedFrame);
+      expect(scopes[0].path).to.equal("actor1-1");
+      expect(scopes[0].contents[0]).to.eql({
+        name: "<this>",
+        path: "actor1-1/<this>",
+        contents: { value: {} }
+      });
+    });
+
+    it("second scope", () => {
+      const pauseData = {
+        frame: {
+          scope: {
+            actor: "actor1"
+          },
+          this: {}
+        }
+      };
+
+      const selectedFrame = {
+        scope: {
+          actor: "actor1",
+          type: "block",
+          bindings: {
+            arguments: [],
+            variables: {}
+          },
+          parent: {
+            actor: "actor2",
+            type: "block",
+            bindings: {
+              arguments: [],
+              variables: {
+                foo: {}
+              }
+            }
+          }
+        },
+        this: {}
+      };
+
+      const scopes = getScopes(fromJS(pauseData), selectedFrame);
+      expect(scopes[1].path).to.equal("actor2-2");
+      expect(scopes[1].contents[0]).to.eql({
+        name: "foo",
+        path: "actor2-2/foo",
+        contents: {}
+      });
     });
   });
 });
