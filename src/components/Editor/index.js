@@ -390,7 +390,8 @@ class Editor extends Component {
 
     // ignore right clicks in the gutter
     if (
-      ev.which === 3 || (selectedSource && selectedSource.get("isBlackBoxed"))
+      ev.which === 3 ||
+      (selectedSource && selectedSource.get("isBlackBoxed"))
     ) {
       return;
     }
