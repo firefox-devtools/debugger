@@ -3,23 +3,26 @@ import { isEnabled } from "devtools-config";
 import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 
-function getMenuItems({
-  codeMirror,
-  selectedLocation,
-  selectedSource,
-  showSource,
-  onGutterContextMenu,
-  jumpToMappedLocation,
-  toggleBlackBox,
-  addExpression
-}) {
+function getMenuItems(
+  event,
+  {
+    codeMirror,
+    selectedLocation,
+    selectedSource,
+    showSource,
+    onGutterContextMenu,
+    jumpToMappedLocation,
+    toggleBlackBox,
+    addExpression
+  }
+) {
   const copySourceUrlLabel = L10N.getStr("copySourceUrl");
   const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
   const revealInTreeKey = L10N.getStr("sourceTabs.revealInTree.accesskey");
   const blackboxLabel = L10N.getStr("sourceFooter.blackbox");
   const unblackboxLabel = L10N.getStr("sourceFooter.unblackbox");
-  const blackboxKey = L10N.getStr("sourceFooter.blackbox.accessKey");
+  const blackboxKey = L10N.getStr("sourceFooter.blackbox.accesskey");
   const toggleBlackBoxLabel = selectedSource.get("isBlackBoxed")
     ? unblackboxLabel
     : blackboxLabel;
@@ -107,7 +110,7 @@ async function EditorMenu(options) {
   event.stopPropagation();
   event.preventDefault();
 
-  showMenu(event, getMenuItems(options));
+  showMenu(event, getMenuItems(event, options));
 }
 
 export default EditorMenu;
