@@ -83,7 +83,8 @@ class SourcesTree extends Component {
   componentWillReceiveProps(nextProps) {
     const { selectedSource } = this.props;
     if (
-      nextProps.shownSource && nextProps.shownSource != this.props.shownSource
+      nextProps.shownSource &&
+      nextProps.shownSource != this.props.shownSource
     ) {
       const listItems = getDirectories(
         nextProps.shownSource,
@@ -98,7 +99,8 @@ class SourcesTree extends Component {
     }
 
     if (
-      nextProps.selectedSource && nextProps.selectedSource != selectedSource
+      nextProps.selectedSource &&
+      nextProps.selectedSource != selectedSource
     ) {
       const highlightItems = getDirectories(
         nextProps.selectedSource.get("url"),
