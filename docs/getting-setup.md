@@ -11,7 +11,7 @@ Also, before you start, it's helpful to make sure you have node 7.
 We recommend, [nvm] for updating the latest node.
 
 ```bash
-git clone git@github.com:devtools-html/debugger.html.git
+git clone https://github.com/devtools-html/debugger.html.git
 cd debugger.html
 yarn install
 ```
