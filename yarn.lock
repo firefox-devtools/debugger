@@ -2008,9 +2008,9 @@ devtools-config@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
 
-devtools-launchpad@^0.0.65:
-  version "0.0.65"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.65.tgz#d794a8825b219ad268785e8b28d57a611bf62bbd"
+devtools-launchpad@=0.0.67:
+  version "0.0.67"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.67.tgz#87f03be9003eb9cd0724252e84cea7b5b42852be"
   dependencies:
     amd-loader "0.0.5"
     autoprefixer "^6.7.6"
@@ -2037,7 +2037,7 @@ devtools-launchpad@^0.0.65:
     co "=4.6.0"
     css-loader "^0.26.1"
     devtools-config "^0.0.12"
-    devtools-modules "^0.0.23"
+    devtools-modules "^0.0.24"
     eslint "^3.12.0"
     eslint-plugin-babel "^3.3.0"
     eslint-plugin-flowtype "^2.20.0"
@@ -2076,9 +2076,9 @@ devtools-launchpad@^0.0.65:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
-devtools-modules@^0.0.23:
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.23.tgz#2c9d9478de18a9e68857f49512dbeb86329c55bc"
+devtools-modules@^0.0.24:
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.24.tgz#95495f8a9aae8a21ab901d8998ce5ed704fe92e5"
   dependencies:
     properties-parser "^0.3.1"
 
@@ -3370,11 +3370,11 @@ husky@^0.13.2:
     is-ci "^1.0.9"
     normalize-path "^1.0.0"
 
-iconv-lite@0.4.13:
+iconv-lite@0.4.13, iconv-lite@~0.4.13:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
 
-iconv-lite@0.4.15, iconv-lite@~0.4.13:
+iconv-lite@0.4.15:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
 
@@ -3458,8 +3458,8 @@ interpret@^0.6.4:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-0.6.6.tgz#fecd7a18e7ce5ca6abfb953e1f86213a49f1625b"
 
 interpret@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.2.tgz#f4f623f0bb7122f15f5717c8e254b8161b5c5b2d"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.3.tgz#cbc35c62eeee73f19ab7b10a801511401afc0f90"
 
 invariant@^2.0.0, invariant@^2.2.0:
   version "2.2.2"
@@ -7517,8 +7517,8 @@ uuid@^3.0.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
 v8flags@^2.0.10:
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-2.0.12.tgz#73235d9f7176f8e8833fb286795445f7938d84e5"
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-2.1.1.tgz#aab1a1fa30d45f88dd321148875ac02c0b55e5b4"
   dependencies:
     user-home "^1.1.1"
 

@@ -22,7 +22,9 @@ const Breakpoints = createFactory(require("./Breakpoints").default);
 import _Expressions from "./Expressions";
 const Expressions = createFactory(_Expressions);
 
-const SplitBox = createFactory(require("devtools-modules").SplitBox);
+import _SplitBox from "devtools-splitter";
+const SplitBox = createFactory(_SplitBox);
+
 const Scopes = isEnabled("chromeScopes")
   ? createFactory(require("./ChromeScopes").default)
   : createFactory(require("./Scopes").default);
