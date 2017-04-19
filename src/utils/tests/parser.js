@@ -1,8 +1,10 @@
 const expect = require("expect.js");
 import {
   getSymbols,
+  getVariablesInLocalScope,
   getVariablesInScope,
-  getPathClosestToLocation,
+  getClosestScope,
+  getClosestExpression,
   resolveToken
 } from "../parser/utils";
 
@@ -96,65 +98,130 @@ describe("parser", () => {
     });
   });
 
-  describe("getPathClosestToLocation", () => {
+  describe("getClosestExpression", () => {
+    it("Can find a member expression", () => {
+      const expression = getClosestExpression(
+        getSourceText("resolveToken"),
+        "x",
+        {
+          line: 15,
+          column: 31
+        }
+      );
+
+      expect(expression.value).to.be("obj.x");
+      expect(expression.location.start).to.eql({
+        line: 15,
+        column: 26
+      });
+    });
+
+    it("Can find a local var", () => {
+      const expression = getClosestExpression(
+        getSourceText("resolveToken"),
+        "beta",
+        {
+          line: 15,
+          column: 21
+        }
+      );
+
+      expect(expression.value).to.be("beta");
+      expect(expression.location.start).to.eql({
+        line: 15,
+        column: 19
+      });
+    });
+  });
+
+  describe("getClosestScope", () => {
     it("Can find the function declaration for square", () => {
-      const closestPath = getPathClosestToLocation(getSourceText("func"), {
-        line: 1,
+      const scope = getClosestScope(getSourceText("func"), {
+        line: 2,
         column: 1
       });
 
-      expect(closestPath.node.id.name).to.be("square");
-      expect(closestPath.node.loc.start).to.eql({
+      const node = scope.block;
+      expect(node.id.name).to.be("square");
+      expect(node.loc.start).to.eql({
         line: 1,
         column: 0
       });
-      expect(closestPath.type).to.be("FunctionDeclaration");
+      expect(node.type).to.be("FunctionDeclaration");
     });
+  });
 
-    it("Can find the path at the exact column", () => {
-      const closestPath = getPathClosestToLocation(getSourceText("func"), {
-        line: 2,
-        column: 10
-      });
-
-      expect(closestPath.node.loc.start).to.eql({
-        line: 2,
-        column: 9
-      });
-      expect(closestPath.type).to.be("Identifier");
-    });
-
+  describe("getVariablesInLocalScope", () => {
     it("finds scope binding variables", () => {
-      var vars = getVariablesInScope(getSourceText("math"), {
-        line: 1,
+      const scope = getClosestScope(getSourceText("math"), {
+        line: 2,
         column: 5
       });
 
+      var vars = getVariablesInLocalScope(scope);
       expect(vars.map(v => v.name)).to.eql(["n", "square", "two", "four"]);
       expect(vars[1].references[0].node.loc.start).to.eql({
         column: 14,
         line: 5
       });
     });
+
+    it("only gets local variables", () => {
+      const scope = getClosestScope(getSourceText("math"), {
+        line: 3,
+        column: 5
+      });
+
+      var vars = getVariablesInLocalScope(scope);
+
+      expect(vars.map(v => v.name)).to.eql(["n"]);
+      expect(vars[0].references[0].node.loc.start).to.eql({
+        column: 4,
+        line: 3
+      });
+    });
+  });
+
+  describe("getVariablesInScope", () => {
+    it("finds scope binding variables", () => {
+      const scope = getClosestScope(getSourceText("math"), {
+        line: 3,
+        column: 5
+      });
+
+      var vars = getVariablesInScope(scope);
+
+      expect(vars).to.eql([
+        "this",
+        "arguments",
+        "n",
+        "square",
+        "two",
+        "four",
+        "math",
+        "child"
+      ]);
+    });
   });
 
   describe("resolveToken", () => {
     it("should get the expression for the token at location", () => {
-      const { expression } = resolveToken(
+      const { expression, inScope } = resolveToken(
         getSourceText("expression"),
         "b",
         {
           line: 5,
-          column: 14
+          column: 16
         },
         {
           location: {
             line: 1,
-            column: 1
+            column: 18
           }
         }
       );
 
+      expect(inScope).to.be(true);
       expect(expression.value).to.be("obj.a.b");
       expect(expression.location.start).to.eql({
         line: 5,
@@ -163,7 +230,7 @@ describe("parser", () => {
     });
 
     it("should not find any expression", () => {
-      const { expression } = resolveToken(
+      const { expression, inScope } = resolveToken(
         getSourceText("expression"),
         "d",
         {
@@ -173,16 +240,17 @@ describe("parser", () => {
         {
           location: {
             line: 1,
-            column: 1
+            column: 18
           }
         }
       );
 
       expect(expression).to.be(null);
+      expect(inScope).to.be(false);
     });
 
     it("should not find the expression at a wrong location", () => {
-      const { expression } = resolveToken(
+      const { expression, inScope } = resolveToken(
         getSourceText("expression"),
         "b",
         {
@@ -192,12 +260,13 @@ describe("parser", () => {
         {
           location: {
             line: 1,
-            column: 1
+            column: 18
           }
         }
       );
 
       expect(expression).to.be(null);
+      expect(inScope).to.be(false);
     });
 
     it("should get the expression with 'this'", () => {
@@ -207,7 +276,7 @@ describe("parser", () => {
         { line: 9, column: 25 },
         {
           location: {
-            line: 1,
+            line: 2,
             column: 1
           }
         }
@@ -221,60 +290,69 @@ describe("parser", () => {
     });
 
     it("should report in scope when in the same function as frame", () => {
+      const frame = {
+        location: {
+          line: 9,
+          column: 7
+        }
+      };
+      const location = {
+        line: 8,
+        column: 11
+      };
+
       const { inScope } = resolveToken(
         getSourceText("resolveToken"),
         "newB",
-        {
-          line: 8,
-          column: 11
-        },
-        {
-          // on b = newB;
-          location: {
-            line: 9,
-            column: 7
-          }
-        }
+        location,
+        frame
       );
 
       expect(inScope).to.be(true);
     });
 
     it("should report out of scope when in a different function", () => {
+      const location = {
+        line: 5,
+        column: 7
+      };
+
+      // on return a;
+      const frame = {
+        location: {
+          line: 8,
+          column: 11
+        }
+      };
       const { inScope } = resolveToken(
         getSourceText("resolveToken"),
         "newB",
-        {
-          line: 8,
-          column: 11
-        },
-        {
-          // on return a;
-          location: {
-            line: 5,
-            column: 7
-          }
-        }
+        location,
+        frame
       );
 
       expect(inScope).to.be(false);
     });
 
     it("should report in scope within a function inside the frame", () => {
+      // on return insideClosure;
+      const frame = {
+        location: {
+          line: 18,
+          column: 7
+        }
+      };
+
+      const location = {
+        line: 15,
+        column: 35
+      };
+
       const { inScope } = resolveToken(
         getSourceText("resolveToken"),
         "x",
-        {
-          line: 16,
-          column: 35
-        },
-        {
-          // on return insideClosure;
-          location: {
-            line: 19,
-            column: 7
-          }
-        }
+        location,
+        frame
       );
 
       expect(inScope).to.be(true);

@@ -280,6 +280,10 @@ class Editor extends Component {
   }
 
   onMouseOver(e) {
+    const { target } = e;
+    if (!target.parentElement.closest(".CodeMirror-line")) {
+      return;
+    }
     this.previewSelectedToken(e);
   }
 
