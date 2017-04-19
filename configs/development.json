@@ -49,14 +49,10 @@
     },
     "symbolSearch": {
       "label": "Symbol Search",
-      "enabled": false
+      "enabled": true
     },
     "editorPreview": {
       "label": "Editor Preview",
-      "enabled": true
-    },
-    "previewMemberExpressions": {
-      "label": "Editor member expression Preview",
       "enabled": true
     },
     "outline": {

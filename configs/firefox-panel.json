@@ -10,6 +10,7 @@
     "prettyPrintURL": "resource://devtools/client/debugger/new/pretty-print-worker.js"
   },
   "features": {
+    "blackbox": { "enabled": true },
     "watchExpressions": { "enabled": true },
     "chromeScopes": { "enabled": false },
     "eventListeners": { "enabled": false },

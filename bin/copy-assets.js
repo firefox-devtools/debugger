@@ -1,4 +1,6 @@
-const { tools: { makeBundle, symlinkTests, copyFile }} = require("devtools-launchpad/index");
+const {
+  tools: { makeBundle, symlinkTests, copyFile }
+} = require("devtools-launchpad/index");
 const path = require("path");
 const minimist = require("minimist");
 
@@ -13,12 +15,12 @@ const args = minimist(process.argv.slice(2), {
   string: ["mc"]
 });
 
-const shouldSymLink = args.symlink
+const shouldSymLink = args.symlink;
 
 function start() {
-  console.log("start: copy assets")
-  const projectPath = path.resolve(__dirname, "..")
-  const mcModulePath =  "devtools/client/debugger/new";
+  console.log("start: copy assets");
+  const projectPath = path.resolve(__dirname, "..");
+  const mcModulePath = "devtools/client/debugger/new";
   let mcPath = args.mc ? args.mc : feature.getValue("firefox.mcPath");
 
   // resolving against the project path in case it's relative. If it's absolute
@@ -28,37 +30,37 @@ function start() {
   copyFile(
     path.join(projectPath, "./assets/panel/debugger.properties"),
     path.join(mcPath, "devtools/client/locales/en-US/debugger.properties"),
-    {cwd: projectPath}
+    { cwd: projectPath }
   );
 
   copyFile(
     path.join(projectPath, "./assets/panel/prefs.js"),
     path.join(mcPath, "devtools/client/preferences/debugger.js"),
-    {cwd: projectPath}
+    { cwd: projectPath }
   );
 
   copyFile(
     path.join(projectPath, "./assets/panel/index.html"),
     path.join(mcPath, "devtools/client/debugger/new/index.html"),
-    {cwd: projectPath}
+    { cwd: projectPath }
   );
 
   copyFile(
     path.join(projectPath, "./assets/panel/panel.js"),
     path.join(mcPath, "devtools/client/debugger/new/panel.js"),
-    {cwd: projectPath}
+    { cwd: projectPath }
   );
 
   copyFile(
     path.join(projectPath, "./assets/panel/moz.build"),
     path.join(mcPath, "devtools/client/debugger/new/moz.build"),
-    {cwd: projectPath}
+    { cwd: projectPath }
   );
 
   const projectTestPath = path.join(projectPath, "src/test/mochitest");
   const mcTestPath = path.join(mcPath, mcModulePath, "test/mochitest");
   if (shouldSymLink) {
-    symlinkTests({ projectPath, mcTestPath, projectTestPath })
+    symlinkTests({ projectPath, mcTestPath, projectTestPath });
   } else {
     copyFile(projectTestPath, mcTestPath, { cwd: projectPath });
   }
@@ -68,7 +70,7 @@ function start() {
     projectPath,
     watch: args.watch
   }).then(() => {
-    console.log("done: copy assets")
+    console.log("done: copy assets");
   });
 }
 
