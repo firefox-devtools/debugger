@@ -24,6 +24,8 @@ function localStorage() {
 global.localStorage = localStorage();
 global.Worker = require("workerjs");
 
+global.L10N = { getStr: () => {} };
+
 const path = require("path");
 const getConfig = require("../../bin/getConfig");
 const { setConfig } = require("devtools-config");
