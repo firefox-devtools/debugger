@@ -23,7 +23,7 @@ function dehydrateValue(value) {
   return value;
 }
 
-function getSpecialVariables(pauseInfo, path) {
+export function getSpecialVariables(pauseInfo, path) {
   let thrown = pauseInfo.getIn(["why", "frameFinished", "throw"], undefined);
 
   let returned = pauseInfo.getIn(["why", "frameFinished", "return"], undefined);
@@ -69,7 +69,7 @@ function getThisVariable(frame, path) {
   };
 }
 
-function getScopes(pauseInfo, selectedFrame) {
+export function getScopes(pauseInfo, selectedFrame) {
   if (!pauseInfo || !selectedFrame) {
     return null;
   }
@@ -84,10 +84,11 @@ function getScopes(pauseInfo, selectedFrame) {
 
   let scope = selectedScope;
   let pausedScopeActor = pauseInfo.getIn(["frame", "scope"]).get("actor");
+  let scopeIndex = 1;
 
   do {
-    const type = scope.type;
-    const key = scope.actor;
+    const { type, actor } = scope;
+    const key = `${actor}-${scopeIndex}`;
     if (type === "function" || type === "block") {
       const bindings = scope.bindings;
       let title;
@@ -97,7 +98,7 @@ function getScopes(pauseInfo, selectedFrame) {
         title = L10N.getStr("scopes.block");
       }
 
-      let vars = getBindingVariables(bindings, title);
+      let vars = getBindingVariables(bindings, key);
 
       // show exception, return, and this variables in innermost scope
       if (scope.actor === pausedScopeActor) {
@@ -114,7 +115,11 @@ function getScopes(pauseInfo, selectedFrame) {
 
       if (vars && vars.length) {
         vars.sort((a, b) => a.name.localeCompare(b.name));
-        scopes.push({ name: title, path: key, contents: vars });
+        scopes.push({
+          name: title,
+          path: key,
+          contents: vars
+        });
       }
     } else if (type === "object") {
       let value = scope.object;
@@ -129,6 +134,7 @@ function getScopes(pauseInfo, selectedFrame) {
         contents: { value }
       });
     }
+    scopeIndex++;
   } while ((scope = scope.parent)); // eslint-disable-line no-cond-assign
 
   return scopes;
@@ -138,7 +144,7 @@ function getScopes(pauseInfo, selectedFrame) {
  * Returns variables that are visible from this scope.
  * TODO: returns global variables as well
  */
-function getVisibleVariablesFromScope(pauseInfo, selectedFrame) {
+export function getVisibleVariablesFromScope(pauseInfo, selectedFrame) {
   const result = new Map();
 
   const scopes = getScopes(pauseInfo, selectedFrame);
@@ -156,9 +162,3 @@ function getVisibleVariablesFromScope(pauseInfo, selectedFrame) {
 
   return result;
 }
-
-module.exports = {
-  getScopes,
-  getSpecialVariables,
-  getVisibleVariablesFromScope
-};
