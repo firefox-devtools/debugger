@@ -39,6 +39,24 @@ export function toggleFileSearch(toggleValue?: boolean) {
   };
 }
 
+export function toggleSymbolSearch(toggleValue: boolean) {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    dispatch({
+      type: constants.TOGGLE_SYMBOL_SEARCH,
+      value: toggleValue
+    });
+  };
+}
+
+export function setSelectedSymbolType(symbolType: "functions" | "variables") {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    dispatch({
+      type: constants.SET_SYMBOL_SEARCH_TYPE,
+      symbolType
+    });
+  };
+}
+
 export function setFileSearchQuery(query: string) {
   return {
     type: constants.UPDATE_FILE_SEARCH_QUERY,
