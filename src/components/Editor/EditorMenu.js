@@ -53,7 +53,7 @@ function getMenuItems(
   const jumpLabel = {
     accesskey: "C",
     disabled: false,
-    label: L10N.getFormatStr("editor.jumpToMappedLocation", pairedType),
+    label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
     click: () => jumpToMappedLocation(sourceLocation)
   };
 
