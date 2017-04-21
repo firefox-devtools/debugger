@@ -135,9 +135,40 @@ describe("parser", () => {
   });
 
   describe("getClosestScope", () => {
+    it("finds the scope at the beginning", () => {
+      const scope = getClosestScope(getSourceText("func"), {
+        line: 5,
+        column: 8
+      });
+
+      const node = scope.block;
+
+      expect(node.id).to.be(null);
+      expect(node.loc.start).to.eql({
+        line: 5,
+        column: 8
+      });
+      expect(node.type).to.be("FunctionExpression");
+    });
+
+    it("finds a scope given at the end", () => {
+      const scope = getClosestScope(getSourceText("func"), {
+        line: 9,
+        column: 1
+      });
+
+      const node = scope.block;
+      expect(node.id).to.be(null);
+      expect(node.loc.start).to.eql({
+        line: 7,
+        column: 1
+      });
+      expect(node.type).to.be("FunctionExpression");
+    });
+
     it("Can find the function declaration for square", () => {
       const scope = getClosestScope(getSourceText("func"), {
-        line: 2,
+        line: 1,
         column: 1
       });
 
@@ -155,14 +186,14 @@ describe("parser", () => {
     it("finds scope binding variables", () => {
       const scope = getClosestScope(getSourceText("math"), {
         line: 2,
-        column: 5
+        column: 2
       });
 
       var vars = getVariablesInLocalScope(scope);
-      expect(vars.map(v => v.name)).to.eql(["n", "square", "two", "four"]);
-      expect(vars[1].references[0].node.loc.start).to.eql({
-        column: 14,
-        line: 5
+      expect(vars.map(v => v.name)).to.eql(["n"]);
+      expect(vars[0].references[0].node.loc.start).to.eql({
+        column: 4,
+        line: 3
       });
     });
 

@@ -201,7 +201,8 @@ function getMemberExpression(root) {
 }
 
 function getScopeVariables(scope: Scope) {
-  const bindings = scope.bindings;
+  const { bindings } = scope;
+
   return toPairs(bindings).map(([name, binding]) => ({
     name,
     references: binding.referencePaths
@@ -218,15 +219,32 @@ function getScopeChain(scope: Scope): Scope[] {
   return scopes;
 }
 
+/**
+ * helps find member expressions on one line and function scopes that are
+ * often many lines
+ */
 function nodeContainsLocation({ node, location }) {
   const { start, end } = node.loc;
   const { line, column } = location;
 
-  const onSameLine =
-    start.line === line && start.column <= column && end.column >= column;
-  const inBody = start.line < line && end.line > line;
+  if (start.line === end.line) {
+    return (
+      start.line === line && start.column <= column && end.column >= column
+    );
+  }
 
-  return onSameLine || inBody;
+  // node is likely a function parameter
+  if (start.line === line) {
+    return start.column <= column;
+  }
+
+  // node is on the same line as the closing curly
+  if (end.line === line) {
+    return end.column >= column;
+  }
+
+  // node is either inside the block body or outside of it
+  return start.line < line && end.line > line;
 }
 
 function isLexicalScope(path) {
