@@ -16,17 +16,19 @@ class WhyPaused extends Component {
       return null;
     }
 
-    const message = pauseInfo.getIn(["why"]).get("message");
+    const message = pauseInfo.getIn(["why", "message"]);
     if (message) {
       return dom.div({ className: "message" }, message);
     }
 
-    const exception = pauseInfo.getIn(["why"]).get("exception").toJS();
+    const exception = pauseInfo.getIn(["why", "exception"]);
     if (exception) {
-      const preview = exception.preview;
       return dom.div(
         { className: "message" },
-        `${preview.name}: ${preview.message}`
+        `${exception.getIn([
+          "preview",
+          "name"
+        ])}: ${exception.getIn(["preview", "message"])}`
       );
     }
 
