@@ -19,28 +19,29 @@ describe("WhyPaused", () => {
     expect(component).toMatchSnapshot();
   });
 
-  it("should pause reason with exception details", () => {
+  it("should show pause reason with exception details", () => {
     const pauseInfo = fromJS({
       why: {
         type: "exception",
         exception: {
-          type: "object",
-          actor: "server2.conn36.child1/pausedobj80",
           class: "Error",
-          extensible: true,
-          frozen: false,
-          sealed: false,
-          ownPropertyLength: 4,
           preview: {
-            kind: "Error",
             name: "ReferenceError",
-            message: "o is not defined",
-            stack: "@debugger eval code:1:1\n",
-            fileName: "debugger eval code",
-            lineNumber: 1,
-            columnNumber: 1
+            message: "o is not defined"
           }
         }
+      }
+    });
+
+    const component = shallow(new WhyPausedComponent({ pauseInfo }));
+    expect(component).toMatchSnapshot();
+  });
+
+  it("should show pause reason with exception string", () => {
+    const pauseInfo = fromJS({
+      why: {
+        type: "exception",
+        exception: "Not Available"
       }
     });
 
