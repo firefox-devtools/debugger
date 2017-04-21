@@ -166,11 +166,11 @@ archiver@~1.2.0:
     zip-stream "^1.1.0"
 
 are-we-there-yet@~1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/are-we-there-yet/-/are-we-there-yet-1.1.2.tgz#80e470e95a084794fe1899262c5667c6e88de1b3"
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/are-we-there-yet/-/are-we-there-yet-1.1.4.tgz#bb5dca382bb94f05e15194373d16fd3ba1ca110d"
   dependencies:
     delegates "^1.0.0"
-    readable-stream "^2.0.0 || ^1.1.13"
+    readable-stream "^2.0.6"
 
 argparse@^1.0.7:
   version "1.0.9"
@@ -1321,8 +1321,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000187, caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000656"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000656.tgz#127c8c6e655e7464e58f039558f1e878fcca3c45"
+  version "1.0.30000657"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000657.tgz#8192aec745019cc050217ad049c60dad21e3d1bc"
 
 capture-stack-trace@^1.0.0:
   version "1.0.0"
@@ -2010,6 +2010,10 @@ detective@^4.0.0:
     acorn "^4.0.3"
     defined "^1.0.0"
 
+devtools-components@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.1.tgz#b81c05235667ce6fa07e0ae51f593cd73e709fb6"
+
 devtools-config@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
@@ -2018,9 +2022,9 @@ devtools-connection@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.2.tgz#a4a87c4fc59456fcb0cc69ac7c18a24d2178d78f"
 
-devtools-launchpad@0.0.68:
-  version "0.0.68"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.68.tgz#92b72aea0bf55e72c34b183bf6038fce8b22ca43"
+devtools-launchpad@0.0.71:
+  version "0.0.71"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.71.tgz#84b35d01df54ad3a7ee98e75dcf4b0f5d9cb687c"
   dependencies:
     amd-loader "0.0.5"
     autoprefixer "^6.7.6"
@@ -2048,7 +2052,9 @@ devtools-launchpad@0.0.68:
     css-loader "^0.26.1"
     devtools-config "^0.0.12"
     devtools-connection "^0.0.2"
-    devtools-modules "^0.0.25"
+    devtools-modules "^0.0.26"
+    devtools-sprintf-js "^1.0.3"
+    devtools-utils "^0.0.2"
     eslint "^3.12.0"
     eslint-plugin-babel "^3.3.0"
     eslint-plugin-flowtype "^2.20.0"
@@ -2087,11 +2093,9 @@ devtools-launchpad@0.0.68:
     webpack-hot-middleware "^2.12.0"
     ws "^1.0.1"
 
-devtools-modules@^0.0.25:
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.25.tgz#248ae6b7167fbd614e9f4515821b6652b3221d1c"
-  dependencies:
-    properties-parser "^0.3.1"
+devtools-modules@^0.0.26:
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.26.tgz#be15b71569b08070aa2284f6a865591895bdf750"
 
 devtools-reps@^0.5.0:
   version "0.5.0"
@@ -2123,7 +2127,11 @@ devtools-splitter@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/devtools-splitter/-/devtools-splitter-0.0.3.tgz#a0c0191244a59a17c04735a2c1ad88c319c879e5"
 
-devtools-utils@0.0.2:
+devtools-sprintf-js@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/devtools-sprintf-js/-/devtools-sprintf-js-1.0.3.tgz#c2aa3c39d4047525e60410325c86770620281b87"
+
+devtools-utils@0.0.2, devtools-utils@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.2.tgz#8e711f276920f75785cdd9ae061d7d45752c6d44"
   dependencies:
@@ -2296,8 +2304,8 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
 electron-to-chromium@^1.2.7:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.5.tgz#6cd6ff2106224a6130e235f21050f9546bc3e729"
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.6.tgz#b90ff7e9094e6f7dd343761a001e82592d937db2"
 
 elegant-spinner@^1.0.0, elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -2321,17 +2329,11 @@ encoding@^0.1.11:
   dependencies:
     iconv-lite "~0.4.13"
 
-end-of-stream@1.0.0:
+end-of-stream@1.0.0, end-of-stream@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.0.0.tgz#d4596e702734a93e40e9af864319eabd99ff2f0e"
   dependencies:
     once "~1.3.0"
-
-end-of-stream@^1.0.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.0.tgz#7a90d833efda6cfa6eac0f4949dbb0fad3a63206"
-  dependencies:
-    once "^1.4.0"
 
 enhanced-resolve@~0.9.0:
   version "0.9.1"
@@ -3387,11 +3389,11 @@ husky@^0.13.2:
     is-ci "^1.0.9"
     normalize-path "^1.0.0"
 
-iconv-lite@0.4.13:
+iconv-lite@0.4.13, iconv-lite@~0.4.13:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
 
-iconv-lite@0.4.15, iconv-lite@~0.4.13:
+iconv-lite@0.4.15:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
 
@@ -4926,8 +4928,8 @@ nopt@^4.0.1:
     osenv "^0.1.4"
 
 normalize-package-data@^2.3.2, normalize-package-data@^2.3.4:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.3.6.tgz#498fa420c96401f787402ba21e600def9f981fff"
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.3.8.tgz#d819eda2a9dedbd1ffa563ea4071d936782295bb"
   dependencies:
     hosted-git-info "^2.1.4"
     is-builtin-module "^1.0.0"
@@ -5758,8 +5760,8 @@ prr@~0.0.0:
   resolved "https://registry.yarnpkg.com/prr/-/prr-0.0.0.tgz#1a84b85908325501411853d0081ee3fa86e2926a"
 
 ps-node@^0.1.4:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/ps-node/-/ps-node-0.1.5.tgz#b51e5dd5650fe12ab4785d76ac4770dfbc56f986"
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/ps-node/-/ps-node-0.1.6.tgz#9af67a99d7b1d0132e51a503099d38a8d2ace2c3"
   dependencies:
     table-parser "^0.1.3"
 
@@ -5940,7 +5942,7 @@ readable-stream@^1.0.33, readable-stream@~1.1.9:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-readable-stream@^2.0.0, "readable-stream@^2.0.0 || ^1.1.13", readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.4, readable-stream@^2.0.5, readable-stream@^2.1.4, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.2.6:
+readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.4, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.4, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.2.6:
   version "2.2.9"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.2.9.tgz#cf78ec6f4a6d1eb43d26488cac97f042e74b7fc8"
   dependencies:
