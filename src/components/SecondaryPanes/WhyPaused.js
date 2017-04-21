@@ -5,10 +5,22 @@ import { connect } from "react-redux";
 import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import { getPause } from "../../selectors";
+import isString from "lodash/isString";
 
 import { getPauseReason } from "../../utils/pause";
 
 import "./WhyPaused.css";
+
+function renderExceptionSummary(exception) {
+  if (isString(exception)) {
+    return exception;
+  }
+
+  const message = exception.getIn(["preview", "message"]);
+  const name = exception.getIn(["preview", "name"]);
+
+  return `${name}: ${message}`;
+}
 
 class WhyPaused extends Component {
   renderMessage(pauseInfo) {
@@ -16,12 +28,20 @@ class WhyPaused extends Component {
       return null;
     }
 
-    const message = pauseInfo.getIn(["why"]).get("message");
-    if (!message) {
-      return null;
+    const message = pauseInfo.getIn(["why", "message"]);
+    if (message) {
+      return dom.div({ className: "message" }, message);
     }
 
-    return dom.div(null, message);
+    const exception = pauseInfo.getIn(["why", "exception"]);
+    if (exception) {
+      return dom.div(
+        { className: "message" },
+        renderExceptionSummary(exception)
+      );
+    }
+
+    return null;
   }
 
   render() {
