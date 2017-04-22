@@ -9,6 +9,7 @@ const ObjectInspector = React.createFactory(
 );
 const Popover = React.createFactory(require("../shared/Popover").default);
 const previewFunction = require("../shared/previewFunction").default;
+const { addExpression } = actions;
 
 import { getLoadedObjects } from "../../selectors";
 import { getChildren } from "../../utils/object-inspector";
@@ -89,6 +90,24 @@ class Preview extends Component {
     });
   }
 
+  renderAddToExpressionBar(expression) {
+    return dom.div(
+      { className: "add-to-expression-bar" },
+      dom.div({ className: "prompt" }, "»"),
+      dom.div({ className: "expression-to-save-label" }, expression),
+      dom.div(
+        {
+          className: "expression-to-save-button",
+          onClick: event => {
+            console.log(expression);
+            addExpression(expression);
+          }
+        },
+        L10N.getStr("addWatchExpressionButton")
+      )
+    );
+  }
+
   renderPreview(expression, value) {
     const root = {
       name: expression,
@@ -101,7 +120,11 @@ class Preview extends Component {
     }
 
     if (value.type === "object") {
-      return this.renderObjectPreview(expression, root);
+      return dom.div(
+        {},
+        this.renderObjectPreview(expression, root),
+        this.renderAddToExpressionBar(expression, value)
+      );
     }
 
     return this.renderSimplePreview(value);

@@ -8,7 +8,6 @@
   min-height: inherit;
   max-height: 200px;
   overflow: auto;
-  box-shadow: 1px 2px 4px 1px var(--theme-toolbar-background-alt);
 }
 
 .popover .preview .header {
@@ -75,4 +74,33 @@
 .tooltip .gap {
   height: 4px;
   padding-top: 4px;
+}
+
+.add-to-expression-bar {
+  border: 1px solid var(--theme-splitter-color);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 14px;
+  line-height: 30px;
+  background: var(--theme-toolbar-background);
+  color: var(--theme-comment-alt);
+}
+
+.add-to-expression-bar .prompt {
+  padding-left: 3px;
+  width: 1em;
+}
+
+.add-to-expression-bar .expression-to-save-label {
+  width: calc(100% - 4em);
+}
+
+.add-to-expression-bar .expression-to-save-button {
+  font-size: 14px;
+  color: var(--theme-comment);
+  cursor: pointer;
 }

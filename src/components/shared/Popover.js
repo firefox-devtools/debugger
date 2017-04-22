@@ -70,7 +70,7 @@ class Popover extends Component {
     return dom.div(
       {
         className: classNames("popover", { up: dir === "up" }),
-        onMouseLeave,
+        // onMouseLeave,
         style: { top, left }
       },
       this.getChildren()
