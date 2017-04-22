@@ -3,15 +3,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import actions from "../../actions";
+
 const ObjectInspector = React.createFactory(
   require("../shared/ObjectInspector").default
 );
 const Popover = React.createFactory(require("../shared/Popover").default);
 const previewFunction = require("../shared/previewFunction").default;
-const { addExpression } = actions;
 
 import { getLoadedObjects } from "../../selectors";
+import actions from "../../actions";
 import { getChildren } from "../../utils/object-inspector";
 
 const Rep = require("../shared/Rep").default;
@@ -91,6 +91,7 @@ class Preview extends Component {
   }
 
   renderAddToExpressionBar(expression) {
+    const { addExpression } = this.props;
     return dom.div(
       { className: "add-to-expression-bar" },
       dom.div({ className: "prompt" }, "»"),
@@ -148,6 +149,7 @@ class Preview extends Component {
 
 Preview.propTypes = {
   loadObjectProperties: PropTypes.func,
+  addExpression: PropTypes.func,
   loadedObjects: PropTypes.object,
   selectedFrame: PropTypes.object,
   popoverTarget: PropTypes.object,
