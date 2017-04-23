@@ -103,10 +103,13 @@ function update(
 
     case "CLOSE_TAB":
       availableTabs = removeSourceFromTabList(state.tabs, action.url);
+      location = { sourceId: getNewSelectedSourceId(state, availableTabs) };
+      prefs.pendingSelectedLocation = location;
 
-      return state.merge({ tabs: availableTabs }).set("selectedLocation", {
-        sourceId: getNewSelectedSourceId(state, availableTabs)
-      });
+      return state
+        .merge({ tabs: availableTabs })
+        .set("selectedLocation", location)
+        .set("pendingSelectedLocation", location);
 
     case "CLOSE_TABS":
       availableTabs = removeSourcesFromTabList(state.tabs, action.urls);
