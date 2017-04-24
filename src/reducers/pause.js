@@ -3,12 +3,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const constants = require("../constants");
 const fromJS = require("../utils/fromJS");
 const makeRecord = require("../utils/makeRecord");
 const { prefs } = require("../utils/prefs");
 const I = require("immutable");
 
+import constants from "../constants";
 import type { Frame, Pause } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";

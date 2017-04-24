@@ -5,11 +5,11 @@
  * @module reducers/coverage
  */
 
-const constants = require("../constants");
 const makeRecord = require("../utils/makeRecord");
 const I = require("immutable");
 const fromJS = require("../utils/fromJS");
 
+import constants from "../constants";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
