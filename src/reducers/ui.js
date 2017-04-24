@@ -5,10 +5,10 @@
  * @module reducers/ui
  */
 
-const constants = require("../constants");
 const makeRecord = require("../utils/makeRecord");
 const { prefs } = require("../utils/prefs");
 
+import constants from "../constants";
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
