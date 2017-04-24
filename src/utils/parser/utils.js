@@ -263,7 +263,7 @@ export function getSymbols(source: SourceText): SymbolDeclarations {
 
   const symbols = { functions: [], variables: [] };
 
-  if (!ast || isEmpty(ast)) {
+  if (isEmpty(ast)) {
     return symbols;
   }
 
@@ -300,7 +300,7 @@ export function getSymbols(source: SourceText): SymbolDeclarations {
 function getClosestMemberExpression(source, token, location) {
   const ast = getAst(source);
   if (isEmpty(ast)) {
-    null;
+    return null;
   }
 
   let expression = null;
@@ -354,7 +354,7 @@ export function resolveToken(
   const expression = getClosestExpression(source, token, location);
   const scope = getClosestScope(source, location);
 
-  if (!expression || !expression.value) {
+  if (!expression || !expression.value || !scope) {
     return { expression: null, inScope: false };
   }
 
@@ -368,6 +368,10 @@ export function resolveToken(
 
 export function getClosestScope(source: SourceText, location: Location) {
   const ast = getAst(source);
+  if (isEmpty(ast)) {
+    return null;
+  }
+
   let closestPath = null;
 
   traverse(ast, {
@@ -390,6 +394,10 @@ export function getClosestScope(source: SourceText, location: Location) {
 
 export function getClosestPath(source: SourceText, location: Location) {
   const ast = getAst(source);
+  if (isEmpty(ast)) {
+    return null;
+  }
+
   let closestPath = null;
 
   traverse(ast, {
