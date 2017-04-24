@@ -118,7 +118,9 @@ async function resume(dbg) {
  * @static
  */
 async function reload(dbg, ...sources) {
-  return dbg.client.reload().then(() => waitForSources(dbg, ...sources));
+  await dbg.client.reload();
+  await waitForDispatch(dbg, "NAVIGATE");
+  return waitForSources(dbg, ...sources);
 }
 
 /**
