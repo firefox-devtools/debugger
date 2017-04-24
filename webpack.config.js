@@ -33,6 +33,11 @@ let webpackConfig = {
     alias: {
       "react-dom": "react-dom/dist/react-dom"
     }
+  },
+
+  module: {
+    // Ignore the prebuilt mocha lib file.
+    noParse: /mocha\/mocha\.js/i
   }
 };
 
