@@ -8,11 +8,11 @@
  * @module reducers/breakpoints
  */
 
-const fromJS = require("../utils/fromJS");
-const { updateObj } = require("../utils/utils");
-const I = require("immutable");
-const makeRecord = require("../utils/makeRecord");
-const { prefs } = require("../utils/prefs");
+import fromJS from "../utils/fromJS";
+import { updateObj } from "../utils/utils";
+import * as I from "immutable";
+import makeRecord from "../utils/makeRecord";
+import { prefs } from "../utils/prefs";
 
 import type { Breakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
@@ -24,7 +24,7 @@ export type BreakpointsState = {
   breakpointsDisabled: false
 };
 
-const State = makeRecord(
+export const State = makeRecord(
   ({
     breakpoints: I.Map(),
     pendingBreakpoints: restorePendingBreakpoints(),
@@ -50,7 +50,7 @@ function locationMoved(location, newLocation) {
   );
 }
 
-function makeLocationId(location: Location) {
+export function makeLocationId(location: Location) {
   return `${location.sourceId}:${location.line}`;
 }
 
@@ -58,7 +58,7 @@ function allBreakpointsDisabled(state) {
   return state.breakpoints.every(x => x.disabled);
 }
 
-function update(state = State(), action: Action) {
+function update(state: Record<BreakpointsState> = State(), action: Action) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const newState = addBreakpoint(state, action);
@@ -229,43 +229,33 @@ function restorePendingBreakpoints() {
 
 type OuterState = { breakpoints: Record<BreakpointsState> };
 
-function getBreakpoint(state: OuterState, location: Location) {
+export function getBreakpoint(state: OuterState, location: Location) {
   return state.breakpoints.breakpoints.get(makeLocationId(location));
 }
 
-function getBreakpoints(state: OuterState) {
+export function getBreakpoints(state: OuterState) {
   return state.breakpoints.breakpoints;
 }
 
-function getBreakpointsForSource(state: OuterState, sourceId: string) {
+export function getBreakpointsForSource(state: OuterState, sourceId: string) {
   return state.breakpoints.breakpoints.filter(bp => {
     return bp.location.sourceId === sourceId;
   });
 }
 
-function getBreakpointsDisabled(state: OuterState): boolean {
+export function getBreakpointsDisabled(state: OuterState): boolean {
   return state.breakpoints.get("breakpointsDisabled");
 }
 
-function getBreakpointsLoading(state: OuterState) {
+export function getBreakpointsLoading(state: OuterState) {
   const breakpoints = getBreakpoints(state);
   const isLoading = !!breakpoints.valueSeq().filter(bp => bp.loading).first();
 
   return breakpoints.size > 0 && isLoading;
 }
 
-function getPendingBreakpoints(state: OuterState) {
+export function getPendingBreakpoints(state: OuterState) {
   return state.breakpoints.pendingBreakpoints;
 }
 
-module.exports = {
-  State,
-  update,
-  makeLocationId,
-  getBreakpoint,
-  getBreakpoints,
-  getBreakpointsForSource,
-  getBreakpointsDisabled,
-  getBreakpointsLoading,
-  getPendingBreakpoints
-};
+export default update;

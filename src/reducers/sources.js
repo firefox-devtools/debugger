@@ -44,7 +44,7 @@ export const State = makeRecord(
   }: SourcesState)
 );
 
-export function update(
+function update(
   state: Record<SourcesState> = State(),
   action: Action
 ): Record<SourcesState> {
@@ -326,3 +326,5 @@ export function getPrettySource(state: OuterState, id: string) {
 
   return getSourceByURL(state, getPrettySourceURL(source.get("url")));
 }
+
+export default update;

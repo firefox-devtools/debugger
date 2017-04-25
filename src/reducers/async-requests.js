@@ -24,4 +24,4 @@ function update(state = initialState, action) {
   return state;
 }
 
-module.exports = update;
+export default update;
