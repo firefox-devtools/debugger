@@ -4,6 +4,7 @@
 .*node_modules/npm.*
 .*node_modules/stylelint.*
 .*node_modules/config-chain.*
+.*node_modules/documentation.*
 <PROJECT_ROOT>/firefox/.*
 .*flow-coverage-report/.*
 
