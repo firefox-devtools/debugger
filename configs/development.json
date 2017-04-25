@@ -23,6 +23,10 @@
       "label": "Watch Expressions",
       "enabled": true
     },
+    "previewWatch": {
+      "label": "Add watch expression from preview",
+      "enabled": true
+    },
     "chromeScopes": {
       "label": "Chrome Scopes",
       "enabled": false
