@@ -25,7 +25,10 @@ export const State = makeRecord(
   }: CoverageState)
 );
 
-function update(state: any = State(), action: Action): Record<CoverageState> {
+function update(
+  state: Record<CoverageState> = State(),
+  action: Action
+): Record<CoverageState> {
   switch (action.type) {
     case constants.RECORD_COVERAGE:
       return state

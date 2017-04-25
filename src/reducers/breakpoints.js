@@ -58,7 +58,7 @@ function allBreakpointsDisabled(state) {
   return state.breakpoints.every(x => x.disabled);
 }
 
-function update(state: any = State(), action: Action) {
+function update(state: Record<BreakpointsState> = State(), action: Action) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const newState = addBreakpoint(state, action);

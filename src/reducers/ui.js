@@ -48,7 +48,10 @@ export const State = makeRecord(
   }: UIState)
 );
 
-function update(state = State(), action: Action): Record<UIState> {
+function update(
+  state: Record<UIState> = State(),
+  action: Action
+): Record<UIState> {
   switch (action.type) {
     case constants.TOGGLE_PROJECT_SEARCH: {
       return state.set("projectSearchOn", action.value);
