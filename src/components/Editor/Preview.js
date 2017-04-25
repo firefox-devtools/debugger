@@ -3,6 +3,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { isEnabled } from "devtools-config";
 
 const ObjectInspector = React.createFactory(
   require("../shared/ObjectInspector").default
@@ -91,6 +92,10 @@ class Preview extends Component {
   }
 
   renderAddToExpressionBar(expression) {
+    if (!isEnabled("previewWatch")) {
+      return null;
+    }
+
     const { addExpression } = this.props;
     return dom.div(
       { className: "add-to-expression-bar" },
