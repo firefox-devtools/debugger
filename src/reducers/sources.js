@@ -44,7 +44,7 @@ export const State = makeRecord(
   }: SourcesState)
 );
 
-export function update(state = State() : SourcesState, action: Action): Record<SourcesState> {
+export function update(state = State(), action: Action): Record<SourcesState> {
   let availableTabs = null;
   let location = null;
 
