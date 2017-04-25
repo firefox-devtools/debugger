@@ -57,3 +57,8 @@ permalink: docs/updates
 * :orange_book: Framework Frames
 * :mag: Previewing Windows
 * :ant: Component + Integration Tests
+
+### [April 25th](./updates-4-25-2017.md)
+
+* :corn: We started working on proper code folding
+* :mag: landed support for getter values
