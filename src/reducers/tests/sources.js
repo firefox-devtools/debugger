@@ -2,7 +2,7 @@
 declare var describe: (name: string, func: () => void) => void;
 declare var it: (desc: string, func: () => void) => void;
 
-import { State, update } from "../sources";
+import update, { State } from "../sources";
 import { foobar } from "../../test/fixtures";
 const fakeSources = foobar.sources.sources;
 import expect from "expect.js";

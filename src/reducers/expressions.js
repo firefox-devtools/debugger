@@ -19,7 +19,7 @@ export const State = makeRecord(
   }: ExpressionState)
 );
 
-export function update(
+function update(
   state: Record<ExpressionState> = State(),
   action: Action
 ): Record<ExpressionState> {
@@ -116,3 +116,5 @@ export function getVisibleExpressions(state: OuterState) {
 export function getExpression(state: OuterState, input: string) {
   return getExpressions(state).find(exp => exp.input == input);
 }
+
+export default update;

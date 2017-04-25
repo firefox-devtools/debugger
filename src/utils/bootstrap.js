@@ -14,7 +14,7 @@ const {
 const { startParserWorker, stopParserWorker } = require("../utils/parser");
 
 const configureStore = require("./create-store");
-const reducers = require("../reducers");
+import reducers from "../reducers";
 const selectors = require("../selectors");
 
 const App = require("../components/App").default;
