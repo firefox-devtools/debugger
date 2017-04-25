@@ -28,7 +28,7 @@
     "lint-fix": "yarn lint-js -- --fix",
     "test": "jest",
     "test-coverage": "yarn test -- --coverage",
-    "test-all": "yarn test; yarn lint",
+    "test-all": "yarn test; yarn lint; yarn flow",
     "firefox": "start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome": "start-chrome --location https://devtools-html.github.io/debugger-examples/",
     "copy-assets": "node bin/copy-assets --symlink",
