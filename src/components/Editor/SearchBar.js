@@ -466,7 +466,13 @@ class SearchBar extends Component {
   }
 
   async onChange(e: any) {
-    return this.doSearch(e.target.value);
+    let query = e.target.value;
+
+    if (query[0] === "@") {
+      query = query.slice(1);
+      this.toggleSymbolSearch(e, { toggle: true, searchType: "functions" });
+    }
+    return this.doSearch(query);
   }
 
   onKeyUp(e: SyntheticKeyboardEvent) {
