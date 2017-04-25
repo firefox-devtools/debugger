@@ -8,10 +8,10 @@
  * @module reducers/sources
  */
 
-const I = require("immutable");
-const makeRecord = require("../utils/makeRecord");
-const { getPrettySourceURL } = require("../utils/source");
-const { prefs } = require("../utils/prefs");
+import * as I from "immutable";
+import makeRecord from "../utils/makeRecord";
+import { getPrettySourceURL } from "../utils/source";
+import { prefs } from "../utils/prefs";
 
 import type { Source, Location } from "../types";
 import type { Action } from "../actions/types";
@@ -34,7 +34,7 @@ export type SourcesState = {
   tabs: I.List<any>
 };
 
-const State = makeRecord(
+export const State = makeRecord(
   ({
     sources: I.Map(),
     selectedLocation: undefined,
@@ -44,7 +44,7 @@ const State = makeRecord(
   }: SourcesState)
 );
 
-function update(state = State(), action: Action): Record<SourcesState> {
+export function update(state = State() : SourcesState, action: Action): Record<SourcesState> {
   let availableTabs = null;
   let location = null;
 
@@ -270,33 +270,33 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
 // (right now) to type those wrapped functions.
 type OuterState = { sources: Record<SourcesState> };
 
-function getSource(state: OuterState, id: string) {
+export function getSource(state: OuterState, id: string) {
   return state.sources.sources.get(id);
 }
 
-function getSourceByURL(state: OuterState, url: string) {
+export function getSourceByURL(state: OuterState, url: string) {
   return state.sources.sources.find(source => source.get("url") == url);
 }
 
-function getSourceById(state: OuterState, id: string) {
+export function getSourceById(state: OuterState, id: string) {
   return state.sources.sources.find(source => source.get("id") == id);
 }
 
-function getSources(state: OuterState) {
+export function getSources(state: OuterState) {
   return state.sources.sources;
 }
 
-function getSourceText(state: OuterState, id: ?string) {
+export function getSourceText(state: OuterState, id: ?string) {
   if (id) {
     return state.sources.sourcesText.get(id);
   }
 }
 
-function getSourceTabs(state: OuterState) {
+export function getSourceTabs(state: OuterState) {
   return state.sources.tabs.filter(tab => getSourceByURL(state, tab));
 }
 
-function getSelectedSource(state: OuterState) {
+export function getSelectedSource(state: OuterState) {
   const selectedLocation = state.sources.selectedLocation;
   if (!selectedLocation) {
     return;
@@ -307,15 +307,15 @@ function getSelectedSource(state: OuterState) {
   );
 }
 
-function getSelectedLocation(state: OuterState) {
+export function getSelectedLocation(state: OuterState) {
   return state.sources.selectedLocation;
 }
 
-function getPendingSelectedLocation(state: OuterState) {
+export function getPendingSelectedLocation(state: OuterState) {
   return state.sources.pendingSelectedLocation;
 }
 
-function getPrettySource(state: OuterState, id: string) {
+export function getPrettySource(state: OuterState, id: string) {
   const source = getSource(state, id);
   if (!source) {
     return;
@@ -323,18 +323,3 @@ function getPrettySource(state: OuterState, id: string) {
 
   return getSourceByURL(state, getPrettySourceURL(source.get("url")));
 }
-
-module.exports = {
-  State,
-  update,
-  getSource,
-  getSourceByURL,
-  getSourceById,
-  getSources,
-  getSourceText,
-  getSourceTabs,
-  getSelectedSource,
-  getSelectedLocation,
-  getPendingSelectedLocation,
-  getPrettySource
-};
