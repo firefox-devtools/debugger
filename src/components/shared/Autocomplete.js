@@ -1,22 +1,17 @@
 // @flow
 
-import {
-  Component,
-  DOM as dom,
-  PropTypes,
-  createFactory,
-  ReactDOM
-} from "react";
+import { Component, DOM as dom, PropTypes, createFactory } from "react";
+import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 import { filter } from "fuzzaldrin-plus";
 import classnames from "classnames";
 import { scrollList } from "../../utils/result-list";
 import Svg from "./Svg";
-import { SearchInput as _SearchInput } from "./SearchInput";
-import { ResultList as _ResultList } from "./ResultList";
-
 import "./Autocomplete.css";
 
+import _SearchInput from "./SearchInput";
 const SearchInput = createFactory(_SearchInput);
+
+import _ResultList from "./ResultList";
 const ResultList = createFactory(_ResultList);
 
 type State = {
