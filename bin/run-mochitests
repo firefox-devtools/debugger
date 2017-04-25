@@ -1,0 +1,13 @@
+#!/bin/sh
+
+node ./bin/copy-assets --mc ./mozilla-inbound
+
+# NOTE we can update m-c down the road if we want to
+#  hg pull
+#  hg update -C
+
+
+cd mozilla-inbound
+touch ./devtools/client/debugger/new/test/mochitest/browser.ini
+./mach build
+./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"
