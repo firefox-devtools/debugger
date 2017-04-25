@@ -25,10 +25,7 @@ export const State = makeRecord(
   }: CoverageState)
 );
 
-export function update(
-  state: any = State(),
-  action: Action
-): Record<CoverageState> {
+function update(state: any = State(), action: Action): Record<CoverageState> {
   switch (action.type) {
     case constants.RECORD_COVERAGE:
       return state
@@ -53,3 +50,5 @@ export function getHitCountForSource(state: OuterState, sourceId: ?string) {
 export function getCoverageEnabled(state: OuterState) {
   return state.coverage.get("coverageOn");
 }
+
+export default update;

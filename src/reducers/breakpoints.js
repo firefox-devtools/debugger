@@ -58,7 +58,7 @@ function allBreakpointsDisabled(state) {
   return state.breakpoints.every(x => x.disabled);
 }
 
-export function update(state: any = State(), action: Action) {
+function update(state: any = State(), action: Action) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const newState = addBreakpoint(state, action);
@@ -257,3 +257,5 @@ export function getBreakpointsLoading(state: OuterState) {
 export function getPendingBreakpoints(state: OuterState) {
   return state.breakpoints.pendingBreakpoints;
 }
+
+export default update;

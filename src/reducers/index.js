@@ -12,12 +12,12 @@ import ui from "./ui";
 import coverage from "./coverage";
 
 export default {
-  expressions: expressions.update,
-  eventListeners: eventListeners.update,
-  sources: sources.update,
-  breakpoints: breakpoints.update,
-  pause: pause.update,
+  expressions,
+  eventListeners,
+  sources,
+  breakpoints,
   asyncRequests,
-  ui: ui.update,
-  coverage: coverage.update
+  pause,
+  ui,
+  coverage
 };

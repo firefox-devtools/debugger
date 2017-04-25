@@ -10,7 +10,7 @@ const initialState = {
   fetchingListeners: false
 };
 
-export function update(state = initialState, action, emit) {
+function update(state = initialState, action, emit) {
   switch (action.type) {
     case constants.UPDATE_EVENT_BREAKPOINTS:
       state.activeEventNames = action.eventNames;
@@ -34,3 +34,5 @@ export function update(state = initialState, action, emit) {
 export function getEventListeners(state) {
   return state.eventListeners.listeners;
 }
+
+export default update;

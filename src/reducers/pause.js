@@ -37,10 +37,7 @@ export const State = makeRecord(
   }: PauseState)
 );
 
-export function update(
-  state: any = State(),
-  action: Action
-): Record<PauseState> {
+function update(state: any = State(), action: Action): Record<PauseState> {
   switch (action.type) {
     case constants.PAUSED: {
       const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
@@ -189,3 +186,5 @@ export function getChromeScopes(state: OuterState) {
   const frame = getSelectedFrame(state);
   return frame ? frame.scopeChain : undefined;
 }
+
+export default update;
