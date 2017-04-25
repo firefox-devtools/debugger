@@ -1,16 +1,24 @@
 // @flow
 
-import { Component, DOM as dom, PropTypes, createFactory } from "react";
+import {
+  Component,
+  DOM as dom,
+  PropTypes,
+  createFactory,
+  ReactDOM
+} from "react";
 import { filter } from "fuzzaldrin-plus";
 import classnames from "classnames";
 import { scrollList } from "../../utils/result-list";
 import Svg from "./Svg";
-
-const { findDOMNode } = require("react-dom");
-const SearchInput = createFactory(require("./SearchInput").default);
-const ResultList = createFactory(require("./ResultList").default);
+import { SearchInput as _SearchInput } from "./SearchInput";
+import { ResultList as _ResultList } from "./ResultList";
 
 import "./Autocomplete.css";
+
+const SearchInput = createFactory(_SearchInput);
+const ResultList = createFactory(_ResultList);
+
 type State = {
   inputValue: string,
   selectedIndex: number,
@@ -34,7 +42,7 @@ export default class Autocomplete extends Component {
 
   componentDidMount() {
     const endOfInput = this.state.inputValue.length;
-    const node = findDOMNode(this);
+    const node = ReactDOM.findDOMNode(this);
     if (node instanceof HTMLElement) {
       const searchInput = node.querySelector("input");
       if (searchInput instanceof HTMLInputElement) {
