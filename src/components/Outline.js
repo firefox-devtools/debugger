@@ -20,7 +20,7 @@ class Outline extends Component {
     this.state = {};
   }
 
-  componentWillUpdate({ sourceText }) {
+  componentWillReceiveProps({ sourceText }) {
     if (sourceText) {
       this.setSymbolDeclarations(sourceText);
     }
@@ -29,9 +29,11 @@ class Outline extends Component {
   async setSymbolDeclarations(sourceText: Record<SourceText>) {
     const symbolDeclarations = await getSymbols(sourceText.toJS());
 
-    this.setState({
-      symbolDeclarations
-    });
+    if (symbolDeclarations !== this.state.symbolDeclarations) {
+      this.setState({
+        symbolDeclarations
+      });
+    }
   }
 
   renderFunction(func) {
