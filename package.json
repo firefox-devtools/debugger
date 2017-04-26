@@ -78,6 +78,7 @@
     "remark-lint-no-table-indentation": "^1.0.0",
     "remark-lint-table-cell-padding": "^1.0.0",
     "remark-lint-table-pipes": "^1.0.0",
+    "reselect": "^3.0.0",
     "rimraf": "^2.6.1",
     "stylelint": "^7.10.1",
     "svg-inline-react": "^1.0.2",

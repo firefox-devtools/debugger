@@ -1,6 +1,7 @@
 // @flow
 import { DOM as dom, PropTypes, Component } from "react";
 import { connect } from "react-redux";
+import { createSelector } from "reselect";
 import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
 import classnames from "classnames";
@@ -147,13 +148,11 @@ function updateLocation(state, bp): LocalBreakpoint {
   return localBP;
 }
 
-function _getBreakpoints(state) {
-  return getBreakpoints(state)
+const _getBreakpoints = createSelector(getBreakpoints(state), breakpoints =>
+  breakpoints
     .map(bp => updateLocation(state, bp))
-    .filter(
-      bp => bp.location.source && !bp.location.source.get("isBlackBoxed")
-    );
-}
+    .filter(bp => bp.location.source && !bp.location.source.get("isBlackBoxed"))
+);
 
 export default connect(
   (state, props) => ({ breakpoints: _getBreakpoints(state) }),
