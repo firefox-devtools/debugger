@@ -5,6 +5,6 @@
 
 import Svg from "../../../assets/images/Svg";
 
-require("./Svg.css");
+import "./Svg.css";
 
 export default Svg;

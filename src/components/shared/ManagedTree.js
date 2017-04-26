@@ -1,7 +1,9 @@
 // @flow
 import { PropTypes, createFactory, Component } from "react";
-const Tree = createFactory(require("devtools-components").Tree);
-require("./ManagedTree.css");
+import "./ManagedTree.css";
+
+import { Tree as _Tree } from "devtools-components";
+const Tree = createFactory(_Tree);
 
 type ManagedTreeItem = {
   contents: Array<ManagedTreeItem>,

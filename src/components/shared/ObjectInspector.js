@@ -1,7 +1,6 @@
 // @flow
 import { DOM as dom, PropTypes, createFactory, Component } from "react";
 import classnames from "classnames";
-const ManagedTree = createFactory(require("./ManagedTree").default);
 import Svg from "./Svg";
 import Rep from "./Rep";
 import previewFunction from "./previewFunction";
@@ -16,6 +15,9 @@ import {
   getChildren,
   createNode
 } from "../../utils/object-inspector";
+
+import _ManagedTree from "./ManagedTree";
+const ManagedTree = createFactory(_ManagedTree);
 
 export type ObjectInspectorItemContentsValue = {
   actor: string,
