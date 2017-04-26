@@ -143,14 +143,12 @@ class SearchBar extends Component {
 
     shortcuts.on(searchAgainShortcut, (_, e) => this.traverseResults(e, false));
 
-    if (isEnabled("symbolSearch")) {
-      shortcuts.on(symbolSearchShortcut, (_, e) =>
-        this.toggleSymbolSearch(e, {
-          toggle: false,
-          searchType: "functions"
-        })
-      );
-    }
+    shortcuts.on(symbolSearchShortcut, (_, e) =>
+      this.toggleSymbolSearch(e, {
+        toggle: false,
+        searchType: "functions"
+      })
+    );
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
@@ -593,9 +591,6 @@ class SearchBar extends Component {
   }
 
   renderSearchTypeToggle() {
-    if (!isEnabled("symbolSearch")) {
-      return;
-    }
     const { toggleSymbolSearch } = this;
     const { symbolSearchOn, selectedSymbolType } = this.props;
 
@@ -629,7 +624,7 @@ class SearchBar extends Component {
   }
 
   renderBottomBar() {
-    if (!isEnabled("searchModifiers") || !isEnabled("symbolSearch")) {
+    if (!isEnabled("searchModifiers")) {
       return;
     }
 
