@@ -1,18 +1,14 @@
 // @flow
 import { DOM as dom, PropTypes, createFactory, Component } from "react";
-const ReactDOM = require("react-dom");
+import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import debounce from "lodash/debounce";
 import { getMode } from "../../utils/source";
-
-const Footer = createFactory(require("./Footer").default);
-const SearchBar = createFactory(require("./SearchBar").default);
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
-const Preview = createFactory(require("./Preview").default);
 import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
 import { isEnabled } from "devtools-config";
@@ -31,10 +27,24 @@ import {
   getFileSearchQueryState,
   getFileSearchModifierState
 } from "../../selectors";
+
 import { makeLocationId } from "../../reducers/breakpoints";
 import actions from "../../actions";
-const Breakpoint = createFactory(require("./Breakpoint").default);
-const HitMarker = createFactory(require("./HitMarker").default);
+
+import _Footer from "./Footer";
+const Footer = createFactory(_Footer);
+
+import _SearchBar from "./SearchBar";
+const SearchBar = createFactory(_SearchBar);
+
+import _Preview from "./Preview";
+const Preview = createFactory(_Preview);
+
+import _Breakpoint from "./Breakpoint";
+const Breakpoint = createFactory(_Breakpoint);
+
+import _HitMarker from "./HitMarker";
+const HitMarker = createFactory(_HitMarker);
 
 import {
   getDocument,
