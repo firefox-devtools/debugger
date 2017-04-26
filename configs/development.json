@@ -50,6 +50,10 @@
     "collapseFrame": {
       "label": "Collapse Call Frames",
       "enabled": true
+    },
+    "columnBreakpoints": {
+      "label": "Column Breakpoints",
+      "enabled": true
     }
   },
   "chrome": {

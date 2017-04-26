@@ -51,7 +51,9 @@ function locationMoved(location, newLocation) {
 }
 
 export function makeLocationId(location: Location) {
-  return `${location.sourceId}:${location.line}`;
+  let { sourceId, line, column } = location;
+  column = column || "";
+  return `${sourceId}:${line}:${column}`;
 }
 
 function allBreakpointsDisabled(state) {
@@ -205,9 +207,9 @@ function removeBreakpoint(state, action) {
 }
 
 function makePendingBreakpoint(bp: any) {
-  const { location: { sourceUrl, line }, condition, disabled } = bp;
+  const { location: { sourceUrl, line, column }, condition, disabled } = bp;
 
-  const location = { sourceUrl, line };
+  const location = { sourceUrl, line, column };
   return { condition, disabled, location };
 }
 
