@@ -470,7 +470,7 @@ class SearchBar extends Component {
   }
 
   onKeyUp(e: SyntheticKeyboardEvent) {
-    if (e.key !== "Enter" || e.key !== "F3") {
+    if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }
 

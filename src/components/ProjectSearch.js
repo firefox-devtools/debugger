@@ -94,7 +94,7 @@ class ProjectSearch extends Component {
     return dom.div(
       { className: "search-container" },
       Autocomplete({
-        selectItem: result => {
+        selectItem: (e, result) => {
           this.props.selectSource(result.id);
           this.close();
         },
