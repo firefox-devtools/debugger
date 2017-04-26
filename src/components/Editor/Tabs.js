@@ -390,8 +390,12 @@ class SourceTabs extends Component {
   getSourceAnnotation(source) {
     let sourceObj = source.toJS();
 
-    if (isPretty(sourceObj)) return Svg("prettyPrint");
-    if (sourceObj.isBlackBoxed) return Svg("blackBox");
+    if (isPretty(sourceObj)) {
+      return Svg("prettyPrint");
+    }
+    if (sourceObj.isBlackBoxed) {
+      return Svg("blackBox");
+    }
   }
 }
 
