@@ -51,10 +51,6 @@
       "label": "Search Navigation",
       "enabled": false
     },
-    "symbolSearch": {
-      "label": "Symbol Search",
-      "enabled": true
-    },
     "editorPreview": {
       "label": "Editor Preview",
       "enabled": true

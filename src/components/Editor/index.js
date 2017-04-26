@@ -688,8 +688,7 @@ class Editor extends Component {
     if (searchOn) {
       subtractions.push(cssVars.searchbarHeight);
 
-      const secondSearchBarOn =
-        isEnabled("searchModifiers") && isEnabled("symbolSearch");
+      const secondSearchBarOn = isEnabled("searchModifiers");
 
       if (secondSearchBarOn) {
         subtractions.push(cssVars.secondSearchbarHeight);
