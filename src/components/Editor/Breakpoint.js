@@ -1,7 +1,7 @@
 // @flow
 import { PropTypes, Component } from "react";
 import { isEnabled } from "devtools-config";
-const ReactDOM = require("react-dom");
+import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 
 import classnames from "classnames";
 import Svg from "../shared/Svg";

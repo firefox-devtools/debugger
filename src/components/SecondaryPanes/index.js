@@ -16,8 +16,11 @@ import { isEnabled } from "devtools-config";
 import Svg from "../shared/Svg";
 import { prefs } from "../../utils/prefs";
 
-const WhyPaused = createFactory(require("./WhyPaused").default);
-const Breakpoints = createFactory(require("./Breakpoints").default);
+import _WhyPaused from "./WhyPaused";
+const WhyPaused = createFactory(_WhyPaused);
+
+import _Breakpoints from "./Breakpoints";
+const Breakpoints = createFactory(_Breakpoints);
 
 import _Expressions from "./Expressions";
 const Expressions = createFactory(_Expressions);
@@ -25,14 +28,24 @@ const Expressions = createFactory(_Expressions);
 import _SplitBox from "devtools-splitter";
 const SplitBox = createFactory(_SplitBox);
 
-const Scopes = isEnabled("chromeScopes")
-  ? createFactory(require("./ChromeScopes").default)
-  : createFactory(require("./Scopes").default);
+import _Frames from "./Frames";
+const Frames = createFactory(_Frames);
 
-const Frames = createFactory(require("./Frames").default);
-const EventListeners = createFactory(require("./EventListeners").default);
-const Accordion = createFactory(require("../shared/Accordion").default);
-const CommandBar = createFactory(require("./CommandBar").default);
+import _EventListeners from "./EventListeners";
+const EventListeners = createFactory(_EventListeners);
+
+import _Accordion from "../shared/Accordion";
+const Accordion = createFactory(_Accordion);
+
+import _CommandBar from "./CommandBar";
+const CommandBar = createFactory(_CommandBar);
+
+import _chromeScopes from "./ChromeScopes";
+import _Scopes from "./Scopes";
+
+const Scopes = isEnabled("chromeScopes")
+  ? createFactory(_chromeScopes)
+  : createFactory(_Scopes);
 
 import "./SecondaryPanes.css";
 

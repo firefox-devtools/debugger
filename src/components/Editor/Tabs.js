@@ -14,15 +14,17 @@ import { getFilename, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-const PaneToggleButton = createFactory(
-  require("../shared/Button/PaneToggle").default
-);
 import Svg from "../shared/Svg";
-const Dropdown = createFactory(require("../shared/Dropdown").default);
 import { showMenu, buildMenu } from "devtools-launchpad";
 import debounce from "lodash/debounce";
 import { formatKeyShortcut } from "../../utils/text";
 import "./Tabs.css";
+
+import _PaneToggleButton from "../shared/Button/PaneToggle";
+const PaneToggleButton = createFactory(_PaneToggleButton);
+
+import _Dropdown from "../shared/Dropdown";
+const Dropdown = createFactory(_Dropdown);
 
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.

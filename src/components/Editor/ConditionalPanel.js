@@ -1,7 +1,7 @@
 // @flow
 import { DOM as dom } from "react";
+import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 
-const ReactDOM = require("react-dom");
 import CloseButton from "../shared/Button/Close";
 import "./ConditionalPanel.css";
 
