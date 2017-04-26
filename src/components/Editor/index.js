@@ -328,7 +328,6 @@ class Editor extends Component {
     if (
       !selectedFrame ||
       !sourceText ||
-      !isEnabled("editorPreview") ||
       !selectedSource ||
       selectedFrame.location.sourceId !== selectedSource.get("id")
     ) {
@@ -711,12 +710,7 @@ class Editor extends Component {
       return null;
     }
 
-    if (
-      !isEnabled("editorPreview") ||
-      !selectedToken ||
-      !selectedFrame ||
-      !selectedExpression
-    ) {
+    if (!selectedToken || !selectedFrame || !selectedExpression) {
       return;
     }
 

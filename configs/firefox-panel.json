@@ -17,7 +17,6 @@
     "codeCoverage": { "enabled": false },
     "searchModifiers": { "enabled": true },
     "symbolSearch": { "enabled": true },
-    "editorPreview": { "enabled": true },
     "showSource": { "enabled": true   }
   }
 }
