@@ -28,18 +28,24 @@ const Expressions = createFactory(_Expressions);
 import _SplitBox from "devtools-splitter";
 const SplitBox = createFactory(_SplitBox);
 
-const Scopes = isEnabled("chromeScopes")
-  ? createFactory(require("./ChromeScopes").default)
-  : createFactory(require("./Scopes").default);
-
 import _Frames from "./Frames";
 const Frames = createFactory(_Frames);
 
 import _EventListeners from "./EventListeners";
 const EventListeners = createFactory(_EventListeners);
 
-const Accordion = createFactory(require("../shared/Accordion").default);
-const CommandBar = createFactory(require("./CommandBar").default);
+import _Accordion from "../shared/Accordion";
+const Accordion = createFactory(_Accordion);
+
+import _CommandBar from "./CommandBar";
+const CommandBar = createFactory(_CommandBar);
+
+import _chromeScopes from "./ChromeScopes";
+import _Scopes from "./Scopes";
+
+const Scopes = isEnabled("chromeScopes")
+  ? createFactory(_chromeScopes)
+  : createFactory(_Scopes);
 
 import "./SecondaryPanes.css";
 
