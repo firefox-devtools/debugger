@@ -16,7 +16,6 @@
     "eventListeners": { "enabled": false },
     "codeCoverage": { "enabled": false },
     "searchModifiers": { "enabled": true },
-    "editorPreview": { "enabled": true },
     "showSource": { "enabled": true   }
   }
 }

@@ -32,10 +32,6 @@
     "searchNav": {
       "label": "Search Navigation",
       "enabled": false
-    },
-    "editorPreview": {
-      "label": "Editor Preview",
-      "enabled": false
     }
   }
 }

@@ -51,10 +51,6 @@
       "label": "Search Navigation",
       "enabled": false
     },
-    "editorPreview": {
-      "label": "Editor Preview",
-      "enabled": true
-    },
     "outline": {
       "label": "Source Outline",
       "enabled": false
