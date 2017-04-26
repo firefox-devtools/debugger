@@ -302,6 +302,7 @@ class SourceTabs extends Component {
     const active =
       selectedSource && source.get("id") == selectedSource.get("id");
     const isPrettyCode = isPretty(source.toJS());
+    const sourceAnnotation = this.getSourceAnnotation(source);
 
     function onClickClose(ev) {
       ev.stopPropagation();
@@ -319,7 +320,7 @@ class SourceTabs extends Component {
         onContextMenu: e => this.onTabContextMenu(e, source.get("id")),
         title: getFilename(source.toJS())
       },
-      isPrettyCode ? Svg("prettyPrint") : null,
+      sourceAnnotation,
       dom.div({ className: "filename" }, filename),
       CloseButton({
         handleClick: onClickClose,
@@ -384,6 +385,17 @@ class SourceTabs extends Component {
       this.renderDropdown(),
       this.renderEndPanelToggleButton()
     );
+  }
+
+  getSourceAnnotation(source) {
+    let sourceObj = source.toJS();
+
+    if (isPretty(sourceObj)) {
+      return Svg("prettyPrint");
+    }
+    if (sourceObj.isBlackBoxed) {
+      return Svg("blackBox");
+    }
   }
 }
 
