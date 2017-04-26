@@ -19,10 +19,6 @@
     "searchModifiers": {
       "label": "Search Modifiers",
       "enabled": true
-    },
-    "editorPreview": {
-      "label": "Editor Preview",
-      "enabled": true
     }
   },
   "chrome": {
