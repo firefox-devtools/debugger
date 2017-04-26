@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, createFactory, Component } from "react";
+import { DOM as dom, PropTypes, createFactory, PureComponent } from "react";
 const ReactDOM = require("react-dom");
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
@@ -72,7 +72,7 @@ type EditorState = {
   selectedExpression: ?Object
 };
 
-class Editor extends Component {
+class Editor extends PureComponent {
   cbPanel: any;
   editor: any;
   pendingJumpLine: any;
@@ -124,7 +124,9 @@ class Editor extends Component {
     this.clearDebugLine(this.props.selectedFrame);
 
     if (!sourceText) {
-      this.showMessage("");
+      if (this.props.sourceText) {
+        this.showMessage("");
+      }
     } else if (!isTextForSource(sourceText)) {
       this.showMessage(sourceText.get("error") || L10N.getStr("loadingText"));
     } else if (this.props.sourceText !== sourceText) {
