@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, createFactory, PureComponent } from "react";
+import { DOM as dom, PropTypes, createFactory, Component } from "react";
 const ReactDOM = require("react-dom");
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
@@ -72,7 +72,7 @@ type EditorState = {
   selectedExpression: ?Object
 };
 
-class Editor extends PureComponent {
+class Editor extends Component {
   cbPanel: any;
   editor: any;
   pendingJumpLine: any;
@@ -220,6 +220,31 @@ class Editor extends PureComponent {
     shortcuts.off("CmdOrCtrl+Shift+B");
     shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
     shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (Object.keys(nextProps).length != Object.keys(this.props).length) {
+      return true;
+    }
+    if (Object.keys(nextState).length != Object.keys(this.state).length) {
+      return true;
+    }
+
+    let key;
+
+    for (key in nextProps) {
+      if (key != "getExpression" && nextProps[key] != this.props[key]) {
+        return true;
+      }
+    }
+
+    for (key in nextState) {
+      if (nextProps[key] != this.props[key]) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   componentDidUpdate(prevProps) {
