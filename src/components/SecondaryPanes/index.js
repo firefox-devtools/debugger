@@ -16,8 +16,11 @@ import { isEnabled } from "devtools-config";
 import Svg from "../shared/Svg";
 import { prefs } from "../../utils/prefs";
 
-const WhyPaused = createFactory(require("./WhyPaused").default);
-const Breakpoints = createFactory(require("./Breakpoints").default);
+import _WhyPaused from "./WhyPaused";
+const WhyPaused = createFactory(_WhyPaused);
+
+import _Breakpoints from "./Breakpoints";
+const Breakpoints = createFactory(_Breakpoints);
 
 import _Expressions from "./Expressions";
 const Expressions = createFactory(_Expressions);
@@ -29,8 +32,12 @@ const Scopes = isEnabled("chromeScopes")
   ? createFactory(require("./ChromeScopes").default)
   : createFactory(require("./Scopes").default);
 
-const Frames = createFactory(require("./Frames").default);
-const EventListeners = createFactory(require("./EventListeners").default);
+import _Frames from "./Frames";
+const Frames = createFactory(_Frames);
+
+import _EventListeners from "./EventListeners";
+const EventListeners = createFactory(_EventListeners);
+
 const Accordion = createFactory(require("../shared/Accordion").default);
 const CommandBar = createFactory(require("./CommandBar").default);
 
