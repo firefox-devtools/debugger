@@ -23,6 +23,10 @@
       "label": "Watch Expressions",
       "enabled": true
     },
+    "previewWatch": {
+      "label": "Add watch expression from preview",
+      "enabled": true
+    },
     "chromeScopes": {
       "label": "Chrome Scopes",
       "enabled": false
@@ -46,10 +50,6 @@
     "searchNav": {
       "label": "Search Navigation",
       "enabled": false
-    },
-    "symbolSearch": {
-      "label": "Symbol Search",
-      "enabled": true
     },
     "outline": {
       "label": "Source Outline",

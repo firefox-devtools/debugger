@@ -3,8 +3,6 @@ import { shallow } from "enzyme";
 import WhyPaused from "../SecondaryPanes/WhyPaused.js";
 const fromJS = require("../../utils/fromJS");
 
-global.L10N = { getStr: () => "" };
-
 const WhyPausedComponent = React.createFactory(WhyPaused.WrappedComponent);
 
 describe("WhyPaused", () => {

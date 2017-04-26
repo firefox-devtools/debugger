@@ -14,15 +14,17 @@ import { getFilename, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-const PaneToggleButton = createFactory(
-  require("../shared/Button/PaneToggle").default
-);
 import Svg from "../shared/Svg";
-const Dropdown = createFactory(require("../shared/Dropdown").default);
 import { showMenu, buildMenu } from "devtools-launchpad";
 import debounce from "lodash/debounce";
 import { formatKeyShortcut } from "../../utils/text";
 import "./Tabs.css";
+
+import _PaneToggleButton from "../shared/Button/PaneToggle";
+const PaneToggleButton = createFactory(_PaneToggleButton);
+
+import _Dropdown from "../shared/Dropdown";
+const Dropdown = createFactory(_Dropdown);
 
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
@@ -302,6 +304,7 @@ class SourceTabs extends Component {
     const active =
       selectedSource && source.get("id") == selectedSource.get("id");
     const isPrettyCode = isPretty(source.toJS());
+    const sourceAnnotation = this.getSourceAnnotation(source);
 
     function onClickClose(ev) {
       ev.stopPropagation();
@@ -319,7 +322,7 @@ class SourceTabs extends Component {
         onContextMenu: e => this.onTabContextMenu(e, source.get("id")),
         title: getFilename(source.toJS())
       },
-      isPrettyCode ? Svg("prettyPrint") : null,
+      sourceAnnotation,
       dom.div({ className: "filename" }, filename),
       CloseButton({
         handleClick: onClickClose,
@@ -384,6 +387,17 @@ class SourceTabs extends Component {
       this.renderDropdown(),
       this.renderEndPanelToggleButton()
     );
+  }
+
+  getSourceAnnotation(source) {
+    let sourceObj = source.toJS();
+
+    if (isPretty(sourceObj)) {
+      return Svg("prettyPrint");
+    }
+    if (sourceObj.isBlackBoxed) {
+      return Svg("blackBox");
+    }
   }
 }
 

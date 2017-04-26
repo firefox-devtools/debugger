@@ -7,10 +7,10 @@
 
 const { combineReducers } = require("redux");
 const sourceMaps = require("devtools-source-map");
-const reducers = require("../reducers");
+import reducers from "../reducers";
 const actions = require("../actions").default;
 const selectors = require("../selectors");
-const constants = require("../constants");
+import constants from "../constants";
 
 const configureStore = require("../utils/create-store");
 
