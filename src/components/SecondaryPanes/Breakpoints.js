@@ -148,10 +148,15 @@ function updateLocation(state, bp): LocalBreakpoint {
   return localBP;
 }
 
-const _getBreakpoints = createSelector(getBreakpoints(state), breakpoints =>
-  breakpoints
-    .map(bp => updateLocation(state, bp))
-    .filter(bp => bp.location.source && !bp.location.source.get("isBlackBoxed"))
+const _getBreakpoints = createSelector(
+  getBreakpoints,
+  state => state,
+  (breakpoints, state) =>
+    breakpoints
+      .map(bp => updateLocation(state, bp))
+      .filter(
+        bp => bp.location.source && !bp.location.source.get("isBlackBoxed")
+      )
 );
 
 export default connect(
