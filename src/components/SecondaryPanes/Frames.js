@@ -29,7 +29,7 @@ const NUM_FRAMES_SHOWN = 7;
 
 function renderCopyName(frame: Frame) {
   const displayName = formatDisplayName(frame);
-  const fileName = getFilename(frame.source);
+  const fileName = getFilename(?Source = frame.source);
   const frameLocation = frame.location.line;
 
   return `${displayName} (${fileName}#${frameLocation})`;
