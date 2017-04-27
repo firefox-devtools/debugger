@@ -1,7 +1,6 @@
 import get from "lodash/get";
 import { isEnabled } from "devtools-config";
 import { endTruncateStr } from "./utils";
-import { getFilename } from "./source";
 
 import type { Frame } from "debugger-html";
 
@@ -97,12 +96,4 @@ export function formatDisplayName(frame: Frame) {
 
   displayName = simplifyDisplayName(displayName);
   return endTruncateStr(displayName, 25);
-}
-
-export function formatCopyName(frame: Frame) {
-  const displayName = formatDisplayName(frame);
-  const fileName = getFilename(frame.source);
-  const frameLocation = frame.location.line;
-
-  return `${displayName}  ${fileName}#${frameLocation}`;
 }

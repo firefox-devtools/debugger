@@ -15,11 +15,7 @@ import Svg from "../shared/Svg";
 import { getFrames, getSelectedFrame, getSource } from "../../selectors";
 
 import { copyToTheClipboard } from "../../utils/clipboard";
-import {
-  formatDisplayName,
-  annotateFrame,
-  formatCopyName
-} from "../../utils/frame";
+import { formatDisplayName, annotateFrame } from "../../utils/frame";
 
 import type { Frame, Source } from "../../types";
 
@@ -30,6 +26,14 @@ type LocalFrame = Frame & {
 import "./Frames.css";
 
 const NUM_FRAMES_SHOWN = 7;
+
+function renderCopyName(frame: Frame) {
+  const displayName = formatDisplayName(frame);
+  const fileName = getFilename(frame.source);
+  const frameLocation = frame.location.line;
+
+  return `${displayName} (${fileName}#${frameLocation})`;
+}
 
 function renderFrameTitle(frame: Frame) {
   const displayName = formatDisplayName(frame);
@@ -109,27 +113,23 @@ class Frames extends Component {
         disabled: false,
         click: () => copyToTheClipboard(source.url)
       };
-
       menuOptions.push(copySourceUrl);
     }
 
-    if (source) {
-      const framesToCopy = frames.map(f => formatCopyName(f)).join("\n");
-      const copyStackTrace = {
-        id: "node-menu-copy-source",
-        label: copyStackTraceLabel,
-        accesskey: copyStackTraceKey,
-        disabled: false,
-        click: () => copyToTheClipboard(framesToCopy)
-      };
-
-      menuOptions.push(copyStackTrace);
-    }
+    const framesToCopy = frames.map(f => renderCopyName(f)).join("\n");
+    const copyStackTrace = {
+      id: "node-menu-copy-source",
+      label: copyStackTraceLabel,
+      accesskey: copyStackTraceKey,
+      disabled: false,
+      click: () => copyToTheClipboard(framesToCopy)
+    };
+    menuOptions.push(copyStackTrace);
 
     showMenu(event, menuOptions);
   }
 
-  renderFrame(frame: LocalFrame, frames) {
+  renderFrame(frame: LocalFrame, frames: LocalFrame[]) {
     const { selectedFrame } = this.props;
     return dom.li(
       {
