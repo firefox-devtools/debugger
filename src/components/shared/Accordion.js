@@ -1,5 +1,5 @@
 // @flow
-import React, { DOM as dom, PropTypes, createElement } from "react";
+import { DOM as dom, PropTypes, createElement, Component } from "react";
 import Svg from "./Svg";
 
 import "./Accordion.css";
@@ -20,7 +20,7 @@ type AccordionState = {
   created: boolean[]
 };
 
-class Accordion extends React.Component {
+class Accordion extends Component {
   state: AccordionState;
 
   constructor(props: Props) {
