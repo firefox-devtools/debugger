@@ -378,17 +378,6 @@ class SourceTabs extends Component {
     });
   }
 
-  render() {
-    return dom.div(
-      { className: "source-header" },
-      this.renderStartPanelToggleButton(),
-      this.renderTabs(),
-      this.renderNewButton(),
-      this.renderDropdown(),
-      this.renderEndPanelToggleButton()
-    );
-  }
-
   getSourceAnnotation(source) {
     let sourceObj = source.toJS();
 
@@ -398,6 +387,17 @@ class SourceTabs extends Component {
     if (sourceObj.isBlackBoxed) {
       return Svg("blackBox");
     }
+  }
+
+  render() {
+    return dom.div(
+      { className: "source-header" },
+      this.renderStartPanelToggleButton(),
+      this.renderTabs(),
+      this.renderNewButton(),
+      this.renderDropdown(),
+      this.renderEndPanelToggleButton()
+    );
   }
 }
 
