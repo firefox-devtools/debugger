@@ -9,6 +9,7 @@
  */
 
 import * as I from "immutable";
+import { createSelector } from "reselect";
 import makeRecord from "../utils/makeRecord";
 import { getPrettySourceURL } from "../utils/source";
 import { prefs } from "../utils/prefs";
@@ -273,6 +274,8 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
 // (right now) to type those wrapped functions.
 type OuterState = { sources: Record<SourcesState> };
 
+const getSourcesWrapper = state => state.sources;
+
 export function getSource(state: OuterState, id: string) {
   return state.sources.sources.get(id);
 }
@@ -285,9 +288,10 @@ export function getSourceById(state: OuterState, id: string) {
   return state.sources.sources.find(source => source.get("id") == id);
 }
 
-export function getSources(state: OuterState) {
-  return state.sources.sources;
-}
+export const getSources = createSelector(
+  getSourcesWrapper,
+  sourcesWrapper => sourcesWrapper.sources
+);
 
 export function getSourceText(state: OuterState, id: ?string) {
   if (id) {
@@ -295,24 +299,48 @@ export function getSourceText(state: OuterState, id: ?string) {
   }
 }
 
-export function getSourceTabs(state: OuterState) {
-  return state.sources.tabs.filter(tab => getSourceByURL(state, tab));
+const getTabs = createSelector(
+  getSourcesWrapper,
+  sourcesWrapper => sourcesWrapper.tabs
+);
+
+export const getSourceTabs = createSelector(
+  getTabs,
+  getSources,
+  (tabs, sources) => tabs.filter(tab => getSourceInSourcesByURL(sources, tab))
+);
+
+export const getSourceTabsSources = createSelector(
+  getSourceTabs,
+  getSources,
+  (tabs, sources) =>
+    tabs
+      .map(tab => getSourceInSourcesByURL(sources, tabs))
+      .filter(source => source)
+);
+
+function getSourceInSourcesByURL(sources: Array<any>, url: string) {
+  return sources.find(source => source.get("url") == url);
 }
 
-export function getSelectedSource(state: OuterState) {
-  const selectedLocation = state.sources.selectedLocation;
-  if (!selectedLocation) {
-    return;
+export const getSelectedLocation = createSelector(
+  getSourcesWrapper,
+  sources => sources.selectedLocation
+);
+
+export const getSelectedSource = createSelector(
+  getSelectedLocation,
+  getSources,
+  (selectedLocation, sources) => {
+    if (!selectedLocation) {
+      return;
+    }
+
+    return sources.find(
+      source => source.get("id") == selectedLocation.sourceId
+    );
   }
-
-  return state.sources.sources.find(
-    source => source.get("id") == selectedLocation.sourceId
-  );
-}
-
-export function getSelectedLocation(state: OuterState) {
-  return state.sources.selectedLocation;
-}
+);
 
 export function getPendingSelectedLocation(state: OuterState) {
   return state.sources.pendingSelectedLocation;

@@ -18,6 +18,7 @@ module.exports = {
   getSources: sources.getSources,
   getSourceText: sources.getSourceText,
   getSourceTabs: sources.getSourceTabs,
+  getSourceTabsSources: sources.getSourceTabsSources,
   getSelectedSource: sources.getSelectedSource,
   getSelectedLocation: sources.getSelectedLocation,
   getPendingSelectedLocation: sources.getPendingSelectedLocation,
