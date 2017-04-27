@@ -89,7 +89,7 @@ export function simplifyDisplayName(displayName) {
 }
 
 export function formatDisplayName(frame: Frame) {
-  const { displayName, library } = frame;
+  let { displayName, library } = frame;
   if (library) {
     displayName = mapDisplayNames(frame, library);
   }
