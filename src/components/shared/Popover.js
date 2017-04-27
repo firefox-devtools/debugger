@@ -1,8 +1,8 @@
 import { DOM as dom, PropTypes, Component } from "react";
-const ReactDOM = require("react-dom");
+import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 import classNames from "classnames";
 
-require("./Popover.css");
+import "./Popover.css";
 
 class Popover extends Component {
   constructor() {

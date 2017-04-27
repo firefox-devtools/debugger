@@ -10,7 +10,8 @@ import { parse as parseURL } from "url";
 import { isPretty } from "../utils/source";
 import "./ProjectSearch.css";
 
-const Autocomplete = createFactory(require("./shared/Autocomplete").default);
+import _Autocomplete from "./shared/Autocomplete";
+const Autocomplete = createFactory(_Autocomplete);
 
 function searchResults(sources) {
   function getSourcePath(source) {
@@ -94,7 +95,7 @@ class ProjectSearch extends Component {
     return dom.div(
       { className: "search-container" },
       Autocomplete({
-        selectItem: result => {
+        selectItem: (e, result) => {
           this.props.selectSource(result.id);
           this.close();
         },

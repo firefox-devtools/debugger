@@ -40,14 +40,6 @@
     "searchNav": {
       "label": "Search Navigation",
       "enabled": false
-    },
-    "symbolSearch": {
-      "label": "symbol Search",
-      "enabled": false
-    },
-    "editorPreview": {
-      "label": "Editor Preview",
-      "enabled": false
     }
   },
   "chrome": {

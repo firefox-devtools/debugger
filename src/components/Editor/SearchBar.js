@@ -1,9 +1,9 @@
 // @flow
 
 import { DOM as dom, PropTypes, createFactory, Component } from "react";
+import { findDOMNode } from "../../../node_modules/react-dom/dist/react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-const { findDOMNode } = require("react-dom");
 import { isEnabled } from "devtools-config";
 import { filter } from "fuzzaldrin-plus";
 import Svg from "../shared/Svg";
@@ -29,9 +29,13 @@ import { getSymbols } from "../../utils/parser";
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
 import debounce from "lodash/debounce";
-const SearchInput = createFactory(require("../shared/SearchInput").default);
-const ResultList = createFactory(require("../shared/ResultList").default);
 import ImPropTypes from "react-immutable-proptypes";
+
+import _SearchInput from "../shared/SearchInput";
+const SearchInput = createFactory(_SearchInput);
+
+import _ResultList from "../shared/ResultList";
+const ResultList = createFactory(_ResultList);
 
 import type {
   FormattedSymbolDeclaration,
@@ -143,14 +147,12 @@ class SearchBar extends Component {
 
     shortcuts.on(searchAgainShortcut, (_, e) => this.traverseResults(e, false));
 
-    if (isEnabled("symbolSearch")) {
-      shortcuts.on(symbolSearchShortcut, (_, e) =>
-        this.toggleSymbolSearch(e, {
-          toggle: false,
-          searchType: "functions"
-        })
-      );
-    }
+    shortcuts.on(symbolSearchShortcut, (_, e) =>
+      this.toggleSymbolSearch(e, {
+        toggle: false,
+        searchType: "functions"
+      })
+    );
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
@@ -470,7 +472,7 @@ class SearchBar extends Component {
   }
 
   onKeyUp(e: SyntheticKeyboardEvent) {
-    if (e.key !== "Enter" || e.key !== "F3") {
+    if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }
 
@@ -593,9 +595,6 @@ class SearchBar extends Component {
   }
 
   renderSearchTypeToggle() {
-    if (!isEnabled("symbolSearch")) {
-      return;
-    }
     const { toggleSymbolSearch } = this;
     const { symbolSearchOn, selectedSymbolType } = this.props;
 
@@ -629,7 +628,7 @@ class SearchBar extends Component {
   }
 
   renderBottomBar() {
-    if (!isEnabled("searchModifiers") || !isEnabled("symbolSearch")) {
+    if (!isEnabled("searchModifiers")) {
       return;
     }
 

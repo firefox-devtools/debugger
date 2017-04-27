@@ -16,13 +16,26 @@ import "./App.css";
 import "./shared/menu.css";
 import "./shared/reps.css";
 
-const SplitBox = createFactory(require("devtools-splitter"));
-const ProjectSearch = createFactory(require("./ProjectSearch").default);
-const Sources = createFactory(require("./Sources").default);
-const Editor = createFactory(require("./Editor").default);
-const SecondaryPanes = createFactory(require("./SecondaryPanes").default);
-const WelcomeBox = createFactory(require("./WelcomeBox").default);
-const EditorTabs = createFactory(require("./Editor/Tabs"));
+import _SplitBox from "devtools-splitter";
+const SplitBox = createFactory(_SplitBox);
+
+import _ProjectSearch from "./ProjectSearch";
+const ProjectSearch = createFactory(_ProjectSearch);
+
+import _Sources from "./Sources";
+const Sources = createFactory(_Sources);
+
+import _Editor from "./Editor";
+const Editor = createFactory(_Editor);
+
+import _SecondaryPanes from "./SecondaryPanes";
+const SecondaryPanes = createFactory(_SecondaryPanes);
+
+import _WelcomeBox from "./WelcomeBox";
+const WelcomeBox = createFactory(_WelcomeBox);
+
+import _EditorTabs from "./Editor/Tabs";
+const EditorTabs = createFactory(_EditorTabs);
 
 class App extends Component {
   state: {
