@@ -46,7 +46,7 @@ describe("PreviewFunction", () => {
       expect(nameSpanChild.props.children).toEqual("chuck");
     });
 
-    it('should be be set to displayName if defined and no "userDisplayName" is defined', () => {
+    it('should use displayName if defined & no "userDisplayName" exist', () => {
       const item = {
         displayName: "norris",
         name: "last"
@@ -56,7 +56,7 @@ describe("PreviewFunction", () => {
       expect(nameSpanChild.props.children).toEqual("norris");
     });
 
-    it('should be be set to name if defined and no "userDisplayName" nor "displayName" are defined', () => {
+    it('should use to name if no "userDisplayName"/"displayName" exist', () => {
       const item = {
         name: "last"
       };
