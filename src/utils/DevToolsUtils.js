@@ -1,4 +1,4 @@
-const assert = require("./assert");
+import assert from "./assert";
 
 function reportException(who, exception) {
   let msg = `${who} threw an exception: `;
@@ -9,4 +9,4 @@ function executeSoon(fn) {
   setTimeout(fn, 0);
 }
 
-module.exports = { reportException, executeSoon, assert };
+export { reportException, executeSoon, assert };
