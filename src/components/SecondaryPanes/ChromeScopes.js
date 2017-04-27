@@ -3,12 +3,15 @@ import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import classnames from "classnames";
+
 import actions from "../../actions";
 import { getChromeScopes, getLoadedObjects, getPause } from "../../selectors";
-const ManagedTree = createFactory(require("../shared/ManagedTree").default);
-import classnames from "classnames";
 import Svg from "../shared/Svg";
 import "./Scopes.css";
+
+import _ManagedTree from "../shared/ManagedTree";
+const ManagedTree = createFactory(_ManagedTree);
 
 function info(text) {
   return dom.div({ className: "pane-info" }, text);
