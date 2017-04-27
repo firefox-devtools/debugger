@@ -4,7 +4,7 @@ import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
-import { getSources, getSelectedSource, getPaneCollapse } from "../selectors";
+import { getSelectedSource, getPaneCollapse } from "../selectors";
 
 import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
@@ -99,7 +99,7 @@ class App extends Component {
   }
 
   renderHorizontalLayout() {
-    const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
+    const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
 
     const overflowX = endPanelCollapsed ? "hidden" : "auto";
@@ -113,7 +113,7 @@ class App extends Component {
         maxSize: "50%",
         splitterSize: 1,
         onResizeEnd: size => this.setState({ startPanelSize: size }),
-        startPanel: Sources({ sources, horizontal }),
+        startPanel: Sources({ horizontal }),
         startPanelCollapsed,
         endPanel: SplitBox({
           style: { overflowX },
@@ -133,7 +133,7 @@ class App extends Component {
   }
 
   renderVerticalLayout() {
-    const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
+    const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
 
     return dom.div(
@@ -152,7 +152,7 @@ class App extends Component {
           maxSize: "40%",
           splitterSize: 1,
           startPanelCollapsed,
-          startPanel: Sources({ sources, horizontal }),
+          startPanel: Sources({ horizontal }),
           endPanel: this.renderEditorPane()
         }),
         endPanel: SecondaryPanes({ horizontal }),
@@ -169,7 +169,6 @@ class App extends Component {
 }
 
 App.propTypes = {
-  sources: PropTypes.object,
   selectSource: PropTypes.func,
   selectedSource: PropTypes.object,
   startPanelCollapsed: PropTypes.bool,
@@ -182,7 +181,6 @@ App.childContextTypes = { shortcuts: PropTypes.object };
 
 export default connect(
   state => ({
-    sources: getSources(state),
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
     endPanelCollapsed: getPaneCollapse(state, "end")
