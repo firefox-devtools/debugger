@@ -11,7 +11,6 @@ import {
   getSelectedSource,
   getDebuggeeUrl
 } from "../selectors";
-
 import {
   nodeHasChildren,
   createParentMap,
@@ -159,6 +158,9 @@ class SourcesTree extends Component {
     }
 
     if (!nodeHasChildren(item)) {
+      if (this.props.sources.find(v => /react/.test(v))) {
+        return Svg("react");
+      }
       return Svg("file");
     }
 
