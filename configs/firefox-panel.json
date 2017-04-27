@@ -11,7 +11,6 @@
   },
   "features": {
     "blackbox": { "enabled": true },
-    "watchExpressions": { "enabled": true },
     "chromeScopes": { "enabled": false },
     "eventListeners": { "enabled": false },
     "codeCoverage": { "enabled": false },
