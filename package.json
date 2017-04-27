@@ -106,6 +106,7 @@
     "husky": "^0.13.2",
     "jest": "^19.0.2",
     "lint-staged": "^3.4.0",
+    "react-addons-perf": "15.3.2",
     "react-addons-test-utils": "=15.3.2",
     "remark-cli": "^3.0.0",
     "remark-lint": "^6.0.0",
