@@ -4,7 +4,6 @@ import { DOM as dom, PropTypes, createFactory, Component } from "react";
 import { findDOMNode } from "../../../node_modules/react-dom/dist/react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { isEnabled } from "devtools-config";
 import { filter } from "fuzzaldrin-plus";
 import Svg from "../shared/Svg";
 import actions from "../../actions";
@@ -550,10 +549,6 @@ class SearchBar extends Component {
   }
 
   renderSearchModifiers() {
-    if (!isEnabled("searchModifiers")) {
-      return;
-    }
-
     const { modifiers, toggleFileSearchModifier, symbolSearchOn } = this.props;
 
     function searchModBtn(modVal, className, svgName, tooltip) {
@@ -628,10 +623,6 @@ class SearchBar extends Component {
   }
 
   renderBottomBar() {
-    if (!isEnabled("searchModifiers")) {
-      return;
-    }
-
     return dom.div(
       { className: "search-bottom-bar" },
       this.renderSearchTypeToggle(),
