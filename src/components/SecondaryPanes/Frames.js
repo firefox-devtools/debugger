@@ -3,22 +3,23 @@
 import { DOM as dom, PropTypes, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import get from "lodash/get";
+import { showMenu } from "devtools-launchpad";
+import classNames from "classnames";
+
 import actions from "../../actions";
 import { filterDuplicates } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
 import Svg from "../shared/Svg";
-import get from "lodash/get";
 
 import { getFrames, getSelectedFrame, getSource } from "../../selectors";
 
-import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import {
   formatDisplayName,
   annotateFrame,
   formatCopyName
 } from "../../utils/frame";
-import classNames from "classnames";
 
 import type { Frame, Source } from "../../types";
 
