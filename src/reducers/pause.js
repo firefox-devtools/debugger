@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { createSelector } from "reselect";
 import fromJS from "../utils/fromJS";
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
@@ -138,13 +139,15 @@ function update(
 // (right now) to type those wrapped functions.
 type OuterState = { pause: Record<PauseState> };
 
-export function getPause(state: OuterState) {
-  return state.pause.get("pause");
-}
+const getPauseWrapper = state => state.pause;
 
-export function getLoadedObjects(state: OuterState) {
-  return state.pause.get("loadedObjects");
-}
+export const getPause = createSelector(getPauseWrapper, pauseWrapper =>
+  pauseWrapper.get("pause")
+);
+
+export const getLoadedObjects = createSelector(getPauseWrapper, pauseWrapper =>
+  pauseWrapper.get("loadedObjects")
+);
 
 export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state).get(objectId);

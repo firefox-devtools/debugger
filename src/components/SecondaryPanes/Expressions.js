@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, createFactory, Component } from "react";
+import { DOM as dom, PropTypes, createFactory, PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
@@ -46,7 +46,7 @@ function getValue(expression) {
   };
 }
 
-class Expressions extends Component {
+class Expressions extends PureComponent {
   _input: null | any;
 
   state: {
