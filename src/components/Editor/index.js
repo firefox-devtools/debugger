@@ -4,6 +4,7 @@ import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { createSelector } from "reselect";
 import classnames from "classnames";
 import debounce from "lodash/debounce";
 import { isEnabled } from "devtools-config";
@@ -19,7 +20,6 @@ import {
   getSelectedLocation,
   getSelectedFrame,
   getSelectedSource,
-  getExpression,
   getHitCountForSource,
   getCoverageEnabled,
   getLoadedObjects,
@@ -850,6 +850,10 @@ Editor.contextTypes = {
   shortcuts: PropTypes.object
 };
 
+const expressionsSel = state => state.expressions;
+const getExpressionSel = createSelector(expressionsSel, expressions => input =>
+  expressions.find(exp => exp.input == input));
+
 export default connect(
   state => {
     const selectedLocation = getSelectedLocation(state);
@@ -865,7 +869,7 @@ export default connect(
       breakpoints: getBreakpointsForSource(state, sourceId || ""),
       hitCount: getHitCountForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state),
-      getExpression: getExpression.bind(null, state),
+      getExpression: getExpressionSel(state),
       pauseData: getPause(state),
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),
