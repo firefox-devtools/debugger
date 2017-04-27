@@ -171,7 +171,7 @@ class SecondaryPanes extends Component {
       });
     }
 
-    if (isEnabled("watchExpressions") && this.props.horizontal) {
+    if (this.props.horizontal) {
       items.unshift(this.getWatchItem());
     }
 
@@ -191,7 +191,7 @@ class SecondaryPanes extends Component {
       items.unshift(this.getScopeItem());
     }
 
-    if (isEnabled("watchExpressions") && !this.props.horizontal) {
+    if (!this.props.horizontal) {
       items.unshift(this.getWatchItem());
     }
 

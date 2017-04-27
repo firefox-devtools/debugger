@@ -5,10 +5,6 @@
     "actions": false
   },
   "features": {
-    "watchExpressions": {
-      "label": "Watch Expressions",
-      "enabled": false
-    },
     "chromeScopes": {
       "label": "Chrome Scopes",
       "enabled": false
