@@ -19,10 +19,6 @@
       "label": "Black Box",
       "enabled": true
     },
-    "watchExpressions": {
-      "label": "Watch Expressions",
-      "enabled": true
-    },
     "previewWatch": {
       "label": "Add watch expression from preview",
       "enabled": true

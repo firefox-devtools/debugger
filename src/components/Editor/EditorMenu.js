@@ -1,5 +1,4 @@
 import { showMenu } from "devtools-launchpad";
-import { isEnabled } from "devtools-config";
 import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 
@@ -93,7 +92,7 @@ function getMenuItems(
     blackBoxMenuItem
   ];
 
-  if (isEnabled("watchExpressions") && textSelected) {
+  if (textSelected) {
     menuItems.push(watchExpressionLabel);
   }
 

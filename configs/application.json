@@ -13,10 +13,6 @@
     "actions": false
   },
   "features": {
-    "watchExpressions": {
-      "label": "Watch Expressions",
-      "enabled": true  
-    },
     "chromeScopes": {
       "label": "Chrome Scopes",
       "enabled": false
