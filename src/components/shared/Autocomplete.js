@@ -87,7 +87,7 @@ export default class Autocomplete extends Component {
       e.preventDefault();
     } else if (e.key === "Enter") {
       if (searchResults.length) {
-        this.props.selectItem(searchResults[this.state.selectedIndex]);
+        this.props.selectItem(e, searchResults[this.state.selectedIndex]);
       } else {
         this.props.close(this.state.inputValue);
       }

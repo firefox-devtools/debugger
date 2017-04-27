@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import { DOM as dom, PropTypes, createFactory, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
@@ -9,13 +9,12 @@ import {
   getLoadedObjects,
   getPause
 } from "../../selectors";
-const CloseButton = React.createFactory(
-  require("../shared/Button/Close").default
-);
-const ObjectInspector = React.createFactory(
-  require("../shared/ObjectInspector").default
-);
-const { DOM: dom, PropTypes } = React;
+
+import _CloseButton from "../shared/Button/Close";
+const CloseButton = createFactory(_CloseButton);
+
+import _ObjectInspector from "../shared/ObjectInspector";
+const ObjectInspector = createFactory(_ObjectInspector);
 
 import "./Expressions.css";
 function getValue(expression) {
@@ -47,7 +46,7 @@ function getValue(expression) {
   };
 }
 
-class Expressions extends React.Component {
+class Expressions extends Component {
   _input: null | any;
 
   state: {

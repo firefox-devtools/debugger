@@ -1,9 +1,10 @@
 // @flow
 import { DOM as dom, PropTypes, Component } from "react";
 
-const { findDOMNode } = require("react-dom");
+import { findDOMNode } from "../../../node_modules/react-dom/dist/react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import ImPropTypes from "react-immutable-proptypes";
 import {
   getPause,
   getIsWaitingOnBreak,
@@ -11,12 +12,12 @@ import {
   getShouldIgnoreCaughtExceptions
 } from "../../selectors";
 import Svg from "../shared/Svg";
-import ImPropTypes from "react-immutable-proptypes";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
 import "./CommandBar.css";
 
-const { Services: { appinfo } } = require("devtools-modules");
+import { Services } from "devtools-modules";
+const { appinfo } = Services;
 
 const isMacOS = appinfo.OS === "Darwin";
 

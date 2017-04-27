@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import { createFactory } from "react";
 
 import type { ObjectInspectorItemContentsValue } from "./ObjectInspector";
 
@@ -8,8 +8,9 @@ type RenderRepOptions = {
   mode: string
 };
 
-let { REPS: { Rep, Grip } } = require("devtools-reps");
-Rep = React.createFactory(Rep);
+import { REPS } from "devtools-reps";
+const { Rep: _Rep, Grip } = REPS;
+const Rep = createFactory(_Rep);
 
 export default function renderRep({ object, mode }: RenderRepOptions) {
   return Rep({ object, defaultRep: Grip, mode });
