@@ -45,13 +45,13 @@ class SearchInput extends Component {
         handleNext,
         "arrow-down",
         classnames("nav-btn", "next"),
-        "Next Result"
+        L10N.getFormatStr("editor.searchResults.nextResult")
       ),
       arrowBtn(
         handlePrev,
         "arrow-up",
         classnames("nav-btn", "prev"),
-        "Previous Result"
+        L10N.getFormatStr("editor.searchResults.prevResult")
       )
     ];
   }
