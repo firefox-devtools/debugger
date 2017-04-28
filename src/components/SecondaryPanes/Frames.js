@@ -89,7 +89,11 @@ class Frames extends Component {
     });
   }
 
-  onContextMenu(event: SyntheticKeyboardEvent, frame: Frame, frames: Frame[]) {
+  onContextMenu(
+    event: SyntheticKeyboardEvent,
+    frame: LocalFrame,
+    frames: LocalFrame[]
+  ) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
     const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
     const copyStackTraceLabel = L10N.getStr("copyStackTrace");
@@ -113,23 +117,21 @@ class Frames extends Component {
       menuOptions.push(copySourceUrl);
     }
 
-    if (source) {
-      const framesToCopy = frames.map(f => formatCopyName(f)).join("\n");
-      const copyStackTrace = {
-        id: "node-menu-copy-source",
-        label: copyStackTraceLabel,
-        accesskey: copyStackTraceKey,
-        disabled: false,
-        click: () => copyToTheClipboard(framesToCopy)
-      };
+    const framesToCopy = frames.map(f => formatCopyName(f)).join("\n");
+    const copyStackTrace = {
+      id: "node-menu-copy-source",
+      label: copyStackTraceLabel,
+      accesskey: copyStackTraceKey,
+      disabled: false,
+      click: () => copyToTheClipboard(framesToCopy)
+    };
 
-      menuOptions.push(copyStackTrace);
-    }
+    menuOptions.push(copyStackTrace);
 
     showMenu(event, menuOptions);
   }
 
-  renderFrame(frame: LocalFrame, frames) {
+  renderFrame(frame: LocalFrame, frames: LocalFrame[]) {
     const { selectedFrame } = this.props;
     return dom.li(
       {

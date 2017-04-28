@@ -104,5 +104,5 @@ export function formatCopyName(frame: Frame) {
   const fileName = getFilename(frame.source);
   const frameLocation = frame.location.line;
 
-  return `${displayName}  ${fileName}#${frameLocation}`;
+  return `${displayName} (${fileName}#${frameLocation})`;
 }
