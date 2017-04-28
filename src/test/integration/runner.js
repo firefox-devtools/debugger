@@ -90,7 +90,9 @@ describe("Tests", () => {
 
   xit("searching", async () => await searching(ctx));
 
-  it("scopes", async () => await scopes(ctx));
+  it("scopes - expanding properties", async () =>
+    await scopes.expandingProperties(ctx));
+  it("scopes - changing scopes", async () => await scopes.changingScopes(ctx));
 
   it("render the expected scopes when variable mutates while stepping", async () =>
     await scopesMutations(ctx));
