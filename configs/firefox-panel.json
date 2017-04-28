@@ -14,7 +14,6 @@
     "chromeScopes": { "enabled": false },
     "eventListeners": { "enabled": false },
     "codeCoverage": { "enabled": false },
-    "searchModifiers": { "enabled": true },
     "showSource": { "enabled": true   }
   }
 }

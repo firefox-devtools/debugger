@@ -39,10 +39,6 @@
       "label": "Code Folding",
       "enabled": false
     },
-    "searchModifiers": {
-      "label": "Search Modifiers",
-      "enabled": true
-    },
     "searchNav": {
       "label": "Search Navigation",
       "enabled": false
