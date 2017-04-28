@@ -42,7 +42,7 @@ function isTextForSource(sourceText) {
   return !sourceText.get("loading") && !sourceText.get("error");
 }
 
-function breakpointAtLocation(breakpoints, { line, column }) {
+function breakpointAtLocation(breakpoints, { line, column = undefined }) {
   return breakpoints.find(bp => {
     return bp.location.line === line + 1 && bp.location.column === column;
   });

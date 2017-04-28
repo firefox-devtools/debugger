@@ -453,7 +453,7 @@ class Editor extends Component {
     }
 
     const line = this.editor.codeMirror.lineAtHeight(event.clientY);
-    const bp = breakpointAtLocation(this.props.breakpoints, line);
+    const bp = breakpointAtLocation(this.props.breakpoints, { line });
     GutterMenu({
       event,
       line,
@@ -478,7 +478,7 @@ class Editor extends Component {
     } = this.props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
-    const bp = breakpointAtLocation(breakpoints, line);
+    const bp = breakpointAtLocation(breakpoints, { line });
     const location = { sourceId, line: line + 1 };
     const condition = bp ? bp.condition : "";
 
@@ -549,7 +549,7 @@ class Editor extends Component {
   }
 
   toggleBreakpointDisabledStatus(line) {
-    const bp = breakpointAtLocation(this.props.breakpoints, line);
+    const bp = breakpointAtLocation(this.props.breakpoints, { line });
     const { selectedLocation } = this.props;
 
     if ((bp && bp.loading) || !selectedLocation) {
