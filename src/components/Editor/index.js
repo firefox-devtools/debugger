@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import debounce from "lodash/debounce";
+import { isEnabled } from "devtools-config";
 import { getMode } from "../../utils/source";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
@@ -509,7 +510,7 @@ class Editor extends Component {
     return !!this.cbPanel;
   }
 
-  toggleBreakpoint(line, column = null) {
+  toggleBreakpoint(line, column = undefined) {
     const {
       selectedSource,
       selectedLocation,
