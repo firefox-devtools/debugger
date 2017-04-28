@@ -200,6 +200,7 @@ class ObjectInspector extends Component {
   render() {
     const {
       name,
+      path,
       desc,
       loadObjectProperties,
       autoExpandDepth,
@@ -209,7 +210,7 @@ class ObjectInspector extends Component {
 
     let roots = this.props.roots;
     if (!roots) {
-      roots = [createNode(name, name, desc)];
+      roots = [createNode(name, path || name, desc)];
     }
 
     return ManagedTree({
@@ -240,6 +241,7 @@ ObjectInspector.propTypes = {
   autoExpandDepth: PropTypes.number,
   name: PropTypes.string,
   desc: PropTypes.object,
+  path: PropTypes.string,
   roots: PropTypes.array,
   getObjectProperties: PropTypes.func.isRequired,
   loadObjectProperties: PropTypes.func.isRequired,
