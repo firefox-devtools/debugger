@@ -42,9 +42,9 @@ function isTextForSource(sourceText) {
   return !sourceText.get("loading") && !sourceText.get("error");
 }
 
-function breakpointAtLine(breakpoints, line) {
-  return breakpoints.find(b => {
-    return b.location.line === line + 1;
+function breakpointAtLocation(breakpoints, { line, column = undefined }) {
+  return breakpoints.find(bp => {
+    return bp.location.line === line + 1 && bp.location.column === column;
   });
 }
 
@@ -108,7 +108,7 @@ module.exports = Object.assign(
     shouldShowFooter,
     buildQuery,
     isTextForSource,
-    breakpointAtLine,
+    breakpointAtLocation,
     traverseResults,
     updateDocument
   }
