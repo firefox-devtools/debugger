@@ -11,7 +11,6 @@ import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
-import { isEnabled } from "devtools-config";
 import {
   getSourceText,
   getFileSearchState,
@@ -315,10 +314,6 @@ class Editor extends Component {
     const { query, searchModifiers } = this.props;
     const { editor: { codeMirror } } = this.editor;
     const ctx = { ed: this.editor, cm: codeMirror };
-
-    if (!searchModifiers) {
-      return;
-    }
 
     const direction = e.shiftKey ? "prev" : "next";
     traverseResults(e, ctx, query, direction, searchModifiers.toJS());
@@ -696,12 +691,7 @@ class Editor extends Component {
 
     if (searchOn) {
       subtractions.push(cssVars.searchbarHeight);
-
-      const secondSearchBarOn = isEnabled("searchModifiers");
-
-      if (secondSearchBarOn) {
-        subtractions.push(cssVars.secondSearchbarHeight);
-      }
+      subtractions.push(cssVars.secondSearchbarHeight);
     }
 
     return {
