@@ -5,10 +5,6 @@
     "actions": false
   },
   "features": {
-    "watchExpressions": {
-      "label": "Watch Expressions",
-      "enabled": false
-    },
     "chromeScopes": {
       "label": "Chrome Scopes",
       "enabled": false
@@ -23,10 +19,6 @@
     },
     "codeFolding": {
       "label": "Code Folding",
-      "enabled": false
-    },
-    "searchModifiers": {
-      "label": "Search Modifiers",
       "enabled": false
     },
     "searchNav": {

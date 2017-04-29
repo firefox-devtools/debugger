@@ -15,7 +15,11 @@ import Svg from "../shared/Svg";
 import { getFrames, getSelectedFrame, getSource } from "../../selectors";
 
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { formatDisplayName, annotateFrame } from "../../utils/frame";
+import {
+  formatDisplayName,
+  annotateFrame,
+  formatCopyName
+} from "../../utils/frame";
 
 import type { Frame, Source } from "../../types";
 
@@ -26,14 +30,6 @@ type LocalFrame = Frame & {
 import "./Frames.css";
 
 const NUM_FRAMES_SHOWN = 7;
-
-function renderCopyName(frame: Frame) {
-  const displayName = formatDisplayName(frame);
-  const fileName = getFilename(frame.source);
-  const frameLocation = frame.location.line;
-
-  return `${displayName} (${fileName}#${frameLocation})`;
-}
 
 function renderFrameTitle(frame: Frame) {
   const displayName = formatDisplayName(frame);
@@ -93,7 +89,11 @@ class Frames extends Component {
     });
   }
 
-  onContextMenu(event: SyntheticKeyboardEvent, frame: Frame, frames: Frame[]) {
+  onContextMenu(
+    event: SyntheticKeyboardEvent,
+    frame: LocalFrame,
+    frames: LocalFrame[]
+  ) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
     const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
     const copyStackTraceLabel = L10N.getStr("copyStackTrace");
@@ -113,10 +113,11 @@ class Frames extends Component {
         disabled: false,
         click: () => copyToTheClipboard(source.url)
       };
+
       menuOptions.push(copySourceUrl);
     }
 
-    const framesToCopy = frames.map(f => renderCopyName(f)).join("\n");
+    const framesToCopy = frames.map(f => formatCopyName(f)).join("\n");
     const copyStackTrace = {
       id: "node-menu-copy-source",
       label: copyStackTraceLabel,
@@ -124,6 +125,7 @@ class Frames extends Component {
       disabled: false,
       click: () => copyToTheClipboard(framesToCopy)
     };
+
     menuOptions.push(copyStackTrace);
 
     showMenu(event, menuOptions);

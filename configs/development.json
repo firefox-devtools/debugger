@@ -19,10 +19,6 @@
       "label": "Black Box",
       "enabled": true
     },
-    "watchExpressions": {
-      "label": "Watch Expressions",
-      "enabled": true
-    },
     "previewWatch": {
       "label": "Add watch expression from preview",
       "enabled": true
@@ -42,10 +38,6 @@
     "codeFolding": {
       "label": "Code Folding",
       "enabled": false
-    },
-    "searchModifiers": {
-      "label": "Search Modifiers",
-      "enabled": true
     },
     "searchNav": {
       "label": "Search Navigation",
