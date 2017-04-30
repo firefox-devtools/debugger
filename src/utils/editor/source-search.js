@@ -1,7 +1,7 @@
 // @flow
 
-const buildQuery = require("./build-query");
-const findIndex = require("lodash/findIndex");
+import buildQuery from "./build-query";
+import findIndex from "lodash/findIndex";
 
 import type { SearchModifiers } from "../../types";
 
@@ -322,7 +322,7 @@ function countMatches(
   return match ? match.length : 0;
 }
 
-module.exports = {
+export {
   buildQuery,
   clearIndex,
   countMatches,
