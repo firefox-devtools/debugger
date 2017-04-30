@@ -15,7 +15,11 @@ import Svg from "../shared/Svg";
 import { getFrames, getSelectedFrame, getSource } from "../../selectors";
 
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { formatDisplayName, annotateFrame } from "../../utils/frame";
+import {
+  formatDisplayName,
+  annotateFrame,
+  formatCopyName
+} from "../../utils/frame";
 
 import type { Frame, Source } from "../../types";
 
@@ -85,9 +89,15 @@ class Frames extends Component {
     });
   }
 
-  onContextMenu(event: SyntheticKeyboardEvent, frame: Frame) {
+  onContextMenu(
+    event: SyntheticKeyboardEvent,
+    frame: LocalFrame,
+    frames: LocalFrame[]
+  ) {
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
     const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
+    const copyStackTraceLabel = L10N.getStr("copyStackTrace");
+    const copyStackTraceKey = L10N.getStr("copyStackTrace.accesskey");
 
     event.stopPropagation();
     event.preventDefault();
@@ -107,10 +117,21 @@ class Frames extends Component {
       menuOptions.push(copySourceUrl);
     }
 
+    const framesToCopy = frames.map(f => formatCopyName(f)).join("\n");
+    const copyStackTrace = {
+      id: "node-menu-copy-source",
+      label: copyStackTraceLabel,
+      accesskey: copyStackTraceKey,
+      disabled: false,
+      click: () => copyToTheClipboard(framesToCopy)
+    };
+
+    menuOptions.push(copyStackTrace);
+
     showMenu(event, menuOptions);
   }
 
-  renderFrame(frame: LocalFrame) {
+  renderFrame(frame: LocalFrame, frames: LocalFrame[]) {
     const { selectedFrame } = this.props;
     return dom.li(
       {
@@ -120,7 +141,7 @@ class Frames extends Component {
         }),
         onMouseDown: e => this.onMouseDown(e, frame, selectedFrame),
         onKeyUp: e => this.onKeyUp(e, frame, selectedFrame),
-        onContextMenu: e => this.onContextMenu(e, frame),
+        onContextMenu: e => this.onContextMenu(e, frame, frames),
         tabIndex: 0
       },
       renderFrameTitle(frame),
@@ -149,7 +170,10 @@ class Frames extends Component {
 
     const framesToShow = frames.slice(0, numFramesToShow);
 
-    return dom.ul({}, framesToShow.map(this.renderFrame));
+    return dom.ul(
+      {},
+      framesToShow.map(frame => this.renderFrame(frame, framesToShow))
+    );
   }
 
   renderToggleButton(frames: Frame[]) {
