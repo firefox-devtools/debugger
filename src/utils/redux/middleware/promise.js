@@ -4,14 +4,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const defer = require("../../defer");
-const toPairs = require("lodash/toPairs");
-const fromPairs = require("lodash/fromPairs");
-const { executeSoon } = require("../../DevToolsUtils");
+import defer from "../../defer";
+import toPairs from "lodash/toPairs";
+import fromPairs from "lodash/fromPairs";
+import { executeSoon } from "../../DevToolsUtils";
 
 import type { ThunkArgs } from "../../../actions/types";
 
-const PROMISE = (exports.PROMISE = "@@dispatch/promise");
 let seqIdVal = 1;
 
 function seqIdGen() {
@@ -68,4 +67,5 @@ function promiseMiddleware({ dispatch, getState }: ThunkArgs) {
   };
 }
 
-exports.promise = promiseMiddleware;
+export const PROMISE = "@@dispatch/promise";
+export { promiseMiddleware as promise };
