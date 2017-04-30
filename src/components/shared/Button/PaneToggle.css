@@ -18,8 +18,8 @@
 }
 
 .toggle-button-end {
-  margin-left: auto;
-  margin-right: 5px;
+  margin-inline-end: 5px;
+  margin-inline-start: auto;
 }
 
 html[dir="rtl"] .toggle-button-end {
@@ -28,7 +28,7 @@ html[dir="rtl"] .toggle-button-end {
 }
 
 .toggle-button-start {
-  margin-left: 5px;
+  margin-inline-start: 5px;
 }
 
 html[dir="rtl"] .toggle-button-start {
