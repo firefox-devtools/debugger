@@ -1,7 +1,7 @@
 // @flow
 
-const prettyFast = require("pretty-fast");
-const assert = require("../assert");
+import prettyFast from "pretty-fast";
+import assert from "../assert";
 
 type Mappings = {
   _array: Mapping[]
