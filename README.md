@@ -27,7 +27,7 @@ yarn start
 * Claim an [available] issue. If you get stuck, we'd be happy to [help].
 * Do our getting started activity [debugging the debugger][first-activity]
 * Read the [app overview][app-overview] or [contributing][contributing] guidelines
-* Watch a [video][getting-started-screencast] on contributing to the Debugger.
+* Watch a [video][getting-started-screencast] on contributing to the Debugger. Or [listen][changelog] to a podcast about the project.
 * Go to the [features][tracking] board to see what we're working on
 
 ### Getting Involved
@@ -98,6 +98,7 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [irc-devtools-html]: irc://irc.mozilla.org/devtools-html
 [community-call]: https://hangouts.google.com/hangouts/_/calendar/amFzb24ubGFzdGVyLjExQGdtYWlsLmNvbQ.30mdpa6ncqn8uttvmrj9b9d3jc
 [devtools-call]: https://wiki.mozilla.org/DevTools
+[changelog]: https://changelog.com/podcast/247
 
 [Configs]: ./docs/local-development.md#configs
 [Hot Reloading]: ./docs/local-development.md#hot-reloading-fire
