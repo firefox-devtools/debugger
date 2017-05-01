@@ -6,7 +6,7 @@
  */
 
 const { parse } = require("url");
-const { assert } = require("./DevToolsUtils");
+import assert from "./DevToolsUtils";
 const { isPretty } = require("./source");
 const merge = require("lodash/merge");
 

@@ -1,5 +1,5 @@
 // @flow
-const escapeRegExp = require("lodash/escapeRegExp");
+import escapeRegExp from "lodash/escapeRegExp";
 
 import type { SearchModifiers } from "../../types";
 
@@ -42,7 +42,7 @@ function buildFlags(caseSensitive: boolean, isGlobal: boolean): ?RegExp$flags {
   return;
 }
 
-function buildQuery(
+export default function buildQuery(
   originalQuery: string,
   modifiers: SearchModifiers,
   { isGlobal = false, ignoreSpaces = false }: QueryOptions
@@ -71,5 +71,3 @@ function buildQuery(
 
   return new RegExp(query);
 }
-
-module.exports = buildQuery;
