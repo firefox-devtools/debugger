@@ -5,14 +5,13 @@
  * @module utils/test-head
  */
 
-const { combineReducers } = require("redux");
-const sourceMaps = require("devtools-source-map");
+import { combineReducers } from "redux";
+import sourceMaps from "devtools-source-map";
 import reducers from "../reducers";
-const actions = require("../actions").default;
-const selectors = require("../selectors");
+import actions from "../actions";
+import selectors from "../selectors";
 import constants from "../constants";
-
-const configureStore = require("../utils/create-store");
+import configureStore from "../utils/create-store";
 
 /**
  * @memberof utils/test-head
@@ -67,7 +66,7 @@ function waitForState(store: any, predicate: any) {
   });
 }
 
-module.exports = {
+export {
   actions,
   constants,
   selectors,

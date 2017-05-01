@@ -10,12 +10,12 @@
  * @module utils/create-store
  */
 
-const { createStore, applyMiddleware } = require("redux");
-const { waitUntilService } = require("./redux/middleware/wait-service");
-const { log } = require("./redux/middleware/log");
-const { history } = require("./redux/middleware/history");
-const { promise } = require("./redux/middleware/promise");
-const { thunk } = require("./redux/middleware/thunk");
+import { createStore, applyMiddleware } from "redux";
+import { waitUntilService } from "./redux/middleware/wait-service";
+import { log } from "./redux/middleware/log";
+import { history } from "./redux/middleware/history";
+import { promise } from "./redux/middleware/promise";
+import { thunk } from "./redux/middleware/thunk";
 
 /**
  * @memberof utils/create-store
@@ -73,4 +73,4 @@ const configureStore = (opts: ReduxStoreOptions = {}) => {
   return applyMiddleware(...middleware)(devtoolsExt(createStore));
 };
 
-module.exports = configureStore;
+export default configureStore;
