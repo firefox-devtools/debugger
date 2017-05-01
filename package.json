@@ -38,6 +38,7 @@
     "flow-utils": "flow-coverage-report -i 'src/utils/*.js' -t text",
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
+    "storybook": "start-storybook -p 9001 -c .storybook",
     "prepush": "yarn lint && yarn test && yarn flow",
     "postmerge": "node bin/post-merge.js",
     "precommit": "lint-staged",
@@ -45,6 +46,7 @@
   },
   "dependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
+    "babel-preset-react": "^6.24.1",
     "babel-traverse": "^6.22.1",
     "babel-types": "^6.22.0",
     "babylon": "^6.15.0",
@@ -98,6 +100,7 @@
   "main": "src/main.js",
   "author": "Jason Laster <jlaster@mozilla.com>",
   "devDependencies": {
+    "@kadira/storybook": "^2.35.3",
     "enzyme": "^2.8.0",
     "husky": "^0.13.2",
     "jest": "^19.0.2",
