@@ -45,4 +45,4 @@ const Task = {
   }
 };
 
-module.exports = { Task };
+export { Task };
