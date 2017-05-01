@@ -5,10 +5,10 @@
  * @module utils/sources-tree
  */
 
-const { parse } = require("url");
+import { parse } from "url";
 import assert from "./DevToolsUtils";
-const { isPretty } = require("./source");
-const merge = require("lodash/merge");
+import { isPretty } from "./source";
+import merge from "lodash/merge";
 
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
@@ -388,7 +388,7 @@ function getDirectories(sourceUrl: string, sourceTree: any) {
   }
 }
 
-module.exports = {
+export {
   createNode,
   nodeHasChildren,
   createParentMap,
