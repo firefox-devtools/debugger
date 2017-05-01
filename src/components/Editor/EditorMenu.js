@@ -8,6 +8,7 @@ function getMenuItems(
     codeMirror,
     selectedLocation,
     selectedSource,
+    showSource,
     onGutterContextMenu,
     jumpToMappedLocation,
     toggleBlackBox,
@@ -76,7 +77,8 @@ function getMenuItems(
     id: "node-menu-show-source",
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
-    disabled: false
+    disabled: false,
+    click: () => showSource(selectedSource.get("id"))
   };
 
   if (selectedSource && selectedSource.get("isBlackBoxed")) {

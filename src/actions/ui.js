@@ -1,6 +1,10 @@
 // @flow
 import constants from "../constants";
-import { getProjectSearchState, getFileSearchState } from "../selectors";
+import {
+  getSource,
+  getProjectSearchState,
+  getFileSearchState
+} from "../selectors";
 import type { ThunkArgs } from "./types";
 
 export function toggleProjectSearch(toggleValue?: boolean) {
@@ -62,6 +66,16 @@ export function setFileSearchQuery(query: string) {
 
 export function toggleFileSearchModifier(modifier: string) {
   return { type: constants.TOGGLE_FILE_SEARCH_MODIFIER, modifier };
+}
+
+export function showSource(sourceId: string) {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const source = getSource(getState(), sourceId);
+    dispatch({
+      type: constants.SHOW_SOURCE,
+      sourceUrl: source.get("url")
+    });
+  };
 }
 
 export function togglePaneCollapse(position: string, paneCollapsed: boolean) {

@@ -134,7 +134,13 @@ class SourceTabs extends Component {
   }
 
   showContextMenu(e, tab) {
-    const { closeTab, closeTabs, sourceTabs, togglePrettyPrint } = this.props;
+    const {
+      closeTab,
+      closeTabs,
+      sourceTabs,
+      showSource,
+      togglePrettyPrint
+    } = this.props;
 
     const closeTabLabel = L10N.getStr("sourceTabs.closeTab");
     const closeOtherTabsLabel = L10N.getStr("sourceTabs.closeOtherTabs");
@@ -202,7 +208,8 @@ class SourceTabs extends Component {
       id: "node-menu-show-source",
       label: revealInTreeLabel,
       accesskey: revealInTreeKey,
-      disabled: false
+      disabled: false,
+      click: () => showSource(tab)
     };
 
     const copySourceUrl = {
@@ -403,6 +410,7 @@ SourceTabs.propTypes = {
   toggleProjectSearch: PropTypes.func.isRequired,
   togglePrettyPrint: PropTypes.func.isRequired,
   togglePaneCollapse: PropTypes.func.isRequired,
+  showSource: PropTypes.func.isRequired,
   horizontal: PropTypes.bool.isRequired,
   startPanelCollapsed: PropTypes.bool.isRequired,
   endPanelCollapsed: PropTypes.bool.isRequired

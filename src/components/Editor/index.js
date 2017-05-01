@@ -385,6 +385,7 @@ class Editor extends Component {
     const {
       selectedSource,
       selectedLocation,
+      showSource,
       jumpToMappedLocation,
       addExpression,
       toggleBlackBox
@@ -395,6 +396,7 @@ class Editor extends Component {
       event,
       selectedLocation,
       selectedSource,
+      showSource,
       jumpToMappedLocation,
       addExpression,
       toggleBlackBox,
