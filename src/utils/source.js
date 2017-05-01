@@ -5,8 +5,8 @@
  * @module utils/source
  */
 
-const { endTruncateStr } = require("./utils");
-const { basename } = require("../utils/path");
+import { endTruncateStr } from "./utils";
+import { basename } from "../utils/path";
 
 import type { Source, SourceText } from "../types";
 
@@ -143,7 +143,7 @@ function getMode(sourceText: SourceText) {
   return { name: "text" };
 }
 
-module.exports = {
+export {
   isJavaScript,
   isPretty,
   getPrettySourceURL,

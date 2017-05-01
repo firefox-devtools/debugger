@@ -50,7 +50,4 @@ function workerHandler(publicInterface) {
   };
 }
 
-module.exports = {
-  workerTask,
-  workerHandler
-};
+export { workerTask, workerHandler };
