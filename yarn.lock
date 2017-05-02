@@ -2110,9 +2110,9 @@ devtools-modules@^0.0.27:
   version "0.0.27"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.27.tgz#55ba9cc4fab4eb37335b343a94f26ded9b360e81"
 
-devtools-reps@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.6.0.tgz#931e2288b0f9a0a749db9c57c49701f4f7c3591b"
+devtools-reps@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.7.0.tgz#2a7c53730602feef4085066becd01bce8e0e8671"
   dependencies:
     lodash "^4.17.2"
     svg-inline-react "^1.0.2"
@@ -2189,8 +2189,8 @@ doctrine@^2.0.0:
     isarray "^1.0.0"
 
 documentation@^4.0.0-beta11:
-  version "4.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/documentation/-/documentation-4.0.0-rc.0.tgz#2670472541b2b433cff645658e313f63db7d2db4"
+  version "4.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/documentation/-/documentation-4.0.0-rc.1.tgz#f59eaf3927b277fc73597515cf64f3170df1b2ec"
   dependencies:
     ansi-html "^0.0.7"
     babel-core "^6.17.0"
