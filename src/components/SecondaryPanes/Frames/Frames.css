@@ -15,12 +15,6 @@
   margin: 0;
 }
 
-/* Style the focused call frame like so:
-.frames ul li:focus {
-  border: 3px solid red;
-}
-*/
-
 .frames ul li * {
   -moz-user-select: none;
   user-select: none;

@@ -205,6 +205,7 @@ declare module "debugger-html" {
       arguments: Array<Object>,
       variables: Object
     },
+    object: Object,
     function: {
       actor: ActorId,
       class: string,
