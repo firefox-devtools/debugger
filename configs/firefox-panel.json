@@ -13,7 +13,6 @@
     "blackbox": { "enabled": true },
     "chromeScopes": { "enabled": false },
     "eventListeners": { "enabled": false },
-    "codeCoverage": { "enabled": false },
-    "showSource": { "enabled": true   }
+    "codeCoverage": { "enabled": false }
   }
 }
