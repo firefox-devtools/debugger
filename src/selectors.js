@@ -20,6 +20,7 @@ module.exports = {
   getSourceTabs: sources.getSourceTabs,
   getSourcesForTabs: sources.getSourcesForTabs,
   getSelectedSource: sources.getSelectedSource,
+  getHighlightedLineRange: sources.getHighlightedLineRange,
   getSelectedLocation: sources.getSelectedLocation,
   getPendingSelectedLocation: sources.getPendingSelectedLocation,
   getPrettySource: sources.getPrettySource,

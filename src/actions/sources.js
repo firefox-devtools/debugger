@@ -209,6 +209,28 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
  * @memberof actions/sources
  * @static
  */
+export function highlightLineRange(location: {
+  start: number | null,
+  end: number | null
+}) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    if (!client) {
+      // No connection, do nothing. This happens when the debugger is
+      // shut down too fast and it tries to display a default source.
+      return;
+    }
+
+    dispatch({
+      type: constants.HIGHLIGHT_LINES,
+      location
+    });
+  };
+}
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
 export function jumpToMappedLocation(sourceLocation: any) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     if (!client) {

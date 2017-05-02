@@ -42,6 +42,10 @@ html[dir="rtl"] .editor-mount {
   height: 14px;
 }
 
+.editor-wrapper .highlight-lines {
+  background: var(--breakpoint-active-color);
+}
+
 .coverage-on .CodeMirror-code :not(.hit-marker) .CodeMirror-line,
 .coverage-on .CodeMirror-code :not(.hit-marker) .CodeMirror-gutter-wrapper {
   opacity: 0.5;
