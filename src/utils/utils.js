@@ -1,7 +1,5 @@
 // @flow
 
-import zip from "lodash/zip";
-
 /**
  * Utils for utils, by utils
  * @module utils/utils
@@ -72,23 +70,11 @@ function waitForMs(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-type duplicatesPredicate = (any, any) => boolean;
-function filterDuplicates(list: Object[], predicate: duplicatesPredicate) {
-  if (list.length == 0) {
-    return [];
-  }
-
-  const lastItem = list[list.length - 1];
-  const pairs = zip(list.slice(1), list.slice(0, -1));
-  return pairs.filter(predicate).map(([prev, item]) => item).concat(lastItem);
-}
-
 export {
   handleError,
   promisify,
   endTruncateStr,
   updateObj,
   throttle,
-  waitForMs,
-  filterDuplicates
+  waitForMs
 };
