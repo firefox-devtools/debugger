@@ -1,16 +1,16 @@
-const { isEnabled } = require("devtools-config");
-const { isPretty, isJavaScript } = require("../source");
-const { isOriginalId } = require("devtools-source-map");
-const buildQuery = require("./build-query");
-const sourceDocumentUtils = require("./source-documents");
+import { isEnabled } from "devtools-config";
+import { isPretty, isJavaScript } from "../source";
+import { isOriginalId } from "devtools-source-map";
+import buildQuery from "./build-query";
+import * as sourceDocumentUtils from "./source-documents";
 const { getDocument } = sourceDocumentUtils;
 
 import * as expressionUtils from "./expression.js";
 
-const sourceSearchUtils = require("./source-search");
+import * as sourceSearchUtils from "./source-search";
 const { findNext, findPrev } = sourceSearchUtils;
 
-const { SourceEditor, SourceEditorUtils } = require("devtools-source-editor");
+import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
 
 function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {

@@ -1,9 +1,10 @@
 // @flow
 
 import { resolveToken as resolveTokenFromParser } from "../parser";
+import get from "lodash/get";
+
 import type { Expression, Frame, SourceText } from "../../types";
 import type { Record } from "../makeRecord";
-const get = require("lodash/get");
 
 export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
   const lineOffset = 1;

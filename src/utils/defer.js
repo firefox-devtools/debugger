@@ -9,7 +9,7 @@ export type Defer = {
   promise: Promise<any>
 };
 
-function defer(): Defer {
+export default function defer(): Defer {
   let resolve: Resolve; // eslint-disable-line no-unused-vars
   let reject: Reject; // eslint-disable-line no-unused-vars
   const promise: Promise<any> = new Promise(function(
@@ -25,5 +25,3 @@ function defer(): Defer {
     promise
   };
 }
-
-module.exports = defer;
