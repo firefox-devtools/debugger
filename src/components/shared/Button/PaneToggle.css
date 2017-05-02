@@ -18,12 +18,12 @@
 }
 
 .toggle-button-end {
-  margin-left: auto;
-  margin-right: 5px;
+  margin-inline-end: 5px;
+  margin-inline-start: auto;
 }
 
 .toggle-button-start {
-  margin-left: 5px;
+  margin-inline-start: 5px;
 }
 
 html:not([dir="rtl"]) .toggle-button-end svg,

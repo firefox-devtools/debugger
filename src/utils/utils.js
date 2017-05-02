@@ -83,7 +83,7 @@ function filterDuplicates(list: Object[], predicate: duplicatesPredicate) {
   return pairs.filter(predicate).map(([prev, item]) => item).concat(lastItem);
 }
 
-module.exports = {
+export {
   handleError,
   promisify,
   endTruncateStr,

@@ -2,7 +2,7 @@
 
 const { workerUtils: { WorkerDispatcher } } = require("devtools-utils");
 const { isJavaScript } = require("../source");
-const assert = require("../assert");
+import assert from "../assert";
 
 import type { Source, SourceText } from "../../types";
 
