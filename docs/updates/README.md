@@ -62,3 +62,11 @@ permalink: docs/updates
 
 * :corn: We started working on proper code folding
 * :mag: landed support for getter values
+
+
+### [May 2nd](./updates-5-2-2017.md)
+
+* :bullettrain_front: Column Breakpoints
+* :spaghetti: Framework Frames
+* :speech_balloon: Watch Expressions
+* :spaghetti: Copy Call Stack
