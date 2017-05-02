@@ -35,7 +35,7 @@
     "copy-assets-watch": "node bin/copy-assets --watch --symlink",
     "build-docs": "documentation build --format html --sort-order alpha --shallow  --document-exported --output docs/reference/ src/types.js src/utils/ src/reducers/ src/actions/ src/test/mochitest/head.js",
     "flow-coverage": "flow-coverage-report --threshold 50 -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -i 'src/components/*.js' -i 'src/components/**/*.js' -t html -t text",
-    "flow-utils": "flow-coverage-report -i 'src/utils/*.js' -t text",
+    "flow-utils": "flow-coverage-report -i 'src/utils/*.js' -i 'src/utils/**/*.js' -t text",
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
     "prepush": "yarn lint && yarn test && yarn flow",

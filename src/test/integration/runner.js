@@ -44,7 +44,7 @@ describe("Tests", () => {
 
   it("asm", async () => await asm(ctx));
 
-  it("breakpoints - toggle", async () => await breakpoints.toggle(ctx));
+  it.only("breakpoints - toggle", async () => await breakpoints.toggle(ctx));
 
   it("breakpoints - toggleAll", async () => await breakpoints.toggleAll(ctx));
 

@@ -32,7 +32,7 @@ const displayNameMap = {
   React: {}
 };
 
-function mapDisplayNames(frame, library) {
+function mapDisplayNames(frame: Frame, library: string): string {
   const map = displayNameMap[library];
   const { displayName } = frame;
   return (map && map[displayName]) || displayName;
@@ -89,7 +89,7 @@ export function simplifyDisplayName(displayName) {
   return displayName;
 }
 
-export function formatDisplayName(frame: Frame) {
+export function formatDisplayName(frame: LocalFrame): string {
   const { displayName, library } = frame;
   if (library) {
     displayName = mapDisplayNames(frame, library);

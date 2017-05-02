@@ -8,6 +8,7 @@ const toPairs = require("lodash/toPairs");
 const isEmpty = require("lodash/isEmpty");
 const uniq = require("lodash/uniq");
 
+import type { Node, Path, Program } from "babylon";
 import type { SourceText, Location, Frame, TokenResolution } from "../../types";
 
 const ASTs = new Map();
@@ -79,7 +80,7 @@ function parse(text: string) {
   return ast;
 }
 
-function getAst(sourceText: SourceText) {
+function getAst(sourceText: SourceText): Program | {} {
   if (ASTs.has(sourceText.id)) {
     return ASTs.get(sourceText.id);
   }
@@ -93,7 +94,7 @@ function getAst(sourceText: SourceText) {
   return ast;
 }
 
-function getNodeValue(node) {
+function getNodeValue(node: Node) {
   if (t.isThisExpression(node)) {
     return "this";
   }
@@ -101,7 +102,7 @@ function getNodeValue(node) {
   return node.name;
 }
 
-function getFunctionName(path) {
+function getFunctionName(path: Path) {
   if (path.node.id) {
     return path.node.id.name;
   }
@@ -130,7 +131,7 @@ function getFunctionName(path) {
   return "anonymous";
 }
 
-function isFunction(path) {
+function isFunction(path: Path) {
   return (
     t.isFunction(path) ||
     t.isArrowFunctionExpression(path) ||
@@ -149,7 +150,7 @@ function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
   };
 }
 
-function getVariableNames(path) {
+function getVariableNames(path: Path) {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
     return [
       formatSymbol({
@@ -176,7 +177,7 @@ function getVariableNames(path) {
   );
 }
 
-function isVariable(path) {
+function isVariable(path: Path) {
   return (
     t.isVariableDeclaration(path) ||
     (isFunction(path) && path.node.params.length) ||
@@ -184,7 +185,7 @@ function isVariable(path) {
   );
 }
 
-function getMemberExpression(root) {
+function getMemberExpression(root: Node) {
   function _getMemberExpression(node, expr) {
     if (t.isMemberExpression(node)) {
       expr = [node.property.name].concat(expr);
@@ -223,7 +224,8 @@ function getScopeChain(scope: Scope): Scope[] {
  * helps find member expressions on one line and function scopes that are
  * often many lines
  */
-function nodeContainsLocation({ node, location }) {
+type nodeContainsLocationParams = { node: Node, location: Location };
+function nodeContainsLocation({ node, location }: nodeContainsLocationParams) {
   const { start, end } = node.loc;
   const { line, column } = location;
 
@@ -247,7 +249,7 @@ function nodeContainsLocation({ node, location }) {
   return start.line < line && end.line > line;
 }
 
-function isLexicalScope(path) {
+function isLexicalScope(path: Path) {
   return isFunction(path) || t.isProgram(path);
 }
 
@@ -297,7 +299,11 @@ export function getSymbols(source: SourceText): SymbolDeclarations {
   return symbols;
 }
 
-function getClosestMemberExpression(source, token, location) {
+function getClosestMemberExpression(
+  source: SourceText,
+  token: string,
+  location: Location
+) {
   const ast = getAst(source);
   if (isEmpty(ast)) {
     return null;
@@ -350,7 +356,7 @@ export function resolveToken(
   token: string,
   location: Location,
   frame: Frame
-): ?TokenResolution {
+): TokenResolution {
   const expression = getClosestExpression(source, token, location);
   const scope = getClosestScope(source, location);
 
@@ -415,7 +421,7 @@ export function getVariablesInLocalScope(scope: Scope) {
   return getScopeVariables(scope);
 }
 
-export function getVariablesInScope(scope: Scope) {
+export function getVariablesInScope(scope: Scope): string[] {
   const scopes = getScopeChain(scope);
   const scopeVars = scopes.map(getScopeVariables);
   const vars = [{ name: "this" }, { name: "arguments" }]

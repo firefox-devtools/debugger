@@ -13,7 +13,7 @@ import type { Frame, Pause } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-type PauseState = {
+export type PauseState = {
   pause: ?Pause,
   isWaitingOnBreak: boolean,
   frames: ?(Frame[]),

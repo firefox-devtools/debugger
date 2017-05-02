@@ -35,17 +35,17 @@ import {
 
 import type { Source, SourceText } from "../types";
 import type { ThunkArgs } from "./types";
-
+import type { State } from "../reducers/types";
 // If a request has been made to show this source, go ahead and
 // select it.
-function checkSelectedSource(state, dispatch, source) {
+function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
   if (pendingLocation && pendingLocation.url === source.url) {
     dispatch(selectSource(source.id, { line: pendingLocation.line }));
   }
 }
 
-function checkPendingBreakpoints(state, dispatch, source) {
+function checkPendingBreakpoints(state: State, dispatch, source) {
   const pendingBreakpoints = getPendingBreakpoints(state);
 
   if (pendingBreakpoints) {

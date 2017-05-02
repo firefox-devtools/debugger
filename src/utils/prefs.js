@@ -18,7 +18,21 @@ if (isDevelopment()) {
   pref("devtools.debugger.expressions", "[]");
 }
 
-const prefs = new PrefsHelper("devtools", {
+type PrefsType = {
+  clientSourceMapsEnabled: boolean,
+  pauseOnExceptions: boolean,
+  ignoreCaughtExceptions: boolean,
+  callStackVisible: boolean,
+  scopesVisible: boolean,
+  startPanelCollapsed: boolean,
+  endPanelCollapsed: boolean,
+  tabs: Object,
+  pendingSelectedLocation: Object,
+  pendingBreakpoints: any[],
+  expressions: Object
+};
+
+const prefs: PrefsType = new PrefsHelper("devtools", {
   clientSourceMapsEnabled: ["Bool", "debugger.client-source-maps-enabled"],
   pauseOnExceptions: ["Bool", "debugger.pause-on-exceptions"],
   ignoreCaughtExceptions: ["Bool", "debugger.ignore-caught-exceptions"],

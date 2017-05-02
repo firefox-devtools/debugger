@@ -1,7 +1,4 @@
 // @flow
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
  * Breakpoints reducer
@@ -18,9 +15,11 @@ import type { Breakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
+import type { Map } from "immutable";
+
 export type BreakpointsState = {
   breakpoints: I.Map<string, Breakpoint>,
-  pendingBreakpoints: ?I.Map<string, any>,
+  pendingBreakpoints: any[],
   breakpointsDisabled: false
 };
 
@@ -64,9 +63,7 @@ function update(state: Record<BreakpointsState> = State(), action: Action) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const newState = addBreakpoint(state, action);
-      if (newState) {
-        setPendingBreakpoints(newState);
-      }
+      setPendingBreakpoints(newState);
       return newState;
     }
 
@@ -118,7 +115,7 @@ function update(state: Record<BreakpointsState> = State(), action: Action) {
   return state;
 }
 
-function addBreakpoint(state, action) {
+function addBreakpoint(state, action): Record<BreakpointsState> {
   const id = makeLocationId(action.breakpoint.location);
 
   if (action.status === "start") {
@@ -173,9 +170,11 @@ function addBreakpoint(state, action) {
     // Remove the optimistic update
     return state.deleteIn(["breakpoints", id]);
   }
+
+  return state;
 }
 
-function removeBreakpoint(state, action) {
+function removeBreakpoint(state, action): Record<BreakpointsState> {
   if (action.status === "done") {
     const id = makeLocationId(action.breakpoint.location);
 
@@ -206,24 +205,29 @@ function removeBreakpoint(state, action) {
   return state;
 }
 
-function makePendingBreakpoint(bp: any) {
+function makePendingBreakpoint(bp: Breakpoint) {
   const { location: { sourceUrl, line, column }, condition, disabled } = bp;
 
   const location = { sourceUrl, line, column };
   return { condition, disabled, location };
 }
 
-function filterByNotLoading(bp: any): boolean {
+function filterByNotLoading(bp: Breakpoint): boolean {
   return !bp.loading;
 }
 
-function setPendingBreakpoints(state) {
-  prefs.pendingBreakpoints = Object.values(state.get("breakpoints").toJS())
+function setPendingBreakpoints(state: State) {
+  const breakpoints: Breakpoint[] = state.breakpoints.valueSeq().toJS();
+  if (!breakpoints) {
+    return [];
+  }
+
+  prefs.pendingBreakpoints = breakpoints
     .filter(filterByNotLoading)
     .map(makePendingBreakpoint);
 }
 
-function restorePendingBreakpoints() {
+function restorePendingBreakpoints(): any[] {
   return prefs.pendingBreakpoints;
 }
 
@@ -235,7 +239,7 @@ export function getBreakpoint(state: OuterState, location: Location) {
   return state.breakpoints.breakpoints.get(makeLocationId(location));
 }
 
-export function getBreakpoints(state: OuterState) {
+export function getBreakpoints(state: OuterState): Map<string, Breakpoint> {
   return state.breakpoints.breakpoints;
 }
 
