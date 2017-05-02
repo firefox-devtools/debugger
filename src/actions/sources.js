@@ -36,10 +36,11 @@ import {
 
 import type { Source, SourceText } from "../types";
 import type { ThunkArgs } from "./types";
+import type { State } from "../reducers/types";
 
 // If a request has been made to show this source, go ahead and
 // select it.
-function checkSelectedSource(state, dispatch, source) {
+function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
 
   if (pendingLocation && pendingLocation.url === source.url) {
@@ -48,7 +49,7 @@ function checkSelectedSource(state, dispatch, source) {
 }
 
 async function checkPendingBreakpoint(
-  state,
+  state: State,
   dispatch,
   pendingBreakpoint,
   source
