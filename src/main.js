@@ -2,6 +2,11 @@
 
 const React = require("react");
 const ReactDOM = require("react-dom");
+//
+// if (process.env.NODE_ENV !== "production") {
+//   const Perf = require("react-addons-perf");
+//   window.Perf = Perf;
+// }
 
 const { bootstrap, L10N, unmountRoot } = require("devtools-launchpad");
 const { isFirefoxPanel } = require("devtools-config");

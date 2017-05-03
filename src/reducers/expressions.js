@@ -3,6 +3,7 @@
 import constants from "../constants";
 import makeRecord from "../utils/makeRecord";
 import { List } from "immutable";
+import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
 
 import type { Expression } from "../types";
@@ -105,13 +106,17 @@ function deleteExpression(state: State, input: string) {
 
 type OuterState = { expressions: Record<ExpressionState> };
 
-export function getExpressions(state: OuterState) {
-  return state.expressions.get("expressions");
-}
+const getExpressionsWrapper = state => state.expressions;
 
-export function getVisibleExpressions(state: OuterState) {
-  return state.expressions.get("expressions").filter(e => e.visible);
-}
+export const getExpressions = createSelector(
+  getExpressionsWrapper,
+  expressions => expressions.get("expressions")
+);
+
+export const getVisibleExpressions = createSelector(
+  getExpressions,
+  expressions => expressions.filter(e => e.visible)
+);
 
 export function getExpression(state: OuterState, input: string) {
   return getExpressions(state).find(exp => exp.input == input);
