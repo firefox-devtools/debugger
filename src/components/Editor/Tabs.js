@@ -1,14 +1,13 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import { DOM as dom, PropTypes, PureComponent, createFactory } from "react";
 import ImPropTypes from "react-immutable-proptypes";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
   getSelectedSource,
-  getSourceTabs,
-  getProjectSearchState,
-  getSourceByURL
+  getSourcesForTabs,
+  getProjectSearchState
 } from "../../selectors";
 import { getFilename, isPretty } from "../../utils/source";
 import classnames from "classnames";
@@ -70,7 +69,7 @@ type State = {
   hiddenSourceTabs: Array<Object> | null
 };
 
-class SourceTabs extends Component {
+class SourceTabs extends PureComponent {
   state: State;
   onTabContextMenu: Function;
   showContextMenu: Function;
@@ -418,15 +417,11 @@ SourceTabs.propTypes = {
 
 SourceTabs.displayName = "SourceTabs";
 
-function getTabs(state) {
-  return getSourceTabs(state).map(url => getSourceByURL(state, url));
-}
-
 module.exports = connect(
   state => {
     return {
       selectedSource: getSelectedSource(state),
-      sourceTabs: getTabs(state),
+      sourceTabs: getSourcesForTabs(state),
       searchOn: getProjectSearchState(state)
     };
   },
