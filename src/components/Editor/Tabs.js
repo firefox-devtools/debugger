@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
   getSelectedSource,
-  getSourceTabsSources,
+  getSourcesForTabs,
   getProjectSearchState
 } from "../../selectors";
 import { getFilename, isPretty } from "../../utils/source";
@@ -421,7 +421,7 @@ module.exports = connect(
   state => {
     return {
       selectedSource: getSelectedSource(state),
-      sourceTabs: getSourceTabsSources(state),
+      sourceTabs: getSourcesForTabs(state),
       searchOn: getProjectSearchState(state)
     };
   },

@@ -284,26 +284,21 @@ export function getSource(state: OuterState, id: string) {
   return state.sources.sources.get(id);
 }
 
-function _getSourceByURL(sources: SourcesMap, url: string) {
+function getSourceByUrlInSources(sources: SourcesMap, url: string) {
   return sources.find(source => source.get("url") === url);
 }
 
 export function getSourceByURL(state: OuterState, url: string) {
-  return _getSourceByURL(state.sources.sources, url);
+  return getSourceByUrlInSources(state.sources.sources, url);
 }
 
-export function getSourceInSources(sources: I.Map<string, Source>, id: string) {
+export function getSourceInSources(sources: SourcesMap, id: string) {
   return sources.get(id);
 }
 
 export function getSourceById(state: OuterState, id: string) {
-  return getSourceInSources(getSources(state), id);
+  return getSourceByUrlInSources(getSources(state), id);
 }
-
-export const getSources = createSelector(
-  getSourcesState,
-  sources => sources.sources
-);
 
 export function getSourceText(state: OuterState, id: ?string) {
   if (id) {
@@ -311,19 +306,39 @@ export function getSourceText(state: OuterState, id: ?string) {
   }
 }
 
+export function getPendingSelectedLocation(state: OuterState) {
+  return state.sources.pendingSelectedLocation;
+}
+
+export function getPrettySource(state: OuterState, id: string) {
+  const source = getSource(state, id);
+  if (!source) {
+    return;
+  }
+
+  return getSourceByURL(state, getPrettySourceURL(source.get("url")));
+}
+
+export const getSources = createSelector(
+  getSourcesState,
+  sources => sources.sources
+);
+
 const getTabs = createSelector(getSourcesState, sources => sources.tabs);
 
 export const getSourceTabs = createSelector(
   getTabs,
   getSources,
-  (tabs, sources) => tabs.filter(tab => _getSourceByURL(sources, tab))
+  (tabs, sources) => tabs.filter(tab => getSourceByUrlInSources(sources, tab))
 );
 
-export const getSourceTabsSources = createSelector(
+export const getSourcesForTabs = createSelector(
   getSourceTabs,
   getSources,
   (tabs, sources) =>
-    tabs.map(tab => _getSourceByURL(sources, tabs)).filter(source => source)
+    tabs
+      .map(tab => getSourceByUrlInSources(sources, tabs))
+      .filter(source => source)
 );
 
 export const getSelectedLocation = createSelector(
@@ -344,18 +359,5 @@ export const getSelectedSource = createSelector(
     );
   }
 );
-
-export function getPendingSelectedLocation(state: OuterState) {
-  return state.sources.pendingSelectedLocation;
-}
-
-export function getPrettySource(state: OuterState, id: string) {
-  const source = getSource(state, id);
-  if (!source) {
-    return;
-  }
-
-  return getSourceByURL(state, getPrettySourceURL(source.get("url")));
-}
 
 export default update;
