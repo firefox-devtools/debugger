@@ -173,15 +173,21 @@ export function getFrames(state: OuterState) {
   return state.pause.get("frames");
 }
 
-export function getSelectedFrame(state: OuterState) {
-  const selectedFrameId = state.pause.get("selectedFrameId");
-  const frames = state.pause.get("frames");
-  if (!frames) {
-    return null;
-  }
+const getSelectedFrameId = createSelector(getPauseWrapper, pauseWrapper =>
+  pauseWrapper.get("selectedFrameId")
+);
 
-  return frames.find(frame => frame.get("id") == selectedFrameId).toJS();
-}
+export const getSelectedFrame = createSelector(
+  getSelectedFrameId,
+  getFrames,
+  (selectedFrameId, frames) => {
+    if (!frames) {
+      return null;
+    }
+
+    return frames.find(frame => frame.get("id") == selectedFrameId).toJS();
+  }
+);
 
 export function getDebuggeeUrl(state: OuterState) {
   return state.pause.get("debuggeeUrl");

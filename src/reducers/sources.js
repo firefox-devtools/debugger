@@ -281,11 +281,11 @@ export function getSource(state: OuterState, id: string) {
 }
 
 export function getSourceByURL(state: OuterState, url: string) {
-  return state.sources.sources.find(source => source.get("url") == url);
+  return state.sources.sources.find(source => source.get("url") === url);
 }
 
 export function getSourceById(state: OuterState, id: string) {
-  return state.sources.sources.find(source => source.get("id") == id);
+  return state.sources.sources.get(id);
 }
 
 export const getSources = createSelector(
@@ -320,7 +320,7 @@ export const getSourceTabsSources = createSelector(
 );
 
 function getSourceInSourcesByURL(sources: Array<any>, url: string) {
-  return sources.find(source => source.get("url") == url);
+  return sources.find(source => source.get("url") === url);
 }
 
 export const getSelectedLocation = createSelector(
