@@ -540,6 +540,7 @@ class SearchBar extends Component {
   buildPlaceHolder() {
     const { symbolSearchOn, selectedSymbolType } = this.props;
     if (symbolSearchOn) {
+      // prettier-ignore
       return L10N.getFormatStr(
         `symbolSearch.search.${selectedSymbolType}Placeholder`
       );
@@ -559,7 +560,7 @@ class SearchBar extends Component {
             disabled: symbolSearchOn
           }),
           onClick: () =>
-            (!symbolSearchOn ? toggleFileSearchModifier(modVal) : null),
+            !symbolSearchOn ? toggleFileSearchModifier(modVal) : null,
           title: tooltip
         },
         Svg(svgName)
