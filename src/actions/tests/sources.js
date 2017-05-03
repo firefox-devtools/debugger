@@ -6,7 +6,7 @@ import {
   makeSource
 } from "../../utils/test-head";
 const {
-  getSourceById,
+  getSource,
   getSources,
   getSelectedSource,
   getSourceText,
@@ -45,8 +45,8 @@ describe("sources", () => {
     dispatch(actions.newSource(makeSource("jquery.js")));
 
     expect(getSources(getState()).size).to.equal(2);
-    const base = getSourceById(getState(), "base.js");
-    const jquery = getSourceById(getState(), "jquery.js");
+    const base = getSource(getState(), "base.js");
+    const jquery = getSource(getState(), "jquery.js");
     expect(base.get("id")).to.equal("base.js");
     expect(jquery.get("id")).to.equal("jquery.js");
   });

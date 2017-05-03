@@ -281,7 +281,7 @@ type OuterState = { sources: Record<SourcesState> };
 const getSourcesState = state => state.sources;
 
 export function getSource(state: OuterState, id: string) {
-  return state.sources.sources.get(id);
+  return getSourceInSources(getSources(state), id);
 }
 
 function getSourceByUrlInSources(sources: SourcesMap, url: string) {
@@ -294,10 +294,6 @@ export function getSourceByURL(state: OuterState, url: string) {
 
 export function getSourceInSources(sources: SourcesMap, id: string) {
   return sources.get(id);
-}
-
-export function getSourceById(state: OuterState, id: string) {
-  return getSourceByUrlInSources(getSources(state), id);
 }
 
 export function getSourceText(state: OuterState, id: ?string) {
