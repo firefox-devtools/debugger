@@ -29,7 +29,6 @@ const selectors = {
   sourceNode: i => `.sources-list .tree-node:nth-child(${i}) .node`,
   sourceNodes: ".sources-list .tree-node",
   sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`,
-  sourceTab: ``,
   sourceTabs: `.source-tabs`
 };
 

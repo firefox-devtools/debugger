@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import { DOM as dom, PureComponent, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as I from "immutable";
@@ -27,7 +27,6 @@ import _Dropdown from "../shared/Dropdown";
 const Dropdown = createFactory(_Dropdown);
 
 import type { List } from "immutable";
-import type { Source } from "debugger-html";
 import type { SourceRecord } from "../../reducers/sources";
 type SourcesList = List<SourceRecord>;
 

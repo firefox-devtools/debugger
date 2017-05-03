@@ -338,10 +338,9 @@ export const getSourcesForTabs = createSelector(
   getSourceTabs,
   getSources,
   (tabs: TabList, sources: SourcesMap) => {
-    const newTabs = tabs
+    return tabs
       .map(tab => getSourceByUrlInSources(sources, tab))
       .filter(source => source);
-    return newTabs;
   }
 );
 
