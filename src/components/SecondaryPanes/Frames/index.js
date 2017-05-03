@@ -75,7 +75,7 @@ class Frames extends Component {
       {},
       framesOrGroups.map(
         frameOrGroup =>
-          (frameOrGroup.id
+          frameOrGroup.id
             ? FrameComponent({
                 frame: frameOrGroup,
                 frames,
@@ -88,7 +88,7 @@ class Frames extends Component {
                 selectFrame,
                 selectedFrame,
                 key: frameOrGroup[0].id
-              }))
+              })
       )
     );
   }
