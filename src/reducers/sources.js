@@ -14,12 +14,16 @@ import makeRecord from "../utils/makeRecord";
 import { getPrettySourceURL } from "../utils/source";
 import { prefs } from "../utils/prefs";
 
+import type { Map, List } from "immutable";
 import type { Source, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
+type SourceRecord = Record<Source>;
+type SourcesMap = Map<string, SourceRecord>;
+
 export type SourcesState = {
-  sources: I.Map<string, any>,
+  sources: SourcesMap,
   selectedLocation?: {
     sourceId: string,
     line?: number,
@@ -31,8 +35,8 @@ export type SourcesState = {
     column?: number
   },
   selectedLocation?: Location,
-  sourcesText: I.Map<string, any>,
-  tabs: I.List<any>
+  sourcesText: Map<string, any>,
+  tabs: List<any>
 };
 
 export const State = makeRecord(
@@ -274,14 +278,18 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
 // (right now) to type those wrapped functions.
 type OuterState = { sources: Record<SourcesState> };
 
-const getSourcesWrapper = state => state.sources;
+const getSourcesState = state => state.sources;
 
 export function getSource(state: OuterState, id: string) {
   return state.sources.sources.get(id);
 }
 
+function _getSourceByURL(sources: SourcesMap, url: string) {
+  return sources.find(source => source.get("url") === url);
+}
+
 export function getSourceByURL(state: OuterState, url: string) {
-  return state.sources.sources.find(source => source.get("url") === url);
+  return _getSourceByURL(state.sources.sources, url);
 }
 
 export function getSourceInSources(sources: I.Map<string, Source>, id: string) {
@@ -293,8 +301,8 @@ export function getSourceById(state: OuterState, id: string) {
 }
 
 export const getSources = createSelector(
-  getSourcesWrapper,
-  sourcesWrapper => sourcesWrapper.sources
+  getSourcesState,
+  sources => sources.sources
 );
 
 export function getSourceText(state: OuterState, id: ?string) {
@@ -303,32 +311,23 @@ export function getSourceText(state: OuterState, id: ?string) {
   }
 }
 
-const getTabs = createSelector(
-  getSourcesWrapper,
-  sourcesWrapper => sourcesWrapper.tabs
-);
+const getTabs = createSelector(getSourcesState, sources => sources.tabs);
 
 export const getSourceTabs = createSelector(
   getTabs,
   getSources,
-  (tabs, sources) => tabs.filter(tab => getSourceInSourcesByURL(sources, tab))
+  (tabs, sources) => tabs.filter(tab => _getSourceByURL(sources, tab))
 );
 
 export const getSourceTabsSources = createSelector(
   getSourceTabs,
   getSources,
   (tabs, sources) =>
-    tabs
-      .map(tab => getSourceInSourcesByURL(sources, tabs))
-      .filter(source => source)
+    tabs.map(tab => _getSourceByURL(sources, tabs)).filter(source => source)
 );
 
-function getSourceInSourcesByURL(sources: Array<any>, url: string) {
-  return sources.find(source => source.get("url") === url);
-}
-
 export const getSelectedLocation = createSelector(
-  getSourcesWrapper,
+  getSourcesState,
   sources => sources.selectedLocation
 );
 

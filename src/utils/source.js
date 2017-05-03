@@ -59,7 +59,10 @@ function isPretty(source: Source): boolean {
  * @memberof utils/source
  * @static
  */
-function getPrettySourceURL(url: string): string {
+function getPrettySourceURL(url: ?string): string {
+  if (!url) {
+    url = "";
+  }
   return `${url}:formatted`;
 }
 
