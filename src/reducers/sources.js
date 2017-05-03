@@ -19,7 +19,7 @@ import type { Source, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-type SourceRecord = Record<Source>;
+export type SourceRecord = Record<Source>;
 type SourcesMap = Map<string, SourceRecord>;
 
 export type SourcesState = {
