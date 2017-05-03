@@ -180,7 +180,8 @@ declare module "debugger-html" {
   declare type SourceText = {
     id: string,
     text: string,
-    contentType: string
+    contentType: string,
+    loading?: boolean
   };
 
   /**

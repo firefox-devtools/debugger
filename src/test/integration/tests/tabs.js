@@ -2,11 +2,12 @@ const {
   initDebugger,
   reload,
   selectSource,
+  findElement,
   waitForDispatch
 } = require("../utils");
 
 function countTabs(dbg) {
-  return dbg.selectors.getSourceTabs(dbg.getState()).size;
+  return findElement(dbg, "sourceTabs").children.length;
 }
 
 module.exports = async function(ctx) {
