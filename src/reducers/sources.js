@@ -15,12 +15,16 @@ import { getPrettySourceURL } from "../utils/source";
 import { prefs } from "../utils/prefs";
 
 import type { Map, List } from "immutable";
-import type { Source, Location } from "../types";
+import type { Source, SourceText, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-type SourceRecord = Record<Source>;
+type Tab = string;
+export type SourceRecord = Record<Source>;
+export type SourceTextRecord = Record<SourceText>;
 type SourcesMap = Map<string, SourceRecord>;
+type SourceTextMap = Map<string, SourceTextRecord>;
+type TabList = List<Tab>;
 
 export type SourcesState = {
   sources: SourcesMap,
@@ -35,8 +39,8 @@ export type SourcesState = {
     column?: number
   },
   selectedLocation?: Location,
-  sourcesText: Map<string, any>,
-  tabs: List<any>
+  sourcesText: SourceTextMap,
+  tabs: TabList
 };
 
 export const State = makeRecord(
@@ -256,9 +260,8 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
   const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTabUrl) - 1, 0);
   const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
-  let tabSource = state.sources.find(
-    source => source.get("url") === availableTabs.toJS()[newSelectedTabIndex]
-  );
+  const availableTab = availableTabs.toJS()[newSelectedTabIndex];
+  const tabSource = getSourceByUrlInSources(state.sources, availableTab);
 
   if (tabSource) {
     return tabSource.get("id");
@@ -284,11 +287,14 @@ export function getSource(state: OuterState, id: string) {
   return getSourceInSources(getSources(state), id);
 }
 
-export function getSourceByURL(state: OuterState, url: string) {
+export function getSourceByURL(state: OuterState, url: string): ?SourceRecord {
   return getSourceByUrlInSources(state.sources.sources, url);
 }
 
-export function getSourceText(state: OuterState, id: ?string) {
+export function getSourceText(
+  state: OuterState,
+  id: ?string
+): ?SourceTextRecord {
   if (id) {
     return state.sources.sourcesText.get(id);
   }
@@ -331,10 +337,11 @@ export const getSourceTabs = createSelector(
 export const getSourcesForTabs = createSelector(
   getSourceTabs,
   getSources,
-  (tabs, sources) =>
-    tabs
-      .map(tab => getSourceByUrlInSources(sources, tabs))
-      .filter(source => source)
+  (tabs: TabList, sources: SourcesMap) => {
+    return tabs
+      .map(tab => getSourceByUrlInSources(sources, tab))
+      .filter(source => source);
+  }
 );
 
 export const getSelectedLocation = createSelector(
