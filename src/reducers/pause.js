@@ -139,13 +139,13 @@ function update(
 // (right now) to type those wrapped functions.
 type OuterState = { pause: Record<PauseState> };
 
-const getPauseWrapper = state => state.pause;
+const getPauseState = state => state.pause;
 
-export const getPause = createSelector(getPauseWrapper, pauseWrapper =>
+export const getPause = createSelector(getPauseState, pauseWrapper =>
   pauseWrapper.get("pause")
 );
 
-export const getLoadedObjects = createSelector(getPauseWrapper, pauseWrapper =>
+export const getLoadedObjects = createSelector(getPauseState, pauseWrapper =>
   pauseWrapper.get("loadedObjects")
 );
 
@@ -173,7 +173,7 @@ export function getFrames(state: OuterState) {
   return state.pause.get("frames");
 }
 
-const getSelectedFrameId = createSelector(getPauseWrapper, pauseWrapper =>
+const getSelectedFrameId = createSelector(getPauseState, pauseWrapper =>
   pauseWrapper.get("selectedFrameId")
 );
 
