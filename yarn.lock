@@ -2346,17 +2346,17 @@ devtools-components@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.1.tgz#b81c05235667ce6fa07e0ae51f593cd73e709fb6"
 
-devtools-config@^0.0.13:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.13.tgz#cec2048e92b153396b7d838b8ecb4f429266b0d6"
+devtools-config@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.14.tgz#f54f6c1c508fc8ce039a02747b96f84fcbc51d42"
 
 devtools-connection@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.4.tgz#96174ad89dcfd34604829eee4cb4cb2673242ebf"
 
-devtools-launchpad@0.0.76:
-  version "0.0.76"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.76.tgz#21dd991455701667571ba9e3315f9e21fcf11d62"
+devtools-launchpad@0.0.77:
+  version "0.0.77"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.77.tgz#c51a6a448735c129429f1dbba73d17e90dd51a55"
   dependencies:
     amd-loader "0.0.5"
     autoprefixer "^6.7.6"
@@ -2382,7 +2382,7 @@ devtools-launchpad@0.0.76:
     classnames "^2.2.5"
     co "=4.6.0"
     css-loader "^0.26.1"
-    devtools-config "^0.0.13"
+    devtools-config "^0.0.14"
     devtools-connection "^0.0.4"
     devtools-modules "^0.0.27"
     devtools-sprintf-js "^1.0.3"
