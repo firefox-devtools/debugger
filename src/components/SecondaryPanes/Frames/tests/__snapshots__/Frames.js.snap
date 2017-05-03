@@ -129,16 +129,14 @@ ShallowWrapper {
                     Object {
                       "id": 1,
                     },
-                    Array [
-                      Object {
-                        "id": 2,
-                        "library": "back",
-                      },
-                      Object {
-                        "id": 3,
-                        "library": "back",
-                      },
-                    ],
+                    Object {
+                      "id": 2,
+                      "library": "back",
+                    },
+                    Object {
+                      "id": 3,
+                      "library": "back",
+                    },
                     Object {
                       "id": 8,
                     },
@@ -184,16 +182,14 @@ ShallowWrapper {
                     Object {
                       "id": 1,
                     },
-                    Array [
-                      Object {
-                        "id": 2,
-                        "library": "back",
-                      },
-                      Object {
-                        "id": 3,
-                        "library": "back",
-                      },
-                    ],
+                    Object {
+                      "id": 2,
+                      "library": "back",
+                    },
+                    Object {
+                      "id": 3,
+                      "library": "back",
+                    },
                     Object {
                       "id": 8,
                     },
@@ -226,16 +222,14 @@ ShallowWrapper {
                               Object {
                                 "id": 1,
                               },
-                              Array [
-                                Object {
-                                  "id": 2,
-                                  "library": "back",
-                                },
-                                Object {
-                                  "id": 3,
-                                  "library": "back",
-                                },
-                              ],
+                              Object {
+                                "id": 2,
+                                "library": "back",
+                              },
+                              Object {
+                                "id": 3,
+                                "library": "back",
+                              },
                               Object {
                                 "id": 8,
                               },
@@ -281,16 +275,14 @@ ShallowWrapper {
                               Object {
                                 "id": 1,
                               },
-                              Array [
-                                Object {
-                                  "id": 2,
-                                  "library": "back",
-                                },
-                                Object {
-                                  "id": 3,
-                                  "library": "back",
-                                },
-                              ],
+                              Object {
+                                "id": 2,
+                                "library": "back",
+                              },
+                              Object {
+                                "id": 3,
+                                "library": "back",
+                              },
                               Object {
                                 "id": 8,
                               },
@@ -408,16 +400,14 @@ ShallowWrapper {
                                                   Object {
                                                     "id": 1,
                                                   },
-                                                  Array [
-                                                    Object {
-                                                      "id": 2,
-                                                      "library": "back",
-                                                    },
-                                                    Object {
-                                                      "id": 3,
-                                                      "library": "back",
-                                                    },
-                                                  ],
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
                                                   Object {
                                                     "id": 8,
                                                   },
@@ -463,16 +453,14 @@ ShallowWrapper {
                                                   Object {
                                                     "id": 1,
                                                   },
-                                                  Array [
-                                                    Object {
-                                                      "id": 2,
-                                                      "library": "back",
-                                                    },
-                                                    Object {
-                                                      "id": 3,
-                                                      "library": "back",
-                                                    },
-                                                  ],
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
                                                   Object {
                                                     "id": 8,
                                                   },
@@ -505,16 +493,14 @@ ShallowWrapper {
                                                   Object {
                                                     "id": 1,
                                                   },
-                                                  Array [
-                                                    Object {
-                                                      "id": 2,
-                                                      "library": "back",
-                                                    },
-                                                    Object {
-                                                      "id": 3,
-                                                      "library": "back",
-                                                    },
-                                                  ],
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
                                                   Object {
                                                     "id": 8,
                                                   },
@@ -560,16 +546,14 @@ ShallowWrapper {
                                                   Object {
                                                     "id": 1,
                                                   },
-                                                  Array [
-                                                    Object {
-                                                      "id": 2,
-                                                      "library": "back",
-                                                    },
-                                                    Object {
-                                                      "id": 3,
-                                                      "library": "back",
-                                                    },
-                                                  ],
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
                                                   Object {
                                                     "id": 8,
                                                   },
