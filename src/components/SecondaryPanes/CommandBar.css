@@ -10,6 +10,10 @@
   background-color: var(--theme-body-background);
 }
 
+html[dir="rtl"] .command-bar {
+  border-right: 1px solid var(--theme-splitter-color);
+}
+
 .theme-dark .command-bar {
   background-color: var(--theme-tab-toolbar-background);
 }
