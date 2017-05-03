@@ -284,16 +284,8 @@ export function getSource(state: OuterState, id: string) {
   return getSourceInSources(getSources(state), id);
 }
 
-function getSourceByUrlInSources(sources: SourcesMap, url: string) {
-  return sources.find(source => source.get("url") === url);
-}
-
 export function getSourceByURL(state: OuterState, url: string) {
   return getSourceByUrlInSources(state.sources.sources, url);
-}
-
-export function getSourceInSources(sources: SourcesMap, id: string) {
-  return sources.get(id);
 }
 
 export function getSourceText(state: OuterState, id: ?string) {
@@ -313,6 +305,14 @@ export function getPrettySource(state: OuterState, id: string) {
   }
 
   return getSourceByURL(state, getPrettySourceURL(source.get("url")));
+}
+
+function getSourceByUrlInSources(sources: SourcesMap, url: string) {
+  return sources.find(source => source.get("url") === url);
+}
+
+export function getSourceInSources(sources: SourcesMap, id: string) {
+  return sources.get(id);
 }
 
 export const getSources = createSelector(
