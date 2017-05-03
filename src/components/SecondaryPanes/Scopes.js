@@ -47,7 +47,6 @@ class Scopes extends PureComponent {
   }
 
   render() {
-    console.log("Render!", this.props);
     const { pauseInfo, loadObjectProperties, loadedObjects } = this.props;
     const { scopes } = this.state;
 

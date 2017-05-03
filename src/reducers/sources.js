@@ -284,8 +284,12 @@ export function getSourceByURL(state: OuterState, url: string) {
   return state.sources.sources.find(source => source.get("url") === url);
 }
 
+export function getSourceInSources(sources: I.Map<string, Source>, id: string) {
+  return sources.get(id);
+}
+
 export function getSourceById(state: OuterState, id: string) {
-  return state.sources.sources.get(id);
+  return getSourceInSources(getSources(state), id);
 }
 
 export const getSources = createSelector(

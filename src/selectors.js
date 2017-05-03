@@ -15,6 +15,7 @@ module.exports = {
   getSource: sources.getSource,
   getSourceByURL: sources.getSourceByURL,
   getSourceById: sources.getSourceById,
+  getSourceInSources: sources.getSourceInSources,
   getSources: sources.getSources,
   getSourceText: sources.getSourceText,
   getSourceTabs: sources.getSourceTabs,
