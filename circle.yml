@@ -1,60 +1,61 @@
-machine:
-  node:
-    version: 7.0
-  services:
-    - docker
-  environment:
-    DOWNLOADS_PATH: "$HOME/downloads"
-    YARN_PATH: "$HOME/.yarn"
-    YARN_VERSION: 0.23.2
-    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
-  post:
-    - mkdir -p $DOWNLOADS_PATH
-    - mkdir -p $YARN_PATH
+version: 2
+executorType: docker
+containerInfo:
+    cmd: ["/bin/bash"]
+  - image: jasonlaster11/moz-mc:latest
+    env:
+      - DISPLAY=unix:99
+      - SHELL=/bin/bash
+stages:
+  build:
+    workDir: ~/debugger
+    steps:
+      - type: checkout
 
-checkout:
-  post:
-    - cp configs/ci.json configs/local.json
-test:
-  override:
-    - mkdir -p $CIRCLE_TEST_REPORTS/mocha
-    - mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
-    - mkdir -p $CIRCLE_TEST_REPORTS/jest-coverage
-    - node ./node_modules/.bin/jest --testResultsProcessor jest-junit-reporter --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage
-    - yarn lint-css
-    - yarn lint-js
-    - yarn lint-md
-    - yarn flow
-    - ./bin/run-mochitests-docker
-  post:
-    - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
-    - yarn check
-    - bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/jest-coverage/coverage-final.json
+      - type: shell
+        name: Copy Config Files
+        shell: /bin/bash --login
+        command: cp configs/ci.json configs/local.json
 
-dependencies:
-  pre:
-    - ./bin/install-yarn
-  cache_directories:
-    - ~/downloads
-    - ~/.cache/yarn
-    - ~/.yarn
-  override:
-    - yarn install
-    - yarn global add flow-coverage-report
-    - ./bin/update-docker
+      - type: shell
+        name: Yarn Install
+        shell: /bin/bash --login
+        command: yarn
 
-general:
-  artifacts:
-    - "yarn-error.log"
+      - type: shell
+        name: Yarn Lint
+        shell: /bin/bash --login
+        command: |
+            set -exu
+            yarn lint-css
+            yarn lint-js
+            yarn lint-md
 
-experimental:
-  notify:
-    branches:
-      only:
-        - master
+      - type: shell
+        name: Flow
+        shell: /bin/bash --login
+        command: |
+            set -exu
+            yarn flow
+        environment:
+          TERM: dumb
 
-deployment:
-  greenkeeper:
-    branch: /greenkeeper\/.*/
-    commands:
-      - ./bin/update-yarn-lock-file
+      - type: shell
+        name: Yarn Check yarn.lock
+        shell: /bin/bash --login
+        command: |
+            set -exu
+            yarn check
+
+      - type: shell
+        name: Node Unit Tests
+        shell: /bin/bash --login
+        command: |
+            set -exu
+            yarn test
+
+      - type: shell
+        name: Mochitests
+        shell: /bin/bash --login
+        command: |
+            node ./bin/run-mochitests
