@@ -22,17 +22,8 @@
   margin-inline-start: auto;
 }
 
-html[dir="rtl"] .toggle-button-end {
-  margin-left: 5px;
-  margin-right: auto;
-}
-
 .toggle-button-start {
   margin-inline-start: 5px;
-}
-
-html[dir="rtl"] .toggle-button-start {
-  margin-right: 5px;
 }
 
 html:not([dir="rtl"]) .toggle-button-end svg,
