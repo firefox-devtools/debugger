@@ -5687,6 +5687,13 @@ parse-json@^2.1.0, parse-json@^2.2.0:
   dependencies:
     error-ex "^1.2.0"
 
+parse-script-tags@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/parse-script-tags/-/parse-script-tags-0.1.1.tgz#db0b4dbe551e946055133c323ed8bcc0e6de6ab7"
+  dependencies:
+    babel-types "^6.24.1"
+    babylon "^6.17.0"
+
 parse-url@^1.3.0:
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/parse-url/-/parse-url-1.3.7.tgz#636cb6e32b88255c704e30ab4349676703267af8"
