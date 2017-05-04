@@ -15,7 +15,7 @@
   padding: 0px 4px;
   margin-top: 8px;
   cursor: pointer;
-  fill: var(--theme-comment);
+  fill: blue;
   transition: 0.1s ease;
   align-self: center;
 }
@@ -33,7 +33,7 @@
   border: 1px solid transparent;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  height: 30px;
+  height: 25px;
   display: inline-flex;
   align-items: center;
   position: relative;
@@ -52,7 +52,7 @@
 
 .source-tab.active {
   color: var(--theme-body-color);
-  background-color: var(--theme-body-background);
+  background-color: yellow;
   border-color: var(--theme-splitter-color);
   border-bottom-color: transparent;
 }
