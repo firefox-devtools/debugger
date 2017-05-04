@@ -180,7 +180,8 @@ declare module "debugger-html" {
   declare type SourceText = {
     id: string,
     text: string,
-    contentType: string
+    contentType: string,
+    loading?: boolean
   };
 
   /**
@@ -205,6 +206,7 @@ declare module "debugger-html" {
       arguments: Array<Object>,
       variables: Object
     },
+    object: Object,
     function: {
       actor: ActorId,
       class: string,

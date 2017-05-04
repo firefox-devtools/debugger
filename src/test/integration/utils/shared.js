@@ -7,12 +7,9 @@ const selectors = {
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
   scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
   scopeValue: i => `.scopes-list .tree-node:nth-child(${i}) .object-value`,
-  expressionNode: i =>
-    `.expressions-list .tree-node:nth-child(${i}) .object-label`,
-  expressionValue: i =>
-    `.expressions-list .tree-node:nth-child(${i}) .object-value`,
-  expressionClose: i =>
-    `.expressions-list .expression-container:nth-child(${i}) .close-btn`,
+  expressionNode: i => `.expressions-list .tree-node:nth-child(${i}) .object-label`,
+  expressionValue: i => `.expressions-list .tree-node:nth-child(${i}) .object-value`,
+  expressionClose: i => `.expressions-list .expression-container:nth-child(${i}) .close-btn`,
   expressionNodes: ".expressions-list .tree-node",
   frame: i => `.frames ul li:nth-child(${i})`,
   frames: ".frames ul li",
@@ -31,7 +28,8 @@ const selectors = {
   sourceFooter: ".source-footer",
   sourceNode: i => `.sources-list .tree-node:nth-child(${i}) .node`,
   sourceNodes: ".sources-list .tree-node",
-  sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`
+  sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`,
+  sourceTabs: `.source-tabs`
 };
 
 function findElement(dbg, elementName, ...args) {

@@ -1,6 +1,6 @@
 // @flow
 
-const { isDevelopment } = require("devtools-config");
+import { isDevelopment } from "devtools-config";
 
 import type { ThunkArgs } from "../../../actions/types";
 
@@ -9,7 +9,7 @@ import type { ThunkArgs } from "../../../actions/types";
  * in logging object. Should only be used for tests, as it collects all
  * action information, which will cause memory bloat.
  */
-exports.history = (log: Object[] = []) => ({
+export const history = (log: Object[] = []) => ({
   dispatch,
   getState
 }: ThunkArgs) => {

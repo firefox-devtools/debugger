@@ -1,9 +1,10 @@
 // @flow
-import { DOM as dom, PropTypes, createFactory, Component } from "react";
+import { DOM as dom, PropTypes, createFactory, PureComponent } from "react";
 import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { createSelector } from "reselect";
 import classnames from "classnames";
 import debounce from "lodash/debounce";
 import { isEnabled } from "devtools-config";
@@ -19,7 +20,6 @@ import {
   getSelectedLocation,
   getSelectedFrame,
   getSelectedSource,
-  getExpression,
   getHitCountForSource,
   getCoverageEnabled,
   getLoadedObjects,
@@ -87,7 +87,7 @@ type EditorState = {
   selectedExpression: ?Object
 };
 
-class Editor extends Component {
+class Editor extends PureComponent {
   cbPanel: any;
   editor: any;
   pendingJumpLine: any;
@@ -139,7 +139,9 @@ class Editor extends Component {
     this.clearDebugLine(this.props.selectedFrame);
 
     if (!sourceText) {
-      this.showMessage("");
+      if (this.props.sourceText) {
+        this.showMessage("");
+      }
     } else if (!isTextForSource(sourceText)) {
       this.showMessage(sourceText.get("error") || L10N.getStr("loadingText"));
     } else if (this.props.sourceText !== sourceText) {
@@ -848,6 +850,10 @@ Editor.contextTypes = {
   shortcuts: PropTypes.object
 };
 
+const expressionsSel = state => state.expressions;
+const getExpressionSel = createSelector(expressionsSel, expressions => input =>
+  expressions.find(exp => exp.input == input));
+
 export default connect(
   state => {
     const selectedLocation = getSelectedLocation(state);
@@ -863,7 +869,7 @@ export default connect(
       breakpoints: getBreakpointsForSource(state, sourceId || ""),
       hitCount: getHitCountForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state),
-      getExpression: getExpression.bind(null, state),
+      getExpression: getExpressionSel(state),
       pauseData: getPause(state),
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),

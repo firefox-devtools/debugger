@@ -18,9 +18,4 @@ function clearDocuments() {
   sourceDocs = {};
 }
 
-module.exports = {
-  getDocument,
-  setDocument,
-  removeDocument,
-  clearDocuments
-};
+export { getDocument, setDocument, removeDocument, clearDocuments };

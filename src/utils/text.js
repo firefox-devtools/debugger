@@ -4,8 +4,9 @@
  * Utils for keyboard command strings
  * @module utils/text
  */
+import { Services } from "devtools-modules";
+const { appinfo } = Services;
 
-const { Services: { appinfo } } = require("devtools-modules");
 const isMacOS = appinfo.OS === "Darwin";
 
 /**
@@ -35,6 +36,4 @@ function formatKeyShortcut(shortcut: string): string {
   );
 }
 
-module.exports = {
-  formatKeyShortcut
-};
+export { formatKeyShortcut };

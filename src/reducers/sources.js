@@ -9,16 +9,25 @@
  */
 
 import * as I from "immutable";
+import { createSelector } from "reselect";
 import makeRecord from "../utils/makeRecord";
 import { getPrettySourceURL } from "../utils/source";
 import { prefs } from "../utils/prefs";
 
-import type { Source, Location } from "../types";
+import type { Map, List } from "immutable";
+import type { Source, SourceText, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
+type Tab = string;
+export type SourceRecord = Record<Source>;
+export type SourceTextRecord = Record<SourceText>;
+type SourcesMap = Map<string, SourceRecord>;
+type SourceTextMap = Map<string, SourceTextRecord>;
+type TabList = List<Tab>;
+
 export type SourcesState = {
-  sources: I.Map<string, any>,
+  sources: SourcesMap,
   selectedLocation?: {
     sourceId: string,
     line?: number,
@@ -30,8 +39,8 @@ export type SourcesState = {
     column?: number
   },
   selectedLocation?: Location,
-  sourcesText: I.Map<string, any>,
-  tabs: I.List<any>
+  sourcesText: SourceTextMap,
+  tabs: TabList
 };
 
 export const State = makeRecord(
@@ -251,9 +260,8 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
   const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTabUrl) - 1, 0);
   const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
-  let tabSource = state.sources.find(
-    source => source.get("url") === availableTabs.toJS()[newSelectedTabIndex]
-  );
+  const availableTab = availableTabs.toJS()[newSelectedTabIndex];
+  const tabSource = getSourceByUrlInSources(state.sources, availableTab);
 
   if (tabSource) {
     return tabSource.get("id");
@@ -273,45 +281,23 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
 // (right now) to type those wrapped functions.
 type OuterState = { sources: Record<SourcesState> };
 
+const getSourcesState = state => state.sources;
+
 export function getSource(state: OuterState, id: string) {
-  return state.sources.sources.get(id);
+  return getSourceInSources(getSources(state), id);
 }
 
-export function getSourceByURL(state: OuterState, url: string) {
-  return state.sources.sources.find(source => source.get("url") == url);
+export function getSourceByURL(state: OuterState, url: string): ?SourceRecord {
+  return getSourceByUrlInSources(state.sources.sources, url);
 }
 
-export function getSourceById(state: OuterState, id: string) {
-  return state.sources.sources.find(source => source.get("id") == id);
-}
-
-export function getSources(state: OuterState) {
-  return state.sources.sources;
-}
-
-export function getSourceText(state: OuterState, id: ?string) {
+export function getSourceText(
+  state: OuterState,
+  id: ?string
+): ?SourceTextRecord {
   if (id) {
     return state.sources.sourcesText.get(id);
   }
-}
-
-export function getSourceTabs(state: OuterState) {
-  return state.sources.tabs.filter(tab => getSourceByURL(state, tab));
-}
-
-export function getSelectedSource(state: OuterState) {
-  const selectedLocation = state.sources.selectedLocation;
-  if (!selectedLocation) {
-    return;
-  }
-
-  return state.sources.sources.find(
-    source => source.get("id") == selectedLocation.sourceId
-  );
-}
-
-export function getSelectedLocation(state: OuterState) {
-  return state.sources.selectedLocation;
 }
 
 export function getPendingSelectedLocation(state: OuterState) {
@@ -326,5 +312,55 @@ export function getPrettySource(state: OuterState, id: string) {
 
   return getSourceByURL(state, getPrettySourceURL(source.get("url")));
 }
+
+function getSourceByUrlInSources(sources: SourcesMap, url: string) {
+  return sources.find(source => source.get("url") === url);
+}
+
+export function getSourceInSources(sources: SourcesMap, id: string) {
+  return sources.get(id);
+}
+
+export const getSources = createSelector(
+  getSourcesState,
+  sources => sources.sources
+);
+
+const getTabs = createSelector(getSourcesState, sources => sources.tabs);
+
+export const getSourceTabs = createSelector(
+  getTabs,
+  getSources,
+  (tabs, sources) => tabs.filter(tab => getSourceByUrlInSources(sources, tab))
+);
+
+export const getSourcesForTabs = createSelector(
+  getSourceTabs,
+  getSources,
+  (tabs: TabList, sources: SourcesMap) => {
+    return tabs
+      .map(tab => getSourceByUrlInSources(sources, tab))
+      .filter(source => source);
+  }
+);
+
+export const getSelectedLocation = createSelector(
+  getSourcesState,
+  sources => sources.selectedLocation
+);
+
+export const getSelectedSource = createSelector(
+  getSelectedLocation,
+  getSources,
+  (selectedLocation, sources) => {
+    if (!selectedLocation) {
+      return;
+    }
+
+    return sources.find(
+      source => source.get("id") == selectedLocation.sourceId
+    );
+  }
+);
 
 export default update;
