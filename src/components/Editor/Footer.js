@@ -1,4 +1,4 @@
-import React, { Component, DOM as dom } from "react";
+import { createFactory, PureComponent, DOM as dom } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
@@ -15,13 +15,13 @@ import { isEnabled } from "devtools-config";
 import { isPretty } from "../../utils/source";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 import _PaneToggleButton from "../shared/Button/PaneToggle";
-const PaneToggleButton = React.createFactory(_PaneToggleButton);
+const PaneToggleButton = createFactory(_PaneToggleButton);
 
 import type { SourceRecord, SourceTextMap } from "../../reducers/sources";
 
 import "./Footer.css";
 
-class SourceFooter extends Component {
+class SourceFooter extends PureComponent {
   props: {
     selectedSource: SourceRecord,
     selectSource: (string, ?Object) => any,
