@@ -69,6 +69,7 @@ function createEditor() {
   return new SourceEditor({
     mode: "javascript",
     foldGutter: isEnabled("codeFolding"),
+    enableCodeFolding: isEnabled("codeFolding"),
     readOnly: true,
     lineNumbers: true,
     theme: "mozilla",
