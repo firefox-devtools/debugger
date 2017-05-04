@@ -8,6 +8,7 @@ import { getPause } from "../../selectors";
 import isString from "lodash/isString";
 
 import { getPauseReason } from "../../utils/pause";
+import type { Pause } from "debugger-html";
 
 import "./WhyPaused.css";
 
@@ -23,7 +24,7 @@ function renderExceptionSummary(exception) {
 }
 
 class WhyPaused extends Component {
-  renderMessage(pauseInfo) {
+  renderMessage(pauseInfo: Pause) {
     if (!pauseInfo) {
       return null;
     }

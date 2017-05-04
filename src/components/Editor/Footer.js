@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { DOM as dom, PropTypes } from "react";
+import React, { Component, DOM as dom } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
@@ -10,7 +9,7 @@ import {
   getPaneCollapse
 } from "../../selectors";
 import Svg from "../shared/Svg";
-import ImPropTypes from "react-immutable-proptypes";
+
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
 import { isPretty } from "../../utils/source";
@@ -18,9 +17,24 @@ import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 import _PaneToggleButton from "../shared/Button/PaneToggle";
 const PaneToggleButton = React.createFactory(_PaneToggleButton);
 
+import type { SourceRecord, SourceTextMap } from "../../reducers/sources";
+
 import "./Footer.css";
 
 class SourceFooter extends Component {
+  props: {
+    selectedSource: SourceRecord,
+    selectSource: (string, ?Object) => any,
+    sourceText: SourceTextMap,
+    editor: any,
+    togglePrettyPrint: string => any,
+    toggleBlackBox: () => any,
+    recordCoverage: () => any,
+    togglePaneCollapse: () => any,
+    endPanelCollapsed: boolean,
+    horizontal: boolean
+  };
+
   prettyPrintButton() {
     const { selectedSource, sourceText, togglePrettyPrint } = this.props;
     const sourceLoaded =
@@ -151,19 +165,6 @@ class SourceFooter extends Component {
     );
   }
 }
-
-SourceFooter.propTypes = {
-  selectedSource: ImPropTypes.map,
-  togglePrettyPrint: PropTypes.func,
-  toggleBlackBox: PropTypes.func,
-  recordCoverage: PropTypes.func,
-  sourceText: ImPropTypes.map,
-  selectSource: PropTypes.func,
-  editor: PropTypes.object,
-  endPanelCollapsed: PropTypes.bool,
-  togglePaneCollapse: PropTypes.func,
-  horizontal: PropTypes.bool
-};
 
 SourceFooter.displayName = "SourceFooter";
 

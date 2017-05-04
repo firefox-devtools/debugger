@@ -38,7 +38,8 @@ Services.scriptloader.loadSubScript(
   this
 );
 var { Toolbox } = require("devtools/client/framework/toolbox");
-const EXAMPLE_URL = "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/";
+const EXAMPLE_URL =
+  "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/";
 
 Services.prefs.setBoolPref("devtools.debugger.new-debugger-frontend", true);
 
@@ -334,7 +335,7 @@ window.resumeTest = undefined;
  */
 function pauseTest() {
   info("Test paused. Invoke resumeTest to continue.");
-  return new Promise(resolve => resumeTest = resolve);
+  return new Promise(resolve => (resumeTest = resolve));
 }
 
 // Actions
@@ -560,6 +561,10 @@ const keyMappings = {
   Enter: { code: "VK_RETURN" },
   Up: { code: "VK_UP" },
   Down: { code: "VK_DOWN" },
+  Right: { code: "VK_RIGHT" },
+  Left: { code: "VK_LEFT" },
+  End: { code: "VK_RIGHT", modifiers: cmdOrCtrl },
+  Start: { code: "VK_LEFT", modifiers: cmdOrCtrl },
   Tab: { code: "VK_TAB" },
   Escape: { code: "VK_ESCAPE" },
   pauseKey: { code: "VK_F8" },
@@ -603,12 +608,9 @@ function isVisibleWithin(outerEl, innerEl) {
 const selectors = {
   callStackHeader: ".call-stack-pane ._header",
   callStackBody: ".call-stack-pane .pane",
-  expressionNode: i =>
-    `.expressions-list .tree-node:nth-child(${i}) .object-label`,
-  expressionValue: i =>
-    `.expressions-list .tree-node:nth-child(${i}) .object-value`,
-  expressionClose: i =>
-    `.expressions-list .expression-container:nth-child(${i}) .close`,
+  expressionNode: i => `.expressions-list .tree-node:nth-child(${i}) .object-label`,
+  expressionValue: i => `.expressions-list .tree-node:nth-child(${i}) .object-value`,
+  expressionClose: i => `.expressions-list .expression-container:nth-child(${i}) .close`,
   expressionNodes: ".expressions-list .tree-node",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,

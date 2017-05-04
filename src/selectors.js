@@ -14,10 +14,11 @@ const coverage = require("./reducers/coverage");
 module.exports = {
   getSource: sources.getSource,
   getSourceByURL: sources.getSourceByURL,
-  getSourceById: sources.getSourceById,
+  getSourceInSources: sources.getSourceInSources,
   getSources: sources.getSources,
   getSourceText: sources.getSourceText,
   getSourceTabs: sources.getSourceTabs,
+  getSourcesForTabs: sources.getSourcesForTabs,
   getSelectedSource: sources.getSelectedSource,
   getSelectedLocation: sources.getSelectedLocation,
   getPendingSelectedLocation: sources.getPendingSelectedLocation,

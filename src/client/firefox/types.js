@@ -314,12 +314,11 @@ export type ObjectClient = {
  * @memberof firefox
  * @static
  */
-// prettier-ignore
 export type ThreadClient = {
-  resume: (Function) => Promise<*>,
-  stepIn: (Function) => Promise<*>,
-  stepOver: (Function) => Promise<*>,
-  stepOut: (Function) => Promise<*>,
+  resume: Function => Promise<*>,
+  stepIn: Function => Promise<*>,
+  stepOver: Function => Promise<*>,
+  stepOut: Function => Promise<*>,
   breakOnNext: () => Promise<*>,
   // FIXME: unclear if SourceId or ActorId here
   source: ({ actor: SourceId }) => SourceClient,

@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import { DOM as dom, PropTypes, PureComponent, createFactory } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ImPropTypes from "react-immutable-proptypes";
@@ -19,7 +19,7 @@ function info(text) {
 let expandedCache = new Set();
 let actorsCache = [];
 
-class Scopes extends Component {
+class Scopes extends PureComponent {
   state: {
     scopes: any
   };
@@ -32,15 +32,6 @@ class Scopes extends Component {
     this.state = {
       scopes: getScopes(pauseInfo, selectedFrame)
     };
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    const { pauseInfo, selectedFrame, loadedObjects } = this.props;
-    return (
-      pauseInfo !== nextProps.pauseInfo ||
-      selectedFrame !== nextProps.selectedFrame ||
-      loadedObjects !== nextProps.loadedObjects
-    );
   }
 
   componentWillReceiveProps(nextProps) {
