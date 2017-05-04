@@ -42,14 +42,22 @@ let webpackConfig = {
 };
 
 function buildConfig(envConfig) {
-  if (!isDevelopment()) {
+  if (isDevelopment()) {
+    webpackConfig.plugins = [];
+    const mappings = [[/\.\/percy-stub/, "./percy-webpack"]];
+
+    mappings.forEach(([regex, res]) => {
+      webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
+    });
+  } else {
     webpackConfig.output.libraryTarget = "umd";
     webpackConfig.plugins = [];
 
     const mappings = [
       [/\.\/mocha/, "./mochitest"],
       [/\.\.\/utils\/mocha/, "../utils/mochitest"],
-      [/\.\/utils\/mocha/, "./utils/mochitest"]
+      [/\.\/utils\/mocha/, "./utils/mochitest"],
+      [/\.\/percy-stub/, "./percy-webpack"]
     ];
 
     mappings.forEach(([regex, res]) => {
