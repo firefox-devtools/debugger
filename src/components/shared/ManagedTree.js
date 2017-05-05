@@ -62,19 +62,6 @@ class ManagedTree extends Component {
     }
   }
 
-  componentWillMount() {
-    if (this.props.getExpanded) {
-      const expanded = this.props.getExpanded();
-      this.setState({ expanded });
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.props.setExpanded) {
-      this.props.setExpanded(this.state.expanded);
-    }
-  }
-
   setExpanded(item: ManagedTreeItem, isExpanded: boolean) {
     const expanded = this.state.expanded;
     const key = this.props.getKey(item);
@@ -149,9 +136,6 @@ class ManagedTree extends Component {
 
 ManagedTree.displayName = "ManagedTree";
 
-ManagedTree.propTypes = Object.assign({}, Tree.propTypes, {
-  getExpanded: PropTypes.func,
-  setExpanded: PropTypes.func
-});
+ManagedTree.propTypes = Object.assign({}, Tree.propTypes);
 
 export default ManagedTree;
