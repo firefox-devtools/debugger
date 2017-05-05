@@ -243,37 +243,4 @@ describe("promises", () => {
     const node = getPromiseProperties(promise);
     expect(node.contents.value.type).to.eql("3");
   });
-
-  it("update actors when necessary", () => {
-    const item = {
-      contents: {
-        value: {
-          preview: {
-            ownProperties: {
-              color: {
-                value: "red"
-              }
-            }
-          },
-          type: "object"
-        }
-      },
-      name: "car",
-      path: "Block/car"
-    };
-
-    let actors = new Object();
-    actors["Block/car"] = [
-      {
-        contents: {
-          value: "white"
-        },
-        name: "color",
-        path: "Block/car/color"
-      }
-    ];
-
-    const children = getChildren({ function() {}, actors, item });
-    expect(children[0].contents.value).to.eql("red");
-  });
 });
