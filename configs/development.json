@@ -57,6 +57,10 @@
     "columnBreakpoints": {
       "label": "Column Breakpoints",
       "enabled": true
+    },
+    "reactInspector": {
+      "label": "React Inspector",
+      "enabled": true
     }
   },
   "chrome": {

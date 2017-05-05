@@ -47,6 +47,9 @@ const Scopes = isEnabled("chromeScopes")
   ? createFactory(_chromeScopes)
   : createFactory(_Scopes);
 
+import _ReactInspector from "./ReactInspector";
+const ReactInspector = createFactory(_ReactInspector);
+
 import "./SecondaryPanes.css";
 
 type SecondaryPanesItems = {
@@ -139,6 +142,14 @@ class SecondaryPanes extends Component {
     };
   }
 
+  getReactInspectorItem() {
+    return {
+      header: "React Inspector",
+      component: ReactInspector,
+      opened: true
+    };
+  }
+
   getStartItems() {
     const scopesContent: any = this.props.horizontal
       ? this.getScopeItem()
@@ -193,6 +204,10 @@ class SecondaryPanes extends Component {
 
     if (!this.props.horizontal) {
       items.unshift(this.getWatchItem());
+    }
+
+    if (isEnabled("reactInspector")) {
+      items.unshift(this.getReactInspectorItem());
     }
 
     return items;
