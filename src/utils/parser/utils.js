@@ -7,6 +7,7 @@ const { isDevelopment } = require("devtools-config");
 const toPairs = require("lodash/toPairs");
 const isEmpty = require("lodash/isEmpty");
 const uniq = require("lodash/uniq");
+import parseScriptTags from "parse-script-tags";
 
 import type { SourceText, Location, Frame, TokenResolution } from "../../types";
 
@@ -52,22 +53,24 @@ type Scope = {
   bindings: Object[]
 };
 
-function _parse(code) {
-  return babylon.parse(code, {
-    sourceType: "module",
-
-    plugins: ["jsx", "flow"]
-  });
+function _parse(code, opts) {
+  return babylon.parse(
+    code,
+    Object.assign({}, opts, {
+      sourceType: "module",
+      plugins: ["jsx", "flow"]
+    })
+  );
 }
 
-function parse(text: string) {
+function parse(text: string, opts?: Object) {
   let ast;
   if (!text) {
     return;
   }
 
   try {
-    ast = _parse(text);
+    ast = _parse(text, opts);
   } catch (error) {
     if (isDevelopment()) {
       console.warn("parse failed", text);
@@ -85,7 +88,16 @@ function getAst(sourceText: SourceText) {
   }
 
   let ast = {};
-  if (sourceText.contentType == "text/javascript") {
+  if (sourceText.contentType == "text/html") {
+    // Custom parser for parse-script-tags that adapts its input structure to
+    // our parser's signature
+    const parser = ({ source, line }) => {
+      return parse(source, {
+        startLine: line
+      });
+    };
+    ast = parseScriptTags(sourceText.text, parser) || {};
+  } else if (sourceText.contentType == "text/javascript") {
     ast = parse(sourceText.text);
   }
 
