@@ -3,6 +3,7 @@
 import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { createSelector } from "reselect";
 
 // NOTE: using require because `import get` breaks atom's syntax highlighting
 const get = require("lodash/get");
@@ -16,7 +17,12 @@ const Group = createFactory(_Group);
 import actions from "../../../actions";
 import { annotateFrame, collapseFrames } from "../../../utils/frame";
 
-import { getFrames, getSelectedFrame, getSource } from "../../../selectors";
+import {
+  getFrames,
+  getSelectedFrame,
+  getSourceInSources,
+  getSources
+} from "../../../selectors";
 
 import type { LocalFrame } from "./types";
 
@@ -138,32 +144,34 @@ Frames.propTypes = {
 
 Frames.displayName = "Frames";
 
-function getSourceForFrame(state, frame) {
-  return getSource(state, frame.location.sourceId);
+function getSourceForFrame(sources, frame) {
+  return getSourceInSources(sources, frame.location.sourceId);
 }
 
-function appendSource(state, frame) {
+function appendSource(sources, frame) {
   return Object.assign({}, frame, {
-    source: getSourceForFrame(state, frame).toJS()
+    source: getSourceForFrame(sources, frame).toJS()
   });
 }
 
-function getAndProcessFrames(state) {
-  let frames = getFrames(state);
-  if (!frames) {
-    return null;
+const getAndProcessFrames = createSelector(
+  getFrames,
+  getSources,
+  (frames, sources) => {
+    if (!frames) {
+      return null;
+    }
+
+    frames = frames
+      .toJS()
+      .filter(frame => getSourceForFrame(sources, frame))
+      .filter(frame => !get(frame, "source.isBlackBoxed"))
+      .map(frame => appendSource(sources, frame))
+      .map(annotateFrame);
+
+    return frames;
   }
-
-  frames = frames
-    .toJS()
-    .filter(frame => getSourceForFrame(state, frame))
-    .filter(frame => !get(frame, "source.isBlackBoxed"))
-    .map(frame => appendSource(state, frame))
-    .map(annotateFrame);
-
-  // frames = filterFrameworkFrames(frames);
-  return frames;
-}
+);
 
 export default connect(
   state => ({
