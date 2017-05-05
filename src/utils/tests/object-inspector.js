@@ -3,8 +3,7 @@ const expect = require("expect.js");
 const {
   makeNodesForProperties,
   isPromise,
-  getPromiseProperties,
-  getChildren
+  getPromiseProperties
 } = require("../object-inspector");
 
 const objProperties = {
