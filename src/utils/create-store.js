@@ -28,6 +28,18 @@ type ReduxStoreOptions = {
   log?: boolean
 };
 
+const timing = store => next => action => {
+  performance.mark(`${action.type}_start`);
+  let result = next(action);
+  performance.mark(`${action.type}_end`);
+  performance.measure(
+    `${action.type}`,
+    `${action.type}_start`,
+    `${action.type}_end`
+  );
+  return result;
+};
+
 /**
  * This creates a dispatcher with all the standard middleware in place
  * that all code requires. It can also be optionally configured in
@@ -45,7 +57,7 @@ const configureStore = (opts: ReduxStoreOptions = {}) => {
   const middleware = [
     thunk(opts.makeThunkArgs),
     promise,
-
+    timing,
     // Order is important: services must go last as they always
     // operate on "already transformed" actions. Actions going through
     // them shouldn't have any special fields like promises, they
