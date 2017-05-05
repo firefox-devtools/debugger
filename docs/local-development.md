@@ -567,10 +567,6 @@ If you're running into errors associated with updating your files locally, try:
 1. `yarn nom`
 3. Pull files
 
-#### Pushing
-
-
-
 ### Getting Help
 
 There are lots of helpful folks who'd be happy to answer
