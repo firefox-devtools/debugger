@@ -216,12 +216,13 @@ class Editor extends PureComponent {
     const { shortcuts } = this.context;
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    const searchAgainPrevKey = L10N.getStr("sourceSearch.search.againPrev.key");
 
     shortcuts.on("CmdOrCtrl+B", this.onToggleBreakpoint);
     shortcuts.on("CmdOrCtrl+Shift+B", this.onToggleBreakpoint);
     shortcuts.on("Esc", this.onEscape);
-    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`, this.onSearchAgain);
-    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`, this.onSearchAgain);
+    shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
+    shortcuts.on(searchAgainKey, this.onSearchAgain);
 
     updateDocument(this.editor, selectedSource, sourceText);
   }
@@ -231,11 +232,12 @@ class Editor extends PureComponent {
     this.editor = null;
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    const searchAgainPrevKey = L10N.getStr("sourceSearch.search.againPrev.key");
     const shortcuts = this.context.shortcuts;
     shortcuts.off("CmdOrCtrl+B");
     shortcuts.off("CmdOrCtrl+Shift+B");
-    shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
-    shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
+    shortcuts.off(searchAgainPrevKey);
+    shortcuts.off(searchAgainKey);
   }
 
   componentDidUpdate(prevProps) {
