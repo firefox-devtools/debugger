@@ -4,11 +4,11 @@
  */
 
 const mark = window.performance && window.performance.mark
-  ? window.performance.mark
+  ? window.performance.mark.bind(window.performance)
   : () => {};
 
 const measure = window.performance && window.performance.measure
-  ? window.performance.measure
+  ? window.performance.measure.bind(window.performance)
   : () => {};
 
 export function timing(store) {
