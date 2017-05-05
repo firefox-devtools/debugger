@@ -563,8 +563,8 @@ Now that we *have* decided that working in github with webpack has a lot of bene
 
 If you're running into errors associated with updating your files locally, try:
 
-2. `git checkout .`
-1. `yarn nom`
+1. `git checkout .`
+2. `yarn nom`
 3. Pull files
 
 Another option is to reset your branch to master:
