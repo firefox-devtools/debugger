@@ -20,6 +20,7 @@
 * [Hot Reloading](#hot-reloading-fire)
 * [Contributing to other packages](#contributing-to-other-packages)
 * [FAQ](#faq)
+* [Errors](#errors)
 * [Getting Help](#getting-help)
 
 ### Themes
@@ -570,6 +571,15 @@ When we started the Debugger, we were not sure if we would keep webpack and the 
 
 Now that we *have* decided that working in github with webpack has a lot of benefits we could switch to JSX. We are open to switching if someone could help us do it, join the [discussion here](https://github.com/devtools-html/debugger.html/issues/1747).
 
+### Errors
+
+#### Pulling
+
+If you're running into errors associated with updating your files locally, try:
+
+2. `git checkout .`
+1. `yarn nom`
+3. Pull files
 
 ### Getting Help
 
