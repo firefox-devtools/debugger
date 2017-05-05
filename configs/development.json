@@ -9,6 +9,9 @@
     "firefoxProxy": false,
     "actions": false
   },
+  "performance": {
+    "actions": false
+  },
   "workers": {
     "parserURL": "http://localhost:8000/assets/build/parser-worker.js",
     "sourceMapURL": "http://localhost:8000/assets/build/source-map-worker.js",
