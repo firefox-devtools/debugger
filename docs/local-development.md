@@ -565,7 +565,7 @@ If you're running into errors associated with updating your files locally, try:
 
 1. `git checkout .`
 2. `yarn nom`
-3. Pull files
+3. `git pull --rebase`
 
 Another option is to reset your branch to master:
 
