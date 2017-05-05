@@ -852,7 +852,7 @@ Editor.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-const expressionsSel = state => state.expressions;
+const expressionsSel = state => state.expressions.expressions;
 const getExpressionSel = createSelector(expressionsSel, expressions => input =>
   expressions.find(exp => exp.input == input));
 
