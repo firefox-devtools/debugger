@@ -11,8 +11,10 @@ import "../Editor/Editor.css";
 
 import "devtools-launchpad/src/lib/themes/dark-theme.css";
 
-window.L10N = L10N;
-window.L10N.setBundle(require("../../../assets/panel/debugger.properties"));
+if (typeof window == "object") {
+  window.L10N = L10N;
+  window.L10N.setBundle(require("../../../assets/panel/debugger.properties"));
+}
 
 const tabs = {
   foo: { id: "foo", url: "http://example.com/foo.js" },

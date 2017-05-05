@@ -54,9 +54,9 @@ class ProjectSearch extends Component {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
       L10N.getStr("sources.search.key"),
-      L10N.getStr("symbolSearch.search.key")
+      L10N.getStr("sources.search.key2")
     ];
-    searchKeys.forEach(key => shortcuts.off(`CmdOrCtrl+${key}`, this.toggle));
+    searchKeys.forEach(key => shortcuts.off(key, this.toggle));
     shortcuts.off("Escape", this.onEscape);
   }
 
@@ -64,9 +64,9 @@ class ProjectSearch extends Component {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
       L10N.getStr("sources.search.key"),
-      L10N.getStr("symbolSearch.search.key")
+      L10N.getStr("sources.search.key2")
     ];
-    searchKeys.forEach(key => shortcuts.on(`CmdOrCtrl+${key}`, this.toggle));
+    searchKeys.forEach(key => shortcuts.on(key, this.toggle));
     shortcuts.on("Escape", this.onEscape);
   }
 

@@ -33,7 +33,7 @@ class Sources extends Component {
         },
         L10N.getFormatStr(
           "sources.search",
-          formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`)
+          formatKeyShortcut(L10N.getStr("sources.search.key"))
         )
       );
     }
