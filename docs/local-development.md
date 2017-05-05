@@ -567,6 +567,14 @@ If you're running into errors associated with updating your files locally, try:
 1. `yarn nom`
 3. Pull files
 
+Another option is to reset your branch to master:
+
+1. `git fetch origin`
+2. `git checkout master`
+3. `git reset --hard origin/master`
+4. `yarn nom` to update node modules
+5. `yarn start` to restart local server
+
 ### Getting Help
 
 There are lots of helpful folks who'd be happy to answer
