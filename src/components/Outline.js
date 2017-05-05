@@ -37,7 +37,7 @@ class Outline extends Component {
   }
 
   renderFunction(func) {
-    return dom.li({}, func.value);
+    return dom.li({ key: func.id }, func.value);
   }
 
   renderFunctions() {

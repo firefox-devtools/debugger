@@ -312,6 +312,20 @@ yarn run test-all
 * [matchers][jest-matchers]
 * [mock functions][jest-mock]
 
+Running all the tests tends to be really slow. Most of the time it is realy useful to run a single test. You can do this by invoking jest directly like this:
+
+```bash
+node_modules/jest/bin/jest.js -o
+```
+
+This will run all the tests that have not been commited. Basically all the files that are returned by the `git status` command.
+
+If the snapshot changes then update it with:
+
+```bash
+node_modules/jest/bin/jest.js -o -u
+```
+
 ##### Testing Components
 
 There are two styles of component tests: interaction, snapshot.
