@@ -169,7 +169,6 @@ const getAndProcessFrames = createSelector(
       .map(frame => appendSource(sources, frame))
       .map(annotateFrame);
 
-    // frames = filterFrameworkFrames(frames);
     return frames;
   }
 );
