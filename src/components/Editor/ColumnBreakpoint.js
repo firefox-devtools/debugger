@@ -1,5 +1,5 @@
 // @flow
-import { PropTypes, Component } from "react";
+import { Component } from "react";
 import { isEnabled } from "devtools-config";
 const ReactDOM = require("react-dom");
 import Svg from "../shared/Svg";
@@ -19,6 +19,11 @@ function makeBookmark() {
 }
 
 class ColumnBreakpoint extends Component {
+  props: {
+    breakpoint: Object,
+    editor: Object
+  };
+
   addBreakpoint: Function;
   bookmark: ?BookMarkType;
 
@@ -72,11 +77,6 @@ class ColumnBreakpoint extends Component {
     return null;
   }
 }
-
-ColumnBreakpoint.propTypes = {
-  breakpoint: PropTypes.object.isRequired,
-  editor: PropTypes.object.isRequired
-};
 
 ColumnBreakpoint.displayName = "ColumnBreakpoint";
 
