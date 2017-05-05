@@ -59,8 +59,7 @@ type DefaultProps = {
       expanded: boolean
     }
   ) => void,
-  autoExpandDepth: number,
-  getActors: () => any
+  autoExpandDepth: number
 };
 
 // This implements a component that renders an interactive inspector
@@ -97,24 +96,11 @@ class ObjectInspector extends Component {
   constructor() {
     super();
 
-    this.actors = null;
+    this.actors = {};
 
     const self: any = this;
     self.getChildren = this.getChildren.bind(this);
     self.renderItem = this.renderItem.bind(this);
-  }
-
-  componentWillMount() {
-    // Cache of dynamically built nodes. We shouldn't need to clear
-    // this out ever, since we don't ever "switch out" the object
-    // being inspected.
-    this.actors = this.props.getActors();
-  }
-
-  componentWillUnmount() {
-    if (this.props.setActors) {
-      this.props.setActors(this.actors);
-    }
   }
 
   getChildren(item: ObjectInspectorItem) {
@@ -198,14 +184,7 @@ class ObjectInspector extends Component {
   }
 
   render() {
-    const {
-      name,
-      desc,
-      loadObjectProperties,
-      autoExpandDepth,
-      getExpanded,
-      setExpanded
-    } = this.props;
+    const { name, desc, loadObjectProperties, autoExpandDepth } = this.props;
 
     let roots = this.props.roots;
     if (!roots) {
@@ -227,8 +206,6 @@ class ObjectInspector extends Component {
           loadObjectProperties(item.contents.value);
         }
       },
-      getExpanded,
-      setExpanded,
       renderItem: this.renderItem
     });
   }
@@ -244,18 +221,13 @@ ObjectInspector.propTypes = {
   getObjectProperties: PropTypes.func.isRequired,
   loadObjectProperties: PropTypes.func.isRequired,
   onLabelClick: PropTypes.func.isRequired,
-  onDoubleClick: PropTypes.func.isRequired,
-  getExpanded: PropTypes.func,
-  setExpanded: PropTypes.func,
-  getActors: PropTypes.func.isRequired,
-  setActors: PropTypes.func
+  onDoubleClick: PropTypes.func.isRequired
 };
 
 ObjectInspector.defaultProps = {
   onLabelClick: () => {},
   onDoubleClick: () => {},
-  autoExpandDepth: 1,
-  getActors: () => ({})
+  autoExpandDepth: 1
 };
 
 export default ObjectInspector;

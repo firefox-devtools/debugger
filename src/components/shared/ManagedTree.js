@@ -1,5 +1,5 @@
 // @flow
-import { PropTypes, createFactory, Component } from "react";
+import { createFactory, Component } from "react";
 import "./ManagedTree.css";
 
 import { Tree as _Tree } from "devtools-components";
@@ -59,19 +59,6 @@ class ManagedTree extends Component {
       highlightItems.length
     ) {
       this.highlightItem(highlightItems);
-    }
-  }
-
-  componentWillMount() {
-    if (this.props.getExpanded) {
-      const expanded = this.props.getExpanded();
-      this.setState({ expanded });
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.props.setExpanded) {
-      this.props.setExpanded(this.state.expanded);
     }
   }
 
@@ -149,9 +136,6 @@ class ManagedTree extends Component {
 
 ManagedTree.displayName = "ManagedTree";
 
-ManagedTree.propTypes = Object.assign({}, Tree.propTypes, {
-  getExpanded: PropTypes.func,
-  setExpanded: PropTypes.func
-});
+ManagedTree.propTypes = Object.assign({}, Tree.propTypes);
 
 export default ManagedTree;

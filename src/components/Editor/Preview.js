@@ -95,8 +95,7 @@ class Preview extends Component {
       getObjectProperties,
       autoExpandDepth: 0,
       onDoubleClick: () => {},
-      loadObjectProperties,
-      getActors: () => ({})
+      loadObjectProperties
     });
   }
 

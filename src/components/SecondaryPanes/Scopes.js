@@ -16,9 +16,6 @@ function info(text) {
   return dom.div({ className: "pane-info" }, text);
 }
 
-let expandedCache = new Set();
-let actorsCache = [];
-
 class Scopes extends PureComponent {
   state: {
     scopes: any
@@ -56,14 +53,6 @@ class Scopes extends PureComponent {
         roots: scopes,
         getObjectProperties: id => loadedObjects.get(id),
         loadObjectProperties: loadObjectProperties,
-        setExpanded: expanded => {
-          expandedCache = expanded;
-        },
-        getExpanded: () => expandedCache,
-        setActors: actors => {
-          actorsCache = actors;
-        },
-        getActors: () => actorsCache,
         onLabelClick: (item, { expanded, setExpanded }) => {
           setExpanded(item, !expanded);
         }
