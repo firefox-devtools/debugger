@@ -16,6 +16,7 @@ import { log } from "./redux/middleware/log";
 import { history } from "./redux/middleware/history";
 import { promise } from "./redux/middleware/promise";
 import { thunk } from "./redux/middleware/thunk";
+import { timing } from "./redux/middleware/timing";
 
 /**
  * @memberof utils/create-store
@@ -25,19 +26,8 @@ type ReduxStoreOptions = {
   makeThunkArgs?: Function,
   history?: Array<Object>,
   middleware?: Function[],
-  log?: boolean
-};
-
-const timing = store => next => action => {
-  performance.mark(`${action.type}_start`);
-  let result = next(action);
-  performance.mark(`${action.type}_end`);
-  performance.measure(
-    `${action.type}`,
-    `${action.type}_start`,
-    `${action.type}_end`
-  );
-  return result;
+  log?: boolean,
+  timing?: boolean
 };
 
 /**
@@ -57,7 +47,7 @@ const configureStore = (opts: ReduxStoreOptions = {}) => {
   const middleware = [
     thunk(opts.makeThunkArgs),
     promise,
-    timing,
+
     // Order is important: services must go last as they always
     // operate on "already transformed" actions. Actions going through
     // them shouldn't have any special fields like promises, they
@@ -75,6 +65,10 @@ const configureStore = (opts: ReduxStoreOptions = {}) => {
 
   if (opts.log) {
     middleware.push(log);
+  }
+
+  if (opts.timing) {
+    middleware.push(timing);
   }
 
   // Hook in the redux devtools browser extension if it exists

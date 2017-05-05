@@ -4,6 +4,9 @@
   "logging": {
     "actions": false
   },
+  "performance": {
+    "actions": false
+  },
   "features": {
     "chromeScopes": {
       "label": "Chrome Scopes",
