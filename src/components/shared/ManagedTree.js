@@ -1,5 +1,5 @@
 // @flow
-import { PropTypes, createFactory, Component } from "react";
+import { createFactory, Component } from "react";
 import "./ManagedTree.css";
 
 import { Tree as _Tree } from "devtools-components";
