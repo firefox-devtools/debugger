@@ -126,7 +126,7 @@ class ObjectInspector extends Component {
     let label = item.name;
     if (nodeIsOptimizedOut(item)) {
       objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
-    } else if (nodeIsMissingArguments(item)) {
+    } else if (nodeIsMissingArguments(item) || !nodeHasProperties(item)) {
       objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
     } else if (nodeIsFunction(item)) {
       objectValue = null;

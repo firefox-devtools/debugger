@@ -142,7 +142,11 @@ class Expressions extends PureComponent {
       return;
     }
 
-    const { value, path } = getValue(expression);
+    let { value, path } = getValue(expression);
+
+    if (value.class == "Error") {
+      value = { unavailable: true };
+    }
 
     const root = {
       name: expression.input,
