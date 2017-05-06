@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom, PropTypes, createFactory, Component } from "react";
+import { DOM as dom, createFactory, Component } from "react";
 import { findDOMNode } from "../../../node_modules/react-dom/dist/react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -28,7 +28,13 @@ import { getSymbols } from "../../utils/parser";
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
 import debounce from "lodash/debounce";
-import ImPropTypes from "react-immutable-proptypes";
+
+import { SourceEditor } from "devtools-source-editor";
+import type { SourceRecord, SourceTextRecord } from "../../reducers/sources";
+import type { FileSearchModifiers, SymbolSearchType } from "../../reducers/ui";
+import type { SelectSourceOptions } from "../../actions/sources";
+import type { Thunk } from "../../actions/types";
+import type { SearchResults } from ".";
 
 import _SearchInput from "../shared/SearchInput";
 const SearchInput = createFactory(_SearchInput);
@@ -57,7 +63,7 @@ function getShortcuts() {
 
 type ToggleSymbolSearchOpts = {
   toggle: boolean,
-  searchType: string
+  searchType: SymbolSearchType
 };
 
 type SearchBarState = {
@@ -71,6 +77,29 @@ import "./SearchBar.css";
 
 class SearchBar extends Component {
   state: SearchBarState;
+
+  props: {
+    editor?: SourceEditor,
+    sourceText?: SourceTextRecord,
+    selectSource: (string, ?SelectSourceOptions) => Thunk,
+    selectedSource?: SourceRecord,
+    searchOn?: boolean,
+    toggleFileSearch: (?boolean) => Thunk,
+    searchResults: SearchResults,
+    modifiers: FileSearchModifiers,
+    toggleFileSearchModifier: string => void,
+    symbolSearchOn: boolean,
+    selectedSymbolType: SymbolSearchType,
+    toggleSymbolSearch: boolean => Thunk,
+    setSelectedSymbolType: SymbolSearchType => Thunk,
+    query: string,
+    setFileSearchQuery: string => void,
+    updateSearchResults: ({ count: number, index?: number }) => void
+  };
+
+  context: {
+    shortcuts: Object
+  };
 
   constructor(props) {
     super(props);
@@ -675,34 +704,7 @@ class SearchBar extends Component {
   }
 }
 
-SearchBar.propTypes = {
-  editor: PropTypes.object,
-  sourceText: ImPropTypes.map,
-  selectSource: PropTypes.func.isRequired,
-  selectedSource: ImPropTypes.map,
-  searchOn: PropTypes.bool,
-  toggleFileSearch: PropTypes.func.isRequired,
-  searchResults: PropTypes.object.isRequired,
-  modifiers: ImPropTypes.recordOf({
-    caseSensitive: PropTypes.bool.isRequired,
-    regexMatch: PropTypes.bool.isRequired,
-    wholeWord: PropTypes.bool.isRequired
-  }).isRequired,
-  toggleFileSearchModifier: PropTypes.func.isRequired,
-  symbolSearchOn: PropTypes.bool.isRequired,
-  selectedSymbolType: PropTypes.string,
-  toggleSymbolSearch: PropTypes.func.isRequired,
-  setSelectedSymbolType: PropTypes.func.isRequired,
-  query: PropTypes.string.isRequired,
-  setFileSearchQuery: PropTypes.func.isRequired,
-  updateSearchResults: PropTypes.func.isRequired
-};
-
 SearchBar.displayName = "SearchBar";
-
-SearchBar.contextTypes = {
-  shortcuts: PropTypes.object
-};
 
 export default connect(
   state => {
