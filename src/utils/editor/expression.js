@@ -65,7 +65,7 @@ export function previewExpression({
 
   if (variables.has(tokenText)) {
     let variableKey = variables.get(tokenText);
-    if (!get(variableKey, "contents.value.type") == "undefined") {
+    if (get(variableKey, "contents.value.type") == "undefined") {
       return null;
     }
 
