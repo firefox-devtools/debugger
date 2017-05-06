@@ -20,6 +20,7 @@
 * [Hot Reloading](#hot-reloading-fire)
 * [Contributing to other packages](#contributing-to-other-packages)
 * [FAQ](#faq)
+* [Errors](#errors)
 * [Getting Help](#getting-help)
 
 ### Themes
@@ -312,6 +313,20 @@ yarn run test-all
 * [matchers][jest-matchers]
 * [mock functions][jest-mock]
 
+Running all the tests tends to be really slow. Most of the time it is realy useful to run a single test. You can do this by invoking jest directly like this:
+
+```bash
+node_modules/jest/bin/jest.js -o
+```
+
+This will run all the tests that have not been commited. Basically all the files that are returned by the `git status` command.
+
+If the snapshot changes then update it with:
+
+```bash
+node_modules/jest/bin/jest.js -o -u
+```
+
 ##### Testing Components
 
 There are two styles of component tests: interaction, snapshot.
@@ -556,6 +571,23 @@ When we started the Debugger, we were not sure if we would keep webpack and the 
 
 Now that we *have* decided that working in github with webpack has a lot of benefits we could switch to JSX. We are open to switching if someone could help us do it, join the [discussion here](https://github.com/devtools-html/debugger.html/issues/1747).
 
+### Errors
+
+#### Pulling
+
+If you're running into errors associated with updating your files locally, try:
+
+1. `git checkout .`
+2. `yarn nom`
+3. `git pull --rebase`
+
+Another option is to reset your branch to master:
+
+1. `git fetch origin`
+2. `git checkout master`
+3. `git reset --hard origin/master`
+4. `yarn nom` to update node modules
+5. `yarn start` to restart local server
 
 ### Getting Help
 

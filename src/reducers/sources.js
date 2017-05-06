@@ -233,9 +233,7 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
     return "";
   }
 
-  const selectedTab = state.sources.find(
-    source => source.get("id") == selectedLocation.sourceId
-  );
+  const selectedTab = state.sources.get(selectedLocation.sourceId);
 
   const selectedTabUrl = selectedTab ? selectedTab.get("url") : "";
 
@@ -357,9 +355,7 @@ export const getSelectedSource = createSelector(
       return;
     }
 
-    return sources.find(
-      source => source.get("id") == selectedLocation.sourceId
-    );
+    return sources.get(selectedLocation.sourceId);
   }
 );
 

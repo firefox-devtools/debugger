@@ -17,6 +17,7 @@ import App from "../components/App";
 export function bootstrapStore(client, services) {
   const createStore = configureStore({
     log: getValue("logging.actions"),
+    timing: getValue("performance.actions"),
     makeThunkArgs: (args, state) => {
       return Object.assign({}, args, { client }, services);
     }

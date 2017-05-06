@@ -161,8 +161,7 @@ class Expressions extends PureComponent {
         autoExpandDepth: 0,
         onDoubleClick: (item, options) =>
           this.editExpression(expression, options),
-        loadObjectProperties,
-        getActors: () => ({})
+        loadObjectProperties
       }),
       CloseButton({ handleClick: e => this.deleteExpression(e, expression) })
     );

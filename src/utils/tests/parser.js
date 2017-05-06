@@ -11,15 +11,16 @@ import {
 const fs = require("fs");
 const path = require("path");
 
-function getSourceText(name) {
+function getSourceText(name, type = "js") {
   const text = fs.readFileSync(
-    path.join(__dirname, `fixtures/${name}.js`),
+    path.join(__dirname, `fixtures/${name}.${type}`),
     "utf8"
   );
+  const contentType = type === "html" ? "text/html" : "text/javascript";
   return {
     id: name,
-    text: text,
-    contentType: "text/javascript"
+    text,
+    contentType
   };
 }
 
@@ -94,6 +95,27 @@ describe("parser", () => {
         "foo",
         "Ultra",
         "person"
+      ]);
+    });
+  });
+
+  describe("getSymbols -> <script> content", () => {
+    it("finds function, variable and class declarations", () => {
+      const allSymbols = getSymbols(getSourceText("parseScriptTags", "html"));
+      expect(allSymbols.functions.map(f => f.value)).to.eql([
+        "sayHello",
+        "capitalize",
+        "iife"
+      ]);
+      expect(allSymbols.variables.map(v => v.value)).to.eql([
+        "globalObject",
+        "first",
+        "last",
+        "name",
+        "capitalize",
+        "name",
+        "greetAll",
+        "greeting"
       ]);
     });
   });
