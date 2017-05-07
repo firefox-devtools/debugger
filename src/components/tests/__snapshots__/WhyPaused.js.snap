@@ -38,12 +38,12 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <WhyPaused
         pauseInfo={
-                Object {
-                        "why": Object {
-                          "message": "bla is hit",
-                          "type": "breakpoint",
+                Immutable.Map {
+                        why: Immutable.Map {
+                                type: "breakpoint",
+                                message: "bla is hit",
                         },
-                      }
+                }
         }
 />,
       "_debugID": 1,
@@ -53,12 +53,12 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
-          "pauseInfo": Object {
-            "why": Object {
-              "message": "bla is hit",
-              "type": "breakpoint",
+          "pauseInfo": Immutable.Map {
+            why: Immutable.Map {
+                        type: "breakpoint",
+                        message: "bla is hit",
             },
-          },
+},
         },
         "refs": Object {},
         "state": null,
@@ -114,12 +114,12 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <WhyPaused
     pauseInfo={
-        Object {
-            "why": Object {
-              "message": "bla is hit",
-              "type": "breakpoint",
+        Immutable.Map {
+            why: Immutable.Map {
+                type: "breakpoint",
+                message: "bla is hit",
             },
-          }
+        }
     }
 />,
 }
@@ -163,18 +163,18 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <WhyPaused
         pauseInfo={
-                Object {
-                        "why": Object {
-                          "exception": Object {
-                            "class": "Error",
-                            "preview": Object {
-                              "message": "o is not defined",
-                              "name": "ReferenceError",
-                            },
-                          },
-                          "type": "exception",
+                Immutable.Map {
+                        why: Immutable.Map {
+                                type: "exception",
+                                exception: Immutable.Map {
+                                        class: "Error",
+                                        preview: Immutable.Map {
+                                                name: "ReferenceError",
+                                                message: "o is not defined",
+                                        },
+                                },
                         },
-                      }
+                }
         }
 />,
       "_debugID": 3,
@@ -184,18 +184,18 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
-          "pauseInfo": Object {
-            "why": Object {
-              "exception": Object {
-                "class": "Error",
-                "preview": Object {
-                  "message": "o is not defined",
-                  "name": "ReferenceError",
-                },
-              },
-              "type": "exception",
+          "pauseInfo": Immutable.Map {
+            why: Immutable.Map {
+                        type: "exception",
+                        exception: Immutable.Map {
+                                    class: "Error",
+                                    preview: Immutable.Map {
+                                                name: "ReferenceError",
+                                                message: "o is not defined",
+                                    },
+                        },
             },
-          },
+},
         },
         "refs": Object {},
         "state": null,
@@ -251,18 +251,18 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <WhyPaused
     pauseInfo={
-        Object {
-            "why": Object {
-              "exception": Object {
-                "class": "Error",
-                "preview": Object {
-                  "message": "o is not defined",
-                  "name": "ReferenceError",
+        Immutable.Map {
+            why: Immutable.Map {
+                type: "exception",
+                exception: Immutable.Map {
+                    class: "Error",
+                    preview: Immutable.Map {
+                        name: "ReferenceError",
+                        message: "o is not defined",
+                    },
                 },
-              },
-              "type": "exception",
             },
-          }
+        }
     }
 />,
 }
@@ -306,12 +306,12 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <WhyPaused
         pauseInfo={
-                Object {
-                        "why": Object {
-                          "exception": "Not Available",
-                          "type": "exception",
+                Immutable.Map {
+                        why: Immutable.Map {
+                                type: "exception",
+                                exception: "Not Available",
                         },
-                      }
+                }
         }
 />,
       "_debugID": 5,
@@ -321,12 +321,12 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
-          "pauseInfo": Object {
-            "why": Object {
-              "exception": "Not Available",
-              "type": "exception",
+          "pauseInfo": Immutable.Map {
+            why: Immutable.Map {
+                        type: "exception",
+                        exception: "Not Available",
             },
-          },
+},
         },
         "refs": Object {},
         "state": null,
@@ -382,12 +382,12 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <WhyPaused
     pauseInfo={
-        Object {
-            "why": Object {
-              "exception": "Not Available",
-              "type": "exception",
+        Immutable.Map {
+            why: Immutable.Map {
+                type: "exception",
+                exception: "Not Available",
             },
-          }
+        }
     }
 />,
 }
