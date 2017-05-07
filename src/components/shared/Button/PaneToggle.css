@@ -35,10 +35,6 @@ html .toggle-button-end.vertical svg {
   transform: rotate(-90deg);
 }
 
-.toggle-button-end.vertical {
-  margin-bottom: 2px;
-}
-
 .toggle-button-start.collapsed,
 .toggle-button-end.collapsed {
   transform: rotate(180deg);

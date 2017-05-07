@@ -16,7 +16,12 @@
 }
 
 html .welcomebox .toggle-button-end {
-  bottom: 11px;
   position: absolute;
   top: auto;
+  right: 0;
+  bottom: 0;
+}
+
+html .welcomebox .toggle-button-end.collapsed {
+  bottom: 1px;
 }
