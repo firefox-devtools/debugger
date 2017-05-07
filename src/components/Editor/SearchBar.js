@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom, createFactory, Component } from "react";
+import { DOM as dom, createFactory, Component, PropTypes } from "react";
 import { findDOMNode } from "../../../node_modules/react-dom/dist/react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -95,10 +95,6 @@ class SearchBar extends Component {
     query: string,
     setFileSearchQuery: string => void,
     updateSearchResults: ({ count: number, index?: number }) => void
-  };
-
-  context: {
-    shortcuts: Object
   };
 
   constructor(props) {
@@ -705,6 +701,9 @@ class SearchBar extends Component {
 }
 
 SearchBar.displayName = "SearchBar";
+SearchBar.contextTypes = {
+  shortcuts: PropTypes.object
+};
 
 export default connect(
   state => {
