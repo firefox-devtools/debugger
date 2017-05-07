@@ -103,12 +103,14 @@ function update(
 
     case "CLOSE_TAB":
       availableTabs = removeSourceFromTabList(state.tabs, action.url);
-      location = { sourceId: getNewSelectedSourceId(state, availableTabs) };
+      const sourceId = getNewSelectedSourceId(state, availableTabs);
+
+      location = { url: getSourceUrlById(state, sourceId) };
       prefs.pendingSelectedLocation = location;
 
       return state
         .merge({ tabs: availableTabs })
-        .set("selectedLocation", location)
+        .set("selectedLocation", { sourceId })
         .set("pendingSelectedLocation", location);
 
     case "CLOSE_TABS":
@@ -269,6 +271,10 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
   }
 
   return "";
+}
+
+function getSourceUrlById(state: SourcesState, id: string): string {
+  return state.sources.find(source => source.get("id") == id).get("url");
 }
 
 // Selectors
