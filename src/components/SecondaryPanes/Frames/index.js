@@ -15,7 +15,12 @@ import _Group from "./Group";
 const Group = createFactory(_Group);
 
 import actions from "../../../actions";
-import { annotateFrame, collapseFrames } from "../../../utils/frame";
+import {
+  annotateFrame,
+  collapseFrames,
+  formatCopyName
+} from "../../../utils/frame";
+import { copyToTheClipboard } from "../../../utils/clipboard";
 
 import {
   getFrames,
@@ -37,6 +42,7 @@ class Frames extends Component {
 
   renderFrame: Function;
   toggleFramesDisplay: Function;
+  copyStackTrace: Function;
 
   constructor(...args) {
     super(...args);
@@ -46,6 +52,7 @@ class Frames extends Component {
     };
 
     this.toggleFramesDisplay = this.toggleFramesDisplay.bind(this);
+    this.copyStackTrace = this.copyStackTrace.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -72,18 +79,26 @@ class Frames extends Component {
     return frames.slice(0, numFramesToShow);
   }
 
+  copyStackTrace() {
+    const { frames } = this.props;
+    const framesToCopy = frames.map(f => formatCopyName(f)).join("\n");
+    copyToTheClipboard(framesToCopy);
+  }
+
   renderFrames(frames: LocalFrame[]) {
     const { selectFrame, selectedFrame } = this.props;
 
     const framesOrGroups = this.truncateFrames(collapseFrames(frames));
+    type FrameOrGroup = LocalFrame | LocalFrame[];
 
     return dom.ul(
       {},
       framesOrGroups.map(
-        frameOrGroup =>
+        (frameOrGroup: FrameOrGroup) =>
           frameOrGroup.id
             ? FrameComponent({
                 frame: frameOrGroup,
+                copyStackTrace: this.copyStackTrace,
                 frames,
                 selectFrame,
                 selectedFrame,
@@ -91,6 +106,7 @@ class Frames extends Component {
               })
             : Group({
                 group: frameOrGroup,
+                copyStackTrace: this.copyStackTrace,
                 selectFrame,
                 selectedFrame,
                 key: frameOrGroup[0].id

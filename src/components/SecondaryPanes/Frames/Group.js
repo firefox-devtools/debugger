@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import { DOM as dom, Component, createFactory } from "react";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 import { formatDisplayName, getLibraryFromUrl } from "../../../utils/frame";
@@ -9,6 +9,7 @@ import "./Group.css";
 import _FrameComponent from "./Frame";
 const FrameComponent = createFactory(_FrameComponent);
 
+import type { LocalFrame } from "./types";
 import type { Frame } from "debugger-html";
 
 function renderFrameLocation(frame: Frame) {
@@ -31,6 +32,13 @@ export default class Group extends Component {
 
   toggleFrames: Function;
 
+  props: {
+    group: LocalFrame[],
+    selectedFrame: LocalFrame,
+    selectFrame: Function,
+    copyStackTrace: Function
+  };
+
   constructor(...args: any[]) {
     super(...args);
     this.state = { expanded: false };
@@ -44,7 +52,7 @@ export default class Group extends Component {
   }
 
   renderFrames() {
-    const { group, selectFrame, selectedFrame } = this.props;
+    const { group, selectFrame, selectedFrame, copyStackTrace } = this.props;
     const { expanded } = this.state;
     if (!expanded) {
       return null;
@@ -54,6 +62,7 @@ export default class Group extends Component {
       group.map(frame =>
         FrameComponent({
           frame,
+          copyStackTrace,
           selectFrame,
           selectedFrame,
           key: frame.id,
@@ -89,9 +98,4 @@ export default class Group extends Component {
   }
 }
 
-Group.propTypes = {
-  group: PropTypes.array.isRequired,
-  selectFrame: PropTypes.func.isRequired,
-  selectedFrame: PropTypes.object
-};
 Group.displayName = "Group";
