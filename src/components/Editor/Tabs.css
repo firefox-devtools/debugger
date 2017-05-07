@@ -26,21 +26,22 @@
 
 .source-tabs {
   max-width: calc(100% - 80px);
-  align-self: flex-start;
+  align-self: flex-end;
+  display: flex;
+  margin-bottom: -1px;
 }
 
 .source-tab {
   border: 1px solid transparent;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  height: 30px;
   display: inline-flex;
   align-items: center;
   position: relative;
   transition: all 0.25s ease;
   min-width: 40px;
   overflow: hidden;
-  padding: 6px;
+  padding: 5px;
   margin-inline-start: 3px;
 }
 
