@@ -25,6 +25,10 @@
   background-color: var(--theme-selection-background);
 }
 
+.theme-dark .tree .node.focused {
+  background-color: var(--theme-selection-background-semitransparent);
+}
+
 html:not([dir="rtl"]) .tree .node > div {
   margin-left: 10px;
 }
