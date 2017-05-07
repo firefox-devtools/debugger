@@ -22,6 +22,11 @@ html .welcomebox .toggle-button-end {
   bottom: 0;
 }
 
+html[dir="rtl"] .welcomebox .toggle-button-end {
+  left: 0;
+  right: auto;
+}
+
 html .welcomebox .toggle-button-end.collapsed {
   bottom: 1px;
 }
