@@ -15,16 +15,12 @@
   z-index: 100;
 }
 
-html .welcomebox .toggle-button-end {
+.welcomebox .toggle-button-end {
   position: absolute;
   top: auto;
-  right: 0;
   bottom: 0;
-}
-
-html[dir="rtl"] .welcomebox .toggle-button-end {
-  left: 0;
-  right: auto;
+  offset-inline-end: 0;
+  offset-inline-start: auto;
 }
 
 html .welcomebox .toggle-button-end.collapsed {
