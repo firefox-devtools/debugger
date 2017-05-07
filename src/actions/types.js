@@ -30,7 +30,7 @@ export type ThunkArgs = {
   sourceMaps: any
 };
 
-export type Thunk = ThunkArgs => void;
+export type Thunk = ThunkArgs => any;
 
 export type ActionType = Object | Function;
 

@@ -33,7 +33,6 @@ import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord, SourceTextRecord } from "../../reducers/sources";
 import type { FileSearchModifiers, SymbolSearchType } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
-import type { Thunk } from "../../actions/types";
 import type { SearchResults } from ".";
 
 import _SearchInput from "../shared/SearchInput";
@@ -81,20 +80,20 @@ class SearchBar extends Component {
   props: {
     editor?: SourceEditor,
     sourceText?: SourceTextRecord,
-    selectSource: (string, ?SelectSourceOptions) => Thunk,
+    selectSource: (string, ?SelectSourceOptions) => any,
     selectedSource?: SourceRecord,
     searchOn?: boolean,
-    toggleFileSearch: (?boolean) => Thunk,
+    toggleFileSearch: (?boolean) => any,
     searchResults: SearchResults,
     modifiers: FileSearchModifiers,
-    toggleFileSearchModifier: string => void,
+    toggleFileSearchModifier: string => any,
     symbolSearchOn: boolean,
     selectedSymbolType: SymbolSearchType,
-    toggleSymbolSearch: boolean => Thunk,
-    setSelectedSymbolType: SymbolSearchType => Thunk,
+    toggleSymbolSearch: boolean => any,
+    setSelectedSymbolType: SymbolSearchType => any,
     query: string,
-    setFileSearchQuery: string => void,
-    updateSearchResults: ({ count: number, index?: number }) => void
+    setFileSearchQuery: string => any,
+    updateSearchResults: ({ count: number, index?: number }) => any
   };
 
   constructor(props) {
