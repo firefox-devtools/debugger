@@ -54,6 +54,10 @@
   color: white;
 }
 
+.theme-dark .search-bar .result-list li.selected {
+  background-color: var(--theme-body-background);
+}
+
 .result-list li .title {
   line-height: 1.5em;
   word-break: break-all;
