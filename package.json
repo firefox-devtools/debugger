@@ -108,6 +108,7 @@
     "enzyme": "^2.8.0",
     "husky": "^0.13.2",
     "jest": "^20.0.0",
+    "jest-localstorage-mock": "^1.1.1",
     "lint-staged": "^3.4.0",
     "react-addons-perf": "15.3.2",
     "react-addons-test-utils": "=15.3.2",
@@ -152,7 +153,8 @@
       "node_modules/(?!devtools-)"
     ],
     "setupFiles": [
-      "<rootDir>/test/tests-setup.js"
+      "<rootDir>/test/tests-setup.js",
+      "jest-localstorage-mock"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/test/tests-framework.js",
     "moduleNameMapper": {
