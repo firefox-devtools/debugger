@@ -44,7 +44,7 @@
     },
     "searchNav": {
       "label": "Search Navigation",
-      "enabled": false
+      "enabled": true
     },
     "outline": {
       "label": "Source Outline",
