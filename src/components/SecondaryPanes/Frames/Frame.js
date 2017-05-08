@@ -1,11 +1,11 @@
 // @flow
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, Component } from "react";
 import { showMenu } from "devtools-launchpad";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 
 import { copyToTheClipboard } from "../../../utils/clipboard";
-import { formatDisplayName, formatCopyName } from "../../../utils/frame";
+import { formatDisplayName } from "../../../utils/frame";
 import { getFilename } from "../../../utils/source";
 
 import type { Frame } from "debugger-html";
@@ -39,11 +39,21 @@ export default class FrameComponent extends Component {
     shouldMapDisplayName: boolean
   };
 
+  props: {
+    frame: LocalFrame,
+    selectedFrame: LocalFrame,
+    copyStackTrace: Function,
+    selectFrame: Function,
+    hideLocation: boolean,
+    shouldMapDisplayName: boolean
+  };
+
   constructor(...args: any[]) {
     super(...args);
   }
 
-  onContextMenu(event: SyntheticKeyboardEvent, frame: Frame, frames: Frame[]) {
+  onContextMenu(event: SyntheticKeyboardEvent) {
+    const { copyStackTrace, frame } = this.props;
     const copySourceUrlLabel = L10N.getStr("copySourceUrl");
     const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
     const copyStackTraceLabel = L10N.getStr("copyStackTrace");
@@ -67,16 +77,15 @@ export default class FrameComponent extends Component {
       menuOptions.push(copySourceUrl);
     }
 
-    const framesToCopy = frames.map(f => formatCopyName(f)).join("\n");
-    const copyStackTrace = {
+    const copyStackTraceItem = {
       id: "node-menu-copy-source",
       label: copyStackTraceLabel,
       accesskey: copyStackTraceKey,
       disabled: false,
-      click: () => copyToTheClipboard(framesToCopy)
+      click: () => copyStackTrace()
     };
 
-    menuOptions.push(copyStackTrace);
+    menuOptions.push(copyStackTraceItem);
 
     showMenu(event, menuOptions);
   }
@@ -98,7 +107,6 @@ export default class FrameComponent extends Component {
   render() {
     const {
       frame,
-      frames,
       selectedFrame,
       hideLocation,
       shouldMapDisplayName
@@ -112,7 +120,7 @@ export default class FrameComponent extends Component {
         }),
         onMouseDown: e => this.onMouseDown(e, frame, selectedFrame),
         onKeyUp: e => this.onKeyUp(e, frame, selectedFrame),
-        onContextMenu: e => this.onContextMenu(e, frame, frames),
+        onContextMenu: e => this.onContextMenu(e),
         tabIndex: 0
       },
       renderFrameTitle(frame, { shouldMapDisplayName }),
@@ -120,15 +128,6 @@ export default class FrameComponent extends Component {
     );
   }
 }
-
-FrameComponent.propTypes = {
-  frame: PropTypes.object.isRequired,
-  frames: PropTypes.array,
-  selectedFrame: PropTypes.object,
-  selectFrame: PropTypes.func.isRequired,
-  hideLocation: PropTypes.bool,
-  shouldMapDisplayName: PropTypes.bool
-};
 
 FrameComponent.defaultProps = {
   hideLocation: false,
