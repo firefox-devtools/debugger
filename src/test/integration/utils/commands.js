@@ -32,6 +32,21 @@ const {
 } = require("./wait");
 
 /**
+* Closes a tab
+*
+* @memberof mochitest/actions
+* @param {Object} dbg
+* @param {String} url
+* @return {Promise}
+* @static
+*/
+async function closeTab(dbg, url) {
+  info("Closing tab: " + url);
+  dbg.actions.closeTab(url);
+  return waitForDispatch(dbg, "CLOSE_TAB");
+}
+
+/**
  * Selects the source.
  *
  * @memberof mochitest/actions
@@ -234,6 +249,7 @@ function pauseTest() {
 }
 
 module.exports = {
+  closeTab,
   selectSource,
   stepOver,
   stepIn,

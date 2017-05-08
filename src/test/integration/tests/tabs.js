@@ -4,6 +4,7 @@ const {
   selectSource,
   findElement,
   waitForDispatch
+  closeTab
 } = require("../utils");
 
 function countTabs(dbg) {
@@ -28,4 +29,9 @@ module.exports = async function(ctx) {
   await reload(dbg, "simple1", "simple2");
   await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
   expect(countTabs(dbg)).to.equal(2);
+
+  // Test closing and reloading the debugger
+  await closeTab(dbg, "simple1");
+  await closeTab(dbg "simple2");
+  expect(countTabs(dbg)).to.equal(0);
 };
