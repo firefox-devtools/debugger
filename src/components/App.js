@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
 import { getSelectedSource, getPaneCollapse } from "../selectors";
+import type { SourceRecord } from "../reducers/sources";
 
 import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
@@ -37,12 +38,21 @@ const WelcomeBox = createFactory(_WelcomeBox);
 import _EditorTabs from "./Editor/Tabs";
 const EditorTabs = createFactory(_EditorTabs);
 
+type Props = {
+  selectSource: Function,
+  selectedSource: SourceRecord,
+  startPanelCollapsed: boolean,
+  endPanelCollapsed: boolean
+};
+
 class App extends Component {
   state: {
     horizontal: boolean,
     startPanelSize: number,
     endPanelSize: number
   };
+
+  props: Props;
   onLayoutChange: Function;
   getChildContext: Function;
   renderEditorPane: Function;
@@ -167,13 +177,6 @@ class App extends Component {
       : this.renderVerticalLayout();
   }
 }
-
-App.propTypes = {
-  selectSource: PropTypes.func,
-  selectedSource: PropTypes.object,
-  startPanelCollapsed: PropTypes.bool,
-  endPanelCollapsed: PropTypes.bool
-};
 
 App.displayName = "App";
 
