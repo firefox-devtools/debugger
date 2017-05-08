@@ -127,7 +127,7 @@ function loadSourceMap(generatedSource) {
   };
 }
 
-type SelectSourceOptions = { tabIndex?: number, line?: number };
+export type SelectSourceOptions = { tabIndex?: number, line?: number };
 
 /**
  * Deterministically select a source that has a given URL. This will

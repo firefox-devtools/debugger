@@ -6,6 +6,7 @@ import {
   getFileSearchState
 } from "../selectors";
 import type { ThunkArgs } from "./types";
+import type { SymbolSearchType } from "../reducers/ui";
 
 export function toggleProjectSearch(toggleValue?: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
@@ -48,7 +49,7 @@ export function toggleSymbolSearch(toggleValue: boolean) {
   };
 }
 
-export function setSelectedSymbolType(symbolType: "functions" | "variables") {
+export function setSelectedSymbolType(symbolType: SymbolSearchType) {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({
       type: constants.SET_SYMBOL_SEARCH_TYPE,

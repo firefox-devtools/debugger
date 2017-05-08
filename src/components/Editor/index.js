@@ -72,24 +72,28 @@ import { getVisibleVariablesFromScope } from "../../utils/scopes";
 import { isFirefox } from "devtools-config";
 import "./Editor.css";
 
+import { SourceEditor } from "devtools-source-editor";
+
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
   secondSearchbarHeight: "var(--editor-second-searchbar-height)",
   footerHeight: "var(--editor-footer-height)"
 };
 
+export type SearchResults = {
+  index: number,
+  count: number
+};
+
 type EditorState = {
-  searchResults: {
-    index: number,
-    count: number
-  },
+  searchResults: SearchResults,
   selectedToken: ?Object,
   selectedExpression: ?Object
 };
 
 class Editor extends PureComponent {
   cbPanel: any;
-  editor: any;
+  editor: SourceEditor;
   pendingJumpLine: any;
   lastJumpLine: any;
   state: EditorState;
