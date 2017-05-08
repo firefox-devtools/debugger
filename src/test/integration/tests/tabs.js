@@ -3,7 +3,7 @@ const {
   reload,
   selectSource,
   findElement,
-  waitForDispatch
+  waitForDispatch,
   closeTab
 } = require("../utils");
 
@@ -32,6 +32,6 @@ module.exports = async function(ctx) {
 
   // Test closing and reloading the debugger
   await closeTab(dbg, "simple1");
-  await closeTab(dbg "simple2");
+  await closeTab(dbg, "simple2");
   expect(countTabs(dbg)).to.equal(0);
 };
