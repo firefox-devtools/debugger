@@ -147,7 +147,6 @@ Note that the [script](https://github.com/devtools-html/devtools-core/blob/maste
 It's easy to start Node in a mode where DevTools will find it:
 
 * `--inspect` - tells node to open a debugger server
-* `--inspect=9223` - tells node to open a debugger server on 9223 instead of 9229.
 * `--debug-brk` - tells node to pause on the first statement
 
 ```bash
