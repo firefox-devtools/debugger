@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
 import { getSelectedSource, getPaneCollapse } from "../selectors";
+import type { SourceRecord } from "../reducers/sources";
 
 import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
@@ -39,7 +40,7 @@ const EditorTabs = createFactory(_EditorTabs);
 
 type Props = {
   selectSource: Function,
-  selectedSource: Object,
+  selectedSource: SourceRecord,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean
 };
