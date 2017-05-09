@@ -12,6 +12,9 @@ const {
   getSourceText,
   getSourceTabs
 } = selectors;
+import fromJS from "../../utils/fromJS";
+import I from "immutable";
+import { makePendingBreakpoint } from "../../reducers/breakpoints";
 
 const threadClient = {
   sourceContents: function(sourceId) {

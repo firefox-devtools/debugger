@@ -83,7 +83,6 @@ export function addBreakpoint(
         if (!text) {
           text = getTextForLine ? getTextForLine(actualLocation.line) : "";
         }
-
         return { id, actualLocation, text, hitCount };
       })()
     });
@@ -110,7 +109,7 @@ export function removeBreakpoint(location: Location) {
   return _removeOrDisableBreakpoint(location);
 }
 
-function _removeOrDisableBreakpoint(location, isDisabled) {
+function _removeOrDisableBreakpoint(location, isDisabled = false) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     let bp = getBreakpoint(getState(), location);
     if (!bp) {
