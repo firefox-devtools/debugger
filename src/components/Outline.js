@@ -8,6 +8,7 @@ import { getSelectedSource, getSourceText } from "../selectors";
 import { isEnabled } from "devtools-config";
 import { getSymbols } from "../utils/parser";
 import "./Outline.css";
+import previewFunction from "./shared/previewFunction";
 
 import type { Record } from "../utils/makeRecord";
 import type { SourceText } from "debugger-html";
@@ -37,7 +38,13 @@ class Outline extends Component {
   }
 
   renderFunction(func) {
-    return dom.li({ key: func.id }, func.value);
+    return dom.li(
+      {
+        key: func.id,
+        className: "outline-list__element"
+      },
+      previewFunction(func)
+    );
   }
 
   renderFunctions() {
@@ -60,7 +67,7 @@ class Outline extends Component {
 
     return dom.div(
       { className: "outline" },
-      dom.ul({}, this.renderFunctions())
+      dom.ul({ className: "outline-list" }, this.renderFunctions())
     );
   }
 }

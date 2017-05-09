@@ -11,13 +11,17 @@ ShallowWrapper {
   "node": <div
     className="outline"
 >
-    <ul />
+    <ul
+        className="outline-list"
+    />
 </div>,
   "nodes": Array [
     <div
       className="outline"
 >
-      <ul />
+      <ul
+            className="outline-list"
+      />
 </div>,
   ],
   "options": Object {},
@@ -82,12 +86,54 @@ ShallowWrapper {
         "_currentElement": <div
           className="outline"
 >
-          <ul>
-                    <li>
-                              my_example_function1
+          <ul
+                    className="outline-list"
+          >
+                    <li
+                              className="outline-list__element"
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function1
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
-                    <li>
-                              my_example_function2
+                    <li
+                              className="outline-list__element"
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function2
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
           </ul>
 </div>,
@@ -95,12 +141,54 @@ ShallowWrapper {
         "_renderedOutput": <div
           className="outline"
 >
-          <ul>
-                    <li>
-                              my_example_function1
+          <ul
+                    className="outline-list"
+          >
+                    <li
+                              className="outline-list__element"
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function1
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
-                    <li>
-                              my_example_function2
+                    <li
+                              className="outline-list__element"
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function2
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
           </ul>
 </div>,
@@ -137,13 +225,17 @@ ShallowWrapper {
   "node": <div
     className="outline"
 >
-    <ul />
+    <ul
+        className="outline-list"
+    />
 </div>,
   "nodes": Array [
     <div
       className="outline"
 >
-      <ul />
+      <ul
+            className="outline-list"
+      />
 </div>,
   ],
   "options": Object {},
@@ -208,9 +300,31 @@ ShallowWrapper {
         "_currentElement": <div
           className="outline"
 >
-          <ul>
-                    <li>
-                              my_example_function1
+          <ul
+                    className="outline-list"
+          >
+                    <li
+                              className="outline-list__element"
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function1
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
           </ul>
 </div>,
@@ -218,9 +332,31 @@ ShallowWrapper {
         "_renderedOutput": <div
           className="outline"
 >
-          <ul>
-                    <li>
-                              my_example_function1
+          <ul
+                    className="outline-list"
+          >
+                    <li
+                              className="outline-list__element"
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function1
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
           </ul>
 </div>,
