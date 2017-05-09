@@ -8,6 +8,7 @@ import devtoolsConfig from "devtools-config";
 const OutlineComponent = React.createFactory(Outline.WrappedComponent);
 
 const sourcesToJs = fromJS({ text: "sources to js" });
+const selectSource = jest.genMockFunction();
 const sourceText = {
   root: "some text here",
   toJS: function() {
@@ -39,7 +40,7 @@ describe("Outline", () => {
   });
 
   it("should render a list of functions when properties change", async () => {
-    const component = shallow(new OutlineComponent());
+    const component = shallow(new OutlineComponent({ selectSource }));
 
     component.setProps({ sourceText });
 
@@ -48,7 +49,7 @@ describe("Outline", () => {
   });
 
   it("should render ignore anonimous functions", async () => {
-    const component = shallow(new OutlineComponent());
+    const component = shallow(new OutlineComponent({ selectSource }));
     symbolDeclarations.functions[1] = {
       id: "anonymous:25",
       value: "anonymous"

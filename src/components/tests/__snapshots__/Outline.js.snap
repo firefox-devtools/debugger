@@ -31,6 +31,7 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <Outline
+        selectSource={[Function]}
         sourceText={
                 Object {
                         "root": "some text here",
@@ -45,6 +46,7 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
+          "selectSource": [Function],
           "sourceText": Object {
             "root": "some text here",
             "toJS": [Function],
@@ -91,6 +93,7 @@ ShallowWrapper {
           >
                     <li
                               className="outline-list__element"
+                              onClick={[Function]}
                     >
                               <span
                                         className="function-signature"
@@ -114,6 +117,7 @@ ShallowWrapper {
                     </li>
                     <li
                               className="outline-list__element"
+                              onClick={[Function]}
                     >
                               <span
                                         className="function-signature"
@@ -146,6 +150,7 @@ ShallowWrapper {
           >
                     <li
                               className="outline-list__element"
+                              onClick={[Function]}
                     >
                               <span
                                         className="function-signature"
@@ -169,6 +174,7 @@ ShallowWrapper {
                     </li>
                     <li
                               className="outline-list__element"
+                              onClick={[Function]}
                     >
                               <span
                                         className="function-signature"
@@ -204,6 +210,7 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <Outline
+    selectSource={[Function]}
     sourceText={
         Object {
             "root": "some text here",
@@ -245,6 +252,7 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <Outline
+        selectSource={[Function]}
         sourceText={
                 Object {
                         "root": "some text here",
@@ -259,6 +267,7 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
+          "selectSource": [Function],
           "sourceText": Object {
             "root": "some text here",
             "toJS": [Function],
@@ -305,6 +314,7 @@ ShallowWrapper {
           >
                     <li
                               className="outline-list__element"
+                              onClick={[Function]}
                     >
                               <span
                                         className="function-signature"
@@ -337,6 +347,7 @@ ShallowWrapper {
           >
                     <li
                               className="outline-list__element"
+                              onClick={[Function]}
                     >
                               <span
                                         className="function-signature"
@@ -372,6 +383,7 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <Outline
+    selectSource={[Function]}
     sourceText={
         Object {
             "root": "some text here",

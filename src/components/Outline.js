@@ -37,11 +37,18 @@ class Outline extends Component {
     }
   }
 
+  selectItem(location) {
+    const selectedSourceId = this.props.selectedSource.get("id");
+    const startLine = location.start.line;
+    this.props.selectSource(selectedSourceId, { line: startLine });
+  }
+
   renderFunction(func) {
     return dom.li(
       {
         key: func.id,
-        className: "outline-list__element"
+        className: "outline-list__element",
+        onClick: () => this.selectItem(func.location)
       },
       previewFunction(func)
     );
@@ -57,7 +64,7 @@ class Outline extends Component {
 
     return functions
       .filter(func => func.value != "anonymous")
-      .map(this.renderFunction);
+      .map(func => this.renderFunction(func));
   }
 
   render() {
@@ -73,6 +80,7 @@ class Outline extends Component {
 }
 
 Outline.propTypes = {
+  selectSource: PropTypes.func.isRequired,
   selectedSource: PropTypes.object
 };
 
@@ -84,7 +92,8 @@ export default connect(
     const sourceId = selectedSource ? selectedSource.get("id") : null;
 
     return {
-      sourceText: getSourceText(state, sourceId)
+      sourceText: getSourceText(state, sourceId),
+      selectedSource
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
