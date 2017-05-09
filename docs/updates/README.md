@@ -70,3 +70,12 @@ permalink: docs/updates
 * :spaghetti: Framework Frames
 * :speech_balloon: Watch Expressions
 * :spaghetti: Copy Call Stack
+
+### [May 9th, 2017](./updates-5-9-2017.md)
+
+* [Adam][@asolove] dramatically improved our startup performance. [pr][pr-6]
+* [Ryan][@ryanjduffy] completed the heroic and insane project of getting babel working with HTML inline JS. [pr][pr-23]
+* [Diéssica][@diessica] jumped in and polished our Tabs UI
+* We started converting our Prop Types to Flow Props. Thanks [Mateusz][@Andarist] and others for the help kicking this off!
+* We added several new Jest component tests. Big thanks to [Andrei][@andreicristianpetcu] for tackling async component updates. It was not an easy task!
+* We re-added storybook this week and wrote our first stories for Frames and Tabs! The stories are also being tested on CI with the great [percy.io](http://percy.io).
