@@ -26,9 +26,7 @@
 
 .source-tabs {
   max-width: calc(100% - 80px);
-  align-self: flex-end;
-  display: flex;
-  margin-bottom: -1px;
+  align-self: flex-start;
 }
 
 .source-tab {
@@ -43,6 +41,7 @@
   overflow: hidden;
   padding: 5px;
   margin-inline-start: 3px;
+  margin-top: 4px;
 }
 
 .source-tab:hover {
