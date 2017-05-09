@@ -16,6 +16,14 @@ const sourceText = {
   }
 };
 
+function generateFuncLocation(startLine) {
+  return {
+    start: {
+      line: startLine
+    }
+  };
+}
+
 describe("Outline", () => {
   var symbolDeclarations, symbolsPromise;
 
@@ -25,8 +33,16 @@ describe("Outline", () => {
 
     symbolDeclarations = {
       functions: [
-        { id: "my_example_function1:21", value: "my_example_function1" },
-        { id: "my_example_function2:22", value: "my_example_function2" }
+        {
+          id: "my_example_function1:21",
+          value: "my_example_function1",
+          location: generateFuncLocation(20)
+        },
+        {
+          id: "my_example_function2:22",
+          value: "my_example_function2",
+          location: generateFuncLocation(25)
+        }
       ]
     };
 
@@ -59,5 +75,27 @@ describe("Outline", () => {
 
     await symbolsPromise;
     expect(component).toMatchSnapshot();
+  });
+
+  it("should select a line of code in the current file on click", async () => {
+    const component = shallow(new OutlineComponent({ selectSource }));
+    const sourceId = "id";
+    const selectedSource = {
+      get: () => sourceId
+    };
+    const startLine = 12;
+
+    symbolDeclarations.functions[0] = {
+      id: "my_example_function1:21",
+      value: "my_example_function1",
+      location: generateFuncLocation(startLine)
+    };
+
+    component.setProps({ sourceText, selectedSource });
+
+    await symbolsPromise;
+    const listItem = component.find("li").first();
+    listItem.simulate("click");
+    expect(selectSource).toHaveBeenCalledWith(sourceId, { line: startLine });
   });
 });

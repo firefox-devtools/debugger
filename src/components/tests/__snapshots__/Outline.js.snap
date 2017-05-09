@@ -58,10 +58,20 @@ ShallowWrapper {
             "functions": Array [
               Object {
                 "id": "my_example_function1:21",
+                "location": Object {
+                  "start": Object {
+                    "line": 20,
+                  },
+                },
                 "value": "my_example_function1",
               },
               Object {
                 "id": "my_example_function2:22",
+                "location": Object {
+                  "start": Object {
+                    "line": 25,
+                  },
+                },
                 "value": "my_example_function2",
               },
             ],
@@ -279,6 +289,11 @@ ShallowWrapper {
             "functions": Array [
               Object {
                 "id": "my_example_function1:21",
+                "location": Object {
+                  "start": Object {
+                    "line": 20,
+                  },
+                },
                 "value": "my_example_function1",
               },
               Object {
