@@ -33,15 +33,15 @@
   border: 1px solid transparent;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  height: 30px;
   display: inline-flex;
   align-items: center;
   position: relative;
   transition: all 0.25s ease;
   min-width: 40px;
   overflow: hidden;
-  padding: 6px;
+  padding: 5px;
   margin-inline-start: 3px;
+  margin-top: 4px;
 }
 
 .source-tab:hover {
@@ -77,7 +77,7 @@
 
 .source-tab .blackBox {
   line-height: 0;
-  padding: 5px;
+  padding: 0 5px;
 }
 
 .source-tab .blackBox svg {
