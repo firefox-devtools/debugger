@@ -26,7 +26,14 @@ test:
     - yarn lint-md
     - yarn flow
     - yarn snapshot
-    - ./bin/run-mochitests-docker
+    # - ./bin/run-mochitests-docker
+    - node bin/firefox-driver --start:
+        background: true
+    - node ./bin/integration-runner.js
+
+  pre:
+    - /opt/google/chrome/google-chrome --remote-debugging-port=9222 --no-first-run:
+        background: true
   post:
     - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
     - yarn check
@@ -41,8 +48,10 @@ dependencies:
     - ~/.yarn
   override:
     - yarn install
+    - ./bin/install-chrome
+    - ./bin/install-firefox
     - yarn global add flow-coverage-report
-    - ./bin/update-docker
+    # - ./bin/update-docker
 
 general:
   artifacts:
