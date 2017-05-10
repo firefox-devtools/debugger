@@ -67,6 +67,7 @@ class ColumnBreakpoint extends Component {
     this.addBreakpoint();
   }
   componentDidUpdate() {
+    if (this.bookmark) this.bookmark.clear();
     this.addBreakpoint();
   }
   componentWillUnmount() {
