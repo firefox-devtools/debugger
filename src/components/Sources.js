@@ -46,7 +46,7 @@ class Sources extends Component {
       { className: "sources-panel" },
       dom.div({ className: "sources-header" }, this.renderShortcut()),
       SourcesTree({ sources, selectSource }),
-      Outline({})
+      Outline({ selectSource })
     );
   }
 }
