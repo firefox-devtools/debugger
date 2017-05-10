@@ -53,7 +53,7 @@ class ProjectSearch extends Component {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
-      L10N.getStr("sources.search.key"),
+      L10N.getStr("sources.search.key2"),
       L10N.getStr("sources.search.key2")
     ];
     searchKeys.forEach(key => shortcuts.off(key, this.toggle));
@@ -63,7 +63,7 @@ class ProjectSearch extends Component {
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
-      L10N.getStr("sources.search.key"),
+      L10N.getStr("sources.search.key2"),
       L10N.getStr("sources.search.key2")
     ];
     searchKeys.forEach(key => shortcuts.on(key, this.toggle));

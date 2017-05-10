@@ -19,6 +19,8 @@ import {
 import _ManagedTree from "./ManagedTree";
 const ManagedTree = createFactory(_ManagedTree);
 
+import "./ObjectInspector.css";
+
 export type ObjectInspectorItemContentsValue = {
   actor: string,
   class: string,

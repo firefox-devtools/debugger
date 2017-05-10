@@ -28,7 +28,7 @@ function getValue(expression) {
 
   if (value.exception) {
     return {
-      path: expression.from,
+      path: value.from,
       value: value.exception
     };
   }

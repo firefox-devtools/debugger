@@ -42,6 +42,7 @@ ShallowWrapper {
       "_instance": Frames {
         "_reactInternalInstance": [Circular],
         "context": Object {},
+        "copyStackTrace": [Function],
         "props": Object {
           "contextTypes": Object {},
           "frames": null,
@@ -119,6 +120,7 @@ ShallowWrapper {
 >
     <ul>
         <Frame
+            copyStackTrace={[Function]}
             frame={
                 Object {
                     "id": 1,
@@ -152,6 +154,7 @@ ShallowWrapper {
             shouldMapDisplayName={true}
         />
         <Group
+            copyStackTrace={[Function]}
             group={
                 Array [
                     Object {
@@ -172,6 +175,7 @@ ShallowWrapper {
             }
         />
         <Frame
+            copyStackTrace={[Function]}
             frame={
                 Object {
                     "id": 8,
@@ -212,6 +216,7 @@ ShallowWrapper {
 >
       <ul>
             <Frame
+                  copyStackTrace={[Function]}
                   frame={
                         Object {
                               "id": 1,
@@ -245,6 +250,7 @@ ShallowWrapper {
                   shouldMapDisplayName={true}
             />
             <Group
+                  copyStackTrace={[Function]}
                   group={
                         Array [
                               Object {
@@ -265,6 +271,7 @@ ShallowWrapper {
                   }
             />
             <Frame
+                  copyStackTrace={[Function]}
                   frame={
                         Object {
                               "id": 8,
@@ -339,6 +346,7 @@ ShallowWrapper {
       "_instance": Frames {
         "_reactInternalInstance": [Circular],
         "context": Object {},
+        "copyStackTrace": [Function],
         "props": Object {
           "contextTypes": Object {},
           "frames": Array [
@@ -390,6 +398,7 @@ ShallowWrapper {
 >
           <ul>
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 1,
@@ -423,6 +432,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Group
+                              copyStackTrace={[Function]}
                               group={
                                         Array [
                                                   Object {
@@ -443,6 +453,7 @@ ShallowWrapper {
                               }
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 8,
@@ -483,6 +494,7 @@ ShallowWrapper {
 >
           <ul>
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 1,
@@ -516,6 +528,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Group
+                              copyStackTrace={[Function]}
                               group={
                                         Array [
                                                   Object {
@@ -536,6 +549,7 @@ ShallowWrapper {
                               }
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 8,
@@ -624,6 +638,7 @@ ShallowWrapper {
 >
     <ul>
         <Frame
+            copyStackTrace={[Function]}
             frame={
                 Object {
                     "id": 1,
@@ -667,6 +682,7 @@ ShallowWrapper {
             shouldMapDisplayName={true}
         />
         <Frame
+            copyStackTrace={[Function]}
             frame={
                 Object {
                     "id": 2,
@@ -710,6 +726,7 @@ ShallowWrapper {
             shouldMapDisplayName={true}
         />
         <Frame
+            copyStackTrace={[Function]}
             frame={
                 Object {
                     "id": 3,
@@ -753,6 +770,7 @@ ShallowWrapper {
             shouldMapDisplayName={true}
         />
         <Frame
+            copyStackTrace={[Function]}
             frame={
                 Object {
                     "id": 4,
@@ -796,6 +814,7 @@ ShallowWrapper {
             shouldMapDisplayName={true}
         />
         <Frame
+            copyStackTrace={[Function]}
             frame={
                 Object {
                     "id": 5,
@@ -839,6 +858,7 @@ ShallowWrapper {
             shouldMapDisplayName={true}
         />
         <Frame
+            copyStackTrace={[Function]}
             frame={
                 Object {
                     "id": 6,
@@ -882,6 +902,7 @@ ShallowWrapper {
             shouldMapDisplayName={true}
         />
         <Frame
+            copyStackTrace={[Function]}
             frame={
                 Object {
                     "id": 7,
@@ -936,6 +957,7 @@ ShallowWrapper {
 >
       <ul>
             <Frame
+                  copyStackTrace={[Function]}
                   frame={
                         Object {
                               "id": 1,
@@ -979,6 +1001,7 @@ ShallowWrapper {
                   shouldMapDisplayName={true}
             />
             <Frame
+                  copyStackTrace={[Function]}
                   frame={
                         Object {
                               "id": 2,
@@ -1022,6 +1045,7 @@ ShallowWrapper {
                   shouldMapDisplayName={true}
             />
             <Frame
+                  copyStackTrace={[Function]}
                   frame={
                         Object {
                               "id": 3,
@@ -1065,6 +1089,7 @@ ShallowWrapper {
                   shouldMapDisplayName={true}
             />
             <Frame
+                  copyStackTrace={[Function]}
                   frame={
                         Object {
                               "id": 4,
@@ -1108,6 +1133,7 @@ ShallowWrapper {
                   shouldMapDisplayName={true}
             />
             <Frame
+                  copyStackTrace={[Function]}
                   frame={
                         Object {
                               "id": 5,
@@ -1151,6 +1177,7 @@ ShallowWrapper {
                   shouldMapDisplayName={true}
             />
             <Frame
+                  copyStackTrace={[Function]}
                   frame={
                         Object {
                               "id": 6,
@@ -1194,6 +1221,7 @@ ShallowWrapper {
                   shouldMapDisplayName={true}
             />
             <Frame
+                  copyStackTrace={[Function]}
                   frame={
                         Object {
                               "id": 7,
@@ -1292,6 +1320,7 @@ ShallowWrapper {
       "_instance": Frames {
         "_reactInternalInstance": [Circular],
         "context": Object {},
+        "copyStackTrace": [Function],
         "props": Object {
           "contextTypes": Object {},
           "frames": Array [
@@ -1353,6 +1382,7 @@ ShallowWrapper {
 >
           <ul>
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 1,
@@ -1396,6 +1426,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 2,
@@ -1439,6 +1470,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 3,
@@ -1482,6 +1514,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 4,
@@ -1525,6 +1558,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 5,
@@ -1568,6 +1602,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 6,
@@ -1611,6 +1646,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 7,
@@ -1665,6 +1701,7 @@ ShallowWrapper {
 >
           <ul>
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 1,
@@ -1708,6 +1745,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 2,
@@ -1751,6 +1789,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 3,
@@ -1794,6 +1833,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 4,
@@ -1837,6 +1877,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 5,
@@ -1880,6 +1921,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 6,
@@ -1923,6 +1965,7 @@ ShallowWrapper {
                               shouldMapDisplayName={true}
                     />
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 7,
@@ -2035,6 +2078,7 @@ ShallowWrapper {
 >
     <ul>
         <Frame
+            copyStackTrace={[Function]}
             frame={
                 Object {
                     "id": 1,
@@ -2064,6 +2108,7 @@ ShallowWrapper {
 >
       <ul>
             <Frame
+                  copyStackTrace={[Function]}
                   frame={
                         Object {
                               "id": 1,
@@ -2116,6 +2161,7 @@ ShallowWrapper {
       "_instance": Frames {
         "_reactInternalInstance": [Circular],
         "context": Object {},
+        "copyStackTrace": [Function],
         "props": Object {
           "contextTypes": Object {},
           "frames": Array [
@@ -2156,6 +2202,7 @@ ShallowWrapper {
 >
           <ul>
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 1,
@@ -2185,6 +2232,7 @@ ShallowWrapper {
 >
           <ul>
                     <Frame
+                              copyStackTrace={[Function]}
                               frame={
                                         Object {
                                                   "id": 1,

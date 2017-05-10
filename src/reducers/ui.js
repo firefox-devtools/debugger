@@ -12,19 +12,21 @@ import constants from "../constants";
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-type fileSearchModifiersType = {
+export type FileSearchModifiers = Record<{
   caseSensitive: boolean,
   wholeWord: boolean,
   regexMatch: boolean
-};
+}>;
+
+export type SymbolSearchType = "functions" | "variables";
 
 export type UIState = {
   fileSearchOn: boolean,
   fileSearchQuery: string,
-  fileSearchModifiers: Record<fileSearchModifiersType>,
+  fileSearchModifiers: FileSearchModifiers,
   projectSearchOn: boolean,
   symbolSearchOn: boolean,
-  symbolSearchType: "functions" | "variables",
+  symbolSearchType: SymbolSearchType,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean
@@ -115,11 +117,10 @@ export function getFileSearchQueryState(state: OuterState): string {
 
 export function getFileSearchModifierState(
   state: OuterState
-): Record<fileSearchModifiersType> {
+): FileSearchModifiers {
   return state.ui.get("fileSearchModifiers");
 }
 
-type SymbolSearchType = "functions" | "variables";
 export function getSymbolSearchType(state: OuterState): SymbolSearchType {
   return state.ui.get("symbolSearchType");
 }

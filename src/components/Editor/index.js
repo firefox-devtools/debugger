@@ -72,24 +72,28 @@ import { getVisibleVariablesFromScope } from "../../utils/scopes";
 import { isFirefox } from "devtools-config";
 import "./Editor.css";
 
+import { SourceEditor } from "devtools-source-editor";
+
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
   secondSearchbarHeight: "var(--editor-second-searchbar-height)",
   footerHeight: "var(--editor-footer-height)"
 };
 
+export type SearchResults = {
+  index: number,
+  count: number
+};
+
 type EditorState = {
-  searchResults: {
-    index: number,
-    count: number
-  },
+  searchResults: SearchResults,
   selectedToken: ?Object,
   selectedExpression: ?Object
 };
 
 class Editor extends PureComponent {
   cbPanel: any;
-  editor: any;
+  editor: SourceEditor;
   pendingJumpLine: any;
   lastJumpLine: any;
   state: EditorState;
@@ -215,8 +219,10 @@ class Editor extends PureComponent {
     const { selectedSource, sourceText } = this.props;
     const { shortcuts } = this.context;
 
-    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-    const searchAgainPrevKey = L10N.getStr("sourceSearch.search.againPrev.key");
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
+    const searchAgainPrevKey = L10N.getStr(
+      "sourceSearch.search.againPrev.key2"
+    );
 
     shortcuts.on("CmdOrCtrl+B", this.onToggleBreakpoint);
     shortcuts.on("CmdOrCtrl+Shift+B", this.onToggleBreakpoint);
@@ -231,8 +237,10 @@ class Editor extends PureComponent {
     this.editor.destroy();
     this.editor = null;
 
-    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
-    const searchAgainPrevKey = L10N.getStr("sourceSearch.search.againPrev.key");
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
+    const searchAgainPrevKey = L10N.getStr(
+      "sourceSearch.search.againPrev.key2"
+    );
     const shortcuts = this.context.shortcuts;
     shortcuts.off("CmdOrCtrl+B");
     shortcuts.off("CmdOrCtrl+Shift+B");

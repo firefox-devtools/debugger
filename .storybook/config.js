@@ -10,6 +10,7 @@ if (process.argv[1] && process.argv[1].match(/percy-storybook/)) {
 
 function loadStories() {
   require("../src/components/stories/tabs.js");
+  require("../src/components/stories/frames.js");
 }
 
 configure(loadStories, module);
