@@ -3,19 +3,22 @@ import { Component } from "react";
 import { isEnabled } from "devtools-config";
 const ReactDOM = require("react-dom");
 import Svg from "../shared/Svg";
+import classnames from "classnames";
 
-const breakpointSvg = document.createElement("div");
-ReactDOM.render(Svg("breakpoint"), breakpointSvg);
+const breakpointSvg = document.createElement("span");
+ReactDOM.render(Svg("column-breakpoint"), breakpointSvg);
 
 type BookMarkType = {
   clear: Function
 };
 
-function makeBookmark() {
-  let widget = document.createElement("span");
-  widget.innerText = "+";
-  widget.classList.add("inline-bp");
-  return widget;
+function makeBookmark(isDisabled: boolean) {
+  const bp = breakpointSvg.cloneNode(true);
+  bp.className = classnames("editor column-breakpoint", {
+    "breakpoint-disabled": isDisabled
+  });
+
+  return bp;
 }
 
 class ColumnBreakpoint extends Component {
@@ -45,7 +48,7 @@ class ColumnBreakpoint extends Component {
     const column = bp.location.column;
     const editor = this.props.editor;
 
-    const widget = makeBookmark();
+    const widget = makeBookmark(bp.disabled);
     const bookmark = editor.setBookmark({ line, ch: column }, { widget });
     this.bookmark = bookmark;
   }

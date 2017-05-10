@@ -7,6 +7,7 @@ const svg = {
   backbone: require("./backbone.svg"),
   blackBox: require("./blackBox.svg"),
   breakpoint: require("./breakpoint.svg"),
+  "column-breakpoint": require("./column-breakpoint.svg"),
   "case-match": require("./case-match.svg"),
   close: require("./close.svg"),
   domain: require("./domain.svg"),
