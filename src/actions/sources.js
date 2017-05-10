@@ -40,6 +40,7 @@ import type { ThunkArgs } from "./types";
 // select it.
 function checkSelectedSource(state, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
+  console.log("checkSelectedSource", pendingLocation, source);
   if (pendingLocation && pendingLocation.url === source.url) {
     dispatch(selectSource(source.id, { line: pendingLocation.line }));
   }

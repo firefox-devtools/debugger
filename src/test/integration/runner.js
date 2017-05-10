@@ -107,8 +107,12 @@ describe("Tests", () => {
 
   // expected 2 to equal 1
   xit("source maps bogus", async () => await sourceMapsBogus(ctx));
-
-  xit("tabs", async () => await tabs(ctx));
+  xit("tabs - add tabs", async () => await tabs.addTabs(ctx));
+  xit("tabs - reload with tabs", async () => await tabs.reloadWithTabs(ctx));
+  xit(
+    "tabs - reload with no tabs",
+    async () => await tabs.reloadWithNoTabs(ctx)
+  );
 });
 
 mocha.run();

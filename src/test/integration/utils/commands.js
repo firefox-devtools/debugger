@@ -40,10 +40,11 @@ const {
 * @return {Promise}
 * @static
 */
-async function closeTab(dbg, url) {
+function closeTab(dbg, url) {
   info("Closing tab: " + url);
-  dbg.actions.closeTab(url);
-  return waitForDispatch(dbg, "CLOSE_TAB");
+  const source = findSource(dbg, url);
+
+  dbg.actions.closeTab(source.url);
 }
 
 /**
