@@ -79,3 +79,8 @@ permalink: docs/updates
 * We started converting our Prop Types to Flow Props. Thanks [Mateusz][@Andarist] and others for the help kicking this off!
 * We added several new Jest component tests. Big thanks to [Andrei][@andreicristianpetcu] for tackling async component updates. It was not an easy task!
 * We re-added storybook this week and wrote our first stories for Frames and Tabs! The stories are also being tested on CI with the great [percy.io](http://percy.io).
+
+[@asolove]:http://github.com/asolove
+[@ryanjduffy]:http://github.com/ryanjduffy
+[@diessica]:http://github.com/diessica
+[@andreicristianpetcu]:http://github.com/andreicristianpetcu
