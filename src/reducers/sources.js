@@ -287,7 +287,11 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
 }
 
 function getSourceUrlById(state: SourcesState, id: string): string {
-  return state.sources.find(source => source.get("id") == id).get("url");
+  const source = state.sources.find(source => source.get("id") == id);
+  if (source) {
+    return source.get("url");
+  }
+  return "";
 }
 
 // Selectors
