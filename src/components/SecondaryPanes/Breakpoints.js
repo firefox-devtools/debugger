@@ -43,7 +43,7 @@ function renderSourceLocation(source, line, column) {
   return url
     ? dom.div(
         { className: "location" },
-        `${endTruncateStr(url, 30)}: ${line}${column ? `:${column}` : ``}`
+        `${endTruncateStr(url, 30)}: ${line}${column ? `:${column}` : ""}`
       )
     : null;
 }
