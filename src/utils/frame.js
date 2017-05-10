@@ -29,7 +29,24 @@ function isWebpack(frame) {
   return getFrameUrl(frame).match(/webpack\/bootstrap/i);
 }
 
+function isNodeInternal(frame) {
+  // starts with "internal/" OR no path, just "timers.js", "url.js" etc
+  // (normally frameUrl will be a FQ pathname)
+  return /(^internal\/|^[^.\/]+\.js)/.test(getFrameUrl(frame));
+}
+
+function isExpress(frame) {
+  return /node_modules\/express/.test(getFrameUrl(frame));
+}
+
+function isPug(frame) {
+  return /node_modules\/pug/.test(getFrameUrl(frame));
+}
+
 export function getLibraryFromUrl(frame: Frame) {
+  // @TODO each of these fns calls getFrameUrl, just call it once
+  // (assuming there's not more complex logic to identify a lib)
+
   if (isBackbone(frame)) {
     return "Backbone";
   }
@@ -44,6 +61,18 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isWebpack(frame)) {
     return "Webpack";
+  }
+
+  if (isNodeInternal(frame)) {
+    return "Node";
+  }
+
+  if (isExpress(frame)) {
+    return "Express";
+  }
+
+  if (isPug(frame)) {
+    return "Pug";
   }
 }
 
