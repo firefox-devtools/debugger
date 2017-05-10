@@ -248,6 +248,31 @@ class Editor extends PureComponent {
     shortcuts.off(searchAgainKey);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (Object.keys(nextProps).length != Object.keys(this.props).length) {
+      return true;
+    }
+    if (Object.keys(nextState).length != Object.keys(this.state).length) {
+      return true;
+    }
+
+    let key;
+
+    for (key in nextProps) {
+      if (key != "getExpression" && nextProps[key] != this.props[key]) {
+        return true;
+      }
+    }
+
+    for (key in nextState) {
+      if (nextProps[key] != this.props[key]) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   componentDidUpdate(prevProps) {
     // This is in `componentDidUpdate` so helper functions can expect
     // `this.props` to be the current props. This lifecycle method is
