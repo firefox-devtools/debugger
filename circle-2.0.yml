@@ -48,6 +48,7 @@ stages:
         shell: /bin/bash --login
         command: |
             set -exu
+            yarn run license-check
             yarn run lint-css
             yarn run lint-js
             yarn run lint-md
