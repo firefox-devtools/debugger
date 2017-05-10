@@ -1,3 +1,7 @@
+.breakpoints-toggle {
+  margin: 2px 3px;
+}
+
 .breakpoints-list * {
   -moz-user-select: none;
   user-select: none;
@@ -53,6 +57,7 @@ html .breakpoints-list .breakpoint.paused {
 
 .breakpoints-list .breakpoint-checkbox {
   margin-inline-start: 0;
+  vertical-align: -2px;
 }
 
 .breakpoints-list .breakpoint-label {
@@ -85,8 +90,9 @@ html .breakpoints-list .breakpoint.paused {
 
 .breakpoint .close-btn {
   position: absolute;
-  offset-inline-end: 16px;
-  top: 12px;
+  offset-inline-end: 13px;
+  offset-inline-start: auto;
+  top: 9px;
 }
 
 .breakpoint .close {
