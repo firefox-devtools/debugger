@@ -90,6 +90,10 @@
   fill: var(--theme-textbox-box-shadow);
 }
 
+.theme-dark .source-tab .blackBox circle {
+  fill: var(--theme-body-color);
+}
+
 .source-tab .filename {
   white-space: nowrap;
   text-overflow: ellipsis;
