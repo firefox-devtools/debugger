@@ -32,6 +32,11 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <Outline
         selectSource={[Function]}
+        selectedSource={
+                Object {
+                        "get": [Function],
+                      }
+        }
         sourceText={
                 Object {
                         "root": "some text here",
@@ -47,6 +52,9 @@ ShallowWrapper {
         "context": Object {},
         "props": Object {
           "selectSource": [Function],
+          "selectedSource": Object {
+            "get": [Function],
+          },
           "sourceText": Object {
             "root": "some text here",
             "toJS": [Function],
@@ -60,7 +68,7 @@ ShallowWrapper {
                 "id": "my_example_function1:21",
                 "location": Object {
                   "start": Object {
-                    "line": 20,
+                    "line": 21,
                   },
                 },
                 "value": "my_example_function1",
@@ -69,7 +77,7 @@ ShallowWrapper {
                 "id": "my_example_function2:22",
                 "location": Object {
                   "start": Object {
-                    "line": 25,
+                    "line": 22,
                   },
                 },
                 "value": "my_example_function2",
@@ -221,6 +229,11 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <Outline
     selectSource={[Function]}
+    selectedSource={
+        Object {
+            "get": [Function],
+          }
+    }
     sourceText={
         Object {
             "root": "some text here",
@@ -263,6 +276,11 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <Outline
         selectSource={[Function]}
+        selectedSource={
+                Object {
+                        "get": [Function],
+                      }
+        }
         sourceText={
                 Object {
                         "root": "some text here",
@@ -278,6 +296,9 @@ ShallowWrapper {
         "context": Object {},
         "props": Object {
           "selectSource": [Function],
+          "selectedSource": Object {
+            "get": [Function],
+          },
           "sourceText": Object {
             "root": "some text here",
             "toJS": [Function],
@@ -291,13 +312,18 @@ ShallowWrapper {
                 "id": "my_example_function1:21",
                 "location": Object {
                   "start": Object {
-                    "line": 20,
+                    "line": 21,
                   },
                 },
                 "value": "my_example_function1",
               },
               Object {
                 "id": "anonymous:25",
+                "location": Object {
+                  "start": Object {
+                    "line": 25,
+                  },
+                },
                 "value": "anonymous",
               },
             ],
@@ -399,6 +425,11 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <Outline
     selectSource={[Function]}
+    selectedSource={
+        Object {
+            "get": [Function],
+          }
+    }
     sourceText={
         Object {
             "root": "some text here",

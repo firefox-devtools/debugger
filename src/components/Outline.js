@@ -27,6 +27,7 @@ class Outline extends Component {
     }
   }
 
+  // TODO: move this logic out of the component and into a reducer
   async setSymbolDeclarations(sourceText: Record<SourceText>) {
     const symbolDeclarations = await getSymbols(sourceText.toJS());
 
@@ -38,9 +39,10 @@ class Outline extends Component {
   }
 
   selectItem(location) {
-    const selectedSourceId = this.props.selectedSource.get("id");
+    const { selectedSource, selectSource } = this.props;
+    const selectedSourceId = selectedSource.get("id");
     const startLine = location.start.line;
-    this.props.selectSource(selectedSourceId, { line: startLine });
+    selectSource(selectedSourceId, { line: startLine });
   }
 
   renderFunction(func) {
