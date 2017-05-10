@@ -30,6 +30,8 @@ const tabs = {
 function TabsFactory(options, { dir = "ltr", theme = "light" } = {}) {
   const themeClass = `theme-${theme}`;
   document.body.parentNode.className = themeClass;
+  document.dir = dir;
+
   return dom.div(
     {
       className: `editor-pane ${themeClass}`,
