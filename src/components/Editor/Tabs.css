@@ -78,6 +78,7 @@
 .source-tab .blackBox,
 .source-tab .prettyPrint {
   line-height: 0;
+  align-self: center;
 }
 
 .source-tab .blackBox svg {
