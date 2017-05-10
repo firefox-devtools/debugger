@@ -84,7 +84,7 @@
     "reselect": "^3.0.0",
     "rimraf": "^2.6.1",
     "stylelint": "^7.10.1",
-    "svg-inline-react": "^1.0.2",
+    "svg-inline-react": "^2.1.0",
     "webpack": "1.14.0",
     "workerjs": "github:jasonLaster/workerjs"
   },
