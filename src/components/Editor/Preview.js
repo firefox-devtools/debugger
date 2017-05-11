@@ -19,11 +19,12 @@ import Rep from "../shared/Rep";
 import { MODE } from "devtools-reps";
 
 import "./Preview.css";
+import type { AddExpression } from "../../actions/expressions";
 
 class Preview extends Component {
   props: {
     loadObjectProperties: Object => any,
-    addExpression: (string, ?Object) => any,
+    addExpression: AddExpression,
     loadedObjects: Object,
     popoverTarget: Object,
     value: Object,
