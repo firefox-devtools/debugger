@@ -11,12 +11,12 @@ import type { SymbolSearchType } from "../reducers/ui";
 export function toggleProjectSearch(toggleValue?: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const projectSearchState = getProjectSearchState(getState());
-    if (toggleValue === null) {
+    if (toggleValue === undefined) {
       return dispatch({
         type: constants.TOGGLE_PROJECT_SEARCH,
         value: !projectSearchState
       });
-    }
+
 
     if (projectSearchState == toggleValue) {
       return;
