@@ -5,8 +5,8 @@
   box-shadow: 0 4px 4px 0 var(--search-overlays-semitransparent);
   max-height: 300px;
   position: absolute;
-  right: 8px;
-  top: 35px;
+  right: 0;
+  top: 23px;
   width: var(--width);
   z-index: 1000;
 }
@@ -28,7 +28,6 @@ html[dir="rtl"] .dropdown {
   border: none;
   padding: 0;
   font-weight: 100;
-  margin-top: 6px;
   font-size: 14px;
 }
 

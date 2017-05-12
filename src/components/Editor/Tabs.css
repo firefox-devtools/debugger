@@ -13,7 +13,7 @@
 
 .source-header .new-tab-btn {
   padding: 0px 4px;
-  margin-top: 8px;
+  margin-top: 4px;
   cursor: pointer;
   fill: var(--theme-comment);
   transition: 0.1s ease;
@@ -34,7 +34,7 @@
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   display: inline-flex;
-  align-items: center;
+  align-items: flex-end;
   position: relative;
   transition: all 0.25s ease;
   min-width: 40px;
@@ -75,9 +75,10 @@
   fill: var(--theme-textbox-box-shadow);
 }
 
-.source-tab .blackBox {
+.source-tab .blackBox,
+.source-tab .prettyPrint {
   line-height: 0;
-  padding: 0 5px;
+  align-self: center;
 }
 
 .source-tab .blackBox svg {
@@ -89,20 +90,21 @@
   fill: var(--theme-textbox-box-shadow);
 }
 
+.theme-dark .source-tab .blackBox circle {
+  fill: var(--theme-body-color);
+}
+
 .source-tab .filename {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-}
-
-.source-tab.pretty .filename {
-  padding-inline-start: 8px;
+  padding: 0 4px;
+  align-self: flex-start;
 }
 
 .source-tab .close-btn {
   visibility: hidden;
   line-height: 0;
-  margin-inline-start: 6px;
 }
 
 .source-tab.active .close-btn {
