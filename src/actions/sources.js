@@ -105,7 +105,7 @@ export function newSources(sources: Source[]) {
       source => !getSource(getState(), source.id)
     );
 
-    for (const source in filteredSources) {
+    for (let source of filteredSources) {
       await dispatch(newSource(source));
     }
   };

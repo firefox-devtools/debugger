@@ -245,4 +245,17 @@ describe("pending breakpoints", () => {
     bps = selectors.getBreakpoints(getState());
     expect(bps.size).to.be(1);
   });
+
+  it("when a sources are added, corresponding breakpoints are added as well", async () => {
+    const { dispatch, getState } = createStore(simpleMockThreadClient);
+
+    let bps = selectors.getBreakpoints(getState());
+    expect(bps.size).to.be(0);
+
+    const source1 = makeSource("bar.js");
+    const source2 = makeSource("foo.js");
+    await dispatch(actions.newSources([source1, source2]));
+    bps = selectors.getBreakpoints(getState());
+    expect(bps.size).to.be(1);
+  });
 });
