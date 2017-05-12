@@ -106,7 +106,7 @@
   "author": "Jason Laster <jlaster@mozilla.com>",
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
-    "devtools-license-check": "^0.1.0",
+    "devtools-license-check": "^0.2.0",
     "enzyme": "^2.8.0",
     "husky": "^0.13.2",
     "jest": "^20.0.0",
