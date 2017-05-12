@@ -40,7 +40,7 @@
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "snapshot": "NODE_ENV='development' build-storybook && percy-storybook",
+    "snapshot": "NODE_ENV='development' build-storybook && percy-storybook --ignore=\"node_modules/(?!devtools-)\"",
     "prepush": "yarn lint && yarn test && yarn flow",
     "postmerge": "node bin/post-merge.js",
     "precommit": "lint-staged",
@@ -107,6 +107,7 @@
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
     "devtools-license-check": "^0.2.0",
+    "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
     "enzyme": "^2.8.0",
     "husky": "^0.13.2",
     "jest": "^20.0.1",
