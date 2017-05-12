@@ -36,7 +36,10 @@ const svg = {
   worker: require("./worker.svg"),
   "sad-face": require("./sad-face.svg"),
   refresh: require("./refresh.svg"),
-  webpack: require("./webpack.svg")
+  webpack: require("./webpack.svg"),
+  node: require("./node.svg"),
+  express: require("./express.svg"),
+  pug: require("./pug.svg")
 };
 
 module.exports = function(name, props) {
