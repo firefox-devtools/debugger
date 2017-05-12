@@ -11,13 +11,17 @@ ShallowWrapper {
   "node": <div
     className="outline"
 >
-    <ul />
+    <ul
+        className="outline-list"
+    />
 </div>,
   "nodes": Array [
     <div
       className="outline"
 >
-      <ul />
+      <ul
+            className="outline-list"
+      />
 </div>,
   ],
   "options": Object {},
@@ -27,6 +31,12 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <Outline
+        selectSource={[Function]}
+        selectedSource={
+                Object {
+                        "get": [Function],
+                      }
+        }
         sourceText={
                 Object {
                         "root": "some text here",
@@ -41,6 +51,10 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
+          "selectSource": [Function],
+          "selectedSource": Object {
+            "get": [Function],
+          },
           "sourceText": Object {
             "root": "some text here",
             "toJS": [Function],
@@ -52,10 +66,20 @@ ShallowWrapper {
             "functions": Array [
               Object {
                 "id": "my_example_function1:21",
+                "location": Object {
+                  "start": Object {
+                    "line": 21,
+                  },
+                },
                 "value": "my_example_function1",
               },
               Object {
                 "id": "my_example_function2:22",
+                "location": Object {
+                  "start": Object {
+                    "line": 22,
+                  },
+                },
                 "value": "my_example_function2",
               },
             ],
@@ -82,12 +106,56 @@ ShallowWrapper {
         "_currentElement": <div
           className="outline"
 >
-          <ul>
-                    <li>
-                              my_example_function1
+          <ul
+                    className="outline-list"
+          >
+                    <li
+                              className="outline-list__element"
+                              onClick={[Function]}
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function1
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
-                    <li>
-                              my_example_function2
+                    <li
+                              className="outline-list__element"
+                              onClick={[Function]}
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function2
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
           </ul>
 </div>,
@@ -95,12 +163,56 @@ ShallowWrapper {
         "_renderedOutput": <div
           className="outline"
 >
-          <ul>
-                    <li>
-                              my_example_function1
+          <ul
+                    className="outline-list"
+          >
+                    <li
+                              className="outline-list__element"
+                              onClick={[Function]}
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function1
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
-                    <li>
-                              my_example_function2
+                    <li
+                              className="outline-list__element"
+                              onClick={[Function]}
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function2
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
           </ul>
 </div>,
@@ -116,6 +228,12 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <Outline
+    selectSource={[Function]}
+    selectedSource={
+        Object {
+            "get": [Function],
+          }
+    }
     sourceText={
         Object {
             "root": "some text here",
@@ -137,13 +255,17 @@ ShallowWrapper {
   "node": <div
     className="outline"
 >
-    <ul />
+    <ul
+        className="outline-list"
+    />
 </div>,
   "nodes": Array [
     <div
       className="outline"
 >
-      <ul />
+      <ul
+            className="outline-list"
+      />
 </div>,
   ],
   "options": Object {},
@@ -153,6 +275,12 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <Outline
+        selectSource={[Function]}
+        selectedSource={
+                Object {
+                        "get": [Function],
+                      }
+        }
         sourceText={
                 Object {
                         "root": "some text here",
@@ -167,6 +295,10 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
+          "selectSource": [Function],
+          "selectedSource": Object {
+            "get": [Function],
+          },
           "sourceText": Object {
             "root": "some text here",
             "toJS": [Function],
@@ -178,10 +310,20 @@ ShallowWrapper {
             "functions": Array [
               Object {
                 "id": "my_example_function1:21",
+                "location": Object {
+                  "start": Object {
+                    "line": 21,
+                  },
+                },
                 "value": "my_example_function1",
               },
               Object {
                 "id": "anonymous:25",
+                "location": Object {
+                  "start": Object {
+                    "line": 25,
+                  },
+                },
                 "value": "anonymous",
               },
             ],
@@ -208,9 +350,32 @@ ShallowWrapper {
         "_currentElement": <div
           className="outline"
 >
-          <ul>
-                    <li>
-                              my_example_function1
+          <ul
+                    className="outline-list"
+          >
+                    <li
+                              className="outline-list__element"
+                              onClick={[Function]}
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function1
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
           </ul>
 </div>,
@@ -218,9 +383,32 @@ ShallowWrapper {
         "_renderedOutput": <div
           className="outline"
 >
-          <ul>
-                    <li>
-                              my_example_function1
+          <ul
+                    className="outline-list"
+          >
+                    <li
+                              className="outline-list__element"
+                              onClick={[Function]}
+                    >
+                              <span
+                                        className="function-signature"
+                              >
+                                        <span
+                                                  className="function-name"
+                                        >
+                                                  my_example_function1
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  (
+                                        </span>
+                                        <span
+                                                  className="paren"
+                                        >
+                                                  )
+                                        </span>
+                              </span>
                     </li>
           </ul>
 </div>,
@@ -236,6 +424,12 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <Outline
+    selectSource={[Function]}
+    selectedSource={
+        Object {
+            "get": [Function],
+          }
+    }
     sourceText={
         Object {
             "root": "some text here",

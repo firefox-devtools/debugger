@@ -103,10 +103,20 @@ function update(
 
     case "CLOSE_TAB":
       availableTabs = removeSourceFromTabList(state.tabs, action.url);
+      const sourceId = getNewSelectedSourceId(state, availableTabs);
 
-      return state.merge({ tabs: availableTabs }).set("selectedLocation", {
-        sourceId: getNewSelectedSourceId(state, availableTabs)
-      });
+      if (sourceId) {
+        location = { url: getSourceUrlById(state, sourceId) };
+        prefs.pendingSelectedLocation = location;
+      } else {
+        location = undefined;
+        prefs.pendingSelectedLocation = {};
+      }
+
+      return state
+        .merge({ tabs: availableTabs })
+        .set("selectedLocation", { sourceId })
+        .set("pendingSelectedLocation", location);
 
     case "CLOSE_TABS":
       availableTabs = removeSourcesFromTabList(state.tabs, action.urls);
@@ -133,8 +143,16 @@ function update(
     case "NAVIGATE":
       const source = getSelectedSource({ sources: state });
       const url = source && source.get("url");
-      prefs.pendingSelectedLocation = { url };
-      return State().set("pendingSelectedLocation", { url });
+      const tabs = getTabs({ sources: state });
+
+      if (url) {
+        prefs.pendingSelectedLocation = { url };
+        return State()
+          .set("pendingSelectedLocation", { url })
+          .set("tabs", tabs);
+      }
+
+      return State().set("pendingSelectedLocation", {}).set("tabs", tabs);
   }
 
   return state;
@@ -266,6 +284,11 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
   }
 
   return "";
+}
+
+function getSourceUrlById(state: SourcesState, id: string): string {
+  const src = state.sources.find(source => source.get("id") == id);
+  return src ? src.get("url") : "";
 }
 
 // Selectors

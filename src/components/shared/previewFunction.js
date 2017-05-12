@@ -6,13 +6,19 @@ import flatten from "lodash/flatten";
 
 import "./previewFunction.css";
 
-function renderFunctionName(value) {
-  const name = value.userDisplayName || value.displayName || value.name || "";
+function getFunctionName(func) {
+  return (
+    func.userDisplayName || func.displayName || func.name || func.value || ""
+  );
+}
+
+function renderFunctionName(func) {
+  const name = getFunctionName(func);
   return dom.span({ className: "function-name" }, name);
 }
 
-function renderParams(value) {
-  const { parameterNames = [] } = value;
+function renderParams(func) {
+  const { parameterNames = [] } = func;
   let params = parameterNames
     .filter(i => i)
     .map(param => dom.span({ className: "param" }, param));
@@ -28,12 +34,12 @@ function renderParen(paren) {
   return dom.span({ className: "paren" }, paren);
 }
 
-function previewFunction(value) {
+function previewFunction(func) {
   return dom.span(
     { className: "function-signature" },
-    renderFunctionName(value),
+    renderFunctionName(func),
     renderParen("("),
-    ...renderParams(value),
+    ...renderParams(func),
     renderParen(")")
   );
 }

@@ -21,6 +21,7 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
     - mkdir -p $CIRCLE_TEST_REPORTS/jest-coverage
     - node ./node_modules/.bin/jest --testResultsProcessor jest-junit-reporter --coverage --coverageDirectory=$CIRCLE_TEST_REPORTS/jest-coverage
+    - yarn license-check
     - yarn lint-css
     - yarn lint-js
     - yarn lint-md
