@@ -1,8 +1,7 @@
 // @flow
-import { DOM as dom, PropTypes, createFactory, PureComponent } from "react";
+import { DOM as dom, createFactory, PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import {
   getVisibleExpressions,
@@ -17,6 +16,10 @@ import _ObjectInspector from "../shared/ObjectInspector";
 const ObjectInspector = createFactory(_ObjectInspector);
 
 import "./Expressions.css";
+
+import type { List } from "immutable";
+import type { Expression } from "../../types";
+
 function getValue(expression) {
   const value = expression.value;
   if (!value) {
@@ -54,6 +57,16 @@ class Expressions extends PureComponent {
   };
 
   renderExpression: Function;
+
+  props: {
+    expressions: List<Expression>,
+    addExpression: (string, ?Object) => any,
+    evaluateExpressions: () => any,
+    updateExpression: (string, Expression) => any,
+    deleteExpression: Expression => any,
+    loadObjectProperties: () => any,
+    loadedObjects: Map<string, any>
+  };
 
   constructor(...args) {
     super(...args);
@@ -215,16 +228,6 @@ class Expressions extends PureComponent {
     );
   }
 }
-
-Expressions.propTypes = {
-  expressions: ImPropTypes.list.isRequired,
-  addExpression: PropTypes.func.isRequired,
-  evaluateExpressions: PropTypes.func.isRequired,
-  updateExpression: PropTypes.func.isRequired,
-  deleteExpression: PropTypes.func.isRequired,
-  loadObjectProperties: PropTypes.func,
-  loadedObjects: ImPropTypes.map.isRequired
-};
 
 Expressions.displayName = "Expressions";
 
