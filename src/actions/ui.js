@@ -16,7 +16,7 @@ export function toggleProjectSearch(toggleValue?: boolean) {
         type: constants.TOGGLE_PROJECT_SEARCH,
         value: !projectSearchState
       });
-
+    }
 
     if (projectSearchState == toggleValue) {
       return;
