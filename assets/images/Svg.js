@@ -39,7 +39,7 @@ const svg = {
   webpack: require("./webpack.svg"),
   node: require("./node.svg"),
   express: require("./express.svg"),
-  pug: require("./pug.svg")
+  pug: require("./pug.svg"),
   extjs: require("./sencha-extjs.svg")
 };
 
