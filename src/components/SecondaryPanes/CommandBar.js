@@ -1,10 +1,9 @@
 // @flow
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, Component } from "react";
 
 import { findDOMNode } from "../../../node_modules/react-dom/dist/react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import ImPropTypes from "react-immutable-proptypes";
 import {
   getPause,
   getIsWaitingOnBreak,
@@ -98,6 +97,21 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
 }
 
 class CommandBar extends Component {
+  props: {
+    sources: Object,
+    selectedSource: Object,
+    resume: () => any,
+    stepIn: () => any,
+    stepOut: () => any,
+    stepOver: () => any,
+    breakOnNext: () => any,
+    pause: Map<string, any>,
+    pauseOnExceptions: (boolean, boolean) => any,
+    shouldPauseOnExceptions: boolean,
+    shouldIgnoreCaughtExceptions: boolean,
+    isWaitingOnBreak: boolean
+  };
+
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     COMMANDS.forEach(action => shortcuts.off(getKey(action)));
@@ -244,23 +258,8 @@ class CommandBar extends Component {
   }
 }
 
-CommandBar.propTypes = {
-  sources: PropTypes.object,
-  selectedSource: PropTypes.object,
-  resume: PropTypes.func,
-  stepIn: PropTypes.func,
-  stepOut: PropTypes.func,
-  stepOver: PropTypes.func,
-  breakOnNext: PropTypes.func,
-  pause: ImPropTypes.map,
-  pauseOnExceptions: PropTypes.func,
-  shouldPauseOnExceptions: PropTypes.bool,
-  shouldIgnoreCaughtExceptions: PropTypes.bool,
-  isWaitingOnBreak: PropTypes.bool
-};
-
 CommandBar.contextTypes = {
-  shortcuts: PropTypes.object
+  shortcuts: Object
 };
 
 CommandBar.displayName = "CommandBar";
