@@ -13,7 +13,7 @@
 
 .source-header .new-tab-btn {
   padding: 0px 4px;
-  margin-top: 8px;
+  margin-top: 4px;
   cursor: pointer;
   fill: var(--theme-comment);
   transition: 0.1s ease;
@@ -33,16 +33,15 @@
   border: 1px solid transparent;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  height: 30px;
   display: inline-flex;
-  align-items: center;
+  align-items: flex-end;
   position: relative;
   transition: all 0.25s ease;
   min-width: 40px;
   overflow: hidden;
-  padding: 6px;
+  padding: 5px;
   margin-inline-start: 3px;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .source-tab:hover {
@@ -76,20 +75,36 @@
   fill: var(--theme-textbox-box-shadow);
 }
 
+.source-tab .blackBox,
+.source-tab .prettyPrint {
+  line-height: 0;
+  align-self: center;
+}
+
+.source-tab .blackBox svg {
+  height: 12px;
+  width: 12px;
+}
+
+.source-tab .blackBox path {
+  fill: var(--theme-textbox-box-shadow);
+}
+
+.theme-dark .source-tab .blackBox circle {
+  fill: var(--theme-body-color);
+}
+
 .source-tab .filename {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-}
-
-.source-tab.pretty .filename {
-  padding-inline-start: 8px;
+  padding: 0 4px;
+  align-self: flex-start;
 }
 
 .source-tab .close-btn {
   visibility: hidden;
   line-height: 0;
-  margin-inline-start: 6px;
 }
 
 .source-tab.active .close-btn {

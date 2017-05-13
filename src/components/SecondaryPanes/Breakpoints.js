@@ -1,11 +1,17 @@
 // @flow
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, PropTypes, PureComponent } from "react";
 import { connect } from "react-redux";
+import { createSelector } from "reselect";
 import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
 import classnames from "classnames";
 import actions from "../../actions";
-import { getSource, getPause, getBreakpoints } from "../../selectors";
+import {
+  getSources,
+  getSourceInSources,
+  getPause,
+  getBreakpoints
+} from "../../selectors";
 import { makeLocationId } from "../../reducers/breakpoints";
 import { endTruncateStr } from "../../utils/utils";
 import { basename } from "../../utils/path";
@@ -20,8 +26,7 @@ type LocalBreakpoint = Breakpoint & {
   locationId: string
 };
 
-function isCurrentlyPausedAtBreakpoint(state, breakpoint) {
-  const pause = getPause(state);
+function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
   if (!pause || pause.get("isInterrupted")) {
     return false;
   }
@@ -40,7 +45,7 @@ function renderSourceLocation(source, line) {
     : null;
 }
 
-class Breakpoints extends Component {
+class Breakpoints extends PureComponent {
   shouldComponentUpdate(nextProps, nextState) {
     const { breakpoints } = this.props;
     return breakpoints !== nextProps.breakpoints;
@@ -132,9 +137,9 @@ Breakpoints.propTypes = {
   removeBreakpoint: PropTypes.func.isRequired
 };
 
-function updateLocation(state, bp): LocalBreakpoint {
-  const source = getSource(state, bp.location.sourceId);
-  const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(state, bp);
+function updateLocation(sources, pause, bp): LocalBreakpoint {
+  const source = getSourceInSources(sources, bp.location.sourceId);
+  const isCurrentlyPaused = isCurrentlyPausedAtBreakpoint(pause, bp);
   const locationId = makeLocationId(bp.location);
 
   const location = Object.assign({}, bp.location, { source });
@@ -147,13 +152,17 @@ function updateLocation(state, bp): LocalBreakpoint {
   return localBP;
 }
 
-function _getBreakpoints(state) {
-  return getBreakpoints(state)
-    .map(bp => updateLocation(state, bp))
-    .filter(
-      bp => bp.location.source && !bp.location.source.get("isBlackBoxed")
-    );
-}
+const _getBreakpoints = createSelector(
+  getBreakpoints,
+  getSources,
+  getPause,
+  (breakpoints, sources, pause) =>
+    breakpoints
+      .map(bp => updateLocation(sources, pause, bp))
+      .filter(
+        bp => bp.location.source && !bp.location.source.get("isBlackBoxed")
+      )
+);
 
 export default connect(
   (state, props) => ({ breakpoints: _getBreakpoints(state) }),

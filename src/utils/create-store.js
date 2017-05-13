@@ -10,12 +10,13 @@
  * @module utils/create-store
  */
 
-const { createStore, applyMiddleware } = require("redux");
-const { waitUntilService } = require("./redux/middleware/wait-service");
-const { log } = require("./redux/middleware/log");
-const { history } = require("./redux/middleware/history");
-const { promise } = require("./redux/middleware/promise");
-const { thunk } = require("./redux/middleware/thunk");
+import { createStore, applyMiddleware } from "redux";
+import { waitUntilService } from "./redux/middleware/wait-service";
+import { log } from "./redux/middleware/log";
+import { history } from "./redux/middleware/history";
+import { promise } from "./redux/middleware/promise";
+import { thunk } from "./redux/middleware/thunk";
+import { timing } from "./redux/middleware/timing";
 
 /**
  * @memberof utils/create-store
@@ -25,7 +26,8 @@ type ReduxStoreOptions = {
   makeThunkArgs?: Function,
   history?: Array<Object>,
   middleware?: Function[],
-  log?: boolean
+  log?: boolean,
+  timing?: boolean
 };
 
 /**
@@ -65,6 +67,10 @@ const configureStore = (opts: ReduxStoreOptions = {}) => {
     middleware.push(log);
   }
 
+  if (opts.timing) {
+    middleware.push(timing);
+  }
+
   // Hook in the redux devtools browser extension if it exists
   const devtoolsExt = typeof window === "object" && window.devToolsExtension
     ? window.devToolsExtension()
@@ -73,4 +79,4 @@ const configureStore = (opts: ReduxStoreOptions = {}) => {
   return applyMiddleware(...middleware)(devtoolsExt(createStore));
 };
 
-module.exports = configureStore;
+export default configureStore;

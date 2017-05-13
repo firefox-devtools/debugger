@@ -1,4 +1,14 @@
+// @flow
+
 import toPairs from "lodash/toPairs";
+
+import type { Pause, Frame } from "debugger-html";
+
+type ScopeData = {
+  name: string,
+  path: string,
+  contents: Object[] | Object
+};
 
 // Create the tree nodes representing all the variables and arguments
 // for the bindings from a scope.
@@ -23,7 +33,7 @@ function dehydrateValue(value) {
   return value;
 }
 
-export function getSpecialVariables(pauseInfo, path) {
+export function getSpecialVariables(pauseInfo: Pause, path: string) {
   let thrown = pauseInfo.getIn(["why", "frameFinished", "throw"], undefined);
 
   let returned = pauseInfo.getIn(["why", "frameFinished", "return"], undefined);
@@ -55,7 +65,7 @@ export function getSpecialVariables(pauseInfo, path) {
   return vars;
 }
 
-function getThisVariable(frame, path) {
+function getThisVariable(frame: Frame, path: string) {
   const this_ = frame.this;
 
   if (!this_) {
@@ -69,7 +79,10 @@ function getThisVariable(frame, path) {
   };
 }
 
-export function getScopes(pauseInfo, selectedFrame) {
+export function getScopes(
+  pauseInfo: Pause,
+  selectedFrame: Frame
+): ?(ScopeData[]) {
   if (!pauseInfo || !selectedFrame) {
     return null;
   }
@@ -144,7 +157,10 @@ export function getScopes(pauseInfo, selectedFrame) {
  * Returns variables that are visible from this scope.
  * TODO: returns global variables as well
  */
-export function getVisibleVariablesFromScope(pauseInfo, selectedFrame) {
+export function getVisibleVariablesFromScope(
+  pauseInfo: Pause,
+  selectedFrame: Frame
+) {
   const result = new Map();
 
   const scopes = getScopes(pauseInfo, selectedFrame);

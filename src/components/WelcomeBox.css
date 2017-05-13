@@ -15,8 +15,14 @@
   z-index: 100;
 }
 
-html .welcomebox .toggle-button-end {
-  bottom: 11px;
+.welcomebox .toggle-button-end {
   position: absolute;
   top: auto;
+  bottom: 0;
+  offset-inline-end: 0;
+  offset-inline-start: auto;
+}
+
+html .welcomebox .toggle-button-end.collapsed {
+  bottom: 1px;
 }

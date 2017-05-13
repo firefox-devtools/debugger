@@ -1,24 +1,22 @@
 // @flow
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import { DOM as dom, PropTypes, PureComponent, createFactory } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import { getSelectedFrame, getLoadedObjects, getPause } from "../../selectors";
 import { getScopes } from "../../utils/scopes";
-const ObjectInspector = createFactory(
-  require("../shared/ObjectInspector").default
-);
+
+import _ObjectInspector from "../shared/ObjectInspector";
+const ObjectInspector = createFactory(_ObjectInspector);
+
 import "./Scopes.css";
 
 function info(text) {
   return dom.div({ className: "pane-info" }, text);
 }
 
-let expandedCache = new Set();
-let actorsCache = [];
-
-class Scopes extends Component {
+class Scopes extends PureComponent {
   state: {
     scopes: any
   };
@@ -31,15 +29,6 @@ class Scopes extends Component {
     this.state = {
       scopes: getScopes(pauseInfo, selectedFrame)
     };
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    const { pauseInfo, selectedFrame, loadedObjects } = this.props;
-    return (
-      pauseInfo !== nextProps.pauseInfo ||
-      selectedFrame !== nextProps.selectedFrame ||
-      loadedObjects !== nextProps.loadedObjects
-    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,14 +53,6 @@ class Scopes extends Component {
         roots: scopes,
         getObjectProperties: id => loadedObjects.get(id),
         loadObjectProperties: loadObjectProperties,
-        setExpanded: expanded => {
-          expandedCache = expanded;
-        },
-        getExpanded: () => expandedCache,
-        setActors: actors => {
-          actorsCache = actors;
-        },
-        getActors: () => actorsCache,
         onLabelClick: (item, { expanded, setExpanded }) => {
           setExpanded(item, !expanded);
         }

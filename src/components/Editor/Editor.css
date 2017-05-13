@@ -56,6 +56,20 @@ html[dir="rtl"] .editor-mount {
   right: -4px;
 }
 
+.inline-bp {
+  background-color: #9ddfff;
+  width: 20px;
+  padding: 0px 5px;
+  margin: 0px 4px;
+  border-radius: 5px;
+  border-color: blue;
+  border: 1px solid #00b6ff;
+}
+
+.inline-bp:hover {
+  cursor: pointer;
+}
+
 .editor.new-breakpoint.folding-enabled svg {
   right: -16px;
 }
@@ -65,6 +79,17 @@ html[dir="rtl"] .editor-mount {
 }
 
 .editor.new-breakpoint.breakpoint-disabled svg {
+  opacity: 0.3;
+}
+
+.editor.column-breakpoint svg {
+  fill: var(--theme-selection-background);
+  vertical-align: middle;
+  width: 17px;
+  height: 14px;
+}
+
+.editor.column-breakpoint.breakpoint-disabled svg {
   opacity: 0.3;
 }
 

@@ -10,7 +10,8 @@ import { parse as parseURL } from "url";
 import { isPretty } from "../utils/source";
 import "./ProjectSearch.css";
 
-const Autocomplete = createFactory(require("./shared/Autocomplete").default);
+import _Autocomplete from "./shared/Autocomplete";
+const Autocomplete = createFactory(_Autocomplete);
 
 function searchResults(sources) {
   function getSourcePath(source) {
@@ -52,20 +53,20 @@ class ProjectSearch extends Component {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
-      L10N.getStr("sources.search.key"),
-      L10N.getStr("symbolSearch.search.key")
+      L10N.getStr("sources.search.key2"),
+      L10N.getStr("sources.search.key2")
     ];
-    searchKeys.forEach(key => shortcuts.off(`CmdOrCtrl+${key}`, this.toggle));
+    searchKeys.forEach(key => shortcuts.off(key, this.toggle));
     shortcuts.off("Escape", this.onEscape);
   }
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
-      L10N.getStr("sources.search.key"),
-      L10N.getStr("symbolSearch.search.key")
+      L10N.getStr("sources.search.key2"),
+      L10N.getStr("sources.search.key2b")
     ];
-    searchKeys.forEach(key => shortcuts.on(`CmdOrCtrl+${key}`, this.toggle));
+    searchKeys.forEach(key => shortcuts.on(key, this.toggle));
     shortcuts.on("Escape", this.onEscape);
   }
 
@@ -94,7 +95,7 @@ class ProjectSearch extends Component {
     return dom.div(
       { className: "search-container" },
       Autocomplete({
-        selectItem: result => {
+        selectItem: (e, result) => {
           this.props.selectSource(result.id);
           this.close();
         },

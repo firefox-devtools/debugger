@@ -33,18 +33,31 @@ let webpackConfig = {
     alias: {
       "react-dom": "react-dom/dist/react-dom"
     }
+  },
+
+  module: {
+    // Ignore the prebuilt mocha lib file.
+    noParse: /mocha\/mocha\.js/i
   }
 };
 
 function buildConfig(envConfig) {
-  if (!isDevelopment()) {
+  if (isDevelopment()) {
+    webpackConfig.plugins = [];
+    const mappings = [[/\.\/percy-stub/, "./percy-webpack"]];
+
+    mappings.forEach(([regex, res]) => {
+      webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
+    });
+  } else {
     webpackConfig.output.libraryTarget = "umd";
     webpackConfig.plugins = [];
 
     const mappings = [
       [/\.\/mocha/, "./mochitest"],
       [/\.\.\/utils\/mocha/, "../utils/mochitest"],
-      [/\.\/utils\/mocha/, "./utils/mochitest"]
+      [/\.\/utils\/mocha/, "./utils/mochitest"],
+      [/\.\/percy-stub/, "./percy-webpack"]
     ];
 
     mappings.forEach(([regex, res]) => {

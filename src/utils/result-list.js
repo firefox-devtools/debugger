@@ -1,4 +1,4 @@
-const { isFirefox } = require("devtools-config");
+import { isFirefox } from "devtools-config";
 
 function scrollList(resultList, index) {
   if (!resultList.hasOwnProperty(index)) {
@@ -64,7 +64,4 @@ function handleKeyDown(e: SyntheticKeyboardEvent) {
   }
 }
 
-module.exports = {
-  scrollList,
-  handleKeyDown
-};
+export { scrollList, handleKeyDown };

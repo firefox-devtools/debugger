@@ -1,28 +1,34 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
-import ImPropTypes from "react-immutable-proptypes";
+import { DOM as dom, PureComponent, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import * as I from "immutable";
+
 import {
   getSelectedSource,
-  getSourceTabs,
-  getProjectSearchState,
-  getSourceByURL
+  getSourcesForTabs,
+  getProjectSearchState
 } from "../../selectors";
 import { getFilename, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
-const PaneToggleButton = createFactory(
-  require("../shared/Button/PaneToggle").default
-);
 import Svg from "../shared/Svg";
-const Dropdown = createFactory(require("../shared/Dropdown").default);
 import { showMenu, buildMenu } from "devtools-launchpad";
 import debounce from "lodash/debounce";
 import { formatKeyShortcut } from "../../utils/text";
 import "./Tabs.css";
+
+import _PaneToggleButton from "../shared/Button/PaneToggle";
+const PaneToggleButton = createFactory(_PaneToggleButton);
+
+import _Dropdown from "../shared/Dropdown";
+const Dropdown = createFactory(_Dropdown);
+
+import type { List } from "immutable";
+import type { SourceRecord } from "../../reducers/sources";
+type SourcesList = List<SourceRecord>;
 
 /*
  * Finds the hidden tabs by comparing the tabs' top offset.
@@ -33,7 +39,7 @@ import "./Tabs.css";
  *
  * @returns Immutable.list
  */
-function getHiddenTabs(sourceTabs, sourceTabEls) {
+function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
   sourceTabEls = [].slice.call(sourceTabEls);
   function getTopOffset() {
     const topOffsets = sourceTabEls.map(t => t.getBoundingClientRect().top);
@@ -65,10 +71,10 @@ function copyToTheClipboard(string) {
 
 type State = {
   dropdownShown: boolean,
-  hiddenSourceTabs: Array<Object> | null
+  hiddenSourceTabs: SourcesList
 };
 
-class SourceTabs extends Component {
+class SourceTabs extends PureComponent {
   state: State;
   onTabContextMenu: Function;
   showContextMenu: Function;
@@ -81,13 +87,29 @@ class SourceTabs extends Component {
   renderDropDown: Function;
   renderStartPanelToggleButton: Function;
   renderEndPanelToggleButton: Function;
+
+  props: {
+    sourceTabs: SourcesList,
+    selectedSource: SourceRecord,
+    selectSource: (string, ?Object) => any,
+    closeTab: string => any,
+    closeTabs: List<string> => any,
+    toggleProjectSearch: () => any,
+    togglePrettyPrint: string => any,
+    togglePaneCollapse: () => any,
+    showSource: string => any,
+    horizontal: boolean,
+    startPanelCollapsed: boolean,
+    endPanelCollapsed: boolean
+  };
+
   onResize: Function;
 
   constructor(props) {
     super(props);
     this.state = {
       dropdownShown: false,
-      hiddenSourceTabs: null
+      hiddenSourceTabs: I.List()
     };
 
     this.onTabContextMenu = this.onTabContextMenu.bind(this);
@@ -126,7 +148,7 @@ class SourceTabs extends Component {
     window.removeEventListener("resize", this.onResize);
   }
 
-  onTabContextMenu(event, tab) {
+  onTabContextMenu(event, tab: string) {
     event.preventDefault();
     this.showContextMenu(event, tab);
   }
@@ -165,6 +187,11 @@ class SourceTabs extends Component {
     const sourceTab = sourceTabs.find(t => t.get("id") == tab);
     const tabURLs = sourceTabs.map(thisTab => thisTab.get("url"));
     const otherTabURLs = otherTabs.map(thisTab => thisTab.get("url"));
+
+    if (!sourceTab) {
+      return;
+    }
+
     const isPrettySource = isPretty(sourceTab.toJS());
 
     const closeTabMenuItem = {
@@ -271,7 +298,7 @@ class SourceTabs extends Component {
     });
   }
 
-  renderDropdownSource(source) {
+  renderDropdownSource(source: SourceRecord) {
     const { selectSource } = this.props;
     const filename = getFilename(source.toJS());
 
@@ -290,18 +317,23 @@ class SourceTabs extends Component {
 
   renderTabs() {
     const sourceTabs = this.props.sourceTabs;
+    if (!sourceTabs) {
+      return;
+    }
+
     return dom.div(
       { className: "source-tabs", ref: "sourceTabs" },
       sourceTabs.map(this.renderTab)
     );
   }
 
-  renderTab(source) {
+  renderTab(source: SourceRecord) {
     const { selectedSource, selectSource, closeTab } = this.props;
     const filename = getFilename(source.toJS());
     const active =
       selectedSource && source.get("id") == selectedSource.get("id");
     const isPrettyCode = isPretty(source.toJS());
+    const sourceAnnotation = this.getSourceAnnotation(source);
 
     function onClickClose(ev) {
       ev.stopPropagation();
@@ -319,7 +351,7 @@ class SourceTabs extends Component {
         onContextMenu: e => this.onTabContextMenu(e, source.get("id")),
         title: getFilename(source.toJS())
       },
-      isPrettyCode ? Svg("prettyPrint") : null,
+      sourceAnnotation,
       dom.div({ className: "filename" }, filename),
       CloseButton({
         handleClick: onClickClose,
@@ -331,7 +363,7 @@ class SourceTabs extends Component {
   renderNewButton() {
     const newTabTooltip = L10N.getFormatStr(
       "sourceTabs.newTabButtonTooltip",
-      formatKeyShortcut(`CmdOrCtrl+${L10N.getStr("sources.search.key")}`)
+      formatKeyShortcut(L10N.getStr("sources.search.key2"))
     );
     return dom.div(
       {
@@ -375,6 +407,17 @@ class SourceTabs extends Component {
     });
   }
 
+  getSourceAnnotation(source) {
+    let sourceObj = source.toJS();
+
+    if (isPretty(sourceObj)) {
+      return Svg("prettyPrint");
+    }
+    if (sourceObj.isBlackBoxed) {
+      return Svg("blackBox");
+    }
+  }
+
   render() {
     return dom.div(
       { className: "source-header" },
@@ -387,32 +430,13 @@ class SourceTabs extends Component {
   }
 }
 
-SourceTabs.propTypes = {
-  sourceTabs: ImPropTypes.list.isRequired,
-  selectedSource: ImPropTypes.map,
-  selectSource: PropTypes.func.isRequired,
-  closeTab: PropTypes.func.isRequired,
-  closeTabs: PropTypes.func.isRequired,
-  toggleProjectSearch: PropTypes.func.isRequired,
-  togglePrettyPrint: PropTypes.func.isRequired,
-  togglePaneCollapse: PropTypes.func.isRequired,
-  showSource: PropTypes.func.isRequired,
-  horizontal: PropTypes.bool.isRequired,
-  startPanelCollapsed: PropTypes.bool.isRequired,
-  endPanelCollapsed: PropTypes.bool.isRequired
-};
-
 SourceTabs.displayName = "SourceTabs";
-
-function getTabs(state) {
-  return getSourceTabs(state).map(url => getSourceByURL(state, url));
-}
 
 module.exports = connect(
   state => {
     return {
       selectedSource: getSelectedSource(state),
-      sourceTabs: getTabs(state),
+      sourceTabs: getSourcesForTabs(state),
       searchOn: getProjectSearchState(state)
     };
   },

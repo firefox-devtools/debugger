@@ -90,7 +90,9 @@ describe("Tests", () => {
 
   xit("searching", async () => await searching(ctx));
 
-  it("scopes", async () => await scopes(ctx));
+  it("scopes - expanding properties", async () =>
+    await scopes.expandingProperties(ctx));
+  it("scopes - changing scopes", async () => await scopes.changingScopes(ctx));
 
   it("render the expected scopes when variable mutates while stepping", async () =>
     await scopesMutations(ctx));
@@ -105,8 +107,10 @@ describe("Tests", () => {
 
   // expected 2 to equal 1
   xit("source maps bogus", async () => await sourceMapsBogus(ctx));
-
-  it("tabs", async () => await tabs(ctx));
+  it("tabs - add tabs", async () => await tabs.addTabs(ctx));
+  it("tabs - reload with tabs", async () => await tabs.reloadWithTabs(ctx));
+  it("tabs - reload with no tabs", async () =>
+    await tabs.reloadWithNoTabs(ctx));
 });
 
 mocha.run();

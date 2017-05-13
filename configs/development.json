@@ -9,6 +9,9 @@
     "firefoxProxy": false,
     "actions": false
   },
+  "performance": {
+    "actions": false
+  },
   "workers": {
     "parserURL": "http://localhost:8000/assets/build/parser-worker.js",
     "sourceMapURL": "http://localhost:8000/assets/build/source-map-worker.js",
@@ -19,8 +22,8 @@
       "label": "Black Box",
       "enabled": true
     },
-    "watchExpressions": {
-      "label": "Watch Expressions",
+    "previewWatch": {
+      "label": "Add watch expression from preview",
       "enabled": true
     },
     "chromeScopes": {
@@ -39,20 +42,8 @@
       "label": "Code Folding",
       "enabled": false
     },
-    "searchModifiers": {
-      "label": "Search Modifiers",
-      "enabled": true
-    },
     "searchNav": {
       "label": "Search Navigation",
-      "enabled": false
-    },
-    "symbolSearch": {
-      "label": "Symbol Search",
-      "enabled": true
-    },
-    "editorPreview": {
-      "label": "Editor Preview",
       "enabled": true
     },
     "outline": {
@@ -61,6 +52,10 @@
     },
     "collapseFrame": {
       "label": "Collapse Call Frames",
+      "enabled": true
+    },
+    "columnBreakpoints": {
+      "label": "Column Breakpoints",
       "enabled": true
     }
   },

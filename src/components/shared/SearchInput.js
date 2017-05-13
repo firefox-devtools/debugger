@@ -5,6 +5,19 @@ import classnames from "classnames";
 import CloseButton from "./Button/Close";
 import "./SearchInput.css";
 
+const arrowBtn = (onClick, type, className, tooltip) => {
+  return dom.button(
+    {
+      onClick,
+      type,
+      className,
+      title: tooltip,
+      key: type
+    },
+    Svg(type)
+  );
+};
+
 class SearchInput extends Component {
   displayName: "SearchInput";
 
@@ -24,6 +37,25 @@ class SearchInput extends Component {
     return Svg("magnifying-glass");
   }
 
+  renderArrowButtons() {
+    const { handleNext, handlePrev } = this.props;
+
+    return [
+      arrowBtn(
+        handleNext,
+        "arrow-down",
+        classnames("nav-btn", "next"),
+        L10N.getFormatStr("editor.searchResults.nextResult")
+      ),
+      arrowBtn(
+        handlePrev,
+        "arrow-up",
+        classnames("nav-btn", "prev"),
+        L10N.getFormatStr("editor.searchResults.prevResult")
+      )
+    ];
+  }
+
   renderNav() {
     if (!isEnabled("searchNav")) {
       return;
@@ -36,16 +68,7 @@ class SearchInput extends Component {
 
     return dom.div(
       { className: "search-nav-buttons" },
-      Svg("arrow-down", {
-        className: classnames("nav-btn", "next"),
-        onClick: handleNext,
-        title: "Next Result"
-      }),
-      Svg("arrow-up", {
-        className: classnames("nav-btn", "prev"),
-        onClick: handlePrev,
-        title: "Previous Result"
-      })
+      this.renderArrowButtons()
     );
   }
 

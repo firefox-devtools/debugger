@@ -3,12 +3,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const constants = require("../constants");
-const fromJS = require("../utils/fromJS");
-const makeRecord = require("../utils/makeRecord");
-const { prefs } = require("../utils/prefs");
-const I = require("immutable");
+import { createSelector } from "reselect";
+import fromJS from "../utils/fromJS";
+import makeRecord from "../utils/makeRecord";
+import { prefs } from "../utils/prefs";
+import * as I from "immutable";
 
+import constants from "../constants";
 import type { Frame, Pause } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
@@ -24,7 +25,7 @@ type PauseState = {
   debuggeeUrl: string
 };
 
-const State = makeRecord(
+export const State = makeRecord(
   ({
     pause: undefined,
     isWaitingOnBreak: false,
@@ -37,7 +38,10 @@ const State = makeRecord(
   }: PauseState)
 );
 
-function update(state = State(), action: Action): Record<PauseState> {
+function update(
+  state: Record<PauseState> = State(),
+  action: Action
+): Record<PauseState> {
   switch (action.type) {
     case constants.PAUSED: {
       const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
@@ -135,70 +139,64 @@ function update(state = State(), action: Action): Record<PauseState> {
 // (right now) to type those wrapped functions.
 type OuterState = { pause: Record<PauseState> };
 
-function getPause(state: OuterState) {
-  return state.pause.get("pause");
-}
+const getPauseState = state => state.pause;
 
-function getLoadedObjects(state: OuterState) {
-  return state.pause.get("loadedObjects");
-}
+export const getPause = createSelector(getPauseState, pauseWrapper =>
+  pauseWrapper.get("pause")
+);
 
-function getLoadedObject(state: OuterState, objectId: string) {
+export const getLoadedObjects = createSelector(getPauseState, pauseWrapper =>
+  pauseWrapper.get("loadedObjects")
+);
+
+export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state).get(objectId);
 }
 
-function getObjectProperties(state: OuterState, parentId: string) {
+export function getObjectProperties(state: OuterState, parentId: string) {
   return getLoadedObjects(state).filter(obj => obj.get("parentId") == parentId);
 }
 
-function getIsWaitingOnBreak(state: OuterState) {
+export function getIsWaitingOnBreak(state: OuterState) {
   return state.pause.get("isWaitingOnBreak");
 }
 
-function getShouldPauseOnExceptions(state: OuterState) {
+export function getShouldPauseOnExceptions(state: OuterState) {
   return state.pause.get("shouldPauseOnExceptions");
 }
 
-function getShouldIgnoreCaughtExceptions(state: OuterState) {
+export function getShouldIgnoreCaughtExceptions(state: OuterState) {
   return state.pause.get("shouldIgnoreCaughtExceptions");
 }
 
-function getFrames(state: OuterState) {
+export function getFrames(state: OuterState) {
   return state.pause.get("frames");
 }
 
-function getSelectedFrame(state: OuterState) {
-  const selectedFrameId = state.pause.get("selectedFrameId");
-  const frames = state.pause.get("frames");
-  if (!frames) {
-    return null;
+const getSelectedFrameId = createSelector(getPauseState, pauseWrapper =>
+  pauseWrapper.get("selectedFrameId")
+);
+
+export const getSelectedFrame = createSelector(
+  getSelectedFrameId,
+  getFrames,
+  (selectedFrameId, frames) => {
+    if (!frames) {
+      return null;
+    }
+
+    return frames.find(frame => frame.get("id") == selectedFrameId).toJS();
   }
+);
 
-  return frames.find(frame => frame.get("id") == selectedFrameId).toJS();
-}
-
-function getDebuggeeUrl(state: OuterState) {
+export function getDebuggeeUrl(state: OuterState) {
   return state.pause.get("debuggeeUrl");
 }
 
 // NOTE: currently only used for chrome
-function getChromeScopes(state: OuterState) {
+export function getChromeScopes(state: OuterState) {
   const frame = getSelectedFrame(state);
   return frame ? frame.scopeChain : undefined;
 }
 
-module.exports = {
-  State,
-  update,
-  getPause,
-  getChromeScopes,
-  getLoadedObjects,
-  getLoadedObject,
-  getObjectProperties,
-  getIsWaitingOnBreak,
-  getShouldPauseOnExceptions,
-  getShouldIgnoreCaughtExceptions,
-  getFrames,
-  getSelectedFrame,
-  getDebuggeeUrl
-};
+export default update;

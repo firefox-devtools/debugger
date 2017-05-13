@@ -8,6 +8,7 @@ import { getSelectedSource, getSourceText } from "../selectors";
 import { isEnabled } from "devtools-config";
 import { getSymbols } from "../utils/parser";
 import "./Outline.css";
+import previewFunction from "./shared/previewFunction";
 
 import type { Record } from "../utils/makeRecord";
 import type { SourceText } from "debugger-html";
@@ -20,22 +21,39 @@ class Outline extends Component {
     this.state = {};
   }
 
-  componentWillUpdate({ sourceText }) {
+  componentWillReceiveProps({ sourceText }) {
     if (sourceText) {
       this.setSymbolDeclarations(sourceText);
     }
   }
 
+  // TODO: move this logic out of the component and into a reducer
   async setSymbolDeclarations(sourceText: Record<SourceText>) {
     const symbolDeclarations = await getSymbols(sourceText.toJS());
 
-    this.setState({
-      symbolDeclarations
-    });
+    if (symbolDeclarations !== this.state.symbolDeclarations) {
+      this.setState({
+        symbolDeclarations
+      });
+    }
+  }
+
+  selectItem(location) {
+    const { selectedSource, selectSource } = this.props;
+    const selectedSourceId = selectedSource.get("id");
+    const startLine = location.start.line;
+    selectSource(selectedSourceId, { line: startLine });
   }
 
   renderFunction(func) {
-    return dom.li({}, func.value);
+    return dom.li(
+      {
+        key: func.id,
+        className: "outline-list__element",
+        onClick: () => this.selectItem(func.location)
+      },
+      previewFunction(func)
+    );
   }
 
   renderFunctions() {
@@ -48,7 +66,7 @@ class Outline extends Component {
 
     return functions
       .filter(func => func.value != "anonymous")
-      .map(this.renderFunction);
+      .map(func => this.renderFunction(func));
   }
 
   render() {
@@ -58,12 +76,13 @@ class Outline extends Component {
 
     return dom.div(
       { className: "outline" },
-      dom.ul({}, this.renderFunctions())
+      dom.ul({ className: "outline-list" }, this.renderFunctions())
     );
   }
 }
 
 Outline.propTypes = {
+  selectSource: PropTypes.func.isRequired,
   selectedSource: PropTypes.object
 };
 
@@ -75,7 +94,8 @@ export default connect(
     const sourceId = selectedSource ? selectedSource.get("id") : null;
 
     return {
-      sourceText: getSourceText(state, sourceId)
+      sourceText: getSourceText(state, sourceId),
+      selectedSource
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

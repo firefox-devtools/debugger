@@ -1,7 +1,7 @@
 // @flow
-import { PropTypes, Component } from "react";
+import { Component } from "react";
 import { isEnabled } from "devtools-config";
-const ReactDOM = require("react-dom");
+import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 
 import classnames from "classnames";
 import Svg from "../shared/Svg";
@@ -20,6 +20,11 @@ function makeMarker(isDisabled: boolean) {
 }
 
 class Breakpoint extends Component {
+  props: {
+    breakpoint: Object,
+    editor: Object
+  };
+
   addBreakpoint: Function;
 
   constructor() {
@@ -76,11 +81,6 @@ class Breakpoint extends Component {
     return null;
   }
 }
-
-Breakpoint.propTypes = {
-  breakpoint: PropTypes.object.isRequired,
-  editor: PropTypes.object.isRequired
-};
 
 Breakpoint.displayName = "Breakpoint";
 

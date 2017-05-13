@@ -1,26 +1,37 @@
 // @flow
 
-import React from "react";
+import { createFactory, DOM as dom, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import actions from "../../actions";
-const ObjectInspector = React.createFactory(
-  require("../shared/ObjectInspector").default
-);
-const Popover = React.createFactory(require("../shared/Popover").default);
-const previewFunction = require("../shared/previewFunction").default;
+import { isEnabled } from "devtools-config";
 
+import _ObjectInspector from "../shared/ObjectInspector";
+const ObjectInspector = createFactory(_ObjectInspector);
+
+import _Popover from "../shared/Popover";
+const Popover = createFactory(_Popover);
+
+import previewFunction from "../shared/previewFunction";
 import { getLoadedObjects } from "../../selectors";
+import actions from "../../actions";
 import { getChildren } from "../../utils/object-inspector";
+import Rep from "../shared/Rep";
+import { MODE } from "devtools-reps";
 
-const Rep = require("../shared/Rep").default;
-const { MODE } = require("devtools-reps");
-
-const { DOM: dom, PropTypes, Component } = React;
-
-require("./Preview.css");
+import "./Preview.css";
 
 class Preview extends Component {
+  props: {
+    loadObjectProperties: Object => any,
+    addExpression: (string, ?Object) => any,
+    loadedObjects: Object,
+    popoverTarget: Object,
+    value: Object,
+    expression: string,
+    onClose: () => any,
+    selectSourceURL: (string, Object) => any
+  };
+
   componentDidMount() {
     const { loadObjectProperties, loadedObjects, value } = this.props;
 
@@ -49,7 +60,7 @@ class Preview extends Component {
     return [root];
   }
 
-  renderFunctionPreview(value, root) {
+  renderFunctionPreview(value: Object, root: Object) {
     const { selectSourceURL } = this.props;
     const { location } = value;
 
@@ -62,11 +73,11 @@ class Preview extends Component {
     );
   }
 
-  renderObjectPreview(expression, root) {
+  renderObjectPreview(expression: string, root: Object) {
     return dom.div({ className: "preview" }, this.renderObjectInspector(root));
   }
 
-  renderSimplePreview(value) {
+  renderSimplePreview(value: Object) {
     return dom.div(
       { className: "preview" },
       Rep({ object: value, mode: MODE.LONG })
@@ -84,12 +95,33 @@ class Preview extends Component {
       getObjectProperties,
       autoExpandDepth: 0,
       onDoubleClick: () => {},
-      loadObjectProperties,
-      getActors: () => ({})
+      loadObjectProperties
     });
   }
 
-  renderPreview(expression, value) {
+  renderAddToExpressionBar(expression: string) {
+    if (!isEnabled("previewWatch")) {
+      return null;
+    }
+
+    const { addExpression } = this.props;
+    return dom.div(
+      { className: "add-to-expression-bar" },
+      dom.div({ className: "prompt" }, "»"),
+      dom.div({ className: "expression-to-save-label" }, expression),
+      dom.div(
+        {
+          className: "expression-to-save-button",
+          onClick: event => {
+            addExpression(expression);
+          }
+        },
+        L10N.getStr("addWatchExpressionButton")
+      )
+    );
+  }
+
+  renderPreview(expression: string, value: Object) {
     const root = {
       name: expression,
       path: expression,
@@ -101,7 +133,11 @@ class Preview extends Component {
     }
 
     if (value.type === "object") {
-      return this.renderObjectPreview(expression, root);
+      return dom.div(
+        {},
+        this.renderObjectPreview(expression, root),
+        this.renderAddToExpressionBar(expression, value)
+      );
     }
 
     return this.renderSimplePreview(value);
@@ -122,17 +158,6 @@ class Preview extends Component {
     );
   }
 }
-
-Preview.propTypes = {
-  loadObjectProperties: PropTypes.func,
-  loadedObjects: PropTypes.object,
-  selectedFrame: PropTypes.object,
-  popoverTarget: PropTypes.object,
-  value: PropTypes.any,
-  expression: PropTypes.string,
-  onClose: PropTypes.func,
-  selectSourceURL: PropTypes.func
-};
 
 Preview.displayName = "Preview";
 

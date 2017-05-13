@@ -1,7 +1,9 @@
 // @flow
-import { PropTypes, createFactory, Component } from "react";
-const Tree = createFactory(require("devtools-modules").Tree);
-require("./ManagedTree.css");
+import { createFactory, Component } from "react";
+import "./ManagedTree.css";
+
+import { Tree as _Tree } from "devtools-components";
+const Tree = createFactory(_Tree);
 
 type ManagedTreeItem = {
   contents: Array<ManagedTreeItem>,
@@ -57,19 +59,6 @@ class ManagedTree extends Component {
       highlightItems.length
     ) {
       this.highlightItem(highlightItems);
-    }
-  }
-
-  componentWillMount() {
-    if (this.props.getExpanded) {
-      const expanded = this.props.getExpanded();
-      this.setState({ expanded });
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.props.setExpanded) {
-      this.props.setExpanded(this.state.expanded);
     }
   }
 
@@ -147,9 +136,6 @@ class ManagedTree extends Component {
 
 ManagedTree.displayName = "ManagedTree";
 
-ManagedTree.propTypes = Object.assign({}, Tree.propTypes, {
-  getExpanded: PropTypes.func,
-  setExpanded: PropTypes.func
-});
+ManagedTree.propTypes = Object.assign({}, Tree.propTypes);
 
 export default ManagedTree;

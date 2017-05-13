@@ -1,23 +1,25 @@
 // @flow
-import React from "react";
+import { DOM as dom, createFactory, PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import {
   getVisibleExpressions,
   getLoadedObjects,
   getPause
 } from "../../selectors";
-const CloseButton = React.createFactory(
-  require("../shared/Button/Close").default
-);
-const ObjectInspector = React.createFactory(
-  require("../shared/ObjectInspector").default
-);
-const { DOM: dom, PropTypes } = React;
+
+import _CloseButton from "../shared/Button/Close";
+const CloseButton = createFactory(_CloseButton);
+
+import _ObjectInspector from "../shared/ObjectInspector";
+const ObjectInspector = createFactory(_ObjectInspector);
 
 import "./Expressions.css";
+
+import type { List } from "immutable";
+import type { Expression } from "../../types";
+
 function getValue(expression) {
   const value = expression.value;
   if (!value) {
@@ -29,7 +31,7 @@ function getValue(expression) {
 
   if (value.exception) {
     return {
-      path: expression.from,
+      path: value.from,
       value: value.exception
     };
   }
@@ -47,7 +49,7 @@ function getValue(expression) {
   };
 }
 
-class Expressions extends React.Component {
+class Expressions extends PureComponent {
   _input: null | any;
 
   state: {
@@ -55,6 +57,16 @@ class Expressions extends React.Component {
   };
 
   renderExpression: Function;
+
+  props: {
+    expressions: List<Expression>,
+    addExpression: (string, ?Object) => any,
+    evaluateExpressions: () => any,
+    updateExpression: (string, Expression) => any,
+    deleteExpression: Expression => any,
+    loadObjectProperties: () => any,
+    loadedObjects: Map<string, any>
+  };
 
   constructor(...args) {
     super(...args);
@@ -143,7 +155,11 @@ class Expressions extends React.Component {
       return;
     }
 
-    const { value, path } = getValue(expression);
+    let { value, path } = getValue(expression);
+
+    if (value.class == "Error") {
+      value = { unavailable: true };
+    }
 
     const root = {
       name: expression.input,
@@ -162,8 +178,7 @@ class Expressions extends React.Component {
         autoExpandDepth: 0,
         onDoubleClick: (item, options) =>
           this.editExpression(expression, options),
-        loadObjectProperties,
-        getActors: () => ({})
+        loadObjectProperties
       }),
       CloseButton({ handleClick: e => this.deleteExpression(e, expression) })
     );
@@ -213,16 +228,6 @@ class Expressions extends React.Component {
     );
   }
 }
-
-Expressions.propTypes = {
-  expressions: ImPropTypes.list.isRequired,
-  addExpression: PropTypes.func.isRequired,
-  evaluateExpressions: PropTypes.func.isRequired,
-  updateExpression: PropTypes.func.isRequired,
-  deleteExpression: PropTypes.func.isRequired,
-  loadObjectProperties: PropTypes.func,
-  loadedObjects: ImPropTypes.map.isRequired
-};
 
 Expressions.displayName = "Expressions";
 

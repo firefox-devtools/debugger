@@ -15,6 +15,7 @@ const I = require("immutable");
  * @static
  */
 export type Record<T: Object> = {
+  equals<A>(other: A): boolean,
   get<A>(key: $Keys<T>, notSetValue?: any): A,
   getIn<A>(keyPath: Array<any>, notSetValue?: any): A,
   set<A>(key: $Keys<T>, value: A): Record<T>,

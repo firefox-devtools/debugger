@@ -32,6 +32,22 @@ const {
 } = require("./wait");
 
 /**
+* Closes a tab
+*
+* @memberof mochitest/actions
+* @param {Object} dbg
+* @param {String} url
+* @return {Promise}
+* @static
+*/
+function closeTab(dbg, url) {
+  info("Closing tab: " + url);
+  const source = findSource(dbg, url);
+
+  dbg.actions.closeTab(source.url);
+}
+
+/**
  * Selects the source.
  *
  * @memberof mochitest/actions
@@ -118,7 +134,9 @@ async function resume(dbg) {
  * @static
  */
 async function reload(dbg, ...sources) {
-  return dbg.client.reload().then(() => waitForSources(dbg, ...sources));
+  await dbg.client.reload();
+  await waitForDispatch(dbg, "NAVIGATE");
+  return waitForSources(dbg, ...sources);
 }
 
 /**
@@ -232,6 +250,7 @@ function pauseTest() {
 }
 
 module.exports = {
+  closeTab,
   selectSource,
   stepOver,
   stepIn,

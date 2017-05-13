@@ -1,0 +1,8 @@
+.outline-list {
+  list-style-type: "-";
+}
+
+.outline-list__element {
+  color: blue;
+  padding-left: 0.5rem;
+}

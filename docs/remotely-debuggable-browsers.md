@@ -49,14 +49,12 @@ On the Mac Firefox installs different application names for each release channel
 These are the flags necessary to start the remote debug server and use an alternate profile.
 
 * debug server `--start-debugger-server 6080`
-* separate profile `-P development` (not required)
-  * **Note**: if you are prompted with the profile manager you will need to create a profile named `development`
-  * **Note**: in windows replace `--start-debugger-server 6080` with `-start-debugger-server 6080`
+* temporary profile `--profile $TMPDIR/fx-dev-profile`
 
 ##### Firefox (release)
 
 ```
-$ /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
+$ /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 --profile $TMPDIR/fx-dev-profile
 ```
 
 > For Firefox Beta or Developer Edition (Aurora) replace the `Firefox.app` from the command above with the following app names
@@ -66,7 +64,7 @@ $ /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6
 ##### Firefox Nightly
 
 ```
-$ /Applications/FirefoxNightly.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
+$ /Applications/FirefoxNightly.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 --profile $TMPDIR/fx-dev-profile
 ```
 
 #### Windows
@@ -74,7 +72,7 @@ $ /Applications/FirefoxNightly.app/Contents/MacOS/firefox-bin --start-debugger-s
 **Flags**
 
 * debug server `-start-debugger-server 6080`
-* separate profile `-P development`
+* temporary profile `-profile %TEMP%\fx-dev-profile`
 
 **64 bit Windows**
 
@@ -83,13 +81,13 @@ For users with a 64 bit machine Firefox may have installed in the: `C:\Program F
 ##### Firefox (all versions)
 
 ```
-$ "C:\Program Files\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -P development
+$ "C:\Program Files\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -profile %TEMP%\fx-dev-profile
 ```
 
 ##### Firefox (64 bit)
 
 ```
-$ "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -P development
+$ "C:\Program Files (x86)\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -profile %TEMP%\fx-dev-profile
 ```
 
 #### Android
@@ -112,18 +110,18 @@ Here are the instructions for starting a new temporary profile of Chrome on MacO
 
 * debug server `--remote-debugging-port=9222`
 * ignore first run setup `--no-first-run`
-* use temporary profile `--user-data-dir=/tmp/chrome-dev-profile`
+* temporary profile `--user-data-dir=$TMPDIR/chrome-dev-profile`
 
 ##### Chrome (release)
 
 ```
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=$TMPDIR/chrome-dev-profile
 ```
 
 ##### Chrome Canary
 
 ```
-/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile
+/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary --remote-debugging-port=9222 --no-first-run --user-data-dir=$TMPDIR/chrome-dev-profile
 ```
 
 #### Windows
@@ -132,7 +130,7 @@ Here are the instructions for starting a new temporary profile of Chrome on MacO
 
 * debug server `--remote-debugging-port=9222`
 * ignore first run setup `--no-first-run`
-* use temporary profile `--user-data-dir=%TEMP%\chrome-dev-profile`
+* temporary profile `--user-data-dir=%TEMP%\chrome-dev-profile`
 
 ##### Chrome (all versions)
 

@@ -1,27 +1,23 @@
-const React = require("react");
-const { bindActionCreators, combineReducers } = require("redux");
-const ReactDOM = require("react-dom");
-const { getValue, isFirefoxPanel } = require("devtools-config");
-const { renderRoot } = require("devtools-launchpad");
-const {
-  startSourceMapWorker,
-  stopSourceMapWorker
-} = require("devtools-source-map");
-const {
+import React from "react";
+import { bindActionCreators, combineReducers } from "redux";
+import ReactDOM from "../../node_modules/react-dom/dist/react-dom";
+import { getValue, isFirefoxPanel } from "devtools-config";
+import { renderRoot } from "devtools-launchpad";
+import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
+import {
   startPrettyPrintWorker,
   stopPrettyPrintWorker
-} = require("../utils/pretty-print");
-const { startParserWorker, stopParserWorker } = require("../utils/parser");
-
-const configureStore = require("./create-store");
-const reducers = require("../reducers");
-const selectors = require("../selectors");
-
-const App = require("../components/App").default;
+} from "../utils/pretty-print";
+import { startParserWorker, stopParserWorker } from "../utils/parser";
+import configureStore from "./create-store";
+import reducers from "../reducers";
+import selectors from "../selectors";
+import App from "../components/App";
 
 export function bootstrapStore(client, services) {
   const createStore = configureStore({
     log: getValue("logging.actions"),
+    timing: getValue("performance.actions"),
     makeThunkArgs: (args, state) => {
       return Object.assign({}, args, { client }, services);
     }

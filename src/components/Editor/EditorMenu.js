@@ -1,5 +1,4 @@
 import { showMenu } from "devtools-launchpad";
-import { isEnabled } from "devtools-config";
 import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
 
@@ -53,7 +52,7 @@ function getMenuItems(
   const jumpLabel = {
     accesskey: "C",
     disabled: false,
-    label: L10N.getFormatStr("editor.jumpToMappedLocation", pairedType),
+    label: L10N.getFormatStr("editor.jumpToMappedLocation1", pairedType),
     click: () => jumpToMappedLocation(sourceLocation)
   };
 
@@ -93,7 +92,7 @@ function getMenuItems(
     blackBoxMenuItem
   ];
 
-  if (isEnabled("watchExpressions") && textSelected) {
+  if (textSelected) {
     menuItems.push(watchExpressionLabel);
   }
 

@@ -1,21 +1,18 @@
 // @flow
-import { DOM as dom, PropTypes, createFactory, Component } from "react";
-const ReactDOM = require("react-dom");
+import { DOM as dom, PropTypes, createFactory, PureComponent } from "react";
+import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { createSelector } from "reselect";
 import classnames from "classnames";
 import debounce from "lodash/debounce";
+import { isEnabled } from "devtools-config";
 import { getMode } from "../../utils/source";
-
-const Footer = createFactory(require("./Footer").default);
-const SearchBar = createFactory(require("./SearchBar").default);
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
-const Preview = createFactory(require("./Preview").default);
 import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
-import { isEnabled } from "devtools-config";
 import {
   getSourceText,
   getFileSearchState,
@@ -23,7 +20,6 @@ import {
   getSelectedLocation,
   getSelectedFrame,
   getSelectedSource,
-  getExpression,
   getHitCountForSource,
   getCoverageEnabled,
   getLoadedObjects,
@@ -31,10 +27,27 @@ import {
   getFileSearchQueryState,
   getFileSearchModifierState
 } from "../../selectors";
+
 import { makeLocationId } from "../../reducers/breakpoints";
 import actions from "../../actions";
-const Breakpoint = createFactory(require("./Breakpoint").default);
-const HitMarker = createFactory(require("./HitMarker").default);
+
+import _Footer from "./Footer";
+const Footer = createFactory(_Footer);
+
+import _SearchBar from "./SearchBar";
+const SearchBar = createFactory(_SearchBar);
+
+import _Preview from "./Preview";
+const Preview = createFactory(_Preview);
+
+import _Breakpoint from "./Breakpoint";
+const Breakpoint = createFactory(_Breakpoint);
+
+import _ColumnBreakpoint from "./ColumnBreakpoint";
+const ColumnBreakpoint = createFactory(_ColumnBreakpoint);
+
+import _HitMarker from "./HitMarker";
+const HitMarker = createFactory(_HitMarker);
 
 import {
   getDocument,
@@ -44,18 +57,22 @@ import {
   clearLineClass,
   createEditor,
   isTextForSource,
-  breakpointAtLine,
+  breakpointAtLocation,
   getTextForLine,
   getCursorLine,
   resolveToken,
   previewExpression,
   getExpressionValue,
   resizeBreakpointGutter,
-  traverseResults
+  traverseResults,
+  getTokenLocation
 } from "../../utils/editor";
+
 import { getVisibleVariablesFromScope } from "../../utils/scopes";
 import { isFirefox } from "devtools-config";
 import "./Editor.css";
+
+import { SourceEditor } from "devtools-source-editor";
 
 const cssVars = {
   searchbarHeight: "var(--editor-searchbar-height)",
@@ -63,18 +80,20 @@ const cssVars = {
   footerHeight: "var(--editor-footer-height)"
 };
 
+export type SearchResults = {
+  index: number,
+  count: number
+};
+
 type EditorState = {
-  searchResults: {
-    index: number,
-    count: number
-  },
+  searchResults: SearchResults,
   selectedToken: ?Object,
   selectedExpression: ?Object
 };
 
-class Editor extends Component {
+class Editor extends PureComponent {
   cbPanel: any;
-  editor: any;
+  editor: SourceEditor;
   pendingJumpLine: any;
   lastJumpLine: any;
   state: EditorState;
@@ -124,7 +143,9 @@ class Editor extends Component {
     this.clearDebugLine(this.props.selectedFrame);
 
     if (!sourceText) {
-      this.showMessage("");
+      if (this.props.sourceText) {
+        this.showMessage("");
+      }
     } else if (!isTextForSource(sourceText)) {
       this.showMessage(sourceText.get("error") || L10N.getStr("loadingText"));
     } else if (this.props.sourceText !== sourceText) {
@@ -158,6 +179,7 @@ class Editor extends Component {
     codeMirrorWrapper.tabIndex = 0;
     codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
     codeMirrorWrapper.addEventListener("mouseover", e => this.onMouseOver(e));
+    codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
 
     const toggleFoldMarkerVisibility = e => {
       if (node instanceof HTMLElement) {
@@ -197,13 +219,16 @@ class Editor extends Component {
     const { selectedSource, sourceText } = this.props;
     const { shortcuts } = this.context;
 
-    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
+    const searchAgainPrevKey = L10N.getStr(
+      "sourceSearch.search.againPrev.key2"
+    );
 
     shortcuts.on("CmdOrCtrl+B", this.onToggleBreakpoint);
     shortcuts.on("CmdOrCtrl+Shift+B", this.onToggleBreakpoint);
     shortcuts.on("Esc", this.onEscape);
-    shortcuts.on(`CmdOrCtrl+Shift+${searchAgainKey}`, this.onSearchAgain);
-    shortcuts.on(`CmdOrCtrl+${searchAgainKey}`, this.onSearchAgain);
+    shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
+    shortcuts.on(searchAgainKey, this.onSearchAgain);
 
     updateDocument(this.editor, selectedSource, sourceText);
   }
@@ -212,12 +237,15 @@ class Editor extends Component {
     this.editor.destroy();
     this.editor = null;
 
-    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key");
+    const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
+    const searchAgainPrevKey = L10N.getStr(
+      "sourceSearch.search.againPrev.key2"
+    );
     const shortcuts = this.context.shortcuts;
     shortcuts.off("CmdOrCtrl+B");
     shortcuts.off("CmdOrCtrl+Shift+B");
-    shortcuts.off(`CmdOrCtrl+Shift+${searchAgainKey}`);
-    shortcuts.off(`CmdOrCtrl+${searchAgainKey}`);
+    shortcuts.off(searchAgainPrevKey);
+    shortcuts.off(searchAgainKey);
   }
 
   componentDidUpdate(prevProps) {
@@ -301,14 +329,24 @@ class Editor extends Component {
     this.previewSelectedToken(e);
   }
 
+  onTokenClick(e) {
+    const { target } = e;
+    if (
+      !isEnabled("columnBreakpoints") ||
+      !e.altKey ||
+      !target.parentElement.closest(".CodeMirror-line")
+    ) {
+      return;
+    }
+
+    const { line, column } = getTokenLocation(this.editor.codeMirror, target);
+    this.toggleBreakpoint(line - 1, column - 1);
+  }
+
   onSearchAgain(_, e) {
     const { query, searchModifiers } = this.props;
     const { editor: { codeMirror } } = this.editor;
     const ctx = { ed: this.editor, cm: codeMirror };
-
-    if (!searchModifiers) {
-      return;
-    }
 
     const direction = e.shiftKey ? "prev" : "next";
     traverseResults(e, ctx, query, direction, searchModifiers.toJS());
@@ -328,7 +366,6 @@ class Editor extends Component {
     if (
       !selectedFrame ||
       !sourceText ||
-      !isEnabled("editorPreview") ||
       !selectedSource ||
       selectedFrame.location.sourceId !== selectedSource.get("id")
     ) {
@@ -428,7 +465,7 @@ class Editor extends Component {
     }
 
     const line = this.editor.codeMirror.lineAtHeight(event.clientY);
-    const bp = breakpointAtLine(this.props.breakpoints, line);
+    const bp = breakpointAtLocation(this.props.breakpoints, { line });
     GutterMenu({
       event,
       line,
@@ -453,7 +490,7 @@ class Editor extends Component {
     } = this.props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
-    const bp = breakpointAtLine(breakpoints, line);
+    const bp = breakpointAtLocation(breakpoints, { line });
     const location = { sourceId, line: line + 1 };
     const condition = bp ? bp.condition : "";
 
@@ -485,7 +522,7 @@ class Editor extends Component {
     return !!this.cbPanel;
   }
 
-  toggleBreakpoint(line) {
+  toggleBreakpoint(line, column = undefined) {
     const {
       selectedSource,
       selectedLocation,
@@ -493,7 +530,7 @@ class Editor extends Component {
       addBreakpoint,
       removeBreakpoint
     } = this.props;
-    const bp = breakpointAtLine(breakpoints, line);
+    const bp = breakpointAtLocation(breakpoints, { line, column });
 
     if ((bp && bp.loading) || !selectedLocation || !selectedSource) {
       return;
@@ -504,14 +541,16 @@ class Editor extends Component {
     if (bp) {
       removeBreakpoint({
         sourceId: sourceId,
-        line: line + 1
+        line: line + 1,
+        column: column
       });
     } else {
       addBreakpoint(
         {
           sourceId: sourceId,
           sourceUrl: selectedSource.get("url"),
-          line: line + 1
+          line: line + 1,
+          column: column
         },
         // Pass in a function to get line text because the breakpoint
         // may slide and it needs to compute the value at the new
@@ -522,7 +561,7 @@ class Editor extends Component {
   }
 
   toggleBreakpointDisabledStatus(line) {
-    const bp = breakpointAtLine(this.props.breakpoints, line);
+    const bp = breakpointAtLocation(this.props.breakpoints, { line });
     const { selectedLocation } = this.props;
 
     if ((bp && bp.loading) || !selectedLocation) {
@@ -650,13 +689,29 @@ class Editor extends Component {
       return;
     }
 
-    return breakpoints.valueSeq().map(bp =>
-      Breakpoint({
-        key: makeLocationId(bp.location),
-        breakpoint: bp,
-        editor: this.editor && this.editor.codeMirror
-      })
-    );
+    const breakpointMarkers = breakpoints
+      .valueSeq()
+      .filter(b => !b.location.column)
+      .map(bp =>
+        Breakpoint({
+          key: makeLocationId(bp.location),
+          breakpoint: bp,
+          editor: this.editor && this.editor.codeMirror
+        })
+      );
+
+    const columnBreakpointBookmarks = breakpoints
+      .valueSeq()
+      .filter(b => b.location.column)
+      .map(bp =>
+        ColumnBreakpoint({
+          key: makeLocationId(bp.location),
+          breakpoint: bp,
+          editor: this.editor && this.editor.codeMirror
+        })
+      );
+
+    return breakpointMarkers.concat(columnBreakpointBookmarks);
   }
 
   renderHitCounts() {
@@ -687,13 +742,7 @@ class Editor extends Component {
 
     if (searchOn) {
       subtractions.push(cssVars.searchbarHeight);
-
-      const secondSearchBarOn =
-        isEnabled("searchModifiers") && isEnabled("symbolSearch");
-
-      if (secondSearchBarOn) {
-        subtractions.push(cssVars.secondSearchbarHeight);
-      }
+      subtractions.push(cssVars.secondSearchbarHeight);
     }
 
     return {
@@ -711,12 +760,7 @@ class Editor extends Component {
       return null;
     }
 
-    if (
-      !isEnabled("editorPreview") ||
-      !selectedToken ||
-      !selectedFrame ||
-      !selectedExpression
-    ) {
+    if (!selectedToken || !selectedFrame || !selectedExpression) {
       return;
     }
 
@@ -816,6 +860,10 @@ Editor.contextTypes = {
   shortcuts: PropTypes.object
 };
 
+const expressionsSel = state => state.expressions.expressions;
+const getExpressionSel = createSelector(expressionsSel, expressions => input =>
+  expressions.find(exp => exp.input == input));
+
 export default connect(
   state => {
     const selectedLocation = getSelectedLocation(state);
@@ -831,7 +879,7 @@ export default connect(
       breakpoints: getBreakpointsForSource(state, sourceId || ""),
       hitCount: getHitCountForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state),
-      getExpression: getExpression.bind(null, state),
+      getExpression: getExpressionSel(state),
       pauseData: getPause(state),
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),

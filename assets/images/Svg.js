@@ -7,6 +7,7 @@ const svg = {
   backbone: require("./backbone.svg"),
   blackBox: require("./blackBox.svg"),
   breakpoint: require("./breakpoint.svg"),
+  "column-breakpoint": require("./column-breakpoint.svg"),
   "case-match": require("./case-match.svg"),
   close: require("./close.svg"),
   domain: require("./domain.svg"),
@@ -34,7 +35,11 @@ const svg = {
   "whole-word-match": require("./whole-word-match.svg"),
   worker: require("./worker.svg"),
   "sad-face": require("./sad-face.svg"),
-  refresh: require("./refresh.svg")
+  refresh: require("./refresh.svg"),
+  webpack: require("./webpack.svg"),
+  node: require("./node.svg"),
+  express: require("./express.svg"),
+  pug: require("./pug.svg")
 };
 
 module.exports = function(name, props) {

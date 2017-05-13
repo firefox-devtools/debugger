@@ -22,9 +22,8 @@ function toggleScopes(dbg) {
   return findElement(dbg, "scopesHeader").click();
 }
 
-module.exports = async function(ctx) {
+async function expandingProperties(ctx) {
   const { ok, is, info } = ctx;
-  console.log(">>> starting");
   const dbg = await initDebugger(
     "doc-script-switching.html",
     "script-switching-01",
@@ -47,4 +46,31 @@ module.exports = async function(ctx) {
   await stepOver(dbg);
   is(getLabel(dbg, 4), "foo()");
   is(getLabel(dbg, 5), "prototype");
+}
+
+async function changingScopes(ctx) {
+  const { ok, is, info } = ctx;
+  const dbg = await initDebugger(
+    "doc-script-switching.html",
+    "script-switching-01",
+    "script-switching-02"
+  );
+
+  toggleScopes(dbg);
+  invokeInTab(dbg, "firstCall");
+
+  await waitForPaused(dbg);
+
+  clickElement(dbg, "frame", 2);
+  is(getLabel(dbg, 1), "firstCall");
+  is(getLabel(dbg, 2), "<this>");
+
+  toggleNode(dbg, 2);
+  await waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
+  is(getLabel(dbg, 5), "CSS2Properties()");
+}
+
+module.exports = {
+  expandingProperties,
+  changingScopes
 };

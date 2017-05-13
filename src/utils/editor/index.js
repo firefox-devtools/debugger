@@ -1,16 +1,16 @@
-const { isEnabled } = require("devtools-config");
-const { isPretty, isJavaScript } = require("../source");
-const { isOriginalId } = require("devtools-source-map");
-const buildQuery = require("./build-query");
-const sourceDocumentUtils = require("./source-documents");
+import { isEnabled } from "devtools-config";
+import { isPretty, isJavaScript } from "../source";
+import { isOriginalId } from "devtools-source-map";
+import buildQuery from "./build-query";
+import * as sourceDocumentUtils from "./source-documents";
 const { getDocument } = sourceDocumentUtils;
 
 import * as expressionUtils from "./expression.js";
 
-const sourceSearchUtils = require("./source-search");
+import * as sourceSearchUtils from "./source-search";
 const { findNext, findPrev } = sourceSearchUtils;
 
-const { SourceEditor, SourceEditorUtils } = require("devtools-source-editor");
+import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
 
 function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
@@ -42,9 +42,9 @@ function isTextForSource(sourceText) {
   return !sourceText.get("loading") && !sourceText.get("error");
 }
 
-function breakpointAtLine(breakpoints, line) {
-  return breakpoints.find(b => {
-    return b.location.line === line + 1;
+function breakpointAtLocation(breakpoints, { line, column = undefined }) {
+  return breakpoints.find(bp => {
+    return bp.location.line === line + 1 && bp.location.column === column;
   });
 }
 
@@ -69,6 +69,7 @@ function createEditor() {
   return new SourceEditor({
     mode: "javascript",
     foldGutter: isEnabled("codeFolding"),
+    enableCodeFolding: isEnabled("codeFolding"),
     readOnly: true,
     lineNumbers: true,
     theme: "mozilla",
@@ -108,7 +109,7 @@ module.exports = Object.assign(
     shouldShowFooter,
     buildQuery,
     isTextForSource,
-    breakpointAtLine,
+    breakpointAtLocation,
     traverseResults,
     updateDocument
   }

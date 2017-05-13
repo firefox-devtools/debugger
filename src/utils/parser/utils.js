@@ -7,6 +7,7 @@ const { isDevelopment } = require("devtools-config");
 const toPairs = require("lodash/toPairs");
 const isEmpty = require("lodash/isEmpty");
 const uniq = require("lodash/uniq");
+import parseScriptTags from "parse-script-tags";
 
 import type { SourceText, Location, Frame, TokenResolution } from "../../types";
 
@@ -52,22 +53,24 @@ type Scope = {
   bindings: Object[]
 };
 
-function _parse(code) {
-  return babylon.parse(code, {
-    sourceType: "module",
-
-    plugins: ["jsx", "flow"]
-  });
+function _parse(code, opts) {
+  return babylon.parse(
+    code,
+    Object.assign({}, opts, {
+      sourceType: "module",
+      plugins: ["jsx", "flow"]
+    })
+  );
 }
 
-function parse(text: string) {
+function parse(text: string, opts?: Object) {
   let ast;
   if (!text) {
     return;
   }
 
   try {
-    ast = _parse(text);
+    ast = _parse(text, opts);
   } catch (error) {
     if (isDevelopment()) {
       console.warn("parse failed", text);
@@ -85,7 +88,16 @@ function getAst(sourceText: SourceText) {
   }
 
   let ast = {};
-  if (sourceText.contentType == "text/javascript") {
+  if (sourceText.contentType == "text/html") {
+    // Custom parser for parse-script-tags that adapts its input structure to
+    // our parser's signature
+    const parser = ({ source, line }) => {
+      return parse(source, {
+        startLine: line
+      });
+    };
+    ast = parseScriptTags(sourceText.text, parser) || {};
+  } else if (sourceText.contentType == "text/javascript") {
     ast = parse(sourceText.text);
   }
 
@@ -201,7 +213,8 @@ function getMemberExpression(root) {
 }
 
 function getScopeVariables(scope: Scope) {
-  const bindings = scope.bindings;
+  const { bindings } = scope;
+
   return toPairs(bindings).map(([name, binding]) => ({
     name,
     references: binding.referencePaths
@@ -218,15 +231,32 @@ function getScopeChain(scope: Scope): Scope[] {
   return scopes;
 }
 
+/**
+ * helps find member expressions on one line and function scopes that are
+ * often many lines
+ */
 function nodeContainsLocation({ node, location }) {
   const { start, end } = node.loc;
   const { line, column } = location;
 
-  const onSameLine =
-    start.line === line && start.column <= column && end.column >= column;
-  const inBody = start.line < line && end.line > line;
+  if (start.line === end.line) {
+    return (
+      start.line === line && start.column <= column && end.column >= column
+    );
+  }
 
-  return onSameLine || inBody;
+  // node is likely a function parameter
+  if (start.line === line) {
+    return start.column <= column;
+  }
+
+  // node is on the same line as the closing curly
+  if (end.line === line) {
+    return end.column >= column;
+  }
+
+  // node is either inside the block body or outside of it
+  return start.line < line && end.line > line;
 }
 
 function isLexicalScope(path) {
@@ -245,7 +275,7 @@ export function getSymbols(source: SourceText): SymbolDeclarations {
 
   const symbols = { functions: [], variables: [] };
 
-  if (!ast || isEmpty(ast)) {
+  if (isEmpty(ast)) {
     return symbols;
   }
 
@@ -282,7 +312,7 @@ export function getSymbols(source: SourceText): SymbolDeclarations {
 function getClosestMemberExpression(source, token, location) {
   const ast = getAst(source);
   if (isEmpty(ast)) {
-    null;
+    return null;
   }
 
   let expression = null;
@@ -336,7 +366,7 @@ export function resolveToken(
   const expression = getClosestExpression(source, token, location);
   const scope = getClosestScope(source, location);
 
-  if (!expression || !expression.value) {
+  if (!expression || !expression.value || !scope) {
     return { expression: null, inScope: false };
   }
 
@@ -350,6 +380,10 @@ export function resolveToken(
 
 export function getClosestScope(source: SourceText, location: Location) {
   const ast = getAst(source);
+  if (isEmpty(ast)) {
+    return null;
+  }
+
   let closestPath = null;
 
   traverse(ast, {
@@ -372,6 +406,10 @@ export function getClosestScope(source: SourceText, location: Location) {
 
 export function getClosestPath(source: SourceText, location: Location) {
   const ast = getAst(source);
+  if (isEmpty(ast)) {
+    return null;
+  }
+
   let closestPath = null;
 
   traverse(ast, {

@@ -32,6 +32,8 @@ async function addExpression(dbg, input) {
 async function editExpression(dbg, input) {
   info("updating the expression");
   dblClickElement(dbg, "expressionNode", 1);
+  // Position cursor reliably at the end of the text.
+  pressKey(dbg, "End");
   type(dbg, input);
   pressKey(dbg, "Enter");
   await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
@@ -45,7 +47,7 @@ add_task(function*() {
 
   yield addExpression(dbg, "f");
   is(getLabel(dbg, 1), "f");
-  is(getValue(dbg, 1), "ReferenceError");
+  is(getValue(dbg, 1), "(unavailable)");
 
   yield editExpression(dbg, "oo");
   is(getLabel(dbg, 1), "foo()");

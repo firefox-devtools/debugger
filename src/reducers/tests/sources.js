@@ -2,10 +2,10 @@
 declare var describe: (name: string, func: () => void) => void;
 declare var it: (desc: string, func: () => void) => void;
 
-const { State, update } = require("../sources");
-const { foobar } = require("../../test/fixtures");
+import update, { State } from "../sources";
+import { foobar } from "../../test/fixtures";
 const fakeSources = foobar.sources.sources;
-const expect = require("expect.js");
+import expect from "expect.js";
 
 describe("sources reducer", () => {
   it("should work", () => {

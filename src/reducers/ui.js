@@ -5,30 +5,34 @@
  * @module reducers/ui
  */
 
-const constants = require("../constants");
-const makeRecord = require("../utils/makeRecord");
-const { prefs } = require("../utils/prefs");
+import makeRecord from "../utils/makeRecord";
+import { prefs } from "../utils/prefs";
 
+import constants from "../constants";
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-type fileSearchModifiersType = {
+export type FileSearchModifiers = Record<{
   caseSensitive: boolean,
   wholeWord: boolean,
   regexMatch: boolean
-};
+}>;
+
+export type SymbolSearchType = "functions" | "variables";
 
 export type UIState = {
   fileSearchOn: boolean,
   fileSearchQuery: string,
-  fileSearchModifiers: Record<fileSearchModifiersType>,
+  fileSearchModifiers: FileSearchModifiers,
   projectSearchOn: boolean,
+  symbolSearchOn: boolean,
+  symbolSearchType: SymbolSearchType,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean
 };
 
-const State = makeRecord(
+export const State = makeRecord(
   ({
     fileSearchOn: false,
     fileSearchQuery: "",
@@ -38,13 +42,18 @@ const State = makeRecord(
       regexMatch: false
     })(),
     projectSearchOn: false,
+    symbolSearchOn: false,
+    symbolSearchType: "functions",
     shownSource: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed
   }: UIState)
 );
 
-function update(state = State(), action: Action): Record<UIState> {
+function update(
+  state: Record<UIState> = State(),
+  action: Action
+): Record<UIState> {
   switch (action.type) {
     case constants.TOGGLE_PROJECT_SEARCH: {
       return state.set("projectSearchOn", action.value);
@@ -52,6 +61,10 @@ function update(state = State(), action: Action): Record<UIState> {
 
     case constants.TOGGLE_FILE_SEARCH: {
       return state.set("fileSearchOn", action.value);
+    }
+
+    case constants.TOGGLE_SYMBOL_SEARCH: {
+      return state.set("symbolSearchOn", action.value);
     }
 
     case constants.UPDATE_FILE_SEARCH_QUERY: {
@@ -63,6 +76,10 @@ function update(state = State(), action: Action): Record<UIState> {
         ["fileSearchModifiers", action.modifier],
         !state.getIn(["fileSearchModifiers", action.modifier])
       );
+    }
+
+    case constants.SET_SYMBOL_SEARCH_TYPE: {
+      return state.set("symbolSearchType", action.symbolType);
     }
 
     case constants.SHOW_SOURCE: {
@@ -89,29 +106,37 @@ function update(state = State(), action: Action): Record<UIState> {
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ui: Record<UIState> };
 
-type SearchFieldType = "projectSearchOn" | "fileSearchOn";
+type SearchFieldType = "projectSearchOn" | "fileSearchOn" | "symbolSearchOn";
 function getSearchState(field: SearchFieldType, state: OuterState): boolean {
   return state.ui.get(field);
 }
 
-function getFileSearchQueryState(state: OuterState): string {
+export function getFileSearchQueryState(state: OuterState): string {
   return state.ui.get("fileSearchQuery");
 }
 
-function getFileSearchModifierState(
+export function getFileSearchModifierState(
   state: OuterState
-): Record<fileSearchModifiersType> {
+): FileSearchModifiers {
   return state.ui.get("fileSearchModifiers");
 }
 
-const getProjectSearchState = getSearchState.bind(null, "projectSearchOn");
-const getFileSearchState = getSearchState.bind(null, "fileSearchOn");
+export function getSymbolSearchType(state: OuterState): SymbolSearchType {
+  return state.ui.get("symbolSearchType");
+}
 
-function getShownSource(state: OuterState): boolean {
+export const getProjectSearchState = getSearchState.bind(
+  null,
+  "projectSearchOn"
+);
+export const getFileSearchState = getSearchState.bind(null, "fileSearchOn");
+export const getSymbolSearchState = getSearchState.bind(null, "symbolSearchOn");
+
+export function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");
 }
 
-function getPaneCollapse(
+export function getPaneCollapse(
   state: OuterState,
   position: panelPositionType
 ): boolean {
@@ -122,13 +147,4 @@ function getPaneCollapse(
   return state.ui.get("endPanelCollapsed");
 }
 
-module.exports = {
-  State,
-  update,
-  getProjectSearchState,
-  getFileSearchState,
-  getFileSearchQueryState,
-  getFileSearchModifierState,
-  getShownSource,
-  getPaneCollapse
-};
+export default update;

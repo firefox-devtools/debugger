@@ -14,6 +14,7 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { updateFrameLocations } from "../utils/pause";
 import { addBreakpoint } from "./breakpoints";
+import { isEnabled } from "devtools-config";
 
 import { prettyPrint } from "../utils/pretty-print";
 import { getPrettySourceURL } from "../utils/source";
@@ -39,6 +40,7 @@ import type { ThunkArgs } from "./types";
 // select it.
 function checkSelectedSource(state, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
+
   if (pendingLocation && pendingLocation.url === source.url) {
     dispatch(selectSource(source.id, { line: pendingLocation.line }));
   }
@@ -49,15 +51,22 @@ function checkPendingBreakpoints(state, dispatch, source) {
 
   if (pendingBreakpoints) {
     pendingBreakpoints.forEach(pendingBreakpoint => {
-      const { location: { line, sourceUrl }, condition } = pendingBreakpoint;
+      const {
+        location: { line, sourceUrl, column },
+        condition
+      } = pendingBreakpoint;
       const sameSource = sourceUrl && sourceUrl == source.url;
 
-      const location = { sourceId: source.id, sourceUrl, line };
+      const location = { sourceId: source.id, sourceUrl, line, column };
 
       const bp = getBreakpoint(state, location);
 
       if (sameSource && !bp) {
-        dispatch(addBreakpoint(location, { condition }));
+        if (location.column && isEnabled("columnBreakpoints")) {
+          dispatch(addBreakpoint(location, { condition }));
+        } else {
+          dispatch(addBreakpoint(location, { condition }));
+        }
       }
     });
   }
@@ -119,7 +128,7 @@ function loadSourceMap(generatedSource) {
   };
 }
 
-type SelectSourceOptions = { tabIndex?: number, line?: number };
+export type SelectSourceOptions = { tabIndex?: number, line?: number };
 
 /**
  * Deterministically select a source that has a given URL. This will

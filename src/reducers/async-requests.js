@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const constants = require("../constants");
+import constants from "../constants";
 const initialState = [];
 
 function update(state = initialState, action) {
@@ -24,4 +24,4 @@ function update(state = initialState, action) {
   return state;
 }
 
-module.exports = update;
+export default update;

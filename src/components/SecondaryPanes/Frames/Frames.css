@@ -15,12 +15,6 @@
   margin: 0;
 }
 
-/* Style the focused call frame like so:
-.frames ul li:focus {
-  border: 3px solid red;
-}
-*/
-
 .frames ul li * {
   -moz-user-select: none;
   user-select: none;
@@ -75,6 +69,10 @@
   color: white;
 }
 
+.frames ul li.selected i.annotation-logo svg path {
+  fill: white;
+}
+
 :root.theme-light .frames ul li.selected .location,
 :root.theme-firebug .frames ul li.selected .location,
 :root.theme-dark .frames ul li.selected .location {
@@ -101,7 +99,8 @@
 
 .annotation-logo {
   width: 12px;
-  margin-left: 2px;
+  margin-left: 3px;
+  line-height: 8px;
 }
 
 :root.theme-dark .annotation-logo svg path {

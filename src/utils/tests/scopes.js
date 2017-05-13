@@ -196,12 +196,6 @@ describe("scopes", () => {
         frame,
         isInterrupted: false
       });
-
-      global.L10N = { getStr: () => "" };
-    });
-
-    afterEach(function() {
-      delete global.L10N;
     });
 
     it("Returns variables from the outer scope", function() {

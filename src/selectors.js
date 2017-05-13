@@ -14,10 +14,11 @@ const coverage = require("./reducers/coverage");
 module.exports = {
   getSource: sources.getSource,
   getSourceByURL: sources.getSourceByURL,
-  getSourceById: sources.getSourceById,
+  getSourceInSources: sources.getSourceInSources,
   getSources: sources.getSources,
   getSourceText: sources.getSourceText,
   getSourceTabs: sources.getSourceTabs,
+  getSourcesForTabs: sources.getSourcesForTabs,
   getSelectedSource: sources.getSelectedSource,
   getSelectedLocation: sources.getSelectedLocation,
   getPendingSelectedLocation: sources.getPendingSelectedLocation,
@@ -51,6 +52,8 @@ module.exports = {
   getFileSearchState: ui.getFileSearchState,
   getFileSearchQueryState: ui.getFileSearchQueryState,
   getFileSearchModifierState: ui.getFileSearchModifierState,
+  getSymbolSearchState: ui.getSymbolSearchState,
+  getSymbolSearchType: ui.getSymbolSearchType,
   getShownSource: ui.getShownSource,
   getPaneCollapse: ui.getPaneCollapse,
 

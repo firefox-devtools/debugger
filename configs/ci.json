@@ -1,9 +1,5 @@
 {
   "features": {
-    "watchExpressions": {
-      "label": "Watch Expressions",
-      "enabled": true
-    },
     "chromeScopes": {
       "label": "Chrome Scopes",
       "enabled": true
@@ -14,18 +10,6 @@
     },
     "codeCoverage": {
       "label": "Code Coverage",
-      "enabled": true
-    },
-    "searchModifiers": {
-      "label": "Search Modifiers",
-      "enabled": true
-    },
-    "symbolSearch": {
-      "label": "symbol Search",
-      "enabled": true
-    },
-    "editorPreview": {
-      "label": "Editor Preview",
       "enabled": true
     }
   },

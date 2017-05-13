@@ -4,7 +4,8 @@ import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
-import { getSources, getSelectedSource, getPaneCollapse } from "../selectors";
+import { getSelectedSource, getPaneCollapse } from "../selectors";
+import type { SourceRecord } from "../reducers/sources";
 
 import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
@@ -16,13 +17,33 @@ import "./App.css";
 import "./shared/menu.css";
 import "./shared/reps.css";
 
-const SplitBox = createFactory(require("devtools-splitter"));
-const ProjectSearch = createFactory(require("./ProjectSearch").default);
-const Sources = createFactory(require("./Sources").default);
-const Editor = createFactory(require("./Editor").default);
-const SecondaryPanes = createFactory(require("./SecondaryPanes").default);
-const WelcomeBox = createFactory(require("./WelcomeBox").default);
-const EditorTabs = createFactory(require("./Editor/Tabs"));
+import _SplitBox from "devtools-splitter";
+const SplitBox = createFactory(_SplitBox);
+
+import _ProjectSearch from "./ProjectSearch";
+const ProjectSearch = createFactory(_ProjectSearch);
+
+import _Sources from "./Sources";
+const Sources = createFactory(_Sources);
+
+import _Editor from "./Editor";
+const Editor = createFactory(_Editor);
+
+import _SecondaryPanes from "./SecondaryPanes";
+const SecondaryPanes = createFactory(_SecondaryPanes);
+
+import _WelcomeBox from "./WelcomeBox";
+const WelcomeBox = createFactory(_WelcomeBox);
+
+import _EditorTabs from "./Editor/Tabs";
+const EditorTabs = createFactory(_EditorTabs);
+
+type Props = {
+  selectSource: Function,
+  selectedSource: SourceRecord,
+  startPanelCollapsed: boolean,
+  endPanelCollapsed: boolean
+};
 
 class App extends Component {
   state: {
@@ -30,6 +51,8 @@ class App extends Component {
     startPanelSize: number,
     endPanelSize: number
   };
+
+  props: Props;
   onLayoutChange: Function;
   getChildContext: Function;
   renderEditorPane: Function;
@@ -86,7 +109,7 @@ class App extends Component {
   }
 
   renderHorizontalLayout() {
-    const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
+    const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
 
     const overflowX = endPanelCollapsed ? "hidden" : "auto";
@@ -100,7 +123,7 @@ class App extends Component {
         maxSize: "50%",
         splitterSize: 1,
         onResizeEnd: size => this.setState({ startPanelSize: size }),
-        startPanel: Sources({ sources, horizontal }),
+        startPanel: Sources({ horizontal }),
         startPanelCollapsed,
         endPanel: SplitBox({
           style: { overflowX },
@@ -120,7 +143,7 @@ class App extends Component {
   }
 
   renderVerticalLayout() {
-    const { sources, startPanelCollapsed, endPanelCollapsed } = this.props;
+    const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
 
     return dom.div(
@@ -139,7 +162,7 @@ class App extends Component {
           maxSize: "40%",
           splitterSize: 1,
           startPanelCollapsed,
-          startPanel: Sources({ sources, horizontal }),
+          startPanel: Sources({ horizontal }),
           endPanel: this.renderEditorPane()
         }),
         endPanel: SecondaryPanes({ horizontal }),
@@ -155,21 +178,12 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
-  sources: PropTypes.object,
-  selectSource: PropTypes.func,
-  selectedSource: PropTypes.object,
-  startPanelCollapsed: PropTypes.bool,
-  endPanelCollapsed: PropTypes.bool
-};
-
 App.displayName = "App";
 
 App.childContextTypes = { shortcuts: PropTypes.object };
 
 export default connect(
   state => ({
-    sources: getSources(state),
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
     endPanelCollapsed: getPaneCollapse(state, "end")

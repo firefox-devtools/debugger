@@ -11,13 +11,9 @@
   },
   "features": {
     "blackbox": { "enabled": true },
-    "watchExpressions": { "enabled": true },
     "chromeScopes": { "enabled": false },
     "eventListeners": { "enabled": false },
     "codeCoverage": { "enabled": false },
-    "searchModifiers": { "enabled": true },
-    "symbolSearch": { "enabled": true },
-    "editorPreview": { "enabled": true },
-    "showSource": { "enabled": true   }
+    "searchNav": { "enabled": true }
   }
 }

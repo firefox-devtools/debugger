@@ -1,6 +1,10 @@
 /* eslint max-nested-callbacks: ["error", 6] */
 
-import { simplifyDisplayName, formatDisplayName } from "../frame";
+import {
+  simplifyDisplayName,
+  formatDisplayName,
+  formatCopyName
+} from "../frame";
 
 const cases = {
   defaultCase: [["define", "define"]],
@@ -77,6 +81,22 @@ describe("function names", () => {
       };
 
       expect(formatDisplayName(frame)).toEqual("...zbazbazbazbazbazbazbazbaz");
+    });
+  });
+
+  describe("formatCopyName", () => {
+    it("simple", () => {
+      const frame = {
+        displayName: "child",
+        location: {
+          line: 12
+        },
+        source: {
+          url: "todo-view.js"
+        }
+      };
+
+      expect(formatCopyName(frame)).toEqual("child (todo-view.js#12)");
     });
   });
 });

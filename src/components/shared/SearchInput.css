@@ -92,10 +92,18 @@
 .search-field .search-nav-buttons .nav-btn {
   display: flex;
   height: 100%;
-  border-radius: 50%;
+  background: transparent;
+  transition: all 0.25s ease-in-out;
+  border: 1px solid transparent;
+  justify-content: center;
+  padding-top: 4px;
 }
 
-.search-field .search-nav-buttons .nav-btn:hover path,
+.search-field .search-nav-buttons .nav-btn:hover {
+  cursor: pointer;
+  background: var(--theme-toolbar-background-hover);
+}
+
 .search-field .search-nav-buttons .nav-btn:active path {
   fill: var(--theme-comment-alt);
 }

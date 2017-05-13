@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-const { DOM: dom, PropTypes, Component } = React;
+const { DOM: dom, Component } = React;
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
@@ -8,8 +8,27 @@ import { getEventListeners, getBreakpoint } from "../../selectors";
 import CloseButton from "../shared/Button/Close";
 import "./EventListeners.css";
 
+import type { Breakpoint, Location, SourceId } from "debugger-html";
+
+type Listener = {
+  selector: string,
+  type: string,
+  sourceId: SourceId,
+  line: number,
+  breakpoint: ?Breakpoint
+};
+
 class EventListeners extends Component {
   renderListener: Function;
+
+  props: {
+    listeners: Array<Listener>,
+    selectSource: (SourceId, { line: number }) => any,
+    addBreakpoint: ({ sourceId: SourceId, line: number }) => any,
+    enableBreakpoint: Location => any,
+    disableBreakpoint: Location => any,
+    removeBreakpoint: Location => any
+  };
 
   constructor(...args) {
     super(...args);
@@ -74,15 +93,6 @@ class EventListeners extends Component {
     );
   }
 }
-
-EventListeners.propTypes = {
-  listeners: PropTypes.array.isRequired,
-  selectSource: PropTypes.func.isRequired,
-  addBreakpoint: PropTypes.func.isRequired,
-  enableBreakpoint: PropTypes.func.isRequired,
-  disableBreakpoint: PropTypes.func.isRequired,
-  removeBreakpoint: PropTypes.func.isRequired
-};
 
 EventListeners.displayName = "EventListeners";
 
