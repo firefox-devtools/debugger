@@ -51,7 +51,7 @@ We're going to experiment with collapsing library frames by default. This will s
 #### :baby: Naming Library frames
 
 One of the benefits of collapsing the library frames is that it gives an opportunity to
-describe what the library is doing. For example, instead of showing two frames for jQuery [`elemData.handle`, `event.dispatch`], we can simply show `event`.
+describe what the library is doing. For example, instead of showing two frames for jQuery \[`elemData.handle`, `event.dispatch`], we can simply show `event`.
 
 Describing the libary functions will help make it clear when a framework is rendering, routing, or doing any other task.
 
@@ -87,7 +87,6 @@ We're really excited about how the new call stack will help users think about th
 [simplify]: https://cloud.githubusercontent.com/assets/254562/25029624/14ee346e-208d-11e7-89ec-cd0385f3d69f.jpg
 [highlight]: https://cloud.githubusercontent.com/assets/254562/25029622/14ea24fa-208d-11e7-9c12-824879f64bb5.jpg
 
-[original]: https://cloud.githubusercontent.com/assets/254562/25029998/ff7c7124-208f-11e7-8417-153db75597a5.jpg
 [naming]: https://cloud.githubusercontent.com/assets/254562/25029999/ff7e7fd2-208f-11e7-925d-66449a19c213.jpg
 
 [original]: https://cloud.githubusercontent.com/assets/254562/24866189/69ce5d32-1dd7-11e7-8252-c3e33f2b7d15.jpg

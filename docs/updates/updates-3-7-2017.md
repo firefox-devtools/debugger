@@ -53,11 +53,11 @@ pass consistently on different platforms in debug mode. We disabled `visible` ch
 
 
 
-| Preview Popup |
+|Preview Popup|
 |----------------|
 |![gif-1]|
 
-| Dark Theme Updates |
+|Dark Theme Updates|
 |----|
 |![png-1]|
 |![png-2]|

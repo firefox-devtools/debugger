@@ -84,3 +84,6 @@ permalink: docs/updates
 [@ryanjduffy]:http://github.com/ryanjduffy
 [@diessica]:http://github.com/diessica
 [@andreicristianpetcu]:http://github.com/andreicristianpetcu
+[@Andarist]:http://github.com/Andarist
+[pr-6]:https://github.com/devtools-html/debugger.html/pull/2784
+[pr-23]:https://github.com/devtools-html/debugger.html/pull/2810
