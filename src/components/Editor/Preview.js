@@ -33,7 +33,14 @@ class Preview extends Component {
   };
 
   componentDidMount() {
-    const { loadObjectProperties, loadedObjects, value } = this.props;
+    const {
+      loadObjectProperties,
+      loadedObjects,
+      value,
+      popoverTarget
+    } = this.props;
+
+    popoverTarget.classList.add("selected-token");
 
     if (!value || !value.type == "object") {
       return;
@@ -42,6 +49,11 @@ class Preview extends Component {
     if (value.actor && !loadedObjects.has(value.actor)) {
       loadObjectProperties(value);
     }
+  }
+
+  componentWillUnmount() {
+    const { popoverTarget } = this.props;
+    popoverTarget.classList.remove("selected-token");
   }
 
   getChildren(root, getObjectProperties) {
