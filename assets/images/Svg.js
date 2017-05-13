@@ -40,6 +40,7 @@ const svg = {
   node: require("./node.svg"),
   express: require("./express.svg"),
   pug: require("./pug.svg")
+  extjs: require("./sencha-extjs.svg")
 };
 
 module.exports = function(name, props) {
