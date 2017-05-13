@@ -108,7 +108,7 @@
     percy-client "^2.0.0"
     slugify "^1.1.0"
 
-"@percy-io/react-percy-storybook@^0.1.2":
+"@percy-io/react-percy-storybook@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@percy-io/react-percy-storybook/-/react-percy-storybook-0.1.4.tgz#a530ff767f89f97455acfabb41baf034256763bf"
   dependencies:
