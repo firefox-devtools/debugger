@@ -44,7 +44,7 @@ function isPug(frame) {
 }
 
 function isExtJs(frame) {
-  return /ext-all[.-].*js/.test(getFrameUrl(frame));
+  return /\/ext-all[\.\-]/.test(getFrameUrl(frame));
 }
 
 export function getLibraryFromUrl(frame: Frame) {
