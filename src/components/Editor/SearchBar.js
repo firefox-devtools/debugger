@@ -82,7 +82,8 @@ class SearchBar extends Component {
     sourceText?: SourceTextRecord,
     selectSource: (string, ?SelectSourceOptions) => any,
     selectedSource?: SourceRecord,
-    highlightLineRange: ({ start: number | null, end: number | null }) => any,
+    highlightLineRange: ({ start: number, end: number }) => any,
+    clearHighlightLineRange: () => any,
     searchOn?: boolean,
     toggleFileSearch: (?boolean) => any,
     searchResults: SearchResults,
@@ -244,7 +245,7 @@ class SearchBar extends Component {
       this.props.toggleFileSearch(false);
       this.props.toggleSymbolSearch(false);
       this.props.setSelectedSymbolType("functions");
-      this.props.highlightLineRange({ start: null, end: null });
+      this.props.clearHighlightLineRange();
       e.stopPropagation();
       e.preventDefault();
     }

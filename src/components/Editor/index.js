@@ -814,6 +814,7 @@ class Editor extends PureComponent {
       selectSource,
       selectedSource,
       highlightLineRange,
+      clearHighlightLineRange,
       coverageOn,
       horizontal
     } = this.props;
@@ -829,6 +830,7 @@ class Editor extends PureComponent {
         selectSource,
         selectedSource,
         highlightLineRange,
+        clearHighlightLineRange,
         sourceText,
         searchResults,
         updateSearchResults: this.updateSearchResults
@@ -854,6 +856,7 @@ Editor.propTypes = {
   selectedLocation: PropTypes.object,
   selectedSource: ImPropTypes.map,
   highlightLineRange: PropTypes.func,
+  clearHighlightLineRange: PropTypes.func,
   highlightedLineRange: PropTypes.object,
   sourceText: ImPropTypes.map,
   searchOn: PropTypes.bool,

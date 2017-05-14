@@ -1,9 +1,14 @@
 // @flow
-import { PropTypes, Component } from "react";
+import { Component } from "react";
 import range from "lodash/range";
 
 class HighlightLines extends Component {
   highlightLineRange: Function;
+
+  props: {
+    highlightedLineRange: Object,
+    editor: Object
+  };
 
   constructor() {
     super();
@@ -52,11 +57,6 @@ class HighlightLines extends Component {
     return null;
   }
 }
-
-HighlightLines.propTypes = {
-  highlightedLineRange: PropTypes.object,
-  editor: PropTypes.object
-};
 
 HighlightLines.displayName = "HighlightLines";
 

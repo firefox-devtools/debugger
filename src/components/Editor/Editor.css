@@ -43,7 +43,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 .editor-wrapper .highlight-lines {
-  background: var(--breakpoint-active-color);
+  background: var(--theme-selection-background-semitransparent);
 }
 
 .coverage-on .CodeMirror-code :not(.hit-marker) .CodeMirror-line,
