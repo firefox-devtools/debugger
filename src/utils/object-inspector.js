@@ -111,13 +111,7 @@ function makeDefaultPropsBucket(props, parentPath, ownProperties) {
   const userProps = props.filter(name => !isDefault({ name }));
   const defaultProps = props.filter(name => isDefault({ name }));
 
-  let nodes = userProps.map(name =>
-    createNode(
-      maybeEscapePropertyName(name),
-      `${parentPath}/${name}`,
-      ownProperties[name]
-    )
-  );
+  let nodes = makeNodesForOwnProps(userProps, parentPath, ownProperties);
 
   if (defaultProps.length > 0) {
     const defaultNodes = defaultProps.map((name, index) =>
@@ -128,14 +122,27 @@ function makeDefaultPropsBucket(props, parentPath, ownProperties) {
       )
     );
     nodes.push(
-      createNode("[default properties]", `${parentPath}/default`, defaultNodes)
+      createNode(
+        "[default properties]",
+        `${parentPath}/##-default`,
+        defaultNodes
+      )
     );
   }
   return nodes;
 }
 
-/*
+function makeNodesForOwnProps(properties, parentPath, ownProperties) {
+  return properties.map(name =>
+    createNode(
+      maybeEscapePropertyName(name),
+      `${parentPath}/${name}`,
+      ownProperties[name]
+    )
+  );
+}
 
+/*
  * Ignore non-concrete values like getters and setters
  * for now by making sure we have a value.
 */
@@ -160,8 +167,10 @@ function makeNodesForProperties(
       parentPath,
       ownProperties
     );
-  } else {
+  } else if (objProps.class == "Window") {
     nodes = makeDefaultPropsBucket(properties, parentPath, ownProperties);
+  } else {
+    nodes = makeNodesForOwnProps(properties, parentPath, ownProperties);
   }
 
   for (let index in ownSymbols) {

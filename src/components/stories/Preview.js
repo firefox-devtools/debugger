@@ -10,6 +10,57 @@ import "../App.css";
 import "../SecondaryPanes/Frames/Frames.css";
 import "devtools-launchpad/src/lib/themes/dark-theme.css";
 
+function createArrayPreview(name) {
+  return {
+    enumerable: true,
+    writerable: true,
+    configurable: true,
+    value: {
+      type: "object",
+      actor: `server2.conn45.child1/${name}`,
+      class: "Object",
+      ownPropertyLength: 2,
+      preview: {
+        kind: "ArrayLike",
+        ownProperties: {},
+        ownPropertiesLength: 0,
+        length: 1
+      }
+    }
+  };
+}
+
+function createObjectPreview(name) {
+  return {
+    enumerable: true,
+    writerable: true,
+    configurable: true,
+    value: {
+      type: "Object",
+      actor: `server2.conn45.child1/${name}`,
+      class: "Object",
+      ownPropertyLength: 2,
+      preview: {
+        kind: "object",
+        ownProperties: {},
+        ownPropertiesLength: 0,
+        length: 1
+      }
+    }
+  };
+}
+
+function createObjectGrip(id) {
+  return {
+    actor: `server2.conn45.child1/${id}`,
+    type: "object",
+    class: "Object",
+    ownProperties: {},
+    ownSymbols: {},
+    safeGetters: {}
+  };
+}
+
 const obj = {
   actor: "server2.conn45.child1/pausedobj81",
   type: "object",
@@ -133,6 +184,33 @@ options.forEach(option => {
     })
     .add(`simple Object with Input ${optionLabel}`, () => {
       setValue("features.previewWatch", true);
+      return PreviewFactory(
+        {
+          value: obj,
+          expression: "this",
+          loadedObjects: I.Map().set(obj.actor, obj)
+        },
+        option
+      );
+    })
+    .add(`Object with window keys ${optionLabel}`, () => {
+      let obj = createObjectGrip("foo");
+      obj.ownProperties.arr = createArrayPreview("arr");
+      obj.ownProperties.location = createObjectPreview("location");
+      return PreviewFactory(
+        {
+          value: obj,
+          expression: "this",
+          loadedObjects: I.Map().set(obj.actor, obj)
+        },
+        option
+      );
+    })
+    .add(`Window Preview ${optionLabel}`, () => {
+      let obj = createObjectGrip("foo");
+      obj.class = "Window";
+      obj.ownProperties.arr = createArrayPreview("arr");
+      obj.ownProperties.location = createObjectPreview("location");
       return PreviewFactory(
         {
           value: obj,

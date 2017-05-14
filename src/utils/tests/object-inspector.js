@@ -29,10 +29,10 @@ describe("object-inspector", () => {
       const nodes = makeNodesForProperties(objProperties, "root");
 
       const names = nodes.map(n => n.name);
-      expect(names).to.eql(["0", "[default properties]", "__proto__"]);
+      expect(names).to.eql(["0", "length", "__proto__"]);
 
       const paths = nodes.map(n => n.path);
-      expect(paths).to.eql(["root/0", "root/default", "root/__proto__"]);
+      expect(paths).to.eql(["root/0", "root/length", "root/__proto__"]);
     });
 
     it("excludes getters", () => {
@@ -103,6 +103,25 @@ describe("object-inspector", () => {
 
       expect(names).to.eql(["bar", "__proto__"]);
       expect(paths).to.eql(["root/bar", "root/__proto__"]);
+    });
+
+    it("window object", () => {
+      const nodes = makeNodesForProperties(
+        {
+          ownProperties: {
+            bar: { value: {} },
+            location: { value: {} }
+          },
+          class: "Window"
+        },
+        "root"
+      );
+
+      const names = nodes.map(n => n.name);
+      const paths = nodes.map(n => n.path);
+
+      expect(names).to.eql(["bar", "[default properties]"]);
+      expect(paths).to.eql(["root/bar", "root/##-default"]);
     });
 
     // For large arrays
