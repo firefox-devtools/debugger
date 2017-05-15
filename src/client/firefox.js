@@ -30,6 +30,7 @@ export async function onConnect(connection: any, actions: Object) {
   // bfcache) so explicity fire `newSource` events for all returned
   // sources.
   const sources = await clientCommands.fetchSources();
+  actions.navigate(tabTarget._form.url);
   await actions.newSources(sources);
 
   // If the threadClient is already paused, make sure to show a
