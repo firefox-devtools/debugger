@@ -62,7 +62,11 @@ import {
   traverseResults,
   updateSelection,
   markText,
-  lineAtHeight
+  lineAtHeight,
+  toSourceLine,
+  toEditorLine,
+  toEditorLocation,
+  resetLineNumberFormat
 } from "../../utils/editor";
 
 import { isFirefox } from "devtools-config";
@@ -80,7 +84,7 @@ const cssVars = {
 class Editor extends PureComponent {
   cbPanel: any;
   editor: SourceEditor;
-  pendingJumpLine: any;
+  pendingJumpLocation: any;
   lastJumpLine: any;
   debugExpression: any;
   state: Object;
@@ -89,7 +93,7 @@ class Editor extends PureComponent {
     super();
 
     this.cbPanel = null;
-    this.pendingJumpLine = null;
+    this.pendingJumpLocation = null;
     this.lastJumpLine = null;
 
     this.state = {
@@ -217,8 +221,8 @@ class Editor extends PureComponent {
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
-
-    updateDocument(editor, selectedSource);
+    const sourceId = selectedSource ? selectedSource.get("id") : undefined;
+    updateDocument(editor, sourceId);
   }
 
   componentWillUnmount() {
@@ -248,9 +252,9 @@ class Editor extends PureComponent {
     // line here but not jump until rendering the actual source.
     if (prevProps.selectedLocation !== selectedLocation) {
       if (selectedLocation && selectedLocation.line != undefined) {
-        this.pendingJumpLine = selectedLocation.line;
+        this.pendingJumpLocation = selectedLocation;
       } else {
-        this.pendingJumpLine = null;
+        this.pendingJumpLocation = null;
       }
     }
 
@@ -265,12 +269,19 @@ class Editor extends PureComponent {
   onToggleBreakpoint(key, e) {
     e.preventDefault();
     const { codeMirror } = this.state.editor;
+    const { selectedSource } = this.props;
     const line = getCursorLine(codeMirror);
 
+    if (!selectedSource) {
+      return;
+    }
+
+    const sourceLine = toSourceLine(selectedSource.get("id"), line);
+
     if (e.shiftKey) {
-      this.toggleConditionalPanel(line + 1);
+      this.toggleConditionalPanel(sourceLine);
     } else {
-      this.props.toggleBreakpoint(line + 1);
+      this.props.toggleBreakpoint(sourceLine);
     }
   }
 
@@ -365,8 +376,12 @@ class Editor extends PureComponent {
       return this.closeConditionalPanel();
     }
 
+    if (!selectedSource) {
+      return;
+    }
+
     if (gutter !== "CodeMirror-foldgutter") {
-      toggleBreakpoint(line + 1);
+      toggleBreakpoint(toSourceLine(selectedSource.get("id"), line));
     }
   }
 
@@ -383,7 +398,8 @@ class Editor extends PureComponent {
       return;
     }
 
-    const line = lineAtHeight(this.state.editor, event);
+    const sourceId = selectedSource ? selectedSource.get("id") : "";
+    const line = lineAtHeight(this.state.editor, sourceId, event);
     const breakpoint = breakpoints.find(bp => bp.location.line === line);
 
     GutterMenu({
@@ -447,13 +463,14 @@ class Editor extends PureComponent {
 
   clearDebugLine(selectedFrame) {
     if (selectedFrame) {
-      const line = selectedFrame.location.line;
+      const { sourceId, line } = selectedFrame.location;
       if (this.debugExpression) {
         this.debugExpression.clear();
       }
 
+      let editorLine = toEditorLine(sourceId, line);
       this.state.editor.codeMirror.removeLineClass(
-        line - 1,
+        editorLine,
         "line",
         "new-debug-line"
       );
@@ -466,12 +483,16 @@ class Editor extends PureComponent {
       selectedLocation &&
       selectedFrame.location.sourceId === selectedLocation.sourceId
     ) {
-      const { line, column } = selectedFrame.location;
-      this.state.editor.codeMirror.addLineClass(
-        line - 1,
-        "line",
-        "new-debug-line"
-      );
+      const {
+        sourceId,
+        line: sourceLine,
+        column: sourceColumn
+      } = selectedFrame.location;
+      let { line, column } = toEditorLocation(sourceId, {
+        line: sourceLine,
+        column: sourceColumn
+      });
+      this.state.editor.codeMirror.addLineClass(line, "line", "new-debug-line");
 
       this.debugExpression = markText(this.state.editor, "debug-expression", {
         start: { line, column },
@@ -483,7 +504,7 @@ class Editor extends PureComponent {
   // If the location has changed and a specific line is requested,
   // move to that line and flash it.
   highlightLine() {
-    if (!this.pendingJumpLine) {
+    if (!this.pendingJumpLocation) {
       return;
     }
 
@@ -495,7 +516,8 @@ class Editor extends PureComponent {
       clearLineClass(this.state.editor.codeMirror, "highlight-line");
     }
 
-    const line = this.pendingJumpLine;
+    const { sourceId, line: sourceLine } = this.pendingJumpLocation;
+    let line = toEditorLine(sourceId, sourceLine);
     this.state.editor.alignLine(line);
 
     // We only want to do the flashing animation if it's not a debug
@@ -507,21 +529,18 @@ class Editor extends PureComponent {
       (!this.props.selectedFrame ||
         this.props.selectedFrame.location.line !== line)
     ) {
-      this.state.editor.codeMirror.addLineClass(
-        line - 1,
-        "line",
-        "highlight-line"
-      );
+      this.state.editor.codeMirror.addLineClass(line, "line", "highlight-line");
     }
 
     this.lastJumpLine = line;
-    this.pendingJumpLine = null;
+    this.pendingJumpLocation = null;
   }
 
   showMessage(msg) {
     this.state.editor.replaceDocument(this.state.editor.createDocument());
     this.state.editor.setText(msg);
     this.state.editor.setMode({ name: "text" });
+    resetLineNumberFormat(this.state.editor);
   }
 
   renderHighlightLines() {
@@ -596,10 +615,12 @@ class Editor extends PureComponent {
       return;
     }
 
+    const editorLocation = toEditorLocation(selectedSource.get("id"), location);
+
     return Preview({
       value,
       editor: this.state.editor,
-      location: location,
+      location: editorLocation,
       expression: expression,
       popoverPos: cursorPos,
       onClose: () => this.clearPreviewSelection()

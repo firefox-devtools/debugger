@@ -124,6 +124,18 @@ function getSourcePath(source: Source) {
 }
 
 /**
+ * Returns amount of lines in the source. If source is a WebAssembly binary,
+ * the function returns amount of bytes.
+ */
+function getSourceLineCount(source: Source) {
+  if (source.isWasm) {
+    const { binary } = (source.text: any);
+    return binary.length;
+  }
+  return source.text != undefined ? source.text.split("\n").length : 0;
+}
+
+/**
  *
  * Returns Code Mirror mode for source content type
  * @param contentType
@@ -133,9 +145,9 @@ function getSourcePath(source: Source) {
  */
 
 function getMode(source: Source) {
-  const { contentType, text } = source;
+  const { contentType, text, isWasm } = source;
 
-  if (!text) {
+  if (!text || isWasm) {
     return { name: "text" };
   }
 
@@ -177,5 +189,6 @@ export {
   getFilename,
   getFilenameFromURL,
   getSourcePath,
+  getSourceLineCount,
   getMode
 };

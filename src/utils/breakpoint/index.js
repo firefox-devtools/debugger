@@ -81,7 +81,7 @@ export function breakpointAtLocation(
   { line, column }: Location
 ) {
   return breakpoints.find(breakpoint => {
-    const sameLine = breakpoint.location.line === line + 1;
+    const sameLine = breakpoint.location.line === line;
     if (!sameLine) {
       return false;
     }

@@ -6,7 +6,7 @@ import ReactDOM from "react-dom";
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 
-import { getDocument, showSourceText } from "../../utils/editor";
+import { getDocument, showSourceText, toEditorLine } from "../../utils/editor";
 
 const breakpointSvg = document.createElement("div");
 ReactDOM.render(Svg("breakpoint"), breakpointSvg);
@@ -25,6 +25,7 @@ class Breakpoint extends Component {
   props: {
     breakpoint: Object,
     selectedSource: Object,
+    line: number,
     editor: Object
   };
 
@@ -44,7 +45,9 @@ class Breakpoint extends Component {
       return;
     }
 
-    const line = breakpoint.location.line - 1;
+    const sourceId = selectedSource.get("id");
+    const line = toEditorLine(sourceId, breakpoint.location.line);
+
     showSourceText(editor, selectedSource.toJS());
 
     editor.codeMirror.setGutterMarker(
@@ -95,11 +98,13 @@ class Breakpoint extends Component {
       return;
     }
 
-    const line = breakpoint.location.line - 1;
-    const doc = getDocument(selectedSource.get("id"));
+    const sourceId = selectedSource.get("id");
+    const doc = getDocument(sourceId);
     if (!doc) {
       return;
     }
+
+    const line = toEditorLine(sourceId, breakpoint.location.line);
 
     // NOTE: when we upgrade codemirror we can use `doc.setGutterMarker`
     if (doc.setGutterMarker) {
