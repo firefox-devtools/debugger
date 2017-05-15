@@ -23,11 +23,19 @@ class HighlightLines extends Component {
     this.highlightLineRange();
   }
 
+  componentWillUpdate() {
+    this.clearHighlightRange();
+  }
+
   componentDidUpdate() {
     this.highlightLineRange();
   }
 
   componentWillUnmount() {
+    this.clearHighlightRange();
+  }
+
+  clearHighlightRange() {
     if (!this.props.editor) {
       return;
     }
