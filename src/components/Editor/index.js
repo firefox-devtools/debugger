@@ -690,10 +690,8 @@ class Editor extends PureComponent {
       return;
     }
 
-    this.editor.alignLine(highlightedLineRange.start);
-
     return HighlightLines({
-      editor: this.editor && this.editor.codeMirror,
+      editor: this.editor,
       highlightedLineRange
     });
   }

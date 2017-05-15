@@ -503,7 +503,8 @@ class SearchBar extends Component {
     if (selectedSource && selectedSymbolType === "functions") {
       highlightLineRange({
         start: item.location.start.line,
-        end: item.location.end.line
+        end: item.location.end.line,
+        sourceId: selectedSource.get("id")
       });
     }
   }

@@ -36,28 +36,34 @@ class HighlightLines extends Component {
   }
 
   clearHighlightRange() {
-    if (!this.props.editor) {
+    const { highlightedLineRange, editor } = this.props;
+    const { codeMirror } = editor;
+
+    if (!highlightedLineRange || !editor || !codeMirror) {
       return;
     }
 
-    const { highlightedLineRange, editor } = this.props;
     const { start, end } = highlightedLineRange;
 
     range(start - 1, end).forEach(line => {
-      editor.removeLineClass(line, "line", "highlight-lines");
+      codeMirror.removeLineClass(line, "line", "highlight-lines");
     });
   }
 
   highlightLineRange() {
     const { highlightedLineRange, editor } = this.props;
-    if (!highlightedLineRange) {
+    const { codeMirror } = editor;
+
+    if (!highlightedLineRange || !editor || !codeMirror) {
       return;
     }
 
     const { start, end } = highlightedLineRange;
 
+    editor.alignLine(start);
+
     range(start - 1, end).forEach(line => {
-      editor.addLineClass(line, "line", "highlight-lines");
+      codeMirror.addLineClass(line, "line", "highlight-lines");
     });
   }
 

@@ -32,7 +32,8 @@ export type UIState = {
   endPanelCollapsed: boolean,
   highlightedLineRange?: {
     start?: number,
-    end?: number
+    end?: number,
+    sourceId?: number
   }
 };
 
@@ -102,11 +103,11 @@ function update(
     }
 
     case "HIGHLIGHT_LINES":
-      const { start, end } = action.location;
+      const { start, end, sourceId } = action.location;
       let lineRange = {};
 
-      if (start && end) {
-        lineRange = { start, end };
+      if (start && end && sourceId) {
+        lineRange = { start, end, sourceId };
       }
 
       return state.set("highlightedLineRange", lineRange);

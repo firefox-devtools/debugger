@@ -96,7 +96,11 @@ export function togglePaneCollapse(position: string, paneCollapsed: boolean) {
  * @memberof actions/sources
  * @static
  */
-export function highlightLineRange(location: { start: number, end: number }) {
+export function highlightLineRange(location: {
+  start: number,
+  end: number,
+  sourceId: number
+}) {
   return {
     type: constants.HIGHLIGHT_LINES,
     location
