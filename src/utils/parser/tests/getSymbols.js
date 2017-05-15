@@ -1,5 +1,3 @@
-/* eslint max-nested-callbacks: ["error", 5]*/
-
 const expect = require("expect.js");
 import getSymbols from "../getSymbols";
 
