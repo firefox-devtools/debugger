@@ -50,4 +50,25 @@ describe("fromJS", () => {
   it("supports objects without a prototype", () => {
     expect(() => fromJS(Object.create(null))).to.not.throwException();
   });
+
+  it("supports objects with `hasOwnProperty` fields", () => {
+    const value = {
+      lookupIterator: {
+        value: {},
+        writable: true
+      },
+
+      hasOwnProperty: {
+        value: {},
+        writable: true
+      },
+      arguments: {
+        value: {},
+        writable: false
+      }
+    };
+
+    const newMap = fromJS(value);
+    expect(newMap.getIn(["hasOwnProperty", "writable"])).to.equal(true);
+  });
 });

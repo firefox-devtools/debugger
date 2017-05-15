@@ -7,6 +7,21 @@
  */
 
 const Immutable = require("immutable");
+const isFunction = require("lodash/isFunction");
+
+// hasOwnProperty is defensive because it is possible that the
+// object that we're creating a map for has a `hasOwnProperty` field
+function hasOwnProperty(value, key) {
+  if (value.hasOwnProperty && isFunction(value.hasOwnProperty)) {
+    return value.hasOwnProperty(key);
+  }
+
+  if (value.prototype && value.prototype.hasOwnProperty) {
+    return value.prototype.hasOwnProperty(key);
+  }
+
+  return false;
+}
 
 /*
   creates an immutable map, where each of the value's
@@ -16,7 +31,7 @@ const Immutable = require("immutable");
   length confuses Immutable's internal algorithm.
 */
 function createMap(value) {
-  const hasLength = value.hasOwnProperty && value.hasOwnProperty("length");
+  const hasLength = hasOwnProperty(value, "length");
   const length = value.length;
 
   if (hasLength) {
