@@ -1,52 +1,10 @@
-// TODO: we would like to mock this in the local tests
-const theMockedPendingBreakpoint = {
-  location: {
-    sourceId: "bar",
-    sourceUrl: "http://todomvc.com/bar.js",
-    line: 5,
-    column: undefined
-  },
-  condition: "3",
-  disabled: false
-};
+import expect from "expect.js";
 
 import { createStore, selectors, actions } from "../../utils/test-head";
 import {
-  makePendingLocationId,
-  makeLocationId
-} from "../../reducers/breakpoints";
-import expect from "expect.js";
-
-const slidingMockThreadClient = {
-  setBreakpoint: (location, condition) => {
-    return new Promise((resolve, reject) => {
-      const actualLocation = Object.assign({}, location, {
-        line: location.line + 2
-      });
-      resolve({ id: makeLocationId(location), actualLocation, condition });
-    });
-  }
-};
-
-const simpleMockThreadClient = {
-  setBreakpoint: (location, condition) => {
-    return new Promise((resolve, reject) => {
-      resolve({ id: "hi", actualLocation: location });
-    });
-  },
-
-  removeBreakpoint: id => {
-    return new Promise((resolve, reject) => {
-      resolve({ status: "done" });
-    });
-  },
-
-  setBreakpointCondition: (id, location, condition, noSliding) => {
-    return new Promise((resolve, reject) => {
-      resolve({ sourceId: "a", line: 5 });
-    });
-  }
-};
+  simulateCorrectThreadClient,
+  simpleMockThreadClient
+} from "./helpers/breakpoints.js";
 
 describe("breakpoints", () => {
   it("should add a breakpoint", async () => {
@@ -75,16 +33,22 @@ describe("breakpoints", () => {
     expect(bps.size).to.be(1);
   });
 
-  it("when the user adds a sliding breakpoint, a corresponding pending breakpoint should be added", async () => {
-    const { dispatch, getState } = createStore(slidingMockThreadClient);
-    const location = { sourceId: "a", line: 5 };
-    const slidLocation = { sourceId: "a", line: 7 };
+  describe("adding a breakpoint to an invalid location", async () => {
+    it("adds only one breakpoint with a corrected location", async () => {
+      const invalidLocation = { sourceId: "a", line: 5 };
+      const {
+        correctedThreadClient,
+        correctedLocation
+      } = simulateCorrectThreadClient(2, invalidLocation);
+      const { dispatch, getState } = createStore(correctedThreadClient);
 
-    await dispatch(actions.addBreakpoint(location));
-    const bps = selectors.getBreakpoints(getState());
-    const bp = selectors.getBreakpoint(getState(), slidLocation);
-    expect(bps.size).to.be(1);
-    expect(bp.location).to.eql(slidLocation);
+      await dispatch(actions.addBreakpoint(invalidLocation));
+      const state = getState();
+      const bps = selectors.getBreakpoints(state);
+      const bp = selectors.getBreakpoint(state, correctedLocation);
+      expect(bps.size).to.be(1);
+      expect(bp.location).to.eql(correctedLocation);
+    });
   });
 
   it("should remove a breakpoint", async () => {
