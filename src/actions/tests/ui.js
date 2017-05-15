@@ -84,14 +84,14 @@ describe("ui", () => {
 
   it("should highlight lines", () => {
     const { dispatch, getState } = createStore();
-    const range = { start: 3, end: 5 };
+    const range = { start: 3, end: 5, sourceId: 2 };
     dispatch(actions.highlightLineRange(range));
     expect(getHighlightedLineRange(getState())).to.eql(range);
   });
 
   it("should clear highlight lines", () => {
     const { dispatch, getState } = createStore();
-    const range = { start: 3, end: 5 };
+    const range = { start: 3, end: 5, sourceId: 2 };
     dispatch(actions.highlightLineRange(range));
     dispatch(actions.clearHighlightLineRange());
     expect(getHighlightedLineRange(getState())).to.eql({});
