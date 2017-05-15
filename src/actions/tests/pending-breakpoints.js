@@ -49,14 +49,14 @@ describe("when adding breakpoints", () => {
   describe("adding and deleting breakpoints", () => {
     let breakpoint1;
     let breakpoint2;
-    let breakpointId1;
-    let breakpointId2;
+    let breakpointLocationId1;
+    let breakpointLocationId2;
 
     beforeEach(() => {
       breakpoint1 = generateBreakpoint("foo");
       breakpoint2 = generateBreakpoint("foo2");
-      breakpointId1 = makePendingLocationId(breakpoint1.location);
-      breakpointId2 = makePendingLocationId(breakpoint2.location);
+      breakpointLocationId1 = makePendingLocationId(breakpoint1.location);
+      breakpointLocationId2 = makePendingLocationId(breakpoint2.location);
     });
 
     it("add a corresponding pendingBreakpoint for each addition", async () => {
@@ -65,10 +65,10 @@ describe("when adding breakpoints", () => {
       await dispatch(actions.addBreakpoint(breakpoint2.location));
 
       const pendingBps = selectors.getPendingBreakpoints(getState());
-      expect(pendingBps.get(breakpointId1)).to.eql(
+      expect(pendingBps.get(breakpointLocationId1)).to.eql(
         generatePendingBreakpoint(breakpoint1)
       );
-      expect(pendingBps.get(breakpointId2)).to.eql(
+      expect(pendingBps.get(breakpointLocationId2)).to.eql(
         generatePendingBreakpoint(breakpoint2)
       );
     });
@@ -80,8 +80,8 @@ describe("when adding breakpoints", () => {
       await dispatch(actions.removeBreakpoint(breakpoint1.location));
 
       const pendingBps = selectors.getPendingBreakpoints(getState());
-      expect(pendingBps.has(breakpointId1)).not.to.be(true);
-      expect(pendingBps.has(breakpointId2)).to.be(true);
+      expect(pendingBps.has(breakpointLocationId1)).not.to.be(true);
+      expect(pendingBps.has(breakpointLocationId2)).to.be(true);
     });
   });
 });

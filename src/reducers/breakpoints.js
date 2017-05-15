@@ -57,9 +57,10 @@ export function makeLocationId(location: Location) {
 }
 
 export function makePendingLocationId(location: Location) {
-  let { sourceUrl, line, column } = location;
-  column = column || "";
-  return `${sourceUrl}:${line}:${column}`;
+  const { sourceUrl, line, column } = location;
+  const sourceUrlString = sourceUrl || "";
+  const columnString = column || "";
+  return `${sourceUrlString}:${line}:${columnString}`;
 }
 
 function allBreakpointsDisabled(state) {
@@ -241,7 +242,7 @@ export function makePendingBreakpoint(bp: any) {
   return { condition, disabled, location };
 }
 
-function setPendingBreakpoints(state) {
+function setPendingBreakpoints(state: any) {
   prefs.pendingBreakpoints = state.pendingBreakpoints;
 }
 

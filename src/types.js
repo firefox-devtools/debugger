@@ -30,6 +30,7 @@ export type Mode =
 
 export type {
   Breakpoint,
+  PendingBreakpoint,
   Frame,
   Grip,
   LoadedObject,
