@@ -8,7 +8,7 @@
  * @module utils/makeRecord
  */
 
-const I = require("immutable");
+import * as I from "immutable";
 
 /**
  * @memberof utils/makeRecord
@@ -39,4 +39,4 @@ function makeRecord<T>(spec: T & Object): (init: $Shape<T>) => Record<T> {
   return I.Record(spec);
 }
 
-module.exports = makeRecord;
+export default makeRecord;

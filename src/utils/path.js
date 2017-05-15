@@ -21,10 +21,4 @@ function join(base: string, dir: string) {
   return `${base}/${dir}`;
 }
 
-module.exports = {
-  basename,
-  dirname,
-  isURL,
-  isAbsolute,
-  join
-};
+export { basename, dirname, isURL, isAbsolute, join };

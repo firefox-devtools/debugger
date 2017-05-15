@@ -1,5 +1,5 @@
-const get = require("lodash/get");
-const { maybeEscapePropertyName } = require("devtools-reps");
+import get from "lodash/get";
+import { maybeEscapePropertyName } from "devtools-reps";
 
 let WINDOW_PROPERTIES = {};
 
@@ -238,7 +238,7 @@ function getChildren({ getObjectProperties, actors, item }) {
   return children;
 }
 
-module.exports = {
+export {
   nodeHasChildren,
   nodeIsOptimizedOut,
   nodeIsMissingArguments,
