@@ -132,8 +132,8 @@ html[dir="rtl"] .editor-mount {
   color: var(--theme-content-color3);
 }
 
-.debug-line .CodeMirror-line {
-  background-color: var(--breakpoint-active-color) !important;
+.debug-line .CodeMirror-linenumber {
+  background-color: transparent !important;
 }
 
 /* Don't display the highlight color since the debug line
