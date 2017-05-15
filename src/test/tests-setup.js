@@ -1,5 +1,4 @@
 global.Worker = require("workerjs");
-
 global.L10N = { getStr: () => {} };
 
 const path = require("path");

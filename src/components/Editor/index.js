@@ -765,13 +765,12 @@ class Editor extends PureComponent {
     }
 
     const token = selectedToken.textContent;
-    selectedToken.classList.add("selected-token");
 
     const value = getExpressionValue(selectedExpression, {
       getExpression: this.props.getExpression
     });
 
-    if (!value) {
+    if (!value || value.type == "undefined") {
       return;
     }
 
@@ -780,7 +779,6 @@ class Editor extends PureComponent {
       expression: token,
       popoverTarget: selectedToken,
       onClose: () => {
-        selectedToken.classList.remove("selected-token");
         this.setState({
           selectedToken: null,
           selectedExpression: null
