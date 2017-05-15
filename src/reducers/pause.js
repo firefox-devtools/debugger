@@ -77,13 +77,8 @@ function update(state: PauseState = State(), action: Action): PauseState {
 
     case constants.LOAD_OBJECT_PROPERTIES:
       if (action.status === "start") {
-        return {
-          ...state,
-          loadedObjects: {
-            ...state.loadedObjects,
-            [action.objectId]: {}
-          }
-        };
+        state.loadedObjects[action.objectId] = {};
+        return state;
       }
 
       if (action.status === "done") {
@@ -95,17 +90,9 @@ function update(state: PauseState = State(), action: Action): PauseState {
         const ownSymbols = action.value.ownSymbols || [];
         const prototype = action.value.prototype;
 
-        return {
-          ...state,
-          loadedObjects: {
-            ...state.loadedObjects,
-            [action.objectId]: {
-              ownProperties,
-              prototype,
-              ownSymbols
-            }
-          }
-        };
+        const obj = { ownProperties, prototype, ownSymbols };
+        state.loadedObjects[action.objectId] = obj;
+        return state;
       }
       break;
 
@@ -145,10 +132,13 @@ export const getPause = createSelector(
   pauseWrapper => pauseWrapper.pause
 );
 
-export const getLoadedObjects = createSelector(
-  getPauseState,
-  pauseWrapper => pauseWrapper.loadedObjects
-);
+/*export const getLoadedObjects = createSelector(getPauseState, pauseWrapper =>
+  pauseWrapper.loadedObjects
+);*/
+
+export function getLoadedObjects(state: OuterState) {
+  return state.pause.loadedObjects;
+}
 
 export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];
