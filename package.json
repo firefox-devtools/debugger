@@ -155,6 +155,7 @@
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
+      "/helpers/",
       "<rootDir>/test/",
       "<rootDir>/utils/tests/fixtures/"
     ],
