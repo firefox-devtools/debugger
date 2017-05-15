@@ -84,7 +84,7 @@ export function getExpressionValue(
   { getExpression }: Object
 ) {
   const variableValue = get(selectedExpression, "contents.value");
-  if (variableValue) {
+  if (typeof variableValue === "boolean" || variableValue) {
     return variableValue;
   }
 
