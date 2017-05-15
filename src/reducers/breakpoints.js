@@ -14,13 +14,13 @@ import * as I from "immutable";
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
 
-import type { Breakpoint, Location } from "../types";
+import type { Breakpoint, PendingBreakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type BreakpointsState = {
   breakpoints: I.Map<string, Breakpoint>,
-  pendingBreakpoints: any,
+  pendingBreakpoints: I.Map<string, PendingBreakpoint>,
   breakpointsDisabled: false
 };
 
@@ -51,9 +51,9 @@ function locationMoved(location, newLocation) {
 }
 
 export function makeLocationId(location: Location) {
-  let { sourceId, line, column } = location;
-  column = column || "";
-  return `${sourceId}:${line}:${column}`;
+  const { sourceId, line, column } = location;
+  const columnString = column || "";
+  return `${sourceId}:${line}:${columnString}`;
 }
 
 export function makePendingLocationId(location: Location) {
@@ -75,7 +75,7 @@ function update(state: Record<BreakpointsState> = State(), action: Action) {
     }
 
     case "REMOVE_BREAKPOINT": {
-      const newState = removeBreakpoint(state, action);
+      const newState = removeOrDisableBreakpoint(state, action);
       setPendingBreakpoints(newState);
       return newState;
     }
@@ -154,28 +154,33 @@ function addBreakpoint(state, action) {
   }
 }
 
-function removeBreakpoint(state, action) {
+function disableBreakpoint(state, id) {
+  const bp = state.breakpoints.get(id);
+  const breakpoint = updateObj(bp, {
+    loading: false,
+    disabled: true
+  });
+  const updatedState = state.setIn(["breakpoints", id], breakpoint);
+  return updatePendingBreakpoint(updatedState, breakpoint);
+}
+
+function deleteBreakpoint(state, id, pendingId) {
+  return state
+    .deleteIn(["breakpoints", id])
+    .deleteIn(["pendingBreakpoints", pendingId]);
+}
+
+function removeOrDisableBreakpoint(state, action) {
   if (action.status != "done") {
     return state;
   }
 
   const id = makeLocationId(action.breakpoint.location);
   const pendingId = makePendingLocationId(action.breakpoint.location);
-  let updatedState = undefined;
 
-  if (action.disabled) {
-    const bp = state.breakpoints.get(id);
-    const breakpoint = updateObj(bp, {
-      loading: false,
-      disabled: true
-    });
-    updatedState = state.setIn(["breakpoints", id], breakpoint);
-    updatedState = updatePendingBreakpoint(updatedState, breakpoint);
-  } else {
-    updatedState = state
-      .deleteIn(["breakpoints", id])
-      .deleteIn(["pendingBreakpoints", pendingId]);
-  }
+  const updatedState = action.disabled
+    ? disableBreakpoint(state, id)
+    : deleteBreakpoint(state, id, pendingId);
 
   return updatedState.set(
     "breakpointsDisabled",
@@ -221,9 +226,9 @@ function slideBreakpoint(state, action) {
 
   const locationId = makeLocationId(breakpoint.location);
   const movedLocationId = makeLocationId(actualLocation);
-  state = state.deleteIn(["breakpoints", locationId]);
+  const updatedState = state.deleteIn(["breakpoints", locationId]);
 
-  return state.setIn(
+  return updatedState.setIn(
     ["breakpoints", movedLocationId],
     updateObj(currentBp, { location: actualLocation })
   );

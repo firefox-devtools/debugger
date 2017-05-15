@@ -75,8 +75,8 @@ async function checkPendingBreakpoints(state, dispatch, source) {
     return;
   }
 
-  const pendingBreakpointsList = pendingBreakpoints.valueSeq().toJS();
-  for (let pendingBreakpoint of pendingBreakpointsList) {
+  const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
+  for (let pendingBreakpoint of pendingBreakpointsArray) {
     await checkPendingBreakpoint(state, dispatch, pendingBreakpoint, source);
   }
 }
