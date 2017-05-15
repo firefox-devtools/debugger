@@ -40,14 +40,14 @@
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "snapshot": "NODE_ENV='development' build-storybook && percy-storybook --ignore=\"node_modules/(?!devtools-)\"",
+    "snapshot": "NODE_ENV='development' build-storybook && percy-storybook",
     "prepush": "yarn lint && yarn test && yarn flow",
     "postmerge": "node bin/post-merge.js",
     "precommit": "lint-staged",
     "nom": "rm -rf node_modules yarn.lock; yarn install"
   },
   "dependencies": {
-    "@percy-io/react-percy-storybook": "^0.1.2",
+    "@percy-io/react-percy-storybook": "^0.1.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
     "babel-preset-react": "^6.24.1",
     "babel-traverse": "^6.22.1",
