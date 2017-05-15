@@ -6,6 +6,11 @@ const {
   getPromiseProperties
 } = require("../object-inspector");
 
+const root = {
+  path: "root",
+  contents: { value: {} }
+};
+
 const objProperties = {
   ownProperties: {
     "0": {
@@ -26,13 +31,14 @@ const objProperties = {
 describe("object-inspector", () => {
   describe("makeNodesForProperties", () => {
     it("kitchen sink", () => {
-      const nodes = makeNodesForProperties(objProperties, "root");
+      // console.log(this.root);
+      const nodes = makeNodesForProperties(objProperties, root);
 
       const names = nodes.map(n => n.name);
-      expect(names).to.eql(["0", "[default properties]", "__proto__"]);
+      expect(names).to.eql(["0", "length", "__proto__"]);
 
       const paths = nodes.map(n => n.path);
-      expect(paths).to.eql(["root/0", "root/default", "root/__proto__"]);
+      expect(paths).to.eql(["root/0", "root/length", "root/__proto__"]);
     });
 
     it("excludes getters", () => {
@@ -46,7 +52,7 @@ describe("object-inspector", () => {
             class: "bla"
           }
         },
-        "root"
+        root
       );
 
       const names = nodes.map(n => n.name);
@@ -70,7 +76,7 @@ describe("object-inspector", () => {
             class: "bla"
           }
         },
-        "root"
+        root
       );
 
       const names = nodes.map(n => n.name);
@@ -95,7 +101,7 @@ describe("object-inspector", () => {
           },
           prototype: { value: {}, class: "bla" }
         },
-        "root"
+        root
       );
 
       const names = nodes.map(n => n.name);
@@ -105,13 +111,35 @@ describe("object-inspector", () => {
       expect(paths).to.eql(["root/bar", "root/__proto__"]);
     });
 
+    it("window object", () => {
+      const nodes = makeNodesForProperties(
+        {
+          ownProperties: {
+            bar: { value: {} },
+            location: { value: {} }
+          },
+          class: "Window"
+        },
+        {
+          path: "root",
+          contents: { value: { class: "Window" } }
+        }
+      );
+
+      const names = nodes.map(n => n.name);
+      const paths = nodes.map(n => n.path);
+
+      expect(names).to.eql(["bar", "[default properties]"]);
+      expect(paths).to.eql(["root/bar", "root/##-default"]);
+    });
+
     // For large arrays
     it("numerical buckets", () => {
       let objProps = { ownProperties: {}, prototype: { class: "Array" } };
       for (let i = 0; i < 331; i++) {
         objProps.ownProperties[i] = { value: {} };
       }
-      const nodes = makeNodesForProperties(objProps, "root");
+      const nodes = makeNodesForProperties(objProps, root);
 
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
@@ -147,7 +175,7 @@ describe("object-inspector", () => {
             class: "WindowPrototype"
           }
         },
-        "root"
+        root
       );
 
       const names = nodes.map(n => n.name);

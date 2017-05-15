@@ -111,13 +111,7 @@ function makeDefaultPropsBucket(props, parentPath, ownProperties) {
   const userProps = props.filter(name => !isDefault({ name }));
   const defaultProps = props.filter(name => isDefault({ name }));
 
-  let nodes = userProps.map(name =>
-    createNode(
-      maybeEscapePropertyName(name),
-      `${parentPath}/${name}`,
-      ownProperties[name]
-    )
-  );
+  let nodes = makeNodesForOwnProps(userProps, parentPath, ownProperties);
 
   if (defaultProps.length > 0) {
     const defaultNodes = defaultProps.map((name, index) =>
@@ -128,24 +122,34 @@ function makeDefaultPropsBucket(props, parentPath, ownProperties) {
       )
     );
     nodes.push(
-      createNode("[default properties]", `${parentPath}/default`, defaultNodes)
+      createNode(
+        "[default properties]",
+        `${parentPath}/##-default`,
+        defaultNodes
+      )
     );
   }
   return nodes;
 }
 
-/*
+function makeNodesForOwnProps(properties, parentPath, ownProperties) {
+  return properties.map(name =>
+    createNode(
+      maybeEscapePropertyName(name),
+      `${parentPath}/${name}`,
+      ownProperties[name]
+    )
+  );
+}
 
+/*
  * Ignore non-concrete values like getters and setters
  * for now by making sure we have a value.
 */
-function makeNodesForProperties(
-  objProps,
-  parentPath,
-  { bucketSize = 100 } = {}
-) {
+function makeNodesForProperties(objProps, parent, { bucketSize = 100 } = {}) {
   const { ownProperties, prototype, ownSymbols } = objProps;
-
+  const parentPath = parent.path;
+  const parentValue = parent.contents.value;
   const properties = sortProperties(Object.keys(ownProperties)).filter(name =>
     ownProperties[name].hasOwnProperty("value")
   );
@@ -160,8 +164,10 @@ function makeNodesForProperties(
       parentPath,
       ownProperties
     );
-  } else {
+  } else if (parentValue.class == "Window") {
     nodes = makeDefaultPropsBucket(properties, parentPath, ownProperties);
+  } else {
+    nodes = makeNodesForOwnProps(properties, parentPath, ownProperties);
   }
 
   for (let index in ownSymbols) {
@@ -230,7 +236,7 @@ function getChildren({ getObjectProperties, actors, item }) {
     return [];
   }
 
-  let children = makeNodesForProperties(loadedProps, item.path);
+  let children = makeNodesForProperties(loadedProps, item);
   if (isPromise(item)) {
     children.unshift(getPromiseProperties(item));
   }

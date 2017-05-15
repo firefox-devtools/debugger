@@ -10,6 +10,57 @@ import "../App.css";
 import "../SecondaryPanes/Frames/Frames.css";
 import "devtools-launchpad/src/lib/themes/dark-theme.css";
 
+function createArrayPreview(name) {
+  return {
+    enumerable: true,
+    writerable: true,
+    configurable: true,
+    value: {
+      type: "object",
+      actor: `server2.conn45.child1/${name}`,
+      class: "Object",
+      ownPropertyLength: 2,
+      preview: {
+        kind: "ArrayLike",
+        ownProperties: {},
+        ownPropertiesLength: 0,
+        length: 1
+      }
+    }
+  };
+}
+
+function createObjectPreview(name) {
+  return {
+    enumerable: true,
+    writerable: true,
+    configurable: true,
+    value: {
+      type: "Object",
+      actor: `server2.conn45.child1/${name}`,
+      class: "Object",
+      ownPropertyLength: 2,
+      preview: {
+        kind: "object",
+        ownProperties: {},
+        ownPropertiesLength: 0,
+        length: 1
+      }
+    }
+  };
+}
+
+function createObjectGrip(id) {
+  return {
+    actor: `server2.conn45.child1/${id}`,
+    type: "object",
+    class: "Object",
+    ownProperties: {},
+    ownSymbols: {},
+    safeGetters: {}
+  };
+}
+
 const obj = {
   actor: "server2.conn45.child1/pausedobj81",
   type: "object",
@@ -138,6 +189,33 @@ options.forEach(option => {
           value: obj,
           expression: "this",
           loadedObjects: I.Map().set(obj.actor, obj)
+        },
+        option
+      );
+    })
+    .add(`Object with window keys ${optionLabel}`, () => {
+      let grip = createObjectGrip("foo");
+      grip.ownProperties.arr = createArrayPreview("arr");
+      grip.ownProperties.location = createObjectPreview("location");
+      return PreviewFactory(
+        {
+          value: grip,
+          expression: "this",
+          loadedObjects: I.Map().set(grip.actor, grip)
+        },
+        option
+      );
+    })
+    .add(`Window Preview ${optionLabel}`, () => {
+      let grip = createObjectGrip("foo");
+      grip.class = "Window";
+      grip.ownProperties.arr = createArrayPreview("arr");
+      grip.ownProperties.location = createObjectPreview("location");
+      return PreviewFactory(
+        {
+          value: grip,
+          expression: "this",
+          loadedObjects: I.Map().set(grip.actor, grip)
         },
         option
       );
