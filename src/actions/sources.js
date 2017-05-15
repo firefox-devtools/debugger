@@ -209,31 +209,6 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
  * @memberof actions/sources
  * @static
  */
-export function highlightLineRange(location: { start: number, end: number }) {
-  return ({ dispatch }: ThunkArgs) => {
-    dispatch({
-      type: constants.HIGHLIGHT_LINES,
-      location
-    });
-  };
-}
-
-/**
- * @memberof actions/sources
- * @static
- */
-export function clearHighlightLineRange() {
-  return ({ dispatch }: ThunkArgs) => {
-    dispatch({
-      type: constants.CLEAR_HIGHLIGHT_LINES
-    });
-  };
-}
-
-/**
- * @memberof actions/sources
- * @static
- */
 export function jumpToMappedLocation(sourceLocation: any) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     if (!client) {

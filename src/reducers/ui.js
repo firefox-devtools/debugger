@@ -29,7 +29,11 @@ export type UIState = {
   symbolSearchType: SymbolSearchType,
   shownSource: string,
   startPanelCollapsed: boolean,
-  endPanelCollapsed: boolean
+  endPanelCollapsed: boolean,
+  highlightedLineRange?: {
+    start?: number,
+    end?: number
+  }
 };
 
 export const State = makeRecord(
@@ -46,7 +50,8 @@ export const State = makeRecord(
     symbolSearchType: "functions",
     shownSource: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
-    endPanelCollapsed: prefs.endPanelCollapsed
+    endPanelCollapsed: prefs.endPanelCollapsed,
+    highlightedLineRange: undefined
   }: UIState)
 );
 
@@ -95,6 +100,19 @@ function update(
       prefs.endPanelCollapsed = action.paneCollapsed;
       return state.set("endPanelCollapsed", action.paneCollapsed);
     }
+
+    case "HIGHLIGHT_LINES":
+      const { start, end } = action.location;
+      let lineRange = {};
+
+      if (start && end) {
+        lineRange = { start, end };
+      }
+
+      return state.set("highlightedLineRange", lineRange);
+
+    case "CLEAR_HIGHLIGHT_LINES":
+      return state.set("highlightedLineRange", {});
 
     default: {
       return state;
@@ -145,6 +163,10 @@ export function getPaneCollapse(
   }
 
   return state.ui.get("endPanelCollapsed");
+}
+
+export function getHighlightedLineRange(state: OuterState) {
+  return state.ui.get("highlightedLineRange");
 }
 
 export default update;

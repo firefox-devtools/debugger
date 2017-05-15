@@ -33,10 +33,6 @@ export type SourcesState = {
     line?: number,
     column?: number
   },
-  highlightedLineRange?: {
-    start?: number,
-    end?: number
-  },
   pendingSelectedLocation?: {
     url: string,
     line?: number,
@@ -51,7 +47,6 @@ export const State = makeRecord(
   ({
     sources: I.Map(),
     selectedLocation: undefined,
-    highlightedLineRange: undefined,
     pendingSelectedLocation: prefs.pendingSelectedLocation,
     sourcesText: I.Map(),
     tabs: I.List(restoreTabs())
@@ -105,19 +100,6 @@ function update(
 
       prefs.pendingSelectedLocation = location;
       return state.set("pendingSelectedLocation", location);
-
-    case "HIGHLIGHT_LINES":
-      const { start, end } = action.location;
-      let lineRange = {};
-
-      if (start && end) {
-        lineRange = { start, end };
-      }
-
-      return state.set("highlightedLineRange", lineRange);
-
-    case "CLEAR_HIGHLIGHT_LINES":
-      return state.set("highlightedLineRange", {});
 
     case "CLOSE_TAB":
       availableTabs = removeSourceFromTabList(state.tabs, action.url);
@@ -327,10 +309,6 @@ export function getPrettySource(state: OuterState, id: string) {
   }
 
   return getSourceByURL(state, getPrettySourceURL(source.get("url")));
-}
-
-export function getHighlightedLineRange(state: OuterState) {
-  return state.sources.highlightedLineRange;
 }
 
 function getSourceByUrlInSources(sources: SourcesMap, url: string) {
