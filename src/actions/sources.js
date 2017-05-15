@@ -88,11 +88,11 @@ async function checkPendingBreakpoints(state, dispatch, source) {
  */
 export function newSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
+    dispatch({ type: constants.ADD_SOURCE, source });
+
     if (prefs.clientSourceMapsEnabled) {
       await dispatch(loadSourceMap(source));
     }
-
-    dispatch({ type: constants.ADD_SOURCE, source });
 
     checkSelectedSource(getState(), dispatch, source);
     await checkPendingBreakpoints(getState(), dispatch, source);
