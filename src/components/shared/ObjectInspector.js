@@ -33,11 +33,11 @@ export type ObjectInspectorItemContentsValue = {
   type: string
 };
 
-type ObjectInspectorItemContents = {
+export type ObjectInspectorItemContents = {
   value: ObjectInspectorItemContentsValue
 };
 
-type ObjectInspectorItem = {
+export type ObjectInspectorItem = {
   contents: Array<ObjectInspectorItem> & ObjectInspectorItemContents,
   name: string,
   path: string
