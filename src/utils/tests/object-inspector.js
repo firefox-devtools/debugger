@@ -6,6 +6,11 @@ const {
   getPromiseProperties
 } = require("../object-inspector");
 
+const root = {
+  path: "root",
+  contents: { value: {} }
+};
+
 const objProperties = {
   ownProperties: {
     "0": {
@@ -26,7 +31,8 @@ const objProperties = {
 describe("object-inspector", () => {
   describe("makeNodesForProperties", () => {
     it("kitchen sink", () => {
-      const nodes = makeNodesForProperties(objProperties, "root");
+      // console.log(this.root);
+      const nodes = makeNodesForProperties(objProperties, root);
 
       const names = nodes.map(n => n.name);
       expect(names).to.eql(["0", "length", "__proto__"]);
@@ -46,7 +52,7 @@ describe("object-inspector", () => {
             class: "bla"
           }
         },
-        "root"
+        root
       );
 
       const names = nodes.map(n => n.name);
@@ -70,7 +76,7 @@ describe("object-inspector", () => {
             class: "bla"
           }
         },
-        "root"
+        root
       );
 
       const names = nodes.map(n => n.name);
@@ -95,7 +101,7 @@ describe("object-inspector", () => {
           },
           prototype: { value: {}, class: "bla" }
         },
-        "root"
+        root
       );
 
       const names = nodes.map(n => n.name);
@@ -114,7 +120,10 @@ describe("object-inspector", () => {
           },
           class: "Window"
         },
-        "root"
+        {
+          path: "root",
+          contents: { value: { class: "Window" } }
+        }
       );
 
       const names = nodes.map(n => n.name);
@@ -130,7 +139,7 @@ describe("object-inspector", () => {
       for (let i = 0; i < 331; i++) {
         objProps.ownProperties[i] = { value: {} };
       }
-      const nodes = makeNodesForProperties(objProps, "root");
+      const nodes = makeNodesForProperties(objProps, root);
 
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
@@ -166,7 +175,7 @@ describe("object-inspector", () => {
             class: "WindowPrototype"
           }
         },
-        "root"
+        root
       );
 
       const names = nodes.map(n => n.name);

@@ -194,28 +194,28 @@ options.forEach(option => {
       );
     })
     .add(`Object with window keys ${optionLabel}`, () => {
-      let obj = createObjectGrip("foo");
-      obj.ownProperties.arr = createArrayPreview("arr");
-      obj.ownProperties.location = createObjectPreview("location");
+      let grip = createObjectGrip("foo");
+      grip.ownProperties.arr = createArrayPreview("arr");
+      grip.ownProperties.location = createObjectPreview("location");
       return PreviewFactory(
         {
-          value: obj,
+          value: grip,
           expression: "this",
-          loadedObjects: I.Map().set(obj.actor, obj)
+          loadedObjects: I.Map().set(grip.actor, grip)
         },
         option
       );
     })
     .add(`Window Preview ${optionLabel}`, () => {
-      let obj = createObjectGrip("foo");
-      obj.class = "Window";
-      obj.ownProperties.arr = createArrayPreview("arr");
-      obj.ownProperties.location = createObjectPreview("location");
+      let grip = createObjectGrip("foo");
+      grip.class = "Window";
+      grip.ownProperties.arr = createArrayPreview("arr");
+      grip.ownProperties.location = createObjectPreview("location");
       return PreviewFactory(
         {
-          value: obj,
+          value: grip,
           expression: "this",
-          loadedObjects: I.Map().set(obj.actor, obj)
+          loadedObjects: I.Map().set(grip.actor, grip)
         },
         option
       );

@@ -1,3 +1,5 @@
+// @flow
+
 const get = require("lodash/get");
 const { maybeEscapePropertyName } = require("devtools-reps");
 
@@ -146,13 +148,10 @@ function makeNodesForOwnProps(properties, parentPath, ownProperties) {
  * Ignore non-concrete values like getters and setters
  * for now by making sure we have a value.
 */
-function makeNodesForProperties(
-  objProps,
-  parentPath,
-  { bucketSize = 100 } = {}
-) {
+function makeNodesForProperties(objProps, parent, { bucketSize = 100 } = {}) {
   const { ownProperties, prototype, ownSymbols } = objProps;
-
+  const parentPath = parent.path;
+  const parentValue = parent.contents.value;
   const properties = sortProperties(Object.keys(ownProperties)).filter(name =>
     ownProperties[name].hasOwnProperty("value")
   );
@@ -167,7 +166,7 @@ function makeNodesForProperties(
       parentPath,
       ownProperties
     );
-  } else if (objProps.class == "Window") {
+  } else if (parentValue.class == "Window") {
     nodes = makeDefaultPropsBucket(properties, parentPath, ownProperties);
   } else {
     nodes = makeNodesForOwnProps(properties, parentPath, ownProperties);
@@ -239,7 +238,7 @@ function getChildren({ getObjectProperties, actors, item }) {
     return [];
   }
 
-  let children = makeNodesForProperties(loadedProps, item.path);
+  let children = makeNodesForProperties(loadedProps, item);
   if (isPromise(item)) {
     children.unshift(getPromiseProperties(item));
   }
