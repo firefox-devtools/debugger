@@ -78,7 +78,7 @@ export function getLibraryFromUrl(frame: Frame) {
   if (isPug(frame)) {
     return "Pug";
   }
-  
+
   if (isExtJs(frame)) {
     return "ExtJS";
   }
