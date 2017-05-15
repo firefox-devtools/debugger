@@ -153,7 +153,6 @@ declare module "debugger-html" {
   declare type Pause = {
     frames: Frame[],
     why: Why,
-    getIn: (string[]) => any,
     loadedObjects?: LoadedObject[]
   };
   /**

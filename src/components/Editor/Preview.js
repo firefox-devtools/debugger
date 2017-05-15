@@ -46,7 +46,7 @@ class Preview extends Component {
       return;
     }
 
-    if (value.actor && !loadedObjects.has(value.actor)) {
+    if (value.actor && !loadedObjects[value.actor]) {
       loadObjectProperties(value);
     }
   }
@@ -99,7 +99,7 @@ class Preview extends Component {
   renderObjectInspector(root) {
     const { loadObjectProperties, loadedObjects } = this.props;
 
-    const getObjectProperties = id => loadedObjects.get(id);
+    const getObjectProperties = id => loadedObjects[id];
     const roots = this.getChildren(root, getObjectProperties);
 
     return ObjectInspector({

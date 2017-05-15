@@ -179,7 +179,6 @@ const getAndProcessFrames = createSelector(
     }
 
     frames = frames
-      .toJS()
       .filter(frame => getSourceForFrame(sources, frame))
       .filter(frame => !get(frame, "source.isBlackBoxed"))
       .map(frame => appendSource(sources, frame))

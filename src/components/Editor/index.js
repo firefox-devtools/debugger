@@ -879,7 +879,7 @@ Editor.propTypes = {
   toggleBlackBox: PropTypes.func,
   showSource: PropTypes.func,
   coverageOn: PropTypes.bool,
-  pauseData: ImPropTypes.map,
+  pauseData: PropTypes.object,
   selectedFrame: PropTypes.object,
   getExpression: PropTypes.func.isRequired,
   addExpression: PropTypes.func.isRequired,

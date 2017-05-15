@@ -108,7 +108,7 @@ class CommandBar extends Component {
     stepOut: () => any,
     stepOver: () => any,
     breakOnNext: () => any,
-    pause: ?Pause,
+    pause: any,
     pauseOnExceptions: (boolean, boolean) => any,
     shouldPauseOnExceptions: boolean,
     shouldIgnoreCaughtExceptions: boolean,

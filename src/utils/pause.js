@@ -1,5 +1,6 @@
 // @flow
 import type { Pause, Frame } from "../types";
+const get = require("lodash/get");
 
 export function updateFrameLocations(
   frames: Frame[],
@@ -47,7 +48,7 @@ export function getPauseReason(pauseInfo: Pause): string | null {
     return null;
   }
 
-  let reasonType = pauseInfo.getIn(["why"]).get("type");
+  let reasonType = get(pauseInfo, "why.type", null);
   if (!reasons[reasonType]) {
     console.log("Please file an issue: reasonType=", reasonType);
   }

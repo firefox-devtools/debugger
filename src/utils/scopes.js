@@ -1,8 +1,9 @@
 // @flow
 
 import toPairs from "lodash/toPairs";
+const get = require("lodash/get");
 
-import type { Pause, Frame } from "debugger-html";
+//import type { Pause, Frame } from "debugger-html";
 
 type ScopeData = {
   name: string,
@@ -33,15 +34,15 @@ function dehydrateValue(value) {
   return value;
 }
 
-export function getSpecialVariables(pauseInfo: Pause, path: string) {
-  let thrown = pauseInfo.getIn(["why", "frameFinished", "throw"], undefined);
+export function getSpecialVariables(pauseInfo: any, path: string) {
+  let thrown = get(pauseInfo, "why.frameFinished.throw", undefined);
 
-  let returned = pauseInfo.getIn(["why", "frameFinished", "return"], undefined);
+  let returned = get(pauseInfo, "why.frameFinished.return", undefined);
 
   const vars = [];
 
   if (thrown !== undefined) {
-    thrown = dehydrateValue(thrown);
+    //thrown = dehydrateValue(thrown);
     vars.push({
       name: "<exception>",
       path: `${path}/<exception>`,
@@ -50,7 +51,7 @@ export function getSpecialVariables(pauseInfo: Pause, path: string) {
   }
 
   if (returned !== undefined) {
-    returned = dehydrateValue(returned);
+    //returned = dehydrateValue(returned);
 
     // Do not display a return value of "undefined",
     if (!returned || !returned.type || returned.type !== "undefined") {
@@ -79,10 +80,8 @@ function getThisVariable(frame: Frame, path: string) {
   };
 }
 
-export function getScopes(
-  pauseInfo: Pause,
-  selectedFrame: Frame
-): ?(ScopeData[]) {
+export function getScopes(pauseInfo: any, selectedFrame: any): ?(ScopeData[]) {
+  console.log(pauseInfo);
   if (!pauseInfo || !selectedFrame) {
     return null;
   }
@@ -96,7 +95,7 @@ export function getScopes(
   const scopes = [];
 
   let scope = selectedScope;
-  let pausedScopeActor = pauseInfo.getIn(["frame", "scope"]).get("actor");
+  let pausedScopeActor = get(pauseInfo, "frame.scope.actor");
   let scopeIndex = 1;
 
   do {
@@ -158,7 +157,7 @@ export function getScopes(
  * TODO: returns global variables as well
  */
 export function getVisibleVariablesFromScope(
-  pauseInfo: Pause,
+  pauseInfo: any,
   selectedFrame: Frame
 ) {
   const result = new Map();

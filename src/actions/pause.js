@@ -49,7 +49,7 @@ export function paused(pauseInfo: Pause) {
 
     dispatch({
       type: constants.PAUSED,
-      pauseInfo: { why, frame },
+      pauseInfo: { why, frame, frames },
       frames: frames,
       selectedFrameId: frame.id,
       loadedObjects: loadedObjects || []
