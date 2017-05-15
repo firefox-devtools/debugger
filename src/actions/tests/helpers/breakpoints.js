@@ -2,14 +2,17 @@ import { makeLocationId } from "../../../reducers/breakpoints";
 
 export const theMockedPendingBreakpoint = {
   location: {
-    sourceId: "bar",
-    sourceUrl: "http://todomvc.com/bar.js",
+    sourceUrl: "http://localhost:8000/examples/bar.js",
     line: 5,
     column: undefined
   },
   condition: "3",
   disabled: false
 };
+
+export function generateCorrectedBreakpoint(breakpoint, correctedLocation) {
+  return Object.assign({}, breakpoint, { location: correctedLocation });
+}
 
 function generateCorrectingThreadClient(offset = 0) {
   return {
@@ -36,20 +39,46 @@ export function simulateCorrectThreadClient(offset, location) {
   return { correctedThreadClient, correctedLocation };
 }
 
+export function generateBreakpoint(filename) {
+  return {
+    location: {
+      sourceUrl: `http://localhost:8000/examples/${filename}`,
+      sourceId: filename,
+      line: 5
+    },
+    condition: null,
+    disabled: false
+  };
+}
+
+export function generatePendingBreakpoint(breakpoint) {
+  const {
+    location: { sourceUrl, line, column },
+    condition,
+    disabled
+  } = breakpoint;
+
+  return {
+    location: { sourceUrl, line, column },
+    condition,
+    disabled
+  };
+}
+
 export const simpleMockThreadClient = {
-  setBreakpoint: (location, condition) => {
+  setBreakpoint: (location, _condition) => {
     return new Promise((resolve, reject) => {
       resolve({ id: "hi", actualLocation: location });
     });
   },
 
-  removeBreakpoint: id => {
+  removeBreakpoint: _id => {
     return new Promise((resolve, reject) => {
       resolve({ status: "done" });
     });
   },
 
-  setBreakpointCondition: (id, location, condition, noSliding) => {
+  setBreakpointCondition: (_id, _location, _condition, _noSliding) => {
     return new Promise((resolve, reject) => {
       resolve({ sourceId: "a", line: 5 });
     });
