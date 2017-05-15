@@ -17,11 +17,14 @@ export function generateCorrectedBreakpoint(breakpoint, correctedLocation) {
 function generateCorrectingThreadClient(offset = 0) {
   return {
     setBreakpoint: (location, condition) => {
-      return new Promise((resolve, reject) => {
-        const actualLocation = Object.assign({}, location, {
-          line: location.line + offset
-        });
-        resolve({ id: makeLocationId(location), actualLocation, condition });
+      const actualLocation = Object.assign({}, location, {
+        line: location.line + offset
+      });
+
+      return Promise.resolve({
+        id: makeLocationId(location),
+        actualLocation,
+        condition
       });
     }
   };
@@ -66,21 +69,11 @@ export function generatePendingBreakpoint(breakpoint) {
 }
 
 export const simpleMockThreadClient = {
-  setBreakpoint: (location, _condition) => {
-    return new Promise((resolve, reject) => {
-      resolve({ id: "hi", actualLocation: location });
-    });
-  },
+  setBreakpoint: (location, _condition) =>
+    Promise.resolve({ id: "hi", actualLocation: location }),
 
-  removeBreakpoint: _id => {
-    return new Promise((resolve, reject) => {
-      resolve({ status: "done" });
-    });
-  },
+  removeBreakpoint: _id => Promise.resolve({ status: "done" }),
 
-  setBreakpointCondition: (_id, _location, _condition, _noSliding) => {
-    return new Promise((resolve, reject) => {
-      resolve({ sourceId: "a", line: 5 });
-    });
-  }
+  setBreakpointCondition: (_id, _location, _condition, _noSliding) =>
+    Promise.resolve({ sourceId: "a", line: 5 })
 };
