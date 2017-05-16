@@ -596,7 +596,11 @@ class Editor extends PureComponent {
   clearDebugLine(selectedFrame) {
     if (selectedFrame) {
       const line = selectedFrame.location.line;
-      this.editor.codeMirror.removeLineClass(line - 1, "line", "debug-line");
+      this.editor.codeMirror.removeLineClass(
+        line - 1,
+        "line",
+        "new-debug-line"
+      );
     }
   }
 
@@ -607,7 +611,7 @@ class Editor extends PureComponent {
       selectedFrame.location.sourceId === selectedLocation.sourceId
     ) {
       const line = selectedFrame.location.line;
-      this.editor.codeMirror.addLineClass(line - 1, "line", "debug-line");
+      this.editor.codeMirror.addLineClass(line - 1, "line", "new-debug-line");
     }
   }
 
