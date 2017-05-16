@@ -3,8 +3,6 @@
 import toPairs from "lodash/toPairs";
 const get = require("lodash/get");
 
-//import type { Pause, Frame } from "debugger-html";
-
 type ScopeData = {
   name: string,
   path: string,
@@ -66,7 +64,7 @@ export function getSpecialVariables(pauseInfo: any, path: string) {
   return vars;
 }
 
-function getThisVariable(frame: Frame, path: string) {
+function getThisVariable(frame: any, path: string) {
   const this_ = frame.this;
 
   if (!this_) {
@@ -158,7 +156,7 @@ export function getScopes(pauseInfo: any, selectedFrame: any): ?(ScopeData[]) {
  */
 export function getVisibleVariablesFromScope(
   pauseInfo: any,
-  selectedFrame: Frame
+  selectedFrame: any
 ) {
   const result = new Map();
 
