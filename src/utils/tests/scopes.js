@@ -3,7 +3,6 @@ const {
   getVisibleVariablesFromScope,
   getScopes
 } = require("../scopes");
-const fromJS = require("../fromJS");
 
 const expect = require("expect.js");
 
@@ -56,7 +55,7 @@ describe("scopes", () => {
       for (const test in falsey) {
         const value = falsey[test];
         it(`shows ${test} returns`, () => {
-          const pauseData = fromJS(returnWhy(value));
+          const pauseData = returnWhy(value);
           const vars = getSpecialVariables(pauseData, "");
           expect(vars[0].name).to.equal("<return>");
           expect(vars[0].name).to.equal("<return>");
@@ -64,7 +63,7 @@ describe("scopes", () => {
         });
 
         it(`shows ${test} throws`, () => {
-          const pauseData = fromJS(throwWhy(value));
+          const pauseData = throwWhy(value);
           const vars = getSpecialVariables(pauseData, "");
           expect(vars[0].name).to.equal("<exception>");
           expect(vars[0].name).to.equal("<exception>");
@@ -75,7 +74,7 @@ describe("scopes", () => {
 
     describe("Error / Objects", () => {
       it("shows Error returns", () => {
-        const pauseData = fromJS(returnWhy(errorGrip));
+        const pauseData = returnWhy(errorGrip);
         const vars = getSpecialVariables(pauseData, "");
         expect(vars[0].name).to.equal("<return>");
         expect(vars[0].name).to.equal("<return>");
@@ -83,7 +82,7 @@ describe("scopes", () => {
       });
 
       it("shows error throws", () => {
-        const pauseData = fromJS(throwWhy(errorGrip));
+        const pauseData = throwWhy(errorGrip);
         const vars = getSpecialVariables(pauseData, "");
         expect(vars[0].name).to.equal("<exception>");
         expect(vars[0].name).to.equal("<exception>");
@@ -93,13 +92,13 @@ describe("scopes", () => {
 
     describe("undefined", () => {
       it("does not show undefined returns", () => {
-        const pauseData = fromJS(returnWhy({ type: "undefined" }));
+        const pauseData = returnWhy({ type: "undefined" });
         const vars = getSpecialVariables(pauseData, "");
         expect(vars.length).to.equal(0);
       });
 
       it("shows undefined throws", () => {
-        const pauseData = fromJS(throwWhy({ type: "undefined" }));
+        const pauseData = throwWhy({ type: "undefined" });
         const vars = getSpecialVariables(pauseData, "");
         expect(vars[0].name).to.equal("<exception>");
         expect(vars[0].name).to.equal("<exception>");
@@ -189,13 +188,13 @@ describe("scopes", () => {
 
     beforeEach(function() {
       // Default pauseInfo is using the innermost frame in the stack.
-      pauseInfo = fromJS({
+      pauseInfo = {
         why: {
           type: "debuggerStatement"
         },
         frame,
         isInterrupted: false
-      });
+      };
     });
 
     it("Returns variables from the outer scope", function() {
@@ -239,7 +238,7 @@ describe("scopes", () => {
         this: {}
       };
 
-      const scopes = getScopes(fromJS(pauseData), selectedFrame);
+      const scopes = getScopes(pauseData, selectedFrame);
       expect(scopes[0].path).to.equal("actor1-1");
       expect(scopes[0].contents[0]).to.eql({
         name: "<this>",
@@ -280,7 +279,7 @@ describe("scopes", () => {
         this: {}
       };
 
-      const scopes = getScopes(fromJS(pauseData), selectedFrame);
+      const scopes = getScopes(pauseData, selectedFrame);
       expect(scopes[1].path).to.equal("actor2-2");
       expect(scopes[1].contents[0]).to.eql({
         name: "foo",
