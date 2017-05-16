@@ -1,6 +1,8 @@
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, PropTypes, createFactory, Component } from "react";
 import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 import classNames from "classnames";
+import _BracketArrow from "./BracketArrow";
+const BracketArrow = createFactory(_BracketArrow);
 
 import "./Popover.css";
 
@@ -15,16 +17,18 @@ class Popover extends Component {
 
   componentDidMount() {
     const { type } = this.props;
-    const { left, top, dir } = type == "popover"
+    const { left, top, dir, targetMid } = type == "popover"
       ? this.getPopoverCoords()
       : this.getTooltipCoords();
 
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({ left, top, dir });
+    this.setState({ left, top, dir, targetMid });
   }
 
   getPopoverCoords() {
     const el = ReactDOM.findDOMNode(this);
+    const wrapper = document.getElementsByClassName("editor-wrapper")[0];
+    const { right: wrapperRight } = wrapper.getBoundingClientRect();
     const { width, height } = el.getBoundingClientRect();
     const {
       left: targetLeft,
@@ -35,10 +39,16 @@ class Popover extends Component {
 
     // width division corresponds to calc in Popover.css
     const left = targetLeft + targetWidth / 2 - width / 5;
+
+    const isOverflowingRight = left + width > wrapperRight;
+    left = isOverflowingRight ? wrapperRight - width : left;
+
     const dir = targetBottom + height > window.innerHeight ? "up" : "down";
     const top = dir == "down" ? targetBottom : targetTop - height;
 
-    return { left, top, dir };
+    const targetMid = targetLeft - left + targetWidth / 2 - 8;
+
+    return { left, top, dir, targetMid };
   }
 
   getTooltipCoords() {
@@ -53,7 +63,7 @@ class Popover extends Component {
     const left = targetLeft + targetWidth / 4 - 10;
     const top = targetTop - height;
 
-    return { left, top, dir: "up" };
+    return { left, top, dir: "up", targetMid: 0 };
   }
 
   getChildren() {
@@ -65,7 +75,13 @@ class Popover extends Component {
 
   renderPopover() {
     const { onMouseLeave } = this.props;
-    const { top, left, dir } = this.state;
+    const { top, left, dir, targetMid } = this.state;
+
+    const arrow = new BracketArrow({
+      dir: dir === "up" ? "down" : "up",
+      left: targetMid,
+      [dir == "down" ? "top" : "bottom"]: dir == "down" ? -8 : 6
+    });
 
     return dom.div(
       {
@@ -73,6 +89,7 @@ class Popover extends Component {
         onMouseLeave,
         style: { top, left }
       },
+      arrow,
       this.getChildren()
     );
   }

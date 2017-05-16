@@ -1,52 +1,9 @@
 .popover {
   position: fixed;
   z-index: 100;
-  box-shadow: 1px 2px 4px 1px var(--theme-toolbar-background-alt);
 }
 
 .popover .gap {
   height: 5px;
   padding-top: 5px;
-}
-
-.popover::before,
-.popover::after {
-  content: '';
-  height: 0;
-  width: 0;
-  position: absolute;
-  border: 7px solid transparent;
-  left: calc(20% - 7px); /* corresponds to calculation in Popover.js */
-}
-
-.popover::before {
-  border-bottom-color: var(--theme-splitter-color);
-  top: -9px;
-}
-
-.theme-dark .popover::before {
-  border-bottom-color: var(--theme-body-color);
-}
-
-.popover::after {
-  border-bottom-color: var(--theme-body-background);
-  top: -8px;
-}
-
-.popover.up::before {
-  border-bottom-color: transparent;
-  border-top-color: var(--theme-splitter-color);
-  bottom: -9px;
-  top: initial;
-}
-
-.theme-dark .popover.up::before {
-  border-top-color: var(--theme-body-color);
-}
-
-.popover.up::after {
-  border-bottom-color: transparent;
-  border-top-color: var(--theme-body-background);
-  bottom: -8px;
-  top: initial;
 }

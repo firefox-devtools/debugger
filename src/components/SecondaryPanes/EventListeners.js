@@ -49,14 +49,14 @@ class EventListeners extends Component {
       dom.input({
         type: "checkbox",
         className: "listener-checkbox",
-        checked: checked,
-        onChange: this.handleCheckbox.bind(this, breakpoint, location)
+        checked,
+        onChange: () => this.handleCheckbox(breakpoint, location)
       }),
       dom.span({ className: "type" }, type),
       dom.span({ className: "selector" }, selector),
       breakpoint
         ? CloseButton({
-            handleClick: this.removeBreakpoint.bind(this, breakpoint)
+            handleClick: ev => this.removeBreakpoint(ev, breakpoint)
           })
         : ""
     );
@@ -78,7 +78,7 @@ class EventListeners extends Component {
     }
   }
 
-  removeBreakpoint(breakpoint, event) {
+  removeBreakpoint(event, breakpoint) {
     event.stopPropagation();
     this.props.removeBreakpoint(breakpoint.location);
   }
