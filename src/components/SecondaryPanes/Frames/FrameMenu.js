@@ -3,16 +3,33 @@ import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../../utils/clipboard";
 import type { LocalFrame } from "./types";
 
+function formatMenuElement(label, accesskey, click, disabled = false) {
+  return {
+    id: "node-menu-copy-source",
+    label,
+    accesskey,
+    disabled,
+    click
+  };
+}
+
+function copySourceElement(url) {
+  const label = L10N.getStr("copySourceUrl");
+  const key = L10N.getStr("copySourceUrl.accesskey");
+  return formatMenuElement(label, key, () => copyToTheClipboard(url));
+}
+
+function copyStackTraceElement(copyStackTrace) {
+  const label = L10N.getStr("copyStackTrace");
+  const key = L10N.getStr("copyStackTrace.accesskey");
+  return formatMenuElement(label, key, () => copyStackTrace());
+}
+
 export default function FrameMenu(
   frame: LocalFrame,
   copyStackTrace: Function,
   event: SyntheticKeyboardEvent
 ) {
-  const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-  const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
-  const copyStackTraceLabel = L10N.getStr("copyStackTrace");
-  const copyStackTraceKey = L10N.getStr("copyStackTrace.accesskey");
-
   event.stopPropagation();
   event.preventDefault();
 
@@ -20,24 +37,11 @@ export default function FrameMenu(
 
   const source = frame.source;
   if (source) {
-    const copySourceUrl = {
-      id: "node-menu-copy-source",
-      label: copySourceUrlLabel,
-      accesskey: copySourceUrlKey,
-      disabled: false,
-      click: () => copyToTheClipboard(source.url)
-    };
-
+    const copySourceUrl = copySourceElement(source.url);
     menuOptions.push(copySourceUrl);
   }
 
-  const copyStackTraceItem = {
-    id: "node-menu-copy-source",
-    label: copyStackTraceLabel,
-    accesskey: copyStackTraceKey,
-    disabled: false,
-    click: () => copyStackTrace()
-  };
+  const copyStackTraceItem = copyStackTraceElement(copyStackTrace);
 
   menuOptions.push(copyStackTraceItem);
 
