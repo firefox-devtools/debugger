@@ -7,7 +7,6 @@ import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
 
 import constants from "../constants";
-import type { Frame, Pause } from "../types";
 import type { Action } from "../actions/types";
 
 type PauseState = {

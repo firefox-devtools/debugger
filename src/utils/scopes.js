@@ -22,16 +22,6 @@ function getBindingVariables(bindings, parentName) {
   }));
 }
 
-// Support dehydrating immutable objects, while ignoring
-// primitive values like strings, numbers...
-function dehydrateValue(value) {
-  if (typeof value == "object" && !!value && value.toJS) {
-    value = value.toJS();
-  }
-
-  return value;
-}
-
 export function getSpecialVariables(pauseInfo: any, path: string) {
   let thrown = get(pauseInfo, "why.frameFinished.throw", undefined);
 
@@ -40,7 +30,7 @@ export function getSpecialVariables(pauseInfo: any, path: string) {
   const vars = [];
 
   if (thrown !== undefined) {
-    //thrown = dehydrateValue(thrown);
+    // thrown = dehydrateValue(thrown);
     vars.push({
       name: "<exception>",
       path: `${path}/<exception>`,
@@ -49,7 +39,7 @@ export function getSpecialVariables(pauseInfo: any, path: string) {
   }
 
   if (returned !== undefined) {
-    //returned = dehydrateValue(returned);
+    // returned = dehydrateValue(returned);
 
     // Do not display a return value of "undefined",
     if (!returned || !returned.type || returned.type !== "undefined") {
