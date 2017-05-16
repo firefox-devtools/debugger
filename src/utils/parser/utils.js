@@ -15,7 +15,7 @@ const ASTs = new Map();
 
 const symbolDeclarations = new Map();
 
-type ASTLocation = {
+export type ASTLocation = {
   start: {
     line: number,
     column: number
@@ -28,20 +28,13 @@ type ASTLocation = {
 
 export type SymbolDeclaration = {
   name: string,
-  location: ASTLocation
-};
-
-export type FormattedSymbolDeclaration = {
-  id: string,
-  title: string,
-  subtitle: string,
-  value: string,
-  location: ASTLocation
+  location: ASTLocation,
+  parameterNames?: string[]
 };
 
 export type SymbolDeclarations = {
-  functions: Array<FormattedSymbolDeclaration>,
-  variables: Array<FormattedSymbolDeclaration>
+  functions: Array<SymbolDeclaration>,
+  variables: Array<SymbolDeclaration>
 };
 
 type Scope = {
@@ -113,7 +106,7 @@ function getNodeValue(node) {
   return node.name;
 }
 
-function getFunctionName(path) {
+function getFunctionName(path): string {
   if (path.node.id) {
     return path.node.id.name;
   }
@@ -151,41 +144,27 @@ function isFunction(path) {
   );
 }
 
-function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
-  return {
-    id: `${symbol.name}:${symbol.location.start.line}`,
-    title: symbol.name,
-    subtitle: `:${symbol.location.start.line}`,
-    value: symbol.name,
-    location: symbol.location
-  };
-}
-
-function getVariableNames(path) {
+function getVariableNames(path): SymbolDeclaration[] {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
     return [
-      formatSymbol({
+      {
         name: path.node.key.name,
         location: path.node.loc
-      })
+      }
     ];
   }
 
   if (!path.node.declarations) {
-    return path.node.params.map(dec =>
-      formatSymbol({
-        name: dec.name,
-        location: dec.loc
-      })
-    );
+    return path.node.params.map(dec => ({
+      name: dec.name,
+      location: dec.loc
+    }));
   }
 
-  return path.node.declarations.map(dec =>
-    formatSymbol({
-      name: dec.id.name,
-      location: dec.loc
-    })
-  );
+  return path.node.declarations.map(dec => ({
+    name: dec.id.name,
+    location: dec.loc
+  }));
 }
 
 function isVariable(path) {
@@ -286,21 +265,17 @@ export function getSymbols(source: SourceText): SymbolDeclarations {
       }
 
       if (isFunction(path)) {
-        symbols.functions.push(
-          formatSymbol({
-            name: getFunctionName(path),
-            location: path.node.loc
-          })
-        );
+        symbols.functions.push({
+          name: getFunctionName(path),
+          location: path.node.loc
+        });
       }
 
       if (t.isClassDeclaration(path)) {
-        symbols.variables.push(
-          formatSymbol({
-            name: path.node.id.name,
-            location: path.node.loc
-          })
-        );
+        symbols.variables.push({
+          name: path.node.id.name,
+          location: path.node.loc
+        });
       }
     }
   });
