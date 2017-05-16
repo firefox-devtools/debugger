@@ -91,3 +91,28 @@ export function togglePaneCollapse(position: string, paneCollapsed: boolean) {
     paneCollapsed
   };
 }
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
+export function highlightLineRange(location: {
+  start: number,
+  end: number,
+  sourceId: number
+}) {
+  return {
+    type: constants.HIGHLIGHT_LINES,
+    location
+  };
+}
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
+export function clearHighlightLineRange() {
+  return {
+    type: constants.CLEAR_HIGHLIGHT_LINES
+  };
+}

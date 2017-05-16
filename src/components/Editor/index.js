@@ -20,6 +20,7 @@ import {
   getSelectedLocation,
   getSelectedFrame,
   getSelectedSource,
+  getHighlightedLineRange,
   getHitCountForSource,
   getCoverageEnabled,
   getLoadedObjects,
@@ -36,6 +37,9 @@ const Footer = createFactory(_Footer);
 
 import _SearchBar from "./SearchBar";
 const SearchBar = createFactory(_SearchBar);
+
+import _HighlightLines from "./HighlightLines";
+const HighlightLines = createFactory(_HighlightLines);
 
 import _Preview from "./Preview";
 const Preview = createFactory(_Preview);
@@ -87,6 +91,7 @@ export type SearchResults = {
 
 type EditorState = {
   searchResults: SearchResults,
+  highlightedLineRange: ?Object,
   selectedToken: ?Object,
   selectedExpression: ?Object
 };
@@ -111,6 +116,7 @@ class Editor extends PureComponent {
         index: -1,
         count: 0
       },
+      highlightedLineRange: null,
       selectedToken: null,
       selectedExpression: null
     };
@@ -677,6 +683,19 @@ class Editor extends PureComponent {
     this.editor.setMode(getMode(sourceText.toJS()));
   }
 
+  renderHighlightLines() {
+    const { highlightedLineRange } = this.props;
+
+    if (!highlightedLineRange) {
+      return;
+    }
+
+    return HighlightLines({
+      editor: this.editor,
+      highlightedLineRange
+    });
+  }
+
   renderBreakpoints() {
     const { breakpoints, sourceText, selectedSource } = this.props;
     const isLoading = sourceText && sourceText.get("loading");
@@ -792,6 +811,8 @@ class Editor extends PureComponent {
       sourceText,
       selectSource,
       selectedSource,
+      highlightLineRange,
+      clearHighlightLineRange,
       coverageOn,
       horizontal
     } = this.props;
@@ -806,6 +827,8 @@ class Editor extends PureComponent {
         editor: this.editor,
         selectSource,
         selectedSource,
+        highlightLineRange,
+        clearHighlightLineRange,
         sourceText,
         searchResults,
         updateSearchResults: this.updateSearchResults
@@ -814,6 +837,7 @@ class Editor extends PureComponent {
         className: "editor-mount devtools-monospace",
         style: this.getInlineEditorStyles()
       }),
+      this.renderHighlightLines(),
       this.renderBreakpoints(),
       this.renderHitCounts(),
       Footer({ editor: this.editor, horizontal }),
@@ -829,6 +853,9 @@ Editor.propTypes = {
   hitCount: PropTypes.object,
   selectedLocation: PropTypes.object,
   selectedSource: ImPropTypes.map,
+  highlightLineRange: PropTypes.func,
+  clearHighlightLineRange: PropTypes.func,
+  highlightedLineRange: PropTypes.object,
   sourceText: ImPropTypes.map,
   searchOn: PropTypes.bool,
   addBreakpoint: PropTypes.func.isRequired,
@@ -871,6 +898,7 @@ export default connect(
     return {
       selectedLocation,
       selectedSource,
+      highlightedLineRange: getHighlightedLineRange(state),
       searchOn: getFileSearchState(state),
       sourceText: getSourceText(state, sourceId),
       loadedObjects: getLoadedObjects(state),

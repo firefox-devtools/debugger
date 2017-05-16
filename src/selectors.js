@@ -59,5 +59,6 @@ module.exports = {
 
   getExpressions: expressions.getExpressions,
   getVisibleExpressions: expressions.getVisibleExpressions,
-  getExpression: expressions.getExpression
+  getExpression: expressions.getExpression,
+  getHighlightedLineRange: ui.getHighlightedLineRange
 };
