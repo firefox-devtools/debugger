@@ -37,11 +37,15 @@ function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
   return bpId === pausedId;
 }
 
-function renderSourceLocation(source, line) {
+function renderSourceLocation(source, line, column) {
   const url = source.get("url") ? basename(source.get("url")) : null;
+  const bpLocation = line + (column ? `:${column}` : "");
   // const line = url !== "" ? `: ${line}` : "";
   return url
-    ? dom.div({ className: "location" }, `${endTruncateStr(url, 30)}: ${line}`)
+    ? dom.div(
+        { className: "location" },
+        `${endTruncateStr(url, 30)}: ${bpLocation}`
+      )
     : null;
 }
 
@@ -78,6 +82,7 @@ class Breakpoints extends PureComponent {
     const snippet = breakpoint.text || "";
     const locationId = breakpoint.locationId;
     const line = breakpoint.location.line;
+    const column = breakpoint.location.column;
     const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
     const isDisabled = breakpoint.disabled;
     const isConditional = !!breakpoint.condition;
@@ -104,7 +109,10 @@ class Breakpoints extends PureComponent {
       }),
       dom.div(
         { className: "breakpoint-label", title: breakpoint.text },
-        dom.div({}, renderSourceLocation(breakpoint.location.source, line))
+        dom.div(
+          {},
+          renderSourceLocation(breakpoint.location.source, line, column)
+        )
       ),
       dom.div({ className: "breakpoint-snippet" }, snippet),
       CloseButton({

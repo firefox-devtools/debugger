@@ -41,11 +41,11 @@ async function expandingProperties(ctx) {
 
   toggleNode(dbg, 4);
   await waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
-  is(getLabel(dbg, 5), "prototype");
+  is(getLabel(dbg, 5), "length");
 
   await stepOver(dbg);
   is(getLabel(dbg, 4), "foo()");
-  is(getLabel(dbg, 5), "prototype");
+  is(getLabel(dbg, 5), "Window");
 }
 
 async function changingScopes(ctx) {

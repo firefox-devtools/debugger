@@ -46,29 +46,38 @@ function checkSelectedSource(state, dispatch, source) {
   }
 }
 
-function checkPendingBreakpoints(state, dispatch, source) {
+async function checkPendingBreakpoint(
+  state,
+  dispatch,
+  pendingBreakpoint,
+  source
+) {
+  const {
+    location: { line, sourceUrl, column },
+    condition
+  } = pendingBreakpoint;
+  const sameSource = sourceUrl && sourceUrl === source.url;
+  const location = { sourceId: source.id, sourceUrl, line, column };
+  const bp = getBreakpoint(state, location);
+
+  if (sameSource && !bp) {
+    if (location.column && isEnabled("columnBreakpoints")) {
+      await dispatch(addBreakpoint(location, { condition }));
+    } else {
+      await dispatch(addBreakpoint(location, { condition }));
+    }
+  }
+}
+
+async function checkPendingBreakpoints(state, dispatch, source) {
   const pendingBreakpoints = getPendingBreakpoints(state);
+  if (!pendingBreakpoints) {
+    return;
+  }
 
-  if (pendingBreakpoints) {
-    pendingBreakpoints.forEach(pendingBreakpoint => {
-      const {
-        location: { line, sourceUrl, column },
-        condition
-      } = pendingBreakpoint;
-      const sameSource = sourceUrl && sourceUrl == source.url;
-
-      const location = { sourceId: source.id, sourceUrl, line, column };
-
-      const bp = getBreakpoint(state, location);
-
-      if (sameSource && !bp) {
-        if (location.column && isEnabled("columnBreakpoints")) {
-          dispatch(addBreakpoint(location, { condition }));
-        } else {
-          dispatch(addBreakpoint(location, { condition }));
-        }
-      }
-    });
+  const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
+  for (let pendingBreakpoint of pendingBreakpointsArray) {
+    await checkPendingBreakpoint(state, dispatch, pendingBreakpoint, source);
   }
 }
 
@@ -78,23 +87,27 @@ function checkPendingBreakpoints(state, dispatch, source) {
  * @static
  */
 export function newSource(source: Source) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    if (prefs.clientSourceMapsEnabled) {
-      dispatch(loadSourceMap(source));
-    }
-
+  return async ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: constants.ADD_SOURCE, source });
 
+    if (prefs.clientSourceMapsEnabled) {
+      await dispatch(loadSourceMap(source));
+    }
+
     checkSelectedSource(getState(), dispatch, source);
-    checkPendingBreakpoints(getState(), dispatch, source);
+    await checkPendingBreakpoints(getState(), dispatch, source);
   };
 }
 
 export function newSources(sources: Source[]) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    sources
-      .filter(source => !getSource(getState(), source.id))
-      .forEach(source => dispatch(newSource(source)));
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const filteredSources = sources.filter(
+      source => !getSource(getState(), source.id)
+    );
+
+    for (let source of filteredSources) {
+      await dispatch(newSource(source));
+    }
   };
 }
 

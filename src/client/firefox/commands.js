@@ -97,6 +97,7 @@ function onNewBreakpoint(
 ): BreakpointResult {
   const bpClient = res[1];
   let actualLocation = res[0].actualLocation;
+
   bpClients[bpClient.actor] = bpClient;
 
   // Firefox only returns `actualLocation` if it actually changed,
@@ -105,6 +106,7 @@ function onNewBreakpoint(
   actualLocation = actualLocation
     ? {
         sourceId: actualLocation.source.actor,
+        sourceUrl: location.sourceUrl,
         line: actualLocation.line,
         column: actualLocation.column
       }

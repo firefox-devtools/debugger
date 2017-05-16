@@ -52,10 +52,7 @@ class Scopes extends PureComponent {
       scopeInspector = ObjectInspector({
         roots: scopes,
         getObjectProperties: id => loadedObjects.get(id),
-        loadObjectProperties: loadObjectProperties,
-        onLabelClick: (item, { expanded, setExpanded }) => {
-          setExpanded(item, !expanded);
-        }
+        loadObjectProperties: loadObjectProperties
       });
     }
 

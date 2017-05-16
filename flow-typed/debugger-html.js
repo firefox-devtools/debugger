@@ -65,6 +65,20 @@ declare module "debugger-html" {
   };
 
   /**
+ * PendingBreakpoint
+ *
+ * @memberof types
+ * @static
+ */
+  declare type PendingBreakpoint = {
+    location: Location,
+    loading: boolean,
+    disabled: boolean,
+    text: string,
+    condition: ?string
+  };
+
+  /**
  * Frame ID
  *
  * @memberof types
