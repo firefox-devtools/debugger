@@ -109,8 +109,8 @@
     slugify "^1.1.0"
 
 "@percy-io/react-percy-storybook@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@percy-io/react-percy-storybook/-/react-percy-storybook-0.1.4.tgz#a530ff767f89f97455acfabb41baf034256763bf"
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@percy-io/react-percy-storybook/-/react-percy-storybook-0.1.6.tgz#aa4c4c217fd80eedc1d7d73471d2e2de152e5da1"
   dependencies:
     "@kadira/storybook" "^2.35.3"
     "@percy-io/react-percy-api-client" "^0.1.2"
@@ -2542,9 +2542,9 @@ devtools-source-editor@0.0.4:
   dependencies:
     codemirror "^5.25.0"
 
-devtools-source-map@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.4.0.tgz#ef8312caedb760ad9ac5fc6504615a70d97493e1"
+devtools-source-map@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.5.0.tgz#b27f2e04229655eae262839a61f79c3c2118dd29"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
@@ -4997,8 +4997,8 @@ keycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.1.9.tgz#964a23c54e4889405b4861a5c9f0480d45141dfa"
 
 kind-of@^3.0.2:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.0.tgz#b58abe4d5c044ad33726a8c1525b48cf891bff07"
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
   dependencies:
     is-buffer "^1.1.5"
 
@@ -5647,9 +5647,9 @@ ms@0.7.3:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.3.tgz#708155a5e44e33f5fd0fc53e81d0d40a91be1fff"
 
-ms@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ms/-/ms-1.0.0.tgz#59adcd22edc543f7b5381862d31387b1f4bc9473"
+ms@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
 multimatch@^2.0.0:
   version "2.1.0"
@@ -7593,7 +7593,7 @@ rxjs@^5.0.0-beta.11:
   dependencies:
     symbol-observable "^1.0.1"
 
-safe-buffer@^5.0.1:
+safe-buffer@5.0.1, safe-buffer@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.0.1.tgz#d263ca54696cd8a306b5ca6551e92de57918fbe7"
 
@@ -7661,13 +7661,14 @@ send@0.15.1:
     statuses "~1.3.1"
 
 serve-favicon@^2.3.0:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/serve-favicon/-/serve-favicon-2.4.2.tgz#aed1d8de67d5b83192cf31fdf53d2ea29464363e"
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/serve-favicon/-/serve-favicon-2.4.3.tgz#5986b17b0502642b641c21f818b1acce32025d23"
   dependencies:
     etag "~1.8.0"
     fresh "0.5.0"
-    ms "1.0.0"
+    ms "2.0.0"
     parseurl "~1.3.1"
+    safe-buffer "5.0.1"
 
 serve-static@1.12.1:
   version "1.12.1"
@@ -7852,8 +7853,8 @@ sshpk@^1.7.0:
     tweetnacl "~0.14.0"
 
 stack-trace@~0.0.7:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.9.tgz#a8f6eaeca90674c333e7c43953f275b451510695"
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.10.tgz#547c70b347e8d32b4e108ea1a2a159e5fdde19c0"
 
 staged-git-files@0.0.4:
   version "0.0.4"
