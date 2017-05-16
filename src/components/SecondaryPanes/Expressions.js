@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, createFactory, PureComponent } from "react";
+import { DOM as dom, createFactory, PureComponent, PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
@@ -230,7 +230,7 @@ class Expressions extends PureComponent {
 }
 
 Expressions.propTypes = {
-  expressions: ImPropTypes.list.isRequired,
+  expressions: PropTypes.array.isRequired,
   addExpression: PropTypes.func.isRequired,
   evaluateExpressions: PropTypes.func.isRequired,
   updateExpression: PropTypes.func.isRequired,
