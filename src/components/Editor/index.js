@@ -148,6 +148,13 @@ class Editor extends PureComponent {
     const { sourceText, selectedLocation } = nextProps;
     this.clearDebugLine(this.props.selectedFrame);
 
+    if (
+      nextProps.startPanelSize !== this.props.startPanelSize ||
+      nextProps.endPanelSize !== this.props.endPanelSize
+    ) {
+      this.editor.codeMirror.setSize();
+    }
+
     if (!sourceText) {
       if (this.props.sourceText) {
         this.showMessage("");
@@ -878,7 +885,9 @@ Editor.propTypes = {
     caseSensitive: PropTypes.bool.isRequired,
     regexMatch: PropTypes.bool.isRequired,
     wholeWord: PropTypes.bool.isRequired
-  }).isRequired
+  }).isRequired,
+  startPanelSize: PropTypes.number,
+  endPanelSize: PropTypes.number
 };
 
 Editor.contextTypes = {
