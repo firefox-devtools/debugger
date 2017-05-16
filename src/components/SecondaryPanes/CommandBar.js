@@ -18,6 +18,9 @@ import "./CommandBar.css";
 import { Services } from "devtools-modules";
 const { appinfo } = Services;
 
+import type { SourceRecord, SourcesMap } from "../../reducers/sources";
+import type { Pause } from "../../types";
+
 const isMacOS = appinfo.OS === "Darwin";
 
 const COMMANDS = ["resume", "stepOver", "stepIn", "stepOut"];
@@ -98,14 +101,14 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
 
 class CommandBar extends Component {
   props: {
-    sources: Object,
-    selectedSource: Object,
+    sources: SourcesMap,
+    selectedSource: SourceRecord,
     resume: () => any,
     stepIn: () => any,
     stepOut: () => any,
     stepOver: () => any,
     breakOnNext: () => any,
-    pause: Map<string, any>,
+    pause: ?Pause,
     pauseOnExceptions: (boolean, boolean) => any,
     shouldPauseOnExceptions: boolean,
     shouldIgnoreCaughtExceptions: boolean,
