@@ -109,8 +109,8 @@
     slugify "^1.1.0"
 
 "@percy-io/react-percy-storybook@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@percy-io/react-percy-storybook/-/react-percy-storybook-0.1.4.tgz#a530ff767f89f97455acfabb41baf034256763bf"
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@percy-io/react-percy-storybook/-/react-percy-storybook-0.1.5.tgz#5624f8e751ad9fe9a65fe7348cd452363a163a33"
   dependencies:
     "@kadira/storybook" "^2.35.3"
     "@percy-io/react-percy-api-client" "^0.1.2"
@@ -2542,9 +2542,9 @@ devtools-source-editor@0.0.3:
   dependencies:
     codemirror "^5.25.0"
 
-devtools-source-map@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.4.0.tgz#ef8312caedb760ad9ac5fc6504615a70d97493e1"
+devtools-source-map@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.5.0.tgz#b27f2e04229655eae262839a61f79c3c2118dd29"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
@@ -7852,8 +7852,8 @@ sshpk@^1.7.0:
     tweetnacl "~0.14.0"
 
 stack-trace@~0.0.7:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.9.tgz#a8f6eaeca90674c333e7c43953f275b451510695"
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.10.tgz#547c70b347e8d32b4e108ea1a2a159e5fdde19c0"
 
 staged-git-files@0.0.4:
   version "0.0.4"
