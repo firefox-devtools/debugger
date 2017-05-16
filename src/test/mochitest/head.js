@@ -214,7 +214,7 @@ function assertPausedLocation(dbg, source, line) {
 
   // Check the debug line
   ok(
-    dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
+    getCM(dbg).lineInfo(line - 1).wrapClass.includes("debug-line"),
     "Line is highlighted as paused"
   );
 }
@@ -243,7 +243,7 @@ function assertHighlightLocation(dbg, source, line) {
     "Highlighted line is visible"
   );
   ok(
-    dbg.win.cm.lineInfo(line - 1).wrapClass.includes("highlight-line"),
+    getCM(dbg).lineInfo(line - 1).wrapClass.includes("highlight-line"),
     "Line is highlighted"
   );
 }
@@ -618,9 +618,12 @@ function isVisibleWithin(outerEl, innerEl) {
 const selectors = {
   callStackHeader: ".call-stack-pane ._header",
   callStackBody: ".call-stack-pane .pane",
-  expressionNode: i => `.expressions-list .tree-node:nth-child(${i}) .object-label`,
-  expressionValue: i => `.expressions-list .tree-node:nth-child(${i}) .object-value`,
-  expressionClose: i => `.expressions-list .expression-container:nth-child(${i}) .close`,
+  expressionNode: i =>
+    `.expressions-list .tree-node:nth-child(${i}) .object-label`,
+  expressionValue: i =>
+    `.expressions-list .tree-node:nth-child(${i}) .object-value`,
+  expressionClose: i =>
+    `.expressions-list .expression-container:nth-child(${i}) .close`,
   expressionNodes: ".expressions-list .tree-node",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
@@ -740,4 +743,9 @@ function toggleCallStack(dbg) {
 
 function toggleScopes(dbg) {
   return findElement(dbg, "scopesHeader").click();
+}
+
+function getCM(dbg) {
+  const el = dbg.win.document.querySelector(".CodeMirror");
+  return el.CodeMirror;
 }
