@@ -65,7 +65,7 @@ function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
   const searchAgainPrevKey = L10N.getStr("sourceSearch.search.againPrev.key2");
-  const fnSearchKey = L10N.getStr("symbolSearch.search.key");
+  const fnSearchKey = L10N.getStr("symbolSearch.search.key2");
   const searchKey = L10N.getStr("sourceSearch.search.key2");
 
   return {

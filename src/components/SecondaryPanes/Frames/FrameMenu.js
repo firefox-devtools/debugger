@@ -3,7 +3,7 @@ import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../../utils/clipboard";
 import type { LocalFrame } from "./types";
 import type { ContextMenuItem } from "debugger-html";
-import { kebabCase } from "lodash";
+import kebabCase from "lodash.kebabcase";
 
 function formatMenuElement(
   labelString: string,

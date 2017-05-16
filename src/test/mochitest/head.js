@@ -176,7 +176,7 @@ function waitForSources(dbg, ...sources) {
     sources.map(url => {
       function sourceExists(state) {
         return getSources(state).some(s => {
-          return s.get("url").includes(url);
+          return (s.get("url") || "").includes(url);
         });
       }
 
@@ -359,7 +359,7 @@ function findSource(dbg, url) {
   }
 
   const sources = dbg.selectors.getSources(dbg.getState());
-  const source = sources.find(s => s.get("url").includes(url));
+  const source = sources.find(s => (s.get("url") || "").includes(url));
 
   if (!source) {
     throw new Error("Unable to find source: " + url);
