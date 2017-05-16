@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, Component, PropTypes } from "react";
+import { DOM as dom, Component } from "react";
 
 import { findDOMNode } from "../../../node_modules/react-dom/dist/react-dom";
 import { connect } from "react-redux";
@@ -19,7 +19,6 @@ import { Services } from "devtools-modules";
 const { appinfo } = Services;
 
 import type { SourceRecord, SourcesMap } from "../../reducers/sources";
-import type { Pause } from "../../types";
 
 const isMacOS = appinfo.OS === "Darwin";
 

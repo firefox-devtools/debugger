@@ -30,7 +30,6 @@ export function getSpecialVariables(pauseInfo: any, path: string) {
   const vars = [];
 
   if (thrown !== undefined) {
-    // thrown = dehydrateValue(thrown);
     vars.push({
       name: "<exception>",
       path: `${path}/<exception>`,
@@ -39,8 +38,6 @@ export function getSpecialVariables(pauseInfo: any, path: string) {
   }
 
   if (returned !== undefined) {
-    // returned = dehydrateValue(returned);
-
     // Do not display a return value of "undefined",
     if (!returned || !returned.type || returned.type !== "undefined") {
       vars.push({
@@ -69,7 +66,6 @@ function getThisVariable(frame: any, path: string) {
 }
 
 export function getScopes(pauseInfo: any, selectedFrame: any): ?(ScopeData[]) {
-  console.log(pauseInfo);
   if (!pauseInfo || !selectedFrame) {
     return null;
   }
