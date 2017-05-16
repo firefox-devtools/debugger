@@ -19,8 +19,8 @@ function render(overrides = {}) {
   return { component, props };
 }
 
-describe("Frame", () => {
-  it("user frame", () => {
+describe("Group", () => {
+  it("displays a group", () => {
     const { component } = render();
     expect(component).toMatchSnapshot();
   });
