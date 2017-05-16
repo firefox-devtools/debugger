@@ -1,6 +1,7 @@
 // @flow
 
-const { workerUtils: { WorkerDispatcher } } = require("devtools-utils");
+import { workerUtils } from "devtools-utils";
+const { WorkerDispatcher } = workerUtils;
 
 const dispatcher = new WorkerDispatcher();
 

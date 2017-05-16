@@ -1,12 +1,12 @@
 // @flow
 
-const babylon = require("babylon");
-const traverse = require("babel-traverse").default;
-const t = require("babel-types");
-const { isDevelopment } = require("devtools-config");
-const toPairs = require("lodash/toPairs");
-const isEmpty = require("lodash/isEmpty");
-const uniq = require("lodash/uniq");
+import * as babylon from "babylon";
+import traverse from "babel-traverse";
+import * as t from "babel-types";
+import { isDevelopment } from "devtools-config";
+import toPairs from "lodash/toPairs";
+import isEmpty from "lodash/isEmpty";
+import uniq from "lodash/uniq";
 import parseScriptTags from "parse-script-tags";
 
 import type { SourceText, Location, Frame, TokenResolution } from "../../types";
