@@ -1,12 +1,11 @@
 // @flow
 import { DOM as dom, Component } from "react";
-import { showMenu } from "devtools-launchpad";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 
-import { copyToTheClipboard } from "../../../utils/clipboard";
 import { formatDisplayName } from "../../../utils/frame";
 import { getFilename } from "../../../utils/source";
+import FrameMenu from "./FrameMenu";
 
 import type { Frame } from "debugger-html";
 import type { LocalFrame } from "./types";
@@ -53,41 +52,8 @@ export default class FrameComponent extends Component {
   }
 
   onContextMenu(event: SyntheticKeyboardEvent) {
-    const { copyStackTrace, frame } = this.props;
-    const copySourceUrlLabel = L10N.getStr("copySourceUrl");
-    const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
-    const copyStackTraceLabel = L10N.getStr("copyStackTrace");
-    const copyStackTraceKey = L10N.getStr("copyStackTrace.accesskey");
-
-    event.stopPropagation();
-    event.preventDefault();
-
-    const menuOptions = [];
-
-    const source = frame.source;
-    if (source) {
-      const copySourceUrl = {
-        id: "node-menu-copy-source",
-        label: copySourceUrlLabel,
-        accesskey: copySourceUrlKey,
-        disabled: false,
-        click: () => copyToTheClipboard(source.url)
-      };
-
-      menuOptions.push(copySourceUrl);
-    }
-
-    const copyStackTraceItem = {
-      id: "node-menu-copy-source",
-      label: copyStackTraceLabel,
-      accesskey: copyStackTraceKey,
-      disabled: false,
-      click: () => copyStackTrace()
-    };
-
-    menuOptions.push(copyStackTraceItem);
-
-    showMenu(event, menuOptions);
+    const { frame, copyStackTrace } = this.props;
+    FrameMenu(frame, copyStackTrace, event);
   }
 
   onMouseDown(e: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {

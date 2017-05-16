@@ -66,6 +66,7 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <Frame
         contextTypes={Object {}}
+        copyStackTrace={[Function]}
         frame={
                 Object {
                         "displayName": "updateEvents",
@@ -104,6 +105,7 @@ ShallowWrapper {
         "context": Object {},
         "props": Object {
           "contextTypes": Object {},
+          "copyStackTrace": [Function],
           "frame": Object {
             "displayName": "updateEvents",
             "id": 3,
@@ -212,6 +214,7 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <Frame
     contextTypes={Object {}}
+    copyStackTrace={[Function]}
     frame={
         Object {
             "displayName": "updateEvents",
@@ -299,6 +302,7 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <Frame
         contextTypes={Object {}}
+        copyStackTrace={[Function]}
         frame={
                 Object {
                         "displayName": "renderFoo",
@@ -337,6 +341,7 @@ ShallowWrapper {
         "context": Object {},
         "props": Object {
           "contextTypes": Object {},
+          "copyStackTrace": [Function],
           "frame": Object {
             "displayName": "renderFoo",
             "id": 1,
@@ -433,6 +438,7 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <Frame
     contextTypes={Object {}}
+    copyStackTrace={[Function]}
     frame={
         Object {
             "displayName": "renderFoo",
@@ -520,6 +526,7 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <Frame
         contextTypes={Object {}}
+        copyStackTrace={[Function]}
         frame={
                 Object {
                         "displayName": "renderFoo",
@@ -558,6 +565,7 @@ ShallowWrapper {
         "context": Object {},
         "props": Object {
           "contextTypes": Object {},
+          "copyStackTrace": [Function],
           "frame": Object {
             "displayName": "renderFoo",
             "id": 1,
@@ -654,6 +662,7 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <Frame
     contextTypes={Object {}}
+    copyStackTrace={[Function]}
     frame={
         Object {
             "displayName": "renderFoo",
