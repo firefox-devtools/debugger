@@ -64,7 +64,6 @@ describe("Frame", () => {
       const { component, props } = render();
       const mockEvent = "mockEvent";
       component.simulate("contextmenu", mockEvent);
-      console.log(component.props().copyStackTrace);
 
       expect(FrameMenu).toHaveBeenCalledWith(
         props.frame,
