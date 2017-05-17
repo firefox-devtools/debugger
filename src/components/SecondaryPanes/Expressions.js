@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, createFactory, PureComponent, PropTypes } from "react";
+import { DOM as dom, createFactory, PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
