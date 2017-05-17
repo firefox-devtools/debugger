@@ -1,6 +1,7 @@
 // @flow
 import { Component } from "react";
 import range from "lodash/range";
+import isEmpty from "lodash/isEmpty";
 
 class HighlightLines extends Component {
   highlightLineRange: Function;
@@ -44,7 +45,7 @@ class HighlightLines extends Component {
 
     const { codeMirror } = editor;
 
-    if (!highlightedLineRange || !editor || !codeMirror) {
+    if (isEmpty(highlightedLineRange) || !editor || !codeMirror) {
       return;
     }
 
@@ -64,7 +65,7 @@ class HighlightLines extends Component {
 
     const { codeMirror } = editor;
 
-    if (!highlightedLineRange || !codeMirror) {
+    if (isEmpty(highlightedLineRange) || !codeMirror) {
       return;
     }
 
