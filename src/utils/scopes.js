@@ -3,8 +3,7 @@
 import toPairs from "lodash/toPairs";
 const get = require("lodash/get");
 
-
-//import type { Pause, Frame } from "debugger-html";
+import type { Frame, Pause } from "debugger-html";
 
 type ScopeData = {
   name: string,
@@ -25,7 +24,7 @@ function getBindingVariables(bindings, parentName) {
   }));
 }
 
-export function getSpecialVariables(pauseInfo: any, path: string) {
+export function getSpecialVariables(pauseInfo: Pause, path: string) {
   let thrown = get(pauseInfo, "why.frameFinished.throw", undefined);
 
   let returned = get(pauseInfo, "why.frameFinished.return", undefined);
@@ -68,7 +67,10 @@ function getThisVariable(frame: any, path: string) {
   };
 }
 
-export function getScopes(pauseInfo: any, selectedFrame: any): ?(ScopeData[]) {
+export function getScopes(
+  pauseInfo: Pause,
+  selectedFrame: Frame
+): ?(ScopeData[]) {
   if (!pauseInfo || !selectedFrame) {
     return null;
   }
@@ -144,7 +146,7 @@ export function getScopes(pauseInfo: any, selectedFrame: any): ?(ScopeData[]) {
  * TODO: returns global variables as well
  */
 export function getVisibleVariablesFromScope(
-  pauseInfo: any,
+  pauseInfo: Pause,
   selectedFrame: Frame
 ) {
   const result = new Map();
