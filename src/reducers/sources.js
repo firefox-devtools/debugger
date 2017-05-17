@@ -22,7 +22,7 @@ import type { Record } from "../utils/makeRecord";
 type Tab = string;
 export type SourceRecord = Record<Source>;
 export type SourceTextRecord = Record<SourceText>;
-type SourcesMap = Map<string, SourceRecord>;
+export type SourcesMap = Map<string, SourceRecord>;
 type SourceTextMap = Map<string, SourceTextRecord>;
 type TabList = List<Tab>;
 
