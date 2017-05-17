@@ -2,6 +2,7 @@
 
 import buildQuery from "./build-query";
 import findIndex from "lodash/findIndex";
+import md5 from "md5";
 
 import type { SearchModifiers } from "../../types";
 
@@ -25,6 +26,8 @@ function SearchState() {
   this.matchIndex = -1;
 }
 
+const sourcesMatchesMap = new Map();
+
 /**
  * @memberof utils/source-search
  * @static
@@ -34,11 +37,18 @@ function getSearchState(cm: any, query, modifiers) {
 
   // avoid generating a cursor and iterating over the results for an empty query
   if (query) {
-    let cursor = getSearchCursor(cm, query, null, modifiers);
+    const sha = md5(cm.doc.getValue());
+    const key = `${sha}/${query}`;
+    if (sourcesMatchesMap.has(key)) {
+      state.results = sourcesMatchesMap.get(key);
+    } else {
+      let cursor = getSearchCursor(cm, query, null, modifiers);
 
-    state.results = [];
-    while (cursor.findNext()) {
-      state.results.push(cursor.pos);
+      state.results = [];
+      while (cursor.findNext()) {
+        state.results.push(cursor.pos);
+      }
+      sourcesMatchesMap.set(key, state.results);
     }
   }
 
