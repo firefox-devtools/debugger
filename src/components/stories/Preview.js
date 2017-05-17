@@ -139,26 +139,29 @@ function PreviewFactory(options, { dir = "ltr", theme = "light" } = {}) {
   div.width = "100px";
   div.height = "20px";
   return dom.div(
-    {
-      className: `preview ${themeClass}`,
-      dir,
-      style: {
-        width: "60vw",
-        margin: "40px 40px"
-      }
-    },
-    Preview(
-      Object.assign(
-        {},
-        {
-          value: null,
-          expression: null,
-          loadedObjects: I.Map(),
-          popoverTarget: div,
-          loadObjectProperties: () => {},
-          onClose: action("onClose")
-        },
-        options
+    { className: "editor-wrapper" },
+    dom.div(
+      {
+        className: `preview ${themeClass}`,
+        dir,
+        style: {
+          width: "60vw",
+          margin: "40px 40px"
+        }
+      },
+      Preview(
+        Object.assign(
+          {},
+          {
+            value: null,
+            expression: null,
+            loadedObjects: I.Map(),
+            popoverTarget: div,
+            loadObjectProperties: () => {},
+            onClose: action("onClose")
+          },
+          options
+        )
       )
     )
   );
