@@ -41,10 +41,26 @@ const SearchInput = createFactory(_SearchInput);
 import _ResultList from "../shared/ResultList";
 const ResultList = createFactory(_ResultList);
 
-import type {
-  FormattedSymbolDeclaration,
-  SymbolDeclaration
-} from "../../utils/parser/utils";
+import type { SymbolDeclaration, ASTLocation } from "../../utils/parser/utils";
+
+export type FormattedSymbolDeclaration = {
+  id: string,
+  title: string,
+  subtitle: string,
+  value: string,
+  location: ASTLocation,
+  parameterNames?: string[]
+};
+
+function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
+  return {
+    id: `${symbol.name}:${symbol.location.start.line}`,
+    title: symbol.name,
+    subtitle: `:${symbol.location.start.line}`,
+    value: symbol.name,
+    location: symbol.location
+  };
+}
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
@@ -345,9 +361,14 @@ class SearchBar extends Component {
       return;
     }
 
-    const symbolDeclarations = await getSymbols(sourceText.toJS());
+    const { functions, variables } = await getSymbols(sourceText.toJS());
+    const formattedSymbolDeclaration = {
+      variables: variables.map(formatSymbol),
+      functions: functions.map(formatSymbol)
+    };
+
     const symbolSearchResults = filter(
-      symbolDeclarations[selectedSymbolType],
+      formattedSymbolDeclaration[selectedSymbolType],
       query,
       { key: "value" }
     );

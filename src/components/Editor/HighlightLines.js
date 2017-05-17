@@ -37,6 +37,11 @@ class HighlightLines extends Component {
 
   clearHighlightRange() {
     const { highlightedLineRange, editor } = this.props;
+
+    if (!editor) {
+      return;
+    }
+
     const { codeMirror } = editor;
 
     if (!highlightedLineRange || !editor || !codeMirror) {
@@ -52,9 +57,14 @@ class HighlightLines extends Component {
 
   highlightLineRange() {
     const { highlightedLineRange, editor } = this.props;
+
+    if (!editor) {
+      return;
+    }
+
     const { codeMirror } = editor;
 
-    if (!highlightedLineRange || !editor || !codeMirror) {
+    if (!highlightedLineRange || !codeMirror) {
       return;
     }
 
