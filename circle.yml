@@ -6,7 +6,7 @@ machine:
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
     YARN_PATH: "$HOME/.yarn"
-    YARN_VERSION: 0.23.2
+    YARN_VERSION: 0.24.5
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   post:
     - mkdir -p $DOWNLOADS_PATH
