@@ -3,6 +3,7 @@
 const firefox = require("./firefox");
 const chrome = require("./chrome");
 const { prefs } = require("../utils/prefs");
+const { isFirefoxPanel } = require("devtools-config");
 const {
   bootstrapApp,
   bootstrapStore,
@@ -44,6 +45,13 @@ async function onConnect(connection: Object, services: Object) {
       connection
     };
   };
+
+  if (!isFirefoxPanel()) {
+    const baseUrl = "https://devtools-html.github.io/debugger.html";
+    const localDevelopmentUrl = `${baseUrl}/docs/local-development.html`;
+    console.log("Debugging Tips", localDevelopmentUrl);
+    console.log("getGlobalsForTesting", getGlobalsForTesting());
+  }
 
   bootstrapApp(connection, { store, actions });
 
