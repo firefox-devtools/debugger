@@ -47,10 +47,12 @@ async function onConnect(connection: Object, services: Object) {
   };
 
   if (!isFirefoxPanel()) {
+    console.group("Developement Notes");
     const baseUrl = "https://devtools-html.github.io/debugger.html";
     const localDevelopmentUrl = `${baseUrl}/docs/local-development.html`;
     console.log("Debugging Tips", localDevelopmentUrl);
-    console.log("getGlobalsForTesting", getGlobalsForTesting());
+    console.log("getGlobalsForTesting", window.getGlobalsForTesting());
+    console.groupEnd();
   }
 
   bootstrapApp(connection, { store, actions });
