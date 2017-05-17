@@ -132,13 +132,10 @@ export const getPause = createSelector(
   pauseWrapper => pauseWrapper.pause
 );
 
-/*export const getLoadedObjects = createSelector(getPauseState, pauseWrapper =>
-  pauseWrapper.loadedObjects
-);*/
-
-export function getLoadedObjects(state: OuterState) {
-  return state.pause.loadedObjects;
-}
+export const getLoadedObjects = createSelector(
+  getPauseState,
+  pauseWrapper => pauseWrapper.loadedObjects
+);
 
 export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];
