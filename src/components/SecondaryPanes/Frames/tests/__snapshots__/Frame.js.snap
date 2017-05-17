@@ -100,6 +100,7 @@ ShallowWrapper {
                       }
         }
         shouldMapDisplayName={true}
+        toggleBlackBox={[Function]}
 />,
       "_debugID": 5,
       "_hostContainerInfo": null,
@@ -139,6 +140,7 @@ ShallowWrapper {
             "toggleFrameworkGrouping": [Function],
           },
           "shouldMapDisplayName": true,
+          "toggleBlackBox": [Function],
         },
         "refs": Object {},
         "state": null,
@@ -256,6 +258,7 @@ ShallowWrapper {
           }
     }
     shouldMapDisplayName={true}
+    toggleBlackBox={[Function]}
 />,
 }
 `;
@@ -325,6 +328,7 @@ ShallowWrapper {
                           "line": 10,
                         },
                         "source": Object {
+                          "isBlackBoxed": false,
                           "url": "foo-view.js",
                         },
                         "toggleFrameworkGrouping": [Function],
@@ -342,12 +346,14 @@ ShallowWrapper {
                           "line": 10,
                         },
                         "source": Object {
+                          "isBlackBoxed": false,
                           "url": "foo-view.js",
                         },
                         "toggleFrameworkGrouping": [Function],
                       }
         }
         shouldMapDisplayName={true}
+        toggleBlackBox={[Function]}
 />,
       "_debugID": 3,
       "_hostContainerInfo": null,
@@ -367,6 +373,7 @@ ShallowWrapper {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
             "toggleFrameworkGrouping": [Function],
@@ -382,11 +389,13 @@ ShallowWrapper {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
             "toggleFrameworkGrouping": [Function],
           },
           "shouldMapDisplayName": true,
+          "toggleBlackBox": [Function],
         },
         "refs": Object {},
         "state": null,
@@ -469,6 +478,7 @@ ShallowWrapper {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
             "toggleFrameworkGrouping": [Function],
@@ -486,12 +496,14 @@ ShallowWrapper {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
             "toggleFrameworkGrouping": [Function],
           }
     }
     shouldMapDisplayName={true}
+    toggleBlackBox={[Function]}
 />,
 }
 `;
@@ -561,6 +573,7 @@ ShallowWrapper {
                           "line": 10,
                         },
                         "source": Object {
+                          "isBlackBoxed": false,
                           "url": "foo-view.js",
                         },
                         "toggleFrameworkGrouping": [Function],
@@ -578,12 +591,14 @@ ShallowWrapper {
                           "line": 10,
                         },
                         "source": Object {
+                          "isBlackBoxed": false,
                           "url": "foo-view.js",
                         },
                         "toggleFrameworkGrouping": [Function],
                       }
         }
         shouldMapDisplayName={true}
+        toggleBlackBox={[Function]}
 />,
       "_debugID": 1,
       "_hostContainerInfo": null,
@@ -603,6 +618,7 @@ ShallowWrapper {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
             "toggleFrameworkGrouping": [Function],
@@ -618,11 +634,13 @@ ShallowWrapper {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
             "toggleFrameworkGrouping": [Function],
           },
           "shouldMapDisplayName": true,
+          "toggleBlackBox": [Function],
         },
         "refs": Object {},
         "state": null,
@@ -705,6 +723,7 @@ ShallowWrapper {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
             "toggleFrameworkGrouping": [Function],
@@ -722,12 +741,14 @@ ShallowWrapper {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
             "toggleFrameworkGrouping": [Function],
           }
     }
     shouldMapDisplayName={true}
+    toggleBlackBox={[Function]}
 />,
 }
 `;

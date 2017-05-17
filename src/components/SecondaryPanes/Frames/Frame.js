@@ -46,7 +46,8 @@ export default class FrameComponent extends Component {
     selectFrame: Function,
     frameworkGroupingOn: boolean,
     hideLocation: boolean,
-    shouldMapDisplayName: boolean
+    shouldMapDisplayName: boolean,
+    toggleBlackBox: Function
   };
 
   constructor(...args: any[]) {
@@ -58,12 +59,13 @@ export default class FrameComponent extends Component {
       frame,
       copyStackTrace,
       toggleFrameworkGrouping,
+      toggleBlackBox,
       frameworkGroupingOn
     } = this.props;
     FrameMenu(
       frame,
       frameworkGroupingOn,
-      { copyStackTrace, toggleFrameworkGrouping },
+      { copyStackTrace, toggleFrameworkGrouping, toggleBlackBox },
       event
     );
   }

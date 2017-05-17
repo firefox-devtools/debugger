@@ -5,8 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
 
-// NOTE: using require because `import get` breaks atom's syntax highlighting
-const get = require("lodash/get");
+import get from "lodash/get";
 
 import _FrameComponent from "./Frame";
 const FrameComponent = createFactory(_FrameComponent);
@@ -104,7 +103,12 @@ class Frames extends Component {
   }
 
   renderFrames(frames: LocalFrame[]) {
-    const { selectFrame, selectedFrame, frameworkGroupingOn } = this.props;
+    const {
+      selectFrame,
+      selectedFrame,
+      toggleBlackBox,
+      frameworkGroupingOn
+    } = this.props;
 
     const framesOrGroups = this.truncateFrames(this.collapseFrames(frames));
     type FrameOrGroup = LocalFrame | LocalFrame[];
@@ -122,6 +126,7 @@ class Frames extends Component {
                 frames,
                 selectFrame,
                 selectedFrame,
+                toggleBlackBox,
                 key: frameOrGroup.id
               })
             : Group({
@@ -131,6 +136,7 @@ class Frames extends Component {
                 frameworkGroupingOn,
                 selectFrame,
                 selectedFrame,
+                toggleBlackBox,
                 key: frameOrGroup[0].id
               })
       )
@@ -179,7 +185,8 @@ Frames.propTypes = {
   frameworkGroupingOn: PropTypes.bool.isRequired,
   toggleFrameworkGrouping: PropTypes.func.isRequired,
   selectedFrame: PropTypes.object,
-  selectFrame: PropTypes.func.isRequired
+  selectFrame: PropTypes.func.isRequired,
+  toggleBlackBox: PropTypes.func
 };
 
 Frames.displayName = "Frames";
