@@ -1,23 +1,20 @@
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, PropTypes } from "react";
 import classNames from "classnames";
 
 import "./BracketArrow.css";
 
-class BracketArrow extends Component {
-  render() {
-    const { dir, left, top, bottom } = this.props;
-    return dom.div(
-      {
-        className: classNames("bracket-arrow", dir || "up"),
-        style: { left, top, bottom }
-      },
-      ""
-    );
-  }
-}
+const BracketArrow = ({ orientation, left, top, bottom }) => {
+  return dom.div(
+    {
+      className: classNames("bracket-arrow", orientation || "up"),
+      style: { left, top, bottom }
+    },
+    ""
+  );
+};
 
 BracketArrow.propTypes = {
-  dir: PropTypes.string,
+  orientation: PropTypes.string,
   left: PropTypes.number,
   top: PropTypes.number,
   bottom: PropTypes.number
