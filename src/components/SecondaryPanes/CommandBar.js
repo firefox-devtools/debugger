@@ -260,21 +260,6 @@ class CommandBar extends Component {
   }
 }
 
-CommandBar.propTypes = {
-  sources: PropTypes.object,
-  selectedSource: PropTypes.object,
-  resume: PropTypes.func,
-  stepIn: PropTypes.func,
-  stepOut: PropTypes.func,
-  stepOver: PropTypes.func,
-  breakOnNext: PropTypes.func,
-  pause: PropTypes.object,
-  pauseOnExceptions: PropTypes.func,
-  shouldPauseOnExceptions: PropTypes.bool,
-  shouldIgnoreCaughtExceptions: PropTypes.bool,
-  isWaitingOnBreak: PropTypes.bool
-};
-
 CommandBar.contextTypes = {
   shortcuts: PropTypes.object
 };
