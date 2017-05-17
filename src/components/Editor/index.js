@@ -674,14 +674,16 @@ class Editor extends PureComponent {
       this.editor.replaceDocument(doc);
       return doc;
     }
-    this.editor.editor.operation(() => {
-      doc = this.editor.createDocument();
-      setDocument(selectedLocation.sourceId, doc);
-      this.editor.replaceDocument(doc);
+    if (this.editor.editor) {
+      this.editor.editor.operation(() => {
+        doc = this.editor.createDocument();
+        setDocument(selectedLocation.sourceId, doc);
+        this.editor.replaceDocument(doc);
 
-      this.setText(sourceText.get("text"));
-      this.editor.setMode(getMode(sourceText.toJS()));
-    });
+        this.setText(sourceText.get("text"));
+        this.editor.setMode(getMode(sourceText.toJS()));
+      });
+    }
   }
 
   renderHighlightLines() {
