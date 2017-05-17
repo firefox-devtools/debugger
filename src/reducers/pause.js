@@ -77,8 +77,13 @@ function update(state: PauseState = State(), action: Action): PauseState {
 
     case constants.LOAD_OBJECT_PROPERTIES:
       if (action.status === "start") {
-        state.loadedObjects[action.objectId] = {};
-        return state;
+        return {
+          ...state,
+          loadedObjects: {
+            ...state.loadedObjects,
+            [action.objectId]: {}
+          }
+        };
       }
 
       if (action.status === "done") {
@@ -90,9 +95,13 @@ function update(state: PauseState = State(), action: Action): PauseState {
         const ownSymbols = action.value.ownSymbols || [];
         const prototype = action.value.prototype;
 
-        const obj = { ownProperties, prototype, ownSymbols };
-        state.loadedObjects[action.objectId] = obj;
-        return state;
+        return {
+          ...state,
+          loadedObjects: {
+            ...state.loadedObjects,
+            [action.objectId]: { ownProperties, prototype, ownSymbols }
+          }
+        };
       }
       break;
 
