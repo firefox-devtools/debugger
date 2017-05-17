@@ -103,6 +103,20 @@ declare module "debugger-html" {
   };
 
   /**
+   * ContextMenuItem
+   *
+   * @memberof types
+   * @static
+   */
+  declare type ContextMenuItem = {
+    id: string,
+    label: string,
+    accesskey: string,
+    disabled: boolean,
+    click: Function
+  };
+
+  /**
  * why
  * @memberof types
  * @static

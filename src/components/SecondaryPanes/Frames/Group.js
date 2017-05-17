@@ -3,6 +3,7 @@ import { DOM as dom, Component, createFactory } from "react";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 import { formatDisplayName, getLibraryFromUrl } from "../../../utils/frame";
+import FrameMenu from "./FrameMenu";
 
 import "./Group.css";
 
@@ -45,6 +46,12 @@ export default class Group extends Component {
     const self: any = this;
 
     self.toggleFrames = this.toggleFrames.bind(this);
+  }
+
+  onContextMenu(event: SyntheticKeyboardEvent) {
+    const { group, copyStackTrace } = this.props;
+    const frame = group[0];
+    FrameMenu(frame, copyStackTrace, event);
   }
 
   toggleFrames() {
@@ -91,7 +98,10 @@ export default class Group extends Component {
   render() {
     const { expanded } = this.state;
     return dom.div(
-      { className: classNames("frames-group", { expanded }) },
+      {
+        className: classNames("frames-group", { expanded }),
+        onContextMenu: e => this.onContextMenu(e)
+      },
       this.renderDescription(),
       this.renderFrames()
     );
