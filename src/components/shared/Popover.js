@@ -1,6 +1,8 @@
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, PropTypes, createFactory, Component } from "react";
 import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 import classNames from "classnames";
+import _BracketArrow from "./BracketArrow";
+const BracketArrow = createFactory(_BracketArrow);
 
 import "./Popover.css";
 
@@ -15,30 +17,54 @@ class Popover extends Component {
 
   componentDidMount() {
     const { type } = this.props;
-    const { left, top, dir } = type == "popover"
+    const { left, top, orientation, targetMid } = type == "popover"
       ? this.getPopoverCoords()
       : this.getTooltipCoords();
 
     // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({ left, top, dir });
+    this.setState({ left, top, orientation, targetMid });
+  }
+
+  calculateLeft(target, editor, popover) {
+    const leftOffset = target.width / 2 - popover.width / 5;
+    const estimatedLeft = target.left + leftOffset;
+    const estimatedRight = estimatedLeft + popover.width;
+    const isOverflowingRight = estimatedRight > editor.right;
+    if (isOverflowingRight) {
+      const adjustedLeft = editor.right - popover.width;
+      return adjustedLeft;
+    }
+    return estimatedLeft;
+  }
+
+  calculateVerticalOrientation(target, editor, popover) {
+    const estimatedBottom = target.bottom + popover.height;
+
+    return estimatedBottom > editor.bottom ? "up" : "down";
   }
 
   getPopoverCoords() {
-    const el = ReactDOM.findDOMNode(this);
-    const { width, height } = el.getBoundingClientRect();
-    const {
-      left: targetLeft,
-      width: targetWidth,
-      bottom: targetBottom,
-      top: targetTop
-    } = this.props.target.getBoundingClientRect();
+    const popover = ReactDOM.findDOMNode(this);
+    const popoverRect = popover.getBoundingClientRect();
 
-    // width division corresponds to calc in Popover.css
-    const left = targetLeft + targetWidth / 2 - width / 5;
-    const dir = targetBottom + height > window.innerHeight ? "up" : "down";
-    const top = dir == "down" ? targetBottom : targetTop - height;
+    const editor = document.querySelector(".editor-wrapper");
+    const editorRect = editor.getBoundingClientRect();
 
-    return { left, top, dir };
+    const targetRect = this.props.target.getBoundingClientRect();
+
+    const popoverLeft = this.calculateLeft(targetRect, editorRect, popoverRect);
+    const orientation = this.calculateVerticalOrientation(
+      targetRect,
+      editorRect,
+      popoverRect
+    );
+    const top = orientation == "down"
+      ? targetRect.bottom
+      : targetRect.top - popoverRect.height;
+
+    const targetMid = targetRect.left - popoverLeft + targetRect.width / 2 - 8;
+
+    return { left: popoverLeft, top, orientation, targetMid };
   }
 
   getTooltipCoords() {
@@ -53,26 +79,42 @@ class Popover extends Component {
     const left = targetLeft + targetWidth / 4 - 10;
     const top = targetTop - height;
 
-    return { left, top, dir: "up" };
+    return { left, top, orientation: "up", targetMid: 0 };
   }
 
   getChildren() {
     const { children } = this.props;
-    const { dir } = this.state;
+    const { orientation } = this.state;
     const gap = dom.div({ className: "gap", key: "gap" });
-    return dir === "up" ? [children, gap] : [gap, children];
+    return orientation === "up" ? [children, gap] : [gap, children];
+  }
+
+  getPopoverArrow(orientation, left) {
+    const arrowOrientation = orientation === "up" ? "down" : "up";
+
+    const arrowProp = arrowOrientation === "up" ? "top" : "bottom";
+    const arrowPropValue = arrowOrientation === "up" ? -8 : 6;
+
+    return new BracketArrow({
+      orientation: arrowOrientation,
+      left,
+      [arrowProp]: arrowPropValue
+    });
   }
 
   renderPopover() {
     const { onMouseLeave } = this.props;
-    const { top, left, dir } = this.state;
+    const { top, left, orientation, targetMid } = this.state;
+
+    const arrow = this.getPopoverArrow(orientation, targetMid);
 
     return dom.div(
       {
-        className: classNames("popover", { up: dir === "up" }),
+        className: classNames("popover", { up: orientation === "up" }),
         onMouseLeave,
         style: { top, left }
       },
+      arrow,
       this.getChildren()
     );
   }
