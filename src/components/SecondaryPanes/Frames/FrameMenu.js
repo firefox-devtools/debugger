@@ -2,27 +2,36 @@
 import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../../utils/clipboard";
 import type { LocalFrame } from "./types";
+import type { ContextMenuItem } from "debugger-html";
+import { kebabCase } from "lodash";
 
-function formatMenuElement(label, accesskey, click, disabled = false) {
+function formatMenuElement(
+  labelString: string,
+  accesskeyString: string,
+  click: Function,
+  disabled: boolean = false
+): ContextMenuItem {
+  const label = L10N.getStr(labelString);
+  const id = `node-menu-${kebabCase(label)}`;
   return {
-    id: "node-menu-copy-source",
+    id,
     label,
-    accesskey,
+    accesskey: L10N.getStr(accesskeyString),
     disabled,
     click
   };
 }
 
 function copySourceElement(url) {
-  const label = L10N.getStr("copySourceUrl");
-  const key = L10N.getStr("copySourceUrl.accesskey");
-  return formatMenuElement(label, key, () => copyToTheClipboard(url));
+  return formatMenuElement("copySourceUrl", "copySourceUrl.accesskey", () =>
+    copyToTheClipboard(url)
+  );
 }
 
 function copyStackTraceElement(copyStackTrace) {
-  const label = L10N.getStr("copyStackTrace");
-  const key = L10N.getStr("copyStackTrace.accesskey");
-  return formatMenuElement(label, key, () => copyStackTrace());
+  return formatMenuElement("copyStackTrace", "copyStackTrace.accesskey", () =>
+    copyStackTrace()
+  );
 }
 
 export default function FrameMenu(
