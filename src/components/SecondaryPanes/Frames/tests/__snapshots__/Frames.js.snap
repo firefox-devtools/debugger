@@ -1315,7 +1315,9 @@ ShallowWrapper {
 >
     <div
         className="pane-info empty"
-    />
+    >
+        callStack.notPaused
+    </div>
 </div>,
   "nodes": Array [
     <div
@@ -1323,7 +1325,9 @@ ShallowWrapper {
 >
       <div
             className="pane-info empty"
-      />
+      >
+            callStack.notPaused
+      </div>
 </div>,
   ],
   "options": Object {},
@@ -1384,7 +1388,9 @@ ShallowWrapper {
 >
           <div
                     className="pane-info empty"
-          />
+          >
+                    callStack.notPaused
+          </div>
 </div>,
         "_debugID": 2,
         "_renderedOutput": <div
@@ -1392,7 +1398,9 @@ ShallowWrapper {
 >
           <div
                     className="pane-info empty"
-          />
+          >
+                    callStack.notPaused
+          </div>
 </div>,
       },
       "_renderedNodeType": 0,
@@ -1754,7 +1762,9 @@ ShallowWrapper {
     <div
         className="show-more"
         onClick={[Function]}
-    />
+    >
+        callStack.expand
+    </div>
 </div>,
   "nodes": Array [
     <div
@@ -2087,7 +2097,9 @@ ShallowWrapper {
       <div
             className="show-more"
             onClick={[Function]}
-      />
+      >
+            callStack.expand
+      </div>
 </div>,
   ],
   "options": Object {},
@@ -2531,7 +2543,9 @@ ShallowWrapper {
           <div
                     className="show-more"
                     onClick={[Function]}
-          />
+          >
+                    callStack.expand
+          </div>
 </div>,
         "_debugID": 6,
         "_renderedOutput": <div
@@ -2864,7 +2878,9 @@ ShallowWrapper {
           <div
                     className="show-more"
                     onClick={[Function]}
-          />
+          >
+                    callStack.expand
+          </div>
 </div>,
       },
       "_renderedNodeType": 0,
