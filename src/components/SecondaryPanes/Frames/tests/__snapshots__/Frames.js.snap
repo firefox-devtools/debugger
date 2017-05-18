@@ -1,113 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Frames empty frames 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <div
-    className="pane frames"
->
-    <div
-        className="pane-info empty"
-    />
-</div>,
-  "nodes": Array [
-    <div
-      className="pane frames"
->
-      <div
-            className="pane-info empty"
-      />
-</div>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <Frames
-        contextTypes={Object {}}
-        frames={null}
-        selectFrame={[Function]}
-        selectedFrame={null}
-/>,
-      "_debugID": 1,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": Frames {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "copyStackTrace": [Function],
-        "props": Object {
-          "contextTypes": Object {},
-          "frames": null,
-          "selectFrame": [Function],
-          "selectedFrame": null,
-        },
-        "refs": Object {},
-        "state": Object {
-          "showAllFrames": false,
-        },
-        "toggleFramesDisplay": [Function],
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 1,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <div
-          className="pane frames"
->
-          <div
-                    className="pane-info empty"
-          />
-</div>,
-        "_debugID": 2,
-        "_renderedOutput": <div
-          className="pane frames"
->
-          <div
-                    className="pane-info empty"
-          />
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <Frames
-    contextTypes={Object {}}
-    frames={null}
-    selectFrame={[Function]}
-    selectedFrame={null}
-/>,
-}
-`;
-
-exports[`Frames library frames 1`] = `
+exports[`Frames Library Frames collapse framework frames into a single frame 1`] = `
 ShallowWrapper {
   "complexSelector": ComplexSelector {
     "buildPredicate": [Function],
@@ -144,6 +37,7 @@ ShallowWrapper {
                     },
                   ]
             }
+            frameworkGroupingOn={true}
             hideLocation={false}
             selectFrame={[Function]}
             selectedFrame={
@@ -152,9 +46,11 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
         />
         <Group
             copyStackTrace={[Function]}
+            frameworkGroupingOn={true}
             group={
                 Array [
                     Object {
@@ -173,6 +69,7 @@ ShallowWrapper {
                     "id": 1,
                   }
             }
+            toggleFrameworkGrouping={[Function]}
         />
         <Frame
             copyStackTrace={[Function]}
@@ -199,6 +96,7 @@ ShallowWrapper {
                     },
                   ]
             }
+            frameworkGroupingOn={true}
             hideLocation={false}
             selectFrame={[Function]}
             selectedFrame={
@@ -207,6 +105,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
         />
     </ul>
 </div>,
@@ -240,6 +139,7 @@ ShallowWrapper {
                               },
                             ]
                   }
+                  frameworkGroupingOn={true}
                   hideLocation={false}
                   selectFrame={[Function]}
                   selectedFrame={
@@ -248,9 +148,11 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
             />
             <Group
                   copyStackTrace={[Function]}
+                  frameworkGroupingOn={true}
                   group={
                         Array [
                               Object {
@@ -269,6 +171,7 @@ ShallowWrapper {
                               "id": 1,
                             }
                   }
+                  toggleFrameworkGrouping={[Function]}
             />
             <Frame
                   copyStackTrace={[Function]}
@@ -295,6 +198,7 @@ ShallowWrapper {
                               },
                             ]
                   }
+                  frameworkGroupingOn={true}
                   hideLocation={false}
                   selectFrame={[Function]}
                   selectedFrame={
@@ -303,6 +207,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
             />
       </ul>
 </div>,
@@ -333,12 +238,665 @@ ShallowWrapper {
                         },
                       ]
         }
+        frameworkGroupingOn={true}
         selectFrame={[Function]}
         selectedFrame={
                 Object {
                         "id": 1,
                       }
         }
+        toggleFrameworkGrouping={[Function]}
+/>,
+      "_debugID": 9,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": Frames {
+        "_reactInternalInstance": [Circular],
+        "context": Object {},
+        "copyStackTrace": [Function],
+        "props": Object {
+          "contextTypes": Object {},
+          "frames": Array [
+            Object {
+              "id": 1,
+            },
+            Object {
+              "id": 2,
+              "library": "back",
+            },
+            Object {
+              "id": 3,
+              "library": "back",
+            },
+            Object {
+              "id": 8,
+            },
+          ],
+          "frameworkGroupingOn": true,
+          "selectFrame": [Function],
+          "selectedFrame": Object {
+            "id": 1,
+          },
+          "toggleFrameworkGrouping": [Function],
+        },
+        "refs": Object {},
+        "state": Object {
+          "showAllFrames": false,
+        },
+        "toggleFramesDisplay": [Function],
+        "toggleFrameworkGrouping": [Function],
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 5,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": Object {
+        "_currentElement": <div
+          className="pane frames"
+>
+          <ul>
+                    <Frame
+                              copyStackTrace={[Function]}
+                              frame={
+                                        Object {
+                                                  "id": 1,
+                                                }
+                              }
+                              frames={
+                                        Array [
+                                                  Object {
+                                                    "id": 1,
+                                                  },
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 8,
+                                                  },
+                                                ]
+                              }
+                              frameworkGroupingOn={true}
+                              hideLocation={false}
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                }
+                              }
+                              shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
+                    />
+                    <Group
+                              copyStackTrace={[Function]}
+                              frameworkGroupingOn={true}
+                              group={
+                                        Array [
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
+                                                ]
+                              }
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                }
+                              }
+                              toggleFrameworkGrouping={[Function]}
+                    />
+                    <Frame
+                              copyStackTrace={[Function]}
+                              frame={
+                                        Object {
+                                                  "id": 8,
+                                                }
+                              }
+                              frames={
+                                        Array [
+                                                  Object {
+                                                    "id": 1,
+                                                  },
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 8,
+                                                  },
+                                                ]
+                              }
+                              frameworkGroupingOn={true}
+                              hideLocation={false}
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                }
+                              }
+                              shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
+                    />
+          </ul>
+</div>,
+        "_debugID": 10,
+        "_renderedOutput": <div
+          className="pane frames"
+>
+          <ul>
+                    <Frame
+                              copyStackTrace={[Function]}
+                              frame={
+                                        Object {
+                                                  "id": 1,
+                                                }
+                              }
+                              frames={
+                                        Array [
+                                                  Object {
+                                                    "id": 1,
+                                                  },
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 8,
+                                                  },
+                                                ]
+                              }
+                              frameworkGroupingOn={true}
+                              hideLocation={false}
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                }
+                              }
+                              shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
+                    />
+                    <Group
+                              copyStackTrace={[Function]}
+                              frameworkGroupingOn={true}
+                              group={
+                                        Array [
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
+                                                ]
+                              }
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                }
+                              }
+                              toggleFrameworkGrouping={[Function]}
+                    />
+                    <Frame
+                              copyStackTrace={[Function]}
+                              frame={
+                                        Object {
+                                                  "id": 8,
+                                                }
+                              }
+                              frames={
+                                        Array [
+                                                  Object {
+                                                    "id": 1,
+                                                  },
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 8,
+                                                  },
+                                                ]
+                              }
+                              frameworkGroupingOn={true}
+                              hideLocation={false}
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                }
+                              }
+                              shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
+                    />
+          </ul>
+</div>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <Frames
+    contextTypes={Object {}}
+    frames={
+        Array [
+            Object {
+              "id": 1,
+            },
+            Object {
+              "id": 2,
+              "library": "back",
+            },
+            Object {
+              "id": 3,
+              "library": "back",
+            },
+            Object {
+              "id": 8,
+            },
+          ]
+    }
+    frameworkGroupingOn={true}
+    selectFrame={[Function]}
+    selectedFrame={
+        Object {
+            "id": 1,
+          }
+    }
+    toggleFrameworkGrouping={[Function]}
+/>,
+}
+`;
+
+exports[`Frames Library Frames expand framework frames into a multiple frames 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="pane frames"
+>
+    <ul>
+        <Frame
+            copyStackTrace={[Function]}
+            frame={
+                Object {
+                    "id": 1,
+                  }
+            }
+            frames={
+                Array [
+                    Object {
+                      "id": 1,
+                    },
+                    Object {
+                      "id": 2,
+                      "library": "back",
+                    },
+                    Object {
+                      "id": 3,
+                      "library": "back",
+                    },
+                    Object {
+                      "id": 8,
+                    },
+                  ]
+            }
+            frameworkGroupingOn={false}
+            hideLocation={false}
+            selectFrame={[Function]}
+            selectedFrame={
+                Object {
+                    "id": 1,
+                  }
+            }
+            shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
+        />
+        <Frame
+            copyStackTrace={[Function]}
+            frame={
+                Object {
+                    "id": 2,
+                    "library": "back",
+                  }
+            }
+            frames={
+                Array [
+                    Object {
+                      "id": 1,
+                    },
+                    Object {
+                      "id": 2,
+                      "library": "back",
+                    },
+                    Object {
+                      "id": 3,
+                      "library": "back",
+                    },
+                    Object {
+                      "id": 8,
+                    },
+                  ]
+            }
+            frameworkGroupingOn={false}
+            hideLocation={false}
+            selectFrame={[Function]}
+            selectedFrame={
+                Object {
+                    "id": 1,
+                  }
+            }
+            shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
+        />
+        <Frame
+            copyStackTrace={[Function]}
+            frame={
+                Object {
+                    "id": 3,
+                    "library": "back",
+                  }
+            }
+            frames={
+                Array [
+                    Object {
+                      "id": 1,
+                    },
+                    Object {
+                      "id": 2,
+                      "library": "back",
+                    },
+                    Object {
+                      "id": 3,
+                      "library": "back",
+                    },
+                    Object {
+                      "id": 8,
+                    },
+                  ]
+            }
+            frameworkGroupingOn={false}
+            hideLocation={false}
+            selectFrame={[Function]}
+            selectedFrame={
+                Object {
+                    "id": 1,
+                  }
+            }
+            shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
+        />
+        <Frame
+            copyStackTrace={[Function]}
+            frame={
+                Object {
+                    "id": 8,
+                  }
+            }
+            frames={
+                Array [
+                    Object {
+                      "id": 1,
+                    },
+                    Object {
+                      "id": 2,
+                      "library": "back",
+                    },
+                    Object {
+                      "id": 3,
+                      "library": "back",
+                    },
+                    Object {
+                      "id": 8,
+                    },
+                  ]
+            }
+            frameworkGroupingOn={false}
+            hideLocation={false}
+            selectFrame={[Function]}
+            selectedFrame={
+                Object {
+                    "id": 1,
+                  }
+            }
+            shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
+        />
+    </ul>
+</div>,
+  "nodes": Array [
+    <div
+      className="pane frames"
+>
+      <ul>
+            <Frame
+                  copyStackTrace={[Function]}
+                  frame={
+                        Object {
+                              "id": 1,
+                            }
+                  }
+                  frames={
+                        Array [
+                              Object {
+                                "id": 1,
+                              },
+                              Object {
+                                "id": 2,
+                                "library": "back",
+                              },
+                              Object {
+                                "id": 3,
+                                "library": "back",
+                              },
+                              Object {
+                                "id": 8,
+                              },
+                            ]
+                  }
+                  frameworkGroupingOn={false}
+                  hideLocation={false}
+                  selectFrame={[Function]}
+                  selectedFrame={
+                        Object {
+                              "id": 1,
+                            }
+                  }
+                  shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
+            />
+            <Frame
+                  copyStackTrace={[Function]}
+                  frame={
+                        Object {
+                              "id": 2,
+                              "library": "back",
+                            }
+                  }
+                  frames={
+                        Array [
+                              Object {
+                                "id": 1,
+                              },
+                              Object {
+                                "id": 2,
+                                "library": "back",
+                              },
+                              Object {
+                                "id": 3,
+                                "library": "back",
+                              },
+                              Object {
+                                "id": 8,
+                              },
+                            ]
+                  }
+                  frameworkGroupingOn={false}
+                  hideLocation={false}
+                  selectFrame={[Function]}
+                  selectedFrame={
+                        Object {
+                              "id": 1,
+                            }
+                  }
+                  shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
+            />
+            <Frame
+                  copyStackTrace={[Function]}
+                  frame={
+                        Object {
+                              "id": 3,
+                              "library": "back",
+                            }
+                  }
+                  frames={
+                        Array [
+                              Object {
+                                "id": 1,
+                              },
+                              Object {
+                                "id": 2,
+                                "library": "back",
+                              },
+                              Object {
+                                "id": 3,
+                                "library": "back",
+                              },
+                              Object {
+                                "id": 8,
+                              },
+                            ]
+                  }
+                  frameworkGroupingOn={false}
+                  hideLocation={false}
+                  selectFrame={[Function]}
+                  selectedFrame={
+                        Object {
+                              "id": 1,
+                            }
+                  }
+                  shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
+            />
+            <Frame
+                  copyStackTrace={[Function]}
+                  frame={
+                        Object {
+                              "id": 8,
+                            }
+                  }
+                  frames={
+                        Array [
+                              Object {
+                                "id": 1,
+                              },
+                              Object {
+                                "id": 2,
+                                "library": "back",
+                              },
+                              Object {
+                                "id": 3,
+                                "library": "back",
+                              },
+                              Object {
+                                "id": 8,
+                              },
+                            ]
+                  }
+                  frameworkGroupingOn={false}
+                  hideLocation={false}
+                  selectFrame={[Function]}
+                  selectedFrame={
+                        Object {
+                              "id": 1,
+                            }
+                  }
+                  shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
+            />
+      </ul>
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 0,
+      "_context": Object {},
+      "_currentElement": <Frames
+        contextTypes={Object {}}
+        frames={
+                Array [
+                        Object {
+                          "id": 1,
+                        },
+                        Object {
+                          "id": 2,
+                          "library": "back",
+                        },
+                        Object {
+                          "id": 3,
+                          "library": "back",
+                        },
+                        Object {
+                          "id": 8,
+                        },
+                      ]
+        }
+        frameworkGroupingOn={false}
+        selectFrame={[Function]}
+        selectedFrame={
+                Object {
+                        "id": 1,
+                      }
+        }
+        toggleFrameworkGrouping={[Function]}
 />,
       "_debugID": 7,
       "_hostContainerInfo": null,
@@ -365,16 +923,19 @@ ShallowWrapper {
               "id": 8,
             },
           ],
+          "frameworkGroupingOn": false,
           "selectFrame": [Function],
           "selectedFrame": Object {
             "id": 1,
           },
+          "toggleFrameworkGrouping": [Function],
         },
         "refs": Object {},
         "state": Object {
           "showAllFrames": false,
         },
         "toggleFramesDisplay": [Function],
+        "toggleFrameworkGrouping": [Function],
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
@@ -422,6 +983,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -430,11 +992,21 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
-                    <Group
+                    <Frame
                               copyStackTrace={[Function]}
-                              group={
+                              frame={
+                                        Object {
+                                                  "id": 2,
+                                                  "library": "back",
+                                                }
+                              }
+                              frames={
                                         Array [
+                                                  Object {
+                                                    "id": 1,
+                                                  },
                                                   Object {
                                                     "id": 2,
                                                     "library": "back",
@@ -443,14 +1015,58 @@ ShallowWrapper {
                                                     "id": 3,
                                                     "library": "back",
                                                   },
+                                                  Object {
+                                                    "id": 8,
+                                                  },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
+                              hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
                                         Object {
                                                   "id": 1,
                                                 }
                               }
+                              shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
+                    />
+                    <Frame
+                              copyStackTrace={[Function]}
+                              frame={
+                                        Object {
+                                                  "id": 3,
+                                                  "library": "back",
+                                                }
+                              }
+                              frames={
+                                        Array [
+                                                  Object {
+                                                    "id": 1,
+                                                  },
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 8,
+                                                  },
+                                                ]
+                              }
+                              frameworkGroupingOn={false}
+                              hideLocation={false}
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                }
+                              }
+                              shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -477,6 +1093,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -485,6 +1102,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
           </ul>
 </div>,
@@ -518,6 +1136,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -526,11 +1145,21 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
-                    <Group
+                    <Frame
                               copyStackTrace={[Function]}
-                              group={
+                              frame={
+                                        Object {
+                                                  "id": 2,
+                                                  "library": "back",
+                                                }
+                              }
+                              frames={
                                         Array [
+                                                  Object {
+                                                    "id": 1,
+                                                  },
                                                   Object {
                                                     "id": 2,
                                                     "library": "back",
@@ -539,14 +1168,58 @@ ShallowWrapper {
                                                     "id": 3,
                                                     "library": "back",
                                                   },
+                                                  Object {
+                                                    "id": 8,
+                                                  },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
+                              hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
                                         Object {
                                                   "id": 1,
                                                 }
                               }
+                              shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
+                    />
+                    <Frame
+                              copyStackTrace={[Function]}
+                              frame={
+                                        Object {
+                                                  "id": 3,
+                                                  "library": "back",
+                                                }
+                              }
+                              frames={
+                                        Array [
+                                                  Object {
+                                                    "id": 1,
+                                                  },
+                                                  Object {
+                                                    "id": 2,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 3,
+                                                    "library": "back",
+                                                  },
+                                                  Object {
+                                                    "id": 8,
+                                                  },
+                                                ]
+                              }
+                              frameworkGroupingOn={false}
+                              hideLocation={false}
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                }
+                              }
+                              shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -573,6 +1246,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -581,6 +1255,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
           </ul>
 </div>,
@@ -615,12 +1290,128 @@ ShallowWrapper {
             },
           ]
     }
+    frameworkGroupingOn={false}
     selectFrame={[Function]}
     selectedFrame={
         Object {
             "id": 1,
           }
     }
+    toggleFrameworkGrouping={[Function]}
+/>,
+}
+`;
+
+exports[`Frames empty frames 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="pane frames"
+>
+    <div
+        className="pane-info empty"
+    />
+</div>,
+  "nodes": Array [
+    <div
+      className="pane frames"
+>
+      <div
+            className="pane-info empty"
+      />
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 0,
+      "_context": Object {},
+      "_currentElement": <Frames
+        contextTypes={Object {}}
+        frames={null}
+        frameworkGroupingOn={false}
+        selectFrame={[Function]}
+        selectedFrame={null}
+        toggleFrameworkGrouping={[Function]}
+/>,
+      "_debugID": 1,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": Frames {
+        "_reactInternalInstance": [Circular],
+        "context": Object {},
+        "copyStackTrace": [Function],
+        "props": Object {
+          "contextTypes": Object {},
+          "frames": null,
+          "frameworkGroupingOn": false,
+          "selectFrame": [Function],
+          "selectedFrame": null,
+          "toggleFrameworkGrouping": [Function],
+        },
+        "refs": Object {},
+        "state": Object {
+          "showAllFrames": false,
+        },
+        "toggleFramesDisplay": [Function],
+        "toggleFrameworkGrouping": [Function],
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 1,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": Object {
+        "_currentElement": <div
+          className="pane frames"
+>
+          <div
+                    className="pane-info empty"
+          />
+</div>,
+        "_debugID": 2,
+        "_renderedOutput": <div
+          className="pane frames"
+>
+          <div
+                    className="pane-info empty"
+          />
+</div>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <Frames
+    contextTypes={Object {}}
+    frames={null}
+    frameworkGroupingOn={false}
+    selectFrame={[Function]}
+    selectedFrame={null}
+    toggleFrameworkGrouping={[Function]}
 />,
 }
 `;
@@ -672,6 +1463,7 @@ ShallowWrapper {
                     },
                   ]
             }
+            frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
             selectedFrame={
@@ -680,6 +1472,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
         />
         <Frame
             copyStackTrace={[Function]}
@@ -716,6 +1509,7 @@ ShallowWrapper {
                     },
                   ]
             }
+            frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
             selectedFrame={
@@ -724,6 +1518,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
         />
         <Frame
             copyStackTrace={[Function]}
@@ -760,6 +1555,7 @@ ShallowWrapper {
                     },
                   ]
             }
+            frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
             selectedFrame={
@@ -768,6 +1564,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
         />
         <Frame
             copyStackTrace={[Function]}
@@ -804,6 +1601,7 @@ ShallowWrapper {
                     },
                   ]
             }
+            frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
             selectedFrame={
@@ -812,6 +1610,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
         />
         <Frame
             copyStackTrace={[Function]}
@@ -848,6 +1647,7 @@ ShallowWrapper {
                     },
                   ]
             }
+            frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
             selectedFrame={
@@ -856,6 +1656,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
         />
         <Frame
             copyStackTrace={[Function]}
@@ -892,6 +1693,7 @@ ShallowWrapper {
                     },
                   ]
             }
+            frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
             selectedFrame={
@@ -900,6 +1702,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
         />
         <Frame
             copyStackTrace={[Function]}
@@ -936,6 +1739,7 @@ ShallowWrapper {
                     },
                   ]
             }
+            frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
             selectedFrame={
@@ -944,6 +1748,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
         />
     </ul>
     <div
@@ -991,6 +1796,7 @@ ShallowWrapper {
                               },
                             ]
                   }
+                  frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
                   selectedFrame={
@@ -999,6 +1805,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
             />
             <Frame
                   copyStackTrace={[Function]}
@@ -1035,6 +1842,7 @@ ShallowWrapper {
                               },
                             ]
                   }
+                  frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
                   selectedFrame={
@@ -1043,6 +1851,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
             />
             <Frame
                   copyStackTrace={[Function]}
@@ -1079,6 +1888,7 @@ ShallowWrapper {
                               },
                             ]
                   }
+                  frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
                   selectedFrame={
@@ -1087,6 +1897,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
             />
             <Frame
                   copyStackTrace={[Function]}
@@ -1123,6 +1934,7 @@ ShallowWrapper {
                               },
                             ]
                   }
+                  frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
                   selectedFrame={
@@ -1131,6 +1943,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
             />
             <Frame
                   copyStackTrace={[Function]}
@@ -1167,6 +1980,7 @@ ShallowWrapper {
                               },
                             ]
                   }
+                  frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
                   selectedFrame={
@@ -1175,6 +1989,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
             />
             <Frame
                   copyStackTrace={[Function]}
@@ -1211,6 +2026,7 @@ ShallowWrapper {
                               },
                             ]
                   }
+                  frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
                   selectedFrame={
@@ -1219,6 +2035,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
             />
             <Frame
                   copyStackTrace={[Function]}
@@ -1255,6 +2072,7 @@ ShallowWrapper {
                               },
                             ]
                   }
+                  frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
                   selectedFrame={
@@ -1263,6 +2081,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
             />
       </ul>
       <div
@@ -1307,12 +2126,14 @@ ShallowWrapper {
                         },
                       ]
         }
+        frameworkGroupingOn={false}
         selectFrame={[Function]}
         selectedFrame={
                 Object {
                         "id": 1,
                       }
         }
+        toggleFrameworkGrouping={[Function]}
 />,
       "_debugID": 5,
       "_hostContainerInfo": null,
@@ -1349,16 +2170,19 @@ ShallowWrapper {
               "id": 8,
             },
           ],
+          "frameworkGroupingOn": false,
           "selectFrame": [Function],
           "selectedFrame": Object {
             "id": 1,
           },
+          "toggleFrameworkGrouping": [Function],
         },
         "refs": Object {},
         "state": Object {
           "showAllFrames": false,
         },
         "toggleFramesDisplay": [Function],
+        "toggleFrameworkGrouping": [Function],
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
@@ -1416,6 +2240,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1424,6 +2249,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1460,6 +2286,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1468,6 +2295,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1504,6 +2332,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1512,6 +2341,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1548,6 +2378,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1556,6 +2387,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1592,6 +2424,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1600,6 +2433,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1636,6 +2470,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1644,6 +2479,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1680,6 +2516,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1688,6 +2525,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
           </ul>
           <div
@@ -1735,6 +2573,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1743,6 +2582,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1779,6 +2619,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1787,6 +2628,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1823,6 +2665,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1831,6 +2674,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1867,6 +2711,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1875,6 +2720,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1911,6 +2757,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1919,6 +2766,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1955,6 +2803,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -1963,6 +2812,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
                               copyStackTrace={[Function]}
@@ -1999,6 +2849,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -2007,6 +2858,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
           </ul>
           <div
@@ -2055,12 +2907,14 @@ ShallowWrapper {
             },
           ]
     }
+    frameworkGroupingOn={false}
     selectFrame={[Function]}
     selectedFrame={
         Object {
             "id": 1,
           }
     }
+    toggleFrameworkGrouping={[Function]}
 />,
 }
 `;
@@ -2091,6 +2945,7 @@ ShallowWrapper {
                     },
                   ]
             }
+            frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
             selectedFrame={
@@ -2099,6 +2954,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleFrameworkGrouping={[Function]}
         />
     </ul>
 </div>,
@@ -2121,6 +2977,7 @@ ShallowWrapper {
                               },
                             ]
                   }
+                  frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
                   selectedFrame={
@@ -2129,6 +2986,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleFrameworkGrouping={[Function]}
             />
       </ul>
 </div>,
@@ -2148,12 +3006,14 @@ ShallowWrapper {
                         },
                       ]
         }
+        frameworkGroupingOn={false}
         selectFrame={[Function]}
         selectedFrame={
                 Object {
                         "id": 1,
                       }
         }
+        toggleFrameworkGrouping={[Function]}
 />,
       "_debugID": 3,
       "_hostContainerInfo": null,
@@ -2169,16 +3029,19 @@ ShallowWrapper {
               "id": 1,
             },
           ],
+          "frameworkGroupingOn": false,
           "selectFrame": [Function],
           "selectedFrame": Object {
             "id": 1,
           },
+          "toggleFrameworkGrouping": [Function],
         },
         "refs": Object {},
         "state": Object {
           "showAllFrames": false,
         },
         "toggleFramesDisplay": [Function],
+        "toggleFrameworkGrouping": [Function],
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
@@ -2215,6 +3078,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -2223,6 +3087,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
           </ul>
 </div>,
@@ -2245,6 +3110,7 @@ ShallowWrapper {
                                                   },
                                                 ]
                               }
+                              frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
                               selectedFrame={
@@ -2253,6 +3119,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleFrameworkGrouping={[Function]}
                     />
           </ul>
 </div>,
@@ -2276,12 +3143,14 @@ ShallowWrapper {
             },
           ]
     }
+    frameworkGroupingOn={false}
     selectFrame={[Function]}
     selectedFrame={
         Object {
             "id": 1,
           }
     }
+    toggleFrameworkGrouping={[Function]}
 />,
 }
 `;
