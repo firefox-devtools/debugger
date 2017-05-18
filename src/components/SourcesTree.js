@@ -83,6 +83,11 @@ class SourcesTree extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.debuggeeUrl != nextProps.debuggeeUrl) {
+      // Recreate tree because the sort order changed
+      this.setState(createTree(this.props.sources, nextProps.debuggeeUrl));
+      return;
+    }
     const { selectedSource } = this.props;
     if (
       nextProps.shownSource &&
@@ -117,6 +122,7 @@ class SourcesTree extends Component {
     }
 
     if (nextProps.sources.size === 0) {
+      // remove all sources
       this.setState(createTree(nextProps.sources, this.props.debuggeeUrl));
       return;
     }
