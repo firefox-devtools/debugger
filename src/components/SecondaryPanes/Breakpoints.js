@@ -17,6 +17,7 @@ import { endTruncateStr } from "../../utils/utils";
 import { basename } from "../../utils/path";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
+const get = require("lodash/get");
 
 import type { Breakpoint } from "../../types";
 
@@ -27,13 +28,12 @@ type LocalBreakpoint = Breakpoint & {
 };
 
 function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
-  if (!pause || pause.get("isInterrupted")) {
+  if (!pause || pause.isInterrupted) {
     return false;
   }
 
   const bpId = makeLocationId(breakpoint.location);
-  const pausedId = makeLocationId(pause.getIn(["frame", "location"]).toJS());
-
+  const pausedId = makeLocationId(get(pause, "frame.location"));
   return bpId === pausedId;
 }
 

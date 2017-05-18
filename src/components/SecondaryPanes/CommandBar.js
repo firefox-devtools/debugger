@@ -19,7 +19,6 @@ import { Services } from "devtools-modules";
 const { appinfo } = Services;
 
 import type { SourceRecord, SourcesMap } from "../../reducers/sources";
-import type { Pause } from "../../types";
 
 const isMacOS = appinfo.OS === "Darwin";
 
@@ -108,7 +107,7 @@ class CommandBar extends Component {
     stepOut: () => any,
     stepOver: () => any,
     breakOnNext: () => any,
-    pause: ?Pause,
+    pause: any,
     pauseOnExceptions: (boolean, boolean) => any,
     shouldPauseOnExceptions: boolean,
     shouldIgnoreCaughtExceptions: boolean,

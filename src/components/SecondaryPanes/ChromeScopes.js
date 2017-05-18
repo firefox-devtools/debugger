@@ -112,7 +112,7 @@ class Scopes extends Component {
   }
 
   getObjectProperties(item) {
-    this.props.loadedObjects.get(item.contents.value.objectId);
+    this.props.loadedObjects[item.contents.value.objectId];
   }
 
   getChildren(item) {
