@@ -37,7 +37,9 @@ export default class Group extends Component {
     group: LocalFrame[],
     selectedFrame: LocalFrame,
     selectFrame: Function,
-    copyStackTrace: Function
+    toggleFrameworkGrouping: Function,
+    copyStackTrace: Function,
+    frameworkGroupingOn: boolean
   };
 
   constructor(...args: any[]) {
@@ -49,9 +51,19 @@ export default class Group extends Component {
   }
 
   onContextMenu(event: SyntheticKeyboardEvent) {
-    const { group, copyStackTrace } = this.props;
+    const {
+      group,
+      copyStackTrace,
+      toggleFrameworkGrouping,
+      frameworkGroupingOn
+    } = this.props;
     const frame = group[0];
-    FrameMenu(frame, copyStackTrace, event);
+    FrameMenu(
+      frame,
+      frameworkGroupingOn,
+      { copyStackTrace, toggleFrameworkGrouping },
+      event
+    );
   }
 
   toggleFrames() {
@@ -59,7 +71,14 @@ export default class Group extends Component {
   }
 
   renderFrames() {
-    const { group, selectFrame, selectedFrame, copyStackTrace } = this.props;
+    const {
+      group,
+      selectFrame,
+      selectedFrame,
+      toggleFrameworkGrouping,
+      frameworkGroupingOn,
+      copyStackTrace
+    } = this.props;
     const { expanded } = this.state;
     if (!expanded) {
       return null;
@@ -70,6 +89,8 @@ export default class Group extends Component {
         FrameComponent({
           frame,
           copyStackTrace,
+          toggleFrameworkGrouping,
+          frameworkGroupingOn,
           selectFrame,
           selectedFrame,
           key: frame.id,

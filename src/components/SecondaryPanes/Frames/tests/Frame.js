@@ -13,6 +13,8 @@ function render(frameToSelect = {}, overrides = {}) {
       url: "foo-view.js"
     },
     displayName: "renderFoo",
+    frameworkGroupingOn: false,
+    toggleFrameworkGrouping: jest.fn(),
     library: false,
     location: {
       line: 10
@@ -62,12 +64,17 @@ describe("Frame", () => {
   describe("mouse events", () => {
     it("calls FrameMenu on right click", () => {
       const { component, props } = render();
+      const { copyStackTrace, toggleFrameworkGrouping } = props;
       const mockEvent = "mockEvent";
       component.simulate("contextmenu", mockEvent);
 
       expect(FrameMenu).toHaveBeenCalledWith(
         props.frame,
-        props.copyStackTrace,
+        props.frameworkGroupingOn,
+        {
+          copyStackTrace,
+          toggleFrameworkGrouping
+        },
         mockEvent
       );
     });

@@ -174,7 +174,7 @@ class Expressions extends PureComponent {
       },
       ObjectInspector({
         roots: [root],
-        getObjectProperties: id => loadedObjects.get(id),
+        getObjectProperties: id => loadedObjects[id],
         autoExpandDepth: 0,
         onDoubleClick: (item, options) =>
           this.editExpression(expression, options),

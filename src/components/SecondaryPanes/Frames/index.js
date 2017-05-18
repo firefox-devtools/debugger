@@ -24,6 +24,7 @@ import { copyToTheClipboard } from "../../../utils/clipboard";
 
 import {
   getFrames,
+  getFrameworkGroupingState,
   getSelectedFrame,
   getSourceInSources,
   getSources
@@ -40,9 +41,19 @@ class Frames extends Component {
     showAllFrames: boolean
   };
 
+  collapseFrames(frames) {
+    const { frameworkGroupingOn } = this.props;
+    if (!frameworkGroupingOn) {
+      return frames;
+    }
+
+    return collapseFrames(frames);
+  }
+
   renderFrame: Function;
   toggleFramesDisplay: Function;
   copyStackTrace: Function;
+  toggleFrameworkGrouping: Function;
 
   constructor(...args) {
     super(...args);
@@ -53,15 +64,17 @@ class Frames extends Component {
 
     this.toggleFramesDisplay = this.toggleFramesDisplay.bind(this);
     this.copyStackTrace = this.copyStackTrace.bind(this);
+    this.toggleFrameworkGrouping = this.toggleFrameworkGrouping.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { frames, selectedFrame } = this.props;
+    const { frames, selectedFrame, frameworkGroupingOn } = this.props;
     const { showAllFrames } = this.state;
     return (
       frames !== nextProps.frames ||
       selectedFrame !== nextProps.selectedFrame ||
-      showAllFrames !== nextState.showAllFrames
+      showAllFrames !== nextState.showAllFrames ||
+      frameworkGroupingOn !== nextProps.frameworkGroupingOn
     );
   }
 
@@ -85,10 +98,15 @@ class Frames extends Component {
     copyToTheClipboard(framesToCopy);
   }
 
-  renderFrames(frames: LocalFrame[]) {
-    const { selectFrame, selectedFrame } = this.props;
+  toggleFrameworkGrouping() {
+    const { toggleFrameworkGrouping, frameworkGroupingOn } = this.props;
+    toggleFrameworkGrouping(!frameworkGroupingOn);
+  }
 
-    const framesOrGroups = this.truncateFrames(collapseFrames(frames));
+  renderFrames(frames: LocalFrame[]) {
+    const { selectFrame, selectedFrame, frameworkGroupingOn } = this.props;
+
+    const framesOrGroups = this.truncateFrames(this.collapseFrames(frames));
     type FrameOrGroup = LocalFrame | LocalFrame[];
 
     return dom.ul(
@@ -98,7 +116,9 @@ class Frames extends Component {
           frameOrGroup.id
             ? FrameComponent({
                 frame: frameOrGroup,
+                toggleFrameworkGrouping: this.toggleFrameworkGrouping,
                 copyStackTrace: this.copyStackTrace,
+                frameworkGroupingOn,
                 frames,
                 selectFrame,
                 selectedFrame,
@@ -106,7 +126,9 @@ class Frames extends Component {
               })
             : Group({
                 group: frameOrGroup,
+                toggleFrameworkGrouping: this.toggleFrameworkGrouping,
                 copyStackTrace: this.copyStackTrace,
+                frameworkGroupingOn,
                 selectFrame,
                 selectedFrame,
                 key: frameOrGroup[0].id
@@ -154,6 +176,8 @@ class Frames extends Component {
 
 Frames.propTypes = {
   frames: PropTypes.array,
+  frameworkGroupingOn: PropTypes.bool.isRequired,
+  toggleFrameworkGrouping: PropTypes.func.isRequired,
   selectedFrame: PropTypes.object,
   selectFrame: PropTypes.func.isRequired
 };
@@ -179,7 +203,6 @@ const getAndProcessFrames = createSelector(
     }
 
     frames = frames
-      .toJS()
       .filter(frame => getSourceForFrame(sources, frame))
       .filter(frame => !get(frame, "source.isBlackBoxed"))
       .map(frame => appendSource(sources, frame))
@@ -192,6 +215,7 @@ const getAndProcessFrames = createSelector(
 export default connect(
   state => ({
     frames: getAndProcessFrames(state),
+    frameworkGroupingOn: getFrameworkGroupingState(state),
     selectedFrame: getSelectedFrame(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)

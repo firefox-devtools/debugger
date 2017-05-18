@@ -42,7 +42,9 @@ export default class FrameComponent extends Component {
     frame: LocalFrame,
     selectedFrame: LocalFrame,
     copyStackTrace: Function,
+    toggleFrameworkGrouping: Function,
     selectFrame: Function,
+    frameworkGroupingOn: boolean,
     hideLocation: boolean,
     shouldMapDisplayName: boolean
   };
@@ -52,8 +54,18 @@ export default class FrameComponent extends Component {
   }
 
   onContextMenu(event: SyntheticKeyboardEvent) {
-    const { frame, copyStackTrace } = this.props;
-    FrameMenu(frame, copyStackTrace, event);
+    const {
+      frame,
+      copyStackTrace,
+      toggleFrameworkGrouping,
+      frameworkGroupingOn
+    } = this.props;
+    FrameMenu(
+      frame,
+      frameworkGroupingOn,
+      { copyStackTrace, toggleFrameworkGrouping },
+      event
+    );
   }
 
   onMouseDown(e: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {

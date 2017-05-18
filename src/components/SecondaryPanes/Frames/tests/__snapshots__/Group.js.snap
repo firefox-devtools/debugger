@@ -50,6 +50,7 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <Group
         copyStackTrace={[Function]}
+        frameworkGroupingOn={true}
         group={
                 Array [
                         Object {
@@ -59,6 +60,7 @@ ShallowWrapper {
         }
         selectFrame={[Function]}
         selectedFrame={Object {}}
+        toggleFrameworkGrouping={[Function]}
 />,
       "_debugID": 1,
       "_hostContainerInfo": null,
@@ -68,6 +70,7 @@ ShallowWrapper {
         "context": Object {},
         "props": Object {
           "copyStackTrace": [Function],
+          "frameworkGroupingOn": true,
           "group": Array [
             Object {
               "displayName": "foo",
@@ -75,6 +78,7 @@ ShallowWrapper {
           ],
           "selectFrame": [Function],
           "selectedFrame": Object {},
+          "toggleFrameworkGrouping": [Function],
         },
         "refs": Object {},
         "state": Object {
@@ -145,6 +149,7 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <Group
     copyStackTrace={[Function]}
+    frameworkGroupingOn={true}
     group={
         Array [
             Object {
@@ -154,6 +159,7 @@ ShallowWrapper {
     }
     selectFrame={[Function]}
     selectedFrame={Object {}}
+    toggleFrameworkGrouping={[Function]}
 />,
 }
 `;

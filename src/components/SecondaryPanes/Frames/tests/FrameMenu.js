@@ -15,6 +15,10 @@ function generateMockId(labelString) {
 describe("FrameMenu", () => {
   let mockEvent;
   let mockFrame;
+  let emptyFrame;
+  let callbacks;
+  let frameworkGroupingOn;
+  let toggleFrameworkGrouping;
 
   beforeEach(() => {
     mockFrame = {
@@ -26,6 +30,11 @@ describe("FrameMenu", () => {
       stopPropagation: jest.fn(),
       preventDefault: jest.fn()
     };
+    callbacks = {
+      toggleFrameworkGrouping,
+      copyToTheClipboard
+    };
+    emptyFrame = {};
   });
 
   afterEach(() => {
@@ -35,20 +44,51 @@ describe("FrameMenu", () => {
   it("sends two element in menuOpts to showMenu if source is present", () => {
     const sourceId = generateMockId("copySourceUrl");
     const stacktraceId = generateMockId("copyStackTrace");
+    const frameworkGrouping = generateMockId("framework.enableGrouping");
 
-    FrameMenu(mockFrame, copyToTheClipboard, mockEvent);
+    FrameMenu(mockFrame, frameworkGroupingOn, callbacks, mockEvent);
+
     const receivedArray = showMenu.mock.calls[0][1];
     expect(showMenu).toHaveBeenCalledWith(mockEvent, receivedArray);
     const receivedArrayIds = receivedArray.map(item => item.id);
-    expect(receivedArrayIds).toEqual([sourceId, stacktraceId]);
+    expect(receivedArrayIds).toEqual([
+      frameworkGrouping,
+      sourceId,
+      stacktraceId
+    ]);
   });
 
   it("sends one element in menuOpts without source", () => {
     const stacktraceId = generateMockId("copyStackTrace");
+    const frameworkGrouping = generateMockId("framework.enableGrouping");
 
-    FrameMenu({}, copyToTheClipboard, mockEvent);
+    FrameMenu(emptyFrame, frameworkGroupingOn, callbacks, mockEvent);
+
     const receivedArray = showMenu.mock.calls[0][1];
     expect(showMenu).toHaveBeenCalledWith(mockEvent, receivedArray);
-    expect(receivedArray[0].id).toEqual(stacktraceId);
+    const receivedArrayIds = receivedArray.map(item => item.id);
+    expect(receivedArrayIds).toEqual([frameworkGrouping, stacktraceId]);
+  });
+
+  it("uses the disableGrouping text if frameworkGroupingOn is false", () => {
+    const stacktraceId = generateMockId("copyStackTrace");
+    const frameworkGrouping = generateMockId("framework.disableGrouping");
+
+    FrameMenu(emptyFrame, true, callbacks, mockEvent);
+
+    const receivedArray = showMenu.mock.calls[0][1];
+    const receivedArrayIds = receivedArray.map(item => item.id);
+    expect(receivedArrayIds).toEqual([frameworkGrouping, stacktraceId]);
+  });
+
+  it("uses the enableGrouping text if frameworkGroupingOn is true", () => {
+    const stacktraceId = generateMockId("copyStackTrace");
+    const frameworkGrouping = generateMockId("framework.enableGrouping");
+
+    FrameMenu(emptyFrame, false, callbacks, mockEvent);
+
+    const receivedArray = showMenu.mock.calls[0][1];
+    const receivedArrayIds = receivedArray.map(item => item.id);
+    expect(receivedArrayIds).toEqual([frameworkGrouping, stacktraceId]);
   });
 });

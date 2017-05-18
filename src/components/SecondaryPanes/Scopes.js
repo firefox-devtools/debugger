@@ -2,7 +2,6 @@
 import { DOM as dom, PropTypes, PureComponent, createFactory } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import ImPropTypes from "react-immutable-proptypes";
 import actions from "../../actions";
 import { getSelectedFrame, getLoadedObjects, getPause } from "../../selectors";
 import { getScopes } from "../../utils/scopes";
@@ -51,7 +50,7 @@ class Scopes extends PureComponent {
     if (scopes) {
       scopeInspector = ObjectInspector({
         roots: scopes,
-        getObjectProperties: id => loadedObjects.get(id),
+        getObjectProperties: id => loadedObjects[id],
         loadObjectProperties: loadObjectProperties
       });
     }
@@ -64,8 +63,8 @@ class Scopes extends PureComponent {
 }
 
 Scopes.propTypes = {
-  pauseInfo: ImPropTypes.map,
-  loadedObjects: ImPropTypes.map,
+  pauseInfo: PropTypes.object,
+  loadedObjects: PropTypes.object,
   loadObjectProperties: PropTypes.func,
   selectedFrame: PropTypes.object
 };

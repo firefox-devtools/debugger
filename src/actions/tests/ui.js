@@ -5,6 +5,7 @@ const {
   getFileSearchState,
   getFileSearchQueryState,
   getFileSearchModifierState,
+  getFrameworkGroupingState,
   getProjectSearchState,
   getPaneCollapse,
   getSymbolSearchState,
@@ -33,6 +34,13 @@ describe("ui", () => {
     expect(getFileSearchState(getState())).to.be(false);
     dispatch(actions.toggleFileSearch());
     expect(getFileSearchState(getState())).to.be(true);
+  });
+
+  it("should toggle the collapsed state of frameworks in the callstack", () => {
+    const { dispatch, getState } = createStore();
+    const currentState = getFrameworkGroupingState(getState());
+    dispatch(actions.toggleFrameworkGrouping(!currentState));
+    expect(getFrameworkGroupingState(getState())).to.be(!currentState);
   });
 
   it("should close file search", () => {

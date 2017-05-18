@@ -309,7 +309,7 @@ export function togglePrettyPrint(sourceId: string) {
 
         let frames = getFrames(getState());
         if (frames) {
-          frames = await updateFrameLocations(frames.toJS(), sourceMaps);
+          frames = await updateFrameLocations(frames, sourceMaps);
         }
 
         dispatch(selectSource(originalSource.id));

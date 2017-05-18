@@ -155,7 +155,7 @@ function PreviewFactory(options, { dir = "ltr", theme = "light" } = {}) {
           {
             value: null,
             expression: null,
-            loadedObjects: I.Map(),
+            loadedObjects: {},
             popoverTarget: div,
             loadObjectProperties: () => {},
             onClose: action("onClose")
@@ -191,7 +191,7 @@ options.forEach(option => {
         {
           value: obj,
           expression: "this",
-          loadedObjects: I.Map().set(obj.actor, obj)
+          loadedObjects: { [obj.actor]: obj }
         },
         option
       );
@@ -204,7 +204,7 @@ options.forEach(option => {
         {
           value: grip,
           expression: "this",
-          loadedObjects: I.Map().set(grip.actor, grip)
+          loadedObjects: { [grip.actor]: grip }
         },
         option
       );
@@ -218,7 +218,7 @@ options.forEach(option => {
         {
           value: grip,
           expression: "this",
-          loadedObjects: I.Map().set(grip.actor, grip)
+          loadedObjects: { [grip.actor]: grip }
         },
         option
       );

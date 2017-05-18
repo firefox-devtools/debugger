@@ -239,7 +239,7 @@ function nodeContainsLocation({ node, location }) {
 }
 
 function isLexicalScope(path) {
-  return isFunction(path) || t.isProgram(path);
+  return t.isBlockStatement(path) || isFunction(path) || t.isProgram(path);
 }
 
 export function getSymbols(source: SourceText): SymbolDeclarations {
