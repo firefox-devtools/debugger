@@ -6,11 +6,13 @@ import type { ContextMenuItem } from "debugger-html";
 import { kebabCase } from "lodash";
 
 function formatMenuElement(
-  label: string,
-  accesskey: string,
+  labelString: string,
+  accesskeyString: string,
   click: Function,
   disabled: boolean = false
 ): ContextMenuItem {
+  const label = L10N.getStr(labelString);
+  const accesskey = L10N.getStr(accesskeyString);
   const id = `node-menu-${kebabCase(label)}`;
   return {
     id,
@@ -22,18 +24,14 @@ function formatMenuElement(
 }
 
 function copySourceElement(url) {
-  return formatMenuElement(
-    L10N.getStr("copySourceUrl"),
-    L10N.getStr("copySourceUrl.accesskey"),
-    () => copyToTheClipboard(url)
+  return formatMenuElement("copySourceUrl", "copySourceUrl.accesskey", () =>
+    copyToTheClipboard(url)
   );
 }
 
 function copyStackTraceElement(copyStackTrace) {
-  return formatMenuElement(
-    L10N.getStr("copyStackTrace"),
-    L10N.getStr("copyStackTrace.accesskey"),
-    () => copyStackTrace()
+  return formatMenuElement("copyStackTrace", "copyStackTrace.accesskey", () =>
+    copyStackTrace()
   );
 }
 
@@ -41,11 +39,12 @@ function toggleFrameworkGroupingElement(
   toggleFrameworkGrouping,
   frameworkGroupingOn
 ) {
-  const actionType = frameworkGroupingOn ? "Disable" : "Enable";
-  return formatMenuElement(
-    L10N.getFormatStr("framework.toggleGrouping", actionType),
-    L10N.getStr("framework.accesskey"),
-    () => toggleFrameworkGrouping()
+  const actionType = frameworkGroupingOn
+    ? "framework.disableGrouping"
+    : "framework.enableGrouping";
+
+  return formatMenuElement(actionType, "framework.accesskey", () =>
+    toggleFrameworkGrouping()
   );
 }
 
