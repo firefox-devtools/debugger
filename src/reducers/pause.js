@@ -63,7 +63,10 @@ function update(state: PauseState = State(), action: Action): PauseState {
     case constants.TOGGLE_PRETTY_PRINT:
       if (action.status == "done") {
         const frames = action.value.frames;
-        let pause = frames ? frames[0] : null;
+        const pause = state.pause;
+        if (pause) {
+          pause.frame = frames[0];
+        }
 
         return Object.assign({}, state, { pause, frames });
       }

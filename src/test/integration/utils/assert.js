@@ -1,3 +1,5 @@
+const get = require("lodash/get");
+
 const {
   findSource,
   findElement,
@@ -15,9 +17,9 @@ function assertPausedLocation(dbg, ctx, source, line) {
   is(getSelectedSource(getState()).get("id"), source.id);
 
   // Check the pause location
-  const location = getPause(getState()).getIn(["frame", "location"]);
-  is(location.get("sourceId"), source.id);
-  is(location.get("line"), line);
+  const location = get(getPause(getState()), "frame.location");
+  is(location.sourceId, source.id);
+  is(location.line, line);
 
   // Check the debug line
   ok(
