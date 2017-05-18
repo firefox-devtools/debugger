@@ -83,7 +83,7 @@
     "rimraf": "^2.6.1",
     "stylelint": "^7.10.1",
     "svg-inline-react": "^1.0.2",
-    "webpack": "1.14.0",
+    "webpack": "2.4.1",
     "workerjs": "github:jasonLaster/workerjs"
   },
   "files": [
