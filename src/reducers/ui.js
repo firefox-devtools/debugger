@@ -30,6 +30,7 @@ export type UIState = {
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
+  frameworkGroupingOn: boolean,
   highlightedLineRange?: {
     start?: number,
     end?: number,
@@ -52,6 +53,7 @@ export const State = makeRecord(
     shownSource: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
+    frameworkGroupingOn: prefs.frameworkGroupingOn,
     highlightedLineRange: undefined
   }: UIState)
 );
@@ -63,6 +65,11 @@ function update(
   switch (action.type) {
     case constants.TOGGLE_PROJECT_SEARCH: {
       return state.set("projectSearchOn", action.value);
+    }
+
+    case constants.TOGGLE_FRAMEWORK_GROUPING: {
+      prefs.frameworkGroupingOn = action.value;
+      return state.set("frameworkGroupingOn", action.value);
     }
 
     case constants.TOGGLE_FILE_SEARCH: {
@@ -138,6 +145,10 @@ export function getFileSearchModifierState(
   state: OuterState
 ): FileSearchModifiers {
   return state.ui.get("fileSearchModifiers");
+}
+
+export function getFrameworkGroupingState(state: OuterState): boolean {
+  return state.ui.get("frameworkGroupingOn");
 }
 
 export function getSymbolSearchType(state: OuterState): SymbolSearchType {

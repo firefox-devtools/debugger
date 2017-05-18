@@ -12,11 +12,12 @@ function formatMenuElement(
   disabled: boolean = false
 ): ContextMenuItem {
   const label = L10N.getStr(labelString);
+  const accesskey = L10N.getStr(accesskeyString);
   const id = `node-menu-${kebabCase(label)}`;
   return {
     id,
     label,
-    accesskey: L10N.getStr(accesskeyString),
+    accesskey,
     disabled,
     click
   };
@@ -34,9 +35,23 @@ function copyStackTraceElement(copyStackTrace) {
   );
 }
 
+function toggleFrameworkGroupingElement(
+  toggleFrameworkGrouping,
+  frameworkGroupingOn
+) {
+  const actionType = frameworkGroupingOn
+    ? "framework.disableGrouping"
+    : "framework.enableGrouping";
+
+  return formatMenuElement(actionType, "framework.accesskey", () =>
+    toggleFrameworkGrouping()
+  );
+}
+
 export default function FrameMenu(
   frame: LocalFrame,
-  copyStackTrace: Function,
+  frameworkGroupingOn: boolean,
+  callbacks: Object,
   event: SyntheticKeyboardEvent
 ) {
   event.stopPropagation();
@@ -45,12 +60,19 @@ export default function FrameMenu(
   const menuOptions = [];
 
   const source = frame.source;
+
+  const toggleFrameworkElement = toggleFrameworkGroupingElement(
+    callbacks.toggleFrameworkGrouping,
+    frameworkGroupingOn
+  );
+  menuOptions.push(toggleFrameworkElement);
+
   if (source) {
     const copySourceUrl = copySourceElement(source.url);
     menuOptions.push(copySourceUrl);
   }
 
-  const copyStackTraceItem = copyStackTraceElement(copyStackTrace);
+  const copyStackTraceItem = copyStackTraceElement(callbacks.copyStackTrace);
 
   menuOptions.push(copyStackTraceItem);
 

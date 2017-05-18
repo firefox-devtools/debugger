@@ -1,5 +1,5 @@
 global.Worker = require("workerjs");
-global.L10N = { getStr: () => {} };
+global.L10N = { getStr: value => value };
 
 const path = require("path");
 const getConfig = require("../../bin/getConfig");

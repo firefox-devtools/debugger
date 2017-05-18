@@ -137,6 +137,10 @@ type UIAction =
       modifier: "caseSensitive" | "wholeWord" | "regexMatch"
     }
   | {
+      type: "TOGGLE_FRAMEWORK_GROUPING",
+      value: boolean
+    }
+  | {
       type: "SHOW_SOURCE",
       sourceUrl: string
     }

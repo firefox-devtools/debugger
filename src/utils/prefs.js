@@ -13,6 +13,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.start-panel-collapsed", false);
   pref("devtools.debugger.end-panel-collapsed", false);
   pref("devtools.debugger.tabs", "[]");
+  pref("devtools.debugger.ui.framework-grouping-on", true);
   pref("devtools.debugger.pending-selected-location", "{}");
   pref("devtools.debugger.pending-breakpoints", "[]");
   pref("devtools.debugger.expressions", "[]");
@@ -26,6 +27,7 @@ const prefs = new PrefsHelper("devtools", {
   scopesVisible: ["Bool", "debugger.scopes-visible"],
   startPanelCollapsed: ["Bool", "debugger.start-panel-collapsed"],
   endPanelCollapsed: ["Bool", "debugger.end-panel-collapsed"],
+  frameworkGroupingOn: ["Bool", "debugger.ui.framework-grouping-on"],
   tabs: ["Json", "debugger.tabs"],
   pendingSelectedLocation: ["Json", "debugger.pending-selected-location"],
   pendingBreakpoints: ["Json", "debugger.pending-breakpoints"],
