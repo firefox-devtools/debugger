@@ -54,6 +54,15 @@ export function toggleSymbolSearch(toggleValue: boolean) {
   };
 }
 
+export function toggleFrameworkGrouping(toggleValue: boolean) {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    dispatch({
+      type: constants.TOGGLE_FRAMEWORK_GROUPING,
+      value: toggleValue
+    });
+  };
+}
+
 export function setSelectedSymbolType(symbolType: SymbolSearchType) {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({
