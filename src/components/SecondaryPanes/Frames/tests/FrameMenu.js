@@ -1,3 +1,4 @@
+const originalL10N = L10N;
 import FrameMenu from "../FrameMenu";
 import { kebabCase } from "lodash";
 import { showMenu } from "devtools-launchpad";
@@ -15,6 +16,8 @@ function generateMockId(labelString) {
 describe("FrameMenu", () => {
   let mockEvent;
   let mockFrame;
+  let frameworkGroupingOn;
+  let toggleFrameworkGrouping;
 
   beforeEach(() => {
     mockFrame = {
@@ -26,29 +29,63 @@ describe("FrameMenu", () => {
       stopPropagation: jest.fn(),
       preventDefault: jest.fn()
     };
+
+    L10N = {
+      getStr: jest.fn(value => value),
+      getFormatStr: jest.fn(value => value)
+    };
   });
 
   afterEach(() => {
     showMenu.mockClear();
   });
 
+  afterAll(() => {
+    L10N = originalL10N;
+  });
+
   it("sends two element in menuOpts to showMenu if source is present", () => {
     const sourceId = generateMockId("copySourceUrl");
     const stacktraceId = generateMockId("copyStackTrace");
+    const frameworkGrouping = generateMockId("framework.toggleGrouping");
 
-    FrameMenu(mockFrame, copyToTheClipboard, mockEvent);
+    FrameMenu(
+      mockFrame,
+      frameworkGroupingOn,
+      {
+        toggleFrameworkGrouping,
+        copyToTheClipboard
+      },
+      mockEvent
+    );
+
     const receivedArray = showMenu.mock.calls[0][1];
     expect(showMenu).toHaveBeenCalledWith(mockEvent, receivedArray);
     const receivedArrayIds = receivedArray.map(item => item.id);
-    expect(receivedArrayIds).toEqual([sourceId, stacktraceId]);
+    expect(receivedArrayIds).toEqual([
+      frameworkGrouping,
+      sourceId,
+      stacktraceId
+    ]);
   });
 
   it("sends one element in menuOpts without source", () => {
     const stacktraceId = generateMockId("copyStackTrace");
+    const frameworkGrouping = generateMockId("framework.toggleGrouping");
 
-    FrameMenu({}, copyToTheClipboard, mockEvent);
+    FrameMenu(
+      {},
+      frameworkGroupingOn,
+      {
+        toggleFrameworkGrouping,
+        copyToTheClipboard
+      },
+      mockEvent
+    );
+
     const receivedArray = showMenu.mock.calls[0][1];
     expect(showMenu).toHaveBeenCalledWith(mockEvent, receivedArray);
-    expect(receivedArray[0].id).toEqual(stacktraceId);
+    const receivedArrayIds = receivedArray.map(item => item.id);
+    expect(receivedArrayIds).toEqual([frameworkGrouping, stacktraceId]);
   });
 });
