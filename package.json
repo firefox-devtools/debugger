@@ -25,7 +25,7 @@
     "lint": "yarn lint-css -s && yarn lint-js -s && yarn lint-md",
     "lint-css": "stylelint \"src/components/**/*.css\"",
     "lint-js": "eslint *.js \"src/**/*.js\"",
-    "lint-md": "remark -q *.md src/**/*.md configs/*.md docs/**/*.md",
+    "lint-md": "remark -qf *.md src configs docs",
     "lint-fix": "yarn lint-js -- --fix",
     "test": "jest",
     "test-coverage": "yarn test -- --coverage",
