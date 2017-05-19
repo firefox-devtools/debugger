@@ -7,8 +7,8 @@ import traverse from "babel-traverse";
 import { traverseAst, getAst } from "./ast";
 import { isLexicalScope, getMemberExpression } from "./helpers";
 
-import type { SourceText, Frame, Location } from "debugger-html";
-import type { NodePath, Node, Scope } from "babel-traverse";
+import type { SourceText, Location } from "debugger-html";
+import type { NodePath, Node } from "babel-traverse";
 
 function getNodeValue(node: Node) {
   if (t.isThisExpression(node)) {

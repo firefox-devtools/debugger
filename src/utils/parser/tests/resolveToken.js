@@ -1,7 +1,7 @@
+/* eslint max-nested-callbacks: ["error", 4]*/
+
 const expect = require("expect.js");
 import resolveToken from "../resolveToken";
-import { getClosestScope } from "../utils/closest";
-
 import { getSourceText } from "./helpers";
 
 describe("parser", () => {

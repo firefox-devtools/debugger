@@ -1,7 +1,5 @@
 // @flow
 
-import traverse from "babel-traverse";
-import * as t from "babel-types";
 import toPairs from "lodash/toPairs";
 import uniq from "lodash/uniq";
 

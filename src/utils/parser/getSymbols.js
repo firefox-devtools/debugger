@@ -8,7 +8,7 @@ import * as t from "babel-types";
 
 import getFunctionName from "./utils/getFunctionName";
 
-import type { SourceText, Location, Frame } from "debugger-html";
+import type { SourceText } from "debugger-html";
 
 const symbolDeclarations = new Map();
 

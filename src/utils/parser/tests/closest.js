@@ -1,3 +1,5 @@
+/* eslint max-nested-callbacks: ["error", 4]*/
+
 const expect = require("expect.js");
 import { getClosestScope, getClosestExpression } from "../utils/closest";
 
