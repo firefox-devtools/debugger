@@ -14,6 +14,7 @@
     "chromeScopes": { "enabled": false },
     "eventListeners": { "enabled": false },
     "codeCoverage": { "enabled": false },
-    "searchNav": { "enabled": true }
+    "searchNav": { "enabled": true },
+    "collapseFrame": { "enabled": true }
   }
 }
