@@ -1,14 +1,5 @@
 import * as t from "babel-types";
 
-type Scope = {
-  location: {
-    line: number,
-    column: number
-  },
-  parent: Scope,
-  bindings: Object[]
-};
-
 export function isFunction(path) {
   return (
     t.isFunction(path) ||

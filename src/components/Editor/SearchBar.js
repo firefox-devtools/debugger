@@ -41,7 +41,10 @@ const SearchInput = createFactory(_SearchInput);
 import _ResultList from "../shared/ResultList";
 const ResultList = createFactory(_ResultList);
 
-import type { SymbolDeclaration, ASTLocation } from "../../utils/parser/utils";
+import type {
+  SymbolDeclaration,
+  ASTLocation
+} from "../../utils/parser/getSymbols";
 
 export type FormattedSymbolDeclaration = {
   id: string,

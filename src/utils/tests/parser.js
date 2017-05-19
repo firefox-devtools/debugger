@@ -1,6 +1,5 @@
 const expect = require("expect.js");
 import {
-  getSymbols,
   getVariablesInLocalScope,
   getVariablesInScope,
   getClosestScope,

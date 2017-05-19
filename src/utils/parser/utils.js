@@ -1,16 +1,22 @@
 // @flow
 
-import * as babylon from "babylon";
 import traverse from "babel-traverse";
 import * as t from "babel-types";
-import { isDevelopment } from "devtools-config";
 import toPairs from "lodash/toPairs";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 import { getAst, traverseAst } from "./utils/ast";
-import { isFunction, isVariable } from "./utils/helpers";
+import { isFunction } from "./utils/helpers";
 
 import type { SourceText, Location, Frame, TokenResolution } from "../../types";
+type Scope = {
+  location: {
+    line: number,
+    column: number
+  },
+  parent: Scope,
+  bindings: Object[]
+};
 
 function getNodeValue(node) {
   if (t.isThisExpression(node)) {
