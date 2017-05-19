@@ -7,8 +7,8 @@ import { isDevelopment } from "devtools-config";
 import toPairs from "lodash/toPairs";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
-import getAst, { traverseAst } from "./getAst";
-import { isFunction, isVariable } from "./shared";
+import { getAst, traverseAst } from "./utils/ast";
+import { isFunction, isVariable } from "./utils/helpers";
 
 import type { SourceText, Location, Frame, TokenResolution } from "../../types";
 

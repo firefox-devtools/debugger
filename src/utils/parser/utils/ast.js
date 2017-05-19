@@ -35,7 +35,7 @@ function parse(text: string, opts?: Object) {
   return ast;
 }
 
-export default function getAst(sourceText: SourceText) {
+export function getAst(sourceText: SourceText) {
   if (ASTs.has(sourceText.id)) {
     return ASTs.get(sourceText.id);
   }

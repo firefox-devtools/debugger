@@ -1,10 +1,12 @@
-import getAst from "./getAst";
+import { getAst } from "./utils/ast";
 import traverse from "babel-traverse";
-import { isVariable, isFunction } from "./shared";
+import { isVariable, isFunction } from "./utils/helpers";
 import isEmpty from "lodash/isEmpty";
 import * as t from "babel-types";
-import getFunctionName from "./getFunctionName";
-import symbolDeclarations = new Map();
+
+import getFunctionName from "./utils/getFunctionName";
+
+const symbolDeclarations = new Map();
 
 export type ASTLocation = {
   start: {
