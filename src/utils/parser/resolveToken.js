@@ -1,5 +1,10 @@
+// @flow
+
 import { getClosestExpression, getClosestScope } from "./utils/closest";
 import { isExpressionInScope } from "./scopes";
+
+import type { SourceText, Location, Frame } from "debugger-html";
+
 // Resolves a token (at location) in the source to determine if it is in scope
 // of the given frame and the expression (if any) to which it belongs
 export default function resolveToken(

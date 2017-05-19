@@ -1,19 +1,14 @@
+// @flow
+
 import * as t from "babel-types";
 
-type Scope = {
-  location: {
-    line: number,
-    column: number
-  },
-  parent: Scope,
-  bindings: Object[]
-};
+import type { NodePath, Node, Scope } from "babel-traverse";
 
-export function isLexicalScope(path) {
+export function isLexicalScope(path: NodePath) {
   return t.isBlockStatement(path) || isFunction(path) || t.isProgram(path);
 }
 
-export function isFunction(path) {
+export function isFunction(path: NodePath) {
   return (
     t.isFunction(path) ||
     t.isArrowFunctionExpression(path) ||
@@ -22,7 +17,7 @@ export function isFunction(path) {
   );
 }
 
-export function isVariable(path) {
+export function isVariable(path: NodePath) {
   return (
     t.isVariableDeclaration(path) ||
     (isFunction(path) && path.node.params.length) ||
@@ -30,7 +25,7 @@ export function isVariable(path) {
   );
 }
 
-export function getMemberExpression(root) {
+export function getMemberExpression(root: Node) {
   function _getMemberExpression(node, expr) {
     if (t.isMemberExpression(node)) {
       expr = [node.property.name].concat(expr);

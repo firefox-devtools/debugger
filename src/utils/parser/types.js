@@ -1,4 +1,3 @@
-import type { SourceText, Location, Frame, TokenResolution } from "../../types";
 type Scope = {
   location: {
     line: number,

@@ -1,3 +1,5 @@
+// @flow
+
 import * as t from "babel-types";
 import isEmpty from "lodash/isEmpty";
 import traverse from "babel-traverse";
@@ -5,7 +7,10 @@ import traverse from "babel-traverse";
 import { traverseAst, getAst } from "./ast";
 import { isLexicalScope, getMemberExpression } from "./helpers";
 
-function getNodeValue(node) {
+import type { SourceText, Frame, Location } from "debugger-html";
+import type { NodePath, Node, Scope } from "babel-traverse";
+
+function getNodeValue(node: Node) {
   if (t.isThisExpression(node)) {
     return "this";
   }
@@ -17,7 +22,12 @@ function getNodeValue(node) {
  * helps find member expressions on one line and function scopes that are
  * often many lines
  */
-function nodeContainsLocation({ node, location }) {
+type nodeContainsLocationParams = {
+  node: Node,
+  location: Location
+};
+
+function nodeContainsLocation({ node, location }: nodeContainsLocationParams) {
   const { start, end } = node.loc;
   const { line, column } = location;
 
@@ -41,10 +51,10 @@ function nodeContainsLocation({ node, location }) {
   return start.line < line && end.line > line;
 }
 
-function getClosestMemberExpression(source, token, location) {
+function getClosestMemberExpression(source, token, location: Location) {
   let expression = null;
   traverseAst(source, {
-    enter(path) {
+    enter(path: NodePath) {
       const { node } = path;
       if (
         t.isMemberExpression(node) &&

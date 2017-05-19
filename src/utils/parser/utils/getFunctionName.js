@@ -1,4 +1,7 @@
-export default function getFunctionName(path): string {
+// @flow
+import type { NodePath } from "babel-traverse";
+
+export default function getFunctionName(path: NodePath): string {
   if (path.node.id) {
     return path.node.id.name;
   }

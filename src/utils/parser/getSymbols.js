@@ -1,3 +1,5 @@
+// @flow
+
 import { getAst } from "./utils/ast";
 import traverse from "babel-traverse";
 import { isVariable, isFunction } from "./utils/helpers";
@@ -5,6 +7,8 @@ import isEmpty from "lodash/isEmpty";
 import * as t from "babel-types";
 
 import getFunctionName from "./utils/getFunctionName";
+
+import type { SourceText, Location, Frame } from "debugger-html";
 
 const symbolDeclarations = new Map();
 
