@@ -60,6 +60,7 @@ ShallowWrapper {
         }
         selectFrame={[Function]}
         selectedFrame={Object {}}
+        toggleBlackBox={[Function]}
         toggleFrameworkGrouping={[Function]}
 />,
       "_debugID": 1,
@@ -78,6 +79,7 @@ ShallowWrapper {
           ],
           "selectFrame": [Function],
           "selectedFrame": Object {},
+          "toggleBlackBox": [Function],
           "toggleFrameworkGrouping": [Function],
         },
         "refs": Object {},
@@ -159,6 +161,7 @@ ShallowWrapper {
     }
     selectFrame={[Function]}
     selectedFrame={Object {}}
+    toggleBlackBox={[Function]}
     toggleFrameworkGrouping={[Function]}
 />,
 }

@@ -10,7 +10,8 @@ function render(overrides = {}) {
     frameworkGroupingOn: false,
     toggleFrameworkGrouping: jest.fn(),
     contextTypes: {},
-    selectFrame: jest.fn()
+    selectFrame: jest.fn(),
+    toggleBlackBox: jest.fn()
   };
 
   const props = Object.assign({}, defaultProps, overrides);

@@ -24,7 +24,8 @@ describe("FrameMenu", () => {
   beforeEach(() => {
     mockFrame = {
       source: {
-        url: "isFake"
+        url: "isFake",
+        isBlackBoxed: false
       }
     };
     mockEvent = {
@@ -33,6 +34,7 @@ describe("FrameMenu", () => {
     };
     callbacks = {
       toggleFrameworkGrouping,
+      toggleBlackbox: jest.fn(),
       copyToTheClipboard
     };
     emptyFrame = {};
@@ -42,10 +44,11 @@ describe("FrameMenu", () => {
     showMenu.mockClear();
   });
 
-  it("sends two element in menuOpts to showMenu if source is present", () => {
+  it("sends three element in menuOpts to showMenu if source is present", () => {
     const sourceId = generateMockId("copySourceUrl");
     const stacktraceId = generateMockId("copyStackTrace");
-    const frameworkGrouping = generateMockId("framework.enableGrouping");
+    const frameworkGroupingId = generateMockId("framework.enableGrouping");
+    const blackBoxId = generateMockId("sourceFooter.blackbox");
 
     FrameMenu(mockFrame, frameworkGroupingOn, callbacks, mockEvent);
 
@@ -53,8 +56,9 @@ describe("FrameMenu", () => {
     expect(showMenu).toHaveBeenCalledWith(mockEvent, receivedArray);
     const receivedArrayIds = receivedArray.map(item => item.id);
     expect(receivedArrayIds).toEqual([
-      frameworkGrouping,
+      frameworkGroupingId,
       sourceId,
+      blackBoxId,
       stacktraceId
     ]);
   });

@@ -46,6 +46,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Group
@@ -69,6 +70,7 @@ ShallowWrapper {
                     "id": 1,
                   }
             }
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Frame
@@ -105,6 +107,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
     </ul>
@@ -148,6 +151,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Group
@@ -171,6 +175,7 @@ ShallowWrapper {
                               "id": 1,
                             }
                   }
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Frame
@@ -207,6 +212,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
       </ul>
@@ -245,6 +251,7 @@ ShallowWrapper {
                         "id": 1,
                       }
         }
+        toggleBlackBox={[Function]}
         toggleFrameworkGrouping={[Function]}
 />,
       "_debugID": 9,
@@ -277,6 +284,7 @@ ShallowWrapper {
           "selectedFrame": Object {
             "id": 1,
           },
+          "toggleBlackBox": [Function],
           "toggleFrameworkGrouping": [Function],
         },
         "refs": Object {},
@@ -341,6 +349,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Group
@@ -364,6 +373,7 @@ ShallowWrapper {
                                                   "id": 1,
                                                 }
                               }
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -400,6 +410,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
@@ -443,6 +454,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Group
@@ -466,6 +478,7 @@ ShallowWrapper {
                                                   "id": 1,
                                                 }
                               }
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -502,6 +515,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
@@ -544,6 +558,7 @@ ShallowWrapper {
             "id": 1,
           }
     }
+    toggleBlackBox={[Function]}
     toggleFrameworkGrouping={[Function]}
 />,
 }
@@ -595,6 +610,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Frame
@@ -632,6 +648,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Frame
@@ -669,6 +686,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Frame
@@ -705,6 +723,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
     </ul>
@@ -748,6 +767,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Frame
@@ -785,6 +805,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Frame
@@ -822,6 +843,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Frame
@@ -858,6 +880,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
       </ul>
@@ -896,6 +919,7 @@ ShallowWrapper {
                         "id": 1,
                       }
         }
+        toggleBlackBox={[Function]}
         toggleFrameworkGrouping={[Function]}
 />,
       "_debugID": 7,
@@ -928,6 +952,7 @@ ShallowWrapper {
           "selectedFrame": Object {
             "id": 1,
           },
+          "toggleBlackBox": [Function],
           "toggleFrameworkGrouping": [Function],
         },
         "refs": Object {},
@@ -992,6 +1017,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -1029,6 +1055,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -1066,6 +1093,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -1102,6 +1130,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
@@ -1145,6 +1174,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -1182,6 +1212,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -1219,6 +1250,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -1255,6 +1287,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
@@ -1297,6 +1330,7 @@ ShallowWrapper {
             "id": 1,
           }
     }
+    toggleBlackBox={[Function]}
     toggleFrameworkGrouping={[Function]}
 />,
 }
@@ -1342,6 +1376,7 @@ ShallowWrapper {
         frameworkGroupingOn={false}
         selectFrame={[Function]}
         selectedFrame={null}
+        toggleBlackBox={[Function]}
         toggleFrameworkGrouping={[Function]}
 />,
       "_debugID": 1,
@@ -1357,6 +1392,7 @@ ShallowWrapper {
           "frameworkGroupingOn": false,
           "selectFrame": [Function],
           "selectedFrame": null,
+          "toggleBlackBox": [Function],
           "toggleFrameworkGrouping": [Function],
         },
         "refs": Object {},
@@ -1419,6 +1455,7 @@ ShallowWrapper {
     frameworkGroupingOn={false}
     selectFrame={[Function]}
     selectedFrame={null}
+    toggleBlackBox={[Function]}
     toggleFrameworkGrouping={[Function]}
 />,
 }
@@ -1480,6 +1517,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Frame
@@ -1526,6 +1564,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Frame
@@ -1572,6 +1611,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Frame
@@ -1618,6 +1658,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Frame
@@ -1664,6 +1705,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Frame
@@ -1710,6 +1752,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
         <Frame
@@ -1756,6 +1799,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
     </ul>
@@ -1815,6 +1859,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Frame
@@ -1861,6 +1906,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Frame
@@ -1907,6 +1953,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Frame
@@ -1953,6 +2000,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Frame
@@ -1999,6 +2047,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Frame
@@ -2045,6 +2094,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
             <Frame
@@ -2091,6 +2141,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
       </ul>
@@ -2145,6 +2196,7 @@ ShallowWrapper {
                         "id": 1,
                       }
         }
+        toggleBlackBox={[Function]}
         toggleFrameworkGrouping={[Function]}
 />,
       "_debugID": 5,
@@ -2187,6 +2239,7 @@ ShallowWrapper {
           "selectedFrame": Object {
             "id": 1,
           },
+          "toggleBlackBox": [Function],
           "toggleFrameworkGrouping": [Function],
         },
         "refs": Object {},
@@ -2261,6 +2314,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2307,6 +2361,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2353,6 +2408,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2399,6 +2455,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2445,6 +2502,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2491,6 +2549,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2537,6 +2596,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
@@ -2596,6 +2656,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2642,6 +2703,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2688,6 +2750,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2734,6 +2797,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2780,6 +2844,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2826,6 +2891,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
                     <Frame
@@ -2872,6 +2938,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
@@ -2930,6 +2997,7 @@ ShallowWrapper {
             "id": 1,
           }
     }
+    toggleBlackBox={[Function]}
     toggleFrameworkGrouping={[Function]}
 />,
 }
@@ -2970,6 +3038,7 @@ ShallowWrapper {
                   }
             }
             shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
             toggleFrameworkGrouping={[Function]}
         />
     </ul>
@@ -3002,6 +3071,7 @@ ShallowWrapper {
                             }
                   }
                   shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
                   toggleFrameworkGrouping={[Function]}
             />
       </ul>
@@ -3029,6 +3099,7 @@ ShallowWrapper {
                         "id": 1,
                       }
         }
+        toggleBlackBox={[Function]}
         toggleFrameworkGrouping={[Function]}
 />,
       "_debugID": 3,
@@ -3050,6 +3121,7 @@ ShallowWrapper {
           "selectedFrame": Object {
             "id": 1,
           },
+          "toggleBlackBox": [Function],
           "toggleFrameworkGrouping": [Function],
         },
         "refs": Object {},
@@ -3103,6 +3175,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
@@ -3135,6 +3208,7 @@ ShallowWrapper {
                                                 }
                               }
                               shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
@@ -3166,6 +3240,7 @@ ShallowWrapper {
             "id": 1,
           }
     }
+    toggleBlackBox={[Function]}
     toggleFrameworkGrouping={[Function]}
 />,
 }
