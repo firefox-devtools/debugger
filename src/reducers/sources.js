@@ -188,7 +188,7 @@ function removeSourcesFromTabList(tabs, urls) {
 
 function restoreTabs() {
   let prefsTabs = prefs.tabs || [];
-  if (Object.keys(prefsTabs).length == 0) {
+  if (prefsTabs.length == 0) {
     return;
   }
 

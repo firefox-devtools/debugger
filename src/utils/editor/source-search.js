@@ -201,13 +201,18 @@ function searchNext(ctx, rev, query, newQuery, modifiers) {
   cm.operation(function() {
     let state = getSearchState(cm, query, modifiers);
     const pos = getCursorPos(newQuery, rev, state);
+
+    if (!state.query) {
+      return;
+    }
+
     let cursor = getSearchCursor(cm, state.query, pos, modifiers);
 
     const location = rev
       ? { line: cm.lastLine(), ch: null }
       : { line: cm.firstLine(), ch: 0 };
 
-    if (!cursor.find(rev)) {
+    if (!cursor.find(rev) && state.query) {
       cursor = getSearchCursor(cm, state.query, location, modifiers);
       if (!cursor.find(rev)) {
         return;
