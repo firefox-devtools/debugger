@@ -1,5 +1,394 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="pane frames"
+>
+    <ul>
+        <Frame
+            copyStackTrace={[Function]}
+            frame={
+                Object {
+                    "id": 1,
+                    "location": Object {
+                      "sourceId": "1",
+                    },
+                    "source": Object {},
+                  }
+            }
+            frameworkGroupingOn={false}
+            hideLocation={false}
+            selectFrame={[Function]}
+            selectedFrame={
+                Object {
+                    "id": 1,
+                    "location": Object {
+                      "sourceId": "1",
+                    },
+                  }
+            }
+            shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
+            toggleFrameworkGrouping={[Function]}
+        />
+        <Frame
+            copyStackTrace={[Function]}
+            frame={
+                Object {
+                    "id": 3,
+                    "location": Object {
+                      "sourceId": "1",
+                    },
+                    "source": Object {},
+                  }
+            }
+            frameworkGroupingOn={false}
+            hideLocation={false}
+            selectFrame={[Function]}
+            selectedFrame={
+                Object {
+                    "id": 1,
+                    "location": Object {
+                      "sourceId": "1",
+                    },
+                  }
+            }
+            shouldMapDisplayName={true}
+            toggleBlackBox={[Function]}
+            toggleFrameworkGrouping={[Function]}
+        />
+    </ul>
+</div>,
+  "nodes": Array [
+    <div
+      className="pane frames"
+>
+      <ul>
+            <Frame
+                  copyStackTrace={[Function]}
+                  frame={
+                        Object {
+                              "id": 1,
+                              "location": Object {
+                                "sourceId": "1",
+                              },
+                              "source": Object {},
+                            }
+                  }
+                  frameworkGroupingOn={false}
+                  hideLocation={false}
+                  selectFrame={[Function]}
+                  selectedFrame={
+                        Object {
+                              "id": 1,
+                              "location": Object {
+                                "sourceId": "1",
+                              },
+                            }
+                  }
+                  shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
+                  toggleFrameworkGrouping={[Function]}
+            />
+            <Frame
+                  copyStackTrace={[Function]}
+                  frame={
+                        Object {
+                              "id": 3,
+                              "location": Object {
+                                "sourceId": "1",
+                              },
+                              "source": Object {},
+                            }
+                  }
+                  frameworkGroupingOn={false}
+                  hideLocation={false}
+                  selectFrame={[Function]}
+                  selectedFrame={
+                        Object {
+                              "id": 1,
+                              "location": Object {
+                                "sourceId": "1",
+                              },
+                            }
+                  }
+                  shouldMapDisplayName={true}
+                  toggleBlackBox={[Function]}
+                  toggleFrameworkGrouping={[Function]}
+            />
+      </ul>
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 0,
+      "_context": Object {},
+      "_currentElement": <Frames
+        contextTypes={Object {}}
+        frames={
+                Array [
+                        Object {
+                          "id": 1,
+                          "location": Object {
+                            "sourceId": "1",
+                          },
+                          "source": Object {},
+                        },
+                        Object {
+                          "id": 3,
+                          "location": Object {
+                            "sourceId": "1",
+                          },
+                          "source": Object {},
+                        },
+                      ]
+        }
+        frameworkGroupingOn={false}
+        selectFrame={[Function]}
+        selectedFrame={
+                Object {
+                        "id": 1,
+                        "location": Object {
+                          "sourceId": "1",
+                        },
+                      }
+        }
+        toggleBlackBox={[Function]}
+        toggleFrameworkGrouping={[Function]}
+/>,
+      "_debugID": 7,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": Frames {
+        "_reactInternalInstance": [Circular],
+        "context": Object {},
+        "copyStackTrace": [Function],
+        "props": Object {
+          "contextTypes": Object {},
+          "frames": Array [
+            Object {
+              "id": 1,
+              "location": Object {
+                "sourceId": "1",
+              },
+              "source": Object {},
+            },
+            Object {
+              "id": 3,
+              "location": Object {
+                "sourceId": "1",
+              },
+              "source": Object {},
+            },
+          ],
+          "frameworkGroupingOn": false,
+          "selectFrame": [Function],
+          "selectedFrame": Object {
+            "id": 1,
+            "location": Object {
+              "sourceId": "1",
+            },
+          },
+          "toggleBlackBox": [Function],
+          "toggleFrameworkGrouping": [Function],
+        },
+        "refs": Object {},
+        "state": Object {
+          "showAllFrames": false,
+        },
+        "toggleFramesDisplay": [Function],
+        "toggleFrameworkGrouping": [Function],
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 4,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": Object {
+        "_currentElement": <div
+          className="pane frames"
+>
+          <ul>
+                    <Frame
+                              copyStackTrace={[Function]}
+                              frame={
+                                        Object {
+                                                  "id": 1,
+                                                  "location": Object {
+                                                    "sourceId": "1",
+                                                  },
+                                                  "source": Object {},
+                                                }
+                              }
+                              frameworkGroupingOn={false}
+                              hideLocation={false}
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                  "location": Object {
+                                                    "sourceId": "1",
+                                                  },
+                                                }
+                              }
+                              shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
+                              toggleFrameworkGrouping={[Function]}
+                    />
+                    <Frame
+                              copyStackTrace={[Function]}
+                              frame={
+                                        Object {
+                                                  "id": 3,
+                                                  "location": Object {
+                                                    "sourceId": "1",
+                                                  },
+                                                  "source": Object {},
+                                                }
+                              }
+                              frameworkGroupingOn={false}
+                              hideLocation={false}
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                  "location": Object {
+                                                    "sourceId": "1",
+                                                  },
+                                                }
+                              }
+                              shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
+                              toggleFrameworkGrouping={[Function]}
+                    />
+          </ul>
+</div>,
+        "_debugID": 8,
+        "_renderedOutput": <div
+          className="pane frames"
+>
+          <ul>
+                    <Frame
+                              copyStackTrace={[Function]}
+                              frame={
+                                        Object {
+                                                  "id": 1,
+                                                  "location": Object {
+                                                    "sourceId": "1",
+                                                  },
+                                                  "source": Object {},
+                                                }
+                              }
+                              frameworkGroupingOn={false}
+                              hideLocation={false}
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                  "location": Object {
+                                                    "sourceId": "1",
+                                                  },
+                                                }
+                              }
+                              shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
+                              toggleFrameworkGrouping={[Function]}
+                    />
+                    <Frame
+                              copyStackTrace={[Function]}
+                              frame={
+                                        Object {
+                                                  "id": 3,
+                                                  "location": Object {
+                                                    "sourceId": "1",
+                                                  },
+                                                  "source": Object {},
+                                                }
+                              }
+                              frameworkGroupingOn={false}
+                              hideLocation={false}
+                              selectFrame={[Function]}
+                              selectedFrame={
+                                        Object {
+                                                  "id": 1,
+                                                  "location": Object {
+                                                    "sourceId": "1",
+                                                  },
+                                                }
+                              }
+                              shouldMapDisplayName={true}
+                              toggleBlackBox={[Function]}
+                              toggleFrameworkGrouping={[Function]}
+                    />
+          </ul>
+</div>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <Frames
+    contextTypes={Object {}}
+    frames={
+        Array [
+            Object {
+              "id": 1,
+              "location": Object {
+                "sourceId": "1",
+              },
+              "source": Object {},
+            },
+            Object {
+              "id": 3,
+              "location": Object {
+                "sourceId": "1",
+              },
+              "source": Object {},
+            },
+          ]
+    }
+    frameworkGroupingOn={false}
+    selectFrame={[Function]}
+    selectedFrame={
+        Object {
+            "id": 1,
+            "location": Object {
+              "sourceId": "1",
+            },
+          }
+    }
+    toggleBlackBox={[Function]}
+    toggleFrameworkGrouping={[Function]}
+/>,
+}
+`;
+
 exports[`Frames Library Frames collapse framework frames into a single frame 1`] = `
 ShallowWrapper {
   "complexSelector": ComplexSelector {
@@ -18,24 +407,6 @@ ShallowWrapper {
                 Object {
                     "id": 1,
                   }
-            }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 3,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
             }
             frameworkGroupingOn={true}
             hideLocation={false}
@@ -80,24 +451,6 @@ ShallowWrapper {
                     "id": 8,
                   }
             }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 3,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
-            }
             frameworkGroupingOn={true}
             hideLocation={false}
             selectFrame={[Function]}
@@ -123,24 +476,6 @@ ShallowWrapper {
                         Object {
                               "id": 1,
                             }
-                  }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 3,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
                   }
                   frameworkGroupingOn={true}
                   hideLocation={false}
@@ -184,24 +519,6 @@ ShallowWrapper {
                         Object {
                               "id": 8,
                             }
-                  }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 3,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
                   }
                   frameworkGroupingOn={true}
                   hideLocation={false}
@@ -254,7 +571,7 @@ ShallowWrapper {
         toggleBlackBox={[Function]}
         toggleFrameworkGrouping={[Function]}
 />,
-      "_debugID": 9,
+      "_debugID": 11,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": Frames {
@@ -304,7 +621,7 @@ ShallowWrapper {
           "validateCallback": [Function],
         },
       },
-      "_mountOrder": 5,
+      "_mountOrder": 6,
       "_pendingCallbacks": null,
       "_pendingElement": null,
       "_pendingForceUpdate": false,
@@ -322,24 +639,6 @@ ShallowWrapper {
                                                   "id": 1,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={true}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -382,24 +681,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 8,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={true}
                               hideLocation={false}
@@ -415,7 +696,7 @@ ShallowWrapper {
                     />
           </ul>
 </div>,
-        "_debugID": 10,
+        "_debugID": 12,
         "_renderedOutput": <div
           className="pane frames"
 >
@@ -426,24 +707,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 1,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={true}
                               hideLocation={false}
@@ -487,24 +750,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 8,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={true}
                               hideLocation={false}
@@ -583,24 +828,6 @@ ShallowWrapper {
                     "id": 1,
                   }
             }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 3,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
-            }
             frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
@@ -620,24 +847,6 @@ ShallowWrapper {
                     "id": 2,
                     "library": "back",
                   }
-            }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 3,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
             }
             frameworkGroupingOn={false}
             hideLocation={false}
@@ -659,24 +868,6 @@ ShallowWrapper {
                     "library": "back",
                   }
             }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 3,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
-            }
             frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
@@ -695,24 +886,6 @@ ShallowWrapper {
                 Object {
                     "id": 8,
                   }
-            }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 3,
-                      "library": "back",
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
             }
             frameworkGroupingOn={false}
             hideLocation={false}
@@ -740,24 +913,6 @@ ShallowWrapper {
                               "id": 1,
                             }
                   }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 3,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
-                  }
                   frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
@@ -777,24 +932,6 @@ ShallowWrapper {
                               "id": 2,
                               "library": "back",
                             }
-                  }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 3,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
                   }
                   frameworkGroupingOn={false}
                   hideLocation={false}
@@ -816,24 +953,6 @@ ShallowWrapper {
                               "library": "back",
                             }
                   }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 3,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
-                  }
                   frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
@@ -852,24 +971,6 @@ ShallowWrapper {
                         Object {
                               "id": 8,
                             }
-                  }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 3,
-                                "library": "back",
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
                   }
                   frameworkGroupingOn={false}
                   hideLocation={false}
@@ -922,7 +1023,7 @@ ShallowWrapper {
         toggleBlackBox={[Function]}
         toggleFrameworkGrouping={[Function]}
 />,
-      "_debugID": 7,
+      "_debugID": 9,
       "_hostContainerInfo": null,
       "_hostParent": null,
       "_instance": Frames {
@@ -972,7 +1073,7 @@ ShallowWrapper {
           "validateCallback": [Function],
         },
       },
-      "_mountOrder": 4,
+      "_mountOrder": 5,
       "_pendingCallbacks": null,
       "_pendingElement": null,
       "_pendingForceUpdate": false,
@@ -990,24 +1091,6 @@ ShallowWrapper {
                                                   "id": 1,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -1027,24 +1110,6 @@ ShallowWrapper {
                                                   "id": 2,
                                                   "library": "back",
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
@@ -1066,24 +1131,6 @@ ShallowWrapper {
                                                   "library": "back",
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -1102,24 +1149,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 8,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
@@ -1135,7 +1164,7 @@ ShallowWrapper {
                     />
           </ul>
 </div>,
-        "_debugID": 8,
+        "_debugID": 10,
         "_renderedOutput": <div
           className="pane frames"
 >
@@ -1146,24 +1175,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 1,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
@@ -1185,24 +1196,6 @@ ShallowWrapper {
                                                   "library": "back",
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -1223,24 +1216,6 @@ ShallowWrapper {
                                                   "library": "back",
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -1259,24 +1234,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 8,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                    "library": "back",
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
@@ -1480,34 +1437,6 @@ ShallowWrapper {
                     "id": 1,
                   }
             }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                    },
-                    Object {
-                      "id": 3,
-                    },
-                    Object {
-                      "id": 4,
-                    },
-                    Object {
-                      "id": 5,
-                    },
-                    Object {
-                      "id": 6,
-                    },
-                    Object {
-                      "id": 7,
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
-            }
             frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
@@ -1526,34 +1455,6 @@ ShallowWrapper {
                 Object {
                     "id": 2,
                   }
-            }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                    },
-                    Object {
-                      "id": 3,
-                    },
-                    Object {
-                      "id": 4,
-                    },
-                    Object {
-                      "id": 5,
-                    },
-                    Object {
-                      "id": 6,
-                    },
-                    Object {
-                      "id": 7,
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
             }
             frameworkGroupingOn={false}
             hideLocation={false}
@@ -1574,34 +1475,6 @@ ShallowWrapper {
                     "id": 3,
                   }
             }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                    },
-                    Object {
-                      "id": 3,
-                    },
-                    Object {
-                      "id": 4,
-                    },
-                    Object {
-                      "id": 5,
-                    },
-                    Object {
-                      "id": 6,
-                    },
-                    Object {
-                      "id": 7,
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
-            }
             frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
@@ -1620,34 +1493,6 @@ ShallowWrapper {
                 Object {
                     "id": 4,
                   }
-            }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                    },
-                    Object {
-                      "id": 3,
-                    },
-                    Object {
-                      "id": 4,
-                    },
-                    Object {
-                      "id": 5,
-                    },
-                    Object {
-                      "id": 6,
-                    },
-                    Object {
-                      "id": 7,
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
             }
             frameworkGroupingOn={false}
             hideLocation={false}
@@ -1668,34 +1513,6 @@ ShallowWrapper {
                     "id": 5,
                   }
             }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                    },
-                    Object {
-                      "id": 3,
-                    },
-                    Object {
-                      "id": 4,
-                    },
-                    Object {
-                      "id": 5,
-                    },
-                    Object {
-                      "id": 6,
-                    },
-                    Object {
-                      "id": 7,
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
-            }
             frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
@@ -1715,34 +1532,6 @@ ShallowWrapper {
                     "id": 6,
                   }
             }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                    },
-                    Object {
-                      "id": 3,
-                    },
-                    Object {
-                      "id": 4,
-                    },
-                    Object {
-                      "id": 5,
-                    },
-                    Object {
-                      "id": 6,
-                    },
-                    Object {
-                      "id": 7,
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
-            }
             frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
@@ -1761,34 +1550,6 @@ ShallowWrapper {
                 Object {
                     "id": 7,
                   }
-            }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                    Object {
-                      "id": 2,
-                    },
-                    Object {
-                      "id": 3,
-                    },
-                    Object {
-                      "id": 4,
-                    },
-                    Object {
-                      "id": 5,
-                    },
-                    Object {
-                      "id": 6,
-                    },
-                    Object {
-                      "id": 7,
-                    },
-                    Object {
-                      "id": 8,
-                    },
-                  ]
             }
             frameworkGroupingOn={false}
             hideLocation={false}
@@ -1822,34 +1583,6 @@ ShallowWrapper {
                               "id": 1,
                             }
                   }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                              },
-                              Object {
-                                "id": 3,
-                              },
-                              Object {
-                                "id": 4,
-                              },
-                              Object {
-                                "id": 5,
-                              },
-                              Object {
-                                "id": 6,
-                              },
-                              Object {
-                                "id": 7,
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
-                  }
                   frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
@@ -1868,34 +1601,6 @@ ShallowWrapper {
                         Object {
                               "id": 2,
                             }
-                  }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                              },
-                              Object {
-                                "id": 3,
-                              },
-                              Object {
-                                "id": 4,
-                              },
-                              Object {
-                                "id": 5,
-                              },
-                              Object {
-                                "id": 6,
-                              },
-                              Object {
-                                "id": 7,
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
                   }
                   frameworkGroupingOn={false}
                   hideLocation={false}
@@ -1916,34 +1621,6 @@ ShallowWrapper {
                               "id": 3,
                             }
                   }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                              },
-                              Object {
-                                "id": 3,
-                              },
-                              Object {
-                                "id": 4,
-                              },
-                              Object {
-                                "id": 5,
-                              },
-                              Object {
-                                "id": 6,
-                              },
-                              Object {
-                                "id": 7,
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
-                  }
                   frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
@@ -1962,34 +1639,6 @@ ShallowWrapper {
                         Object {
                               "id": 4,
                             }
-                  }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                              },
-                              Object {
-                                "id": 3,
-                              },
-                              Object {
-                                "id": 4,
-                              },
-                              Object {
-                                "id": 5,
-                              },
-                              Object {
-                                "id": 6,
-                              },
-                              Object {
-                                "id": 7,
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
                   }
                   frameworkGroupingOn={false}
                   hideLocation={false}
@@ -2010,34 +1659,6 @@ ShallowWrapper {
                               "id": 5,
                             }
                   }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                              },
-                              Object {
-                                "id": 3,
-                              },
-                              Object {
-                                "id": 4,
-                              },
-                              Object {
-                                "id": 5,
-                              },
-                              Object {
-                                "id": 6,
-                              },
-                              Object {
-                                "id": 7,
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
-                  }
                   frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
@@ -2057,34 +1678,6 @@ ShallowWrapper {
                               "id": 6,
                             }
                   }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                              },
-                              Object {
-                                "id": 3,
-                              },
-                              Object {
-                                "id": 4,
-                              },
-                              Object {
-                                "id": 5,
-                              },
-                              Object {
-                                "id": 6,
-                              },
-                              Object {
-                                "id": 7,
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
-                  }
                   frameworkGroupingOn={false}
                   hideLocation={false}
                   selectFrame={[Function]}
@@ -2103,34 +1696,6 @@ ShallowWrapper {
                         Object {
                               "id": 7,
                             }
-                  }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                              Object {
-                                "id": 2,
-                              },
-                              Object {
-                                "id": 3,
-                              },
-                              Object {
-                                "id": 4,
-                              },
-                              Object {
-                                "id": 5,
-                              },
-                              Object {
-                                "id": 6,
-                              },
-                              Object {
-                                "id": 7,
-                              },
-                              Object {
-                                "id": 8,
-                              },
-                            ]
                   }
                   frameworkGroupingOn={false}
                   hideLocation={false}
@@ -2277,34 +1842,6 @@ ShallowWrapper {
                                                   "id": 1,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -2323,34 +1860,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 2,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
@@ -2371,34 +1880,6 @@ ShallowWrapper {
                                                   "id": 3,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -2417,34 +1898,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 4,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
@@ -2465,34 +1918,6 @@ ShallowWrapper {
                                                   "id": 5,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -2512,34 +1937,6 @@ ShallowWrapper {
                                                   "id": 6,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -2558,34 +1955,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 7,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
@@ -2619,34 +1988,6 @@ ShallowWrapper {
                                                   "id": 1,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -2665,34 +2006,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 2,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
@@ -2713,34 +2026,6 @@ ShallowWrapper {
                                                   "id": 3,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -2759,34 +2044,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 4,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
@@ -2807,34 +2064,6 @@ ShallowWrapper {
                                                   "id": 5,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -2854,34 +2083,6 @@ ShallowWrapper {
                                                   "id": 6,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -2900,34 +2101,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 7,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                  Object {
-                                                    "id": 2,
-                                                  },
-                                                  Object {
-                                                    "id": 3,
-                                                  },
-                                                  Object {
-                                                    "id": 4,
-                                                  },
-                                                  Object {
-                                                    "id": 5,
-                                                  },
-                                                  Object {
-                                                    "id": 6,
-                                                  },
-                                                  Object {
-                                                    "id": 7,
-                                                  },
-                                                  Object {
-                                                    "id": 8,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
@@ -3022,13 +2195,6 @@ ShallowWrapper {
                     "id": 1,
                   }
             }
-            frames={
-                Array [
-                    Object {
-                      "id": 1,
-                    },
-                  ]
-            }
             frameworkGroupingOn={false}
             hideLocation={false}
             selectFrame={[Function]}
@@ -3054,13 +2220,6 @@ ShallowWrapper {
                         Object {
                               "id": 1,
                             }
-                  }
-                  frames={
-                        Array [
-                              Object {
-                                "id": 1,
-                              },
-                            ]
                   }
                   frameworkGroupingOn={false}
                   hideLocation={false}
@@ -3159,13 +2318,6 @@ ShallowWrapper {
                                                   "id": 1,
                                                 }
                               }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                ]
-                              }
                               frameworkGroupingOn={false}
                               hideLocation={false}
                               selectFrame={[Function]}
@@ -3191,13 +2343,6 @@ ShallowWrapper {
                                         Object {
                                                   "id": 1,
                                                 }
-                              }
-                              frames={
-                                        Array [
-                                                  Object {
-                                                    "id": 1,
-                                                  },
-                                                ]
                               }
                               frameworkGroupingOn={false}
                               hideLocation={false}
