@@ -621,7 +621,7 @@ class SearchBar extends Component {
         {
           className: classnames(className, {
             active: !symbolSearchOn && modifiers && modifiers.get(modVal),
-            disabled: symbolSearchOn
+            hide: symbolSearchOn
           }),
           onClick: () =>
             !symbolSearchOn ? toggleFileSearchModifier(modVal) : null,
