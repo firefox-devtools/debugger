@@ -1,9 +1,7 @@
 // @flow
 
-import { getAst } from "./utils/ast";
-import traverse from "babel-traverse";
+import { traverseAst } from "./utils/ast";
 import { isVariable, isFunction } from "./utils/helpers";
-import isEmpty from "lodash/isEmpty";
 import * as t from "babel-types";
 
 import getFunctionName from "./utils/getFunctionName";
@@ -68,15 +66,9 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
     }
   }
 
-  const ast = getAst(source);
+  let symbols = { functions: [], variables: [] };
 
-  const symbols = { functions: [], variables: [] };
-
-  if (isEmpty(ast)) {
-    return symbols;
-  }
-
-  traverse(ast, {
+  traverseAst(source, {
     enter(path) {
       if (isVariable(path)) {
         symbols.variables.push(...getVariableNames(path));

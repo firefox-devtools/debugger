@@ -1,10 +1,8 @@
 // @flow
 
 import * as t from "babel-types";
-import isEmpty from "lodash/isEmpty";
-import traverse from "babel-traverse";
 
-import { traverseAst, getAst } from "./ast";
+import { traverseAst } from "./ast";
 import { isLexicalScope, getMemberExpression } from "./helpers";
 
 import type { SourceText, Location } from "debugger-html";
@@ -93,14 +91,9 @@ export function getClosestExpression(
 }
 
 export function getClosestScope(source: SourceText, location: Location) {
-  const ast = getAst(source);
-  if (isEmpty(ast)) {
-    return null;
-  }
-
   let closestPath = null;
 
-  traverse(ast, {
+  traverseAst(source, {
     enter(path) {
       if (
         isLexicalScope(path) &&
@@ -119,14 +112,9 @@ export function getClosestScope(source: SourceText, location: Location) {
 }
 
 export function getClosestPath(source: SourceText, location: Location) {
-  const ast = getAst(source);
-  if (isEmpty(ast)) {
-    return null;
-  }
-
   let closestPath = null;
 
-  traverse(ast, {
+  traverseAst(source, {
     enter(path) {
       if (nodeContainsLocation({ node: path.node, location })) {
         closestPath = path;
