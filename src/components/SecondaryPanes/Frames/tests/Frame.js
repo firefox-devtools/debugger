@@ -10,7 +10,8 @@ function render(frameToSelect = {}, overrides = {}) {
   const defaultFrame = {
     id: 1,
     source: {
-      url: "foo-view.js"
+      url: "foo-view.js",
+      isBlackBoxed: false
     },
     displayName: "renderFoo",
     frameworkGroupingOn: false,
@@ -23,13 +24,15 @@ function render(frameToSelect = {}, overrides = {}) {
   const frame = Object.assign({}, defaultFrame, overrides);
   const selectedFrame = Object.assign({}, frame, frameToSelect);
   const selectFrame = jest.fn();
+  const toggleBlackBox = jest.fn();
 
   const props = {
     frame,
     selectedFrame,
     copyStackTrace: jest.fn(),
     contextTypes: {},
-    selectFrame
+    selectFrame,
+    toggleBlackBox
   };
   const component = shallow(new Frame(props));
   return { component, props };
@@ -64,7 +67,7 @@ describe("Frame", () => {
   describe("mouse events", () => {
     it("calls FrameMenu on right click", () => {
       const { component, props } = render();
-      const { copyStackTrace, toggleFrameworkGrouping } = props;
+      const { copyStackTrace, toggleFrameworkGrouping, toggleBlackBox } = props;
       const mockEvent = "mockEvent";
       component.simulate("contextmenu", mockEvent);
 
@@ -73,7 +76,8 @@ describe("Frame", () => {
         props.frameworkGroupingOn,
         {
           copyStackTrace,
-          toggleFrameworkGrouping
+          toggleFrameworkGrouping,
+          toggleBlackBox
         },
         mockEvent
       );

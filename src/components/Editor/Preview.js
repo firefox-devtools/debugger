@@ -155,10 +155,18 @@ class Preview extends Component {
     return this.renderSimplePreview(value);
   }
 
+  getPreviewType(value) {
+    if (typeof value == "boolean" || value.class === "Function") {
+      return "tooltip";
+    }
+
+    return "popover";
+  }
+
   render() {
     const { popoverTarget, onClose, value, expression } = this.props;
 
-    let type = value.class === "Function" ? "tooltip" : "popover";
+    let type = this.getPreviewType(value);
 
     return Popover(
       {

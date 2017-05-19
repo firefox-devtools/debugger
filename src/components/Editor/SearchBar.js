@@ -41,7 +41,10 @@ const SearchInput = createFactory(_SearchInput);
 import _ResultList from "../shared/ResultList";
 const ResultList = createFactory(_ResultList);
 
-import type { SymbolDeclaration, ASTLocation } from "../../utils/parser/utils";
+import type {
+  SymbolDeclaration,
+  ASTLocation
+} from "../../utils/parser/getSymbols";
 
 export type FormattedSymbolDeclaration = {
   id: string,
@@ -65,7 +68,7 @@ function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
   const searchAgainPrevKey = L10N.getStr("sourceSearch.search.againPrev.key2");
-  const fnSearchKey = L10N.getStr("symbolSearch.search.key");
+  const fnSearchKey = L10N.getStr("symbolSearch.search.key2");
   const searchKey = L10N.getStr("sourceSearch.search.key2");
 
   return {

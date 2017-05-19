@@ -9,7 +9,7 @@ import flatten from "lodash/flatten";
 import "./previewFunction.css";
 
 import type { FunctionGrip } from "../../client/firefox/types";
-import type { SymbolDeclaration } from "../../utils/parser/utils";
+import type { SymbolDeclaration } from "../../utils/parser/getSymbols";
 
 type FunctionType =
   | FunctionGrip

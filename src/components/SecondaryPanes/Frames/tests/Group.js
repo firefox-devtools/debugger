@@ -13,7 +13,8 @@ function render(overrides = {}) {
     frameworkGroupingOn: true,
     toggleFrameworkGrouping: jest.fn(),
     selectFrame: jest.fn(),
-    copyStackTrace: jest.fn()
+    copyStackTrace: jest.fn(),
+    toggleBlackBox: jest.fn()
   };
 
   const props = Object.assign({}, defaultProps, overrides);
@@ -30,7 +31,7 @@ describe("Group", () => {
   describe("mouse events", () => {
     it("calls FrameMenu on right click", () => {
       const { component, props } = render();
-      const { copyStackTrace, toggleFrameworkGrouping } = props;
+      const { copyStackTrace, toggleFrameworkGrouping, toggleBlackBox } = props;
       const mockEvent = "mockEvent";
       component.simulate("contextmenu", mockEvent);
 
@@ -39,7 +40,8 @@ describe("Group", () => {
         props.frameworkGroupingOn,
         {
           copyStackTrace,
-          toggleFrameworkGrouping
+          toggleFrameworkGrouping,
+          toggleBlackBox
         },
         mockEvent
       );

@@ -39,6 +39,7 @@ export default class Group extends Component {
     selectFrame: Function,
     toggleFrameworkGrouping: Function,
     copyStackTrace: Function,
+    toggleBlackBox: Function,
     frameworkGroupingOn: boolean
   };
 
@@ -55,13 +56,14 @@ export default class Group extends Component {
       group,
       copyStackTrace,
       toggleFrameworkGrouping,
+      toggleBlackBox,
       frameworkGroupingOn
     } = this.props;
     const frame = group[0];
     FrameMenu(
       frame,
       frameworkGroupingOn,
-      { copyStackTrace, toggleFrameworkGrouping },
+      { copyStackTrace, toggleFrameworkGrouping, toggleBlackBox },
       event
     );
   }
@@ -77,8 +79,10 @@ export default class Group extends Component {
       selectedFrame,
       toggleFrameworkGrouping,
       frameworkGroupingOn,
+      toggleBlackBox,
       copyStackTrace
     } = this.props;
+
     const { expanded } = this.state;
     if (!expanded) {
       return null;
@@ -93,6 +97,7 @@ export default class Group extends Component {
           frameworkGroupingOn,
           selectFrame,
           selectedFrame,
+          toggleBlackBox,
           key: frame.id,
           hideLocation: true,
           shouldMapDisplayName: false

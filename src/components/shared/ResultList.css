@@ -1,6 +1,5 @@
 .result-list {
   list-style: none;
-  width: 100%;
   background-color: var(--theme-toolbar-background);
   margin: 0px;
   padding: 0px;
