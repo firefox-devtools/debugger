@@ -47,8 +47,8 @@ class Sources extends Component {
 
   renderFooter() {
     const { selectedPane } = this.state;
-    const showSourcesTooltip = "Show sources";
-    const showOutlineTooltip = "Show outline";
+    const showSourcesTooltip = L10N.getStr("sourcesPane.showSourcesTooltip");
+    const showOutlineTooltip = L10N.getStr("sourcesPane.showOutlineTooltip");
     const tooltip = selectedPane === "sources"
       ? showOutlineTooltip
       : showSourcesTooltip;
@@ -103,7 +103,7 @@ class Sources extends Component {
       SourcesTree({
         sources,
         selectSource,
-        isHidden: selectedPane !== "sources"
+        isHidden: selectedPane === "outline"
       }),
       Outline({ selectSource, isHidden: selectedPane === "sources" }),
       this.renderFooter()
