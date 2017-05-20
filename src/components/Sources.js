@@ -47,7 +47,6 @@ class Sources extends Component {
 
   renderFooter() {
     const { selectedPane } = this.state;
-    console.log("Rendering footer, selected: ", selectedPane);
     const showSourcesTooltip = "Show sources";
     const showOutlineTooltip = "Show outline";
     const tooltip = selectedPane === "sources"

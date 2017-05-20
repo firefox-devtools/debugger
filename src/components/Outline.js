@@ -37,7 +37,6 @@ class Outline extends Component {
     const symbolDeclarations = await getSymbols(sourceText.toJS());
 
     if (symbolDeclarations !== this.state.symbolDeclarations) {
-      console.log("Got new symbol declarations, updating");
       this.setState({
         symbolDeclarations
       });
@@ -65,7 +64,6 @@ class Outline extends Component {
   renderFunctions() {
     const { symbolDeclarations } = this.state;
     if (!symbolDeclarations) {
-      console.log("No symbol declarations");
       return;
     }
 
@@ -102,10 +100,6 @@ export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
     const sourceId = selectedSource ? selectedSource.get("id") : null;
-    console.log("returning: ", {
-      sourceText: getSourceText(state, sourceId),
-      selectedSource
-    });
     return {
       sourceText: getSourceText(state, sourceId),
       selectedSource
