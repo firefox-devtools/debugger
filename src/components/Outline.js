@@ -3,6 +3,7 @@
 import { DOM as dom, PropTypes, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import classnames from "classnames";
 import actions from "../actions";
 import { getSelectedSource, getSourceText } from "../selectors";
 import { isEnabled } from "devtools-config";
@@ -18,7 +19,11 @@ class Outline extends Component {
 
   constructor(props) {
     super(props);
+    const { sourceText, isHidden } = props;
     this.state = {};
+    if (!isHidden) {
+      this.setSymbolDeclarations(sourceText);
+    }
   }
 
   componentWillReceiveProps({ sourceText }) {
@@ -32,6 +37,7 @@ class Outline extends Component {
     const symbolDeclarations = await getSymbols(sourceText.toJS());
 
     if (symbolDeclarations !== this.state.symbolDeclarations) {
+      console.log("Got new symbol declarations, updating");
       this.setState({
         symbolDeclarations
       });
@@ -59,6 +65,7 @@ class Outline extends Component {
   renderFunctions() {
     const { symbolDeclarations } = this.state;
     if (!symbolDeclarations) {
+      console.log("No symbol declarations");
       return;
     }
 
@@ -70,18 +77,21 @@ class Outline extends Component {
   }
 
   render() {
+    const { isHidden } = this.props;
     if (!isEnabled("outline")) {
       return null;
     }
 
     return dom.div(
-      { className: "outline" },
+      { className: classnames("outline", { hidden: isHidden }) },
       dom.ul({ className: "outline-list" }, this.renderFunctions())
     );
   }
 }
 
 Outline.propTypes = {
+  isHidden: PropTypes.bool,
+  sourceText: PropTypes.object,
   selectSource: PropTypes.func.isRequired,
   selectedSource: PropTypes.object
 };
@@ -92,7 +102,10 @@ export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
     const sourceId = selectedSource ? selectedSource.get("id") : null;
-
+    console.log("returning: ", {
+      sourceText: getSourceText(state, sourceId),
+      selectedSource
+    });
     return {
       sourceText: getSourceText(state, sourceId),
       selectedSource

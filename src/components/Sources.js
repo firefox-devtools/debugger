@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../utils/text";
 import actions from "../actions";
+import Svg from "./shared/Svg";
 import { getSources } from "../selectors";
 import "./Sources.css";
 
@@ -15,12 +16,62 @@ const Outline = createFactory(_Outline);
 import _SourcesTree from "./SourcesTree";
 const SourcesTree = createFactory(_SourcesTree);
 
+type SourcesState = {
+  selectedPane: string
+};
+
 class Sources extends Component {
   renderShortcut: Function;
+  selectedPane: String;
+  togglePane: Function;
+  renderFooter: Function;
+  renderChildren: Function;
+  state: SourcesState;
 
   constructor(props) {
     super(props);
+    this.state = { selectedPane: "sources" };
+
     this.renderShortcut = this.renderShortcut.bind(this);
+    this.togglePane = this.togglePane.bind(this);
+    this.renderFooter = this.renderFooter.bind(this);
+  }
+
+  togglePane() {
+    const selectedPane = this.state.selectedPane === "sources"
+      ? "outline"
+      : "sources";
+
+    this.setState({ selectedPane });
+  }
+
+  renderFooter() {
+    const { selectedPane } = this.state;
+    console.log("Rendering footer, selected: ", selectedPane);
+    const showSourcesTooltip = "Show sources";
+    const showOutlineTooltip = "Show outline";
+    const tooltip = selectedPane === "sources"
+      ? showOutlineTooltip
+      : showSourcesTooltip;
+    const type = selectedPane === "sources" ? "showSources" : "showOutline";
+
+    return dom.div(
+      {
+        className: "source-footer"
+      },
+      dom.div(
+        { className: "commands" },
+        dom.button(
+          {
+            className: "action",
+            onClick: this.togglePane,
+            key: type,
+            title: tooltip
+          },
+          Svg(type)
+        )
+      )
+    );
   }
 
   renderShortcut() {
@@ -39,14 +90,24 @@ class Sources extends Component {
     }
   }
 
+  renderHeader() {
+    return dom.div({ className: "sources-header" }, this.renderShortcut());
+  }
+
   render() {
+    const { selectedPane } = this.state;
     const { sources, selectSource } = this.props;
 
     return dom.div(
       { className: "sources-panel" },
-      dom.div({ className: "sources-header" }, this.renderShortcut()),
-      SourcesTree({ sources, selectSource }),
-      Outline({ selectSource })
+      this.renderHeader(),
+      SourcesTree({
+        sources,
+        selectSource,
+        isHidden: selectedPane !== "sources"
+      }),
+      Outline({ selectSource, isHidden: selectedPane === "sources" }),
+      this.renderFooter()
     );
   }
 }

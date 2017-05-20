@@ -39,7 +39,9 @@ const svg = {
   webpack: require("./webpack.svg"),
   node: require("./node.svg"),
   express: require("./express.svg"),
-  pug: require("./pug.svg")
+  pug: require("./pug.svg"),
+  showSources: require("./showSources.svg"),
+  showOutline: require("./showOutline.svg")
 };
 
 module.exports = function(name, props) {

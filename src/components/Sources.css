@@ -62,3 +62,7 @@
   padding-top: 5px;
   text-align: center;
 }
+
+.hidden {
+  display: none;
+}
