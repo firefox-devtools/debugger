@@ -76,15 +76,10 @@
 
 .search-bottom-bar .search-modifiers button.active svg {
   fill: var(--theme-selection-background);
-  visibility: visible;
 }
 
 .theme-dark .search-bottom-bar .search-modifiers button.active svg {
   fill: white;
-}
-
-.search-bottom-bar .search-modifiers button.hide svg {
-  visibility: hidden;
 }
 
 .search-bottom-bar .search-type-toggles {

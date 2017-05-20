@@ -619,12 +619,15 @@ class SearchBar extends Component {
   renderSearchModifiers() {
     const { modifiers, toggleFileSearchModifier, symbolSearchOn } = this.props;
 
+    if (symbolSearchOn) {
+      return null;
+    }
+
     function searchModBtn(modVal, className, svgName, tooltip) {
       return dom.button(
         {
           className: classnames(className, {
-            active: !symbolSearchOn && modifiers && modifiers.get(modVal),
-            hide: symbolSearchOn
+            active: !symbolSearchOn && modifiers && modifiers.get(modVal)
           }),
           onClick: () =>
             !symbolSearchOn ? toggleFileSearchModifier(modVal) : null,
