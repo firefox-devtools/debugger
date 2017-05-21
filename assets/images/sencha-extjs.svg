@@ -10,13 +10,13 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 744.09448819 1052.3622047"
+   width="34"
+   height="34"
+   viewBox="0 0 34 34"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="sencha.svg">
+   sodipodi:docname="sencha-extjs.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -44,7 +44,7 @@
        x2="162.84953"
        y2="275.13159"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(22.857143,17.142857)" />
+       gradientTransform="matrix(0.03267513,0,0,0.03267513,5.555801,1018.6805)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -53,9 +53,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="-52.142857"
-     inkscape:cy="520"
+     inkscape:zoom="1.979899"
+     inkscape:cx="-56.48327"
+     inkscape:cy="153.22225"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -63,7 +63,8 @@
      inkscape:window-height="1057"
      inkscape:window-x="54"
      inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     units="px" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -79,10 +80,11 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(0,-1018.3622)">
     <path
-       style="opacity:1;fill:url(#linearGradient4281);fill-opacity:1;stroke:#000080;stroke-width:9.17716503;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 270.94112,28.586495 C -24.229648,65.081521 -44.79606,433.30811 140.57855,585.45711 325.95317,737.60612 568.11457,870.60274 469.47097,1027.0646 756.31972,996.17599 780.56819,704.28401 646.78753,557.53696 513.00688,410.78991 112.49023,237.964 270.94112,28.586495 Z"
+       style="opacity:1;fill:url(#linearGradient4281);fill-opacity:1;stroke:#000080;stroke-width:0.29986507;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 13.661978,1019.0545 c -9.6447445,1.1926 -10.316754,13.2244 -4.2596149,18.1959 6.0571409,4.9714 13.9697969,9.3171 10.7466029,14.4295 9.372821,-1.0092 10.165143,-10.5469 5.793842,-15.3419 -4.371301,-4.7949 -17.4582341,-10.442 -12.28083,-17.2835 z"
        id="path4136"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="czczc" />
