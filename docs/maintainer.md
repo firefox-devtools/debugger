@@ -62,7 +62,7 @@ Tips:
 
 * write some pseudo-code or add comments where code should go
 * add a diff with diff code blocks
-* use the [gist] cli to make diffs. I have a shortcut for `git diff | gist --type diff`
+* use the \[gist] cli to make diffs. I have a shortcut for `git diff | gist --type diff`
 * when gists are long you can include a link to a gist and this snippet in the issue `curl <raw-gist-url> | git apply`
 
 ### Pushing to a branch
@@ -94,3 +94,7 @@ Notes:
 [enhancements board]: https://github.com/devtools-html/debugger.html/projects/5
 [ship]: https://www.realartists.com
 [ship-screenshot]: https://cloud.githubusercontent.com/assets/254562/23369201/8fe98b82-fcde-11e6-9dac-3e40547f29ad.png
+
+[github-2fa]:https://help.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/
+[github-pat]:https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
+[github-remote]:https://help.github.com/articles/adding-a-remote/

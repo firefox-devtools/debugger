@@ -18,7 +18,7 @@ The Debugger client communicates with the server via clients and actors.
 #### Commands
 |method|Client|Actor|
 |----|----------|------|
-|setBreakpoint|[client][setBreakpointActor]|[actor][setBreakpointClient] |
+|setBreakpoint|[client][setBreakpointActor]|[actor][setBreakpointClient]|
 
 **Add Commands**
 
