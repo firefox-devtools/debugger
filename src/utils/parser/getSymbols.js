@@ -21,9 +21,12 @@ export type ASTLocation = {
 
 export type SymbolDeclaration = {
   name: string,
-  location: ASTLocation,
-  parameterNames?: string[]
+  location: ASTLocation
 };
+
+export type FunctionDeclaration = SymbolDeclaration & {|
+  parameterNames: string[]
+|};
 
 export type SymbolDeclarations = {
   functions: Array<SymbolDeclaration>,

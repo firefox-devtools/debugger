@@ -6,20 +6,21 @@ import times from "lodash/times";
 import zip from "lodash/zip";
 import flatten from "lodash/flatten";
 
+import { simplifyDisplayName } from "../../utils/frame";
+
 import "./previewFunction.css";
 
 import type { FunctionGrip } from "../../client/firefox/types";
-import type { SymbolDeclaration } from "../../utils/parser/getSymbols";
+import type { FunctionDeclaration } from "../../utils/parser/getSymbols";
 
 type FunctionType =
   | FunctionGrip
-  | SymbolDeclaration
-  | { name: string, parameterNames: [] };
+  | FunctionDeclaration
+  | {| name: string, parameterNames: [] |};
 
 function getFunctionName(func: FunctionType) {
-  return (
-    func.userDisplayName || func.displayName || func.name || func.value || ""
-  );
+  const name = func.userDisplayName || func.displayName || func.name;
+  return simplifyDisplayName(name);
 }
 
 function renderFunctionName(func: FunctionType) {
