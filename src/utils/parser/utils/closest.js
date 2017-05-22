@@ -29,6 +29,7 @@ function nodeContainsLocation({ node, location }: nodeContainsLocationParams) {
   const { start, end } = node.loc;
   const { line, column } = location;
 
+  // node is a one line expression
   if (start.line === end.line) {
     return (
       start.line === line && start.column <= column && end.column >= column
