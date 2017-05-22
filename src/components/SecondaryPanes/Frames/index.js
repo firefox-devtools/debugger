@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { createSelector } from "reselect";
 
 import get from "lodash/get";
+import type { Frame } from "debugger-html";
+import type { SourcesMap } from "../../../reducers/sources";
 
 import _FrameComponent from "./Frame";
 const FrameComponent = createFactory(_FrameComponent);
@@ -123,7 +125,6 @@ class Frames extends Component {
                 toggleFrameworkGrouping: this.toggleFrameworkGrouping,
                 copyStackTrace: this.copyStackTrace,
                 frameworkGroupingOn,
-                frames,
                 selectFrame,
                 selectedFrame,
                 toggleBlackBox,
@@ -201,27 +202,29 @@ function appendSource(sources, frame) {
   });
 }
 
-const getAndProcessFrames = createSelector(
+export function getAndProcessFrames(frames: Frame[], sources: SourcesMap) {
+  if (!frames) {
+    return null;
+  }
+
+  const processedFrames = frames
+    .filter(frame => getSourceForFrame(sources, frame))
+    .map(frame => appendSource(sources, frame))
+    .filter(frame => !get(frame, "source.isBlackBoxed"))
+    .map(annotateFrame);
+
+  return processedFrames;
+}
+
+const getAndProcessFramesSelector = createSelector(
   getFrames,
   getSources,
-  (frames, sources) => {
-    if (!frames) {
-      return null;
-    }
-
-    frames = frames
-      .filter(frame => getSourceForFrame(sources, frame))
-      .filter(frame => !get(frame, "source.isBlackBoxed"))
-      .map(frame => appendSource(sources, frame))
-      .map(annotateFrame);
-
-    return frames;
-  }
+  getAndProcessFrames
 );
 
 export default connect(
   state => ({
-    frames: getAndProcessFrames(state),
+    frames: getAndProcessFramesSelector(state),
     frameworkGroupingOn: getFrameworkGroupingState(state),
     selectedFrame: getSelectedFrame(state)
   }),
