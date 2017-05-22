@@ -10,13 +10,12 @@ import { simplifyDisplayName } from "../../utils/frame";
 
 import "./previewFunction.css";
 
-import type { FunctionGrip } from "../../client/firefox/types";
-import type { FunctionDeclaration } from "../../utils/parser/getSymbols";
-
-type FunctionType =
-  | FunctionGrip
-  | FunctionDeclaration
-  | {| name: string, parameterNames: [] |};
+type FunctionType = {
+  name: string,
+  displayName?: string,
+  userDisplayName?: string,
+  parameterNames?: string[]
+};
 
 function getFunctionName(func: FunctionType) {
   const name = func.userDisplayName || func.displayName || func.name;

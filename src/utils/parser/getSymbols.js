@@ -10,11 +10,11 @@ import type { SourceText } from "debugger-html";
 import type { Location as BabelLocation } from "babel-traverse";
 const symbolDeclarations = new Map();
 
-export type SymbolDeclaration = {
+export type SymbolDeclaration = {|
   name: string,
   location: BabelLocation,
   parameterNames?: string[]
-};
+|};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
   parameterNames: string[]
