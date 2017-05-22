@@ -1,8 +1,12 @@
+// @flow
+
 import parseScriptTags from "parse-script-tags";
 import * as babylon from "babylon";
 import traverse from "babel-traverse";
 import isEmpty from "lodash/isEmpty";
 import { isDevelopment } from "devtools-config";
+
+import type { SourceText } from "debugger-html";
 
 const ASTs = new Map();
 
@@ -58,11 +62,12 @@ export function getAst(sourceText: SourceText) {
   return ast;
 }
 
-export function traverseAst(sourceText: SourceText, pattern) {
+type Visitor = { enter: Function };
+export function traverseAst(sourceText: SourceText, visitor: Visitor) {
   const ast = getAst(sourceText);
   if (isEmpty(ast)) {
     return null;
   }
 
-  traverse(ast, pattern);
+  traverse(ast, visitor);
 }

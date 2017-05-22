@@ -34,24 +34,21 @@ import type { SourceRecord, SourceTextRecord } from "../../reducers/sources";
 import type { FileSearchModifiers, SymbolSearchType } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
 import type { SearchResults } from ".";
-
+import type { Location as BabelLocation } from "babel-traverse";
 import _SearchInput from "../shared/SearchInput";
 const SearchInput = createFactory(_SearchInput);
 
 import _ResultList from "../shared/ResultList";
 const ResultList = createFactory(_ResultList);
 
-import type {
-  SymbolDeclaration,
-  ASTLocation
-} from "../../utils/parser/getSymbols";
+import type { SymbolDeclaration } from "../../utils/parser/getSymbols";
 
 export type FormattedSymbolDeclaration = {
   id: string,
   title: string,
   subtitle: string,
   value: string,
-  location: ASTLocation,
+  location: BabelLocation,
   parameterNames?: string[]
 };
 
