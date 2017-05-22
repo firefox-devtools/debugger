@@ -21,7 +21,7 @@ function generateFuncLocation(startLine) {
 function generateSymbolDeclaration(name, line) {
   return {
     id: `${name}:${line}`,
-    value: name,
+    name,
     location: generateFuncLocation(line)
   };
 }
@@ -41,6 +41,7 @@ function generateDefaults() {
     selectedSource: {
       get: () => sourceId
     },
+    isHidden: false,
     sourceText: {
       root: "some text here",
       toJS: function() {

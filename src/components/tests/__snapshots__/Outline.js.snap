@@ -31,6 +31,7 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <Outline
+        isHidden={false}
         selectSource={[Function]}
         selectedSource={
                 Object {
@@ -51,6 +52,7 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
+          "isHidden": false,
           "selectSource": [Function],
           "selectedSource": Object {
             "get": [Function],
@@ -71,7 +73,7 @@ ShallowWrapper {
                     "line": 21,
                   },
                 },
-                "value": "my_example_function1",
+                "name": "my_example_function1",
               },
               Object {
                 "id": "my_example_function2:22",
@@ -80,7 +82,7 @@ ShallowWrapper {
                     "line": 22,
                   },
                 },
-                "value": "my_example_function2",
+                "name": "my_example_function2",
               },
             ],
           },
@@ -228,6 +230,7 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <Outline
+    isHidden={false}
     selectSource={[Function]}
     selectedSource={
         Object {
@@ -275,6 +278,7 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <Outline
+        isHidden={false}
         selectSource={[Function]}
         selectedSource={
                 Object {
@@ -295,6 +299,7 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
+          "isHidden": false,
           "selectSource": [Function],
           "selectedSource": Object {
             "get": [Function],
@@ -315,7 +320,7 @@ ShallowWrapper {
                     "line": 21,
                   },
                 },
-                "value": "my_example_function1",
+                "name": "my_example_function1",
               },
               Object {
                 "id": "anonymous:25",
@@ -324,7 +329,7 @@ ShallowWrapper {
                     "line": 25,
                   },
                 },
-                "value": "anonymous",
+                "name": "anonymous",
               },
             ],
           },
@@ -424,6 +429,7 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <Outline
+    isHidden={false}
     selectSource={[Function]}
     selectedSource={
         Object {

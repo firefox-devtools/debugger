@@ -281,7 +281,7 @@ export type Grip = {
   actor: string
 };
 
-export type FunctionGrip = {
+export type FunctionGrip = {|
   class: "Function",
   name: string,
   parameterNames: string[],
@@ -290,7 +290,7 @@ export type FunctionGrip = {
   url: string,
   line: number,
   column: number
-};
+|};
 
 /**
  * SourceClient

@@ -228,6 +228,7 @@ class SourcesTree extends Component {
   }
 
   render() {
+    const { isHidden } = this.props;
     const {
       focusedItem,
       sourceTree,
@@ -235,6 +236,7 @@ class SourcesTree extends Component {
       listItems,
       highlightItems
     } = this.state;
+
     const isEmpty = sourceTree.contents.length === 0;
 
     const tree = ManagedTree({
@@ -271,7 +273,7 @@ class SourcesTree extends Component {
     }
     return dom.div(
       {
-        className: "sources-list",
+        className: classnames("sources-list", { hidden: isHidden }),
         onKeyDown: e => {
           if (e.keyCode === 13 && focusedItem) {
             this.selectItem(focusedItem);
@@ -284,6 +286,7 @@ class SourcesTree extends Component {
 }
 
 SourcesTree.propTypes = {
+  isHidden: PropTypes.bool,
   sources: ImPropTypes.map.isRequired,
   selectSource: PropTypes.func.isRequired,
   shownSource: PropTypes.string,

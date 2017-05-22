@@ -50,8 +50,8 @@ export default class FrameComponent extends Component {
     toggleBlackBox: Function
   };
 
-  constructor(...args: any[]) {
-    super(...args);
+  constructor() {
+    super();
   }
 
   onContextMenu(event: SyntheticKeyboardEvent) {
