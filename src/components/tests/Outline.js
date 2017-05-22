@@ -41,6 +41,7 @@ function generateDefaults() {
     selectedSource: {
       get: () => sourceId
     },
+    isHidden: false,
     sourceText: {
       root: "some text here",
       toJS: function() {
