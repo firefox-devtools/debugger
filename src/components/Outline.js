@@ -88,7 +88,7 @@ class Outline extends Component {
 }
 
 Outline.propTypes = {
-  isHidden: PropTypes.bool,
+  isHidden: PropTypes.bool.isRequired,
   sourceText: PropTypes.object,
   selectSource: PropTypes.func.isRequired,
   selectedSource: PropTypes.object

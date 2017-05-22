@@ -31,6 +31,7 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <Outline
+        isHidden={false}
         selectSource={[Function]}
         selectedSource={
                 Object {
@@ -51,6 +52,7 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
+          "isHidden": false,
           "selectSource": [Function],
           "selectedSource": Object {
             "get": [Function],
@@ -228,6 +230,7 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <Outline
+    isHidden={false}
     selectSource={[Function]}
     selectedSource={
         Object {
@@ -275,6 +278,7 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <Outline
+        isHidden={false}
         selectSource={[Function]}
         selectedSource={
                 Object {
@@ -295,6 +299,7 @@ ShallowWrapper {
         "_reactInternalInstance": [Circular],
         "context": Object {},
         "props": Object {
+          "isHidden": false,
           "selectSource": [Function],
           "selectedSource": Object {
             "get": [Function],
@@ -424,6 +429,7 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <Outline
+    isHidden={false}
     selectSource={[Function]}
     selectedSource={
         Object {

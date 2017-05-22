@@ -49,10 +49,11 @@ class Sources extends Component {
     const { selectedPane } = this.state;
     const showSourcesTooltip = L10N.getStr("sourcesPane.showSourcesTooltip");
     const showOutlineTooltip = L10N.getStr("sourcesPane.showOutlineTooltip");
-    const tooltip = selectedPane === "sources"
+    const isSourcesPaneSelected = selectedPane === "sources";
+    const tooltip = isSourcesPaneSelected
       ? showOutlineTooltip
       : showSourcesTooltip;
-    const type = selectedPane === "sources" ? "showSources" : "showOutline";
+    const type = isSourcesPaneSelected ? "showSources" : "showOutline";
 
     return dom.div(
       {
