@@ -15,7 +15,7 @@ function getScopeVariables(scope: Scope) {
 }
 
 function getScopeChain(scope: Scope): Scope[] {
-  const scopes = [scope];
+  const scopes = [];
 
   do {
     scopes.push(scope);
