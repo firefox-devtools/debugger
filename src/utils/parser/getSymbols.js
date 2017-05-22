@@ -7,23 +7,13 @@ import * as t from "babel-types";
 import getFunctionName from "./utils/getFunctionName";
 
 import type { SourceText } from "debugger-html";
-
+import type { Location as BabelLocation } from "babel-traverse";
 const symbolDeclarations = new Map();
-
-export type ASTLocation = {
-  start: {
-    line: number,
-    column: number
-  },
-  end: {
-    line: number,
-    column: number
-  }
-};
 
 export type SymbolDeclaration = {
   name: string,
-  location: ASTLocation
+  location: BabelLocation,
+  parameterNames?: string[]
 };
 
 export type FunctionDeclaration = SymbolDeclaration & {|
