@@ -65,7 +65,7 @@ class Outline extends Component {
     const { functions } = symbolDeclarations;
 
     return functions
-      .filter(func => func.value != "anonymous")
+      .filter(func => func.name != "anonymous")
       .map(func => this.renderFunction(func));
   }
 

@@ -21,7 +21,7 @@ function generateFuncLocation(startLine) {
 function generateSymbolDeclaration(name, line) {
   return {
     id: `${name}:${line}`,
-    value: name,
+    name,
     location: generateFuncLocation(line)
   };
 }
