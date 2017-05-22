@@ -99,10 +99,7 @@ function update(
         prefs.fileSearchRegexMatch = actionVal;
       }
 
-      return state.setIn(
-        ["fileSearchModifiers", action.modifier],
-        !state.getIn(["fileSearchModifiers", action.modifier])
-      );
+      return state.setIn(["fileSearchModifiers", action.modifier], actionVal);
     }
 
     case constants.SET_SYMBOL_SEARCH_TYPE: {
