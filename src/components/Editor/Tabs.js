@@ -8,7 +8,7 @@ import * as I from "immutable";
 import {
   getSelectedSource,
   getSourcesForTabs,
-  getProjectSearchState
+  getActiveSearchState
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
@@ -30,6 +30,7 @@ const Dropdown = createFactory(_Dropdown);
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
+import type { ActiveSearchType } from "../../reducers/ui";
 type SourcesList = List<SourceRecord>;
 
 /*
@@ -98,17 +99,18 @@ class SourceTabs extends PureComponent {
   props: {
     sourceTabs: SourcesList,
     selectedSource: SourceRecord,
-    selectSource: (string, ?Object) => void,
-    moveTab: (string, number) => void,
-    closeTab: string => void,
-    closeTabs: (List<string>) => void,
-    toggleProjectSearch: () => void,
-    togglePrettyPrint: string => void,
-    togglePaneCollapse: () => void,
-    showSource: string => void,
+    selectSource: (string, ?Object) => any,
+    moveTab: (string, number) => any,
+    closeTab: string => any,
+    closeTabs: (List<string>) => any,
+    toggleActiveSearch: (?ActiveSearchType) => any,
+    togglePrettyPrint: string => any,
+    togglePaneCollapse: () => any,
+    showSource: string => any,
     horizontal: boolean,
     startPanelCollapsed: boolean,
-    endPanelCollapsed: boolean
+    endPanelCollapsed: boolean,
+    searchOn: boolean
   };
 
   onResize: Function;
@@ -376,7 +378,12 @@ class SourceTabs extends PureComponent {
     return dom.div(
       {
         className: "new-tab-btn",
-        onClick: () => this.props.toggleProjectSearch(),
+        onClick: () => {
+          if (this.props.searchOn) {
+            this.props.toggleActiveSearch();
+          }
+          this.props.toggleActiveSearch("project");
+        },
         title: newTabTooltip
       },
       Svg("plus")
@@ -445,7 +452,7 @@ export default connect(
     return {
       selectedSource: getSelectedSource(state),
       sourceTabs: getSourcesForTabs(state),
-      searchOn: getProjectSearchState(state)
+      searchOn: getActiveSearchState(state) === "project"
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

@@ -1,13 +1,11 @@
 import { createStore, selectors, actions } from "../../utils/test-head";
 
 const {
-  getFileSearchState,
+  getActiveSearchState,
   getFileSearchQueryState,
   getFileSearchModifierState,
   getFrameworkGroupingState,
-  getProjectSearchState,
   getPaneCollapse,
-  getSymbolSearchState,
   getSymbolSearchType,
   getHighlightedLineRange,
   getSearchResults,
@@ -17,31 +15,24 @@ const {
 describe("ui", () => {
   it("should toggle the visible state of project search", () => {
     const { dispatch, getState } = createStore();
-    expect(getProjectSearchState(getState())).toBe(false);
-    dispatch(actions.toggleProjectSearch());
-    expect(getProjectSearchState(getState())).toBe(true);
+    expect(getActiveSearchState(getState())).toBe(null);
+    dispatch(actions.toggleActiveSearch("project"));
+    expect(getActiveSearchState(getState())).toBe("project");
   });
 
   it("should close project search", () => {
     const { dispatch, getState } = createStore();
-    expect(getProjectSearchState(getState())).toBe(false);
-    dispatch(actions.toggleProjectSearch());
-    dispatch(actions.toggleProjectSearch(false));
-    expect(getProjectSearchState(getState())).toBe(false);
+    expect(getActiveSearchState(getState())).toBe(null);
+    dispatch(actions.toggleActiveSearch("project"));
+    dispatch(actions.toggleActiveSearch());
+    expect(getActiveSearchState(getState())).toBe(null);
   });
 
   it("should toggle the visible state of file search", () => {
     const { dispatch, getState } = createStore();
-    expect(getFileSearchState(getState())).toBe(false);
-    dispatch(actions.toggleFileSearch());
-    expect(getFileSearchState(getState())).toBe(true);
-  });
-
-  it("should toggle the collapsed state of frameworks in the callstack", () => {
-    const { dispatch, getState } = createStore();
-    const currentState = getFrameworkGroupingState(getState());
-    dispatch(actions.toggleFrameworkGrouping(!currentState));
-    expect(getFrameworkGroupingState(getState())).toBe(!currentState);
+    expect(getActiveSearchState(getState())).toBe(null);
+    dispatch(actions.toggleActiveSearch("file"));
+    expect(getActiveSearchState(getState())).toBe("file");
   });
 
   it("should update search results", () => {
@@ -64,10 +55,10 @@ describe("ui", () => {
 
   it("should close file search", () => {
     const { dispatch, getState } = createStore();
-    expect(getFileSearchState(getState())).toBe(false);
-    dispatch(actions.toggleFileSearch());
-    dispatch(actions.toggleFileSearch(false));
-    expect(getFileSearchState(getState())).toBe(false);
+    expect(getActiveSearchState(getState())).toBe(null);
+    dispatch(actions.toggleActiveSearch("file"));
+    dispatch(actions.toggleActiveSearch());
+    expect(getActiveSearchState(getState())).toBe(null);
   });
 
   it("should update the file search query", () => {
@@ -90,9 +81,9 @@ describe("ui", () => {
 
   it("should toggle the symbol search state", () => {
     const { dispatch, getState } = createStore();
-    expect(getSymbolSearchState(getState())).toBe(false);
-    dispatch(actions.toggleSymbolSearch(true));
-    expect(getSymbolSearchState(getState())).toBe(true);
+    expect(getActiveSearchState(getState())).toBe(null);
+    dispatch(actions.toggleActiveSearch("symbol"));
+    expect(getActiveSearchState(getState())).toBe("symbol");
   });
 
   it("should change the selected symbol type", () => {
@@ -107,6 +98,13 @@ describe("ui", () => {
     expect(getPaneCollapse(getState(), "start")).toBe(false);
     dispatch(actions.togglePaneCollapse("start", true));
     expect(getPaneCollapse(getState(), "start")).toBe(true);
+  });
+
+  it("should toggle the collapsed state of frameworks in the callstack", () => {
+    const { dispatch, getState } = createStore();
+    const currentState = getFrameworkGroupingState(getState());
+    dispatch(actions.toggleFrameworkGrouping(!currentState));
+    expect(getFrameworkGroupingState(getState())).toBe(!currentState);
   });
 
   it("should highlight lines", () => {

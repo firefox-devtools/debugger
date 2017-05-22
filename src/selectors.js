@@ -53,14 +53,13 @@ module.exports = {
 
   getEventListeners: eventListeners.getEventListeners,
 
-  getProjectSearchState: ui.getProjectSearchState,
-  getFileSearchState: ui.getFileSearchState,
+  getActiveSearchState: ui.getActiveSearchState,
   getFileSearchQueryState: ui.getFileSearchQueryState,
   getFileSearchModifierState: ui.getFileSearchModifierState,
   getSymbolSearchResults: ui.getSymbolSearchResults,
   getSearchResults: ui.getSearchResults,
   getFrameworkGroupingState: ui.getFrameworkGroupingState,
-  getSymbolSearchState: ui.getSymbolSearchState,
+  getSymbolSearchQueryState: ui.getSymbolSearchQueryState,
   getSymbolSearchType: ui.getSymbolSearchType,
   getShownSource: ui.getShownSource,
   getPaneCollapse: ui.getPaneCollapse,

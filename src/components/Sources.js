@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../utils/text";
 import actions from "../actions";
-import { getSources } from "../selectors";
+import { getSources, getActiveSearchState } from "../selectors";
 import { isEnabled } from "devtools-config";
 import "./Sources.css";
 import classnames from "classnames";
@@ -86,7 +86,12 @@ class Sources extends Component {
         {
           className: "sources-header-info",
           dir: "ltr",
-          onClick: () => this.props.toggleProjectSearch()
+          onClick: () => {
+            if (this.props.projectSearchOn) {
+              this.props.toggleActiveSearch();
+            }
+            this.props.toggleActiveSearch("project");
+          }
         },
         L10N.getFormatStr(
           "sources.search",
@@ -122,14 +127,16 @@ Sources.propTypes = {
   sources: ImPropTypes.map.isRequired,
   selectSource: PropTypes.func.isRequired,
   horizontal: PropTypes.bool.isRequired,
-  toggleProjectSearch: PropTypes.func.isRequired
+  toggleActiveSearch: PropTypes.func.isRequired,
+  projectSearchOn: PropTypes.bool.isRequired
 };
 
 Sources.displayName = "Sources";
 
 export default connect(
   state => ({
-    sources: getSources(state)
+    sources: getSources(state),
+    projectSearchOn: getActiveSearchState(state) === "project"
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Sources);

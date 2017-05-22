@@ -1,55 +1,25 @@
 // @flow
-
-import {
-  getSource,
-  getProjectSearchState,
-  getFileSearchState
-} from "../selectors";
+import { getSource, getActiveSearchState } from "../selectors";
 import type { ThunkArgs } from "./types";
-import type { SymbolSearchType } from "../reducers/ui";
+import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
 
-export function toggleProjectSearch(toggleValue?: boolean) {
+export function toggleActiveSearch(activeSearch?: ActiveSearchType) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    const projectSearchState = getProjectSearchState(getState());
-    if (toggleValue === undefined) {
-      return dispatch({
-        type: "TOGGLE_PROJECT_SEARCH",
-        value: !projectSearchState
+    if (!activeSearch) {
+      dispatch({
+        type: "TOGGLE_ACTIVE_SEARCH",
+        value: null
       });
     }
+    const activeSearchState = getActiveSearchState(getState());
 
-    if (projectSearchState == toggleValue) {
+    if (activeSearchState === activeSearch) {
       return;
     }
 
     dispatch({
-      type: "TOGGLE_PROJECT_SEARCH",
-      value: toggleValue
-    });
-  };
-}
-
-export function toggleFileSearch(toggleValue?: boolean) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    if (toggleValue != null) {
-      dispatch({
-        type: "TOGGLE_FILE_SEARCH",
-        value: toggleValue
-      });
-    } else {
-      dispatch({
-        type: "TOGGLE_FILE_SEARCH",
-        value: !getFileSearchState(getState())
-      });
-    }
-  };
-}
-
-export function toggleSymbolSearch(toggleValue: boolean) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: "TOGGLE_SYMBOL_SEARCH",
-      value: toggleValue
+      type: "TOGGLE_ACTIVE_SEARCH",
+      value: activeSearch
     });
   };
 }
@@ -90,6 +60,13 @@ export function updateSymbolSearchResults(results: Array<*>) {
   return {
     type: "UPDATE_SYMBOL_SEARCH_RESULTS",
     results
+  };
+}
+
+export function setSymbolSearchQuery(query: string) {
+  return {
+    type: "UPDATE_SYMBOL_SEARCH_QUERY",
+    query
   };
 }
 

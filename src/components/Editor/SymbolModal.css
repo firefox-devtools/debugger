@@ -1,0 +1,9 @@
+.symbol-modal {
+  position: absolute;
+  left: 16.5%;
+  z-index: 10;
+  width: 66.66%;
+  height: 230px;
+  background-color: var(--theme-codemirror-gutter-background);
+  box-shadow: 2px 4px 6px #333333;
+}
