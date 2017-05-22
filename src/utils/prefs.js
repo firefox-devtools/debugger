@@ -17,6 +17,9 @@ if (isDevelopment()) {
   pref("devtools.debugger.pending-selected-location", "{}");
   pref("devtools.debugger.pending-breakpoints", "[]");
   pref("devtools.debugger.expressions", "[]");
+  pref("devtools.debugger.file-search-case-sensitive", true);
+  pref("devtools.debugger.file-search-whole-word", false);
+  pref("devtools.debugger.file-search-regex-match", false);
 }
 
 const prefs = new PrefsHelper("devtools", {
@@ -31,7 +34,10 @@ const prefs = new PrefsHelper("devtools", {
   tabs: ["Json", "debugger.tabs"],
   pendingSelectedLocation: ["Json", "debugger.pending-selected-location"],
   pendingBreakpoints: ["Json", "debugger.pending-breakpoints"],
-  expressions: ["Json", "debugger.expressions"]
+  expressions: ["Json", "debugger.expressions"],
+  fileSearchCaseSensitive: ["Bool", "debugger.file-search-case-sensitive"],
+  fileSearchWholeWord: ["Bool", "debugger.file-search-whole-word"],
+  fileSearchRegexMatch: ["Bool", "debugger.file-search-regex-match"]
 });
 
 module.exports = { prefs };
