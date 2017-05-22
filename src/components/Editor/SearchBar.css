@@ -82,11 +82,6 @@
   fill: white;
 }
 
-.search-bottom-bar .search-modifiers button.disabled svg {
-  fill: var(--theme-comment-alt);
-  cursor: default;
-}
-
 .search-bottom-bar .search-type-toggles {
   display: flex;
   align-items: center;
