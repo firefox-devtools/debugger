@@ -22,7 +22,7 @@ import type { Record } from "../utils/makeRecord";
 type Tab = string;
 export type SourceRecord = Record<Source>;
 export type SourceTextRecord = Record<SourceText>;
-type SourcesMap = Map<string, SourceRecord>;
+export type SourcesMap = Map<string, SourceRecord>;
 type SourceTextMap = Map<string, SourceTextRecord>;
 type TabList = List<Tab>;
 
@@ -103,20 +103,10 @@ function update(
 
     case "CLOSE_TAB":
       availableTabs = removeSourceFromTabList(state.tabs, action.url);
-      const sourceId = getNewSelectedSourceId(state, availableTabs);
 
-      if (sourceId) {
-        location = { url: getSourceUrlById(state, sourceId) };
-        prefs.pendingSelectedLocation = location;
-      } else {
-        location = undefined;
-        prefs.pendingSelectedLocation = {};
-      }
-
-      return state
-        .merge({ tabs: availableTabs })
-        .set("selectedLocation", { sourceId })
-        .set("pendingSelectedLocation", location);
+      return state.merge({ tabs: availableTabs }).set("selectedLocation", {
+        sourceId: getNewSelectedSourceId(state, availableTabs)
+      });
 
     case "CLOSE_TABS":
       availableTabs = removeSourcesFromTabList(state.tabs, action.urls);
@@ -143,16 +133,8 @@ function update(
     case "NAVIGATE":
       const source = getSelectedSource({ sources: state });
       const url = source && source.get("url");
-      const tabs = getTabs({ sources: state });
-
-      if (url) {
-        prefs.pendingSelectedLocation = { url };
-        return State()
-          .set("pendingSelectedLocation", { url })
-          .set("tabs", tabs);
-      }
-
-      return State().set("pendingSelectedLocation", {}).set("tabs", tabs);
+      prefs.pendingSelectedLocation = { url };
+      return State().set("pendingSelectedLocation", { url });
   }
 
   return state;
@@ -206,7 +188,7 @@ function removeSourcesFromTabList(tabs, urls) {
 
 function restoreTabs() {
   let prefsTabs = prefs.tabs || [];
-  if (Object.keys(prefsTabs).length == 0) {
+  if (prefsTabs.length == 0) {
     return;
   }
 
@@ -284,11 +266,6 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
   }
 
   return "";
-}
-
-function getSourceUrlById(state: SourcesState, id: string): string {
-  const src = state.sources.find(source => source.get("id") == id);
-  return src ? src.get("url") : "";
 }
 
 // Selectors

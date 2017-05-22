@@ -1,6 +1,6 @@
 // @flow
 
-const get = require("lodash/get");
+import get from "lodash/get";
 import { isEnabled } from "devtools-config";
 import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";

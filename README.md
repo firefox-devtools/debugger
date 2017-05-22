@@ -59,7 +59,7 @@ We strive to make the Debugger as development friendly as possible. If you have 
 
 Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
 
-* **Community Call**: Every Tuesday, Thursday at 3pm EST. [Join the Hangout][community-call]
+* **Community Call**: Every Tuesday at 3pm EST and Thursday at 12pm EST. [Join the Hangout][community-call]
 * **DevTools Call**: Every Tuesday at 12pm EST. [Join the DevTools Vidyo][devtools-call]
 * **Pairing**: Ask in [slack] and you'll either find someone or be able to schedule a time for later.
 

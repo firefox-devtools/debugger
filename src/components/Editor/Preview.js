@@ -33,15 +33,27 @@ class Preview extends Component {
   };
 
   componentDidMount() {
-    const { loadObjectProperties, loadedObjects, value } = this.props;
+    const {
+      loadObjectProperties,
+      loadedObjects,
+      value,
+      popoverTarget
+    } = this.props;
+
+    popoverTarget.classList.add("selected-token");
 
     if (!value || !value.type == "object") {
       return;
     }
 
-    if (value.actor && !loadedObjects.has(value.actor)) {
+    if (value.actor && !loadedObjects[value.actor]) {
       loadObjectProperties(value);
     }
+  }
+
+  componentWillUnmount() {
+    const { popoverTarget } = this.props;
+    popoverTarget.classList.remove("selected-token");
   }
 
   getChildren(root, getObjectProperties) {
@@ -87,7 +99,7 @@ class Preview extends Component {
   renderObjectInspector(root) {
     const { loadObjectProperties, loadedObjects } = this.props;
 
-    const getObjectProperties = id => loadedObjects.get(id);
+    const getObjectProperties = id => loadedObjects[id];
     const roots = this.getChildren(root, getObjectProperties);
 
     return ObjectInspector({
@@ -143,10 +155,18 @@ class Preview extends Component {
     return this.renderSimplePreview(value);
   }
 
+  getPreviewType(value) {
+    if (typeof value == "boolean" || value.class === "Function") {
+      return "tooltip";
+    }
+
+    return "popover";
+  }
+
   render() {
     const { popoverTarget, onClose, value, expression } = this.props;
 
-    let type = value.class === "Function" ? "tooltip" : "popover";
+    let type = this.getPreviewType(value);
 
     return Popover(
       {

@@ -6,6 +6,7 @@
     "transform-es2015-destructuring",
     "transform-es2015-parameters",
     "transform-es2015-spread",
+    "transform-object-rest-spread",
     "transform-flow-strip-types",
     "transform-async-to-generator",
     "syntax-trailing-function-commas",

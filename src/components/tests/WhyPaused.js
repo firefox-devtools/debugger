@@ -1,24 +1,23 @@
 import React from "react";
 import { shallow } from "enzyme";
 import WhyPaused from "../SecondaryPanes/WhyPaused.js";
-const fromJS = require("../../utils/fromJS");
 
 const WhyPausedComponent = React.createFactory(WhyPaused.WrappedComponent);
 
 describe("WhyPaused", () => {
   it("should pause reason with message", () => {
-    const pauseInfo = fromJS({
+    const pauseInfo = {
       why: {
         type: "breakpoint",
         message: "bla is hit"
       }
-    });
+    };
     const component = shallow(new WhyPausedComponent({ pauseInfo }));
     expect(component).toMatchSnapshot();
   });
 
   it("should show pause reason with exception details", () => {
-    const pauseInfo = fromJS({
+    const pauseInfo = {
       why: {
         type: "exception",
         exception: {
@@ -29,19 +28,19 @@ describe("WhyPaused", () => {
           }
         }
       }
-    });
+    };
 
     const component = shallow(new WhyPausedComponent({ pauseInfo }));
     expect(component).toMatchSnapshot();
   });
 
   it("should show pause reason with exception string", () => {
-    const pauseInfo = fromJS({
+    const pauseInfo = {
       why: {
         type: "exception",
         exception: "Not Available"
       }
-    });
+    };
 
     const component = shallow(new WhyPausedComponent({ pauseInfo }));
     expect(component).toMatchSnapshot();

@@ -37,10 +37,10 @@ async function prettyPrint(ctx) {
 
   // The pretty-print button should go away in the pretty-printed
   // source.
-  ok(!findElement(dbg, "sourceFooter"), "Footer is hidden");
+  ok(!findElement(dbg, "editorFooter"), "Footer is hidden");
 
   await selectSource(dbg, "math.min.js");
-  ok(findElement(dbg, "sourceFooter"), "Footer is hidden");
+  ok(findElement(dbg, "editorFooter"), "Footer is hidden");
 }
 
 module.exports = prettyPrint;

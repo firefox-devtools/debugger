@@ -13,4 +13,4 @@ function copyToTheClipboard(string) {
   document.removeEventListener("copy", doCopy);
 }
 
-module.exports = { copyToTheClipboard };
+export { copyToTheClipboard };

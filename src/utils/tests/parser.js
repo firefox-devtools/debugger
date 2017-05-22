@@ -1,6 +1,5 @@
 const expect = require("expect.js");
 import {
-  getSymbols,
   getVariablesInLocalScope,
   getVariablesInScope,
   getClosestScope,
@@ -25,101 +24,6 @@ function getSourceText(name, type = "js") {
 }
 
 describe("parser", () => {
-  describe("getSymbols -> functions", () => {
-    it("finds functions", () => {
-      const fncs = getSymbols(getSourceText("func")).functions;
-
-      const names = fncs.map(f => f.value);
-
-      expect(names).to.eql(["square", "child", "anonymous"]);
-    });
-
-    it("finds nested functions", () => {
-      const fncs = getSymbols(getSourceText("math")).functions;
-      const names = fncs.map(f => f.value);
-
-      expect(names).to.eql(["math", "square", "child", "child2"]);
-    });
-
-    it("finds object properties", () => {
-      const fncs = getSymbols(getSourceText("proto")).functions;
-      const names = fncs.map(f => f.value);
-
-      expect(names).to.eql(["foo", "bar", "initialize", "doThing", "render"]);
-    });
-
-    it("finds class methods", () => {
-      const fncs = getSymbols(getSourceText("class")).functions;
-      const names = fncs.map(f => f.value);
-      expect(names).to.eql(["constructor", "bar"]);
-    });
-  });
-
-  describe("getSymbols -> variables", () => {
-    it("finds var, let, const", () => {
-      const vars = getSymbols(getSourceText("var")).variables;
-      const names = vars.map(v => v.value);
-      expect(names).to.eql(["foo", "bar", "baz", "a", "b"]);
-    });
-
-    it("finds arguments, properties", () => {
-      const protoVars = getSymbols(getSourceText("proto")).variables;
-      const classVars = getSymbols(getSourceText("class")).variables;
-      const protoNames = protoVars.map(v => v.value);
-      const classNames = classVars.map(v => v.value);
-      expect(protoNames).to.eql(["foo", "bar", "TodoView", "tagName", "b"]);
-      expect(classNames).to.eql(["Test", "a", "Test2", "expressiveClass"]);
-    });
-  });
-
-  describe("getSymbols -> All together", () => {
-    it("finds function, variable and class declarations", () => {
-      const allSymbols = getSymbols(getSourceText("allSymbols"));
-      expect(allSymbols.functions.map(f => f.value)).to.eql([
-        "incrementCounter",
-        "sum",
-        "doThing",
-        "doOtherThing",
-        "property",
-        "constructor",
-        "beAwesome"
-      ]);
-      expect(allSymbols.variables.map(v => v.value)).to.eql([
-        "TIME",
-        "count",
-        "counter",
-        "sum",
-        "a",
-        "b",
-        "Obj",
-        "foo",
-        "Ultra",
-        "person"
-      ]);
-    });
-  });
-
-  describe("getSymbols -> <script> content", () => {
-    it("finds function, variable and class declarations", () => {
-      const allSymbols = getSymbols(getSourceText("parseScriptTags", "html"));
-      expect(allSymbols.functions.map(f => f.value)).to.eql([
-        "sayHello",
-        "capitalize",
-        "iife"
-      ]);
-      expect(allSymbols.variables.map(v => v.value)).to.eql([
-        "globalObject",
-        "first",
-        "last",
-        "name",
-        "capitalize",
-        "name",
-        "greetAll",
-        "greeting"
-      ]);
-    });
-  });
-
   describe("getClosestExpression", () => {
     it("Can find a member expression", () => {
       const expression = getClosestExpression(
@@ -233,6 +137,17 @@ describe("parser", () => {
         line: 3
       });
     });
+
+    it("finds variables in block scope", () => {
+      const scope = getClosestScope(getSourceText("resolveToken"), {
+        line: 34,
+        column: 13
+      });
+
+      var vars = getVariablesInLocalScope(scope);
+
+      expect(vars.map(v => v.name)).to.eql(["x"]);
+    });
   });
 
   describe("getVariablesInScope", () => {
@@ -253,6 +168,100 @@ describe("parser", () => {
         "four",
         "math",
         "child"
+      ]);
+    });
+
+    it("finds variables from multiple scopes", () => {
+      let vars;
+      const source = getSourceText("resolveToken");
+
+      vars = getVariablesInScope(
+        getClosestScope(source, {
+          line: 36,
+          column: 19
+        })
+      );
+
+      expect(vars).to.eql([
+        "this",
+        "arguments",
+        "y",
+        "x",
+        "innerScope",
+        "outer",
+        "fromIIFE",
+        "a",
+        "b",
+        "getA",
+        "setB",
+        "plusAB",
+        "withMultipleScopes"
+      ]);
+
+      vars = getVariablesInScope(
+        getClosestScope(source, {
+          line: 34,
+          column: 14
+        })
+      );
+
+      expect(vars).to.eql([
+        "this",
+        "arguments",
+        "x",
+        "innerScope",
+        "outer",
+        "fromIIFE",
+        "a",
+        "b",
+        "getA",
+        "setB",
+        "plusAB",
+        "withMultipleScopes"
+      ]);
+
+      vars = getVariablesInScope(
+        getClosestScope(source, {
+          line: 24,
+          column: 9
+        })
+      );
+
+      expect(vars).to.eql([
+        "this",
+        "arguments",
+        "inner",
+        "innerScope",
+        "outer",
+        "fromIIFE",
+        "a",
+        "b",
+        "getA",
+        "setB",
+        "plusAB",
+        "withMultipleScopes"
+      ]);
+
+      vars = getVariablesInScope(
+        getClosestScope(source, {
+          line: 28,
+          column: 33
+        })
+      );
+
+      expect(vars).to.eql([
+        "this",
+        "arguments",
+        "toIIFE",
+        "innerScope",
+        "outer",
+        "fromIIFE",
+        "a",
+        "b",
+        "getA",
+        "setB",
+        "plusAB",
+        "withMultipleScopes"
       ]);
     });
   });

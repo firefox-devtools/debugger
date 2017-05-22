@@ -176,7 +176,7 @@ function waitForSources(dbg, ...sources) {
     sources.map(url => {
       function sourceExists(state) {
         return getSources(state).some(s => {
-          return s.get("url").includes(url);
+          return (s.get("url") || "").includes(url);
         });
       }
 
@@ -208,13 +208,15 @@ function assertPausedLocation(dbg, source, line) {
   is(getSelectedSource(getState()).get("id"), source.id);
 
   // Check the pause location
-  const location = getPause(getState()).getIn(["frame", "location"]);
-  is(location.get("sourceId"), source.id);
-  is(location.get("line"), line);
+  const pause = getPause(getState());
+  const location = pause && pause.frame && pause.frame.location;
+
+  is(location.sourceId, source.id);
+  is(location.line, line);
 
   // Check the debug line
   ok(
-    dbg.win.cm.lineInfo(line - 1).wrapClass.includes("debug-line"),
+    getCM(dbg).lineInfo(line - 1).wrapClass.includes("debug-line"),
     "Line is highlighted as paused"
   );
 }
@@ -243,7 +245,7 @@ function assertHighlightLocation(dbg, source, line) {
     "Highlighted line is visible"
   );
   ok(
-    dbg.win.cm.lineInfo(line - 1).wrapClass.includes("highlight-line"),
+    getCM(dbg).lineInfo(line - 1).wrapClass.includes("highlight-line"),
     "Line is highlighted"
   );
 }
@@ -280,7 +282,7 @@ function waitForPaused(dbg) {
       }
       // Make sure the source text is completely loaded for the
       // source we are paused in.
-      const sourceId = pause.getIn(["frame", "location", "sourceId"]);
+      const sourceId = pause && pause.frame && pause.frame.location.sourceId;
       const sourceText = dbg.selectors.getSourceText(dbg.getState(), sourceId);
       return sourceText && !sourceText.get("loading");
     });
@@ -357,7 +359,7 @@ function findSource(dbg, url) {
   }
 
   const sources = dbg.selectors.getSources(dbg.getState());
-  const source = sources.find(s => s.get("url").includes(url));
+  const source = sources.find(s => (s.get("url") || "").includes(url));
 
   if (!source) {
     throw new Error("Unable to find source: " + url);
@@ -618,9 +620,12 @@ function isVisibleWithin(outerEl, innerEl) {
 const selectors = {
   callStackHeader: ".call-stack-pane ._header",
   callStackBody: ".call-stack-pane .pane",
-  expressionNode: i => `.expressions-list .tree-node:nth-child(${i}) .object-label`,
-  expressionValue: i => `.expressions-list .tree-node:nth-child(${i}) .object-value`,
-  expressionClose: i => `.expressions-list .expression-container:nth-child(${i}) .close`,
+  expressionNode: i =>
+    `.expressions-list .tree-node:nth-child(${i}) .object-label`,
+  expressionValue: i =>
+    `.expressions-list .tree-node:nth-child(${i}) .object-value`,
+  expressionClose: i =>
+    `.expressions-list .expression-container:nth-child(${i}) .close`,
   expressionNodes: ".expressions-list .tree-node",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
@@ -640,7 +645,8 @@ const selectors = {
   stepIn: ".stepIn.active",
   toggleBreakpoints: ".breakpoints-toggle",
   prettyPrintButton: ".prettyPrint",
-  sourceFooter: ".source-footer",
+  sourcesFooter: ".sources-panel .source-footer",
+  editorFooter: ".editor-pane .source-footer",
   sourceNode: i => `.sources-list .tree-node:nth-child(${i})`,
   sourceNodes: ".sources-list .tree-node",
   sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`
@@ -740,4 +746,9 @@ function toggleCallStack(dbg) {
 
 function toggleScopes(dbg) {
   return findElement(dbg, "scopesHeader").click();
+}
+
+function getCM(dbg) {
+  const el = dbg.win.document.querySelector(".CodeMirror");
+  return el.CodeMirror;
 }

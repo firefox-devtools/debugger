@@ -1,12 +1,12 @@
 
 .why-paused {
-  background-color: var(--breakpoint-active-color);
+  background-color: var(--theme-body-background);
+  border-bottom: 1px solid var(--theme-splitter-color);
   color: var(--theme-highlight-blue);
   padding: 10px 10px 10px 20px;
   white-space: normal;
   opacity: 0.9;
   font-size: 12px;
-  font-weight: bold;
   flex: 0 1 auto;
 }
 

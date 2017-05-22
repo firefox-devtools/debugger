@@ -65,6 +65,20 @@ declare module "debugger-html" {
   };
 
   /**
+ * PendingBreakpoint
+ *
+ * @memberof types
+ * @static
+ */
+  declare type PendingBreakpoint = {
+    location: Location,
+    loading: boolean,
+    disabled: boolean,
+    text: string,
+    condition: ?string
+  };
+
+  /**
  * Frame ID
  *
  * @memberof types
@@ -86,6 +100,20 @@ declare module "debugger-html" {
     // FIXME Define this type more clearly
     this: Object,
     framework?: string
+  };
+
+  /**
+   * ContextMenuItem
+   *
+   * @memberof types
+   * @static
+   */
+  declare type ContextMenuItem = {
+    id: string,
+    label: string,
+    accesskey: string,
+    disabled: boolean,
+    click: Function
   };
 
   /**
@@ -125,7 +153,6 @@ declare module "debugger-html" {
   declare type Pause = {
     frames: Frame[],
     why: Why,
-    getIn: (string[]) => any,
     loadedObjects?: LoadedObject[]
   };
   /**

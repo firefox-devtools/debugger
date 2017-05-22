@@ -66,9 +66,11 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <Frame
         contextTypes={Object {}}
+        copyStackTrace={[Function]}
         frame={
                 Object {
                         "displayName": "updateEvents",
+                        "frameworkGroupingOn": false,
                         "id": 3,
                         "library": "backbone",
                         "location": Object {
@@ -77,6 +79,7 @@ ShallowWrapper {
                         "source": Object {
                           "url": "backbone.js",
                         },
+                        "toggleFrameworkGrouping": [Function],
                       }
         }
         hideLocation={false}
@@ -84,6 +87,7 @@ ShallowWrapper {
         selectedFrame={
                 Object {
                         "displayName": "updateEvents",
+                        "frameworkGroupingOn": false,
                         "id": 3,
                         "library": "backbone",
                         "location": Object {
@@ -92,9 +96,11 @@ ShallowWrapper {
                         "source": Object {
                           "url": "backbone.js",
                         },
+                        "toggleFrameworkGrouping": [Function],
                       }
         }
         shouldMapDisplayName={true}
+        toggleBlackBox={[Function]}
 />,
       "_debugID": 5,
       "_hostContainerInfo": null,
@@ -104,8 +110,10 @@ ShallowWrapper {
         "context": Object {},
         "props": Object {
           "contextTypes": Object {},
+          "copyStackTrace": [Function],
           "frame": Object {
             "displayName": "updateEvents",
+            "frameworkGroupingOn": false,
             "id": 3,
             "library": "backbone",
             "location": Object {
@@ -114,11 +122,13 @@ ShallowWrapper {
             "source": Object {
               "url": "backbone.js",
             },
+            "toggleFrameworkGrouping": [Function],
           },
           "hideLocation": false,
           "selectFrame": [Function],
           "selectedFrame": Object {
             "displayName": "updateEvents",
+            "frameworkGroupingOn": false,
             "id": 3,
             "library": "backbone",
             "location": Object {
@@ -127,8 +137,10 @@ ShallowWrapper {
             "source": Object {
               "url": "backbone.js",
             },
+            "toggleFrameworkGrouping": [Function],
           },
           "shouldMapDisplayName": true,
+          "toggleBlackBox": [Function],
         },
         "refs": Object {},
         "state": null,
@@ -212,9 +224,11 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <Frame
     contextTypes={Object {}}
+    copyStackTrace={[Function]}
     frame={
         Object {
             "displayName": "updateEvents",
+            "frameworkGroupingOn": false,
             "id": 3,
             "library": "backbone",
             "location": Object {
@@ -223,6 +237,7 @@ ShallowWrapper {
             "source": Object {
               "url": "backbone.js",
             },
+            "toggleFrameworkGrouping": [Function],
           }
     }
     hideLocation={false}
@@ -230,6 +245,7 @@ ShallowWrapper {
     selectedFrame={
         Object {
             "displayName": "updateEvents",
+            "frameworkGroupingOn": false,
             "id": 3,
             "library": "backbone",
             "location": Object {
@@ -238,9 +254,11 @@ ShallowWrapper {
             "source": Object {
               "url": "backbone.js",
             },
+            "toggleFrameworkGrouping": [Function],
           }
     }
     shouldMapDisplayName={true}
+    toggleBlackBox={[Function]}
 />,
 }
 `;
@@ -299,17 +317,21 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <Frame
         contextTypes={Object {}}
+        copyStackTrace={[Function]}
         frame={
                 Object {
                         "displayName": "renderFoo",
+                        "frameworkGroupingOn": false,
                         "id": 1,
                         "library": false,
                         "location": Object {
                           "line": 10,
                         },
                         "source": Object {
+                          "isBlackBoxed": false,
                           "url": "foo-view.js",
                         },
+                        "toggleFrameworkGrouping": [Function],
                       }
         }
         hideLocation={false}
@@ -317,17 +339,21 @@ ShallowWrapper {
         selectedFrame={
                 Object {
                         "displayName": "renderFoo",
+                        "frameworkGroupingOn": false,
                         "id": 2,
                         "library": false,
                         "location": Object {
                           "line": 10,
                         },
                         "source": Object {
+                          "isBlackBoxed": false,
                           "url": "foo-view.js",
                         },
+                        "toggleFrameworkGrouping": [Function],
                       }
         }
         shouldMapDisplayName={true}
+        toggleBlackBox={[Function]}
 />,
       "_debugID": 3,
       "_hostContainerInfo": null,
@@ -337,31 +363,39 @@ ShallowWrapper {
         "context": Object {},
         "props": Object {
           "contextTypes": Object {},
+          "copyStackTrace": [Function],
           "frame": Object {
             "displayName": "renderFoo",
+            "frameworkGroupingOn": false,
             "id": 1,
             "library": false,
             "location": Object {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
+            "toggleFrameworkGrouping": [Function],
           },
           "hideLocation": false,
           "selectFrame": [Function],
           "selectedFrame": Object {
             "displayName": "renderFoo",
+            "frameworkGroupingOn": false,
             "id": 2,
             "library": false,
             "location": Object {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
+            "toggleFrameworkGrouping": [Function],
           },
           "shouldMapDisplayName": true,
+          "toggleBlackBox": [Function],
         },
         "refs": Object {},
         "state": null,
@@ -433,17 +467,21 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <Frame
     contextTypes={Object {}}
+    copyStackTrace={[Function]}
     frame={
         Object {
             "displayName": "renderFoo",
+            "frameworkGroupingOn": false,
             "id": 1,
             "library": false,
             "location": Object {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
+            "toggleFrameworkGrouping": [Function],
           }
     }
     hideLocation={false}
@@ -451,17 +489,21 @@ ShallowWrapper {
     selectedFrame={
         Object {
             "displayName": "renderFoo",
+            "frameworkGroupingOn": false,
             "id": 2,
             "library": false,
             "location": Object {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
+            "toggleFrameworkGrouping": [Function],
           }
     }
     shouldMapDisplayName={true}
+    toggleBlackBox={[Function]}
 />,
 }
 `;
@@ -520,17 +562,21 @@ ShallowWrapper {
       "_context": Object {},
       "_currentElement": <Frame
         contextTypes={Object {}}
+        copyStackTrace={[Function]}
         frame={
                 Object {
                         "displayName": "renderFoo",
+                        "frameworkGroupingOn": false,
                         "id": 1,
                         "library": false,
                         "location": Object {
                           "line": 10,
                         },
                         "source": Object {
+                          "isBlackBoxed": false,
                           "url": "foo-view.js",
                         },
+                        "toggleFrameworkGrouping": [Function],
                       }
         }
         hideLocation={false}
@@ -538,17 +584,21 @@ ShallowWrapper {
         selectedFrame={
                 Object {
                         "displayName": "renderFoo",
+                        "frameworkGroupingOn": false,
                         "id": 1,
                         "library": false,
                         "location": Object {
                           "line": 10,
                         },
                         "source": Object {
+                          "isBlackBoxed": false,
                           "url": "foo-view.js",
                         },
+                        "toggleFrameworkGrouping": [Function],
                       }
         }
         shouldMapDisplayName={true}
+        toggleBlackBox={[Function]}
 />,
       "_debugID": 1,
       "_hostContainerInfo": null,
@@ -558,31 +608,39 @@ ShallowWrapper {
         "context": Object {},
         "props": Object {
           "contextTypes": Object {},
+          "copyStackTrace": [Function],
           "frame": Object {
             "displayName": "renderFoo",
+            "frameworkGroupingOn": false,
             "id": 1,
             "library": false,
             "location": Object {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
+            "toggleFrameworkGrouping": [Function],
           },
           "hideLocation": false,
           "selectFrame": [Function],
           "selectedFrame": Object {
             "displayName": "renderFoo",
+            "frameworkGroupingOn": false,
             "id": 1,
             "library": false,
             "location": Object {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
+            "toggleFrameworkGrouping": [Function],
           },
           "shouldMapDisplayName": true,
+          "toggleBlackBox": [Function],
         },
         "refs": Object {},
         "state": null,
@@ -654,17 +712,21 @@ ShallowWrapper {
   "root": [Circular],
   "unrendered": <Frame
     contextTypes={Object {}}
+    copyStackTrace={[Function]}
     frame={
         Object {
             "displayName": "renderFoo",
+            "frameworkGroupingOn": false,
             "id": 1,
             "library": false,
             "location": Object {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
+            "toggleFrameworkGrouping": [Function],
           }
     }
     hideLocation={false}
@@ -672,17 +734,21 @@ ShallowWrapper {
     selectedFrame={
         Object {
             "displayName": "renderFoo",
+            "frameworkGroupingOn": false,
             "id": 1,
             "library": false,
             "location": Object {
               "line": 10,
             },
             "source": Object {
+              "isBlackBoxed": false,
               "url": "foo-view.js",
             },
+            "toggleFrameworkGrouping": [Function],
           }
     }
     shouldMapDisplayName={true}
+    toggleBlackBox={[Function]}
 />,
 }
 `;

@@ -90,7 +90,7 @@ class App extends Component {
 
   renderEditorPane() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
-    const { horizontal, endPanelSize } = this.state;
+    const { horizontal, endPanelSize, startPanelSize } = this.state;
     return dom.div(
       { className: "editor-pane" },
       dom.div(
@@ -101,7 +101,7 @@ class App extends Component {
           horizontal,
           endPanelSize
         }),
-        Editor({ horizontal }),
+        Editor({ horizontal, startPanelSize, endPanelSize }),
         !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
         ProjectSearch()
       )

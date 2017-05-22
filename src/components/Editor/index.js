@@ -20,6 +20,7 @@ import {
   getSelectedLocation,
   getSelectedFrame,
   getSelectedSource,
+  getHighlightedLineRange,
   getHitCountForSource,
   getCoverageEnabled,
   getLoadedObjects,
@@ -36,6 +37,9 @@ const Footer = createFactory(_Footer);
 
 import _SearchBar from "./SearchBar";
 const SearchBar = createFactory(_SearchBar);
+
+import _HighlightLines from "./HighlightLines";
+const HighlightLines = createFactory(_HighlightLines);
 
 import _Preview from "./Preview";
 const Preview = createFactory(_Preview);
@@ -87,6 +91,7 @@ export type SearchResults = {
 
 type EditorState = {
   searchResults: SearchResults,
+  highlightedLineRange: ?Object,
   selectedToken: ?Object,
   selectedExpression: ?Object
 };
@@ -111,6 +116,7 @@ class Editor extends PureComponent {
         index: -1,
         count: 0
       },
+      highlightedLineRange: null,
       selectedToken: null,
       selectedExpression: null
     };
@@ -141,6 +147,13 @@ class Editor extends PureComponent {
     // text.
     const { sourceText, selectedLocation } = nextProps;
     this.clearDebugLine(this.props.selectedFrame);
+
+    if (
+      nextProps.startPanelSize !== this.props.startPanelSize ||
+      nextProps.endPanelSize !== this.props.endPanelSize
+    ) {
+      this.editor.codeMirror.setSize();
+    }
 
     if (!sourceText) {
       if (this.props.sourceText) {
@@ -590,7 +603,11 @@ class Editor extends PureComponent {
   clearDebugLine(selectedFrame) {
     if (selectedFrame) {
       const line = selectedFrame.location.line;
-      this.editor.codeMirror.removeLineClass(line - 1, "line", "debug-line");
+      this.editor.codeMirror.removeLineClass(
+        line - 1,
+        "line",
+        "new-debug-line"
+      );
     }
   }
 
@@ -601,7 +618,7 @@ class Editor extends PureComponent {
       selectedFrame.location.sourceId === selectedLocation.sourceId
     ) {
       const line = selectedFrame.location.line;
-      this.editor.codeMirror.addLineClass(line - 1, "line", "debug-line");
+      this.editor.codeMirror.addLineClass(line - 1, "line", "new-debug-line");
     }
   }
 
@@ -675,6 +692,19 @@ class Editor extends PureComponent {
 
     this.setText(sourceText.get("text"));
     this.editor.setMode(getMode(sourceText.toJS()));
+  }
+
+  renderHighlightLines() {
+    const { highlightedLineRange } = this.props;
+
+    if (!highlightedLineRange) {
+      return;
+    }
+
+    return HighlightLines({
+      editor: this.editor,
+      highlightedLineRange
+    });
   }
 
   renderBreakpoints() {
@@ -765,13 +795,12 @@ class Editor extends PureComponent {
     }
 
     const token = selectedToken.textContent;
-    selectedToken.classList.add("selected-token");
 
     const value = getExpressionValue(selectedExpression, {
       getExpression: this.props.getExpression
     });
 
-    if (!value) {
+    if (typeof value == "undefined" || value.type == "undefined") {
       return;
     }
 
@@ -780,7 +809,6 @@ class Editor extends PureComponent {
       expression: token,
       popoverTarget: selectedToken,
       onClose: () => {
-        selectedToken.classList.remove("selected-token");
         this.setState({
           selectedToken: null,
           selectedExpression: null
@@ -794,6 +822,8 @@ class Editor extends PureComponent {
       sourceText,
       selectSource,
       selectedSource,
+      highlightLineRange,
+      clearHighlightLineRange,
       coverageOn,
       horizontal
     } = this.props;
@@ -808,6 +838,8 @@ class Editor extends PureComponent {
         editor: this.editor,
         selectSource,
         selectedSource,
+        highlightLineRange,
+        clearHighlightLineRange,
         sourceText,
         searchResults,
         updateSearchResults: this.updateSearchResults
@@ -816,6 +848,7 @@ class Editor extends PureComponent {
         className: "editor-mount devtools-monospace",
         style: this.getInlineEditorStyles()
       }),
+      this.renderHighlightLines(),
       this.renderBreakpoints(),
       this.renderHitCounts(),
       Footer({ editor: this.editor, horizontal }),
@@ -831,6 +864,9 @@ Editor.propTypes = {
   hitCount: PropTypes.object,
   selectedLocation: PropTypes.object,
   selectedSource: ImPropTypes.map,
+  highlightLineRange: PropTypes.func,
+  clearHighlightLineRange: PropTypes.func,
+  highlightedLineRange: PropTypes.object,
   sourceText: ImPropTypes.map,
   searchOn: PropTypes.bool,
   addBreakpoint: PropTypes.func.isRequired,
@@ -843,7 +879,7 @@ Editor.propTypes = {
   toggleBlackBox: PropTypes.func,
   showSource: PropTypes.func,
   coverageOn: PropTypes.bool,
-  pauseData: ImPropTypes.map,
+  pauseData: PropTypes.object,
   selectedFrame: PropTypes.object,
   getExpression: PropTypes.func.isRequired,
   addExpression: PropTypes.func.isRequired,
@@ -853,7 +889,9 @@ Editor.propTypes = {
     caseSensitive: PropTypes.bool.isRequired,
     regexMatch: PropTypes.bool.isRequired,
     wholeWord: PropTypes.bool.isRequired
-  }).isRequired
+  }).isRequired,
+  startPanelSize: PropTypes.number,
+  endPanelSize: PropTypes.number
 };
 
 Editor.contextTypes = {
@@ -873,6 +911,7 @@ export default connect(
     return {
       selectedLocation,
       selectedSource,
+      highlightedLineRange: getHighlightedLineRange(state),
       searchOn: getFileSearchState(state),
       sourceText: getSourceText(state, sourceId),
       loadedObjects: getLoadedObjects(state),

@@ -1,23 +1,34 @@
+// @flow
+
 import { DOM as dom } from "react";
 
 import times from "lodash/times";
 import zip from "lodash/zip";
 import flatten from "lodash/flatten";
 
+import { simplifyDisplayName } from "../../utils/frame";
+
 import "./previewFunction.css";
 
-function getFunctionName(func) {
-  return (
-    func.userDisplayName || func.displayName || func.name || func.value || ""
-  );
+import type { FunctionGrip } from "../../client/firefox/types";
+import type { FunctionDeclaration } from "../../utils/parser/getSymbols";
+
+type FunctionType =
+  | FunctionGrip
+  | FunctionDeclaration
+  | {| name: string, parameterNames: [] |};
+
+function getFunctionName(func: FunctionType) {
+  const name = func.userDisplayName || func.displayName || func.name;
+  return simplifyDisplayName(name);
 }
 
-function renderFunctionName(func) {
+function renderFunctionName(func: FunctionType) {
   const name = getFunctionName(func);
   return dom.span({ className: "function-name" }, name);
 }
 
-function renderParams(func) {
+function renderParams(func: FunctionType) {
   const { parameterNames = [] } = func;
   let params = parameterNames
     .filter(i => i)
@@ -34,7 +45,7 @@ function renderParen(paren) {
   return dom.span({ className: "paren" }, paren);
 }
 
-function previewFunction(func) {
+function previewFunction(func: FunctionType) {
   return dom.span(
     { className: "function-signature" },
     renderFunctionName(func),

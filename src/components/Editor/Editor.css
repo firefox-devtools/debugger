@@ -1,8 +1,12 @@
-/* vim:set ts=2 sw=2 sts=2 et: */
+.editor-wrapper {
+  --debug-line-background: rgba(226, 236, 247, 0.5);
+  --debug-line-border: rgb(145, 188, 219);
+}
 
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+.theme-dark .editor-wrapper {
+  --debug-line-background: rgb(73, 82, 103);
+  --debug-line-border: rgb(119, 134, 162);
+}
 
 /**
  * There's a known codemirror flex issue with chrome that this addresses.
@@ -40,6 +44,10 @@ html[dir="rtl"] .editor-mount {
 
 .editor.hit-marker {
   height: 14px;
+}
+
+.editor-wrapper .highlight-lines {
+  background: var(--theme-selection-background-semitransparent);
 }
 
 .coverage-on .CodeMirror-code :not(.hit-marker) .CodeMirror-line,
@@ -132,13 +140,18 @@ html[dir="rtl"] .editor-mount {
   color: var(--theme-content-color3);
 }
 
-.debug-line .CodeMirror-line {
-  background-color: var(--breakpoint-active-color) !important;
+.new-debug-line .CodeMirror-line {
+  background-color: var(--debug-line-background) !important;
+  outline: var(--debug-line-border) solid 1px;
+}
+
+.new-debug-line .CodeMirror-linenumber {
+  background-color: transparent !important;
 }
 
 /* Don't display the highlight color since the debug line
    is already highlighted */
-.debug-line .CodeMirror-activeline-background {
+.new-debug-line .CodeMirror-activeline-background {
   display: none;
 }
 

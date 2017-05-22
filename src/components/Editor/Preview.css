@@ -55,7 +55,7 @@
 
 .tooltip .preview {
   background: var(--theme-toolbar-background);
-  max-width: 350px;
+  max-width: inherit;
   min-height: 80px;
   border: 1px solid var(--theme-splitter-color);
   box-shadow: 1px 2px 4px 1px var(--theme-toolbar-background-alt);
@@ -78,6 +78,7 @@
 
 .add-to-expression-bar {
   border: 1px solid var(--theme-splitter-color);
+  border-top: none;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

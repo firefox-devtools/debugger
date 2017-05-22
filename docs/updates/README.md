@@ -71,7 +71,7 @@ permalink: docs/updates
 * :speech_balloon: Watch Expressions
 * :spaghetti: Copy Call Stack
 
-### [May 9th, 2017](./updates-5-9-2017.md)
+### [May 9th](./updates-5-9-2017.md)
 
 * [Adam][@asolove] dramatically improved our startup performance. [pr][pr-6]
 * [Ryan][@ryanjduffy] completed the heroic and insane project of getting babel working with HTML inline JS. [pr][pr-23]
@@ -80,7 +80,19 @@ permalink: docs/updates
 * We added several new Jest component tests. Big thanks to [Andrei][@andreicristianpetcu] for tackling async component updates. It was not an easy task!
 * We re-added storybook this week and wrote our first stories for Frames and Tabs! The stories are also being tested on CI with the great [percy.io](http://percy.io).
 
+### [May 16th](./updates-5-16-2017.md)
+
+Here are some highlights from the week:
+
+* :yellow_heart: Function highlighting
+* :police_car: License checking for our dependencies
+* :nail_care: Lots of UI polish
+
+
 [@asolove]:http://github.com/asolove
 [@ryanjduffy]:http://github.com/ryanjduffy
 [@diessica]:http://github.com/diessica
 [@andreicristianpetcu]:http://github.com/andreicristianpetcu
+[@Andarist]:http://github.com/Andarist
+[pr-6]:https://github.com/devtools-html/debugger.html/pull/2784
+[pr-23]:https://github.com/devtools-html/debugger.html/pull/2810

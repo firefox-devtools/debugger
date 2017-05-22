@@ -3,6 +3,7 @@
 import { DOM as dom, PropTypes, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import classnames from "classnames";
 import actions from "../actions";
 import { getSelectedSource, getSourceText } from "../selectors";
 import { isEnabled } from "devtools-config";
@@ -18,7 +19,11 @@ class Outline extends Component {
 
   constructor(props) {
     super(props);
+    const { sourceText, isHidden } = props;
     this.state = {};
+    if (!isHidden) {
+      this.setSymbolDeclarations(sourceText);
+    }
   }
 
   componentWillReceiveProps({ sourceText }) {
@@ -65,23 +70,26 @@ class Outline extends Component {
     const { functions } = symbolDeclarations;
 
     return functions
-      .filter(func => func.value != "anonymous")
+      .filter(func => func.name != "anonymous")
       .map(func => this.renderFunction(func));
   }
 
   render() {
+    const { isHidden } = this.props;
     if (!isEnabled("outline")) {
       return null;
     }
 
     return dom.div(
-      { className: "outline" },
+      { className: classnames("outline", { hidden: isHidden }) },
       dom.ul({ className: "outline-list" }, this.renderFunctions())
     );
   }
 }
 
 Outline.propTypes = {
+  isHidden: PropTypes.bool.isRequired,
+  sourceText: PropTypes.object,
   selectSource: PropTypes.func.isRequired,
   selectedSource: PropTypes.object
 };
@@ -92,7 +100,6 @@ export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
     const sourceId = selectedSource ? selectedSource.get("id") : null;
-
     return {
       sourceText: getSourceText(state, sourceId),
       selectedSource

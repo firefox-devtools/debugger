@@ -10,6 +10,67 @@ import "../App.css";
 import "../SecondaryPanes/Frames/Frames.css";
 import "devtools-launchpad/src/lib/themes/dark-theme.css";
 
+function createArrayPreview(name) {
+  return {
+    enumerable: true,
+    writerable: true,
+    configurable: true,
+    value: {
+      type: "object",
+      actor: `server2.conn45.child1/${name}`,
+      class: "Object",
+      ownPropertyLength: 2,
+      preview: {
+        kind: "ArrayLike",
+        ownProperties: {},
+        ownPropertiesLength: 0,
+        length: 1
+      }
+    }
+  };
+}
+
+function createObjectPreview(name) {
+  return {
+    enumerable: true,
+    writerable: true,
+    configurable: true,
+    value: {
+      type: "Object",
+      actor: `server2.conn45.child1/${name}`,
+      class: "Object",
+      ownPropertyLength: 2,
+      preview: {
+        kind: "object",
+        ownProperties: {},
+        ownPropertiesLength: 0,
+        length: 1
+      }
+    }
+  };
+}
+
+function createObjectGrip(id) {
+  return {
+    actor: `server2.conn45.child1/${id}`,
+    type: "object",
+    class: "Object",
+    ownProperties: {},
+    ownSymbols: {},
+    safeGetters: {}
+  };
+}
+
+function createFunctionGrip(name, parameterNames) {
+  return {
+    actor: `server2.conn45.child1/${name}`,
+    type: "function",
+    class: "Function",
+    name,
+    parameterNames
+  };
+}
+
 const obj = {
   actor: "server2.conn45.child1/pausedobj81",
   type: "object",
@@ -80,34 +141,48 @@ function PreviewFactory(options, { dir = "ltr", theme = "light" } = {}) {
   const themeClass = `theme-${theme}`;
   document.dir = dir;
   document.body.parentNode.className = themeClass;
-  const div = document.createElement("div");
-  document.body.appendChild(div);
-  div.id = "foobar";
-  div.style.top = "100px";
-  div.style.left = "100px";
-  div.width = "100px";
-  div.height = "20px";
+
+  const target = {
+    getBoundingClientRect: () => ({
+      top: 200,
+      left: 200,
+      bottom: 80,
+      width: 60,
+      height: 30
+    }),
+    classList: { add: () => {}, remove: () => {} }
+  };
+
   return dom.div(
     {
-      className: `preview ${themeClass}`,
-      dir,
+      className: "editor-wrapper",
       style: {
-        width: "60vw",
-        margin: "40px 40px"
+        width: "calc(100vw - 30px)",
+        height: "calc(100vh - 30px)",
+        margin: "10px"
       }
     },
-    Preview(
-      Object.assign(
-        {},
-        {
-          value: null,
-          expression: null,
-          loadedObjects: I.Map(),
-          popoverTarget: div,
-          loadObjectProperties: () => {},
-          onClose: action("onClose")
-        },
-        options
+    dom.div(
+      {
+        className: `preview ${themeClass}`,
+        dir,
+        style: {
+          width: "100vw"
+        }
+      },
+      Preview(
+        Object.assign(
+          {},
+          {
+            value: null,
+            expression: null,
+            loadedObjects: {},
+            popoverTarget: target,
+            loadObjectProperties: () => {},
+            onClose: action("onClose")
+          },
+          options
+        )
       )
     )
   );
@@ -137,7 +212,45 @@ options.forEach(option => {
         {
           value: obj,
           expression: "this",
-          loadedObjects: I.Map().set(obj.actor, obj)
+          loadedObjects: { [obj.actor]: obj }
+        },
+        option
+      );
+    })
+    .add(`Object with window keys ${optionLabel}`, () => {
+      let grip = createObjectGrip("foo");
+      grip.ownProperties.arr = createArrayPreview("arr");
+      grip.ownProperties.location = createObjectPreview("location");
+      return PreviewFactory(
+        {
+          value: grip,
+          expression: "this",
+          loadedObjects: { [grip.actor]: grip }
+        },
+        option
+      );
+    })
+    .add(`Window Preview ${optionLabel}`, () => {
+      let grip = createObjectGrip("foo");
+      grip.class = "Window";
+      grip.ownProperties.arr = createArrayPreview("arr");
+      grip.ownProperties.location = createObjectPreview("location");
+      return PreviewFactory(
+        {
+          value: grip,
+          expression: "this",
+          loadedObjects: { [grip.actor]: grip }
+        },
+        option
+      );
+    })
+    .add(`Function Preview ${optionLabel}`, () => {
+      let grip = createFunctionGrip("renderFoo", ["props", "state"]);
+      return PreviewFactory(
+        {
+          value: grip,
+          expression: "this",
+          loadedObjects: { [grip.actor]: grip }
         },
         option
       );

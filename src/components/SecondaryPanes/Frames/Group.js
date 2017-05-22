@@ -3,6 +3,7 @@ import { DOM as dom, Component, createFactory } from "react";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 import { formatDisplayName, getLibraryFromUrl } from "../../../utils/frame";
+import FrameMenu from "./FrameMenu";
 
 import "./Group.css";
 
@@ -36,7 +37,10 @@ export default class Group extends Component {
     group: LocalFrame[],
     selectedFrame: LocalFrame,
     selectFrame: Function,
-    copyStackTrace: Function
+    toggleFrameworkGrouping: Function,
+    copyStackTrace: Function,
+    toggleBlackBox: Function,
+    frameworkGroupingOn: boolean
   };
 
   constructor(...args: any[]) {
@@ -47,12 +51,38 @@ export default class Group extends Component {
     self.toggleFrames = this.toggleFrames.bind(this);
   }
 
+  onContextMenu(event: SyntheticKeyboardEvent) {
+    const {
+      group,
+      copyStackTrace,
+      toggleFrameworkGrouping,
+      toggleBlackBox,
+      frameworkGroupingOn
+    } = this.props;
+    const frame = group[0];
+    FrameMenu(
+      frame,
+      frameworkGroupingOn,
+      { copyStackTrace, toggleFrameworkGrouping, toggleBlackBox },
+      event
+    );
+  }
+
   toggleFrames() {
     this.setState({ expanded: !this.state.expanded });
   }
 
   renderFrames() {
-    const { group, selectFrame, selectedFrame, copyStackTrace } = this.props;
+    const {
+      group,
+      selectFrame,
+      selectedFrame,
+      toggleFrameworkGrouping,
+      frameworkGroupingOn,
+      toggleBlackBox,
+      copyStackTrace
+    } = this.props;
+
     const { expanded } = this.state;
     if (!expanded) {
       return null;
@@ -63,8 +93,11 @@ export default class Group extends Component {
         FrameComponent({
           frame,
           copyStackTrace,
+          toggleFrameworkGrouping,
+          frameworkGroupingOn,
           selectFrame,
           selectedFrame,
+          toggleBlackBox,
           key: frame.id,
           hideLocation: true,
           shouldMapDisplayName: false
@@ -91,7 +124,10 @@ export default class Group extends Component {
   render() {
     const { expanded } = this.state;
     return dom.div(
-      { className: classNames("frames-group", { expanded }) },
+      {
+        className: classNames("frames-group", { expanded }),
+        onContextMenu: e => this.onContextMenu(e)
+      },
       this.renderDescription(),
       this.renderFrames()
     );

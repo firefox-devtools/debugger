@@ -64,7 +64,7 @@ class ProjectSearch extends Component {
     const shortcuts = this.context.shortcuts;
     const searchKeys = [
       L10N.getStr("sources.search.key2"),
-      L10N.getStr("sources.search.key2b")
+      L10N.getStr("sources.search.alt.key")
     ];
     searchKeys.forEach(key => shortcuts.on(key, this.toggle));
     shortcuts.on("Escape", this.onEscape);

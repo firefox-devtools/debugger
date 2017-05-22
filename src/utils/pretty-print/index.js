@@ -1,7 +1,8 @@
 // @flow
 
-const { workerUtils: { WorkerDispatcher } } = require("devtools-utils");
-const { isJavaScript } = require("../source");
+import { workerUtils } from "devtools-utils";
+const { WorkerDispatcher } = workerUtils;
+import { isJavaScript } from "../source";
 import assert from "../assert";
 
 import type { Source, SourceText } from "../../types";

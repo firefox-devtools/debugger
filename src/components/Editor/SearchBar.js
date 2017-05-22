@@ -42,14 +42,33 @@ import _ResultList from "../shared/ResultList";
 const ResultList = createFactory(_ResultList);
 
 import type {
-  FormattedSymbolDeclaration,
-  SymbolDeclaration
-} from "../../utils/parser/utils";
+  SymbolDeclaration,
+  ASTLocation
+} from "../../utils/parser/getSymbols";
+
+export type FormattedSymbolDeclaration = {
+  id: string,
+  title: string,
+  subtitle: string,
+  value: string,
+  location: ASTLocation,
+  parameterNames?: string[]
+};
+
+function formatSymbol(symbol: SymbolDeclaration): FormattedSymbolDeclaration {
+  return {
+    id: `${symbol.name}:${symbol.location.start.line}`,
+    title: symbol.name,
+    subtitle: `:${symbol.location.start.line}`,
+    value: symbol.name,
+    location: symbol.location
+  };
+}
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
   const searchAgainPrevKey = L10N.getStr("sourceSearch.search.againPrev.key2");
-  const fnSearchKey = L10N.getStr("symbolSearch.search.key");
+  const fnSearchKey = L10N.getStr("symbolSearch.search.key2");
   const searchKey = L10N.getStr("sourceSearch.search.key2");
 
   return {
@@ -82,6 +101,8 @@ class SearchBar extends Component {
     sourceText?: SourceTextRecord,
     selectSource: (string, ?SelectSourceOptions) => any,
     selectedSource?: SourceRecord,
+    highlightLineRange: ({ start: number, end: number }) => any,
+    clearHighlightLineRange: () => any,
     searchOn?: boolean,
     toggleFileSearch: (?boolean) => any,
     searchResults: SearchResults,
@@ -243,6 +264,7 @@ class SearchBar extends Component {
       this.props.toggleFileSearch(false);
       this.props.toggleSymbolSearch(false);
       this.props.setSelectedSymbolType("functions");
+      this.props.clearHighlightLineRange();
       e.stopPropagation();
       e.preventDefault();
     }
@@ -342,9 +364,14 @@ class SearchBar extends Component {
       return;
     }
 
-    const symbolDeclarations = await getSymbols(sourceText.toJS());
+    const { functions, variables } = await getSymbols(sourceText.toJS());
+    const formattedSymbolDeclaration = {
+      variables: variables.map(formatSymbol),
+      functions: functions.map(formatSymbol)
+    };
+
     const symbolSearchResults = filter(
-      symbolDeclarations[selectedSymbolType],
+      formattedSymbolDeclaration[selectedSymbolType],
       query,
       { key: "value" }
     );
@@ -484,10 +511,24 @@ class SearchBar extends Component {
   }
 
   onSelectResultItem(item: FormattedSymbolDeclaration) {
-    const { selectSource, selectedSource } = this.props;
-    if (selectedSource) {
+    const {
+      selectSource,
+      selectedSource,
+      selectedSymbolType,
+      highlightLineRange
+    } = this.props;
+
+    if (selectedSource && selectedSymbolType !== "functions") {
       selectSource(selectedSource.get("id"), {
         line: item.location.start.line
+      });
+    }
+
+    if (selectedSource && selectedSymbolType === "functions") {
+      highlightLineRange({
+        start: item.location.start.line,
+        end: item.location.end.line,
+        sourceId: selectedSource.get("id")
       });
     }
   }
@@ -578,12 +619,15 @@ class SearchBar extends Component {
   renderSearchModifiers() {
     const { modifiers, toggleFileSearchModifier, symbolSearchOn } = this.props;
 
+    if (symbolSearchOn) {
+      return null;
+    }
+
     function searchModBtn(modVal, className, svgName, tooltip) {
       return dom.button(
         {
           className: classnames(className, {
-            active: !symbolSearchOn && modifiers && modifiers.get(modVal),
-            disabled: symbolSearchOn
+            active: !symbolSearchOn && modifiers && modifiers.get(modVal)
           }),
           onClick: () =>
             !symbolSearchOn ? toggleFileSearchModifier(modVal) : null,

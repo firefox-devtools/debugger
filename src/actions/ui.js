@@ -10,17 +10,22 @@ import type { SymbolSearchType } from "../reducers/ui";
 
 export function toggleProjectSearch(toggleValue?: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    if (toggleValue != null) {
-      dispatch({
+    const projectSearchState = getProjectSearchState(getState());
+    if (toggleValue === undefined) {
+      return dispatch({
         type: constants.TOGGLE_PROJECT_SEARCH,
-        value: toggleValue
-      });
-    } else {
-      dispatch({
-        type: constants.TOGGLE_PROJECT_SEARCH,
-        value: !getProjectSearchState(getState())
+        value: !projectSearchState
       });
     }
+
+    if (projectSearchState == toggleValue) {
+      return;
+    }
+
+    dispatch({
+      type: constants.TOGGLE_PROJECT_SEARCH,
+      value: toggleValue
+    });
   };
 }
 
@@ -44,6 +49,15 @@ export function toggleSymbolSearch(toggleValue: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({
       type: constants.TOGGLE_SYMBOL_SEARCH,
+      value: toggleValue
+    });
+  };
+}
+
+export function toggleFrameworkGrouping(toggleValue: boolean) {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    dispatch({
+      type: constants.TOGGLE_FRAMEWORK_GROUPING,
       value: toggleValue
     });
   };
@@ -84,5 +98,30 @@ export function togglePaneCollapse(position: string, paneCollapsed: boolean) {
     type: constants.TOGGLE_PANE,
     position,
     paneCollapsed
+  };
+}
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
+export function highlightLineRange(location: {
+  start: number,
+  end: number,
+  sourceId: number
+}) {
+  return {
+    type: constants.HIGHLIGHT_LINES,
+    location
+  };
+}
+
+/**
+ * @memberof actions/sources
+ * @static
+ */
+export function clearHighlightLineRange() {
+  return {
+    type: constants.CLEAR_HIGHLIGHT_LINES
   };
 }

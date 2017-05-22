@@ -33,26 +33,17 @@ export type ObjectInspectorItemContentsValue = {
   type: string
 };
 
-type ObjectInspectorItemContents = {
+export type ObjectInspectorItemContents = {
   value: ObjectInspectorItemContentsValue
 };
 
-type ObjectInspectorItem = {
+export type ObjectInspectorItem = {
   contents: Array<ObjectInspectorItem> & ObjectInspectorItemContents,
   name: string,
   path: string
 };
 
 type DefaultProps = {
-  onLabelClick: (
-    item: ObjectInspectorItem,
-    params: {
-      depth: number,
-      focused: boolean,
-      expanded: boolean,
-      setExpanded: () => any
-    }
-  ) => void,
   onDoubleClick: (
     item: ObjectInspectorItem,
     params: {
@@ -135,7 +126,7 @@ class ObjectInspector extends Component {
       objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
     } else if (nodeIsFunction(item)) {
       objectValue = null;
-      label = previewFunction(item);
+      label = previewFunction({ name: label, parameterNames: [] });
     } else if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
       const object = item.contents.value;
       objectValue = Rep({ object, mode: MODE.TINY });
@@ -170,16 +161,7 @@ class ObjectInspector extends Component {
       dom.span(
         {
           className: "object-label",
-          dir: "ltr",
-          onClick: event => {
-            event.stopPropagation();
-            this.props.onLabelClick(item, {
-              depth,
-              focused,
-              expanded,
-              setExpanded
-            });
-          }
+          dir: "ltr"
         },
         label
       ),
@@ -225,12 +207,10 @@ ObjectInspector.propTypes = {
   roots: PropTypes.array,
   getObjectProperties: PropTypes.func.isRequired,
   loadObjectProperties: PropTypes.func.isRequired,
-  onLabelClick: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired
 };
 
 ObjectInspector.defaultProps = {
-  onLabelClick: () => {},
   onDoubleClick: () => {},
   autoExpandDepth: 1
 };

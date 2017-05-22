@@ -6,7 +6,22 @@
  * @module utils/fromJS
  */
 
-const Immutable = require("immutable");
+import * as I from "immutable";
+import isFunction from "lodash/isFunction";
+
+// hasOwnProperty is defensive because it is possible that the
+// object that we're creating a map for has a `hasOwnProperty` field
+function hasOwnProperty(value, key) {
+  if (value.hasOwnProperty && isFunction(value.hasOwnProperty)) {
+    return value.hasOwnProperty(key);
+  }
+
+  if (value.prototype && value.prototype.hasOwnProperty) {
+    return value.prototype.hasOwnProperty(key);
+  }
+
+  return false;
+}
 
 /*
   creates an immutable map, where each of the value's
@@ -16,14 +31,14 @@ const Immutable = require("immutable");
   length confuses Immutable's internal algorithm.
 */
 function createMap(value) {
-  const hasLength = value.hasOwnProperty && value.hasOwnProperty("length");
+  const hasLength = hasOwnProperty(value, "length");
   const length = value.length;
 
   if (hasLength) {
     value.length = `${value.length}`;
   }
 
-  let map = Immutable.Seq(value).map(fromJS).toMap();
+  let map = I.Seq(value).map(fromJS).toMap();
 
   if (hasLength) {
     map = map.set("length", length);
@@ -34,7 +49,7 @@ function createMap(value) {
 }
 
 function createList(value) {
-  return Immutable.Seq(value).map(fromJS).toList();
+  return I.Seq(value).map(fromJS).toList();
 }
 
 /**

@@ -5,10 +5,12 @@ const {
   getFileSearchState,
   getFileSearchQueryState,
   getFileSearchModifierState,
+  getFrameworkGroupingState,
   getProjectSearchState,
   getPaneCollapse,
   getSymbolSearchState,
-  getSymbolSearchType
+  getSymbolSearchType,
+  getHighlightedLineRange
 } = selectors;
 
 describe("ui", () => {
@@ -32,6 +34,13 @@ describe("ui", () => {
     expect(getFileSearchState(getState())).to.be(false);
     dispatch(actions.toggleFileSearch());
     expect(getFileSearchState(getState())).to.be(true);
+  });
+
+  it("should toggle the collapsed state of frameworks in the callstack", () => {
+    const { dispatch, getState } = createStore();
+    const currentState = getFrameworkGroupingState(getState());
+    dispatch(actions.toggleFrameworkGrouping(!currentState));
+    expect(getFrameworkGroupingState(getState())).to.be(!currentState);
   });
 
   it("should close file search", () => {
@@ -79,5 +88,20 @@ describe("ui", () => {
     expect(getPaneCollapse(getState(), "start")).to.be(false);
     dispatch(actions.togglePaneCollapse("start", true));
     expect(getPaneCollapse(getState(), "start")).to.be(true);
+  });
+
+  it("should highlight lines", () => {
+    const { dispatch, getState } = createStore();
+    const range = { start: 3, end: 5, sourceId: 2 };
+    dispatch(actions.highlightLineRange(range));
+    expect(getHighlightedLineRange(getState())).to.eql(range);
+  });
+
+  it("should clear highlight lines", () => {
+    const { dispatch, getState } = createStore();
+    const range = { start: 3, end: 5, sourceId: 2 };
+    dispatch(actions.highlightLineRange(range));
+    dispatch(actions.clearHighlightLineRange());
+    expect(getHighlightedLineRange(getState())).to.eql({});
   });
 });

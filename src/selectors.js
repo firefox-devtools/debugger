@@ -52,6 +52,7 @@ module.exports = {
   getFileSearchState: ui.getFileSearchState,
   getFileSearchQueryState: ui.getFileSearchQueryState,
   getFileSearchModifierState: ui.getFileSearchModifierState,
+  getFrameworkGroupingState: ui.getFrameworkGroupingState,
   getSymbolSearchState: ui.getSymbolSearchState,
   getSymbolSearchType: ui.getSymbolSearchType,
   getShownSource: ui.getShownSource,
@@ -59,5 +60,6 @@ module.exports = {
 
   getExpressions: expressions.getExpressions,
   getVisibleExpressions: expressions.getVisibleExpressions,
-  getExpression: expressions.getExpression
+  getExpression: expressions.getExpression,
+  getHighlightedLineRange: ui.getHighlightedLineRange
 };

@@ -1,8 +1,9 @@
 // @flow
 
 import toPairs from "lodash/toPairs";
+const get = require("lodash/get");
 
-import type { Pause, Frame } from "debugger-html";
+import type { Frame, Pause } from "debugger-html";
 
 type ScopeData = {
   name: string,
@@ -23,25 +24,14 @@ function getBindingVariables(bindings, parentName) {
   }));
 }
 
-// Support dehydrating immutable objects, while ignoring
-// primitive values like strings, numbers...
-function dehydrateValue(value) {
-  if (typeof value == "object" && !!value && value.toJS) {
-    value = value.toJS();
-  }
-
-  return value;
-}
-
 export function getSpecialVariables(pauseInfo: Pause, path: string) {
-  let thrown = pauseInfo.getIn(["why", "frameFinished", "throw"], undefined);
+  let thrown = get(pauseInfo, "why.frameFinished.throw", undefined);
 
-  let returned = pauseInfo.getIn(["why", "frameFinished", "return"], undefined);
+  let returned = get(pauseInfo, "why.frameFinished.return", undefined);
 
   const vars = [];
 
   if (thrown !== undefined) {
-    thrown = dehydrateValue(thrown);
     vars.push({
       name: "<exception>",
       path: `${path}/<exception>`,
@@ -50,8 +40,6 @@ export function getSpecialVariables(pauseInfo: Pause, path: string) {
   }
 
   if (returned !== undefined) {
-    returned = dehydrateValue(returned);
-
     // Do not display a return value of "undefined",
     if (!returned || !returned.type || returned.type !== "undefined") {
       vars.push({
@@ -65,7 +53,7 @@ export function getSpecialVariables(pauseInfo: Pause, path: string) {
   return vars;
 }
 
-function getThisVariable(frame: Frame, path: string) {
+function getThisVariable(frame: any, path: string) {
   const this_ = frame.this;
 
   if (!this_) {
@@ -96,7 +84,7 @@ export function getScopes(
   const scopes = [];
 
   let scope = selectedScope;
-  let pausedScopeActor = pauseInfo.getIn(["frame", "scope"]).get("actor");
+  let pausedScopeActor = get(pauseInfo, "frame.scope.actor");
   let scopeIndex = 1;
 
   do {
