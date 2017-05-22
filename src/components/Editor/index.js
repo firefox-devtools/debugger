@@ -75,6 +75,7 @@ import {
 import { getVisibleVariablesFromScope } from "../../utils/scopes";
 import { isFirefox } from "devtools-config";
 import "./Editor.css";
+import "./Highlight.css";
 
 import { SourceEditor } from "devtools-source-editor";
 
