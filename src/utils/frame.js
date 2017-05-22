@@ -43,6 +43,10 @@ function isPug(frame) {
   return /node_modules\/pug/.test(getFrameUrl(frame));
 }
 
+function isExtJs(frame) {
+  return /\/ext-all[\.\-]/.test(getFrameUrl(frame));
+}
+
 export function getLibraryFromUrl(frame: Frame) {
   // @TODO each of these fns calls getFrameUrl, just call it once
   // (assuming there's not more complex logic to identify a lib)
@@ -73,6 +77,10 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isPug(frame)) {
     return "Pug";
+  }
+
+  if (isExtJs(frame)) {
+    return "ExtJS";
   }
 }
 
