@@ -153,9 +153,6 @@ function PreviewFactory(options, { dir = "ltr", theme = "light" } = {}) {
     classList: { add: () => {}, remove: () => {} }
   };
 
-  if (!document.querySelector("#foobar")) {
-    // document.body.appendChild(div);
-  }
   return dom.div(
     {
       className: "editor-wrapper",
