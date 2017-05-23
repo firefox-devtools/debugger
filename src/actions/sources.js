@@ -55,7 +55,8 @@ async function checkPendingBreakpoint(
 ) {
   const {
     location: { line, sourceUrl, column },
-    condition
+    condition,
+    disabled
   } = pendingBreakpoint;
   const sameSource = sourceUrl && sourceUrl === source.url;
   const location = { sourceId: source.id, sourceUrl, line, column };
@@ -63,9 +64,9 @@ async function checkPendingBreakpoint(
 
   if (sameSource && !bp) {
     if (location.column && isEnabled("columnBreakpoints")) {
-      await dispatch(addBreakpoint(location, { condition }));
+      await dispatch(addBreakpoint(location, { condition, disabled }));
     } else {
-      await dispatch(addBreakpoint(location, { condition }));
+      await dispatch(addBreakpoint(location, { condition, disabled }));
     }
   }
 }

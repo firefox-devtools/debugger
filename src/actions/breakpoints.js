@@ -14,15 +14,26 @@ import { getBreakpoint, getBreakpoints, getSource } from "../selectors";
 import type { ThunkArgs } from "./types";
 import type { Location } from "../types";
 
-type addBreakpointOptions = { condition: string, getTextForLine?: () => any };
+type addBreakpointOptions = {
+  condition: string,
+  disabled?: boolean,
+  getTextForLine?: () => any
+};
 
 function _breakpointExists(state, location: Location) {
   const currentBp = getBreakpoint(state, location);
   return currentBp && !currentBp.disabled;
 }
 
-function _getOrCreateBreakpoint(state, location, condition) {
-  return getBreakpoint(state, location) || { location, condition, text: "" };
+function _getOrCreateBreakpoint(state, location, condition, disabled = false) {
+  return (
+    getBreakpoint(state, location) || {
+      location,
+      condition,
+      disabled,
+      text: ""
+    }
+  );
 }
 
 /**
@@ -46,14 +57,19 @@ export function enableBreakpoint(location: Location) {
  */
 export function addBreakpoint(
   location: Location,
-  { condition, getTextForLine }: addBreakpointOptions = {}
+  { condition, getTextForLine, disabled }: addBreakpointOptions = {}
 ) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
       return Promise.resolve();
     }
 
-    const bp = _getOrCreateBreakpoint(getState(), location, condition);
+    const bp = _getOrCreateBreakpoint(
+      getState(),
+      location,
+      condition,
+      disabled
+    );
 
     return dispatch({
       type: "ADD_BREAKPOINT",
