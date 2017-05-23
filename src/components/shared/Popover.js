@@ -31,7 +31,7 @@ class Popover extends Component {
     const estimatedRight = estimatedLeft + popover.width;
     const isOverflowingRight = estimatedRight > editor.right;
     if (isOverflowingRight) {
-      const adjustedLeft = editor.right - popover.width;
+      const adjustedLeft = editor.right - popover.width - 8;
       return adjustedLeft;
     }
     return estimatedLeft;
@@ -68,16 +68,15 @@ class Popover extends Component {
   }
 
   getTooltipCoords() {
-    const el = ReactDOM.findDOMNode(this);
-    const { height } = el.getBoundingClientRect();
-    const {
-      left: targetLeft,
-      width: targetWidth,
-      top: targetTop
-    } = this.props.target.getBoundingClientRect();
+    const tooltip = ReactDOM.findDOMNode(this);
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const targetRect = this.props.target.getBoundingClientRect();
 
-    const left = targetLeft + targetWidth / 4 - 10;
-    const top = targetTop - height;
+    const editor = document.querySelector(".editor-wrapper");
+    const editorRect = editor.getBoundingClientRect();
+
+    const left = this.calculateLeft(targetRect, editorRect, tooltipRect);
+    const top = targetRect.top - tooltipRect.height;
 
     return { left, top, orientation: "up", targetMid: 0 };
   }
