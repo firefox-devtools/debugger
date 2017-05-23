@@ -88,6 +88,9 @@ Here are some highlights from the week:
 * :police_car: License checking for our dependencies
 * :nail_care: Lots of UI polish
 
+### [When the World Stops](./when-the-world-stops.md)
+
+One of the most interesting debugger questions is what happens when the debugger stops? This post is a quick run-through that will give you some context so that you can dig in and answer your own questions.
 
 ### [May 23rd](./updates-5-23-2017.md)
 
