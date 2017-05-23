@@ -8,6 +8,7 @@ import { formatKeyShortcut } from "../utils/text";
 import actions from "../actions";
 import Svg from "./shared/Svg";
 import { getSources } from "../selectors";
+import { isEnabled } from "devtools-config";
 import "./Sources.css";
 
 import _Outline from "./Outline";
@@ -45,32 +46,38 @@ class Sources extends Component {
     this.setState({ selectedPane });
   }
 
-  renderFooter() {
+  renderOutlineToggleButton() {
+    if (!isEnabled("outline")) {
+      return;
+    }
+
     const { selectedPane } = this.state;
     const showSourcesTooltip = L10N.getStr("sourcesPane.showSourcesTooltip");
     const showOutlineTooltip = L10N.getStr("sourcesPane.showOutlineTooltip");
+
     const isSourcesPaneSelected = selectedPane === "sources";
     const tooltip = isSourcesPaneSelected
       ? showOutlineTooltip
       : showSourcesTooltip;
     const type = isSourcesPaneSelected ? "showSources" : "showOutline";
 
+    return dom.button(
+      {
+        className: "action",
+        onClick: this.togglePane,
+        key: type,
+        title: tooltip
+      },
+      Svg(type)
+    );
+  }
+
+  renderFooter() {
     return dom.div(
       {
         className: "source-footer"
       },
-      dom.div(
-        { className: "commands" },
-        dom.button(
-          {
-            className: "action",
-            onClick: this.togglePane,
-            key: type,
-            title: tooltip
-          },
-          Svg(type)
-        )
-      )
+      dom.div({ className: "commands" }, this.renderOutlineToggleButton())
     );
   }
 
