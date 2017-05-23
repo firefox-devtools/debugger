@@ -1,14 +1,17 @@
 import { makeLocationId } from "../../../reducers/breakpoints";
 
-export const theMockedPendingBreakpoint = {
-  location: {
-    sourceUrl: "http://localhost:8000/examples/bar.js",
-    line: 5,
-    column: undefined
-  },
-  condition: "3",
-  disabled: false
-};
+export function mockPendingBreakpoint(overrides = {}) {
+  const { sourceUrl, line, column, condition, disabled } = overrides;
+  return {
+    location: {
+      sourceUrl: sourceUrl || "http://localhost:8000/examples/bar.js",
+      line: line || 5,
+      column: column || undefined
+    },
+    condition: condition || "3",
+    disabled: disabled || false
+  };
+}
 
 export function generateCorrectedBreakpoint(breakpoint, correctedLocation) {
   return Object.assign({}, breakpoint, { location: correctedLocation });
