@@ -110,13 +110,12 @@ function addBreakpoint(state, action) {
   const id = makeLocationId(action.breakpoint.location);
   if (action.status === "start") {
     const bp = state.breakpoints.get(id) || action.breakpoint;
-    const bpExists = !!state.breakpoints.get(id);
 
     const updatedState = state
       .setIn(
         ["breakpoints", id],
         updateObj(bp, {
-          disabled: bpExists ? false : action.breakpoint.disabled,
+          disabled: false,
           loading: true,
           // We want to do an OR here, but we can't because we need
           // empty strings to be truthy, i.e. an empty string is a valid
@@ -146,6 +145,7 @@ function addBreakpoint(state, action) {
       ["breakpoints", locationId],
       updateObj(bp, {
         id: breakpointId,
+        disabled: false,
         loading: false,
         text: text
       })
