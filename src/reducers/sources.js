@@ -75,13 +75,15 @@ function update(
     }
 
     case "SELECT_SOURCE":
+      const sourceUrl = action.source.url || "";
+
       location = {
         line: action.line,
-        url: action.source.url
+        url: sourceUrl
       };
+
       prefs.pendingSelectedLocation = location;
 
-      const sourceUrl = action.source.url || "";
       return state
         .set("selectedLocation", {
           sourceId: action.source.id,
@@ -104,16 +106,12 @@ function update(
     case "CLOSE_TAB":
       availableTabs = removeSourceFromTabList(state.tabs, action.url);
 
-      return state.merge({ tabs: availableTabs }).set("selectedLocation", {
-        sourceId: getNewSelectedSourceId(state, availableTabs)
-      });
+      return state.merge({ tabs: availableTabs });
 
     case "CLOSE_TABS":
       availableTabs = removeSourcesFromTabList(state.tabs, action.urls);
 
-      return state.merge({ tabs: availableTabs }).set("selectedLocation", {
-        sourceId: getNewSelectedSourceId(state, availableTabs)
-      });
+      return state.merge({ tabs: availableTabs });
 
     case "LOAD_SOURCE_TEXT":
       return _updateText(state, action);
@@ -227,7 +225,11 @@ function updateTabList(state: OuterState, url: string, tabIndex?: number) {
  * @memberof reducers/sources
  * @static
  */
-function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
+export function getNewSelectedSourceId(
+  state: OuterState,
+  availableTabs
+): string {
+  state = state.sources;
   const selectedLocation = state.selectedLocation;
   if (!selectedLocation) {
     return "";

@@ -31,7 +31,9 @@ import {
   getBreakpoint,
   getPendingSelectedLocation,
   getPendingBreakpoints,
-  getFrames
+  getFrames,
+  getNewSelectedSourceId,
+  getSourceTabs
 } from "../selectors";
 
 import type { Source, SourceText } from "../types";
@@ -187,7 +189,11 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
     let source = getSource(getState(), id);
 
     if (!source) {
-      return;
+      // If there is no source we deselect the current selected source
+      return dispatch({
+        type: constants.SELECT_SOURCE,
+        source: { id, url: null }
+      });
     }
 
     source = source.toJS();
@@ -236,13 +242,24 @@ export function jumpToMappedLocation(sourceLocation: any) {
   };
 }
 
+function selectNewSource(state, dispatch) {
+  const avaliableTabs = getSourceTabs(state);
+  const sourceId = getNewSelectedSourceId(state, avaliableTabs);
+
+  return dispatch(selectSource(sourceId));
+}
+
 /**
  * @memberof actions/sources
  * @static
  */
 export function closeTab(url: string) {
-  removeDocument(url);
-  return { type: "CLOSE_TAB", url };
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    removeDocument(url);
+    dispatch({ type: "CLOSE_TAB", url });
+
+    selectNewSource(getState(), dispatch);
+  };
 }
 
 /**
@@ -259,6 +276,7 @@ export function closeTabs(urls: string[]) {
     });
 
     dispatch({ type: "CLOSE_TABS", urls });
+    selectNewSource(getState(), dispatch);
   };
 }
 

@@ -14,6 +14,7 @@ import * as coverage from "./reducers/coverage";
 
 module.exports = {
   getSource: sources.getSource,
+  getNewSelectedSourceId: sources.getNewSelectedSourceId,
   getSourceByURL: sources.getSourceByURL,
   getSourceInSources: sources.getSourceInSources,
   getSources: sources.getSources,
