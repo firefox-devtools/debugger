@@ -1,8 +1,6 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-const expect = require("expect.js");
 import getSymbols from "../getSymbols";
-
 import { getSourceText } from "./helpers";
 
 describe("Parser.getSymbols", () => {
@@ -11,28 +9,27 @@ describe("Parser.getSymbols", () => {
       const fncs = getSymbols(getSourceText("func")).functions;
 
       const names = fncs.map(f => f.name);
-
-      expect(names).to.eql(["square", "child", "anonymous"]);
+      expect(names).toEqual(["square", "child", "anonymous"]);
     });
 
     it("finds nested functions", () => {
       const fncs = getSymbols(getSourceText("math")).functions;
       const names = fncs.map(f => f.name);
 
-      expect(names).to.eql(["math", "square", "child", "child2"]);
+      expect(names).toEqual(["math", "square", "child", "child2"]);
     });
 
     it("finds object properties", () => {
       const fncs = getSymbols(getSourceText("proto")).functions;
       const names = fncs.map(f => f.name);
 
-      expect(names).to.eql(["foo", "bar", "initialize", "doThing", "render"]);
+      expect(names).toEqual(["foo", "bar", "initialize", "doThing", "render"]);
     });
 
     it("finds class methods", () => {
       const fncs = getSymbols(getSourceText("class")).functions;
       const names = fncs.map(f => f.name);
-      expect(names).to.eql(["constructor", "bar"]);
+      expect(names).toEqual(["constructor", "bar"]);
     });
   });
 
@@ -40,7 +37,7 @@ describe("Parser.getSymbols", () => {
     it("finds var, let, const", () => {
       const vars = getSymbols(getSourceText("var")).variables;
       const names = vars.map(v => v.name);
-      expect(names).to.eql(["foo", "bar", "baz", "a", "b"]);
+      expect(names).toEqual(["foo", "bar", "baz", "a", "b"]);
     });
 
     it("finds arguments, properties", () => {
@@ -48,15 +45,15 @@ describe("Parser.getSymbols", () => {
       const classVars = getSymbols(getSourceText("class")).variables;
       const protoNames = protoVars.map(v => v.name);
       const classNames = classVars.map(v => v.name);
-      expect(protoNames).to.eql(["foo", "bar", "TodoView", "tagName", "b"]);
-      expect(classNames).to.eql(["Test", "a", "Test2", "expressiveClass"]);
+      expect(protoNames).toEqual(["foo", "bar", "TodoView", "tagName", "b"]);
+      expect(classNames).toEqual(["Test", "a", "Test2", "expressiveClass"]);
     });
   });
 
   describe("All together", () => {
     it("finds function, variable and class declarations", () => {
       const allSymbols = getSymbols(getSourceText("allSymbols"));
-      expect(allSymbols.functions.map(f => f.name)).to.eql([
+      expect(allSymbols.functions.map(f => f.name)).toEqual([
         "incrementCounter",
         "sum",
         "doThing",
@@ -65,7 +62,7 @@ describe("Parser.getSymbols", () => {
         "constructor",
         "beAwesome"
       ]);
-      expect(allSymbols.variables.map(v => v.name)).to.eql([
+      expect(allSymbols.variables.map(v => v.name)).toEqual([
         "TIME",
         "count",
         "counter",
@@ -83,12 +80,12 @@ describe("Parser.getSymbols", () => {
   describe("<script> content", () => {
     it("finds function, variable and class declarations", () => {
       const allSymbols = getSymbols(getSourceText("parseScriptTags", "html"));
-      expect(allSymbols.functions.map(f => f.name)).to.eql([
+      expect(allSymbols.functions.map(f => f.name)).toEqual([
         "sayHello",
         "capitalize",
         "iife"
       ]);
-      expect(allSymbols.variables.map(v => v.name)).to.eql([
+      expect(allSymbols.variables.map(v => v.name)).toEqual([
         "globalObject",
         "first",
         "last",

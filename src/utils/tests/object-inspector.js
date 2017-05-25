@@ -1,5 +1,3 @@
-const expect = require("expect.js");
-
 const {
   makeNodesForProperties,
   isPromise,
@@ -35,10 +33,10 @@ describe("object-inspector", () => {
       const nodes = makeNodesForProperties(objProperties, root);
 
       const names = nodes.map(n => n.name);
-      expect(names).to.eql(["0", "length", "__proto__"]);
+      expect(names).toEqual(["0", "length", "__proto__"]);
 
       const paths = nodes.map(n => n.path);
-      expect(paths).to.eql(["root/0", "root/length", "root/__proto__"]);
+      expect(paths).toEqual(["root/0", "root/length", "root/__proto__"]);
     });
 
     it("excludes getters", () => {
@@ -58,8 +56,8 @@ describe("object-inspector", () => {
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
 
-      expect(names).to.eql(["foo", "__proto__"]);
-      expect(paths).to.eql(["root/foo", "root/__proto__"]);
+      expect(names).toEqual(["foo", "__proto__"]);
+      expect(paths).toEqual(["root/foo", "root/__proto__"]);
     });
 
     it("sorts keys", () => {
@@ -82,8 +80,8 @@ describe("object-inspector", () => {
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
 
-      expect(names).to.eql(["1", "2", "11", "_bar", "bar", "__proto__"]);
-      expect(paths).to.eql([
+      expect(names).toEqual(["1", "2", "11", "_bar", "bar", "__proto__"]);
+      expect(paths).toEqual([
         "root/1",
         "root/2",
         "root/11",
@@ -107,8 +105,8 @@ describe("object-inspector", () => {
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
 
-      expect(names).to.eql(["bar", "__proto__"]);
-      expect(paths).to.eql(["root/bar", "root/__proto__"]);
+      expect(names).toEqual(["bar", "__proto__"]);
+      expect(paths).toEqual(["root/bar", "root/__proto__"]);
     });
 
     it("window object", () => {
@@ -129,8 +127,8 @@ describe("object-inspector", () => {
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
 
-      expect(names).to.eql(["bar", "[default properties]"]);
-      expect(paths).to.eql(["root/bar", "root/##-default"]);
+      expect(names).toEqual(["bar", "[default properties]"]);
+      expect(paths).toEqual(["root/bar", "root/##-default"]);
     });
 
     // For large arrays
@@ -144,7 +142,7 @@ describe("object-inspector", () => {
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
 
-      expect(names).to.eql([
+      expect(names).toEqual([
         "[0..99]",
         "[100..199]",
         "[200..299]",
@@ -152,7 +150,7 @@ describe("object-inspector", () => {
         "__proto__"
       ]);
 
-      expect(paths).to.eql([
+      expect(paths).toEqual([
         "root/bucket1",
         "root/bucket2",
         "root/bucket3",
@@ -181,14 +179,14 @@ describe("object-inspector", () => {
       const names = nodes.map(n => n.name);
       const paths = nodes.map(n => n.path);
 
-      expect(names).to.eql([
+      expect(names).toEqual([
         '""',
         "332217",
         '"needs-quotes"',
         "unquoted",
         "__proto__"
       ]);
-      expect(paths).to.eql([
+      expect(paths).toEqual([
         "root/",
         "root/332217",
         "root/needs-quotes",
@@ -232,7 +230,7 @@ describe("promises", () => {
       }
     };
 
-    expect(isPromise(promise)).to.eql(true);
+    expect(isPromise(promise)).toEqual(true);
   });
 
   it("getPromiseProperties", () => {
@@ -268,6 +266,6 @@ describe("promises", () => {
     };
 
     const node = getPromiseProperties(promise);
-    expect(node.contents.value.type).to.eql("3");
+    expect(node.contents.value.type).toEqual("3");
   });
 });

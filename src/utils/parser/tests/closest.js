@@ -1,6 +1,5 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-const expect = require("expect.js");
 import { getClosestScope, getClosestExpression } from "../utils/closest";
 
 import { getSourceText } from "./helpers";
@@ -17,8 +16,8 @@ describe("parser", () => {
         }
       );
 
-      expect(expression.value).to.be("obj.x");
-      expect(expression.location.start).to.eql({
+      expect(expression.value).toBe("obj.x");
+      expect(expression.location.start).toEqual({
         line: 15,
         column: 26
       });
@@ -34,8 +33,8 @@ describe("parser", () => {
         }
       );
 
-      expect(expression.value).to.be("beta");
-      expect(expression.location.start).to.eql({
+      expect(expression.value).toBe("beta");
+      expect(expression.location.start).toEqual({
         line: 15,
         column: 19
       });
@@ -51,12 +50,12 @@ describe("parser", () => {
 
       const node = scope.block;
 
-      expect(node.id).to.be(null);
-      expect(node.loc.start).to.eql({
+      expect(node.id).toBe(null);
+      expect(node.loc.start).toEqual({
         line: 5,
         column: 8
       });
-      expect(node.type).to.be("FunctionExpression");
+      expect(node.type).toBe("FunctionExpression");
     });
 
     it("finds a scope given at the end", () => {
@@ -66,12 +65,12 @@ describe("parser", () => {
       });
 
       const node = scope.block;
-      expect(node.id).to.be(null);
-      expect(node.loc.start).to.eql({
+      expect(node.id).toBe(null);
+      expect(node.loc.start).toEqual({
         line: 7,
         column: 1
       });
-      expect(node.type).to.be("FunctionExpression");
+      expect(node.type).toBe("FunctionExpression");
     });
 
     it("Can find the function declaration for square", () => {
@@ -81,12 +80,12 @@ describe("parser", () => {
       });
 
       const node = scope.block;
-      expect(node.id.name).to.be("square");
-      expect(node.loc.start).to.eql({
+      expect(node.id.name).toBe("square");
+      expect(node.loc.start).toEqual({
         line: 1,
         column: 0
       });
-      expect(node.type).to.be("FunctionDeclaration");
+      expect(node.type).toBe("FunctionDeclaration");
     });
   });
 });

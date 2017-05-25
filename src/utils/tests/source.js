@@ -1,4 +1,3 @@
-const expect = require("expect.js");
 const { getFilename, getMode } = require("../source.js");
 
 describe("sources", () => {
@@ -6,7 +5,7 @@ describe("sources", () => {
     it("should give us a default of (index)", () => {
       expect(
         getFilename({ url: "http://localhost.com:7999/increment/", id: "" })
-      ).to.be("(index)");
+      ).toBe("(index)");
     });
     it("should give us the filename", () => {
       expect(
@@ -14,7 +13,7 @@ describe("sources", () => {
           url: "http://localhost.com:7999/increment/hello.html",
           id: ""
         })
-      ).to.be("hello.html");
+      ).toBe("hello.html");
     });
   });
 
@@ -24,7 +23,7 @@ describe("sources", () => {
         contentType: "text/javascript",
         text: "// @flow"
       };
-      expect(getMode(sourceText).typescript).to.be(true);
+      expect(getMode(sourceText).typescript).toBe(true);
     });
 
     it("/* @flow */", () => {
@@ -32,7 +31,7 @@ describe("sources", () => {
         contentType: "text/javascript",
         text: "   /* @flow */"
       };
-      expect(getMode(sourceText).typescript).to.be(true);
+      expect(getMode(sourceText).typescript).toBe(true);
     });
 
     it("mixed html", () => {
@@ -40,7 +39,7 @@ describe("sources", () => {
         contentType: "",
         text: " <html"
       };
-      expect(getMode(sourceText)).to.eql({ name: "htmlmixed" });
+      expect(getMode(sourceText)).toEqual({ name: "htmlmixed" });
     });
 
     it("elm", () => {
@@ -48,7 +47,7 @@ describe("sources", () => {
         contentType: "text/x-elm",
         text: ""
       };
-      expect(getMode(sourceText)).to.be("elm");
+      expect(getMode(sourceText)).toBe("elm");
     });
 
     it("jsx", () => {
@@ -56,7 +55,7 @@ describe("sources", () => {
         contentType: "text/jsx",
         text: ""
       };
-      expect(getMode(sourceText)).to.be("jsx");
+      expect(getMode(sourceText)).toBe("jsx");
     });
 
     it("typescript", () => {
@@ -64,7 +63,7 @@ describe("sources", () => {
         contentType: "text/typescript",
         text: ""
       };
-      expect(getMode(sourceText).typescript).to.be(true);
+      expect(getMode(sourceText).typescript).toBe(true);
     });
 
     it("typescript-jsx", () => {
@@ -72,7 +71,7 @@ describe("sources", () => {
         contentType: "text/typescript-jsx",
         text: ""
       };
-      expect(getMode(sourceText).base.typescript).to.be(true);
+      expect(getMode(sourceText).base.typescript).toBe(true);
     });
 
     it("clojure", () => {
@@ -80,7 +79,7 @@ describe("sources", () => {
         contentType: "text/x-clojure",
         text: ""
       };
-      expect(getMode(sourceText)).to.be("clojure");
+      expect(getMode(sourceText)).toBe("clojure");
     });
 
     it("coffeescript", () => {
@@ -88,7 +87,7 @@ describe("sources", () => {
         contentType: "text/coffeescript",
         text: ""
       };
-      expect(getMode(sourceText)).to.be("coffeescript");
+      expect(getMode(sourceText)).toBe("coffeescript");
     });
   });
 });

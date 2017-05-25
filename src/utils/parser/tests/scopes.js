@@ -1,6 +1,5 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-const expect = require("expect.js");
 import { getVariablesInLocalScope, getVariablesInScope } from "../scopes";
 import { getClosestScope } from "../utils/closest";
 
@@ -15,8 +14,8 @@ describe("parser", () => {
       });
 
       var vars = getVariablesInLocalScope(scope);
-      expect(vars.map(v => v.name)).to.eql(["n"]);
-      expect(vars[0].references[0].node.loc.start).to.eql({
+      expect(vars.map(v => v.name)).toEqual(["n"]);
+      expect(vars[0].references[0].node.loc.start).toEqual({
         column: 4,
         line: 3
       });
@@ -30,8 +29,8 @@ describe("parser", () => {
 
       var vars = getVariablesInLocalScope(scope);
 
-      expect(vars.map(v => v.name)).to.eql(["n"]);
-      expect(vars[0].references[0].node.loc.start).to.eql({
+      expect(vars.map(v => v.name)).toEqual(["n"]);
+      expect(vars[0].references[0].node.loc.start).toEqual({
         column: 4,
         line: 3
       });
@@ -45,7 +44,7 @@ describe("parser", () => {
 
       var vars = getVariablesInLocalScope(scope);
 
-      expect(vars.map(v => v.name)).to.eql(["x"]);
+      expect(vars.map(v => v.name)).toEqual(["x"]);
     });
   });
 
@@ -58,7 +57,7 @@ describe("parser", () => {
 
       var vars = getVariablesInScope(scope);
 
-      expect(vars).to.eql([
+      expect(vars).toEqual([
         "this",
         "arguments",
         "n",
@@ -81,7 +80,7 @@ describe("parser", () => {
         })
       );
 
-      expect(vars).to.eql([
+      expect(vars).toEqual([
         "this",
         "arguments",
         "y",
@@ -104,7 +103,7 @@ describe("parser", () => {
         })
       );
 
-      expect(vars).to.eql([
+      expect(vars).toEqual([
         "this",
         "arguments",
         "x",
@@ -126,7 +125,7 @@ describe("parser", () => {
         })
       );
 
-      expect(vars).to.eql([
+      expect(vars).toEqual([
         "this",
         "arguments",
         "inner",
@@ -148,7 +147,7 @@ describe("parser", () => {
         })
       );
 
-      expect(vars).to.eql([
+      expect(vars).toEqual([
         "this",
         "arguments",
         "toIIFE",

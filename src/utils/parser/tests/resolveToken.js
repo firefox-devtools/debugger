@@ -1,6 +1,5 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-const expect = require("expect.js");
 import resolveToken from "../resolveToken";
 import { getSourceText } from "./helpers";
 
@@ -22,9 +21,9 @@ describe("parser", () => {
         }
       );
 
-      expect(inScope).to.be(true);
-      expect(expression.value).to.be("obj.a.b");
-      expect(expression.location.start).to.eql({
+      expect(inScope).toBe(true);
+      expect(expression.value).toBe("obj.a.b");
+      expect(expression.location.start).toEqual({
         line: 5,
         column: 9
       });
@@ -46,8 +45,8 @@ describe("parser", () => {
         }
       );
 
-      expect(expression).to.be(null);
-      expect(inScope).to.be(false);
+      expect(expression).toBe(null);
+      expect(inScope).toBe(false);
     });
 
     it("should not find the expression at a wrong location", () => {
@@ -66,8 +65,8 @@ describe("parser", () => {
         }
       );
 
-      expect(expression).to.be(null);
-      expect(inScope).to.be(false);
+      expect(expression).toBe(null);
+      expect(inScope).toBe(false);
     });
 
     it("should get the expression with 'this'", () => {
@@ -83,8 +82,8 @@ describe("parser", () => {
         }
       );
 
-      expect(expression.value).to.be("this.foo.a");
-      expect(expression.location.start).to.eql({
+      expect(expression.value).toBe("this.foo.a");
+      expect(expression.location.start).toEqual({
         line: 9,
         column: 16
       });
@@ -103,8 +102,8 @@ describe("parser", () => {
         }
       );
 
-      expect(expression.value).to.be("this");
-      expect(expression.location.start).to.eql({
+      expect(expression.value).toBe("this");
+      expect(expression.location.start).toEqual({
         line: 3,
         column: 4
       });
@@ -129,7 +128,7 @@ describe("parser", () => {
         frame
       );
 
-      expect(inScope).to.be(true);
+      expect(inScope).toBe(true);
     });
 
     it("should report out of scope when in a different function", () => {
@@ -152,7 +151,7 @@ describe("parser", () => {
         frame
       );
 
-      expect(inScope).to.be(false);
+      expect(inScope).toBe(false);
     });
 
     it("should report in scope within a function inside the frame", () => {
@@ -176,7 +175,7 @@ describe("parser", () => {
         frame
       );
 
-      expect(inScope).to.be(true);
+      expect(inScope).toBe(true);
     });
   });
 });

@@ -1,4 +1,3 @@
-import expect from "expect.js";
 import {
   actions,
   selectors,
@@ -44,11 +43,11 @@ describe("sources", () => {
     await dispatch(actions.newSource(makeSource("base.js")));
     await dispatch(actions.newSource(makeSource("jquery.js")));
 
-    expect(getSources(getState()).size).to.equal(2);
+    expect(getSources(getState()).size).toEqual(2);
     const base = getSource(getState(), "base.js");
     const jquery = getSource(getState(), "jquery.js");
-    expect(base.get("id")).to.equal("base.js");
-    expect(jquery.get("id")).to.equal("jquery.js");
+    expect(base.get("id")).toEqual("base.js");
+    expect(jquery.get("id")).toEqual("jquery.js");
   });
 
   it("should select a source", async () => {
@@ -58,7 +57,7 @@ describe("sources", () => {
 
     await dispatch(actions.newSource(makeSource("foo.js")));
     dispatch(actions.selectSource("foo.js"));
-    expect(getSelectedSource(getState()).get("id")).to.equal("foo.js");
+    expect(getSelectedSource(getState()).get("id")).toEqual("foo.js");
   });
 
   it("should automatically select a pending source", async () => {
@@ -66,9 +65,9 @@ describe("sources", () => {
     const baseSource = makeSource("base.js");
     dispatch(actions.selectSourceURL(baseSource.url));
 
-    expect(getSelectedSource(getState())).to.be(undefined);
+    expect(getSelectedSource(getState())).toBe(undefined);
     await dispatch(actions.newSource(baseSource));
-    expect(getSelectedSource(getState()).get("url")).to.be(baseSource.url);
+    expect(getSelectedSource(getState()).get("url")).toBe(baseSource.url);
   });
 
   it("should open a tab for the source", async () => {
@@ -77,8 +76,8 @@ describe("sources", () => {
     dispatch(actions.selectSource("foo.js"));
 
     const tabs = getSourceTabs(getState());
-    expect(tabs.size).to.equal(1);
-    expect(tabs.get(0)).to.equal("http://localhost:8000/examples/foo.js");
+    expect(tabs.size).toEqual(1);
+    expect(tabs.get(0)).toEqual("http://localhost:8000/examples/foo.js");
   });
 
   it("should select previous tab on tab closed", async () => {
@@ -90,8 +89,8 @@ describe("sources", () => {
     dispatch(actions.selectSource("bar.js"));
     dispatch(actions.selectSource("baz.js"));
     dispatch(actions.closeTab("http://localhost:8000/examples/baz.js"));
-    expect(getSelectedSource(getState()).get("id")).to.be("bar.js");
-    expect(getSourceTabs(getState()).size).to.be(2);
+    expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
+    expect(getSourceTabs(getState()).size).toBe(2);
   });
 
   it("should select next tab on tab closed if no previous tab", async () => {
@@ -104,8 +103,8 @@ describe("sources", () => {
     dispatch(actions.selectSource("baz.js"));
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
-    expect(getSelectedSource(getState()).get("id")).to.be("bar.js");
-    expect(getSourceTabs(getState()).size).to.be(2);
+    expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
+    expect(getSourceTabs(getState()).size).toBe(2);
   });
 
   it("should load source text", async () => {
@@ -113,11 +112,11 @@ describe("sources", () => {
 
     await dispatch(actions.loadSourceText({ id: "foo1" }));
     const fooSourceText = getSourceText(getState(), "foo1");
-    expect(fooSourceText.get("text").indexOf("return 5")).to.not.be(-1);
+    expect(fooSourceText.get("text").indexOf("return 5")).not.toBe(-1);
 
     await dispatch(actions.loadSourceText({ id: "foo2" }));
     const foo2SourceText = getSourceText(getState(), "foo2");
-    expect(foo2SourceText.get("text").indexOf("return x + y")).to.not.be(-1);
+    expect(foo2SourceText.get("text").indexOf("return x + y")).not.toBe(-1);
   });
 
   it("should cache subsequent source text loads", async () => {
@@ -129,7 +128,7 @@ describe("sources", () => {
     await dispatch(actions.loadSourceText({ id: "foo1" }));
     const curText = getSourceText(getState(), "foo1");
 
-    expect(prevText === curText).to.be.ok();
+    expect(prevText === curText).toBeTruthy();
   });
 
   it("should indicate a loading source text", async () => {
@@ -138,7 +137,7 @@ describe("sources", () => {
     // Don't block on this so we can check the loading state.
     dispatch(actions.loadSourceText({ id: "foo1" }));
     const fooSourceText = getSourceText(getState(), "foo1");
-    expect(fooSourceText.get("loading")).to.equal(true);
+    expect(fooSourceText.get("loading")).toEqual(true);
   });
 
   it("should indicate an errored source text", async () => {
@@ -146,7 +145,7 @@ describe("sources", () => {
 
     await dispatch(actions.loadSourceText({ id: "bad-id" })).catch(() => {});
     const badText = getSourceText(getState(), "bad-id");
-    expect(badText.get("error").indexOf("unknown source")).to.not.be(-1);
+    expect(badText.get("error").indexOf("unknown source")).not.toBe(-1);
   });
 });
 
@@ -157,8 +156,8 @@ describe("closing tabs", () => {
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
-    expect(getSelectedSource(getState())).to.be(undefined);
-    expect(getSourceTabs(getState()).size).to.be(0);
+    expect(getSelectedSource(getState())).toBe(undefined);
+    expect(getSourceTabs(getState()).size).toBe(0);
   });
 
   it("closing the inactive tab", async () => {
@@ -169,8 +168,8 @@ describe("closing tabs", () => {
     dispatch(actions.selectSource("bar.js"));
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
-    expect(getSelectedSource(getState()).get("id")).to.be("bar.js");
-    expect(getSourceTabs(getState()).size).to.be(1);
+    expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
+    expect(getSourceTabs(getState()).size).toBe(1);
   });
 
   it("closing the only tab", async () => {
@@ -179,8 +178,8 @@ describe("closing tabs", () => {
     dispatch(actions.selectSource("foo.js"));
     dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
 
-    expect(getSelectedSource(getState())).to.be(undefined);
-    expect(getSourceTabs(getState()).size).to.be(0);
+    expect(getSelectedSource(getState())).toBe(undefined);
+    expect(getSourceTabs(getState()).size).toBe(0);
   });
 
   it("closing the active tab", async () => {
@@ -191,8 +190,8 @@ describe("closing tabs", () => {
     dispatch(actions.selectSource("bar.js"));
     dispatch(actions.closeTab("http://localhost:8000/examples/bar.js"));
 
-    expect(getSelectedSource(getState()).get("id")).to.be("foo.js");
-    expect(getSourceTabs(getState()).size).to.be(1);
+    expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
+    expect(getSourceTabs(getState()).size).toBe(1);
   });
 
   it("closing many inactive tabs", async () => {
@@ -210,8 +209,8 @@ describe("closing tabs", () => {
       ])
     );
 
-    expect(getSelectedSource(getState()).get("id")).to.be("bazz.js");
-    expect(getSourceTabs(getState()).size).to.be(1);
+    expect(getSelectedSource(getState()).get("id")).toBe("bazz.js");
+    expect(getSourceTabs(getState()).size).toBe(1);
   });
 
   it("closing many tabs including the active tab", async () => {
@@ -229,8 +228,8 @@ describe("closing tabs", () => {
       ])
     );
 
-    expect(getSelectedSource(getState()).get("id")).to.be("foo.js");
-    expect(getSourceTabs(getState()).size).to.be(1);
+    expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
+    expect(getSourceTabs(getState()).size).toBe(1);
   });
 
   it("closing all the tabs", async () => {
@@ -246,7 +245,7 @@ describe("closing tabs", () => {
       ])
     );
 
-    expect(getSelectedSource(getState())).to.be(undefined);
-    expect(getSourceTabs(getState()).size).to.be(0);
+    expect(getSelectedSource(getState())).toBe(undefined);
+    expect(getSourceTabs(getState()).size).toBe(0);
   });
 });
