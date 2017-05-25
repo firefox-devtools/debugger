@@ -12,7 +12,7 @@ ShallowWrapper {
     className="pane why-paused"
 >
     <div>
-        whyPaused.breakpoint
+        Paused on breakpoint
     </div>
     <div
         className="message"
@@ -25,7 +25,7 @@ ShallowWrapper {
       className="pane why-paused"
 >
       <div>
-            whyPaused.breakpoint
+            Paused on breakpoint
       </div>
       <div
             className="message"
@@ -88,7 +88,7 @@ ShallowWrapper {
           className="pane why-paused"
 >
           <div>
-                    whyPaused.breakpoint
+                    Paused on breakpoint
           </div>
           <div
                     className="message"
@@ -101,7 +101,7 @@ ShallowWrapper {
           className="pane why-paused"
 >
           <div>
-                    whyPaused.breakpoint
+                    Paused on breakpoint
           </div>
           <div
                     className="message"
@@ -145,7 +145,7 @@ ShallowWrapper {
     className="pane why-paused"
 >
     <div>
-        whyPaused.exception
+        Paused on exception
     </div>
     <div
         className="message"
@@ -158,7 +158,7 @@ ShallowWrapper {
       className="pane why-paused"
 >
       <div>
-            whyPaused.exception
+            Paused on exception
       </div>
       <div
             className="message"
@@ -233,7 +233,7 @@ ShallowWrapper {
           className="pane why-paused"
 >
           <div>
-                    whyPaused.exception
+                    Paused on exception
           </div>
           <div
                     className="message"
@@ -246,7 +246,7 @@ ShallowWrapper {
           className="pane why-paused"
 >
           <div>
-                    whyPaused.exception
+                    Paused on exception
           </div>
           <div
                     className="message"
@@ -296,7 +296,7 @@ ShallowWrapper {
     className="pane why-paused"
 >
     <div>
-        whyPaused.exception
+        Paused on exception
     </div>
     <div
         className="message"
@@ -309,7 +309,7 @@ ShallowWrapper {
       className="pane why-paused"
 >
       <div>
-            whyPaused.exception
+            Paused on exception
       </div>
       <div
             className="message"
@@ -372,7 +372,7 @@ ShallowWrapper {
           className="pane why-paused"
 >
           <div>
-                    whyPaused.exception
+                    Paused on exception
           </div>
           <div
                     className="message"
@@ -385,7 +385,7 @@ ShallowWrapper {
           className="pane why-paused"
 >
           <div>
-                    whyPaused.exception
+                    Paused on exception
           </div>
           <div
                     className="message"
