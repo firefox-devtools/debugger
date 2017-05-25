@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import _Frames from "../index.js";
+import { Map } from "immutable";
+import _Frames, { getAndProcessFrames } from "../index.js";
 const Frames = React.createFactory(_Frames.WrappedComponent);
 
 function render(overrides = {}) {
@@ -53,6 +54,31 @@ describe("Frames", () => {
     expect(showMore.props.className).toEqual("show-more");
   });
 
+  describe("Blackboxed Frames", () => {
+    it("filters blackboxed frames", () => {
+      const frames = [
+        { id: 1, location: { sourceId: "1" } },
+        { id: 2, location: { sourceId: "2" } },
+        { id: 3, location: { sourceId: "1" } },
+        { id: 8, location: { sourceId: "2" } }
+      ];
+
+      const sources = Map({
+        1: Map({}),
+        2: Map({ isBlackBoxed: true })
+      });
+
+      const processedFrames = getAndProcessFrames(frames, sources);
+      const selectedFrame = frames[0];
+      const component = render({
+        frames: processedFrames,
+        frameworkGroupingOn: false,
+        selectedFrame
+      });
+      expect(component).toMatchSnapshot();
+    });
+  });
+
   describe("Library Frames", () => {
     it("expand framework frames into a multiple frames", () => {
       const frames = [
@@ -65,8 +91,6 @@ describe("Frames", () => {
       const frameworkGroupingOn = false;
       const component = render({ frames, frameworkGroupingOn, selectedFrame });
       expect(component).toMatchSnapshot();
-      // const showMore = component.node.props.children[1];
-      // expect(showMore.props.className).toEqual("show-more");
     });
 
     it("collapse framework frames into a single frame", () => {

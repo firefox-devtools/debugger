@@ -89,6 +89,16 @@ Here are some highlights from the week:
 * :nail_care: Lots of UI polish
 
 
+### [May 23rd](./updates-5-23-2017.md)
+
+We focused this week on UI polish, bug fixing, and performance as we focus on getting ready for the June 15th Firefox 55 release.
+
+* Intelligently place preview popups and tooltips
+* Add an option for disabling Framework Frames
+* Polish the search bar
+* Speed up stepping performance
+
+
 [@asolove]:http://github.com/asolove
 [@ryanjduffy]:http://github.com/ryanjduffy
 [@diessica]:http://github.com/diessica

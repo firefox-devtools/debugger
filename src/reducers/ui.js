@@ -43,9 +43,9 @@ export const State = makeRecord(
     fileSearchOn: false,
     fileSearchQuery: "",
     fileSearchModifiers: makeRecord({
-      caseSensitive: true,
-      wholeWord: false,
-      regexMatch: false
+      caseSensitive: prefs.fileSearchCaseSensitive,
+      wholeWord: prefs.fileSearchWholeWord,
+      regexMatch: prefs.fileSearchRegexMatch
     })(),
     projectSearchOn: false,
     symbolSearchOn: false,
@@ -85,10 +85,21 @@ function update(
     }
 
     case constants.TOGGLE_FILE_SEARCH_MODIFIER: {
-      return state.setIn(
-        ["fileSearchModifiers", action.modifier],
-        !state.getIn(["fileSearchModifiers", action.modifier])
-      );
+      const actionVal = !state.getIn(["fileSearchModifiers", action.modifier]);
+
+      if (action.modifier == "caseSensitive") {
+        prefs.fileSearchCaseSensitive = actionVal;
+      }
+
+      if (action.modifier == "wholeWord") {
+        prefs.fileSearchWholeWord = actionVal;
+      }
+
+      if (action.modifier == "regexMatch") {
+        prefs.fileSearchRegexMatch = actionVal;
+      }
+
+      return state.setIn(["fileSearchModifiers", action.modifier], actionVal);
     }
 
     case constants.SET_SYMBOL_SEARCH_TYPE: {

@@ -99,7 +99,8 @@ class App extends Component {
           startPanelCollapsed,
           endPanelCollapsed,
           horizontal,
-          endPanelSize
+          endPanelSize,
+          startPanelSize
         }),
         Editor({ horizontal, startPanelSize, endPanelSize }),
         !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,

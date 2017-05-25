@@ -12,11 +12,6 @@ export type Expression = {
   visible: boolean
 };
 
-export type TokenResolution = {
-  expression?: Object | null,
-  inScope: boolean
-};
-
 export type Mode =
   | String
   | {

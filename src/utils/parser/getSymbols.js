@@ -1,28 +1,20 @@
-import { getAst } from "./utils/ast";
-import traverse from "babel-traverse";
+// @flow
+
+import { traverseAst } from "./utils/ast";
 import { isVariable, isFunction } from "./utils/helpers";
-import isEmpty from "lodash/isEmpty";
 import * as t from "babel-types";
 
 import getFunctionName from "./utils/getFunctionName";
 
+import type { SourceText } from "debugger-html";
+import type { Location as BabelLocation } from "babel-traverse";
 const symbolDeclarations = new Map();
 
-export type ASTLocation = {
-  start: {
-    line: number,
-    column: number
-  },
-  end: {
-    line: number,
-    column: number
-  }
-};
-
-export type SymbolDeclaration = {
+export type SymbolDeclaration = {|
   name: string,
-  location: ASTLocation
-};
+  location: BabelLocation,
+  parameterNames?: string[]
+|};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
   parameterNames: string[]
@@ -64,15 +56,9 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
     }
   }
 
-  const ast = getAst(source);
+  let symbols = { functions: [], variables: [] };
 
-  const symbols = { functions: [], variables: [] };
-
-  if (isEmpty(ast)) {
-    return symbols;
-  }
-
-  traverse(ast, {
+  traverseAst(source, {
     enter(path) {
       if (isVariable(path)) {
         symbols.variables.push(...getVariableNames(path));
