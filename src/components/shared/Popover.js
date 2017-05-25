@@ -7,7 +7,7 @@ const BracketArrow = createFactory(_BracketArrow);
 
 import "./Popover.css";
 
-export type Props = {
+type Props = {
   target?: Object,
   children?: Object,
   onMouseLeave?: Function,
