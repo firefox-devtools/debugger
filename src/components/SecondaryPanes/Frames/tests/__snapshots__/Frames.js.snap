@@ -1307,7 +1307,7 @@ ShallowWrapper {
     <div
         className="pane-info empty"
     >
-        callStack.notPaused
+        Not Paused
     </div>
 </div>,
   "nodes": Array [
@@ -1317,7 +1317,7 @@ ShallowWrapper {
       <div
             className="pane-info empty"
       >
-            callStack.notPaused
+            Not Paused
       </div>
 </div>,
   ],
@@ -1382,7 +1382,7 @@ ShallowWrapper {
           <div
                     className="pane-info empty"
           >
-                    callStack.notPaused
+                    Not Paused
           </div>
 </div>,
         "_debugID": 2,
@@ -1392,7 +1392,7 @@ ShallowWrapper {
           <div
                     className="pane-info empty"
           >
-                    callStack.notPaused
+                    Not Paused
           </div>
 </div>,
       },
@@ -1568,7 +1568,7 @@ ShallowWrapper {
         className="show-more"
         onClick={[Function]}
     >
-        callStack.expand
+        Expand Rows
     </div>
 </div>,
   "nodes": Array [
@@ -1714,7 +1714,7 @@ ShallowWrapper {
             className="show-more"
             onClick={[Function]}
       >
-            callStack.expand
+            Expand Rows
       </div>
 </div>,
   ],
@@ -1973,7 +1973,7 @@ ShallowWrapper {
                     className="show-more"
                     onClick={[Function]}
           >
-                    callStack.expand
+                    Expand Rows
           </div>
 </div>,
         "_debugID": 6,
@@ -2119,7 +2119,7 @@ ShallowWrapper {
                     className="show-more"
                     onClick={[Function]}
           >
-                    callStack.expand
+                    Expand Rows
           </div>
 </div>,
       },
