@@ -1,9 +1,9 @@
 global.Worker = require("workerjs");
-global.L10N = { getStr: value => value };
 
 const path = require("path");
 const getConfig = require("../../bin/getConfig");
 const { setConfig } = require("devtools-config");
+const { readFileSync } = require("fs");
 
 const rootPath = path.join(__dirname, "../../");
 
@@ -20,4 +20,8 @@ const config = Object.assign({}, envConfig, {
 });
 
 global.DebuggerConfig = config;
+
+global.L10N = require("devtools-launchpad").L10N;
+global.L10N.setBundle(readFileSync("./assets/panel/debugger.properties"));
+
 setConfig(config);
