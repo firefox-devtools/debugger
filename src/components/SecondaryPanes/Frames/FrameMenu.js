@@ -7,16 +7,14 @@ import kebabCase from "lodash.kebabcase";
 
 const blackboxString = "sourceFooter.blackbox";
 const unblackboxString = "sourceFooter.unblackbox";
-const blackboxKeyString = "sourceFooter.blackbox.accesskey";
 
 function formatMenuElement(
   labelString: string,
-  accesskeyString: string,
   click: Function,
   disabled: boolean = false
 ): ContextMenuItem {
   const label = L10N.getStr(labelString);
-  const accesskey = L10N.getStr(accesskeyString);
+  const accesskey = L10N.getStr(`${labelString}.accesskey`);
   const id = `node-menu-${kebabCase(label)}`;
   return {
     id,
@@ -28,15 +26,11 @@ function formatMenuElement(
 }
 
 function copySourceElement(url) {
-  return formatMenuElement("copySourceUrl", "copySourceUrl.accesskey", () =>
-    copyToTheClipboard(url)
-  );
+  return formatMenuElement("copySourceUrl", () => copyToTheClipboard(url));
 }
 
 function copyStackTraceElement(copyStackTrace) {
-  return formatMenuElement("copyStackTrace", "copyStackTrace.accesskey", () =>
-    copyStackTrace()
-  );
+  return formatMenuElement("copyStackTrace", () => copyStackTrace());
 }
 
 function toggleFrameworkGroupingElement(
@@ -47,9 +41,7 @@ function toggleFrameworkGroupingElement(
     ? "framework.disableGrouping"
     : "framework.enableGrouping";
 
-  return formatMenuElement(actionType, "framework.accesskey", () =>
-    toggleFrameworkGrouping()
-  );
+  return formatMenuElement(actionType, () => toggleFrameworkGrouping());
 }
 
 function blackBoxSource(source, toggleBlackBox) {
@@ -57,9 +49,7 @@ function blackBoxSource(source, toggleBlackBox) {
     ? unblackboxString
     : blackboxString;
 
-  return formatMenuElement(toggleBlackBoxString, blackboxKeyString, () =>
-    toggleBlackBox(source)
-  );
+  return formatMenuElement(toggleBlackBoxString, () => toggleBlackBox(source));
 }
 
 export default function FrameMenu(
