@@ -1,11 +1,11 @@
 // @flow
 declare var describe: (name: string, func: () => void) => void;
 declare var it: (desc: string, func: () => void) => void;
+declare var expect: (value: any) => any;
 
 import update, { State } from "../sources";
 import { foobar } from "../../test/fixtures";
 const fakeSources = foobar.sources.sources;
-import expect from "expect.js";
 
 describe("sources reducer", () => {
   it("should work", () => {
@@ -14,6 +14,6 @@ describe("sources reducer", () => {
       type: "ADD_SOURCE",
       source: fakeSources.fooSourceActor
     });
-    expect(state.sources.size).to.be(1);
+    expect(state.sources.size).toBe(1);
   });
 });

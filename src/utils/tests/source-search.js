@@ -1,4 +1,3 @@
-const expect = require("expect.js");
 const { countMatches } = require("../editor");
 const { getMatchIndex } = require("../editor/source-search");
 
@@ -12,7 +11,7 @@ describe("source-search", () => {
         wholeWord: false,
         regexMatch: false
       });
-      expect(count).to.be(3);
+      expect(count).toBe(3);
     });
 
     it("counts basic string match case-sensitive", () => {
@@ -23,7 +22,7 @@ describe("source-search", () => {
         wholeWord: false,
         regexMatch: false
       });
-      expect(count).to.be(1);
+      expect(count).toBe(1);
     });
 
     it("counts whole word string match", () => {
@@ -34,7 +33,7 @@ describe("source-search", () => {
         wholeWord: true,
         regexMatch: false
       });
-      expect(count).to.be(2);
+      expect(count).toBe(2);
     });
 
     it("counts regex match", () => {
@@ -45,7 +44,7 @@ describe("source-search", () => {
         wholeWord: false,
         regexMatch: true
       });
-      expect(count).to.be(4);
+      expect(count).toBe(4);
     });
   });
 
@@ -56,24 +55,24 @@ describe("source-search", () => {
       // reverse 2, 1, 0, 2
 
       let matchIndex = getMatchIndex(count, 2, true);
-      expect(matchIndex).to.be(1);
+      expect(matchIndex).toBe(1);
 
       matchIndex = getMatchIndex(count, 1, true);
-      expect(matchIndex).to.be(0);
+      expect(matchIndex).toBe(0);
 
       matchIndex = getMatchIndex(count, 0, true);
-      expect(matchIndex).to.be(2);
+      expect(matchIndex).toBe(2);
 
       // forward 1, 2, 0, 1
 
       matchIndex = getMatchIndex(count, 1, false);
-      expect(matchIndex).to.be(2);
+      expect(matchIndex).toBe(2);
 
       matchIndex = getMatchIndex(count, 2, false);
-      expect(matchIndex).to.be(0);
+      expect(matchIndex).toBe(0);
 
       matchIndex = getMatchIndex(count, 0, false);
-      expect(matchIndex).to.be(1);
+      expect(matchIndex).toBe(1);
     });
   });
 });

@@ -1,4 +1,3 @@
-import expect from "expect.js";
 import { actions, selectors, createStore } from "../../utils/test-head";
 
 const mockThreadClient = {
@@ -20,8 +19,8 @@ describe("expressions", () => {
     dispatch(actions.addExpression("foo"));
     dispatch(actions.addExpression("bar", { visible: false }));
 
-    expect(selectors.getExpressions(getState()).size).to.be(2);
-    expect(selectors.getVisibleExpressions(getState()).size).to.be(1);
+    expect(selectors.getExpressions(getState()).size).toBe(2);
+    expect(selectors.getVisibleExpressions(getState()).size).toBe(1);
   });
 
   it("should update an expression", () => {
@@ -31,7 +30,7 @@ describe("expressions", () => {
     const expression = selectors.getExpression(getState(), "foo");
     dispatch(actions.updateExpression("bar", expression));
 
-    expect(selectors.getExpression(getState(), "bar").input).to.be("bar");
+    expect(selectors.getExpression(getState(), "bar").input).toBe("bar");
   });
 
   it("should delete an expression", () => {
@@ -40,13 +39,13 @@ describe("expressions", () => {
     dispatch(actions.addExpression("foo"));
     dispatch(actions.addExpression("bar", { visible: false }));
 
-    expect(selectors.getExpressions(getState()).size).to.be(2);
+    expect(selectors.getExpressions(getState()).size).toBe(2);
 
     const expression = selectors.getExpression(getState(), "foo");
     dispatch(actions.deleteExpression(expression));
 
-    expect(selectors.getExpressions(getState()).size).to.be(1);
-    expect(selectors.getExpression(getState(), "bar").input).to.be("bar");
+    expect(selectors.getExpressions(getState()).size).toBe(1);
+    expect(selectors.getExpression(getState(), "bar").input).toBe("bar");
   });
 
   it("should evaluate expressions global scope", async () => {
@@ -55,12 +54,12 @@ describe("expressions", () => {
     dispatch(actions.addExpression("foo"));
     dispatch(actions.addExpression("bar", { visible: false }));
 
-    expect(selectors.getExpression(getState(), "foo").value).to.be(null);
-    expect(selectors.getExpression(getState(), "bar").value).to.be(null);
+    expect(selectors.getExpression(getState(), "foo").value).toBe(null);
+    expect(selectors.getExpression(getState(), "bar").value).toBe(null);
     await dispatch(actions.evaluateExpressions());
 
-    expect(selectors.getExpression(getState(), "foo").value).to.be("bla");
-    expect(selectors.getExpression(getState(), "bar").value).to.be("bla");
+    expect(selectors.getExpression(getState(), "foo").value).toBe("bla");
+    expect(selectors.getExpression(getState(), "bar").value).toBe("bla");
   });
 
   it("should evaluate expressions in specific scope", async () => {
@@ -69,11 +68,11 @@ describe("expressions", () => {
     dispatch(actions.addExpression("foo"));
     dispatch(actions.addExpression("bar", { visible: false }));
 
-    expect(selectors.getExpression(getState(), "foo").value).to.be(null);
-    expect(selectors.getExpression(getState(), "bar").value).to.be(null);
+    expect(selectors.getExpression(getState(), "foo").value).toBe(null);
+    expect(selectors.getExpression(getState(), "bar").value).toBe(null);
     await dispatch(actions.evaluateExpressions("boo"));
 
-    expect(selectors.getExpression(getState(), "foo").value).to.be("boo");
-    expect(selectors.getExpression(getState(), "bar").value).to.be("boo");
+    expect(selectors.getExpression(getState(), "foo").value).toBe("boo");
+    expect(selectors.getExpression(getState(), "bar").value).toBe("boo");
   });
 });

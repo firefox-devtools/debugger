@@ -4,8 +4,6 @@ const {
   getScopes
 } = require("../scopes");
 
-const expect = require("expect.js");
-
 const errorGrip = {
   type: "object",
   actor: "server2.conn66.child1/pausedobj243",
@@ -57,17 +55,17 @@ describe("scopes", () => {
         it(`shows ${test} returns`, () => {
           const pauseData = returnWhy(value);
           const vars = getSpecialVariables(pauseData, "");
-          expect(vars[0].name).to.equal("<return>");
-          expect(vars[0].name).to.equal("<return>");
-          expect(vars[0].contents.value).to.eql(value);
+          expect(vars[0].name).toEqual("<return>");
+          expect(vars[0].name).toEqual("<return>");
+          expect(vars[0].contents.value).toEqual(value);
         });
 
         it(`shows ${test} throws`, () => {
           const pauseData = throwWhy(value);
           const vars = getSpecialVariables(pauseData, "");
-          expect(vars[0].name).to.equal("<exception>");
-          expect(vars[0].name).to.equal("<exception>");
-          expect(vars[0].contents.value).to.eql(value);
+          expect(vars[0].name).toEqual("<exception>");
+          expect(vars[0].name).toEqual("<exception>");
+          expect(vars[0].contents.value).toEqual(value);
         });
       }
     });
@@ -76,17 +74,17 @@ describe("scopes", () => {
       it("shows Error returns", () => {
         const pauseData = returnWhy(errorGrip);
         const vars = getSpecialVariables(pauseData, "");
-        expect(vars[0].name).to.equal("<return>");
-        expect(vars[0].name).to.equal("<return>");
-        expect(vars[0].contents.value.class).to.equal("Error");
+        expect(vars[0].name).toEqual("<return>");
+        expect(vars[0].name).toEqual("<return>");
+        expect(vars[0].contents.value.class).toEqual("Error");
       });
 
       it("shows error throws", () => {
         const pauseData = throwWhy(errorGrip);
         const vars = getSpecialVariables(pauseData, "");
-        expect(vars[0].name).to.equal("<exception>");
-        expect(vars[0].name).to.equal("<exception>");
-        expect(vars[0].contents.value.class).to.equal("Error");
+        expect(vars[0].name).toEqual("<exception>");
+        expect(vars[0].name).toEqual("<exception>");
+        expect(vars[0].contents.value.class).toEqual("Error");
       });
     });
 
@@ -94,15 +92,15 @@ describe("scopes", () => {
       it("does not show undefined returns", () => {
         const pauseData = returnWhy({ type: "undefined" });
         const vars = getSpecialVariables(pauseData, "");
-        expect(vars.length).to.equal(0);
+        expect(vars.length).toEqual(0);
       });
 
       it("shows undefined throws", () => {
         const pauseData = throwWhy({ type: "undefined" });
         const vars = getSpecialVariables(pauseData, "");
-        expect(vars[0].name).to.equal("<exception>");
-        expect(vars[0].name).to.equal("<exception>");
-        expect(vars[0].contents.value).to.eql({ type: "undefined" });
+        expect(vars[0].name).toEqual("<exception>");
+        expect(vars[0].name).toEqual("<exception>");
+        expect(vars[0].contents.value).toEqual({ type: "undefined" });
       });
     });
   });
@@ -209,7 +207,7 @@ describe("scopes", () => {
 
       for (const variableName in expectations) {
         const variable = variables.get(variableName);
-        expect(variable.contents.value).equal(expectations[variableName]);
+        expect(variable.contents.value).toEqual(expectations[variableName]);
       }
     });
   });
@@ -239,8 +237,8 @@ describe("scopes", () => {
       };
 
       const scopes = getScopes(pauseData, selectedFrame);
-      expect(scopes[0].path).to.equal("actor1-1");
-      expect(scopes[0].contents[0]).to.eql({
+      expect(scopes[0].path).toEqual("actor1-1");
+      expect(scopes[0].contents[0]).toEqual({
         name: "<this>",
         path: "actor1-1/<this>",
         contents: { value: {} }
@@ -280,8 +278,8 @@ describe("scopes", () => {
       };
 
       const scopes = getScopes(pauseData, selectedFrame);
-      expect(scopes[1].path).to.equal("actor2-2");
-      expect(scopes[1].contents[0]).to.eql({
+      expect(scopes[1].path).toEqual("actor2-2");
+      expect(scopes[1].contents[0]).toEqual({
         name: "foo",
         path: "actor2-2/foo",
         contents: {}

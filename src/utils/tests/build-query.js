@@ -1,4 +1,3 @@
-const expect = require("expect.js");
 const escapeRegExp = require("lodash/escapeRegExp");
 const { buildQuery } = require("../editor");
 
@@ -14,9 +13,9 @@ describe("build-query", () => {
       {}
     );
 
-    expect(query.source).to.be("\\bhi.*\\b");
-    expect(query.flags).to.be("");
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe("\\bhi.*\\b");
+    expect(query.flags).toBe("");
+    expect(query.ignoreCase).toBe(false);
   });
 
   it("case-sensitive, whole-word, regex search, global", () => {
@@ -30,9 +29,9 @@ describe("build-query", () => {
       { isGlobal: true }
     );
 
-    expect(query.source).to.be("\\bhi.*\\b");
-    expect(query.flags).to.be("g");
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe("\\bhi.*\\b");
+    expect(query.flags).toBe("g");
+    expect(query.ignoreCase).toBe(false);
   });
 
   it("case-insensitive, non-whole, string search", () => {
@@ -46,9 +45,9 @@ describe("build-query", () => {
       {}
     );
 
-    expect(query.source).to.be("hi");
-    expect(query.flags).to.be("i");
-    expect(query.ignoreCase).to.be(true);
+    expect(query.source).toBe("hi");
+    expect(query.flags).toBe("i");
+    expect(query.ignoreCase).toBe(true);
   });
 
   it("case-insensitive, non-whole, string search, global", () => {
@@ -62,9 +61,9 @@ describe("build-query", () => {
       { isGlobal: true }
     );
 
-    expect(query.source).to.be("hi");
-    expect(query.flags).to.be("gi");
-    expect(query.ignoreCase).to.be(true);
+    expect(query.source).toBe("hi");
+    expect(query.flags).toBe("gi");
+    expect(query.ignoreCase).toBe(true);
   });
 
   it("case-sensitive string search", () => {
@@ -78,9 +77,9 @@ describe("build-query", () => {
       {}
     );
 
-    expect(query.source).to.be("hi");
-    expect(query.flags).to.be("");
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe("hi");
+    expect(query.flags).toBe("");
+    expect(query.ignoreCase).toBe(false);
   });
 
   it("string search with wholeWord", () => {
@@ -94,9 +93,9 @@ describe("build-query", () => {
       {}
     );
 
-    expect(query.source).to.be("\\bhi\\b");
-    expect(query.flags).to.be("i");
-    expect(query.ignoreCase).to.be(true);
+    expect(query.source).toBe("\\bhi\\b");
+    expect(query.flags).toBe("i");
+    expect(query.ignoreCase).toBe(true);
   });
 
   it("case-insensitive, regex search", () => {
@@ -110,10 +109,10 @@ describe("build-query", () => {
       {}
     );
 
-    expect(query.source).to.be("hi.*");
-    expect(query.flags).to.be("i");
-    expect(query.global).to.be(false);
-    expect(query.ignoreCase).to.be(true);
+    expect(query.source).toBe("hi.*");
+    expect(query.flags).toBe("i");
+    expect(query.global).toBe(false);
+    expect(query.ignoreCase).toBe(true);
   });
 
   it("string search with wholeWord and case sensitivity", () => {
@@ -127,10 +126,10 @@ describe("build-query", () => {
       {}
     );
 
-    expect(query.source).to.be("\\bhi\\b");
-    expect(query.flags).to.be("");
-    expect(query.global).to.be(false);
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe("\\bhi\\b");
+    expect(query.flags).toBe("");
+    expect(query.global).toBe(false);
+    expect(query.ignoreCase).toBe(false);
   });
 
   it("string search with wholeWord and case sensitivity, global", () => {
@@ -144,10 +143,10 @@ describe("build-query", () => {
       { isGlobal: true }
     );
 
-    expect(query.source).to.be("\\bhi\\b");
-    expect(query.flags).to.be("g");
-    expect(query.global).to.be(true);
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe("\\bhi\\b");
+    expect(query.flags).toBe("g");
+    expect(query.global).toBe(true);
+    expect(query.ignoreCase).toBe(false);
   });
 
   it("string search with regex chars escaped", () => {
@@ -161,10 +160,10 @@ describe("build-query", () => {
       {}
     );
 
-    expect(query.source).to.be("\\bhi\\.\\*\\b");
-    expect(query.flags).to.be("");
-    expect(query.global).to.be(false);
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe("\\bhi\\.\\*\\b");
+    expect(query.flags).toBe("");
+    expect(query.global).toBe(false);
+    expect(query.ignoreCase).toBe(false);
   });
 
   it("string search with regex chars escaped, global", () => {
@@ -178,10 +177,10 @@ describe("build-query", () => {
       { isGlobal: true }
     );
 
-    expect(query.source).to.be("\\bhi\\.\\*\\b");
-    expect(query.flags).to.be("g");
-    expect(query.global).to.be(true);
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe("\\bhi\\.\\*\\b");
+    expect(query.flags).toBe("g");
+    expect(query.global).toBe(true);
+    expect(query.ignoreCase).toBe(false);
   });
 
   it("ignore spaces w/o spaces", () => {
@@ -195,10 +194,10 @@ describe("build-query", () => {
       { ignoreSpaces: true }
     );
 
-    expect(query.source).to.be("hi");
-    expect(query.flags).to.be("");
-    expect(query.global).to.be(false);
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe("hi");
+    expect(query.flags).toBe("");
+    expect(query.global).toBe(false);
+    expect(query.ignoreCase).toBe(false);
   });
 
   it("ignore spaces w/o spaces, global", () => {
@@ -212,10 +211,10 @@ describe("build-query", () => {
       { isGlobal: true, ignoreSpaces: true }
     );
 
-    expect(query.source).to.be("hi");
-    expect(query.flags).to.be("g");
-    expect(query.global).to.be(true);
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe("hi");
+    expect(query.flags).toBe("g");
+    expect(query.global).toBe(true);
+    expect(query.ignoreCase).toBe(false);
   });
 
   it("ignore spaces w/ spaces", () => {
@@ -229,10 +228,10 @@ describe("build-query", () => {
       { ignoreSpaces: true }
     );
 
-    expect(query.source).to.be(escapeRegExp("(?!\\s*.*)"));
-    expect(query.flags).to.be("");
-    expect(query.global).to.be(false);
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe(escapeRegExp("(?!\\s*.*)"));
+    expect(query.flags).toBe("");
+    expect(query.global).toBe(false);
+    expect(query.ignoreCase).toBe(false);
   });
 
   it("ignore spaces w/ spaces, global", () => {
@@ -246,9 +245,9 @@ describe("build-query", () => {
       { isGlobal: true, ignoreSpaces: true }
     );
 
-    expect(query.source).to.be(escapeRegExp("(?!\\s*.*)"));
-    expect(query.flags).to.be("g");
-    expect(query.global).to.be(true);
-    expect(query.ignoreCase).to.be(false);
+    expect(query.source).toBe(escapeRegExp("(?!\\s*.*)"));
+    expect(query.flags).toBe("g");
+    expect(query.global).toBe(true);
+    expect(query.ignoreCase).toBe(false);
   });
 });

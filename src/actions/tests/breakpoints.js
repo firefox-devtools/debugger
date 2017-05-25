@@ -1,5 +1,3 @@
-import expect from "expect.js";
-
 import { createStore, selectors, actions } from "../../utils/test-head";
 import {
   simulateCorrectThreadClient,
@@ -14,8 +12,8 @@ describe("breakpoints", () => {
     await dispatch(actions.addBreakpoint(loc1));
     const bps = selectors.getBreakpoints(getState());
     const bp = selectors.getBreakpoint(getState(), loc1);
-    expect(bps.size).to.be(1);
-    expect(bp.location).to.eql(loc1);
+    expect(bps.size).toBe(1);
+    expect(bp.location).toEqual(loc1);
   });
 
   it("should not re-add a breakpoint", async () => {
@@ -25,12 +23,12 @@ describe("breakpoints", () => {
     await dispatch(actions.addBreakpoint(loc1));
     let bps = selectors.getBreakpoints(getState());
     const bp = selectors.getBreakpoint(getState(), loc1);
-    expect(bps.size).to.be(1);
-    expect(bp.location).to.eql(loc1);
+    expect(bps.size).toBe(1);
+    expect(bp.location).toEqual(loc1);
 
     await dispatch(actions.addBreakpoint(loc1));
     bps = selectors.getBreakpoints(getState());
-    expect(bps.size).to.be(1);
+    expect(bps.size).toBe(1);
   });
 
   describe("adding a breakpoint to an invalid location", async () => {
@@ -46,8 +44,8 @@ describe("breakpoints", () => {
       const state = getState();
       const bps = selectors.getBreakpoints(state);
       const bp = selectors.getBreakpoint(state, correctedLocation);
-      expect(bps.size).to.be(1);
-      expect(bp.location).to.eql(correctedLocation);
+      expect(bps.size).toBe(1);
+      expect(bp.location).toEqual(correctedLocation);
     });
   });
 
@@ -62,7 +60,7 @@ describe("breakpoints", () => {
 
     await dispatch(actions.removeBreakpoint(loc1));
 
-    expect(selectors.getBreakpoints(getState()).size).to.be(1);
+    expect(selectors.getBreakpoints(getState()).size).toBe(1);
   });
 
   it("should disable a breakpoint", async () => {
@@ -76,7 +74,7 @@ describe("breakpoints", () => {
 
     await dispatch(actions.disableBreakpoint(loc1));
 
-    expect(selectors.getBreakpoint(getState(), loc1).disabled).to.be(true);
+    expect(selectors.getBreakpoint(getState(), loc1).disabled).toBe(true);
   });
 
   it("should enable breakpoint", async () => {
@@ -86,11 +84,11 @@ describe("breakpoints", () => {
     await dispatch(actions.addBreakpoint(loc));
     await dispatch(actions.disableBreakpoint(loc));
 
-    expect(selectors.getBreakpoint(getState(), loc).disabled).to.be(true);
+    expect(selectors.getBreakpoint(getState(), loc).disabled).toBe(true);
 
     await dispatch(actions.enableBreakpoint(loc));
 
-    expect(selectors.getBreakpoint(getState(), loc).disabled).to.be(false);
+    expect(selectors.getBreakpoint(getState(), loc).disabled).toBe(false);
   });
 
   it("should toggle all the breakpoints", async () => {
@@ -104,13 +102,13 @@ describe("breakpoints", () => {
 
     await dispatch(actions.toggleAllBreakpoints(true));
 
-    expect(selectors.getBreakpoint(getState(), loc1).disabled).to.be(true);
-    expect(selectors.getBreakpoint(getState(), loc2).disabled).to.be(true);
+    expect(selectors.getBreakpoint(getState(), loc1).disabled).toBe(true);
+    expect(selectors.getBreakpoint(getState(), loc2).disabled).toBe(true);
 
     await dispatch(actions.toggleAllBreakpoints());
 
-    expect(selectors.getBreakpoint(getState(), loc1).disabled).to.be(false);
-    expect(selectors.getBreakpoint(getState(), loc2).disabled).to.be(false);
+    expect(selectors.getBreakpoint(getState(), loc1).disabled).toBe(false);
+    expect(selectors.getBreakpoint(getState(), loc2).disabled).toBe(false);
   });
 
   it("should set the breakpoint condition", async () => {
@@ -120,7 +118,7 @@ describe("breakpoints", () => {
 
     await dispatch(actions.addBreakpoint(loc));
 
-    expect(selectors.getBreakpoint(getState(), loc).condition).to.be(null);
+    expect(selectors.getBreakpoint(getState(), loc).condition).toBe(null);
 
     await dispatch(
       actions.setBreakpointCondition(loc, {
@@ -129,7 +127,7 @@ describe("breakpoints", () => {
       })
     );
 
-    expect(selectors.getBreakpoint(getState(), loc).condition).to.be(
+    expect(selectors.getBreakpoint(getState(), loc).condition).toBe(
       "const foo = 0"
     );
   });
