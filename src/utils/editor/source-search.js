@@ -1,7 +1,6 @@
 // @flow
 
 import buildQuery from "./build-query";
-import findIndex from "lodash/findIndex";
 
 import type { SearchModifiers } from "../../types";
 
@@ -31,17 +30,6 @@ function SearchState() {
  */
 function getSearchState(cm: any, query, modifiers) {
   let state = cm.state.search || (cm.state.search = new SearchState());
-
-  // avoid generating a cursor and iterating over the results for an empty query
-  if (query) {
-    let cursor = getSearchCursor(cm, query, null, modifiers);
-
-    state.results = [];
-    while (cursor.findNext()) {
-      state.results.push(cursor.pos);
-    }
-  }
-
   return state;
 }
 
@@ -151,7 +139,8 @@ function getMatchIndex(count: number, currentIndex: number, rev: boolean) {
  */
 function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
   let { cm } = ctx;
-  let matchIndex = 0;
+  const matchIndex = -1;
+
   cm.operation(function() {
     if (!query || isWhitespace(query)) {
       return;
@@ -163,19 +152,11 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
 
     updateOverlay(cm, state, query, modifiers);
     updateCursor(cm, state, keepSelection);
+    searchNext(ctx, rev, query, newQuery, modifiers);
 
-    const nextMatch = searchNext(ctx, rev, query, newQuery, modifiers);
-    if (nextMatch) {
-      if (state.matchIndex === -1) {
-        matchIndex = findIndex(state.results, nextMatch);
-      } else {
-        const count = state.results.length;
-        const currentIndex = state.matchIndex;
-        matchIndex = getMatchIndex(count, currentIndex, rev);
-      }
-
-      state.matchIndex = matchIndex;
-    }
+    // NOTE: We would like to find the correct match index based on where the
+    // match is in the document.
+    state.matchIndex = matchIndex;
   });
 
   return matchIndex;
