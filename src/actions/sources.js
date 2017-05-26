@@ -190,10 +190,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
 
     if (!source) {
       // If there is no source we deselect the current selected source
-      return dispatch({
-        type: constants.SELECT_SOURCE,
-        source: { id, url: null }
-      });
+      clearSelectedSource();
     }
 
     source = source.toJS();
@@ -209,6 +206,12 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       tabIndex: options.tabIndex,
       line: options.line
     });
+  };
+}
+
+export function clearSelectedSource() {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    dispatch({ type: constants.CLEAR_SELECTED_SOURCE });
   };
 }
 

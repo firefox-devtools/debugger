@@ -75,11 +75,9 @@ function update(
     }
 
     case "SELECT_SOURCE":
-      const sourceUrl = action.source.url || "";
-
       location = {
         line: action.line,
-        url: sourceUrl
+        url: action.source.url
       };
 
       prefs.pendingSelectedLocation = location;
@@ -91,8 +89,20 @@ function update(
         })
         .set("pendingSelectedLocation", location)
         .merge({
-          tabs: updateTabList({ sources: state }, sourceUrl, action.tabIndex)
+          tabs: updateTabList(
+            { sources: state },
+            action.source.url,
+            action.tabIndex
+          )
         });
+
+    case "CLEAR_SELECTED_SOURCE":
+      location = { url: "" };
+      prefs.pendingSelectedLocation = location;
+
+      return state
+        .set("selectedLocation", { sourceId: "" })
+        .set("pendingSelectedLocation", location);
 
     case "SELECT_SOURCE_URL":
       location = {
