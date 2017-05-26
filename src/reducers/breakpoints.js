@@ -148,7 +148,7 @@ function addBreakpoint(state, action) {
     }
 
     const locationId = makeLocationId(location);
-    const bp = state.breakpoints.get(locationId);
+    const bp = state.breakpoints.get(locationId) || action.breakpoint;
     const updatedState = state.setIn(
       ["breakpoints", locationId],
       updateObj(bp, {
