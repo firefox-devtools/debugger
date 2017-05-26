@@ -61,10 +61,7 @@ async function checkPendingBreakpoint(
   const bp = getBreakpoint(state, location);
 
   if (sameSource && !bp) {
-    await dispatch(addBreakpoint(location, { condition }));
-    if (disabled) {
-      await dispatch(disableBreakpoint(location));
-    }
+    await dispatch(addBreakpoint(location, { condition, disabled }));
     // if (location.column && isEnabled("columnBreakpoints")) {
     //  await dispatch(addBreakpoint(location, { condition, disabled }));
     // } else {

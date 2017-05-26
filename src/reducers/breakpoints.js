@@ -80,6 +80,12 @@ function update(
       return newState;
     }
 
+    case "ENABLE_BREAKPOINT": {
+      const newState = enableBreakpoint(state, action);
+      setPendingBreakpoints(newState);
+      return newState;
+    }
+
     case "REMOVE_BREAKPOINT": {
       const newState = removeOrDisableBreakpoint(state, action);
       setPendingBreakpoints(newState);
@@ -109,18 +115,16 @@ function update(
 function addBreakpoint(state, action) {
   const id = makeLocationId(action.breakpoint.location);
   if (action.status === "start") {
-    const bp = state.breakpoints.get(id) || action.breakpoint;
-
     const updatedState = state
       .setIn(
         ["breakpoints", id],
-        updateObj(bp, {
-          disabled: false,
+        updateObj(action.breakpoint, {
+          disabled: action.breakpoint.disabled,
           loading: true,
           // We want to do an OR here, but we can't because we need
           // empty strings to be truthy, i.e. an empty string is a valid
           // condition.
-          condition: firstString(action.condition, bp.condition)
+          condition: firstString(action.condition, action.breakpoint.condition)
         })
       )
       .set("breakpointsDisabled", false);
@@ -129,9 +133,10 @@ function addBreakpoint(state, action) {
   }
 
   if (action.status === "done") {
-    const { id: breakpointId, text } = action.value;
+    const { id: breakpointId } = action.value;
+    const { breakpoint, getTextForLine } = action;
     let location = action.breakpoint.location;
-    let { actualLocation } = action.value;
+    const { actualLocation } = action.value;
 
     // If the breakpoint moved, update the map
     if (locationMoved(location, actualLocation)) {
@@ -139,13 +144,14 @@ function addBreakpoint(state, action) {
       location = actualLocation;
     }
 
+    const text = breakpoint.text; // || getTextForLine(actualLocation);
     const locationId = makeLocationId(location);
     const bp = state.breakpoints.get(locationId);
     const updatedState = state.setIn(
       ["breakpoints", locationId],
       updateObj(bp, {
         id: breakpointId,
-        disabled: false,
+        disabled: action.breakpoint.disabled,
         loading: false,
         text: text
       })
@@ -158,6 +164,21 @@ function addBreakpoint(state, action) {
     // Remove the optimistic update
     return state.deleteIn(["breakpoints", id]);
   }
+}
+
+function enableBreakpoint(state, action) {
+  if (action.status != "done") {
+    return state;
+  }
+
+  const { breakpoint } = action;
+  const id = makeLocationId(breakpoint.location);
+  const updatedBreakpoint = updateObj(breakpoint, {
+    loading: false,
+    disabled: false
+  });
+  const updatedState = state.setIn(["breakpoints", id], updatedBreakpoint);
+  return updatePendingBreakpoint(updatedState, updatedBreakpoint);
 }
 
 function disableBreakpoint(state, id) {

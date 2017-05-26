@@ -16,6 +16,7 @@ import type { Location } from "../types";
 
 type addBreakpointOptions = {
   condition: string,
+  disabled?: boolean,
   getTextForLine?: () => any
 };
 
@@ -24,14 +25,42 @@ function _breakpointExists(state, location: Location) {
   return currentBp && !currentBp.disabled;
 }
 
-function _getOrCreateBreakpoint(state, location, condition) {
-  return (
-    getBreakpoint(state, location) || {
-      location,
-      condition,
-      text: ""
-    }
+function _createBreakpoint(location: Location, opts: Object = {}) {
+  return Object.assign({}, { location }, opts);
+}
+
+async function _getSourceLocation(state, sourceMaps, breakpoint, location) {
+  if (!sourceMaps.isOriginalId(breakpoint.location.sourceId)) {
+    return location;
+  }
+
+  const source = getSource(state, breakpoint.location.sourceId);
+  return await sourceMaps.getGeneratedLocation(
+    breakpoint.location,
+    source.toJS()
   );
+}
+
+async function addClientBreakpoint(state, client, sourceMaps, breakpoint) {
+  const sourceLocation = await _getSourceLocation(
+    state,
+    sourceMaps,
+    breakpoint,
+    breakpoint.location
+  );
+
+  const clientBreakpoint = await client.setBreakpoint(
+    sourceLocation,
+    breakpoint.condition,
+    sourceMaps.isOriginalId(breakpoint.location.sourceId)
+  );
+
+  const actualLocation = await sourceMaps.getOriginalLocation(
+    clientBreakpoint.actualLocation
+  );
+
+  const { id, hitCount } = clientBreakpoint;
+  return { id, actualLocation, hitCount };
 }
 
 /**
@@ -42,11 +71,22 @@ function _getOrCreateBreakpoint(state, location, condition) {
  * @static
  */
 export function enableBreakpoint(location: Location) {
-  return addBreakpoint(location);
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const breakpoint = getBreakpoint(getState(), location);
+    if (!breakpoint) {
+      throw new Error("attempted to enable a breakpoint that does not exist");
+    }
+
+    return dispatch({
+      type: "ENABLE_BREAKPOINT",
+      breakpoint,
+      [PROMISE]: addClientBreakpoint(getState(), client, sourceMaps, breakpoint)
+    });
+  };
 }
 
 /**
- * Add a new or enable an existing breakpoint
+ * Add a new breakpoint
  *
  * @memberof actions/breakpoints
  * @static
@@ -55,44 +95,25 @@ export function enableBreakpoint(location: Location) {
  */
 export function addBreakpoint(
   location: Location,
-  { condition, getTextForLine }: addBreakpointOptions = {}
+  {
+    condition = null,
+    disabled = false,
+    getTextForLine
+  }: addBreakpointOptions = {}
 ) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
       return Promise.resolve();
     }
 
-    const bp = _getOrCreateBreakpoint(getState(), location, condition);
+    const breakpoint = _createBreakpoint(location, { condition, disabled });
 
     return dispatch({
       type: "ADD_BREAKPOINT",
-      breakpoint: bp,
+      breakpoint,
       condition: condition,
-      [PROMISE]: (async function() {
-        if (sourceMaps.isOriginalId(bp.location.sourceId)) {
-          const source = getSource(getState(), bp.location.sourceId);
-          location = await sourceMaps.getGeneratedLocation(
-            bp.location,
-            source.toJS()
-          );
-        }
-
-        let { id, actualLocation, hitCount } = await client.setBreakpoint(
-          location,
-          bp.condition,
-          sourceMaps.isOriginalId(bp.location.sourceId)
-        );
-
-        actualLocation = await sourceMaps.getOriginalLocation(actualLocation);
-
-        // If this breakpoint is being re-enabled, it already has a
-        // text snippet.
-        let text = bp.text;
-        if (!text) {
-          text = getTextForLine ? getTextForLine(actualLocation.line) : "";
-        }
-        return { id, actualLocation, text, hitCount };
-      })()
+      getTextForLine,
+      [PROMISE]: addClientBreakpoint(getState(), client, sourceMaps, breakpoint)
     });
   };
 }
