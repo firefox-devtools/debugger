@@ -1,6 +1,5 @@
 // @flow
 
-import constants from "../constants";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import { getExpression, getExpressions, getSelectedFrame } from "../selectors";
 
@@ -34,7 +33,7 @@ export function addExpression(input: string, { visible = true }: Object = {}) {
     }
 
     dispatch({
-      type: constants.ADD_EXPRESSION,
+      type: "ADD_EXPRESSION",
       input,
       visible
     });
@@ -52,7 +51,7 @@ export function updateExpression(input: string, expression: Expression) {
     }
 
     dispatch({
-      type: constants.UPDATE_EXPRESSION,
+      type: "UPDATE_EXPRESSION",
       expression,
       input: input,
       visible: expression.visible
@@ -74,7 +73,7 @@ export function updateExpression(input: string, expression: Expression) {
 export function deleteExpression(expression: Expression) {
   return ({ dispatch }: ThunkArgs) => {
     dispatch({
-      type: constants.DELETE_EXPRESSION,
+      type: "DELETE_EXPRESSION",
       input: expression.input
     });
   };
@@ -107,7 +106,7 @@ function evaluateExpression(expression, frameId: frameIdType) {
     }
 
     return dispatch({
-      type: constants.EVALUATE_EXPRESSION,
+      type: "EVALUATE_EXPRESSION",
       input: expression.input,
       visible: expression.visible,
       [PROMISE]: client.evaluate(expression.input, { frameId })

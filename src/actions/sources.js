@@ -19,7 +19,6 @@ import { isEnabled } from "devtools-config";
 import { prettyPrint } from "../utils/pretty-print";
 import { getPrettySourceURL } from "../utils/source";
 
-import constants from "../constants";
 import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
 
@@ -88,7 +87,7 @@ async function checkPendingBreakpoints(state, dispatch, source) {
  */
 export function newSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: constants.ADD_SOURCE, source });
+    dispatch({ type: "ADD_SOURCE", source });
 
     if (prefs.clientSourceMapsEnabled) {
       await dispatch(loadSourceMap(source));
@@ -132,7 +131,7 @@ function loadSourceMap(generatedSource) {
       };
     });
 
-    dispatch({ type: constants.ADD_SOURCES, sources: originalSources });
+    dispatch({ type: "ADD_SOURCES", sources: originalSources });
 
     originalSources.forEach(source => {
       checkSelectedSource(state, dispatch, source);
@@ -162,7 +161,7 @@ export function selectSourceURL(
       dispatch(selectSource(source.get("id"), options));
     } else {
       dispatch({
-        type: constants.SELECT_SOURCE_URL,
+        type: "SELECT_SOURCE_URL",
         url: url,
         tabIndex: options.tabIndex,
         line: options.line
@@ -194,10 +193,10 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
     // Make sure to start a request to load the source text.
     dispatch(loadSourceText(source));
 
-    dispatch({ type: constants.TOGGLE_PROJECT_SEARCH, value: false });
+    dispatch({ type: "TOGGLE_PROJECT_SEARCH", value: false });
 
     dispatch({
-      type: constants.SELECT_SOURCE,
+      type: "SELECT_SOURCE",
       source: source,
       tabIndex: options.tabIndex,
       line: options.line
@@ -241,7 +240,7 @@ export function jumpToMappedLocation(sourceLocation: any) {
  */
 export function closeTab(url: string) {
   removeDocument(url);
-  return { type: constants.CLOSE_TAB, url };
+  return { type: "CLOSE_TAB", url };
 }
 
 /**
@@ -257,7 +256,7 @@ export function closeTabs(urls: string[]) {
       }
     });
 
-    dispatch({ type: constants.CLOSE_TABS, urls });
+    dispatch({ type: "CLOSE_TABS", urls });
   };
 }
 
@@ -293,10 +292,10 @@ export function togglePrettyPrint(sourceId: string) {
     const url = getPrettySourceURL(source.url);
     const id = sourceMaps.generatedToOriginalId(source.id, url);
     const originalSource = { url, id, isPrettyPrinted: false };
-    dispatch({ type: constants.ADD_SOURCE, source: originalSource });
+    dispatch({ type: "ADD_SOURCE", source: originalSource });
 
     return dispatch({
-      type: constants.TOGGLE_PRETTY_PRINT,
+      type: "TOGGLE_PRETTY_PRINT",
       source: originalSource,
       [PROMISE]: (async function() {
         const { code, mappings } = await prettyPrint({
@@ -325,7 +324,7 @@ export function toggleBlackBox(source: Source) {
     const { isBlackBoxed, id } = source;
 
     return dispatch({
-      type: constants.BLACKBOX,
+      type: "BLACKBOX",
       source,
       [PROMISE]: client.blackBox(id, isBlackBoxed)
     });
@@ -346,7 +345,7 @@ export function loadSourceText(source: Source) {
     }
 
     return dispatch({
-      type: constants.LOAD_SOURCE_TEXT,
+      type: "LOAD_SOURCE_TEXT",
       source: source,
       [PROMISE]: (async function() {
         if (sourceMaps.isOriginalId(source.id)) {

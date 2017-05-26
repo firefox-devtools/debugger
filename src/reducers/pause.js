@@ -6,7 +6,6 @@
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
 
-import constants from "../constants";
 import type { Action } from "../actions/types";
 
 type PauseState = {
@@ -33,7 +32,7 @@ export const State = (): PauseState => ({
 
 function update(state: PauseState = State(), action: Action): PauseState {
   switch (action.type) {
-    case constants.PAUSED: {
+    case "PAUSED": {
       const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
       pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
 
@@ -52,7 +51,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
       });
     }
 
-    case constants.RESUME:
+    case "RESUME":
       return Object.assign({}, state, {
         pause: null,
         frames: null,
@@ -60,7 +59,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
         loadedObjects: {}
       });
 
-    case constants.TOGGLE_PRETTY_PRINT:
+    case "TOGGLE_PRETTY_PRINT":
       if (action.status == "done") {
         const frames = action.value.frames;
         const pause = state.pause;
@@ -72,13 +71,13 @@ function update(state: PauseState = State(), action: Action): PauseState {
       }
 
       break;
-    case constants.BREAK_ON_NEXT:
+    case "BREAK_ON_NEXT":
       return Object.assign({}, state, { isWaitingOnBreak: true });
 
-    case constants.SELECT_FRAME:
+    case "SELECT_FRAME":
       return Object.assign({}, state, { selectedFrameId: action.frame.id });
 
-    case constants.LOAD_OBJECT_PROPERTIES:
+    case "LOAD_OBJECT_PROPERTIES":
       if (action.status === "start") {
         return {
           ...state,
@@ -108,10 +107,10 @@ function update(state: PauseState = State(), action: Action): PauseState {
       }
       break;
 
-    case constants.NAVIGATE:
+    case "NAVIGATE":
       return Object.assign({}, State(), { debuggeeUrl: action.url });
 
-    case constants.PAUSE_ON_EXCEPTIONS:
+    case "PAUSE_ON_EXCEPTIONS":
       const { shouldPauseOnExceptions, shouldIgnoreCaughtExceptions } = action;
 
       prefs.pauseOnExceptions = shouldPauseOnExceptions;

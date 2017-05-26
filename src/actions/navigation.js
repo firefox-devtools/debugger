@@ -1,4 +1,3 @@
-import constants from "../constants";
 import { clearDocuments } from "../utils/editor";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
@@ -19,7 +18,7 @@ export function willNavigate(_, event) {
     clearDocuments();
 
     dispatch({
-      type: constants.NAVIGATE,
+      type: "NAVIGATE",
       url: event.url
     });
   };

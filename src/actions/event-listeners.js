@@ -9,7 +9,6 @@
  * @module actions/event-listeners
  */
 
-import constants from "../constants";
 import { reportException } from "../utils/DevToolsUtils";
 import { getPause, getSourceByURL } from "../selectors";
 
@@ -62,21 +61,20 @@ export function fetchEventListeners() {
         dispatch({
           type: services.WAIT_UNTIL,
           predicate: action =>
-            action.type === constants.FETCH_EVENT_LISTENERS &&
-            action.status === "done",
+            action.type === "FETCH_EVENT_LISTENERS" && action.status === "done",
           run: dispatch => dispatch(fetchEventListeners())
         });
         return;
       }
 
       dispatch({
-        type: constants.FETCH_EVENT_LISTENERS,
+        type: "FETCH_EVENT_LISTENERS",
         status: "begin"
       });
 
       asPaused(getState(), client, _getEventListeners).then(listeners => {
         dispatch({
-          type: constants.FETCH_EVENT_LISTENERS,
+          type: "FETCH_EVENT_LISTENERS",
           status: "done",
           listeners: formatListeners(getState(), listeners)
         });
@@ -159,7 +157,7 @@ export function updateEventBreakpoints(eventNames) {
         window.emit(EVENTS.EVENT_BREAKPOINTS_UPDATED);
 
         dispatch({
-          type: constants.UPDATE_EVENT_BREAKPOINTS,
+          type: "UPDATE_EVENT_BREAKPOINTS",
           eventNames: eventNames
         });
       });

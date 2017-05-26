@@ -8,7 +8,6 @@
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
 
-import constants from "../constants";
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -63,28 +62,28 @@ function update(
   action: Action
 ): Record<UIState> {
   switch (action.type) {
-    case constants.TOGGLE_PROJECT_SEARCH: {
+    case "TOGGLE_PROJECT_SEARCH": {
       return state.set("projectSearchOn", action.value);
     }
 
-    case constants.TOGGLE_FRAMEWORK_GROUPING: {
+    case "TOGGLE_FRAMEWORK_GROUPING": {
       prefs.frameworkGroupingOn = action.value;
       return state.set("frameworkGroupingOn", action.value);
     }
 
-    case constants.TOGGLE_FILE_SEARCH: {
+    case "TOGGLE_FILE_SEARCH": {
       return state.set("fileSearchOn", action.value);
     }
 
-    case constants.TOGGLE_SYMBOL_SEARCH: {
+    case "TOGGLE_SYMBOL_SEARCH": {
       return state.set("symbolSearchOn", action.value);
     }
 
-    case constants.UPDATE_FILE_SEARCH_QUERY: {
+    case "UPDATE_FILE_SEARCH_QUERY": {
       return state.set("fileSearchQuery", action.query);
     }
 
-    case constants.TOGGLE_FILE_SEARCH_MODIFIER: {
+    case "TOGGLE_FILE_SEARCH_MODIFIER": {
       const actionVal = !state.getIn(["fileSearchModifiers", action.modifier]);
 
       if (action.modifier == "caseSensitive") {
@@ -102,15 +101,15 @@ function update(
       return state.setIn(["fileSearchModifiers", action.modifier], actionVal);
     }
 
-    case constants.SET_SYMBOL_SEARCH_TYPE: {
+    case "SET_SYMBOL_SEARCH_TYPE": {
       return state.set("symbolSearchType", action.symbolType);
     }
 
-    case constants.SHOW_SOURCE: {
+    case "SHOW_SOURCE": {
       return state.set("shownSource", action.sourceUrl);
     }
 
-    case constants.TOGGLE_PANE: {
+    case "TOGGLE_PANE": {
       if (action.position == "start") {
         prefs.startPanelCollapsed = action.paneCollapsed;
         return state.set("startPanelCollapsed", action.paneCollapsed);
