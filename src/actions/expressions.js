@@ -8,10 +8,6 @@ import type { ThunkArgs } from "./types";
 
 type frameIdType = string | null;
 
-function expressionExists(expressions, input) {
-  return !!expressions.find(e => e.input == input);
-}
-
 /**
  * Add expression for debugger to watch
  *
@@ -22,14 +18,23 @@ function expressionExists(expressions, input) {
  */
 export function addExpression(input: string, { visible = true }: Object = {}) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const expressions = getExpressions(getState());
-    if (!input || expressionExists(expressions, input)) {
-      const expression = getExpression(getState(), input);
-      if (!expression.visible && visible) {
-        await dispatch(deleteExpression(expression));
-      } else {
-        return;
-      }
+    if (!input) {
+      return;
+    }
+
+    const expression = getExpression(getState(), input);
+    if (expression && expression.visible) {
+      return;
+    }
+
+    // Lets make the expression visible
+    if (expression) {
+      return dispatch({
+        type: "UPDATE_EXPRESSION",
+        expression,
+        input,
+        visible: true
+      });
     }
 
     dispatch({
