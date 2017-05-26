@@ -51,6 +51,22 @@ function makeSource(name: string, props: any = {}) {
   );
 }
 
+function makeFuncLocation(startLine) {
+  return {
+    start: {
+      line: startLine
+    }
+  };
+}
+
+function makeSymbolDeclaration(name: string, line: number) {
+  return {
+    id: `${name}:${line}`,
+    name,
+    location: makeFuncLocation(line)
+  };
+}
+
 /**
  * @memberof utils/test-head
  * @static
@@ -73,5 +89,6 @@ export {
   createStore,
   commonLog,
   makeSource,
+  makeSymbolDeclaration,
   waitForState
 };

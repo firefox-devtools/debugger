@@ -13,7 +13,56 @@ ShallowWrapper {
 >
     <ul
         className="outline-list"
-    />
+    >
+        <li
+            className="outline-list__element"
+            onClick={[Function]}
+        >
+            <span
+                className="function-signature"
+            >
+                <span
+                    className="function-name"
+                >
+                    my_example_function1
+                </span>
+                <span
+                    className="paren"
+                >
+                    (
+                </span>
+                <span
+                    className="paren"
+                >
+                    )
+                </span>
+            </span>
+        </li>
+        <li
+            className="outline-list__element"
+            onClick={[Function]}
+        >
+            <span
+                className="function-signature"
+            >
+                <span
+                    className="function-name"
+                >
+                    my_example_function2
+                </span>
+                <span
+                    className="paren"
+                >
+                    (
+                </span>
+                <span
+                    className="paren"
+                >
+                    )
+                </span>
+            </span>
+        </li>
+    </ul>
 </div>,
   "nodes": Array [
     <div
@@ -21,7 +70,56 @@ ShallowWrapper {
 >
       <ul
             className="outline-list"
-      />
+      >
+            <li
+                  className="outline-list__element"
+                  onClick={[Function]}
+            >
+                  <span
+                        className="function-signature"
+                  >
+                        <span
+                              className="function-name"
+                        >
+                              my_example_function1
+                        </span>
+                        <span
+                              className="paren"
+                        >
+                              (
+                        </span>
+                        <span
+                              className="paren"
+                        >
+                              )
+                        </span>
+                  </span>
+            </li>
+            <li
+                  className="outline-list__element"
+                  onClick={[Function]}
+            >
+                  <span
+                        className="function-signature"
+                  >
+                        <span
+                              className="function-name"
+                        >
+                              my_example_function2
+                        </span>
+                        <span
+                              className="paren"
+                        >
+                              (
+                        </span>
+                        <span
+                              className="paren"
+                        >
+                              )
+                        </span>
+                  </span>
+            </li>
+      </ul>
 </div>,
   ],
   "options": Object {},
@@ -38,10 +136,28 @@ ShallowWrapper {
                         "get": [Function],
                       }
         }
-        sourceText={
+        symbols={
                 Object {
-                        "root": "some text here",
-                        "toJS": [Function],
+                        "functions": Array [
+                          Object {
+                            "id": "my_example_function1:21",
+                            "location": Object {
+                              "start": Object {
+                                "line": 21,
+                              },
+                            },
+                            "name": "my_example_function1",
+                          },
+                          Object {
+                            "id": "my_example_function2:22",
+                            "location": Object {
+                              "start": Object {
+                                "line": 22,
+                              },
+                            },
+                            "name": "my_example_function2",
+                          },
+                        ],
                       }
         }
 />,
@@ -57,14 +173,7 @@ ShallowWrapper {
           "selectedSource": Object {
             "get": [Function],
           },
-          "sourceText": Object {
-            "root": "some text here",
-            "toJS": [Function],
-          },
-        },
-        "refs": Object {},
-        "state": Object {
-          "symbolDeclarations": Object {
+          "symbols": Object {
             "functions": Array [
               Object {
                 "id": "my_example_function1:21",
@@ -87,6 +196,8 @@ ShallowWrapper {
             ],
           },
         },
+        "refs": Object {},
+        "state": Object {},
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
@@ -237,10 +348,28 @@ ShallowWrapper {
             "get": [Function],
           }
     }
-    sourceText={
+    symbols={
         Object {
-            "root": "some text here",
-            "toJS": [Function],
+            "functions": Array [
+              Object {
+                "id": "my_example_function1:21",
+                "location": Object {
+                  "start": Object {
+                    "line": 21,
+                  },
+                },
+                "name": "my_example_function1",
+              },
+              Object {
+                "id": "my_example_function2:22",
+                "location": Object {
+                  "start": Object {
+                    "line": 22,
+                  },
+                },
+                "name": "my_example_function2",
+              },
+            ],
           }
     }
 />,
@@ -260,7 +389,32 @@ ShallowWrapper {
 >
     <ul
         className="outline-list"
-    />
+    >
+        <li
+            className="outline-list__element"
+            onClick={[Function]}
+        >
+            <span
+                className="function-signature"
+            >
+                <span
+                    className="function-name"
+                >
+                    my_example_function1
+                </span>
+                <span
+                    className="paren"
+                >
+                    (
+                </span>
+                <span
+                    className="paren"
+                >
+                    )
+                </span>
+            </span>
+        </li>
+    </ul>
 </div>,
   "nodes": Array [
     <div
@@ -268,7 +422,32 @@ ShallowWrapper {
 >
       <ul
             className="outline-list"
-      />
+      >
+            <li
+                  className="outline-list__element"
+                  onClick={[Function]}
+            >
+                  <span
+                        className="function-signature"
+                  >
+                        <span
+                              className="function-name"
+                        >
+                              my_example_function1
+                        </span>
+                        <span
+                              className="paren"
+                        >
+                              (
+                        </span>
+                        <span
+                              className="paren"
+                        >
+                              )
+                        </span>
+                  </span>
+            </li>
+      </ul>
 </div>,
   ],
   "options": Object {},
@@ -285,10 +464,28 @@ ShallowWrapper {
                         "get": [Function],
                       }
         }
-        sourceText={
+        symbols={
                 Object {
-                        "root": "some text here",
-                        "toJS": [Function],
+                        "functions": Array [
+                          Object {
+                            "id": "my_example_function1:21",
+                            "location": Object {
+                              "start": Object {
+                                "line": 21,
+                              },
+                            },
+                            "name": "my_example_function1",
+                          },
+                          Object {
+                            "id": "anonymous:25",
+                            "location": Object {
+                              "start": Object {
+                                "line": 25,
+                              },
+                            },
+                            "name": "anonymous",
+                          },
+                        ],
                       }
         }
 />,
@@ -304,14 +501,7 @@ ShallowWrapper {
           "selectedSource": Object {
             "get": [Function],
           },
-          "sourceText": Object {
-            "root": "some text here",
-            "toJS": [Function],
-          },
-        },
-        "refs": Object {},
-        "state": Object {
-          "symbolDeclarations": Object {
+          "symbols": Object {
             "functions": Array [
               Object {
                 "id": "my_example_function1:21",
@@ -334,6 +524,8 @@ ShallowWrapper {
             ],
           },
         },
+        "refs": Object {},
+        "state": Object {},
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
@@ -436,10 +628,28 @@ ShallowWrapper {
             "get": [Function],
           }
     }
-    sourceText={
+    symbols={
         Object {
-            "root": "some text here",
-            "toJS": [Function],
+            "functions": Array [
+              Object {
+                "id": "my_example_function1:21",
+                "location": Object {
+                  "start": Object {
+                    "line": 21,
+                  },
+                },
+                "name": "my_example_function1",
+              },
+              Object {
+                "id": "anonymous:25",
+                "location": Object {
+                  "start": Object {
+                    "line": 25,
+                  },
+                },
+                "name": "anonymous",
+              },
+            ],
           }
     }
 />,

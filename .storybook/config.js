@@ -7,6 +7,7 @@ function loadStories() {
   require("../src/components/stories/tabs.js");
   require("../src/components/stories/frames.js");
   require("../src/components/stories/Preview.js");
+  require("../src/components/stories/Outline.js");
 }
 
 configure(loadStories, module);

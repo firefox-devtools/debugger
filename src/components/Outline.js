@@ -1,75 +1,63 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import actions from "../actions";
-import { getSelectedSource, getSourceText } from "../selectors";
+import { getSelectedSource, getSymbols } from "../selectors";
 import { isEnabled } from "devtools-config";
-import { getSymbols } from "../utils/parser";
 import "./Outline.css";
 import previewFunction from "./shared/previewFunction";
 
-import type { Record } from "../utils/makeRecord";
-import type { SourceText } from "debugger-html";
+import type {
+  SymbolDeclarations,
+  SymbolDeclaration
+} from "../utils/parser/getSymbols";
+import type { SourceRecord } from "../reducers/sources";
 
 class Outline extends Component {
   state: any;
 
+  props: {
+    isHidden: boolean,
+    symbols: SymbolDeclarations,
+    selectSource: (string, { line: number }) => any,
+    selectedSource: ?SourceRecord
+  };
+
   constructor(props) {
     super(props);
-    const { sourceText, isHidden } = props;
     this.state = {};
-    if (!isHidden) {
-      this.setSymbolDeclarations(sourceText);
-    }
-  }
-
-  componentWillReceiveProps({ sourceText }) {
-    if (sourceText) {
-      this.setSymbolDeclarations(sourceText);
-    }
-  }
-
-  // TODO: move this logic out of the component and into a reducer
-  async setSymbolDeclarations(sourceText: Record<SourceText>) {
-    const symbolDeclarations = await getSymbols(sourceText.toJS());
-
-    if (symbolDeclarations !== this.state.symbolDeclarations) {
-      this.setState({
-        symbolDeclarations
-      });
-    }
   }
 
   selectItem(location) {
     const { selectedSource, selectSource } = this.props;
+    if (!selectedSource) {
+      return;
+    }
     const selectedSourceId = selectedSource.get("id");
     const startLine = location.start.line;
     selectSource(selectedSourceId, { line: startLine });
   }
 
-  renderFunction(func) {
+  renderFunction(func: SymbolDeclaration) {
+    const { name, location } = func;
+
     return dom.li(
       {
-        key: func.id,
+        key: `${name}:${location.start.line}`,
         className: "outline-list__element",
-        onClick: () => this.selectItem(func.location)
+        onClick: () => this.selectItem(location)
       },
-      previewFunction(func)
+      previewFunction({ name })
     );
   }
 
   renderFunctions() {
-    const { symbolDeclarations } = this.state;
-    if (!symbolDeclarations) {
-      return;
-    }
+    const { symbols } = this.props;
 
-    const { functions } = symbolDeclarations;
-
-    return functions
+    return symbols.functions
       .filter(func => func.name != "anonymous")
       .map(func => this.renderFunction(func));
   }
@@ -87,21 +75,13 @@ class Outline extends Component {
   }
 }
 
-Outline.propTypes = {
-  isHidden: PropTypes.bool.isRequired,
-  sourceText: PropTypes.object,
-  selectSource: PropTypes.func.isRequired,
-  selectedSource: PropTypes.object
-};
-
 Outline.displayName = "Outline";
 
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
-    const sourceId = selectedSource ? selectedSource.get("id") : null;
     return {
-      sourceText: getSourceText(state, sourceId),
+      symbols: getSymbols(state, selectedSource && selectedSource.toJS()),
       selectedSource
     };
   },

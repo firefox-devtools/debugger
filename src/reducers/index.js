@@ -9,6 +9,7 @@ import breakpoints from "./breakpoints";
 import asyncRequests from "./async-requests";
 import pause from "./pause";
 import ui from "./ui";
+import ast from "./ast";
 import coverage from "./coverage";
 
 export default {
@@ -19,5 +20,6 @@ export default {
   asyncRequests,
   pause,
   ui,
+  ast,
   coverage
 };
