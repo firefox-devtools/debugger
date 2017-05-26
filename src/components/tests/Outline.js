@@ -1,14 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
-const fromJS = require("../../utils/fromJS");
 import Outline from "../../components/Outline";
-import parser from "../../utils/parser";
 import devtoolsConfig from "devtools-config";
 import { makeSymbolDeclaration } from "../../utils/test-head";
 
 const OutlineComponent = React.createFactory(Outline.WrappedComponent);
-
-const sourcesToJs = fromJS({ text: "sources to js" });
 const sourceId = "id";
 
 function generateDefaults(symbols) {
@@ -54,7 +50,7 @@ describe("Outline", () => {
       ]
     };
 
-    const { component, symbolsPromise } = render(symbols);
+    const { component } = render(symbols);
     expect(component).toMatchSnapshot();
   });
 
@@ -64,7 +60,7 @@ describe("Outline", () => {
       functions: [makeSymbolDeclaration("my_example_function", startLine)]
     };
 
-    const { component, symbolsPromise, props } = render(symbols);
+    const { component, props } = render(symbols);
 
     const { selectSource } = props;
     const listItem = component.find("li").first();

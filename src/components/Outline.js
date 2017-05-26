@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
@@ -10,33 +10,47 @@ import { isEnabled } from "devtools-config";
 import "./Outline.css";
 import previewFunction from "./shared/previewFunction";
 
-import type { Record } from "../utils/makeRecord";
-import type { SourceText } from "debugger-html";
+import type {
+  SymbolDeclarations,
+  SymbolDeclaration
+} from "../utils/parser/getSymbols";
+import type { SourceRecord } from "../reducers/sources";
 
 class Outline extends Component {
   state: any;
 
+  props: {
+    isHidden: boolean,
+    symbols: SymbolDeclarations,
+    selectSource: (string, { line: number }) => any,
+    selectedSource: ?SourceRecord
+  };
+
   constructor(props) {
     super(props);
-    const { sourceText, isHidden } = props;
     this.state = {};
   }
 
   selectItem(location) {
     const { selectedSource, selectSource } = this.props;
+    if (!selectedSource) {
+      return;
+    }
     const selectedSourceId = selectedSource.get("id");
     const startLine = location.start.line;
     selectSource(selectedSourceId, { line: startLine });
   }
 
-  renderFunction(func) {
+  renderFunction(func: SymbolDeclaration) {
+    const { name, location } = func;
+
     return dom.li(
       {
-        key: func.id,
+        key: `${name}:${location.start.line}`,
         className: "outline-list__element",
-        onClick: () => this.selectItem(func.location)
+        onClick: () => this.selectItem(location)
       },
-      previewFunction(func)
+      previewFunction({ name })
     );
   }
 
@@ -61,19 +75,13 @@ class Outline extends Component {
   }
 }
 
-Outline.propTypes = {
-  isHidden: PropTypes.bool.isRequired,
-  selectSource: PropTypes.func.isRequired,
-  selectedSource: PropTypes.object
-};
-
 Outline.displayName = "Outline";
 
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
     return {
-      symbols: getSymbols(state, selectedSource.toJS()),
+      symbols: getSymbols(state, selectedSource && selectedSource.toJS()),
       selectedSource
     };
   },

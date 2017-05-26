@@ -59,7 +59,7 @@ function makeFuncLocation(startLine) {
   };
 }
 
-function makeSymbolDeclaration(name, line) {
+function makeSymbolDeclaration(name: string, line: number) {
   return {
     id: `${name}:${line}`,
     name,
