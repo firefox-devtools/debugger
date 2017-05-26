@@ -7,9 +7,6 @@
 
 import * as I from "immutable";
 
-// import type { Action } from "../actions/types";
-// import type { Source } from "debugger-html";
-// import type { Map } from "immutable";
 import makeRecord from "../utils/makeRecord";
 import type { SymbolDeclarations } from "../utils/parser/getSymbols";
 

@@ -5,9 +5,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import actions from "../actions";
-import { getSelectedSource, getSourceText } from "../selectors";
+import { getSelectedSource, getSymbols } from "../selectors";
 import { isEnabled } from "devtools-config";
-import { getSymbols } from "../utils/parser";
 import "./Outline.css";
 import previewFunction from "./shared/previewFunction";
 
@@ -21,26 +20,6 @@ class Outline extends Component {
     super(props);
     const { sourceText, isHidden } = props;
     this.state = {};
-    if (!isHidden) {
-      this.setSymbolDeclarations(sourceText);
-    }
-  }
-
-  componentWillReceiveProps({ sourceText }) {
-    if (sourceText) {
-      this.setSymbolDeclarations(sourceText);
-    }
-  }
-
-  // TODO: move this logic out of the component and into a reducer
-  async setSymbolDeclarations(sourceText: Record<SourceText>) {
-    const symbolDeclarations = await getSymbols(sourceText.toJS());
-
-    if (symbolDeclarations !== this.state.symbolDeclarations) {
-      this.setState({
-        symbolDeclarations
-      });
-    }
   }
 
   selectItem(location) {
@@ -62,14 +41,9 @@ class Outline extends Component {
   }
 
   renderFunctions() {
-    const { symbolDeclarations } = this.state;
-    if (!symbolDeclarations) {
-      return;
-    }
+    const { symbols } = this.props;
 
-    const { functions } = symbolDeclarations;
-
-    return functions
+    return symbols.functions
       .filter(func => func.name != "anonymous")
       .map(func => this.renderFunction(func));
   }
@@ -89,7 +63,6 @@ class Outline extends Component {
 
 Outline.propTypes = {
   isHidden: PropTypes.bool.isRequired,
-  sourceText: PropTypes.object,
   selectSource: PropTypes.func.isRequired,
   selectedSource: PropTypes.object
 };
@@ -99,9 +72,8 @@ Outline.displayName = "Outline";
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
-    const sourceId = selectedSource ? selectedSource.get("id") : null;
     return {
-      sourceText: getSourceText(state, sourceId),
+      symbols: getSymbols(state, selectedSource.toJS()),
       selectedSource
     };
   },
