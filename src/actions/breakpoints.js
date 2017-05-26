@@ -64,11 +64,12 @@ async function addClientBreakpoint(state, client, sourceMaps, breakpoint) {
 }
 
 /**
- * Enabling a breakpoint calls {@link addBreakpoint}
+ * Enabling a breakpoint calls
  * which will reuse the existing breakpoint information that is stored.
  *
  * @memberof actions/breakpoints
  * @static
+ * @param {Location} $1.location Location  value
  */
 export function enableBreakpoint(location: Location) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
@@ -95,11 +96,7 @@ export function enableBreakpoint(location: Location) {
  */
 export function addBreakpoint(
   location: Location,
-  {
-    condition = null,
-    disabled = false,
-    getTextForLine
-  }: addBreakpointOptions = {}
+  { condition, disabled = false, getTextForLine }: addBreakpointOptions = {}
 ) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
@@ -125,7 +122,26 @@ export function addBreakpoint(
  * @static
  */
 export function disableBreakpoint(location: Location) {
-  return _removeOrDisableBreakpoint(location, true);
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    let bp = getBreakpoint(getState(), location);
+    if (!bp) {
+      throw new Error("attempt to disable a breakpoint that does not exist");
+    }
+    if (bp.loading) {
+      // TODO(jwl): make this wait until the breakpoint is saved if it
+      // is still loading
+      throw new Error("attempt to disable unsaved breakpoint");
+    }
+
+    const action = {
+      type: "DISABLE_BREAKPOINT",
+      breakpoint: bp,
+      disabled: true,
+      [PROMISE]: client.removeBreakpoint(bp.id)
+    };
+
+    return dispatch(action);
+  };
 }
 
 /**
@@ -135,10 +151,6 @@ export function disableBreakpoint(location: Location) {
  * @static
  */
 export function removeBreakpoint(location: Location) {
-  return _removeOrDisableBreakpoint(location);
-}
-
-function _removeOrDisableBreakpoint(location, isDisabled = false) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     let bp = getBreakpoint(getState(), location);
     if (!bp) {
@@ -152,22 +164,22 @@ function _removeOrDisableBreakpoint(location, isDisabled = false) {
 
     const action = {
       type: "REMOVE_BREAKPOINT",
-      breakpoint: bp,
-      disabled: isDisabled
+      breakpoint: bp
     };
 
     // If the breakpoint is already disabled, we don't need to remove
     // it from the server. We just need to dispatch an action
     // simulating a successful server request to remove it, and it
     // will be removed completely from the state.
-    if (!bp.disabled) {
-      return dispatch(
-        Object.assign({}, action, {
-          [PROMISE]: client.removeBreakpoint(bp.id)
-        })
-      );
+    if (bp.disabled) {
+      return dispatch(Object.assign({}, action, { status: "done" }));
     }
-    return dispatch(Object.assign({}, action, { status: "done" }));
+
+    return dispatch(
+      Object.assign({}, action, {
+        [PROMISE]: client.removeBreakpoint(bp.id)
+      })
+    );
   };
 }
 

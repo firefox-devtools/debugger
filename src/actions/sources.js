@@ -14,7 +14,7 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { updateFrameLocations } from "../utils/pause";
 import { setSymbols } from "./ast";
-import { addBreakpoint, disableBreakpoint } from "./breakpoints";
+import { addBreakpoint } from "./breakpoints";
 
 import { prettyPrint } from "../utils/pretty-print";
 import { getPrettySourceURL } from "../utils/source";
@@ -62,10 +62,6 @@ async function checkPendingBreakpoint(
 
   if (sameSource && !bp) {
     await dispatch(addBreakpoint(location, { condition, disabled }));
-    // if (location.column && isEnabled("columnBreakpoints")) {
-    //  await dispatch(addBreakpoint(location, { condition, disabled }));
-    // } else {
-    // }
   }
 }
 
