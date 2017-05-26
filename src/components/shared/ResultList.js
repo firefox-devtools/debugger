@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, Component } from "react";
 import classnames from "classnames";
 
 import "./ResultList.css";
@@ -13,6 +13,12 @@ type ResultListItem = {
 
 export default class ResultList extends Component {
   displayName: "ResultList";
+  props: {
+    items: Array<Object>,
+    selected: number,
+    selectItem: () => {},
+    size: string
+  };
 
   static defaultProps: Object;
 
@@ -48,13 +54,6 @@ export default class ResultList extends Component {
     );
   }
 }
-
-ResultList.propTypes = {
-  items: PropTypes.array.isRequired,
-  selected: PropTypes.number.isRequired,
-  selectItem: PropTypes.func.isRequired,
-  size: PropTypes.string
-};
 
 ResultList.defaultProps = {
   size: ""

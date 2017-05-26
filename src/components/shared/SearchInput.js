@@ -1,4 +1,4 @@
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, Component } from "react";
 import { isEnabled } from "devtools-config";
 import Svg from "./Svg";
 import classnames from "classnames";
@@ -20,6 +20,21 @@ const arrowBtn = (onClick, type, className, tooltip) => {
 
 class SearchInput extends Component {
   displayName: "SearchInput";
+  props: {
+    query: string,
+    count: number,
+    placeholder: string,
+    summaryMsg: string,
+    onChange: () => {},
+    handleClose: () => {},
+    onKeyUp: () => {},
+    onKeyDown: () => {},
+    onFocus: () => {},
+    onBlur: () => {},
+    size: string,
+    handleNext: () => {},
+    handlePrev: () => {}
+  };
 
   static get defaultProps() {
     return {
@@ -114,21 +129,5 @@ class SearchInput extends Component {
     );
   }
 }
-
-SearchInput.propTypes = {
-  query: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  summaryMsg: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  onKeyUp: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  size: PropTypes.string,
-  handleNext: PropTypes.func,
-  handlePrev: PropTypes.func
-};
 
 export default SearchInput;

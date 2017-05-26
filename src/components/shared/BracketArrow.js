@@ -1,9 +1,16 @@
-import { DOM as dom, PropTypes } from "react";
+// @flow
+
+import { DOM as dom } from "react";
 import classNames from "classnames";
 
 import "./BracketArrow.css";
 
-const BracketArrow = ({ orientation, left, top, bottom }) => {
+const BracketArrow = (
+  orientation: string,
+  left: number,
+  top: number,
+  bottom: number
+) => {
   return dom.div(
     {
       className: classNames("bracket-arrow", orientation || "up"),
@@ -11,13 +18,6 @@ const BracketArrow = ({ orientation, left, top, bottom }) => {
     },
     ""
   );
-};
-
-BracketArrow.propTypes = {
-  orientation: PropTypes.string,
-  left: PropTypes.number,
-  top: PropTypes.number,
-  bottom: PropTypes.number
 };
 
 BracketArrow.displayName = "BracketArrow";
