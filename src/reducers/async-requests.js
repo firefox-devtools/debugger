@@ -2,13 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import constants from "../constants";
 const initialState = [];
 
 function update(state = initialState, action) {
   const { seqId } = action;
 
-  if (action.type === constants.NAVIGATE) {
+  if (action.type === "NAVIGATE") {
     return initialState;
   } else if (seqId) {
     let newState;

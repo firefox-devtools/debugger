@@ -9,7 +9,6 @@ import makeRecord from "../utils/makeRecord";
 import * as I from "immutable";
 import fromJS from "../utils/fromJS";
 
-import constants from "../constants";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -30,7 +29,7 @@ function update(
   action: Action
 ): Record<CoverageState> {
   switch (action.type) {
-    case constants.RECORD_COVERAGE:
+    case "RECORD_COVERAGE":
       return state
         .mergeIn(["hitCount"], fromJS(action.value.coverage))
         .setIn(["coverageOn"], true);

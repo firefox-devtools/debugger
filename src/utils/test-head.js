@@ -10,7 +10,7 @@ import sourceMaps from "devtools-source-map";
 import reducers from "../reducers";
 import actions from "../actions";
 import selectors from "../selectors";
-import constants from "../constants";
+
 import configureStore from "../utils/create-store";
 
 /**
@@ -68,7 +68,6 @@ function waitForState(store: any, predicate: any) {
 
 export {
   actions,
-  constants,
   selectors,
   reducers,
   createStore,

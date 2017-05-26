@@ -1,5 +1,5 @@
 // @flow
-import constants from "../constants";
+
 import type { ThunkArgs } from "./types";
 
 export function recordCoverage() {
@@ -7,7 +7,7 @@ export function recordCoverage() {
     const { coverage } = await client.recordCoverage();
 
     return dispatch({
-      type: constants.RECORD_COVERAGE,
+      type: "RECORD_COVERAGE",
       value: { coverage }
     });
   };

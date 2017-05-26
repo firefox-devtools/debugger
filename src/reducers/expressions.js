@@ -1,6 +1,5 @@
 // @flow
 
-import constants from "../constants";
 import makeRecord from "../utils/makeRecord";
 import { List } from "immutable";
 import { createSelector } from "reselect";
@@ -25,14 +24,14 @@ function update(
   action: Action
 ): Record<ExpressionState> {
   switch (action.type) {
-    case constants.ADD_EXPRESSION:
+    case "ADD_EXPRESSION":
       return appendToList(state, ["expressions"], {
         input: action.input,
         value: null,
         updating: true,
         visible: action.visible
       });
-    case constants.UPDATE_EXPRESSION:
+    case "UPDATE_EXPRESSION":
       const key = action.expression.input;
       return updateItemInList(state, ["expressions"], key, {
         input: action.input,
@@ -40,7 +39,7 @@ function update(
         updating: true,
         visible: action.visible
       });
-    case constants.EVALUATE_EXPRESSION:
+    case "EVALUATE_EXPRESSION":
       if (action.status === "done") {
         return updateItemInList(state, ["expressions"], action.input, {
           input: action.input,
@@ -50,7 +49,7 @@ function update(
         });
       }
       break;
-    case constants.DELETE_EXPRESSION:
+    case "DELETE_EXPRESSION":
       return deleteExpression(state, action.input);
   }
 

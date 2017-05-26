@@ -11,7 +11,7 @@
  * const services = { WAIT_UNTIL: require('wait-service').NAME };
  *
  * { type: services.WAIT_UNTIL,
- *   predicate: action => action.type === constants.ADD_ITEM,
+ *   predicate: action => action.type === "ADD_ITEM",
  *   run: (dispatch, getState, action) => {
  *     // Do anything here. You only need to accept the arguments
  *     // if you need them. `action` is the action that satisfied

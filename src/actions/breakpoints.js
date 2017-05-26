@@ -8,7 +8,6 @@
  * @module actions/breakpoints
  */
 
-import constants from "../constants";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import { getBreakpoint, getBreakpoints, getSource } from "../selectors";
 
@@ -57,7 +56,7 @@ export function addBreakpoint(
     const bp = _getOrCreateBreakpoint(getState(), location, condition);
 
     return dispatch({
-      type: constants.ADD_BREAKPOINT,
+      type: "ADD_BREAKPOINT",
       breakpoint: bp,
       condition: condition,
       [PROMISE]: (async function() {
@@ -122,7 +121,7 @@ function _removeOrDisableBreakpoint(location, isDisabled = false) {
     }
 
     const action = {
-      type: constants.REMOVE_BREAKPOINT,
+      type: "REMOVE_BREAKPOINT",
       breakpoint: bp,
       disabled: isDisabled
     };
@@ -152,7 +151,7 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
     return dispatch({
-      type: constants.TOGGLE_BREAKPOINTS,
+      type: "TOGGLE_BREAKPOINTS",
       shouldDisableBreakpoints,
       [PROMISE]: (async function() {
         for (let [, breakpoint] of breakpoints) {
@@ -196,7 +195,7 @@ export function setBreakpointCondition(
     }
 
     return dispatch({
-      type: constants.SET_BREAKPOINT_CONDITION,
+      type: "SET_BREAKPOINT_CONDITION",
       breakpoint: bp,
       condition: condition,
       [PROMISE]: client.setBreakpointCondition(

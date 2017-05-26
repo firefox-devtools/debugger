@@ -1,5 +1,5 @@
 // @flow
-import constants from "../constants";
+
 import { selectSource } from "./sources";
 import { PROMISE } from "../utils/redux/middleware/promise";
 
@@ -28,7 +28,7 @@ export function resumed() {
     // dispatch(evaluateExpressions(null));
 
     return dispatch({
-      type: constants.RESUME,
+      type: "RESUME",
       value: undefined
     });
   };
@@ -48,7 +48,7 @@ export function paused(pauseInfo: Pause) {
     const frame = frames[0];
 
     dispatch({
-      type: constants.PAUSED,
+      type: "PAUSED",
       pauseInfo: { why, frame, frames },
       frames: frames,
       selectedFrameId: frame.id,
@@ -74,7 +74,7 @@ export function pauseOnExceptions(
 ) {
   return ({ dispatch, client }: ThunkArgs) => {
     dispatch({
-      type: constants.PAUSE_ON_EXCEPTIONS,
+      type: "PAUSE_ON_EXCEPTIONS",
       shouldPauseOnExceptions,
       shouldIgnoreCaughtExceptions,
       [PROMISE]: client.pauseOnExceptions(
@@ -98,7 +98,7 @@ export function command({ type }: CommandType) {
     client[type]();
 
     return dispatch({
-      type: constants.COMMAND,
+      type: "COMMAND",
       value: undefined
     });
   };
@@ -173,7 +173,7 @@ export function breakOnNext() {
     client.breakOnNext();
 
     return dispatch({
-      type: constants.BREAK_ON_NEXT,
+      type: "BREAK_ON_NEXT",
       value: true
     });
   };
@@ -190,7 +190,7 @@ export function selectFrame(frame: Frame) {
       selectSource(frame.location.sourceId, { line: frame.location.line })
     );
     dispatch({
-      type: constants.SELECT_FRAME,
+      type: "SELECT_FRAME",
       frame
     });
   };
@@ -209,7 +209,7 @@ export function loadObjectProperties(object: any) {
     }
 
     dispatch({
-      type: constants.LOAD_OBJECT_PROPERTIES,
+      type: "LOAD_OBJECT_PROPERTIES",
       objectId,
       [PROMISE]: client.getProperties(object)
     });
