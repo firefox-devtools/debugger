@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parser getClosestExpression Can find a local var 1`] = `
+Object {
+  "location": SourceLocation {
+    "end": Position {
+      "column": 23,
+      "line": 15,
+    },
+    "identifierName": "beta",
+    "start": Position {
+      "column": 19,
+      "line": 15,
+    },
+  },
+  "value": "beta",
+}
+`;
+
+exports[`parser getClosestExpression member expressions Can find a member expression 1`] = `
+Object {
+  "location": SourceLocation {
+    "end": Position {
+      "column": 31,
+      "line": 15,
+    },
+    "start": Position {
+      "column": 26,
+      "line": 15,
+    },
+  },
+  "value": "obj.x",
+}
+`;
+
+exports[`parser getClosestExpression member expressions find a nested expression 1`] = `
+Object {
+  "location": SourceLocation {
+    "end": Position {
+      "column": 35,
+      "line": 4,
+    },
+    "start": Position {
+      "column": 14,
+      "line": 4,
+    },
+  },
+  "value": "obj2.c.secondProperty",
+}
+`;
+
+exports[`parser getClosestExpression member expressions finds an expression with a call 1`] = `
+Object {
+  "location": SourceLocation {
+    "end": Position {
+      "column": 45,
+      "line": 6,
+    },
+    "start": Position {
+      "column": 15,
+      "line": 6,
+    },
+  },
+  "value": ".c.secondProperty",
+}
+`;
+
+exports[`parser getClosestScope Can find the function declaration for square 1`] = `
+FunctionDeclaration (1:0,3:1)
+  async: false
+  body: BlockStatement (1:19,3:1)
+    body:
+      - ReturnStatement (2:2,2:15)
+          argument: BinaryExpression (2:9,2:14)
+            left: Identifier (2:9,2:10)
+              name: 'n'
+            operator: '*'
+            right: Identifier (2:13,2:14)
+              name: 'n'
+    directives: []
+  expression: false
+  generator: false
+  id: Identifier (1:9,1:15)
+    name: 'square'
+  params:
+    - Identifier (1:16,1:17)
+        name: 'n'
+`;
+
+exports[`parser getClosestScope finds a scope given at the end 1`] = `
+FunctionExpression (7:1,9:1)
+  async: false
+  body: BlockStatement (7:12,9:1)
+    body:
+      - ExpressionStatement (8:2,8:4)
+          expression: NumericLiteral (8:2,8:3)
+            extra:
+              raw: '2'
+              rawValue: 2
+            value: 2
+    directives: []
+  expression: false
+  extra:
+    parenStart: 64
+    parenthesized: true
+  generator: false
+  id: null
+  params: []
+`;
+
+exports[`parser getClosestScope finds the scope at the beginning 1`] = `
+FunctionExpression (5:8,5:21)
+  async: false
+  body: BlockStatement (5:19,5:21)
+    body: []
+    directives: []
+  expression: false
+  generator: false
+  id: null
+  params: []
+`;

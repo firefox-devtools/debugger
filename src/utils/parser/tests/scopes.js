@@ -5,7 +5,7 @@ import { getClosestScope } from "../utils/closest";
 
 import { getSourceText } from "./helpers";
 
-describe("parser", () => {
+describe("scopes", () => {
   describe("getVariablesInLocalScope", () => {
     it("finds scope binding variables", () => {
       const scope = getClosestScope(getSourceText("math"), {
