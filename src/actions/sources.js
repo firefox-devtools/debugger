@@ -14,6 +14,8 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { updateFrameLocations } from "../utils/pause";
 import { addBreakpoint } from "./breakpoints";
+import { setSymbols } from "./ast";
+
 import { isEnabled } from "devtools-config";
 
 import { prettyPrint } from "../utils/pretty-print";
@@ -336,7 +338,7 @@ export function toggleBlackBox(source: Source) {
  * @static
  */
 export function loadSourceText(source: Source) {
-  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     // Fetch the source text only once.
     let textInfo = getSourceText(getState(), source.id);
     if (textInfo) {
@@ -344,7 +346,7 @@ export function loadSourceText(source: Source) {
       return Promise.resolve(textInfo);
     }
 
-    return dispatch({
+    await dispatch({
       type: "LOAD_SOURCE_TEXT",
       source: source,
       [PROMISE]: (async function() {
@@ -361,15 +363,11 @@ export function loadSourceText(source: Source) {
         };
 
         return sourceText;
-        // Automatically pretty print if enabled and the test is
-        // detected to be "minified"
-        // if (Prefs.autoPrettyPrint &&
-        //     !source.isPrettyPrinted &&
-        //     SourceUtils.isMinified(source.id, response.source)) {
-        //   dispatch(togglePrettyPrint(source));
-        // }
       })()
     });
+
+    // get the symbols for the source as well
+    return dispatch(setSymbols(source));
   };
 }
 

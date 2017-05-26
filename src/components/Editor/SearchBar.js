@@ -12,7 +12,9 @@ import {
   getFileSearchQueryState,
   getFileSearchModifierState,
   getSymbolSearchState,
-  getSymbolSearchType
+  getSymbolSearchType,
+  getSelectedSource,
+  getSymbols
 } from "../../selectors";
 
 import {
@@ -24,7 +26,6 @@ import {
   clearIndex
 } from "../../utils/editor";
 
-import { getSymbols } from "../../utils/parser";
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
 import debounce from "lodash/debounce";
@@ -34,6 +35,7 @@ import type { SourceRecord, SourceTextRecord } from "../../reducers/sources";
 import type { FileSearchModifiers, SymbolSearchType } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
 import type { SearchResults } from ".";
+import type { SymbolDeclarations } from "../../utils/parser/getSymbols";
 import type { Location as BabelLocation } from "babel-traverse";
 import _SearchInput from "../shared/SearchInput";
 const SearchInput = createFactory(_SearchInput);
@@ -95,6 +97,7 @@ class SearchBar extends Component {
 
   props: {
     editor?: SourceEditor,
+    symbols: SymbolDeclarations,
     sourceText?: SourceTextRecord,
     selectSource: (string, ?SelectSourceOptions) => any,
     selectedSource?: SourceRecord,
@@ -254,9 +257,9 @@ class SearchBar extends Component {
   }
 
   closeSearch(e: SyntheticEvent) {
-    const { editor: ed } = this.props;
+    const { editor } = this.props;
 
-    if (this.props.searchOn && ed) {
+    if (this.props.searchOn && editor) {
       this.clearSearch();
       this.props.toggleFileSearch(false);
       this.props.toggleSymbolSearch(false);
@@ -354,30 +357,27 @@ class SearchBar extends Component {
     return null;
   }
 
-  async updateSymbolSearchResults(query: string) {
-    const { sourceText, updateSearchResults, selectedSymbolType } = this.props;
+  updateSymbolSearchResults(query: string) {
+    const {
+      sourceText,
+      updateSearchResults,
+      selectedSymbolType,
+      symbols
+    } = this.props;
 
     if (query == "" || !sourceText) {
       return;
     }
 
-    const { functions, variables } = await getSymbols(sourceText.toJS());
-    const formattedSymbolDeclaration = {
-      variables: variables.map(formatSymbol),
-      functions: functions.map(formatSymbol)
-    };
-
-    const symbolSearchResults = filter(
-      formattedSymbolDeclaration[selectedSymbolType],
-      query,
-      { key: "value" }
-    );
+    const symbolSearchResults = filter(symbols[selectedSymbolType], query, {
+      key: "value"
+    });
 
     updateSearchResults({ count: symbolSearchResults.length });
     return this.setState({ symbolSearchResults });
   }
 
-  async doSearch(query: string) {
+  doSearch(query: string) {
     const { sourceText, setFileSearchQuery, editor: ed } = this.props;
     if (!sourceText || !sourceText.get("text")) {
       return;
@@ -386,7 +386,7 @@ class SearchBar extends Component {
     setFileSearchQuery(query);
 
     if (this.props.symbolSearchOn) {
-      return await this.updateSymbolSearchResults(query);
+      return this.updateSymbolSearchResults(query);
     } else if (ed) {
       this.searchContents(query);
     }
@@ -530,7 +530,7 @@ class SearchBar extends Component {
     }
   }
 
-  async onChange(e: any) {
+  onChange(e: any) {
     return this.doSearch(e.target.value);
   }
 
@@ -745,6 +745,19 @@ SearchBar.contextTypes = {
   shortcuts: PropTypes.object
 };
 
+function _getFormattedSymbols(state) {
+  const source = getSelectedSource(state);
+  if (!source) {
+    return { variables: [], functions: [] };
+  }
+  const { variables, functions } = getSymbols(state, source.toJS());
+
+  return {
+    variables: variables.map(formatSymbol),
+    functions: functions.map(formatSymbol)
+  };
+}
+
 export default connect(
   state => {
     return {
@@ -752,6 +765,7 @@ export default connect(
       query: getFileSearchQueryState(state),
       modifiers: getFileSearchModifierState(state),
       symbolSearchOn: getSymbolSearchState(state),
+      symbols: _getFormattedSymbols(state),
       selectedSymbolType: getSymbolSearchType(state)
     };
   },

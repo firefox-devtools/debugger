@@ -1,11 +1,12 @@
 // @flow
-const expressions = require("./reducers/expressions");
-const sources = require("./reducers/sources");
-const pause = require("./reducers/pause");
-const breakpoints = require("./reducers/breakpoints");
-const eventListeners = require("./reducers/event-listeners");
-const ui = require("./reducers/ui");
-const coverage = require("./reducers/coverage");
+import * as expressions from "./reducers/expressions";
+import * as sources from "./reducers/sources";
+import * as pause from "./reducers/pause";
+import * as breakpoints from "./reducers/breakpoints";
+import * as eventListeners from "./reducers/event-listeners";
+import * as ui from "./reducers/ui";
+import * as ast from "./reducers/ast";
+import * as coverage from "./reducers/coverage";
 
 /**
  * @param object - location
@@ -61,5 +62,8 @@ module.exports = {
   getExpressions: expressions.getExpressions,
   getVisibleExpressions: expressions.getVisibleExpressions,
   getExpression: expressions.getExpression,
-  getHighlightedLineRange: ui.getHighlightedLineRange
+  getHighlightedLineRange: ui.getHighlightedLineRange,
+
+  getSymbols: ast.getSymbols,
+  hasSymbols: ast.hasSymbols
 };
