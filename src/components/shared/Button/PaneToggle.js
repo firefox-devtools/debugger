@@ -1,19 +1,21 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, Component } from "react";
 import classnames from "classnames";
 import Svg from "../Svg";
 import "./PaneToggle.css";
 
-type NextProps = {
+type Props = {
   collapsed: boolean,
-  handleClick: () => any,
+  handleClick: (string, boolean) => any,
   horizontal?: boolean,
   position: string
 };
 
 class PaneToggleButton extends Component {
-  shouldComponentUpdate(nextProps: NextProps) {
+  props: Props;
+
+  shouldComponentUpdate(nextProps: Props) {
     const { collapsed, horizontal } = this.props;
 
     return (
@@ -40,13 +42,6 @@ class PaneToggleButton extends Component {
     );
   }
 }
-
-PaneToggleButton.propTypes = {
-  position: PropTypes.string.isRequired,
-  collapsed: PropTypes.bool.isRequired,
-  horizontal: PropTypes.bool,
-  handleClick: PropTypes.func.isRequired
-};
 
 PaneToggleButton.displayName = "PaneToggleButton";
 
