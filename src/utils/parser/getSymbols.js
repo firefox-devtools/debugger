@@ -5,10 +5,9 @@ import { isVariable, isFunction } from "./utils/helpers";
 import * as t from "babel-types";
 
 import getFunctionName from "./utils/getFunctionName";
-import getFunctionParameterNames from "./utils/getFunctionParameterNames";
 
 import type { SourceText } from "debugger-html";
-import type { Location as BabelLocation } from "babel-traverse";
+import type { NodePath, Location as BabelLocation } from "babel-traverse";
 const symbolDeclarations = new Map();
 
 export type SymbolDeclaration = {|
@@ -25,6 +24,10 @@ export type SymbolDeclarations = {
   functions: Array<SymbolDeclaration>,
   variables: Array<SymbolDeclaration>
 };
+
+function getFunctionParameterNames(path: NodePath): string[] {
+  return path.node.params.map(param => param.name);
+}
 
 function getVariableNames(path): SymbolDeclaration[] {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
