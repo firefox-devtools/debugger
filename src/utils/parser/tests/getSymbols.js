@@ -12,6 +12,13 @@ describe("Parser.getSymbols", () => {
       expect(names).toEqual(["square", "child", "anonymous"]);
     });
 
+    it("finds functions parameters", () => {
+      const fncs = getSymbols(getSourceText("func")).functions;
+
+      const names = fncs.map(f => f.parameterNames);
+      expect(names).toEqual([["n"], [], []]);
+    });
+
     it("finds nested functions", () => {
       const fncs = getSymbols(getSourceText("math")).functions;
       const names = fncs.map(f => f.name);

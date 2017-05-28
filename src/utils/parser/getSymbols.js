@@ -5,6 +5,7 @@ import { isVariable, isFunction } from "./utils/helpers";
 import * as t from "babel-types";
 
 import getFunctionName from "./utils/getFunctionName";
+import getFunctionParameterNames from "./utils/getFunctionParameterNames";
 
 import type { SourceText } from "debugger-html";
 import type { Location as BabelLocation } from "babel-traverse";
@@ -67,7 +68,8 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
       if (isFunction(path)) {
         symbols.functions.push({
           name: getFunctionName(path),
-          location: path.node.loc
+          location: path.node.loc,
+          parameterNames: getFunctionParameterNames(path)
         });
       }
 
