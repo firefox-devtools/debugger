@@ -1,5 +1,5 @@
 // @flow
-import { Component, PropTypes } from "react";
+import { Component } from "react";
 
 let markerEl = document.createElement("div");
 
@@ -10,6 +10,11 @@ function makeMarker() {
 }
 
 class HitMarker extends Component {
+  props: {
+    hitData: { [string]: any },
+    editor: any
+  };
+
   addMarker() {
     const hitData = this.props.hitData;
     const line = hitData.line - 1;
@@ -56,10 +61,5 @@ class HitMarker extends Component {
 }
 
 HitMarker.displayName = "HitMarker";
-
-HitMarker.propTypes = {
-  hitData: PropTypes.object.isRequired,
-  editor: PropTypes.object.isRequired
-};
 
 export default HitMarker;
