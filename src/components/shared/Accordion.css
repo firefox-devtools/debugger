@@ -11,6 +11,7 @@
   padding: 5px;
   transition: all 0.25s ease;
   width: 100%;
+  align-items: center;
 
   -webkit-user-select: none;
   -moz-user-select: none;
