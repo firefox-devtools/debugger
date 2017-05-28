@@ -749,7 +749,7 @@ class Editor extends PureComponent {
     const { hitCount, sourceText } = this.props;
     const isLoading = sourceText && sourceText.get("loading");
 
-    if (isLoading || !hitCount) {
+    if (isLoading || !hitCount || !this.editor) {
       return;
     }
 
@@ -757,7 +757,7 @@ class Editor extends PureComponent {
       HitMarker({
         key: marker.get("line"),
         hitData: marker.toJS(),
-        editor: this.editor && this.editor.codeMirror
+        editor: this.editor.codeMirror
       })
     );
   }
