@@ -29,7 +29,7 @@ function getFunctionParameterNames(path: NodePath): string[] {
   return path.node.params.map(param => param.name);
 }
 
-function getVariableNames(path): SymbolDeclaration[] {
+function getVariableNames(path: NodePath): SymbolDeclaration[] {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
     return [
       {
@@ -63,7 +63,7 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
   let symbols = { functions: [], variables: [] };
 
   traverseAst(source, {
-    enter(path) {
+    enter(path: NodePath) {
       if (isVariable(path)) {
         symbols.variables.push(...getVariableNames(path));
       }
