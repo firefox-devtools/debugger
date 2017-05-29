@@ -24,7 +24,7 @@ export type BreakpointsState = {
   breakpointsDisabled: false
 };
 
-export function initialState() {
+export function initialState(): Record<BreakpointsState> {
   return makeRecord(
     ({
       breakpoints: I.Map(),
