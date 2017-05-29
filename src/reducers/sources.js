@@ -57,7 +57,6 @@ function update(
   state: Record<SourcesState> = State(),
   action: Action
 ): Record<SourcesState> {
-  let availableTabs = null;
   let location = null;
 
   switch (action.type) {
