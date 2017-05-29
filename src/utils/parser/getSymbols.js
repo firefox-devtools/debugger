@@ -7,7 +7,7 @@ import * as t from "babel-types";
 import getFunctionName from "./utils/getFunctionName";
 
 import type { SourceText } from "debugger-html";
-import type { Location as BabelLocation } from "babel-traverse";
+import type { NodePath, Location as BabelLocation } from "babel-traverse";
 const symbolDeclarations = new Map();
 
 export type SymbolDeclaration = {|
@@ -25,7 +25,11 @@ export type SymbolDeclarations = {
   variables: Array<SymbolDeclaration>
 };
 
-function getVariableNames(path): SymbolDeclaration[] {
+function getFunctionParameterNames(path: NodePath): string[] {
+  return path.node.params.map(param => param.name);
+}
+
+function getVariableNames(path: NodePath): SymbolDeclaration[] {
   if (t.isObjectProperty(path) && !isFunction(path.node.value)) {
     return [
       {
@@ -59,7 +63,7 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
   let symbols = { functions: [], variables: [] };
 
   traverseAst(source, {
-    enter(path) {
+    enter(path: NodePath) {
       if (isVariable(path)) {
         symbols.variables.push(...getVariableNames(path));
       }
@@ -67,7 +71,8 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
       if (isFunction(path)) {
         symbols.functions.push({
           name: getFunctionName(path),
-          location: path.node.loc
+          location: path.node.loc,
+          parameterNames: getFunctionParameterNames(path)
         });
       }
 

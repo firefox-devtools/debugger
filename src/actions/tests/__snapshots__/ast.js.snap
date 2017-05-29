@@ -15,6 +15,9 @@ Object {
         },
       },
       "name": "base",
+      "parameterNames": Array [
+        "boo",
+      ],
     },
   ],
   "variables": Array [
