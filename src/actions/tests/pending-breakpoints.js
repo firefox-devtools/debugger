@@ -2,26 +2,18 @@
 import {
   generatePendingBreakpoint,
   generateBreakpoint,
-  theMockedPendingBreakpoint,
+  mockPendingBreakpoint,
   simulateCorrectThreadClient,
   generateCorrectedBreakpoint,
   simpleMockThreadClient
 } from "./helpers/breakpoints.js";
 
+import { prefs } from "../../utils/prefs";
+
 jest.mock("../../utils/prefs", () => ({
   prefs: {
     expressions: [],
-    pendingBreakpoints: {
-      "http://localhost:8000/examples/bar.js:5:": {
-        location: {
-          sourceUrl: "http://localhost:8000/examples/bar.js",
-          line: 5,
-          column: undefined
-        },
-        condition: "3",
-        disabled: false
-      }
-    }
+    pendingBreakpoints: {}
   }
 }));
 
@@ -31,9 +23,20 @@ import {
   actions,
   makeSource
 } from "../../utils/test-head";
-import { makePendingLocationId } from "../../reducers/breakpoints";
+
+import {
+  makePendingLocationId,
+  makeLocationId
+} from "../../reducers/breakpoints";
 
 describe("when adding breakpoints", () => {
+  const mockedPendingBreakpoint = mockPendingBreakpoint();
+
+  beforeEach(() => {
+    const id = makePendingLocationId(mockedPendingBreakpoint.location);
+    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
+  });
+
   it("a corresponding pending breakpoint should be added", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
     const bp = generateBreakpoint("foo");
@@ -86,6 +89,13 @@ describe("when adding breakpoints", () => {
 });
 
 describe("when changing an existing breakpoint", () => {
+  const mockedPendingBreakpoint = mockPendingBreakpoint();
+
+  beforeEach(() => {
+    const id = makePendingLocationId(mockedPendingBreakpoint.location);
+    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
+  });
+
   it("updates corresponding pendingBreakpoint", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
     const bp = generateBreakpoint("foo");
@@ -128,15 +138,22 @@ describe("when changing an existing breakpoint", () => {
 });
 
 describe("initializing when pending breakpoints exist in perfs", () => {
-  it("syncs pending breakpoints", async () => {
-    const { getState } = createStore(simpleMockThreadClient);
-    const id = makePendingLocationId(theMockedPendingBreakpoint.location);
-    const bps = selectors.getPendingBreakpoints(getState());
-    const bp = bps.get(id);
-    expect(bp).toEqual(generatePendingBreakpoint(theMockedPendingBreakpoint));
+  const mockedPendingBreakpoint = mockPendingBreakpoint();
+
+  beforeEach(() => {
+    const id = makePendingLocationId(mockedPendingBreakpoint.location);
+    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
   });
 
-  it("readding breakpoints update existing pending breakpoints", async () => {
+  it("syncs pending breakpoints", async () => {
+    const { getState } = createStore(simpleMockThreadClient);
+    const id = makePendingLocationId(mockedPendingBreakpoint.location);
+    const bps = selectors.getPendingBreakpoints(getState());
+    const bp = bps.get(id);
+    expect(bp).toEqual(generatePendingBreakpoint(mockedPendingBreakpoint));
+  });
+
+  it("re-adding breakpoints update existing pending breakpoints", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
     const bar = generateBreakpoint("bar.js");
 
@@ -155,9 +172,51 @@ describe("initializing when pending breakpoints exist in perfs", () => {
     const bps = selectors.getPendingBreakpoints(getState());
     expect(bps.size).toBe(2);
   });
+
+  it("syncs pending breakpoints", async () => {
+    const id = makePendingLocationId(mockedPendingBreakpoint.location);
+    const { getState } = createStore(simpleMockThreadClient);
+    const bps = selectors.getPendingBreakpoints(getState());
+    const bp = bps.get(id);
+    expect(bp).toEqual(generatePendingBreakpoint(mockedPendingBreakpoint));
+  });
+});
+
+describe("initializing with disabled pending breakpoints in prefs", () => {
+  const mockedPendingBreakpoint = mockPendingBreakpoint({ disabled: true });
+
+  beforeEach(() => {
+    const id = makePendingLocationId(mockedPendingBreakpoint.location);
+    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
+  });
+
+  it("syncs breakpoints with pending breakpoints", async () => {
+    const expectedLocation = Object.assign(
+      {},
+      mockedPendingBreakpoint.location,
+      { sourceId: "bar.js" }
+    );
+
+    const expectedId = makeLocationId(expectedLocation);
+    const { getState, dispatch } = createStore(simpleMockThreadClient);
+    const source = makeSource("bar.js");
+    await dispatch(actions.newSource(source));
+    const bps = selectors.getBreakpoints(getState());
+    const bp = bps.get(expectedId);
+
+    expect(bp.location).toEqual(expectedLocation);
+    expect(bp.disabled).toEqual(mockedPendingBreakpoint.disabled);
+  });
 });
 
 describe("adding sources", () => {
+  const mockedPendingBreakpoint = mockPendingBreakpoint();
+
+  beforeEach(() => {
+    const id = makePendingLocationId(mockedPendingBreakpoint.location);
+    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
+  });
+
   it("corresponding breakpoints are added for a single source", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
@@ -185,6 +244,13 @@ describe("adding sources", () => {
 });
 
 describe("invalid breakpoint location", () => {
+  const mockedPendingBreakpoint = mockPendingBreakpoint();
+
+  beforeEach(() => {
+    const id = makePendingLocationId(mockedPendingBreakpoint.location);
+    prefs.pendingBreakpoints = { [id]: mockedPendingBreakpoint };
+  });
+
   it("a corrected corresponding pending breakpoint is added", async () => {
     // setup
     const bp = generateBreakpoint("foo");
