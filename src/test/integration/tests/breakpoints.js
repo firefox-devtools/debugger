@@ -23,12 +23,12 @@ async function removeBreakpoint(dbg, index) {
 
 async function disableBreakpoint(dbg, index) {
   toggleBreakpoint(dbg, index);
-  await waitForDispatch(dbg, "REMOVE_BREAKPOINT");
+  await waitForDispatch(dbg, "DISABLE_BREAKPOINT");
 }
 
 async function enableBreakpoint(dbg, index) {
   toggleBreakpoint(dbg, index);
-  await waitForDispatch(dbg, "ADD_BREAKPOINT");
+  await waitForDispatch(dbg, "ENABLE_BREAKPOINT");
 }
 
 async function toggleBreakpoints(dbg) {
