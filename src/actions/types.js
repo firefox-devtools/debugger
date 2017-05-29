@@ -119,7 +119,8 @@ type SourceAction =
         frames: Frame[]
       }
     }
-  | { type: "CLOSE_TAB", url: string };
+  | { type: "CLOSE_TAB", url: string, tabs: any }
+  | { type: "CLOSE_TABS", urls: Array<string>, tabs: any };
 
 export type panelPositionType = "start" | "end";
 

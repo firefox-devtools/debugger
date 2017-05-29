@@ -114,14 +114,12 @@ function update(
       return state.set("pendingSelectedLocation", location);
 
     case "CLOSE_TAB":
-      availableTabs = removeSourceFromTabList(state.tabs, action.url);
-
-      return state.merge({ tabs: availableTabs });
+      prefs.tabs = action.tabs;
+      return state.merge({ tabs: action.tabs });
 
     case "CLOSE_TABS":
-      availableTabs = removeSourcesFromTabList(state.tabs, action.urls);
-
-      return state.merge({ tabs: availableTabs });
+      prefs.tabs = action.tabs;
+      return state.merge({ tabs: action.tabs });
 
     case "LOAD_SOURCE_TEXT":
       return _updateText(state, action);
@@ -184,13 +182,11 @@ function _updateText(state, action: any): Record<SourcesState> {
   );
 }
 
-function removeSourceFromTabList(tabs, url) {
-  const newTabs = tabs.filter(tab => tab != url);
-  prefs.tabs = newTabs;
-  return newTabs;
+export function removeSourceFromTabList(tabs, url) {
+  return tabs.filter(tab => tab != url);
 }
 
-function removeSourcesFromTabList(tabs, urls) {
+export function removeSourcesFromTabList(tabs, urls) {
   return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
 }
 

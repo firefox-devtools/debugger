@@ -32,8 +32,10 @@ import {
   getPendingSelectedLocation,
   getPendingBreakpoints,
   getFrames,
+  getSourceTabs,
   getNewSelectedSourceId,
-  getSourceTabs
+  removeSourcesFromTabList,
+  removeSourceFromTabList
 } from "../selectors";
 
 import type { Source, SourceText } from "../types";
@@ -190,7 +192,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
 
     if (!source) {
       // If there is no source we deselect the current selected source
-      clearSelectedSource();
+      return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
     }
 
     source = source.toJS();
@@ -206,12 +208,6 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       tabIndex: options.tabIndex,
       line: options.line
     });
-  };
-}
-
-export function clearSelectedSource() {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
-    dispatch({ type: constants.CLEAR_SELECTED_SOURCE });
   };
 }
 
@@ -245,13 +241,6 @@ export function jumpToMappedLocation(sourceLocation: any) {
   };
 }
 
-function selectNewSource(state, dispatch) {
-  const avaliableTabs = getSourceTabs(state);
-  const sourceId = getNewSelectedSourceId(state, avaliableTabs);
-
-  return dispatch(selectSource(sourceId));
-}
-
 /**
  * @memberof actions/sources
  * @static
@@ -259,9 +248,11 @@ function selectNewSource(state, dispatch) {
 export function closeTab(url: string) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     removeDocument(url);
-    dispatch({ type: "CLOSE_TAB", url });
+    const tabs = removeSourceFromTabList(getSourceTabs(getState()), url);
+    const sourceId = getNewSelectedSourceId(getState(), tabs);
 
-    selectNewSource(getState(), dispatch);
+    dispatch({ type: "CLOSE_TAB", url, tabs });
+    dispatch(selectSource(sourceId));
   };
 }
 
@@ -278,8 +269,11 @@ export function closeTabs(urls: string[]) {
       }
     });
 
-    dispatch({ type: "CLOSE_TABS", urls });
-    selectNewSource(getState(), dispatch);
+    const tabs = removeSourcesFromTabList(getSourceTabs(getState()), urls);
+    const sourceId = getNewSelectedSourceId(getState(), tabs);
+
+    dispatch({ type: "CLOSE_TABS", urls, tabs });
+    dispatch(selectSource(sourceId));
   };
 }
 
