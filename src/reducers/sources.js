@@ -182,11 +182,11 @@ function _updateText(state, action: any): Record<SourcesState> {
   );
 }
 
-export function removeSourceFromTabList(tabs, url) {
+export function removeSourceFromTabList(tabs: any, url: string) {
   return tabs.filter(tab => tab != url);
 }
 
-export function removeSourcesFromTabList(tabs, urls) {
+export function removeSourcesFromTabList(tabs: any, urls: Array<string>) {
   return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
 }
 
@@ -204,7 +204,7 @@ function restoreTabs() {
  * @memberof reducers/sources
  * @static
  */
-function updateTabList(state: OuterState, url: string, tabIndex?: number) {
+function updateTabList(state: OuterState, url: ?string, tabIndex?: number) {
   let tabs = state.sources.get("tabs");
 
   const urlIndex = tabs.indexOf(url);
@@ -233,20 +233,19 @@ function updateTabList(state: OuterState, url: string, tabIndex?: number) {
  */
 export function getNewSelectedSourceId(
   state: OuterState,
-  availableTabs
+  availableTabs: any
 ): string {
-  state = state.sources;
-  const selectedLocation = state.selectedLocation;
+  const selectedLocation = state.sources.selectedLocation;
   if (!selectedLocation) {
     return "";
   }
 
-  const selectedTab = state.sources.get(selectedLocation.sourceId);
+  const selectedTab = state.sources.sources.get(selectedLocation.sourceId);
 
   const selectedTabUrl = selectedTab ? selectedTab.get("url") : "";
 
   if (availableTabs.includes(selectedTabUrl)) {
-    const sources = state.sources;
+    const sources = state.sources.sources;
     if (!sources) {
       return "";
     }
@@ -262,12 +261,15 @@ export function getNewSelectedSourceId(
     return "";
   }
 
-  const tabUrls = state.tabs.toJS();
+  const tabUrls = state.sources.tabs.toJS();
   const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTabUrl) - 1, 0);
   const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
   const availableTab = availableTabs.toJS()[newSelectedTabIndex];
-  const tabSource = getSourceByUrlInSources(state.sources, availableTab);
+  const tabSource = getSourceByUrlInSources(
+    state.sources.sources,
+    availableTab
+  );
 
   if (tabSource) {
     return tabSource.get("id");
