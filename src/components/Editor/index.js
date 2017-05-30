@@ -398,7 +398,7 @@ class Editor extends PureComponent {
       selectedFrame
     );
 
-    if (!inScope) {
+    if (!inScope || expression.value == "") {
       return;
     }
 

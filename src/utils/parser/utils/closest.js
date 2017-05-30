@@ -62,7 +62,7 @@ function getClosestMemberExpression(source, token, location: Location) {
       ) {
         const memberExpression = getMemberExpression(node);
         expression = {
-          value: memberExpression.join("."),
+          value: memberExpression,
           location: node.loc
         };
       }

@@ -31,11 +31,17 @@ export function getMemberExpression(root: Node) {
       return _getMemberExpression(node.object, expr);
     }
 
+    if (t.isCallExpression(node)) {
+      return [];
+    }
+
     if (t.isThisExpression(node)) {
       return ["this"].concat(expr);
     }
+
     return [node.name].concat(expr);
   }
 
-  return _getMemberExpression(root, []);
+  const expr = _getMemberExpression(root, []);
+  return expr.join(".");
 }
