@@ -722,7 +722,7 @@ class Editor extends PureComponent {
 
     const breakpointMarkers = breakpoints
       .valueSeq()
-      .filter(b => !b.location.column)
+      .filter(b => (isEnabled("columnBreakpoints") ? !b.location.column : true))
       .map(bp =>
         Breakpoint({
           key: makeLocationId(bp.location),
@@ -733,7 +733,7 @@ class Editor extends PureComponent {
 
     const columnBreakpointBookmarks = breakpoints
       .valueSeq()
-      .filter(b => b.location.column)
+      .filter(b => (isEnabled("columnBreakpoints") ? b.location.column : false))
       .map(bp =>
         ColumnBreakpoint({
           key: makeLocationId(bp.location),
