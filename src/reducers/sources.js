@@ -57,7 +57,6 @@ function update(
   state: Record<SourcesState> = State(),
   action: Action
 ): Record<SourcesState> {
-  let availableTabs = null;
   let location = null;
 
   switch (action.type) {
@@ -79,9 +78,9 @@ function update(
         line: action.line,
         url: action.source.url
       };
+
       prefs.pendingSelectedLocation = location;
 
-      const sourceUrl = action.source.url || "";
       return state
         .set("selectedLocation", {
           sourceId: action.source.id,
@@ -89,8 +88,20 @@ function update(
         })
         .set("pendingSelectedLocation", location)
         .merge({
-          tabs: updateTabList({ sources: state }, sourceUrl, action.tabIndex)
+          tabs: updateTabList(
+            { sources: state },
+            action.source.url,
+            action.tabIndex
+          )
         });
+
+    case "CLEAR_SELECTED_SOURCE":
+      location = { url: "" };
+      prefs.pendingSelectedLocation = location;
+
+      return state
+        .set("selectedLocation", { sourceId: "" })
+        .set("pendingSelectedLocation", location);
 
     case "SELECT_SOURCE_URL":
       location = {
@@ -102,18 +113,12 @@ function update(
       return state.set("pendingSelectedLocation", location);
 
     case "CLOSE_TAB":
-      availableTabs = removeSourceFromTabList(state.tabs, action.url);
-
-      return state.merge({ tabs: availableTabs }).set("selectedLocation", {
-        sourceId: getNewSelectedSourceId(state, availableTabs)
-      });
+      prefs.tabs = action.tabs;
+      return state.merge({ tabs: action.tabs });
 
     case "CLOSE_TABS":
-      availableTabs = removeSourcesFromTabList(state.tabs, action.urls);
-
-      return state.merge({ tabs: availableTabs }).set("selectedLocation", {
-        sourceId: getNewSelectedSourceId(state, availableTabs)
-      });
+      prefs.tabs = action.tabs;
+      return state.merge({ tabs: action.tabs });
 
     case "LOAD_SOURCE_TEXT":
       return _updateText(state, action);
@@ -176,13 +181,11 @@ function _updateText(state, action: any): Record<SourcesState> {
   );
 }
 
-function removeSourceFromTabList(tabs, url) {
-  const newTabs = tabs.filter(tab => tab != url);
-  prefs.tabs = newTabs;
-  return newTabs;
+export function removeSourceFromTabList(tabs: any, url: string) {
+  return tabs.filter(tab => tab != url);
 }
 
-function removeSourcesFromTabList(tabs, urls) {
+export function removeSourcesFromTabList(tabs: any, urls: Array<string>) {
   return urls.reduce((t, url) => removeSourceFromTabList(t, url), tabs);
 }
 
@@ -200,7 +203,7 @@ function restoreTabs() {
  * @memberof reducers/sources
  * @static
  */
-function updateTabList(state: OuterState, url: string, tabIndex?: number) {
+function updateTabList(state: OuterState, url: ?string, tabIndex?: number) {
   let tabs = state.sources.get("tabs");
 
   const urlIndex = tabs.indexOf(url);
@@ -227,18 +230,21 @@ function updateTabList(state: OuterState, url: string, tabIndex?: number) {
  * @memberof reducers/sources
  * @static
  */
-function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
-  const selectedLocation = state.selectedLocation;
+export function getNewSelectedSourceId(
+  state: OuterState,
+  availableTabs: any
+): string {
+  const selectedLocation = state.sources.selectedLocation;
   if (!selectedLocation) {
     return "";
   }
 
-  const selectedTab = state.sources.get(selectedLocation.sourceId);
+  const selectedTab = state.sources.sources.get(selectedLocation.sourceId);
 
   const selectedTabUrl = selectedTab ? selectedTab.get("url") : "";
 
   if (availableTabs.includes(selectedTabUrl)) {
-    const sources = state.sources;
+    const sources = state.sources.sources;
     if (!sources) {
       return "";
     }
@@ -254,12 +260,15 @@ function getNewSelectedSourceId(state: SourcesState, availableTabs): string {
     return "";
   }
 
-  const tabUrls = state.tabs.toJS();
+  const tabUrls = state.sources.tabs.toJS();
   const leftNeighborIndex = Math.max(tabUrls.indexOf(selectedTabUrl) - 1, 0);
   const lastAvailbleTabIndex = availableTabs.size - 1;
   const newSelectedTabIndex = Math.min(leftNeighborIndex, lastAvailbleTabIndex);
   const availableTab = availableTabs.toJS()[newSelectedTabIndex];
-  const tabSource = getSourceByUrlInSources(state.sources, availableTab);
+  const tabSource = getSourceByUrlInSources(
+    state.sources.sources,
+    availableTab
+  );
 
   if (tabSource) {
     return tabSource.get("id");

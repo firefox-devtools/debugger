@@ -29,7 +29,11 @@ import {
   getBreakpoint,
   getPendingSelectedLocation,
   getPendingBreakpoints,
-  getFrames
+  getFrames,
+  getSourceTabs,
+  getNewSelectedSourceId,
+  removeSourcesFromTabList,
+  removeSourceFromTabList
 } from "../selectors";
 
 import type { Source, SourceText } from "../types";
@@ -183,7 +187,8 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
     let source = getSource(getState(), id);
 
     if (!source) {
-      return;
+      // If there is no source we deselect the current selected source
+      return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
     }
 
     source = source.toJS();
@@ -237,8 +242,14 @@ export function jumpToMappedLocation(sourceLocation: any) {
  * @static
  */
 export function closeTab(url: string) {
-  removeDocument(url);
-  return { type: "CLOSE_TAB", url };
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    removeDocument(url);
+    const tabs = removeSourceFromTabList(getSourceTabs(getState()), url);
+    const sourceId = getNewSelectedSourceId(getState(), tabs);
+
+    dispatch({ type: "CLOSE_TAB", url, tabs });
+    dispatch(selectSource(sourceId));
+  };
 }
 
 /**
@@ -254,7 +265,11 @@ export function closeTabs(urls: string[]) {
       }
     });
 
-    dispatch({ type: "CLOSE_TABS", urls });
+    const tabs = removeSourcesFromTabList(getSourceTabs(getState()), urls);
+    const sourceId = getNewSelectedSourceId(getState(), tabs);
+
+    dispatch({ type: "CLOSE_TABS", urls, tabs });
+    dispatch(selectSource(sourceId));
   };
 }
 
