@@ -10,7 +10,7 @@ import type {
   Frame,
   Why
 } from "debugger-html";
-
+import type { State } from "../reducers/types";
 /**
  * Flow types
  * @module actions/types
@@ -25,7 +25,7 @@ import type {
   */
 export type ThunkArgs = {
   dispatch: () => Promise<any>,
-  getState: () => any,
+  getState: () => State,
   client: any,
   sourceMaps: any
 };
