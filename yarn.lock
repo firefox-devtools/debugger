@@ -2543,9 +2543,9 @@ devtools-source-editor@0.0.4:
   dependencies:
     codemirror "^5.25.0"
 
-devtools-source-map@0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.5.0.tgz#b27f2e04229655eae262839a61f79c3c2118dd29"
+devtools-source-map@0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.6.0.tgz#3f0027233b9505eb1818489ceaa5e0118b7547dd"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
@@ -2554,7 +2554,6 @@ devtools-source-map@0.5.0:
     md5 "^2.2.1"
     regenerator-runtime "^0.10.3"
     source-map "^0.5.6"
-    url "^0.11.0"
 
 devtools-splitter@^0.0.3:
   version "0.0.3"
@@ -3909,11 +3908,11 @@ husky@^0.13.2:
     is-ci "^1.0.9"
     normalize-path "^1.0.0"
 
-iconv-lite@0.4.13, iconv-lite@^0.4.5, iconv-lite@~0.4.13:
+iconv-lite@0.4.13:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
 
-iconv-lite@0.4.15:
+iconv-lite@0.4.15, iconv-lite@^0.4.5, iconv-lite@~0.4.13:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
 
