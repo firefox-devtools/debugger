@@ -61,7 +61,7 @@ Object {
       "line": 6,
     },
   },
-  "value": ".c.secondProperty",
+  "value": "",
 }
 `;
 
