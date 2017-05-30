@@ -39,6 +39,17 @@ declare module "debugger-html" {
   };
 
   /**
+ * Source File GeneratedLocation
+ *
+ * @memberof types
+ * @static
+ */
+  declare type GeneratedLocation = {
+    line: number,
+    column?: number
+  };
+
+  /**
  * Breakpoint
  *
  * @memberof types
@@ -50,7 +61,8 @@ declare module "debugger-html" {
     loading: boolean,
     disabled: boolean,
     text: string,
-    condition: ?string
+    condition: ?string,
+    generatedLocation: ?GeneratedLocation
   };
 
   /**
@@ -75,7 +87,8 @@ declare module "debugger-html" {
     loading: boolean,
     disabled: boolean,
     text: string,
-    condition: ?string
+    condition: ?string,
+    generatedLocation: ?GeneratedLocation
   };
 
   /**

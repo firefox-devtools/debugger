@@ -6,6 +6,7 @@ import type {
   Expression,
   LoadedObject,
   Location,
+  GeneratedLocation,
   SourceText,
   Frame,
   Why
@@ -53,7 +54,8 @@ export type AsyncStatus = "start" | "done" | "error";
 type BreakpointResult = {
   actualLocation: Location,
   id: string,
-  text: string
+  text: string,
+  generatedLocation: GeneratedLocation
 };
 
 type BreakpointAction =

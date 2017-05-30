@@ -12,7 +12,14 @@ import fromJS from "../utils/fromJS";
 import { updateObj } from "../utils/utils";
 import * as I from "immutable";
 import makeRecord from "../utils/makeRecord";
-import { prefs } from "../utils/prefs";
+import { prefs, setDebuggerVersion } from "../utils/prefs";
+import {
+  firstString,
+  locationMoved,
+  makeLocationId,
+  makePendingLocationId,
+  allBreakpointsDisabled
+} from "../utils/breakpoint";
 
 import type { Breakpoint, PendingBreakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
@@ -34,41 +41,6 @@ export function initialState(): Record<BreakpointsState> {
   )();
 }
 
-// Return the first argument that is a string, or null if nothing is a
-// string.
-function firstString(...args) {
-  for (let arg of args) {
-    if (typeof arg === "string") {
-      return arg;
-    }
-  }
-  return null;
-}
-
-function locationMoved(location, newLocation) {
-  return (
-    location.line !== newLocation.line ||
-    (location.column != null && location.column !== newLocation.column)
-  );
-}
-
-export function makeLocationId(location: Location) {
-  const { sourceId, line, column } = location;
-  const columnString = column || "";
-  return `${sourceId}:${line}:${columnString}`;
-}
-
-export function makePendingLocationId(location: Location) {
-  const { sourceUrl, line, column } = location;
-  const sourceUrlString = sourceUrl || "";
-  const columnString = column || "";
-  return `${sourceUrlString}:${line}:${columnString}`;
-}
-
-function allBreakpointsDisabled(state) {
-  return state.breakpoints.every(x => x.disabled);
-}
-
 function update(
   state: Record<BreakpointsState> = initialState(),
   action: Action
@@ -76,6 +48,12 @@ function update(
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const newState = addBreakpoint(state, action);
+      setPendingBreakpoints(newState);
+      return newState;
+    }
+
+    case "SYNC_BREAKPOINT": {
+      const newState = syncBreakpoint(state, action);
       setPendingBreakpoints(newState);
       return newState;
     }
@@ -113,6 +91,10 @@ function update(
       setPendingBreakpoints(newState);
       return newState;
     }
+
+    case "NAVIGATE": {
+      return initialState();
+    }
   }
 
   return state;
@@ -138,7 +120,11 @@ function addBreakpoint(state, action) {
   }
 
   if (action.status === "done") {
-    const { id: breakpointId, actualLocation } = action.value;
+    const {
+      id: breakpointId,
+      actualLocation,
+      generatedLocation
+    } = action.value;
     let location = action.breakpoint.location;
 
     // If the breakpoint moved, update the map
@@ -149,21 +135,47 @@ function addBreakpoint(state, action) {
 
     const locationId = makeLocationId(location);
     const bp = state.breakpoints.get(locationId) || action.breakpoint;
+    const updatedBreakpoint = updateObj(bp, {
+      id: breakpointId,
+      loading: false,
+      generatedLocation,
+      text: ""
+    });
     const updatedState = state.setIn(
       ["breakpoints", locationId],
-      updateObj(bp, {
-        id: breakpointId,
-        loading: false,
-        text: ""
-      })
+      updatedBreakpoint
     );
 
-    return updatePendingBreakpoint(updatedState, bp);
+    return updatePendingBreakpoint(updatedState, updatedBreakpoint);
   }
 
   if (action.status === "error") {
     // Remove the optimistic update
     return state.deleteIn(["breakpoints", id]);
+  }
+}
+
+function syncBreakpoint(state, action) {
+  if (action.status === "start") {
+    return _optimisticlyAddBreakpoint(state, action.breakpoint);
+  }
+  if (action.status === "done") {
+    const { breakpoint, value: { actualLocation } } = action;
+    const sameLocation = !locationMoved(breakpoint.location, actualLocation);
+
+    if (sameLocation) {
+      return _commitBreakpoint(state, breakpoint, action.value);
+    }
+
+    const updatedState = _correctBreakpoint(state, breakpoint, actualLocation);
+    const id = makeLocationId(actualLocation);
+    const correctBreakpoint = updatedState.breakpoints.get(id);
+    return updatePendingBreakpoint(updatedState, correctBreakpoint);
+  }
+
+  if (action.status === "error") {
+    // Remove the optimistic update and pending breakpoint
+    return deleteBreakpoint(state, action.breakpoint.location);
   }
 }
 
@@ -197,7 +209,10 @@ function disableBreakpoint(state, action) {
   return updatePendingBreakpoint(updatedState, breakpoint);
 }
 
-function deleteBreakpoint(state, id, pendingId) {
+function deleteBreakpoint(state, location) {
+  const id = makeLocationId(location);
+  const pendingId = makePendingLocationId(location);
+
   return state
     .deleteIn(["breakpoints", id])
     .deleteIn(["pendingBreakpoints", pendingId]);
@@ -208,10 +223,7 @@ function removeBreakpoint(state, action) {
     return state;
   }
 
-  const id = makeLocationId(action.breakpoint.location);
-  const pendingId = makePendingLocationId(action.breakpoint.location);
-
-  const updatedState = deleteBreakpoint(state, id, pendingId);
+  const updatedState = deleteBreakpoint(state, action.breakpoint.location);
 
   return updatedState.set(
     "breakpointsDisabled",
@@ -250,6 +262,34 @@ function setCondition(state, action) {
   }
 }
 
+// Syncing Methods
+function _optimisticlyAddBreakpoint(state, breakpoint) {
+  const id = makeLocationId(breakpoint.location);
+  const updateOpts = {
+    loading: true
+  };
+
+  return state.setIn(["breakpoints", id], updateObj(breakpoint, updateOpts));
+}
+
+function _commitBreakpoint(state, breakpoint, overrides = {}) {
+  const location = overrides.location || breakpoint.location;
+  const id = makeLocationId(location);
+  const updatedOpts = { ...overrides, loading: false };
+  const updatedBreakpoint = updateObj(breakpoint, updatedOpts);
+
+  return state.setIn(["breakpoints", id], updatedBreakpoint);
+}
+
+function _correctBreakpoint(state, breakpoint, location) {
+  const intermState = deleteBreakpoint(state, breakpoint.location);
+  const newLocationId = makeLocationId(location);
+  const overrides = { location, id: newLocationId };
+
+  return _commitBreakpoint(intermState, breakpoint, overrides);
+}
+
+// TODO: remove this in favor of the correct/commit breakpoint pattern
 function slideBreakpoint(state, action) {
   const { actualLocation, id } = action.value;
   const { breakpoint } = action;
@@ -266,10 +306,15 @@ function slideBreakpoint(state, action) {
 }
 
 export function makePendingBreakpoint(bp: any) {
-  const { location: { sourceUrl, line, column }, condition, disabled } = bp;
+  const {
+    location: { sourceUrl, line, column },
+    condition,
+    disabled,
+    generatedLocation
+  } = bp;
 
   const location = { sourceUrl, line, column };
-  return { condition, disabled, location };
+  return { condition, disabled, generatedLocation, location };
 }
 
 function setPendingBreakpoints(state: any) {
@@ -285,6 +330,10 @@ function updatePendingBreakpoint(state, breakpoint) {
 }
 
 function restorePendingBreakpoints() {
+  if (!prefs.debuggerVersion) {
+    prefs.pendingBreakpoints = [];
+    setDebuggerVersion();
+  }
   return I.Map(prefs.pendingBreakpoints);
 }
 

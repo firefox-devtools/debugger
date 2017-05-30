@@ -88,7 +88,10 @@ function setBreakpoint(
       condition,
       noSliding
     })
-    .then((res: BreakpointResponse) => onNewBreakpoint(location, res));
+    .then((res: BreakpointResponse) => onNewBreakpoint(location, res))
+    .catch(error => {
+      console.log(error);
+    });
 }
 
 function onNewBreakpoint(
@@ -119,9 +122,13 @@ function onNewBreakpoint(
 }
 
 function removeBreakpoint(breakpointId: BreakpointId) {
-  const bpClient = bpClients[breakpointId];
-  delete bpClients[breakpointId];
-  return bpClient.remove();
+  try {
+    const bpClient = bpClients[breakpointId];
+    delete bpClients[breakpointId];
+    return bpClient.remove();
+  } catch (_error) {
+    console.info("No breakpoint to delete on server");
+  }
 }
 
 function setBreakpointCondition(

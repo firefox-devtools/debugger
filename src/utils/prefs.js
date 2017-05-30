@@ -3,6 +3,7 @@
 var { PrefsHelper } = require("devtools-modules");
 const { Services: { pref } } = require("devtools-modules");
 const { isDevelopment } = require("devtools-config");
+const DEBUGGER_VERSION = "1.0.0";
 
 if (isDevelopment()) {
   pref("devtools.debugger.client-source-maps-enabled", true);
@@ -40,4 +41,8 @@ const prefs = new PrefsHelper("devtools", {
   fileSearchRegexMatch: ["Bool", "debugger.file-search-regex-match"]
 });
 
-module.exports = { prefs };
+function setDebuggerVersion() {
+  prefs.debuggerVersion = DEBUGGER_VERSION;
+}
+
+module.exports = { prefs, setDebuggerVersion };

@@ -34,7 +34,7 @@ import {
   getOutOfScopeLocations
 } from "../../selectors";
 
-import { makeLocationId } from "../../reducers/breakpoints";
+import { makeLocationId } from "../../utils/breakpoint";
 import actions from "../../actions";
 
 import _Footer from "./Footer";
