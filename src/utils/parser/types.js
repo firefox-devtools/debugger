@@ -1,8 +1,9 @@
+type AstPosition = { line: number, column: number };
+
+type AstLocation = { end: AstPosition, start: AstPosition };
+
 type Scope = {
-  location: {
-    line: number,
-    column: number
-  },
+  location: AstLocation,
   parent: Scope,
   bindings: Object[]
 };

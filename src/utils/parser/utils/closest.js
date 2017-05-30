@@ -3,7 +3,11 @@
 import * as t from "babel-types";
 
 import { traverseAst } from "./ast";
-import { isLexicalScope, getMemberExpression } from "./helpers";
+import {
+  isLexicalScope,
+  getMemberExpression,
+  nodeContainsPosition
+} from "./helpers";
 
 import type { SourceText, Location } from "debugger-html";
 import type { NodePath, Node } from "babel-traverse";
@@ -16,40 +20,6 @@ function getNodeValue(node: Node) {
   return node.name;
 }
 
-/**
- * helps find member expressions on one line and function scopes that are
- * often many lines
- */
-type nodeContainsLocationParams = {
-  node: Node,
-  location: Location
-};
-
-function nodeContainsLocation({ node, location }: nodeContainsLocationParams) {
-  const { start, end } = node.loc;
-  const { line, column } = location;
-
-  // node is a one line expression
-  if (start.line === end.line) {
-    return (
-      start.line === line && start.column <= column && end.column >= column
-    );
-  }
-
-  // node is likely a function parameter
-  if (start.line === line) {
-    return start.column <= column;
-  }
-
-  // node is on the same line as the closing curly
-  if (end.line === line) {
-    return end.column >= column;
-  }
-
-  // node is either inside the block body or outside of it
-  return start.line < line && end.line > line;
-}
-
 function getClosestMemberExpression(source, token, location: Location) {
   let expression = null;
   traverseAst(source, {
@@ -58,7 +28,7 @@ function getClosestMemberExpression(source, token, location: Location) {
       if (
         t.isMemberExpression(node) &&
         node.property.name === token &&
-        nodeContainsLocation({ node, location })
+        nodeContainsPosition(node, location)
       ) {
         const memberExpression = getMemberExpression(node);
         expression = {
@@ -96,10 +66,7 @@ export function getClosestScope(source: SourceText, location: Location) {
 
   traverseAst(source, {
     enter(path) {
-      if (
-        isLexicalScope(path) &&
-        nodeContainsLocation({ node: path.node, location })
-      ) {
+      if (isLexicalScope(path) && nodeContainsPosition(path.node, location)) {
         closestPath = path;
       }
     }
@@ -117,7 +84,7 @@ export function getClosestPath(source: SourceText, location: Location) {
 
   traverseAst(source, {
     enter(path) {
-      if (nodeContainsLocation({ node: path.node, location })) {
+      if (nodeContainsPosition(path.node, location)) {
         closestPath = path;
       }
     }
