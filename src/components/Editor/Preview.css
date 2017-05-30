@@ -28,7 +28,7 @@
 }
 
 .selected-token {
-  background-color: var(--theme-search-overlays-semitransparent);
+  background-color: var(--theme-highlight-yellow);
   color: var(--theme-selection-color);
 }
 
