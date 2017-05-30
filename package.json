@@ -70,6 +70,7 @@
     "fuzzaldrin-plus": "^0.4.1",
     "glob": "^7.0.3",
     "jest-junit-reporter": "^1.0.1",
+    "jest-serializer-babel-ast": "^0.0.5",
     "lodash": "^4.17.4",
     "lodash.kebabcase": "^4.1.1",
     "md5": "^2.2.1",
@@ -166,6 +167,9 @@
     "setupFiles": [
       "<rootDir>/test/tests-setup.js",
       "jest-localstorage-mock"
+    ],
+    "snapshotSerializers": [
+      "jest-serializer-babel-ast"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/test/tests-framework.js",
     "moduleNameMapper": {

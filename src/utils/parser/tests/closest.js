@@ -6,20 +6,44 @@ import { getSourceText } from "./helpers";
 
 describe("parser", () => {
   describe("getClosestExpression", () => {
-    it("Can find a member expression", () => {
-      const expression = getClosestExpression(
-        getSourceText("resolveToken"),
-        "x",
-        {
-          line: 15,
-          column: 31
-        }
-      );
+    describe("member expressions", () => {
+      it("Can find a member expression", () => {
+        const expression = getClosestExpression(
+          getSourceText("resolveToken"),
+          "x",
+          {
+            line: 15,
+            column: 31
+          }
+        );
 
-      expect(expression.value).toBe("obj.x");
-      expect(expression.location.start).toEqual({
-        line: 15,
-        column: 26
+        expect(expression).toMatchSnapshot();
+      });
+
+      it("find a nested expression", () => {
+        const expression = getClosestExpression(
+          getSourceText("expression"),
+          "secondProperty",
+          {
+            line: 4,
+            column: 22
+          }
+        );
+
+        expect(expression).toMatchSnapshot();
+      });
+
+      it("finds an expression with a call", () => {
+        const expression = getClosestExpression(
+          getSourceText("expression"),
+          "secondProperty",
+          {
+            line: 6,
+            column: 32
+          }
+        );
+
+        expect(expression).toMatchSnapshot();
       });
     });
 
@@ -33,11 +57,7 @@ describe("parser", () => {
         }
       );
 
-      expect(expression.value).toBe("beta");
-      expect(expression.location.start).toEqual({
-        line: 15,
-        column: 19
-      });
+      expect(expression).toMatchSnapshot();
     });
   });
 
@@ -49,13 +69,7 @@ describe("parser", () => {
       });
 
       const node = scope.block;
-
-      expect(node.id).toBe(null);
-      expect(node.loc.start).toEqual({
-        line: 5,
-        column: 8
-      });
-      expect(node.type).toBe("FunctionExpression");
+      expect(node).toMatchSnapshot();
     });
 
     it("finds a scope given at the end", () => {
@@ -65,12 +79,7 @@ describe("parser", () => {
       });
 
       const node = scope.block;
-      expect(node.id).toBe(null);
-      expect(node.loc.start).toEqual({
-        line: 7,
-        column: 1
-      });
-      expect(node.type).toBe("FunctionExpression");
+      expect(node).toMatchSnapshot();
     });
 
     it("Can find the function declaration for square", () => {
@@ -80,12 +89,7 @@ describe("parser", () => {
       });
 
       const node = scope.block;
-      expect(node.id.name).toBe("square");
-      expect(node.loc.start).toEqual({
-        line: 1,
-        column: 0
-      });
-      expect(node.type).toBe("FunctionDeclaration");
+      expect(node).toMatchSnapshot();
     });
   });
 });
