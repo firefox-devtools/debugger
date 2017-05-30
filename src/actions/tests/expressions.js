@@ -23,6 +23,15 @@ describe("expressions", () => {
     expect(selectors.getVisibleExpressions(getState()).size).toBe(1);
   });
 
+  it("should not add empty expressions", () => {
+    const { dispatch, getState } = createStore(mockThreadClient);
+
+    dispatch(actions.addExpression());
+    dispatch(actions.addExpression(""));
+
+    expect(selectors.getExpressions(getState()).size).toBe(0);
+  });
+
   it("should make an expression visible", () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
