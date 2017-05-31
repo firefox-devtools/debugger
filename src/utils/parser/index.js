@@ -1,6 +1,7 @@
 // @flow
 
 import { workerUtils } from "devtools-utils";
+import { getClosestExpression } from "./utils/closest";
 const { WorkerDispatcher } = workerUtils;
 
 const dispatcher = new WorkerDispatcher();
@@ -15,6 +16,7 @@ module.exports = {
   getVariablesInScope,
   resolveToken,
   getOutOfScopeLocations,
+  getClosestExpression,
   startParserWorker: dispatcher.start.bind(dispatcher),
   stopParserWorker: dispatcher.stop.bind(dispatcher)
 };

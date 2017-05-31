@@ -28,6 +28,7 @@ import {
   getCoverageEnabled,
   getLoadedObjects,
   getPause,
+  getSelection,
   getFileSearchQueryState,
   getFileSearchModifierState,
   getOutOfScopeLocations
@@ -97,7 +98,7 @@ export type SearchResults = {
 type EditorState = {
   searchResults: SearchResults,
   highlightedLineRange: ?Object,
-  selectedToken: ?Object,
+  selection: ?Object,
   selectedExpression: ?Object
 };
 
@@ -122,7 +123,7 @@ class Editor extends PureComponent {
         count: 0
       },
       highlightedLineRange: null,
-      selectedToken: null,
+      selection: null,
       selectedExpression: null
     };
 
@@ -340,7 +341,7 @@ class Editor extends PureComponent {
   }
 
   onScroll(e) {
-    return this.setState({ selectedToken: null, selectedExpression: null });
+    return this.setState({ selection: null, selectedExpression: null });
   }
 
   onMouseOver(e) {
@@ -382,57 +383,29 @@ class Editor extends PureComponent {
     const {
       selectedFrame,
       selectedSource,
-      pauseData,
       sourceText,
-      addExpression
+      setSelection,
+      selection
     } = this.props;
-    const { selectedToken } = this.state;
     const token = e.target;
+    const tokenText = token.innerText.trim();
 
     if (
+      (selection && selection.updating) ||
       !selectedFrame ||
       !sourceText ||
       !selectedSource ||
+      tokenText === "" ||
+      tokenText.match(/\s/) ||
       selectedFrame.location.sourceId !== selectedSource.get("id")
     ) {
       return;
     }
 
-    if (selectedToken) {
-      selectedToken.classList.remove("selected-token");
-      this.setState({ selectedToken: null, selectedExpression: null });
-    }
-
-    const { expression, inScope } = await resolveToken(
-      this.editor.codeMirror,
-      token,
-      sourceText,
-      selectedFrame
-    );
-
-    if (!inScope || expression.value == "") {
-      return;
-    }
-
-    const variables = getVisibleVariablesFromScope(pauseData, selectedFrame);
-
-    if (expression) {
-      addExpression(expression.value, { visible: false });
-    }
-
-    const displayedExpression = previewExpression({
-      expression: expression,
-      variables,
-      selectedFrame,
-      tokenText: token.textContent
-    });
-
-    if (displayedExpression) {
-      this.setState({
-        selectedToken: token,
-        selectedExpression: displayedExpression
-      });
-    }
+    const location = getTokenLocation(this.editor.codeMirror, token);
+    setSelection(tokenText, location);
+    console.log("selection", token, tokenText, location);
+    this.setState({ selectedToken: token });
   }
 
   openMenu(event, codeMirror) {
@@ -796,23 +769,20 @@ class Editor extends PureComponent {
   }
 
   renderPreview() {
-    const { selectedToken, selectedExpression } = this.state;
-    const { selectedFrame, sourceText } = this.props;
+    const { selectedToken } = this.state;
+    const { sourceText, selection } = this.props;
 
     if (!this.editor || !sourceText) {
       return null;
     }
 
-    if (!selectedToken || !selectedFrame || !selectedExpression) {
+    if (!selection || !selectedToken) {
       return;
     }
 
-    const token = selectedToken.textContent;
-
-    const value = getExpressionValue(selectedExpression, {
-      getExpression: this.props.getExpression
-    });
-
+    const { result, expression, location } = selection;
+    const value = result;
+    console.log(selection, selectedToken);
     if (
       typeof value == "undefined" ||
       value.type == "undefined" ||
@@ -823,14 +793,12 @@ class Editor extends PureComponent {
 
     return Preview({
       value,
-      expression: token,
+      expression: expression,
       popoverTarget: selectedToken,
-      onClose: () => {
+      onClose: () =>
         this.setState({
-          selectedToken: null,
-          selectedExpression: null
-        });
-      }
+          selectedToken: null
+        })
     });
   }
 
@@ -932,6 +900,7 @@ Editor.propTypes = {
     regexMatch: PropTypes.bool.isRequired,
     wholeWord: PropTypes.bool.isRequired
   }).isRequired,
+  selection: PropTypes.object,
   startPanelSize: PropTypes.number,
   endPanelSize: PropTypes.number
 };
@@ -965,7 +934,8 @@ export default connect(
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),
       searchModifiers: getFileSearchModifierState(state),
-      outOfScopeLocations: getOutOfScopeLocations(state)
+      outOfScopeLocations: getOutOfScopeLocations(state),
+      selection: getSelection(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

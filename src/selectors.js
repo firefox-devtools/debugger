@@ -24,6 +24,7 @@ module.exports = {
   getSourceTabs: sources.getSourceTabs,
   getSourcesForTabs: sources.getSourcesForTabs,
   getSelectedSource: sources.getSelectedSource,
+  getSelectedSourceText: sources.getSelectedSourceText,
   getSelectedLocation: sources.getSelectedLocation,
   getPendingSelectedLocation: sources.getPendingSelectedLocation,
   getPrettySource: sources.getPrettySource,
@@ -69,5 +70,6 @@ module.exports = {
 
   getSymbols: ast.getSymbols,
   hasSymbols: ast.hasSymbols,
-  getOutOfScopeLocations: ast.getOutOfScopeLocations
+  getOutOfScopeLocations: ast.getOutOfScopeLocations,
+  getSelection: ast.getSelection
 };

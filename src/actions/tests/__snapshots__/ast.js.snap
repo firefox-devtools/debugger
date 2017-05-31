@@ -15,6 +15,23 @@ Array [
 ]
 `;
 
+exports[`ast setSelection simple 1`] = `
+Object {
+  "expression": "this.bazz",
+  "location": SourceLocation {
+    "end": Position {
+      "column": 37,
+      "line": 1,
+    },
+    "start": Position {
+      "column": 28,
+      "line": 1,
+    },
+  },
+  "result": undefined,
+}
+`;
+
 exports[`ast setSymbols when the source is loaded should be able to set symbols 1`] = `
 Object {
   "functions": Array [

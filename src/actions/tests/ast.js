@@ -15,11 +15,23 @@ const threadClient = {
         contentType: "text/javascript"
       })
     );
+  },
+  evaluate: function(expression) {
+    return new Promise((resolve, reject) =>
+      resolve({
+        evaluationResult
+      })
+    );
   }
 };
 
 const sourceTexts = {
-  "base.js": "function base(boo) {}"
+  "base.js": "function base(boo) {}",
+  "foo.js": "function base(boo) { return this.bazz; } outOfScope"
+};
+
+const evaluationResult = {
+  "this.bazz": { actor: "bazz", preview: {} }
 };
 
 describe("ast", () => {
@@ -81,6 +93,25 @@ describe("ast", () => {
 
       const locations = getOutOfScopeLocations(getState());
       expect(locations).toEqual(null);
+    });
+  });
+  describe("setSelection", () => {
+    it("simple", async () => {
+      const { dispatch, getState } = createStore(threadClient);
+      const foo = makeSource("foo.js");
+      await dispatch(actions.newSource(foo));
+      await dispatch(actions.loadSourceText({ id: "foo.js" }));
+      await dispatch(actions.selectSource("foo.js"));
+      await dispatch(
+        actions.paused({
+          why: { type: "resumeLimit" },
+          frames: [{ id: "frame1", location: { sourceId: "foo.js" } }]
+        })
+      );
+
+      await dispatch(actions.setSelection("bazz", { line: 1, column: 34 }));
+      const selection = selectors.getSelection(getState());
+      expect(selection).toMatchSnapshot();
     });
   });
 });

@@ -32,7 +32,7 @@ function getClosestMemberExpression(source, token, location: Location) {
       ) {
         const memberExpression = getMemberExpression(node);
         expression = {
-          value: memberExpression,
+          expression: memberExpression,
           location: node.loc
         };
       }
@@ -58,7 +58,7 @@ export function getClosestExpression(
   }
 
   const { node } = path;
-  return { value: getNodeValue(node), location: node.loc };
+  return { expression: getNodeValue(node), location: node.loc };
 }
 
 export function getClosestScope(source: SourceText, location: Location) {
