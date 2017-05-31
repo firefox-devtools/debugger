@@ -16,7 +16,7 @@ export default class ResultList extends Component {
   props: {
     items: Array<Object>,
     selected: number,
-    selectItem: () => {},
+    selectItem: () => any,
     size: string
   };
 

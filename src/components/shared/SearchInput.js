@@ -36,11 +36,7 @@ class SearchInput extends Component {
     handlePrev: () => any
   };
 
-  static get defaultProps() {
-    return {
-      size: ""
-    };
-  }
+  static defaultProps: Object;
 
   renderSvg() {
     const { count, query } = this.props;
@@ -129,5 +125,9 @@ class SearchInput extends Component {
     );
   }
 }
+
+SearchInput.defaultProps = {
+  size: ""
+};
 
 export default SearchInput;

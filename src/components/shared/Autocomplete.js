@@ -159,4 +159,7 @@ export default class Autocomplete extends Component {
   }
 }
 
+Autocomplete.defaultProps = {
+  size: ""
+};
 Autocomplete.displayName = "Autocomplete";
