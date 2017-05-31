@@ -23,9 +23,7 @@ type AccordionState = {
 class Accordion extends Component {
   state: AccordionState;
 
-  props: {
-    items: Array<Object>
-  };
+  props: Props;
 
   constructor(props: Props) {
     super();
