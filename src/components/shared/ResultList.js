@@ -14,7 +14,7 @@ type ResultListItem = {
 export default class ResultList extends Component {
   displayName: "ResultList";
   props: {
-    items: Array<Object>,
+    items: Array<ResultListItem>,
     selected: number,
     selectItem: () => any,
     size: string
