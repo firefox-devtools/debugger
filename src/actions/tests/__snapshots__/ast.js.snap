@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ast getOutOfScopeLocations simple 1`] = `
+Array [
+  Object {
+    "end": Object {
+      "column": 21,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 13,
+      "line": 1,
+    },
+  },
+]
+`;
+
 exports[`ast setSymbols when the source is loaded should be able to set symbols 1`] = `
 Object {
   "functions": Array [

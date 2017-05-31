@@ -5,7 +5,7 @@ import {
   makeSource
 } from "../../utils/test-head";
 
-const { getSymbols } = selectors;
+const { getSymbols, getOutOfScopeLocations } = selectors;
 
 const threadClient = {
   sourceContents: function(sourceId) {
@@ -53,6 +53,34 @@ describe("ast", () => {
         const baseSymbols = getSymbols(getState());
         expect(baseSymbols).toEqual({ variables: [], functions: [] });
       });
+    });
+  });
+
+  describe("getOutOfScopeLocations", () => {
+    it("simple", async () => {
+      const { dispatch, getState } = createStore(threadClient);
+      const base = makeSource("base.js");
+      await dispatch(actions.newSource(base));
+      await dispatch(actions.loadSourceText({ id: "base.js" }));
+      await dispatch(actions.selectSource("base.js", { line: 1 }));
+
+      await dispatch(actions.setOutOfScopeLocations());
+
+      const locations = getOutOfScopeLocations(getState());
+      expect(locations).toMatchSnapshot();
+    });
+
+    it("without a selected line", async () => {
+      const { dispatch, getState } = createStore(threadClient);
+      const base = makeSource("base.js");
+      await dispatch(actions.newSource(base));
+      await dispatch(actions.loadSourceText({ id: "base.js" }));
+      await dispatch(actions.selectSource("base.js"));
+
+      await dispatch(actions.setOutOfScopeLocations());
+
+      const locations = getOutOfScopeLocations(getState());
+      expect(locations).toEqual(null);
     });
   });
 });

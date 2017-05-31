@@ -74,6 +74,10 @@ function update(
     }
 
     case "SELECT_SOURCE":
+      if (action.status != "start") {
+        return state;
+      }
+
       location = {
         line: action.line,
         url: action.source.url

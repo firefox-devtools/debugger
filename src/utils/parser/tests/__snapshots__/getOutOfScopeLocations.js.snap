@@ -1,6 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Parser.getOutOfScopeLocations should exclude function for locations on declaration 1`] = `
+exports[
+  "Parser.getOutOfScopeLocations should exclude function for locations on declaration 1"
+] = `
 Array [
   Object {
     "end": Position {
@@ -65,7 +67,9 @@ Array [
 ]
 `;
 
-exports[`Parser.getOutOfScopeLocations should exclude non-enclosing function blocks 1`] = `
+exports[
+  "Parser.getOutOfScopeLocations should exclude non-enclosing function blocks 1"
+] = `
 Array [
   Object {
     "end": Position {
@@ -160,7 +164,7 @@ Array [
 ]
 `;
 
-exports[`Parser.getOutOfScopeLocations should roll up function blocks 1`] = `
+exports["Parser.getOutOfScopeLocations should roll up function blocks 1"] = `
 Array [
   Object {
     "end": Position {

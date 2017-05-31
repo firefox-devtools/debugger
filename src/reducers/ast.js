@@ -8,7 +8,7 @@
 import * as I from "immutable";
 
 import makeRecord from "../utils/makeRecord";
-import type { SymbolDeclarations } from "../utils/parser/getSymbols";
+import type { SymbolDeclarations, AstLocation } from "../utils/parser/types";
 
 import type { Map } from "immutable";
 import type { Source } from "../types";
@@ -18,13 +18,15 @@ import type { Record } from "../utils/makeRecord";
 export type SymbolsMap = Map<string, SymbolDeclarations>;
 
 export type ASTState = {
-  symbols: SymbolsMap
+  symbols: SymbolsMap,
+  outOfScopeLocations: ?Array<AstLocation>
 };
 
 export function initialState() {
   return makeRecord(
     ({
-      symbols: I.Map()
+      symbols: I.Map(),
+      outOfScopeLocations: null
     }: ASTState)
   )();
 }
@@ -39,6 +41,9 @@ function update(
       return state.setIn(["symbols", source.id], symbols);
     }
 
+    case "OUT_OF_SCOPE_LOCATIONS": {
+      return state.set("outOfScopeLocations", action.locations);
+    }
     default: {
       return state;
     }
@@ -68,6 +73,10 @@ export function hasSymbols(state: OuterState, source: Source): boolean {
   }
 
   return !!state.ast.getIn(["symbols", source.id]);
+}
+
+export function getOutOfScopeLocations(state: OuterState) {
+  return state.ast.get("outOfScopeLocations");
 }
 
 export default update;

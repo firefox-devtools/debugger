@@ -68,5 +68,6 @@ module.exports = {
   getHighlightedLineRange: ui.getHighlightedLineRange,
 
   getSymbols: ast.getSymbols,
-  hasSymbols: ast.hasSymbols
+  hasSymbols: ast.hasSymbols,
+  getOutOfScopeLocations: ast.getOutOfScopeLocations
 };
