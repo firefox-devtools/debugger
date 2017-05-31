@@ -1,6 +1,6 @@
 // @flow
 
-import { Component, DOM as dom, PropTypes, createFactory } from "react";
+import { Component, DOM as dom, createFactory } from "react";
 import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 import { filter } from "fuzzaldrin-plus";
 import classnames from "classnames";
@@ -20,11 +20,22 @@ type State = {
   focused: boolean
 };
 
+type Props = {
+  selectItem: () => any,
+  onSelectedItem: () => any,
+  items: Array<Object>,
+  close: () => any,
+  inputValue: string,
+  placeholder: string,
+  size: string
+};
+
 export default class Autocomplete extends Component {
+  props: Props;
   state: State;
   static defaultProps: Object;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
 
     (this: any).onKeyDown = this.onKeyDown.bind(this);
@@ -150,18 +161,7 @@ export default class Autocomplete extends Component {
   }
 }
 
-Autocomplete.propTypes = {
-  selectItem: PropTypes.func.isRequired,
-  onSelectedItem: PropTypes.func,
-  items: PropTypes.array,
-  close: PropTypes.func.isRequired,
-  inputValue: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  size: PropTypes.string
-};
-
-Autocomplete.displayName = "Autocomplete";
-
 Autocomplete.defaultProps = {
   size: ""
 };
+Autocomplete.displayName = "Autocomplete";

@@ -1,8 +1,11 @@
 // @flow
-import { DOM as dom, PropTypes, Component } from "react";
+import { DOM as dom, Component } from "react";
 import "./Dropdown.css";
 
 class Dropdown extends Component {
+  props: {
+    panel: Object
+  };
   state: {
     dropdownShown: boolean
   };
@@ -67,10 +70,6 @@ class Dropdown extends Component {
     );
   }
 }
-
-Dropdown.propTypes = {
-  panel: PropTypes.object
-};
 
 Dropdown.displayName = "Dropdown";
 
