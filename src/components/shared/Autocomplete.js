@@ -20,20 +20,22 @@ type State = {
   focused: boolean
 };
 
+type Props = {
+  selectItem: () => any,
+  onSelectedItem: () => any,
+  items: Array<Object>,
+  close: () => any,
+  inputValue: string,
+  placeholder: string,
+  size: string
+};
+
 export default class Autocomplete extends Component {
-  props: {
-    selectItem: () => any,
-    onSelectedItem: () => any,
-    items: Array<Object>,
-    close: () => any,
-    inputValue: string,
-    placeholder: string,
-    size: string
-  };
+  props: Props;
   state: State;
   static defaultProps: Object;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
 
     (this: any).onKeyDown = this.onKeyDown.bind(this);
