@@ -801,7 +801,11 @@ class Editor extends PureComponent {
       getExpression: this.props.getExpression
     });
 
-    if (typeof value == "undefined" || value.type == "undefined") {
+    if (
+      typeof value == "undefined" ||
+      value.type == "undefined" ||
+      value.optimizedOut
+    ) {
       return;
     }
 
