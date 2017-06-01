@@ -46,6 +46,10 @@ function update(
       return state.set("outOfScopeLocations", action.locations);
     }
 
+    case "CLEAR_SELECTION": {
+      return state.set("selection", null);
+    }
+
     case "SET_SELECTION": {
       if (action.status == "start") {
         return state.set("selection", { updating: true });

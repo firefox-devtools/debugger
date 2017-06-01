@@ -10,6 +10,9 @@ const getSymbols = dispatcher.task("getSymbols");
 const getVariablesInScope = dispatcher.task("getVariablesInScope");
 const getOutOfScopeLocations = dispatcher.task("getOutOfScopeLocations");
 
+export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";
+export type { AstLocation } from "./types";
+
 module.exports = {
   getSymbols,
   getVariablesInScope,

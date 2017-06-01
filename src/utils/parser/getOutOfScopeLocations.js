@@ -90,7 +90,7 @@ function sortByStart(a: AstLocation, b: AstLocation) {
 function getOutOfScopeLocations(
   source: SourceText,
   position: AstPosition
-): any {
+): AstLocation[] {
   return findFunctions(source)
     .map(getLocation)
     .filter(loc => !containsPosition(loc, position))

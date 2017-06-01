@@ -94,8 +94,7 @@ export type SearchResults = {
 type EditorState = {
   searchResults: SearchResults,
   highlightedLineRange: ?Object,
-  selection: ?Object,
-  selectedExpression: ?Object
+  selectedToken: ?HTMLElement
 };
 
 class Editor extends PureComponent {
@@ -119,8 +118,7 @@ class Editor extends PureComponent {
         count: 0
       },
       highlightedLineRange: null,
-      selection: null,
-      selectedExpression: null
+      selectedToken: null
     };
 
     const self: any = this;
@@ -337,7 +335,8 @@ class Editor extends PureComponent {
   }
 
   onScroll(e) {
-    return this.setState({ selection: null, selectedExpression: null });
+    this.props.clearSelection();
+    return this.setState({ selectedToken: null });
   }
 
   onMouseOver(e) {

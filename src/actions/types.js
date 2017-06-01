@@ -10,7 +10,11 @@ import type {
   Frame,
   Why
 } from "debugger-html";
+
 import type { State } from "../reducers/types";
+
+import type { SymbolDeclaration, AstLocation } from "../utils/parser";
+
 /**
  * Flow types
  * @module actions/types
@@ -207,6 +211,28 @@ type PauseAction =
 
 type NavigateAction = { type: "NAVIGATE", url: string };
 
+type ASTAction =
+  | {
+      type: "SET_SYMBOLS",
+      source: SourceText,
+      symbols: SymbolDeclaration[]
+    }
+  | {
+      type: "OUT_OF_SCOPE_LOCATIONS",
+      locations: AstLocation[]
+    }
+  | {
+      type: "SET_SELECTION",
+      value: {
+        expression: string,
+        result: any,
+        location: AstLocation
+      }
+    }
+  | {
+      type: "CLEAR_SELECTION"
+    };
+
 /**
  * Actions: Source, Breakpoint, and Navigation
  *
@@ -218,4 +244,5 @@ export type Action =
   | BreakpointAction
   | PauseAction
   | NavigateAction
-  | UIAction;
+  | UIAction
+  | ASTAction;
