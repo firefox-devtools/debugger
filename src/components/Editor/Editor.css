@@ -8,6 +8,11 @@
   --debug-line-border: rgb(119, 134, 162);
 }
 
+.out-of-scope .CodeMirror-line,
+.out-of-scope .CodeMirror-linenumber {
+  opacity: 0.8;
+}
+
 /**
  * There's a known codemirror flex issue with chrome that this addresses.
  * BUG https://github.com/devtools-html/debugger.html/issues/63

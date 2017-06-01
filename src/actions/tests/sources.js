@@ -9,7 +9,8 @@ const {
   getSources,
   getSelectedSource,
   getSourceText,
-  getSourceTabs
+  getSourceTabs,
+  getOutOfScopeLocations
 } = selectors;
 
 const threadClient = {
@@ -55,9 +56,17 @@ describe("sources", () => {
     // if it exists.
     const { dispatch, getState } = createStore(threadClient);
 
-    await dispatch(actions.newSource(makeSource("foo.js")));
-    dispatch(actions.selectSource("foo.js"));
-    expect(getSelectedSource(getState()).get("id")).toEqual("foo.js");
+    await dispatch(actions.newSource(makeSource("foo1")));
+    await dispatch(actions.selectSource("foo1", { line: 1 }));
+
+    const selectedSource = getSelectedSource(getState());
+    expect(selectedSource.get("id")).toEqual("foo1");
+
+    const sourceText = getSourceText(getState(), selectedSource.get("id"));
+    expect(sourceText.get("id")).toEqual("foo1");
+
+    const locations = getOutOfScopeLocations(getState());
+    expect(locations.length).toEqual(1);
   });
 
   it("should automatically select a pending source", async () => {

@@ -13,7 +13,7 @@ import defer from "../utils/defer";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { updateFrameLocations } from "../utils/pause";
-import { setSymbols } from "./ast";
+import { setSymbols, setOutOfScopeLocations } from "./ast";
 import { addBreakpoint } from "./breakpoints";
 
 import { prettyPrint } from "../utils/pretty-print";
@@ -191,18 +191,17 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
     }
 
-    source = source.toJS();
-
-    // Make sure to start a request to load the source text.
-    dispatch(loadSourceText(source));
-
     dispatch({ type: "TOGGLE_PROJECT_SEARCH", value: false });
 
-    dispatch({
+    return dispatch({
       type: "SELECT_SOURCE",
-      source: source,
+      source: source.toJS(),
       tabIndex: options.tabIndex,
-      line: options.line
+      line: options.line,
+      [PROMISE]: (async function() {
+        await dispatch(loadSourceText(source.toJS()));
+        await dispatch(setOutOfScopeLocations());
+      })()
     });
   };
 }

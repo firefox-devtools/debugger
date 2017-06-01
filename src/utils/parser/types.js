@@ -7,3 +7,5 @@ type Scope = {
   parent: Scope,
   bindings: Object[]
 };
+
+export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";

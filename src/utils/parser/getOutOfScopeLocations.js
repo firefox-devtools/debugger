@@ -94,7 +94,7 @@ function getOutOfScopeLocations(
   return findFunctions(source)
     .map(getLocation)
     .filter(loc => !containsPosition(loc, position))
-    .reduce(removeOverlaps)
+    .reduce(removeOverlaps, [])
     .sort(sortByStart);
 }
 
