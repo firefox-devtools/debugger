@@ -61,6 +61,7 @@ function update(
 
       const { expression, location, result } = action.value;
       return state.set("selection", {
+        updating: false,
         expression,
         location,
         result

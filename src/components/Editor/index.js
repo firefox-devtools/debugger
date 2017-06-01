@@ -334,9 +334,8 @@ class Editor extends PureComponent {
     }
   }
 
-  onScroll(e) {
-    this.props.clearSelection();
-    return this.setState({ selectedToken: null });
+  onScroll() {
+    this.clearPreviewSelection();
   }
 
   onMouseOver(e) {
@@ -374,6 +373,11 @@ class Editor extends PureComponent {
     traverseResults(e, ctx, query, direction, searchModifiers.toJS());
   }
 
+  clearPreviewSelection() {
+    this.props.clearSelection();
+    return this.setState({ selectedToken: null });
+  }
+
   async previewSelectedToken(e) {
     const {
       selectedFrame,
@@ -399,7 +403,6 @@ class Editor extends PureComponent {
 
     const location = getTokenLocation(this.editor.codeMirror, token);
     setSelection(tokenText, location);
-    console.log("selection", token, tokenText, location);
     this.setState({ selectedToken: token });
   }
 
@@ -789,7 +792,7 @@ class Editor extends PureComponent {
       value,
       expression: expression,
       popoverTarget: selectedToken,
-      onClose: () => this.setState({ selectedToken: null })
+      onClose: () => this.clearPreviewSelection()
     });
   }
 
@@ -867,7 +870,6 @@ Editor.propTypes = {
   highlightLineRange: PropTypes.func,
   clearHighlightLineRange: PropTypes.func,
   highlightedLineRange: PropTypes.object,
-  _outOfScopeLocations: PropTypes.array,
   sourceText: ImPropTypes.map,
   searchOn: PropTypes.bool,
   addBreakpoint: PropTypes.func.isRequired,
@@ -894,7 +896,8 @@ Editor.propTypes = {
   selection: PropTypes.object,
   startPanelSize: PropTypes.number,
   endPanelSize: PropTypes.number,
-  outOfScopeLocations: PropTypes.object
+  clearSelection: PropTypes.func.isRequired,
+  outOfScopeLocations: PropTypes.array
 };
 
 Editor.contextTypes = {

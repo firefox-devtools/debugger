@@ -62,8 +62,15 @@ export function setOutOfScopeLocations() {
 }
 
 export function clearSelection() {
-  return {
-    type: "CLEAR_SELECTION"
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    const currentSelection = getSelection(getState());
+    if (!currentSelection) {
+      return;
+    }
+
+    return dispatch({
+      type: "CLEAR_SELECTION"
+    });
   };
 }
 
