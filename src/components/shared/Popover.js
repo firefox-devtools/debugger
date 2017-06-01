@@ -1,4 +1,5 @@
-import { DOM as dom, PropTypes, createFactory, Component } from "react";
+/* @flow */
+import { DOM as dom, createFactory, Component } from "react";
 import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
 import classNames from "classnames";
 import _BracketArrow from "./BracketArrow";
@@ -6,7 +7,19 @@ const BracketArrow = createFactory(_BracketArrow);
 
 import "./Popover.css";
 
+type Props = {
+  target?: Object,
+  children?: Object,
+  onMouseLeave?: Function,
+  type?: string
+};
+
 class Popover extends Component {
+  state: {
+    left: number,
+    top: number
+  };
+
   constructor() {
     super();
     this.state = {
@@ -14,6 +27,8 @@ class Popover extends Component {
       top: 0
     };
   }
+
+  props: Props;
 
   componentDidMount() {
     const { type } = this.props;
@@ -142,13 +157,6 @@ class Popover extends Component {
     return this.renderPopover();
   }
 }
-
-Popover.propTypes = {
-  target: PropTypes.object,
-  children: PropTypes.object,
-  onMouseLeave: PropTypes.func,
-  type: PropTypes.string
-};
 
 Popover.defaultProps = {
   onMouseLeave: () => {},
