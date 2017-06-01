@@ -69,15 +69,11 @@ import {
   breakpointAtLocation,
   getTextForLine,
   getCursorLine,
-  resolveToken,
-  previewExpression,
-  getExpressionValue,
   resizeBreakpointGutter,
   traverseResults,
   getTokenLocation
 } from "../../utils/editor";
 
-import { getVisibleVariablesFromScope } from "../../utils/scopes";
 import { isFirefox } from "devtools-config";
 import "./Editor.css";
 import "./Highlight.css";
@@ -780,9 +776,8 @@ class Editor extends PureComponent {
       return;
     }
 
-    const { result, expression, location } = selection;
+    const { result, expression } = selection;
     const value = result;
-    console.log(selection, selectedToken);
     if (
       typeof value == "undefined" ||
       value.type == "undefined" ||
@@ -795,10 +790,7 @@ class Editor extends PureComponent {
       value,
       expression: expression,
       popoverTarget: selectedToken,
-      onClose: () =>
-        this.setState({
-          selectedToken: null
-        })
+      onClose: () => this.setState({ selectedToken: null })
     });
   }
 
@@ -902,7 +894,8 @@ Editor.propTypes = {
   }).isRequired,
   selection: PropTypes.object,
   startPanelSize: PropTypes.number,
-  endPanelSize: PropTypes.number
+  endPanelSize: PropTypes.number,
+  outOfScopeLocations: PropTypes.object
 };
 
 Editor.contextTypes = {

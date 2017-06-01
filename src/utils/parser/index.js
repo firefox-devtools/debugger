@@ -8,13 +8,11 @@ const dispatcher = new WorkerDispatcher();
 
 const getSymbols = dispatcher.task("getSymbols");
 const getVariablesInScope = dispatcher.task("getVariablesInScope");
-const resolveToken = dispatcher.task("resolveToken");
 const getOutOfScopeLocations = dispatcher.task("getOutOfScopeLocations");
 
 module.exports = {
   getSymbols,
   getVariablesInScope,
-  resolveToken,
   getOutOfScopeLocations,
   getClosestExpression,
   startParserWorker: dispatcher.start.bind(dispatcher),
