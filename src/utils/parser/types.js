@@ -1,8 +1,8 @@
-type AstPosition = { line: number, column: number };
+export type AstPosition = { line: number, column: number };
 
-type AstLocation = { end: AstPosition, start: AstPosition };
+export type AstLocation = { end: AstPosition, start: AstPosition };
 
-type Scope = {
+export type Scope = {
   location: AstLocation,
   parent: Scope,
   bindings: Object[]

@@ -2,6 +2,7 @@
 
 exports[`parser getClosestExpression Can find a local var 1`] = `
 Object {
+  "expression": "beta",
   "location": SourceLocation {
     "end": Position {
       "column": 23,
@@ -13,12 +14,12 @@ Object {
       "line": 15,
     },
   },
-  "value": "beta",
 }
 `;
 
 exports[`parser getClosestExpression member expressions Can find a member expression 1`] = `
 Object {
+  "expression": "obj.x",
   "location": SourceLocation {
     "end": Position {
       "column": 31,
@@ -29,12 +30,12 @@ Object {
       "line": 15,
     },
   },
-  "value": "obj.x",
 }
 `;
 
 exports[`parser getClosestExpression member expressions find a nested expression 1`] = `
 Object {
+  "expression": "obj2.c.secondProperty",
   "location": SourceLocation {
     "end": Position {
       "column": 35,
@@ -45,12 +46,12 @@ Object {
       "line": 4,
     },
   },
-  "value": "obj2.c.secondProperty",
 }
 `;
 
 exports[`parser getClosestExpression member expressions finds an expression with a call 1`] = `
 Object {
+  "expression": "",
   "location": SourceLocation {
     "end": Position {
       "column": 45,
@@ -61,7 +62,6 @@ Object {
       "line": 6,
     },
   },
-  "value": "",
 }
 `;
 

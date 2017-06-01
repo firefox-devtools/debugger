@@ -26,7 +26,8 @@ export function initialState() {
   return makeRecord(
     ({
       symbols: I.Map(),
-      outOfScopeLocations: null
+      outOfScopeLocations: null,
+      selection: null
     }: ASTState)
   )();
 }
@@ -44,6 +45,29 @@ function update(
     case "OUT_OF_SCOPE_LOCATIONS": {
       return state.set("outOfScopeLocations", action.locations);
     }
+
+    case "CLEAR_SELECTION": {
+      return state.set("selection", null);
+    }
+
+    case "SET_SELECTION": {
+      if (action.status == "start") {
+        return state.set("selection", { updating: true });
+      }
+
+      if (!action.value) {
+        return state.set("selection", null);
+      }
+
+      const { expression, location, result } = action.value;
+      return state.set("selection", {
+        updating: false,
+        expression,
+        location,
+        result
+      });
+    }
+
     default: {
       return state;
     }
@@ -77,6 +101,10 @@ export function hasSymbols(state: OuterState, source: Source): boolean {
 
 export function getOutOfScopeLocations(state: OuterState) {
   return state.ast.get("outOfScopeLocations");
+}
+
+export function getSelection(state: OuterState) {
+  return state.ast.get("selection");
 }
 
 export default update;
