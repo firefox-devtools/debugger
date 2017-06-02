@@ -19,7 +19,7 @@ describe("firefox commands", () => {
 
       setupCommands({ threadClient });
       const props = await getProperties({});
-      expect(props).toEqual({ ownProperties: {}, safeGetterValues: {} });
+      expect(props).toMatchSnapshot();
     });
 
     it("simple properties", async () => {
@@ -32,14 +32,9 @@ describe("firefox commands", () => {
         safeGetterValues: {}
       });
 
-      const expected = {
-        ownProperties: { foo: { value: "foo" }, obj: { value: "obj" } },
-        safeGetterValues: {}
-      };
-
       setupCommands({ threadClient });
       const props = await getProperties({});
-      expect(props).toEqual(expected);
+      expect(props).toMatchSnapshot();
     });
 
     it("getter values", async () => {
@@ -50,20 +45,13 @@ describe("firefox commands", () => {
           foo: { value: "foo" }
         },
         safeGetterValues: {
-          obj: { getterValue: "getter" }
+          obj: { getterValue: "getter", enumerable: true, writable: false }
         }
       });
 
-      const expected = {
-        ownProperties: { foo: { value: "foo" }, obj: { value: "getter" } },
-        safeGetterValues: {
-          obj: { getterValue: "getter" }
-        }
-      };
-
       setupCommands({ threadClient });
       const props = await getProperties({});
-      expect(props).toEqual(expected);
+      expect(props).toMatchSnapshot();
     });
 
     it("new getter values", async () => {
@@ -73,23 +61,13 @@ describe("firefox commands", () => {
           foo: { value: "foo" }
         },
         safeGetterValues: {
-          obj: { getterValue: "getter" }
+          obj: { getterValue: "getter", enumerable: true, writable: false }
         }
       });
 
-      const expected = {
-        ownProperties: {
-          foo: { value: "foo" },
-          obj: { getterValue: "getter", value: "getter" }
-        },
-        safeGetterValues: {
-          obj: { getterValue: "getter" }
-        }
-      };
-
       setupCommands({ threadClient });
       const props = await getProperties({});
-      expect(props).toEqual(expected);
+      expect(props).toMatchSnapshot();
     });
   });
 });
