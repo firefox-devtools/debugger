@@ -9,6 +9,10 @@
   fill: var(--theme-splitter-color);
 }
 
+.react path {
+  fill: var(--theme-highlight-blue);
+}
+
 .worker,
 .folder {
   position: relative;
@@ -17,6 +21,7 @@
 
 .domain,
 .file,
+.react,
 .worker,
 .refresh,
 .add-button {
@@ -32,11 +37,13 @@
   width: 15px;
 }
 
-.file svg {
+.file svg,
+.react svg {
   width: 13px;
 }
 
 .file svg,
+.react svg,
 .domain svg,
 .folder svg,
 .refresh svg,
