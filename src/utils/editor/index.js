@@ -73,6 +73,7 @@ function createEditor() {
     readOnly: true,
     lineNumbers: true,
     theme: "mozilla",
+    styleActiveLine: false,
     lineWrapping: false,
     matchBrackets: true,
     showAnnotationRuler: true,

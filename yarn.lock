@@ -2530,9 +2530,9 @@ devtools-reps@^0.7.0:
     lodash "^4.17.2"
     svg-inline-react "^1.0.2"
 
-devtools-source-editor@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/devtools-source-editor/-/devtools-source-editor-0.0.4.tgz#b1c1c4ccd1d89832db72030d6555fbc7f54a2978"
+devtools-source-editor@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/devtools-source-editor/-/devtools-source-editor-0.0.5.tgz#a934e9eff65386eb05492f51c8d4ef1c943c1bd5"
   dependencies:
     codemirror "^5.25.0"
 
