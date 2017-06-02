@@ -235,6 +235,7 @@ describe("promises", () => {
 
   it("getPromiseProperties", () => {
     const promise = {
+      path: "root",
       contents: {
         enumerable: true,
         configurable: false,
@@ -265,7 +266,7 @@ describe("promises", () => {
       }
     };
 
-    const node = getPromiseProperties(promise);
-    expect(node.contents.value.type).toEqual("3");
+    const properties = getPromiseProperties(promise);
+    expect(properties).toMatchSnapshot();
   });
 });

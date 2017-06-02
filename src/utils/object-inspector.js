@@ -57,10 +57,29 @@ function isPromise(item) {
 }
 
 function getPromiseProperties(item) {
-  const { promiseState: { reason, value } } = getValue(item);
-  return createNode("reason", `${item.path}/reason`, {
-    value: !reason ? value : reason
-  });
+  const { promiseState: { reason, value, state } } = getValue(item);
+
+  const properties = [];
+
+  if (state) {
+    properties.push(
+      createNode("<state>", `${item.path}/state`, { value: state })
+    );
+  }
+
+  if (reason) {
+    properties.push(
+      createNode("<reason>", `${item.path}/reason`, { value: reason })
+    );
+  }
+
+  if (value) {
+    properties.push(
+      createNode("<value>", `${item.path}/value`, { value: value })
+    );
+  }
+
+  return properties;
 }
 
 function isDefault(item) {
@@ -180,6 +199,10 @@ function makeNodesForProperties(objProps, parent, { bucketSize = 100 } = {}) {
     );
   }
 
+  if (isPromise(parent)) {
+    nodes.push(...getPromiseProperties(parent));
+  }
+
   // Add the prototype if it exists and is not null
   if (prototype && prototype.type !== "null") {
     nodes.push(
@@ -191,6 +214,9 @@ function makeNodesForProperties(objProps, parent, { bucketSize = 100 } = {}) {
 }
 
 function createNode(name, path, contents) {
+  if (contents === undefined) {
+    return null;
+  }
   // The path is important to uniquely identify the item in the entire
   // tree. This helps debugging & optimizes React's rendering of large
   // lists. The path will be separated by property name,
@@ -237,9 +263,6 @@ function getChildren({ getObjectProperties, actors, item }) {
   }
 
   let children = makeNodesForProperties(loadedProps, item);
-  if (isPromise(item)) {
-    children.unshift(getPromiseProperties(item));
-  }
   actors[key] = children;
   return children;
 }
