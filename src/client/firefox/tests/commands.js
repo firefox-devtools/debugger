@@ -73,14 +73,17 @@ describe("firefox commands", () => {
           foo: { value: "foo" }
         },
         safeGetterValues: {
-          obj: { value: "getter" }
+          obj: { getterValue: "getter" }
         }
       });
 
       const expected = {
-        ownProperties: { foo: { value: "foo" }, obj: { value: "getter" } },
+        ownProperties: {
+          foo: { value: "foo" },
+          obj: { getterValue: "getter", value: "getter" }
+        },
         safeGetterValues: {
-          obj: { value: "getter" }
+          obj: { getterValue: "getter" }
         }
       };
 

@@ -181,13 +181,12 @@ function getProperties(grip: Grip): Promise<*> {
 
   return objClient.getPrototypeAndProperties().then(resp => {
     const { ownProperties, safeGetterValues } = resp;
-    for (let name in safeGetterValues) {
-      if (name in ownProperties) {
-        let { getterValue } = safeGetterValues[name];
-        ownProperties[name].value = getterValue;
-      } else {
-        ownProperties[name] = safeGetterValues[name];
+    for (const name in safeGetterValues) {
+      const { getterValue } = safeGetterValues[name];
+      if (!ownProperties[name]) {
+        ownProperties[name] = { ...safeGetterValues[name] };
       }
+      ownProperties[name].value = getterValue;
     }
 
     return resp;
