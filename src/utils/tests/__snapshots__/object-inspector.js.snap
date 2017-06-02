@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`promises getPromiseProperties 1`] = `
+Array [
+  Object {
+    "contents": Object {
+      "value": "rejected",
+    },
+    "name": "<state>",
+    "path": "root/state",
+  },
+  Object {
+    "contents": Object {
+      "value": Object {
+        "type": "3",
+      },
+    },
+    "name": "<reason>",
+    "path": "root/reason",
+  },
+]
+`;
