@@ -170,7 +170,7 @@ class Expressions extends PureComponent {
     return dom.div(
       {
         className: "expression-container",
-        key: path || input
+        key: `${path}/${input}`
       },
       ObjectInspector({
         roots: [root],
