@@ -70,6 +70,7 @@ export default class Autocomplete extends Component {
     if (inputValue == "") {
       return [];
     }
+
     return filter(this.props.items, this.state.inputValue, {
       key: "value"
     });

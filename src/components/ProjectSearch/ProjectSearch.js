@@ -3,33 +3,63 @@
 import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import actions from "../actions";
-import { getSources, getProjectSearchState } from "../selectors";
-import { endTruncateStr } from "../utils/utils";
+import actions from "../../actions";
+import { getSources, getProjectSearchState } from "../../selectors";
+import { endTruncateStr } from "../../utils/utils";
 import { parse as parseURL } from "url";
-import { isPretty } from "../utils/source";
+import { isPretty } from "../../utils/source";
+import { searchSource } from "../../utils/project-search";
 import "./ProjectSearch.css";
 
-import _Autocomplete from "./shared/Autocomplete";
+import _Autocomplete from "../shared/Autocomplete";
 const Autocomplete = createFactory(_Autocomplete);
 
-function searchResults(sources) {
-  function getSourcePath(source) {
-    const { path, href } = parseURL(source.get("url"));
-    // for URLs like "about:home" the path is null so we pass the full href
-    return path || href;
+import _TextSearch from "./TextSearch";
+const TextSearch = createFactory(_TextSearch);
+
+import type { Source } from "debugger-html";
+import type { SourcesMap } from "../../reducers/sources";
+
+function getSourcePath(source: Source) {
+  if (!source.url) {
+    return "";
   }
 
-  return sources
+  const { path, href } = parseURL(source.url);
+  // for URLs like "about:home" the path is null so we pass the full href
+  return path || href;
+}
+
+function searchResults(sources: SourcesMap, query) {
+  if (false) {
+    return projectSearchResults(sources, query);
+  }
+
+  return fileSearchResults(sources);
+}
+
+function fileSearchResults(sourceMap: SourcesMap) {
+  return sourceMap
     .valueSeq()
-    .filter(source => !isPretty(source.toJS()) && source.get("url"))
+    .toJS()
+    .filter(source => !isPretty(source))
     .map(source => ({
       value: getSourcePath(source),
       title: getSourcePath(source).split("/").pop(),
       subtitle: endTruncateStr(getSourcePath(source), 100),
-      id: source.get("id")
+      id: source.id
+    }));
+}
+
+function projectSearchResults(sources, query) {
+  return sources.valueSeq().toJS().map(source =>
+    searchSource(source, query).map(result => ({
+      value: result.match,
+      title: result.text,
+      subtitle: endTruncateStr(getSourcePath(source), 100),
+      id: `${result.text}/${result.line}/${result.column}`
     }))
-    .toJS();
+  );
 }
 
 class ProjectSearch extends Component {
@@ -87,23 +117,30 @@ class ProjectSearch extends Component {
     this.props.toggleProjectSearch(false);
   }
 
+  renderFileSearch() {
+    return Autocomplete({
+      selectItem: (e, result) => {
+        this.props.selectSource(result.id);
+        this.close();
+      },
+      close: this.close,
+      items: searchResults(this.props.sources, this.state.inputValue),
+      inputValue: this.state.inputValue,
+      placeholder: L10N.getStr("sourceSearch.search"),
+      size: "big"
+    });
+  }
+
   render() {
-    if (!this.props.searchOn) {
+    const { searchOn, sources } = this.props;
+    if (!searchOn) {
       return null;
     }
 
     return dom.div(
       { className: "search-container" },
-      Autocomplete({
-        selectItem: (e, result) => {
-          this.props.selectSource(result.id);
-          this.close();
-        },
-        close: this.close,
-        items: searchResults(this.props.sources),
-        inputValue: this.state.inputValue,
-        placeholder: L10N.getStr("sourceSearch.search"),
-        size: "big"
+      TextSearch({
+        sources
       })
     );
   }

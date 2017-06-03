@@ -20,7 +20,7 @@ import "./shared/reps.css";
 import _SplitBox from "devtools-splitter";
 const SplitBox = createFactory(_SplitBox);
 
-import _ProjectSearch from "./ProjectSearch";
+import _ProjectSearch from "./ProjectSearch/ProjectSearch";
 const ProjectSearch = createFactory(_ProjectSearch);
 
 import _Sources from "./Sources";
