@@ -150,7 +150,7 @@ class Frames extends Component {
       : L10N.getStr("callStack.expand");
 
     frames = collapseFrames(frames);
-    if (frames.length < NUM_FRAMES_SHOWN) {
+    if (frames.length <= NUM_FRAMES_SHOWN) {
       return null;
     }
 
