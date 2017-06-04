@@ -5,61 +5,73 @@ import {
   getProjectSearchState,
   getFileSearchState
 } from "../selectors";
-import type { ThunkArgs } from "./types";
+import type { ThunkArgs, Action } from "./types";
 import type { SymbolSearchType } from "../reducers/ui";
 
 export function toggleProjectSearch(toggleValue?: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const projectSearchState = getProjectSearchState(getState());
     if (toggleValue === undefined) {
-      return dispatch({
-        type: "TOGGLE_PROJECT_SEARCH",
-        value: !projectSearchState
-      });
+      return dispatch(
+        ({
+          type: "TOGGLE_PROJECT_SEARCH",
+          value: !projectSearchState
+        }: Action)
+      );
     }
 
     if (projectSearchState == toggleValue) {
       return;
     }
 
-    dispatch({
-      type: "TOGGLE_PROJECT_SEARCH",
-      value: toggleValue
-    });
+    dispatch(
+      ({
+        type: "TOGGLE_PROJECT_SEARCH",
+        value: toggleValue
+      }: Action)
+    );
   };
 }
 
 export function toggleFileSearch(toggleValue?: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (toggleValue != null) {
-      dispatch({
-        type: "TOGGLE_FILE_SEARCH",
-        value: toggleValue
-      });
+      dispatch(
+        ({
+          type: "TOGGLE_FILE_SEARCH",
+          value: toggleValue
+        }: Action)
+      );
     } else {
-      dispatch({
-        type: "TOGGLE_FILE_SEARCH",
-        value: !getFileSearchState(getState())
-      });
+      dispatch(
+        ({
+          type: "TOGGLE_FILE_SEARCH",
+          value: !getFileSearchState(getState())
+        }: Action)
+      );
     }
   };
 }
 
 export function toggleSymbolSearch(toggleValue: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: "TOGGLE_SYMBOL_SEARCH",
-      value: toggleValue
-    });
+    dispatch(
+      ({
+        type: "TOGGLE_SYMBOL_SEARCH",
+        value: toggleValue
+      }: Action)
+    );
   };
 }
 
 export function toggleFrameworkGrouping(toggleValue: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: "TOGGLE_FRAMEWORK_GROUPING",
-      value: toggleValue
-    });
+    dispatch(
+      ({
+        type: "TOGGLE_FRAMEWORK_GROUPING",
+        value: toggleValue
+      }: Action)
+    );
   };
 }
 
@@ -86,10 +98,12 @@ export function toggleFileSearchModifier(modifier: string) {
 export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
-    dispatch({
-      type: "SHOW_SOURCE",
-      sourceUrl: source.get("url")
-    });
+    dispatch(
+      ({
+        type: "SHOW_SOURCE",
+        sourceUrl: source.get("url")
+      }: Action)
+    );
   };
 }
 

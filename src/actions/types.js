@@ -139,6 +139,10 @@ type UIAction =
       value: boolean
     |}
   | {|
+      type: "TOGGLE_SYMBOL_SEARCH",
+      value: boolean
+    |}
+  | {|
       type: "TOGGLE_PROJECT_SEARCH",
       value: boolean
     |}
