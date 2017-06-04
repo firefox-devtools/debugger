@@ -77,10 +77,12 @@ export function toggleFrameworkGrouping(toggleValue: boolean) {
 
 export function setSelectedSymbolType(symbolType: SymbolSearchType) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({
-      type: "SET_SYMBOL_SEARCH_TYPE",
-      symbolType
-    });
+    dispatch(
+      ({
+        type: "SET_SYMBOL_SEARCH_TYPE",
+        symbolType
+      }: Action)
+    );
   };
 }
 

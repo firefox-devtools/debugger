@@ -229,7 +229,7 @@ type NavigateAction = { type: "NAVIGATE", url: string };
 type ASTAction =
   | {|
       type: "SET_SYMBOLS",
-      source: SourceText,
+      source: SourceText | Source,
       symbols: SymbolDeclaration[]
     |}
   | {|
@@ -238,7 +238,7 @@ type ASTAction =
     |}
   | {|
       type: "SET_SELECTION",
-      value: {
+      value?: {
         expression: string,
         result: any,
         location: AstLocation
