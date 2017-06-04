@@ -139,7 +139,7 @@ class ObjectInspector extends Component {
           "default-property": isDefault(item)
         }),
         style: {
-          marginLeft: nodeIsPrimitive(item) ? depth * 15 + 15 : depth * 15
+          marginLeft: depth * 15 + (nodeIsPrimitive(item) ? 15 : 0)
         },
         onClick: e => {
           e.stopPropagation();
