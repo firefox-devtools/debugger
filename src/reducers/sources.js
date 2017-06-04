@@ -61,8 +61,8 @@ function update(
 
   switch (action.type) {
     case "ADD_SOURCE": {
-      const source: Source = action.source;
-      return state.mergeIn(["sources", action.source.id], source);
+      const source = action.source;
+      return updateSource(state, source);
     }
 
     case "ADD_SOURCES": {
@@ -125,7 +125,7 @@ function update(
       return state.merge({ tabs: action.tabs });
 
     case "LOAD_SOURCE_TEXT":
-      return _updateText(state, action);
+      return setSourceTextProps(state, action);
 
     case "BLACKBOX":
       if (action.status === "done") {
@@ -137,7 +137,7 @@ function update(
       break;
 
     case "TOGGLE_PRETTY_PRINT":
-      return _updateText(state, action);
+      return setSourceTextProps(state, action);
 
     case "NAVIGATE":
       const source = getSelectedSource({ sources: state });
@@ -149,40 +149,40 @@ function update(
   return state;
 }
 
-// TODO: Action is coerced to `any` unfortunately because how we type
-// asynchronous actions is wrong. The `value` may be null for the
-// "start" and "error" states but we don't type it like that. We need
-// to rethink how we type async actions.
-function _updateText(state, action: any): Record<SourcesState> {
+function getTextPropsFromAction(action: any) {
   const source = action.source;
   const sourceText = action.value;
 
   if (action.status === "start") {
-    // Merge this in, don't set it. That way the previous value is
-    // still stored here, and we can retrieve it if whatever we're
-    // doing fails.
-    return state.mergeIn(["sourcesText", source.id], {
-      loading: true
-    });
+    return { loading: true };
+  } else if (action.status === "error") {
+    return { error: action.error, loading: false };
+  }
+  return {
+    text: sourceText.text,
+    id: source.id,
+    contentType: sourceText.contentType,
+    loading: false
+  };
+}
+
+// TODO: Action is coerced to `any` unfortunately because how we type
+// asynchronous actions is wrong. The `value` may be null for the
+// "start" and "error" states but we don't type it like that. We need
+// to rethink how we type async actions.
+function setSourceTextProps(state, action: any): Record<SourcesState> {
+  const source = action.source;
+  const text = getTextPropsFromAction(action);
+  const updatedState = state.setIn(["sourcesText", source.id], I.Map(text));
+  return updateSource(updatedState, text);
+}
+
+function updateSource(state: State, source: Object | Source) {
+  if (!source.id) {
+    return state;
   }
 
-  if (action.status === "error") {
-    return state.setIn(
-      ["sourcesText", source.id],
-      I.Map({
-        error: action.error
-      })
-    );
-  }
-
-  return state.setIn(
-    ["sourcesText", source.id],
-    I.Map({
-      text: sourceText.text,
-      id: source.id,
-      contentType: sourceText.contentType
-    })
-  );
+  return state.mergeIn(["sources", source.id], source);
 }
 
 export function removeSourceFromTabList(tabs: any, url: string) {
@@ -328,7 +328,10 @@ function getSourceByUrlInSources(sources: SourcesMap, url: string) {
   return sources.find(source => source.get("url") === url);
 }
 
-export function getSourceInSources(sources: SourcesMap, id: string) {
+export function getSourceInSources(
+  sources: SourcesMap,
+  id: string
+): SourceRecord {
   return sources.get(id);
 }
 

@@ -196,7 +196,10 @@ declare module "debugger-html" {
     url?: string,
     sourceMapURL?: string,
     isBlackBoxed: boolean,
-    isPrettyPrinted: boolean
+    isPrettyPrinted: boolean,
+    text?: string,
+    contentType?: string,
+    loading?: boolean
   };
 
   /**
@@ -208,7 +211,8 @@ declare module "debugger-html" {
     id: string,
     text: string,
     contentType: string,
-    loading?: boolean
+    loading?: boolean,
+    error?: boolean
   };
 
   /**
