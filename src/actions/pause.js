@@ -8,7 +8,7 @@ import { updateFrameLocations } from "../utils/pause";
 import { evaluateExpressions } from "./expressions";
 
 import type { Pause, Frame } from "../types";
-import type { ThunkArgs } from "./types";
+import type { ThunkArgs, Action } from "./types";
 
 type CommandType = { type: string };
 
@@ -27,10 +27,12 @@ export function resumed() {
   return ({ dispatch, client }: ThunkArgs) => {
     // dispatch(evaluateExpressions(null));
 
-    return dispatch({
-      type: "RESUME",
-      value: undefined
-    });
+    return dispatch(
+      ({
+        type: "RESUME",
+        value: undefined
+      }: Action)
+    );
   };
 }
 
@@ -47,13 +49,15 @@ export function paused(pauseInfo: Pause) {
     frames = await updateFrameLocations(frames, sourceMaps);
     const frame = frames[0];
 
-    dispatch({
-      type: "PAUSED",
-      pauseInfo: { why, frame, frames },
-      frames: frames,
-      selectedFrameId: frame.id,
-      loadedObjects: loadedObjects || []
-    });
+    dispatch(
+      ({
+        type: "PAUSED",
+        pauseInfo: { why, frame, frames },
+        frames: frames,
+        selectedFrameId: frame.id,
+        loadedObjects: loadedObjects || []
+      }: Action)
+    );
 
     dispatch(evaluateExpressions(frame.id));
 
@@ -73,15 +77,17 @@ export function pauseOnExceptions(
   shouldIgnoreCaughtExceptions: boolean
 ) {
   return ({ dispatch, client }: ThunkArgs) => {
-    dispatch({
-      type: "PAUSE_ON_EXCEPTIONS",
-      shouldPauseOnExceptions,
-      shouldIgnoreCaughtExceptions,
-      [PROMISE]: client.pauseOnExceptions(
+    dispatch(
+      ({
+        type: "PAUSE_ON_EXCEPTIONS",
         shouldPauseOnExceptions,
-        shouldIgnoreCaughtExceptions
-      )
-    });
+        shouldIgnoreCaughtExceptions,
+        [PROMISE]: client.pauseOnExceptions(
+          shouldPauseOnExceptions,
+          shouldIgnoreCaughtExceptions
+        )
+      }: Action)
+    );
   };
 }
 
@@ -97,10 +103,12 @@ export function command({ type }: CommandType) {
     // execute debugger thread command e.g. stepIn, stepOver
     client[type]();
 
-    return dispatch({
-      type: "COMMAND",
-      value: undefined
-    });
+    return dispatch(
+      ({
+        type: "COMMAND",
+        value: undefined
+      }: Action)
+    );
   };
 }
 
@@ -172,10 +180,12 @@ export function breakOnNext() {
   return ({ dispatch, client }: ThunkArgs) => {
     client.breakOnNext();
 
-    return dispatch({
-      type: "BREAK_ON_NEXT",
-      value: true
-    });
+    return dispatch(
+      ({
+        type: "BREAK_ON_NEXT",
+        value: true
+      }: Action)
+    );
   };
 }
 
@@ -189,10 +199,12 @@ export function selectFrame(frame: Frame) {
     dispatch(
       selectSource(frame.location.sourceId, { line: frame.location.line })
     );
-    dispatch({
-      type: "SELECT_FRAME",
-      frame
-    });
+    dispatch(
+      ({
+        type: "SELECT_FRAME",
+        frame
+      }: Action)
+    );
   };
 }
 
@@ -208,10 +220,12 @@ export function loadObjectProperties(object: any) {
       return;
     }
 
-    dispatch({
-      type: "LOAD_OBJECT_PROPERTIES",
-      objectId,
-      [PROMISE]: client.getProperties(object)
-    });
+    dispatch(
+      ({
+        type: "LOAD_OBJECT_PROPERTIES",
+        objectId,
+        [PROMISE]: client.getProperties(object)
+      }: Action)
+    );
   };
 }

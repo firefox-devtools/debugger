@@ -190,7 +190,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
 
     if (!source) {
       // If there is no source we deselect the current selected source
-      return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
+      return dispatch(({ type: "CLEAR_SELECTED_SOURCE" }: Action));
     }
 
     dispatch(({ type: "TOGGLE_PROJECT_SEARCH", value: false }: Action));

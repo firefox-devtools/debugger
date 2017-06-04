@@ -3,7 +3,6 @@
 import type {
   Source,
   Breakpoint,
-  Expression,
   LoadedObject,
   Location,
   SourceText,
@@ -14,6 +13,8 @@ import type {
 import type { State } from "../reducers/types";
 
 import type { SymbolDeclaration, AstLocation } from "../utils/parser";
+import type { SymbolSearchType } from "../reducers/ui";
+import type { Expression } from "../types";
 
 /**
  * Flow types
@@ -97,6 +98,7 @@ type SourceAction =
       line?: number,
       tabIndex?: number
     |}
+  | {| type: "CLEAR_SELECTED_SOURCE" |}
   | {|
       type: "SELECT_SOURCE_URL",
       url: string,
@@ -162,6 +164,10 @@ type UIAction =
       type: "TOGGLE_PANE",
       position: panelPositionType,
       paneCollapsed: boolean
+    |}
+  | {|
+      type: "SET_SYMBOL_SEARCH_TYPE",
+      symbolType: SymbolSearchType
     |};
 
 type PauseAction =
@@ -188,22 +194,22 @@ type PauseAction =
   | {|
       type: "LOAD_OBJECT_PROPERTIES",
       objectId: string,
-      status: string,
-      value: Object,
+      status?: string,
+      value?: Object,
       "@@dispatch/promise": any
     |}
   | {|
       type: "ADD_EXPRESSION",
-      id: number,
+      id?: number,
       input: string,
-      value: string,
+      value?: string,
       visible: boolean
     |}
   | {|
       type: "EVALUATE_EXPRESSION",
       input: string,
-      status: string,
-      value: Object,
+      status?: string,
+      value?: Object,
       visible: boolean,
       "@@dispatch/promise": any
     |}
