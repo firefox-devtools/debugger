@@ -234,7 +234,7 @@ type ASTAction =
     |}
   | {|
       type: "OUT_OF_SCOPE_LOCATIONS",
-      locations: AstLocation[]
+      locations?: AstLocation[]
     |}
   | {|
       type: "SET_SELECTION",

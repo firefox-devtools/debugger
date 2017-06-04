@@ -48,7 +48,7 @@ export function setOutOfScopeLocations() {
       return dispatch(
         ({
           type: "OUT_OF_SCOPE_LOCATIONS",
-          locations: []
+          locations: undefined
         }: Action)
       );
     }
