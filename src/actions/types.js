@@ -97,7 +97,12 @@ type SourceAction =
       line?: number,
       tabIndex?: number
     |}
-  | {| type: "SELECT_SOURCE_URL", url: string, line?: number |}
+  | {|
+      type: "SELECT_SOURCE_URL",
+      url: string,
+      line?: number,
+      tabIndex?: number
+    |}
   | {|
       type: "LOAD_SOURCE_TEXT",
       source: Source,

@@ -37,7 +37,7 @@ import {
 } from "../selectors";
 
 import type { Source, SourceText } from "../types";
-import type { ThunkArgs } from "./types";
+import type { ThunkArgs, Action } from "./types";
 import type { State } from "../reducers/types";
 
 // If a request has been made to show this source, go ahead and
@@ -89,7 +89,7 @@ async function checkPendingBreakpoints(state, dispatch, source) {
  */
 export function newSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: "ADD_SOURCE", source });
+    dispatch(({ type: "ADD_SOURCE", source }: Action));
 
     if (prefs.clientSourceMapsEnabled) {
       await dispatch(loadSourceMap(source));
@@ -133,7 +133,7 @@ function loadSourceMap(generatedSource) {
       };
     });
 
-    dispatch({ type: "ADD_SOURCES", sources: originalSources });
+    dispatch(({ type: "ADD_SOURCES", sources: originalSources }: Action));
 
     originalSources.forEach(source => {
       checkSelectedSource(state, dispatch, source);
@@ -162,12 +162,14 @@ export function selectSourceURL(
     if (source) {
       dispatch(selectSource(source.get("id"), options));
     } else {
-      dispatch({
-        type: "SELECT_SOURCE_URL",
-        url: url,
-        tabIndex: options.tabIndex,
-        line: options.line
-      });
+      dispatch(
+        ({
+          type: "SELECT_SOURCE_URL",
+          url: url,
+          tabIndex: options.tabIndex,
+          line: options.line
+        }: Action)
+      );
     }
   };
 }
@@ -191,18 +193,20 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
     }
 
-    dispatch({ type: "TOGGLE_PROJECT_SEARCH", value: false });
+    dispatch(({ type: "TOGGLE_PROJECT_SEARCH", value: false }: Action));
 
-    return dispatch({
-      type: "SELECT_SOURCE",
-      source: source.toJS(),
-      tabIndex: options.tabIndex,
-      line: options.line,
-      [PROMISE]: (async function() {
-        await dispatch(loadSourceText(source.toJS()));
-        await dispatch(setOutOfScopeLocations());
-      })()
-    });
+    return dispatch(
+      ({
+        type: "SELECT_SOURCE",
+        source: source.toJS(),
+        tabIndex: options.tabIndex,
+        line: options.line,
+        [PROMISE]: (async function() {
+          await dispatch(loadSourceText(source.toJS()));
+          await dispatch(setOutOfScopeLocations());
+        })()
+      }: Action)
+    );
   };
 }
 
@@ -246,7 +250,7 @@ export function closeTab(url: string) {
     const tabs = removeSourceFromTabList(getSourceTabs(getState()), url);
     const sourceId = getNewSelectedSourceId(getState(), tabs);
 
-    dispatch({ type: "CLOSE_TAB", url, tabs });
+    dispatch(({ type: "CLOSE_TAB", url, tabs }: Action));
     dispatch(selectSource(sourceId));
   };
 }
@@ -267,7 +271,7 @@ export function closeTabs(urls: string[]) {
     const tabs = removeSourcesFromTabList(getSourceTabs(getState()), urls);
     const sourceId = getNewSelectedSourceId(getState(), tabs);
 
-    dispatch({ type: "CLOSE_TABS", urls, tabs });
+    dispatch(({ type: "CLOSE_TABS", urls, tabs }: Action));
     dispatch(selectSource(sourceId));
   };
 }
@@ -303,8 +307,13 @@ export function togglePrettyPrint(sourceId: string) {
 
     const url = getPrettySourceURL(source.url);
     const id = sourceMaps.generatedToOriginalId(source.id, url);
-    const originalSource = { url, id, isPrettyPrinted: false };
-    dispatch({ type: "ADD_SOURCE", source: originalSource });
+    const originalSource: Source = {
+      url,
+      id,
+      isPrettyPrinted: false,
+      isBlackBoxed: false
+    };
+    dispatch(({ type: "ADD_SOURCE", source: originalSource }: Action));
 
     return dispatch({
       type: "TOGGLE_PRETTY_PRINT",
