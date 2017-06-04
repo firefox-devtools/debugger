@@ -138,7 +138,9 @@ class ObjectInspector extends Component {
           focused,
           "default-property": isDefault(item)
         }),
-        style: { marginLeft: depth * 15 },
+        style: {
+          marginLeft: depth * 15 + (nodeIsPrimitive(item) ? 15 : 0)
+        },
         onClick: e => {
           e.stopPropagation();
           setExpanded(item, !expanded);
