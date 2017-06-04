@@ -2,6 +2,7 @@ import { clearDocuments } from "../utils/editor";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
 import { newSources } from "./sources";
+import type { ThunkArgs, Action } from "./types";
 
 /**
  * Redux actions for the navigation state
@@ -17,10 +18,12 @@ export function willNavigate(_, event) {
     await sourceMaps.clearSourceMaps();
     clearDocuments();
 
-    dispatch({
-      type: "NAVIGATE",
-      url: event.url
-    });
+    dispatch(
+      ({
+        type: "NAVIGATE",
+        url: event.url
+      }: Action)
+    );
   };
 }
 
