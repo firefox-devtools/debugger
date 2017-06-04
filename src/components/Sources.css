@@ -64,6 +64,19 @@
   text-align: center;
 }
 
+.sources-panel .source-footer {
+  position: relative;
+}
+
+.sources-panel .outline {
+  display: flex;
+  flex: 1;
+}
+
+.sources-panel .outline.hidden {
+  display: none;
+}
+
 .hidden {
   display: none;
 }
