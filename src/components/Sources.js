@@ -10,6 +10,7 @@ import Svg from "./shared/Svg";
 import { getSources } from "../selectors";
 import { isEnabled } from "devtools-config";
 import "./Sources.css";
+import classnames from "classnames";
 
 import _Outline from "./Outline";
 const Outline = createFactory(_Outline);
@@ -72,12 +73,28 @@ class Sources extends Component {
     );
   }
 
+  renderOutlineTabs() {
+    return [
+      dom.div({ className: classnames("tab", "active") }, "outline"),
+      dom.div({ className: "tab" }, "sources")
+    ];
+  }
+
   renderFooter() {
     return dom.div(
       {
         className: "source-footer"
       },
       dom.div({ className: "commands" }, this.renderOutlineToggleButton())
+    );
+  }
+
+  renderNewFooter() {
+    return dom.div(
+      {
+        className: "source-footer"
+      },
+      dom.div({ className: "commands" }, this.renderOutlineTabs())
     );
   }
 
@@ -114,7 +131,7 @@ class Sources extends Component {
         isHidden: selectedPane === "outline"
       }),
       Outline({ selectSource, isHidden: selectedPane === "sources" }),
-      this.renderFooter()
+      this.renderNewFooter()
     );
   }
 }

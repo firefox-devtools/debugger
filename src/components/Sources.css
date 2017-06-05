@@ -67,3 +67,42 @@
 .hidden {
   display: none;
 }
+
+.commands {
+  width: 100%;
+}
+
+.tab {
+  flex: 1;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  display: inline-flex;
+  align-items: flex-end;
+  position: relative;
+  transition: all 0.25s ease;
+  min-width: 40px;
+  overflow: hidden;
+  padding: 5px;
+  margin-bottom: 4px;
+  margin-top: -1px;
+}
+
+.tab:hover {
+  background-color: var(--theme-toolbar-background-alt);
+  border-color: var(--theme-splitter-color);
+  cursor: pointer;
+}
+
+.tab.active {
+  color: var(--theme-body-color);
+  background-color: var(--theme-body-background);
+  border-color: var(--theme-splitter-color);
+  border-top-color: transparent;
+}
+
+.tab.active path,
+.tab:hover path {
+  fill: var(--theme-body-color);
+}
