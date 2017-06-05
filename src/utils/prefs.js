@@ -1,17 +1,10 @@
 // @flow
 
 var { PrefsHelper } = require("devtools-modules");
-const { Services: { pref } } = require("devtools-modules");
+const { Services } = require("devtools-modules");
 const { isDevelopment } = require("devtools-config");
 const prefsSchemaVersion = "1.0.0";
-
-function getDefaultPref(prefName) {
-  const defaults = {
-    pendingBreakpoints: []
-  };
-
-  return defaults[prefName];
-}
+const { pref } = Services;
 
 if (isDevelopment()) {
   pref("devtools.debugger.client-source-maps-enabled", true);
@@ -51,13 +44,9 @@ const prefs = new PrefsHelper("devtools", {
   debuggerPrefsSchemaVersion: ["Char", "debugger.prefs-schema-version"]
 });
 
-// TODO: replace this with an implementation from devtools-modules
-prefs.clear = () => {
-  prefs.pendingBreakpoints = getDefaultPref("pendingBreakpoints");
-};
-
+prefs.registerObserver();
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
-  prefs.clear();
+  Services.prefs.clearUserPref("devtools.debugger.pending-breakpoints");
   prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
 }
 

@@ -152,19 +152,30 @@ function addBreakpoint(state, action) {
 
 function syncBreakpoint(state, action) {
   if (action.status === "start") {
+    // add a breakpoint, so we always have something to work with
     return optimisticlyAddBreakpoint(state, action.breakpoint);
   }
   if (action.status === "done") {
+    // when the action completes, we can commit the breakpoint
     const { breakpoint, value: { actualLocation, generatedLocation } } = action;
     const sameLocation = !locationMoved(breakpoint.location, actualLocation);
 
+    // if the breakpoint is the same as the optimistic breakpoint, we can commit
+    // to the optimistic value.
     if (sameLocation) {
       return commitBreakpoint(state, breakpoint, action.value);
     }
 
+    // if the breakpoint is not the same, we will use the actual location sent
+    // by the server, and correct the breakpoint with that new information.
+    // Correcting a breakpoint deletes both the pending breakpoint and the
+    // optimistic breakpoint. Correcting will commit the corrected value
     const overrides = { location: actualLocation, generatedLocation };
     const updatedState = correctBreakpoint(state, breakpoint, overrides);
     const id = makeLocationId(actualLocation);
+
+    // once the corrected breakpoint is added and commited, we can update the
+    // pending breakpoints with that information.
     const correctedBreakpoint = updatedState.breakpoints.get(id);
     return updatePendingBreakpoint(updatedState, correctedBreakpoint);
   }
@@ -269,6 +280,8 @@ function optimisticlyAddBreakpoint(state, breakpoint) {
 }
 
 function commitBreakpoint(state, breakpoint, overrides = {}) {
+  // A commited breakpoint is no longer loading, and acts like a normal
+  // breakpoint
   const location = overrides.location || breakpoint.location;
   const id = makeLocationId(location);
   const updatedOpts = { ...overrides, loading: false };

@@ -55,6 +55,8 @@ async function syncClientBreakpoint(
     ? originalToGeneratedId(sourceId)
     : sourceId;
 
+  // this is the generatedLocation of the pending breakpoint, with
+  // the source id updated to reflect the new connection
   const oldGeneratedLocation = {
     ...pendingBreakpoint.generatedLocation,
     sourceId: generatedSourceId
@@ -90,7 +92,7 @@ async function syncClientBreakpoint(
     pendingBreakpoint.location
   );
 
-  // the generatedLocation might have slid, so we adjust it
+  // the generatedLocation might have slid, so now we can adjust it
   const generatedLocation = clientBreakpoint.actualLocation;
 
   const { id, hitCount } = clientBreakpoint;
