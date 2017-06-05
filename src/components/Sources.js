@@ -6,7 +6,6 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../utils/text";
 import actions from "../actions";
-import Svg from "./shared/Svg";
 import { getSources } from "../selectors";
 import { isEnabled } from "devtools-config";
 import "./Sources.css";
@@ -25,7 +24,7 @@ type SourcesState = {
 class Sources extends Component {
   renderShortcut: Function;
   selectedPane: String;
-  togglePane: Function;
+  showPane: Function;
   renderFooter: Function;
   renderChildren: Function;
   state: SourcesState;
@@ -35,42 +34,8 @@ class Sources extends Component {
     this.state = { selectedPane: "sources" };
 
     this.renderShortcut = this.renderShortcut.bind(this);
-    this.togglePane = this.togglePane.bind(this);
+    this.showPane = this.showPane.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
-  }
-
-  togglePane() {
-    const selectedPane = this.state.selectedPane === "sources"
-      ? "outline"
-      : "sources";
-
-    this.setState({ selectedPane });
-  }
-
-  renderOutlineToggleButton() {
-    if (!isEnabled("outline")) {
-      return;
-    }
-
-    const { selectedPane } = this.state;
-    const showSourcesTooltip = L10N.getStr("sourcesPane.showSourcesTooltip");
-    const showOutlineTooltip = L10N.getStr("sourcesPane.showOutlineTooltip");
-
-    const isSourcesPaneSelected = selectedPane === "sources";
-    const tooltip = isSourcesPaneSelected
-      ? showOutlineTooltip
-      : showSourcesTooltip;
-    const type = isSourcesPaneSelected ? "showSources" : "showOutline";
-
-    return dom.button(
-      {
-        className: "action",
-        onClick: this.togglePane,
-        key: type,
-        title: tooltip
-      },
-      Svg(type)
-    );
   }
 
   showPane(selectedPane: string) {
@@ -78,24 +43,30 @@ class Sources extends Component {
   }
 
   renderOutlineTabs() {
+    if (!isEnabled("outline")) {
+      return;
+    }
+
     return [
       dom.div(
         {
           className: classnames("tab", {
             active: this.state.selectedPane === "sources"
           }),
-          onClick: () => this.showPane("sources")
+          onClick: () => this.showPane("sources"),
+          key: "sources-tab"
         },
-        "sources"
+        "Sources View"
       ),
       dom.div(
         {
           className: classnames("tab", {
             active: this.state.selectedPane === "outline"
           }),
-          onClick: () => this.showPane("outline")
+          onClick: () => this.showPane("outline"),
+          key: "outline-tab"
         },
-        "outline"
+        "Outline View"
       )
     ];
   }
@@ -105,16 +76,7 @@ class Sources extends Component {
       {
         className: "source-footer"
       },
-      dom.div({ className: "commands" }, this.renderOutlineToggleButton())
-    );
-  }
-
-  renderNewFooter() {
-    return dom.div(
-      {
-        className: "source-footer"
-      },
-      dom.div({ className: "commands" }, this.renderOutlineTabs())
+      this.renderOutlineTabs()
     );
   }
 
@@ -151,7 +113,7 @@ class Sources extends Component {
         isHidden: selectedPane === "outline"
       }),
       Outline({ selectSource, isHidden: selectedPane === "sources" }),
-      this.renderNewFooter()
+      this.renderFooter()
     );
   }
 }

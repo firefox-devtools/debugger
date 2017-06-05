@@ -68,7 +68,7 @@
   display: none;
 }
 
-.commands {
+.sources-footer {
   width: 100%;
 }
 
@@ -79,10 +79,8 @@
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   display: inline-flex;
-  align-items: flex-end;
   position: relative;
   transition: all 0.25s ease;
-  min-width: 40px;
   overflow: hidden;
   padding: 5px;
   margin-bottom: 4px;
