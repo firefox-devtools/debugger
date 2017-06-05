@@ -57,6 +57,10 @@
     "columnBreakpoints": {
       "label": "Column Breakpoints",
       "enabled": true
+    },
+    "projectTextSearch": {
+      "label": "Project Text Search",
+      "enabled": false
     }
   },
   "chrome": {

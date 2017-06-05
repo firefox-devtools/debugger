@@ -8,6 +8,7 @@ import { getSources, getProjectSearchState } from "../../selectors";
 import { endTruncateStr } from "../../utils/utils";
 import { parse as parseURL } from "url";
 import { isPretty } from "../../utils/source";
+import { isEnabled } from "devtools-config";
 import { searchSource } from "../../utils/project-search";
 import "./ProjectSearch.css";
 
@@ -31,7 +32,7 @@ function getSourcePath(source: Source) {
 }
 
 function searchResults(sources: SourcesMap, query) {
-  if (false) {
+  if (isEnabled("projectTextSearch")) {
     return projectSearchResults(sources, query);
   }
 
@@ -131,17 +132,25 @@ class ProjectSearch extends Component {
     });
   }
 
+  renderTextSearch() {
+    const { sources } = this.props;
+
+    return TextSearch({
+      sources
+    });
+  }
+
   render() {
-    const { searchOn, sources } = this.props;
+    const { searchOn } = this.props;
     if (!searchOn) {
       return null;
     }
 
     return dom.div(
       { className: "search-container" },
-      TextSearch({
-        sources
-      })
+      isEnabled("projectTextSearch")
+        ? this.renderTextSearch()
+        : this.renderFileSearch()
     );
   }
 }

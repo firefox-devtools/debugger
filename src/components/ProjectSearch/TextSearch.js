@@ -15,8 +15,7 @@ export default class TextSearch extends Component {
   renderFile(file, expanded) {
     return dom.div(
       {
-        className: "file-result",
-        style: {}
+        className: "file-result"
       },
       Svg("arrow", {
         className: classnames({
@@ -29,19 +28,14 @@ export default class TextSearch extends Component {
 
   renderLine(match) {
     return dom.div(
-      {
-        className: "result"
-      },
+      { className: "result" },
       dom.span(
         {
           className: "line-number"
         },
         match.line
       ),
-      dom.span(
-        { className: "line-match", style: { display: "flex", grow: 1 } },
-        match.value
-      )
+      dom.span({ className: "line-match" }, match.value)
     );
   }
 
@@ -71,3 +65,5 @@ export default class TextSearch extends Component {
     );
   }
 }
+
+TextSearch.displayName = "TextSearch";

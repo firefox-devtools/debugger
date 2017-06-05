@@ -10,7 +10,9 @@
 }
 
 .project-text-search .line-match {
-  font-family: monospace
+  font-family: monospace;
+  display: "flex";
+  grow: 1;
 }
 
 .project-text-search .result .line-number {

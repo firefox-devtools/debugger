@@ -1,5 +1,5 @@
 import React, { DOM as dom } from "react";
-import { storiesOf, action } from "@kadira/storybook";
+import { storiesOf } from "@kadira/storybook";
 import _TextSearch from "../ProjectSearch/TextSearch";
 const TextSearch = React.createFactory(_TextSearch);
 import { L10N } from "devtools-launchpad";
