@@ -163,20 +163,18 @@ export function syncBreakpoint(
     const location = { sourceId, sourceUrl, line, column };
     const breakpoint = _createBreakpoint(location, pendingBreakpoint);
 
-    const promise = syncClientBreakpoint(
+    const syncPromise = syncClientBreakpoint(
       sourceId,
       client,
       sourceMaps,
       pendingBreakpoint
     );
 
-    const action = {
+    return dispatch({
       type: "SYNC_BREAKPOINT",
       breakpoint,
-      [PROMISE]: promise
-    };
-
-    return dispatch(action);
+      [PROMISE]: syncPromise
+    });
   };
 }
 
@@ -198,14 +196,12 @@ export function addBreakpoint(
     }
 
     const breakpoint = _createBreakpoint(location, { condition });
-    const action = {
+    return dispatch({
       type: "ADD_BREAKPOINT",
       breakpoint,
       condition: condition,
       [PROMISE]: addClientBreakpoint(getState(), client, sourceMaps, breakpoint)
-    };
-
-    return dispatch(action);
+    });
   };
 }
 
