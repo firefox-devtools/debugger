@@ -88,10 +88,7 @@ function setBreakpoint(
       condition,
       noSliding
     })
-    .then((res: BreakpointResponse) => onNewBreakpoint(location, res))
-    .catch(error => {
-      console.log(error);
-    });
+    .then((res: BreakpointResponse) => onNewBreakpoint(location, res));
 }
 
 function onNewBreakpoint(
