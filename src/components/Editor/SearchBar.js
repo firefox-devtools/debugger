@@ -312,6 +312,10 @@ class SearchBar extends Component {
       return;
     }
 
+    if (searchType === "text") {
+      this.props.toggleSymbolSearch(false);
+    }
+
     if (!this.props.searchOn) {
       this.props.toggleFileSearch();
     }
@@ -666,12 +670,19 @@ class SearchBar extends Component {
     const { symbolSearchOn, selectedSymbolType } = this.props;
 
     function searchTypeBtn(searchType) {
+      let active =
+        (symbolSearchOn &&
+          selectedSymbolType == searchType &&
+          searchType !== "text") ||
+        (!symbolSearchOn && searchType === "text");
+
       return dom.button(
         {
           className: classnames("search-type-btn", {
-            active: symbolSearchOn && selectedSymbolType == searchType
+            active
           }),
           onClick: e => {
+            // debugger;
             if (selectedSymbolType == searchType) {
               toggleSymbolSearch(e, { toggle: true, searchType });
               return;
@@ -689,6 +700,7 @@ class SearchBar extends Component {
         { className: "search-toggle-title" },
         L10N.getStr("editor.searchTypeToggleTitle")
       ),
+      searchTypeBtn("text"),
       searchTypeBtn("functions"),
       searchTypeBtn("variables")
     );
