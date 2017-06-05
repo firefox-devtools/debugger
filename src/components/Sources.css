@@ -68,11 +68,11 @@
   display: none;
 }
 
-.sources-footer {
+.source-footer {
   width: 100%;
 }
 
-.tab {
+.source-footer .tab {
   flex: 1;
   justify-content: center;
   border: 1px solid transparent;
@@ -87,20 +87,20 @@
   margin-top: -1px;
 }
 
-.tab:hover {
+.source-footer .tab:hover {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--theme-splitter-color);
   cursor: pointer;
 }
 
-.tab.active {
+.source-footer .tab.active {
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
   border-color: var(--theme-splitter-color);
   border-top-color: transparent;
 }
 
-.tab.active path,
-.tab:hover path {
+.source-footer .tab.active path,
+.source-footer .tab:hover path {
   fill: var(--theme-body-color);
 }
