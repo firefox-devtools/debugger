@@ -14,7 +14,7 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { updateFrameLocations } from "../utils/pause";
 import { setSymbols, setOutOfScopeLocations } from "./ast";
-import { addBreakpoint } from "./breakpoints";
+import { syncBreakpoint } from "./breakpoints";
 
 import { prettyPrint } from "../utils/pretty-print";
 import { getPrettySourceURL } from "../utils/source";
@@ -26,7 +26,6 @@ import {
   getSource,
   getSourceByURL,
   getSourceText,
-  getBreakpoint,
   getPendingSelectedLocation,
   getPendingBreakpoints,
   getFrames,
@@ -56,17 +55,11 @@ async function checkPendingBreakpoint(
   pendingBreakpoint,
   source
 ) {
-  const {
-    location: { line, sourceUrl, column },
-    condition,
-    disabled
-  } = pendingBreakpoint;
+  const { sourceUrl } = pendingBreakpoint.location;
   const sameSource = sourceUrl && sourceUrl === source.url;
-  const location = { sourceId: source.id, sourceUrl, line, column };
-  const bp = getBreakpoint(state, location);
 
-  if (sameSource && !bp) {
-    await dispatch(addBreakpoint(location, { condition, disabled }));
+  if (sameSource) {
+    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
   }
 }
 

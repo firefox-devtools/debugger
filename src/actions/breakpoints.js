@@ -10,13 +10,14 @@
 
 import { PROMISE } from "../utils/redux/middleware/promise";
 import { getBreakpoint, getBreakpoints, getSource } from "../selectors";
+import { originalToGeneratedId } from "devtools-source-map";
+import { equalizeLocationColumn } from "../utils/breakpoint";
 
 import type { ThunkArgs } from "./types";
-import type { Location } from "../types";
+import type { PendingBreakpoint, Location } from "../types";
 
 type addBreakpointOptions = {
-  condition: string,
-  disabled?: boolean
+  condition: string
 };
 
 function _breakpointExists(state, location: Location) {
@@ -24,8 +25,16 @@ function _breakpointExists(state, location: Location) {
   return currentBp && !currentBp.disabled;
 }
 
-function _createBreakpoint(location: Location, opts: Object = {}) {
-  return Object.assign({}, { location }, opts);
+function _createBreakpoint(location: Object, overrides: Object = {}) {
+  const { condition, disabled, generatedLocation } = overrides;
+  const properties = {
+    condition: condition || null,
+    disabled: disabled || false,
+    generatedLocation,
+    location
+  };
+
+  return properties;
 }
 
 async function _getGeneratedLocation(source, sourceMaps, location) {
@@ -36,17 +45,71 @@ async function _getGeneratedLocation(source, sourceMaps, location) {
   return await sourceMaps.getGeneratedLocation(location, source.toJS());
 }
 
+async function syncClientBreakpoint(
+  sourceId: string,
+  client,
+  sourceMaps,
+  pendingBreakpoint: PendingBreakpoint
+) {
+  const generatedSourceId = sourceMaps.isOriginalId(sourceId)
+    ? originalToGeneratedId(sourceId)
+    : sourceId;
+
+  // this is the generatedLocation of the pending breakpoint, with
+  // the source id updated to reflect the new connection
+  const oldGeneratedLocation = {
+    ...pendingBreakpoint.generatedLocation,
+    sourceId: generatedSourceId
+  };
+
+  // early return if breakpoint is disabled with overrides to update
+  // the id as expected, without talking to server
+  if (pendingBreakpoint.disabled) {
+    return {
+      id: generatedSourceId,
+      actualLocation: { ...pendingBreakpoint.location, id: sourceId },
+      oldGeneratedLocation
+    };
+  }
+
+  // If we are not disabled, set the breakpoint on the server and get
+  // that info so we can set it on our breakpoints.
+  const clientBreakpoint = await client.setBreakpoint(
+    oldGeneratedLocation,
+    pendingBreakpoint.condition,
+    sourceMaps.isOriginalId(sourceId)
+  );
+
+  // Original location is the location in the src file
+  const clientOriginalLocation = await sourceMaps.getOriginalLocation(
+    clientBreakpoint.actualLocation
+  );
+
+  // make sure that we are re-adding the same type of breakpoint. Column
+  // or line
+  const actualLocation = equalizeLocationColumn(
+    clientOriginalLocation,
+    pendingBreakpoint.location
+  );
+
+  // the generatedLocation might have slid, so now we can adjust it
+  const generatedLocation = clientBreakpoint.actualLocation;
+
+  const { id, hitCount } = clientBreakpoint;
+  return { id, actualLocation, hitCount, generatedLocation };
+}
+
 async function addClientBreakpoint(state, client, sourceMaps, breakpoint) {
   const location = breakpoint.location;
   const source = getSource(state, location.sourceId);
-  const sourceLocation = await _getGeneratedLocation(
+  const generatedLocation = await _getGeneratedLocation(
     source,
     sourceMaps,
     location
   );
 
   const clientBreakpoint = await client.setBreakpoint(
-    sourceLocation,
+    generatedLocation,
     breakpoint.condition,
     sourceMaps.isOriginalId(breakpoint.location.sourceId)
   );
@@ -56,12 +119,12 @@ async function addClientBreakpoint(state, client, sourceMaps, breakpoint) {
   );
 
   const { id, hitCount } = clientBreakpoint;
-  return { id, actualLocation, hitCount };
+  return { id, actualLocation, hitCount, generatedLocation };
 }
 
 /**
- * Enabling a breakpoint calls
- * which will reuse the existing breakpoint information that is stored.
+ * Enabling a breakpoint
+ * will reuse the existing breakpoint information that is stored.
  *
  * @memberof actions/breakpoints
  * @static
@@ -83,6 +146,39 @@ export function enableBreakpoint(location: Location) {
 }
 
 /**
+ * Syncing a breakpoint add breakpoint information that is stored, and
+ * contact the server for more data.
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @param {String} $1.sourceId String  value
+ * @param {PendingBreakpoint} $1.location PendingBreakpoint  value
+ */
+export function syncBreakpoint(
+  sourceId: string,
+  pendingBreakpoint: PendingBreakpoint
+) {
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const { line, sourceUrl, column } = pendingBreakpoint.location;
+    const location = { sourceId, sourceUrl, line, column };
+    const breakpoint = _createBreakpoint(location, pendingBreakpoint);
+
+    const syncPromise = syncClientBreakpoint(
+      sourceId,
+      client,
+      sourceMaps,
+      pendingBreakpoint
+    );
+
+    return dispatch({
+      type: "SYNC_BREAKPOINT",
+      breakpoint,
+      [PROMISE]: syncPromise
+    });
+  };
+}
+
+/**
  * Add a new breakpoint
  *
  * @memberof actions/breakpoints
@@ -92,45 +188,20 @@ export function enableBreakpoint(location: Location) {
  */
 export function addBreakpoint(
   location: Location,
-  { condition, disabled = false }: addBreakpointOptions = {}
+  { condition }: addBreakpointOptions = {}
 ) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
       return Promise.resolve();
     }
 
-    const breakpoint = _createBreakpoint(location, { condition, disabled });
-    const action = {
+    const breakpoint = _createBreakpoint(location, { condition });
+    return dispatch({
       type: "ADD_BREAKPOINT",
       breakpoint,
-      condition: condition
-    };
-
-    // If the breakpoint is already disabled, we don't need to communicate
-    // with the server. We just need to dispatch an action
-    // simulating a successful server request
-    if (disabled) {
-      return dispatch(
-        Object.assign({}, action, {
-          status: "done",
-          value: {
-            id: breakpoint.id,
-            actualLocation: breakpoint.location
-          }
-        })
-      );
-    }
-
-    return dispatch(
-      Object.assign({}, action, {
-        [PROMISE]: addClientBreakpoint(
-          getState(),
-          client,
-          sourceMaps,
-          breakpoint
-        )
-      })
-    );
+      condition: condition,
+      [PROMISE]: addClientBreakpoint(getState(), client, sourceMaps, breakpoint)
+    });
   };
 }
 

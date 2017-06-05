@@ -45,10 +45,6 @@ function endTruncateStr(str: any, size: number) {
  * @memberof utils/utils
  * @static
  */
-function updateObj<T: Object>(obj: T, fields: $Shape<T>): T {
-  return Object.assign({}, obj, fields);
-}
-
 /**
  * @memberof utils/utils
  * @static
@@ -70,11 +66,4 @@ function waitForMs(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export {
-  handleError,
-  promisify,
-  endTruncateStr,
-  updateObj,
-  throttle,
-  waitForMs
-};
+export { handleError, promisify, endTruncateStr, throttle, waitForMs };

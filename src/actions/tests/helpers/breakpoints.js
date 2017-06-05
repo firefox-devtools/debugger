@@ -1,4 +1,4 @@
-import { makeLocationId } from "../../../reducers/breakpoints";
+import { makeLocationId } from "../../../utils/breakpoint";
 
 export function mockPendingBreakpoint(overrides = {}) {
   const { sourceUrl, line, column, condition, disabled } = overrides;
@@ -8,13 +8,15 @@ export function mockPendingBreakpoint(overrides = {}) {
       line: line || 5,
       column: column || undefined
     },
-    condition: condition || "3",
+    generatedLocation: {
+      sourceUrl: sourceUrl || "http://localhost:8000/examples/bar.js",
+      sourceId: "server1.conn76.child1/30",
+      line: line || 5,
+      column: column || undefined
+    },
+    condition: condition || null,
     disabled: disabled || false
   };
-}
-
-export function generateCorrectedBreakpoint(breakpoint, correctedLocation) {
-  return Object.assign({}, breakpoint, { location: correctedLocation });
 }
 
 function generateCorrectingThreadClient(offset = 0) {
@@ -54,20 +56,6 @@ export function generateBreakpoint(filename) {
     },
     condition: null,
     disabled: false
-  };
-}
-
-export function generatePendingBreakpoint(breakpoint) {
-  const {
-    location: { sourceUrl, line, column },
-    condition,
-    disabled
-  } = breakpoint;
-
-  return {
-    location: { sourceUrl, line, column },
-    condition,
-    disabled
   };
 }
 
