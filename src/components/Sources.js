@@ -73,10 +73,30 @@ class Sources extends Component {
     );
   }
 
+  showPane(selectedPane: string) {
+    this.setState({ selectedPane });
+  }
+
   renderOutlineTabs() {
     return [
-      dom.div({ className: classnames("tab", "active") }, "outline"),
-      dom.div({ className: "tab" }, "sources")
+      dom.div(
+        {
+          className: classnames("tab", {
+            active: this.state.selectedPane === "sources"
+          }),
+          onClick: () => this.showPane("sources")
+        },
+        "sources"
+      ),
+      dom.div(
+        {
+          className: classnames("tab", {
+            active: this.state.selectedPane === "outline"
+          }),
+          onClick: () => this.showPane("outline")
+        },
+        "outline"
+      )
     ];
   }
 
