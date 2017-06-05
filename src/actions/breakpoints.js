@@ -55,7 +55,7 @@ async function syncClientBreakpoint(
     ? originalToGeneratedId(sourceId)
     : sourceId;
 
-  const generatedLocation = {
+  const oldGeneratedLocation = {
     ...pendingBreakpoint.generatedLocation,
     sourceId: generatedSourceId
   };
@@ -66,14 +66,14 @@ async function syncClientBreakpoint(
     return {
       id: generatedSourceId,
       actualLocation: { ...pendingBreakpoint.location, id: sourceId },
-      generatedLocation
+      oldGeneratedLocation
     };
   }
 
   // If we are not disabled, set the breakpoint on the server and get
   // that info so we can set it on our breakpoints.
   const clientBreakpoint = await client.setBreakpoint(
-    generatedLocation,
+    oldGeneratedLocation,
     pendingBreakpoint.condition,
     sourceMaps.isOriginalId(sourceId)
   );
@@ -89,6 +89,9 @@ async function syncClientBreakpoint(
     clientOriginalLocation,
     pendingBreakpoint.location
   );
+
+  // the generatedLocation might have slid, so we adjust it
+  const generatedLocation = clientBreakpoint.actualLocation;
 
   const { id, hitCount } = clientBreakpoint;
   return { id, actualLocation, hitCount, generatedLocation };

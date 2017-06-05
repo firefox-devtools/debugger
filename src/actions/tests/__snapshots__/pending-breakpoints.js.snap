@@ -1,13 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`adding sources add corresponding breakpoints for a changed source 1`] = `
+Object {
+  "condition": null,
+  "disabled": false,
+  "generatedLocation": Object {
+    "column": undefined,
+    "line": 7,
+    "sourceId": "bar.js",
+    "sourceUrl": "http://localhost:8000/examples/bar.js",
+  },
+  "id": "bar.js:7:",
+  "loading": false,
+  "location": Object {
+    "line": 7,
+    "sourceId": "bar.js",
+    "sourceUrl": "http://localhost:8000/examples/bar.js",
+  },
+}
+`;
+
 exports[`adding sources updates pending breakpoints for a changed source 1`] = `
 Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
     "column": undefined,
-    "line": 5,
-    "sourceId": "server1.conn76.child1/30",
+    "line": 7,
+    "sourceId": "bar.js",
     "sourceUrl": "http://localhost:8000/examples/bar.js",
   },
   "location": Object {

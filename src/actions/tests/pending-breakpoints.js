@@ -10,11 +10,10 @@ import { prefs } from "../../utils/prefs";
 
 jest.mock("../../utils/prefs", () => ({
   prefs: {
-    debuggerVersion: "1.0.0",
     expressions: [],
     pendingBreakpoints: {}
   },
-  setDebuggerVersion: jest.fn()
+  clear: jest.fn()
 }));
 
 import {
@@ -245,7 +244,7 @@ describe("adding sources", () => {
     const endBps = selectors.getBreakpoints(getState());
     const returnedBp = endBps.get(expectedId);
     expect(returnedBp).not.toBe(bp);
-    expect(returnedBp.location).toEqual(correctedLocation);
+    expect(returnedBp).toMatchSnapshot();
   });
 
   it("updates pending breakpoints for a changed source", async () => {

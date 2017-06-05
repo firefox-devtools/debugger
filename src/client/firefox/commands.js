@@ -127,7 +127,7 @@ function removeBreakpoint(breakpointId: BreakpointId) {
     delete bpClients[breakpointId];
     return bpClient.remove();
   } catch (_error) {
-    console.info("No breakpoint to delete on server");
+    console.warn("No breakpoint to delete on server");
   }
 }
 
