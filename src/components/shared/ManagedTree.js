@@ -5,33 +5,36 @@ import "./ManagedTree.css";
 import { Tree as _Tree } from "devtools-components";
 const Tree = createFactory(_Tree);
 
-type ManagedTreeItem = {
-  contents: Array<ManagedTreeItem>,
+export type Item = {
+  contents: any,
   name: string,
   path: string
 };
 
-type NextProps = {
+type Props = {
   autoExpandAll: boolean,
   autoExpandDepth: number,
-  getChildren: () => any,
-  getKey: () => string,
+  getChildren: Item => Item[],
+  getKey: Item => string,
   getParent: () => any,
   getRoots: () => any,
-  highlightItems: Array<ManagedTreeItem>,
+  highlightItems?: Array<Item>,
   itemHeight: number,
-  listItems?: Array<ManagedTreeItem>,
-  onFocus: () => any,
-  renderItem: () => any
+  listItems?: Array<Item>,
+  onFocus?: () => any,
+  onExpand?: () => any,
+  onCollapse?: () => any,
+  renderItem: any
 };
 
 type ManagedTreeState = {
   expanded: any,
-  focusedItem: ?ManagedTreeItem
+  focusedItem: ?Item
 };
 
 class ManagedTree extends Component {
   state: ManagedTreeState;
+  props: Props;
 
   constructor() {
     super();
@@ -46,7 +49,7 @@ class ManagedTree extends Component {
     self.focusItem = this.focusItem.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: NextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     const listItems = nextProps.listItems;
     if (listItems && listItems != this.props.listItems && listItems.length) {
       this.expandListItems(listItems);
@@ -62,7 +65,7 @@ class ManagedTree extends Component {
     }
   }
 
-  setExpanded(item: ManagedTreeItem, isExpanded: boolean) {
+  setExpanded(item: Item, isExpanded: boolean) {
     const expanded = this.state.expanded;
     const key = this.props.getKey(item);
     if (isExpanded) {
@@ -79,14 +82,14 @@ class ManagedTree extends Component {
     }
   }
 
-  expandListItems(listItems: Array<ManagedTreeItem>) {
+  expandListItems(listItems: Array<Item>) {
     const expanded = this.state.expanded;
     listItems.forEach(item => expanded.add(this.props.getKey(item)));
     this.focusItem(listItems[0]);
     this.setState({ expanded: expanded });
   }
 
-  highlightItem(highlightItems: Array<ManagedTreeItem>) {
+  highlightItem(highlightItems: Array<Item>) {
     const expanded = this.state.expanded;
 
     // This file is visible, so we highlight it.
@@ -102,7 +105,7 @@ class ManagedTree extends Component {
     }
   }
 
-  focusItem(item: ManagedTreeItem) {
+  focusItem(item: Item) {
     if (!this.props.disabledFocus && this.state.focusedItem !== item) {
       this.setState({ focusedItem: item });
 

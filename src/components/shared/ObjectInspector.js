@@ -43,6 +43,8 @@ export type ObjectInspectorItem = {
   path: string
 };
 
+import type { Item } from "./ManagedTree";
+
 type DefaultProps = {
   onDoubleClick: (
     item: ObjectInspectorItem,
@@ -185,13 +187,13 @@ class ObjectInspector extends Component {
       getParent: item => null,
       getChildren: this.getChildren,
       getRoots: () => roots,
-      getKey: item => item.path,
+      getKey: (item: Item) => item.path,
       autoExpand: 0,
       autoExpandDepth,
       autoExpandAll: false,
       disabledFocus: true,
       onExpand: item => {
-        if (nodeHasProperties(item)) {
+        if (item && item.contents && nodeHasProperties(item)) {
           loadObjectProperties(item.contents.value);
         }
       },
