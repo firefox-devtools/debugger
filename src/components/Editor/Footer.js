@@ -4,7 +4,6 @@ import { bindActionCreators } from "redux";
 import actions from "../../actions";
 import {
   getSelectedSource,
-  getSourceText,
   getPrettySource,
   getPaneCollapse
 } from "../../selectors";
@@ -17,7 +16,7 @@ import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 import _PaneToggleButton from "../shared/Button/PaneToggle";
 const PaneToggleButton = createFactory(_PaneToggleButton);
 
-import type { SourceRecord, SourceTextMap } from "../../reducers/sources";
+import type { SourceRecord } from "../../reducers/sources";
 
 import "./Footer.css";
 
@@ -25,7 +24,6 @@ class SourceFooter extends PureComponent {
   props: {
     selectedSource: SourceRecord,
     selectSource: (string, ?Object) => any,
-    sourceText: SourceTextMap,
     editor: any,
     togglePrettyPrint: string => any,
     toggleBlackBox: () => any,
@@ -36,9 +34,8 @@ class SourceFooter extends PureComponent {
   };
 
   prettyPrintButton() {
-    const { selectedSource, sourceText, togglePrettyPrint } = this.props;
-    const sourceLoaded =
-      selectedSource && sourceText && !sourceText.get("loading");
+    const { selectedSource, togglePrettyPrint } = this.props;
+    const sourceLoaded = selectedSource && !selectedSource.get("loading");
 
     if (!shouldShowPrettyPrint(selectedSource)) {
       return;
@@ -63,9 +60,8 @@ class SourceFooter extends PureComponent {
   }
 
   blackBoxButton() {
-    const { selectedSource, sourceText, toggleBlackBox } = this.props;
-    const sourceLoaded =
-      selectedSource && sourceText && !sourceText.get("loading");
+    const { selectedSource, toggleBlackBox } = this.props;
+    const sourceLoaded = selectedSource && !selectedSource.get("loading");
 
     const blackboxed = selectedSource.get("isBlackBoxed");
 
@@ -174,7 +170,6 @@ export default connect(
     const selectedId = selectedSource && selectedSource.get("id");
     return {
       selectedSource,
-      sourceText: getSourceText(state, selectedId),
       prettySource: getPrettySource(state, selectedId),
       endPanelCollapsed: getPaneCollapse(state, "end")
     };
