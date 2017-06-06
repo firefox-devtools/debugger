@@ -24,8 +24,6 @@
   top: 30px;
   left: 0px;
   --editor-footer-height: 27px;
-  --editor-searchbar-height: 27px;
-  --editor-second-searchbar-height: 27px;
 }
 
 html[dir="rtl"] .editor-mount {

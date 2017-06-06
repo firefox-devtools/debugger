@@ -43,6 +43,8 @@ export type ObjectInspectorItem = {
   path: string
 };
 
+import type { Item } from "./ManagedTree";
+
 type DefaultProps = {
   onDoubleClick: (
     item: ObjectInspectorItem,
@@ -96,6 +98,11 @@ class ObjectInspector extends Component {
     self.renderItem = this.renderItem.bind(this);
   }
 
+  isDefaultProperty(item: ObjectInspectorItem) {
+    const roots = this.props.roots;
+    return isDefault(item, roots);
+  }
+
   getChildren(item: ObjectInspectorItem) {
     const { getObjectProperties } = this.props;
     const { actors } = this;
@@ -136,7 +143,7 @@ class ObjectInspector extends Component {
       {
         className: classnames("node object-node", {
           focused,
-          "default-property": isDefault(item)
+          "default-property": this.isDefaultProperty(item)
         }),
         style: {
           marginLeft: depth * 15 + (nodeIsPrimitive(item) ? 15 : 0)
@@ -185,13 +192,13 @@ class ObjectInspector extends Component {
       getParent: item => null,
       getChildren: this.getChildren,
       getRoots: () => roots,
-      getKey: item => item.path,
+      getKey: (item: Item) => item.path,
       autoExpand: 0,
       autoExpandDepth,
       autoExpandAll: false,
       disabledFocus: true,
       onExpand: item => {
-        if (nodeHasProperties(item)) {
+        if (item && item.contents && nodeHasProperties(item)) {
           loadObjectProperties(item.contents.value);
         }
       },

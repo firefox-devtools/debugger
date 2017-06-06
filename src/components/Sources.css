@@ -64,6 +64,56 @@
   text-align: center;
 }
 
+.sources-panel .source-footer {
+  position: relative;
+}
+
+.sources-panel .outline {
+  display: flex;
+  flex: 1;
+}
+
+.sources-panel .outline.hidden {
+  display: none;
+}
+
 .hidden {
   display: none;
+}
+
+.source-footer {
+  width: 100%;
+}
+
+.source-footer .tab {
+  flex: 1;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  display: inline-flex;
+  position: relative;
+  transition: all 0.25s ease;
+  overflow: hidden;
+  padding: 5px;
+  margin-bottom: 4px;
+  margin-top: -1px;
+}
+
+.source-footer .tab:hover {
+  background-color: var(--theme-toolbar-background-alt);
+  border-color: var(--theme-splitter-color);
+  cursor: pointer;
+}
+
+.source-footer .tab.active {
+  color: var(--theme-body-color);
+  background-color: var(--theme-body-background);
+  border-color: var(--theme-splitter-color);
+  border-top-color: transparent;
+}
+
+.source-footer .tab.active path,
+.source-footer .tab:hover path {
+  fill: var(--theme-body-color);
 }

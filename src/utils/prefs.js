@@ -3,6 +3,7 @@
 var { PrefsHelper } = require("devtools-modules");
 const { Services: { pref } } = require("devtools-modules");
 const { isDevelopment } = require("devtools-config");
+const prefsSchemaVersion = "1.0.0";
 
 if (isDevelopment()) {
   pref("devtools.debugger.client-source-maps-enabled", true);
@@ -20,6 +21,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.file-search-case-sensitive", true);
   pref("devtools.debugger.file-search-whole-word", false);
   pref("devtools.debugger.file-search-regex-match", false);
+  pref("devtools.debugger.prefs-schema-version", "1.0.0");
 }
 
 const prefs = new PrefsHelper("devtools", {
@@ -37,7 +39,14 @@ const prefs = new PrefsHelper("devtools", {
   expressions: ["Json", "debugger.expressions"],
   fileSearchCaseSensitive: ["Bool", "debugger.file-search-case-sensitive"],
   fileSearchWholeWord: ["Bool", "debugger.file-search-whole-word"],
-  fileSearchRegexMatch: ["Bool", "debugger.file-search-regex-match"]
+  fileSearchRegexMatch: ["Bool", "debugger.file-search-regex-match"],
+  debuggerPrefsSchemaVersion: ["Char", "debugger.prefs-schema-version"]
 });
+
+if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
+  // clear pending Breakpoints
+  prefs.pendingBreakpoints = [];
+  prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
+}
 
 module.exports = { prefs };

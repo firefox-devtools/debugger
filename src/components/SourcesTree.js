@@ -252,7 +252,7 @@ class SourcesTree extends Component {
       },
       getRoots: () => sourceTree.contents,
       getKey: (item, i) => item.path,
-      itemHeight: 18,
+      itemHeight: 19,
       autoExpandDepth: 1,
       autoExpandAll: false,
       onFocus: this.focusItem,

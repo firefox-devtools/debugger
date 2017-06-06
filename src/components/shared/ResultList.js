@@ -11,31 +11,34 @@ type ResultListItem = {
   value: string
 };
 
+type Props = {
+  items: Array<ResultListItem>,
+  selected: number,
+  selectItem: () => any,
+  size: string
+};
+
 export default class ResultList extends Component {
   displayName: "ResultList";
-  props: {
-    items: Array<ResultListItem>,
-    selected: number,
-    selectItem: () => any,
-    size: string
-  };
+  props: Props;
 
   static defaultProps: Object;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     (this: any).renderListItem = this.renderListItem.bind(this);
   }
 
   renderListItem(item: ResultListItem, index: number) {
+    const { selectItem, selected } = this.props;
     return dom.li(
       {
-        onClick: event => this.props.selectItem(event, item, index),
+        onClick: event => selectItem(event, item, index),
         key: `${item.id}${item.value}${index}`,
         ref: index,
         title: item.value,
         className: classnames({
-          selected: index === this.props.selected
+          selected: index === selected
         })
       },
       dom.div({ className: "title" }, item.title),
@@ -44,13 +47,13 @@ export default class ResultList extends Component {
   }
 
   render() {
-    let { size } = this.props;
+    let { size, items } = this.props;
     size = size || "";
     return dom.ul(
       {
         className: `result-list ${size}`
       },
-      this.props.items.map(this.renderListItem)
+      items.map(this.renderListItem)
     );
   }
 }

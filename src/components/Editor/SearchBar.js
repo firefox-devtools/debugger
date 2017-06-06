@@ -31,7 +31,7 @@ import classnames from "classnames";
 import debounce from "lodash/debounce";
 
 import { SourceEditor } from "devtools-source-editor";
-import type { SourceRecord, SourceTextRecord } from "../../reducers/sources";
+import type { SourceRecord } from "../../reducers/sources";
 import type { FileSearchModifiers, SymbolSearchType } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
 import type { SearchResults } from ".";
@@ -98,7 +98,6 @@ class SearchBar extends Component {
   props: {
     editor?: SourceEditor,
     symbols: SymbolDeclarations,
-    sourceText?: SourceTextRecord,
     selectSource: (string, ?SelectSourceOptions) => any,
     selectedSource?: SourceRecord,
     highlightLineRange: ({ start: number, end: number }) => any,
@@ -203,7 +202,6 @@ class SearchBar extends Component {
 
   componentDidUpdate(prevProps: any, prevState: any) {
     const {
-      sourceText,
       selectedSource,
       query,
       modifiers,
@@ -221,9 +219,9 @@ class SearchBar extends Component {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
 
-    const hasLoaded = sourceText && !sourceText.get("loading");
+    const hasLoaded = selectedSource && !selectedSource.get("loading");
     const wasLoading =
-      prevProps.sourceText && prevProps.sourceText.get("loading");
+      prevProps.selectedSource && prevProps.selectedSource.get("loading");
 
     const doneLoading = wasLoading && hasLoaded;
     const changedFiles =
@@ -299,7 +297,7 @@ class SearchBar extends Component {
     e: SyntheticKeyboardEvent,
     { toggle, searchType }: ToggleSymbolSearchOpts = {}
   ) {
-    const { sourceText } = this.props;
+    const { selectedSource } = this.props;
 
     if (e) {
       e.preventDefault();
@@ -310,7 +308,7 @@ class SearchBar extends Component {
       this.props.toggleSymbolSearch(false);
     }
 
-    if (!sourceText) {
+    if (!selectedSource) {
       return;
     }
 
@@ -363,13 +361,13 @@ class SearchBar extends Component {
 
   updateSymbolSearchResults(query: string) {
     const {
-      sourceText,
+      selectedSource,
       updateSearchResults,
       selectedSymbolType,
       symbols
     } = this.props;
 
-    if (query == "" || !sourceText) {
+    if (query == "" || !selectedSource) {
       return;
     }
 
@@ -382,8 +380,8 @@ class SearchBar extends Component {
   }
 
   doSearch(query: string) {
-    const { sourceText, setFileSearchQuery, editor: ed } = this.props;
-    if (!sourceText || !sourceText.get("text")) {
+    const { selectedSource, setFileSearchQuery, editor: ed } = this.props;
+    if (!selectedSource || !selectedSource.get("text")) {
       return;
     }
 
@@ -398,13 +396,13 @@ class SearchBar extends Component {
 
   searchContents(query: string) {
     const {
-      sourceText,
+      selectedSource,
       modifiers,
       editor: ed,
       searchResults: { index }
     } = this.props;
 
-    if (!ed || !sourceText || !sourceText.get("text") || !modifiers) {
+    if (!ed || !selectedSource || !selectedSource.get("text") || !modifiers) {
       return;
     }
 
@@ -412,7 +410,7 @@ class SearchBar extends Component {
 
     const newCount = countMatches(
       query,
-      sourceText.get("text"),
+      selectedSource.get("text"),
       modifiers.toJS()
     );
 
@@ -678,7 +676,6 @@ class SearchBar extends Component {
             active
           }),
           onClick: e => {
-            // debugger;
             if (selectedSymbolType == searchType) {
               toggleSymbolSearch(e, { toggle: true, searchType });
               return;

@@ -12,7 +12,7 @@ import {
   getPause,
   getBreakpoints
 } from "../../selectors";
-import { makeLocationId } from "../../reducers/breakpoints";
+import { makeLocationId } from "../../utils/breakpoint";
 import { endTruncateStr } from "../../utils/utils";
 import { basename } from "../../utils/path";
 import CloseButton from "../shared/Button/Close";

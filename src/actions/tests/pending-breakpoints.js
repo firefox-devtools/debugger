@@ -1,10 +1,8 @@
 // TODO: we would like to mock this in the local tests
 import {
-  generatePendingBreakpoint,
   generateBreakpoint,
   mockPendingBreakpoint,
   simulateCorrectThreadClient,
-  generateCorrectedBreakpoint,
   simpleMockThreadClient
 } from "./helpers/breakpoints.js";
 
@@ -14,7 +12,8 @@ jest.mock("../../utils/prefs", () => ({
   prefs: {
     expressions: [],
     pendingBreakpoints: {}
-  }
+  },
+  clear: jest.fn()
 }));
 
 import {
@@ -24,10 +23,7 @@ import {
   makeSource
 } from "../../utils/test-head";
 
-import {
-  makePendingLocationId,
-  makeLocationId
-} from "../../reducers/breakpoints";
+import { makePendingLocationId, makeLocationId } from "../../utils/breakpoint";
 
 describe("when adding breakpoints", () => {
   const mockedPendingBreakpoint = mockPendingBreakpoint();
@@ -45,7 +41,7 @@ describe("when adding breakpoints", () => {
     await dispatch(actions.addBreakpoint(bp.location));
     const pendingBps = selectors.getPendingBreakpoints(getState());
     expect(pendingBps.size).toBe(2);
-    expect(pendingBps.get(id)).toEqual(generatePendingBreakpoint(bp));
+    expect(pendingBps.get(id)).toMatchSnapshot();
   });
 
   describe("adding and deleting breakpoints", () => {
@@ -67,12 +63,8 @@ describe("when adding breakpoints", () => {
       await dispatch(actions.addBreakpoint(breakpoint2.location));
 
       const pendingBps = selectors.getPendingBreakpoints(getState());
-      expect(pendingBps.get(breakpointLocationId1)).toEqual(
-        generatePendingBreakpoint(breakpoint1)
-      );
-      expect(pendingBps.get(breakpointLocationId2)).toEqual(
-        generatePendingBreakpoint(breakpoint2)
-      );
+      expect(pendingBps.get(breakpointLocationId1)).toMatchSnapshot();
+      expect(pendingBps.get(breakpointLocationId2)).toMatchSnapshot();
     });
 
     it("remove a corresponding pending breakpoint when deleting", async () => {
@@ -150,7 +142,7 @@ describe("initializing when pending breakpoints exist in perfs", () => {
     const id = makePendingLocationId(mockedPendingBreakpoint.location);
     const bps = selectors.getPendingBreakpoints(getState());
     const bp = bps.get(id);
-    expect(bp).toEqual(generatePendingBreakpoint(mockedPendingBreakpoint));
+    expect(bp).toMatchSnapshot();
   });
 
   it("re-adding breakpoints update existing pending breakpoints", async () => {
@@ -171,14 +163,6 @@ describe("initializing when pending breakpoints exist in perfs", () => {
 
     const bps = selectors.getPendingBreakpoints(getState());
     expect(bps.size).toBe(2);
-  });
-
-  it("syncs pending breakpoints", async () => {
-    const id = makePendingLocationId(mockedPendingBreakpoint.location);
-    const { getState } = createStore(simpleMockThreadClient);
-    const bps = selectors.getPendingBreakpoints(getState());
-    const bp = bps.get(id);
-    expect(bp).toEqual(generatePendingBreakpoint(mockedPendingBreakpoint));
   });
 });
 
@@ -241,6 +225,47 @@ describe("adding sources", () => {
     bps = selectors.getBreakpoints(getState());
     expect(bps.size).toBe(1);
   });
+
+  it("add corresponding breakpoints for a changed source", async () => {
+    const bp = generateBreakpoint("bar.js");
+    const {
+      correctedThreadClient,
+      correctedLocation
+    } = simulateCorrectThreadClient(2, bp.location);
+    const { dispatch, getState } = createStore(correctedThreadClient);
+
+    const startBps = selectors.getBreakpoints(getState());
+    expect(startBps.size).toBe(0);
+
+    const source = makeSource("bar.js");
+    const expectedId = makeLocationId(correctedLocation);
+    await dispatch(actions.newSource(source));
+
+    const endBps = selectors.getBreakpoints(getState());
+    const returnedBp = endBps.get(expectedId);
+    expect(returnedBp).not.toBe(bp);
+    expect(returnedBp).toMatchSnapshot();
+  });
+
+  it("updates pending breakpoints for a changed source", async () => {
+    const bp = generateBreakpoint("bar.js");
+    const {
+      correctedThreadClient,
+      correctedLocation
+    } = simulateCorrectThreadClient(2, bp.location);
+    const { dispatch, getState } = createStore(correctedThreadClient);
+
+    const startBps = selectors.getPendingBreakpoints(getState());
+    expect(startBps.size).toBe(1);
+
+    const source = makeSource("bar.js");
+    const expectedId = makePendingLocationId(correctedLocation);
+    await dispatch(actions.newSource(source));
+
+    const endBps = selectors.getPendingBreakpoints(getState());
+    const returnedBp = endBps.get(expectedId);
+    expect(returnedBp).toMatchSnapshot();
+  });
 });
 
 describe("invalid breakpoint location", () => {
@@ -259,13 +284,12 @@ describe("invalid breakpoint location", () => {
       correctedLocation
     } = simulateCorrectThreadClient(2, bp.location);
     const { dispatch, getState } = createStore(correctedThreadClient);
-    const slidBp = generateCorrectedBreakpoint(bp, correctedLocation);
     const correctedPendingId = makePendingLocationId(correctedLocation);
 
     // test
     await dispatch(actions.addBreakpoint(bp.location));
     const pendingBps = selectors.getPendingBreakpoints(getState());
     const pendingBp = pendingBps.get(correctedPendingId);
-    expect(pendingBp).toEqual(generatePendingBreakpoint(slidBp));
+    expect(pendingBp).toMatchSnapshot();
   });
 });

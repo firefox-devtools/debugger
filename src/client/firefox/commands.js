@@ -119,9 +119,13 @@ function onNewBreakpoint(
 }
 
 function removeBreakpoint(breakpointId: BreakpointId) {
-  const bpClient = bpClients[breakpointId];
-  delete bpClients[breakpointId];
-  return bpClient.remove();
+  try {
+    const bpClient = bpClients[breakpointId];
+    delete bpClients[breakpointId];
+    return bpClient.remove();
+  } catch (_error) {
+    console.warn("No breakpoint to delete on server");
+  }
 }
 
 function setBreakpointCondition(
