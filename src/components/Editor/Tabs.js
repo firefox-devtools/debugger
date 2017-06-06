@@ -93,7 +93,7 @@ class SourceTabs extends PureComponent {
     selectedSource: SourceRecord,
     selectSource: (string, ?Object) => any,
     closeTab: string => any,
-    closeTabs: List<string> => any,
+    closeTabs: (List<string>) => any,
     toggleProjectSearch: () => any,
     togglePrettyPrint: string => any,
     togglePaneCollapse: () => any,

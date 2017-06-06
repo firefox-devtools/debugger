@@ -44,13 +44,17 @@ export function resumed() {
 export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     let { frames, why, loadedObjects } = pauseInfo;
+
     frames = await updateFrameLocations(frames, sourceMaps);
     const frame = frames[0];
+
+    const scopes = await client.getFrameScopes(frame);
 
     dispatch({
       type: "PAUSED",
       pauseInfo: { why, frame, frames },
       frames: frames,
+      scopes,
       selectedFrameId: frame.id,
       loadedObjects: loadedObjects || []
     });
@@ -184,14 +188,18 @@ export function breakOnNext() {
  * @static
  */
 export function selectFrame(frame: Frame) {
-  return ({ dispatch }: ThunkArgs) => {
+  return async ({ dispatch, client }: ThunkArgs) => {
     dispatch(evaluateExpressions(frame.id));
     dispatch(
       selectSource(frame.location.sourceId, { line: frame.location.line })
     );
+
+    const scopes = await client.getFrameScopes(frame);
+
     dispatch({
       type: "SELECT_FRAME",
-      frame
+      frame,
+      scopes
     });
   };
 }

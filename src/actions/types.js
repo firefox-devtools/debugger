@@ -9,6 +9,7 @@ import type {
   GeneratedLocation,
   SourceText,
   Frame,
+  Scope,
   Why
 } from "debugger-html";
 
@@ -167,6 +168,7 @@ type PauseAction =
         frame: Frame,
         isInterrupted?: boolean
       },
+      scopes: Scope[],
       frames: Frame[],
       selectedFrameId: string,
       loadedObjects: LoadedObject[]
@@ -177,7 +179,7 @@ type PauseAction =
       shouldIgnoreCaughtExceptions: boolean
     }
   | { type: "COMMAND", value: void }
-  | { type: "SELECT_FRAME", frame: Frame }
+  | { type: "SELECT_FRAME", frame: Frame, scopes: Scope[] }
   | {
       type: "LOAD_OBJECT_PROPERTIES",
       objectId: string,

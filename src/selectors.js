@@ -40,6 +40,7 @@ module.exports = {
   getChromeScopes: pause.getChromeScopes,
   getLoadedObjects: pause.getLoadedObjects,
   getLoadedObject: pause.getLoadedObject,
+  getFrameScopes: pause.getFrameScopes,
   getObjectProperties: pause.getObjectProperties,
   getIsWaitingOnBreak: pause.getIsWaitingOnBreak,
   getShouldPauseOnExceptions: pause.getShouldPauseOnExceptions,

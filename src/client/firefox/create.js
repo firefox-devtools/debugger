@@ -31,7 +31,7 @@ function createFrame(frame: FramePacket): Frame {
   };
 }
 
-function createSource(source: SourcePayload): Source {
+export function createSource(source: SourcePayload): Source {
   return {
     id: source.actor,
     url: source.url,
@@ -41,7 +41,10 @@ function createSource(source: SourcePayload): Source {
   };
 }
 
-function createPause(packet: PausedPacket, response: FramesResponse): any {
+export function createPause(
+  packet: PausedPacket,
+  response: FramesResponse
+): any {
   // NOTE: useful when the debugger is already paused
   const frame = packet.frame || response.frames[0];
 
@@ -50,9 +53,3 @@ function createPause(packet: PausedPacket, response: FramesResponse): any {
     frames: response.frames.map(createFrame)
   });
 }
-
-module.exports = {
-  createFrame,
-  createSource,
-  createPause
-};
