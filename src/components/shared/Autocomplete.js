@@ -1,7 +1,7 @@
 // @flow
 
 import { Component, DOM as dom, createFactory } from "react";
-import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
+import ReactDOM from "react-dom";
 import { filter } from "fuzzaldrin-plus";
 import classnames from "classnames";
 import { scrollList } from "../../utils/result-list";

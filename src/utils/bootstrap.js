@@ -1,6 +1,6 @@
 import React from "react";
 import { bindActionCreators, combineReducers } from "redux";
-import ReactDOM from "../../node_modules/react-dom/dist/react-dom";
+import ReactDOM from "react-dom";
 import { getValue, isFirefoxPanel } from "devtools-config";
 import { renderRoot } from "devtools-launchpad";
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";

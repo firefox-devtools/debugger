@@ -1,6 +1,6 @@
 // @flow
 import { DOM as dom, PropTypes, createFactory, PureComponent } from "react";
-import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
+import ReactDOM from "react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
