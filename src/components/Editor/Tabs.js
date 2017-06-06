@@ -50,7 +50,8 @@ function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
   return sourceTabs.filter((tab, index) => {
     // adding 10px helps account for cases where the tab might be offset by
     // styling such as selected tabs which don't have a border.
-    return sourceTabEls[index].getBoundingClientRect().top > tabTopOffset + 10;
+    const el = sourceTabEls[index];
+    return el && el.getBoundingClientRect().top > tabTopOffset + 10;
   });
 }
 
