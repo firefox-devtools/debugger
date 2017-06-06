@@ -327,6 +327,10 @@ class Editor extends PureComponent {
    * is a multiselection.
    */
   onEscape(key, e) {
+    if (!this.editor) {
+      return;
+    }
+
     const { codeMirror } = this.editor;
     if (codeMirror.listSelections().length > 1) {
       codeMirror.execCommand("singleSelection");
