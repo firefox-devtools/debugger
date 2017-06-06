@@ -1,11 +1,11 @@
 // @flow
 
 import { workerUtils } from "devtools-utils";
-import { getClosestExpression } from "./utils/closest";
 const { WorkerDispatcher } = workerUtils;
 
 const dispatcher = new WorkerDispatcher();
 
+const getClosestExpression = dispatcher.task("getClosestExpression");
 const getSymbols = dispatcher.task("getSymbols");
 const getVariablesInScope = dispatcher.task("getVariablesInScope");
 const getOutOfScopeLocations = dispatcher.task("getOutOfScopeLocations");
