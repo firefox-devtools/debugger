@@ -3,7 +3,7 @@ import { maybeEscapePropertyName } from "devtools-reps";
 
 let WINDOW_PROPERTIES = {};
 
-if (typeof window == "object") {
+if (typeof window === "object") {
   WINDOW_PROPERTIES = Object.getOwnPropertyNames(window);
 }
 
@@ -82,7 +82,11 @@ function getPromiseProperties(item) {
   return properties;
 }
 
-function isDefault(item) {
+function isDefault(item, roots) {
+  if (roots && roots.length === 1) {
+    const value = getValue(roots[0]);
+    return value.class === "Window";
+  }
   return WINDOW_PROPERTIES.includes(item.name);
 }
 

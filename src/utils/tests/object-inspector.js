@@ -1,7 +1,8 @@
 const {
   makeNodesForProperties,
   isPromise,
-  getPromiseProperties
+  getPromiseProperties,
+  isDefault
 } = require("../object-inspector");
 
 const root = {
@@ -129,6 +130,25 @@ describe("object-inspector", () => {
 
       expect(names).toEqual(["bar", "[default properties]"]);
       expect(paths).toEqual(["root/bar", "root/##-default"]);
+    });
+
+    it("window prop on normal object", () => {
+      const windowRoots = [
+        {
+          contents: { value: { class: "Window" } }
+        }
+      ];
+
+      const objectRoots = [
+        {
+          contents: { value: { class: "Object" } }
+        }
+      ];
+
+      const item = { name: "location" };
+
+      expect(isDefault(item, windowRoots)).toEqual(true);
+      expect(isDefault(item, objectRoots)).toEqual(false);
     });
 
     // For large arrays

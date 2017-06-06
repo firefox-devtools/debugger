@@ -98,6 +98,11 @@ class ObjectInspector extends Component {
     self.renderItem = this.renderItem.bind(this);
   }
 
+  isDefaultProperty(item: ObjectInspectorItem) {
+    const roots = this.props.roots;
+    return isDefault(item, roots);
+  }
+
   getChildren(item: ObjectInspectorItem) {
     const { getObjectProperties } = this.props;
     const { actors } = this;
@@ -138,7 +143,7 @@ class ObjectInspector extends Component {
       {
         className: classnames("node object-node", {
           focused,
-          "default-property": isDefault(item)
+          "default-property": this.isDefaultProperty(item)
         }),
         style: {
           marginLeft: depth * 15 + (nodeIsPrimitive(item) ? 15 : 0)
