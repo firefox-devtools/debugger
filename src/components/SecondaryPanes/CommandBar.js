@@ -1,7 +1,7 @@
 // @flow
 import { DOM as dom, Component, PropTypes } from "react";
 
-import { findDOMNode } from "../../../node_modules/react-dom/dist/react-dom";
+import { findDOMNode } from "react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
