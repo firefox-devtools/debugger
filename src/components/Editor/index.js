@@ -505,7 +505,7 @@ class Editor extends PureComponent {
 
     this.cbPanel = this.editor.codeMirror.addLineWidget(line, panel, {
       coverGutter: true,
-      noHScroll: true
+      noHScroll: false
     });
     this.cbPanel.node.querySelector("input").focus();
   }

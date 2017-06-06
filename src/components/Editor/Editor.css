@@ -8,6 +8,10 @@
   --debug-line-border: rgb(119, 134, 162);
 }
 
+.editor-wrapper .CodeMirror-linewidget {
+  margin-right: -7px;
+}
+
 .theme-dark {
   --theme-conditional-breakpoint-color: #9fa4a9;
 }
