@@ -36,6 +36,13 @@ function getValue(expression) {
     };
   }
 
+  if (value.error) {
+    return {
+      path: value.from,
+      value: value.error
+    };
+  }
+
   if (typeof value.result == "object") {
     return {
       path: value.result.actor,
@@ -156,6 +163,10 @@ class Expressions extends PureComponent {
     }
 
     let { value, path } = getValue(expression);
+
+    if (!value) {
+      debugger;
+    }
 
     if (value.class == "Error") {
       value = { unavailable: true };
