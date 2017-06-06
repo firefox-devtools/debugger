@@ -8,6 +8,22 @@
   --debug-line-border: rgb(119, 134, 162);
 }
 
+.editor-wrapper .CodeMirror-linewidget {
+  margin-right: -7px;
+}
+
+.theme-dark {
+  --theme-conditional-breakpoint-color: #9fa4a9;
+}
+
+.theme-light {
+  --theme-conditional-breakpoint-color: #ccd1d5;
+}
+
+.theme-firebug {
+  --theme-conditional-breakpoint-color: #ccd1d5;
+}
+
 .out-of-scope .CodeMirror-line,
 .out-of-scope .CodeMirror-linenumber {
   opacity: 0.8;

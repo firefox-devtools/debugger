@@ -11,8 +11,12 @@
 
 .conditional-breakpoint-panel .prompt {
   font-size: 1.8em;
-  color: var(--theme-comment-alt);
+  color: var(--theme-conditional-breakpoint-color);
   padding-left: 3px;
+  padding-right: 3px;
+  padding-bottom: 3px;
+  text-align: right;
+  width: 30px;
 }
 
 .conditional-breakpoint-panel input {
@@ -21,7 +25,7 @@
   border: none;
   background: var(--theme-toolbar-background);
   font-size: 14px;
-  color: var(--theme-comment);
+  color: var(--theme-conditional-breakpoint-color);
   line-height: 30px;
 }
 
