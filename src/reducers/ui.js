@@ -94,6 +94,14 @@ function update(
       return state.set("fileSearchQuery", action.query);
     }
 
+    case "UPDATE_SEARCH_RESULTS": {
+      return state.set("searchResults", action.results);
+    }
+
+    case "UPDATE_SYMBOL_SEARCH_RESULTS": {
+      return state.set("symbolSearchResults", action.results);
+    }
+
     case "TOGGLE_FILE_SEARCH_MODIFIER": {
       const actionVal = !state.getIn(["fileSearchModifiers", action.modifier]);
 
