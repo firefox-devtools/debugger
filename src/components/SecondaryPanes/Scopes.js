@@ -3,7 +3,12 @@ import { DOM as dom, PropTypes, PureComponent, createFactory } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
-import { getSelectedFrame, getLoadedObjects, getPause } from "../../selectors";
+import {
+  getSelectedFrame,
+  getLoadedObjects,
+  getFrameScopes,
+  getPause
+} from "../../selectors";
 import { getScopes } from "../../utils/scopes";
 
 import _ObjectInspector from "../shared/ObjectInspector";
@@ -21,12 +26,12 @@ class Scopes extends PureComponent {
   };
 
   constructor(props, ...args) {
-    const { pauseInfo, selectedFrame } = props;
+    const { pauseInfo, selectedFrame, frameScopes } = props;
 
     super(props, ...args);
 
     this.state = {
-      scopes: getScopes(pauseInfo, selectedFrame)
+      scopes: getScopes(pauseInfo, selectedFrame, frameScopes)
     };
   }
 
@@ -37,7 +42,11 @@ class Scopes extends PureComponent {
 
     if (pauseInfoChanged || selectedFrameChange) {
       this.setState({
-        scopes: getScopes(nextProps.pauseInfo, nextProps.selectedFrame)
+        scopes: getScopes(
+          nextProps.pauseInfo,
+          nextProps.selectedFrame,
+          nextProps.frameScopes
+        )
       });
     }
   }
@@ -66,16 +75,24 @@ Scopes.propTypes = {
   pauseInfo: PropTypes.object,
   loadedObjects: PropTypes.object,
   loadObjectProperties: PropTypes.func,
-  selectedFrame: PropTypes.object
+  selectedFrame: PropTypes.object,
+  frameScopes: PropTypes.object
 };
 
 Scopes.displayName = "Scopes";
 
 export default connect(
-  state => ({
-    pauseInfo: getPause(state),
-    selectedFrame: getSelectedFrame(state),
-    loadedObjects: getLoadedObjects(state)
-  }),
+  state => {
+    const selectedFrame = getSelectedFrame(state);
+    const frameScopes = selectedFrame
+      ? getFrameScopes(state, selectedFrame.id)
+      : null;
+    return {
+      selectedFrame,
+      pauseInfo: getPause(state),
+      frameScopes: frameScopes,
+      loadedObjects: getLoadedObjects(state)
+    };
+  },
   dispatch => bindActionCreators(actions, dispatch)
 )(Scopes);

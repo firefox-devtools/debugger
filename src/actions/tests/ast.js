@@ -16,6 +16,9 @@ const threadClient = {
       })
     );
   },
+  getFrameScopes: function() {
+    return Promise.resolve({});
+  },
   evaluate: function(expression) {
     return new Promise((resolve, reject) =>
       resolve({

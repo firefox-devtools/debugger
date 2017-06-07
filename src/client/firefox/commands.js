@@ -3,6 +3,7 @@
 import type {
   BreakpointId,
   BreakpointResult,
+  Frame,
   FrameId,
   ActorId,
   Location,
@@ -193,6 +194,14 @@ function getProperties(grip: Grip): Promise<*> {
   });
 }
 
+async function getFrameScopes(frame: Frame): Promise<*> {
+  if (frame.scope) {
+    return frame.scope;
+  }
+
+  return threadClient.getEnvironment(frame.id);
+}
+
 function pauseOnExceptions(
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean
@@ -260,6 +269,7 @@ const clientCommands = {
   navigate,
   reload,
   getProperties,
+  getFrameScopes,
   pauseOnExceptions,
   prettyPrint,
   disablePrettyPrint,

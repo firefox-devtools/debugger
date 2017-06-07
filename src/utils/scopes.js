@@ -3,7 +3,7 @@
 import toPairs from "lodash/toPairs";
 const get = require("lodash/get");
 
-import type { Frame, Pause } from "debugger-html";
+import type { Frame, Pause, Scope } from "debugger-html";
 
 type ScopeData = {
   name: string,
@@ -69,13 +69,16 @@ function getThisVariable(frame: any, path: string) {
 
 export function getScopes(
   pauseInfo: Pause,
-  selectedFrame: Frame
+  selectedFrame: Frame,
+  selectedScope: ?Scope
 ): ?(ScopeData[]) {
   if (!pauseInfo || !selectedFrame) {
     return null;
   }
 
-  let selectedScope = selectedFrame.scope;
+  // NOTE: it's possible that we're inspecting an old server
+  // that does not support getting frame scopes directly
+  selectedScope = selectedScope || selectedFrame.scope;
 
   if (!selectedScope) {
     return null;
