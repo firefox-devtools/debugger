@@ -164,10 +164,6 @@ class Expressions extends PureComponent {
 
     let { value, path } = getValue(expression);
 
-    if (!value) {
-      debugger;
-    }
-
     if (value.class == "Error") {
       value = { unavailable: true };
     }
