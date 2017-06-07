@@ -19,6 +19,11 @@ export type FileSearchModifiers = Record<{
 
 export type SymbolSearchType = "functions" | "variables";
 
+export type SearchResults = {
+  index: number,
+  count: number
+};
+
 export type UIState = {
   fileSearchOn: boolean,
   fileSearchQuery: string,
@@ -26,6 +31,7 @@ export type UIState = {
   projectSearchOn: boolean,
   symbolSearchOn: boolean,
   symbolSearchType: SymbolSearchType,
+  searchResults: SearchResults,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
@@ -49,6 +55,11 @@ export const State = makeRecord(
     projectSearchOn: false,
     symbolSearchOn: false,
     symbolSearchType: "functions",
+    symbolSearchResults: [],
+    searchResults: {
+      index: -1,
+      count: 0
+    },
     shownSource: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
@@ -155,6 +166,14 @@ export function getFileSearchModifierState(
   state: OuterState
 ): FileSearchModifiers {
   return state.ui.get("fileSearchModifiers");
+}
+
+export function getSymbolSearchResults(state: OuterState): string {
+  return state.ui.get("symbolSearchResults");
+}
+
+export function getSearchResults(state: OuterState): string {
+  return state.ui.get("searchResults");
 }
 
 export function getFrameworkGroupingState(state: OuterState): boolean {

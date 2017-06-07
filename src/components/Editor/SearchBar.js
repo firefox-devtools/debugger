@@ -11,6 +11,7 @@ import {
   getFileSearchState,
   getFileSearchQueryState,
   getFileSearchModifierState,
+  getSearchResults,
   getSymbolSearchResults,
   getSymbolSearchState,
   getSymbolSearchType,
@@ -703,6 +704,7 @@ class SearchBar extends Component {
   renderResults() {
     const { selectedResultIndex } = this.state;
     const { query, symbolSearchResults, symbolSearchOn } = this.props;
+    console.log("hi");
     if (query == "" || !symbolSearchOn || !symbolSearchResults.length) {
       return;
     }
@@ -768,6 +770,7 @@ export default connect(
       modifiers: getFileSearchModifierState(state),
       symbolSearchOn: getSymbolSearchState(state),
       symbolSearchResults: getSymbolSearchResults(state),
+      searchResults: getSearchResults(state),
       symbols: _getFormattedSymbols(state),
       selectedSymbolType: getSymbolSearchType(state)
     };

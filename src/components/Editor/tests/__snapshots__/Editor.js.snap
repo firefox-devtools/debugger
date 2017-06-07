@@ -15,16 +15,9 @@ ShallowWrapper {
         clearHighlightLineRange={undefined}
         editor={null}
         highlightLineRange={undefined}
-        searchResults={
-            Object {
-                "count": 0,
-                "index": -1,
-              }
-        }
         selectSource={undefined}
         selectedSource={undefined}
         sourceText={undefined}
-        updateSearchResults={[Function]}
     />
     <div
         className="editor-mount devtools-monospace"
@@ -48,16 +41,9 @@ ShallowWrapper {
             clearHighlightLineRange={undefined}
             editor={null}
             highlightLineRange={undefined}
-            searchResults={
-                  Object {
-                        "count": 0,
-                        "index": -1,
-                      }
-            }
             selectSource={undefined}
             selectedSource={undefined}
             sourceText={undefined}
-            updateSearchResults={[Function]}
       />
       <div
             className="editor-mount devtools-monospace"
@@ -143,16 +129,11 @@ ShallowWrapper {
         "refs": Object {},
         "state": Object {
           "highlightedLineRange": null,
-          "searchResults": Object {
-            "count": 0,
-            "index": -1,
-          },
           "selectedToken": null,
         },
         "toggleBreakpoint": [Function],
         "toggleBreakpointDisabledStatus": [Function],
         "toggleConditionalPanel": [Function],
-        "updateSearchResults": [Function],
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
@@ -178,16 +159,9 @@ ShallowWrapper {
                     clearHighlightLineRange={undefined}
                     editor={null}
                     highlightLineRange={undefined}
-                    searchResults={
-                              Object {
-                                        "count": 0,
-                                        "index": -1,
-                                      }
-                    }
                     selectSource={undefined}
                     selectedSource={undefined}
                     sourceText={undefined}
-                    updateSearchResults={[Function]}
           />
           <div
                     className="editor-mount devtools-monospace"
@@ -211,16 +185,9 @@ ShallowWrapper {
                     clearHighlightLineRange={undefined}
                     editor={null}
                     highlightLineRange={undefined}
-                    searchResults={
-                              Object {
-                                        "count": 0,
-                                        "index": -1,
-                                      }
-                    }
                     selectSource={undefined}
                     selectedSource={undefined}
                     sourceText={undefined}
-                    updateSearchResults={[Function]}
           />
           <div
                     className="editor-mount devtools-monospace"
