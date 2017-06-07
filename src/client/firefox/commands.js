@@ -1,4 +1,5 @@
 // @flow
+import _ from "lodash";
 
 import type {
   BreakpointId,
@@ -72,6 +73,34 @@ function breakOnNext(): Promise<*> {
 function sourceContents(sourceId: SourceId): Source {
   const sourceClient = threadClient.source({ actor: sourceId });
   return sourceClient.source();
+}
+
+function getBreakpointByLocation(location: Location) {
+  const values = _.values(bpClients);
+  const bpClient = values.find(value => {
+    const { actor, line, column, condition } = value.location;
+    return (
+      location.line === line &&
+      location.sourceId === actor &&
+      location.column === column &&
+      location.condition === condition
+    );
+  });
+
+  if (bpClient) {
+    const { actor, url, line, column, condition } = bpClient.location;
+    return {
+      id: bpClient.actor,
+      actualLocation: {
+        line,
+        column,
+        condition,
+        sourceId: actor,
+        sourceUrl: url
+      }
+    };
+  }
+  return null;
 }
 
 function setBreakpoint(
@@ -252,6 +281,7 @@ const clientCommands = {
   stepOver,
   breakOnNext,
   sourceContents,
+  getBreakpointByLocation,
   setBreakpoint,
   removeBreakpoint,
   setBreakpointCondition,

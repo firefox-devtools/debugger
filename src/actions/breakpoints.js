@@ -45,6 +45,27 @@ async function _getGeneratedLocation(source, sourceMaps, location) {
   return await sourceMaps.getGeneratedLocation(location, source.toJS());
 }
 
+async function _formatClientBreakpoint(clientBreakpoint, sourceMaps, location) {
+  const clientOriginalLocation = await sourceMaps.getOriginalLocation(
+    clientBreakpoint.actualLocation
+  );
+
+  // make sure that we are re-adding the same type of breakpoint. Column
+  // or line
+  const actualLocation = equalizeLocationColumn(
+    clientOriginalLocation,
+    location
+  );
+
+  // the generatedLocation might have slid, so now we can adjust it
+  const generatedLocation = clientBreakpoint.actualLocation;
+
+  const { id, hitCount } = clientBreakpoint;
+  return { id, actualLocation, hitCount, generatedLocation };
+}
+
+// we have three forms of syncing: disabled syncing, existing server syncing
+// and adding a new breakpoint
 async function syncClientBreakpoint(
   sourceId: string,
   client,
@@ -62,16 +83,31 @@ async function syncClientBreakpoint(
     sourceId: generatedSourceId
   };
 
-  // early return if breakpoint is disabled with overrides to update
-  // the id as expected, without talking to server
+  /** ******* CASE 1: Disabled ***********/
+  // early return if breakpoint is disabled, send overrides to update
+  // the id as expected
   if (pendingBreakpoint.disabled) {
     return {
       id: generatedSourceId,
       actualLocation: { ...pendingBreakpoint.location, id: sourceId },
-      oldGeneratedLocation
+      generatedLocation: oldGeneratedLocation
     };
   }
 
+  /** ******* CASE 2: Merge Server Breakpoint ***********/
+  // early return if breakpoint exists on the server, send overrides
+  // to update the id as expected
+  const existingClient = client.getBreakpointByLocation(oldGeneratedLocation);
+
+  if (existingClient) {
+    return _formatClientBreakpoint(
+      existingClient,
+      sourceMaps,
+      pendingBreakpoint.location
+    );
+  }
+
+  /** ******* CASE 3: Add New Breakpoint ***********/
   // If we are not disabled, set the breakpoint on the server and get
   // that info so we can set it on our breakpoints.
   const clientBreakpoint = await client.setBreakpoint(
@@ -80,23 +116,11 @@ async function syncClientBreakpoint(
     sourceMaps.isOriginalId(sourceId)
   );
 
-  // Original location is the location in the src file
-  const clientOriginalLocation = await sourceMaps.getOriginalLocation(
-    clientBreakpoint.actualLocation
-  );
-
-  // make sure that we are re-adding the same type of breakpoint. Column
-  // or line
-  const actualLocation = equalizeLocationColumn(
-    clientOriginalLocation,
+  return _formatClientBreakpoint(
+    clientBreakpoint,
+    sourceMaps,
     pendingBreakpoint.location
   );
-
-  // the generatedLocation might have slid, so now we can adjust it
-  const generatedLocation = clientBreakpoint.actualLocation;
-
-  const { id, hitCount } = clientBreakpoint;
-  return { id, actualLocation, hitCount, generatedLocation };
 }
 
 async function addClientBreakpoint(state, client, sourceMaps, breakpoint) {

@@ -23,7 +23,6 @@ import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
 
 import {
-  getBreakpoint,
   getSource,
   getSourceByURL,
   getSourceText,
@@ -56,12 +55,10 @@ async function checkPendingBreakpoint(
   pendingBreakpoint,
   source
 ) {
-  const { line, sourceUrl, column } = pendingBreakpoint.location;
+  const { sourceUrl } = pendingBreakpoint.location;
   const sameSource = sourceUrl && sourceUrl === source.url;
-  const location = { sourceId: source.id, sourceUrl, line, column };
-  const bp = getBreakpoint(state, location);
 
-  if (sameSource && !bp) {
+  if (sameSource) {
     await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
   }
 }
