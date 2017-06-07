@@ -18,12 +18,12 @@ Array [
 exports[`ast setSelection simple 1`] = `
 Object {
   "expression": "this.bazz",
-  "location": SourceLocation {
-    "end": Position {
+  "location": Object {
+    "end": Object {
       "column": 37,
       "line": 1,
     },
-    "start": Position {
+    "start": Object {
       "column": 28,
       "line": 1,
     },
