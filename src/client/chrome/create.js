@@ -3,7 +3,7 @@
 import type { Location, LoadedObject } from "../types";
 import type { ServerLocation } from "./types";
 
-function fromServerLocation(serverLocation?: ServerLocation): ?Location {
+export function fromServerLocation(serverLocation?: ServerLocation): ?Location {
   if (serverLocation) {
     return {
       sourceId: serverLocation.scriptId,
@@ -13,14 +13,14 @@ function fromServerLocation(serverLocation?: ServerLocation): ?Location {
   }
 }
 
-function toServerLocation(location: Location): ServerLocation {
+export function toServerLocation(location: Location): ServerLocation {
   return {
     scriptId: location.sourceId,
     lineNumber: location.line - 1
   };
 }
 
-function createFrame(frame: any) {
+export function createFrame(frame: any) {
   return {
     id: frame.callFrameId,
     displayName: frame.functionName,
@@ -29,7 +29,10 @@ function createFrame(frame: any) {
   };
 }
 
-function createLoadedObject(serverObject: any, parentId: string): LoadedObject {
+export function createLoadedObject(
+  serverObject: any,
+  parentId: string
+): LoadedObject {
   const { value, name } = serverObject;
 
   return {
@@ -39,10 +42,3 @@ function createLoadedObject(serverObject: any, parentId: string): LoadedObject {
     value
   };
 }
-
-export {
-  fromServerLocation,
-  toServerLocation,
-  createFrame,
-  createLoadedObject
-};
