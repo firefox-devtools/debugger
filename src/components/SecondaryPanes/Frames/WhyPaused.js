@@ -2,11 +2,11 @@
 import { DOM as dom, PropTypes, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import actions from "../../actions";
-import { getPause } from "../../selectors";
+import actions from "../../../actions";
+import { getPause } from "../../../selectors";
 import isString from "lodash/isString";
 
-import { getPauseReason } from "../../utils/pause";
+import { getPauseReason } from "../../../utils/pause";
 import type { Pause } from "debugger-html";
 
 import "./WhyPaused.css";

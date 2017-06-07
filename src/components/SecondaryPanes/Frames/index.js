@@ -15,6 +15,10 @@ const FrameComponent = createFactory(_FrameComponent);
 import _Group from "./Group";
 const Group = createFactory(_Group);
 
+import _WhyPaused from "./WhyPaused";
+const WhyPaused = createFactory(_WhyPaused);
+import { getPause } from "../../../selectors";
+
 import actions from "../../../actions";
 import {
   annotateFrame,
@@ -51,10 +55,12 @@ class Frames extends Component {
     return collapseFrames(frames);
   }
 
-  renderFrame: Function;
+  renderFrames: Function;
   toggleFramesDisplay: Function;
+  truncateFrames: Function;
   copyStackTrace: Function;
   toggleFrameworkGrouping: Function;
+  renderToggleButton: Function;
 
   constructor(...args) {
     super(...args);
@@ -176,6 +182,7 @@ class Frames extends Component {
     return dom.div(
       { className: "pane frames" },
       this.renderFrames(frames),
+      WhyPaused(),
       this.renderToggleButton(frames)
     );
   }
@@ -226,7 +233,8 @@ export default connect(
   state => ({
     frames: getAndProcessFramesSelector(state),
     frameworkGroupingOn: getFrameworkGroupingState(state),
-    selectedFrame: getSelectedFrame(state)
+    selectedFrame: getSelectedFrame(state),
+    pauseInfo: getPause(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Frames);

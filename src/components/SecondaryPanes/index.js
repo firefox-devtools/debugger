@@ -16,9 +16,6 @@ import { isEnabled } from "devtools-config";
 import Svg from "../shared/Svg";
 import { prefs } from "../../utils/prefs";
 
-import _WhyPaused from "./WhyPaused";
-const WhyPaused = createFactory(_WhyPaused);
-
 import _Breakpoints from "./Breakpoints";
 const Breakpoints = createFactory(_Breakpoints);
 
@@ -221,7 +218,6 @@ class SecondaryPanes extends Component {
         style: { overflowX: "hidden" }
       },
       CommandBar(),
-      WhyPaused(),
       this.props.horizontal
         ? this.renderHorizontalLayout()
         : this.renderVerticalLayout()
