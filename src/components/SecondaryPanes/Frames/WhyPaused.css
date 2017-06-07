@@ -1,8 +1,7 @@
 
 .why-paused {
   background-color: var(--theme-body-background);
-  border-bottom: 1px solid var(--theme-splitter-color);
-  color: var(--theme-comment-alt);
+  color: var(--theme-body-color);
   padding: 10px 10px 10px 20px;
   white-space: normal;
   opacity: 0.6;
