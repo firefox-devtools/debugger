@@ -255,9 +255,10 @@ class SearchBar extends Component {
   }
 
   closeSearch(e: SyntheticEvent) {
-    const { editor } = this.props;
+    const { editor, setFileSearchQuery } = this.props;
 
     if (this.props.searchOn && editor) {
+      setFileSearchQuery("");
       this.clearSearch();
       this.props.toggleFileSearch(false);
       this.props.toggleSymbolSearch(false);
