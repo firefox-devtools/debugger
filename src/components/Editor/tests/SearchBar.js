@@ -8,7 +8,10 @@ function generateDefaults() {
   return {
     query: "",
     searchOn: true,
-    searchResults: [],
+    symbolSearchOn: true,
+    searchResults: {},
+    selectedSymbolType: "functions",
+    symbolSearchResults: [],
     selectedResultIndex: 0
   };
 }
@@ -26,10 +29,11 @@ describe("SearchBar", () => {
     expect(component).toMatchSnapshot();
   });
 
-  it("should have a result list with search results from the props", () => {
-    const searchResults = [1, 2, 3];
-    const { component } = render({ searchResults });
+  it("should have a result list with symbolSearchResults", () => {
+    const symbolSearchResults = [1, 2, 3];
+    const query = "query";
+    const { component } = render({ symbolSearchResults, query });
     const resultList = component.find("ResultList");
-    expect(resultList.prop("items")).toBe(searchResults);
+    expect(resultList.prop("items")).toBe(symbolSearchResults);
   });
 });

@@ -19,7 +19,7 @@ ShallowWrapper {
         onChange={[Function]}
         onKeyDown={[Function]}
         onKeyUp={[Function]}
-        placeholder="Search in file…"
+        placeholder="Search functions…"
         query=""
         size=""
         summaryMsg=""
@@ -36,7 +36,7 @@ ShallowWrapper {
                 Search for:
             </h1>
             <button
-                className="search-type-btn"
+                className="search-type-btn active"
                 onClick={[Function]}
             >
                 functions
@@ -48,46 +48,6 @@ ShallowWrapper {
                 variables
             </button>
         </section>
-        <div
-            className="search-modifiers"
-        >
-            <button
-                className="regex-match-btn"
-                onClick={[Function]}
-                title="Regex"
-            >
-                <InlineSVG
-                    className="regex-match"
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
-                />
-            </button>
-            <button
-                className="case-sensitive-btn"
-                onClick={[Function]}
-                title="Case sensitive"
-            >
-                <InlineSVG
-                    className="case-match"
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
-                />
-            </button>
-            <button
-                className="whole-word-btn"
-                onClick={[Function]}
-                title="Whole word"
-            >
-                <InlineSVG
-                    className="whole-word-match"
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
-                />
-            </button>
-        </div>
     </div>
 </div>,
   "nodes": Array [
@@ -102,7 +62,7 @@ ShallowWrapper {
             onChange={[Function]}
             onKeyDown={[Function]}
             onKeyUp={[Function]}
-            placeholder="Search in file…"
+            placeholder="Search functions…"
             query=""
             size=""
             summaryMsg=""
@@ -119,7 +79,7 @@ ShallowWrapper {
                         Search for:
                   </h1>
                   <button
-                        className="search-type-btn"
+                        className="search-type-btn active"
                         onClick={[Function]}
                   >
                         functions
@@ -131,46 +91,6 @@ ShallowWrapper {
                         variables
                   </button>
             </section>
-            <div
-                  className="search-modifiers"
-            >
-                  <button
-                        className="regex-match-btn"
-                        onClick={[Function]}
-                        title="Regex"
-                  >
-                        <InlineSVG
-                              className="regex-match"
-                              element="i"
-                              raw={false}
-                              src="<svg></svg>"
-                        />
-                  </button>
-                  <button
-                        className="case-sensitive-btn"
-                        onClick={[Function]}
-                        title="Case sensitive"
-                  >
-                        <InlineSVG
-                              className="case-match"
-                              element="i"
-                              raw={false}
-                              src="<svg></svg>"
-                        />
-                  </button>
-                  <button
-                        className="whole-word-btn"
-                        onClick={[Function]}
-                        title="Whole word"
-                  >
-                        <InlineSVG
-                              className="whole-word-match"
-                              element="i"
-                              raw={false}
-                              src="<svg></svg>"
-                        />
-                  </button>
-            </div>
       </div>
 </div>,
   ],
@@ -183,8 +103,11 @@ ShallowWrapper {
       "_currentElement": <SearchBar
         query=""
         searchOn={true}
-        searchResults={Array []}
+        searchResults={Object {}}
         selectedResultIndex={0}
+        selectedSymbolType="functions"
+        symbolSearchOn={true}
+        symbolSearchResults={Array []}
 />,
       "_debugID": 1,
       "_hostContainerInfo": null,
@@ -207,8 +130,11 @@ ShallowWrapper {
         "props": Object {
           "query": "",
           "searchOn": true,
-          "searchResults": Array [],
+          "searchResults": Object {},
           "selectedResultIndex": 0,
+          "selectedSymbolType": "functions",
+          "symbolSearchOn": true,
+          "symbolSearchResults": Array [],
         },
         "refs": Object {},
         "renderBottomBar": [Function],
@@ -224,7 +150,6 @@ ShallowWrapper {
           "count": 0,
           "index": -1,
           "selectedResultIndex": 0,
-          "symbolSearchResults": Array [],
         },
         "toggleSearch": [Function],
         "toggleSymbolSearch": [Function],
@@ -261,7 +186,7 @@ ShallowWrapper {
                     onChange={[Function]}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
-                    placeholder="Search in file…"
+                    placeholder="Search functions…"
                     query=""
                     size=""
                     summaryMsg=""
@@ -278,7 +203,7 @@ ShallowWrapper {
                                         Search for:
                               </h1>
                               <button
-                                        className="search-type-btn"
+                                        className="search-type-btn active"
                                         onClick={[Function]}
                               >
                                         functions
@@ -290,46 +215,6 @@ ShallowWrapper {
                                         variables
                               </button>
                     </section>
-                    <div
-                              className="search-modifiers"
-                    >
-                              <button
-                                        className="regex-match-btn"
-                                        onClick={[Function]}
-                                        title="Regex"
-                              >
-                                        <InlineSVG
-                                                  className="regex-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
-                              <button
-                                        className="case-sensitive-btn"
-                                        onClick={[Function]}
-                                        title="Case sensitive"
-                              >
-                                        <InlineSVG
-                                                  className="case-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
-                              <button
-                                        className="whole-word-btn"
-                                        onClick={[Function]}
-                                        title="Whole word"
-                              >
-                                        <InlineSVG
-                                                  className="whole-word-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
-                    </div>
           </div>
 </div>,
         "_debugID": 2,
@@ -344,7 +229,7 @@ ShallowWrapper {
                     onChange={[Function]}
                     onKeyDown={[Function]}
                     onKeyUp={[Function]}
-                    placeholder="Search in file…"
+                    placeholder="Search functions…"
                     query=""
                     size=""
                     summaryMsg=""
@@ -361,7 +246,7 @@ ShallowWrapper {
                                         Search for:
                               </h1>
                               <button
-                                        className="search-type-btn"
+                                        className="search-type-btn active"
                                         onClick={[Function]}
                               >
                                         functions
@@ -373,46 +258,6 @@ ShallowWrapper {
                                         variables
                               </button>
                     </section>
-                    <div
-                              className="search-modifiers"
-                    >
-                              <button
-                                        className="regex-match-btn"
-                                        onClick={[Function]}
-                                        title="Regex"
-                              >
-                                        <InlineSVG
-                                                  className="regex-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
-                              <button
-                                        className="case-sensitive-btn"
-                                        onClick={[Function]}
-                                        title="Case sensitive"
-                              >
-                                        <InlineSVG
-                                                  className="case-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
-                              <button
-                                        className="whole-word-btn"
-                                        onClick={[Function]}
-                                        title="Whole word"
-                              >
-                                        <InlineSVG
-                                                  className="whole-word-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
-                    </div>
           </div>
 </div>,
       },
@@ -429,8 +274,11 @@ ShallowWrapper {
   "unrendered": <SearchBar
     query=""
     searchOn={true}
-    searchResults={Array []}
+    searchResults={Object {}}
     selectedResultIndex={0}
+    selectedSymbolType="functions"
+    symbolSearchOn={true}
+    symbolSearchResults={Array []}
 />,
 }
 `;
