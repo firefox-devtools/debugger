@@ -23,10 +23,6 @@
   --theme-conditional-breakpoint-color: #ccd1d5;
 }
 
-.theme-firebug {
-  --theme-conditional-breakpoint-color: #ccd1d5;
-}
-
 .out-of-scope .CodeMirror-line,
 .out-of-scope .CodeMirror-linenumber {
   opacity: 0.8;
