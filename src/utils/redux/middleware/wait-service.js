@@ -24,7 +24,7 @@ const NAME = (exports.NAME = "@@service/waitUntil");
 
 import type { ThunkArgs } from "../../../actions/types";
 
-function waitUntilService({ dispatch, getState }: ThunkArgs) {
+export function waitUntilService({ dispatch, getState }: ThunkArgs) {
   let pending = [];
 
   function checkPending(action) {
@@ -60,4 +60,3 @@ function waitUntilService({ dispatch, getState }: ThunkArgs) {
     return result;
   };
 }
-exports.waitUntilService = waitUntilService;
