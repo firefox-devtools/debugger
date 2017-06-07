@@ -86,13 +86,7 @@ const cssVars = {
   footerHeight: "var(--editor-footer-height)"
 };
 
-export type SearchResults = {
-  index: number,
-  count: number
-};
-
 type EditorState = {
-  searchResults: SearchResults,
   highlightedLineRange: ?Object,
   selectedToken: ?HTMLElement
 };
@@ -113,10 +107,6 @@ class Editor extends PureComponent {
     this.lastJumpLine = null;
 
     this.state = {
-      searchResults: {
-        index: -1,
-        count: 0
-      },
       highlightedLineRange: null,
       selectedToken: null
     };
@@ -139,7 +129,6 @@ class Editor extends PureComponent {
       this
     );
     self.toggleConditionalPanel = this.toggleConditionalPanel.bind(this);
-    self.updateSearchResults = this.updateSearchResults.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -431,10 +420,6 @@ class Editor extends PureComponent {
       toggleBlackBox,
       onGutterContextMenu: this.onGutterContextMenu
     });
-  }
-
-  updateSearchResults({ count, index = -1 }: { count: number, index: number }) {
-    this.setState({ searchResults: { count, index } });
   }
 
   onGutterClick(cm, line, gutter, ev) {
@@ -834,8 +819,6 @@ class Editor extends PureComponent {
       horizontal
     } = this.props;
 
-    const { searchResults } = this.state;
-
     return dom.div(
       {
         className: classnames("editor-wrapper", { "coverage-on": coverageOn })
@@ -846,9 +829,7 @@ class Editor extends PureComponent {
         selectedSource,
         highlightLineRange,
         clearHighlightLineRange,
-        sourceText,
-        searchResults,
-        updateSearchResults: this.updateSearchResults
+        sourceText
       }),
       dom.div({
         className: "editor-mount devtools-monospace",

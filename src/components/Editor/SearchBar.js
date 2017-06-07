@@ -11,6 +11,8 @@ import {
   getFileSearchState,
   getFileSearchQueryState,
   getFileSearchModifierState,
+  getSearchResults,
+  getSymbolSearchResults,
   getSymbolSearchState,
   getSymbolSearchType,
   getSelectedSource,
@@ -34,7 +36,7 @@ import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
 import type { FileSearchModifiers, SymbolSearchType } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
-import type { SearchResults } from ".";
+import type { SearchResults } from "../../reducers/ui";
 import type { SymbolDeclarations } from "../../utils/parser/getSymbols";
 import type { Location as BabelLocation } from "babel-traverse";
 import _SearchInput from "../shared/SearchInput";
@@ -84,7 +86,6 @@ type ToggleSymbolSearchOpts = {
 };
 
 type SearchBarState = {
-  symbolSearchResults: Array<any>,
   selectedResultIndex: number,
   count: number,
   index: number
@@ -98,6 +99,7 @@ class SearchBar extends Component {
   props: {
     editor?: SourceEditor,
     symbols: SymbolDeclarations,
+    symbolSearchResults: Array<*>,
     selectSource: (string, ?SelectSourceOptions) => any,
     selectedSource?: SourceRecord,
     highlightLineRange: ({ start: number, end: number }) => any,
@@ -113,13 +115,13 @@ class SearchBar extends Component {
     setSelectedSymbolType: SymbolSearchType => any,
     query: string,
     setFileSearchQuery: string => any,
-    updateSearchResults: ({ count: number, index?: number }) => any
+    updateSearchResults: ({ count: number, index?: number }) => any,
+    updateSymbolSearchResults: ({ count: number, index?: number }) => any
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      symbolSearchResults: [],
       selectedResultIndex: 0,
       count: 0,
       index: -1
@@ -360,6 +362,7 @@ class SearchBar extends Component {
     const {
       selectedSource,
       updateSearchResults,
+      updateSymbolSearchResults,
       selectedSymbolType,
       symbols
     } = this.props;
@@ -373,7 +376,7 @@ class SearchBar extends Component {
     });
 
     updateSearchResults({ count: symbolSearchResults.length });
-    return this.setState({ symbolSearchResults });
+    updateSymbolSearchResults(symbolSearchResults);
   }
 
   doSearch(query: string) {
@@ -423,8 +426,8 @@ class SearchBar extends Component {
   }
 
   traverseSymbolResults(rev: boolean) {
-    const { symbolSearchResults, selectedResultIndex } = this.state;
-    const searchResults = symbolSearchResults;
+    const { selectedResultIndex } = this.state;
+    const searchResults = this.props.symbolSearchResults;
     const resultCount = searchResults.length;
 
     if (rev) {
@@ -543,8 +546,7 @@ class SearchBar extends Component {
   }
 
   onKeyDown(e: SyntheticKeyboardEvent) {
-    const { symbolSearchOn } = this.props;
-    const { symbolSearchResults } = this.state;
+    const { symbolSearchOn, symbolSearchResults } = this.props;
     if (!symbolSearchOn || this.props.query == "") {
       return;
     }
@@ -571,14 +573,15 @@ class SearchBar extends Component {
 
   // Renderers
   buildSummaryMsg() {
-    if (this.props.symbolSearchOn) {
-      if (this.state.symbolSearchResults.length > 1) {
+    const { symbolSearchOn, symbolSearchResults } = this.props;
+    if (symbolSearchOn) {
+      if (symbolSearchResults.length > 1) {
         return L10N.getFormatStr(
           "editor.searchResults",
           this.state.selectedResultIndex + 1,
-          this.state.symbolSearchResults.length
+          symbolSearchResults.length
         );
-      } else if (this.state.symbolSearchResults.length === 1) {
+      } else if (symbolSearchResults.length === 1) {
         return L10N.getFormatStr("editor.singleResult");
       }
     }
@@ -698,8 +701,8 @@ class SearchBar extends Component {
   }
 
   renderResults() {
-    const { symbolSearchResults, selectedResultIndex } = this.state;
-    const { query, symbolSearchOn } = this.props;
+    const { selectedResultIndex } = this.state;
+    const { query, symbolSearchResults, symbolSearchOn } = this.props;
     if (query == "" || !symbolSearchOn || !symbolSearchResults.length) {
       return;
     }
@@ -764,6 +767,8 @@ export default connect(
       query: getFileSearchQueryState(state),
       modifiers: getFileSearchModifierState(state),
       symbolSearchOn: getSymbolSearchState(state),
+      symbolSearchResults: getSymbolSearchResults(state),
+      searchResults: getSearchResults(state),
       symbols: _getFormattedSymbols(state),
       selectedSymbolType: getSymbolSearchType(state)
     };

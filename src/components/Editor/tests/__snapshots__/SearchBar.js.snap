@@ -1,0 +1,284 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchBar should render 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="search-bar"
+>
+    <SearchInput
+        count={undefined}
+        handleClose={[Function]}
+        handleNext={[Function]}
+        handlePrev={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        placeholder="Search functions…"
+        query=""
+        size=""
+        summaryMsg=""
+    />
+    <div
+        className="search-bottom-bar"
+    >
+        <section
+            className="search-type-toggles"
+        >
+            <h1
+                className="search-toggle-title"
+            >
+                Search for:
+            </h1>
+            <button
+                className="search-type-btn active"
+                onClick={[Function]}
+            >
+                functions
+            </button>
+            <button
+                className="search-type-btn"
+                onClick={[Function]}
+            >
+                variables
+            </button>
+        </section>
+    </div>
+</div>,
+  "nodes": Array [
+    <div
+      className="search-bar"
+>
+      <SearchInput
+            count={undefined}
+            handleClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            placeholder="Search functions…"
+            query=""
+            size=""
+            summaryMsg=""
+      />
+      <div
+            className="search-bottom-bar"
+      >
+            <section
+                  className="search-type-toggles"
+            >
+                  <h1
+                        className="search-toggle-title"
+                  >
+                        Search for:
+                  </h1>
+                  <button
+                        className="search-type-btn active"
+                        onClick={[Function]}
+                  >
+                        functions
+                  </button>
+                  <button
+                        className="search-type-btn"
+                        onClick={[Function]}
+                  >
+                        variables
+                  </button>
+            </section>
+      </div>
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 0,
+      "_context": Object {},
+      "_currentElement": <SearchBar
+        query=""
+        searchOn={true}
+        searchResults={Object {}}
+        selectedResultIndex={0}
+        selectedSymbolType="functions"
+        symbolSearchOn={true}
+        symbolSearchResults={Array []}
+/>,
+      "_debugID": 1,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": SearchBar {
+        "_reactInternalInstance": [Circular],
+        "buildPlaceHolder": [Function],
+        "buildSummaryMsg": [Function],
+        "clearSearch": [Function],
+        "closeSearch": [Function],
+        "context": Object {
+          "shortcuts": undefined,
+        },
+        "doSearch": [Function],
+        "onChange": [Function],
+        "onEscape": [Function],
+        "onKeyDown": [Function],
+        "onKeyUp": [Function],
+        "onSelectResultItem": [Function],
+        "props": Object {
+          "query": "",
+          "searchOn": true,
+          "searchResults": Object {},
+          "selectedResultIndex": 0,
+          "selectedSymbolType": "functions",
+          "symbolSearchOn": true,
+          "symbolSearchResults": Array [],
+        },
+        "refs": Object {},
+        "renderBottomBar": [Function],
+        "renderResults": [Function],
+        "renderSearchModifiers": [Function],
+        "renderSearchTypeToggle": [Function],
+        "searchContents": [Function],
+        "searchInput": [Function],
+        "selectResultItem": [Function],
+        "selectSearchInput": [Function],
+        "setSearchValue": [Function],
+        "state": Object {
+          "count": 0,
+          "index": -1,
+          "selectedResultIndex": 0,
+        },
+        "toggleSearch": [Function],
+        "toggleSymbolSearch": [Function],
+        "traverseCodeResults": [Function],
+        "traverseResults": [Function],
+        "traverseSymbolResults": [Function],
+        "updateSymbolSearchResults": [Function],
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 1,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": Object {
+        "_currentElement": <div
+          className="search-bar"
+>
+          <SearchInput
+                    count={undefined}
+                    handleClose={[Function]}
+                    handleNext={[Function]}
+                    handlePrev={[Function]}
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    placeholder="Search functions…"
+                    query=""
+                    size=""
+                    summaryMsg=""
+          />
+          <div
+                    className="search-bottom-bar"
+          >
+                    <section
+                              className="search-type-toggles"
+                    >
+                              <h1
+                                        className="search-toggle-title"
+                              >
+                                        Search for:
+                              </h1>
+                              <button
+                                        className="search-type-btn active"
+                                        onClick={[Function]}
+                              >
+                                        functions
+                              </button>
+                              <button
+                                        className="search-type-btn"
+                                        onClick={[Function]}
+                              >
+                                        variables
+                              </button>
+                    </section>
+          </div>
+</div>,
+        "_debugID": 2,
+        "_renderedOutput": <div
+          className="search-bar"
+>
+          <SearchInput
+                    count={undefined}
+                    handleClose={[Function]}
+                    handleNext={[Function]}
+                    handlePrev={[Function]}
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    onKeyUp={[Function]}
+                    placeholder="Search functions…"
+                    query=""
+                    size=""
+                    summaryMsg=""
+          />
+          <div
+                    className="search-bottom-bar"
+          >
+                    <section
+                              className="search-type-toggles"
+                    >
+                              <h1
+                                        className="search-toggle-title"
+                              >
+                                        Search for:
+                              </h1>
+                              <button
+                                        className="search-type-btn active"
+                                        onClick={[Function]}
+                              >
+                                        functions
+                              </button>
+                              <button
+                                        className="search-type-btn"
+                                        onClick={[Function]}
+                              >
+                                        variables
+                              </button>
+                    </section>
+          </div>
+</div>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <SearchBar
+    query=""
+    searchOn={true}
+    searchResults={Object {}}
+    selectedResultIndex={0}
+    selectedSymbolType="functions"
+    symbolSearchOn={true}
+    symbolSearchResults={Array []}
+/>,
+}
+`;

@@ -19,6 +19,11 @@ export type FileSearchModifiers = Record<{
 
 export type SymbolSearchType = "functions" | "variables";
 
+export type SearchResults = {
+  index: number,
+  count: number
+};
+
 export type UIState = {
   fileSearchOn: boolean,
   fileSearchQuery: string,
@@ -26,6 +31,8 @@ export type UIState = {
   projectSearchOn: boolean,
   symbolSearchOn: boolean,
   symbolSearchType: SymbolSearchType,
+  searchResults: SearchResults,
+  symbolSearchResults: Array<*>,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
@@ -49,6 +56,11 @@ export const State = makeRecord(
     projectSearchOn: false,
     symbolSearchOn: false,
     symbolSearchType: "functions",
+    symbolSearchResults: [],
+    searchResults: {
+      index: -1,
+      count: 0
+    },
     shownSource: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
@@ -81,6 +93,14 @@ function update(
 
     case "UPDATE_FILE_SEARCH_QUERY": {
       return state.set("fileSearchQuery", action.query);
+    }
+
+    case "UPDATE_SEARCH_RESULTS": {
+      return state.set("searchResults", action.results);
+    }
+
+    case "UPDATE_SYMBOL_SEARCH_RESULTS": {
+      return state.set("symbolSearchResults", action.results);
     }
 
     case "TOGGLE_FILE_SEARCH_MODIFIER": {
@@ -155,6 +175,14 @@ export function getFileSearchModifierState(
   state: OuterState
 ): FileSearchModifiers {
   return state.ui.get("fileSearchModifiers");
+}
+
+export function getSymbolSearchResults(state: OuterState): string {
+  return state.ui.get("symbolSearchResults");
+}
+
+export function getSearchResults(state: OuterState): string {
+  return state.ui.get("searchResults");
 }
 
 export function getFrameworkGroupingState(state: OuterState): boolean {

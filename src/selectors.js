@@ -58,6 +58,8 @@ module.exports = {
   getFileSearchState: ui.getFileSearchState,
   getFileSearchQueryState: ui.getFileSearchQueryState,
   getFileSearchModifierState: ui.getFileSearchModifierState,
+  getSymbolSearchResults: ui.getSymbolSearchResults,
+  getSearchResults: ui.getSearchResults,
   getFrameworkGroupingState: ui.getFrameworkGroupingState,
   getSymbolSearchState: ui.getSymbolSearchState,
   getSymbolSearchType: ui.getSymbolSearchType,

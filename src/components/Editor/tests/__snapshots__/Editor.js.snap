@@ -1,0 +1,240 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor should render 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="editor-wrapper"
+>
+    <Connect(SearchBar)
+        clearHighlightLineRange={undefined}
+        editor={null}
+        highlightLineRange={undefined}
+        selectSource={undefined}
+        selectedSource={undefined}
+        sourceText={undefined}
+    />
+    <div
+        className="editor-mount devtools-monospace"
+        style={
+            Object {
+                "height": "calc(100% - var(--editor-footer-height))",
+              }
+        }
+    />
+    Array []
+    <Connect(SourceFooter)
+        editor={null}
+        horizontal={undefined}
+    />
+</div>,
+  "nodes": Array [
+    <div
+      className="editor-wrapper"
+>
+      <Connect(SearchBar)
+            clearHighlightLineRange={undefined}
+            editor={null}
+            highlightLineRange={undefined}
+            selectSource={undefined}
+            selectedSource={undefined}
+            sourceText={undefined}
+      />
+      <div
+            className="editor-mount devtools-monospace"
+            style={
+                  Object {
+                        "height": "calc(100% - var(--editor-footer-height))",
+                      }
+            }
+      />
+      Array []
+      <Connect(SourceFooter)
+            editor={null}
+            horizontal={undefined}
+      />
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 1,
+      "_context": Object {},
+      "_currentElement": <Editor
+        addBreakpoint={[Function]}
+        addExpression={[Function]}
+        breakpoints={
+                Immutable.Map {
+                }
+        }
+        clearSelection={[Function]}
+        disableBreakpoint={[Function]}
+        enableBreakpoint={[Function]}
+        getExpression={[Function]}
+        query=""
+        removeBreakpoint={[Function]}
+        searchModifiers={
+                Object {
+                        "caseSensitive": false,
+                        "regexMatch": false,
+                        "wholeWord": false,
+                      }
+        }
+        setBreakpointCondition={[Function]}
+/>,
+      "_debugID": 1,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": Editor {
+        "_reactInternalInstance": [Circular],
+        "cbPanel": null,
+        "closeConditionalPanel": [Function],
+        "context": Object {
+          "shortcuts": undefined,
+        },
+        "editor": null,
+        "lastJumpLine": null,
+        "onEscape": [Function],
+        "onGutterClick": [Function],
+        "onGutterContextMenu": [Function],
+        "onScroll": [Function],
+        "onSearchAgain": [Function],
+        "onToggleBreakpoint": [Function],
+        "pendingJumpLine": null,
+        "previewSelectedToken": [Function],
+        "props": Object {
+          "addBreakpoint": [Function],
+          "addExpression": [Function],
+          "breakpoints": Immutable.Map {
+},
+          "clearSelection": [Function],
+          "disableBreakpoint": [Function],
+          "enableBreakpoint": [Function],
+          "getExpression": [Function],
+          "query": "",
+          "removeBreakpoint": [Function],
+          "searchModifiers": Object {
+            "caseSensitive": false,
+            "regexMatch": false,
+            "wholeWord": false,
+          },
+          "setBreakpointCondition": [Function],
+        },
+        "refs": Object {},
+        "state": Object {
+          "highlightedLineRange": null,
+          "selectedToken": null,
+        },
+        "toggleBreakpoint": [Function],
+        "toggleBreakpointDisabledStatus": [Function],
+        "toggleConditionalPanel": [Function],
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 5,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": Object {
+        "_currentElement": <div
+          className="editor-wrapper"
+>
+          <Connect(SearchBar)
+                    clearHighlightLineRange={undefined}
+                    editor={null}
+                    highlightLineRange={undefined}
+                    selectSource={undefined}
+                    selectedSource={undefined}
+                    sourceText={undefined}
+          />
+          <div
+                    className="editor-mount devtools-monospace"
+                    style={
+                              Object {
+                                        "height": "calc(100% - var(--editor-footer-height))",
+                                      }
+                    }
+          />
+          Array []
+          <Connect(SourceFooter)
+                    editor={null}
+                    horizontal={undefined}
+          />
+</div>,
+        "_debugID": 2,
+        "_renderedOutput": <div
+          className="editor-wrapper"
+>
+          <Connect(SearchBar)
+                    clearHighlightLineRange={undefined}
+                    editor={null}
+                    highlightLineRange={undefined}
+                    selectSource={undefined}
+                    selectedSource={undefined}
+                    sourceText={undefined}
+          />
+          <div
+                    className="editor-mount devtools-monospace"
+                    style={
+                              Object {
+                                        "height": "calc(100% - var(--editor-footer-height))",
+                                      }
+                    }
+          />
+          Array []
+          <Connect(SourceFooter)
+                    editor={null}
+                    horizontal={undefined}
+          />
+</div>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <Editor
+    addBreakpoint={[Function]}
+    addExpression={[Function]}
+    breakpoints={
+        Immutable.Map {
+        }
+    }
+    clearSelection={[Function]}
+    disableBreakpoint={[Function]}
+    enableBreakpoint={[Function]}
+    getExpression={[Function]}
+    query=""
+    removeBreakpoint={[Function]}
+    searchModifiers={
+        Object {
+            "caseSensitive": false,
+            "regexMatch": false,
+            "wholeWord": false,
+          }
+    }
+    setBreakpointCondition={[Function]}
+/>,
+}
+`;
