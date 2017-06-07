@@ -34,8 +34,8 @@ export function allBreakpointsDisabled(state) {
 }
 
 // syncing
-export function equalizeLocationColumn(location, hasColumn) {
-  if (hasColumn) {
+export function equalizeLocationColumn(location, referenceLocation) {
+  if (referenceLocation.column) {
     return location;
   }
   return { ...location, column: undefined };

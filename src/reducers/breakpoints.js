@@ -90,10 +90,6 @@ function update(
       setPendingBreakpoints(newState);
       return newState;
     }
-
-    case "NAVIGATE": {
-      return initialState();
-    }
   }
 
   return state;
