@@ -671,16 +671,17 @@ class SearchBar extends Component {
 
     function isButtonActive(searchType) {
       switch (searchType) {
-        case "text":
-          return !symbolSearchOn;
         case "functions":
         case "variables":
           return symbolSearchOn && selectedSymbolType == searchType;
+        // text search
+        default:
+          return !symbolSearchOn;
       }
     }
 
     function searchTypeBtn(searchType) {
-      let active = isButtonActive(searchType);
+      const active = isButtonActive(searchType);
 
       return dom.button(
         {
