@@ -4,7 +4,7 @@ declare var it: (desc: string, func: () => void) => void;
 declare var expect: (value: any) => any;
 
 import { prefs } from "../../utils/prefs";
-import update, { State, getSymbolSearchResults, getSearchResults } from "../ui";
+import update, { State } from "../ui";
 
 describe("ui reducer", () => {
   it("toggle framework grouping to false", () => {
@@ -27,17 +27,5 @@ describe("ui reducer", () => {
     });
     expect(updatedState.frameworkGroupingOn).toBe(value);
     expect(prefs.frameworkGroupingOn).toBe(value);
-  });
-
-  it("gets the search results", () => {
-    const state = State();
-    expect(getSearchResults({ ui: state })).toBe(state.searchResults);
-  });
-
-  it("gets the symbol search results", () => {
-    const state = State();
-    expect(getSymbolSearchResults({ ui: state })).toBe(
-      state.symbolSearchResults
-    );
   });
 });

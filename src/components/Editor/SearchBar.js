@@ -703,7 +703,6 @@ class SearchBar extends Component {
   renderResults() {
     const { selectedResultIndex } = this.state;
     const { query, symbolSearchResults, symbolSearchOn } = this.props;
-    console.log("hi");
     if (query == "" || !symbolSearchOn || !symbolSearchResults.length) {
       return;
     }
