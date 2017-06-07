@@ -44,11 +44,18 @@ function isTextForSource(sourceText) {
 
 function breakpointAtLocation(breakpoints, { line, column = undefined }) {
   return breakpoints.find(bp => {
-    const sameColumn = isEnabled("columnBreakpoints") && column
-      ? bp.location.column === column
-      : true;
     const sameLine = bp.location.line === line + 1;
-    return sameLine && sameColumn;
+    if (!sameLine) {
+      return false;
+    }
+
+    // NOTE: when column breakpoints are disabled we want to find
+    // the first breakpoint
+    if (!isEnabled("columnBreakpoints")) {
+      return true;
+    }
+
+    return bp.location.column === column;
   });
 }
 
