@@ -114,6 +114,7 @@ This was a really great week for QA improvements as the debugger is getting more
 [@asolove]:http://github.com/asolove
 [@ryanjduffy]:http://github.com/ryanjduffy
 [@diessica]:http://github.com/diessica
+[@codehag]:http://github.com/codehag
 [@andreicristianpetcu]:http://github.com/andreicristianpetcu
 [@Andarist]:http://github.com/Andarist
 [pr-6]:https://github.com/devtools-html/debugger.html/pull/2784
