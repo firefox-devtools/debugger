@@ -13,7 +13,7 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import parser from "../utils/parser";
 
 import type { Source } from "debugger-html";
-import type { ThunkArgs } from "./types";
+import type { ThunkArgs, Action } from "./types";
 import type { AstLocation } from "../utils/parser";
 
 export function setSymbols(source: Source) {
@@ -29,11 +29,13 @@ export function setSymbols(source: Source) {
 
     const symbols = await parser.getSymbols(sourceText.toJS());
 
-    dispatch({
-      type: "SET_SYMBOLS",
-      source,
-      symbols
-    });
+    dispatch(
+      ({
+        type: "SET_SYMBOLS",
+        source,
+        symbols
+      }: Action)
+    );
   };
 }
 
@@ -43,10 +45,12 @@ export function setOutOfScopeLocations() {
     const sourceText = getSourceText(getState(), location.sourceId);
 
     if (!location.line || !sourceText) {
-      return dispatch({
-        type: "OUT_OF_SCOPE_LOCATIONS",
-        locations: null
-      });
+      return dispatch(
+        ({
+          type: "OUT_OF_SCOPE_LOCATIONS",
+          locations: undefined
+        }: Action)
+      );
     }
 
     const locations = await parser.getOutOfScopeLocations(
@@ -54,10 +58,12 @@ export function setOutOfScopeLocations() {
       location
     );
 
-    return dispatch({
-      type: "OUT_OF_SCOPE_LOCATIONS",
-      locations
-    });
+    return dispatch(
+      ({
+        type: "OUT_OF_SCOPE_LOCATIONS",
+        locations
+      }: Action)
+    );
   };
 }
 
@@ -68,9 +74,11 @@ export function clearSelection() {
       return;
     }
 
-    return dispatch({
-      type: "CLEAR_SELECTION"
-    });
+    return dispatch(
+      ({
+        type: "CLEAR_SELECTION"
+      }: Action)
+    );
   };
 }
 
@@ -84,35 +92,37 @@ export function setSelection(token: string, position: AstLocation) {
     const sourceText = getSelectedSourceText(getState());
     const selectedFrame = getSelectedFrame(getState());
 
-    await dispatch({
-      type: "SET_SELECTION",
-      [PROMISE]: (async function() {
-        const closestExpression = await parser.getClosestExpression(
-          sourceText.toJS(),
-          token,
-          position
-        );
+    await dispatch(
+      ({
+        type: "SET_SELECTION",
+        [PROMISE]: (async function() {
+          const closestExpression = await parser.getClosestExpression(
+            sourceText.toJS(),
+            token,
+            position
+          );
 
-        if (!closestExpression) {
-          return;
-        }
+          if (!closestExpression) {
+            return;
+          }
 
-        const { expression, location } = closestExpression;
+          const { expression, location } = closestExpression;
 
-        if (!expression) {
-          return;
-        }
+          if (!expression) {
+            return;
+          }
 
-        const { result } = await client.evaluate(expression, {
-          frameId: selectedFrame.id
-        });
+          const { result } = await client.evaluate(expression, {
+            frameId: selectedFrame.id
+          });
 
-        return {
-          expression,
-          result,
-          location
-        };
-      })()
-    });
+          return {
+            expression,
+            result,
+            location
+          };
+        })()
+      }: Action)
+    );
   };
 }

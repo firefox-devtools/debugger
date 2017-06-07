@@ -92,7 +92,7 @@ describe("ast", () => {
       await dispatch(actions.setOutOfScopeLocations());
 
       const locations = getOutOfScopeLocations(getState());
-      expect(locations).toEqual(null);
+      expect(locations).toBe(undefined);
     });
   });
   describe("setSelection", () => {
