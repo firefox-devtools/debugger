@@ -36,7 +36,7 @@ import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
 import type { FileSearchModifiers, SymbolSearchType } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
-import type { SearchResults } from ".";
+import type { SearchResults } from "../../reducers/ui";
 import type { SymbolDeclarations } from "../../utils/parser/getSymbols";
 import type { Location as BabelLocation } from "babel-traverse";
 import _SearchInput from "../shared/SearchInput";
@@ -86,7 +86,6 @@ type ToggleSymbolSearchOpts = {
 };
 
 type SearchBarState = {
-  symbolSearchResults: Array<any>,
   selectedResultIndex: number,
   count: number,
   index: number
@@ -100,7 +99,7 @@ class SearchBar extends Component {
   props: {
     editor?: SourceEditor,
     symbols: SymbolDeclarations,
-    symbolSearchResults: array,
+    symbolSearchResults: Array<*>,
     selectSource: (string, ?SelectSourceOptions) => any,
     selectedSource?: SourceRecord,
     highlightLineRange: ({ start: number, end: number }) => any,
@@ -427,8 +426,8 @@ class SearchBar extends Component {
   }
 
   traverseSymbolResults(rev: boolean) {
-    const { symbolSearchResults, selectedResultIndex } = this.state;
-    const searchResults = symbolSearchResults;
+    const { selectedResultIndex } = this.state;
+    const searchResults = this.props.symbolSearchResults;
     const resultCount = searchResults.length;
 
     if (rev) {

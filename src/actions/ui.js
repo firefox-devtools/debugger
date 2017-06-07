@@ -79,14 +79,14 @@ export function setFileSearchQuery(query: string) {
   };
 }
 
-export function updateSearchResults(results: array) {
+export function updateSearchResults(results: Object) {
   return {
     type: "UPDATE_SEARCH_RESULTS",
     results
   };
 }
 
-export function updateSymbolSearchResults(results: array) {
+export function updateSymbolSearchResults(results: Array<*>) {
   return {
     type: "UPDATE_SYMBOL_SEARCH_RESULTS",
     results

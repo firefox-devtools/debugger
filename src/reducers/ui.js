@@ -32,6 +32,7 @@ export type UIState = {
   symbolSearchOn: boolean,
   symbolSearchType: SymbolSearchType,
   searchResults: SearchResults,
+  symbolSearchResults: Array<*>,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
