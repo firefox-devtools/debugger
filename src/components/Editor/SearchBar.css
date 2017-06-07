@@ -1,8 +1,6 @@
 .search-bar {
   display: flex;
   flex-direction: column;
-  --editor-searchbar-height: 27px;
-  --editor-second-searchbar-height: 27px;
 }
 
 .search-bar .search-field {

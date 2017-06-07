@@ -36,6 +36,13 @@ function getValue(expression) {
     };
   }
 
+  if (value.error) {
+    return {
+      path: value.from,
+      value: value.error
+    };
+  }
+
   if (typeof value.result == "object") {
     return {
       path: value.result.actor,
