@@ -50,7 +50,7 @@ describe("Frames", () => {
     const component = render({ frames, selectedFrame });
 
     expect(component).toMatchSnapshot();
-    const showMore = component.node.props.children[1];
+    const showMore = component.node.props.children[2];
     expect(showMore.props.className).toEqual("show-more");
   });
 

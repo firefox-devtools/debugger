@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import WhyPaused from "../SecondaryPanes/WhyPaused.js";
+import WhyPaused from "../SecondaryPanes/Frames/WhyPaused.js";
 
 const WhyPausedComponent = React.createFactory(WhyPaused.WrappedComponent);
 
