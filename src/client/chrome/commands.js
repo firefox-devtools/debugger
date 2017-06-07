@@ -1,10 +1,10 @@
 // @flow
 
-const {
+import {
   toServerLocation,
   fromServerLocation,
   createLoadedObject
-} = require("./create");
+} from "./create";
 
 import type { Location } from "../types";
 import type { ServerLocation, Agents } from "./types";
@@ -124,7 +124,4 @@ const clientCommands = {
   getProperties
 };
 
-module.exports = {
-  setupCommands,
-  clientCommands
-};
+export { setupCommands, clientCommands };

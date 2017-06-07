@@ -9,7 +9,7 @@ import type { ThunkArgs, ActionType } from "../../../actions/types";
  * middleware constructure. This allows the action to create multiple
  * actions (most likely asynchronously).
  */
-function thunk(makeArgs: any) {
+export function thunk(makeArgs: any) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const args = { dispatch, getState };
 
@@ -20,4 +20,3 @@ function thunk(makeArgs: any) {
     };
   };
 }
-exports.thunk = thunk;

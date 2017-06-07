@@ -1,14 +1,15 @@
 // @flow
 
-const firefox = require("./firefox");
-const chrome = require("./chrome");
-const { prefs } = require("../utils/prefs");
-const { isFirefoxPanel } = require("devtools-config");
-const {
+import * as firefox from "./firefox";
+import * as chrome from "./chrome";
+
+import { prefs } from "../utils/prefs";
+import { isFirefoxPanel } from "devtools-config";
+import {
   bootstrapApp,
   bootstrapStore,
   bootstrapWorkers
-} = require("../utils/bootstrap");
+} from "../utils/bootstrap";
 
 function loadFromPrefs(actions: Object) {
   const { pauseOnExceptions, ignoreCaughtExceptions } = prefs;
@@ -60,4 +61,4 @@ async function onConnect(connection: Object, services: Object) {
   return { store, actions, selectors, client: commands };
 }
 
-module.exports = { onConnect };
+export { onConnect };

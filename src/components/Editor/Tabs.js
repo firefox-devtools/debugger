@@ -437,7 +437,7 @@ class SourceTabs extends PureComponent {
 
 SourceTabs.displayName = "SourceTabs";
 
-module.exports = connect(
+export default connect(
   state => {
     return {
       selectedSource: getSelectedSource(state),
