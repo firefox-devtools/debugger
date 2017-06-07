@@ -1,6 +1,6 @@
 // @flow
 
-const { createFrame, createLoadedObject } = require("./create");
+import { createFrame, createLoadedObject } from "./create";
 
 let actions;
 let pageAgent;
@@ -121,8 +121,4 @@ const pageEvents = {
   frameStoppedLoading
 };
 
-module.exports = {
-  setupEvents,
-  pageEvents,
-  clientEvents
-};
+export { setupEvents, pageEvents, clientEvents };

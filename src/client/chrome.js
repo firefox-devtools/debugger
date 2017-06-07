@@ -1,7 +1,7 @@
 // @flow
 
-const { setupCommands, clientCommands } = require("./chrome/commands");
-const { setupEvents, clientEvents, pageEvents } = require("./chrome/events");
+import { setupCommands, clientCommands } from "./chrome/commands";
+import { setupEvents, clientEvents, pageEvents } from "./chrome/events";
 
 export async function onConnect(connection: any, actions: Object) {
   const { tabConnection, connTarget: { type } } = connection;

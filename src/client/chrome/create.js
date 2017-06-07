@@ -40,7 +40,7 @@ function createLoadedObject(serverObject: any, parentId: string): LoadedObject {
   };
 }
 
-module.exports = {
+export {
   fromServerLocation,
   toServerLocation,
   createFrame,
