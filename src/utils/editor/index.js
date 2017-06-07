@@ -44,7 +44,11 @@ function isTextForSource(sourceText) {
 
 function breakpointAtLocation(breakpoints, { line, column = undefined }) {
   return breakpoints.find(bp => {
-    return bp.location.line === line + 1 && bp.location.column === column;
+    const sameColumn = isEnabled("columnBreakpoints") && column
+      ? bp.location.column === column
+      : true;
+    const sameLine = bp.location.line === line + 1;
+    return sameLine && sameColumn;
   });
 }
 

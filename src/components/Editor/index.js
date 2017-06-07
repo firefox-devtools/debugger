@@ -528,7 +528,7 @@ class Editor extends PureComponent {
       removeBreakpoint({
         sourceId: sourceId,
         line: line + 1,
-        column: column
+        column: column || bp.location.column
       });
     } else {
       addBreakpoint(
