@@ -663,12 +663,18 @@ class SearchBar extends Component {
     const { toggleSymbolSearch } = this;
     const { symbolSearchOn, selectedSymbolType } = this.props;
 
+    function isButtonActive(searchType) {
+      switch (searchType) {
+        case "text":
+          return !symbolSearchOn;
+        case "functions":
+        case "variables":
+          return symbolSearchOn && selectedSymbolType == searchType;
+      }
+    }
+
     function searchTypeBtn(searchType) {
-      let active =
-        (symbolSearchOn &&
-          selectedSymbolType == searchType &&
-          searchType !== "text") ||
-        (!symbolSearchOn && searchType === "text");
+      let active = isButtonActive(searchType);
 
       return dom.button(
         {
