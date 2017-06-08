@@ -65,7 +65,6 @@ ShallowWrapper {
             toggleFrameworkGrouping={[Function]}
         />
     </ul>
-    <Connect(WhyPaused) />
 </div>,
   "nodes": Array [
     <div
@@ -125,7 +124,6 @@ ShallowWrapper {
                   toggleFrameworkGrouping={[Function]}
             />
       </ul>
-      <Connect(WhyPaused) />
 </div>,
   ],
   "options": Object {},
@@ -284,7 +282,6 @@ ShallowWrapper {
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
-          <Connect(WhyPaused) />
 </div>,
         "_debugID": 8,
         "_renderedOutput": <div
@@ -344,7 +341,6 @@ ShallowWrapper {
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
-          <Connect(WhyPaused) />
 </div>,
       },
       "_renderedNodeType": 0,
@@ -468,7 +464,6 @@ ShallowWrapper {
             toggleFrameworkGrouping={[Function]}
         />
     </ul>
-    <Connect(WhyPaused) />
 </div>,
   "nodes": Array [
     <div
@@ -538,7 +533,6 @@ ShallowWrapper {
                   toggleFrameworkGrouping={[Function]}
             />
       </ul>
-      <Connect(WhyPaused) />
 </div>,
   ],
   "options": Object {},
@@ -701,7 +695,6 @@ ShallowWrapper {
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
-          <Connect(WhyPaused) />
 </div>,
         "_debugID": 12,
         "_renderedOutput": <div
@@ -771,7 +764,6 @@ ShallowWrapper {
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
-          <Connect(WhyPaused) />
 </div>,
       },
       "_renderedNodeType": 0,
@@ -908,7 +900,6 @@ ShallowWrapper {
             toggleFrameworkGrouping={[Function]}
         />
     </ul>
-    <Connect(WhyPaused) />
 </div>,
   "nodes": Array [
     <div
@@ -994,7 +985,6 @@ ShallowWrapper {
                   toggleFrameworkGrouping={[Function]}
             />
       </ul>
-      <Connect(WhyPaused) />
 </div>,
   ],
   "options": Object {},
@@ -1173,7 +1163,6 @@ ShallowWrapper {
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
-          <Connect(WhyPaused) />
 </div>,
         "_debugID": 10,
         "_renderedOutput": <div
@@ -1259,7 +1248,6 @@ ShallowWrapper {
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
-          <Connect(WhyPaused) />
 </div>,
       },
       "_renderedNodeType": 0,
@@ -1576,7 +1564,6 @@ ShallowWrapper {
             toggleFrameworkGrouping={[Function]}
         />
     </ul>
-    <Connect(WhyPaused) />
     <div
         className="show-more"
         onClick={[Function]}
@@ -1723,7 +1710,6 @@ ShallowWrapper {
                   toggleFrameworkGrouping={[Function]}
             />
       </ul>
-      <Connect(WhyPaused) />
       <div
             className="show-more"
             onClick={[Function]}
@@ -1983,7 +1969,6 @@ ShallowWrapper {
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
-          <Connect(WhyPaused) />
           <div
                     className="show-more"
                     onClick={[Function]}
@@ -2130,7 +2115,6 @@ ShallowWrapper {
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
-          <Connect(WhyPaused) />
           <div
                     className="show-more"
                     onClick={[Function]}
@@ -2224,7 +2208,6 @@ ShallowWrapper {
             toggleFrameworkGrouping={[Function]}
         />
     </ul>
-    <Connect(WhyPaused) />
 </div>,
   "nodes": Array [
     <div
@@ -2251,7 +2234,6 @@ ShallowWrapper {
                   toggleFrameworkGrouping={[Function]}
             />
       </ul>
-      <Connect(WhyPaused) />
 </div>,
   ],
   "options": Object {},
@@ -2349,7 +2331,6 @@ ShallowWrapper {
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
-          <Connect(WhyPaused) />
 </div>,
         "_debugID": 4,
         "_renderedOutput": <div
@@ -2376,7 +2357,6 @@ ShallowWrapper {
                               toggleFrameworkGrouping={[Function]}
                     />
           </ul>
-          <Connect(WhyPaused) />
 </div>,
       },
       "_renderedNodeType": 0,
