@@ -47,6 +47,14 @@ function isExtJs(frame) {
   return /\/ext-all[\.\-]/.test(getFrameUrl(frame));
 }
 
+function isUnderscore(frame) {
+  return getFrameUrl(frame).match(/underscore/i);
+}
+
+function isLodash(frame) {
+  return getFrameUrl(frame).match(/lodash/i);
+}
+
 export function getLibraryFromUrl(frame: Frame) {
   // @TODO each of these fns calls getFrameUrl, just call it once
   // (assuming there's not more complex logic to identify a lib)
@@ -81,6 +89,14 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isExtJs(frame)) {
     return "ExtJS";
+  }
+
+  if (isUnderscore(frame)) {
+    return Object.assign({}, frame, { library: "Underscore" });
+  }
+
+  if (isLodash(frame)) {
+    return Object.assign({}, frame, { library: "Lodash" });
   }
 }
 
