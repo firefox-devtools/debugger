@@ -1,13 +1,15 @@
 
 .why-paused {
   background-color: var(--theme-body-background);
-  border-bottom: 1px solid var(--theme-splitter-color);
-  color: var(--theme-highlight-blue);
+  color: var(--theme-body-color);
   padding: 10px 10px 10px 20px;
   white-space: normal;
-  opacity: 0.9;
+  opacity: 0.6;
   font-size: 12px;
   flex: 0 1 auto;
+  text-align: center;
+  font-style: italic;
+  font-weight: 300;
 }
 
 .theme-dark .secondary-panes .why-paused {

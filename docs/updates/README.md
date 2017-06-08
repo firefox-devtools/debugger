@@ -107,7 +107,7 @@ This was a really great week for QA improvements as the debugger is getting more
 
 * We now disable out of scope lines when the debugger pauses.
 * We have huge updates to preview - it's faster, more consistent, and works for HTML elements
-* Breakpoints are kept in sync as code changes. Big thanks to [@codehag]
+* Breakpoints are kept in sync as code changes. Big thanks to [codehag][@codehag]
 * We're chipping away at two new features: Outline View and Project Search
 
 
