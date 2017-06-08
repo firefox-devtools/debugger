@@ -525,10 +525,12 @@ class Editor extends PureComponent {
     const { sourceId } = selectedLocation;
 
     if (bp) {
+      // NOTE: it's possible the breakpoint has slid to a column
+      column = column || bp.location.column;
       removeBreakpoint({
         sourceId: sourceId,
         line: line + 1,
-        column: column
+        column
       });
     } else {
       addBreakpoint(
