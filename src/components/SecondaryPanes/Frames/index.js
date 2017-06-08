@@ -15,9 +15,7 @@ const FrameComponent = createFactory(_FrameComponent);
 import _Group from "./Group";
 const Group = createFactory(_Group);
 
-import _WhyPaused from "./WhyPaused";
-const WhyPaused = createFactory(_WhyPaused);
-import { getPause } from "../../../selectors";
+import renderWhyPaused from "./WhyPaused";
 
 import actions from "../../../actions";
 import {
@@ -32,7 +30,8 @@ import {
   getFrameworkGroupingState,
   getSelectedFrame,
   getSourceInSources,
-  getSources
+  getSources,
+  getPause
 } from "../../../selectors";
 
 import type { LocalFrame } from "./types";
@@ -167,7 +166,7 @@ class Frames extends Component {
   }
 
   render() {
-    const { frames } = this.props;
+    const { frames, pause } = this.props;
 
     if (!frames) {
       return dom.div(
@@ -182,7 +181,7 @@ class Frames extends Component {
     return dom.div(
       { className: "pane frames" },
       this.renderFrames(frames),
-      WhyPaused(),
+      renderWhyPaused({ pause }),
       this.renderToggleButton(frames)
     );
   }
@@ -194,7 +193,8 @@ Frames.propTypes = {
   toggleFrameworkGrouping: PropTypes.func.isRequired,
   selectedFrame: PropTypes.object,
   selectFrame: PropTypes.func.isRequired,
-  toggleBlackBox: PropTypes.func
+  toggleBlackBox: PropTypes.func,
+  pause: PropTypes.object
 };
 
 Frames.displayName = "Frames";
@@ -234,7 +234,7 @@ export default connect(
     frames: getAndProcessFramesSelector(state),
     frameworkGroupingOn: getFrameworkGroupingState(state),
     selectedFrame: getSelectedFrame(state),
-    pauseInfo: getPause(state)
+    pause: getPause(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(Frames);

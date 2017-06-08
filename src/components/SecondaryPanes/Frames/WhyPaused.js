@@ -1,16 +1,12 @@
 // @flow
-import { DOM as dom, PropTypes, Component } from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import actions from "../../../actions";
-import { getPause } from "../../../selectors";
+import { DOM as dom } from "react";
 import isString from "lodash/isString";
+import get from "lodash/get";
 
 import { getPauseReason } from "../../../utils/pause";
 import type { Pause } from "debugger-html";
 
 import "./WhyPaused.css";
-import get from "lodash/get";
 
 function renderExceptionSummary(exception) {
   if (isString(exception)) {
@@ -23,53 +19,34 @@ function renderExceptionSummary(exception) {
   return `${name}: ${message}`;
 }
 
-class WhyPaused extends Component {
-  renderMessage(pauseInfo: Pause) {
-    if (!pauseInfo) {
-      return null;
-    }
-
-    const message = get(pauseInfo, "why.message");
-    if (message) {
-      return dom.div({ className: "message" }, message);
-    }
-
-    const exception = get(pauseInfo, "why.exception");
-    if (exception) {
-      return dom.div(
-        { className: "message" },
-        renderExceptionSummary(exception)
-      );
-    }
-
+function renderMessage(pauseInfo: Pause) {
+  if (!pauseInfo) {
     return null;
   }
 
-  render() {
-    const { pauseInfo } = this.props;
-    const reason = getPauseReason(pauseInfo);
-
-    if (!reason) {
-      return null;
-    }
-
-    return dom.div(
-      { className: "pane why-paused" },
-      dom.div(null, L10N.getStr(reason)),
-      this.renderMessage(pauseInfo)
-    );
+  const message = get(pauseInfo, "why.message");
+  if (message) {
+    return dom.div({ className: "message" }, message);
   }
+
+  const exception = get(pauseInfo, "why.exception");
+  if (exception) {
+    return dom.div({ className: "message" }, renderExceptionSummary(exception));
+  }
+
+  return null;
 }
 
-WhyPaused.displayName = "WhyPaused";
+export default function renderWhyPaused({ pause }: { pause: Pause }) {
+  const reason = getPauseReason(pause);
 
-WhyPaused.propTypes = {
-  pauseInfo: PropTypes.object
-};
+  if (!reason) {
+    return null;
+  }
 
-export default connect(
-  state => ({
-    pauseInfo: getPause(state)
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
-)(WhyPaused);
+  return dom.div(
+    { className: "pane why-paused" },
+    dom.div(null, L10N.getStr(reason)),
+    renderMessage(pause)
+  );
+}
