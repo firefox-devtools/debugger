@@ -19,3 +19,9 @@
 .why-paused .message {
   font-size: 10px;
 }
+
+.why-paused .message.warning {
+  font-size: 10px;
+  color: var(--theme-graphs-full-red);
+  font-weight: bold;
+}

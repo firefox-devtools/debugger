@@ -101,7 +101,7 @@ FunctionExpression (7:1,9:1)
     directives: []
   expression: false
   extra:
-    parenStart: 64
+    parenStart: 70
     parenthesized: true
   generator: false
   id: null

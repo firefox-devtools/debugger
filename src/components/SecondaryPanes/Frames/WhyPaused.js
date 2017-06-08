@@ -31,7 +31,10 @@ function renderMessage(pauseInfo: Pause) {
 
   const exception = get(pauseInfo, "why.exception");
   if (exception) {
-    return dom.div({ className: "message" }, renderExceptionSummary(exception));
+    return dom.div(
+      { className: "message warning" },
+      renderExceptionSummary(exception)
+    );
   }
 
   return null;
