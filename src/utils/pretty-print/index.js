@@ -8,6 +8,8 @@ import assert from "../assert";
 import type { Source, SourceText } from "../../types";
 
 const dispatcher = new WorkerDispatcher();
+export const startPrettyPrintWorker = dispatcher.start.bind(dispatcher);
+export const stopPrettyPrintWorker = dispatcher.stop.bind(dispatcher);
 const _prettyPrint = dispatcher.task("prettyPrint");
 
 type PrettyPrintOpts = {
@@ -16,7 +18,11 @@ type PrettyPrintOpts = {
   url: string
 };
 
-async function prettyPrint({ source, sourceText, url }: PrettyPrintOpts) {
+export async function prettyPrint({
+  source,
+  sourceText,
+  url
+}: PrettyPrintOpts) {
   const contentType = sourceText ? sourceText.contentType : "";
   const indent = 2;
 
@@ -31,9 +37,3 @@ async function prettyPrint({ source, sourceText, url }: PrettyPrintOpts) {
     source: sourceText ? sourceText.text : undefined
   });
 }
-
-module.exports = {
-  prettyPrint,
-  startPrettyPrintWorker: dispatcher.start.bind(dispatcher),
-  stopPrettyPrintWorker: dispatcher.stop.bind(dispatcher)
-};

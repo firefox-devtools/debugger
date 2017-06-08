@@ -7,7 +7,6 @@ export function countMatches(
   text: string,
   modifiers: SearchModifiers
 ): number {
-  debugger;
   const regexQuery = buildQuery(query, modifiers, {
     isGlobal: true
   });
@@ -15,5 +14,4 @@ export function countMatches(
   return match ? match.length : 0;
 }
 
-debugger;
 self.onmessage = workerHandler({ countMatches });

@@ -1,7 +1,7 @@
 // @flow
 import escapeRegExp from "lodash/escapeRegExp";
 
-import type { SearchModifiers } from "../../types";
+import type { SearchModifiers } from "../../../types";
 
 type QueryOptions = {
   isGlobal?: boolean,

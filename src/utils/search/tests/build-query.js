@@ -1,5 +1,5 @@
 import escapeRegExp from "lodash/escapeRegExp";
-import { buildQuery } from "../utils";
+import buildQuery from "../utils/build-query";
 
 describe("build-query", () => {
   it("case-sensitive, whole-word, regex search", () => {
