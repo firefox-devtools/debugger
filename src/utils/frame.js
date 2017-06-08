@@ -92,11 +92,11 @@ export function getLibraryFromUrl(frame: Frame) {
   }
 
   if (isUnderscore(frame)) {
-    return Object.assign({}, frame, { library: "Underscore" });
+    return "Underscore";
   }
 
   if (isLodash(frame)) {
-    return Object.assign({}, frame, { library: "Lodash" });
+    return "Lodash";
   }
 }
 
