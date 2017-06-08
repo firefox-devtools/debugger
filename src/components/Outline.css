@@ -1,8 +1,15 @@
 .outline-list {
-  list-style-type: "-";
+  list-style-type: none;
+  padding-left: 10px;
 }
 
 .outline-list__element {
   color: blue;
   padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  cursor: pointer;
+}
+
+.outline-list__element:hover {
+  background: var(--theme-toolbar-background-hover);
 }
