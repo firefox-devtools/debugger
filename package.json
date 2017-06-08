@@ -76,7 +76,7 @@
     "mocha": "^3.1.2",
     "mock-require": "^2.0.2",
     "parse-script-tags": "^0.1.1",
-    "prettier": "^1.4.2",
+    "prettier": "^1.4.4",
     "pretty-fast": "^0.2.0",
     "react": "=15.3.2",
     "react-dom": "=15.3.2",
