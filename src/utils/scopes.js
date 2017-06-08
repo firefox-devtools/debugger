@@ -1,7 +1,7 @@
 // @flow
 
 import toPairs from "lodash/toPairs";
-const get = require("lodash/get");
+import get from "lodash/get";
 
 import type { Frame, Pause, Scope } from "debugger-html";
 

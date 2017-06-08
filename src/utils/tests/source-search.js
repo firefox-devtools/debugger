@@ -1,5 +1,5 @@
-const { countMatches } = require("../editor");
-const { getMatchIndex } = require("../editor/source-search");
+import { countMatches } from "../editor";
+import { getMatchIndex } from "../editor/source-search";
 
 describe("source-search", () => {
   describe("countMatches", () => {
