@@ -71,7 +71,7 @@ ShallowWrapper {
         Paused on exception
     </div>
     <div
-        className="message"
+        className="message warning"
     >
         ReferenceError: o is not defined
     </div>
@@ -84,7 +84,7 @@ ShallowWrapper {
             Paused on exception
       </div>
       <div
-            className="message"
+            className="message warning"
       >
             ReferenceError: o is not defined
       </div>
@@ -104,7 +104,7 @@ ShallowWrapper {
         Paused on exception
     </div>
     <div
-        className="message"
+        className="message warning"
     >
         ReferenceError: o is not defined
     </div>
@@ -127,7 +127,7 @@ ShallowWrapper {
         Paused on exception
     </div>
     <div
-        className="message"
+        className="message warning"
     >
         Not Available
     </div>
@@ -140,7 +140,7 @@ ShallowWrapper {
             Paused on exception
       </div>
       <div
-            className="message"
+            className="message warning"
       >
             Not Available
       </div>
@@ -160,7 +160,7 @@ ShallowWrapper {
         Paused on exception
     </div>
     <div
-        className="message"
+        className="message warning"
     >
         Not Available
     </div>
