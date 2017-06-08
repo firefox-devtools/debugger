@@ -65,7 +65,6 @@
     "eslint-config-prettier": "^2.1.0",
     "eslint-plugin-prettier": "^2.0.1",
     "expect.js": "^0.3.1",
-    "firefox-profile": "^0.4.8",
     "flow-bin": "^0.46",
     "fuzzaldrin-plus": "^0.4.1",
     "glob": "^7.0.3",
