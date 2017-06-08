@@ -1,5 +1,5 @@
-const { Map } = require("immutable");
-const {
+import { Map } from "immutable";
+import {
   createNode,
   nodeHasChildren,
   addToTree,
@@ -8,7 +8,7 @@ const {
   getURL,
   isExactUrlMatch,
   isDirectory
-} = require("../sources-tree.js");
+} from "../sources-tree.js";
 
 describe("sources-tree", () => {
   const abcSource = Map({

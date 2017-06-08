@@ -1,8 +1,8 @@
 require("mocha/mocha");
-const expect = require("expect.js");
+import expect from "expect.js";
 let { prefs } = require("../../utils/prefs");
 
-const tests = require("./tests/index");
+import tests from "./tests/index";
 Object.assign(window, { prefs }, tests);
 
 window.ok = function ok(expected) {

@@ -1,16 +1,12 @@
-const {
-  startSourceMapWorker,
-  stopSourceMapWorker
-} = require("devtools-source-map");
+import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
 
-const {
+import {
   startPrettyPrintWorker,
   stopPrettyPrintWorker
-} = require("../utils/pretty-print");
+} from "../utils/pretty-print";
 
-const { startParserWorker, stopParserWorker } = require("../utils/parser");
-
-const { getValue } = require("devtools-config");
+import { startParserWorker, stopParserWorker } from "../utils/parser";
+import { getValue } from "devtools-config";
 
 beforeAll(() => {
   startSourceMapWorker(getValue("workers.sourceMapURL"));

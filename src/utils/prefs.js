@@ -1,9 +1,11 @@
 // @flow
 
-var { PrefsHelper } = require("devtools-modules");
-const { Services: { pref } } = require("devtools-modules");
 const { isDevelopment } = require("devtools-config");
+const { Services, PrefsHelper } = require("devtools-modules");
+
 const prefsSchemaVersion = "1.0.0";
+
+const pref = Services.pref;
 
 if (isDevelopment()) {
   pref("devtools.debugger.client-source-maps-enabled", true);

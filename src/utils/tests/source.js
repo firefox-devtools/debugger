@@ -1,4 +1,4 @@
-const { getFilename, getMode } = require("../source.js");
+import { getFilename, getMode } from "../source.js";
 
 describe("sources", () => {
   describe("getFilename", () => {

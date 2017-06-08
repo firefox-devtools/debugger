@@ -1,4 +1,4 @@
-const { getSpecialVariables, getScopes } = require("../scopes");
+import { getSpecialVariables, getScopes } from "../scopes";
 
 const errorGrip = {
   type: "object",
