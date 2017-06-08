@@ -47,7 +47,7 @@
     "nom": "rm -rf node_modules yarn.lock; yarn install"
   },
   "dependencies": {
-    "@percy-io/react-percy-storybook": "^0.1.10",
+    "@percy-io/react-percy-storybook": "^0.1.11",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
     "babel-preset-react": "^6.24.1",
     "babel-traverse": "^6.22.1",
