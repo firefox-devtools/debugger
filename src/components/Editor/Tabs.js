@@ -243,7 +243,7 @@ class SourceTabs extends PureComponent {
     };
 
     const copySourceUrl = {
-      id: "node-menu-close-tabs-to-right",
+      id: "node-menu-copy-source-url",
       label: copyLinkLabel,
       accesskey: copyLinkKey,
       disabled: false,
