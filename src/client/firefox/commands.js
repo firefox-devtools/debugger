@@ -23,7 +23,7 @@ import type {
   BreakpointResponse
 } from "./types";
 
-const { createSource } = require("./create");
+import { createSource } from "./create";
 
 let bpClients: { [id: ActorId]: BreakpointClient };
 let threadClient: ThreadClient;
@@ -306,7 +306,4 @@ const clientCommands = {
   fetchSources
 };
 
-module.exports = {
-  setupCommands,
-  clientCommands
-};
+export { setupCommands, clientCommands };

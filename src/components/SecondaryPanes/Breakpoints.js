@@ -17,7 +17,7 @@ import { endTruncateStr } from "../../utils/utils";
 import { basename } from "../../utils/path";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
-const get = require("lodash/get");
+import get from "lodash/get";
 
 import type { Breakpoint } from "../../types";
 

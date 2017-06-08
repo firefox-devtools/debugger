@@ -9,7 +9,7 @@ import type {
   SourcePayload
 } from "./types";
 
-function createFrame(frame: FramePacket): Frame {
+export function createFrame(frame: FramePacket): Frame {
   let title;
   if (frame.type == "call") {
     let c = frame.callee;

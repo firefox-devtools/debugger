@@ -243,7 +243,7 @@ class SourceTabs extends PureComponent {
     };
 
     const copySourceUrl = {
-      id: "node-menu-close-tabs-to-right",
+      id: "node-menu-copy-source-url",
       label: copyLinkLabel,
       accesskey: copyLinkKey,
       disabled: false,
@@ -437,7 +437,7 @@ class SourceTabs extends PureComponent {
 
 SourceTabs.displayName = "SourceTabs";
 
-module.exports = connect(
+export default connect(
   state => {
     return {
       selectedSource: getSelectedSource(state),

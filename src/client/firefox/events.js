@@ -8,8 +8,8 @@ import type {
   Actions
 } from "./types";
 
-const { createPause, createSource } = require("./create");
-const { isEnabled } = require("devtools-config");
+import { createPause, createSource } from "./create";
+import { isEnabled } from "devtools-config";
 
 const CALL_STACK_PAGE_SIZE = 1000;
 
@@ -68,7 +68,4 @@ const clientEvents = {
   newSource
 };
 
-module.exports = {
-  setupEvents,
-  clientEvents
-};
+export { setupEvents, clientEvents };

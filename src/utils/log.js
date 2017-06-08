@@ -8,7 +8,7 @@
  * @module utils/log
  */
 
-const { isDevelopment } = require("devtools-config");
+import { isDevelopment } from "devtools-config";
 
 /**
  * Produces a formatted console log line by imploding args, prefixed by [log]
@@ -19,12 +19,10 @@ const { isDevelopment } = require("devtools-config");
  * @memberof utils/log
  * @static
  */
-function log(...args: any[]) {
+export function log(...args: any[]) {
   if (!isDevelopment()) {
     return;
   }
 
   console.log.apply(console, ["[log]", ...args]);
 }
-
-module.exports = log;

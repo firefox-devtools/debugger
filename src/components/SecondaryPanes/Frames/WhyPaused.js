@@ -10,7 +10,7 @@ import { getPauseReason } from "../../../utils/pause";
 import type { Pause } from "debugger-html";
 
 import "./WhyPaused.css";
-const get = require("lodash/get");
+import get from "lodash/get";
 
 function renderExceptionSummary(exception) {
   if (isString(exception)) {
