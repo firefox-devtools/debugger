@@ -47,7 +47,7 @@
     "nom": "rm -rf node_modules yarn.lock; yarn install"
   },
   "dependencies": {
-    "@percy-io/react-percy-storybook": "^0.1.10",
+    "@percy-io/react-percy-storybook": "^0.1.11",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
     "babel-preset-react": "^6.24.1",
     "babel-traverse": "^6.22.1",
@@ -65,7 +65,6 @@
     "eslint-config-prettier": "^2.1.0",
     "eslint-plugin-prettier": "^2.0.1",
     "expect.js": "^0.3.1",
-    "firefox-profile": "^0.4.8",
     "flow-bin": "^0.46",
     "fuzzaldrin-plus": "^0.4.1",
     "glob": "^7.0.3",
@@ -77,7 +76,7 @@
     "mocha": "^3.1.2",
     "mock-require": "^2.0.2",
     "parse-script-tags": "^0.1.1",
-    "prettier": "^1.4.2",
+    "prettier": "^1.4.4",
     "pretty-fast": "^0.2.0",
     "react": "=15.3.2",
     "react-dom": "=15.3.2",
