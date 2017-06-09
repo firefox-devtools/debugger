@@ -24,9 +24,10 @@ import {
   findNext,
   findPrev,
   removeOverlay,
-  countMatches,
   clearIndex
 } from "../../utils/editor";
+
+import { countMatches } from "../../utils/search";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
@@ -394,7 +395,7 @@ class SearchBar extends Component {
     }
   }
 
-  searchContents(query: string) {
+  async searchContents(query: string) {
     const {
       selectedSource,
       modifiers,
@@ -408,7 +409,7 @@ class SearchBar extends Component {
 
     const ctx = { ed, cm: ed.codeMirror };
 
-    const newCount = countMatches(
+    const newCount = await countMatches(
       query,
       selectedSource.get("text"),
       modifiers.toJS()

@@ -1,7 +1,6 @@
 import { isEnabled } from "devtools-config";
 import { isPretty, isJavaScript } from "../source";
 import { isOriginalId } from "devtools-source-map";
-import buildQuery from "./build-query";
 import * as sourceDocumentUtils from "./source-documents";
 const { getDocument } = sourceDocumentUtils;
 
@@ -119,7 +118,6 @@ module.exports = Object.assign(
     createEditor,
     shouldShowPrettyPrint,
     shouldShowFooter,
-    buildQuery,
     isTextForSource,
     breakpointAtLocation,
     traverseResults,

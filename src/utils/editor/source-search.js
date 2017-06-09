@@ -1,6 +1,6 @@
 // @flow
 
-import buildQuery from "./build-query";
+import buildQuery from "../search/utils/build-query";
 
 import type { SearchModifiers } from "../../types";
 
@@ -296,22 +296,9 @@ function clearIndex(ctx: any, query: string, modifiers: SearchModifiers) {
   state.matchIndex = -1;
 }
 
-function countMatches(
-  query: string,
-  text: string,
-  modifiers: SearchModifiers
-): number {
-  const regexQuery = buildQuery(query, modifiers, {
-    isGlobal: true
-  });
-  const match = text.match(regexQuery);
-  return match ? match.length : 0;
-}
-
 export {
   buildQuery,
   clearIndex,
-  countMatches,
   find,
   findNext,
   findPrev,
