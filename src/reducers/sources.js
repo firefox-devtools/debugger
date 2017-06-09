@@ -84,7 +84,6 @@ function update(
       };
 
       prefs.pendingSelectedLocation = location;
-
       return state
         .set("selectedLocation", {
           sourceId: action.source.id,
@@ -92,11 +91,7 @@ function update(
         })
         .set("pendingSelectedLocation", location)
         .merge({
-          tabs: updateTabList(
-            { sources: state },
-            action.source.url,
-            action.tabIndex
-          )
+          tabs: updateTabList({ sources: state }, action.source.url)
         });
 
     case "CLEAR_SELECTED_SOURCE":
@@ -115,6 +110,11 @@ function update(
 
       prefs.pendingSelectedLocation = location;
       return state.set("pendingSelectedLocation", location);
+
+    case "MOVE_TAB":
+      return state.merge({
+        tabs: updateTabList({ sources: state }, action.url, action.tabIndex)
+      });
 
     case "CLOSE_TAB":
       prefs.tabs = action.tabs;
@@ -154,9 +154,9 @@ function getTextPropsFromAction(action: any) {
   const sourceText = action.value;
 
   if (action.status === "start") {
-    return { loading: true };
+    return { id: source.id, loading: true };
   } else if (action.status === "error") {
-    return { error: action.error, loading: false };
+    return { id: source.id, error: action.error, loading: false };
   }
   return {
     text: sourceText.text,

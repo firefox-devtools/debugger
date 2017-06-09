@@ -53,6 +53,7 @@ function TabsFactory(options, { dir = "ltr", theme = "light" } = {}) {
             searchOn: false,
             selectedSource: null,
             selectSource: action("selectSource"),
+            moveTab: action("moveTab"),
             closeTab: action("closeTab"),
             closeTabs: action("closeTabs"),
             toggleProjectSearch: action("toggleProjectSearch"),
