@@ -178,7 +178,6 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
     }
 
     let source = getSource(getState(), id);
-
     if (!source) {
       // If there is no source we deselect the current selected source
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
@@ -226,6 +225,14 @@ export function jumpToMappedLocation(sourceLocation: any) {
     return dispatch(
       selectSource(pairedLocation.sourceId, { line: pairedLocation.line })
     );
+  };
+}
+
+export function moveTab(url: string, tabIndex: number) {
+  return {
+    type: "MOVE_TAB",
+    url,
+    tabIndex
   };
 }
 

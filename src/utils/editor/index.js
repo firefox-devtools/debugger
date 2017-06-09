@@ -37,10 +37,6 @@ function shouldShowFooter(selectedSource, horizontal) {
   return shouldShowPrettyPrint(selectedSource);
 }
 
-function isTextForSource(sourceText) {
-  return !sourceText.get("loading") && !sourceText.get("error");
-}
-
 function breakpointAtLocation(breakpoints, { line, column = undefined }) {
   return breakpoints.find(bp => {
     const sameLine = bp.location.line === line + 1;
@@ -118,7 +114,6 @@ module.exports = Object.assign(
     createEditor,
     shouldShowPrettyPrint,
     shouldShowFooter,
-    isTextForSource,
     breakpointAtLocation,
     traverseResults,
     updateDocument

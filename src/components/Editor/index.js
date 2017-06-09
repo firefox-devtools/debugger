@@ -65,7 +65,6 @@ import {
   shouldShowFooter,
   clearLineClass,
   createEditor,
-  isTextForSource,
   breakpointAtLocation,
   getTextForLine,
   getCursorLine,
@@ -134,7 +133,7 @@ class Editor extends PureComponent {
   componentWillReceiveProps(nextProps) {
     // This lifecycle method is responsible for updating the editor
     // text.
-    const { sourceText, selectedLocation } = nextProps;
+    const { selectedSource, selectedLocation } = nextProps;
     this.clearDebugLine(this.props.selectedFrame);
 
     if (
@@ -144,14 +143,16 @@ class Editor extends PureComponent {
       this.editor.codeMirror.setSize();
     }
 
-    if (!sourceText) {
-      if (this.props.sourceText) {
+    if (!selectedSource) {
+      if (this.props.selectedSource) {
         this.showMessage("");
       }
-    } else if (!isTextForSource(sourceText)) {
-      this.showMessage(sourceText.get("error") || L10N.getStr("loadingText"));
-    } else if (this.props.sourceText !== sourceText) {
-      this.showSourceText(sourceText, selectedLocation);
+    } else if (selectedSource.get("loading")) {
+      this.showMessage(L10N.getStr("loadingText"));
+    } else if (selectedSource.get("error")) {
+      this.showMessage(selectedSource.get("error"));
+    } else if (this.props.selectedSource !== selectedSource) {
+      this.showSourceText(selectedSource, selectedLocation);
     }
 
     if (this.props.outOfScopeLocations !== nextProps.outOfScopeLocations) {
@@ -258,7 +259,7 @@ class Editor extends PureComponent {
     // This is in `componentDidUpdate` so helper functions can expect
     // `this.props` to be the current props. This lifecycle method is
     // responsible for updating the editor annotations.
-    const { selectedLocation } = this.props;
+    const { selectedLocation, selectedSource } = this.props;
 
     // If the location is different and a new line is requested,
     // update the pending jump line. Note that if jumping to a line in
@@ -275,7 +276,7 @@ class Editor extends PureComponent {
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
     // loaded.
-    if (this.props.sourceText && isTextForSource(this.props.sourceText)) {
+    if (selectedSource && selectedSource.has("text")) {
       this.highlightLine();
     }
   }

@@ -97,6 +97,7 @@ class SourceTabs extends PureComponent {
     sourceTabs: SourcesList,
     selectedSource: SourceRecord,
     selectSource: (string, ?Object) => any,
+    moveTab: (string, number) => any,
     closeTab: string => any,
     closeTabs: (List<string>) => any,
     toggleProjectSearch: () => any,
@@ -286,12 +287,12 @@ class SourceTabs extends PureComponent {
     if (!this.refs.sourceTabs) {
       return;
     }
-    const { selectedSource, sourceTabs, selectSource } = this.props;
+    const { selectedSource, sourceTabs, moveTab } = this.props;
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenSourceTabs = getHiddenTabs(sourceTabs, sourceTabEls);
 
     if (hiddenSourceTabs.indexOf(selectedSource) !== -1) {
-      return selectSource(selectedSource.get("id"), { tabIndex: 0 });
+      return moveTab(selectedSource.get("url"), 0);
     }
 
     this.setState({ hiddenSourceTabs });
@@ -304,7 +305,7 @@ class SourceTabs extends PureComponent {
   }
 
   renderDropdownSource(source: SourceRecord) {
-    const { selectSource } = this.props;
+    const { moveTab } = this.props;
     const filename = getFilename(source.toJS());
 
     return dom.li(
@@ -313,7 +314,7 @@ class SourceTabs extends PureComponent {
         onClick: () => {
           // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
           const tabIndex = 0;
-          selectSource(source.get("id"), { tabIndex });
+          moveTab(source.get("url"), tabIndex);
         }
       },
       filename

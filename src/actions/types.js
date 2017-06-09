@@ -126,8 +126,9 @@ type SourceAction =
         frames: Frame[]
       }
     }
+  | { type: "MOVE_TAB", url: string, tabIndex: number }
   | { type: "CLOSE_TAB", url: string, tabs: any }
-  | { type: "CLOSE_TABS", urls: Array<string>, tabs: any };
+  | { type: "CLOSE_TABS", urls: string[], tabs: any };
 
 export type panelPositionType = "start" | "end";
 
