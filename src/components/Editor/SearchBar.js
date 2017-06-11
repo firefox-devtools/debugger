@@ -345,6 +345,7 @@ class SearchBar extends Component {
     const searchInput = this.searchInput();
     if (searchInput) {
       searchInput.setSelectionRange(0, searchInput.value.length);
+      searchInput.focus();
     }
   }
 
