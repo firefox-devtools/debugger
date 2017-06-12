@@ -1,11 +1,12 @@
 .outline-list {
   list-style-type: none;
-  padding-left: 10px;
+  padding-left: 0px;
+  width: 100%;
 }
 
 .outline-list__element {
   color: blue;
-  padding-left: 0.5rem;
+  padding-left: 1rem;
   padding-right: 0.5rem;
   cursor: pointer;
 }
