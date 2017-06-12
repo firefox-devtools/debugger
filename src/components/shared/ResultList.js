@@ -18,7 +18,7 @@ type Props = {
     event: SyntheticKeyboardEvent,
     item: ResultListItem,
     index: number
-  ) => any,
+  ) => void,
   size: string
 };
 

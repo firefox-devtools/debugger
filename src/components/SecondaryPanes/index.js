@@ -50,8 +50,8 @@ type SecondaryPanesItems = {
   header: string,
   component: any,
   opened?: boolean,
-  onToggle?: () => any,
-  shouldOpen?: () => any,
+  onToggle?: () => void,
+  shouldOpen?: () => void,
   buttons?: any
 };
 

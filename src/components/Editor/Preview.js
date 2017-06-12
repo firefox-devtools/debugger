@@ -22,14 +22,14 @@ import "./Preview.css";
 
 class Preview extends Component {
   props: {
-    loadObjectProperties: Object => any,
-    addExpression: (string, ?Object) => any,
+    loadObjectProperties: Object => void,
+    addExpression: (string, ?Object) => void,
     loadedObjects: Object,
     popoverTarget: Object,
     value: Object,
     expression: string,
-    onClose: () => any,
-    selectSourceURL: (string, Object) => any
+    onClose: () => void,
+    selectSourceURL: (string, Object) => void
   };
 
   componentDidMount() {

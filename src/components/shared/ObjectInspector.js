@@ -120,7 +120,7 @@ class ObjectInspector extends Component {
     focused: boolean,
     _: Object,
     expanded: boolean,
-    { setExpanded }: () => any
+    { setExpanded }: () => void
   ) {
     let objectValue;
     let label = item.name;
