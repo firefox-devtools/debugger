@@ -22,7 +22,7 @@ class Outline extends Component {
   props: {
     isHidden: boolean,
     symbols: SymbolDeclarations,
-    selectSource: (string, { line: number }) => any,
+    selectSource: (string, { line: number }) => void,
     selectedSource: ?SourceRecord
   };
 

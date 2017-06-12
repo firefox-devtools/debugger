@@ -21,10 +21,10 @@ type State = {
 };
 
 type Props = {
-  selectItem: (event: SyntheticKeyboardEvent, item: Object) => any,
-  onSelectedItem: (selectedItem: Object) => any,
+  selectItem: (event: SyntheticKeyboardEvent, item: Object) => void,
+  onSelectedItem: (selectedItem: Object) => void,
   items: Array<Object>,
-  close: (value: any) => any,
+  close: (value: any) => void,
   inputValue: string,
   placeholder: string,
   size: string

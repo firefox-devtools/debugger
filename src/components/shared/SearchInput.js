@@ -25,15 +25,15 @@ class SearchInput extends Component {
     count: number,
     placeholder: string,
     summaryMsg: string,
-    onChange: () => any,
-    handleClose: () => any,
-    onKeyUp: () => any,
-    onKeyDown: () => any,
-    onFocus: () => any,
-    onBlur: () => any,
+    onChange: () => void,
+    handleClose: () => void,
+    onKeyUp: () => void,
+    onKeyDown: () => void,
+    onFocus: () => void,
+    onBlur: () => void,
     size: string,
-    handleNext: () => any,
-    handlePrev: () => any
+    handleNext: () => void,
+    handlePrev: () => void
   };
 
   static defaultProps: Object;
