@@ -1130,17 +1130,11 @@ babel-plugin-transform-regenerator@^6.24.1, babel-plugin-transform-regenerator@^
   dependencies:
     regenerator-transform "0.9.11"
 
-babel-plugin-transform-runtime@6.15.0:
+babel-plugin-transform-runtime@6.15.0, babel-plugin-transform-runtime@^6.7.5:
   version "6.15.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-runtime/-/babel-plugin-transform-runtime-6.15.0.tgz#3d75b4d949ad81af157570273846fb59aeb0d57c"
   dependencies:
     babel-runtime "^6.9.0"
-
-babel-plugin-transform-runtime@^6.7.5:
-  version "6.23.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-runtime/-/babel-plugin-transform-runtime-6.23.0.tgz#88490d446502ea9b8e7efb0fe09ec4d99479b1ee"
-  dependencies:
-    babel-runtime "^6.22.0"
 
 babel-plugin-transform-strict-mode@^6.24.1:
   version "6.24.1"
@@ -2368,9 +2362,9 @@ devtools-connection@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.5.tgz#5684508ccbeb45643510b536a62c9952afdbaf0c"
 
-devtools-launchpad@0.0.84:
-  version "0.0.84"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.84.tgz#05c6bb1f93e1195b85be0728dba5adb75926df15"
+devtools-launchpad@0.0.85:
+  version "0.0.85"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.85.tgz#4bed590f091123dec5850661f63545743a190a43"
   dependencies:
     amd-loader "0.0.5"
     autoprefixer "^6.7.6"
@@ -3274,9 +3268,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@^0.46:
-  version "0.46.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.46.0.tgz#06ad7fe19dddb1042264438064a2a32fee12b872"
+flow-bin@^0.47:
+  version "0.47.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.47.0.tgz#a2a08ab3e0d1f1cb57d17e27b30b118b62fda367"
 
 fn-name@^2.0.1:
   version "2.0.1"
@@ -3801,11 +3795,11 @@ husky@^0.13.2:
     is-ci "^1.0.9"
     normalize-path "^1.0.0"
 
-iconv-lite@0.4.13:
+iconv-lite@0.4.13, iconv-lite@~0.4.13:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
 
-iconv-lite@0.4.15, iconv-lite@~0.4.13:
+iconv-lite@0.4.15:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
 
@@ -7877,17 +7871,11 @@ strip-json-comments@^2.0.0, strip-json-comments@^2.0.1, strip-json-comments@~2.0
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-style-loader@0.13.1:
+style-loader@0.13.1, style-loader@^0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.13.1.tgz#468280efbc0473023cd3a6cd56e33b5a1d7fc3a9"
   dependencies:
     loader-utils "^0.2.7"
-
-style-loader@^0.13.1:
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.13.2.tgz#74533384cf698c7104c7951150b49717adc2f3bb"
-  dependencies:
-    loader-utils "^1.0.2"
 
 style-search@^0.1.0:
   version "0.1.0"

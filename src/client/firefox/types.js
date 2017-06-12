@@ -11,6 +11,7 @@ import type {
   Script,
   Source,
   Pause,
+  Frame,
   SourceId
 } from "../types";
 
@@ -338,7 +339,7 @@ export type ThreadClient = {
   interrupt: () => Promise<*>,
   eventListeners: () => Promise<*>,
   getFrames: (number, number) => FramesResponse,
-  getEnvironment: () => Promise<*>,
+  getEnvironment: (frame: Frame) => Promise<*>,
   addListener: (string, Function) => void,
   getSources: () => Promise<SourcesPacket>,
   reconfigure: ({ observeAsmJS: boolean }) => Promise<*>,

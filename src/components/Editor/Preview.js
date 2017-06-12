@@ -148,7 +148,7 @@ class Preview extends Component {
       return dom.div(
         {},
         this.renderObjectPreview(expression, root),
-        this.renderAddToExpressionBar(expression, value)
+        this.renderAddToExpressionBar(expression)
       );
     }
 
