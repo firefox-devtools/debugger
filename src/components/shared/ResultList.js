@@ -14,7 +14,11 @@ type ResultListItem = {
 type Props = {
   items: Array<ResultListItem>,
   selected: number,
-  selectItem: (event: any, item: any, index: any) => any,
+  selectItem: (
+    event: SyntheticKeyboardEvent,
+    item: ResultListItem,
+    index: number
+  ) => any,
   size: string
 };
 
