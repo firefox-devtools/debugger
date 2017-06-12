@@ -36,6 +36,12 @@ ShallowWrapper {
                 Search for:
             </h1>
             <button
+                className="search-type-btn"
+                onClick={[Function]}
+            >
+                text
+            </button>
+            <button
                 className="search-type-btn active"
                 onClick={[Function]}
             >
@@ -78,6 +84,12 @@ ShallowWrapper {
                   >
                         Search for:
                   </h1>
+                  <button
+                        className="search-type-btn"
+                        onClick={[Function]}
+                  >
+                        text
+                  </button>
                   <button
                         className="search-type-btn active"
                         onClick={[Function]}
@@ -153,6 +165,7 @@ ShallowWrapper {
         },
         "toggleSearch": [Function],
         "toggleSymbolSearch": [Function],
+        "toggleTextSearch": [Function],
         "traverseCodeResults": [Function],
         "traverseResults": [Function],
         "traverseSymbolResults": [Function],
@@ -203,6 +216,12 @@ ShallowWrapper {
                                         Search for:
                               </h1>
                               <button
+                                        className="search-type-btn"
+                                        onClick={[Function]}
+                              >
+                                        text
+                              </button>
+                              <button
                                         className="search-type-btn active"
                                         onClick={[Function]}
                               >
@@ -245,6 +264,12 @@ ShallowWrapper {
                               >
                                         Search for:
                               </h1>
+                              <button
+                                        className="search-type-btn"
+                                        onClick={[Function]}
+                              >
+                                        text
+                              </button>
                               <button
                                         className="search-type-btn active"
                                         onClick={[Function]}
