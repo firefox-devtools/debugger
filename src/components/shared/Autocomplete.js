@@ -21,10 +21,10 @@ type State = {
 };
 
 type Props = {
-  selectItem: () => any,
-  onSelectedItem: () => any,
+  selectItem: (event: any, item: Object) => any,
+  onSelectedItem: (selectedItem: Object) => any,
   items: Array<Object>,
-  close: () => any,
+  close: (value: any) => any,
   inputValue: string,
   placeholder: string,
   size: string

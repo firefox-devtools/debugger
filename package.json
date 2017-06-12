@@ -65,7 +65,7 @@
     "eslint-config-prettier": "^2.1.0",
     "eslint-plugin-prettier": "^2.0.1",
     "expect.js": "^0.3.1",
-    "flow-bin": "^0.46",
+    "flow-bin": "^0.47",
     "fuzzaldrin-plus": "^0.4.1",
     "glob": "^7.0.3",
     "jest-junit-reporter": "^1.0.1",

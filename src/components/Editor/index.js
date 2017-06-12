@@ -435,7 +435,7 @@ class Editor extends PureComponent {
     }
 
     if (this.isCbPanelOpen()) {
-      return this.closeConditionalPanel(line);
+      return this.closeConditionalPanel();
     }
 
     if (gutter !== "CodeMirror-foldgutter") {

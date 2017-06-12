@@ -21,9 +21,9 @@ type Props = {
   highlightItems?: Array<Item>,
   itemHeight: number,
   listItems?: Array<Item>,
-  onFocus?: () => any,
-  onExpand?: () => any,
-  onCollapse?: () => any,
+  onFocus?: (item: any) => any,
+  onExpand?: (item: any) => any,
+  onCollapse?: (item: any) => any,
   renderItem: any
 };
 

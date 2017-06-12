@@ -30,7 +30,7 @@ import type { SymbolDeclaration, AstLocation } from "../utils/parser";
   * @typedef {Object} ThunkArgs
   */
 export type ThunkArgs = {
-  dispatch: () => Promise<any>,
+  dispatch: (action: any) => Promise<any>,
   getState: () => State,
   client: any,
   sourceMaps: any

@@ -19,7 +19,8 @@ export type SymbolsMap = Map<string, SymbolDeclarations>;
 
 export type ASTState = {
   symbols: SymbolsMap,
-  outOfScopeLocations: ?Array<AstLocation>
+  outOfScopeLocations: ?Array<AstLocation>,
+  selection: any
 };
 
 export function initialState() {
