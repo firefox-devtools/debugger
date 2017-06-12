@@ -101,23 +101,23 @@ class SearchBar extends Component {
     editor?: SourceEditor,
     symbols: SymbolDeclarations,
     symbolSearchResults: Array<*>,
-    selectSource: (string, ?SelectSourceOptions) => any,
+    selectSource: (string, ?SelectSourceOptions) => void,
     selectedSource?: SourceRecord,
-    highlightLineRange: ({ start: number, end: number }) => any,
-    clearHighlightLineRange: () => any,
+    highlightLineRange: ({ start: number, end: number }) => void,
+    clearHighlightLineRange: () => void,
     searchOn?: boolean,
-    toggleFileSearch: (?boolean) => any,
+    toggleFileSearch: (?boolean) => void,
     searchResults: SearchResults,
     modifiers: FileSearchModifiers,
-    toggleFileSearchModifier: string => any,
+    toggleFileSearchModifier: string => void,
     symbolSearchOn: boolean,
     selectedSymbolType: SymbolSearchType,
-    toggleSymbolSearch: boolean => any,
-    setSelectedSymbolType: SymbolSearchType => any,
+    toggleSymbolSearch: boolean => void,
+    setSelectedSymbolType: SymbolSearchType => void,
     query: string,
-    setFileSearchQuery: string => any,
-    updateSearchResults: ({ count: number, index?: number }) => any,
-    updateSymbolSearchResults: ({ count: number, index?: number }) => any
+    setFileSearchQuery: string => void,
+    updateSearchResults: ({ count: number, index?: number }) => void,
+    updateSymbolSearchResults: ({ count: number, index?: number }) => void
   };
 
   constructor(props) {
