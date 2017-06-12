@@ -439,8 +439,8 @@ export function getTextForSources(actors: any[]) {
     }
 
     /* Called if fetching a source failed because of an error. */
-    function onError(aSource: any, aError: any) {
-      pending.delete(aSource.actor);
+    function onError(source: Object, error: any) {
+      pending.delete(source.actor);
       maybeFinish();
     }
 
