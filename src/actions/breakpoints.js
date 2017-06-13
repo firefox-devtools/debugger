@@ -290,7 +290,7 @@ export function removeBreakpoint(location: Location) {
 
     return dispatch(
       Object.assign({}, action, {
-        [PROMISE]: client.removeBreakpoint(bp.id)
+        [PROMISE]: client.removeBreakpoint(bp)
       })
     );
   };

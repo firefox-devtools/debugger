@@ -4,9 +4,9 @@ import _ from "lodash";
 import type {
   BreakpointId,
   BreakpointResult,
+  Breakpoint,
   Frame,
   FrameId,
-  ActorId,
   Location,
   Script,
   Source,
@@ -19,13 +19,14 @@ import type {
   Grip,
   ThreadClient,
   ObjectClient,
-  BreakpointClient,
-  BreakpointResponse
+  BPClients
 } from "./types";
 
-import { createSource } from "./create";
+import { makeLocationId } from "../../utils/breakpoint";
 
-let bpClients: { [id: ActorId]: BreakpointClient };
+import { createSource, createBreakpointLocation } from "./create";
+
+let bpClients: BPClients;
 let threadClient: ThreadClient;
 let tabTarget: TabTarget;
 let debuggerClient: DebuggerClient | null;
@@ -77,16 +78,19 @@ function sourceContents(sourceId: SourceId): Source {
 }
 
 function getBreakpointByLocation(location: Location) {
-  const values = _.values(bpClients);
-  const bpClient = values.find(value => {
-    const { actor, line, column, condition } = value.location;
-    return (
-      location.line === line &&
-      location.sourceId === actor &&
-      location.column === column &&
-      location.condition === condition
-    );
-  });
+  const id = makeLocationId(location);
+  const bpClient = bpClients[id];
+
+  // const values = _.values(bpClients);
+  // const bpClient = values.find(value => {
+  //   const { actor, line, column, condition } = value.location;
+  //   return (
+  //     location.line === line &&
+  //     location.sourceId === actor &&
+  //     location.column === column &&
+  //     location.condition === condition
+  //   );
+  // });
 
   if (bpClient) {
     const { actor, url, line, column, condition } = bpClient.location;
@@ -118,40 +122,23 @@ function setBreakpoint(
       condition,
       noSliding
     })
-    .then((res: BreakpointResponse) => onNewBreakpoint(location, res));
+    .then(([{ actualLocation }, bpClient]) => {
+      actualLocation = createBreakpointLocation(location, actualLocation);
+      const id = makeLocationId(actualLocation);
+      bpClients[id] = bpClient;
+      return { id, actualLocation };
+    });
 }
 
-function onNewBreakpoint(
-  location: Location,
-  res: BreakpointResponse
-): BreakpointResult {
-  const bpClient = res[1];
-  let actualLocation = res[0].actualLocation;
-
-  bpClients[bpClient.actor] = bpClient;
-
-  // Firefox only returns `actualLocation` if it actually changed,
-  // but we want it always to exist. Format `actualLocation` if it
-  // exists, otherwise use `location`.
-  actualLocation = actualLocation
-    ? {
-        sourceId: actualLocation.source.actor,
-        sourceUrl: location.sourceUrl,
-        line: actualLocation.line,
-        column: actualLocation.column
-      }
-    : location;
-
-  return {
-    id: bpClient.actor,
-    actualLocation
-  };
-}
-
-function removeBreakpoint(breakpointId: BreakpointId) {
+function removeBreakpoint(breakpoint: Breakpoint) {
   try {
-    const bpClient = bpClients[breakpointId];
-    delete bpClients[breakpointId];
+    const id = makeLocationId(breakpoint.generatedLocation);
+    const bpClient = bpClients[id];
+    if (!bpClient) {
+      console.warn("No breakpoint to delete on server");
+      return;
+    }
+    delete bpClients[id];
     return bpClient.remove();
   } catch (_error) {
     console.warn("No breakpoint to delete on server");
@@ -169,7 +156,10 @@ function setBreakpointCondition(
 
   return bpClient
     .setCondition(threadClient, condition, noSliding)
-    .then(_bpClient => onNewBreakpoint(location, [{}, _bpClient]));
+    .then(_bpClient => {
+      bpClients[breakpointId] = _bpClient;
+      return { id: breakpointId };
+    });
 }
 
 type EvaluateParam = {

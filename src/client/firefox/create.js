@@ -1,12 +1,14 @@
 // @flow
 // This module converts Firefox specific types to the generic types
 
-import type { Frame, Source } from "../types";
+import type { Frame, Source, Location, BreakpointResult } from "../types";
 import type {
   PausedPacket,
   FramesResponse,
   FramePacket,
-  SourcePayload
+  SourcePayload,
+  BPClients,
+  BreakpointResponse
 } from "./types";
 
 export function createFrame(frame: FramePacket): Frame {
@@ -52,4 +54,24 @@ export function createPause(
     frame: createFrame(frame),
     frames: response.frames.map(createFrame)
   });
+}
+
+// Firefox only returns `actualLocation` if it actually changed,
+// but we want it always to exist. Format `actualLocation` if it
+// exists, otherwise use `location`.
+
+export function createBreakpointLocation(
+  location: Location,
+  actualLocation: Object
+) {
+  if (!actualLocation) {
+    return location;
+  }
+
+  return {
+    sourceId: actualLocation.source.actor,
+    sourceUrl: location.sourceUrl,
+    line: actualLocation.line,
+    column: actualLocation.column
+  };
 }

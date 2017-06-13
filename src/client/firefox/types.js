@@ -362,6 +362,8 @@ export type BreakpointClient = {
   source: SourceClient
 };
 
+export type BPClients = { [id: ActorId]: BreakpointClient };
+
 export type BreakpointResponse = [
   {
     actor?: ActorId,
