@@ -110,6 +110,16 @@ This was a really great week for QA improvements as the debugger is getting more
 * Breakpoints are kept in sync as code changes. Big thanks to [codehag][@codehag]
 * We're chipping away at two new features: Outline View and Project Search
 
+### [June 13th](./updates-6-13-2017.md)
+
+We focused this week on getting lots of bugfixes and community prs in
+
+* Nightly is up to date with the latest debugger updates
+* new styling for the Outline View, big thanks to [@amelzer]
+* searchbar had a lot of improvements
+* lots of dependancies were updated, thanks to [@zaggy]
+* further work on getting more frameworks included on our framework frames. Thanks to
+  [@andreicristianpetcu]
 
 [@asolove]:http://github.com/asolove
 [@ryanjduffy]:http://github.com/ryanjduffy
@@ -119,3 +129,5 @@ This was a really great week for QA improvements as the debugger is getting more
 [@Andarist]:http://github.com/Andarist
 [pr-6]:https://github.com/devtools-html/debugger.html/pull/2784
 [pr-23]:https://github.com/devtools-html/debugger.html/pull/2810
+[@zaggy]:http://github.com/zaggy
+[@amelzer]:http://github.com/amelzer
