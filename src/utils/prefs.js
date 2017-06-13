@@ -3,7 +3,7 @@
 const { isDevelopment } = require("devtools-config");
 const { Services, PrefsHelper } = require("devtools-modules");
 
-const prefsSchemaVersion = "1.0.0";
+const prefsSchemaVersion = "1.0.1";
 
 const pref = Services.pref;
 
@@ -47,7 +47,7 @@ const prefs = new PrefsHelper("devtools", {
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints
-  prefs.pendingBreakpoints = [];
+  prefs.pendingBreakpoints = {};
   prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
 }
 
