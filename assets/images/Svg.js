@@ -17,6 +17,7 @@ const svg = {
   jquery: require("./jquery.svg"),
   underscore: require("./underscore.svg"),
   lodash: require("./lodash.svg"),
+  ember: require("./ember.svg"),
   "magnifying-glass": require("./magnifying-glass.svg"),
   "arrow-up": require("./arrow-up.svg"),
   "arrow-down": require("./arrow-down.svg"),
