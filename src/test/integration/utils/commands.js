@@ -61,10 +61,9 @@ async function selectSource(dbg, url, line) {
   info("Selecting source: " + url);
   const source = findSource(dbg, url);
   const hasText = !!dbg.selectors.getSourceText(dbg.getState(), source.id);
-  await dbg.actions.selectSource(source.id, { line });
-
+  dbg.actions.selectSource(source.id, { line });
   if (!hasText) {
-    await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
+    return waitForDispatch(dbg, "SELECT_SOURCE");
   }
 }
 
@@ -187,6 +186,14 @@ async function removeBreakpoint(dbg, sourceId, line, col) {
   return dbg.actions.removeBreakpoint({ sourceId, line, col });
 }
 
+async function disableBreakpoint(dbg, source, line) {
+  return dbg.actions.disableBreakpoint({
+    sourceId: source.id,
+    line,
+    column: undefined
+  });
+}
+
 /**
  * Toggles the Pause on exceptions feature in the debugger.
  *
@@ -260,6 +267,7 @@ module.exports = {
   navigate,
   addBreakpoint,
   removeBreakpoint,
+  disableBreakpoint,
   togglePauseOnExceptions,
   clickElement,
   mouseOverEl,

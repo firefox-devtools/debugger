@@ -251,7 +251,7 @@ export function disableBreakpoint(location: Location) {
       type: "DISABLE_BREAKPOINT",
       breakpoint: bp,
       disabled: true,
-      [PROMISE]: client.removeBreakpoint(bp.id)
+      [PROMISE]: client.removeBreakpoint(bp)
     };
 
     return dispatch(action);

@@ -36,13 +36,14 @@ export async function reloadWithTabs(ctx) {
 
   let dbg = await initDebugger("doc-scripts.html", "simple1", "simple2");
 
+  // debugger
   await selectSource(dbg, "simple1");
   await selectSource(dbg, "simple2");
   expect(countTabs(dbg)).to.equal(2);
 
   // Test reloading the debugger
   await reload(dbg, "simple1", "simple2");
-  await waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
+  await waitForDispatch(dbg, "SELECT_SOURCE");
   expect(countTabs(dbg)).to.equal(2);
 }
 
