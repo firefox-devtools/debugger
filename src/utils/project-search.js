@@ -1,5 +1,5 @@
 export function searchSource(source, queryText) {
-  const { text, id, url, loading } = source;
+  const { text, loading } = source;
   if (loading || !text || queryText == "") {
     return [];
   }
@@ -17,9 +17,8 @@ export function searchSource(source, queryText) {
           line: line + 1,
           column: result.index,
           match: result[0],
-          text: result.input,
-          id,
-          url
+          value: _text,
+          text: result.input
         });
       }
       return indices;
