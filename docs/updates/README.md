@@ -121,6 +121,11 @@ We focused this week on getting lots of bugfixes and community prs in
 * further work on getting more frameworks included on our framework frames. Thanks to
   [@andreicristianpetcu]
 
+### Types and Tests Review
+
+* [Flow Review](./5-1-2017-flow.md)
+* [Tests Review](./5-1-2017-tests.md)
+
 [@asolove]:http://github.com/asolove
 [@ryanjduffy]:http://github.com/ryanjduffy
 [@diessica]:http://github.com/diessica
