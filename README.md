@@ -8,6 +8,14 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 [![debugger-screenshot]][debugger-screenshot]
 
+## Table of Contents
+* [Quick Setup](#quick-setup)
+* [Next Steps](#next-steps)
+* [Getting Involved](#getting-involved)
+* [Documentation](#documentation)
+* [Discussion](#discussion)
+* [License](#license)
+
 ### Quick Setup
 
 > Or take a look at our detailed [getting started][getting-started] instructions.
@@ -55,6 +63,15 @@ We strive to make the Debugger as development friendly as possible. If you have 
 |[Configs]|how to use debugger settings locally|
 |[Hot Reloading]|steps for enabling hot reloading|
 
+
+### Documentation
+
+Looking for a place to find our documentation? you can find them
+[here][docs]!
+
+Our [Weekly updates][weekly-updates] are also posted!
+
+
 ### Discussion
 
 Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
@@ -99,6 +116,8 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [community-call]: https://hangouts.google.com/hangouts/_/calendar/amFzb24ubGFzdGVyLjExQGdtYWlsLmNvbQ.30mdpa6ncqn8uttvmrj9b9d3jc
 [devtools-call]: https://wiki.mozilla.org/DevTools
 [changelog]: https://changelog.com/podcast/247
+[docs]: https://devtools-html.github.io/debugger.html/docs/
+[weekly-updates]: https://devtools-html.github.io/debugger.html/docs/updates
 
 [Configs]: ./docs/local-development.md#configs
 [Hot Reloading]: ./docs/local-development.md#hot-reloading-fire
