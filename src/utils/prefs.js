@@ -3,7 +3,7 @@
 const { isDevelopment } = require("devtools-config");
 const { Services, PrefsHelper } = require("devtools-modules");
 
-const prefsSchemaVersion = "1.0.0";
+const prefsSchemaVersion = "1.0.1";
 
 const pref = Services.pref;
 
@@ -18,7 +18,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.tabs", "[]");
   pref("devtools.debugger.ui.framework-grouping-on", true);
   pref("devtools.debugger.pending-selected-location", "{}");
-  pref("devtools.debugger.pending-breakpoints", "[]");
+  pref("devtools.debugger.pending-breakpoints", "{}");
   pref("devtools.debugger.expressions", "[]");
   pref("devtools.debugger.file-search-case-sensitive", true);
   pref("devtools.debugger.file-search-whole-word", false);
@@ -47,7 +47,7 @@ const prefs = new PrefsHelper("devtools", {
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints
-  prefs.pendingBreakpoints = [];
+  prefs.pendingBreakpoints = {};
   prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
 }
 
