@@ -22,7 +22,7 @@ class Outline extends Component {
   props: {
     isHidden: boolean,
     symbols: SymbolDeclarations,
-    selectSource: (string, { line: number }) => any,
+    selectSource: (string, { line: number }) => void,
     selectedSource: ?SourceRecord
   };
 
@@ -46,7 +46,7 @@ class Outline extends Component {
 
     return dom.li(
       {
-        key: `${name}:${location.start.line}`,
+        key: `${name}:${location.start.line}:${location.start.column}`,
         className: "outline-list__element",
         onClick: () => this.selectItem(location)
       },

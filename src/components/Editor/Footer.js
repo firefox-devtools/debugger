@@ -23,12 +23,12 @@ import "./Footer.css";
 class SourceFooter extends PureComponent {
   props: {
     selectedSource: SourceRecord,
-    selectSource: (string, ?Object) => any,
+    selectSource: (string, ?Object) => void,
     editor: any,
-    togglePrettyPrint: string => any,
-    toggleBlackBox: () => any,
-    recordCoverage: () => any,
-    togglePaneCollapse: () => any,
+    togglePrettyPrint: string => void,
+    toggleBlackBox: () => void,
+    recordCoverage: () => void,
+    togglePaneCollapse: () => void,
     endPanelCollapsed: boolean,
     horizontal: boolean
   };

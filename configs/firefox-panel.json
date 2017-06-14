@@ -7,13 +7,15 @@
   },
   "workers": {
     "parserURL": "resource://devtools/client/debugger/new/parser-worker.js",
-    "prettyPrintURL": "resource://devtools/client/debugger/new/pretty-print-worker.js"
+    "prettyPrintURL": "resource://devtools/client/debugger/new/pretty-print-worker.js",
+    "searchURL": "resource://devtools/client/debugger/new/search-worker.js"
   },
   "features": {
     "blackbox": { "enabled": true },
     "chromeScopes": { "enabled": false },
     "eventListeners": { "enabled": false },
     "codeCoverage": { "enabled": false },
+    "codeFolding": { "enabled": false },
     "searchNav": { "enabled": true },
     "collapseFrame": { "enabled": true }
   }

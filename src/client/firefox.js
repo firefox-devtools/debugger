@@ -1,7 +1,7 @@
 // @flow
 
-const { setupCommands, clientCommands } = require("./firefox/commands");
-const { setupEvents, clientEvents } = require("./firefox/events");
+import { setupCommands, clientCommands } from "./firefox/commands";
+import { setupEvents, clientEvents } from "./firefox/events";
 
 export async function onConnect(connection: any, actions: Object) {
   const {

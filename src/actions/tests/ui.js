@@ -9,7 +9,9 @@ const {
   getPaneCollapse,
   getSymbolSearchState,
   getSymbolSearchType,
-  getHighlightedLineRange
+  getHighlightedLineRange,
+  getSearchResults,
+  getSymbolSearchResults
 } = selectors;
 
 describe("ui", () => {
@@ -40,6 +42,24 @@ describe("ui", () => {
     const currentState = getFrameworkGroupingState(getState());
     dispatch(actions.toggleFrameworkGrouping(!currentState));
     expect(getFrameworkGroupingState(getState())).toBe(!currentState);
+  });
+
+  it("should update search results", () => {
+    const { dispatch, getState } = createStore();
+    expect(getSearchResults(getState())).toEqual({ index: -1, count: 0 });
+
+    const results = { count: 3, index: 2 };
+    dispatch(actions.updateSearchResults(results));
+    expect(getSearchResults(getState())).toEqual(results);
+  });
+
+  fit("should update symbol search results", () => {
+    const { dispatch, getState } = createStore();
+    expect(getSymbolSearchResults(getState())).toEqual([]);
+
+    const results = [{ foo: "foo" }];
+    dispatch(actions.updateSymbolSearchResults(results));
+    expect(getSymbolSearchResults(getState())).toEqual(results);
   });
 
   it("should close file search", () => {

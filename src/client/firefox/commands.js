@@ -1,8 +1,10 @@
 // @flow
+import _ from "lodash";
 
 import type {
   BreakpointId,
   BreakpointResult,
+  Frame,
   FrameId,
   ActorId,
   Location,
@@ -21,7 +23,7 @@ import type {
   BreakpointResponse
 } from "./types";
 
-const { createSource } = require("./create");
+import { createSource } from "./create";
 
 let bpClients: { [id: ActorId]: BreakpointClient };
 let threadClient: ThreadClient;
@@ -72,6 +74,34 @@ function breakOnNext(): Promise<*> {
 function sourceContents(sourceId: SourceId): Source {
   const sourceClient = threadClient.source({ actor: sourceId });
   return sourceClient.source();
+}
+
+function getBreakpointByLocation(location: Location) {
+  const values = _.values(bpClients);
+  const bpClient = values.find(value => {
+    const { actor, line, column, condition } = value.location;
+    return (
+      location.line === line &&
+      location.sourceId === actor &&
+      location.column === column &&
+      location.condition === condition
+    );
+  });
+
+  if (bpClient) {
+    const { actor, url, line, column, condition } = bpClient.location;
+    return {
+      id: bpClient.actor,
+      actualLocation: {
+        line,
+        column,
+        condition,
+        sourceId: actor,
+        sourceUrl: url
+      }
+    };
+  }
+  return null;
 }
 
 function setBreakpoint(
@@ -193,6 +223,14 @@ function getProperties(grip: Grip): Promise<*> {
   });
 }
 
+async function getFrameScopes(frame: Frame): Promise<*> {
+  if (frame.scope) {
+    return frame.scope;
+  }
+
+  return threadClient.getEnvironment(frame.id);
+}
+
 function pauseOnExceptions(
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean
@@ -252,6 +290,7 @@ const clientCommands = {
   stepOver,
   breakOnNext,
   sourceContents,
+  getBreakpointByLocation,
   setBreakpoint,
   removeBreakpoint,
   setBreakpointCondition,
@@ -260,13 +299,11 @@ const clientCommands = {
   navigate,
   reload,
   getProperties,
+  getFrameScopes,
   pauseOnExceptions,
   prettyPrint,
   disablePrettyPrint,
   fetchSources
 };
 
-module.exports = {
-  setupCommands,
-  clientCommands
-};
+export { setupCommands, clientCommands };

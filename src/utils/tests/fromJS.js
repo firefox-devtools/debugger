@@ -1,4 +1,4 @@
-const fromJS = require("../fromJS");
+import fromJS from "../fromJS";
 
 const preview = {
   kind: "ArrayLike",

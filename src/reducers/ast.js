@@ -17,9 +17,20 @@ import type { Record } from "../utils/makeRecord";
 
 export type SymbolsMap = Map<string, SymbolDeclarations>;
 
+export type Selection =
+  | {| updating: true |}
+  | null
+  | {|
+      updating: false,
+      expression: string,
+      location: AstLocation,
+      result: Object
+    |};
+
 export type ASTState = {
   symbols: SymbolsMap,
-  outOfScopeLocations: ?Array<AstLocation>
+  outOfScopeLocations: ?Array<AstLocation>,
+  selection: Selection
 };
 
 export function initialState() {

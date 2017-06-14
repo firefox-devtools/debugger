@@ -21,6 +21,7 @@ export function mockPendingBreakpoint(overrides = {}) {
 
 function generateCorrectingThreadClient(offset = 0) {
   return {
+    getBreakpointByLocation: jest.fn(),
     setBreakpoint: (location, condition) => {
       const actualLocation = Object.assign({}, location, {
         line: location.line + offset
@@ -60,6 +61,7 @@ export function generateBreakpoint(filename) {
 }
 
 export const simpleMockThreadClient = {
+  getBreakpointByLocation: jest.fn(),
   setBreakpoint: (location, _condition) =>
     Promise.resolve({ id: "hi", actualLocation: location }),
 

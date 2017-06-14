@@ -1,10 +1,9 @@
 global.Worker = require("workerjs");
 
-const path = require("path");
-const getConfig = require("../../bin/getConfig");
-const { setConfig } = require("devtools-config");
-const { readFileSync } = require("fs");
-
+import path from "path";
+import getConfig from "../../bin/getConfig";
+import { setConfig } from "devtools-config";
+import { readFileSync } from "fs";
 const rootPath = path.join(__dirname, "../../");
 
 const envConfig = getConfig();

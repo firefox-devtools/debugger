@@ -12,6 +12,7 @@ type PauseState = {
   pause: ?any,
   isWaitingOnBreak: boolean,
   frames: ?(any[]),
+  frameScopes: any,
   selectedFrameId: ?string,
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
@@ -24,6 +25,7 @@ export const State = (): PauseState => ({
   isWaitingOnBreak: false,
   frames: undefined,
   selectedFrameId: undefined,
+  frameScopes: {},
   loadedObjects: {},
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
@@ -33,8 +35,16 @@ export const State = (): PauseState => ({
 function update(state: PauseState = State(), action: Action): PauseState {
   switch (action.type) {
     case "PAUSED": {
-      const { selectedFrameId, frames, loadedObjects, pauseInfo } = action;
+      const {
+        selectedFrameId,
+        frames,
+        scopes,
+        loadedObjects,
+        pauseInfo
+      } = action;
       pauseInfo.isInterrupted = pauseInfo.why.type === "interrupted";
+
+      const frameScopes = { [selectedFrameId]: scopes };
 
       // turn this into an object keyed by object id
       let objectMap = {};
@@ -47,6 +57,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
         pause: pauseInfo,
         selectedFrameId,
         frames,
+        frameScopes,
         loadedObjects: objectMap
       });
     }
@@ -75,7 +86,13 @@ function update(state: PauseState = State(), action: Action): PauseState {
       return Object.assign({}, state, { isWaitingOnBreak: true });
 
     case "SELECT_FRAME":
-      return Object.assign({}, state, { selectedFrameId: action.frame.id });
+      const { frame, scopes } = action;
+      const selectedFrameId = frame.id;
+      return {
+        ...state,
+        frameScopes: { ...state.frameScopes, [selectedFrameId]: scopes },
+        selectedFrameId
+      };
 
     case "LOAD_OBJECT_PROPERTIES":
       if (action.status === "start") {
@@ -170,6 +187,10 @@ export function getShouldIgnoreCaughtExceptions(state: OuterState) {
 
 export function getFrames(state: OuterState) {
   return state.pause.frames;
+}
+
+export function getFrameScopes(state: OuterState, frameId: string) {
+  return state.pause.frameScopes[frameId];
 }
 
 const getSelectedFrameId = createSelector(getPauseState, pauseWrapper => {

@@ -36,100 +36,23 @@ ShallowWrapper {
   ],
   "options": Object {},
   "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <WhyPaused
-        pauseInfo={
-                Object {
-                        "why": Object {
-                          "message": "bla is hit",
-                          "type": "breakpoint",
-                        },
-                      }
-        }
-/>,
-      "_debugID": 1,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": WhyPaused {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "props": Object {
-          "pauseInfo": Object {
-            "why": Object {
-              "message": "bla is hit",
-              "type": "breakpoint",
-            },
-          },
-        },
-        "refs": Object {},
-        "state": null,
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 1,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <div
-          className="pane why-paused"
->
-          <div>
-                    Paused on breakpoint
-          </div>
-          <div
-                    className="message"
-          >
-                    bla is hit
-          </div>
-</div>,
-        "_debugID": 2,
-        "_renderedOutput": <div
-          className="pane why-paused"
->
-          <div>
-                    Paused on breakpoint
-          </div>
-          <div
-                    className="message"
-          >
-                    bla is hit
-          </div>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
+    "_instance": null,
     "getRenderOutput": [Function],
     "render": [Function],
   },
   "root": [Circular],
-  "unrendered": <WhyPaused
-    pauseInfo={
-        Object {
-            "why": Object {
-              "message": "bla is hit",
-              "type": "breakpoint",
-            },
-          }
-    }
-/>,
+  "unrendered": <div
+    className="pane why-paused"
+>
+    <div>
+        Paused on breakpoint
+    </div>
+    <div
+        className="message"
+    >
+        bla is hit
+    </div>
+</div>,
 }
 `;
 
@@ -148,7 +71,7 @@ ShallowWrapper {
         Paused on exception
     </div>
     <div
-        className="message"
+        className="message warning"
     >
         ReferenceError: o is not defined
     </div>
@@ -161,7 +84,7 @@ ShallowWrapper {
             Paused on exception
       </div>
       <div
-            className="message"
+            className="message warning"
       >
             ReferenceError: o is not defined
       </div>
@@ -169,118 +92,23 @@ ShallowWrapper {
   ],
   "options": Object {},
   "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <WhyPaused
-        pauseInfo={
-                Object {
-                        "why": Object {
-                          "exception": Object {
-                            "class": "Error",
-                            "preview": Object {
-                              "message": "o is not defined",
-                              "name": "ReferenceError",
-                            },
-                          },
-                          "type": "exception",
-                        },
-                      }
-        }
-/>,
-      "_debugID": 3,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": WhyPaused {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "props": Object {
-          "pauseInfo": Object {
-            "why": Object {
-              "exception": Object {
-                "class": "Error",
-                "preview": Object {
-                  "message": "o is not defined",
-                  "name": "ReferenceError",
-                },
-              },
-              "type": "exception",
-            },
-          },
-        },
-        "refs": Object {},
-        "state": null,
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 2,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <div
-          className="pane why-paused"
->
-          <div>
-                    Paused on exception
-          </div>
-          <div
-                    className="message"
-          >
-                    ReferenceError: o is not defined
-          </div>
-</div>,
-        "_debugID": 4,
-        "_renderedOutput": <div
-          className="pane why-paused"
->
-          <div>
-                    Paused on exception
-          </div>
-          <div
-                    className="message"
-          >
-                    ReferenceError: o is not defined
-          </div>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
+    "_instance": null,
     "getRenderOutput": [Function],
     "render": [Function],
   },
   "root": [Circular],
-  "unrendered": <WhyPaused
-    pauseInfo={
-        Object {
-            "why": Object {
-              "exception": Object {
-                "class": "Error",
-                "preview": Object {
-                  "message": "o is not defined",
-                  "name": "ReferenceError",
-                },
-              },
-              "type": "exception",
-            },
-          }
-    }
-/>,
+  "unrendered": <div
+    className="pane why-paused"
+>
+    <div>
+        Paused on exception
+    </div>
+    <div
+        className="message warning"
+    >
+        ReferenceError: o is not defined
+    </div>
+</div>,
 }
 `;
 
@@ -299,7 +127,7 @@ ShallowWrapper {
         Paused on exception
     </div>
     <div
-        className="message"
+        className="message warning"
     >
         Not Available
     </div>
@@ -312,7 +140,7 @@ ShallowWrapper {
             Paused on exception
       </div>
       <div
-            className="message"
+            className="message warning"
       >
             Not Available
       </div>
@@ -320,99 +148,22 @@ ShallowWrapper {
   ],
   "options": Object {},
   "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <WhyPaused
-        pauseInfo={
-                Object {
-                        "why": Object {
-                          "exception": "Not Available",
-                          "type": "exception",
-                        },
-                      }
-        }
-/>,
-      "_debugID": 5,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": WhyPaused {
-        "_reactInternalInstance": [Circular],
-        "context": Object {},
-        "props": Object {
-          "pauseInfo": Object {
-            "why": Object {
-              "exception": "Not Available",
-              "type": "exception",
-            },
-          },
-        },
-        "refs": Object {},
-        "state": null,
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 3,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <div
-          className="pane why-paused"
->
-          <div>
-                    Paused on exception
-          </div>
-          <div
-                    className="message"
-          >
-                    Not Available
-          </div>
-</div>,
-        "_debugID": 6,
-        "_renderedOutput": <div
-          className="pane why-paused"
->
-          <div>
-                    Paused on exception
-          </div>
-          <div
-                    className="message"
-          >
-                    Not Available
-          </div>
-</div>,
-      },
-      "_renderedNodeType": 0,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
+    "_instance": null,
     "getRenderOutput": [Function],
     "render": [Function],
   },
   "root": [Circular],
-  "unrendered": <WhyPaused
-    pauseInfo={
-        Object {
-            "why": Object {
-              "exception": "Not Available",
-              "type": "exception",
-            },
-          }
-    }
-/>,
+  "unrendered": <div
+    className="pane why-paused"
+>
+    <div>
+        Paused on exception
+    </div>
+    <div
+        className="message warning"
+    >
+        Not Available
+    </div>
+</div>,
 }
 `;

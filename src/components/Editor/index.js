@@ -1,6 +1,6 @@
 // @flow
 import { DOM as dom, PropTypes, createFactory, PureComponent } from "react";
-import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
+import ReactDOM from "react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -65,7 +65,6 @@ import {
   shouldShowFooter,
   clearLineClass,
   createEditor,
-  isTextForSource,
   breakpointAtLocation,
   getTextForLine,
   getCursorLine,
@@ -86,13 +85,7 @@ const cssVars = {
   footerHeight: "var(--editor-footer-height)"
 };
 
-export type SearchResults = {
-  index: number,
-  count: number
-};
-
 type EditorState = {
-  searchResults: SearchResults,
   highlightedLineRange: ?Object,
   selectedToken: ?HTMLElement
 };
@@ -113,10 +106,6 @@ class Editor extends PureComponent {
     this.lastJumpLine = null;
 
     this.state = {
-      searchResults: {
-        index: -1,
-        count: 0
-      },
       highlightedLineRange: null,
       selectedToken: null
     };
@@ -139,13 +128,12 @@ class Editor extends PureComponent {
       this
     );
     self.toggleConditionalPanel = this.toggleConditionalPanel.bind(this);
-    self.updateSearchResults = this.updateSearchResults.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     // This lifecycle method is responsible for updating the editor
     // text.
-    const { sourceText, selectedLocation } = nextProps;
+    const { selectedSource, selectedLocation } = nextProps;
     this.clearDebugLine(this.props.selectedFrame);
 
     if (
@@ -155,14 +143,16 @@ class Editor extends PureComponent {
       this.editor.codeMirror.setSize();
     }
 
-    if (!sourceText) {
-      if (this.props.sourceText) {
+    if (!selectedSource) {
+      if (this.props.selectedSource) {
         this.showMessage("");
       }
-    } else if (!isTextForSource(sourceText)) {
-      this.showMessage(sourceText.get("error") || L10N.getStr("loadingText"));
-    } else if (this.props.sourceText !== sourceText) {
-      this.showSourceText(sourceText, selectedLocation);
+    } else if (selectedSource.get("loading")) {
+      this.showMessage(L10N.getStr("loadingText"));
+    } else if (selectedSource.get("error")) {
+      this.showMessage(selectedSource.get("error"));
+    } else if (this.props.selectedSource !== selectedSource) {
+      this.showSourceText(selectedSource, selectedLocation);
     }
 
     if (this.props.outOfScopeLocations !== nextProps.outOfScopeLocations) {
@@ -269,7 +259,7 @@ class Editor extends PureComponent {
     // This is in `componentDidUpdate` so helper functions can expect
     // `this.props` to be the current props. This lifecycle method is
     // responsible for updating the editor annotations.
-    const { selectedLocation } = this.props;
+    const { selectedLocation, selectedSource } = this.props;
 
     // If the location is different and a new line is requested,
     // update the pending jump line. Note that if jumping to a line in
@@ -286,7 +276,7 @@ class Editor extends PureComponent {
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
     // loaded.
-    if (this.props.sourceText && isTextForSource(this.props.sourceText)) {
+    if (selectedSource && selectedSource.has("text")) {
       this.highlightLine();
     }
   }
@@ -327,6 +317,10 @@ class Editor extends PureComponent {
    * is a multiselection.
    */
   onEscape(key, e) {
+    if (!this.editor) {
+      return;
+    }
+
     const { codeMirror } = this.editor;
     if (codeMirror.listSelections().length > 1) {
       codeMirror.execCommand("singleSelection");
@@ -429,10 +423,6 @@ class Editor extends PureComponent {
     });
   }
 
-  updateSearchResults({ count, index = -1 }: { count: number, index: number }) {
-    this.setState({ searchResults: { count, index } });
-  }
-
   onGutterClick(cm, line, gutter, ev) {
     const { selectedSource } = this.props;
 
@@ -445,7 +435,7 @@ class Editor extends PureComponent {
     }
 
     if (this.isCbPanelOpen()) {
-      return this.closeConditionalPanel(line);
+      return this.closeConditionalPanel();
     }
 
     if (gutter !== "CodeMirror-foldgutter") {
@@ -505,7 +495,7 @@ class Editor extends PureComponent {
 
     this.cbPanel = this.editor.codeMirror.addLineWidget(line, panel, {
       coverGutter: true,
-      noHScroll: true
+      noHScroll: false
     });
     this.cbPanel.node.querySelector("input").focus();
   }
@@ -536,10 +526,12 @@ class Editor extends PureComponent {
     const { sourceId } = selectedLocation;
 
     if (bp) {
+      // NOTE: it's possible the breakpoint has slid to a column
+      column = column || bp.location.column;
       removeBreakpoint({
         sourceId: sourceId,
         line: line + 1,
-        column: column
+        column
       });
     } else {
       addBreakpoint(
@@ -830,8 +822,6 @@ class Editor extends PureComponent {
       horizontal
     } = this.props;
 
-    const { searchResults } = this.state;
-
     return dom.div(
       {
         className: classnames("editor-wrapper", { "coverage-on": coverageOn })
@@ -842,9 +832,7 @@ class Editor extends PureComponent {
         selectedSource,
         highlightLineRange,
         clearHighlightLineRange,
-        sourceText,
-        searchResults,
-        updateSearchResults: this.updateSearchResults
+        sourceText
       }),
       dom.div({
         className: "editor-mount devtools-monospace",
@@ -906,7 +894,8 @@ Editor.contextTypes = {
 
 const expressionsSel = state => state.expressions.expressions;
 const getExpressionSel = createSelector(expressionsSel, expressions => input =>
-  expressions.find(exp => exp.input == input));
+  expressions.find(exp => exp.input == input)
+);
 
 export default connect(
   state => {

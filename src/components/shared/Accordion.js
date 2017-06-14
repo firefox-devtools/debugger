@@ -9,8 +9,8 @@ type AccordionItem = {
   component(): any,
   header: string,
   opened: boolean,
-  onToggle?: () => any,
-  shouldOpen?: () => any
+  onToggle?: () => void,
+  shouldOpen?: () => void
 };
 
 type Props = { items: Array<Object> };

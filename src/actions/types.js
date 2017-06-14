@@ -9,6 +9,7 @@ import type {
   GeneratedLocation,
   SourceText,
   Frame,
+  Scope,
   Why
 } from "debugger-html";
 
@@ -29,7 +30,7 @@ import type { SymbolDeclaration, AstLocation } from "../utils/parser";
   * @typedef {Object} ThunkArgs
   */
 export type ThunkArgs = {
-  dispatch: () => Promise<any>,
+  dispatch: (action: any) => Promise<any>,
   getState: () => State,
   client: any,
   sourceMaps: any
@@ -125,8 +126,9 @@ type SourceAction =
         frames: Frame[]
       }
     }
+  | { type: "MOVE_TAB", url: string, tabIndex: number }
   | { type: "CLOSE_TAB", url: string, tabs: any }
-  | { type: "CLOSE_TABS", urls: Array<string>, tabs: any };
+  | { type: "CLOSE_TABS", urls: string[], tabs: any };
 
 export type panelPositionType = "start" | "end";
 
@@ -167,6 +169,7 @@ type PauseAction =
         frame: Frame,
         isInterrupted?: boolean
       },
+      scopes: Scope[],
       frames: Frame[],
       selectedFrameId: string,
       loadedObjects: LoadedObject[]
@@ -177,7 +180,7 @@ type PauseAction =
       shouldIgnoreCaughtExceptions: boolean
     }
   | { type: "COMMAND", value: void }
-  | { type: "SELECT_FRAME", frame: Frame }
+  | { type: "SELECT_FRAME", frame: Frame, scopes: Scope[] }
   | {
       type: "LOAD_OBJECT_PROPERTIES",
       objectId: string,

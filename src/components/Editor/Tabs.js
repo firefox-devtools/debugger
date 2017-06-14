@@ -46,11 +46,16 @@ function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
     return Math.min(...topOffsets);
   }
 
-  const tabTopOffset = getTopOffset();
-  return sourceTabs.filter((tab, index) => {
+  function hasTopOffset(el) {
     // adding 10px helps account for cases where the tab might be offset by
     // styling such as selected tabs which don't have a border.
-    return sourceTabEls[index].getBoundingClientRect().top > tabTopOffset + 10;
+    const tabTopOffset = getTopOffset();
+    return el.getBoundingClientRect().top > tabTopOffset + 10;
+  }
+
+  return sourceTabs.filter((tab, index) => {
+    const element = sourceTabEls[index];
+    return element && hasTopOffset(element);
   });
 }
 
@@ -91,13 +96,14 @@ class SourceTabs extends PureComponent {
   props: {
     sourceTabs: SourcesList,
     selectedSource: SourceRecord,
-    selectSource: (string, ?Object) => any,
-    closeTab: string => any,
-    closeTabs: List<string> => any,
-    toggleProjectSearch: () => any,
-    togglePrettyPrint: string => any,
-    togglePaneCollapse: () => any,
-    showSource: string => any,
+    selectSource: (string, ?Object) => void,
+    moveTab: (string, number) => void,
+    closeTab: string => void,
+    closeTabs: (List<string>) => void,
+    toggleProjectSearch: () => void,
+    togglePrettyPrint: string => void,
+    togglePaneCollapse: () => void,
+    showSource: string => void,
     horizontal: boolean,
     startPanelCollapsed: boolean,
     endPanelCollapsed: boolean
@@ -238,7 +244,7 @@ class SourceTabs extends PureComponent {
     };
 
     const copySourceUrl = {
-      id: "node-menu-close-tabs-to-right",
+      id: "node-menu-copy-source-url",
       label: copyLinkLabel,
       accesskey: copyLinkKey,
       disabled: false,
@@ -281,12 +287,12 @@ class SourceTabs extends PureComponent {
     if (!this.refs.sourceTabs) {
       return;
     }
-    const { selectedSource, sourceTabs, selectSource } = this.props;
+    const { selectedSource, sourceTabs, moveTab } = this.props;
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenSourceTabs = getHiddenTabs(sourceTabs, sourceTabEls);
 
     if (hiddenSourceTabs.indexOf(selectedSource) !== -1) {
-      return selectSource(selectedSource.get("id"), { tabIndex: 0 });
+      return moveTab(selectedSource.get("url"), 0);
     }
 
     this.setState({ hiddenSourceTabs });
@@ -299,7 +305,7 @@ class SourceTabs extends PureComponent {
   }
 
   renderDropdownSource(source: SourceRecord) {
-    const { selectSource } = this.props;
+    const { moveTab } = this.props;
     const filename = getFilename(source.toJS());
 
     return dom.li(
@@ -308,7 +314,7 @@ class SourceTabs extends PureComponent {
         onClick: () => {
           // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
           const tabIndex = 0;
-          selectSource(source.get("id"), { tabIndex });
+          moveTab(source.get("url"), tabIndex);
         }
       },
       filename
@@ -432,7 +438,7 @@ class SourceTabs extends PureComponent {
 
 SourceTabs.displayName = "SourceTabs";
 
-module.exports = connect(
+export default connect(
   state => {
     return {
       selectedSource: getSelectedSource(state),

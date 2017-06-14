@@ -1,5 +1,5 @@
-const escapeRegExp = require("lodash/escapeRegExp");
-const { buildQuery } = require("../editor");
+import escapeRegExp from "lodash/escapeRegExp";
+import buildQuery from "../utils/build-query";
 
 describe("build-query", () => {
   it("case-sensitive, whole-word, regex search", () => {

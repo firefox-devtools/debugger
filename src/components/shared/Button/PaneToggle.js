@@ -7,7 +7,7 @@ import "./PaneToggle.css";
 
 type Props = {
   collapsed: boolean,
-  handleClick: (string, boolean) => any,
+  handleClick: (string, boolean) => void,
   horizontal?: boolean,
   position: string
 };

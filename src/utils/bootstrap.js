@@ -1,9 +1,11 @@
 import React from "react";
 import { bindActionCreators, combineReducers } from "redux";
-import ReactDOM from "../../node_modules/react-dom/dist/react-dom";
+import ReactDOM from "react-dom";
 import { getValue, isFirefoxPanel } from "devtools-config";
 import { renderRoot } from "devtools-launchpad";
 import { startSourceMapWorker, stopSourceMapWorker } from "devtools-source-map";
+import { startSearchWorker, stopSearchWorker } from "../utils/search";
+
 import {
   startPrettyPrintWorker,
   stopPrettyPrintWorker
@@ -52,6 +54,7 @@ export function bootstrapWorkers() {
   }
   startPrettyPrintWorker(getValue("workers.prettyPrintURL"));
   startParserWorker(getValue("workers.parserURL"));
+  startSearchWorker(getValue("workers.searchURL"));
 }
 
 export function teardownWorkers() {
@@ -61,4 +64,5 @@ export function teardownWorkers() {
   }
   stopPrettyPrintWorker();
   stopParserWorker();
+  stopSearchWorker();
 }

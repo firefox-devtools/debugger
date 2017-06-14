@@ -79,6 +79,20 @@ export function setFileSearchQuery(query: string) {
   };
 }
 
+export function updateSearchResults(results: Object) {
+  return {
+    type: "UPDATE_SEARCH_RESULTS",
+    results
+  };
+}
+
+export function updateSymbolSearchResults(results: Array<*>) {
+  return {
+    type: "UPDATE_SYMBOL_SEARCH_RESULTS",
+    results
+  };
+}
+
 export function toggleFileSearchModifier(modifier: string) {
   return { type: "TOGGLE_FILE_SEARCH_MODIFIER", modifier };
 }

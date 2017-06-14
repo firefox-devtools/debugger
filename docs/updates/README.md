@@ -101,10 +101,20 @@ We focused this week on UI polish, bug fixing, and performance as we focus on ge
 * Polish the search bar
 * Speed up stepping performance
 
+### [June 6th](./updates-6-6-2017.md)
+
+This was a really great week for QA improvements as the debugger is getting more stable each week.
+
+* We now disable out of scope lines when the debugger pauses.
+* We have huge updates to preview - it's faster, more consistent, and works for HTML elements
+* Breakpoints are kept in sync as code changes. Big thanks to [codehag][@codehag]
+* We're chipping away at two new features: Outline View and Project Search
+
 
 [@asolove]:http://github.com/asolove
 [@ryanjduffy]:http://github.com/ryanjduffy
 [@diessica]:http://github.com/diessica
+[@codehag]:http://github.com/codehag
 [@andreicristianpetcu]:http://github.com/andreicristianpetcu
 [@Andarist]:http://github.com/Andarist
 [pr-6]:https://github.com/devtools-html/debugger.html/pull/2784

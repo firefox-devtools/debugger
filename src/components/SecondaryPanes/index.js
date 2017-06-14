@@ -16,9 +16,6 @@ import { isEnabled } from "devtools-config";
 import Svg from "../shared/Svg";
 import { prefs } from "../../utils/prefs";
 
-import _WhyPaused from "./WhyPaused";
-const WhyPaused = createFactory(_WhyPaused);
-
 import _Breakpoints from "./Breakpoints";
 const Breakpoints = createFactory(_Breakpoints);
 
@@ -53,8 +50,8 @@ type SecondaryPanesItems = {
   header: string,
   component: any,
   opened?: boolean,
-  onToggle?: () => any,
-  shouldOpen?: () => any,
+  onToggle?: () => void,
+  shouldOpen?: () => void,
   buttons?: any
 };
 
@@ -221,7 +218,6 @@ class SecondaryPanes extends Component {
         style: { overflowX: "hidden" }
       },
       CommandBar(),
-      WhyPaused(),
       this.props.horizontal
         ? this.renderHorizontalLayout()
         : this.renderVerticalLayout()

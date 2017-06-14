@@ -1,5 +1,5 @@
 import { DOM as dom, PropTypes, createFactory, Component } from "react";
-import ReactDOM from "../../../node_modules/react-dom/dist/react-dom";
+import ReactDOM from "react-dom";
 import classNames from "classnames";
 import _BracketArrow from "./BracketArrow";
 const BracketArrow = createFactory(_BracketArrow);

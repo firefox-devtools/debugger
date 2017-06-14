@@ -1,7 +1,7 @@
 // @flow
 
 import { DOM as dom, createFactory, Component, PropTypes } from "react";
-import { findDOMNode } from "../../../node_modules/react-dom/dist/react-dom";
+import { findDOMNode } from "react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { filter } from "fuzzaldrin-plus";
@@ -11,6 +11,8 @@ import {
   getFileSearchState,
   getFileSearchQueryState,
   getFileSearchModifierState,
+  getSearchResults,
+  getSymbolSearchResults,
   getSymbolSearchState,
   getSymbolSearchType,
   getSelectedSource,
@@ -22,9 +24,10 @@ import {
   findNext,
   findPrev,
   removeOverlay,
-  countMatches,
   clearIndex
 } from "../../utils/editor";
+
+import { countMatches } from "../../utils/search";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
@@ -34,7 +37,7 @@ import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
 import type { FileSearchModifiers, SymbolSearchType } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
-import type { SearchResults } from ".";
+import type { SearchResults } from "../../reducers/ui";
 import type { SymbolDeclarations } from "../../utils/parser/getSymbols";
 import type { Location as BabelLocation } from "babel-traverse";
 import _SearchInput from "../shared/SearchInput";
@@ -84,7 +87,6 @@ type ToggleSymbolSearchOpts = {
 };
 
 type SearchBarState = {
-  symbolSearchResults: Array<any>,
   selectedResultIndex: number,
   count: number,
   index: number
@@ -98,28 +100,29 @@ class SearchBar extends Component {
   props: {
     editor?: SourceEditor,
     symbols: SymbolDeclarations,
-    selectSource: (string, ?SelectSourceOptions) => any,
+    symbolSearchResults: Array<*>,
+    selectSource: (string, ?SelectSourceOptions) => void,
     selectedSource?: SourceRecord,
-    highlightLineRange: ({ start: number, end: number }) => any,
-    clearHighlightLineRange: () => any,
+    highlightLineRange: ({ start: number, end: number }) => void,
+    clearHighlightLineRange: () => void,
     searchOn?: boolean,
-    toggleFileSearch: (?boolean) => any,
+    toggleFileSearch: (?boolean) => void,
     searchResults: SearchResults,
     modifiers: FileSearchModifiers,
-    toggleFileSearchModifier: string => any,
+    toggleFileSearchModifier: string => void,
     symbolSearchOn: boolean,
     selectedSymbolType: SymbolSearchType,
-    toggleSymbolSearch: boolean => any,
-    setSelectedSymbolType: SymbolSearchType => any,
+    toggleSymbolSearch: boolean => void,
+    setSelectedSymbolType: SymbolSearchType => void,
     query: string,
-    setFileSearchQuery: string => any,
-    updateSearchResults: ({ count: number, index?: number }) => any
+    setFileSearchQuery: string => void,
+    updateSearchResults: ({ count: number, index?: number }) => void,
+    updateSymbolSearchResults: ({ count: number, index?: number }) => void
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      symbolSearchResults: [],
       selectedResultIndex: 0,
       count: 0,
       index: -1
@@ -131,6 +134,7 @@ class SearchBar extends Component {
     self.closeSearch = this.closeSearch.bind(this);
     self.toggleSearch = this.toggleSearch.bind(this);
     self.toggleSymbolSearch = this.toggleSymbolSearch.bind(this);
+    self.toggleTextSearch = this.toggleTextSearch.bind(this);
     self.setSearchValue = this.setSearchValue.bind(this);
     self.selectSearchInput = this.selectSearchInput.bind(this);
     self.searchInput = this.searchInput.bind(this);
@@ -255,9 +259,10 @@ class SearchBar extends Component {
   }
 
   closeSearch(e: SyntheticEvent) {
-    const { editor } = this.props;
+    const { editor, setFileSearchQuery } = this.props;
 
     if (this.props.searchOn && editor) {
+      setFileSearchQuery("");
       this.clearSearch();
       this.props.toggleFileSearch(false);
       this.props.toggleSymbolSearch(false);
@@ -293,29 +298,22 @@ class SearchBar extends Component {
     }
   }
 
+  ignoreEvent(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+
   toggleSymbolSearch(
     e: SyntheticKeyboardEvent,
     { toggle, searchType }: ToggleSymbolSearchOpts = {}
   ) {
     const { selectedSource } = this.props;
-
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    // Check if searchType is "text"
-    if (!["functions", "variables"].includes(searchType)) {
-      this.props.toggleSymbolSearch(false);
-    }
-
     if (!selectedSource) {
       return;
     }
-
-    if (!this.props.searchOn) {
-      this.props.toggleFileSearch();
-    }
+    this.ignoreEvent(e);
 
     if (this.props.symbolSearchOn) {
       if (toggle) {
@@ -326,11 +324,25 @@ class SearchBar extends Component {
       return;
     }
 
-    if (this.props.selectedSource) {
-      this.clearSearch();
-      this.props.toggleSymbolSearch(true);
-      this.props.setSelectedSymbolType(searchType);
+    this.clearSearch();
+    this.props.toggleSymbolSearch(true);
+    this.props.setSelectedSymbolType(searchType);
+  }
+
+  toggleTextSearch(e: SyntheticKeyboardEvent) {
+    const { selectedSource } = this.props;
+    this.ignoreEvent(e);
+
+    if (!selectedSource) {
+      return;
     }
+
+    if (!this.props.searchOn) {
+      this.props.toggleFileSearch();
+    }
+
+    this.clearSearch();
+    this.props.toggleSymbolSearch(false);
   }
 
   setSearchValue(value: string) {
@@ -346,6 +358,7 @@ class SearchBar extends Component {
     const searchInput = this.searchInput();
     if (searchInput) {
       searchInput.setSelectionRange(0, searchInput.value.length);
+      searchInput.focus();
     }
   }
 
@@ -364,6 +377,7 @@ class SearchBar extends Component {
     const {
       selectedSource,
       updateSearchResults,
+      updateSymbolSearchResults,
       selectedSymbolType,
       symbols
     } = this.props;
@@ -377,7 +391,7 @@ class SearchBar extends Component {
     });
 
     updateSearchResults({ count: symbolSearchResults.length });
-    return this.setState({ symbolSearchResults });
+    updateSymbolSearchResults(symbolSearchResults);
   }
 
   doSearch(query: string) {
@@ -395,7 +409,7 @@ class SearchBar extends Component {
     }
   }
 
-  searchContents(query: string) {
+  async searchContents(query: string) {
     const {
       selectedSource,
       modifiers,
@@ -409,7 +423,7 @@ class SearchBar extends Component {
 
     const ctx = { ed, cm: ed.codeMirror };
 
-    const newCount = countMatches(
+    const newCount = await countMatches(
       query,
       selectedSource.get("text"),
       modifiers.toJS()
@@ -427,8 +441,8 @@ class SearchBar extends Component {
   }
 
   traverseSymbolResults(rev: boolean) {
-    const { symbolSearchResults, selectedResultIndex } = this.state;
-    const searchResults = symbolSearchResults;
+    const { selectedResultIndex } = this.state;
+    const searchResults = this.props.symbolSearchResults;
     const resultCount = searchResults.length;
 
     if (rev) {
@@ -547,8 +561,7 @@ class SearchBar extends Component {
   }
 
   onKeyDown(e: SyntheticKeyboardEvent) {
-    const { symbolSearchOn } = this.props;
-    const { symbolSearchResults } = this.state;
+    const { symbolSearchOn, symbolSearchResults } = this.props;
     if (!symbolSearchOn || this.props.query == "") {
       return;
     }
@@ -575,14 +588,15 @@ class SearchBar extends Component {
 
   // Renderers
   buildSummaryMsg() {
-    if (this.props.symbolSearchOn) {
-      if (this.state.symbolSearchResults.length > 1) {
+    const { symbolSearchOn, symbolSearchResults } = this.props;
+    if (symbolSearchOn) {
+      if (symbolSearchResults.length > 1) {
         return L10N.getFormatStr(
           "editor.searchResults",
           this.state.selectedResultIndex + 1,
-          this.state.symbolSearchResults.length
+          symbolSearchResults.length
         );
-      } else if (this.state.symbolSearchResults.length === 1) {
+      } else if (symbolSearchResults.length === 1) {
         return L10N.getFormatStr("editor.singleResult");
       }
     }
@@ -661,7 +675,7 @@ class SearchBar extends Component {
   }
 
   renderSearchTypeToggle() {
-    const { toggleSymbolSearch } = this;
+    const { toggleSymbolSearch, toggleTextSearch } = this;
     const { symbolSearchOn, selectedSymbolType } = this.props;
 
     function isButtonActive(searchType) {
@@ -675,7 +689,8 @@ class SearchBar extends Component {
       }
     }
 
-    function searchTypeBtn(searchType) {
+    function searchTextBtn() {
+      const searchType = "text";
       const active = isButtonActive(searchType);
 
       return dom.button(
@@ -683,13 +698,22 @@ class SearchBar extends Component {
           className: classnames("search-type-btn", {
             active
           }),
-          onClick: e => {
-            if (selectedSymbolType == searchType) {
-              toggleSymbolSearch(e, { toggle: true, searchType });
-              return;
-            }
-            toggleSymbolSearch(e, { toggle: false, searchType });
-          }
+          onClick: e => toggleTextSearch(e)
+        },
+        searchType
+      );
+    }
+
+    function searchTypeBtn(searchType) {
+      const active = isButtonActive(searchType);
+      const toggle = selectedSymbolType == searchType;
+
+      return dom.button(
+        {
+          className: classnames("search-type-btn", {
+            active
+          }),
+          onClick: e => toggleSymbolSearch(e, { toggle, searchType })
         },
         searchType
       );
@@ -701,7 +725,7 @@ class SearchBar extends Component {
         { className: "search-toggle-title" },
         L10N.getStr("editor.searchTypeToggleTitle")
       ),
-      searchTypeBtn("text"),
+      searchTextBtn(),
       searchTypeBtn("functions"),
       searchTypeBtn("variables")
     );
@@ -716,8 +740,8 @@ class SearchBar extends Component {
   }
 
   renderResults() {
-    const { symbolSearchResults, selectedResultIndex } = this.state;
-    const { query, symbolSearchOn } = this.props;
+    const { selectedResultIndex } = this.state;
+    const { query, symbolSearchResults, symbolSearchOn } = this.props;
     if (query == "" || !symbolSearchOn || !symbolSearchResults.length) {
       return;
     }
@@ -782,6 +806,8 @@ export default connect(
       query: getFileSearchQueryState(state),
       modifiers: getFileSearchModifierState(state),
       symbolSearchOn: getSymbolSearchState(state),
+      symbolSearchResults: getSymbolSearchResults(state),
+      searchResults: getSearchResults(state),
       symbols: _getFormattedSymbols(state),
       selectedSymbolType: getSymbolSearchType(state)
     };

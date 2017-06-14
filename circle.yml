@@ -16,6 +16,8 @@ checkout:
   post:
     - cp configs/ci.json configs/local.json
 test:
+  pre:
+    - greenkeeper-lockfile-update
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/mocha
     - mkdir -p $CIRCLE_TEST_REPORTS/flow-coverage
@@ -36,6 +38,7 @@ test:
 dependencies:
   pre:
     - ./bin/install-yarn
+    - yarn global add greenkeeper-lockfile@1
   cache_directories:
     - ~/downloads
     - ~/.cache/yarn
@@ -59,4 +62,4 @@ deployment:
   greenkeeper:
     branch: /greenkeeper\/.*/
     commands:
-      - ./bin/update-yarn-lock-file
+      - greenkeeper-lockfile-upload

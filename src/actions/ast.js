@@ -10,7 +10,7 @@ import {
 } from "../selectors";
 
 import { PROMISE } from "../utils/redux/middleware/promise";
-import parser from "../utils/parser";
+import * as parser from "../utils/parser";
 
 import type { Source } from "debugger-html";
 import type { ThunkArgs } from "./types";

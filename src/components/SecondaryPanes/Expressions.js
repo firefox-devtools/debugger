@@ -36,6 +36,13 @@ function getValue(expression) {
     };
   }
 
+  if (value.error) {
+    return {
+      path: value.from,
+      value: value.error
+    };
+  }
+
   if (typeof value.result == "object") {
     return {
       path: value.result.actor,
@@ -60,11 +67,11 @@ class Expressions extends PureComponent {
 
   props: {
     expressions: List<Expression>,
-    addExpression: (string, ?Object) => any,
-    evaluateExpressions: () => any,
-    updateExpression: (string, Expression) => any,
-    deleteExpression: Expression => any,
-    loadObjectProperties: () => any,
+    addExpression: (string, ?Object) => void,
+    evaluateExpressions: () => void,
+    updateExpression: (string, Expression) => void,
+    deleteExpression: Expression => void,
+    loadObjectProperties: () => void,
     loadedObjects: Map<string, any>
   };
 
