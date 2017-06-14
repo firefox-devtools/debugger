@@ -134,6 +134,7 @@ class SearchBar extends Component {
     self.closeSearch = this.closeSearch.bind(this);
     self.toggleSearch = this.toggleSearch.bind(this);
     self.toggleSymbolSearch = this.toggleSymbolSearch.bind(this);
+    self.toggleTextSearch = this.toggleTextSearch.bind(this);
     self.setSearchValue = this.setSearchValue.bind(this);
     self.selectSearchInput = this.selectSearchInput.bind(this);
     self.searchInput = this.searchInput.bind(this);
@@ -297,24 +298,22 @@ class SearchBar extends Component {
     }
   }
 
+  ignoreEvent(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+
   toggleSymbolSearch(
     e: SyntheticKeyboardEvent,
     { toggle, searchType }: ToggleSymbolSearchOpts = {}
   ) {
     const { selectedSource } = this.props;
-
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
     if (!selectedSource) {
       return;
     }
-
-    if (!this.props.searchOn) {
-      this.props.toggleFileSearch();
-    }
+    this.ignoreEvent(e);
 
     if (this.props.symbolSearchOn) {
       if (toggle) {
@@ -325,11 +324,25 @@ class SearchBar extends Component {
       return;
     }
 
-    if (this.props.selectedSource) {
-      this.clearSearch();
-      this.props.toggleSymbolSearch(true);
-      this.props.setSelectedSymbolType(searchType);
+    this.clearSearch();
+    this.props.toggleSymbolSearch(true);
+    this.props.setSelectedSymbolType(searchType);
+  }
+
+  toggleTextSearch(e: SyntheticKeyboardEvent) {
+    const { selectedSource } = this.props;
+    this.ignoreEvent(e);
+
+    if (!selectedSource) {
+      return;
     }
+
+    if (!this.props.searchOn) {
+      this.props.toggleFileSearch();
+    }
+
+    this.clearSearch();
+    this.props.toggleSymbolSearch(false);
   }
 
   setSearchValue(value: string) {
@@ -662,22 +675,45 @@ class SearchBar extends Component {
   }
 
   renderSearchTypeToggle() {
-    const { toggleSymbolSearch } = this;
+    const { toggleSymbolSearch, toggleTextSearch } = this;
     const { symbolSearchOn, selectedSymbolType } = this.props;
 
-    function searchTypeBtn(searchType) {
+    function isButtonActive(searchType) {
+      switch (searchType) {
+        case "functions":
+        case "variables":
+          return symbolSearchOn && selectedSymbolType == searchType;
+        // text search
+        default:
+          return !symbolSearchOn;
+      }
+    }
+
+    function searchTextBtn() {
+      const searchType = "text";
+      const active = isButtonActive(searchType);
+
       return dom.button(
         {
           className: classnames("search-type-btn", {
-            active: symbolSearchOn && selectedSymbolType == searchType
+            active
           }),
-          onClick: e => {
-            if (selectedSymbolType == searchType) {
-              toggleSymbolSearch(e, { toggle: true, searchType });
-              return;
-            }
-            toggleSymbolSearch(e, { toggle: false, searchType });
-          }
+          onClick: e => toggleTextSearch(e)
+        },
+        searchType
+      );
+    }
+
+    function searchTypeBtn(searchType) {
+      const active = isButtonActive(searchType);
+      const toggle = selectedSymbolType == searchType;
+
+      return dom.button(
+        {
+          className: classnames("search-type-btn", {
+            active
+          }),
+          onClick: e => toggleSymbolSearch(e, { toggle, searchType })
         },
         searchType
       );
@@ -689,6 +725,7 @@ class SearchBar extends Component {
         { className: "search-toggle-title" },
         L10N.getStr("editor.searchTypeToggleTitle")
       ),
+      searchTextBtn(),
       searchTypeBtn("functions"),
       searchTypeBtn("variables")
     );
