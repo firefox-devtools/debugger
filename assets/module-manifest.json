@@ -7965,9 +7965,1241 @@
         "byName": {},
         "byBlocks": {}
       }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!components/LandingPage.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!components/Tabs.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!components/Sidebar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!components/shared/menu.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!components/Root.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/variables.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/App.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/menu.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/reps.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../devtools-splitter/src/SplitBox.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/ProjectSearch/ProjectSearch.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Svg.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Autocomplete.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Button/Close.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/SearchInput.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/ResultList.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/ManagedTree.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/ProjectSearch/TextSearch.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Sources.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Outline.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/previewFunction.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/ConditionalPanel.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Button/PaneToggle.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/Footer.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/SearchBar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/ObjectInspector.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/BracketArrow.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Popover.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/Preview.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/Editor.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/Highlight.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Breakpoints.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Expressions.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Frames/Group.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Frames/WhyPaused.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Frames/Frames.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/EventListeners.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Accordion.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/CommandBar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Scopes.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/SecondaryPanes.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/WelcomeBox.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/Tabs.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Dropdown.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!components/LandingPage.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!components/Tabs.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!components/Sidebar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!components/shared/menu.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!components/Root.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/variables.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/App.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/menu.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/reps.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../devtools-splitter/src/SplitBox.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/ProjectSearch/ProjectSearch.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Svg.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Autocomplete.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Button/Close.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/SearchInput.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/ResultList.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/ManagedTree.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/ProjectSearch/TextSearch.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Sources.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Outline.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/previewFunction.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/ConditionalPanel.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Button/PaneToggle.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/Footer.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/SearchBar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/ObjectInspector.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/BracketArrow.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Popover.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/Preview.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/Editor.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/Highlight.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Breakpoints.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Expressions.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Frames/Group.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Frames/WhyPaused.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Frames/Frames.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/EventListeners.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Accordion.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/CommandBar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/Scopes.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/SecondaryPanes/SecondaryPanes.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/WelcomeBox.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/Editor/Tabs.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
+    },
+    {
+      "nextFreeModuleId": 2,
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js!../../../src/components/shared/Dropdown.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        }
+      },
+      "nextFreeChunkId": 1,
+      "chunks": {
+        "byName": {},
+        "byBlocks": {}
+      }
     }
   ],
-  "nextFreeModuleId": 1115,
+  "nextFreeModuleId": 1124,
   "modules": {
     "byIdentifier": {
       "../../../multi debugger": 0,
@@ -9088,17 +10320,28 @@
       "../../lodash/iteratee.js": 1111,
       "../../lodash/rearg.js": 1112,
       "../../lodash/_flatRest.js": 1113,
-      "../../lodash/toPath.js": 1114
+      "../../lodash/toPath.js": 1114,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/search/index.js": 1115,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/search/utils/build-query.js": 1116,
+      "../../svg-inline-loader/index.js!../../../assets/images/underscore.svg": 1117,
+      "../../svg-inline-loader/index.js!../../../assets/images/lodash.svg": 1118,
+      "../../svg-inline-loader/index.js!../../../assets/images/ember.svg": 1119,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/components/SecondaryPanes/Frames/WhyPaused.js": 1120,
+      "../../extract-text-webpack-plugin/loader.js?{\"0\":\"p\",\"1\":\"o\",\"2\":\"s\",\"3\":\"t\",\"4\":\"c\",\"5\":\"s\",\"6\":\"s\",\"7\":\"-\",\"8\":\"l\",\"9\":\"o\",\"10\":\"a\",\"11\":\"d\",\"12\":\"e\",\"13\":\"r\",\"omit\":1,\"extract\":true,\"remove\":true}!../../style-loader/index.js!../../css-loader/index.js!../../../src/components/SecondaryPanes/Frames/WhyPaused.css": 1121,
+      "../../css-loader/index.js!../../../src/components/SecondaryPanes/Frames/WhyPaused.css": 1122,
+      "../../../multi search-worker": 0,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/search/worker.js": 1123
     }
   },
-  "nextFreeChunkId": 5,
+  "nextFreeChunkId": 6,
   "chunks": {
     "byName": {
       "debugger": 0,
       "integration-tests": 1,
       "pretty-print-worker": 2,
       "source-map-worker": 3,
-      "parser-worker": 4
+      "parser-worker": 4,
+      "search-worker": 5
     },
     "byBlocks": {}
   }

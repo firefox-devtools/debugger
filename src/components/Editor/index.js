@@ -894,7 +894,8 @@ Editor.contextTypes = {
 
 const expressionsSel = state => state.expressions.expressions;
 const getExpressionSel = createSelector(expressionsSel, expressions => input =>
-  expressions.find(exp => exp.input == input));
+  expressions.find(exp => exp.input == input)
+);
 
 export default connect(
   state => {
