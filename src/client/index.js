@@ -43,6 +43,7 @@ async function onConnect(connection: Object, services: Object) {
       actions,
       selectors,
       client: client.clientCommands,
+      prefs,
       connection
     };
   };
