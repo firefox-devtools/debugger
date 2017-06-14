@@ -24,7 +24,8 @@ const ctx = { ok, is, info, requestLongerTimeout };
 mocha.setup({ timeout: 10000, ui: "bdd" });
 
 describe("Tests", () => {
-  beforeEach(() => {
+  beforeEach(function() {
+    console.log("TEST START", this.currentTest.title);
     prefs.pauseOnExceptions = false;
     prefs.ignoreCaughtExceptions = false;
     prefs.pendingSelectedLocation = {};
@@ -33,13 +34,21 @@ describe("Tests", () => {
     prefs.tabs = [];
   });
 
-  afterEach(() => {
+  afterEach(function() {
     prefs.pauseOnExceptions = false;
     prefs.ignoreCaughtExceptions = false;
     prefs.pendingSelectedLocation = {};
     prefs.expressions = [];
     prefs.pendingBreakpoints = [];
     prefs.tabs = [];
+
+    const err = this.currentTest.err;
+    const msg = err ? "FAILURE" : "SUCCESS";
+    console.log(`TEST ${msg}`, this.currentTest.title);
+    if (err) {
+      console.log(err.message);
+      console.log(err.stack);
+    }
   });
 
   it("asm", async () => await asm(ctx));
@@ -113,4 +122,6 @@ describe("Tests", () => {
     await tabs.reloadWithNoTabs(ctx));
 });
 
-mocha.run();
+mocha.run(failures => {
+  console.log("WERE DON", failures);
+});
