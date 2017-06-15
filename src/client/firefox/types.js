@@ -13,8 +13,7 @@ import type {
   Source,
   Pause,
   Frame,
-  SourceId,
-  Location
+  SourceId
 } from "debugger-html";
 
 type URL = string;
