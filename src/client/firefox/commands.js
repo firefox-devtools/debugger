@@ -11,7 +11,7 @@ import type {
   Script,
   Source,
   SourceId
-} from "../types";
+} from "debugger-html";
 
 import type {
   TabTarget,
@@ -80,17 +80,6 @@ function sourceContents(sourceId: SourceId): Source {
 function getBreakpointByLocation(location: Location) {
   const id = makeLocationId(location);
   const bpClient = bpClients[id];
-
-  // const values = _.values(bpClients);
-  // const bpClient = values.find(value => {
-  //   const { actor, line, column, condition } = value.location;
-  //   return (
-  //     location.line === line &&
-  //     location.sourceId === actor &&
-  //     location.column === column &&
-  //     location.condition === condition
-  //   );
-  // });
 
   if (bpClient) {
     const { actor, url, line, column, condition } = bpClient.location;

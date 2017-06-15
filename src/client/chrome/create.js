@@ -1,6 +1,6 @@
 // @flow
 
-import type { Location, LoadedObject } from "../types";
+import type { Location, LoadedObject } from "debugger-html";
 import type { ServerLocation } from "./types";
 
 export function fromServerLocation(serverLocation?: ServerLocation): ?Location {

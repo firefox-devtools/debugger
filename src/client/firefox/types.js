@@ -1,4 +1,5 @@
 // @flow
+
 /**
  * These are Firefox specific types that allow us to type check
  * the packet information exchanged using the Firefox Remote Debug Protocol
@@ -12,8 +13,9 @@ import type {
   Source,
   Pause,
   Frame,
-  SourceId
-} from "../types";
+  SourceId,
+  Location
+} from "debugger-html";
 
 type URL = string;
 
@@ -354,7 +356,13 @@ export type ThreadClient = {
 export type BreakpointClient = {
   actor: ActorId,
   remove: () => void,
-  location: Location,
+  location: {
+    actor: string,
+    url: string,
+    line: number,
+    column: number,
+    condition: string
+  },
   setCondition: (ThreadClient, boolean, boolean) => Promise<BreakpointClient>,
   // getCondition: () => any,
   // hasCondition: () => any,

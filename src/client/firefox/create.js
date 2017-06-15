@@ -1,14 +1,12 @@
 // @flow
 // This module converts Firefox specific types to the generic types
 
-import type { Frame, Source, Location, BreakpointResult } from "../types";
+import type { Frame, Source, Location } from "debugger-html";
 import type {
   PausedPacket,
   FramesResponse,
   FramePacket,
-  SourcePayload,
-  BPClients,
-  BreakpointResponse
+  SourcePayload
 } from "./types";
 
 export function createFrame(frame: FramePacket): Frame {
@@ -62,8 +60,8 @@ export function createPause(
 
 export function createBreakpointLocation(
   location: Location,
-  actualLocation: Object
-) {
+  actualLocation?: Object
+): Location {
   if (!actualLocation) {
     return location;
   }
