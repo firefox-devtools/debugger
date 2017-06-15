@@ -2362,9 +2362,9 @@ devtools-connection@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.5.tgz#5684508ccbeb45643510b536a62c9952afdbaf0c"
 
-devtools-launchpad@0.0.86:
-  version "0.0.86"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.86.tgz#55546e8a17d4c97602318f607ee38eeff100ff1e"
+devtools-launchpad@0.0.87:
+  version "0.0.87"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.87.tgz#8c1699aab5764fc08a7148f94957b27b8937b5c2"
   dependencies:
     amd-loader "0.0.5"
     autoprefixer "^6.7.6"
