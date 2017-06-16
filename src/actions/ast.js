@@ -2,6 +2,7 @@
 
 import {
   getSourceText,
+  getSource,
   hasSymbols,
   getSelectedLocation,
   getSelectedSourceText,
@@ -40,9 +41,13 @@ export function setSymbols(source: Source) {
 export function setOutOfScopeLocations() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const location = getSelectedLocation(getState());
-    const sourceText = getSourceText(getState(), location.sourceId);
+    if (!location) {
+      return;
+    }
 
-    if (!location.line || !sourceText) {
+    const source = getSource(getState(), location.sourceId);
+
+    if (!location.line || !source) {
       return dispatch({
         type: "OUT_OF_SCOPE_LOCATIONS",
         locations: null
@@ -50,7 +55,7 @@ export function setOutOfScopeLocations() {
     }
 
     const locations = await parser.getOutOfScopeLocations(
-      sourceText.toJS(),
+      source.toJS(),
       location
     );
 

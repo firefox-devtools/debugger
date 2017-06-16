@@ -13,8 +13,6 @@ import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
-import range from "lodash/range";
-import flatMap from "lodash/flatMap";
 
 import {
   getSourceText,
@@ -30,9 +28,10 @@ import {
   getPause,
   getSelection,
   getFileSearchQueryState,
-  getFileSearchModifierState,
-  getOutOfScopeLocations
+  getFileSearchModifierState
 } from "../../selectors";
+
+import getLinesInScope from "../../selectors/linesInScope";
 
 import { makeLocationId } from "../../utils/breakpoint";
 import actions from "../../actions";
@@ -155,8 +154,10 @@ class Editor extends PureComponent {
       this.showSourceText(selectedSource, selectedLocation);
     }
 
-    if (this.props.outOfScopeLocations !== nextProps.outOfScopeLocations) {
-      clearLineClass(this.editor.codeMirror, "out-of-scope");
+    if (this.props.linesInScope !== nextProps.linesInScope) {
+      this.editor.codeMirror.operation(() => {
+        clearLineClass(this.editor.codeMirror, "in-scope");
+      });
     }
 
     this.setDebugLine(nextProps.selectedFrame, selectedLocation);
@@ -334,14 +335,22 @@ class Editor extends PureComponent {
 
   onMouseOver(e) {
     const { target } = e;
+    const { linesInScope } = this.props;
+
     if (
       !this.inSelectedFrameSource() ||
-      !target.parentElement.closest(".CodeMirror-line") ||
-      target.parentElement.closest(".out-of-scope")
+      !target.parentElement.closest(".CodeMirror-line")
     ) {
       return;
     }
-    this.previewSelectedToken(e);
+    const location = getTokenLocation(this.editor.codeMirror, target);
+    const { line } = location;
+
+    if (!linesInScope.includes(line)) {
+      return;
+    }
+
+    this.previewSelectedToken(target, location);
   }
 
   onTokenClick(e) {
@@ -372,7 +381,7 @@ class Editor extends PureComponent {
     return this.setState({ selectedToken: null });
   }
 
-  async previewSelectedToken(e) {
+  async previewSelectedToken(token, location) {
     const {
       selectedFrame,
       selectedSource,
@@ -380,7 +389,6 @@ class Editor extends PureComponent {
       setSelection,
       selection
     } = this.props;
-    const token = e.target;
     const tokenText = token.innerText.trim();
 
     if (
@@ -395,7 +403,6 @@ class Editor extends PureComponent {
       return;
     }
 
-    const location = getTokenLocation(this.editor.codeMirror, token);
     setSelection(tokenText, location);
     this.setState({ selectedToken: token });
   }
@@ -788,6 +795,23 @@ class Editor extends PureComponent {
     });
   }
 
+  renderInScopeLines() {
+    const { linesInScope } = this.props;
+    if (
+      !isEnabled("highlightScopeLines") ||
+      !linesInScope ||
+      !this.inSelectedFrameSource()
+    ) {
+      return;
+    }
+
+    this.editor.codeMirror.operation(() => {
+      linesInScope.forEach(line => {
+        this.editor.codeMirror.addLineClass(line - 1, "line", "in-scope");
+      });
+    });
+  }
+
   inSelectedFrameSource() {
     const { selectedLocation, selectedFrame } = this.props;
     return (
@@ -795,20 +819,6 @@ class Editor extends PureComponent {
       selectedLocation &&
       selectedFrame.location.sourceId == selectedLocation.sourceId
     );
-  }
-
-  renderOutOfScopedLocations() {
-    const { outOfScopeLocations } = this.props;
-
-    if (!this.inSelectedFrameSource() || !outOfScopeLocations || !this.editor) {
-      return;
-    }
-
-    flatMap(outOfScopeLocations, location =>
-      range(location.start.line, location.end.line)
-    ).forEach(line => {
-      this.editor.codeMirror.addLineClass(line - 1, "line", "out-of-scope");
-    });
   }
 
   render() {
@@ -819,12 +829,16 @@ class Editor extends PureComponent {
       highlightLineRange,
       clearHighlightLineRange,
       coverageOn,
+      pauseData,
       horizontal
     } = this.props;
 
     return dom.div(
       {
-        className: classnames("editor-wrapper", { "coverage-on": coverageOn })
+        className: classnames("editor-wrapper", {
+          "coverage-on": coverageOn,
+          paused: !!pauseData && isEnabled("highlightScopeLines")
+        })
       },
       SearchBar({
         editor: this.editor,
@@ -838,9 +852,9 @@ class Editor extends PureComponent {
         className: "editor-mount devtools-monospace",
         style: this.getInlineEditorStyles()
       }),
-      this.renderOutOfScopedLocations(),
       this.renderHighlightLines(),
       this.renderBreakpoints(),
+      this.renderInScopeLines(),
       this.renderHitCounts(),
       Footer({ editor: this.editor, horizontal }),
       this.renderPreview()
@@ -885,7 +899,7 @@ Editor.propTypes = {
   startPanelSize: PropTypes.number,
   endPanelSize: PropTypes.number,
   clearSelection: PropTypes.func.isRequired,
-  outOfScopeLocations: PropTypes.array
+  linesInScope: PropTypes.array
 };
 
 Editor.contextTypes = {
@@ -918,7 +932,7 @@ export default connect(
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),
       searchModifiers: getFileSearchModifierState(state),
-      outOfScopeLocations: getOutOfScopeLocations(state),
+      linesInScope: getLinesInScope(state),
       selection: getSelection(state)
     };
   },

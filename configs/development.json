@@ -62,6 +62,10 @@
     "projectTextSearch": {
       "label": "Project Text Search",
       "enabled": false
+    },
+    "highlightScopeLines": {
+      "label": "Highlight the lines in scope",
+      "enabled": false
     }
   },
   "chrome": {
