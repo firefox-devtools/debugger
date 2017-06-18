@@ -1,24 +1,20 @@
-.toggle-button-start,
-.toggle-button-end {
+.toggle-button-start, .toggle-button-end {
   transform: translate(0, 2px);
   transition: transform 0.25s ease-in-out;
   cursor: pointer;
   padding: 5px 2px;
 }
 
-.toggle-button-start.vertical,
-.toggle-button-end.vertical {
+.toggle-button-start.vertical, .toggle-button-end.vertical {
   padding: 4px 2px;
 }
 
-.toggle-button-start svg,
-.toggle-button-end svg {
+.toggle-button-start svg, .toggle-button-end svg {
   width: 16px;
   fill: var(--theme-comment);
 }
 
-.theme-dark .toggle-button-start svg,
-.theme-dark .toggle-button-end svg {
+.theme-dark .toggle-button-start svg, .theme-dark .toggle-button-end svg {
   fill: var(--theme-comment-alt);
 }
 
@@ -40,7 +36,6 @@ html .toggle-button-end.vertical svg {
   transform: rotate(-90deg);
 }
 
-.toggle-button-start.collapsed,
-.toggle-button-end.collapsed {
+.toggle-button-start.collapsed, .toggle-button-end.collapsed {
   transform: rotate(180deg);
 }

@@ -3,8 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-.theme-dark,
-.theme-light {
+.theme-dark, .theme-light {
   --number-color: var(--theme-highlight-green);
   --string-color: var(--theme-highlight-orange);
   --null-color: var(--theme-comment);
@@ -46,10 +45,7 @@
   white-space: pre-wrap;
 }
 
-.objectBox-string,
-.objectBox-text,
-.objectLink-textNode,
-.objectBox-table {
+.objectBox-string, .objectBox-text, .objectLink-textNode, .objectBox-table {
   white-space: pre-wrap;
 }
 
@@ -65,9 +61,7 @@
   color: var(--string-color);
 }
 
-.objectLink-function,
-.objectBox-stackTrace,
-.objectLink-profile {
+.objectLink-function, .objectBox-stackTrace, .objectLink-profile {
   color: var(--object-color);
 }
 
@@ -76,10 +70,7 @@
   color: var(--location-color);
 }
 
-.objectBox-null,
-.objectBox-undefined,
-.objectBox-hint,
-.logRowHint {
+.objectBox-null, .objectBox-undefined, .objectBox-hint, .logRowHint {
   font-style: italic;
   color: var(--null-color);
 }
@@ -123,21 +114,16 @@
 
 /******************************************************************************/
 
-.objectLeftBrace,
-.objectRightBrace,
-.arrayLeftBracket,
-.arrayRightBracket {
+.objectLeftBrace, .objectRightBrace, .arrayLeftBracket, .arrayRightBracket {
   cursor: pointer;
   font-weight: bold;
 }
 
-.objectLeftBrace,
-.arrayLeftBracket {
+.objectLeftBrace, .arrayLeftBracket {
   margin-right: 4px;
 }
 
-.objectRightBrace,
-.arrayRightBracket {
+.objectRightBrace, .arrayRightBracket {
   margin-left: 4px;
 }
 
@@ -156,7 +142,7 @@
 
 .caption {
   font-weight: bold;
-  color:  var(--caption-color);
+  color: var(--caption-color);
 }
 
 /******************************************************************************/
@@ -169,13 +155,11 @@
   font-style: normal;
 }
 
-.theme-dark .objectBox-object,
-.theme-light .objectBox-object {
+.theme-dark .objectBox-object, .theme-light .objectBox-object {
   font-weight: normal;
   white-space: pre-wrap;
 }
 
-.theme-dark .caption,
-.theme-light .caption {
+.theme-dark .caption, .theme-light .caption {
   font-weight: normal;
 }
