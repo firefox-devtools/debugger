@@ -4,19 +4,17 @@ exports[`project search simple 1`] = `
 Array [
   Object {
     "column": 11,
-    "id": "bar.js",
     "line": 2,
     "match": "foo",
     "text": "  function foo() {",
-    "url": "http://example.com/foo/bar.js",
+    "value": "  function foo() {",
   },
   Object {
     "column": 4,
-    "id": "bar.js",
     "line": 3,
     "match": "foo",
     "text": "    foo();",
-    "url": "http://example.com/foo/bar.js",
+    "value": "    foo();",
   },
 ]
 `;

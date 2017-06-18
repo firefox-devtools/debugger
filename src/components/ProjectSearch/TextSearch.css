@@ -1,3 +1,7 @@
+.project-text-search {
+  flex-grow: 1;
+}
+
 .project-text-search .result {
   display: flex;
   margin-left: 20px;
@@ -17,4 +21,10 @@
 
 .project-text-search .result .line-number {
   padding-right: 5px;
+}
+
+.project-text-search .search-field {
+  display: flex;
+  align-self: stretch;
+  flex-grow: 1;
 }

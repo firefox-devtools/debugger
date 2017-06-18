@@ -65,7 +65,7 @@ function projectSearchResults(sources, query) {
 
 class ProjectSearch extends Component {
   state: Object;
-  toggle: Function;
+  toggleProjectSearch: Function;
   onEscape: Function;
   close: Function;
 
@@ -76,7 +76,7 @@ class ProjectSearch extends Component {
       inputValue: ""
     };
 
-    this.toggle = this.toggle.bind(this);
+    this.toggleProjectSearch = this.toggleProjectSearch.bind(this);
     this.onEscape = this.onEscape.bind(this);
     this.close = this.close.bind(this);
   }
@@ -87,7 +87,7 @@ class ProjectSearch extends Component {
       L10N.getStr("sources.search.key2"),
       L10N.getStr("sources.search.key2")
     ];
-    searchKeys.forEach(key => shortcuts.off(key, this.toggle));
+    searchKeys.forEach(key => shortcuts.off(key, this.toggleProjectSearch));
     shortcuts.off("Escape", this.onEscape);
   }
 
@@ -97,11 +97,11 @@ class ProjectSearch extends Component {
       L10N.getStr("sources.search.key2"),
       L10N.getStr("sources.search.alt.key")
     ];
-    searchKeys.forEach(key => shortcuts.on(key, this.toggle));
+    searchKeys.forEach(key => shortcuts.on(key, this.toggleProjectSearch));
     shortcuts.on("Escape", this.onEscape);
   }
 
-  toggle(key, e) {
+  toggleProjectSearch(key, e) {
     e.preventDefault();
     this.props.toggleProjectSearch();
   }
