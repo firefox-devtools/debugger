@@ -162,6 +162,65 @@ function isDirectory(url: Object) {
   );
 }
 
+function traverseTreeBackwards(urlString, pathMap = {}, contents, filename) {
+  if (!urlString) {
+    // early exist out of recursive loop
+    return pathMap;
+  }
+
+  // using `match` for performance
+  const [fullString, path, name] = urlString.match(/(.*\/)?(.+$)/);
+  const node = { path: fullString, name: filename || name, contents };
+  const treeNode = { [node.name]: node };
+  const fullPath = pathMap[fullString];
+  if (fullPath) {
+    fullPath.contents = {
+      ...fullPath.contents,
+      ...treeNode
+    };
+    return pathMap;
+  }
+
+  pathMap[fullString] = node;
+
+  // append to existing path
+  const existingPath = pathMap[path];
+  if (existingPath) {
+    existingPath.contents = { ...existingPath.contents, ...treeNode };
+    // early exist out of recursive loop
+    return pathMap;
+  }
+
+  // recursively build path if not existing
+  return traverseTreeBackwards(path, pathMap, treeNode);
+}
+
+function buildSourceTree(sources) {
+  let pathMap = {};
+  let subTree = {};
+  for (let source of sources.valueSeq()) {
+    const url = getURL(source.get("url"));
+    if (
+      IGNORED_URLS.indexOf(url) != -1 ||
+      !source.get("url") ||
+      !url.group ||
+      isPretty(source.toJS())
+    ) {
+      console.log("noop");
+    } else {
+      const path = url.group ? `${url.group}${url.path}` : url.path;
+      pathMap = traverseTreeBackwards(path, pathMap, source, url.filename);
+      const urlGroup = `${url.group}/`;
+      subTree[urlGroup] = subTree[urlGroup] || {};
+      subTree[urlGroup].contents = {
+        ...subTree[urlGroup].contents,
+        ...pathMap[urlGroup].contents
+      };
+    }
+  }
+  return subTree;
+}
+
 /**
  * @memberof utils/sources-tree
  * @static
@@ -333,12 +392,26 @@ function collapseTree(node: any, depth: number = 0) {
  */
 function createTree(sources: any, debuggeeUrl: string) {
   const uncollapsedTree = createNode("root", "", []);
+  // const uncollapsedTree = populateTree(baseTree, sources, debuggeeUrl);
+  const addToTreeStart = performance.now();
   for (let source of sources.valueSeq()) {
     addToTree(uncollapsedTree, source, debuggeeUrl);
   }
   const sourceTree = collapseTree(uncollapsedTree);
+  const addToTreeEnd = performance.now();
+  const pathMapStart = performance.now();
+  const pathMap = buildSourceTree(sources);
+  const pathMapEnd = performance.now();
+
+  console.log("sourceTree", sourceTree);
+  console.log("pathMap", pathMap);
+  console.log("addToTree", addToTreeEnd - addToTreeStart);
+  console.log("pathMap", pathMapEnd - pathMapStart);
+
+  const funTree = createNode("root", "", pathMap);
 
   return {
+    funTree,
     uncollapsedTree,
     sourceTree,
     parentMap: createParentMap(sourceTree),
