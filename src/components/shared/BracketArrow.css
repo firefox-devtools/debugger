@@ -2,8 +2,7 @@
   position: absolute;
 }
 
-.bracket-arrow::before,
-.bracket-arrow::after {
+.bracket-arrow::before, .bracket-arrow::after {
   content: '';
   height: 0;
   width: 0;
