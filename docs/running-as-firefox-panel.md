@@ -3,13 +3,13 @@
 * [Getting Started with Firefox Nightly](#getting-started-with-firefox-nightly)
   * [For Windows Developers](#for-windows-developers)
 * [Configuring Firefox path in the debugger](#configuring-firefox-path-in-the-debugger)
-* [Watching for Changes](#watching-for-changes)
 * [Running Nightly with the local debugger](#running-nightly-with-the-local-debugger)
+* [Watching for Changes](#watching-for-changes)
 * [Getting Help](#getting-help)
 
 ## Getting Started with Firefox Nightly
 
-Running firefox is similar to running [Mochitests](./mochitests.md)
+Running Firefox is similar to running [Mochitests](./mochitests.md) (our integration tests)
 
 **Requirements**
 
@@ -21,7 +21,10 @@ On the first run, this will download a local copy of Firefox and set up an [arti
 There are two commands that you will need. `./mach build` and `./mach run` these can be run together
 each time things change with `./mach build && ./mach run`
 
-* The first time you run the project you will need to use `./mach build` but after the first run you can use `./mach build faster`! The full command looks like this`./mach build faster && ./mach run`
+If you update your Firefox build infrequently, you may need to [Clobber the
+tree](https://wiki.mozilla.org/Clobbering_the_Tree)
+
+* The first time you run the project you will need to use `./mach build` but after the first run you can use `./mach build faster`! The full command looks like this`./mach build faster && ./mach run` (for more info about this take a look at the [mach docs](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/mach)
 
 You should now have a fresh copy of nightly open up! You can pass a few properties to it as well,
 such as -P <custom-profile> if you want to use a specific profile
@@ -50,15 +53,25 @@ mcPath: './firefox' // expecting firefox to be under `debugger.html/firefox`
 
 You can change this to what works for you!
 
+## Running Nightly with the local debugger
+
+Now we can put these pieces together. After you copy over the assets, you can run firefox with the
+debugger inside the panel!
+
+in debugger project (`projects/debugger.html` or wherever you have it!):
+```
+yarn copy-assets
+```
+
+in firefox project (`projects/firefox` or wherever you have it!):
+```
+./mach build faster && ./mach run
+```
+
 ## Watching for Changes
 
 On to the fun stuff. Each time you change something you will need to copy over your assets, you can
 do this like so!
-
-in npm:
-```
-npm run copy-assets
-```
 
 in yarn:
 ```
@@ -70,25 +83,11 @@ That will build the debugger and copy over all the relevant files into `firefox`
 It's annoying to have to manually update the bundle every single time though. If you want to automatically update the bundle in Firefox whenever you make a change, run this:
 
 ```
-npm run copy-assets-watch
+yarn copy-assets-watch
 ```
 
 Now you can make code changes the the bundle will be automatically built for you inside `firefox`.
 
-## Running Nightly with the local debugger
-
-Now we can put these pieces together. After you copy over the assets, you can run firefox with the
-debugger inside the panel!
-
-in debugger project (`projects/debugger.html` or whereever you have it!):
-```
-npm run copy-assets-watch
-```
-
-in firefox project (`projects/firefox` or whereever you have it!):
-```
-./mach build faster && ./mach run
-```
 
 ### Getting Help
 
