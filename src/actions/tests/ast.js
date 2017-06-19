@@ -7,7 +7,7 @@ import {
 
 import readFixture from "./helpers/readFixture";
 const { getSymbols, getOutOfScopeLocations } = selectors;
-import getLinesInScope from "../../selectors/linesInScope";
+import getInScopeLines from "../../selectors/linesInScope";
 
 const threadClient = {
   sourceContents: function(sourceId) {
@@ -82,7 +82,7 @@ describe("ast", () => {
       await dispatch(actions.selectSource("scopes.js", { line: 5 }));
 
       const locations = getOutOfScopeLocations(getState());
-      const lines = getLinesInScope(getState());
+      const lines = getInScopeLines(getState());
 
       expect(locations).toMatchSnapshot();
       expect(lines).toMatchSnapshot();
@@ -95,7 +95,7 @@ describe("ast", () => {
       await dispatch(actions.selectSource("base.js"));
 
       const locations = getOutOfScopeLocations(getState());
-      const lines = getLinesInScope(getState());
+      const lines = getInScopeLines(getState());
 
       expect(locations).toEqual(null);
       expect(lines).toEqual([1]);

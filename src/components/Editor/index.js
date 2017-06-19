@@ -31,7 +31,7 @@ import {
   getFileSearchModifierState
 } from "../../selectors";
 
-import getLinesInScope from "../../selectors/linesInScope";
+import getInScopeLines from "../../selectors/linesInScope";
 
 import { makeLocationId } from "../../utils/breakpoint";
 import actions from "../../actions";
@@ -932,7 +932,7 @@ export default connect(
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),
       searchModifiers: getFileSearchModifierState(state),
-      linesInScope: getLinesInScope(state),
+      linesInScope: getInScopeLines(state),
       selection: getSelection(state)
     };
   },

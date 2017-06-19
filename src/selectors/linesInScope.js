@@ -5,7 +5,7 @@ import flatMap from "lodash/flatMap";
 import uniq from "lodash/uniq";
 import without from "lodash/without";
 
-function getLinesOutOfScope(outOfScopeLocations: AstLocation[]) {
+function getOutOfScopeLines(outOfScopeLocations: AstLocation[]) {
   if (!outOfScopeLocations) {
     return null;
   }
@@ -17,7 +17,7 @@ function getLinesOutOfScope(outOfScopeLocations: AstLocation[]) {
   );
 }
 
-export default function getLinesInScope(state: OuterState) {
+export default function getInScopeLines(state: OuterState) {
   const source = getSelectedSource(state);
   const outOfScopeLocations = getOutOfScopeLocations(state);
 
@@ -25,7 +25,7 @@ export default function getLinesInScope(state: OuterState) {
     return;
   }
 
-  const linesOutOfScope = getLinesOutOfScope(
+  const linesOutOfScope = getOutOfScopeLines(
     outOfScopeLocations,
     source.toJS()
   );
