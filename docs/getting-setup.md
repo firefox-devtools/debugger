@@ -168,7 +168,7 @@ If you find any issues on these two platforms comment on these issues:
 **Firefox windows command**
 
 ```bash
-"C:\Program Files (x86)\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -P development
+"C:\Program Files (x86)\Mozilla Firefox\firefox.exe" --start-debugging-server 6080 -P development
 ```
 
 ### Debugger examples
