@@ -206,12 +206,13 @@ declare module "debugger-html" {
    */
   declare type Source = {
     id: SourceId,
-    url?: string,
-    sourceMapURL?: string,
+    url: string,
+    sourceMapURL: string,
     isBlackBoxed: boolean,
     isPrettyPrinted: boolean,
     text?: string,
     contentType?: string,
+    error?: string,
     loading?: boolean
   };
 

@@ -8,7 +8,7 @@
 import { endTruncateStr } from "./utils";
 import { basename } from "../utils/path";
 
-import type { Source, SourceText } from "../types";
+import type { Source } from "../types";
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
@@ -121,8 +121,12 @@ const contentTypeModeMap = {
  * @static
  */
 
-function getMode(sourceText: SourceText) {
-  const { contentType, text } = sourceText;
+function getMode(source: Source) {
+  if (!source.text || !source.contentType) {
+    return { name: "text" };
+  }
+
+  const { contentType, text } = source;
 
   // // @flow or /* @flow */
   if (text.match(/^\s*(\/\/ @flow|\/\* @flow \*\/)/)) {

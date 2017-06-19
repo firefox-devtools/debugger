@@ -1,11 +1,10 @@
 // @flow
 
 import {
-  getSourceText,
   getSource,
   hasSymbols,
   getSelectedLocation,
-  getSelectedSourceText,
+  getSelectedSource,
   getSelectedFrame,
   getSelection
 } from "../selectors";
@@ -13,22 +12,23 @@ import {
 import { PROMISE } from "../utils/redux/middleware/promise";
 import * as parser from "../utils/parser";
 
-import type { Source } from "debugger-html";
+import type { SourceId } from "debugger-html";
 import type { ThunkArgs } from "./types";
 import type { AstLocation } from "../utils/parser";
 
-export function setSymbols(source: Source) {
+export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    if (hasSymbols(getState(), source)) {
+    const sourceRecord = getSource(getState(), sourceId);
+    if (!sourceRecord) {
       return;
     }
 
-    const sourceText = getSourceText(getState(), source.id);
-    if (!sourceText) {
+    const source = sourceRecord.toJS();
+    if (!source.text || hasSymbols(getState(), source)) {
       return;
     }
 
-    const symbols = await parser.getSymbols(sourceText.toJS());
+    const symbols = await parser.getSymbols(source);
 
     dispatch({
       type: "SET_SYMBOLS",
@@ -86,14 +86,12 @@ export function setSelection(token: string, position: AstLocation) {
       return;
     }
 
-    const sourceText = getSelectedSourceText(getState());
-    const selectedFrame = getSelectedFrame(getState());
-
     await dispatch({
       type: "SET_SELECTION",
       [PROMISE]: (async function() {
+        const source = getSelectedSource(getState());
         const closestExpression = await parser.getClosestExpression(
-          sourceText.toJS(),
+          source.toJS(),
           token,
           position
         );
@@ -108,6 +106,7 @@ export function setSelection(token: string, position: AstLocation) {
           return;
         }
 
+        const selectedFrame = getSelectedFrame(getState());
         const { result } = await client.evaluate(expression, {
           frameId: selectedFrame.id
         });

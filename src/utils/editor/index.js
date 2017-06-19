@@ -94,14 +94,13 @@ function createEditor() {
   });
 }
 
-function updateDocument(editor, selectedSource, sourceText) {
-  if (selectedSource) {
-    let sourceId = selectedSource.get("id");
-    const doc = getDocument(sourceId) || editor.createDocument();
-    editor.replaceDocument(doc);
-  } else if (sourceText) {
-    this.setText(sourceText.get("text"));
+function updateDocument(editor, selectedSource) {
+  if (!selectedSource) {
+    return;
   }
+  let sourceId = selectedSource.get("id");
+  const doc = getDocument(sourceId) || editor.createDocument();
+  editor.replaceDocument(doc);
 }
 
 module.exports = Object.assign(

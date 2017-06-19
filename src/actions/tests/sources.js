@@ -8,7 +8,6 @@ const {
   getSource,
   getSources,
   getSelectedSource,
-  getSourceText,
   getSourceTabs,
   getOutOfScopeLocations
 } = selectors;
@@ -62,8 +61,8 @@ describe("sources", () => {
     const selectedSource = getSelectedSource(getState());
     expect(selectedSource.get("id")).toEqual("foo1");
 
-    const sourceText = getSourceText(getState(), selectedSource.get("id"));
-    expect(sourceText.get("id")).toEqual("foo1");
+    const source = getSource(getState(), selectedSource.get("id"));
+    expect(source.get("id")).toEqual("foo1");
 
     const locations = getOutOfScopeLocations(getState());
     expect(locations.length).toEqual(1);
@@ -120,41 +119,41 @@ describe("sources", () => {
     const { dispatch, getState } = createStore(threadClient);
 
     await dispatch(actions.loadSourceText({ id: "foo1" }));
-    const fooSourceText = getSourceText(getState(), "foo1");
-    expect(fooSourceText.get("text").indexOf("return 5")).not.toBe(-1);
+    const fooSource = getSource(getState(), "foo1");
+    expect(fooSource.get("text").indexOf("return 5")).not.toBe(-1);
 
     await dispatch(actions.loadSourceText({ id: "foo2" }));
-    const foo2SourceText = getSourceText(getState(), "foo2");
-    expect(foo2SourceText.get("text").indexOf("return x + y")).not.toBe(-1);
+    const foo2Source = getSource(getState(), "foo2");
+    expect(foo2Source.get("text").indexOf("return x + y")).not.toBe(-1);
   });
 
   it("should cache subsequent source text loads", async () => {
     const { dispatch, getState } = createStore(threadClient);
 
     await dispatch(actions.loadSourceText({ id: "foo1" }));
-    const prevText = getSourceText(getState(), "foo1");
+    const prevSource = getSource(getState(), "foo1");
 
-    await dispatch(actions.loadSourceText({ id: "foo1" }));
-    const curText = getSourceText(getState(), "foo1");
+    await dispatch(actions.loadSourceText(prevSource.toJS()));
+    const curSource = getSource(getState(), "foo1");
 
-    expect(prevText === curText).toBeTruthy();
+    expect(prevSource === curSource).toBeTruthy();
   });
 
-  it("should indicate a loading source text", async () => {
+  it("should indicate a loading source", async () => {
     const { dispatch, getState } = createStore(threadClient);
 
     // Don't block on this so we can check the loading state.
     dispatch(actions.loadSourceText({ id: "foo1" }));
-    const fooSourceText = getSourceText(getState(), "foo1");
-    expect(fooSourceText.get("loading")).toEqual(true);
+    const fooSource = getSource(getState(), "foo1");
+    expect(fooSource.get("loading")).toEqual(true);
   });
 
   it("should indicate an errored source text", async () => {
     const { dispatch, getState } = createStore(threadClient);
 
     await dispatch(actions.loadSourceText({ id: "bad-id" })).catch(() => {});
-    const badText = getSourceText(getState(), "bad-id");
-    expect(badText.get("error").indexOf("unknown source")).not.toBe(-1);
+    const badSource = getSource(getState(), "bad-id");
+    expect(badSource.get("error").indexOf("unknown source")).not.toBe(-1);
   });
 });
 

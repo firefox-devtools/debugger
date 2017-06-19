@@ -31,6 +31,7 @@ export type {
   LoadedObject,
   Location,
   Source,
+  LoadedSource,
   SourceText,
   Pause,
   Why
