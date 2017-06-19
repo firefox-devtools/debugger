@@ -2,7 +2,6 @@
 
 import toPairs from "lodash/toPairs";
 import get from "lodash/get";
-
 import type { Frame, Pause, Scope } from "debugger-html";
 
 type ScopeData = {

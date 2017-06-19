@@ -5,7 +5,9 @@ import {
   makeSource
 } from "../../utils/test-head";
 
+import readFixture from "./helpers/readFixture";
 const { getSymbols, getOutOfScopeLocations } = selectors;
+import getInScopeLines from "../../selectors/linesInScope";
 
 const threadClient = {
   sourceContents: function(sourceId) {
@@ -30,7 +32,8 @@ const threadClient = {
 
 const sourceTexts = {
   "base.js": "function base(boo) {}",
-  "foo.js": "function base(boo) { return this.bazz; } outOfScope"
+  "foo.js": "function base(boo) { return this.bazz; } outOfScope",
+  "scopes.js": readFixture("scopes.js")
 };
 
 const evaluationResult = {
@@ -72,32 +75,33 @@ describe("ast", () => {
   });
 
   describe("getOutOfScopeLocations", () => {
-    it("simple", async () => {
+    it("with selected line", async () => {
       const { dispatch, getState } = createStore(threadClient);
-      const base = makeSource("base.js");
-      await dispatch(actions.newSource(base));
-      await dispatch(actions.loadSourceText({ id: "base.js" }));
-      await dispatch(actions.selectSource("base.js", { line: 1 }));
-
-      await dispatch(actions.setOutOfScopeLocations());
+      const source = makeSource("scopes.js");
+      await dispatch(actions.newSource(source));
+      await dispatch(actions.selectSource("scopes.js", { line: 5 }));
 
       const locations = getOutOfScopeLocations(getState());
+      const lines = getInScopeLines(getState());
+
       expect(locations).toMatchSnapshot();
+      expect(lines).toMatchSnapshot();
     });
 
     it("without a selected line", async () => {
       const { dispatch, getState } = createStore(threadClient);
       const base = makeSource("base.js");
       await dispatch(actions.newSource(base));
-      await dispatch(actions.loadSourceText({ id: "base.js" }));
       await dispatch(actions.selectSource("base.js"));
 
-      await dispatch(actions.setOutOfScopeLocations());
-
       const locations = getOutOfScopeLocations(getState());
+      const lines = getInScopeLines(getState());
+
       expect(locations).toEqual(null);
+      expect(lines).toEqual([1]);
     });
   });
+
   describe("setSelection", () => {
     it("simple", async () => {
       const { dispatch, getState } = createStore(threadClient);
