@@ -121,6 +121,13 @@ We focused this week on getting lots of bugfixes and community prs in
 * further work on getting more frameworks included on our framework frames. Thanks to
   [@andreicristianpetcu]
 
+### [June 20th](./updates-6-20-2017.md)
+It's been a quieter week than last week. This weeks highlights include:
+
+* new UI improvements to search (thankyou to [@ruturajv]!
+* some new documentation
+* WTR runner
+
 ### Types and Tests Review
 
 * [Flow Review](./5-1-2017-flow.md)
@@ -136,3 +143,4 @@ We focused this week on getting lots of bugfixes and community prs in
 [pr-23]:https://github.com/devtools-html/debugger.html/pull/2810
 [@zaggy]:http://github.com/zaggy
 [@amelzer]:http://github.com/amelzer
+[@ruturajv]:http://github.com/ruturajv
