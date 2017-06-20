@@ -207,10 +207,11 @@ function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
       i === 0 ? debuggeeUrl : ""
     );
 
-    if (index >= 0 && children[index].name === part) {
+    const child = children.find(c => c.name === part);
+    if (child) {
       // A node with the same name already exists, simply traverse
       // into it.
-      subtree = children[index];
+      subtree = child;
     } else {
       // No node with this name exists, so insert a new one in the
       // place that is alphabetically sorted.
@@ -226,10 +227,10 @@ function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
 
   // Overwrite the contents of the final node to store the source
   // there.
-  if (isDir) {
-    subtree.contents.unshift(createNode("(index)", source.get("url"), source));
-  } else {
+  if (!isDir) {
     subtree.contents = source;
+  } else if (!subtree.contents.find(c => c.name === "(index)")) {
+    subtree.contents.unshift(createNode("(index)", source.get("url"), source));
   }
 }
 

@@ -7,6 +7,7 @@ import {
   getDirectories,
   getURL,
   isExactUrlMatch,
+  createTree,
   isDirectory
 } from "../sources-tree.js";
 
@@ -23,6 +24,23 @@ describe("sources-tree", () => {
     url: "http://example.com/a/b/x.js",
     actor: "actor3"
   });
+
+  function createSourcesList(sources) {
+    function makeSource(url, index) {
+      return new Map({
+        url,
+        actor: `actor${index}`
+      });
+    }
+
+    const msources = sources.map((s, i) => makeSource(s, i));
+    let sourceList = Map();
+    msources.forEach(s => {
+      sourceList = sourceList.mergeIn([s.get("actor")], s);
+    });
+
+    return sourceList;
+  }
 
   it("should provide node API", () => {
     const root = createNode("root", "", [createNode("foo", "/foo")]);
@@ -57,6 +75,18 @@ describe("sources-tree", () => {
 
     let source1Node = fooNode.contents[0];
     expect(source1Node.name).toBe("source1.js");
+  });
+
+  it("does not attempt to add two of the same directory", () => {
+    const sources = [
+      "https://davidwalsh.name/wp-content/prism.js",
+      "https://davidwalsh.name/"
+    ];
+    const sourceList = createSourcesList(sources);
+    const tree = createTree(sourceList, "").sourceTree;
+    expect(tree.contents.length).toBe(1);
+    const subtree = tree.contents[0];
+    expect(subtree.contents.length).toBe(2);
   });
 
   it("alphabetically sorts children", () => {
@@ -126,6 +156,7 @@ describe("sources-tree", () => {
     const domain = tree.contents[0];
 
     const [
+      indexNode,
       bFolderNode,
       b2FileNode,
       dFolderNode,
@@ -133,6 +164,7 @@ describe("sources-tree", () => {
       cFileNode
     ] = domain.contents;
 
+    expect(indexNode.name).toBe("(index)");
     expect(bFolderNode.name).toBe("b.js");
     expect(bFolderNode.contents.length).toBe(1);
     expect(bFolderNode.contents[0].name).toBe("b_source.js");

@@ -121,6 +121,8 @@ class SourcesTree extends Component {
       return;
     }
 
+    // TODO: do not run this every time a source is clicked,
+    // only when a new source is added
     const next = Set(nextProps.sources.valueSeq());
     const prev = Set(this.props.sources.valueSeq());
     const newSet = next.subtract(prev);
