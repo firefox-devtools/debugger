@@ -1,7 +1,6 @@
 // @flow
 import { DOM as dom, Component, PropTypes } from "react";
 
-import { findDOMNode } from "react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
@@ -68,21 +67,6 @@ function formatKey(action) {
   return formatKeyShortcut(key);
 }
 
-function handlePressAnimation(button) {
-  if (!button) {
-    return;
-  }
-
-  button.style.opacity = "0";
-  button.style.transform = "scale(1.3)";
-  setTimeout(() => {
-    if (button) {
-      button.style.opacity = "1";
-      button.style.transform = "none";
-    }
-  }, 200);
-}
-
 function debugBtn(onClick, type, className, tooltip, disabled = false) {
   className = `${type} ${className}`;
   return dom.button(
@@ -145,10 +129,6 @@ class CommandBar extends Component {
     e.stopPropagation();
 
     this.props[action]();
-    const node = findDOMNode(this);
-    if (node instanceof HTMLElement) {
-      handlePressAnimation(node.querySelector(`.${action}`));
-    }
   }
 
   renderStepButtons() {
