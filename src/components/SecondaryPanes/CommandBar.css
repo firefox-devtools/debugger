@@ -27,7 +27,6 @@ html[dir="rtl"] .command-bar {
   cursor: pointer;
   display: inline-block;
   text-align: center;
-  transition: all 0.25s ease;
   padding: 8px 5px;
   position: relative;
   fill: currentColor;
@@ -45,8 +44,12 @@ html[dir="rtl"] .command-bar {
   margin-inline-end: 0.7em;
 }
 
+.command-bar > button:focus {
+  outline: none;
+}
+
 html .command-bar > button:disabled {
-  opacity: 0.3;
+  opacity: 0.8;
   cursor: default;
 }
 
