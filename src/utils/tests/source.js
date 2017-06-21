@@ -45,7 +45,7 @@ describe("sources", () => {
     it("elm", () => {
       const source = {
         contentType: "text/x-elm",
-        text: ""
+        text: 'main = text "Hello, World!"'
       };
       expect(getMode(source)).toBe("elm");
     });
@@ -53,7 +53,7 @@ describe("sources", () => {
     it("jsx", () => {
       const source = {
         contentType: "text/jsx",
-        text: ""
+        text: "<h1></h1>"
       };
       expect(getMode(source)).toBe("jsx");
     });
@@ -61,7 +61,7 @@ describe("sources", () => {
     it("typescript", () => {
       const source = {
         contentType: "text/typescript",
-        text: ""
+        text: "function foo(){}"
       };
       expect(getMode(source).typescript).toBe(true);
     });
@@ -69,7 +69,7 @@ describe("sources", () => {
     it("typescript-jsx", () => {
       const source = {
         contentType: "text/typescript-jsx",
-        text: ""
+        text: "<h1></h1>"
       };
       expect(getMode(source).base.typescript).toBe(true);
     });
@@ -77,7 +77,7 @@ describe("sources", () => {
     it("clojure", () => {
       const source = {
         contentType: "text/x-clojure",
-        text: ""
+        text: "(+ 2 3)"
       };
       expect(getMode(source)).toBe("clojure");
     });
@@ -85,7 +85,7 @@ describe("sources", () => {
     it("coffeescript", () => {
       const source = {
         contentType: "text/coffeescript",
-        text: ""
+        text: "x = (a) -> 3"
       };
       expect(getMode(source)).toBe("coffeescript");
     });
