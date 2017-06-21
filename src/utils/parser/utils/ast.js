@@ -75,4 +75,5 @@ export function traverseAst(source: Source, visitor: Visitor) {
   }
 
   traverse(ast, visitor);
+  return ast;
 }

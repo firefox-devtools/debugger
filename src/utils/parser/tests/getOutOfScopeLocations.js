@@ -40,4 +40,15 @@ describe("Parser.getOutOfScopeLocations", () => {
 
     expect(formatLines(actual)).toMatchSnapshot();
   });
+
+  it("should treat comments as out of scope", () => {
+    const actual = getOutOfScopeLocations(getSourceText("outOfScopeComment"), {
+      line: 3,
+      column: 2
+    });
+
+    expect(actual).toEqual([
+      { end: { column: 15, line: 1 }, start: { column: 0, line: 1 } }
+    ]);
+  });
 });
