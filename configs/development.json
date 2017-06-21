@@ -65,7 +65,7 @@
     },
     "highlightScopeLines": {
       "label": "Highlight the lines in scope",
-      "enabled": true
+      "enabled": false
     }
   },
   "chrome": {
