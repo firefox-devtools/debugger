@@ -4,6 +4,15 @@ import getOutOfScopeLocations from "../getOutOfScopeLocations";
 
 import { getSourceText } from "./helpers";
 
+function formatLines(actual) {
+  return actual
+    .map(
+      ({ start, end }) =>
+        `(${start.line}, ${start.column}) -> (${end.line}, ${end.column})`
+    )
+    .join("\n");
+}
+
 describe("Parser.getOutOfScopeLocations", () => {
   it("should exclude non-enclosing function blocks", () => {
     const actual = getOutOfScopeLocations(getSourceText("outOfScope"), {
@@ -11,7 +20,7 @@ describe("Parser.getOutOfScopeLocations", () => {
       column: 5
     });
 
-    expect(actual).toMatchSnapshot();
+    expect(formatLines(actual)).toMatchSnapshot();
   });
 
   it("should roll up function blocks", () => {
@@ -20,7 +29,7 @@ describe("Parser.getOutOfScopeLocations", () => {
       column: 0
     });
 
-    expect(actual).toMatchSnapshot();
+    expect(formatLines(actual)).toMatchSnapshot();
   });
 
   it("should exclude function for locations on declaration", () => {
@@ -29,6 +38,6 @@ describe("Parser.getOutOfScopeLocations", () => {
       column: 12
     });
 
-    expect(actual).toMatchSnapshot();
+    expect(formatLines(actual)).toMatchSnapshot();
   });
 });
