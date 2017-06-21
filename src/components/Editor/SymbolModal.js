@@ -27,8 +27,10 @@ import type {
   SymbolDeclaration,
   SymbolDeclarations
 } from "../../utils/parser/getSymbols";
+
 import type { Location as BabelLocation } from "babel-traverse";
 import type { SearchResults } from ".";
+import type { SourceRecord } from "../../reducers/sources";
 
 export type FormattedSymbolDeclaration = {
   id: string,
@@ -67,12 +69,14 @@ class SymbolModal extends Component {
     selectSource: (string, ?SelectSourceOptions) => any,
     selectedSource?: SourceRecord,
     symbols: SymbolDeclarations,
-    searchResults: SearchResults,
     symbolType: SymbolSearchType,
     setSelectedSymbolType: SymbolSearchType => any,
     toggleActiveSearch: (?ActiveSearchType) => any,
     setSymbolSearchQuery: string => any,
-    updateSymbolSearchResults: ({ count: number, index?: number }) => any
+    updateSymbolSearchResults: ({ count: number, index?: number }) => any,
+    updateSearchResults: any,
+    highlightLineRange: any,
+    symbolSearchResults: any
   };
 
   constructor(props) {
@@ -87,6 +91,7 @@ class SymbolModal extends Component {
     const self = this;
     self.onEscape = this.onEscape.bind(this);
     self.onChange = this.onChange.bind(this);
+    self.onKeyUp = this.onKeyUp.bind(this);
     self.updateResults = this.updateResults.bind(this);
     self.traverseResults = this.traverseResults.bind(this);
     self.renderResults = this.renderResults.bind(this);
@@ -132,6 +137,21 @@ class SymbolModal extends Component {
     return this.updateResults(e.target.value);
   }
 
+  closeModal() {}
+
+  selectResultItem(e: SyntheticEvent, item: SymbolDeclaration) {
+    const { selectSource, selectedSource } = this.props;
+
+    if (!selectedSource) {
+      return;
+    }
+    selectSource(selectedSource.get("id"), {
+      line: item.location.start.line
+    });
+
+    this.closeModal(e);
+  }
+
   updateResults(query: string) {
     const {
       selectedSource,
@@ -156,7 +176,8 @@ class SymbolModal extends Component {
   }
 
   traverseResults(rev: boolean) {
-    const { symbolSearchResults, selectedResultIndex } = this.state;
+    const { selectedResultIndex } = this.state;
+    const { symbolSearchResults } = this.props;
     const searchResults = symbolSearchResults;
     const resultCount = searchResults.length;
 
@@ -179,7 +200,30 @@ class SymbolModal extends Component {
     }
   }
 
-  onKeyDown(e: SyntheticKeyboardEvent) {
+  onSelectResultItem(item: FormattedSymbolDeclaration) {
+    const {
+      selectSource,
+      selectedSource,
+      symbolType,
+      highlightLineRange
+    } = this.props;
+
+    if (selectedSource && symbolType !== "functions") {
+      selectSource(selectedSource.get("id"), {
+        line: item.location.start.line
+      });
+    }
+
+    if (selectedSource && symbolType === "functions") {
+      highlightLineRange({
+        start: item.location.start.line,
+        end: item.location.end.line,
+        sourceId: selectedSource.get("id")
+      });
+    }
+  }
+
+  onKeyUp(e: SyntheticKeyboardEvent) {
     const { enabled, query } = this.props;
     const { symbolSearchResults } = this.state;
     if (!enabled || query == "") {
@@ -198,10 +242,10 @@ class SymbolModal extends Component {
       if (searchResults.length) {
         this.selectResultItem(e, searchResults[this.state.selectedResultIndex]);
       }
-      this.closeSearch(e);
+      this.closeModal(e);
       e.preventDefault();
     } else if (e.key === "Tab") {
-      this.closeSearch(e);
+      this.closeModal(e);
       e.preventDefault();
     }
   }
@@ -224,15 +268,23 @@ class SymbolModal extends Component {
   }
 
   buildSummaryMsg() {
-    if (this.state.symbolSearchResults.length > 1) {
+    const { selectedResultIndex } = this.state;
+    const count = this.resultsCount();
+
+    if (count > 1) {
       return L10N.getFormatStr(
         "editor.searchResults",
-        this.state.selectedResultIndex + 1,
-        this.state.symbolSearchResults.length
+        selectedResultIndex + 1,
+        count
       );
-    } else if (this.state.symbolSearchResults.length === 1) {
+    } else if (count === 1) {
       return L10N.getFormatStr("editor.singleResult");
     }
+  }
+
+  resultsCount() {
+    const { symbolSearchResults } = this.props;
+    return symbolSearchResults.length;
   }
 
   buildPlaceHolder() {
@@ -249,14 +301,14 @@ class SymbolModal extends Component {
       { className: "symbol-modal" },
       SearchInput({
         query,
-        count: 0,
+        count: this.resultsCount(),
         placeholder: this.buildPlaceHolder(),
         summaryMsg: this.buildSummaryMsg(),
         onChange: this.onChange,
         onKeyUp: this.onKeyUp,
         handleNext: e => this.traverseResults(e, false),
         handlePrev: e => this.traverseResults(e, true),
-        handleClose: this.closeSearch
+        handleClose: this.closeModal
       }),
       this.renderResults()
     );

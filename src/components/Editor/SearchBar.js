@@ -93,8 +93,6 @@ class SearchBar extends Component {
     self.doSearch = this.doSearch.bind(this);
     self.searchContents = this.searchContents.bind(this);
     self.traverseResults = this.traverseResults.bind(this);
-    self.selectResultItem = this.selectResultItem.bind(this);
-    self.onSelectResultItem = this.onSelectResultItem.bind(this);
     self.onChange = this.onChange.bind(this);
     self.onKeyUp = this.onKeyUp.bind(this);
     self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
@@ -316,40 +314,6 @@ class SearchBar extends Component {
   }
 
   // Handlers
-  selectResultItem(e: SyntheticEvent, item: SymbolDeclaration) {
-    const { selectSource, selectedSource } = this.props;
-
-    if (selectedSource) {
-      selectSource(selectedSource.get("id"), {
-        line: item.location.start.line
-      });
-
-      this.closeSearch(e);
-    }
-  }
-
-  onSelectResultItem(item: FormattedSymbolDeclaration) {
-    const {
-      selectSource,
-      selectedSource,
-      selectedSymbolType,
-      highlightLineRange
-    } = this.props;
-
-    if (selectedSource && selectedSymbolType !== "functions") {
-      selectSource(selectedSource.get("id"), {
-        line: item.location.start.line
-      });
-    }
-
-    if (selectedSource && selectedSymbolType === "functions") {
-      highlightLineRange({
-        start: item.location.start.line,
-        end: item.location.end.line,
-        sourceId: selectedSource.get("id")
-      });
-    }
-  }
 
   onChange(e: any) {
     return this.doSearch(e.target.value);

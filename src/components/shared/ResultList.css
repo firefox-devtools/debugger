@@ -1,6 +1,5 @@
 .result-list {
   list-style: none;
-  background-color: var(--theme-toolbar-background);
   margin: 0px;
   padding: 0px;
   overflow: auto;
@@ -18,7 +17,6 @@
 
 .result-list li {
   color: var(--theme-body-color);
-  background-color: var(--theme-tab-toolbar-background);
   padding: 4px 13px;
   display: flex;
   justify-content: space-between;
@@ -40,12 +38,12 @@
   border-color: var(--theme-selection-background);
 }
 
-.search-bar .result-list li.selected {
+.result-list.small li.selected {
   background-color: var(--theme-selection-background);
   color: white;
 }
 
-.theme-dark .search-bar .result-list li.selected {
+.theme-dark  .result-list.small li.selected {
   background-color: var(--theme-body-background);
 }
 
