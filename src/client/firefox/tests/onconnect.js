@@ -1,7 +1,10 @@
 import { onConnect } from "../../firefox";
 
 const tabTarget = {
-  on: () => {}
+  on: () => {},
+  _form: {
+    url: "url"
+  }
 };
 
 const threadClient = {
@@ -24,6 +27,7 @@ const debuggerClient = {};
 
 const actions = {
   _sources: [],
+  navigate: () => {},
 
   newSources: function(sources) {
     return new Promise(resolve => {
