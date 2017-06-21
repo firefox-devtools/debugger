@@ -17,7 +17,6 @@ ShallowWrapper {
         highlightLineRange={undefined}
         selectSource={undefined}
         selectedSource={undefined}
-        sourceText={undefined}
     />
     <div
         className="editor-mount devtools-monospace"
@@ -27,7 +26,6 @@ ShallowWrapper {
               }
         }
     />
-    Array []
     <Connect(SourceFooter)
         editor={null}
         horizontal={undefined}
@@ -43,7 +41,6 @@ ShallowWrapper {
             highlightLineRange={undefined}
             selectSource={undefined}
             selectedSource={undefined}
-            sourceText={undefined}
       />
       <div
             className="editor-mount devtools-monospace"
@@ -53,7 +50,6 @@ ShallowWrapper {
                       }
             }
       />
-      Array []
       <Connect(SourceFooter)
             editor={null}
             horizontal={undefined}
@@ -161,7 +157,6 @@ ShallowWrapper {
                     highlightLineRange={undefined}
                     selectSource={undefined}
                     selectedSource={undefined}
-                    sourceText={undefined}
           />
           <div
                     className="editor-mount devtools-monospace"
@@ -171,7 +166,6 @@ ShallowWrapper {
                                       }
                     }
           />
-          Array []
           <Connect(SourceFooter)
                     editor={null}
                     horizontal={undefined}
@@ -187,7 +181,6 @@ ShallowWrapper {
                     highlightLineRange={undefined}
                     selectSource={undefined}
                     selectedSource={undefined}
-                    sourceText={undefined}
           />
           <div
                     className="editor-mount devtools-monospace"
@@ -197,7 +190,6 @@ ShallowWrapper {
                                       }
                     }
           />
-          Array []
           <Connect(SourceFooter)
                     editor={null}
                     horizontal={undefined}

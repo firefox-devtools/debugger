@@ -15,15 +15,13 @@ import { getPrettySourceURL } from "../utils/source";
 import { prefs } from "../utils/prefs";
 
 import type { Map, List } from "immutable";
-import type { Source, SourceText, Location } from "../types";
+import type { Source, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type Tab = string;
 export type SourceRecord = Record<Source>;
-export type SourceTextRecord = Record<SourceText>;
 export type SourcesMap = Map<string, SourceRecord>;
-type SourceTextMap = Map<string, SourceTextRecord>;
 type TabList = List<Tab>;
 
 export type SourcesState = {
@@ -39,7 +37,6 @@ export type SourcesState = {
     column?: number
   },
   selectedLocation?: Location,
-  sourcesText: SourceTextMap,
   tabs: TabList
 };
 
@@ -171,10 +168,8 @@ function getTextPropsFromAction(action: any) {
 // "start" and "error" states but we don't type it like that. We need
 // to rethink how we type async actions.
 function setSourceTextProps(state, action: any): Record<SourcesState> {
-  const source = action.source;
   const text = getTextPropsFromAction(action);
-  const updatedState = state.setIn(["sourcesText", source.id], I.Map(text));
-  return updateSource(updatedState, text);
+  return updateSource(state, text);
 }
 
 function updateSource(state: State, source: Object | Source) {
@@ -300,15 +295,6 @@ export function getSource(state: OuterState, id: string) {
 
 export function getSourceByURL(state: OuterState, url: string): ?SourceRecord {
   return getSourceByUrlInSources(state.sources.sources, url);
-}
-
-export function getSourceText(
-  state: OuterState,
-  id: ?string
-): ?SourceTextRecord {
-  if (id) {
-    return state.sources.sourcesText.get(id);
-  }
 }
 
 export function getPendingSelectedLocation(state: OuterState) {

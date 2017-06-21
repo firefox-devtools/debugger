@@ -8,7 +8,7 @@
 import { endTruncateStr } from "./utils";
 import { basename } from "../utils/path";
 
-import type { Source, SourceText } from "../types";
+import type { Source } from "../types";
 
 /**
  * Trims the query part or reference identifier of a url string, if necessary.
@@ -121,8 +121,19 @@ const contentTypeModeMap = {
  * @static
  */
 
-function getMode(sourceText: SourceText) {
-  const { contentType, text } = sourceText;
+function getMode(source: Source) {
+  if (!source.text) {
+    return { name: "text" };
+  }
+
+  if (!source.contentType) {
+    // Use HTML mode for files in which the first non whitespace
+    // character is `<` regardless of extension.
+    const name = source.text.match(/^\s*</) ? "htmlmixed" : "text";
+    return { name };
+  }
+
+  const { contentType, text } = source;
 
   // // @flow or /* @flow */
   if (text.match(/^\s*(\/\/ @flow|\/\* @flow \*\/)/)) {
@@ -135,12 +146,6 @@ function getMode(sourceText: SourceText) {
     }
 
     return contentTypeModeMap["text/javascript"];
-  }
-
-  // Use HTML mode for files in which the first non whitespace
-  // character is `<` regardless of extension.
-  if (text.match(/^\s*</)) {
-    return { name: "htmlmixed" };
   }
 
   return { name: "text" };

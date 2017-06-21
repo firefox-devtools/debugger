@@ -25,7 +25,6 @@ import { removeDocument } from "../utils/editor";
 import {
   getSource,
   getSourceByURL,
-  getSourceText,
   getPendingSelectedLocation,
   getPendingBreakpoints,
   getFrames,
@@ -287,12 +286,8 @@ export function closeTabs(urls: string[]) {
 export function togglePrettyPrint(sourceId: string) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
-    let sourceText = getSourceText(getState(), sourceId);
-    if (sourceText) {
-      sourceText = sourceText.toJS();
-    }
 
-    if (sourceText && sourceText.loading) {
+    if (source && source.loading) {
       return {};
     }
 
@@ -312,7 +307,6 @@ export function togglePrettyPrint(sourceId: string) {
       [PROMISE]: (async function() {
         const { code, mappings } = await prettyPrint({
           source,
-          sourceText,
           url
         });
 
@@ -350,10 +344,8 @@ export function toggleBlackBox(source: Source) {
 export function loadSourceText(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     // Fetch the source text only once.
-    let textInfo = getSourceText(getState(), source.id);
-    if (textInfo) {
-      // It's already loaded or is loading
-      return Promise.resolve(textInfo);
+    if (source.text) {
+      return Promise.resolve(source);
     }
 
     await dispatch({
@@ -377,7 +369,7 @@ export function loadSourceText(source: Source) {
     });
 
     // get the symbols for the source as well
-    return dispatch(setSymbols(source));
+    return dispatch(setSymbols(source.id));
   };
 }
 

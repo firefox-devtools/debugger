@@ -15,7 +15,6 @@ import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
 
 import {
-  getSourceText,
   getFileSearchState,
   getBreakpointsForSource,
   getSelectedLocation,
@@ -224,7 +223,7 @@ class Editor extends PureComponent {
     this.cbPanel = null;
     this.editor = this.setupEditor();
 
-    const { selectedSource, sourceText } = this.props;
+    const { selectedSource } = this.props;
     const { shortcuts } = this.context;
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
@@ -238,7 +237,7 @@ class Editor extends PureComponent {
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
 
-    updateDocument(this.editor, selectedSource, sourceText);
+    updateDocument(this.editor, selectedSource);
   }
 
   componentWillUnmount() {
@@ -385,7 +384,6 @@ class Editor extends PureComponent {
     const {
       selectedFrame,
       selectedSource,
-      sourceText,
       setSelection,
       selection
     } = this.props;
@@ -394,7 +392,6 @@ class Editor extends PureComponent {
     if (
       (selection && selection.updating) ||
       !selectedFrame ||
-      !sourceText ||
       !selectedSource ||
       tokenText === "" ||
       tokenText.match(/\s/) ||
@@ -659,7 +656,7 @@ class Editor extends PureComponent {
    * document with the correct mode and text.
    *
    */
-  showSourceText(sourceText, selectedLocation) {
+  showSourceText(source, selectedLocation) {
     if (!selectedLocation) {
       return;
     }
@@ -674,8 +671,8 @@ class Editor extends PureComponent {
     setDocument(selectedLocation.sourceId, doc);
     this.editor.replaceDocument(doc);
 
-    this.setText(sourceText.get("text"));
-    this.editor.setMode(getMode(sourceText.toJS()));
+    this.setText(source.get("text"));
+    this.editor.setMode(getMode(source.toJS()));
   }
 
   renderHighlightLines() {
@@ -692,11 +689,11 @@ class Editor extends PureComponent {
   }
 
   renderBreakpoints() {
-    const { breakpoints, sourceText, selectedSource } = this.props;
-    const isLoading = sourceText && sourceText.get("loading");
+    const { breakpoints, selectedSource } = this.props;
 
     if (
-      isLoading ||
+      !selectedSource ||
+      selectedSource.get("loading") ||
       !breakpoints ||
       (selectedSource && selectedSource.get("isBlackBoxed"))
     ) {
@@ -729,10 +726,14 @@ class Editor extends PureComponent {
   }
 
   renderHitCounts() {
-    const { hitCount, sourceText } = this.props;
-    const isLoading = sourceText && sourceText.get("loading");
+    const { hitCount, selectedSource } = this.props;
 
-    if (isLoading || !hitCount || !this.editor) {
+    if (
+      !selectedSource ||
+      selectedSource.get("loading") ||
+      !hitCount ||
+      !this.editor
+    ) {
       return;
     }
 
@@ -768,9 +769,9 @@ class Editor extends PureComponent {
 
   renderPreview() {
     const { selectedToken } = this.state;
-    const { sourceText, selection } = this.props;
+    const { selectedSource, selection } = this.props;
 
-    if (!this.editor || !sourceText) {
+    if (!this.editor || !selectedSource) {
       return null;
     }
 
@@ -824,7 +825,6 @@ class Editor extends PureComponent {
 
   render() {
     const {
-      sourceText,
       selectSource,
       selectedSource,
       highlightLineRange,
@@ -846,8 +846,7 @@ class Editor extends PureComponent {
         selectSource,
         selectedSource,
         highlightLineRange,
-        clearHighlightLineRange,
-        sourceText
+        clearHighlightLineRange
       }),
       dom.div({
         className: "editor-mount devtools-monospace",
@@ -873,7 +872,6 @@ Editor.propTypes = {
   highlightLineRange: PropTypes.func,
   clearHighlightLineRange: PropTypes.func,
   highlightedLineRange: PropTypes.object,
-  sourceText: ImPropTypes.map,
   searchOn: PropTypes.bool,
   addBreakpoint: PropTypes.func.isRequired,
   disableBreakpoint: PropTypes.func.isRequired,
@@ -923,7 +921,6 @@ export default connect(
       selectedSource,
       highlightedLineRange: getHighlightedLineRange(state),
       searchOn: getFileSearchState(state),
-      sourceText: getSourceText(state, sourceId),
       loadedObjects: getLoadedObjects(state),
       breakpoints: getBreakpointsForSource(state, sourceId || ""),
       hitCount: getHitCountForSource(state, sourceId),

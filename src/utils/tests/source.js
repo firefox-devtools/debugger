@@ -19,75 +19,75 @@ describe("sources", () => {
 
   describe("getMode", () => {
     it("//@flow", () => {
-      const sourceText = {
+      const source = {
         contentType: "text/javascript",
         text: "// @flow"
       };
-      expect(getMode(sourceText).typescript).toBe(true);
+      expect(getMode(source).typescript).toBe(true);
     });
 
     it("/* @flow */", () => {
-      const sourceText = {
+      const source = {
         contentType: "text/javascript",
         text: "   /* @flow */"
       };
-      expect(getMode(sourceText).typescript).toBe(true);
+      expect(getMode(source).typescript).toBe(true);
     });
 
     it("mixed html", () => {
-      const sourceText = {
+      const source = {
         contentType: "",
         text: " <html"
       };
-      expect(getMode(sourceText)).toEqual({ name: "htmlmixed" });
+      expect(getMode(source)).toEqual({ name: "htmlmixed" });
     });
 
     it("elm", () => {
-      const sourceText = {
+      const source = {
         contentType: "text/x-elm",
-        text: ""
+        text: 'main = text "Hello, World!"'
       };
-      expect(getMode(sourceText)).toBe("elm");
+      expect(getMode(source)).toBe("elm");
     });
 
     it("jsx", () => {
-      const sourceText = {
+      const source = {
         contentType: "text/jsx",
-        text: ""
+        text: "<h1></h1>"
       };
-      expect(getMode(sourceText)).toBe("jsx");
+      expect(getMode(source)).toBe("jsx");
     });
 
     it("typescript", () => {
-      const sourceText = {
+      const source = {
         contentType: "text/typescript",
-        text: ""
+        text: "function foo(){}"
       };
-      expect(getMode(sourceText).typescript).toBe(true);
+      expect(getMode(source).typescript).toBe(true);
     });
 
     it("typescript-jsx", () => {
-      const sourceText = {
+      const source = {
         contentType: "text/typescript-jsx",
-        text: ""
+        text: "<h1></h1>"
       };
-      expect(getMode(sourceText).base.typescript).toBe(true);
+      expect(getMode(source).base.typescript).toBe(true);
     });
 
     it("clojure", () => {
-      const sourceText = {
+      const source = {
         contentType: "text/x-clojure",
-        text: ""
+        text: "(+ 2 3)"
       };
-      expect(getMode(sourceText)).toBe("clojure");
+      expect(getMode(source)).toBe("clojure");
     });
 
     it("coffeescript", () => {
-      const sourceText = {
+      const source = {
         contentType: "text/coffeescript",
-        text: ""
+        text: "x = (a) -> 3"
       };
-      expect(getMode(sourceText)).toBe("coffeescript");
+      expect(getMode(source)).toBe("coffeescript");
     });
   });
 });
