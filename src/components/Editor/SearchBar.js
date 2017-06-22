@@ -259,9 +259,9 @@ class SearchBar extends Component {
   }
 
   closeSearch(e: SyntheticEvent) {
-    const { editor, setFileSearchQuery } = this.props;
+    const { editor, setFileSearchQuery, searchOn, symbolSearchOn } = this.props;
 
-    if (this.props.searchOn && editor) {
+    if (editor && (searchOn || symbolSearchOn)) {
       setFileSearchQuery("");
       this.clearSearch();
       this.props.toggleFileSearch(false);
@@ -276,13 +276,13 @@ class SearchBar extends Component {
   toggleSearch(e: SyntheticKeyboardEvent) {
     e.stopPropagation();
     e.preventDefault();
-    const { editor } = this.props;
+    const { editor, symbolSearchOn } = this.props;
 
     if (!this.props.searchOn) {
       this.props.toggleFileSearch();
     }
 
-    if (this.props.symbolSearchOn) {
+    if (symbolSearchOn) {
       this.clearSearch();
       this.props.toggleSymbolSearch(false);
       this.props.setSelectedSymbolType("functions");
@@ -755,9 +755,14 @@ class SearchBar extends Component {
   }
 
   render() {
-    const { searchResults: { count }, query, searchOn } = this.props;
+    const {
+      searchResults: { count },
+      query,
+      searchOn,
+      symbolSearchOn
+    } = this.props;
 
-    if (!searchOn) {
+    if (!searchOn && !symbolSearchOn) {
       return dom.div();
     }
 
