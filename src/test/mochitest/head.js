@@ -215,7 +215,6 @@ function assertPausedLocation(dbg, source, line) {
   is(location.line, line);
 
   // Check the debug line
-  // debugger
   ok(
     getCM(dbg).lineInfo(line - 1).wrapClass.includes("debug-line"),
     "Line is highlighted as paused"
