@@ -93,7 +93,6 @@ class Editor extends PureComponent {
   editor: SourceEditor;
   pendingJumpLine: any;
   lastJumpLine: any;
-  debugExpression: any;
   state: EditorState;
 
   constructor() {
@@ -585,10 +584,6 @@ class Editor extends PureComponent {
   clearDebugLine(selectedFrame) {
     if (selectedFrame) {
       const line = selectedFrame.location.line;
-      if (this.debugExpression) {
-        this.debugExpression.clear();
-      }
-
       this.editor.codeMirror.removeLineClass(
         line - 1,
         "line",
@@ -603,14 +598,8 @@ class Editor extends PureComponent {
       selectedLocation &&
       selectedFrame.location.sourceId === selectedLocation.sourceId
     ) {
-      const { line, column } = selectedFrame.location;
+      const line = selectedFrame.location.line;
       this.editor.codeMirror.addLineClass(line - 1, "line", "new-debug-line");
-
-      this.debugExpression = this.editor.codeMirror.markText(
-        { line: line - 1, ch: column },
-        { line: line - 1, ch: null },
-        { className: "debug-expression" }
-      );
     }
   }
 

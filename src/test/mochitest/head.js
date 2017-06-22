@@ -215,20 +215,10 @@ function assertPausedLocation(dbg, source, line) {
   is(location.line, line);
 
   // Check the debug line
-  const lineInfo = getCM(dbg).lineInfo(line - 1);
   ok(
-    lineInfo.wrapClass.includes("debug-line"),
+    getCM(dbg).lineInfo(line - 1).wrapClass.includes("debug-line"),
     "Line is highlighted as paused"
   );
-
-  const markedSpans = lineInfo.handle.markedSpans;
-  if (markedSpans && markedSpans.length > 0) {
-    const marker = markedSpans[0].marker;
-    ok(
-      marker.className.includes("debug-expression"),
-      "expression is highlighted as paused"
-    );
-  }
 }
 
 /**
