@@ -207,7 +207,7 @@ declare module "debugger-html" {
   declare type Source = {
     id: SourceId,
     url: string,
-    sourceMapURL: string,
+    sourceMapURL?: string,
     isBlackBoxed: boolean,
     isPrettyPrinted: boolean,
     text?: string,
