@@ -63,6 +63,15 @@ npm run copy-assets-watch
 
 Now you can make code changes the the bundle will be automatically built for you inside `firefox`, and you can simply run mochitests and edit code as much as you like.
 
+## Running the Tests
+
+```
+cd firefox
+./mach mochitest devtools/client/debugger/new # runs all the debugger tests
+./mach mochitest browser_dbg-editor-highlight # runs one test
+./mach mochitest --jsdebugger browser_dbg-editor-highlight # runs one test with the browser toolbox open
+```
+
 ## Adding New Tests
 
 If you add new tests, make sure to list them in the `browser.ini` file. You will see the other tests there. Add a new entry with the same format as the others. You can also add new JS or HTML files by listing in under `support-files`.
