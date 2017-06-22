@@ -17,10 +17,14 @@ export function willNavigate(_, event) {
     await sourceMaps.clearSourceMaps();
     clearDocuments();
 
-    dispatch({
-      type: "NAVIGATE",
-      url: event.url
-    });
+    dispatch(navigate(event.url));
+  };
+}
+
+export function navigate(url) {
+  return {
+    type: "NAVIGATE",
+    url
   };
 }
 
