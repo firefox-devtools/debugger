@@ -99,6 +99,7 @@ ShallowWrapper {
         "onEscape": [Function],
         "onGutterClick": [Function],
         "onGutterContextMenu": [Function],
+        "onMouseOver": [Function],
         "onScroll": [Function],
         "onSearchAgain": [Function],
         "onToggleBreakpoint": [Function],
@@ -125,7 +126,6 @@ ShallowWrapper {
         "refs": Object {},
         "state": Object {
           "highlightedLineRange": null,
-          "selectedToken": null,
         },
         "toggleBreakpoint": [Function],
         "toggleBreakpointDisabledStatus": [Function],

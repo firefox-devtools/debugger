@@ -6,13 +6,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
 import classnames from "classnames";
-import debounce from "lodash/debounce";
 import { isEnabled } from "devtools-config";
+import debounce from "lodash/debounce";
 import { getMode } from "../../utils/source";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
+import isEqual from "lodash/isEqual";
 
 import {
   getFileSearchState,
@@ -84,8 +85,7 @@ const cssVars = {
 };
 
 type EditorState = {
-  highlightedLineRange: ?Object,
-  selectedToken: ?HTMLElement
+  highlightedLineRange: ?Object
 };
 
 class Editor extends PureComponent {
@@ -93,6 +93,7 @@ class Editor extends PureComponent {
   editor: SourceEditor;
   pendingJumpLine: any;
   lastJumpLine: any;
+  debugExpression: any;
   state: EditorState;
 
   constructor() {
@@ -104,8 +105,7 @@ class Editor extends PureComponent {
     this.lastJumpLine = null;
 
     this.state = {
-      highlightedLineRange: null,
-      selectedToken: null
+      highlightedLineRange: null
     };
 
     const self: any = this;
@@ -116,11 +116,10 @@ class Editor extends PureComponent {
     self.onScroll = this.onScroll.bind(this);
     self.onSearchAgain = this.onSearchAgain.bind(this);
     self.onToggleBreakpoint = this.onToggleBreakpoint.bind(this);
-    self.previewSelectedToken = debounce(
-      this.previewSelectedToken.bind(this),
-      100
-    );
+    self.previewSelectedToken = this.previewSelectedToken.bind(this);
     self.toggleBreakpoint = this.toggleBreakpoint.bind(this);
+    self.onMouseOver = debounce(this.onMouseOver, 50);
+
     // eslint-disable-next-line max-len
     self.toggleBreakpointDisabledStatus = this.toggleBreakpointDisabledStatus.bind(
       this
@@ -334,15 +333,27 @@ class Editor extends PureComponent {
 
   onMouseOver(e) {
     const { target } = e;
-    const { linesInScope } = this.props;
+    const { linesInScope, selection } = this.props;
+    const location = getTokenLocation(this.editor.codeMirror, target);
 
     if (
       !this.inSelectedFrameSource() ||
+      (selection && isEqual(selection.tokenPos, location))
+    ) {
+      return;
+    }
+
+    if (selection && !target.classList.contains("debug-expression")) {
+      this.clearPreviewSelection();
+    }
+
+    if (
+      !target.parentElement ||
       !target.parentElement.closest(".CodeMirror-line")
     ) {
       return;
     }
-    const location = getTokenLocation(this.editor.codeMirror, target);
+
     const { line } = location;
 
     if (!linesInScope.includes(line)) {
@@ -377,7 +388,6 @@ class Editor extends PureComponent {
 
   clearPreviewSelection() {
     this.props.clearSelection();
-    return this.setState({ selectedToken: null });
   }
 
   async previewSelectedToken(token, location) {
@@ -388,9 +398,11 @@ class Editor extends PureComponent {
       selection
     } = this.props;
     const tokenText = token.innerText.trim();
+    const cursorPos = token.getBoundingClientRect();
 
     if (
       (selection && selection.updating) ||
+      cursorPos.top == 0 ||
       !selectedFrame ||
       !selectedSource ||
       tokenText === "" ||
@@ -400,8 +412,7 @@ class Editor extends PureComponent {
       return;
     }
 
-    setSelection(tokenText, location);
-    this.setState({ selectedToken: token });
+    setSelection(tokenText, location, cursorPos);
   }
 
   openMenu(event, codeMirror) {
@@ -584,6 +595,10 @@ class Editor extends PureComponent {
   clearDebugLine(selectedFrame) {
     if (selectedFrame) {
       const line = selectedFrame.location.line;
+      if (this.debugExpression) {
+        this.debugExpression.clear();
+      }
+
       this.editor.codeMirror.removeLineClass(
         line - 1,
         "line",
@@ -598,8 +613,14 @@ class Editor extends PureComponent {
       selectedLocation &&
       selectedFrame.location.sourceId === selectedLocation.sourceId
     ) {
-      const line = selectedFrame.location.line;
+      const { line, column } = selectedFrame.location;
       this.editor.codeMirror.addLineClass(line - 1, "line", "new-debug-line");
+
+      this.debugExpression = this.editor.codeMirror.markText(
+        { line: line - 1, ch: column },
+        { line: line - 1, ch: null },
+        { className: "debug-expression" }
+      );
     }
   }
 
@@ -768,18 +789,16 @@ class Editor extends PureComponent {
   }
 
   renderPreview() {
-    const { selectedToken } = this.state;
     const { selectedSource, selection } = this.props;
-
     if (!this.editor || !selectedSource) {
       return null;
     }
 
-    if (!selection || !selectedToken) {
+    if (!selection || selection.updating) {
       return;
     }
 
-    const { result, expression } = selection;
+    const { result, expression, location, cursorPos } = selection;
     const value = result;
     if (typeof value == "undefined" || value.optimizedOut) {
       return;
@@ -787,8 +806,10 @@ class Editor extends PureComponent {
 
     return Preview({
       value,
+      editor: this.editor,
+      location: location,
       expression: expression,
-      popoverTarget: selectedToken,
+      popoverPos: cursorPos,
       onClose: () => this.clearPreviewSelection()
     });
   }

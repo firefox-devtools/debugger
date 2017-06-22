@@ -231,7 +231,9 @@ type ASTAction =
       value: {
         expression: string,
         result: any,
-        location: AstLocation
+        location: AstLocation,
+        tokenPos: any,
+        cursorPos: any
       }
     }
   | {

@@ -32,6 +32,7 @@ Array [
 
 exports[`ast setSelection simple 1`] = `
 Object {
+  "cursorPos": undefined,
   "expression": "this.bazz",
   "location": Object {
     "end": Object {
@@ -44,6 +45,10 @@ Object {
     },
   },
   "result": undefined,
+  "tokenPos": Object {
+    "column": 34,
+    "line": 1,
+  },
   "updating": false,
 }
 `;

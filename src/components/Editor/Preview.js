@@ -15,20 +15,25 @@ import previewFunction from "../shared/previewFunction";
 import { getLoadedObjects } from "../../selectors";
 import actions from "../../actions";
 import { getChildren } from "../../utils/object-inspector";
+import { markExpression } from "../../utils/editor/expression";
 import Rep from "../shared/Rep";
 import { MODE } from "devtools-reps";
 
 import "./Preview.css";
 
 class Preview extends Component {
+  marker: any;
+  pos: any;
   props: {
     loadObjectProperties: Object => void,
     addExpression: (string, ?Object) => void,
     loadedObjects: Object,
-    popoverTarget: Object,
+    popoverPos: Object,
     value: Object,
     expression: string,
     onClose: () => void,
+    location: Object,
+    editor: any,
     selectSourceURL: (string, Object) => void
   };
 
@@ -37,10 +42,11 @@ class Preview extends Component {
       loadObjectProperties,
       loadedObjects,
       value,
-      popoverTarget
+      editor,
+      location
     } = this.props;
 
-    popoverTarget.classList.add("selected-token");
+    this.marker = markExpression(editor, location);
 
     if (!value || !value.type == "object") {
       return;
@@ -52,8 +58,9 @@ class Preview extends Component {
   }
 
   componentWillUnmount() {
-    const { popoverTarget } = this.props;
-    popoverTarget.classList.remove("selected-token");
+    if (this.marker) {
+      this.marker.clear();
+    }
   }
 
   getChildren(root, getObjectProperties) {
@@ -169,13 +176,13 @@ class Preview extends Component {
   }
 
   render() {
-    const { popoverTarget, onClose, value, expression } = this.props;
+    const { popoverPos, onClose, value, expression } = this.props;
 
     let type = this.getPreviewType(value);
 
     return Popover(
       {
-        target: popoverTarget,
+        targetPosition: popoverPos,
         onMouseLeave: onClose,
         type
       },
