@@ -188,71 +188,49 @@ function PreviewFactory(options, { dir = "ltr", theme = "light" } = {}) {
   );
 }
 
-const stories = storiesOf("Preview", module);
-
-const options = [{}, { dir: "rtl" }, { theme: "dark" }];
-options.forEach(option => {
-  const { dir, theme } = option;
-  const optionLabel = dir || theme || "";
-  stories
-    .add(`simple Object ${optionLabel}`, () => {
-      setValue("features.previewWatch", false);
-      return PreviewFactory(
-        {
-          value: obj,
-          expression: "this",
-          loadedObjects: I.Map().set(obj.actor, obj)
-        },
-        option
-      );
-    })
-    .add(`simple Object with Input ${optionLabel}`, () => {
-      setValue("features.previewWatch", true);
-      return PreviewFactory(
-        {
-          value: obj,
-          expression: "this",
-          loadedObjects: { [obj.actor]: obj }
-        },
-        option
-      );
-    })
-    .add(`Object with window keys ${optionLabel}`, () => {
-      let grip = createObjectGrip("foo");
-      grip.ownProperties.arr = createArrayPreview("arr");
-      grip.ownProperties.location = createObjectPreview("location");
-      return PreviewFactory(
-        {
-          value: grip,
-          expression: "this",
-          loadedObjects: { [grip.actor]: grip }
-        },
-        option
-      );
-    })
-    .add(`Window Preview ${optionLabel}`, () => {
-      let grip = createObjectGrip("foo");
-      grip.class = "Window";
-      grip.ownProperties.arr = createArrayPreview("arr");
-      grip.ownProperties.location = createObjectPreview("location");
-      return PreviewFactory(
-        {
-          value: grip,
-          expression: "this",
-          loadedObjects: { [grip.actor]: grip }
-        },
-        option
-      );
-    })
-    .add(`Function Preview ${optionLabel}`, () => {
-      let grip = createFunctionGrip("renderFoo", ["props", "state"]);
-      return PreviewFactory(
-        {
-          value: grip,
-          expression: "this",
-          loadedObjects: { [grip.actor]: grip }
-        },
-        option
-      );
+const stories = storiesOf("Preview", module)
+  .add("simple Object", () => {
+    setValue("features.previewWatch", false);
+    return PreviewFactory({
+      value: obj,
+      expression: "this",
+      loadedObjects: I.Map().set(obj.actor, obj)
     });
-});
+  })
+  .add("simple Object with Input", () => {
+    setValue("features.previewWatch", true);
+    return PreviewFactory({
+      value: obj,
+      expression: "this",
+      loadedObjects: { [obj.actor]: obj }
+    });
+  })
+  .add("Object with window keys", () => {
+    let grip = createObjectGrip("foo");
+    grip.ownProperties.arr = createArrayPreview("arr");
+    grip.ownProperties.location = createObjectPreview("location");
+    return PreviewFactory({
+      value: grip,
+      expression: "this",
+      loadedObjects: { [grip.actor]: grip }
+    });
+  })
+  .add("Window Preview", () => {
+    let grip = createObjectGrip("foo");
+    grip.class = "Window";
+    grip.ownProperties.arr = createArrayPreview("arr");
+    grip.ownProperties.location = createObjectPreview("location");
+    return PreviewFactory({
+      value: grip,
+      expression: "this",
+      loadedObjects: { [grip.actor]: grip }
+    });
+  })
+  .add("Function Preview", () => {
+    let grip = createFunctionGrip("renderFoo", ["props", "state"]);
+    return PreviewFactory({
+      value: grip,
+      expression: "this",
+      loadedObjects: { [grip.actor]: grip }
+    });
+  });

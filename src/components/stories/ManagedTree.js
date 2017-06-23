@@ -68,69 +68,56 @@ function ManagedTreeFactory(options, { dir = "ltr", theme = "light" } = {}) {
   );
 }
 
-const stories = storiesOf("ManagedTree", module);
-
-const options = [{}, { dir: "rtl" }, { theme: "dark" }];
-options.forEach(option => {
-  const { dir, theme } = option;
-  const optionLabel = dir || theme || "";
-  stories
-    .add(`simple ${optionLabel}`, () => {
-      const root = {
-        name: "foo",
-        path: "foo",
-        children: [
-          {
-            name: "bar",
-            path: "foo/bar"
-          },
-          {
-            name: "bazz",
-            path: "foo/bazz"
-          }
-        ]
-      };
-      return ManagedTreeFactory(
+const stories = storiesOf("ManagedTree", module)
+  .add("simple", () => {
+    const root = {
+      name: "foo",
+      path: "foo",
+      children: [
         {
-          autoExpand: 1,
-          autoExpandDepth: 1,
-          getRoots: () => [root],
-          getChildren: item => item.children || [],
-          getKey: item => item.path
+          name: "bar",
+          path: "foo/bar"
         },
-        option
-      );
-    })
-    .add(`2 deep tree ${optionLabel}`, () => {
-      const root = {
-        name: "foo",
-        path: "foo",
-        children: [
-          {
-            name: "bar",
-            path: "foo/bar",
-            children: [
-              {
-                name: "barry",
-                path: "foo/bar/bar"
-              }
-            ]
-          },
-          {
-            name: "bazz",
-            path: "foo/bazz"
-          }
-        ]
-      };
-      return ManagedTreeFactory(
         {
-          autoExpand: 1,
-          autoExpandDepth: 1,
-          getRoots: () => [root],
-          getChildren: item => item.children || [],
-          getKey: item => item.path
-        },
-        option
-      );
+          name: "bazz",
+          path: "foo/bazz"
+        }
+      ]
+    };
+    return ManagedTreeFactory({
+      autoExpand: 1,
+      autoExpandDepth: 1,
+      getRoots: () => [root],
+      getChildren: item => item.children || [],
+      getKey: item => item.path
     });
-});
+  })
+  .add("2 deep tree", () => {
+    const root = {
+      name: "foo",
+      path: "foo",
+      children: [
+        {
+          name: "bar",
+          path: "foo/bar",
+          children: [
+            {
+              name: "barry",
+              path: "foo/bar/bar"
+            }
+          ]
+        },
+        {
+          name: "bazz",
+          path: "foo/bazz"
+        }
+      ]
+    };
+    return ManagedTreeFactory({
+      autoExpand: 1,
+      autoExpandDepth: 1,
+      getRoots: () => [root],
+      getChildren: item => item.children || [],
+      getKey: item => item.path
+    });
+  });

@@ -57,25 +57,18 @@ function OutlineFactory(options, { dir = "ltr", theme = "light" } = {}) {
   );
 }
 
-const stories = storiesOf("Outline", module);
-
-const options = [{}, { dir: "rtl" }, { theme: "dark" }];
-options.forEach(option => {
-  const { dir, theme } = option;
-  const optionLabel = dir || theme || "";
-  stories
-    .add(`empty view ${optionLabel}`, () => {
-      const symbols = { functions: [], variables: [] };
-      return OutlineFactory({ symbols }, option);
-    })
-    .add(`simple view ${optionLabel}`, () => {
-      const symbols = {
-        functions: [
-          makeSymbolDeclaration("foo", 2),
-          makeSymbolDeclaration("render", 2)
-        ],
-        variables: []
-      };
-      return OutlineFactory({ symbols }, option);
-    });
-});
+storiesOf("Outline", module)
+  .add("empty view", () => {
+    const symbols = { functions: [], variables: [] };
+    return OutlineFactory({ symbols });
+  })
+  .add("simple view", () => {
+    const symbols = {
+      functions: [
+        makeSymbolDeclaration("foo", 2),
+        makeSymbolDeclaration("render", 2)
+      ],
+      variables: []
+    };
+    return OutlineFactory({ symbols });
+  });
