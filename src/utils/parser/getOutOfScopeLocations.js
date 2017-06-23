@@ -5,28 +5,13 @@ import type { AstLocation, AstPosition } from "./types";
 
 import get from "lodash/fp/get";
 
-import {
-  containsLocation,
-  containsPosition,
-  isFunction
-} from "./utils/helpers";
-import { traverseAst } from "./utils/ast";
+import { containsLocation, containsPosition } from "./utils/helpers";
 
-/**
- * Returns all functions (declarations, expressions, arrows) for the given
- * source
- */
-function findFunctions(source: SourceText) {
-  const fns = [];
-  traverseAst(source, {
-    enter(path) {
-      if (isFunction(path)) {
-        fns.push(path);
-      }
-    }
-  });
+import getSymbols from "./getSymbols";
 
-  return fns;
+function findFunctions(source) {
+  const symbols = getSymbols(source);
+  return symbols.functions;
 }
 
 /**
@@ -34,18 +19,19 @@ function findFunctions(source: SourceText) {
  * function declaration, the location will begin after the function identifier
  * but before the function parameters.
  */
-const getLocation = path => {
-  let location = Object.assign({}, get("node.loc", path));
+
+function getLocation(func) {
+  const location = { ...func.location };
 
   // if the function has an identifier, start the block after it so the
   // identifier is included in the "scope" of its parent
-  const identifierEnd = get("node.id.loc.end", path);
+  const identifierEnd = get("identifier.loc.end", func);
   if (identifierEnd) {
     location.start = identifierEnd;
   }
 
   return location;
-};
+}
 
 /**
  * Reduces an array of locations to remove items that are completely enclosed
