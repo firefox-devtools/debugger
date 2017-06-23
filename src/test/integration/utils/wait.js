@@ -34,8 +34,8 @@ async function waitForPaused(dbg) {
     // Make sure the source text is completely loaded for the
     // source we are paused in.
     const sourceId = get(pause, "frame.location.sourceId");
-    const sourceText = dbg.selectors.getSourceText(dbg.getState(), sourceId);
-    return sourceText && !sourceText.get("loading");
+    const source = dbg.selectors.getSourc(dbg.getState(), sourceId);
+    return source && !source.get("loading");
   });
 }
 
