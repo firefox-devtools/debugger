@@ -156,7 +156,12 @@ class Preview extends Component {
   }
 
   getPreviewType(value) {
-    if (typeof value == "boolean" || value.class === "Function") {
+    if (
+      typeof value == "boolean" ||
+      value.type == "null" ||
+      value.type == "undefined" ||
+      value.class === "Function"
+    ) {
       return "tooltip";
     }
 
