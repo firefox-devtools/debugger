@@ -50,49 +50,39 @@ function TextSearchFactory(options, { dir = "ltr", theme = "light" } = {}) {
   );
 }
 
-const stories = storiesOf("TextSearch", module);
-
-const options = [{}, { dir: "rtl" }, { theme: "dark" }];
-options.forEach(option => {
-  const { dir, theme } = option;
-  const optionLabel = dir || theme || "";
-  stories
-    .add(`no items ${optionLabel}`, () => {
-      return TextSearchFactory({ results: [] }, option);
-    })
-    .add(`some matches ${optionLabel}`, () => {
-      return TextSearchFactory(
+storiesOf("TextSearch", module)
+  .add("no items", () => {
+    return TextSearchFactory({ results: [] });
+  })
+  .add("some matches", () => {
+    return TextSearchFactory({
+      results: [
         {
-          results: [
+          filepath: "http://example.com/foo/bar.js",
+          matches: [
             {
-              filepath: "http://example.com/foo/bar.js",
-              matches: [
-                {
-                  value: "foo",
-                  line: 2
-                },
-                {
-                  value: "foo3",
-                  line: 3
-                }
-              ]
+              value: "foo",
+              line: 2
             },
             {
-              filepath: "http://example.com/foo/bazz.js",
-              matches: [
-                {
-                  value: "la la",
-                  line: 2
-                },
-                {
-                  value: "lazy",
-                  line: 3
-                }
-              ]
+              value: "foo3",
+              line: 3
             }
           ]
         },
-        option
-      );
+        {
+          filepath: "http://example.com/foo/bazz.js",
+          matches: [
+            {
+              value: "la la",
+              line: 2
+            },
+            {
+              value: "lazy",
+              line: 3
+            }
+          ]
+        }
+      ]
     });
-});
+  });

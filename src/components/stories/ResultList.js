@@ -55,60 +55,47 @@ function ResultListFactory(options, { dir = "ltr", theme = "light" } = {}) {
   );
 }
 
-const stories = storiesOf("ResultList", module);
-
-const options = [{}, { dir: "rtl" }, { theme: "dark" }];
-options.forEach(option => {
-  const { dir, theme } = option;
-  const optionLabel = dir || theme || "";
-  stories
-    .add(`no items ${optionLabel}`, () => {
-      setValue("features.previewWatch", false);
-      return ResultListFactory({ items: [] }, option);
-    })
-    .add(`some matches ${optionLabel}`, () => {
-      setValue("features.previewWatch", false);
-      return ResultListFactory(
+storiesOf("ResultList", module)
+  .add("no items", () => {
+    setValue("features.previewWatch", false);
+    return ResultListFactory({ items: [] });
+  })
+  .add("some matches", () => {
+    setValue("features.previewWatch", false);
+    return ResultListFactory({
+      items: [
         {
-          items: [
-            {
-              id: "foo",
-              subtitle: "a good subtitle",
-              title: "tasty title",
-              value: "foo"
-            },
-            {
-              id: "foo2",
-              subtitle: "another good subtitle",
-              title: "tastier title",
-              value: "foo2"
-            }
-          ]
+          id: "foo",
+          subtitle: "a good subtitle",
+          title: "tasty title",
+          value: "foo"
         },
-        option
-      );
-    })
-    .add(`some matches (big) ${optionLabel}`, () => {
-      setValue("features.previewWatch", false);
-      return ResultListFactory(
         {
-          items: [
-            {
-              id: "foo",
-              subtitle: "a good subtitle",
-              title: "tasty title",
-              value: "foo"
-            },
-            {
-              id: "foo2",
-              subtitle: "another good subtitle",
-              title: "tastier title",
-              value: "foo2"
-            }
-          ],
-          size: "big"
-        },
-        option
-      );
+          id: "foo2",
+          subtitle: "another good subtitle",
+          title: "tastier title",
+          value: "foo2"
+        }
+      ]
     });
-});
+  })
+  .add("some matches (big)", () => {
+    setValue("features.previewWatch", false);
+    return ResultListFactory({
+      items: [
+        {
+          id: "foo",
+          subtitle: "a good subtitle",
+          title: "tasty title",
+          value: "foo"
+        },
+        {
+          id: "foo2",
+          subtitle: "another good subtitle",
+          title: "tastier title",
+          value: "foo2"
+        }
+      ],
+      size: "big"
+    });
+  });

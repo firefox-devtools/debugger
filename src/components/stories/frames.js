@@ -47,43 +47,36 @@ function FrameFactory(options, { dir = "ltr", theme = "light" } = {}) {
   );
 }
 
-const stories = storiesOf("Frames", module);
+storiesOf("Frames", module)
+  .add("simple frame", () => {
+    const frame = {
+      id: 1,
+      source: {
+        url: "foo-view.js"
+      },
+      displayName: "renderFoo",
+      library: false,
+      location: {
+        line: 10,
+        url: "foo-view.js"
+      }
+    };
 
-const options = [{}, { dir: "rtl" }, { theme: "dark" }];
-options.forEach(option => {
-  const { dir, theme } = option;
-  const optionLabel = dir || theme || "";
-  stories
-    .add(`simple frame (${optionLabel})`, () => {
-      const frame = {
-        id: 1,
-        source: {
-          url: "foo-view.js"
-        },
-        displayName: "renderFoo",
-        library: false,
-        location: {
-          line: 10,
-          url: "foo-view.js"
-        }
-      };
+    return FrameFactory({ frame });
+  })
+  .add("backbone", () => {
+    const frame = {
+      id: 1,
+      source: {
+        url: "backbone.js"
+      },
+      displayName: "addEvent",
+      library: "Backbone",
+      location: {
+        line: 10,
+        url: "backbone.js"
+      }
+    };
 
-      return FrameFactory({ frame }, option);
-    })
-    .add(`backbone (${optionLabel})`, () => {
-      const frame = {
-        id: 1,
-        source: {
-          url: "backbone.js"
-        },
-        displayName: "addEvent",
-        library: "Backbone",
-        location: {
-          line: 10,
-          url: "backbone.js"
-        }
-      };
-
-      return FrameFactory({ frame }, option);
-    });
-});
+    return FrameFactory({ frame });
+  });

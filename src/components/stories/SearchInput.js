@@ -58,35 +58,22 @@ function SearchInputFactory(options, { dir = "ltr", theme = "light" } = {}) {
   );
 }
 
-const stories = storiesOf("SearchInput", module);
-
-const options = [{}, { dir: "rtl" }, { theme: "dark" }];
-options.forEach(option => {
-  const { dir, theme } = option;
-  const optionLabel = dir || theme || "";
-  stories
-    .add(`simple ${optionLabel}`, () => {
-      setValue("features.previewWatch", false);
-      return SearchInputFactory({}, option);
-    })
-    .add(`no matches ${optionLabel}`, () => {
-      setValue("features.previewWatch", false);
-      return SearchInputFactory(
-        {
-          count: 0,
-          query: "YO YO"
-        },
-        option
-      );
-    })
-    .add(`matches ${optionLabel}`, () => {
-      setValue("features.previewWatch", false);
-      return SearchInputFactory(
-        {
-          count: 10,
-          query: "yo"
-        },
-        option
-      );
+storiesOf("SearchInput", module)
+  .add("simple", () => {
+    setValue("features.previewWatch", false);
+    return SearchInputFactory({});
+  })
+  .add("no matches", () => {
+    setValue("features.previewWatch", false);
+    return SearchInputFactory({
+      count: 0,
+      query: "YO YO"
     });
-});
+  })
+  .add("matches", () => {
+    setValue("features.previewWatch", false);
+    return SearchInputFactory({
+      count: 10,
+      query: "yo"
+    });
+  });
