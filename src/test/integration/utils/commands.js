@@ -60,9 +60,9 @@ function closeTab(dbg, url) {
 async function selectSource(dbg, url, line) {
   info("Selecting source: " + url);
   const source = findSource(dbg, url);
-  const hasText = !!dbg.selectors.getSourceText(dbg.getState(), source.id);
+  const hasSource = !!dbg.selectors.getSource(dbg.getState(), source.id);
   dbg.actions.selectSource(source.id, { line });
-  if (!hasText) {
+  if (!hasSource) {
     return waitForDispatch(dbg, "SELECT_SOURCE");
   }
 }
