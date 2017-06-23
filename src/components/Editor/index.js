@@ -781,11 +781,7 @@ class Editor extends PureComponent {
 
     const { result, expression } = selection;
     const value = result;
-    if (
-      typeof value == "undefined" ||
-      value.type == "undefined" ||
-      value.optimizedOut
-    ) {
+    if (typeof value == "undefined" || value.optimizedOut) {
       return;
     }
 
