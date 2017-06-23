@@ -13,7 +13,6 @@ import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
-import isEqual from "lodash/isEqual";
 
 import {
   getFileSearchState,
@@ -69,7 +68,8 @@ import {
   getCursorLine,
   resizeBreakpointGutter,
   traverseResults,
-  getTokenLocation
+  getTokenLocation,
+  updateSelection
 } from "../../utils/editor";
 
 import { isFirefox } from "devtools-config";
@@ -116,9 +116,8 @@ class Editor extends PureComponent {
     self.onScroll = this.onScroll.bind(this);
     self.onSearchAgain = this.onSearchAgain.bind(this);
     self.onToggleBreakpoint = this.onToggleBreakpoint.bind(this);
-    self.previewSelectedToken = this.previewSelectedToken.bind(this);
     self.toggleBreakpoint = this.toggleBreakpoint.bind(this);
-    self.onMouseOver = debounce(this.onMouseOver, 50);
+    self.onMouseOver = debounce(this.onMouseOver, 40);
 
     // eslint-disable-next-line max-len
     self.toggleBreakpointDisabledStatus = this.toggleBreakpointDisabledStatus.bind(
@@ -331,38 +330,6 @@ class Editor extends PureComponent {
     this.clearPreviewSelection();
   }
 
-  onMouseOver(e) {
-    const { target } = e;
-    const { linesInScope, selection } = this.props;
-    const location = getTokenLocation(this.editor.codeMirror, target);
-
-    if (
-      !this.inSelectedFrameSource() ||
-      (selection && isEqual(selection.tokenPos, location))
-    ) {
-      return;
-    }
-
-    if (selection && !target.classList.contains("debug-expression")) {
-      this.clearPreviewSelection();
-    }
-
-    if (
-      !target.parentElement ||
-      !target.parentElement.closest(".CodeMirror-line")
-    ) {
-      return;
-    }
-
-    const { line } = location;
-
-    if (!linesInScope.includes(line)) {
-      return;
-    }
-
-    this.previewSelectedToken(target, location);
-  }
-
   onTokenClick(e) {
     const { target } = e;
     if (
@@ -388,31 +355,6 @@ class Editor extends PureComponent {
 
   clearPreviewSelection() {
     this.props.clearSelection();
-  }
-
-  async previewSelectedToken(token, location) {
-    const {
-      selectedFrame,
-      selectedSource,
-      setSelection,
-      selection
-    } = this.props;
-    const tokenText = token.innerText.trim();
-    const cursorPos = token.getBoundingClientRect();
-
-    if (
-      (selection && selection.updating) ||
-      cursorPos.top == 0 ||
-      !selectedFrame ||
-      !selectedSource ||
-      tokenText === "" ||
-      tokenText.match(/\s/) ||
-      selectedFrame.location.sourceId !== selectedSource.get("id")
-    ) {
-      return;
-    }
-
-    setSelection(tokenText, location, cursorPos);
   }
 
   openMenu(event, codeMirror) {
@@ -479,6 +421,13 @@ class Editor extends PureComponent {
       isCbPanelOpen: this.isCbPanelOpen(),
       closeConditionalPanel: this.closeConditionalPanel
     });
+  }
+
+  onMouseOver(e) {
+    const { target } = e;
+    if (this.inSelectedFrameSource()) {
+      updateSelection(target, this.editor, this.props);
+    }
   }
 
   toggleConditionalPanel(line) {
