@@ -15,7 +15,7 @@ import previewFunction from "../shared/previewFunction";
 import { getLoadedObjects } from "../../selectors";
 import actions from "../../actions";
 import { getChildren } from "../../utils/object-inspector";
-import { markExpression } from "../../utils/editor/expression";
+import { markText } from "../../utils/editor";
 import Rep from "../shared/Rep";
 import { MODE } from "devtools-reps";
 
@@ -46,7 +46,7 @@ class Preview extends Component {
       location
     } = this.props;
 
-    this.marker = markExpression(editor, location);
+    this.marker = markText(editor, "selection", location);
 
     if (!value || !value.type == "object") {
       return;

@@ -69,7 +69,8 @@ import {
   resizeBreakpointGutter,
   traverseResults,
   getTokenLocation,
-  updateSelection
+  updateSelection,
+  markText
 } from "../../utils/editor";
 
 import { isFirefox } from "devtools-config";
@@ -565,11 +566,10 @@ class Editor extends PureComponent {
       const { line, column } = selectedFrame.location;
       this.editor.codeMirror.addLineClass(line - 1, "line", "new-debug-line");
 
-      this.debugExpression = this.editor.codeMirror.markText(
-        { line: line - 1, ch: column },
-        { line: line - 1, ch: null },
-        { className: "debug-expression" }
-      );
+      this.debugExpression = markText(this.editor, "debug-expression", {
+        start: { line, column },
+        end: { line, column: null }
+      });
     }
   }
 

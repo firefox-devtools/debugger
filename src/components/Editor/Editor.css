@@ -164,10 +164,6 @@ html[dir="rtl"] .editor-mount {
   background-color: var(--debug-expression-background);
 }
 
-.selected-token, .debug-expression.selected-token {
-  background-color: var(--theme-highlight-yellow);
-}
-
 .new-debug-line .CodeMirror-line {
   background-color: transparent !important;
   outline: var(--debug-line-border) solid 1px;
