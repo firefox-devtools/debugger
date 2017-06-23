@@ -21,7 +21,7 @@ function findFunctions(source) {
  */
 
 function getLocation(func) {
-  let location = Object.assign({}, func.location);
+  const location = { ...func.location };
 
   // if the function has an identifier, start the block after it so the
   // identifier is included in the "scope" of its parent

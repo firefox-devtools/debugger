@@ -52,6 +52,23 @@ exports[`ast setSymbols when the source is loaded should be able to set symbols 
 Object {
   "functions": Array [
     Object {
+      "identifier": Object {
+        "end": 13,
+        "loc": Object {
+          "end": Object {
+            "column": 13,
+            "line": 1,
+          },
+          "identifierName": "base",
+          "start": Object {
+            "column": 9,
+            "line": 1,
+          },
+        },
+        "name": "base",
+        "start": 9,
+        "type": "Identifier",
+      },
       "location": Object {
         "end": Object {
           "column": 21,
