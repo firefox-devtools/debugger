@@ -191,6 +191,13 @@ function waitForElement(dbg, selector) {
   return waitUntil(() => findElementWithSelector(dbg, selector));
 }
 
+function waitForSelectedSource(dbg) {
+  return waitForState(dbg, state => {
+    const source = dbg.selectors.getSelectedSource(state);
+    return source && source.has("loading") && !source.get("loading");
+  });
+}
+
 /**
  * Assert that the debugger is paused at the correct location.
  *
@@ -391,12 +398,13 @@ function findSource(dbg, url) {
 function selectSource(dbg, url, line) {
   info("Selecting source: " + url);
   const source = findSource(dbg, url);
-  const hasText = !!source.text && !source.loading;
-  dbg.actions.selectSource(source.id, { line });
+  return dbg.actions.selectSource(source.id, { line });
+}
 
-  if (!hasText) {
-    return waitForDispatch(dbg, "LOAD_SOURCE_TEXT");
-  }
+function closeTab(dbg, url) {
+  info("Closing tab: " + url);
+  const source = findSource(dbg, url);
+  return dbg.actions.closeTab(source.url);
 }
 
 /**
@@ -470,7 +478,7 @@ function deleteExpression(dbg, input) {
  * @static
  */
 function reload(dbg, ...sources) {
-  return dbg.client.reload().then(() => waitForSources(...sources));
+  return dbg.client.reload().then(() => waitForSources(dbg, ...sources));
 }
 
 /**
@@ -664,6 +672,7 @@ const selectors = {
   highlightLine: ".CodeMirror-code > .highlight-line",
   codeMirror: ".CodeMirror",
   resume: ".resume.active",
+  sourceTabs: `.source-tabs`,
   stepOver: ".stepOver.active",
   stepOut: ".stepOut.active",
   stepIn: ".stepIn.active",

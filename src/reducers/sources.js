@@ -40,18 +40,20 @@ export type SourcesState = {
   tabs: TabList
 };
 
-export const State = makeRecord(
-  ({
-    sources: I.Map(),
-    selectedLocation: undefined,
-    pendingSelectedLocation: prefs.pendingSelectedLocation,
-    sourcesText: I.Map(),
-    tabs: I.List(restoreTabs())
-  }: SourcesState)
-);
+export function initialState(): Record<SourcesState> {
+  return makeRecord(
+    ({
+      sources: I.Map(),
+      selectedLocation: undefined,
+      pendingSelectedLocation: prefs.pendingSelectedLocation,
+      sourcesText: I.Map(),
+      tabs: I.List(restoreTabs())
+    }: SourcesState)
+  )();
+}
 
 function update(
-  state: Record<SourcesState> = State(),
+  state: Record<SourcesState> = initialState(),
   action: Action
 ): Record<SourcesState> {
   let location = null;
@@ -139,8 +141,12 @@ function update(
     case "NAVIGATE":
       const source = getSelectedSource({ sources: state });
       const url = source && source.get("url");
-      prefs.pendingSelectedLocation = { url };
-      return State().set("pendingSelectedLocation", { url });
+
+      if (!url) {
+        return initialState();
+      }
+
+      return initialState().set("pendingSelectedLocation", { url });
   }
 
   return state;
@@ -172,7 +178,7 @@ function setSourceTextProps(state, action: any): Record<SourcesState> {
   return updateSource(state, text);
 }
 
-function updateSource(state: State, source: Object | Source) {
+function updateSource(state: Record<SourcesState>, source: Object | Source) {
   if (!source.id) {
     return state;
   }
