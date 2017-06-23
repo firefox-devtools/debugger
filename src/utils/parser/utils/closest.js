@@ -25,11 +25,11 @@ function getClosestMemberExpression(source, token, location: Location) {
   traverseAst(source, {
     enter(path: NodePath) {
       const { node } = path;
-      if (
-        t.isMemberExpression(node) &&
-        node.property.name === token &&
-        nodeContainsPosition(node, location)
-      ) {
+      if (!nodeContainsPosition(node, location)) {
+        return path.skip();
+      }
+
+      if (t.isMemberExpression(node) && node.property.name === token) {
         const memberExpression = getMemberExpression(node);
         expression = {
           expression: memberExpression,
@@ -66,7 +66,11 @@ export function getClosestScope(source: SourceText, location: Location) {
 
   traverseAst(source, {
     enter(path) {
-      if (isLexicalScope(path) && nodeContainsPosition(path.node, location)) {
+      if (!nodeContainsPosition(path.node, location)) {
+        return path.skip();
+      }
+
+      if (isLexicalScope(path)) {
         closestPath = path;
       }
     }
@@ -84,9 +88,10 @@ export function getClosestPath(source: SourceText, location: Location) {
 
   traverseAst(source, {
     enter(path) {
-      if (nodeContainsPosition(path.node, location)) {
-        closestPath = path;
+      if (!nodeContainsPosition(path.node, location)) {
+        return path.skip();
       }
+      closestPath = path;
     }
   });
 
