@@ -79,7 +79,11 @@ export function clearSelection() {
   };
 }
 
-export function setSelection(token: string, position: AstLocation) {
+export function setSelection(
+  token: string,
+  tokenPos: AstLocation,
+  cursorPos: any
+) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     const currentSelection = getSelection(getState());
     if (currentSelection && currentSelection.updating) {
@@ -93,7 +97,7 @@ export function setSelection(token: string, position: AstLocation) {
         const closestExpression = await parser.getClosestExpression(
           source.toJS(),
           token,
-          position
+          tokenPos
         );
 
         if (!closestExpression) {
@@ -114,7 +118,9 @@ export function setSelection(token: string, position: AstLocation) {
         return {
           expression,
           result,
-          location
+          location,
+          tokenPos,
+          cursorPos
         };
       })()
     });

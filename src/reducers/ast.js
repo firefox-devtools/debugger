@@ -24,6 +24,8 @@ export type Selection =
       updating: false,
       expression: string,
       location: AstLocation,
+      cursorPos: any,
+      tokenPos: AstLocation,
       result: Object
     |};
 
@@ -70,12 +72,20 @@ function update(
         return state.set("selection", null);
       }
 
-      const { expression, location, result } = action.value;
+      const {
+        expression,
+        location,
+        result,
+        tokenPos,
+        cursorPos
+      } = action.value;
       return state.set("selection", {
         updating: false,
         expression,
         location,
-        result
+        result,
+        tokenPos,
+        cursorPos
       });
     }
 

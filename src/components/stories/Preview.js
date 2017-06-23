@@ -142,16 +142,20 @@ function PreviewFactory(options, { dir = "ltr", theme = "light" } = {}) {
   document.dir = dir;
   document.body.parentNode.className = themeClass;
 
-  const target = {
-    getBoundingClientRect: () => ({
-      top: 200,
-      left: 200,
-      bottom: 80,
-      width: 60,
-      height: 30
-    }),
-    classList: { add: () => {}, remove: () => {} }
+  const popoverPos = {
+    top: 200,
+    left: 200,
+    bottom: 80,
+    width: 60,
+    height: 30
   };
+
+  const location = {
+    start: { line: 3, column: 4 },
+    end: { line: 3, column: 4 }
+  };
+
+  const editor = { codeMirror: { markText: () => {} } };
 
   return dom.div(
     {
@@ -177,7 +181,9 @@ function PreviewFactory(options, { dir = "ltr", theme = "light" } = {}) {
             value: null,
             expression: null,
             loadedObjects: {},
-            popoverTarget: target,
+            editor,
+            popoverPos,
+            location,
             loadObjectProperties: () => {},
             onClose: action("onClose")
           },

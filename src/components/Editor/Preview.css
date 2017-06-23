@@ -23,16 +23,16 @@
   color: var(--theme-highlight-blue);
   text-decoration: underline;
 }
+
 .popover .preview .header .link:hover {
   cursor: pointer;
 }
 
-.selected-token {
+.selection, .debug-expression.selection {
   background-color: var(--theme-highlight-yellow);
-  color: var(--theme-selection-color);
 }
 
-.selected-token:hover {
+.selection:hover {
   cursor: pointer;
 }
 

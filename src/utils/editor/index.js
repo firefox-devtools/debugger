@@ -103,6 +103,16 @@ function updateDocument(editor, selectedSource) {
   editor.replaceDocument(doc);
 }
 
+function markText(editor: any, className, location: any) {
+  const { start, end } = location;
+
+  return editor.codeMirror.markText(
+    { ch: start.column, line: start.line - 1 },
+    { ch: end.column, line: end.line - 1 },
+    { className }
+  );
+}
+
 module.exports = Object.assign(
   {},
   expressionUtils,
@@ -115,6 +125,7 @@ module.exports = Object.assign(
     shouldShowFooter,
     breakpointAtLocation,
     traverseResults,
-    updateDocument
+    updateDocument,
+    markText
   }
 );
