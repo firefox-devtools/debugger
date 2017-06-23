@@ -28,7 +28,8 @@ export type SymbolDeclarations = {
   variables: Array<SymbolDeclaration>,
   memberExpressions: Array<SymbolDeclaration>,
   objectProperties: Array<SymbolDeclaration>,
-  identifiers: Array<SymbolDeclaration>
+  identifiers: Array<SymbolDeclaration>,
+  comments: Array<SymbolDeclaration>
 };
 
 function getFunctionParameterNames(path: NodePath): string[] {
@@ -58,30 +59,31 @@ function getVariableNames(path: NodePath): SymbolDeclaration[] {
   }));
 }
 
-export default function getSymbols(source: Source): SymbolDeclarations {
-  if (symbolDeclarations.has(source.id)) {
-    const symbols = symbolDeclarations.get(source.id);
-    if (symbols) {
-      return symbols;
-    }
+function getComments(ast) {
+  if (!ast || !ast.comments) {
+    return [];
   }
+  return ast.comments.map(comment => ({
+    name: comment.location,
+    location: comment.loc
+  }));
+}
 
-  let symbols = {
-    functions: [],
-    variables: [],
-    memberExpressions: [],
-    objectProperties: [],
-    identifiers: []
-  };
+function extractSymbols(source: SourceText) {
+  const functions = [];
+  const variables = [];
+  const memberExpressions = [];
+  const objectProperties = [];
+  const identifiers = [];
 
-  traverseAst(source, {
+  const ast = traverseAst(source, {
     enter(path: NodePath) {
       if (isVariable(path)) {
-        symbols.variables.push(...getVariableNames(path));
+        variables.push(...getVariableNames(path));
       }
 
       if (isFunction(path)) {
-        symbols.functions.push({
+        functions.push({
           name: getFunctionName(path),
           location: path.node.loc,
           parameterNames: getFunctionParameterNames(path),
@@ -90,7 +92,7 @@ export default function getSymbols(source: Source): SymbolDeclarations {
       }
 
       if (t.isClassDeclaration(path)) {
-        symbols.variables.push({
+        variables.push({
           name: path.node.id.name,
           location: path.node.loc
         });
@@ -98,7 +100,7 @@ export default function getSymbols(source: Source): SymbolDeclarations {
 
       if (t.isObjectProperty(path)) {
         const { start, end, identifierName } = path.node.key.loc;
-        symbols.objectProperties.push({
+        objectProperties.push({
           name: identifierName,
           location: { start, end },
           expression: getSnippet(path)
@@ -107,7 +109,7 @@ export default function getSymbols(source: Source): SymbolDeclarations {
 
       if (t.isMemberExpression(path)) {
         const { start, end } = path.node.property.loc;
-        symbols.memberExpressions.push({
+        memberExpressions.push({
           name: path.node.property.name,
           location: { start, end },
           expressionLocation: path.node.loc,
@@ -118,7 +120,7 @@ export default function getSymbols(source: Source): SymbolDeclarations {
       if (t.isIdentifier(path)) {
         const { start, end } = path.node.loc;
 
-        symbols.identifiers.push({
+        identifiers.push({
           name: path.node.name,
           expression: path.node.name,
           location: { start, end }
@@ -129,7 +131,7 @@ export default function getSymbols(source: Source): SymbolDeclarations {
         const node = path.node.id;
         const { start, end } = path.node.loc;
 
-        symbols.identifiers.push({
+        identifiers.push({
           name: node.name,
           expression: node.name,
           location: { start, end }
@@ -138,6 +140,28 @@ export default function getSymbols(source: Source): SymbolDeclarations {
     }
   });
 
+  // comments are extracted separately from the AST
+  const comments = getComments(ast);
+
+  return {
+    functions,
+    variables,
+    memberExpressions,
+    objectProperties,
+    comments,
+    identifiers
+  };
+}
+
+export default function getSymbols(source: SourceText): SymbolDeclarations {
+  if (symbolDeclarations.has(source.id)) {
+    const symbols = symbolDeclarations.get(source.id);
+    if (symbols) {
+      return symbols;
+    }
+  }
+
+  const symbols = extractSymbols(source);
   symbolDeclarations.set(source.id, symbols);
   return symbols;
 }

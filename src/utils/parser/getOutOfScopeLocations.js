@@ -10,8 +10,8 @@ import { containsLocation, containsPosition } from "./utils/helpers";
 import getSymbols from "./getSymbols";
 
 function findSymbols(source) {
-  const { functions } = getSymbols(source);
-  return { functions };
+  const { functions, comments } = getSymbols(source);
+  return { functions, comments };
 }
 
 /**
@@ -78,7 +78,7 @@ function getOutOfScopeLocations(
   position: AstPosition
 ): AstLocation[] {
   const { functions, comments } = findSymbols(source);
-  const commentLocations = comments.map(c => c.loc);
+  const commentLocations = comments.map(c => c.location);
 
   return functions
     .map(getLocation)

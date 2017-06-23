@@ -42,7 +42,7 @@ describe("Parser.getOutOfScopeLocations", () => {
   });
 
   it("should treat comments as out of scope", () => {
-    const actual = getOutOfScopeLocations(getSourceText("outOfScopeComment"), {
+    const actual = getOutOfScopeLocations(getSource("outOfScopeComment"), {
       line: 3,
       column: 2
     });
