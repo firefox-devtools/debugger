@@ -143,7 +143,12 @@ async function addClientBreakpoint(state, client, sourceMaps, breakpoint) {
   );
 
   const { id, hitCount } = clientBreakpoint;
-  return { id, actualLocation, hitCount, generatedLocation };
+  return {
+    id,
+    actualLocation,
+    hitCount,
+    generatedLocation: clientBreakpoint.actualLocation
+  };
 }
 
 /**
