@@ -53,23 +53,27 @@ describe("Tests", () => {
 
   it("asm", async () => await asm(ctx));
 
-  it("breakpoints - toggle", async () => await breakpoints.toggle(ctx));
+  describe("breakpoints", () => {
+    it("breakpoints - toggle", async () => await breakpoints.toggle(ctx));
 
-  it("breakpoints - toggleAll", async () => await breakpoints.toggleAll(ctx));
+    it("breakpoints - toggleAll", async () => await breakpoints.toggleAll(ctx));
 
-  it("breaking", async () => await breaking(ctx));
+    it("breaking", async () => await breaking(ctx));
 
-  it("conditional breakpoints", async () => await breakpointsCond(ctx));
+    it("conditional breakpoints", async () => await breakpointsCond(ctx));
+  });
 
   it("expressions", async () => await expressions(ctx));
 
-  it("editor select", async () => await editorSelect(ctx));
+  describe("editor", () => {
+    it("editor select", async () => await editorSelect(ctx));
 
-  it("editor gutter", async () => await editorGutter(ctx));
+    it("editor gutter", async () => await editorGutter(ctx));
 
-  xit("editor highlight", async () => await editorHighlight(ctx));
+    xit("editor highlight", async () => await editorHighlight(ctx));
 
-  xit("editor preview", async () => await editorPreview(ctx));
+    xit("editor preview", async () => await editorPreview(ctx));
+  });
 
   xit("keyboard navigation", async () => await keyboardNavigation(ctx));
 
@@ -77,9 +81,11 @@ describe("Tests", () => {
 
   xit("navigation", async () => await navigation(ctx));
 
-  it("call stack test 1", async () => await callStack.test1(ctx));
+  describe("call stack", () => {
+    it("test 1", async () => await callStack.test1(ctx));
 
-  it("call stack test 2", async () => await callStack.test2(ctx));
+    it("test 2", async () => await callStack.test2(ctx));
+  });
 
   it("debugger buttons", async () => await debuggerButtons(ctx));
 
@@ -108,18 +114,19 @@ describe("Tests", () => {
 
   it("sources", async () => await sources(ctx));
 
-  // timed out
-  // requires firefox nightly for noSliding
-  xit("source maps", async () => await sourceMaps(ctx));
+  describe("source maps", () => {
+    it("stepping", async () => await sourceMaps(ctx));
+    it("reloading", async () => await sourceMapsReloading(ctx));
+    it("source maps 2", async () => await sourceMaps2(ctx));
+    it("source maps bogus", async () => await sourceMapsBogus(ctx));
+  });
 
-  it("source maps 2", async () => await sourceMaps2(ctx));
-
-  // expected 2 to equal 1
-  xit("source maps bogus", async () => await sourceMapsBogus(ctx));
-  it("tabs - add tabs", async () => await tabs.addTabs(ctx));
-  it("tabs - reload with tabs", async () => await tabs.reloadWithTabs(ctx));
-  it("tabs - reload with no tabs", async () =>
-    await tabs.reloadWithNoTabs(ctx));
+  describe("tabs", () => {
+    // expected 2 to equal 1
+    it("add tabs", async () => await tabs.addTabs(ctx));
+    it("reload with tabs", async () => await tabs.reloadWithTabs(ctx));
+    it("reload with no tabs", async () => await tabs.reloadWithNoTabs(ctx));
+  });
 });
 
 mocha.run(failures => {

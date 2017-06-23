@@ -15,7 +15,7 @@ const {
 // Tests loading sourcemapped sources, setting breakpoints, and
 // stepping in them.
 
-module.exports = async function(ctx) {
+module.exports = async function sourceMaps(ctx) {
   const { ok, is, info } = ctx;
 
   const dbg = await initDebugger("doc-sourcemaps.html");

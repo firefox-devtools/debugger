@@ -250,11 +250,7 @@ function setCondition(state, action) {
 
   if (action.status === "done") {
     const bp = state.breakpoints.get(id);
-    const updatedBreakpoint = {
-      ...bp,
-      id: action.value.id,
-      loading: false
-    };
+    const updatedBreakpoint = { ...bp, loading: false };
     const updatedState = state.setIn(["breakpoints", id], updatedBreakpoint);
 
     return updatePendingBreakpoint(updatedState, updatedBreakpoint);

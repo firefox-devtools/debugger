@@ -23,6 +23,7 @@ module.exports = {
   searching: require("./searching"),
   sources: require("./sources"),
   sourceMaps: require("./sourcemaps"),
+  sourceMapsReloading: require("./sourcemaps-reloading"),
   sourceMaps2: require("./sourcemaps2"),
   sourceMapsBogus: require("./sourcemaps-bogus"),
   tabs: require("./tabs")

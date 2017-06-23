@@ -143,7 +143,12 @@ async function addClientBreakpoint(state, client, sourceMaps, breakpoint) {
   );
 
   const { id, hitCount } = clientBreakpoint;
-  return { id, actualLocation, hitCount, generatedLocation };
+  return {
+    id,
+    actualLocation,
+    hitCount,
+    generatedLocation: clientBreakpoint.actualLocation
+  };
 }
 
 /**
@@ -251,7 +256,7 @@ export function disableBreakpoint(location: Location) {
       type: "DISABLE_BREAKPOINT",
       breakpoint: bp,
       disabled: true,
-      [PROMISE]: client.removeBreakpoint(bp.id)
+      [PROMISE]: client.removeBreakpoint(bp)
     };
 
     return dispatch(action);
@@ -290,7 +295,7 @@ export function removeBreakpoint(location: Location) {
 
     return dispatch(
       Object.assign({}, action, {
-        [PROMISE]: client.removeBreakpoint(bp.id)
+        [PROMISE]: client.removeBreakpoint(bp)
       })
     );
   };

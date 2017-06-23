@@ -62,7 +62,7 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
-    "line": 5,
+    "line": 7,
     "sourceId": "foo",
     "sourceUrl": "http://localhost:8000/examples/foo",
   },

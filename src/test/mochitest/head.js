@@ -496,6 +496,13 @@ function addBreakpoint(dbg, source, line, col) {
   return waitForDispatch(dbg, "ADD_BREAKPOINT");
 }
 
+function disableBreakpoint(dbg, source, line, col) {
+  source = findSource(dbg, source);
+  const sourceId = source.id;
+  dbg.actions.disableBreakpoint({ sourceId, line, col });
+  return waitForDispatch(dbg, "DISABLE_BREAKPOINT");
+}
+
 /**
  * Removes a breakpoint from a source at line/col.
  *
