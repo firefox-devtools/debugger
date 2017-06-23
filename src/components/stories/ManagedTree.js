@@ -68,7 +68,7 @@ function ManagedTreeFactory(options, { dir = "ltr", theme = "light" } = {}) {
   );
 }
 
-const stories = storiesOf("ManagedTree", module)
+storiesOf("ManagedTree", module)
   .add("simple", () => {
     const root = {
       name: "foo",

@@ -188,7 +188,7 @@ function PreviewFactory(options, { dir = "ltr", theme = "light" } = {}) {
   );
 }
 
-const stories = storiesOf("Preview", module)
+storiesOf("Preview", module)
   .add("simple Object", () => {
     setValue("features.previewWatch", false);
     return PreviewFactory({
