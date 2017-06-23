@@ -13,7 +13,8 @@ const symbolDeclarations = new Map();
 export type SymbolDeclaration = {|
   name: string,
   location: BabelLocation,
-  parameterNames?: string[]
+  parameterNames?: string[],
+  identifier?: Object
 |};
 
 export type FunctionDeclaration = SymbolDeclaration & {|
@@ -72,7 +73,8 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
         symbols.functions.push({
           name: getFunctionName(path),
           location: path.node.loc,
-          parameterNames: getFunctionParameterNames(path)
+          parameterNames: getFunctionParameterNames(path),
+          identifier: path.node.id
         });
       }
 
