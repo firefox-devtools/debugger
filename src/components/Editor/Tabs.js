@@ -3,7 +3,6 @@
 import { DOM as dom, PureComponent, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
 import * as I from "immutable";
 
 import {
