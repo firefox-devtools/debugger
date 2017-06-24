@@ -5,12 +5,17 @@ import classNames from "classnames";
 
 import "./BracketArrow.css";
 
-const BracketArrow = (
+const BracketArrow = ({
+  orientation,
+  left,
+  top,
+  bottom
+}: {
   orientation: string,
   left: number,
   top: number,
   bottom: number
-) => {
+}) => {
   return dom.div(
     {
       className: classNames("bracket-arrow", orientation || "up"),
