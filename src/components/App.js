@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import actions from "../actions";
 import { getSelectedSource, getPaneCollapse } from "../selectors";
 import type { SourceRecord } from "../reducers/sources";
+import { isVisible } from "../utils/ui";
 
 import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
@@ -85,7 +86,9 @@ class App extends Component {
   }
 
   onLayoutChange() {
-    this.setState({ horizontal: verticalLayoutBreakpoint.matches });
+    if (isVisible()) {
+      this.setState({ horizontal: verticalLayoutBreakpoint.matches });
+    }
   }
 
   renderEditorPane() {
