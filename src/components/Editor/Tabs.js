@@ -10,6 +10,8 @@ import {
   getSourcesForTabs,
   getProjectSearchState
 } from "../../selectors";
+import { isVisible } from "../../utils/ui";
+
 import { getFilename, isPretty } from "../../utils/source";
 import classnames from "classnames";
 import actions from "../../actions";
@@ -291,7 +293,7 @@ class SourceTabs extends PureComponent {
     const sourceTabEls = this.refs.sourceTabs.children;
     const hiddenSourceTabs = getHiddenTabs(sourceTabs, sourceTabEls);
 
-    if (hiddenSourceTabs.indexOf(selectedSource) !== -1) {
+    if (isVisible() && hiddenSourceTabs.indexOf(selectedSource) !== -1) {
       return moveTab(selectedSource.get("url"), 0);
     }
 
