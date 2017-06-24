@@ -27,7 +27,7 @@ const debuggerClient = {};
 
 const actions = {
   _sources: [],
-  navigate: () => {},
+  connect: () => {},
 
   newSources: function(sources) {
     return new Promise(resolve => {

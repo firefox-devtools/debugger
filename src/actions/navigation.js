@@ -28,6 +28,13 @@ export function navigate(url) {
   };
 }
 
+export function connect(url) {
+  return {
+    type: "CONNECT",
+    url
+  };
+}
+
 /**
  * @memberof actions/navigation
  * @static

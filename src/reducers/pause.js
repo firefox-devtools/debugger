@@ -124,7 +124,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
       }
       break;
 
-    case "NAVIGATE":
+    case "CONNECT":
       return Object.assign({}, State(), { debuggeeUrl: action.url });
 
     case "PAUSE_ON_EXCEPTIONS":
