@@ -2,14 +2,14 @@
 
 import { getClosestScope, getClosestExpression } from "../utils/closest";
 
-import { getSourceText } from "./helpers";
+import { getSource, createSource } from "./helpers";
 
 describe("parser", () => {
   describe("getClosestExpression", () => {
     describe("member expressions", () => {
       it("Can find a member expression", () => {
         const expression = getClosestExpression(
-          getSourceText("resolveToken"),
+          getSource("resolveToken"),
           "x",
           {
             line: 15,
@@ -22,7 +22,7 @@ describe("parser", () => {
 
       it("find a nested expression", () => {
         const expression = getClosestExpression(
-          getSourceText("expression"),
+          getSource("expression"),
           "secondProperty",
           {
             line: 4,
@@ -35,7 +35,7 @@ describe("parser", () => {
 
       it("finds an expression with a call", () => {
         const expression = getClosestExpression(
-          getSourceText("expression"),
+          getSource("expression"),
           "secondProperty",
           {
             line: 6,
@@ -49,7 +49,7 @@ describe("parser", () => {
 
     it("Can find a local var", () => {
       const expression = getClosestExpression(
-        getSourceText("resolveToken"),
+        getSource("resolveToken"),
         "beta",
         {
           line: 15,
@@ -63,7 +63,7 @@ describe("parser", () => {
 
   describe("getClosestScope", () => {
     it("finds the scope at the beginning", () => {
-      const scope = getClosestScope(getSourceText("func"), {
+      const scope = getClosestScope(getSource("func"), {
         line: 5,
         column: 8
       });
@@ -73,7 +73,7 @@ describe("parser", () => {
     });
 
     it("finds a scope given at the end", () => {
-      const scope = getClosestScope(getSourceText("func"), {
+      const scope = getClosestScope(getSource("func"), {
         line: 9,
         column: 1
       });
@@ -83,7 +83,7 @@ describe("parser", () => {
     });
 
     it("Can find the function declaration for square", () => {
-      const scope = getClosestScope(getSourceText("func"), {
+      const scope = getClosestScope(getSource("func"), {
         line: 1,
         column: 1
       });

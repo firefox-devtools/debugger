@@ -61,7 +61,13 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
     }
   }
 
-  let symbols = { functions: [], variables: [] };
+  let symbols = {
+    functions: [],
+    variables: [],
+    memberExpressions: [],
+    objectProperties: [],
+    identifiers: []
+  };
 
   traverseAst(source, {
     enter(path: NodePath) {
@@ -84,9 +90,100 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
           location: path.node.loc
         });
       }
+
+      if (t.isObjectProperty(path)) {
+        const { start, end, identifierName } = path.node.key.loc;
+        symbols.objectProperties.push({
+          name: identifierName,
+          location: { start, end },
+          expression: getObjectExpression(path)
+        });
+      }
+
+      if (t.isMemberExpression(path)) {
+        const { start, end } = path.node.property.loc;
+        symbols.memberExpressions.push({
+          name: path.node.property.name,
+          location: { start, end },
+          expressionLocation: path.node.loc,
+          expression: getExpression(path.node)
+        });
+      }
+
+      if (t.isIdentifier(path)) {
+        const { start, end } = path.node.loc;
+
+        symbols.identifiers.push({
+          name: path.node.name,
+          expression: path.node.name,
+          location: { start, end }
+        });
+      }
     }
   });
 
   symbolDeclarations.set(source.id, symbols);
   return symbols;
+}
+
+function getExpression(root) {
+  function _getMemberExpression(node, expr) {
+    if (t.isMemberExpression(node)) {
+      return _getMemberExpression(node.object, [node.property.name, ...expr]);
+    }
+
+    if (t.isCallExpression(node)) {
+      return [];
+    }
+
+    if (t.isThisExpression(node)) {
+      return ["this", ...expr];
+    }
+
+    if (t.isIdentifier(node)) {
+      return [node.name, ...expr];
+    }
+
+    return expr;
+  }
+
+  const expr = _getMemberExpression(root, []);
+  return expr.join(".");
+}
+
+function getObjectExpression(path) {
+  let expr = "";
+  let prevPath = undefined;
+  do {
+    const name = path.node.key.name;
+
+    if (path.node.computed) {
+      expr = `[${name}]${expr}`;
+    } else {
+      expr = expr === "" ? name : `${name}.${expr}`;
+    }
+
+    prevPath = path;
+    path = path.parentPath && path.parentPath.parentPath;
+  } while (t.isObjectProperty(path));
+
+  if (t.isVariableDeclarator(path)) {
+    const node = path.node.id;
+    if (t.isObjectPattern(node)) {
+      return expr;
+    }
+
+    const name = node.name;
+    return prevPath.node.computed ? `${name}${expr}` : `${name}.${expr}`;
+  }
+
+  if (t.isAssignmentExpression(path)) {
+    const node = path.node.left;
+    const name = t.isMemberExpression(node) ? getExpression(node) : node.name;
+    return prevPath.node.computed ? `${name}${expr}` : `${name}.${expr}`;
+  }
+
+  if (isFunction(path)) {
+    return expr;
+  }
 }

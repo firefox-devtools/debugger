@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Parser.getSymbols properties identifiers 1`] = `
+Array [
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 8,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 7,
+        "line": 15,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "rest",
+    "location": Object {
+      "end": Position {
+        "column": 17,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 13,
+        "line": 15,
+      },
+    },
+    "name": "rest",
+  },
+  Object {
+    "expression": "compute",
+    "location": Object {
+      "end": Position {
+        "column": 28,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 21,
+        "line": 15,
+      },
+    },
+    "name": "compute",
+  },
+  Object {
+    "expression": "stuff",
+    "location": Object {
+      "end": Position {
+        "column": 34,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 29,
+        "line": 15,
+      },
+    },
+    "name": "stuff",
+  },
+]
+`;
+
+exports[`Parser.getSymbols properties properties 1`] = `Array []`;
