@@ -96,7 +96,7 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
         symbols.objectProperties.push({
           name: identifierName,
           location: { start, end },
-          expression: getObjectExpression(path)
+          expression: getExpression(path)
         });
       }
 
@@ -106,7 +106,7 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
           name: path.node.property.name,
           location: { start, end },
           expressionLocation: path.node.loc,
-          expression: getMemberExpression(path.node)
+          expression: getExpression(path.node)
         });
       }
 
@@ -169,8 +169,7 @@ function getMemberExpression(node, expression = "") {
   return expression;
 }
 
-function getObjectExpression(path) {
-  let expression = "";
+function getObjectExpression(path, expression = "") {
   let prevPath = undefined;
   do {
     const name = path.node.key.name;
@@ -179,31 +178,14 @@ function getObjectExpression(path) {
     path = path.parentPath && path.parentPath.parentPath;
   } while (t.isObjectProperty(path));
 
-  if (t.isVariableDeclarator(path)) {
-    const node = path.node.id;
-    if (t.isObjectPattern(node)) {
-      return expression;
-    }
-
-    const name = node.name;
-    const prop = addProperty(name, expression, path, prevPath);
-    return prop;
-  }
-
-  if (t.isAssignmentExpression(path)) {
-    const node = path.node.left;
-    const name = t.isMemberExpression(node)
-      ? getMemberExpression(node)
-      : node.name;
-
-    const prop = addProperty(name, expression, path, prevPath);
-    return prop;
-  }
-
   if (isFunction(path)) {
     return expression;
   }
 
+  return getExpression(path, prevPath, expression);
+}
+
+function getArrayExpression(path, prevPath, expression) {
   if (t.isArrayExpression(path)) {
     const index = prevPath.parentPath.key;
     // console.log(
@@ -213,11 +195,9 @@ function getObjectExpression(path) {
     //   prevPath.parentPath.type,
     //   Object.keys(prevPath)
     // );
-    return `[${index}].${expr}`;
+    return `[${index}].${expression}`;
   }
 }
-
-function getArrayExpression(path) {}
 
 function getExpression(path, prevPath, expression = "") {
   if (t.isVariableDeclarator(path)) {
@@ -250,6 +230,6 @@ function getExpression(path, prevPath, expression = "") {
   }
 
   if (t.isArrayExpression(path)) {
-    return getMemberExpression(path, expression);
+    return getArrayExpression(path, prevPath, expression);
   }
 }
