@@ -92,9 +92,9 @@ class Popover extends Component {
     const arrowOrientation = orientation === "up" ? "down" : "up";
 
     const arrowProp = arrowOrientation === "up" ? "top" : "bottom";
-    const arrowPropValue = arrowOrientation === "up" ? -8 : 6;
+    const arrowPropValue = arrowOrientation === "up" ? -7 : 5;
 
-    return new BracketArrow({
+    return BracketArrow({
       orientation: arrowOrientation,
       left,
       [arrowProp]: arrowPropValue

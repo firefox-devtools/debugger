@@ -36,6 +36,6 @@
 
 .bracket-arrow.down::after {
   border-bottom-color: transparent;
-  border-top-color: var(--theme-toolbar-background);
+  border-top-color: var(--theme-body-background);
   top: -1px;
 }
