@@ -3,6 +3,10 @@
 import getSymbols from "../getSymbols";
 import { getSource, createSource } from "./helpers";
 
+function summarize(symbol) {
+  return `${symbol.location.start.line} - ${symbol.name}`;
+}
+
 describe("Parser.getSymbols", () => {
   describe("functions", () => {
     it("finds functions", () => {
@@ -58,18 +62,17 @@ describe("Parser.getSymbols", () => {
   });
 
   describe("properties", () => {
-    it("properties", () => {
+    fit("properties", () => {
       const { objectProperties } = getSymbols(getSource("expression"));
 
       console.log(objectProperties.map(prop => prop.expression).join("\n"));
       expect(objectProperties).toMatchSnapshot();
     });
 
-    fit("identifiers", () => {
+    it("identifiers", () => {
       const { identifiers } = getSymbols(getSource("expression"));
-
-      console.log(identifiers.map(prop => prop.name).join("\n"));
-      expect(identifiers).toMatchSnapshot();
+      const summary = identifiers.map(summarize);
+      expect({ summary, identifiers }).toMatchSnapshot();
     });
 
     it("members", () => {

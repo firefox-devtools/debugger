@@ -106,7 +106,7 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
           name: path.node.property.name,
           location: { start, end },
           expressionLocation: path.node.loc,
-          expression: getExpression(path.node)
+          expression: getMemberExpression(path.node)
         });
       }
 
@@ -126,43 +126,55 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
   return symbols;
 }
 
-function getExpression(root) {
-  function _getMemberExpression(node, expr) {
-    if (t.isMemberExpression(node)) {
-      return _getMemberExpression(node.object, [node.property.name, ...expr]);
-    }
+function addProperty(name, expression, path, prevPath) {
+  const computed = path && path.node.computed;
+  const prevComputed = prevPath && prevPath.node.computed;
 
-    if (t.isCallExpression(node)) {
-      return [];
+  if (expression === "") {
+    if (computed) {
+      return `[${name}]`;
     }
-
-    if (t.isThisExpression(node)) {
-      return ["this", ...expr];
-    }
-
-    if (t.isIdentifier(node)) {
-      return [node.name, ...expr];
-    }
-
-    return expr;
+    return name;
   }
 
-  const expr = _getMemberExpression(root, []);
-  return expr.join(".");
+  if (computed) {
+    return `[${name}].${expression}`;
+  }
+
+  if (prevComputed) {
+    return `${name}${expression}`;
+  }
+
+  return `${name}.${expression}`;
+}
+
+function getMemberExpression(node, expression = "") {
+  if (t.isMemberExpression(node)) {
+    const name = node.property.name;
+    return getMemberExpression(node.object, addProperty(name, expression));
+  }
+
+  if (t.isCallExpression(node)) {
+    return "";
+  }
+
+  if (t.isThisExpression(node)) {
+    return `this.${expression}`;
+  }
+
+  if (t.isIdentifier(node)) {
+    return `${node.name}.${expression}`;
+  }
+
+  return expression;
 }
 
 function getObjectExpression(path) {
-  let expr = "";
+  let expression = "";
   let prevPath = undefined;
   do {
     const name = path.node.key.name;
-
-    if (path.node.computed) {
-      expr = `[${name}]${expr}`;
-    } else {
-      expr = expr === "" ? name : `${name}.${expr}`;
-    }
-
+    expression = addProperty(name, expression, path, prevPath);
     prevPath = path;
     path = path.parentPath && path.parentPath.parentPath;
   } while (t.isObjectProperty(path));
@@ -170,20 +182,74 @@ function getObjectExpression(path) {
   if (t.isVariableDeclarator(path)) {
     const node = path.node.id;
     if (t.isObjectPattern(node)) {
-      return expr;
+      return expression;
     }
 
     const name = node.name;
-    return prevPath.node.computed ? `${name}${expr}` : `${name}.${expr}`;
+    const prop = addProperty(name, expression, path, prevPath);
+    return prop;
   }
 
   if (t.isAssignmentExpression(path)) {
     const node = path.node.left;
-    const name = t.isMemberExpression(node) ? getExpression(node) : node.name;
-    return prevPath.node.computed ? `${name}${expr}` : `${name}.${expr}`;
+    const name = t.isMemberExpression(node)
+      ? getMemberExpression(node)
+      : node.name;
+
+    const prop = addProperty(name, expression, path, prevPath);
+    return prop;
   }
 
   if (isFunction(path)) {
-    return expr;
+    return expression;
+  }
+
+  if (t.isArrayExpression(path)) {
+    const index = prevPath.parentPath.key;
+    // console.log(
+    //   "oy",
+    //   prevPath.parentPath.inList,
+    //   prevPath.parentPath.key,
+    //   prevPath.parentPath.type,
+    //   Object.keys(prevPath)
+    // );
+    return `[${index}].${expr}`;
+  }
+}
+
+function getArrayExpression(path) {}
+
+function getExpression(path, prevPath, expression = "") {
+  if (t.isVariableDeclarator(path)) {
+    const node = path.node.id;
+    if (t.isObjectPattern(node)) {
+      return expression;
+    }
+
+    const name = node.name;
+    const prop = addProperty(name, expression, path, prevPath);
+    return prop;
+  }
+
+  if (t.isAssignmentExpression(path)) {
+    const node = path.node.left;
+    const name = t.isMemberExpression(node)
+      ? getMemberExpression(node)
+      : node.name;
+
+    const prop = addProperty(name, expression, path, prevPath);
+    return prop;
+  }
+
+  if (t.isObjectProperty(path)) {
+    return getObjectExpression(path, expression);
+  }
+
+  if (t.isMemberExpression(path)) {
+    return getMemberExpression(path, expression);
+  }
+
+  if (t.isArrayExpression(path)) {
+    return getMemberExpression(path, expression);
   }
 }
