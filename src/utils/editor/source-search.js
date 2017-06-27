@@ -139,7 +139,7 @@ function getMatchIndex(count: number, currentIndex: number, rev: boolean) {
  */
 function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
   let { cm } = ctx;
-  const matchIndex = -1;
+  let matchIndex = { line: -1, ch: -1 };
 
   cm.operation(function() {
     if (!query || isWhitespace(query)) {
@@ -152,11 +152,12 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
 
     updateOverlay(cm, state, query, modifiers);
     updateCursor(cm, state, keepSelection);
-    searchNext(ctx, rev, query, newQuery, modifiers);
+    let searchLocation = searchNext(ctx, rev, query, newQuery, modifiers);
 
+    matchIndex = searchLocation ? searchLocation.from : null;
     // NOTE: We would like to find the correct match index based on where the
     // match is in the document.
-    state.matchIndex = matchIndex;
+    state.matchIndex = matchIndex ? matchIndex.ch : -1;
   });
 
   return matchIndex;

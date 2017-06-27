@@ -21,6 +21,8 @@ export type SymbolSearchType = "functions" | "variables";
 export type ActiveSearchType = "project" | "source" | "file" | "symbol";
 
 export type SearchResults = {
+  matchedLocations: Array<Object>,
+  matchedLocationIndex: number,
   index: number,
   count: number
 };
@@ -57,6 +59,8 @@ export const State = makeRecord(
     symbolSearchType: "functions",
     symbolSearchResults: [],
     searchResults: {
+      matchedLocations: [],
+      matchedLocationIndex: -1,
       index: -1,
       count: 0
     },

@@ -21,7 +21,7 @@ import {
   clearIndex
 } from "../../utils/editor";
 
-import { countMatches } from "../../utils/search";
+import { getMatches } from "../../utils/search";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
@@ -67,6 +67,8 @@ class SearchBar extends Component {
     selectedSource?: SourceRecord,
     highlightLineRange: ({ start: number, end: number }) => void,
     clearHighlightLineRange: () => void,
+    symbolSearchOn?: boolean,
+    symbolSearchResults?: Array<any>,
     searchOn?: boolean,
     setActiveSearch: (?ActiveSearchType) => any,
     searchResults: SearchResults,
@@ -263,7 +265,7 @@ class SearchBar extends Component {
 
     const ctx = { ed, cm: ed.codeMirror };
 
-    const newCount = await countMatches(
+    const matchedLocations = await getMatches(
       query,
       selectedSource.get("text"),
       modifiers.toJS()
@@ -273,9 +275,15 @@ class SearchBar extends Component {
       clearIndex(ctx, query, modifiers.toJS());
     }
 
-    const newIndex = find(ctx, query, true, modifiers.toJS());
+    const findPos = find(ctx, query, true, modifiers.toJS());
+    const { ch: newIndex } = findPos;
+    const matchedLocationIndex = matchedLocations.findIndex(elm => {
+      return elm.line == findPos.line && elm.ch == findPos.ch;
+    });
     this.props.updateSearchResults({
-      count: newCount,
+      matchedLocations,
+      matchedLocationIndex,
+      count: matchedLocations.length,
       index: newIndex
     });
   }
@@ -295,7 +303,7 @@ class SearchBar extends Component {
       query,
       modifiers,
       updateSearchResults,
-      searchResults: { count, index }
+      searchResults: { index, matchedLocations }
     } = this.props;
 
     if (query === "") {
@@ -308,10 +316,19 @@ class SearchBar extends Component {
 
     if (modifiers) {
       const findFnc = rev ? findPrev : findNext;
-      const newIndex = findFnc(ctx, query, true, modifiers.toJS());
+      const findPos = findFnc(ctx, query, true, modifiers.toJS());
+      const { ch: newIndex } = findPos;
+      const matchedLocationIndex = matchedLocations
+        ? matchedLocations.findIndex(elm => {
+            return elm.line == findPos.line && elm.ch == findPos.ch;
+          })
+        : -1;
+
       updateSearchResults({
-        index: newIndex,
-        count
+        matchedLocations,
+        matchedLocationIndex,
+        count: matchedLocations.length,
+        index: newIndex
       });
     }
   }
@@ -332,7 +349,24 @@ class SearchBar extends Component {
   }
   // Renderers
   buildSummaryMsg() {
-    const { searchResults: { count, index }, query } = this.props;
+    const {
+      searchResults: { matchedLocationIndex, count, index },
+      symbolSearchOn,
+      symbolSearchResults,
+      query
+    } = this.props;
+
+    if (symbolSearchOn) {
+      if (symbolSearchResults.length > 1) {
+        return L10N.getFormatStr(
+          "editor.searchResults",
+          this.state.selectedResultIndex + 1,
+          symbolSearchResults.length
+        );
+      } else if (symbolSearchResults.length === 1) {
+        return L10N.getFormatStr("editor.singleResult");
+      }
+    }
 
     if (query.trim() == "") {
       return "";
@@ -346,7 +380,11 @@ class SearchBar extends Component {
       return L10N.getFormatStr("sourceSearch.resultsSummary1", count);
     }
 
-    return L10N.getFormatStr("editor.searchResults", index + 1, count);
+    return L10N.getFormatStr(
+      "editor.searchResults",
+      matchedLocationIndex + 1,
+      count
+    );
   }
 
   renderSearchModifiers() {

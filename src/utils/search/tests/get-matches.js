@@ -1,49 +1,49 @@
-import countMatches from "../count-matches";
+import getMatches from "../get-matches";
 
 describe("search", () => {
-  describe("countMatches", () => {
-    it("counts basic string match", () => {
+  describe("getMatches", () => {
+    it("gets basic string match", () => {
       const text = "the test string with test in it multiple times test.";
       const query = "test";
-      const count = countMatches(query, text, {
+      const matchLocations = getMatches(query, text, {
         caseSensitive: true,
         wholeWord: false,
         regexMatch: false
       });
-      expect(count).toBe(3);
+      expect(matchLocations.length).toBe(3);
     });
 
-    it("counts basic string match case-sensitive", () => {
+    it("gets basic string match case-sensitive", () => {
       const text = "the Test string with test in it multiple times test.";
       const query = "Test";
-      const count = countMatches(query, text, {
+      const matchLocations = getMatches(query, text, {
         caseSensitive: true,
         wholeWord: false,
         regexMatch: false
       });
-      expect(count).toBe(1);
+      expect(matchLocations.length).toBe(1);
     });
 
-    it("counts whole word string match", () => {
+    it("gets whole word string match", () => {
       const text = "the test string test in it multiple times whoatestthe.";
       const query = "test";
-      const count = countMatches(query, text, {
+      const matchLocations = getMatches(query, text, {
         caseSensitive: true,
         wholeWord: true,
         regexMatch: false
       });
-      expect(count).toBe(2);
+      expect(matchLocations.length).toBe(2);
     });
 
-    it("counts regex match", () => {
+    it("gets regex match", () => {
       const text = "the test string test in it multiple times whoatestthe.";
       const query = "(\\w+)\\s+(\\w+)";
-      const count = countMatches(query, text, {
+      const matchLocations = getMatches(query, text, {
         caseSensitive: true,
         wholeWord: false,
         regexMatch: true
       });
-      expect(count).toBe(4);
+      expect(matchLocations.length).toBe(4);
     });
   });
 });
