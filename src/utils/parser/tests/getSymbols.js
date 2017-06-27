@@ -1,46 +1,46 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-import getSymbols from "../getSymbols";
+import getSymbols, { formatSymbols } from "../getSymbols";
 import { getSource } from "./helpers";
 
 describe("Parser.getSymbols", () => {
   it("func", () => {
-    const symbols = getSymbols(getSource("func"));
+    const symbols = formatSymbols(getSource("func"));
     expect(symbols).toMatchSnapshot();
   });
 
   it("math", () => {
-    const symbols = getSymbols(getSource("math"));
+    const symbols = formatSymbols(getSource("math"));
     expect(symbols).toMatchSnapshot();
   });
 
   it("proto", () => {
-    const symbols = getSymbols(getSource("proto"));
+    const symbols = formatSymbols(getSource("proto"));
     expect(symbols).toMatchSnapshot();
   });
 
   it("class", () => {
-    const symbols = getSymbols(getSource("class"));
+    const symbols = formatSymbols(getSource("class"));
     expect(symbols).toMatchSnapshot();
   });
 
   it("var", () => {
-    const symbols = getSymbols(getSource("var"));
+    const symbols = formatSymbols(getSource("var"));
     expect(symbols).toMatchSnapshot();
   });
 
-  it("expression", () => {
-    const symbols = getSymbols(getSource("expression"));
+  fit("expression", () => {
+    const symbols = formatSymbols(getSource("expression"));
     expect(symbols).toMatchSnapshot();
   });
 
   it("allSymbols", () => {
-    const symbols = getSymbols(getSource("allSymbols"));
+    const symbols = formatSymbols(getSource("allSymbols"));
     expect(symbols).toMatchSnapshot();
   });
 
   it("finds symbols in an html file", () => {
-    const symbols = getSymbols(getSource("parseScriptTags", "html"));
+    const symbols = formatSymbols(getSource("parseScriptTags", "html"));
     expect(symbols).toMatchSnapshot();
   });
 });

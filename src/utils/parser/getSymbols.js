@@ -261,7 +261,7 @@ function getExpression(path, prevPath, expression = "") {
   }
 }
 
-export function printSymbols(source) {
+export function formatSymbols(source) {
   const {
     objectProperties,
     memberExpressions,
@@ -269,26 +269,38 @@ export function printSymbols(source) {
     variables
   } = getSymbols(source);
 
-  function summarize(symbol) {
-    const { start, end } = symbol.location;
+  function formatLocation(loc) {
+    if (!loc) {
+      return "";
+    }
+    const { start, end } = loc;
+
     const startLoc = `(${start.line}, ${start.column})`;
     const endLoc = `(${end.line}, ${end.column})`;
-    return `[${startLoc}, ${endLoc}] ${symbol.expression}`;
+    return `[${startLoc}, ${endLoc}]`;
   }
 
-  console.log(
-    [
-      "properties",
-      objectProperties.map(summarize).join("\n"),
+  function summarize(symbol) {
+    const loc = formatLocation(symbol.location);
+    const exprLoc = formatLocation(symbol.expressionLocation);
+    const params = symbol.parameterNames
+      ? symbol.parameterNames.join(", ")
+      : "";
+    const expression = symbol.expression || "";
+    return `${loc} ${exprLoc} ${expression} ${symbol.name} ${params}`;
+  }
 
-      "member expressions",
-      memberExpressions.map(summarize).join("\n"),
+  return [
+    "properties",
+    objectProperties.map(summarize).join("\n"),
 
-      "identifiers",
-      identifiers.map(summarize).join("\n"),
+    "member expressions",
+    memberExpressions.map(summarize).join("\n"),
 
-      "variables",
-      variables.map(p => p.name).join("\n")
-    ].join("\n")
-  );
+    "identifiers",
+    identifiers.map(summarize).join("\n"),
+
+    "variables",
+    variables.map(summarize).join("\n")
+  ].join("\n");
 }
