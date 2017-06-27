@@ -106,7 +106,7 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
           name: path.node.property.name,
           location: { start, end },
           expressionLocation: path.node.loc,
-          expression: getExpression(path.node)
+          expression: getMemberExpression(path.node)
         });
       }
 
@@ -137,7 +137,7 @@ function addProperty(name, expression, path, prevPath) {
     return name;
   }
 
-  if (computed) {
+  if (computed || t.isArrayExpression(path)) {
     return `[${name}].${expression}`;
   }
 
@@ -151,6 +151,7 @@ function addProperty(name, expression, path, prevPath) {
 function getMemberExpression(node, expression = "") {
   if (t.isMemberExpression(node)) {
     const name = node.property.name;
+
     return getMemberExpression(node.object, addProperty(name, expression));
   }
 
@@ -170,27 +171,24 @@ function getMemberExpression(node, expression = "") {
 }
 
 function getObjectExpression(path, prevPath, expression = "") {
-  do {
-    const name = path.node.key.name;
-    expression = addProperty(name, expression, path, prevPath);
-    prevPath = path;
-    path = path.parentPath && path.parentPath.parentPath;
-  } while (t.isObjectProperty(path));
+  const name = path.node.key.name;
 
-  if (isFunction(path)) {
-    return expression;
-  }
+  expression = addProperty(name, expression, path, prevPath);
+
+  prevPath = path;
+  path = path.parentPath && path.parentPath.parentPath;
 
   return getExpression(path, prevPath, expression);
 }
 
 function getArrayExpression(path, prevPath, expression) {
-  if (t.isArrayExpression(path)) {
-    const index = prevPath.parentPath.key;
-    prevPath = path;
-    path = path.parentPath && path.parentPath.parentPath;
-    return getExpression(path, prevPath, `[${index}].${expression}`);
-  }
+  const index = prevPath.parentPath.key;
+  expression = addProperty(index, expression, path, prevPath);
+
+  prevPath = path;
+  path = path.parentPath && path.parentPath.parentPath;
+
+  return getExpression(path, prevPath, expression);
 }
 
 function getExpression(path, prevPath, expression = "") {
@@ -221,6 +219,15 @@ function getExpression(path, prevPath, expression = "") {
     return prop;
   }
 
+  if (isFunction(path)) {
+    return expression;
+  }
+
+  if (t.isIdentifier(path)) {
+    const node = path.node;
+    return `${node.name}.${expression}`;
+  }
+
   if (t.isObjectProperty(path)) {
     return getObjectExpression(path, prevPath, expression);
   }
@@ -230,7 +237,7 @@ function getExpression(path, prevPath, expression = "") {
   }
 
   if (t.isMemberExpression(path)) {
-    return getMemberExpression(path, expression);
+    return getMemberExpression(path.node, expression);
   }
 
   if (t.isArrayExpression(path)) {

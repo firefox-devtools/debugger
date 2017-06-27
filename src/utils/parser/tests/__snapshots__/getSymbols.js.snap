@@ -61,11 +61,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 15,
-        "line": 2,
+        "line": 1,
       },
       "start": Position {
         "column": 14,
-        "line": 2,
+        "line": 1,
       },
     },
     "name": "a",
@@ -75,11 +75,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 20,
-        "line": 2,
+        "line": 1,
       },
       "start": Position {
         "column": 19,
-        "line": 2,
+        "line": 1,
       },
     },
     "name": "b",
@@ -89,11 +89,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 6,
+        "line": 5,
       },
       "start": Position {
         "column": 15,
-        "line": 6,
+        "line": 5,
       },
     },
     "name": "a",
@@ -103,11 +103,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 22,
-        "line": 6,
+        "line": 5,
       },
       "start": Position {
         "column": 21,
-        "line": 6,
+        "line": 5,
       },
     },
     "name": "b",
@@ -117,11 +117,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 33,
-        "line": 6,
+        "line": 5,
       },
       "start": Position {
         "column": 32,
-        "line": 6,
+        "line": 5,
       },
     },
     "name": "b",
@@ -131,11 +131,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 13,
-        "line": 9,
+        "line": 8,
       },
       "start": Position {
         "column": 12,
-        "line": 9,
+        "line": 8,
       },
     },
     "name": "a",
@@ -145,11 +145,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 18,
-        "line": 9,
+        "line": 8,
       },
       "start": Position {
         "column": 17,
-        "line": 9,
+        "line": 8,
       },
     },
     "name": "b",
@@ -159,11 +159,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 28,
-        "line": 9,
+        "line": 8,
       },
       "start": Position {
         "column": 27,
-        "line": 9,
+        "line": 8,
       },
     },
     "name": "b",
@@ -173,11 +173,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 9,
-        "line": 10,
+        "line": 9,
       },
       "start": Position {
         "column": 8,
-        "line": 10,
+        "line": 9,
       },
     },
     "name": "a",
@@ -187,11 +187,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 14,
-        "line": 10,
+        "line": 9,
       },
       "start": Position {
         "column": 13,
-        "line": 10,
+        "line": 9,
       },
     },
     "name": "b",
@@ -201,11 +201,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 24,
-        "line": 10,
+        "line": 9,
       },
       "start": Position {
         "column": 23,
-        "line": 10,
+        "line": 9,
       },
     },
     "name": "b",
@@ -215,11 +215,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 13,
+        "line": 12,
       },
       "start": Position {
         "column": 15,
-        "line": 13,
+        "line": 12,
       },
     },
     "name": "a",
@@ -229,11 +229,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 26,
-        "line": 13,
+        "line": 12,
       },
       "start": Position {
         "column": 25,
-        "line": 13,
+        "line": 12,
       },
     },
     "name": "b",
@@ -242,12 +242,12 @@ Array [
     "expression": "res2.a",
     "location": Object {
       "end": Position {
-        "column": 15,
-        "line": 14,
+        "column": 16,
+        "line": 13,
       },
       "start": Position {
-        "column": 14,
-        "line": 14,
+        "column": 15,
+        "line": 13,
       },
     },
     "name": "a",
@@ -256,12 +256,12 @@ Array [
     "expression": "res2.a[0].b",
     "location": Object {
       "end": Position {
-        "column": 20,
-        "line": 14,
+        "column": 22,
+        "line": 13,
       },
       "start": Position {
-        "column": 19,
-        "line": 14,
+        "column": 21,
+        "line": 13,
       },
     },
     "name": "b",
@@ -270,12 +270,12 @@ Array [
     "expression": "res3.a",
     "location": Object {
       "end": Position {
-        "column": 15,
-        "line": 15,
+        "column": 16,
+        "line": 14,
       },
       "start": Position {
-        "column": 14,
-        "line": 15,
+        "column": 15,
+        "line": 14,
       },
     },
     "name": "a",
@@ -284,12 +284,12 @@ Array [
     "expression": "res3.a[0].b",
     "location": Object {
       "end": Position {
-        "column": 20,
-        "line": 15,
+        "column": 22,
+        "line": 14,
       },
       "start": Position {
-        "column": 19,
-        "line": 15,
+        "column": 21,
+        "line": 14,
       },
     },
     "name": "b",
@@ -298,12 +298,12 @@ Array [
     "expression": "res3.b",
     "location": Object {
       "end": Position {
-        "column": 28,
-        "line": 15,
+        "column": 31,
+        "line": 14,
       },
       "start": Position {
-        "column": 27,
-        "line": 15,
+        "column": 30,
+        "line": 14,
       },
     },
     "name": "b",
@@ -312,12 +312,12 @@ Array [
     "expression": "res3.b[0].c",
     "location": Object {
       "end": Position {
-        "column": 33,
-        "line": 15,
+        "column": 37,
+        "line": 14,
       },
       "start": Position {
-        "column": 32,
-        "line": 15,
+        "column": 36,
+        "line": 14,
       },
     },
     "name": "c",
@@ -326,12 +326,12 @@ Array [
     "expression": "res4[0].a",
     "location": Object {
       "end": Position {
-        "column": 17,
-        "line": 16,
+        "column": 18,
+        "line": 15,
       },
       "start": Position {
-        "column": 16,
-        "line": 16,
+        "column": 17,
+        "line": 15,
       },
     },
     "name": "a",
@@ -340,12 +340,12 @@ Array [
     "expression": "res4[0].b",
     "location": Object {
       "end": Position {
-        "column": 25,
-        "line": 16,
+        "column": 30,
+        "line": 15,
       },
       "start": Position {
-        "column": 24,
-        "line": 16,
+        "column": 29,
+        "line": 15,
       },
     },
     "name": "b",
@@ -355,11 +355,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 9,
-        "line": 19,
+        "line": 18,
       },
       "start": Position {
         "column": 8,
-        "line": 19,
+        "line": 18,
       },
     },
     "name": "b",
@@ -369,11 +369,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 19,
+        "line": 18,
       },
       "start": Position {
         "column": 11,
-        "line": 19,
+        "line": 18,
       },
     },
     "name": "resty",
@@ -383,11 +383,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 19,
-        "line": 22,
+        "line": 21,
       },
       "start": Position {
         "column": 18,
-        "line": 22,
+        "line": 21,
       },
     },
     "name": "a",
@@ -397,11 +397,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 22,
-        "line": 22,
+        "line": 21,
       },
       "start": Position {
         "column": 21,
-        "line": 22,
+        "line": 21,
       },
     },
     "name": "b",
@@ -411,11 +411,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 23,
-        "line": 23,
+        "line": 22,
       },
       "start": Position {
         "column": 22,
-        "line": 23,
+        "line": 22,
       },
     },
     "name": "a",
@@ -425,11 +425,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 26,
-        "line": 23,
+        "line": 22,
       },
       "start": Position {
         "column": 25,
-        "line": 23,
+        "line": 22,
       },
     },
     "name": "b",
