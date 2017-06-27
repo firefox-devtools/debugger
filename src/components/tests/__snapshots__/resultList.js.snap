@@ -9,7 +9,7 @@ ShallowWrapper {
   },
   "length": 1,
   "node": <ul
-    className="result-list "
+    className="result-list small"
 >
     <li
         className=""
@@ -46,7 +46,7 @@ ShallowWrapper {
 </ul>,
   "nodes": Array [
     <ul
-      className="result-list "
+      className="result-list small"
 >
       <li
             className=""
@@ -107,7 +107,7 @@ ShallowWrapper {
         }
         selectItem={[Function]}
         selected={1}
-        size=""
+        size="small"
 />,
       "_debugID": 3,
       "_hostContainerInfo": null,
@@ -132,7 +132,7 @@ ShallowWrapper {
           ],
           "selectItem": [Function],
           "selected": 1,
-          "size": "",
+          "size": "small",
         },
         "refs": Object {},
         "renderListItem": [Function],
@@ -156,7 +156,7 @@ ShallowWrapper {
       "_pendingStateQueue": null,
       "_renderedComponent": Object {
         "_currentElement": <ul
-          className="result-list "
+          className="result-list small"
 >
           <li
                     className=""
@@ -193,7 +193,7 @@ ShallowWrapper {
 </ul>,
         "_debugID": 4,
         "_renderedOutput": <ul
-          className="result-list "
+          className="result-list small"
 >
           <li
                     className=""
@@ -258,7 +258,7 @@ ShallowWrapper {
     }
     selectItem={[Function]}
     selected={1}
-    size=""
+    size="small"
 />,
 }
 `;

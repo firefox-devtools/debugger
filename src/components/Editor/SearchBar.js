@@ -29,9 +29,12 @@ import debounce from "lodash/debounce";
 
 import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
-import type { ActiveSearchType, FileSearchModifiers } from "../../reducers/ui";
+import type {
+  ActiveSearchType,
+  FileSearchModifiers,
+  SearchResults
+} from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
-import type { SearchResults } from ".";
 import _SearchInput from "../shared/SearchInput";
 const SearchInput = createFactory(_SearchInput);
 
@@ -176,9 +179,9 @@ class SearchBar extends Component {
   }
 
   closeSearch(e: SyntheticEvent) {
-    const { editor, setFileSearchQuery, searchOn, symbolSearchOn } = this.props;
+    const { editor, setFileSearchQuery, searchOn } = this.props;
 
-    if (editor && (searchOn || symbolSearchOn)) {
+    if (editor && searchOn) {
       setFileSearchQuery("");
       this.clearSearch();
       this.props.toggleActiveSearch();
@@ -191,7 +194,7 @@ class SearchBar extends Component {
   toggleSearch(e: SyntheticKeyboardEvent) {
     e.stopPropagation();
     e.preventDefault();
-    const { editor, symbolSearchOn } = this.props;
+    const { editor } = this.props;
 
     if (!this.props.searchOn) {
       this.props.toggleActiveSearch("file");
@@ -386,14 +389,9 @@ class SearchBar extends Component {
   }
 
   render() {
-    const {
-      searchResults: { count },
-      query,
-      searchOn,
-      symbolSearchOn
-    } = this.props;
+    const { searchResults: { count }, query, searchOn } = this.props;
 
-    if (!searchOn && !symbolSearchOn) {
+    if (!searchOn) {
       return dom.div();
     }
 
