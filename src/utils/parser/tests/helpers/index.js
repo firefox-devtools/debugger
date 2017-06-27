@@ -13,15 +13,3 @@ export function getSource(name, type = "js") {
     contentType
   };
 }
-
-export function createSource(
-  text,
-  name = "source",
-  contentType = "text/javascript"
-) {
-  return {
-    id: name,
-    text,
-    contentType
-  };
-}
