@@ -106,7 +106,7 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
           name: path.node.property.name,
           location: { start, end },
           expressionLocation: path.node.loc,
-          expression: getMemberExpression(path.node)
+          expression: getExpression(path)
         });
       }
 
@@ -116,6 +116,17 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
         symbols.identifiers.push({
           name: path.node.name,
           expression: path.node.name,
+          location: { start, end }
+        });
+      }
+
+      if (t.isVariableDeclarator(path)) {
+        const node = path.node.id;
+        const { start, end } = path.node.loc;
+
+        symbols.identifiers.push({
+          name: node.name,
+          expression: node.name,
           location: { start, end }
         });
       }
@@ -129,6 +140,8 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
 function addProperty(name, expression, path, prevPath) {
   const computed = path && path.node.computed;
   const prevComputed = prevPath && prevPath.node.computed;
+  const prevArray = t.isArrayExpression(prevPath);
+  const array = t.isArrayExpression(path);
 
   if (expression === "") {
     if (computed) {
@@ -137,11 +150,14 @@ function addProperty(name, expression, path, prevPath) {
     return name;
   }
 
-  if (computed || t.isArrayExpression(path)) {
+  if (computed || array) {
+    if (prevComputed || prevArray) {
+      return `[${name}]${expression}`;
+    }
     return `[${name}].${expression}`;
   }
 
-  if (prevComputed || t.isArrayExpression(prevPath)) {
+  if (prevComputed || prevArray) {
     return `${name}${expression}`;
   }
 
@@ -243,6 +259,4 @@ function getExpression(path, prevPath, expression = "") {
   if (t.isArrayExpression(path)) {
     return getArrayExpression(path, prevPath, expression);
   }
-
-  console.log("hmm nothing found", expression);
 }

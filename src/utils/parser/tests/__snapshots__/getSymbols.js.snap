@@ -113,14 +113,28 @@ Array [
     "name": "b",
   },
   Object {
-    "expression": "com[b]",
+    "expression": "com[a][d]",
     "location": Object {
       "end": Position {
-        "column": 33,
+        "column": 31,
         "line": 5,
       },
       "start": Position {
-        "column": 32,
+        "column": 30,
+        "line": 5,
+      },
+    },
+    "name": "d",
+  },
+  Object {
+    "expression": "com[b]",
+    "location": Object {
+      "end": Position {
+        "column": 43,
+        "line": 5,
+      },
+      "start": Position {
+        "column": 42,
         "line": 5,
       },
     },

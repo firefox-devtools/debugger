@@ -1,10 +1,11 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
 import getSymbols from "../getSymbols";
-import { getSource, createSource } from "./helpers";
+import { getSource } from "./helpers";
 
 function summarize(symbol) {
-  return `${symbol.location.start.line} - ${symbol.name}`;
+  const start = symbol.location.start;
+  return `(${start.line}, ${start.column}) ${symbol.expression}`;
 }
 
 describe("Parser.getSymbols", () => {
@@ -63,9 +64,25 @@ describe("Parser.getSymbols", () => {
 
   describe("properties", () => {
     fit("properties", () => {
-      const { objectProperties } = getSymbols(getSource("expression"));
+      const {
+        objectProperties,
+        memberExpressions,
+        identifiers,
+        variables
+      } = getSymbols(getSource("expression"));
 
-      console.log(objectProperties.map(prop => prop.expression).join("\n"));
+      console.log("properties");
+      console.log(objectProperties.map(summarize).join("\n"));
+
+      console.log("member expressions");
+      console.log(memberExpressions.map(summarize).join("\n"));
+
+      console.log("identifiers");
+      console.log(identifiers.map(summarize).join("\n"));
+
+      console.log("variables");
+      console.log(variables.map(p => p.name).join("\n"));
+
       expect(objectProperties).toMatchSnapshot();
     });
 
