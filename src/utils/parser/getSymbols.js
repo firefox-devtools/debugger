@@ -141,7 +141,7 @@ function addProperty(name, expression, path, prevPath) {
     return `[${name}].${expression}`;
   }
 
-  if (prevComputed) {
+  if (prevComputed || t.isArrayExpression(prevPath)) {
     return `${name}${expression}`;
   }
 
@@ -169,8 +169,7 @@ function getMemberExpression(node, expression = "") {
   return expression;
 }
 
-function getObjectExpression(path, expression = "") {
-  let prevPath = undefined;
+function getObjectExpression(path, prevPath, expression = "") {
   do {
     const name = path.node.key.name;
     expression = addProperty(name, expression, path, prevPath);
@@ -188,18 +187,19 @@ function getObjectExpression(path, expression = "") {
 function getArrayExpression(path, prevPath, expression) {
   if (t.isArrayExpression(path)) {
     const index = prevPath.parentPath.key;
-    // console.log(
-    //   "oy",
-    //   prevPath.parentPath.inList,
-    //   prevPath.parentPath.key,
-    //   prevPath.parentPath.type,
-    //   Object.keys(prevPath)
-    // );
-    return `[${index}].${expression}`;
+    prevPath = path;
+    path = path.parentPath && path.parentPath.parentPath;
+    return getExpression(path, prevPath, `[${index}].${expression}`);
   }
 }
 
 function getExpression(path, prevPath, expression = "") {
+  if (t.isVariableDeclaration(path)) {
+    const node = path.node.declarations[0];
+    const name = node.id.name;
+    return addProperty(name, expression, path, prevPath);
+  }
+
   if (t.isVariableDeclarator(path)) {
     const node = path.node.id;
     if (t.isObjectPattern(node)) {
@@ -222,7 +222,11 @@ function getExpression(path, prevPath, expression = "") {
   }
 
   if (t.isObjectProperty(path)) {
-    return getObjectExpression(path, expression);
+    return getObjectExpression(path, prevPath, expression);
+  }
+
+  if (t.isObjectExpression(path)) {
+    return getObjectExpression(prevPath.parentPath, prevPath, expression);
   }
 
   if (t.isMemberExpression(path)) {
@@ -232,4 +236,6 @@ function getExpression(path, prevPath, expression = "") {
   if (t.isArrayExpression(path)) {
     return getArrayExpression(path, prevPath, expression);
   }
+
+  console.log("hmm nothing found", expression);
 }
