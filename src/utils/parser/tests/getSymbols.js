@@ -1,6 +1,6 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-import getSymbols, { printSymbols } from "../getSymbols";
+import getSymbols from "../getSymbols";
 import { getSource } from "./helpers";
 
 describe("Parser.getSymbols", () => {

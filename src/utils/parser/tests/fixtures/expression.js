@@ -4,6 +4,10 @@ const foo = obj2.c.secondProperty; // e.g. foo.obj2.c.secondProperty
 // computed properties
 const com = { [a]: { b: "c", [d]: "e" }, [b]: 3 }; // e.g. com[a].b
 
+app.TodoView = Backbone.extend({
+  render: function() {}
+});
+
 // assignments
 obj.foo = { a: { b: "c" }, b: 3 }; // e.g. obj.foo.a.b
 com = { a: { b: "c" }, b: 3 }; // e.g. com.a.b

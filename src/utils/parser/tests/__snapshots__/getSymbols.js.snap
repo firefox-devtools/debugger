@@ -213,15 +213,85 @@ Array [
     "name": "b",
   },
   Object {
+    "expression": "app",
+    "location": Object {
+      "end": Position {
+        "column": 3,
+        "line": 7,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 7,
+      },
+    },
+    "name": "app",
+  },
+  Object {
+    "expression": "TodoView",
+    "location": Object {
+      "end": Position {
+        "column": 12,
+        "line": 7,
+      },
+      "start": Position {
+        "column": 4,
+        "line": 7,
+      },
+    },
+    "name": "TodoView",
+  },
+  Object {
+    "expression": "Backbone",
+    "location": Object {
+      "end": Position {
+        "column": 23,
+        "line": 7,
+      },
+      "start": Position {
+        "column": 15,
+        "line": 7,
+      },
+    },
+    "name": "Backbone",
+  },
+  Object {
+    "expression": "extend",
+    "location": Object {
+      "end": Position {
+        "column": 30,
+        "line": 7,
+      },
+      "start": Position {
+        "column": 24,
+        "line": 7,
+      },
+    },
+    "name": "extend",
+  },
+  Object {
+    "expression": "render",
+    "location": Object {
+      "end": Position {
+        "column": 8,
+        "line": 8,
+      },
+      "start": Position {
+        "column": 2,
+        "line": 8,
+      },
+    },
+    "name": "render",
+  },
+  Object {
     "expression": "obj",
     "location": Object {
       "end": Position {
         "column": 3,
-        "line": 8,
+        "line": 12,
       },
       "start": Position {
         "column": 0,
-        "line": 8,
+        "line": 12,
       },
     },
     "name": "obj",
@@ -231,11 +301,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 7,
-        "line": 8,
+        "line": 12,
       },
       "start": Position {
         "column": 4,
-        "line": 8,
+        "line": 12,
       },
     },
     "name": "foo",
@@ -245,11 +315,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 13,
-        "line": 8,
+        "line": 12,
       },
       "start": Position {
         "column": 12,
-        "line": 8,
+        "line": 12,
       },
     },
     "name": "a",
@@ -259,11 +329,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 18,
-        "line": 8,
+        "line": 12,
       },
       "start": Position {
         "column": 17,
-        "line": 8,
+        "line": 12,
       },
     },
     "name": "b",
@@ -273,11 +343,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 28,
-        "line": 8,
+        "line": 12,
       },
       "start": Position {
         "column": 27,
-        "line": 8,
+        "line": 12,
       },
     },
     "name": "b",
@@ -287,11 +357,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 3,
-        "line": 9,
+        "line": 13,
       },
       "start": Position {
         "column": 0,
-        "line": 9,
+        "line": 13,
       },
     },
     "name": "com",
@@ -301,11 +371,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 9,
-        "line": 9,
+        "line": 13,
       },
       "start": Position {
         "column": 8,
-        "line": 9,
+        "line": 13,
       },
     },
     "name": "a",
@@ -315,11 +385,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 14,
-        "line": 9,
+        "line": 13,
       },
       "start": Position {
         "column": 13,
-        "line": 9,
+        "line": 13,
       },
     },
     "name": "b",
@@ -329,11 +399,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 24,
-        "line": 9,
+        "line": 13,
       },
       "start": Position {
         "column": 23,
-        "line": 9,
+        "line": 13,
       },
     },
     "name": "b",
@@ -343,11 +413,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 32,
-        "line": 12,
+        "line": 16,
       },
       "start": Position {
         "column": 6,
-        "line": 12,
+        "line": 16,
       },
     },
     "name": "res",
@@ -357,11 +427,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 9,
-        "line": 12,
+        "line": 16,
       },
       "start": Position {
         "column": 6,
-        "line": 12,
+        "line": 16,
       },
     },
     "name": "res",
@@ -371,11 +441,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 12,
+        "line": 16,
       },
       "start": Position {
         "column": 15,
-        "line": 12,
+        "line": 16,
       },
     },
     "name": "a",
@@ -385,11 +455,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 26,
-        "line": 12,
+        "line": 16,
       },
       "start": Position {
         "column": 25,
-        "line": 12,
+        "line": 16,
       },
     },
     "name": "b",
@@ -399,11 +469,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 30,
-        "line": 13,
+        "line": 17,
       },
       "start": Position {
         "column": 6,
-        "line": 13,
+        "line": 17,
       },
     },
     "name": "res2",
@@ -413,11 +483,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 10,
-        "line": 13,
+        "line": 17,
       },
       "start": Position {
         "column": 6,
-        "line": 13,
+        "line": 17,
       },
     },
     "name": "res2",
@@ -427,11 +497,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 13,
+        "line": 17,
       },
       "start": Position {
         "column": 15,
-        "line": 13,
+        "line": 17,
       },
     },
     "name": "a",
@@ -441,11 +511,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 22,
-        "line": 13,
+        "line": 17,
       },
       "start": Position {
         "column": 21,
-        "line": 13,
+        "line": 17,
       },
     },
     "name": "b",
@@ -455,11 +525,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 45,
-        "line": 14,
+        "line": 18,
       },
       "start": Position {
         "column": 6,
-        "line": 14,
+        "line": 18,
       },
     },
     "name": "res3",
@@ -469,11 +539,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 10,
-        "line": 14,
+        "line": 18,
       },
       "start": Position {
         "column": 6,
-        "line": 14,
+        "line": 18,
       },
     },
     "name": "res3",
@@ -483,11 +553,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 14,
+        "line": 18,
       },
       "start": Position {
         "column": 15,
-        "line": 14,
+        "line": 18,
       },
     },
     "name": "a",
@@ -497,11 +567,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 22,
-        "line": 14,
+        "line": 18,
       },
       "start": Position {
         "column": 21,
-        "line": 14,
+        "line": 18,
       },
     },
     "name": "b",
@@ -511,11 +581,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 31,
-        "line": 14,
+        "line": 18,
       },
       "start": Position {
         "column": 30,
-        "line": 14,
+        "line": 18,
       },
     },
     "name": "b",
@@ -525,11 +595,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 37,
-        "line": 14,
+        "line": 18,
       },
       "start": Position {
         "column": 36,
-        "line": 14,
+        "line": 18,
       },
     },
     "name": "c",
@@ -539,11 +609,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 45,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 6,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "res4",
@@ -553,11 +623,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 10,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 6,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "res4",
@@ -567,11 +637,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 18,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 17,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "a",
@@ -581,11 +651,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 30,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 29,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "b",
@@ -595,11 +665,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 33,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 32,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "a",
@@ -609,11 +679,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 35,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 34,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "b",
@@ -623,11 +693,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 37,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 36,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "c",
@@ -637,11 +707,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 39,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 38,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "v",
@@ -651,11 +721,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 41,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 40,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "d",
@@ -665,11 +735,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 35,
-        "line": 18,
+        "line": 22,
       },
       "start": Position {
         "column": 6,
-        "line": 18,
+        "line": 22,
       },
     },
     "name": undefined,
@@ -679,11 +749,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 9,
-        "line": 18,
+        "line": 22,
       },
       "start": Position {
         "column": 8,
-        "line": 18,
+        "line": 22,
       },
     },
     "name": "b",
@@ -693,11 +763,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 9,
-        "line": 18,
+        "line": 22,
       },
       "start": Position {
         "column": 8,
-        "line": 18,
+        "line": 22,
       },
     },
     "name": "b",
@@ -707,11 +777,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 18,
+        "line": 22,
       },
       "start": Position {
         "column": 11,
-        "line": 18,
+        "line": 22,
       },
     },
     "name": "resty",
@@ -721,11 +791,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 18,
+        "line": 22,
       },
       "start": Position {
         "column": 11,
-        "line": 18,
+        "line": 22,
       },
     },
     "name": "resty",
@@ -735,11 +805,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 28,
-        "line": 18,
+        "line": 22,
       },
       "start": Position {
         "column": 21,
-        "line": 18,
+        "line": 22,
       },
     },
     "name": "compute",
@@ -749,11 +819,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 34,
-        "line": 18,
+        "line": 22,
       },
       "start": Position {
         "column": 29,
-        "line": 18,
+        "line": 22,
       },
     },
     "name": "stuff",
@@ -763,11 +833,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 35,
-        "line": 19,
+        "line": 23,
       },
       "start": Position {
         "column": 6,
-        "line": 19,
+        "line": 23,
       },
     },
     "name": undefined,
@@ -777,11 +847,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 8,
-        "line": 19,
+        "line": 23,
       },
       "start": Position {
         "column": 7,
-        "line": 19,
+        "line": 23,
       },
     },
     "name": "a",
@@ -791,11 +861,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 17,
-        "line": 19,
+        "line": 23,
       },
       "start": Position {
         "column": 13,
-        "line": 19,
+        "line": 23,
       },
     },
     "name": "rest",
@@ -805,11 +875,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 28,
-        "line": 19,
+        "line": 23,
       },
       "start": Position {
         "column": 21,
-        "line": 19,
+        "line": 23,
       },
     },
     "name": "compute",
@@ -819,11 +889,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 34,
-        "line": 19,
+        "line": 23,
       },
       "start": Position {
         "column": 29,
-        "line": 19,
+        "line": 23,
       },
     },
     "name": "stuff",
@@ -833,11 +903,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 15,
-        "line": 21,
+        "line": 25,
       },
       "start": Position {
         "column": 9,
-        "line": 21,
+        "line": 25,
       },
     },
     "name": "params",
@@ -847,11 +917,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 19,
-        "line": 21,
+        "line": 25,
       },
       "start": Position {
         "column": 18,
-        "line": 21,
+        "line": 25,
       },
     },
     "name": "a",
@@ -861,11 +931,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 19,
-        "line": 21,
+        "line": 25,
       },
       "start": Position {
         "column": 18,
-        "line": 21,
+        "line": 25,
       },
     },
     "name": "a",
@@ -875,11 +945,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 22,
-        "line": 21,
+        "line": 25,
       },
       "start": Position {
         "column": 21,
-        "line": 21,
+        "line": 25,
       },
     },
     "name": "b",
@@ -889,11 +959,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 22,
-        "line": 21,
+        "line": 25,
       },
       "start": Position {
         "column": 21,
-        "line": 21,
+        "line": 25,
       },
     },
     "name": "b",
@@ -903,11 +973,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 32,
-        "line": 22,
+        "line": 26,
       },
       "start": Position {
         "column": 4,
-        "line": 22,
+        "line": 26,
       },
     },
     "name": "pars",
@@ -917,11 +987,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 8,
-        "line": 22,
+        "line": 26,
       },
       "start": Position {
         "column": 4,
-        "line": 22,
+        "line": 26,
       },
     },
     "name": "pars",
@@ -931,11 +1001,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 23,
-        "line": 22,
+        "line": 26,
       },
       "start": Position {
         "column": 22,
-        "line": 22,
+        "line": 26,
       },
     },
     "name": "a",
@@ -945,11 +1015,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 23,
-        "line": 22,
+        "line": 26,
       },
       "start": Position {
         "column": 22,
-        "line": 22,
+        "line": 26,
       },
     },
     "name": "a",
@@ -959,11 +1029,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 26,
-        "line": 22,
+        "line": 26,
       },
       "start": Position {
         "column": 25,
-        "line": 22,
+        "line": 26,
       },
     },
     "name": "b",
@@ -973,11 +1043,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 26,
-        "line": 22,
+        "line": 26,
       },
       "start": Position {
         "column": 25,
-        "line": 22,
+        "line": 26,
       },
     },
     "name": "b",
@@ -987,11 +1057,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 43,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 6,
-        "line": 23,
+        "line": 27,
       },
     },
     "name": "evil",
@@ -1001,11 +1071,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 10,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 6,
-        "line": 23,
+        "line": 27,
       },
     },
     "name": "evil",
@@ -1015,11 +1085,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 17,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 13,
-        "line": 23,
+        "line": 27,
       },
     },
     "name": "obj2",
@@ -1029,11 +1099,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 24,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 18,
-        "line": 23,
+        "line": 27,
       },
     },
     "name": "doEvil",
@@ -1043,11 +1113,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 28,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 27,
-        "line": 23,
+        "line": 27,
       },
     },
     "name": "c",
@@ -1057,11 +1127,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 43,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 29,
-        "line": 23,
+        "line": 27,
       },
     },
     "name": "secondProperty",
@@ -1120,25 +1190,73 @@ Array [
     "name": "c",
   },
   Object {
+    "expression": "app.TodoView",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 12,
+        "line": 7,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 7,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 12,
+        "line": 7,
+      },
+      "start": Position {
+        "column": 4,
+        "line": 7,
+      },
+    },
+    "name": "TodoView",
+  },
+  Object {
+    "expression": "Backbone.extend",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 30,
+        "line": 7,
+      },
+      "start": Position {
+        "column": 15,
+        "line": 7,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 30,
+        "line": 7,
+      },
+      "start": Position {
+        "column": 24,
+        "line": 7,
+      },
+    },
+    "name": "extend",
+  },
+  Object {
     "expression": "obj.foo",
     "expressionLocation": SourceLocation {
       "end": Position {
         "column": 7,
-        "line": 8,
+        "line": 12,
       },
       "start": Position {
         "column": 0,
-        "line": 8,
+        "line": 12,
       },
     },
     "location": Object {
       "end": Position {
         "column": 7,
-        "line": 8,
+        "line": 12,
       },
       "start": Position {
         "column": 4,
-        "line": 8,
+        "line": 12,
       },
     },
     "name": "foo",
@@ -1148,21 +1266,21 @@ Array [
     "expressionLocation": SourceLocation {
       "end": Position {
         "column": 41,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 32,
-        "line": 15,
+        "line": 19,
       },
     },
     "location": Object {
       "end": Position {
         "column": 41,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 40,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "d",
@@ -1172,21 +1290,21 @@ Array [
     "expressionLocation": SourceLocation {
       "end": Position {
         "column": 39,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 32,
-        "line": 15,
+        "line": 19,
       },
     },
     "location": Object {
       "end": Position {
         "column": 39,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 38,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "v",
@@ -1196,21 +1314,21 @@ Array [
     "expressionLocation": SourceLocation {
       "end": Position {
         "column": 37,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 32,
-        "line": 15,
+        "line": 19,
       },
     },
     "location": Object {
       "end": Position {
         "column": 37,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 36,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "c",
@@ -1220,21 +1338,21 @@ Array [
     "expressionLocation": SourceLocation {
       "end": Position {
         "column": 35,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 32,
-        "line": 15,
+        "line": 19,
       },
     },
     "location": Object {
       "end": Position {
         "column": 35,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 34,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "b",
@@ -1244,21 +1362,21 @@ Array [
     "expressionLocation": SourceLocation {
       "end": Position {
         "column": 43,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 13,
-        "line": 23,
+        "line": 27,
       },
     },
     "location": Object {
       "end": Position {
         "column": 43,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 29,
-        "line": 23,
+        "line": 27,
       },
     },
     "name": "secondProperty",
@@ -1268,21 +1386,21 @@ Array [
     "expressionLocation": SourceLocation {
       "end": Position {
         "column": 28,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 13,
-        "line": 23,
+        "line": 27,
       },
     },
     "location": Object {
       "end": Position {
         "column": 28,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 27,
-        "line": 23,
+        "line": 27,
       },
     },
     "name": "c",
@@ -1292,21 +1410,21 @@ Array [
     "expressionLocation": SourceLocation {
       "end": Position {
         "column": 24,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 13,
-        "line": 23,
+        "line": 27,
       },
     },
     "location": Object {
       "end": Position {
         "column": 24,
-        "line": 23,
+        "line": 27,
       },
       "start": Position {
         "column": 18,
-        "line": 23,
+        "line": 27,
       },
     },
     "name": "doEvil",
@@ -1401,15 +1519,29 @@ Array [
     "name": "b",
   },
   Object {
+    "expression": undefined,
+    "location": Object {
+      "end": Position {
+        "column": 8,
+        "line": 8,
+      },
+      "start": Position {
+        "column": 2,
+        "line": 8,
+      },
+    },
+    "name": "render",
+  },
+  Object {
     "expression": "obj.foo.a",
     "location": Object {
       "end": Position {
         "column": 13,
-        "line": 8,
+        "line": 12,
       },
       "start": Position {
         "column": 12,
-        "line": 8,
+        "line": 12,
       },
     },
     "name": "a",
@@ -1419,11 +1551,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 18,
-        "line": 8,
+        "line": 12,
       },
       "start": Position {
         "column": 17,
-        "line": 8,
+        "line": 12,
       },
     },
     "name": "b",
@@ -1433,11 +1565,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 28,
-        "line": 8,
+        "line": 12,
       },
       "start": Position {
         "column": 27,
-        "line": 8,
+        "line": 12,
       },
     },
     "name": "b",
@@ -1447,11 +1579,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 9,
-        "line": 9,
+        "line": 13,
       },
       "start": Position {
         "column": 8,
-        "line": 9,
+        "line": 13,
       },
     },
     "name": "a",
@@ -1461,11 +1593,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 14,
-        "line": 9,
+        "line": 13,
       },
       "start": Position {
         "column": 13,
-        "line": 9,
+        "line": 13,
       },
     },
     "name": "b",
@@ -1475,11 +1607,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 24,
-        "line": 9,
+        "line": 13,
       },
       "start": Position {
         "column": 23,
-        "line": 9,
+        "line": 13,
       },
     },
     "name": "b",
@@ -1489,11 +1621,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 12,
+        "line": 16,
       },
       "start": Position {
         "column": 15,
-        "line": 12,
+        "line": 16,
       },
     },
     "name": "a",
@@ -1503,11 +1635,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 26,
-        "line": 12,
+        "line": 16,
       },
       "start": Position {
         "column": 25,
-        "line": 12,
+        "line": 16,
       },
     },
     "name": "b",
@@ -1517,11 +1649,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 13,
+        "line": 17,
       },
       "start": Position {
         "column": 15,
-        "line": 13,
+        "line": 17,
       },
     },
     "name": "a",
@@ -1531,11 +1663,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 22,
-        "line": 13,
+        "line": 17,
       },
       "start": Position {
         "column": 21,
-        "line": 13,
+        "line": 17,
       },
     },
     "name": "b",
@@ -1545,11 +1677,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 14,
+        "line": 18,
       },
       "start": Position {
         "column": 15,
-        "line": 14,
+        "line": 18,
       },
     },
     "name": "a",
@@ -1559,11 +1691,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 22,
-        "line": 14,
+        "line": 18,
       },
       "start": Position {
         "column": 21,
-        "line": 14,
+        "line": 18,
       },
     },
     "name": "b",
@@ -1573,11 +1705,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 31,
-        "line": 14,
+        "line": 18,
       },
       "start": Position {
         "column": 30,
-        "line": 14,
+        "line": 18,
       },
     },
     "name": "b",
@@ -1587,11 +1719,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 37,
-        "line": 14,
+        "line": 18,
       },
       "start": Position {
         "column": 36,
-        "line": 14,
+        "line": 18,
       },
     },
     "name": "c",
@@ -1601,11 +1733,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 18,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 17,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "a",
@@ -1615,11 +1747,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 30,
-        "line": 15,
+        "line": 19,
       },
       "start": Position {
         "column": 29,
-        "line": 15,
+        "line": 19,
       },
     },
     "name": "b",
@@ -1629,11 +1761,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 9,
-        "line": 18,
+        "line": 22,
       },
       "start": Position {
         "column": 8,
-        "line": 18,
+        "line": 22,
       },
     },
     "name": "b",
@@ -1643,11 +1775,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 16,
-        "line": 18,
+        "line": 22,
       },
       "start": Position {
         "column": 11,
-        "line": 18,
+        "line": 22,
       },
     },
     "name": "resty",
@@ -1657,11 +1789,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 19,
-        "line": 21,
+        "line": 25,
       },
       "start": Position {
         "column": 18,
-        "line": 21,
+        "line": 25,
       },
     },
     "name": "a",
@@ -1671,11 +1803,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 22,
-        "line": 21,
+        "line": 25,
       },
       "start": Position {
         "column": 21,
-        "line": 21,
+        "line": 25,
       },
     },
     "name": "b",
@@ -1685,11 +1817,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 23,
-        "line": 22,
+        "line": 26,
       },
       "start": Position {
         "column": 22,
-        "line": 22,
+        "line": 26,
       },
     },
     "name": "a",
@@ -1699,11 +1831,11 @@ Array [
     "location": Object {
       "end": Position {
         "column": 26,
-        "line": 22,
+        "line": 26,
       },
       "start": Position {
         "column": 25,
-        "line": 22,
+        "line": 26,
       },
     },
     "name": "b",
