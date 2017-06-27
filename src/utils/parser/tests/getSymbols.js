@@ -39,7 +39,7 @@ describe("Parser.getSymbols", () => {
     expect(symbols).toMatchSnapshot();
   });
 
-  it("finds function, variable and class declarations", () => {
+  it("finds symbols in an html file", () => {
     const symbols = getSymbols(getSource("parseScriptTags", "html"));
     expect(symbols).toMatchSnapshot();
   });

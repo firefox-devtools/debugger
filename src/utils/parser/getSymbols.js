@@ -270,8 +270,10 @@ export function printSymbols(source) {
   } = getSymbols(source);
 
   function summarize(symbol) {
-    const start = symbol.location.start;
-    return `(${start.line}, ${start.column}) ${symbol.expression}`;
+    const { start, end } = symbol.location;
+    const startLoc = `(${start.line}, ${start.column})`;
+    const endLoc = `(${end.line}, ${end.column})`;
+    return `[${startLoc}, ${endLoc}] ${symbol.expression}`;
   }
 
   console.log(
