@@ -260,3 +260,33 @@ function getExpression(path, prevPath, expression = "") {
     return getArrayExpression(path, prevPath, expression);
   }
 }
+
+export function printSymbols(source) {
+  const {
+    objectProperties,
+    memberExpressions,
+    identifiers,
+    variables
+  } = getSymbols(source);
+
+  function summarize(symbol) {
+    const start = symbol.location.start;
+    return `(${start.line}, ${start.column}) ${symbol.expression}`;
+  }
+
+  console.log(
+    [
+      "properties",
+      objectProperties.map(summarize).join("\n"),
+
+      "member expressions",
+      memberExpressions.map(summarize).join("\n"),
+
+      "identifiers",
+      identifiers.map(summarize).join("\n"),
+
+      "variables",
+      variables.map(p => p.name).join("\n")
+    ].join("\n")
+  );
+}

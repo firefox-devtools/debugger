@@ -1,57 +1,1317 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Parser.getSymbols properties identifiers 1`] = `
-Object {
-  "identifiers": Array [
-    Object {
-      "expression": "res",
-      "location": Object {
-        "end": Position {
-          "column": 9,
-          "line": 14,
-        },
-        "start": Position {
-          "column": 6,
-          "line": 14,
-        },
+Array [
+  Object {
+    "expression": "obj",
+    "location": Object {
+      "end": Position {
+        "column": 27,
+        "line": 1,
       },
-      "name": "res",
-    },
-    Object {
-      "expression": "a",
-      "location": Object {
-        "end": Position {
-          "column": 15,
-          "line": 14,
-        },
-        "start": Position {
-          "column": 14,
-          "line": 14,
-        },
+      "start": Position {
+        "column": 6,
+        "line": 1,
       },
-      "name": "a",
     },
-    Object {
-      "expression": "b",
-      "location": Object {
-        "end": Position {
-          "column": 23,
-          "line": 14,
-        },
-        "start": Position {
-          "column": 22,
-          "line": 14,
-        },
+    "name": "obj",
+  },
+  Object {
+    "expression": "obj",
+    "location": Object {
+      "end": Position {
+        "column": 9,
+        "line": 1,
       },
-      "name": "b",
+      "start": Position {
+        "column": 6,
+        "line": 1,
+      },
     },
-  ],
-  "summary": Array [
-    "14 - res",
-    "14 - a",
-    "14 - b",
-  ],
-}
+    "name": "obj",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 15,
+        "line": 1,
+      },
+      "start": Position {
+        "column": 14,
+        "line": 1,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 20,
+        "line": 1,
+      },
+      "start": Position {
+        "column": 19,
+        "line": 1,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "foo",
+    "location": Object {
+      "end": Position {
+        "column": 33,
+        "line": 2,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 2,
+      },
+    },
+    "name": "foo",
+  },
+  Object {
+    "expression": "foo",
+    "location": Object {
+      "end": Position {
+        "column": 9,
+        "line": 2,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 2,
+      },
+    },
+    "name": "foo",
+  },
+  Object {
+    "expression": "obj2",
+    "location": Object {
+      "end": Position {
+        "column": 16,
+        "line": 2,
+      },
+      "start": Position {
+        "column": 12,
+        "line": 2,
+      },
+    },
+    "name": "obj2",
+  },
+  Object {
+    "expression": "c",
+    "location": Object {
+      "end": Position {
+        "column": 18,
+        "line": 2,
+      },
+      "start": Position {
+        "column": 17,
+        "line": 2,
+      },
+    },
+    "name": "c",
+  },
+  Object {
+    "expression": "secondProperty",
+    "location": Object {
+      "end": Position {
+        "column": 33,
+        "line": 2,
+      },
+      "start": Position {
+        "column": 19,
+        "line": 2,
+      },
+    },
+    "name": "secondProperty",
+  },
+  Object {
+    "expression": "com",
+    "location": Object {
+      "end": Position {
+        "column": 49,
+        "line": 5,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 5,
+      },
+    },
+    "name": "com",
+  },
+  Object {
+    "expression": "com",
+    "location": Object {
+      "end": Position {
+        "column": 9,
+        "line": 5,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 5,
+      },
+    },
+    "name": "com",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 16,
+        "line": 5,
+      },
+      "start": Position {
+        "column": 15,
+        "line": 5,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 22,
+        "line": 5,
+      },
+      "start": Position {
+        "column": 21,
+        "line": 5,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "d",
+    "location": Object {
+      "end": Position {
+        "column": 31,
+        "line": 5,
+      },
+      "start": Position {
+        "column": 30,
+        "line": 5,
+      },
+    },
+    "name": "d",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 43,
+        "line": 5,
+      },
+      "start": Position {
+        "column": 42,
+        "line": 5,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "obj",
+    "location": Object {
+      "end": Position {
+        "column": 3,
+        "line": 8,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 8,
+      },
+    },
+    "name": "obj",
+  },
+  Object {
+    "expression": "foo",
+    "location": Object {
+      "end": Position {
+        "column": 7,
+        "line": 8,
+      },
+      "start": Position {
+        "column": 4,
+        "line": 8,
+      },
+    },
+    "name": "foo",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 13,
+        "line": 8,
+      },
+      "start": Position {
+        "column": 12,
+        "line": 8,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 18,
+        "line": 8,
+      },
+      "start": Position {
+        "column": 17,
+        "line": 8,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 28,
+        "line": 8,
+      },
+      "start": Position {
+        "column": 27,
+        "line": 8,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "com",
+    "location": Object {
+      "end": Position {
+        "column": 3,
+        "line": 9,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 9,
+      },
+    },
+    "name": "com",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 9,
+        "line": 9,
+      },
+      "start": Position {
+        "column": 8,
+        "line": 9,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 14,
+        "line": 9,
+      },
+      "start": Position {
+        "column": 13,
+        "line": 9,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 24,
+        "line": 9,
+      },
+      "start": Position {
+        "column": 23,
+        "line": 9,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "res",
+    "location": Object {
+      "end": Position {
+        "column": 32,
+        "line": 12,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 12,
+      },
+    },
+    "name": "res",
+  },
+  Object {
+    "expression": "res",
+    "location": Object {
+      "end": Position {
+        "column": 9,
+        "line": 12,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 12,
+      },
+    },
+    "name": "res",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 16,
+        "line": 12,
+      },
+      "start": Position {
+        "column": 15,
+        "line": 12,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 26,
+        "line": 12,
+      },
+      "start": Position {
+        "column": 25,
+        "line": 12,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "res2",
+    "location": Object {
+      "end": Position {
+        "column": 30,
+        "line": 13,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 13,
+      },
+    },
+    "name": "res2",
+  },
+  Object {
+    "expression": "res2",
+    "location": Object {
+      "end": Position {
+        "column": 10,
+        "line": 13,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 13,
+      },
+    },
+    "name": "res2",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 16,
+        "line": 13,
+      },
+      "start": Position {
+        "column": 15,
+        "line": 13,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 22,
+        "line": 13,
+      },
+      "start": Position {
+        "column": 21,
+        "line": 13,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "res3",
+    "location": Object {
+      "end": Position {
+        "column": 45,
+        "line": 14,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 14,
+      },
+    },
+    "name": "res3",
+  },
+  Object {
+    "expression": "res3",
+    "location": Object {
+      "end": Position {
+        "column": 10,
+        "line": 14,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 14,
+      },
+    },
+    "name": "res3",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 16,
+        "line": 14,
+      },
+      "start": Position {
+        "column": 15,
+        "line": 14,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 22,
+        "line": 14,
+      },
+      "start": Position {
+        "column": 21,
+        "line": 14,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 31,
+        "line": 14,
+      },
+      "start": Position {
+        "column": 30,
+        "line": 14,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "c",
+    "location": Object {
+      "end": Position {
+        "column": 37,
+        "line": 14,
+      },
+      "start": Position {
+        "column": 36,
+        "line": 14,
+      },
+    },
+    "name": "c",
+  },
+  Object {
+    "expression": "res4",
+    "location": Object {
+      "end": Position {
+        "column": 45,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 15,
+      },
+    },
+    "name": "res4",
+  },
+  Object {
+    "expression": "res4",
+    "location": Object {
+      "end": Position {
+        "column": 10,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 15,
+      },
+    },
+    "name": "res4",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 18,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 17,
+        "line": 15,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 30,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 29,
+        "line": 15,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 33,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 32,
+        "line": 15,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 35,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 34,
+        "line": 15,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "c",
+    "location": Object {
+      "end": Position {
+        "column": 37,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 36,
+        "line": 15,
+      },
+    },
+    "name": "c",
+  },
+  Object {
+    "expression": "v",
+    "location": Object {
+      "end": Position {
+        "column": 39,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 38,
+        "line": 15,
+      },
+    },
+    "name": "v",
+  },
+  Object {
+    "expression": "d",
+    "location": Object {
+      "end": Position {
+        "column": 41,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 40,
+        "line": 15,
+      },
+    },
+    "name": "d",
+  },
+  Object {
+    "expression": undefined,
+    "location": Object {
+      "end": Position {
+        "column": 35,
+        "line": 18,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 18,
+      },
+    },
+    "name": undefined,
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 9,
+        "line": 18,
+      },
+      "start": Position {
+        "column": 8,
+        "line": 18,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 9,
+        "line": 18,
+      },
+      "start": Position {
+        "column": 8,
+        "line": 18,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "resty",
+    "location": Object {
+      "end": Position {
+        "column": 16,
+        "line": 18,
+      },
+      "start": Position {
+        "column": 11,
+        "line": 18,
+      },
+    },
+    "name": "resty",
+  },
+  Object {
+    "expression": "resty",
+    "location": Object {
+      "end": Position {
+        "column": 16,
+        "line": 18,
+      },
+      "start": Position {
+        "column": 11,
+        "line": 18,
+      },
+    },
+    "name": "resty",
+  },
+  Object {
+    "expression": "compute",
+    "location": Object {
+      "end": Position {
+        "column": 28,
+        "line": 18,
+      },
+      "start": Position {
+        "column": 21,
+        "line": 18,
+      },
+    },
+    "name": "compute",
+  },
+  Object {
+    "expression": "stuff",
+    "location": Object {
+      "end": Position {
+        "column": 34,
+        "line": 18,
+      },
+      "start": Position {
+        "column": 29,
+        "line": 18,
+      },
+    },
+    "name": "stuff",
+  },
+  Object {
+    "expression": undefined,
+    "location": Object {
+      "end": Position {
+        "column": 35,
+        "line": 19,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 19,
+      },
+    },
+    "name": undefined,
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 8,
+        "line": 19,
+      },
+      "start": Position {
+        "column": 7,
+        "line": 19,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "rest",
+    "location": Object {
+      "end": Position {
+        "column": 17,
+        "line": 19,
+      },
+      "start": Position {
+        "column": 13,
+        "line": 19,
+      },
+    },
+    "name": "rest",
+  },
+  Object {
+    "expression": "compute",
+    "location": Object {
+      "end": Position {
+        "column": 28,
+        "line": 19,
+      },
+      "start": Position {
+        "column": 21,
+        "line": 19,
+      },
+    },
+    "name": "compute",
+  },
+  Object {
+    "expression": "stuff",
+    "location": Object {
+      "end": Position {
+        "column": 34,
+        "line": 19,
+      },
+      "start": Position {
+        "column": 29,
+        "line": 19,
+      },
+    },
+    "name": "stuff",
+  },
+  Object {
+    "expression": "params",
+    "location": Object {
+      "end": Position {
+        "column": 15,
+        "line": 21,
+      },
+      "start": Position {
+        "column": 9,
+        "line": 21,
+      },
+    },
+    "name": "params",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 19,
+        "line": 21,
+      },
+      "start": Position {
+        "column": 18,
+        "line": 21,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 19,
+        "line": 21,
+      },
+      "start": Position {
+        "column": 18,
+        "line": 21,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 22,
+        "line": 21,
+      },
+      "start": Position {
+        "column": 21,
+        "line": 21,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 22,
+        "line": 21,
+      },
+      "start": Position {
+        "column": 21,
+        "line": 21,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "pars",
+    "location": Object {
+      "end": Position {
+        "column": 32,
+        "line": 22,
+      },
+      "start": Position {
+        "column": 4,
+        "line": 22,
+      },
+    },
+    "name": "pars",
+  },
+  Object {
+    "expression": "pars",
+    "location": Object {
+      "end": Position {
+        "column": 8,
+        "line": 22,
+      },
+      "start": Position {
+        "column": 4,
+        "line": 22,
+      },
+    },
+    "name": "pars",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 23,
+        "line": 22,
+      },
+      "start": Position {
+        "column": 22,
+        "line": 22,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "a",
+    "location": Object {
+      "end": Position {
+        "column": 23,
+        "line": 22,
+      },
+      "start": Position {
+        "column": 22,
+        "line": 22,
+      },
+    },
+    "name": "a",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 26,
+        "line": 22,
+      },
+      "start": Position {
+        "column": 25,
+        "line": 22,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "b",
+    "location": Object {
+      "end": Position {
+        "column": 26,
+        "line": 22,
+      },
+      "start": Position {
+        "column": 25,
+        "line": 22,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "evil",
+    "location": Object {
+      "end": Position {
+        "column": 43,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 23,
+      },
+    },
+    "name": "evil",
+  },
+  Object {
+    "expression": "evil",
+    "location": Object {
+      "end": Position {
+        "column": 10,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 6,
+        "line": 23,
+      },
+    },
+    "name": "evil",
+  },
+  Object {
+    "expression": "obj2",
+    "location": Object {
+      "end": Position {
+        "column": 17,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 13,
+        "line": 23,
+      },
+    },
+    "name": "obj2",
+  },
+  Object {
+    "expression": "doEvil",
+    "location": Object {
+      "end": Position {
+        "column": 24,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 18,
+        "line": 23,
+      },
+    },
+    "name": "doEvil",
+  },
+  Object {
+    "expression": "c",
+    "location": Object {
+      "end": Position {
+        "column": 28,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 27,
+        "line": 23,
+      },
+    },
+    "name": "c",
+  },
+  Object {
+    "expression": "secondProperty",
+    "location": Object {
+      "end": Position {
+        "column": 43,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 29,
+        "line": 23,
+      },
+    },
+    "name": "secondProperty",
+  },
+]
+`;
+
+exports[`Parser.getSymbols properties members 1`] = `
+Array [
+  Object {
+    "expression": "obj2.c.secondProperty",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 33,
+        "line": 2,
+      },
+      "start": Position {
+        "column": 12,
+        "line": 2,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 33,
+        "line": 2,
+      },
+      "start": Position {
+        "column": 19,
+        "line": 2,
+      },
+    },
+    "name": "secondProperty",
+  },
+  Object {
+    "expression": "obj2.c",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 18,
+        "line": 2,
+      },
+      "start": Position {
+        "column": 12,
+        "line": 2,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 18,
+        "line": 2,
+      },
+      "start": Position {
+        "column": 17,
+        "line": 2,
+      },
+    },
+    "name": "c",
+  },
+  Object {
+    "expression": "obj.foo",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 7,
+        "line": 8,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 8,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 7,
+        "line": 8,
+      },
+      "start": Position {
+        "column": 4,
+        "line": 8,
+      },
+    },
+    "name": "foo",
+  },
+  Object {
+    "expression": "a.b.c.v.d",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 41,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 32,
+        "line": 15,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 41,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 40,
+        "line": 15,
+      },
+    },
+    "name": "d",
+  },
+  Object {
+    "expression": "a.b.c.v",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 39,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 32,
+        "line": 15,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 39,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 38,
+        "line": 15,
+      },
+    },
+    "name": "v",
+  },
+  Object {
+    "expression": "a.b.c",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 37,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 32,
+        "line": 15,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 37,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 36,
+        "line": 15,
+      },
+    },
+    "name": "c",
+  },
+  Object {
+    "expression": "a.b",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 35,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 32,
+        "line": 15,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 35,
+        "line": 15,
+      },
+      "start": Position {
+        "column": 34,
+        "line": 15,
+      },
+    },
+    "name": "b",
+  },
+  Object {
+    "expression": "",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 43,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 13,
+        "line": 23,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 43,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 29,
+        "line": 23,
+      },
+    },
+    "name": "secondProperty",
+  },
+  Object {
+    "expression": "",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 28,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 13,
+        "line": 23,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 28,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 27,
+        "line": 23,
+      },
+    },
+    "name": "c",
+  },
+  Object {
+    "expression": "obj2.doEvil",
+    "expressionLocation": SourceLocation {
+      "end": Position {
+        "column": 24,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 13,
+        "line": 23,
+      },
+    },
+    "location": Object {
+      "end": Position {
+        "column": 24,
+        "line": 23,
+      },
+      "start": Position {
+        "column": 18,
+        "line": 23,
+      },
+    },
+    "name": "doEvil",
+  },
+]
 `;
 
 exports[`Parser.getSymbols properties properties 1`] = `

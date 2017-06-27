@@ -1,12 +1,7 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-import getSymbols from "../getSymbols";
+import getSymbols, { printSymbols } from "../getSymbols";
 import { getSource } from "./helpers";
-
-function summarize(symbol) {
-  const start = symbol.location.start;
-  return `(${start.line}, ${start.column}) ${symbol.expression}`;
-}
 
 describe("Parser.getSymbols", () => {
   describe("functions", () => {
@@ -63,74 +58,19 @@ describe("Parser.getSymbols", () => {
   });
 
   describe("properties", () => {
-    fit("properties", () => {
-      const {
-        objectProperties,
-        memberExpressions,
-        identifiers,
-        variables
-      } = getSymbols(getSource("expression"));
-
-      console.log("properties");
-      console.log(objectProperties.map(summarize).join("\n"));
-
-      console.log("member expressions");
-      console.log(memberExpressions.map(summarize).join("\n"));
-
-      console.log("identifiers");
-      console.log(identifiers.map(summarize).join("\n"));
-
-      console.log("variables");
-      console.log(variables.map(p => p.name).join("\n"));
-
+    it("properties", () => {
+      const { objectProperties } = getSymbols(getSource("expression"));
       expect(objectProperties).toMatchSnapshot();
     });
 
     it("identifiers", () => {
       const { identifiers } = getSymbols(getSource("expression"));
-      const summary = identifiers.map(summarize);
-      expect({ summary, identifiers }).toMatchSnapshot();
+      expect(identifiers).toMatchSnapshot();
     });
 
     it("members", () => {
-      const memberExpressions = getSymbols(getSource("expression"))
-        .memberExpressions;
-
-      const names = memberExpressions.map(f => f.name);
-      const locations = memberExpressions.map(f => f.location);
-      const expressionLocations = memberExpressions.map(
-        f => f.expressionLocation
-      );
-      const expressions = memberExpressions.map(f => f.expression);
-
-      expect(expressionLocations[0]).toEqual({
-        end: { column: 35, line: 4 },
-        start: { column: 14, line: 4 }
-      });
-
-      expect(expressions).toEqual([
-        "obj2.c.secondProperty",
-        "obj2.c",
-        "obj.a.b",
-        "obj.a",
-        "",
-        "",
-        "obj2.doEvil"
-      ]);
-
-      expect(locations[0]).toEqual({
-        end: { column: 35, line: 4 },
-        start: { column: 21, line: 4 }
-      });
-      expect(names).toEqual([
-        "secondProperty",
-        "c",
-        "b",
-        "a",
-        "secondProperty",
-        "c",
-        "doEvil"
-      ]);
+      const { memberExpressions } = getSymbols(getSource("expression"));
+      expect(memberExpressions).toMatchSnapshot();
     });
   });
 
