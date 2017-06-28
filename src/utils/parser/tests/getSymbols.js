@@ -1,107 +1,46 @@
 /* eslint max-nested-callbacks: ["error", 4]*/
 
-import getSymbols from "../getSymbols";
-import { getSourceText } from "./helpers";
+import { formatSymbols } from "../getSymbols";
+import { getSource } from "./helpers";
 
 describe("Parser.getSymbols", () => {
-  describe("functions", () => {
-    it("finds functions", () => {
-      const fncs = getSymbols(getSourceText("func")).functions;
-
-      const names = fncs.map(f => f.name);
-      expect(names).toEqual(["square", "child", "anonymous"]);
-    });
-
-    it("finds functions parameters", () => {
-      const fncs = getSymbols(getSourceText("func")).functions;
-
-      const names = fncs.map(f => f.parameterNames);
-      expect(names).toEqual([["n"], [], []]);
-    });
-
-    it("finds nested functions", () => {
-      const fncs = getSymbols(getSourceText("math")).functions;
-      const names = fncs.map(f => f.name);
-
-      expect(names).toEqual(["math", "square", "child", "child2"]);
-    });
-
-    it("finds object properties", () => {
-      const fncs = getSymbols(getSourceText("proto")).functions;
-      const names = fncs.map(f => f.name);
-
-      expect(names).toEqual(["foo", "bar", "initialize", "doThing", "render"]);
-    });
-
-    it("finds class methods", () => {
-      const fncs = getSymbols(getSourceText("class")).functions;
-      const names = fncs.map(f => f.name);
-      expect(names).toEqual(["constructor", "bar"]);
-    });
+  it("func", () => {
+    const symbols = formatSymbols(getSource("func"));
+    expect(symbols).toMatchSnapshot();
   });
 
-  describe("variables", () => {
-    it("finds var, let, const", () => {
-      const vars = getSymbols(getSourceText("var")).variables;
-      const names = vars.map(v => v.name);
-      expect(names).toEqual(["foo", "bar", "baz", "a", "b"]);
-    });
-
-    it("finds arguments, properties", () => {
-      const protoVars = getSymbols(getSourceText("proto")).variables;
-      const classVars = getSymbols(getSourceText("class")).variables;
-      const protoNames = protoVars.map(v => v.name);
-      const classNames = classVars.map(v => v.name);
-      expect(protoNames).toEqual(["foo", "bar", "TodoView", "tagName", "b"]);
-      expect(classNames).toEqual(["Test", "a", "Test2", "expressiveClass"]);
-    });
+  it("math", () => {
+    const symbols = formatSymbols(getSource("math"));
+    expect(symbols).toMatchSnapshot();
   });
 
-  describe("All together", () => {
-    it("finds function, variable and class declarations", () => {
-      const allSymbols = getSymbols(getSourceText("allSymbols"));
-      expect(allSymbols.functions.map(f => f.name)).toEqual([
-        "incrementCounter",
-        "sum",
-        "doThing",
-        "doOtherThing",
-        "property",
-        "constructor",
-        "beAwesome"
-      ]);
-      expect(allSymbols.variables.map(v => v.name)).toEqual([
-        "TIME",
-        "count",
-        "counter",
-        "sum",
-        "a",
-        "b",
-        "Obj",
-        "foo",
-        "Ultra",
-        "person"
-      ]);
-    });
+  it("proto", () => {
+    const symbols = formatSymbols(getSource("proto"));
+    expect(symbols).toMatchSnapshot();
   });
 
-  describe("<script> content", () => {
-    it("finds function, variable and class declarations", () => {
-      const allSymbols = getSymbols(getSourceText("parseScriptTags", "html"));
-      expect(allSymbols.functions.map(f => f.name)).toEqual([
-        "sayHello",
-        "capitalize",
-        "iife"
-      ]);
-      expect(allSymbols.variables.map(v => v.name)).toEqual([
-        "globalObject",
-        "first",
-        "last",
-        "name",
-        "capitalize",
-        "name",
-        "greetAll",
-        "greeting"
-      ]);
-    });
+  it("class", () => {
+    const symbols = formatSymbols(getSource("class"));
+    expect(symbols).toMatchSnapshot();
+  });
+
+  it("var", () => {
+    const symbols = formatSymbols(getSource("var"));
+    expect(symbols).toMatchSnapshot();
+  });
+
+  it("expression", () => {
+    const symbols = formatSymbols(getSource("expression"));
+    expect(symbols).toMatchSnapshot();
+  });
+
+  it("allSymbols", () => {
+    const symbols = formatSymbols(getSource("allSymbols"));
+    expect(symbols).toMatchSnapshot();
+  });
+
+  it("finds symbols in an html file", () => {
+    const symbols = formatSymbols(getSource("parseScriptTags", "html"));
+    expect(symbols).toMatchSnapshot();
   });
 });
