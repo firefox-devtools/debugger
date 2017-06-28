@@ -2,14 +2,10 @@
 
 exports[`Parser.getSymbols allSymbols 1`] = `
 "properties
-[(11, 2), (11, 5)]  Obj.foo foo 
-[(15, 2), (15, 14)]  Obj.doOtherThing doOtherThing 
+
 member expressions
-[(13, 12), (13, 15)] [(13, 4), (13, 15)] console.log log 
 [(20, 4), (20, 12)] [(20, 0), (20, 12)] Obj.property property 
 [(21, 4), (21, 17)] [(21, 0), (21, 17)] Obj.otherProperty otherProperty 
-[(25, 9), (25, 16)] [(25, 4), (25, 16)] this.awesome awesome 
-[(29, 12), (29, 15)] [(29, 4), (29, 15)] console.log log 
 identifiers
 [(1, 6), (1, 15)]  TIME TIME 
 [(1, 6), (1, 10)]  TIME TIME 
@@ -26,23 +22,11 @@ identifiers
 [(8, 26), (8, 27)]  b b 
 [(10, 6), (18, 1)]  Obj Obj 
 [(10, 6), (10, 9)]  Obj Obj 
-[(11, 2), (11, 5)]  foo foo 
-[(12, 2), (12, 9)]  doThing doThing 
-[(13, 4), (13, 11)]  console console 
-[(13, 12), (13, 15)]  log log 
-[(15, 2), (15, 14)]  doOtherThing doOtherThing 
 [(20, 0), (20, 3)]  Obj Obj 
 [(20, 4), (20, 12)]  property property 
 [(21, 0), (21, 3)]  Obj Obj 
 [(21, 4), (21, 17)]  otherProperty otherProperty 
 [(23, 6), (23, 11)]  Ultra Ultra 
-[(24, 2), (24, 13)]  constructor constructor 
-[(25, 9), (25, 16)]  awesome awesome 
-[(28, 2), (28, 11)]  beAwesome beAwesome 
-[(28, 12), (28, 18)]  person person 
-[(29, 4), (29, 11)]  console console 
-[(29, 12), (29, 15)]  log log 
-[(29, 19), (29, 25)]  person person 
 variables
 [(1, 6), (1, 15)]   TIME 
 [(2, 4), (2, 13)]   count 
@@ -51,85 +35,40 @@ variables
 [(8, 13), (8, 14)]   a 
 [(8, 16), (8, 17)]   b 
 [(10, 6), (18, 1)]   Obj 
-[(11, 2), (11, 8)]   foo 
-[(23, 0), (31, 1)]   Ultra 
-[(28, 12), (28, 18)]   person "
+[(23, 0), (31, 1)]   Ultra "
 `;
 
 exports[`Parser.getSymbols class 1`] = `
 "properties
 
 member expressions
-[(3, 9), (3, 12)] [(3, 4), (3, 12)] this.foo foo 
-[(7, 12), (7, 15)] [(7, 4), (7, 15)] console.log log 
+
 identifiers
 [(1, 6), (1, 10)]  Test Test 
-[(2, 2), (2, 13)]  constructor constructor 
-[(3, 9), (3, 12)]  foo foo 
-[(6, 2), (6, 5)]  bar bar 
-[(6, 6), (6, 7)]  a a 
-[(7, 4), (7, 11)]  console console 
-[(7, 12), (7, 15)]  log log 
-[(7, 23), (7, 24)]  a a 
 [(11, 6), (11, 11)]  Test2 Test2 
 [(13, 4), (13, 30)]  expressiveClass expressiveClass 
 [(13, 4), (13, 19)]  expressiveClass expressiveClass 
 variables
 [(1, 0), (9, 1)]   Test 
-[(6, 6), (6, 7)]   a 
 [(11, 0), (11, 14)]   Test2 
 [(13, 4), (13, 30)]   expressiveClass "
 `;
 
 exports[`Parser.getSymbols expression 1`] = `
 "properties
-[(1, 14), (1, 15)]  obj.a a 
-[(1, 19), (1, 20)]  obj.a.b b 
-[(5, 15), (5, 16)]  com[a] a 
-[(5, 21), (5, 22)]  com[a].b b 
-[(5, 30), (5, 31)]  com[a][d] d 
-[(5, 42), (5, 43)]  com[b] b 
-[(8, 2), (8, 8)]   render 
-[(12, 12), (12, 13)]  obj.foo.a a 
-[(12, 17), (12, 18)]  obj.foo.a.b b 
-[(12, 27), (12, 28)]  obj.foo.b b 
-[(13, 8), (13, 9)]  com.a a 
-[(13, 13), (13, 14)]  com.a.b b 
-[(13, 23), (13, 24)]  com.b b 
-[(16, 15), (16, 16)]  res[0].a a 
-[(16, 25), (16, 26)]  res[1].b b 
-[(17, 15), (17, 16)]  res2.a a 
-[(17, 21), (17, 22)]  res2.a[0].b b 
-[(18, 15), (18, 16)]  res3.a a 
-[(18, 21), (18, 22)]  res3.a[0].b b 
-[(18, 30), (18, 31)]  res3.b b 
-[(18, 36), (18, 37)]  res3.b[0].c c 
-[(19, 17), (19, 18)]  res4[0].a a 
-[(19, 29), (19, 30)]  res4[0].b b 
-[(22, 8), (22, 9)]  b b 
-[(22, 11), (22, 16)]  resty resty 
-[(25, 18), (25, 19)]  a a 
-[(25, 21), (25, 22)]  b b 
-[(26, 22), (26, 23)]  a a 
-[(26, 25), (26, 26)]  b b 
+
 member expressions
 [(2, 19), (2, 33)] [(2, 12), (2, 33)] obj2.c.secondProperty secondProperty 
 [(2, 17), (2, 18)] [(2, 12), (2, 18)] obj2.c c 
 [(7, 4), (7, 12)] [(7, 0), (7, 12)] app.TodoView TodoView 
 [(7, 24), (7, 30)] [(7, 15), (7, 30)] Backbone.extend extend 
 [(12, 4), (12, 7)] [(12, 0), (12, 7)] obj.foo foo 
-[(19, 40), (19, 41)] [(19, 32), (19, 41)] a.b.c.v.d d 
-[(19, 38), (19, 39)] [(19, 32), (19, 39)] a.b.c.v v 
-[(19, 36), (19, 37)] [(19, 32), (19, 37)] a.b.c c 
-[(19, 34), (19, 35)] [(19, 32), (19, 35)] a.b b 
 [(27, 29), (27, 43)] [(27, 13), (27, 43)]  secondProperty 
 [(27, 27), (27, 28)] [(27, 13), (27, 28)]  c 
 [(27, 18), (27, 24)] [(27, 13), (27, 24)] obj2.doEvil doEvil 
 identifiers
 [(1, 6), (1, 27)]  obj obj 
 [(1, 6), (1, 9)]  obj obj 
-[(1, 14), (1, 15)]  a a 
-[(1, 19), (1, 20)]  b b 
 [(2, 6), (2, 33)]  foo foo 
 [(2, 6), (2, 9)]  foo foo 
 [(2, 12), (2, 16)]  obj2 obj2 
@@ -137,52 +76,22 @@ identifiers
 [(2, 19), (2, 33)]  secondProperty secondProperty 
 [(5, 6), (5, 49)]  com com 
 [(5, 6), (5, 9)]  com com 
-[(5, 15), (5, 16)]  a a 
-[(5, 21), (5, 22)]  b b 
-[(5, 30), (5, 31)]  d d 
-[(5, 42), (5, 43)]  b b 
 [(7, 0), (7, 3)]  app app 
 [(7, 4), (7, 12)]  TodoView TodoView 
 [(7, 15), (7, 23)]  Backbone Backbone 
 [(7, 24), (7, 30)]  extend extend 
-[(8, 2), (8, 8)]  render render 
 [(12, 0), (12, 3)]  obj obj 
 [(12, 4), (12, 7)]  foo foo 
-[(12, 12), (12, 13)]  a a 
-[(12, 17), (12, 18)]  b b 
-[(12, 27), (12, 28)]  b b 
 [(13, 0), (13, 3)]  com com 
-[(13, 8), (13, 9)]  a a 
-[(13, 13), (13, 14)]  b b 
-[(13, 23), (13, 24)]  b b 
 [(16, 6), (16, 32)]  res res 
 [(16, 6), (16, 9)]  res res 
-[(16, 15), (16, 16)]  a a 
-[(16, 25), (16, 26)]  b b 
 [(17, 6), (17, 30)]  res2 res2 
 [(17, 6), (17, 10)]  res2 res2 
-[(17, 15), (17, 16)]  a a 
-[(17, 21), (17, 22)]  b b 
 [(18, 6), (18, 45)]  res3 res3 
 [(18, 6), (18, 10)]  res3 res3 
-[(18, 15), (18, 16)]  a a 
-[(18, 21), (18, 22)]  b b 
-[(18, 30), (18, 31)]  b b 
-[(18, 36), (18, 37)]  c c 
 [(19, 6), (19, 45)]  res4 res4 
 [(19, 6), (19, 10)]  res4 res4 
-[(19, 17), (19, 18)]  a a 
-[(19, 29), (19, 30)]  b b 
-[(19, 32), (19, 33)]  a a 
-[(19, 34), (19, 35)]  b b 
-[(19, 36), (19, 37)]  c c 
-[(19, 38), (19, 39)]  v v 
-[(19, 40), (19, 41)]  d d 
 [(22, 6), (22, 35)]   undefined 
-[(22, 8), (22, 9)]  b b 
-[(22, 8), (22, 9)]  b b 
-[(22, 11), (22, 16)]  resty resty 
-[(22, 11), (22, 16)]  resty resty 
 [(22, 21), (22, 28)]  compute compute 
 [(22, 29), (22, 34)]  stuff stuff 
 [(23, 6), (23, 35)]   undefined 
@@ -191,16 +100,8 @@ identifiers
 [(23, 21), (23, 28)]  compute compute 
 [(23, 29), (23, 34)]  stuff stuff 
 [(25, 9), (25, 15)]  params params 
-[(25, 18), (25, 19)]  a a 
-[(25, 18), (25, 19)]  a a 
-[(25, 21), (25, 22)]  b b 
-[(25, 21), (25, 22)]  b b 
 [(26, 4), (26, 32)]  pars pars 
 [(26, 4), (26, 8)]  pars pars 
-[(26, 22), (26, 23)]  a a 
-[(26, 22), (26, 23)]  a a 
-[(26, 25), (26, 26)]  b b 
-[(26, 25), (26, 26)]  b b 
 [(27, 6), (27, 43)]  evil evil 
 [(27, 6), (27, 10)]  evil evil 
 [(27, 13), (27, 17)]  obj2 obj2 
@@ -209,52 +110,23 @@ identifiers
 [(27, 29), (27, 43)]  secondProperty secondProperty 
 variables
 [(1, 6), (1, 27)]   obj 
-[(1, 14), (1, 25)]   a 
-[(1, 19), (1, 23)]   b 
 [(2, 6), (2, 33)]   foo 
 [(5, 6), (5, 49)]   com 
-[(5, 14), (5, 39)]   a 
-[(5, 21), (5, 27)]   b 
-[(5, 29), (5, 37)]   d 
-[(5, 41), (5, 47)]   b 
-[(12, 12), (12, 25)]   a 
-[(12, 17), (12, 23)]   b 
-[(12, 27), (12, 31)]   b 
-[(13, 8), (13, 21)]   a 
-[(13, 13), (13, 19)]   b 
-[(13, 23), (13, 27)]   b 
 [(16, 6), (16, 32)]   res 
-[(16, 15), (16, 19)]   a 
-[(16, 25), (16, 29)]   b 
 [(17, 6), (17, 30)]   res2 
-[(17, 15), (17, 28)]   a 
-[(17, 21), (17, 25)]   b 
 [(18, 6), (18, 45)]   res3 
-[(18, 15), (18, 28)]   a 
-[(18, 21), (18, 25)]   b 
-[(18, 30), (18, 43)]   b 
-[(18, 36), (18, 40)]   c 
 [(19, 6), (19, 45)]   res4 
-[(19, 17), (19, 21)]   a 
-[(19, 29), (19, 41)]   b 
 [(22, 6), (22, 35)]   undefined 
-[(22, 8), (22, 9)]   b 
-[(22, 11), (22, 16)]   resty 
 [(23, 6), (23, 35)]   undefined 
 [(25, 16), (25, 24)]   undefined 
-[(25, 18), (25, 19)]   a 
-[(25, 21), (25, 22)]   b 
 [(26, 4), (26, 32)]   pars 
 [(26, 20), (26, 28)]   undefined 
-[(26, 22), (26, 23)]   a 
-[(26, 25), (26, 26)]   b 
 [(27, 6), (27, 43)]   evil "
 `;
 
 exports[`Parser.getSymbols finds symbols in an html file 1`] = `
 "properties
-[(5, 3), (5, 8)]  globalObject.first first 
-[(6, 3), (6, 7)]  globalObject.last last 
+
 member expressions
 [(23, 18), (23, 29)] [(23, 10), (23, 29)] name.undefined.toUpperCase toUpperCase 
 [(23, 15), (23, 16)] [(23, 10), (23, 17)] name. undefined 
@@ -267,8 +139,6 @@ member expressions
 identifiers
 [(4, 6), (7, 3)]  globalObject globalObject 
 [(4, 6), (4, 18)]  globalObject globalObject 
-[(5, 3), (5, 8)]  first first 
-[(6, 3), (6, 7)]  last last 
 [(8, 11), (8, 19)]  sayHello sayHello 
 [(8, 21), (8, 25)]  name name 
 [(9, 20), (9, 24)]  name name 
@@ -298,8 +168,6 @@ identifiers
 [(38, 15), (38, 23)]  greeting greeting 
 variables
 [(4, 6), (7, 3)]   globalObject 
-[(5, 3), (5, 16)]   first 
-[(6, 3), (6, 16)]   last 
 [(8, 21), (8, 25)]   name 
 [(22, 8), (24, 3)]   capitalize 
 [(22, 21), (22, 25)]   name 
@@ -355,13 +223,10 @@ variables
 
 exports[`Parser.getSymbols proto 1`] = `
 "properties
-[(6, 2), (6, 9)]   tagName 
-[(7, 2), (7, 12)]   initialize 
-[(11, 2), (11, 8)]   render 
+
 member expressions
 [(5, 31), (5, 37)] [(5, 17), (5, 37)] Backbone.View.extend extend 
 [(5, 26), (5, 30)] [(5, 17), (5, 30)] Backbone.View View 
-[(9, 12), (9, 15)] [(9, 4), (9, 15)] console.log log 
 identifiers
 [(1, 6), (1, 25)]  foo foo 
 [(1, 6), (1, 9)]  foo foo 
@@ -372,20 +237,10 @@ identifiers
 [(5, 17), (5, 25)]  Backbone Backbone 
 [(5, 26), (5, 30)]  View View 
 [(5, 31), (5, 37)]  extend extend 
-[(6, 2), (6, 9)]  tagName tagName 
-[(7, 2), (7, 12)]  initialize initialize 
-[(8, 2), (8, 9)]  doThing doThing 
-[(8, 10), (8, 11)]  b b 
-[(9, 4), (9, 11)]  console console 
-[(9, 12), (9, 15)]  log log 
-[(9, 22), (9, 23)]  b b 
-[(11, 2), (11, 8)]  render render 
 variables
 [(1, 6), (1, 25)]   foo 
 [(3, 6), (3, 20)]   bar 
-[(5, 6), (14, 2)]   TodoView 
-[(6, 2), (6, 15)]   tagName 
-[(8, 10), (8, 11)]   b "
+[(5, 6), (14, 2)]   TodoView "
 `;
 
 exports[`Parser.getSymbols var 1`] = `
