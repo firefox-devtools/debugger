@@ -96,7 +96,7 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
         symbols.objectProperties.push({
           name: identifierName,
           location: { start, end },
-          expression: getExpression(path)
+          expression: getSnippet(path)
         });
       }
 
@@ -106,7 +106,7 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
           name: path.node.property.name,
           location: { start, end },
           expressionLocation: path.node.loc,
-          expression: getExpression(path)
+          expression: getSnippet(path)
         });
       }
 
@@ -137,7 +137,7 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
   return symbols;
 }
 
-function addProperty(name, expression, path, prevPath) {
+function extendSnippet(name, expression, path, prevPath) {
   const computed = path && path.node.computed;
   const prevComputed = prevPath && prevPath.node.computed;
   const prevArray = t.isArrayExpression(prevPath);
@@ -164,11 +164,11 @@ function addProperty(name, expression, path, prevPath) {
   return `${name}.${expression}`;
 }
 
-function getMemberExpression(node, expression = "") {
+function getMemberSnippet(node, expression = "") {
   if (t.isMemberExpression(node)) {
     const name = node.property.name;
 
-    return getMemberExpression(node.object, addProperty(name, expression));
+    return getMemberSnippet(node.object, extendSnippet(name, expression));
   }
 
   if (t.isCallExpression(node)) {
@@ -186,32 +186,32 @@ function getMemberExpression(node, expression = "") {
   return expression;
 }
 
-function getObjectExpression(path, prevPath, expression = "") {
+function getObjectSnippet(path, prevPath, expression = "") {
   const name = path.node.key.name;
 
-  expression = addProperty(name, expression, path, prevPath);
+  const extendedExpression = extendSnippet(name, expression, path, prevPath);
 
-  prevPath = path;
-  path = path.parentPath && path.parentPath.parentPath;
+  const nextPrevPath = path;
+  const nextPath = path.parentPath && path.parentPath.parentPath;
 
-  return getExpression(path, prevPath, expression);
+  return getSnippet(nextPath, nextPrevPath, extendedExpression);
 }
 
-function getArrayExpression(path, prevPath, expression) {
+function getArraySnippet(path, prevPath, expression) {
   const index = prevPath.parentPath.key;
-  expression = addProperty(index, expression, path, prevPath);
+  const extendedExpression = extendSnippet(index, expression, path, prevPath);
 
-  prevPath = path;
-  path = path.parentPath && path.parentPath.parentPath;
+  const nextPrevPath = path;
+  const nextPath = path.parentPath && path.parentPath.parentPath;
 
-  return getExpression(path, prevPath, expression);
+  return getSnippet(nextPath, nextPrevPath, extendedExpression);
 }
 
-function getExpression(path, prevPath, expression = "") {
+function getSnippet(path, prevPath, expression = "") {
   if (t.isVariableDeclaration(path)) {
     const node = path.node.declarations[0];
     const name = node.id.name;
-    return addProperty(name, expression, path, prevPath);
+    return extendSnippet(name, expression, path, prevPath);
   }
 
   if (t.isVariableDeclarator(path)) {
@@ -221,17 +221,17 @@ function getExpression(path, prevPath, expression = "") {
     }
 
     const name = node.name;
-    const prop = addProperty(name, expression, path, prevPath);
+    const prop = extendSnippet(name, expression, path, prevPath);
     return prop;
   }
 
   if (t.isAssignmentExpression(path)) {
     const node = path.node.left;
     const name = t.isMemberExpression(node)
-      ? getMemberExpression(node)
+      ? getMemberSnippet(node)
       : node.name;
 
-    const prop = addProperty(name, expression, path, prevPath);
+    const prop = extendSnippet(name, expression, path, prevPath);
     return prop;
   }
 
@@ -245,19 +245,19 @@ function getExpression(path, prevPath, expression = "") {
   }
 
   if (t.isObjectProperty(path)) {
-    return getObjectExpression(path, prevPath, expression);
+    return getObjectSnippet(path, prevPath, expression);
   }
 
   if (t.isObjectExpression(path)) {
-    return getObjectExpression(prevPath.parentPath, prevPath, expression);
+    return getObjectSnippet(prevPath.parentPath, prevPath, expression);
   }
 
   if (t.isMemberExpression(path)) {
-    return getMemberExpression(path.node, expression);
+    return getMemberSnippet(path.node, expression);
   }
 
   if (t.isArrayExpression(path)) {
-    return getArrayExpression(path, prevPath, expression);
+    return getArraySnippet(path, prevPath, expression);
   }
 }
 
