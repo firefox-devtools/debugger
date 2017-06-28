@@ -3,12 +3,12 @@
 import { getVariablesInLocalScope, getVariablesInScope } from "../scopes";
 import { getClosestScope } from "../utils/closest";
 
-import { getSourceText } from "./helpers";
+import { getSource } from "./helpers";
 
 describe("scopes", () => {
   describe("getVariablesInLocalScope", () => {
     it("finds scope binding variables", () => {
-      const scope = getClosestScope(getSourceText("math"), {
+      const scope = getClosestScope(getSource("math"), {
         line: 2,
         column: 2
       });
@@ -22,7 +22,7 @@ describe("scopes", () => {
     });
 
     it("only gets local variables", () => {
-      const scope = getClosestScope(getSourceText("math"), {
+      const scope = getClosestScope(getSource("math"), {
         line: 3,
         column: 5
       });
@@ -37,7 +37,7 @@ describe("scopes", () => {
     });
 
     it("finds variables in block scope", () => {
-      const scope = getClosestScope(getSourceText("resolveToken"), {
+      const scope = getClosestScope(getSource("resolveToken"), {
         line: 34,
         column: 13
       });
@@ -50,7 +50,7 @@ describe("scopes", () => {
 
   describe("getVariablesInScope", () => {
     it("finds scope binding variables", () => {
-      const scope = getClosestScope(getSourceText("math"), {
+      const scope = getClosestScope(getSource("math"), {
         line: 3,
         column: 5
       });
@@ -71,7 +71,7 @@ describe("scopes", () => {
 
     it("finds variables from multiple scopes", () => {
       let vars;
-      const source = getSourceText("resolveToken");
+      const source = getSource("resolveToken");
 
       vars = getVariablesInScope(
         getClosestScope(source, {

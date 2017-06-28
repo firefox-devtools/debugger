@@ -29,7 +29,7 @@ describe("Parser.getSymbols", () => {
     expect(symbols).toMatchSnapshot();
   });
 
-  fit("expression", () => {
+  it("expression", () => {
     const symbols = formatSymbols(getSource("expression"));
     expect(symbols).toMatchSnapshot();
   });

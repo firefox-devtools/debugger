@@ -25,7 +25,7 @@ describe("parser", () => {
           getSource("expression"),
           "secondProperty",
           {
-            line: 4,
+            line: 2,
             column: 22
           }
         );

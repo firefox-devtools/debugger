@@ -90,6 +90,38 @@ Object {
       ],
     },
   ],
+  "identifiers": Array [
+    Object {
+      "expression": "base",
+      "location": Object {
+        "end": Object {
+          "column": 13,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 9,
+          "line": 1,
+        },
+      },
+      "name": "base",
+    },
+    Object {
+      "expression": "boo",
+      "location": Object {
+        "end": Object {
+          "column": 17,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 14,
+          "line": 1,
+        },
+      },
+      "name": "boo",
+    },
+  ],
+  "memberExpressions": Array [],
+  "objectProperties": Array [],
   "variables": Array [
     Object {
       "location": Object {

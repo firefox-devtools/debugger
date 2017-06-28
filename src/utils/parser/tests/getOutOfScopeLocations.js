@@ -2,7 +2,7 @@
 
 import getOutOfScopeLocations from "../getOutOfScopeLocations";
 
-import { getSourceText } from "./helpers";
+import { getSource } from "./helpers";
 
 function formatLines(actual) {
   return actual
@@ -15,7 +15,7 @@ function formatLines(actual) {
 
 describe("Parser.getOutOfScopeLocations", () => {
   it("should exclude non-enclosing function blocks", () => {
-    const actual = getOutOfScopeLocations(getSourceText("outOfScope"), {
+    const actual = getOutOfScopeLocations(getSource("outOfScope"), {
       line: 5,
       column: 5
     });
@@ -24,7 +24,7 @@ describe("Parser.getOutOfScopeLocations", () => {
   });
 
   it("should roll up function blocks", () => {
-    const actual = getOutOfScopeLocations(getSourceText("outOfScope"), {
+    const actual = getOutOfScopeLocations(getSource("outOfScope"), {
       line: 24,
       column: 0
     });
@@ -33,7 +33,7 @@ describe("Parser.getOutOfScopeLocations", () => {
   });
 
   it("should exclude function for locations on declaration", () => {
-    const actual = getOutOfScopeLocations(getSourceText("outOfScope"), {
+    const actual = getOutOfScopeLocations(getSource("outOfScope"), {
       line: 3,
       column: 12
     });

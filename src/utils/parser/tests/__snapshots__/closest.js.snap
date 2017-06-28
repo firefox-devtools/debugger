@@ -38,12 +38,12 @@ Object {
   "expression": "obj2.c.secondProperty",
   "location": SourceLocation {
     "end": Position {
-      "column": 35,
-      "line": 4,
+      "column": 33,
+      "line": 2,
     },
     "start": Position {
-      "column": 14,
-      "line": 4,
+      "column": 12,
+      "line": 2,
     },
   },
 }
@@ -51,15 +51,15 @@ Object {
 
 exports[`parser getClosestExpression member expressions finds an expression with a call 1`] = `
 Object {
-  "expression": "",
+  "expression": undefined,
   "location": SourceLocation {
     "end": Position {
-      "column": 45,
-      "line": 6,
+      "column": 0,
+      "line": 28,
     },
     "start": Position {
-      "column": 15,
-      "line": 6,
+      "column": 0,
+      "line": 1,
     },
   },
 }
