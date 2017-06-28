@@ -112,8 +112,6 @@ class SymbolModal extends Component {
   }
 
   onEscape(e: SyntheticEvent) {
-    e.stopPropagation();
-    e.preventDefault();
     this.props.toggleActiveSearch();
   }
 
