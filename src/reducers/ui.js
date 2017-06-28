@@ -18,6 +18,7 @@ export type FileSearchModifiers = Record<{
 }>;
 
 export type SymbolSearchType = "functions" | "variables";
+export type ActiveSearchType = "project" | "file" | "symbol";
 
 export type SearchResults = {
   index: number,
@@ -25,11 +26,10 @@ export type SearchResults = {
 };
 
 export type UIState = {
-  fileSearchOn: boolean,
+  activeSearch: ?ActiveSearchType,
   fileSearchQuery: string,
   fileSearchModifiers: FileSearchModifiers,
-  projectSearchOn: boolean,
-  symbolSearchOn: boolean,
+  symbolSearchQuery: string,
   symbolSearchType: SymbolSearchType,
   searchResults: SearchResults,
   symbolSearchResults: Array<*>,
@@ -46,15 +46,14 @@ export type UIState = {
 
 export const State = makeRecord(
   ({
-    fileSearchOn: false,
+    activeSearch: null,
     fileSearchQuery: "",
     fileSearchModifiers: makeRecord({
       caseSensitive: prefs.fileSearchCaseSensitive,
       wholeWord: prefs.fileSearchWholeWord,
       regexMatch: prefs.fileSearchRegexMatch
     })(),
-    projectSearchOn: false,
-    symbolSearchOn: false,
+    symbolSearchQuery: "@",
     symbolSearchType: "functions",
     symbolSearchResults: [],
     searchResults: {
@@ -74,21 +73,13 @@ function update(
   action: Action
 ): Record<UIState> {
   switch (action.type) {
-    case "TOGGLE_PROJECT_SEARCH": {
-      return state.set("projectSearchOn", action.value);
+    case "TOGGLE_ACTIVE_SEARCH": {
+      return state.set("activeSearch", action.value);
     }
 
     case "TOGGLE_FRAMEWORK_GROUPING": {
       prefs.frameworkGroupingOn = action.value;
       return state.set("frameworkGroupingOn", action.value);
-    }
-
-    case "TOGGLE_FILE_SEARCH": {
-      return state.set("fileSearchOn", action.value);
-    }
-
-    case "TOGGLE_SYMBOL_SEARCH": {
-      return state.set("symbolSearchOn", action.value);
     }
 
     case "UPDATE_FILE_SEARCH_QUERY": {
@@ -119,6 +110,10 @@ function update(
       }
 
       return state.setIn(["fileSearchModifiers", action.modifier], actionVal);
+    }
+
+    case "UPDATE_SYMBOL_SEARCH_QUERY": {
+      return state.set("symbolSearchQuery", action.query);
     }
 
     case "SET_SYMBOL_SEARCH_TYPE": {
@@ -162,9 +157,8 @@ function update(
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ui: Record<UIState> };
 
-type SearchFieldType = "projectSearchOn" | "fileSearchOn" | "symbolSearchOn";
-function getSearchState(field: SearchFieldType, state: OuterState): boolean {
-  return state.ui.get(field);
+export function getActiveSearchState(state: OuterState) {
+  return state.ui.get("activeSearch");
 }
 
 export function getFileSearchQueryState(state: OuterState): string {
@@ -177,11 +171,15 @@ export function getFileSearchModifierState(
   return state.ui.get("fileSearchModifiers");
 }
 
-export function getSymbolSearchResults(state: OuterState): string {
+export function getSymbolSearchQueryState(state: OuterState): string {
+  return state.ui.get("symbolSearchQuery");
+}
+
+export function getSymbolSearchResults(state: OuterState) {
   return state.ui.get("symbolSearchResults");
 }
 
-export function getSearchResults(state: OuterState): string {
+export function getSearchResults(state: OuterState) {
   return state.ui.get("searchResults");
 }
 
@@ -192,13 +190,6 @@ export function getFrameworkGroupingState(state: OuterState): boolean {
 export function getSymbolSearchType(state: OuterState): SymbolSearchType {
   return state.ui.get("symbolSearchType");
 }
-
-export const getProjectSearchState = getSearchState.bind(
-  null,
-  "projectSearchOn"
-);
-export const getFileSearchState = getSearchState.bind(null, "fileSearchOn");
-export const getSymbolSearchState = getSearchState.bind(null, "symbolSearchOn");
 
 export function getShownSource(state: OuterState): boolean {
   return state.ui.get("shownSource");

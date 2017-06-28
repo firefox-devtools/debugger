@@ -63,5 +63,5 @@ export default class ResultList extends Component {
 }
 
 ResultList.defaultProps = {
-  size: ""
+  size: "small"
 };

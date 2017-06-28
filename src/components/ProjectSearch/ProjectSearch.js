@@ -4,7 +4,7 @@ import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
-import { getSources, getProjectSearchState } from "../../selectors";
+import { getSources, getActiveSearchState } from "../../selectors";
 import { endTruncateStr } from "../../utils/utils";
 import { parse as parseURL } from "url";
 import { isPretty } from "../../utils/source";
@@ -103,7 +103,10 @@ class ProjectSearch extends Component {
 
   toggleProjectSearch(key, e) {
     e.preventDefault();
-    this.props.toggleProjectSearch();
+    if (this.props.searchOn) {
+      return this.props.toggleActiveSearch();
+    }
+    return this.props.toggleActiveSearch("project");
   }
 
   onEscape(shortcut, e) {
@@ -115,7 +118,7 @@ class ProjectSearch extends Component {
 
   close() {
     this.setState({ inputValue: "" });
-    this.props.toggleProjectSearch(false);
+    this.props.toggleActiveSearch();
   }
 
   renderFileSearch() {
@@ -158,7 +161,7 @@ class ProjectSearch extends Component {
 ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
   selectSource: PropTypes.func.isRequired,
-  toggleProjectSearch: PropTypes.func.isRequired,
+  toggleActiveSearch: PropTypes.func.isRequired,
   searchOn: PropTypes.bool
 };
 
@@ -171,7 +174,7 @@ ProjectSearch.displayName = "ProjectSearch";
 export default connect(
   state => ({
     sources: getSources(state),
-    searchOn: getProjectSearchState(state)
+    searchOn: getActiveSearchState(state) === "project"
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);

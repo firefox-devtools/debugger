@@ -14,6 +14,7 @@ import type {
 } from "debugger-html";
 
 import type { State } from "../reducers/types";
+import type { ActiveSearchType } from "../reducers/ui";
 
 import type { SymbolDeclaration, AstLocation } from "../utils/parser";
 
@@ -134,12 +135,8 @@ export type panelPositionType = "start" | "end";
 
 type UIAction =
   | {
-      type: "TOGGLE_FILE_SEARCH",
-      value: boolean
-    }
-  | {
-      type: "TOGGLE_PROJECT_SEARCH",
-      value: boolean
+      type: "TOGGLE_ACTIVE_SEARCH",
+      value: ?ActiveSearchType
     }
   | {
       type: "TOGGLE_FILE_SEARCH_MODIFIER",

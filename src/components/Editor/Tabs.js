@@ -8,7 +8,7 @@ import * as I from "immutable";
 import {
   getSelectedSource,
   getSourcesForTabs,
-  getProjectSearchState
+  getActiveSearchState
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
@@ -30,6 +30,7 @@ const Dropdown = createFactory(_Dropdown);
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
+import type { ActiveSearchType } from "../../reducers/ui";
 type SourcesList = List<SourceRecord>;
 
 /*
@@ -102,13 +103,14 @@ class SourceTabs extends PureComponent {
     moveTab: (string, number) => void,
     closeTab: string => void,
     closeTabs: (List<string>) => void,
-    toggleProjectSearch: () => void,
+    toggleActiveSearch: (?ActiveSearchType) => void,
     togglePrettyPrint: string => void,
     togglePaneCollapse: () => void,
     showSource: string => void,
     horizontal: boolean,
     startPanelCollapsed: boolean,
-    endPanelCollapsed: boolean
+    endPanelCollapsed: boolean,
+    searchOn: boolean
   };
 
   onResize: Function;
@@ -376,7 +378,12 @@ class SourceTabs extends PureComponent {
     return dom.div(
       {
         className: "new-tab-btn",
-        onClick: () => this.props.toggleProjectSearch(),
+        onClick: () => {
+          if (this.props.searchOn) {
+            this.props.toggleActiveSearch();
+          }
+          this.props.toggleActiveSearch("project");
+        },
         title: newTabTooltip
       },
       Svg("plus")
@@ -445,7 +452,7 @@ export default connect(
     return {
       selectedSource: getSelectedSource(state),
       sourceTabs: getSourcesForTabs(state),
-      searchOn: getProjectSearchState(state)
+      searchOn: getActiveSearchState(state) === "project"
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
