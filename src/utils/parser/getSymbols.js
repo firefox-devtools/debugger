@@ -7,12 +7,14 @@ import * as t from "babel-types";
 import getFunctionName from "./utils/getFunctionName";
 
 import type { SourceText } from "debugger-html";
-import type { NodePath, Location as BabelLocation } from "babel-traverse";
+import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
 const symbolDeclarations = new Map();
 
 export type SymbolDeclaration = {|
   name: string,
+  expression?: string,
   location: BabelLocation,
+  expressionLocation?: BabelLocation,
   parameterNames?: string[],
   identifier?: Object
 |};
@@ -23,7 +25,10 @@ export type FunctionDeclaration = SymbolDeclaration & {|
 
 export type SymbolDeclarations = {
   functions: Array<SymbolDeclaration>,
-  variables: Array<SymbolDeclaration>
+  variables: Array<SymbolDeclaration>,
+  memberExpressions: Array<SymbolDeclaration>,
+  objectProperties: Array<SymbolDeclaration>,
+  identifiers: Array<SymbolDeclaration>
 };
 
 function getFunctionParameterNames(path: NodePath): string[] {
@@ -137,11 +142,20 @@ export default function getSymbols(source: SourceText): SymbolDeclarations {
   return symbols;
 }
 
-function extendSnippet(name, expression, path, prevPath) {
+function extendSnippet(
+  name: string,
+  expression: string,
+  path: NodePath,
+  prevPath: NodePath
+) {
   const computed = path && path.node.computed;
   const prevComputed = prevPath && prevPath.node.computed;
   const prevArray = t.isArrayExpression(prevPath);
   const array = t.isArrayExpression(path);
+
+  // if (!name) {
+  //   return expression;
+  // }
 
   if (expression === "") {
     if (computed) {
@@ -164,7 +178,7 @@ function extendSnippet(name, expression, path, prevPath) {
   return `${name}.${expression}`;
 }
 
-function getMemberSnippet(node, expression = "") {
+function getMemberSnippet(node: Node, expression: string = "") {
   if (t.isMemberExpression(node)) {
     const name = node.property.name;
 
@@ -186,7 +200,15 @@ function getMemberSnippet(node, expression = "") {
   return expression;
 }
 
-function getObjectSnippet(path, prevPath, expression = "") {
+function getObjectSnippet(
+  path: NodePath,
+  prevPath: NodePath,
+  expression: string = ""
+) {
+  if (!path) {
+    return expression;
+  }
+
   const name = path.node.key.name;
 
   const extendedExpression = extendSnippet(name, expression, path, prevPath);
@@ -197,7 +219,11 @@ function getObjectSnippet(path, prevPath, expression = "") {
   return getSnippet(nextPath, nextPrevPath, extendedExpression);
 }
 
-function getArraySnippet(path, prevPath, expression) {
+function getArraySnippet(
+  path: NodePath,
+  prevPath: NodePath,
+  expression: string
+) {
   const index = prevPath.parentPath.key;
   const extendedExpression = extendSnippet(index, expression, path, prevPath);
 
@@ -249,7 +275,8 @@ function getSnippet(path, prevPath, expression = "") {
   }
 
   if (t.isObjectExpression(path)) {
-    return getObjectSnippet(prevPath.parentPath, prevPath, expression);
+    const parentPath = prevPath && prevPath.parentPath;
+    return getObjectSnippet(parentPath, prevPath, expression);
   }
 
   if (t.isMemberExpression(path)) {
@@ -261,7 +288,7 @@ function getSnippet(path, prevPath, expression = "") {
   }
 }
 
-export function formatSymbols(source) {
+export function formatSymbols(source: SourceText) {
   const {
     objectProperties,
     memberExpressions,
