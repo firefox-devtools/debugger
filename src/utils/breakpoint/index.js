@@ -40,3 +40,18 @@ export function equalizeLocationColumn(location, referenceLocation) {
   }
   return { ...location, column: undefined };
 }
+
+// Search through the column range to see if any breakpoints exist
+export function findCallSiteBreakpoint(location, getSelectedBreakpoint) {
+  const { line, column } = location.start;
+
+  column--;
+  while (column < location.end.column) {
+    const breakpoint = getSelectedBreakpoint({ line, column });
+    if (breakpoint) {
+      return breakpoint;
+    }
+    column++;
+  }
+  return null;
+}

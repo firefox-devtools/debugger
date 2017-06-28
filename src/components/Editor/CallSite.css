@@ -1,0 +1,11 @@
+.call-site {
+  background: #f0f9ff;
+  height: calc(100% - 1px);
+  border-bottom: 2px solid #aed3ef;
+  cursor: pointer;
+}
+
+.call-site-bp {
+  border-bottom: 2px solid #f00000;
+  cursor: pointer;
+}
