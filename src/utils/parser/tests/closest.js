@@ -2,7 +2,7 @@
 
 import { getClosestScope, getClosestExpression } from "../utils/closest";
 
-import { getSource, createSource } from "./helpers";
+import { getSource } from "./helpers";
 
 describe("parser", () => {
   describe("getClosestExpression", () => {
