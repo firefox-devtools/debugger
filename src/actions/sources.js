@@ -34,7 +34,7 @@ import {
   removeSourceFromTabList
 } from "../selectors";
 
-import type { Source, SourceText } from "../types";
+import type { Source } from "../types";
 import type { ThunkArgs } from "./types";
 import type { State } from "../reducers/types";
 
@@ -358,13 +358,11 @@ export function loadSourceText(source: Source) {
 
         const response = await client.sourceContents(source.id);
 
-        const sourceText: SourceText = {
+        return {
           id: source.id,
           text: response.source,
           contentType: response.contentType || "text/javascript"
         };
-
-        return sourceText;
       })()
     });
 

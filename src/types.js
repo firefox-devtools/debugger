@@ -31,7 +31,6 @@ export type {
   LoadedObject,
   Location,
   Source,
-  SourceText,
   Pause,
   Why
 } from "debugger-html";

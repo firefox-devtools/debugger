@@ -7,7 +7,6 @@ import type {
   LoadedObject,
   Location,
   GeneratedLocation,
-  SourceText,
   Frame,
   Scope,
   Why
@@ -107,7 +106,7 @@ type SourceAction =
       source: Source,
       status: AsyncStatus,
       error: string,
-      value: SourceText
+      value: Source
     }
   | {
       type: "BLACKBOX",
@@ -123,7 +122,7 @@ type SourceAction =
       error: string,
       value: {
         isPrettyPrinted: boolean,
-        sourceText: SourceText,
+        source: Source,
         frames: Frame[]
       }
     }
@@ -216,7 +215,7 @@ type NavigateAction = { type: "NAVIGATE", url: string };
 type ASTAction =
   | {
       type: "SET_SYMBOLS",
-      source: SourceText,
+      source: Source,
       symbols: SymbolDeclaration[]
     }
   | {

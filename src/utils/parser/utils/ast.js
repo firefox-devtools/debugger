@@ -6,7 +6,7 @@ import traverse from "babel-traverse";
 import isEmpty from "lodash/isEmpty";
 import { isDevelopment } from "devtools-config";
 
-import type { SourceText } from "debugger-html";
+import type { Source } from "debugger-html";
 
 const ASTs = new Map();
 
@@ -20,7 +20,7 @@ function _parse(code, opts) {
   );
 }
 
-function parse(text: string, opts?: Object) {
+function parse(text: ?string, opts?: Object) {
   let ast;
   if (!text) {
     return;
@@ -39,32 +39,37 @@ function parse(text: string, opts?: Object) {
   return ast;
 }
 
-export function getAst(sourceText: SourceText) {
-  if (ASTs.has(sourceText.id)) {
-    return ASTs.get(sourceText.id);
+// Custom parser for parse-script-tags that adapts its input structure to
+// our parser's signature
+function htmlParser({ source, line }) {
+  return parse(source, {
+    startLine: line
+  });
+}
+
+export function getAst(source: Source) {
+  if (!source || !source.text) {
+    return {};
+  }
+
+  if (ASTs.has(source.id)) {
+    return ASTs.get(source.id);
   }
 
   let ast = {};
-  if (sourceText.contentType == "text/html") {
-    // Custom parser for parse-script-tags that adapts its input structure to
-    // our parser's signature
-    const parser = ({ source, line }) => {
-      return parse(source, {
-        startLine: line
-      });
-    };
-    ast = parseScriptTags(sourceText.text, parser) || {};
-  } else if (sourceText.contentType == "text/javascript") {
-    ast = parse(sourceText.text);
+  if (source.contentType == "text/html") {
+    ast = parseScriptTags(source.text, htmlParser) || {};
+  } else if (source.contentType == "text/javascript") {
+    ast = parse(source.text);
   }
 
-  ASTs.set(sourceText.id, ast);
+  ASTs.set(source.id, ast);
   return ast;
 }
 
 type Visitor = { enter: Function };
-export function traverseAst(sourceText: SourceText, visitor: Visitor) {
-  const ast = getAst(sourceText);
+export function traverseAst(source: Source, visitor: Visitor) {
+  const ast = getAst(source);
   if (isEmpty(ast)) {
     return null;
   }

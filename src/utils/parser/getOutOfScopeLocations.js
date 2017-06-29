@@ -1,6 +1,6 @@
 // @flow
 
-import type { SourceText } from "debugger-html";
+import type { Source } from "debugger-html";
 import type { AstLocation, AstPosition } from "./types";
 
 import get from "lodash/fp/get";
@@ -74,7 +74,7 @@ function sortByStart(a: AstLocation, b: AstLocation) {
  * location.
  */
 function getOutOfScopeLocations(
-  source: SourceText,
+  source: Source,
   position: AstPosition
 ): AstLocation[] {
   return findFunctions(source)
