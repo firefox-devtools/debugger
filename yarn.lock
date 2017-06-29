@@ -6918,6 +6918,10 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
+redux-saga@^0.15.4:
+  version "0.15.4"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.15.4.tgz#27982a947280053b7ecbb5d3170c837a5fe6b261"
+
 redux@3.5.2, redux@^3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.5.2.tgz#4533745e970b647ec26066a83aa30e9e26faf843"
