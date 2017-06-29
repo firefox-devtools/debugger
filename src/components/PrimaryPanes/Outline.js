@@ -4,17 +4,17 @@ import { DOM as dom, Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
-import actions from "../actions";
-import { getSelectedSource, getSymbols } from "../selectors";
+import actions from "../../actions";
+import { getSelectedSource, getSymbols } from "../../selectors";
 import { isEnabled } from "devtools-config";
 import "./Outline.css";
-import previewFunction from "./shared/previewFunction";
+import previewFunction from "../shared/previewFunction";
 
 import type {
   SymbolDeclarations,
   SymbolDeclaration
-} from "../utils/parser/getSymbols";
-import type { SourceRecord } from "../reducers/sources";
+} from "../../utils/parser/getSymbols";
+import type { SourceRecord } from "../../reducers/sources";
 
 class Outline extends Component {
   state: any;

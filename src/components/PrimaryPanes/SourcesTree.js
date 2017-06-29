@@ -10,7 +10,7 @@ import {
   getShownSource,
   getSelectedSource,
   getDebuggeeUrl
-} from "../selectors";
+} from "../../selectors";
 
 import {
   nodeHasChildren,
@@ -20,16 +20,16 @@ import {
   collapseTree,
   createTree,
   getDirectories
-} from "../utils/sources-tree.js";
+} from "../../utils/sources-tree.js";
 
-import _ManagedTree from "./shared/ManagedTree";
+import _ManagedTree from "../shared/ManagedTree";
 const ManagedTree = createFactory(_ManagedTree);
 
-import actions from "../actions";
-import Svg from "./shared/Svg";
+import actions from "../../actions";
+import Svg from "../shared/Svg";
 import { showMenu } from "devtools-launchpad";
-import { copyToTheClipboard } from "../utils/clipboard";
-import { throttle } from "../utils/utils";
+import { copyToTheClipboard } from "../../utils/clipboard";
+import { throttle } from "../../utils/utils";
 
 type CreateTree = {
   focusedItem?: any,
