@@ -59,6 +59,14 @@ function isEmber(frame) {
   return getFrameUrl(frame).match(/ember/i);
 }
 
+function isRxJs(frame) {
+  return getFrameUrl(frame).match(/rxjs/i);
+}
+
+function isAngular(frame) {
+  return getFrameUrl(frame).match(/angular/i);
+}
+
 export function getLibraryFromUrl(frame: Frame) {
   // @TODO each of these fns calls getFrameUrl, just call it once
   // (assuming there's not more complex logic to identify a lib)
@@ -105,6 +113,14 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isEmber(frame)) {
     return "Ember";
+  }
+
+  if (isRxJs(frame)) {
+    return "RxJS";
+  }
+
+  if (isAngular(frame)) {
+    return "Angular";
   }
 }
 
