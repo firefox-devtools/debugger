@@ -81,6 +81,7 @@
     "pretty-fast": "^0.2.0",
     "react": "=15.3.2",
     "react-dom": "=15.3.2",
+    "redux-saga": "^0.15.4",
     "reselect": "^3.0.0",
     "rimraf": "^2.6.1",
     "stylelint": "^7.10.1",
