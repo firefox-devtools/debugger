@@ -6,7 +6,7 @@ import * as t from "babel-types";
 
 import getFunctionName from "./utils/getFunctionName";
 
-import type { SourceText } from "debugger-html";
+import type { Source } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
 const symbolDeclarations = new Map();
 
@@ -58,7 +58,7 @@ function getVariableNames(path: NodePath): SymbolDeclaration[] {
   }));
 }
 
-export default function getSymbols(source: SourceText): SymbolDeclarations {
+export default function getSymbols(source: Source): SymbolDeclarations {
   if (symbolDeclarations.has(source.id)) {
     const symbols = symbolDeclarations.get(source.id);
     if (symbols) {
@@ -288,7 +288,7 @@ function getSnippet(path, prevPath, expression = "") {
   }
 }
 
-export function formatSymbols(source: SourceText) {
+export function formatSymbols(source: Source) {
   const {
     objectProperties,
     memberExpressions,

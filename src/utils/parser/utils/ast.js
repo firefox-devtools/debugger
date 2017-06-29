@@ -6,7 +6,7 @@ import traverse from "babel-traverse";
 import isEmpty from "lodash/isEmpty";
 import { isDevelopment } from "devtools-config";
 
-import type { SourceText } from "debugger-html";
+import type { Source } from "debugger-html";
 
 const ASTs = new Map();
 
@@ -39,32 +39,33 @@ function parse(text: string, opts?: Object) {
   return ast;
 }
 
-export function getAst(sourceText: SourceText) {
-  if (ASTs.has(sourceText.id)) {
-    return ASTs.get(sourceText.id);
+export function getAst(source: Source) {
+  if (ASTs.has(source.id)) {
+    return ASTs.get(source.id);
   }
 
   let ast = {};
-  if (sourceText.contentType == "text/html") {
+  if (source.contentType == "text/html") {
     // Custom parser for parse-script-tags that adapts its input structure to
     // our parser's signature
-    const parser = ({ source, line }) => {
-      return parse(source, {
+    const parser = ({ sourceText, line }) => {
+      return parse(sourceText, {
         startLine: line
       });
     };
-    ast = parseScriptTags(sourceText.text, parser) || {};
-  } else if (sourceText.contentType == "text/javascript") {
-    ast = parse(sourceText.text);
+    ast = parseScriptTags(source.text, parser) || {};
+  } else if (source.contentType == "text/javascript") {
+    const text = source.text || "";
+    ast = parse(text);
   }
 
-  ASTs.set(sourceText.id, ast);
+  ASTs.set(source.id, ast);
   return ast;
 }
 
 type Visitor = { enter: Function };
-export function traverseAst(sourceText: SourceText, visitor: Visitor) {
-  const ast = getAst(sourceText);
+export function traverseAst(source: Source, visitor: Visitor) {
+  const ast = getAst(source);
   if (isEmpty(ast)) {
     return null;
   }

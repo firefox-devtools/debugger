@@ -9,7 +9,7 @@ import {
   nodeContainsPosition
 } from "./helpers";
 
-import type { SourceText, Location } from "debugger-html";
+import type { Source, Location } from "debugger-html";
 import type { NodePath, Node } from "babel-traverse";
 
 function getNodeValue(node: Node) {
@@ -43,7 +43,7 @@ function getClosestMemberExpression(source, token, location: Location) {
 }
 
 export function getClosestExpression(
-  source: SourceText,
+  source: Source,
   token: string,
   location: Location
 ) {
@@ -61,7 +61,7 @@ export function getClosestExpression(
   return { expression: getNodeValue(node), location: node.loc };
 }
 
-export function getClosestScope(source: SourceText, location: Location) {
+export function getClosestScope(source: Source, location: Location) {
   let closestPath = null;
 
   traverseAst(source, {
@@ -83,7 +83,7 @@ export function getClosestScope(source: SourceText, location: Location) {
   return closestPath.scope;
 }
 
-export function getClosestPath(source: SourceText, location: Location) {
+export function getClosestPath(source: Source, location: Location) {
   let closestPath = null;
 
   traverseAst(source, {

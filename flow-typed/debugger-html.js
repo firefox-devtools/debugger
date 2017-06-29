@@ -217,19 +217,6 @@ declare module "debugger-html" {
   };
 
   /**
-   * SourceText
-   * @memberof types
-   * @static
-   */
-  declare type SourceText = {
-    id: string,
-    text: string,
-    contentType: string,
-    loading?: boolean,
-    error?: boolean
-  };
-
-  /**
  * Script
  * This describes scripts which are sent to the debug server to be eval'd
  * @memberof types
