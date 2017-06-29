@@ -8,18 +8,9 @@ const ManagedTree = createFactory(_ManagedTree);
 import _SearchInput from "../shared/SearchInput";
 const SearchInput = createFactory(_SearchInput);
 
-import { searchSource } from "../../utils/project-search";
+import { searchSources } from "../../utils/search";
 
 import "./TextSearch.css";
-
-function search(query, sources) {
-  const validSources = sources.valueSeq().filter(s => s.has("text")).toJS();
-  return validSources.map(source => ({
-    source,
-    filepath: source.url,
-    matches: searchSource(source, query)
-  }));
-}
 
 export default class TextSearch extends Component {
   constructor(props: Props) {
@@ -35,7 +26,8 @@ export default class TextSearch extends Component {
   async inputOnChange(e) {
     const { sources } = this.props;
     const inputValue = e.target.value;
-    const results = await search(inputValue, sources);
+    const validSources = sources.valueSeq().filter(s => s.has("text")).toJS();
+    const results = await searchSources(inputValue, validSources);
 
     this.setState({
       results,

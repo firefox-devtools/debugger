@@ -9,7 +9,7 @@ import { endTruncateStr } from "../../utils/utils";
 import { parse as parseURL } from "url";
 import { isPretty } from "../../utils/source";
 import { isEnabled } from "devtools-config";
-import { searchSource } from "../../utils/project-search";
+import { searchSource } from "../../utils/search/project-search";
 import "./ProjectSearch.css";
 
 import _Autocomplete from "../shared/Autocomplete";

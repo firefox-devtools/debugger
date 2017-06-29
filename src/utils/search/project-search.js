@@ -28,3 +28,11 @@ export function searchSource(source, queryText) {
   matches = [].concat(...matches);
   return matches;
 }
+
+export default function searchSources(query, sources) {
+  return sources.map(source => ({
+    source,
+    filepath: source.url,
+    matches: searchSource(source, query)
+  }));
+}
