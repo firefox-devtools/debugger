@@ -20,7 +20,7 @@ function _parse(code, opts) {
   );
 }
 
-function parse(text: string, opts?: Object) {
+function parse(text: ?string, opts?: Object) {
   let ast;
   if (!text) {
     return;
@@ -39,24 +39,28 @@ function parse(text: string, opts?: Object) {
   return ast;
 }
 
+// Custom parser for parse-script-tags that adapts its input structure to
+// our parser's signature
+function htmlParser({ source, line }) {
+  return parse(source, {
+    startLine: line
+  });
+}
+
 export function getAst(source: Source) {
+  if (!source || !source.text) {
+    return {};
+  }
+
   if (ASTs.has(source.id)) {
     return ASTs.get(source.id);
   }
 
   let ast = {};
   if (source.contentType == "text/html") {
-    // Custom parser for parse-script-tags that adapts its input structure to
-    // our parser's signature
-    const parser = ({ sourceText, line }) => {
-      return parse(sourceText, {
-        startLine: line
-      });
-    };
-    ast = parseScriptTags(source.text, parser) || {};
+    ast = parseScriptTags(source.text, htmlParser) || {};
   } else if (source.contentType == "text/javascript") {
-    const text = source.text || "";
-    ast = parse(text);
+    ast = parse(source.text);
   }
 
   ASTs.set(source.id, ast);

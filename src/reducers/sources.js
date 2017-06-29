@@ -154,7 +154,7 @@ function update(
 
 function getTextPropsFromAction(action: any) {
   const source = action.source;
-  const sourceText = action.value;
+  const { value } = action;
 
   if (action.status === "start") {
     return { id: source.id, loading: true };
@@ -162,9 +162,9 @@ function getTextPropsFromAction(action: any) {
     return { id: source.id, error: action.error, loading: false };
   }
   return {
-    text: sourceText.text,
+    text: value.text,
     id: source.id,
-    contentType: sourceText.contentType,
+    contentType: value.contentType,
     loading: false
   };
 }

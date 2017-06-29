@@ -122,7 +122,7 @@ type SourceAction =
       error: string,
       value: {
         isPrettyPrinted: boolean,
-        sourceText: Source,
+        source: Source,
         frames: Frame[]
       }
     }

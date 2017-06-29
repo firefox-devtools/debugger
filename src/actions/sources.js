@@ -358,16 +358,11 @@ export function loadSourceText(source: Source) {
 
         const response = await client.sourceContents(source.id);
 
-        const sourceText: Source = {
+        return {
           id: source.id,
           text: response.source,
-          contentType: response.contentType || "text/javascript",
-          isBlackBoxed: false,
-          isPrettyPrinted: false,
-          url: ""
+          contentType: response.contentType || "text/javascript"
         };
-
-        return sourceText;
       })()
     });
 
