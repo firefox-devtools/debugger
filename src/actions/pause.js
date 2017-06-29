@@ -6,6 +6,7 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import { getPause, getLoadedObject } from "../selectors";
 import { updateFrameLocations } from "../utils/pause";
 import { evaluateExpressions } from "./expressions";
+import { analyzePauseLocation } from "./ast.js";
 
 import type { Pause, Frame } from "../types";
 import type { ThunkArgs } from "./types";
@@ -129,9 +130,15 @@ export function stepIn() {
  * @returns {Function} {@link command}
  */
 export function stepOver() {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    if (getPause(getState())) {
-      return dispatch(command({ type: "stepOver" }));
+  return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
+    const pauseInfo = getPause(getState());
+    let { frames } = pauseInfo;
+
+    frames = await updateFrameLocations(frames, sourceMaps);
+    const frame = frames[0];
+
+    if (pauseInfo) {
+      await dispatch(analyzePauseLocation(frame.location));
     }
   };
 }

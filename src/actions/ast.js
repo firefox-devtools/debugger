@@ -12,6 +12,18 @@ import {
 import { PROMISE } from "../utils/redux/middleware/promise";
 import * as parser from "../utils/parser";
 
+import { getClosestPath } from "../utils/parser/utils/closest";
+import {
+  isAsyncFunction,
+  isAwaitExpression,
+  containsPosition
+} from "../utils/parser/utils/helpers";
+
+import { addBreakpoint, removeBreakpoint } from "./breakpoints";
+import { getHiddenBreakpoint } from "../reducers/breakpoints";
+import { command } from "./pause";
+import type { NodePath } from "babel-traverse";
+
 import type { SourceId } from "debugger-html";
 import type { ThunkArgs } from "./types";
 import type { AstLocation } from "../utils/parser";
@@ -124,5 +136,57 @@ export function setSelection(
         };
       })()
     });
+  };
+}
+
+/**
+ * Action dispatched from stepOver action. Receives the position
+ * and depending on where it is paused, sets up hidden breakpoints
+ * and handles resume, stepOver (as needed)
+ * @param position
+ * @returns {function(ThunkArgs)}
+ */
+export function analyzePauseLocation(position: AstLocation) {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const source = getSelectedSource(getState()).toJS();
+    const hiddenBreakpointLocation = getHiddenBreakpoint(getState());
+
+    await dispatch({
+      type: "ANALYZE_PAUSE_LOCATION",
+      [PROMISE]: (async function() {
+        if (hiddenBreakpointLocation) {
+          await dispatch(removeBreakpoint(hiddenBreakpointLocation));
+        }
+        const path = getClosestPath(source, position);
+        if (!path) {
+          return;
+        }
+        if (isAwaitExpression(path)) {
+          return dispatch(analyzeAwaitExpression(path, position));
+        }
+        return dispatch(command({ type: "stepOver" }));
+      })()
+    });
+  };
+}
+
+function analyzeAwaitExpression(path: NodePath, position: AstLocation) {
+  return async ({ dispatch }: ThunkArgs) => {
+    const blockScope = path.scope.block;
+    if (blockScope && isAsyncFunction(blockScope)) {
+      const siblings = blockScope.body.body;
+      for (let i = 0; i != siblings.length; i++) {
+        const sibling = siblings[i];
+        if (containsPosition(sibling.loc, position)) {
+          const nextSibling = siblings[++i];
+          const nextLocation = nextSibling.loc.start;
+          nextLocation.sourceId = position.sourceId;
+          await dispatch(
+            addBreakpoint(nextLocation, { hidden: true, condition: "" })
+          );
+          return dispatch(command({ type: "resume" }));
+        }
+      }
+    }
   };
 }
