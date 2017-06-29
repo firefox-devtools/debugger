@@ -15,7 +15,20 @@ function _parse(code, opts) {
     code,
     Object.assign({}, opts, {
       sourceType: "module",
-      plugins: ["jsx", "flow"]
+      plugins: [
+        "estree",
+        "jsx",
+        "flow",
+        "doExpressions",
+        "objectRestSpread",
+        "classProperties",
+        "exportExtensions",
+        "asyncGenerators",
+        "functionBind",
+        "functionSent",
+        "dynamicImport",
+        "templateInvalidEscapes"
+      ]
     })
   );
 }

@@ -77,7 +77,6 @@ FunctionDeclaration (1:0,3:1)
             operator: '*'
             right: Identifier (2:13,2:14)
               name: 'n'
-    directives: []
   expression: false
   generator: false
   id: Identifier (1:9,1:15)
@@ -93,12 +92,9 @@ FunctionExpression (7:1,9:1)
   body: BlockStatement (7:12,9:1)
     body:
       - ExpressionStatement (8:2,8:4)
-          expression: NumericLiteral (8:2,8:3)
-            extra:
-              raw: '2'
-              rawValue: 2
+          expression: Literal (8:2,8:3)
+            raw: '2'
             value: 2
-    directives: []
   expression: false
   extra:
     parenStart: 64
@@ -113,7 +109,6 @@ FunctionExpression (5:8,5:21)
   async: false
   body: BlockStatement (5:19,5:21)
     body: []
-    directives: []
   expression: false
   generator: false
   id: null
