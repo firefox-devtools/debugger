@@ -1,3 +1,4 @@
+// Maybe reuse file search's functions?
 export function searchSource(source, queryText) {
   const { text, loading } = source;
   if (loading || !text || queryText == "") {
@@ -27,4 +28,12 @@ export function searchSource(source, queryText) {
 
   matches = [].concat(...matches);
   return matches;
+}
+
+export default function searchSources(query, sources) {
+  return sources.map(source => ({
+    source,
+    filepath: source.url,
+    matches: searchSource(source, query)
+  }));
 }

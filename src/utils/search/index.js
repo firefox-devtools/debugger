@@ -6,3 +6,4 @@ export const startSearchWorker = dispatcher.start.bind(dispatcher);
 export const stopSearchWorker = dispatcher.stop.bind(dispatcher);
 
 export const countMatches = dispatcher.task("countMatches");
+export const searchSources = dispatcher.task("searchSources");

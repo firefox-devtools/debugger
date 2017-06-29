@@ -1,4 +1,4 @@
-import { countMatches } from "../worker";
+import countMatches from "../count-matches";
 
 describe("search", () => {
   describe("countMatches", () => {
