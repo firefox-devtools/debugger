@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Outline from "../../components/Outline";
+import Outline from "../../components/PrimaryPanes/Outline";
 import devtoolsConfig from "devtools-config";
 import { makeSymbolDeclaration } from "../../utils/test-head";
 

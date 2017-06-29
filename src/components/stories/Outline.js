@@ -1,12 +1,12 @@
 import React, { DOM as dom } from "react";
 import { storiesOf, action } from "@kadira/storybook";
 
-import _Outline from "../Outline";
+import _Outline from "../PrimaryPanes/Outline";
 const Outline = React.createFactory(_Outline.WrappedComponent);
 import { L10N } from "devtools-launchpad";
 
 import "../App.css";
-import "../Outline.css";
+import "../PrimaryPanes/Outline.css";
 
 import "devtools-launchpad/src/lib/themes/dark-theme.css";
 

@@ -24,8 +24,8 @@ const SplitBox = createFactory(_SplitBox);
 import _ProjectSearch from "./ProjectSearch/ProjectSearch";
 const ProjectSearch = createFactory(_ProjectSearch);
 
-import _Sources from "./Sources";
-const Sources = createFactory(_Sources);
+import _PrimaryPanes from "./PrimaryPanes";
+const PrimaryPanes = createFactory(_PrimaryPanes);
 
 import _Editor from "./Editor";
 const Editor = createFactory(_Editor);
@@ -127,7 +127,7 @@ class App extends Component {
         maxSize: "50%",
         splitterSize: 1,
         onResizeEnd: size => this.setState({ startPanelSize: size }),
-        startPanel: Sources({ horizontal }),
+        startPanel: PrimaryPanes({ horizontal }),
         startPanelCollapsed,
         endPanel: SplitBox({
           style: { overflowX },
@@ -166,7 +166,7 @@ class App extends Component {
           maxSize: "40%",
           splitterSize: 1,
           startPanelCollapsed,
-          startPanel: Sources({ horizontal }),
+          startPanel: PrimaryPanes({ horizontal }),
           endPanel: this.renderEditorPane()
         }),
         endPanel: SecondaryPanes({ horizontal }),

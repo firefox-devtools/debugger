@@ -4,9 +4,9 @@ import { DOM as dom, PropTypes, Component, createFactory } from "react";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { formatKeyShortcut } from "../utils/text";
-import actions from "../actions";
-import { getSources, getActiveSearchState } from "../selectors";
+import { formatKeyShortcut } from "../../utils/text";
+import actions from "../../actions";
+import { getSources, getActiveSearchState } from "../../selectors";
 import { isEnabled } from "devtools-config";
 import "./Sources.css";
 import classnames from "classnames";
@@ -21,7 +21,7 @@ type SourcesState = {
   selectedPane: string
 };
 
-class Sources extends Component {
+class PrimaryPanes extends Component {
   renderShortcut: Function;
   selectedPane: String;
   showPane: Function;
@@ -123,7 +123,7 @@ class Sources extends Component {
   }
 }
 
-Sources.propTypes = {
+PrimaryPanes.propTypes = {
   sources: ImPropTypes.map.isRequired,
   selectSource: PropTypes.func.isRequired,
   horizontal: PropTypes.bool.isRequired,
@@ -131,7 +131,7 @@ Sources.propTypes = {
   projectSearchOn: PropTypes.bool.isRequired
 };
 
-Sources.displayName = "Sources";
+PrimaryPanes.displayName = "PrimaryPanes";
 
 export default connect(
   state => ({
@@ -139,4 +139,4 @@ export default connect(
     projectSearchOn: getActiveSearchState(state) === "project"
   }),
   dispatch => bindActionCreators(actions, dispatch)
-)(Sources);
+)(PrimaryPanes);
