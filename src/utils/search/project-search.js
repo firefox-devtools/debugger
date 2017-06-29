@@ -1,3 +1,4 @@
+// Maybe reuse file search's functions?
 export function searchSource(source, queryText) {
   const { text, loading } = source;
   if (loading || !text || queryText == "") {
