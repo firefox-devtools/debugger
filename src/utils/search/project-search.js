@@ -31,7 +31,8 @@ export function searchSource(source, queryText) {
 }
 
 export default function searchSources(query, sources) {
-  return sources.map(source => ({
+  const validSources = sources.valueSeq().filter(s => s.has("text")).toJS();
+  return validSources.map(source => ({
     source,
     filepath: source.url,
     matches: searchSource(source, query)

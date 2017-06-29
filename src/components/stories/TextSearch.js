@@ -61,7 +61,7 @@ storiesOf("TextSearch", module)
           filepath: "http://example.com/foo/bar.js",
           matches: [
             {
-              value: "foo",
+              value: "foo foo bar",
               line: 2
             },
             {
@@ -74,7 +74,7 @@ storiesOf("TextSearch", module)
           filepath: "http://example.com/foo/bazz.js",
           matches: [
             {
-              value: "la la",
+              value: "la la foo",
               line: 2
             },
             {
@@ -82,7 +82,17 @@ storiesOf("TextSearch", module)
               line: 3
             }
           ]
+        },
+        {
+          filepath: "http://example.com/foo/bla.js",
+          matches: [
+            {
+              value: "baaaa foobaaa",
+              line: 2
+            }
+          ]
         }
-      ]
+      ],
+      query: "foo"
     });
   });

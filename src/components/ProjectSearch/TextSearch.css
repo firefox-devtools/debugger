@@ -4,17 +4,43 @@
 
 .project-text-search .result {
   display: flex;
-  margin-left: 20px;
+  cursor: default;
+  margin: 2px 0 2px 0;
+  padding: 5px 0 5px 30px;
+}
+
+.project-text-search .result.focused {
+  background-color: #eeeeee;
+}
+
+.project-text-search .result .query-match {
+  background-color: var(--theme-selection-background);
+  color: #ffffff;
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+
+.project-text-search .result.focused .line-number {
+  font-weight: bolder;
 }
 
 .project-text-search .file-result {
   font-weight: bold;
-  margin-top: 20px;
   line-height: 20px;
+  cursor: default;
+  margin: 2px 20px 2px 0;
+  padding: 3px 0 3px 5px;
+}
+
+.project-text-search .file-result .arrow {
+  margin: 2px 0 2px 0;
+}
+
+.project-text-search .file-result.focused {
+  background-color: #eeeeee;
 }
 
 .project-text-search .line-match {
-  font-family: monospace;
   display: "flex";
   grow: 1;
 }

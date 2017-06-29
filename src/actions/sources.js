@@ -184,6 +184,8 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
 
     dispatch({ type: "TOGGLE_ACTIVE_SEARCH", value: null });
 
+    dispatch(addTab(source.toJS(), 0));
+
     return dispatch({
       type: "SELECT_SOURCE",
       source: source.toJS(),
@@ -224,6 +226,14 @@ export function jumpToMappedLocation(sourceLocation: any) {
     return dispatch(
       selectSource(pairedLocation.sourceId, { line: pairedLocation.line })
     );
+  };
+}
+
+export function addTab(source: Source, tabIndex: number) {
+  return {
+    type: "ADD_TAB",
+    source,
+    tabIndex
   };
 }
 

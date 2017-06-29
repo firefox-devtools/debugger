@@ -1,6 +1,7 @@
-import { Component, DOM as dom, createFactory } from "react";
+import { Component, DOM as dom, createFactory, PropTypes } from "react";
 import classnames from "classnames";
 
+import escapeRegExp from "lodash/escapeRegExp";
 import Svg from "../shared/Svg";
 import _ManagedTree from "../shared/ManagedTree";
 const ManagedTree = createFactory(_ManagedTree);
@@ -8,7 +9,7 @@ const ManagedTree = createFactory(_ManagedTree);
 import _SearchInput from "../shared/SearchInput";
 const SearchInput = createFactory(_SearchInput);
 
-import { searchSources } from "../../utils/search";
+import searchSources from "../../utils/search/project-search";
 
 import "./TextSearch.css";
 
@@ -17,21 +18,28 @@ export default class TextSearch extends Component {
     super(props);
     this.state = {
       results: [],
-      inputValue: props.inputValue || "",
+      inputValue: "",
       selectedIndex: 0,
       focused: false
     };
+
+    this.inputOnChange = this.inputOnChange.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.close = this.close.bind(this);
   }
 
   close() {
     this.setState({ inputValue: "", results: [], selectedIndex: 0 });
+    this.props.closeActiveSearch();
   }
 
-  async inputOnChange(e) {
-    const { sources } = this.props;
-    const inputValue = e.target.value;
-    const validSources = sources.valueSeq().filter(s => s.has("text")).toJS();
-    const results = await searchSources(inputValue, validSources);
+  async onKeyDown(e) {
+    if (e.key !== "Enter") {
+      return;
+    }
+    const inputValue = this.state.inputValue;
+    const sources = this.props.sources;
+    const results = await searchSources(inputValue, sources);
 
     this.setState({
       results,
@@ -40,38 +48,98 @@ export default class TextSearch extends Component {
     });
   }
 
-  renderFile(file, expanded) {
+  inputOnChange(e) {
+    const inputValue = e.target.value;
+    this.setState({ inputValue });
+  }
+
+  renderFile(file, focused, expanded, setExpanded) {
     return dom.div(
       {
-        className: "file-result",
-        key: file.filepath
+        className: classnames("file-result", { focused }),
+        key: file.filepath,
+        onClick: e => setExpanded(file, !expanded)
       },
       Svg("arrow", {
         className: classnames({
           expanded
         })
       }),
-      file.filepath
+      dom.span({ className: "file-path" }, file.filepath),
+      dom.span(
+        { className: "matches-summary", key: `m-${file.filepath}` },
+        ` (${file.matches.length} match${file.matches.length > 1 ? "es" : ""})`
+      )
     );
   }
 
-  renderMatch(match) {
+  renderMatch(match, focused) {
     return dom.div(
-      { className: "result", key: `${match.line}/${match.column}` },
+      {
+        className: classnames("result", { focused }),
+        key: `${match.line}/${match.column}`,
+        onClick: () => console.log(`clicked ${match}`)
+      },
       dom.span(
         {
-          className: "line-number"
+          className: "line-number",
+          key: `${match.line}`
         },
         match.line
       ),
-      dom.span({ className: "line-match" }, match.value)
+      this.renderMatchValue(match.value)
     );
   }
 
+  renderMatchValue(value) {
+    const { inputValue } = this.state;
+    let match;
+    const len = inputValue.length;
+    let matchIndexes = [];
+    let matches = [];
+    const re = new RegExp(escapeRegExp(inputValue), "g");
+    while ((match = re.exec(value)) !== null) {
+      matchIndexes.push(match.index);
+    }
+
+    matchIndexes.forEach((matchIndex, index) => {
+      if (matchIndex > 0 && index === 0) {
+        matches.push(
+          dom.span({ className: "line-match" }, value.slice(0, matchIndex))
+        );
+      }
+      if (matchIndex > matchIndexes[index - 1] + len) {
+        matches.push(
+          dom.span(
+            { className: "line-match" },
+            value.slice(matchIndexes[index - 1] + len, matchIndex)
+          )
+        );
+      }
+      matches.push(
+        dom.span(
+          { className: "query-match", key: index },
+          value.substr(matchIndex, len)
+        )
+      );
+      if (index === matchIndexes.length - 1) {
+        matches.push(
+          dom.span(
+            {
+              className: "line-match"
+            },
+            value.slice(matchIndex + len, value.length)
+          )
+        );
+      }
+    });
+
+    return dom.span({ className: "line-value" }, ...matches);
+  }
+
   renderResults() {
-    const { results } = this.state;
     return ManagedTree({
-      getRoots: () => results,
+      getRoots: () => this.state.results,
       getChildren: file => {
         return file.matches || [];
       },
@@ -81,8 +149,10 @@ export default class TextSearch extends Component {
       getParent: item => null,
       getKey: item =>
         item.filepath || `${item.value}/${item.line}/${item.column}`,
-      renderItem: (item, depth, focused, _, expanded) =>
-        item.filepath ? this.renderFile(item, expanded) : this.renderMatch(item)
+      renderItem: (item, depth, focused, _, expanded, { setExpanded }) =>
+        item.filepath
+          ? this.renderFile(item, focused, expanded, setExpanded)
+          : this.renderMatch(item, focused)
     });
   }
 
@@ -110,8 +180,8 @@ export default class TextSearch extends Component {
       onChange: e => this.inputOnChange(e),
       onFocus: () => this.setState({ focused: true }),
       onBlur: () => this.setState({ focused: false }),
-      onKeyDown: this.onKeyDown,
-      handleClose: this.props.close
+      onKeyDown: e => this.onKeyDown(e),
+      handleClose: this.close
     });
   }
 
@@ -125,5 +195,12 @@ export default class TextSearch extends Component {
     );
   }
 }
+
+TextSearch.propTypes = {
+  addTab: PropTypes.func,
+  sources: PropTypes.object,
+  query: PropTypes.string,
+  closeActiveSearch: PropTypes.func
+};
 
 TextSearch.displayName = "TextSearch";
