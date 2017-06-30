@@ -53,6 +53,9 @@ const ColumnBreakpoint = createFactory(_ColumnBreakpoint);
 import _HitMarker from "./HitMarker";
 const HitMarker = createFactory(_HitMarker);
 
+import _DebugLine from "./DebugLine";
+const DebugLine = createFactory(_DebugLine);
+
 import {
   getDocument,
   setDocument,
@@ -146,7 +149,6 @@ class Editor extends PureComponent {
     // This lifecycle method is responsible for updating the editor
     // text.
     const { sourceText, selectedLocation } = nextProps;
-    this.clearDebugLine(this.props.selectedFrame);
 
     if (
       nextProps.startPanelSize !== this.props.startPanelSize ||
@@ -165,7 +167,7 @@ class Editor extends PureComponent {
       this.showSourceText(sourceText, selectedLocation);
     }
 
-    this.setDebugLine(nextProps.selectedFrame, selectedLocation);
+    console.log("would have set debug line");
     resizeBreakpointGutter(this.editor.codeMirror);
   }
 
@@ -600,28 +602,6 @@ class Editor extends PureComponent {
     }
   }
 
-  clearDebugLine(selectedFrame) {
-    if (selectedFrame) {
-      const line = selectedFrame.location.line;
-      this.editor.codeMirror.removeLineClass(
-        line - 1,
-        "line",
-        "new-debug-line"
-      );
-    }
-  }
-
-  setDebugLine(selectedFrame, selectedLocation) {
-    if (
-      selectedFrame &&
-      selectedLocation &&
-      selectedFrame.location.sourceId === selectedLocation.sourceId
-    ) {
-      const line = selectedFrame.location.line;
-      this.editor.codeMirror.addLineClass(line - 1, "line", "new-debug-line");
-    }
-  }
-
   // If the location has changed and a specific line is requested,
   // move to that line and flash it.
   highlightLine() {
@@ -782,6 +762,16 @@ class Editor extends PureComponent {
     };
   }
 
+  renderDebugLine() {
+    return DebugLine({
+      editor: this.editor,
+      frame: this.props.selectedFrame,
+      visibleSourceId: this.props.selectedSource
+        ? this.props.selectedSource.get("id")
+        : ""
+    });
+  }
+
   renderPreview() {
     const { selectedToken, selectedExpression } = this.state;
     const { selectedFrame, sourceText } = this.props;
@@ -851,6 +841,7 @@ class Editor extends PureComponent {
       this.renderHighlightLines(),
       this.renderBreakpoints(),
       this.renderHitCounts(),
+      this.renderDebugLine(),
       Footer({ editor: this.editor, horizontal }),
       this.renderPreview()
     );
