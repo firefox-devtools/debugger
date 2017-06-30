@@ -63,5 +63,16 @@ export function containsLocation(a: AstLocation, b: AstLocation) {
 }
 
 export function nodeContainsPosition(node: Node, position: AstPosition) {
-  return containsPosition(node.loc, position);
+  const b = position.column ? position : { ...position, column: 0 };
+  return containsPosition(node.loc, b);
+}
+
+export function nodeContainsLine(node: Node, position: AstPosition) {
+  const a = node.loc;
+  const b = position.column ? position : { ...position, column: 0 };
+
+  console.log(a.start.line)
+  const startsAtOrBefore = a.start.line === b.line;
+
+  return startsAtOrBefore;
 }

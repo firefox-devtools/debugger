@@ -233,7 +233,7 @@ function getArraySnippet(
   return getSnippet(nextPath, nextPrevPath, extendedExpression);
 }
 
-function getSnippet(path, prevPath, expression = "") {
+export function getSnippet(path, prevPath, expression = "") {
   if (t.isVariableDeclaration(path)) {
     const node = path.node.declarations[0];
     const name = node.id.name;

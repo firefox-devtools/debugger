@@ -57,6 +57,12 @@ function update(
       return newState;
     }
 
+    case "RESYNC_BREAKPOINT": {
+      const newState = resyncBreakpoint(state, action);
+      setPendingBreakpoints(newState);
+      return newState;
+    }
+
     case "ENABLE_BREAKPOINT": {
       const newState = enableBreakpoint(state, action);
       setPendingBreakpoints(newState);
@@ -113,6 +119,7 @@ function addBreakpoint(state, action) {
     const {
       id: breakpointId,
       actualLocation,
+      astLocation,
       generatedLocation
     } = action.value;
     let location = action.breakpoint.location;
@@ -129,6 +136,7 @@ function addBreakpoint(state, action) {
       ...bp,
       id: breakpointId,
       loading: false,
+      astLocation,
       generatedLocation,
       text: ""
     };
@@ -153,7 +161,10 @@ function syncBreakpoint(state, action) {
   }
   if (action.status === "done") {
     // when the action completes, we can commit the breakpoint
-    const { breakpoint, value: { actualLocation, generatedLocation } } = action;
+    const {
+      breakpoint,
+      value: { actualLocation, generatedLocation, astLocation }
+    } = action;
     const sameLocation = !locationMoved(breakpoint.location, actualLocation);
 
     // if the breakpoint is the same as the optimistic breakpoint, we can commit
@@ -166,11 +177,15 @@ function syncBreakpoint(state, action) {
     // by the server, and correct the breakpoint with that new information.
     // Correcting a breakpoint deletes both the pending breakpoint and the
     // optimistic breakpoint. Correcting will commit the corrected value
-    const overrides = { location: actualLocation, generatedLocation };
+    const overrides = {
+      location: actualLocation,
+      astLocation,
+      generatedLocation
+    };
     const updatedState = correctBreakpoint(state, breakpoint, overrides);
     const id = makeLocationId(actualLocation);
 
-    // once the corrected breakpoint is added and commited, we can update the
+    //  the corrected breakpoint is added and commited, we can update the
     // pending breakpoints with that information.
     const correctedBreakpoint = updatedState.breakpoints.get(id);
     return updatePendingBreakpoint(updatedState, correctedBreakpoint);
@@ -179,6 +194,35 @@ function syncBreakpoint(state, action) {
   if (action.status === "error") {
     // Remove the optimistic update and pending breakpoint
     return deleteBreakpoint(state, action.breakpoint.location);
+  }
+}
+
+function resyncBreakpoint(state, action) {
+  if (action.status != "done") {
+    return state;
+  }
+
+  if (action.status === "done" && action.value) {
+    const {
+      value: { actualLocation, generatedLocation, astLocation },
+      breakpoint
+    } = action;
+
+    // if the breakpoint is the same as the optimistic breakpoint, we can commit
+    // to the optimistic value.
+    const overrides = {
+      location: actualLocation,
+      astLocation,
+      generatedLocation
+    };
+
+    const updatedState = correctBreakpoint(state, breakpoint, overrides);
+    const locationId = makeLocationId(actualLocation);
+
+    //  the corrected breakpoint is added and commited, we can update the
+    // pending breakpoints with that information.
+    const correctedBreakpoint = updatedState.breakpoints.get(locationId);
+    return updatePendingBreakpoint(updatedState, correctedBreakpoint);
   }
 }
 
@@ -311,11 +355,12 @@ export function makePendingBreakpoint(bp: any) {
     location: { sourceUrl, line, column },
     condition,
     disabled,
+    astLocation,
     generatedLocation
   } = bp;
 
   const location = { sourceUrl, line, column };
-  return { condition, disabled, generatedLocation, location };
+  return { condition, disabled, astLocation, generatedLocation, location };
 }
 
 function setPendingBreakpoints(state: any) {
