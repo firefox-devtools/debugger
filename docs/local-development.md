@@ -17,6 +17,8 @@
   * [Lint CSS](#lint-css)
 * [Colors](#colors)
 * [Configs](#configs)
+* [Workers](#workers)
+  * [Adding a Task](#adding-a-task)
 * [Hot Reloading](#hot-reloading-fire)
 * [Contributing to other packages](#contributing-to-other-packages)
 * [FAQ](#faq)
@@ -438,6 +440,51 @@ The Debugger uses configs for settings like `theme`, `hotReloading`, and feature
 
 The default development configs are in [development-json]. It's easy to change a setting in the Launchpad's settings tab or by updating your `configs/local.json` file.
 
+### Workers
+
+The Debugger takes advantage of [web wokers][web-workers] to delegate work to
+other processes. Some examples of this are source maps, parsing, and search.
+In these cases, the debugger asks the worker to do potentially difficult work
+so that the main thread doesn't have to.
+
+#### Adding a Task
+
+There are a couple of steps needed to make a function a worker task.
+
+1. add a task to the worker index e.g. (`dispatcher.task("getMatches")`)
+2. add the function to the worker handler `workerHandler({ getMatches })`
+
+Here's the full example.
+
+```diff
+diff --git a/src/utils/search/index.js b/src/utils/search/index.js
+index 2ec930c..fcb55bb 100644
+--- a/src/utils/search/index.js
++++ b/src/utils/search/index.js
+@@ -6,3 +6,4 @@ export const startSearchWorker = dispatcher.start.bind(dispatcher);
+ export const stopSearchWorker = dispatcher.stop.bind(dispatcher);
+
+ export const countMatches = dispatcher.task("countMatches");
++export const getMatches = dispatcher.task("getMatches");
+diff --git a/src/utils/search/worker.js b/src/utils/search/worker.js
+index dbba6c1..75f7b2c 100644
+--- a/src/utils/search/worker.js
++++ b/src/utils/search/worker.js
+@@ -1,4 +1,6 @@
+ import buildQuery from "./utils/build-query";
++import getMatches from "./getMatches";
++
+ import { workerUtils } from "devtools-utils";
+ const { workerHandler } = workerUtils;
+
+@@ -14,4 +16,4 @@ export function countMatches(
+   return match ? match.length : 0;
+ }
+
+-self.onmessage = workerHandler({ countMatches });
++self.onmessage = workerHandler({ countMatches, getMatches });
+```
+
 #### Creating a new Feature Flag
 
 When you're starting a new feature, it's always good to ask yourself if the feature should be added behind a feature flag.
@@ -666,3 +713,4 @@ your questions on [slack][slack].
 
 [shimmed-context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/menu.js
 [context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-modules/client/framework/menu.js
+[web-workers]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
