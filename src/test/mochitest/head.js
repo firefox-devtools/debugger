@@ -585,7 +585,7 @@ const isMac = Services.appinfo.OS === "Darwin";
 const cmdOrCtrl = isLinux ? { ctrlKey: true } : { metaKey: true };
 const shiftOrAlt = isMac
   ? { accelKey: true, shiftKey: true }
-  : { aaccelKey: true, ltKey: true };
+  : { accelKey: true, altKey: true };
 
 // On Mac, going to beginning/end only works with meta+left/right.  On
 // Windows, it only works with home/end.  On Linux, apparently, either
