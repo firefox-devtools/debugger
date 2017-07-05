@@ -68,7 +68,7 @@ class SearchBar extends Component {
     highlightLineRange: ({ start: number, end: number }) => void,
     clearHighlightLineRange: () => void,
     symbolSearchOn?: boolean,
-    symbolSearchResults?: Array<any>,
+    symbolSearchResults: Array<any>,
     searchOn?: boolean,
     setActiveSearch: (?ActiveSearchType) => any,
     searchResults: SearchResults,

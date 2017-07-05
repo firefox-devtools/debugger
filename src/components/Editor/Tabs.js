@@ -30,7 +30,6 @@ const Dropdown = createFactory(_Dropdown);
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
-import type { ActiveSearchType } from "../../reducers/ui";
 type SourcesList = List<SourceRecord>;
 
 /*
@@ -106,6 +105,7 @@ class SourceTabs extends PureComponent {
     setActiveSearch: (?ActiveSearchType) => void,
     togglePrettyPrint: string => void,
     togglePaneCollapse: () => void,
+    toggleActiveSearch: (?string) => void,
     showSource: string => void,
     horizontal: boolean,
     startPanelCollapsed: boolean,
