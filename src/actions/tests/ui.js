@@ -16,22 +16,22 @@ describe("ui", () => {
   it("should toggle the visible state of project search", () => {
     const { dispatch, getState } = createStore();
     expect(getActiveSearchState(getState())).toBe(null);
-    dispatch(actions.toggleActiveSearch("project"));
+    dispatch(actions.setActiveSearch("project"));
     expect(getActiveSearchState(getState())).toBe("project");
   });
 
   it("should close project search", () => {
     const { dispatch, getState } = createStore();
     expect(getActiveSearchState(getState())).toBe(null);
-    dispatch(actions.toggleActiveSearch("project"));
-    dispatch(actions.toggleActiveSearch());
+    dispatch(actions.setActiveSearch("project"));
+    dispatch(actions.closeActiveSearch());
     expect(getActiveSearchState(getState())).toBe(null);
   });
 
   it("should toggle the visible state of file search", () => {
     const { dispatch, getState } = createStore();
     expect(getActiveSearchState(getState())).toBe(null);
-    dispatch(actions.toggleActiveSearch("file"));
+    dispatch(actions.setActiveSearch("file"));
     expect(getActiveSearchState(getState())).toBe("file");
   });
 
@@ -56,8 +56,8 @@ describe("ui", () => {
   it("should close file search", () => {
     const { dispatch, getState } = createStore();
     expect(getActiveSearchState(getState())).toBe(null);
-    dispatch(actions.toggleActiveSearch("file"));
-    dispatch(actions.toggleActiveSearch());
+    dispatch(actions.setActiveSearch("file"));
+    dispatch(actions.closeActiveSearch());
     expect(getActiveSearchState(getState())).toBe(null);
   });
 
@@ -82,7 +82,7 @@ describe("ui", () => {
   it("should toggle the symbol search state", () => {
     const { dispatch, getState } = createStore();
     expect(getActiveSearchState(getState())).toBe(null);
-    dispatch(actions.toggleActiveSearch("symbol"));
+    dispatch(actions.setActiveSearch("symbol"));
     expect(getActiveSearchState(getState())).toBe("symbol");
   });
 

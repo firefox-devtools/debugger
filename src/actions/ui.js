@@ -3,16 +3,16 @@ import { getSource, getActiveSearchState } from "../selectors";
 import type { ThunkArgs } from "./types";
 import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
 
-export function toggleActiveSearch(activeSearch?: ActiveSearchType) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    if (!activeSearch) {
-      dispatch({
-        type: "TOGGLE_ACTIVE_SEARCH",
-        value: null
-      });
-    }
-    const activeSearchState = getActiveSearchState(getState());
+export function closeActiveSearch() {
+  return {
+    type: "TOGGLE_ACTIVE_SEARCH",
+    value: null
+  };
+}
 
+export function setActiveSearch(activeSearch?: ActiveSearchType) {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const activeSearchState = getActiveSearchState(getState());
     if (activeSearchState === activeSearch) {
       return;
     }

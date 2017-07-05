@@ -21,7 +21,7 @@ import "./shared/reps.css";
 import _SplitBox from "devtools-splitter";
 const SplitBox = createFactory(_SplitBox);
 
-import _ProjectSearch from "./ProjectSearch/ProjectSearch";
+import _ProjectSearch from "./ProjectSearch";
 const ProjectSearch = createFactory(_ProjectSearch);
 
 import _PrimaryPanes from "./PrimaryPanes";

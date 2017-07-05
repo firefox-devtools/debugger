@@ -18,7 +18,7 @@ export type FileSearchModifiers = Record<{
 }>;
 
 export type SymbolSearchType = "functions" | "variables";
-export type ActiveSearchType = "project" | "file" | "symbol";
+export type ActiveSearchType = "project" | "source" | "file" | "symbol";
 
 export type SearchResults = {
   index: number,

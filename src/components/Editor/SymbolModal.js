@@ -66,7 +66,7 @@ class SymbolModal extends Component {
     symbols: SymbolDeclarations,
     symbolType: SymbolSearchType,
     setSelectedSymbolType: SymbolSearchType => any,
-    toggleActiveSearch: (?ActiveSearchType) => any,
+    setActiveSearch: (?ActiveSearchType) => any,
     setSymbolSearchQuery: string => any,
     updateSymbolSearchResults: any,
     highlightLineRange: ({ start: number, end: number }) => void,
@@ -100,7 +100,7 @@ class SymbolModal extends Component {
     const shortcuts = this.context.shortcuts;
     shortcuts.on("Escape", (_, e) => this.onEscape(e));
     shortcuts.on(L10N.getStr("symbolSearch.search.key2"), (_, e) => {
-      this.props.toggleActiveSearch("symbol");
+      this.props.setActiveSearch("symbol");
       this.props.setSelectedSymbolType("functions");
     });
   }
@@ -112,7 +112,7 @@ class SymbolModal extends Component {
   }
 
   onEscape(e: SyntheticEvent) {
-    this.props.toggleActiveSearch();
+    this.props.setActiveSearch();
   }
 
   onChange(e: SyntheticInputEvent) {
@@ -137,7 +137,7 @@ class SymbolModal extends Component {
   }
 
   closeModal() {
-    this.props.toggleActiveSearch();
+    this.props.setActiveSearch();
     this.props.clearHighlightLineRange();
   }
 
