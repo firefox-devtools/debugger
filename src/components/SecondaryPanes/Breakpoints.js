@@ -14,7 +14,7 @@ import {
 } from "../../selectors";
 import { makeLocationId } from "../../utils/breakpoint";
 import { endTruncateStr } from "../../utils/utils";
-import { basename } from "../../utils/path";
+import { getFilename } from "../../utils/source";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
 import get from "lodash/get";
@@ -38,13 +38,13 @@ function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
 }
 
 function renderSourceLocation(source, line, column) {
-  const url = source.get("url") ? basename(source.get("url")) : null;
+  const filename = source ? getFilename(source.toJS()) : null;
   const bpLocation = line + (column ? `:${column}` : "");
-  // const line = url !== "" ? `: ${line}` : "";
-  return url
+
+  return filename
     ? dom.div(
         { className: "location" },
-        `${endTruncateStr(url, 30)}: ${bpLocation}`
+        `${endTruncateStr(filename, 30)}: ${bpLocation}`
       )
     : null;
 }
