@@ -98,22 +98,39 @@ class ProjectSearch extends Component {
       L10N.getStr("sources.search.alt.key")
     ];
     searchKeys.forEach(key => shortcuts.on(key, this.toggleProjectSearch));
+
+    shortcuts.on(
+      L10N.getStr("projectTextSearch.key"),
+      this.toggleProjectTextSearch
+    );
     shortcuts.on("Escape", this.onEscape);
   }
 
   toggleProjectSearch(key, e) {
     e.preventDefault();
-    if (this.props.searchOn) {
+    if (this.isProjectSearchOpen()) {
       return this.props.toggleActiveSearch();
     }
     return this.props.toggleActiveSearch("project");
   }
 
+  toggleProjectTextSearch(key, e) {
+    // e.preventDefault();
+    // if (this.props.activeSearch) {
+    //   return this.props.toggleActiveSearch();
+    // }
+    // return this.props.toggleActiveSearch("project");
+  }
+
   onEscape(shortcut, e) {
-    if (this.props.searchOn) {
+    if (this.isProjectSearchOpen()) {
       e.preventDefault();
       this.close();
     }
+  }
+
+  isProjectSearchOpen() {
+    return this.props.activeSearch === "project";
   }
 
   close() {
@@ -144,8 +161,7 @@ class ProjectSearch extends Component {
   }
 
   render() {
-    const { searchOn } = this.props;
-    if (!searchOn) {
+    if (!this.isProjectSearchOpen()) {
       return null;
     }
 
@@ -162,7 +178,7 @@ ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
   selectSource: PropTypes.func.isRequired,
   toggleActiveSearch: PropTypes.func.isRequired,
-  searchOn: PropTypes.bool
+  activeSearch: PropTypes.string
 };
 
 ProjectSearch.contextTypes = {
@@ -174,7 +190,7 @@ ProjectSearch.displayName = "ProjectSearch";
 export default connect(
   state => ({
     sources: getSources(state),
-    searchOn: getActiveSearchState(state) === "project"
+    activeSearch: getActiveSearchState(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);
