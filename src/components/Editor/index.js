@@ -855,7 +855,6 @@ Editor.propTypes = {
   coverageOn: PropTypes.bool,
   pauseData: PropTypes.object,
   selectedFrame: PropTypes.object,
-  getExpression: PropTypes.func.isRequired,
   addExpression: PropTypes.func.isRequired,
   horizontal: PropTypes.bool,
   query: PropTypes.string.isRequired,
@@ -875,11 +874,6 @@ Editor.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-const expressionsSel = state => state.expressions.expressions;
-const getExpressionSel = createSelector(expressionsSel, expressions => input =>
-  expressions.find(exp => exp.input == input)
-);
-
 export default connect(
   state => {
     const selectedLocation = getSelectedLocation(state);
@@ -895,7 +889,6 @@ export default connect(
       breakpoints: getBreakpointsForSource(state, sourceId || ""),
       hitCount: getHitCountForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state),
-      getExpression: getExpressionSel(state),
       pauseData: getPause(state),
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),
