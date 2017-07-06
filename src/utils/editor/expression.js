@@ -2,7 +2,7 @@
 
 import isEqual from "lodash/isEqual";
 
-export function getTokenLocation(codeMirror: any, tokenEl) {
+export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
   const { left, top, width, height } = tokenEl.getBoundingClientRect();
   const { line, ch } = codeMirror.coordsChar({
     left: left + width / 2,

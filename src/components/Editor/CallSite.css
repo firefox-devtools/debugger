@@ -16,14 +16,16 @@
 .call-site-bp {
   cursor: pointer;
   position: relative;
+}
+
+.debug-expression.call-site-bp, .call-site-bp {
   background-color: #fce7e7;
 }
 
 .call-site-bp::before {
-  content: " ";
+  content: "";
   position: absolute;
-  background: #f00000;
   width: 100%;
-  height: 2px;
-  bottom: 0px;
+  height: calc(100% - 2px);
+  border-bottom: 2px solid red;
 }

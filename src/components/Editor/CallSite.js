@@ -8,13 +8,14 @@ type MarkerType = {
   clear: Function
 };
 
+type props = {
+  callSite: Object,
+  editor: Object,
+  breakpoint: Object,
+  showCallSite: Boolean
+};
 export default class CallSite extends Component {
-  props: {
-    callSite: Object,
-    editor: Object,
-    breakpoint: Object,
-    showCallSite: Boolean
-  };
+  props: props;
 
   addCallSite: Function;
   marker: ?MarkerType;
@@ -28,8 +29,8 @@ export default class CallSite extends Component {
     self.clearCallSite = this.clearCallSite.bind(this);
   }
 
-  addCallSite(props) {
-    const { editor, callSite, breakpoint } = props;
+  addCallSite() {
+    const { editor, callSite, breakpoint } = this.props;
     const className = !breakpoint ? "call-site" : "call-site-bp";
     this.marker = markText(editor, className, callSite.location);
   }
@@ -55,23 +56,23 @@ export default class CallSite extends Component {
       return;
     }
 
-    this.addCallSite(this.props);
+    this.addCallSite();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: props) {
     const { breakpoint, showCallSite } = this.props;
 
     if (nextProps.breakpoint !== breakpoint) {
       if (this.marker) {
         this.marker.clear();
       }
-      this.addCallSite(nextProps);
+      this.addCallSite();
     }
 
     if (nextProps.showCallSite !== showCallSite) {
       if (nextProps.showCallSite) {
         if (!this.marker) {
-          this.addCallSite(nextProps);
+          this.addCallSite();
         }
       } else if (!nextProps.breakpoint) {
         this.clearCallSite();

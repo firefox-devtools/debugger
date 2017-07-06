@@ -3,27 +3,27 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { isEnabled } from "devtools-config";
 
+import range from "lodash/range";
+import keyBy from "lodash/keyBy";
+
 import _CallSite from "./CallSite";
 const CallSite = createFactory(_CallSite);
 
 import {
   getSelectedSource,
   getSymbols,
-  getBreakpoint,
   getSelectedLocation,
   getBreakpointsForSource
 } from "../../selectors";
 
-import { findCallSiteBreakpoint } from "../../utils/breakpoint";
 import { getTokenLocation, breakpointAtLocation } from "../../utils/editor";
 
 import actions from "../../actions";
 
-let getSelectedBreakpoint;
-
 class CallSites extends Component {
   props: {
     symbols: Array<Symbol>,
+    callSites: Array<Symbol>,
     editor: Object,
     breakpoints: Map,
     addBreakpoint: Function,
@@ -51,7 +51,7 @@ class CallSites extends Component {
     document.body.addEventListener("keyup", this.onKeyUp);
   }
 
-  componentDidUnmount() {
+  componentDidUnMount() {
     const { editor } = this.props.editor;
     const codeMirrorWrapper = editor.getWrapperElement();
 
@@ -118,45 +118,32 @@ class CallSites extends Component {
         column
       });
     } else {
-      addBreakpoint(
-        {
-          sourceId: sourceId,
-          sourceUrl: selectedSource.get("url"),
-          line: line + 1,
-          column: column
-        },
-        // Pass in a function to get line text because the breakpoint
-        // may slide and it needs to compute the value at the new
-        // line.
-        { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) }
-      );
+      addBreakpoint({
+        sourceId: sourceId,
+        sourceUrl: selectedSource.get("url"),
+        line: line + 1,
+        column: column
+      });
     }
   }
 
   render() {
-    const { editor, symbols } = this.props;
+    const { editor, callSites } = this.props;
     const { showCallSites } = this.state;
-    const callSites = symbols.callExpressions;
     let sites;
     if (!callSites) {
       return null;
     }
 
-    callSites = callSites.filter(
-      callSite => callSite.location.start.line === callSite.location.end.line
-    );
-
     editor.codeMirror.operation(() => {
       sites = dom.div(
         {},
         callSites.map((callSite, index) => {
-          const { location } = callSite;
-
           return CallSite({
             key: index,
             callSite,
             editor,
-            breakpoint: findCallSiteBreakpoint(location, getSelectedBreakpoint),
+            breakpoint: callSite.breakpoint,
             showCallSite: showCallSites
           });
         })
@@ -166,6 +153,43 @@ class CallSites extends Component {
   }
 }
 
+CallSites.displayName = "CallSites";
+function getCallSites(symbols, breakpoints) {
+  if (!symbols || !symbols.callExpressions) {
+    return;
+  }
+
+  const callSites = symbols.callExpressions;
+
+  // NOTE: we create a breakpoint map keyed on location
+  // to speed up the lookups. Hopefully we'll fix the
+  // inconsistency with column offsets so that we can expect
+  // a breakpoint to be added at the beginning of a call expression.
+  const bpLocationMap = keyBy(breakpoints.valueSeq().toJS(), ({ location }) =>
+    locationKey(location)
+  );
+
+  function locationKey({ line, column }) {
+    return `${line}/${column}`;
+  }
+
+  function findBreakpoint(callSite) {
+    const { location: { start, end } } = callSite;
+
+    const breakpointId = range(start.column - 1, end.column)
+      .map(column => locationKey({ line: start.line, column }))
+      .find(key => bpLocationMap[key]);
+
+    if (breakpointId) {
+      return bpLocationMap[breakpointId];
+    }
+  }
+
+  return callSites
+    .filter(({ location }) => location.start.line === location.end.line)
+    .map(callSite => ({ ...callSite, breakpoint: findBreakpoint(callSite) }));
+}
+
 export default connect(
   state => {
     const selectedLocation = getSelectedLocation(state);
@@ -173,19 +197,14 @@ export default connect(
     const sourceId = selectedLocation && selectedLocation.sourceId;
     const source = selectedSource && selectedSource.toJS();
 
-    getSelectedBreakpoint = location =>
-      getBreakpoint(state, {
-        line: location.line,
-        column: location.column,
-        sourceId: source.id,
-        sourceUrl: source.url
-      });
+    const symbols = getSymbols(state, source);
+    const breakpoints = getBreakpointsForSource(state, sourceId);
 
     return {
       selectedLocation,
       selectedSource,
-      symbols: getSymbols(state, source),
-      breakpoints: getBreakpointsForSource(state, sourceId || "")
+      callSites: getCallSites(symbols, breakpoints),
+      breakpoints: breakpoints
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

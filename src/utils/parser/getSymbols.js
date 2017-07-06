@@ -27,6 +27,7 @@ export type SymbolDeclarations = {
   functions: Array<SymbolDeclaration>,
   variables: Array<SymbolDeclaration>,
   memberExpressions: Array<SymbolDeclaration>,
+  callExpressions: Array<SymbolDeclaration>,
   objectProperties: Array<SymbolDeclaration>,
   identifiers: Array<SymbolDeclaration>,
   comments: Array<SymbolDeclaration>
