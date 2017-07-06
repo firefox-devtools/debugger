@@ -8,11 +8,10 @@ export default function getMatches(
   const regexQuery = buildQuery(query, modifiers, {
     isGlobal: true
   });
-  let matchedLocations = [];
-  let singleMatch;
-  let lines = text.split("\n");
-  let lineNos = lines.length;
-  for (let i = 0; i < lineNos; i++) {
+  const matchedLocations = [];
+  const lines = text.split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    let singleMatch;
     while ((singleMatch = regexQuery.exec(lines[i])) !== null) {
       matchedLocations.push({ line: i, ch: singleMatch.index });
     }

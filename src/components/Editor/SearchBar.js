@@ -13,13 +13,7 @@ import {
   getSearchResults
 } from "../../selectors";
 
-import {
-  find,
-  findNext,
-  findPrev,
-  removeOverlay,
-  clearIndex
-} from "../../utils/editor";
+import { find, findNext, findPrev, removeOverlay } from "../../utils/editor";
 
 import { getMatches } from "../../utils/search";
 
@@ -251,13 +245,20 @@ class SearchBar extends Component {
     this.searchContents(query);
   }
 
+  updateSearchResults(characterIndex, line, matches) {
+    const matchIndex = matches.findIndex(
+      elm => elm.line === line && elm.ch === characterIndex
+    );
+    this.props.updateSearchResults({
+      matches,
+      matchIndex,
+      count: matches.length,
+      index: characterIndex
+    });
+  }
+
   async searchContents(query: string) {
-    const {
-      selectedSource,
-      modifiers,
-      editor: ed,
-      searchResults: { index }
-    } = this.props;
+    const { selectedSource, modifiers, editor: ed } = this.props;
 
     if (!ed || !selectedSource || !selectedSource.get("text") || !modifiers) {
       return;
@@ -265,27 +266,14 @@ class SearchBar extends Component {
 
     const ctx = { ed, cm: ed.codeMirror };
 
-    const matchedLocations = await getMatches(
+    const _modifiers = modifiers.toJS();
+    const matches = await getMatches(
       query,
       selectedSource.get("text"),
-      modifiers.toJS()
+      _modifiers
     );
-
-    if (index == -1) {
-      clearIndex(ctx, query, modifiers.toJS());
-    }
-
-    const findPos = find(ctx, query, true, modifiers.toJS());
-    const { ch: newIndex } = findPos;
-    const matchedLocationIndex = matchedLocations.findIndex(elm => {
-      return elm.line == findPos.line && elm.ch == findPos.ch;
-    });
-    this.props.updateSearchResults({
-      matchedLocations,
-      matchedLocationIndex,
-      count: matchedLocations.length,
-      index: newIndex
-    });
+    const { ch, line } = find(ctx, query, true, _modifiers);
+    this.updateSearchResults(ch, line, matches);
   }
 
   traverseResults(e: SyntheticEvent, rev: boolean) {
@@ -299,37 +287,17 @@ class SearchBar extends Component {
 
     const ctx = { ed, cm: ed.codeMirror };
 
-    const {
-      query,
-      modifiers,
-      updateSearchResults,
-      searchResults: { index, matchedLocations }
-    } = this.props;
+    const { query, modifiers, searchResults: { matches } } = this.props;
 
     if (query === "") {
       this.props.setActiveSearch("file");
     }
 
-    if (index == -1 && modifiers) {
-      clearIndex(ctx, query, modifiers.toJS());
-    }
-
     if (modifiers) {
+      const matchedLocations = matches || [];
       const findFnc = rev ? findPrev : findNext;
-      const findPos = findFnc(ctx, query, true, modifiers.toJS());
-      const { ch: newIndex } = findPos;
-      const matchedLocationIndex = matchedLocations
-        ? matchedLocations.findIndex(elm => {
-            return elm.line == findPos.line && elm.ch == findPos.ch;
-          })
-        : -1;
-
-      updateSearchResults({
-        matchedLocations,
-        matchedLocationIndex,
-        count: matchedLocations.length,
-        index: newIndex
-      });
+      const { ch, line } = findFnc(ctx, query, true, modifiers.toJS());
+      this.updateSearchResults(ch, line, matchedLocations);
     }
   }
 
@@ -350,7 +318,7 @@ class SearchBar extends Component {
   // Renderers
   buildSummaryMsg() {
     const {
-      searchResults: { matchedLocationIndex, count, index },
+      searchResults: { matchIndex, count, index },
       symbolSearchOn,
       symbolSearchResults,
       query
@@ -380,11 +348,7 @@ class SearchBar extends Component {
       return L10N.getFormatStr("sourceSearch.resultsSummary1", count);
     }
 
-    return L10N.getFormatStr(
-      "editor.searchResults",
-      matchedLocationIndex + 1,
-      count
-    );
+    return L10N.getFormatStr("editor.searchResults", matchIndex + 1, count);
   }
 
   renderSearchModifiers() {

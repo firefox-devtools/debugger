@@ -20,9 +20,14 @@ export type FileSearchModifiers = Record<{
 export type SymbolSearchType = "functions" | "variables";
 export type ActiveSearchType = "project" | "source" | "file" | "symbol";
 
+export type MatchedLocations = {
+  line: number,
+  ch: number
+};
+
 export type SearchResults = {
-  matchedLocations: Array<Object>,
-  matchedLocationIndex: number,
+  matches: Array<MatchedLocations>,
+  matchIndex: number,
   index: number,
   count: number
 };
@@ -59,8 +64,8 @@ export const State = makeRecord(
     symbolSearchType: "functions",
     symbolSearchResults: [],
     searchResults: {
-      matchedLocations: [],
-      matchedLocationIndex: -1,
+      matches: [],
+      matchIndex: -1,
       index: -1,
       count: 0
     },
