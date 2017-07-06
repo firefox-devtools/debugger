@@ -109,7 +109,7 @@ const contentTypeModeMap = {
   "text/x-elm": "elm",
   "text/x-clojure": "clojure",
   "text/wasm": { name: "text" },
-  html: { name: "htmlmixed" }
+  "text/html": { name: "htmlmixed" }
 };
 
 /**
@@ -122,15 +122,15 @@ const contentTypeModeMap = {
  */
 
 function getMode(source: Source) {
-  if (!source.text) {
+  if (!source.text || !source.contentType) {
     return { name: "text" };
   }
 
-  if (!source.contentType) {
-    // Use HTML mode for files in which the first non whitespace
-    // character is `<` regardless of extension.
-    const name = source.text.match(/^\s*</) ? "htmlmixed" : "text";
-    return { name };
+  // Use HTML mode for files in which the first non whitespace
+  // character is `<` regardless of extension.
+  const isHTMLLike = source.text.match(/^\s*</);
+  if (isHTMLLike) {
+    return { name: "htmlmixed" };
   }
 
   const { contentType, text } = source;
