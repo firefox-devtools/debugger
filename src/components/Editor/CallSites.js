@@ -5,6 +5,8 @@ import { isEnabled } from "devtools-config";
 
 import range from "lodash/range";
 import keyBy from "lodash/keyBy";
+import find from "lodash/find";
+import isEqual from "lodash/isEqual";
 
 import _CallSite from "./CallSite";
 const CallSite = createFactory(_CallSite);
@@ -19,6 +21,12 @@ import {
 import { getTokenLocation, breakpointAtLocation } from "../../utils/editor";
 
 import actions from "../../actions";
+
+function getCallSiteAtLocation(callSites, location) {
+  return find(callSites, callSite =>
+    isEqual(callSite.location.start, location)
+  );
+}
 
 class CallSites extends Component {
   props: {
@@ -43,8 +51,8 @@ class CallSites extends Component {
   }
 
   componentDidMount() {
-    const { editor } = this.props.editor;
-    const codeMirrorWrapper = editor.getWrapperElement();
+    const { editor } = this.props;
+    const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
     codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
     document.body.addEventListener("keydown", this.onKeyDown);
@@ -52,8 +60,8 @@ class CallSites extends Component {
   }
 
   componentDidUnMount() {
-    const { editor } = this.props.editor;
-    const codeMirrorWrapper = editor.getWrapperElement();
+    const { editor } = this.props;
+    const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
     codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
     document.body.removeEventListener("keydown", e => this.onKeyDown);
@@ -98,10 +106,17 @@ class CallSites extends Component {
       selectedLocation,
       breakpoints,
       addBreakpoint,
-      removeBreakpoint
+      removeBreakpoint,
+      callSites
     } = this.props;
 
-    const bp = breakpointAtLocation(breakpoints, { line, column });
+    const callSite = getCallSiteAtLocation(callSites, { line, column });
+
+    if (!callSite) {
+      return;
+    }
+
+    const bp = callSite.breakpoint;
 
     if ((bp && bp.loading) || !selectedLocation || !selectedSource) {
       return;

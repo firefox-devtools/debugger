@@ -184,6 +184,7 @@ class Editor extends PureComponent {
 
     // Set code editor wrapper to be focusable
     codeMirrorWrapper.tabIndex = 0;
+    codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
     codeMirrorWrapper.addEventListener("mouseover", e => this.onMouseOver(e));
 
     const toggleFoldMarkerVisibility = e => {
@@ -765,6 +766,7 @@ class Editor extends PureComponent {
 
   renderCallSites() {
     const editor = this.editor;
+
     if (!editor || !isEnabled("columnBreakpoints")) {
       return null;
     }
