@@ -34,6 +34,9 @@ class CallSites extends Component {
 
   constructor(props) {
     super(props);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
+
     this.state = {
       showCallSites: false
     };
@@ -44,8 +47,17 @@ class CallSites extends Component {
     const codeMirrorWrapper = editor.getWrapperElement();
 
     codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
-    codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
-    codeMirrorWrapper.addEventListener("keyup", e => this.onKeyUp(e));
+    document.body.addEventListener("keydown", this.onKeyDown);
+    document.body.addEventListener("keyup", this.onKeyUp);
+  }
+
+  componentDidUnmount() {
+    const { editor } = this.props.editor;
+    const codeMirrorWrapper = editor.getWrapperElement();
+
+    codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
+    document.body.removeEventListener("keydown", e => this.onKeyDown);
+    document.body.removeEventListener("keyup", this.onKeyUp);
   }
 
   onKeyUp(e) {

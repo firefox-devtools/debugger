@@ -1,11 +1,29 @@
 .call-site {
   background: #f0f9ff;
-  height: calc(100% - 1px);
-  border-bottom: 2px solid #aed3ef;
   cursor: pointer;
+  position: relative;
+}
+
+.call-site::before {
+  content: " ";
+  position: absolute;
+  background: #aed3ef;
+  width: 100%;
+  height: 2px;
+  bottom: 0px;
 }
 
 .call-site-bp {
-  border-bottom: 2px solid #f00000;
   cursor: pointer;
+  position: relative;
+  background-color: #fce7e7;
+}
+
+.call-site-bp::before {
+  content: " ";
+  position: absolute;
+  background: #f00000;
+  width: 100%;
+  height: 2px;
+  bottom: 0px;
 }
