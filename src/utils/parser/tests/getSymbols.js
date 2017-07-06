@@ -39,10 +39,9 @@ describe("Parser.getSymbols", () => {
     expect(symbols).toMatchSnapshot();
   });
 
-  fit("call sites", () => {
+  it("call sites", () => {
     const symbols = formatSymbols(getSource("call-sites"));
-    console.log(symbols);
-    // expect(symbols).toMatchSnapshot();
+    expect(symbols).toMatchSnapshot();
   });
 
   it("finds symbols in an html file", () => {
