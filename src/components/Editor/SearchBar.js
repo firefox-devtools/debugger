@@ -68,7 +68,7 @@ class SearchBar extends Component {
     highlightLineRange: ({ start: number, end: number }) => void,
     clearHighlightLineRange: () => void,
     searchOn?: boolean,
-    toggleActiveSearch: (?ActiveSearchType) => any,
+    setActiveSearch: (?ActiveSearchType) => any,
     searchResults: SearchResults,
     modifiers: FileSearchModifiers,
     toggleFileSearchModifier: string => any,
@@ -184,7 +184,7 @@ class SearchBar extends Component {
     if (editor && searchOn) {
       setFileSearchQuery("");
       this.clearSearch();
-      this.props.toggleActiveSearch();
+      this.props.setActiveSearch();
       this.props.clearHighlightLineRange();
       e.stopPropagation();
       e.preventDefault();
@@ -197,7 +197,7 @@ class SearchBar extends Component {
     const { editor } = this.props;
 
     if (!this.props.searchOn) {
-      this.props.toggleActiveSearch("file");
+      this.props.setActiveSearch("file");
     }
 
     if (this.props.searchOn && editor) {
@@ -299,7 +299,7 @@ class SearchBar extends Component {
     } = this.props;
 
     if (query === "") {
-      this.props.toggleActiveSearch("file");
+      this.props.setActiveSearch("file");
     }
 
     if (index == -1 && modifiers) {

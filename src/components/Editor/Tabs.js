@@ -103,7 +103,7 @@ class SourceTabs extends PureComponent {
     moveTab: (string, number) => void,
     closeTab: string => void,
     closeTabs: (List<string>) => void,
-    toggleActiveSearch: (?ActiveSearchType) => void,
+    setActiveSearch: (?ActiveSearchType) => void,
     togglePrettyPrint: string => void,
     togglePaneCollapse: () => void,
     showSource: string => void,
@@ -380,9 +380,9 @@ class SourceTabs extends PureComponent {
         className: "new-tab-btn",
         onClick: () => {
           if (this.props.searchOn) {
-            this.props.toggleActiveSearch();
+            this.props.setActiveSearch();
           }
-          this.props.toggleActiveSearch("project");
+          this.props.setActiveSearch("project");
         },
         title: newTabTooltip
       },

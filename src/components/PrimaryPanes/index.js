@@ -88,9 +88,9 @@ class PrimaryPanes extends Component {
           dir: "ltr",
           onClick: () => {
             if (this.props.projectSearchOn) {
-              this.props.toggleActiveSearch();
+              this.props.setActiveSearch();
             }
-            this.props.toggleActiveSearch("project");
+            this.props.setActiveSearch("project");
           }
         },
         L10N.getFormatStr(
@@ -127,7 +127,7 @@ PrimaryPanes.propTypes = {
   sources: ImPropTypes.map.isRequired,
   selectSource: PropTypes.func.isRequired,
   horizontal: PropTypes.bool.isRequired,
-  toggleActiveSearch: PropTypes.func.isRequired,
+  setActiveSearch: PropTypes.func.isRequired,
   projectSearchOn: PropTypes.bool.isRequired
 };
 

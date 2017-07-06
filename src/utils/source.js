@@ -7,6 +7,7 @@
 
 import { endTruncateStr } from "./utils";
 import { basename } from "../utils/path";
+import { parse as parseURL } from "url";
 
 import type { Source } from "../types";
 
@@ -112,6 +113,16 @@ const contentTypeModeMap = {
   "text/html": { name: "htmlmixed" }
 };
 
+function getSourcePath(source: Source) {
+  if (!source.url) {
+    return "";
+  }
+
+  const { path, href } = parseURL(source.url);
+  // for URLs like "about:home" the path is null so we pass the full href
+  return path || href;
+}
+
 /**
  *
  * Returns Code Mirror mode for source content type
@@ -165,5 +176,6 @@ export {
   getRawSourceURL,
   getFilename,
   getFilenameFromURL,
+  getSourcePath,
   getMode
 };

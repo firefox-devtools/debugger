@@ -23,6 +23,11 @@ export default class TextSearch extends Component {
     };
   }
 
+  close() {
+    this.setState({ inputValue: "", results: [], selectedIndex: 0 });
+    this.props.closeActiveSearch();
+  }
+
   async inputOnChange(e) {
     const { sources } = this.props;
     const inputValue = e.target.value;
@@ -75,7 +80,8 @@ export default class TextSearch extends Component {
       autoExpand: 1,
       autoExpandDepth: 1,
       getParent: item => null,
-      getKey: item => item.filepath || `${item.value}/${item.line}`,
+      getKey: item =>
+        item.filepath || `${item.value}/${item.line}/${item.column}`,
       renderItem: (item, depth, focused, _, expanded) =>
         item.filepath ? this.renderFile(item, expanded) : this.renderMatch(item)
     });
