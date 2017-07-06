@@ -112,7 +112,7 @@
     "husky": "^0.14.2",
     "jest": "^20.0.1",
     "jest-localstorage-mock": "^1.1.1",
-    "lint-staged": "^3.4.0",
+    "lint-staged": "^4.0.1",
     "react-addons-perf": "15.3.2",
     "react-addons-test-utils": "=15.3.2",
     "remark-cli": "^3.0.0",
