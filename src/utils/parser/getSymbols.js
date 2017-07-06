@@ -69,7 +69,7 @@ function getComments(ast) {
   }));
 }
 
-function extractSymbols(source: SourceText) {
+function extractSymbols(source: Source) {
   const functions = [];
   const variables = [];
   const memberExpressions = [];
@@ -153,7 +153,7 @@ function extractSymbols(source: SourceText) {
   };
 }
 
-export default function getSymbols(source: SourceText): SymbolDeclarations {
+export default function getSymbols(source: Source): SymbolDeclarations {
   if (symbolDeclarations.has(source.id)) {
     const symbols = symbolDeclarations.get(source.id);
     if (symbols) {
