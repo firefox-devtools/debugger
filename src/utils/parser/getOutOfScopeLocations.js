@@ -9,9 +9,9 @@ import { containsLocation, containsPosition } from "./utils/helpers";
 
 import getSymbols from "./getSymbols";
 
-function findFunctions(source) {
-  const symbols = getSymbols(source);
-  return symbols.functions;
+function findSymbols(source) {
+  const { functions, comments } = getSymbols(source);
+  return { functions, comments };
 }
 
 /**
@@ -77,8 +77,12 @@ function getOutOfScopeLocations(
   source: Source,
   position: AstPosition
 ): AstLocation[] {
-  return findFunctions(source)
+  const { functions, comments } = findSymbols(source);
+  const commentLocations = comments.map(c => c.location);
+
+  return functions
     .map(getLocation)
+    .concat(commentLocations)
     .filter(loc => !containsPosition(loc, position))
     .reduce(removeOverlaps, [])
     .sort(sortByStart);

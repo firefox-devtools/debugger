@@ -4,6 +4,16 @@ exports[`ast getOutOfScopeLocations with selected line 1`] = `
 Array [
   Object {
     "end": Object {
+      "column": 16,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  Object {
+    "end": Object {
       "column": 3,
       "line": 10,
     },
@@ -55,6 +65,7 @@ Object {
 
 exports[`ast setSymbols when the source is loaded should be able to set symbols 1`] = `
 Object {
+  "comments": Array [],
   "functions": Array [
     Object {
       "identifier": Object {
