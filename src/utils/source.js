@@ -122,11 +122,21 @@ const contentTypeModeMap = {
  */
 
 function getMode(source: Source) {
-  if (!source.text) {
+  const { contentType, text } = source;
+
+  if (!text) {
     return { name: "text" };
   }
 
-  const { contentType, text } = source;
+  // Use HTML mode for files in which the first non whitespace
+  // character is `<` regardless of extension.
+  const isHTMLLike = text.match(/^\s*</);
+  if (!contentType) {
+    if (isHTMLLike) {
+      return { name: "htmlmixed" };
+    }
+    return { name: "text" };
+  }
 
   // // @flow or /* @flow */
   if (text.match(/^\s*(\/\/ @flow|\/\* @flow \*\/)/)) {
@@ -141,9 +151,6 @@ function getMode(source: Source) {
     return contentTypeModeMap["text/javascript"];
   }
 
-  // Use HTML mode for files in which the first non whitespace
-  // character is `<` regardless of extension.
-  const isHTMLLike = source.text.match(/^\s*</);
   if (isHTMLLike) {
     return { name: "htmlmixed" };
   }
