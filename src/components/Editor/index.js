@@ -4,7 +4,6 @@ import ReactDOM from "react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { createSelector } from "reselect";
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
 import debounce from "lodash/debounce";
