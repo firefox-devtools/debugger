@@ -167,7 +167,6 @@ class Editor extends PureComponent {
       this.showSourceText(sourceText, selectedLocation);
     }
 
-    console.log("would have set debug line");
     resizeBreakpointGutter(this.editor.codeMirror);
   }
 
@@ -763,13 +762,19 @@ class Editor extends PureComponent {
   }
 
   renderDebugLine() {
-    return DebugLine({
-      editor: this.editor,
-      frame: this.props.selectedFrame,
-      visibleSourceId: this.props.selectedSource
-        ? this.props.selectedSource.get("id")
-        : ""
-    });
+    const { selectedSource, sourceText, selectedFrame } = this.props;
+
+    if (
+      selectedSource &&
+      sourceText &&
+      !sourceText.get("loading") &&
+      selectedFrame
+    ) {
+      return DebugLine({
+        codeMirror: this.editor.codeMirror,
+        line: this.props.selectedFrame.location.line
+      });
+    }
   }
 
   renderPreview() {

@@ -1,49 +1,35 @@
 // @flow
-import { Component } from "react";
-import type { SourceEditor } from "devtools-source-editor";
-import type { Frame } from "../../types";
+import { PureComponent } from "react";
 
 type DebugLineProps = {
-  editor: SourceEditor,
-  frame: Frame,
-  visibleSourceId: string
+  codeMirror: any,
+  line: number
 };
 
-class DebugLine extends Component {
+class DebugLine extends PureComponent {
   props: DebugLineProps;
 
   componentDidUpdate(prevProps: DebugLineProps) {
-    const lastFrame = prevProps.frame;
-    const lastLine = lastFrame && lastFrame.location.line;
-    const nextFrame = this.props.frame;
-    const nextLine = nextFrame && nextFrame.location.line;
+    this.clearDebugLine(prevProps.line);
+    this.setDebugLine(this.props.line);
+  }
 
-    if (lastLine && lastLine != nextLine) {
-      this.clearDebugLine(lastLine);
-    }
+  componentDidMount() {
+    this.setDebugLine(this.props.line);
+  }
 
-    const nextSourceId = nextFrame && nextFrame.location.sourceId;
-    const { visibleSourceId } = this.props;
-
-    if (nextLine && nextSourceId === visibleSourceId) {
-      this.setDebugLine(nextLine);
-    }
+  componentWillUnmount() {
+    this.clearDebugLine(this.props.line);
   }
 
   clearDebugLine(line: number) {
-    this.props.editor.codeMirror.removeLineClass(
-      line - 1,
-      "line",
-      "new-debug-line"
-    );
+    console.log("Cleared debug line");
+    this.props.codeMirror.removeLineClass(line - 1, "line", "new-debug-line");
   }
 
   setDebugLine(line: number) {
-    this.props.editor.codeMirror.addLineClass(
-      line - 1,
-      "line",
-      "new-debug-line"
-    );
+    console.log("Added debug line");
+    this.props.codeMirror.addLineClass(line - 1, "line", "new-debug-line");
   }
 
   render() {
