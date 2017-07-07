@@ -92,8 +92,8 @@ class ProjectSearch extends Component {
   }
 
   renderSourceSearch() {
-    const { sources } = this.props;
-    return SourceSearch({ sources });
+    const { sources, selectSource } = this.props;
+    return SourceSearch({ sources, selectSource });
   }
 
   renderTextSearch() {
