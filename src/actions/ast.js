@@ -159,7 +159,7 @@ export function analyzePauseLocation(position: AstLocation) {
         }
         const path = getClosestPath(source, position);
         if (!path) {
-          return;
+          return dispatch(command({ type: "stepOver" }));
         }
         if (isAwaitExpression(path)) {
           return dispatch(analyzeAwaitExpression(path, position));
