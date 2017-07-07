@@ -6,7 +6,7 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import { getPause, getLoadedObject } from "../selectors";
 import { updateFrameLocations } from "../utils/pause";
 import { evaluateExpressions } from "./expressions";
-import { analyzePauseLocation } from "./ast.js";
+import { analyzeStepping } from "./ast.js";
 
 import type { Pause, Frame } from "../types";
 import type { ThunkArgs } from "./types";
@@ -116,9 +116,9 @@ export function command({ type }: CommandType) {
  * @returns {Function} {@link command}
  */
 export function stepIn() {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(command({ type: "stepIn" }));
+      await dispatch(analyzeStepping("stepIn"));
     }
   };
 }
@@ -131,14 +131,8 @@ export function stepIn() {
  */
 export function stepOver() {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
-    const pauseInfo = getPause(getState());
-    let { frames } = pauseInfo;
-
-    frames = await updateFrameLocations(frames, sourceMaps);
-    const frame = frames[0];
-
-    if (pauseInfo) {
-      await dispatch(analyzePauseLocation(frame.location));
+    if (getPause(getState())) {
+      await dispatch(analyzeStepping("stepOver"));
     }
   };
 }
@@ -150,9 +144,9 @@ export function stepOver() {
  * @returns {Function} {@link command}
  */
 export function stepOut() {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(command({ type: "stepOut" }));
+      await dispatch(analyzeStepping("stepOut"));
     }
   };
 }
@@ -187,6 +181,23 @@ export function breakOnNext() {
       type: "BREAK_ON_NEXT",
       value: true
     });
+  };
+}
+
+/**
+ * Gets the position where the Debugger is paused.
+ * @memberOf actions/pause
+ * @static
+ */
+export function getPosition() {
+  return async ({ dispatch, getState, client, sourceMaps }) => {
+    const pauseInfo = getPause(getState());
+    let { frames } = pauseInfo;
+
+    frames = await updateFrameLocations(frames, sourceMaps);
+    const frame = frames[0];
+    const position = frame.location;
+    return position;
   };
 }
 

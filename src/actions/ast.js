@@ -21,7 +21,7 @@ import {
 
 import { addBreakpoint, removeBreakpoint } from "./breakpoints";
 import { getHiddenBreakpoint } from "../reducers/breakpoints";
-import { command } from "./pause";
+import { command, getPosition } from "./pause";
 import type { NodePath } from "babel-traverse";
 
 import type { SourceId } from "debugger-html";
@@ -146,31 +146,37 @@ export function setSelection(
  * @param position
  * @returns {function(ThunkArgs)}
  */
-export function analyzePauseLocation(position: AstLocation) {
+export function analyzeStepping(type) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const position = await dispatch(getPosition());
     const source = getSelectedSource(getState()).toJS();
     const hiddenBreakpointLocation = getHiddenBreakpoint(getState());
 
     await dispatch({
-      type: "ANALYZE_PAUSE_LOCATION",
+      type: "ANALYZE_STEPPING",
       [PROMISE]: (async function() {
         if (hiddenBreakpointLocation) {
           await dispatch(removeBreakpoint(hiddenBreakpointLocation));
         }
         const path = getClosestPath(source, position);
         if (!path) {
-          return dispatch(command({ type: "stepOver" }));
+          return dispatch(command({ type }));
         }
-        if (isAwaitExpression(path)) {
-          return dispatch(analyzeAwaitExpression(path, position));
+        switch (type) {
+          case "stepOver":
+          case "stepIn":
+          case "stepOut":
+            if (isAwaitExpression(path)) {
+              return dispatch(analyzeAwaitExpression(path, position, type));
+            }
         }
-        return dispatch(command({ type: "stepOver" }));
+        return dispatch(command({ type }));
       })()
     });
   };
 }
 
-function analyzeAwaitExpression(path: NodePath, position: AstLocation) {
+function analyzeAwaitExpression(path: NodePath, position: AstLocation, type) {
   return async ({ dispatch }: ThunkArgs) => {
     const blockScope = path.scope.block;
     if (blockScope && isAsyncFunction(blockScope)) {
@@ -184,7 +190,10 @@ function analyzeAwaitExpression(path: NodePath, position: AstLocation) {
           await dispatch(
             addBreakpoint(nextLocation, { hidden: true, condition: "" })
           );
-          return dispatch(command({ type: "resume" }));
+          if (type === "stepOver") {
+            return dispatch(command({ type: "resume" }));
+          }
+          return dispatch(command({ type }));
         }
       }
     }
