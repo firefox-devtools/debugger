@@ -30,6 +30,7 @@ const Dropdown = createFactory(_Dropdown);
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
+import type { ActiveSearchType } from "../../reducers/ui";
 type SourcesList = List<SourceRecord>;
 
 /*

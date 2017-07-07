@@ -295,8 +295,9 @@ class SearchBar extends Component {
 
     if (modifiers) {
       const matchedLocations = matches || [];
-      const findFnc = rev ? findPrev : findNext;
-      const { ch, line } = findFnc(ctx, query, true, modifiers.toJS());
+      const { ch, line } = rev
+        ? findPrev(ctx, query, true, modifiers.toJS())
+        : findNext(ctx, query, true, modifiers.toJS());
       this.updateSearchResults(ch, line, matchedLocations);
     }
   }

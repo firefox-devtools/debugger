@@ -138,6 +138,9 @@ function getMatchIndex(count: number, currentIndex: number, rev: boolean) {
  */
 function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
   const { cm } = ctx;
+  if (!cm) {
+    return;
+  }
   const defaultIndex = { line: -1, ch: -1 };
 
   return cm.operation(function() {
