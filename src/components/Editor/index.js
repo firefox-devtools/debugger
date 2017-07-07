@@ -31,7 +31,7 @@ import {
 
 import getInScopeLines from "../../selectors/linesInScope";
 
-import { makeLocationId } from "../../utils/breakpoint";
+import { makeLocationId, breakpointAtLocation } from "../../utils/breakpoint";
 import actions from "../../actions";
 
 import _Footer from "./Footer";
@@ -65,7 +65,6 @@ import {
   shouldShowFooter,
   clearLineClass,
   createEditor,
-  breakpointAtLocation,
   getTextForLine,
   getCursorLine,
   resizeBreakpointGutter,
@@ -405,7 +404,7 @@ class Editor extends PureComponent {
   }
 
   onGutterContextMenu(event) {
-    const { selectedSource } = this.props;
+    const { selectedSource, selectedLocation, breakpoints } = this.props;
 
     if (selectedSource && selectedSource.get("isBlackBoxed")) {
       event.preventDefault();
@@ -413,7 +412,7 @@ class Editor extends PureComponent {
     }
 
     const line = this.editor.codeMirror.lineAtHeight(event.clientY);
-    const bp = breakpointAtLocation(this.props.breakpoints, { line });
+    const bp = breakpointAtLocation(breakpoints, selectedLocation, { line });
     GutterMenu({
       event,
       line,
@@ -445,7 +444,7 @@ class Editor extends PureComponent {
     } = this.props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
-    const bp = breakpointAtLocation(breakpoints, { line });
+    const bp = breakpointAtLocation(breakpoints, selectedLocation, { line });
     const location = { sourceId, line: line + 1 };
     const condition = bp ? bp.condition : "";
 
@@ -485,7 +484,10 @@ class Editor extends PureComponent {
       addBreakpoint,
       removeBreakpoint
     } = this.props;
-    const bp = breakpointAtLocation(breakpoints, { line, column });
+    const bp = breakpointAtLocation(breakpoints, selectedLocation, {
+      line,
+      column
+    });
 
     if ((bp && bp.loading) || !selectedLocation || !selectedSource) {
       return;
@@ -495,11 +497,10 @@ class Editor extends PureComponent {
 
     if (bp) {
       // NOTE: it's possible the breakpoint has slid to a column
-      column = column || bp.location.column;
       removeBreakpoint({
-        sourceId: sourceId,
-        line: line + 1,
-        column
+        sourceId: bp.location.sourceId,
+        line: bp.location.line,
+        column: column || bp.location.column
       });
     } else {
       addBreakpoint(
@@ -518,8 +519,8 @@ class Editor extends PureComponent {
   }
 
   toggleBreakpointDisabledStatus(line) {
-    const bp = breakpointAtLocation(this.props.breakpoints, { line });
-    const { selectedLocation } = this.props;
+    const { breakpoints, selectedLocation } = this.props;
+    const bp = breakpointAtLocation(breakpoints, selectedLocation, { line });
 
     if ((bp && bp.loading) || !selectedLocation) {
       return;
