@@ -353,7 +353,7 @@ export function togglePrettyPrint(sourceId: string) {
       selectedLocation
     );
 
-    dispatch(
+    return dispatch(
       selectSource(originalSource.id, { line: selectedOriginalLocation.line })
     );
   };

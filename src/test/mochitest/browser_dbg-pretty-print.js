@@ -6,12 +6,14 @@
 add_task(function*() {
   const dbg = yield initDebugger("doc-minified.html");
 
-  yield selectSource(dbg, "math.min.js");
+  yield selectSource(dbg, "math.min.js", 2);
   clickElement(dbg, "prettyPrintButton");
-  yield waitForDispatch(dbg, "TOGGLE_PRETTY_PRINT");
+  yield waitForDispatch(dbg, "SELECT_SOURCE");
 
   const ppSrc = findSource(dbg, "math.min.js:formatted");
   ok(ppSrc, "Pretty-printed source exists");
+
+  assertHighlightLocation(dbg, "math.min.js:formatted", 18);
 
   yield addBreakpoint(dbg, ppSrc, 18);
 
