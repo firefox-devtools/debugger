@@ -32,6 +32,7 @@ import {
   getFrames,
   getSourceTabs,
   getNewSelectedSourceId,
+  getSelectedLocation,
   removeSourcesFromTabList,
   removeSourceFromTabList,
   getTextSearchQuery
@@ -297,7 +298,7 @@ export function closeTabs(urls: string[]) {
  *          [aSource, error].
  */
 export function togglePrettyPrint(sourceId: string) {
-  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
 
     if (source && source.loading) {
@@ -309,32 +310,52 @@ export function togglePrettyPrint(sourceId: string) {
       "Pretty-printing only allowed on generated sources"
     );
 
+    const selectedLocation = getSelectedLocation(getState());
+
     const url = getPrettySourceURL(source.url);
+    const hasPrettySource = !!getSourceByURL(getState(), url);
+
+    if (hasPrettySource) {
+      const selectedOriginalLocation = await sourceMaps.getOriginalLocation(
+        selectedLocation
+      );
+
+      return dispatch(
+        selectSource(selectedOriginalLocation.sourceId, {
+          line: selectedOriginalLocation.line
+        })
+      );
+    }
+
     const id = sourceMaps.generatedToOriginalId(source.id, url);
     const originalSource = { url, id, isPrettyPrinted: false };
     dispatch({ type: "ADD_SOURCE", source: originalSource });
 
-    return dispatch({
+    const { code, mappings } = await prettyPrint({
+      source,
+      url
+    });
+
+    await sourceMaps.applySourceMap(source.id, url, code, mappings);
+
+    let frames = getFrames(getState());
+    if (frames) {
+      frames = await updateFrameLocations(frames, sourceMaps);
+    }
+
+    dispatch({
       type: "TOGGLE_PRETTY_PRINT",
       source: originalSource,
-      [PROMISE]: (async function() {
-        const { code, mappings } = await prettyPrint({
-          source,
-          url
-        });
-
-        await sourceMaps.applySourceMap(source.id, url, code, mappings);
-
-        let frames = getFrames(getState());
-        if (frames) {
-          frames = await updateFrameLocations(frames, sourceMaps);
-        }
-
-        dispatch(selectSource(originalSource.id));
-
-        return { text: code, contentType: "text/javascript", frames };
-      })()
+      value: { text: code, contentType: "text/javascript", frames }
     });
+
+    const selectedOriginalLocation = await sourceMaps.getOriginalLocation(
+      selectedLocation
+    );
+
+    dispatch(
+      selectSource(originalSource.id, { line: selectedOriginalLocation.line })
+    );
   };
 }
 
