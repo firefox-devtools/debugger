@@ -61,8 +61,6 @@ class SearchBar extends Component {
     selectedSource?: SourceRecord,
     highlightLineRange: ({ start: number, end: number }) => void,
     clearHighlightLineRange: () => void,
-    symbolSearchOn?: boolean,
-    symbolSearchResults: Array<any>,
     searchOn?: boolean,
     setActiveSearch: (?ActiveSearchType) => any,
     searchResults: SearchResults,
@@ -318,24 +316,7 @@ class SearchBar extends Component {
   }
   // Renderers
   buildSummaryMsg() {
-    const {
-      searchResults: { matchIndex, count, index },
-      symbolSearchOn,
-      symbolSearchResults,
-      query
-    } = this.props;
-
-    if (symbolSearchOn) {
-      if (symbolSearchResults.length > 1) {
-        return L10N.getFormatStr(
-          "editor.searchResults",
-          this.state.selectedResultIndex + 1,
-          symbolSearchResults.length
-        );
-      } else if (symbolSearchResults.length === 1) {
-        return L10N.getFormatStr("editor.singleResult");
-      }
-    }
+    const { searchResults: { matchIndex, count, index }, query } = this.props;
 
     if (query.trim() == "") {
       return "";
