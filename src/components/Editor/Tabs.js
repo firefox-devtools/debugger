@@ -106,6 +106,7 @@ class SourceTabs extends PureComponent {
     setActiveSearch: (?ActiveSearchType) => void,
     togglePrettyPrint: string => void,
     togglePaneCollapse: () => void,
+    toggleActiveSearch: (?string) => void,
     showSource: string => void,
     horizontal: boolean,
     startPanelCollapsed: boolean,

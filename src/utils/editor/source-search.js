@@ -21,7 +21,6 @@ function SearchState() {
   this.posFrom = this.posTo = this.query = null;
   this.overlay = null;
   this.results = [];
-  this.matchIndex = -1;
 }
 
 /**
@@ -138,28 +137,27 @@ function getMatchIndex(count: number, currentIndex: number, rev: boolean) {
  * @static
  */
 function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
-  let { cm } = ctx;
-  const matchIndex = -1;
+  const { cm } = ctx;
+  if (!cm) {
+    return;
+  }
+  const defaultIndex = { line: -1, ch: -1 };
 
-  cm.operation(function() {
+  return cm.operation(function() {
     if (!query || isWhitespace(query)) {
       return;
     }
 
-    let state = getSearchState(cm, query, modifiers);
-    const newQuery = state.query != query;
+    const state = getSearchState(cm, query, modifiers);
+    const isNewQuery = state.query !== query;
     state.query = query;
 
     updateOverlay(cm, state, query, modifiers);
     updateCursor(cm, state, keepSelection);
-    searchNext(ctx, rev, query, newQuery, modifiers);
+    const searchLocation = searchNext(ctx, rev, query, isNewQuery, modifiers);
 
-    // NOTE: We would like to find the correct match index based on where the
-    // match is in the document.
-    state.matchIndex = matchIndex;
+    return searchLocation ? searchLocation.from : defaultIndex;
   });
-
-  return matchIndex;
 }
 
 function getCursorPos(newQuery, rev, state) {
@@ -236,7 +234,6 @@ function clearSearch(cm, query: string, modifiers: SearchModifiers) {
   let state = getSearchState(cm, query, modifiers);
 
   state.results = [];
-  state.matchIndex = -1;
 
   if (!state.query) {
     return;
@@ -291,17 +288,4 @@ function findPrev(
   return doSearch(ctx, true, query, keepSelection, modifiers);
 }
 
-function clearIndex(ctx: any, query: string, modifiers: SearchModifiers) {
-  let state = getSearchState(ctx.cm, query, modifiers);
-  state.matchIndex = -1;
-}
-
-export {
-  buildQuery,
-  clearIndex,
-  find,
-  findNext,
-  findPrev,
-  removeOverlay,
-  getMatchIndex
-};
+export { buildQuery, find, findNext, findPrev, removeOverlay, getMatchIndex };
