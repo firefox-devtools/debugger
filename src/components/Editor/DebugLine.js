@@ -23,12 +23,10 @@ class DebugLine extends PureComponent {
   }
 
   clearDebugLine(line: number) {
-    console.log("Cleared debug line");
     this.props.codeMirror.removeLineClass(line - 1, "line", "new-debug-line");
   }
 
   setDebugLine(line: number) {
-    console.log("Added debug line");
     this.props.codeMirror.addLineClass(line - 1, "line", "new-debug-line");
   }
 
