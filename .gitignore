@@ -13,3 +13,4 @@ yarn-error.log
 _site/
 coverage
 storybook-static
+tags
