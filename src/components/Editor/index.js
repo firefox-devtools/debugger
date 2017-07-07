@@ -678,6 +678,7 @@ class Editor extends PureComponent {
       .map(bp =>
         Breakpoint({
           key: makeLocationId(bp.location),
+          selectedSource,
           breakpoint: bp,
           editor: this.editor && this.editor.codeMirror
         })

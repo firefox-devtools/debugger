@@ -11,6 +11,7 @@
 import fromJS from "../utils/fromJS";
 import * as I from "immutable";
 import makeRecord from "../utils/makeRecord";
+import { isGeneratedId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 import {
   firstString,
@@ -335,20 +336,28 @@ function restorePendingBreakpoints() {
 }
 
 // Selectors
+// TODO: these functions should be moved out of the reducer
 
 type OuterState = { breakpoints: Record<BreakpointsState> };
 
 export function getBreakpoint(state: OuterState, location: Location) {
-  return state.breakpoints.breakpoints.get(makeLocationId(location));
+  const breakpoints = getBreakpoints(state);
+  return breakpoints.get(makeLocationId(location));
 }
 
 export function getBreakpoints(state: OuterState) {
-  return state.breakpoints.breakpoints;
+  return state.breakpoints.get("breakpoints");
 }
 
 export function getBreakpointsForSource(state: OuterState, sourceId: string) {
-  return state.breakpoints.breakpoints.filter(bp => {
-    return bp.location.sourceId === sourceId;
+  const isGeneratedSource = isGeneratedId(sourceId);
+  const breakpoints = getBreakpoints(state);
+
+  return breakpoints.filter(bp => {
+    const location = isGeneratedSource
+      ? bp.generatedLocation || bp.location
+      : bp.location;
+    return location.sourceId === sourceId;
   });
 }
 

@@ -22,6 +22,7 @@ function makeMarker(isDisabled: boolean) {
 class Breakpoint extends Component {
   props: {
     breakpoint: Object,
+    selectedSource: Object,
     editor: Object
   };
 
@@ -33,16 +34,22 @@ class Breakpoint extends Component {
   }
 
   addBreakpoint() {
-    const bp = this.props.breakpoint;
-    const line = bp.location.line - 1;
+    const { breakpoint, selectedSource } = this.props;
+    const location = breakpoint.location.sourceId === selectedSource.get("id")
+      ? breakpoint.location
+      : breakpoint.generatedLocation;
 
+    const line = location.line - 1;
+
+    console.log(breakpoint);
+    console.log(breakpoint.location.sourceId === selectedSource.get("id"));
     this.props.editor.setGutterMarker(
       line,
       "breakpoints",
-      makeMarker(bp.disabled)
+      makeMarker(breakpoint.disabled)
     );
     this.props.editor.addLineClass(line, "line", "new-breakpoint");
-    if (bp.condition) {
+    if (breakpoint.condition) {
       this.props.editor.addLineClass(line, "line", "has-condition");
     } else {
       this.props.editor.removeLineClass(line, "line", "has-condition");
