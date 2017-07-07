@@ -182,7 +182,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
     }
 
-    dispatch({ type: "TOGGLE_PROJECT_SEARCH", value: false });
+    dispatch({ type: "TOGGLE_ACTIVE_SEARCH", value: null });
 
     return dispatch({
       type: "SELECT_SOURCE",

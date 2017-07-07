@@ -25,7 +25,6 @@ export default class TextSearch extends Component {
 
   close() {
     this.setState({ inputValue: "", results: [], selectedIndex: 0 });
-    this.props.closeActiveSearch();
   }
 
   async inputOnChange(e) {
