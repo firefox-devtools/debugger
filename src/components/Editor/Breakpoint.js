@@ -2,6 +2,7 @@
 import { Component } from "react";
 import { isEnabled } from "devtools-config";
 import ReactDOM from "react-dom";
+import { isGeneratedId } from "devtools-source-map";
 
 import classnames from "classnames";
 import Svg from "../shared/Svg";
@@ -35,14 +36,20 @@ class Breakpoint extends Component {
 
   addBreakpoint() {
     const { breakpoint, selectedSource } = this.props;
-    const location = breakpoint.location.sourceId === selectedSource.get("id")
-      ? breakpoint.location
-      : breakpoint.generatedLocation;
+    const isGeneratedSource = isGeneratedId(selectedSource.get("id"));
+
+    // NOTE: we need to wait for the breakpoint to be loaded
+    // to get the generated location
+    if (isGeneratedSource && breakpoint.loading) {
+      return;
+    }
+
+    const location = isGeneratedSource
+      ? breakpoint.generatedLocation
+      : breakpoint.location;
 
     const line = location.line - 1;
 
-    console.log(breakpoint);
-    console.log(breakpoint.location.sourceId === selectedSource.get("id"));
     this.props.editor.setGutterMarker(
       line,
       "breakpoints",
