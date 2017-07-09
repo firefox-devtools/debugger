@@ -58,14 +58,17 @@ class Breakpoint extends Component {
 
     const location = this.getLocation();
     const line = location.line - 1;
-    const doc = getDocument(selectedSource.get("id"));
 
-    doc.setGutterMarker(line, "breakpoints", makeMarker(breakpoint.disabled));
-    doc.addLineClass(line, "line", "new-breakpoint");
+    editor.setGutterMarker(
+      line,
+      "breakpoints",
+      makeMarker(breakpoint.disabled)
+    );
+    editor.addLineClass(line, "line", "new-breakpoint");
     if (breakpoint.condition) {
-      doc.addLineClass(line, "line", "has-condition");
+      editor.addLineClass(line, "line", "has-condition");
     } else {
-      doc.removeLineClass(line, "line", "has-condition");
+      editor.removeLineClass(line, "line", "has-condition");
     }
   }
 
@@ -104,11 +107,10 @@ class Breakpoint extends Component {
     }
 
     const line = location.line - 1;
-    const doc = getDocument(selectedSource.get("id"));
 
-    doc.setGutterMarker(line, "breakpoints", null);
-    doc.removeLineClass(line, "line", "new-breakpoint");
-    doc.removeLineClass(line, "line", "has-condition");
+    editor.setGutterMarker(line, "breakpoints", null);
+    editor.removeLineClass(line, "line", "new-breakpoint");
+    editor.removeLineClass(line, "line", "has-condition");
   }
 
   render() {
