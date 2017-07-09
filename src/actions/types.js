@@ -64,6 +64,7 @@ type BreakpointAction =
       type: "ADD_BREAKPOINT",
       breakpoint: Breakpoint,
       condition: string,
+      hidden: boolean,
       status: AsyncStatus,
       error: string,
       value: BreakpointResult

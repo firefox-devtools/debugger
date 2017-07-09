@@ -23,6 +23,7 @@ import {
 import type { Breakpoint, PendingBreakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
+import { createSelector } from "reselect";
 
 export type BreakpointsState = {
   breakpoints: I.Map<string, Breakpoint>,
@@ -102,7 +103,8 @@ function addBreakpoint(state, action) {
       .setIn(["breakpoints", id], {
         ...action.breakpoint,
         loading: true,
-        condition: firstString(action.condition, action.breakpoint.condition)
+        condition: firstString(action.condition, action.breakpoint.condition),
+        hidden: action.hidden
       })
       .set("breakpointsDisabled", false);
 
@@ -342,7 +344,7 @@ export function getBreakpoint(state: OuterState, location: Location) {
   return state.breakpoints.breakpoints.get(makeLocationId(location));
 }
 
-export function getBreakpoints(state: OuterState) {
+export function getBreakpoints(state: OuterState): I.Map<string, Breakpoint> {
   return state.breakpoints.breakpoints;
 }
 
@@ -366,5 +368,24 @@ export function getBreakpointsLoading(state: OuterState) {
 export function getPendingBreakpoints(state: OuterState) {
   return state.breakpoints.pendingBreakpoints;
 }
+
+export const getHiddenBreakpoints = createSelector(getBreakpoints, function(
+  breakpoints
+) {
+  return breakpoints
+    .valueSeq()
+    .filter(breakpoint => breakpoint.has("hidden"))
+    .map(hiddenBreakpoint => hiddenBreakpoint.get("location"));
+});
+
+export const getHiddenBreakpoint = createSelector(
+  getHiddenBreakpoints,
+  hiddenBreakpoints => {
+    if (hiddenBreakpoints.length) {
+      return hiddenBreakpoints[0];
+    }
+    return null;
+  }
+);
 
 export default update;

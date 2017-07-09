@@ -17,7 +17,8 @@ import type { ThunkArgs } from "./types";
 import type { PendingBreakpoint, Location } from "../types";
 
 type addBreakpointOptions = {
-  condition: string
+  condition: string,
+  hidden: boolean
 };
 
 function _breakpointExists(state, location: Location) {
@@ -26,10 +27,11 @@ function _breakpointExists(state, location: Location) {
 }
 
 function _createBreakpoint(location: Object, overrides: Object = {}) {
-  const { condition, disabled, generatedLocation } = overrides;
+  const { condition, disabled, generatedLocation, hidden } = overrides;
   const properties = {
     condition: condition || null,
     disabled: disabled || false,
+    hidden: hidden || false,
     generatedLocation,
     location
   };
@@ -217,18 +219,19 @@ export function syncBreakpoint(
  */
 export function addBreakpoint(
   location: Location,
-  { condition }: addBreakpointOptions = {}
+  { condition, hidden }: addBreakpointOptions = {}
 ) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     if (_breakpointExists(getState(), location)) {
       return Promise.resolve();
     }
 
-    const breakpoint = _createBreakpoint(location, { condition });
+    const breakpoint = _createBreakpoint(location, { condition, hidden });
     return dispatch({
       type: "ADD_BREAKPOINT",
       breakpoint,
-      condition: condition,
+      condition,
+      hidden,
       [PROMISE]: addClientBreakpoint(getState(), client, sourceMaps, breakpoint)
     });
   };
@@ -345,7 +348,7 @@ export function setBreakpointCondition(
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
-      return dispatch(addBreakpoint(location, { condition }));
+      return dispatch(addBreakpoint(location, { condition, hidden: false }));
     }
 
     if (bp.loading) {

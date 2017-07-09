@@ -34,6 +34,9 @@ class Breakpoint extends Component {
 
   addBreakpoint() {
     const bp = this.props.breakpoint;
+    if (bp.hidden) {
+      return;
+    }
     const line = bp.location.line - 1;
 
     this.props.editor.setGutterMarker(
@@ -52,7 +55,8 @@ class Breakpoint extends Component {
     return (
       this.props.editor !== nextProps.editor ||
       this.props.breakpoint.disabled !== nextProps.breakpoint.disabled ||
-      this.props.breakpoint.condition !== nextProps.breakpoint.condition
+      this.props.breakpoint.condition !== nextProps.breakpoint.condition ||
+      this.props.breakpoint.hidden !== nextProps.breakpoint.hidden
     );
   }
   componentDidMount() {

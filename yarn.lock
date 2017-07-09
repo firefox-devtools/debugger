@@ -4915,7 +4915,7 @@ license-checker@^9.0.3:
     semver "^5.3.0"
     treeify "^1.0.1"
 
-lint-staged@4.0.1:
+lint-staged@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-4.0.1.tgz#05365469898439dbade8a455893cf11e24d12b0f"
   dependencies:

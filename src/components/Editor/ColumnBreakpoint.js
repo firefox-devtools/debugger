@@ -44,6 +44,9 @@ class ColumnBreakpoint extends Component {
     }
 
     const bp = this.props.breakpoint;
+    if (bp.hidden) {
+      return;
+    }
     const line = bp.location.line - 1;
     const column = bp.location.column;
     const editor = this.props.editor;
@@ -56,7 +59,8 @@ class ColumnBreakpoint extends Component {
     return (
       this.props.editor !== nextProps.editor ||
       this.props.breakpoint.disabled !== nextProps.breakpoint.disabled ||
-      this.props.breakpoint.condition !== nextProps.breakpoint.condition
+      this.props.breakpoint.condition !== nextProps.breakpoint.condition ||
+      this.props.breakpoint.hidden !== nextProps.breakpoint.hidden
     );
   }
   componentDidMount() {
