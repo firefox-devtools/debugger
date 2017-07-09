@@ -57,7 +57,8 @@
   border-bottom-color: transparent;
 }
 
-.source-tab.active path, .source-tab:hover path {
+.source-tab.active path,
+.source-tab:hover path {
   fill: var(--theme-body-color);
 }
 
@@ -74,7 +75,8 @@
   fill: var(--theme-textbox-box-shadow);
 }
 
-.source-tab .blackBox, .source-tab .prettyPrint {
+.source-tab .blackBox,
+.source-tab .prettyPrint {
   line-height: 0;
   align-self: center;
 }

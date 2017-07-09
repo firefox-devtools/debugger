@@ -17,9 +17,8 @@ class Popover extends Component {
 
   componentDidMount() {
     const { type } = this.props;
-    const { left, top, orientation, targetMid } = type == "popover"
-      ? this.getPopoverCoords()
-      : this.getTooltipCoords();
+    const { left, top, orientation, targetMid } =
+      type == "popover" ? this.getPopoverCoords() : this.getTooltipCoords();
 
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({ left, top, orientation, targetMid });
@@ -58,9 +57,10 @@ class Popover extends Component {
       editorRect,
       popoverRect
     );
-    const top = orientation == "down"
-      ? targetRect.bottom
-      : targetRect.top - popoverRect.height;
+    const top =
+      orientation == "down"
+        ? targetRect.bottom
+        : targetRect.top - popoverRect.height;
 
     const targetMid = targetRect.left - popoverLeft + targetRect.width / 2 - 8;
 

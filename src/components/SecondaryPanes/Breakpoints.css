@@ -71,7 +71,8 @@ html .breakpoints-list .breakpoint.paused {
   order: 3;
 }
 
-:root.theme-light .breakpoint-snippet, :root.theme-firebug .breakpoint-snippet {
+:root.theme-light .breakpoint-snippet,
+:root.theme-firebug .breakpoint-snippet {
   color: var(--theme-comment);
 }
 

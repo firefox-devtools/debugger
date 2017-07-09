@@ -142,9 +142,8 @@ class SourcesTree extends Component {
     // state of ManagedTree, because it depends on item instances
     // being the same. The result is that if a source is added at a
     // later time, all expanded state is lost.
-    const sourceTree = newSet.size > 0
-      ? collapseTree(uncollapsedTree)
-      : this.state.sourceTree;
+    const sourceTree =
+      newSet.size > 0 ? collapseTree(uncollapsedTree) : this.state.sourceTree;
 
     this.setState({
       uncollapsedTree,
@@ -215,9 +214,10 @@ class SourcesTree extends Component {
     const icon = this.getIcon(item, depth);
     let paddingDir = "paddingRight";
     if (document.body && document.body.parentElement) {
-      paddingDir = document.body.parentElement.dir == "ltr"
-        ? "paddingLeft"
-        : "paddingRight";
+      paddingDir =
+        document.body.parentElement.dir == "ltr"
+          ? "paddingLeft"
+          : "paddingRight";
     }
 
     return dom.div(
