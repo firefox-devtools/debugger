@@ -6,13 +6,14 @@ import { traverseAst } from "./ast";
 import {
   isLexicalScope,
   getMemberExpression,
-  nodeContainsPosition
+  nodeContainsPosition,
+  nodeContainsLine
 } from "./helpers";
 
 import type { Source, Location } from "debugger-html";
 import type { NodePath, Node } from "babel-traverse";
 
-function getNodeValue(node: Node) {
+export function getNodeValue(node: Node) {
   if (t.isThisExpression(node)) {
     return "this";
   }
@@ -92,6 +93,28 @@ export function getClosestPath(source: Source, location: Location) {
         return path.skip();
       }
       closestPath = path;
+    }
+  });
+
+  return closestPath;
+}
+
+export function getClosestNode(source, astLocation) {
+  let closestPath = null;
+
+  function containsCandidate(node, candidate) {
+    return node.body.includes(
+      n => n.name === candidate.name && n.type === candidate.type
+    );
+  }
+
+  const { closestNode, candidate } = astLocation;
+
+  traverseAst(source, {
+    enter(path) {
+      if (path.node.name === candidate.name && path.node.type === candidate.type && path.parentPath.node.name === closestNode.name && path.parentPath.node.type === closestNode.type) {
+        closestPath = path;
+      }
     }
   });
 

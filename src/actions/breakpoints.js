@@ -12,6 +12,9 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import { getBreakpoint, getBreakpoints, getSource } from "../selectors";
 import { originalToGeneratedId } from "devtools-source-map";
 import { equalizeLocationColumn } from "../utils/breakpoint";
+import { getClosestPath } from "../utils/parser/utils/closest";
+import getFunctionName from "../utils/parser/utils/getFunctionName";
+import { isFunction } from "../utils/parser/utils/helpers";
 
 import type { ThunkArgs } from "./types";
 import type { PendingBreakpoint, Location } from "../types";
@@ -26,10 +29,11 @@ function _breakpointExists(state, location: Location) {
 }
 
 function _createBreakpoint(location: Object, overrides: Object = {}) {
-  const { condition, disabled, generatedLocation } = overrides;
+  const { condition, disabled, astLocation, generatedLocation } = overrides;
   const properties = {
     condition: condition || null,
     disabled: disabled || false,
+    astLocation,
     generatedLocation,
     location
   };
@@ -45,7 +49,12 @@ async function _getGeneratedLocation(source, sourceMaps, location) {
   return await sourceMaps.getGeneratedLocation(location, source.toJS());
 }
 
-async function _formatClientBreakpoint(clientBreakpoint, sourceMaps, location) {
+async function _formatClientBreakpoint(
+  clientBreakpoint,
+  sourceMaps,
+  baseBreakpoint
+) {
+  const { location, astLocation } = baseBreakpoint;
   const clientOriginalLocation = await sourceMaps.getOriginalLocation(
     clientBreakpoint.actualLocation
   );
@@ -61,7 +70,70 @@ async function _formatClientBreakpoint(clientBreakpoint, sourceMaps, location) {
   const generatedLocation = clientBreakpoint.actualLocation;
 
   const { id, hitCount } = clientBreakpoint;
-  return { id, actualLocation, hitCount, generatedLocation };
+  return { id, actualLocation, hitCount, astLocation, generatedLocation };
+}
+
+async function resyncClientBreakpoint(
+  state,
+  client,
+  sourceMaps,
+  breakpoint,
+  functionsArray
+) {
+  const { lineOffset, symbol } = breakpoint.astLocation;
+  const newSymbol = functionsArray.find(
+    func => func.name === symbol.name && func.identifier === symbol.identifier
+  );
+
+  /** ******* CASE 1: No Changes ***********/
+  // early return if there are no changes
+  if (newSymbol.location.start.line === symbol.location.start.line) {
+    return;
+  }
+
+  /** ******* CASE 2: AST node has a new location ***********/
+  // set a new location
+  const line = newSymbol.location.start.line + lineOffset;
+  const location = { ...breakpoint.location, line };
+
+  console.log(location, newSymbol);
+  const source = getSource(state, location.sourceId);
+  const generatedLocation = await _getGeneratedLocation(
+    source,
+    sourceMaps,
+    location
+  );
+
+  const clientBreakpoint = await client.setBreakpoint(
+    generatedLocation,
+    breakpoint.condition,
+    sourceMaps.isOriginalId(source.get("id"))
+  );
+
+  // get the actual location from the server
+  const clientOriginalLocation = await sourceMaps.getOriginalLocation(
+    clientBreakpoint.actualLocation
+  );
+
+  // make sure that we are re-adding the same type of breakpoint. Column
+  // or line
+  const actualLocation = equalizeLocationColumn(
+    clientOriginalLocation,
+    location
+  );
+
+  const { id, hitCount } = clientBreakpoint;
+
+  return {
+    id,
+    actualLocation,
+    hitCount,
+    astLocation: {
+      lineOffset,
+      symbol: newSymbol
+    },
+    generatedLocation: clientBreakpoint.actualLocation
+  };
 }
 
 // we have three forms of syncing: disabled syncing, existing server syncing
@@ -103,7 +175,7 @@ async function syncClientBreakpoint(
     return _formatClientBreakpoint(
       existingClient,
       sourceMaps,
-      pendingBreakpoint.location
+      pendingBreakpoint
     );
   }
 
@@ -119,7 +191,7 @@ async function syncClientBreakpoint(
   return _formatClientBreakpoint(
     clientBreakpoint,
     sourceMaps,
-    pendingBreakpoint.location
+    pendingBreakpoint
   );
 }
 
@@ -142,11 +214,23 @@ async function addClientBreakpoint(state, client, sourceMaps, breakpoint) {
     clientBreakpoint.actualLocation
   );
 
+  const closestPath = await getClosestPath(source.toJS(), location);
+  const closestFunction = closestPath.find(p => isFunction(p));
+
+  const pathLocation = closestFunction.node.loc;
+  const lineOffset = location.line - pathLocation.start.line;
+  const symbol = {
+    name: getFunctionName(closestFunction),
+    location: pathLocation,
+    identifier: closestFunction.node.id
+  };
+
   const { id, hitCount } = clientBreakpoint;
   return {
     id,
     actualLocation,
     hitCount,
+    astLocation: { lineOffset, symbol },
     generatedLocation: clientBreakpoint.actualLocation
   };
 }
@@ -196,11 +280,30 @@ export function syncBreakpoint(
       sourceId,
       client,
       sourceMaps,
-      pendingBreakpoint
+      pendingBreakpoint,
+      getState()
     );
 
     return dispatch({
       type: "SYNC_BREAKPOINT",
+      breakpoint,
+      [PROMISE]: syncPromise
+    });
+  };
+}
+
+export function resyncBreakpoint(sourceId: string, breakpoint, functionsArray) {
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const syncPromise = resyncClientBreakpoint(
+      getState(),
+      client,
+      sourceMaps,
+      breakpoint,
+      functionsArray
+    );
+
+    return dispatch({
+      type: "RESYNC_BREAKPOINT",
       breakpoint,
       [PROMISE]: syncPromise
     });

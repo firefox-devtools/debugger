@@ -1,6 +1,7 @@
 // @flow
 
 import {
+  getBreakpoints,
   getSource,
   hasSymbols,
   getSelectedLocation,
@@ -9,12 +10,39 @@ import {
   getSelection
 } from "../selectors";
 
+import { resyncBreakpoint } from "./breakpoints";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import * as parser from "../utils/parser";
 
 import type { SourceId } from "debugger-html";
 import type { ThunkArgs } from "./types";
 import type { AstLocation } from "../utils/parser";
+
+async function shouldValidate(breakpoint, source) {
+  const { sourceUrl } = breakpoint.location;
+  const sameSource = sourceUrl && sourceUrl === source.url;
+
+  if (sameSource) {
+    return true;
+  }
+  return false;
+}
+
+async function validateBreakpoints(state, dispatch, source, symbols) {
+  const breakpoints = getBreakpoints(state);
+  if (!breakpoints) {
+    return;
+  }
+  const breakpointsArray = breakpoints.valueSeq().toJS();
+  console.log(breakpointsArray);
+  for (let breakpoint of breakpointsArray) {
+    if (shouldValidate(breakpoint, source)) {
+      await dispatch(
+        resyncBreakpoint(source.id, breakpoint, symbols.functions)
+      );
+    }
+  }
+}
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
@@ -29,6 +57,7 @@ export function setSymbols(sourceId: SourceId) {
     }
 
     const symbols = await parser.getSymbols(source);
+    validateBreakpoints(getState(), dispatch, source, symbols);
 
     dispatch({
       type: "SET_SYMBOLS",
