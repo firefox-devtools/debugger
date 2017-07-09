@@ -120,7 +120,8 @@ ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
   setActiveSearch: PropTypes.func.isRequired,
   closeActiveSearch: PropTypes.func.isRequired,
-  activeSearch: PropTypes.string
+  activeSearch: PropTypes.string,
+  selectSource: PropTypes.func.isRequired
 };
 
 ProjectSearch.contextTypes = {
