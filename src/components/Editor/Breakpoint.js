@@ -78,6 +78,7 @@ class Breakpoint extends Component {
       editor !== nextProps.editor ||
       breakpoint.disabled !== nextProps.breakpoint.disabled ||
       breakpoint.condition !== nextProps.breakpoint.condition ||
+      breakpoint.loading !== nextProps.breakpoint.loading ||
       selectedSource !== nextProps.selectedSource
     );
   }
