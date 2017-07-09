@@ -4,8 +4,6 @@ import { isEnabled } from "devtools-config";
 import ReactDOM from "react-dom";
 import { isGeneratedId } from "devtools-source-map";
 
-import { getDocument } from "../../utils/editor";
-
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 
@@ -48,7 +46,7 @@ class Breakpoint extends Component {
   }
 
   addBreakpoint() {
-    const { breakpoint, editor, selectedSource } = this.props;
+    const { breakpoint, editor } = this.props;
 
     // NOTE: we need to wait for the breakpoint to be loaded
     // to get the generated location
@@ -96,7 +94,7 @@ class Breakpoint extends Component {
   }
 
   componentWillUnmount() {
-    const { editor, breakpoint, selectedSource } = this.props;
+    const { editor, breakpoint } = this.props;
     if (!editor) {
       return;
     }
