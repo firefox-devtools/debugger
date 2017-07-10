@@ -8,7 +8,7 @@ import getFunctionName from "./utils/getFunctionName";
 
 import type { Source } from "debugger-html";
 import type { NodePath, Node, Location as BabelLocation } from "babel-traverse";
-const symbolDeclarations = new Map();
+let symbolDeclarations = new Map();
 
 export type SymbolDeclaration = {|
   name: string,
@@ -27,6 +27,7 @@ export type SymbolDeclarations = {
   functions: Array<SymbolDeclaration>,
   variables: Array<SymbolDeclaration>,
   memberExpressions: Array<SymbolDeclaration>,
+  callExpressions: Array<SymbolDeclaration>,
   objectProperties: Array<SymbolDeclaration>,
   identifiers: Array<SymbolDeclaration>,
   comments: Array<SymbolDeclaration>
@@ -73,6 +74,7 @@ function extractSymbols(source: Source) {
   const functions = [];
   const variables = [];
   const memberExpressions = [];
+  const callExpressions = [];
   const objectProperties = [];
   const identifiers = [];
 
@@ -117,6 +119,17 @@ function extractSymbols(source: Source) {
         });
       }
 
+      if (t.isCallExpression(path)) {
+        const callee = path.node.callee;
+        if (!t.isMemberExpression(callee)) {
+          const { start, end, identifierName } = callee.loc;
+          callExpressions.push({
+            name: identifierName,
+            location: { start, end }
+          });
+        }
+      }
+
       if (t.isIdentifier(path)) {
         const { start, end } = path.node.loc;
 
@@ -146,6 +159,7 @@ function extractSymbols(source: Source) {
   return {
     functions,
     variables,
+    callExpressions,
     memberExpressions,
     objectProperties,
     comments,
@@ -176,10 +190,6 @@ function extendSnippet(
   const prevComputed = prevPath && prevPath.node.computed;
   const prevArray = t.isArrayExpression(prevPath);
   const array = t.isArrayExpression(path);
-
-  // if (!name) {
-  //   return expression;
-  // }
 
   if (expression === "") {
     if (computed) {
@@ -316,6 +326,7 @@ export function formatSymbols(source: Source) {
   const {
     objectProperties,
     memberExpressions,
+    callExpressions,
     identifiers,
     variables
   } = getSymbols(source);
@@ -348,10 +359,17 @@ export function formatSymbols(source: Source) {
     "member expressions",
     memberExpressions.map(summarize).join("\n"),
 
+    "call expressions",
+    callExpressions.map(summarize).join("\n"),
+
     "identifiers",
     identifiers.map(summarize).join("\n"),
 
     "variables",
     variables.map(summarize).join("\n")
   ].join("\n");
+}
+
+export function clearSymbols() {
+  symbolDeclarations = new Map();
 }

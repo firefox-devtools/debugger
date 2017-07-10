@@ -65,6 +65,7 @@ Object {
 
 exports[`ast setSymbols when the source is loaded should be able to set symbols 1`] = `
 Object {
+  "callExpressions": Array [],
   "comments": Array [],
   "functions": Array [
     Object {

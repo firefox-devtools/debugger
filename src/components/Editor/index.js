@@ -52,11 +52,11 @@ const Preview = createFactory(_Preview);
 import _Breakpoint from "./Breakpoint";
 const Breakpoint = createFactory(_Breakpoint);
 
-import _ColumnBreakpoint from "./ColumnBreakpoint";
-const ColumnBreakpoint = createFactory(_ColumnBreakpoint);
-
 import _HitMarker from "./HitMarker";
 const HitMarker = createFactory(_HitMarker);
+
+import _CallSites from "./CallSites";
+const CallSites = createFactory(_CallSites);
 
 import {
   getDocument,
@@ -69,7 +69,6 @@ import {
   getCursorLine,
   resizeBreakpointGutter,
   traverseResults,
-  getTokenLocation,
   updateSelection,
   markText
 } from "../../utils/editor";
@@ -186,7 +185,6 @@ class Editor extends PureComponent {
     codeMirrorWrapper.tabIndex = 0;
     codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
     codeMirrorWrapper.addEventListener("mouseover", e => this.onMouseOver(e));
-    codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
 
     const toggleFoldMarkerVisibility = e => {
       if (node instanceof HTMLElement) {
@@ -330,20 +328,6 @@ class Editor extends PureComponent {
 
   onScroll() {
     this.clearPreviewSelection();
-  }
-
-  onTokenClick(e) {
-    const { target } = e;
-    if (
-      !isEnabled("columnBreakpoints") ||
-      !e.altKey ||
-      !target.parentElement.closest(".CodeMirror-line")
-    ) {
-      return;
-    }
-
-    const { line, column } = getTokenLocation(this.editor.codeMirror, target);
-    this.toggleBreakpoint(line - 1, column - 1);
   }
 
   onSearchAgain(_, e) {
@@ -685,18 +669,7 @@ class Editor extends PureComponent {
         })
       );
 
-    const columnBreakpointBookmarks = breakpoints
-      .valueSeq()
-      .filter(b => (isEnabled("columnBreakpoints") ? b.location.column : false))
-      .map(bp =>
-        ColumnBreakpoint({
-          key: makeLocationId(bp.location),
-          breakpoint: bp,
-          editor: this.editor && this.editor.codeMirror
-        })
-      );
-
-    return breakpointMarkers.concat(columnBreakpointBookmarks);
+    return breakpointMarkers;
   }
 
   renderHitCounts() {
@@ -793,6 +766,15 @@ class Editor extends PureComponent {
     );
   }
 
+  renderCallSites() {
+    const editor = this.editor;
+
+    if (!editor || !isEnabled("columnBreakpoints")) {
+      return null;
+    }
+    return CallSites({ editor });
+  }
+
   render() {
     const {
       selectSource,
@@ -828,7 +810,8 @@ class Editor extends PureComponent {
       this.renderInScopeLines(),
       this.renderHitCounts(),
       Footer({ editor: this.editor, horizontal }),
-      this.renderPreview()
+      this.renderPreview(),
+      this.renderCallSites()
     );
   }
 }
@@ -887,7 +870,7 @@ export default connect(
       highlightedLineRange: getHighlightedLineRange(state),
       searchOn: getActiveSearchState(state) === "file",
       loadedObjects: getLoadedObjects(state),
-      breakpoints: getBreakpointsForSource(state, sourceId || ""),
+      breakpoints: getBreakpointsForSource(state, sourceId),
       hitCount: getHitCountForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state),
       pauseData: getPause(state),

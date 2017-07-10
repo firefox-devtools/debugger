@@ -2,14 +2,15 @@
 
 import isEqual from "lodash/isEqual";
 
-const lineOffset = 1;
-
 export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
-  const { left, top } = tokenEl.getBoundingClientRect();
-  const { line, ch } = codeMirror.coordsChar({ left, top });
+  const { left, top, width, height } = tokenEl.getBoundingClientRect();
+  const { line, ch } = codeMirror.coordsChar({
+    left: left + width / 2,
+    top: top + height / 2
+  });
 
   return {
-    line: line + lineOffset,
+    line: line,
     column: ch
   };
 }

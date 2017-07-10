@@ -1,0 +1,46 @@
+.call-site {
+  background: #f0f9ff;
+  cursor: pointer;
+  position: relative;
+}
+
+.call-site::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 2px);
+  border-bottom: 2px solid #aed3ef;
+}
+
+.call-site-bp {
+  cursor: pointer;
+  position: relative;
+}
+
+.debug-expression.call-site-bp, .call-site-bp {
+  background-color: #fce7e7;
+}
+
+.call-site-bp::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 2px);
+  border-bottom: 2px solid red;
+}
+
+.theme-dark .call-site {
+  background-color: #4b5462;
+}
+
+.theme-dark .call-site::before {
+  border-bottom-color: #5f78a4;
+}
+
+.theme-dark .call-site-bp {
+  background-color: #4b3f3f;
+}
+
+.theme-dark .call-site-bp::before {
+  border-bottom-color: #dd4d4d;
+}
