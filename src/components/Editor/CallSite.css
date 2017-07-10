@@ -17,7 +17,8 @@
   position: relative;
 }
 
-.debug-expression.call-site-bp, .call-site-bp {
+.debug-expression.call-site-bp,
+.call-site-bp {
   background-color: #fce7e7;
 }
 
