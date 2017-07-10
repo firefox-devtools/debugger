@@ -21,8 +21,8 @@
   white-space: nowrap;
 }
 
-.scopes-list .tree-node {
-  overflow: hidden;
+.scopes-pane {
+  overflow: scroll;
 }
 
 .scopes-list .function-signature {
