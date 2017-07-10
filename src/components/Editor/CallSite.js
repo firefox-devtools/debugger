@@ -29,8 +29,8 @@ export default class CallSite extends Component {
     self.clearCallSite = this.clearCallSite.bind(this);
   }
 
-  addCallSite() {
-    const { editor, callSite, breakpoint } = this.props;
+  addCallSite(props) {
+    const { editor, callSite, breakpoint } = props || this.props;
     const className = !breakpoint ? "call-site" : "call-site-bp";
     this.marker = markText(editor, className, callSite.location);
   }
@@ -66,7 +66,7 @@ export default class CallSite extends Component {
       if (this.marker) {
         this.marker.clear();
       }
-      this.addCallSite();
+      this.addCallSite(nextProps);
     }
 
     if (nextProps.showCallSite !== showCallSite) {

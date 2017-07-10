@@ -6,7 +6,7 @@ import { isEnabled } from "devtools-config";
 import range from "lodash/range";
 import keyBy from "lodash/keyBy";
 import find from "lodash/find";
-import isEqual from "lodash/isEqual";
+import isEqualWith from "lodash/isEqualWith";
 
 import _CallSite from "./CallSite";
 const CallSite = createFactory(_CallSite);
@@ -24,7 +24,12 @@ import actions from "../../actions";
 
 function getCallSiteAtLocation(callSites, location) {
   return find(callSites, callSite =>
-    isEqual(callSite.location.start, location)
+    isEqualWith(callSite.location, location, (cloc, loc) => {
+      return (
+        loc.line === cloc.start.line &&
+        (loc.column >= cloc.start.column && loc.column <= cloc.end.column)
+      );
+    })
   );
 }
 
@@ -97,7 +102,7 @@ class CallSites extends Component {
 
     const { line, column } = getTokenLocation(editor.codeMirror, target);
 
-    this.toggleBreakpoint(line, column - 2);
+    this.toggleBreakpoint(line + 1, column - 2);
   }
 
   toggleBreakpoint(line, column = undefined) {
@@ -129,14 +134,14 @@ class CallSites extends Component {
       column = column || bp.location.column;
       removeBreakpoint({
         sourceId: sourceId,
-        line: line + 1,
+        line: line,
         column
       });
     } else {
       addBreakpoint({
         sourceId: sourceId,
         sourceUrl: selectedSource.get("url"),
-        line: line + 1,
+        line: line,
         column: column
       });
     }
