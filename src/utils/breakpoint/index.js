@@ -32,11 +32,3 @@ export function makePendingLocationId(location: Location) {
 export function allBreakpointsDisabled(state) {
   return state.breakpoints.every(x => x.disabled);
 }
-
-// syncing
-export function equalizeLocationColumn(location, referenceLocation) {
-  if (referenceLocation.column) {
-    return location;
-  }
-  return { ...location, column: undefined };
-}
