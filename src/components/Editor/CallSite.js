@@ -29,8 +29,8 @@ export default class CallSite extends Component {
     self.clearCallSite = this.clearCallSite.bind(this);
   }
 
-  addCallSite(props) {
-    const { editor, callSite, breakpoint } = props || this.props;
+  addCallSite(nextProps: props) {
+    const { editor, callSite, breakpoint } = nextProps || this.props;
     const className = !breakpoint ? "call-site" : "call-site-bp";
     this.marker = markText(editor, className, callSite.location);
   }

@@ -18,7 +18,7 @@ import {
   getBreakpointsForSource
 } from "../../selectors";
 
-import { getTokenLocation, breakpointAtLocation } from "../../utils/editor";
+import { getTokenLocation } from "../../utils/editor";
 
 import actions from "../../actions";
 
@@ -38,7 +38,6 @@ class CallSites extends Component {
     symbols: Array<Symbol>,
     callSites: Array<Symbol>,
     editor: Object,
-    breakpoints: Map,
     addBreakpoint: Function,
     removeBreakpoint: Function,
     selectedSource: Object,
@@ -109,7 +108,6 @@ class CallSites extends Component {
     const {
       selectedSource,
       selectedLocation,
-      breakpoints,
       addBreakpoint,
       removeBreakpoint,
       callSites
