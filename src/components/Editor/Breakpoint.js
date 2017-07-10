@@ -2,6 +2,7 @@
 import { Component } from "react";
 import { isEnabled } from "devtools-config";
 import ReactDOM from "react-dom";
+import { isGeneratedId } from "devtools-source-map";
 
 import classnames from "classnames";
 import Svg from "../shared/Svg";
@@ -33,35 +34,53 @@ class Breakpoint extends Component {
     this.addBreakpoint = this.addBreakpoint.bind(this);
   }
 
-  addBreakpoint() {
-    const { breakpoint, selectedSource } = this.props;
-    const location = breakpoint.location.sourceId === selectedSource.get("id")
-      ? breakpoint.location
-      : breakpoint.generatedLocation;
+  isGeneratedSource() {
+    return isGeneratedId(this.props.selectedSource.get("id"));
+  }
 
+  getLocation() {
+    const { breakpoint } = this.props;
+    return this.isGeneratedSource()
+      ? breakpoint.generatedLocation
+      : breakpoint.location;
+  }
+
+  addBreakpoint() {
+    const { breakpoint, editor } = this.props;
+
+    // NOTE: we need to wait for the breakpoint to be loaded
+    // to get the generated location
+    if (this.isGeneratedSource() && breakpoint.loading) {
+      return;
+    }
+
+    const location = this.getLocation();
     const line = location.line - 1;
 
-    console.log(breakpoint);
-    console.log(breakpoint.location.sourceId === selectedSource.get("id"));
-    this.props.editor.setGutterMarker(
+    editor.setGutterMarker(
       line,
       "breakpoints",
       makeMarker(breakpoint.disabled)
     );
-    this.props.editor.addLineClass(line, "line", "new-breakpoint");
+    editor.addLineClass(line, "line", "new-breakpoint");
     if (breakpoint.condition) {
-      this.props.editor.addLineClass(line, "line", "has-condition");
+      editor.addLineClass(line, "line", "has-condition");
     } else {
-      this.props.editor.removeLineClass(line, "line", "has-condition");
+      editor.removeLineClass(line, "line", "has-condition");
     }
   }
+
   shouldComponentUpdate(nextProps: any) {
+    const { editor, breakpoint, selectedSource } = this.props;
     return (
-      this.props.editor !== nextProps.editor ||
-      this.props.breakpoint.disabled !== nextProps.breakpoint.disabled ||
-      this.props.breakpoint.condition !== nextProps.breakpoint.condition
+      editor !== nextProps.editor ||
+      breakpoint.disabled !== nextProps.breakpoint.disabled ||
+      breakpoint.condition !== nextProps.breakpoint.condition ||
+      breakpoint.loading !== nextProps.breakpoint.loading ||
+      selectedSource !== nextProps.selectedSource
     );
   }
+
   componentDidMount() {
     if (!this.props.editor) {
       return;
@@ -69,21 +88,30 @@ class Breakpoint extends Component {
 
     this.addBreakpoint();
   }
+
   componentDidUpdate() {
     this.addBreakpoint();
   }
+
   componentWillUnmount() {
-    if (!this.props.editor) {
+    const { editor, breakpoint } = this.props;
+    if (!editor) {
       return;
     }
 
-    const bp = this.props.breakpoint;
-    const line = bp.location.line - 1;
+    const location = this.getLocation();
 
-    this.props.editor.setGutterMarker(line, "breakpoints", null);
-    this.props.editor.removeLineClass(line, "line", "new-breakpoint");
-    this.props.editor.removeLineClass(line, "line", "has-condition");
+    if (breakpoint.loading || !location) {
+      return;
+    }
+
+    const line = location.line - 1;
+
+    editor.setGutterMarker(line, "breakpoints", null);
+    editor.removeLineClass(line, "line", "new-breakpoint");
+    editor.removeLineClass(line, "line", "has-condition");
   }
+
   render() {
     return null;
   }
