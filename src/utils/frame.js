@@ -134,8 +134,7 @@ const displayNameMap = {
   },
   React: {
     // eslint-disable-next-line max-len
-    "ReactCompositeComponent._renderValidatedComponentWithoutOwnerOrContext/renderedElement<":
-      "Render",
+    "ReactCompositeComponent._renderValidatedComponentWithoutOwnerOrContext/renderedElement<": "Render",
     _renderValidatedComponentWithoutOwnerOrContext: "Render"
   },
   Webpack: {
