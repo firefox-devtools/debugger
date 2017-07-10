@@ -13,7 +13,7 @@ const errorGrip = {
     name: "Error",
     message: "blah",
     stack:
-     "onclick@http://localhost:8000/examples/doc-return-values.html:1:18\n",
+      "onclick@http://localhost:8000/examples/doc-return-values.html:1:18\n",
     fileName: "http://localhost:8000/examples/doc-return-values.html",
     lineNumber: 1,
     columnNumber: 18
