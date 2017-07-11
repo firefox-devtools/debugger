@@ -42,7 +42,7 @@ export function updateSelection(
       !target.parentElement.closest(".CodeMirror-line")) ||
     cursorPos.top == 0;
   const isUpdating = selection && selection.updating;
-  const inScope = linesInScope.includes(location.line);
+  const inScope = linesInScope && linesInScope.includes(location.line);
 
   if (invalidTarget || !inScope || isUpdating || invalidToken) {
     return;

@@ -11,10 +11,7 @@ export async function formatClientBreakpoint(
 
   // make sure that we are re-adding the same type of breakpoint. Column
   // or line
-  const actualLocation = equalizeLocationColumn(
-    clientOriginalLocation,
-    location
-  );
+  const actualLocation = clientOriginalLocation;
 
   // the generatedLocation might have slid, so now we can adjust it
   const generatedLocation = clientBreakpoint.actualLocation;

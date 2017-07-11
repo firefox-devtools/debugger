@@ -9,7 +9,12 @@
  */
 
 import { PROMISE } from "../utils/redux/middleware/promise";
-import { getBreakpoint, getBreakpoints } from "../selectors";
+import {
+  getBreakpoint,
+  getBreakpoints,
+  getSelectedSource,
+  getBreakpointAtLocation
+} from "../selectors";
 import { breakpointExists, createBreakpoint } from "./utils/breakpoints";
 
 import {
@@ -115,6 +120,7 @@ export function addBreakpoint(
 export function disableBreakpoint(location: Location) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     let bp = getBreakpoint(getState(), location);
+
     if (!bp) {
       throw new Error("attempt to disable a breakpoint that does not exist");
     }
@@ -127,7 +133,6 @@ export function disableBreakpoint(location: Location) {
     const action = {
       type: "DISABLE_BREAKPOINT",
       breakpoint: bp,
-      disabled: true,
       [PROMISE]: client.removeBreakpoint(bp)
     };
 
@@ -237,5 +242,54 @@ export function setBreakpointCondition(
         sourceMaps.isOriginalId(bp.location.sourceId)
       )
     });
+  };
+}
+
+export function toggleBreakpoint(line: number, column?: number) {
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const selectedSource = getSelectedSource(getState());
+    const bp = getBreakpointAtLocation(getState(), { line, column });
+
+    if (bp && bp.loading) {
+      return;
+    }
+
+    if (bp) {
+      // NOTE: it's possible the breakpoint has slid to a column
+      return dispatch(
+        removeBreakpoint({
+          sourceId: bp.location.sourceId,
+          line: bp.location.line,
+          column: column || bp.location.column
+        })
+      );
+    }
+
+    return dispatch(
+      addBreakpoint({
+        sourceId: selectedSource.get("id"),
+        sourceUrl: selectedSource.get("url"),
+        line: line,
+        column: column
+      })
+    );
+  };
+}
+
+export function toggleDisabledBreakpoint(line: number, column?: number) {
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const bp = getBreakpointAtLocation(getState(), { line, column });
+    if (bp && bp.loading) {
+      return;
+    }
+
+    if (!bp) {
+      throw new Error("attempt to disable breakpoint that does not exist");
+    }
+
+    if (!bp.disabled) {
+      return dispatch(disableBreakpoint(bp.location));
+    }
+    return dispatch(enableBreakpoint(bp.location));
   };
 }

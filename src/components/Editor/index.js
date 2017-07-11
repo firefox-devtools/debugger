@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
 import debounce from "lodash/debounce";
-import { getMode } from "../../utils/source";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import { renderConditionalPanel } from "./ConditionalPanel";
@@ -15,7 +14,6 @@ import { debugGlobal } from "devtools-launchpad";
 
 import {
   getActiveSearchState,
-  getBreakpointsForSource,
   getSelectedLocation,
   getSelectedFrame,
   getSelectedSource,
@@ -26,12 +24,11 @@ import {
   getPause,
   getSelection,
   getFileSearchQueryState,
-  getFileSearchModifierState
+  getFileSearchModifierState,
+  getVisibleBreakpoints,
+  getInScopeLines
 } from "../../selectors";
 
-import getInScopeLines from "../../selectors/linesInScope";
-
-import { makeLocationId, breakpointAtLocation } from "../../utils/breakpoint";
 import actions from "../../actions";
 
 import _Footer from "./Footer";
@@ -49,9 +46,8 @@ const HighlightLines = createFactory(_HighlightLines);
 import _Preview from "./Preview";
 const Preview = createFactory(_Preview);
 
-import _Breakpoint from "./Breakpoint";
-const Breakpoint = createFactory(_Breakpoint);
-
+import _Breakpoints from "./Breakpoints";
+const Breakpoints = createFactory(_Breakpoints);
 import _HitMarker from "./HitMarker";
 const HitMarker = createFactory(_HitMarker);
 
@@ -59,18 +55,17 @@ import _CallSites from "./CallSites";
 const CallSites = createFactory(_CallSites);
 
 import {
-  getDocument,
-  setDocument,
+  showSourceText,
   updateDocument,
   shouldShowFooter,
   clearLineClass,
   createEditor,
-  getTextForLine,
   getCursorLine,
   resizeBreakpointGutter,
   traverseResults,
   updateSelection,
-  markText
+  markText,
+  lineAtHeight
 } from "../../utils/editor";
 
 import { isFirefox } from "devtools-config";
@@ -117,13 +112,7 @@ class Editor extends PureComponent {
     self.onScroll = this.onScroll.bind(this);
     self.onSearchAgain = this.onSearchAgain.bind(this);
     self.onToggleBreakpoint = this.onToggleBreakpoint.bind(this);
-    self.toggleBreakpoint = this.toggleBreakpoint.bind(this);
     self.onMouseOver = debounce(this.onMouseOver, 40);
-
-    // eslint-disable-next-line max-len
-    self.toggleBreakpointDisabledStatus = this.toggleBreakpointDisabledStatus.bind(
-      this
-    );
     self.toggleConditionalPanel = this.toggleConditionalPanel.bind(this);
   }
 
@@ -149,7 +138,7 @@ class Editor extends PureComponent {
     } else if (selectedSource.get("error")) {
       this.showMessage(selectedSource.get("error"));
     } else if (this.props.selectedSource !== selectedSource) {
-      this.showSourceText(selectedSource, selectedLocation);
+      showSourceText(this.editor, selectedSource.toJS());
     }
 
     if (this.props.linesInScope !== nextProps.linesInScope) {
@@ -285,9 +274,9 @@ class Editor extends PureComponent {
     const line = getCursorLine(codeMirror);
 
     if (e.shiftKey) {
-      this.toggleConditionalPanel(line);
+      this.toggleConditionalPanel(line + 1);
     } else {
-      this.toggleBreakpoint(line);
+      this.props.toggleBreakpoint(line + 1);
     }
   }
 
@@ -367,7 +356,7 @@ class Editor extends PureComponent {
   }
 
   onGutterClick(cm, line, gutter, ev) {
-    const { selectedSource } = this.props;
+    const { selectedSource, toggleBreakpoint } = this.props;
 
     // ignore right clicks in the gutter
     if (
@@ -383,27 +372,34 @@ class Editor extends PureComponent {
     }
 
     if (gutter !== "CodeMirror-foldgutter") {
-      this.toggleBreakpoint(line);
+      toggleBreakpoint(line + 1);
     }
   }
 
   onGutterContextMenu(event) {
-    const { selectedSource, selectedLocation, breakpoints } = this.props;
+    const {
+      selectedSource,
+      breakpoints,
+      toggleBreakpoint,
+      toggleDisabledBreakpoint
+    } = this.props;
 
     if (selectedSource && selectedSource.get("isBlackBoxed")) {
       event.preventDefault();
       return;
     }
 
-    const line = this.editor.codeMirror.lineAtHeight(event.clientY);
-    const bp = breakpointAtLocation(breakpoints, selectedLocation, { line });
+    const line = lineAtHeight(this.editor, event);
+    const breakpoint = breakpoints.find(bp => bp.location.line === line);
+
     GutterMenu({
       event,
       line,
-      bp,
-      toggleBreakpoint: this.toggleBreakpoint,
+      breakpoint,
+      toggleBreakpoint,
+      toggleDisabledBreakpoint,
+
       showConditionalPanel: this.toggleConditionalPanel,
-      toggleBreakpointDisabledStatus: this.toggleBreakpointDisabledStatus,
       isCbPanelOpen: this.isCbPanelOpen(),
       closeConditionalPanel: this.closeConditionalPanel
     });
@@ -428,19 +424,14 @@ class Editor extends PureComponent {
     } = this.props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
-    const bp = breakpointAtLocation(breakpoints, selectedLocation, { line });
-    const location = { sourceId, line: line + 1 };
-    const condition = bp ? bp.condition : "";
-
-    const setBreakpoint = value =>
-      setBreakpointCondition(location, {
-        condition: value,
-        getTextForLine: l => getTextForLine(this.editor.codeMirror, l)
-      });
+    const breakpoint = breakpoints.find(bp => bp.location.line === line);
+    const location = { sourceId, line };
+    const condition = breakpoint ? breakpoint.condition : "";
 
     const panel = renderConditionalPanel({
       condition,
-      setBreakpoint,
+      setBreakpoint: value =>
+        setBreakpointCondition(location, { condition: value }),
       closePanel: this.closeConditionalPanel
     });
 
@@ -458,75 +449,6 @@ class Editor extends PureComponent {
 
   isCbPanelOpen() {
     return !!this.cbPanel;
-  }
-
-  toggleBreakpoint(line, column = undefined) {
-    const {
-      selectedSource,
-      selectedLocation,
-      breakpoints,
-      addBreakpoint,
-      removeBreakpoint
-    } = this.props;
-    const bp = breakpointAtLocation(breakpoints, selectedLocation, {
-      line,
-      column
-    });
-
-    if ((bp && bp.loading) || !selectedLocation || !selectedSource) {
-      return;
-    }
-
-    const { sourceId } = selectedLocation;
-
-    if (bp) {
-      // NOTE: it's possible the breakpoint has slid to a column
-      removeBreakpoint({
-        sourceId: bp.location.sourceId,
-        line: bp.location.line,
-        column: column || bp.location.column
-      });
-    } else {
-      addBreakpoint(
-        {
-          sourceId: sourceId,
-          sourceUrl: selectedSource.get("url"),
-          line: line + 1,
-          column: column
-        },
-        // Pass in a function to get line text because the breakpoint
-        // may slide and it needs to compute the value at the new
-        // line.
-        { getTextForLine: l => getTextForLine(this.editor.codeMirror, l) }
-      );
-    }
-  }
-
-  toggleBreakpointDisabledStatus(line) {
-    const { breakpoints, selectedLocation } = this.props;
-    const bp = breakpointAtLocation(breakpoints, selectedLocation, { line });
-
-    if ((bp && bp.loading) || !selectedLocation) {
-      return;
-    }
-
-    const { sourceId } = selectedLocation;
-
-    if (!bp) {
-      throw new Error("attempt to disable breakpoint that does not exist");
-    }
-
-    if (!bp.disabled) {
-      this.props.disableBreakpoint({
-        sourceId: sourceId,
-        line: line + 1
-      });
-    } else {
-      this.props.enableBreakpoint({
-        sourceId: sourceId,
-        line: line + 1
-      });
-    }
   }
 
   clearDebugLine(selectedFrame) {
@@ -594,42 +516,10 @@ class Editor extends PureComponent {
     this.pendingJumpLine = null;
   }
 
-  setText(text) {
-    if (!text || !this.editor) {
-      return;
-    }
-
-    this.editor.setText(text);
-  }
-
   showMessage(msg) {
     this.editor.replaceDocument(this.editor.createDocument());
-    this.setText(msg);
+    this.editor.setText(msg);
     this.editor.setMode({ name: "text" });
-  }
-
-  /**
-   * Handle getting the source document or creating a new
-   * document with the correct mode and text.
-   *
-   */
-  showSourceText(source, selectedLocation) {
-    if (!selectedLocation) {
-      return;
-    }
-
-    let doc = getDocument(selectedLocation.sourceId);
-    if (doc) {
-      this.editor.replaceDocument(doc);
-      return doc;
-    }
-
-    doc = this.editor.createDocument();
-    setDocument(selectedLocation.sourceId, doc);
-    this.editor.replaceDocument(doc);
-
-    this.setText(source.get("text"));
-    this.editor.setMode(getMode(source.toJS()));
   }
 
   renderHighlightLines() {
@@ -643,33 +533,6 @@ class Editor extends PureComponent {
       editor: this.editor,
       highlightedLineRange
     });
-  }
-
-  renderBreakpoints() {
-    const { breakpoints, selectedSource } = this.props;
-
-    if (
-      !selectedSource ||
-      selectedSource.get("loading") ||
-      !breakpoints ||
-      (selectedSource && selectedSource.get("isBlackBoxed"))
-    ) {
-      return;
-    }
-
-    const breakpointMarkers = breakpoints
-      .valueSeq()
-      .filter(b => (isEnabled("columnBreakpoints") ? !b.location.column : true))
-      .map(bp =>
-        Breakpoint({
-          key: makeLocationId(bp.location),
-          selectedSource,
-          breakpoint: bp,
-          editor: this.editor && this.editor.codeMirror
-        })
-      );
-
-    return breakpointMarkers;
   }
 
   renderHitCounts() {
@@ -806,12 +669,12 @@ class Editor extends PureComponent {
         style: this.getInlineEditorStyles()
       }),
       this.renderHighlightLines(),
-      this.renderBreakpoints(),
       this.renderInScopeLines(),
       this.renderHitCounts(),
       Footer({ editor: this.editor, horizontal }),
       this.renderPreview(),
-      this.renderCallSites()
+      this.renderCallSites(),
+      Breakpoints({ editor: this.editor })
     );
   }
 }
@@ -819,7 +682,7 @@ class Editor extends PureComponent {
 Editor.displayName = "Editor";
 
 Editor.propTypes = {
-  breakpoints: ImPropTypes.map.isRequired,
+  breakpoints: ImPropTypes.map,
   hitCount: PropTypes.object,
   selectedLocation: PropTypes.object,
   selectedSource: ImPropTypes.map,
@@ -851,7 +714,9 @@ Editor.propTypes = {
   startPanelSize: PropTypes.number,
   endPanelSize: PropTypes.number,
   clearSelection: PropTypes.func.isRequired,
-  linesInScope: PropTypes.array
+  linesInScope: PropTypes.array,
+  toggleBreakpoint: PropTypes.func.isRequired,
+  toggleDisabledBreakpoint: PropTypes.func.isRequired
 };
 
 Editor.contextTypes = {
@@ -870,7 +735,7 @@ export default connect(
       highlightedLineRange: getHighlightedLineRange(state),
       searchOn: getActiveSearchState(state) === "file",
       loadedObjects: getLoadedObjects(state),
-      breakpoints: getBreakpointsForSource(state, sourceId || ""),
+      breakpoints: getVisibleBreakpoints(state),
       hitCount: getHitCountForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state),
       pauseData: getPause(state),

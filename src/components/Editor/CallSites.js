@@ -38,6 +38,7 @@ class CallSites extends Component {
     symbols: Array<Symbol>,
     callSites: Array<Symbol>,
     editor: Object,
+    breakpoints: Map,
     addBreakpoint: Function,
     removeBreakpoint: Function,
     selectedSource: Object,

@@ -34,6 +34,9 @@ ShallowWrapper {
         editor={null}
         horizontal={undefined}
     />
+    <Connect(Breakpoints)
+        editor={null}
+    />
 </div>,
   "nodes": Array [
     <div
@@ -61,6 +64,9 @@ ShallowWrapper {
       <Connect(SourceFooter)
             editor={null}
             horizontal={undefined}
+      />
+      <Connect(Breakpoints)
+            editor={null}
       />
 </div>,
   ],
@@ -91,6 +97,8 @@ ShallowWrapper {
                       }
         }
         setBreakpointCondition={[Function]}
+        toggleBreakpoint={[Function]}
+        toggleDisabledBreakpoint={[Function]}
 />,
       "_debugID": 1,
       "_hostContainerInfo": null,
@@ -129,13 +137,13 @@ ShallowWrapper {
             "wholeWord": false,
           },
           "setBreakpointCondition": [Function],
+          "toggleBreakpoint": [Function],
+          "toggleDisabledBreakpoint": [Function],
         },
         "refs": Object {},
         "state": Object {
           "highlightedLineRange": null,
         },
-        "toggleBreakpoint": [Function],
-        "toggleBreakpointDisabledStatus": [Function],
         "toggleConditionalPanel": [Function],
         "updater": Object {
           "enqueueCallback": [Function],
@@ -181,6 +189,9 @@ ShallowWrapper {
                     editor={null}
                     horizontal={undefined}
           />
+          <Connect(Breakpoints)
+                    editor={null}
+          />
 </div>,
         "_debugID": 2,
         "_renderedOutput": <div
@@ -208,6 +219,9 @@ ShallowWrapper {
           <Connect(SourceFooter)
                     editor={null}
                     horizontal={undefined}
+          />
+          <Connect(Breakpoints)
+                    editor={null}
           />
 </div>,
       },
@@ -242,6 +256,8 @@ ShallowWrapper {
           }
     }
     setBreakpointCondition={[Function]}
+    toggleBreakpoint={[Function]}
+    toggleDisabledBreakpoint={[Function]}
 />,
 }
 `;
