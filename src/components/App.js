@@ -10,6 +10,7 @@ import { isVisible } from "../utils/ui";
 
 import { KeyShortcuts } from "devtools-modules";
 const shortcuts = new KeyShortcuts({ window });
+window.oncontextmenu = e => false;
 
 const verticalLayoutBreakpoint = window.matchMedia("(min-width: 800px)");
 
