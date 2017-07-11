@@ -350,6 +350,10 @@ export function getBreakpoints(state: OuterState) {
 }
 
 export function getBreakpointsForSource(state: OuterState, sourceId: string) {
+  if (!sourceId) {
+    return I.Map();
+  }
+
   const isGeneratedSource = isGeneratedId(sourceId);
   const breakpoints = getBreakpoints(state);
 

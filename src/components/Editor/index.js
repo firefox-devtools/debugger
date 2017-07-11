@@ -870,7 +870,7 @@ export default connect(
       highlightedLineRange: getHighlightedLineRange(state),
       searchOn: getActiveSearchState(state) === "file",
       loadedObjects: getLoadedObjects(state),
-      breakpoints: getBreakpointsForSource(state, sourceId),
+      breakpoints: getBreakpointsForSource(state, sourceId || ""),
       hitCount: getHitCountForSource(state, sourceId),
       selectedFrame: getSelectedFrame(state),
       pauseData: getPause(state),
