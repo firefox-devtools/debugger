@@ -128,6 +128,14 @@ It's been a quieter week than last week. This weeks highlights include:
 * some new documentation
 * WTR runner
 
+### [July 11th](./updates-7-11-2017.md)
+lots happened since the last update:
+
+* Edge Cases: pretty print, symmetric breakpoints, …
+* Performance: stepping, preview
+* UI: New symbol modal, full project text search
+* Experiments: Call Site Breakpoints, Async stepping
+
 ### Types and Tests Review
 
 * [Flow Review](./5-1-2017-flow.md)
