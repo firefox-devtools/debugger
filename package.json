@@ -42,9 +42,11 @@
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "snapshot": "NODE_ENV='development' build-storybook && percy-storybook",
-    "prepush": "yarn lint && yarn test && yarn flow",
+    "postcheckout": "node bin/post-checkout.js",
     "postmerge": "node bin/post-merge.js",
+    "postrewrite": "node bin/post-rewrite.js",
     "precommit": "lint-staged",
+    "prepush": "yarn lint && yarn test && yarn flow",
     "nom": "rm -rf node_modules yarn.lock; yarn install"
   },
   "dependencies": {
