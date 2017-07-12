@@ -1,4 +1,5 @@
 import searchSources, { searchSource } from "../project-search";
+import fromJS from "../../fromJS";
 
 const text = `
   function foo() {
@@ -12,20 +13,20 @@ const text2 = `
   }
 `;
 
-const testFiles = [
-  {
+const testFiles = fromJS({
+  foo: {
     text,
     loading: false,
     id: "foo.js",
     url: "http://example.com/foo/foo.js"
   },
-  {
+  foo2: {
     text: text2,
     loading: false,
     id: "foo.js",
     url: "http://example.com/foo/bar.js"
   }
-];
+});
 
 describe("project search", () => {
   it("simple", () => {

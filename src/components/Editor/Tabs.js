@@ -8,7 +8,8 @@ import * as I from "immutable";
 import {
   getSelectedSource,
   getSourcesForTabs,
-  getActiveSearchState
+  getActiveSearchState,
+  getSearchTabs
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
 
@@ -91,6 +92,8 @@ class SourceTabs extends PureComponent {
   renderDropdownSource: Function;
   renderTabs: Function;
   renderTab: Function;
+  renderSourceTab: Function;
+  renderSearchTab: Function;
   renderNewButton: Function;
   renderDropDown: Function;
   renderStartPanelToggleButton: Function;
@@ -98,12 +101,15 @@ class SourceTabs extends PureComponent {
 
   props: {
     sourceTabs: SourcesList,
+    searchTabs: List<ActiveSearchType>,
     selectedSource: SourceRecord,
     selectSource: (string, ?Object) => void,
     moveTab: (string, number) => void,
     closeTab: string => void,
     closeTabs: (List<string>) => void,
     setActiveSearch: (?ActiveSearchType) => void,
+    closeActiveSearch: () => void,
+    activeSearch: string,
     togglePrettyPrint: string => void,
     togglePaneCollapse: () => void,
     toggleActiveSearch: (?string) => void,
@@ -129,7 +135,8 @@ class SourceTabs extends PureComponent {
     this.toggleSourcesDropdown = this.toggleSourcesDropdown.bind(this);
     this.renderDropdownSource = this.renderDropdownSource.bind(this);
     this.renderTabs = this.renderTabs.bind(this);
-    this.renderTab = this.renderTab.bind(this);
+    this.renderSourceTab = this.renderSourceTab.bind(this);
+    this.renderSearchTab = this.renderSearchTab.bind(this);
     this.renderNewButton = this.renderNewButton.bind(this);
     this.renderDropDown = this.renderDropdown.bind(this);
     this.renderStartPanelToggleButton = this.renderStartPanelToggleButton.bind(
@@ -327,22 +334,69 @@ class SourceTabs extends PureComponent {
   }
 
   renderTabs() {
-    const sourceTabs = this.props.sourceTabs;
+    const { sourceTabs, searchTabs } = this.props;
     if (!sourceTabs) {
       return;
     }
 
     return dom.div(
       { className: "source-tabs", ref: "sourceTabs" },
-      sourceTabs.map(this.renderTab)
+      searchTabs.map(this.renderSearchTab),
+      sourceTabs.map(this.renderSourceTab)
     );
   }
 
-  renderTab(source: SourceRecord) {
-    const { selectedSource, selectSource, closeTab } = this.props;
+  isProjectSearchEnabled() {
+    return this.props.activeSearch === "project";
+  }
+
+  isSourceSearchEnabled() {
+    return this.props.activeSearch === "source";
+  }
+
+  renderSearchTab(source: ActiveSearchType) {
+    const { closeTab, closeActiveSearch, setActiveSearch } = this.props;
+
+    function tabName(tab) {
+      return `${tab} ${tab == "project" ? "text" : ""} search`;
+    }
+
+    function onClickClose(ev) {
+      ev.stopPropagation();
+      closeActiveSearch();
+      closeTab(source);
+    }
+    return dom.div(
+      {
+        className: classnames("source-tab", {
+          active: this.isProjectSearchEnabled() || this.isSourceSearchEnabled(),
+          pretty: false
+        }),
+        key: source,
+        onClick: () => setActiveSearch(source),
+        onContextMenu: e => this.onTabContextMenu(e, source),
+        title: tabName(source)
+      },
+      dom.div({ className: "filename" }, tabName(source)),
+      CloseButton({
+        handleClick: onClickClose,
+        tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip")
+      })
+    );
+  }
+
+  renderSourceTab(source: SourceRecord) {
+    const {
+      selectedSource,
+      selectSource,
+      closeTab,
+      closeActiveSearch
+    } = this.props;
     const filename = getFilename(source.toJS());
     const active =
-      selectedSource && source.get("id") == selectedSource.get("id");
+      selectedSource &&
+      source.get("id") == selectedSource.get("id") &&
+      (!this.isProjectSearchEnabled() && !this.isSourceSearchEnabled());
     const isPrettyCode = isPretty(source.toJS());
     const sourceAnnotation = this.getSourceAnnotation(source);
 
@@ -358,7 +412,10 @@ class SourceTabs extends PureComponent {
           pretty: isPrettyCode
         }),
         key: source.get("id"),
-        onClick: () => selectSource(source.get("id")),
+        onClick: () => {
+          closeActiveSearch();
+          return selectSource(source.get("id"));
+        },
         onContextMenu: e => this.onTabContextMenu(e, source.get("id")),
         title: getFilename(source.toJS())
       },
@@ -452,7 +509,9 @@ export default connect(
   state => {
     return {
       selectedSource: getSelectedSource(state),
+      searchTabs: getSearchTabs(state),
       sourceTabs: getSourcesForTabs(state),
+      activeSearch: getActiveSearchState(state),
       searchOn: getActiveSearchState(state) === "project"
     };
   },

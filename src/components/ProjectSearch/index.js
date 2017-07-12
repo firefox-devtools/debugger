@@ -60,6 +60,7 @@ class ProjectSearch extends Component {
   }
 
   toggleProjectTextSearch(key, e) {
+    const { closeActiveSearch, addTab, closeTab, setActiveSearch } = this.props;
     e.preventDefault();
 
     if (!isEnabled("projectTextSearch")) {
@@ -67,20 +68,44 @@ class ProjectSearch extends Component {
     }
 
     if (this.isProjectSearchEnabled()) {
-      return this.props.closeActiveSearch();
+      closeTab();
+      return closeActiveSearch();
     }
 
-    return this.props.setActiveSearch("project");
+    addTab(
+      {
+        id: "project",
+        isBlackBoxed: false,
+        isPrettyPrinted: false,
+        sourceMapURL: null,
+        url: "project"
+      },
+      0
+    );
+
+    return setActiveSearch("project");
   }
 
   toggleSourceSearch(key, e) {
+    const { closeActiveSearch, addTab, closeTab, setActiveSearch } = this.props;
     e.preventDefault();
 
     if (this.isSourceSearchEnabled()) {
-      return this.props.closeActiveSearch();
+      closeTab();
+      return closeActiveSearch();
     }
 
-    return this.props.setActiveSearch("source");
+    addTab(
+      {
+        id: "source",
+        isBlackBoxed: false,
+        isPrettyPrinted: false,
+        sourceMapURL: null,
+        url: "source"
+      },
+      0
+    );
+    return setActiveSearch("source");
   }
 
   isProjectSearchEnabled() {
@@ -98,7 +123,6 @@ class ProjectSearch extends Component {
 
   renderTextSearch() {
     const { sources } = this.props;
-
     return TextSearch({ sources });
   }
 
@@ -121,7 +145,9 @@ ProjectSearch.propTypes = {
   setActiveSearch: PropTypes.func.isRequired,
   closeActiveSearch: PropTypes.func.isRequired,
   activeSearch: PropTypes.string,
-  selectSource: PropTypes.func.isRequired
+  selectSource: PropTypes.func.isRequired,
+  addTab: PropTypes.func,
+  closeTab: PropTypes.func
 };
 
 ProjectSearch.contextTypes = {
