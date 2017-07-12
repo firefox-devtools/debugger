@@ -4,14 +4,12 @@ import { getMode } from "../source";
 import type { Source } from "debugger-html";
 
 let sourceDocs = {};
-let currentDocument = null;
 
 function getDocument(key: string) {
   return sourceDocs[key];
 }
 
 function setDocument(key: string, doc: any) {
-  currentDocument = doc;
   sourceDocs[key] = doc;
 }
 
@@ -33,7 +31,7 @@ function showSourceText(editor: Object, source: Source) {
   }
 
   let doc = getDocument(source.id);
-  if (currentDocument === doc) {
+  if (editor.codeMirror.doc === doc) {
     return;
   }
 
