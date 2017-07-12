@@ -1,0 +1,64 @@
+import { getSelectedSource } from "../reducers/sources";
+import { getBreakpoints } from "../reducers/breakpoints";
+import { isGeneratedId } from "devtools-source-map";
+
+function isGenerated(selectedSource) {
+  const sourceId = selectedSource.get("id");
+  return isGeneratedId(sourceId);
+}
+
+function getColumn(column, selectedSource) {
+  if (column) {
+    return column;
+  }
+
+  return isGenerated(selectedSource) ? undefined : 0;
+}
+
+function getLocation(bp, selectedSource) {
+  return isGenerated(selectedSource)
+    ? bp.generatedLocation || bp.location
+    : bp.location;
+}
+
+function getBreakpointsForSource(
+  state: OuterState,
+  selectedSource: SourceRecord
+) {
+  const breakpoints = getBreakpoints(state);
+
+  return breakpoints.filter(bp => {
+    const location = getLocation(bp, selectedSource);
+    return location.sourceId === selectedSource.get("id");
+  });
+}
+
+function findBreakpointAtLocation(
+  breakpoints,
+  selectedSource,
+  { line, column }
+) {
+  return breakpoints.find(breakpoint => {
+    const location = getLocation(breakpoint, selectedSource);
+    const sameLine = location.line === line;
+    if (!sameLine) {
+      return false;
+    }
+
+    return location.column === getColumn(column, selectedSource);
+  });
+}
+
+/*
+ * Finds a breakpoint at a location (line, column) of the
+ * selected source.
+ *
+ * This is useful for finding a breakpoint when the
+ * user clicks in the gutter or on a token.
+ */
+export default function getBreakpointAtLocation(state, location) {
+  const selectedSource = getSelectedSource(state);
+  const breakpoints = getBreakpointsForSource(state, selectedSource);
+
+  return findBreakpointAtLocation(breakpoints, selectedSource, location);
+}

@@ -96,6 +96,10 @@ function markText(editor: any, className, location: any) {
   );
 }
 
+function lineAtHeight(editor, event) {
+  return editor.codeMirror.lineAtHeight(event.clientY) + 1;
+}
+
 module.exports = Object.assign(
   {},
   expressionUtils,
@@ -108,6 +112,7 @@ module.exports = Object.assign(
     shouldShowFooter,
     traverseResults,
     updateDocument,
-    markText
+    markText,
+    lineAtHeight
   }
 );

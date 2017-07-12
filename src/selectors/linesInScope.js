@@ -1,4 +1,5 @@
-import { getOutOfScopeLocations, getSelectedSource } from "../selectors";
+import { getOutOfScopeLocations } from "../reducers/ast";
+import { getSelectedSource } from "../reducers/sources";
 
 import range from "lodash/range";
 import flatMap from "lodash/flatMap";

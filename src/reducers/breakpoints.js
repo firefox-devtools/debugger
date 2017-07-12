@@ -25,9 +25,12 @@ import type { Breakpoint, PendingBreakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
+export type BreakpointMap = I.Map<string, Breakpoint>;
+export type PendingBreakpointMap = I.Map<string, PendingBreakpoint>;
+
 export type BreakpointsState = {
-  breakpoints: I.Map<string, Breakpoint>,
-  pendingBreakpoints: I.Map<string, PendingBreakpoint>,
+  breakpoints: BreakpointMap,
+  pendingBreakpoints: PendingBreakpointMap,
   breakpointsDisabled: false
 };
 
@@ -211,6 +214,7 @@ function disableBreakpoint(state, action) {
     loading: false,
     disabled: true
   };
+
   const updatedState = state.setIn(["breakpoints", id], breakpoint);
   return updatePendingBreakpoint(updatedState, breakpoint);
 }
@@ -349,6 +353,21 @@ export function getBreakpoints(state: OuterState) {
   return state.breakpoints.get("breakpoints");
 }
 
+export function getBreakpointsDisabled(state: OuterState): boolean {
+  return state.breakpoints.get("breakpointsDisabled");
+}
+
+export function getBreakpointsLoading(state: OuterState) {
+  const breakpoints = getBreakpoints(state);
+  const isLoading = !!breakpoints.valueSeq().filter(bp => bp.loading).first();
+
+  return breakpoints.size > 0 && isLoading;
+}
+
+export function getPendingBreakpoints(state: OuterState) {
+  return state.breakpoints.pendingBreakpoints;
+}
+
 export function getBreakpointsForSource(state: OuterState, sourceId: string) {
   if (!sourceId) {
     return I.Map();
@@ -363,21 +382,6 @@ export function getBreakpointsForSource(state: OuterState, sourceId: string) {
       : bp.location;
     return location.sourceId === sourceId;
   });
-}
-
-export function getBreakpointsDisabled(state: OuterState): boolean {
-  return state.breakpoints.get("breakpointsDisabled");
-}
-
-export function getBreakpointsLoading(state: OuterState) {
-  const breakpoints = getBreakpoints(state);
-  const isLoading = !!breakpoints.valueSeq().filter(bp => bp.loading).first();
-
-  return breakpoints.size > 0 && isLoading;
-}
-
-export function getPendingBreakpoints(state: OuterState) {
-  return state.breakpoints.pendingBreakpoints;
 }
 
 export default update;

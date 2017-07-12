@@ -1,4 +1,3 @@
-import { isGeneratedId } from "devtools-source-map";
 import { isEnabled } from "devtools-config";
 
 // Return the first argument that is a string, or null if nothing is a
@@ -14,8 +13,7 @@ export function firstString(...args) {
 
 export function locationMoved(location, newLocation) {
   return (
-    location.line !== newLocation.line ||
-    (location.column != null && location.column !== newLocation.column)
+    location.line !== newLocation.line || location.column !== newLocation.column
   );
 }
 
@@ -46,17 +44,10 @@ export function equalizeLocationColumn(location, referenceLocation) {
 
 export function breakpointAtLocation(
   breakpoints,
-  selectedLocation,
   { line, column = undefined }
 ) {
-  const isGeneratedSource = isGeneratedId(selectedLocation.sourceId);
-
   return breakpoints.find(breakpoint => {
-    const location = isGeneratedSource
-      ? breakpoint.generatedLocation
-      : breakpoint.location;
-
-    const sameLine = location.line === line + 1;
+    const sameLine = breakpoint.location.line === line + 1;
     if (!sameLine) {
       return false;
     }
@@ -67,6 +58,6 @@ export function breakpointAtLocation(
       return true;
     }
 
-    return location.column === column;
+    return breakpoint.location.column === column;
   });
 }

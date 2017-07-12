@@ -1,47 +1,44 @@
 import { showMenu } from "devtools-launchpad";
 
 export default function GutterMenu({
-  bp,
+  breakpoint,
   line,
   event,
   toggleBreakpoint,
   showConditionalPanel,
-  toggleBreakpointDisabledStatus,
+  toggleDisabledBreakpoint,
   isCbPanelOpen,
   closeConditionalPanel
 }) {
   event.stopPropagation();
   event.preventDefault();
-  let breakpoint = {
-    id: "node-menu-add-breakpoint",
-    label: L10N.getStr("editor.addBreakpoint")
-  },
-    conditional = {
+
+  const gutterItems = {
+    addBreakpoint: {
+      id: "node-menu-add-breakpoint",
+      label: L10N.getStr("editor.addBreakpoint")
+    },
+    addConditional: {
       id: "node-menu-add-conditional-breakpoint",
       label: L10N.getStr("editor.addConditionalBreakpoint")
     },
-    disabled;
-  if (bp) {
-    breakpoint = {
+    removeBreakpoint: {
       id: "node-menu-remove-breakpoint",
       label: L10N.getStr("editor.removeBreakpoint")
-    };
-    conditional = {
+    },
+    editConditional: {
       id: "node-menu-edit-conditional-breakpoint",
       label: L10N.getStr("editor.editBreakpoint")
-    };
-    if (bp.disabled) {
-      disabled = {
-        id: "node-menu-enable-breakpoint",
-        label: L10N.getStr("editor.enableBreakpoint")
-      };
-    } else {
-      disabled = {
-        id: "node-menu-disable-breakpoint",
-        label: L10N.getStr("editor.disableBreakpoint")
-      };
+    },
+    enableBreakpoint: {
+      id: "node-menu-enable-breakpoint",
+      label: L10N.getStr("editor.enableBreakpoint")
+    },
+    disableBreakpoint: {
+      id: "node-menu-disable-breakpoint",
+      label: L10N.getStr("editor.disableBreakpoint")
     }
-  }
+  };
 
   const toggleBreakpointItem = Object.assign(
     {
@@ -54,7 +51,7 @@ export default function GutterMenu({
         }
       }
     },
-    breakpoint
+    breakpoint ? gutterItems.removeBreakpoint : gutterItems.addBreakpoint
   );
 
   const conditionalBreakpoint = Object.assign(
@@ -63,19 +60,23 @@ export default function GutterMenu({
       disabled: false,
       click: () => showConditionalPanel(line)
     },
-    conditional
+    breakpoint && breakpoint.condition
+      ? gutterItems.editConditional
+      : gutterItems.addConditional
   );
 
   let items = [toggleBreakpointItem, conditionalBreakpoint];
 
-  if (bp) {
+  if (breakpoint) {
     const disableBreakpoint = Object.assign(
       {
         accesskey: "D",
         disabled: false,
-        click: () => toggleBreakpointDisabledStatus(line)
+        click: () => toggleDisabledBreakpoint(line)
       },
-      disabled
+      breakpoint.disabled
+        ? gutterItems.enableBreakpoint
+        : gutterItems.disableBreakpoint
     );
     items.push(disableBreakpoint);
   }

@@ -1,5 +1,16 @@
 import { makeLocationId } from "../../../utils/breakpoint";
 
+const sourceFixtures = {
+  foo1: {
+    source: "function foo1() {\n  return 5;\n}",
+    contentType: "text/javascript"
+  },
+  foo2: {
+    source: "function foo2(x, y) {\n  return x + y;\n}",
+    contentType: "text/javascript"
+  }
+};
+
 export function mockPendingBreakpoint(overrides = {}) {
   const { sourceUrl, line, column, condition, disabled } = overrides;
   return {
@@ -65,8 +76,17 @@ export const simpleMockThreadClient = {
   setBreakpoint: (location, _condition) =>
     Promise.resolve({ id: "hi", actualLocation: location }),
 
-  removeBreakpoint: _id => Promise.resolve({ status: "done" }),
+  removeBreakpoint: _id => Promise.resolve(),
 
   setBreakpointCondition: (_id, _location, _condition, _noSliding) =>
-    Promise.resolve({ sourceId: "a", line: 5 })
+    Promise.resolve({ sourceId: "a", line: 5 }),
+
+  sourceContents: sourceId =>
+    new Promise((resolve, reject) => {
+      if (sourceFixtures[sourceId]) {
+        resolve(sourceFixtures[sourceId]);
+      }
+
+      reject(`unknown source: ${sourceId}`);
+    })
 };

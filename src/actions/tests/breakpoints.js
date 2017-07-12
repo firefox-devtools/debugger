@@ -1,4 +1,9 @@
-import { createStore, selectors, actions } from "../../utils/test-head";
+import {
+  createStore,
+  selectors,
+  actions,
+  makeSource
+} from "../../utils/test-head";
 import {
   simulateCorrectThreadClient,
   simpleMockThreadClient
@@ -109,6 +114,81 @@ describe("breakpoints", () => {
 
     expect(selectors.getBreakpoint(getState(), loc1).disabled).toBe(false);
     expect(selectors.getBreakpoint(getState(), loc2).disabled).toBe(false);
+  });
+
+  it("should toggle a breakpoint at a location", async () => {
+    const { dispatch, getState } = createStore(simpleMockThreadClient);
+
+    await dispatch(actions.newSource(makeSource("foo1")));
+    await dispatch(actions.selectSource("foo1", { line: 1 }));
+
+    await dispatch(actions.toggleBreakpoint(5));
+    await dispatch(actions.toggleBreakpoint(6, 1));
+    expect(
+      selectors.getBreakpoint(getState(), { sourceId: "foo1", line: 5 })
+        .disabled
+    ).toBe(false);
+
+    expect(
+      selectors.getBreakpoint(getState(), {
+        sourceId: "foo1",
+        line: 6,
+        column: 1
+      }).disabled
+    ).toBe(false);
+
+    await dispatch(actions.toggleBreakpoint(5));
+    await dispatch(actions.toggleBreakpoint(6, 1));
+
+    expect(
+      selectors.getBreakpoint(getState(), { sourceId: "foo1", line: 5 })
+    ).toBe(undefined);
+
+    expect(
+      selectors.getBreakpoint(getState(), {
+        sourceId: "foo1",
+        line: 6,
+        column: 1
+      })
+    ).toBe(undefined);
+  });
+
+  it("should disable/enable a breakpoint at a location", async () => {
+    const { dispatch, getState } = createStore(simpleMockThreadClient);
+
+    await dispatch(actions.newSource(makeSource("foo1")));
+    await dispatch(actions.selectSource("foo1", { line: 1 }));
+
+    await dispatch(actions.toggleBreakpoint(5));
+    await dispatch(actions.toggleBreakpoint(6, 1));
+    expect(
+      selectors.getBreakpoint(getState(), { sourceId: "foo1", line: 5 })
+        .disabled
+    ).toBe(false);
+
+    expect(
+      selectors.getBreakpoint(getState(), {
+        sourceId: "foo1",
+        line: 6,
+        column: 1
+      }).disabled
+    ).toBe(false);
+
+    await dispatch(actions.toggleDisabledBreakpoint(5));
+    await dispatch(actions.toggleDisabledBreakpoint(6, 1));
+
+    expect(
+      selectors.getBreakpoint(getState(), { sourceId: "foo1", line: 5 })
+        .disabled
+    ).toBe(true);
+
+    expect(
+      selectors.getBreakpoint(getState(), {
+        sourceId: "foo1",
+        line: 6,
+        column: 1
+      }).disabled
+    ).toBe(true);
   });
 
   it("should set the breakpoint condition", async () => {

@@ -2,10 +2,11 @@
 import { Component } from "react";
 import { isEnabled } from "devtools-config";
 import ReactDOM from "react-dom";
-import { isGeneratedId } from "devtools-source-map";
 
 import classnames from "classnames";
 import Svg from "../shared/Svg";
+
+import { showSourceText } from "../../utils/editor";
 
 const breakpointSvg = document.createElement("div");
 ReactDOM.render(Svg("breakpoint"), breakpointSvg);
@@ -34,39 +35,29 @@ class Breakpoint extends Component {
     this.addBreakpoint = this.addBreakpoint.bind(this);
   }
 
-  isGeneratedSource() {
-    return isGeneratedId(this.props.selectedSource.get("id"));
-  }
-
-  getLocation() {
-    const { breakpoint } = this.props;
-    return this.isGeneratedSource()
-      ? breakpoint.generatedLocation
-      : breakpoint.location;
-  }
-
   addBreakpoint() {
-    const { breakpoint, editor } = this.props;
+    const { breakpoint, editor, selectedSource } = this.props;
 
     // NOTE: we need to wait for the breakpoint to be loaded
     // to get the generated location
-    if (this.isGeneratedSource() && breakpoint.loading) {
+    if (!selectedSource || breakpoint.loading) {
       return;
     }
 
-    const location = this.getLocation();
-    const line = location.line - 1;
+    const line = breakpoint.location.line - 1;
 
-    editor.setGutterMarker(
+    showSourceText(editor, selectedSource.toJS());
+    editor.codeMirror.setGutterMarker(
       line,
       "breakpoints",
       makeMarker(breakpoint.disabled)
     );
-    editor.addLineClass(line, "line", "new-breakpoint");
+
+    editor.codeMirror.addLineClass(line, "line", "new-breakpoint");
     if (breakpoint.condition) {
-      editor.addLineClass(line, "line", "has-condition");
+      editor.codeMirror.addLineClass(line, "line", "has-condition");
     } else {
-      editor.removeLineClass(line, "line", "has-condition");
+      editor.codeMirror.removeLineClass(line, "line", "has-condition");
     }
   }
 
@@ -95,21 +86,20 @@ class Breakpoint extends Component {
 
   componentWillUnmount() {
     const { editor, breakpoint } = this.props;
+
     if (!editor) {
       return;
     }
 
-    const location = this.getLocation();
-
-    if (breakpoint.loading || !location) {
+    if (breakpoint.loading) {
       return;
     }
 
-    const line = location.line - 1;
+    const line = breakpoint.location.line - 1;
 
-    editor.setGutterMarker(line, "breakpoints", null);
-    editor.removeLineClass(line, "line", "new-breakpoint");
-    editor.removeLineClass(line, "line", "has-condition");
+    editor.codeMirror.setGutterMarker(line, "breakpoints", null);
+    editor.codeMirror.removeLineClass(line, "line", "new-breakpoint");
+    editor.codeMirror.removeLineClass(line, "line", "has-condition");
   }
 
   render() {

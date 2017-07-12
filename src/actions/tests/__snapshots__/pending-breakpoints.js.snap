@@ -13,7 +13,6 @@ Object {
   "id": "bar.js:7:",
   "loading": false,
   "location": Object {
-    "column": undefined,
     "line": 7,
     "sourceId": "bar.js",
     "sourceUrl": "http://localhost:8000/examples/bar.js",
