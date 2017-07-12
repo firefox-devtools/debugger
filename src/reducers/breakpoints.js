@@ -51,7 +51,6 @@ function update(
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const newState = addBreakpoint(state, action);
-      setPendingBreakpoints(newState);
       return newState;
     }
 
@@ -100,53 +99,21 @@ function update(
 }
 
 function addBreakpoint(state, action) {
-  const id = makeLocationId(action.breakpoint.location);
   if (action.status === "start") {
-    const updatedState = state
-      .setIn(["breakpoints", id], {
-        ...action.breakpoint,
-        loading: true,
-        condition: firstString(action.condition, action.breakpoint.condition)
-      })
-      .set("breakpointsDisabled", false);
-
-    return updatedState;
+    const { breakpoint } = action;
+    return state.setIn(["breakpoints", breakpoint.id], breakpoint);
   }
-
+  // when the action completes, we can commit the breakpoint
   if (action.status === "done") {
-    const {
-      id: breakpointId,
-      actualLocation,
-      generatedLocation
-    } = action.value;
-    let location = action.breakpoint.location;
+    const { value: { breakpoint, previousLocation } } = action;
 
-    // If the breakpoint moved, update the map
-    if (locationMoved(location, actualLocation)) {
-      state = slideBreakpoint(state, action);
-      location = actualLocation;
+    if (previousLocation) {
+      return state
+        .deleteIn(["breakpoints", makeLocationId(previousLocation)])
+        .setIn(["breakpoints", breakpoint.id], breakpoint);
     }
 
-    const locationId = makeLocationId(location);
-    const bp = state.breakpoints.get(locationId) || action.breakpoint;
-    const updatedBreakpoint = {
-      ...bp,
-      id: breakpointId,
-      loading: false,
-      generatedLocation,
-      text: ""
-    };
-    const updatedState = state.setIn(
-      ["breakpoints", locationId],
-      updatedBreakpoint
-    );
-
-    return updatePendingBreakpoint(updatedState, updatedBreakpoint);
-  }
-
-  if (action.status === "error") {
-    // Remove the optimistic update
-    return state.deleteIn(["breakpoints", id]);
+    return state.setIn(["breakpoints", breakpoint.id], breakpoint);
   }
 }
 

@@ -15,7 +15,8 @@ import {
   getSelectedSource,
   getBreakpointAtLocation
 } from "../selectors";
-import { breakpointExists, createBreakpoint } from "./utils/breakpoints";
+import { breakpointExists, createBreakpoint } from "../utils/breakpoint";
+import { thunkedDispatch } from "./thunks";
 
 import {
   addClientBreakpoint,
@@ -92,23 +93,10 @@ export function syncBreakpoint(
  * @param {String} $1.condition Conditional breakpoint condition value
  * @param {Boolean} $1.disabled Disable value for breakpoint value
  */
-export function addBreakpoint(
-  location: Location,
-  { condition }: addBreakpointOptions = {}
-) {
-  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    if (breakpointExists(getState(), location)) {
-      return Promise.resolve();
-    }
 
-    const breakpoint = createBreakpoint(location, { condition });
-    return dispatch({
-      type: "ADD_BREAKPOINT",
-      breakpoint,
-      condition: condition,
-      [PROMISE]: addClientBreakpoint(getState(), client, sourceMaps, breakpoint)
-    });
-  };
+export function addBreakpoint(location, condition) {
+  const breakpoint = createBreakpoint(location, { condition });
+  return thunkedDispatch({ type: "ADD_BREAKPOINT", breakpoint });
 }
 
 /**
