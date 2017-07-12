@@ -8,7 +8,6 @@
  * @module reducers/breakpoints
  */
 
-import fromJS from "../utils/fromJS";
 import * as I from "immutable";
 import makeRecord from "../utils/makeRecord";
 import { isGeneratedId } from "devtools-source-map";
@@ -120,6 +119,10 @@ function addBreakpoint(state, action) {
 
     return state.setIn(["breakpoints", locationId], breakpoint);
   }
+
+  // Remove the optimistic update and pending breakpoint
+  const locationId = makeLocationId(action.breakpoint.location);
+  return state.deleteIn(["breakpoints", locationId]);
 }
 
 function addPendingBreakpoint(state, action) {
@@ -284,22 +287,6 @@ function correctBreakpoint(state, breakpoint, overrides) {
   const newProperties = { id: newLocationId, ...overrides };
 
   return commitBreakpoint(intermState, breakpoint, newProperties);
-}
-
-// TODO: remove this in favor of the correct/commit breakpoint pattern
-function slideBreakpoint(state, action) {
-  const { actualLocation, id } = action.value;
-  const { breakpoint } = action;
-  const currentBp = state.breakpoints.get(id) || fromJS(breakpoint);
-
-  const locationId = makeLocationId(breakpoint.location);
-  const movedLocationId = makeLocationId(actualLocation);
-  const updatedState = state.deleteIn(["breakpoints", locationId]);
-
-  return updatedState.setIn(["breakpoints", movedLocationId], {
-    ...currentBp,
-    location: actualLocation
-  });
 }
 
 export function makePendingBreakpoint(bp: any) {

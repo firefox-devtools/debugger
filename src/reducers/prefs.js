@@ -13,13 +13,14 @@ import {
   createPendingBreakpoint
 } from "../utils/breakpoint";
 
-export function initialState() {
-  return {
-    pendingBreakpoints: prefs.pendingBreakpoints
-  };
-}
+import type { PendingBreakpoint } from "../types";
+import type { Action } from "../actions/types";
 
-function update(state = initialState(), action) {
+export type PrefsState = {
+  pendingBreakpoints: PendingBreakpoint
+};
+
+function update(state: PrefsState = prefs, action: Action) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const newState = addPendingBreakpoint(state, action);

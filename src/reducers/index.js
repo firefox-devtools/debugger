@@ -6,7 +6,6 @@ import expressions from "./expressions";
 import eventListeners from "./event-listeners";
 import sources from "./sources";
 import breakpoints from "./breakpoints";
-import pendingBreakpoints from "./pending-breakpoints";
 import prefs from "./prefs";
 import asyncRequests from "./async-requests";
 import pause from "./pause";
@@ -19,7 +18,6 @@ export default {
   eventListeners,
   sources,
   breakpoints,
-  pendingBreakpoints,
   prefs,
   asyncRequests,
   pause,
