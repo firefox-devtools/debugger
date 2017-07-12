@@ -96,7 +96,6 @@ class Breakpoint extends Component {
     }
 
     const line = breakpoint.location.line - 1;
-
     editor.codeMirror.setGutterMarker(line, "breakpoints", null);
     editor.codeMirror.removeLineClass(line, "line", "new-breakpoint");
     editor.codeMirror.removeLineClass(line, "line", "has-condition");
