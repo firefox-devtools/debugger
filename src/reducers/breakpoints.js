@@ -14,7 +14,7 @@ import makeRecord from "../utils/makeRecord";
 import { isGeneratedId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 import {
-  firstString,
+  createPendingBreakpoint,
   locationMoved,
   makeLocationId,
   makePendingLocationId,
@@ -51,7 +51,10 @@ function update(
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const newState = addBreakpoint(state, action);
-      return newState;
+      // TODO: remove this later
+      const stateWithShim = addPendingBreakpoint(newState, action);
+
+      return stateWithShim;
     }
 
     case "SYNC_BREAKPOINT": {
@@ -101,20 +104,41 @@ function update(
 function addBreakpoint(state, action) {
   if (action.status === "start") {
     const { breakpoint } = action;
-    return state.setIn(["breakpoints", breakpoint.id], breakpoint);
+    const locationId = makeLocationId(breakpoint.location);
+    return state.setIn(["breakpoints", locationId], breakpoint);
   }
   // when the action completes, we can commit the breakpoint
   if (action.status === "done") {
     const { value: { breakpoint, previousLocation } } = action;
+    const locationId = makeLocationId(breakpoint.location);
 
     if (previousLocation) {
       return state
         .deleteIn(["breakpoints", makeLocationId(previousLocation)])
-        .setIn(["breakpoints", breakpoint.id], breakpoint);
+        .setIn(["breakpoints", locationId], breakpoint);
     }
 
-    return state.setIn(["breakpoints", breakpoint.id], breakpoint);
+    return state.setIn(["breakpoints", locationId], breakpoint);
   }
+}
+
+function addPendingBreakpoint(state, action) {
+  if (action.status === "done") {
+    const { value: { breakpoint, previousLocation } } = action;
+    const pendingBreakpoint = createPendingBreakpoint(breakpoint);
+    const locationId = makePendingLocationId(pendingBreakpoint.location);
+
+    if (previousLocation) {
+      const previousLocationId = makePendingLocationId(previousLocation);
+      return state
+        .deleteIn(["pendingBreakpoints", previousLocationId])
+        .setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
+    }
+
+    return state.setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
+  }
+
+  return state;
 }
 
 function syncBreakpoint(state, action) {

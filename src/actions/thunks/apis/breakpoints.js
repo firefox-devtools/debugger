@@ -1,7 +1,6 @@
 import {
   getGeneratedLocation,
   locationMoved,
-  makeLocationId,
   equalizeLocationColumn,
   breakpointExists
 } from "../../../utils/breakpoint";
@@ -25,7 +24,7 @@ export async function addBreakpoint(
     breakpoint.location
   );
 
-  const { hitCount, actualLocation } = await client.setBreakpoint(
+  const { id, hitCount, actualLocation } = await client.setBreakpoint(
     generatedLocation,
     breakpoint.condition,
     sourceMaps.isOriginalId(breakpoint.location.sourceId)
@@ -35,8 +34,8 @@ export async function addBreakpoint(
   const location = equalizeLocationColumn(_location, breakpoint.location);
 
   const newBreakpoint = {
-    id: makeLocationId(location),
-    condition: breakpoint.condition,
+    ...breakpoint,
+    id,
     loading: false,
     location,
     hitCount,

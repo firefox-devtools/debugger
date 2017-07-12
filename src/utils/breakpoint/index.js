@@ -94,7 +94,6 @@ export function breakpointExists(state, location: Location) {
 export function createBreakpoint(location: Object, overrides: Object = {}) {
   const { condition, disabled, generatedLocation } = overrides;
   const properties = {
-    id: makeLocationId(location),
     condition: condition || null,
     disabled: disabled || false,
     generatedLocation,
@@ -113,8 +112,7 @@ export function createPendingBreakpoint(bp: any) {
   } = bp;
 
   const location = { sourceUrl, line, column };
-  const id = makePendingLocationId(location);
-  return { condition, disabled, generatedLocation, location, id };
+  return { condition, disabled, generatedLocation, location };
 }
 
 export async function getGeneratedLocation(source, sourceMaps, location) {

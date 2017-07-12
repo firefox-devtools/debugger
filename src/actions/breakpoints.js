@@ -15,8 +15,8 @@ import {
   getSelectedSource,
   getBreakpointAtLocation
 } from "../selectors";
-import { breakpointExists, createBreakpoint } from "../utils/breakpoint";
-import { thunkedDispatch } from "./thunks";
+import { createBreakpoint } from "../utils/breakpoint";
+import api from "./thunks/apis";
 
 import {
   addClientBreakpoint,
@@ -96,7 +96,11 @@ export function syncBreakpoint(
 
 export function addBreakpoint(location, condition) {
   const breakpoint = createBreakpoint(location, { condition });
-  return thunkedDispatch({ type: "ADD_BREAKPOINT", breakpoint });
+  return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
+    const action = { type: "ADD_BREAKPOINT", breakpoint };
+    const promise = api[action.type](getState, client, sourceMaps, action);
+    return dispatch({ ...action, [PROMISE]: promise });
+  };
 }
 
 /**
