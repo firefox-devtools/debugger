@@ -37,9 +37,6 @@ const Footer = createFactory(_Footer);
 import _SearchBar from "./SearchBar";
 const SearchBar = createFactory(_SearchBar);
 
-import _SymbolModal from "./SymbolModal";
-const SymbolModal = createFactory(_SymbolModal);
-
 import _HighlightLines from "./HighlightLines";
 const HighlightLines = createFactory(_HighlightLines);
 
@@ -663,7 +660,6 @@ class Editor extends PureComponent {
         highlightLineRange,
         clearHighlightLineRange
       }),
-      SymbolModal({ selectSource, selectedSource }),
       dom.div({
         className: "editor-mount devtools-monospace",
         style: this.getInlineEditorStyles()

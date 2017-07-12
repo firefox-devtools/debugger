@@ -39,6 +39,9 @@ const WelcomeBox = createFactory(_WelcomeBox);
 import _EditorTabs from "./Editor/Tabs";
 const EditorTabs = createFactory(_EditorTabs);
 
+import _SymbolModal from "./SymbolModal";
+const SymbolModal = createFactory(_SymbolModal);
+
 type Props = {
   selectSource: Function,
   selectedSource: SourceRecord,
@@ -118,67 +121,68 @@ class App extends Component {
 
     const overflowX = endPanelCollapsed ? "hidden" : "auto";
 
-    return dom.div(
-      { className: "debugger" },
-      SplitBox({
-        style: { width: "100vw" },
-        initialSize: "250px",
+    return SplitBox({
+      style: { width: "100vw" },
+      initialSize: "250px",
+      minSize: 10,
+      maxSize: "50%",
+      splitterSize: 1,
+      onResizeEnd: size => this.setState({ startPanelSize: size }),
+      startPanel: PrimaryPanes({ horizontal }),
+      startPanelCollapsed,
+      endPanel: SplitBox({
+        style: { overflowX },
+        initialSize: "300px",
         minSize: 10,
-        maxSize: "50%",
+        maxSize: "80%",
         splitterSize: 1,
-        onResizeEnd: size => this.setState({ startPanelSize: size }),
-        startPanel: PrimaryPanes({ horizontal }),
-        startPanelCollapsed,
-        endPanel: SplitBox({
-          style: { overflowX },
-          initialSize: "300px",
-          minSize: 10,
-          maxSize: "80%",
-          splitterSize: 1,
-          onResizeEnd: size => this.setState({ endPanelSize: size }),
-          endPanelControl: true,
-          startPanel: this.renderEditorPane(),
-          endPanel: SecondaryPanes({ horizontal }),
-          endPanelCollapsed,
-          vert: horizontal
-        })
+        onResizeEnd: size => this.setState({ endPanelSize: size }),
+        endPanelControl: true,
+        startPanel: this.renderEditorPane(),
+        endPanel: SecondaryPanes({ horizontal }),
+        endPanelCollapsed,
+        vert: horizontal
       })
-    );
+    });
   }
 
   renderVerticalLayout() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
 
-    return dom.div(
-      { className: "debugger" },
-      SplitBox({
+    return SplitBox({
+      style: { width: "100vw" },
+      initialSize: "300px",
+      minSize: 30,
+      maxSize: "99%",
+      splitterSize: 1,
+      vert: horizontal,
+      startPanel: SplitBox({
         style: { width: "100vw" },
-        initialSize: "300px",
-        minSize: 30,
-        maxSize: "99%",
+        initialSize: "250px",
+        minSize: 10,
+        maxSize: "40%",
         splitterSize: 1,
-        vert: horizontal,
-        startPanel: SplitBox({
-          style: { width: "100vw" },
-          initialSize: "250px",
-          minSize: 10,
-          maxSize: "40%",
-          splitterSize: 1,
-          startPanelCollapsed,
-          startPanel: PrimaryPanes({ horizontal }),
-          endPanel: this.renderEditorPane()
-        }),
-        endPanel: SecondaryPanes({ horizontal }),
-        endPanelCollapsed
-      })
-    );
+        startPanelCollapsed,
+        startPanel: PrimaryPanes({ horizontal }),
+        endPanel: this.renderEditorPane()
+      }),
+      endPanel: SecondaryPanes({ horizontal }),
+      endPanelCollapsed
+    });
   }
 
   render() {
-    return this.state.horizontal
+    const { selectSource, selectedSource } = this.props;
+    const layout = this.state.horizontal
       ? this.renderHorizontalLayout()
       : this.renderVerticalLayout();
+
+    return dom.div(
+      { className: "debugger" },
+      layout,
+      SymbolModal({ selectSource, selectedSource })
+    );
   }
 }
 

@@ -60,7 +60,7 @@ export const State = makeRecord(
       wholeWord: prefs.fileSearchWholeWord,
       regexMatch: prefs.fileSearchRegexMatch
     })(),
-    symbolSearchQuery: "@",
+    symbolSearchQuery: "",
     symbolSearchType: "functions",
     symbolSearchResults: [],
     searchResults: {

@@ -11,26 +11,26 @@ import {
   getSymbols,
   getSymbolSearchResults,
   getSymbolSearchQueryState
-} from "../../selectors";
-import actions from "../../actions";
+} from "../selectors";
+import actions from "../actions";
 
-import { scrollList } from "../../utils/result-list";
+import { scrollList } from "../utils/result-list";
 
-import _SearchInput from "../shared/SearchInput";
+import _SearchInput from "./shared/SearchInput";
 const SearchInput = createFactory(_SearchInput);
 
-import _ResultList from "../shared/ResultList";
+import _ResultList from "./shared/ResultList";
 const ResultList = createFactory(_ResultList);
 
-import type { ActiveSearchType, SymbolSearchType } from "../../reducers/ui";
+import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
 import type {
   SymbolDeclaration,
   SymbolDeclarations
-} from "../../utils/parser/getSymbols";
+} from "../utils/parser/getSymbols";
 
 import type { Location as BabelLocation } from "babel-traverse";
-import type { SourceRecord } from "../../reducers/sources";
-import type { SelectSourceOptions } from "../../actions/sources";
+import type { SourceRecord } from "../reducers/sources";
+import type { SelectSourceOptions } from "../actions/sources";
 
 export type FormattedSymbolDeclaration = {
   id: string,
@@ -76,10 +76,10 @@ class SymbolModal extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { selectedResultIndex: 0 };
+    this.state = { results: null, selectedResultIndex: 0 };
 
     const self: any = this;
-    self.onEscape = this.onEscape.bind(this);
+    self.onClick = this.onClick.bind(this);
     self.closeModal = this.closeModal.bind(this);
     self.onChange = this.onChange.bind(this);
     self.onKeyUp = this.onKeyUp.bind(this);
@@ -88,6 +88,7 @@ class SymbolModal extends Component {
     self.renderResults = this.renderResults.bind(this);
     self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
     self.buildPlaceHolder = this.buildPlaceHolder.bind(this);
+    this.selectResultItem = this.selectResultItem.bind(this);
   }
 
   componentWillUnmount() {
@@ -98,21 +99,31 @@ class SymbolModal extends Component {
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.on("Escape", (_, e) => this.onEscape(e));
+    shortcuts.on("Escape", this.closeModal);
     shortcuts.on(L10N.getStr("symbolSearch.search.key2"), (_, e) => {
       this.props.setActiveSearch("symbol");
       this.props.setSelectedSymbolType("functions");
     });
+
+    this.updateResults(this.props.query);
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
+
+    if (this.refs.searchInput && this.refs.searchInput.refs.input) {
+      this.refs.searchInput.refs.input.focus();
+    }
   }
 
-  onEscape(e: SyntheticEvent) {
-    this.props.setActiveSearch();
+  componentWillReceiveProps(nextProps) {
+    this.updateResults(nextProps.query);
+  }
+
+  onClick(e) {
+    e.stopPropagation();
   }
 
   onChange(e: SyntheticInputEvent) {
@@ -125,19 +136,13 @@ class SymbolModal extends Component {
       return;
     }
 
-    if (e.target.value[0] === "@") {
-      setSelectedSymbolType("functions");
-    } else if (e.target.value[0] === "#") {
-      setSelectedSymbolType("variables");
-    }
-
     setSymbolSearchQuery(e.target.value);
 
-    return this.updateResults(e.target.value.slice(1));
+    return this.updateResults(e.target.value);
   }
 
   closeModal() {
-    this.props.setActiveSearch();
+    this.props.closeActiveSearch();
     this.props.clearHighlightLineRange();
   }
 
@@ -162,27 +167,33 @@ class SymbolModal extends Component {
       symbols
     } = this.props;
 
-    if (!query || !selectedSource) {
+    if (!selectedSource) {
       return;
     }
 
-    const symbolSearchResults = filter(symbols[symbolType], query, {
+    let symbolSearchResults = symbols[symbolType];
+
+    if (query == "") {
+      this.setState({ results: symbolSearchResults });
+      return;
+    }
+
+    symbolSearchResults = filter(symbolSearchResults, query, {
       key: "value"
     });
 
-    updateSymbolSearchResults(symbolSearchResults);
+    this.setState({ results: symbolSearchResults });
   }
 
   traverseResults(direction: number) {
-    const { selectedResultIndex } = this.state;
-    const { symbolSearchResults } = this.props;
-    const searchResults = symbolSearchResults;
-    const resultCount = searchResults.length;
+    const { selectedResultIndex, results } = this.state;
+    const {} = this.props;
+    const resultCount = this.resultsCount();
     const index = selectedResultIndex + direction;
     const nextIndex = (index + resultCount) % resultCount;
 
     this.setState({ selectedResultIndex: nextIndex });
-    this.onSelectResultItem(searchResults[nextIndex]);
+    this.onSelectResultItem(results[nextIndex]);
   }
 
   onSelectResultItem(item: FormattedSymbolDeclaration) {
@@ -211,7 +222,7 @@ class SymbolModal extends Component {
   onKeyUp(e: SyntheticKeyboardEvent) {
     e.preventDefault();
     const { symbolSearchResults, enabled, query } = this.props;
-    if (!enabled || query == "") {
+    if (!enabled) {
       return;
     }
 
@@ -232,19 +243,35 @@ class SymbolModal extends Component {
   }
 
   renderResults() {
-    const { symbolSearchResults } = this.props;
-    const { selectedResultIndex } = this.state;
+    const { selectedResultIndex, results } = this.state;
 
-    const { query, enabled } = this.props;
-    if (!query || !enabled || !symbolSearchResults.length) {
+    const { enabled } = this.props;
+    if (!enabled || !results.length) {
       return;
     }
 
     return ResultList({
-      items: symbolSearchResults,
+      items: results,
       selected: selectedResultIndex,
       selectItem: this.selectResultItem,
       ref: "resultList"
+    });
+  }
+
+  renderInput() {
+    const { query } = this.props;
+
+    return SearchInput({
+      query,
+      count: this.resultsCount(),
+      placeholder: this.buildPlaceHolder(),
+      summaryMsg: this.buildSummaryMsg(),
+      onChange: this.onChange,
+      onKeyUp: this.onKeyUp,
+      handleNext: () => this.traverseResults(1),
+      handlePrev: () => this.traverseResults(-1),
+      handleClose: this.closeModal,
+      ref: "searchInput"
     });
   }
 
@@ -264,7 +291,7 @@ class SymbolModal extends Component {
   }
 
   resultsCount() {
-    return this.props.symbolSearchResults.length;
+    return this.state.results.length;
   }
 
   buildPlaceHolder() {
@@ -278,22 +305,12 @@ class SymbolModal extends Component {
       return dom.div();
     }
     return dom.div(
-      { className: "symbol-modal" },
+      { className: "symbol-modal-wrapper", onClick: this.closeModal },
       dom.div(
-        { className: "input-wrapper" },
-        SearchInput({
-          query,
-          count: this.resultsCount(),
-          placeholder: this.buildPlaceHolder(),
-          summaryMsg: this.buildSummaryMsg(),
-          onChange: this.onChange,
-          onKeyUp: this.onKeyUp,
-          handleNext: () => this.traverseResults(1),
-          handlePrev: () => this.traverseResults(-1),
-          handleClose: this.closeModal
-        })
-      ),
-      this.renderResults()
+        { className: "symbol-modal", onClick: this.onClick },
+        dom.div({ className: "input-wrapper" }, this.renderInput()),
+        this.renderResults()
+      )
     );
   }
 }
