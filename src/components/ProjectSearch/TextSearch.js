@@ -54,6 +54,9 @@ export default class TextSearch extends Component {
   }
 
   renderFile(file, focused, expanded, setExpanded) {
+    if (file.matches.length === 0) {
+      return null;
+    }
     return dom.div(
       {
         className: classnames("file-result", { focused }),

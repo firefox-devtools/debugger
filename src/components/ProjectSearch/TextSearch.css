@@ -5,8 +5,12 @@
 .project-text-search .result {
   display: flex;
   cursor: default;
-  margin: 2px 0 2px 0;
-  padding: 5px 0 5px 30px;
+  margin-bottom: 1px;
+  padding: 4px 0 4px 30px;
+}
+
+.project-text-search .matches-summary {
+  margin-left: 2px;
 }
 
 .project-text-search .result.focused {
@@ -15,13 +19,19 @@
 
 .project-text-search .result .query-match {
   background-color: var(--theme-selection-background);
-  color: #ffffff;
-  padding: 2px 5px;
+  color: white;
+  padding: 1px 4px;
+  margin: 0 2px 0 2px;
   border-radius: 2px;
 }
 
 .project-text-search .result.focused .line-number {
   font-weight: bolder;
+}
+
+.project-text-search .result .line-number {
+  margin-right: 1em;
+  width: 2em;
 }
 
 .project-text-search .file-result {
@@ -43,10 +53,6 @@
 .project-text-search .line-match {
   display: "flex";
   grow: 1;
-}
-
-.project-text-search .result .line-number {
-  padding-right: 5px;
 }
 
 .project-text-search .search-field {
