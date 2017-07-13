@@ -95,7 +95,7 @@ export function syncBreakpoint(
  * @param {Boolean} $1.disabled Disable value for breakpoint value
  */
 
-export function addBreakpoint(location: Location, condition: string) {
+export function addBreakpoint(location: Location, condition: ?string) {
   const breakpoint = createBreakpoint(location, { condition });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     const action = { type: "ADD_BREAKPOINT", breakpoint };
