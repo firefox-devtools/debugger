@@ -22,7 +22,7 @@
 }
 
 .scopes-pane {
-  overflow: scroll;
+  overflow: auto;
 }
 
 .scopes-list .function-signature {
