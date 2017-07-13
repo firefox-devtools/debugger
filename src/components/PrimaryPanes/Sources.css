@@ -61,7 +61,10 @@
   color: var(--theme-comment-alt);
   font-weight: lighter;
   padding-top: 5px;
-  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sources-panel .source-footer {
