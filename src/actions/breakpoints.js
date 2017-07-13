@@ -16,12 +16,13 @@ import {
   getBreakpointAtLocation
 } from "../selectors";
 import { createBreakpoint } from "../utils/breakpoint";
-import api from "./thunks/apis";
+import addBreakpointPromise from "./breakpoints/addBreakpoint";
 
+// this will need to be changed so that addCLientBreakpoint is removed
 import {
   addClientBreakpoint,
   syncClientBreakpoint
-} from "./thunks/breakpoints";
+} from "./breakpoints/syncBreakpoint";
 
 import type { ThunkArgs } from "./types";
 import type { PendingBreakpoint, Location } from "../types";
@@ -98,7 +99,7 @@ export function addBreakpoint(location: Location, condition: string) {
   const breakpoint = createBreakpoint(location, { condition });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     const action = { type: "ADD_BREAKPOINT", breakpoint };
-    const promise = api[action.type](getState, client, sourceMaps, action);
+    const promise = addBreakpointPromise(getState, client, sourceMaps, action);
     return dispatch({ ...action, [PROMISE]: promise });
   };
 }

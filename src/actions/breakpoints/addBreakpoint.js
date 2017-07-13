@@ -3,10 +3,10 @@ import {
   locationMoved,
   equalizeLocationColumn,
   breakpointExists
-} from "../../../utils/breakpoint";
-import { getSource } from "../../../selectors";
+} from "../../utils/breakpoint";
+import { getSource } from "../../selectors";
 
-export async function addBreakpoint(
+export default async function addBreakpoint(
   getState,
   client,
   sourceMaps,
