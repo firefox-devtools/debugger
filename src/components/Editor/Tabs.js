@@ -358,7 +358,7 @@ class SourceTabs extends PureComponent {
     const { closeTab, closeActiveSearch, setActiveSearch } = this.props;
 
     function tabName(tab) {
-      return `${tab} ${tab == "project" ? "text" : ""} search`;
+      return `${tab} search results`;
     }
 
     function onClickClose(ev) {
