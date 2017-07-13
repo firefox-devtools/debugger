@@ -54,3 +54,11 @@ export function getPauseReason(pauseInfo: Pause): string | null {
   }
   return reasons[reasonType];
 }
+
+export async function getPausedLocation(pauseInfo: Pause, sourceMaps: any) {
+  let { frames } = pauseInfo;
+  frames = await updateFrameLocations(frames, sourceMaps);
+  const frame = frames[0];
+  const { location } = frame;
+  return location;
+}
