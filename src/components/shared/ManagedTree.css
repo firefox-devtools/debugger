@@ -23,10 +23,12 @@
 .tree .node.focused {
   color: white;
   background-color: var(--theme-selection-background);
+  padding-bottom: 6px;
 }
 
 .theme-dark .tree .node.focused {
   background-color: var(--theme-selection-background-semitransparent);
+  padding-bottom: 6px;
 }
 
 html:not([dir="rtl"]) .tree .node > div {
