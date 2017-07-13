@@ -56,20 +56,6 @@ export function updateSearchResults(results: Object) {
   };
 }
 
-export function updateSymbolSearchResults(results: Array<*>) {
-  return {
-    type: "UPDATE_SYMBOL_SEARCH_RESULTS",
-    results
-  };
-}
-
-export function setSymbolSearchQuery(query: string) {
-  return {
-    type: "UPDATE_SYMBOL_SEARCH_QUERY",
-    query
-  };
-}
-
 export function toggleFileSearchModifier(modifier: string) {
   return { type: "TOGGLE_FILE_SEARCH_MODIFIER", modifier };
 }

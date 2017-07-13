@@ -174,13 +174,12 @@ class App extends Component {
 
   render() {
     const { selectSource, selectedSource } = this.props;
-    const layout = this.state.horizontal
-      ? this.renderHorizontalLayout()
-      : this.renderVerticalLayout();
 
     return dom.div(
       { className: "debugger" },
-      layout,
+      this.state.horizontal
+        ? this.renderHorizontalLayout()
+        : this.renderVerticalLayout(),
       SymbolModal({ selectSource, selectedSource })
     );
   }

@@ -36,10 +36,8 @@ export type UIState = {
   activeSearch: ?ActiveSearchType,
   fileSearchQuery: string,
   fileSearchModifiers: FileSearchModifiers,
-  symbolSearchQuery: string,
   symbolSearchType: SymbolSearchType,
   searchResults: SearchResults,
-  symbolSearchResults: Array<*>,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
@@ -60,9 +58,7 @@ export const State = makeRecord(
       wholeWord: prefs.fileSearchWholeWord,
       regexMatch: prefs.fileSearchRegexMatch
     })(),
-    symbolSearchQuery: "",
     symbolSearchType: "functions",
-    symbolSearchResults: [],
     searchResults: {
       matches: [],
       matchIndex: -1,
@@ -99,10 +95,6 @@ function update(
       return state.set("searchResults", action.results);
     }
 
-    case "UPDATE_SYMBOL_SEARCH_RESULTS": {
-      return state.set("symbolSearchResults", action.results);
-    }
-
     case "TOGGLE_FILE_SEARCH_MODIFIER": {
       const actionVal = !state.getIn(["fileSearchModifiers", action.modifier]);
 
@@ -119,10 +111,6 @@ function update(
       }
 
       return state.setIn(["fileSearchModifiers", action.modifier], actionVal);
-    }
-
-    case "UPDATE_SYMBOL_SEARCH_QUERY": {
-      return state.set("symbolSearchQuery", action.query);
     }
 
     case "SET_SYMBOL_SEARCH_TYPE": {
@@ -178,14 +166,6 @@ export function getFileSearchModifierState(
   state: OuterState
 ): FileSearchModifiers {
   return state.ui.get("fileSearchModifiers");
-}
-
-export function getSymbolSearchQueryState(state: OuterState): string {
-  return state.ui.get("symbolSearchQuery");
-}
-
-export function getSymbolSearchResults(state: OuterState) {
-  return state.ui.get("symbolSearchResults");
 }
 
 export function getSearchResults(state: OuterState) {

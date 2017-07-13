@@ -18,10 +18,6 @@ ShallowWrapper {
         selectSource={undefined}
         selectedSource={undefined}
     />
-    <Connect(SymbolModal)
-        selectSource={undefined}
-        selectedSource={undefined}
-    />
     <div
         className="editor-mount devtools-monospace"
         style={
@@ -46,10 +42,6 @@ ShallowWrapper {
             clearHighlightLineRange={undefined}
             editor={null}
             highlightLineRange={undefined}
-            selectSource={undefined}
-            selectedSource={undefined}
-      />
-      <Connect(SymbolModal)
             selectSource={undefined}
             selectedSource={undefined}
       />
@@ -173,10 +165,6 @@ ShallowWrapper {
                     selectSource={undefined}
                     selectedSource={undefined}
           />
-          <Connect(SymbolModal)
-                    selectSource={undefined}
-                    selectedSource={undefined}
-          />
           <div
                     className="editor-mount devtools-monospace"
                     style={
@@ -201,10 +189,6 @@ ShallowWrapper {
                     clearHighlightLineRange={undefined}
                     editor={null}
                     highlightLineRange={undefined}
-                    selectSource={undefined}
-                    selectedSource={undefined}
-          />
-          <Connect(SymbolModal)
                     selectSource={undefined}
                     selectedSource={undefined}
           />
