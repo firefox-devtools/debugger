@@ -214,8 +214,7 @@ class SecondaryPanes extends Component {
   render() {
     return dom.div(
       {
-        className: "secondary-panes",
-        style: { overflowX: "hidden" }
+        className: "secondary-panes"
       },
       CommandBar(),
       this.props.horizontal

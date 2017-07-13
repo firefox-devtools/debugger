@@ -5,14 +5,7 @@
   white-space: nowrap;
 }
 
-.secondary-panes * {
-  -moz-user-select: none;
-  user-select: none;
-}
-
 .secondary-panes .accordion {
-  overflow-y: auto;
-  overflow-x: hidden;
   flex: 1 0 auto;
 }
 

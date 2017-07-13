@@ -133,7 +133,7 @@ class Expressions extends PureComponent {
 
   renderExpressionEditInput(expression) {
     return dom.span(
-      { className: "expression-input-container" },
+      { className: "expression-input-container", key: expression.input },
       dom.input({
         type: "text",
         className: "input-expression",
