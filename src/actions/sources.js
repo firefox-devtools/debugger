@@ -24,6 +24,7 @@ import { removeDocument } from "../utils/editor";
 
 import {
   getSource,
+  getSources,
   getSourceByURL,
   getPendingSelectedLocation,
   getPendingBreakpoints,
@@ -378,6 +379,20 @@ export function loadSourceText(source: Source) {
 
     // get the symbols for the source as well
     return dispatch(setSymbols(source.id));
+  };
+}
+
+/**
+  Load the text for all the avaliable sources
+ * @memberof actions/sources
+ * @static
+ */
+export function loadAllSources() {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const sources = getSources(getState());
+    for ([, source] of sources) {
+      await dispatch(loadSourceText(source.toJS()));
+    }
   };
 }
 

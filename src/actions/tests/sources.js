@@ -28,6 +28,18 @@ const threadClient = {
             contentType: "text/javascript"
           });
           break;
+        case "foobar.js":
+          resolve({
+            source: "function foo() {\n  return 2;\n}",
+            contentType: "text/javascript"
+          });
+          break;
+        case "barfoo.js":
+          resolve({
+            source: "function bar() {\n  return 3;\n}",
+            contentType: "text/javascript"
+          });
+          break;
       }
 
       reject(`unknown source: ${sourceId}`);
@@ -125,6 +137,23 @@ describe("sources", () => {
     await dispatch(actions.loadSourceText({ id: "foo2" }));
     const foo2Source = getSource(getState(), "foo2");
     expect(foo2Source.get("text").indexOf("return x + y")).not.toBe(-1);
+  });
+
+  it("should load all the texts for the existing sources", async () => {
+    const { dispatch, getState } = createStore(threadClient);
+
+    await dispatch(actions.newSource(makeSource("foobar.js")));
+    await dispatch(actions.newSource(makeSource("barfoo.js")));
+
+    expect(getSources(getState()).size).toBe(2);
+
+    await dispatch(actions.loadAllSources());
+
+    const fooSource = getSource(getState(), "foobar.js");
+    const barSource = getSource(getState(), "barfoo.js");
+
+    expect(fooSource.get("text").indexOf("return 2")).not.toBe(-1);
+    expect(barSource.get("text").indexOf("return 3")).not.toBe(-1);
   });
 
   it("should cache subsequent source text loads", async () => {
