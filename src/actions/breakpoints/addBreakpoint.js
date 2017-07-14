@@ -30,8 +30,7 @@ export default async function addBreakpoint(
     sourceMaps.isOriginalId(breakpoint.location.sourceId)
   );
 
-  const _location = await sourceMaps.getOriginalLocation(actualLocation);
-  const location = equalizeLocationColumn(_location, breakpoint.location);
+  const location = await sourceMaps.getOriginalLocation(actualLocation);
 
   const newBreakpoint = {
     ...breakpoint,
