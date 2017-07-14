@@ -121,7 +121,8 @@ class SymbolModal extends Component {
     }
   }
 
-  openSymbolModal() {
+  openSymbolModal(_, e) {
+    e.preventDefault();
     this.props.setActiveSearch("symbol");
   }
 
