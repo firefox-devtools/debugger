@@ -2370,13 +2370,19 @@ devtools-config@^0.0.15:
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.15.tgz#1fbe75be3f4dc1159603927fc1dfa64d1d9f1202"
 
-devtools-connection@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.5.tgz#5684508ccbeb45643510b536a62c9952afdbaf0c"
+devtools-connection@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.6.tgz#06431a8e4882033409a9d90c2720832cb51b86eb"
 
-devtools-launchpad@0.0.87:
-  version "0.0.87"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.87.tgz#8c1699aab5764fc08a7148f94957b27b8937b5c2"
+devtools-contextmenu@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.3.tgz#be5183abcaeb728b6c5e2fe60fa9f0525fc959e0"
+  dependencies:
+    devtools-modules "^0.0.28"
+
+devtools-launchpad@0.0.88:
+  version "0.0.88"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.88.tgz#c730e82da9cb78ad7d8c73ba8c50c4002ab0145d"
   dependencies:
     amd-loader "0.0.5"
     autoprefixer "^6.7.6"
@@ -2403,10 +2409,11 @@ devtools-launchpad@0.0.87:
     co "=4.6.0"
     css-loader "^0.26.1"
     devtools-config "^0.0.15"
-    devtools-connection "^0.0.5"
+    devtools-connection "^0.0.6"
+    devtools-contextmenu "^0.0.3"
     devtools-modules "^0.0.28"
     devtools-sprintf-js "^1.0.3"
-    devtools-utils "^0.0.2"
+    devtools-utils "^0.0.3"
     eslint "^3.12.0"
     eslint-plugin-babel "^3.3.0"
     eslint-plugin-flowtype "^2.20.0"
@@ -2467,13 +2474,13 @@ devtools-source-editor@0.0.5:
   dependencies:
     codemirror "^5.25.0"
 
-devtools-source-map@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.6.0.tgz#3f0027233b9505eb1818489ceaa5e0118b7547dd"
+devtools-source-map@0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.8.0.tgz#ceddc08fb28ed0b760c388bd307da228e99ade9b"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
-    devtools-utils "0.0.2"
+    devtools-utils "0.0.3"
     jest "^19.0.2"
     md5 "^2.2.1"
     regenerator-runtime "^0.10.3"
@@ -2487,9 +2494,9 @@ devtools-sprintf-js@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/devtools-sprintf-js/-/devtools-sprintf-js-1.0.3.tgz#c2aa3c39d4047525e60410325c86770620281b87"
 
-devtools-utils@0.0.2, devtools-utils@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.2.tgz#8e711f276920f75785cdd9ae061d7d45752c6d44"
+devtools-utils@0.0.3, devtools-utils@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.3.tgz#b49973c148532d530212d77ba390f0be5f4343af"
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-preset-stage-3 "^6.22.0"
@@ -3818,11 +3825,11 @@ husky@^0.14.2:
     normalize-path "^1.0.0"
     strip-indent "^2.0.0"
 
-iconv-lite@0.4.13:
+iconv-lite@0.4.13, iconv-lite@~0.4.13:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
 
-iconv-lite@0.4.15, iconv-lite@~0.4.13:
+iconv-lite@0.4.15:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
 
