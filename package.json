@@ -61,7 +61,7 @@
     "devtools-launchpad": "0.0.87",
     "devtools-reps": "^0.7.0",
     "devtools-source-editor": "0.0.5",
-    "devtools-source-map": "0.6.0",
+    "devtools-source-map": "0.7.0",
     "devtools-splitter": "^0.0.3",
     "documentation": "^4.0.0-beta11",
     "eslint": "^3.12.0",
