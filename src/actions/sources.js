@@ -390,7 +390,7 @@ export function loadSourceText(source: Source) {
 export function loadAllSources() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const sources = getSources(getState());
-    for ([, source] of sources) {
+    for (const [, source] of sources) {
       await dispatch(loadSourceText(source.toJS()));
     }
   };
