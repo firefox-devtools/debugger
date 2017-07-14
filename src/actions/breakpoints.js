@@ -15,12 +15,14 @@ import {
   getSelectedSource,
   getBreakpointAtLocation
 } from "../selectors";
-import { breakpointExists, createBreakpoint } from "./utils/breakpoints";
+import { createBreakpoint } from "../utils/breakpoint";
+import addBreakpointPromise from "./breakpoints/addBreakpoint";
 
+// this will need to be changed so that addCLientBreakpoint is removed
 import {
   addClientBreakpoint,
   syncClientBreakpoint
-} from "./thunks/breakpoints";
+} from "./breakpoints/syncBreakpoint";
 
 import type { ThunkArgs } from "./types";
 import type { PendingBreakpoint, Location } from "../types";
@@ -92,22 +94,13 @@ export function syncBreakpoint(
  * @param {String} $1.condition Conditional breakpoint condition value
  * @param {Boolean} $1.disabled Disable value for breakpoint value
  */
-export function addBreakpoint(
-  location: Location,
-  { condition }: addBreakpointOptions = {}
-) {
-  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    if (breakpointExists(getState(), location)) {
-      return Promise.resolve();
-    }
 
-    const breakpoint = createBreakpoint(location, { condition });
-    return dispatch({
-      type: "ADD_BREAKPOINT",
-      breakpoint,
-      condition: condition,
-      [PROMISE]: addClientBreakpoint(getState(), client, sourceMaps, breakpoint)
-    });
+export function addBreakpoint(location: Location, condition: ?string) {
+  const breakpoint = createBreakpoint(location, { condition });
+  return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
+    const action = { type: "ADD_BREAKPOINT", breakpoint };
+    const promise = addBreakpointPromise(getState, client, sourceMaps, action);
+    return dispatch({ ...action, [PROMISE]: promise });
   };
 }
 
@@ -222,7 +215,7 @@ export function setBreakpointCondition(
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
-      return dispatch(addBreakpoint(location, { condition }));
+      return dispatch(addBreakpoint(location, condition));
     }
 
     if (bp.loading) {

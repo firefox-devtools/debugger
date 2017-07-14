@@ -59,6 +59,11 @@ type BreakpointResult = {
   generatedLocation: GeneratedLocation
 };
 
+type AddBreakpointResult = {
+  previousLocation: Location,
+  breakpoint: Breakpoint
+};
+
 type BreakpointAction =
   | {
       type: "ADD_BREAKPOINT",
@@ -66,7 +71,7 @@ type BreakpointAction =
       condition: string,
       status: AsyncStatus,
       error: string,
-      value: BreakpointResult
+      value: AddBreakpointResult
     }
   | {
       type: "REMOVE_BREAKPOINT",

@@ -1,7 +1,7 @@
 import {
   getGeneratedLocation,
   formatClientBreakpoint
-} from "../utils/breakpoints";
+} from "../../utils/breakpoint";
 import { getSource } from "../../selectors";
 import { originalToGeneratedId } from "devtools-source-map";
 

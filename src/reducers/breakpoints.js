@@ -8,13 +8,13 @@
  * @module reducers/breakpoints
  */
 
-import fromJS from "../utils/fromJS";
 import * as I from "immutable";
+import { omit } from "lodash";
 import makeRecord from "../utils/makeRecord";
 import { isGeneratedId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 import {
-  firstString,
+  createPendingBreakpoint,
   locationMoved,
   makeLocationId,
   makePendingLocationId,
@@ -51,8 +51,11 @@ function update(
   switch (action.type) {
     case "ADD_BREAKPOINT": {
       const newState = addBreakpoint(state, action);
-      setPendingBreakpoints(newState);
-      return newState;
+      // TODO: remove this when we have a prefs reducer
+      const stateWithShim = addPendingBreakpoint(newState, action);
+      addPrefBreakpoint(newState, action);
+
+      return stateWithShim;
     }
 
     case "SYNC_BREAKPOINT": {
@@ -100,54 +103,28 @@ function update(
 }
 
 function addBreakpoint(state, action) {
-  const id = makeLocationId(action.breakpoint.location);
   if (action.status === "start") {
-    const updatedState = state
-      .setIn(["breakpoints", id], {
-        ...action.breakpoint,
-        loading: true,
-        condition: firstString(action.condition, action.breakpoint.condition)
-      })
-      .set("breakpointsDisabled", false);
-
-    return updatedState;
+    const { breakpoint } = action;
+    const locationId = makeLocationId(breakpoint.location);
+    return state.setIn(["breakpoints", locationId], breakpoint);
   }
-
+  // when the action completes, we can commit the breakpoint
   if (action.status === "done") {
-    const {
-      id: breakpointId,
-      actualLocation,
-      generatedLocation
-    } = action.value;
-    let location = action.breakpoint.location;
+    const { value: { breakpoint, previousLocation } } = action;
+    const locationId = makeLocationId(breakpoint.location);
 
-    // If the breakpoint moved, update the map
-    if (locationMoved(location, actualLocation)) {
-      state = slideBreakpoint(state, action);
-      location = actualLocation;
+    if (previousLocation) {
+      return state
+        .deleteIn(["breakpoints", makeLocationId(previousLocation)])
+        .setIn(["breakpoints", locationId], breakpoint);
     }
 
-    const locationId = makeLocationId(location);
-    const bp = state.breakpoints.get(locationId) || action.breakpoint;
-    const updatedBreakpoint = {
-      ...bp,
-      id: breakpointId,
-      loading: false,
-      generatedLocation,
-      text: ""
-    };
-    const updatedState = state.setIn(
-      ["breakpoints", locationId],
-      updatedBreakpoint
-    );
-
-    return updatePendingBreakpoint(updatedState, updatedBreakpoint);
+    return state.setIn(["breakpoints", locationId], breakpoint);
   }
 
-  if (action.status === "error") {
-    // Remove the optimistic update
-    return state.deleteIn(["breakpoints", id]);
-  }
+  // Remove the optimistic update and pending breakpoint
+  const locationId = makeLocationId(action.breakpoint.location);
+  return state.deleteIn(["breakpoints", locationId]);
 }
 
 function syncBreakpoint(state, action) {
@@ -295,22 +272,6 @@ function correctBreakpoint(state, breakpoint, overrides) {
   return commitBreakpoint(intermState, breakpoint, newProperties);
 }
 
-// TODO: remove this in favor of the correct/commit breakpoint pattern
-function slideBreakpoint(state, action) {
-  const { actualLocation, id } = action.value;
-  const { breakpoint } = action;
-  const currentBp = state.breakpoints.get(id) || fromJS(breakpoint);
-
-  const locationId = makeLocationId(breakpoint.location);
-  const movedLocationId = makeLocationId(actualLocation);
-  const updatedState = state.deleteIn(["breakpoints", locationId]);
-
-  return updatedState.setIn(["breakpoints", movedLocationId], {
-    ...currentBp,
-    location: actualLocation
-  });
-}
-
 export function makePendingBreakpoint(bp: any) {
   const {
     location: { sourceUrl, line, column },
@@ -383,5 +344,48 @@ export function getBreakpointsForSource(state: OuterState, sourceId: string) {
     return location.sourceId === sourceId;
   });
 }
+
+/* ***** START: Transitional Code. Remove when prefs reducer is added *****/
+function addPendingBreakpoint(state, action) {
+  if (action.status === "done") {
+    const { value: { breakpoint, previousLocation } } = action;
+    const pendingBreakpoint = createPendingBreakpoint(breakpoint);
+    const locationId = makePendingLocationId(pendingBreakpoint.location);
+
+    if (previousLocation) {
+      const previousLocationId = makePendingLocationId(previousLocation);
+      return state
+        .deleteIn(["pendingBreakpoints", previousLocationId])
+        .setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
+    }
+
+    return state.setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
+  }
+
+  return state;
+}
+
+function addPrefBreakpoint(state, action) {
+  if (action.status === "done") {
+    const { value: { breakpoint, previousLocation } } = action;
+    const pendingBreakpoints = prefs.pendingBreakpoints;
+
+    const newPendingBreakpoint = createPendingBreakpoint(breakpoint);
+    const id = newPendingBreakpoint.id;
+
+    if (previousLocation) {
+      const previousLocationId = makePendingLocationId(previousLocation);
+      // option: we can use delete here instead; however it is modifying
+      // prefs directly, so I preferend the functional approach. It is slower
+      const newState = omit(pendingBreakpoints, [previousLocationId]);
+      return { ...newState, [id]: newPendingBreakpoint };
+    }
+
+    return { ...pendingBreakpoints, [id]: newPendingBreakpoint };
+  }
+  return prefs.pendingBreakpoints;
+}
+
+/* ******* END: Transitional Code. Remove when prefs reducer is added *******/
 
 export default update;
