@@ -334,14 +334,13 @@ class SourceTabs extends PureComponent {
   }
 
   renderTabs() {
-    const { sourceTabs, searchTabs } = this.props;
+    const { sourceTabs } = this.props;
     if (!sourceTabs) {
       return;
     }
 
     return dom.div(
       { className: "source-tabs", ref: "sourceTabs" },
-      searchTabs.map(this.renderSearchTab),
       sourceTabs.map(this.renderSourceTab)
     );
   }

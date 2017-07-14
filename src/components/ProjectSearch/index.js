@@ -117,13 +117,13 @@ class ProjectSearch extends Component {
   }
 
   renderSourceSearch() {
-    const { sources, selectSource } = this.props;
-    return SourceSearch({ sources, selectSource });
+    const { sources, selectSource, closeActiveSearch } = this.props;
+    return SourceSearch({ sources, selectSource, closeActiveSearch });
   }
 
   renderTextSearch() {
-    const { sources } = this.props;
-    return TextSearch({ sources });
+    const { sources, closeActiveSearch } = this.props;
+    return TextSearch({ sources, closeActiveSearch });
   }
 
   render() {
