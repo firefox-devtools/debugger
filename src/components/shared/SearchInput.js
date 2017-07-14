@@ -114,7 +114,8 @@ class SearchInput extends Component {
         onBlur,
         placeholder,
         value: query,
-        spellCheck: false
+        spellCheck: false,
+        ref: "input"
       }),
       dom.div({ className: "summary" }, query != "" ? summaryMsg : ""),
       this.renderNav(),
