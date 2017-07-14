@@ -55,6 +55,7 @@ export default class SourceSearch extends Component {
 
   close() {
     this.setState({ inputValue: "" });
+    this.props.closeActiveSearch();
   }
 
   render() {
