@@ -6,7 +6,7 @@ import ReactDOM from "react-dom";
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 
-import { showSourceText } from "../../utils/editor";
+import { getDocument, showSourceText } from "../../utils/editor";
 
 const breakpointSvg = document.createElement("div");
 ReactDOM.render(Svg("breakpoint"), breakpointSvg);
@@ -45,8 +45,8 @@ class Breakpoint extends Component {
     }
 
     const line = breakpoint.location.line - 1;
-
     showSourceText(editor, selectedSource.toJS());
+
     editor.codeMirror.setGutterMarker(
       line,
       "breakpoints",
@@ -85,9 +85,9 @@ class Breakpoint extends Component {
   }
 
   componentWillUnmount() {
-    const { editor, breakpoint } = this.props;
+    const { editor, breakpoint, selectedSource } = this.props;
 
-    if (!editor) {
+    if (!editor || !selectedSource) {
       return;
     }
 
@@ -96,9 +96,11 @@ class Breakpoint extends Component {
     }
 
     const line = breakpoint.location.line - 1;
-    editor.codeMirror.setGutterMarker(line, "breakpoints", null);
-    editor.codeMirror.removeLineClass(line, "line", "new-breakpoint");
-    editor.codeMirror.removeLineClass(line, "line", "has-condition");
+    const doc = getDocument(selectedSource.get("id"));
+
+    doc.setGutterMarker(line, "breakpoints", null);
+    doc.removeLineClass(line, "line", "new-breakpoint");
+    doc.removeLineClass(line, "line", "has-condition");
   }
 
   render() {
