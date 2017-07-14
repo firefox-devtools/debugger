@@ -1,7 +1,6 @@
 import {
   getGeneratedLocation,
   locationMoved,
-  equalizeLocationColumn,
   breakpointExists
 } from "../../utils/breakpoint";
 import { getSource } from "../../selectors";
