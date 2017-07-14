@@ -1,6 +1,6 @@
 import { getClosestExpression } from "./utils/closest";
 import { getVariablesInScope } from "./scopes";
-import getSymbols from "./getSymbols";
+import getSymbols, { clearSymbols } from "./getSymbols";
 import getOutOfScopeLocations from "./getOutOfScopeLocations";
 
 import { workerUtils } from "devtools-utils";
@@ -10,5 +10,6 @@ self.onmessage = workerHandler({
   getClosestExpression,
   getOutOfScopeLocations,
   getSymbols,
+  clearSymbols,
   getVariablesInScope
 });
