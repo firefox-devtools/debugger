@@ -79,6 +79,31 @@ export function clearSelection() {
   };
 }
 
+function findBestMatch(symbols, tokenPos, token) {
+  const { memberExpressions, identifiers } = symbols;
+  const { line, column } = tokenPos;
+  return memberExpressions.concat(identifiers).reduce((found, expression) => {
+    const isNear =
+      expression.location.start.line == line &&
+      expression.location.start.column <= column &&
+      expression.location.end.column >= column;
+
+    const isCloser =
+      expression.location.start.line == line &&
+      expression.location.start.column <= column &&
+      expression.location.end.column >= column;
+
+    const thisExpression = new RegExp(`this.${token}$`);
+    const previousContainsThis = thisExpression.test(found.expression);
+
+    if (isNear && isCloser && !previousContainsThis) {
+      return expression;
+    }
+
+    return found;
+  }, {});
+}
+
 export function setSelection(
   token: string,
   tokenPos: AstLocation,
@@ -94,26 +119,32 @@ export function setSelection(
       type: "SET_SELECTION",
       [PROMISE]: (async function() {
         const source = getSelectedSource(getState());
-        const closestExpression = await parser.getClosestExpression(
-          source.toJS(),
-          token,
-          tokenPos
-        );
+        const _symbols = await parser.getSymbols(source.toJS());
 
-        if (!closestExpression) {
+        const found = findBestMatch(_symbols, tokenPos, token);
+
+        if (!found) {
           return;
         }
 
-        const { expression, location } = closestExpression;
+        const { expression, location } = found;
 
+        console.log(found, expression);
         if (!expression) {
           return;
         }
 
         const selectedFrame = getSelectedFrame(getState());
-        const { result } = await client.evaluate(expression, {
+        const foo = await client.evaluate(expression, {
           frameId: selectedFrame.id
         });
+
+        const { result } = foo;
+
+        console.log(result)
+        if (!result) {
+          return;
+        }
 
         return {
           expression,

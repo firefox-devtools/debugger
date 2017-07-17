@@ -103,7 +103,7 @@ describe("ast", () => {
   });
 
   describe("setSelection", () => {
-    it("simple", async () => {
+    fit("simple", async () => {
       const { dispatch, getState } = createStore(threadClient);
       const foo = makeSource("foo.js");
       await dispatch(actions.newSource(foo));

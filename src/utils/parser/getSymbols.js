@@ -119,6 +119,16 @@ function extractSymbols(source: Source) {
         });
       }
 
+      if (t.isThisExpression(path.node)) {
+        const { start, end } = path.node.loc;
+        memberExpressions.push({
+          name: "this",
+          location: { start, end },
+          expressionLocation: path.node.loc,
+          expression: "this"
+        });
+      }
+
       if (t.isCallExpression(path)) {
         const callee = path.node.callee;
         if (!t.isMemberExpression(callee)) {
