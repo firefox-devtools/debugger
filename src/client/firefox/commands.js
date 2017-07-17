@@ -84,10 +84,10 @@ function getBreakpointByLocation(location: Location) {
     const { actor, url, line, column, condition } = bpClient.location;
     return {
       id: bpClient.actor,
+      condition,
       actualLocation: {
         line,
         column,
-        condition,
         sourceId: actor,
         sourceUrl: url
       }
@@ -114,6 +114,10 @@ function setBreakpoint(
       actualLocation = createBreakpointLocation(location, actualLocation);
       const id = makeLocationId(actualLocation);
       bpClients[id] = bpClient;
+      bpClient.location.line = actualLocation.line;
+      bpClient.location.column = actualLocation.column;
+      bpClient.location.url = actualLocation.sourceUrl || "";
+
       return { id, actualLocation };
     });
 }

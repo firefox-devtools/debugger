@@ -23,7 +23,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.file-search-case-sensitive", false);
   pref("devtools.debugger.file-search-whole-word", false);
   pref("devtools.debugger.file-search-regex-match", false);
-  pref("devtools.debugger.prefs-schema-version", "1.0.0");
+  pref("devtools.debugger.prefs-schema-version", "1.0.1");
 }
 
 const prefs = new PrefsHelper("devtools", {

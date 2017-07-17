@@ -6,7 +6,6 @@ import type {
   Expression,
   LoadedObject,
   Location,
-  GeneratedLocation,
   Frame,
   Scope,
   Why
@@ -56,7 +55,7 @@ type BreakpointResult = {
   actualLocation: Location,
   id: string,
   text: string,
-  generatedLocation: GeneratedLocation
+  generatedLocation: Location
 };
 
 type AddBreakpointResult = {

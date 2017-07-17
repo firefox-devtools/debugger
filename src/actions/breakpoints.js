@@ -15,14 +15,11 @@ import {
   getSelectedSource,
   getBreakpointAtLocation
 } from "../selectors";
-import { createBreakpoint } from "../utils/breakpoint";
+import { createBreakpoint, assertBreakpoint } from "../utils/breakpoint";
 import addBreakpointPromise from "./breakpoints/addBreakpoint";
 
 // this will need to be changed so that addCLientBreakpoint is removed
-import {
-  addClientBreakpoint,
-  syncClientBreakpoint
-} from "./breakpoints/syncBreakpoint";
+import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
 
 import type { ThunkArgs } from "./types";
 import type { PendingBreakpoint, Location } from "../types";
@@ -30,28 +27,6 @@ import type { PendingBreakpoint, Location } from "../types";
 type addBreakpointOptions = {
   condition: string
 };
-/**
- * Enabling a breakpoint
- * will reuse the existing breakpoint information that is stored.
- *
- * @memberof actions/breakpoints
- * @static
- * @param {Location} $1.location Location  value
- */
-export function enableBreakpoint(location: Location) {
-  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const breakpoint = getBreakpoint(getState(), location);
-    if (!breakpoint) {
-      throw new Error("attempted to enable a breakpoint that does not exist");
-    }
-
-    return dispatch({
-      type: "ENABLE_BREAKPOINT",
-      breakpoint,
-      [PROMISE]: addClientBreakpoint(getState(), client, sourceMaps, breakpoint)
-    });
-  };
-}
 
 /**
  * Syncing a breakpoint add breakpoint information that is stored, and
@@ -105,35 +80,6 @@ export function addBreakpoint(location: Location, condition: ?string) {
 }
 
 /**
- * Disable a single breakpoint
- *
- * @memberof actions/breakpoints
- * @static
- */
-export function disableBreakpoint(location: Location) {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
-    let bp = getBreakpoint(getState(), location);
-
-    if (!bp) {
-      throw new Error("attempt to disable a breakpoint that does not exist");
-    }
-    if (bp.loading) {
-      // TODO(jwl): make this wait until the breakpoint is saved if it
-      // is still loading
-      throw new Error("attempt to disable unsaved breakpoint");
-    }
-
-    const action = {
-      type: "DISABLE_BREAKPOINT",
-      breakpoint: bp,
-      [PROMISE]: client.removeBreakpoint(bp)
-    };
-
-    return dispatch(action);
-  };
-}
-
-/**
  * Remove a single breakpoint
  *
  * @memberof actions/breakpoints
@@ -145,29 +91,84 @@ export function removeBreakpoint(location: Location) {
     if (!bp) {
       throw new Error("attempt to remove breakpoint that does not exist");
     }
+
     if (bp.loading) {
       // TODO(jwl): make this wait until the breakpoint is saved if it
       // is still loading
       throw new Error("attempt to remove unsaved breakpoint");
     }
 
-    const action = {
-      type: "REMOVE_BREAKPOINT",
-      breakpoint: bp
-    };
-
     // If the breakpoint is already disabled, we don't need to communicate
     // with the server. We just need to dispatch an action
     // simulating a successful server request
     if (bp.disabled) {
-      return dispatch(Object.assign({}, action, { status: "done" }));
+      return dispatch({
+        type: "REMOVE_BREAKPOINT",
+        breakpoint: bp,
+        status: "done"
+      });
     }
 
-    return dispatch(
-      Object.assign({}, action, {
-        [PROMISE]: client.removeBreakpoint(bp)
-      })
-    );
+    return dispatch({
+      type: "REMOVE_BREAKPOINT",
+      breakpoint: bp,
+      [PROMISE]: client.removeBreakpoint(bp)
+    });
+  };
+}
+
+/**
+ * Enabling a breakpoint
+ * will reuse the existing breakpoint information that is stored.
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @param {Location} $1.location Location  value
+ */
+export function enableBreakpoint(location: Location) {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const breakpoint = getBreakpoint(getState(), location);
+    if (!breakpoint) {
+      throw new Error("attempted to enable a breakpoint that does not exist");
+    }
+
+    const action = { type: "ENABLE_BREAKPOINT", breakpoint };
+    const promise = addBreakpointPromise(getState, client, sourceMaps, action);
+    return dispatch({
+      type: "ENABLE_BREAKPOINT",
+      breakpoint,
+      [PROMISE]: promise
+    });
+  };
+}
+
+/**
+ * Disable a single breakpoint
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
+export function disableBreakpoint(location: Location) {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    let bp = getBreakpoint(getState(), location);
+
+    if (!bp) {
+      throw new Error("attempt to disable a breakpoint that does not exist");
+    }
+
+    if (bp.loading) {
+      // TODO(jwl): make this wait until the breakpoint is saved if it
+      // is still loading
+      throw new Error("attempt to disable unsaved breakpoint");
+    }
+
+    await client.removeBreakpoint(bp);
+    const newBreakpoint = { ...bp, disabled: true };
+
+    return dispatch({
+      type: "DISABLE_BREAKPOINT",
+      breakpoint: newBreakpoint
+    });
   };
 }
 
@@ -178,21 +179,15 @@ export function removeBreakpoint(location: Location) {
  * @static
  */
 export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
-    return dispatch({
-      type: "TOGGLE_BREAKPOINTS",
-      shouldDisableBreakpoints,
-      [PROMISE]: (async function() {
-        for (let [, breakpoint] of breakpoints) {
-          if (shouldDisableBreakpoints) {
-            await dispatch(disableBreakpoint(breakpoint.location));
-          } else {
-            await dispatch(enableBreakpoint(breakpoint.location));
-          }
-        }
-      })()
-    });
+    for (let [, breakpoint] of breakpoints) {
+      if (shouldDisableBreakpoints) {
+        await dispatch(disableBreakpoint(breakpoint.location));
+      } else {
+        await dispatch(enableBreakpoint(breakpoint.location));
+      }
+    }
   };
 }
 
@@ -212,7 +207,7 @@ export function setBreakpointCondition(
   location: Location,
   { condition }: addBreakpointOptions = {}
 ) {
-  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
       return dispatch(addBreakpoint(location, condition));
@@ -224,16 +219,20 @@ export function setBreakpointCondition(
       throw new Error("breakpoint must be saved");
     }
 
+    await client.setBreakpointCondition(
+      bp.id,
+      location,
+      condition,
+      sourceMaps.isOriginalId(bp.location.sourceId)
+    );
+
+    const newBreakpoint = { ...bp, condition };
+
+    assertBreakpoint(newBreakpoint);
+
     return dispatch({
       type: "SET_BREAKPOINT_CONDITION",
-      breakpoint: bp,
-      condition: condition,
-      [PROMISE]: client.setBreakpointCondition(
-        bp.id,
-        location,
-        condition,
-        sourceMaps.isOriginalId(bp.location.sourceId)
-      )
+      breakpoint: newBreakpoint
     });
   };
 }
@@ -252,6 +251,7 @@ export function toggleBreakpoint(line: number, column?: number) {
       return dispatch(
         removeBreakpoint({
           sourceId: bp.location.sourceId,
+          sourceUrl: bp.location.sourceUrl,
           line: bp.location.line,
           column: column || bp.location.column
         })

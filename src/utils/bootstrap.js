@@ -15,6 +15,7 @@ import configureStore from "./create-store";
 import reducers from "../reducers";
 import selectors from "../selectors";
 import App from "../components/App";
+import { prefs } from "./prefs";
 
 export function bootstrapStore(client, services) {
   const createStore = configureStore({
@@ -26,6 +27,8 @@ export function bootstrapStore(client, services) {
   });
 
   const store = createStore(combineReducers(reducers));
+  store.subscribe(() => updatePrefs(store.getState()));
+
   const actions = bindActionCreators(
     require("../actions").default,
     store.dispatch
@@ -65,4 +68,12 @@ export function teardownWorkers() {
   stopPrettyPrintWorker();
   stopParserWorker();
   stopSearchWorker();
+}
+
+function updatePrefs(state) {
+  const pendingBreakpoints = selectors.getPendingBreakpoints(state);
+
+  if (prefs.pendingBreakpoints !== pendingBreakpoints) {
+    prefs.pendingBreakpoints = pendingBreakpoints;
+  }
 }

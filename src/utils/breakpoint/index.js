@@ -1,9 +1,21 @@
+// @flow
+
 import { isEnabled } from "devtools-config";
 import { getBreakpoint } from "../../selectors";
+import assert from "../assert";
+
+import type {
+  Location,
+  PendingLocation,
+  Breakpoint,
+  PendingBreakpoint
+} from "debugger-html";
+
+import type { SourceRecord, State } from "../../reducers/types";
 
 // Return the first argument that is a string, or null if nothing is a
 // string.
-export function firstString(...args) {
+export function firstString(...args: string[]) {
   for (let arg of args) {
     if (typeof arg === "string") {
       return arg;
@@ -12,7 +24,7 @@ export function firstString(...args) {
   return null;
 }
 
-export function locationMoved(location, newLocation) {
+export function locationMoved(location: Location, newLocation: Location) {
   return (
     location.line !== newLocation.line || location.column !== newLocation.column
   );
@@ -25,27 +37,48 @@ export function makeLocationId(location: Location) {
 }
 
 export function makePendingLocationId(location: Location) {
+  assertPendingLocation(location);
   const { sourceUrl, line, column } = location;
   const sourceUrlString = sourceUrl || "";
   const columnString = column || "";
+
   return `${sourceUrlString}:${line}:${columnString}`;
 }
 
-export function allBreakpointsDisabled(state) {
-  return state.breakpoints.every(x => x.disabled);
+export function assertBreakpoint(breakpoint: Breakpoint) {
+  assertLocation(breakpoint.location);
+  assertLocation(breakpoint.generatedLocation);
+}
+
+export function assertPendingBreakpoint(pendingBreakpoint: PendingBreakpoint) {
+  assertPendingLocation(pendingBreakpoint.location);
+  assertPendingLocation(pendingBreakpoint.generatedLocation);
+}
+
+export function assertLocation(location: Location) {
+  assertPendingLocation(location);
+  const { sourceId } = location;
+  assert(!!sourceId, "location must have a source id");
+}
+
+export function assertPendingLocation(location: PendingLocation) {
+  assert(!!location, "location must exist");
+
+  const { sourceUrl } = location;
+
+  // sourceUrl is null when the source does not have a url
+  assert(sourceUrl !== undefined, "location must have a source url");
+  assert(location.hasOwnProperty("line"), "location must have a line");
+  assert(
+    location.hasOwnProperty("column") != null,
+    "location must have a column"
+  );
 }
 
 // syncing
-export function equalizeLocationColumn(location, referenceLocation) {
-  if (referenceLocation.column) {
-    return location;
-  }
-  return { ...location, column: undefined };
-}
-
 export function breakpointAtLocation(
-  breakpoints,
-  { line, column = undefined }
+  breakpoints: Breakpoint[],
+  { line, column }: Location
 ) {
   return breakpoints.find(breakpoint => {
     const sameLine = breakpoint.location.line === line + 1;
@@ -63,59 +96,48 @@ export function breakpointAtLocation(
   });
 }
 
-export async function formatClientBreakpoint(
-  clientBreakpoint,
-  sourceMaps,
-  location
-) {
-  const clientOriginalLocation = await sourceMaps.getOriginalLocation(
-    clientBreakpoint.actualLocation
-  );
-
-  // make sure that we are re-adding the same type of breakpoint. Column
-  // or line
-  const actualLocation = equalizeLocationColumn(
-    clientOriginalLocation,
-    location
-  );
-
-  // the generatedLocation might have slid, so now we can adjust it
-  const generatedLocation = clientBreakpoint.actualLocation;
-
-  const { id, hitCount } = clientBreakpoint;
-  return { id, actualLocation, hitCount, generatedLocation };
-}
-
-export function breakpointExists(state, location: Location) {
+export function breakpointExists(state: State, location: Location) {
   const currentBp = getBreakpoint(state, location);
   return currentBp && !currentBp.disabled;
 }
 
-export function createBreakpoint(location: Object, overrides: Object = {}) {
+export function createBreakpoint(location: Location, overrides: Object = {}) {
   const { condition, disabled, generatedLocation } = overrides;
   const properties = {
     condition: condition || null,
     disabled: disabled || false,
-    generatedLocation,
+    generatedLocation: generatedLocation || location,
     location
   };
 
   return properties;
 }
 
-export function createPendingBreakpoint(bp: any) {
-  const {
-    location: { sourceUrl, line, column },
-    condition,
-    disabled,
-    generatedLocation
-  } = bp;
-
-  const location = { sourceUrl, line, column };
-  return { condition, disabled, generatedLocation, location };
+function createPendingLocation(location: PendingLocation) {
+  const { sourceUrl, line, column } = location;
+  return { sourceUrl: sourceUrl, line, column };
 }
 
-export async function getGeneratedLocation(source, sourceMaps, location) {
+export function createPendingBreakpoint(bp: Breakpoint) {
+  const pendingLocation = createPendingLocation(bp.location);
+  const pendingGeneratedLocation = createPendingLocation(bp.generatedLocation);
+
+  assertPendingLocation(pendingLocation);
+  assertPendingLocation(pendingLocation);
+
+  return {
+    condition: bp.condition,
+    disabled: bp.disabled,
+    location: pendingLocation,
+    generatedLocation: pendingGeneratedLocation
+  };
+}
+
+export async function getGeneratedLocation(
+  source: SourceRecord,
+  sourceMaps: Object,
+  location: Location
+) {
   if (!sourceMaps.isOriginalId(location.sourceId)) {
     return location;
   }

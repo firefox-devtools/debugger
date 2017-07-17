@@ -34,19 +34,14 @@ declare module "debugger-html" {
   declare type Location = {
     sourceId: SourceId,
     line: number,
-    column?: number,
+    column: ?number,
     sourceUrl?: string
   };
 
-  /**
- * Source File GeneratedLocation
- *
- * @memberof types
- * @static
- */
-  declare type GeneratedLocation = {
+  declare type PendingLocation = {
     line: number,
-    column?: number
+    column: ?number,
+    sourceUrl?: string
   };
 
   /**
@@ -62,7 +57,7 @@ declare module "debugger-html" {
     disabled: boolean,
     text: string,
     condition: ?string,
-    generatedLocation: ?GeneratedLocation
+    generatedLocation: Location
   };
 
   /**
@@ -83,12 +78,12 @@ declare module "debugger-html" {
  * @static
  */
   declare type PendingBreakpoint = {
-    location: Location,
+    location: PendingLocation,
     loading: boolean,
     disabled: boolean,
     text: string,
     condition: ?string,
-    generatedLocation: ?GeneratedLocation
+    generatedLocation: PendingLocation
   };
 
   /**

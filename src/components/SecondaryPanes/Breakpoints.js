@@ -3,6 +3,7 @@ import { DOM as dom, PropTypes, PureComponent } from "react";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
 import { bindActionCreators } from "redux";
+import { isEnabled } from "devtools-config";
 import ImPropTypes from "react-immutable-proptypes";
 import classnames from "classnames";
 import actions from "../../actions";
@@ -39,7 +40,10 @@ function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
 
 function renderSourceLocation(source, line, column) {
   const filename = source ? getFilename(source.toJS()) : null;
-  const bpLocation = line + (column ? `:${column}` : "");
+  const columnVal = isEnabled("columnBreakpoints") && column
+    ? `:${column}`
+    : "";
+  const bpLocation = `${line}${columnVal}`;
 
   return filename
     ? dom.div(

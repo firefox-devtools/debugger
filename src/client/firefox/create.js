@@ -68,7 +68,7 @@ export function createBreakpointLocation(
 
   return {
     sourceId: actualLocation.source.actor,
-    sourceUrl: location.sourceUrl,
+    sourceUrl: actualLocation.source.url,
     line: actualLocation.line,
     column: actualLocation.column
   };

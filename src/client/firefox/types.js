@@ -303,7 +303,7 @@ export type SourceClient = {
   source: () => Source,
   setBreakpoint: ({
     line: number,
-    column?: number,
+    column: ?number,
     condition: boolean,
     noSliding: boolean
   }) => Promise<BreakpointResponse>,
@@ -359,7 +359,7 @@ export type BreakpointClient = {
     actor: string,
     url: string,
     line: number,
-    column: number,
+    column: ?number,
     condition: string
   },
   setCondition: (ThreadClient, boolean, boolean) => Promise<BreakpointClient>,

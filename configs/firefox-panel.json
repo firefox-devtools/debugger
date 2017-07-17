@@ -17,7 +17,6 @@
     "codeCoverage": { "enabled": false },
     "codeFolding": { "enabled": false },
     "searchNav": { "enabled": true },
-    "collapseFrame": { "enabled": true },
-    "columnBreakpoints": { "enabled": true }
+    "collapseFrame": { "enabled": true }
   }
 }
