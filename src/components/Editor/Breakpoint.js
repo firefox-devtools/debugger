@@ -97,8 +97,17 @@ class Breakpoint extends Component {
 
     const line = breakpoint.location.line - 1;
     const doc = getDocument(selectedSource.get("id"));
+    if (!doc) {
+      return;
+    }
 
-    doc.setGutterMarker(line, "breakpoints", null);
+    // NOTE: when we upgrade codemirror we can use `doc.setGutterMarker`
+    if (doc.setGutterMarker) {
+      doc.setGutterMarker(line, "breakpoints", null);
+    } else {
+      editor.codeMirror.setGutterMarker(line, "breakpoints", null);
+    }
+
     doc.removeLineClass(line, "line", "new-breakpoint");
     doc.removeLineClass(line, "line", "has-condition");
   }
