@@ -762,11 +762,11 @@ class Editor extends PureComponent {
   }
 
   renderDebugLine() {
-    const { sourceText, selectedFrame } = this.props;
+    const { selectedFrame, selectedSource, sourceText } = this.props;
 
     if (sourceText && !sourceText.get("loading") && selectedFrame) {
       return DebugLine({
-        codeMirror: this.editor.codeMirror,
+        sourceId: selectedSource.get("id"),
         line: this.props.selectedFrame.location.line
       });
     }

@@ -1,8 +1,9 @@
 // @flow
 import { PureComponent } from "react";
+import { getDocument } from "../../utils/editor";
 
 type DebugLineProps = {
-  codeMirror: any,
+  sourceId: string,
   line: number
 };
 
@@ -23,11 +24,19 @@ class DebugLine extends PureComponent {
   }
 
   clearDebugLine(line: number) {
-    this.props.codeMirror.removeLineClass(line - 1, "line", "new-debug-line");
+    getDocument(this.props.sourceId).removeLineClass(
+      line - 1,
+      "line",
+      "new-debug-line"
+    );
   }
 
   setDebugLine(line: number) {
-    this.props.codeMirror.addLineClass(line - 1, "line", "new-debug-line");
+    getDocument(this.props.sourceId).addLineClass(
+      line - 1,
+      "line",
+      "new-debug-line"
+    );
   }
 
   render() {
