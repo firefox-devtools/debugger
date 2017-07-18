@@ -29,7 +29,7 @@ export type SearchState = {
 };
 
 export function InitialState(): Record {
-  return makeRecord(({ query: undefined, results: I.Map() }: SearchState))();
+  return makeRecord(({ query: "", results: I.Map() }: SearchState))();
 }
 
 function update(
@@ -60,6 +60,10 @@ export function getSearchResults(state: OuterState) {
 
 export function getSearchResult(state: OuterState, id) {
   return state.search.getIn(["results", id]);
+}
+
+export function getQuery(state: OuterState) {
+  return state.search.get("query");
 }
 
 export default update;

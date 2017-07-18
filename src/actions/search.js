@@ -15,9 +15,21 @@ import { getSources, getSearchResult } from "../selectors";
 
 import type { ThunkArgs } from "./types";
 
+export function addSearchQuery(query) {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    dispatch({ type: "ADD_QUERY", query });
+  };
+}
+
+export function removeSearchQuery() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    dispatch({ type: "REMOVE_QUERY" });
+  };
+}
+
 export function searchSources(query) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    addSearchQuery(query);
+    dispatch(addSearchQuery(query));
 
     const sources = getSources(getState());
     const validSources = sources
@@ -26,11 +38,6 @@ export function searchSources(query) {
       .toJS();
 
     validSources.forEach(source => {
-      const result = getSearchResult(getState(), source.id);
-      if (result) {
-        return;
-      }
-
       dispatch({
         type: "ADD_SEARCH_RESULT",
         result: {
@@ -40,17 +47,5 @@ export function searchSources(query) {
         }
       });
     });
-  };
-}
-
-export function addSearchQuery(query) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: "ADD_QUERY", query });
-  };
-}
-
-export function removeSearchQuery() {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    dispatch({ type: "REMOVE_QUERY", query });
   };
 }

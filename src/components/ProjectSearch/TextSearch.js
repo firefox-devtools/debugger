@@ -16,7 +16,7 @@ export default class TextSearch extends Component {
     super(props);
     this.state = {
       //results: [],
-      inputValue: ""
+      inputValue: this.props.query || ""
       //selectedIndex: 0,
       //focused: false
     };
@@ -32,14 +32,18 @@ export default class TextSearch extends Component {
   }
 
   componentDidMount() {
-    this.props.loadAllSources();
+    if (this.state.inputValue == "") {
+      this.props.loadAllSources();
+    }
   }
 
   async onKeyDown(e) {
     if (e.key !== "Enter") {
       return;
     }
-    this.props.searchSources(this.state.inputValue);
+    if (this.state.inputValue !== this.props.query) {
+      this.props.searchSources(this.state.inputValue);
+    }
 
     /*this.setState({
       results,
@@ -150,8 +154,7 @@ export default class TextSearch extends Component {
       autoExpand: 1,
       autoExpandDepth: 1,
       getParent: item => null,
-      getKey: item =>
-        item.filepath || `${item.value}-${item.line}-${item.column}`,
+      getKey: item => item.filepath,
       renderItem: (item, depth, focused, _, expanded, { setExpanded }) =>
         item.filepath
           ? this.renderFile(item, focused, expanded, setExpanded)

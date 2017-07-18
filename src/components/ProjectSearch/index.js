@@ -8,7 +8,8 @@ import { isEnabled } from "devtools-config";
 import {
   getSources,
   getActiveSearchState,
-  getSearchResults
+  getSearchResults,
+  getQuery
 } from "../../selectors";
 
 import "./ProjectSearch.css";
@@ -132,6 +133,7 @@ class ProjectSearch extends Component {
       searchSources,
       loadAllSources,
       closeActiveSearch
+      query
     } = this.props;
     return TextSearch({
       sources,
@@ -139,6 +141,7 @@ class ProjectSearch extends Component {
       loadAllSources,
       searchSources,
       closeActiveSearch
+      query
     });
   }
 
@@ -159,6 +162,7 @@ class ProjectSearch extends Component {
 ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
   results: PropTypes.array,
+  query: PropTypes.string,
   setActiveSearch: PropTypes.func.isRequired,
   closeActiveSearch: PropTypes.func.isRequired,
   searchSources: PropTypes.func,
@@ -179,7 +183,8 @@ export default connect(
   state => ({
     sources: getSources(state),
     activeSearch: getActiveSearchState(state),
-    results: getSearchResults(state)
+    results: getSearchResults(state),
+    query: getQuery(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);
