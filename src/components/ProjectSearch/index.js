@@ -132,7 +132,7 @@ class ProjectSearch extends Component {
       results,
       searchSources,
       loadAllSources,
-      closeActiveSearch
+      closeActiveSearch,
       query
     } = this.props;
     return TextSearch({
@@ -140,7 +140,7 @@ class ProjectSearch extends Component {
       results,
       loadAllSources,
       searchSources,
-      closeActiveSearch
+      closeActiveSearch,
       query
     });
   }
