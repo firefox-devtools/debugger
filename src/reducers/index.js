@@ -11,6 +11,7 @@ import pause from "./pause";
 import ui from "./ui";
 import ast from "./ast";
 import coverage from "./coverage";
+import search from "./search";
 
 export default {
   expressions,
@@ -21,5 +22,6 @@ export default {
   pause,
   ui,
   ast,
-  coverage
+  coverage,
+  search
 };

@@ -7,6 +7,7 @@ import * as eventListeners from "./reducers/event-listeners";
 import * as ui from "./reducers/ui";
 import * as ast from "./reducers/ast";
 import * as coverage from "./reducers/coverage";
+import * as search from "./reducers/search";
 
 import getBreakpointAtLocation from "./selectors/breakpointAtLocation";
 import getInScopeLines from "./selectors/linesInScope";
@@ -26,5 +27,6 @@ module.exports = Object.assign(
   ui,
   ast,
   coverage,
+  search,
   { getBreakpointAtLocation, getInScopeLines, getVisibleBreakpoints }
 );

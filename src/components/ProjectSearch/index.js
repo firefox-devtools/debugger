@@ -5,7 +5,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
 import { isEnabled } from "devtools-config";
-import { getSources, getActiveSearchState } from "../../selectors";
+import {
+  getSources,
+  getActiveSearchState,
+  getSearchResults
+} from "../../selectors";
 
 import "./ProjectSearch.css";
 
@@ -122,8 +126,20 @@ class ProjectSearch extends Component {
   }
 
   renderTextSearch() {
-    const { sources, closeActiveSearch } = this.props;
-    return TextSearch({ sources, closeActiveSearch });
+    const {
+      sources,
+      results,
+      searchSources,
+      loadAllSources,
+      closeActiveSearch
+    } = this.props;
+    return TextSearch({
+      sources,
+      results,
+      loadAllSources,
+      searchSources,
+      closeActiveSearch
+    });
   }
 
   render() {
@@ -142,8 +158,11 @@ class ProjectSearch extends Component {
 
 ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
+  results: PropTypes.array,
   setActiveSearch: PropTypes.func.isRequired,
   closeActiveSearch: PropTypes.func.isRequired,
+  searchSources: PropTypes.func,
+  loadAllSources: PropTypes.func,
   activeSearch: PropTypes.string,
   selectSource: PropTypes.func.isRequired,
   addTab: PropTypes.func,
@@ -159,7 +178,8 @@ ProjectSearch.displayName = "ProjectSearch";
 export default connect(
   state => ({
     sources: getSources(state),
-    activeSearch: getActiveSearchState(state)
+    activeSearch: getActiveSearchState(state),
+    results: getSearchResults(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);

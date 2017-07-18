@@ -9,18 +9,16 @@ const ManagedTree = createFactory(_ManagedTree);
 import _SearchInput from "../shared/SearchInput";
 const SearchInput = createFactory(_SearchInput);
 
-import searchSources from "../../utils/search/project-search";
-
 import "./TextSearch.css";
 
 export default class TextSearch extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
-      results: [],
-      inputValue: "",
-      selectedIndex: 0,
-      focused: false
+      //results: [],
+      inputValue: ""
+      //selectedIndex: 0,
+      //focused: false
     };
 
     this.inputOnChange = this.inputOnChange.bind(this);
@@ -29,23 +27,25 @@ export default class TextSearch extends Component {
   }
 
   close() {
-    this.setState({ inputValue: "", results: [], selectedIndex: 0 });
+    //this.setState({ inputValue: "", results: [], selectedIndex: 0 });
     this.props.closeActiveSearch();
+  }
+
+  componentDidMount() {
+    this.props.loadAllSources();
   }
 
   async onKeyDown(e) {
     if (e.key !== "Enter") {
       return;
     }
-    const inputValue = this.state.inputValue;
-    const sources = this.props.sources;
-    const results = await searchSources(inputValue, sources);
+    this.props.searchSources(this.state.inputValue);
 
-    this.setState({
+    /*this.setState({
       results,
       inputValue,
       selectedIndex: 0
-    });
+    });*/
   }
 
   inputOnChange(e) {
@@ -80,7 +80,7 @@ export default class TextSearch extends Component {
     return dom.div(
       {
         className: classnames("result", { focused }),
-        key: `${match.line}/${match.column}`,
+        key: `${match.filepath}-${match.line}-${match.column}`,
         onClick: () => console.log(`clicked ${match}`)
       },
       dom.span(
@@ -142,7 +142,7 @@ export default class TextSearch extends Component {
 
   renderResults() {
     return ManagedTree({
-      getRoots: () => this.state.results,
+      getRoots: () => this.props.results,
       getChildren: file => {
         return file.matches || [];
       },
@@ -151,7 +151,7 @@ export default class TextSearch extends Component {
       autoExpandDepth: 1,
       getParent: item => null,
       getKey: item =>
-        item.filepath || `${item.value}/${item.line}/${item.column}`,
+        item.filepath || `${item.value}-${item.line}-${item.column}`,
       renderItem: (item, depth, focused, _, expanded, { setExpanded }) =>
         item.filepath
           ? this.renderFile(item, focused, expanded, setExpanded)
@@ -160,7 +160,7 @@ export default class TextSearch extends Component {
   }
 
   resultCount() {
-    const { results } = this.state;
+    const { results } = this.props;
     return results.reduce(
       (count, file) => count + (file.matches ? file.matches.length : 0),
       0
@@ -202,8 +202,11 @@ export default class TextSearch extends Component {
 TextSearch.propTypes = {
   addTab: PropTypes.func,
   sources: PropTypes.object,
+  results: PropTypes.array,
   query: PropTypes.string,
-  closeActiveSearch: PropTypes.func
+  closeActiveSearch: PropTypes.func,
+  loadAllSources: PropTypes.func,
+  searchSources: PropTypes.func
 };
 
 TextSearch.displayName = "TextSearch";
