@@ -3,9 +3,12 @@
 import { selectSource } from "./sources";
 import { PROMISE } from "../utils/redux/middleware/promise";
 
-import { getPause, getLoadedObject } from "../selectors";
-import { updateFrameLocations } from "../utils/pause";
+import { getPause, getLoadedObject, getSelectedSource } from "../selectors";
+import { updateFrameLocations, getPausedPosition } from "../utils/pause";
 import { evaluateExpressions } from "./expressions";
+import { addHiddenBreakpoint, removeBreakpoint } from "./breakpoints";
+import { getHiddenBreakpoint } from "../reducers/breakpoints";
+import * as parser from "../utils/parser";
 
 import type { Pause, Frame } from "../types";
 import type { ThunkArgs } from "./types";
@@ -117,7 +120,7 @@ export function command({ type }: CommandType) {
 export function stepIn() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(command({ type: "stepIn" }));
+      return dispatch(AstCommand("stepIn"));
     }
   };
 }
@@ -131,7 +134,7 @@ export function stepIn() {
 export function stepOver() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(command({ type: "stepOver" }));
+      return dispatch(AstCommand("stepOver"));
     }
   };
 }
@@ -145,7 +148,7 @@ export function stepOver() {
 export function stepOut() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(command({ type: "stepOut" }));
+      return dispatch(AstCommand("stepOut"));
     }
   };
 }
@@ -221,5 +224,31 @@ export function loadObjectProperties(object: any) {
       objectId,
       [PROMISE]: client.getProperties(object)
     });
+  };
+}
+
+/**
+ * @memberOf actions/pause
+ * @static
+ * @param stepType
+ * @returns {function(ThunkArgs)}
+ */
+export function AstCommand(stepType: string) {
+  return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
+    const pauseInfo = getPause(getState());
+    const source = getSelectedSource(getState()).toJS();
+    const currentHiddenBreakpointLocation = getHiddenBreakpoint(getState());
+    if (currentHiddenBreakpointLocation) {
+      dispatch(removeBreakpoint(currentHiddenBreakpointLocation));
+    }
+    const pausedPosition = await getPausedPosition(pauseInfo, sourceMaps);
+    const {
+      nextStepType,
+      nextHiddenBreakpointLocation
+    } = await parser.getNextStep(source, stepType, pausedPosition);
+    if (nextHiddenBreakpointLocation) {
+      await dispatch(addHiddenBreakpoint(nextHiddenBreakpointLocation));
+    }
+    return dispatch(command({ type: nextStepType }));
   };
 }

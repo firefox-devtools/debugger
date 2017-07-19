@@ -24,6 +24,7 @@ import {
 import type { Breakpoint, PendingBreakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
+import { createSelector } from "reselect";
 
 export type BreakpointMap = I.Map<string, Breakpoint>;
 export type PendingBreakpointMap = I.Map<string, PendingBreakpoint>;
@@ -344,6 +345,25 @@ export function getBreakpointsForSource(state: OuterState, sourceId: string) {
     return location.sourceId === sourceId;
   });
 }
+
+export const getHiddenBreakpoints = createSelector(getBreakpoints, function(
+  breakpoints
+) {
+  return breakpoints
+    .valueSeq()
+    .filter(breakpoint => breakpoint.has("hidden"))
+    .map(hiddenBreakpoint => hiddenBreakpoint.get("location"));
+});
+
+export const getHiddenBreakpoint = createSelector(
+  getHiddenBreakpoints,
+  hiddenBreakpoints => {
+    if (hiddenBreakpoints.length) {
+      return hiddenBreakpoints[0];
+    }
+    return null;
+  }
+);
 
 /* ***** START: Transitional Code. Remove when prefs reducer is added *****/
 function addPendingBreakpoint(state, action) {

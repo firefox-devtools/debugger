@@ -95,12 +95,22 @@ export function syncBreakpoint(
  * @param {Boolean} $1.disabled Disable value for breakpoint value
  */
 
-export function addBreakpoint(location: Location, condition: ?string) {
-  const breakpoint = createBreakpoint(location, { condition });
+export function addBreakpoint(
+  location: Location,
+  condition: ?string,
+  hidden: ?boolean
+) {
+  const breakpoint = createBreakpoint(location, { condition, hidden });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     const action = { type: "ADD_BREAKPOINT", breakpoint };
     const promise = addBreakpointPromise(getState, client, sourceMaps, action);
     return dispatch({ ...action, [PROMISE]: promise });
+  };
+}
+
+export function addHiddenBreakpoint(location: Location) {
+  return ({ dispatch }: ThunkArgs) => {
+    return dispatch(addBreakpoint(location, "", true));
   };
 }
 
@@ -215,7 +225,7 @@ export function setBreakpointCondition(
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
     if (!bp) {
-      return dispatch(addBreakpoint(location, condition));
+      return dispatch(addBreakpoint(location, condition, false));
     }
 
     if (bp.loading) {
