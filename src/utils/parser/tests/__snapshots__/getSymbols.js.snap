@@ -39,6 +39,7 @@ identifiers
 [(21, 4), (21, 17)]  otherProperty otherProperty 
 [(23, 6), (23, 11)]  Ultra Ultra 
 [(24, 2), (24, 13)]  constructor constructor 
+[(25, 4), (25, 8)] [(25, 4), (25, 8)] this this 
 [(25, 9), (25, 16)]  awesome awesome 
 [(28, 2), (28, 11)]  beAwesome beAwesome 
 [(28, 12), (28, 18)]  person person 
@@ -91,6 +92,7 @@ call expressions
 identifiers
 [(1, 6), (1, 10)]  Test Test 
 [(2, 2), (2, 13)]  constructor constructor 
+[(3, 4), (3, 8)] [(3, 4), (3, 8)] this this 
 [(3, 9), (3, 12)]  foo foo 
 [(6, 2), (6, 5)]  bar bar 
 [(6, 6), (6, 7)]  a a 
@@ -419,6 +421,7 @@ identifiers
 [(9, 12), (9, 15)]  log log 
 [(9, 22), (9, 23)]  b b 
 [(11, 2), (11, 8)]  render render 
+[(12, 11), (12, 15)] [(12, 11), (12, 15)] this this 
 variables
 [(1, 6), (1, 25)]   foo 
 [(3, 6), (3, 20)]   bar 
