@@ -56,7 +56,7 @@ export default class TextSearch extends Component {
     return dom.div(
       {
         className: classnames("file-result", { focused }),
-        key: file.filepath,
+        key: file.id,
         onClick: e => setExpanded(file, !expanded)
       },
       Svg("arrow", {
@@ -66,7 +66,7 @@ export default class TextSearch extends Component {
       }),
       dom.span({ className: "file-path" }, file.filepath),
       dom.span(
-        { className: "matches-summary", key: `m-${file.filepath}` },
+        { className: "matches-summary" },
         ` (${file.matches.length} match${file.matches.length > 1 ? "es" : ""})`
       )
     );
@@ -76,7 +76,6 @@ export default class TextSearch extends Component {
     return dom.div(
       {
         className: classnames("result", { focused }),
-        key: `${match.line}-${match.column}`,
         onClick: () => this.selectMatchItem(match)
       },
       dom.span(
@@ -149,7 +148,8 @@ export default class TextSearch extends Component {
       autoExpandDepth: 1,
       focused: results[0],
       getParent: item => null,
-      getKey: item => item.filepath,
+      getKey: item =>
+        item.filepath ? `${item.id}` : `${item.id}-${item.line}-${item.column}`,
       renderItem: (item, depth, focused, _, expanded, { setExpanded }) =>
         item.filepath
           ? this.renderFile(item, focused, expanded, setExpanded)
