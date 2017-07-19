@@ -15,6 +15,7 @@ export function searchSource(source, queryText) {
 
       while ((result = query.exec(_text))) {
         indices.push({
+          id: source.id,
           line: line + 1,
           column: result.index,
           match: result[0],

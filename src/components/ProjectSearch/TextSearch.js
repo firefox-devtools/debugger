@@ -15,19 +15,16 @@ export default class TextSearch extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
-      //results: [],
       inputValue: this.props.query || ""
-      //selectedIndex: 0,
-      //focused: false
     };
 
     this.inputOnChange = this.inputOnChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.close = this.close.bind(this);
+    this.selectMatchItem = this.selectMatchItem.bind(this);
   }
 
   close() {
-    //this.setState({ inputValue: "", results: [], selectedIndex: 0 });
     this.props.closeActiveSearch();
   }
 
@@ -44,12 +41,6 @@ export default class TextSearch extends Component {
     if (this.state.inputValue !== this.props.query) {
       this.props.searchSources(this.state.inputValue);
     }
-
-    /*this.setState({
-      results,
-      inputValue,
-      selectedIndex: 0
-    });*/
   }
 
   inputOnChange(e) {
@@ -57,10 +48,11 @@ export default class TextSearch extends Component {
     this.setState({ inputValue });
   }
 
+  selectMatchItem(matchItem) {
+    this.props.selectSource(matchItem.id);
+  }
+
   renderFile(file, focused, expanded, setExpanded) {
-    if (file.matches.length === 0) {
-      return null;
-    }
     return dom.div(
       {
         className: classnames("file-result", { focused }),
@@ -84,8 +76,8 @@ export default class TextSearch extends Component {
     return dom.div(
       {
         className: classnames("result", { focused }),
-        key: `${match.filepath}-${match.line}-${match.column}`,
-        onClick: () => console.log(`clicked ${match}`)
+        key: `${match.line}-${match.column}`,
+        onClick: () => this.selectMatchItem(match)
       },
       dom.span(
         {
@@ -145,14 +137,17 @@ export default class TextSearch extends Component {
   }
 
   renderResults() {
+    const { results } = this.props;
+    results = results.filter(result => result.matches.length > 0);
     return ManagedTree({
-      getRoots: () => this.props.results,
+      getRoots: () => results,
       getChildren: file => {
         return file.matches || [];
       },
       itemHeight: 20,
       autoExpand: 1,
       autoExpandDepth: 1,
+      focused: results[0],
       getParent: item => null,
       getKey: item => item.filepath,
       renderItem: (item, depth, focused, _, expanded, { setExpanded }) =>
@@ -209,7 +204,8 @@ TextSearch.propTypes = {
   query: PropTypes.string,
   closeActiveSearch: PropTypes.func,
   loadAllSources: PropTypes.func,
-  searchSources: PropTypes.func
+  searchSources: PropTypes.func,
+  selectSource: PropTypes.func
 };
 
 TextSearch.displayName = "TextSearch";
