@@ -160,6 +160,10 @@ type EvaluateParam = {
 
 function evaluate(script: Script, { frameId }: EvaluateParam) {
   const params = frameId ? { frameActor: frameId } : {};
+  if (!tabTarget || !tabTarget.activeConsole) {
+    return Promise.resolve();
+  }
+
   return new Promise(resolve => {
     tabTarget.activeConsole.evaluateJS(
       script,
