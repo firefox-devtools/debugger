@@ -37,7 +37,8 @@
   margin: 0;
 }
 
-:root.theme-light .frames .location, :root.theme-firebug .frames .location {
+:root.theme-light .frames .location,
+:root.theme-firebug .frames .location {
   color: var(--theme-comment);
 }
 
@@ -52,12 +53,14 @@
   margin-right: 1em;
 }
 
-.frames ul li:hover, .frames ul li:focus {
+.frames ul li:hover,
+.frames ul li:focus {
   background-color: var(--theme-toolbar-background-alt);
   outline: none;
 }
 
-.theme-dark .frames ul li:hover, .theme-dark .frames ul li:focus {
+.theme-dark .frames ul li:hover,
+.theme-dark .frames ul li:focus {
   background-color: var(--theme-tab-toolbar-background);
 }
 

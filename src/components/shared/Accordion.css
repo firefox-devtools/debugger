@@ -28,7 +28,8 @@
   background-color: var(--theme-toolbar-background-hover);
 }
 
-.accordion ._header button svg, .accordion ._header:hover button svg {
+.accordion ._header button svg,
+.accordion ._header:hover button svg {
   fill: currentColor;
   height: 16px;
 }

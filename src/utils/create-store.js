@@ -72,9 +72,10 @@ const configureStore = (opts: ReduxStoreOptions = {}) => {
   }
 
   // Hook in the redux devtools browser extension if it exists
-  const devtoolsExt = typeof window === "object" && window.devToolsExtension
-    ? window.devToolsExtension()
-    : f => f;
+  const devtoolsExt =
+    typeof window === "object" && window.devToolsExtension
+      ? window.devToolsExtension()
+      : f => f;
 
   return applyMiddleware(...middleware)(devtoolsExt(createStore));
 };

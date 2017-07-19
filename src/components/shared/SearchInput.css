@@ -39,17 +39,20 @@
   color: var(--theme-body-color-inactive);
 }
 
-.search-field i.magnifying-glass, .search-field i.sad-face {
+.search-field i.magnifying-glass,
+.search-field i.sad-face {
   padding: 6px;
   width: 24px;
 }
 
-.search-field.big i.magnifying-glass, .search-field.big i.sad-face {
+.search-field.big i.magnifying-glass,
+.search-field.big i.sad-face {
   padding: 14px;
   width: 40px;
 }
 
-.search-field .magnifying-glass path, .search-field .magnifying-glass ellipse {
+.search-field .magnifying-glass path,
+.search-field .magnifying-glass ellipse {
   stroke: var(--theme-splitter-color);
 }
 

@@ -40,9 +40,8 @@ function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
 
 function renderSourceLocation(source, line, column) {
   const filename = source ? getFilename(source.toJS()) : null;
-  const columnVal = isEnabled("columnBreakpoints") && column
-    ? `:${column}`
-    : "";
+  const columnVal =
+    isEnabled("columnBreakpoints") && column ? `:${column}` : "";
   const bpLocation = `${line}${columnVal}`;
 
   return filename

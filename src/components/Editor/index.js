@@ -568,9 +568,10 @@ class Editor extends PureComponent {
     }
 
     return {
-      height: subtractions.length === 0
-        ? "100%"
-        : `calc(100% - ${subtractions.join(" - ")})`
+      height:
+        subtractions.length === 0
+          ? "100%"
+          : `calc(100% - ${subtractions.join(" - ")})`
     };
   }
 
