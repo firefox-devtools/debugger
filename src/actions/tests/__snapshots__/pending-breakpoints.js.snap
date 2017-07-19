@@ -11,9 +11,7 @@ Object {
     "sourceUrl": "http://localhost:8000/examples/bar.js",
   },
   "id": "bar.js:7:",
-  "loading": false,
   "location": Object {
-    "column": undefined,
     "line": 7,
     "sourceId": "bar.js",
     "sourceUrl": "http://localhost:8000/examples/bar.js",
@@ -28,7 +26,6 @@ Object {
   "generatedLocation": Object {
     "column": undefined,
     "line": 7,
-    "sourceId": "bar.js",
     "sourceUrl": "http://localhost:8000/examples/bar.js",
   },
   "location": Object {
@@ -39,14 +36,13 @@ Object {
 }
 `;
 
-exports[`initializing when pending breakpoints exist in perfs syncs pending breakpoints 1`] = `
+exports[`initializing when pending breakpoints exist in prefs syncs pending breakpoints 1`] = `
 Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
     "column": undefined,
     "line": 5,
-    "sourceId": "server1.conn76.child1/30",
     "sourceUrl": "http://localhost:8000/examples/bar.js",
   },
   "location": Object {
@@ -62,14 +58,14 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
+    "column": undefined,
     "line": 7,
-    "sourceId": "foo",
-    "sourceUrl": "http://localhost:8000/examples/foo",
+    "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
   "location": Object {
     "column": undefined,
     "line": 7,
-    "sourceUrl": "http://localhost:8000/examples/foo",
+    "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
 }
 `;
@@ -79,14 +75,14 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
+    "column": undefined,
     "line": 5,
-    "sourceId": "foo",
-    "sourceUrl": "http://localhost:8000/examples/foo",
+    "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
   "location": Object {
     "column": undefined,
     "line": 5,
-    "sourceUrl": "http://localhost:8000/examples/foo",
+    "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
 }
 `;
@@ -96,8 +92,8 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
+    "column": undefined,
     "line": 5,
-    "sourceId": "foo",
     "sourceUrl": "http://localhost:8000/examples/foo",
   },
   "location": Object {
@@ -113,8 +109,8 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
+    "column": undefined,
     "line": 5,
-    "sourceId": "foo2",
     "sourceUrl": "http://localhost:8000/examples/foo2",
   },
   "location": Object {

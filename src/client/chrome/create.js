@@ -8,7 +8,8 @@ export function fromServerLocation(serverLocation?: ServerLocation): ?Location {
     return {
       sourceId: serverLocation.scriptId,
       line: serverLocation.lineNumber + 1,
-      column: serverLocation.columnNumber
+      column: serverLocation.columnNumber,
+      sourceUrl: ""
     };
   }
 }

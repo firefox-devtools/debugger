@@ -57,7 +57,7 @@
     },
     "columnBreakpoints": {
       "label": "Column Breakpoints",
-      "enabled": true
+      "enabled": false
     },
     "projectTextSearch": {
       "label": "Project Text Search",

@@ -12,9 +12,14 @@ import {
 describe("breakpoints", () => {
   it("should add a breakpoint", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
-    const loc1 = { sourceId: "a", line: 5 };
-
+    const loc1 = {
+      sourceId: "a",
+      line: 5,
+      sourceUrl: "http://localhost:8000/examples/a"
+    };
+    await dispatch(actions.newSource(makeSource("a")));
     await dispatch(actions.addBreakpoint(loc1));
+
     const bps = selectors.getBreakpoints(getState());
     const bp = selectors.getBreakpoint(getState(), loc1);
     expect(bps.size).toBe(1);
@@ -23,8 +28,13 @@ describe("breakpoints", () => {
 
   it("should not re-add a breakpoint", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
-    const loc1 = { sourceId: "a", line: 5 };
+    const loc1 = {
+      sourceId: "a",
+      line: 5,
+      sourceUrl: "http://localhost:8000/examples/a"
+    };
 
+    await dispatch(actions.newSource(makeSource("a")));
     await dispatch(actions.addBreakpoint(loc1));
     let bps = selectors.getBreakpoints(getState());
     const bp = selectors.getBreakpoint(getState(), loc1);
@@ -38,13 +48,18 @@ describe("breakpoints", () => {
 
   describe("adding a breakpoint to an invalid location", async () => {
     it("adds only one breakpoint with a corrected location", async () => {
-      const invalidLocation = { sourceId: "a", line: 5 };
+      const invalidLocation = {
+        sourceId: "a",
+        line: 5,
+        sourceUrl: "http://localhost:8000/examples/a"
+      };
       const {
         correctedThreadClient,
         correctedLocation
       } = simulateCorrectThreadClient(2, invalidLocation);
       const { dispatch, getState } = createStore(correctedThreadClient);
 
+      await dispatch(actions.newSource(makeSource("a")));
       await dispatch(actions.addBreakpoint(invalidLocation));
       const state = getState();
       const bps = selectors.getBreakpoints(state);
@@ -57,9 +72,20 @@ describe("breakpoints", () => {
   it("should remove a breakpoint", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
-    const loc1 = { sourceId: "a", line: 5 };
-    const loc2 = { sourceId: "b", line: 6 };
+    const loc1 = {
+      sourceId: "a",
+      line: 5,
+      sourceUrl: "http://localhost:8000/examples/a"
+    };
 
+    const loc2 = {
+      sourceId: "b",
+      line: 6,
+      sourceUrl: "http://localhost:8000/examples/b"
+    };
+
+    await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.newSource(makeSource("b")));
     await dispatch(actions.addBreakpoint(loc1));
     await dispatch(actions.addBreakpoint(loc2));
 
@@ -71,8 +97,20 @@ describe("breakpoints", () => {
   it("should disable a breakpoint", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
-    const loc1 = { sourceId: "a", line: 5 };
-    const loc2 = { sourceId: "b", line: 6 };
+    const loc1 = {
+      sourceId: "a",
+      line: 5,
+      sourceUrl: "http://localhost:8000/examples/a"
+    };
+
+    const loc2 = {
+      sourceId: "b",
+      line: 6,
+      sourceUrl: "http://localhost:8000/examples/b"
+    };
+
+    await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.newSource(makeSource("b")));
 
     await dispatch(actions.addBreakpoint(loc1));
     await dispatch(actions.addBreakpoint(loc2));
@@ -84,8 +122,13 @@ describe("breakpoints", () => {
 
   it("should enable breakpoint", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
-    const loc = { sourceId: "a", line: 5 };
+    const loc = {
+      sourceId: "a",
+      line: 5,
+      sourceUrl: "http://localhost:8000/examples/a"
+    };
 
+    await dispatch(actions.newSource(makeSource("a")));
     await dispatch(actions.addBreakpoint(loc));
     await dispatch(actions.disableBreakpoint(loc));
 
@@ -99,9 +142,20 @@ describe("breakpoints", () => {
   it("should toggle all the breakpoints", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
-    const loc1 = { sourceId: "a", line: 5 };
-    const loc2 = { sourceId: "b", line: 6 };
+    const loc1 = {
+      sourceId: "a",
+      line: 5,
+      sourceUrl: "http://localhost:8000/examples/a"
+    };
 
+    const loc2 = {
+      sourceId: "b",
+      line: 6,
+      sourceUrl: "http://localhost:8000/examples/b"
+    };
+
+    await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.newSource(makeSource("b")));
     await dispatch(actions.addBreakpoint(loc1));
     await dispatch(actions.addBreakpoint(loc2));
 
@@ -194,8 +248,13 @@ describe("breakpoints", () => {
   it("should set the breakpoint condition", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
-    const loc = { sourceId: "a", line: 5 };
+    const loc = {
+      sourceId: "a",
+      line: 5,
+      sourceUrl: "http://localhost:8000/examples/a"
+    };
 
+    await dispatch(actions.newSource(makeSource("a")));
     await dispatch(actions.addBreakpoint(loc));
 
     expect(selectors.getBreakpoint(getState(), loc).condition).toBe(null);

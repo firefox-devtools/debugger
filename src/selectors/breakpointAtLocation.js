@@ -45,6 +45,10 @@ function findBreakpointAtLocation(
       return false;
     }
 
+    if (column === undefined) {
+      return true;
+    }
+
     return location.column === getColumn(column, selectedSource);
   });
 }

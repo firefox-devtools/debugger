@@ -1,9 +1,23 @@
 import {
   getGeneratedLocation,
   locationMoved,
-  breakpointExists
+  breakpointExists,
+  assertBreakpoint,
+  assertLocation
 } from "../../utils/breakpoint";
 import { getSource } from "../../selectors";
+
+async function _getGeneratedLocation(state, source, sourceMaps, location) {
+  const generatedLocation = await getGeneratedLocation(
+    source,
+    sourceMaps,
+    location
+  );
+
+  const generatedSource = getSource(state, generatedLocation.sourceId);
+  const sourceUrl = generatedSource.get("url");
+  return { ...generatedLocation, sourceUrl };
+}
 
 export default async function addBreakpoint(
   getState,
@@ -12,36 +26,50 @@ export default async function addBreakpoint(
   { breakpoint }
 ) {
   const state = getState();
-  if (breakpointExists(state, breakpoint.location)) {
-    return { breakpoint };
-  }
 
   const source = getSource(state, breakpoint.location.sourceId);
-  const generatedLocation = await getGeneratedLocation(
+  const location = { ...breakpoint.location, sourceUrl: source.get("url") };
+  const generatedLocation = await _getGeneratedLocation(
+    state,
     source,
     sourceMaps,
-    breakpoint.location
+    location
   );
+
+  assertLocation(location);
+  assertLocation(generatedLocation);
+
+  if (breakpointExists(state, location)) {
+    const newBreakpoint = { ...breakpoint, location, generatedLocation };
+    assertBreakpoint(newBreakpoint);
+    return { breakpoint: newBreakpoint };
+  }
 
   const { id, hitCount, actualLocation } = await client.setBreakpoint(
     generatedLocation,
     breakpoint.condition,
-    sourceMaps.isOriginalId(breakpoint.location.sourceId)
+    sourceMaps.isOriginalId(location.sourceId)
   );
 
-  const location = await sourceMaps.getOriginalLocation(actualLocation);
+  const newGeneratedLocation = actualLocation || generatedLocation;
+  const newLocation = await sourceMaps.getOriginalLocation(
+    newGeneratedLocation
+  );
 
   const newBreakpoint = {
-    ...breakpoint,
     id,
+    disabled: false,
     loading: false,
-    location,
+    condition: breakpoint.condition,
+    location: newLocation,
     hitCount,
-    generatedLocation: actualLocation
+    generatedLocation: newGeneratedLocation
   };
 
-  const previousLocation = locationMoved(breakpoint.location, location)
-    ? breakpoint.location
+  assertBreakpoint(newBreakpoint);
+
+  const previousLocation = locationMoved(location, newLocation)
+    ? location
     : null;
 
   return {

@@ -21,7 +21,6 @@ export function mockPendingBreakpoint(overrides = {}) {
     },
     generatedLocation: {
       sourceUrl: sourceUrl || "http://localhost:8000/examples/bar.js",
-      sourceId: "server1.conn76.child1/30",
       line: line || 5,
       column: column || undefined
     },

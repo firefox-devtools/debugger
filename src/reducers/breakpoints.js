@@ -9,36 +9,25 @@
  */
 
 import * as I from "immutable";
-import { omit } from "lodash";
 import makeRecord from "../utils/makeRecord";
-import { isGeneratedId } from "devtools-source-map";
-import { prefs } from "../utils/prefs";
-import {
-  createPendingBreakpoint,
-  locationMoved,
-  makeLocationId,
-  makePendingLocationId,
-  allBreakpointsDisabled
-} from "../utils/breakpoint";
 
-import type { Breakpoint, PendingBreakpoint, Location } from "../types";
+import { isGeneratedId } from "devtools-source-map";
+import { makeLocationId } from "../utils/breakpoint";
+
+import type { Breakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type BreakpointMap = I.Map<string, Breakpoint>;
-export type PendingBreakpointMap = I.Map<string, PendingBreakpoint>;
 
 export type BreakpointsState = {
-  breakpoints: BreakpointMap,
-  pendingBreakpoints: PendingBreakpointMap,
-  breakpointsDisabled: false
+  breakpoints: BreakpointMap
 };
 
 export function initialState(): Record<BreakpointsState> {
   return makeRecord(
     ({
       breakpoints: I.Map(),
-      pendingBreakpoints: restorePendingBreakpoints(),
       breakpointsDisabled: false
     }: BreakpointsState)
   )();
@@ -50,52 +39,27 @@ function update(
 ) {
   switch (action.type) {
     case "ADD_BREAKPOINT": {
-      const newState = addBreakpoint(state, action);
-      // TODO: remove this when we have a prefs reducer
-      const stateWithShim = addPendingBreakpoint(newState, action);
-      addPrefBreakpoint(newState, action);
-
-      return stateWithShim;
+      return addBreakpoint(state, action);
     }
 
     case "SYNC_BREAKPOINT": {
-      const newState = syncBreakpoint(state, action);
-      setPendingBreakpoints(newState);
-      return newState;
+      return addBreakpoint(state, action);
     }
 
     case "ENABLE_BREAKPOINT": {
-      const newState = enableBreakpoint(state, action);
-      setPendingBreakpoints(newState);
-      return newState;
-    }
-
-    case "REMOVE_BREAKPOINT": {
-      const newState = removeBreakpoint(state, action);
-      setPendingBreakpoints(newState);
-      return newState;
+      return addBreakpoint(state, action);
     }
 
     case "DISABLE_BREAKPOINT": {
-      const newState = disableBreakpoint(state, action);
-      setPendingBreakpoints(newState);
-      return newState;
-    }
-
-    case "TOGGLE_BREAKPOINTS": {
-      if (action.status === "start") {
-        return state.set(
-          "breakpointsDisabled",
-          action.shouldDisableBreakpoints
-        );
-      }
-      break;
+      return updateBreakpoint(state, action);
     }
 
     case "SET_BREAKPOINT_CONDITION": {
-      const newState = setCondition(state, action);
-      setPendingBreakpoints(newState);
-      return newState;
+      return updateBreakpoint(state, action);
+    }
+
+    case "REMOVE_BREAKPOINT": {
+      return removeBreakpoint(state, action);
     }
   }
 
@@ -108,6 +72,7 @@ function addBreakpoint(state, action) {
     const locationId = makeLocationId(breakpoint.location);
     return state.setIn(["breakpoints", locationId], breakpoint);
   }
+
   // when the action completes, we can commit the breakpoint
   if (action.status === "done") {
     const { value: { breakpoint, previousLocation } } = action;
@@ -122,182 +87,25 @@ function addBreakpoint(state, action) {
     return state.setIn(["breakpoints", locationId], breakpoint);
   }
 
-  // Remove the optimistic update and pending breakpoint
-  const locationId = makeLocationId(action.breakpoint.location);
-  return state.deleteIn(["breakpoints", locationId]);
-}
-
-function syncBreakpoint(state, action) {
-  if (action.status === "start") {
-    // add a breakpoint, so we always have something to work with
-    return optimisticlyAddBreakpoint(state, action.breakpoint);
-  }
-  if (action.status === "done") {
-    // when the action completes, we can commit the breakpoint
-    const { breakpoint, value: { actualLocation, generatedLocation } } = action;
-    const sameLocation = !locationMoved(breakpoint.location, actualLocation);
-
-    // if the breakpoint is the same as the optimistic breakpoint, we can commit
-    // to the optimistic value.
-    if (sameLocation) {
-      return commitBreakpoint(state, breakpoint, action.value);
-    }
-
-    // if the breakpoint is not the same, we will use the actual location sent
-    // by the server, and correct the breakpoint with that new information.
-    // Correcting a breakpoint deletes both the pending breakpoint and the
-    // optimistic breakpoint. Correcting will commit the corrected value
-    const overrides = { location: actualLocation, generatedLocation };
-    const updatedState = correctBreakpoint(state, breakpoint, overrides);
-    const id = makeLocationId(actualLocation);
-
-    // once the corrected breakpoint is added and commited, we can update the
-    // pending breakpoints with that information.
-    const correctedBreakpoint = updatedState.breakpoints.get(id);
-    return updatePendingBreakpoint(updatedState, correctedBreakpoint);
-  }
-
+  // Remove the optimistic update
   if (action.status === "error") {
-    // Remove the optimistic update and pending breakpoint
-    return deleteBreakpoint(state, action.breakpoint.location);
-  }
-}
-
-function enableBreakpoint(state, action) {
-  if (action.status != "done") {
-    return state;
+    const locationId = makeLocationId(action.breakpoint.location);
+    return state.deleteIn(["breakpoints", locationId]);
   }
 
-  const id = makeLocationId(action.breakpoint.location);
-  const bp = state.breakpoints.get(id);
-  const updatedBreakpoint = {
-    ...bp,
-    id: action.value.id,
-    loading: false,
-    disabled: false
-  };
-  const updatedState = state.setIn(["breakpoints", id], updatedBreakpoint);
-  return updatePendingBreakpoint(updatedState, updatedBreakpoint);
+  return state;
 }
 
-function disableBreakpoint(state, action) {
-  if (action.status != "done") {
-    return state;
-  }
-  const id = makeLocationId(action.breakpoint.location);
-  const bp = state.breakpoints.get(id);
-  const breakpoint = {
-    ...bp,
-    loading: false,
-    disabled: true
-  };
-
-  const updatedState = state.setIn(["breakpoints", id], breakpoint);
-  return updatePendingBreakpoint(updatedState, breakpoint);
-}
-
-function deleteBreakpoint(state, location) {
-  const id = makeLocationId(location);
-  const pendingId = makePendingLocationId(location);
-
-  return state
-    .deleteIn(["breakpoints", id])
-    .deleteIn(["pendingBreakpoints", pendingId]);
+function updateBreakpoint(state, action) {
+  const { breakpoint } = action;
+  const locationId = makeLocationId(breakpoint.location);
+  return state.setIn(["breakpoints", locationId], breakpoint);
 }
 
 function removeBreakpoint(state, action) {
-  if (action.status != "done") {
-    return state;
-  }
-
-  const updatedState = deleteBreakpoint(state, action.breakpoint.location);
-
-  return updatedState.set(
-    "breakpointsDisabled",
-    allBreakpointsDisabled(updatedState)
-  );
-}
-
-function setCondition(state, action) {
-  const id = makeLocationId(action.breakpoint.location);
-
-  if (action.status === "start") {
-    const bp = state.breakpoints.get(id);
-    return state.setIn(["breakpoints", id], {
-      ...bp,
-      loading: true,
-      condition: action.condition
-    });
-  }
-
-  if (action.status === "done") {
-    const bp = state.breakpoints.get(id);
-    const updatedBreakpoint = { ...bp, loading: false };
-    const updatedState = state.setIn(["breakpoints", id], updatedBreakpoint);
-
-    return updatePendingBreakpoint(updatedState, updatedBreakpoint);
-  }
-
-  if (action.status === "error") {
-    return state.deleteIn(["breakpoints", id]);
-  }
-}
-
-// Syncing Methods
-function optimisticlyAddBreakpoint(state, breakpoint) {
+  const { breakpoint } = action;
   const id = makeLocationId(breakpoint.location);
-  const updateOpts = {
-    loading: true
-  };
-
-  return state.setIn(["breakpoints", id], { ...breakpoint, ...updateOpts });
-}
-
-function commitBreakpoint(state, breakpoint, overrides = {}) {
-  // A commited breakpoint is no longer loading, and acts like a normal
-  // breakpoint
-  const location = overrides.location || breakpoint.location;
-  const id = makeLocationId(location);
-  const updatedOpts = { ...overrides, loading: false };
-  const updatedBreakpoint = { ...breakpoint, ...updatedOpts };
-
-  return state.setIn(["breakpoints", id], updatedBreakpoint);
-}
-
-function correctBreakpoint(state, breakpoint, overrides) {
-  const intermState = deleteBreakpoint(state, breakpoint.location);
-  const newLocationId = makeLocationId(overrides.location);
-  const newProperties = { id: newLocationId, ...overrides };
-
-  return commitBreakpoint(intermState, breakpoint, newProperties);
-}
-
-export function makePendingBreakpoint(bp: any) {
-  const {
-    location: { sourceUrl, line, column },
-    condition,
-    disabled,
-    generatedLocation
-  } = bp;
-
-  const location = { sourceUrl, line, column };
-  return { condition, disabled, generatedLocation, location };
-}
-
-function setPendingBreakpoints(state: any) {
-  prefs.pendingBreakpoints = state.pendingBreakpoints;
-}
-
-function updatePendingBreakpoint(state, breakpoint) {
-  const id = makePendingLocationId(breakpoint.location);
-  return state.setIn(
-    ["pendingBreakpoints", id],
-    makePendingBreakpoint(breakpoint)
-  );
-}
-
-function restorePendingBreakpoints() {
-  return I.Map(prefs.pendingBreakpoints);
+  return state.deleteIn(["breakpoints", id]);
 }
 
 // Selectors
@@ -305,17 +113,17 @@ function restorePendingBreakpoints() {
 
 type OuterState = { breakpoints: Record<BreakpointsState> };
 
+export function getBreakpoints(state: OuterState) {
+  return state.breakpoints.breakpoints;
+}
+
 export function getBreakpoint(state: OuterState, location: Location) {
   const breakpoints = getBreakpoints(state);
   return breakpoints.get(makeLocationId(location));
 }
 
-export function getBreakpoints(state: OuterState) {
-  return state.breakpoints.get("breakpoints");
-}
-
 export function getBreakpointsDisabled(state: OuterState): boolean {
-  return state.breakpoints.get("breakpointsDisabled");
+  return state.breakpoints.breakpoints.every(x => x.disabled);
 }
 
 export function getBreakpointsLoading(state: OuterState) {
@@ -323,10 +131,6 @@ export function getBreakpointsLoading(state: OuterState) {
   const isLoading = !!breakpoints.valueSeq().filter(bp => bp.loading).first();
 
   return breakpoints.size > 0 && isLoading;
-}
-
-export function getPendingBreakpoints(state: OuterState) {
-  return state.breakpoints.pendingBreakpoints;
 }
 
 export function getBreakpointsForSource(state: OuterState, sourceId: string) {
@@ -344,48 +148,5 @@ export function getBreakpointsForSource(state: OuterState, sourceId: string) {
     return location.sourceId === sourceId;
   });
 }
-
-/* ***** START: Transitional Code. Remove when prefs reducer is added *****/
-function addPendingBreakpoint(state, action) {
-  if (action.status === "done") {
-    const { value: { breakpoint, previousLocation } } = action;
-    const pendingBreakpoint = createPendingBreakpoint(breakpoint);
-    const locationId = makePendingLocationId(pendingBreakpoint.location);
-
-    if (previousLocation) {
-      const previousLocationId = makePendingLocationId(previousLocation);
-      return state
-        .deleteIn(["pendingBreakpoints", previousLocationId])
-        .setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
-    }
-
-    return state.setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
-  }
-
-  return state;
-}
-
-function addPrefBreakpoint(state, action) {
-  if (action.status === "done") {
-    const { value: { breakpoint, previousLocation } } = action;
-    const pendingBreakpoints = prefs.pendingBreakpoints;
-
-    const newPendingBreakpoint = createPendingBreakpoint(breakpoint);
-    const id = newPendingBreakpoint.id;
-
-    if (previousLocation) {
-      const previousLocationId = makePendingLocationId(previousLocation);
-      // option: we can use delete here instead; however it is modifying
-      // prefs directly, so I preferend the functional approach. It is slower
-      const newState = omit(pendingBreakpoints, [previousLocationId]);
-      return { ...newState, [id]: newPendingBreakpoint };
-    }
-
-    return { ...pendingBreakpoints, [id]: newPendingBreakpoint };
-  }
-  return prefs.pendingBreakpoints;
-}
-
-/* ******* END: Transitional Code. Remove when prefs reducer is added *******/
 
 export default update;
