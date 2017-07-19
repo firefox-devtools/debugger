@@ -45,7 +45,8 @@
 .sources-list {
   flex: 1;
   display: flex;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .theme-dark .sources-list .tree .node:not(.focused) svg {
