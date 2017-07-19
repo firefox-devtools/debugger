@@ -79,6 +79,23 @@ export function clearSelection() {
   };
 }
 
+function findBestMatch(symbols, tokenPos, token) {
+  const { memberExpressions, identifiers } = symbols;
+  const { line, column } = tokenPos;
+  return identifiers.concat(memberExpressions).reduce((found, expression) => {
+    const overlaps =
+      expression.location.start.line == line &&
+      expression.location.start.column <= column &&
+      expression.location.end.column >= column;
+
+    if (overlaps) {
+      return expression;
+    }
+
+    return found;
+  }, {});
+}
+
 export function setSelection(
   token: string,
   tokenPos: AstLocation,
@@ -94,17 +111,14 @@ export function setSelection(
       type: "SET_SELECTION",
       [PROMISE]: (async function() {
         const source = getSelectedSource(getState());
-        const closestExpression = await parser.getClosestExpression(
-          source.toJS(),
-          token,
-          tokenPos
-        );
+        const _symbols = await parser.getSymbols(source.toJS());
 
-        if (!closestExpression) {
+        const found = findBestMatch(_symbols, tokenPos, token);
+        if (!found) {
           return;
         }
 
-        const { expression, location } = closestExpression;
+        const { expression, location } = found;
 
         if (!expression) {
           return;
@@ -114,6 +128,10 @@ export function setSelection(
         const { result } = await client.evaluate(expression, {
           frameId: selectedFrame.id
         });
+
+        if (!result) {
+          return;
+        }
 
         return {
           expression,

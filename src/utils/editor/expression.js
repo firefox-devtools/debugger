@@ -10,7 +10,7 @@ export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
   });
 
   return {
-    line: line,
+    line: line + 1,
     column: ch
   };
 }

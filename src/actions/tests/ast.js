@@ -23,9 +23,7 @@ const threadClient = {
   },
   evaluate: function(expression) {
     return new Promise((resolve, reject) =>
-      resolve({
-        evaluationResult
-      })
+      resolve({ result: evaluationResult[expression] })
     );
   }
 };
@@ -37,7 +35,8 @@ const sourceTexts = {
 };
 
 const evaluationResult = {
-  "this.bazz": { actor: "bazz", preview: {} }
+  "this.bazz": { actor: "bazz", preview: {} },
+  this: { actor: "this", preview: {} }
 };
 
 describe("ast", () => {
@@ -103,8 +102,14 @@ describe("ast", () => {
   });
 
   describe("setSelection", () => {
-    it("simple", async () => {
-      const { dispatch, getState } = createStore(threadClient);
+    let dispatch = undefined;
+    let getState = undefined;
+
+    beforeEach(async () => {
+      const store = createStore(threadClient);
+      dispatch = store.dispatch;
+      getState = store.getState;
+
       const foo = makeSource("foo.js");
       await dispatch(actions.newSource(foo));
       await dispatch(actions.loadSourceText({ id: "foo.js" }));
@@ -115,8 +120,16 @@ describe("ast", () => {
           frames: [{ id: "frame1", location: { sourceId: "foo.js" } }]
         })
       );
+    });
 
+    it("member expression", async () => {
       await dispatch(actions.setSelection("bazz", { line: 1, column: 34 }));
+      const selection = selectors.getSelection(getState());
+      expect(selection).toMatchSnapshot();
+    });
+
+    it("this", async () => {
+      await dispatch(actions.setSelection("this", { line: 1, column: 30 }));
       const selection = selectors.getSelection(getState());
       expect(selection).toMatchSnapshot();
     });

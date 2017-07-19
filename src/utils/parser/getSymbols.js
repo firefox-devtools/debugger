@@ -140,6 +140,16 @@ function extractSymbols(source: Source) {
         });
       }
 
+      if (t.isThisExpression(path.node)) {
+        const { start, end } = path.node.loc;
+        identifiers.push({
+          name: "this",
+          location: { start, end },
+          expressionLocation: path.node.loc,
+          expression: "this"
+        });
+      }
+
       if (t.isVariableDeclarator(path)) {
         const node = path.node.id;
         const { start, end } = path.node.loc;
