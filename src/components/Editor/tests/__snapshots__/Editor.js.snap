@@ -102,7 +102,6 @@ ShallowWrapper {
         "context": Object {
           "shortcuts": undefined,
         },
-        "editor": null,
         "lastJumpLine": null,
         "onEscape": [Function],
         "onGutterClick": [Function],
@@ -134,6 +133,7 @@ ShallowWrapper {
         },
         "refs": Object {},
         "state": Object {
+          "editor": null,
           "highlightedLineRange": null,
         },
         "toggleConditionalPanel": [Function],
