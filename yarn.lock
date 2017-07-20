@@ -1647,6 +1647,10 @@ camelcase@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-3.0.0.tgz#32fc4b9fcdaf845fcdf7e73bb97cac2261f0ab0a"
 
+camelcase@^4.0.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-4.1.0.tgz#d545635be1e33c542649c69173e5de6acfae34dd"
+
 caniuse-api@^1.5.2:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/caniuse-api/-/caniuse-api-1.6.1.tgz#b534e7c734c4f81ec5fbe8aca2ad24354b962c6c"
@@ -7203,13 +7207,13 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
-remark-cli@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/remark-cli/-/remark-cli-3.0.1.tgz#8119a9cef4318d04d680e22cb9c3abf139c80c81"
+remark-cli@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/remark-cli/-/remark-cli-4.0.0.tgz#bb84c14ffeb6f5b658eff4dfbb77cdd7775bab73"
   dependencies:
     markdown-extensions "^1.1.0"
-    remark "^7.0.0"
-    unified-args "^3.0.0"
+    remark "^8.0.0"
+    unified-args "^4.0.0"
 
 remark-html@6.0.0:
   version "6.0.0"
@@ -7418,6 +7422,26 @@ remark-parse@^3.0.0:
     vfile-location "^2.0.0"
     xtend "^4.0.1"
 
+remark-parse@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/remark-parse/-/remark-parse-4.0.0.tgz#99f1f049afac80382366e2e0d0bd55429dd45d8b"
+  dependencies:
+    collapse-white-space "^1.0.2"
+    is-alphabetical "^1.0.0"
+    is-decimal "^1.0.0"
+    is-whitespace-character "^1.0.0"
+    is-word-character "^1.0.0"
+    markdown-escapes "^1.0.0"
+    parse-entities "^1.0.2"
+    repeat-string "^1.5.4"
+    state-toggle "^1.0.0"
+    trim "0.0.1"
+    trim-trailing-lines "^1.0.0"
+    unherit "^1.0.4"
+    unist-util-remove-position "^1.0.0"
+    vfile-location "^2.0.0"
+    xtend "^4.0.1"
+
 remark-preset-lint-recommended@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/remark-preset-lint-recommended/-/remark-preset-lint-recommended-2.0.0.tgz#1bfed5bad86a74e4239b96ba28459a267a05835f"
@@ -7466,6 +7490,25 @@ remark-stringify@^3.0.0:
     unherit "^1.0.4"
     xtend "^4.0.1"
 
+remark-stringify@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/remark-stringify/-/remark-stringify-4.0.0.tgz#4431884c0418f112da44991b4e356cfe37facd87"
+  dependencies:
+    ccount "^1.0.0"
+    is-alphanumeric "^1.0.0"
+    is-decimal "^1.0.0"
+    is-whitespace-character "^1.0.0"
+    longest-streak "^2.0.1"
+    markdown-escapes "^1.0.0"
+    markdown-table "^1.1.0"
+    mdast-util-compact "^1.0.0"
+    parse-entities "^1.0.2"
+    repeat-string "^1.5.4"
+    state-toggle "^1.0.0"
+    stringify-entities "^1.0.1"
+    unherit "^1.0.4"
+    xtend "^4.0.1"
+
 remark-toc@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/remark-toc/-/remark-toc-4.0.0.tgz#1e99867a1bee1caebb8fa1d9f5f7605fdf7d8c56"
@@ -7491,6 +7534,14 @@ remark@^7.0.0:
   dependencies:
     remark-parse "^3.0.0"
     remark-stringify "^3.0.0"
+    unified "^6.0.0"
+
+remark@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/remark/-/remark-8.0.0.tgz#287b6df2fe1190e263c1d15e486d3fa835594d6d"
+  dependencies:
+    remark-parse "^4.0.0"
+    remark-stringify "^4.0.0"
     unified "^6.0.0"
 
 remote-origin-url@0.4.0:
@@ -8257,7 +8308,7 @@ supports-color@^3.1.2, supports-color@^3.2.3:
   dependencies:
     has-flag "^1.0.0"
 
-supports-color@^4.0.0:
+supports-color@^4.0.0, supports-color@^4.1.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-4.2.0.tgz#ad986dc7eb2315d009b4d77c8169c2231a684037"
   dependencies:
@@ -8585,27 +8636,26 @@ unherit@^1.0.4:
     inherits "^2.0.1"
     xtend "^4.0.1"
 
-unified-args@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/unified-args/-/unified-args-3.0.0.tgz#c003dc692273e739443fa76358d2c82272845a99"
+unified-args@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/unified-args/-/unified-args-4.0.0.tgz#8d9b9b8ad347beb37f430562a62c4d361b42220f"
   dependencies:
-    camelcase "^3.0.0"
-    chalk "^1.1.3"
+    camelcase "^4.0.0"
+    chalk "^2.0.0"
     chokidar "^1.5.1"
     minimist "^1.2.0"
     text-table "^0.2.0"
-    unified-engine "^3.0.0"
+    unified-engine "^4.0.0"
 
-unified-engine@^3.0.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/unified-engine/-/unified-engine-3.1.1.tgz#792541826df4e97b640ccdd90eca621356e4c9e7"
+unified-engine@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/unified-engine/-/unified-engine-4.0.0.tgz#507ff99115c861ba507d9bdc8825b298840752a4"
   dependencies:
     concat-stream "^1.5.1"
     debug "^2.2.0"
     fault "^1.0.0"
     fn-name "^2.0.1"
     glob "^7.0.3"
-    has "^1.0.1"
     ignore "^3.2.0"
     is-empty "^1.0.0"
     is-hidden "^1.0.1"
@@ -8615,8 +8665,8 @@ unified-engine@^3.0.0:
     parse-json "^2.2.0"
     to-vfile "^2.0.0"
     trough "^1.0.0"
-    vfile-reporter "^3.0.0"
-    vfile-statistics "^1.0.0"
+    vfile-reporter "^4.0.0"
+    vfile-statistics "^1.1.0"
     x-is-function "^1.0.4"
     x-is-string "^0.1.0"
     xtend "^4.0.1"
@@ -8829,13 +8879,23 @@ vfile-reporter@^3.0.0:
     trim "0.0.1"
     unist-util-stringify-position "^1.0.0"
 
+vfile-reporter@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/vfile-reporter/-/vfile-reporter-4.0.0.tgz#ea6f0ae1342f4841573985e05f941736f27de9da"
+  dependencies:
+    repeat-string "^1.5.0"
+    string-width "^1.0.0"
+    supports-color "^4.1.0"
+    unist-util-stringify-position "^1.0.0"
+    vfile-statistics "^1.1.0"
+
 vfile-sort@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/vfile-sort/-/vfile-sort-2.0.0.tgz#7279458d111a9ba3b18effd9f8a0169bb7c5112b"
 
-vfile-statistics@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/vfile-statistics/-/vfile-statistics-1.0.0.tgz#003d356c0f3e0233f3a2271c65e2acee5ed4d0f8"
+vfile-statistics@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vfile-statistics/-/vfile-statistics-1.1.0.tgz#02104c60fdeed1d11b1f73ad65330b7634b3d895"
 
 vfile@^2.0.0:
   version "2.1.0"
