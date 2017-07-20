@@ -79,7 +79,7 @@ const cssVars = {
 
 type EditorState = {
   highlightedLineRange: ?Object,
-  editor: ?Object
+  editor: Object
 };
 
 class Editor extends PureComponent {
@@ -99,7 +99,7 @@ class Editor extends PureComponent {
 
     this.state = {
       highlightedLineRange: null,
-      editor: null
+      editor: {}
     };
 
     const self: any = this;
@@ -201,13 +201,13 @@ class Editor extends PureComponent {
 
     codeMirror.on("scroll", this.onScroll);
 
+    this.setState({ editor });
     return editor;
   }
 
   componentDidMount() {
     this.cbPanel = null;
     const editor = this.setupEditor();
-    this.setState({ editor });
 
     const { selectedSource } = this.props;
     const { shortcuts } = this.context;
@@ -228,7 +228,7 @@ class Editor extends PureComponent {
 
   componentWillUnmount() {
     this.state.editor.destroy();
-    this.setState({ editor: null });
+    this.setState({ editor: {} });
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
     const searchAgainPrevKey = L10N.getStr(
