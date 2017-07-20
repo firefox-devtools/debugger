@@ -70,7 +70,8 @@
     "react": "=15.3.2",
     "redux-saga": "^0.15.4",
     "reselect": "^3.0.0",
-    "svg-inline-react": "^1.0.2"
+    "svg-inline-react": "^1.0.2",
+    "wasmparser": "^0.4.10"
   },
   "files": [
     "src",

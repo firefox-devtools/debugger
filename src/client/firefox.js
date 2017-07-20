@@ -21,7 +21,11 @@ export async function onConnect(connection: any, actions: Object) {
   tabTarget.on("will-navigate", actions.willNavigate);
   tabTarget.on("navigate", actions.navigated);
 
-  await threadClient.reconfigure({ observeAsmJS: true });
+  let wasmBinarySource = !!debuggerClient.mainRoot.traits.wasmBinarySource;
+  await threadClient.reconfigure({
+    observeAsmJS: true,
+    wasmBinarySource: wasmBinarySource
+  });
 
   // In Firefox, we need to initially request all of the sources. This
   // usually fires off individual `newSource` notifications as the

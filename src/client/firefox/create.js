@@ -36,6 +36,7 @@ export function createSource(source: SourcePayload): Source {
     id: source.actor,
     url: source.url,
     isPrettyPrinted: false,
+    isWasm: source.introductionType === "wasm",
     sourceMapURL: source.sourceMapURL,
     isBlackBoxed: false
   };

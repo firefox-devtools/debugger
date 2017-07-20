@@ -2,12 +2,13 @@ import { isEnabled } from "devtools-config";
 import { isPretty, isJavaScript } from "../source";
 import { isOriginalId } from "devtools-source-map";
 import * as sourceDocumentUtils from "./source-documents";
-const { getDocument } = sourceDocumentUtils;
 
 import * as expressionUtils from "./expression.js";
 
 import * as sourceSearchUtils from "./source-search";
 const { findNext, findPrev } = sourceSearchUtils;
+
+import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 
 import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
 
@@ -77,27 +78,43 @@ function createEditor() {
   });
 }
 
-function updateDocument(editor, selectedSource) {
-  if (!selectedSource) {
-    return;
-  }
-  let sourceId = selectedSource.get("id");
-  const doc = getDocument(sourceId) || editor.createDocument();
-  editor.replaceDocument(doc);
+function toEditorLine(sourceId: string, lineOrOffset: number) {
+  return isWasm(sourceId)
+    ? wasmOffsetToLine(sourceId, lineOrOffset)
+    : lineOrOffset - 1;
+}
+
+function toEditorLocation(sourceId: string, location: any) {
+  return {
+    line: toEditorLine(sourceId, location.line),
+    column: isWasm(sourceId) ? 0 : location.column
+  };
+}
+
+function toSourceLine(sourceId: string, line: number) {
+  return isWasm(sourceId) ? lineToWasmOffset(sourceId, line) : line + 1;
+}
+
+function toSourceLocation(sourceId: string, location: any) {
+  return {
+    line: toSourceLine(sourceId, location.line),
+    column: isWasm(sourceId) ? undefined : location.column
+  };
 }
 
 function markText(editor: any, className, location: any) {
   const { start, end } = location;
 
   return editor.codeMirror.markText(
-    { ch: start.column, line: start.line - 1 },
-    { ch: end.column, line: end.line - 1 },
+    { ch: start.column, line: start.line },
+    { ch: end.column, line: end.line },
     { className }
   );
 }
 
-function lineAtHeight(editor, event) {
-  return editor.codeMirror.lineAtHeight(event.clientY) + 1;
+function lineAtHeight(editor, sourceId, event) {
+  const editorLine = editor.codeMirror.lineAtHeight(event.clientY);
+  return toSourceLine(sourceId, editorLine);
 }
 
 module.exports = Object.assign(
@@ -108,10 +125,14 @@ module.exports = Object.assign(
   SourceEditorUtils,
   {
     createEditor,
+    isWasm,
+    toEditorLine,
+    toEditorLocation,
+    toSourceLine,
+    toSourceLocation,
     shouldShowPrettyPrint,
     shouldShowFooter,
     traverseResults,
-    updateDocument,
     markText,
     lineAtHeight
   }

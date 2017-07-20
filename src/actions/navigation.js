@@ -3,6 +3,7 @@ import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
 import { newSources } from "./sources";
 import { clearSymbols } from "../utils/parser";
+import { clearWasmStates } from "../utils/wasm";
 
 /**
  * Redux actions for the navigation state
@@ -16,6 +17,7 @@ import { clearSymbols } from "../utils/parser";
 export function willNavigate(_, event) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     await sourceMaps.clearSourceMaps();
+    clearWasmStates();
     clearDocuments();
     clearSymbols();
 

@@ -18,7 +18,7 @@ import {
   getBreakpointsForSource
 } from "../../selectors";
 
-import { getTokenLocation } from "../../utils/editor";
+import { getTokenLocation, isWasm, toSourceLine } from "../../utils/editor";
 
 import actions from "../../actions";
 
@@ -89,7 +89,7 @@ class CallSites extends Component {
 
   onTokenClick(e) {
     const { target } = e;
-    const { editor } = this.props;
+    const { editor, selectedLocation } = this.props;
 
     if (
       !isEnabled("columnBreakpoints") ||
@@ -100,9 +100,12 @@ class CallSites extends Component {
       return;
     }
 
+    const { sourceId } = selectedLocation;
     const { line, column } = getTokenLocation(editor.codeMirror, target);
-
-    this.toggleBreakpoint(line + 1, column - 2);
+    this.toggleBreakpoint(
+      toSourceLine(sourceId, line),
+      isWasm(sourceId) ? undefined : column - 2
+    );
   }
 
   toggleBreakpoint(line, column = undefined) {
@@ -147,7 +150,7 @@ class CallSites extends Component {
   }
 
   render() {
-    const { editor, callSites } = this.props;
+    const { editor, callSites, selectedSource } = this.props;
     const { showCallSites } = this.state;
     let sites;
     if (!callSites) {
@@ -162,6 +165,7 @@ class CallSites extends Component {
             key: index,
             callSite,
             editor,
+            source: selectedSource,
             breakpoint: callSite.breakpoint,
             showCallSite: showCallSites
           });

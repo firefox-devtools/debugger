@@ -205,6 +205,7 @@ declare module "debugger-html" {
     sourceMapURL?: string,
     isBlackBoxed: boolean,
     isPrettyPrinted: boolean,
+    isWasm: boolean,
     text?: string,
     contentType?: string,
     error?: string,
