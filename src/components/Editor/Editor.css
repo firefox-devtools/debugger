@@ -22,13 +22,11 @@
   --theme-conditional-breakpoint-color: #ccd1d5;
 }
 
-.paused .in-scope .CodeMirror-line,
-.paused .in-scope .CodeMirror-linenumber {
+.paused .in-scope .CodeMirror-line, .paused .in-scope .CodeMirror-linenumber {
   opacity: 1;
 }
 
-.paused .CodeMirror-line,
-.paused .CodeMirror-linenumber {
+.paused .CodeMirror-line, .paused .CodeMirror-linenumber {
   opacity: 0.7;
 }
 
