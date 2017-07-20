@@ -6,8 +6,8 @@
 }
 
 .theme-dark .editor-wrapper {
-  --debug-expression-background: rgb(73, 82, 103);
-  --debug-line-border: rgb(119, 134, 162);
+  --debug-expression-background: #54617e;
+  --debug-line-border: #7786a2;
 }
 
 .editor-wrapper .CodeMirror-linewidget {
@@ -22,13 +22,11 @@
   --theme-conditional-breakpoint-color: #ccd1d5;
 }
 
-.paused .in-scope .CodeMirror-line,
-.paused .in-scope .CodeMirror-linenumber {
+.paused .in-scope .CodeMirror-line, .paused .in-scope .CodeMirror-linenumber {
   opacity: 1;
 }
 
-.paused .CodeMirror-line,
-.paused .CodeMirror-linenumber {
+.paused .CodeMirror-line, .paused .CodeMirror-linenumber {
   opacity: 0.7;
 }
 
@@ -155,7 +153,6 @@ html[dir="rtl"] .editor-mount {
 
 .editor-wrapper .CodeMirror-line {
   font-size: 11px;
-  line-height: 14px;
 }
 
 .theme-dark .editor-wrapper .CodeMirror-line .cm-comment {
