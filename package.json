@@ -115,7 +115,7 @@
     "prettier": "^1.5.2",
     "react-addons-perf": "15.3.2",
     "react-addons-test-utils": "=15.3.2",
-    "remark-cli": "^3.0.0",
+    "remark-cli": "^4.0.0",
     "remark-lint-list-item-bullet-indent": "^1.0.0",
     "remark-lint-list-item-indent": "^1.0.0",
     "remark-lint-no-shortcut-reference-image": "^1.0.0",
