@@ -78,7 +78,8 @@ const cssVars = {
 };
 
 type EditorState = {
-  highlightedLineRange: ?Object
+  highlightedLineRange: ?Object,
+  editor: ?Object
 };
 
 class Editor extends PureComponent {
@@ -93,12 +94,12 @@ class Editor extends PureComponent {
     super();
 
     this.cbPanel = null;
-    this.editor = null;
     this.pendingJumpLine = null;
     this.lastJumpLine = null;
 
     this.state = {
-      highlightedLineRange: null
+      highlightedLineRange: null,
+      editor: null
     };
 
     const self: any = this;
@@ -123,7 +124,7 @@ class Editor extends PureComponent {
       nextProps.startPanelSize !== this.props.startPanelSize ||
       nextProps.endPanelSize !== this.props.endPanelSize
     ) {
-      this.editor.codeMirror.setSize();
+      this.state.editor.codeMirror.setSize();
     }
 
     if (!selectedSource) {
@@ -135,17 +136,17 @@ class Editor extends PureComponent {
     } else if (selectedSource.get("error")) {
       this.showMessage(selectedSource.get("error"));
     } else if (this.props.selectedSource !== selectedSource) {
-      showSourceText(this.editor, selectedSource.toJS());
+      showSourceText(this.state.editor, selectedSource.toJS());
     }
 
     if (this.props.linesInScope !== nextProps.linesInScope) {
-      this.editor.codeMirror.operation(() => {
-        clearLineClass(this.editor.codeMirror, "in-scope");
+      this.state.editor.codeMirror.operation(() => {
+        clearLineClass(this.state.editor.codeMirror, "in-scope");
       });
     }
 
     this.setDebugLine(nextProps.selectedFrame, selectedLocation);
-    resizeBreakpointGutter(this.editor.codeMirror);
+    resizeBreakpointGutter(this.state.editor.codeMirror);
   }
 
   setupEditor() {
@@ -205,7 +206,8 @@ class Editor extends PureComponent {
 
   componentDidMount() {
     this.cbPanel = null;
-    this.editor = this.setupEditor();
+    const editor = this.setupEditor();
+    this.setState({ editor });
 
     const { selectedSource } = this.props;
     const { shortcuts } = this.context;
@@ -221,12 +223,12 @@ class Editor extends PureComponent {
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
 
-    updateDocument(this.editor, selectedSource);
+    updateDocument(editor, selectedSource);
   }
 
   componentWillUnmount() {
-    this.editor.destroy();
-    this.editor = null;
+    this.state.editor.destroy();
+    this.setState({ editor: null });
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
     const searchAgainPrevKey = L10N.getStr(
@@ -267,7 +269,7 @@ class Editor extends PureComponent {
 
   onToggleBreakpoint(key, e) {
     e.preventDefault();
-    const { codeMirror } = this.editor;
+    const { codeMirror } = this.state.editor;
     const line = getCursorLine(codeMirror);
 
     if (e.shiftKey) {
@@ -278,7 +280,7 @@ class Editor extends PureComponent {
   }
 
   onKeyDown(e) {
-    const { codeMirror } = this.editor;
+    const { codeMirror } = this.state.editor;
     let { key, target } = e;
     let codeWrapper = codeMirror.getWrapperElement();
     let textArea = codeWrapper.querySelector("textArea");
@@ -301,11 +303,11 @@ class Editor extends PureComponent {
    * is a multiselection.
    */
   onEscape(key, e) {
-    if (!this.editor) {
+    if (!this.state.editor) {
       return;
     }
 
-    const { codeMirror } = this.editor;
+    const { codeMirror } = this.state.editor;
     if (codeMirror.listSelections().length > 1) {
       codeMirror.execCommand("singleSelection");
       e.preventDefault();
@@ -318,8 +320,8 @@ class Editor extends PureComponent {
 
   onSearchAgain(_, e) {
     const { query, searchModifiers } = this.props;
-    const { editor: { codeMirror } } = this.editor;
-    const ctx = { ed: this.editor, cm: codeMirror };
+    const { editor: { codeMirror } } = this.state.editor;
+    const ctx = { ed: this.state.editor, cm: codeMirror };
 
     const direction = e.shiftKey ? "prev" : "next";
     traverseResults(e, ctx, query, direction, searchModifiers.toJS());
@@ -386,7 +388,7 @@ class Editor extends PureComponent {
       return;
     }
 
-    const line = lineAtHeight(this.editor, event);
+    const line = lineAtHeight(this.state.editor, event);
     const breakpoint = breakpoints.find(bp => bp.location.line === line);
 
     GutterMenu({
@@ -405,7 +407,7 @@ class Editor extends PureComponent {
   onMouseOver(e) {
     const { target } = e;
     if (this.inSelectedFrameSource()) {
-      updateSelection(target, this.editor, this.props);
+      updateSelection(target, this.state.editor, this.props);
     }
   }
 
@@ -432,7 +434,7 @@ class Editor extends PureComponent {
       closePanel: this.closeConditionalPanel
     });
 
-    this.cbPanel = this.editor.codeMirror.addLineWidget(line, panel, {
+    this.cbPanel = this.state.editor.codeMirror.addLineWidget(line, panel, {
       coverGutter: true,
       noHScroll: false
     });
@@ -455,7 +457,7 @@ class Editor extends PureComponent {
         this.debugExpression.clear();
       }
 
-      this.editor.codeMirror.removeLineClass(
+      this.state.editor.codeMirror.removeLineClass(
         line - 1,
         "line",
         "new-debug-line"
@@ -470,9 +472,13 @@ class Editor extends PureComponent {
       selectedFrame.location.sourceId === selectedLocation.sourceId
     ) {
       const { line, column } = selectedFrame.location;
-      this.editor.codeMirror.addLineClass(line - 1, "line", "new-debug-line");
+      this.state.editor.codeMirror.addLineClass(
+        line - 1,
+        "line",
+        "new-debug-line"
+      );
 
-      this.debugExpression = markText(this.editor, "debug-expression", {
+      this.debugExpression = markText(this.state.editor, "debug-expression", {
         start: { line, column },
         end: { line, column: null }
       });
@@ -491,11 +497,11 @@ class Editor extends PureComponent {
     // happening ever again (in case CodeMirror re-applies the
     // class, etc).
     if (this.lastJumpLine) {
-      clearLineClass(this.editor.codeMirror, "highlight-line");
+      clearLineClass(this.state.editor.codeMirror, "highlight-line");
     }
 
     const line = this.pendingJumpLine;
-    this.editor.alignLine(line);
+    this.state.editor.alignLine(line);
 
     // We only want to do the flashing animation if it's not a debug
     // line, which has it's own styling.
@@ -506,7 +512,11 @@ class Editor extends PureComponent {
       (!this.props.selectedFrame ||
         this.props.selectedFrame.location.line !== line)
     ) {
-      this.editor.codeMirror.addLineClass(line - 1, "line", "highlight-line");
+      this.state.editor.codeMirror.addLineClass(
+        line - 1,
+        "line",
+        "highlight-line"
+      );
     }
 
     this.lastJumpLine = line;
@@ -514,9 +524,9 @@ class Editor extends PureComponent {
   }
 
   showMessage(msg) {
-    this.editor.replaceDocument(this.editor.createDocument());
-    this.editor.setText(msg);
-    this.editor.setMode({ name: "text" });
+    this.state.editor.replaceDocument(this.state.editor.createDocument());
+    this.state.editor.setText(msg);
+    this.state.editor.setMode({ name: "text" });
   }
 
   renderHighlightLines() {
@@ -527,7 +537,7 @@ class Editor extends PureComponent {
     }
 
     return HighlightLines({
-      editor: this.editor,
+      editor: this.state.editor,
       highlightedLineRange
     });
   }
@@ -539,7 +549,7 @@ class Editor extends PureComponent {
       !selectedSource ||
       selectedSource.get("loading") ||
       !hitCount ||
-      !this.editor
+      !this.state.editor
     ) {
       return;
     }
@@ -548,7 +558,7 @@ class Editor extends PureComponent {
       HitMarker({
         key: marker.get("line"),
         hitData: marker.toJS(),
-        editor: this.editor.codeMirror
+        editor: this.state.editor.codeMirror
       })
     );
   }
@@ -577,7 +587,7 @@ class Editor extends PureComponent {
 
   renderPreview() {
     const { selectedSource, selection } = this.props;
-    if (!this.editor || !selectedSource) {
+    if (!this.state.editor || !selectedSource) {
       return null;
     }
 
@@ -593,7 +603,7 @@ class Editor extends PureComponent {
 
     return Preview({
       value,
-      editor: this.editor,
+      editor: this.state.editor,
       location: location,
       expression: expression,
       popoverPos: cursorPos,
@@ -611,9 +621,9 @@ class Editor extends PureComponent {
       return;
     }
 
-    this.editor.codeMirror.operation(() => {
+    this.state.editor.codeMirror.operation(() => {
       linesInScope.forEach(line => {
-        this.editor.codeMirror.addLineClass(line - 1, "line", "in-scope");
+        this.state.editor.codeMirror.addLineClass(line - 1, "line", "in-scope");
       });
     });
   }
@@ -628,7 +638,7 @@ class Editor extends PureComponent {
   }
 
   renderCallSites() {
-    const editor = this.editor;
+    const editor = this.state.editor;
 
     if (!editor || !isEnabled("columnBreakpoints")) {
       return null;
@@ -655,7 +665,7 @@ class Editor extends PureComponent {
         })
       },
       SearchBar({
-        editor: this.editor,
+        editor: this.state.editor,
         selectSource,
         selectedSource,
         highlightLineRange,
@@ -668,10 +678,10 @@ class Editor extends PureComponent {
       this.renderHighlightLines(),
       this.renderInScopeLines(),
       this.renderHitCounts(),
-      Footer({ editor: this.editor, horizontal }),
+      Footer({ editor: this.state.editor, horizontal }),
       this.renderPreview(),
       this.renderCallSites(),
-      Breakpoints({ editor: this.editor })
+      Breakpoints({ editor: this.state.editor })
     );
   }
 }
