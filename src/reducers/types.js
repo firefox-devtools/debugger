@@ -1,5 +1,5 @@
 import type { PauseState } from "./pause";
-import type { SourcesState } from "./source";
+import type { SourcesState } from "./sources";
 import type { BreakpointsState } from "./breakpoints";
 
 export type State = {
@@ -8,6 +8,6 @@ export type State = {
   breakpoints: BreakpointsState
 };
 
-export type { SourceRecord } from "./source";
+export type { SourceRecord, SourcesMap } from "./sources";
 
 export type { BreakpointMap } from "./breakpoints";
