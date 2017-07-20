@@ -123,6 +123,7 @@ class SymbolModal extends Component {
 
   openSymbolModal(_, e) {
     e.preventDefault();
+    e.stopPropagation();
     this.props.setActiveSearch("symbol");
   }
 
