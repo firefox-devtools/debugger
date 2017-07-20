@@ -77,18 +77,13 @@ const cssVars = {
   footerHeight: "var(--editor-footer-height)"
 };
 
-type EditorState = {
-  highlightedLineRange: ?Object,
-  editor: Object
-};
-
 class Editor extends PureComponent {
   cbPanel: any;
   editor: SourceEditor;
   pendingJumpLine: any;
   lastJumpLine: any;
   debugExpression: any;
-  state: EditorState;
+  state: Object;
 
   constructor() {
     super();
@@ -99,7 +94,7 @@ class Editor extends PureComponent {
 
     this.state = {
       highlightedLineRange: null,
-      editor: {}
+      editor: null
     };
 
     const self: any = this;
@@ -228,7 +223,7 @@ class Editor extends PureComponent {
 
   componentWillUnmount() {
     this.state.editor.destroy();
-    this.setState({ editor: {} });
+    this.setState({ editor: null });
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
     const searchAgainPrevKey = L10N.getStr(
