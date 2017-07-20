@@ -59,6 +59,10 @@ function isEmber(frame) {
   return getFrameUrl(frame).match(/ember/i);
 }
 
+function isVueJS(frame) {
+  return getFrameUrl(frame).match(/vue\.js/i);
+}
+
 function isRxJs(frame) {
   return getFrameUrl(frame).match(/rxjs/i);
 }
@@ -115,6 +119,10 @@ export function getLibraryFromUrl(frame: Frame) {
     return "Ember";
   }
 
+  if (isVueJS(frame)) {
+    return "VueJS";
+  }
+
   if (isRxJs(frame)) {
     return "RxJS";
   }
@@ -137,6 +145,9 @@ const displayNameMap = {
     "ReactCompositeComponent._renderValidatedComponentWithoutOwnerOrContext/renderedElement<":
       "Render",
     _renderValidatedComponentWithoutOwnerOrContext: "Render"
+  },
+  VueJS: {
+    "renderMixin/Vue.prototype._render": "Render"
   },
   Webpack: {
     // eslint-disable-next-line camelcase
