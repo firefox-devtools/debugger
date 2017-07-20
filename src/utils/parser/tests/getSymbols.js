@@ -4,6 +4,11 @@ import { formatSymbols } from "../getSymbols";
 import { getSource } from "./helpers";
 
 describe("Parser.getSymbols", () => {
+  it("es6", () => {
+    const symbols = formatSymbols(getSource("es6"));
+    expect(symbols).toMatchSnapshot();
+  });
+
   it("func", () => {
     const symbols = formatSymbols(getSource("func"));
     expect(symbols).toMatchSnapshot();
