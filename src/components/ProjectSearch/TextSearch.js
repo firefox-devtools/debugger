@@ -32,9 +32,7 @@ export default class TextSearch extends Component {
     if (e.key !== "Enter") {
       return;
     }
-    if (this.state.inputValue !== this.props.query) {
-      this.props.searchSources(this.state.inputValue);
-    }
+    this.props.searchSources(this.state.inputValue);
   }
 
   inputOnChange(e) {
