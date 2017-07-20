@@ -82,7 +82,7 @@ ShallowWrapper {
         "onScroll": [Function],
         "onSearchAgain": [Function],
         "onToggleBreakpoint": [Function],
-        "pendingJumpLine": null,
+        "pendingJumpLocation": null,
         "props": Object {
           "addBreakpoint": [Function],
           "addExpression": [Function],
