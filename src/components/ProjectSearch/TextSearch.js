@@ -28,12 +28,6 @@ export default class TextSearch extends Component {
     this.props.closeActiveSearch();
   }
 
-  componentDidMount() {
-    if (this.state.inputValue == "") {
-      this.props.loadAllSources();
-    }
-  }
-
   async onKeyDown(e) {
     if (e.key !== "Enter") {
       return;
@@ -149,7 +143,9 @@ export default class TextSearch extends Component {
       focused: results[0],
       getParent: item => null,
       getKey: item =>
-        item.filepath ? `${item.id}` : `${item.id}-${item.line}-${item.column}`,
+        item.filepath
+          ? `${item.sourceId}`
+          : `${item.id}-${item.line}-${item.column}`,
       renderItem: (item, depth, focused, _, expanded, { setExpanded }) =>
         item.filepath
           ? this.renderFile(item, focused, expanded, setExpanded)
@@ -203,7 +199,6 @@ TextSearch.propTypes = {
   results: PropTypes.array,
   query: PropTypes.string,
   closeActiveSearch: PropTypes.func,
-  loadAllSources: PropTypes.func,
   searchSources: PropTypes.func,
   selectSource: PropTypes.func
 };

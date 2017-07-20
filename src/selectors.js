@@ -7,7 +7,7 @@ import * as eventListeners from "./reducers/event-listeners";
 import * as ui from "./reducers/ui";
 import * as ast from "./reducers/ast";
 import * as coverage from "./reducers/coverage";
-import * as search from "./reducers/search";
+import * as search from "./reducers/project-text-search";
 
 import getBreakpointAtLocation from "./selectors/breakpointAtLocation";
 import getInScopeLines from "./selectors/linesInScope";

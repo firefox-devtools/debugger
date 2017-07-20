@@ -136,6 +136,9 @@ class ProjectSearch extends Component {
       selectSource,
       query
     } = this.props;
+
+    results = results.valueSeq().toJS();
+
     return TextSearch({
       sources,
       results,
@@ -163,12 +166,11 @@ class ProjectSearch extends Component {
 
 ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
-  results: PropTypes.array,
+  results: PropTypes.object,
   query: PropTypes.string,
   setActiveSearch: PropTypes.func.isRequired,
   closeActiveSearch: PropTypes.func.isRequired,
   searchSources: PropTypes.func,
-  loadAllSources: PropTypes.func,
   activeSearch: PropTypes.string,
   selectSource: PropTypes.func.isRequired,
   addTab: PropTypes.func,

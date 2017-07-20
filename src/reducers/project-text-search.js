@@ -40,12 +40,12 @@ function update(
     case "ADD_QUERY":
       return state.update("query", value => action.query);
 
-    case "REMOVE_QUERY":
+    case "CLEAR_QUERY":
       return state.remove("query");
 
     case "ADD_SEARCH_RESULT":
       return state.updateIn(
-        ["results", action.result.id],
+        ["results", action.result.sourceId],
         value => action.result
       );
   }
@@ -55,7 +55,7 @@ function update(
 type OuterState = { search: Record<SearchState> };
 
 export function getSearchResults(state: OuterState) {
-  return state.search.get("results").valueSeq().toJS();
+  return state.search.get("results");
 }
 
 export function getSearchResult(state: OuterState, id) {
