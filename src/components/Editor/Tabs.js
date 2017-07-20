@@ -109,6 +109,7 @@ class SourceTabs extends PureComponent {
     closeTabs: (List<string>) => void,
     setActiveSearch: (?ActiveSearchType) => void,
     closeActiveSearch: () => void,
+    closeActiveSearch: () => void,
     activeSearch: string,
     togglePrettyPrint: string => void,
     togglePaneCollapse: () => void,
@@ -437,9 +438,9 @@ class SourceTabs extends PureComponent {
         className: "new-tab-btn",
         onClick: () => {
           if (this.props.searchOn) {
-            this.props.setActiveSearch();
+            return this.props.closeActiveSearch();
           }
-          this.props.setActiveSearch("project");
+          this.props.setActiveSearch("source");
         },
         title: newTabTooltip
       },
@@ -511,7 +512,7 @@ export default connect(
       searchTabs: getSearchTabs(state),
       sourceTabs: getSourcesForTabs(state),
       activeSearch: getActiveSearchState(state),
-      searchOn: getActiveSearchState(state) === "project"
+      searchOn: getActiveSearchState(state) === "source"
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
