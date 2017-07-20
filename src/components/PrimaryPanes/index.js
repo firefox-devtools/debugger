@@ -1,7 +1,6 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
-import ImPropTypes from "react-immutable-proptypes";
+import { DOM as dom, Component, createFactory } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../../utils/text";
@@ -17,8 +16,18 @@ const Outline = createFactory(_Outline);
 import _SourcesTree from "./SourcesTree";
 const SourcesTree = createFactory(_SourcesTree);
 
+import type { SourcesMap } from "../../reducers/types";
 type SourcesState = {
   selectedPane: string
+};
+
+type Props = {
+  sources: SourcesMap,
+  selectSource: (string, Object) => void,
+  horizontal: boolean,
+  setActiveSearch: string => void,
+  closeActiveSearch: () => void,
+  sourceSearchOn: boolean
 };
 
 class PrimaryPanes extends Component {
@@ -28,8 +37,9 @@ class PrimaryPanes extends Component {
   renderFooter: Function;
   renderChildren: Function;
   state: SourcesState;
+  props: Props;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = { selectedPane: "sources" };
 
@@ -87,10 +97,10 @@ class PrimaryPanes extends Component {
           className: "sources-header-info",
           dir: "ltr",
           onClick: () => {
-            if (this.props.projectSearchOn) {
-              this.props.setActiveSearch();
+            if (this.props.sourceSearchOn) {
+              return this.props.closeActiveSearch();
             }
-            this.props.setActiveSearch("project");
+            this.props.setActiveSearch("source");
           }
         },
         L10N.getFormatStr(
@@ -123,20 +133,12 @@ class PrimaryPanes extends Component {
   }
 }
 
-PrimaryPanes.propTypes = {
-  sources: ImPropTypes.map.isRequired,
-  selectSource: PropTypes.func.isRequired,
-  horizontal: PropTypes.bool.isRequired,
-  setActiveSearch: PropTypes.func.isRequired,
-  projectSearchOn: PropTypes.bool.isRequired
-};
-
 PrimaryPanes.displayName = "PrimaryPanes";
 
 export default connect(
   state => ({
     sources: getSources(state),
-    projectSearchOn: getActiveSearchState(state) === "project"
+    sourceSearchOn: getActiveSearchState(state) === "source"
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(PrimaryPanes);
