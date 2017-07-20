@@ -1,4 +1,4 @@
-.tree {
+.managed-tree .tree {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -10,39 +10,39 @@
   min-width: 100%;
 }
 
-.tree button {
+.managed-tree .tree button {
   display: block;
 }
 
-.tree .node {
+.managed-tree .tree .node {
   padding: 2px 3px 2px 3px;
   position: relative;
   cursor: pointer;
 }
 
-.tree .node.focused {
+.managed-tree .tree .node.focused {
   color: white;
   background-color: var(--theme-selection-background);
   padding-bottom: 2px;
 }
 
-.theme-dark .tree .node.focused {
+.theme-dark .managed-tree .tree .node.focused {
   background-color: var(--theme-selection-background-semitransparent);
   padding-bottom: 2px;
 }
 
-html:not([dir="rtl"]) .tree .node > div {
+html:not([dir="rtl"]) .managed-tree .tree .node > div {
   margin-left: 10px;
 }
 
-html[dir="rtl"] .tree .node > div {
+html[dir="rtl"] .managed-tree .tree .node > div {
   margin-right: 10px;
 }
 
-.tree .node.focused svg {
+.managed-tree .tree .node.focused svg {
   fill: white;
 }
 
-.tree-node button {
+.managed-tree .tree-node button {
   position: fixed;
 }
