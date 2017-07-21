@@ -109,6 +109,22 @@ variables
 [(13, 4), (13, 30)]   expressiveClass "
 `;
 
+exports[`Parser.getSymbols es6 1`] = `
+"properties
+[(1, 23), (1, 30)]   PROMISE 
+member expressions
+
+call expressions
+[(1, 0), (1, 8)]   dispatch 
+identifiers
+[(1, 0), (1, 8)]  dispatch dispatch 
+[(1, 14), (1, 20)]  action action 
+[(1, 23), (1, 30)]  PROMISE PROMISE 
+[(1, 33), (1, 40)]  promise promise 
+variables
+[(1, 22), (1, 40)]   PROMISE "
+`;
+
 exports[`Parser.getSymbols expression 1`] = `
 "properties
 [(1, 14), (1, 15)]  obj.a a 

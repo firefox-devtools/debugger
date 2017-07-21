@@ -15,7 +15,7 @@ function _parse(code, opts) {
     code,
     Object.assign({}, opts, {
       sourceType: "module",
-      plugins: ["jsx", "flow"]
+      plugins: ["jsx", "flow", "objectRestSpread"]
     })
   );
 }
