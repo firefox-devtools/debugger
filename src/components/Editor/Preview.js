@@ -19,6 +19,8 @@ import { markText } from "../../utils/editor";
 import Rep from "../shared/Rep";
 import { MODE } from "devtools-reps";
 
+import type { EditorRange } from "../../utils/editor/types";
+
 import "./Preview.css";
 
 class Preview extends Component {
@@ -32,7 +34,7 @@ class Preview extends Component {
     value: Object,
     expression: string,
     onClose: () => void,
-    location: Object,
+    range: EditorRange,
     editor: any,
     selectSourceURL: (string, Object) => void
   };
@@ -43,10 +45,10 @@ class Preview extends Component {
       loadedObjects,
       value,
       editor,
-      location
+      range
     } = this.props;
 
-    this.marker = markText(editor, "selection", location);
+    this.marker = markText(editor, "selection", range);
 
     if (!value || !value.type == "object") {
       return;
