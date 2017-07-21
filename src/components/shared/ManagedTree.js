@@ -1,5 +1,5 @@
 // @flow
-import { createFactory, Component } from "react";
+import { createFactory, Component, DOM as dom } from "react";
 import "./ManagedTree.css";
 
 import { Tree as _Tree } from "devtools-components";
@@ -132,8 +132,7 @@ class ManagedTree extends Component {
         });
       }
     });
-
-    return Tree(props);
+    return dom.div({ className: "managed-tree" }, Tree(props));
   }
 }
 

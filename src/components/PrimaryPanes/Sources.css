@@ -49,6 +49,13 @@
   overflow-y: auto;
 }
 
+.sources-list .managed-tree {
+  flex: 1;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .theme-dark .sources-list .tree .node:not(.focused) svg {
   fill: var(--theme-comment);
 }
@@ -117,7 +124,6 @@
   border-top-color: transparent;
 }
 
-.source-footer .tab.active path,
-.source-footer .tab:hover path {
+.source-footer .tab.active path, .source-footer .tab:hover path {
   fill: var(--theme-body-color);
 }
