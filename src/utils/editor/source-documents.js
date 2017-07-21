@@ -2,7 +2,6 @@
 
 import { getMode } from "../source";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
-import { isEnabled } from "devtools-config";
 
 import type { Source } from "debugger-html";
 
@@ -30,10 +29,6 @@ function resetLineNumberFormat(editor: Object) {
 }
 
 function updateLineNumberFormat(editor: Object, sourceId: string) {
-  if (!isEnabled("wasm")) {
-    return;
-  }
-
   if (!isWasm(sourceId)) {
     resetLineNumberFormat(editor);
     return;

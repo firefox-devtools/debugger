@@ -69,7 +69,7 @@
     },
     "wasm": {
       "label": "Wasm",
-      "enabled": false
+      "enabled": true
     }
   },
   "chrome": {
