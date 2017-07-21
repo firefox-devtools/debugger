@@ -319,6 +319,10 @@ export function getPrettySource(state: OuterState, id: string) {
 }
 
 function getSourceByUrlInSources(sources: SourcesMap, url: string) {
+  if (!url) {
+    return null;
+  }
+
   return sources.find(source => source.get("url") === url);
 }
 
