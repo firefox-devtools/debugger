@@ -1,3 +1,5 @@
+// @flow
+
 import { isEnabled } from "devtools-config";
 import { isPretty, isJavaScript } from "../source";
 import { isOriginalId } from "devtools-source-map";
@@ -11,6 +13,9 @@ const { findNext, findPrev } = sourceSearchUtils;
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 
 import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
+
+import type { AstPosition, AstLocation } from "../parser/types";
+import type { EditorPosition, EditorRange } from "../editor/types";
 
 function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
@@ -78,31 +83,45 @@ function createEditor() {
   });
 }
 
-function toEditorLine(sourceId: string, lineOrOffset: number) {
+function toEditorLine(sourceId: string, lineOrOffset: number): ?number {
   return isWasm(sourceId)
     ? wasmOffsetToLine(sourceId, lineOrOffset)
     : lineOrOffset - 1;
 }
 
-function toEditorLocation(sourceId: string, location: any) {
+function toEditorPosition(
+  sourceId: string,
+  location: AstPosition
+): EditorPosition {
   return {
     line: toEditorLine(sourceId, location.line),
     column: isWasm(sourceId) ? 0 : location.column
   };
 }
 
-function toSourceLine(sourceId: string, line: number) {
+function toEditorRange(sourceId: string, location: AstLocation): EditorRange {
+  const { start, end } = location;
+  return {
+    start: toEditorPosition(sourceId, start),
+    end: toEditorPosition(sourceId, end)
+  };
+}
+
+function toSourceLine(sourceId: string, line: number): ?number {
   return isWasm(sourceId) ? lineToWasmOffset(sourceId, line) : line + 1;
 }
 
-function toSourceLocation(sourceId: string, location: any) {
+function toSourceLocation(
+  sourceId: string,
+  location: EditorPosition
+): AstPosition {
   return {
     line: toSourceLine(sourceId, location.line),
     column: isWasm(sourceId) ? undefined : location.column
   };
 }
 
-function markText(editor: any, className, location: any) {
+function markText(editor: any, className, location: EditorRange) {
   const { start, end } = location;
 
   return editor.codeMirror.markText(
@@ -127,7 +146,8 @@ module.exports = Object.assign(
     createEditor,
     isWasm,
     toEditorLine,
-    toEditorLocation,
+    toEditorPosition,
+    toEditorRange,
     toSourceLine,
     toSourceLocation,
     shouldShowPrettyPrint,

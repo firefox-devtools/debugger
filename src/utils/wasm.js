@@ -56,11 +56,11 @@ function getWasmLineNumberFormatter(sourceId: string) {
   let last0 = 7;
   return function(number: number) {
     let offset = lineToWasmOffset(sourceId, number - 1);
-    if (offset === undefined) {
+    if (offset == undefined) {
       return "";
     }
     let i = 7;
-    for (let n = offset | 0; n !== 0 && i >= 0; n >>= 4, i--) {
+    for (let n = offset; n !== 0 && i >= 0; n >>= 4, i--) {
       let nibble = n & 15;
       buffer[i] = nibble < 10 ? codeOf0 + nibble : codeOfA - 10 + nibble;
     }
@@ -84,7 +84,7 @@ function isWasm(sourceId: string) {
  * @memberof utils/wasm
  * @static
  */
-function lineToWasmOffset(sourceId: string, number: number) {
+function lineToWasmOffset(sourceId: string, number: number): ?number {
   let wasmState = wasmStates[sourceId];
   if (!wasmState) {
     return undefined;
@@ -100,7 +100,7 @@ function lineToWasmOffset(sourceId: string, number: number) {
  * @memberof utils/wasm
  * @static
  */
-function wasmOffsetToLine(sourceId: string, offset: number) {
+function wasmOffsetToLine(sourceId: string, offset: number): ?number {
   let wasmState = wasmStates[sourceId];
   if (!wasmState) {
     return undefined;

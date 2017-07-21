@@ -1,7 +1,7 @@
 // @flow
 import { Component } from "react";
 
-import { markText, toEditorLocation } from "../../utils/editor";
+import { markText, toEditorRange } from "../../utils/editor";
 require("./CallSite.css");
 
 type MarkerType = {
@@ -34,8 +34,8 @@ export default class CallSite extends Component {
     const { editor, callSite, breakpoint, source } = nextProps || this.props;
     const className = !breakpoint ? "call-site" : "call-site-bp";
     const sourceId = source.get("id");
-    const editorLocation = toEditorLocation(sourceId, callSite.location);
-    this.marker = markText(editor, className, editorLocation);
+    const editorRange = toEditorRange(sourceId, callSite.location);
+    this.marker = markText(editor, className, editorRange);
   }
 
   clearCallSite() {
