@@ -65,7 +65,8 @@ import {
   lineAtHeight,
   toSourceLine,
   toEditorLine,
-  toEditorLocation,
+  toEditorPosition,
+  toEditorRange,
   resetLineNumberFormat
 } from "../../utils/editor";
 
@@ -483,17 +484,10 @@ class Editor extends PureComponent {
       selectedLocation &&
       selectedFrame.location.sourceId === selectedLocation.sourceId
     ) {
-      const {
-        sourceId,
-        line: sourceLine,
-        column: sourceColumn
-      } = selectedFrame.location;
-      let { line, column } = toEditorLocation(sourceId, {
-        line: sourceLine,
-        column: sourceColumn
-      });
-      this.state.editor.codeMirror.addLineClass(line, "line", "new-debug-line");
+      const { location, sourceId } = selectedFrame;
+      const { line, column } = toEditorPosition(sourceId, location);
 
+      this.state.editor.codeMirror.addLineClass(line, "line", "new-debug-line");
       this.debugExpression = markText(this.state.editor, "debug-expression", {
         start: { line, column },
         end: { line, column: null }
@@ -615,12 +609,12 @@ class Editor extends PureComponent {
       return;
     }
 
-    const editorLocation = toEditorLocation(selectedSource.get("id"), location);
+    const editorRange = toEditorRange(selectedSource.get("id"), location);
 
     return Preview({
       value,
       editor: this.state.editor,
-      location: editorLocation,
+      range: editorRange,
       expression: expression,
       popoverPos: cursorPos,
       onClose: () => this.clearPreviewSelection()
