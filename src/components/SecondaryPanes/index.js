@@ -86,7 +86,7 @@ class SecondaryPanes extends Component {
         : L10N.getStr("breakpoints.disable"),
       className: boxClassName,
       disabled: breakpointsLoading,
-      onClick: e => {
+      onChange: e => {
         e.stopPropagation();
         toggleAllBreakpoints(!breakpointsDisabled);
       },
