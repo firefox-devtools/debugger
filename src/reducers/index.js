@@ -11,7 +11,7 @@ import pause from "./pause";
 import ui from "./ui";
 import ast from "./ast";
 import coverage from "./coverage";
-import search from "./project-text-search";
+import projectTextSearch from "./project-text-search";
 
 export default {
   expressions,
@@ -23,5 +23,5 @@ export default {
   ui,
   ast,
   coverage,
-  search
+  projectTextSearch
 };

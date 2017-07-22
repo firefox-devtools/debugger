@@ -9,7 +9,7 @@ import * as navigation from "./navigation";
 import * as ui from "./ui";
 import * as ast from "./ast";
 import * as coverage from "./coverage";
-import * as search from "./project-text-search";
+import * as projectTextSearch from "./project-text-search";
 
 export default Object.assign(
   {},
@@ -22,5 +22,5 @@ export default Object.assign(
   ui,
   ast,
   coverage,
-  search
+  projectTextSearch
 );

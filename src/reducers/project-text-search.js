@@ -52,18 +52,18 @@ function update(
   return state;
 }
 
-type OuterState = { search: Record<SearchState> };
+type OuterState = { projectTextSearch: Record<SearchState> };
 
 export function getSearchResults(state: OuterState) {
-  return state.search.get("results");
+  return state.projectTextSearch.get("results");
 }
 
 export function getSearchResult(state: OuterState, id) {
-  return state.search.getIn(["results", id]);
+  return state.projectTextSearch.getIn(["results", id]);
 }
 
 export function getQuery(state: OuterState) {
-  return state.search.get("query");
+  return state.projectTextSearch.get("query");
 }
 
 export default update;

@@ -1,7 +1,7 @@
 import type { PauseState } from "./pause";
 import type { SourcesState } from "./source";
 import type { BreakpointsState } from "./breakpoints";
-import type { SearchState } from "./search";
+import type { SearchState } from "./project-text-search";
 
 export type State = {
   pause: PauseState,
