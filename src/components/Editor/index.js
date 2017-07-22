@@ -139,14 +139,17 @@ class Editor extends PureComponent {
       showSourceText(this.state.editor, selectedSource.toJS());
     }
 
-    if (this.props.linesInScope !== nextProps.linesInScope) {
+    if (
+      this.state.editor &&
+      this.props.linesInScope !== nextProps.linesInScope
+    ) {
       this.state.editor.codeMirror.operation(() => {
         clearLineClass(this.state.editor.codeMirror, "in-scope");
       });
-    }
 
-    this.setDebugLine(nextProps.selectedFrame, selectedLocation);
-    resizeBreakpointGutter(this.state.editor.codeMirror);
+      this.setDebugLine(nextProps.selectedFrame, selectedLocation);
+      resizeBreakpointGutter(this.state.editor.codeMirror);
+    }
   }
 
   setupEditor() {
@@ -489,6 +492,7 @@ class Editor extends PureComponent {
 
   setDebugLine(selectedFrame, selectedLocation) {
     if (
+      this.state.editor &&
       selectedFrame &&
       selectedLocation &&
       selectedFrame.location.sourceId === selectedLocation.sourceId
