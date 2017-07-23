@@ -131,7 +131,6 @@ class ProjectSearch extends Component {
       sources,
       results,
       searchSources,
-      loadAllSources,
       closeActiveSearch,
       selectSource,
       query
@@ -140,7 +139,6 @@ class ProjectSearch extends Component {
     return TextSearch({
       sources,
       results: results.valueSeq().toJS(),
-      loadAllSources,
       searchSources,
       closeActiveSearch,
       selectSource,

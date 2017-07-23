@@ -11,7 +11,7 @@
 
 import { searchSource } from "../utils/search/project-search";
 
-import { getSources, getSearchResult } from "../selectors";
+import { getSources } from "../selectors";
 
 import { loadAllSources } from "./sources";
 

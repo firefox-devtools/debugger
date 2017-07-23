@@ -264,7 +264,6 @@ export type ProjectTextSearchAction = {
  * @static
  */
 export type Action =
-  | ProjectTextSearchAction
   | SourceAction
   | BreakpointAction
   | PauseAction

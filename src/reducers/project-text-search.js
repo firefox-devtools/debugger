@@ -9,10 +9,9 @@
  */
 
 import * as I from "immutable";
-import { prefs } from "../utils/prefs";
 import makeRecord from "../utils/makeRecord";
 
-import type { Action, ProjectTextSearchAction } from "../actions/types";
+import type { ProjectTextSearchAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 import type { Map } from "immutable";
 
