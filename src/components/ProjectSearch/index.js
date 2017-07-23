@@ -137,11 +137,9 @@ class ProjectSearch extends Component {
       query
     } = this.props;
 
-    results = results.valueSeq().toJS();
-
     return TextSearch({
       sources,
-      results,
+      results: results.valueSeq().toJS(),
       loadAllSources,
       searchSources,
       closeActiveSearch,

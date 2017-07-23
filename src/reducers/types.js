@@ -7,7 +7,7 @@ export type State = {
   pause: PauseState,
   sources: SourcesState,
   breakpoints: BreakpointsState,
-  search: SearchState
+  projectTextSearch: ProjectTextSearchState
 };
 
 export type { SourceRecord } from "./source";

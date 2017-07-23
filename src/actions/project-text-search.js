@@ -17,7 +17,7 @@ import { loadAllSources } from "./sources";
 
 import type { ThunkArgs } from "./types";
 
-export function addSearchQuery(query) {
+export function addSearchQuery(query: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: "ADD_QUERY", query });
   };
@@ -29,7 +29,7 @@ export function removeSearchQuery() {
   };
 }
 
-export function searchSources(query) {
+export function searchSources(query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     dispatch(await loadAllSources());
     dispatch(addSearchQuery(query));

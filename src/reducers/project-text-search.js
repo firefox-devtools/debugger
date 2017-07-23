@@ -12,30 +12,33 @@ import * as I from "immutable";
 import { prefs } from "../utils/prefs";
 import makeRecord from "../utils/makeRecord";
 
-import type { Action } from "../actions/types";
+import type { Action, ProjectTextSearchAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 import type { Map } from "immutable";
 
-type Search = {
+export type Search = {
   id: string,
   filepath: string,
-  matches: I.List
+  matches: I.List<any>
 };
-type ResultRecord = Record<Search>;
-type ResultMap = Map<string, ResultRecord>;
-export type SearchState = {
+
+export type ResultRecord = Record<Search>;
+export type ResultMap = Map<string, ResultRecord>;
+export type ProjectTextSearchState = {
   query: string,
   results: ResultMap
 };
 
-export function InitialState(): Record {
-  return makeRecord(({ query: "", results: I.Map() }: SearchState))();
+export function InitialState(): Record<ProjectTextSearchState> {
+  return makeRecord(
+    ({ query: "", results: I.Map() }: ProjectTextSearchState)
+  )();
 }
 
 function update(
-  state: Record<SearchState> = InitialState(),
-  action: Action
-): Record {
+  state: Record<ProjectTextSearchState> = InitialState(),
+  action: ProjectTextSearchAction
+): Record<ProjectTextSearchState> {
   switch (action.type) {
     case "ADD_QUERY":
       return state.update("query", value => action.query);
@@ -52,13 +55,13 @@ function update(
   return state;
 }
 
-type OuterState = { projectTextSearch: Record<SearchState> };
+type OuterState = { projectTextSearch: Record<ProjectTextSearchState> };
 
 export function getSearchResults(state: OuterState) {
   return state.projectTextSearch.get("results");
 }
 
-export function getSearchResult(state: OuterState, id) {
+export function getSearchResult(state: OuterState, id: string) {
   return state.projectTextSearch.getIn(["results", id]);
 }
 

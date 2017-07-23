@@ -64,6 +64,12 @@ type AddBreakpointResult = {
   breakpoint: Breakpoint
 };
 
+type ProjectTextSearchResult = {
+  sourceId: string,
+  filepath: string,
+  matches: Array<any>
+};
+
 type BreakpointAction =
   | {
       type: "ADD_BREAKPOINT",
@@ -241,6 +247,16 @@ type ASTAction =
       type: "CLEAR_SELECTION"
     };
 
+export type ProjectTextSearchAction = {
+  type: "ADD_QUERY",
+  query: string
+} & {
+  type: "ADD_SEARCH_RESULT",
+  result: ProjectTextSearchResult
+} & {
+    type: "CLEAR_QUERY"
+  };
+
 /**
  * Actions: Source, Breakpoint, and Navigation
  *
@@ -248,6 +264,7 @@ type ASTAction =
  * @static
  */
 export type Action =
+  | ProjectTextSearchAction
   | SourceAction
   | BreakpointAction
   | PauseAction
