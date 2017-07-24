@@ -44,21 +44,21 @@ export default class Modal extends Component {
 
   render() {
     const { enabled } = this.props;
-    return Slide({
-      in: enabled,
-      children: status => {
-        return dom.div(
-          {
-            className: classnames("modal-wrapper", status),
-            onClick: this.props.handleClose
-          },
-          dom.div(
+    return dom.div(
+      {
+        className: classnames("modal-wrapper", { enabled }),
+        onClick: this.props.handleClose
+      },
+      Slide({
+        in: enabled,
+        children: status => {
+          return dom.div(
             { className: classnames("modal", status), onClick: this.onClick },
             this.props.children
-          )
-        );
-      }
-    });
+          );
+        }
+      })
+    );
   }
 }
 
