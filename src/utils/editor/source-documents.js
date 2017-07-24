@@ -1,8 +1,10 @@
 // @flow
 
 import { getMode } from "../source";
-import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
+import { isEnabled } from "devtools-config";
+
+import type { Source } from "debugger-html";
 
 let sourceDocs = {};
 
@@ -28,10 +30,15 @@ function resetLineNumberFormat(editor: Object) {
 }
 
 function updateLineNumberFormat(editor: Object, sourceId: string) {
+  if (!isEnabled("wasm")) {
+    return;
+  }
+
   if (!isWasm(sourceId)) {
     resetLineNumberFormat(editor);
     return;
   }
+
   let cm = editor.codeMirror;
   let lineNumberFormatter = getWasmLineNumberFormatter(sourceId);
   cm.setOption("lineNumberFormatter", lineNumberFormatter);
@@ -85,6 +92,7 @@ function showSourceText(editor: Object, source: Source) {
 
   setEditorText(editor, source);
   editor.setMode(getMode(source));
+
   updateLineNumberFormat(editor, source.id);
 }
 
