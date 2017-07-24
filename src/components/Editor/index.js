@@ -212,7 +212,7 @@ class Editor extends PureComponent {
     this.cbPanel = null;
     const editor = this.setupEditor();
 
-    const { selectedSource } = this.props;
+    const { selectedSource, selectedLocation } = this.props;
     const { shortcuts } = this.context;
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
@@ -225,6 +225,11 @@ class Editor extends PureComponent {
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
+
+    if (selectedLocation && !!selectedLocation.line) {
+      this.pendingJumpLocation = selectedLocation;
+    }
+
     const sourceId = selectedSource ? selectedSource.get("id") : undefined;
     updateDocument(editor, sourceId);
   }
