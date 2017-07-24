@@ -118,7 +118,6 @@ class Editor extends PureComponent {
     // This lifecycle method is responsible for updating the editor
     // text.
     const { selectedSource, selectedLocation } = nextProps;
-    this.clearDebugLine(this.props.selectedFrame);
 
     if (
       nextProps.startPanelSize !== this.props.startPanelSize ||
@@ -147,6 +146,7 @@ class Editor extends PureComponent {
         clearLineClass(this.state.editor.codeMirror, "in-scope");
       });
 
+      this.clearDebugLine(this.props.selectedFrame);
       this.setDebugLine(nextProps.selectedFrame, selectedLocation);
       resizeBreakpointGutter(this.state.editor.codeMirror);
     }
@@ -475,7 +475,7 @@ class Editor extends PureComponent {
   }
 
   clearDebugLine(selectedFrame) {
-    if (selectedFrame) {
+    if (this.state.editor && selectedFrame) {
       const { sourceId, line } = selectedFrame.location;
       if (debugExpression) {
         debugExpression.clear();
