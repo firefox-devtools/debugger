@@ -572,6 +572,28 @@ class Editor extends PureComponent {
     };
   }
 
+  getInlineEditorStyles() {
+    const { selectedSource, horizontal, searchOn } = this.props;
+
+    let subtractions = [];
+
+    if (shouldShowFooter(selectedSource, horizontal)) {
+      subtractions.push(cssVars.footerHeight);
+    }
+
+    if (searchOn) {
+      subtractions.push(cssVars.searchbarHeight);
+      subtractions.push(cssVars.secondSearchbarHeight);
+    }
+
+    return {
+      height:
+        subtractions.length === 0
+          ? "100%"
+          : `calc(100% - ${subtractions.join(" - ")})`
+    };
+  }
+
   renderHighlightLines() {
     const { highlightedLineRange } = this.props;
 
