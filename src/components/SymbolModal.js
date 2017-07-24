@@ -143,6 +143,7 @@ class SymbolModal extends Component {
   closeModal() {
     this.props.closeActiveSearch();
     this.props.clearHighlightLineRange();
+    this.setState({ query: "" });
   }
 
   selectResultItem(e: SyntheticEvent, item: ?FormattedSymbolDeclaration) {
