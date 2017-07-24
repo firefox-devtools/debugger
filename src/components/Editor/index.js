@@ -82,12 +82,12 @@ const cssVars = {
   footerHeight: "var(--editor-footer-height)"
 };
 
+let debugExpression;
 class Editor extends PureComponent {
   cbPanel: any;
   editor: SourceEditor;
   pendingJumpLocation: any;
   lastJumpLine: any;
-  debugExpression: any;
   state: Object;
 
   constructor() {
@@ -477,8 +477,8 @@ class Editor extends PureComponent {
   clearDebugLine(selectedFrame) {
     if (selectedFrame) {
       const { sourceId, line } = selectedFrame.location;
-      if (this.debugExpression) {
-        this.debugExpression.clear();
+      if (debugExpression) {
+        debugExpression.clear();
       }
 
       let editorLine = toEditorLine(sourceId, line);
@@ -501,7 +501,7 @@ class Editor extends PureComponent {
       const { line, column } = toEditorPosition(sourceId, location);
 
       this.state.editor.codeMirror.addLineClass(line, "line", "new-debug-line");
-      this.debugExpression = markText(this.state.editor, "debug-expression", {
+      debugExpression = markText(this.state.editor, "debug-expression", {
         start: { line, column },
         end: { line, column: null }
       });
