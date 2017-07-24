@@ -30,12 +30,3 @@ export function findSourceMatches(source, queryText) {
   matches = [].concat(...matches);
   return matches;
 }
-
-/*export default function searchSources(query, sources) {
-  const validSources = sources.valueSeq().filter(s => s.has("text")).toJS();
-  return validSources.map(source => ({
-    source,
-    filepath: source.url,
-    matches: searchSource(source, query)
-  }));
-}*/

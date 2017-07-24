@@ -397,7 +397,8 @@ export function loadAllSources() {
     for (const [, source] of sources) {
       const src = source.toJS();
       await dispatch(loadSourceText(src));
-      debugger;
+      // If there is a current search query we search
+      // each of the source texts as they get loaded
       if (query) {
         await dispatch(searchSource(src, query));
       }
