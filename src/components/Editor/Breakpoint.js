@@ -76,10 +76,6 @@ class Breakpoint extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.editor) {
-      return;
-    }
-
     this.addBreakpoint();
   }
 
@@ -90,7 +86,7 @@ class Breakpoint extends Component {
   componentWillUnmount() {
     const { editor, breakpoint, selectedSource } = this.props;
 
-    if (!editor || !selectedSource) {
+    if (!selectedSource) {
       return;
     }
 
