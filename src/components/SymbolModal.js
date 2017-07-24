@@ -123,6 +123,7 @@ class SymbolModal extends Component {
 
   openSymbolModal(_, e) {
     e.preventDefault();
+    e.stopPropagation();
     this.props.setActiveSearch("symbol");
   }
 
@@ -143,6 +144,7 @@ class SymbolModal extends Component {
   closeModal() {
     this.props.closeActiveSearch();
     this.props.clearHighlightLineRange();
+    this.setState({ query: "" });
   }
 
   selectResultItem(e: SyntheticEvent, item: ?FormattedSymbolDeclaration) {

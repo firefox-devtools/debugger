@@ -9,7 +9,8 @@ const {
   getSources,
   getSelectedSource,
   getSourceTabs,
-  getOutOfScopeLocations
+  getOutOfScopeLocations,
+  getSelectedLocation
 } = selectors;
 
 const threadClient = {
@@ -184,105 +185,13 @@ describe("sources", () => {
     const badSource = getSource(getState(), "bad-id");
     expect(badSource.get("error").indexOf("unknown source")).not.toBe(-1);
   });
-});
 
-describe("closing tabs", () => {
-  it("closing a tab", async () => {
+  it("should not select new sources that lack a URL", async () => {
     const { dispatch, getState } = createStore(threadClient);
-    await dispatch(actions.newSource(makeSource("foo.js")));
-    dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
+    await dispatch(actions.newSource({ id: "foo" }));
 
-    expect(getSelectedSource(getState())).toBe(undefined);
-    expect(getSourceTabs(getState()).size).toBe(0);
-  });
-
-  it("closing the inactive tab", async () => {
-    const { dispatch, getState } = createStore(threadClient);
-    await dispatch(actions.newSource(makeSource("foo.js")));
-    await dispatch(actions.newSource(makeSource("bar.js")));
-    dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.selectSource("bar.js"));
-    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
-
-    expect(getSelectedSource(getState()).get("id")).toBe("bar.js");
-    expect(getSourceTabs(getState()).size).toBe(1);
-  });
-
-  it("closing the only tab", async () => {
-    const { dispatch, getState } = createStore(threadClient);
-    await dispatch(actions.newSource(makeSource("foo.js")));
-    dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.closeTab("http://localhost:8000/examples/foo.js"));
-
-    expect(getSelectedSource(getState())).toBe(undefined);
-    expect(getSourceTabs(getState()).size).toBe(0);
-  });
-
-  it("closing the active tab", async () => {
-    const { dispatch, getState } = createStore(threadClient);
-    await dispatch(actions.newSource(makeSource("foo.js")));
-    await dispatch(actions.newSource(makeSource("bar.js")));
-    dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.selectSource("bar.js"));
-    dispatch(actions.closeTab("http://localhost:8000/examples/bar.js"));
-
-    expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
-    expect(getSourceTabs(getState()).size).toBe(1);
-  });
-
-  it("closing many inactive tabs", async () => {
-    const { dispatch, getState } = createStore({});
-    await dispatch(actions.newSource(makeSource("foo.js")));
-    await dispatch(actions.newSource(makeSource("bar.js")));
-    await dispatch(actions.newSource(makeSource("bazz.js")));
-    dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.selectSource("bar.js"));
-    dispatch(actions.selectSource("bazz.js"));
-    dispatch(
-      actions.closeTabs([
-        "http://localhost:8000/examples/foo.js",
-        "http://localhost:8000/examples/bar.js"
-      ])
-    );
-
-    expect(getSelectedSource(getState()).get("id")).toBe("bazz.js");
-    expect(getSourceTabs(getState()).size).toBe(1);
-  });
-
-  it("closing many tabs including the active tab", async () => {
-    const { dispatch, getState } = createStore({});
-    await dispatch(actions.newSource(makeSource("foo.js")));
-    await dispatch(actions.newSource(makeSource("bar.js")));
-    await dispatch(actions.newSource(makeSource("bazz.js")));
-    dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.selectSource("bar.js"));
-    dispatch(actions.selectSource("bazz.js"));
-    dispatch(
-      actions.closeTabs([
-        "http://localhost:8000/examples/bar.js",
-        "http://localhost:8000/examples/bazz.js"
-      ])
-    );
-
-    expect(getSelectedSource(getState()).get("id")).toBe("foo.js");
-    expect(getSourceTabs(getState()).size).toBe(1);
-  });
-
-  it("closing all the tabs", async () => {
-    const { dispatch, getState } = createStore({});
-    await dispatch(actions.newSource(makeSource("foo.js")));
-    await dispatch(actions.newSource(makeSource("bar.js")));
-    dispatch(actions.selectSource("foo.js"));
-    dispatch(actions.selectSource("bar.js"));
-    dispatch(
-      actions.closeTabs([
-        "http://localhost:8000/examples/foo.js",
-        "http://localhost:8000/examples/bar.js"
-      ])
-    );
-
-    expect(getSelectedSource(getState())).toBe(undefined);
-    expect(getSourceTabs(getState()).size).toBe(0);
+    expect(getSources(getState()).size).toEqual(1);
+    const selectedLocation = getSelectedLocation(getState());
+    expect(selectedLocation).toEqual(undefined);
   });
 });

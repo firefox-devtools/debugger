@@ -17,10 +17,6 @@ class HighlightLines extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.editor) {
-      return;
-    }
-
     this.highlightLineRange();
   }
 
@@ -39,13 +35,9 @@ class HighlightLines extends Component {
   clearHighlightRange() {
     const { highlightedLineRange, editor } = this.props;
 
-    if (!editor) {
-      return;
-    }
-
     const { codeMirror } = editor;
 
-    if (isEmpty(highlightedLineRange) || !editor || !codeMirror) {
+    if (isEmpty(highlightedLineRange) || !codeMirror) {
       return;
     }
 
@@ -59,10 +51,6 @@ class HighlightLines extends Component {
 
   highlightLineRange() {
     const { highlightedLineRange, editor } = this.props;
-
-    if (!editor) {
-      return;
-    }
 
     const { codeMirror } = editor;
 

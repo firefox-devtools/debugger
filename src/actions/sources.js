@@ -44,7 +44,7 @@ import type { State } from "../reducers/types";
 function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
 
-  if (pendingLocation && pendingLocation.url === source.url) {
+  if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
     dispatch(selectSource(source.id, { line: pendingLocation.line }));
   }
 }
