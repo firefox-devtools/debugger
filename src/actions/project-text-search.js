@@ -15,6 +15,7 @@ import { getSources } from "../selectors";
 
 import { loadAllSources } from "./sources";
 
+import type { Source } from "../types";
 import type { ThunkArgs } from "./types";
 
 export function addSearchQuery(query: string) {
@@ -45,7 +46,7 @@ export function searchSources(query: string) {
   };
 }
 
-export function searchSource(source, query: string) {
+export function searchSource(source: Source, query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const matches = findSourceMatches(source, query);
     dispatch({

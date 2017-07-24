@@ -394,13 +394,13 @@ export function loadAllSources() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const sources = getSources(getState());
     const query = getTextSearchQuery(getState());
-    for (const [, source] of sources) {
-      const src = source.toJS();
-      await dispatch(loadSourceText(src));
+    for (const [, src] of sources) {
+      const source = src.toJS();
+      await dispatch(loadSourceText(source));
       // If there is a current search query we search
       // each of the source texts as they get loaded
       if (query) {
-        await dispatch(searchSource(src, query));
+        await dispatch(searchSource(source, query));
       }
     }
   };
