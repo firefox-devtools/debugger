@@ -11,13 +11,6 @@ ShallowWrapper {
   "node": <div
     className="editor-wrapper"
 >
-    <Connect(SearchBar)
-        clearHighlightLineRange={undefined}
-        editor={null}
-        highlightLineRange={undefined}
-        selectSource={undefined}
-        selectedSource={undefined}
-    />
     <div
         className="editor-mount devtools-monospace"
         style={
@@ -26,25 +19,11 @@ ShallowWrapper {
               }
         }
     />
-    <Connect(SourceFooter)
-        editor={null}
-        horizontal={undefined}
-    />
-    <Connect(Breakpoints)
-        editor={null}
-    />
 </div>,
   "nodes": Array [
     <div
       className="editor-wrapper"
 >
-      <Connect(SearchBar)
-            clearHighlightLineRange={undefined}
-            editor={null}
-            highlightLineRange={undefined}
-            selectSource={undefined}
-            selectedSource={undefined}
-      />
       <div
             className="editor-mount devtools-monospace"
             style={
@@ -52,13 +31,6 @@ ShallowWrapper {
                         "height": "calc(100% - var(--editor-footer-height))",
                       }
             }
-      />
-      <Connect(SourceFooter)
-            editor={null}
-            horizontal={undefined}
-      />
-      <Connect(Breakpoints)
-            editor={null}
       />
 </div>,
   ],
@@ -158,13 +130,6 @@ ShallowWrapper {
         "_currentElement": <div
           className="editor-wrapper"
 >
-          <Connect(SearchBar)
-                    clearHighlightLineRange={undefined}
-                    editor={null}
-                    highlightLineRange={undefined}
-                    selectSource={undefined}
-                    selectedSource={undefined}
-          />
           <div
                     className="editor-mount devtools-monospace"
                     style={
@@ -172,26 +137,12 @@ ShallowWrapper {
                                         "height": "calc(100% - var(--editor-footer-height))",
                                       }
                     }
-          />
-          <Connect(SourceFooter)
-                    editor={null}
-                    horizontal={undefined}
-          />
-          <Connect(Breakpoints)
-                    editor={null}
           />
 </div>,
         "_debugID": 2,
         "_renderedOutput": <div
           className="editor-wrapper"
 >
-          <Connect(SearchBar)
-                    clearHighlightLineRange={undefined}
-                    editor={null}
-                    highlightLineRange={undefined}
-                    selectSource={undefined}
-                    selectedSource={undefined}
-          />
           <div
                     className="editor-mount devtools-monospace"
                     style={
@@ -199,13 +150,6 @@ ShallowWrapper {
                                         "height": "calc(100% - var(--editor-footer-height))",
                                       }
                     }
-          />
-          <Connect(SourceFooter)
-                    editor={null}
-                    horizontal={undefined}
-          />
-          <Connect(Breakpoints)
-                    editor={null}
           />
 </div>,
       },

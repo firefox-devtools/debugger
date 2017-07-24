@@ -134,14 +134,17 @@ class Editor extends PureComponent {
       showSourceText(this.state.editor, selectedSource.toJS());
     }
 
-    if (this.props.linesInScope !== nextProps.linesInScope) {
+    if (
+      this.state.editor &&
+      this.props.linesInScope !== nextProps.linesInScope
+    ) {
       this.state.editor.codeMirror.operation(() => {
         clearLineClass(this.state.editor.codeMirror, "in-scope");
       });
-    }
 
-    this.setDebugLine(nextProps.selectedFrame, selectedLocation);
-    resizeBreakpointGutter(this.state.editor.codeMirror);
+      this.setDebugLine(nextProps.selectedFrame, selectedLocation);
+      resizeBreakpointGutter(this.state.editor.codeMirror);
+    }
   }
 
   setupEditor() {
@@ -326,6 +329,15 @@ class Editor extends PureComponent {
     this.props.clearSelection();
   }
 
+  inSelectedFrameSource() {
+    const { selectedLocation, selectedFrame } = this.props;
+    return (
+      selectedFrame &&
+      selectedLocation &&
+      selectedFrame.location.sourceId == selectedLocation.sourceId
+    );
+  }
+
   openMenu(event, codeMirror) {
     const {
       selectedSource,
@@ -462,6 +474,7 @@ class Editor extends PureComponent {
 
   setDebugLine(selectedFrame, selectedLocation) {
     if (
+      this.state.editor &&
       selectedFrame &&
       selectedLocation &&
       selectedFrame.location.sourceId === selectedLocation.sourceId
@@ -524,6 +537,28 @@ class Editor extends PureComponent {
     this.state.editor.setMode({ name: "text" });
   }
 
+  getInlineEditorStyles() {
+    const { selectedSource, horizontal, searchOn } = this.props;
+
+    let subtractions = [];
+
+    if (shouldShowFooter(selectedSource, horizontal)) {
+      subtractions.push(cssVars.footerHeight);
+    }
+
+    if (searchOn) {
+      subtractions.push(cssVars.searchbarHeight);
+      subtractions.push(cssVars.secondSearchbarHeight);
+    }
+
+    return {
+      height:
+        subtractions.length === 0
+          ? "100%"
+          : `calc(100% - ${subtractions.join(" - ")})`
+    };
+  }
+
   renderHighlightLines() {
     const { highlightedLineRange } = this.props;
 
@@ -558,28 +593,6 @@ class Editor extends PureComponent {
     );
   }
 
-  getInlineEditorStyles() {
-    const { selectedSource, horizontal, searchOn } = this.props;
-
-    let subtractions = [];
-
-    if (shouldShowFooter(selectedSource, horizontal)) {
-      subtractions.push(cssVars.footerHeight);
-    }
-
-    if (searchOn) {
-      subtractions.push(cssVars.searchbarHeight);
-      subtractions.push(cssVars.secondSearchbarHeight);
-    }
-
-    return {
-      height:
-        subtractions.length === 0
-          ? "100%"
-          : `calc(100% - ${subtractions.join(" - ")})`
-    };
-  }
-
   renderPreview() {
     const { selectedSource, selection } = this.props;
     if (!this.state.editor || !selectedSource) {
@@ -609,6 +622,7 @@ class Editor extends PureComponent {
   renderInScopeLines() {
     const { linesInScope } = this.props;
     if (
+      !this.state.editor ||
       !isEnabled("highlightScopeLines") ||
       !linesInScope ||
       !this.inSelectedFrameSource()
@@ -623,15 +637,6 @@ class Editor extends PureComponent {
     });
   }
 
-  inSelectedFrameSource() {
-    const { selectedLocation, selectedFrame } = this.props;
-    return (
-      selectedFrame &&
-      selectedLocation &&
-      selectedFrame.location.sourceId == selectedLocation.sourceId
-    );
-  }
-
   renderCallSites() {
     const editor = this.state.editor;
 
@@ -641,16 +646,46 @@ class Editor extends PureComponent {
     return CallSites({ editor });
   }
 
-  render() {
+  renderSearchBar() {
     const {
       selectSource,
       selectedSource,
       highlightLineRange,
-      clearHighlightLineRange,
-      coverageOn,
-      pauseData,
-      horizontal
+      clearHighlightLineRange
     } = this.props;
+
+    if (!this.state.editor) {
+      return null;
+    }
+
+    return SearchBar({
+      editor: this.state.editor,
+      selectSource,
+      selectedSource,
+      highlightLineRange,
+      clearHighlightLineRange
+    });
+  }
+
+  renderFooter() {
+    const { horizontal } = this.props;
+
+    if (!this.state.editor) {
+      return null;
+    }
+    return Footer({ editor: this.state.editor, horizontal });
+  }
+
+  renderBreakpoints() {
+    if (!this.state.editor) {
+      return null;
+    }
+
+    return Breakpoints({ editor: this.state.editor });
+  }
+
+  render() {
+    const { coverageOn, pauseData } = this.props;
 
     return dom.div(
       {
@@ -659,13 +694,7 @@ class Editor extends PureComponent {
           paused: !!pauseData && isEnabled("highlightScopeLines")
         })
       },
-      SearchBar({
-        editor: this.state.editor,
-        selectSource,
-        selectedSource,
-        highlightLineRange,
-        clearHighlightLineRange
-      }),
+      this.renderSearchBar(),
       dom.div({
         className: "editor-mount devtools-monospace",
         style: this.getInlineEditorStyles()
@@ -673,10 +702,10 @@ class Editor extends PureComponent {
       this.renderHighlightLines(),
       this.renderInScopeLines(),
       this.renderHitCounts(),
-      Footer({ editor: this.state.editor, horizontal }),
+      this.renderFooter(),
       this.renderPreview(),
       this.renderCallSites(),
-      Breakpoints({ editor: this.state.editor })
+      this.renderBreakpoints()
     );
   }
 }

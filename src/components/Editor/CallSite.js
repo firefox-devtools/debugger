@@ -47,10 +47,7 @@ export default class CallSite extends Component {
   }
 
   componentDidMount() {
-    const { breakpoint, editor, showCallSite } = this.props;
-    if (!editor) {
-      return;
-    }
+    const { breakpoint, showCallSite } = this.props;
 
     if (!breakpoint && !showCallSite) {
       return;
@@ -81,7 +78,7 @@ export default class CallSite extends Component {
   }
 
   componentWillUnmount() {
-    if (!this.props.editor || !this.marker) {
+    if (!this.marker) {
       return;
     }
     this.marker.clear();

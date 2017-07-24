@@ -32,10 +32,6 @@ class HitMarker extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.editor) {
-      return;
-    }
-
     this.addMarker();
   }
 
@@ -44,10 +40,6 @@ class HitMarker extends Component {
   }
 
   componentWillUnmount() {
-    if (!this.props.editor) {
-      return;
-    }
-
     const hitData = this.props.hitData;
     const line = hitData.line - 1;
 
