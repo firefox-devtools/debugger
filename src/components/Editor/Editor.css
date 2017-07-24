@@ -86,6 +86,11 @@ html[dir="rtl"] .editor-mount {
   right: -4px;
 }
 
+.editor.new-breakpoint {
+  min-width: 29px;
+  position: absolute;
+}
+
 .inline-bp {
   background-color: #9ddfff;
   width: 20px;
