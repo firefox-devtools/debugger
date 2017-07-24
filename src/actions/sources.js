@@ -13,8 +13,10 @@ import defer from "../utils/defer";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { updateFrameLocations } from "../utils/pause";
+
 import { setSymbols, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
+import { searchSource } from "./project-text-search";
 
 import { prettyPrint } from "../utils/pretty-print";
 import { getPrettySourceURL } from "../utils/source";
@@ -32,7 +34,8 @@ import {
   getSourceTabs,
   getNewSelectedSourceId,
   removeSourcesFromTabList,
-  removeSourceFromTabList
+  removeSourceFromTabList,
+  getTextSearchQuery
 } from "../selectors";
 
 import type { Source } from "../types";
@@ -390,8 +393,14 @@ export function loadSourceText(source: Source) {
 export function loadAllSources() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const sources = getSources(getState());
+    const query = getTextSearchQuery(getState());
     for (const [, source] of sources) {
-      await dispatch(loadSourceText(source.toJS()));
+      const src = source.toJS();
+      await dispatch(loadSourceText(src));
+      debugger;
+      if (query) {
+        await dispatch(searchSource(src, query));
+      }
     }
   };
 }
