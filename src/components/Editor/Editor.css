@@ -87,7 +87,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 .editor.new-breakpoint {
-  width: 29px;
+  min-width: 29px;
   position: absolute;
 }
 
