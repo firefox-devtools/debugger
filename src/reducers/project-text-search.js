@@ -56,15 +56,15 @@ function update(
 
 type OuterState = { projectTextSearch: Record<ProjectTextSearchState> };
 
-export function getSearchResults(state: OuterState) {
+export function getTextSearchResults(state: OuterState) {
   return state.projectTextSearch.get("results");
 }
 
-export function getSearchResult(state: OuterState, id: string) {
+export function getTextSearchResult(state: OuterState, id: string) {
   return state.projectTextSearch.getIn(["results", id]);
 }
 
-export function getQuery(state: OuterState) {
+export function getTextSearchQuery(state: OuterState) {
   return state.projectTextSearch.get("query");
 }
 

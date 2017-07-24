@@ -8,8 +8,8 @@ import { isEnabled } from "devtools-config";
 import {
   getSources,
   getActiveSearchState,
-  getSearchResults,
-  getQuery
+  getTextSearchResults,
+  getTextSearchQuery
 } from "../../selectors";
 
 import "./ProjectSearch.css";
@@ -183,8 +183,8 @@ export default connect(
   state => ({
     sources: getSources(state),
     activeSearch: getActiveSearchState(state),
-    results: getSearchResults(state),
-    query: getQuery(state)
+    results: getTextSearchResults(state),
+    query: getTextSearchQuery(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);
