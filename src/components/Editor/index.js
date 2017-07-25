@@ -459,7 +459,7 @@ class Editor extends PureComponent {
 
   clearDebugLine(selectedFrame) {
     if (this.state.editor && selectedFrame) {
-      const { sourceId, line } = selectedFrame.location;
+      const { line } = selectedFrame.location;
       if (debugExpression) {
         debugExpression.clear();
       }
