@@ -142,7 +142,7 @@ export default class TextSearch extends Component {
       getParent: item => null,
       getKey: item =>
         item.filepath
-          ? `${item.id}`
+          ? `${item.sourceId}`
           : `${item.sourceId}-${item.line}-${item.column}`,
       renderItem: (item, depth, focused, _, expanded, { setExpanded }) =>
         item.filepath
