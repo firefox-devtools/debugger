@@ -9,12 +9,13 @@
  * @module actions/search
  */
 
-import { searchSource } from "../utils/search/project-search";
+import { findSourceMatches } from "../utils/search/project-search";
 
 import { getSources } from "../selectors";
 
 import { loadAllSources } from "./sources";
 
+import type { Source } from "../types";
 import type { ThunkArgs } from "./types";
 
 export function addSearchQuery(query: string) {
@@ -23,7 +24,7 @@ export function addSearchQuery(query: string) {
   };
 }
 
-export function removeSearchQuery() {
+export function clearSearchQuery() {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: "CLEAR_QUERY" });
   };
@@ -31,9 +32,8 @@ export function removeSearchQuery() {
 
 export function searchSources(query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    dispatch(await loadAllSources());
-    dispatch(addSearchQuery(query));
-
+    await dispatch(addSearchQuery(query));
+    await dispatch(loadAllSources());
     const sources = getSources(getState());
     const validSources = sources
       .valueSeq()
@@ -41,15 +41,21 @@ export function searchSources(query: string) {
       .toJS();
 
     for (const source of validSources) {
-      const matches = await searchSource(source, query);
-      dispatch({
-        type: "ADD_SEARCH_RESULT",
-        result: {
-          sourceId: source.id,
-          filepath: source.url,
-          matches
-        }
-      });
+      await dispatch(searchSource(source, query));
     }
+  };
+}
+
+export function searchSource(source: Source, query: string) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const matches = findSourceMatches(source, query);
+    dispatch({
+      type: "ADD_SEARCH_RESULT",
+      result: {
+        sourceId: source.id,
+        filepath: source.url,
+        matches
+      }
+    });
   };
 }
