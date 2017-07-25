@@ -24,7 +24,7 @@ export function addSearchQuery(query: string) {
   };
 }
 
-export function removeSearchQuery() {
+export function clearSearchQuery() {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: "CLEAR_QUERY" });
   };
