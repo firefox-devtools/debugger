@@ -98,13 +98,11 @@ class SymbolModal extends Component {
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.off("Escape");
     shortcuts.off(L10N.getStr("symbolSearch.search.key2"));
   }
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.on("Escape", this.closeModal);
     shortcuts.on(L10N.getStr("symbolSearch.search.key2"), this.openSymbolModal);
 
     this.updateResults(this.state.query);
