@@ -84,6 +84,12 @@ function getFilenameFromPath(pathname?: string) {
   return filename;
 }
 
+function getRelativePath(path: string) {
+  const re = /(http(?:s?):\/\/(?:www\.)?[a-z0-9\-.]+)\/(.*)/i;
+  const matches = path.match(re);
+  return matches ? matches[2] : "";
+}
+
 /**
  * @memberof utils/sources-tree
  * @static
@@ -421,6 +427,7 @@ export {
   collapseTree,
   createTree,
   getDirectories,
+  getRelativePath,
   getURL,
   isExactUrlMatch,
   formatTree
