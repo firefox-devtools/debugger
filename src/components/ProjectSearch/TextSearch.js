@@ -160,8 +160,7 @@ export default class TextSearch extends Component {
     });
   }
 
-  resultCount() {
-    const { results } = this.props;
+  resultCount(results) {
     return results.reduce(
       (count, file) => count + (file.matches ? file.matches.length : 0),
       0
@@ -169,7 +168,8 @@ export default class TextSearch extends Component {
   }
 
   renderInput() {
-    const resultCount = this.resultCount();
+    const { results } = this.props;
+    const resultCount = this.resultCount(results);
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
       resultCount
