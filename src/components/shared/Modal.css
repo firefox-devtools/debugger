@@ -7,7 +7,7 @@
   z-index: -1;
   top: 0;
   left: 0;
-  transition: z-index 0.4s ease-in-out;
+  transition: z-index 200ms;
 }
 
 .modal-wrapper.enabled {
@@ -21,7 +21,7 @@
   height: 230px;
   background-color: var(--theme-codemirror-gutter-background);
   transform: translateY(-250px);
-  transition: transform 0.2s ease-in-out;
+  transition: transform 150ms cubic-bezier(0.07, 0.95, 0, 1);
   box-shadow: 2px 4px 6px #dde1e4;
 }
 
