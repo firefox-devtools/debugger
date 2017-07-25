@@ -124,13 +124,13 @@ class SymbolModal extends Component {
     }
   }
 
-  openSymbolModal(_, e) {
+  openSymbolModal(_, e: SyntheticEvent) {
     e.preventDefault();
     e.stopPropagation();
     this.props.setActiveSearch("symbol");
   }
 
-  onClick(e) {
+  onClick(e: SyntheticEvent) {
     e.stopPropagation();
   }
 
@@ -243,10 +243,11 @@ class SymbolModal extends Component {
 
     const { enabled } = this.props;
     if (!enabled || !results) {
-      return;
+      return null;
     }
 
     return ResultList({
+      key: "results",
       items: results,
       selected: resultsIndex,
       selectItem: this.selectResultItem,
@@ -293,16 +294,19 @@ class SymbolModal extends Component {
 
   render() {
     const { enabled } = this.props;
-    return Modal(
-      {
-        enabled,
-        shortcut: "symbolSearch.search.key2",
-        handleOpen: this.openSymbolModal,
-        handleClose: this.closeModal
-      },
-      dom.div({ className: "input-wrapper" }, this.renderInput()),
-      this.renderResults()
-    );
+    return Modal({
+      enabled,
+      shortcut: "symbolSearch.search.key2",
+      handleOpen: this.openSymbolModal,
+      handleClose: this.closeModal,
+      children: [
+        dom.div(
+          { key: "input", className: "input-wrapper" },
+          this.renderInput()
+        ),
+        this.renderResults()
+      ]
+    });
   }
 }
 

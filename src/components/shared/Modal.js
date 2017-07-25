@@ -1,6 +1,7 @@
 // @flow
 
 import { createFactory, DOM as dom, Component, PropTypes } from "react";
+import type { Children } from "react";
 import classnames from "classnames";
 import _Transition from "react-transition-group/Transition";
 const Transition = createFactory(_Transition);
@@ -11,16 +12,18 @@ function Slide({ in: inProp, children }) {
   return Transition({ in: inProp, timeout: 200 }, children);
 }
 
-export default class Modal extends Component {
-  props: {
-    enabled: boolean,
-    shortcut: string,
-    children: any,
-    handleOpen: () => any,
-    handleClose: () => any
-  };
+type ModalProps = {
+  enabled: boolean,
+  shortcut: string,
+  children?: Children,
+  handleOpen: (_: any, e: SyntheticEvent) => any,
+  handleClose: () => any
+};
 
-  constructor(props) {
+export default class Modal extends Component {
+  props: ModalProps;
+
+  constructor(props: ModalProps) {
     super(props);
     const self: any = this;
     self.onClick = this.onClick.bind(this);
