@@ -141,6 +141,13 @@ lots happened since the last update:
 * [Flow Review](./5-1-2017-flow.md)
 * [Tests Review](./5-1-2017-tests.md)
 
+### [July 25th](./updates-7-25-2017.md)
+
+* lots of polish as we prepare for releasing in 56
+* breakpoints are more stable
+* project text search is getting closer
+* wasm support is coming to the debugger
+
 [@asolove]:http://github.com/asolove
 [@ryanjduffy]:http://github.com/ryanjduffy
 [@diessica]:http://github.com/diessica
