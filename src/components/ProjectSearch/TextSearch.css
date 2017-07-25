@@ -1,16 +1,20 @@
 .project-text-search {
   flex-grow: 1;
 }
+.project-text-search .results-list {
+  overflow: auto
+}
 
 .project-text-search .result {
   display: flex;
   cursor: default;
   margin-bottom: 1px;
   padding: 4px 0 4px 30px;
+  font-family: monospace;
 }
 
 .project-text-search .matches-summary {
-  margin-left: 2px;
+  margin-left: 5px;
 }
 
 .project-text-search .result.focused {

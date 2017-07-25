@@ -11,6 +11,8 @@ const SearchInput = createFactory(_SearchInput);
 
 import "./TextSearch.css";
 
+import { getRelativePath } from "../../utils/sources-tree";
+
 export default class TextSearch extends Component {
   constructor(props: Props) {
     super(props);
@@ -56,7 +58,10 @@ export default class TextSearch extends Component {
           expanded
         })
       }),
-      dom.span({ className: "file-path" }, file.filepath),
+      Svg("file", {
+        className: "file-path"
+      }),
+      dom.span({ className: "file-path" }, getRelativePath(file.filepath)),
       dom.span(
         { className: "matches-summary" },
         ` (${file.matches.length} match${file.matches.length > 1 ? "es" : ""})`
@@ -68,7 +73,7 @@ export default class TextSearch extends Component {
     return dom.div(
       {
         className: classnames("result", { focused }),
-        onClick: () => this.selectMatchItem(match)
+        onClick: () => setTimeout(() => this.selectMatchItem(match), 50)
       },
       dom.span(
         {
