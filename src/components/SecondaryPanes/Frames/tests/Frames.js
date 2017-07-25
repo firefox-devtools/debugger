@@ -22,36 +22,50 @@ function render(overrides = {}) {
 }
 
 describe("Frames", () => {
-  it("empty frames", () => {
-    const component = render();
-    expect(component).toMatchSnapshot();
-  });
+  describe("Supports different number of frames", () => {
+    it("empty frames", () => {
+      const component = render();
+      expect(component).toMatchSnapshot();
+      expect(component.find(".show-more").exists()).toBeFalsy();
+    });
 
-  it("one frame", () => {
-    const frames = [{ id: 1 }];
-    const selectedFrame = frames[0];
-    const component = render({ frames, selectedFrame });
+    it("one frame", () => {
+      const frames = [{ id: 1 }];
+      const selectedFrame = frames[0];
+      const component = render({ frames, selectedFrame });
 
-    expect(component).toMatchSnapshot();
-  });
+      expect(component.find(".show-more").exists()).toBeFalsy();
+      expect(component).toMatchSnapshot();
+    });
 
-  it("lots of frames", () => {
-    const frames = [
-      { id: 1 },
-      { id: 2 },
-      { id: 3 },
-      { id: 4 },
-      { id: 5 },
-      { id: 6 },
-      { id: 7 },
-      { id: 8 }
-    ];
-    const selectedFrame = frames[0];
-    const component = render({ frames, selectedFrame });
+    it("toggling the show more button", () => {
+      const frames = [
+        { id: 1 },
+        { id: 2 },
+        { id: 3 },
+        { id: 4 },
+        { id: 5 },
+        { id: 6 },
+        { id: 7 },
+        { id: 8 },
+        { id: 9 },
+        { id: 10 }
+      ];
 
-    expect(component).toMatchSnapshot();
-    const showMore = component.node.props.children[2];
-    expect(showMore.props.className).toEqual("show-more");
+      const selectedFrame = frames[0];
+      const component = render({ selectedFrame, frames });
+
+      const getToggleBtn = () => component.find(".show-more");
+      const getFrames = () => component.find("FrameComponent");
+
+      expect(getToggleBtn().text()).toEqual("Expand Rows");
+      expect(getFrames().length).toEqual(7);
+
+      getToggleBtn().simulate("click");
+      expect(getToggleBtn().text()).toEqual("Collapse Rows");
+      expect(getFrames().length).toEqual(10);
+      expect(component).toMatchSnapshot();
+    });
   });
 
   describe("Blackboxed Frames", () => {
@@ -70,42 +84,37 @@ describe("Frames", () => {
 
       const processedFrames = getAndProcessFrames(frames, sources);
       const selectedFrame = frames[0];
+
       const component = render({
         frames: processedFrames,
         frameworkGroupingOn: false,
         selectedFrame
       });
+
+      expect(component.find("FrameComponent").length).toEqual(2);
       expect(component).toMatchSnapshot();
     });
   });
 
   describe("Library Frames", () => {
-    it("expand framework frames into a multiple frames", () => {
+    it("toggling framework frames", () => {
       const frames = [
         { id: 1 },
         { id: 2, library: "back" },
         { id: 3, library: "back" },
         { id: 8 }
       ];
+
       const selectedFrame = frames[0];
       const frameworkGroupingOn = false;
       const component = render({ frames, frameworkGroupingOn, selectedFrame });
-      expect(component).toMatchSnapshot();
-    });
 
-    it("collapse framework frames into a single frame", () => {
-      const frames = [
-        { id: 1 },
-        { id: 2, library: "back" },
-        { id: 3, library: "back" },
-        { id: 8 }
-      ];
-      const selectedFrame = frames[0];
-      const component = render({
-        frames,
-        selectedFrame,
-        frameworkGroupingOn: true
-      });
+      expect(component.find("FrameComponent").length).toEqual(4);
+      expect(component).toMatchSnapshot();
+
+      component.setProps({ frameworkGroupingOn: true });
+
+      expect(component.find("FrameComponent").length).toEqual(2);
       expect(component).toMatchSnapshot();
     });
   });
