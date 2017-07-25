@@ -45,15 +45,6 @@ class Frames extends Component {
     showAllFrames: boolean
   };
 
-  collapseFrames(frames) {
-    const { frameworkGroupingOn } = this.props;
-    if (!frameworkGroupingOn) {
-      return frames;
-    }
-
-    return collapseFrames(frames);
-  }
-
   renderFrames: Function;
   toggleFramesDisplay: Function;
   truncateFrames: Function;
@@ -88,6 +79,15 @@ class Frames extends Component {
     this.setState({
       showAllFrames: !this.state.showAllFrames
     });
+  }
+
+  collapseFrames(frames) {
+    const { frameworkGroupingOn } = this.props;
+    if (!frameworkGroupingOn) {
+      return frames;
+    }
+
+    return collapseFrames(frames);
   }
 
   truncateFrames(frames) {
@@ -154,7 +154,7 @@ class Frames extends Component {
       ? L10N.getStr("callStack.collapse")
       : L10N.getStr("callStack.expand");
 
-    frames = collapseFrames(frames);
+    frames = this.collapseFrames(frames);
     if (frames.length <= NUM_FRAMES_SHOWN) {
       return null;
     }
