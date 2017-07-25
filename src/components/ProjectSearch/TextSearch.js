@@ -37,6 +37,12 @@ export default class TextSearch extends Component {
     this.props.searchSources(this.state.inputValue);
   }
 
+  componentDidMount() {
+    if (this.refs.searchInput) {
+      this.refs.searchInput.refs.input.focus();
+    }
+  }
+
   inputOnChange(e) {
     const inputValue = e.target.value;
     this.setState({ inputValue });
@@ -156,8 +162,7 @@ export default class TextSearch extends Component {
     });
   }
 
-  resultCount() {
-    const { results } = this.props;
+  resultCount(results) {
     return results.reduce(
       (count, file) => count + (file.matches ? file.matches.length : 0),
       0
@@ -165,7 +170,8 @@ export default class TextSearch extends Component {
   }
 
   renderInput() {
-    const resultCount = this.resultCount();
+    const { results } = this.props;
+    const resultCount = this.resultCount(results);
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
       resultCount
@@ -181,7 +187,8 @@ export default class TextSearch extends Component {
       onFocus: () => this.setState({ focused: true }),
       onBlur: () => this.setState({ focused: false }),
       onKeyDown: e => this.onKeyDown(e),
-      handleClose: this.close
+      handleClose: this.close,
+      ref: "searchInput"
     });
   }
 
