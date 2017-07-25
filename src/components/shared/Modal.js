@@ -1,16 +1,10 @@
 // @flow
 
-import { createFactory, DOM as dom, Component, PropTypes } from "react";
+import { DOM as dom, Component, PropTypes } from "react";
 import type { Children } from "react";
 import classnames from "classnames";
-import _Transition from "react-transition-group/Transition";
-const Transition = createFactory(_Transition);
 
 import "./Modal.css";
-
-function Slide({ in: inProp, children }) {
-  return Transition({ in: inProp, timeout: 200 }, children);
-}
 
 type ModalProps = {
   enabled: boolean,
@@ -52,15 +46,10 @@ export default class Modal extends Component {
         className: classnames("modal-wrapper", { enabled }),
         onClick: this.props.handleClose
       },
-      Slide({
-        in: enabled,
-        children: status => {
-          return dom.div(
-            { className: classnames("modal", status), onClick: this.onClick },
-            this.props.children
-          );
-        }
-      })
+      dom.div(
+        { className: classnames("modal", { enabled }), onClick: this.onClick },
+        this.props.children
+      )
     );
   }
 }

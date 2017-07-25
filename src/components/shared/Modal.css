@@ -20,17 +20,12 @@
   width: 500px;
   height: 230px;
   background-color: var(--theme-codemirror-gutter-background);
+  transform: translateY(-250px);
   transition: transform 0.2s ease-in-out;
   box-shadow: 2px 4px 6px #dde1e4;
 }
 
-.modal.entering,
-.modal.exited {
-  transform: translateY(-250px);
-}
-
-.modal.entered,
-.modal.exiting {
+.modal.enabled {
   transform: translateY(30px);
 }
 
