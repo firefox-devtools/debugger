@@ -42,5 +42,6 @@ describe("Breakpoints Component", () => {
 
     const { component, props } = render({ breakpoints });
     expect(component.find("Breakpoint").length).toBe(props.breakpoints.size);
+    expect(component).toMatchSnapshot();
   });
 });
