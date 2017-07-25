@@ -14,7 +14,8 @@ const config = Object.assign({}, envConfig, {
       "node_modules/devtools-source-map/src/worker.js"
     ),
     parserURL: path.join(rootPath, "src/utils/parser/worker.js"),
-    prettyPrintURL: path.join(rootPath, "src/utils/pretty-print/worker.js")
+    prettyPrintURL: path.join(rootPath, "src/utils/pretty-print/worker.js"),
+    searchURL: path.join(rootPath, "src/utils/search/worker.js")
   }
 });
 

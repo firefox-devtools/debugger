@@ -45,5 +45,16 @@ describe("search", () => {
       });
       expect(matchLocations.length).toBe(4);
     });
+
+    it("it doesnt fail on empty data", () => {
+      const text = "";
+      const query = "";
+      const matchLocations = getMatches(query, text, {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: true
+      });
+      expect(matchLocations.length).toBe(0);
+    });
   });
 });

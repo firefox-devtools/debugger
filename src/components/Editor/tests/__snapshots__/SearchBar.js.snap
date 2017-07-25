@@ -137,13 +137,27 @@ ShallowWrapper {
       "_compositeType": 0,
       "_context": Object {},
       "_currentElement": <SearchBar
+        editor={Object {}}
+        modifiers={
+                Object {
+                        "get": [Function],
+                        "toJS": [Function],
+                      }
+        }
         query=""
         searchOn={true}
         searchResults={Object {}}
         selectedResultIndex={0}
+        selectedSource={
+                Object {
+                        "get": [Function],
+                      }
+        }
         selectedSymbolType="functions"
+        setFileSearchQuery={[Function]}
         symbolSearchOn={true}
         symbolSearchResults={Array []}
+        updateSearchResults={[Function]}
 />,
       "_debugID": 1,
       "_hostContainerInfo": null,
@@ -161,13 +175,23 @@ ShallowWrapper {
         "onEscape": [Function],
         "onKeyUp": [Function],
         "props": Object {
+          "editor": Object {},
+          "modifiers": Object {
+            "get": [Function],
+            "toJS": [Function],
+          },
           "query": "",
           "searchOn": true,
           "searchResults": Object {},
           "selectedResultIndex": 0,
+          "selectedSource": Object {
+            "get": [Function],
+          },
           "selectedSymbolType": "functions",
+          "setFileSearchQuery": [Function],
           "symbolSearchOn": true,
           "symbolSearchResults": Array [],
+          "updateSearchResults": [Function],
         },
         "refs": Object {},
         "renderSearchModifiers": [Function],
@@ -333,13 +357,38 @@ ShallowWrapper {
   },
   "root": [Circular],
   "unrendered": <SearchBar
+    editor={Object {}}
+    modifiers={
+        Object {
+            "get": [Function],
+            "toJS": [Function],
+          }
+    }
     query=""
     searchOn={true}
     searchResults={Object {}}
     selectedResultIndex={0}
+    selectedSource={
+        Object {
+            "get": [Function],
+          }
+    }
     selectedSymbolType="functions"
+    setFileSearchQuery={[Function]}
     symbolSearchOn={true}
     symbolSearchResults={Array []}
+    updateSearchResults={[Function]}
 />,
+}
+`;
+
+exports[`doSearch should complete a search 1`] = `
+Object {
+  "count": 1,
+  "index": "1",
+  "matchIndex": -1,
+  "matches": Array [
+    "result",
+  ],
 }
 `;

@@ -5,6 +5,9 @@ export default function getMatches(
   text: string,
   modifiers: SearchModifiers
 ): number {
+  if (!query || !text || !modifiers) {
+    return [];
+  }
   const regexQuery = buildQuery(query, modifiers, {
     isGlobal: true
   });
