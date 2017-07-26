@@ -5,6 +5,7 @@ import {
   addToTree,
   collapseTree,
   getDirectories,
+  getRelativePath,
   getURL,
   isExactUrlMatch,
   createTree,
@@ -544,5 +545,18 @@ describe("sources-tree", () => {
     expect(isDirectory(aFileNode)).toBe(false);
     expect(isDirectory(cFolderNode)).toBe(true);
     expect(isDirectory(dFileNode)).toBe(false);
+  });
+
+  it("gets the relative path of the file", () => {
+    const relPath = "path/to/file.html";
+    expect(getRelativePath("http://example.com/path/to/file.html")).toBe(
+      relPath
+    );
+    expect(getRelativePath("http://www.example.com/path/to/file.html")).toBe(
+      relPath
+    );
+    expect(getRelativePath("https://example.com/path/to/file.html")).toBe(
+      relPath
+    );
   });
 });
