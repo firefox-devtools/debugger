@@ -217,7 +217,7 @@ class SecondaryPanes extends Component {
   render() {
     return dom.div(
       {
-        className: "secondary-panes"
+        className: "secondary-panes secondary-panes--sticky-commandbar"
       },
       CommandBar(),
       this.props.horizontal
