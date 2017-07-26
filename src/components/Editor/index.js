@@ -597,7 +597,7 @@ class Editor extends PureComponent {
   renderHighlightLines() {
     const { highlightedLineRange } = this.props;
 
-    if (!highlightedLineRange) {
+    if (!highlightedLineRange || !this.state.editor) {
       return;
     }
 
