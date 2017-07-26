@@ -22,7 +22,6 @@ export default class TextSearch extends Component {
 
     this.inputOnChange = this.inputOnChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
-    this.onItemKeyDown = this.onItemKeyDown.bind(this);
     this.close = this.close.bind(this);
     this.selectMatchItem = this.selectMatchItem.bind(this);
   }
@@ -37,15 +36,6 @@ export default class TextSearch extends Component {
       return;
     }
     this.props.searchSources(this.state.inputValue);
-  }
-
-  onItemKeyDown(e, match) {
-    debugger;
-    if (e.key !== "Enter") {
-      return;
-    }
-
-    this.selectMatchItem(match);
   }
 
   componentDidMount() {
@@ -68,8 +58,7 @@ export default class TextSearch extends Component {
       {
         className: classnames("file-result", { focused }),
         key: file.id,
-        onClick: e => setExpanded(file, !expanded),
-        onKeyDown: e => {}
+        onClick: e => setExpanded(file, !expanded)
       },
       Svg("arrow", {
         className: classnames({
@@ -89,9 +78,7 @@ export default class TextSearch extends Component {
     return dom.div(
       {
         className: classnames("result", { focused }),
-        onClick: () => setTimeout(() => this.selectMatchItem(match), 50),
-        onKeyDown: e => this.onItemKeyDown(e, match),
-        tabIndex: "1"
+        onClick: () => setTimeout(() => this.selectMatchItem(match), 50)
       },
       dom.span(
         {

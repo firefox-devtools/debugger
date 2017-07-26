@@ -87,7 +87,8 @@ function getFilenameFromPath(pathname?: string) {
 
 function getRelativePath(path: string) {
   const re = /(http(?:s?):\/\/(?:www\.)?[a-z0-9\-.]+)\/(.*)/i;
-  return path.match(re)[2];
+  const matches = path.match(re);
+  return matches ? matches[2] : "";
 }
 
 /**
