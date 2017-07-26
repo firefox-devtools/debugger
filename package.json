@@ -30,7 +30,7 @@
       "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
     "lint-fix": "yarn lint-js -- --fix",
     "mochi":
-      "mochii --mc ./firefox --default-test-path devtools/client/debugger/new",
+      "mochii --mc ./firefox --interactive --default-test-path devtools/client/debugger/new",
     "mochid": "yarn mochi -- --jsdebugger --",
     "mochir": "yarn mochi -- --repeat 10 --",
     "mochih": "yarn mochi -- --setenv MOZ_HEADLESS=1 --",
