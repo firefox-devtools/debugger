@@ -64,9 +64,7 @@ export default class TextSearch extends Component {
           expanded
         })
       }),
-      Svg("file", {
-        className: "file-path"
-      }),
+      Svg("file"),
       dom.span({ className: "file-path" }, getRelativePath(file.filepath)),
       dom.span(
         { className: "matches-summary" },
