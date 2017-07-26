@@ -1,9 +1,6 @@
 .project-text-search {
   flex-grow: 1;
 }
-.project-text-search .results-list {
-  overflow: auto
-}
 
 .project-text-search .result {
   display: flex;
