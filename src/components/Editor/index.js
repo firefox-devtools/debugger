@@ -225,8 +225,7 @@ class Editor extends PureComponent {
       this.pendingJumpLocation = selectedLocation;
     }
 
-    const sourceId = selectedSource ? selectedSource.get("id") : undefined;
-    updateDocument(editor, sourceId);
+    updateDocument(editor, selectedSource);
   }
 
   componentWillUnmount() {
