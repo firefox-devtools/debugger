@@ -222,7 +222,7 @@ class Editor extends PureComponent {
     shortcuts.on(searchAgainKey, this.onSearchAgain);
 
     if (selectedLocation && !!selectedLocation.line) {
-      this.pendingJumpLocation = selectedLocation;
+      this.pendingJumpLine = selectedLocation.line;
     }
 
     updateDocument(editor, selectedSource);
