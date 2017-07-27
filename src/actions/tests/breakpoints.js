@@ -4,10 +4,11 @@ import {
   actions,
   makeSource
 } from "../../utils/test-head";
+
 import {
   simulateCorrectThreadClient,
   simpleMockThreadClient
-} from "./helpers/breakpoints.js";
+} from "./helpers/threadClient.js";
 
 describe("breakpoints", () => {
   it("should add a breakpoint", async () => {
