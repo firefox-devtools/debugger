@@ -174,20 +174,28 @@ class Expressions extends PureComponent {
       contents: { value }
     };
 
-    return dom.div(
+    return dom.li(
       {
         className: "expression-container",
         key: `${path}/${input}`
       },
-      ObjectInspector({
-        roots: [root],
-        getObjectProperties: id => loadedObjects[id],
-        autoExpandDepth: 0,
-        onDoubleClick: (item, options) =>
-          this.editExpression(expression, options),
-        loadObjectProperties
-      }),
-      CloseButton({ handleClick: e => this.deleteExpression(e, expression) })
+      dom.div(
+        { className: "expression-content" },
+        ObjectInspector({
+          roots: [root],
+          getObjectProperties: id => loadedObjects[id],
+          autoExpandDepth: 0,
+          onDoubleClick: (item, options) =>
+            this.editExpression(expression, options),
+          loadObjectProperties
+        }),
+        dom.div(
+          { className: "expression-container__close-btn" },
+          CloseButton({
+            handleClick: e => this.deleteExpression(e, expression)
+          })
+        )
+      )
     );
   }
 
@@ -212,7 +220,7 @@ class Expressions extends PureComponent {
       e.target.value = "";
       this.props.addExpression(value);
     };
-    return dom.span(
+    return dom.li(
       { className: "expression-input-container" },
       dom.input({
         type: "text",
@@ -228,7 +236,7 @@ class Expressions extends PureComponent {
 
   render() {
     const { expressions } = this.props;
-    return dom.span(
+    return dom.ul(
       { className: "pane expressions-list" },
       expressions.map(this.renderExpression),
       this.renderNewExpressionInput()
