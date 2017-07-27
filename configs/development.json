@@ -66,6 +66,10 @@
     "highlightScopeLines": {
       "label": "Highlight the lines in scope",
       "enabled": false
+    },
+    "wasm": {
+      "label": "Wasm",
+      "enabled": true
     }
   },
   "chrome": {

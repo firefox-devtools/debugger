@@ -1,6 +1,7 @@
 // @flow
 
 import { getMode } from "../source";
+
 import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 

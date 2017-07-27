@@ -259,6 +259,9 @@ export type DebuggerClient = {
     get: any => any,
     delete: any => void
   },
+  mainRoot: {
+    traits: any
+  },
   connect: () => Promise<*>,
   listTabs: () => Promise<*>
 };
