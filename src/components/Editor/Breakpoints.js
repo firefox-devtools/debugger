@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Component, createFactory, DOM as dom } from "react";
-import { isEnabled } from "devtools-config";
 
 import _Breakpoint from "./Breakpoint";
 const Breakpoint = createFactory(_Breakpoint);
@@ -39,19 +38,14 @@ class Breakpoints extends Component {
 
     return dom.div(
       {},
-      breakpoints
-        .valueSeq()
-        .filter(
-          b => (isEnabled("columnBreakpoints") ? !b.location.column : true)
-        )
-        .map(bp =>
-          Breakpoint({
-            key: makeLocationId(bp.location),
-            breakpoint: bp,
-            selectedSource,
-            editor: editor
-          })
-        )
+      breakpoints.valueSeq().map(bp =>
+        Breakpoint({
+          key: makeLocationId(bp.location),
+          breakpoint: bp,
+          selectedSource,
+          editor: editor
+        })
+      )
     );
   }
 }

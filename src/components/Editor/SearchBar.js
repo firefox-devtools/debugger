@@ -258,7 +258,13 @@ class SearchBar extends Component {
   async searchContents(query: string) {
     const { selectedSource, modifiers, editor: ed } = this.props;
 
-    if (!ed || !selectedSource || !selectedSource.get("text") || !modifiers) {
+    if (
+      !query ||
+      !ed ||
+      !selectedSource ||
+      !selectedSource.get("text") ||
+      !modifiers
+    ) {
       return;
     }
 
