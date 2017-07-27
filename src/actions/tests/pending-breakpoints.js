@@ -1,10 +1,13 @@
 // TODO: we would like to mock this in the local tests
 import {
   generateBreakpoint,
-  mockPendingBreakpoint,
+  mockPendingBreakpoint
+} from "./helpers/breakpoints.js";
+
+import {
   simulateCorrectThreadClient,
   simpleMockThreadClient
-} from "./helpers/breakpoints.js";
+} from "./helpers/threadClient.js";
 
 import { prefs } from "../../utils/prefs";
 
