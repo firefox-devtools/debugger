@@ -20,6 +20,7 @@ ShallowWrapper {
         onKeyUp={[Function]}
         placeholder="Search in file…"
         query=""
+        showErrorEmoji={true}
         size=""
         summaryMsg=""
     />
@@ -81,6 +82,7 @@ ShallowWrapper {
             onKeyUp={[Function]}
             placeholder="Search in file…"
             query=""
+            showErrorEmoji={true}
             size=""
             summaryMsg=""
       />
@@ -236,6 +238,7 @@ ShallowWrapper {
                     onKeyUp={[Function]}
                     placeholder="Search in file…"
                     query=""
+                    showErrorEmoji={true}
                     size=""
                     summaryMsg=""
           />
@@ -297,6 +300,7 @@ ShallowWrapper {
                     onKeyUp={[Function]}
                     placeholder="Search in file…"
                     query=""
+                    showErrorEmoji={true}
                     size=""
                     summaryMsg=""
           />

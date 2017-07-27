@@ -5,7 +5,6 @@ import ReactDOM from "react-dom";
 import { filter } from "fuzzaldrin-plus";
 import classnames from "classnames";
 import { scrollList } from "../../utils/result-list";
-import Svg from "./Svg";
 import "./Autocomplete.css";
 
 import _SearchInput from "./SearchInput";
@@ -124,9 +123,8 @@ export default class Autocomplete extends Component {
       });
     } else if (this.state.inputValue && !results.length) {
       return dom.div(
-        { className: "no-result-msg" },
-        Svg("sad-face"),
-        L10N.getFormatStr("sourceSearch.noResults", this.state.inputValue)
+        { className: "no-result-msg absolute-center" },
+        L10N.getStr("sourceSearch.noResults2")
       );
     }
   }
@@ -146,6 +144,7 @@ export default class Autocomplete extends Component {
         count: searchResults.length,
         placeholder: this.props.placeholder,
         size,
+        showErrorEmoji: true,
         summaryMsg,
         onChange: e =>
           this.setState({
