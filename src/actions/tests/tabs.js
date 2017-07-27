@@ -6,7 +6,7 @@ import {
 } from "../../utils/test-head";
 const { getSelectedSource, getSourceTabs } = selectors;
 
-const threadClient = {};
+import { sourceThreadClient as threadClient } from "./helpers/threadClient.js";
 
 describe("closing tabs", () => {
   it("closing a tab", async () => {
@@ -54,7 +54,7 @@ describe("closing tabs", () => {
   });
 
   it("closing many inactive tabs", async () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("bazz.js")));
@@ -73,7 +73,7 @@ describe("closing tabs", () => {
   });
 
   it("closing many tabs including the active tab", async () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     await dispatch(actions.newSource(makeSource("bazz.js")));
@@ -92,7 +92,7 @@ describe("closing tabs", () => {
   });
 
   it("closing all the tabs", async () => {
-    const { dispatch, getState } = createStore({});
+    const { dispatch, getState } = createStore(threadClient);
     await dispatch(actions.newSource(makeSource("foo.js")));
     await dispatch(actions.newSource(makeSource("bar.js")));
     dispatch(actions.selectSource("foo.js"));
