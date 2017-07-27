@@ -15,7 +15,7 @@
   padding: 0px 4px;
   margin-top: 4px;
   cursor: pointer;
-  fill: var(--theme-comment);
+  fill: var(--theme-content-color3);
   transition: 0.1s ease;
   align-self: center;
 }

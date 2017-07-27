@@ -22,5 +22,5 @@
 }
 
 .theme-dark .secondary-panes .accordion .arrow svg {
-  fill: var(--theme-comment);
+  fill: var(--theme-content-color3);
 }
