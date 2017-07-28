@@ -8,6 +8,9 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 [![debugger-screenshot]][debugger-screenshot]
 
+
+Irgendwas soll ich hier reinschreiben.
+
 ## Table of Contents
 * [Quick Setup](#quick-setup)
 * [Next Steps](#next-steps)
