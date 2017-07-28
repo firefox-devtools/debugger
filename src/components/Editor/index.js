@@ -463,10 +463,15 @@ class Editor extends PureComponent {
       closePanel: this.closeConditionalPanel
     });
 
-    this.cbPanel = this.state.editor.codeMirror.addLineWidget(line, panel, {
-      coverGutter: true,
-      noHScroll: false
-    });
+    const editorLine = toEditorLine(sourceId, line);
+    this.cbPanel = this.state.editor.codeMirror.addLineWidget(
+      editorLine,
+      panel,
+      {
+        coverGutter: true,
+        noHScroll: false
+      }
+    );
     this.cbPanel.node.querySelector("input").focus();
   }
 
