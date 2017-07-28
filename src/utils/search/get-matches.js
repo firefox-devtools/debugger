@@ -1,9 +1,5 @@
 import buildQuery from "./build-query";
-
-function guardLineLength(line) {
-  const MAX_LENGTH = 100000;
-  return line.slice(0, MAX_LENGTH);
-}
+const MAX_LENGTH = 100000;
 
 export default function getMatches(
   query: string,
@@ -20,9 +16,13 @@ export default function getMatches(
   const lines = text.split("\n");
   for (let i = 0; i < lines.length; i++) {
     let singleMatch;
-    const line = guardLineLength(lines[i]);
-    while ((singleMatch = regexQuery.exec(line)) !== null) {
-      matchedLocations.push({ line: i, ch: singleMatch.index });
+    const line = lines[i];
+    if (line.length <= MAX_LENGTH) {
+      while ((singleMatch = regexQuery.exec(line)) !== null) {
+        matchedLocations.push({ line: i, ch: singleMatch.index });
+      }
+    } else {
+      return [];
     }
   }
   return matchedLocations;
