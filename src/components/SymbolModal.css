@@ -12,8 +12,12 @@
   width: 500px;
   height: 230px;
   background-color: var(--theme-codemirror-gutter-background);
-  box-shadow: 2px 4px 6px #dde1e4;
+  box-shadow: 2px 4px 6px var(--popup-shadow-color);
   top: 30px;
+}
+
+.theme-dark .symbol-modal {
+  box-shadow: 2px 4px 6px var(--popup-shadow-color);
 }
 
 .symbol-modal .input-wrapper {

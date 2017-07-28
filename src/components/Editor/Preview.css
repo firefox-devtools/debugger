@@ -8,6 +8,11 @@
   min-height: inherit;
   max-height: 200px;
   overflow: auto;
+  box-shadow: 1px 2px 3px var(--popup-shadow-color);
+}
+
+.theme-dark .popover .preview {
+  box-shadow: 1px 2px 3px var(--popup-shadow-color);
 }
 
 .popover .preview .header {
@@ -28,13 +33,11 @@
   cursor: pointer;
 }
 
-.selection,
-.debug-expression.selection {
+.selection, .debug-expression.selection {
   background-color: var(--theme-highlight-yellow);
 }
 
-.theme-dark .selection,
-.theme-dark .debug-expression.selection {
+.theme-dark .selection, .theme-dark .debug-expression.selection {
   background-color: #743884;
 }
 
