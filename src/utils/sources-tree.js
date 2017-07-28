@@ -6,7 +6,6 @@
  */
 
 import { parse } from "url";
-import assert from "./DevToolsUtils";
 import { isPretty } from "./source";
 import merge from "lodash/merge";
 
@@ -25,7 +24,7 @@ type TmpSource = { get: (key: string) => string, toJS: Function };
  * @memberof utils/sources-tree
  * @static
  */
-type Node = { name: any, path: any, contents?: any };
+type Node = { name: string, path: string, contents?: any };
 
 /**
  * @memberof utils/sources-tree
@@ -197,7 +196,11 @@ function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
     //
     // TODO: Be smarter about this, which we'll probably do when we
     // are smarter about folders and collapsing empty ones.
-    assert(nodeHasChildren(subtree), `${subtree.name} should have children`);
+
+    if (!nodeHasChildren(subtree)) {
+      return;
+    }
+
     const children = subtree.contents;
 
     let index = determineFileSortOrder(
@@ -389,6 +392,26 @@ function getDirectories(sourceUrl: string, sourceTree: any) {
   }
 }
 
+function formatTree(tree: Node, depth: number = 0, str: string = "") {
+  const whitespace = new Array(depth * 2).join(" ");
+
+  if (!tree.contents) {
+    return str;
+  }
+
+  if (tree.contents.length > 0) {
+    str += `${whitespace} - ${tree.name} path=${tree.path} \n`;
+    tree.contents.forEach(t => {
+      str = formatTree(t, depth + 1, str);
+    });
+  } else if (tree.contents.toJS) {
+    const id = tree.contents.get("id");
+    str += `${whitespace} - ${tree.name} path=${tree.path} source_id=${id} \n`;
+  }
+
+  return str;
+}
+
 export {
   createNode,
   nodeHasChildren,
@@ -399,5 +422,6 @@ export {
   createTree,
   getDirectories,
   getURL,
-  isExactUrlMatch
+  isExactUrlMatch,
+  formatTree
 };

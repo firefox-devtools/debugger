@@ -33,11 +33,13 @@
   cursor: pointer;
 }
 
-.selection, .debug-expression.selection {
+.selection,
+.debug-expression.selection {
   background-color: var(--theme-highlight-yellow);
 }
 
-.theme-dark .selection, .theme-dark .debug-expression.selection {
+.theme-dark .selection,
+.theme-dark .debug-expression.selection {
   background-color: #743884;
 }
 
