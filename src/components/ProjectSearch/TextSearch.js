@@ -34,7 +34,6 @@ export default class TextSearch extends Component {
   }
 
   async onKeyDown(e) {
-    console.log(e.key);
     if (e.key !== "Enter") {
       return;
     }

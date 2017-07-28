@@ -398,7 +398,6 @@ export function getDirectories(sourceUrl: string, sourceTree: any) {
   }
 }
 
-<<<<<<< HEAD
 export function formatTree(tree: Node, depth: number = 0, str: string = "") {
   const whitespace = new Array(depth * 2).join(" ");
 
@@ -418,18 +417,3 @@ export function formatTree(tree: Node, depth: number = 0, str: string = "") {
 
   return str;
 }
-=======
-export {
-  createNode,
-  nodeHasChildren,
-  createParentMap,
-  isDirectory,
-  addToTree,
-  collapseTree,
-  createTree,
-  getDirectories,
-  getRelativePath,
-  getURL,
-  isExactUrlMatch
-};
->>>>>>> cleanups and fixes
