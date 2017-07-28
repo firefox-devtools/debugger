@@ -1,5 +1,6 @@
 .project-text-search {
   flex-grow: 1;
+  font-family: Menlo, monospace;
 }
 
 .project-text-search .result {
@@ -7,7 +8,7 @@
   cursor: default;
   margin-bottom: 1px;
   padding: 4px 0 4px 30px;
-  font-family: monospace;
+  font-size: 10px;
 }
 
 .project-text-search .matches-summary {
@@ -41,6 +42,7 @@
   cursor: default;
   margin: 2px 20px 2px 0;
   padding: 3px 0 3px 5px;
+  font-size: 12px;
 }
 
 .project-text-search .file-result .arrow {
