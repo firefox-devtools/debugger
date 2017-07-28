@@ -41,7 +41,7 @@ export default class TextSearch extends Component {
   }
 
   selectMatchItem(matchItem) {
-    this.props.selectSource(matchItem.sourceId);
+    this.props.selectSource(matchItem.sourceId, { line: matchItem.line });
   }
 
   renderFile(file, focused, expanded, setExpanded) {
