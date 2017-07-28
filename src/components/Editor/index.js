@@ -445,7 +445,7 @@ class Editor extends PureComponent {
       closePanel: this.closeConditionalPanel
     });
 
-    const editorLine = toEditorLine(sourceId, line);
+    const editorLine = line - 1;
     this.cbPanel = this.state.editor.codeMirror.addLineWidget(
       editorLine,
       panel,
