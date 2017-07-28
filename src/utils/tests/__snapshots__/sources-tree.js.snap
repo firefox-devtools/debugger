@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sources-tree doesnt throw when adding a deeper file 1`] = `
+" - root path= 
+  - unpkg.com path=/unpkg.com 
+    - codemirror@5.1 path=/unpkg.com/codemirror@5.1 source_id=server1.conn13.child1/37 
+"
+`;
