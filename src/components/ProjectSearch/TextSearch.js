@@ -53,7 +53,7 @@ export default class TextSearch extends Component {
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.off("Enter", this.onKeyEnter);
+    shortcuts.off("Enter", this.onEnterPress);
   }
 
   componentDidMount() {
@@ -61,7 +61,7 @@ export default class TextSearch extends Component {
     if (this.refs.searchInput) {
       this.refs.searchInput.refs.input.focus();
     }
-    shortcuts.on("Enter", this.onKeyEnter);
+    shortcuts.on("Enter", this.onEnterPress);
   }
 
   inputOnChange(e) {
