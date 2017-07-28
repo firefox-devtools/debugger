@@ -9,7 +9,8 @@ import {
   getURL,
   isExactUrlMatch,
   createTree,
-  isDirectory
+  isDirectory,
+  formatTree
 } from "../sources-tree.js";
 
 describe("sources-tree", () => {
@@ -558,5 +559,24 @@ describe("sources-tree", () => {
     expect(getRelativePath("https://example.com/path/to/file.html")).toBe(
       relPath
     );
+  });
+
+  it("doesnt throw when adding a deeper file", () => {
+    const codeMirror = Map({
+      id: "server1.conn13.child1/37",
+      url: "https://unpkg.com/codemirror@5.1"
+    });
+
+    const xml = Map({
+      id: "server1.conn13.child1/39",
+      url: "https://unpkg.com/codemirror@5.1/mode/xml/xml.js"
+    });
+
+    const tree = createNode("root", "", []);
+
+    addToTree(tree, codeMirror);
+    addToTree(tree, xml);
+
+    expect(formatTree(tree)).toMatchSnapshot();
   });
 });
