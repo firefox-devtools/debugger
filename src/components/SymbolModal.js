@@ -14,6 +14,9 @@ import actions from "../actions";
 
 import { scrollList } from "../utils/result-list";
 
+import _Modal from "./shared/Modal";
+const Modal = createFactory(_Modal);
+
 import _SearchInput from "./shared/SearchInput";
 const SearchInput = createFactory(_SearchInput);
 
@@ -290,16 +293,15 @@ class SymbolModal extends Component {
 
   render() {
     const { enabled } = this.props;
-    if (!enabled) {
-      return dom.div();
-    }
-    return dom.div(
-      { className: "symbol-modal-wrapper", onClick: this.closeModal },
-      dom.div(
-        { className: "symbol-modal", onClick: this.onClick },
-        dom.div({ className: "input-wrapper" }, this.renderInput()),
-        this.renderResults()
-      )
+    return Modal(
+      {
+        enabled,
+        shortcut: "symbolSearch.search.key2",
+        handleOpen: this.openSymbolModal,
+        handleClose: this.closeModal
+      },
+      dom.div({ className: "input-wrapper" }, this.renderInput()),
+      this.renderResults()
     );
   }
 }

@@ -1,0 +1,49 @@
+.modal-wrapper {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  top: 0;
+  left: 0;
+}
+
+.modal-wrapper.entering,
+.modal-wrapper.exited {
+  pointer-events: none;
+  z-index: -1;
+}
+
+.modal-wrapper.entered,
+.modal-wrapper.exiting {
+  pointer-events: auto;
+  z-index: 9;
+}
+
+.modal {
+  top: 0;
+  z-index: 10;
+  width: 500px;
+  height: 230px;
+  background-color: var(--theme-codemirror-gutter-background);
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 2px 4px 6px #dde1e4;
+}
+
+.modal.entering,
+.modal.exited {
+  transform: translateY(-250px);
+}
+
+.modal.entered,
+.modal.exiting {
+  transform: translateY(30px);
+}
+
+@media (max-width: 520px) {
+  .modal {
+    width: 80%;
+    left: 10%;
+  }
+}
