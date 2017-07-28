@@ -20,27 +20,16 @@
   box-shadow: 2px 4px 6px var(--popup-shadow-color);
 }
 
-.symbol-modal .input-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
+.symbol-modal .input-wrapper, .modal .input-wrapper {
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
 }
 
-.symbol-modal .close-btn {
+.modal .close-btn {
   padding: 6px;
 }
 
-.symbol-modal .result-list {
+.modal .result-list {
   height: calc(100% - 28px);
   overflow-y: auto;
-}
-
-@media (max-width: 520px) {
-  .symbol-modal {
-    width: 80%;
-    left: 10%;
-  }
 }

@@ -14,6 +14,9 @@ import actions from "../actions";
 
 import { scrollList } from "../utils/result-list";
 
+import _Modal from "./shared/Modal";
+const Modal = createFactory(_Modal);
+
 import _SearchInput from "./shared/SearchInput";
 const SearchInput = createFactory(_SearchInput);
 
@@ -95,13 +98,11 @@ class SymbolModal extends Component {
 
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.off("Escape");
     shortcuts.off(L10N.getStr("symbolSearch.search.key2"));
   }
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
-    shortcuts.on("Escape", this.closeModal);
     shortcuts.on(L10N.getStr("symbolSearch.search.key2"), this.openSymbolModal);
 
     this.updateResults(this.state.query);
@@ -121,13 +122,13 @@ class SymbolModal extends Component {
     }
   }
 
-  openSymbolModal(_, e) {
+  openSymbolModal(_, e: SyntheticEvent) {
     e.preventDefault();
     e.stopPropagation();
     this.props.setActiveSearch("symbol");
   }
 
-  onClick(e) {
+  onClick(e: SyntheticEvent) {
     e.stopPropagation();
   }
 
@@ -240,10 +241,11 @@ class SymbolModal extends Component {
 
     const { enabled } = this.props;
     if (!enabled || !results) {
-      return;
+      return null;
     }
 
     return ResultList({
+      key: "results",
       items: results,
       selected: resultsIndex,
       selectItem: this.selectResultItem,
@@ -290,17 +292,19 @@ class SymbolModal extends Component {
 
   render() {
     const { enabled } = this.props;
-    if (!enabled) {
-      return dom.div();
-    }
-    return dom.div(
-      { className: "symbol-modal-wrapper", onClick: this.closeModal },
-      dom.div(
-        { className: "symbol-modal", onClick: this.onClick },
-        dom.div({ className: "input-wrapper" }, this.renderInput()),
+    return Modal({
+      enabled,
+      shortcut: "symbolSearch.search.key2",
+      handleOpen: this.openSymbolModal,
+      handleClose: this.closeModal,
+      children: [
+        dom.div(
+          { key: "input", className: "input-wrapper" },
+          this.renderInput()
+        ),
         this.renderResults()
-      )
-    );
+      ]
+    });
   }
 }
 
