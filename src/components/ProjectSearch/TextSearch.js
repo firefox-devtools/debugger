@@ -205,7 +205,7 @@ export default class TextSearch extends Component {
     return SearchInput({
       query: this.state.inputValue,
       count: resultCount,
-      placeholder: "Search Project",
+      placeholder: "Find in Project",
       size: "big",
       summaryMsg,
       onChange: e => this.inputOnChange(e),
@@ -218,24 +218,26 @@ export default class TextSearch extends Component {
   }
 
   render() {
+    const { searchBottomBar } = this.props;
     return dom.div(
       {
         className: "project-text-search"
       },
       this.renderInput(),
+      searchBottomBar,
       this.renderResults()
     );
   }
 }
 
 TextSearch.propTypes = {
-  addTab: PropTypes.func,
   sources: PropTypes.object,
   results: PropTypes.array,
   query: PropTypes.string,
   closeActiveSearch: PropTypes.func,
   searchSources: PropTypes.func,
-  selectSource: PropTypes.func
+  selectSource: PropTypes.func,
+  searchBottomBar: PropTypes.object
 };
 
 TextSearch.contextTypes = {

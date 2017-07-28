@@ -5,6 +5,7 @@
   width: calc(100% - 1px);
   height: calc(100% - 31px);
   display: flex;
+  flex-direction: column;
   z-index: 200;
   background-color: var(--theme-body-background);
   overflow-y: auto;
@@ -17,4 +18,31 @@
 
 .theme-dark .result-list li .subtitle {
   color: var(--theme-comment-alt);
+}
+
+.toggle-search {
+  background-color: var(--theme-toolbar-background);
+  border-bottom: 1px solid var(--theme-splitter-color);
+  color: var(--theme-comment-alt);
+  display: flex;
+  flex-shrink: 0;
+  justify-content: flex-start;
+  line-height: 40px;
+  padding: 0 13px;
+  width: calc(100% - 1px);
+}
+
+.toggle-search .title {
+  font-weight: 500;
+  font-size: 120%;
+}
+
+.toggle-search .text {
+  margin-left: 1em;
+  cursor: pointer;
+}
+
+.toggle-search .active {
+  color: var(--theme-selection-background);
+  cursor: default;
 }

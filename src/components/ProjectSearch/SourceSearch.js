@@ -59,7 +59,7 @@ export default class SourceSearch extends Component {
   }
 
   render() {
-    const { sources } = this.props;
+    const { sources, searchBottomBar } = this.props;
     return Autocomplete({
       selectItem: (e, result) => {
         this.props.selectSource(result.id);
@@ -69,7 +69,8 @@ export default class SourceSearch extends Component {
       items: this.searchResults(sources),
       inputValue: this.state.inputValue,
       placeholder: L10N.getStr("sourceSearch.search"),
-      size: "big"
+      size: "big",
+      children: searchBottomBar
     });
   }
 }

@@ -20,6 +20,9 @@ const TextSearch = createFactory(_TextSearch);
 import _SourceSearch from "./SourceSearch";
 const SourceSearch = createFactory(_SourceSearch);
 
+import _ToggleSearch from "./ToggleSearch";
+const ToggleSearch = createFactory(_ToggleSearch);
+
 class ProjectSearch extends Component {
   state: Object;
   onEscape: Function;
@@ -65,51 +68,30 @@ class ProjectSearch extends Component {
   }
 
   toggleProjectTextSearch(key, e) {
-    const { closeActiveSearch, addTab, closeTab, setActiveSearch } = this.props;
-    e.preventDefault();
+    const { closeActiveSearch, setActiveSearch } = this.props;
+    if (e) {
+      e.preventDefault();
+    }
 
     if (!isEnabled("projectTextSearch")) {
       return;
     }
 
     if (this.isProjectSearchEnabled()) {
-      closeTab();
       return closeActiveSearch();
     }
-
-    addTab(
-      {
-        id: "project",
-        isBlackBoxed: false,
-        isPrettyPrinted: false,
-        sourceMapURL: null,
-        url: "project"
-      },
-      0
-    );
-
     return setActiveSearch("project");
   }
 
   toggleSourceSearch(key, e) {
-    const { closeActiveSearch, addTab, closeTab, setActiveSearch } = this.props;
-    e.preventDefault();
-
-    if (this.isSourceSearchEnabled()) {
-      closeTab();
-      return closeActiveSearch();
+    const { closeActiveSearch, setActiveSearch } = this.props;
+    if (e) {
+      e.preventDefault();
     }
 
-    addTab(
-      {
-        id: "source",
-        isBlackBoxed: false,
-        isPrettyPrinted: false,
-        sourceMapURL: null,
-        url: "source"
-      },
-      0
-    );
+    if (this.isSourceSearchEnabled()) {
+      return closeActiveSearch();
+    }
     return setActiveSearch("source");
   }
 
@@ -123,7 +105,15 @@ class ProjectSearch extends Component {
 
   renderSourceSearch() {
     const { sources, selectSource, closeActiveSearch } = this.props;
-    return SourceSearch({ sources, selectSource, closeActiveSearch });
+    return SourceSearch({
+      sources,
+      selectSource,
+      closeActiveSearch,
+      searchBottomBar: ToggleSearch({
+        kind: "sources",
+        toggle: this.toggleProjectTextSearch
+      })
+    });
   }
 
   renderTextSearch() {
@@ -142,7 +132,11 @@ class ProjectSearch extends Component {
       searchSources,
       closeActiveSearch,
       selectSource,
-      query
+      query,
+      searchBottomBar: ToggleSearch({
+        kind: "project",
+        toggle: this.toggleSourceSearch
+      })
     });
   }
 
@@ -168,9 +162,7 @@ ProjectSearch.propTypes = {
   closeActiveSearch: PropTypes.func.isRequired,
   searchSources: PropTypes.func,
   activeSearch: PropTypes.string,
-  selectSource: PropTypes.func.isRequired,
-  addTab: PropTypes.func,
-  closeTab: PropTypes.func
+  selectSource: PropTypes.func.isRequired
 };
 
 ProjectSearch.contextTypes = {
