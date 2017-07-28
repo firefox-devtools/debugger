@@ -56,5 +56,16 @@ describe("search", () => {
       });
       expect(matchLocations.length).toBe(0);
     });
+
+    it("fails gracefully when the line is too long", () => {
+      const text = Array(100002).join("x");
+      const query = "query";
+      const matchLocations = getMatches(query, text, {
+        caseSensitive: true,
+        wholeWord: false,
+        regexMatch: true
+      });
+      expect(matchLocations.length).toBe(0);
+    });
   });
 });
