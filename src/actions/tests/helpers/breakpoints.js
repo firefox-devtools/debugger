@@ -1,16 +1,3 @@
-import { makeLocationId } from "../../../utils/breakpoint";
-
-const sourceFixtures = {
-  foo1: {
-    source: "function foo1() {\n  return 5;\n}",
-    contentType: "text/javascript"
-  },
-  foo2: {
-    source: "function foo2(x, y) {\n  return x + y;\n}",
-    contentType: "text/javascript"
-  }
-};
-
 export function mockPendingBreakpoint(overrides = {}) {
   const { sourceUrl, line, column, condition, disabled } = overrides;
   return {
@@ -29,35 +16,6 @@ export function mockPendingBreakpoint(overrides = {}) {
   };
 }
 
-function generateCorrectingThreadClient(offset = 0) {
-  return {
-    getBreakpointByLocation: jest.fn(),
-    setBreakpoint: (location, condition) => {
-      const actualLocation = Object.assign({}, location, {
-        line: location.line + offset
-      });
-
-      return Promise.resolve({
-        id: makeLocationId(location),
-        actualLocation,
-        condition
-      });
-    }
-  };
-}
-
-/* in some cases, a breakpoint may be added, but the source will respond
- * with a different breakpoint location. This is due to the breakpoint being
- * added between functions, or somewhere that doesnt make sense. This function
- * simulates that behavior.
- * */
-export function simulateCorrectThreadClient(offset, location) {
-  const correctedThreadClient = generateCorrectingThreadClient(offset);
-  const offsetLine = { line: location.line + offset };
-  const correctedLocation = Object.assign({}, location, offsetLine);
-  return { correctedThreadClient, correctedLocation };
-}
-
 export function generateBreakpoint(filename) {
   return {
     location: {
@@ -69,23 +27,3 @@ export function generateBreakpoint(filename) {
     disabled: false
   };
 }
-
-export const simpleMockThreadClient = {
-  getBreakpointByLocation: jest.fn(),
-  setBreakpoint: (location, _condition) =>
-    Promise.resolve({ id: "hi", actualLocation: location }),
-
-  removeBreakpoint: _id => Promise.resolve(),
-
-  setBreakpointCondition: (_id, _location, _condition, _noSliding) =>
-    Promise.resolve({ sourceId: "a", line: 5 }),
-
-  sourceContents: sourceId =>
-    new Promise((resolve, reject) => {
-      if (sourceFixtures[sourceId]) {
-        resolve(sourceFixtures[sourceId]);
-      }
-
-      reject(`unknown source: ${sourceId}`);
-    })
-};

@@ -90,6 +90,7 @@ class SecondaryPanes extends Component {
         e.stopPropagation();
         toggleAllBreakpoints(!breakpointsDisabled);
       },
+      onClick: e => e.stopPropagation(),
       checked: !breakpointsDisabled && !isIndeterminate,
       ref: input => {
         if (input) {

@@ -1,9 +1,11 @@
 :root.theme-light,
 :root .theme-light {
   --search-overlays-semitransparent: rgba(221, 225, 228, 0.66);
+  --popup-shadow-color: #d0d0d0;
 }
 
 :root.theme-dark,
 :root .theme-dark {
   --search-overlays-semitransparent: rgba(42, 46, 56, 0.66);
+  --popup-shadow-color: #5c667b;
 }

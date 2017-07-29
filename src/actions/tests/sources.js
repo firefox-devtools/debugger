@@ -13,40 +13,7 @@ const {
   getSelectedLocation
 } = selectors;
 
-const threadClient = {
-  sourceContents: function(sourceId) {
-    return new Promise((resolve, reject) => {
-      switch (sourceId) {
-        case "foo1":
-          resolve({
-            source: "function foo1() {\n  return 5;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-        case "foo2":
-          resolve({
-            source: "function foo2(x, y) {\n  return x + y;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-        case "foobar.js":
-          resolve({
-            source: "function foo() {\n  return 2;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-        case "barfoo.js":
-          resolve({
-            source: "function bar() {\n  return 3;\n}",
-            contentType: "text/javascript"
-          });
-          break;
-      }
-
-      reject(`unknown source: ${sourceId}`);
-    });
-  }
-};
+import { sourceThreadClient as threadClient } from "./helpers/threadClient.js";
 
 process.on("unhandledRejection", (reason, p) => {});
 

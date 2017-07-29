@@ -25,12 +25,12 @@ type CommandType = { type: string };
  */
 export function resumed() {
   return ({ dispatch, client }: ThunkArgs) => {
-    // dispatch(evaluateExpressions(null));
-
-    return dispatch({
+    dispatch({
       type: "RESUME",
       value: undefined
     });
+
+    dispatch(evaluateExpressions(null));
   };
 }
 
