@@ -20,8 +20,11 @@ export default class TextSearch extends Component {
       inputValue: this.props.query || ""
     };
 
+    this.focused = null;
+
     this.inputOnChange = this.inputOnChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onEnterPress = this.onEnterPress.bind(this);
     this.close = this.close.bind(this);
     this.selectMatchItem = this.selectMatchItem.bind(this);
   }
@@ -37,10 +40,28 @@ export default class TextSearch extends Component {
     this.props.searchSources(this.state.inputValue);
   }
 
+  onEnterPress() {
+    if (this.focused) {
+      const { setExpanded, file, expanded, match } = this.focused;
+      if (setExpanded) {
+        setExpanded(file, !expanded);
+      } else {
+        this.selectMatchItem(match);
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    const shortcuts = this.context.shortcuts;
+    shortcuts.off("Enter", this.onEnterPress);
+  }
+
   componentDidMount() {
+    const shortcuts = this.context.shortcuts;
     if (this.refs.searchInput) {
       this.refs.searchInput.refs.input.focus();
     }
+    shortcuts.on("Enter", this.onEnterPress);
   }
 
   inputOnChange(e) {
@@ -53,6 +74,9 @@ export default class TextSearch extends Component {
   }
 
   renderFile(file, focused, expanded, setExpanded) {
+    if (focused) {
+      this.focused = { setExpanded, file, expanded };
+    }
     return dom.div(
       {
         className: classnames("file-result", { focused }),
@@ -74,6 +98,9 @@ export default class TextSearch extends Component {
   }
 
   renderMatch(match, focused) {
+    if (focused) {
+      this.focused = { match };
+    }
     return dom.div(
       {
         className: classnames("result", { focused }),
@@ -209,6 +236,10 @@ TextSearch.propTypes = {
   closeActiveSearch: PropTypes.func,
   searchSources: PropTypes.func,
   selectSource: PropTypes.func
+};
+
+TextSearch.contextTypes = {
+  shortcuts: PropTypes.object
 };
 
 TextSearch.displayName = "TextSearch";
