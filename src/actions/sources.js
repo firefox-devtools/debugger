@@ -19,6 +19,7 @@ import { searchSource } from "./project-text-search";
 
 import { prettyPrint } from "../utils/pretty-print";
 import { getPrettySourceURL } from "../utils/source";
+import { createPrettySource } from "./sources/createPrettySource";
 
 import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
@@ -86,7 +87,6 @@ async function checkPendingBreakpoints(state, dispatch, source) {
 export function newSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: "ADD_SOURCE", source });
-
     if (prefs.clientSourceMapsEnabled) {
       await dispatch(loadSourceMap(source));
     }
@@ -173,7 +173,7 @@ export function selectSourceURL(
  * @static
  */
 export function selectSource(id: string, options: SelectSourceOptions = {}) {
-  return async ({ dispatch, getState, client }: ThunkArgs) => {
+  return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -198,6 +198,13 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
+        const prettySource = await createPrettySource(id, sourceMaps, getState);
+        if (prettySource) {
+          dispatch({
+            type: "ADD_SOURCE",
+            source: prettySource
+          });
+        }
       })()
     });
   };
@@ -313,48 +320,16 @@ export function togglePrettyPrint(sourceId: string) {
     const selectedLocation = getSelectedLocation(getState());
 
     const url = getPrettySourceURL(source.url);
-    const hasPrettySource = !!getSourceByURL(getState(), url);
-
-    if (hasPrettySource) {
-      const selectedOriginalLocation = await sourceMaps.getOriginalLocation(
-        selectedLocation
-      );
-
-      return dispatch(
-        selectSource(selectedOriginalLocation.sourceId, {
-          line: selectedOriginalLocation.line
-        })
-      );
-    }
-
-    const id = sourceMaps.generatedToOriginalId(source.id, url);
-    const originalSource = { url, id, isPrettyPrinted: false };
-    dispatch({ type: "ADD_SOURCE", source: originalSource });
-
-    const { code, mappings } = await prettyPrint({
-      source,
-      url
-    });
-
-    await sourceMaps.applySourceMap(source.id, url, code, mappings);
-
-    let frames = getFrames(getState());
-    if (frames) {
-      frames = await updateFrameLocations(frames, sourceMaps);
-    }
-
-    dispatch({
-      type: "TOGGLE_PRETTY_PRINT",
-      source: originalSource,
-      value: { text: code, contentType: "text/javascript", frames }
-    });
+    const prettySource = getSourceByURL(getState(), url);
 
     const selectedOriginalLocation = await sourceMaps.getOriginalLocation(
       selectedLocation
     );
 
     return dispatch(
-      selectSource(originalSource.id, { line: selectedOriginalLocation.line })
+      selectSource(prettySource.get("id"), {
+        line: selectedOriginalLocation.line
+      })
     );
   };
 }
