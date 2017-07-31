@@ -57,7 +57,7 @@
 }
 
 .theme-dark .sources-list .tree .node:not(.focused) svg {
-  fill: var(--theme-comment);
+  fill: var(--theme-content-color3);
 }
 
 .theme-dark .source-list .tree .node.focused {

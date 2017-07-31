@@ -37,8 +37,8 @@
   margin: 0;
 }
 
-:root.theme-light .frames .location,
-:root.theme-firebug .frames .location {
+.theme-light .frames .location,
+.theme-firebug .frames .location {
   color: var(--theme-comment);
 }
 
