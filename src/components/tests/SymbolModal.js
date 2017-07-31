@@ -1,9 +1,9 @@
-import { createFactory } from "react";
+import React from "react";
 import { shallow } from "enzyme";
 import SymbolModal from "../SymbolModal";
 import * as I from "immutable";
 
-const SymbolModalComponent = createFactory(SymbolModal.WrappedComponent);
+const SymbolModalComponent = SymbolModal.WrappedComponent;
 
 function generateDefaults() {
   return {
@@ -17,7 +17,7 @@ function generateDefaults() {
 function render(overrides = {}) {
   const defaults = generateDefaults();
   const props = { ...defaults, ...overrides };
-  const component = shallow(new SymbolModalComponent(props));
+  const component = shallow(<SymbolModalComponent {...props} />);
   return { component, props };
 }
 
