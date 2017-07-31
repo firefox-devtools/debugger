@@ -9,7 +9,6 @@
  * @module actions/sources
  */
 
-import defer from "../utils/defer";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { updateFrameLocations } from "../utils/pause";
@@ -173,7 +172,7 @@ export function selectSourceURL(
  * @static
  */
 export function selectSource(id: string, options: SelectSourceOptions = {}) {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -195,7 +194,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       source: source.toJS(),
       tabIndex: options.tabIndex,
       line: options.line,
-      [PROMISE]: (async function() {
+      [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
       })()
@@ -380,7 +379,6 @@ export function loadSourceText(source: Source) {
       })()
     });
 
-    // get the symbols for the source as well
     await dispatch(setSymbols(source.id));
   };
 }
