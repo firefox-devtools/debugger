@@ -32,7 +32,7 @@ html[dir="rtl"] .command-bar {
   fill: currentColor;
 }
 
-.command-bar > button:hover {
+.command-bar > button:not(.disabled):hover {
   background: var(--theme-toolbar-background-hover);
 }
 
