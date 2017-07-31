@@ -76,4 +76,19 @@ storiesOf("SearchInput", module)
       count: 10,
       query: "yo"
     });
+  })
+  .add("error emoji default", () => {
+    setValue("features.previewWatch", false);
+    return SearchInputFactory({
+      count: 0,
+      query: ""
+    });
+  })
+  .add("error emoji override", () => {
+    setValue("features.previewWatch", false);
+    return SearchInputFactory({
+      count: 0,
+      showErrorEmoji: false,
+      query: ""
+    });
   });

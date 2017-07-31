@@ -26,6 +26,7 @@ ShallowWrapper {
             onKeyUp={[Function]}
             placeholder="Search functions…"
             query=""
+            showErrorEmoji={true}
             size=""
             summaryMsg={undefined}
         />
@@ -50,6 +51,7 @@ ShallowWrapper {
                   onKeyUp={[Function]}
                   placeholder="Search functions…"
                   query=""
+                  showErrorEmoji={true}
                   size=""
                   summaryMsg={undefined}
             />
@@ -139,6 +141,7 @@ ShallowWrapper {
                               onKeyUp={[Function]}
                               placeholder="Search functions…"
                               query=""
+                              showErrorEmoji={true}
                               size=""
                               summaryMsg={undefined}
                     />
@@ -163,6 +166,7 @@ ShallowWrapper {
                               onKeyUp={[Function]}
                               placeholder="Search functions…"
                               query=""
+                              showErrorEmoji={true}
                               size=""
                               summaryMsg={undefined}
                     />

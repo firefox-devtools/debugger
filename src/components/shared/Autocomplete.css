@@ -1,27 +1,11 @@
 .autocomplete {
-  flex: 1;
+  position: relative;
   width: 100%;
 }
 
 .autocomplete .no-result-msg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  color: var(--theme-graphs-full-red);
+  color: var(--theme-body-color-inactive);
   font-size: 24px;
   padding: 4px;
   word-break: break-all;
-}
-
-.autocomplete .no-result-msg .sad-face {
-  width: 24px;
-  margin: 0 4px;
-  line-height: 0;
-  flex-shrink: 0;
-}
-
-.autocomplete .no-result-msg .sad-face svg {
-  fill: var(--theme-graphs-full-red);
 }
