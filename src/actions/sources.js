@@ -381,7 +381,7 @@ export function loadSourceText(source: Source) {
     });
 
     // get the symbols for the source as well
-    return dispatch(setSymbols(source.id));
+    await dispatch(setSymbols(source.id));
   };
 }
 
@@ -403,86 +403,5 @@ export function loadAllSources() {
         await dispatch(searchSource(source, query));
       }
     }
-  };
-}
-
-// delay is in ms
-const FETCH_SOURCE_RESPONSE_DELAY = 200;
-
-/**
- * Starts fetching all the sources, silently.
- *
- * @memberof actions/sources
- * @static
- * @param array actors
- *        The urls for the sources to fetch. If fetching a source's text
- *        takes too long, it will be discarded.
- * @returns {Promise}
- *         A promise that is resolved after source texts have been fetched.
- */
-export function getTextForSources(actors: any[]) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    let deferred = defer();
-    let pending = new Set(actors);
-    type FetchedSourceType = [any, string, string];
-    let fetched: FetchedSourceType[] = [];
-
-    // Can't use promise.all, because if one fetch operation is rejected, then
-    // everything is considered rejected, thus no other subsequent source will
-    // be getting fetched. We don't want that. Something like Q's allSettled
-    // would work like a charm here.
-    // Try to fetch as many sources as possible.
-    for (let actor of actors) {
-      let source = getSource(getState(), actor);
-      dispatch(loadSourceText(source)).then(
-        ({ text, contentType }) => {
-          onFetch([source, text, contentType]);
-        },
-        err => {
-          onError(source, err);
-        }
-      );
-    }
-
-    setTimeout(onTimeout, FETCH_SOURCE_RESPONSE_DELAY);
-
-    /* Called if fetching a source takes too long. */
-    function onTimeout() {
-      pending = new Set();
-      maybeFinish();
-    }
-
-    /* Called if fetching a source finishes successfully. */
-    function onFetch([aSource, aText, aContentType]: FetchedSourceType) {
-      // If fetching the source has previously timed out, discard it this time.
-      if (!pending.has(aSource.actor)) {
-        return;
-      }
-      pending.delete(aSource.actor);
-      fetched.push([aSource.actor, aText, aContentType]);
-      maybeFinish();
-    }
-
-    /* Called if fetching a source failed because of an error. */
-    function onError(source: Object, error: any) {
-      pending.delete(source.actor);
-      maybeFinish();
-    }
-
-    /* Called every time something interesting
-     *  happens while fetching sources.
-     */
-    function maybeFinish() {
-      if (pending.size == 0) {
-        // Sort the fetched sources alphabetically by their url.
-        if (deferred) {
-          deferred.resolve(
-            fetched.sort(([aFirst], [aSecond]) => (aFirst > aSecond ? -1 : 1))
-          );
-        }
-      }
-    }
-
-    return deferred.promise;
   };
 }
