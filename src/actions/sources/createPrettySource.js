@@ -27,12 +27,15 @@ export async function createPrettySource(sourceId, sourceMaps, getState) {
   }
 
   return {
-    url,
-    id,
-    isPrettyPrinted: true,
-    text: code,
-    contentType: "text/javascript",
-    frames,
-    loading: false
+    prettySource: {
+      url,
+      id,
+      isPrettyPrinted: true,
+      text: code,
+      contentType: "text/javascript",
+      frames,
+      loading: false
+    },
+    mappings
   };
 }

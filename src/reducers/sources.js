@@ -72,6 +72,11 @@ function update(
       return state;
     }
 
+    case "ADD_PRETTY_SOURCE": {
+      const source = action.source;
+      return updateSource(state, source);
+    }
+
     case "SELECT_SOURCE":
       if (action.status != "start") {
         return state;

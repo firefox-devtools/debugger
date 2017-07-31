@@ -9,6 +9,7 @@
  */
 
 import * as I from "immutable";
+import set from "lodash/set";
 import makeRecord from "../utils/makeRecord";
 
 import { isGeneratedId } from "devtools-source-map";
@@ -61,6 +62,22 @@ function update(
     case "REMOVE_BREAKPOINT": {
       return removeBreakpoint(state, action);
     }
+
+    case "ADD_PRETTY_SOURCE": {
+      const { source, generatedSource, mappings } = action;
+
+      function updateLocation({ location }) {
+        if (location.sourceId !== generatedSource.id) {
+          return location;
+        }
+        const { original } = mappings.find(
+          e => e.generated.line === location.line
+        );
+        return { ...original, sourceId: source.id };
+      }
+
+      return updateBreakpoints(state, ["location"], updateLocation);
+    }
   }
 
   return state;
@@ -100,6 +117,14 @@ function updateBreakpoint(state, action) {
   const { breakpoint } = action;
   const locationId = makeLocationId(breakpoint.location);
   return state.setIn(["breakpoints", locationId], breakpoint);
+}
+
+function updateBreakpoints(state, fields, value) {
+  return state.update("breakpoints", breakpoints =>
+    breakpoints.map(breakpoint =>
+      set(breakpoint, [...fields], value(breakpoint))
+    )
+  );
 }
 
 function removeBreakpoint(state, action) {

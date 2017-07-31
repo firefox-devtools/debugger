@@ -198,13 +198,6 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
-        const prettySource = await createPrettySource(id, sourceMaps, getState);
-        if (prettySource) {
-          dispatch({
-            type: "ADD_SOURCE",
-            source: prettySource
-          });
-        }
       })()
     });
   };
@@ -319,15 +312,27 @@ export function togglePrettyPrint(sourceId: string) {
 
     const selectedLocation = getSelectedLocation(getState());
 
-    const url = getPrettySourceURL(source.url);
-    const prettySource = getSourceByURL(getState(), url);
+    const { prettySource, mappings } = await createPrettySource(
+      sourceId,
+      sourceMaps,
+      getState
+    );
+
+    if (prettySource) {
+      dispatch({
+        type: "ADD_PRETTY_SOURCE",
+        source: prettySource,
+        generatedSource: source,
+        mappings
+      });
+    }
 
     const selectedOriginalLocation = await sourceMaps.getOriginalLocation(
       selectedLocation
     );
 
     return dispatch(
-      selectSource(prettySource.get("id"), {
+      selectSource(prettySource.id, {
         line: selectedOriginalLocation.line
       })
     );
