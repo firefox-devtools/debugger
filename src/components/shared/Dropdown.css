@@ -23,7 +23,7 @@ html[dir="rtl"] .dropdown {
 
 .dropdown-button {
   cursor: pointer;
-  color: var(--theme-comment);
+  color: var(--theme-content-color3);
   background: none;
   border: none;
   padding: 0;
