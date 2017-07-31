@@ -109,8 +109,12 @@ class SymbolModal extends Component {
       scrollList(this.refs.resultList.refs, this.state.resultsIndex);
     }
 
-    if (this.refs.searchInput && this.refs.searchInput.refs.input) {
-      this.refs.searchInput.refs.input.focus();
+    if (
+      this.refs.searchInput &&
+      this.refs.searchInput.input &&
+      this.props.enabled
+    ) {
+      this.refs.searchInput.input.focus();
     }
 
     if (!prevProps.enabled && this.props.enabled) {

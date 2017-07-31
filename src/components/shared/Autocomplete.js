@@ -1,7 +1,6 @@
 // @flow
 
 import { Component, DOM as dom, createFactory } from "react";
-import ReactDOM from "react-dom";
 import { filter } from "fuzzaldrin-plus";
 import classnames from "classnames";
 import { scrollList } from "../../utils/result-list";
@@ -44,18 +43,6 @@ export default class Autocomplete extends Component {
       selectedIndex: 0,
       focused: false
     };
-  }
-
-  componentDidMount() {
-    const endOfInput = this.state.inputValue.length;
-    const node = ReactDOM.findDOMNode(this);
-    if (node instanceof HTMLElement) {
-      const searchInput = node.querySelector("input");
-      if (searchInput instanceof HTMLInputElement) {
-        searchInput.focus();
-        searchInput.setSelectionRange(endOfInput, endOfInput);
-      }
-    }
   }
 
   componentDidUpdate() {
