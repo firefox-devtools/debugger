@@ -1,6 +1,6 @@
 import getMatches from "./get-matches";
-import searchSources from "./project-search";
+import { findSourceMatches } from "./project-search";
 import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
 
-self.onmessage = workerHandler({ getMatches, searchSources });
+self.onmessage = workerHandler({ getMatches, findSourceMatches });

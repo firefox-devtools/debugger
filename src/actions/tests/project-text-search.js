@@ -72,10 +72,7 @@ describe("project text search", () => {
     await dispatch(actions.searchSources(mockQuery));
 
     const results = getTextSearchResults(getState());
-
-    expect(results.size).toEqual(2);
-    expect(results.get("foo1").matches.length).toEqual(3);
-    expect(results.get("foo2").matches.length).toEqual(1);
+    expect(results).toMatchSnapshot();
   });
 
   it("should search a specific source", async () => {
@@ -92,6 +89,6 @@ describe("project text search", () => {
 
     expect(getTextSearchResults(getState()).size).toEqual(1);
 
-    expect(result.matches.length).toEqual(1);
+    expect(result).toMatchSnapshot();
   });
 });
