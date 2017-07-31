@@ -9,7 +9,7 @@
  * @module actions/search
  */
 
-import { findSourceMatches } from "../utils/search/project-search";
+import { findSourceMatches } from "../utils/search";
 
 import { getSources } from "../selectors";
 
@@ -48,7 +48,7 @@ export function searchSources(query: string) {
 
 export function searchSource(source: Source, query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const matches = findSourceMatches(source, query);
+    const matches = await findSourceMatches(source, query);
     dispatch({
       type: "ADD_SEARCH_RESULT",
       result: {
