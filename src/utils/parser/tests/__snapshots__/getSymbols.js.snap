@@ -363,13 +363,16 @@ exports[`Parser.getSymbols func 1`] = `
 member expressions
 
 call expressions
-[(7, 1), (9, 1)]   undefined 
+[(19, 1), (21, 1)]   undefined 
 identifiers
 [(1, 9), (1, 15)]  square square 
 [(1, 16), (1, 17)]  n n 
 [(2, 9), (2, 10)]  n n 
 [(2, 13), (2, 14)]  n n 
-[(5, 0), (5, 5)]  child child 
+[(5, 16), (5, 21)]  exFoo exFoo 
+[(9, 15), (9, 22)]  slowFoo slowFoo 
+[(13, 22), (13, 31)]  exSlowFoo exSlowFoo 
+[(17, 0), (17, 5)]  child child 
 variables
 [(1, 16), (1, 17)]   n "
 `;
