@@ -64,18 +64,7 @@ function update(
     }
 
     case "ADD_PRETTY_SOURCE": {
-      const { source, generatedSource, mappings } = action;
-
-      function updateLocation({ location }) {
-        if (location.sourceId !== generatedSource.id) {
-          return location;
-        }
-        const { original } = mappings.find(
-          e => e.generated.line === location.line
-        );
-        return { ...original, sourceId: source.id };
-      }
-
+      const { updateLocation } = action;
       return updateBreakpoints(state, ["location"], updateLocation);
     }
   }

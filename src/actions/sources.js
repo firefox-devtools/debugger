@@ -312,18 +312,16 @@ export function togglePrettyPrint(sourceId: string) {
 
     const selectedLocation = getSelectedLocation(getState());
 
-    const { prettySource, mappings } = await createPrettySource(
-      sourceId,
-      sourceMaps,
-      getState
-    );
+    const url = getPrettySourceURL(source.url);
+    let prettySource = getSourceByURL(getState(), url);
 
     if (prettySource) {
+      prettySource = await createPrettySource(sourceId, sourceMaps, getState);
+
       dispatch({
         type: "ADD_PRETTY_SOURCE",
         source: prettySource,
-        generatedSource: source,
-        mappings
+        updateLocation: updateLocation(prettySource.id, sourceId, sourceMaps)
       });
     }
 
@@ -336,6 +334,15 @@ export function togglePrettyPrint(sourceId: string) {
         line: selectedOriginalLocation.line
       })
     );
+  };
+}
+
+function updateLocation(sourceId, previousSourceId, sourceMaps) {
+  return async ({ location }) => {
+    if (location.sourceId !== sourceId) {
+      return location;
+    }
+    return await sourceMaps.getOriginalLocation(location);
   };
 }
 
