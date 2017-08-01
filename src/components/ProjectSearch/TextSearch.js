@@ -205,7 +205,7 @@ export default class TextSearch extends Component {
     return SearchInput({
       query: this.state.inputValue,
       count: resultCount,
-      placeholder: "Find in Project",
+      placeholder: L10N.getStr("projectTextSearch.placeholder"),
       size: "big",
       summaryMsg,
       onChange: e => this.inputOnChange(e),

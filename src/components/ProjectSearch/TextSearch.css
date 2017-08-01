@@ -1,6 +1,5 @@
 .project-text-search {
   flex-grow: 1;
-  font-family: Menlo, monospace;
 }
 
 .project-text-search .result {
@@ -13,6 +12,10 @@
 
 .project-text-search .matches-summary {
   margin-left: 5px;
+}
+
+.project-text-search .result {
+  font-family: Menlo, monospace;
 }
 
 .project-text-search .result.focused {
