@@ -88,34 +88,39 @@ FunctionDeclaration (1:0,3:1)
 `;
 
 exports[`parser getClosestScope finds a scope given at the end 1`] = `
-FunctionExpression (7:1,9:1)
-  async: false
-  body: BlockStatement (7:12,9:1)
+FunctionDeclaration (9:0,11:1)
+  async: true
+  body: BlockStatement (9:25,11:1)
     body:
-      - ExpressionStatement (8:2,8:4)
-          expression: NumericLiteral (8:2,8:3)
+      - ReturnStatement (10:2,10:15)
+          argument: StringLiteral (10:9,10:14)
             extra:
-              raw: '2'
-              rawValue: 2
-            value: 2
+              raw: '"meh"'
+              rawValue: 'meh'
+            value: 'meh'
     directives: []
   expression: false
-  extra:
-    parenStart: 64
-    parenthesized: true
   generator: false
-  id: null
+  id: Identifier (9:15,9:22)
+    name: 'slowFoo'
   params: []
 `;
 
 exports[`parser getClosestScope finds the scope at the beginning 1`] = `
-FunctionExpression (5:8,5:21)
+FunctionDeclaration (5:7,7:1)
   async: false
-  body: BlockStatement (5:19,5:21)
-    body: []
+  body: BlockStatement (5:24,7:1)
+    body:
+      - ReturnStatement (6:2,6:15)
+          argument: StringLiteral (6:9,6:14)
+            extra:
+              raw: '"yay"'
+              rawValue: 'yay'
+            value: 'yay'
     directives: []
   expression: false
   generator: false
-  id: null
+  id: Identifier (5:16,5:21)
+    name: 'exFoo'
   params: []
 `;
