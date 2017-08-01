@@ -1,100 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`project search handles no results 1`] = `
-Array [
-  Object {
-    "filepath": "http://example.com/foo/foo.js",
-    "matches": Array [],
-    "source": Object {
-      "id": "foo.js",
-      "loading": false,
-      "text": "
-  function foo() {
-    foo();
-  }
-",
-      "url": "http://example.com/foo/foo.js",
-    },
-  },
-  Object {
-    "filepath": "http://example.com/foo/bar.js",
-    "matches": Array [],
-    "source": Object {
-      "id": "foo.js",
-      "loading": false,
-      "text": "
-  function bar() {
-    foo();
-  }
-",
-      "url": "http://example.com/foo/bar.js",
-    },
-  },
-]
-`;
-
-exports[`project search searches multiple files 1`] = `
-Array [
-  Object {
-    "filepath": "http://example.com/foo/foo.js",
-    "matches": Array [
-      Object {
-        "column": 11,
-        "line": 2,
-        "match": "foo",
-        "text": "  function foo() {",
-        "value": "  function foo() {",
-      },
-      Object {
-        "column": 4,
-        "line": 3,
-        "match": "foo",
-        "text": "    foo();",
-        "value": "    foo();",
-      },
-    ],
-    "source": Object {
-      "id": "foo.js",
-      "loading": false,
-      "text": "
-  function foo() {
-    foo();
-  }
-",
-      "url": "http://example.com/foo/foo.js",
-    },
-  },
-  Object {
-    "filepath": "http://example.com/foo/bar.js",
-    "matches": Array [
-      Object {
-        "column": 4,
-        "line": 3,
-        "match": "foo",
-        "text": "    foo();",
-        "value": "    foo();",
-      },
-    ],
-    "source": Object {
-      "id": "foo.js",
-      "loading": false,
-      "text": "
-  function bar() {
-    foo();
-  }
-",
-      "url": "http://example.com/foo/bar.js",
-    },
-  },
-]
-`;
-
 exports[`project search simple 1`] = `
 Array [
   Object {
     "column": 11,
     "line": 2,
     "match": "foo",
+    "sourceId": "bar.js",
     "text": "  function foo() {",
     "value": "  function foo() {",
   },
@@ -102,6 +14,7 @@ Array [
     "column": 4,
     "line": 3,
     "match": "foo",
+    "sourceId": "bar.js",
     "text": "    foo();",
     "value": "    foo();",
   },

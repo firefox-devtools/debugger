@@ -27,6 +27,7 @@ class SearchInput extends Component {
     summaryMsg: string,
     onChange: () => void,
     handleClose: () => void,
+    showErrorEmoji: boolean,
     onKeyUp: () => void,
     onKeyDown: () => void,
     onFocus: () => void,
@@ -38,10 +39,13 @@ class SearchInput extends Component {
 
   static defaultProps: Object;
 
-  renderSvg() {
-    const { count, query } = this.props;
+  shouldShowErrorEmoji() {
+    const { count, query, showErrorEmoji } = this.props;
+    return count === 0 && query.trim() !== "" && !showErrorEmoji;
+  }
 
-    if (count == 0 && query.trim() != "") {
+  renderSvg() {
+    if (this.shouldShowErrorEmoji()) {
       return Svg("sad-face");
     }
 
@@ -87,7 +91,6 @@ class SearchInput extends Component {
     const {
       query,
       placeholder,
-      count,
       summaryMsg,
       onChange,
       onKeyDown,
@@ -105,7 +108,7 @@ class SearchInput extends Component {
       this.renderSvg(),
       dom.input({
         className: classnames({
-          empty: count == 0 && query.trim() != ""
+          empty: this.shouldShowErrorEmoji()
         }),
         onChange,
         onKeyDown,
@@ -117,7 +120,7 @@ class SearchInput extends Component {
         spellCheck: false,
         ref: "input"
       }),
-      dom.div({ className: "summary" }, query != "" ? summaryMsg : ""),
+      dom.div({ className: "summary" }, summaryMsg || ""),
       this.renderNav(),
       CloseButton({
         handleClick: handleClose,
@@ -128,7 +131,8 @@ class SearchInput extends Component {
 }
 
 SearchInput.defaultProps = {
-  size: ""
+  size: "",
+  showErrorEmoji: true
 };
 
 export default SearchInput;

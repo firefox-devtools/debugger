@@ -119,6 +119,10 @@
     walk "^2.3.9"
     yargs "^7.0.2"
 
+"@types/node@^7.0.12":
+  version "7.0.39"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.39.tgz#8aced4196387038113f6f9aa4014ab4c51edab3c"
+
 JSONStream@^0.8.4:
   version "0.8.4"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-0.8.4.tgz#91657dfe6ff857483066132b4618b62e8f4887bd"
@@ -2502,9 +2506,9 @@ devtools-modules@^0.0.28:
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.28.tgz#5b3498a4844675daedc3c7128a95ba011431eb46"
 
-devtools-reps@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.9.0.tgz#c021b5afc826aa3849265793b552f0f9af05fe2d"
+devtools-reps@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.10.0.tgz#58ab501d793ae7901f128f6d1dee9b82a728b710"
   dependencies:
     classnames "^2.2.5"
     devtools-components "^0.0.1"
@@ -2519,13 +2523,13 @@ devtools-source-editor@0.0.6:
   dependencies:
     codemirror "^5.25.0"
 
-devtools-source-map@0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.8.0.tgz#ceddc08fb28ed0b760c388bd307da228e99ade9b"
+devtools-source-map@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.9.0.tgz#da42022c1e3767bf3841a8b347dfa238ae31defa"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
-    devtools-utils "0.0.3"
+    devtools-utils "0.0.4"
     jest "^19.0.2"
     md5 "^2.2.1"
     regenerator-runtime "^0.10.3"
@@ -2539,7 +2543,15 @@ devtools-sprintf-js@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/devtools-sprintf-js/-/devtools-sprintf-js-1.0.3.tgz#c2aa3c39d4047525e60410325c86770620281b87"
 
-devtools-utils@0.0.3, devtools-utils@^0.0.3:
+devtools-utils@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.4.tgz#206a0463b98392675c06ca0b947b4087c6f535ad"
+  dependencies:
+    babel-plugin-transform-flow-strip-types "^6.22.0"
+    babel-preset-stage-3 "^6.22.0"
+    jest "^19.0.2"
+
+devtools-utils@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.3.tgz#b49973c148532d530212d77ba390f0be5f4343af"
   dependencies:
@@ -8964,6 +8976,12 @@ walker@~1.0.5:
   resolved "https://registry.yarnpkg.com/walker/-/walker-1.0.7.tgz#2f7f9b8fd10d677262b18a884e28d19618e028fb"
   dependencies:
     makeerror "1.0.x"
+
+wasmparser@^0.4.10:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/wasmparser/-/wasmparser-0.4.10.tgz#5bbc692a0d46a971a5b0c6717bb0b6f025dc1be8"
+  dependencies:
+    "@types/node" "^7.0.12"
 
 watch@~0.10.0:
   version "0.10.0"

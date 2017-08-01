@@ -39,7 +39,7 @@ function OutlineFactory(options, { dir = "ltr", theme = "light" } = {}) {
       className: `outline ${themeClass}`,
       dir,
       style: {
-        width: "300px",
+        width: "300",
         margin: "40px 40px",
         border: "1px solid var(--theme-splitter-color)"
       }

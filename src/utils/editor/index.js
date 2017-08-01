@@ -1,15 +1,21 @@
+// @flow
+
 import { isEnabled } from "devtools-config";
 import { isPretty, isJavaScript } from "../source";
 import { isOriginalId } from "devtools-source-map";
 import * as sourceDocumentUtils from "./source-documents";
-const { getDocument } = sourceDocumentUtils;
 
 import * as expressionUtils from "./expression.js";
 
 import * as sourceSearchUtils from "./source-search";
 const { findNext, findPrev } = sourceSearchUtils;
 
+import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
+
 import { SourceEditor, SourceEditorUtils } from "devtools-source-editor";
+
+import type { AstPosition, AstLocation } from "../parser/types";
+import type { EditorPosition, EditorRange } from "../editor/types";
 
 function shouldShowPrettyPrint(selectedSource) {
   if (!selectedSource) {
@@ -77,27 +83,57 @@ function createEditor() {
   });
 }
 
-function updateDocument(editor, selectedSource) {
-  if (!selectedSource) {
-    return;
-  }
-  let sourceId = selectedSource.get("id");
-  const doc = getDocument(sourceId) || editor.createDocument();
-  editor.replaceDocument(doc);
+function toEditorLine(sourceId: string, lineOrOffset: number): ?number {
+  return isWasm(sourceId)
+    ? wasmOffsetToLine(sourceId, lineOrOffset)
+    : lineOrOffset - 1;
 }
 
-function markText(editor: any, className, location: any) {
+function toEditorPosition(
+  sourceId: string,
+  location: AstPosition
+): EditorPosition {
+  return {
+    line: toEditorLine(sourceId, location.line),
+    column: isWasm(sourceId) ? 0 : location.column
+  };
+}
+
+function toEditorRange(sourceId: string, location: AstLocation): EditorRange {
+  const { start, end } = location;
+  return {
+    start: toEditorPosition(sourceId, start),
+    end: toEditorPosition(sourceId, end)
+  };
+}
+
+function toSourceLine(sourceId: string, line: number): ?number {
+  return isWasm(sourceId) ? lineToWasmOffset(sourceId, line) : line + 1;
+}
+
+function toSourceLocation(
+  sourceId: string,
+  location: EditorPosition
+): AstPosition {
+  return {
+    line: toSourceLine(sourceId, location.line),
+    column: isWasm(sourceId) ? undefined : location.column
+  };
+}
+
+function markText(editor: any, className, location: EditorRange) {
   const { start, end } = location;
 
   return editor.codeMirror.markText(
-    { ch: start.column, line: start.line - 1 },
-    { ch: end.column, line: end.line - 1 },
+    { ch: start.column, line: start.line },
+    { ch: end.column, line: end.line },
     { className }
   );
 }
 
-function lineAtHeight(editor, event) {
-  return editor.codeMirror.lineAtHeight(event.clientY) + 1;
+function lineAtHeight(editor, sourceId, event) {
+  const editorLine = editor.codeMirror.lineAtHeight(event.clientY);
+  return toSourceLine(sourceId, editorLine);
 }
 
 module.exports = Object.assign(
@@ -108,10 +144,15 @@ module.exports = Object.assign(
   SourceEditorUtils,
   {
     createEditor,
+    isWasm,
+    toEditorLine,
+    toEditorPosition,
+    toEditorRange,
+    toSourceLine,
+    toSourceLocation,
     shouldShowPrettyPrint,
     shouldShowFooter,
     traverseResults,
-    updateDocument,
     markText,
     lineAtHeight
   }

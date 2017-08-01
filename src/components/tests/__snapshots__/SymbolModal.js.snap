@@ -8,59 +8,55 @@ ShallowWrapper {
     "findWhereUnwrapped": [Function],
   },
   "length": 1,
-  "node": <div
-    className="symbol-modal-wrapper"
-    onClick={[Function]}
+  "node": <Modal
+    enabled={true}
+    handleClose={[Function]}
+    handleOpen={[Function]}
+    shortcut="symbolSearch.search.key2"
 >
     <div
-        className="symbol-modal"
-        onClick={[Function]}
+        className="input-wrapper"
     >
-        <div
-            className="input-wrapper"
-        >
-            <SearchInput
-                count={0}
-                handleClose={[Function]}
-                handleNext={[Function]}
-                handlePrev={[Function]}
-                onChange={[Function]}
-                onKeyUp={[Function]}
-                placeholder="Search functions…"
-                query=""
-                size=""
-                summaryMsg={undefined}
-            />
-        </div>
+        <SearchInput
+            count={0}
+            handleClose={[Function]}
+            handleNext={[Function]}
+            handlePrev={[Function]}
+            onChange={[Function]}
+            onKeyUp={[Function]}
+            placeholder="Search functions…"
+            query=""
+            showErrorEmoji={true}
+            size=""
+            summaryMsg={undefined}
+        />
     </div>
-</div>,
+</Modal>,
   "nodes": Array [
-    <div
-      className="symbol-modal-wrapper"
-      onClick={[Function]}
+    <Modal
+      enabled={true}
+      handleClose={[Function]}
+      handleOpen={[Function]}
+      shortcut="symbolSearch.search.key2"
 >
       <div
-            className="symbol-modal"
-            onClick={[Function]}
+            className="input-wrapper"
       >
-            <div
-                  className="input-wrapper"
-            >
-                  <SearchInput
-                        count={0}
-                        handleClose={[Function]}
-                        handleNext={[Function]}
-                        handlePrev={[Function]}
-                        onChange={[Function]}
-                        onKeyUp={[Function]}
-                        placeholder="Search functions…"
-                        query=""
-                        size=""
-                        summaryMsg={undefined}
-                  />
-            </div>
+            <SearchInput
+                  count={0}
+                  handleClose={[Function]}
+                  handleNext={[Function]}
+                  handlePrev={[Function]}
+                  onChange={[Function]}
+                  onKeyUp={[Function]}
+                  placeholder="Search functions…"
+                  query=""
+                  showErrorEmoji={true}
+                  size=""
+                  summaryMsg={undefined}
+            />
       </div>
-</div>,
+</Modal>,
   ],
   "options": Object {},
   "renderer": ReactShallowRenderer {
@@ -127,61 +123,57 @@ ShallowWrapper {
       "_pendingReplaceState": false,
       "_pendingStateQueue": null,
       "_renderedComponent": Object {
-        "_currentElement": <div
-          className="symbol-modal-wrapper"
-          onClick={[Function]}
+        "_currentElement": <Modal
+          enabled={true}
+          handleClose={[Function]}
+          handleOpen={[Function]}
+          shortcut="symbolSearch.search.key2"
 >
           <div
-                    className="symbol-modal"
-                    onClick={[Function]}
+                    className="input-wrapper"
           >
-                    <div
-                              className="input-wrapper"
-                    >
-                              <SearchInput
-                                        count={0}
-                                        handleClose={[Function]}
-                                        handleNext={[Function]}
-                                        handlePrev={[Function]}
-                                        onChange={[Function]}
-                                        onKeyUp={[Function]}
-                                        placeholder="Search functions…"
-                                        query=""
-                                        size=""
-                                        summaryMsg={undefined}
-                              />
-                    </div>
+                    <SearchInput
+                              count={0}
+                              handleClose={[Function]}
+                              handleNext={[Function]}
+                              handlePrev={[Function]}
+                              onChange={[Function]}
+                              onKeyUp={[Function]}
+                              placeholder="Search functions…"
+                              query=""
+                              showErrorEmoji={true}
+                              size=""
+                              summaryMsg={undefined}
+                    />
           </div>
-</div>,
+</Modal>,
         "_debugID": 2,
-        "_renderedOutput": <div
-          className="symbol-modal-wrapper"
-          onClick={[Function]}
+        "_renderedOutput": <Modal
+          enabled={true}
+          handleClose={[Function]}
+          handleOpen={[Function]}
+          shortcut="symbolSearch.search.key2"
 >
           <div
-                    className="symbol-modal"
-                    onClick={[Function]}
+                    className="input-wrapper"
           >
-                    <div
-                              className="input-wrapper"
-                    >
-                              <SearchInput
-                                        count={0}
-                                        handleClose={[Function]}
-                                        handleNext={[Function]}
-                                        handlePrev={[Function]}
-                                        onChange={[Function]}
-                                        onKeyUp={[Function]}
-                                        placeholder="Search functions…"
-                                        query=""
-                                        size=""
-                                        summaryMsg={undefined}
-                              />
-                    </div>
+                    <SearchInput
+                              count={0}
+                              handleClose={[Function]}
+                              handleNext={[Function]}
+                              handlePrev={[Function]}
+                              onChange={[Function]}
+                              onKeyUp={[Function]}
+                              placeholder="Search functions…"
+                              query=""
+                              showErrorEmoji={true}
+                              size=""
+                              summaryMsg={undefined}
+                    />
           </div>
-</div>,
+</Modal>,
       },
-      "_renderedNodeType": 0,
+      "_renderedNodeType": 1,
       "_rootNodeID": 0,
       "_topLevelWrapper": null,
       "_updateBatchNumber": null,

@@ -1,4 +1,4 @@
-import { getFilename, getMode } from "../source.js";
+import { getFilename, getMode, getSourceLineCount } from "../source.js";
 
 describe("sources", () => {
   describe("getFilename", () => {
@@ -88,6 +88,38 @@ describe("sources", () => {
         text: "x = (a) -> 3"
       };
       expect(getMode(source)).toBe("coffeescript");
+    });
+
+    it("wasm", () => {
+      const source = {
+        contentType: "",
+        isWasm: true,
+        text: {
+          binary: "\x00asm\x01\x00\x00\x00"
+        }
+      };
+      expect(getMode(source)).toEqual({ name: "text" });
+    });
+  });
+
+  describe("getSourceLineCount", () => {
+    it("should give us the amount bytes for wasm source", () => {
+      const source = {
+        contentType: "",
+        isWasm: true,
+        text: {
+          binary: "\x00asm\x01\x00\x00\x00"
+        }
+      };
+      expect(getSourceLineCount(source)).toEqual(8);
+    });
+
+    it("should give us the amout of lines for js source", () => {
+      const source = {
+        contentType: "text/javascript",
+        text: "function foo(){\n}"
+      };
+      expect(getSourceLineCount(source)).toEqual(2);
     });
   });
 });

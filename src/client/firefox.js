@@ -2,6 +2,7 @@
 
 import { setupCommands, clientCommands } from "./firefox/commands";
 import { setupEvents, clientEvents } from "./firefox/events";
+import { isEnabled } from "devtools-config";
 
 export async function onConnect(connection: any, actions: Object) {
   const {
@@ -12,16 +13,27 @@ export async function onConnect(connection: any, actions: Object) {
     return;
   }
 
-  setupCommands({ threadClient, tabTarget, debuggerClient });
+  let supportsWasm =
+    isEnabled("wasm") && !!debuggerClient.mainRoot.traits.wasmBinarySource;
+
+  setupCommands({
+    threadClient,
+    tabTarget,
+    debuggerClient,
+    supportsWasm
+  });
 
   if (actions) {
-    setupEvents({ threadClient, actions });
+    setupEvents({ threadClient, actions, supportsWasm });
   }
 
   tabTarget.on("will-navigate", actions.willNavigate);
   tabTarget.on("navigate", actions.navigated);
 
-  await threadClient.reconfigure({ observeAsmJS: true });
+  await threadClient.reconfigure({
+    observeAsmJS: true,
+    wasmBinarySource: supportsWasm
+  });
 
   // In Firefox, we need to initially request all of the sources. This
   // usually fires off individual `newSource` notifications as the

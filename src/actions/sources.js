@@ -9,12 +9,13 @@
  * @module actions/sources
  */
 
-import defer from "../utils/defer";
 import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { updateFrameLocations } from "../utils/pause";
+
 import { setSymbols, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
+import { searchSource } from "./project-text-search";
 
 import { prettyPrint } from "../utils/pretty-print";
 import { getPrettySourceURL } from "../utils/source";
@@ -32,7 +33,8 @@ import {
   getSourceTabs,
   getNewSelectedSourceId,
   removeSourcesFromTabList,
-  removeSourceFromTabList
+  removeSourceFromTabList,
+  getTextSearchQuery
 } from "../selectors";
 
 import type { Source } from "../types";
@@ -170,7 +172,7 @@ export function selectSourceURL(
  * @static
  */
 export function selectSource(id: string, options: SelectSourceOptions = {}) {
-  return ({ dispatch, getState, client }: ThunkArgs) => {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -192,7 +194,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       source: source.toJS(),
       tabIndex: options.tabIndex,
       line: options.line,
-      [PROMISE]: (async function() {
+      [PROMISE]: (async () => {
         await dispatch(loadSourceText(source.toJS()));
         await dispatch(setOutOfScopeLocations());
       })()
@@ -377,8 +379,7 @@ export function loadSourceText(source: Source) {
       })()
     });
 
-    // get the symbols for the source as well
-    return dispatch(setSymbols(source.id));
+    await dispatch(setSymbols(source.id));
   };
 }
 
@@ -390,89 +391,15 @@ export function loadSourceText(source: Source) {
 export function loadAllSources() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const sources = getSources(getState());
-    for (const [, source] of sources) {
-      await dispatch(loadSourceText(source.toJS()));
-    }
-  };
-}
-
-// delay is in ms
-const FETCH_SOURCE_RESPONSE_DELAY = 200;
-
-/**
- * Starts fetching all the sources, silently.
- *
- * @memberof actions/sources
- * @static
- * @param array actors
- *        The urls for the sources to fetch. If fetching a source's text
- *        takes too long, it will be discarded.
- * @returns {Promise}
- *         A promise that is resolved after source texts have been fetched.
- */
-export function getTextForSources(actors: any[]) {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    let deferred = defer();
-    let pending = new Set(actors);
-    type FetchedSourceType = [any, string, string];
-    let fetched: FetchedSourceType[] = [];
-
-    // Can't use promise.all, because if one fetch operation is rejected, then
-    // everything is considered rejected, thus no other subsequent source will
-    // be getting fetched. We don't want that. Something like Q's allSettled
-    // would work like a charm here.
-    // Try to fetch as many sources as possible.
-    for (let actor of actors) {
-      let source = getSource(getState(), actor);
-      dispatch(loadSourceText(source)).then(
-        ({ text, contentType }) => {
-          onFetch([source, text, contentType]);
-        },
-        err => {
-          onError(source, err);
-        }
-      );
-    }
-
-    setTimeout(onTimeout, FETCH_SOURCE_RESPONSE_DELAY);
-
-    /* Called if fetching a source takes too long. */
-    function onTimeout() {
-      pending = new Set();
-      maybeFinish();
-    }
-
-    /* Called if fetching a source finishes successfully. */
-    function onFetch([aSource, aText, aContentType]: FetchedSourceType) {
-      // If fetching the source has previously timed out, discard it this time.
-      if (!pending.has(aSource.actor)) {
-        return;
-      }
-      pending.delete(aSource.actor);
-      fetched.push([aSource.actor, aText, aContentType]);
-      maybeFinish();
-    }
-
-    /* Called if fetching a source failed because of an error. */
-    function onError(source: Object, error: any) {
-      pending.delete(source.actor);
-      maybeFinish();
-    }
-
-    /* Called every time something interesting
-     *  happens while fetching sources.
-     */
-    function maybeFinish() {
-      if (pending.size == 0) {
-        // Sort the fetched sources alphabetically by their url.
-        if (deferred) {
-          deferred.resolve(
-            fetched.sort(([aFirst], [aSecond]) => (aFirst > aSecond ? -1 : 1))
-          );
-        }
+    const query = getTextSearchQuery(getState());
+    for (const [, src] of sources) {
+      const source = src.toJS();
+      await dispatch(loadSourceText(source));
+      // If there is a current search query we search
+      // each of the source texts as they get loaded
+      if (query) {
+        await dispatch(searchSource(source, query));
       }
     }
-
-    return deferred.promise;
   };
 }

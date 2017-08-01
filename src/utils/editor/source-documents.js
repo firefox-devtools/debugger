@@ -1,7 +1,9 @@
 // @flow
 
 import { getMode } from "../source";
+
 import type { Source } from "debugger-html";
+import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
 
 let sourceDocs = {};
 
@@ -21,6 +23,43 @@ function clearDocuments() {
   sourceDocs = {};
 }
 
+function resetLineNumberFormat(editor: Object) {
+  let cm = editor.codeMirror;
+  cm.setOption("lineNumberFormatter", number => number);
+}
+
+function updateLineNumberFormat(editor: Object, sourceId: string) {
+  if (!isWasm(sourceId)) {
+    resetLineNumberFormat(editor);
+    return;
+  }
+  let cm = editor.codeMirror;
+  let lineNumberFormatter = getWasmLineNumberFormatter(sourceId);
+  cm.setOption("lineNumberFormatter", lineNumberFormatter);
+}
+
+function updateDocument(editor: Object, sourceId: string) {
+  if (!sourceId) {
+    return;
+  }
+  const doc = getDocument(sourceId) || editor.createDocument();
+  editor.replaceDocument(doc);
+
+  updateLineNumberFormat(editor, sourceId);
+}
+
+function setEditorText(editor: Object, source: Source) {
+  const { text, id: sourceId } = source;
+  if (source.isWasm) {
+    const wasmLines = renderWasmText(sourceId, (text: any));
+    // cm will try to split into lines anyway, saving memory
+    const wasmText = { split: () => wasmLines, match: () => false };
+    editor.setText(wasmText);
+  } else {
+    editor.setText(text);
+  }
+}
+
 /**
  * Handle getting the source document or creating a new
  * document with the correct mode and text.
@@ -37,6 +76,7 @@ function showSourceText(editor: Object, source: Source) {
 
   if (doc) {
     editor.replaceDocument(doc);
+    updateLineNumberFormat(editor, source.id);
     return doc;
   }
 
@@ -44,8 +84,9 @@ function showSourceText(editor: Object, source: Source) {
   setDocument(source.id, doc);
   editor.replaceDocument(doc);
 
-  editor.setText(source.text);
+  setEditorText(editor, source);
   editor.setMode(getMode(source));
+  updateLineNumberFormat(editor, source.id);
 }
 
 export {
@@ -53,5 +94,8 @@ export {
   setDocument,
   removeDocument,
   clearDocuments,
+  resetLineNumberFormat,
+  updateLineNumberFormat,
+  updateDocument,
   showSourceText
 };

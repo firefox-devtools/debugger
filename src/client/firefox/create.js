@@ -31,11 +31,15 @@ export function createFrame(frame: FramePacket): Frame {
   };
 }
 
-export function createSource(source: SourcePayload): Source {
+export function createSource(
+  source: SourcePayload,
+  { supportsWasm }: { supportsWasm: boolean }
+): Source {
   return {
     id: source.actor,
     url: source.url,
     isPrettyPrinted: false,
+    isWasm: supportsWasm && source.introductionType === "wasm",
     sourceMapURL: source.sourceMapURL,
     isBlackBoxed: false
   };

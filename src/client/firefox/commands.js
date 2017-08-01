@@ -28,18 +28,21 @@ import { createSource, createBreakpointLocation } from "./create";
 let bpClients: BPClients;
 let threadClient: ThreadClient;
 let tabTarget: TabTarget;
-let debuggerClient: DebuggerClient | null;
+let debuggerClient: DebuggerClient;
+let supportsWasm: boolean;
 
 type Dependencies = {
   threadClient: ThreadClient,
   tabTarget: TabTarget,
-  debuggerClient: DebuggerClient | null
+  debuggerClient: DebuggerClient,
+  supportsWasm: boolean
 };
 
 function setupCommands(dependencies: Dependencies): void {
   threadClient = dependencies.threadClient;
   tabTarget = dependencies.tabTarget;
   debuggerClient = dependencies.debuggerClient;
+  supportsWasm = dependencies.supportsWasm;
   bpClients = {};
 }
 
@@ -262,7 +265,7 @@ function pauseGrip(func: Function): ObjectClient {
 
 async function fetchSources() {
   const { sources } = await threadClient.getSources();
-  return sources.map(createSource);
+  return sources.map(source => createSource(source, { supportsWasm }));
 }
 
 const clientCommands = {

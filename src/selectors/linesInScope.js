@@ -1,5 +1,6 @@
 import { getOutOfScopeLocations } from "../reducers/ast";
 import { getSelectedSource } from "../reducers/sources";
+import { getSourceLineCount } from "../utils/source";
 
 import range from "lodash/range";
 import flatMap from "lodash/flatMap";
@@ -31,7 +32,7 @@ export default function getInScopeLines(state: OuterState) {
     source.toJS()
   );
 
-  const sourceNumLines = source.get("text").split("\n").length;
+  const sourceNumLines = getSourceLineCount(source.toJS());
   const sourceLines = range(1, sourceNumLines + 1);
 
   if (!linesOutOfScope) {

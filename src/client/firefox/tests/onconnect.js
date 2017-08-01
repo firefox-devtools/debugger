@@ -23,7 +23,11 @@ const threadClient = {
   getLastPausePacket: () => null
 };
 
-const debuggerClient = {};
+const debuggerClient = {
+  mainRoot: {
+    traits: {}
+  }
+};
 
 const actions = {
   _sources: [],
