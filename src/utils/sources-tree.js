@@ -30,7 +30,7 @@ type Node = { name: string, path: string, contents?: any };
  * @memberof utils/sources-tree
  * @static
  */
-function nodeHasChildren(item: Node): boolean {
+export function nodeHasChildren(item: Node): boolean {
   return Array.isArray(item.contents);
 }
 
@@ -38,7 +38,7 @@ function nodeHasChildren(item: Node): boolean {
  * @memberof utils/sources-tree
  * @static
  */
-function createNode(name: any, path: any, contents?: any): Node {
+export function createNode(name: any, path: any, contents?: any): Node {
   return {
     name,
     path,
@@ -50,7 +50,7 @@ function createNode(name: any, path: any, contents?: any): Node {
  * @memberof utils/sources-tree
  * @static
  */
-function createParentMap(tree: any): WeakMap<any, any> {
+export function createParentMap(tree: any): WeakMap<any, any> {
   const map = new WeakMap();
 
   function _traverse(subtree) {
@@ -84,7 +84,7 @@ function getFilenameFromPath(pathname?: string) {
   return filename;
 }
 
-function getRelativePath(path: string) {
+export function getRelativePath(path: string) {
   const re = /(http(?:s?):\/\/(?:www\.)?[a-z0-9\-.]+)\/(.*)/i;
   const matches = path.match(re);
   return matches ? matches[2] : "";
@@ -94,7 +94,7 @@ function getRelativePath(path: string) {
  * @memberof utils/sources-tree
  * @static
  */
-function getURL(sourceUrl: string): { path: string, group: string } {
+export function getURL(sourceUrl: string): { path: string, group: string } {
   const url = sourceUrl;
   let def = { path: "", group: "", filename: "" };
   if (!url) {
@@ -157,7 +157,7 @@ function getURL(sourceUrl: string): { path: string, group: string } {
  * @memberof utils/sources-tree
  * @static
  */
-function isDirectory(url: Object) {
+export function isDirectory(url: Object) {
   const parts = url.path.split("/").filter(p => p !== "");
 
   // Assume that all urls point to files except when they end with '/'
@@ -171,7 +171,7 @@ function isDirectory(url: Object) {
  * @memberof utils/sources-tree
  * @static
  */
-function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
+export function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
   const url = getURL(source.get("url"));
 
   if (
@@ -247,7 +247,7 @@ function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
  * @memberof utils/sources-tree
  * @static
  */
-function isExactUrlMatch(pathPart: string, debuggeeUrl: string) {
+export function isExactUrlMatch(pathPart: string, debuggeeUrl: string) {
   // compare to hostname with an optional 'www.' prefix
   const { host } = parse(debuggeeUrl);
   if (!host) {
@@ -312,7 +312,7 @@ function determineFileSortOrder(
  * @memberof utils/sources-tree
  * @static
  */
-function collapseTree(node: any, depth: number = 0) {
+export function collapseTree(node: any, depth: number = 0) {
   // Node is a folder.
   if (nodeHasChildren(node)) {
     // Node is not a root/domain node, and only contains 1 item.
@@ -341,7 +341,7 @@ function collapseTree(node: any, depth: number = 0) {
  * @memberof utils/sources-tree
  * @static
  */
-function createTree(sources: any, debuggeeUrl: string) {
+export function createTree(sources: any, debuggeeUrl: string) {
   const uncollapsedTree = createNode("root", "", []);
   for (let source of sources.valueSeq()) {
     addToTree(uncollapsedTree, source, debuggeeUrl);
@@ -376,7 +376,7 @@ function findSource(sourceTree: any, sourceUrl: string) {
   return returnTarget;
 }
 
-function getDirectories(sourceUrl: string, sourceTree: any) {
+export function getDirectories(sourceUrl: string, sourceTree: any) {
   const url = getURL(sourceUrl);
   const fullUrl = `/${url.group}${url.path}`;
   const parentMap = createParentMap(sourceTree);
@@ -398,7 +398,7 @@ function getDirectories(sourceUrl: string, sourceTree: any) {
   }
 }
 
-function formatTree(tree: Node, depth: number = 0, str: string = "") {
+export function formatTree(tree: Node, depth: number = 0, str: string = "") {
   const whitespace = new Array(depth * 2).join(" ");
 
   if (!tree.contents) {
@@ -417,18 +417,3 @@ function formatTree(tree: Node, depth: number = 0, str: string = "") {
 
   return str;
 }
-
-export {
-  createNode,
-  nodeHasChildren,
-  createParentMap,
-  isDirectory,
-  addToTree,
-  collapseTree,
-  createTree,
-  getDirectories,
-  getRelativePath,
-  getURL,
-  isExactUrlMatch,
-  formatTree
-};

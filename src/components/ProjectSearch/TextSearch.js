@@ -34,14 +34,12 @@ export default class TextSearch extends Component {
   }
 
   async onKeyDown(e) {
-    console.log(e.key);
     if (e.key !== "Enter") {
       return;
     }
     this.props.searchSources(this.state.inputValue);
   }
 
-<<<<<<< HEAD
   onEnterPress() {
     if (this.focused) {
       const { setExpanded, file, expanded, match } = this.focused;

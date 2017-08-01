@@ -124,6 +124,7 @@
   border-top-color: transparent;
 }
 
-.source-footer .tab.active path, .source-footer .tab:hover path {
+.source-footer .tab.active path,
+.source-footer .tab:hover path {
   fill: var(--theme-body-color);
 }

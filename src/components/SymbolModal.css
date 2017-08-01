@@ -15,7 +15,8 @@
   top: 30px;
 }
 
-.symbol-modal .input-wrapper, .modal .input-wrapper {
+.symbol-modal .input-wrapper,
+.modal .input-wrapper {
   display: flex;
   justify-content: center;
 }
