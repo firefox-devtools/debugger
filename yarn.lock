@@ -2523,9 +2523,9 @@ devtools-source-editor@0.0.6:
   dependencies:
     codemirror "^5.25.0"
 
-devtools-source-map@0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.9.0.tgz#da42022c1e3767bf3841a8b347dfa238ae31defa"
+devtools-source-map@0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.10.0.tgz#ee3cc5ea9e9e16c7e21832890c355ebf5ed756b5"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
