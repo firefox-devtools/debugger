@@ -1,23 +1,19 @@
 import { actions, createStore, makeSource } from "../../../utils/test-head";
-import { getPrettySourceURL } from "../../../utils/source";
-
 import { createPrettySource } from "../createPrettySource";
-
-const mockSourceMaps = {
-  applySourceMap: jest.fn(),
-  generatedToOriginalId: jest.fn()
-};
+import { getSourceByURL } from "../../../selectors";
 
 describe("createPrettySource", () => {
   it("returns a pretty source for a minified file", async () => {
     const { dispatch, getState } = createStore();
     const url = "base.js";
-    await dispatch(actions.newSource(makeSource(url)));
-    const pretty = await createPrettySource(url, mockSourceMaps, getState);
+    const source = makeSource(url);
+    await dispatch(actions.newSource(source));
+    await dispatch(createPrettySource(url));
 
-    const prettyURL = getPrettySourceURL(url);
-    expect(pretty.contentType).toEqual("text/javascript");
-    expect(pretty.url.includes(prettyURL)).toEqual(true);
+    const prettyURL = `${source.url}:formatted`;
+    const pretty = getSourceByURL(getState(), prettyURL);
+    expect(pretty.get("contentType")).toEqual("text/javascript");
+    expect(pretty.get("url").includes(prettyURL)).toEqual(true);
     expect(pretty).toMatchSnapshot();
   });
 });

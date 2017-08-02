@@ -314,14 +314,9 @@ export function togglePrettyPrint(sourceId: string) {
     let prettySource = getSourceByURL(getState(), url);
 
     if (!prettySource) {
-      prettySource = await createPrettySource(sourceId, sourceMaps, getState);
-
-      dispatch({
-        type: "ADD_SOURCE",
-        source: prettySource
-      });
-
+      await dispatch(createPrettySource(sourceId));
       dispatch(remapBreakpoints(sourceId));
+      prettySource = getSourceByURL(getState(), url);
     }
 
     const selectedOriginalLocation = await sourceMaps.getOriginalLocation(
@@ -329,7 +324,7 @@ export function togglePrettyPrint(sourceId: string) {
     );
 
     return dispatch(
-      selectSource(prettySource.id, {
+      selectSource(prettySource.get("id"), {
         line: selectedOriginalLocation.line
       })
     );

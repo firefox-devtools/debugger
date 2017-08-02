@@ -9,7 +9,6 @@
  */
 
 import { PROMISE } from "../utils/redux/middleware/promise";
-import * as I from "immutable";
 import {
   getBreakpoint,
   getBreakpoints,
@@ -193,24 +192,31 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
 }
 
 export function remapBreakpoints(sourceId: string) {
-  return ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
+  return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
-    const sourceBreakpoints = breakpoints.filter(
-      breakpoint => breakpoint.location.sourceId === sourceId
+    const newBreakpoints = await remapLocations(
+      breakpoints,
+      sourceId,
+      sourceMaps
     );
 
-    sourceBreakpoints.forEach(async breakpoint => {
-      const location = await sourceMaps.getOriginalLocation(
-        breakpoint.location
-      );
-      console.log(location);
-      return dispatch({
-        type: "REMAP_BREAKPOINT",
-        breakpoint: { ...breakpoint, location },
-        previousLocationId: sourceId
-      });
+    return dispatch({
+      type: "REMAP_BREAKPOINTS",
+      breakpoints: newBreakpoints
     });
   };
+}
+
+function remapLocations(breakpoints, sourceId, sourceMaps) {
+  const sourceBreakpoints = breakpoints.map(async breakpoint => {
+    if (breakpoint.location.sourceId !== sourceId) {
+      return breakpoint;
+    }
+    const location = await sourceMaps.getOriginalLocation(breakpoint.location);
+    return { ...breakpoint, location };
+  });
+
+  return Promise.all(sourceBreakpoints.valueSeq());
 }
 
 /**
