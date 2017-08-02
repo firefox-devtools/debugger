@@ -17,6 +17,7 @@ import {
 } from "../selectors";
 import { createBreakpoint, assertBreakpoint } from "../utils/breakpoint";
 import addBreakpointPromise from "./breakpoints/addBreakpoint";
+import remapLocations from "./breakpoints/remapLocations";
 
 // this will need to be changed so that addCLientBreakpoint is removed
 import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
@@ -205,18 +206,6 @@ export function remapBreakpoints(sourceId: string) {
       breakpoints: newBreakpoints
     });
   };
-}
-
-function remapLocations(breakpoints, sourceId, sourceMaps) {
-  const sourceBreakpoints = breakpoints.map(async breakpoint => {
-    if (breakpoint.location.sourceId !== sourceId) {
-      return breakpoint;
-    }
-    const location = await sourceMaps.getOriginalLocation(breakpoint.location);
-    return { ...breakpoint, location };
-  });
-
-  return Promise.all(sourceBreakpoints.valueSeq());
 }
 
 /**

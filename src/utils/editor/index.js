@@ -1,8 +1,6 @@
 // @flow
 
 import { isEnabled } from "devtools-config";
-import { isPretty, isJavaScript } from "../source";
-import { isOriginalId } from "devtools-source-map";
 import * as sourceDocumentUtils from "./source-documents";
 import { shouldPrettyPrint } from "../../utils/source";
 

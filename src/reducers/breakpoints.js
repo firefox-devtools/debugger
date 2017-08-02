@@ -9,7 +9,6 @@
  */
 
 import * as I from "immutable";
-import set from "lodash/set";
 import makeRecord from "../utils/makeRecord";
 
 import { isGeneratedId } from "devtools-source-map";
@@ -64,7 +63,7 @@ function update(
     }
 
     case "REMAP_BREAKPOINTS": {
-      return remapBreakpoint(state, action);
+      return remapBreakpoints(state, action);
     }
   }
 
@@ -107,7 +106,7 @@ function updateBreakpoint(state, action) {
   return state.setIn(["breakpoints", locationId], breakpoint);
 }
 
-function remapBreakpoint(state, action) {
+function remapBreakpoints(state, action) {
   const breakpoints = action.breakpoints.reduce(
     (updatedBreakpoints, breakpoint) => {
       const locationId = makeLocationId(breakpoint.location);

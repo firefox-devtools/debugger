@@ -171,7 +171,7 @@ export function selectSourceURL(
  * @static
  */
 export function selectSource(id: string, options: SelectSourceOptions = {}) {
-  return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -307,24 +307,32 @@ export function togglePrettyPrint(sourceId: string) {
       sourceMaps.isGeneratedId(sourceId),
       "Pretty-printing only allowed on generated sources"
     );
+    console.log("hi");
 
     const selectedLocation = getSelectedLocation(getState());
-
-    const url = getPrettySourceURL(source.url);
-    let prettySource = getSourceByURL(getState(), url);
-
-    if (!prettySource) {
-      await dispatch(createPrettySource(sourceId));
-      dispatch(remapBreakpoints(sourceId));
-      prettySource = getSourceByURL(getState(), url);
-    }
-
     const selectedOriginalLocation = await sourceMaps.getOriginalLocation(
       selectedLocation
     );
 
+    const url = getPrettySourceURL(source.url);
+    const prettySource = getSourceByURL(getState(), url);
+
+    if (prettySource) {
+      return dispatch(
+        selectSource(prettySource.get("id"), {
+          line: selectedOriginalLocation.line
+        })
+      );
+    }
+
+    const { source: newPrettySource } = await dispatch(
+      createPrettySource(sourceId)
+    );
+
+    dispatch(remapBreakpoints(sourceId));
+
     return dispatch(
-      selectSource(prettySource.get("id"), {
+      selectSource(newPrettySource.id, {
         line: selectedOriginalLocation.line
       })
     );
