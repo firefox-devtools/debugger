@@ -7,24 +7,23 @@
 
 import { parse } from "url";
 import { isPretty } from "./source";
+import isArray from "lodash/isArray";
 import merge from "lodash/merge";
 
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
-/**
- * Temporary Source type to be used only within this module
- * TODO: Replace with real Source type definition when refactoring types
- * @memberof utils/sources-tree
- * @static
- */
-type TmpSource = { get: (key: string) => string, toJS: Function };
+import type { SourceRecord, SourcesMap } from "../reducers/types";
 
 /**
  * TODO: createNode is exported so this type could be useful to other modules
  * @memberof utils/sources-tree
  * @static
  */
-type Node = { name: string, path: string, contents?: any };
+type Node = {
+  name: string,
+  path: string,
+  contents: SourceRecord | Array<Node>
+};
 
 /**
  * @memberof utils/sources-tree
@@ -38,7 +37,7 @@ export function nodeHasChildren(item: Node): boolean {
  * @memberof utils/sources-tree
  * @static
  */
-export function createNode(name: any, path: any, contents?: any): Node {
+export function createNode(name: string, path: string, contents?: any): Node {
   return {
     name,
     path,
@@ -50,7 +49,7 @@ export function createNode(name: any, path: any, contents?: any): Node {
  * @memberof utils/sources-tree
  * @static
  */
-export function createParentMap(tree: any): WeakMap<any, any> {
+export function createParentMap(tree: Node): WeakMap<Node, Node> {
   const map = new WeakMap();
 
   function _traverse(subtree) {
@@ -171,7 +170,11 @@ export function isDirectory(url: Object) {
  * @memberof utils/sources-tree
  * @static
  */
-export function addToTree(tree: any, source: TmpSource, debuggeeUrl: string) {
+export function addToTree(
+  tree: Node,
+  source: SourceRecord,
+  debuggeeUrl: string
+) {
   const url = getURL(source.get("url"));
 
   if (
@@ -312,7 +315,7 @@ function determineFileSortOrder(
  * @memberof utils/sources-tree
  * @static
  */
-export function collapseTree(node: any, depth: number = 0) {
+export function collapseTree(node: Node, depth: number = 0) {
   // Node is a folder.
   if (nodeHasChildren(node)) {
     // Node is not a root/domain node, and only contains 1 item.
@@ -341,11 +344,12 @@ export function collapseTree(node: any, depth: number = 0) {
  * @memberof utils/sources-tree
  * @static
  */
-export function createTree(sources: any, debuggeeUrl: string) {
+export function createTree(sources: SourcesMap, debuggeeUrl: string) {
   const uncollapsedTree = createNode("root", "", []);
   for (let source of sources.valueSeq()) {
     addToTree(uncollapsedTree, source, debuggeeUrl);
   }
+
   const sourceTree = collapseTree(uncollapsedTree);
 
   return {
@@ -356,8 +360,8 @@ export function createTree(sources: any, debuggeeUrl: string) {
   };
 }
 
-function findSource(sourceTree: any, sourceUrl: string) {
-  let returnTarget = null;
+function findSource(sourceTree: Node, sourceUrl: string): Node {
+  let returnTarget = sourceTree;
   function _traverse(subtree) {
     if (nodeHasChildren(subtree)) {
       for (let child of subtree.contents) {
@@ -376,7 +380,7 @@ function findSource(sourceTree: any, sourceUrl: string) {
   return returnTarget;
 }
 
-export function getDirectories(sourceUrl: string, sourceTree: any) {
+export function getDirectories(sourceUrl: string, sourceTree: Node) {
   const url = getURL(sourceUrl);
   const fullUrl = `/${url.group}${url.path}`;
   const parentMap = createParentMap(sourceTree);
@@ -401,16 +405,12 @@ export function getDirectories(sourceUrl: string, sourceTree: any) {
 export function formatTree(tree: Node, depth: number = 0, str: string = "") {
   const whitespace = new Array(depth * 2).join(" ");
 
-  if (!tree.contents) {
-    return str;
-  }
-
-  if (tree.contents.length > 0) {
+  if (Array.isArray(tree.contents)) {
     str += `${whitespace} - ${tree.name} path=${tree.path} \n`;
     tree.contents.forEach(t => {
       str = formatTree(t, depth + 1, str);
     });
-  } else if (tree.contents.toJS) {
+  } else {
     const id = tree.contents.get("id");
     str += `${whitespace} - ${tree.name} path=${tree.path} source_id=${id} \n`;
   }
