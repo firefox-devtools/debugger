@@ -3,7 +3,7 @@
 import { selectSource } from "./sources";
 import { PROMISE } from "../utils/redux/middleware/promise";
 
-import { getPause, getLoadedObject } from "../selectors";
+import { getPause, getLoadedObject, isStepping } from "../selectors";
 import { updateFrameLocations } from "../utils/pause";
 import { evaluateExpressions } from "./expressions";
 
@@ -24,13 +24,15 @@ type CommandType = { type: string };
  * @static
  */
 export function resumed() {
-  return ({ dispatch, client }: ThunkArgs) => {
+  return ({ dispatch, client, getState }: ThunkArgs) => {
     dispatch({
       type: "RESUME",
       value: undefined
     });
 
-    dispatch(evaluateExpressions(null));
+    if (!isStepping(getState())) {
+      dispatch(evaluateExpressions(null));
+    }
   };
 }
 
@@ -103,7 +105,7 @@ export function command({ type }: CommandType) {
 
     return dispatch({
       type: "COMMAND",
-      value: undefined
+      value: { type }
     });
   };
 }
