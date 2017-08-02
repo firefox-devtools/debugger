@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`sources tree - collapseTree can collapse a single source 1`] = `
+exports[`sources tree collapseTree can collapse a single source 1`] = `
 " - root path= 
   - example.com path=/example.com 
     - a/b path=/example.com/a/b 
@@ -8,7 +8,7 @@ exports[`sources tree - collapseTree can collapse a single source 1`] = `
 "
 `;
 
-exports[`sources tree - collapseTree correctly merges in a collapsed source with a deeper level 1`] = `
+exports[`sources tree collapseTree correctly merges in a collapsed source with a deeper level 1`] = `
 " - root path= 
   - example.com path=/example.com 
     - a/b path=/example.com/a/b 
@@ -18,7 +18,7 @@ exports[`sources tree - collapseTree correctly merges in a collapsed source with
 "
 `;
 
-exports[`sources tree - collapseTree correctly merges in a collapsed source with a shallower level 1`] = `
+exports[`sources tree collapseTree correctly merges in a collapsed source with a shallower level 1`] = `
 " - root path= 
   - example.com path=/example.com 
     - a/b path=/example.com/a/b 
@@ -27,7 +27,7 @@ exports[`sources tree - collapseTree correctly merges in a collapsed source with
 "
 `;
 
-exports[`sources tree - collapseTree correctly merges in a collapsed source with the same level 1`] = `
+exports[`sources tree collapseTree correctly merges in a collapsed source with the same level 1`] = `
 " - root path= 
   - example.com path=/example.com 
     - a/b path=/example.com/a/b 

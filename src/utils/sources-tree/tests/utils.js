@@ -1,16 +1,18 @@
+/* eslint max-nested-callbacks: ["error", 4]*/
+
 import { Map } from "immutable";
 
 import {
   createNode,
-  addToTree,
-  getDirectories,
   getRelativePath,
-  getURL,
   isExactUrlMatch,
-  isDirectory
-} from "../../sources-tree.js";
+  isDirectory,
+  addToTree,
+  getURL,
+  getDirectories
+} from "../index";
 
-describe("sources tree - utils", () => {
+describe("sources tree", () => {
   describe("isExactUrlMatch", () => {
     it("recognizes root url match", () => {
       const rootA = "http://example.com/path/to/file.html";
