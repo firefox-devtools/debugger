@@ -63,9 +63,8 @@ function update(
       return removeBreakpoint(state, action);
     }
 
-    case "ADD_PRETTY_SOURCE": {
-      const { updateLocation } = action;
-      return updateBreakpoints(state, ["location"], updateLocation);
+    case "REMAP_BREAKPOINT": {
+      return remapBreakpoint(state, action);
     }
   }
 
@@ -108,12 +107,10 @@ function updateBreakpoint(state, action) {
   return state.setIn(["breakpoints", locationId], breakpoint);
 }
 
-function updateBreakpoints(state, fields, value) {
-  return state.update("breakpoints", breakpoints =>
-    breakpoints.map(breakpoint =>
-      set(breakpoint, [...fields], value(breakpoint))
-    )
-  );
+function remapBreakpoint(state, action) {
+  const { breakpoint, previousLocationId } = action;
+  const locationId = makeLocationId(breakpoint.location);
+  return state.setIn(["breakpoints", locationId], breakpoint);
 }
 
 function removeBreakpoint(state, action) {

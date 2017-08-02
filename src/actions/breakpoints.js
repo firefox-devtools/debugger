@@ -9,6 +9,7 @@
  */
 
 import { PROMISE } from "../utils/redux/middleware/promise";
+import * as I from "immutable";
 import {
   getBreakpoint,
   getBreakpoints,
@@ -188,6 +189,27 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
         await dispatch(enableBreakpoint(breakpoint.location));
       }
     }
+  };
+}
+
+export function remapBreakpoints(sourceId: string) {
+  return ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
+    const breakpoints = getBreakpoints(getState());
+    const sourceBreakpoints = breakpoints.filter(
+      breakpoint => breakpoint.location.sourceId === sourceId
+    );
+
+    sourceBreakpoints.forEach(async breakpoint => {
+      const location = await sourceMaps.getOriginalLocation(
+        breakpoint.location
+      );
+      console.log(location);
+      return dispatch({
+        type: "REMAP_BREAKPOINT",
+        breakpoint: { ...breakpoint, location },
+        previousLocationId: sourceId
+      });
+    });
   };
 }
 

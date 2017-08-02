@@ -11,13 +11,12 @@
 
 import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
-import { updateFrameLocations } from "../utils/pause";
+import { remapBreakpoints } from "./breakpoints";
 
 import { setSymbols, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
 
-import { prettyPrint } from "../utils/pretty-print";
 import { getPrettySourceURL } from "../utils/source";
 import { createPrettySource } from "./sources/createPrettySource";
 
@@ -30,7 +29,6 @@ import {
   getSourceByURL,
   getPendingSelectedLocation,
   getPendingBreakpoints,
-  getFrames,
   getSourceTabs,
   getNewSelectedSourceId,
   getSelectedLocation,
@@ -315,14 +313,15 @@ export function togglePrettyPrint(sourceId: string) {
     const url = getPrettySourceURL(source.url);
     let prettySource = getSourceByURL(getState(), url);
 
-    if (prettySource) {
+    if (!prettySource) {
       prettySource = await createPrettySource(sourceId, sourceMaps, getState);
 
       dispatch({
-        type: "ADD_PRETTY_SOURCE",
-        source: prettySource,
-        updateLocation: updateLocation(prettySource.id, sourceId, sourceMaps)
+        type: "ADD_SOURCE",
+        source: prettySource
       });
+
+      dispatch(remapBreakpoints(sourceId));
     }
 
     const selectedOriginalLocation = await sourceMaps.getOriginalLocation(
@@ -334,15 +333,6 @@ export function togglePrettyPrint(sourceId: string) {
         line: selectedOriginalLocation.line
       })
     );
-  };
-}
-
-function updateLocation(sourceId, previousSourceId, sourceMaps) {
-  return async ({ location }) => {
-    if (location.sourceId !== sourceId) {
-      return location;
-    }
-    return await sourceMaps.getOriginalLocation(location);
   };
 }
 
