@@ -161,4 +161,14 @@ describe("sources", () => {
     const selectedLocation = getSelectedLocation(getState());
     expect(selectedLocation).toEqual(undefined);
   });
+
+  it("should create a source when first toggling pretty print", async () => {
+    const { dispatch, getState } = createStore(threadClient);
+    const source = makeSource("foobar.js");
+    await dispatch(actions.newSource(source));
+    await dispatch(actions.togglePrettyPrint(source.id));
+    expect(getSources(getState()).size).toEqual(2);
+    await dispatch(actions.togglePrettyPrint(source.id));
+    expect(getSources(getState()).size).toEqual(2);
+  });
 });

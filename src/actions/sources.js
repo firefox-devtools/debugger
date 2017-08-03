@@ -307,12 +307,11 @@ export function togglePrettyPrint(sourceId: string) {
       sourceMaps.isGeneratedId(sourceId),
       "Pretty-printing only allowed on generated sources"
     );
-    console.log("hi");
 
     const selectedLocation = getSelectedLocation(getState());
-    const selectedOriginalLocation = await sourceMaps.getOriginalLocation(
-      selectedLocation
-    );
+    const selectedOriginalLocation = selectedLocation
+      ? await sourceMaps.getOriginalLocation(selectedLocation)
+      : {};
 
     const url = getPrettySourceURL(source.url);
     const prettySource = getSourceByURL(getState(), url);
@@ -329,7 +328,7 @@ export function togglePrettyPrint(sourceId: string) {
       createPrettySource(sourceId)
     );
 
-    dispatch(remapBreakpoints(sourceId));
+    await dispatch(remapBreakpoints(sourceId));
 
     return dispatch(
       selectSource(newPrettySource.id, {
