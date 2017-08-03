@@ -271,4 +271,27 @@ describe("breakpoints", () => {
       "const foo = 0"
     );
   });
+
+  it("should remap breakpoints on pretty print", async () => {
+    const { dispatch, getState } = createStore(simpleMockThreadClient);
+
+    const loc = {
+      sourceId: "a.js",
+      line: 1,
+      sourceUrl: "http://localhost:8000/examples/a.js"
+    };
+
+    const url = "a.js";
+    const source = makeSource(url);
+    source.text = "function(a,b,c){return {a,b,c}}";
+
+    await dispatch(actions.newSource(source));
+    await dispatch(actions.addBreakpoint(loc));
+    await dispatch(actions.togglePrettyPrint(source.id));
+
+    const breakpoint = selectors.getBreakpoints(getState()).first();
+
+    expect(breakpoint.location.sourceUrl.includes("formatted")).toBe(true);
+    expect(breakpoint).toMatchSnapshot();
+  });
 });
