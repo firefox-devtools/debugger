@@ -61,6 +61,10 @@ function update(
     case "REMOVE_BREAKPOINT": {
       return removeBreakpoint(state, action);
     }
+
+    case "REMAP_BREAKPOINTS": {
+      return remapBreakpoints(state, action);
+    }
   }
 
   return state;
@@ -100,6 +104,18 @@ function updateBreakpoint(state, action) {
   const { breakpoint } = action;
   const locationId = makeLocationId(breakpoint.location);
   return state.setIn(["breakpoints", locationId], breakpoint);
+}
+
+function remapBreakpoints(state, action) {
+  const breakpoints = action.breakpoints.reduce(
+    (updatedBreakpoints, breakpoint) => {
+      const locationId = makeLocationId(breakpoint.location);
+      return { ...updatedBreakpoints, [locationId]: breakpoint };
+    },
+    {}
+  );
+
+  return state.set("breakpoints", I.Map(breakpoints));
 }
 
 function removeBreakpoint(state, action) {

@@ -5,6 +5,7 @@
  * @module utils/source
  */
 
+import { isOriginalId } from "devtools-source-map";
 import { endTruncateStr } from "./utils";
 import { basename } from "../utils/path";
 import { parse as parseURL } from "url";
@@ -29,6 +30,23 @@ function trimUrlQuery(url: string): string {
   );
 
   return url.slice(0, q);
+}
+
+function shouldPrettyPrint(source: any) {
+  if (!source) {
+    return false;
+  }
+
+  const _isPretty = isPretty(source);
+  const _isJavaScript = isJavaScript(source.url);
+  const isOriginal = isOriginalId(source.id);
+  const hasSourceMap = source.sourceMapURL;
+
+  if (_isPretty || isOriginal || hasSourceMap || !_isJavaScript) {
+    return false;
+  }
+
+  return true;
 }
 
 /**
@@ -184,6 +202,7 @@ function getMode(source: Source) {
 export {
   isJavaScript,
   isPretty,
+  shouldPrettyPrint,
   getPrettySourceURL,
   getRawSourceURL,
   getFilename,

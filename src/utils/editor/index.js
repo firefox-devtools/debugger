@@ -1,9 +1,8 @@
 // @flow
 
 import { isEnabled } from "devtools-config";
-import { isPretty, isJavaScript } from "../source";
-import { isOriginalId } from "devtools-source-map";
 import * as sourceDocumentUtils from "./source-documents";
+import { shouldPrettyPrint } from "../../utils/source";
 
 import * as expressionUtils from "./expression.js";
 
@@ -23,16 +22,7 @@ function shouldShowPrettyPrint(selectedSource) {
   }
 
   selectedSource = selectedSource.toJS();
-  const _isPretty = isPretty(selectedSource);
-  const _isJavaScript = isJavaScript(selectedSource.url);
-  const isOriginal = isOriginalId(selectedSource.id);
-  const hasSourceMap = selectedSource.sourceMapURL;
-
-  if (_isPretty || isOriginal || hasSourceMap || !_isJavaScript) {
-    return false;
-  }
-
-  return true;
+  return shouldPrettyPrint(selectedSource);
 }
 
 function shouldShowFooter(selectedSource, horizontal) {

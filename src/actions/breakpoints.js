@@ -17,6 +17,7 @@ import {
 } from "../selectors";
 import { createBreakpoint, assertBreakpoint } from "../utils/breakpoint";
 import addBreakpointPromise from "./breakpoints/addBreakpoint";
+import remapLocations from "./breakpoints/remapLocations";
 
 // this will need to be changed so that addCLientBreakpoint is removed
 import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
@@ -188,6 +189,22 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
         await dispatch(enableBreakpoint(breakpoint.location));
       }
     }
+  };
+}
+
+export function remapBreakpoints(sourceId: string) {
+  return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
+    const breakpoints = getBreakpoints(getState());
+    const newBreakpoints = await remapLocations(
+      breakpoints,
+      sourceId,
+      sourceMaps
+    );
+
+    return dispatch({
+      type: "REMAP_BREAKPOINTS",
+      breakpoints: newBreakpoints
+    });
   };
 }
 

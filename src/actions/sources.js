@@ -11,14 +11,14 @@
 
 import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
-import { updateFrameLocations } from "../utils/pause";
+import { remapBreakpoints } from "./breakpoints";
 
 import { setSymbols, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
 
-import { prettyPrint } from "../utils/pretty-print";
 import { getPrettySourceURL } from "../utils/source";
+import { createPrettySource } from "./sources/createPrettySource";
 
 import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
@@ -29,9 +29,9 @@ import {
   getSourceByURL,
   getPendingSelectedLocation,
   getPendingBreakpoints,
-  getFrames,
   getSourceTabs,
   getNewSelectedSourceId,
+  getSelectedLocation,
   removeSourcesFromTabList,
   removeSourceFromTabList,
   getTextSearchQuery
@@ -85,7 +85,6 @@ async function checkPendingBreakpoints(state, dispatch, source) {
 export function newSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: "ADD_SOURCE", source });
-
     if (prefs.clientSourceMapsEnabled) {
       await dispatch(loadSourceMap(source));
     }
@@ -172,7 +171,7 @@ export function selectSourceURL(
  * @static
  */
 export function selectSource(id: string, options: SelectSourceOptions = {}) {
-  return async ({ dispatch, getState, client }: ThunkArgs) => {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
     if (!client) {
       // No connection, do nothing. This happens when the debugger is
       // shut down too fast and it tries to display a default source.
@@ -297,7 +296,7 @@ export function closeTabs(urls: string[]) {
  *          [aSource, error].
  */
 export function togglePrettyPrint(sourceId: string) {
-  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
 
     if (source && source.loading) {
@@ -308,33 +307,35 @@ export function togglePrettyPrint(sourceId: string) {
       sourceMaps.isGeneratedId(sourceId),
       "Pretty-printing only allowed on generated sources"
     );
+    console.log("hi");
+
+    const selectedLocation = getSelectedLocation(getState());
+    const selectedOriginalLocation = await sourceMaps.getOriginalLocation(
+      selectedLocation
+    );
 
     const url = getPrettySourceURL(source.url);
-    const id = sourceMaps.generatedToOriginalId(source.id, url);
-    const originalSource = { url, id, isPrettyPrinted: false };
-    dispatch({ type: "ADD_SOURCE", source: originalSource });
+    const prettySource = getSourceByURL(getState(), url);
 
-    return dispatch({
-      type: "TOGGLE_PRETTY_PRINT",
-      source: originalSource,
-      [PROMISE]: (async function() {
-        const { code, mappings } = await prettyPrint({
-          source,
-          url
-        });
+    if (prettySource) {
+      return dispatch(
+        selectSource(prettySource.get("id"), {
+          line: selectedOriginalLocation.line
+        })
+      );
+    }
 
-        await sourceMaps.applySourceMap(source.id, url, code, mappings);
+    const { source: newPrettySource } = await dispatch(
+      createPrettySource(sourceId)
+    );
 
-        let frames = getFrames(getState());
-        if (frames) {
-          frames = await updateFrameLocations(frames, sourceMaps);
-        }
+    dispatch(remapBreakpoints(sourceId));
 
-        dispatch(selectSource(originalSource.id));
-
-        return { text: code, contentType: "text/javascript", frames };
-      })()
-    });
+    return dispatch(
+      selectSource(newPrettySource.id, {
+        line: selectedOriginalLocation.line
+      })
+    );
   };
 }
 
