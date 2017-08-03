@@ -48,7 +48,7 @@ function ManagedTreeFactory(options, { dir = "ltr", theme = "light" } = {}) {
           getParent: item => null,
           getChildren: () => {},
           getRoots: () => {},
-          getKey: () => {},
+          getPath: () => {},
           autoExpand: 0,
           autoExpandDepth: 0,
           autoExpandAll: false,
@@ -89,7 +89,7 @@ storiesOf("ManagedTree", module)
       autoExpandDepth: 1,
       getRoots: () => [root],
       getChildren: item => item.children || [],
-      getKey: item => item.path
+      getPath: item => item.path
     });
   })
   .add("2 deep tree", () => {
@@ -118,6 +118,6 @@ storiesOf("ManagedTree", module)
       autoExpandDepth: 1,
       getRoots: () => [root],
       getChildren: item => item.children || [],
-      getKey: item => item.path
+      getPath: item => item.path
     });
   });

@@ -15,7 +15,7 @@ type Props = {
   autoExpandAll: boolean,
   autoExpandDepth: number,
   getChildren: Item => Item[],
-  getKey: Item => string,
+  getPath: Item => string,
   getParent: () => any,
   getRoots: () => any,
   highlightItems?: Array<Item>,
@@ -67,11 +67,11 @@ class ManagedTree extends Component {
 
   setExpanded(item: Item, isExpanded: boolean) {
     const expanded = this.state.expanded;
-    const key = this.props.getKey(item);
+    const itemPath = this.props.getPath(item);
     if (isExpanded) {
-      expanded.add(key);
+      expanded.add(itemPath);
     } else {
-      expanded.delete(key);
+      expanded.delete(itemPath);
     }
     this.setState({ expanded });
 
@@ -84,7 +84,7 @@ class ManagedTree extends Component {
 
   expandListItems(listItems: Array<Item>) {
     const expanded = this.state.expanded;
-    listItems.forEach(item => expanded.add(this.props.getKey(item)));
+    listItems.forEach(item => expanded.add(this.props.getPath(item)));
     this.focusItem(listItems[0]);
     this.setState({ expanded: expanded });
   }
@@ -93,14 +93,14 @@ class ManagedTree extends Component {
     const expanded = this.state.expanded;
 
     // This file is visible, so we highlight it.
-    if (expanded.has(this.props.getKey(highlightItems[0]))) {
+    if (expanded.has(this.props.getPath(highlightItems[0]))) {
       this.focusItem(highlightItems[0]);
     } else {
       // Look at folders starting from the top-level until finds a
       // closed folder and highlights this folder
       const index = highlightItems
         .reverse()
-        .findIndex(item => !expanded.has(this.props.getKey(item)));
+        .findIndex(item => !expanded.has(this.props.getPath(item)));
       this.focusItem(highlightItems[index]);
     }
   }
@@ -118,20 +118,21 @@ class ManagedTree extends Component {
   render() {
     const { expanded, focusedItem } = this.state;
 
-    const props = Object.assign({}, this.props, {
-      isExpanded: item => expanded.has(this.props.getKey(item)),
+    const overrides = {
+      isExpanded: item => expanded.has(this.props.getPath(item)),
       focused: focusedItem,
-
+      getKey: this.props.getPath,
       onExpand: item => this.setExpanded(item, true),
       onCollapse: item => this.setExpanded(item, false),
       onFocus: this.focusItem,
-
       renderItem: (...args) => {
         return this.props.renderItem(...args, {
           setExpanded: this.setExpanded
         });
       }
-    });
+    };
+
+    const props = { ...this.props, ...overrides };
     return dom.div({ className: "managed-tree" }, Tree(props));
   }
 }
