@@ -603,6 +603,7 @@ const keyMappings = {
   sourceSearch: { code: "p", modifiers: cmdOrCtrl },
   fileSearch: { code: "f", modifiers: cmdOrCtrl },
   Enter: { code: "VK_RETURN" },
+  ShiftEnter: { code: "VK_RETURN", modifiers: shiftOrAlt },
   Up: { code: "VK_UP" },
   Down: { code: "VK_DOWN" },
   Right: { code: "VK_RIGHT" },
@@ -638,9 +639,7 @@ function pressKey(dbg, keyName) {
 }
 
 function type(dbg, string) {
-  string.split("").forEach(char => {
-    EventUtils.synthesizeKey(char, {}, dbg.win);
-  });
+  string.split("").forEach(char => EventUtils.synthesizeKey(char, {}, dbg.win));
 }
 
 function isVisibleWithin(outerEl, innerEl) {

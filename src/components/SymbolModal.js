@@ -293,6 +293,11 @@ class SymbolModal extends Component {
 
   render() {
     const { enabled } = this.props;
+
+    if (!enabled) {
+      return null;
+    }
+
     return (
       <Modal
         enabled={enabled}
