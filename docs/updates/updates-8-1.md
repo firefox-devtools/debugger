@@ -1,5 +1,3 @@
-team update doc
-
 ### August 1st
 
 This week was the last week before the debugger goes to dev edition. Huge thanks to everyone who chipped in and fixed a bug or polished a rough edge.
@@ -70,7 +68,6 @@ Keyboard access: [keyboard-access]
 
 ---
 
-<Screenshots go here>
 
 
 [pr-0]:https://github.com/devtools-html/debugger.html/pull/3431
