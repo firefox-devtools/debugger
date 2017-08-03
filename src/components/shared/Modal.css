@@ -4,13 +4,9 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  z-index: -1;
   top: 0;
   left: 0;
   transition: z-index 200ms;
-}
-
-.modal-wrapper.enabled {
   z-index: 9;
 }
 
@@ -25,11 +21,13 @@
   box-shadow: 2px 4px 6px var(--popup-shadow-color);
 }
 
-.theme-dark .symbol-modal {
-  box-shadow: 2px 4px 6px var(--popup-shadow-color);
+.modal.entering,
+.modal.exited {
+  transform: translateY(-250px);
 }
 
-.modal.enabled {
+.modal.entered,
+.modal.exiting {
   transform: translateY(30px);
 }
 

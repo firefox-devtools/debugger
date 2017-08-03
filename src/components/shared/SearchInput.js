@@ -40,8 +40,7 @@ class SearchInput extends Component {
   static defaultProps: Object;
 
   componentDidMount() {
-    this.input.focus();
-    this.input.select();
+    this.$input.focus();
   }
 
   shouldShowErrorEmoji() {
@@ -123,7 +122,7 @@ class SearchInput extends Component {
         placeholder,
         value: query,
         spellCheck: false,
-        ref: c => (this.input = c)
+        ref: c => (this.$input = c)
       }),
       dom.div({ className: "summary" }, summaryMsg || ""),
       this.renderNav(),

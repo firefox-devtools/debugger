@@ -96,25 +96,19 @@ class SymbolModal extends Component {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.off(L10N.getStr("symbolSearch.search.key2"));
+    shortcuts.off("Escape");
   }
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.on(L10N.getStr("symbolSearch.search.key2"), this.openSymbolModal);
+    shortcuts.on("Escape", this.closeModal);
     this.updateResults(this.state.query);
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.resultsIndex);
-    }
-
-    if (
-      this.refs.searchInput &&
-      this.refs.searchInput.input &&
-      this.props.enabled
-    ) {
-      this.refs.searchInput.input.focus();
     }
 
     if (!prevProps.enabled && this.props.enabled) {
@@ -269,7 +263,6 @@ class SymbolModal extends Component {
           handleNext={() => this.traverseResults(1)}
           handlePrev={() => this.traverseResults(-1)}
           handleClose={this.closeModal}
-          ref="searchInput"
         />
       </div>
     );
@@ -303,12 +296,7 @@ class SymbolModal extends Component {
     }
 
     return (
-      <Modal
-        enabled={enabled}
-        shortcut="symbolSearch.search.key2"
-        handleOpen={this.openSymbolModal}
-        handleClose={this.closeModal}
-      >
+      <Modal in={enabled} handleClose={this.closeModal}>
         {this.renderInput()}
         {this.renderResults()}
       </Modal>
@@ -338,7 +326,7 @@ export default connect(
   state => {
     const source = getSelectedSource(state);
     return {
-      enabled: getActiveSearchState(state) === "symbol",
+      enabled: Boolean(getActiveSearchState(state) === "symbol" && source),
       symbolType: getSymbolSearchType(state),
       symbols: _getFormattedSymbols(state, source)
     };
