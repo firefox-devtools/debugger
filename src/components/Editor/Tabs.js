@@ -385,12 +385,7 @@ class SourceTabs extends PureComponent {
   }
 
   renderSourceTab(source: SourceRecord) {
-    const {
-      selectedSource,
-      selectSource,
-      closeTab,
-      closeActiveSearch
-    } = this.props;
+    const { selectedSource, selectSource, closeTab } = this.props;
     const filename = getFilename(source.toJS());
     const active =
       selectedSource &&
@@ -411,10 +406,7 @@ class SourceTabs extends PureComponent {
           pretty: isPrettyCode
         }),
         key: source.get("id"),
-        onClick: () => {
-          closeActiveSearch();
-          return selectSource(source.get("id"));
-        },
+        onClick: () => selectSource(source.get("id")),
         onContextMenu: e => this.onTabContextMenu(e, source.get("id")),
         title: getFilename(source.toJS())
       },

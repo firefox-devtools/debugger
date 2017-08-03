@@ -154,7 +154,7 @@ function update(
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { ui: Record<UIState> };
 
-export function getActiveSearchState(state: OuterState) {
+export function getActiveSearchState(state: OuterState): ActiveSearchType {
   return state.ui.get("activeSearch");
 }
 

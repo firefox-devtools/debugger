@@ -36,4 +36,15 @@ add_task(function*() {
 
   pressKey(dbg, "ShiftEnter");
   is(state.posFrom.line, 3);
+
+  pressKey(dbg, "fileSearch");
+  type(dbg, "fun");
+
+  pressKey(dbg, "Enter");
+  is(state.posFrom.line, 4);
+
+  // selecting another source keeps search open
+  yield selectSource(dbg, "simple2");
+  pressKey(dbg, "Enter");
+  is(state.posFrom.line, 0);
 });
