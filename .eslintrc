@@ -40,7 +40,7 @@
   "parserOptions": {
     "ecmaVersion": 2016,
     "sourceType": "module",
-    "ecmaFeatures": {}
+    "ecmaFeatures": { "jsx": true }
   },
   "env": {
       "es6": true,
@@ -61,6 +61,8 @@
 
     // Rules from the React plugin
     "react/display-name": [2, { "ignoreTranspilerName": true }],
+    "react/jsx-uses-react": [2],
+    "react/jsx-uses-vars": [2],
     "react/no-danger": 1,
     "react/no-did-mount-set-state": 1,
     "react/no-did-update-set-state": 1,

@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom, createFactory, Component, PropTypes } from "react";
+import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { filter } from "fuzzaldrin-plus";
@@ -14,14 +14,11 @@ import actions from "../actions";
 
 import { scrollList } from "../utils/result-list";
 
-import _Modal from "./shared/Modal";
-const Modal = createFactory(_Modal);
+import Modal from "./shared/Modal";
 
-import _SearchInput from "./shared/SearchInput";
-const SearchInput = createFactory(_SearchInput);
+import SearchInput from "./shared/SearchInput";
 
-import _ResultList from "./shared/ResultList";
-const ResultList = createFactory(_ResultList);
+import ResultList from "./shared/ResultList";
 
 import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
 import type { SymbolDeclaration } from "../utils/parser/getSymbols";
@@ -244,30 +241,34 @@ class SymbolModal extends Component {
       return null;
     }
 
-    return ResultList({
-      key: "results",
-      items: results,
-      selected: resultsIndex,
-      selectItem: this.selectResultItem,
-      ref: "resultList"
-    });
+    return (
+      <ResultList
+        key="results"
+        items={results}
+        selected={resultsIndex}
+        selectItem={this.selectResultItem}
+        ref="resultList"
+      />
+    );
   }
 
   renderInput() {
     const { query } = this.state;
 
-    return SearchInput({
-      query,
-      count: this.resultsCount(),
-      placeholder: this.buildPlaceHolder(),
-      summaryMsg: this.buildSummaryMsg(),
-      onChange: this.onChange,
-      onKeyUp: this.onKeyUp,
-      handleNext: () => this.traverseResults(1),
-      handlePrev: () => this.traverseResults(-1),
-      handleClose: this.closeModal,
-      ref: "searchInput"
-    });
+    return (
+      <SearchInput
+        query={query}
+        count={this.resultsCount()}
+        placeholder={this.buildPlaceHolder()}
+        summaryMsg={this.buildSummaryMsg()}
+        onChange={this.onChange}
+        onKeyUp={this.onKeyUp}
+        handleNext={() => this.traverseResults(1)}
+        handlePrev={() => this.traverseResults(-1)}
+        handleClose={this.closeModal}
+        ref="searchInput"
+      />
+    );
   }
 
   buildSummaryMsg() {
@@ -292,19 +293,19 @@ class SymbolModal extends Component {
 
   render() {
     const { enabled } = this.props;
-    return Modal({
-      enabled,
-      shortcut: "symbolSearch.search.key2",
-      handleOpen: this.openSymbolModal,
-      handleClose: this.closeModal,
-      children: [
-        dom.div(
-          { key: "input", className: "input-wrapper" },
-          this.renderInput()
-        ),
-        this.renderResults()
-      ]
-    });
+    return (
+      <Modal
+        enabled={enabled}
+        shortcut="symbolSearch.search.key2"
+        handleOpen={this.openSymbolModal}
+        handleClose={this.closeModal}
+      >
+        <div key="input" className="input-wrapper">
+          {this.renderInput()}
+          {this.renderResults()}
+        </div>
+      </Modal>
+    );
   }
 }
 

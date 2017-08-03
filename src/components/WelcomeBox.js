@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, Component, createFactory } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -7,8 +7,7 @@ import actions from "../actions";
 import { getPaneCollapse } from "../selectors";
 import { formatKeyShortcut } from "../utils/text";
 
-import _PaneToggleButton from "./shared/Button/PaneToggle";
-const PaneToggleButton = createFactory(_PaneToggleButton);
+import PaneToggleButton from "./shared/Button/PaneToggle";
 
 import "./WelcomeBox.css";
 
@@ -22,16 +21,19 @@ class WelcomeBox extends Component {
   props: Props;
 
   renderToggleButton() {
-    if (this.props.horizontal) {
+    const { horizontal, endPanelCollapsed, togglePaneCollapse } = this.props;
+    if (horizontal) {
       return;
     }
 
-    return PaneToggleButton({
-      position: "end",
-      collapsed: !this.props.endPanelCollapsed,
-      horizontal: this.props.horizontal,
-      handleClick: this.props.togglePaneCollapse
-    });
+    return (
+      <PaneToggleButton
+        position="end"
+        collapsed={!endPanelCollapsed}
+        horizontal={horizontal}
+        handleClick={togglePaneCollapse}
+      />
+    );
   }
 
   render() {
@@ -39,10 +41,12 @@ class WelcomeBox extends Component {
       "welcome.search",
       formatKeyShortcut(L10N.getStr("sources.search.key2"))
     );
-    return dom.div(
-      { className: "welcomebox" },
-      searchLabel,
-      this.renderToggleButton()
+
+    return (
+      <div className="welcomebox">
+        {searchLabel}
+        {this.renderToggleButton()}
+      </div>
     );
   }
 }
