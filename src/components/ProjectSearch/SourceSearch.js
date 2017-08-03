@@ -9,6 +9,13 @@ const Autocomplete = createFactory(_Autocomplete);
 import type { SourcesMap } from "../../reducers/sources";
 
 export default class SourceSearch extends Component {
+  props: {
+    closeActiveSearch: () => any,
+    selectSource: string => any,
+    sources: Object,
+    searchBottomBar: Object
+  };
+
   onEscape: Function;
   close: Function;
   toggleSourceSearch: Function;
@@ -59,10 +66,10 @@ export default class SourceSearch extends Component {
   }
 
   render() {
-    const { sources, searchBottomBar } = this.props;
+    const { sources, searchBottomBar, selectSource } = this.props;
     return Autocomplete({
       selectItem: (e, result) => {
-        this.props.selectSource(result.id);
+        selectSource(result.id);
         this.close();
       },
       close: this.close,
