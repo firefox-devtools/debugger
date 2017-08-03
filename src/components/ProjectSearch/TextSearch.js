@@ -166,6 +166,12 @@ export default class TextSearch extends Component {
   renderResults() {
     const { results } = this.props;
     results = results.filter(result => result.matches.length > 0);
+    function getFilePath(item) {
+      return item.filepath
+        ? `${item.sourceId}`
+        : `${item.sourceId}-${item.line}-${item.column}`;
+    }
+
     return ManagedTree({
       getRoots: () => results,
       getChildren: file => {
@@ -176,10 +182,7 @@ export default class TextSearch extends Component {
       autoExpandDepth: 1,
       focused: results[0],
       getParent: item => null,
-      getKey: item =>
-        item.filepath
-          ? `${item.sourceId}`
-          : `${item.sourceId}-${item.line}-${item.column}`,
+      getPath: getFilePath,
       renderItem: (item, depth, focused, _, expanded, { setExpanded }) =>
         item.filepath
           ? this.renderFile(item, focused, expanded, setExpanded)

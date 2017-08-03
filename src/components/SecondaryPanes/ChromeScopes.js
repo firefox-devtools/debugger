@@ -186,7 +186,7 @@ class Scopes extends Component {
         getParent: item => null,
         getChildren: this.getChildren,
         getRoots: () => roots,
-        getKey: item => item.path,
+        getPath: item => item.path,
         autoExpand: 0,
         autoExpandDepth: 1,
         autoExpandAll: false,

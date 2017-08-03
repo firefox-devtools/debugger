@@ -247,6 +247,8 @@ class SourcesTree extends Component {
 
     const isEmpty = sourceTree.contents.length === 0;
 
+    console.log(listItems);
+
     const tree = ManagedTree({
       key: isEmpty ? "empty" : "full",
       getParent: item => {
@@ -259,7 +261,7 @@ class SourcesTree extends Component {
         return [];
       },
       getRoots: () => sourceTree.contents,
-      getKey: (item, i) => item.path,
+      getPath: item => item.path,
       itemHeight: 21,
       autoExpandDepth: 1,
       autoExpandAll: false,

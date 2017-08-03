@@ -192,7 +192,7 @@ class ObjectInspector extends Component {
       getParent: item => null,
       getChildren: this.getChildren,
       getRoots: () => roots,
-      getKey: (item: Item) => item.path,
+      getPath: (item: Item) => `${item.path}/${item.name}`,
       autoExpand: 0,
       autoExpandDepth,
       autoExpandAll: false,
