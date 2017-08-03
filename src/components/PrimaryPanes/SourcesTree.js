@@ -20,7 +20,7 @@ import {
   collapseTree,
   createTree,
   getDirectories
-} from "../../utils/sources-tree.js";
+} from "../../utils/sources-tree";
 
 import _ManagedTree from "../shared/ManagedTree";
 const ManagedTree = createFactory(_ManagedTree);
