@@ -5,7 +5,6 @@ This week was the last week before the debugger goes to dev edition. Huge thanks
 [@bomsy], [@yurydelendik], [@Garbee], [@wldcordeiro], [@darkwing], [@irfanhudda], [@jasonLaster], [@codehag],
 
 
-
 #### UI
 
 This week again we focused on polish, making the ui look more consistent, and smaller fixes rather than large features. We had some great progress on the behavior of the SymbolModal (Thanks [@wldcordeiro]!), Expressions. This has put us in a really good spot, and we are looking forward to continuing to improve the UI
@@ -21,14 +20,14 @@ Symbol Modal: [animated-modal]
 * [Animate the SymbolModal's entrance/exit][pr-18] - [@wldcordeiro]
 
 #### Dark Theme Tweaks
-Dark Theme Tweeks: [dark-theme-tweaks] 
+Dark Theme Tweeks: [dark-theme-tweaks]
 
 * [Style popup shadows][pr-23] - [@jasonLaster]
 * [Dark theme tweaks][pr-28] - [@jasonLaster]
 
-#### Bug Fixes 
+#### Bug Fixes
 
-This was the final week before the release for 65 and we fixed lots of presentational bugs. 
+This was the final week before the release for 65 and we fixed lots of presentational bugs.
 
 [@Garbee] fixed a bug where the command bar would start scrolling even though it was position sticky. In the process he added a test case to the CSS spec issue filed against the sticky property. We also fixed bugs with almost every component: call stack, source tree, editor, codemirror.
 
@@ -56,7 +55,7 @@ Keyboard access: [keyboard-access]
 * [flashing the line that the text was found on][pr-20] - [@bomsy]
 * [Keyboard access][pr-25] - [@bomsy]
 
-#### Infrastructure 
+#### Infrastructure
 
 * [Add a longer timeout for the reloading test][pr-22] - [@jasonLaster]
 * [Prevent width value warning error in outline stories][pr-29] - [@darkwing]
@@ -120,4 +119,3 @@ Keyboard access: [keyboard-access]
 
 
 [dark-theme-tweaks]:https://user-images.githubusercontent.com/254562/28782138-4afa9942-75da-11e7-8f25-9c8c26fc6d52.png
-
