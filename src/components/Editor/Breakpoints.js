@@ -1,9 +1,8 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Component, createFactory, DOM as dom } from "react";
+import React, { Component } from "react";
 
-import _Breakpoint from "./Breakpoint";
-const Breakpoint = createFactory(_Breakpoint);
+import Breakpoint from "./Breakpoint";
 
 import actions from "../../actions";
 import { getSelectedSource } from "../../selectors";
@@ -36,16 +35,19 @@ class Breakpoints extends Component {
       return null;
     }
 
-    return dom.div(
-      {},
-      breakpoints.valueSeq().map(bp =>
-        Breakpoint({
-          key: makeLocationId(bp.location),
-          breakpoint: bp,
-          selectedSource,
-          editor: editor
-        })
-      )
+    return (
+      <div>
+        {breakpoints.valueSeq().map(bp => {
+          return (
+            <Breakpoint
+              key={makeLocationId(bp.location)}
+              breakpoint={bp}
+              selectedSource={selectedSource}
+              editor={editor}
+            />
+          );
+        })}
+      </div>
     );
   }
 }
