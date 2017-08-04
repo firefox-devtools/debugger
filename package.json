@@ -86,7 +86,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
     "babel-preset-react": "^6.24.1",
     "devtools-license-check": "^0.4.0",
-    "documentation": "^4.0.0-beta11",
+    "documentation": "^5.1.1",
     "enzyme": "^2.9.1",
     "eslint": "^4.2.0",
     "eslint-config-prettier": "^2.3.0",
