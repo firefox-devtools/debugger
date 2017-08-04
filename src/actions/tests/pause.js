@@ -2,11 +2,11 @@ import { actions, selectors, createStore } from "../../utils/test-head";
 
 const { isStepping } = selectors;
 
-let resolve = null;
+let stepInResolve = null;
 const mockThreadClient = {
   stepIn: () =>
     new Promise(_resolve => {
-      resolve = _resolve;
+      stepInResolve = _resolve;
     }),
   getFrameScopes: frame => frame.scope,
   sourceContents: sourceId => {
@@ -34,7 +34,16 @@ describe("pause", () => {
     await dispatch(actions.paused(mockPauseInfo));
     dispatch(actions.stepIn());
     expect(isStepping(getState())).toBeTruthy();
-    await resolve();
+    await stepInResolve();
     expect(isStepping(getState())).toBeFalsy();
+  });
+
+  it("should not evaluate expression while stepping", async () => {
+    const client = { evaluate: jest.fn() };
+    const { dispatch } = createStore(client);
+
+    dispatch(actions.stepIn());
+    await dispatch(actions.resumed());
+    expect(client.evaluate.mock.calls.length).toEqual(0);
   });
 });
