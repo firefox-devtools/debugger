@@ -49,7 +49,7 @@ async function onConnect(connection: Object, services: Object) {
   };
 
   if (!isFirefoxPanel()) {
-    console.group("Developement Notes");
+    console.group("Development Notes");
     const baseUrl = "https://devtools-html.github.io/debugger.html";
     const localDevelopmentUrl = `${baseUrl}/docs/local-development.html`;
     console.log("Debugging Tips", localDevelopmentUrl);
