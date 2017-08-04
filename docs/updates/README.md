@@ -148,6 +148,12 @@ lots happened since the last update:
 * project text search is getting closer
 * wasm support is coming to the debugger
 
+### [August 1st](./updates-8-1-2017.md)
+
+* UI Polish
+* Bug Fixes
+* Project Search
+
 [@asolove]:http://github.com/asolove
 [@ryanjduffy]:http://github.com/ryanjduffy
 [@diessica]:http://github.com/diessica
