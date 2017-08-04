@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent, createFactory } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as I from "immutable";
@@ -23,11 +23,8 @@ import debounce from "lodash/debounce";
 import { formatKeyShortcut } from "../../utils/text";
 import "./Tabs.css";
 
-import _PaneToggleButton from "../shared/Button/PaneToggle";
-const PaneToggleButton = createFactory(_PaneToggleButton);
-
-import _Dropdown from "../shared/Dropdown";
-const Dropdown = createFactory(_Dropdown);
+import PaneToggleButton from "../shared/Button/PaneToggle";
+import Dropdown from "../shared/Dropdown";
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
@@ -337,7 +334,6 @@ class SourceTabs extends PureComponent {
       return;
     }
 
-    // TODO fix refs
     return (
       <div className="source-tabs" ref="sourceTabs">
         {sourceTabs.map(this.renderSourceTab)}
@@ -469,11 +465,13 @@ class SourceTabs extends PureComponent {
   }
 
   renderStartPanelToggleButton() {
-    return PaneToggleButton({
-      position: "start",
-      collapsed: !this.props.startPanelCollapsed,
-      handleClick: this.props.togglePaneCollapse
-    });
+    return (
+      <PaneToggleButton
+        position="start"
+        collapsed={!this.props.startPanelCollapsed}
+        handleClick={this.props.togglePaneCollapse}
+      />
+    );
   }
 
   renderEndPanelToggleButton() {
