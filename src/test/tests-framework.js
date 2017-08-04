@@ -5,9 +5,15 @@ import {
   stopPrettyPrintWorker
 } from "../utils/pretty-print";
 
-import { startParserWorker, stopParserWorker } from "../utils/parser";
+import {
+  startParserWorker,
+  stopParserWorker,
+  clearSymbols
+} from "../utils/parser";
 import { startSearchWorker, stopSearchWorker } from "../utils/search";
 import { getValue } from "devtools-config";
+
+global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
 beforeAll(() => {
   startSourceMapWorker(getValue("workers.sourceMapURL"));
@@ -21,4 +27,8 @@ afterAll(() => {
   stopPrettyPrintWorker();
   stopParserWorker();
   stopSearchWorker();
+});
+
+beforeEach(() => {
+  clearSymbols();
 });
