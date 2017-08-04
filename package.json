@@ -96,7 +96,8 @@
     "flow-bin": "^0.52.0",
     "glob": "^7.0.3",
     "husky": "^0.14.2",
-    "jest": "^20.0.1",
+    "jest": "^20.0.4",
+    "jest-cli": "^20.0.4",
     "jest-junit-reporter": "^1.0.1",
     "jest-localstorage-mock": "^1.1.1",
     "jest-serializer-babel-ast": "^0.0.5",
@@ -123,7 +124,8 @@
     "rimraf": "^2.6.1",
     "stylelint": "^7.12.0",
     "webpack": "1.14.0",
-    "workerjs": "github:jasonLaster/workerjs"
+    "workerjs": "github:jasonLaster/workerjs",
+    "yarn": "0.28.1"
   },
   "lint-staged": {
     "*.js": ["prettier", "git add"],
