@@ -221,9 +221,9 @@ The debugger.html project is targeted to land in Firefox for Firefox 52.  Howeve
 debugger.html is an Open Source [Mozilla][mozilla] [Firefox][mozilla-firefox] Developer Tools project.
 Our goal is to work with the community to build a universal JS debugger for modern times.
 
-| | |
-| ---------- | ------ |
-| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][clarkbw] <br/> [@clarkbw][@clarkbw] |
+| | | | |
+| ---------- | ------ | ------ | ------ |
+| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][clarkbw] <br/> [@clarkbw][@clarkbw] | ![][codehag] <br/> [@codehag][@codehag]  | ![][violasong] <br/> [@violasong][@violasong] |
 
 ### Team Members
 
@@ -257,12 +257,17 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [@clarkbw]:https://github.com/clarkbw
 [@jbhoosreddy]:https://github.com/jbhoosreddy
 [@irfanhudda]:https://github.com/irfanhudda
+[@codehag]:https://github.com/codehag
+[@violasong]:https://github.com/violasong
+
 [jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
 [bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
 [wldcordeiro]:https://avatars.githubusercontent.com/wldcordeiro?size=56
 [clarkbw]:https://avatars.githubusercontent.com/clarkbw?size=56
 [jbhoosreddy]:https://avatars.githubusercontent.com/jbhoosreddy?size=56
 [irfanhudda]:https://avatars.githubusercontent.com/irfanhudda?size=56
+[codehag]:https://avatars.githubusercontent.com/codehag?size=56
+[violasong]:https://avatars.githubusercontent.com/violasong?size=56
 
 [mozilla]:https://www.mozilla.org/
 [mozilla-firefox]:https://www.mozilla.org/firefox/
