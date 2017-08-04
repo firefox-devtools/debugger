@@ -4889,7 +4889,7 @@ jest@^19.0.2:
   dependencies:
     jest-cli "^19.0.2"
 
-jest@^20.0.1:
+jest@^20.0.4:
   version "20.0.4"
   resolved "https://registry.yarnpkg.com/jest/-/jest-20.0.4.tgz#3dd260c2989d6dad678b1e9cc4d91944f6d602ac"
   dependencies:
