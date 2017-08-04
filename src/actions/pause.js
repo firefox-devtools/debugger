@@ -101,7 +101,7 @@ export function pauseOnExceptions(
 export function command({ type }: CommandType) {
   return ({ dispatch, client }: ThunkArgs) => {
     // execute debugger thread command e.g. stepIn, stepOver
-    client[type]();
+    client[type]().then(() => dispatch({ type: "CLEAR_COMMAND" }));
 
     return dispatch({
       type: "COMMAND",

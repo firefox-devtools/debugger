@@ -18,7 +18,7 @@ type PauseState = {
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
   debuggeeUrl: string,
-  command: ?string
+  command: string
 };
 
 export const State = (): PauseState => ({
@@ -31,7 +31,7 @@ export const State = (): PauseState => ({
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
   debuggeeUrl: "",
-  command: undefined
+  command: ""
 });
 
 function update(state: PauseState = State(), action: Action): PauseState {
@@ -142,6 +142,9 @@ function update(state: PauseState = State(), action: Action): PauseState {
 
     case "COMMAND":
       return { ...state, command: action.value.type };
+
+    case "CLEAR_COMMAND":
+      return { ...state, command: "" };
   }
 
   return state;
