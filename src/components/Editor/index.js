@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, createFactory, PureComponent } from "react";
+import React, { PropTypes, PureComponent } from "react";
 import ReactDOM from "react-dom";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
@@ -30,26 +30,13 @@ import {
 } from "../../selectors";
 
 import actions from "../../actions";
-
-import _Footer from "./Footer";
-const Footer = createFactory(_Footer);
-
-import _SearchBar from "./SearchBar";
-const SearchBar = createFactory(_SearchBar);
-
-import _HighlightLines from "./HighlightLines";
-const HighlightLines = createFactory(_HighlightLines);
-
-import _Preview from "./Preview";
-const Preview = createFactory(_Preview);
-
-import _Breakpoints from "./Breakpoints";
-const Breakpoints = createFactory(_Breakpoints);
-import _HitMarker from "./HitMarker";
-const HitMarker = createFactory(_HitMarker);
-
-import _CallSites from "./CallSites";
-const CallSites = createFactory(_CallSites);
+import Footer from "./Footer";
+import SearchBar from "./SearchBar";
+import HighlightLines from "./HighlightLines";
+import Preview from "./Preview";
+import Breakpoints from "./Breakpoints";
+import HitMarker from "./HitMarker";
+import CallSites from "./CallSites";
 
 import {
   showSourceText,
@@ -589,10 +576,12 @@ class Editor extends PureComponent {
       return;
     }
 
-    return HighlightLines({
-      editor: this.state.editor,
-      highlightedLineRange
-    });
+    return (
+      <HighlightLines
+        editor={this.state.editor}
+        highlightedLineRange={highlightedLineRange}
+      />
+    );
   }
 
   renderHitCounts() {
@@ -607,13 +596,15 @@ class Editor extends PureComponent {
       return;
     }
 
-    return hitCount.filter(marker => marker.get("count") > 0).map(marker =>
-      HitMarker({
-        key: marker.get("line"),
-        hitData: marker.toJS(),
-        editor: this.state.editor.codeMirror
-      })
-    );
+    return hitCount
+      .filter(marker => marker.get("count") > 0)
+      .map(marker =>
+        <HitMarker
+          key={marker.get("line")}
+          hitData={marker.toJS()}
+          editor={this.state.editor.codeMirror}
+        />
+      );
   }
 
   renderPreview() {
@@ -634,14 +625,16 @@ class Editor extends PureComponent {
 
     const editorRange = toEditorRange(selectedSource.get("id"), location);
 
-    return Preview({
-      value,
-      editor: this.state.editor,
-      range: editorRange,
-      expression: expression,
-      popoverPos: cursorPos,
-      onClose: () => this.clearPreviewSelection()
-    });
+    return (
+      <Preview
+        value={value}
+        editor={this.state.editor}
+        range={editorRange}
+        expression={expression}
+        popoverPos={cursorPos}
+        onClose={() => this.clearPreviewSelection()}
+      />
+    );
   }
 
   renderInScopeLines() {
@@ -668,7 +661,7 @@ class Editor extends PureComponent {
     if (!editor || !isEnabled("columnBreakpoints")) {
       return null;
     }
-    return CallSites({ editor });
+    return <CallSites editor={editor} />;
   }
 
   renderSearchBar() {
@@ -683,13 +676,15 @@ class Editor extends PureComponent {
       return null;
     }
 
-    return SearchBar({
-      editor: this.state.editor,
-      selectSource,
-      selectedSource,
-      highlightLineRange,
-      clearHighlightLineRange
-    });
+    return (
+      <SearchBar
+        editor={this.state.editor}
+        selectSource={selectSource}
+        selectedSource={selectedSource}
+        highlightLineRange={highlightLineRange}
+        clearHighlightLineRange={clearHighlightLineRange}
+      />
+    );
   }
 
   renderFooter() {
@@ -698,7 +693,7 @@ class Editor extends PureComponent {
     if (!this.state.editor) {
       return null;
     }
-    return Footer({ editor: this.state.editor, horizontal });
+    return <Footer editor={this.state.editor} horizontal={horizontal} />;
   }
 
   renderBreakpoints() {
@@ -706,31 +701,32 @@ class Editor extends PureComponent {
       return null;
     }
 
-    return Breakpoints({ editor: this.state.editor });
+    return <Breakpoints editor={this.state.editor} />;
   }
 
   render() {
     const { coverageOn, pauseData } = this.props;
 
-    return dom.div(
-      {
-        className: classnames("editor-wrapper", {
+    return (
+      <div
+        className={classnames("editor-wrapper", {
           "coverage-on": coverageOn,
           paused: !!pauseData && isEnabled("highlightScopeLines")
-        })
-      },
-      this.renderSearchBar(),
-      dom.div({
-        className: "editor-mount devtools-monospace",
-        style: this.getInlineEditorStyles()
-      }),
-      this.renderHighlightLines(),
-      this.renderInScopeLines(),
-      this.renderHitCounts(),
-      this.renderFooter(),
-      this.renderPreview(),
-      this.renderCallSites(),
-      this.renderBreakpoints()
+        })}
+      >
+        {this.renderSearchBar()}
+        <div
+          className="editor-mount devtools-monospace"
+          style={this.getInlineEditorStyles()}
+        />
+        {this.renderHighlightLines()}
+        {this.renderInScopeLines()}
+        {this.renderHitCounts()}
+        {this.renderFooter()}
+        {this.renderPreview()}
+        {this.renderCallSites()}
+        {this.renderBreakpoints()}
+      </div>
     );
   }
 }
