@@ -5,17 +5,17 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { isEnabled } from "devtools-config";
 
-import ObjectInspector from "../shared/ObjectInspector";
+import Reps from "devtools-reps";
+const { REPS: { Rep }, MODE, ObjectInspectorUtils } = Reps;
+const { ObjectInspector } = Reps;
+const { getChildren } = ObjectInspectorUtils;
 
 import Popover from "../shared/Popover";
 
 import previewFunction from "../shared/previewFunction";
 import { getLoadedObjects } from "../../selectors";
 import actions from "../../actions";
-import { getChildren } from "../../utils/object-inspector";
 import { markText } from "../../utils/editor";
-import Rep from "../shared/Rep";
-import { MODE } from "devtools-reps";
 
 import type { EditorRange } from "../../utils/editor/types";
 
@@ -118,10 +118,14 @@ export class Preview extends Component {
     return (
       <ObjectInspector
         roots={roots}
-        getObjectProperties={getObjectProperties}
         autoExpandDepth={0}
-        onDoubleClick={() => {}}
+        disableWrap={true}
+        disabledFocus={true}
+        getObjectProperties={getObjectProperties}
         loadObjectProperties={loadObjectProperties}
+        // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
+        getObjectEntries={actor => {}}
+        loadObjectEntries={grip => {}}
       />
     );
   }
