@@ -8,7 +8,7 @@ export { addToTree } from "./addToTree";
 export { collapseTree } from "./collapseTree";
 export { getDirectories } from "./getDirectories";
 export { createTree } from "./createTree";
-export { getURL } from "./getURL";
+export { getURL, getFilenameFromPath } from "./getURL";
 
 export {
   nodeHasChildren,

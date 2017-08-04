@@ -10,25 +10,22 @@ import {
   formatTree
 } from "../index";
 
+function createSourcesMap(sources) {
+  const msources = sources.map((s, i) => new Map(s));
+  let sourcesMap = Map();
+  msources.forEach(s => {
+    sourcesMap = sourcesMap.mergeIn([s.get("id")], s);
+  });
+
+  return sourcesMap;
+}
+
+function createSourcesList(sources) {
+  return sources.map((s, i) => new Map(s));
+}
+
 describe("sources-tree", () => {
   describe("addToTree", () => {
-    function createSourcesList(sources) {
-      function makeSource(url, index) {
-        return new Map({
-          url,
-          actor: `actor${index}`
-        });
-      }
-
-      const msources = sources.map((s, i) => makeSource(s, i));
-      let sourceList = Map();
-      msources.forEach(s => {
-        sourceList = sourceList.mergeIn([s.get("actor")], s);
-      });
-
-      return sourceList;
-    }
-
     it("should provide node API", () => {
       const source = Map({
         url: "http://example.com/a/b/c.js",
@@ -71,11 +68,18 @@ describe("sources-tree", () => {
 
     it("does not attempt to add two of the same directory", () => {
       const sources = [
-        "https://davidwalsh.name/wp-content/prism.js",
-        "https://davidwalsh.name/"
+        {
+          id: "server1.conn13.child1/39",
+          url: "https://davidwalsh.name/wp-content/prism.js"
+        },
+        {
+          id: "server1.conn13.child1/37",
+          url: "https://davidwalsh.name/"
+        }
       ];
-      const sourceList = createSourcesList(sources);
-      const tree = createTree(sourceList, "").sourceTree;
+
+      const sourceMap = createSourcesMap(sources);
+      const tree = createTree(sourceMap, "").sourceTree;
       expect(tree.contents.length).toBe(1);
       const subtree = tree.contents[0];
       expect(subtree.contents.length).toBe(2);
@@ -272,30 +276,7 @@ describe("sources-tree", () => {
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
-    it("correctly parses webpack sources correctly", () => {
-      const source = Map({
-        url: "webpack:///a/b.js",
-        actor: "actor1"
-      });
-      const tree = createNode("root", "", []);
-
-      addToTree(tree, source);
-      expect(tree.contents.length).toBe(1);
-
-      let base = tree.contents[0];
-      expect(base.name).toBe("webpack://");
-      expect(base.contents.length).toBe(1);
-
-      const aNode = base.contents[0];
-      expect(aNode.name).toBe("a");
-      expect(aNode.contents.length).toBe(1);
-
-      const bNode = aNode.contents[0];
-      expect(bNode.name).toBe("b.js");
-      expect(formatTree(tree)).toMatchSnapshot();
-    });
-
-    it("correctly parses file sources correctly", () => {
+    it("correctly parses file sources", () => {
       const source = Map({
         url: "file:///a/b.js",
         actor: "actor1"
@@ -318,21 +299,40 @@ describe("sources-tree", () => {
       expect(formatTree(tree)).toMatchSnapshot();
     });
 
-    it("doesnt throw when adding a deeper file", () => {
-      const codeMirror = Map({
-        id: "server1.conn13.child1/37",
-        url: "https://unpkg.com/codemirror@5.1"
-      });
+    it("can add a file to an intermediate directory", () => {
+      const testData = [
+        {
+          id: "server1.conn13.child1/39",
+          url: "https://unpkg.com/codemirror/mode/xml/xml.js"
+        },
+        {
+          id: "server1.conn13.child1/37",
+          url: "https://unpkg.com/codemirror"
+        }
+      ];
 
-      const xml = Map({
-        id: "server1.conn13.child1/39",
-        url: "https://unpkg.com/codemirror@5.1/mode/xml/xml.js"
-      });
-
+      const sources = createSourcesList(testData);
       const tree = createNode("root", "", []);
+      sources.forEach(source => addToTree(tree, source));
+      expect(formatTree(tree)).toMatchSnapshot();
+    });
 
-      addToTree(tree, codeMirror);
-      addToTree(tree, xml);
+    it("replaces a file with a directory", () => {
+      const testData = [
+        {
+          id: "server1.conn13.child1/37",
+          url: "https://unpkg.com/codemirror@5.1"
+        },
+
+        {
+          id: "server1.conn13.child1/39",
+          url: "https://unpkg.com/codemirror@5.1/mode/xml/xml.js"
+        }
+      ];
+
+      const sources = createSourcesList(testData);
+      const tree = createNode("root", "", []);
+      sources.forEach(source => addToTree(tree, source));
 
       expect(formatTree(tree)).toMatchSnapshot();
     });

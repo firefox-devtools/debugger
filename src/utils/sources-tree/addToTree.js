@@ -5,7 +5,7 @@ import {
   isDirectory,
   createNode
 } from "./utils";
-import { getURL } from "./getURL";
+import { getURL, getFilenameFromPath } from "./getURL";
 
 import type { Node } from "./types";
 
@@ -25,7 +25,7 @@ function determineFileSortOrder(
 ) {
   const partIsDir = !isLastPart || pathPart.indexOf(".") === -1;
 
-  return nodes.findIndex(node => {
+  const index = nodes.findIndex(node => {
     const nodeIsDir = nodeHasChildren(node);
 
     // The index will always be the first thing, so this pathPart will be
@@ -60,6 +60,8 @@ function determineFileSortOrder(
     // placed after the directories.
     return partIsDir;
   });
+
+  return index === -1 ? nodes.length : index;
 }
 
 /**
@@ -85,48 +87,60 @@ export function addToTree(
   url.path = decodeURIComponent(url.path);
 
   const parts = url.path.split("/").filter(p => p !== "");
-  const isDir = isDirectory(url);
   parts.unshift(url.group);
 
   let path = "";
   let subtree = tree;
+  let ancestor = tree;
 
   for (let i = 0; i < parts.length; i++) {
     const part = parts[i];
     const isLastPart = i === parts.length - 1;
+    if (nodeHasChildren(subtree)) {
+      // the found subtree has an array, which means it is a folder
+      const child = subtree.contents.find(c => c.name === part);
+      if (child) {
+        // A node with the same name already exists, simply traverse
+        // into it. Keep track of the ancestor in case we need to make
+        // changes later on.
+        ancestor = subtree;
+        subtree = child;
+      } else {
+        // No node with this name exists, so insert a new one in the
+        // place that is alphabetically sorted.
+        const node = createNode(part, `${path}/${part}`, []);
 
-    // Currently we assume that we are descending into a node with
-    // children. This will fail if a path has a directory named the
-    // same as another file, like `foo/bar.js/file.js`.
-    //
-    // TODO: Be smarter about this, which we'll probably do when we
-    // are smarter about folders and collapsing empty ones.
+        let where = determineFileSortOrder(
+          subtree.contents,
+          part,
+          isLastPart,
+          i === 0 ? debuggeeUrl : ""
+        );
 
-    if (!nodeHasChildren(subtree)) {
-      return;
-    }
-
-    const children = subtree.contents;
-
-    let index = determineFileSortOrder(
-      children,
-      part,
-      isLastPart,
-      i === 0 ? debuggeeUrl : ""
-    );
-
-    const child = children.find(c => c.name === part);
-    if (child) {
-      // A node with the same name already exists, simply traverse
-      // into it.
-      subtree = child;
+        subtree.contents.splice(where, 0, node);
+        // we enter the node
+        subtree = node;
+      }
     } else {
-      // No node with this name exists, so insert a new one in the
-      // place that is alphabetically sorted.
+      // the found subtree is not an array, which means it is a file
+      // however, we are seeing it for a second time, which means that there
+      // is also a folder with this name
+      const sourceContents = subtree.contents;
+      const contentsUrl = getURL(sourceContents.get("url"));
+      const name = getFilenameFromPath(contentsUrl.path);
+
+      // create a new node for the part we are interested in
+      // appending to the folder with the same name as the file
       const node = createNode(part, `${path}/${part}`, []);
-      const where = index === -1 ? children.length : index;
-      children.splice(where, 0, node);
-      subtree = children[where];
+
+      // create a directory has the same name as the file.
+      const newDir = createNode(name, `${path}`, [node]);
+      const newSource = createNode(name, `${path}`, source);
+      //
+      // append the new directory, with the file and the new directory
+      ancestor.contents = [newDir, newSource];
+      // we enter the node
+      subtree = node;
     }
 
     // Keep track of the children so we can tag each node with them.
@@ -135,9 +149,11 @@ export function addToTree(
 
   // Overwrite the contents of the final node to store the source
   // there.
-  if (!isDir) {
+  const isFile = !isDirectory(url);
+  if (isFile) {
     subtree.contents = source;
-  } else if (!subtree.contents.find(c => c.name === "(index)")) {
-    subtree.contents.unshift(createNode("(index)", source.get("url"), source));
+  } else {
+    const name = getFilenameFromPath(url.path);
+    subtree.contents.unshift(createNode(name, source.get("url"), source));
   }
 }
