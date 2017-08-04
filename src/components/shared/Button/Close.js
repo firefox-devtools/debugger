@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes } from "react";
+import React, { PropTypes } from "react";
 import Svg from "../Svg";
 import "./Close.css";
 
@@ -10,16 +10,18 @@ type CloseButtonType = {
 };
 
 function CloseButton({ handleClick, buttonClass, tooltip }: CloseButtonType) {
-  return dom.div(
-    {
-      className: buttonClass ? `close-btn ${buttonClass}` : "close-btn",
-      onClick: handleClick,
-      title: tooltip
-    },
-    Svg("close")
+  return (
+    <div
+      className={buttonClass ? `close-btn ${buttonClass}` : "close-btn"}
+      onClick={handleClick}
+      title={tooltip}
+    >
+      {Svg("close")}
+    </div>
   );
 }
 
+CloseButton.displayName = "CloseButton";
 CloseButton.propTypes = {
   handleClick: PropTypes.func.isRequired
 };
