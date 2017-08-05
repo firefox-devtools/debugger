@@ -62,5 +62,5 @@ module.exports = function(name, props) {
     className = "";
   }
   props = Object.assign({}, props, { className, src: svg[name] });
-  return React.createElement(InlineSVG, props);
+  return <InlineSVG {...props} />;
 };
