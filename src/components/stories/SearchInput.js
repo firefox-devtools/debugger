@@ -1,5 +1,7 @@
 import React, { DOM as dom } from "react";
-import { storiesOf, action } from "@kadira/storybook";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+
 import _SearchInput from "../shared/SearchInput";
 const SearchInput = React.createFactory(_SearchInput);
 import { L10N } from "devtools-launchpad";

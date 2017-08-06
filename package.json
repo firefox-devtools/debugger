@@ -40,14 +40,15 @@
     "flow-utils": "flow-coverage-report -i 'src/utils/*.js' -i 'src/utils/**/*.js' -t text",
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
-    "storybook": "start-storybook -p 9001 -c .storybook",
+    "storybook": "start-storybook -p 6006",
     "snapshot": "NODE_ENV='development' build-storybook && percy-storybook",
     "postcheckout": "node bin/post-checkout.js",
     "postmerge": "node bin/post-merge.js",
     "postrewrite": "node bin/post-rewrite.js",
     "precommit": "lint-staged",
     "prepush": "run-p lint test flow",
-    "nom": "rm -rf node_modules yarn.lock; yarn install"
+    "nom": "rm -rf node_modules yarn.lock; yarn install",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "babel-traverse": "^6.22.1",
@@ -73,15 +74,24 @@
     "svg-inline-react": "^1.0.2",
     "wasmparser": "^0.4.10"
   },
-  "files": ["src", "assets"],
+  "files": [
+    "src",
+    "assets"
+  ],
   "greenkeeper": {
-    "ignore": ["react", "react-dom", "react-redux", "redux", "codemirror"]
+    "ignore": [
+      "react",
+      "react-dom",
+      "react-redux",
+      "redux",
+      "codemirror"
+    ]
   },
   "main": "src/main.js",
   "author": "Jason Laster <jlaster@mozilla.com>",
   "devDependencies": {
-    "@kadira/storybook": "^2.35.3",
     "@percy-io/react-percy-storybook": "^1.0.2",
+    "@storybook/react": "^3.2.3",
     "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
     "babel-preset-react": "^6.24.1",
@@ -128,24 +138,48 @@
     "yarn": "0.28.1"
   },
   "lint-staged": {
-    "*.js": ["prettier", "git add"],
-    "src/*.js": ["prettier", "git add"],
-    "src/*/*.js": ["prettier", "git add"],
-    "src/*/!(mochitest)**/*.js": ["prettier", "git add"],
-    "src/*/!(mochitest)*/**/*.js": ["prettier", "git add"]
+    "*.js": [
+      "prettier",
+      "git add"
+    ],
+    "src/*.js": [
+      "prettier",
+      "git add"
+    ],
+    "src/*/*.js": [
+      "prettier",
+      "git add"
+    ],
+    "src/*/!(mochitest)**/*.js": [
+      "prettier",
+      "git add"
+    ],
+    "src/*/!(mochitest)*/**/*.js": [
+      "prettier",
+      "git add"
+    ]
   },
   "jest": {
     "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/helpers/",
       "/fixtures/",
       "<rootDir>/test/"
     ],
-    "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
-    "setupFiles": ["<rootDir>/test/tests-setup.js", "jest-localstorage-mock"],
-    "snapshotSerializers": ["jest-serializer-babel-ast"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!devtools-)"
+    ],
+    "setupFiles": [
+      "<rootDir>/test/tests-setup.js",
+      "jest-localstorage-mock"
+    ],
+    "snapshotSerializers": [
+      "jest-serializer-babel-ast"
+    ],
     "setupTestFrameworkScriptFile": "<rootDir>/test/tests-framework.js",
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
