@@ -1,4 +1,4 @@
-import { configure, getStorybook } from "@kadira/storybook";
+import { configure, getStorybook } from "@storybook/react";
 const { setConfig } = require("devtools-config");
 
 setConfig(DebuggerConfig);

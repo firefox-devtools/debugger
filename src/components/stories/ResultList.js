@@ -1,5 +1,7 @@
 import React, { DOM as dom } from "react";
-import { storiesOf, action } from "@kadira/storybook";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+
 import _ResultList from "../shared/ResultList";
 const ResultList = React.createFactory(_ResultList);
 import { L10N } from "devtools-launchpad";

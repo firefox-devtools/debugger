@@ -1,5 +1,6 @@
 import React, { DOM as dom } from "react";
-import { storiesOf, action } from "@kadira/storybook";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
 
 import _Outline from "../PrimaryPanes/Outline";
 const Outline = React.createFactory(_Outline.WrappedComponent);

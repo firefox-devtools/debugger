@@ -1,5 +1,7 @@
 import React, { DOM as dom } from "react";
-import { storiesOf, action } from "@kadira/storybook";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+
 import _Tabs from "../Editor/Tabs";
 const Tabs = React.createFactory(_Tabs.WrappedComponent);
 import fromJS from "../../utils/fromJS";

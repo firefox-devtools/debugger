@@ -1,5 +1,5 @@
 import React, { DOM as dom } from "react";
-import { storiesOf } from "@kadira/storybook";
+import { storiesOf } from "@storybook/react";
 import _ManagedTree from "../shared/ManagedTree";
 const ManagedTree = React.createFactory(_ManagedTree);
 import { L10N } from "devtools-launchpad";

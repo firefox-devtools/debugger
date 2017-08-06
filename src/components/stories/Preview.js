@@ -1,5 +1,7 @@
 import React, { DOM as dom } from "react";
-import { storiesOf, action } from "@kadira/storybook";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+
 import _Preview from "../Editor/Preview";
 const Preview = React.createFactory(_Preview.WrappedComponent);
 import { L10N } from "devtools-launchpad";
