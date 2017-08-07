@@ -58,9 +58,6 @@ export default class TextSearch extends Component {
 
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
-    if (this.refs.searchInput) {
-      this.refs.searchInput.refs.input.focus();
-    }
     shortcuts.on("Enter", this.onEnterPress);
   }
 
