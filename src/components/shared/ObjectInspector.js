@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, createFactory, Component } from "react";
+import React, { PropTypes, Component } from "react";
 import classnames from "classnames";
 import Svg from "./Svg";
 import Rep from "./Rep";
@@ -16,8 +16,7 @@ import {
   createNode
 } from "../../utils/object-inspector";
 
-import _ManagedTree from "./ManagedTree";
-const ManagedTree = createFactory(_ManagedTree);
+import ManagedTree from "./ManagedTree";
 
 import "./ObjectInspector.css";
 
@@ -128,9 +127,9 @@ class ObjectInspector extends Component {
       nodeIsPrimitive(item) &&
       item.contents.value.hasOwnProperty("unavailable");
     if (nodeIsOptimizedOut(item)) {
-      objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
+      objectValue = <span className="unavailable">(optimized away)</span>;
     } else if (nodeIsMissingArguments(item) || unavailable) {
-      objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
+      objectValue = <span className="unavailable">(unavailable)</span>;
     } else if (nodeIsFunction(item)) {
       objectValue = null;
       label = previewFunction({ name: label, parameterNames: [] });
@@ -139,43 +138,46 @@ class ObjectInspector extends Component {
       objectValue = Rep({ object, mode: MODE.TINY });
     }
 
-    return dom.div(
-      {
-        className: classnames("node object-node", {
+    const onClick = e => {
+      e.stopPropagation();
+      setExpanded(item, !expanded);
+    };
+
+    const onDoubleClick = e => {
+      e.stopPropagation();
+      this.props.onDoubleClick(item, {
+        depth,
+        focused,
+        expanded
+      });
+    };
+
+    return (
+      <div
+        className={classnames("node object-node", {
           focused,
           "default-property": this.isDefaultProperty(item)
-        }),
-        style: {
-          marginLeft: depth * 15 + (nodeIsPrimitive(item) ? 15 : 0)
-        },
-        onClick: e => {
-          e.stopPropagation();
-          setExpanded(item, !expanded);
-        },
-        onDoubleClick: event => {
-          event.stopPropagation();
-          this.props.onDoubleClick(item, {
-            depth,
-            focused,
-            expanded
-          });
-        }
-      },
-      Svg("arrow", {
-        className: classnames({
-          expanded: expanded,
-          hidden: nodeIsPrimitive(item)
-        })
-      }),
-      dom.span(
-        {
-          className: "object-label",
-          dir: "ltr"
-        },
-        label
-      ),
-      dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
-      dom.span({ className: "object-value" }, objectValue || "")
+        })}
+        style={{ marginLeft: depth * 15 + (nodeIsPrimitive(item) ? 15 : 0) }}
+        onClick={onClick}
+        onDoubleClick={onDoubleClick}
+      >
+        {Svg("arrow", {
+          className: classnames({
+            expanded: expanded,
+            hidden: nodeIsPrimitive(item)
+          })
+        })}
+        <span className="object-label" dir="ltr">
+          {label}
+        </span>
+        <span className="object-delimiter">
+          {objectValue ? ": " : ""}
+        </span>
+        <span className="object-value">
+          {objectValue || ""}
+        </span>
+      </div>
     );
   }
 
@@ -187,23 +189,27 @@ class ObjectInspector extends Component {
       roots = [createNode(name, name, desc)];
     }
 
-    return ManagedTree({
-      itemHeight: 20,
-      getParent: item => null,
-      getChildren: this.getChildren,
-      getRoots: () => roots,
-      getPath: (item: Item) => `${item.path}/${item.name}`,
-      autoExpand: 0,
-      autoExpandDepth,
-      autoExpandAll: false,
-      disabledFocus: true,
-      onExpand: item => {
-        if (item && item.contents && nodeHasProperties(item)) {
-          loadObjectProperties(item.contents.value);
-        }
-      },
-      renderItem: this.renderItem
-    });
+    const onExpand = item => {
+      if (item && item.contents && nodeHasProperties(item)) {
+        loadObjectProperties(item.contents.value);
+      }
+    };
+
+    return (
+      <ManagedTree
+        itemHeight={20}
+        getParent={item => null}
+        getChildren={this.getChildren}
+        getRoots={() => roots}
+        getPath={(item: Item) => `${item.path}/${item.name}`}
+        autoExpand={0}
+        autoExpandDepth={autoExpandDepth}
+        autoExpandAll={false}
+        disabledFocus={true}
+        onExpand={onExpand}
+        renderItem={this.renderItem}
+      />
+    );
   }
 }
 
