@@ -19,7 +19,8 @@
 }
 
 .project-text-search .result.focused {
-  background-color: #eeeeee;
+  background-color: var(--theme-selection-background);
+  color: white;
 }
 
 .project-text-search .result .query-match {
@@ -30,8 +31,13 @@
   border-radius: 2px;
 }
 
+.project-text-search .result.focused .query-match {
+  background-color: var(--theme-tab-toolbar-background);
+}
+
 .project-text-search .result.focused .line-number {
   font-weight: bolder;
+  color: white;
 }
 
 .project-text-search .result .line-number {
@@ -48,12 +54,18 @@
   font-size: 12px;
 }
 
+.project-text-search .result.focused .line-number {
+  font-weight: bolder;
+  color: white;
+}
+
 .project-text-search .file-result .arrow {
   margin: 2px 0 2px 0;
 }
 
 .project-text-search .file-result.focused {
-  background-color: #eeeeee;
+  background-color: var(--theme-selection-background);
+  color: white;
 }
 
 .project-text-search .line-match {
