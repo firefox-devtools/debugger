@@ -41,7 +41,7 @@ export default class ResultList extends Component {
         key: `${item.id}${item.value}${index}`,
         ref: index,
         title: item.value,
-        className: classnames({
+        className: classnames("result-item", {
           selected: index === selected
         })
       },
