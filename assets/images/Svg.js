@@ -28,6 +28,7 @@ const svg = {
   prettyPrint: require("./prettyPrint.svg"),
   react: require("./react.svg"),
   "regex-match": require("./regex-match.svg"),
+  redux: require("./redux.svg"),
   resume: require("./resume.svg"),
   settings: require("./settings.svg"),
   stepIn: require("./stepIn.svg"),
