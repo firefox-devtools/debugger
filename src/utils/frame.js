@@ -25,6 +25,10 @@ function isReact(frame) {
   return getFrameUrl(frame).match(/react/i);
 }
 
+function isImmutable(frame) {
+  return getFrameUrl(frame).match(/immutable/i);
+}
+
 function isWebpack(frame) {
   return getFrameUrl(frame).match(/webpack\/bootstrap/i);
 }
@@ -137,6 +141,10 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isRedux(frame)) {
     return "Redux";
+  }
+
+  if (isImmutable(frame)) {
+    return "Immutable";
   }
 }
 

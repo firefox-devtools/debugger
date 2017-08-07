@@ -29,6 +29,7 @@ const svg = {
   react: require("./react.svg"),
   "regex-match": require("./regex-match.svg"),
   redux: require("./redux.svg"),
+  immutable: require("./immutable.svg"),
   resume: require("./resume.svg"),
   settings: require("./settings.svg"),
   stepIn: require("./stepIn.svg"),
