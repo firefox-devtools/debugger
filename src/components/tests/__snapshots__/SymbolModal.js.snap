@@ -1,196 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SearchBar should render 1`] = `
-ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
-  "length": 1,
-  "node": <Modal
-    enabled={true}
-    handleClose={[Function]}
-    handleOpen={[Function]}
-    shortcut="symbolSearch.search.key2"
->
-    <div
-        className="input-wrapper"
-    >
-        <SearchInput
-            count={0}
-            handleClose={[Function]}
-            handleNext={[Function]}
-            handlePrev={[Function]}
-            onChange={[Function]}
-            onKeyUp={[Function]}
-            placeholder="Search functions…"
-            query=""
-            showErrorEmoji={true}
-            size=""
-            summaryMsg={undefined}
-        />
-    </div>
-</Modal>,
-  "nodes": Array [
-    <Modal
-      enabled={true}
-      handleClose={[Function]}
-      handleOpen={[Function]}
-      shortcut="symbolSearch.search.key2"
->
-      <div
-            className="input-wrapper"
-      >
-            <SearchInput
-                  count={0}
-                  handleClose={[Function]}
-                  handleNext={[Function]}
-                  handlePrev={[Function]}
-                  onChange={[Function]}
-                  onKeyUp={[Function]}
-                  placeholder="Search functions…"
-                  query=""
-                  showErrorEmoji={true}
-                  size=""
-                  summaryMsg={undefined}
-            />
+exports[`SymbolModal should render 1`] = `
+"<SymbolModal enabled={true} symbolType=\\"functions\\" selectedSource={{...}} setSelectedSymbolType={[Function]} symbols={{...}}>
+  <Modal enabled={true} shortcut=\\"symbolSearch.search.key2\\" handleOpen={[Function]} handleClose={[Function]}>
+    <div className=\\"modal-wrapper enabled\\" onClick={[Function]}>
+      <div className=\\"modal enabled\\" onClick={[Function]}>
+        <div className=\\"input-wrapper\\">
+          <SearchInput query=\\"\\" count={2} placeholder=\\"Search functions…\\" summaryMsg=\\"1 of 2 results\\" onChange={[Function]} onKeyUp={[Function]} handleNext={[Function]} handlePrev={[Function]} handleClose={[Function]} size=\\"\\" showErrorEmoji={true}>
+            <div className=\\"search-field \\">
+              <InlineSVG className=\\"magnifying-glass\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
+                <i className=\\"magnifying-glass\\" src={{...}} dangerouslySetInnerHTML={{...}} />
+              </InlineSVG>
+              <input className=\\"\\" onChange={[Function]} onKeyDown={[undefined]} onKeyUp={[Function]} onFocus={[undefined]} onBlur={[undefined]} placeholder=\\"Search functions…\\" value=\\"\\" spellCheck={false} />
+              <div className=\\"summary\\">
+                1 of 2 results
+              </div>
+              <div className=\\"search-nav-buttons\\">
+                <button onClick={[Function]} type=\\"arrow-down\\" className=\\"nav-btn next\\" title=\\"Next Result\\">
+                  <InlineSVG className=\\"arrow-down\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
+                    <i className=\\"arrow-down\\" src={{...}} dangerouslySetInnerHTML={{...}} />
+                  </InlineSVG>
+                </button>
+                <button onClick={[Function]} type=\\"arrow-up\\" className=\\"nav-btn prev\\" title=\\"Previous Result\\">
+                  <InlineSVG className=\\"arrow-up\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
+                    <i className=\\"arrow-up\\" src={{...}} dangerouslySetInnerHTML={{...}} />
+                  </InlineSVG>
+                </button>
+              </div>
+              <div className=\\"close-btn\\" onClick={[Function]} title={[undefined]}>
+                <InlineSVG className=\\"close\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
+                  <i className=\\"close\\" src={{...}} dangerouslySetInnerHTML={{...}} />
+                </InlineSVG>
+              </div>
+            </div>
+          </SearchInput>
+        </div>
+        <ResultList items={{...}} selected={0} selectItem={[Function]} size=\\"small\\">
+          <ul className=\\"result-list small\\">
+            <li onClick={[Function]} title=\\"anonymous\\" className=\\"selected\\">
+              <div className=\\"title\\">
+                anonymous
+              </div>
+              <div className=\\"subtitle\\">
+                :4
+              </div>
+            </li>
+            <li onClick={[Function]} title=\\"render\\" className=\\"\\">
+              <div className=\\"title\\">
+                render
+              </div>
+              <div className=\\"subtitle\\">
+                :51
+              </div>
+            </li>
+          </ul>
+        </ResultList>
       </div>
-</Modal>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": ShallowComponentWrapper {
-      "_calledComponentWillUnmount": false,
-      "_compositeType": 0,
-      "_context": Object {},
-      "_currentElement": <SymbolModal
-        enabled={true}
-        selectedSource={
-                Immutable.Map {
-                }
-        }
-        setSelectedSymbolType={[Function]}
-        symbolType="functions"
-/>,
-      "_debugID": 1,
-      "_hostContainerInfo": null,
-      "_hostParent": null,
-      "_instance": SymbolModal {
-        "_reactInternalInstance": [Circular],
-        "buildPlaceHolder": [Function],
-        "buildSummaryMsg": [Function],
-        "closeModal": [Function],
-        "context": Object {
-          "shortcuts": undefined,
-        },
-        "onChange": [Function],
-        "onClick": [Function],
-        "onKeyUp": [Function],
-        "openSymbolModal": [Function],
-        "props": Object {
-          "enabled": true,
-          "selectedSource": Immutable.Map {
-},
-          "setSelectedSymbolType": [Function],
-          "symbolType": "functions",
-        },
-        "refs": Object {},
-        "renderResults": [Function],
-        "selectResultItem": [Function],
-        "state": Object {
-          "query": "",
-          "results": null,
-          "resultsIndex": 0,
-        },
-        "traverseResults": [Function],
-        "updateResults": [Function],
-        "updater": Object {
-          "enqueueCallback": [Function],
-          "enqueueCallbackInternal": [Function],
-          "enqueueElementInternal": [Function],
-          "enqueueForceUpdate": [Function],
-          "enqueueReplaceState": [Function],
-          "enqueueSetState": [Function],
-          "isMounted": [Function],
-          "validateCallback": [Function],
-        },
-      },
-      "_mountOrder": 1,
-      "_pendingCallbacks": null,
-      "_pendingElement": null,
-      "_pendingForceUpdate": false,
-      "_pendingReplaceState": false,
-      "_pendingStateQueue": null,
-      "_renderedComponent": Object {
-        "_currentElement": <Modal
-          enabled={true}
-          handleClose={[Function]}
-          handleOpen={[Function]}
-          shortcut="symbolSearch.search.key2"
->
-          <div
-                    className="input-wrapper"
-          >
-                    <SearchInput
-                              count={0}
-                              handleClose={[Function]}
-                              handleNext={[Function]}
-                              handlePrev={[Function]}
-                              onChange={[Function]}
-                              onKeyUp={[Function]}
-                              placeholder="Search functions…"
-                              query=""
-                              showErrorEmoji={true}
-                              size=""
-                              summaryMsg={undefined}
-                    />
-          </div>
-</Modal>,
-        "_debugID": 2,
-        "_renderedOutput": <Modal
-          enabled={true}
-          handleClose={[Function]}
-          handleOpen={[Function]}
-          shortcut="symbolSearch.search.key2"
->
-          <div
-                    className="input-wrapper"
-          >
-                    <SearchInput
-                              count={0}
-                              handleClose={[Function]}
-                              handleNext={[Function]}
-                              handlePrev={[Function]}
-                              onChange={[Function]}
-                              onKeyUp={[Function]}
-                              placeholder="Search functions…"
-                              query=""
-                              showErrorEmoji={true}
-                              size=""
-                              summaryMsg={undefined}
-                    />
-          </div>
-</Modal>,
-      },
-      "_renderedNodeType": 1,
-      "_rootNodeID": 0,
-      "_topLevelWrapper": null,
-      "_updateBatchNumber": null,
-      "_warnedAboutRefsInRender": false,
-    },
-    "getRenderOutput": [Function],
-    "render": [Function],
-  },
-  "root": [Circular],
-  "unrendered": <SymbolModal
-    enabled={true}
-    selectedSource={
-        Immutable.Map {
-        }
-    }
-    setSelectedSymbolType={[Function]}
-    symbolType="functions"
-/>,
-}
+    </div>
+  </Modal>
+</SymbolModal>"
 `;
