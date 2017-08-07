@@ -374,7 +374,7 @@ class SourceTabs extends PureComponent {
         onContextMenu={e => this.onTabContextMenu(e, source)}
         title={tabName(source)}
       >
-        <div className={"filename"}>
+        <div className="filename">
           {tabName(source)}
         </div>
         <CloseButton
