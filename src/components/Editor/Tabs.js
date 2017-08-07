@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom, PureComponent, createFactory } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as I from "immutable";
@@ -23,11 +23,8 @@ import debounce from "lodash/debounce";
 import { formatKeyShortcut } from "../../utils/text";
 import "./Tabs.css";
 
-import _PaneToggleButton from "../shared/Button/PaneToggle";
-const PaneToggleButton = createFactory(_PaneToggleButton);
-
-import _Dropdown from "../shared/Dropdown";
-const Dropdown = createFactory(_Dropdown);
+import PaneToggleButton from "../shared/Button/PaneToggle";
+import Dropdown from "../shared/Dropdown";
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
@@ -320,16 +317,14 @@ class SourceTabs extends PureComponent {
     const { moveTab } = this.props;
     const filename = getFilename(source.toJS());
 
-    return dom.li(
-      {
-        key: source.get("id"),
-        onClick: () => {
-          // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
-          const tabIndex = 0;
-          moveTab(source.get("url"), tabIndex);
-        }
-      },
-      filename
+    const onClick = () => {
+      const tabIndex = 0;
+      moveTab(source.get("url"), tabIndex);
+    };
+    return (
+      <li key={source.get("id")} onClick={onClick}>
+        {filename}
+      </li>
     );
   }
 
@@ -339,9 +334,10 @@ class SourceTabs extends PureComponent {
       return;
     }
 
-    return dom.div(
-      { className: "source-tabs", ref: "sourceTabs" },
-      sourceTabs.map(this.renderSourceTab)
+    return (
+      <div className="source-tabs" ref="sourceTabs">
+        {sourceTabs.map(this.renderSourceTab)}
+      </div>
     );
   }
 
@@ -365,22 +361,27 @@ class SourceTabs extends PureComponent {
       closeActiveSearch();
       closeTab(source);
     }
-    return dom.div(
-      {
-        className: classnames("source-tab", {
-          active: this.isProjectSearchEnabled() || this.isSourceSearchEnabled(),
-          pretty: false
-        }),
-        key: source,
-        onClick: () => setActiveSearch(source),
-        onContextMenu: e => this.onTabContextMenu(e, source),
-        title: tabName(source)
-      },
-      dom.div({ className: "filename" }, tabName(source)),
-      CloseButton({
-        handleClick: onClickClose,
-        tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip")
-      })
+    const className = classnames("source-tab", {
+      active: this.isProjectSearchEnabled() || this.isSourceSearchEnabled(),
+      pretty: false
+    });
+
+    return (
+      <div
+        className={className}
+        key={source}
+        onClick={() => setActiveSearch(source)}
+        onContextMenu={e => this.onTabContextMenu(e, source)}
+        title={tabName(source)}
+      >
+        <div className="filename">
+          {tabName(source)}
+        </div>
+        <CloseButton
+          handleClick={onClickClose}
+          tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
+        />
+      </div>
     );
   }
 
@@ -399,23 +400,28 @@ class SourceTabs extends PureComponent {
       closeTab(source.get("url"));
     }
 
-    return dom.div(
-      {
-        className: classnames("source-tab", {
-          active,
-          pretty: isPrettyCode
-        }),
-        key: source.get("id"),
-        onClick: () => selectSource(source.get("id")),
-        onContextMenu: e => this.onTabContextMenu(e, source.get("id")),
-        title: getFilename(source.toJS())
-      },
-      sourceAnnotation,
-      dom.div({ className: "filename" }, filename),
-      CloseButton({
-        handleClick: onClickClose,
-        tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip")
-      })
+    const className = classnames("source-tab", {
+      active,
+      pretty: isPrettyCode
+    });
+
+    return (
+      <div
+        className={className}
+        key={source.get("id")}
+        onClick={() => selectSource(source.get("id"))}
+        onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
+        title={getFilename(source.toJS())}
+      >
+        {sourceAnnotation}
+        <div className="filename">
+          {filename}
+        </div>
+        <CloseButton
+          handleClick={onClickClose}
+          tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
+        />
+      </div>
     );
   }
 
@@ -424,38 +430,48 @@ class SourceTabs extends PureComponent {
       "sourceTabs.newTabButtonTooltip",
       formatKeyShortcut(L10N.getStr("sources.search.key2"))
     );
-    return dom.div(
-      {
-        className: "new-tab-btn",
-        onClick: () => {
-          if (this.props.searchOn) {
-            return this.props.closeActiveSearch();
-          }
-          this.props.setActiveSearch("source");
-        },
-        title: newTabTooltip
-      },
-      Svg("plus")
+
+    const onButtonClick = () => {
+      if (this.props.searchOn) {
+        return this.props.closeActiveSearch();
+      }
+      this.props.setActiveSearch("source");
+    };
+
+    return (
+      <div
+        className="new-tab-btn"
+        onClick={onButtonClick}
+        title={newTabTooltip}
+      >
+        {Svg("plus")}
+      </div>
     );
   }
 
   renderDropdown() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
-      return dom.div({});
+      return null;
     }
 
-    return Dropdown({
-      panel: dom.ul({}, hiddenSourceTabs.map(this.renderDropdownSource))
-    });
+    const Panel = (
+      <ul>
+        {hiddenSourceTabs.map(this.renderDropdownSource)}
+      </ul>
+    );
+
+    return <Dropdown panel={Panel} />;
   }
 
   renderStartPanelToggleButton() {
-    return PaneToggleButton({
-      position: "start",
-      collapsed: !this.props.startPanelCollapsed,
-      handleClick: this.props.togglePaneCollapse
-    });
+    return (
+      <PaneToggleButton
+        position="start"
+        collapsed={!this.props.startPanelCollapsed}
+        handleClick={this.props.togglePaneCollapse}
+      />
+    );
   }
 
   renderEndPanelToggleButton() {
@@ -463,12 +479,14 @@ class SourceTabs extends PureComponent {
       return;
     }
 
-    return PaneToggleButton({
-      position: "end",
-      collapsed: !this.props.endPanelCollapsed,
-      handleClick: this.props.togglePaneCollapse,
-      horizontal: this.props.horizontal
-    });
+    return (
+      <PaneToggleButton
+        position="end"
+        collapsed={!this.props.endPanelCollapsed}
+        handleClick={this.props.togglePaneCollapse}
+        horizontal={this.props.horizontal}
+      />
+    );
   }
 
   getSourceAnnotation(source) {
@@ -483,13 +501,14 @@ class SourceTabs extends PureComponent {
   }
 
   render() {
-    return dom.div(
-      { className: "source-header" },
-      this.renderStartPanelToggleButton(),
-      this.renderTabs(),
-      this.renderNewButton(),
-      this.renderDropdown(),
-      this.renderEndPanelToggleButton()
+    return (
+      <div className="source-header">
+        {this.renderStartPanelToggleButton()}
+        {this.renderTabs()}
+        {this.renderNewButton()}
+        {this.renderDropdown()}
+        {this.renderEndPanelToggleButton()}
+      </div>
     );
   }
 }
