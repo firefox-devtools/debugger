@@ -101,7 +101,6 @@ class SymbolModal extends Component {
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.on(L10N.getStr("symbolSearch.search.key2"), this.openSymbolModal);
-
     this.updateResults(this.state.query);
   }
 
@@ -163,7 +162,6 @@ class SymbolModal extends Component {
     const { symbolType, symbols } = this.props;
 
     let symbolSearchResults = symbols[symbolType];
-
     if (query == "") {
       this.setState({ results: symbolSearchResults });
       return;
@@ -256,18 +254,20 @@ class SymbolModal extends Component {
     const { query } = this.state;
 
     return (
-      <SearchInput
-        query={query}
-        count={this.resultsCount()}
-        placeholder={this.buildPlaceHolder()}
-        summaryMsg={this.buildSummaryMsg()}
-        onChange={this.onChange}
-        onKeyUp={this.onKeyUp}
-        handleNext={() => this.traverseResults(1)}
-        handlePrev={() => this.traverseResults(-1)}
-        handleClose={this.closeModal}
-        ref="searchInput"
-      />
+      <div key="input" className="input-wrapper">
+        <SearchInput
+          query={query}
+          count={this.resultsCount()}
+          placeholder={this.buildPlaceHolder()}
+          summaryMsg={this.buildSummaryMsg()}
+          onChange={this.onChange}
+          onKeyUp={this.onKeyUp}
+          handleNext={() => this.traverseResults(1)}
+          handlePrev={() => this.traverseResults(-1)}
+          handleClose={this.closeModal}
+          ref="searchInput"
+        />
+      </div>
     );
   }
 
@@ -305,10 +305,8 @@ class SymbolModal extends Component {
         handleOpen={this.openSymbolModal}
         handleClose={this.closeModal}
       >
-        <div key="input" className="input-wrapper">
-          {this.renderInput()}
-          {this.renderResults()}
-        </div>
+        {this.renderInput()}
+        {this.renderResults()}
       </Modal>
     );
   }
