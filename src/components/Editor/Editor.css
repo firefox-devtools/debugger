@@ -19,7 +19,7 @@
 }
 
 .theme-light {
-  --theme-conditional-breakpoint-color: #ccd1d5;
+  --theme-conditional-breakpoint-color: var(--theme-body-color);
 }
 
 .paused .in-scope .CodeMirror-line,
