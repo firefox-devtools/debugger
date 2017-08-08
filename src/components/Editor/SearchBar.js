@@ -358,6 +358,9 @@ class SearchBar extends Component {
 
     return (
       <div className="search-modifiers">
+        <span className="search-type-name">
+          {L10N.getStr("symbolSearch.searchModifier.modifiersLabel")}
+        </span>
         <SearchModBtn
           modVal="regexMatch"
           className="regex-match-btn"
@@ -376,6 +379,21 @@ class SearchBar extends Component {
           svgName="whole-word-match"
           tooltip={L10N.getStr("symbolSearch.searchModifier.wholeWord")}
         />
+      </div>
+    );
+  }
+
+  renderSearchType() {
+    return (
+      <div className="search-type-toggles">
+        <span
+          className="search-type-name"
+          onClick={() => {
+            this.props.setActiveSearch("symbol");
+          }}
+        >
+          {L10N.getStr("symbolSearch.search.functionsPlaceholder")}
+        </span>
       </div>
     );
   }
@@ -401,6 +419,7 @@ class SearchBar extends Component {
           handleClose={this.closeSearch}
         />
         <div className="search-bottom-bar">
+          {this.renderSearchType()}
           {this.renderSearchModifiers()}
         </div>
       </div>
