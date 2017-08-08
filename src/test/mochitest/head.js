@@ -587,6 +587,10 @@ const shiftOrAlt = isMac
   ? { accelKey: true, shiftKey: true }
   : { accelKey: true, altKey: true };
 
+const cmdShift = isMac
+  ? { accelKey: true, shiftKey: true, metaKey: true }
+  : { accelKey: true, altKey: true, ctrlKey: true };
+
 // On Mac, going to beginning/end only works with meta+left/right.  On
 // Windows, it only works with home/end.  On Linux, apparently, either
 // ctrl+left/right or home/end work.
@@ -602,6 +606,7 @@ const keyMappings = {
   inspector: { code: "c", modifiers: shiftOrAlt },
   sourceSearch: { code: "p", modifiers: cmdOrCtrl },
   fileSearch: { code: "f", modifiers: cmdOrCtrl },
+  functionSearch: { code: "o", modifiers: cmdShift },
   Enter: { code: "VK_RETURN" },
   ShiftEnter: { code: "VK_RETURN", modifiers: shiftOrAlt },
   Up: { code: "VK_UP" },
@@ -612,6 +617,7 @@ const keyMappings = {
   Start: startKey,
   Tab: { code: "VK_TAB" },
   Escape: { code: "VK_ESCAPE" },
+  Delete: { code: "VK_DELETE" },
   pauseKey: { code: "VK_F8" },
   resumeKey: { code: "VK_F8" },
   stepOverKey: { code: "VK_F10" },
@@ -632,7 +638,7 @@ const keyMappings = {
  * @static
  */
 function pressKey(dbg, keyName) {
-  let keyEvent = keyMappings[keyName];
+  const keyEvent = keyMappings[keyName];
 
   const { code, modifiers } = keyEvent;
   return EventUtils.synthesizeKey(code, modifiers || {}, dbg.win);
@@ -681,7 +687,8 @@ const selectors = {
   editorFooter: ".editor-pane .source-footer",
   sourceNode: i => `.sources-list .tree-node:nth-child(${i})`,
   sourceNodes: ".sources-list .tree-node",
-  sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`
+  sourceArrow: i => `.sources-list .tree-node:nth-child(${i}) .arrow`,
+  resultItems: `.result-list .result-item`
 };
 
 function getSelector(elementName, ...args) {

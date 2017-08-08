@@ -14,13 +14,24 @@ function getFocusedEl(dbg) {
 
 add_task(function*() {
   const dbg = yield initDebugger("doc-scripts.html");
-  const { selectors: { getBreakpoints, getBreakpoint }, getState } = dbg;
+  const {
+    selectors: { getBreakpoints, getBreakpoint, getActiveSearch },
+    getState
+  } = dbg;
   const source = findSource(dbg, "simple1.js");
 
   yield selectSource(dbg, source.url);
 
   const cm = getCM(dbg);
   pressKey(dbg, "fileSearch");
+  is(dbg.selectors.getActiveSearchState(dbg.getState()), "file");
+
+  // test closing and re-opening
+  pressKey(dbg, "Escape");
+  is(dbg.selectors.getActiveSearchState(dbg.getState()), null);
+
+  pressKey(dbg, "fileSearch");
+
   const el = getFocusedEl(dbg);
 
   type(dbg, "con");

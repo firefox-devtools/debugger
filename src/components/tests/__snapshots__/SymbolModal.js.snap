@@ -39,7 +39,7 @@ exports[`SymbolModal should render 1`] = `
             </div>
             <ResultList items={{...}} selected={0} selectItem={[Function]} size=\\"small\\">
               <ul className=\\"result-list small\\">
-                <li onClick={[Function]} title=\\"anonymous\\" className=\\"selected\\">
+                <li onClick={[Function]} title=\\"anonymous\\" className=\\"result-item selected\\">
                   <div className=\\"title\\">
                     anonymous
                   </div>
@@ -47,7 +47,7 @@ exports[`SymbolModal should render 1`] = `
                     :4
                   </div>
                 </li>
-                <li onClick={[Function]} title=\\"render\\" className=\\"\\">
+                <li onClick={[Function]} title=\\"render\\" className=\\"result-item\\">
                   <div className=\\"title\\">
                     render
                   </div>
