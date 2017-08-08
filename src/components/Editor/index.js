@@ -37,6 +37,7 @@ import Breakpoints from "./Breakpoints";
 import HitMarker from "./HitMarker";
 import CallSites from "./CallSites";
 import DebugLine from "./DebugLine";
+import EmptyLines from "./EmptyLines";
 
 import {
   showSourceText,
@@ -52,6 +53,8 @@ import {
   toEditorLine,
   resetLineNumberFormat
 } from "../../utils/editor";
+
+import { isEmptyLineInSource } from "../../reducers/ast";
 
 import { isFirefox } from "devtools-config";
 import "./Editor.css";
@@ -346,7 +349,7 @@ class Editor extends PureComponent {
   }
 
   onGutterClick(cm, line, gutter, ev) {
-    const { selectedSource, toggleBreakpoint } = this.props;
+    const { selectedSource, toggleBreakpoint, isEmptyLine } = this.props;
 
     // ignore right clicks in the gutter
     if (
@@ -354,6 +357,10 @@ class Editor extends PureComponent {
       ev.which === 3 ||
       (selectedSource && selectedSource.get("isBlackBoxed"))
     ) {
+      return;
+    }
+
+    if (isEmptyLine(line)) {
       return;
     }
 
@@ -375,7 +382,8 @@ class Editor extends PureComponent {
       selectedSource,
       breakpoints,
       toggleBreakpoint,
-      toggleDisabledBreakpoint
+      toggleDisabledBreakpoint,
+      isEmptyLine
     } = this.props;
 
     if (selectedSource && selectedSource.get("isBlackBoxed")) {
@@ -385,6 +393,11 @@ class Editor extends PureComponent {
 
     const sourceId = selectedSource ? selectedSource.get("id") : "";
     const line = lineAtHeight(this.state.editor, sourceId, event);
+
+    if (isEmptyLine(line - 1)) {
+      return;
+    }
+
     const breakpoint = breakpoints.find(bp => bp.location.line === line);
 
     GutterMenu({
@@ -614,6 +627,14 @@ class Editor extends PureComponent {
     return <Footer editor={this.state.editor} horizontal={horizontal} />;
   }
 
+  renderEmptyLines() {
+    if (!this.state.editor || !this.props.selectedSource) {
+      return null;
+    }
+
+    return <EmptyLines editor={this.state.editor} />;
+  }
+
   renderBreakpoints() {
     if (!this.state.editor) {
       return null;
@@ -667,6 +688,7 @@ class Editor extends PureComponent {
         {this.renderCallSites()}
         {this.renderDebugLine()}
         {this.renderBreakpoints()}
+        {this.renderEmptyLines()}
       </div>
     );
   }
@@ -733,7 +755,10 @@ export default connect(
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),
       searchModifiers: getFileSearchModifierState(state),
-      linesInScope: getInScopeLines(state)
+      linesInScope: getInScopeLines(state),
+      selection: getSelection(state),
+      isEmptyLine: line =>
+        isEmptyLineInSource(state, line, selectedSource.toJS())
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
