@@ -192,6 +192,21 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
   };
 }
 
+/**
+ * Removes all breakpoints
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
+export function removeAllBreakpoints() {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const breakpoints = getBreakpoints(getState());
+    for (let [, breakpoint] of breakpoints) {
+      await dispatch(removeBreakpoint(breakpoint.location));
+    }
+  };
+}
+
 export function remapBreakpoints(sourceId: string) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());

@@ -16,6 +16,7 @@ import {
 import { makeLocationId } from "../../utils/breakpoint";
 import { endTruncateStr } from "../../utils/utils";
 import { getFilename } from "../../utils/source";
+import { showMenu, buildMenu } from "devtools-launchpad";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
 import get from "lodash/get";
@@ -73,6 +74,44 @@ class Breakpoints extends PureComponent {
     }
   }
 
+  showContextMenu(e, breakpoint) {
+    const { removeBreakpoint, removeAllBreakpoints } = this.props;
+
+    e.preventDefault();
+
+    const removeBreakpointLabel = L10N.getStr("breakpointMenuItem.deleteSelf");
+    const removeAllBreakpointsLabel = L10N.getStr(
+      "breakpointMenuItem.deleteAll"
+    );
+
+    const removeBreakpointKey = L10N.getStr(
+      "breakpointMenuItem.deleteAll.accesskey"
+    );
+    const removeAllBreakpointsKey = L10N.getStr(
+      "breakpointMenuItem.deleteAll.accesskey"
+    );
+
+    const deleteBreakpoint = {
+      id: "node-menu-delete-breakpoint",
+      label: removeBreakpointLabel,
+      accesskey: removeBreakpointKey,
+      disabled: false,
+      click: () => removeBreakpoint(breakpoint.location)
+    };
+
+    const deleteAllBreakpoints = {
+      id: "node-menu-delete-all-breakpoint",
+      label: removeAllBreakpointsLabel,
+      accesskey: removeAllBreakpointsKey,
+      disabled: false,
+      click: () => removeAllBreakpoints()
+    };
+
+    const items = [{ item: deleteBreakpoint }, { item: deleteAllBreakpoints }];
+
+    showMenu(e, buildMenu(items));
+  }
+
   selectBreakpoint(breakpoint) {
     const sourceId = breakpoint.location.sourceId;
     const line = breakpoint.location.line;
@@ -102,7 +141,8 @@ class Breakpoints extends PureComponent {
           "is-conditional": isConditional
         }),
         key: locationId,
-        onClick: () => this.selectBreakpoint(breakpoint)
+        onClick: () => this.selectBreakpoint(breakpoint),
+        onContextMenu: e => this.showContextMenu(e, breakpoint)
       },
       dom.input({
         type: "checkbox",
