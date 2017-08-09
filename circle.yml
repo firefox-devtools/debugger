@@ -28,7 +28,7 @@ test:
     - yarn lint-js
     - yarn lint-md
     - yarn flow
-    - ./bin/run-mochitests-docker
+    - ./bin/ci/run-mochitests-docker
   post:
     - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
     - yarn check --integrity
@@ -42,10 +42,12 @@ dependencies:
     - ~/downloads
     - ~/.cache/yarn
     - ~/.yarn
+    - ~/firefox
+
   override:
     - yarn install
     - yarn global add flow-coverage-report
-    - ./bin/update-docker
+    - ./bin/ci/update-docker
 
 general:
   artifacts:

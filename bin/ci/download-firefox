@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+ROOT=`dirname $0`
+FIREFOX_PATH="$ROOT/../../firefox"
+
+hg clone https://hg.mozilla.org/mozilla-central/ "$FIREFOX_PATH"

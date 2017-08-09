@@ -18,5 +18,6 @@ docker run -it \
   -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
   -e "DISPLAY=unix$DISPLAY" \
   --ipc host \
-  jryans/debugger-gecko \
-  /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/debugger/new/test/mochitest/browser.ini && ./mach build && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"
+  -v `pwd`/../firefox/:/firefox \
+  jasonlaster11/local-mc7 \
+  /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/debugger/new/test/mochitest/browser.ini && ./mach clobber && ./mach clobber python &&  ./mach build && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"
