@@ -11,7 +11,6 @@
 * [Logging](#logging)
 * [Testing](#testing)
   * [Unit Tests](#unit-tests)
-  * [Integration Tests](#integration-tests)
 * [Linting](#linting)
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
@@ -366,17 +365,6 @@ it("should render a button", () => {
   expect(wrapper).toMatchSnapshot();
 });
 ```
-
-#### Integration Tests
-
-The Debugger integration tests are run in two contexts: [firefox][mochitest] and the [web][mocha].
-We recommend running the tests in the browser as it's an easier development environment.
-
-+ [Overview](./integration-tests.md#overview)
-+ [Running the Tests](./integration-tests.md#running-the-tests)
-+ [Gotchas](./integration-tests.md#gotchas)
-+ [Writing Tests](./integration-tests.md#writing-tests)
-+ [Adding a New Test](./integration-tests.md#adding-a-new-test)
 
 ### Linting
 

@@ -1,4 +1,4 @@
-We use [mochitests](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest) to do integration testing. Mochitests are part of Firefox and allow us to test the debugger literally as you would use it (as a devtools panel). While we are developing the debugger locally in a tab, it's important that we test it as a devtools panel.
+We use [mochitests] to do integration testing. Mochitests are part of Firefox and allow us to test the debugger literally as you would use it (as a devtools panel). While we are developing the debugger locally in a tab, it's important that we test it as a devtools panel.
 
 Mochitests require a local checkout of the Firefox source code. This is because they are used to test a lot of Firefox, and you would usually run them inside Firefox. We are developing the debugger outside of Firefox, but still want to test it as a devtools panel, so we've figured out a way to use them. It may not be elegant, but it allows us to ensure a high quality Firefox debugger.
 
@@ -17,15 +17,13 @@ If you haven't set up the mochitest environment yet, just run this:
 ./bin/prepare-mochitests-dev
 ```
 
-This will set up everything you need. You should run this *every time* to start working on mochitests, as it makes sure your local copy of Firefox is up-to-date.
-
 On the first run, this will download a local copy of Firefox and set up an [artifact build](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Artifact_builds) (just think of a super fast Firefox build). It may take a while (10-15 minutes) to download and build Firefox.
 
 Now, you can run the mochitests like this:
 
 ```
 cd firefox
-./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/
+./mach mochitest devtools/client/debugger/new/test/mochitest/
 ```
 
 This works because we've symlinked the local mochitests into where the debugger lives in Firefox. Any changes to the tests in `src/test/mochitest` will be reflected and you can re-run the tests.
@@ -50,7 +48,7 @@ In the shell, navigate to the debugger.html project folder, and follow the Getti
 The mochitest are running against the compiled debugger bundle inside the Firefox checkout. This means that you need to update the bundle whenever you make code changes. `prepare-mochitests-dev` does this for you initially, but you can manually update it with:
 
 ```
-npm run copy-assets
+yarn copy-assets
 ```
 
 That will build the debugger and copy over all the relevant files into `firefox`, including mochitests. If you want it to only symlink the mochitests directory, pass `--symlink-mochitests` (which is what `prepare-mochitests-dev` does).
@@ -58,7 +56,7 @@ That will build the debugger and copy over all the relevant files into `firefox`
 It's annoying to have to manually update the bundle every single time though. If you want to automatically update the bundle in Firefox whenever you make a change, run this:
 
 ```
-npm run copy-assets-watch
+yarn copy-assets-watch
 ```
 
 Now you can make code changes the the bundle will be automatically built for you inside `firefox`, and you can simply run mochitests and edit code as much as you like.
@@ -105,8 +103,17 @@ Here are a few tips for writing mochitests:
   * `toolbox` - Devtools toolbox
   * `win` - The current debugger window
 
-* You can assert DOM structure like `is(dbg.win.document.querySelectorAll("#foo").length, 1, "...")`
-* If you need to access the content page, use `ContentTask.spawn`:
+
+### Testing the DOM
+
+You can find common elements in the debugger with the `findElement` function,
+which use shared selectors. You can also find any element with the
+`findElementWithSelector` function.
+
+### Evaluating in the debuggee
+
+If you want to evaluate a function in the debuggee context you can use
+the `invokeInTab` function. Under the hood it is using `ContentTask.spawn`.
 
 ```js
 ContentTask.spawn(gBrowser.selectedBrowser, null, function* () {
@@ -115,3 +122,5 @@ ContentTask.spawn(gBrowser.selectedBrowser, null, function* () {
 ```
 
 The above calls the function `foo` that exists in the page itself. You can also access the DOM this way: `content.document.querySelector`, if you want to click a button or do other things. You can even you use assertions inside this callback to check DOM state.
+
+[mochitests]: https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest
