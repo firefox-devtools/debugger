@@ -187,6 +187,22 @@ function waitForSources(dbg, ...sources) {
   );
 }
 
+/**
+ * Waits for a source to be loaded.
+ *
+ * @memberof mochitest/waits
+ * @param {Object} dbg
+ * @param {String} source
+ * @return {Promise}
+ * @static
+ */
+function waitForSource(dbg, url) {
+  return waitForState(dbg, state => {
+    const sources = dbg.selectors.getSources(state);
+    return sources.find(s => (s.get("url") || "").includes(url));
+  });
+}
+
 function waitForElement(dbg, selector) {
   return waitUntil(() => findElementWithSelector(dbg, selector));
 }
@@ -286,23 +302,30 @@ function isPaused(dbg) {
  * @param {Object} dbg
  * @static
  */
-function waitForPaused(dbg) {
-  return Task.spawn(function*() {
-    // We want to make sure that we get both a real paused event and
-    // that the state is fully populated. The client may do some more
-    // work (call other client methods) before populating the state.
-    yield waitForThreadEvents(dbg, "paused"), yield waitForState(dbg, state => {
-      const pause = dbg.selectors.getPause(state);
-      // Make sure we have the paused state.
-      if (!pause) {
-        return false;
-      }
-      // Make sure the source text is completely loaded for the
-      // source we are paused in.
-      const sourceId = pause && pause.frame && pause.frame.location.sourceId;
-      const source = dbg.selectors.getSource(dbg.getState(), sourceId);
-      return source && source.has("loading") && !source.get("loading");
-    });
+async function waitForPaused(dbg) {
+  // We want to make sure that we get both a real paused event and
+  // that the state is fully populated. The client may do some more
+  // work (call other client methods) before populating the state.
+  await waitForThreadEvents(dbg, "paused");
+
+  await waitForState(dbg, state => {
+    const pause = dbg.selectors.getPause(state);
+    // Make sure we have the paused state.
+    if (!pause) {
+      return false;
+    }
+
+    // Make sure the source text is completely loaded for the
+    // source we are paused in.
+    const sourceId = pause && pause.frame && pause.frame.location.sourceId;
+    const source = dbg.selectors.getSelectedSource(state);
+
+    return (
+      source &&
+      source.get("id") == sourceId &&
+      source.has("loading") &&
+      !source.get("loading")
+    );
   });
 }
 
