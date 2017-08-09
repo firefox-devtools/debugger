@@ -71,6 +71,8 @@ function start() {
     watch: args.watch
   }).then(() => {
     console.log("done: copy assets");
+  }).catch((err) => {
+    console.log(err)
   });
 }
 
