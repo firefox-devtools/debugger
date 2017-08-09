@@ -3,4 +3,9 @@
 ROOT=`dirname $0`
 FIREFOX_PATH="$ROOT/../../firefox"
 
-hg clone https://hg.mozilla.org/mozilla-central/ "$FIREFOX_PATH"
+
+if [ -d "$FIREFOX_PATH" ]; then
+  echo "firefox exists"
+else
+  hg clone https://hg.mozilla.org/mozilla-central/ "$FIREFOX_PATH"
+fi
