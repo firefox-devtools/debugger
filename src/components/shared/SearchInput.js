@@ -1,4 +1,4 @@
-import { DOM as dom, Component } from "react";
+import React, { Component } from "react";
 import { isEnabled } from "devtools-config";
 import Svg from "./Svg";
 import classnames from "classnames";
@@ -6,17 +6,22 @@ import CloseButton from "./Button/Close";
 import "./SearchInput.css";
 
 const arrowBtn = (onClick, type, className, tooltip) => {
-  return dom.button(
-    {
-      onClick,
-      type,
-      className,
-      title: tooltip,
-      key: type
-    },
-    Svg(type)
+  var props = {
+    onClick,
+    type,
+    className,
+    title: tooltip,
+    key: type
+  };
+
+  return (
+    <button {...props}>
+      {Svg(type)}
+    </button>
   );
 };
+
+arrowBtn.displayName = "ArrowButton";
 
 class SearchInput extends Component {
   displayName: "SearchInput";
@@ -85,9 +90,10 @@ class SearchInput extends Component {
       return;
     }
 
-    return dom.div(
-      { className: "search-nav-buttons" },
-      this.renderArrowButtons()
+    return (
+      <div className="search-nav-buttons">
+        {this.renderArrowButtons()}
+      </div>
     );
   }
 
@@ -105,31 +111,31 @@ class SearchInput extends Component {
       size
     } = this.props;
 
-    return dom.div(
-      {
-        className: `search-field ${size}`
-      },
-      this.renderSvg(),
-      dom.input({
-        className: classnames({
-          empty: this.shouldShowErrorEmoji()
-        }),
-        onChange,
-        onKeyDown,
-        onKeyUp,
-        onFocus,
-        onBlur,
-        placeholder,
-        value: query,
-        spellCheck: false,
-        ref: c => (this.$input = c)
+    const inputProps = {
+      className: classnames({
+        empty: this.shouldShowErrorEmoji()
       }),
-      dom.div({ className: "summary" }, summaryMsg || ""),
-      this.renderNav(),
-      CloseButton({
-        handleClick: handleClose,
-        buttonClass: size
-      })
+      onChange,
+      onKeyDown,
+      onKeyUp,
+      onFocus,
+      onBlur,
+      placeholder,
+      value: query,
+      spellCheck: false,
+      ref: c => (this.$input = c)
+    };
+
+    return (
+      <div className={classnames("search-field", size)}>
+        {this.renderSvg()}
+        <input {...inputProps} />
+        <div className="summary">
+          {summaryMsg || ""}
+        </div>
+        {this.renderNav()}
+        <CloseButton handleClick={handleClose} buttonClass={size} />
+      </div>
     );
   }
 }
