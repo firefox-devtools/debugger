@@ -6,6 +6,7 @@ machine:
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
     YARN_PATH: "$HOME/.yarn"
+    FIREFOX_PATH: "$HOME/firefox"
     YARN_VERSION: 0.24.5
     PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
   post:
@@ -28,11 +29,11 @@ test:
     # - yarn lint-js
     # - yarn lint-md
     # - yarn flow
-    - ./bin/ci/run-mochitests-docker
+    # - ./bin/ci/run-mochitests-docker
   post:
-    - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
-    - yarn check --integrity
-    - bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/jest-coverage/coverage-final.json
+    # - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
+    # - yarn check --integrity
+    # - bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/jest-coverage/coverage-final.json
 
 dependencies:
   pre:
@@ -48,7 +49,8 @@ dependencies:
     - yarn install
     - yarn global add flow-coverage-report
     - ./bin/ci/update-docker
-    - ./bin/ci/download-firefox
+    - ./bin/ci/download-firefox:
+        timeout: 6000
 
 general:
   artifacts:
