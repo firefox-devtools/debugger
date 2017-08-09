@@ -1,10 +1,14 @@
+## Mochttests
+
 We use [mochitests] to do integration testing. Mochitests are part of Firefox and allow us to test the debugger literally as you would use it (as a devtools panel). While we are developing the debugger locally in a tab, it's important that we test it as a devtools panel.
+
+![](http://g.recordit.co/VlzreUwq8k.gif)
+
+### Getting Started
 
 Mochitests require a local checkout of the Firefox source code. This is because they are used to test a lot of Firefox, and you would usually run them inside Firefox. We are developing the debugger outside of Firefox, but still want to test it as a devtools panel, so we've figured out a way to use them. It may not be elegant, but it allows us to ensure a high quality Firefox debugger.
 
 Mochitests live in `src/test/mochitest`.
-
-## Getting Started
 
 **Requirements**
 
@@ -19,11 +23,27 @@ If you haven't set up the mochitest environment yet, just run this:
 
 On the first run, this will download a local copy of Firefox and set up an [artifact build](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Artifact_builds) (just think of a super fast Firefox build). It may take a while (10-15 minutes) to download and build Firefox.
 
+### Running the tests
+
+1. start webpack builds in a local process `yarn copy-assets-watch`
+2. run the tests in a second process `yarn mochi`
+
+`mochi` passes its params along to `mochitest`, so you can include `--jsdebugger` and test globs
+
+* `yarn mochi --jsdebugger` opens a browser toolbox
+* `yarn mochi browser_dbg-editor-highlight` runs just one test
+
+### Appendix
+
+#### Mochitest CLI
+
 Now, you can run the mochitests like this:
 
 ```
 cd firefox
-./mach mochitest devtools/client/debugger/new/test/mochitest/
+./mach mochitest devtools/client/debugger/new # runs all the debugger tests
+./mach mochitest browser_dbg-editor-highlight # runs one test
+./mach mochitest --jsdebugger browser_dbg-editor-highlight # runs one test with the browser toolbox open
 ```
 
 This works because we've symlinked the local mochitests into where the debugger lives in Firefox. Any changes to the tests in `src/test/mochitest` will be reflected and you can re-run the tests.
@@ -33,7 +53,7 @@ Visit the [mochitest](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/
 * Passing `--jsdebugger` will open a JavaScript debugger and allow you to debug the tests (sometimes can be fickle)
 * Add `{ "logging": { "actions": true } }` to your local config file to see verbose logs of all the redux actions
 
-### For Windows Developers
+#### For Windows Developers
 
 The detailed instructions for setting up your environment to build Firefox for Windows can be found [here](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Windows_Prerequisites). You need to install the latest `MozBuild` package. You can open a unix-flavor shell by starting:
 
@@ -43,7 +63,7 @@ C:\mozilla-build\start-shell.bat
 
 In the shell, navigate to the debugger.html project folder, and follow the Getting Started instructions as mentioned.
 
-## Watching for Changes
+### Watching for Changes
 
 The mochitest are running against the compiled debugger bundle inside the Firefox checkout. This means that you need to update the bundle whenever you make code changes. `prepare-mochitests-dev` does this for you initially, but you can manually update it with:
 
@@ -60,15 +80,6 @@ yarn copy-assets-watch
 ```
 
 Now you can make code changes the the bundle will be automatically built for you inside `firefox`, and you can simply run mochitests and edit code as much as you like.
-
-## Running the Tests
-
-```
-cd firefox
-./mach mochitest devtools/client/debugger/new # runs all the debugger tests
-./mach mochitest browser_dbg-editor-highlight # runs one test
-./mach mochitest --jsdebugger browser_dbg-editor-highlight # runs one test with the browser toolbox open
-```
 
 ## Adding New Tests
 

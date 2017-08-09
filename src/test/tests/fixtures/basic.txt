@@ -1,0 +1,9 @@
+616 INFO Tab removed and finished closing
+612 INFO Leaving test bound
+614 INFO Waiting for event: 'TabClose' on [object XULElement].
+727 INFO ADD_BREAKPOINT dispatched 1 time(s)
+INFO Waiting for DISABLE_BREAKPOINT to dispatch 1 time(s) $
+367 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js
+TEST-SKIP | devtools/client/debugger/new/test/mochitest/browser_dbg-chrome-create.js | took 1ms
+142 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name -
+Console message: [JavaScript Warning: "Loading failed for the <script> with source “http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/simple1.js”." {file: "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html" line: 11}]
