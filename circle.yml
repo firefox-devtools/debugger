@@ -48,6 +48,7 @@ dependencies:
     - yarn install
     - yarn global add flow-coverage-report
     - ./bin/ci/update-docker
+    - ./bin/ci/download-firefox
 
 general:
   artifacts:
