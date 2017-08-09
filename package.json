@@ -125,7 +125,7 @@
     "remark-validate-links": "^6.1.0",
     "rimraf": "^2.6.1",
     "stylelint": "^7.12.0",
-    "webpack": "3.5.0",
+    "webpack": "3.5.2",
     "workerjs": "github:jasonLaster/workerjs",
     "yarn": "0.28.1"
   },
