@@ -30,42 +30,24 @@ ShallowWrapper {
         <div
             className="search-modifiers"
         >
-            <button
+            <SearchModBtn
                 className="regex-match-btn"
-                onClick={[Function]}
-                title="Regex"
-            >
-                <InlineSVG
-                    className="regex-match"
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
-                />
-            </button>
-            <button
+                modVal="regexMatch"
+                svgName="regex-match"
+                tooltip="Regex"
+            />
+            <SearchModBtn
                 className="case-sensitive-btn"
-                onClick={[Function]}
-                title="Case sensitive"
-            >
-                <InlineSVG
-                    className="case-match"
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
-                />
-            </button>
-            <button
+                modVal="caseSensitive"
+                svgName="case-match"
+                tooltip="Case sensitive"
+            />
+            <SearchModBtn
                 className="whole-word-btn"
-                onClick={[Function]}
-                title="Whole word"
-            >
-                <InlineSVG
-                    className="whole-word-match"
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
-                />
-            </button>
+                modVal="wholeWord"
+                svgName="whole-word-match"
+                tooltip="Whole word"
+            />
         </div>
     </div>
 </div>,
@@ -92,42 +74,24 @@ ShallowWrapper {
             <div
                   className="search-modifiers"
             >
-                  <button
+                  <SearchModBtn
                         className="regex-match-btn"
-                        onClick={[Function]}
-                        title="Regex"
-                  >
-                        <InlineSVG
-                              className="regex-match"
-                              element="i"
-                              raw={false}
-                              src="<svg></svg>"
-                        />
-                  </button>
-                  <button
+                        modVal="regexMatch"
+                        svgName="regex-match"
+                        tooltip="Regex"
+                  />
+                  <SearchModBtn
                         className="case-sensitive-btn"
-                        onClick={[Function]}
-                        title="Case sensitive"
-                  >
-                        <InlineSVG
-                              className="case-match"
-                              element="i"
-                              raw={false}
-                              src="<svg></svg>"
-                        />
-                  </button>
-                  <button
+                        modVal="caseSensitive"
+                        svgName="case-match"
+                        tooltip="Case sensitive"
+                  />
+                  <SearchModBtn
                         className="whole-word-btn"
-                        onClick={[Function]}
-                        title="Whole word"
-                  >
-                        <InlineSVG
-                              className="whole-word-match"
-                              element="i"
-                              raw={false}
-                              src="<svg></svg>"
-                        />
-                  </button>
+                        modVal="wholeWord"
+                        svgName="whole-word-match"
+                        tooltip="Whole word"
+                  />
             </div>
       </div>
 </div>,
@@ -248,42 +212,24 @@ ShallowWrapper {
                     <div
                               className="search-modifiers"
                     >
-                              <button
+                              <SearchModBtn
                                         className="regex-match-btn"
-                                        onClick={[Function]}
-                                        title="Regex"
-                              >
-                                        <InlineSVG
-                                                  className="regex-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
-                              <button
+                                        modVal="regexMatch"
+                                        svgName="regex-match"
+                                        tooltip="Regex"
+                              />
+                              <SearchModBtn
                                         className="case-sensitive-btn"
-                                        onClick={[Function]}
-                                        title="Case sensitive"
-                              >
-                                        <InlineSVG
-                                                  className="case-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
-                              <button
+                                        modVal="caseSensitive"
+                                        svgName="case-match"
+                                        tooltip="Case sensitive"
+                              />
+                              <SearchModBtn
                                         className="whole-word-btn"
-                                        onClick={[Function]}
-                                        title="Whole word"
-                              >
-                                        <InlineSVG
-                                                  className="whole-word-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
+                                        modVal="wholeWord"
+                                        svgName="whole-word-match"
+                                        tooltip="Whole word"
+                              />
                     </div>
           </div>
 </div>,
@@ -310,42 +256,24 @@ ShallowWrapper {
                     <div
                               className="search-modifiers"
                     >
-                              <button
+                              <SearchModBtn
                                         className="regex-match-btn"
-                                        onClick={[Function]}
-                                        title="Regex"
-                              >
-                                        <InlineSVG
-                                                  className="regex-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
-                              <button
+                                        modVal="regexMatch"
+                                        svgName="regex-match"
+                                        tooltip="Regex"
+                              />
+                              <SearchModBtn
                                         className="case-sensitive-btn"
-                                        onClick={[Function]}
-                                        title="Case sensitive"
-                              >
-                                        <InlineSVG
-                                                  className="case-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
-                              <button
+                                        modVal="caseSensitive"
+                                        svgName="case-match"
+                                        tooltip="Case sensitive"
+                              />
+                              <SearchModBtn
                                         className="whole-word-btn"
-                                        onClick={[Function]}
-                                        title="Whole word"
-                              >
-                                        <InlineSVG
-                                                  className="whole-word-match"
-                                                  element="i"
-                                                  raw={false}
-                                                  src="<svg></svg>"
-                                        />
-                              </button>
+                                        modVal="wholeWord"
+                                        svgName="whole-word-match"
+                                        tooltip="Whole word"
+                              />
                     </div>
           </div>
 </div>,
