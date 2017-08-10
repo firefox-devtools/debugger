@@ -39,18 +39,17 @@ dependencies:
   pre:
     - ./bin/install-yarn
     - yarn global add greenkeeper-lockfile@1
-  cache_directories:
-    - ~/downloads
-    - ~/.cache/yarn
-    - ~/.yarn
-    - ~/firefox
-
-  override:
     - yarn install
     - yarn global add flow-coverage-report
     - ./bin/ci/update-docker
     - ./bin/ci/download-firefox:
         timeout: 6000
+
+  cache_directories:
+    - ~/downloads
+    - ~/.cache/yarn
+    - ~/.yarn
+    - ~/firefox
 
 general:
   artifacts:
