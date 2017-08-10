@@ -1,5 +1,6 @@
 const React = require("react");
 const InlineSVG = require("svg-inline-react");
+const { isDevelopment } = require("devtools-config");
 
 const svg = {
   "angle-brackets": require("./angle-brackets.svg"),
@@ -54,8 +55,15 @@ const svg = {
 module.exports = function(name, props) {
   // eslint-disable-line
   if (!svg[name]) {
-    throw new Error("Unknown SVG: " + name);
+    const error = "Unknown SVG: " + name;
+    if (isDevelopment()) {
+      throw new Error(error);
+    }
+
+    console.warn(error);
+    return;
   }
+
   let className = name;
   if (props && props.className) {
     className = `${name} ${props.className}`;
