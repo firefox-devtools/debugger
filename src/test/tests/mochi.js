@@ -20,7 +20,11 @@ describe("mochi", () => {
 
   it("error", () => {
     const out = simulateMochitest("error.txt");
+    expect(out).toMatchSnapshot();
+  });
 
+  it("console_error", () => {
+    const out = simulateMochitest("console_error.txt");
     expect(out).toMatchSnapshot();
   });
 });
