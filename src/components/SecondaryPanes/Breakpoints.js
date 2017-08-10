@@ -85,7 +85,7 @@ class Breakpoints extends PureComponent {
     );
 
     const removeBreakpointKey = L10N.getStr(
-      "breakpointMenuItem.deleteAll.accesskey"
+      "breakpointMenuItem.deleteSelf.accesskey"
     );
     const removeAllBreakpointsKey = L10N.getStr(
       "breakpointMenuItem.deleteAll.accesskey"
