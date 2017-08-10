@@ -61,11 +61,8 @@
   width: 16px;
 }
 
-.search-bottom-bar .search-modifiers button svg:hover {
-  cursor: pointer;
-}
-
 .search-bottom-bar .search-modifiers button:hover {
+  cursor: pointer;
   background: var(--theme-toolbar-background-hover);
 }
 

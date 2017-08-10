@@ -388,9 +388,7 @@ class SearchBar extends Component {
       <div className="search-type-toggles">
         <span
           className="search-type-name"
-          onClick={() => {
-            this.props.setActiveSearch("symbol");
-          }}
+          onClick={() => this.props.setActiveSearch("symbol")}
         >
           {L10N.getStr("symbolSearch.search.functionsPlaceholder")}
         </span>
