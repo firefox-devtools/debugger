@@ -102,6 +102,7 @@ class Editor extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    this.state.editor.codeMirror.startOperation();
     // This lifecycle method is responsible for updating the editor
     // text.
     const { selectedSource, selectedLocation } = nextProps;
@@ -260,6 +261,8 @@ class Editor extends PureComponent {
     if (selectedSource && selectedSource.has("text")) {
       this.highlightLine();
     }
+
+    this.state.editor.codeMirror.endOperation();
   }
 
   onToggleBreakpoint(key, e) {

@@ -55,7 +55,7 @@
     "babel-traverse": "^6.22.1",
     "babel-types": "^6.22.0",
     "babylon": "^6.15.0",
-    "codemirror": "^5.1.0",
+    "codemirror": "^5.28.0",
     "devtools-components": "^0.0.1",
     "devtools-launchpad": "=0.0.89",
     "devtools-reps": "^0.10.0",
