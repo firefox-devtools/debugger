@@ -15,15 +15,6 @@ import ObjectInspector from "../shared/ObjectInspector";
 
 import "./Scopes.css";
 
-function info(text) {
-  return (
-    <div className="pane-info">
-      {text}
-    </div>
-  );
-}
-info.displayName = "paneInfo";
-
 class Scopes extends PureComponent {
   state: {
     scopes: any
@@ -59,19 +50,24 @@ class Scopes extends PureComponent {
     const { pauseInfo, loadObjectProperties, loadedObjects } = this.props;
     const { scopes } = this.state;
 
-    let scopeInspector = info(L10N.getStr("scopes.notAvailable"));
     if (scopes) {
-      scopeInspector = (
-        <ObjectInspector
-          roots={scopes}
-          getObjectProperties={id => loadedObjects[id]}
-          loadObjectProperties={loadObjectProperties}
-        />
+      return (
+        <div className="pane scopes-list">
+          <ObjectInspector
+            roots={scopes}
+            getObjectProperties={id => loadedObjects[id]}
+            loadObjectProperties={loadObjectProperties}
+          />
+        </div>
       );
     }
     return (
       <div className="pane scopes-list">
-        {pauseInfo ? scopeInspector : info(L10N.getStr("scopes.notPaused"))}
+        <div className="pane-info">
+          {pauseInfo
+            ? L10N.getStr("scopes.notAvailable")
+            : L10N.getStr("scopes.notPaused")}
+        </div>
       </div>
     );
   }
