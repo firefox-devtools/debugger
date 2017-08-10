@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, PureComponent, createFactory } from "react";
+import React, { PropTypes, PureComponent } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
@@ -11,14 +11,9 @@ import {
 } from "../../selectors";
 import { getScopes } from "../../utils/scopes";
 
-import _ObjectInspector from "../shared/ObjectInspector";
-const ObjectInspector = createFactory(_ObjectInspector);
+import ObjectInspector from "../shared/ObjectInspector";
 
 import "./Scopes.css";
-
-function info(text) {
-  return dom.div({ className: "pane-info" }, text);
-}
 
 class Scopes extends PureComponent {
   state: {
@@ -55,18 +50,25 @@ class Scopes extends PureComponent {
     const { pauseInfo, loadObjectProperties, loadedObjects } = this.props;
     const { scopes } = this.state;
 
-    let scopeInspector = info(L10N.getStr("scopes.notAvailable"));
     if (scopes) {
-      scopeInspector = ObjectInspector({
-        roots: scopes,
-        getObjectProperties: id => loadedObjects[id],
-        loadObjectProperties: loadObjectProperties
-      });
+      return (
+        <div className="pane scopes-list">
+          <ObjectInspector
+            roots={scopes}
+            getObjectProperties={id => loadedObjects[id]}
+            loadObjectProperties={loadObjectProperties}
+          />
+        </div>
+      );
     }
-
-    return dom.div(
-      { className: "pane scopes-list" },
-      pauseInfo ? scopeInspector : info(L10N.getStr("scopes.notPaused"))
+    return (
+      <div className="pane scopes-list">
+        <div className="pane-info">
+          {pauseInfo
+            ? L10N.getStr("scopes.notAvailable")
+            : L10N.getStr("scopes.notPaused")}
+        </div>
+      </div>
     );
   }
 }
