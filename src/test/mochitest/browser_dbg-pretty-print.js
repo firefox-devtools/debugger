@@ -8,9 +8,10 @@ add_task(function*() {
 
   yield selectSource(dbg, "math.min.js", 2);
   clickElement(dbg, "prettyPrintButton");
-  yield waitForDispatch(dbg, "SELECT_SOURCE");
 
+  yield waitForSource(dbg, "math.min.js:formatted");
   const ppSrc = findSource(dbg, "math.min.js:formatted");
+
   ok(ppSrc, "Pretty-printed source exists");
 
   // this is not implemented yet
