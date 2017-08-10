@@ -28,8 +28,23 @@ ShallowWrapper {
         className="search-bottom-bar"
     >
         <div
+            className="search-type-toggles"
+        >
+            <span
+                className="search-type-name"
+                onClick={[Function]}
+            >
+                Search functions…
+            </span>
+        </div>
+        <div
             className="search-modifiers"
         >
+            <span
+                className="search-type-name"
+            >
+                Modifiers:
+            </span>
             <SearchModBtn
                 className="regex-match-btn"
                 modVal="regexMatch"
@@ -72,8 +87,23 @@ ShallowWrapper {
             className="search-bottom-bar"
       >
             <div
+                  className="search-type-toggles"
+            >
+                  <span
+                        className="search-type-name"
+                        onClick={[Function]}
+                  >
+                        Search functions…
+                  </span>
+            </div>
+            <div
                   className="search-modifiers"
             >
+                  <span
+                        className="search-type-name"
+                  >
+                        Modifiers:
+                  </span>
                   <SearchModBtn
                         className="regex-match-btn"
                         modVal="regexMatch"
@@ -210,8 +240,23 @@ ShallowWrapper {
                     className="search-bottom-bar"
           >
                     <div
+                              className="search-type-toggles"
+                    >
+                              <span
+                                        className="search-type-name"
+                                        onClick={[Function]}
+                              >
+                                        Search functions…
+                              </span>
+                    </div>
+                    <div
                               className="search-modifiers"
                     >
+                              <span
+                                        className="search-type-name"
+                              >
+                                        Modifiers:
+                              </span>
                               <SearchModBtn
                                         className="regex-match-btn"
                                         modVal="regexMatch"
@@ -254,8 +299,23 @@ ShallowWrapper {
                     className="search-bottom-bar"
           >
                     <div
+                              className="search-type-toggles"
+                    >
+                              <span
+                                        className="search-type-name"
+                                        onClick={[Function]}
+                              >
+                                        Search functions…
+                              </span>
+                    </div>
+                    <div
                               className="search-modifiers"
                     >
+                              <span
+                                        className="search-type-name"
+                              >
+                                        Modifiers:
+                              </span>
                               <SearchModBtn
                                         className="regex-match-btn"
                                         modVal="regexMatch"
