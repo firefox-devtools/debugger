@@ -17,4 +17,10 @@ describe("mochi", () => {
     const out = simulateMochitest("full.txt");
     expect(out).toMatchSnapshot();
   });
+
+  it("error", () => {
+    const out = simulateMochitest("error.txt");
+
+    expect(out).toMatchSnapshot();
+  });
 });

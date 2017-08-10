@@ -6,10 +6,7 @@ const path = require("path");
 
 const blacklist = [
   "^s*$",
-  "^###.*",
   '^"}]',
-  "pk12util",
-  "GECKO\\(",
   "Unknown property",
   "Error in parsing value",
   "Unknown pseudo-class",
@@ -17,7 +14,6 @@ const blacklist = [
   "runtests\\.py",
   "MochitestServer",
   "Main app process",
-  "Application command",
   "launched child process",
   "zombiecheck",
   "Stopping web server",
@@ -26,8 +22,9 @@ const blacklist = [
   "leakcheck",
   "Buffered messages",
   "Browser Chrome Test Summary",
-  "End BrowserChrome Test Results",
   "Buffered messages finished",
+  "CFMessagePort",
+  "Completed ShutdownLeaks",
   "SUITE-END",
   "failed to bind",
   "Use of nsIFile in content process is deprecated.",
@@ -35,30 +32,57 @@ const blacklist = [
   "The character encoding of the HTML document was not declared.",
   "This site appears to use a scroll-linked positioning effect",
   "Entering test bound",
-  "Checking for orphan ssltunnel",
-  "Checking for orphan xpcshell processes...",
   "Shutting down...",
   "Leaving test bound",
+  "MEMORY STAT",
+  "TELEMETRY PING",
+  "started process",
+  "bootstrap_defs.h",
+  "Listening on port",
   "Removing tab.",
   "Tab removed and finished closing",
   "TabClose",
-  "ttys001",
-  "SUITE-START",
-  "^dir:",
-  "Start BrowserChrome",
   "checking window state",
   "Opening the toolbox",
   "Toolbox opened and focused",
   "Tab added and finished loading"
 ];
 
+let mode = "starting";
+
 function sanitizeLine(line) {
   return line.trim().replace(/\\"/g, '"').replace(/\\"/g, '"');
+}
+
+function onGecko(line) {
+  const [, msg] = line.match(/^GECKO.*?\|(.*)$/);
+
+  if (mode == "starting") {
+    return;
+  }
+
+  if (line.match(/\*{5,}/)) {
+    mode = mode == "stack" ? null : "stack";
+    if (mode == "stack") {
+      return `   ${chalk.red("Stack Trace")}`;
+    }
+    return;
+  }
+
+  if (mode == "stack") {
+    return `   > ${msg}`;
+  }
+
+  return msg;
 }
 
 function onLine(line) {
   line = sanitizeLine(line);
   if (line.match(new RegExp(`(${blacklist.join("|")})`))) {
+    return;
+  }
+
+  if (mode == "done") {
     return;
   }
 
@@ -70,11 +94,22 @@ function onLine(line) {
     return onInfo(line);
   }
 
+  if (line.match(/GECKO\(/)) {
+    return onGecko(line);
+  }
+
   if (line.match(/Console message/)) {
     return onConsole(line);
   }
 
-  return `${line}`;
+  if (line.includes("End BrowserChrome Test Results")) {
+    mode = "done";
+    return;
+  }
+
+  if (mode != "starting") {
+    return `${line}`;
+  }
 }
 
 function onTestInfo(line) {
@@ -84,7 +119,7 @@ function onTestInfo(line) {
     return line.trim();
   }
 
-  const [, type, _path, msg] = res;
+  const [, type, _path, , msg] = res;
 
   if (type == "TEST-PASS") {
     return ` ${chalk.cyan(type)} ${msg}`;
@@ -92,22 +127,26 @@ function onTestInfo(line) {
 
   const file = path.basename(_path);
 
-  let prefix =
-    type == "TEST-OK"
-      ? chalk.green(type)
-      : type == "TEST-UNEXPECTED-FAURE" ? chalk.red(type) : chalk.blue(type);
+  if (type == "TEST-UNEXPECTED-FAIL") {
+    return `  ${chalk.red(type)} ${file} - ${msg}`;
+  }
 
-  return `${prefix} ${file}`;
+  let prefix = type == "TEST-OK" ? chalk.green(type) : chalk.blue(type);
+
+  return `  ${prefix} ${file}`;
 }
 
 function onInfo(line) {
-  const res = line.match(/.*INFO(.*)$/);
+  const [, msg] = line.match(/.*INFO(.*)$/);
 
-  if (!res) {
+  if (msg.includes("Start BrowserChrome Test Results") && mode == "starting") {
+    mode = null;
     return;
   }
 
-  const [, msg] = res;
+  if (mode == "starting") {
+    return;
+  }
 
   if (line.match(/(Passed|Failed|Todo|Mode|Shutdown)/)) {
     return;
@@ -157,7 +196,7 @@ async function startWebpack() {
   });
 }
 
-function runMochitests() {
+function runMochitests(args) {
   shell.cd("firefox");
   const command = `./mach mochitest ${args.join(" ")}`;
   console.log(chalk.blue(command));
@@ -192,7 +231,7 @@ async function run(args) {
   // run one test and then be able to kill the run and re-run. kinda like jest --watch
   // await startWebpack()
 
-  runMochitests();
+  runMochitests(args);
 }
 
 if (process.mainModule.filename.includes("bin/mochi.js")) {
