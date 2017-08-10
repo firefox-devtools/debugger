@@ -1,16 +1,13 @@
 // @flow
 
-import { Component, DOM as dom, createFactory } from "react";
+import React, { Component } from "react";
 import { filter } from "fuzzaldrin-plus";
 import classnames from "classnames";
 import { scrollList } from "../../utils/result-list";
 import "./Autocomplete.css";
 
-import _SearchInput from "./SearchInput";
-const SearchInput = createFactory(_SearchInput);
-
-import _ResultList from "./ResultList";
-const ResultList = createFactory(_ResultList);
+import SearchInput from "./SearchInput";
+import ResultList from "./ResultList";
 
 type State = {
   inputValue: string,
@@ -101,18 +98,21 @@ export default class Autocomplete extends Component {
     const { size } = this.props;
 
     if (results.length) {
-      return ResultList({
+      const props = {
         items: results,
         selected: this.state.selectedIndex,
         selectItem: this.props.selectItem,
         close: this.props.close,
         size,
         ref: "resultList"
-      });
+      };
+
+      return <ResultList {...props} />;
     } else if (this.state.inputValue && !results.length) {
-      return dom.div(
-        { className: "no-result-msg absolute-center" },
-        L10N.getStr("sourceSearch.noResults2")
+      return (
+        <div className="no-result-msg absolute-center">
+          {L10N.getStr("sourceSearch.noResults2")}
+        </div>
       );
     }
   }
@@ -125,27 +125,31 @@ export default class Autocomplete extends Component {
       "sourceSearch.resultsSummary1",
       searchResults.length
     );
-    return dom.div(
-      { className: classnames("autocomplete", { focused }) },
-      SearchInput({
-        query: this.state.inputValue,
-        count: searchResults.length,
-        placeholder: this.props.placeholder,
-        size,
-        showErrorEmoji: true,
-        summaryMsg,
-        onChange: e =>
-          this.setState({
-            inputValue: e.target.value,
-            selectedIndex: 0
-          }),
-        onFocus: () => this.setState({ focused: true }),
-        onBlur: () => this.setState({ focused: false }),
-        onKeyDown: this.onKeyDown,
-        handleClose: this.props.close
-      }),
-      children,
-      this.renderResults(searchResults)
+
+    const searchProps = {
+      query: this.state.inputValue,
+      count: searchResults.length,
+      placeholder: this.props.placeholder,
+      size,
+      showErrorEmoji: true,
+      summaryMsg,
+      onChange: e =>
+        this.setState({
+          inputValue: e.target.value,
+          selectedIndex: 0
+        }),
+      onFocus: () => this.setState({ focused: true }),
+      onBlur: () => this.setState({ focused: false }),
+      onKeyDown: this.onKeyDown,
+      handleClose: this.props.close
+    };
+
+    return (
+      <div className={classnames("autocomplete", { focused })}>
+        <SearchInput {...searchProps} />
+        {children}
+        {this.renderResults(searchResults)}
+      </div>
     );
   }
 }
