@@ -57,7 +57,7 @@
     "babylon": "^6.15.0",
     "codemirror": "^5.1.0",
     "devtools-components": "^0.0.1",
-    "devtools-launchpad": "=0.0.89",
+    "devtools-launchpad": "=0.0.92",
     "devtools-reps": "^0.10.0",
     "devtools-source-editor": "0.0.6",
     "devtools-source-map": "0.10.0",
