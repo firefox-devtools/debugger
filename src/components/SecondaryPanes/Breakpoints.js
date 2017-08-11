@@ -188,7 +188,8 @@ Breakpoints.propTypes = {
   enableBreakpoint: PropTypes.func.isRequired,
   disableBreakpoint: PropTypes.func.isRequired,
   selectSource: PropTypes.func.isRequired,
-  removeBreakpoint: PropTypes.func.isRequired
+  removeBreakpoint: PropTypes.func.isRequired,
+  removeAllBreakpoints: PropTypes.func.isRequired
 };
 
 function updateLocation(sources, pause, bp): LocalBreakpoint {
