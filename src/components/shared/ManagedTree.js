@@ -24,7 +24,8 @@ type Props = {
   onFocus?: (item: any) => void,
   onExpand?: (item: any) => void,
   onCollapse?: (item: any) => void,
-  renderItem: any
+  renderItem: any,
+  disabledFocus: boolean
 };
 
 type ManagedTreeState = {
