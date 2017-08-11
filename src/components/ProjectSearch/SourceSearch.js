@@ -1,10 +1,9 @@
-import { Component, PropTypes, createFactory } from "react";
+import React, { Component, PropTypes } from "react";
 
 import { isPretty, getSourcePath } from "../../utils/source";
 import { endTruncateStr } from "../../utils/utils";
 
-import _Autocomplete from "../shared/Autocomplete";
-const Autocomplete = createFactory(_Autocomplete);
+import Autocomplete from "../shared/Autocomplete";
 
 import type { SourcesMap } from "../../reducers/sources";
 
@@ -67,18 +66,21 @@ export default class SourceSearch extends Component {
 
   render() {
     const { sources, searchBottomBar, selectSource } = this.props;
-    return Autocomplete({
-      selectItem: (e, result) => {
-        selectSource(result.id);
-        this.close();
-      },
-      close: this.close,
-      items: this.searchResults(sources),
-      inputValue: this.state.inputValue,
-      placeholder: L10N.getStr("sourceSearch.search"),
-      size: "big",
-      children: searchBottomBar
-    });
+    return (
+      <Autocomplete
+        selectItem={(e, result) => {
+          selectSource(result.id);
+          this.close();
+        }}
+        close={this.close}
+        items={this.searchResults(sources)}
+        inputValue={this.state.inputValue}
+        placeholder={L10N.getStr("sourceSearch.search")}
+        size="big"
+      >
+        {searchBottomBar}
+      </Autocomplete>
+    );
   }
 }
 

@@ -1,10 +1,14 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
 import { isEnabled } from "devtools-config";
+import TextSearch from "./TextSearch";
+import SourceSearch from "./SourceSearch";
+import ToggleSearch from "./ToggleSearch";
+
 import {
   getSources,
   getActiveSearchState,
@@ -13,15 +17,6 @@ import {
 } from "../../selectors";
 
 import "./ProjectSearch.css";
-
-import _TextSearch from "./TextSearch";
-const TextSearch = createFactory(_TextSearch);
-
-import _SourceSearch from "./SourceSearch";
-const SourceSearch = createFactory(_SourceSearch);
-
-import _ToggleSearch from "./ToggleSearch";
-const ToggleSearch = createFactory(_ToggleSearch);
 
 class ProjectSearch extends Component {
   state: Object;
@@ -105,15 +100,16 @@ class ProjectSearch extends Component {
 
   renderSourceSearch() {
     const { sources, selectSource, closeActiveSearch } = this.props;
-    return SourceSearch({
-      sources,
-      selectSource,
-      closeActiveSearch,
-      searchBottomBar: ToggleSearch({
-        kind: "sources",
-        toggle: this.toggleProjectTextSearch
-      })
-    });
+    return (
+      <SourceSearch
+        sources={sources}
+        selectSource={selectSource}
+        closeActiveSearch={closeActiveSearch}
+        searchBottomBar={
+          <ToggleSearch kind="sources" toggle={this.toggleProjectTextSearch} />
+        }
+      />
+    );
   }
 
   renderTextSearch() {
@@ -126,18 +122,19 @@ class ProjectSearch extends Component {
       query
     } = this.props;
 
-    return TextSearch({
-      sources,
-      results: results.valueSeq().toJS(),
-      searchSources,
-      closeActiveSearch,
-      selectSource,
-      query,
-      searchBottomBar: ToggleSearch({
-        kind: "project",
-        toggle: this.toggleSourceSearch
-      })
-    });
+    return (
+      <TextSearch
+        sources={sources}
+        results={results.valueSeq().toJS()}
+        searchSources={searchSources}
+        closeActiveSearch={closeActiveSearch}
+        selectSource={selectSource}
+        query={query}
+        searchBottomBar={
+          <ToggleSearch kind="project" toggle={this.toggleSourceSearch} />
+        }
+      />
+    );
   }
 
   render() {
@@ -145,11 +142,12 @@ class ProjectSearch extends Component {
       return null;
     }
 
-    return dom.div(
-      { className: "search-container" },
-      this.isProjectSearchEnabled()
-        ? this.renderTextSearch()
-        : this.renderSourceSearch()
+    return (
+      <div className="search-container">
+        {this.isProjectSearchEnabled()
+          ? this.renderTextSearch()
+          : this.renderSourceSearch()}
+      </div>
     );
   }
 }
