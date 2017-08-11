@@ -19,8 +19,7 @@ let webpackConfig = {
     debugger: getEntry("main.js"),
     "parser-worker": getEntry("utils/parser/worker.js"),
     "pretty-print-worker": getEntry("utils/pretty-print/worker.js"),
-    "search-worker": getEntry("utils/search/worker.js"),
-    "integration-tests": getEntry("test/integration/tests.js")
+    "search-worker": getEntry("utils/search/worker.js")
   },
 
   output: {
