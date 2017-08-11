@@ -2608,6 +2608,10 @@ devtools-components@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.1.tgz#b81c05235667ce6fa07e0ae51f593cd73e709fb6"
 
+devtools-components@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.2.tgz#4eb22cb5140e65741b00b79a7f76454ff56fa501"
+
 devtools-config@^0.0.15:
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.15.tgz#1fbe75be3f4dc1159603927fc1dfa64d1d9f1202"
@@ -2705,12 +2709,12 @@ devtools-modules@^0.0.30:
   dependencies:
     jest "^19.0.2"
 
-devtools-reps@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.10.0.tgz#58ab501d793ae7901f128f6d1dee9b82a728b710"
+devtools-reps@0.12.1:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.12.1.tgz#5613858cd98289569f3b6e320e43d7f42db2eaeb"
   dependencies:
     classnames "^2.2.5"
-    devtools-components "^0.0.1"
+    devtools-components "^0.0.2"
     lodash "^4.17.2"
     react "=15.3.2"
     react-dom "=15.3.2"
@@ -2765,17 +2769,13 @@ dezalgo@^1.0.0:
     asap "^2.0.0"
     wrappy "1"
 
-diff@3.2.0:
+diff@3.2.0, diff@^3.0.0, diff@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
 
 diff@^1.3.2:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-1.4.0.tgz#7f28d2eb9ee7b15a97efd89ce63dcfdaa3ccbabf"
-
-diff@^3.0.0, diff@^3.2.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/diff/-/diff-3.3.0.tgz#056695150d7aa93237ca7e378ac3b1682b7963b9"
 
 diffie-hellman@^5.0.0:
   version "5.0.2"
@@ -2916,16 +2916,9 @@ domhandler@^2.3.0:
   dependencies:
     domelementtype "1"
 
-domutils@1.5.1:
+domutils@1.5.1, domutils@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/domutils/-/domutils-1.5.1.tgz#dcd8488a26f563d61079e48c9f7b7e32373682cf"
-  dependencies:
-    dom-serializer "0"
-    domelementtype "1"
-
-domutils@^1.5.1:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/domutils/-/domutils-1.6.2.tgz#1958cc0b4c9426e9ed367fb1c8e854891b0fa3ff"
   dependencies:
     dom-serializer "0"
     domelementtype "1"
