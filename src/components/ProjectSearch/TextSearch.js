@@ -1,13 +1,10 @@
-import { Component, DOM as dom, createFactory, PropTypes } from "react";
+import React, { Component, PropTypes } from "react";
 import classnames from "classnames";
 
 import escapeRegExp from "lodash/escapeRegExp";
 import Svg from "../shared/Svg";
-import _ManagedTree from "../shared/ManagedTree";
-const ManagedTree = createFactory(_ManagedTree);
-
-import _SearchInput from "../shared/SearchInput";
-const SearchInput = createFactory(_SearchInput);
+import ManagedTree from "../shared/ManagedTree";
+import SearchInput from "../shared/SearchInput";
 
 import "./TextSearch.css";
 
@@ -74,23 +71,28 @@ export default class TextSearch extends Component {
     if (focused) {
       this.focused = { setExpanded, file, expanded };
     }
-    return dom.div(
-      {
-        className: classnames("file-result", { focused }),
-        key: file.id,
-        onClick: e => setExpanded(file, !expanded)
-      },
-      Svg("arrow", {
-        className: classnames({
-          expanded
-        })
-      }),
-      Svg("file"),
-      dom.span({ className: "file-path" }, getRelativePath(file.filepath)),
-      dom.span(
-        { className: "matches-summary" },
-        ` (${file.matches.length} match${file.matches.length > 1 ? "es" : ""})`
-      )
+    const Arrow = Svg("arrow");
+    const File = Svg("file");
+
+    const matches = ` (${file.matches.length} match${file.matches.length > 1
+      ? "es"
+      : ""})`;
+
+    return (
+      <div
+        className={classnames("file-result", { focused })}
+        key={file.id}
+        onClick={e => setExpanded(file, !expanded)}
+      >
+        <Arrow className={classnames({ expanded })} />
+        <File />
+        <span className="file-path">
+          {getRelativePath(file.filepath)}
+        </span>
+        <span className="matches-summary">
+          {matches}
+        </span>
+      </div>
     );
   }
 
@@ -98,19 +100,16 @@ export default class TextSearch extends Component {
     if (focused) {
       this.focused = { match };
     }
-    return dom.div(
-      {
-        className: classnames("result", { focused }),
-        onClick: () => setTimeout(() => this.selectMatchItem(match), 50)
-      },
-      dom.span(
-        {
-          className: "line-number",
-          key: `${match.line}`
-        },
-        match.line
-      ),
-      this.renderMatchValue(match.value)
+    return (
+      <div
+        className={classnames("result", { focused })}
+        onClick={() => setTimeout(() => this.selectMatchItem(match), 50)}
+      >
+        <span className="line-number" key={match.line}>
+          {match.line}
+        </span>
+        {this.renderMatchValue(match.value)}
+      </div>
     );
   }
 
@@ -128,63 +127,68 @@ export default class TextSearch extends Component {
     matchIndexes.forEach((matchIndex, index) => {
       if (matchIndex > 0 && index === 0) {
         matches.push(
-          dom.span({ className: "line-match" }, value.slice(0, matchIndex))
+          <span className="line-match">
+            {value.slice(0, matchIndex)}
+          </span>
         );
       }
       if (matchIndex > matchIndexes[index - 1] + len) {
         matches.push(
-          dom.span(
-            { className: "line-match" },
-            value.slice(matchIndexes[index - 1] + len, matchIndex)
-          )
+          <span className="line-match">
+            {value.slice(matchIndexes[index - 1] + len, matchIndex)}
+          </span>
         );
       }
       matches.push(
-        dom.span(
-          { className: "query-match", key: index },
-          value.substr(matchIndex, len)
-        )
+        <span className="query-match" key={index}>
+          {value.substr(matchIndex, len)}
+        </span>
       );
       if (index === matchIndexes.length - 1) {
         matches.push(
-          dom.span(
-            {
-              className: "line-match"
-            },
-            value.slice(matchIndex + len, value.length)
-          )
+          <span className="line-match">
+            {value.slice(matchIndex + len, value.length)}
+          </span>
         );
       }
     });
 
-    return dom.span({ className: "line-value" }, ...matches);
+    return (
+      <span className="line-value">
+        {matches}
+      </span>
+    );
   }
 
   renderResults() {
     const { results } = this.props;
     results = results.filter(result => result.matches.length > 0);
+
     function getFilePath(item) {
       return item.filepath
         ? `${item.sourceId}`
         : `${item.sourceId}-${item.line}-${item.column}`;
     }
 
-    return ManagedTree({
-      getRoots: () => results,
-      getChildren: file => {
-        return file.matches || [];
-      },
-      itemHeight: 20,
-      autoExpand: 1,
-      autoExpandDepth: 1,
-      focused: results[0],
-      getParent: item => null,
-      getPath: getFilePath,
-      renderItem: (item, depth, focused, _, expanded, { setExpanded }) =>
-        item.filepath
-          ? this.renderFile(item, focused, expanded, setExpanded)
-          : this.renderMatch(item, focused)
-    });
+    function renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+      return item.filepath
+        ? this.renderFile(item, focused, expanded, setExpanded)
+        : this.renderMatch(item, focused);
+    }
+
+    return (
+      <ManagedTree
+        getRoots={() => results}
+        getChildren={file => file.matches || []}
+        itemHeight={20}
+        autoExpand={1}
+        autoExpandDepth={1}
+        focused={results[0]}
+        getParent={item => null}
+        getPath={getFilePath}
+        renderItem={renderItem}
+      />
+    );
   }
 
   resultCount() {
@@ -202,30 +206,31 @@ export default class TextSearch extends Component {
       resultCount
     );
 
-    return SearchInput({
-      query: this.state.inputValue,
-      count: resultCount,
-      placeholder: L10N.getStr("projectTextSearch.placeholder"),
-      size: "big",
-      summaryMsg,
-      onChange: e => this.inputOnChange(e),
-      onFocus: () => this.setState({ focused: true }),
-      onBlur: () => this.setState({ focused: false }),
-      onKeyDown: e => this.onKeyDown(e),
-      handleClose: this.close,
-      ref: "searchInput"
-    });
+    return (
+      <SearchInput
+        query={this.state.inputValue}
+        count={resultCount}
+        placeholder={L10N.getStr("projectTextSearch.placeholder")}
+        size="big"
+        summaryMsg={summaryMsg}
+        onChange={e => this.inputOnChange(e)}
+        onFocus={() => this.setState({ focused: true })}
+        onBlur={() => this.setState({ focused: false })}
+        onKeyDown={e => this.onKeyDown(e)}
+        handleClose={this.close}
+        ref="searchInput"
+      />
+    );
   }
 
   render() {
     const { searchBottomBar } = this.props;
-    return dom.div(
-      {
-        className: "project-text-search"
-      },
-      this.renderInput(),
-      searchBottomBar,
-      this.renderResults()
+    return (
+      <div className="project-text-search">
+        {this.renderInput()}
+        {searchBottomBar}
+        {this.renderResults()}
+      </div>
     );
   }
 }
