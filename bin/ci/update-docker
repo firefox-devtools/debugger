@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+DOWNLOADS_PATH=${DOWNLOADS_PATH:-"$HOME/downloads"}
+
+mkdir -p $DOWNLOADS_PATH
+
+if [[ -e $DOWNLOADS_PATH/local-mc.tar ]]; then
+  time docker load -i $DOWNLOADS_PATH/local-mc.tar;
+else
+  time docker pull jasonlaster11/local-mc7
+  docker images
+  time docker save jasonlaster11/local-mc7 > $DOWNLOADS_PATH/local-mc.tar
+fi

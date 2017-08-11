@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [ -d "$FIREFOX_PATH" ]; then
+  echo "firefox exists"
+else
+  hg clone https://hg.mozilla.org/mozilla-central/ "$FIREFOX_PATH"
+fi
