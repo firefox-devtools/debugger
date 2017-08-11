@@ -9,6 +9,7 @@
   top: 23px;
   width: var(--width);
   z-index: 1000;
+  overflow: scroll;
 }
 
 html[dir="rtl"] .dropdown {
