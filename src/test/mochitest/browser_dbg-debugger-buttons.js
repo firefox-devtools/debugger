@@ -24,7 +24,7 @@ function clickStepOut(dbg) {
  *  4. stepOver to the end of a function
  *  5. stepUp at the end of a function
  */
-add_task(function*() {
+add_task(function* () {
   const dbg = yield initDebugger("doc-debugger-statements.html");
 
   yield reload(dbg);

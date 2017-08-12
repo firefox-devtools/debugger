@@ -16,7 +16,7 @@ function caughtException() {
   3. pause on a caught error
   4. skip a caught error
 */
-add_task(function*() {
+add_task(function* () {
   const dbg = yield initDebugger("doc-exceptions.html");
 
   // test skipping an uncaught exception

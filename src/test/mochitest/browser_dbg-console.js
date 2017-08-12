@@ -25,7 +25,7 @@ function getSplitConsole(dbg) {
   });
 }
 
-add_task(function*() {
+add_task(function* () {
   Services.prefs.setBoolPref("devtools.toolbox.splitconsoleEnabled", true);
   const dbg = yield initDebugger("doc-script-switching.html");
 
