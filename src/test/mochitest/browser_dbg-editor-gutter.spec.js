@@ -16,12 +16,16 @@ function getLineEl(dbg, line) {
 
 function assertEditorBreakpoint(dbg, line, shouldExist) {
   const exists = !!getLineEl(dbg, line).querySelector(".new-breakpoint");
-  ok(exists === shouldExist,
-     "Breakpoint " + (shouldExist ? "exists" : "does not exist") +
-     " on line " + line);
+  ok(
+    exists === shouldExist,
+    "Breakpoint " +
+      (shouldExist ? "exists" : "does not exist") +
+      " on line " +
+      line
+  );
 }
 
-add_task(function* () {
+add_task(function*() {
   const dbg = yield initDebugger("doc-scripts.html");
   const { selectors: { getBreakpoints, getBreakpoint }, getState } = dbg;
   const source = findSource(dbg, "simple1.js");
@@ -44,8 +48,10 @@ add_task(function* () {
   clickGutter(dbg, 2);
   yield waitForDispatch(dbg, "ADD_BREAKPOINT");
   is(getBreakpoints(getState()).size, 1, "One breakpoint exists");
-  ok(getBreakpoint(getState(), { sourceId: source.id, line: 4 }),
-     "Breakpoint has correct line");
+  ok(
+    getBreakpoint(getState(), { sourceId: source.id, line: 4 }),
+    "Breakpoint has correct line"
+  );
   assertEditorBreakpoint(dbg, 2, false);
   assertEditorBreakpoint(dbg, 4, true);
 
