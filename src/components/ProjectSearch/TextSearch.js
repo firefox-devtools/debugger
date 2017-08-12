@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component, DOM as dom, PropTypes } from "react";
 import classnames from "classnames";
 
 import escapeRegExp from "lodash/escapeRegExp";
 import Svg from "../shared/Svg";
+
 import ManagedTree from "../shared/ManagedTree";
 import SearchInput from "../shared/SearchInput";
 
@@ -71,8 +72,14 @@ export default class TextSearch extends Component {
     if (focused) {
       this.focused = { setExpanded, file, expanded };
     }
-    const Arrow = Svg("arrow");
-    const File = Svg("file");
+
+    const svgArrow = Svg("arrow", {
+      className: classnames({
+        expanded
+      })
+    });
+
+    const svgFile = Svg("file");
 
     const matches = ` (${file.matches.length} match${file.matches.length > 1
       ? "es"
@@ -81,11 +88,11 @@ export default class TextSearch extends Component {
     return (
       <div
         className={classnames("file-result", { focused })}
-        key={file.id}
+        key={file.sourceId}
         onClick={e => setExpanded(file, !expanded)}
       >
-        <Arrow className={classnames({ expanded })} />
-        <File />
+        {svgArrow}
+        {svgFile}
         <span className="file-path">
           {getRelativePath(file.filepath)}
         </span>
@@ -153,28 +160,23 @@ export default class TextSearch extends Component {
       }
     });
 
-    return (
-      <span className="line-value">
-        {matches}
-      </span>
-    );
+    return dom.span({ className: "line-value" }, ...matches);
   }
 
   renderResults() {
     const { results } = this.props;
     results = results.filter(result => result.matches.length > 0);
-
     function getFilePath(item) {
       return item.filepath
         ? `${item.sourceId}`
         : `${item.sourceId}-${item.line}-${item.column}`;
     }
 
-    function renderItem(item, depth, focused, _, expanded, { setExpanded }) {
+    const renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
       return item.filepath
         ? this.renderFile(item, focused, expanded, setExpanded)
         : this.renderMatch(item, focused);
-    }
+    };
 
     return (
       <ManagedTree
