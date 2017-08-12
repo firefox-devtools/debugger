@@ -1,11 +1,9 @@
 // @flow
 
-import { DOM as dom, createFactory, Component, PropTypes } from "react";
+import React, { PropTypes, Component } from "react";
 import type { Children } from "react";
 import classnames from "classnames";
-import _Transition from "react-transition-group/Transition";
-const Transition = createFactory(_Transition);
-
+import Transition from "react-transition-group/Transition";
 import "./Modal.css";
 
 type ModalProps = {
@@ -14,7 +12,7 @@ type ModalProps = {
   handleClose: () => any
 };
 
-export class _Modal extends Component {
+export class Modal extends Component {
   props: ModalProps;
 
   constructor(props: ModalProps) {
@@ -30,25 +28,26 @@ export class _Modal extends Component {
   render() {
     const { status } = this.props;
 
-    return dom.div(
-      {
-        className: "modal-wrapper",
-        onClick: this.props.handleClose
-      },
-      dom.div(
-        { className: classnames("modal", status), onClick: this.onClick },
-        this.props.children
-      )
+    return (
+      <div
+        className= "modal-wrapper"
+        onClick= {this.props.handleClose}
+      >
+        <div
+          className= {classnames("modal", status)}
+          onClick= {this.onClick}
+        >
+          {this.props.children}
+        </div>
+      </div>
     );
   }
 }
 
-_Modal.displayName = "Modal";
-_Modal.contextTypes = {
+Modal.displayName = "Modal";
+Modal.contextTypes = {
   shortcuts: PropTypes.object
 };
-
-const Modal = createFactory(_Modal);
 
 type SlideProps = {
   in: boolean,
