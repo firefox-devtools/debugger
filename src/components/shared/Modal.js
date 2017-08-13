@@ -60,12 +60,9 @@ export default function Slide({
   children,
   handleClose
 }: SlideProps) {
-  return Transition({
-    in: inProp,
-    timeout: 175,
-    appear: true,
-    children: status => {
-      return Modal({ status, handleClose }, children);
-    }
-  });
+  return (
+    <Transition in={inProp} timeout={175} appear>
+      {status => <Modal status={status} handleClose={handleClose}>{children}</Modal>}
+    </Transition>
+  );
 }
