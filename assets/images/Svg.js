@@ -4,6 +4,7 @@ const { isDevelopment } = require("devtools-config");
 
 const svg = {
   "angle-brackets": require("./angle-brackets.svg"),
+  angular: require("./angular.svg"),
   arrow: require("./arrow.svg"),
   backbone: require("./backbone.svg"),
   blackBox: require("./blackBox.svg"),
@@ -55,12 +56,9 @@ const svg = {
 module.exports = function(name, props) {
   // eslint-disable-line
   if (!svg[name]) {
-    const error = "Unknown SVG: " + name;
     if (isDevelopment()) {
-      throw new Error(error);
+      console.warn(`Unknown SVG: ${name}`);
     }
-
-    console.warn(error);
     return;
   }
 
