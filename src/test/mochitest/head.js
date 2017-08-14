@@ -689,14 +689,15 @@ const selectors = {
   expressionNode: i =>
     `.expressions-list .expression-container:nth-child(${i}) .object-label`,
   expressionValue: i =>
-    `.expressions-list .expression-container:nth-child(${i}) .object-value`,
+    `.expressions-list .expression-container:nth-child(${i}) .object-delimiter + *`,
   expressionClose: i =>
     `.expressions-list .expression-container:nth-child(${i}) .close`,
   expressionNodes: ".expressions-list .tree-node",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list .breakpoint:nth-child(${i})`,
   scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
-  scopeValue: i => `.scopes-list .tree-node:nth-child(${i}) .object-value`,
+  scopeValue: i =>
+    `.scopes-list .tree-node:nth-child(${i}) .object-delimiter + *`,
   frame: i => `.frames ul li:nth-child(${i})`,
   frames: ".frames ul li",
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,

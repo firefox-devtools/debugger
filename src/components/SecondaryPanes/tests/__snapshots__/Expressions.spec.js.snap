@@ -19,7 +19,11 @@ ShallowWrapper {
         >
             <ObjectInspector
                 autoExpandDepth={0}
+                disableWrap={true}
+                disabledFocus={true}
+                getObjectEntries={[Function]}
                 getObjectProperties={[Function]}
+                loadObjectEntries={[Function]}
                 loadObjectProperties={[Function]}
                 onDoubleClick={[Function]}
                 roots={
@@ -54,7 +58,11 @@ ShallowWrapper {
         >
             <ObjectInspector
                 autoExpandDepth={0}
+                disableWrap={true}
+                disabledFocus={true}
+                getObjectEntries={[Function]}
                 getObjectProperties={[Function]}
+                loadObjectEntries={[Function]}
                 loadObjectProperties={[Function]}
                 onDoubleClick={[Function]}
                 roots={
@@ -105,7 +113,11 @@ ShallowWrapper {
             >
                   <ObjectInspector
                         autoExpandDepth={0}
+                        disableWrap={true}
+                        disabledFocus={true}
+                        getObjectEntries={[Function]}
                         getObjectProperties={[Function]}
+                        loadObjectEntries={[Function]}
                         loadObjectProperties={[Function]}
                         onDoubleClick={[Function]}
                         roots={
@@ -140,7 +152,11 @@ ShallowWrapper {
             >
                   <ObjectInspector
                         autoExpandDepth={0}
+                        disableWrap={true}
+                        disabledFocus={true}
+                        getObjectEntries={[Function]}
                         getObjectProperties={[Function]}
+                        loadObjectEntries={[Function]}
                         loadObjectProperties={[Function]}
                         onDoubleClick={[Function]}
                         roots={
@@ -274,7 +290,11 @@ ShallowWrapper {
                     >
                               <ObjectInspector
                                         autoExpandDepth={0}
+                                        disableWrap={true}
+                                        disabledFocus={true}
+                                        getObjectEntries={[Function]}
                                         getObjectProperties={[Function]}
+                                        loadObjectEntries={[Function]}
                                         loadObjectProperties={[Function]}
                                         onDoubleClick={[Function]}
                                         roots={
@@ -309,7 +329,11 @@ ShallowWrapper {
                     >
                               <ObjectInspector
                                         autoExpandDepth={0}
+                                        disableWrap={true}
+                                        disabledFocus={true}
+                                        getObjectEntries={[Function]}
                                         getObjectProperties={[Function]}
+                                        loadObjectEntries={[Function]}
                                         loadObjectProperties={[Function]}
                                         onDoubleClick={[Function]}
                                         roots={
@@ -360,7 +384,11 @@ ShallowWrapper {
                     >
                               <ObjectInspector
                                         autoExpandDepth={0}
+                                        disableWrap={true}
+                                        disabledFocus={true}
+                                        getObjectEntries={[Function]}
                                         getObjectProperties={[Function]}
+                                        loadObjectEntries={[Function]}
                                         loadObjectProperties={[Function]}
                                         onDoubleClick={[Function]}
                                         roots={
@@ -395,7 +423,11 @@ ShallowWrapper {
                     >
                               <ObjectInspector
                                         autoExpandDepth={0}
+                                        disableWrap={true}
+                                        disabledFocus={true}
+                                        getObjectEntries={[Function]}
                                         getObjectProperties={[Function]}
+                                        loadObjectEntries={[Function]}
                                         loadObjectProperties={[Function]}
                                         onDoubleClick={[Function]}
                                         roots={
@@ -492,7 +524,11 @@ ShallowWrapper {
         >
             <ObjectInspector
                 autoExpandDepth={0}
+                disableWrap={true}
+                disabledFocus={true}
+                getObjectEntries={[Function]}
                 getObjectProperties={[Function]}
+                loadObjectEntries={[Function]}
                 loadObjectProperties={[Function]}
                 onDoubleClick={[Function]}
                 roots={
@@ -527,7 +563,11 @@ ShallowWrapper {
         >
             <ObjectInspector
                 autoExpandDepth={0}
+                disableWrap={true}
+                disabledFocus={true}
+                getObjectEntries={[Function]}
                 getObjectProperties={[Function]}
+                loadObjectEntries={[Function]}
                 loadObjectProperties={[Function]}
                 onDoubleClick={[Function]}
                 roots={
@@ -578,7 +618,11 @@ ShallowWrapper {
             >
                   <ObjectInspector
                         autoExpandDepth={0}
+                        disableWrap={true}
+                        disabledFocus={true}
+                        getObjectEntries={[Function]}
                         getObjectProperties={[Function]}
+                        loadObjectEntries={[Function]}
                         loadObjectProperties={[Function]}
                         onDoubleClick={[Function]}
                         roots={
@@ -613,7 +657,11 @@ ShallowWrapper {
             >
                   <ObjectInspector
                         autoExpandDepth={0}
+                        disableWrap={true}
+                        disabledFocus={true}
+                        getObjectEntries={[Function]}
                         getObjectProperties={[Function]}
+                        loadObjectEntries={[Function]}
                         loadObjectProperties={[Function]}
                         onDoubleClick={[Function]}
                         roots={
@@ -747,7 +795,11 @@ ShallowWrapper {
                     >
                               <ObjectInspector
                                         autoExpandDepth={0}
+                                        disableWrap={true}
+                                        disabledFocus={true}
+                                        getObjectEntries={[Function]}
                                         getObjectProperties={[Function]}
+                                        loadObjectEntries={[Function]}
                                         loadObjectProperties={[Function]}
                                         onDoubleClick={[Function]}
                                         roots={
@@ -782,7 +834,11 @@ ShallowWrapper {
                     >
                               <ObjectInspector
                                         autoExpandDepth={0}
+                                        disableWrap={true}
+                                        disabledFocus={true}
+                                        getObjectEntries={[Function]}
                                         getObjectProperties={[Function]}
+                                        loadObjectEntries={[Function]}
                                         loadObjectProperties={[Function]}
                                         onDoubleClick={[Function]}
                                         roots={
@@ -833,7 +889,11 @@ ShallowWrapper {
                     >
                               <ObjectInspector
                                         autoExpandDepth={0}
+                                        disableWrap={true}
+                                        disabledFocus={true}
+                                        getObjectEntries={[Function]}
                                         getObjectProperties={[Function]}
+                                        loadObjectEntries={[Function]}
                                         loadObjectProperties={[Function]}
                                         onDoubleClick={[Function]}
                                         roots={
@@ -868,7 +928,11 @@ ShallowWrapper {
                     >
                               <ObjectInspector
                                         autoExpandDepth={0}
+                                        disableWrap={true}
+                                        disabledFocus={true}
+                                        getObjectEntries={[Function]}
                                         getObjectProperties={[Function]}
+                                        loadObjectEntries={[Function]}
                                         loadObjectProperties={[Function]}
                                         onDoubleClick={[Function]}
                                         roots={
