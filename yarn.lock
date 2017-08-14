@@ -2604,10 +2604,6 @@ detective@^4.0.0:
     acorn "^4.0.3"
     defined "^1.0.0"
 
-devtools-components@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.1.tgz#b81c05235667ce6fa07e0ae51f593cd73e709fb6"
-
 devtools-components@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.2.tgz#4eb22cb5140e65741b00b79a7f76454ff56fa501"
