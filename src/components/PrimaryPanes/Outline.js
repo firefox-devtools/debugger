@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom, Component } from "react";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
@@ -44,13 +44,14 @@ class Outline extends Component {
   renderFunction(func: SymbolDeclaration) {
     const { name, location } = func;
 
-    return dom.li(
-      {
-        key: `${name}:${location.start.line}:${location.start.column}`,
-        className: "outline-list__element",
-        onClick: () => this.selectItem(location)
-      },
-      previewFunction({ name })
+    return (
+      <li
+        key={`${name}:${location.start.line}:${location.start.column}`}
+        className="outline-list__element"
+        onClick={() => this.selectItem(location)}
+      >
+        {previewFunction({ name })}
+      </li>
     );
   }
 
@@ -68,9 +69,12 @@ class Outline extends Component {
       return null;
     }
 
-    return dom.div(
-      { className: classnames("outline", { hidden: isHidden }) },
-      dom.ul({ className: "outline-list" }, this.renderFunctions())
+    return (
+      <div className={classnames("outline", { hidden: isHidden })}>
+        <ul className="outline-list">
+          {this.renderFunctions()}
+        </ul>
+      </div>
     );
   }
 }
