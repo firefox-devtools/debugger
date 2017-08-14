@@ -29,14 +29,8 @@ export class Modal extends Component {
     const { status } = this.props;
 
     return (
-      <div
-        className= "modal-wrapper"
-        onClick= {this.props.handleClose}
-      >
-        <div
-          className= {classnames("modal", status)}
-          onClick= {this.onClick}
-        >
+      <div className="modal-wrapper" onClick={this.props.handleClose}>
+        <div className={classnames("modal", status)} onClick={this.onClick}>
           {this.props.children}
         </div>
       </div>
@@ -62,7 +56,12 @@ export default function Slide({
 }: SlideProps) {
   return (
     <Transition in={inProp} timeout={175} appear>
-      {status => <Modal status={status} handleClose={handleClose}>{children}</Modal>}
+      {status =>
+        <Modal status={status} handleClose={handleClose}>
+          {children}
+        </Modal>}
     </Transition>
   );
 }
+
+Slide.displayName = "Slide";
