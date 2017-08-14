@@ -49,7 +49,7 @@
     },
     "outline": {
       "label": "Source Outline",
-      "enabled": false
+      "enabled": true
     },
     "collapseFrame": {
       "label": "Collapse Call Frames",
