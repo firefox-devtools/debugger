@@ -56,9 +56,12 @@ const svg = {
 module.exports = function(name, props) {
   // eslint-disable-line
   if (!svg[name]) {
+    const error = "Unknown SVG: " + name;
     if (isDevelopment()) {
-      console.warn(`Unknown SVG: ${name}`);
+      throw new Error(error);
     }
+
+    console.warn(error);
     return;
   }
 
