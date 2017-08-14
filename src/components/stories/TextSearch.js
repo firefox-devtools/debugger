@@ -1,7 +1,11 @@
-import React, { DOM as dom } from "react";
+import React, { DOM as dom, createFactory } from "react";
 import { storiesOf } from "@storybook/react";
 import _TextSearch from "../ProjectSearch/TextSearch";
 const TextSearch = React.createFactory(_TextSearch);
+
+import _Shortcuts from "./helpers/shortcuts";
+const Shortcuts = createFactory(_Shortcuts);
+
 import { L10N } from "devtools-launchpad";
 import prefs from "../../utils/prefs";
 
@@ -15,37 +19,40 @@ if (typeof window == "object") {
   window.L10N.setBundle(require("../../../assets/panel/debugger.properties"));
 }
 
-function TextSearchFactory(options, { dir = "ltr", theme = "light" } = {}) {
+function TextSearchFactory(options, { dir = "ltr", theme = "dark" } = {}) {
   const themeClass = `theme-${theme}`;
   document.dir = dir;
   document.body.parentNode.className = themeClass;
 
   prefs.searchNav = true;
 
-  return dom.div(
-    {
-      className: "",
-      style: {
-        width: "calc(100vw - 100px)",
-        height: "calc(100vh - 100px)",
-        margin: "auto",
-        display: "flex",
-        "flex-direction": "row"
-      }
-    },
+  return Shortcuts(
+    {},
     dom.div(
       {
-        className: `search-bar ${themeClass}`,
-        dir,
+        className: "",
         style: {
-          width: "100vw",
-          "align-self": "center"
+          width: "calc(100vw - 100px)",
+          height: "calc(100vh - 100px)",
+          margin: "auto",
+          display: "flex",
+          "flex-direction": "row"
         }
       },
-      TextSearch({
-        ...{},
-        ...options
-      })
+      dom.div(
+        {
+          className: `search-bar ${themeClass}`,
+          dir,
+          style: {
+            width: "100vw",
+            "align-self": "center"
+          }
+        },
+        TextSearch({
+          ...{},
+          ...options
+        })
+      )
     )
   );
 }
@@ -59,36 +66,47 @@ storiesOf("TextSearch", module)
       results: [
         {
           filepath: "http://example.com/foo/bar.js",
+          sourceId: "bar",
           matches: [
             {
               value: "foo foo bar",
+              sourceId: "bar",
               line: 2
             },
             {
               value: "foo3",
+              sourceId: "bar",
+
               line: 3
             }
           ]
         },
         {
           filepath: "http://example.com/foo/bazz.js",
+          sourceId: "bazz",
           matches: [
             {
               value: "la la foo",
-              line: 2
+              sourceId: "bazz",
+
+              line: 12
             },
             {
-              value: "lazy",
-              line: 3
+              value: "lazy foo",
+              sourceId: "bazz",
+
+              line: 13
             }
           ]
         },
         {
           filepath: "http://example.com/foo/bla.js",
+          sourceId: "blah",
           matches: [
             {
               value: "baaaa foobaaa",
-              line: 2
+              sourceId: "blah",
+              line: 21
             }
           ]
         }
