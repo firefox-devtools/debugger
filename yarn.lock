@@ -2722,13 +2722,13 @@ devtools-source-editor@0.0.6:
   dependencies:
     codemirror "^5.25.0"
 
-devtools-source-map@0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.10.0.tgz#ee3cc5ea9e9e16c7e21832890c355ebf5ed756b5"
+devtools-source-map@0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.11.0.tgz#d5354d829b1feef1df34f309ad110901dc3096c6"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
-    devtools-utils "0.0.4"
+    devtools-utils "0.0.7"
     jest "^19.0.2"
     md5 "^2.2.1"
     regenerator-runtime "^0.10.3"
@@ -2742,9 +2742,9 @@ devtools-sprintf-js@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/devtools-sprintf-js/-/devtools-sprintf-js-1.0.3.tgz#c2aa3c39d4047525e60410325c86770620281b87"
 
-devtools-utils@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.4.tgz#206a0463b98392675c06ca0b947b4087c6f535ad"
+devtools-utils@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.7.tgz#09ced9535afeec5c583bf1a251488880297b9176"
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-preset-stage-3 "^6.22.0"
