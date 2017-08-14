@@ -207,10 +207,15 @@ function waitForElement(dbg, selector) {
   return waitUntil(() => findElementWithSelector(dbg, selector));
 }
 
-function waitForSelectedSource(dbg) {
+function waitForSelectedSource(dbg, sourceId) {
   return waitForState(dbg, state => {
     const source = dbg.selectors.getSelectedSource(state);
-    return source && source.has("loading") && !source.get("loading");
+    const isLoaded = source && source.has("loading") && !source.get("loading");
+    if (sourceId) {
+      return isLoaded && sourceId == source.get("id");
+    }
+
+    return isLoaded;
   });
 }
 
@@ -223,22 +228,17 @@ function waitForSelectedSource(dbg) {
  * @param {Number} line
  * @static
  */
-function assertPausedLocation(dbg, source, line) {
+function assertPausedLocation(dbg) {
   const { selectors: { getSelectedSource, getPause }, getState } = dbg;
-  source = findSource(dbg, source);
 
-  // Check the selected source
-  is(getSelectedSource(getState()).get("id"), source.id);
+  ok(isTopFrameSelected(dbg, getState()), "top frame's source is selected");
 
   // Check the pause location
   const pause = getPause(getState());
-  const location = pause && pause.frame && pause.frame.location;
-
-  is(location.sourceId, source.id);
-  is(location.line, line);
+  const pauseLine = pause && pause.frame && pause.frame.location.line;
 
   // Check the debug line
-  const lineInfo = getCM(dbg).lineInfo(line - 1);
+  const lineInfo = getCM(dbg).lineInfo(pauseLine - 1);
   ok(
     lineInfo.wrapClass.includes("debug-line"),
     "Line is highlighted as paused"
@@ -307,26 +307,32 @@ async function waitForPaused(dbg) {
   // that the state is fully populated. The client may do some more
   // work (call other client methods) before populating the state.
   await waitForThreadEvents(dbg, "paused");
+  await waitForState(dbg, state => isTopFrameSelected(dbg, state));
+}
 
-  await waitForState(dbg, state => {
-    const pause = dbg.selectors.getPause(state);
-    // Make sure we have the paused state.
-    if (!pause) {
-      return false;
-    }
+function isTopFrameSelected(dbg, state) {
+  const pause = dbg.selectors.getPause(state);
 
-    // Make sure the source text is completely loaded for the
-    // source we are paused in.
-    const sourceId = pause && pause.frame && pause.frame.location.sourceId;
-    const source = dbg.selectors.getSelectedSource(state);
+  // Make sure we have the paused state.
+  if (!pause) {
+    return false;
+  }
 
-    return (
-      source &&
-      source.get("id") == sourceId &&
-      source.has("loading") &&
-      !source.get("loading")
-    );
-  });
+  // Make sure the source text is completely loaded for the
+  // source we are paused in.
+  const sourceId = pause.frame && pause.frame.location.sourceId;
+  const source = dbg.selectors.getSelectedSource(state);
+
+  if (!source) {
+    return false;
+  }
+
+  const isLoaded = source.has("loading") && !source.get("loading");
+  if (!isLoaded) {
+    return false;
+  }
+
+  return source.get("id") == sourceId;
 }
 
 function createDebuggerContext(toolbox) {

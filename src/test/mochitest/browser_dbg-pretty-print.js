@@ -21,9 +21,9 @@ add_task(function*() {
 
   invokeInTab("arithmetic");
   yield waitForPaused(dbg);
-  assertPausedLocation(dbg, ppSrc, 18);
+  assertPausedLocation(dbg);
   yield stepOver(dbg);
-  assertPausedLocation(dbg, ppSrc, 27);
+  assertPausedLocation(dbg);
   yield resume(dbg);
 
   // The pretty-print button should go away in the pretty-printed

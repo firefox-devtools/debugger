@@ -11,13 +11,13 @@ add_task(function*() {
 
   invokeInTab("arithmetic");
   yield waitForPaused(dbg);
-  assertPausedLocation(dbg, "math.min.js", 2);
+  assertPausedLocation(dbg);
 
   clickElement(dbg, "prettyPrintButton");
   yield waitForDispatch(dbg, "SELECT_SOURCE");
 
   // this doesnt work yet
-  // assertPausedLocation(dbg, "math.min.js:formatted", 18);
+  // assertPausedLocation(dbg);
 
   yield resume(dbg);
 });
