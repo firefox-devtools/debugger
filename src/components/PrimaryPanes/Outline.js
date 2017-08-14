@@ -50,7 +50,7 @@ class Outline extends Component {
         className="outline-list__element"
         onClick={() => this.selectItem(location)}
       >
-        previewFunction({name})
+        {previewFunction({ name })}
       </li>
     );
   }
