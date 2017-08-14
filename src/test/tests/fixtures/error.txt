@@ -31,7 +31,7 @@ GECKO(15699) | 1502381995464	Marionette	DEBUG	Register listener.js for window 21
 0 INFO *** Start BrowserChrome Test Results ***
 1 INFO checking window state
 2 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js
-3 INFO Entering test bound 
+3 INFO Entering test bound
 4 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-debugger-statements.html
 GECKO(15699) | 2017-08-10 12:19:57.505 plugin-container[15705:2850707] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0xac37, name = 'com.apple.tsm.portname'
 GECKO(15699) | See /usr/include/servers/bootstrap_defs.h for the error codes.
@@ -162,7 +162,7 @@ GECKO(15699) | See /usr/include/servers/bootstrap_defs.h for the error codes.
 117 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 118 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 119 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-120 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | top frame's source is selected - 
+120 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | top frame's source is selected -
 GECKO(15699) | *************************
 GECKO(15699) | A coding exception was thrown and uncaught in a Task.
 GECKO(15699) | Full message: TypeError: lineInfo is null
@@ -182,7 +182,7 @@ Stack trace:
     Tester_execTest@chrome://mochikit/content/browser-test.js:789:9
     Tester.prototype.nextTest</<@chrome://mochikit/content/browser-test.js:689:7
     SimpleTest.waitForFocus/waitForFocusInner/focusedOrLoaded/<@chrome://mochikit/content/tests/SimpleTest/SimpleTest.js:795:59
-122 INFO Leaving test bound 
+122 INFO Leaving test bound
 123 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 124 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 125 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -245,6 +245,16 @@ Browser Chrome Test Summary
 *** End BrowserChrome Test Results ***
 The following tests failed:
 150 INFO TEST-UNEXPECTED-FAIL | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Uncaught exception - at chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/head.js:243 - TypeError: lineInfo is null
+Stack trace:
+    assertPausedLocation@chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/head.js:243:1
+    @chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js:33:3
+    Tester_execTest@chrome://mochikit/content/browser-test.js:789:9
+    Tester.prototype.nextTest</<@chrome://mochikit/content/browser-test.js:689:7
+    SimpleTest.waitForFocus/waitForFocusInner/focusedOrLoaded/<@chrome://mochikit/content/tests/SimpleTest/SimpleTest.js:795:59
+    Tester_execTest@chrome://mochikit/content/browser-test.js:789:9
+    Tester.prototype.nextTest</<@chrome://mochikit/content/browser-test.js:689:7
+    SimpleTest.waitForFocus/waitForFocusInner/focusedOrLoaded/<@chrome://mochikit/content/tests/SimpleTest/SimpleTest.js:795:59
+150 INFO TEST-UNEXPECTED-FAIL | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-navigation.js | Uncaught exception - at chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/head.js:243 - TypeError: lineInfo is null
 Stack trace:
     assertPausedLocation@chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/head.js:243:1
     @chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js:33:3

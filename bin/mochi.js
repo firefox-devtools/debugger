@@ -85,14 +85,24 @@ function onGecko(line, data) {
     }
 
     if (line.match(/@/)) {
-      msg = msg.match(/Stack:/) ? msg.match(/Stack:(.*)/)[1] : msg;
-      return onFrame(msg);
+      const newMsg = msg.match(/Stack:/) ? msg.match(/Stack:(.*)/)[1] : msg;
+      return onFrame(newMsg);
     } else {
       data.mode = null;
     }
   }
 
   return msg;
+}
+// 150 INFO TEST-UNEXPECTED-FAIL | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Uncaught exception - at chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/head.js:243 - TypeError: lineInfo is null
+
+function onDone(line) {
+  if (line.includes("TEST-UNEXPECTED-FAIL")) {
+    const [, file] = line.match(/.*\|(.*?)\|.*/);
+    return `${chalk.red("failed test")}: ${file}`;
+  }
+
+  return;
 }
 
 function onLine(line, data) {
@@ -103,7 +113,8 @@ function onLine(line, data) {
   }
 
   if (data.mode == "done") {
-    return;
+    // console.log(line)
+    return onDone(line);
   }
 
   if (data.mode == "stack-trace") {
@@ -165,12 +176,12 @@ function onTestInfo(line, data) {
     const [, errorPath, error] = msg.match(/(.*)-(.*)/);
     const errorFile = path.basename(errorPath);
 
-    return `  ${chalk.red(type)} ${errorFile}\n ${chalk.yellow(error)}`;
+    return ` ${chalk.red(type)} ${errorFile}\n${chalk.yellow(error)}`;
   }
 
   let prefix = type == "TEST-OK" ? chalk.green(type) : chalk.blue(type);
 
-  return `  ${prefix} ${file}`;
+  return `${prefix} ${file}`;
 }
 
 function onInfo(line, data) {
