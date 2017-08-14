@@ -1,8 +1,17 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-function toggleProjectSearch() {
+function openProjectSearch(dbg) {
   synthesizeKeyShortcut("CmdOrCtrl+Shift+f");
+  return waitForState(
+    dbg,
+    state => dbg.selectors.getActiveSearchState(state) === "project"
+  );
+}
+
+function closeProjectSearch(dbg) {
+  pressKey(dbg, "Escape");
+  return waitForState(dbg, state => !dbg.selectors.getActiveSearchState(state));
 }
 
 function getResult(dbg) {
@@ -38,19 +47,14 @@ add_task(function*() {
   yield selectSource(dbg, "switching-01");
 
   // test opening and closing
-  toggleProjectSearch();
-  is(dbg.selectors.getActiveSearchState(dbg.getState()), "project");
-  pressKey(dbg, "Escape");
-  is(dbg.selectors.getActiveSearchState(dbg.getState()), null);
+  yield openProjectSearch(dbg);
+  yield closeProjectSearch(dbg);
 
-  // doing a simple search
-  toggleProjectSearch();
-
+  yield openProjectSearch(dbg);
   type(dbg, "first");
   pressKey(dbg, "Enter");
 
-  yield waitForState(dbg, () => getResultsCount(dbg) == 1);
-  is(getResultsCount(dbg), 1);
+  yield waitForState(dbg, () => getResultsCount(dbg) === 1);
 
   yield selectResult(dbg);
   is(dbg.selectors.getActiveSearchState(dbg.getState()), null);
