@@ -17,18 +17,6 @@ exports[`SymbolModal should render 1`] = `
                   <div className=\\"summary\\">
                     1 of 2 results
                   </div>
-                  <div className=\\"search-nav-buttons\\">
-                    <button onClick={[Function]} type=\\"arrow-down\\" className=\\"nav-btn next\\" title=\\"Next Result\\">
-                      <InlineSVG className=\\"arrow-down\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
-                        <i className=\\"arrow-down\\" src={{...}} dangerouslySetInnerHTML={{...}} />
-                      </InlineSVG>
-                    </button>
-                    <button onClick={[Function]} type=\\"arrow-up\\" className=\\"nav-btn prev\\" title=\\"Previous Result\\">
-                      <InlineSVG className=\\"arrow-up\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
-                        <i className=\\"arrow-up\\" src={{...}} dangerouslySetInnerHTML={{...}} />
-                      </InlineSVG>
-                    </button>
-                  </div>
                   <CloseButton handleClick={[Function]} buttonClass=\\"\\">
                     <div className=\\"close-btn\\" onClick={[Function]} title={[undefined]}>
                       <InlineSVG className=\\"close\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>

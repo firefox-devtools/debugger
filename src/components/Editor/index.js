@@ -37,9 +37,7 @@ import Preview from "./Preview";
 import Breakpoints from "./Breakpoints";
 import HitMarker from "./HitMarker";
 import CallSites from "./CallSites";
-
-import _DebugLine from "./DebugLine";
-const DebugLine = createFactory(_DebugLine);
+import DebugLine from "./DebugLine";
 
 import {
   showSourceText,
