@@ -1,10 +1,11 @@
 // @flow
-import { DOM as dom, PropTypes, PureComponent } from "react";
+import { DOM as dom, PureComponent } from "react";
+import * as I from "immutable";
+
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
 import { bindActionCreators } from "redux";
 import { isEnabled } from "devtools-config";
-import ImPropTypes from "react-immutable-proptypes";
 import classnames from "classnames";
 import actions from "../../actions";
 import {
@@ -21,12 +22,27 @@ import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
 import get from "lodash/get";
 
-import type { Breakpoint } from "../../types";
+import type { Breakpoint, Location } from "../../types";
 
 type LocalBreakpoint = Breakpoint & {
   location: any,
   isCurrentlyPaused: boolean,
   locationId: string
+};
+
+type BreakpointsMap = I.Map<string, LocalBreakpoint>;
+
+type Props = {
+  breakpoints: BreakpointsMap,
+  enableBreakpoint: Location => void,
+  disableBreakpoint: Location => void,
+  selectSource: (string, { line: number }) => void,
+  removeBreakpoint: string => void,
+  removeAllBreakpoints: () => void,
+  removeBreakpoints: BreakpointsMap => void,
+  toggleBreakpoints: (boolean, BreakpointsMap) => void,
+  toggleAllBreakpoints: boolean => void,
+  toggleDisabledBreakpoint: number => void
 };
 
 function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
@@ -57,6 +73,8 @@ function renderSourceLocation(source, line, column) {
 }
 
 class Breakpoints extends PureComponent {
+  props: Props;
+
   shouldComponentUpdate(nextProps, nextState) {
     const { breakpoints } = this.props;
     return breakpoints !== nextProps.breakpoints;
@@ -75,39 +93,156 @@ class Breakpoints extends PureComponent {
   }
 
   showContextMenu(e, breakpoint) {
-    const { removeBreakpoint, removeAllBreakpoints } = this.props;
+    const {
+      removeBreakpoint,
+      removeBreakpoints,
+      removeAllBreakpoints,
+      toggleBreakpoints,
+      toggleAllBreakpoints,
+      toggleDisabledBreakpoint,
+      breakpoints
+    } = this.props;
 
     e.preventDefault();
 
-    const removeBreakpointLabel = L10N.getStr("breakpointMenuItem.deleteSelf");
-    const removeAllBreakpointsLabel = L10N.getStr(
-      "breakpointMenuItem.deleteAll"
-    );
+    const deleteSelfLabel = L10N.getStr("breakpointMenuItem.deleteSelf");
+    const deleteAllLabel = L10N.getStr("breakpointMenuItem.deleteAll");
+    const deleteOthersLabel = L10N.getStr("breakpointMenuItem.deleteOthers");
+    const enableSelfLabel = L10N.getStr("breakpointMenuItem.enableSelf");
+    const enableAllLabel = L10N.getStr("breakpointMenuItem.enableAll");
+    const enableOthersLabel = L10N.getStr("breakpointMenuItem.enableOthers");
+    const disableSelfLabel = L10N.getStr("breakpointMenuItem.disableSelf");
+    const disableAllLabel = L10N.getStr("breakpointMenuItem.disableAll");
+    const disableOthersLabel = L10N.getStr("breakpointMenuItem.disableOthers");
 
-    const removeBreakpointKey = L10N.getStr(
+    const deleteSelfKey = L10N.getStr(
       "breakpointMenuItem.deleteSelf.accesskey"
     );
-    const removeAllBreakpointsKey = L10N.getStr(
-      "breakpointMenuItem.deleteAll.accesskey"
+    const deleteAllKey = L10N.getStr("breakpointMenuItem.deleteAll.accesskey");
+    const deleteOthersKey = L10N.getStr(
+      "breakpointMenuItem.deleteOthers.accesskey"
+    );
+    const enableSelfKey = L10N.getStr(
+      "breakpointMenuItem.enableSelf.accesskey"
+    );
+    const enableAllKey = L10N.getStr("breakpointMenuItem.enableAll.accesskey");
+    const enableOthersKey = L10N.getStr(
+      "breakpointMenuItem.enableOthers.accesskey"
+    );
+    const disableSelfKey = L10N.getStr(
+      "breakpointMenuItem.disableSelf.accesskey"
+    );
+    const disableAllKey = L10N.getStr(
+      "breakpointMenuItem.disableAll.accesskey"
+    );
+    const disableOthersKey = L10N.getStr(
+      "breakpointMenuItem.disableOthers.accesskey"
     );
 
-    const deleteBreakpoint = {
-      id: "node-menu-delete-breakpoint",
-      label: removeBreakpointLabel,
-      accesskey: removeBreakpointKey,
+    const otherBreakpoints = breakpoints.filter(b => b !== breakpoint);
+    const enabledBreakpoints = breakpoints.filter(b => !b.disabled);
+    const disabledBreakpoints = breakpoints.filter(b => b.disabled);
+    const otherEnabledBreakpoints = breakpoints.filter(
+      b => !b.disabled && b !== breakpoint
+    );
+    const otherDisabledBreakpoints = breakpoints.filter(
+      b => b.disabled && b !== breakpoint
+    );
+
+    const deleteSelf = {
+      id: "node-menu-delete-self",
+      label: deleteSelfLabel,
+      accesskey: deleteSelfKey,
       disabled: false,
       click: () => removeBreakpoint(breakpoint.location)
     };
 
-    const deleteAllBreakpoints = {
-      id: "node-menu-delete-all-breakpoint",
-      label: removeAllBreakpointsLabel,
-      accesskey: removeAllBreakpointsKey,
+    const deleteAll = {
+      id: "node-menu-delete-all",
+      label: deleteAllLabel,
+      accesskey: deleteAllKey,
       disabled: false,
       click: () => removeAllBreakpoints()
     };
 
-    const items = [{ item: deleteBreakpoint }, { item: deleteAllBreakpoints }];
+    const deleteOthers = {
+      id: "node-menu-delete-other",
+      label: deleteOthersLabel,
+      accesskey: deleteOthersKey,
+      disabled: false,
+      click: () => removeBreakpoints(otherBreakpoints)
+    };
+
+    const enableSelf = {
+      id: "node-menu-enable-self",
+      label: enableSelfLabel,
+      accesskey: enableSelfKey,
+      disabled: false,
+      click: () => toggleDisabledBreakpoint(breakpoint.location.line)
+    };
+
+    const enableAll = {
+      id: "node-menu-enable-all",
+      label: enableAllLabel,
+      accesskey: enableAllKey,
+      disabled: false,
+      click: () => toggleAllBreakpoints(false)
+    };
+
+    const enableOthers = {
+      id: "node-menu-enable-others",
+      label: enableOthersLabel,
+      accesskey: enableOthersKey,
+      disabled: false,
+      click: () => toggleBreakpoints(false, otherDisabledBreakpoints)
+    };
+
+    const disableSelf = {
+      id: "node-menu-disable-self",
+      label: disableSelfLabel,
+      accesskey: disableSelfKey,
+      disabled: false,
+      click: () => toggleDisabledBreakpoint(breakpoint.location.line)
+    };
+
+    const disableAll = {
+      id: "node-menu-disable-all",
+      label: disableAllLabel,
+      accesskey: disableAllKey,
+      disabled: false,
+      click: () => toggleAllBreakpoints(true)
+    };
+
+    const disableOthers = {
+      id: "node-menu-disable-others",
+      label: disableOthersLabel,
+      accesskey: disableOthersKey,
+      click: () => toggleBreakpoints(true, otherEnabledBreakpoints)
+    };
+
+    const items = [
+      { item: enableSelf, hidden: () => !breakpoint.disabled },
+      { item: disableSelf, hidden: () => breakpoint.disabled },
+      { item: deleteSelf },
+      { item: deleteAll },
+      { item: deleteOthers, hidden: () => breakpoints.size === 1 },
+      {
+        item: enableAll,
+        hidden: () => disabledBreakpoints.size === 0
+      },
+      {
+        item: disableAll,
+        hidden: () => enabledBreakpoints.size === 0
+      },
+      {
+        item: enableOthers,
+        hidden: () => otherDisabledBreakpoints.size === 0
+      },
+      {
+        item: disableOthers,
+        hidden: () => otherEnabledBreakpoints.size === 0
+      }
+    ];
 
     showMenu(e, buildMenu(items));
   }
@@ -182,15 +317,6 @@ class Breakpoints extends PureComponent {
 }
 
 Breakpoints.displayName = "Breakpoints";
-
-Breakpoints.propTypes = {
-  breakpoints: ImPropTypes.map.isRequired,
-  enableBreakpoint: PropTypes.func.isRequired,
-  disableBreakpoint: PropTypes.func.isRequired,
-  selectSource: PropTypes.func.isRequired,
-  removeBreakpoint: PropTypes.func.isRequired,
-  removeAllBreakpoints: PropTypes.func.isRequired
-};
 
 function updateLocation(sources, pause, bp): LocalBreakpoint {
   const source = getSourceInSources(sources, bp.location.sourceId);
