@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom } from "react";
+import React from "react";
 import classNames from "classnames";
 
 import "./BracketArrow.css";
@@ -16,12 +16,11 @@ const BracketArrow = ({
   top: number,
   bottom: number
 }) => {
-  return dom.div(
-    {
-      className: classNames("bracket-arrow", orientation || "up"),
-      style: { left, top, bottom }
-    },
-    ""
+  return (
+    <div
+      className={classNames("bracket-arrow", orientation || "up")}
+      style={{ left, top, bottom }}
+    />
   );
 };
 
