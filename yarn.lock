@@ -2709,7 +2709,7 @@ devtools-modules@^0.0.30:
   dependencies:
     jest "^19.0.2"
 
-devtools-reps@0.12.1:
+devtools-reps@^0.12.1:
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/devtools-reps/-/devtools-reps-0.12.1.tgz#5613858cd98289569f3b6e320e43d7f42db2eaeb"
   dependencies:
