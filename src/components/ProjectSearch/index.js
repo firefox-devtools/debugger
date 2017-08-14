@@ -4,11 +4,12 @@ import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
-import { isEnabled } from "devtools-config";
+
 import TextSearch from "./TextSearch";
 import SourceSearch from "./SourceSearch";
 import ToggleSearch from "./ToggleSearch";
 
+import { prefs } from "../../utils/prefs";
 import {
   getSources,
   getActiveSearchState,
@@ -68,7 +69,7 @@ class ProjectSearch extends Component {
       e.preventDefault();
     }
 
-    if (!isEnabled("projectTextSearch")) {
+    if (!prefs.projectTextSearchEnabled) {
       return;
     }
 

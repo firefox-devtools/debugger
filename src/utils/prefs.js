@@ -24,6 +24,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.file-search-whole-word", false);
   pref("devtools.debugger.file-search-regex-match", false);
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
+  pref("devtools.debugger.project-text-search-enabled", true);
 }
 
 const prefs = new PrefsHelper("devtools", {
@@ -42,7 +43,12 @@ const prefs = new PrefsHelper("devtools", {
   fileSearchCaseSensitive: ["Bool", "debugger.file-search-case-sensitive"],
   fileSearchWholeWord: ["Bool", "debugger.file-search-whole-word"],
   fileSearchRegexMatch: ["Bool", "debugger.file-search-regex-match"],
-  debuggerPrefsSchemaVersion: ["Char", "debugger.prefs-schema-version"]
+  debuggerPrefsSchemaVersion: ["Char", "debugger.prefs-schema-version"],
+  projectTextSearchEnabled: [
+    "Bool",
+    "debugger.project-text-search-enabled",
+    false
+  ]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
