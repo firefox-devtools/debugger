@@ -1,17 +1,15 @@
 import React from "react";
 import { shallow } from "enzyme";
 import DebugLine from "../DebugLine";
-jest.mock(
-  "../../../utils/editor/source-documents",
-  jest.fn(() => ({
-    getDocument: jest.fn()
-  }))
-);
+jest.mock("../../../utils/editor/source-documents", () => ({
+  getDocument: jest.fn()
+}));
 import { getDocument } from "../../../utils/editor/source-documents";
-getDocument.mockImplementation(() => ({
+const mockGetDocument = {
   addLineClass: jest.fn(),
   removeLineClass: jest.fn()
-}));
+};
+getDocument.mockImplementation(() => mockGetDocument);
 
 const DebugLineComponent = React.createFactory(DebugLine);
 
@@ -49,15 +47,15 @@ describe("DebugLine Component", () => {
 
   describe("unmount", () => {
     it("should remove the debug line", async () => {
-      const { component, props: { editor } } = render();
+      const { component } = render();
       component.unmount();
-      expect(editor.codeMirror.removeLineClass).toHaveBeenCalled();
+      expect(mockGetDocument.removeLineClass).toHaveBeenCalled();
     });
 
     it("should clear the debug line", async () => {
-      const { component, props: { editor } } = render();
+      const { component } = render();
       component.unmount();
-      expect(editor.codeMirror.removeLineClass).toHaveBeenCalled();
+      expect(mockGetDocument.removeLineClass).toHaveBeenCalled();
     });
   });
 
@@ -69,11 +67,10 @@ describe("DebugLine Component", () => {
       }
     };
 
-    fit("should remove the old debug line", async () => {
+    it("should remove the old debug line", async () => {
       const { component } = render();
       component.setProps({ selectedLocation });
-      const getDoc = getDocument();
-      expect(getDoc.removeLineClass).toHaveBeenCalled();
+      expect(mockGetDocument.removeLineClass).toHaveBeenCalled();
     });
 
     it("should clear the previous debugExpression", async () => {
