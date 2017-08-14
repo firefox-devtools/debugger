@@ -1,5 +1,11 @@
 ## Mochitests
 
+  - [Getting Started](#getting-started)
+  - [Running the tests](#running-the-tests)
+  - [Mochi](#mochi)
+  - [Writing Tests](#writing-tests)
+  - [Debugging Intermittents](#debugging-intermittents)
+
 We use [mochitests] to do integration testing. Mochitests are part of Firefox and allow us to test the debugger literally as you would use it (as a devtools panel).
 
 ![](http://g.recordit.co/dp6qbK0Jnf.gif)
@@ -33,6 +39,42 @@ reflected in the new firefox directory.
 
 * `yarn mochi -- --jsdebugger` opens a browser toolbox
 * `yarn mochi browser_dbg-editor-highlight` runs just one test
+
+## Writing Tests
+
+Here are a few tips for writing mochitests:
+
+* There are lots of great helper methods in [head]
+* Try to write async user actions that involve a user action like clicking a button or typing a key press followed by a redux action to listen for. For example, the user step in action involvesthe user clicking the step in button followed by the "stepIn" action firing.
+* The `dbg` object has several helpful properties (actions, selectors, getState, store, toolbox, win)
+
+### Testing the DOM
+
+You can find common elements in the debugger with the `findElement` function,
+which use shared selectors. You can also find any element with the
+`findElementWithSelector` function.
+
+### Evaluating in the debuggee
+
+If you want to evaluate a function in the debuggee context you can use
+the `invokeInTab` function. Under the hood it is using `ContentTask.spawn`.
+
+```js
+ContentTask.spawn(gBrowser.selectedBrowser, null, function* () {
+  content.wrappedJSObject.foo();
+});
+```
+
+The above calls the function `foo` that exists in the page itself. You can also access the DOM this way: `content.document.querySelector`, if you want to click a button or do other things. You can even you use assertions inside this callback to check DOM state.
+
+#### Debugging Intermittents
+
+Intermittents are when a test succeeds most the time (95%) of the time, but not all the time.
+There are several easy traps that result in intermittents:
+
+* **browser inconsistencies** sometimes the server is not as consistent as you would like. For instance, reloading can sometimes cause sources to load out of order. Also stepping too quickly can cause the debugger to enter a bad state. A memorable example of this type of inconsistency came when debugging stepping behavior. It turns out that 1% of the time the browser toolbox will step into an [unexpected location][server-oops]. The solution is too loosen our expections :)
+* **missed actions** sometimes action "B" can fire before action "A" is done. This is a race condition that can be hard to track down. When you suspect this might happen, it is a good practice to start listening for "B" before you fire action "A". Here's an example where this happened with [reloading][waiting].
+* **state changes** One common way tests start failing occurs when the redux actions introduces a new asynchronous operation. A good way to safe guard your tests is to wait on state to have certain values. An example, of a test that we recently fixed was [pretty printing][pretty-printing]. The test initially waited for the "select source" action to fire, which was occassionaly racey. Switching the test to wait for the formatted source to exist simplified the test tremendously.
 
 ### Appendix
 
@@ -97,39 +139,9 @@ add_task(function* () {
 
 The Debugger Mochitest API Documentation can be found [here](https://devtools-html.github.io/debugger.html/reference#mochitest).
 
-## Writing Tests
-
-Here are a few tips for writing mochitests:
-
-* Only write mochitests for testing the interaction of multiple components on the page and to make sure that the protocol is working.
-* By default, use the above builtin functions to drive the interaction and only dig into the DOM when you specifically want to test a component. For example, most tests should use the `addBreakpoint` command to add breakpoints, but certain tests may specifically want to test the editor gutter and left-click on that DOM element to add a breakpoint.
-* The `dbg` object has the following properties:
-
-  * `actions` - Redux actions (already bound to the store)
-  * `selectors` - State selectors
-  * `getState` - Function to get current state
-  * `store` - Redux store
-  * `toolbox` - Devtools toolbox
-  * `win` - The current debugger window
-
-
-### Testing the DOM
-
-You can find common elements in the debugger with the `findElement` function,
-which use shared selectors. You can also find any element with the
-`findElementWithSelector` function.
-
-### Evaluating in the debuggee
-
-If you want to evaluate a function in the debuggee context you can use
-the `invokeInTab` function. Under the hood it is using `ContentTask.spawn`.
-
-```js
-ContentTask.spawn(gBrowser.selectedBrowser, null, function* () {
-  content.wrappedJSObject.foo();
-});
-```
-
-The above calls the function `foo` that exists in the page itself. You can also access the DOM this way: `content.document.querySelector`, if you want to click a button or do other things. You can even you use assertions inside this callback to check DOM state.
-
+[head]: https://github.com/devtools-html/debugger.html/blob/master/src/test/mochitest/head.js
 [mochitests]: https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest
+
+[waiting]: https://github.com/devtools-html/debugger.html/commit/7b4762d9333108b15d81bc41e12182370c81e81c
+[server-oops]: https://github.com/devtools-html/debugger.html/commit/7e54e6b46181b747a828ab2dc1db96c88313db95#diff-4fb7729ef51f162ae50b7c3bc020a1e3
+[pretty-printing]: https://github.com/devtools-html/debugger.html/commit/6a66ce54faf8239fb358462c53c022a75615aae6#diff-a81153d2e92178917a135261f4245c39R12
