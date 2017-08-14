@@ -20,7 +20,6 @@
   * [Adding a Task](#adding-a-task)
 * [Hot Reloading](#hot-reloading-fire)
 * [Contributing to other packages](#contributing-to-other-packages)
-* [FAQ](#faq)
 * [Errors](#errors)
 * [Getting Help](#getting-help)
 
@@ -595,16 +594,6 @@ There are three ways to test a change to a 3rd party package.
 1. [yarn link](https://yarnpkg.com/lang/en/docs/cli/link/)
 2. create a local version with **npm pack** and [yarn add](https://yarnpkg.com/lang/en/docs/cli/add/#toc-adding-dependencies)
 3. change the file directly in the debugger's `node_modules` directory.
-
-### FAQ
-
-#### Why not JSX
-
-The reason is largely historical. Devtools historically has been developed inside the browser [1](https://dxr.mozilla.org/mozilla-central/source/devtools/client/debugger/debugger-view.js). The advantage of this approach is devtools could be written with ES6 and modules without a build step.
-
-When we started the Debugger, we were not sure if we would keep webpack and the website workflow and did not want to re-write the JSX to raw JS.
-
-Now that we *have* decided that working in github with webpack has a lot of benefits we could switch to JSX. We are open to switching if someone could help us do it, join the [discussion here](https://github.com/devtools-html/debugger.html/issues/1747).
 
 ### Errors
 
