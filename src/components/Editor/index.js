@@ -679,7 +679,13 @@ class Editor extends PureComponent {
       return null;
     }
 
-    return DebugLine({ editor, selectedFrame, selectedLocation });
+    return (
+      <DebugLine
+        editor={editor}
+        selectedFrame={selectedFrame}
+        selectedLocation={selectedLocation}
+      />
+    );
   }
 
   render() {

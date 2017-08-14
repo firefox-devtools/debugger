@@ -51,7 +51,12 @@ export default class DebugLine extends Component {
     const { location, location: { sourceId } } = selectedFrame;
     const { line, column } = toEditorPosition(sourceId, location);
 
-    getDocument(sourceId).addLineClass(line, "line", "new-debug-line");
+    const doc = getDocument(sourceId);
+    if (!doc) {
+      return;
+    }
+
+    doc.addLineClass(line, "line", "new-debug-line");
     const debugExpression = markText(editor, "debug-expression", {
       start: { line, column },
       end: { line, column: null }
@@ -67,7 +72,12 @@ export default class DebugLine extends Component {
     }
 
     const editorLine = line - 1;
-    getDocument(sourceId).removeLineClass(editorLine, "line", "new-debug-line");
+    const doc = getDocument(sourceId);
+    if (!doc) {
+      return;
+    }
+
+    doc.removeLineClass(editorLine, "line", "new-debug-line");
   }
 
   render() {
