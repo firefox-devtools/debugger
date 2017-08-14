@@ -1,43 +1,45 @@
-## Mochttests
+## Mochitests
 
-We use [mochitests] to do integration testing. Mochitests are part of Firefox and allow us to test the debugger literally as you would use it (as a devtools panel). While we are developing the debugger locally in a tab, it's important that we test it as a devtools panel.
+We use [mochitests] to do integration testing. Mochitests are part of Firefox and allow us to test the debugger literally as you would use it (as a devtools panel).
 
-![](http://g.recordit.co/VlzreUwq8k.gif)
+![](http://g.recordit.co/dp6qbK0Jnf.gif)
 
 ### Getting Started
-
-Mochitests require a local checkout of the Firefox source code. This is because they are used to test a lot of Firefox, and you would usually run them inside Firefox. We are developing the debugger outside of Firefox, but still want to test it as a devtools panel, so we've figured out a way to use them. It may not be elegant, but it allows us to ensure a high quality Firefox debugger.
-
-Mochitests live in `src/test/mochitest`.
 
 **Requirements**
 
 * mercurial ( `brew install mercurial` )
 * autoconf213 ( `brew install autoconf@2.13 && brew unlink autoconf` )
 
-If you haven't set up the mochitest environment yet, just run this:
+
+**Setup Firefox**
 
 ```
 ./bin/prepare-mochitests-dev
 ```
 
-On the first run, this will download a local copy of Firefox and set up an [artifact build](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Artifact_builds) (just think of a super fast Firefox build). It may take a while (10-15 minutes) to download and build Firefox.
+This command will either clone `mozilla-central` (the firefox repo) or update it.
+It also sets up a symlink for the tests so that changes in `src/test/mochitest` are
+reflected in the new firefox directory.
 
 ### Running the tests
 
-1. start webpack builds in a local process `yarn copy-assets-watch`
-2. run the tests in a second process `yarn mochi`
+* `yarn copy-assets-watch` copies new bundles into the firefox directory
+* `yarn mochi` runs the tests in a second process
+
+### Mochi
 
 `mochi` passes its params along to `mochitest`, so you can include `--jsdebugger` and test globs
 
-* `yarn mochi --jsdebugger` opens a browser toolbox
+* `yarn mochi -- --jsdebugger` opens a browser toolbox
 * `yarn mochi browser_dbg-editor-highlight` runs just one test
 
 ### Appendix
 
 #### Mochitest CLI
 
-Now, you can run the mochitests like this:
+The mochitest cli has a lot of advanced options that are worth learning about.
+Here is a quick intro in how it can be used
 
 ```
 cd firefox
@@ -46,12 +48,8 @@ cd firefox
 ./mach mochitest --jsdebugger browser_dbg-editor-highlight # runs one test with the browser toolbox open
 ```
 
-This works because we've symlinked the local mochitests into where the debugger lives in Firefox. Any changes to the tests in `src/test/mochitest` will be reflected and you can re-run the tests.
-
 Visit the [mochitest](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest) MDN page to learn more about mochitests and more advanced arguments. A few tips:
 
-* Passing `--jsdebugger` will open a JavaScript debugger and allow you to debug the tests (sometimes can be fickle)
-* Add `{ "logging": { "actions": true } }` to your local config file to see verbose logs of all the redux actions
 
 #### For Windows Developers
 

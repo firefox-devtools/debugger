@@ -48,71 +48,105 @@ const blacklist = [
   "Tab added and finished loading"
 ];
 
-let mode = "starting";
-
 function sanitizeLine(line) {
   return line.trim().replace(/\\"/g, '"').replace(/\\"/g, '"');
 }
 
-function onGecko(line) {
+function onFrame(line, data) {
+  const [, fnc, _path, _line, column] = line.match(/(.*)@(.*):(.*):(.*)/);
+  const file = path.basename(_path);
+  return `   ${fnc} ${chalk.dim(`${file} ${_line}:${column}`)}`;
+}
+
+function onGecko(line, data) {
   const [, msg] = line.match(/^GECKO.*?\|(.*)$/);
 
-  if (mode == "starting") {
+  if (data.mode == "starting") {
     return;
   }
 
   if (line.match(/\*{5,}/)) {
-    mode = mode == "stack" ? null : "stack";
-    if (mode == "stack") {
-      return `   ${chalk.red("Stack Trace")}`;
-    }
+    data.mode = data.mode == "gecko-error" ? null : "gecko-error";
     return;
   }
 
-  if (mode == "stack") {
-    return `   > ${msg}`;
+  if (data.mode == "gecko-error") {
+    return;
+  }
+
+  if (line.includes("console.error")) {
+    data.mode = "console-error";
+    return `  ${chalk.red("Console Error")}`;
+  }
+
+  if (data.mode == "console-error") {
+    if (line.includes("Handler function")) {
+      return;
+    }
+
+    if (line.match(/@/)) {
+      msg = msg.match(/Stack:/) ? msg.match(/Stack:(.*)/)[1] : msg;
+      return onFrame(msg);
+    } else {
+      data.mode = null;
+    }
   }
 
   return msg;
 }
 
-function onLine(line) {
+function onLine(line, data) {
   line = sanitizeLine(line);
+
   if (line.match(new RegExp(`(${blacklist.join("|")})`))) {
     return;
   }
 
-  if (mode == "done") {
+  if (data.mode == "done") {
+    return;
+  }
+
+  if (data.mode == "stack-trace") {
+    if (line.match(/@/)) {
+      return onFrame(line);
+    } else {
+      data.mode = null;
+      return "\n";
+    }
+  }
+
+  if (line.includes("End BrowserChrome Test Results")) {
+    data.mode = "done";
     return;
   }
 
   if (line.match(/TEST-/)) {
-    return onTestInfo(line);
+    return onTestInfo(line, data);
   }
 
   if (line.match(/INFO/)) {
-    return onInfo(line);
+    return onInfo(line, data);
   }
 
   if (line.match(/GECKO\(/)) {
-    return onGecko(line);
+    return onGecko(line, data);
   }
 
   if (line.match(/Console message/)) {
-    return onConsole(line);
+    return onConsole(line, data);
   }
 
-  if (line.includes("End BrowserChrome Test Results")) {
-    mode = "done";
-    return;
+  if (line.includes("Stack trace")) {
+    data.mode = "stack-trace";
+    return `\n  ${chalk.bold("Stack trace")}`;
   }
 
-  if (mode != "starting") {
+  if (data.mode != "starting") {
     return `${line}`;
   }
 }
 
-function onTestInfo(line) {
+function onTestInfo(line, data) {
   const res = line.match(/(TEST-[A-Z-]*).* \| (.*\.js)( \| (.*))?$/);
 
   if (!res) {
@@ -128,7 +162,10 @@ function onTestInfo(line) {
   const file = path.basename(_path);
 
   if (type == "TEST-UNEXPECTED-FAIL") {
-    return `  ${chalk.red(type)} ${file} - ${msg}`;
+    const [, errorPath, error] = msg.match(/(.*)-(.*)/);
+    const errorFile = path.basename(errorPath);
+
+    return `  ${chalk.red(type)} ${errorFile}\n ${chalk.yellow(error)}`;
   }
 
   let prefix = type == "TEST-OK" ? chalk.green(type) : chalk.blue(type);
@@ -136,26 +173,30 @@ function onTestInfo(line) {
   return `  ${prefix} ${file}`;
 }
 
-function onInfo(line) {
+function onInfo(line, data) {
   const [, msg] = line.match(/.*INFO(.*)$/);
 
-  if (msg.includes("Start BrowserChrome Test Results") && mode == "starting") {
-    mode = null;
+  if (
+    msg.includes("Start BrowserChrome Test Results") &&
+    data.mode == "starting"
+  ) {
+    data.mode = null;
     return;
   }
 
-  if (mode == "starting") {
+  if (data.mode == "starting") {
     return;
   }
 
-  if (line.match(/(Passed|Failed|Todo|Mode|Shutdown)/)) {
-    return;
+  if (msg.match(/(Passed|Failed|Todo|Mode):/)) {
+    const [, type, , val] = msg.match(/((Passed|Failed|Todo|Mode)):(.*)/);
+    return `${chalk.blue(type)}: ${val.trim()}`;
   }
 
   return `  ${msg}`;
 }
 
-function onConsole(line) {
+function onConsole(line, data) {
   if (line.match(/JavaScript Warning/)) {
     const res = line.match(/^.*JavaScript Warning: (.*)$/);
     if (!res) {
@@ -172,7 +213,8 @@ function onConsole(line) {
 }
 
 function readOutput(text) {
-  const out = text.split("\n").map(line => onLine(line)).filter(i => i);
+  let data = { mode: "starting" };
+  const out = text.split("\n").map(line => onLine(line, data)).filter(i => i);
   return out;
 }
 
@@ -206,10 +248,12 @@ function runMochitests(args) {
     silent: true
   });
 
+  let testData = { mode: "starting" };
+
   child.stdout.on("data", function(data) {
     data = data.trim();
     const lines = data.split("\n").forEach(line => {
-      const out = onLine(line.trim());
+      const out = onLine(line.trim(), testData);
       if (out) {
         console.log(out);
       }

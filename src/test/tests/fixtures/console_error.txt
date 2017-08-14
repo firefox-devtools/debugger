@@ -1,0 +1,28 @@
+0 INFO *** Start BrowserChrome Test Results ***
+
+GECKO(14583) | console.error:
+GECKO(14583) |   Handler function NetworkEventActorProxy.addSecurityInfo threw an exception: [Exception... "Component returned failure code: 0xc1f30001 (NS_ERROR_NOT_INITIALIZED) [nsIMessageSender.sendAsyncMessage]"  nsresult: "0xc1f30001 (NS_ERROR_NOT_INITIALIZED)"  location: "JS frame :: resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/webconsole/network-monitor.js :: NetworkEventActorProxy.methodFactory/< :: line 1689"  data: no]
+GECKO(14583) | Stack: NetworkEventActorProxy.methodFactory/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/webconsole/network-monitor.js:1689:5
+GECKO(14583) | exports.makeInfallible/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
+GECKO(14583) | NetworkResponseListener.prototype._getSecurityInfo<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/webconsole/network-monitor.js:495:5
+GECKO(14583) | exports.makeInfallible/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
+GECKO(14583) | onStartRequest@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/webconsole/network-monitor.js:436:5
+GECKO(14583) | ensureDOMPromiseRejectionsProcessed@resource://testing-common/PromiseTestUtils.jsm:117:5
+GECKO(14583) | Tester.prototype.nextTest<@chrome://mochikit/content/browser-test.js:447:7
+GECKO(14583) | TaskImpl_run@resource://gre/modules/Task.jsm:331:42
+GECKO(14583) | TaskImpl_handleResultValue@resource://gre/modules/Task.jsm:413:7
+GECKO(14583) | TaskImpl_run@resource://gre/modules/Task.jsm:339:15
+GECKO(14583) | promise callback*TaskImpl_handleResultValue@resource://gre/modules/Task.jsm:408:7
+GECKO(14583) | TaskImpl_run@resource://gre/modules/Task.jsm:339:15
+GECKO(14583) | TaskImpl_handleResultValue@resource://gre/modules/Task.jsm:413:7
+GECKO(14583) | TaskImpl_run@resource://gre/modules/Task.jsm:339:15
+GECKO(14583) | TaskImpl_handleResultValue@resource://gre/modules/Task.jsm:413:7
+GECKO(14583) | TaskImpl_run@resource://gre/modules/Task.jsm:339:15
+GECKO(14583) | TaskImpl_handleResultValue@resource://gre/modules/Task.jsm:413:7
+GECKO(14583) | TaskImpl_run@resource://gre/modules/Task.jsm:339:15
+GECKO(14583) | TaskImpl@resource://gre/modules/Task.jsm:280:3
+GECKO(14583) | asyncFunction@resource://gre/modules/Task.jsm:252:14
+GECKO(14583) | testScope/test_finish/<@chrome://mochikit/content/browser-test.js:1094:11
+GECKO(14583) | run@chrome://mochikit/content/browser-test.js:1031:9
+GECKO(14583) | Line: 1689, column: 0
+149 INFO *** End BrowserChrome Test Results ***
