@@ -1,8 +1,8 @@
 // @flow
-import { DOM as dom, Component, PropTypes } from "react";
-
+import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import classnames from "classnames";
 import {
   getPause,
   getIsWaitingOnBreak,
@@ -68,19 +68,22 @@ function formatKey(action) {
 }
 
 function debugBtn(onClick, type, className, tooltip, disabled = false) {
-  className = `${type} ${className}`;
-  return dom.button(
-    {
-      onClick,
-      className,
-      key: type,
-      "aria-label": tooltip,
-      title: tooltip,
-      disabled
-    },
-    Svg(type)
+  const props = {
+    onClick,
+    key: type,
+    "aria-label": tooltip,
+    title: tooltip,
+    disabled
+  };
+
+  return (
+    <button className={classnames(type, className)} {...props}>
+      {Svg(type)}
+    </button>
   );
 }
+
+debugBtn.displayName = "CommandBarButton";
 
 class CommandBar extends Component {
   props: {
@@ -231,11 +234,12 @@ class CommandBar extends Component {
   }
 
   render() {
-    return dom.div(
-      { className: "command-bar" },
-      this.renderPauseButton(),
-      this.renderStepButtons(),
-      this.renderPauseOnExceptions()
+    return (
+      <div className="command-bar">
+        {this.renderPauseButton()}
+        {this.renderStepButtons()}
+        {this.renderPauseOnExceptions()}
+      </div>
     );
   }
 }
