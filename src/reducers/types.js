@@ -12,4 +12,4 @@ export type State = {
 
 export type { SourceRecord, SourcesMap } from "./sources";
 
-export type { BreakpointMap } from "./breakpoints";
+export type { BreakpointsMap } from "./breakpoints";

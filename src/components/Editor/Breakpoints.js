@@ -9,11 +9,11 @@ import { getSelectedSource } from "../../selectors";
 import getVisibleBreakpoints from "../../selectors/visibleBreakpoints";
 import { makeLocationId } from "../../utils/breakpoint";
 
-import type { SourceRecord, BreakpointMap } from "../../reducers/types";
+import type { SourceRecord, BreakpointsMap } from "../../reducers/types";
 
 type props = {
   selectedSource: SourceRecord,
-  breakpoints: BreakpointMap,
+  breakpoints: BreakpointsMap,
   editor: Object
 };
 

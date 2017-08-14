@@ -22,10 +22,10 @@ import type { PendingBreakpoint } from "debugger-html";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-export type PendingBreakpointMap = I.Map<string, PendingBreakpoint>;
+export type PendingBreakpointsMap = I.Map<string, PendingBreakpoint>;
 
 export type PendingBreakpointsState = {
-  pendingBreakpoints: PendingBreakpointMap
+  pendingBreakpoints: PendingBreakpointsMap
 };
 
 export function initialState(): Record<PendingBreakpointsState> {

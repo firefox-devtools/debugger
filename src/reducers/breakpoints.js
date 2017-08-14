@@ -18,10 +18,10 @@ import type { Breakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
-export type BreakpointMap = I.Map<string, Breakpoint>;
+export type BreakpointsMap = I.Map<string, Breakpoint>;
 
 export type BreakpointsState = {
-  breakpoints: BreakpointMap
+  breakpoints: BreakpointsMap
 };
 
 export function initialState(): Record<BreakpointsState> {

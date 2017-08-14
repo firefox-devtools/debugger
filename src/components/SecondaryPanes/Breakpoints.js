@@ -1,10 +1,11 @@
 // @flow
-import { DOM as dom, PropTypes, PureComponent } from "react";
+import { DOM as dom, PureComponent } from "react";
+import * as I from "immutable";
+
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
 import { bindActionCreators } from "redux";
 import { isEnabled } from "devtools-config";
-import ImPropTypes from "react-immutable-proptypes";
 import classnames from "classnames";
 import actions from "../../actions";
 import {
@@ -21,12 +22,27 @@ import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
 import get from "lodash/get";
 
-import type { Breakpoint } from "../../types";
+import type { Breakpoint, Location } from "../../types";
 
 type LocalBreakpoint = Breakpoint & {
   location: any,
   isCurrentlyPaused: boolean,
   locationId: string
+};
+
+type BreakpointsMap = I.Map<string, LocalBreakpoint>;
+
+type Props = {
+  breakpoints: BreakpointsMap,
+  enableBreakpoint: Location => void,
+  disableBreakpoint: Location => void,
+  selectSource: (string, { line: number }) => void,
+  removeBreakpoint: string => void,
+  removeAllBreakpoints: () => void,
+  removeBreakpoints: BreakpointsMap => void,
+  toggleBreakpoints: (boolean, BreakpointsMap) => void,
+  toggleAllBreakpoints: boolean => void,
+  toggleDisabledBreakpoint: number => void
 };
 
 function isCurrentlyPausedAtBreakpoint(pause, breakpoint) {
@@ -57,6 +73,8 @@ function renderSourceLocation(source, line, column) {
 }
 
 class Breakpoints extends PureComponent {
+  props: Props;
+
   shouldComponentUpdate(nextProps, nextState) {
     const { breakpoints } = this.props;
     return breakpoints !== nextProps.breakpoints;
@@ -299,15 +317,6 @@ class Breakpoints extends PureComponent {
 }
 
 Breakpoints.displayName = "Breakpoints";
-
-Breakpoints.propTypes = {
-  breakpoints: ImPropTypes.map.isRequired,
-  enableBreakpoint: PropTypes.func.isRequired,
-  disableBreakpoint: PropTypes.func.isRequired,
-  selectSource: PropTypes.func.isRequired,
-  removeBreakpoint: PropTypes.func.isRequired,
-  removeAllBreakpoints: PropTypes.func.isRequired
-};
 
 function updateLocation(sources, pause, bp): LocalBreakpoint {
   const source = getSourceInSources(sources, bp.location.sourceId);

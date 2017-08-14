@@ -24,6 +24,7 @@ import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
 
 import type { ThunkArgs } from "./types";
 import type { PendingBreakpoint, Location } from "../types";
+import type { BreakpointsMap } from "../reducers/types";
 
 type addBreakpointOptions = {
   condition: string
@@ -200,7 +201,7 @@ export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
  */
 export function toggleBreakpoints(
   shouldDisableBreakpoints: boolean,
-  breakpoints: Breakpoints
+  breakpoints: BreakpointsMap
 ) {
   return async ({ dispatch }: ThunkArgs) => {
     for (let [, breakpoint] of breakpoints) {
@@ -234,7 +235,7 @@ export function removeAllBreakpoints() {
  * @memberof actions/breakpoints
  * @static
  */
-export function removeBreakpoints(breakpoints: Breakpoints) {
+export function removeBreakpoints(breakpoints: BreakpointsMap) {
   return async ({ dispatch }: ThunkArgs) => {
     for (let [, breakpoint] of breakpoints) {
       await dispatch(removeBreakpoint(breakpoint.location));
