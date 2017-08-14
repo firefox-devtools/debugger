@@ -94,7 +94,6 @@ function onGecko(line, data) {
 
   return msg;
 }
-// 150 INFO TEST-UNEXPECTED-FAIL | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Uncaught exception - at chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/head.js:243 - TypeError: lineInfo is null
 
 function onDone(line) {
   if (line.includes("TEST-UNEXPECTED-FAIL")) {
@@ -113,7 +112,6 @@ function onLine(line, data) {
   }
 
   if (data.mode == "done") {
-    // console.log(line)
     return onDone(line);
   }
 
