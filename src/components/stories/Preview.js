@@ -1,9 +1,8 @@
-import React, { DOM as dom } from "react";
+import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import _Preview from "../Editor/Preview";
-const Preview = React.createFactory(_Preview.WrappedComponent);
+import { Preview } from "../Editor/Preview";
 import { L10N } from "devtools-launchpad";
 import { setValue } from "devtools-config";
 import * as I from "immutable";
@@ -139,7 +138,7 @@ if (typeof window == "object") {
   window.L10N.setBundle(require("../../../assets/panel/debugger.properties"));
 }
 
-function PreviewFactory(options, { dir = "ltr", theme = "light" } = {}) {
+function PreviewFactory({ dir = "ltr", theme = "light", ...props }) {
   const themeClass = `theme-${theme}`;
   document.dir = dir;
   document.body.parentNode.className = themeClass;
@@ -152,93 +151,98 @@ function PreviewFactory(options, { dir = "ltr", theme = "light" } = {}) {
     height: 30
   };
 
-  const location = {
+  const range = {
     start: { line: 3, column: 4 },
     end: { line: 3, column: 4 }
   };
 
   const editor = { codeMirror: { markText: () => {} } };
 
-  return dom.div(
-    {
-      className: "editor-wrapper",
-      style: {
+  return (
+    <div
+      className="editor-wrapper"
+      style={{
         width: "calc(100vw - 30px)",
         height: "calc(100vh - 30px)",
         margin: "10px"
-      }
-    },
-    dom.div(
-      {
-        className: `preview ${themeClass}`,
-        dir,
-        style: {
-          width: "100vw"
-        }
-      },
-      Preview(
-        Object.assign(
-          {},
-          {
-            value: null,
-            expression: null,
-            loadedObjects: {},
-            editor,
-            popoverPos,
-            location,
-            loadObjectProperties: () => {},
-            onClose: action("onClose")
-          },
-          options
-        )
-      )
-    )
+      }}
+    >
+      <div
+        className={`preview ${themeClass}`}
+        dir={dir}
+        style={{ width: "100vw" }}
+      >
+        <Preview
+          value={null}
+          expression={null}
+          loadedObjects={{}}
+          editor={editor}
+          popoverPos={popoverPos}
+          range={range}
+          loadObjectProperties={() => {}}
+          onClose={action("onClose")}
+          {...props}
+        />
+      </div>
+    </div>
   );
 }
+
+PreviewFactory.displayName = "PreviewFactory";
 
 storiesOf("Preview", module)
   .add("simple Object", () => {
     setValue("features.previewWatch", false);
-    return PreviewFactory({
-      value: obj,
-      expression: "this",
-      loadedObjects: I.Map().set(obj.actor, obj)
-    });
+    return (
+      <PreviewFactory
+        value={obj}
+        expression="this"
+        loadedObjects={I.Map().set(obj.actor, obj)}
+      />
+    );
   })
   .add("simple Object with Input", () => {
     setValue("features.previewWatch", true);
-    return PreviewFactory({
-      value: obj,
-      expression: "this",
-      loadedObjects: { [obj.actor]: obj }
-    });
+    return (
+      <PreviewFactory
+        value={obj}
+        expression="this"
+        loadedObjects={{ [obj.actor]: obj }}
+      />
+    );
   })
   .add("Object with window keys", () => {
     let grip = createObjectGrip("foo");
     grip.ownProperties.arr = createArrayPreview("arr");
     grip.ownProperties.location = createObjectPreview("location");
-    return PreviewFactory({
-      value: grip,
-      expression: "this",
-      loadedObjects: { [grip.actor]: grip }
-    });
+    return (
+      <PreviewFactory
+        value={grip}
+        expression="this"
+        loadedObjects={{ [grip.actor]: grip }}
+      />
+    );
   })
   .add("Window Preview", () => {
     let grip = createObjectGrip("foo");
     grip.class = "Window";
     grip.ownProperties.arr = createArrayPreview("arr");
     grip.ownProperties.location = createObjectPreview("location");
-    return PreviewFactory({
-      value: grip,
-      expression: "this",
-      loadedObjects: { [grip.actor]: grip }
-    });
+    return (
+      <PreviewFactory
+        value={grip}
+        expression="this"
+        loadedObjects={{ [grip.actor]: grip }}
+      />
+    );
   })
   .add("Function Preview", () => {
     let grip = createFunctionGrip("renderFoo", ["props", "state"]);
-    return PreviewFactory({
-      value: grip,
-      expression: "this",
-      loadedObjects: { [grip.actor]: grip }
-    });
+    return (
+      <PreviewFactory
+        value={grip}
+        expression="this"
+        loadedObjects={{ [grip.actor]: grip }}
+      />
+    );
   });
