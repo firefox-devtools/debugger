@@ -1,5 +1,5 @@
 // @flow
-import { createFactory, Component, DOM as dom } from "react";
+import React, { createFactory, Component } from "react";
 import "./ManagedTree.css";
 
 import { Tree as _Tree } from "devtools-components";
@@ -44,10 +44,6 @@ class ManagedTree extends Component {
       expanded: new Set(),
       focusedItem: null
     };
-
-    const self: any = this;
-    self.setExpanded = this.setExpanded.bind(this);
-    self.focusItem = this.focusItem.bind(this);
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -134,7 +130,11 @@ class ManagedTree extends Component {
     };
 
     const props = { ...this.props, ...overrides };
-    return dom.div({ className: "managed-tree" }, Tree(props));
+    return (
+      <div className="managed-tree">
+        <Tree {...props} />
+      </div>
+    );
   }
 }
 
