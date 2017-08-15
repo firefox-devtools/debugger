@@ -39,7 +39,7 @@
 .editor-wrapper {
   position: absolute;
   height: calc(100% - 31px);
-  width: 100%;
+  width: calc(100% - 1.5px);
   top: 30px;
   left: 0px;
   --editor-footer-height: 27px;
