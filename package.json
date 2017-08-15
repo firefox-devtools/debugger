@@ -63,6 +63,7 @@
     "devtools-source-map": "0.11.0",
     "devtools-splitter": "^0.0.3",
     "fuzzaldrin-plus": "^0.4.1",
+    "immutable": "3.7.6",
     "lodash": "^4.17.4",
     "lodash.kebabcase": "^4.1.1",
     "md5": "^2.2.1",
