@@ -1,7 +1,6 @@
 // @flow
 
-import { DOM as dom } from "react";
-
+import React from "react";
 import times from "lodash/times";
 import zip from "lodash/zip";
 import flatten from "lodash/flatten";
@@ -24,33 +23,46 @@ function getFunctionName(func: FunctionType) {
 
 function renderFunctionName(func: FunctionType) {
   const name = getFunctionName(func);
-  return dom.span({ className: "function-name" }, name);
+  return (
+    <span className="function-name">
+      {" "}{name}{" "}
+    </span>
+  );
 }
 
 function renderParams(func: FunctionType) {
   const { parameterNames = [] } = func;
-  let params = parameterNames
-    .filter(i => i)
-    .map(param => dom.span({ className: "param" }, param));
+  let params = parameterNames.filter(i => i).map(param =>
+    <span className="param">
+      {" "}{param}{" "}
+    </span>
+  );
 
   const commas = times(params.length - 1).map(() =>
-    dom.span({ className: "delimiter" }, ", ")
+    <span className="delimiter">
+      {" "}{", "}{" "}
+    </span>
   );
 
   return flatten(zip(params, commas));
 }
 
 function renderParen(paren) {
-  return dom.span({ className: "paren" }, paren);
+  return (
+    <span className="paren">
+      {" "}{paren}{" "}
+    </span>
+  );
 }
 
 function previewFunction(func: FunctionType) {
-  return dom.span(
-    { className: "function-signature" },
-    renderFunctionName(func),
-    renderParen("("),
-    ...renderParams(func),
-    renderParen(")")
+  return (
+    <span className="function-signature">
+      {renderFunctionName(func)}
+      {renderParen("(")}
+      {renderParams(func).map(item => item)}
+      {renderParen(")")}
+    </span>
   );
 }
 
