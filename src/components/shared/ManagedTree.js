@@ -134,7 +134,11 @@ class ManagedTree extends Component {
     };
 
     const props = { ...this.props, ...overrides };
-    return dom.div({ className: "managed-tree" }, Tree(props));
+    return (
+      <div className="managed-tree">
+        <Tree {...props} />
+      </div>
+    );
   }
 }
 
