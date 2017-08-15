@@ -1,15 +1,13 @@
 // @flow
 
-import { createFactory, DOM as dom, Component } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { isEnabled } from "devtools-config";
 
-import _ObjectInspector from "../shared/ObjectInspector";
-const ObjectInspector = createFactory(_ObjectInspector);
+import ObjectInspector from "../shared/ObjectInspector";
 
-import _Popover from "../shared/Popover";
-const Popover = createFactory(_Popover);
+import Popover from "../shared/Popover";
 
 import previewFunction from "../shared/previewFunction";
 import { getLoadedObjects } from "../../selectors";
@@ -23,7 +21,7 @@ import type { EditorRange } from "../../utils/editor/types";
 
 import "./Preview.css";
 
-class Preview extends Component {
+export class Preview extends Component {
   marker: any;
   pos: any;
   props: {
@@ -65,7 +63,7 @@ class Preview extends Component {
     }
   }
 
-  getChildren(root, getObjectProperties) {
+  getChildren(root: Object, getObjectProperties: Function) {
     const actors = {};
 
     const children = getChildren({
@@ -85,39 +83,47 @@ class Preview extends Component {
     const { selectSourceURL } = this.props;
     const { location } = value;
 
-    return dom.div(
-      {
-        className: "preview",
-        onClick: () => selectSourceURL(location.url, { line: location.line })
-      },
-      previewFunction(value)
+    return (
+      <div
+        className="preview"
+        onClick={() => selectSourceURL(location.url, { line: location.line })}
+      >
+        {previewFunction(value)}
+      </div>
     );
   }
 
   renderObjectPreview(expression: string, root: Object) {
-    return dom.div({ className: "preview" }, this.renderObjectInspector(root));
-  }
-
-  renderSimplePreview(value: Object) {
-    return dom.div(
-      { className: "preview" },
-      Rep({ object: value, mode: MODE.LONG })
+    return (
+      <div className="preview">
+        {this.renderObjectInspector(root)}
+      </div>
     );
   }
 
-  renderObjectInspector(root) {
+  renderSimplePreview(value: Object) {
+    return (
+      <div className="preview">
+        {Rep({ object: value, mode: MODE.LONG })}
+      </div>
+    );
+  }
+
+  renderObjectInspector(root: Object) {
     const { loadObjectProperties, loadedObjects } = this.props;
 
     const getObjectProperties = id => loadedObjects[id];
     const roots = this.getChildren(root, getObjectProperties);
 
-    return ObjectInspector({
-      roots,
-      getObjectProperties,
-      autoExpandDepth: 0,
-      onDoubleClick: () => {},
-      loadObjectProperties
-    });
+    return (
+      <ObjectInspector
+        roots={roots}
+        getObjectProperties={getObjectProperties}
+        autoExpandDepth={0}
+        onDoubleClick={() => {}}
+        loadObjectProperties={loadObjectProperties}
+      />
+    );
   }
 
   renderAddToExpressionBar(expression: string) {
@@ -126,19 +132,19 @@ class Preview extends Component {
     }
 
     const { addExpression } = this.props;
-    return dom.div(
-      { className: "add-to-expression-bar" },
-      dom.div({ className: "prompt" }, "»"),
-      dom.div({ className: "expression-to-save-label" }, expression),
-      dom.div(
-        {
-          className: "expression-to-save-button",
-          onClick: event => {
-            addExpression(expression);
-          }
-        },
-        L10N.getStr("addWatchExpressionButton")
-      )
+    return (
+      <div className="add-to-expression-bar">
+        <div className="prompt">»</div>
+        <div className="expression-to-save-label">
+          {expression}
+        </div>
+        <div
+          className="expression-to-save-button"
+          onClick={event => addExpression(event)}
+        >
+          {L10N.getStr("addWatchExpressionButton")}
+        </div>
+      </div>
     );
   }
 
@@ -154,17 +160,18 @@ class Preview extends Component {
     }
 
     if (value.type === "object") {
-      return dom.div(
-        {},
-        this.renderObjectPreview(expression, root),
-        this.renderAddToExpressionBar(expression)
+      return (
+        <div>
+          {this.renderObjectPreview(expression, root)}
+          {this.renderAddToExpressionBar(expression)}
+        </div>
       );
     }
 
     return this.renderSimplePreview(value);
   }
 
-  getPreviewType(value) {
+  getPreviewType(value: any) {
     if (
       typeof value == "boolean" ||
       value.type == "null" ||
@@ -182,13 +189,10 @@ class Preview extends Component {
 
     let type = this.getPreviewType(value);
 
-    return Popover(
-      {
-        targetPosition: popoverPos,
-        onMouseLeave: onClose,
-        type
-      },
-      this.renderPreview(expression, value)
+    return (
+      <Popover targetPosition={popoverPos} onMouseLeave={onClose} type={type}>
+        {this.renderPreview(expression, value)}
+      </Popover>
     );
   }
 }

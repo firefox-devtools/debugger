@@ -105,10 +105,10 @@
   line-height: 30px;
   background: var(--theme-toolbar-background);
   color: var(--theme-comment-alt);
+  padding: 0 4px;
 }
 
 .add-to-expression-bar .prompt {
-  padding-left: 3px;
   width: 1em;
 }
 
