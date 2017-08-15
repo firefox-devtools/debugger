@@ -66,4 +66,6 @@ function previewFunction(func: FunctionType) {
   );
 }
 
+previewFunction.displayName = "previewFunction";
+
 export default previewFunction;
