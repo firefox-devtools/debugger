@@ -37,6 +37,7 @@ import Preview from "./Preview";
 import Breakpoints from "./Breakpoints";
 import HitMarker from "./HitMarker";
 import CallSites from "./CallSites";
+import DebugLine from "./DebugLine";
 
 import {
   showSourceText,
@@ -48,11 +49,9 @@ import {
   resizeBreakpointGutter,
   traverseResults,
   updateSelection,
-  markText,
   lineAtHeight,
   toSourceLine,
   toEditorLine,
-  toEditorPosition,
   toEditorRange,
   resetLineNumberFormat
 } from "../../utils/editor";
@@ -69,7 +68,6 @@ const cssVars = {
   footerHeight: "var(--editor-footer-height)"
 };
 
-let debugExpression;
 class Editor extends PureComponent {
   cbPanel: any;
   editor: SourceEditor;
@@ -104,7 +102,7 @@ class Editor extends PureComponent {
   componentWillReceiveProps(nextProps) {
     // This lifecycle method is responsible for updating the editor
     // text.
-    const { selectedSource, selectedLocation } = nextProps;
+    const { selectedSource } = nextProps;
 
     if (
       nextProps.startPanelSize !== this.props.startPanelSize ||
@@ -133,8 +131,6 @@ class Editor extends PureComponent {
         clearLineClass(this.state.editor.codeMirror, "in-scope");
       });
 
-      this.clearDebugLine(this.props.selectedFrame);
-      this.setDebugLine(nextProps.selectedFrame, selectedLocation);
       resizeBreakpointGutter(this.state.editor.codeMirror);
     }
   }
@@ -471,40 +467,6 @@ class Editor extends PureComponent {
     return !!this.cbPanel;
   }
 
-  clearDebugLine(selectedFrame) {
-    if (this.state.editor && selectedFrame) {
-      const { sourceId, line } = selectedFrame.location;
-      if (debugExpression) {
-        debugExpression.clear();
-      }
-
-      let editorLine = toEditorLine(sourceId, line);
-      this.state.editor.codeMirror.removeLineClass(
-        editorLine,
-        "line",
-        "new-debug-line"
-      );
-    }
-  }
-
-  setDebugLine(selectedFrame, selectedLocation) {
-    if (
-      this.state.editor &&
-      selectedFrame &&
-      selectedLocation &&
-      selectedFrame.location.sourceId === selectedLocation.sourceId
-    ) {
-      const { location, sourceId } = selectedFrame;
-      const { line, column } = toEditorPosition(sourceId, location);
-
-      this.state.editor.codeMirror.addLineClass(line, "line", "new-debug-line");
-      debugExpression = markText(this.state.editor, "debug-expression", {
-        start: { line, column },
-        end: { line, column: null }
-      });
-    }
-  }
-
   // If the location has changed and a specific line is requested,
   // move to that line and flash it.
   highlightLine() {
@@ -704,6 +666,28 @@ class Editor extends PureComponent {
     return <Breakpoints editor={this.state.editor} />;
   }
 
+  renderDebugLine() {
+    const { editor } = this.state;
+    const { selectedLocation, selectedFrame } = this.props;
+    if (
+      !editor ||
+      !selectedLocation ||
+      !selectedFrame ||
+      !selectedLocation.line ||
+      selectedFrame.location.sourceId !== selectedLocation.sourceId
+    ) {
+      return null;
+    }
+
+    return (
+      <DebugLine
+        editor={editor}
+        selectedFrame={selectedFrame}
+        selectedLocation={selectedLocation}
+      />
+    );
+  }
+
   render() {
     const { coverageOn, pauseData } = this.props;
 
@@ -725,6 +709,7 @@ class Editor extends PureComponent {
         {this.renderFooter()}
         {this.renderPreview()}
         {this.renderCallSites()}
+        {this.renderDebugLine()}
         {this.renderBreakpoints()}
       </div>
     );
