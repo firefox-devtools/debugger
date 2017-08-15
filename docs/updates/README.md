@@ -154,6 +154,14 @@ lots happened since the last update:
 * Bug Fixes
 * Project Search
 
+### [August 15th](./updates-8-15-2017.md)
+
+* We're switching to JSX
+* Project Search is getting close
+* Lots of test and code quality fixes
+* Lots of small paper cut fixes
+
+
 [@asolove]:http://github.com/asolove
 [@ryanjduffy]:http://github.com/ryanjduffy
 [@diessica]:http://github.com/diessica
