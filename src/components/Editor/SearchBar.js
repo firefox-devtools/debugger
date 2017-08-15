@@ -144,9 +144,9 @@ class SearchBar extends Component {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
 
-    const hasLoaded = selectedSource && !selectedSource.get("loading");
+    const hasLoaded = selectedSource && isLoaded(selectedSource.toJS());
     const wasLoading =
-      prevProps.selectedSource && prevProps.selectedSource.get("loading");
+      prevProps.selectedSource && isLoaded(prevProps.selectedSource);
 
     const doneLoading = wasLoading && hasLoaded;
     const changedFiles =

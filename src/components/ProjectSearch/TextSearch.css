@@ -1,5 +1,8 @@
 .project-text-search {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
 }
 
 .project-text-search .result {
@@ -77,4 +80,8 @@
   display: flex;
   align-self: stretch;
   flex-grow: 1;
+}
+
+.project-text-search .managed-tree {
+  overflow-y: auto;
 }
