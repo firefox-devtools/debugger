@@ -229,8 +229,10 @@ export default class TextSearch extends Component {
     const { searchBottomBar } = this.props;
     return (
       <div className="project-text-search">
-        {this.renderInput()}
-        {searchBottomBar}
+        <div className="header">
+          {this.renderInput()}
+          {searchBottomBar}
+        </div>
         {this.renderResults()}
       </div>
     );
