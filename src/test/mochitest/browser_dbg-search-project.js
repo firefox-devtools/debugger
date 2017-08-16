@@ -2,7 +2,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 function openProjectSearch(dbg) {
-  synthesizeKeyShortcut("CmdOrCtrl+Shift+f");
+  synthesizeKeyShortcut("CmdOrCtrl+Shift+F");
   return waitForState(
     dbg,
     state => dbg.selectors.getActiveSearchState(state) === "project"
