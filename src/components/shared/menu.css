@@ -24,7 +24,6 @@ menuitem {
 menuitem:hover {
   background: #3780fb;
   color: white;
-  cursor: pointer;
 }
 
 menuitem[disabled=true] {

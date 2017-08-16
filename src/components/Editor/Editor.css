@@ -96,10 +96,6 @@ html[dir="rtl"] .editor-mount {
   border: 1px solid #00b6ff;
 }
 
-.inline-bp:hover {
-  cursor: pointer;
-}
-
 .editor.new-breakpoint.folding-enabled svg {
   right: -16px;
 }

@@ -1,6 +1,5 @@
 .call-site {
   background: #f0f9ff;
-  cursor: pointer;
   position: relative;
 }
 
@@ -13,7 +12,6 @@
 }
 
 .call-site-bp {
-  cursor: pointer;
   position: relative;
 }
 
