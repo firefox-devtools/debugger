@@ -172,6 +172,11 @@ export default class TextSearch extends Component {
         : `${item.sourceId}-${item.line}-${item.column}`;
     }
 
+    let highlightItems = [];
+    if (results[0]) {
+      highlightItems.push(results[0].matches[0]);
+    }
+
     const renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
       return item.filepath
         ? this.renderFile(item, focused, expanded, setExpanded)
@@ -185,6 +190,7 @@ export default class TextSearch extends Component {
         itemHeight={20}
         autoExpand={1}
         autoExpandDepth={1}
+        highlightItems={highlightItems}
         focused={results[0]}
         getParent={item => null}
         getPath={getFilePath}
@@ -216,7 +222,10 @@ export default class TextSearch extends Component {
         size="big"
         summaryMsg={summaryMsg}
         onChange={e => this.inputOnChange(e)}
-        onFocus={() => this.setState({ focused: true })}
+        onFocus={() => {
+          this.setState({ focused: true });
+          this.focused = null;
+        }}
         onBlur={() => this.setState({ focused: false })}
         onKeyDown={e => this.onKeyDown(e)}
         handleClose={this.close}
