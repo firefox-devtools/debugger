@@ -9,15 +9,19 @@ import { getURL, getFilenameFromPath } from "./getURL";
 
 import type { Node } from "./types";
 
-function handleExistingChild(child, addedPartIsFile, handleConflict) {
-  // A node with the same name already exists, if the part to be added is a file
-  // or the existing child is a file, handle a naming conflict.
+// update this part
+// A node with the same name already exists, if the part to be added is a file
+// or the existing child is a file, handle a naming conflict.
+function handleExistingChild(part, path, subtree, child, parts, url, i) {
+  const addedPartIsFile = partIsFile(i, parts, url);
   const childIsFile = !nodeHasChildren(child);
   const hasNamingConflict =
     (childIsFile && !addedPartIsFile) || (!childIsFile && addedPartIsFile);
+
   if (hasNamingConflict) {
-    return handleConflict();
+    return createNodeInTree(part, path, subtree);
   }
+
   // if there is no naming conflict, we can traverse into the child
   return child;
 }
@@ -29,31 +33,35 @@ function createNodeInTree(part, path, tree) {
   return node;
 }
 
+function updatePart(parts, subTree, path, part, index, url) {
+  const child = subTree.contents.find(c => c.name === part);
+  if (child) {
+    // we found a path with the same name as the part. We need to determine
+    // if this is the correct child, or if we have a naming conflict
+    subTree = handleExistingChild(
+      part,
+      path,
+      subTree,
+      child,
+      parts,
+      url,
+      index
+    );
+  } else {
+    // we create and enter the new node
+    subTree = createNodeInTree(part, path, subTree);
+  }
+}
+
 function traverseTree(url, parts, tree) {
   // walk the source tree to the final node for a given url,
   // adding new nodes along the way
   let path = "";
-  let subtree = tree;
 
-  for (let i = 0; i < parts.length; i++) {
-    const part = parts[i];
-    const child = subtree.contents.find(c => c.name === part);
-    if (child) {
-      // we found a path with the same name as the part. We need to determine
-      // if this is the correct child, or if we have a naming conflict
-      subtree = handleExistingChild(child, partIsFile(i, parts, url), () =>
-        createNodeInTree(part, path, subtree)
-      );
-    } else {
-      // we create and enter the new node
-      subtree = createNodeInTree(part, path, subtree);
-    }
-    // Keep track of the children so we can tag each node with them.
+  return parts.reduce((subTree, part, index) => {
     path = `${path}/${part}`;
-  }
-
-  // return the last node
-  return subtree;
+    return updatePart(parts, subTree, path, part, index, url);
+  }, []);
 }
 
 function getNodeContents(node, url, source) {
@@ -98,5 +106,7 @@ export function addToTree(
 
   const finalNode = traverseTree(url, parts, tree);
   // update the final node with the correct contents
+
+  // change the name
   finalNode.contents = getNodeContents(finalNode, url, source);
 }
