@@ -11,7 +11,7 @@ import times from "lodash/times";
 import "../App.css";
 import "../Editor/Editor.css";
 
-import "devtools-launchpad/src/lib/themes/dark-theme.css";
+import "devtools-modules/src/themes/dark-theme.css";
 
 if (typeof window == "object") {
   window.L10N = L10N;
