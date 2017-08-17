@@ -11,7 +11,7 @@ import {
 } from "../../selectors";
 import { getScopes } from "../../utils/scopes";
 
-import ObjectInspector from "../shared/ObjectInspector";
+import { ObjectInspector } from "devtools-reps";
 
 import "./Scopes.css";
 
@@ -55,8 +55,15 @@ class Scopes extends PureComponent {
         <div className="pane scopes-list">
           <ObjectInspector
             roots={scopes}
+            autoExpandDepth={1}
             getObjectProperties={id => loadedObjects[id]}
             loadObjectProperties={loadObjectProperties}
+            disableWrap={true}
+            disabledFocus={true}
+            dimTopLevelWindow={true}
+            // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
+            getObjectEntries={actor => {}}
+            loadObjectEntries={grip => {}}
           />
         </div>
       );
