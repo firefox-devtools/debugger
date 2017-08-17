@@ -129,7 +129,7 @@
     "stylelint": "^7.12.0",
     "webpack": "3.5.4",
     "workerjs": "github:jasonLaster/workerjs",
-    "yarn": "0.28.1"
+    "yarn": "0.28.4"
   },
   "lint-staged": {
     "*.js": ["prettier", "git add"],
