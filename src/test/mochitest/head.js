@@ -493,7 +493,7 @@ function resume(dbg) {
 }
 
 function deleteExpression(dbg, input) {
-  info("Resuming");
+  info(`Delete expression "${input}"`);
   return dbg.actions.deleteExpression({ input });
 }
 
