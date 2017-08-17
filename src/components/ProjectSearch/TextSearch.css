@@ -11,14 +11,11 @@
   margin-bottom: 1px;
   padding: 4px 0 4px 30px;
   font-size: 10px;
+  font-family: Menlo, monospace;
 }
 
 .project-text-search .matches-summary {
   margin-left: 5px;
-}
-
-.project-text-search .result {
-  font-family: Menlo, monospace;
 }
 
 .project-text-search .result.focused {

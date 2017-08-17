@@ -94,14 +94,17 @@ class ManagedTree extends Component {
     const expanded = this.state.expanded;
 
     // This file is visible, so we highlight it.
-    if (expanded.has(this.props.getPath(highlightItems[0]))) {
+    if (
+      highlightItems[0] &&
+      expanded.has(this.props.getPath(highlightItems[0]))
+    ) {
       this.focusItem(highlightItems[0]);
     } else {
       // Look at folders starting from the top-level until finds a
       // closed folder and highlights this folder
       const index = highlightItems
         .reverse()
-        .findIndex(item => !expanded.has(this.props.getPath(item)));
+        .findIndex(item => item && !expanded.has(this.props.getPath(item)));
       this.focusItem(highlightItems[index]);
     }
   }
