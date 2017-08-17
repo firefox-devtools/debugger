@@ -9,7 +9,7 @@ import * as I from "immutable";
 
 import "../App.css";
 import "../SecondaryPanes/Frames/Frames.css";
-import "devtools-launchpad/src/lib/themes/dark-theme.css";
+import "devtools-modules/src/themes/dark-theme.css";
 
 function createArrayPreview(name) {
   return {
