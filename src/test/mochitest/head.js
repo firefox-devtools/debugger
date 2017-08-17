@@ -147,6 +147,10 @@ function waitForThreadEvents(dbg, eventName) {
  */
 function waitForState(dbg, predicate) {
   return new Promise(resolve => {
+    if (predicate(dbg.store.getState())) {
+      return resolve();
+    }
+
     const unsubscribe = dbg.store.subscribe(() => {
       if (predicate(dbg.store.getState())) {
         unsubscribe();

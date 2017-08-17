@@ -13,7 +13,7 @@ import {
 import { startSearchWorker, stopSearchWorker } from "../utils/search";
 import { getValue } from "devtools-config";
 
-global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
 beforeAll(() => {
   startSourceMapWorker(getValue("workers.sourceMapURL"));
