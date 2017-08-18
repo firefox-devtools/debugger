@@ -62,7 +62,6 @@
 }
 
 .search-bottom-bar .search-modifiers button:hover {
-  cursor: pointer;
   background: var(--theme-toolbar-background-hover);
 }
 
@@ -90,14 +89,6 @@
   border: none;
   background: transparent;
   color: var(--theme-comment-alt);
-}
-
-.search-bottom-bar .search-type-toggles .search-type-name:hover {
-  cursor: pointer;
-}
-
-.search-bottom-bar .search-type-toggles .search-type-btn:hover {
-  cursor: pointer;
 }
 
 .search-bottom-bar .search-type-toggles .search-type-btn:active {

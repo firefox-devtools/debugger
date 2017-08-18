@@ -6,7 +6,6 @@
 .accordion ._header {
   background-color: var(--theme-toolbar-background);
   border-bottom: 1px solid var(--theme-splitter-color);
-  cursor: pointer;
   font-size: 12px;
   padding: 5px;
   transition: all 0.25s ease;

@@ -31,7 +31,6 @@
 /******************************************************************************/
 
 .objectLink:hover {
-  cursor: pointer;
   text-decoration: underline;
 }
 
@@ -127,7 +126,6 @@
 .objectRightBrace,
 .arrayLeftBracket,
 .arrayRightBracket {
-  cursor: pointer;
   font-weight: bold;
 }
 

@@ -29,10 +29,6 @@
   text-decoration: underline;
 }
 
-.popover .preview .header .link:hover {
-  cursor: pointer;
-}
-
 .selection,
 .debug-expression.selection {
   background-color: var(--theme-highlight-yellow);
@@ -46,10 +42,6 @@
 .theme-dark .cm-s-mozilla .selection,
 .theme-dark .cm-s-mozilla .debug-expression.selection {
   color: #e7ebee;
-}
-
-.selection:hover {
-  cursor: pointer;
 }
 
 .popover .preview .function-signature {
@@ -80,7 +72,6 @@
   min-height: inherit;
   max-height: 200px;
   overflow: auto;
-  cursor: pointer;
 }
 
 .theme-dark .tooltip .preview {
@@ -119,5 +110,4 @@
 .add-to-expression-bar .expression-to-save-button {
   font-size: 14px;
   color: var(--theme-content-color3);
-  cursor: pointer;
 }
