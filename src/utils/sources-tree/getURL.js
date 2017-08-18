@@ -1,3 +1,5 @@
+// @flow
+
 import { parse } from "url";
 import merge from "lodash/merge";
 

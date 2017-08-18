@@ -40,7 +40,7 @@ export function isInvalidUrl(url: Object, source: Object) {
   );
 }
 
-export function partIsFile(index: Number, parts: Array<string>, url: Object) {
+export function partIsFile(index: number, parts: Array<string>, url: Object) {
   const isLastPart = index === parts.length - 1;
   return !isDirectory(url) && isLastPart;
 }

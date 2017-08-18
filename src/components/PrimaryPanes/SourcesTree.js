@@ -86,7 +86,7 @@ class SourcesTree extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.debuggeeUrl !== nextProps.debuggeeUrl) {
       // Recreate tree because the sort order changed
-      this.setState(createTree(nextProps.sources, nexProps.debuggeeUrl));
+      this.setState(createTree(nextProps.sources, nextProps.debuggeeUrl));
       return;
     }
     const { selectedSource } = this.props;
