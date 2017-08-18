@@ -15,6 +15,7 @@ function getMenuItems(
     addExpression
   }
 ) {
+  const copySourceLabel = L10N.getStr("copySource");
   const copySourceUrlLabel = L10N.getStr("copySourceUrl");
   const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
@@ -27,11 +28,18 @@ function getMenuItems(
     : blackboxLabel;
 
   const copySourceUrl = {
-    id: "node-menu-copy-source",
+    id: "node-menu-copy-source-url",
     label: copySourceUrlLabel,
     accesskey: copySourceUrlKey,
     disabled: false,
     click: () => copyToTheClipboard(selectedSource.get("url"))
+  };
+
+  const copySource = {
+    id: "node-menu-copy-source",
+    label: copySourceLabel,
+    disabled: false,
+    click: () => copyToTheClipboard(codeMirror.getSelection())
   };
 
   const { line, ch } = codeMirror.coordsChar({
@@ -86,6 +94,7 @@ function getMenuItems(
   }
 
   let menuItems = [
+    copySource,
     copySourceUrl,
     jumpLabel,
     showSourceMenuItem,
