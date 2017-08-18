@@ -1,3 +1,7 @@
+.outline {
+  overflow-y: auto;
+}
+
 .outline-list {
   list-style-type: none;
   padding-left: 0px;
@@ -6,9 +10,11 @@
 
 .outline-list__element {
   color: blue;
+  cursor: pointer;
+  padding-bottom: 0.2rem;
   padding-left: 1rem;
   padding-right: 0.5rem;
-  cursor: pointer;
+  padding-top: 0.2rem;
 }
 
 .outline-list__element:hover {

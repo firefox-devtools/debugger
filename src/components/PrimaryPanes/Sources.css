@@ -119,9 +119,8 @@
 
 .source-footer .tab.active {
   color: var(--theme-body-color);
-  background-color: var(--theme-body-background);
+  background-color: var(--theme-toolbar-background);
   border-color: var(--theme-splitter-color);
-  border-top-color: transparent;
 }
 
 .source-footer .tab.active path,
