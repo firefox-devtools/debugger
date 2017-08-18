@@ -1,6 +1,6 @@
 // @flow
 
-import isEqual from "lodash/isEqual";
+import { isEqual } from "lodash";
 
 export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
   const { left, top, width, height } = tokenEl.getBoundingClientRect();

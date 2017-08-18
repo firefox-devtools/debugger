@@ -2,10 +2,10 @@ import { getOutOfScopeLocations } from "../reducers/ast";
 import { getSelectedSource } from "../reducers/sources";
 import { getSourceLineCount } from "../utils/source";
 
-import range from "lodash/range";
-import flatMap from "lodash/flatMap";
-import uniq from "lodash/uniq";
-import without from "lodash/without";
+import { range } from "lodash";
+import { flatMap } from "lodash";
+import { uniq } from "lodash";
+import { without } from "lodash";
 
 function getOutOfScopeLines(outOfScopeLocations: AstLocation[]) {
   if (!outOfScopeLocations) {

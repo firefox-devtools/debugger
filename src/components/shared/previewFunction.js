@@ -2,9 +2,9 @@
 
 import { DOM as dom } from "react";
 
-import times from "lodash/times";
-import zip from "lodash/zip";
-import flatten from "lodash/flatten";
+import { times } from "lodash";
+import { zip } from "lodash";
+import { flatten } from "lodash";
 
 import { simplifyDisplayName } from "../../utils/frame";
 

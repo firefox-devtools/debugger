@@ -28,6 +28,12 @@
     },
     "searchNav": {
       "enabled": true
+    },
+    "collapseFrame": {
+      "enabled": true
+    },
+    "outline": {
+      "enabled": true
     }
   }
 }

@@ -1,6 +1,6 @@
 // @flow
 import type { Pause, Frame } from "../types";
-import get from "lodash/get";
+import { get } from "lodash";
 
 export function updateFrameLocations(
   frames: Frame[],

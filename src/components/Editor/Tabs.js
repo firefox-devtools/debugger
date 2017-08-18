@@ -19,7 +19,7 @@ import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
 import Svg from "../shared/Svg";
 import { showMenu, buildMenu } from "devtools-launchpad";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash";
 import { formatKeyShortcut } from "../../utils/text";
 import "./Tabs.css";
 

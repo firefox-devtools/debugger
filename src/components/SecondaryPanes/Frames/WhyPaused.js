@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
-import isString from "lodash/isString";
-import get from "lodash/get";
+import { isString } from "lodash";
+import { get } from "lodash";
 
 import { getPauseReason } from "../../../utils/pause";
 import type { Pause } from "debugger-html";

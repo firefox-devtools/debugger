@@ -7,7 +7,7 @@
  */
 
 import * as I from "immutable";
-import isFunction from "lodash/isFunction";
+import { isFunction } from "lodash";
 
 // hasOwnProperty is defensive because it is possible that the
 // object that we're creating a map for has a `hasOwnProperty` field

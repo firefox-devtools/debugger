@@ -53,6 +53,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "babel-preset-env": "^1.6.0",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
     "babylon": "^6.18.0",
@@ -131,6 +132,7 @@
     "rimraf": "^2.6.1",
     "stylelint": "^8.0.0",
     "webpack": "^3.5.5",
+    "webpack-visualizer-plugin": "^0.1.11",
     "workerjs": "github:jasonLaster/workerjs",
     "yarn": "0.28.1"
   },
