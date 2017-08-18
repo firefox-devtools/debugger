@@ -1,7 +1,9 @@
+// @flow
+
 import { parse } from "url";
 import merge from "lodash/merge";
 
-function getFilenameFromPath(pathname?: string) {
+export function getFilenameFromPath(pathname?: string) {
   let filename = "";
   if (pathname) {
     filename = pathname.substring(pathname.lastIndexOf("/") + 1);

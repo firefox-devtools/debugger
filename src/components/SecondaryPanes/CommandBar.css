@@ -24,7 +24,6 @@ html[dir="rtl"] .command-bar {
   appearance: none;
   background: transparent;
   border: none;
-  cursor: pointer;
   display: inline-block;
   text-align: center;
   padding: 8px 5px;

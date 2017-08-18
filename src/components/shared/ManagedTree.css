@@ -17,7 +17,6 @@
 .managed-tree .tree .node {
   padding: 2px 3px 2px 3px;
   position: relative;
-  cursor: pointer;
 }
 
 .managed-tree .tree .node.focused {

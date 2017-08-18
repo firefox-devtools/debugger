@@ -31,7 +31,6 @@
 
 .result-list li:hover {
   background: var(--theme-tab-toolbar-background);
-  cursor: pointer;
 }
 
 .result-list li.selected {

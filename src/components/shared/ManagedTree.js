@@ -1,5 +1,5 @@
 // @flow
-import { createFactory, Component, DOM as dom } from "react";
+import React, { createFactory, Component } from "react";
 import "./ManagedTree.css";
 
 import { Tree as _Tree } from "devtools-components";
@@ -134,7 +134,11 @@ class ManagedTree extends Component {
     };
 
     const props = { ...this.props, ...overrides };
-    return dom.div({ className: "managed-tree" }, Tree(props));
+    return (
+      <div className="managed-tree">
+        <Tree {...props} />
+      </div>
+    );
   }
 }
 

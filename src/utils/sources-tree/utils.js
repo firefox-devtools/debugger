@@ -4,6 +4,8 @@ import { parse } from "url";
 
 import type { Node } from "./types";
 import type { SourceRecord } from "../../reducers/types";
+import { isPretty } from "../source";
+const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
 export function nodeHasChildren(item: Node): boolean {
   return Array.isArray(item.contents);
@@ -26,6 +28,21 @@ export function isDirectory(url: Object) {
   return (
     parts.length === 0 || url.path.slice(-1) === "/" || nodeHasChildren(url)
   );
+}
+
+export function isInvalidUrl(url: Object, source: Object) {
+  return (
+    IGNORED_URLS.indexOf(url) != -1 ||
+    !source.get("url") ||
+    source.get("loading") ||
+    !url.group ||
+    isPretty(source.toJS())
+  );
+}
+
+export function partIsFile(index: number, parts: Array<string>, url: Object) {
+  const isLastPart = index === parts.length - 1;
+  return !isDirectory(url) && isLastPart;
 }
 
 export function createNode(

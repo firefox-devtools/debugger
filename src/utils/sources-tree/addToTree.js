@@ -1,65 +1,101 @@
-import { isPretty } from "../source";
+// @flow
+
 import {
   nodeHasChildren,
-  isExactUrlMatch,
   isDirectory,
+  isInvalidUrl,
+  partIsFile,
   createNode
 } from "./utils";
-import { getURL } from "./getURL";
+import { getURL, getFilenameFromPath } from "./getURL";
 
 import type { Node } from "./types";
+import type { SourceRecord } from "../../reducers/types";
 
-const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
+function createNodeInTree(part: string, path: string, tree: Node) {
+  const node = createNode(part, path, []);
+  // we are modifying the tree
+  tree.contents = [...tree.contents, node];
+  return node;
+}
 
-/**
- * Look at the nodes in the source tree, and determine the index of where to
- * insert a new node. The ordering is index -> folder -> file.
- * @memberof utils/sources-tree
- * @static
+/*
+ * Look for the child directory
+ * 1. if it exists return it
+ * 2. if it does not exist create it
+ * 3. if it is a file, replace it with a directory
  */
-function determineFileSortOrder(
-  nodes: Array<Node>,
-  pathPart: string,
-  isLastPart: boolean,
-  debuggeeUrl: string
+function findOrCreateNode(
+  parts: string[],
+  subTree: Node,
+  path: string,
+  part: string,
+  index: number,
+  url: Object
 ) {
-  const partIsDir = !isLastPart || pathPart.indexOf(".") === -1;
+  const child = subTree.contents.find(c => c.name === part);
 
-  return nodes.findIndex(node => {
-    const nodeIsDir = nodeHasChildren(node);
+  // we create and enter the new node
+  if (!child) {
+    return createNodeInTree(part, path, subTree);
+  }
 
-    // The index will always be the first thing, so this pathPart will be
-    // after it.
-    if (node.name === "(index)") {
-      return false;
-    }
+  // we found a path with the same name as the part. We need to determine
+  // if this is the correct child, or if we have a naming conflict
+  const addedPartIsFile = partIsFile(index, parts, url);
+  const childIsFile = !nodeHasChildren(child);
 
-    // Directory or not, checking root url must be done first
-    if (debuggeeUrl) {
-      const rootUrlMatch = isExactUrlMatch(pathPart, debuggeeUrl);
-      const nodeUrlMatch = isExactUrlMatch(node.name, debuggeeUrl);
-      if (rootUrlMatch) {
-        // pathPart matches root url and must go first
-        return true;
-      }
-      if (nodeUrlMatch) {
-        // Examined item matches root url and must go first
-        return false;
-      }
-      // If neither is the case, continue to compare alphabetically
-    }
+  // if we have a naming conflict, we'll create a new node
+  if ((childIsFile && !addedPartIsFile) || (!childIsFile && addedPartIsFile)) {
+    return createNodeInTree(part, path, subTree);
+  }
 
-    // If both the pathPart and node are the same type, then compare them
-    // alphabetically.
-    if (partIsDir === nodeIsDir) {
-      return node.name.localeCompare(pathPart) >= 0;
-    }
+  // if there is no naming conflict, we can traverse into the child
+  return child;
+}
 
-    // If the pathPart and node differ, then stop here if the pathPart is a
-    // directory. Keep on searching if the part is a file, as it needs to be
-    // placed after the directories.
-    return partIsDir;
-  });
+/*
+ * walk the source tree to the final node for a given url,
+ * adding new nodes along the way
+ */
+function traverseTree(url: Object, tree: Node) {
+  url.path = decodeURIComponent(url.path);
+
+  const parts = url.path.split("/").filter(p => p !== "");
+  parts.unshift(url.group);
+
+  let path = "";
+  return parts.reduce((subTree, part, index) => {
+    path = `${path}/${part}`;
+    return findOrCreateNode(parts, subTree, path, part, index, url);
+  }, tree);
+}
+
+/*
+ * Add a source file to a directory node in the tree
+ */
+function addSourceToNode(node: Node, url: Object, source: SourceRecord) {
+  const isFile = !isDirectory(url);
+
+  // if we have a file, and the subtree has no elements, overwrite the
+  // subtree contents with the source
+  if (isFile) {
+    return source;
+  }
+
+  const name = getFilenameFromPath(url.path);
+  const existingNode = node.contents.find(childNode => childNode.name === name);
+
+  // if we are readding an existing file in the node, overwrite the existing
+  // file and return the node's contents
+  if (existingNode) {
+    existingNode.contents = source;
+    return node.contents;
+  }
+
+  // if this is a new file, add the new file;
+  const newNode = createNode(name, source.get("url"), source);
+  return [...node.contents, newNode];
 }
 
 /**
@@ -73,71 +109,10 @@ export function addToTree(
 ) {
   const url = getURL(source.get("url"));
 
-  if (
-    IGNORED_URLS.indexOf(url) != -1 ||
-    !source.get("url") ||
-    !url.group ||
-    isPretty(source.toJS())
-  ) {
+  if (isInvalidUrl(url, source)) {
     return;
   }
 
-  url.path = decodeURIComponent(url.path);
-
-  const parts = url.path.split("/").filter(p => p !== "");
-  const isDir = isDirectory(url);
-  parts.unshift(url.group);
-
-  let path = "";
-  let subtree = tree;
-
-  for (let i = 0; i < parts.length; i++) {
-    const part = parts[i];
-    const isLastPart = i === parts.length - 1;
-
-    // Currently we assume that we are descending into a node with
-    // children. This will fail if a path has a directory named the
-    // same as another file, like `foo/bar.js/file.js`.
-    //
-    // TODO: Be smarter about this, which we'll probably do when we
-    // are smarter about folders and collapsing empty ones.
-
-    if (!nodeHasChildren(subtree)) {
-      return;
-    }
-
-    const children = subtree.contents;
-
-    let index = determineFileSortOrder(
-      children,
-      part,
-      isLastPart,
-      i === 0 ? debuggeeUrl : ""
-    );
-
-    const child = children.find(c => c.name === part);
-    if (child) {
-      // A node with the same name already exists, simply traverse
-      // into it.
-      subtree = child;
-    } else {
-      // No node with this name exists, so insert a new one in the
-      // place that is alphabetically sorted.
-      const node = createNode(part, `${path}/${part}`, []);
-      const where = index === -1 ? children.length : index;
-      children.splice(where, 0, node);
-      subtree = children[where];
-    }
-
-    // Keep track of the children so we can tag each node with them.
-    path = `${path}/${part}`;
-  }
-
-  // Overwrite the contents of the final node to store the source
-  // there.
-  if (!isDir) {
-    subtree.contents = source;
-  } else if (!subtree.contents.find(c => c.name === "(index)")) {
-    subtree.contents.unshift(createNode("(index)", source.get("url"), source));
-  }
+  const finalNode = traverseTree(url, tree);
+  finalNode.contents = addSourceToNode(finalNode, url, source);
 }

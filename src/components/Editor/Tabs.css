@@ -14,7 +14,6 @@
 .source-header .new-tab-btn {
   padding: 0px 4px;
   margin-top: 4px;
-  cursor: pointer;
   fill: var(--theme-content-color3);
   transition: 0.1s ease;
   align-self: center;
@@ -47,7 +46,6 @@
 .source-tab:hover {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--theme-splitter-color);
-  cursor: pointer;
 }
 
 .source-tab.active {

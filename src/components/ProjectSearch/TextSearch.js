@@ -163,8 +163,15 @@ export default class TextSearch extends Component {
     return dom.span({ className: "line-value" }, ...matches);
   }
 
-  renderResults() {
+  getResults() {
     const { results } = this.props;
+    return results.filter(
+      result => result.filepath && result.matches.length > 0
+    );
+  }
+
+  renderResults() {
+    const results = this.getResults();
     results = results.filter(result => result.matches.length > 0);
     function getFilePath(item) {
       return item.filepath
@@ -194,7 +201,7 @@ export default class TextSearch extends Component {
   }
 
   resultCount() {
-    const { results } = this.props;
+    const results = this.getResults();
     return results.reduce(
       (count, file) => count + (file.matches ? file.matches.length : 0),
       0
