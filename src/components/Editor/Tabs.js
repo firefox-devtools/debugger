@@ -80,7 +80,28 @@ type State = {
   hiddenSourceTabs: SourcesList
 };
 
-class SourceTabs extends PureComponent {
+type Props = {
+  sourceTabs: SourcesList,
+  searchTabs: List<ActiveSearchType>,
+  selectedSource: SourceRecord,
+  selectSource: (string, ?Object) => void,
+  moveTab: (string, number) => void,
+  closeTab: string => void,
+  closeTabs: (List<string>) => void,
+  setActiveSearch: (?ActiveSearchType) => void,
+  closeActiveSearch: () => void,
+  activeSearch: string,
+  togglePrettyPrint: string => void,
+  togglePaneCollapse: () => void,
+  toggleActiveSearch: (?string) => void,
+  showSource: string => void,
+  horizontal: boolean,
+  startPanelCollapsed: boolean,
+  endPanelCollapsed: boolean,
+  searchOn: boolean
+};
+
+class SourceTabs extends PureComponent<Props, State> {
   state: State;
   onTabContextMenu: Function;
   showContextMenu: Function;
@@ -95,27 +116,6 @@ class SourceTabs extends PureComponent {
   renderDropDown: Function;
   renderStartPanelToggleButton: Function;
   renderEndPanelToggleButton: Function;
-
-  props: {
-    sourceTabs: SourcesList,
-    searchTabs: List<ActiveSearchType>,
-    selectedSource: SourceRecord,
-    selectSource: (string, ?Object) => void,
-    moveTab: (string, number) => void,
-    closeTab: string => void,
-    closeTabs: (List<string>) => void,
-    setActiveSearch: (?ActiveSearchType) => void,
-    closeActiveSearch: () => void,
-    activeSearch: string,
-    togglePrettyPrint: string => void,
-    togglePaneCollapse: () => void,
-    toggleActiveSearch: (?string) => void,
-    showSource: string => void,
-    horizontal: boolean,
-    startPanelCollapsed: boolean,
-    endPanelCollapsed: boolean,
-    searchOn: boolean
-  };
 
   onResize: Function;
 

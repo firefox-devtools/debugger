@@ -37,7 +37,14 @@ function createNode(name, path, contents) {
   return { name, path, contents };
 }
 
-class Scopes extends Component {
+type Props = {
+  scopes: Array<any>,
+  loadedObjects: any,
+  loadObjectProperties: any,
+  pauseInfo?: any
+};
+
+class Scopes extends Component<Props> {
   objectCache: Object;
   getChildren: Function;
   onExpand: Function;

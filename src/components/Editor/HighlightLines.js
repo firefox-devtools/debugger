@@ -3,13 +3,13 @@ import { Component } from "react";
 import range from "lodash/range";
 import isEmpty from "lodash/isEmpty";
 
-class HighlightLines extends Component {
-  highlightLineRange: Function;
+type Props = {
+  highlightedLineRange: Object,
+  editor: Object
+};
 
-  props: {
-    highlightedLineRange: Object,
-    editor: Object
-  };
+class HighlightLines extends Component<Props> {
+  highlightLineRange: Function;
 
   constructor() {
     super();

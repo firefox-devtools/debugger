@@ -21,21 +21,22 @@ import type { EditorRange } from "../../utils/editor/types";
 
 import "./Preview.css";
 
-export class Preview extends Component {
+type Props = {
+  loadObjectProperties: Object => void,
+  addExpression: (string, ?Object) => void,
+  loadedObjects: Object,
+  popoverPos: Object,
+  value: Object,
+  expression: string,
+  onClose: () => void,
+  range: EditorRange,
+  editor: any,
+  selectSourceURL: (string, Object) => void
+};
+
+export class Preview extends Component<Props> {
   marker: any;
   pos: any;
-  props: {
-    loadObjectProperties: Object => void,
-    addExpression: (string, ?Object) => void,
-    loadedObjects: Object,
-    popoverPos: Object,
-    value: Object,
-    expression: string,
-    onClose: () => void,
-    range: EditorRange,
-    editor: any,
-    selectSourceURL: (string, Object) => void
-  };
 
   componentDidMount() {
     const {
