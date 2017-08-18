@@ -19,12 +19,12 @@ describe("sources-tree", () => {
         url: "http://example.com/foo/a_source3.js",
         actor: "actor3"
       });
-      const tree = createNode("root", "", []);
+      const _tree = createNode("root", "", []);
 
-      addToTree(tree, source1);
-      addToTree(tree, source2);
-      addToTree(tree, source3);
-      sortEntireTree(tree);
+      addToTree(_tree, source1);
+      addToTree(_tree, source2);
+      addToTree(_tree, source3);
+      const tree = sortEntireTree(_tree);
 
       let base = tree.contents[0];
       let fooNode = base.contents[0];
@@ -70,9 +70,9 @@ describe("sources-tree", () => {
         })
       ];
 
-      const tree = createNode("root", "", []);
-      sources.forEach(source => addToTree(tree, source));
-      sortEntireTree(tree);
+      const _tree = createNode("root", "", []);
+      sources.forEach(source => addToTree(_tree, source));
+      const tree = sortEntireTree(_tree);
       const domain = tree.contents[0];
 
       const [
@@ -118,9 +118,9 @@ describe("sources-tree", () => {
         })
       ];
 
-      const tree = createNode("root", "", []);
-      sources.forEach(source => addToTree(tree, source));
-      sortEntireTree(tree);
+      const _tree = createNode("root", "", []);
+      sources.forEach(source => addToTree(_tree, source));
+      const tree = sortEntireTree(_tree);
       const [
         bFolderNode,
         cFolderNode,
@@ -157,14 +157,14 @@ describe("sources-tree", () => {
 
       const rootA = "http://example.com/path/to/file.html";
       const rootB = "https://www.demo.com/index.html";
-      const treeA = createNode("root", "", []);
-      const treeB = createNode("root", "", []);
+      const _treeA = createNode("root", "", []);
+      const _treeB = createNode("root", "", []);
       sources.forEach(source => {
-        addToTree(treeA, source, rootA);
-        addToTree(treeB, source, rootB);
+        addToTree(_treeA, source, rootA);
+        addToTree(_treeB, source, rootB);
       });
-      sortEntireTree(treeA, rootA);
-      sortEntireTree(treeB, rootB);
+      const treeA = sortEntireTree(_treeA, rootA);
+      const treeB = sortEntireTree(_treeB, rootB);
 
       expect(treeA.contents[0].contents[0].name).toBe("b.js");
       expect(treeA.contents[1].contents[0].name).toBe("a.js");

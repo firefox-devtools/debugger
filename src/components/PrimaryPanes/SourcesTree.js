@@ -145,8 +145,8 @@ class SourcesTree extends Component {
       for (let source of newSet) {
         addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
       }
-      sourceTree = collapseTree(uncollapsedTree);
-      sortEntireTree(sourceTree, nextProps.debuggeeUrl);
+      const unsortedTree = collapseTree(uncollapsedTree);
+      sourceTree = sortEntireTree(unsortedTree, nextProps.debuggeeUrl);
     }
 
     this.setState({

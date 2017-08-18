@@ -8,8 +8,10 @@ import { nodeHasChildren, isExactUrlMatch } from "./utils";
  */
 export function sortEntireTree(tree, debuggeeUrl = "") {
   if (nodeHasChildren(tree)) {
-    tree.contents = sortTree(tree, debuggeeUrl);
-    tree.contents.forEach(subtree => sortEntireTree(subtree));
+    const contents = sortTree(tree, debuggeeUrl).map(subtree =>
+      sortEntireTree(subtree)
+    );
+    return { ...tree, contents };
   }
   return tree;
 }
