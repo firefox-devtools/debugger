@@ -38,6 +38,10 @@
   font-size: 12px;
 }
 
+.accordion div:last-child ._content {
+  border-bottom: none;
+}
+
 .accordion ._header .header-buttons {
   display: flex;
   margin-left: auto;
