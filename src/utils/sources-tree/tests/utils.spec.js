@@ -8,6 +8,7 @@ import {
   isExactUrlMatch,
   isDirectory,
   addToTree,
+  sortEntireTree,
   getURL,
   getDirectories
 } from "../index";
@@ -49,6 +50,7 @@ describe("sources tree", () => {
 
       const tree = createNode("root", "", []);
       sources.forEach(source => addToTree(tree, source));
+      sortEntireTree(tree);
       const [bFolderNode, aFileNode] = tree.contents[0].contents;
       const [cFolderNode] = bFolderNode.contents;
       const [dFileNode] = cFolderNode.contents;

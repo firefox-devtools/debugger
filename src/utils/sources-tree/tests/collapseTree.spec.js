@@ -1,6 +1,12 @@
 import { Map } from "immutable";
 
-import { collapseTree, formatTree, addToTree, createNode } from "../index";
+import {
+  collapseTree,
+  sortEntireTree,
+  formatTree,
+  addToTree,
+  createNode
+} from "../index";
 
 const abcSource = Map({
   url: "http://example.com/a/b/c.js",
@@ -43,6 +49,7 @@ describe("sources tree", () => {
       addToTree(fullTree, abcdeSource);
       const tree = collapseTree(fullTree);
 
+      sortEntireTree(tree);
       expect(tree.contents.length).toBe(1);
 
       const host = tree.contents[0];

@@ -17,6 +17,7 @@ import {
   createParentMap,
   isDirectory,
   addToTree,
+  sortEntireTree,
   collapseTree,
   createTree,
   getDirectories
@@ -83,9 +84,9 @@ class SourcesTree extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.debuggeeUrl != nextProps.debuggeeUrl) {
+    if (this.props.debuggeeUrl !== nextProps.debuggeeUrl) {
       // Recreate tree because the sort order changed
-      this.setState(createTree(this.props.sources, nextProps.debuggeeUrl));
+      this.setState(createTree(nextProps.sources, nextProps.debuggeeUrl));
       return;
     }
     const { selectedSource } = this.props;
@@ -134,16 +135,19 @@ class SourcesTree extends Component {
     const newSet = next.subtract(prev);
 
     const uncollapsedTree = this.state.uncollapsedTree;
-    for (let source of newSet) {
-      addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
-    }
 
     // TODO: recreating the tree every time messes with the expanded
     // state of ManagedTree, because it depends on item instances
     // being the same. The result is that if a source is added at a
     // later time, all expanded state is lost.
-    const sourceTree =
-      newSet.size > 0 ? collapseTree(uncollapsedTree) : this.state.sourceTree;
+    let sourceTree = this.state.sourceTree;
+    if (newSet.size > 0) {
+      for (let source of newSet) {
+        addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
+      }
+      const unsortedTree = collapseTree(uncollapsedTree);
+      sourceTree = sortEntireTree(unsortedTree, nextProps.debuggeeUrl);
+    }
 
     this.setState({
       uncollapsedTree,
@@ -259,7 +263,7 @@ class SourcesTree extends Component {
         return [];
       },
       getRoots: () => sourceTree.contents,
-      getPath: item => item.path,
+      getPath: item => `${item.path}/${item.name}`,
       itemHeight: 21,
       autoExpandDepth: 1,
       autoExpandAll: false,
