@@ -37,14 +37,24 @@ class WelcomeBox extends Component {
   }
 
   render() {
-    const searchLabel = L10N.getFormatStr(
+    const searchSourcesLabel = L10N.getFormatStr(
       "welcome.search",
       formatKeyShortcut(L10N.getStr("sources.search.key2"))
     );
 
+    const searchProjectLabel = L10N.getFormatStr(
+      "welcome.findInFiles",
+      formatKeyShortcut(L10N.getStr("projectTextSearch.key"))
+    );
+
     return (
       <div className="welcomebox">
-        {searchLabel}
+        <div>
+          {searchSourcesLabel}
+        </div>
+        <div>
+          {searchProjectLabel}
+        </div>
         {this.renderToggleButton()}
       </div>
     );
