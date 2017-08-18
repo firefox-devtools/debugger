@@ -39,7 +39,6 @@
   font-weight: lighter;
   white-space: nowrap;
   padding-inline-end: 10px;
-  cursor: pointer;
 }
 
 .sources-list {
@@ -114,7 +113,6 @@
 .source-footer .tab:hover {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--theme-splitter-color);
-  cursor: pointer;
 }
 
 .source-footer .tab.active {

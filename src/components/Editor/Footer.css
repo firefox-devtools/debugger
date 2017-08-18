@@ -25,7 +25,6 @@
 }
 
 .source-footer > .commands > .action {
-  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
