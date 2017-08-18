@@ -2,6 +2,7 @@
 
 import makeRecord from "../utils/makeRecord";
 import { List } from "immutable";
+import { omit } from "lodash";
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
 
@@ -62,7 +63,12 @@ function restoreExpressions() {
 }
 
 function storeExpressions(state) {
-  prefs.expressions = state.getIn(["expressions"]).toJS();
+  const expressions = state
+    .getIn(["expressions"])
+    .map(expression => omit(expression, "value"))
+    .toJS();
+
+  prefs.expressions = expressions;
 }
 
 function appendToList(state: State, path: string[], value: any) {
