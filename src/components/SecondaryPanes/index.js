@@ -215,12 +215,24 @@ class SecondaryPanes extends Component {
     });
   }
 
+  renderVerticalCommandbar() {
+    return dom.div(
+      {
+        className: "",
+        style: {
+          width: "100vw"
+        }
+      },
+      CommandBar()
+    );
+  }
+
   render() {
     return dom.div(
       {
         className: "secondary-panes secondary-panes--sticky-commandbar"
       },
-      CommandBar(),
+      this.props.horizontal ? CommandBar() : this.renderVerticalCommandbar(),
       this.props.horizontal
         ? this.renderHorizontalLayout()
         : this.renderVerticalLayout()

@@ -235,7 +235,7 @@ class CommandBar extends Component {
 
   render() {
     return (
-      <div className="command-bar" style={{ width: "100vw" }}>
+      <div className="command-bar">
         {this.renderPauseButton()}
         {this.renderStepButtons()}
         {this.renderPauseOnExceptions()}
