@@ -98,7 +98,8 @@ class CommandBar extends Component {
     pauseOnExceptions: (boolean, boolean) => void,
     shouldPauseOnExceptions: boolean,
     shouldIgnoreCaughtExceptions: boolean,
-    isWaitingOnBreak: boolean
+    isWaitingOnBreak: boolean,
+    horizontal: boolean
   };
 
   componentWillUnmount() {
@@ -235,7 +236,10 @@ class CommandBar extends Component {
 
   render() {
     return (
-      <div className="command-bar">
+      <div
+        className="command-bar"
+        style={{ width: this.props.horizontal ? "100%" : "100vw" }}
+      >
         {this.renderPauseButton()}
         {this.renderStepButtons()}
         {this.renderPauseOnExceptions()}
