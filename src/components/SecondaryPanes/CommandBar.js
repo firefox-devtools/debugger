@@ -237,8 +237,9 @@ class CommandBar extends Component {
   render() {
     return (
       <div
-        className="command-bar"
-        style={{ width: this.props.horizontal ? "100%" : "100vw" }}
+        className={classnames("command-bar", {
+          vertical: !this.props.horizontal
+        })}
       >
         {this.renderPauseButton()}
         {this.renderStepButtons()}
