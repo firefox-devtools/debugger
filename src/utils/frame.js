@@ -79,6 +79,10 @@ function isRedux(frame) {
   return getFrameUrl(frame).match(/redux/i);
 }
 
+function isDojo(frame) {
+  return getFrameUrl(frame).match(/dojo/i);
+}
+
 export function getLibraryFromUrl(frame: Frame) {
   // @TODO each of these fns calls getFrameUrl, just call it once
   // (assuming there's not more complex logic to identify a lib)
@@ -141,6 +145,10 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isRedux(frame)) {
     return "Redux";
+  }
+
+  if (isDojo(frame)) {
+    return "Dojo";
   }
 
   if (isImmutable(frame)) {
