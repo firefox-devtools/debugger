@@ -76,7 +76,7 @@ export class Preview extends Component {
       return children;
     }
 
-    return [root];
+    return null;
   }
 
   renderFunctionPreview(value: Object, root: Object) {
@@ -114,6 +114,10 @@ export class Preview extends Component {
 
     const getObjectProperties = id => loadedObjects[id];
     const roots = this.getChildren(root, getObjectProperties);
+
+    if (!roots) {
+      return null;
+    }
 
     return (
       <ObjectInspector
