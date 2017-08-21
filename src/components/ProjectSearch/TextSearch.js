@@ -173,8 +173,13 @@ export default class TextSearch extends Component {
     }
 
     let highlightItems = [];
-    if (results[0]) {
-      highlightItems.push(results[0].matches[0]);
+    if (!this.focused) {
+      if (results[0]) {
+        highlightItems.push(results[0].matches[0]);
+      }
+    } else {
+      const { match, file } = this.focused;
+      highlightItems.push(match || file);
     }
 
     const renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
@@ -191,7 +196,6 @@ export default class TextSearch extends Component {
         autoExpand={1}
         autoExpandDepth={1}
         highlightItems={highlightItems}
-        focused={results[0]}
         getParent={item => null}
         getPath={getFilePath}
         renderItem={renderItem}
