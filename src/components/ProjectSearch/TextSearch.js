@@ -189,7 +189,7 @@ export default class TextSearch extends Component {
       <ManagedTree
         getRoots={() => results}
         getChildren={file => file.matches || []}
-        itemHeight={20}
+        itemHeight={24}
         autoExpand={1}
         autoExpandDepth={1}
         focused={results[0]}
