@@ -9,6 +9,8 @@ import { formatKeyShortcut } from "../utils/text";
 
 import PaneToggleButton from "./shared/Button/PaneToggle";
 
+const { isEnabled } = require("devtools-config");
+
 import "./WelcomeBox.css";
 
 type Props = {
@@ -37,14 +39,28 @@ class WelcomeBox extends Component {
   }
 
   render() {
-    const searchLabel = L10N.getFormatStr(
+    const searchSourcesLabel = L10N.getFormatStr(
       "welcome.search",
       formatKeyShortcut(L10N.getStr("sources.search.key2"))
     );
 
+    const searchProjectLabel = L10N.getFormatStr(
+      "welcome.findInFiles",
+      formatKeyShortcut(L10N.getStr("projectTextSearch.key"))
+    );
+
+    const searchProjectLabelComp = (
+      <div>
+        {searchProjectLabel}
+      </div>
+    );
+
     return (
       <div className="welcomebox">
-        {searchLabel}
+        <div>
+          {searchSourcesLabel}
+        </div>
+        {isEnabled("searchNav") ? searchProjectLabelComp : null}
         {this.renderToggleButton()}
       </div>
     );
