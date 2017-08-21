@@ -41,8 +41,17 @@ type CreateTree = {
   highlightItems?: any
 };
 
-class SourcesTree extends Component {
-  state: CreateTree;
+type State = CreateTree;
+type Props = {
+  isHidden?: boolean,
+  sources: any,
+  selectSource: any,
+  shownSource?: string,
+  selectedSource?: any,
+  debuggeeUrl: string
+};
+
+class SourcesTree extends Component<Props, State> {
   focusItem: Function;
   selectItem: Function;
   getIcon: Function;

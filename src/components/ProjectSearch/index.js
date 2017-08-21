@@ -19,8 +19,19 @@ import {
 
 import "./ProjectSearch.css";
 
-class ProjectSearch extends Component {
-  state: Object;
+type State = Object;
+type Props = {
+  sources: any,
+  results: any,
+  query?: string,
+  setActiveSearch: any,
+  closeActiveSearch: any,
+  searchSources?: any,
+  activeSearch?: string,
+  selectSource: any
+};
+
+class ProjectSearch extends Component<Props, State> {
   onEscape: Function;
   close: Function;
   toggleProjectTextSearch: Function;

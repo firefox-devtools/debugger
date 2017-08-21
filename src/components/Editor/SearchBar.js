@@ -43,33 +43,31 @@ function getShortcuts() {
   };
 }
 
-type SearchBarState = {
+type State = {
   selectedResultIndex: number,
   count: number,
   index: number
 };
 
+type Props = {
+  editor?: SourceEditor,
+  selectSource: (string, ?SelectSourceOptions) => any,
+  selectedSource?: SourceRecord,
+  highlightLineRange: ({ start: number, end: number }) => void,
+  clearHighlightLineRange: () => void,
+  searchOn?: boolean,
+  setActiveSearch: (?ActiveSearchType) => any,
+  searchResults: SearchResults,
+  modifiers: FileSearchModifiers,
+  toggleFileSearchModifier: string => any,
+  query: string,
+  setFileSearchQuery: string => any,
+  updateSearchResults: ({ count: number, index?: number }) => any
+};
+
 import "./SearchBar.css";
 
-class SearchBar extends Component {
-  state: SearchBarState;
-
-  props: {
-    editor?: SourceEditor,
-    selectSource: (string, ?SelectSourceOptions) => any,
-    selectedSource?: SourceRecord,
-    highlightLineRange: ({ start: number, end: number }) => void,
-    clearHighlightLineRange: () => void,
-    searchOn?: boolean,
-    setActiveSearch: (?ActiveSearchType) => any,
-    searchResults: SearchResults,
-    modifiers: FileSearchModifiers,
-    toggleFileSearchModifier: string => any,
-    query: string,
-    setFileSearchQuery: string => any,
-    updateSearchResults: ({ count: number, index?: number }) => any
-  };
-
+class SearchBar extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -159,7 +157,7 @@ class SearchBar extends Component {
     }
   }
 
-  onEscape(e: SyntheticKeyboardEvent) {
+  onEscape(e: SyntheticKeyboardEvent<any>) {
     this.closeSearch(e);
   }
 
@@ -171,7 +169,7 @@ class SearchBar extends Component {
     }
   }
 
-  closeSearch(e: SyntheticEvent) {
+  closeSearch(e: SyntheticEvent<any>) {
     const { editor, setFileSearchQuery, searchOn } = this.props;
 
     if (editor && searchOn) {
@@ -184,7 +182,7 @@ class SearchBar extends Component {
     }
   }
 
-  toggleSearch(e: SyntheticKeyboardEvent) {
+  toggleSearch(e: SyntheticKeyboardEvent<any>) {
     e.stopPropagation();
     e.preventDefault();
     const { editor } = this.props;
@@ -279,7 +277,7 @@ class SearchBar extends Component {
     this.updateSearchResults(ch, line, matches);
   }
 
-  traverseResults(e: SyntheticEvent, rev: boolean) {
+  traverseResults(e: SyntheticEvent<any>, rev: boolean) {
     e.stopPropagation();
     e.preventDefault();
     const ed = this.props.editor;
@@ -311,7 +309,7 @@ class SearchBar extends Component {
     return this.doSearch(e.target.value);
   }
 
-  onKeyUp(e: SyntheticKeyboardEvent) {
+  onKeyUp(e: SyntheticKeyboardEvent<any>) {
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }

@@ -41,13 +41,13 @@ type Props = {
   endPanelCollapsed: boolean
 };
 
-class App extends Component {
-  state: {
-    horizontal: boolean,
-    startPanelSize: number,
-    endPanelSize: number
-  };
+type State = {
+  horizontal: boolean,
+  startPanelSize: number,
+  endPanelSize: number
+};
 
+class App extends Component<Props, State> {
   props: Props;
   onLayoutChange: Function;
   getChildContext: Function;

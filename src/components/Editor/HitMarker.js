@@ -9,12 +9,12 @@ function makeMarker() {
   return marker;
 }
 
-class HitMarker extends Component {
-  props: {
-    hitData: { [string]: any },
-    editor: any
-  };
+type Props = {
+  hitData: { [string]: any },
+  editor: any
+};
 
+class HitMarker extends Component<Props> {
   addMarker() {
     const hitData = this.props.hitData;
     const line = hitData.line - 1;

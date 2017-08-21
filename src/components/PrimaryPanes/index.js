@@ -21,6 +21,7 @@ type SourcesState = {
   selectedPane: string
 };
 
+type State = SourcesState;
 type Props = {
   sources: SourcesMap,
   selectSource: (string, Object) => void,
@@ -30,14 +31,12 @@ type Props = {
   sourceSearchOn: boolean
 };
 
-class PrimaryPanes extends Component {
+class PrimaryPanes extends Component<Props, State> {
   renderShortcut: Function;
   selectedPane: String;
   showPane: Function;
   renderFooter: Function;
   renderChildren: Function;
-  state: SourcesState;
-  props: Props;
 
   constructor(props: Props) {
     super(props);

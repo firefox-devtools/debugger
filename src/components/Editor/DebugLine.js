@@ -3,20 +3,19 @@ import { Component } from "react";
 import { markText, toEditorPosition } from "../../utils/editor";
 import { getDocument } from "../../utils/editor/source-documents";
 
-type props = {
+type Props = {
   editor: Object,
   selectedFrame: Object,
   selectedLocation: Object
 };
 
-export default class DebugLine extends Component {
-  props: props;
-  state: {
-    debugExpression: {
-      clear: Function
-    }
-  };
+type State = {
+  debugExpression: {
+    clear: Function
+  }
+};
 
+export default class DebugLine extends Component<Props, State> {
   constructor() {
     super();
     this.state = { debugExpression: { clear: () => {} } };
@@ -30,7 +29,7 @@ export default class DebugLine extends Component {
     );
   }
 
-  componentWillReceiveProps(nextProps: props) {
+  componentWillReceiveProps(nextProps: Props) {
     this.clearDebugLine(this.props.selectedFrame, this.props.editor);
     this.setDebugLine(
       nextProps.selectedFrame,

@@ -17,17 +17,17 @@ type Listener = {
   breakpoint: ?Breakpoint
 };
 
-class EventListeners extends Component {
-  renderListener: Function;
+type Props = {
+  listeners: Array<Listener>,
+  selectSource: (SourceId, { line: number }) => void,
+  addBreakpoint: ({ sourceId: SourceId, line: number }) => void,
+  enableBreakpoint: Location => void,
+  disableBreakpoint: Location => void,
+  removeBreakpoint: Location => void
+};
 
-  props: {
-    listeners: Array<Listener>,
-    selectSource: (SourceId, { line: number }) => void,
-    addBreakpoint: ({ sourceId: SourceId, line: number }) => void,
-    enableBreakpoint: Location => void,
-    disableBreakpoint: Location => void,
-    removeBreakpoint: Location => void
-  };
+class EventListeners extends Component<Props> {
+  renderListener: Function;
 
   constructor(...args) {
     super(...args);

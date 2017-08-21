@@ -16,16 +16,15 @@ import type {
 } from "../../utils/parser/getSymbols";
 import type { SourceRecord } from "../../reducers/sources";
 
-class Outline extends Component {
-  state: any;
+type State = any;
+type Props = {
+  isHidden: boolean,
+  symbols: SymbolDeclarations,
+  selectSource: (string, { line: number }) => void,
+  selectedSource: ?SourceRecord
+};
 
-  props: {
-    isHidden: boolean,
-    symbols: SymbolDeclarations,
-    selectSource: (string, { line: number }) => void,
-    selectedSource: ?SourceRecord
-  };
-
+class Outline extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {};
