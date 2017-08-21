@@ -15,6 +15,7 @@ import { evaluateExpressions } from "./expressions";
 import { addHiddenBreakpoint, removeBreakpoint } from "./breakpoints";
 import { getHiddenBreakpointLocation } from "../reducers/breakpoints";
 import * as parser from "../utils/parser";
+import { features } from "../utils/prefs";
 
 import type { Pause, Frame } from "../types";
 import type { ThunkArgs } from "./types";
@@ -243,6 +244,10 @@ export function loadObjectProperties(object: any) {
  */
 export function astCommand(stepType: string) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
+    if (!features.asyncStepping) {
+      return dispatch(command({ type: stepType }));
+    }
+
     const pauseInfo = getPause(getState());
     const source = getSelectedSource(getState()).toJS();
     const currentHiddenBreakpointLocation = getHiddenBreakpointLocation(

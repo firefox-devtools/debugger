@@ -25,9 +25,10 @@ if (isDevelopment()) {
   pref("devtools.debugger.file-search-regex-match", false);
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
   pref("devtools.debugger.project-text-search-enabled", true);
+  pref("devtools.debugger.features.async-stepping", false);
 }
 
-const prefs = new PrefsHelper("devtools", {
+export const prefs = new PrefsHelper("devtools", {
   clientSourceMapsEnabled: ["Bool", "debugger.client-source-maps-enabled"],
   pauseOnExceptions: ["Bool", "debugger.pause-on-exceptions"],
   ignoreCaughtExceptions: ["Bool", "debugger.ignore-caught-exceptions"],
@@ -51,10 +52,12 @@ const prefs = new PrefsHelper("devtools", {
   ]
 });
 
+export const features = new PrefsHelper("devtools.debugger.features", {
+  asyncStepping: ["Bool", "async-stepping", false]
+});
+
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints
   prefs.pendingBreakpoints = {};
   prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
 }
-
-module.exports = { prefs };
