@@ -117,7 +117,7 @@ describe("sources", () => {
         text: "function foo(){}",
         url: "http://localhost.com:7999/increment/sometestfile.marko"
       };
-      expect(getMode(source)).toBe({ name: "javascript" });
+      expect(getMode(source)).toEqual({ name: "javascript" });
     });
   });
 
