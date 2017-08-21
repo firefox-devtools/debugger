@@ -220,7 +220,7 @@ class SecondaryPanes extends Component {
       {
         className: "secondary-panes secondary-panes--sticky-commandbar"
       },
-      CommandBar(),
+      CommandBar({ horizontal: this.props.horizontal }),
       this.props.horizontal
         ? this.renderHorizontalLayout()
         : this.renderVerticalLayout()
