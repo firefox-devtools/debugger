@@ -49,7 +49,7 @@
     "postrewrite": "node bin/post-rewrite.js",
     "precommit": "lint-staged",
     "prepush": "run-p lint test flow",
-    "nom": "rm -rf node_modules yarn.lock; yarn install",
+    "nom": "node bin/nom",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
