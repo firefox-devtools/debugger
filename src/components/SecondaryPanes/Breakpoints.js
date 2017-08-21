@@ -266,6 +266,11 @@ class Breakpoints extends PureComponent {
     const isCurrentlyPaused = breakpoint.isCurrentlyPaused;
     const isDisabled = breakpoint.disabled;
     const isConditional = !!breakpoint.condition;
+    const isHidden = breakpoint.hidden;
+
+    if (isHidden) {
+      return;
+    }
 
     return dom.div(
       {

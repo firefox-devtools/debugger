@@ -55,6 +55,7 @@ declare module "debugger-html" {
     location: Location,
     loading: boolean,
     disabled: boolean,
+    hidden: boolean,
     text: string,
     condition: ?string,
     generatedLocation: Location

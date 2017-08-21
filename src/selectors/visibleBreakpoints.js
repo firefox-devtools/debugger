@@ -9,7 +9,7 @@ function getLocation(breakpoint, isGeneratedSource) {
 }
 
 function formatBreakpoint(breakpoint, selectedSource) {
-  const { condition, loading, disabled } = breakpoint;
+  const { condition, loading, disabled, hidden } = breakpoint;
   const sourceId = selectedSource.get("id");
   const isGeneratedSource = isGeneratedId(sourceId);
 
@@ -17,7 +17,8 @@ function formatBreakpoint(breakpoint, selectedSource) {
     location: getLocation(breakpoint, isGeneratedSource),
     condition,
     loading,
-    disabled
+    disabled,
+    hidden
   };
 }
 

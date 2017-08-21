@@ -1,5 +1,5 @@
 export function mockPendingBreakpoint(overrides = {}) {
-  const { sourceUrl, line, column, condition, disabled } = overrides;
+  const { sourceUrl, line, column, condition, disabled, hidden } = overrides;
   return {
     location: {
       sourceUrl: sourceUrl || "http://localhost:8000/examples/bar.js",
@@ -12,7 +12,8 @@ export function mockPendingBreakpoint(overrides = {}) {
       column: column || undefined
     },
     condition: condition || null,
-    disabled: disabled || false
+    disabled: disabled || false,
+    hidden: hidden || false
   };
 }
 
@@ -24,6 +25,7 @@ export function generateBreakpoint(filename) {
       line: 5
     },
     condition: null,
-    disabled: false
+    disabled: false,
+    hidden: false
   };
 }

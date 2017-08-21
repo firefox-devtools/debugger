@@ -18,6 +18,14 @@ export function isFunction(path: NodePath) {
   );
 }
 
+export function isAwaitExpression(path: NodePath) {
+  return (
+    t.isAwaitExpression(path) ||
+    t.isAwaitExpression(path.container.init) ||
+    t.isAwaitExpression(path.parentPath)
+  );
+}
+
 export function isVariable(path: NodePath) {
   return (
     t.isVariableDeclaration(path) ||
