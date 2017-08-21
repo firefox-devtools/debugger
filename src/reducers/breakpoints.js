@@ -17,6 +17,7 @@ import { makeLocationId } from "../utils/breakpoint";
 import type { Breakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
+import { createSelector } from "reselect";
 
 export type BreakpointsMap = I.Map<string, Breakpoint>;
 
@@ -164,5 +165,25 @@ export function getBreakpointsForSource(state: OuterState, sourceId: string) {
     return location.sourceId === sourceId;
   });
 }
+
+export const getHiddenBreakpoint = createSelector(getBreakpoints, function(
+  breakpoints
+) {
+  const hiddenBreakpoints = breakpoints
+    .valueSeq()
+    .filter(breakpoint => breakpoint.hidden)
+    .first();
+  return hiddenBreakpoints;
+});
+
+export const getHiddenBreakpointLocation = createSelector(
+  getHiddenBreakpoint,
+  function(hiddenBreakpoint) {
+    if (!hiddenBreakpoint) {
+      return null;
+    }
+    return hiddenBreakpoint.location;
+  }
+);
 
 export default update;

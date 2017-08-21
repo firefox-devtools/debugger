@@ -72,12 +72,29 @@ export function syncBreakpoint(
  * @param {Boolean} $1.disabled Disable value for breakpoint value
  */
 
-export function addBreakpoint(location: Location, condition: ?string) {
-  const breakpoint = createBreakpoint(location, { condition });
+export function addBreakpoint(
+  location: Location,
+  condition: ?string,
+  hidden: ?boolean
+) {
+  const breakpoint = createBreakpoint(location, { condition, hidden });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     const action = { type: "ADD_BREAKPOINT", breakpoint };
     const promise = addBreakpointPromise(getState, client, sourceMaps, action);
     return dispatch({ ...action, [PROMISE]: promise });
+  };
+}
+
+/**
+ * Add a new hidden breakpoint
+ *
+ * @memberOf actions/breakpoints
+ * @param location
+ * @return {function(ThunkArgs)}
+ */
+export function addHiddenBreakpoint(location: Location) {
+  return ({ dispatch }: ThunkArgs) => {
+    return dispatch(addBreakpoint(location, "", true));
   };
 }
 

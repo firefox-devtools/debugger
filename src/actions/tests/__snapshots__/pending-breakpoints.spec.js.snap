@@ -10,6 +10,7 @@ Object {
     "sourceId": "bar.js",
     "sourceUrl": "http://localhost:8000/examples/bar.js",
   },
+  "hidden": false,
   "id": "bar.js:7:",
   "location": Object {
     "line": 7,
@@ -45,6 +46,7 @@ Object {
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/bar.js",
   },
+  "hidden": false,
   "location": Object {
     "column": undefined,
     "line": 5,

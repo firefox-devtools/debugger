@@ -9,6 +9,7 @@ Object {
     "sourceId": "a.js",
     "sourceUrl": "http://localhost:8000/examples/a.js",
   },
+  "hidden": false,
   "hitCount": undefined,
   "id": "hi",
   "loading": false,

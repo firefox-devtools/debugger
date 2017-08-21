@@ -59,6 +59,7 @@ export default async function addBreakpoint(
   const newBreakpoint = {
     id,
     disabled: false,
+    hidden: breakpoint.hidden,
     loading: false,
     condition: breakpoint.condition,
     location: newLocation,
