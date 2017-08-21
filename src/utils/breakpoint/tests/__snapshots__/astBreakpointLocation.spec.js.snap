@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ast invalid location returns the scope and offset 1`] = `
+Object {
+  "offset": Object {
+    "column": 0,
+    "line": 10,
+  },
+  "scope": Object {
+    "name": undefined,
+  },
+}
+`;
+
+exports[`ast valid location returns the scope and offset 1`] = `
+Object {
+  "offset": Object {
+    "column": 0,
+    "line": 5,
+  },
+  "scope": Object {
+    "identifier": Object {
+      "end": 13,
+      "loc": Object {
+        "end": Object {
+          "column": 13,
+          "line": 1,
+        },
+        "identifierName": "math",
+        "start": Object {
+          "column": 9,
+          "line": 1,
+        },
+      },
+      "name": "math",
+      "start": 9,
+      "type": "Identifier",
+    },
+    "location": Object {
+      "end": Object {
+        "column": 1,
+        "line": 8,
+      },
+      "start": Object {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "name": "math",
+    "parameterNames": Array [
+      "n",
+    ],
+  },
+}
+`;

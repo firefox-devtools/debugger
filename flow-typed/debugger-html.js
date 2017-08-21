@@ -53,6 +53,7 @@ declare module "debugger-html" {
   declare type Breakpoint = {
     id: BreakpointId,
     location: Location,
+    astLocation: Object,
     loading: boolean,
     disabled: boolean,
     text: string,
@@ -79,6 +80,7 @@ declare module "debugger-html" {
  */
   declare type PendingBreakpoint = {
     location: PendingLocation,
+    astLocation: Object,
     loading: boolean,
     disabled: boolean,
     text: string,

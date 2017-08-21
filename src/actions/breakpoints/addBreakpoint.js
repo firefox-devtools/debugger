@@ -3,6 +3,7 @@ import {
   locationMoved,
   breakpointExists,
   assertBreakpoint,
+  getASTLocation,
   assertLocation
 } from "../../utils/breakpoint";
 import { getSource } from "../../selectors";
@@ -56,12 +57,15 @@ export default async function addBreakpoint(
     newGeneratedLocation
   );
 
+  const astLocation = await getASTLocation(source, newLocation);
+
   const newBreakpoint = {
     id,
     disabled: false,
     loading: false,
     condition: breakpoint.condition,
     location: newLocation,
+    astLocation,
     hitCount,
     generatedLocation: newGeneratedLocation
   };

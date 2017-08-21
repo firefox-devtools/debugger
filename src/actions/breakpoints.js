@@ -40,16 +40,16 @@ type addBreakpointOptions = {
  * @param {PendingBreakpoint} $1.location PendingBreakpoint  value
  */
 export function syncBreakpoint(
-  sourceId: string,
+  source: Object,
   pendingBreakpoint: PendingBreakpoint
 ) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const { line, sourceUrl, column } = pendingBreakpoint.location;
-    const location = { sourceId, sourceUrl, line, column };
+    const location = { sourceId: source.id, sourceUrl, line, column };
     const breakpoint = createBreakpoint(location, pendingBreakpoint);
 
     const syncPromise = syncClientBreakpoint(
-      sourceId,
+      source,
       client,
       sourceMaps,
       pendingBreakpoint
