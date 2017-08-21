@@ -12,6 +12,7 @@ const svg = {
   "column-breakpoint": require("./column-breakpoint.svg"),
   "case-match": require("./case-match.svg"),
   close: require("./close.svg"),
+  dojo: require("./dojo.svg"),
   domain: require("./domain.svg"),
   file: require("./file.svg"),
   folder: require("./folder.svg"),
