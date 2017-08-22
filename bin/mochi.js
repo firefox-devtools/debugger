@@ -287,15 +287,39 @@ async function run(args) {
   runMochitests(args);
 }
 
+/*
+ * updateArgs is a small convenience method for determining which tests to run
+ * if there are no args, include all the tests
+ * if there is no browser_dbg prefix, add it.
+ */
+function updateArgs(args) {
+  if (args.length == 0) {
+    return ["devtools/client/debugger/new"];
+  }
+
+  const _args = args.slice(0, -1);
+  const maybeFile = args[args.length - 1];
+  const hasFile = maybeFile && !maybeFile.includes("/");
+
+  if (!hasFile) {
+    return args;
+  }
+
+  const file = maybeFile;
+  if (file.includes("browser_dbg")) {
+    return args;
+  }
+
+  const newFile = `browser_dbg-${file}`;
+  return [..._args, newFile];
+}
+
 if (process.mainModule.filename.includes("bin/mochi.js")) {
   let args = process.argv[0].includes("bin/node")
     ? process.argv.slice(2)
     : process.argv;
 
-  if (args.length == 0) {
-    args = ["devtools/client/debugger/new"];
-  }
-
+  args = updateArgs(args);
   run(args);
 }
 
