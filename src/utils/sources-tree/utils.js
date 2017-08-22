@@ -4,7 +4,7 @@ import { parse } from "url";
 
 import type { Node } from "./types";
 import type { SourceRecord } from "../../reducers/types";
-import { isPretty } from "../source";
+import { isPretty, isLoaded } from "../source";
 const IGNORED_URLS = ["debugger eval code", "XStringBundle"];
 
 export function nodeHasChildren(item: Node): boolean {
@@ -34,7 +34,7 @@ export function isInvalidUrl(url: Object, source: Object) {
   return (
     IGNORED_URLS.indexOf(url) != -1 ||
     !source.get("url") ||
-    source.get("loading") ||
+    source.loadedState === "loading" ||
     !url.group ||
     isPretty(source.toJS())
   );

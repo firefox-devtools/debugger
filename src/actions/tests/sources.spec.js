@@ -142,7 +142,7 @@ describe("sources", () => {
     // Don't block on this so we can check the loading state.
     dispatch(actions.loadSourceText({ id: "foo1" }));
     const fooSource = getSource(getState(), "foo1");
-    expect(fooSource.get("loading")).toEqual(true);
+    expect(fooSource.get("loadedState")).toEqual("loading");
   });
 
   it("should indicate an errored source text", async () => {

@@ -210,7 +210,7 @@ declare module "debugger-html" {
     text?: string,
     contentType?: string,
     error?: string,
-    loading?: boolean
+    loadedState: "unloaded" | "loading" | "loaded"
   };
 
   /**

@@ -159,15 +159,15 @@ function getTextPropsFromAction(action: any) {
   const { value } = action;
 
   if (action.status === "start") {
-    return { id: source.id, loading: true };
+    return { id: source.id, loadedState: "loading" };
   } else if (action.status === "error") {
-    return { id: source.id, error: action.error, loading: false };
+    return { id: source.id, error: action.error, loadedState: "loaded" };
   }
   return {
     text: value.text,
     id: source.id,
     contentType: value.contentType,
-    loading: false
+    loadedState: "loaded"
   };
 }
 

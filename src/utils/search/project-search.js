@@ -1,7 +1,7 @@
 // Maybe reuse file search's functions?
 export function findSourceMatches(source, queryText) {
-  const { text, loading } = source;
-  if (loading || !text || queryText == "") {
+  const { text, loadedState } = source;
+  if (loadedState === "loading" || !text || queryText == "") {
     return [];
   }
 

@@ -16,6 +16,7 @@ import {
 import { find, findNext, findPrev, removeOverlay } from "../../utils/editor";
 
 import { getMatches } from "../../utils/search";
+import { isLoaded } from "../../utils/source";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
@@ -144,9 +145,9 @@ class SearchBar extends Component {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
     }
 
-    const hasLoaded = selectedSource && !selectedSource.get("loading");
+    const hasLoaded = selectedSource && isLoaded(selectedSource.toJS());
     const wasLoading =
-      prevProps.selectedSource && prevProps.selectedSource.get("loading");
+      prevProps.selectedSource && isLoaded(prevProps.selectedSource.toJS());
 
     const doneLoading = wasLoading && hasLoaded;
     const changedFiles =

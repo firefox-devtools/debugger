@@ -214,13 +214,18 @@ function waitForElement(dbg, selector) {
 function waitForSelectedSource(dbg, sourceId) {
   return waitForState(dbg, state => {
     const source = dbg.selectors.getSelectedSource(state);
-    const isLoaded = source && source.has("loading") && !source.get("loading");
+    const isLoaded =
+      source && source.has("loadedState") && isSourceLoaded(source);
     if (sourceId) {
       return isLoaded && sourceId == source.get("id");
     }
 
     return isLoaded;
   });
+}
+
+function isSourceLoaded(source) {
+  return source.loadedState === "loaded";
 }
 
 /**

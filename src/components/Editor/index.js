@@ -11,6 +11,7 @@ import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
+import { isLoaded } from "../../utils/source";
 
 import {
   getActiveSearchState,
@@ -115,7 +116,7 @@ class Editor extends PureComponent {
       if (this.props.selectedSource) {
         this.showMessage("");
       }
-    } else if (selectedSource.get("loading")) {
+    } else if (!isLoaded(selectedSource.toJS())) {
       this.showMessage(L10N.getStr("loadingText"));
     } else if (selectedSource.get("error")) {
       this.showMessage(selectedSource.get("error"));
@@ -551,7 +552,7 @@ class Editor extends PureComponent {
 
     if (
       !selectedSource ||
-      selectedSource.get("loading") ||
+      !isLoaded(selectedSource.toJS()) ||
       !hitCount ||
       !this.state.editor
     ) {
