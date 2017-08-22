@@ -240,9 +240,12 @@ function assertPausedLocation(dbg) {
   // Check the pause location
   const pause = getPause(getState());
   const pauseLine = pause && pause.frame && pause.frame.location.line;
+  assertDebugLine(dbg, pauseLine);
+}
 
+function assertDebugLine(dbg, line) {
   // Check the debug line
-  const lineInfo = getCM(dbg).lineInfo(pauseLine - 1);
+  const lineInfo = getCM(dbg).lineInfo(line - 1);
   ok(
     lineInfo.wrapClass.includes("debug-line"),
     "Line is highlighted as paused"
