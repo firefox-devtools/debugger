@@ -93,7 +93,7 @@ class CallSites extends Component {
 
     if (
       !isEnabled("columnBreakpoints") ||
-      !e.altKey ||
+      (!e.altKey && !target.classList.contains("call-site-bp")) ||
       (!target.classList.contains("call-site") &&
         !target.classList.contains("call-site-bp"))
     ) {
@@ -102,10 +102,8 @@ class CallSites extends Component {
 
     const { sourceId } = selectedLocation;
     const { line, column } = getTokenLocation(editor.codeMirror, target);
-    this.toggleBreakpoint(
-      toSourceLine(sourceId, line),
-      isWasm(sourceId) ? undefined : column - 2
-    );
+
+    this.toggleBreakpoint(line, isWasm(sourceId) ? undefined : column);
   }
 
   toggleBreakpoint(line, column = undefined) {
