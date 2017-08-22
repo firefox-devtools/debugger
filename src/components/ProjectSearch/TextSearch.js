@@ -15,7 +15,8 @@ export default class TextSearch extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
-      inputValue: this.props.query || ""
+      inputValue: this.props.query || "",
+      inputFocused: false
     };
 
     this.focused = null;
@@ -38,8 +39,8 @@ export default class TextSearch extends Component {
     this.props.searchSources(this.state.inputValue);
   }
 
-  onEnterPress() {
-    if (this.focused) {
+  onEnterPress(e) {
+    if (this.focused && !this.state.inputFocused) {
       const { setExpanded, file, expanded, match } = this.focused;
       if (setExpanded) {
         setExpanded(file, !expanded);
@@ -227,10 +228,9 @@ export default class TextSearch extends Component {
         summaryMsg={summaryMsg}
         onChange={e => this.inputOnChange(e)}
         onFocus={() => {
-          this.setState({ focused: true });
-          this.focused = null;
+          this.setState({ inputFocused: true });
         }}
-        onBlur={() => this.setState({ focused: false })}
+        onBlur={() => this.setState({ inputFocused: false })}
         onKeyDown={e => this.onKeyDown(e)}
         handleClose={this.close}
         ref="searchInput"
