@@ -147,6 +147,22 @@ There are a couple of ways to think about it:
 3. Current work is included in 2 week sprint milestones
 4. The [roadmap] document is updated at the beginning of every sprint, with our current progress and realistic expectations.
 
+#### What is a triaged issue?
+
+When triaging, you can think of the following description as a guide:
+a triaged issue is:
+
+* no more than 6 weeks old
+* in line with the goals of the debugger
+* a single bigger issue that is still manageable
+  *or* a set of smaller issues around a shippable goal (for example, transition the code base to JSX from `dom.div` syntax)
+* labelled (see [Labels](#labels) for more info)
+* ready to be worked on,
+  *or* has a request for more information
+  *or* has a clear next step
+
+An issue that does not fullfill those traits should probably be moved to one of the boards and
+closed.
 
 ### Issue Organization
 
