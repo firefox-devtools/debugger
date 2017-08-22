@@ -16,6 +16,7 @@ function getMenuItems(
   }
 ) {
   const copySourceLabel = L10N.getStr("copySource");
+  const copySourceKey = L10N.getStr("copySource.accesskey");
   const copySourceUrlLabel = L10N.getStr("copySourceUrl");
   const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
@@ -38,6 +39,7 @@ function getMenuItems(
   const copySource = {
     id: "node-menu-copy-source",
     label: copySourceLabel,
+    accesskey: copySourceKey,
     disabled: false,
     click: () => copyToTheClipboard(codeMirror.getSelection())
   };
