@@ -287,6 +287,11 @@ export function setBreakpointCondition(
       throw new Error("breakpoint must be saved");
     }
 
+    if (bp.disabled) {
+      await dispatch(enableBreakpoint(location));
+      bp.disabled = !bp.disabled;
+    }
+    
     await client.setBreakpointCondition(
       bp.id,
       location,

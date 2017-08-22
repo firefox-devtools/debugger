@@ -272,6 +272,33 @@ describe("breakpoints", () => {
     );
   });
 
+
+  it("should set the condition and enable a breakpoint", async () => {
+    const { dispatch, getState } = createStore(simpleMockThreadClient);
+
+    const loc = {
+      sourceId: "a",
+      line: 5,
+      sourceUrl: "http://localhost:8000/examples/a"
+    };
+
+    await dispatch(actions.newSource(makeSource("a")));
+    await dispatch(actions.addBreakpoint(loc));
+    await dispatch(actions.disableBreakpoint(loc));
+
+    expect(selectors.getBreakpoint(getState(), loc).condition).toBe(null);
+
+    await dispatch(
+      actions.setBreakpointCondition(loc, {
+        condition: "const foo = 0",
+        getTextForLine: () => {}
+      })
+    );
+    const breakpoint = selectors.getBreakpoint(getState(), loc);
+    expect(breakpoint.disabled).toBe(false);
+    expect(breakpoint.condition).toBe("const foo = 0");
+  });
+
   it("should remap breakpoints on pretty print", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
