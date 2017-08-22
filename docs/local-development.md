@@ -229,6 +229,23 @@ Notes:
 - `click` on click callback
 - `hidden` dynamically hide items
 
+#### Access Keys
+
+Access Keys are keyboard shortcuts for an item in the context menu and are only used when the context menu is open. They are an accessibility feature. Access keys take precedence over all other keyboard shortcuts when the context menu is open except for CodeMirror shortcuts.
+Access Keys are defined in the properties file next to the menu item's string. You can use any key that is not already added, but try to use your own discretion about which key makes the most sense
+
+
+```
+# LOCALIZATION NOTE (copySourceUrl): This is the text that appears in the
+# context menu to copy the source URL of file open.
+copySourceUrl=Copy Source Url
+
+# LOCALIZATION NOTE (copySourceUrl.accesskey): Access key to copy the source URL of a file from
+# the context menu.
+copySourceUrl.accesskey=u
+```
+
+
 #### Context Menu Groups
 
 You can use a menu item separator to create menu groups.
