@@ -3,11 +3,7 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
-import {
-  getVisibleExpressions,
-  getLoadedObjects,
-  getPause
-} from "../../selectors";
+import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
 
 import CloseButton from "../shared/Button/Close";
 import { ObjectInspector } from "devtools-reps";
@@ -245,7 +241,7 @@ Expressions.displayName = "Expressions";
 export default connect(
   state => ({
     pauseInfo: getPause(state),
-    expressions: getVisibleExpressions(state),
+    expressions: getExpressions(state),
     loadedObjects: getLoadedObjects(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
