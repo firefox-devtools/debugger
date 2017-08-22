@@ -5,6 +5,7 @@
 * [Testing](#testing)
 * [Reviews](#reviews)
 * [Updates](#updates)
+* [CI](#ci)
 
 ### Screenshots
 
@@ -113,6 +114,34 @@ There are a couple times when we do this:
 
 Here are the steps for [pushing to a branch].
 
+### CI
+
+We use [Circle] for CI, which is generally pretty great. Our test run is defined in [circle.yml].
+
+#### Testing on CI
+
+If a test is failing on CI and you're not sure why, it can be helpful to SSH in and debug
+it locally. There are three steps:
+
+1. Rebuild with SSH
+2. copy the SSH command
+3. `cd debugger.html`
+4. `jest src`
+
+##### Rebuild with SSH
+
+![](https://shipusercontent.com/c9c0c7b79785237686a784fae7d710b2/ssh%20button.png)
+
+##### SSH Command
+
+![](https://shipusercontent.com/34e3daec48feed0eba96059d42829e84/ssh%20URL.png)
+
+##### SSH from the terminal
+
+![](https://shipusercontent.com/5b5a98a8f42f537b754540dd9f80c2d1/terminal.png)
+
+
+
 [github-tables]:https://help.github.com/articles/organizing-information-with-tables/
 [github-remote]:https://help.github.com/articles/which-remote-url-should-i-use/
 [github-2fa]:https://help.github.com/articles/providing-your-2fa-authentication-code/
@@ -123,3 +152,6 @@ Here are the steps for [pushing to a branch].
 [test-docs]: ./local-development.md#unit-tests
 [linting-docs]: ./local-development.md#linting
 [pushing to a branch]: ./maintainer.md#pushing-to-a-branch
+
+[Circle]: https://circleci.com/
+[circle.yml]: ../circle.yml

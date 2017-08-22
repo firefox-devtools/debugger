@@ -113,6 +113,11 @@ These are the [labels](https://github.com/devtools-html/debugger.html/labels) we
 | `firefox` | [search][labels-firefox] | Firefox only issues |
 | `infrastructure` | [search][labels-infrastructure] | Issues with testing / build infrastructure |
 | `discussion` | [search][labels-discussion] | Issues need clearer requirements before work can be started |
+| `needs-description` | [search][labels-needs-description] | Issue needs a clear description and code sketch so a contributor can work on it |
+| `needs-str` | [search][labels-needs-str] | Issue needs a clear STR so that others can reproduce |
+| `needs-investigation` | [search][labels-needs-investigation] | Issue needs to be researched |
+
+
 
 ### Available Issues
 
@@ -135,13 +140,24 @@ There are a couple of ways to think about it:
 * it's great to ask questions that help make the issue available or call out vague issues.
 * it's great to sort the issues by oldest first and help make stale issues available.
 
+#### Process
+
+1. Issues that are not likely to be worked on in the next 6 weeks will be closed and documented in the [bugs][bugs-board] or [enhancements][enhancements-board].
+2. Issues will often be grouped in tracking issues around shippable goals.
+3. Current work is included in 2 week sprint milestones
+4. The [roadmap] document is updated at the beginning of every sprint, with our current progress and realistic expectations.
+
+
 ### Issue Organization
 
 In addition to labels and components, we use a couple of boards to organize our work.
 
-**Features** [features](https://github.com/devtools-html/debugger.html/projects/10) are tracked in our features board.
+**Features** [features][features-board] a prioritized list of features that are planned or in progress. The features are often tracking issues.
 
-**Bugs** [bugs](https://github.com/devtools-html/debugger.html/projects/11) are prioritized in our bugs board.
+**Bugs** [bugs][bugs-board] a prioritized list of reported bugs.
+
+**Enhancements** [enhancements-board] a list of feature suggestions that are reviewed twice a quarter.
+
 
 ### Community Friendly
 
@@ -165,3 +181,11 @@ We focus on being community friendly for many reasons.
 [labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
 [labels-discussion]:https://github.com/devtools-html/debugger.html/labels/discussion
 [github-tables]: ./pull-requests.md#screenshots
+[labels-needs-description]:https://github.com/devtools-html/debugger.html/labels/needs-description
+[labels-needs-str]:https://github.com/devtools-html/debugger.html/labels/needs-str
+[labels-needs-investigation]:https://github.com/devtools-html/debugger.html/labels/needs-investigation
+
+[enhancements-board]: https://github.com/devtools-html/debugger.html/projects/6
+[bugs-board]: https://github.com/devtools-html/debugger.html/projects/11
+[features-board]: https://github.com/devtools-html/debugger.html/projects/10
+[roadmap]: ../ROADMAP.md
