@@ -336,7 +336,7 @@ function isTopFrameSelected(dbg, state) {
     return false;
   }
 
-  const isLoaded = source.has("loading") && !source.get("loading");
+  const isLoaded = source.has("loadedState") && isSourceLoaded(source);
   if (!isLoaded) {
     return false;
   }
