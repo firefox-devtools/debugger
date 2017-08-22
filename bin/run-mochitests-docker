@@ -17,5 +17,11 @@ docker run -it \
   -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
   -e "DISPLAY=unix$DISPLAY" \
   --ipc host \
-  jryans/debugger-gecko \
-  /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/debugger/new/test/mochitest/browser.ini && ./mach build && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"
+  janx/firefox-hg \
+  /bin/bash -c "export SHELL=/bin/bash; \
+    echo \" \
+      ac_add_options --enable-artifact-builds\n \
+      mk_add_options MOZ_OBJDIR=./objdir-frontend\n \" > mozconfig \
+    touch devtools/client/debugger/new/test/mochitest/browser.ini \
+    && ./mach build \
+    && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"
