@@ -231,8 +231,8 @@ Notes:
 
 #### Access Keys
 
-Access Keys are keyboard shortcuts for an item in the context menu.
-Access Keys are defined in the properties file next to the menu item's string.
+Access Keys are keyboard shortcuts for an item in the context menu and are only used when the context menu is open. They are an accessibility feature. Access keys take precedence over all other keyboard shortcuts when the context menu is open except for CodeMirror shortcuts.
+Access Keys are defined in the properties file next to the menu item's string. You can use any key that is not already added, but try to use your own discretion about which key makes the most sense
 
 
 ```
