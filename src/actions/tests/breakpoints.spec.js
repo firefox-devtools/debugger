@@ -272,7 +272,6 @@ describe("breakpoints", () => {
     );
   });
 
-
   it("should set the condition and enable a breakpoint", async () => {
     const { dispatch, getState } = createStore(simpleMockThreadClient);
 
