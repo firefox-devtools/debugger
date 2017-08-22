@@ -13,6 +13,7 @@ import * as projectTextSearch from "./reducers/project-text-search";
 import getBreakpointAtLocation from "./selectors/breakpointAtLocation";
 import getInScopeLines from "./selectors/linesInScope";
 import getVisibleBreakpoints from "./selectors/visibleBreakpoints";
+import isSelectedFrameVisible from "./selectors/isSelectedFrameVisible";
 
 /**
  * @param object - location
@@ -30,5 +31,10 @@ module.exports = Object.assign(
   ast,
   coverage,
   projectTextSearch,
-  { getBreakpointAtLocation, getInScopeLines, getVisibleBreakpoints }
+  {
+    getBreakpointAtLocation,
+    getInScopeLines,
+    getVisibleBreakpoints,
+    isSelectedFrameVisible
+  }
 );

@@ -6,7 +6,7 @@ import {
   getSelectedLocation,
   getSelectedSource,
   getSelectedFrame,
-  getSelection
+  getPreview
 } from "../selectors";
 
 import { PROMISE } from "../utils/redux/middleware/promise";
@@ -66,9 +66,9 @@ export function setOutOfScopeLocations() {
   };
 }
 
-export function clearSelection() {
+export function clearPreview() {
   return ({ dispatch, getState, client }: ThunkArgs) => {
-    const currentSelection = getSelection(getState());
+    const currentSelection = getPreview(getState());
     if (!currentSelection) {
       return;
     }
@@ -96,19 +96,19 @@ function findBestMatch(symbols, tokenPos, token) {
   }, {});
 }
 
-export function setSelection(
+export function setPreview(
   token: string,
   tokenPos: AstLocation,
   cursorPos: any
 ) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
-    const currentSelection = getSelection(getState());
+    const currentSelection = getPreview(getState());
     if (currentSelection && currentSelection.updating) {
       return;
     }
 
     await dispatch({
-      type: "SET_SELECTION",
+      type: "SET_PREVIEW",
       [PROMISE]: (async function() {
         const source = getSelectedSource(getState());
         const _symbols = await parser.getSymbols(source.toJS());

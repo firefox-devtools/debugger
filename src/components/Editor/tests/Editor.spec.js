@@ -23,7 +23,7 @@ function generateDefaults(overrides) {
       regexMatch: false,
       wholeWord: false
     })(),
-    clearSelection: jest.fn
+    clearPreview: jest.fn
   };
 }
 

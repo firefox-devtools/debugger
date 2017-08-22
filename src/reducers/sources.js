@@ -16,6 +16,7 @@ import { prefs } from "../utils/prefs";
 
 import type { Map, List } from "immutable";
 import type { Source, Location } from "../types";
+import type { SelectedLocation, PendingSelectedLocation } from "./types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -26,16 +27,8 @@ type TabList = List<Tab>;
 
 export type SourcesState = {
   sources: SourcesMap,
-  selectedLocation?: {
-    sourceId: string,
-    line?: number,
-    column?: number
-  },
-  pendingSelectedLocation?: {
-    url: string,
-    line?: number,
-    column?: number
-  },
+  selectedLocation?: SelectedLocation,
+  pendingSelectedLocation?: PendingSelectedLocation,
   selectedLocation?: Location,
   tabs: TabList
 };

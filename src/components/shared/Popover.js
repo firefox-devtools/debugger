@@ -8,6 +8,7 @@ import "./Popover.css";
 class Popover extends Component {
   constructor() {
     super();
+    this.onMouseLeave = this.onMouseLeave.bind(this);
     this.state = {
       left: 0,
       top: 0
@@ -102,8 +103,17 @@ class Popover extends Component {
     return <BracketArrow {...arrowProps} />;
   }
 
-  renderPopover() {
+  onMouseLeave(e) {
     const { onMouseLeave } = this.props;
+
+    if (e.target.className.match(/(bracket-arrow|gap)/)) {
+      return;
+    }
+
+    onMouseLeave();
+  }
+
+  renderPopover() {
     const { top, left, orientation, targetMid } = this.state;
 
     const arrow = this.getPopoverArrow(orientation, targetMid);
@@ -111,7 +121,7 @@ class Popover extends Component {
     return (
       <div
         className={classNames("popover", { up: orientation === "up" })}
-        onMouseLeave={onMouseLeave}
+        onMouseLeave={this.onMouseLeave}
         style={{ top, left }}
       >
         {arrow}

@@ -10,32 +10,33 @@ const { REPS: { Rep }, MODE, ObjectInspectorUtils } = Reps;
 const { ObjectInspector } = Reps;
 const { getChildren } = ObjectInspectorUtils;
 
-import Popover from "../shared/Popover";
+import actions from "../../../actions";
+import { getLoadedObjects } from "../../../selectors";
+import Popover from "../../shared/Popover";
+import previewFunction from "../../shared/previewFunction";
+import { markText } from "../../../utils/editor";
 
-import previewFunction from "../shared/previewFunction";
-import { getLoadedObjects } from "../../selectors";
-import actions from "../../actions";
-import { markText } from "../../utils/editor";
+import "./Popup.css";
 
-import type { EditorRange } from "../../utils/editor/types";
+import type { EditorRange } from "../../../utils/editor/types";
 
-import "./Preview.css";
+type Props = {
+  loadObjectProperties: Object => void,
+  addExpression: (string, ?Object) => void,
+  loadedObjects: Object,
+  popoverPos: Object,
+  value: Object,
+  expression: string,
+  onClose: () => void,
+  range: EditorRange,
+  editor: any,
+  selectSourceURL: (string, Object) => void
+};
 
-export class Preview extends Component {
+export class Popup extends Component {
   marker: any;
   pos: any;
-  props: {
-    loadObjectProperties: Object => void,
-    addExpression: (string, ?Object) => void,
-    loadedObjects: Object,
-    popoverPos: Object,
-    value: Object,
-    expression: string,
-    onClose: () => void,
-    range: EditorRange,
-    editor: any,
-    selectSourceURL: (string, Object) => void
-  };
+  props: Props;
 
   componentDidMount() {
     const {
@@ -46,7 +47,7 @@ export class Preview extends Component {
       range
     } = this.props;
 
-    this.marker = markText(editor, "selection", range);
+    this.marker = markText(editor, "preview-selection", range);
 
     if (!value || !value.type == "object") {
       return;
@@ -85,17 +86,19 @@ export class Preview extends Component {
 
     return (
       <div
-        className="preview"
+        className="preview-popup"
         onClick={() => selectSourceURL(location.url, { line: location.line })}
       >
-        {previewFunction(value)}
+        {true
+          ? previewFunction(value)
+          : Rep({ object: value, mode: MODE.TINY })}
       </div>
     );
   }
 
   renderObjectPreview(expression: string, root: Object) {
     return (
-      <div className="preview">
+      <div className="preview-popup">
         {this.renderObjectInspector(root)}
       </div>
     );
@@ -103,7 +106,7 @@ export class Preview extends Component {
 
   renderSimplePreview(value: Object) {
     return (
-      <div className="preview">
+      <div className="preview-popup">
         {Rep({ object: value, mode: MODE.LONG })}
       </div>
     );
@@ -205,11 +208,11 @@ export class Preview extends Component {
   }
 }
 
-Preview.displayName = "Preview";
+Popup.displayName = "Popup";
 
 export default connect(
   state => ({
     loadedObjects: getLoadedObjects(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
-)(Preview);
+)(Popup);
