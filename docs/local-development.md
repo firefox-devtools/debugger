@@ -382,6 +382,45 @@ it("should render a button", () => {
 });
 ```
 
+#### Fixing Intermittents
+
+When CI is showing a jest intermittent, it's usually possible to reproduce it locally.
+
+The first step is to run the test suite several times and see if you get the same error.
+
+```bash
+for i in `seq 1 20`; do jest src -i done
+```
+
+If you do, the next step is to narrow the error down to a single spec.
+First focus on a directory and then a file. Hint the most likely culprit are the actions.
+
+```bash
+for i in `seq 1 20`; do jest src/actions -i done
+```
+
+When you have a directory that has the intermittent, you should exclude files by marking
+`describes` with `xdescribe` and then mark `it` as `xit`
+
+
+When you have a test that is flakey, you can look at the code and try and find the problem.
+90% of the time it will be an asynchronous call we don't wait for. Here is a recent fix.
+Notice that `sourceMaps.generatedToOriginalId` was asynchronous, but we didn't wait for it.
+
+```diff
+diff --git a/src/actions/sources/createPrettySource.js b/src/actions/sources/createPrettySource.js
+index a3b2ba6..cd5a8e7 100644
+--- a/src/actions/sources/createPrettySource.js
++++ b/src/actions/sources/createPrettySource.js
+@@ -7,7 +7,7 @@ export function createPrettySource(sourceId) {
+   return async ({ dispatch, getState, sourceMaps }) => {
+     const source = getSource(getState(), sourceId).toJS();
+     const url = getPrettySourceURL(source.url);
+-    const id = sourceMaps.generatedToOriginalId(sourceId, url);
++    const id = await sourceMaps.generatedToOriginalId(sourceId, url);
+```
+
+
 ### Linting
 
 | Type | Command |
