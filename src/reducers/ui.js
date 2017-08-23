@@ -121,6 +121,10 @@ function update(
       return state.set("shownSource", action.sourceUrl);
     }
 
+    case "CLEAR_SHOWN_SOURCE": {
+      return state.set("shownSource");
+    }
+
     case "TOGGLE_PANE": {
       if (action.position == "start") {
         prefs.startPanelCollapsed = action.paneCollapsed;

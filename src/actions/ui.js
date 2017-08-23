@@ -56,6 +56,12 @@ export function updateSearchResults(results: Object) {
   };
 }
 
+export function clearShownSource() {
+  return {
+    type: "CLEAR_SHOWN_SOURCE"
+  };
+}
+
 export function toggleFileSearchModifier(modifier: string) {
   return { type: "TOGGLE_FILE_SEARCH_MODIFIER", modifier };
 }

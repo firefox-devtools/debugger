@@ -114,7 +114,8 @@ class SourceTabs extends PureComponent {
     horizontal: boolean,
     startPanelCollapsed: boolean,
     endPanelCollapsed: boolean,
-    searchOn: boolean
+    searchOn: boolean,
+    clearShownSource: Function
   };
 
   onResize: Function;
@@ -249,7 +250,11 @@ class SourceTabs extends PureComponent {
       label: revealInTreeLabel,
       accesskey: revealInTreeKey,
       disabled: false,
-      click: () => showSource(tab)
+      click: () => {
+        const { clearShownSource } = this.props;
+        clearShownSource();
+        showSource(tab);
+      }
     };
 
     const copySourceUrl = {
