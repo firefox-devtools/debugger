@@ -4,6 +4,16 @@ permalink: docs/updates
 
 ### Weekly Updates
 
+### [August 22nd](./updates-8-22-2017.md)
+
+* new release this week will include project search and outline view
+* empty line gutters are no longer going to be clickable: PR
+* Async/await stepping is in progress. Jaideep did a lot of great work.
+* Improved development experience for windows users
+* Source tree now handles files and folders with the same name in a reasonable manner
+* Source tree has also been generally cleaned up
+* Debugger uses the Object Inspector from Core (same as the console)
+
 ### [August 15th](./updates-8-15-2017.md)
 
 * We're switching to JSX
