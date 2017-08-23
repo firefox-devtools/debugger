@@ -76,8 +76,8 @@ Our [Weekly updates][weekly-updates] are also posted!
 
 Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
 
-* **DevTools Call**: Every Tuesday at 12pm EST. [Join the DevTools Vidyo][devtools-call]
 * **Community Call**: Every Tuesday at 3pm EST and Thursday at 12pm EST. [Join the Hangout][community-call]
+* **DevTools Call**: Every Tuesday at 12pm EST. [Join the DevTools Vidyo][vidyo] Meeting Notes [Google Docs][google-docs]
 * **Pairing**: Ask in [slack] and you'll either find someone or be able to schedule a time for later.
 
 ### License
@@ -115,6 +115,7 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [irc-devtools-html]: irc://irc.mozilla.org/devtools-html
 [community-call]: https://hangouts.google.com/hangouts/_/calendar/amFzb24ubGFzdGVyLjExQGdtYWlsLmNvbQ.30mdpa6ncqn8uttvmrj9b9d3jc
 [devtools-call]: https://wiki.mozilla.org/DevTools
+[vidyo]:https://v.mozilla.com/flex.html?roomdirect.html&key=n9vJUD3L1vRMHKQC5OCNRT3UBjw
 [changelog]: https://changelog.com/podcast/247
 [docs]: https://devtools-html.github.io/debugger.html/docs/
 [weekly-updates]: https://devtools-html.github.io/debugger.html/docs/updates
@@ -128,3 +129,4 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [Logging]: ./docs/local-development.md#logging
 [Testing]: ./docs/local-development.md#testing
 [Linting]: ./docs/local-development.md#linting
+[google-docs]:https://docs.google.com/document/d/1pUx9xq6L7bonSrDpyUNTQkQxTxAsULLu4kkHZLMEq6w/edit
