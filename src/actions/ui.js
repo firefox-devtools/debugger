@@ -63,6 +63,12 @@ export function toggleFileSearchModifier(modifier: string) {
 export function showSource(sourceId: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
+
+    dispatch({
+      type: "SHOW_SOURCE",
+      sourceUrl: ""
+    });
+
     dispatch({
       type: "SHOW_SOURCE",
       sourceUrl: source.get("url")
