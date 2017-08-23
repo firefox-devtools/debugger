@@ -6,7 +6,7 @@ import _Tabs from "../Editor/Tabs";
 const Tabs = React.createFactory(_Tabs.WrappedComponent);
 import fromJS from "../../utils/fromJS";
 import { L10N } from "devtools-launchpad";
-import times from "lodash/times";
+import { times } from "lodash";
 
 import "../App.css";
 import "../Editor/Editor.css";

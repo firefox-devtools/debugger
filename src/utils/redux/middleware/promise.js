@@ -5,8 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import defer from "../../defer";
-import toPairs from "lodash/toPairs";
-import fromPairs from "lodash/fromPairs";
+import { fromPairs, toPairs } from "lodash";
 import { executeSoon } from "../../DevToolsUtils";
 
 import type { ThunkArgs } from "../../../actions/types";

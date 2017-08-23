@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
 
-import get from "lodash/get";
+import { get } from "lodash";
 import type { Frame } from "debugger-html";
 import type { SourcesMap } from "../../../reducers/sources";
 

@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { isEnabled } from "devtools-config";
 
-import range from "lodash/range";
-import keyBy from "lodash/keyBy";
-import find from "lodash/find";
-import isEqualWith from "lodash/isEqualWith";
+import { range } from "lodash";
+import { keyBy } from "lodash";
+import { find } from "lodash";
+import { isEqualWith } from "lodash";
 
 import _CallSite from "./CallSite";
 const CallSite = createFactory(_CallSite);
