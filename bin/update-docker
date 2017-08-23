@@ -4,13 +4,9 @@ DOWNLOADS_PATH=${DOWNLOADS_PATH:-"$HOME/downloads"}
 
 mkdir -p $DOWNLOADS_PATH
 
-# Using the first 8 chars of the Docker image hash for brevity
 if [[ -e $DOWNLOADS_PATH/mc.tar ]]; then
   time docker load -i $DOWNLOADS_PATH/mc.tar;
 else
-  # It appears the old Docker in CircleCI 1.0 doesn't support pulling a specific
-  # hash such as jryans/debugger-gecko@sha256:b60ff65ecf613774330979f108b70506508aad54dde815564c743da287f10b4b
-  # We should finish the upgrade to CircleCI 2.0 so that this can be less strange.
   time docker pull janx/firefox-hg
   docker images
   time docker save janx/firefox-hg > $DOWNLOADS_PATH/mc.tar

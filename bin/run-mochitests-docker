@@ -23,5 +23,6 @@ docker run -it \
       ac_add_options --enable-artifact-builds\n \
       mk_add_options MOZ_OBJDIR=./objdir-frontend\n \" > mozconfig \
     touch devtools/client/debugger/new/test/mochitest/browser.ini \
+    && ./mach clobber \
     && ./mach build \
     && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"
