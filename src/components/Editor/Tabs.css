@@ -14,7 +14,7 @@
 .source-header .new-tab-btn {
   padding: 4px;
   margin-top: 4px;
-  margin-left: 3px;
+  margin-left: 2px;
   fill: var(--theme-content-color3);
   transition: 0.1s ease;
   align-self: center;
