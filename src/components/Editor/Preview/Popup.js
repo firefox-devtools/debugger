@@ -89,9 +89,7 @@ export class Popup extends Component {
         className="preview-popup"
         onClick={() => selectSourceURL(location.url, { line: location.line })}
       >
-        {true
-          ? previewFunction(value)
-          : Rep({ object: value, mode: MODE.TINY })}
+        {previewFunction(value)}
       </div>
     );
   }
