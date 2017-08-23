@@ -118,11 +118,8 @@ function update(
     }
 
     case "SHOW_SOURCE": {
+      state.set("shownSource");
       return state.set("shownSource", action.sourceUrl);
-    }
-
-    case "CLEAR_SHOWN_SOURCE": {
-      return state.set("shownSource");
     }
 
     case "TOGGLE_PANE": {

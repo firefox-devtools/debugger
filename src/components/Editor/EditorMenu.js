@@ -1,7 +1,6 @@
 import { showMenu } from "devtools-launchpad";
 import { isOriginalId } from "devtools-source-map";
 import { copyToTheClipboard } from "../../utils/clipboard";
-import { clearShownSource } from "../../actions/ui";
 
 function getMenuItems(
   event,
@@ -79,10 +78,7 @@ function getMenuItems(
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
     disabled: false,
-    click: () => {
-      clearShownSource();
-      showSource(selectedSource.get("id"));
-    }
+    click: () => showSource(selectedSource.get("id"))
   };
 
   if (selectedSource && selectedSource.get("isBlackBoxed")) {
