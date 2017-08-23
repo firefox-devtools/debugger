@@ -230,7 +230,7 @@ type ASTAction =
       locations: AstLocation[]
     }
   | {
-      type: "SET_SELECTION",
+      type: "SET_PREVIEW",
       value: {
         expression: string,
         result: any,

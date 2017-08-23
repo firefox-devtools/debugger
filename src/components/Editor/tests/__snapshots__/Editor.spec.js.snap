@@ -47,7 +47,7 @@ ShallowWrapper {
                 Immutable.Map {
                 }
         }
-        clearSelection={[Function]}
+        clearPreview={[Function]}
         disableBreakpoint={[Function]}
         enableBreakpoint={[Function]}
         getExpression={[Function]}
@@ -78,8 +78,6 @@ ShallowWrapper {
         "onEscape": [Function],
         "onGutterClick": [Function],
         "onGutterContextMenu": [Function],
-        "onMouseOver": [Function],
-        "onScroll": [Function],
         "onSearchAgain": [Function],
         "onToggleBreakpoint": [Function],
         "pendingJumpLocation": null,
@@ -88,7 +86,7 @@ ShallowWrapper {
           "addExpression": [Function],
           "breakpoints": Immutable.Map {
 },
-          "clearSelection": [Function],
+          "clearPreview": [Function],
           "disableBreakpoint": [Function],
           "enableBreakpoint": [Function],
           "getExpression": [Function],
@@ -170,7 +168,7 @@ ShallowWrapper {
         Immutable.Map {
         }
     }
-    clearSelection={[Function]}
+    clearPreview={[Function]}
     disableBreakpoint={[Function]}
     enableBreakpoint={[Function]}
     getExpression={[Function]}

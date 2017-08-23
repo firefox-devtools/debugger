@@ -101,7 +101,7 @@ describe("ast", () => {
     });
   });
 
-  describe("setSelection", () => {
+  describe("setPreview", () => {
     let dispatch = undefined;
     let getState = undefined;
 
@@ -123,15 +123,15 @@ describe("ast", () => {
     });
 
     it("member expression", async () => {
-      await dispatch(actions.setSelection("bazz", { line: 1, column: 34 }));
-      const selection = selectors.getSelection(getState());
-      expect(selection).toMatchSnapshot();
+      await dispatch(actions.setPreview("bazz", { line: 1, column: 34 }));
+      const preview = selectors.getPreview(getState());
+      expect(preview).toMatchSnapshot();
     });
 
     it("this", async () => {
-      await dispatch(actions.setSelection("this", { line: 1, column: 30 }));
-      const selection = selectors.getSelection(getState());
-      expect(selection).toMatchSnapshot();
+      await dispatch(actions.setPreview("this", { line: 1, column: 30 }));
+      const preview = selectors.getPreview(getState());
+      expect(preview).toMatchSnapshot();
     });
   });
 });

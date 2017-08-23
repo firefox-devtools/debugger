@@ -17,7 +17,7 @@ import type { Record } from "../utils/makeRecord";
 
 export type SymbolsMap = Map<string, SymbolDeclarations>;
 
-export type Selection =
+export type Preview =
   | {| updating: true |}
   | null
   | {|
@@ -32,7 +32,7 @@ export type Selection =
 export type ASTState = {
   symbols: SymbolsMap,
   outOfScopeLocations: ?Array<AstLocation>,
-  selection: Selection
+  preview: Preview
 };
 
 export function initialState() {
@@ -40,7 +40,7 @@ export function initialState() {
     ({
       symbols: I.Map(),
       outOfScopeLocations: null,
-      selection: null
+      preview: null
     }: ASTState)
   )();
 }
@@ -60,16 +60,16 @@ function update(
     }
 
     case "CLEAR_SELECTION": {
-      return state.set("selection", null);
+      return state.set("preview", null);
     }
 
-    case "SET_SELECTION": {
+    case "SET_PREVIEW": {
       if (action.status == "start") {
-        return state.set("selection", { updating: true });
+        return state.set("preview", { updating: true });
       }
 
       if (!action.value) {
-        return state.set("selection", null);
+        return state.set("preview", null);
       }
 
       const {
@@ -79,7 +79,7 @@ function update(
         tokenPos,
         cursorPos
       } = action.value;
-      return state.set("selection", {
+      return state.set("preview", {
         updating: false,
         expression,
         location,
@@ -128,8 +128,8 @@ export function getOutOfScopeLocations(state: OuterState) {
   return state.ast.get("outOfScopeLocations");
 }
 
-export function getSelection(state: OuterState) {
-  return state.ast.get("selection");
+export function getPreview(state: OuterState) {
+  return state.ast.get("preview");
 }
 
 export default update;
