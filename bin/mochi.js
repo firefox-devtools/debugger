@@ -1,6 +1,7 @@
 const shell = require("shelljs");
 const chalk = require("chalk");
 const path = require("path");
+const fs = require("fs");
 
 // const minimist = require("minimist");
 
@@ -323,8 +324,15 @@ if (process.mainModule.filename.includes("bin/mochi.js")) {
     ? process.argv.slice(2)
     : process.argv;
 
-  args = updateArgs(args);
-  run(args);
+  if (args[0] == "--read") {
+    const file = args[1];
+    const _path = path.join(__dirname, "..", file);
+    const text = fs.readFileSync(_path, { encoding: "utf8" });
+    console.log(readOutput(text).join("\n"));
+  } else {
+    args = updateArgs(args);
+    run(args);
+  }
 }
 
 module.exports = { run, readOutput };

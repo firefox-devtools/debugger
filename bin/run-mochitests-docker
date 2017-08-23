@@ -18,4 +18,12 @@ docker run -it \
   -e "DISPLAY=unix$DISPLAY" \
   --ipc host \
   jryans/debugger-gecko \
-  /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/debugger/new/test/mochitest/browser.ini && ./mach build && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/"
+  /bin/bash -c "export SHELL=/bin/bash; \
+    touch devtools/client/debugger/new/test/mochitest/browser.ini \
+    && ./mach build \
+    && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/" \
+  > output.txt
+test_exit_code=$?
+
+node ./bin/mochi.js --read output.txt
+exit $test_exit_code;
