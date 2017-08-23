@@ -252,10 +252,14 @@ function runMochitests(args) {
   const command = `./mach mochitest ${args.join(" ")}`;
   console.log(chalk.blue(command));
 
-  const child = shell.exec(command, {
-    async: true,
-    silent: true
-  });
+  const child = shell.exec(
+    command,
+    {
+      async: true,
+      silent: true
+    },
+    code => shell.exit(code)
+  );
 
   let testData = { mode: "starting" };
 
