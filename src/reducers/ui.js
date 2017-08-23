@@ -118,7 +118,6 @@ function update(
     }
 
     case "SHOW_SOURCE": {
-      state.set("shownSource");
       return state.set("shownSource", action.sourceUrl);
     }
 
