@@ -12,15 +12,21 @@
 }
 
 .source-header .new-tab-btn {
-  padding: 0px 4px;
+  padding: 4px;
   margin-top: 4px;
+  margin-left: 2px;
   fill: var(--theme-content-color3);
   transition: 0.1s ease;
   align-self: center;
 }
 
+.source-header .new-tab-btn:hover {
+  background-color: var(--theme-toolbar-background-hover);
+}
+
 .source-header .new-tab-btn svg {
   width: 12px;
+  display: block;
 }
 
 .source-tabs {
