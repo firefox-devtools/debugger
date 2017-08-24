@@ -10,7 +10,8 @@ const {
   getSelectedSource,
   getSourceTabs,
   getOutOfScopeLocations,
-  getSelectedLocation
+  getSelectedLocation,
+  getPendingSelectedLocation
 } = selectors;
 
 import { sourceThreadClient as threadClient } from "./helpers/threadClient.js";
@@ -51,7 +52,7 @@ describe("sources", () => {
   it("should automatically select a pending source", async () => {
     const { dispatch, getState } = createStore(threadClient);
     const baseSource = makeSource("base.js");
-    dispatch(actions.selectSourceURL(baseSource.url));
+    await dispatch(actions.selectSourceURL(baseSource.url));
 
     expect(getSelectedSource(getState())).toBe(undefined);
     await dispatch(actions.newSource(baseSource));
