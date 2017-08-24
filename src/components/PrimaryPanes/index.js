@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom, Component, createFactory } from "react";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../../utils/text";
@@ -10,11 +10,8 @@ import { isEnabled } from "devtools-config";
 import "./Sources.css";
 import classnames from "classnames";
 
-import _Outline from "./Outline";
-const Outline = createFactory(_Outline);
-
-import _SourcesTree from "./SourcesTree";
-const SourcesTree = createFactory(_SourcesTree);
+import Outline from "./Outline";
+import SourcesTree from "./SourcesTree";
 
 import type { SourcesMap } from "../../reducers/types";
 type SourcesState = {
@@ -58,77 +55,80 @@ class PrimaryPanes extends Component {
     }
 
     return [
-      dom.div(
-        {
-          className: classnames("tab", {
-            active: this.state.selectedPane === "sources"
-          }),
-          onClick: () => this.showPane("sources"),
-          key: "sources-tab"
-        },
-        "Sources View"
-      ),
-      dom.div(
-        {
-          className: classnames("tab", {
-            active: this.state.selectedPane === "outline"
-          }),
-          onClick: () => this.showPane("outline"),
-          key: "outline-tab"
-        },
-        "Outline View"
-      )
+      <div
+        className={classnames("tab", {
+          active: this.state.selectedPane === "sources"
+        })}
+        onClick={() => this.showPane("sources")}
+        key="sources-tab"
+      >
+        Sources View
+      </div>,
+      <div
+        className={classnames("tab", {
+          active: this.state.selectedPane === "outline"
+        })}
+        onClick={() => this.showPane("outline")}
+        key="outline-tab"
+      >
+        Outline View
+      </div>
     ];
   }
 
   renderFooter() {
-    return dom.div(
-      {
-        className: "source-footer"
-      },
-      this.renderOutlineTabs()
+    return (
+      <div className="source-footer">
+        {this.renderOutlineTabs()}
+      </div>
     );
   }
 
   renderShortcut() {
     if (this.props.horizontal) {
-      return dom.span(
-        {
-          className: "sources-header-info",
-          dir: "ltr",
-          onClick: () => {
-            if (this.props.sourceSearchOn) {
-              return this.props.closeActiveSearch();
-            }
-            this.props.setActiveSearch("source");
-          }
-        },
-        L10N.getFormatStr(
-          "sources.search",
-          formatKeyShortcut(L10N.getStr("sources.search.key2"))
-        )
+      const onClick = () => {
+        if (this.props.sourceSearchOn) {
+          return this.props.closeActiveSearch();
+        }
+        this.props.setActiveSearch("source");
+      };
+      return (
+        <span className="sources-header-info" dir="ltr" onClick={onClick}>
+          {L10N.getFormatStr(
+            "sources.search",
+            formatKeyShortcut(L10N.getStr("sources.search.key2"))
+          )}
+        </span>
       );
     }
   }
 
   renderHeader() {
-    return dom.div({ className: "sources-header" }, this.renderShortcut());
+    return (
+      <div className="sources-header">
+        {this.renderShortcut()}
+      </div>
+    );
   }
 
   render() {
     const { selectedPane } = this.state;
     const { sources, selectSource } = this.props;
 
-    return dom.div(
-      { className: "sources-panel" },
-      this.renderHeader(),
-      SourcesTree({
-        sources,
-        selectSource,
-        isHidden: selectedPane === "outline"
-      }),
-      Outline({ selectSource, isHidden: selectedPane === "sources" }),
-      this.renderFooter()
+    return (
+      <div className="sources-panel">
+        {this.renderHeader()}
+        <SourcesTree
+          sources={sources}
+          selectSource={selectSource}
+          isHidden={selectedPane === "outline"}
+        />
+        <Outline
+          selectSource={selectSource}
+          isHidden={selectedPane === "sources"}
+        />
+        {this.renderFooter()}
+      </div>
     );
   }
 }
