@@ -1,15 +1,11 @@
-import { Component, createFactory, DOM as dom } from "react";
+import { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { isEnabled } from "devtools-config";
 
-import { range } from "lodash";
-import { keyBy } from "lodash";
-import { find } from "lodash";
-import { isEqualWith } from "lodash";
+import { range, keyBy, find, isEqualWith } from "lodash";
 
-import _CallSite from "./CallSite";
-const CallSite = createFactory(_CallSite);
+import CallSite from "./CallSite";
 
 import {
   getSelectedSource,
@@ -156,18 +152,21 @@ class CallSites extends Component {
     }
 
     editor.codeMirror.operation(() => {
-      sites = dom.div(
-        {},
-        callSites.map((callSite, index) => {
-          return CallSite({
-            key: index,
-            callSite,
-            editor,
-            source: selectedSource,
-            breakpoint: callSite.breakpoint,
-            showCallSite: showCallSites
-          });
-        })
+      const childCallSites = callSites.map((callSite, index) => {
+        const props = {
+          key: index,
+          callSite,
+          editor,
+          source: selectedSource,
+          breakpoint: callSite.breakpoint,
+          showCallSite: showCallSites
+        };
+        return <CallSite {...props} />;
+      });
+      sites = (
+        <div>
+          {childCallSites}
+        </div>
       );
     });
     return sites;
