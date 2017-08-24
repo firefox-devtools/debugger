@@ -34,7 +34,7 @@ export function isInvalidUrl(url: Object, source: Object) {
   return (
     IGNORED_URLS.indexOf(url) != -1 ||
     !source.get("url") ||
-    source.loadedState === "loading" ||
+    source.get("loadedState") === "loading" ||
     !url.group ||
     isPretty(source.toJS())
   );

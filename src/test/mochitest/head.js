@@ -38,6 +38,7 @@ Services.scriptloader.loadSubScript(
   this
 );
 var { Toolbox } = require("devtools/client/framework/toolbox");
+var { sourceUtil } = require("../../utils/source.js");
 const EXAMPLE_URL =
   "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/";
 
@@ -215,17 +216,13 @@ function waitForSelectedSource(dbg, sourceId) {
   return waitForState(dbg, state => {
     const source = dbg.selectors.getSelectedSource(state);
     const isLoaded =
-      source && source.has("loadedState") && isSourceLoaded(source);
+      source && source.has("loadedState") && sourceUtil.isLoaded(source);
     if (sourceId) {
       return isLoaded && sourceId == source.get("id");
     }
 
     return isLoaded;
   });
-}
-
-function isSourceLoaded(source) {
-  return source.loadedState === "loaded";
 }
 
 /**
@@ -336,7 +333,7 @@ function isTopFrameSelected(dbg, state) {
     return false;
   }
 
-  const isLoaded = source.has("loadedState") && isSourceLoaded(source);
+  const isLoaded = source.has("loadedState") && sourceUtil.isLoaded(source);
   if (!isLoaded) {
     return false;
   }
