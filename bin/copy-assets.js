@@ -11,11 +11,13 @@ const envConfig = getConfig();
 feature.setConfig(envConfig);
 
 const args = minimist(process.argv.slice(2), {
-  boolean: ["watch", "symlink"],
+  boolean: ["watch", "symlink", "assets"],
   string: ["mc"]
 });
 
 const shouldSymLink = args.symlink;
+const updateAssets = args.assets;
+const watch = args.watch;
 
 function start() {
   console.log("start: copy assets");
@@ -68,12 +70,15 @@ function start() {
   makeBundle({
     outputPath: path.join(mcPath, mcModulePath),
     projectPath,
-    watch: args.watch
-  }).then(() => {
-    console.log("done: copy assets");
-  }).catch((err) => {
-    console.log(err)
-  });
+    watch,
+    updateAssets
+  })
+    .then(() => {
+      console.log("done: copy assets");
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 
 start();

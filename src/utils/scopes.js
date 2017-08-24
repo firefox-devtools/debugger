@@ -1,7 +1,7 @@
 // @flow
 
-import toPairs from "lodash/toPairs";
-import get from "lodash/get";
+import { toPairs } from "lodash";
+import { get } from "lodash";
 import type { Frame, Pause, Scope } from "debugger-html";
 
 type ScopeData = {

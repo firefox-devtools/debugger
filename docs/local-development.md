@@ -229,6 +229,23 @@ Notes:
 - `click` on click callback
 - `hidden` dynamically hide items
 
+#### Access Keys
+
+Access Keys are keyboard shortcuts for an item in the context menu and are only used when the context menu is open. They are an accessibility feature. Access keys take precedence over all other keyboard shortcuts when the context menu is open except for CodeMirror shortcuts.
+Access Keys are defined in the properties file next to the menu item's string. You can use any key that is not already added, but try to use your own discretion about which key makes the most sense
+
+
+```
+# LOCALIZATION NOTE (copySourceUrl): This is the text that appears in the
+# context menu to copy the source URL of file open.
+copySourceUrl=Copy Source Url
+
+# LOCALIZATION NOTE (copySourceUrl.accesskey): Access key to copy the source URL of a file from
+# the context menu.
+copySourceUrl.accesskey=u
+```
+
+
 #### Context Menu Groups
 
 You can use a menu item separator to create menu groups.
@@ -364,6 +381,45 @@ it("should render a button", () => {
   expect(wrapper).toMatchSnapshot();
 });
 ```
+
+#### Fixing Intermittents
+
+When CI is showing a jest intermittent, it's usually possible to reproduce it locally.
+
+The first step is to run the test suite several times and see if you get the same error.
+
+```bash
+for i in `seq 1 20`; do jest src -i done
+```
+
+If you do, the next step is to narrow the error down to a single spec.
+First focus on a directory and then a file. Hint the most likely culprit are the actions.
+
+```bash
+for i in `seq 1 20`; do jest src/actions -i done
+```
+
+When you have a directory that has the intermittent, you should exclude files by marking
+`describes` with `xdescribe` and then mark `it` as `xit`
+
+
+When you have a test that is flakey, you can look at the code and try and find the problem.
+90% of the time it will be an asynchronous call we don't wait for. Here is a recent fix.
+Notice that `sourceMaps.generatedToOriginalId` was asynchronous, but we didn't wait for it.
+
+```diff
+diff --git a/src/actions/sources/createPrettySource.js b/src/actions/sources/createPrettySource.js
+index a3b2ba6..cd5a8e7 100644
+--- a/src/actions/sources/createPrettySource.js
++++ b/src/actions/sources/createPrettySource.js
+@@ -7,7 +7,7 @@ export function createPrettySource(sourceId) {
+   return async ({ dispatch, getState, sourceMaps }) => {
+     const source = getSource(getState(), sourceId).toJS();
+     const url = getPrettySourceURL(source.url);
+-    const id = sourceMaps.generatedToOriginalId(sourceId, url);
++    const id = await sourceMaps.generatedToOriginalId(sourceId, url);
+```
+
 
 ### Linting
 

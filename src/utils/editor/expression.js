@@ -1,6 +1,6 @@
 // @flow
 
-import isEqual from "lodash/isEqual";
+import { isEqual } from "lodash";
 
 export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
   const { left, top, width, height } = tokenEl.getBoundingClientRect();
@@ -15,24 +15,24 @@ export function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
   };
 }
 
-export function updateSelection(
+export function updatePreview(
   target: HTMLElement,
   editor: any,
-  { linesInScope, selection, setSelection, clearSelection }: any
+  { linesInScope, preview, setPreview, clearPreview }: any
 ) {
   const location = getTokenLocation(editor.codeMirror, target);
   const tokenText = target.innerText ? target.innerText.trim() : "";
   const cursorPos = target.getBoundingClientRect();
 
-  if (selection) {
+  if (preview) {
     // We are mousing over the same token as before
-    if (isEqual(selection.tokenPos, location)) {
+    if (isEqual(preview.tokenPos, location)) {
       return;
     }
 
-    // We are mousing over a new token that is not in the selection
+    // We are mousing over a new token that is not in the preview
     if (!target.classList.contains("debug-expression")) {
-      clearSelection();
+      clearPreview();
     }
   }
 
@@ -41,12 +41,12 @@ export function updateSelection(
     (target.parentElement &&
       !target.parentElement.closest(".CodeMirror-line")) ||
     cursorPos.top == 0;
-  const isUpdating = selection && selection.updating;
+  const isUpdating = preview && preview.updating;
   const inScope = linesInScope && linesInScope.includes(location.line);
 
   if (invalidTarget || !inScope || isUpdating || invalidToken) {
     return;
   }
 
-  setSelection(tokenText, location, cursorPos);
+  setPreview(tokenText, location, cursorPos);
 }

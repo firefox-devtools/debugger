@@ -3,8 +3,8 @@
 
 // Tests the search bar correctly responds to queries, enter, shift enter
 
-function waitForDebounce() {
-  return new Promise(re => setTimeout(re, 200));
+function waitForSearchState(dbg) {
+  return waitForState(dbg, () => getCM(dbg).state.search);
 }
 
 function getFocusedEl(dbg) {
@@ -35,7 +35,7 @@ add_task(function*() {
   const el = getFocusedEl(dbg);
 
   type(dbg, "con");
-  yield waitForDebounce();
+  yield waitForSearchState(dbg);
 
   const state = cm.state.search;
 

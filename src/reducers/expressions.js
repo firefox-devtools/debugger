@@ -2,6 +2,7 @@
 
 import makeRecord from "../utils/makeRecord";
 import { List } from "immutable";
+import { omit } from "lodash";
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
 
@@ -28,24 +29,21 @@ function update(
       return appendToList(state, ["expressions"], {
         input: action.input,
         value: null,
-        updating: true,
-        visible: action.visible
+        updating: true
       });
     case "UPDATE_EXPRESSION":
       const key = action.expression.input;
       return updateItemInList(state, ["expressions"], key, {
         input: action.input,
         value: null,
-        updating: true,
-        visible: action.visible
+        updating: true
       });
     case "EVALUATE_EXPRESSION":
       if (action.status === "done") {
         return updateItemInList(state, ["expressions"], action.input, {
           input: action.input,
           value: action.value,
-          updating: false,
-          visible: action.visible
+          updating: false
         });
       }
       break;
@@ -65,10 +63,12 @@ function restoreExpressions() {
 }
 
 function storeExpressions(state) {
-  prefs.expressions = state
+  const expressions = state
     .getIn(["expressions"])
-    .filter(e => e.visible)
+    .map(expression => omit(expression, "value"))
     .toJS();
+
+  prefs.expressions = expressions;
 }
 
 function appendToList(state: State, path: string[], value: any) {
@@ -110,11 +110,6 @@ const getExpressionsWrapper = state => state.expressions;
 export const getExpressions = createSelector(
   getExpressionsWrapper,
   expressions => expressions.get("expressions")
-);
-
-export const getVisibleExpressions = createSelector(
-  getExpressions,
-  expressions => expressions.filter(e => e.visible)
 );
 
 export function getExpression(state: OuterState, input: string) {

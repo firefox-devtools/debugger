@@ -40,7 +40,7 @@ Array [
 ]
 `;
 
-exports[`ast setSelection member expression 1`] = `
+exports[`ast setPreview member expression 1`] = `
 Object {
   "cursorPos": undefined,
   "expression": "this.bazz",
@@ -66,7 +66,7 @@ Object {
 }
 `;
 
-exports[`ast setSelection this 1`] = `
+exports[`ast setPreview this 1`] = `
 Object {
   "cursorPos": undefined,
   "expression": "this",

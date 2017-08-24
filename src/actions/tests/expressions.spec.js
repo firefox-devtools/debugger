@@ -17,10 +17,8 @@ describe("expressions", () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
     dispatch(actions.addExpression("foo"));
-    dispatch(actions.addExpression("bar", { visible: false }));
 
-    expect(selectors.getExpressions(getState()).size).toBe(2);
-    expect(selectors.getVisibleExpressions(getState()).size).toBe(1);
+    expect(selectors.getExpressions(getState()).size).toBe(1);
   });
 
   it("should not add empty expressions", () => {
@@ -30,18 +28,6 @@ describe("expressions", () => {
     dispatch(actions.addExpression(""));
 
     expect(selectors.getExpressions(getState()).size).toBe(0);
-  });
-
-  it("should make an expression visible", () => {
-    const { dispatch, getState } = createStore(mockThreadClient);
-
-    dispatch(actions.addExpression("bar", { visible: false }));
-    let expression = selectors.getExpression(getState(), "bar");
-    expect(expression.visible).toBe(false);
-
-    dispatch(actions.addExpression("bar"));
-    expression = selectors.getExpression(getState(), "bar");
-    expect(expression.visible).toBe(true);
   });
 
   it("should update an expression", () => {
@@ -58,7 +44,7 @@ describe("expressions", () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
     dispatch(actions.addExpression("foo"));
-    dispatch(actions.addExpression("bar", { visible: false }));
+    dispatch(actions.addExpression("bar"));
 
     expect(selectors.getExpressions(getState()).size).toBe(2);
 
@@ -73,7 +59,7 @@ describe("expressions", () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
     dispatch(actions.addExpression("foo"));
-    dispatch(actions.addExpression("bar", { visible: false }));
+    dispatch(actions.addExpression("bar"));
 
     expect(selectors.getExpression(getState(), "foo").value).toBe(null);
     expect(selectors.getExpression(getState(), "bar").value).toBe(null);
@@ -87,7 +73,7 @@ describe("expressions", () => {
     const { dispatch, getState } = createStore(mockThreadClient);
 
     dispatch(actions.addExpression("foo"));
-    dispatch(actions.addExpression("bar", { visible: false }));
+    dispatch(actions.addExpression("bar"));
 
     expect(selectors.getExpression(getState(), "foo").value).toBe(null);
     expect(selectors.getExpression(getState(), "bar").value).toBe(null);

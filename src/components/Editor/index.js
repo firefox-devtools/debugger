@@ -6,7 +6,6 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
-import debounce from "lodash/debounce";
 import GutterMenu from "./GutterMenu";
 import EditorMenu from "./EditorMenu";
 import { renderConditionalPanel } from "./ConditionalPanel";
@@ -23,7 +22,6 @@ import {
   getCoverageEnabled,
   getLoadedObjects,
   getPause,
-  getSelection,
   getFileSearchQueryState,
   getFileSearchModifierState,
   getVisibleBreakpoints,
@@ -49,11 +47,9 @@ import {
   getCursorLine,
   resizeBreakpointGutter,
   traverseResults,
-  updateSelection,
   lineAtHeight,
   toSourceLine,
   toEditorLine,
-  toEditorRange,
   resetLineNumberFormat
 } from "../../utils/editor";
 
@@ -93,10 +89,8 @@ class Editor extends PureComponent {
     self.onEscape = this.onEscape.bind(this);
     self.onGutterClick = this.onGutterClick.bind(this);
     self.onGutterContextMenu = this.onGutterContextMenu.bind(this);
-    self.onScroll = this.onScroll.bind(this);
     self.onSearchAgain = this.onSearchAgain.bind(this);
     self.onToggleBreakpoint = this.onToggleBreakpoint.bind(this);
-    self.onMouseOver = debounce(this.onMouseOver, 40);
     self.toggleConditionalPanel = this.toggleConditionalPanel.bind(this);
   }
 
@@ -158,7 +152,6 @@ class Editor extends PureComponent {
     // Set code editor wrapper to be focusable
     codeMirrorWrapper.tabIndex = 0;
     codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
-    codeMirrorWrapper.addEventListener("mouseover", e => this.onMouseOver(e));
 
     const toggleFoldMarkerVisibility = e => {
       if (node instanceof HTMLElement) {
@@ -185,8 +178,6 @@ class Editor extends PureComponent {
         this.openMenu(event, codeMirror)
       );
     }
-
-    codeMirror.on("scroll", this.onScroll);
 
     this.setState({ editor });
     return editor;
@@ -313,10 +304,6 @@ class Editor extends PureComponent {
     }
   }
 
-  onScroll() {
-    this.clearPreviewSelection();
-  }
-
   onSearchAgain(_, e) {
     const { query, searchModifiers } = this.props;
     const { editor: { codeMirror } } = this.state.editor;
@@ -324,10 +311,6 @@ class Editor extends PureComponent {
 
     const direction = e.shiftKey ? "prev" : "next";
     traverseResults(e, ctx, query, direction, searchModifiers.toJS());
-  }
-
-  clearPreviewSelection() {
-    this.props.clearSelection();
   }
 
   inSelectedFrameSource() {
@@ -415,13 +398,6 @@ class Editor extends PureComponent {
       isCbPanelOpen: this.isCbPanelOpen(),
       closeConditionalPanel: this.closeConditionalPanel
     });
-  }
-
-  onMouseOver(e) {
-    const { target } = e;
-    if (this.inSelectedFrameSource()) {
-      updateSelection(target, this.state.editor, this.props);
-    }
   }
 
   toggleConditionalPanel(line) {
@@ -571,33 +547,12 @@ class Editor extends PureComponent {
   }
 
   renderPreview() {
-    const { selectedSource, selection } = this.props;
+    const { selectedSource } = this.props;
     if (!this.state.editor || !selectedSource) {
       return null;
     }
 
-    if (!selection || selection.updating) {
-      return;
-    }
-
-    const { result, expression, location, cursorPos } = selection;
-    const value = result;
-    if (typeof value == "undefined" || value.optimizedOut) {
-      return;
-    }
-
-    const editorRange = toEditorRange(selectedSource.get("id"), location);
-
-    return (
-      <Preview
-        value={value}
-        editor={this.state.editor}
-        range={editorRange}
-        expression={expression}
-        popoverPos={cursorPos}
-        onClose={() => this.clearPreviewSelection()}
-      />
-    );
+    return <Preview editor={this.state.editor} />;
   }
 
   renderInScopeLines() {
@@ -748,10 +703,8 @@ Editor.propTypes = {
     regexMatch: PropTypes.bool.isRequired,
     wholeWord: PropTypes.bool.isRequired
   }).isRequired,
-  selection: PropTypes.object,
   startPanelSize: PropTypes.number,
   endPanelSize: PropTypes.number,
-  clearSelection: PropTypes.func.isRequired,
   linesInScope: PropTypes.array,
   toggleBreakpoint: PropTypes.func.isRequired,
   toggleDisabledBreakpoint: PropTypes.func.isRequired
@@ -780,8 +733,7 @@ export default connect(
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),
       searchModifiers: getFileSearchModifierState(state),
-      linesInScope: getInScopeLines(state),
-      selection: getSelection(state)
+      linesInScope: getInScopeLines(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

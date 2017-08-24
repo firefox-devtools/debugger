@@ -1,5 +1,5 @@
 import FrameMenu from "../FrameMenu";
-import kebabCase from "lodash.kebabcase";
+import { kebabCase } from "lodash";
 
 import { showMenu } from "devtools-launchpad";
 import { copyToTheClipboard } from "../../../../utils/clipboard";

@@ -20,7 +20,7 @@ import { isLoaded } from "../../utils/source";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash";
 
 import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";

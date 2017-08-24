@@ -7,7 +7,7 @@ export function createPrettySource(sourceId) {
   return async ({ dispatch, getState, sourceMaps }) => {
     const source = getSource(getState(), sourceId).toJS();
     const url = getPrettySourceURL(source.url);
-    const id = sourceMaps.generatedToOriginalId(sourceId, url);
+    const id = await sourceMaps.generatedToOriginalId(sourceId, url);
 
     const { code, mappings } = await prettyPrint({
       source,

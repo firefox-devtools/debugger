@@ -1,10 +1,10 @@
 // @flow
 
-import get from "lodash/get";
+import { get } from "lodash";
 import { isEnabled } from "devtools-config";
 import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
-import findIndex from "lodash/findIndex";
+import { findIndex } from "lodash";
 
 import type { Frame } from "debugger-html";
 import type { LocalFrame } from "../components/SecondaryPanes/Frames/types";

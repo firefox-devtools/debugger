@@ -10,6 +10,18 @@ export type State = {
   projectTextSearch: ProjectTextSearchState
 };
 
+export type SelectedLocation = {
+  sourceId: string,
+  line?: number,
+  column?: number
+};
+
+export type PendingSelectedLocation = {
+  url: string,
+  line?: number,
+  column?: number
+};
+
 export type { SourceRecord, SourcesMap } from "./sources";
 
 export type { BreakpointsMap } from "./breakpoints";
