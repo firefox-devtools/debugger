@@ -2,16 +2,6 @@
 
 exports[`breakpoints should remap breakpoints on pretty print 1`] = `
 Object {
-  "astLocation": Object {
-    "offset": Object {
-      "line": 1,
-      "sourceId": "a.js",
-      "sourceUrl": "http://localhost:8000/examples/a.js",
-    },
-    "scope": Object {
-      "name": undefined,
-    },
-  },
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {

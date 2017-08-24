@@ -4,7 +4,7 @@ exports[`ast invalid location returns the scope and offset 1`] = `
 Object {
   "offset": Object {
     "column": 0,
-    "line": 10,
+    "line": 11,
   },
   "scope": Object {
     "name": undefined,

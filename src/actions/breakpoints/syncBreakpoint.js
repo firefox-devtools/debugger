@@ -58,7 +58,6 @@ export async function syncClientBreakpoint(
   // early return if breakpoint exists on the server, send overrides
   // to update the id as expected
   const existingClient = client.getBreakpointByLocation(generatedLocation);
-  console.log(pendingBreakpoint);
 
   if (existingClient) {
     const newGeneratedLocation = existingClient.actualLocation;

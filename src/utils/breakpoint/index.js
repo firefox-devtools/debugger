@@ -129,7 +129,6 @@ export function createPendingBreakpoint(bp: Breakpoint) {
     condition: bp.condition,
     disabled: bp.disabled,
     location: pendingLocation,
-    astLocation: bp.astLocation,
     generatedLocation: pendingGeneratedLocation
   };
 }
