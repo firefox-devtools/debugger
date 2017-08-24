@@ -2,7 +2,7 @@
 import { isLoaded } from "../source";
 
 export function findSourceMatches(source, queryText) {
-  const { text, loadedState } = source;
+  const { text } = source;
   if (!isLoaded(source) || !text || queryText == "") {
     return [];
   }
