@@ -9,6 +9,6 @@ Immutable.Map {
   ",
   contentType: "text/javascript",
   frames: undefined,
-  loading: false,
+  loadedState: "loaded",
 }
 `;
