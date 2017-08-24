@@ -171,7 +171,7 @@ function getMode(source: Source) {
 
   // if the url ends with .marko we set the name to Javascript so
   // syntax highlighting works for marko too
-  if (url.match(/\.marko$/i)) {
+  if (url && url.match(/\.marko$/i)) {
     return { name: "javascript" };
   }
 
