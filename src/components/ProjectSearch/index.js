@@ -100,7 +100,13 @@ class ProjectSearch extends Component {
   }
 
   renderSourceSearch() {
-    const { sources, selectSource, closeActiveSearch } = this.props;
+    const {
+      sources,
+      selectSource,
+      closeActiveSearch,
+      query,
+      addSearchQuery
+    } = this.props;
     return (
       <SourceSearch
         sources={sources}
@@ -109,6 +115,8 @@ class ProjectSearch extends Component {
         searchBottomBar={
           <ToggleSearch kind="sources" toggle={this.toggleProjectTextSearch} />
         }
+        queryString={query}
+        queryStringChangeHandler={addSearchQuery}
       />
     );
   }
@@ -175,7 +183,7 @@ export default connect(
     sources: getSources(state),
     activeSearch: getActiveSearchState(state),
     results: getTextSearchResults(state),
-    query: getTextSearchQuery(state)
+    query: getTextSearchQuery(state) || ""
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);

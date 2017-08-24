@@ -23,6 +23,7 @@ type Props = {
   inputValue: string,
   placeholder: string,
   size: string,
+  onChangeHandler: (queryString: string) => void,
   children: any
 };
 
@@ -49,13 +50,12 @@ export default class Autocomplete extends Component {
   }
 
   getSearchResults() {
-    const inputValue = this.state.inputValue;
-
+    const inputValue = this.props.inputValue || this.state.inputValue;
     if (inputValue == "") {
       return [];
     }
 
-    return filter(this.props.items, this.state.inputValue, {
+    return filter(this.props.items, inputValue, {
       key: "value"
     });
   }
@@ -127,17 +127,21 @@ export default class Autocomplete extends Component {
     );
 
     const searchProps = {
-      query: this.state.inputValue,
+      query: this.props.inputValue || this.state.inputValue,
       count: searchResults.length,
       placeholder: this.props.placeholder,
       size,
       showErrorEmoji: true,
       summaryMsg,
-      onChange: e =>
-        this.setState({
-          inputValue: e.target.value,
-          selectedIndex: 0
-        }),
+      onChange:
+        (e => {
+          this.props.onChangeHandler(e.target.value);
+        }) ||
+        (e =>
+          this.setState({
+            inputValue: e.target.value,
+            selectedIndex: 0
+          })),
       onFocus: () => this.setState({ focused: true }),
       onBlur: () => this.setState({ focused: false }),
       onKeyDown: this.onKeyDown,

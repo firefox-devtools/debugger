@@ -12,7 +12,9 @@ export default class SourceSearch extends Component {
     closeActiveSearch: () => any,
     selectSource: string => any,
     sources: Object,
-    searchBottomBar: Object
+    searchBottomBar: Object,
+    queryString: string,
+    queryStringChangeHandler: (queryString: string) => void
   };
 
   onEscape: Function;
@@ -23,10 +25,6 @@ export default class SourceSearch extends Component {
     super(props);
 
     this.close = this.close.bind(this);
-
-    this.state = {
-      inputValue: ""
-    };
   }
 
   componentWillUnmount() {
@@ -65,7 +63,13 @@ export default class SourceSearch extends Component {
   }
 
   render() {
-    const { sources, searchBottomBar, selectSource } = this.props;
+    const {
+      sources,
+      searchBottomBar,
+      selectSource,
+      queryString,
+      queryStringChangeHandler
+    } = this.props;
     return (
       <Autocomplete
         selectItem={(e, result) => {
@@ -74,8 +78,9 @@ export default class SourceSearch extends Component {
         }}
         close={this.close}
         items={this.searchResults(sources)}
-        inputValue={this.state.inputValue}
+        inputValue={queryString}
         placeholder={L10N.getStr("sourceSearch.search")}
+        onChangeHandler={queryStringChangeHandler}
         size="big"
       >
         {searchBottomBar}
