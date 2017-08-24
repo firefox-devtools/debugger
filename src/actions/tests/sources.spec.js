@@ -10,8 +10,7 @@ const {
   getSelectedSource,
   getSourceTabs,
   getOutOfScopeLocations,
-  getSelectedLocation,
-  getPendingSelectedLocation
+  getSelectedLocation
 } = selectors;
 
 import { sourceThreadClient as threadClient } from "./helpers/threadClient.js";
