@@ -1,4 +1,4 @@
-import React, { Component, DOM as dom, PropTypes } from "react";
+import React, { Component, PropTypes } from "react";
 import classnames from "classnames";
 
 import { escapeRegExp } from "lodash";
@@ -134,14 +134,14 @@ export default class TextSearch extends Component {
     matchIndexes.forEach((matchIndex, index) => {
       if (matchIndex > 0 && index === 0) {
         matches.push(
-          <span className="line-match">
+          <span className="line-match" key={`case1-${index}`}>
             {value.slice(0, matchIndex)}
           </span>
         );
       }
       if (matchIndex > matchIndexes[index - 1] + len) {
         matches.push(
-          <span className="line-match">
+          <span className="line-match" key={`case2-${index}`}>
             {value.slice(matchIndexes[index - 1] + len, matchIndex)}
           </span>
         );
@@ -153,14 +153,18 @@ export default class TextSearch extends Component {
       );
       if (index === matchIndexes.length - 1) {
         matches.push(
-          <span className="line-match">
+          <span className="line-match" key={`case3-${index}`}>
             {value.slice(matchIndex + len, value.length)}
           </span>
         );
       }
     });
 
-    return dom.span({ className: "line-value" }, ...matches);
+    return (
+      <span className="line-value">
+        {matches}
+      </span>
+    );
   }
 
   getResults() {
