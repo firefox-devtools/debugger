@@ -15,6 +15,11 @@
   z-index: 100;
 }
 
+.alignlabel {
+  display: inline-block;
+  text-align: left;
+}
+
 .welcomebox .toggle-button-end {
   position: absolute;
   top: auto;
