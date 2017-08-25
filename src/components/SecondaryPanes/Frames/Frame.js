@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, Component } from "react";
+import React, { Component } from "react";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 
@@ -10,27 +10,47 @@ import FrameMenu from "./FrameMenu";
 import type { Frame } from "debugger-html";
 import type { LocalFrame } from "./types";
 
-function renderFrameTitle(frame: Frame, options) {
+type FrameTitleProps = {
+  frame: Frame,
+  options: Object
+};
+
+function FrameTitle({ frame, options }: FrameTitleProps) {
   const displayName = formatDisplayName(frame, options);
-  return dom.div({ className: "title" }, displayName);
+  return (
+    <div className="title">
+      {displayName}
+    </div>
+  );
 }
 
-function renderFrameLocation({ source, location, library }: LocalFrame) {
-  if (!source) {
+FrameTitle.displayName = "FrameTitle";
+
+type FrameLocationProps = { frame: LocalFrame };
+
+function FrameLocation({ frame }: FrameLocationProps) {
+  if (!frame.source) {
     return;
   }
 
-  if (library) {
-    return dom.div(
-      { className: "location" },
-      library,
-      Svg(library.toLowerCase(), { className: "annotation-logo" })
+  if (frame.library) {
+    return (
+      <div className="location">
+        {frame.library}
+        {Svg(frame.library.toLowerCase(), { className: "annotation-logo" })}
+      </div>
     );
   }
 
-  const filename = getFilename(source);
-  return dom.div({ className: "location" }, `${filename}: ${location.line}`);
+  const filename = getFilename(frame.source);
+  return (
+    <div className="location">
+      {`${filename}: ${frame.location.line}`}
+    </div>
+  );
 }
+
+FrameLocation.displayName = "FrameLocation";
 
 export default class FrameComponent extends Component {
   static defaultProps: {
@@ -92,19 +112,21 @@ export default class FrameComponent extends Component {
       shouldMapDisplayName
     } = this.props;
 
-    return dom.li(
-      {
-        key: frame.id,
-        className: classNames("frame", {
-          selected: selectedFrame && selectedFrame.id === frame.id
-        }),
-        onMouseDown: e => this.onMouseDown(e, frame, selectedFrame),
-        onKeyUp: e => this.onKeyUp(e, frame, selectedFrame),
-        onContextMenu: e => this.onContextMenu(e),
-        tabIndex: 0
-      },
-      renderFrameTitle(frame, { shouldMapDisplayName }),
-      !hideLocation ? renderFrameLocation(frame) : null
+    const className = classNames("frame", {
+      selected: selectedFrame && selectedFrame.id === frame.id
+    });
+    return (
+      <li
+        key={frame.id}
+        className={className}
+        onMouseDown={e => this.onMouseDown(e, frame, selectedFrame)}
+        onKeyUp={e => this.onKeyUp(e, frame, selectedFrame)}
+        onContextMenu={e => this.onContextMenu(e)}
+        tabIndex={0}
+      >
+        <FrameTitle frame={frame} options={{ shouldMapDisplayName }} />
+        {!hideLocation && <FrameLocation frame={frame} />}
+      </li>
     );
   }
 }

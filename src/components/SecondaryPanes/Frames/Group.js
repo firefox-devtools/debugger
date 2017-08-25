@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, Component, createFactory } from "react";
+import React, { Component, createFactory } from "react";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 import { formatDisplayName, getLibraryFromUrl } from "../../../utils/frame";
@@ -13,18 +13,22 @@ const FrameComponent = createFactory(_FrameComponent);
 import type { LocalFrame } from "./types";
 import type { Frame } from "debugger-html";
 
-function renderFrameLocation(frame: Frame) {
+type FrameLocationProps = { frame: Frame };
+function FrameLocation({ frame }: FrameLocationProps) {
   const library = getLibraryFromUrl(frame);
   if (!library) {
     return null;
   }
 
-  return dom.div(
-    { className: "location" },
-    library,
-    Svg(library.toLowerCase(), { className: "annotation-logo" })
+  return (
+    <div className="location">
+      {library}
+      {Svg(library.toLowerCase(), { className: "annotation-logo" })}
+    </div>
   );
 }
+
+FrameLocation.displayName = "FrameLocation";
 
 export default class Group extends Component {
   state: {
@@ -87,49 +91,55 @@ export default class Group extends Component {
     if (!expanded) {
       return null;
     }
-    return dom.div(
-      { className: "frames-list" },
-      group.map(frame =>
-        FrameComponent({
-          frame,
-          copyStackTrace,
-          toggleFrameworkGrouping,
-          frameworkGroupingOn,
-          selectFrame,
-          selectedFrame,
-          toggleBlackBox,
-          key: frame.id,
-          hideLocation: true,
-          shouldMapDisplayName: false
-        })
-      )
+
+    return (
+      <div className="frames-list">
+        {group.map(frame =>
+          FrameComponent({
+            frame,
+            copyStackTrace,
+            toggleFrameworkGrouping,
+            frameworkGroupingOn,
+            selectFrame,
+            selectedFrame,
+            toggleBlackBox,
+            key: frame.id,
+            hideLocation: true,
+            shouldMapDisplayName: false
+          })
+        )}
+      </div>
     );
   }
 
   renderDescription() {
     const frame = this.props.group[0];
     const displayName = formatDisplayName(frame);
-    return dom.li(
-      {
-        key: frame.id,
-        className: classNames("group"),
-        onClick: this.toggleFrames,
-        tabIndex: 0
-      },
-      dom.div({ className: "title" }, displayName),
-      renderFrameLocation(frame)
+    return (
+      <li
+        key={frame.id}
+        className={classNames("group")}
+        onClick={this.toggleFrames}
+        tabIndex={0}
+      >
+        <div className="title">
+          {displayName}
+        </div>
+        <FrameLocation frame={frame} />
+      </li>
     );
   }
 
   render() {
     const { expanded } = this.state;
-    return dom.div(
-      {
-        className: classNames("frames-group", { expanded }),
-        onContextMenu: e => this.onContextMenu(e)
-      },
-      this.renderDescription(),
-      this.renderFrames()
+    return (
+      <div
+        className={classNames("frames-group", { expanded })}
+        onContextMenu={e => this.onContextMenu(e)}
+      >
+        {this.renderDescription()}
+        {this.renderFrames()}
+      </div>
     );
   }
 }
