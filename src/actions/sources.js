@@ -62,7 +62,7 @@ async function checkPendingBreakpoint(
   const sameSource = sourceUrl && sourceUrl === source.url;
 
   if (sameSource) {
-    await dispatch(syncBreakpoint(source, pendingBreakpoint));
+    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
   }
 }
 

@@ -9,12 +9,11 @@ import { originalToGeneratedId } from "devtools-source-map";
 // we have three forms of syncing: disabled syncing, existing server syncing
 // and adding a new breakpoint
 export async function syncClientBreakpoint(
-  source: Object,
+  sourceId: String,
   client,
   sourceMaps,
   pendingBreakpoint: PendingBreakpoint
 ) {
-  const sourceId = source.id;
   const generatedSourceId = sourceMaps.isOriginalId(sourceId)
     ? originalToGeneratedId(sourceId)
     : sourceId;
