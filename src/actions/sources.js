@@ -62,7 +62,7 @@ async function checkPendingBreakpoint(
   const sameSource = sourceUrl && sourceUrl === source.url;
 
   if (sameSource) {
-    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
+    await dispatch(syncBreakpoint(source, pendingBreakpoint));
   }
 }
 
@@ -86,6 +86,7 @@ async function checkPendingBreakpoints(state, dispatch, source) {
 export function newSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: "ADD_SOURCE", source });
+
     if (prefs.clientSourceMapsEnabled) {
       await dispatch(loadSourceMap(source));
     }

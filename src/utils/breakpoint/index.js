@@ -133,15 +133,3 @@ export function createPendingBreakpoint(bp: Breakpoint) {
     generatedLocation: pendingGeneratedLocation
   };
 }
-
-export async function getGeneratedLocation(
-  source: SourceRecord,
-  sourceMaps: Object,
-  location: Location
-) {
-  if (!sourceMaps.isOriginalId(location.sourceId)) {
-    return location;
-  }
-
-  return await sourceMaps.getGeneratedLocation(location, source.toJS());
-}
