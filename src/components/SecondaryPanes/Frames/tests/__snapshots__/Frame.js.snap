@@ -15,22 +15,45 @@ ShallowWrapper {
     onMouseDown={[Function]}
     tabIndex={0}
 >
-    <div
-        className="title"
-    >
-        updateEvents
-    </div>
-    <div
-        className="location"
-    >
-        backbone
-        <InlineSVG
-            className="backbone annotation-logo"
-            element="i"
-            raw={false}
-            src="<svg></svg>"
-        />
-    </div>
+    <FrameTitle
+        frame={
+            Object {
+                "displayName": "updateEvents",
+                "frameworkGroupingOn": false,
+                "id": 3,
+                "library": "backbone",
+                "location": Object {
+                  "line": 12,
+                },
+                "source": Object {
+                  "url": "backbone.js",
+                },
+                "toggleFrameworkGrouping": [Function],
+              }
+        }
+        options={
+            Object {
+                "shouldMapDisplayName": true,
+              }
+        }
+    />
+    <FrameLocation
+        frame={
+            Object {
+                "displayName": "updateEvents",
+                "frameworkGroupingOn": false,
+                "id": 3,
+                "library": "backbone",
+                "location": Object {
+                  "line": 12,
+                },
+                "source": Object {
+                  "url": "backbone.js",
+                },
+                "toggleFrameworkGrouping": [Function],
+              }
+        }
+    />
 </li>,
   "nodes": Array [
     <li
@@ -40,22 +63,45 @@ ShallowWrapper {
       onMouseDown={[Function]}
       tabIndex={0}
 >
-      <div
-            className="title"
-      >
-            updateEvents
-      </div>
-      <div
-            className="location"
-      >
-            backbone
-            <InlineSVG
-                  className="backbone annotation-logo"
-                  element="i"
-                  raw={false}
-                  src="<svg></svg>"
-            />
-      </div>
+      <FrameTitle
+            frame={
+                  Object {
+                        "displayName": "updateEvents",
+                        "frameworkGroupingOn": false,
+                        "id": 3,
+                        "library": "backbone",
+                        "location": Object {
+                          "line": 12,
+                        },
+                        "source": Object {
+                          "url": "backbone.js",
+                        },
+                        "toggleFrameworkGrouping": [Function],
+                      }
+            }
+            options={
+                  Object {
+                        "shouldMapDisplayName": true,
+                      }
+            }
+      />
+      <FrameLocation
+            frame={
+                  Object {
+                        "displayName": "updateEvents",
+                        "frameworkGroupingOn": false,
+                        "id": 3,
+                        "library": "backbone",
+                        "location": Object {
+                          "line": 12,
+                        },
+                        "source": Object {
+                          "url": "backbone.js",
+                        },
+                        "toggleFrameworkGrouping": [Function],
+                      }
+            }
+      />
 </li>,
   ],
   "options": Object {},
@@ -169,22 +215,45 @@ ShallowWrapper {
           onMouseDown={[Function]}
           tabIndex={0}
 >
-          <div
-                    className="title"
-          >
-                    updateEvents
-          </div>
-          <div
-                    className="location"
-          >
-                    backbone
-                    <InlineSVG
-                              className="backbone annotation-logo"
-                              element="i"
-                              raw={false}
-                              src="<svg></svg>"
-                    />
-          </div>
+          <FrameTitle
+                    frame={
+                              Object {
+                                        "displayName": "updateEvents",
+                                        "frameworkGroupingOn": false,
+                                        "id": 3,
+                                        "library": "backbone",
+                                        "location": Object {
+                                          "line": 12,
+                                        },
+                                        "source": Object {
+                                          "url": "backbone.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+                    options={
+                              Object {
+                                        "shouldMapDisplayName": true,
+                                      }
+                    }
+          />
+          <FrameLocation
+                    frame={
+                              Object {
+                                        "displayName": "updateEvents",
+                                        "frameworkGroupingOn": false,
+                                        "id": 3,
+                                        "library": "backbone",
+                                        "location": Object {
+                                          "line": 12,
+                                        },
+                                        "source": Object {
+                                          "url": "backbone.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+          />
 </li>,
         "_debugID": 6,
         "_renderedOutput": <li
@@ -194,22 +263,45 @@ ShallowWrapper {
           onMouseDown={[Function]}
           tabIndex={0}
 >
-          <div
-                    className="title"
-          >
-                    updateEvents
-          </div>
-          <div
-                    className="location"
-          >
-                    backbone
-                    <InlineSVG
-                              className="backbone annotation-logo"
-                              element="i"
-                              raw={false}
-                              src="<svg></svg>"
-                    />
-          </div>
+          <FrameTitle
+                    frame={
+                              Object {
+                                        "displayName": "updateEvents",
+                                        "frameworkGroupingOn": false,
+                                        "id": 3,
+                                        "library": "backbone",
+                                        "location": Object {
+                                          "line": 12,
+                                        },
+                                        "source": Object {
+                                          "url": "backbone.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+                    options={
+                              Object {
+                                        "shouldMapDisplayName": true,
+                                      }
+                    }
+          />
+          <FrameLocation
+                    frame={
+                              Object {
+                                        "displayName": "updateEvents",
+                                        "frameworkGroupingOn": false,
+                                        "id": 3,
+                                        "library": "backbone",
+                                        "location": Object {
+                                          "line": 12,
+                                        },
+                                        "source": Object {
+                                          "url": "backbone.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+          />
 </li>,
       },
       "_renderedNodeType": 0,
@@ -278,16 +370,47 @@ ShallowWrapper {
     onMouseDown={[Function]}
     tabIndex={0}
 >
-    <div
-        className="title"
-    >
-        renderFoo
-    </div>
-    <div
-        className="location"
-    >
-        foo-view.js: 10
-    </div>
+    <FrameTitle
+        frame={
+            Object {
+                "displayName": "renderFoo",
+                "frameworkGroupingOn": false,
+                "id": 1,
+                "library": false,
+                "location": Object {
+                  "line": 10,
+                },
+                "source": Object {
+                  "isBlackBoxed": false,
+                  "url": "foo-view.js",
+                },
+                "toggleFrameworkGrouping": [Function],
+              }
+        }
+        options={
+            Object {
+                "shouldMapDisplayName": true,
+              }
+        }
+    />
+    <FrameLocation
+        frame={
+            Object {
+                "displayName": "renderFoo",
+                "frameworkGroupingOn": false,
+                "id": 1,
+                "library": false,
+                "location": Object {
+                  "line": 10,
+                },
+                "source": Object {
+                  "isBlackBoxed": false,
+                  "url": "foo-view.js",
+                },
+                "toggleFrameworkGrouping": [Function],
+              }
+        }
+    />
 </li>,
   "nodes": Array [
     <li
@@ -297,16 +420,47 @@ ShallowWrapper {
       onMouseDown={[Function]}
       tabIndex={0}
 >
-      <div
-            className="title"
-      >
-            renderFoo
-      </div>
-      <div
-            className="location"
-      >
-            foo-view.js: 10
-      </div>
+      <FrameTitle
+            frame={
+                  Object {
+                        "displayName": "renderFoo",
+                        "frameworkGroupingOn": false,
+                        "id": 1,
+                        "library": false,
+                        "location": Object {
+                          "line": 10,
+                        },
+                        "source": Object {
+                          "isBlackBoxed": false,
+                          "url": "foo-view.js",
+                        },
+                        "toggleFrameworkGrouping": [Function],
+                      }
+            }
+            options={
+                  Object {
+                        "shouldMapDisplayName": true,
+                      }
+            }
+      />
+      <FrameLocation
+            frame={
+                  Object {
+                        "displayName": "renderFoo",
+                        "frameworkGroupingOn": false,
+                        "id": 1,
+                        "library": false,
+                        "location": Object {
+                          "line": 10,
+                        },
+                        "source": Object {
+                          "isBlackBoxed": false,
+                          "url": "foo-view.js",
+                        },
+                        "toggleFrameworkGrouping": [Function],
+                      }
+            }
+      />
 </li>,
   ],
   "options": Object {},
@@ -424,16 +578,47 @@ ShallowWrapper {
           onMouseDown={[Function]}
           tabIndex={0}
 >
-          <div
-                    className="title"
-          >
-                    renderFoo
-          </div>
-          <div
-                    className="location"
-          >
-                    foo-view.js: 10
-          </div>
+          <FrameTitle
+                    frame={
+                              Object {
+                                        "displayName": "renderFoo",
+                                        "frameworkGroupingOn": false,
+                                        "id": 1,
+                                        "library": false,
+                                        "location": Object {
+                                          "line": 10,
+                                        },
+                                        "source": Object {
+                                          "isBlackBoxed": false,
+                                          "url": "foo-view.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+                    options={
+                              Object {
+                                        "shouldMapDisplayName": true,
+                                      }
+                    }
+          />
+          <FrameLocation
+                    frame={
+                              Object {
+                                        "displayName": "renderFoo",
+                                        "frameworkGroupingOn": false,
+                                        "id": 1,
+                                        "library": false,
+                                        "location": Object {
+                                          "line": 10,
+                                        },
+                                        "source": Object {
+                                          "isBlackBoxed": false,
+                                          "url": "foo-view.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+          />
 </li>,
         "_debugID": 4,
         "_renderedOutput": <li
@@ -443,16 +628,47 @@ ShallowWrapper {
           onMouseDown={[Function]}
           tabIndex={0}
 >
-          <div
-                    className="title"
-          >
-                    renderFoo
-          </div>
-          <div
-                    className="location"
-          >
-                    foo-view.js: 10
-          </div>
+          <FrameTitle
+                    frame={
+                              Object {
+                                        "displayName": "renderFoo",
+                                        "frameworkGroupingOn": false,
+                                        "id": 1,
+                                        "library": false,
+                                        "location": Object {
+                                          "line": 10,
+                                        },
+                                        "source": Object {
+                                          "isBlackBoxed": false,
+                                          "url": "foo-view.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+                    options={
+                              Object {
+                                        "shouldMapDisplayName": true,
+                                      }
+                    }
+          />
+          <FrameLocation
+                    frame={
+                              Object {
+                                        "displayName": "renderFoo",
+                                        "frameworkGroupingOn": false,
+                                        "id": 1,
+                                        "library": false,
+                                        "location": Object {
+                                          "line": 10,
+                                        },
+                                        "source": Object {
+                                          "isBlackBoxed": false,
+                                          "url": "foo-view.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+          />
 </li>,
       },
       "_renderedNodeType": 0,
@@ -523,16 +739,47 @@ ShallowWrapper {
     onMouseDown={[Function]}
     tabIndex={0}
 >
-    <div
-        className="title"
-    >
-        renderFoo
-    </div>
-    <div
-        className="location"
-    >
-        foo-view.js: 10
-    </div>
+    <FrameTitle
+        frame={
+            Object {
+                "displayName": "renderFoo",
+                "frameworkGroupingOn": false,
+                "id": 1,
+                "library": false,
+                "location": Object {
+                  "line": 10,
+                },
+                "source": Object {
+                  "isBlackBoxed": false,
+                  "url": "foo-view.js",
+                },
+                "toggleFrameworkGrouping": [Function],
+              }
+        }
+        options={
+            Object {
+                "shouldMapDisplayName": true,
+              }
+        }
+    />
+    <FrameLocation
+        frame={
+            Object {
+                "displayName": "renderFoo",
+                "frameworkGroupingOn": false,
+                "id": 1,
+                "library": false,
+                "location": Object {
+                  "line": 10,
+                },
+                "source": Object {
+                  "isBlackBoxed": false,
+                  "url": "foo-view.js",
+                },
+                "toggleFrameworkGrouping": [Function],
+              }
+        }
+    />
 </li>,
   "nodes": Array [
     <li
@@ -542,16 +789,47 @@ ShallowWrapper {
       onMouseDown={[Function]}
       tabIndex={0}
 >
-      <div
-            className="title"
-      >
-            renderFoo
-      </div>
-      <div
-            className="location"
-      >
-            foo-view.js: 10
-      </div>
+      <FrameTitle
+            frame={
+                  Object {
+                        "displayName": "renderFoo",
+                        "frameworkGroupingOn": false,
+                        "id": 1,
+                        "library": false,
+                        "location": Object {
+                          "line": 10,
+                        },
+                        "source": Object {
+                          "isBlackBoxed": false,
+                          "url": "foo-view.js",
+                        },
+                        "toggleFrameworkGrouping": [Function],
+                      }
+            }
+            options={
+                  Object {
+                        "shouldMapDisplayName": true,
+                      }
+            }
+      />
+      <FrameLocation
+            frame={
+                  Object {
+                        "displayName": "renderFoo",
+                        "frameworkGroupingOn": false,
+                        "id": 1,
+                        "library": false,
+                        "location": Object {
+                          "line": 10,
+                        },
+                        "source": Object {
+                          "isBlackBoxed": false,
+                          "url": "foo-view.js",
+                        },
+                        "toggleFrameworkGrouping": [Function],
+                      }
+            }
+      />
 </li>,
   ],
   "options": Object {},
@@ -669,16 +947,47 @@ ShallowWrapper {
           onMouseDown={[Function]}
           tabIndex={0}
 >
-          <div
-                    className="title"
-          >
-                    renderFoo
-          </div>
-          <div
-                    className="location"
-          >
-                    foo-view.js: 10
-          </div>
+          <FrameTitle
+                    frame={
+                              Object {
+                                        "displayName": "renderFoo",
+                                        "frameworkGroupingOn": false,
+                                        "id": 1,
+                                        "library": false,
+                                        "location": Object {
+                                          "line": 10,
+                                        },
+                                        "source": Object {
+                                          "isBlackBoxed": false,
+                                          "url": "foo-view.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+                    options={
+                              Object {
+                                        "shouldMapDisplayName": true,
+                                      }
+                    }
+          />
+          <FrameLocation
+                    frame={
+                              Object {
+                                        "displayName": "renderFoo",
+                                        "frameworkGroupingOn": false,
+                                        "id": 1,
+                                        "library": false,
+                                        "location": Object {
+                                          "line": 10,
+                                        },
+                                        "source": Object {
+                                          "isBlackBoxed": false,
+                                          "url": "foo-view.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+          />
 </li>,
         "_debugID": 2,
         "_renderedOutput": <li
@@ -688,16 +997,47 @@ ShallowWrapper {
           onMouseDown={[Function]}
           tabIndex={0}
 >
-          <div
-                    className="title"
-          >
-                    renderFoo
-          </div>
-          <div
-                    className="location"
-          >
-                    foo-view.js: 10
-          </div>
+          <FrameTitle
+                    frame={
+                              Object {
+                                        "displayName": "renderFoo",
+                                        "frameworkGroupingOn": false,
+                                        "id": 1,
+                                        "library": false,
+                                        "location": Object {
+                                          "line": 10,
+                                        },
+                                        "source": Object {
+                                          "isBlackBoxed": false,
+                                          "url": "foo-view.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+                    options={
+                              Object {
+                                        "shouldMapDisplayName": true,
+                                      }
+                    }
+          />
+          <FrameLocation
+                    frame={
+                              Object {
+                                        "displayName": "renderFoo",
+                                        "frameworkGroupingOn": false,
+                                        "id": 1,
+                                        "library": false,
+                                        "location": Object {
+                                          "line": 10,
+                                        },
+                                        "source": Object {
+                                          "isBlackBoxed": false,
+                                          "url": "foo-view.js",
+                                        },
+                                        "toggleFrameworkGrouping": [Function],
+                                      }
+                    }
+          />
 </li>,
       },
       "_renderedNodeType": 0,

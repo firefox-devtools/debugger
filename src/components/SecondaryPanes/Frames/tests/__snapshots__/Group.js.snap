@@ -22,6 +22,13 @@ ShallowWrapper {
         >
             foo
         </div>
+        <FrameLocation
+            frame={
+                Object {
+                    "displayName": "foo",
+                  }
+            }
+        />
     </li>
 </div>,
   "nodes": Array [
@@ -39,6 +46,13 @@ ShallowWrapper {
             >
                   foo
             </div>
+            <FrameLocation
+                  frame={
+                        Object {
+                              "displayName": "foo",
+                            }
+                  }
+            />
       </li>
 </div>,
   ],
@@ -119,6 +133,13 @@ ShallowWrapper {
                     >
                               foo
                     </div>
+                    <FrameLocation
+                              frame={
+                                        Object {
+                                                  "displayName": "foo",
+                                                }
+                              }
+                    />
           </li>
 </div>,
         "_debugID": 2,
@@ -136,6 +157,13 @@ ShallowWrapper {
                     >
                               foo
                     </div>
+                    <FrameLocation
+                              frame={
+                                        Object {
+                                                  "displayName": "foo",
+                                                }
+                              }
+                    />
           </li>
 </div>,
       },
