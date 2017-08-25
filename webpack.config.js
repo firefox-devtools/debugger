@@ -15,7 +15,7 @@ function getEntry(filename) {
   return [path.join(projectPath, filename)];
 }
 
-let webpackConfig = {
+const webpackConfig = {
   entry: {
     debugger: getEntry("main.js"),
     "parser-worker": getEntry("utils/parser/worker.js"),
@@ -43,7 +43,7 @@ let webpackConfig = {
 };
 
 function buildConfig(envConfig) {
-  let extra = {};
+  const extra = {};
   if (isDevelopment()) {
     webpackConfig.plugins = [];
   } else {

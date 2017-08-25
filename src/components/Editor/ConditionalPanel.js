@@ -14,7 +14,7 @@ function renderConditionalPanel({
   closePanel: Function,
   setBreakpoint: Function
 }) {
-  let panel = document.createElement("div");
+  const panel = document.createElement("div");
   let input = null;
 
   function setInput(node) {

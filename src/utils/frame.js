@@ -219,8 +219,8 @@ export function simplifyDisplayName(displayName: string) {
     annonymousProperty
   ];
 
-  for (let reg of scenarios) {
-    let match = reg.exec(displayName);
+  for (const reg of scenarios) {
+    const match = reg.exec(displayName);
     if (match) {
       return match[1];
     }

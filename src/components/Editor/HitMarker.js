@@ -1,10 +1,10 @@
 // @flow
 import { Component } from "react";
 
-let markerEl = document.createElement("div");
+const markerEl = document.createElement("div");
 
 function makeMarker() {
-  let marker = markerEl.cloneNode(true);
+  const marker = markerEl.cloneNode(true);
   marker.className = "editor hit-marker";
   return marker;
 }

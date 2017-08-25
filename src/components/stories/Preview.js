@@ -212,7 +212,7 @@ storiesOf("Preview", module)
     );
   })
   .add("Object with window keys", () => {
-    let grip = createObjectGrip("foo");
+    const grip = createObjectGrip("foo");
     grip.ownProperties.arr = createArrayPreview("arr");
     grip.ownProperties.location = createObjectPreview("location");
     return (
@@ -224,7 +224,7 @@ storiesOf("Preview", module)
     );
   })
   .add("Window Preview", () => {
-    let grip = createObjectGrip("foo");
+    const grip = createObjectGrip("foo");
     grip.class = "Window";
     grip.ownProperties.arr = createArrayPreview("arr");
     grip.ownProperties.location = createObjectPreview("location");
@@ -237,7 +237,7 @@ storiesOf("Preview", module)
     );
   })
   .add("Function Preview", () => {
-    let grip = createFunctionGrip("renderFoo", ["props", "state"]);
+    const grip = createFunctionGrip("renderFoo", ["props", "state"]);
     return (
       <PreviewFactory
         value={grip}

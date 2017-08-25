@@ -28,15 +28,15 @@ export function waitUntilService({ dispatch, getState }: ThunkArgs) {
   let pending = [];
 
   function checkPending(action) {
-    let readyRequests = [];
-    let stillPending = [];
+    const readyRequests = [];
+    const stillPending = [];
 
     // Find the pending requests whose predicates are satisfied with
     // this action. Wait to run the requests until after we update the
     // pending queue because the request handler may synchronously
     // dispatch again and run this service (that use case is
     // completely valid).
-    for (let request of pending) {
+    for (const request of pending) {
       if (request.predicate(action)) {
         readyRequests.push(request);
       } else {
@@ -45,7 +45,7 @@ export function waitUntilService({ dispatch, getState }: ThunkArgs) {
     }
 
     pending = stillPending;
-    for (let request of readyRequests) {
+    for (const request of readyRequests) {
       request.run(dispatch, getState, action);
     }
   }
@@ -55,7 +55,7 @@ export function waitUntilService({ dispatch, getState }: ThunkArgs) {
       pending.push(action);
       return null;
     }
-    let result = next(action);
+    const result = next(action);
     checkPending(action);
     return result;
   };

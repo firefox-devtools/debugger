@@ -49,7 +49,7 @@ export default class Autocomplete extends Component {
   }
 
   getSearchResults() {
-    let inputValue = this.state.inputValue;
+    const inputValue = this.state.inputValue;
 
     if (inputValue == "") {
       return [];

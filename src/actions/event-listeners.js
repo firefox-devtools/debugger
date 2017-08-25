@@ -102,9 +102,9 @@ async function _getEventListeners(threadClient) {
   response.listeners.sort((a, b) => (a.type > b.type ? 1 : -1));
 
   // Add all the listeners in the debugger view event linsteners container.
-  let fetchedDefinitions = new Map();
-  let listeners = [];
-  for (let listener of response.listeners) {
+  const fetchedDefinitions = new Map();
+  const listeners = [];
+  for (const listener of response.listeners) {
     let definitionSite;
     if (fetchedDefinitions.has(listener.function.actor)) {
       definitionSite = fetchedDefinitions.get(listener.function.actor);

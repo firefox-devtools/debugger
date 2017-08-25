@@ -270,9 +270,9 @@ class Editor extends PureComponent {
 
   onKeyDown(e) {
     const { codeMirror } = this.state.editor;
-    let { key, target } = e;
-    let codeWrapper = codeMirror.getWrapperElement();
-    let textArea = codeWrapper.querySelector("textArea");
+    const { key, target } = e;
+    const codeWrapper = codeMirror.getWrapperElement();
+    const textArea = codeWrapper.querySelector("textArea");
 
     if (key === "Escape" && target == textArea) {
       e.stopPropagation();
@@ -459,7 +459,7 @@ class Editor extends PureComponent {
     }
 
     const { sourceId, line: sourceLine } = this.pendingJumpLocation;
-    let line = toEditorLine(sourceId, sourceLine);
+    const line = toEditorLine(sourceId, sourceLine);
     this.state.editor.alignLine(line);
 
     // We only want to do the flashing animation if it's not a debug
@@ -488,7 +488,7 @@ class Editor extends PureComponent {
   getInlineEditorStyles() {
     const { selectedSource, horizontal, searchOn } = this.props;
 
-    let subtractions = [];
+    const subtractions = [];
 
     if (shouldShowFooter(selectedSource, horizontal)) {
       subtractions.push(cssVars.footerHeight);

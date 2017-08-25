@@ -89,7 +89,7 @@ export function evaluateExpressions(frameId: frameIdType) {
       const selectedFrame = getSelectedFrame(getState());
       frameId = selectedFrame ? selectedFrame.id : null;
     }
-    for (let expression of expressions) {
+    for (const expression of expressions) {
       await dispatch(evaluateExpression(expression, frameId));
     }
   };

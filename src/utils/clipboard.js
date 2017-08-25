@@ -3,7 +3,7 @@
  * https://dxr.mozilla.org/mozilla-central/source/devtools/shared/platform/content/clipboard.js
  */
 function copyToTheClipboard(string) {
-  let doCopy = function(e) {
+  const doCopy = function(e) {
     e.clipboardData.setData("text/plain", string);
     e.preventDefault();
   };

@@ -17,7 +17,7 @@ export function getFilenameFromPath(pathname?: string) {
 
 export function getURL(sourceUrl: string): { path: string, group: string } {
   const url = sourceUrl;
-  let def = { path: "", group: "", filename: "" };
+  const def = { path: "", group: "", filename: "" };
   if (!url) {
     return def;
   }

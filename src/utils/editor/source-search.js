@@ -28,7 +28,7 @@ function SearchState() {
  * @static
  */
 function getSearchState(cm: any, query, modifiers) {
-  let state = cm.state.search || (cm.state.search = new SearchState());
+  const state = cm.state.search || (cm.state.search = new SearchState());
   return state;
 }
 
@@ -175,10 +175,10 @@ function getCursorPos(newQuery, rev, state) {
  * @static
  */
 function searchNext(ctx, rev, query, newQuery, modifiers) {
-  let { cm, ed } = ctx;
+  const { cm, ed } = ctx;
   let nextMatch;
   cm.operation(function() {
-    let state = getSearchState(cm, query, modifiers);
+    const state = getSearchState(cm, query, modifiers);
     const pos = getCursorPos(newQuery, rev, state);
 
     if (!state.query) {
@@ -218,7 +218,7 @@ function searchNext(ctx, rev, query, newQuery, modifiers) {
  * @static
  */
 function removeOverlay(ctx: any, query: string, modifiers: SearchModifiers) {
-  let state = getSearchState(ctx.cm, query, modifiers);
+  const state = getSearchState(ctx.cm, query, modifiers);
   ctx.cm.removeOverlay(state.overlay);
   const { line, ch } = ctx.cm.getCursor();
   ctx.cm.doc.setSelection({ line, ch }, { line, ch }, { scroll: false });
@@ -231,7 +231,7 @@ function removeOverlay(ctx: any, query: string, modifiers: SearchModifiers) {
  * @static
  */
 function clearSearch(cm, query: string, modifiers: SearchModifiers) {
-  let state = getSearchState(cm, query, modifiers);
+  const state = getSearchState(cm, query, modifiers);
 
   state.results = [];
 

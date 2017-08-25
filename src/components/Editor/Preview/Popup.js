@@ -196,7 +196,7 @@ export class Popup extends Component {
   render() {
     const { popoverPos, onClose, value, expression } = this.props;
 
-    let type = this.getPreviewType(value);
+    const type = this.getPreviewType(value);
 
     return (
       <Popover targetPosition={popoverPos} onMouseLeave={onClose} type={type}>

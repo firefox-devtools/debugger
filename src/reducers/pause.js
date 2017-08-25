@@ -49,7 +49,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
       const frameScopes = { [selectedFrameId]: scopes };
 
       // turn this into an object keyed by object id
-      let objectMap = {};
+      const objectMap = {};
       loadedObjects.forEach(obj => {
         objectMap[obj.value.objectId] = obj;
       });

@@ -146,7 +146,7 @@ function setBreakpointCondition(
   condition: boolean,
   noSliding: boolean
 ) {
-  let bpClient = bpClients[breakpointId];
+  const bpClient = bpClients[breakpointId];
   delete bpClients[breakpointId];
 
   return bpClient

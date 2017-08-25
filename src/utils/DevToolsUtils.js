@@ -1,7 +1,7 @@
 import assert from "./assert";
 
 export function reportException(who, exception) {
-  let msg = `${who} threw an exception: `;
+  const msg = `${who} threw an exception: `;
   console.error(msg, exception);
 }
 

@@ -65,7 +65,7 @@ function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
  * https://dxr.mozilla.org/mozilla-central/source/devtools/shared/platform/content/clipboard.js
  */
 function copyToTheClipboard(string) {
-  let doCopy = function(e: any) {
+  const doCopy = function(e: any) {
     e.clipboardData.setData("text/plain", string);
     e.preventDefault();
   };
@@ -490,7 +490,7 @@ class SourceTabs extends PureComponent {
   }
 
   getSourceAnnotation(source) {
-    let sourceObj = source.toJS();
+    const sourceObj = source.toJS();
 
     if (isPretty(sourceObj)) {
       return Svg("prettyPrint");

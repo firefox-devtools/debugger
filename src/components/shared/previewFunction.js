@@ -29,7 +29,7 @@ function renderFunctionName(func: FunctionType) {
 
 function renderParams(func: FunctionType) {
   const { parameterNames = [] } = func;
-  let params = parameterNames
+  const params = parameterNames
     .filter(i => i)
     .map(param => dom.span({ className: "param" }, param));
 

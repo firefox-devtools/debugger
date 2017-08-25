@@ -124,8 +124,8 @@ export default class TextSearch extends Component {
     const { inputValue } = this.state;
     let match;
     const len = inputValue.length;
-    let matchIndexes = [];
-    let matches = [];
+    const matchIndexes = [];
+    const matches = [];
     const re = new RegExp(escapeRegExp(inputValue), "g");
     while ((match = re.exec(value)) !== null) {
       matchIndexes.push(match.index);

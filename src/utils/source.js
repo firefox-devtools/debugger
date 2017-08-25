@@ -19,11 +19,11 @@ import type { Source } from "../types";
  * @static
  */
 function trimUrlQuery(url: string): string {
-  let length = url.length;
-  let q1 = url.indexOf("?");
-  let q2 = url.indexOf("&");
-  let q3 = url.indexOf("#");
-  let q = Math.min(
+  const length = url.length;
+  const q1 = url.indexOf("?");
+  const q2 = url.indexOf("&");
+  const q3 = url.indexOf("#");
+  const q = Math.min(
     q1 != -1 ? q1 : length,
     q2 != -1 ? q2 : length,
     q3 != -1 ? q3 : length
@@ -107,7 +107,7 @@ function getFilenameFromURL(url: string) {
  * @static
  */
 function getFilename(source: Source) {
-  let { url, id } = source;
+  const { url, id } = source;
   if (!url) {
     const sourceId = id.split("/")[1];
     return `SOURCE${sourceId}`;

@@ -65,7 +65,7 @@ export default function GutterMenu({
       : gutterItems.addConditional
   );
 
-  let items = [toggleBreakpointItem, conditionalBreakpoint];
+  const items = [toggleBreakpointItem, conditionalBreakpoint];
 
   if (breakpoint) {
     const disableBreakpoint = Object.assign(
