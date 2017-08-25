@@ -2,7 +2,7 @@
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import React, { PropTypes, Component } from "react";
 import classnames from "classnames";
 import ImPropTypes from "react-immutable-proptypes";
 import { Set } from "immutable";
@@ -23,8 +23,7 @@ import {
   getDirectories
 } from "../../utils/sources-tree";
 
-import _ManagedTree from "../shared/ManagedTree";
-const ManagedTree = createFactory(_ManagedTree);
+import ManagedTree from "../shared/ManagedTree";
 
 import actions from "../../actions";
 import Svg from "../shared/Svg";
@@ -224,18 +223,25 @@ class SourcesTree extends Component {
           : "paddingRight";
     }
 
-    return dom.div(
-      {
-        className: classnames("node", { focused }),
-        style: { [paddingDir]: `${depth * 15}px` },
-        key: item.path,
-        onClick: () => {
-          this.selectItem(item);
-          setExpanded(item, !expanded);
-        },
-        onContextMenu: e => this.onContextMenu(e, item)
-      },
-      dom.div(null, arrow, icon, item.name)
+    const onClick = () => {
+      this.selectItem(item);
+      setExpanded(item, !expanded);
+    };
+
+    return (
+      <div
+        className={classnames("node", { focused })}
+        style={{ [paddingDir]: `${depth * 15}px` }}
+        key={item.path}
+        onClick={onClick}
+        onContextMenu={e => this.onContextMenu(e, item)}
+      >
+        <div>
+          {arrow}
+          {icon}
+          {item.name}
+        </div>
+      </div>
     );
   }
 
@@ -251,17 +257,10 @@ class SourcesTree extends Component {
 
     const isEmpty = sourceTree.contents.length === 0;
 
-    const tree = ManagedTree({
+    const treeProps = {
       key: isEmpty ? "empty" : "full",
-      getParent: item => {
-        return parentMap.get(item);
-      },
-      getChildren: item => {
-        if (nodeHasChildren(item)) {
-          return item.contents;
-        }
-        return [];
-      },
+      getParent: item => parentMap.get(item),
+      getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getRoots: () => sourceTree.contents,
       getPath: item => `${item.path}/${item.name}`,
       itemHeight: 21,
@@ -271,28 +270,31 @@ class SourcesTree extends Component {
       listItems,
       highlightItems,
       renderItem: this.renderItem
-    });
+    };
 
-    const noSourcesMessage = dom.div(
-      {
-        className: "no-sources-message"
-      },
-      L10N.getStr("sources.noSourcesAvailable")
-    );
+    const tree = <ManagedTree {...treeProps} />;
 
     if (isEmpty) {
-      return noSourcesMessage;
+      return (
+        <div className="no-sources-message">
+          {L10N.getStr("sources.noSourcesAvailable")}
+        </div>
+      );
     }
-    return dom.div(
-      {
-        className: classnames("sources-list", { hidden: isHidden }),
-        onKeyDown: e => {
-          if (e.keyCode === 13 && focusedItem) {
-            this.selectItem(focusedItem);
-          }
-        }
-      },
-      tree
+
+    const onKeyDown = e => {
+      if (e.keyCode === 13 && focusedItem) {
+        this.selectItem(focusedItem);
+      }
+    };
+
+    return (
+      <div
+        className={classnames("sources-list", { hidden: isHidden })}
+        onKeyDown={onKeyDown}
+      >
+        {tree}
+      </div>
     );
   }
 }
