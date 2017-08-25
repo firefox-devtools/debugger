@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ImPropTypes from "react-immutable-proptypes";
@@ -16,33 +16,18 @@ import { isEnabled } from "devtools-config";
 import Svg from "../shared/Svg";
 import { prefs } from "../../utils/prefs";
 
-import _Breakpoints from "./Breakpoints";
-const Breakpoints = createFactory(_Breakpoints);
-
-import _Expressions from "./Expressions";
-const Expressions = createFactory(_Expressions);
-
-import _SplitBox from "devtools-splitter";
-const SplitBox = createFactory(_SplitBox);
-
-import _Frames from "./Frames";
-const Frames = createFactory(_Frames);
-
-import _EventListeners from "./EventListeners";
-const EventListeners = createFactory(_EventListeners);
-
-import _Accordion from "../shared/Accordion";
-const Accordion = createFactory(_Accordion);
-
-import _CommandBar from "./CommandBar";
-const CommandBar = createFactory(_CommandBar);
+import Breakpoints from "./Breakpoints";
+import Expressions from "./Expressions";
+import SplitBox from "devtools-splitter";
+import Frames from "./Frames";
+import EventListeners from "./EventListeners";
+import Accordion from "../shared/Accordion";
+import CommandBar from "./CommandBar";
 
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
 
-const Scopes = isEnabled("chromeScopes")
-  ? createFactory(_chromeScopes)
-  : createFactory(_Scopes);
+const Scopes = isEnabled("chromeScopes") ? _chromeScopes : _Scopes;
 
 import "./SecondaryPanes.css";
 
@@ -56,12 +41,18 @@ type SecondaryPanesItems = {
 };
 
 function debugBtn(onClick, type, className, tooltip) {
-  className = `${type} ${className}`;
-  return dom.button(
-    { onClick, className, key: type, title: tooltip },
-    Svg(type, { title: tooltip, "aria-label": tooltip })
+  return (
+    <button
+      onClick={onClick}
+      className={`${type} ${className}`}
+      key={type}
+      title={tooltip}
+    >
+      {Svg(type, { title: tooltip, "aria-label": tooltip })}
+    </button>
   );
 }
+debugBtn.displayName = "DebugButton";
 
 class SecondaryPanes extends Component {
   renderBreakpointsToggle() {
@@ -79,7 +70,7 @@ class SecondaryPanes extends Component {
       return null;
     }
 
-    return dom.input({
+    const inputProps = {
       type: "checkbox",
       "aria-label": breakpointsDisabled
         ? L10N.getStr("breakpoints.enable")
@@ -100,7 +91,9 @@ class SecondaryPanes extends Component {
       title: breakpointsDisabled
         ? L10N.getStr("breakpoints.enable")
         : L10N.getStr("breakpoints.disable")
-    });
+    };
+
+    return <input {...inputProps} />;
   }
 
   watchExpressionHeaderButtons() {
@@ -180,9 +173,7 @@ class SecondaryPanes extends Component {
   }
 
   renderHorizontalLayout() {
-    return Accordion({
-      items: this.getItems()
-    });
+    return <Accordion items={this.getItems()} />;
   }
 
   getEndItems() {
@@ -204,26 +195,27 @@ class SecondaryPanes extends Component {
   }
 
   renderVerticalLayout() {
-    return SplitBox({
-      style: { width: "100vw" },
-      initialSize: "300px",
-      minSize: 10,
-      maxSize: "50%",
-      splitterSize: 1,
-      startPanel: Accordion({ items: this.getStartItems() }),
-      endPanel: Accordion({ items: this.getEndItems() })
-    });
+    return (
+      <SplitBox
+        style={{ width: "100vw" }}
+        initialSize="300px"
+        minSize={10}
+        maxSize="50%"
+        splitterSize={1}
+        startPanel={<Accordion items={this.getStartItems()} />}
+        endPanel={<Accordion items={this.getEndItems()} />}
+      />
+    );
   }
 
   render() {
-    return dom.div(
-      {
-        className: "secondary-panes secondary-panes--sticky-commandbar"
-      },
-      CommandBar({ horizontal: this.props.horizontal }),
-      this.props.horizontal
-        ? this.renderHorizontalLayout()
-        : this.renderVerticalLayout()
+    return (
+      <div className="secondary-panes secondary-panes--sticky-commandbar">
+        <CommandBar horizontal={this.props.horizontal} />
+        {this.props.horizontal
+          ? this.renderHorizontalLayout()
+          : this.renderVerticalLayout()}
+      </div>
     );
   }
 }
