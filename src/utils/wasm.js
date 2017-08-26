@@ -15,18 +15,18 @@ var wasmStates: { [string]: WasmState } = Object.create(null);
  * @static
  */
 function getWasmText(sourceId: string, data: Uint8Array) {
-  let parser = new BinaryReader();
+  const parser = new BinaryReader();
   parser.setData(data.buffer, 0, data.length);
-  let dis = new WasmDisassembler();
+  const dis = new WasmDisassembler();
   dis.addOffsets = true;
-  let done = dis.disassembleChunk(parser);
+  const done = dis.disassembleChunk(parser);
   let result = dis.getResult();
   if (result.lines.length === 0) {
     result = { lines: ["No luck with wast conversion"], offsets: [0], done };
   }
 
-  let offsets = result.offsets,
-    lines = [];
+  const offsets = result.offsets;
+  const lines = [];
   for (let i = 0; i < offsets.length; i++) {
     lines[offsets[i]] = i;
   }
@@ -43,7 +43,7 @@ function getWasmText(sourceId: string, data: Uint8Array) {
 function getWasmLineNumberFormatter(sourceId: string) {
   const codeOf0 = 48,
     codeOfA = 65;
-  let buffer = [
+  const buffer = [
     codeOf0,
     codeOf0,
     codeOf0,
@@ -55,13 +55,13 @@ function getWasmLineNumberFormatter(sourceId: string) {
   ];
   let last0 = 7;
   return function(number: number) {
-    let offset = lineToWasmOffset(sourceId, number - 1);
+    const offset = lineToWasmOffset(sourceId, number - 1);
     if (offset == undefined) {
       return "";
     }
     let i = 7;
     for (let n = offset; n !== 0 && i >= 0; n >>= 4, i--) {
-      let nibble = n & 15;
+      const nibble = n & 15;
       buffer[i] = nibble < 10 ? codeOf0 + nibble : codeOfA - 10 + nibble;
     }
     for (let j = i; j > last0; j--) {
@@ -85,7 +85,7 @@ function isWasm(sourceId: string) {
  * @static
  */
 function lineToWasmOffset(sourceId: string, number: number): ?number {
-  let wasmState = wasmStates[sourceId];
+  const wasmState = wasmStates[sourceId];
   if (!wasmState) {
     return undefined;
   }
@@ -101,7 +101,7 @@ function lineToWasmOffset(sourceId: string, number: number): ?number {
  * @static
  */
 function wasmOffsetToLine(sourceId: string, offset: number): ?number {
-  let wasmState = wasmStates[sourceId];
+  const wasmState = wasmStates[sourceId];
   if (!wasmState) {
     return undefined;
   }
@@ -118,11 +118,11 @@ function clearWasmStates() {
 
 function renderWasmText(sourceId: string, { binary }: Object) {
   // binary does not survive as Uint8Array, converting from string
-  let data = new Uint8Array(binary.length);
+  const data = new Uint8Array(binary.length);
   for (let i = 0; i < data.length; i++) {
     data[i] = binary.charCodeAt(i);
   }
-  let { lines } = getWasmText(sourceId, data);
+  const { lines } = getWasmText(sourceId, data);
   const MAX_LINES = 100000;
   if (lines.length > MAX_LINES) {
     lines.splice(MAX_LINES, lines.length - MAX_LINES);

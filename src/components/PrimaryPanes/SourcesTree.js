@@ -141,7 +141,7 @@ class SourcesTree extends Component {
     // later time, all expanded state is lost.
     let sourceTree = this.state.sourceTree;
     if (newSet.size > 0) {
-      for (let source of newSet) {
+      for (const source of newSet) {
         addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
       }
       const unsortedTree = collapseTree(uncollapsedTree);

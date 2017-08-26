@@ -212,6 +212,10 @@
     // Disallow use of multiline strings (use template strings instead).
     "no-multi-str": 2,
     "prefer-template": "error",
+    "prefer-const": ["error", {
+      "destructuring": "all",
+      "ignoreReadBeforeAssign": false
+    }],
     // Disallow reassignments of native objects.
     "no-native-reassign": 2,
     // Disallow nested ternary expressions, they make the code hard to read.

@@ -8,7 +8,7 @@ function findSource(sourceTree: Node, sourceUrl: string): Node {
   let returnTarget = null;
   function _traverse(subtree) {
     if (nodeHasChildren(subtree)) {
-      for (let child of subtree.contents) {
+      for (const child of subtree.contents) {
         _traverse(child);
       }
     } else if (!returnTarget) {
@@ -38,7 +38,7 @@ export function getDirectories(sourceUrl: string, sourceTree: Node) {
   }
 
   let node = source;
-  let directories = [];
+  const directories = [];
   directories.push(source);
   while (true) {
     node = parentMap.get(node);

@@ -62,7 +62,7 @@ export function createParentMap(tree: Node): WeakMap<Node, Node> {
 
   function _traverse(subtree) {
     if (nodeHasChildren(subtree)) {
-      for (let child of subtree.contents) {
+      for (const child of subtree.contents) {
         map.set(child, subtree);
         _traverse(child);
       }

@@ -73,7 +73,7 @@ async function checkPendingBreakpoints(state, dispatch, source) {
   }
 
   const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
-  for (let pendingBreakpoint of pendingBreakpointsArray) {
+  for (const pendingBreakpoint of pendingBreakpointsArray) {
     await checkPendingBreakpoint(state, dispatch, pendingBreakpoint, source);
   }
 }
@@ -101,7 +101,7 @@ export function newSources(sources: Source[]) {
       source => !getSource(getState(), source.id)
     );
 
-    for (let source of filteredSources) {
+    for (const source of filteredSources) {
       await dispatch(newSource(source));
     }
   };
@@ -119,7 +119,7 @@ function loadSourceMap(generatedSource) {
       return;
     }
 
-    let state = getState();
+    const state = getState();
     const originalSources = urls.map(originalUrl => {
       return {
         url: originalUrl,
@@ -179,7 +179,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       return;
     }
 
-    let source = getSource(getState(), id);
+    const source = getSource(getState(), id);
     if (!source) {
       // If there is no source we deselect the current selected source
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });

@@ -95,7 +95,7 @@ function getMenuItems(
     return [blackBoxMenuItem];
   }
 
-  let menuItems = [
+  const menuItems = [
     copySource,
     copySourceUrl,
     jumpLabel,

@@ -24,9 +24,9 @@ function getBindingVariables(bindings, parentName) {
 }
 
 export function getSpecialVariables(pauseInfo: Pause, path: string) {
-  let thrown = get(pauseInfo, "why.frameFinished.throw", undefined);
+  const thrown = get(pauseInfo, "why.frameFinished.throw", undefined);
 
-  let returned = get(pauseInfo, "why.frameFinished.return", undefined);
+  const returned = get(pauseInfo, "why.frameFinished.return", undefined);
 
   const vars = [];
 
@@ -86,7 +86,7 @@ export function getScopes(
   const scopes = [];
 
   let scope = selectedScope;
-  let pausedScopeActor = get(pauseInfo, "frame.scope.actor");
+  const pausedScopeActor = get(pauseInfo, "frame.scope.actor");
   let scopeIndex = 1;
 
   do {
@@ -109,7 +109,7 @@ export function getScopes(
       }
 
       if (scope.actor === selectedScope.actor) {
-        let this_ = getThisVariable(selectedFrame, key);
+        const this_ = getThisVariable(selectedFrame, key);
 
         if (this_) {
           vars.push(this_);

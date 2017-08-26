@@ -24,7 +24,7 @@ function clearDocuments() {
 }
 
 function resetLineNumberFormat(editor: Object) {
-  let cm = editor.codeMirror;
+  const cm = editor.codeMirror;
   cm.setOption("lineNumberFormatter", number => number);
 }
 
@@ -33,8 +33,8 @@ function updateLineNumberFormat(editor: Object, sourceId: string) {
     resetLineNumberFormat(editor);
     return;
   }
-  let cm = editor.codeMirror;
-  let lineNumberFormatter = getWasmLineNumberFormatter(sourceId);
+  const cm = editor.codeMirror;
+  const lineNumberFormatter = getWasmLineNumberFormatter(sourceId);
   cm.setOption("lineNumberFormatter", lineNumberFormatter);
 }
 

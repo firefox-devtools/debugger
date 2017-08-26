@@ -48,7 +48,7 @@ export function getPauseReason(pauseInfo: Pause): string | null {
     return null;
   }
 
-  let reasonType = get(pauseInfo, "why.type", null);
+  const reasonType = get(pauseInfo, "why.type", null);
   if (!reasons[reasonType]) {
     console.log("Please file an issue: reasonType=", reasonType);
   }

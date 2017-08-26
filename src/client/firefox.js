@@ -13,7 +13,7 @@ export async function onConnect(connection: any, actions: Object) {
     return;
   }
 
-  let supportsWasm =
+  const supportsWasm =
     isEnabled("wasm") && !!debuggerClient.mainRoot.traits.wasmBinarySource;
 
   setupCommands({

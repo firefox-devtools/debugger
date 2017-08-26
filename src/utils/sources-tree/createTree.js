@@ -9,7 +9,7 @@ import type { SourcesMap } from "../../reducers/types";
 
 export function createTree(sources: SourcesMap, debuggeeUrl: string) {
   const uncollapsedTree = createNode("root", "", []);
-  for (let source of sources.valueSeq()) {
+  for (const source of sources.valueSeq()) {
     addToTree(uncollapsedTree, source, debuggeeUrl);
   }
 

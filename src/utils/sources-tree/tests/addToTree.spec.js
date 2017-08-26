@@ -54,15 +54,15 @@ describe("sources-tree", () => {
       addToTree(tree, source1);
       expect(tree.contents.length).toBe(1);
 
-      let base = tree.contents[0];
+      const base = tree.contents[0];
       expect(base.name).toBe("example.com");
       expect(base.contents.length).toBe(1);
 
-      let fooNode = base.contents[0];
+      const fooNode = base.contents[0];
       expect(fooNode.name).toBe("foo");
       expect(fooNode.contents.length).toBe(1);
 
-      let source1Node = fooNode.contents[0];
+      const source1Node = fooNode.contents[0];
       expect(source1Node.name).toBe("source1.js");
     });
 
@@ -125,10 +125,10 @@ describe("sources-tree", () => {
       addToTree(tree, source2);
       addToTree(tree, source3);
 
-      let base = tree.contents[0];
+      const base = tree.contents[0];
       expect(tree.contents.length).toBe(1);
 
-      let source1Node = base.contents[0];
+      const source1Node = base.contents[0];
       expect(source1Node.name).toBe("source1.js");
       expect(formatTree(tree)).toMatchSnapshot();
     });
@@ -143,7 +143,7 @@ describe("sources-tree", () => {
       addToTree(tree, source);
       expect(tree.contents.length).toBe(1);
 
-      let base = tree.contents[0];
+      const base = tree.contents[0];
       expect(base.name).toBe("file://");
       expect(base.contents.length).toBe(1);
 

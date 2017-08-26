@@ -58,7 +58,7 @@ export default class ResultList extends Component {
   }
 
   render() {
-    let { size, items } = this.props;
+    const { size, items } = this.props;
 
     return (
       <ul className={classnames("result-list", size)}>

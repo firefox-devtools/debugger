@@ -12,7 +12,7 @@ import type {
 export function createFrame(frame: FramePacket): Frame {
   let title;
   if (frame.type == "call") {
-    let c = frame.callee;
+    const c = frame.callee;
     title = c.name || c.userDisplayName || c.displayName || "(anonymous)";
   } else {
     title = `(${frame.type})`;

@@ -190,7 +190,7 @@ export function removeSourcesFromTabList(tabs: any, urls: Array<string>) {
 }
 
 function restoreTabs() {
-  let prefsTabs = prefs.tabs || [];
+  const prefsTabs = prefs.tabs || [];
   if (prefsTabs.length == 0) {
     return;
   }

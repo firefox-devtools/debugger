@@ -26,17 +26,17 @@ describe("sources-tree", () => {
       addToTree(_tree, source3);
       const tree = sortEntireTree(_tree);
 
-      let base = tree.contents[0];
-      let fooNode = base.contents[0];
+      const base = tree.contents[0];
+      const fooNode = base.contents[0];
       expect(fooNode.name).toBe("foo");
       expect(fooNode.contents.length).toBe(2);
 
-      let source1Node = base.contents[1];
+      const source1Node = base.contents[1];
       expect(source1Node.name).toBe("source1.js");
 
       // source2 should be after source1 alphabetically
-      let source2Node = fooNode.contents[1];
-      let source3Node = fooNode.contents[0];
+      const source2Node = fooNode.contents[1];
+      const source3Node = fooNode.contents[0];
       expect(source2Node.name).toBe("b_source2.js");
       expect(source3Node.name).toBe("a_source3.js");
       expect(formatTree(tree)).toMatchSnapshot();

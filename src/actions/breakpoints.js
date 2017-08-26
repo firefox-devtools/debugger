@@ -106,7 +106,7 @@ export function addHiddenBreakpoint(location: Location) {
  */
 export function removeBreakpoint(location: Location) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
-    let bp = getBreakpoint(getState(), location);
+    const bp = getBreakpoint(getState(), location);
     if (!bp) {
       throw new Error("attempt to remove breakpoint that does not exist");
     }
@@ -169,7 +169,7 @@ export function enableBreakpoint(location: Location) {
  */
 export function disableBreakpoint(location: Location) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
-    let bp = getBreakpoint(getState(), location);
+    const bp = getBreakpoint(getState(), location);
 
     if (!bp) {
       throw new Error("attempt to disable a breakpoint that does not exist");
@@ -200,7 +200,7 @@ export function disableBreakpoint(location: Location) {
 export function toggleAllBreakpoints(shouldDisableBreakpoints: boolean) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
-    for (let [, breakpoint] of breakpoints) {
+    for (const [, breakpoint] of breakpoints) {
       if (shouldDisableBreakpoints) {
         await dispatch(disableBreakpoint(breakpoint.location));
       } else {
@@ -221,7 +221,7 @@ export function toggleBreakpoints(
   breakpoints: BreakpointsMap
 ) {
   return async ({ dispatch }: ThunkArgs) => {
-    for (let [, breakpoint] of breakpoints) {
+    for (const [, breakpoint] of breakpoints) {
       if (shouldDisableBreakpoints) {
         await dispatch(disableBreakpoint(breakpoint.location));
       } else {
@@ -240,7 +240,7 @@ export function toggleBreakpoints(
 export function removeAllBreakpoints() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const breakpoints = getBreakpoints(getState());
-    for (let [, breakpoint] of breakpoints) {
+    for (const [, breakpoint] of breakpoints) {
       await dispatch(removeBreakpoint(breakpoint.location));
     }
   };
@@ -254,7 +254,7 @@ export function removeAllBreakpoints() {
  */
 export function removeBreakpoints(breakpoints: BreakpointsMap) {
   return async ({ dispatch }: ThunkArgs) => {
-    for (let [, breakpoint] of breakpoints) {
+    for (const [, breakpoint] of breakpoints) {
       await dispatch(removeBreakpoint(breakpoint.location));
     }
   };
