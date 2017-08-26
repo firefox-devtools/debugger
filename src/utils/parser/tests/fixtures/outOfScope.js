@@ -20,6 +20,10 @@ function outer() {
   const iifeDeclaration = (function() {
     const x = 1;
   })();
+
+  return function() {
+    const x = 1;
+  };
 }
 
 function exclude() {

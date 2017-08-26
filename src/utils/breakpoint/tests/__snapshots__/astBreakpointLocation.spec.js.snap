@@ -1,55 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ast invalid location returns the scope and offset 1`] = `
+exports[`ast invalid location returns name for an anon fn in global scope as undefined 1`] = `
 Object {
+  "name": undefined,
   "offset": Object {
     "column": 0,
-    "line": 11,
+    "line": 44,
   },
-  "scope": Object {
-    "name": undefined,
+}
+`;
+
+exports[`ast invalid location returns the scope name for global scope as undefined 1`] = `
+Object {
+  "name": undefined,
+  "offset": Object {
+    "column": 0,
+    "line": 10,
+  },
+}
+`;
+
+exports[`ast valid location returns name for a nested anon fn as the parent func 1`] = `
+Object {
+  "name": "outer",
+  "offset": Object {
+    "column": 0,
+    "line": 22,
+  },
+}
+`;
+
+exports[`ast valid location returns name for a nested named fn 1`] = `
+Object {
+  "name": "inner",
+  "offset": Object {
+    "column": 0,
+    "line": 1,
+  },
+}
+`;
+
+exports[`ast valid location returns name for an anon fn with a named variable 1`] = `
+Object {
+  "name": "globalDeclaration",
+  "offset": Object {
+    "column": 0,
+    "line": 1,
   },
 }
 `;
 
 exports[`ast valid location returns the scope and offset 1`] = `
 Object {
+  "name": "math",
   "offset": Object {
     "column": 0,
     "line": 5,
-  },
-  "scope": Object {
-    "identifier": Object {
-      "end": 13,
-      "loc": Object {
-        "end": Object {
-          "column": 13,
-          "line": 1,
-        },
-        "identifierName": "math",
-        "start": Object {
-          "column": 9,
-          "line": 1,
-        },
-      },
-      "name": "math",
-      "start": 9,
-      "type": "Identifier",
-    },
-    "location": Object {
-      "end": Object {
-        "column": 1,
-        "line": 8,
-      },
-      "start": Object {
-        "column": 0,
-        "line": 1,
-      },
-    },
-    "name": "math",
-    "parameterNames": Array [
-      "n",
-    ],
   },
 }
 `;
