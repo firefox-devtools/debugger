@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import * as I from "immutable";
 
 import { connect } from "react-redux";
@@ -64,13 +64,17 @@ function renderSourceLocation(source, line, column) {
     ? `0x${line.toString(16).toUpperCase()}`
     : `${line}${columnVal}`;
 
-  return filename
-    ? dom.div(
-        { className: "location" },
-        `${endTruncateStr(filename, 30)}: ${bpLocation}`
-      )
-    : null;
+  if (!filename) {
+    return null;
+  }
+
+  return (
+    <div className="location">
+      {`${endTruncateStr(filename, 30)}: ${bpLocation}`}
+    </div>
+  );
 }
+renderSourceLocation.displayName = "SourceLocation";
 
 class Breakpoints extends PureComponent {
   props: Props;
@@ -272,51 +276,54 @@ class Breakpoints extends PureComponent {
       return;
     }
 
-    return dom.div(
-      {
-        className: classnames({
+    return (
+      <div
+        className={classnames({
           breakpoint,
           paused: isCurrentlyPaused,
           disabled: isDisabled,
           "is-conditional": isConditional
-        }),
-        key: locationId,
-        onClick: () => this.selectBreakpoint(breakpoint),
-        onContextMenu: e => this.showContextMenu(e, breakpoint)
-      },
-      dom.input({
-        type: "checkbox",
-        className: "breakpoint-checkbox",
-        checked: !isDisabled,
-        onChange: () => this.handleCheckbox(breakpoint),
-        // Prevent clicking on the checkbox from triggering the onClick of
-        // the surrounding div
-        onClick: ev => ev.stopPropagation()
-      }),
-      dom.div(
-        { className: "breakpoint-label", title: breakpoint.text },
-        dom.div(
-          {},
-          renderSourceLocation(breakpoint.location.source, line, column)
-        )
-      ),
-      dom.div({ className: "breakpoint-snippet" }, snippet),
-      CloseButton({
-        handleClick: ev => this.removeBreakpoint(ev, breakpoint),
-        tooltip: L10N.getStr("breakpoints.removeBreakpointTooltip")
-      })
+        })}
+        key={locationId}
+        onClick={() => this.selectBreakpoint(breakpoint)}
+        onContextMenu={e => this.showContextMenu(e, breakpoint)}
+      >
+        <input
+          type="checkbox"
+          className="breakpoint-checkbox"
+          checked={!isDisabled}
+          onChange={() => this.handleCheckbox(breakpoint)}
+          onClick={ev => ev.stopPropagation()}
+        />
+        <div className="breakpoint-label" title={breakpoint.text}>
+          <div>
+            {renderSourceLocation(breakpoint.location.source, line, column)}
+          </div>
+        </div>
+        <div className="breakpoint-snippet">
+          {snippet}
+        </div>
+        <CloseButton
+          handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
+          tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}
+        />
+      </div>
     );
   }
 
   render() {
     const { breakpoints } = this.props;
-    return dom.div(
-      { className: "pane breakpoints-list" },
+    const children =
       breakpoints.size === 0
-        ? dom.div({ className: "pane-info" }, L10N.getStr("breakpoints.none"))
-        : breakpoints.valueSeq().map(bp => {
-            return this.renderBreakpoint(bp);
-          })
+        ? <div className="pane-info">
+            {L10N.getStr("breakpoints.none")}
+          </div>
+        : breakpoints.valueSeq().map(bp => this.renderBreakpoint(bp));
+
+    return (
+      <div className="pane breakpoints-list">
+        {children}
+      </div>
     );
   }
 }
