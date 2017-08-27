@@ -10,30 +10,38 @@ exports[`SymbolModal should render 1`] = `
             <div className=\\"input-wrapper\\">
               <SearchInput query=\\"\\" count={2} placeholder=\\"Search functions…\\" summaryMsg=\\"1 of 2 results\\" onChange={[Function]} onKeyUp={[Function]} handleNext={[Function]} handlePrev={[Function]} handleClose={[Function]} size=\\"\\" showErrorEmoji={true}>
                 <div className=\\"search-field\\">
-                  <InlineSVG className=\\"magnifying-glass\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
-                    <i className=\\"magnifying-glass\\" src={{...}} dangerouslySetInnerHTML={{...}} />
-                  </InlineSVG>
+                  <Svg name=\\"magnifying-glass\\">
+                    <InlineSVG className=\\"magnifying-glass \\" onClick={[undefined]} aria-label={[undefined]} src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
+                      <i className=\\"magnifying-glass \\" onClick={[undefined]} aria-label={[undefined]} src={{...}} dangerouslySetInnerHTML={{...}} />
+                    </InlineSVG>
+                  </Svg>
                   <input className=\\"\\" onChange={[Function]} onKeyDown={[undefined]} onKeyUp={[Function]} onFocus={[undefined]} onBlur={[undefined]} placeholder=\\"Search functions…\\" value=\\"\\" spellCheck={false} />
                   <div className=\\"summary\\">
                     1 of 2 results
                   </div>
                   <div className=\\"search-nav-buttons\\">
                     <button onClick={[Function]} type=\\"arrow-down\\" className=\\"nav-btn next\\" title=\\"Next Result\\">
-                      <InlineSVG className=\\"arrow-down\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
-                        <i className=\\"arrow-down\\" src={{...}} dangerouslySetInnerHTML={{...}} />
-                      </InlineSVG>
+                      <Svg name=\\"arrow-down\\">
+                        <InlineSVG className=\\"arrow-down \\" onClick={[undefined]} aria-label={[undefined]} src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
+                          <i className=\\"arrow-down \\" onClick={[undefined]} aria-label={[undefined]} src={{...}} dangerouslySetInnerHTML={{...}} />
+                        </InlineSVG>
+                      </Svg>
                     </button>
                     <button onClick={[Function]} type=\\"arrow-up\\" className=\\"nav-btn prev\\" title=\\"Previous Result\\">
-                      <InlineSVG className=\\"arrow-up\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
-                        <i className=\\"arrow-up\\" src={{...}} dangerouslySetInnerHTML={{...}} />
-                      </InlineSVG>
+                      <Svg name=\\"arrow-up\\">
+                        <InlineSVG className=\\"arrow-up \\" onClick={[undefined]} aria-label={[undefined]} src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
+                          <i className=\\"arrow-up \\" onClick={[undefined]} aria-label={[undefined]} src={{...}} dangerouslySetInnerHTML={{...}} />
+                        </InlineSVG>
+                      </Svg>
                     </button>
                   </div>
                   <CloseButton handleClick={[Function]} buttonClass=\\"\\">
                     <div className=\\"close-btn\\" onClick={[Function]} title={[undefined]}>
-                      <InlineSVG className=\\"close\\" src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
-                        <i className=\\"close\\" src={{...}} dangerouslySetInnerHTML={{...}} />
-                      </InlineSVG>
+                      <Svg name=\\"close\\">
+                        <InlineSVG className=\\"close \\" onClick={[undefined]} aria-label={[undefined]} src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
+                          <i className=\\"close \\" onClick={[undefined]} aria-label={[undefined]} src={{...}} dangerouslySetInnerHTML={{...}} />
+                        </InlineSVG>
+                      </Svg>
                     </div>
                   </CloseButton>
                 </div>

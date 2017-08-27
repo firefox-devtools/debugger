@@ -13,11 +13,8 @@ ShallowWrapper {
     onClick={[Function]}
     title="Close button"
 >
-    <InlineSVG
-        className="close"
-        element="i"
-        raw={false}
-        src="<svg></svg>"
+    <Svg
+        name="close"
     />
 </div>,
   "nodes": Array [
@@ -26,11 +23,8 @@ ShallowWrapper {
       onClick={[Function]}
       title="Close button"
 >
-      <InlineSVG
-            className="close"
-            element="i"
-            raw={false}
-            src="<svg></svg>"
+      <Svg
+            name="close"
       />
 </div>,
   ],
@@ -81,11 +75,8 @@ ShallowWrapper {
           onClick={[Function]}
           title="Close button"
 >
-          <InlineSVG
-                    className="close"
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+          <Svg
+                    name="close"
           />
 </div>,
         "_debugID": 4,
@@ -94,11 +85,8 @@ ShallowWrapper {
           onClick={[Function]}
           title="Close button"
 >
-          <InlineSVG
-                    className="close"
-                    element="i"
-                    raw={false}
-                    src="<svg></svg>"
+          <Svg
+                    name="close"
           />
 </div>,
       },
