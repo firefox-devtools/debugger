@@ -73,14 +73,6 @@ export default class TextSearch extends Component {
       this.focused = { setExpanded, file, expanded };
     }
 
-    const svgArrow = Svg("arrow", {
-      className: classnames({
-        expanded
-      })
-    });
-
-    const svgFile = Svg("file");
-
     const matches = ` (${file.matches.length} match${file.matches.length > 1
       ? "es"
       : ""})`;
@@ -91,8 +83,8 @@ export default class TextSearch extends Component {
         key={file.sourceId}
         onClick={e => setExpanded(file, !expanded)}
       >
-        {svgArrow}
-        {svgFile}
+        <Svg name="arrow" className={classnames({ expanded })} />
+        <Svg name="file" />
         <span className="file-path">
           {getRelativePath(file.filepath)}
         </span>

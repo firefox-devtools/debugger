@@ -48,7 +48,7 @@ function debugBtn(onClick, type, className, tooltip) {
       key={type}
       title={tooltip}
     >
-      {Svg(type, { title: tooltip, "aria-label": tooltip })}
+      <Svg name={type} title={tooltip} aria-label={tooltip} />
     </button>
   );
 }

@@ -55,7 +55,7 @@ class SourceFooter extends PureComponent {
         title={tooltip}
         aria-label={tooltip}
       >
-        {Svg(type)}
+        <Svg name={type} />
       </button>
     );
   }
@@ -84,7 +84,7 @@ class SourceFooter extends PureComponent {
         title={tooltip}
         aria-label={tooltip}
       >
-        {Svg("blackBox")}
+        <Svg name="blackBox" />
       </button>
     );
   }

@@ -54,10 +54,16 @@ const svg = {
   showOutline: require("./showOutline.svg")
 };
 
-module.exports = function(name, props) {
-  // eslint-disable-line
+type SvgType = {
+  name: string,
+  clasName?: string,
+  onClick?: () => void,
+  "aria-label"?: string
+};
+
+function Svg({ name, className, onClick, "aria-label": ariaLabel }) {
   if (!svg[name]) {
-    const error = "Unknown SVG: " + name;
+    const error = `Unknown SVG: ${name}`;
     if (isDevelopment()) {
       throw new Error(error);
     }
@@ -66,13 +72,19 @@ module.exports = function(name, props) {
     return;
   }
 
-  let className = name;
-  if (props && props.className) {
-    className = `${name} ${props.className}`;
-  }
+  className = `${name} ${className || ""}`;
   if (name === "subSettings") {
     className = "";
   }
-  props = Object.assign({}, props, { className, src: svg[name] });
+  const props = {
+    className,
+    onClick,
+    ["aria-label"]: ariaLabel,
+    src: svg[name]
+  };
   return <InlineSVG {...props} />;
-};
+}
+
+Svg.displayName = "Svg";
+
+module.exports = Svg;

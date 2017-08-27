@@ -1,5 +1,5 @@
 // @flow
-import { Component } from "react";
+import React, { Component } from "react";
 import { isEnabled } from "devtools-config";
 import ReactDOM from "react-dom";
 
@@ -9,7 +9,7 @@ import Svg from "../shared/Svg";
 import { getDocument, showSourceText, toEditorLine } from "../../utils/editor";
 
 const breakpointSvg = document.createElement("div");
-ReactDOM.render(Svg("breakpoint"), breakpointSvg);
+ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
 
 function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);

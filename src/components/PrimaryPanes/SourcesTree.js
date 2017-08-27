@@ -167,14 +167,14 @@ class SourcesTree extends Component {
 
   getIcon(item, depth) {
     if (depth === 0) {
-      return Svg("domain");
+      return <Svg name="domain" />;
     }
 
     if (!nodeHasChildren(item)) {
-      return Svg("file");
+      return <Svg name="file" />;
     }
 
-    return Svg("folder");
+    return <Svg name="folder" />;
   }
 
   onContextMenu(event, item) {
@@ -203,16 +203,19 @@ class SourcesTree extends Component {
   }
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
-    const arrow = Svg("arrow", {
-      className: classnames({
-        expanded: expanded,
-        hidden: !nodeHasChildren(item)
-      }),
-      onClick: e => {
-        e.stopPropagation();
-        setExpanded(item, !expanded);
-      }
-    });
+    const arrow = (
+      <Svg
+        name="arrow"
+        className={classnames({
+          expanded: expanded,
+          hidden: !nodeHasChildren(item)
+        })}
+        onClick={e => {
+          e.stopPropagation();
+          setExpanded(item, !expanded);
+        }}
+      />
+    );
 
     const icon = this.getIcon(item, depth);
     let paddingDir = "paddingRight";
@@ -223,17 +226,15 @@ class SourcesTree extends Component {
           : "paddingRight";
     }
 
-    const onClick = () => {
-      this.selectItem(item);
-      setExpanded(item, !expanded);
-    };
-
     return (
       <div
         className={classnames("node", { focused })}
         style={{ [paddingDir]: `${depth * 15}px` }}
         key={item.path}
-        onClick={onClick}
+        onClick={() => {
+          this.selectItem(item);
+          setExpanded(item, !expanded);
+        }}
         onContextMenu={e => this.onContextMenu(e, item)}
       >
         <div>

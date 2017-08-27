@@ -78,7 +78,7 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
 
   return (
     <button className={classnames(type, className)} {...props}>
-      {Svg(type)}
+      <Svg name={type} />
     </button>
   );
 }
