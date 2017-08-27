@@ -444,7 +444,7 @@ class SourceTabs extends PureComponent {
         onClick={onButtonClick}
         title={newTabTooltip}
       >
-        {Svg("plus")}
+        <Svg name="plus" />
       </div>
     );
   }
@@ -493,10 +493,10 @@ class SourceTabs extends PureComponent {
     const sourceObj = source.toJS();
 
     if (isPretty(sourceObj)) {
-      return Svg("prettyPrint");
+      return <Svg name="prettyPrint" />;
     }
     if (sourceObj.isBlackBoxed) {
-      return Svg("blackBox");
+      return <Svg name="blackBox" />;
     }
   }
 

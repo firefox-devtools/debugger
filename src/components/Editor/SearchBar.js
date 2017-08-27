@@ -351,7 +351,7 @@ class SearchBar extends Component {
           onClick={() => toggleFileSearchModifier(modVal)}
           title={tooltip}
         >
-          {Svg(svgName)}
+          <Svg name={svgName} />
         </button>
       );
     }

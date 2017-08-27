@@ -16,7 +16,7 @@ function CloseButton({ handleClick, buttonClass, tooltip }: CloseButtonType) {
       onClick={handleClick}
       title={tooltip}
     >
-      {Svg("close")}
+      <Svg name="close" />
     </div>
   );
 }

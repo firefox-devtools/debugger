@@ -38,7 +38,7 @@ class PaneToggleButton extends Component {
         onClick={() => handleClick(position, collapsed)}
         title={title}
       >
-        {Svg("togglePanes")}
+        <Svg name="togglePanes" />
       </div>
     );
   }

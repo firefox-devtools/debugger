@@ -16,7 +16,7 @@ const arrowBtn = (onClick, type, className, tooltip) => {
 
   return (
     <button {...props}>
-      {Svg(type)}
+      <Svg name={type} />
     </button>
   );
 };
@@ -55,10 +55,10 @@ class SearchInput extends Component {
 
   renderSvg() {
     if (this.shouldShowErrorEmoji()) {
-      return Svg("sad-face");
+      return <Svg name="sad-face" />;
     }
 
-    return Svg("magnifying-glass");
+    return <Svg name="magnifying-glass" />;
   }
 
   renderArrowButtons() {

@@ -37,7 +37,7 @@ function FrameLocation({ frame }: FrameLocationProps) {
     return (
       <div className="location">
         {frame.library}
-        {Svg(frame.library.toLowerCase(), { className: "annotation-logo" })}
+        <Svg name={frame.library.toLowerCase()} className="annotation-logo" />
       </div>
     );
   }

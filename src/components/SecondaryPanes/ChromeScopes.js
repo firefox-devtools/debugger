@@ -99,12 +99,13 @@ class Scopes extends Component {
           setExpanded(item, !expanded);
         }
       },
-      Svg("arrow", {
-        className: classnames({
-          expanded: expanded,
+      <Svg
+        name="arrow"
+        className={classnames({
+          expanded,
           hidden: nodeIsPrimitive(item)
-        })
-      }),
+        })}
+      />,
       dom.span({ className: "object-label" }, item.name),
       dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
       dom.span({ className: "object-value" }, objectValue || "")
