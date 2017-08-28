@@ -9,8 +9,10 @@ class Workers extends Component {
 
   render() {
     return (
-      <div>
-        dummy text
+      <div className="pane">
+        <div className="pane-info">
+          {L10N.getStr("noWorkersText")}
+        </div>
       </div>
     );
   }
