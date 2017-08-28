@@ -3,7 +3,7 @@
 import * as firefox from "./firefox";
 import * as chrome from "./chrome";
 
-import { prefs } from "../utils/prefs";
+import { prefs, features } from "../utils/prefs";
 import { isFirefoxPanel } from "devtools-config";
 import {
   bootstrapApp,
@@ -44,6 +44,7 @@ async function onConnect(connection: Object, services: Object) {
       selectors,
       client: client.clientCommands,
       prefs,
+      features,
       connection
     };
   };
