@@ -3,6 +3,7 @@
 import { isEnabled } from "devtools-config";
 import { getBreakpoint } from "../../selectors";
 import assert from "../assert";
+export { getASTLocation, findScopeByName } from "./astBreakpointLocation";
 
 import type {
   Location,
@@ -116,14 +117,13 @@ export function createBreakpoint(location: Location, overrides: Object = {}) {
 
 function createPendingLocation(location: PendingLocation) {
   const { sourceUrl, line, column } = location;
-  return { sourceUrl: sourceUrl, line, column };
+  return { sourceUrl, line, column };
 }
 
 export function createPendingBreakpoint(bp: Breakpoint) {
   const pendingLocation = createPendingLocation(bp.location);
   const pendingGeneratedLocation = createPendingLocation(bp.generatedLocation);
 
-  assertPendingLocation(pendingLocation);
   assertPendingLocation(pendingLocation);
 
   return {

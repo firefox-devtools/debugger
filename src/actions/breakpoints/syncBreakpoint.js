@@ -9,7 +9,7 @@ import { originalToGeneratedId } from "devtools-source-map";
 // we have three forms of syncing: disabled syncing, existing server syncing
 // and adding a new breakpoint
 export async function syncClientBreakpoint(
-  sourceId: string,
+  sourceId: String,
   client,
   sourceMaps,
   pendingBreakpoint: PendingBreakpoint
