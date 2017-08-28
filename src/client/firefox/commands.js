@@ -31,6 +31,8 @@ let tabTarget: TabTarget;
 let debuggerClient: DebuggerClient;
 let supportsWasm: boolean;
 
+window.bpc = bpClients;
+
 type Dependencies = {
   threadClient: ThreadClient,
   tabTarget: TabTarget,

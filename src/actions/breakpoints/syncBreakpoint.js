@@ -59,16 +59,16 @@ export async function syncClientBreakpoint(
   const existingClient = client.getBreakpointByLocation(generatedLocation);
 
   if (existingClient) {
-    const newGeneratedLocation = existingClient.actualLocation;
-    const newLocation = await sourceMaps.getOriginalLocation(
-      newGeneratedLocation
-    );
+    // const newGeneratedLocation = existingClient.actualLocation;
+    // const newLocation = await sourceMaps.getOriginalLocation(
+    //   newGeneratedLocation
+    // );
 
     const breakpoint = {
       ...pendingBreakpoint,
-      id: makeLocationId(newLocation),
-      generatedLocation: newGeneratedLocation,
-      location: newLocation
+      id: makeLocationId(location),
+      generatedLocation: generatedLocation,
+      location: location
     };
 
     assertBreakpoint(breakpoint);

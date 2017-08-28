@@ -90,6 +90,10 @@ export function newSource(source: Source) {
       await dispatch(loadSourceMap(source));
     }
 
+    console.log(
+      "NEW SOURCE",
+      Object.keys(getState().sources.sources.toJS()).join("\n")
+    );
     checkSelectedSource(getState(), dispatch, source);
     await checkPendingBreakpoints(getState(), dispatch, source);
   };
