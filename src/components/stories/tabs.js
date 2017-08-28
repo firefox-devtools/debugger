@@ -1,9 +1,8 @@
-import React, { DOM as dom } from "react";
+import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import _Tabs from "../Editor/Tabs";
-const Tabs = React.createFactory(_Tabs.WrappedComponent);
+import Tabs from "../Editor/Tabs";
 import fromJS from "../../utils/fromJS";
 import { L10N } from "devtools-launchpad";
 import { times } from "lodash";
@@ -29,112 +28,107 @@ const tabs = {
   }
 };
 
-function TabsFactory(options, { dir = "ltr", theme = "light" } = {}) {
+function TabsFactory({ dir = "ltr", theme = "light", ...props }) {
   const themeClass = `theme-${theme}`;
   document.body.parentNode.className = themeClass;
   document.dir = dir;
 
-  return dom.div(
-    {
-      className: `editor-pane ${themeClass}`,
-      dir,
-      style: {
+  return (
+    <div
+      className={`editor-pane ${themeClass}`}
+      dir={dir}
+      style={{
         width: "450px",
         height: "200px",
         margin: "40px 40px",
         border: "1px solid var(--theme-splitter-color)"
-      }
-    },
-    dom.div(
-      { className: "editor-container" },
-      Tabs(
-        Object.assign(
-          {},
-          {
-            sourceTabs: fromJS([]),
-            searchOn: false,
-            selectedSource: null,
-            selectSource: action("selectSource"),
-            closeActiveSearch: () => {},
-            moveTab: action("moveTab"),
-            closeTab: action("closeTab"),
-            closeTabs: action("closeTabs"),
-            setActiveSearch: action("setActiveSearch"),
-            toggleProjectSearch: action("toggleProjectSearch"),
-            togglePrettyPrint: action("togglePrettyPrint"),
-            togglePaneCollapse: action("togglePaneCollapse"),
-            showSource: action("showSource"),
-            horizontal: true,
-            startPanelCollapsed: false,
-            endPanelCollapsed: false
-          },
-          options
-        )
-      ),
-      dom.div({
-        className: "editor-wrapper",
-        style: { background: "var(--theme-body-background)" }
-      })
-    )
+      }}
+    >
+      <div className="editor-container">
+        <Tabs
+          sourceTabs={fromJS([])}
+          searchOn={false}
+          selectedSource={null}
+          selectSource={action("selectSource")}
+          closeActiveSearch={() => {}}
+          moveTab={action("moveTab")}
+          closeTab={action("closeTab")}
+          closeTabs={action("closeTabs")}
+          setActiveSearch={action("setActiveSearch")}
+          toggleProjectSearch={action("toggleProjectSearch")}
+          togglePrettyPrint={action("togglePrettyPrint")}
+          togglePaneCollapse={action("togglePaneCollapse")}
+          showSource={action("showSource")}
+          horizontal={true}
+          startPanelCollapsed={false}
+          endPanelCollapsed={false}
+          {...props}
+        />
+        <div
+          className="editor-wrapper"
+          style={{ background: "var(--theme-body-background)" }}
+        />
+      </div>
+    </div>
   );
 }
 
+TabsFactory.displayName = "TabsFactory";
+
 storiesOf("Editor Tabs", module)
   .add("No Tabs", () => {
-    return TabsFactory({
-      sourceTabs: fromJS([]),
-      searchOn: false,
-      selectedSource: null
-    });
+    return <TabsFactory />;
   })
   .add("1 Tab", () => {
-    return TabsFactory({
-      sourceTabs: fromJS([tabs.foo])
-    });
+    return <TabsFactory sourceTabs={fromJS([tabs.foo])} />;
   })
   .add("2 Tabs", () => {
-    return TabsFactory({
-      sourceTabs: fromJS([tabs.foo, tabs.bar]),
-      selectedSource: fromJS(tabs.foo)
-    });
+    return (
+      <TabsFactory
+        sourceTabs={fromJS([tabs.foo, tabs.bar])}
+        selectedSource={fromJS(tabs.foo)}
+      />
+    );
   })
   .add("2 Tabs (not selected)", () => {
-    return TabsFactory({
-      sourceTabs: fromJS([tabs.foo, tabs.bar])
-    });
+    return <TabsFactory sourceTabs={fromJS([tabs.foo, tabs.bar])} />;
   })
   .add("10 Tabs", () => {
     const localTabs = times(10).map(i => ({
       id: `id${i}`,
       url: `http://example.com/example${i}`
     }));
-    return TabsFactory({
-      sourceTabs: fromJS(localTabs),
-      selectedSource: fromJS(localTabs[2])
-    });
+    return (
+      <TabsFactory
+        sourceTabs={fromJS(localTabs)}
+        selectedSource={fromJS(localTabs[2])}
+      />
+    );
   })
   .add("special tabs", () => {
-    return TabsFactory({
-      sourceTabs: fromJS([tabs.pretty, tabs.blackboxed]),
-      selectedSource: fromJS(tabs.pretty)
-    });
+    return (
+      <TabsFactory
+        sourceTabs={fromJS([tabs.pretty, tabs.blackboxed])}
+        selectedSource={fromJS(tabs.pretty)}
+      />
+    );
   })
   .add("2 Tabs (RTL)", () => {
-    return TabsFactory(
-      {
-        sourceTabs: fromJS([tabs.foo, tabs.bar]),
-        selectedSource: fromJS(tabs.bar)
-      },
-      { dir: "rtl" }
+    return (
+      <TabsFactory
+        dir="rtl"
+        sourceTabs={fromJS([tabs.foo, tabs.bar])}
+        selectedSource={fromJS(tabs.foo)}
+      />
     );
   })
   .add("special tabs (RTL)", () => {
-    return TabsFactory(
-      {
-        sourceTabs: fromJS([tabs.pretty, tabs.blackboxed]),
-        selectedSource: fromJS(tabs.pretty)
-      },
-      { dir: "rtl" }
+    return (
+      <TabsFactory
+        dir="rtl"
+        sourceTabs={fromJS([tabs.pretty, tabs.blackboxed])}
+        selectedSource={fromJS(tabs.pretty)}
+      />
     );
   })
   .add("10 Tabs (RTL)", () => {
@@ -142,29 +136,29 @@ storiesOf("Editor Tabs", module)
       id: `id${i}`,
       url: `http://example.com/example${i}`
     }));
-    return TabsFactory(
-      {
-        sourceTabs: fromJS(localTabs),
-        selectedSource: fromJS(localTabs[2])
-      },
-      { dir: "rtl" }
+    return (
+      <TabsFactory
+        sourceTabs={fromJS(localTabs)}
+        selectedSource={fromJS(localTabs[2])}
+        dir="rtl"
+      />
     );
   })
   .add("2 Tabs (DARK)", () => {
-    return TabsFactory(
-      {
-        sourceTabs: fromJS([tabs.foo, tabs.bar]),
-        selectedSource: fromJS(tabs.foo)
-      },
-      { theme: "dark" }
+    return (
+      <TabsFactory
+        theme="dark"
+        sourceTabs={fromJS([tabs.foo, tabs.bar])}
+        selectedSource={fromJS(tabs.foo)}
+      />
     );
   })
   .add("special tabs (DARK)", () => {
-    return TabsFactory(
-      {
-        sourceTabs: fromJS([tabs.pretty, tabs.blackboxed]),
-        selectedSource: fromJS(tabs.pretty)
-      },
-      { theme: "dark" }
+    return (
+      <TabsFactory
+        theme="dark"
+        sourceTabs={fromJS([tabs.pretty, tabs.blackboxed])}
+        selectedSource={fromJS(tabs.pretty)}
+      />
     );
   });

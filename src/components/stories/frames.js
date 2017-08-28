@@ -1,9 +1,9 @@
-import React, { DOM as dom } from "react";
+import React from "react";
+import classnames from "classnames";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import _Frame from "../SecondaryPanes/Frames/Frame";
-const Frame = React.createFactory(_Frame);
+import Frame from "../SecondaryPanes/Frames/Frame";
 import { L10N } from "devtools-launchpad";
 
 import "../App.css";
@@ -16,38 +16,35 @@ if (typeof window == "object") {
   window.L10N.setBundle(require("../../../assets/panel/debugger.properties"));
 }
 
-function FrameFactory(options, { dir = "ltr", theme = "light" } = {}) {
+function FrameFactory({ dir = "ltr", theme = "light", ...props }) {
   const themeClass = `theme-${theme}`;
   document.body.parentNode.className = themeClass;
-  return dom.div(
-    {
-      className: `frames ${themeClass}`,
-      dir,
-      style: {
+  return (
+    <div
+      className={classnames("frames", themeClass)}
+      dir={dir}
+      style={{
         width: "60vw",
-        margin: "40px 40px",
+        margin: "40px",
         border: "1px solid var(--theme-splitter-color)"
-      }
-    },
-    dom.ul(
-      { className: "" },
-      Frame(
-        Object.assign(
-          {},
-          {
-            frame: null,
-            frames: null,
-            selectedFrame: null,
-            selectFrame: action("selectFrame"),
-            hideLocation: false,
-            shouldMapDisplayName: false
-          },
-          options
-        )
-      )
-    )
+      }}
+    >
+      <ul>
+        <Frame
+          frame={null}
+          frames={null}
+          selectedFrame={null}
+          selectFrame={action("selectFrame")}
+          hideLocation={false}
+          shouldMapDisplayName={false}
+          {...props}
+        />
+      </ul>
+    </div>
   );
 }
+
+FrameFactory.displayName = "FrameFactory";
 
 storiesOf("Frames", module)
   .add("simple frame", () => {
@@ -64,7 +61,7 @@ storiesOf("Frames", module)
       }
     };
 
-    return FrameFactory({ frame });
+    return <FrameFactory frame={frame} />;
   })
   .add("backbone", () => {
     const frame = {
@@ -80,5 +77,5 @@ storiesOf("Frames", module)
       }
     };
 
-    return FrameFactory({ frame });
+    return <FrameFactory frame={frame} />;
   });

@@ -8,15 +8,16 @@ import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
 import { isEnabled } from "devtools-config";
 import "./Outline.css";
-import previewFunction from "../shared/previewFunction";
+import PreviewFunction from "../shared/PreviewFunction";
 
 import type {
   SymbolDeclarations,
   SymbolDeclaration
 } from "../../utils/parser/getSymbols";
+import type { AstLocation } from "../../utils/parser/types";
 import type { SourceRecord } from "../../reducers/sources";
 
-class Outline extends Component {
+export class Outline extends Component {
   state: any;
 
   props: {
@@ -26,12 +27,7 @@ class Outline extends Component {
     selectedSource: ?SourceRecord
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  selectItem(location) {
+  selectItem(location: AstLocation) {
     const { selectedSource, selectSource } = this.props;
     if (!selectedSource) {
       return;
@@ -50,7 +46,7 @@ class Outline extends Component {
         className="outline-list__element"
         onClick={() => this.selectItem(location)}
       >
-        {previewFunction({ name })}
+        <PreviewFunction func={{ name }} />
       </li>
     );
   }
