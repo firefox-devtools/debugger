@@ -3,7 +3,6 @@ import {
   locationMoved,
   breakpointExists,
   assertBreakpoint,
-  getASTLocation,
   assertLocation
 } from "../../utils/breakpoint";
 import { getSource } from "../../selectors";
