@@ -3,7 +3,6 @@
 import type {
   BreakpointId,
   BreakpointResult,
-  Breakpoint,
   Frame,
   FrameId,
   Location,
@@ -125,7 +124,7 @@ function setBreakpoint(
     });
 }
 
-function removeBreakpoint(generatedLocation) {
+function removeBreakpoint(generatedLocation: any) {
   try {
     const id = makeLocationId(generatedLocation);
     const bpClient = bpClients[id];

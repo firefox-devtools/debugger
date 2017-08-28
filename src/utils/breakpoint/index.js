@@ -12,7 +12,7 @@ import type {
   PendingBreakpoint
 } from "debugger-html";
 
-import type { SourceRecord, State } from "../../reducers/types";
+import type { State } from "../../reducers/types";
 
 // Return the first argument that is a string, or null if nothing is a
 // string.
