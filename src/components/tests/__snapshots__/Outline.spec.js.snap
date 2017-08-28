@@ -18,49 +18,25 @@ ShallowWrapper {
             className="outline-list__element"
             onClick={[Function]}
         >
-            <span
-                className="function-signature"
-            >
-                <span
-                    className="function-name"
-                >
-                    my_example_function1
-                </span>
-                <span
-                    className="paren"
-                >
-                    (
-                </span>
-                <span
-                    className="paren"
-                >
-                    )
-                </span>
-            </span>
+            <PreviewFunction
+                func={
+                    Object {
+                        "name": "my_example_function1",
+                      }
+                }
+            />
         </li>
         <li
             className="outline-list__element"
             onClick={[Function]}
         >
-            <span
-                className="function-signature"
-            >
-                <span
-                    className="function-name"
-                >
-                    my_example_function2
-                </span>
-                <span
-                    className="paren"
-                >
-                    (
-                </span>
-                <span
-                    className="paren"
-                >
-                    )
-                </span>
-            </span>
+            <PreviewFunction
+                func={
+                    Object {
+                        "name": "my_example_function2",
+                      }
+                }
+            />
         </li>
     </ul>
 </div>,
@@ -75,49 +51,25 @@ ShallowWrapper {
                   className="outline-list__element"
                   onClick={[Function]}
             >
-                  <span
-                        className="function-signature"
-                  >
-                        <span
-                              className="function-name"
-                        >
-                              my_example_function1
-                        </span>
-                        <span
-                              className="paren"
-                        >
-                              (
-                        </span>
-                        <span
-                              className="paren"
-                        >
-                              )
-                        </span>
-                  </span>
+                  <PreviewFunction
+                        func={
+                              Object {
+                                    "name": "my_example_function1",
+                                  }
+                        }
+                  />
             </li>
             <li
                   className="outline-list__element"
                   onClick={[Function]}
             >
-                  <span
-                        className="function-signature"
-                  >
-                        <span
-                              className="function-name"
-                        >
-                              my_example_function2
-                        </span>
-                        <span
-                              className="paren"
-                        >
-                              (
-                        </span>
-                        <span
-                              className="paren"
-                        >
-                              )
-                        </span>
-                  </span>
+                  <PreviewFunction
+                        func={
+                              Object {
+                                    "name": "my_example_function2",
+                                  }
+                        }
+                  />
             </li>
       </ul>
 </div>,
@@ -197,7 +149,7 @@ ShallowWrapper {
           },
         },
         "refs": Object {},
-        "state": Object {},
+        "state": null,
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
@@ -226,49 +178,25 @@ ShallowWrapper {
                               className="outline-list__element"
                               onClick={[Function]}
                     >
-                              <span
-                                        className="function-signature"
-                              >
-                                        <span
-                                                  className="function-name"
-                                        >
-                                                  my_example_function1
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  (
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  )
-                                        </span>
-                              </span>
+                              <PreviewFunction
+                                        func={
+                                                  Object {
+                                                            "name": "my_example_function1",
+                                                          }
+                                        }
+                              />
                     </li>
                     <li
                               className="outline-list__element"
                               onClick={[Function]}
                     >
-                              <span
-                                        className="function-signature"
-                              >
-                                        <span
-                                                  className="function-name"
-                                        >
-                                                  my_example_function2
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  (
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  )
-                                        </span>
-                              </span>
+                              <PreviewFunction
+                                        func={
+                                                  Object {
+                                                            "name": "my_example_function2",
+                                                          }
+                                        }
+                              />
                     </li>
           </ul>
 </div>,
@@ -283,49 +211,25 @@ ShallowWrapper {
                               className="outline-list__element"
                               onClick={[Function]}
                     >
-                              <span
-                                        className="function-signature"
-                              >
-                                        <span
-                                                  className="function-name"
-                                        >
-                                                  my_example_function1
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  (
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  )
-                                        </span>
-                              </span>
+                              <PreviewFunction
+                                        func={
+                                                  Object {
+                                                            "name": "my_example_function1",
+                                                          }
+                                        }
+                              />
                     </li>
                     <li
                               className="outline-list__element"
                               onClick={[Function]}
                     >
-                              <span
-                                        className="function-signature"
-                              >
-                                        <span
-                                                  className="function-name"
-                                        >
-                                                  my_example_function2
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  (
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  )
-                                        </span>
-                              </span>
+                              <PreviewFunction
+                                        func={
+                                                  Object {
+                                                            "name": "my_example_function2",
+                                                          }
+                                        }
+                              />
                     </li>
           </ul>
 </div>,
@@ -394,25 +298,13 @@ ShallowWrapper {
             className="outline-list__element"
             onClick={[Function]}
         >
-            <span
-                className="function-signature"
-            >
-                <span
-                    className="function-name"
-                >
-                    my_example_function1
-                </span>
-                <span
-                    className="paren"
-                >
-                    (
-                </span>
-                <span
-                    className="paren"
-                >
-                    )
-                </span>
-            </span>
+            <PreviewFunction
+                func={
+                    Object {
+                        "name": "my_example_function1",
+                      }
+                }
+            />
         </li>
     </ul>
 </div>,
@@ -427,25 +319,13 @@ ShallowWrapper {
                   className="outline-list__element"
                   onClick={[Function]}
             >
-                  <span
-                        className="function-signature"
-                  >
-                        <span
-                              className="function-name"
-                        >
-                              my_example_function1
-                        </span>
-                        <span
-                              className="paren"
-                        >
-                              (
-                        </span>
-                        <span
-                              className="paren"
-                        >
-                              )
-                        </span>
-                  </span>
+                  <PreviewFunction
+                        func={
+                              Object {
+                                    "name": "my_example_function1",
+                                  }
+                        }
+                  />
             </li>
       </ul>
 </div>,
@@ -525,7 +405,7 @@ ShallowWrapper {
           },
         },
         "refs": Object {},
-        "state": Object {},
+        "state": null,
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
@@ -554,25 +434,13 @@ ShallowWrapper {
                               className="outline-list__element"
                               onClick={[Function]}
                     >
-                              <span
-                                        className="function-signature"
-                              >
-                                        <span
-                                                  className="function-name"
-                                        >
-                                                  my_example_function1
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  (
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  )
-                                        </span>
-                              </span>
+                              <PreviewFunction
+                                        func={
+                                                  Object {
+                                                            "name": "my_example_function1",
+                                                          }
+                                        }
+                              />
                     </li>
           </ul>
 </div>,
@@ -587,25 +455,13 @@ ShallowWrapper {
                               className="outline-list__element"
                               onClick={[Function]}
                     >
-                              <span
-                                        className="function-signature"
-                              >
-                                        <span
-                                                  className="function-name"
-                                        >
-                                                  my_example_function1
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  (
-                                        </span>
-                                        <span
-                                                  className="paren"
-                                        >
-                                                  )
-                                        </span>
-                              </span>
+                              <PreviewFunction
+                                        func={
+                                                  Object {
+                                                            "name": "my_example_function1",
+                                                          }
+                                        }
+                              />
                     </li>
           </ul>
 </div>,

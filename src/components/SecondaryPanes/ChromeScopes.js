@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import { PropTypes, Component } from "react";
 import ImPropTypes from "react-immutable-proptypes";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -8,14 +8,8 @@ import classnames from "classnames";
 import actions from "../../actions";
 import { getChromeScopes, getLoadedObjects, getPause } from "../../selectors";
 import Svg from "../shared/Svg";
+import ManagedTree from "../shared/ManagedTree";
 import "./Scopes.css";
-
-import _ManagedTree from "../shared/ManagedTree";
-const ManagedTree = createFactory(_ManagedTree);
-
-function info(text) {
-  return dom.div({ className: "pane-info" }, text);
-}
 
 // check to see if its an object with propertie
 function nodeHasProperties(item) {
@@ -86,29 +80,36 @@ class Scopes extends Component {
     const notEnumberable = false;
     const objectValue = "";
 
-    return dom.div(
-      {
-        className: classnames("node object-node", {
+    return (
+      <div
+        className={classnames("node object-node", {
           focused: false,
           "not-enumerable": notEnumberable
-        }),
-        style: { marginLeft: depth * 15 },
-        key: item.path,
-        onClick: e => {
+        })}
+        style={{ marginLeft: depth * 15 }}
+        key={item.path}
+        onClick={e => {
           e.stopPropagation();
           setExpanded(item, !expanded);
-        }
-      },
-      <Svg
-        name="arrow"
-        className={classnames({
-          expanded,
-          hidden: nodeIsPrimitive(item)
-        })}
-      />,
-      dom.span({ className: "object-label" }, item.name),
-      dom.span({ className: "object-delimiter" }, objectValue ? ": " : ""),
-      dom.span({ className: "object-value" }, objectValue || "")
+        }}
+      >
+        <Svg
+          name="arrow"
+          className={classnames({
+            expanded,
+            hidden: nodeIsPrimitive(item)
+          })}
+        />
+        <span className="object-label">
+          {item.name}
+        </span>
+        <span className="object-delimiter">
+          {objectValue ? ": " : ""}
+        </span>
+        <span className="object-value">
+          {objectValue || ""}
+        </span>
+      </div>
     );
   }
 
@@ -172,29 +173,33 @@ class Scopes extends Component {
     const { pauseInfo } = this.props;
 
     if (!pauseInfo) {
-      return dom.div(
-        { className: "pane scopes-list" },
-        info(L10N.getStr("scopes.notPaused"))
+      return (
+        <div className={classnames("pane", "scopes-list")}>
+          <div className="pane-info">
+            {L10N.getStr("scopes.notPaused")}
+          </div>
+        </div>
       );
     }
 
     const roots = this.getRoots();
 
-    return dom.div(
-      { className: "pane scopes-list" },
-      ManagedTree({
-        itemHeight: 20,
-        getParent: item => null,
-        getChildren: this.getChildren,
-        getRoots: () => roots,
-        getPath: item => item.path,
-        autoExpand: 0,
-        autoExpandDepth: 1,
-        autoExpandAll: false,
-        disabledFocus: true,
-        onExpand: this.onExpand,
-        renderItem: this.renderItem
-      })
+    return (
+      <div className={classnames("pane", "scopes-list")}>
+        <ManagedTree
+          itemHeight={20}
+          getParent={item => null}
+          getChildren={this.getChildren}
+          getRoots={() => roots}
+          getPath={item => item.path}
+          autoExpand={0}
+          autoExpandDepth={1}
+          autoExpandAll={false}
+          disabledFocus={true}
+          onExpand={this.onExpand}
+          renderItem={this.renderItem}
+        />
+      </div>
     );
   }
 }

@@ -13,7 +13,7 @@ const { getChildren } = ObjectInspectorUtils;
 import actions from "../../../actions";
 import { getLoadedObjects } from "../../../selectors";
 import Popover from "../../shared/Popover";
-import previewFunction from "../../shared/previewFunction";
+import PreviewFunction from "../../shared/PreviewFunction";
 import { markText } from "../../../utils/editor";
 
 import "./Popup.css";
@@ -89,7 +89,7 @@ export class Popup extends Component {
         className="preview-popup"
         onClick={() => selectSourceURL(location.url, { line: location.line })}
       >
-        {previewFunction(value)}
+        <PreviewFunction func={value} />
       </div>
     );
   }

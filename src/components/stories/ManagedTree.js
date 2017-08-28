@@ -1,9 +1,8 @@
-import React, { DOM as dom } from "react";
+import React from "react";
 import { storiesOf } from "@storybook/react";
-import _ManagedTree from "../shared/ManagedTree";
-const ManagedTree = React.createFactory(_ManagedTree);
+import ManagedTree from "../shared/ManagedTree";
 import { L10N } from "devtools-launchpad";
-import prefs from "../../utils/prefs";
+import { prefs } from "../../utils/prefs";
 
 import "../App.css";
 import "devtools-modules/src/themes/dark-theme.css";
@@ -15,58 +14,54 @@ if (typeof window == "object") {
   window.L10N.setBundle(require("../../../assets/panel/debugger.properties"));
 }
 
-function ManagedTreeFactory(options, { dir = "ltr", theme = "light" } = {}) {
+function ManagedTreeFactory({ dir = "ltr", theme = "dark", ...props }) {
   const themeClass = `theme-${theme}`;
   document.dir = dir;
   document.body.parentNode.className = themeClass;
 
   prefs.searchNav = true;
 
-  return dom.div(
-    {
-      className: "",
-      style: {
+  return (
+    <div
+      style={{
         width: "calc(100vw - 100px)",
         height: "calc(100vh - 100px)",
         margin: "auto",
         display: "flex",
         "flex-direction": "row"
-      }
-    },
-    dom.div(
-      {
-        className: `search-bar ${themeClass}`,
-        dir,
-        style: {
+      }}
+    >
+      <div
+        className={`search-bar ${themeClass}`}
+        dir={dir}
+        style={{
           width: "100vw",
           "align-self": "center"
-        }
-      },
-      ManagedTree({
-        ...{
-          itemHeight: 20,
-          getParent: item => null,
-          getChildren: () => {},
-          getRoots: () => {},
-          getPath: () => {},
-          autoExpand: 0,
-          autoExpandDepth: 0,
-          autoExpandAll: false,
-          disabledFocus: true,
-          onExpand: () => {},
-          renderItem: (item, depth) =>
-            dom.div(
-              {
-                style: { marginLeft: depth * 15 }
-              },
-              item.name
-            )
-        },
-        ...options
-      })
-    )
+        }}
+      >
+        <ManagedTree
+          itemHeight={20}
+          getParent={item => null}
+          getChildren={() => {}}
+          getRoots={() => {}}
+          getPath={() => {}}
+          autoExpand={0}
+          autoExpandDepth={0}
+          autoExpandAll={false}
+          disabledFocus={true}
+          onExpand={() => {}}
+          renderItem={(item, depth) =>
+            <div style={{ marginLeft: depth * 15 }}>
+              {item.name}
+            </div>}
+          {...props}
+        />
+      </div>
+    </div>
   );
 }
+
+ManagedTreeFactory.displayName = "ManagedTreeFactory";
 
 storiesOf("ManagedTree", module)
   .add("simple", () => {
@@ -84,13 +79,16 @@ storiesOf("ManagedTree", module)
         }
       ]
     };
-    return ManagedTreeFactory({
-      autoExpand: 1,
-      autoExpandDepth: 1,
-      getRoots: () => [root],
-      getChildren: item => item.children || [],
-      getPath: item => item.path
-    });
+
+    return (
+      <ManagedTreeFactory
+        autoExpand={1}
+        autoExpandDepth={1}
+        getRoots={() => [root]}
+        getChildren={item => item.children || []}
+        getPath={item => item.path}
+      />
+    );
   })
   .add("2 deep tree", () => {
     const root = {
@@ -113,11 +111,13 @@ storiesOf("ManagedTree", module)
         }
       ]
     };
-    return ManagedTreeFactory({
-      autoExpand: 1,
-      autoExpandDepth: 1,
-      getRoots: () => [root],
-      getChildren: item => item.children || [],
-      getPath: item => item.path
-    });
+    return (
+      <ManagedTreeFactory
+        autoExpand={1}
+        autoExpandDepth={1}
+        getRoots={() => [root]}
+        getChildren={item => item.children || []}
+        getPath={item => item.path}
+      />
+    );
   });
