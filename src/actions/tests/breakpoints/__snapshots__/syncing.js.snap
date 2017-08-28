@@ -17,14 +17,14 @@ Object {
       "column": undefined,
       "line": 3,
       "sourceId": "magic.js",
-      "sourceUrl": "http://localhost:8000//magic.js",
+      "sourceUrl": "http://localhost:8000/magic.js",
     },
   },
   "previousLocation": Object {
     "column": undefined,
     "line": 3,
     "sourceId": "magic.js",
-    "sourceUrl": "http://localhost:8000//magic.js",
+    "sourceUrl": "http://localhost:8000/magic.js",
   },
 }
 `;
@@ -46,14 +46,14 @@ Object {
       "column": undefined,
       "line": 3,
       "sourceId": "magic.js",
-      "sourceUrl": "http://localhost:8000//magic.js",
+      "sourceUrl": "http://localhost:8000/magic.js",
     },
   },
   "previousLocation": Object {
     "column": undefined,
     "line": 3,
     "sourceId": "magic.js",
-    "sourceUrl": "http://localhost:8000//magic.js",
+    "sourceUrl": "http://localhost:8000/magic.js",
   },
 }
 `;

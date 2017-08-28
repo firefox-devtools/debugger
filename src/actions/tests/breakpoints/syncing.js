@@ -54,13 +54,13 @@ function pendingBreakpoint(overrides) {
   return {
     location: {
       sourceId: "magic.js",
-      sourceUrl: "http://localhost:8000//magic.js",
+      sourceUrl: "http://localhost:8000/magic.js",
       line: 3,
       column: undefined
     },
     generatedLocation: {
       sourceId: "gen.js",
-      sourceUrl: "http://localhost:8000//gen.js",
+      sourceUrl: "http://localhost:8000/gen.js",
       line: 3,
       column: undefined
     },
