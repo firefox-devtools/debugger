@@ -8,6 +8,8 @@ import {
 import { getSource } from "../../selectors";
 
 async function _getGeneratedLocation(state, source, sourceMaps, location) {
+  console.log("gen loc", Object.keys(state.sources.sources.toJS()).join("\n"));
+
   const generatedLocation = await getGeneratedLocation(
     source,
     sourceMaps,
