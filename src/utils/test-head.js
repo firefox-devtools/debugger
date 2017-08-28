@@ -45,6 +45,7 @@ function makeSource(name: string, props: any = {}) {
   return Object.assign(
     {
       id: name,
+      loadedState: "loaded",
       url: `http://localhost:8000/examples/${name}`
     },
     props

@@ -8,6 +8,7 @@ import actions from "../../actions";
 import { getSelectedSource } from "../../selectors";
 import getVisibleBreakpoints from "../../selectors/visibleBreakpoints";
 import { makeLocationId } from "../../utils/breakpoint";
+import { isLoaded } from "../../utils/source";
 
 import type { SourceRecord, BreakpointsMap } from "../../reducers/types";
 
@@ -21,7 +22,10 @@ class Breakpoints extends Component {
   props: props;
 
   shouldComponentUpdate(nextProps: any) {
-    if (nextProps.selectedSource && nextProps.selectedSource.get("loading")) {
+    if (
+      nextProps.selectedSource &&
+      !isLoaded(nextProps.selectedSource.toJS())
+    ) {
       return false;
     }
 

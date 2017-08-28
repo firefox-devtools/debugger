@@ -11,7 +11,7 @@ import Svg from "../shared/Svg";
 
 import classnames from "classnames";
 import { isEnabled } from "devtools-config";
-import { isPretty } from "../../utils/source";
+import { isPretty, isLoaded } from "../../utils/source";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import PaneToggleButton from "../shared/Button/PaneToggle";
@@ -35,7 +35,7 @@ class SourceFooter extends PureComponent {
 
   prettyPrintButton() {
     const { selectedSource, togglePrettyPrint } = this.props;
-    const sourceLoaded = selectedSource && !selectedSource.get("loading");
+    const sourceLoaded = selectedSource && isLoaded(selectedSource.toJS());
 
     if (!shouldShowPrettyPrint(selectedSource)) {
       return;
@@ -62,7 +62,7 @@ class SourceFooter extends PureComponent {
 
   blackBoxButton() {
     const { selectedSource, toggleBlackBox } = this.props;
-    const sourceLoaded = selectedSource && !selectedSource.get("loading");
+    const sourceLoaded = selectedSource && isLoaded(selectedSource.toJS());
 
     const blackboxed = selectedSource.get("isBlackBoxed");
 

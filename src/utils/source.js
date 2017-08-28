@@ -199,6 +199,10 @@ function getMode(source: Source) {
   return { name: "text" };
 }
 
+function isLoaded(source: Source) {
+  return source.loadedState === "loaded";
+}
+
 export {
   isJavaScript,
   isPretty,
@@ -209,5 +213,6 @@ export {
   getFilenameFromURL,
   getSourcePath,
   getSourceLineCount,
-  getMode
+  getMode,
+  isLoaded
 };

@@ -17,7 +17,7 @@ import { setSymbols, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
 
-import { getPrettySourceURL } from "../utils/source";
+import { getPrettySourceURL, isLoaded } from "../utils/source";
 import { createPrettySource } from "./sources/createPrettySource";
 
 import { prefs } from "../utils/prefs";
@@ -303,7 +303,7 @@ export function togglePrettyPrint(sourceId: string) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
 
-    if (source && source.loading) {
+    if (source && !isLoaded(source)) {
       return {};
     }
 

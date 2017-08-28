@@ -41,7 +41,8 @@ export function createSource(
     isPrettyPrinted: false,
     isWasm: supportsWasm && source.introductionType === "wasm",
     sourceMapURL: source.sourceMapURL,
-    isBlackBoxed: false
+    isBlackBoxed: false,
+    loadedState: "unloaded"
   };
 }
 
