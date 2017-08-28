@@ -51,7 +51,7 @@ The Debugger supports two types of internationalization RTL (right to left) layo
 
 #### L10N
 
-[L10N][l10n] is a global module with two methods `getStr` and `getFormatStr`.
+[L10N][l10n] is a global module with two methods `getStr` and `getFormatStr`. The [docs][l10n-docs] include best practices for naming keys, localization notes, and other useful topics. 
 
 ```js
 L10N.getStr("scopes.header")
@@ -747,3 +747,4 @@ your questions on [slack][slack].
 [shimmed-context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/menu.js
 [context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-modules/client/framework/menu.js
 [web-workers]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
+[l10n-docs]: https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_content_best_practices#Choose_good_key_IDs
