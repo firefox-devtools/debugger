@@ -1,9 +1,12 @@
+// @flow
+
 import { getSymbols } from "../parser";
 import { containsPosition } from "../parser/utils/helpers";
 
+import type { Scope } from "../parser/types";
 import type { Location, Source } from "debugger-html";
 
-function findClosestScope(functions, location) {
+function findClosestScope(functions: Scope[], location: Location) {
   return functions.reduce((found, currNode) => {
     if (
       currNode.name === "anonymous" ||
