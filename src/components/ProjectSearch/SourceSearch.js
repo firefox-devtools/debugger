@@ -14,7 +14,8 @@ export default class SourceSearch extends Component {
     sources: Object,
     searchBottomBar: Object,
     queryString: string,
-    queryStringChangeHandler: (queryString: string) => void
+    queryStringChangeHandler: (queryString: string) => void,
+    clearSourceSearchQueryString: () => void
   };
 
   onEscape: Function;

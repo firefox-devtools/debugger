@@ -172,7 +172,10 @@ ProjectSearch.propTypes = {
   closeActiveSearch: PropTypes.func.isRequired,
   searchSources: PropTypes.func,
   activeSearch: PropTypes.string,
-  selectSource: PropTypes.func.isRequired
+  selectSource: PropTypes.func.isRequired,
+  sourceSearchQueryString: PropTypes.string,
+  setSourceSearchQueryString: PropTypes.func,
+  clearSourceSearchQueryString: PropTypes.func
 };
 
 ProjectSearch.contextTypes = {
