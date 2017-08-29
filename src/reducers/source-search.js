@@ -3,14 +3,12 @@ import type { SourceSearchAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 type SourceSearchState = {
-  queryString: string,
-  selectedItem: number
+  queryString: string
 };
 
 function InitialState(): Record<SourceSearchState> {
   return makeRecord({
-    queryString: "",
-    selectedItem: 0
+    queryString: ""
   })();
 }
 
