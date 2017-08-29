@@ -1,26 +1,24 @@
 // @flow
 import React, { Component } from "react";
 import "./Workers.css";
-debugger
+
 
 const dummyData = ["worker 1", "worker 2"];
 class Workers extends Component {
-  constructor(...args) {
-    super(...args);
-  }
-
   render() {
+    const {workers} = this.props;
+
     return (
       <div className="pane">
         <div className="pane-info">
           {/*L10N.getStr("noWorkersText")*/}
-          { this.renderItems(dummyData) }
+          { workers && workers.length > 0 ? this.renderWorkers(workers) : this.renderPlaceholder() }
         </div>
       </div>
     );
   }
 
-  renderItems(items) {
+  renderWorkers(items) {
     return (
       items.map(i => <div>{i}</div>)
     );
@@ -29,5 +27,9 @@ class Workers extends Component {
 
 Workers.displayName = "Workers";
 
+function mapStateToProps(state) {
+  return {
 
+  };
+}
 export default Workers;
