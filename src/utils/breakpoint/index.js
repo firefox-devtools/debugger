@@ -12,7 +12,7 @@ import type {
   PendingBreakpoint
 } from "debugger-html";
 
-import type { SourceRecord, State } from "../../reducers/types";
+import type { State } from "../../reducers/types";
 
 // Return the first argument that is a string, or null if nothing is a
 // string.
@@ -132,16 +132,4 @@ export function createPendingBreakpoint(bp: Breakpoint) {
     location: pendingLocation,
     generatedLocation: pendingGeneratedLocation
   };
-}
-
-export async function getGeneratedLocation(
-  source: SourceRecord,
-  sourceMaps: Object,
-  location: Location
-) {
-  if (!sourceMaps.isOriginalId(location.sourceId)) {
-    return location;
-  }
-
-  return await sourceMaps.getGeneratedLocation(location, source.toJS());
 }

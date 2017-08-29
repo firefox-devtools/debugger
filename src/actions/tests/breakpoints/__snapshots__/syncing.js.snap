@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reloading debuggee syncs with unchanged source 1`] = `
+Object {
+  "breakpoint": Object {
+    "condition": null,
+    "disabled": false,
+    "generatedLocation": Object {
+      "column": undefined,
+      "line": 3,
+      "sourceId": "gen.js",
+      "sourceUrl": "http://localhost:8000/gen.js",
+    },
+    "hidden": false,
+    "id": "magic.js:3:",
+    "location": Object {
+      "column": undefined,
+      "line": 3,
+      "sourceId": "magic.js",
+      "sourceUrl": "http://localhost:8000/magic.js",
+    },
+  },
+  "previousLocation": Object {
+    "column": undefined,
+    "line": 3,
+    "sourceId": "magic.js",
+    "sourceUrl": "http://localhost:8000/magic.js",
+  },
+}
+`;
+
+exports[`reloading debuggee updates a corresponding breakpoint for a changed source 1`] = `
+Object {
+  "breakpoint": Object {
+    "condition": null,
+    "disabled": false,
+    "generatedLocation": Object {
+      "column": undefined,
+      "line": 5,
+      "sourceId": "gen.js",
+      "sourceUrl": "http://localhost:8000/gen.js",
+    },
+    "hidden": false,
+    "id": "magic.js:3:",
+    "location": Object {
+      "column": undefined,
+      "line": 3,
+      "sourceId": "magic.js",
+      "sourceUrl": "http://localhost:8000/magic.js",
+    },
+  },
+  "previousLocation": Object {
+    "column": undefined,
+    "line": 3,
+    "sourceId": "magic.js",
+    "sourceUrl": "http://localhost:8000/magic.js",
+  },
+}
+`;

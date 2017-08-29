@@ -17,13 +17,13 @@ import configureStore from "../utils/create-store";
  * @memberof utils/test-head
  * @static
  */
-function createStore(client: any, initialState: any = {}) {
+function createStore(client: any, initialState: any = {}, sourceMapsMock: any) {
   return configureStore({
     log: false,
     makeThunkArgs: args => {
       return Object.assign({}, args, {
         client,
-        sourceMaps
+        sourceMaps: sourceMapsMock || sourceMaps
       });
     }
   })(combineReducers(reducers), initialState);

@@ -22,7 +22,7 @@ import remapLocations from "./breakpoints/remapLocations";
 // this will need to be changed so that addCLientBreakpoint is removed
 import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
 
-import type { SourceId } from "debugger-html";
+import type { Source } from "debugger-html";
 import type { ThunkArgs } from "./types";
 import type { PendingBreakpoint, Location } from "../types";
 import type { BreakpointsMap } from "../reducers/types";
@@ -41,18 +41,20 @@ type addBreakpointOptions = {
  * @param {PendingBreakpoint} $1.location PendingBreakpoint  value
  */
 export function syncBreakpoint(
-  sourceId: SourceId,
+  source: Source,
   pendingBreakpoint: PendingBreakpoint
 ) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const sourceId = source.id;
     const { line, sourceUrl, column } = pendingBreakpoint.location;
     const location = { sourceId, sourceUrl, line, column };
     const breakpoint = createBreakpoint(location, pendingBreakpoint);
 
     const syncPromise = syncClientBreakpoint(
-      sourceId,
+      getState,
       client,
       sourceMaps,
+      source,
       pendingBreakpoint
     );
 
@@ -132,7 +134,7 @@ export function removeBreakpoint(location: Location) {
     return dispatch({
       type: "REMOVE_BREAKPOINT",
       breakpoint: bp,
-      [PROMISE]: client.removeBreakpoint(bp)
+      [PROMISE]: client.removeBreakpoint(bp.generatedLocation)
     });
   };
 }
@@ -182,7 +184,7 @@ export function disableBreakpoint(location: Location) {
       throw new Error("attempt to disable unsaved breakpoint");
     }
 
-    await client.removeBreakpoint(bp);
+    await client.removeBreakpoint(bp.generatedLocation);
     const newBreakpoint = { ...bp, disabled: true };
 
     return dispatch({
