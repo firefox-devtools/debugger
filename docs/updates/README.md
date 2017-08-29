@@ -4,6 +4,17 @@ permalink: docs/updates
 
 ### Weekly Updates
 
+### [August 29nd](./updates-8-29-2017.md)
+
+* Finished move to JSX for all of our components
+* Improved testing of intermittents, we now have a script that finds them
+* Progress on the AST breakpoints -- we have added a util and tests for finding ast locations. Next step, add to breakpoint syncing
+* Improved breakpoints syncing -- we can now delete breakpoints that move outside of a source
+
+#### User Visible
+* the search combination keys for text are now displayed and style
+* Added copy functionality to the context menu of the editor
+
 ### [August 22nd](./updates-8-22-2017.md)
 
 * new release this week will include project search and outline view
