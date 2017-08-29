@@ -15,7 +15,7 @@ export default class SourceSearch extends Component {
     searchBottomBar: Object,
     queryString: string,
     queryStringChangeHandler: (queryString: string) => void,
-    clearSourceSearchQueryString: () => void
+    clearQueryString: () => void
   };
 
   onEscape: Function;
@@ -59,7 +59,7 @@ export default class SourceSearch extends Component {
   }
 
   close() {
-    this.props.clearSourceSearchQueryString();
+    this.props.clearQueryString();
     this.props.closeActiveSearch();
   }
 

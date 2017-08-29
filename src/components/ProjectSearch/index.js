@@ -114,12 +114,12 @@ class ProjectSearch extends Component {
         sources={sources}
         selectSource={selectSource}
         closeActiveSearch={closeActiveSearch}
-        clearSourceSearchQueryString={clearSourceSearchQueryString}
         searchBottomBar={
           <ToggleSearch kind="sources" toggle={this.toggleProjectTextSearch} />
         }
         queryString={sourceSearchQueryString}
         queryStringChangeHandler={setSourceSearchQueryString}
+        clearQueryString={clearSourceSearchQueryString}
       />
     );
   }

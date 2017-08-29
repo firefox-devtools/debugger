@@ -136,6 +136,9 @@ export default class Autocomplete extends Component {
       onChange:
         (e => {
           this.props.onChangeHandler(e.target.value);
+          this.setState({
+            selectedIndex: 0
+          });
         }) ||
         (e =>
           this.setState({
