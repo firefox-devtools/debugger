@@ -346,7 +346,7 @@ class Editor extends PureComponent {
   }
 
   onGutterClick(cm, line, gutter, ev) {
-    const { selectedSource, toggleBreakpoint } = this.props;
+    const { selectedSource, toggleBreakpoint, addOrToggleDisabledBreakpoint } = this.props;
 
     // ignore right clicks in the gutter
     if (
@@ -366,7 +366,11 @@ class Editor extends PureComponent {
     }
 
     if (gutter !== "CodeMirror-foldgutter") {
-      toggleBreakpoint(toSourceLine(selectedSource.get("id"), line));
+      if (ev.shiftKey) {
+        addOrToggleDisabledBreakpoint(toSourceLine(selectedSource.get("id"), line));
+      } else {
+        toggleBreakpoint(toSourceLine(selectedSource.get("id"), line));
+      }
     }
   }
 
@@ -707,6 +711,7 @@ Editor.propTypes = {
   endPanelSize: PropTypes.number,
   linesInScope: PropTypes.array,
   toggleBreakpoint: PropTypes.func.isRequired,
+  addOrToggleDisabledBreakpoint: PropTypes.func.isRequired,
   toggleDisabledBreakpoint: PropTypes.func.isRequired
 };
 
