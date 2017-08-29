@@ -44,11 +44,11 @@ import type { State } from "../reducers/types";
 
 // If a request has been made to show this source, go ahead and
 // select it.
-function checkSelectedSource(state: State, dispatch, source) {
+async function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
 
   if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
-    dispatch(selectSource(source.id, { line: pendingLocation.line }));
+    await dispatch(selectSource(source.id, { line: pendingLocation.line }));
   }
 }
 
@@ -91,7 +91,7 @@ export function newSource(source: Source) {
       await dispatch(loadSourceMap(source));
     }
 
-    checkSelectedSource(getState(), dispatch, source);
+    await checkSelectedSource(getState(), dispatch, source);
     await checkPendingBreakpoints(getState(), dispatch, source);
   };
 }
@@ -153,10 +153,10 @@ export function selectSourceURL(
   url: string,
   options: SelectSourceOptions = {}
 ) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (source) {
-      dispatch(selectSource(source.get("id"), options));
+      await dispatch(selectSource(source.get("id"), options));
     } else {
       dispatch({
         type: "SELECT_SOURCE_URL",

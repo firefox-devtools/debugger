@@ -124,7 +124,7 @@ function setBreakpoint(
     });
 }
 
-function removeBreakpoint(generatedLocation: any) {
+function removeBreakpoint(generatedLocation: Location) {
   try {
     const id = makeLocationId(generatedLocation);
     const bpClient = bpClients[id];
