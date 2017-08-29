@@ -14,7 +14,8 @@ import {
   getSources,
   getActiveSearchState,
   getTextSearchResults,
-  getTextSearchQuery
+  getTextSearchQuery,
+  getSourceSearchQueryString
 } from "../../selectors";
 
 import "./ProjectSearch.css";
@@ -104,19 +105,21 @@ class ProjectSearch extends Component {
       sources,
       selectSource,
       closeActiveSearch,
-      query,
-      addSearchQuery
+      sourceSearchQueryString,
+      setSourceSearchQueryString,
+      clearSourceSearchQueryString
     } = this.props;
     return (
       <SourceSearch
         sources={sources}
         selectSource={selectSource}
         closeActiveSearch={closeActiveSearch}
+        clearSourceSearchQueryString={clearSourceSearchQueryString}
         searchBottomBar={
           <ToggleSearch kind="sources" toggle={this.toggleProjectTextSearch} />
         }
-        queryString={query}
-        queryStringChangeHandler={addSearchQuery}
+        queryString={sourceSearchQueryString}
+        queryStringChangeHandler={setSourceSearchQueryString}
       />
     );
   }
@@ -128,7 +131,7 @@ class ProjectSearch extends Component {
       searchSources,
       closeActiveSearch,
       selectSource,
-      query
+      textSearchQueryString
     } = this.props;
 
     return (
@@ -138,7 +141,7 @@ class ProjectSearch extends Component {
         searchSources={searchSources}
         closeActiveSearch={closeActiveSearch}
         selectSource={selectSource}
-        query={query}
+        query={textSearchQueryString}
         searchBottomBar={
           <ToggleSearch kind="project" toggle={this.toggleSourceSearch} />
         }
@@ -164,7 +167,7 @@ class ProjectSearch extends Component {
 ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
   results: PropTypes.object,
-  query: PropTypes.string,
+  textSearchQueryString: PropTypes.string,
   setActiveSearch: PropTypes.func.isRequired,
   closeActiveSearch: PropTypes.func.isRequired,
   searchSources: PropTypes.func,
@@ -183,7 +186,8 @@ export default connect(
     sources: getSources(state),
     activeSearch: getActiveSearchState(state),
     results: getTextSearchResults(state),
-    query: getTextSearchQuery(state) || ""
+    textSearchQueryString: getTextSearchQuery(state),
+    sourceSearchQueryString: getSourceSearchQueryString(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);
