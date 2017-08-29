@@ -29,6 +29,7 @@
     "lint-fix": "yarn lint-js -- --fix",
     "mochi": "node bin/mochi.js",
     "mochid": "node bin/mochi.js --jsdebugger",
+    "mochir": "node bin/mochi.js --repeat 10",
     "test": "jest",
     "test:watch": "jest --watch",
     "test-coverage": "yarn test -- --coverage",
