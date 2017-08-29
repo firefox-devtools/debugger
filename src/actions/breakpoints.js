@@ -22,7 +22,7 @@ import remapLocations from "./breakpoints/remapLocations";
 // this will need to be changed so that addCLientBreakpoint is removed
 import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
 
-import type { SourceId } from "debugger-html";
+import type { SourceId, Source } from "debugger-html";
 import type { ThunkArgs } from "./types";
 import type { PendingBreakpoint, Location } from "../types";
 import type { BreakpointsMap } from "../reducers/types";
