@@ -13,7 +13,7 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { remapBreakpoints } from "./breakpoints";
 
-import { setSymbols, setOutOfScopeLocations } from "./ast";
+import { setEmptyLines, setSymbols, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
 
@@ -385,6 +385,7 @@ export function loadSourceText(source: Source) {
     });
 
     await dispatch(setSymbols(source.id));
+    await dispatch(setEmptyLines(source.id));
   };
 }
 
