@@ -334,6 +334,7 @@ export function togglePrettyPrint(sourceId: string) {
     );
 
     await dispatch(remapBreakpoints(sourceId));
+    await dispatch(setEmptyLines(newPrettySource.id));
 
     return dispatch(
       selectSource(newPrettySource.id, {
