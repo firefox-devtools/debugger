@@ -87,9 +87,7 @@ export function newSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: "ADD_SOURCE", source });
 
-    if (prefs.clientSourceMapsEnabled) {
-      await dispatch(loadSourceMap(source));
-    }
+    await dispatch(loadSourceMap(source));
 
     await checkSelectedSource(getState(), dispatch, source);
     await checkPendingBreakpoints(getState(), dispatch, source);

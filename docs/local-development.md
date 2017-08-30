@@ -97,26 +97,26 @@ User preferences are stored in Prefs. Prefs uses localStorage locally and firefo
 **Setting a default value**
 
 ```js
-pref("devtools.debugger.client-source-maps-enabled", true);
+pref("devtools.debugger.example", true);
 ```
 
 **Adding a pref**
 ```js
 const prefs = new PrefsHelper("devtools", {
-  clientSourceMapsEnabled: ["Bool", "debugger.client-source-maps-enabled"],
+  examplePrefEnabled: ["Bool", "debugger.example"],
 });
 ```
 
 **Reading a pref**
 ```js
 const { prefs } = require("./utils/prefs");
-console.log(prefs.clientSourceMapsEnabled)
+console.log(prefs.examplePrefEnabled)
 ```
 
 **Setting a pref**
 ```js
 const { prefs } = require("./utils/prefs");
-prefs.clientSourceMapsEnabled = false;
+prefs.examplePrefEnabled = false;
 ```
 
 ### SVGs
