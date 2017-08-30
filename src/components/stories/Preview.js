@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
@@ -189,6 +189,10 @@ function PreviewFactory({ dir = "ltr", theme = "light", ...props }) {
 }
 
 PreviewFactory.displayName = "PreviewFactory";
+PreviewFactory.propTypes = {
+  dir: PropTypes.string,
+  theme: PropTypes.string
+};
 
 storiesOf("Preview", module)
   .add("simple Object", () => {
