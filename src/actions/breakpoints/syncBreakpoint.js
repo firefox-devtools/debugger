@@ -2,7 +2,9 @@ import {
   makeLocationId,
   locationMoved,
   assertBreakpoint,
-  assertPendingBreakpoint
+  assertPendingBreakpoint,
+  findScopeByName,
+  getASTLocation
 } from "../../utils/breakpoint";
 
 import { getGeneratedLocation } from "../../utils/source-maps";
@@ -22,6 +24,15 @@ export async function syncClientBreakpoint(
     ? originalToGeneratedId(sourceId)
     : sourceId;
 
+  const astLocation = pendingBreakpoint.astLocation;
+  const scope = await findScopeByName(source, astLocation.name);
+  const scopeLocation = {
+    line: scope.location.start.line + astLocation.offset.line,
+    column: astLocation.offset.column,
+    sourceUrl: source.url,
+    sourceId
+  };
+
   // this is the generatedLocation of the pending breakpoint, with
   // the source id updated to reflect the new connection
   const generatedLocation = {
@@ -40,12 +51,18 @@ export async function syncClientBreakpoint(
   // early return if breakpoint is disabled, send overrides to update
   // the id as expected
   if (pendingBreakpoint.disabled) {
+    const newGeneratedLocation = await getGeneratedLocation(
+      getState(),
+      source,
+      scopeLocation,
+      sourceMaps
+    );
     const newLocation = await sourceMaps.getOriginalLocation(generatedLocation);
 
     const breakpoint = {
       ...pendingBreakpoint,
       id: makeLocationId(newLocation),
-      generatedLocation,
+      newGeneratedLocation,
       location: newLocation
     };
 
@@ -66,13 +83,13 @@ export async function syncClientBreakpoint(
     const newGeneratedLocation = await getGeneratedLocation(
       getState(),
       source,
-      location,
+      scopeLocation,
       sourceMaps
     );
 
     if (locationMoved(generatedLocation, newGeneratedLocation)) {
       await client.removeBreakpoint(generatedLocation);
-      await client.setBreakpoint(
+      const bp = await client.setBreakpoint(
         newGeneratedLocation,
         pendingBreakpoint.condition,
         sourceMaps.isOriginalId(sourceId)
@@ -93,8 +110,15 @@ export async function syncClientBreakpoint(
   /** ******* CASE 3: Add New Breakpoint ***********/
   // If we are not disabled, set the breakpoint on the server and get
   // that info so we can set it on our breakpoints.
+  const scopeGeneratedLocation = await getGeneratedLocation(
+    getState(),
+    source,
+    scopeLocation,
+    sourceMaps
+  );
+
   const clientBreakpoint = await client.setBreakpoint(
-    generatedLocation,
+    scopeGeneratedLocation,
     pendingBreakpoint.condition,
     sourceMaps.isOriginalId(sourceId)
   );

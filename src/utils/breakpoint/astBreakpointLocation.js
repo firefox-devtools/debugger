@@ -8,6 +8,7 @@ import type { Location, Source } from "debugger-html";
 
 function findClosestScope(functions: Scope[], location: Location) {
   return functions.reduce((found, currNode) => {
+    console.log(currNode);
     if (
       currNode.name === "anonymous" ||
       !containsPosition(currNode.location, location)
@@ -19,8 +20,11 @@ function findClosestScope(functions: Scope[], location: Location) {
       return currNode;
     }
 
+    if (found.location.start.line > currNode.location.start.line) {
+      return found;
+    }
     if (
-      found.location.start.line > currNode.location.start.line ||
+      found.location.start.line === currNode.location.start.line &&
       found.location.start.column > currNode.location.start.column
     ) {
       return found;
@@ -32,19 +36,24 @@ function findClosestScope(functions: Scope[], location: Location) {
 
 export async function getASTLocation(source: Source, location: Location) {
   const symbols = await getSymbols(source);
-  const functions = [...symbols.functions, ...symbols.memberExpressions];
+  const functions = [...symbols.functions];
 
   const scope = findClosestScope(functions, location);
   if (scope) {
     const line = location.line - scope.location.start.line;
     const column = location.column;
-    return { name: scope.name, offset: { line, column } };
+    return {
+      name: scope.name,
+      location: scope.location.start,
+      offset: { line, column }
+    };
   }
   return { name: undefined, offset: location };
 }
 
 export async function findScopeByName(source: Source, name: String) {
   const symbols = await getSymbols(source);
+  console.log(source, symbols);
   const functions = symbols.functions;
 
   return functions.find(node => node.name === name);

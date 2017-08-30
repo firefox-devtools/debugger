@@ -72,6 +72,7 @@ function update(
 }
 
 function addBreakpoint(state, action) {
+  console.log(action);
   if (action.status === "start") {
     const { breakpoint } = action;
     const locationId = makeLocationId(breakpoint.location);
