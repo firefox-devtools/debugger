@@ -16,7 +16,7 @@ type State = {
 };
 
 type Props = {
-  selectItem: (event: SyntheticKeyboardEvent, item: Object) => void,
+  selectItem: (event: SyntheticKeyboardEvent<>, item: Object) => void,
   onSelectedItem: (selectedItem: Object) => void,
   items: Array<Object>,
   close: (value: any) => void,
@@ -26,9 +26,7 @@ type Props = {
   children: any
 };
 
-export default class Autocomplete extends Component {
-  props: Props;
-  state: State;
+export default class Autocomplete extends Component<State> {
   static defaultProps: Object;
 
   constructor(props: Props) {
@@ -60,7 +58,7 @@ export default class Autocomplete extends Component {
     });
   }
 
-  onKeyDown(e: SyntheticKeyboardEvent) {
+  onKeyDown(e: SyntheticKeyboardEvent<>) {
     const searchResults = this.getSearchResults(),
       resultCount = searchResults.length;
 

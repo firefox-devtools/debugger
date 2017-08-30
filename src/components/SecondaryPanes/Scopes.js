@@ -15,11 +15,10 @@ import { ObjectInspector } from "devtools-reps";
 
 import "./Scopes.css";
 
-class Scopes extends PureComponent {
-  state: {
-    scopes: any
-  };
-
+class Scopes extends PureComponent<{
+  scopes: any
+}> {
+  static defaultProps: $FlowFixMeProps;
   constructor(props, ...args) {
     const { pauseInfo, selectedFrame, frameScopes } = props;
 

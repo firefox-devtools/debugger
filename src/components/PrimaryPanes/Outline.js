@@ -24,7 +24,8 @@ type Props = {
   selectedSource: ?SourceRecord
 };
 
-class Outline extends Component<Props, State> {
+class Outline extends Component<> {
+  static defaultProps: Props;
   constructor(props) {
     super(props);
     this.state = {};

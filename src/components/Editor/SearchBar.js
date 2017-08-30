@@ -67,7 +67,8 @@ type Props = {
 
 import "./SearchBar.css";
 
-class SearchBar extends Component<Props, State> {
+class SearchBar extends Component<> {
+  static defaultProps: Props;
   constructor(props) {
     super(props);
     this.state = {
@@ -157,7 +158,7 @@ class SearchBar extends Component<Props, State> {
     }
   }
 
-  onEscape(e: SyntheticKeyboardEvent<any>) {
+  onEscape(e: SyntheticKeyboardEvent<>) {
     this.closeSearch(e);
   }
 
@@ -169,7 +170,7 @@ class SearchBar extends Component<Props, State> {
     }
   }
 
-  closeSearch(e: SyntheticEvent<any>) {
+  closeSearch(e: SyntheticEvent<>) {
     const { editor, setFileSearchQuery, searchOn } = this.props;
 
     if (editor && searchOn) {
@@ -182,7 +183,7 @@ class SearchBar extends Component<Props, State> {
     }
   }
 
-  toggleSearch(e: SyntheticKeyboardEvent<any>) {
+  toggleSearch(e: SyntheticKeyboardEvent<>) {
     e.stopPropagation();
     e.preventDefault();
     const { editor } = this.props;
@@ -277,7 +278,7 @@ class SearchBar extends Component<Props, State> {
     this.updateSearchResults(ch, line, matches);
   }
 
-  traverseResults(e: SyntheticEvent<any>, rev: boolean) {
+  traverseResults(e: SyntheticEvent<>, rev: boolean) {
     e.stopPropagation();
     e.preventDefault();
     const ed = this.props.editor;
@@ -309,7 +310,7 @@ class SearchBar extends Component<Props, State> {
     return this.doSearch(e.target.value);
   }
 
-  onKeyUp(e: SyntheticKeyboardEvent<any>) {
+  onKeyUp(e: SyntheticKeyboardEvent<>) {
     if (e.key !== "Enter" && e.key !== "F3") {
       return;
     }

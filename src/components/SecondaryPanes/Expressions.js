@@ -53,16 +53,10 @@ function getValue(expression) {
   };
 }
 
-class Expressions extends PureComponent {
-  _input: null | any;
-
-  state: {
-    editing: null | Node
-  };
-
-  renderExpression: Function;
-
-  props: {
+class Expressions extends PureComponent<{
+  editing: null | Node
+}> {
+  static defaultProps: {
     expressions: List<Expression>,
     addExpression: (string, ?Object) => void,
     evaluateExpressions: () => void,
@@ -71,6 +65,10 @@ class Expressions extends PureComponent {
     loadObjectProperties: () => void,
     loadedObjects: Map<string, any>
   };
+
+  _input: null | any;
+
+  renderExpression: Function;
 
   constructor(...args) {
     super(...args);

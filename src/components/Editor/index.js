@@ -103,7 +103,8 @@ type Props = {
   toggleDisabledBreakpoint: any
 };
 
-class Editor extends PureComponent<Props, State> {
+class Editor extends PureComponent<> {
+  static defaultProps: Props;
   cbPanel: any;
   editor: SourceEditor;
   pendingJumpLocation: any;

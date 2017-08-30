@@ -29,7 +29,7 @@ function renderConditionalPanel({
     closePanel();
   }
 
-  function onKey(e: SyntheticKeyboardEvent<any>) {
+  function onKey(e: SyntheticKeyboardEvent<>) {
     if (e.key === "Enter") {
       saveAndClose();
     } else if (e.key === "Escape") {

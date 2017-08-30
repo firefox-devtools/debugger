@@ -63,7 +63,8 @@ function debugBtn(onClick, type, className, tooltip) {
   );
 }
 
-class SecondaryPanes extends Component {
+class SecondaryPanes extends Component<> {
+  static defaultProps: $FlowFixMeProps;
   renderBreakpointsToggle() {
     const {
       toggleAllBreakpoints,

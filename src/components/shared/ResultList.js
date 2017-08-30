@@ -15,18 +15,16 @@ type Props = {
   items: Array<ResultListItem>,
   selected: number,
   selectItem: (
-    event: SyntheticKeyboardEvent,
+    event: SyntheticKeyboardEvent<>,
     item: ResultListItem,
     index: number
   ) => void,
   size: string
 };
 
-export default class ResultList extends Component {
-  displayName: "ResultList";
-  props: Props;
-
+export default class ResultList extends Component<> {
   static defaultProps: Object;
+  displayName: "ResultList";
 
   constructor(props: Props) {
     super(props);

@@ -32,29 +32,17 @@ function renderFrameLocation({ source, location, library }: LocalFrame) {
   return dom.div({ className: "location" }, `${filename}: ${location.line}`);
 }
 
-export default class FrameComponent extends Component {
+export default class FrameComponent extends Component<> {
   static defaultProps: {
     hideLocation: boolean,
     shouldMapDisplayName: boolean
-  };
-
-  props: {
-    frame: LocalFrame,
-    selectedFrame: LocalFrame,
-    copyStackTrace: Function,
-    toggleFrameworkGrouping: Function,
-    selectFrame: Function,
-    frameworkGroupingOn: boolean,
-    hideLocation: boolean,
-    shouldMapDisplayName: boolean,
-    toggleBlackBox: Function
   };
 
   constructor() {
     super();
   }
 
-  onContextMenu(event: SyntheticKeyboardEvent) {
+  onContextMenu(event: SyntheticKeyboardEvent<>) {
     const {
       frame,
       copyStackTrace,
@@ -70,14 +58,14 @@ export default class FrameComponent extends Component {
     );
   }
 
-  onMouseDown(e: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
+  onMouseDown(e: SyntheticKeyboardEvent<>, frame: Frame, selectedFrame: Frame) {
     if (e.nativeEvent.which == 3 && selectedFrame.id != frame.id) {
       return;
     }
     this.props.selectFrame(frame);
   }
 
-  onKeyUp(event: SyntheticKeyboardEvent, frame: Frame, selectedFrame: Frame) {
+  onKeyUp(event: SyntheticKeyboardEvent<>, frame: Frame, selectedFrame: Frame) {
     if (event.key != "Enter" || selectedFrame.id == frame.id) {
       return;
     }

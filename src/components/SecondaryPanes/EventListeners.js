@@ -26,7 +26,8 @@ type Props = {
   removeBreakpoint: Location => void
 };
 
-class EventListeners extends Component<Props> {
+class EventListeners extends Component<> {
+  static defaultProps: Props;
   renderListener: Function;
 
   constructor(...args) {

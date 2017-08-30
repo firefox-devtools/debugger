@@ -31,7 +31,8 @@ type Props = {
   sourceSearchOn: boolean
 };
 
-class PrimaryPanes extends Component<Props, State> {
+class PrimaryPanes extends Component<> {
+  static defaultProps: Props;
   renderShortcut: Function;
   selectedPane: String;
   showPane: Function;

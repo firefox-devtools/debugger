@@ -50,7 +50,8 @@ type Props = {
   debuggeeUrl: string
 };
 
-class SourcesTree extends Component<Props, State> {
+class SourcesTree extends Component<> {
+  static defaultProps: Props;
   focusItem: Function;
   selectItem: Function;
   getIcon: Function;

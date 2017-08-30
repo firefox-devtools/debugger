@@ -20,11 +20,8 @@ type AccordionState = {
   created: boolean[]
 };
 
-class Accordion extends Component {
-  state: AccordionState;
-
-  props: Props;
-
+class Accordion extends Component<AccordionState> {
+  static defaultProps: Props;
   constructor(props: Props) {
     super();
 

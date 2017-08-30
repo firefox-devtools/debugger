@@ -47,7 +47,8 @@ type State = {
   endPanelSize: number
 };
 
-class App extends Component<Props, State> {
+class App extends Component<> {
+  static defaultProps: Props;
   props: Props;
   onLayoutChange: Function;
   getChildContext: Function;

@@ -31,7 +31,8 @@ type Props = {
   selectSource: any
 };
 
-class ProjectSearch extends Component<Props, State> {
+class ProjectSearch extends Component<> {
+  static defaultProps: Props;
   onEscape: Function;
   close: Function;
   toggleProjectTextSearch: Function;

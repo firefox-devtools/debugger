@@ -40,11 +40,10 @@ import "./Frames.css";
 
 const NUM_FRAMES_SHOWN = 7;
 
-class Frames extends Component {
-  state: {
-    showAllFrames: boolean
-  };
-
+class Frames extends Component<{
+  showAllFrames: boolean
+}> {
+  static defaultProps: $FlowFixMeProps;
   renderFrames: Function;
   toggleFramesDisplay: Function;
   truncateFrames: Function;

@@ -59,10 +59,8 @@ type SymbolModalState = {
 
 import "./SymbolModal.css";
 
-class SymbolModal extends Component {
-  state: SymbolModalState;
-
-  props: {
+class SymbolModal extends Component<SymbolModalState> {
+  static defaultProps: {
     enabled: boolean,
     selectSource: (string, ?SelectSourceOptions) => void,
     selectedSource?: SourceRecord,
@@ -116,17 +114,17 @@ class SymbolModal extends Component {
     }
   }
 
-  openSymbolModal(_, e: SyntheticEvent) {
+  openSymbolModal(_, e: SyntheticEvent<>) {
     e.preventDefault();
     e.stopPropagation();
     this.props.setActiveSearch("symbol");
   }
 
-  onClick(e: SyntheticEvent) {
+  onClick(e: SyntheticEvent<>) {
     e.stopPropagation();
   }
 
-  onChange(e: SyntheticInputEvent) {
+  onChange(e: SyntheticInputEvent<>) {
     const { selectedSource } = this.props;
     if (!selectedSource || !selectedSource.get("text")) {
       return;
@@ -142,7 +140,7 @@ class SymbolModal extends Component {
     this.setState({ query: "" });
   }
 
-  selectResultItem(e: SyntheticEvent, item: ?FormattedSymbolDeclaration) {
+  selectResultItem(e: SyntheticEvent<>, item: ?FormattedSymbolDeclaration) {
     const { selectSource, selectedSource } = this.props;
 
     if (!selectedSource || !item) {
@@ -208,7 +206,7 @@ class SymbolModal extends Component {
     }
   }
 
-  onKeyUp(e: SyntheticKeyboardEvent) {
+  onKeyUp(e: SyntheticKeyboardEvent<>) {
     e.preventDefault();
     const { enabled } = this.props;
     const { results, resultsIndex } = this.state;

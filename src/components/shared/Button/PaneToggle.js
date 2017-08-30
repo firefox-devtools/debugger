@@ -12,9 +12,8 @@ type Props = {
   position: string
 };
 
-class PaneToggleButton extends Component {
-  props: Props;
-
+class PaneToggleButton extends Component<> {
+  static defaultProps: Props;
   shouldComponentUpdate(nextProps: Props) {
     const { collapsed, horizontal } = this.props;
 

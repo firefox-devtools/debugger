@@ -8,7 +8,8 @@ type Props = {
   editor: Object
 };
 
-class HighlightLines extends Component<Props> {
+class HighlightLines extends Component<> {
+  static defaultProps: Props;
   highlightLineRange: Function;
 
   constructor() {

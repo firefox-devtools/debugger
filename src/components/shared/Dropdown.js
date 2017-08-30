@@ -2,13 +2,13 @@
 import React, { Component } from "react";
 import "./Dropdown.css";
 
-class Dropdown extends Component {
-  props: {
+class Dropdown extends Component<{
+  dropdownShown: boolean
+}> {
+  static defaultProps: {
     panel: Object
   };
-  state: {
-    dropdownShown: boolean
-  };
+
   toggleDropdown: Function;
   renderPanel: Function;
   renderButton: Function;
@@ -26,7 +26,7 @@ class Dropdown extends Component {
     this.renderMask = this.renderMask.bind(this);
   }
 
-  toggleDropdown(e: SyntheticKeyboardEvent) {
+  toggleDropdown(e: SyntheticKeyboardEvent<>) {
     this.setState({
       dropdownShown: !this.state.dropdownShown
     });

@@ -101,7 +101,8 @@ type Props = {
   searchOn: boolean
 };
 
-class SourceTabs extends PureComponent<Props, State> {
+class SourceTabs extends PureComponent<> {
+  static defaultProps: Props;
   state: State;
   onTabContextMenu: Function;
   showContextMenu: Function;

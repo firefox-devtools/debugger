@@ -100,7 +100,8 @@ type Props = {
   isWaitingOnBreak: boolean
 };
 
-class CommandBar extends Component<Props> {
+class CommandBar extends Component<> {
+  static defaultProps: Props;
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     COMMANDS.forEach(action => shortcuts.off(getKey(action)));

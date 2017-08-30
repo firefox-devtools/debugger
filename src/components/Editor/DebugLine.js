@@ -15,7 +15,8 @@ type State = {
   }
 };
 
-export default class DebugLine extends Component<Props, State> {
+export default class DebugLine extends Component<> {
+  static defaultProps: Props;
   constructor() {
     super();
     this.state = { debugExpression: { clear: () => {} } };

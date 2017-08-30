@@ -26,14 +26,10 @@ function renderFrameLocation(frame: Frame) {
   );
 }
 
-export default class Group extends Component {
-  state: {
-    expanded: boolean
-  };
-
-  toggleFrames: Function;
-
-  props: {
+export default class Group extends Component<{
+  expanded: boolean
+}> {
+  static defaultProps: {
     group: LocalFrame[],
     selectedFrame: LocalFrame,
     selectFrame: Function,
@@ -43,6 +39,8 @@ export default class Group extends Component {
     frameworkGroupingOn: boolean
   };
 
+  toggleFrames: Function;
+
   constructor(...args: any[]) {
     super(...args);
     this.state = { expanded: false };
@@ -51,7 +49,7 @@ export default class Group extends Component {
     self.toggleFrames = this.toggleFrames.bind(this);
   }
 
-  onContextMenu(event: SyntheticKeyboardEvent) {
+  onContextMenu(event: SyntheticKeyboardEvent<>) {
     const {
       group,
       copyStackTrace,

@@ -34,7 +34,8 @@ type Props = {
   selectSourceURL: (string, Object) => void
 };
 
-export class Preview extends Component<Props> {
+export class Preview extends Component<> {
+  static defaultProps: Props;
   marker: any;
   pos: any;
 

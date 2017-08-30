@@ -15,7 +15,8 @@ type Props = {
   breakpoint: Object,
   showCallSite: Boolean
 };
-export default class CallSite extends Component<Props> {
+export default class CallSite extends Component<> {
+  static defaultProps: Props;
   addCallSite: Function;
   marker: ?MarkerType;
 

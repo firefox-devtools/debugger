@@ -14,7 +14,8 @@ type Props = {
   editor: any
 };
 
-class HitMarker extends Component<Props> {
+class HitMarker extends Component<> {
+  static defaultProps: Props;
   addMarker() {
     const hitData = this.props.hitData;
     const line = hitData.line - 1;

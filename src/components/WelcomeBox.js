@@ -17,9 +17,8 @@ type Props = {
   endPanelCollapsed: boolean
 };
 
-class WelcomeBox extends Component {
-  props: Props;
-
+class WelcomeBox extends Component<> {
+  static defaultProps: Props;
   renderToggleButton() {
     const { horizontal, endPanelCollapsed, togglePaneCollapse } = this.props;
     if (horizontal) {

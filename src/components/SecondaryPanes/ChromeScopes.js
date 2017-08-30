@@ -44,7 +44,8 @@ type Props = {
   pauseInfo?: any
 };
 
-class Scopes extends Component<Props> {
+class Scopes extends Component<> {
+  static defaultProps: Props;
   objectCache: Object;
   getChildren: Function;
   onExpand: Function;

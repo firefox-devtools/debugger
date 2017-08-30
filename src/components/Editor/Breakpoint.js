@@ -28,7 +28,8 @@ type Props = {
   editor: Object
 };
 
-class Breakpoint extends Component<Props> {
+class Breakpoint extends Component<> {
+  static defaultProps: Props;
   addBreakpoint: Function;
 
   constructor() {
