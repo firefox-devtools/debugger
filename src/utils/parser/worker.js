@@ -3,6 +3,7 @@ import { getVariablesInScope } from "./scopes";
 import getSymbols, { clearSymbols } from "./getSymbols";
 import getOutOfScopeLocations from "./getOutOfScopeLocations";
 import { getNextStep } from "./steps";
+import getEmptyLines from "./getEmptyLines";
 
 import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
@@ -13,5 +14,6 @@ self.onmessage = workerHandler({
   getSymbols,
   clearSymbols,
   getVariablesInScope,
-  getNextStep
+  getNextStep,
+  getEmptyLines
 });
