@@ -362,6 +362,33 @@ export function toggleBreakpoint(line: number, column?: number) {
   };
 }
 
+export function addOrToggleDisabledBreakpoint(line: number, column?: number) {
+  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const selectedSource = getSelectedSource(getState());
+    const bp = getBreakpointAtLocation(getState(), { line, column });
+
+    if (bp && bp.loading) {
+      return;
+    }
+
+    if (bp) {
+      // NOTE: it's possible the breakpoint has slid to a column
+      return dispatch(
+        toggleDisabledBreakpoint(line, column || bp.location.column)
+      );
+    }
+
+    return dispatch(
+      addBreakpoint({
+        sourceId: selectedSource.get("id"),
+        sourceUrl: selectedSource.get("url"),
+        line: line,
+        column: column
+      })
+    );
+  };
+}
+
 export function toggleDisabledBreakpoint(line: number, column?: number) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpointAtLocation(getState(), { line, column });
