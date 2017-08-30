@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
@@ -57,6 +57,10 @@ function SearchInputFactory({ dir = "ltr", theme = "dark", ...props }) {
 }
 
 SearchInputFactory.displayName = "SearchInputFactory";
+SearchInputFactory.propTypes = {
+  dir: PropTypes.string,
+  theme: PropTypes.string
+};
 
 storiesOf("SearchInput", module)
   .add("simple", () => {

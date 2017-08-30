@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
@@ -54,6 +54,10 @@ function ResultListFactory({ dir = "ltr", theme = "dark", ...props }) {
 }
 
 ResultListFactory.displayName = "ResultListFactory";
+ResultListFactory.propTypes = {
+  dir: PropTypes.string,
+  theme: PropTypes.string
+};
 
 storiesOf("ResultList", module)
   .add("no items", () => {
