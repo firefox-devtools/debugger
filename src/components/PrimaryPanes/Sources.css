@@ -106,7 +106,7 @@
   transition: all 0.25s ease;
   overflow: hidden;
   padding: 5px;
-  margin-bottom: 4px;
+  margin-bottom: 0px;
   margin-top: -1px;
 }
 
