@@ -5,6 +5,7 @@ import { Component } from "react";
 
 import actions from "../../actions";
 import { getSelectedSource, getEmptyLines } from "../../selectors";
+import type { SourceRecord } from "../../reducers/types";
 
 import "./EmptyLines.css";
 
