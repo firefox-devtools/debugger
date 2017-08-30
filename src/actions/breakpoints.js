@@ -45,11 +45,6 @@ export function syncBreakpoint(
   pendingBreakpoint: PendingBreakpoint
 ) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const sourceId = source.id;
-    const { line, sourceUrl, column } = pendingBreakpoint.location;
-    const location = { sourceId, sourceUrl, line, column };
-    const breakpoint = createBreakpoint(location, pendingBreakpoint);
-
     const syncPromise = syncClientBreakpoint(
       getState,
       client,
@@ -60,7 +55,6 @@ export function syncBreakpoint(
 
     return dispatch({
       type: "SYNC_BREAKPOINT",
-      breakpoint,
       [PROMISE]: syncPromise
     });
   };

@@ -24,11 +24,11 @@ export function setSymbols(sourceId: SourceId) {
     }
 
     const source = sourceRecord.toJS();
-    if (!source.text || hasSymbols(getState(), source)) {
+    if (!source.text) {
       return;
     }
 
-    const symbols = await parser.getSymbols(source);
+    const symbols = await parser.getSymbols(source, true);
 
     dispatch({
       type: "SET_SYMBOLS",

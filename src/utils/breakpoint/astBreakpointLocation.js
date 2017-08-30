@@ -8,7 +8,6 @@ import type { Location, Source } from "debugger-html";
 
 function findClosestScope(functions: Scope[], location: Location) {
   return functions.reduce((found, currNode) => {
-    console.log(currNode);
     if (
       currNode.name === "anonymous" ||
       !containsPosition(currNode.location, location)
@@ -53,7 +52,6 @@ export async function getASTLocation(source: Source, location: Location) {
 
 export async function findScopeByName(source: Source, name: String) {
   const symbols = await getSymbols(source);
-  console.log(source, symbols);
   const functions = symbols.functions;
 
   return functions.find(node => node.name === name);

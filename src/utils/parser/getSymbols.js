@@ -177,8 +177,8 @@ function extractSymbols(source: Source) {
   };
 }
 
-export default function getSymbols(source: Source): SymbolDeclarations {
-  if (symbolDeclarations.has(source.id)) {
+export default function getSymbols(source: Source, update): SymbolDeclarations {
+  if (symbolDeclarations.has(source.id) && !update) {
     const symbols = symbolDeclarations.get(source.id);
     if (symbols) {
       return symbols;
