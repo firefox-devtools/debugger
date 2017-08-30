@@ -40,6 +40,16 @@ Array [
 ]
 `;
 
+exports[`ast setEmptyLines scopes 1`] = `
+Array [
+  0,
+  1,
+  6,
+  11,
+  12,
+]
+`;
+
 exports[`ast setPreview member expression 1`] = `
 Object {
   "cursorPos": undefined,

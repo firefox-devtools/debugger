@@ -38,6 +38,28 @@ export function setSymbols(sourceId: SourceId) {
   };
 }
 
+export function setEmptyLines(sourceId: SourceId) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const sourceRecord = getSource(getState(), sourceId);
+    if (!sourceRecord) {
+      return;
+    }
+
+    const source = sourceRecord.toJS();
+    if (!source.text) {
+      return;
+    }
+
+    const emptyLines = await parser.getEmptyLines(source);
+
+    dispatch({
+      type: "SET_EMPTY_LINES",
+      source,
+      emptyLines
+    });
+  };
+}
+
 export function setOutOfScopeLocations() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const location = getSelectedLocation(getState());
