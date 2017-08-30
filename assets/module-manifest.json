@@ -18582,7 +18582,7 @@
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/redux/middleware/promise.js": 193,
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/defer.js": 194,
       "../../lodash/toPairs.js": 795,
-      "../../lodash/_createToPairs.js": 196,
+      "../../lodash/_createToPairs.js": 812,
       "../../lodash/_baseToPairs.js": 796,
       "../../lodash/_getTag.js": 198,
       "../../lodash/_DataView.js": 199,
@@ -18590,7 +18590,7 @@
       "../../lodash/_Set.js": 201,
       "../../lodash/_WeakMap.js": 202,
       "../../lodash/_mapToArray.js": 203,
-      "../../lodash/_setToPairs.js": 204,
+      "../../lodash/_setToPairs.js": 813,
       "../../lodash/keys.js": 205,
       "../../lodash/_arrayLikeKeys.js": 206,
       "../../lodash/_baseTimes.js": 207,
@@ -18650,44 +18650,44 @@
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/editor/source-search.js": 261,
       "../../lodash/findIndex.js": 262,
       "../../lodash/_baseFindIndex.js": 263,
-      "../../lodash/_baseIteratee.js": 264,
-      "../../lodash/_baseMatches.js": 265,
-      "../../lodash/_baseIsMatch.js": 266,
+      "../../lodash/_baseIteratee.js": 814,
+      "../../lodash/_baseMatches.js": 826,
+      "../../lodash/_baseIsMatch.js": 831,
       "../../lodash/_Stack.js": 267,
       "../../lodash/_stackClear.js": 268,
       "../../lodash/_stackDelete.js": 269,
       "../../lodash/_stackGet.js": 270,
       "../../lodash/_stackHas.js": 271,
       "../../lodash/_stackSet.js": 272,
-      "../../lodash/_baseIsEqual.js": 273,
-      "../../lodash/_baseIsEqualDeep.js": 274,
-      "../../lodash/_equalArrays.js": 275,
+      "../../lodash/_baseIsEqual.js": 799,
+      "../../lodash/_baseIsEqualDeep.js": 832,
+      "../../lodash/_equalArrays.js": 800,
       "../../lodash/_SetCache.js": 276,
       "../../lodash/_setCacheAdd.js": 277,
       "../../lodash/_setCacheHas.js": 278,
-      "../../lodash/_arraySome.js": 279,
+      "../../lodash/_arraySome.js": 833,
       "../../lodash/_cacheHas.js": 280,
-      "../../lodash/_equalByTag.js": 281,
+      "../../lodash/_equalByTag.js": 834,
       "../../lodash/_Uint8Array.js": 282,
       "../../lodash/_setToArray.js": 283,
-      "../../lodash/_equalObjects.js": 284,
+      "../../lodash/_equalObjects.js": 835,
       "../../lodash/_getAllKeys.js": 285,
       "../../lodash/_baseGetAllKeys.js": 286,
       "../../lodash/_arrayPush.js": 287,
       "../../lodash/_getSymbols.js": 288,
       "../../lodash/_arrayFilter.js": 289,
       "../../lodash/stubArray.js": 290,
-      "../../lodash/_getMatchData.js": 291,
-      "../../lodash/_isStrictComparable.js": 292,
-      "../../lodash/_matchesStrictComparable.js": 293,
+      "../../lodash/_getMatchData.js": 836,
+      "../../lodash/_isStrictComparable.js": 801,
+      "../../lodash/_matchesStrictComparable.js": 803,
       "../../lodash/_baseMatchesProperty.js": 294,
-      "../../lodash/hasIn.js": 295,
-      "../../lodash/_baseHasIn.js": 296,
+      "../../lodash/hasIn.js": 837,
+      "../../lodash/_baseHasIn.js": 838,
       "../../lodash/_hasPath.js": 297,
       "../../lodash/identity.js": 298,
-      "../../lodash/property.js": 299,
-      "../../lodash/_baseProperty.js": 300,
-      "../../lodash/_basePropertyDeep.js": 301,
+      "../../lodash/property.js": 839,
+      "../../lodash/_baseProperty.js": 840,
+      "../../lodash/_basePropertyDeep.js": 841,
       "../../lodash/toInteger.js": 302,
       "../../lodash/toFinite.js": 303,
       "../../lodash/toNumber.js": 304,
@@ -19517,7 +19517,7 @@
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/search/worker.js": 1123,
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/selectors/linesInScope.js": 1124,
       "../../lodash/without.js": 1125,
-      "../../lodash/_baseDifference.js": 1126,
+      "../../lodash/_baseDifference.js": 1131,
       "../../lodash/isEqual.js": 1127,
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/ui.js": 1128,
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/test/integration/tests/sourcemaps-reloading.js": 1129,
@@ -19652,7 +19652,7 @@
       "../../svg-inline-loader/index.js!../../../assets/images/angular.svg": 247,
       "../../svg-inline-loader/index.js!../../../assets/images/redux.svg": 256,
       "../../svg-inline-loader/index.js!../../../assets/images/immutable.svg": 258,
-      "../../extract-text-webpack-plugin/dist/loader.js??ref--4-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/shared/Svg.css": 259,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--4-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/shared/Svg.css": 807,
       "../../extract-text-webpack-plugin/dist/loader.js??ref--4-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/shared/ManagedTree.css": 262,
       "../../extract-text-webpack-plugin/dist/loader.js??ref--4-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/shared/Button/Close.css": 264,
       "../../extract-text-webpack-plugin/dist/loader.js??ref--4-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/shared/SearchInput.css": 265,
@@ -19736,8 +19736,8 @@
       "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/shared/Button/PaneToggle.css": 434,
       "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/Editor/Footer.css": 475,
       "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/Editor/SearchBar.css": 633,
-      "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../devtools-reps/src/reps/reps.css": 651,
-      "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../devtools-reps/src/object-inspector/index.css": 652,
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../devtools-reps/src/reps/reps.css": 847,
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../devtools-reps/src/object-inspector/index.css": 848,
       "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/shared/BracketArrow.css": 653,
       "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/shared/Popover.css": 654,
       "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/Editor/Preview.css": 658,
@@ -19858,7 +19858,124 @@
       "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/Modal.css": 790,
       "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SymbolModal.css": 791,
       "../../webpack/buildin/global.js": 792,
-      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/sources-tree/sortTree.js": 794
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/sources-tree/sortTree.js": 794,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/source-maps.js": 797,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/components/shared/PreviewFunction.js": 798,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/breakpoint/astBreakpointLocation.js": 804,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/selectors/isSelectedFrameVisible.js": 805,
+      "../../svg-inline-loader/index.js!../../../assets/images/dojo.svg": 806,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--4-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/shared/PreviewFunction.css": 808,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/components/Editor/Preview/index.js": 809,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/components/Editor/Preview/Popup.js": 810,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--4-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/Editor/Preview/Popup.css": 811,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/parser/steps.js": 842,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../flow-typed/debugger-html.js": 843,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/parser/types.js": 844,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/parser/getEmptyLines.js": 845,
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/shared/PreviewFunction.css": 846,
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/Editor/Preview/Popup.css": 849,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Scopes.css": 850,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!components/LandingPage.css": 851,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!components/Tabs.css": 852,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!components/Sidebar.css": 853,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../devtools-contextmenu/menu.css": 854,
+      "../../url-loader/index.js!../assets/under_construction.png": 855,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!components/Root.css": 856,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/variables.css": 857,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/App.css": 858,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/menu.css": 859,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/reps.css": 860,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../devtools-splitter/src/SplitBox.css": 861,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/Svg.css": 862,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/ManagedTree.css": 863,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/Button/Close.css": 864,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/SearchInput.css": 865,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/ProjectSearch/TextSearch.css": 866,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/Autocomplete.css": 867,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/ResultList.css": 868,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/ProjectSearch/ProjectSearch.css": 869,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/PrimaryPanes/Sources.css": 870,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/PrimaryPanes/Outline.css": 871,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/PreviewFunction.css": 872,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/Editor/ConditionalPanel.css": 873,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/Button/PaneToggle.css": 874,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/Editor/Footer.css": 875,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/Editor/SearchBar.css": 876,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../devtools-reps/src/reps/reps.css": 877,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../devtools-reps/src/object-inspector/index.css": 878,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/BracketArrow.css": 879,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/Popover.css": 880,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/Editor/Preview/Popup.css": 881,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/Editor/CallSite.css": 882,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/Editor/Editor.css": 905,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/Editor/Highlight.css": 906,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Breakpoints.css": 907,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Expressions.css": 908,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Frames/Group.css": 909,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Frames/WhyPaused.css": 913,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Frames/Frames.css": 914,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/EventListeners.css": 915,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/Accordion.css": 917,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/CommandBar.css": 918,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/SecondaryPanes.css": 921,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/WelcomeBox.css": 922,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/Editor/Tabs.css": 923,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/Dropdown.css": 935,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/shared/Modal.css": 952,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SymbolModal.css": 962,
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/PreviewFunction.css": 966,
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/Preview/Popup.css": 973,
+      "../../../src/components/SecondaryPanes/Scopes.css": 974,
+      "components/LandingPage.css": 995,
+      "components/Tabs.css": 1005,
+      "components/Sidebar.css": 1006,
+      "../../devtools-contextmenu/menu.css": 1009,
+      "components/Root.css": 1010,
+      "../../../src/components/variables.css": 1011,
+      "../../../src/components/App.css": 1016,
+      "../../../src/components/shared/menu.css": 1017,
+      "../../../src/components/shared/reps.css": 1018,
+      "../../devtools-splitter/src/SplitBox.css": 1019,
+      "../../../src/components/shared/Svg.css": 1020,
+      "../../../src/components/shared/ManagedTree.css": 1021,
+      "../../../src/components/shared/Button/Close.css": 1022,
+      "../../../src/components/shared/SearchInput.css": 1024,
+      "../../../src/components/ProjectSearch/TextSearch.css": 1026,
+      "../../../src/components/shared/Autocomplete.css": 1027,
+      "../../../src/components/shared/ResultList.css": 1028,
+      "../../../src/components/ProjectSearch/ProjectSearch.css": 1030,
+      "../../../src/components/PrimaryPanes/Sources.css": 1031,
+      "../../../src/components/PrimaryPanes/Outline.css": 1034,
+      "../../../src/components/shared/PreviewFunction.css": 1035,
+      "../../../src/components/Editor/ConditionalPanel.css": 1036,
+      "../../../src/components/shared/Button/PaneToggle.css": 1037,
+      "../../../src/components/Editor/Footer.css": 1038,
+      "../../../src/components/Editor/SearchBar.css": 1039,
+      "../../devtools-reps/src/reps/reps.css": 1040,
+      "../../devtools-reps/src/object-inspector/index.css": 1041,
+      "../../../src/components/shared/BracketArrow.css": 1042,
+      "../../../src/components/shared/Popover.css": 1046,
+      "../../../src/components/Editor/Preview/Popup.css": 1047,
+      "../../../src/components/Editor/CallSite.css": 1048,
+      "../../../src/components/Editor/Editor.css": 1054,
+      "../../../src/components/Editor/Highlight.css": 1060,
+      "../../../src/components/SecondaryPanes/Breakpoints.css": 1061,
+      "../../../src/components/SecondaryPanes/Expressions.css": 1062,
+      "../../../src/components/SecondaryPanes/Frames/Group.css": 1063,
+      "../../../src/components/SecondaryPanes/Frames/WhyPaused.css": 1065,
+      "../../../src/components/SecondaryPanes/Frames/Frames.css": 1066,
+      "../../../src/components/SecondaryPanes/EventListeners.css": 1067,
+      "../../../src/components/shared/Accordion.css": 1068,
+      "../../../src/components/SecondaryPanes/CommandBar.css": 1069,
+      "../../../src/components/SecondaryPanes/SecondaryPanes.css": 1070,
+      "../../../src/components/WelcomeBox.css": 1071,
+      "../../../src/components/Editor/Tabs.css": 1116,
+      "../../../src/components/shared/Dropdown.css": 1121,
+      "../../../src/components/shared/Modal.css": 1122,
+      "../../../src/components/SymbolModal.css": 1125,
+      "../../svg-inline-loader/index.js!../assets/rocket.svg": 1126,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/parser/utils/contains.js": 1127,
+      "../../lodash/difference.js": 1129
     },
     "usedIds": {
       "0": 0,
@@ -20658,7 +20775,24 @@
       "794": 794,
       "795": 795,
       "796": 796,
+      "797": 797,
+      "798": 798,
+      "799": 799,
+      "800": 800,
+      "801": 801,
       "802": 802,
+      "803": 803,
+      "804": 804,
+      "805": 805,
+      "806": 806,
+      "807": 807,
+      "808": 808,
+      "809": 809,
+      "810": 810,
+      "811": 811,
+      "812": 812,
+      "813": 813,
+      "814": 814,
       "815": 815,
       "816": 816,
       "817": 817,
@@ -20670,10 +20804,63 @@
       "823": 823,
       "824": 824,
       "825": 825,
+      "826": 826,
       "827": 827,
       "828": 828,
       "829": 829,
       "830": 830,
+      "831": 831,
+      "832": 832,
+      "833": 833,
+      "834": 834,
+      "835": 835,
+      "836": 836,
+      "837": 837,
+      "838": 838,
+      "839": 839,
+      "840": 840,
+      "841": 841,
+      "842": 842,
+      "843": 843,
+      "844": 844,
+      "845": 845,
+      "846": 846,
+      "847": 847,
+      "848": 848,
+      "849": 849,
+      "850": 850,
+      "851": 851,
+      "852": 852,
+      "853": 853,
+      "854": 854,
+      "855": 855,
+      "856": 856,
+      "857": 857,
+      "858": 858,
+      "859": 859,
+      "860": 860,
+      "861": 861,
+      "862": 862,
+      "863": 863,
+      "864": 864,
+      "865": 865,
+      "866": 866,
+      "867": 867,
+      "868": 868,
+      "869": 869,
+      "870": 870,
+      "871": 871,
+      "872": 872,
+      "873": 873,
+      "874": 874,
+      "875": 875,
+      "876": 876,
+      "877": 877,
+      "878": 878,
+      "879": 879,
+      "880": 880,
+      "881": 881,
+      "882": 882,
       "883": 883,
       "884": 884,
       "885": 885,
@@ -20696,12 +20883,25 @@
       "902": 902,
       "903": 903,
       "904": 904,
+      "905": 905,
+      "906": 906,
+      "907": 907,
+      "908": 908,
+      "909": 909,
       "910": 910,
       "911": 911,
       "912": 912,
+      "913": 913,
+      "914": 914,
+      "915": 915,
       "916": 916,
+      "917": 917,
+      "918": 918,
       "919": 919,
       "920": 920,
+      "921": 921,
+      "922": 922,
+      "923": 923,
       "924": 924,
       "925": 925,
       "926": 926,
@@ -20713,6 +20913,7 @@
       "932": 932,
       "933": 933,
       "934": 934,
+      "935": 935,
       "936": 936,
       "937": 937,
       "938": 938,
@@ -20729,6 +20930,7 @@
       "949": 949,
       "950": 950,
       "951": 951,
+      "952": 952,
       "953": 953,
       "954": 954,
       "955": 955,
@@ -20738,15 +20940,19 @@
       "959": 959,
       "960": 960,
       "961": 961,
+      "962": 962,
       "963": 963,
       "964": 964,
       "965": 965,
+      "966": 966,
       "967": 967,
       "968": 968,
       "969": 969,
       "970": 970,
       "971": 971,
       "972": 972,
+      "973": 973,
+      "974": 974,
       "975": 975,
       "976": 976,
       "977": 977,
@@ -20767,6 +20973,7 @@
       "992": 992,
       "993": 993,
       "994": 994,
+      "995": 995,
       "996": 996,
       "997": 997,
       "998": 998,
@@ -20776,41 +20983,133 @@
       "1002": 1002,
       "1003": 1003,
       "1004": 1004,
+      "1005": 1005,
+      "1006": 1006,
       "1007": 1007,
       "1008": 1008,
+      "1009": 1009,
+      "1010": 1010,
+      "1011": 1011,
       "1012": 1012,
       "1013": 1013,
       "1014": 1014,
       "1015": 1015,
+      "1016": 1016,
+      "1017": 1017,
+      "1018": 1018,
+      "1019": 1019,
+      "1020": 1020,
+      "1021": 1021,
+      "1022": 1022,
       "1023": 1023,
+      "1024": 1024,
       "1025": 1025,
+      "1026": 1026,
+      "1027": 1027,
+      "1028": 1028,
       "1029": 1029,
+      "1030": 1030,
+      "1031": 1031,
       "1032": 1032,
       "1033": 1033,
+      "1034": 1034,
+      "1035": 1035,
+      "1036": 1036,
+      "1037": 1037,
+      "1038": 1038,
+      "1039": 1039,
+      "1040": 1040,
+      "1041": 1041,
+      "1042": 1042,
       "1043": 1043,
       "1044": 1044,
       "1045": 1045,
+      "1046": 1046,
+      "1047": 1047,
+      "1048": 1048,
       "1049": 1049,
       "1050": 1050,
       "1051": 1051,
       "1052": 1052,
       "1053": 1053,
+      "1054": 1054,
       "1055": 1055,
       "1056": 1056,
       "1057": 1057,
       "1058": 1058,
       "1059": 1059,
+      "1060": 1060,
+      "1061": 1061,
+      "1062": 1062,
+      "1063": 1063,
       "1064": 1064,
+      "1065": 1065,
+      "1066": 1066,
+      "1067": 1067,
+      "1068": 1068,
+      "1069": 1069,
+      "1070": 1070,
+      "1071": 1071,
       "1072": 1072,
+      "1073": 1073,
+      "1074": 1074,
+      "1075": 1075,
+      "1076": 1076,
+      "1077": 1077,
+      "1078": 1078,
+      "1079": 1079,
+      "1080": 1080,
+      "1081": 1081,
+      "1082": 1082,
+      "1083": 1083,
+      "1084": 1084,
+      "1085": 1085,
+      "1086": 1086,
+      "1087": 1087,
+      "1088": 1088,
+      "1089": 1089,
+      "1090": 1090,
+      "1091": 1091,
+      "1092": 1092,
+      "1093": 1093,
+      "1094": 1094,
+      "1095": 1095,
+      "1096": 1096,
+      "1097": 1097,
+      "1098": 1098,
+      "1099": 1099,
+      "1100": 1100,
+      "1101": 1101,
+      "1102": 1102,
+      "1103": 1103,
+      "1104": 1104,
+      "1105": 1105,
+      "1106": 1106,
+      "1107": 1107,
+      "1108": 1108,
+      "1109": 1109,
+      "1110": 1110,
+      "1111": 1111,
+      "1112": 1112,
+      "1113": 1113,
+      "1114": 1114,
       "1115": 1115,
+      "1116": 1116,
       "1117": 1117,
       "1118": 1118,
       "1119": 1119,
       "1120": 1120,
+      "1121": 1121,
+      "1122": 1122,
       "1123": 1123,
       "1124": 1124,
+      "1125": 1125,
+      "1126": 1126,
+      "1127": 1127,
       "1128": 1128,
+      "1129": 1129,
       "1130": 1130,
+      "1131": 1131,
       "1133": 1133,
       "1134": 1134,
       "1135": 1135,
@@ -20869,7 +21168,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -20890,7 +21189,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -20911,7 +21210,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -20932,7 +21231,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -20953,7 +21252,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -20974,7 +21273,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -20995,7 +21294,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21016,7 +21315,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21037,7 +21336,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21058,7 +21357,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21079,7 +21378,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21100,7 +21399,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21121,7 +21420,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21142,7 +21441,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21163,7 +21462,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21184,7 +21483,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21205,7 +21504,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21226,7 +21525,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21247,7 +21546,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21268,7 +21567,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21289,7 +21588,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21310,7 +21609,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21331,7 +21630,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21352,7 +21651,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21373,7 +21672,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21394,7 +21693,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21415,7 +21714,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21436,7 +21735,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21457,7 +21756,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21478,7 +21777,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21541,7 +21840,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21562,7 +21861,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21583,7 +21882,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21604,7 +21903,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21625,7 +21924,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21646,7 +21945,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21667,7 +21966,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21688,7 +21987,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21709,7 +22008,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21730,7 +22029,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21751,7 +22050,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21772,7 +22071,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21793,7 +22092,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21814,7 +22113,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21835,7 +22134,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -21856,7 +22155,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -22849,6 +23148,1056 @@
     }
   ],
   "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--4-2!components/Tabs.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!components/Tabs.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/Editor/Preview/Popup.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/Editor/Preview/Popup.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/shared/PreviewFunction.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/shared/PreviewFunction.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/variables.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/variables.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/App.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/App.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/menu.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/menu.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/reps.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/reps.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SymbolModal.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SymbolModal.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/ResultList.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/ResultList.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/SearchInput.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/SearchInput.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/Button/Close.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/Button/Close.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/Svg.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/Svg.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/Modal.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/Modal.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/Editor/Tabs.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/Tabs.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/Dropdown.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/Dropdown.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/Button/PaneToggle.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/Button/PaneToggle.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/WelcomeBox.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/WelcomeBox.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/SecondaryPanes.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/SecondaryPanes.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Scopes.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/Scopes.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../devtools-reps/src/object-inspector/index.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../devtools-reps/src/object-inspector/index.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../devtools-reps/src/reps/reps.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../devtools-reps/src/reps/reps.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/ManagedTree.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/ManagedTree.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/CommandBar.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/CommandBar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/Accordion.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/Accordion.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/EventListeners.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/EventListeners.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Frames/Frames.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/Frames/Frames.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Frames/WhyPaused.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/Frames/WhyPaused.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Frames/Group.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/Frames/Group.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Expressions.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/Expressions.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Breakpoints.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/Breakpoints.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/Editor/Editor.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/Editor.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/Editor/Highlight.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/Highlight.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/Editor/CallSite.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/CallSite.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/Editor/Preview/Popup.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/Preview/Popup.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/PreviewFunction.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/PreviewFunction.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/Popover.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/Popover.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/BracketArrow.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/BracketArrow.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/Editor/SearchBar.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/SearchBar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/Editor/Footer.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/Footer.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/Editor/ConditionalPanel.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/ConditionalPanel.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/PrimaryPanes/Sources.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/PrimaryPanes/Sources.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/PrimaryPanes/Outline.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/PrimaryPanes/Outline.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/ProjectSearch/ProjectSearch.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/ProjectSearch/ProjectSearch.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/shared/Autocomplete.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/shared/Autocomplete.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/ProjectSearch/TextSearch.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/ProjectSearch/TextSearch.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../devtools-splitter/src/SplitBox.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../devtools-splitter/src/SplitBox.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!components/Root.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!components/Root.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../devtools-contextmenu/menu.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../devtools-contextmenu/menu.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!components/LandingPage.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!components/LandingPage.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!components/Sidebar.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!components/Sidebar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!components/Tabs.css": [
     {
       "modules": {
         "byIdentifier": {
