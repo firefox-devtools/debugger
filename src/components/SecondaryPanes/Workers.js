@@ -1,9 +1,9 @@
 // @flow
-import React, { Component, PropTypes } from "react";
+import React, { PureComponent, PropTypes } from "react";
 import "./Workers.css";
 import { connect } from "react-redux";
 
-export class Workers extends Component {
+export class Workers extends PureComponent {
   renderWorkers(workers) {
     return (
       workers.map(w => <div>{w}</div>)
