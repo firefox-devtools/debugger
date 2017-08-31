@@ -3,7 +3,6 @@
 import type {
   BreakpointId,
   BreakpointResult,
-  Breakpoint,
   Frame,
   FrameId,
   Location,
@@ -125,9 +124,9 @@ function setBreakpoint(
     });
 }
 
-function removeBreakpoint(breakpoint: Breakpoint) {
+function removeBreakpoint(generatedLocation: Location) {
   try {
-    const id = makeLocationId(breakpoint.generatedLocation);
+    const id = makeLocationId(generatedLocation);
     const bpClient = bpClients[id];
     if (!bpClient) {
       console.warn("No breakpoint to delete on server");

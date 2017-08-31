@@ -4,16 +4,20 @@ import {
   assertBreakpoint,
   assertPendingBreakpoint
 } from "../../utils/breakpoint";
+
+import { getGeneratedLocation } from "../../utils/source-maps";
 import { originalToGeneratedId } from "devtools-source-map";
 
 // we have three forms of syncing: disabled syncing, existing server syncing
 // and adding a new breakpoint
 export async function syncClientBreakpoint(
-  sourceId: string,
+  getState,
   client,
   sourceMaps,
+  source,
   pendingBreakpoint: PendingBreakpoint
 ) {
+  const sourceId = source.id;
   const generatedSourceId = sourceMaps.isOriginalId(sourceId)
     ? originalToGeneratedId(sourceId)
     : sourceId;
@@ -27,7 +31,7 @@ export async function syncClientBreakpoint(
 
   const location = {
     ...pendingBreakpoint.location,
-    sourceId: generatedSourceId
+    sourceId
   };
 
   assertPendingBreakpoint(pendingBreakpoint);
@@ -59,16 +63,27 @@ export async function syncClientBreakpoint(
   const existingClient = client.getBreakpointByLocation(generatedLocation);
 
   if (existingClient) {
-    const newGeneratedLocation = existingClient.actualLocation;
-    const newLocation = await sourceMaps.getOriginalLocation(
-      newGeneratedLocation
+    const newGeneratedLocation = await getGeneratedLocation(
+      getState(),
+      source,
+      location,
+      sourceMaps
     );
+
+    if (locationMoved(generatedLocation, newGeneratedLocation)) {
+      await client.removeBreakpoint(generatedLocation);
+      await client.setBreakpoint(
+        newGeneratedLocation,
+        pendingBreakpoint.condition,
+        sourceMaps.isOriginalId(sourceId)
+      );
+    }
 
     const breakpoint = {
       ...pendingBreakpoint,
-      id: makeLocationId(newLocation),
+      id: makeLocationId(location),
       generatedLocation: newGeneratedLocation,
-      location: newLocation
+      location: location
     };
 
     assertBreakpoint(breakpoint);

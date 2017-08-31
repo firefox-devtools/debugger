@@ -10,7 +10,7 @@ describe("project search", () => {
   it("simple", () => {
     const source = {
       text,
-      loading: false,
+      loadedState: "loaded",
       id: "bar.js",
       url: "http://example.com/foo/bar.js"
     };

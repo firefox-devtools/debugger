@@ -51,7 +51,7 @@ describe("sources", () => {
   it("should automatically select a pending source", async () => {
     const { dispatch, getState } = createStore(threadClient);
     const baseSource = makeSource("base.js");
-    dispatch(actions.selectSourceURL(baseSource.url));
+    await dispatch(actions.selectSourceURL(baseSource.url));
 
     expect(getSelectedSource(getState())).toBe(undefined);
     await dispatch(actions.newSource(baseSource));
@@ -142,7 +142,7 @@ describe("sources", () => {
     // Don't block on this so we can check the loading state.
     dispatch(actions.loadSourceText({ id: "foo1" }));
     const fooSource = getSource(getState(), "foo1");
-    expect(fooSource.get("loading")).toEqual(true);
+    expect(fooSource.get("loadedState")).toEqual("loading");
   });
 
   it("should indicate an errored source text", async () => {

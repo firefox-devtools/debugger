@@ -13,6 +13,7 @@ export const getVariablesInScope = dispatcher.task("getVariablesInScope");
 export const getOutOfScopeLocations = dispatcher.task("getOutOfScopeLocations");
 export const clearSymbols = dispatcher.task("clearSymbols");
 export const getNextStep = dispatcher.task("getNextStep");
+export const getEmptyLines = dispatcher.task("getEmptyLines");
 
 export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";
 export type { AstLocation } from "./types";

@@ -32,7 +32,7 @@ GECKO(68156) | 1502293317483	Marionette	DEBUG	Register listener.js for window 21
 0 INFO *** Start BrowserChrome Test Results ***
 1 INFO checking window state
 2 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js
-3 INFO Entering test bound 
+3 INFO Entering test bound
 4 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-script-switching.html
 GECKO(68156) | 2017-08-09 11:41:58.226 plugin-container[68160:2281929] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0xaa3b, name = 'com.apple.tsm.portname'
 GECKO(68156) | See /usr/include/servers/bootstrap_defs.h for the error codes.
@@ -138,7 +138,7 @@ GECKO(68156) | See /usr/include/servers/bootstrap_defs.h for the error codes.
 94 INFO Console message: [JavaScript Warning: "Error in parsing value for ‘display’.  Declaration dropped." {file: "resource://devtools/client/debugger/new/debugger.css" line: 3524 column: 11 source: "  display: -ms-inline-flexbox;"}]
 95 INFO Console message: [JavaScript Warning: "Error in parsing value for ‘display’.  Declaration dropped." {file: "resource://devtools/client/debugger/new/debugger.css" line: 3684 column: 11 source: "  display: -ms-flexbox;"}]
 96 INFO Console message: [JavaScript Warning: "Error in parsing value for ‘display’.  Declaration dropped." {file: "resource://devtools/client/debugger/new/debugger.css" line: 3749 column: 11 source: "  display: -ms-flexbox;"}]
-97 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name - 
+97 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name -
 98 INFO Waiting for LOAD_SOURCE_TEXT to dispatch 1 time(s)
 99 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 100 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -185,13 +185,13 @@ GECKO(68156) | See /usr/include/servers/bootstrap_defs.h for the error codes.
 139 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 140 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 141 INFO LOAD_SOURCE_TEXT dispatched 1 time(s)
-142 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name - 
-143 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name - 
-144 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name - 
-145 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name - 
-146 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | Line is highlighted as paused - 
-147 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | expression is highlighted as paused - 
-148 INFO Leaving test bound 
+142 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name -
+143 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name -
+144 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name -
+145 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | undefined assertion name -
+146 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | Line is highlighted as paused -
+147 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | expression is highlighted as paused -
+148 INFO Leaving test bound
 149 INFO Removing tab.
 150 INFO Waiting for event: 'TabClose' on [object XULElement].
 151 INFO Got event: 'TabClose' on [object XULElement].
@@ -201,7 +201,7 @@ GECKO(68156) | MEMORY STAT | vsize 4464MB | residentFast 571MB | heapAllocated 2
 153 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking-from-console.js | took 2157ms
 154 INFO checking window state
 155 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js
-156 INFO Entering test bound 
+156 INFO Entering test bound
 157 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 158 INFO Tab added and finished loading
 159 INFO Opening the toolbox
@@ -323,10 +323,10 @@ GECKO(68156) | MEMORY STAT | vsize 4464MB | residentFast 571MB | heapAllocated 2
 273 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 274 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 275 INFO Console message: [JavaScript Warning: "Use of nsIFile in content process is deprecated." {file: "resource://gre/modules/NetUtil.jsm" line: 307}]
-276 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name - 
-277 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name - 
-278 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name - 
-279 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | Line is highlighted as paused - 
+276 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name -
+277 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name -
+278 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name -
+279 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | Line is highlighted as paused -
 280 INFO Resuming
 281 INFO Waiting for thread event 'resumed' to fire.
 282 INFO Thread event 'resumed' fired.
@@ -356,18 +356,18 @@ GECKO(68156) | MEMORY STAT | vsize 4464MB | residentFast 571MB | heapAllocated 2
 306 INFO Resuming
 307 INFO Waiting for thread event 'resumed' to fire.
 308 INFO Thread event 'resumed' fired.
-309 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | It is an eval source - 
+309 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | It is an eval source -
 310 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 311 INFO ADD_BREAKPOINT dispatched 1 time(s)
 312 INFO Invoking function evaledFunc in tab
 313 INFO Waiting for thread event 'paused' to fire.
 314 INFO Thread event 'paused' fired.
-315 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name - 
-316 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name - 
-317 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name - 
-318 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | Line is highlighted as paused - 
-319 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | expression is highlighted as paused - 
-320 INFO Leaving test bound 
+315 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name -
+316 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name -
+317 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | undefined assertion name -
+318 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | Line is highlighted as paused -
+319 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | expression is highlighted as paused -
+320 INFO Leaving test bound
 321 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 322 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 323 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -408,7 +408,7 @@ GECKO(68156) | MEMORY STAT | vsize 4542MB | residentFast 655MB | heapAllocated 2
 357 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-breaking.js | took 1824ms
 358 INFO checking window state
 359 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js
-360 INFO Entering test bound 
+360 INFO Entering test bound
 361 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 362 INFO Tab added and finished loading
 363 INFO Opening the toolbox
@@ -516,23 +516,23 @@ GECKO(68156) | MEMORY STAT | vsize 4542MB | residentFast 655MB | heapAllocated 2
 463 INFO Selecting source: simple2
 464 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 465 INFO ADD_BREAKPOINT dispatched 1 time(s)
-466 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | breakpoint is created with the condition - 
-467 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | Breakpoint exists on line 5 - 
+466 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | breakpoint is created with the condition -
+467 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | Breakpoint exists on line 5 -
 468 INFO Waiting for SET_BREAKPOINT_CONDITION to dispatch 1 time(s)
 469 INFO SET_BREAKPOINT_CONDITION dispatched 1 time(s)
-470 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | breakpoint is created with the condition - 
-471 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | Breakpoint exists on line 5 - 
+470 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | breakpoint is created with the condition -
+471 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | Breakpoint exists on line 5 -
 472 INFO Waiting for REMOVE_BREAKPOINT to dispatch 1 time(s)
 473 INFO REMOVE_BREAKPOINT dispatched 1 time(s)
-474 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | breakpoint was removed - 
-475 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | Breakpoint does not exist on line 5 - 
+474 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | breakpoint was removed -
+475 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | Breakpoint does not exist on line 5 -
 476 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 477 INFO ADD_BREAKPOINT dispatched 1 time(s)
 478 INFO Waiting for SET_BREAKPOINT_CONDITION to dispatch 1 time(s)
 479 INFO SET_BREAKPOINT_CONDITION dispatched 1 time(s)
-480 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | breakpoint is created with the condition - 
-481 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | Breakpoint exists on line 5 - 
-482 INFO Leaving test bound 
+480 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | breakpoint is created with the condition -
+481 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | Breakpoint exists on line 5 -
+482 INFO Leaving test bound
 483 INFO Removing tab.
 484 INFO Waiting for event: 'TabClose' on [object XULElement].
 485 INFO Got event: 'TabClose' on [object XULElement].
@@ -541,7 +541,7 @@ GECKO(68156) | MEMORY STAT | vsize 4553MB | residentFast 675MB | heapAllocated 2
 487 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-cond.js | took 1568ms
 488 INFO checking window state
 489 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-reloading.js
-490 INFO Entering test bound 
+490 INFO Entering test bound
 491 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 492 INFO Tab added and finished loading
 493 INFO Opening the toolbox
@@ -663,9 +663,9 @@ GECKO(68156) | MEMORY STAT | vsize 4553MB | residentFast 675MB | heapAllocated 2
 607 INFO Waiting for SYNC_BREAKPOINT to dispatch 2 time(s)
 608 INFO SYNC_BREAKPOINT dispatched 1 time(s)
 609 INFO SYNC_BREAKPOINT dispatched 2 time(s)
-610 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-reloading.js | Breakpoint exists on line 4 - 
-611 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-reloading.js | Breakpoint exists on line 5 - 
-612 INFO Leaving test bound 
+610 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-reloading.js | Breakpoint exists on line 4 -
+611 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-reloading.js | Breakpoint exists on line 5 -
+612 INFO Leaving test bound
 613 INFO Removing tab.
 614 INFO Waiting for event: 'TabClose' on [object XULElement].
 615 INFO Got event: 'TabClose' on [object XULElement].
@@ -674,7 +674,7 @@ GECKO(68156) | MEMORY STAT | vsize 5104MB | residentFast 695MB | heapAllocated 2
 617 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints-reloading.js | took 1456ms
 618 INFO checking window state
 619 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js
-620 INFO Entering test bound 
+620 INFO Entering test bound
 621 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 622 INFO Tab added and finished loading
 623 INFO Opening the toolbox
@@ -786,15 +786,15 @@ GECKO(68156) | MEMORY STAT | vsize 5104MB | residentFast 695MB | heapAllocated 2
 727 INFO ADD_BREAKPOINT dispatched 1 time(s)
 728 INFO Waiting for DISABLE_BREAKPOINT to dispatch 1 time(s)
 729 INFO DISABLE_BREAKPOINT dispatched 1 time(s)
-730 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | first breakpoint is disabled - 
-731 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | second breakpoint is enabled - 
+730 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | first breakpoint is disabled -
+731 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | second breakpoint is enabled -
 732 INFO Waiting for DISABLE_BREAKPOINT to dispatch 1 time(s)
 733 INFO DISABLE_BREAKPOINT dispatched 1 time(s)
 734 INFO Waiting for ENABLE_BREAKPOINT to dispatch 1 time(s)
 735 INFO ENABLE_BREAKPOINT dispatched 1 time(s)
-736 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | second breakpoint is enabled - 
-737 INFO Leaving test bound 
-738 INFO Entering test bound 
+736 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | second breakpoint is enabled -
+737 INFO Leaving test bound
+738 INFO Entering test bound
 739 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 740 INFO Tab added and finished loading
 741 INFO Opening the toolbox
@@ -907,19 +907,19 @@ GECKO(68156) | MEMORY STAT | vsize 5104MB | residentFast 695MB | heapAllocated 2
 846 INFO Waiting for DISABLE_BREAKPOINT to dispatch 2 time(s)
 847 INFO DISABLE_BREAKPOINT dispatched 1 time(s)
 848 INFO DISABLE_BREAKPOINT dispatched 2 time(s)
-849 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | first breakpoint is disabled - 
-850 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | second breakpoint is disabled - 
+849 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | first breakpoint is disabled -
+850 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | second breakpoint is disabled -
 851 INFO Waiting for ENABLE_BREAKPOINT to dispatch 2 time(s)
 852 INFO ENABLE_BREAKPOINT dispatched 1 time(s)
 853 INFO ENABLE_BREAKPOINT dispatched 2 time(s)
-854 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | first breakpoint is enabled - 
-855 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | second breakpoint is enabled - 
+854 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | first breakpoint is enabled -
+855 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | second breakpoint is enabled -
 856 INFO Waiting for REMOVE_BREAKPOINT to dispatch 1 time(s)
 857 INFO REMOVE_BREAKPOINT dispatched 1 time(s)
 858 INFO Waiting for REMOVE_BREAKPOINT to dispatch 1 time(s)
 859 INFO REMOVE_BREAKPOINT dispatched 1 time(s)
-860 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | breakpoints are removed - 
-861 INFO Leaving test bound 
+860 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | breakpoints are removed -
+861 INFO Leaving test bound
 862 INFO Removing tab.
 863 INFO Waiting for event: 'TabClose' on [object XULElement].
 864 INFO Got event: 'TabClose' on [object XULElement].
@@ -932,7 +932,7 @@ GECKO(68156) | MEMORY STAT | vsize 5114MB | residentFast 699MB | heapAllocated 2
 870 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-breakpoints.js | took 2575ms
 871 INFO checking window state
 872 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js
-873 INFO Entering test bound 
+873 INFO Entering test bound
 874 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-script-switching.html
 875 INFO Tab added and finished loading
 876 INFO Opening the toolbox
@@ -1037,7 +1037,7 @@ GECKO(68156) | MEMORY STAT | vsize 5114MB | residentFast 699MB | heapAllocated 2
 974 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 22011 column: 1 source: "	eval("o" + o); // ensure no dead code elimination
 "}]
 975 INFO Toolbox opened and focused
-976 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | Not paused message is shown - 
+976 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | Not paused message is shown -
 977 INFO Invoking function firstCall in tab
 978 INFO Waiting for thread event 'paused' to fire.
 979 INFO Thread event 'paused' fired.
@@ -1061,10 +1061,10 @@ GECKO(68156) | MEMORY STAT | vsize 5114MB | residentFast 699MB | heapAllocated 2
 997 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 998 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 999 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-1000 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | the first frame is selected - 
-1001 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | toggle button shouldn't be there - 
-1002 INFO Leaving test bound 
-1003 INFO Entering test bound 
+1000 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | the first frame is selected -
+1001 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | toggle button shouldn't be there -
+1002 INFO Leaving test bound
+1003 INFO Entering test bound
 1004 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-frames.html
 1005 INFO Console message: [JavaScript Error: "The character encoding of the HTML document was not declared. The document will render with garbled text in some browser configurations if the document contains characters from outside the US-ASCII range. The character encoding of the page must be declared in the document or in the transfer protocol." {file: "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-frames.html" line: 0}]
 1006 INFO Tab added and finished loading
@@ -1193,12 +1193,12 @@ GECKO(68156) | MEMORY STAT | vsize 5114MB | residentFast 699MB | heapAllocated 2
 1127 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1128 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1129 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-1130 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | the first frame is selected - 
-1131 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | toggle button should be expand - 
-1132 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | There should be at most seven frames - 
-1133 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | toggle button should be collapsed - 
-1134 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | All of the frames should be shown - 
-1135 INFO Leaving test bound 
+1130 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | the first frame is selected -
+1131 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | toggle button should be expand -
+1132 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | There should be at most seven frames -
+1133 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | toggle button should be collapsed -
+1134 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | All of the frames should be shown -
+1135 INFO Leaving test bound
 1136 INFO Removing tab.
 1137 INFO Waiting for event: 'TabClose' on [object XULElement].
 1138 INFO Got event: 'TabClose' on [object XULElement].
@@ -1211,7 +1211,7 @@ GECKO(68156) | MEMORY STAT | vsize 5229MB | residentFast 818MB | heapAllocated 3
 1144 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-call-stack.js | took 1930ms
 1145 INFO checking window state
 1146 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-console.js
-1147 INFO Entering test bound 
+1147 INFO Entering test bound
 1148 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-script-switching.html
 1149 INFO Tab added and finished loading
 1150 INFO Opening the toolbox
@@ -1319,10 +1319,10 @@ GECKO(68156) | MEMORY STAT | vsize 5229MB | residentFast 818MB | heapAllocated 3
 "}]
 1251 INFO Toolbox opened and focused
 1252 INFO Selecting source: switching-01
-1253 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-console.js | Split console is shown. - 
-1254 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-console.js | Split console is shown. - 
-1255 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-console.js | Split console is hidden. - 
-1256 INFO Leaving test bound 
+1253 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-console.js | Split console is shown. -
+1254 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-console.js | Split console is shown. -
+1255 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-console.js | Split console is hidden. -
+1256 INFO Leaving test bound
 1257 INFO Console message: [JavaScript Warning: "Property contained reference to invalid variable.  Error in parsing value for ‘height’.  Falling back to ‘initial’." {file: "resource://devtools/client/debugger/new/debugger.css" line: 1709 column: 35479 source: " var(--editor-footer-height)"}]
 1258 INFO Removing tab.
 1259 INFO Waiting for event: 'TabClose' on [object XULElement].
@@ -1332,7 +1332,7 @@ GECKO(68156) | MEMORY STAT | vsize 5242MB | residentFast 835MB | heapAllocated 3
 1262 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-console.js | took 964ms
 1263 INFO checking window state
 1264 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js
-1265 INFO Entering test bound 
+1265 INFO Entering test bound
 1266 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-debugger-statements.html
 1267 INFO Tab added and finished loading
 1268 INFO Opening the toolbox
@@ -1453,18 +1453,18 @@ GECKO(68156) | MEMORY STAT | vsize 5242MB | residentFast 835MB | heapAllocated 3
 1381 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1382 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 1383 INFO Console message: [JavaScript Warning: "Use of nsIFile in content process is deprecated." {file: "resource://gre/modules/NetUtil.jsm" line: 307}]
-1384 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1385 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1386 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1387 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused - 
-1388 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused - 
+1384 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1385 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1386 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1387 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused -
+1388 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused -
 1389 INFO Waiting for thread event 'paused' to fire.
 1390 INFO Thread event 'paused' fired.
-1391 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1392 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1393 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1394 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused - 
-1395 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused - 
+1391 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1392 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1393 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1394 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused -
+1395 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused -
 1396 INFO Waiting for thread event 'paused' to fire.
 1397 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1398 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -1483,11 +1483,11 @@ GECKO(68156) | MEMORY STAT | vsize 5242MB | residentFast 835MB | heapAllocated 3
 1411 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1412 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 1413 INFO Thread event 'paused' fired.
-1414 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1415 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1416 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1417 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused - 
-1418 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused - 
+1414 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1415 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1416 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1417 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused -
+1418 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused -
 1419 INFO Waiting for thread event 'paused' to fire.
 1420 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1421 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -1506,11 +1506,11 @@ GECKO(68156) | MEMORY STAT | vsize 5242MB | residentFast 835MB | heapAllocated 3
 1434 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1435 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 1436 INFO Thread event 'paused' fired.
-1437 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1438 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1439 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1440 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused - 
-1441 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused - 
+1437 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1438 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1439 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1440 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused -
+1441 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused -
 1442 INFO Waiting for thread event 'paused' to fire.
 1443 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1444 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -1529,11 +1529,11 @@ GECKO(68156) | MEMORY STAT | vsize 5242MB | residentFast 835MB | heapAllocated 3
 1457 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1458 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 1459 INFO Thread event 'paused' fired.
-1460 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1461 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1462 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1463 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused - 
-1464 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused - 
+1460 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1461 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1462 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1463 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused -
+1464 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused -
 1465 INFO Waiting for thread event 'paused' to fire.
 1466 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1467 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -1552,12 +1552,12 @@ GECKO(68156) | MEMORY STAT | vsize 5242MB | residentFast 835MB | heapAllocated 3
 1480 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1481 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 1482 INFO Thread event 'paused' fired.
-1483 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1484 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1485 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name - 
-1486 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused - 
-1487 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused - 
-1488 INFO Leaving test bound 
+1483 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1484 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1485 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | undefined assertion name -
+1486 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | Line is highlighted as paused -
+1487 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | expression is highlighted as paused -
+1488 INFO Leaving test bound
 1489 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1490 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1491 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -1583,7 +1583,7 @@ GECKO(68156) | MEMORY STAT | vsize 5267MB | residentFast 863MB | heapAllocated 3
 1510 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-debugger-buttons.js | took 1761ms
 1511 INFO checking window state
 1512 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js
-1513 INFO Entering test bound 
+1513 INFO Entering test bound
 1514 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 1515 INFO Tab added and finished loading
 1516 INFO Opening the toolbox
@@ -1691,28 +1691,28 @@ GECKO(68156) | MEMORY STAT | vsize 5267MB | residentFast 863MB | heapAllocated 3
 1616 INFO Selecting source: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/simple1.js
 1617 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 1618 INFO ADD_BREAKPOINT dispatched 1 time(s)
-1619 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | One breakpoint exists - 
-1620 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint exists on line 4 - 
+1619 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | One breakpoint exists -
+1620 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint exists on line 4 -
 1621 INFO Waiting for REMOVE_BREAKPOINT to dispatch 1 time(s)
 1622 INFO REMOVE_BREAKPOINT dispatched 1 time(s)
-1623 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | No breakpoints exist - 
-1624 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint does not exist on line 4 - 
+1623 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | No breakpoints exist -
+1624 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint does not exist on line 4 -
 1625 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 1626 INFO ADD_BREAKPOINT dispatched 1 time(s)
-1627 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | One breakpoint exists - 
-1628 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint has correct line - 
-1629 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint does not exist on line 2 - 
-1630 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint exists on line 4 - 
+1627 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | One breakpoint exists -
+1628 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint has correct line -
+1629 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint does not exist on line 2 -
+1630 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint exists on line 4 -
 1631 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 1632 INFO ADD_BREAKPOINT dispatched 1 time(s)
-1633 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | One breakpoint exists - 
-1634 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint does not exist on line 2 - 
-1635 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint exists on line 4 - 
+1633 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | One breakpoint exists -
+1634 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint does not exist on line 2 -
+1635 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint exists on line 4 -
 1636 INFO Waiting for REMOVE_BREAKPOINT to dispatch 1 time(s)
 1637 INFO REMOVE_BREAKPOINT dispatched 1 time(s)
-1638 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | No breakpoints exist - 
-1639 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint does not exist on line 4 - 
-1640 INFO Leaving test bound 
+1638 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | No breakpoints exist -
+1639 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | Breakpoint does not exist on line 4 -
+1640 INFO Leaving test bound
 1641 INFO Removing tab.
 1642 INFO Waiting for event: 'TabClose' on [object XULElement].
 1643 INFO Got event: 'TabClose' on [object XULElement].
@@ -1721,7 +1721,7 @@ GECKO(68156) | MEMORY STAT | vsize 5293MB | residentFast 891MB | heapAllocated 3
 1645 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-gutter.js | took 1139ms
 1646 INFO checking window state
 1647 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js
-1648 INFO Entering test bound 
+1648 INFO Entering test bound
 1649 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 1650 INFO Tab added and finished loading
 1651 INFO Opening the toolbox
@@ -1829,27 +1829,27 @@ GECKO(68156) | MEMORY STAT | vsize 5293MB | residentFast 891MB | heapAllocated 3
 1751 INFO Waiting for LOAD_SOURCE_TEXT to dispatch 1 time(s)
 1752 INFO LOAD_SOURCE_TEXT dispatched 1 time(s)
 1753 INFO Selecting source: long.js
-1754 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | undefined assertion name - 
-1755 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted - 
-1756 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Highlighted line is visible - 
-1757 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted - 
+1754 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | undefined assertion name -
+1755 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted -
+1756 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Highlighted line is visible -
+1757 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted -
 1758 INFO Selecting source: long.js
 1759 INFO Selecting source: long.js
-1760 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | undefined assertion name - 
-1761 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted - 
-1762 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Highlighted line is visible - 
-1763 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted - 
-1764 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Only 1 line is highlighted - 
+1760 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | undefined assertion name -
+1761 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted -
+1762 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Highlighted line is visible -
+1763 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted -
+1764 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Only 1 line is highlighted -
 1765 INFO Selecting source: simple1.js
-1766 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | undefined assertion name - 
+1766 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | undefined assertion name -
 1767 INFO Waiting for LOAD_SOURCE_TEXT to dispatch 1 time(s)
 1768 INFO LOAD_SOURCE_TEXT dispatched 1 time(s)
-1769 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | undefined assertion name - 
-1770 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | undefined assertion name - 
-1771 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted - 
-1772 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Highlighted line is visible - 
-1773 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted - 
-1774 INFO Leaving test bound 
+1769 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | undefined assertion name -
+1770 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | undefined assertion name -
+1771 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted -
+1772 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Highlighted line is visible -
+1773 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | Line is highlighted -
+1774 INFO Leaving test bound
 1775 INFO Console message: [JavaScript Warning: "This site appears to use a scroll-linked positioning effect. This may not work well with asynchronous panning; see https://developer.mozilla.org/docs/Mozilla/Performance/ScrollLinkedEffects for further details and to join the discussion on related tools and features!" {file: "chrome://devtools/content/debugger/new/index.html" line: 0}]
 1776 INFO Removing tab.
 1777 INFO Waiting for event: 'TabClose' on [object XULElement].
@@ -1859,7 +1859,7 @@ GECKO(68156) | MEMORY STAT | vsize 5332MB | residentFast 934MB | heapAllocated 3
 1780 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-highlight.js | took 1155ms
 1781 INFO checking window state
 1782 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js
-1783 INFO Entering test bound 
+1783 INFO Entering test bound
 1784 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 1785 INFO Tab added and finished loading
 1786 INFO Opening the toolbox
@@ -1966,7 +1966,7 @@ GECKO(68156) | MEMORY STAT | vsize 5332MB | residentFast 934MB | heapAllocated 3
 1885 INFO Toolbox opened and focused
 1886 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 1887 INFO ADD_BREAKPOINT dispatched 1 time(s)
-1888 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | No selected source - 
+1888 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | No selected source -
 1889 INFO Invoking function main in tab
 1890 INFO Waiting for thread event 'paused' to fire.
 1891 INFO Thread event 'paused' fired.
@@ -1994,11 +1994,11 @@ GECKO(68156) | MEMORY STAT | vsize 5332MB | residentFast 934MB | heapAllocated 3
 1913 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1914 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1915 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-1916 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-1917 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-1918 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-1919 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | Line is highlighted as paused - 
-1920 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | expression is highlighted as paused - 
+1916 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+1917 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+1918 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+1919 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | Line is highlighted as paused -
+1920 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | expression is highlighted as paused -
 1921 INFO Stepping in
 1922 INFO Waiting for thread event 'paused' to fire.
 1923 INFO Thread event 'paused' fired.
@@ -2030,11 +2030,11 @@ GECKO(68156) | MEMORY STAT | vsize 5332MB | residentFast 934MB | heapAllocated 3
 1949 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1950 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1951 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-1952 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-1953 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-1954 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-1955 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | Line is highlighted as paused - 
-1956 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | expression is highlighted as paused - 
+1952 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+1953 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+1954 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+1955 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | Line is highlighted as paused -
+1956 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | expression is highlighted as paused -
 1957 INFO Stepping out
 1958 INFO Waiting for thread event 'paused' to fire.
 1959 INFO Thread event 'paused' fired.
@@ -2069,11 +2069,11 @@ GECKO(68156) | MEMORY STAT | vsize 5332MB | residentFast 934MB | heapAllocated 3
 1988 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 1989 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 1990 INFO Thread event 'paused' fired.
-1991 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-1992 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-1993 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-1994 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | Line is highlighted as paused - 
-1995 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | expression is highlighted as paused - 
+1991 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+1992 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+1993 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+1994 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | Line is highlighted as paused -
+1995 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | expression is highlighted as paused -
 1996 INFO Resuming
 1997 INFO Waiting for thread event 'resumed' to fire.
 1998 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -2122,13 +2122,13 @@ GECKO(68156) | MEMORY STAT | vsize 5332MB | residentFast 934MB | heapAllocated 3
 2041 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2042 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2043 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-2044 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-2045 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-2046 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name - 
-2047 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | Line is highlighted as paused - 
-2048 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | expression is highlighted as paused - 
-2049 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | Breakpoint is visible - 
-2050 INFO Leaving test bound 
+2044 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+2045 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+2046 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | undefined assertion name -
+2047 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | Line is highlighted as paused -
+2048 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | expression is highlighted as paused -
+2049 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | Breakpoint is visible -
+2050 INFO Leaving test bound
 2051 INFO Removing tab.
 2052 INFO Waiting for event: 'TabClose' on [object XULElement].
 2053 INFO Got event: 'TabClose' on [object XULElement].
@@ -2137,7 +2137,7 @@ GECKO(68156) | MEMORY STAT | vsize 5344MB | residentFast 918MB | heapAllocated 3
 2055 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-editor-select.js | took 2244ms
 2056 INFO checking window state
 2057 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js
-2058 INFO Entering test bound 
+2058 INFO Entering test bound
 2059 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-script-switching.html
 2060 INFO Tab added and finished loading
 2061 INFO Opening the toolbox
@@ -2268,8 +2268,8 @@ GECKO(68156) | MEMORY STAT | vsize 5344MB | residentFast 918MB | heapAllocated 3
 2184 INFO Adding an expression
 2185 INFO Waiting for EVALUATE_EXPRESSION to dispatch 1 time(s)
 2186 INFO EVALUATE_EXPRESSION dispatched 1 time(s)
-2187 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name - 
-2188 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name - 
+2187 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name -
+2188 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name -
 2189 INFO updating the expression
 2190 INFO Waiting for EVALUATE_EXPRESSION to dispatch 1 time(s)
 2191 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -2277,8 +2277,8 @@ GECKO(68156) | MEMORY STAT | vsize 5344MB | residentFast 918MB | heapAllocated 3
 2193 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2194 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 2195 INFO EVALUATE_EXPRESSION dispatched 1 time(s)
-2196 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name - 
-2197 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name - 
+2196 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name -
+2197 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name -
 2198 INFO Adding an expression
 2199 INFO Waiting for EVALUATE_EXPRESSION to dispatch 1 time(s)
 2200 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -2286,8 +2286,8 @@ GECKO(68156) | MEMORY STAT | vsize 5344MB | residentFast 918MB | heapAllocated 3
 2202 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2203 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 2204 INFO EVALUATE_EXPRESSION dispatched 1 time(s)
-2205 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name - 
-2206 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | has a value - 
+2205 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name -
+2206 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | has a value -
 2207 INFO Waiting for LOAD_OBJECT_PROPERTIES to dispatch 1 time(s)
 2208 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2209 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -2296,8 +2296,8 @@ GECKO(68156) | MEMORY STAT | vsize 5344MB | residentFast 918MB | heapAllocated 3
 2212 INFO LOAD_OBJECT_PROPERTIES dispatched 1 time(s)
 2213 INFO Resuming
 2214 INFO Resuming
-2215 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name - 
-2216 INFO Leaving test bound 
+2215 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | undefined assertion name -
+2216 INFO Leaving test bound
 2217 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2218 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2219 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -2370,7 +2370,7 @@ GECKO(68156) | MEMORY STAT | vsize 5397MB | residentFast 975MB | heapAllocated 4
 2285 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-expressions.js | took 1372ms
 2286 INFO checking window state
 2287 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js
-2288 INFO Entering test bound 
+2288 INFO Entering test bound
 2289 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-iframes.html
 2290 INFO Console message: [JavaScript Error: "The character encoding of the HTML document was not declared. The document will render with garbled text in some browser configurations if the document contains characters from outside the US-ASCII range. The character encoding of the page must be declared in the document or in the transfer protocol." {file: "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-iframes.html" line: 0}]
 2291 INFO Tab added and finished loading
@@ -2491,11 +2491,11 @@ GECKO(68156) | MEMORY STAT | vsize 5397MB | residentFast 975MB | heapAllocated 4
 2404 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2405 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 2406 INFO Console message: [JavaScript Warning: "Use of nsIFile in content process is deprecated." {file: "resource://gre/modules/NetUtil.jsm" line: 307}]
-2407 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name - 
-2408 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name - 
-2409 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name - 
-2410 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | Line is highlighted as paused - 
-2411 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | expression is highlighted as paused - 
+2407 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name -
+2408 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name -
+2409 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name -
+2410 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | Line is highlighted as paused -
+2411 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | expression is highlighted as paused -
 2412 INFO Resuming
 2413 INFO Waiting for thread event 'resumed' to fire.
 2414 INFO Thread event 'resumed' fired.
@@ -2515,22 +2515,22 @@ GECKO(68156) | MEMORY STAT | vsize 5397MB | residentFast 975MB | heapAllocated 4
 2428 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2429 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 2430 INFO Console message: [JavaScript Warning: "Use of nsIFile in content process is deprecated." {file: "resource://gre/modules/NetUtil.jsm" line: 307}]
-2431 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name - 
-2432 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name - 
-2433 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name - 
-2434 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | Line is highlighted as paused - 
-2435 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | expression is highlighted as paused - 
+2431 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name -
+2432 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name -
+2433 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name -
+2434 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | Line is highlighted as paused -
+2435 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | expression is highlighted as paused -
 2436 INFO Resuming
 2437 INFO Waiting for thread event 'resumed' to fire.
 2438 INFO Thread event 'resumed' fired.
 2439 INFO Waiting for thread event 'paused' to fire.
 2440 INFO Thread event 'paused' fired.
-2441 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name - 
-2442 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name - 
-2443 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name - 
-2444 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | Line is highlighted as paused - 
-2445 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | expression is highlighted as paused - 
-2446 INFO Leaving test bound 
+2441 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name -
+2442 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name -
+2443 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | undefined assertion name -
+2444 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | Line is highlighted as paused -
+2445 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | expression is highlighted as paused -
+2446 INFO Leaving test bound
 2447 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2448 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2449 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -2555,7 +2555,7 @@ GECKO(68156) | MEMORY STAT | vsize 5448MB | residentFast 1029MB | heapAllocated 
 2467 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-iframes.js | took 1450ms
 2468 INFO checking window state
 2469 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js
-2470 INFO Entering test bound 
+2470 INFO Entering test bound
 2471 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-script-switching.html
 2472 INFO Tab added and finished loading
 2473 INFO Opening the toolbox
@@ -2721,18 +2721,18 @@ GECKO(68156) | MEMORY STAT | vsize 5448MB | residentFast 1029MB | heapAllocated 
 2631 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2632 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2633 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-2634 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | undefined assertion name - 
-2635 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | undefined assertion name - 
-2636 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | undefined assertion name - 
-2637 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | Line is highlighted as paused - 
-2638 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | expression is highlighted as paused - 
-2639 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | 4 sources are loaded. - 
+2634 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | undefined assertion name -
+2635 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | undefined assertion name -
+2636 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | undefined assertion name -
+2637 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | Line is highlighted as paused -
+2638 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | expression is highlighted as paused -
+2639 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | 4 sources are loaded. -
 2640 INFO Waiting for NAVIGATE to dispatch 1 time(s)
 2641 INFO NAVIGATE dispatched 1 time(s)
-2642 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | 0 sources are loaded. - 
-2643 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | No pause state exists - 
+2642 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | 0 sources are loaded. -
+2643 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | No pause state exists -
 2644 INFO Waiting on sources: simple1.js, simple2.js, long.js, scripts.html
-2645 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | 4 sources are loaded. - 
+2645 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | 4 sources are loaded. -
 2646 INFO Selecting source: long.js
 2647 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2648 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -2743,8 +2743,8 @@ GECKO(68156) | MEMORY STAT | vsize 5448MB | residentFast 1029MB | heapAllocated 
 2653 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2654 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 2655 INFO Waiting on sources: long.js
-2656 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | Selected source is long.js - 
-2657 INFO Leaving test bound 
+2656 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-navigation.js | Selected source is long.js -
+2657 INFO Leaving test bound
 2658 INFO Removing tab.
 2659 INFO Waiting for event: 'TabClose' on [object XULElement].
 2660 INFO Got event: 'TabClose' on [object XULElement].
@@ -2946,7 +2946,7 @@ GECKO(68156) | onInputStreamReady@resource://gre/modules/commonjs/toolkit/loader
 GECKO(68156) | Line: 1689, column: 0
 2664 INFO Console message: [JavaScript Warning: "Loading failed for the <script> with source “http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/simple1.js”." {file: "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html" line: 11}]
 2665 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js
-2666 INFO Entering test bound 
+2666 INFO Entering test bound
 2667 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-exceptions.html
 2668 INFO Tab added and finished loading
 2669 INFO Opening the toolbox
@@ -3051,7 +3051,7 @@ GECKO(68156) | Line: 1689, column: 0
 "}]
 2768 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 25465}]
 2769 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 25477}]
-2770 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name - 
+2770 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name -
 2771 INFO Waiting for thread event 'resumed' to fire.
 2772 INFO Thread event 'resumed' fired.
 2773 INFO Invoking function uncaughtException in tab
@@ -3075,22 +3075,22 @@ GECKO(68156) | Line: 1689, column: 0
 2790 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2791 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2792 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-2793 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name - 
-2794 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name - 
-2795 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name - 
-2796 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | Line is highlighted as paused - 
-2797 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | expression is highlighted as paused - 
+2793 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name -
+2794 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name -
+2795 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name -
+2796 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | Line is highlighted as paused -
+2797 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | expression is highlighted as paused -
 2798 INFO Resuming
 2799 INFO Waiting for thread event 'resumed' to fire.
 2800 INFO Thread event 'resumed' fired.
 2801 INFO Invoking function caughtException in tab
 2802 INFO Waiting for thread event 'paused' to fire.
 2803 INFO Thread event 'paused' fired.
-2804 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name - 
-2805 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name - 
-2806 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name - 
-2807 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | Line is highlighted as paused - 
-2808 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | expression is highlighted as paused - 
+2804 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name -
+2805 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name -
+2806 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name -
+2807 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | Line is highlighted as paused -
+2808 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | expression is highlighted as paused -
 2809 INFO Resuming
 2810 INFO Waiting for thread event 'resumed' to fire.
 2811 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -3135,11 +3135,11 @@ GECKO(68156) | Line: 1689, column: 0
 2850 INFO Invoking function caughtException in tab
 2851 INFO Waiting for thread event 'paused' to fire.
 2852 INFO Thread event 'paused' fired.
-2853 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name - 
-2854 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name - 
-2855 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name - 
-2856 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | Line is highlighted as paused - 
-2857 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | expression is highlighted as paused - 
+2853 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name -
+2854 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name -
+2855 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | undefined assertion name -
+2856 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | Line is highlighted as paused -
+2857 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | expression is highlighted as paused -
 2858 INFO Resuming
 2859 INFO Waiting for thread event 'resumed' to fire.
 2860 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -3163,7 +3163,7 @@ GECKO(68156) | Line: 1689, column: 0
 2878 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 2879 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 2880 INFO Thread event 'resumed' fired.
-2881 INFO Leaving test bound 
+2881 INFO Leaving test bound
 2882 INFO Removing tab.
 2883 INFO Waiting for event: 'TabClose' on [object XULElement].
 2884 INFO Got event: 'TabClose' on [object XULElement].
@@ -3172,7 +3172,7 @@ GECKO(68156) | MEMORY STAT | vsize 5509MB | residentFast 1096MB | heapAllocated 
 2886 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-pause-exceptions.js | took 1358ms
 2887 INFO checking window state
 2888 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js
-2889 INFO Entering test bound 
+2889 INFO Entering test bound
 2890 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-minified.html
 2891 INFO Tab added and finished loading
 2892 INFO Opening the toolbox
@@ -3283,11 +3283,11 @@ GECKO(68156) | MEMORY STAT | vsize 5509MB | residentFast 1096MB | heapAllocated 
 2995 INFO Invoking function arithmetic in tab
 2996 INFO Waiting for thread event 'paused' to fire.
 2997 INFO Thread event 'paused' fired.
-2998 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | undefined assertion name - 
-2999 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | undefined assertion name - 
-3000 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | undefined assertion name - 
-3001 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | Line is highlighted as paused - 
-3002 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | expression is highlighted as paused - 
+2998 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | undefined assertion name -
+2999 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | undefined assertion name -
+3000 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | undefined assertion name -
+3001 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | Line is highlighted as paused -
+3002 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | expression is highlighted as paused -
 3003 INFO Waiting for SELECT_SOURCE to dispatch 1 time(s)
 3004 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3005 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -3309,7 +3309,7 @@ GECKO(68156) | MEMORY STAT | vsize 5509MB | residentFast 1096MB | heapAllocated 
 3021 INFO Resuming
 3022 INFO Waiting for thread event 'resumed' to fire.
 3023 INFO Thread event 'resumed' fired.
-3024 INFO Leaving test bound 
+3024 INFO Leaving test bound
 3025 INFO Removing tab.
 3026 INFO Waiting for event: 'TabClose' on [object XULElement].
 3027 INFO Got event: 'TabClose' on [object XULElement].
@@ -3318,7 +3318,7 @@ GECKO(68156) | MEMORY STAT | vsize 5564MB | residentFast 1154MB | heapAllocated 
 3029 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print-paused.js | took 1222ms
 3030 INFO checking window state
 3031 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js
-3032 INFO Entering test bound 
+3032 INFO Entering test bound
 3033 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-minified.html
 3034 INFO Tab added and finished loading
 3035 INFO Opening the toolbox
@@ -3426,17 +3426,17 @@ GECKO(68156) | MEMORY STAT | vsize 5564MB | residentFast 1154MB | heapAllocated 
 3135 INFO Selecting source: math.min.js
 3136 INFO Waiting for SELECT_SOURCE to dispatch 1 time(s)
 3137 INFO SELECT_SOURCE dispatched 1 time(s)
-3138 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | Pretty-printed source exists - 
+3138 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | Pretty-printed source exists -
 3139 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 3140 INFO ADD_BREAKPOINT dispatched 1 time(s)
 3141 INFO Invoking function arithmetic in tab
 3142 INFO Waiting for thread event 'paused' to fire.
 3143 INFO Thread event 'paused' fired.
-3144 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name - 
-3145 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name - 
-3146 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name - 
-3147 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | Line is highlighted as paused - 
-3148 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | expression is highlighted as paused - 
+3144 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name -
+3145 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name -
+3146 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name -
+3147 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | Line is highlighted as paused -
+3148 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | expression is highlighted as paused -
 3149 INFO Stepping over
 3150 INFO Waiting for thread event 'paused' to fire.
 3151 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -3456,11 +3456,11 @@ GECKO(68156) | MEMORY STAT | vsize 5564MB | residentFast 1154MB | heapAllocated 
 3165 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3166 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 3167 INFO Thread event 'paused' fired.
-3168 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name - 
-3169 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name - 
-3170 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name - 
-3171 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | Line is highlighted as paused - 
-3172 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | expression is highlighted as paused - 
+3168 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name -
+3169 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name -
+3170 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | undefined assertion name -
+3171 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | Line is highlighted as paused -
+3172 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | expression is highlighted as paused -
 3173 INFO Resuming
 3174 INFO Waiting for thread event 'resumed' to fire.
 3175 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -3480,10 +3480,10 @@ GECKO(68156) | MEMORY STAT | vsize 5564MB | residentFast 1154MB | heapAllocated 
 3189 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3190 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 3191 INFO Thread event 'resumed' fired.
-3192 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | Footer is hidden - 
+3192 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | Footer is hidden -
 3193 INFO Selecting source: math.min.js
-3194 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | Footer is hidden - 
-3195 INFO Leaving test bound 
+3194 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | Footer is hidden -
+3195 INFO Leaving test bound
 3196 INFO Removing tab.
 3197 INFO Waiting for event: 'TabClose' on [object XULElement].
 3198 INFO Got event: 'TabClose' on [object XULElement].
@@ -3492,7 +3492,7 @@ GECKO(68156) | MEMORY STAT | vsize 5480MB | residentFast 1074MB | heapAllocated 
 3200 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-pretty-print.js | took 1580ms
 3201 INFO checking window state
 3202 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js
-3203 INFO Entering test bound 
+3203 INFO Entering test bound
 3204 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-script-mutate.html
 3205 INFO Tab added and finished loading
 3206 INFO Opening the toolbox
@@ -3620,11 +3620,11 @@ GECKO(68156) | MEMORY STAT | vsize 5480MB | residentFast 1074MB | heapAllocated 
 3326 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3327 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3328 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-3329 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The second element in the scope panel is "<this>" - 
-3330 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The third element in the scope panel is "phonebook" - 
+3329 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The second element in the scope panel is "<this>" -
+3330 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The third element in the scope panel is "phonebook" -
 3331 INFO Waiting for LOAD_OBJECT_PROPERTIES to dispatch 1 time(s)
 3332 INFO LOAD_OBJECT_PROPERTIES dispatched 1 time(s)
-3333 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The fourth element in the scope panel is "S" - 
+3333 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The fourth element in the scope panel is "S" -
 3334 INFO Waiting for LOAD_OBJECT_PROPERTIES to dispatch 1 time(s)
 3335 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3336 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -3635,8 +3635,8 @@ GECKO(68156) | MEMORY STAT | vsize 5480MB | residentFast 1074MB | heapAllocated 
 3341 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3342 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 3343 INFO LOAD_OBJECT_PROPERTIES dispatched 1 time(s)
-3344 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The fifth element in the scope panel is "sarah" - 
-3345 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The sixth element in the scope panel is "serena" - 
+3344 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The fifth element in the scope panel is "sarah" -
+3345 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The sixth element in the scope panel is "serena" -
 3346 INFO Waiting for LOAD_OBJECT_PROPERTIES to dispatch 1 time(s)
 3347 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3348 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -3651,8 +3651,8 @@ GECKO(68156) | MEMORY STAT | vsize 5480MB | residentFast 1074MB | heapAllocated 
 3357 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3358 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 3359 INFO LOAD_OBJECT_PROPERTIES dispatched 1 time(s)
-3360 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The sixth element in the scope panel is now "lastName" - 
-3361 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The "lastName" element has the expected "Doe" value - 
+3360 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The sixth element in the scope panel is now "lastName" -
+3361 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The "lastName" element has the expected "Doe" value -
 3362 INFO Resuming
 3363 INFO Waiting for thread event 'paused' to fire.
 3364 INFO Resuming
@@ -3667,9 +3667,9 @@ GECKO(68156) | MEMORY STAT | vsize 5480MB | residentFast 1074MB | heapAllocated 
 3373 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 3374 INFO Thread event 'resumed' fired.
 3375 INFO Thread event 'paused' fired.
-3376 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The second element in the scope panel is "<this>" - 
-3377 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The third element in the scope panel is "phonebook" - 
-3378 INFO Leaving test bound 
+3376 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The second element in the scope panel is "<this>" -
+3377 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | The third element in the scope panel is "phonebook" -
+3378 INFO Leaving test bound
 3379 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3380 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3381 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -3698,7 +3698,7 @@ GECKO(68156) | MEMORY STAT | vsize 5545MB | residentFast 1141MB | heapAllocated 
 3403 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes-mutations.js | took 1407ms
 3404 INFO checking window state
 3405 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js
-3406 INFO Entering test bound 
+3406 INFO Entering test bound
 3407 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-script-switching.html
 3408 INFO Tab added and finished loading
 3409 INFO Opening the toolbox
@@ -3826,12 +3826,12 @@ GECKO(68156) | MEMORY STAT | vsize 5545MB | residentFast 1141MB | heapAllocated 
 3529 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3530 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3531 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-3532 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name - 
-3533 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name - 
-3534 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name - 
+3532 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name -
+3533 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name -
+3534 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name -
 3535 INFO Waiting for LOAD_OBJECT_PROPERTIES to dispatch 1 time(s)
 3536 INFO LOAD_OBJECT_PROPERTIES dispatched 1 time(s)
-3537 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name - 
+3537 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name -
 3538 INFO Stepping over
 3539 INFO Waiting for thread event 'paused' to fire.
 3540 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -3859,9 +3859,9 @@ GECKO(68156) | MEMORY STAT | vsize 5545MB | residentFast 1141MB | heapAllocated 
 3562 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3563 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 3564 INFO Thread event 'paused' fired.
-3565 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name - 
-3566 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name - 
-3567 INFO Leaving test bound 
+3565 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name -
+3566 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | undefined assertion name -
+3567 INFO Leaving test bound
 3568 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3569 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3570 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -3890,7 +3890,7 @@ GECKO(68156) | MEMORY STAT | vsize 5552MB | residentFast 1152MB | heapAllocated 
 3592 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-scopes.js | took 1206ms
 3593 INFO checking window state
 3594 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js
-3595 INFO Entering test bound 
+3595 INFO Entering test bound
 3596 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 3597 INFO Tab added and finished loading
 3598 INFO Opening the toolbox
@@ -3996,15 +3996,15 @@ GECKO(68156) | MEMORY STAT | vsize 5552MB | residentFast 1152MB | heapAllocated 
 "}]
 3697 INFO Toolbox opened and focused
 3698 INFO Selecting source: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/simple1.js
-3699 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name - 
-3700 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name - 
-3701 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name - 
-3702 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name - 
-3703 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name - 
-3704 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name - 
+3699 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name -
+3700 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name -
+3701 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name -
+3702 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name -
+3703 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name -
+3704 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name -
 3705 INFO Selecting source: simple2
-3706 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name - 
-3707 INFO Leaving test bound 
+3706 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | undefined assertion name -
+3707 INFO Leaving test bound
 3708 INFO Removing tab.
 3709 INFO Waiting for event: 'TabClose' on [object XULElement].
 3710 INFO Got event: 'TabClose' on [object XULElement].
@@ -4013,7 +4013,7 @@ GECKO(68156) | MEMORY STAT | vsize 5622MB | residentFast 1212MB | heapAllocated 
 3712 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-search-file.js | took 1748ms
 3713 INFO checking window state
 3714 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-search-sources.js
-3715 INFO Entering test bound 
+3715 INFO Entering test bound
 3716 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-script-switching.html
 3717 INFO Tab added and finished loading
 3718 INFO Opening the toolbox
@@ -4112,8 +4112,8 @@ GECKO(68156) | MEMORY STAT | vsize 5622MB | residentFast 1212MB | heapAllocated 
 3811 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 3812 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 3813 INFO Toolbox opened and focused
-3814 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-sources.js | undefined assertion name - 
-3815 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-sources.js | undefined assertion name - 
+3814 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-sources.js | undefined assertion name -
+3815 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-sources.js | undefined assertion name -
 3816 INFO Waiting for LOAD_SOURCE_TEXT to dispatch 1 time(s)
 3817 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 22011 column: 1 source: "	eval("o" + o); // ensure no dead code elimination
 "}]
@@ -4122,11 +4122,11 @@ GECKO(68156) | MEMORY STAT | vsize 5622MB | residentFast 1212MB | heapAllocated 
 3820 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 22011 column: 1 source: "	eval("o" + o); // ensure no dead code elimination
 "}]
 3821 INFO LOAD_SOURCE_TEXT dispatched 1 time(s)
-3822 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-sources.js | first source is selected - 
+3822 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-sources.js | first source is selected -
 3823 INFO Waiting for LOAD_SOURCE_TEXT to dispatch 1 time(s)
 3824 INFO LOAD_SOURCE_TEXT dispatched 1 time(s)
-3825 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-sources.js | second source is selected - 
-3826 INFO Leaving test bound 
+3825 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-sources.js | second source is selected -
+3826 INFO Leaving test bound
 3827 INFO Removing tab.
 3828 INFO Waiting for event: 'TabClose' on [object XULElement].
 3829 INFO Got event: 'TabClose' on [object XULElement].
@@ -4135,7 +4135,7 @@ GECKO(68156) | MEMORY STAT | vsize 5641MB | residentFast 1235MB | heapAllocated 
 3831 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-search-sources.js | took 1417ms
 3832 INFO checking window state
 3833 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-search-symbols.js
-3834 INFO Entering test bound 
+3834 INFO Entering test bound
 3835 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-script-switching.html
 3836 INFO Tab added and finished loading
 3837 INFO Opening the toolbox
@@ -4242,12 +4242,12 @@ GECKO(68156) | MEMORY STAT | vsize 5641MB | residentFast 1235MB | heapAllocated 
 3936 INFO Toolbox opened and focused
 3937 INFO Selecting source: switching-01
 3938 INFO Synthesizing key shortcut: CmdOrCtrl+Shift+O
-3939 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-symbols.js | undefined assertion name - 
-3940 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-symbols.js | undefined assertion name - 
+3939 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-symbols.js | undefined assertion name -
+3940 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-symbols.js | undefined assertion name -
 3941 INFO Synthesizing key shortcut: CmdOrCtrl+Shift+O
-3942 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-symbols.js | undefined assertion name - 
-3943 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-symbols.js | undefined assertion name - 
-3944 INFO Leaving test bound 
+3942 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-symbols.js | undefined assertion name -
+3943 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-search-symbols.js | undefined assertion name -
+3944 INFO Leaving test bound
 3945 INFO Removing tab.
 3946 INFO Waiting for event: 'TabClose' on [object XULElement].
 3947 INFO Got event: 'TabClose' on [object XULElement].
@@ -4256,7 +4256,7 @@ GECKO(68156) | MEMORY STAT | vsize 5701MB | residentFast 1297MB | heapAllocated 
 3949 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-search-symbols.js | took 1350ms
 3950 INFO checking window state
 3951 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js
-3952 INFO Entering test bound 
+3952 INFO Entering test bound
 3953 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-sourcemap-bogus.html
 3954 INFO Tab added and finished loading
 3955 INFO Opening the toolbox
@@ -4367,13 +4367,13 @@ GECKO(68156) | MEMORY STAT | vsize 5701MB | residentFast 1297MB | heapAllocated 
 4058 INFO Invoking function runCode in tab
 4059 INFO Waiting for thread event 'paused' to fire.
 4060 INFO Thread event 'paused' fired.
-4061 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | undefined assertion name - 
-4062 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | undefined assertion name - 
-4063 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | undefined assertion name - 
-4064 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | Line is highlighted as paused - 
-4065 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | expression is highlighted as paused - 
-4066 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | Only 1 source exists - 
-4067 INFO Leaving test bound 
+4061 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | undefined assertion name -
+4062 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | undefined assertion name -
+4063 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | undefined assertion name -
+4064 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | Line is highlighted as paused -
+4065 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | expression is highlighted as paused -
+4066 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | Only 1 source exists -
+4067 INFO Leaving test bound
 4068 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4069 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4070 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -4402,7 +4402,7 @@ GECKO(68156) | MEMORY STAT | vsize 5706MB | residentFast 1304MB | heapAllocated 
 4092 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-bogus.js | took 1346ms
 4093 INFO checking window state
 4094 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js
-4095 INFO Entering test bound 
+4095 INFO Entering test bound
 4096 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-sourcemaps.html
 4097 INFO Tab added and finished loading
 4098 INFO Opening the toolbox
@@ -4506,7 +4506,7 @@ GECKO(68156) | MEMORY STAT | vsize 5706MB | residentFast 1304MB | heapAllocated 
 "}]
 4196 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 25465}]
 4197 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 25477}]
-4198 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | Original sources exist - 
+4198 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | Original sources exist -
 4199 INFO Selecting source: [object Object]
 4200 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 22011 column: 1 source: "	eval("o" + o); // ensure no dead code elimination
 "}]
@@ -4514,11 +4514,11 @@ GECKO(68156) | MEMORY STAT | vsize 5706MB | residentFast 1304MB | heapAllocated 
 4202 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4203 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4204 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-4205 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | Original source text loaded correctly - 
+4205 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | Original source text loaded correctly -
 4206 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 4207 INFO ADD_BREAKPOINT dispatched 1 time(s)
-4208 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | One breakpoint exists - 
-4209 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | Breakpoint has correct line - 
+4208 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | One breakpoint exists -
+4209 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | Breakpoint has correct line -
 4210 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 4211 INFO ADD_BREAKPOINT dispatched 1 time(s)
 4212 INFO Waiting for DISABLE_BREAKPOINT to dispatch 1 time(s)
@@ -4538,10 +4538,10 @@ GECKO(68156) | MEMORY STAT | vsize 5706MB | residentFast 1304MB | heapAllocated 
 4226 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4227 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 4228 INFO LOAD_SOURCE_TEXT dispatched 1 time(s)
-4229 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | One breakpoint exists - 
-4230 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | Breakpoint has correct line - 
-4231 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | Breakpoint has correct line - 
-4232 INFO Leaving test bound 
+4229 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | One breakpoint exists -
+4230 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | Breakpoint has correct line -
+4231 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | Breakpoint has correct line -
+4232 INFO Leaving test bound
 GECKO(68156) | JavaScript error: resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/client/shared/source-map/index.js, line 590: TypeError: this.worker is null
 4233 INFO Console message: [JavaScript Error: "TypeError: this.worker is null" {file: "resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/client/shared/source-map/index.js" line: 590}]
 4234 INFO Removing tab.
@@ -4552,7 +4552,7 @@ GECKO(68156) | MEMORY STAT | vsize 5719MB | residentFast 1320MB | heapAllocated 
 4238 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps-reloading.js | took 1545ms
 4239 INFO checking window state
 4240 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js
-4241 INFO Entering test bound 
+4241 INFO Entering test bound
 4242 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-sourcemaps.html
 4243 INFO Tab added and finished loading
 4244 INFO Opening the toolbox
@@ -4656,7 +4656,7 @@ GECKO(68156) | MEMORY STAT | vsize 5719MB | residentFast 1320MB | heapAllocated 
 4341 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 25477}]
 4342 INFO Toolbox opened and focused
 4343 INFO Waiting on sources: entry.js, output.js, times2.js, opts.js
-4344 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Original sources exist - 
+4344 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Original sources exist -
 4345 INFO Selecting source: [object Object]
 4346 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 22011 column: 1 source: "	eval("o" + o); // ensure no dead code elimination
 "}]
@@ -4666,28 +4666,28 @@ GECKO(68156) | MEMORY STAT | vsize 5719MB | residentFast 1320MB | heapAllocated 
 4350 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 4351 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 4352 INFO ADD_BREAKPOINT dispatched 1 time(s)
-4353 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Breakpoint exists on line 13 - 
+4353 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Breakpoint exists on line 13 -
 4354 INFO Waiting for REMOVE_BREAKPOINT to dispatch 1 time(s)
 4355 INFO REMOVE_BREAKPOINT dispatched 1 time(s)
-4356 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | No breakpoints exists - 
+4356 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | No breakpoints exists -
 4357 INFO Selecting source: [object Object]
-4358 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Original source text loaded correctly - 
+4358 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Original source text loaded correctly -
 4359 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 4360 INFO ADD_BREAKPOINT dispatched 1 time(s)
-4361 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | One breakpoint exists - 
-4362 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Breakpoint has correct line - 
+4361 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | One breakpoint exists -
+4362 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Breakpoint has correct line -
 4363 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 4364 INFO ADD_BREAKPOINT dispatched 1 time(s)
-4365 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Two breakpoints exist - 
-4366 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Breakpoint has correct line - 
+4365 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Two breakpoints exist -
+4366 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Breakpoint has correct line -
 4367 INFO Invoking function keepMeAlive in tab
 4368 INFO Waiting for thread event 'paused' to fire.
 4369 INFO Thread event 'paused' fired.
-4370 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4371 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4372 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4373 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Line is highlighted as paused - 
-4374 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | expression is highlighted as paused - 
+4370 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4371 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4372 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4373 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Line is highlighted as paused -
+4374 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | expression is highlighted as paused -
 4375 INFO Stepping in
 4376 INFO Waiting for thread event 'paused' to fire.
 4377 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -4739,19 +4739,19 @@ GECKO(68156) | MEMORY STAT | vsize 5719MB | residentFast 1320MB | heapAllocated 
 4423 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4424 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4425 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-4426 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4427 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4428 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4429 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Line is highlighted as paused - 
-4430 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | expression is highlighted as paused - 
+4426 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4427 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4428 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4429 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Line is highlighted as paused -
+4430 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | expression is highlighted as paused -
 4431 INFO Stepping over
 4432 INFO Waiting for thread event 'paused' to fire.
 4433 INFO Thread event 'paused' fired.
-4434 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4435 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4436 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4437 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Line is highlighted as paused - 
-4438 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | expression is highlighted as paused - 
+4434 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4435 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4436 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4437 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Line is highlighted as paused -
+4438 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | expression is highlighted as paused -
 4439 INFO Stepping out
 4440 INFO Waiting for thread event 'paused' to fire.
 4441 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -4806,12 +4806,12 @@ GECKO(68156) | MEMORY STAT | vsize 5719MB | residentFast 1320MB | heapAllocated 
 4490 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4491 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 4492 INFO Thread event 'paused' fired.
-4493 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4494 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4495 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name - 
-4496 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Line is highlighted as paused - 
-4497 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | expression is highlighted as paused - 
-4498 INFO Leaving test bound 
+4493 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4494 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4495 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | undefined assertion name -
+4496 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | Line is highlighted as paused -
+4497 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | expression is highlighted as paused -
+4498 INFO Leaving test bound
 4499 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4500 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4501 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -4844,7 +4844,7 @@ GECKO(68156) | MEMORY STAT | vsize 5695MB | residentFast 1301MB | heapAllocated 
 4527 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps.js | took 2816ms
 4528 INFO checking window state
 4529 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js
-4530 INFO Entering test bound 
+4530 INFO Entering test bound
 4531 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-sourcemaps2.html
 4532 INFO Tab added and finished loading
 4533 INFO Opening the toolbox
@@ -4948,23 +4948,23 @@ GECKO(68156) | MEMORY STAT | vsize 5695MB | residentFast 1301MB | heapAllocated 
 4630 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 25477}]
 4631 INFO Toolbox opened and focused
 4632 INFO Waiting on sources: main.js, main.min.js
-4633 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | Original sources exist - 
+4633 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | Original sources exist -
 4634 INFO Selecting source: [object Object]
 4635 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 22011 column: 1 source: "	eval("o" + o); // ensure no dead code elimination
 "}]
 4636 INFO Waiting for ADD_BREAKPOINT to dispatch 1 time(s)
 4637 INFO ADD_BREAKPOINT dispatched 1 time(s)
-4638 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | One breakpoint exists - 
-4639 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | Breakpoint has correct line - 
+4638 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | One breakpoint exists -
+4639 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | Breakpoint has correct line -
 4640 INFO Invoking function logMessage in tab
 4641 INFO Waiting for thread event 'paused' to fire.
 4642 INFO Thread event 'paused' fired.
-4643 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | undefined assertion name - 
-4644 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | undefined assertion name - 
-4645 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | undefined assertion name - 
-4646 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | Line is highlighted as paused - 
-4647 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | expression is highlighted as paused - 
-4648 INFO Leaving test bound 
+4643 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | undefined assertion name -
+4644 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | undefined assertion name -
+4645 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | undefined assertion name -
+4646 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | Line is highlighted as paused -
+4647 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | expression is highlighted as paused -
+4648 INFO Leaving test bound
 4649 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4650 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4651 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -4989,7 +4989,7 @@ GECKO(68156) | MEMORY STAT | vsize 5733MB | residentFast 1351MB | heapAllocated 
 4669 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-sourcemaps2.js | took 1148ms
 4670 INFO checking window state
 4671 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js
-4672 INFO Entering test bound 
+4672 INFO Entering test bound
 4673 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-sources.html
 4674 INFO Tab added and finished loading
 4675 INFO Opening the toolbox
@@ -5096,10 +5096,10 @@ GECKO(68156) | MEMORY STAT | vsize 5733MB | residentFast 1351MB | heapAllocated 
 "}]
 4775 INFO Toolbox opened and focused
 4776 INFO Waiting on sources: simple1, simple2, nested-source, long.js
-4777 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | undefined assertion name - 
-4778 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | undefined assertion name - 
-4779 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | undefined assertion name - 
-4780 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | Source is not focused - 
+4777 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | undefined assertion name -
+4778 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | undefined assertion name -
+4779 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | undefined assertion name -
+4780 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | Source is not focused -
 4781 INFO Waiting for SELECT_SOURCE to dispatch 1 time(s)
 4782 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4783 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -5126,11 +5126,11 @@ GECKO(68156) | MEMORY STAT | vsize 5733MB | residentFast 1351MB | heapAllocated 
 4804 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4805 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 4806 INFO SELECT_SOURCE dispatched 1 time(s)
-4807 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | Source is focused - 
-4808 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | The right source is selected - 
-4809 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | The dynamic script exists - 
-4810 INFO Leaving test bound 
-4811 INFO Entering test bound 
+4807 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | Source is focused -
+4808 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | The right source is selected -
+4809 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | The dynamic script exists -
+4810 INFO Leaving test bound
+4811 INFO Entering test bound
 4812 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-sources.html
 4813 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4814 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -5245,9 +5245,9 @@ GECKO(68156) | MEMORY STAT | vsize 5733MB | residentFast 1351MB | heapAllocated 
 4921 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4922 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4923 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-4924 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | the folder exists - 
-4925 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | the eval script exists - 
-4926 INFO Leaving test bound 
+4924 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | the folder exists -
+4925 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | the eval script exists -
+4926 INFO Leaving test bound
 4927 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4928 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 4929 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -5264,7 +5264,7 @@ GECKO(68156) | MEMORY STAT | vsize 5747MB | residentFast 1347MB | heapAllocated 
 4939 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-sources.js | took 1628ms
 4940 INFO checking window state
 4941 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-tabs.js
-4942 INFO Entering test bound 
+4942 INFO Entering test bound
 4943 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 4944 INFO Tab added and finished loading
 4945 INFO Opening the toolbox
@@ -5371,9 +5371,9 @@ GECKO(68156) | MEMORY STAT | vsize 5747MB | residentFast 1347MB | heapAllocated 
 5044 INFO Toolbox opened and focused
 5045 INFO Selecting source: simple1
 5046 INFO Selecting source: simple2
-5047 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-tabs.js | undefined assertion name - 
+5047 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-tabs.js | undefined assertion name -
 5048 INFO Waiting on sources: simple1, simple2
-5049 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-tabs.js | undefined assertion name - 
+5049 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-tabs.js | undefined assertion name -
 5050 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5051 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5052 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -5383,7 +5383,7 @@ GECKO(68156) | MEMORY STAT | vsize 5747MB | residentFast 1347MB | heapAllocated 
 5056 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5057 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 5058 INFO Waiting on sources: simple1, simple2
-5059 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-tabs.js | undefined assertion name - 
+5059 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-tabs.js | undefined assertion name -
 5060 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5061 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5062 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -5392,8 +5392,8 @@ GECKO(68156) | MEMORY STAT | vsize 5747MB | residentFast 1347MB | heapAllocated 
 5065 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5066 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5067 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
-5068 INFO Leaving test bound 
-5069 INFO Entering test bound 
+5068 INFO Leaving test bound
+5069 INFO Entering test bound
 5070 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 5071 INFO Tab added and finished loading
 5072 INFO Opening the toolbox
@@ -5503,8 +5503,8 @@ GECKO(68156) | MEMORY STAT | vsize 5747MB | residentFast 1347MB | heapAllocated 
 5174 INFO Closing tab: simple1
 5175 INFO Closing tab: simple2
 5176 INFO Waiting on sources: simple1, simple2
-5177 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-tabs.js | undefined assertion name - 
-5178 INFO Leaving test bound 
+5177 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-tabs.js | undefined assertion name -
+5178 INFO Leaving test bound
 5179 INFO Removing tab.
 5180 INFO Waiting for event: 'TabClose' on [object XULElement].
 5181 INFO Got event: 'TabClose' on [object XULElement].
@@ -5518,7 +5518,7 @@ GECKO(68156) | MEMORY STAT | vsize 5763MB | residentFast 1369MB | heapAllocated 
 5188 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-tabs.js | took 4040ms
 5189 INFO checking window state
 5190 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg-toggling-tools.js
-5191 INFO Entering test bound 
+5191 INFO Entering test bound
 5192 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 5193 INFO Tab added and finished loading
 5194 INFO Opening the toolbox
@@ -5624,8 +5624,8 @@ GECKO(68156) | MEMORY STAT | vsize 5763MB | residentFast 1369MB | heapAllocated 
 "}]
 5293 INFO Toolbox opened and focused
 5294 INFO Selecting source: long
-5295 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-toggling-tools.js | undefined assertion name - 
-5296 INFO Leaving test bound 
+5295 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg-toggling-tools.js | undefined assertion name -
+5296 INFO Leaving test bound
 5297 INFO Removing tab.
 5298 INFO Waiting for event: 'TabClose' on [object XULElement].
 5299 INFO Got event: 'TabClose' on [object XULElement].
@@ -5634,7 +5634,7 @@ GECKO(68156) | MEMORY STAT | vsize 5767MB | residentFast 1376MB | heapAllocated 
 5301 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg-toggling-tools.js | took 858ms
 5302 INFO checking window state
 5303 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js
-5304 INFO Entering test bound 
+5304 INFO Entering test bound
 5305 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-debugger-statements.html
 5306 INFO Tab added and finished loading
 5307 INFO Opening the toolbox
@@ -5755,18 +5755,18 @@ GECKO(68156) | MEMORY STAT | vsize 5767MB | residentFast 1376MB | heapAllocated 
 5420 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5421 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 5422 INFO Console message: [JavaScript Warning: "Use of nsIFile in content process is deprecated." {file: "resource://gre/modules/NetUtil.jsm" line: 307}]
-5423 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5424 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5425 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5426 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Line is highlighted as paused - 
-5427 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | expression is highlighted as paused - 
+5423 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5424 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5425 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5426 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Line is highlighted as paused -
+5427 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | expression is highlighted as paused -
 5428 INFO Waiting for thread event 'paused' to fire.
 5429 INFO Thread event 'paused' fired.
-5430 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5431 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5432 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5433 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Line is highlighted as paused - 
-5434 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | expression is highlighted as paused - 
+5430 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5431 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5432 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5433 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Line is highlighted as paused -
+5434 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | expression is highlighted as paused -
 5435 INFO Waiting for thread event 'paused' to fire.
 5436 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5437 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -5785,11 +5785,11 @@ GECKO(68156) | MEMORY STAT | vsize 5767MB | residentFast 1376MB | heapAllocated 
 5450 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5451 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 5452 INFO Thread event 'paused' fired.
-5453 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5454 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5455 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5456 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Line is highlighted as paused - 
-5457 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | expression is highlighted as paused - 
+5453 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5454 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5455 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5456 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Line is highlighted as paused -
+5457 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | expression is highlighted as paused -
 5458 INFO Waiting for thread event 'paused' to fire.
 5459 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5460 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -5808,11 +5808,11 @@ GECKO(68156) | MEMORY STAT | vsize 5767MB | residentFast 1376MB | heapAllocated 
 5473 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5474 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 5475 INFO Thread event 'paused' fired.
-5476 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5477 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5478 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5479 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Line is highlighted as paused - 
-5480 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | expression is highlighted as paused - 
+5476 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5477 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5478 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5479 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Line is highlighted as paused -
+5480 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | expression is highlighted as paused -
 5481 INFO Waiting for thread event 'paused' to fire.
 5482 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5483 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -5831,12 +5831,12 @@ GECKO(68156) | MEMORY STAT | vsize 5767MB | residentFast 1376MB | heapAllocated 
 5496 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5497 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘margin-inline-start’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 8 source: "-1000px !important"}]
 5498 INFO Thread event 'paused' fired.
-5499 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5500 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5501 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name - 
-5502 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Line is highlighted as paused - 
-5503 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | expression is highlighted as paused - 
-5504 INFO Leaving test bound 
+5499 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5500 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5501 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | undefined assertion name -
+5502 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | Line is highlighted as paused -
+5503 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | expression is highlighted as paused -
+5504 INFO Leaving test bound
 5505 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘width’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5506 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘height’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
 5507 INFO Console message: [JavaScript Warning: "Expected end of value but found ‘!’.  Error in parsing value for ‘padding’.  Declaration dropped." {file: "chrome://devtools/content/debugger/new/index.html" line: 0 column: 2 source: "0 !important"}]
@@ -5858,7 +5858,7 @@ GECKO(68156) | MEMORY STAT | vsize 5763MB | residentFast 1375MB | heapAllocated 
 5522 INFO TEST-OK | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard-shortcuts.js | took 1776ms
 5523 INFO checking window state
 5524 INFO TEST-START | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard_navigation.js
-5525 INFO Entering test bound 
+5525 INFO Entering test bound
 5526 INFO Adding a new tab with URL: http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/doc-scripts.html
 5527 INFO Tab added and finished loading
 5528 INFO Opening the toolbox
@@ -5964,10 +5964,10 @@ GECKO(68156) | MEMORY STAT | vsize 5763MB | residentFast 1375MB | heapAllocated 
 5627 INFO Selecting source: simple2
 5628 INFO Console message: [JavaScript Warning: "unreachable code after return statement" {file: "resource://devtools/client/debugger/new/parser-worker.js" line: 22011 column: 1 source: "	eval("o" + o); // ensure no dead code elimination
 "}]
-5629 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard_navigation.js | Editor is enabled - 
-5630 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard_navigation.js | Focused on container - 
-5631 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard_navigation.js | Editor is enabled - 
-5632 INFO Leaving test bound 
+5629 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard_navigation.js | Editor is enabled -
+5630 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard_navigation.js | Focused on container -
+5631 INFO TEST-PASS | devtools/client/debugger/new/test/mochitest/browser_dbg_keyboard_navigation.js | Editor is enabled -
+5632 INFO Leaving test bound
 5633 INFO Removing tab.
 5634 INFO Waiting for event: 'TabClose' on [object XULElement].
 5635 INFO Got event: 'TabClose' on [object XULElement].

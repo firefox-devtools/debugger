@@ -13,11 +13,11 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { remapBreakpoints } from "./breakpoints";
 
-import { setSymbols, setOutOfScopeLocations } from "./ast";
+import { setEmptyLines, setSymbols, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
 
-import { getPrettySourceURL } from "../utils/source";
+import { getPrettySourceURL, isLoaded } from "../utils/source";
 import { createPrettySource } from "./sources/createPrettySource";
 
 import { prefs } from "../utils/prefs";
@@ -44,11 +44,11 @@ import type { State } from "../reducers/types";
 
 // If a request has been made to show this source, go ahead and
 // select it.
-function checkSelectedSource(state: State, dispatch, source) {
+async function checkSelectedSource(state: State, dispatch, source) {
   const pendingLocation = getPendingSelectedLocation(state);
 
   if (pendingLocation && !!source.url && pendingLocation.url === source.url) {
-    dispatch(selectSource(source.id, { line: pendingLocation.line }));
+    await dispatch(selectSource(source.id, { line: pendingLocation.line }));
   }
 }
 
@@ -62,7 +62,7 @@ async function checkPendingBreakpoint(
   const sameSource = sourceUrl && sourceUrl === source.url;
 
   if (sameSource) {
-    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
+    await dispatch(syncBreakpoint(source, pendingBreakpoint));
   }
 }
 
@@ -86,11 +86,12 @@ async function checkPendingBreakpoints(state, dispatch, source) {
 export function newSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     dispatch({ type: "ADD_SOURCE", source });
+
     if (prefs.clientSourceMapsEnabled) {
       await dispatch(loadSourceMap(source));
     }
 
-    checkSelectedSource(getState(), dispatch, source);
+    await checkSelectedSource(getState(), dispatch, source);
     await checkPendingBreakpoints(getState(), dispatch, source);
   };
 }
@@ -152,10 +153,10 @@ export function selectSourceURL(
   url: string,
   options: SelectSourceOptions = {}
 ) {
-  return ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (source) {
-      dispatch(selectSource(source.get("id"), options));
+      await dispatch(selectSource(source.get("id"), options));
     } else {
       dispatch({
         type: "SELECT_SOURCE_URL",
@@ -303,7 +304,7 @@ export function togglePrettyPrint(sourceId: string) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId).toJS();
 
-    if (source && source.loading) {
+    if (source && !isLoaded(source)) {
       return {};
     }
 
@@ -333,6 +334,7 @@ export function togglePrettyPrint(sourceId: string) {
     );
 
     await dispatch(remapBreakpoints(sourceId));
+    await dispatch(setEmptyLines(newPrettySource.id));
 
     return dispatch(
       selectSource(newPrettySource.id, {
@@ -384,6 +386,7 @@ export function loadSourceText(source: Source) {
     });
 
     await dispatch(setSymbols(source.id));
+    await dispatch(setEmptyLines(source.id));
   };
 }
 

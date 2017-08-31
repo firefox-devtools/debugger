@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import classnames from "classnames";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -45,6 +45,10 @@ function FrameFactory({ dir = "ltr", theme = "light", ...props }) {
 }
 
 FrameFactory.displayName = "FrameFactory";
+FrameFactory.propTypes = {
+  dir: PropTypes.string,
+  theme: PropTypes.string
+};
 
 storiesOf("Frames", module)
   .add("simple frame", () => {

@@ -6,7 +6,7 @@ import {
 } from "../../utils/test-head";
 
 import readFixture from "./helpers/readFixture";
-const { getSymbols, getOutOfScopeLocations } = selectors;
+const { getSymbols, getEmptyLines, getOutOfScopeLocations } = selectors;
 import getInScopeLines from "../../selectors/linesInScope";
 
 const threadClient = {
@@ -40,6 +40,17 @@ const evaluationResult = {
 };
 
 describe("ast", () => {
+  describe("setEmptyLines", () => {
+    it("scopes", async () => {
+      const { dispatch, getState } = createStore(threadClient);
+      const source = makeSource("scopes.js");
+      await dispatch(actions.newSource(source));
+      await dispatch(actions.loadSourceText({ id: "scopes.js" }));
+
+      const emptyLines = getEmptyLines(getState(), source);
+      expect(emptyLines).toMatchSnapshot();
+    });
+  });
   describe("setSymbols", () => {
     describe("when the source is loaded", () => {
       it("should be able to set symbols", async () => {

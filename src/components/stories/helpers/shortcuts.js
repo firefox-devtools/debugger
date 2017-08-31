@@ -15,5 +15,8 @@ class Shortcuts extends Component {
 
 Shortcuts.childContextTypes = { shortcuts: PropTypes.object };
 Shortcuts.displayName = "Shortcuts";
+Shortcuts.propTypes = {
+  children: PropTypes.object.isRequired
+};
 
 export default Shortcuts;

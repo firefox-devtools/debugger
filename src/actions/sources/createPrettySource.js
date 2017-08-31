@@ -28,7 +28,7 @@ export function createPrettySource(sourceId) {
       text: code,
       contentType: "text/javascript",
       frames,
-      loading: false
+      loadedState: "loaded"
     };
 
     return dispatch({

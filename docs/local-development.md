@@ -386,25 +386,22 @@ it("should render a button", () => {
 
 When CI is showing a jest intermittent, it's usually possible to reproduce it locally.
 
-The first step is to run the test suite several times and see if you get the same error.
+The `intermittents` script will run tests several times until you find the failing suite.
 
 ```bash
-for i in `seq 1 20`; do jest src -i done
-```
+node bin/intermittents # run all of the tests 10 times
+node bin/intermittents --path src/actions
+node bin/intermittents --path src/actions/tests/pending-breakpoints --runs 50
+node bin/intermittents --group # will run the tests in groups
+``
 
-If you do, the next step is to narrow the error down to a single spec.
-First focus on a directory and then a file. Hint the most likely culprit are the actions.
+![](https://shipusercontent.com/8967081056f24707b3e67b1aaa79e6be/Screen%20Shot%202017-08-24%20at%2012.20.15%20AM.png)
 
-```bash
-for i in `seq 1 20`; do jest src/actions -i done
-```
-
-When you have a directory that has the intermittent, you should exclude files by marking
-`describes` with `xdescribe` and then mark `it` as `xit`
-
+When you find a file that has an intermittent, it sometimes helps to focus on a single test
+with the `jest --watch` test filter command.
 
 When you have a test that is flakey, you can look at the code and try and find the problem.
-90% of the time it will be an asynchronous call we don't wait for. Here is a recent fix.
+90% of the time it will be an asynchronous call we don\'t wait for. Here is a recent fix.
 Notice that `sourceMaps.generatedToOriginalId` was asynchronous, but we didn't wait for it.
 
 ```diff
