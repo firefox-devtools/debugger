@@ -25,7 +25,8 @@ type Props = {
   onExpand?: (item: any) => void,
   onCollapse?: (item: any) => void,
   renderItem: any,
-  disabledFocus?: boolean
+  disabledFocus?: boolean,
+  focused?: any
 };
 
 type ManagedTreeState = {
@@ -63,6 +64,10 @@ class ManagedTree extends Component {
       highlightItems.length
     ) {
       this.highlightItem(highlightItems);
+    }
+
+    if (nextProps.focused && nextProps.focused !== this.props.focused) {
+      this.focusItem(nextProps.focused);
     }
   }
 

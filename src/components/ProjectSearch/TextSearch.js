@@ -11,14 +11,41 @@ import "./TextSearch.css";
 
 import { getRelativePath } from "../../utils/sources-tree";
 
+// This finds a node that matches (has the same values
+// for specific properties) as the node passed in.
+
+function getMatchingFocusNode(results, node) {
+  if (node === null) {
+    return null;
+  }
+  return results.find(result => {
+    if (node.filepath) {
+      if (node.sourceId === result.sourceId) {
+        return result;
+      }
+    } else {
+      return result.matches.some(match => {
+        if (
+          node.sourceId === match.sourceId &&
+          node.column === match.column &&
+          node.line === match.line
+        ) {
+          return match;
+        }
+      });
+    }
+  });
+}
+
 export default class TextSearch extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
-      inputValue: this.props.query || ""
+      inputValue: this.props.query || "",
+      inputFocused: false
     };
 
-    this.focused = null;
+    this.focusedItem = null;
 
     this.inputOnChange = this.inputOnChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -26,21 +53,66 @@ export default class TextSearch extends Component {
     this.close = this.close.bind(this);
     this.selectMatchItem = this.selectMatchItem.bind(this);
   }
+  componentDidMount() {
+    const shortcuts = this.context.shortcuts;
+    shortcuts.on("Enter", this.onEnterPress);
+  }
+
+  componentWillUnmount() {
+    const shortcuts = this.context.shortcuts;
+    shortcuts.off("Enter", this.onEnterPress);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.results !== this.props.results) {
+      if (this.focusedItem === null) {
+        return;
+      }
+      const { file, match } = this.focusedItem;
+      const focusedItemType = file && !match ? "file" : "match";
+
+      this.focusedItem[focusedItemType] = getMatchingFocusNode(
+        nextProps.results,
+        file || match
+      );
+    }
+  }
 
   close() {
     this.props.closeActiveSearch();
   }
 
-  async onKeyDown(e) {
+  selectMatchItem(matchItem) {
+    this.props.selectSource(matchItem.sourceId, { line: matchItem.line });
+  }
+
+  getResults() {
+    const { results } = this.props;
+    return results.filter(
+      result => result.filepath && result.matches.length > 0
+    );
+  }
+
+  getResultCount() {
+    const results = this.getResults();
+    return results.reduce(
+      (count, file) => count + (file.matches ? file.matches.length : 0),
+      0
+    );
+  }
+
+  onKeyDown(e) {
+    e.stopPropagation();
     if (e.key !== "Enter") {
       return;
     }
+    this.focusedItem = null;
     this.props.searchSources(this.state.inputValue);
   }
 
   onEnterPress() {
-    if (this.focused) {
-      const { setExpanded, file, expanded, match } = this.focused;
+    if (this.focusedItem && !this.state.inputFocused) {
+      const { setExpanded, file, expanded, match } = this.focusedItem;
       if (setExpanded) {
         setExpanded(file, !expanded);
       } else {
@@ -49,33 +121,18 @@ export default class TextSearch extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.off("Enter", this.onEnterPress);
-  }
-
-  componentDidMount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.on("Enter", this.onEnterPress);
-  }
-
   inputOnChange(e) {
     const inputValue = e.target.value;
     this.setState({ inputValue });
   }
 
-  selectMatchItem(matchItem) {
-    this.props.selectSource(matchItem.sourceId, { line: matchItem.line });
-  }
-
   renderFile(file, focused, expanded, setExpanded) {
     if (focused) {
-      this.focused = { setExpanded, file, expanded };
+      this.focusedItem = { setExpanded, file, expanded };
     }
 
-    const matches = ` (${file.matches.length} match${file.matches.length > 1
-      ? "es"
-      : ""})`;
+    const matchesLength = file.matches.length;
+    const matches = ` (${matchesLength} match${matchesLength > 1 ? "es" : ""})`;
 
     return (
       <div
@@ -93,7 +150,7 @@ export default class TextSearch extends Component {
 
   renderMatch(match, focused) {
     if (focused) {
-      this.focused = { match };
+      this.focusedItem = { match };
     }
     return (
       <div
@@ -151,13 +208,6 @@ export default class TextSearch extends Component {
     return <span className="line-value">{matches}</span>;
   }
 
-  getResults() {
-    const { results } = this.props;
-    return results.filter(
-      result => result.filepath && result.matches.length > 0
-    );
-  }
-
   renderResults() {
     const results = this.getResults();
     results = results.filter(result => result.matches.length > 0);
@@ -173,6 +223,13 @@ export default class TextSearch extends Component {
         : this.renderMatch(item, focused);
     };
 
+    const getFocusedItem = () => {
+      if (this.focusedItem === null) {
+        return results[0] ? results[0].matches[0] : null;
+      }
+      return this.focusedItem.file || this.focusedItem.match;
+    };
+
     return (
       <ManagedTree
         getRoots={() => results}
@@ -180,7 +237,7 @@ export default class TextSearch extends Component {
         itemHeight={24}
         autoExpand={1}
         autoExpandDepth={1}
-        focused={results[0]}
+        focused={getFocusedItem()}
         getParent={item => null}
         getPath={getFilePath}
         renderItem={renderItem}
@@ -188,16 +245,8 @@ export default class TextSearch extends Component {
     );
   }
 
-  resultCount() {
-    const results = this.getResults();
-    return results.reduce(
-      (count, file) => count + (file.matches ? file.matches.length : 0),
-      0
-    );
-  }
-
   renderInput() {
-    const resultCount = this.resultCount();
+    const resultCount = this.getResultCount();
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
       resultCount
@@ -211,8 +260,8 @@ export default class TextSearch extends Component {
         size="big"
         summaryMsg={summaryMsg}
         onChange={e => this.inputOnChange(e)}
-        onFocus={() => this.setState({ focused: true })}
-        onBlur={() => this.setState({ focused: false })}
+        onFocus={() => this.setState({ inputFocused: true })}
+        onBlur={() => this.setState({ inputFocused: false })}
         onKeyDown={e => this.onKeyDown(e)}
         handleClose={this.close}
         ref="searchInput"
