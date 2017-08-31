@@ -43,6 +43,7 @@ ShallowWrapper {
       "_currentElement": <Editor
         addBreakpoint={[Function]}
         addExpression={[Function]}
+        addOrToggleDisabledBreakpoint={[Function]}
         breakpoints={
                 Immutable.Map {
                 }
@@ -84,6 +85,7 @@ ShallowWrapper {
         "props": Object {
           "addBreakpoint": [Function],
           "addExpression": [Function],
+          "addOrToggleDisabledBreakpoint": [Function],
           "breakpoints": Immutable.Map {
 },
           "clearPreview": [Function],
@@ -164,6 +166,7 @@ ShallowWrapper {
   "unrendered": <Editor
     addBreakpoint={[Function]}
     addExpression={[Function]}
+    addOrToggleDisabledBreakpoint={[Function]}
     breakpoints={
         Immutable.Map {
         }
