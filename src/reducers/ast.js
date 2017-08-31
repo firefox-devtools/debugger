@@ -147,7 +147,7 @@ export function getEmptyLines(state: OuterState, source: Source) {
     return [];
   }
 
-  return state.ast.getIn(["emptyLines", source.id]);
+  return state.ast.getIn(["emptyLines", source.id]) || [];
 }
 
 export function getOutOfScopeLocations(state: OuterState) {

@@ -12,6 +12,8 @@ import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
 
+import { isEmptyLineInSource } from "../../reducers/ast";
+
 import {
   getActiveSearchState,
   getSelectedLocation,
@@ -37,6 +39,7 @@ import Breakpoints from "./Breakpoints";
 import HitMarker from "./HitMarker";
 import CallSites from "./CallSites";
 import DebugLine from "./DebugLine";
+import EmptyLines from "./EmptyLines";
 
 import {
   showSourceText,
@@ -346,7 +349,12 @@ class Editor extends PureComponent {
   }
 
   onGutterClick(cm, line, gutter, ev) {
-    const { selectedSource, toggleBreakpoint, addOrToggleDisabledBreakpoint } = this.props;
+    const {
+      selectedSource,
+      toggleBreakpoint,
+      addOrToggleDisabledBreakpoint,
+      isEmptyLine
+    } = this.props;
 
     // ignore right clicks in the gutter
     if (
@@ -354,6 +362,10 @@ class Editor extends PureComponent {
       ev.which === 3 ||
       (selectedSource && selectedSource.get("isBlackBoxed"))
     ) {
+      return;
+    }
+
+    if (isEmptyLine(line)) {
       return;
     }
 
@@ -367,7 +379,9 @@ class Editor extends PureComponent {
 
     if (gutter !== "CodeMirror-foldgutter") {
       if (ev.shiftKey) {
-        addOrToggleDisabledBreakpoint(toSourceLine(selectedSource.get("id"), line));
+        addOrToggleDisabledBreakpoint(
+          toSourceLine(selectedSource.get("id"), line)
+        );
       } else {
         toggleBreakpoint(toSourceLine(selectedSource.get("id"), line));
       }
@@ -379,7 +393,8 @@ class Editor extends PureComponent {
       selectedSource,
       breakpoints,
       toggleBreakpoint,
-      toggleDisabledBreakpoint
+      toggleDisabledBreakpoint,
+      isEmptyLine
     } = this.props;
 
     if (selectedSource && selectedSource.get("isBlackBoxed")) {
@@ -390,6 +405,10 @@ class Editor extends PureComponent {
     const sourceId = selectedSource ? selectedSource.get("id") : "";
     const line = lineAtHeight(this.state.editor, sourceId, event);
     const breakpoint = breakpoints.find(bp => bp.location.line === line);
+
+    if (isEmptyLine(line - 1)) {
+      return;
+    }
 
     GutterMenu({
       event,
@@ -626,6 +645,14 @@ class Editor extends PureComponent {
     return <Breakpoints editor={this.state.editor} />;
   }
 
+  renderEmptyLines() {
+    if (!this.state.editor) {
+      return null;
+    }
+
+    return <EmptyLines editor={this.state.editor} />;
+  }
+
   renderDebugLine() {
     const { editor } = this.state;
     const { selectedLocation, selectedFrame } = this.props;
@@ -671,6 +698,7 @@ class Editor extends PureComponent {
         {this.renderCallSites()}
         {this.renderDebugLine()}
         {this.renderBreakpoints()}
+        {this.renderEmptyLines()}
       </div>
     );
   }
@@ -712,7 +740,8 @@ Editor.propTypes = {
   linesInScope: PropTypes.array,
   toggleBreakpoint: PropTypes.func.isRequired,
   addOrToggleDisabledBreakpoint: PropTypes.func.isRequired,
-  toggleDisabledBreakpoint: PropTypes.func.isRequired
+  toggleDisabledBreakpoint: PropTypes.func.isRequired,
+  isEmptyLine: PropTypes.func
 };
 
 Editor.contextTypes = {
@@ -738,7 +767,9 @@ export default connect(
       coverageOn: getCoverageEnabled(state),
       query: getFileSearchQueryState(state),
       searchModifiers: getFileSearchModifierState(state),
-      linesInScope: getInScopeLines(state)
+      linesInScope: getInScopeLines(state),
+      isEmptyLine: line =>
+        isEmptyLineInSource(state, line, selectedSource.toJS())
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
