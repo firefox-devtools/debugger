@@ -24,7 +24,8 @@ const args = minimist(process.argv.slice(2), {
 
 const runs = args.runs || 10;
 const testPath = args.path ? `--testPathPattern ${args.path}` : "";
-const child = shell.exec(`jest --listTests ${testPath}`, { silent: true });
+shell.env.PATH += `${path.delimiter}${__dirname}/../node_modules/jest-cli/bin`;
+const child = shell.exec(`jest.js --listTests ${testPath}`, { silent: true });
 const tests = JSON.parse(child.stdout);
 const log = require("single-line-log").stdout;
 
@@ -39,7 +40,7 @@ function runTest(test) {
   let elapsedTime = 0;
   let progress = [];
   _.times(runs).forEach(() => {
-    const out = shell.exec(`jest ${test}`, { silent: true });
+    const out = shell.exec(`jest.js ${test}`, { silent: true });
     const hasFailed = out.code !== 0;
     failed = failed || hasFailed;
     if (hasFailed) {
