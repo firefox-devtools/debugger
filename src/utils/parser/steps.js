@@ -1,52 +1,43 @@
 import { Source } from "../../../flow-typed/debugger-html";
 import { AstPosition } from "./types";
 import { getClosestPath } from "./utils/closest";
-import { isAwaitExpression, containsPosition } from "./utils/helpers";
+import { isAwaitExpression } from "./utils/helpers";
 import type { NodePath } from "babel-traverse";
 
-export function getNextStep(
-  source: Source,
-  stepType: string,
-  pausedPosition: AstPosition
-) {
+export function getNextStep(source: Source, pausedPosition: AstPosition) {
+  const awaitExpression = getAwaitExpression(source, pausedPosition);
+  if (!awaitExpression) {
+    return null;
+  }
+  const awaitStatement = awaitExpression.getStatementParent();
+  return getLocationAfterAwaitExpression(awaitStatement, pausedPosition);
+}
+
+function getAwaitExpression(source: Source, pausedPosition: AstPosition) {
   const closestPath = getClosestPath(source, pausedPosition);
+
   if (!closestPath) {
-    return { nextStepType: stepType };
+    return null;
   }
-  if (isAwaitExpression(closestPath, pausedPosition)) {
-    const nextHiddenBreakpointLocation = getLocationAfterAwaitExpression(
-      closestPath,
-      pausedPosition
-    );
-    return { nextStepType: "resume", nextHiddenBreakpointLocation };
+
+  if (isAwaitExpression(closestPath)) {
+    return closestPath;
   }
-  return { nextStepType: stepType };
+
+  return closestPath.find(p => p.isAwaitExpression());
 }
 
 function getLocationAfterAwaitExpression(
-  path: NodePath,
+  statement: NodePath,
   position: AstPosition
 ) {
-  const children = getFunctionBodyChildren(path);
-  if (!children) {
-    return;
+  const nextStatement = statement.getSibling(statement.key + 1);
+  if (nextStatement.node) {
+    return {
+      ...nextStatement.node.loc.start,
+      sourceId: position.sourceId
+    };
   }
-  for (let i = 0; i !== children.length; i++) {
-    const child = children[i];
-    if (containsPosition(child.loc, position)) {
-      const nextChild = children[++i];
-      const nextLocation = nextChild.loc.start;
-      nextLocation.sourceId = position.sourceId;
-      return nextLocation;
-    }
-  }
-}
 
-function getFunctionBodyChildren(path: NodePath) {
-  const blockScope = path.scope.block;
-  if (!blockScope) {
-    return;
-  }
-  const children = blockScope.body.body;
-  return children;
+  return null;
 }

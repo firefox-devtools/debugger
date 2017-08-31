@@ -20,7 +20,7 @@ import { features } from "../utils/prefs";
 import type { Pause, Frame } from "../types";
 import type { ThunkArgs } from "./types";
 
-type CommandType = { type: string };
+type CommandType = string;
 
 /**
  * Redux actions for the pause state
@@ -108,15 +108,14 @@ export function pauseOnExceptions(
  * @memberof actions/pause
  * @static
  */
-export function command({ type }: CommandType) {
-  return ({ dispatch, client }: ThunkArgs) => {
+export function command(type: CommandType) {
+  return async ({ dispatch, client }: ThunkArgs) => {
     // execute debugger thread command e.g. stepIn, stepOver
-    client[type]().then(() => dispatch({ type: "CLEAR_COMMAND" }));
+    dispatch({ type: "COMMAND", value: { type } });
 
-    return dispatch({
-      type: "COMMAND",
-      value: { type }
-    });
+    await client[type]();
+
+    dispatch({ type: "CLEAR_COMMAND" });
   };
 }
 
@@ -129,7 +128,7 @@ export function command({ type }: CommandType) {
 export function stepIn() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(astCommand("stepIn"));
+      return dispatch(command("stepIn"));
     }
   };
 }
@@ -157,7 +156,7 @@ export function stepOver() {
 export function stepOut() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(astCommand("stepOut"));
+      return dispatch(command("stepOut"));
     }
   };
 }
@@ -171,7 +170,7 @@ export function stepOut() {
 export function resume() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(command({ type: "resume" }));
+      return dispatch(command("resume"));
     }
   };
 }
@@ -245,7 +244,7 @@ export function loadObjectProperties(object: any) {
 export function astCommand(stepType: string) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     if (!features.asyncStepping) {
-      return dispatch(command({ type: stepType }));
+      return dispatch(command(stepType));
     }
 
     const pauseInfo = getPause(getState());
@@ -253,17 +252,21 @@ export function astCommand(stepType: string) {
     const currentHiddenBreakpointLocation = getHiddenBreakpointLocation(
       getState()
     );
+
     if (currentHiddenBreakpointLocation) {
       dispatch(removeBreakpoint(currentHiddenBreakpointLocation));
     }
+
     const pausedPosition = await getPausedPosition(pauseInfo, sourceMaps);
-    const {
-      nextStepType,
-      nextHiddenBreakpointLocation
-    } = await parser.getNextStep(source, stepType, pausedPosition);
-    if (nextHiddenBreakpointLocation) {
-      await dispatch(addHiddenBreakpoint(nextHiddenBreakpointLocation));
+
+    if (stepType == "stepOver") {
+      const nextLocation = await parser.getNextStep(source, pausedPosition);
+      if (nextLocation) {
+        await dispatch(addHiddenBreakpoint(nextLocation));
+        return dispatch(command("resume"));
+      }
     }
-    return dispatch(command({ type: nextStepType }));
+
+    return dispatch(command(stepType));
   };
 }
