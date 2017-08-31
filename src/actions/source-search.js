@@ -1,6 +1,6 @@
 import type { ThunkArgs } from "./types";
 
-export function setSourceSearchQueryString(queryString: string) {
+export function setSourceSearchQuery(queryString: string) {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({
       type: "SET_QUERY_STRING",
@@ -9,7 +9,7 @@ export function setSourceSearchQueryString(queryString: string) {
   };
 }
 
-export function clearSourceSearchQueryString() {
+export function clearSourceSearchQuery() {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({
       type: "CLEAR_QUERY_STRING"

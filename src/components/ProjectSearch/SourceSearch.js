@@ -14,7 +14,7 @@ export default class SourceSearch extends Component {
     sources: Object,
     searchBottomBar: Object,
     queryString: string,
-    queryStringChangeHandler: (queryString: string) => void,
+    setSourceSearchQuery: (queryString: string) => void,
     clearQueryString: () => void
   };
 
@@ -69,7 +69,7 @@ export default class SourceSearch extends Component {
       searchBottomBar,
       selectSource,
       queryString,
-      queryStringChangeHandler
+      setSourceSearchQuery
     } = this.props;
     return (
       <Autocomplete
@@ -81,7 +81,7 @@ export default class SourceSearch extends Component {
         items={this.searchResults(sources)}
         inputValue={queryString}
         placeholder={L10N.getStr("sourceSearch.search")}
-        onChangeHandler={queryStringChangeHandler}
+        onChangeHandler={setSourceSearchQuery}
         size="big"
       >
         {searchBottomBar}

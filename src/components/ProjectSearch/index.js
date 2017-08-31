@@ -106,8 +106,8 @@ class ProjectSearch extends Component {
       selectSource,
       closeActiveSearch,
       sourceSearchQueryString,
-      setSourceSearchQueryString,
-      clearSourceSearchQueryString
+      setSourceSearchQuery,
+      clearSourceSearchQuery
     } = this.props;
     return (
       <SourceSearch
@@ -118,8 +118,8 @@ class ProjectSearch extends Component {
           <ToggleSearch kind="sources" toggle={this.toggleProjectTextSearch} />
         }
         queryString={sourceSearchQueryString}
-        queryStringChangeHandler={setSourceSearchQueryString}
-        clearQueryString={clearSourceSearchQueryString}
+        setSourceSearchQuery={setSourceSearchQuery}
+        clearQueryString={clearSourceSearchQuery}
       />
     );
   }
@@ -174,8 +174,8 @@ ProjectSearch.propTypes = {
   activeSearch: PropTypes.string,
   selectSource: PropTypes.func.isRequired,
   sourceSearchQueryString: PropTypes.string,
-  setSourceSearchQueryString: PropTypes.func,
-  clearSourceSearchQueryString: PropTypes.func
+  setSourceSearchQuery: PropTypes.func,
+  clearSourceSearchQuery: PropTypes.func
 };
 
 ProjectSearch.contextTypes = {
