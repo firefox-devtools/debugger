@@ -30,6 +30,6 @@ type OuterState = {
   sourceSearch: Record<SourceSearchState>
 };
 
-export function getSourceSearchQueryString(state: OuterState) {
+export function getSourceSearchQuery(state: OuterState) {
   return state.sourceSearch.get("queryString");
 }

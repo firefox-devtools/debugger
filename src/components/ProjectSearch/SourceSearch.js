@@ -13,9 +13,9 @@ export default class SourceSearch extends Component {
     selectSource: string => any,
     sources: Object,
     searchBottomBar: Object,
-    queryString: string,
-    setSourceSearchQuery: (queryString: string) => void,
-    clearQueryString: () => void
+    query: string,
+    setQuery: (query: string) => void,
+    clearQuery: () => void
   };
 
   onEscape: Function;
@@ -52,14 +52,16 @@ export default class SourceSearch extends Component {
       .filter(source => !isPretty(source))
       .map(source => ({
         value: getSourcePath(source),
-        title: getSourcePath(source).split("/").pop(),
+        title: getSourcePath(source)
+          .split("/")
+          .pop(),
         subtitle: endTruncateStr(getSourcePath(source), 100),
         id: source.id
       }));
   }
 
   close() {
-    this.props.clearQueryString();
+    this.props.clearQuery();
     this.props.closeActiveSearch();
   }
 
@@ -68,8 +70,8 @@ export default class SourceSearch extends Component {
       sources,
       searchBottomBar,
       selectSource,
-      queryString,
-      setSourceSearchQuery
+      query,
+      setQuery
     } = this.props;
     return (
       <Autocomplete
@@ -79,9 +81,9 @@ export default class SourceSearch extends Component {
         }}
         close={this.close}
         items={this.searchResults(sources)}
-        inputValue={queryString}
+        inputValue={query}
         placeholder={L10N.getStr("sourceSearch.search")}
-        onChangeHandler={setSourceSearchQuery}
+        onChangeHandler={setQuery}
         size="big"
       >
         {searchBottomBar}
