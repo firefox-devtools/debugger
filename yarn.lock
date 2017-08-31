@@ -7256,13 +7256,13 @@ prettier@^1.5.2:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.5.3.tgz#59dadc683345ec6b88f88b94ed4ae7e1da394bfe"
 
-pretty-fast@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/pretty-fast/-/pretty-fast-0.2.1.tgz#296f989a799dbc4d5929b0955db26863f9a4566c"
+pretty-fast@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/pretty-fast/-/pretty-fast-0.2.2.tgz#916252bc722e912994e40033ec920e21106b04d0"
   dependencies:
     acorn "~2.6.4"
     optimist "~0.6.0"
-    source-map "^0.5.6"
+    source-map "^0.5.7"
 
 pretty-format@^19.0.0:
   version "19.0.0"
@@ -8709,6 +8709,10 @@ source-map@^0.4.2, source-map@^0.4.4:
 source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.0, source-map@~0.5.1, source-map@~0.5.3:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
+
+source-map@^0.5.7:
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 
 source-map@~0.2.0:
   version "0.2.0"
