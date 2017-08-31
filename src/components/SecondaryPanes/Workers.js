@@ -1,33 +1,39 @@
 // @flow
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import "./Workers.css";
-debugger
+import { connect } from "react-redux";
 
-const dummyData = ["worker 1", "worker 2"];
-class Workers extends Component {
-  constructor(...args) {
-    super(...args);
-  }
-
-  render() {
+export class Workers extends Component {
+  renderWorkers(workers) {
     return (
-      <div className="pane">
-        <div className="pane-info">
-          {/*L10N.getStr("noWorkersText")*/}
-          { this.renderItems(dummyData) }
-        </div>
-      </div>
+      workers.map(w => <div>{w}</div>)
     );
   }
 
-  renderItems(items) {
+  renderNoWorkersPlaceholder() {
+    return L10N.getStr("noWorkersText");
+  }
+
+  render() {
+    const { workers } = this.props;
     return (
-      items.map(i => <div>{i}</div>)
+      <div className="pane">
+        <div className="pane-info">
+          {workers && workers.length > 0
+            ? this.renderWorkers(workers)
+            : this.renderNoWorkersPlaceholder()}
+        </div>
+      </div>
     );
   }
 }
 
 Workers.displayName = "Workers";
+Workers.propTypes = {
+  workers: PropTypes.array.isRequired
+};
 
-
-export default Workers;
+function mapStateToProps(state) {
+  return { workers: [] };
+}
+export default connect(mapStateToProps)(Workers);

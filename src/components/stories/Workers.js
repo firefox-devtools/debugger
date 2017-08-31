@@ -1,8 +1,8 @@
-import React, { DOM as dom, createFactory } from "react";
+import React, { PropTypes } from "react";
 import { storiesOf } from "@storybook/react";
-import Workers from "../SecondaryPanes/Workers/Workers.js";
+import { Workers } from "../SecondaryPanes/Workers";
 import { L10N } from "devtools-launchpad";
-import prefs from "../../utils/prefs";
+// import prefs from "../../utils/prefs";
 
 import "../App.css";
 import "devtools-modules/src/themes/dark-theme.css";
@@ -14,7 +14,7 @@ if (typeof window == "object") {
   window.L10N.setBundle(require("../../../assets/panel/debugger.properties"));
 }
 
-function WorkersFactory(options, { dir = "ltr", theme = "dark" } = {}) {
+function WorkersFactory(workers, { dir = "ltr", theme = "dark" } = {}) {
   const themeClass = `theme-${theme}`;
   document.dir = dir;
   document.body.parentNode.className = themeClass;
@@ -29,17 +29,22 @@ function WorkersFactory(options, { dir = "ltr", theme = "dark" } = {}) {
         "flex-direction": "row"
       }}
     >
-      <Workers/>
+      <Workers workers={workers} />
     </div>
   );
 }
 
+WorkersFactory.displayName = "Workers";
+
+WorkersFactory.propTypes = {
+  dir: PropTypes.string,
+  theme: PropTypes.string
+};
+
 storiesOf("Workers", module)
   .add("no items", () => {
-    return WorkersFactory({ results: [] });
+    return WorkersFactory([]);
   })
   .add("one worker", () => {
-    return Workers({
-      workers: [{ url: "http://domain.com/foo" }]
-    });
+    return WorkersFactory(["http://domain.com/foo"]);
   });
