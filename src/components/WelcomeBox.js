@@ -50,29 +50,33 @@ class WelcomeBox extends Component {
     const searchSourcesLabel = L10N.getStr("welcome.search").substring(2);
     const searchProjectLabel = L10N.getStr("welcome.findInFiles").substring(2);
 
-    const searchProjectLabelComp = (
-      <div>
-        <b>
+    const keysDisplay = (
+      <div className="shortcutKeys">
+        <p>
+          {keyCombinationOne}
+        </p>
+        <p>
           {keyCombinationTwo}
-        </b>
-        {searchProjectLabel}
+        </p>
       </div>
     );
 
-    const searchSourcesLabelComp = (
-      <div>
-        <b>
-          {keyCombinationOne}
-        </b>
-        {searchSourcesLabel}
+    const infoDisplay = (
+      <div className="shortcutFunction">
+        <p>
+          {searchSourcesLabel}
+        </p>
+        <p>
+          {searchProjectLabel}
+        </p>
       </div>
     );
 
     return (
       <div className="welcomebox">
         <div className="alignlabel">
-          {searchSourcesLabelComp}
-          {isEnabled("searchNav") ? searchProjectLabelComp : null}
+          {keysDisplay}
+          {isEnabled("searchNav") ? infoDisplay : null}
           {this.renderToggleButton()}
         </div>
       </div>
