@@ -15,6 +15,7 @@ function generateDefaults(overrides) {
     setBreakpointCondition: jest.fn(),
     toggleBreakpoint: jest.fn(),
     toggleDisabledBreakpoint: jest.fn(),
+    addOrToggleDisabledBreakpoint: jest.fn(),
     getExpression: jest.fn(),
     addExpression: jest.fn(),
     query: "",
