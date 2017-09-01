@@ -25,15 +25,14 @@ const isMacOS = appinfo.OS === "Darwin";
 function formatKeyShortcut(shortcut: string): string {
   if (isMacOS) {
     return shortcut
-      .replace(/Shift\+/g, "\u21E7+")
-      .replace(/Command\+|Cmd\+/g, "\u2318+")
-      .replace(/CommandOrControl\+|CmdOrCtrl\+/g, "\u2318+")
-      .replace(/Alt\+/g, "\u2325+");
+      .replace(/Shift\+/g, "\u21E7 ")
+      .replace(/Command\+|Cmd\+/g, "\u2318 ")
+      .replace(/CommandOrControl\+|CmdOrCtrl\+/g, "\u2318 ")
+      .replace(/Alt\+/g, "\u2325 ");
   }
-  return shortcut.replace(
-    /CommandOrControl\+|CmdOrCtrl\+/g,
-    `${L10N.getStr("ctrl")} `
-  );
+  return shortcut
+    .replace(/CommandOrControl\+|CmdOrCtrl\+/g, `${L10N.getStr("ctrl")} `)
+    .replace(/Shift\+/g, "Shift ");
 }
 
 export { formatKeyShortcut };

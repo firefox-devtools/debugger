@@ -47,8 +47,15 @@ class WelcomeBox extends Component {
       L10N.getStr("projectTextSearch.key")
     );
 
+    const keyCombinationThree = formatKeyShortcut(
+      L10N.getStr("functionSearch.key")
+    );
+
     const searchSourcesLabel = L10N.getStr("welcome.search").substring(2);
     const searchProjectLabel = L10N.getStr("welcome.findInFiles").substring(2);
+    const searchFunctionLabel = L10N.getStr("welcome.searchFunction").substring(
+      2
+    );
 
     const keysDisplay = (
       <div className="shortcutKeys">
@@ -57,6 +64,9 @@ class WelcomeBox extends Component {
         </p>
         <p>
           {keyCombinationTwo}
+        </p>
+        <p>
+          {keyCombinationThree}
         </p>
       </div>
     );
@@ -68,6 +78,9 @@ class WelcomeBox extends Component {
         </p>
         <p>
           {searchProjectLabel}
+        </p>
+        <p>
+          {searchFunctionLabel}
         </p>
       </div>
     );
