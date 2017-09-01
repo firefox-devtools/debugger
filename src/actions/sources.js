@@ -24,6 +24,7 @@ import { loadSourceText } from "./sources/loadSourceText";
 
 import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
+import * as parser from "../utils/parser";
 
 import {
   getSource,
@@ -377,6 +378,21 @@ export function loadAllSources() {
       if (query) {
         await dispatch(searchSource(source, query));
       }
+    }
+  };
+}
+
+/**
+ * Ensures parser has source text
+ *
+ * @memberof actions/sources
+ * @static
+ */
+export function ensureParserHasSourceText(sourceId: string) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    if (!await parser.hasSource(sourceId)) {
+      await dispatch(loadSourceText(getSource(getState(), sourceId).toJS()));
+      await parser.setSource(getSource(getState(), sourceId).toJS());
     }
   };
 }

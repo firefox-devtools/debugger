@@ -23,7 +23,7 @@ Object {
   "loading": false,
   "location": Object {
     "column": 0,
-    "line": 7,
+    "line": 1,
     "sourceId": "a.js/originalSource-d6d70368d5c252598541e693a7ad6c27",
     "sourceUrl": "http://localhost:8000/examples/a.js:formatted",
   },

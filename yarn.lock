@@ -2900,6 +2900,19 @@ devtools-license-check@^0.5.0:
   dependencies:
     license-checker "^9.0.3"
 
+devtools-map-bindings@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.1.0.tgz#b8296f6fe5f2a50fb8e347339e453579f48d1ee7"
+  dependencies:
+    babel-plugin-transform-async-to-generator "^6.22.0"
+    babel-plugin-transform-flow-strip-types "^6.22.0"
+    babel-traverse "^6.26.0"
+    babel-types "^6.26.0"
+    babylon "^6.18.0"
+    devtools-utils "0.0.8"
+    jest "^19.0.2"
+    source-map "^0.5.6"
+
 devtools-modules@^0.0.31:
   version "0.0.31"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.31.tgz#06749ffa7b78cf2826467ffcce9d2edbbba3ced7"
@@ -2923,12 +2936,13 @@ devtools-source-editor@0.0.6:
   dependencies:
     codemirror "^5.25.0"
 
-devtools-source-map@0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.12.0.tgz#a2717ce6c735e1774645d11298aedb10982ab8f5"
+devtools-source-map@0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.13.0.tgz#859fdd4d6699b3872d21d63a0757fdcfd6eb7965"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
+    devtools-map-bindings "0.1.0"
     devtools-utils "0.0.8"
     jest "^19.0.2"
     md5 "^2.2.1"
@@ -6416,11 +6430,7 @@ mime@1.3.x:
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.3.6.tgz#591d84d3653a6b0b4a3b9df8de5aa8108e72e5e0"
 
-mime@>=1.2.9:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-2.0.0.tgz#e58e03970e44e57ed1394893b07e6312f71925e3"
-
-mime@^1.3.4:
+mime@^1.2.9, mime@^1.3.4:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.4.0.tgz#69e9e0db51d44f2a3b56e48b7817d7d137f1a343"
 
@@ -6647,11 +6657,11 @@ node-pre-gyp@^0.6.36:
     tar-pack "^3.4.0"
 
 node-static@^0.7.7:
-  version "0.7.9"
-  resolved "https://registry.yarnpkg.com/node-static/-/node-static-0.7.9.tgz#9bb69fce2281f7ae3cd1fb983e9ea0ec0cd9fecb"
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/node-static/-/node-static-0.7.10.tgz#a1ddb72027c7f67179fb33487807b57e8bc7d2e7"
   dependencies:
     colors ">=0.6.0"
-    mime ">=1.2.9"
+    mime "^1.2.9"
     optimist ">=0.3.4"
 
 node-status-codes@^1.0.0:
@@ -7545,8 +7555,8 @@ preserve@^0.2.0:
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
 prettier@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.6.1.tgz#850f411a3116226193e32ea5acfc21c0f9a76d7d"
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.7.0.tgz#47481588f41f7c90f63938feb202ac82554e7150"
 
 pretty-fast@^0.2.2:
   version "0.2.2"
