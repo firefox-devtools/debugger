@@ -102,7 +102,13 @@ function removeBreakpoint(state, action) {
 
 type OuterState = { pendingBreakpoints: Record<PendingBreakpointsState> };
 
-export function getPendingBreakpoints(state: OuterState) {
+export function getPendingBreakpoints(state: OuterState, sourceUrl) {
+  const pendingBreakpoints = state.pendingBreakpoints.pendingBreakpoints || [];
+  if (sourceUrl) {
+    return pendingBreakpoints.filter(
+      pendingBreakpoint => pendingBreakpoint.location.sourceUrl === sourceUrl
+    );
+  }
   return state.pendingBreakpoints.pendingBreakpoints;
 }
 

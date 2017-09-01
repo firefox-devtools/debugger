@@ -2,7 +2,9 @@ import {
   makeLocationId,
   locationMoved,
   assertBreakpoint,
-  assertPendingBreakpoint
+  assertPendingBreakpoint,
+  findScopeByName,
+  getASTLocation
 } from "../../utils/breakpoint";
 
 import { getGeneratedLocation } from "../../utils/source-maps";
@@ -22,6 +24,23 @@ export async function syncClientBreakpoint(
     ? originalToGeneratedId(sourceId)
     : sourceId;
 
+  const astLocation = pendingBreakpoint.astLocation;
+  const scope = await findScopeByName(source, astLocation.name);
+
+  const scopeLocation = {
+    line: scope.location.start.line + astLocation.offset.line,
+    column: astLocation.offset.column,
+    sourceUrl: source.url,
+    sourceId
+  };
+
+  const scopeGeneratedLocation = await getGeneratedLocation(
+    getState(),
+    source,
+    scopeLocation,
+    sourceMaps
+  );
+
   // this is the generatedLocation of the pending breakpoint, with
   // the source id updated to reflect the new connection
   const generatedLocation = {
@@ -40,12 +59,14 @@ export async function syncClientBreakpoint(
   // early return if breakpoint is disabled, send overrides to update
   // the id as expected
   if (pendingBreakpoint.disabled) {
-    const newLocation = await sourceMaps.getOriginalLocation(generatedLocation);
+    const newLocation = await sourceMaps.getOriginalLocation(
+      scopeGeneratedLocation
+    );
 
     const breakpoint = {
       ...pendingBreakpoint,
       id: makeLocationId(newLocation),
-      generatedLocation,
+      generatedLocation: scopeGeneratedLocation,
       location: newLocation
     };
 
@@ -63,38 +84,19 @@ export async function syncClientBreakpoint(
   const existingClient = client.getBreakpointByLocation(generatedLocation);
 
   if (existingClient) {
-    const newGeneratedLocation = await getGeneratedLocation(
-      getState(),
-      source,
-      location,
-      sourceMaps
-    );
-
-    if (locationMoved(generatedLocation, newGeneratedLocation)) {
-      await client.removeBreakpoint(generatedLocation);
-      await client.setBreakpoint(
-        newGeneratedLocation,
-        pendingBreakpoint.condition,
-        sourceMaps.isOriginalId(sourceId)
-      );
+    if (!locationMoved(generatedLocation, scopeGeneratedLocation)) {
+      assertBreakpoint(breakpoint);
+      return { breakpoint, previousLocation: location };
     }
 
-    const breakpoint = {
-      ...pendingBreakpoint,
-      id: makeLocationId(location),
-      generatedLocation: newGeneratedLocation,
-      location: location
-    };
-
-    assertBreakpoint(breakpoint);
-    return { breakpoint, previousLocation: location };
+    await client.removeBreakpoint(generatedLocation);
   }
 
   /** ******* CASE 3: Add New Breakpoint ***********/
   // If we are not disabled, set the breakpoint on the server and get
   // that info so we can set it on our breakpoints.
   const clientBreakpoint = await client.setBreakpoint(
-    generatedLocation,
+    scopeGeneratedLocation,
     pendingBreakpoint.condition,
     sourceMaps.isOriginalId(sourceId)
   );

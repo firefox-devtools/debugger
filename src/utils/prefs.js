@@ -3,7 +3,7 @@
 const { isDevelopment } = require("devtools-config");
 const { Services, PrefsHelper } = require("devtools-modules");
 
-const prefsSchemaVersion = "1.0.2";
+const prefsSchemaVersion = "1.0.3";
 
 const pref = Services.pref;
 

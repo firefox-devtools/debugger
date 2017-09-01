@@ -72,7 +72,7 @@ function update(
 }
 
 function addBreakpoint(state, action) {
-  if (action.status === "start") {
+  if (action.status === "start" && action.breakpoint) {
     const { breakpoint } = action;
     const locationId = makeLocationId(breakpoint.location);
     return state.setIn(["breakpoints", locationId], breakpoint);
@@ -93,7 +93,7 @@ function addBreakpoint(state, action) {
   }
 
   // Remove the optimistic update
-  if (action.status === "error") {
+  if (action.status === "error" && action.breakpoint) {
     const locationId = makeLocationId(action.breakpoint.location);
     return state.deleteIn(["breakpoints", locationId]);
   }

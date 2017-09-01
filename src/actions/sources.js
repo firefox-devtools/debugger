@@ -67,11 +67,13 @@ async function checkPendingBreakpoint(
 }
 
 async function checkPendingBreakpoints(state, dispatch, source) {
-  const pendingBreakpoints = getPendingBreakpoints(state);
-  if (!pendingBreakpoints) {
+  const pendingBreakpoints = getPendingBreakpoints(state, source.url);
+  if (!pendingBreakpoints.size) {
     return;
   }
 
+  // load the source text if there is a pending breakpoint for it
+  await dispatch(loadSourceText(source));
   const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
   for (const pendingBreakpoint of pendingBreakpointsArray) {
     await checkPendingBreakpoint(state, dispatch, pendingBreakpoint, source);
