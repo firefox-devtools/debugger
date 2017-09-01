@@ -33,6 +33,7 @@ Workers.propTypes = {
 };
 
 function mapStateToProps(state) {
-  return { workers: [] };
+  debugger
+  return { workers: state.debuggee.workers };
 }
 export default connect(mapStateToProps)(Workers);

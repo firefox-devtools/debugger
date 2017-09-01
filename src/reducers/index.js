@@ -14,6 +14,7 @@ import ast from "./ast";
 import coverage from "./coverage";
 import projectTextSearch from "./project-text-search";
 import sourceSearch from "./source-search";
+import debuggee from "./debuggee";
 
 export default {
   expressions,
@@ -27,5 +28,6 @@ export default {
   ast,
   coverage,
   projectTextSearch,
-  sourceSearch
+  sourceSearch,
+  debuggee
 };
