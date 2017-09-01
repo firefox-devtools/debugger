@@ -41,7 +41,7 @@
   display: inline-flex;
   align-items: flex-end;
   position: relative;
-  transition: all 0.25s ease;
+  transition: all 0.15s ease;
   min-width: 40px;
   overflow: hidden;
   padding: 5px;
