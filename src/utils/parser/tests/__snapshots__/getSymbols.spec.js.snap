@@ -63,8 +63,8 @@ exports[`Parser.getSymbols call sites 1`] = `
 "properties
 
 member expressions
-[(2, 13), (2, 17)] [(2, 0), (2, 17)]  ffff 
-[(2, 7), (2, 10)] [(2, 0), (2, 10)]  eee 
+[(4, 3), (4, 7)] [(2, 0), (4, 7)]  ffff 
+[(3, 3), (3, 6)] [(2, 0), (3, 6)]  eee 
 call expressions
 [(1, 0), (1, 3)]   aaa 
 [(1, 4), (1, 7)]   bbb 
@@ -75,8 +75,8 @@ identifiers
 [(1, 4), (1, 7)]  bbb bbb 
 [(1, 11), (1, 14)]  ccc ccc 
 [(2, 0), (2, 4)]  dddd dddd 
-[(2, 7), (2, 10)]  eee eee 
-[(2, 13), (2, 17)]  ffff ffff 
+[(3, 3), (3, 6)]  eee eee 
+[(4, 3), (4, 7)]  ffff ffff 
 variables
 "
 `;

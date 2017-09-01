@@ -91,9 +91,7 @@ class SearchInput extends Component {
     }
 
     return (
-      <div className="search-nav-buttons">
-        {this.renderArrowButtons()}
-      </div>
+      <div className="search-nav-buttons">{this.renderArrowButtons()}</div>
     );
   }
 
@@ -130,9 +128,7 @@ class SearchInput extends Component {
       <div className={classnames("search-field", size)}>
         {this.renderSvg()}
         <input {...inputProps} />
-        <div className="summary">
-          {summaryMsg || ""}
-        </div>
+        <div className="summary">{summaryMsg || ""}</div>
         {this.renderNav()}
         <CloseButton handleClick={handleClose} buttonClass={size} />
       </div>

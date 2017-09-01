@@ -50,10 +50,9 @@ function ManagedTreeFactory({ dir = "ltr", theme = "dark", ...props }) {
           autoExpandAll={false}
           disabledFocus={true}
           onExpand={() => {}}
-          renderItem={(item, depth) =>
-            <div style={{ marginLeft: depth * 15 }}>
-              {item.name}
-            </div>}
+          renderItem={(item, depth) => (
+            <div style={{ marginLeft: depth * 15 }}>{item.name}</div>
+          )}
           {...props}
         />
       </div>

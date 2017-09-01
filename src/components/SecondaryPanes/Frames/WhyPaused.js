@@ -26,11 +26,7 @@ function renderMessage(pauseInfo: Pause) {
 
   const message = get(pauseInfo, "why.message");
   if (message) {
-    return (
-      <div className={"message"}>
-        {message}
-      </div>
-    );
+    return <div className={"message"}>{message}</div>;
   }
 
   const exception = get(pauseInfo, "why.exception");
@@ -55,9 +51,7 @@ export default function renderWhyPaused({ pause }: { pause: Pause }) {
 
   return (
     <div className={"pane why-paused"}>
-      <div>
-        {L10N.getStr(reason)}
-      </div>
+      <div>{L10N.getStr(reason)}</div>
       {renderMessage(pause)}
     </div>
   );

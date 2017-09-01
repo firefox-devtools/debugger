@@ -374,9 +374,7 @@ class SourceTabs extends PureComponent {
         onContextMenu={e => this.onTabContextMenu(e, source)}
         title={tabName(source)}
       >
-        <div className="filename">
-          {tabName(source)}
-        </div>
+        <div className="filename">{tabName(source)}</div>
         <CloseButton
           handleClick={onClickClose}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
@@ -414,9 +412,7 @@ class SourceTabs extends PureComponent {
         title={getFilename(source.toJS())}
       >
         {sourceAnnotation}
-        <div className="filename">
-          {filename}
-        </div>
+        <div className="filename">{filename}</div>
         <CloseButton
           handleClick={onClickClose}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
@@ -455,11 +451,7 @@ class SourceTabs extends PureComponent {
       return null;
     }
 
-    const Panel = (
-      <ul>
-        {hiddenSourceTabs.map(this.renderDropdownSource)}
-      </ul>
-    );
+    const Panel = <ul>{hiddenSourceTabs.map(this.renderDropdownSource)}</ul>;
 
     return <Dropdown panel={Panel} />;
   }

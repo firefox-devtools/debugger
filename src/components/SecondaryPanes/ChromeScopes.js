@@ -100,15 +100,9 @@ class Scopes extends Component {
             hidden: nodeIsPrimitive(item)
           })}
         />
-        <span className="object-label">
-          {item.name}
-        </span>
-        <span className="object-delimiter">
-          {objectValue ? ": " : ""}
-        </span>
-        <span className="object-value">
-          {objectValue || ""}
-        </span>
+        <span className="object-label">{item.name}</span>
+        <span className="object-delimiter">{objectValue ? ": " : ""}</span>
+        <span className="object-value">{objectValue || ""}</span>
       </div>
     );
   }
@@ -175,9 +169,7 @@ class Scopes extends Component {
     if (!pauseInfo) {
       return (
         <div className={classnames("pane", "scopes-list")}>
-          <div className="pane-info">
-            {L10N.getStr("scopes.notPaused")}
-          </div>
+          <div className="pane-info">{L10N.getStr("scopes.notPaused")}</div>
         </div>
       );
     }

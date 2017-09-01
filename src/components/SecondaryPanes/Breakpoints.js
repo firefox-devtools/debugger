@@ -300,9 +300,7 @@ class Breakpoints extends PureComponent {
             {renderSourceLocation(breakpoint.location.source, line, column)}
           </div>
         </div>
-        <div className="breakpoint-snippet">
-          {snippet}
-        </div>
+        <div className="breakpoint-snippet">{snippet}</div>
         <CloseButton
           handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
           tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}
@@ -314,17 +312,13 @@ class Breakpoints extends PureComponent {
   render() {
     const { breakpoints } = this.props;
     const children =
-      breakpoints.size === 0
-        ? <div className="pane-info">
-            {L10N.getStr("breakpoints.none")}
-          </div>
-        : breakpoints.valueSeq().map(bp => this.renderBreakpoint(bp));
+      breakpoints.size === 0 ? (
+        <div className="pane-info">{L10N.getStr("breakpoints.none")}</div>
+      ) : (
+        breakpoints.valueSeq().map(bp => this.renderBreakpoint(bp))
+      );
 
-    return (
-      <div className="pane breakpoints-list">
-        {children}
-      </div>
-    );
+    return <div className="pane breakpoints-list">{children}</div>;
   }
 }
 

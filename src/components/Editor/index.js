@@ -560,13 +560,13 @@ class Editor extends PureComponent {
 
     return hitCount
       .filter(marker => marker.get("count") > 0)
-      .map(marker =>
+      .map(marker => (
         <HitMarker
           key={marker.get("line")}
           hitData={marker.toJS()}
           editor={this.state.editor.codeMirror}
         />
-      );
+      ));
   }
 
   renderPreview() {

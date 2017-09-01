@@ -4,7 +4,9 @@ import { getAst } from "./utils/ast";
 const commentTokens = ["CommentBlock", "CommentLine"];
 
 function fillRange(start, end) {
-  return Array(end - start + 1).fill().map((item, index) => start + index);
+  return Array(end - start + 1)
+    .fill()
+    .map((item, index) => start + index);
 }
 
 // Populates a pre-filled array of every line number,

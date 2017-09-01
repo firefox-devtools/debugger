@@ -163,11 +163,7 @@ class CallSites extends Component {
         };
         return <CallSite {...props} />;
       });
-      sites = (
-        <div>
-          {childCallSites}
-        </div>
-      );
+      sites = <div>{childCallSites}</div>;
     });
     return sites;
   }

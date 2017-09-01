@@ -1,2 +1,4 @@
 aaa(bbb(), ccc());
-dddd().eee().ffff();
+dddd()
+  .eee()
+  .ffff();

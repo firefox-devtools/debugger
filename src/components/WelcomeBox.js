@@ -44,7 +44,6 @@ class WelcomeBox extends Component {
     const searchProjectShortcut = formatKeyShortcut(
       L10N.getStr("projectTextSearch.key")
     );
-
     const searchFunctionsShortcut = formatKeyShortcut(
       L10N.getStr("functionSearch.key")
     );
@@ -59,26 +58,14 @@ class WelcomeBox extends Component {
       <div className="welcomebox">
         <div className="alignlabel">
           <div className="shortcutKeys">
-            <p>
-              {searchSourcesShortcut}
-            </p>
-            <p>
-              {searchProjectShortcut}
-            </p>
-            <p>
-              {searchFunctionsShortcut}
-            </p>
+            <p>{searchSourcesShortcut}</p>
+            <p>{searchProjectShortcut}</p>
+            <p>{searchFunctionsShortcut}</p>
           </div>
           <div className="shortcutFunction">
-            <p>
-              {searchSourcesLabel}
-            </p>
-            <p>
-              {searchProjectLabel}
-            </p>
-            <p>
-              {searchFunctionLabel}
-            </p>
+            <p>{searchSourcesLabel}</p>
+            <p>{searchProjectLabel}</p>
+            <p>{searchFunctionLabel}</p>
           </div>
           {this.renderToggleButton()}
         </div>

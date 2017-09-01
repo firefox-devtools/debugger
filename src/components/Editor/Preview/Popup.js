@@ -96,9 +96,7 @@ export class Popup extends Component {
 
   renderObjectPreview(expression: string, root: Object) {
     return (
-      <div className="preview-popup">
-        {this.renderObjectInspector(root)}
-      </div>
+      <div className="preview-popup">{this.renderObjectInspector(root)}</div>
     );
   }
 
@@ -144,9 +142,7 @@ export class Popup extends Component {
     return (
       <div className="add-to-expression-bar">
         <div className="prompt">»</div>
-        <div className="expression-to-save-label">
-          {expression}
-        </div>
+        <div className="expression-to-save-label">{expression}</div>
         <div
           className="expression-to-save-button"
           onClick={event => addExpression(event)}
