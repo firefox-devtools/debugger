@@ -13,12 +13,13 @@ import { PROMISE } from "../utils/redux/middleware/promise";
 import assert from "../utils/assert";
 import { remapBreakpoints } from "./breakpoints";
 
-import { setEmptyLines, setSymbols, setOutOfScopeLocations } from "./ast";
+import { setEmptyLines, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
 
 import { getPrettySourceURL, isLoaded } from "../utils/source";
 import { createPrettySource } from "./sources/createPrettySource";
+import { loadSourceText } from "./sources/loadSourceText";
 
 import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
@@ -353,40 +354,6 @@ export function toggleBlackBox(source: Source) {
       source,
       [PROMISE]: client.blackBox(id, isBlackBoxed)
     });
-  };
-}
-
-/**
- * @memberof actions/sources
- * @static
- */
-export function loadSourceText(source: Source) {
-  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    // Fetch the source text only once.
-    if (source.text) {
-      return Promise.resolve(source);
-    }
-
-    await dispatch({
-      type: "LOAD_SOURCE_TEXT",
-      source: source,
-      [PROMISE]: (async function() {
-        if (sourceMaps.isOriginalId(source.id)) {
-          return await sourceMaps.getOriginalSourceText(source);
-        }
-
-        const response = await client.sourceContents(source.id);
-
-        return {
-          id: source.id,
-          text: response.source,
-          contentType: response.contentType || "text/javascript"
-        };
-      })()
-    });
-
-    await dispatch(setSymbols(source.id));
-    await dispatch(setEmptyLines(source.id));
   };
 }
 
