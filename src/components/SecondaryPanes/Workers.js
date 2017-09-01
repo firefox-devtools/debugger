@@ -1,4 +1,3 @@
-// @flow
 import React, { PureComponent, PropTypes } from "react";
 import "./Workers.css";
 import { connect } from "react-redux";
