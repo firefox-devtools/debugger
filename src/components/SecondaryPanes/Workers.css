@@ -1,0 +1,13 @@
+.workers-list * {
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.workers-list .worker {
+  font-size: 12px;
+  color: var(--theme-content-color1);
+  padding: 0.5em 1em 0.5em 0.5em;
+  line-height: 1em;
+  position: relative;
+  transition: all 0.25s ease;
+}

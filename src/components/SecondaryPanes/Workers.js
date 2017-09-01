@@ -4,24 +4,26 @@ import { connect } from "react-redux";
 
 export class Workers extends PureComponent {
   renderWorkers(workers) {
-    return (
-      workers.map(w => <div>{w}</div>)
+    return(
+      workers.map(w => <div className="worker" key={w}>{w}</div>)
     );
   }
 
   renderNoWorkersPlaceholder() {
-    return L10N.getStr("noWorkersText");
+    return (
+      <div className="pane-info">
+        { L10N.getStr("noWorkersText") }
+      </div>
+    );
   }
 
   render() {
     const { workers } = this.props;
     return (
-      <div className="pane">
-        <div className="pane-info">
-          {workers && workers.length > 0
-            ? this.renderWorkers(workers)
-            : this.renderNoWorkersPlaceholder()}
-        </div>
+      <div className="pane workers-list">
+        { workers && workers.length > 0
+          ? this.renderWorkers(workers)
+          : this.renderNoWorkersPlaceholder() }
       </div>
     );
   }
@@ -33,7 +35,6 @@ Workers.propTypes = {
 };
 
 function mapStateToProps(state) {
-  debugger
   return { workers: state.debuggee.workers };
 }
 export default connect(mapStateToProps)(Workers);
