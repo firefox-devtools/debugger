@@ -9,8 +9,6 @@ import { formatKeyShortcut } from "../utils/text";
 
 import PaneToggleButton from "./shared/Button/PaneToggle";
 
-const { isEnabled } = require("devtools-config");
-
 import "./WelcomeBox.css";
 
 type Props = {
@@ -39,15 +37,15 @@ class WelcomeBox extends Component {
   }
 
   render() {
-    const keyCombinationOne = formatKeyShortcut(
+    const searchSourcesShortcut = formatKeyShortcut(
       L10N.getStr("sources.search.key2")
     );
 
-    const keyCombinationTwo = formatKeyShortcut(
+    const searchProjectShortcut = formatKeyShortcut(
       L10N.getStr("projectTextSearch.key")
     );
 
-    const keyCombinationThree = formatKeyShortcut(
+    const searchFunctionsShortcut = formatKeyShortcut(
       L10N.getStr("functionSearch.key")
     );
 
@@ -57,39 +55,31 @@ class WelcomeBox extends Component {
       2
     );
 
-    const keysDisplay = (
-      <div className="shortcutKeys">
-        <p>
-          {keyCombinationOne}
-        </p>
-        <p>
-          {keyCombinationTwo}
-        </p>
-        <p>
-          {keyCombinationThree}
-        </p>
-      </div>
-    );
-
-    const infoDisplay = (
-      <div className="shortcutFunction">
-        <p>
-          {searchSourcesLabel}
-        </p>
-        <p>
-          {searchProjectLabel}
-        </p>
-        <p>
-          {searchFunctionLabel}
-        </p>
-      </div>
-    );
-
     return (
       <div className="welcomebox">
         <div className="alignlabel">
-          {keysDisplay}
-          {isEnabled("searchNav") ? infoDisplay : null}
+          <div className="shortcutKeys">
+            <p>
+              {searchSourcesShortcut}
+            </p>
+            <p>
+              {searchProjectShortcut}
+            </p>
+            <p>
+              {searchFunctionsShortcut}
+            </p>
+          </div>
+          <div className="shortcutFunction">
+            <p>
+              {searchSourcesLabel}
+            </p>
+            <p>
+              {searchProjectLabel}
+            </p>
+            <p>
+              {searchFunctionLabel}
+            </p>
+          </div>
           {this.renderToggleButton()}
         </div>
       </div>

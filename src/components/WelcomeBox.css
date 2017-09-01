@@ -30,13 +30,13 @@
 .shortcutKeys {
   text-align: right;
   float: left;
-  font-weight: bold;
+  font-family: Courier;
 }
 
 .shortcutFunction {
   text-align: left;
   float: left;
-  margin-left: 50px;
+  margin-left: 25px;
 }
 
 html .welcomebox .toggle-button-end.collapsed {
