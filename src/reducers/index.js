@@ -13,6 +13,7 @@ import ui from "./ui";
 import ast from "./ast";
 import coverage from "./coverage";
 import projectTextSearch from "./project-text-search";
+import sourceSearch from "./source-search";
 
 export default {
   expressions,
@@ -25,5 +26,6 @@ export default {
   ui,
   ast,
   coverage,
-  projectTextSearch
+  projectTextSearch,
+  sourceSearch
 };

@@ -10,7 +10,6 @@ import SearchInput from "./SearchInput";
 import ResultList from "./ResultList";
 
 type State = {
-  inputValue: string,
   selectedIndex: number,
   focused: boolean
 };
@@ -23,6 +22,7 @@ type Props = {
   inputValue: string,
   placeholder: string,
   size: string,
+  onChangeHandler: (queryString: string) => void,
   children: any
 };
 
@@ -36,7 +36,6 @@ export default class Autocomplete extends Component {
 
     (this: any).onKeyDown = this.onKeyDown.bind(this);
     this.state = {
-      inputValue: props.inputValue,
       selectedIndex: 0,
       focused: false
     };
@@ -49,13 +48,12 @@ export default class Autocomplete extends Component {
   }
 
   getSearchResults() {
-    const inputValue = this.state.inputValue;
-
+    const inputValue = this.props.inputValue;
     if (inputValue == "") {
       return [];
     }
 
-    return filter(this.props.items, this.state.inputValue, {
+    return filter(this.props.items, inputValue, {
       key: "value"
     });
   }
@@ -85,11 +83,11 @@ export default class Autocomplete extends Component {
       if (searchResults.length) {
         this.props.selectItem(e, searchResults[this.state.selectedIndex]);
       } else {
-        this.props.close(this.state.inputValue);
+        this.props.close(this.props.inputValue);
       }
       e.preventDefault();
     } else if (e.key === "Tab") {
-      this.props.close(this.state.inputValue);
+      this.props.close(this.props.inputValue);
       e.preventDefault();
     }
   }
@@ -108,7 +106,7 @@ export default class Autocomplete extends Component {
       };
 
       return <ResultList {...props} />;
-    } else if (this.state.inputValue && !results.length) {
+    } else if (this.props.inputValue && !results.length) {
       return (
         <div className="no-result-msg absolute-center">
           {L10N.getStr("sourceSearch.noResults2")}
@@ -127,17 +125,18 @@ export default class Autocomplete extends Component {
     );
 
     const searchProps = {
-      query: this.state.inputValue,
+      query: this.props.inputValue,
       count: searchResults.length,
       placeholder: this.props.placeholder,
       size,
       showErrorEmoji: true,
       summaryMsg,
-      onChange: e =>
+      onChange: e => {
+        this.props.onChangeHandler(e.target.value);
         this.setState({
-          inputValue: e.target.value,
           selectedIndex: 0
-        }),
+        });
+      },
       onFocus: () => this.setState({ focused: true }),
       onBlur: () => this.setState({ focused: false }),
       onKeyDown: this.onKeyDown,
