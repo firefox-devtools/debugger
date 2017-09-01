@@ -66,6 +66,10 @@
     "wasm": {
       "label": "Wasm",
       "enabled": true
+    },
+    "workers": {
+      "label": "Workers",
+      "enabled": false
     }
   },
   "chrome": {
