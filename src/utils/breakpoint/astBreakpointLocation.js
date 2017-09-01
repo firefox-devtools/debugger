@@ -19,8 +19,11 @@ function findClosestScope(functions: Scope[], location: Location) {
       return currNode;
     }
 
+    if (found.location.start.line > currNode.location.start.line) {
+      return found;
+    }
     if (
-      found.location.start.line > currNode.location.start.line ||
+      found.location.start.line === currNode.location.start.line &&
       found.location.start.column > currNode.location.start.column
     ) {
       return found;
@@ -32,13 +35,16 @@ function findClosestScope(functions: Scope[], location: Location) {
 
 export async function getASTLocation(source: Source, location: Location) {
   const symbols = await getSymbols(source);
-  const functions = [...symbols.functions, ...symbols.memberExpressions];
+  const functions = [...symbols.functions];
 
   const scope = findClosestScope(functions, location);
   if (scope) {
     const line = location.line - scope.location.start.line;
     const column = location.column;
-    return { name: scope.name, offset: { line, column } };
+    return {
+      name: scope.name,
+      offset: { line, column }
+    };
   }
   return { name: undefined, offset: location };
 }
