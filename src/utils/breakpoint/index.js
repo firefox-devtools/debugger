@@ -103,11 +103,19 @@ export function breakpointExists(state: State, location: Location) {
 }
 
 export function createBreakpoint(location: Location, overrides: Object = {}) {
-  const { condition, disabled, hidden, generatedLocation } = overrides;
+  const {
+    condition,
+    disabled,
+    hidden,
+    generatedLocation,
+    astLocation
+  } = overrides;
+
   const properties = {
     condition: condition || null,
     disabled: disabled || false,
     hidden: hidden || false,
+    astLocation: astLocation || { offset: location },
     generatedLocation: generatedLocation || location,
     location
   };

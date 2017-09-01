@@ -22,7 +22,7 @@ import remapLocations from "./breakpoints/remapLocations";
 // this will need to be changed so that addCLientBreakpoint is removed
 import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
 
-import type { Source } from "debugger-html";
+import type { SourceId } from "debugger-html";
 import type { ThunkArgs } from "./types";
 import type { PendingBreakpoint, Location } from "../types";
 import type { BreakpointsMap } from "../reducers/types";
@@ -41,27 +41,22 @@ type addBreakpointOptions = {
  * @param {PendingBreakpoint} $1.location PendingBreakpoint  value
  */
 export function syncBreakpoint(
-  source: Source,
+  sourceId: SourceId,
   pendingBreakpoint: PendingBreakpoint
 ) {
-  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const sourceId = source.id;
-    const { line, sourceUrl, column } = pendingBreakpoint.location;
-    const location = { sourceId, sourceUrl, line, column };
-    const breakpoint = createBreakpoint(location, pendingBreakpoint);
-
-    const syncPromise = syncClientBreakpoint(
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const { breakpoint, previousLocation } = await syncClientBreakpoint(
       getState,
       client,
       sourceMaps,
-      source,
+      sourceId,
       pendingBreakpoint
     );
 
     return dispatch({
       type: "SYNC_BREAKPOINT",
       breakpoint,
-      [PROMISE]: syncPromise
+      previousLocation
     });
   };
 }

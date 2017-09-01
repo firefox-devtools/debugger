@@ -64,6 +64,12 @@ function pendingBreakpoint(overrides) {
       line: 3,
       column: undefined
     },
+    astLocation: {
+      name: undefined,
+      offset: {
+        line: 3
+      }
+    },
     condition: null,
     disabled: false,
     hidden: false,
