@@ -71,9 +71,11 @@ class Scopes extends PureComponent {
     return (
       <div className="pane scopes-list">
         <div className="pane-info">
-          {pauseInfo
-            ? L10N.getStr("scopes.notAvailable")
-            : L10N.getStr("scopes.notPaused")}
+          {pauseInfo ? (
+            L10N.getStr("scopes.notAvailable")
+          ) : (
+            L10N.getStr("scopes.notPaused")
+          )}
         </div>
       </div>
     );

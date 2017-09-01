@@ -47,12 +47,8 @@ export default class ResultList extends Component {
 
     return (
       <li {...props}>
-        <div className="title">
-          {item.title}
-        </div>
-        <div className="subtitle">
-          {item.subtitle}
-        </div>
+        <div className="title">{item.title}</div>
+        <div className="subtitle">{item.subtitle}</div>
       </li>
     );
   }

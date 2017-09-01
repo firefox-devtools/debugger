@@ -4,9 +4,7 @@ import { connect } from "react-redux";
 
 export class Workers extends PureComponent {
   renderWorkers(workers) {
-    return (
-      workers.map(w => <div>{w}</div>)
-    );
+    return workers.map(w => <div>{w}</div>);
   }
 
   renderNoWorkersPlaceholder() {
@@ -18,9 +16,11 @@ export class Workers extends PureComponent {
     return (
       <div className="pane">
         <div className="pane-info">
-          {workers && workers.length > 0
-            ? this.renderWorkers(workers)
-            : this.renderNoWorkersPlaceholder()}
+          {workers && workers.length > 0 ? (
+            this.renderWorkers(workers)
+          ) : (
+            this.renderNoWorkersPlaceholder()
+          )}
         </div>
       </div>
     );

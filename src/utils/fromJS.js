@@ -38,7 +38,9 @@ function createMap(value) {
     value.length = `${value.length}`;
   }
 
-  let map = I.Seq(value).map(fromJS).toMap();
+  let map = I.Seq(value)
+    .map(fromJS)
+    .toMap();
 
   if (hasLength) {
     map = map.set("length", length);
@@ -49,7 +51,9 @@ function createMap(value) {
 }
 
 function createList(value) {
-  return I.Seq(value).map(fromJS).toList();
+  return I.Seq(value)
+    .map(fromJS)
+    .toList();
 }
 
 /**

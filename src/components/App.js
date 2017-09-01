@@ -105,9 +105,9 @@ class App extends Component {
             startPanelSize={startPanelSize}
             endPanelSize={endPanelSize}
           />
-          {!this.props.selectedSource
-            ? <WelcomeBox horizontal={horizontal} />
-            : null}
+          {!this.props.selectedSource ? (
+            <WelcomeBox horizontal={horizontal} />
+          ) : null}
           <ProjectSearch />
         </div>
       </div>
@@ -184,9 +184,11 @@ class App extends Component {
 
     return (
       <div className="debugger">
-        {this.state.horizontal
-          ? this.renderHorizontalLayout()
-          : this.renderVerticalLayout()}
+        {this.state.horizontal ? (
+          this.renderHorizontalLayout()
+        ) : (
+          this.renderVerticalLayout()
+        )}
         <SymbolModal
           selectSource={selectSource}
           selectedSource={selectedSource}

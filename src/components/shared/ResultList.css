@@ -42,7 +42,7 @@
   color: white;
 }
 
-.theme-dark  .result-list.small li.selected {
+.theme-dark .result-list.small li.selected {
   background-color: var(--theme-body-background);
 }
 

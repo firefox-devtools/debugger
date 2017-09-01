@@ -122,9 +122,7 @@ export default class Group extends Component {
         onClick={this.toggleFrames}
         tabIndex={0}
       >
-        <div className="title">
-          {displayName}
-        </div>
+        <div className="title">{displayName}</div>
         <FrameLocation frame={frame} />
       </li>
     );
