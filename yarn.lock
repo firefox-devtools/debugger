@@ -2979,6 +2979,19 @@ devtools-map-bindings@0.1.0:
     jest "^19.0.2"
     source-map "^0.5.6"
 
+devtools-map-bindings@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.2.0.tgz#0fe50f198d73b16a457430e41d5c673ee4047782"
+  dependencies:
+    babel-plugin-transform-async-to-generator "^6.22.0"
+    babel-plugin-transform-flow-strip-types "^6.22.0"
+    babel-traverse "^6.26.0"
+    babel-types "^6.26.0"
+    babylon "^6.18.0"
+    devtools-utils "0.0.8"
+    jest "^19.0.2"
+    source-map "^0.5.6"
+
 devtools-modules@^0.0.31:
   version "0.0.31"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.31.tgz#06749ffa7b78cf2826467ffcce9d2edbbba3ced7"

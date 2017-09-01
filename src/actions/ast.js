@@ -9,12 +9,45 @@ import {
   getPreview
 } from "../selectors";
 
+import { ensureParserHasSourceText } from "./sources";
+
 import { PROMISE } from "../utils/redux/middleware/promise";
-import * as parser from "../utils/parser";
+import {
+  getScopes,
+  getSymbols,
+  getEmptyLines,
+  getOutOfScopeLocations
+} from "../utils/parser";
+
+import { isGeneratedId } from "devtools-source-map";
+import { replaceOriginalVariableName } from "devtools-map-bindings/src/utils";
 
 import type { SourceId } from "debugger-html";
 import type { ThunkArgs } from "./types";
 import type { AstLocation } from "../utils/parser";
+
+/**
+ * Gets information about original variable names from the source map
+ * and replaces all posible generated names.
+ */
+async function getSourcemapedExpression(
+  { sourceMaps },
+  generatedLocation: Location,
+  expression: string
+): Promise<string> {
+  const astScopes = await getScopes(generatedLocation);
+
+  const generatedScopes = await sourceMaps.getLocationScopes(
+    generatedLocation,
+    astScopes
+  );
+
+  if (!generatedScopes) {
+    return expression;
+  }
+
+  return replaceOriginalVariableName(expression, generatedScopes);
+}
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
@@ -28,7 +61,7 @@ export function setSymbols(sourceId: SourceId) {
       return;
     }
 
-    const symbols = await parser.getSymbols(source);
+    const symbols = await getSymbols(source);
 
     dispatch({
       type: "SET_SYMBOLS",
@@ -50,7 +83,7 @@ export function setEmptyLines(sourceId: SourceId) {
       return;
     }
 
-    const emptyLines = await parser.getEmptyLines(source);
+    const emptyLines = await getEmptyLines(source);
 
     dispatch({
       type: "SET_EMPTY_LINES",
@@ -76,10 +109,7 @@ export function setOutOfScopeLocations() {
       });
     }
 
-    const locations = await parser.getOutOfScopeLocations(
-      source.toJS(),
-      location
-    );
+    const locations = await getOutOfScopeLocations(source.toJS(), location);
 
     return dispatch({
       type: "OUT_OF_SCOPE_LOCATIONS",
@@ -123,7 +153,7 @@ export function setPreview(
   tokenPos: AstLocation,
   cursorPos: any
 ) {
-  return async ({ dispatch, getState, client }: ThunkArgs) => {
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const currentSelection = getPreview(getState());
     if (currentSelection && currentSelection.updating) {
       return;
@@ -133,17 +163,34 @@ export function setPreview(
       type: "SET_PREVIEW",
       [PROMISE]: (async function() {
         const source = getSelectedSource(getState());
-        const _symbols = await parser.getSymbols(source.toJS());
+        const _symbols = await getSymbols(source.toJS());
 
         const found = findBestMatch(_symbols, tokenPos, token);
         if (!found) {
           return;
         }
 
-        const { expression, location } = found;
+        let { expression, location } = found;
 
         if (!expression) {
           return;
+        }
+
+        const sourceId = source.get("id");
+        if (location && !isGeneratedId(sourceId)) {
+          const generatedLocation = await sourceMaps.getGeneratedLocation(
+            { ...location.start, sourceId },
+            source.toJS()
+          );
+
+          const generatedSourceId = generatedLocation.sourceId;
+          await dispatch(ensureParserHasSourceText(generatedSourceId));
+
+          expression = await getSourcemapedExpression(
+            { dispatch, sourceMaps },
+            generatedLocation,
+            expression
+          );
         }
 
         const selectedFrame = getSelectedFrame(getState());
