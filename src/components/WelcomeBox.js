@@ -9,8 +9,6 @@ import { formatKeyShortcut } from "../utils/text";
 
 import PaneToggleButton from "./shared/Button/PaneToggle";
 
-const { isEnabled } = require("devtools-config");
-
 import "./WelcomeBox.css";
 
 type Props = {
@@ -39,40 +37,49 @@ class WelcomeBox extends Component {
   }
 
   render() {
-    const keyCombinationOne = formatKeyShortcut(
+    const searchSourcesShortcut = formatKeyShortcut(
       L10N.getStr("sources.search.key2")
     );
 
-    const keyCombinationTwo = formatKeyShortcut(
+    const searchProjectShortcut = formatKeyShortcut(
       L10N.getStr("projectTextSearch.key")
+    );
+
+    const searchFunctionsShortcut = formatKeyShortcut(
+      L10N.getStr("functionSearch.key")
     );
 
     const searchSourcesLabel = L10N.getStr("welcome.search").substring(2);
     const searchProjectLabel = L10N.getStr("welcome.findInFiles").substring(2);
-
-    const searchProjectLabelComp = (
-      <div>
-        <b>
-          {keyCombinationTwo}
-        </b>
-        {searchProjectLabel}
-      </div>
-    );
-
-    const searchSourcesLabelComp = (
-      <div>
-        <b>
-          {keyCombinationOne}
-        </b>
-        {searchSourcesLabel}
-      </div>
+    const searchFunctionLabel = L10N.getStr("welcome.searchFunction").substring(
+      2
     );
 
     return (
       <div className="welcomebox">
         <div className="alignlabel">
-          {searchSourcesLabelComp}
-          {isEnabled("searchNav") ? searchProjectLabelComp : null}
+          <div className="shortcutKeys">
+            <p>
+              {searchSourcesShortcut}
+            </p>
+            <p>
+              {searchProjectShortcut}
+            </p>
+            <p>
+              {searchFunctionsShortcut}
+            </p>
+          </div>
+          <div className="shortcutFunction">
+            <p>
+              {searchSourcesLabel}
+            </p>
+            <p>
+              {searchProjectLabel}
+            </p>
+            <p>
+              {searchFunctionLabel}
+            </p>
+          </div>
           {this.renderToggleButton()}
         </div>
       </div>

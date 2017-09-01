@@ -17,7 +17,6 @@
 
 .alignlabel {
   display: inline-block;
-  text-align: left;
 }
 
 .welcomebox .toggle-button-end {
@@ -26,6 +25,18 @@
   bottom: 0;
   offset-inline-end: 0;
   offset-inline-start: auto;
+}
+
+.shortcutKeys {
+  text-align: right;
+  float: left;
+  font-family: Courier;
+}
+
+.shortcutFunction {
+  text-align: left;
+  float: left;
+  margin-left: 25px;
 }
 
 html .welcomebox .toggle-button-end.collapsed {
