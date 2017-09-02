@@ -62,7 +62,7 @@ class PrimaryPanes extends Component {
         onClick={() => this.showPane("sources")}
         key="sources-tab"
       >
-        Sources View
+        Sources
       </div>,
       <div
         className={classnames("tab", {
@@ -71,7 +71,7 @@ class PrimaryPanes extends Component {
         onClick={() => this.showPane("outline")}
         key="outline-tab"
       >
-        Outline View
+        Outline
       </div>
     ];
   }
