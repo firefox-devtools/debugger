@@ -163,10 +163,16 @@ function getSourceLineCount(source: Source) {
  */
 
 function getMode(source: Source) {
-  const { contentType, text, isWasm } = source;
+  const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
     return { name: "text" };
+  }
+
+  // if the url ends with .marko we set the name to Javascript so
+  // syntax highlighting works for marko too
+  if (url && url.match(/\.marko$/i)) {
+    return { name: "javascript" };
   }
 
   // Use HTML mode for files in which the first non whitespace
