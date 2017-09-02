@@ -1,7 +1,15 @@
 const initialState = {
-    workers: ["dummyworker 1", "dummyworker 2"]
+    from: "",
+    workers: []
 };
 
 export default function debuggee(state = initialState, action) {
-    return state;
+    switch (action.type) {
+    case "SET_WORKERS":
+      return {
+        ...action.workers
+      };
+    default:
+        return state;
+    }
 }

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 export class Workers extends PureComponent {
   renderWorkers(workers) {
     return(
-      workers.map(w => <div className="worker" key={w}>{w}</div>)
+      workers.map(w => <div className="worker" key={w.url}>{w.url}</div>)
     );
   }
 
