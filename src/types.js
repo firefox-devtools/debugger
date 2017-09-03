@@ -6,12 +6,6 @@ export type SearchModifiers = {
   regexMatch: boolean
 };
 
-export type Expression = {
-  value: Object,
-  input: string,
-  visible: boolean
-};
-
 export type Mode =
   | String
   | {
@@ -26,6 +20,7 @@ export type Mode =
 export type {
   Breakpoint,
   PendingBreakpoint,
+  Expression,
   Frame,
   Grip,
   LoadedObject,

@@ -1,46 +1,54 @@
 // @flow
 
-import makeRecord from "../utils/makeRecord";
-import { List } from "immutable";
+import { List, Record } from "immutable";
 import { omit } from "lodash";
 import { createSelector } from "reselect";
 import { prefs } from "../utils/prefs";
 
 import type { Expression } from "../types";
 import type { Action } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
 
-type ExpressionState = {
-  expressions: List<Expression>
-};
+type State = {|
+  expressions: List<Expression>,
+  setExpressions: (List<Expression>) => State
+|};
 
-export const State = makeRecord(
-  ({
+class StateClass extends Record({
+  expressions: List()
+}) {
+  get expressions(): List<Expression> {
+    return this.expressions;
+  }
+
+  setExpressions(expressions: List<Expression>): State {
+    return this.set("expressions", expressions);
+  }
+}
+
+function initialState(): State {
+  return new StateClass({
     expressions: List(restoreExpressions())
-  }: ExpressionState)
-);
+  });
+}
 
-function update(
-  state: Record<ExpressionState> = State(),
-  action: Action
-): Record<ExpressionState> {
+function update(state: State = initialState(), action: Action): State {
   switch (action.type) {
     case "ADD_EXPRESSION":
-      return appendToList(state, ["expressions"], {
+      return appendToList(state, {
         input: action.input,
         value: null,
         updating: true
       });
     case "UPDATE_EXPRESSION":
       const key = action.expression.input;
-      return updateItemInList(state, ["expressions"], key, {
+      return updateItemInList(state, key, {
         input: action.input,
         value: null,
         updating: true
       });
     case "EVALUATE_EXPRESSION":
       if (action.status === "done") {
-        return updateItemInList(state, ["expressions"], action.input, {
+        return updateItemInList(state, action.input, {
           input: action.input,
           value: action.value,
           updating: false
@@ -54,43 +62,35 @@ function update(
   return state;
 }
 
-function restoreExpressions() {
-  const exprs = prefs.expressions;
+function restoreExpressions(): Expression[] {
+  const exprs: Expression[] = prefs.expressions;
   if (exprs.length == 0) {
-    return;
+    return [];
   }
   return exprs;
 }
 
-function storeExpressions(state) {
-  const expressions = state
-    .getIn(["expressions"])
-    .map(expression => omit(expression, "value"))
-    .toJS();
+function storeExpressions(expressions: List<Expression>) {
+  const newExpressions = expressions.map(expression =>
+    omit(expression, "value")
+  );
 
-  prefs.expressions = expressions;
+  prefs.expressions = newExpressions;
 }
 
-function appendToList(state: State, path: string[], value: any) {
-  const newState = state.updateIn(path, () => {
-    return state.getIn(path).push(value);
-  });
-  storeExpressions(newState);
+function appendToList(state: State, value: Expression) {
+  const newState = state.setExpressions(state.expressions.push(value));
+  storeExpressions(newState.expressions);
   return newState;
 }
 
-function updateItemInList(
-  state: State,
-  path: string[],
-  key: string,
-  value: any
-) {
-  const newState = state.updateIn(path, () => {
-    const list = state.getIn(path);
-    const index = list.findIndex(e => e.input == key);
-    return list.update(index, () => value);
-  });
-  storeExpressions(newState);
+function updateItemInList(state: State, key: string, value: Expression) {
+  const index = state.expressions.findIndex(e => e.input == key);
+  const newState = state.setExpressions(
+    state.expressions.update(index, () => value)
+  );
+
+  storeExpressions(newState.expressions);
   return newState;
 }
 
@@ -98,19 +98,16 @@ function deleteExpression(state: State, input: string) {
   const index = getExpressions({ expressions: state }).findKey(
     e => e.input == input
   );
-  const newState = state.deleteIn(["expressions", index]);
-  storeExpressions(newState);
+  const newState = state.setExpressions(state.expressions.deleteIn([index]));
+  storeExpressions(newState.expressions);
   return newState;
 }
 
-type OuterState = { expressions: Record<ExpressionState> };
+type OuterState = { expressions: State };
 
-const getExpressionsWrapper = state => state.expressions;
-
-export const getExpressions = createSelector(
-  getExpressionsWrapper,
-  expressions => expressions.get("expressions")
-);
+function getExpressions(state: OuterState) {
+  return state.expressions.expressions;
+}
 
 export function getExpression(state: OuterState, input: string) {
   return getExpressions(state).find(exp => exp.input == input);
