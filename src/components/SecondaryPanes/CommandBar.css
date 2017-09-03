@@ -7,7 +7,7 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: var(--theme-body-background);
+  background-color: var(--theme-toolbar-background);
 }
 
 .command-bar.vertical {
