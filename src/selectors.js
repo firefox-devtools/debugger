@@ -2,6 +2,7 @@
 import * as expressions from "./reducers/expressions";
 import * as sources from "./reducers/sources";
 import * as pause from "./reducers/pause";
+import * as debuggee from "./reducers/debuggee";
 import * as breakpoints from "./reducers/breakpoints";
 import * as pendingBreakpoints from "./reducers/pending-breakpoints";
 import * as eventListeners from "./reducers/event-listeners";
@@ -25,6 +26,7 @@ module.exports = Object.assign(
   expressions,
   sources,
   pause,
+  debuggee,
   breakpoints,
   pendingBreakpoints,
   eventListeners,
