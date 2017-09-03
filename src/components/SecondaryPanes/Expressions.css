@@ -23,7 +23,7 @@
 .expressions-list {
   /* TODO: add normalize */
   margin: 0;
-  padding: 0.5em 0;
+  padding: 0;
 }
 .expression-input-container {
   padding: 0.5em;
