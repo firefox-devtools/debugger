@@ -36,12 +36,13 @@ function getMenuItems(
     click: () => copyToTheClipboard(selectedSource.get("url"))
   };
 
+  const selectionText = codeMirror.getSelection().trim();
   const copySource = {
     id: "node-menu-copy-source",
     label: copySourceLabel,
     accesskey: copySourceKey,
-    disabled: false,
-    click: () => copyToTheClipboard(codeMirror.getSelection())
+    disabled: selectionText.length === 0,
+    click: () => copyToTheClipboard(selectionText)
   };
 
   const { line, ch } = codeMirror.coordsChar({
