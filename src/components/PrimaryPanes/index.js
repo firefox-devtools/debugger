@@ -54,6 +54,10 @@ class PrimaryPanes extends Component {
       return;
     }
 
+    const sources = formatKeyShortcut(L10N.getStr("panel.sources"));
+
+    const outline = formatKeyShortcut(L10N.getStr("panel.outline"));
+
     return [
       <div
         className={classnames("tab", {
@@ -62,7 +66,7 @@ class PrimaryPanes extends Component {
         onClick={() => this.showPane("sources")}
         key="sources-tab"
       >
-        Sources
+        {sources}
       </div>,
       <div
         className={classnames("tab", {
@@ -71,7 +75,7 @@ class PrimaryPanes extends Component {
         onClick={() => this.showPane("outline")}
         key="outline-tab"
       >
-        Outline
+        {outline}
       </div>
     ];
   }
