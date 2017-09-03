@@ -3,7 +3,7 @@
 const { isDevelopment } = require("devtools-config");
 const { Services, PrefsHelper } = require("devtools-modules");
 
-const prefsSchemaVersion = "1.0.2";
+const prefsSchemaVersion = "1.0.3";
 
 const pref = Services.pref;
 
@@ -25,7 +25,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.file-search-regex-match", false);
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
   pref("devtools.debugger.project-text-search-enabled", true);
-  pref("devtools.debugger.features.async-stepping", false);
+  pref("devtools.debugger.features.async-stepping", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -53,7 +53,7 @@ export const prefs = new PrefsHelper("devtools", {
 });
 
 export const features = new PrefsHelper("devtools.debugger.features", {
-  asyncStepping: ["Bool", "async-stepping", false]
+  asyncStepping: ["Bool", "async-stepping", true]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

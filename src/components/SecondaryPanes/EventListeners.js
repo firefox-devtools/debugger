@@ -51,17 +51,15 @@ class EventListeners extends Component {
           checked={checked}
           onChange={() => this.handleCheckbox(breakpoint, location)}
         />
-        <span className="type">
-          {type}
-        </span>
-        <span className="selector">
-          {selector}
-        </span>
-        {breakpoint
-          ? <CloseButton
-              handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
-            />
-          : ""}
+        <span className="type">{type}</span>
+        <span className="selector">{selector}</span>
+        {breakpoint ? (
+          <CloseButton
+            handleClick={ev => this.removeBreakpoint(ev, breakpoint)}
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }

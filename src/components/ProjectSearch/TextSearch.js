@@ -85,12 +85,8 @@ export default class TextSearch extends Component {
       >
         <Svg name="arrow" className={classnames({ expanded })} />
         <Svg name="file" />
-        <span className="file-path">
-          {getRelativePath(file.filepath)}
-        </span>
-        <span className="matches-summary">
-          {matches}
-        </span>
+        <span className="file-path">{getRelativePath(file.filepath)}</span>
+        <span className="matches-summary">{matches}</span>
       </div>
     );
   }
@@ -152,11 +148,7 @@ export default class TextSearch extends Component {
       }
     });
 
-    return (
-      <span className="line-value">
-        {matches}
-      </span>
-    );
+    return <span className="line-value">{matches}</span>;
   }
 
   getResults() {

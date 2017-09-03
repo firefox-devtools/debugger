@@ -17,11 +17,7 @@ type FrameTitleProps = {
 
 function FrameTitle({ frame, options }: FrameTitleProps) {
   const displayName = formatDisplayName(frame, options);
-  return (
-    <div className="title">
-      {displayName}
-    </div>
-  );
+  return <div className="title">{displayName}</div>;
 }
 
 FrameTitle.displayName = "FrameTitle";
@@ -44,9 +40,7 @@ function FrameLocation({ frame }: FrameLocationProps) {
 
   const filename = getFilename(frame.source);
   return (
-    <div className="location">
-      {`${filename}: ${frame.location.line}`}
-    </div>
+    <div className="location">{`${filename}: ${frame.location.line}`}</div>
   );
 }
 

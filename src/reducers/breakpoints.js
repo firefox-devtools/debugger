@@ -145,7 +145,10 @@ export function getBreakpointsDisabled(state: OuterState): boolean {
 
 export function getBreakpointsLoading(state: OuterState) {
   const breakpoints = getBreakpoints(state);
-  const isLoading = !!breakpoints.valueSeq().filter(bp => bp.loading).first();
+  const isLoading = !!breakpoints
+    .valueSeq()
+    .filter(bp => bp.loading)
+    .first();
 
   return breakpoints.size > 0 && isLoading;
 }

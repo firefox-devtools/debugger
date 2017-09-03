@@ -7,7 +7,7 @@ import isEmpty from "lodash/isEmpty";
 
 import type { Source } from "debugger-html";
 
-const ASTs = new Map();
+let ASTs = new Map();
 
 function _parse(code, opts) {
   return babylon.parse(
@@ -60,6 +60,10 @@ export function getAst(source: Source) {
 
   ASTs.set(source.id, ast);
   return ast;
+}
+
+export function clearASTs() {
+  ASTs = new Map();
 }
 
 type Visitor = { enter: Function };

@@ -21,7 +21,8 @@ describe("sources", () => {
     it("//@flow", () => {
       const source = {
         contentType: "text/javascript",
-        text: "// @flow"
+        text: "// @flow",
+        url: ""
       };
       expect(getMode(source).typescript).toBe(true);
     });
@@ -29,7 +30,8 @@ describe("sources", () => {
     it("/* @flow */", () => {
       const source = {
         contentType: "text/javascript",
-        text: "   /* @flow */"
+        text: "   /* @flow */",
+        url: ""
       };
       expect(getMode(source).typescript).toBe(true);
     });
@@ -37,7 +39,8 @@ describe("sources", () => {
     it("mixed html", () => {
       const source = {
         contentType: "",
-        text: " <html"
+        text: " <html",
+        url: ""
       };
       expect(getMode(source)).toEqual({ name: "htmlmixed" });
     });
@@ -45,7 +48,8 @@ describe("sources", () => {
     it("elm", () => {
       const source = {
         contentType: "text/x-elm",
-        text: 'main = text "Hello, World!"'
+        text: 'main = text "Hello, World!"',
+        url: ""
       };
       expect(getMode(source)).toBe("elm");
     });
@@ -53,7 +57,8 @@ describe("sources", () => {
     it("jsx", () => {
       const source = {
         contentType: "text/jsx",
-        text: "<h1></h1>"
+        text: "<h1></h1>",
+        url: ""
       };
       expect(getMode(source)).toBe("jsx");
     });
@@ -61,7 +66,8 @@ describe("sources", () => {
     it("typescript", () => {
       const source = {
         contentType: "text/typescript",
-        text: "function foo(){}"
+        text: "function foo(){}",
+        url: ""
       };
       expect(getMode(source).typescript).toBe(true);
     });
@@ -69,7 +75,8 @@ describe("sources", () => {
     it("typescript-jsx", () => {
       const source = {
         contentType: "text/typescript-jsx",
-        text: "<h1></h1>"
+        text: "<h1></h1>",
+        url: ""
       };
       expect(getMode(source).base.typescript).toBe(true);
     });
@@ -77,7 +84,8 @@ describe("sources", () => {
     it("clojure", () => {
       const source = {
         contentType: "text/x-clojure",
-        text: "(+ 2 3)"
+        text: "(+ 2 3)",
+        url: ""
       };
       expect(getMode(source)).toBe("clojure");
     });
@@ -85,7 +93,8 @@ describe("sources", () => {
     it("coffeescript", () => {
       const source = {
         contentType: "text/coffeescript",
-        text: "x = (a) -> 3"
+        text: "x = (a) -> 3",
+        url: ""
       };
       expect(getMode(source)).toBe("coffeescript");
     });
@@ -96,9 +105,19 @@ describe("sources", () => {
         isWasm: true,
         text: {
           binary: "\x00asm\x01\x00\x00\x00"
-        }
+        },
+        url: ""
       };
       expect(getMode(source)).toEqual({ name: "text" });
+    });
+
+    it("marko", () => {
+      const source = {
+        contentType: "does not matter",
+        text: "function foo(){}",
+        url: "http://localhost.com:7999/increment/sometestfile.marko"
+      };
+      expect(getMode(source)).toEqual({ name: "javascript" });
     });
   });
 

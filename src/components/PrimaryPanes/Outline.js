@@ -67,9 +67,7 @@ export class Outline extends Component {
 
     return (
       <div className={classnames("outline", { hidden: isHidden })}>
-        <ul className="outline-list">
-          {this.renderFunctions()}
-        </ul>
+        <ul className="outline-list">{this.renderFunctions()}</ul>
       </div>
     );
   }

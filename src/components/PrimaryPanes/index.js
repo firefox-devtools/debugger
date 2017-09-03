@@ -77,11 +77,7 @@ class PrimaryPanes extends Component {
   }
 
   renderFooter() {
-    return (
-      <div className="source-footer">
-        {this.renderOutlineTabs()}
-      </div>
-    );
+    return <div className="source-footer">{this.renderOutlineTabs()}</div>;
   }
 
   renderShortcut() {
@@ -104,11 +100,7 @@ class PrimaryPanes extends Component {
   }
 
   renderHeader() {
-    return (
-      <div className="sources-header">
-        {this.renderShortcut()}
-      </div>
-    );
+    return <div className="sources-header">{this.renderShortcut()}</div>;
   }
 
   render() {

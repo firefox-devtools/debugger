@@ -3,6 +3,7 @@ import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
 import { newSources } from "./sources";
 import { clearSymbols } from "../utils/parser";
+import { clearASTs } from "../utils/parser";
 import { clearWasmStates } from "../utils/wasm";
 
 /**
@@ -20,6 +21,7 @@ export function willNavigate(_, event) {
     clearWasmStates();
     clearDocuments();
     clearSymbols();
+    clearASTs();
 
     dispatch(navigate(event.url));
   };

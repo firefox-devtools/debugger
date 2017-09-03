@@ -77,20 +77,18 @@ class Accordion extends Component {
         <div className="_header" onClick={() => this.handleHeaderClick(i)}>
           <Svg name="arrow" className={opened[i] ? "expanded" : ""} />
           {item.header}
-          {item.buttons
-            ? <div className="header-buttons">
-                {item.buttons}
-              </div>
-            : null}
+          {item.buttons ? (
+            <div className="header-buttons">{item.buttons}</div>
+          ) : null}
         </div>
-        {created[i] || opened[i]
-          ? <div
-              className="_content"
-              style={{ display: opened[i] ? "block" : "none" }}
-            >
-              {createElement(item.component, item.componentProps || {})}
-            </div>
-          : null}
+        {created[i] || opened[i] ? (
+          <div
+            className="_content"
+            style={{ display: opened[i] ? "block" : "none" }}
+          >
+            {createElement(item.component, item.componentProps || {})}
+          </div>
+        ) : null}
       </div>
     );
   }

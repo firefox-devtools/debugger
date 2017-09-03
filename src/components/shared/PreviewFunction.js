@@ -28,26 +28,22 @@ export default class PreviewFunction extends Component {
   props: PreviewFunctionProps;
   renderFunctionName(func: FunctionType) {
     const name = getFunctionName(func);
-    return (
-      <span className="function-name">
-        {name}
-      </span>
-    );
+    return <span className="function-name">{name}</span>;
   }
 
   renderParams(func: FunctionType) {
     const { parameterNames = [] } = func;
-    const params = parameterNames.filter(i => i).map(param =>
+    const params = parameterNames.filter(i => i).map(param => (
       <span className="param" key={param}>
         {param}
       </span>
-    );
+    ));
 
-    const commas = times(params.length - 1).map((_, i) =>
+    const commas = times(params.length - 1).map((_, i) => (
       <span className="delimiter" key={i}>
         {", "}
       </span>
-    );
+    ));
 
     return flatten(zip(params, commas));
   }
