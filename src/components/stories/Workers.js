@@ -46,5 +46,5 @@ storiesOf("Workers", module)
     return WorkersFactory([]);
   })
   .add("one worker", () => {
-    return WorkersFactory(["http://domain.com/foo"]);
+    return WorkersFactory([{url: "http://domain.com/foo"}]);
   });
