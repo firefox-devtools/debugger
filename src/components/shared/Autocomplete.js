@@ -26,7 +26,7 @@ type Props = {
   children: any
 };
 
-export default class Autocomplete extends Component<State> {
+export default class Autocomplete extends Component<> {
   static defaultProps: Object;
 
   constructor(props: Props) {

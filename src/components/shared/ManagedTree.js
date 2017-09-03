@@ -33,7 +33,7 @@ type ManagedTreeState = {
   focusedItem: ?Item
 };
 
-class ManagedTree extends Component<ManagedTreeState> {
+class ManagedTree extends Component<> {
   static defaultProps: Props;
   constructor() {
     super();

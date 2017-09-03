@@ -53,9 +53,7 @@ function getValue(expression) {
   };
 }
 
-class Expressions extends PureComponent<{
-  editing: null | Node
-}> {
+class Expressions extends PureComponent<> {
   static defaultProps: {
     expressions: List<Expression>,
     addExpression: (string, ?Object) => void,

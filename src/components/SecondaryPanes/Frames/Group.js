@@ -26,9 +26,7 @@ function renderFrameLocation(frame: Frame) {
   );
 }
 
-export default class Group extends Component<{
-  expanded: boolean
-}> {
+export default class Group extends Component<> {
   static defaultProps: {
     group: LocalFrame[],
     selectedFrame: LocalFrame,

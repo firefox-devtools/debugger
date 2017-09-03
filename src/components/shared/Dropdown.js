@@ -2,9 +2,7 @@
 import React, { Component } from "react";
 import "./Dropdown.css";
 
-class Dropdown extends Component<{
-  dropdownShown: boolean
-}> {
+class Dropdown extends Component<> {
   static defaultProps: {
     panel: Object
   };

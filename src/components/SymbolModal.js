@@ -58,20 +58,21 @@ type SymbolModalState = {
 };
 
 import "./SymbolModal.css";
+type Props = {
+  enabled: boolean,
+  selectSource: (string, ?SelectSourceOptions) => void,
+  selectedSource?: SourceRecord,
+  symbols: FormattedSymbolDeclarations,
+  symbolType: SymbolSearchType,
+  setActiveSearch: (?ActiveSearchType) => void,
+  closeActiveSearch: () => void,
+  highlightLineRange: ({ start: number, end: number }) => void,
+  clearHighlightLineRange: () => void,
+  symbolSearchResults: any
+};
 
-class SymbolModal extends Component<SymbolModalState> {
-  static defaultProps: {
-    enabled: boolean,
-    selectSource: (string, ?SelectSourceOptions) => void,
-    selectedSource?: SourceRecord,
-    symbols: FormattedSymbolDeclarations,
-    symbolType: SymbolSearchType,
-    setActiveSearch: (?ActiveSearchType) => void,
-    closeActiveSearch: () => void,
-    highlightLineRange: ({ start: number, end: number }) => void,
-    clearHighlightLineRange: () => void,
-    symbolSearchResults: any
-  };
+class SymbolModal extends Component<> {
+  static defaultProps: Props;
 
   constructor(props) {
     super(props);
