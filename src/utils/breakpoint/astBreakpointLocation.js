@@ -1,7 +1,7 @@
 // @flow
 
 import { getSymbols } from "../parser";
-import { containsPosition } from "../parser/utils/helpers";
+import { containsPosition } from "../parser/utils/contains";
 
 import type { Scope } from "../parser/types";
 import type { Location, Source } from "debugger-html";

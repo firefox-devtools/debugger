@@ -46,7 +46,7 @@ function update(
       return state.remove("query");
 
     case "ADD_SEARCH_RESULT":
-      let results = state.get("results");
+      const results = state.get("results");
       return state.merge({ results: results.push(action.result) });
 
     case "CLEAR_SEARCH_RESULTS":

@@ -3,11 +3,9 @@
 import * as t from "babel-types";
 
 import { traverseAst } from "./ast";
-import {
-  isLexicalScope,
-  getMemberExpression,
-  nodeContainsPosition
-} from "./helpers";
+import { isLexicalScope, getMemberExpression } from "./helpers";
+
+import { nodeContainsPosition } from "./contains";
 
 import type { Source, Location } from "debugger-html";
 import type { NodePath, Node } from "babel-traverse";
