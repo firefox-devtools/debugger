@@ -85,10 +85,23 @@ describe("project text search", () => {
       actions.searchSource(getSource(getState(), "bar").toJS(), "bla")
     );
 
-    const result = getTextSearchResult(getState(), "bar");
+    const results = getTextSearchResults(getState());
 
-    expect(getTextSearchResults(getState()).size).toEqual(1);
+    expect(results).toMatchSnapshot();
+    expect(results.size).toEqual(1);
+  });
 
-    expect(result).toMatchSnapshot();
+  it("should clear all the search results", async () => {
+    const { dispatch, getState } = createStore(threadClient);
+    const mockQuery = "foo";
+
+    await dispatch(actions.newSource(makeSource("foo1")));
+    await dispatch(actions.searchSources(mockQuery));
+
+    expect(getTextSearchResults(getState())).toMatchSnapshot();
+
+    await dispatch(actions.clearSearchResults());
+
+    expect(getTextSearchResults(getState())).toMatchSnapshot();
   });
 });

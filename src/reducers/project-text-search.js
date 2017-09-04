@@ -22,7 +22,7 @@ export type Search = {
 };
 
 export type ResultRecord = Record<Search>;
-export type ResultList = List<string, ResultRecord>;
+export type ResultList = List<ResultRecord>;
 export type ProjectTextSearchState = {
   query: string,
   results: ResultList
