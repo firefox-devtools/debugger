@@ -2,8 +2,14 @@ import React, { PureComponent, PropTypes } from "react";
 import "./Workers.css";
 import { connect } from "react-redux";
 import { getWorkers } from "../../selectors";
+import type { List } from "immutable";
+import type { Worker } from "../../types";
 
 export class Workers extends PureComponent {
+  props: {
+    workers: List<Workers>
+  };
+
   renderWorkers(workers) {
     return workers.map(w => (
       <div className="worker" key={w.url}>
@@ -20,7 +26,7 @@ export class Workers extends PureComponent {
     const { workers } = this.props;
     return (
       <div className="pane workers-list">
-        {workers && workers.length > 0 ? (
+        {workers && workers.size > 0 ? (
           this.renderWorkers(workers)
         ) : (
           this.renderNoWorkersPlaceholder()
@@ -31,9 +37,6 @@ export class Workers extends PureComponent {
 }
 
 Workers.displayName = "Workers";
-Workers.propTypes = {
-  workers: PropTypes.array.isRequired
-};
 
 function mapStateToProps(state) {
   return { workers: getWorkers(state) };
