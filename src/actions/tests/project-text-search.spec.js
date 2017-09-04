@@ -5,12 +5,7 @@ import {
   makeSource
 } from "../../utils/test-head";
 
-const {
-  getTextSearchQuery,
-  getTextSearchResults,
-  getTextSearchResult,
-  getSource
-} = selectors;
+const { getTextSearchQuery, getTextSearchResults, getSource } = selectors;
 
 const threadClient = {
   sourceContents: function(sourceId) {

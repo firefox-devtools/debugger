@@ -11,35 +11,6 @@ import "./TextSearch.css";
 
 import { getRelativePath } from "../../utils/sources-tree";
 
-// This finds a node that matches (has the same values
-// for specific properties) as the node passed in.
-
-function getMatchingFocusNode(results, node) {
-  if (node == null) {
-    return null;
-  }
-  let matchingNode = null;
-  results.some(result => {
-    if (node.filepath) {
-      if (node.sourceId === result.sourceId) {
-        matchingNode = result;
-        return true;
-      }
-    } else {
-      matchingNode = result.matches.find(match => {
-        if (
-          node.sourceId === match.sourceId &&
-          node.column === match.column &&
-          node.line === match.line
-        ) {
-          return match;
-        }
-      });
-      return true;
-    }
-  });
-}
-
 export default class TextSearch extends Component {
   constructor(props: Props) {
     super(props);
@@ -64,21 +35,6 @@ export default class TextSearch extends Component {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.off("Enter", this.onEnterPress);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.results !== this.props.results) {
-      if (this.focusedItem === null) {
-        return;
-      }
-      const { file, match } = this.focusedItem;
-      const focusedItemType = file && !match ? "file" : "match";
-
-      this.focusedItem[focusedItemType] = getMatchingFocusNode(
-        nextProps.results,
-        file || match
-      );
-    }
   }
 
   close() {
