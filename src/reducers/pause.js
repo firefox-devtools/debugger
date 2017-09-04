@@ -145,6 +145,9 @@ function update(state: PauseState = State(), action: Action): PauseState {
 
     case "CLEAR_COMMAND":
       return { ...state, command: "" };
+
+    case "NAVIGATE":
+      return { ...state, debuggeeUrl: action.url };
   }
 
   return state;
