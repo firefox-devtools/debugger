@@ -137,7 +137,7 @@ class ProjectSearch extends Component {
     return (
       <TextSearch
         sources={sources}
-        results={results.valueSeq().toJS()}
+        results={results.toJS()}
         searchSources={searchSources}
         closeActiveSearch={closeActiveSearch}
         selectSource={selectSource}

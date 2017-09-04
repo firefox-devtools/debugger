@@ -15,16 +15,18 @@ import { getRelativePath } from "../../utils/sources-tree";
 // for specific properties) as the node passed in.
 
 function getMatchingFocusNode(results, node) {
-  if (node === null) {
+  if (node == null) {
     return null;
   }
-  return results.find(result => {
+  let matchingNode = null;
+  results.some(result => {
     if (node.filepath) {
       if (node.sourceId === result.sourceId) {
-        return result;
+        matchingNode = result;
+        return true;
       }
     } else {
-      return result.matches.some(match => {
+      matchingNode = result.matches.find(match => {
         if (
           node.sourceId === match.sourceId &&
           node.column === match.column &&
@@ -33,6 +35,7 @@ function getMatchingFocusNode(results, node) {
           return match;
         }
       });
+      return true;
     }
   });
 }
@@ -41,11 +44,11 @@ export default class TextSearch extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
-      inputValue: this.props.query || "",
-      inputFocused: false
+      inputValue: this.props.query || ""
     };
 
     this.focusedItem = null;
+    this.inputFocused = false;
 
     this.inputOnChange = this.inputOnChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -111,7 +114,7 @@ export default class TextSearch extends Component {
   }
 
   onEnterPress() {
-    if (this.focusedItem && !this.state.inputFocused) {
+    if (this.focusedItem && !this.inputFocused) {
       const { setExpanded, file, expanded, match } = this.focusedItem;
       if (setExpanded) {
         setExpanded(file, !expanded);
@@ -211,10 +214,10 @@ export default class TextSearch extends Component {
   renderResults() {
     const results = this.getResults();
     results = results.filter(result => result.matches.length > 0);
-    function getFilePath(item) {
+    function getFilePath(item, index) {
       return item.filepath
-        ? `${item.sourceId}`
-        : `${item.sourceId}-${item.line}-${item.column}`;
+        ? `${item.sourceId}-${index}`
+        : `${item.sourceId}-${item.line}-${item.column}-${index}`;
     }
 
     const renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
@@ -260,8 +263,8 @@ export default class TextSearch extends Component {
         size="big"
         summaryMsg={summaryMsg}
         onChange={e => this.inputOnChange(e)}
-        onFocus={() => this.setState({ inputFocused: true })}
-        onBlur={() => this.setState({ inputFocused: false })}
+        onFocus={() => (this.inputFocused = true)}
+        onBlur={() => (this.inputFocused = false)}
         onKeyDown={e => this.onKeyDown(e)}
         handleClose={this.close}
         ref="searchInput"

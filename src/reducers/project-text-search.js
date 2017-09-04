@@ -13,7 +13,7 @@ import makeRecord from "../utils/makeRecord";
 
 import type { ProjectTextSearchAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
-import type { Map } from "immutable";
+import type { List } from "immutable";
 
 export type Search = {
   id: string,
@@ -22,15 +22,15 @@ export type Search = {
 };
 
 export type ResultRecord = Record<Search>;
-export type ResultMap = Map<string, ResultRecord>;
+export type ResultList = List<string, ResultRecord>;
 export type ProjectTextSearchState = {
   query: string,
-  results: ResultMap
+  results: ResultList
 };
 
 export function InitialState(): Record<ProjectTextSearchState> {
   return makeRecord(
-    ({ query: "", results: I.Map() }: ProjectTextSearchState)
+    ({ query: "", results: I.List() }: ProjectTextSearchState)
   )();
 }
 
@@ -46,10 +46,13 @@ function update(
       return state.remove("query");
 
     case "ADD_SEARCH_RESULT":
-      return state.updateIn(
-        ["results", action.result.sourceId],
-        value => action.result
-      );
+      let results = state.get("results");
+      return state.merge({ results: results.push(action.result) });
+
+    case "CLEAR_SEARCH_RESULTS":
+      return state.merge({
+        results: state.get("results").clear()
+      });
   }
   return state;
 }
@@ -58,10 +61,6 @@ type OuterState = { projectTextSearch: Record<ProjectTextSearchState> };
 
 export function getTextSearchResults(state: OuterState) {
   return state.projectTextSearch.get("results");
-}
-
-export function getTextSearchResult(state: OuterState, id: string) {
-  return state.projectTextSearch.getIn(["results", id]);
 }
 
 export function getTextSearchQuery(state: OuterState) {
