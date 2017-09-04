@@ -290,7 +290,9 @@ function assertHighlightLocation(dbg, source, line) {
     "Highlighted line is visible"
   );
   ok(
-    getCM(dbg).lineInfo(line - 1).wrapClass.includes("highlight-line"),
+    getCM(dbg)
+      .lineInfo(line - 1)
+      .wrapClass.includes("highlight-line"),
     "Line is highlighted"
   );
 }
@@ -381,7 +383,9 @@ function initDebugger(url, ...sources) {
     Services.prefs.clearUserPref("devtools.debugger.pending-breakpoints");
     Services.prefs.clearUserPref("devtools.debugger.expressions");
     const toolbox = yield openNewTabAndToolbox(EXAMPLE_URL + url, "jsdebugger");
-    return createDebuggerContext(toolbox);
+    const dbg = createDebuggerContext(toolbox);
+    findElementWithSelector(dbg, ".debugger").click();
+    return dbg;
   });
 }
 
