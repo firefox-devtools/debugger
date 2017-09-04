@@ -54,9 +54,9 @@ class PrimaryPanes extends Component {
       return;
     }
 
-    const sources = formatKeyShortcut(L10N.getStr("panel.sources"));
+    const sources = formatKeyShortcut(L10N.getStr("sources.header"));
 
-    const outline = formatKeyShortcut(L10N.getStr("panel.outline"));
+    const outline = formatKeyShortcut(L10N.getStr("outline.header"));
 
     return [
       <div
