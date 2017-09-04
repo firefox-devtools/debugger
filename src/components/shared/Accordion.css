@@ -10,6 +10,7 @@
   padding: 4px;
   transition: all 0.25s ease;
   width: 100%;
+  height: 24px;
   align-items: center;
 
   -webkit-user-select: none;

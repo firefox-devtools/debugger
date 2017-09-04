@@ -42,7 +42,7 @@
   width: calc(100% - 1.5px);
   top: 30px;
   left: 0px;
-  --editor-footer-height: 27px;
+  --editor-footer-height: 24px;
 }
 
 html[dir="rtl"] .editor-mount {

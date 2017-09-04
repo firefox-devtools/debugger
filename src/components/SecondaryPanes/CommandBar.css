@@ -1,8 +1,8 @@
 .command-bar {
-  flex: 0 0 30px;
+  flex: 0 0 29px;
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
-  height: 30px;
+  height: 29px;
   overflow: hidden;
   position: sticky;
   top: 0;
