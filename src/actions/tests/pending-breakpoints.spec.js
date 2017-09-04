@@ -19,6 +19,23 @@ jest.mock("../../utils/prefs", () => ({
   clear: jest.fn()
 }));
 
+jest.mock("../sources/loadSourceText", () => ({
+  loadSourceText: () => ({
+    type: "LOAD_SOURCE_TEXT",
+    source: {
+      id: "id",
+      text: "function foo() {}",
+      contentType: "text/javascript"
+    },
+    value: {
+      id: "id",
+      text: "function () {}",
+      contentType: "text/javascript"
+    }
+  })
+}));
+import "../sources/loadSourceText";
+
 import {
   createStore,
   selectors,
@@ -243,46 +260,6 @@ describe("adding sources", () => {
     await dispatch(actions.newSources([source1, source2]));
     bps = selectors.getBreakpoints(getState());
     expect(bps.size).toBe(1);
-  });
-
-  it("add corresponding breakpoints for a changed source", async () => {
-    const bp = generateBreakpoint("bar.js");
-    const {
-      correctedThreadClient,
-      correctedLocation
-    } = simulateCorrectThreadClient(2, bp.location);
-    const { dispatch, getState } = createStore(correctedThreadClient);
-
-    const startBps = selectors.getBreakpoints(getState());
-    expect(startBps.size).toBe(0);
-
-    await dispatch(actions.newSource(makeSource("bar.js")));
-
-    const endBps = selectors.getBreakpoints(getState());
-    const expectedId = makeLocationId(correctedLocation);
-
-    const returnedBp = endBps.get(expectedId);
-    expect(returnedBp).not.toBe(bp);
-    expect(returnedBp).toMatchSnapshot();
-  });
-
-  it("updates pending breakpoints for a changed source", async () => {
-    const bp = generateBreakpoint("bar.js");
-    const {
-      correctedThreadClient,
-      correctedLocation
-    } = simulateCorrectThreadClient(2, bp.location);
-    const { dispatch, getState } = createStore(correctedThreadClient);
-
-    const startBps = selectors.getPendingBreakpoints(getState());
-    expect(startBps.size).toBe(1);
-
-    const expectedId = makePendingLocationId(correctedLocation);
-    await dispatch(actions.newSource(makeSource("bar.js")));
-
-    const endBps = selectors.getPendingBreakpoints(getState());
-    const returnedBp = endBps.get(expectedId);
-    expect(returnedBp).toMatchSnapshot();
   });
 });
 

@@ -29,7 +29,7 @@ import {
   getSources,
   getSourceByURL,
   getPendingSelectedLocation,
-  getPendingBreakpointsForState,
+  getPendingBreakpointsForSource,
   getSourceTabs,
   getNewSelectedSourceId,
   getSelectedLocation,
@@ -68,7 +68,7 @@ async function checkPendingBreakpoint(
 }
 
 async function checkPendingBreakpoints(state, dispatch, source) {
-  const pendingBreakpoints = getPendingBreakpointsForState(state, source.url);
+  const pendingBreakpoints = getPendingBreakpointsForSource(state, source.url);
   if (!pendingBreakpoints.size) {
     return;
   }

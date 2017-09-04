@@ -11,9 +11,22 @@ jest.mock("../../../utils/prefs", () => ({
   clear: jest.fn()
 }));
 
-import { createStore, actions, makeSource } from "../../../utils/test-head";
+import {
+  createStore,
+  selectors,
+  actions,
+  makeSource
+} from "../../../utils/test-head";
 
 import { makeLocationId } from "../../../utils/breakpoint";
+
+jest.mock("../../../utils/breakpoint/astBreakpointLocation", () => ({
+  findScopeByName: jest.fn(),
+  getASTLocation: jest.fn()
+}));
+
+// eslint-disable-next-line prettier/prettier
+import { findScopeByName } from "../../../utils/breakpoint/astBreakpointLocation";
 
 import { syncClientBreakpoint } from "../../breakpoints/syncBreakpoint.js";
 
@@ -45,7 +58,12 @@ const threadClient = {
 };
 
 const sourceMaps = {
-  getOriginalLocation: () => ({}),
+  getOriginalLocation: () => ({
+    sourceId: "magic.js",
+    sourceUrl: "http://localhost:8000/magic.js",
+    line: 3,
+    column: undefined
+  }),
   isOriginalId: () => true,
   getGeneratedLocation: () => ({})
 };
@@ -86,8 +104,8 @@ function newGeneratedLocation(line) {
   };
 }
 
-describe("reloading debuggee", () => {
-  it("syncs with unchanged source", async () => {
+describe("loading the debugger", () => {
+  it("loads the initial breakpoint state", async () => {
     getGeneratedLocation.mockImplementation(() => newGeneratedLocation(3));
 
     const { dispatch, getState } = createStore(threadClient, {}, sourceMaps);
@@ -96,13 +114,84 @@ describe("reloading debuggee", () => {
     const reloadedSource = makeSource("magic.js");
     await dispatch(actions.newSource(reloadedSource));
 
+    const breakpoints = selectors.getBreakpoints(getState());
+    expect(breakpoints.size).toBe(0);
     // manually sync
     const update = await syncClientBreakpoint(
       getState,
       threadClient,
       sourceMaps,
-      reloadedSource,
+      reloadedSource.id,
       pendingBreakpoint()
+    );
+
+    expect(threadClient.removeBreakpoint.mock.calls.length).toBe(0);
+    expect(update).toMatchSnapshot();
+  });
+
+  it("loads the initial breakpoint state with a changed file", async () => {
+    const location = { line: 9, column: 0 };
+    const generated = 3;
+    getGeneratedLocation.mockImplementation(() =>
+      newGeneratedLocation(generated)
+    );
+    findScopeByName.mockImplementation(() => ({
+      location: { start: location }
+    }));
+
+    const { dispatch, getState } = createStore(threadClient, {}, sourceMaps);
+
+    // add a source without the breakpoints
+    const reloadedSource = makeSource("magic.js");
+    await dispatch(actions.newSource(reloadedSource));
+
+    const breakpoints = selectors.getBreakpoints(getState());
+    expect(breakpoints.size).toBe(0);
+    // manually sync
+    const update = await syncClientBreakpoint(
+      getState,
+      threadClient,
+      sourceMaps,
+      reloadedSource.id,
+      pendingBreakpoint()
+    );
+
+    expect(threadClient.removeBreakpoint.mock.calls.length).toBe(0);
+    expect(update.breakpoint.location.line).toBe(location.line + generated);
+    expect(update).toMatchSnapshot();
+  });
+});
+
+describe("reloading debuggee", () => {
+  beforeEach(() => {
+    const location = { line: 0, column: 0 };
+    getGeneratedLocation.mockImplementation(() => newGeneratedLocation(3));
+    findScopeByName.mockImplementation(() => ({
+      location: { start: location }
+    }));
+  });
+
+  it("syncs with unchanged source with an existing BP", async () => {
+    const { dispatch, getState } = createStore(threadClient, {}, sourceMaps);
+
+    // add a source without the breakpoints
+    const reloadedSource = makeSource("magic.js");
+    const loc1 = {
+      sourceId: "magic.js",
+      sourceUrl: "http://localhost:8000/magic.js",
+      line: 3,
+      column: undefined
+    };
+    await dispatch(actions.newSource(reloadedSource));
+    await dispatch(actions.addBreakpoint(loc1));
+
+    // manually sync
+    const update = await syncClientBreakpoint(
+      getState,
+      threadClient,
+      sourceMaps,
+      reloadedSource.id,
+      pendingBreakpoint({ location: loc1 })
     );
     expect(threadClient.removeBreakpoint.mock.calls.length).toBe(0);
     expect(update).toMatchSnapshot();
@@ -139,10 +228,11 @@ describe("reloading debuggee", () => {
       getState,
       threadClient,
       sourceMaps,
-      reloadedSource,
+      reloadedSource.id,
       pendingBreakpoint()
     );
     expect(threadClient.removeBreakpoint.mock.calls.length).toBe(1);
+    expect(findScopeByName).toHaveBeenCalled();
     expect(update).toMatchSnapshot();
   });
 });
