@@ -7,7 +7,7 @@ import type { Worker } from "../../types";
 
 export class Workers extends PureComponent {
   props: {
-    workers: List<Workers>
+    workers: List<Worker>
   };
 
   renderWorkers(workers) {
