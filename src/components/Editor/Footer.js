@@ -114,9 +114,9 @@ class SourceFooter extends PureComponent {
     return (
       <button
         className="coverage action"
-        title="Code Coverage"
+        title={L10N.getStr("sourceFooter.codeCoverage")}
         onClick={() => recordCoverage()}
-        aria-label="Code Coverage"
+        aria-label={L10N.getStr("sourceFooter.codeCoverage")}
       >
         C
       </button>
