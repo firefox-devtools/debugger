@@ -15,7 +15,10 @@ function closeProjectSearch(dbg) {
 }
 
 async function selectResult(dbg) {
-  const select = waitForDispatch(dbg, "SELECT_SOURCE");
+  const select = waitForState(
+    dbg,
+    () => !dbg.selectors.getActiveSearch(dbg.getState())
+  );
   await clickElement(dbg, "fileMatch");
   return select;
 }
