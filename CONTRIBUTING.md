@@ -223,7 +223,7 @@ Our goal is to work with the community to build a universal JS debugger for mode
 
 | | | | |
 | ---------- | ------ | ------ | ------ |
-| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][clarkbw] <br/> [@clarkbw][@clarkbw] | ![][codehag] <br/> [@codehag][@codehag]  | ![][violasong] <br/> [@violasong][@violasong] |
+| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][digitarald] <br/> [@digitarald][@digitarald] | ![][codehag] <br/> [@codehag][@codehag]  | ![][violasong] <br/> [@violasong][@violasong] |
 
 ### Team Members
 
@@ -254,7 +254,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [@jasonlaster]:https://github.com/jasonlaster
 [@bomsy]:https://github.com/bomsy
 [@wldcordeiro]:https://github.com/wldcordeiro
-[@clarkbw]:https://github.com/clarkbw
+[@digitarald]:https://github.com/digitarald
 [@jbhoosreddy]:https://github.com/jbhoosreddy
 [@irfanhudda]:https://github.com/irfanhudda
 [@codehag]:https://github.com/codehag
@@ -264,7 +264,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
 [bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
 [wldcordeiro]:https://avatars.githubusercontent.com/wldcordeiro?size=56
-[clarkbw]:https://avatars.githubusercontent.com/clarkbw?size=56
+[digitarald]:https://avatars.githubusercontent.com/digitarald?size=56
 [jbhoosreddy]:https://avatars.githubusercontent.com/jbhoosreddy?size=56
 [irfanhudda]:https://avatars.githubusercontent.com/irfanhudda?size=56
 [codehag]:https://avatars.githubusercontent.com/codehag?size=56
