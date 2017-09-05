@@ -44,16 +44,12 @@ export const prefs = new PrefsHelper("devtools", {
   fileSearchCaseSensitive: ["Bool", "debugger.file-search-case-sensitive"],
   fileSearchWholeWord: ["Bool", "debugger.file-search-whole-word"],
   fileSearchRegexMatch: ["Bool", "debugger.file-search-regex-match"],
-  debuggerPrefsSchemaVersion: ["Char", "debugger.prefs-schema-version"],
-  projectTextSearchEnabled: [
-    "Bool",
-    "debugger.project-text-search-enabled",
-    false
-  ]
+  debuggerPrefsSchemaVersion: ["Char", "debugger.prefs-schema-version"]
 });
 
 export const features = new PrefsHelper("devtools.debugger.features", {
-  asyncStepping: ["Bool", "async-stepping", true]
+  asyncStepping: ["Bool", "async-stepping", true],
+  projectTextSearch: ["Bool", "debugger.project-text-search-enabled", true]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

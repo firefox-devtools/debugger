@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { filter } from "fuzzaldrin-plus";
 import {
-  getActiveSearchState,
+  getActiveSearch,
   getSymbolSearchType,
   getSelectedSource,
   getSymbols
@@ -90,19 +90,9 @@ class SymbolModal extends Component {
     self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
     self.buildPlaceHolder = this.buildPlaceHolder.bind(this);
     self.selectResultItem = this.selectResultItem.bind(this);
-    self.openSymbolModal = this.openSymbolModal.bind(this);
-  }
-
-  componentWillUnmount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.off(L10N.getStr("symbolSearch.search.key2"));
-    shortcuts.off("Escape");
   }
 
   componentDidMount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.on(L10N.getStr("symbolSearch.search.key2"), this.openSymbolModal);
-    shortcuts.on("Escape", this.closeModal);
     this.updateResults(this.state.query);
   }
 
@@ -114,12 +104,6 @@ class SymbolModal extends Component {
     if (!prevProps.enabled && this.props.enabled) {
       this.updateResults(this.state.query);
     }
-  }
-
-  openSymbolModal(_, e: SyntheticEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.setActiveSearch("symbol");
   }
 
   onClick(e: SyntheticEvent) {
@@ -139,7 +123,6 @@ class SymbolModal extends Component {
   closeModal() {
     this.props.closeActiveSearch();
     this.props.clearHighlightLineRange();
-    this.setState({ query: "" });
   }
 
   selectResultItem(e: SyntheticEvent, item: ?FormattedSymbolDeclaration) {
@@ -326,7 +309,7 @@ export default connect(
   state => {
     const source = getSelectedSource(state);
     return {
-      enabled: Boolean(getActiveSearchState(state) === "symbol" && source),
+      enabled: Boolean(getActiveSearch(state) === "symbol" && source),
       symbolType: getSymbolSearchType(state),
       symbols: _getFormattedSymbols(state, source)
     };

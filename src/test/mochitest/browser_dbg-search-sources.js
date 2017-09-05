@@ -7,9 +7,9 @@ add_task(function*() {
 
   // test opening and closing
   pressKey(dbg, "sourceSearch");
-  is(dbg.selectors.getActiveSearchState(dbg.getState()), "source");
+  is(dbg.selectors.getActiveSearch(dbg.getState()), "source");
   pressKey(dbg, "Escape");
-  is(dbg.selectors.getActiveSearchState(dbg.getState()), null);
+  is(dbg.selectors.getActiveSearch(dbg.getState()), null);
 
   pressKey(dbg, "sourceSearch");
   yield waitForElement(dbg, "input");

@@ -18,9 +18,9 @@ add_task(function*() {
 
   // test opening and closing
   yield openFunctionSearch(dbg);
-  is(dbg.selectors.getActiveSearchState(dbg.getState()), "symbol");
+  is(dbg.selectors.getActiveSearch(dbg.getState()), "symbol");
   pressKey(dbg, "Escape");
-  is(dbg.selectors.getActiveSearchState(dbg.getState()), null);
+  is(dbg.selectors.getActiveSearch(dbg.getState()), null);
 
   yield openFunctionSearch(dbg);
   is(resultCount(dbg), 1);

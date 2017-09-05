@@ -36,7 +36,7 @@ import {
   removeSourcesFromTabList,
   removeSourceFromTabList,
   getTextSearchQuery,
-  getActiveSearchState
+  getActiveSearch
 } from "../selectors";
 
 import type { Source } from "../types";
@@ -187,7 +187,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
     }
 
-    const activeSearch = getActiveSearchState(getState());
+    const activeSearch = getActiveSearch(getState());
     if (activeSearch !== "file") {
       dispatch({ type: "TOGGLE_ACTIVE_SEARCH", value: null });
     }

@@ -25,7 +25,7 @@ function getSplitConsole(dbg) {
   });
 }
 
-add_task(function* () {
+add_task(function*() {
   Services.prefs.setBoolPref("devtools.toolbox.splitconsoleEnabled", true);
   const dbg = yield initDebugger("doc-script-switching.html");
 
@@ -36,9 +36,10 @@ add_task(function* () {
   ok(dbg.toolbox.splitConsole, "Split console is shown.");
 
   // close the console
-  clickElement(dbg, "codeMirror");
+  yield clickElement(dbg, "codeMirror");
   // First time to focus out of text area
   pressKey(dbg, "Escape");
+
   // Second time to hide console
   pressKey(dbg, "Escape");
   ok(!dbg.toolbox.splitConsole, "Split console is hidden.");

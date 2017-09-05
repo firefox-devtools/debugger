@@ -5,23 +5,18 @@ function openProjectSearch(dbg) {
   synthesizeKeyShortcut("CmdOrCtrl+Shift+F");
   return waitForState(
     dbg,
-    state => dbg.selectors.getActiveSearchState(state) === "project"
+    state => dbg.selectors.getActiveSearch(state) === "project"
   );
 }
 
 function closeProjectSearch(dbg) {
   pressKey(dbg, "Escape");
-  return waitForState(dbg, state => !dbg.selectors.getActiveSearchState(state));
-}
-
-function getResult(dbg) {
-  return findElementWithSelector(dbg, ".managed-tree .result");
+  return waitForState(dbg, state => !dbg.selectors.getActiveSearch(state));
 }
 
 async function selectResult(dbg) {
-  const item = getResult(dbg);
   const select = waitForDispatch(dbg, "SELECT_SOURCE");
-  item.click();
+  clickElement(dbg, "fileMatch");
   return select;
 }
 
@@ -57,7 +52,8 @@ add_task(function*() {
   yield waitForState(dbg, () => getResultsCount(dbg) === 1);
 
   yield selectResult(dbg);
-  is(dbg.selectors.getActiveSearchState(dbg.getState()), null);
+
+  is(dbg.selectors.getActiveSearch(dbg.getState()), null);
 
   const selectedSource = dbg.selectors.getSelectedSource(dbg.getState());
   ok(selectedSource.get("url").includes("switching-01"));
