@@ -52,41 +52,29 @@ function isWhitespace(query) {
  */
 function searchOverlay(query, modifiers) {
   const regexQuery = buildQuery(query, modifiers, {
-    ignoreSpaces: true
+    ignoreSpaces: true,
+    // regex must be global for the overlay
+    isGlobal: true
   });
 
-  let matchLength = null;
-
   return {
-    token: function(stream) {
-      if (stream.column() === 0) {
-        matchLength = null;
-      }
-      if (matchLength !== null) {
-        if (matchLength > 2) {
-          for (let i = 0; i < matchLength - 2; ++i) {
-            stream.next();
-          }
-          matchLength = 1;
-          return "highlight";
-        }
-        stream.next();
-        matchLength = null;
-        return "highlight highlight-end";
-      }
-
-      const match = stream.match(regexQuery, false);
-      if (match) {
-        stream.next();
-        const len = match[0].length;
-        if (len === 1) {
-          return "highlight highlight-full";
-        }
-        matchLength = len;
-        return "highlight highlight-start";
-      }
-      while (!stream.match(regexQuery, false) && stream.peek()) {
-        stream.next();
+    token: function(stream, state) {
+      // set the last index to be the current stream position
+      // this acts as an offset
+      regexQuery.lastIndex = stream.pos;
+      const match = regexQuery.exec(stream.string);
+      if (match && match.index === stream.pos) {
+        // if we have a match at the current stream position
+        // set the class for a match
+        stream.pos += match[0].length || 1;
+        return "highlight highlight-full";
+      } else if (match) {
+        // if we have a match somewhere in the line, go to that point in the
+        // stream
+        stream.pos = match.index;
+      } else {
+        // if we have no matches in this line, skip to the end of the line
+        stream.skipToEnd();
       }
     }
   };
@@ -145,6 +133,7 @@ function doSearch(ctx, rev, query, keepSelection, modifiers: SearchModifiers) {
 
   return cm.operation(function() {
     if (!query || isWhitespace(query)) {
+      clearSearch(cm, query, modifiers);
       return;
     }
 

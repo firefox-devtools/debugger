@@ -16,7 +16,6 @@ import {
 import { find, findNext, findPrev, removeOverlay } from "../../utils/editor";
 
 import { getMatches } from "../../utils/search";
-import { isLoaded } from "../../utils/source";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
@@ -134,7 +133,6 @@ class SearchBar extends Component {
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    const { selectedSource, query, modifiers, searchOn } = this.props;
     const searchInput = this.searchInput();
 
     if (searchInput) {
@@ -143,20 +141,6 @@ class SearchBar extends Component {
 
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
-    }
-
-    const hasLoaded = selectedSource && isLoaded(selectedSource.toJS());
-    const wasLoading =
-      prevProps.selectedSource && isLoaded(prevProps.selectedSource.toJS());
-
-    const doneLoading = wasLoading && hasLoaded;
-    const changedFiles =
-      selectedSource != prevProps.selectedSource && hasLoaded;
-    const modifiersUpdated =
-      modifiers && !modifiers.equals(prevProps.modifiers);
-
-    if (searchOn && (doneLoading || changedFiles || modifiersUpdated)) {
-      this.doSearch(query);
     }
   }
 
