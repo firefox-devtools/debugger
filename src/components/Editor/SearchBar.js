@@ -13,9 +13,7 @@ import {
   getSearchResults
 } from "../../selectors";
 
-import { find, findNext, findPrev, removeOverlay } from "../../utils/editor";
-
-import { getMatches } from "../../workers/search";
+import { removeOverlay } from "../../utils/editor";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
@@ -94,6 +92,7 @@ class SearchBar extends Component {
     self.onKeyUp = this.onKeyUp.bind(this);
     self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
     self.renderSearchModifiers = this.renderSearchModifiers.bind(this);
+    self.onEscape = this.onEscape.bind(this);
   }
 
   componentWillUnmount() {
@@ -123,8 +122,7 @@ class SearchBar extends Component {
       shiftSearchAgainShortcut
     } = getShortcuts();
 
-    shortcuts.on(searchShortcut, (_, e) => this.toggleSearch(e));
-    shortcuts.on("Escape", (_, e) => this.onEscape(e));
+    shortcuts.on("Escape", this.onEscape);
 
     shortcuts.on(shiftSearchAgainShortcut, (_, e) =>
       this.traverseResults(e, true)
@@ -149,6 +147,13 @@ class SearchBar extends Component {
     this.closeSearch(e);
   }
 
+  onSearchAgain(e: SyntheticKeyboardEvent, rev: boolean) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    this.props.traverseResults(rev);
+  }
+
   clearSearch() {
     const { editor: ed, query, modifiers } = this.props;
     if (ed && modifiers) {
@@ -167,25 +172,6 @@ class SearchBar extends Component {
       this.props.clearHighlightLineRange();
       e.stopPropagation();
       e.preventDefault();
-    }
-  }
-
-  toggleSearch(e: SyntheticKeyboardEvent) {
-    e.stopPropagation();
-    e.preventDefault();
-    const { editor } = this.props;
-
-    if (!this.props.searchOn) {
-      this.props.setActiveSearch("file");
-    }
-
-    if (this.props.searchOn && editor) {
-      const selection = editor.codeMirror.getSelection();
-      this.setSearchValue(selection);
-      if (selection !== "") {
-        this.doSearch(selection);
-      }
-      this.selectSearchInput();
     }
   }
 
@@ -217,84 +203,10 @@ class SearchBar extends Component {
     return null;
   }
 
-  doSearch(query: string) {
-    const { selectedSource, setFileSearchQuery } = this.props;
-    if (!selectedSource || !selectedSource.get("text")) {
-      return;
-    }
-
-    setFileSearchQuery(query);
-
-    this.searchContents(query);
-  }
-
-  updateSearchResults(characterIndex, line, matches) {
-    const matchIndex = matches.findIndex(
-      elm => elm.line === line && elm.ch === characterIndex
-    );
-    this.props.updateSearchResults({
-      matches,
-      matchIndex,
-      count: matches.length,
-      index: characterIndex
-    });
-  }
-
-  async searchContents(query: string) {
-    const { selectedSource, modifiers, editor: ed } = this.props;
-
-    if (
-      !query ||
-      !ed ||
-      !selectedSource ||
-      !selectedSource.get("text") ||
-      !modifiers
-    ) {
-      return;
-    }
-
-    const ctx = { ed, cm: ed.codeMirror };
-
-    const _modifiers = modifiers.toJS();
-    const matches = await getMatches(
-      query,
-      selectedSource.get("text"),
-      _modifiers
-    );
-    const { ch, line } = find(ctx, query, true, _modifiers);
-    this.updateSearchResults(ch, line, matches);
-  }
-
-  traverseResults(e: SyntheticEvent, rev: boolean) {
-    e.stopPropagation();
-    e.preventDefault();
-    const ed = this.props.editor;
-
-    if (!ed) {
-      return;
-    }
-
-    const ctx = { ed, cm: ed.codeMirror };
-
-    const { query, modifiers, searchResults: { matches } } = this.props;
-
-    if (query === "") {
-      this.props.setActiveSearch("file");
-    }
-
-    if (modifiers) {
-      const matchedLocations = matches || [];
-      const { ch, line } = rev
-        ? findPrev(ctx, query, true, modifiers.toJS())
-        : findNext(ctx, query, true, modifiers.toJS());
-      this.updateSearchResults(ch, line, matchedLocations);
-    }
-  }
-
   // Handlers
 
   onChange(e: any) {
-    return this.doSearch(e.target.value);
+    return this.props.doSearch(e.target.value);
   }
 
   onKeyUp(e: SyntheticKeyboardEvent) {
@@ -302,9 +214,10 @@ class SearchBar extends Component {
       return;
     }
 
-    this.traverseResults(e, e.shiftKey);
+    this.props.traverseResults(e, e.shiftKey);
     e.preventDefault();
   }
+
   // Renderers
   buildSummaryMsg() {
     const { searchResults: { matchIndex, count, index }, query } = this.props;

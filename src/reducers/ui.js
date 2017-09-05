@@ -20,24 +20,9 @@ export type FileSearchModifiers = Record<{
 export type SymbolSearchType = "functions" | "variables";
 export type ActiveSearchType = "project" | "source" | "file" | "symbol";
 
-export type MatchedLocations = {
-  line: number,
-  ch: number
-};
-
-export type SearchResults = {
-  matches: Array<MatchedLocations>,
-  matchIndex: number,
-  index: number,
-  count: number
-};
-
 export type UIState = {
   activeSearch: ?ActiveSearchType,
-  fileSearchQuery: string,
-  fileSearchModifiers: FileSearchModifiers,
   symbolSearchType: SymbolSearchType,
-  searchResults: SearchResults,
   shownSource: string,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
@@ -53,19 +38,7 @@ export type UIState = {
 export const State = makeRecord(
   ({
     activeSearch: null,
-    fileSearchQuery: "",
-    fileSearchModifiers: makeRecord({
-      caseSensitive: prefs.fileSearchCaseSensitive,
-      wholeWord: prefs.fileSearchWholeWord,
-      regexMatch: prefs.fileSearchRegexMatch
-    })(),
     symbolSearchType: "functions",
-    searchResults: {
-      matches: [],
-      matchIndex: -1,
-      index: -1,
-      count: 0
-    },
     shownSource: "",
     startPanelCollapsed: prefs.startPanelCollapsed,
     endPanelCollapsed: prefs.endPanelCollapsed,
@@ -87,32 +60,6 @@ function update(
     case "TOGGLE_FRAMEWORK_GROUPING": {
       prefs.frameworkGroupingOn = action.value;
       return state.set("frameworkGroupingOn", action.value);
-    }
-
-    case "UPDATE_FILE_SEARCH_QUERY": {
-      return state.set("fileSearchQuery", action.query);
-    }
-
-    case "UPDATE_SEARCH_RESULTS": {
-      return state.set("searchResults", action.results);
-    }
-
-    case "TOGGLE_FILE_SEARCH_MODIFIER": {
-      const actionVal = !state.getIn(["fileSearchModifiers", action.modifier]);
-
-      if (action.modifier == "caseSensitive") {
-        prefs.fileSearchCaseSensitive = actionVal;
-      }
-
-      if (action.modifier == "wholeWord") {
-        prefs.fileSearchWholeWord = actionVal;
-      }
-
-      if (action.modifier == "regexMatch") {
-        prefs.fileSearchRegexMatch = actionVal;
-      }
-
-      return state.setIn(["fileSearchModifiers", action.modifier], actionVal);
     }
 
     case "SET_SYMBOL_SEARCH_TYPE": {
@@ -161,20 +108,6 @@ type OuterState = { ui: Record<UIState> };
 
 export function getActiveSearch(state: OuterState): ActiveSearchType {
   return state.ui.get("activeSearch");
-}
-
-export function getFileSearchQueryState(state: OuterState): string {
-  return state.ui.get("fileSearchQuery");
-}
-
-export function getFileSearchModifierState(
-  state: OuterState
-): FileSearchModifiers {
-  return state.ui.get("fileSearchModifiers");
-}
-
-export function getSearchResults(state: OuterState) {
-  return state.ui.get("searchResults");
 }
 
 export function getFrameworkGroupingState(state: OuterState): boolean {
