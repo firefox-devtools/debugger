@@ -39,11 +39,12 @@ export async function getASTLocation(source: Source, location: Location) {
 
   const scope = findClosestScope(functions, location);
   if (scope) {
+    // we only record the line, but at some point we may
+    // also do column offsets
     const line = location.line - scope.location.start.line;
-    const column = location.column;
     return {
       name: scope.name,
-      offset: { line, column }
+      offset: { line }
     };
   }
   return { name: undefined, offset: location };

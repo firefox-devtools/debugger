@@ -29,7 +29,7 @@ import {
   getSources,
   getSourceByURL,
   getPendingSelectedLocation,
-  getPendingBreakpoints,
+  getPendingBreakpointsForSource,
   getSourceTabs,
   getNewSelectedSourceId,
   getSelectedLocation,
@@ -63,16 +63,18 @@ async function checkPendingBreakpoint(
   const sameSource = sourceUrl && sourceUrl === source.url;
 
   if (sameSource) {
-    await dispatch(syncBreakpoint(source, pendingBreakpoint));
+    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
   }
 }
 
 async function checkPendingBreakpoints(state, dispatch, source) {
-  const pendingBreakpoints = getPendingBreakpoints(state);
-  if (!pendingBreakpoints) {
+  const pendingBreakpoints = getPendingBreakpointsForSource(state, source.url);
+  if (!pendingBreakpoints.size) {
     return;
   }
 
+  // load the source text if there is a pending breakpoint for it
+  await dispatch(loadSourceText(source));
   const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
   for (const pendingBreakpoint of pendingBreakpointsArray) {
     await checkPendingBreakpoint(state, dispatch, pendingBreakpoint, source);

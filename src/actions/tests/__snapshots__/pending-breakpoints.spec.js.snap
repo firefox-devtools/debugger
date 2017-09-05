@@ -1,45 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`adding sources add corresponding breakpoints for a changed source 1`] = `
-Object {
-  "condition": null,
-  "disabled": false,
-  "generatedLocation": Object {
-    "column": undefined,
-    "line": 7,
-    "sourceId": "bar.js",
-    "sourceUrl": "http://localhost:8000/examples/bar.js",
-  },
-  "hidden": false,
-  "id": "bar.js:7:",
-  "location": Object {
-    "line": 7,
-    "sourceId": "bar.js",
-    "sourceUrl": "http://localhost:8000/examples/bar.js",
-  },
-}
-`;
-
-exports[`adding sources updates pending breakpoints for a changed source 1`] = `
-Object {
-  "astLocation": undefined,
-  "condition": null,
-  "disabled": false,
-  "generatedLocation": Object {
-    "column": undefined,
-    "line": 7,
-    "sourceUrl": "http://localhost:8000/examples/bar.js",
-  },
-  "location": Object {
-    "column": undefined,
-    "line": 7,
-    "sourceUrl": "http://localhost:8000/examples/bar.js",
-  },
-}
-`;
-
 exports[`initializing when pending breakpoints exist in prefs syncs pending breakpoints 1`] = `
 Object {
+  "astLocation": Object {
+    "name": undefined,
+    "offset": Object {
+      "line": 5,
+    },
+  },
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
