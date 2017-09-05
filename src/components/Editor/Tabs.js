@@ -8,7 +8,7 @@ import * as I from "immutable";
 import {
   getSelectedSource,
   getSourcesForTabs,
-  getActiveSearchState,
+  getActiveSearch,
   getSearchTabs
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
@@ -513,8 +513,8 @@ export default connect(
       selectedSource: getSelectedSource(state),
       searchTabs: getSearchTabs(state),
       sourceTabs: getSourcesForTabs(state),
-      activeSearch: getActiveSearchState(state),
-      searchOn: getActiveSearchState(state) === "source"
+      activeSearch: getActiveSearch(state),
+      searchOn: getActiveSearch(state) === "source"
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

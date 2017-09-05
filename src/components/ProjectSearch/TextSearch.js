@@ -24,9 +24,9 @@ export default class TextSearch extends Component {
     this.inputOnChange = this.inputOnChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onEnterPress = this.onEnterPress.bind(this);
-    this.close = this.close.bind(this);
     this.selectMatchItem = this.selectMatchItem.bind(this);
   }
+
   componentDidMount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.on("Enter", this.onEnterPress);
@@ -35,10 +35,6 @@ export default class TextSearch extends Component {
   componentWillUnmount() {
     const shortcuts = this.context.shortcuts;
     shortcuts.off("Enter", this.onEnterPress);
-  }
-
-  close() {
-    this.props.closeActiveSearch();
   }
 
   selectMatchItem(matchItem) {
@@ -61,7 +57,12 @@ export default class TextSearch extends Component {
   }
 
   onKeyDown(e) {
+    if (e.key === "Escape") {
+      return;
+    }
+
     e.stopPropagation();
+
     if (e.key !== "Enter") {
       return;
     }
@@ -222,7 +223,7 @@ export default class TextSearch extends Component {
         onFocus={() => (this.inputFocused = true)}
         onBlur={() => (this.inputFocused = false)}
         onKeyDown={e => this.onKeyDown(e)}
-        handleClose={this.close}
+        handleClose={this.props.closeActiveSearch}
         ref="searchInput"
       />
     );

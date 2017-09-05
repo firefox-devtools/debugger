@@ -20,10 +20,10 @@ add_task(function*() {
   // Expand nodes and make sure more sources appear.
   is(findAllElements(dbg, "sourceNodes").length, 2);
 
-  clickElement(dbg, "sourceArrow", 2);
+  yield clickElement(dbg, "sourceArrow", 2);
   is(findAllElements(dbg, "sourceNodes").length, 7);
 
-  clickElement(dbg, "sourceArrow", 3);
+  yield clickElement(dbg, "sourceArrow", 3);
   is(findAllElements(dbg, "sourceNodes").length, 8);
 
   // Select a source.
@@ -32,14 +32,16 @@ add_task(function*() {
     "Source is not focused"
   );
   const selected = waitForDispatch(dbg, "SELECT_SOURCE");
-  clickElement(dbg, "sourceNode", 4);
+  yield clickElement(dbg, "sourceNode", 4);
   yield selected;
   ok(
     findElementWithSelector(dbg, ".sources-list .focused"),
     "Source is focused"
   );
   ok(
-    getSelectedSource(getState()).get("url").includes("nested-source.js"),
+    getSelectedSource(getState())
+      .get("url")
+      .includes("nested-source.js"),
     "The right source is selected"
   );
 
@@ -78,7 +80,7 @@ add_task(function*() {
 
   // work around: the folder is rendered at the bottom, so we close the
   // root folder and open the (no domain) folder
-  clickElement(dbg, "sourceArrow", 3);
+  yield clickElement(dbg, "sourceArrow", 3);
   yield waitForSourceCount(dbg, 4);
 
   is(

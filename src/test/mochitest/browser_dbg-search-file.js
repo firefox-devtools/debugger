@@ -24,11 +24,11 @@ add_task(function*() {
 
   const cm = getCM(dbg);
   pressKey(dbg, "fileSearch");
-  is(dbg.selectors.getActiveSearchState(dbg.getState()), "file");
+  is(dbg.selectors.getActiveSearch(dbg.getState()), "file");
 
   // test closing and re-opening
   pressKey(dbg, "Escape");
-  is(dbg.selectors.getActiveSearchState(dbg.getState()), null);
+  is(dbg.selectors.getActiveSearch(dbg.getState()), null);
 
   pressKey(dbg, "fileSearch");
 

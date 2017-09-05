@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
-  getActiveSearchState,
+  getActiveSearch,
   getFileSearchQueryState,
   getFileSearchModifierState,
   getSearchResults
@@ -418,7 +418,7 @@ SearchBar.contextTypes = {
 export default connect(
   state => {
     return {
-      searchOn: getActiveSearchState(state) === "file",
+      searchOn: getActiveSearch(state) === "file",
       query: getFileSearchQueryState(state),
       modifiers: getFileSearchModifierState(state),
       searchResults: getSearchResults(state)

@@ -15,7 +15,7 @@ import { isLoaded } from "../../utils/source";
 import { isEmptyLineInSource } from "../../reducers/ast";
 
 import {
-  getActiveSearchState,
+  getActiveSearch,
   getSelectedLocation,
   getSelectedFrame,
   getSelectedSource,
@@ -758,7 +758,7 @@ export default connect(
       selectedLocation,
       selectedSource,
       highlightedLineRange: getHighlightedLineRange(state),
-      searchOn: getActiveSearchState(state) === "file",
+      searchOn: getActiveSearch(state) === "file",
       loadedObjects: getLoadedObjects(state),
       breakpoints: getVisibleBreakpoints(state),
       hitCount: getHitCountForSource(state, sourceId),

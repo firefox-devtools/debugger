@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
-import { getSources, getActiveSearchState } from "../../selectors";
+import { getSources, getActiveSearch } from "../../selectors";
 import { isEnabled } from "devtools-config";
 import "./Sources.css";
 import classnames from "classnames";
@@ -134,7 +134,7 @@ PrimaryPanes.displayName = "PrimaryPanes";
 export default connect(
   state => ({
     sources: getSources(state),
-    sourceSearchOn: getActiveSearchState(state) === "source"
+    sourceSearchOn: getActiveSearch(state) === "source"
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(PrimaryPanes);
