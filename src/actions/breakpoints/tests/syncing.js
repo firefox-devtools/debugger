@@ -25,7 +25,7 @@ jest.mock("../../../utils/breakpoint/astBreakpointLocation", () => ({
   getASTLocation: jest.fn()
 }));
 
-// eslint-disable-next-line prettier/prettier
+// eslint-disable-next-line
 import { findScopeByName } from "../../../utils/breakpoint/astBreakpointLocation";
 
 import { syncClientBreakpoint } from "../../breakpoints/syncBreakpoint.js";

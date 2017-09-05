@@ -3,27 +3,27 @@
 
 // Tests that the source tree works.
 
-function* waitForSourceCount(dbg, i) {
+async function waitForSourceCount(dbg, i) {
   // We are forced to wait until the DOM nodes appear because the
   // source tree batches its rendering.
-  yield waitUntil(() => {
+  await waitUntil(() => {
     return findAllElements(dbg, "sourceNodes").length === i;
   });
 }
 
-add_task(function*() {
-  const dbg = yield initDebugger("doc-sources.html");
+add_task(async function() {
+  const dbg = await initDebugger("doc-sources.html");
   const { selectors: { getSelectedSource }, getState } = dbg;
 
-  yield waitForSources(dbg, "simple1", "simple2", "nested-source", "long.js");
+  await waitForSources(dbg, "simple1", "simple2", "nested-source", "long.js");
 
   // Expand nodes and make sure more sources appear.
   is(findAllElements(dbg, "sourceNodes").length, 2);
 
-  yield clickElement(dbg, "sourceArrow", 2);
+  await clickElement(dbg, "sourceArrow", 2);
   is(findAllElements(dbg, "sourceNodes").length, 7);
 
-  yield clickElement(dbg, "sourceArrow", 3);
+  await clickElement(dbg, "sourceArrow", 3);
   is(findAllElements(dbg, "sourceNodes").length, 8);
 
   // Select a source.
@@ -32,8 +32,8 @@ add_task(function*() {
     "Source is not focused"
   );
   const selected = waitForDispatch(dbg, "SELECT_SOURCE");
-  yield clickElement(dbg, "sourceNode", 4);
-  yield selected;
+  await clickElement(dbg, "sourceNode", 4);
+  await selected;
   ok(
     findElementWithSelector(dbg, ".sources-list .focused"),
     "Source is focused"
@@ -52,7 +52,7 @@ add_task(function*() {
     content.document.body.appendChild(script);
   });
 
-  yield waitForSourceCount(dbg, 9);
+  await waitForSourceCount(dbg, 9);
   is(
     findElement(dbg, "sourceNode", 7).textContent,
     "math.min.js",
@@ -62,16 +62,16 @@ add_task(function*() {
   // Make sure named eval sources appear in the list.
 });
 
-add_task(function*() {
-  const dbg = yield initDebugger("doc-sources.html");
+add_task(async function() {
+  const dbg = await initDebugger("doc-sources.html");
   const { selectors: { getSelectedSource }, getState } = dbg;
 
-  yield waitForSources(dbg, "simple1", "simple2", "nested-source", "long.js");
+  await waitForSources(dbg, "simple1", "simple2", "nested-source", "long.js");
 
   ContentTask.spawn(gBrowser.selectedBrowser, null, function() {
     content.eval("window.evaledFunc = function() {} //# sourceURL=evaled.js");
   });
-  yield waitForSourceCount(dbg, 3);
+  await waitForSourceCount(dbg, 3);
   is(
     findElement(dbg, "sourceNode", 3).textContent,
     "(no domain)",
@@ -80,8 +80,8 @@ add_task(function*() {
 
   // work around: the folder is rendered at the bottom, so we close the
   // root folder and open the (no domain) folder
-  yield clickElement(dbg, "sourceArrow", 3);
-  yield waitForSourceCount(dbg, 4);
+  await clickElement(dbg, "sourceArrow", 3);
+  await waitForSourceCount(dbg, 4);
 
   is(
     findElement(dbg, "sourceNode", 4).textContent,
