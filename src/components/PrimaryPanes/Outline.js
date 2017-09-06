@@ -38,7 +38,7 @@ export class Outline extends Component {
   }
 
   renderFunction(func: SymbolDeclaration) {
-    const { name, location } = func;
+    const { name, location, parameterNames } = func;
 
     return (
       <li
@@ -46,7 +46,7 @@ export class Outline extends Component {
         className="outline-list__element"
         onClick={() => this.selectItem(location)}
       >
-        <PreviewFunction func={{ name }} />
+        <PreviewFunction func={{ name, parameterNames }} />
       </li>
     );
   }
