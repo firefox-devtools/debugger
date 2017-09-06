@@ -26,7 +26,7 @@
 }
 
 .theme-dark .managed-tree .tree .node.focused {
-  background-color: var(--theme-selection-background-semitransparent);
+  background-color: var(--theme-selection-background-hover);
   padding-bottom: 2px;
 }
 
