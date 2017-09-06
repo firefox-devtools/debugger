@@ -314,13 +314,10 @@ class SourceTabs extends PureComponent {
   }
 
   renderDropdownSource(source: SourceRecord) {
-    const { moveTab } = this.props;
+    const { selectSource } = this.props;
     const filename = getFilename(source.toJS());
 
-    const onClick = () => {
-      const tabIndex = 0;
-      moveTab(source.get("url"), tabIndex);
-    };
+    const onClick = () => selectSource(source.get("id"));
     return (
       <li key={source.get("id")} onClick={onClick}>
         {filename}
