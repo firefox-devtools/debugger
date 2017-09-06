@@ -82,9 +82,9 @@ class ManagedTree extends Component {
     this.setState({ expanded });
 
     if (isExpanded && this.props.onExpand) {
-      this.props.onExpand(item);
-    } else if (!expanded && this.props.onCollapse) {
-      this.props.onCollapse(item);
+      this.props.onExpand(item, expanded);
+    } else if (!isExpanded && this.props.onCollapse) {
+      this.props.onCollapse(item, expanded);
     }
   }
 

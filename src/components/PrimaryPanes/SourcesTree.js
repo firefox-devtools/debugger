@@ -54,6 +54,8 @@ class SourcesTree extends Component {
     super(props);
     this.state = createTree(this.props.sources, this.props.debuggeeUrl);
 
+    this.expandState = null;
+
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
     this.getIcon = this.getIcon.bind(this);
@@ -270,6 +272,14 @@ class SourcesTree extends Component {
       onFocus: this.focusItem,
       listItems,
       highlightItems,
+      onExpand: (item, expandedState) => {
+        this.expandState = expandedState;
+        console.warn(this.expandState);
+      },
+      onCollapse: (item, expandedState) => {
+        this.expandState = expandedState;
+        console.warn(this.expandState);
+      },
       renderItem: this.renderItem
     };
 
