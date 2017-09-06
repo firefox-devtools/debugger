@@ -43,6 +43,7 @@
 }
 
 .sources-list {
+  background-color: var(--theme-sidebar-background);
   flex: 1;
   display: flex;
   overflow-x: hidden;
