@@ -120,50 +120,50 @@ export default class TextSearch extends Component {
         <span className="line-number" key={match.line}>
           {match.line}
         </span>
-        {this.renderMatchValue(match.value)}
+        {this.renderMatchValue(match)}
       </div>
     );
   }
 
-  renderMatchValue(value) {
-    const { inputValue } = this.state;
-    let match;
-    const len = inputValue.length;
-    const matchIndexes = [];
-    const matches = [];
-    const re = new RegExp(escapeRegExp(inputValue), "g");
-    while ((match = re.exec(value)) !== null) {
-      matchIndexes.push(match.index);
-    }
+  renderMatchValue(lineMatch) {
+    const { value, column, match } = lineMatch;
 
-    matchIndexes.forEach((matchIndex, index) => {
-      if (matchIndex > 0 && index === 0) {
-        matches.push(
-          <span className="line-match" key={`case1-${index}`}>
-            {value.slice(0, matchIndex)}
-          </span>
-        );
-      }
-      if (matchIndex > matchIndexes[index - 1] + len) {
-        matches.push(
-          <span className="line-match" key={`case2-${index}`}>
-            {value.slice(matchIndexes[index - 1] + len, matchIndex)}
-          </span>
-        );
-      }
+    const len = match.length;
+    const vlen = value.length;
+    const clen = column + len;
+
+    const matches = [];
+
+    if (column === 0) {
       matches.push(
-        <span className="query-match" key={index}>
-          {value.substr(matchIndex, len)}
+        <span className="query-match" key={0}>
+          {value.substr(column, len)}
         </span>
       );
-      if (index === matchIndexes.length - 1) {
-        matches.push(
-          <span className="line-match" key={`case3-${index}`}>
-            {value.slice(matchIndex + len, value.length)}
-          </span>
-        );
-      }
-    });
+      matches.push(
+        <span className="line-match" key={1}>
+          {value.slice(clen, vlen)}
+        </span>
+      );
+    }
+
+    if (column > 0) {
+      matches.push(
+        <span className="line-match" key={0}>
+          {value.slice(0, column)}
+        </span>
+      );
+      matches.push(
+        <span className="query-match" key={1}>
+          {value.substr(column, len)}
+        </span>
+      );
+      matches.push(
+        <span className="line-match" key={2}>
+          {value.slice(clen, vlen)}
+        </span>
+      );
+    }
 
     return <span className="line-value">{matches}</span>;
   }
