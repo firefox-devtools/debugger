@@ -10,13 +10,13 @@ export async function onConnect(connection: any, actions: Object) {
   } = connection;
 
   if (!tabTarget || !threadClient || !debuggerClient) {
-    return;
+    return { bpClients: {} };
   }
 
   const supportsWasm =
     isEnabled("wasm") && !!debuggerClient.mainRoot.traits.wasmBinarySource;
 
-  setupCommands({
+  const { bpClients } = setupCommands({
     threadClient,
     tabTarget,
     debuggerClient,
@@ -51,6 +51,8 @@ export async function onConnect(connection: any, actions: Object) {
   if (pausedPacket) {
     clientEvents.paused("paused", pausedPacket);
   }
+
+  return { bpClients };
 }
 
 export { clientCommands, clientEvents };
