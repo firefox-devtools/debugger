@@ -1,6 +1,8 @@
 #!/bin/sh
 
+rm -rf ./assets/build
 node ./bin/publish-assets
+
 
 cp ./node_modules/lodash/lodash.js assets/lodash.js
 
@@ -23,6 +25,8 @@ docker run -it \
   jryans/debugger-gecko \
   /bin/bash -c "export SHELL=/bin/bash; \
     touch devtools/client/debugger/new/test/mochitest/browser.ini \
+    awk 'NR==16{print "    \x27lodash.js\x27,"}7' devtools/client/shared/vendor/moz.build > foo \
+    mv foo devtools/client/shared/vendor/moz.build \
     && ./mach build \
     && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/" \
   > output.txt
