@@ -118,7 +118,7 @@ export default class TextSearch extends Component {
   }
 
   renderMatchValue(value) {
-    hightlightMatches(value, this.state.inputValue);
+    highlightMatches(value, this.state.inputValue);
   }
 
   renderResults() {
