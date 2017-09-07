@@ -83,6 +83,7 @@
     "react": "=15.3.2",
     "react-dom": "=15.3.2",
     "react-immutable-proptypes": "^2.1.0",
+    "react-inlinesvg": "^0.6.2",
     "react-redux": "^4.4.5",
     "react-transition-group": "^2.2.0",
     "redux-saga": "^0.15.4",
@@ -144,8 +145,7 @@
     "stylelint": "^8.0.0",
     "webpack": "^3.5.5",
     "webpack-visualizer-plugin": "^0.1.11",
-    "workerjs": "github:jasonLaster/workerjs",
-    "yarn": "1.0.0"
+    "workerjs": "github:jasonLaster/workerjs"
   },
   "lint-staged": {
     "*.js": ["prettier", "git add"],
