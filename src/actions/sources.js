@@ -16,6 +16,7 @@ import { remapBreakpoints } from "./breakpoints";
 import { setEmptyLines, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
+import { closeActiveSearch } from "./ui";
 
 import { getPrettySourceURL, isLoaded } from "../utils/source";
 import { createPrettySource } from "./sources/createPrettySource";
@@ -191,7 +192,7 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
 
     const activeSearch = getActiveSearch(getState());
     if (activeSearch !== "file") {
-      dispatch({ type: "TOGGLE_ACTIVE_SEARCH", value: null });
+      dispatch(closeActiveSearch());
     }
 
     dispatch(addTab(source.toJS(), 0));

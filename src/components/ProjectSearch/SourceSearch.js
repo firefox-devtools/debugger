@@ -45,10 +45,7 @@ export default class SourceSearch extends Component {
     } = this.props;
     return (
       <Autocomplete
-        selectItem={(e, result) => {
-          selectSource(result.id);
-          this.props.closeActiveSearch();
-        }}
+        selectItem={(e, result) => selectSource(result.id)}
         close={this.props.closeActiveSearch}
         items={this.searchResults(sources)}
         inputValue={query}
