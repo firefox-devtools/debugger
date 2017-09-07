@@ -10,9 +10,13 @@
   text-align: center;
   font-size: 1.25em;
   color: var(--theme-comment-alt);
-  background-color: var(--theme-body-background);
+  background-color: var(--theme-toolbar-background);
   font-weight: lighter;
   z-index: 100;
+}
+
+.theme-dark .welcomebox {
+  background-color: var(--theme-body-background);
 }
 
 .alignlabel {
