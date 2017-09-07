@@ -127,45 +127,21 @@ export default class TextSearch extends Component {
 
   renderMatchValue(lineMatch) {
     const { value, column, match } = lineMatch;
-
     const len = match.length;
-    const vlen = value.length;
-    const clen = column + len;
 
-    const matches = [];
-
-    if (column === 0) {
-      matches.push(
-        <span className="query-match" key={0}>
-          {value.substr(column, len)}
-        </span>
-      );
-      matches.push(
-        <span className="line-match" key={1}>
-          {value.slice(clen, vlen)}
-        </span>
-      );
-    }
-
-    if (column > 0) {
-      matches.push(
+    return (
+      <span className="line-value">
         <span className="line-match" key={0}>
           {value.slice(0, column)}
         </span>
-      );
-      matches.push(
         <span className="query-match" key={1}>
           {value.substr(column, len)}
         </span>
-      );
-      matches.push(
         <span className="line-match" key={2}>
-          {value.slice(clen, vlen)}
+          {value.slice(column + len, value.length)}
         </span>
-      );
-    }
-
-    return <span className="line-value">{matches}</span>;
+      </span>
+    );
   }
 
   renderResults() {
