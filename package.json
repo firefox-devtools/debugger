@@ -144,7 +144,7 @@
     "webpack": "^3.5.5",
     "webpack-visualizer-plugin": "^0.1.11",
     "workerjs": "github:jasonLaster/workerjs",
-    "yarn": "0.28.1"
+    "yarn": "1.0.1"
   },
   "lint-staged": {
     "*.js": ["prettier", "git add"],
