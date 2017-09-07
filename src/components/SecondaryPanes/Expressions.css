@@ -2,7 +2,7 @@
   width: 100%;
   margin: 0px;
   border: 1px;
-  background-color: var(--theme-body-background);
+  background-color: var(--theme-sidebar-background);
   font-size: 12px;
   padding: 0px 20px;
   color: var(--theme-body-color);
