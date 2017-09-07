@@ -66,7 +66,7 @@
     "babel-types": "^6.26.0",
     "babylon": "^6.18.0",
     "codemirror": "^5.1.0",
-    "devtools-components": "^0.0.2",
+    "devtools-components": "^0.0.3",
     "devtools-launchpad": "=0.0.93",
     "devtools-reps": "^0.12.3",
     "devtools-source-editor": "0.0.6",
