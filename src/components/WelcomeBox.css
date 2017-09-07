@@ -10,7 +10,7 @@
   text-align: center;
   font-size: 1.25em;
   color: var(--theme-comment-alt);
-  background-color: var(--theme-tab-toolbar-background);
+  background-color: var(--theme-body-background);
   font-weight: lighter;
   z-index: 100;
 }
