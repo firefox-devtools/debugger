@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import classnames from "classnames";
 
-import { escapeRegExp } from "lodash";
 import Svg from "../shared/Svg";
 
 import ManagedTree from "../shared/ManagedTree";

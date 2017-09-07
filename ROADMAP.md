@@ -2,7 +2,6 @@
 
 ### Q4 Goals
 
-
 * features for debugging react apps.
 * source map improvements
 * improve server stability
