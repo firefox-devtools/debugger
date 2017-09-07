@@ -1,6 +1,7 @@
 .sources-panel {
-  flex: 1;
+  background-color: var(--theme-sidebar-background);
   display: flex;
+  flex: 1;
   flex-direction: column;
   overflow: hidden;
   position: relative;
@@ -43,7 +44,6 @@
 }
 
 .sources-list {
-  background-color: var(--theme-sidebar-background);
   flex: 1;
   display: flex;
   overflow-x: hidden;
