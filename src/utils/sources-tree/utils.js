@@ -76,7 +76,7 @@ export function createParentMap(tree: Node): WeakMap<Node, Node> {
 }
 
 export function getRelativePath(path: string) {
-  const re = /((http(?:s?)|webpack):\/\/((?:www\.)?[a-z0-9\-.]+)?)\/(.*)/i;
+  const re = /((.+):\/\/((?:www\.)?[a-z0-9\-.]+)?)\/(.*)/i;
   const matches = path.match(re);
   return matches ? matches[4] : path;
 }

@@ -75,12 +75,11 @@ describe("sources tree", () => {
         relPath
       );
       expect(getRelativePath("webpack:///path/to/file.html")).toBe(relPath);
+      expect(getRelativePath("file:///path/to/file.html")).toBe(relPath);
     });
 
     it("shows the full path for unknown schemes", () => {
-      expect(getRelativePath("unkwown:///path/to/file.html")).toBe(
-        "unkwown:///path/to/file.html"
-      );
+      expect(getRelativePath("bla")).toBe("bla");
     });
   });
 
