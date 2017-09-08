@@ -88,6 +88,11 @@ async function checkPendingBreakpoints(state, dispatch, source) {
  */
 export function newSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
+    const _source = getSource(getState(), source.id);
+    if (_source) {
+      return;
+    }
+
     dispatch({ type: "ADD_SOURCE", source });
 
     if (prefs.clientSourceMapsEnabled) {
