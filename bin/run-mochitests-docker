@@ -1,5 +1,6 @@
 #!/bin/sh
 
+rm -rf ./assets/build
 node ./bin/publish-assets
 
 docker run -it \
@@ -14,15 +15,23 @@ docker run -it \
   -v `pwd`/assets/build/panel/index.html:/gecko/devtools/client/debugger/new/index.html \
   -v `pwd`/assets/build/panel/moz.build:/gecko/devtools/client/debugger/new/moz.build \
   -v `pwd`/assets/build/mochitest:/gecko/devtools/client/debugger/new/test/mochitest \
+  -v `pwd`/node_modules/lodash/lodash.js:/gecko/devtools/client/shared/vendor/lodash.js \
+  -v `pwd`/node_modules/wasmparser/dist/WasmParser.js:/gecko/devtools/client/shared/vendor/WasmParser.js \
+  -v `pwd`/node_modules/wasmparser/dist/WasmDis.js:/gecko/devtools/client/shared/vendor/WasmDis.js \
   -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
   -e "DISPLAY=unix$DISPLAY" \
   --ipc host \
   jryans/debugger-gecko \
   /bin/bash -c "export SHELL=/bin/bash; \
     touch devtools/client/debugger/new/test/mochitest/browser.ini \
+    && awk 'NR==11{print \"    \x27lodash.js\x27,\"}7' devtools/client/shared/vendor/moz.build \
+      | awk 'NR==30{print \"    \x27WasmDis.js\x27,\"}7' \
+      | awk 'NR==31{print \"    \x27WasmParser.js\x27\"}7' > foo \
+    && mv foo devtools/client/shared/vendor/moz.build \
+    && ./mach clobber \
     && ./mach build \
-    && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/" \
-  > output.txt
+    && ./mach mochitest --subsuite devtools devtools/client/debugger/new/test/mochitest/ " \
+  | tee output.txt
 test_exit_code=$?
 
 node ./bin/mochi.js --read output.txt
