@@ -74,17 +74,3 @@
 .expression-input {
   max-width: 50%;
 }
-
-.expression-separator {
-  padding: 0px 5px;
-}
-
-.expression-value {
-  overflow-x: scroll;
-  color: var(--theme-content-color2);
-  max-width: 50% !important;
-}
-
-.expression-error {
-  color: var(--theme-highlight-red);
-}
