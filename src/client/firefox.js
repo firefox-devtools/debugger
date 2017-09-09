@@ -4,7 +4,7 @@ import { setupCommands, clientCommands } from "./firefox/commands";
 import { setupEvents, clientEvents } from "./firefox/events";
 import { isEnabled } from "devtools-config";
 
-export async function onConnect(connection: any, actions: Object) {
+export async function onConnect(connection: any, actions: Object): Object {
   const {
     tabConnection: { tabTarget, threadClient, debuggerClient }
   } = connection;
