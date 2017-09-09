@@ -30,7 +30,7 @@ docker run -it \
     && mv foo devtools/client/shared/vendor/moz.build \
     && ./mach clobber \
     && ./mach build \
-    && ./mach mochitest --repeat 20 --setenv MOZ_HEADLESS=1 devtools/client/debugger/new/test/mochitest/browser_dbg-search-project.js \
+    && ./mach mochitest --repeat 5 --shuffle --setenv MOZ_HEADLESS=1 devtools/client/debugger/new/test/mochitest \
   " \
   > output.txt
 test_exit_code=$?
