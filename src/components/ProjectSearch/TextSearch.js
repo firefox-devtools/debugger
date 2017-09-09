@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import classnames from "classnames";
 
-import { escapeRegExp } from "lodash";
 import Svg from "../shared/Svg";
 
 import ManagedTree from "../shared/ManagedTree";
@@ -159,13 +158,6 @@ export default class TextSearch extends Component {
         : this.renderMatch(item, focused);
     };
 
-    const getFocusedItem = () => {
-      if (this.focusedItem === null) {
-        return results[0] ? results[0].matches[0] : null;
-      }
-      return this.focusedItem.file || this.focusedItem.match;
-    };
-
     return (
       <ManagedTree
         getRoots={() => results}
@@ -173,7 +165,6 @@ export default class TextSearch extends Component {
         itemHeight={24}
         autoExpand={1}
         autoExpandDepth={1}
-        focused={getFocusedItem()}
         getParent={item => null}
         getPath={getFilePath}
         renderItem={renderItem}
