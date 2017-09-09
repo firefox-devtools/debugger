@@ -56,6 +56,28 @@ test:
     - ./bin/run-mochitests-docker
     - ./bin/run-mochitests-docker
     - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
+    - ./bin/run-mochitests-docker
 
   post:
     - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
