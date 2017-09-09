@@ -2,7 +2,7 @@
 
 import { setupCommands, clientCommands } from "./firefox/commands";
 import { setupEvents, clientEvents } from "./firefox/events";
-import { isEnabled } from "devtools-config";
+import { features } from "../utils/prefs";
 
 export async function onConnect(connection: any, actions: Object) {
   const {
@@ -14,7 +14,7 @@ export async function onConnect(connection: any, actions: Object) {
   }
 
   const supportsWasm =
-    isEnabled("wasm") && !!debuggerClient.mainRoot.traits.wasmBinarySource;
+    features.wasm && !!debuggerClient.mainRoot.traits.wasmBinarySource;
 
   setupCommands({
     threadClient,
