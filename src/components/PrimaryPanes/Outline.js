@@ -58,7 +58,7 @@ export class Outline extends Component {
     );
   }
 
-  renderFunctions(symbols) {
+  renderFunctions(symbols: Array<SymbolDeclaration>) {
     return (
       <ul className="outline-list">
         { symbols.map(func => this.renderFunction(func)) }
