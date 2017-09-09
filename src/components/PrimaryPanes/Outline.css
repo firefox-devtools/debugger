@@ -2,6 +2,14 @@
   overflow-y: auto;
 }
 
+.outline .outline-pane-info {
+  width: 100%;
+  font-style: italic;
+  text-align: center;
+  padding: 0.5em;
+  user-select: none;
+}
+
 .outline-list {
   list-style-type: none;
   padding-left: 0px;
