@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
-import { isEnabled } from "devtools-config";
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
 
