@@ -53,7 +53,7 @@ export function continueToHere(line: number) {
     await dispatch(
       addHiddenBreakpoint({
         line,
-        column: null,
+        column: undefined,
         sourceId: source.id
       })
     );
