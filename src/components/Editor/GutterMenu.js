@@ -4,11 +4,13 @@ export default function GutterMenu({
   breakpoint,
   line,
   event,
+  pauseData,
   toggleBreakpoint,
   showConditionalPanel,
   toggleDisabledBreakpoint,
   isCbPanelOpen,
-  closeConditionalPanel
+  closeConditionalPanel,
+  continueToHere
 }) {
   event.stopPropagation();
   event.preventDefault();
@@ -37,7 +39,11 @@ export default function GutterMenu({
     disableBreakpoint: {
       id: "node-menu-disable-breakpoint",
       label: L10N.getStr("editor.disableBreakpoint")
-    }
+    },
+    continueToHere: {
+      id: "node-menu-continue-to-here",
+      label: L10N.getStr("editor.continueToHere")
+     }
   };
 
   const toggleBreakpointItem = Object.assign(
@@ -65,7 +71,17 @@ export default function GutterMenu({
       : gutterItems.addConditional
   );
 
-  const items = [toggleBreakpointItem, conditionalBreakpoint];
+  let items = [toggleBreakpointItem, conditionalBreakpoint];
+
+  if (pauseData) {
+    const continueToHereItem = {
+      accesskey: "C",
+      disabled: false,
+      click: () => continueToHere(line),
+      ...gutterItems.continueToHere
+    };
+    items.push(continueToHereItem);
+  }
 
   if (breakpoint) {
     const disableBreakpoint = Object.assign(

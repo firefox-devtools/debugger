@@ -46,6 +46,21 @@ export function resumed() {
   };
 }
 
+export function continueToHere(line: number) {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    const source = getSelectedSource(getState()).toJS();
+
+    await dispatch(
+      addHiddenBreakpoint({
+        line,
+        column: null,
+        sourceId: source.id
+      })
+    );
+    dispatch(command("resume"));
+  };
+}
+
 /**
  * Debugger has just paused
  *
@@ -249,13 +264,6 @@ export function astCommand(stepType: string) {
 
     const pauseInfo = getPause(getState());
     const source = getSelectedSource(getState()).toJS();
-    const currentHiddenBreakpointLocation = getHiddenBreakpointLocation(
-      getState()
-    );
-
-    if (currentHiddenBreakpointLocation) {
-      dispatch(removeBreakpoint(currentHiddenBreakpointLocation));
-    }
 
     const pausedPosition = await getPausedPosition(pauseInfo, sourceMaps);
 

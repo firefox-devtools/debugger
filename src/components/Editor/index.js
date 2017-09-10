@@ -353,7 +353,9 @@ class Editor extends PureComponent {
       selectedSource,
       toggleBreakpoint,
       addOrToggleDisabledBreakpoint,
-      isEmptyLine
+      isEmptyLine,
+      pauseData,
+      continueToHere
     } = this.props;
 
     // ignore right clicks in the gutter
@@ -394,7 +396,9 @@ class Editor extends PureComponent {
       breakpoints,
       toggleBreakpoint,
       toggleDisabledBreakpoint,
-      isEmptyLine
+      isEmptyLine,
+      pauseData,
+      continueToHere
     } = this.props;
 
     if (selectedSource && selectedSource.get("isBlackBoxed")) {
@@ -416,6 +420,8 @@ class Editor extends PureComponent {
       breakpoint,
       toggleBreakpoint,
       toggleDisabledBreakpoint,
+      pauseData,
+      continueToHere,
 
       showConditionalPanel: this.toggleConditionalPanel,
       isCbPanelOpen: this.isCbPanelOpen(),
