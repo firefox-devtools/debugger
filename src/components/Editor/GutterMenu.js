@@ -43,7 +43,7 @@ export default function GutterMenu({
     continueToHere: {
       id: "node-menu-continue-to-here",
       label: L10N.getStr("editor.continueToHere.label")
-     }
+    }
   };
 
   const toggleBreakpointItem = Object.assign(
@@ -71,7 +71,7 @@ export default function GutterMenu({
       : gutterItems.addConditional
   );
 
-  let items = [toggleBreakpointItem, conditionalBreakpoint];
+  const items = [toggleBreakpointItem, conditionalBreakpoint];
 
   if (pauseData) {
     const continueToHereItem = {

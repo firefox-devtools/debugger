@@ -61,7 +61,7 @@ function promiseMiddleware({ dispatch, getState }: ThunkArgs) {
           });
         }
       );
-    })
+    });
   };
 }
 

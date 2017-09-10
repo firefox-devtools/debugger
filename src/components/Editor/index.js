@@ -353,9 +353,7 @@ class Editor extends PureComponent {
       selectedSource,
       toggleBreakpoint,
       addOrToggleDisabledBreakpoint,
-      isEmptyLine,
-      pauseData,
-      continueToHere
+      isEmptyLine
     } = this.props;
 
     // ignore right clicks in the gutter
@@ -747,7 +745,8 @@ Editor.propTypes = {
   toggleBreakpoint: PropTypes.func.isRequired,
   addOrToggleDisabledBreakpoint: PropTypes.func.isRequired,
   toggleDisabledBreakpoint: PropTypes.func.isRequired,
-  isEmptyLine: PropTypes.func
+  isEmptyLine: PropTypes.func,
+  continueToHere: PropTypes.func
 };
 
 Editor.contextTypes = {
