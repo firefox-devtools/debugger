@@ -42,7 +42,7 @@ export default function GutterMenu({
     },
     continueToHere: {
       id: "node-menu-continue-to-here",
-      label: L10N.getStr("editor.continueToHere")
+      label: L10N.getStr("editor.continueToHere.label")
      }
   };
 
@@ -75,7 +75,7 @@ export default function GutterMenu({
 
   if (pauseData) {
     const continueToHereItem = {
-      accesskey: "C",
+      accesskey: L10N.getStr("editor.continueToHere.accesskey"),
       disabled: false,
       click: () => continueToHere(line),
       ...gutterItems.continueToHere
