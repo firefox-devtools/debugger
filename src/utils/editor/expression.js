@@ -37,7 +37,7 @@ export function updatePreview(
   }
 
   const invalidToken =
-    tokenText === "" || tokenText.match(/[(){},.;=<>\+-/\*\s]/);
+    tokenText === "" || tokenText.match(/[(){}\|&%,.;=<>\+-/\*\s]/);
   const invalidTarget =
     (target.parentElement &&
       !target.parentElement.closest(".CodeMirror-line")) ||
