@@ -86,6 +86,11 @@ export function paused(pauseInfo: Pause) {
       loadedObjects: loadedObjects || []
     });
 
+    const hiddenBreakpointLocation = getHiddenBreakpointLocation(getState());
+    if (hiddenBreakpointLocation) {
+      dispatch(removeBreakpoint(hiddenBreakpointLocation));
+    }
+
     dispatch(evaluateExpressions(frame.id));
 
     dispatch(
