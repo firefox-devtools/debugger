@@ -55,7 +55,6 @@ class WelcomeBox extends Component {
     );
     const { setActiveSearch } = this.props;
 
-    // debugger
     return (
       <div className="welcomebox">
         <div className="alignlabel">
