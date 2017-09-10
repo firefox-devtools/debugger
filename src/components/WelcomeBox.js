@@ -53,18 +53,20 @@ class WelcomeBox extends Component {
     const searchFunctionLabel = L10N.getStr("welcome.searchFunction").substring(
       2
     );
+    const { setActiveSearch } = this.props;
 
+    // debugger
     return (
       <div className="welcomebox">
         <div className="alignlabel">
           <div className="shortcutKeys">
-            <p>{searchSourcesShortcut}</p>
-            <p>{searchProjectShortcut}</p>
+            <p onClick={setActiveSearch.bind(null, "source")}>{searchSourcesShortcut}</p>
+            <p onClick={setActiveSearch.bind(null, "project")}>{searchProjectShortcut}</p>
             <p>{searchFunctionsShortcut}</p>
           </div>
           <div className="shortcutFunction">
-            <p>{searchSourcesLabel}</p>
-            <p>{searchProjectLabel}</p>
+            <p onClick={setActiveSearch.bind(null, "source")}>{searchSourcesLabel}</p>
+            <p onClick={setActiveSearch.bind(null, "project")}>{searchProjectLabel}</p>
             <p>{searchFunctionLabel}</p>
           </div>
           {this.renderToggleButton()}
