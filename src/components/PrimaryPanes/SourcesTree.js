@@ -9,7 +9,8 @@ import { Set } from "immutable";
 import {
   getShownSource,
   getSelectedSource,
-  getDebuggeeUrl
+  getDebuggeeUrl,
+  getExpandedState
 } from "../../selectors";
 
 import {
@@ -249,7 +250,7 @@ class SourcesTree extends Component {
   }
 
   render() {
-    const { isHidden } = this.props;
+    const { isHidden, setExpandedState, expanded } = this.props;
     const {
       focusedItem,
       sourceTree,
@@ -259,7 +260,7 @@ class SourcesTree extends Component {
     } = this.state;
 
     const isEmpty = sourceTree.contents.length === 0;
-
+    console.log("st => ", this.props.expanded);
     const treeProps = {
       key: isEmpty ? "empty" : "full",
       getParent: item => parentMap.get(item),
@@ -272,14 +273,9 @@ class SourcesTree extends Component {
       onFocus: this.focusItem,
       listItems,
       highlightItems,
-      onExpand: (item, expandedState) => {
-        this.expandState = expandedState;
-        console.warn(this.expandState);
-      },
-      onCollapse: (item, expandedState) => {
-        this.expandState = expandedState;
-        console.warn(this.expandState);
-      },
+      expanded,
+      onExpand: (item, expanded) => setExpandedState(expanded),
+      onCollapse: (item, expanded) => setExpandedState(expanded),
       renderItem: this.renderItem
     };
 
@@ -316,7 +312,9 @@ SourcesTree.propTypes = {
   selectSource: PropTypes.func.isRequired,
   shownSource: PropTypes.string,
   selectedSource: ImPropTypes.map,
-  debuggeeUrl: PropTypes.string.isRequired
+  debuggeeUrl: PropTypes.string.isRequired,
+  setExpandedState: PropTypes.func,
+  expanded: ImPropTypes.set
 };
 
 SourcesTree.displayName = "SourcesTree";
@@ -326,7 +324,8 @@ export default connect(
     return {
       shownSource: getShownSource(state),
       selectedSource: getSelectedSource(state),
-      debuggeeUrl: getDebuggeeUrl(state)
+      debuggeeUrl: getDebuggeeUrl(state),
+      expanded: getExpandedState(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

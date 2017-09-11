@@ -150,13 +150,13 @@ function update(
   }
 }
 
-// NOTE: we'd like to have the app state fully typed
-// https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
-type OuterState = { ui: Record<UIState> };
-
 export function getActiveSearchState(state: OuterState): ActiveSearchType {
   return state.ui.get("activeSearch");
 }
+
+// NOTE: we'd like to have the app state fully typed
+// https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
+type OuterState = { ui: Record<UIState> };
 
 export function getFileSearchQueryState(state: OuterState): string {
   return state.ui.get("fileSearchQuery");

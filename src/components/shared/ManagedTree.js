@@ -26,7 +26,8 @@ type Props = {
   onCollapse?: (item: any) => void,
   renderItem: any,
   disabledFocus?: boolean,
-  focused?: any
+  focused?: any,
+  expanded?: Set
 };
 
 type ManagedTreeState = {
@@ -49,6 +50,14 @@ class ManagedTree extends Component {
     const self: any = this;
     self.setExpanded = this.setExpanded.bind(this);
     self.focusItem = this.focusItem.bind(this);
+  }
+
+  componentDidMount() {
+    const { expanded } = this.props;
+    console.log("mt => ", expanded);
+    if (expanded && expanded.size > 0 && this.state.expanded.size === 0) {
+      this.setState({ expanded });
+    }
   }
 
   componentWillReceiveProps(nextProps: Props) {
