@@ -48,7 +48,7 @@ export const prefs = new PrefsHelper("devtools", {
 });
 
 export const features = new PrefsHelper("devtools.debugger.features", {
-  asyncStepping: ["Bool", "async-stepping", true],
+  asyncStepping: ["Bool", "async-stepping", false],
   projectTextSearch: ["Bool", "debugger.project-text-search-enabled", true]
 });
 

@@ -34,7 +34,7 @@ async function onConnect(connection: Object, services: Object) {
   const { store, actions, selectors } = bootstrapStore(commands, services);
 
   bootstrapWorkers();
-  await client.onConnect(connection, actions);
+  const { bpClients } = await client.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
   window.getGlobalsForTesting = () => {
@@ -45,7 +45,8 @@ async function onConnect(connection: Object, services: Object) {
       client: client.clientCommands,
       prefs,
       features,
-      connection
+      connection,
+      bpClients
     };
   };
 
