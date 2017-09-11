@@ -4,8 +4,12 @@ import { find, findNext, findPrev, removeOverlay } from "../utils/editor";
 import { getMatches } from "../utils/search";
 import type { ThunkArgs } from "./types";
 
-// import {} from "./index";
-import { getSelectedSource, getFileSearchModifiers } from "../selectors";
+import {
+  getSelectedSource,
+  getFileSearchModifiers,
+  getFileSearchQuery,
+  getFileSearchResults
+} from "../selectors";
 type Match = Object;
 type Editor = Object;
 
@@ -50,10 +54,8 @@ export function updateSearchResults(
   };
 }
 
-async function searchContents(query: string, editor: Object) {
-  return async ({ getState, dispatch }) => {
-    // const { selectedSource, modifiers, editor: ed } = this.props;
-
+export async function searchContents(query: string, editor: Object) {
+  return async ({ getState, dispatch }: ThunkArgs) => {
     const modifiers = getFileSearchModifiers(getState());
     const selectedSource = getSelectedSource(getState());
 
@@ -81,17 +83,16 @@ async function searchContents(query: string, editor: Object) {
 }
 
 export function traverseResults(rev: boolean, editor: Editor) {
-  return async ({ getState, dispatch }) => {
+  return async ({ getState, dispatch }: ThunkArgs) => {
     if (!editor) {
       return;
     }
 
-    const ctx = { editor: ed, cm: editor.codeMirror };
+    const ctx = { editor, cm: editor.codeMirror };
 
     const query = getFileSearchQuery(getState());
     const modifiers = getFileSearchModifiers(getState());
     const { searchResults: matches } = getFileSearchResults();
-    // const { query, modifiers, searchResults: { matches } } = this.props;
 
     if (query === "") {
       this.props.setActiveSearch("file");

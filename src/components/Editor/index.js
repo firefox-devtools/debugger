@@ -25,8 +25,8 @@ import {
   getCoverageEnabled,
   getLoadedObjects,
   getPause,
-  getFileSearchQueryState,
-  getFileSearchModifierState,
+  getFileSearchQuery,
+  getFileSearchModifiers,
   getVisibleBreakpoints,
   getInScopeLines,
   getConditionalBreakpointPanel,
@@ -798,8 +798,8 @@ export default connect(
       selectedFrame: getSelectedFrame(state),
       pauseData: getPause(state),
       coverageOn: getCoverageEnabled(state),
-      query: getFileSearchQueryState(state),
-      searchModifiers: getFileSearchModifierState(state),
+      query: getFileSearchQuery(state),
+      searchModifiers: getFileSearchModifiers(state),
       linesInScope: getInScopeLines(state),
       getFunctionText: line =>
         findFunctionText(

@@ -8,8 +8,8 @@ import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
   getActiveSearch,
-  getFileSearchQueryState,
-  getFileSearchModifierState,
+  getFileSearchQuery,
+  getFileSearchModifiers,
   getSearchResults
 } from "../../selectors";
 
@@ -21,11 +21,8 @@ import { debounce } from "lodash";
 
 import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
-import type {
-  ActiveSearchType,
-  FileSearchModifiers,
-  SearchResults
-} from "../../reducers/ui";
+import type { SearchResults } from "../../reducers/file-search";
+import type { ActiveSearchType, FileSearchModifiers } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
 import SearchInput from "../shared/SearchInput";
 import "./SearchBar.css";
@@ -81,13 +78,9 @@ class SearchBar extends Component {
     self.onEscape = this.onEscape.bind(this);
     self.clearSearch = this.clearSearch.bind(this);
     self.closeSearch = this.closeSearch.bind(this);
-    self.toggleSearch = this.toggleSearch.bind(this);
     self.setSearchValue = this.setSearchValue.bind(this);
     self.selectSearchInput = this.selectSearchInput.bind(this);
     self.searchInput = this.searchInput.bind(this);
-    self.doSearch = this.doSearch.bind(this);
-    self.searchContents = this.searchContents.bind(this);
-    self.traverseResults = this.traverseResults.bind(this);
     self.onChange = this.onChange.bind(this);
     self.onKeyUp = this.onKeyUp.bind(this);
     self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
@@ -113,22 +106,20 @@ class SearchBar extends Component {
     // overwrite searchContents with a debounced version to reduce the
     // frequency of queries which improves perf on large files
     // $FlowIgnore
-    this.searchContents = debounce(this.searchContents, 100);
+    this.searchContents = debounce(this.props.searchContents, 100);
 
     const shortcuts = this.context.shortcuts;
-    const {
-      searchShortcut,
-      searchAgainShortcut,
-      shiftSearchAgainShortcut
-    } = getShortcuts();
+    const { searchAgainShortcut, shiftSearchAgainShortcut } = getShortcuts();
 
     shortcuts.on("Escape", this.onEscape);
 
     shortcuts.on(shiftSearchAgainShortcut, (_, e) =>
-      this.traverseResults(e, true)
+      this.props.traverseResults(e, true)
     );
 
-    shortcuts.on(searchAgainShortcut, (_, e) => this.traverseResults(e, false));
+    shortcuts.on(searchAgainShortcut, (_, e) =>
+      this.props.traverseResults(e, false)
+    );
   }
 
   componentDidUpdate(prevProps: Props, prevState: SearchBarState) {
@@ -311,8 +302,8 @@ class SearchBar extends Component {
           summaryMsg={this.buildSummaryMsg()}
           onChange={this.onChange}
           onKeyUp={this.onKeyUp}
-          handleNext={e => this.traverseResults(e, false)}
-          handlePrev={e => this.traverseResults(e, true)}
+          handleNext={e => this.props.traverseResults(e, false)}
+          handlePrev={e => this.props.traverseResults(e, true)}
           handleClose={this.closeSearch}
         />
         <div className="search-bottom-bar">
@@ -332,8 +323,8 @@ export default connect(
   state => {
     return {
       searchOn: getActiveSearch(state) === "file",
-      query: getFileSearchQueryState(state),
-      modifiers: getFileSearchModifierState(state),
+      query: getFileSearchQuery(state),
+      modifiers: getFileSearchModifiers(state),
       searchResults: getSearchResults(state)
     };
   },

@@ -8,7 +8,7 @@
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
 
-import type { Action, panelPositionType } from "../actions/types";
+import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type Modifiers = Record<{
@@ -31,14 +31,12 @@ export type SearchResults = {
 
 export type UIState = {
   searchResults: SearchResults,
-  active: boolean,
   query: string,
   modifiers: Modifiers
 };
 
 export const State = makeRecord(
   ({
-    active: false,
     query: "",
     searchResults: {
       matches: [],
@@ -59,19 +57,15 @@ function update(
   action: Action
 ): Record<UIState> {
   switch (action.type) {
-    case "TOGGLE": {
-      return state.set("active", action.value);
-    }
-
-    case "SET_QUERY": {
+    case "UPDATE_FILE_SEARCH_QUERY": {
       return state.set("query", action.query);
     }
 
-    case "SET_SEARCH_RESULTS": {
+    case "UPDATE_SEARCH_RESULTS": {
       return state.set("searchResults", action.results);
     }
 
-    case "TOGGLE_MODIFIER": {
+    case "TOGGLE_FILE_SEARCH_MODIFIER": {
       const actionVal = !state.getIn(["modifiers", action.modifier]);
 
       if (action.modifier == "caseSensitive") {
@@ -86,7 +80,7 @@ function update(
         prefs.fileSearchRegexMatch = actionVal;
       }
 
-      return state.setIn(["fileSearchModifiers", action.modifier], actionVal);
+      return state.setIn(["modifiers", action.modifier], actionVal);
     }
 
     default: {
@@ -98,10 +92,6 @@ function update(
 // NOTE: we'd like to have the app state fully typed
 // https://github.com/devtools-html/debugger.html/blob/master/src/reducers/sources.js#L179-L185
 type OuterState = { fileSearch: Record<UIState> };
-
-export function isFileSearchActive(state: OuterState): boolean {
-  return state.fileSearch.get("active");
-}
 
 export function getFileSearchQuery(state: OuterState): string {
   return state.fileSearch.get("query");

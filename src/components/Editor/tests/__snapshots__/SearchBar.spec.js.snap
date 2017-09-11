@@ -166,7 +166,6 @@ ShallowWrapper {
         "context": Object {
           "shortcuts": undefined,
         },
-        "doSearch": [Function],
         "onChange": [Function],
         "onEscape": [Function],
         "onKeyUp": [Function],
@@ -191,7 +190,6 @@ ShallowWrapper {
         },
         "refs": Object {},
         "renderSearchModifiers": [Function],
-        "searchContents": [Function],
         "searchInput": [Function],
         "selectSearchInput": [Function],
         "setSearchValue": [Function],
@@ -200,8 +198,6 @@ ShallowWrapper {
           "index": -1,
           "selectedResultIndex": 0,
         },
-        "toggleSearch": [Function],
-        "traverseResults": [Function],
         "updater": Object {
           "enqueueCallback": [Function],
           "enqueueCallbackInternal": [Function],
