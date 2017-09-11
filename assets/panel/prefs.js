@@ -45,3 +45,4 @@ pref("devtools.debugger.file-search-whole-word", false);
 pref("devtools.debugger.file-search-regex-match", false);
 pref("devtools.debugger.features.async-stepping", true);
 pref("devtools.debugger.project-text-search-enabled", true);
+pref("devtools.debugger.features.wasm", true)
