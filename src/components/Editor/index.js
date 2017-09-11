@@ -394,7 +394,9 @@ class Editor extends PureComponent {
       breakpoints,
       toggleBreakpoint,
       toggleDisabledBreakpoint,
-      isEmptyLine
+      isEmptyLine,
+      pauseData,
+      continueToHere
     } = this.props;
 
     if (selectedSource && selectedSource.get("isBlackBoxed")) {
@@ -416,6 +418,8 @@ class Editor extends PureComponent {
       breakpoint,
       toggleBreakpoint,
       toggleDisabledBreakpoint,
+      pauseData,
+      continueToHere,
 
       showConditionalPanel: this.toggleConditionalPanel,
       isCbPanelOpen: this.isCbPanelOpen(),
@@ -741,7 +745,8 @@ Editor.propTypes = {
   toggleBreakpoint: PropTypes.func.isRequired,
   addOrToggleDisabledBreakpoint: PropTypes.func.isRequired,
   toggleDisabledBreakpoint: PropTypes.func.isRequired,
-  isEmptyLine: PropTypes.func
+  isEmptyLine: PropTypes.func,
+  continueToHere: PropTypes.func
 };
 
 Editor.contextTypes = {
