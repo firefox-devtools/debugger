@@ -13,6 +13,7 @@
   background-color: var(--theme-toolbar-background);
   font-weight: lighter;
   z-index: 100;
+  user-select: none;
 }
 
 .theme-dark .welcomebox {
