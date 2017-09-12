@@ -104,7 +104,7 @@ describe("when adding breakpoints", () => {
       await dispatch(actions.removeBreakpoint(breakpoint1.location));
 
       const pendingBps = selectors.getPendingBreakpoints(getState());
-      expect(pendingBps.has(breakpointLocationId1)).not.toBe(true);
+      expect(pendingBps.has(breakpointLocationId1)).toBe(false);
       expect(pendingBps.has(breakpointLocationId2)).toBe(true);
     });
   });
