@@ -123,9 +123,11 @@ class Breakpoints extends PureComponent {
     const disableAllLabel = L10N.getStr("breakpointMenuItem.disableAll");
     const disableOthersLabel = L10N.getStr("breakpointMenuItem.disableOthers");
     const removeConditionLabel = L10N.getStr(
-      "breakpointMenuItem.removeCondition"
+      "breakpointMenuItem.removeCondition.label"
     );
-    const editConditionLabel = L10N.getStr("breakpointMenuItem.editCondition");
+    const editConditionLabel = L10N.getStr(
+      "breakpointMenuItem.editCondition.label"
+    );
 
     const deleteSelfKey = L10N.getStr(
       "breakpointMenuItem.deleteSelf.accesskey"
