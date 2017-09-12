@@ -92,10 +92,6 @@ function getMenuItems(
     click: () => showSource(selectedSource.get("id"))
   };
 
-  if (selectedSource && selectedSource.get("isBlackBoxed")) {
-    return [blackBoxMenuItem];
-  }
-
   const menuItems = [
     copySource,
     copySourceUrl,

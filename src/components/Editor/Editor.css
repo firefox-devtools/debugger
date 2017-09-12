@@ -69,7 +69,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 .editor-wrapper .highlight-lines {
-  background: var(--theme-selection-background-semitransparent);
+  background: var(--theme-selection-background-hover);
 }
 
 .coverage-on .CodeMirror-code :not(.hit-marker) .CodeMirror-line,

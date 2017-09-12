@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import classnames from "classnames";
 
-import { escapeRegExp } from "lodash";
 import Svg from "../shared/Svg";
 
 import ManagedTree from "../shared/ManagedTree";
@@ -120,52 +119,28 @@ export default class TextSearch extends Component {
         <span className="line-number" key={match.line}>
           {match.line}
         </span>
-        {this.renderMatchValue(match.value)}
+        {this.renderMatchValue(match)}
       </div>
     );
   }
 
-  renderMatchValue(value) {
-    const { inputValue } = this.state;
-    let match;
-    const len = inputValue.length;
-    const matchIndexes = [];
-    const matches = [];
-    const re = new RegExp(escapeRegExp(inputValue), "g");
-    while ((match = re.exec(value)) !== null) {
-      matchIndexes.push(match.index);
-    }
+  renderMatchValue(lineMatch) {
+    const { value, column, match } = lineMatch;
+    const len = match.length;
 
-    matchIndexes.forEach((matchIndex, index) => {
-      if (matchIndex > 0 && index === 0) {
-        matches.push(
-          <span className="line-match" key={`case1-${index}`}>
-            {value.slice(0, matchIndex)}
-          </span>
-        );
-      }
-      if (matchIndex > matchIndexes[index - 1] + len) {
-        matches.push(
-          <span className="line-match" key={`case2-${index}`}>
-            {value.slice(matchIndexes[index - 1] + len, matchIndex)}
-          </span>
-        );
-      }
-      matches.push(
-        <span className="query-match" key={index}>
-          {value.substr(matchIndex, len)}
+    return (
+      <span className="line-value">
+        <span className="line-match" key={0}>
+          {value.slice(0, column)}
         </span>
-      );
-      if (index === matchIndexes.length - 1) {
-        matches.push(
-          <span className="line-match" key={`case3-${index}`}>
-            {value.slice(matchIndex + len, value.length)}
-          </span>
-        );
-      }
-    });
-
-    return <span className="line-value">{matches}</span>;
+        <span className="query-match" key={1}>
+          {value.substr(column, len)}
+        </span>
+        <span className="line-match" key={2}>
+          {value.slice(column + len, value.length)}
+        </span>
+      </span>
+    );
   }
 
   renderResults() {
@@ -183,26 +158,26 @@ export default class TextSearch extends Component {
         : this.renderMatch(item, focused);
     };
 
-    const getFocusedItem = () => {
-      if (this.focusedItem === null) {
-        return results[0] ? results[0].matches[0] : null;
-      }
-      return this.focusedItem.file || this.focusedItem.match;
-    };
-
-    return (
-      <ManagedTree
-        getRoots={() => results}
-        getChildren={file => file.matches || []}
-        itemHeight={24}
-        autoExpand={1}
-        autoExpandDepth={1}
-        focused={getFocusedItem()}
-        getParent={item => null}
-        getPath={getFilePath}
-        renderItem={renderItem}
-      />
-    );
+    if (results.length) {
+      return (
+        <ManagedTree
+          getRoots={() => results}
+          getChildren={file => file.matches || []}
+          itemHeight={24}
+          autoExpand={1}
+          autoExpandDepth={1}
+          getParent={item => null}
+          getPath={getFilePath}
+          renderItem={renderItem}
+        />
+      );
+    } else if (this.props.query && !results.length) {
+      return (
+        <div className="no-result-msg absolute-center">
+          {L10N.getStr("projectTextSearch.noResults")}
+        </div>
+      );
+    }
   }
 
   renderInput() {
