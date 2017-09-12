@@ -151,7 +151,7 @@ export function setPreview(
           frameId: selectedFrame.id
         });
 
-        if (!result) {
+        if (result === undefined) {
           return;
         }
 

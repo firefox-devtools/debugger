@@ -158,26 +158,26 @@ export default class TextSearch extends Component {
         : this.renderMatch(item, focused);
     };
 
-    const getFocusedItem = () => {
-      if (this.focusedItem === null) {
-        return results[0] ? results[0].matches[0] : null;
-      }
-      return this.focusedItem.file || this.focusedItem.match;
-    };
-
-    return (
-      <ManagedTree
-        getRoots={() => results}
-        getChildren={file => file.matches || []}
-        itemHeight={24}
-        autoExpand={1}
-        autoExpandDepth={1}
-        focused={getFocusedItem()}
-        getParent={item => null}
-        getPath={getFilePath}
-        renderItem={renderItem}
-      />
-    );
+    if (results.length) {
+      return (
+        <ManagedTree
+          getRoots={() => results}
+          getChildren={file => file.matches || []}
+          itemHeight={24}
+          autoExpand={1}
+          autoExpandDepth={1}
+          getParent={item => null}
+          getPath={getFilePath}
+          renderItem={renderItem}
+        />
+      );
+    } else if (this.props.query && !results.length) {
+      return (
+        <div className="no-result-msg absolute-center">
+          {L10N.getStr("projectTextSearch.noResults")}
+        </div>
+      );
+    }
   }
 
   renderInput() {
