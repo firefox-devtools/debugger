@@ -245,7 +245,7 @@ class Breakpoints extends PureComponent {
       label: removeConditionLabel,
       accesskey: removeConditionKey,
       disabled: false,
-      click: () => setBreakpointCondition(breakpoint.location, "")
+      click: () => setBreakpointCondition(breakpoint.location)
     };
 
     const editCondition = {

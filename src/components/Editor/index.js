@@ -756,7 +756,8 @@ Editor.propTypes = {
   toggleDisabledBreakpoint: PropTypes.func.isRequired,
   conditionalBreakpointPanel: PropTypes.number,
   toggleConditionalBreakpointPanel: PropTypes.func.isRequired,
-  isEmptyLine: PropTypes.func
+  isEmptyLine: PropTypes.func,
+  continueToHere: PropTypes.func
 };
 
 Editor.contextTypes = {
