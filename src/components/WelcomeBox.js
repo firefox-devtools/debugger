@@ -8,16 +8,15 @@ import { getPaneCollapse } from "../selectors";
 import { formatKeyShortcut } from "../utils/text";
 
 import PaneToggleButton from "./shared/Button/PaneToggle";
-import type { ActiveSearchType } from "../../reducers/ui";
+import type { ActiveSearchType } from "../reducers/ui";
 
 import "./WelcomeBox.css";
-
 
 type Props = {
   horizontal: boolean,
   togglePaneCollapse: Function,
   endPanelCollapsed: boolean,
-  setActiveSearch: (?ActiveSearchType) => any,
+  setActiveSearch: (?ActiveSearchType) => any
 };
 
 class WelcomeBox extends Component {
