@@ -21,6 +21,6 @@
 
 .why-paused .message.warning {
   font-size: 10px;
-  color: var(--theme-graphs-full-red);
+  color: var(--theme-graphs-red);
   font-weight: bold;
 }
