@@ -46,7 +46,8 @@ async function onConnect(connection: Object, services: Object) {
       prefs,
       features,
       connection,
-      bpClients
+      bpClients,
+      services
     };
   };
 
