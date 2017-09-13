@@ -126,7 +126,7 @@ class PrimaryPanes extends Component {
           selectSource={selectSource}
           isHidden={selectedPane === "outline"}
         />
-        { outlineComp }
+        {outlineComp}
         {this.renderFooter()}
       </div>
     );

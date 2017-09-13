@@ -39,7 +39,7 @@ export class Outline extends Component {
   renderPlaceholder() {
     return (
       <div className="outline-pane-info">
-        { L10N.getStr("outline.noFunctions") }
+        {L10N.getStr("outline.noFunctions")}
       </div>
     );
   }
@@ -61,7 +61,7 @@ export class Outline extends Component {
   renderFunctions(symbols: Array<SymbolDeclaration>) {
     return (
       <ul className="outline-list">
-        { symbols.map(func => this.renderFunction(func)) }
+        {symbols.map(func => this.renderFunction(func))}
       </ul>
     );
   }
@@ -69,12 +69,17 @@ export class Outline extends Component {
   render() {
     const { isHidden, symbols } = this.props;
 
-    const symbolsToDisplay = symbols.functions
-      .filter(func => func.name != "anonymous");
+    const symbolsToDisplay = symbols.functions.filter(
+      func => func.name != "anonymous"
+    );
 
     return (
       <div className={classnames("outline", { hidden: isHidden })}>
-        { symbolsToDisplay.length > 0 ? this.renderFunctions(symbolsToDisplay) : this.renderPlaceholder() }
+        {symbolsToDisplay.length > 0 ? (
+          this.renderFunctions(symbolsToDisplay)
+        ) : (
+          this.renderPlaceholder()
+        )}
       </div>
     );
   }
