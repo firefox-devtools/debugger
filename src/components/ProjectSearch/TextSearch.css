@@ -43,6 +43,13 @@
   width: 2em;
 }
 
+.project-text-search .no-result-msg {
+  color: var(--theme-body-color-inactive);
+  font-size: 24px;
+  padding: 4px;
+  word-break: break-all;
+}
+
 .project-text-search .file-result {
   font-weight: bold;
   line-height: 20px;

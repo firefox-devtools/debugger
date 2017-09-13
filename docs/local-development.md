@@ -1,4 +1,4 @@
-## Development Guide
+## Development Guide␊
 
 * [Themes](#themes)
 * [Internationalization](#internationalization)
@@ -295,7 +295,7 @@ practices, but have added our own flavor as well with the help of Flow and Immut
 We type our stores so that we can document the shape of the data and guarantee
 the data coming in and out is well formed.
 
-Lets look at the expressions reducer and see how it is typed:
+Lets look at the expressions reducer and see how it is typed
 
 ```js
 type ExpressionState = {

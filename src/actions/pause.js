@@ -46,6 +46,21 @@ export function resumed() {
   };
 }
 
+export function continueToHere(line: number) {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    const source = getSelectedSource(getState()).toJS();
+
+    await dispatch(
+      addHiddenBreakpoint({
+        line,
+        column: undefined,
+        sourceId: source.id
+      })
+    );
+    dispatch(command("resume"));
+  };
+}
+
 /**
  * Debugger has just paused
  *
@@ -70,6 +85,11 @@ export function paused(pauseInfo: Pause) {
       selectedFrameId: frame.id,
       loadedObjects: loadedObjects || []
     });
+
+    const hiddenBreakpointLocation = getHiddenBreakpointLocation(getState());
+    if (hiddenBreakpointLocation) {
+      dispatch(removeBreakpoint(hiddenBreakpointLocation));
+    }
 
     dispatch(evaluateExpressions(frame.id));
 
@@ -249,13 +269,6 @@ export function astCommand(stepType: string) {
 
     const pauseInfo = getPause(getState());
     const source = getSelectedSource(getState()).toJS();
-    const currentHiddenBreakpointLocation = getHiddenBreakpointLocation(
-      getState()
-    );
-
-    if (currentHiddenBreakpointLocation) {
-      dispatch(removeBreakpoint(currentHiddenBreakpointLocation));
-    }
 
     const pausedPosition = await getPausedPosition(pauseInfo, sourceMaps);
 
