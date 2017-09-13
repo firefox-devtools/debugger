@@ -243,7 +243,7 @@ export function loadObjectProperties(object: any) {
   return ({ dispatch, client, getState }: ThunkArgs) => {
     const objectId = object.actor || object.objectId;
 
-    if (getLoadedObject(getState(), objectId)) {
+    if (!getPause(getState()) || getLoadedObject(getState(), objectId)) {
       return;
     }
 
