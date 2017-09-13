@@ -71,15 +71,14 @@ describe("sources tree", () => {
       expect(getRelativePath("http://www.example.com/path/to/file.html")).toBe(
         relPath
       );
-      expect(getRelativePath("https://www.example.com/path/to/file.html")).toBe(
-        relPath
+      expect(getRelativePath("https://www.example.com/path/to/file.js")).toBe(
+        "path/to/file.js"
       );
       expect(getRelativePath("webpack:///path/to/file.html")).toBe(relPath);
       expect(getRelativePath("file:///path/to/file.html")).toBe(relPath);
-    });
-
-    it("shows the full path for unknown schemes", () => {
-      expect(getRelativePath("bla")).toBe("bla");
+      expect(getRelativePath("file:///path/to/file.html?bla")).toBe(relPath);
+      expect(getRelativePath("file:///path/to/file.html#bla")).toBe(relPath);
+      expect(getRelativePath("file:///path/to/file")).toBe("path/to/file");
     });
   });
 
