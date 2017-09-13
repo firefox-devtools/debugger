@@ -15,6 +15,9 @@ export const clearSymbols = dispatcher.task("clearSymbols");
 export const clearASTs = dispatcher.task("clearASTs");
 export const getNextStep = dispatcher.task("getNextStep");
 export const getEmptyLines = dispatcher.task("getEmptyLines");
+export const hasSource = dispatcher.task("hasSource");
+export const setSource = dispatcher.task("setSource");
+export const clearSources = dispatcher.task("clearSources");
 
 export type { SymbolDeclaration, SymbolDeclarations } from "./getSymbols";
 export type { AstLocation } from "./types";
