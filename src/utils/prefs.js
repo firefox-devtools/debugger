@@ -26,7 +26,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
   pref("devtools.debugger.project-text-search-enabled", true);
   pref("devtools.debugger.features.async-stepping", true);
-  pref("devtools.debugger.features.wasm", true)
+  pref("devtools.debugger.features.wasm", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
