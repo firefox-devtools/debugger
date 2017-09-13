@@ -118,12 +118,12 @@ class App extends Component {
       setActiveSearch
     } = this.props;
 
+    e.preventDefault();
+    e.stopPropagation();
+
     if (!selectedSource) {
       return;
     }
-
-    e.preventDefault();
-    e.stopPropagation();
 
     if (activeSearch == "symbol") {
       return closeActiveSearch();

@@ -37,12 +37,14 @@ type Dependencies = {
   supportsWasm: boolean
 };
 
-function setupCommands(dependencies: Dependencies): void {
+function setupCommands(dependencies: Dependencies): { bpClients: BPClients } {
   threadClient = dependencies.threadClient;
   tabTarget = dependencies.tabTarget;
   debuggerClient = dependencies.debuggerClient;
   supportsWasm = dependencies.supportsWasm;
   bpClients = {};
+
+  return { bpClients };
 }
 
 function resume(): Promise<*> {

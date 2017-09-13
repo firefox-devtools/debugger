@@ -55,11 +55,13 @@ export async function syncClientBreakpoint(
 
   const { location, astLocation } = pendingBreakpoint;
   const previousLocation = { ...location, sourceId };
+
   const scopedLocation = await makeScopedLocation(
     astLocation,
     previousLocation,
     source
   );
+
   const scopedGeneratedLocation = await getGeneratedLocation(
     getState(),
     source,
@@ -79,10 +81,12 @@ export async function syncClientBreakpoint(
     scopedGeneratedLocation
   );
 
+  const existingClient = client.getBreakpointByLocation(generatedLocation);
+
   /** ******* CASE 1: No server change ***********/
   // early return if breakpoint is disabled or we are in the sameLocation
   // send update only to redux
-  if (pendingBreakpoint.disabled || isSameLocation) {
+  if (pendingBreakpoint.disabled || (existingClient && isSameLocation)) {
     return createSyncData(
       pendingBreakpoint,
       scopedLocation,
@@ -90,15 +94,14 @@ export async function syncClientBreakpoint(
     );
   }
 
-  /** ******* Case 2: Add New Breakpoint ***********/
-  // If we are not disabled, set the breakpoint on the server and get
-  // that info so we can set it on our breakpoints.
-  const existingClient = client.getBreakpointByLocation(generatedLocation);
   // clear server breakpoints if they exist and we have moved
   if (existingClient) {
     await client.removeBreakpoint(generatedLocation);
   }
 
+  /** ******* Case 2: Add New Breakpoint ***********/
+  // If we are not disabled, set the breakpoint on the server and get
+  // that info so we can set it on our breakpoints.
   const clientBreakpoint = await client.setBreakpoint(
     scopedGeneratedLocation,
     pendingBreakpoint.condition,
