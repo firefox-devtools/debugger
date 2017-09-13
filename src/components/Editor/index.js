@@ -255,7 +255,7 @@ class Editor extends PureComponent {
 
     if (
       this.props.conditionalBreakpointPanel !== null &&
-      this.state.cbPanel == null
+      this.cbPanel == null
     ) {
       this.toggleConditionalPanel(this.props.conditionalBreakpointPanel);
     }
