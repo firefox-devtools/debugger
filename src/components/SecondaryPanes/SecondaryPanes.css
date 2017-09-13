@@ -30,6 +30,7 @@
   padding: 0.5em;
   -moz-user-select: none;
   user-select: none;
+  cursor: default;
 }
 
 .theme-dark .secondary-panes .accordion .arrow svg {
