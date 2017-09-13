@@ -1,4 +1,5 @@
 import { findSourceMatches } from "../project-search";
+import { highlightMatches } from "../project-search";
 
 const text = `
   function foo() {
@@ -17,5 +18,10 @@ describe("project search", () => {
 
     const matches = findSourceMatches(source, "foo");
     expect(matches).toMatchSnapshot();
+  });
+});
+describe("project search - highlightMatches", () => {
+  it("simple", () => {
+    expect(highlightMatches("foo yo", "yo")).toMatchSnapshot();
   });
 });
