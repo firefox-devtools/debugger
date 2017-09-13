@@ -31,7 +31,7 @@ test:
     - ./bin/run-mochitests-docker
   post:
     - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
-    - yarn check
+    - yarn check --integrity
     - bash <(curl -s https://codecov.io/bash) -f $CIRCLE_TEST_REPORTS/jest-coverage/coverage-final.json
 
 dependencies:

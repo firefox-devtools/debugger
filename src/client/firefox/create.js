@@ -12,7 +12,7 @@ import type {
 export function createFrame(frame: FramePacket): Frame {
   let title;
   if (frame.type == "call") {
-    let c = frame.callee;
+    const c = frame.callee;
     title = c.name || c.userDisplayName || c.displayName || "(anonymous)";
   } else {
     title = `(${frame.type})`;
@@ -41,7 +41,8 @@ export function createSource(
     isPrettyPrinted: false,
     isWasm: supportsWasm && source.introductionType === "wasm",
     sourceMapURL: source.sourceMapURL,
-    isBlackBoxed: false
+    isBlackBoxed: false,
+    loadedState: "unloaded"
   };
 }
 

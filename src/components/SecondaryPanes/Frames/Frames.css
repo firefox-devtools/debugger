@@ -5,7 +5,6 @@
 }
 
 .frames ul li {
-  cursor: pointer;
   padding: 7px 10px 7px 21px;
   overflow: hidden;
   display: flex;
@@ -85,7 +84,6 @@
 }
 
 .show-more {
-  cursor: pointer;
   text-align: center;
   padding: 8px 0px;
   margin: 7px 10px 7px 7px;

@@ -15,9 +15,11 @@ import type { Source } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
+type EmptyLinesType = number[];
 export type SymbolsMap = Map<string, SymbolDeclarations>;
+export type EmptyLinesMap = Map<string, EmptyLinesType>;
 
-export type Selection =
+export type Preview =
   | {| updating: true |}
   | null
   | {|
@@ -31,16 +33,18 @@ export type Selection =
 
 export type ASTState = {
   symbols: SymbolsMap,
+  emptyLines: EmptyLinesMap,
   outOfScopeLocations: ?Array<AstLocation>,
-  selection: Selection
+  preview: Preview
 };
 
 export function initialState() {
   return makeRecord(
     ({
       symbols: I.Map(),
+      emptyLines: I.Map(),
       outOfScopeLocations: null,
-      selection: null
+      preview: null
     }: ASTState)
   )();
 }
@@ -55,21 +59,26 @@ function update(
       return state.setIn(["symbols", source.id], symbols);
     }
 
+    case "SET_EMPTY_LINES": {
+      const { source, emptyLines } = action;
+      return state.setIn(["emptyLines", source.id], emptyLines);
+    }
+
     case "OUT_OF_SCOPE_LOCATIONS": {
       return state.set("outOfScopeLocations", action.locations);
     }
 
     case "CLEAR_SELECTION": {
-      return state.set("selection", null);
+      return state.set("preview", null);
     }
 
-    case "SET_SELECTION": {
+    case "SET_PREVIEW": {
       if (action.status == "start") {
-        return state.set("selection", { updating: true });
+        return state.set("preview", { updating: true });
       }
 
       if (!action.value) {
-        return state.set("selection", null);
+        return state.set("preview", null);
       }
 
       const {
@@ -79,7 +88,7 @@ function update(
         tokenPos,
         cursorPos
       } = action.value;
-      return state.set("selection", {
+      return state.set("preview", {
         updating: false,
         expression,
         location,
@@ -124,12 +133,29 @@ export function hasSymbols(state: OuterState, source: Source): boolean {
   return !!state.ast.getIn(["symbols", source.id]);
 }
 
+export function isEmptyLineInSource(
+  state: OuterState,
+  line: number,
+  selectedSource: Source
+) {
+  const emptyLines = getEmptyLines(state, selectedSource);
+  return emptyLines.includes(line);
+}
+
+export function getEmptyLines(state: OuterState, source: Source) {
+  if (!source) {
+    return [];
+  }
+
+  return state.ast.getIn(["emptyLines", source.id]) || [];
+}
+
 export function getOutOfScopeLocations(state: OuterState) {
   return state.ast.get("outOfScopeLocations");
 }
 
-export function getSelection(state: OuterState) {
-  return state.ast.get("selection");
+export function getPreview(state: OuterState) {
+  return state.ast.get("preview");
 }
 
 export default update;

@@ -3,7 +3,7 @@
 import * as firefox from "./firefox";
 import * as chrome from "./chrome";
 
-import { prefs } from "../utils/prefs";
+import { prefs, features } from "../utils/prefs";
 import { isFirefoxPanel } from "devtools-config";
 import {
   bootstrapApp,
@@ -34,7 +34,7 @@ async function onConnect(connection: Object, services: Object) {
   const { store, actions, selectors } = bootstrapStore(commands, services);
 
   bootstrapWorkers();
-  await client.onConnect(connection, actions);
+  const { bpClients } = await client.onConnect(connection, actions);
   await loadFromPrefs(actions);
 
   window.getGlobalsForTesting = () => {
@@ -44,12 +44,14 @@ async function onConnect(connection: Object, services: Object) {
       selectors,
       client: client.clientCommands,
       prefs,
-      connection
+      features,
+      connection,
+      bpClients
     };
   };
 
   if (!isFirefoxPanel()) {
-    console.group("Developement Notes");
+    console.group("Development Notes");
     const baseUrl = "https://devtools-html.github.io/debugger.html";
     const localDevelopmentUrl = `${baseUrl}/docs/local-development.html`;
     console.log("Debugging Tips", localDevelopmentUrl);

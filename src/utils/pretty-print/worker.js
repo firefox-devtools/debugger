@@ -39,7 +39,7 @@ function prettyPrint({ url, indent, source }) {
 
 function invertMappings(mappings: Mappings) {
   return mappings._array.map((m: Mapping) => {
-    let mapping: InvertedMapping = {
+    const mapping: InvertedMapping = {
       generated: {
         line: m.originalLine,
         column: m.originalColumn

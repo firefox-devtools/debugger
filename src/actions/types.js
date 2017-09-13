@@ -185,7 +185,7 @@ type PauseAction =
       shouldPauseOnExceptions: boolean,
       shouldIgnoreCaughtExceptions: boolean
     }
-  | { type: "COMMAND", value: void }
+  | { type: "COMMAND", value: { type: string } }
   | { type: "SELECT_FRAME", frame: Frame, scopes: Scope[] }
   | {
       type: "LOAD_OBJECT_PROPERTIES",
@@ -198,22 +198,19 @@ type PauseAction =
       type: "ADD_EXPRESSION",
       id: number,
       input: string,
-      value: string,
-      visible: boolean
+      value: string
     }
   | {
       type: "EVALUATE_EXPRESSION",
       input: string,
       status: string,
       value: Object,
-      visible: boolean,
       "@@dispatch/promise": any
     }
   | {
       type: "UPDATE_EXPRESSION",
       expression: Expression,
-      input: string,
-      visible: boolean
+      input: string
     }
   | {
       type: "DELETE_EXPRESSION",
@@ -233,7 +230,7 @@ type ASTAction =
       locations: AstLocation[]
     }
   | {
-      type: "SET_SELECTION",
+      type: "SET_PREVIEW",
       value: {
         expression: string,
         result: any,

@@ -11,7 +11,7 @@ function getScopeNodeValue(dbg, index) {
 
 function expandNode(dbg, index) {
   let onLoadProperties = onLoadObjectProperties(dbg);
-  clickElement(dbg, "scopeNode", index);
+  findElement(dbg, "scopeNode", index).click();
   return onLoadProperties;
 }
 
@@ -43,7 +43,7 @@ add_task(async function() {
     'The third element in the scope panel is "phonebook"'
   );
 
-  // Expand `phonebook`
+  info("Expand `phonebook`");
   await expandNode(dbg, 3);
   is(
     getScopeNodeLabel(dbg, 4),
@@ -51,7 +51,7 @@ add_task(async function() {
     'The fourth element in the scope panel is "S"'
   );
 
-  // Expand `S`
+  info("Expand `S`");
   await expandNode(dbg, 4);
   is(
     getScopeNodeLabel(dbg, 5),
@@ -64,7 +64,7 @@ add_task(async function() {
     'The sixth element in the scope panel is "serena"'
   );
 
-  // Expand `sarah`
+  info("Expand `sarah`");
   await expandNode(dbg, 5);
   is(
     getScopeNodeLabel(dbg, 6),

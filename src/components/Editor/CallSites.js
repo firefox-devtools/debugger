@@ -1,15 +1,11 @@
-import { Component, createFactory, DOM as dom } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { isEnabled } from "devtools-config";
 
-import range from "lodash/range";
-import keyBy from "lodash/keyBy";
-import find from "lodash/find";
-import isEqualWith from "lodash/isEqualWith";
+import { range, keyBy, find, isEqualWith } from "lodash";
 
-import _CallSite from "./CallSite";
-const CallSite = createFactory(_CallSite);
+import CallSite from "./CallSite";
 
 import {
   getSelectedSource,
@@ -18,7 +14,7 @@ import {
   getBreakpointsForSource
 } from "../../selectors";
 
-import { getTokenLocation, isWasm, toSourceLine } from "../../utils/editor";
+import { getTokenLocation, isWasm } from "../../utils/editor";
 
 import actions from "../../actions";
 
@@ -93,7 +89,7 @@ class CallSites extends Component {
 
     if (
       !isEnabled("columnBreakpoints") ||
-      !e.altKey ||
+      (!e.altKey && !target.classList.contains("call-site-bp")) ||
       (!target.classList.contains("call-site") &&
         !target.classList.contains("call-site-bp"))
     ) {
@@ -102,10 +98,8 @@ class CallSites extends Component {
 
     const { sourceId } = selectedLocation;
     const { line, column } = getTokenLocation(editor.codeMirror, target);
-    this.toggleBreakpoint(
-      toSourceLine(sourceId, line),
-      isWasm(sourceId) ? undefined : column - 2
-    );
+
+    this.toggleBreakpoint(line, isWasm(sourceId) ? undefined : column);
   }
 
   toggleBreakpoint(line, column = undefined) {
@@ -158,19 +152,18 @@ class CallSites extends Component {
     }
 
     editor.codeMirror.operation(() => {
-      sites = dom.div(
-        {},
-        callSites.map((callSite, index) => {
-          return CallSite({
-            key: index,
-            callSite,
-            editor,
-            source: selectedSource,
-            breakpoint: callSite.breakpoint,
-            showCallSite: showCallSites
-          });
-        })
-      );
+      const childCallSites = callSites.map((callSite, index) => {
+        const props = {
+          key: index,
+          callSite,
+          editor,
+          source: selectedSource,
+          breakpoint: callSite.breakpoint,
+          showCallSite: showCallSites
+        };
+        return <CallSite {...props} />;
+      });
+      sites = <div>{childCallSites}</div>;
     });
     return sites;
   }

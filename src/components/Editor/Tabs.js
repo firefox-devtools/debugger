@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom, PureComponent, createFactory } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as I from "immutable";
@@ -8,7 +8,7 @@ import * as I from "immutable";
 import {
   getSelectedSource,
   getSourcesForTabs,
-  getActiveSearchState,
+  getActiveSearch,
   getSearchTabs
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
@@ -19,15 +19,12 @@ import actions from "../../actions";
 import CloseButton from "../shared/Button/Close";
 import Svg from "../shared/Svg";
 import { showMenu, buildMenu } from "devtools-launchpad";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash";
 import { formatKeyShortcut } from "../../utils/text";
 import "./Tabs.css";
 
-import _PaneToggleButton from "../shared/Button/PaneToggle";
-const PaneToggleButton = createFactory(_PaneToggleButton);
-
-import _Dropdown from "../shared/Dropdown";
-const Dropdown = createFactory(_Dropdown);
+import PaneToggleButton from "../shared/Button/PaneToggle";
+import Dropdown from "../shared/Dropdown";
 
 import type { List } from "immutable";
 import type { SourceRecord } from "../../reducers/sources";
@@ -68,7 +65,7 @@ function getHiddenTabs(sourceTabs: SourcesList, sourceTabEls) {
  * https://dxr.mozilla.org/mozilla-central/source/devtools/shared/platform/content/clipboard.js
  */
 function copyToTheClipboard(string) {
-  let doCopy = function(e: any) {
+  const doCopy = function(e: any) {
     e.clipboardData.setData("text/plain", string);
     e.preventDefault();
   };
@@ -317,19 +314,14 @@ class SourceTabs extends PureComponent {
   }
 
   renderDropdownSource(source: SourceRecord) {
-    const { moveTab } = this.props;
+    const { selectSource } = this.props;
     const filename = getFilename(source.toJS());
 
-    return dom.li(
-      {
-        key: source.get("id"),
-        onClick: () => {
-          // const tabIndex = getLastVisibleTabIndex(sourceTabs, sourceTabEls);
-          const tabIndex = 0;
-          moveTab(source.get("url"), tabIndex);
-        }
-      },
-      filename
+    const onClick = () => selectSource(source.get("id"));
+    return (
+      <li key={source.get("id")} onClick={onClick}>
+        {filename}
+      </li>
     );
   }
 
@@ -339,9 +331,10 @@ class SourceTabs extends PureComponent {
       return;
     }
 
-    return dom.div(
-      { className: "source-tabs", ref: "sourceTabs" },
-      sourceTabs.map(this.renderSourceTab)
+    return (
+      <div className="source-tabs" ref="sourceTabs">
+        {sourceTabs.map(this.renderSourceTab)}
+      </div>
     );
   }
 
@@ -365,32 +358,30 @@ class SourceTabs extends PureComponent {
       closeActiveSearch();
       closeTab(source);
     }
-    return dom.div(
-      {
-        className: classnames("source-tab", {
-          active: this.isProjectSearchEnabled() || this.isSourceSearchEnabled(),
-          pretty: false
-        }),
-        key: source,
-        onClick: () => setActiveSearch(source),
-        onContextMenu: e => this.onTabContextMenu(e, source),
-        title: tabName(source)
-      },
-      dom.div({ className: "filename" }, tabName(source)),
-      CloseButton({
-        handleClick: onClickClose,
-        tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip")
-      })
+    const className = classnames("source-tab", {
+      active: this.isProjectSearchEnabled() || this.isSourceSearchEnabled(),
+      pretty: false
+    });
+
+    return (
+      <div
+        className={className}
+        key={source}
+        onClick={() => setActiveSearch(source)}
+        onContextMenu={e => this.onTabContextMenu(e, source)}
+        title={tabName(source)}
+      >
+        <div className="filename">{tabName(source)}</div>
+        <CloseButton
+          handleClick={onClickClose}
+          tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
+        />
+      </div>
     );
   }
 
   renderSourceTab(source: SourceRecord) {
-    const {
-      selectedSource,
-      selectSource,
-      closeTab,
-      closeActiveSearch
-    } = this.props;
+    const { selectedSource, selectSource, closeTab } = this.props;
     const filename = getFilename(source.toJS());
     const active =
       selectedSource &&
@@ -404,26 +395,26 @@ class SourceTabs extends PureComponent {
       closeTab(source.get("url"));
     }
 
-    return dom.div(
-      {
-        className: classnames("source-tab", {
-          active,
-          pretty: isPrettyCode
-        }),
-        key: source.get("id"),
-        onClick: () => {
-          closeActiveSearch();
-          return selectSource(source.get("id"));
-        },
-        onContextMenu: e => this.onTabContextMenu(e, source.get("id")),
-        title: getFilename(source.toJS())
-      },
-      sourceAnnotation,
-      dom.div({ className: "filename" }, filename),
-      CloseButton({
-        handleClick: onClickClose,
-        tooltip: L10N.getStr("sourceTabs.closeTabButtonTooltip")
-      })
+    const className = classnames("source-tab", {
+      active,
+      pretty: isPrettyCode
+    });
+
+    return (
+      <div
+        className={className}
+        key={source.get("id")}
+        onClick={() => selectSource(source.get("id"))}
+        onContextMenu={e => this.onTabContextMenu(e, source.get("id"))}
+        title={getFilename(source.toJS())}
+      >
+        {sourceAnnotation}
+        <div className="filename">{filename}</div>
+        <CloseButton
+          handleClick={onClickClose}
+          tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}
+        />
+      </div>
     );
   }
 
@@ -432,38 +423,44 @@ class SourceTabs extends PureComponent {
       "sourceTabs.newTabButtonTooltip",
       formatKeyShortcut(L10N.getStr("sources.search.key2"))
     );
-    return dom.div(
-      {
-        className: "new-tab-btn",
-        onClick: () => {
-          if (this.props.searchOn) {
-            return this.props.closeActiveSearch();
-          }
-          this.props.setActiveSearch("source");
-        },
-        title: newTabTooltip
-      },
-      Svg("plus")
+
+    const onButtonClick = () => {
+      if (this.props.searchOn) {
+        return this.props.closeActiveSearch();
+      }
+      this.props.setActiveSearch("source");
+    };
+
+    return (
+      <div
+        className="new-tab-btn"
+        onClick={onButtonClick}
+        title={newTabTooltip}
+      >
+        <Svg name="plus" />
+      </div>
     );
   }
 
   renderDropdown() {
     const hiddenSourceTabs = this.state.hiddenSourceTabs;
     if (!hiddenSourceTabs || hiddenSourceTabs.size == 0) {
-      return dom.div({});
+      return null;
     }
 
-    return Dropdown({
-      panel: dom.ul({}, hiddenSourceTabs.map(this.renderDropdownSource))
-    });
+    const Panel = <ul>{hiddenSourceTabs.map(this.renderDropdownSource)}</ul>;
+
+    return <Dropdown panel={Panel} />;
   }
 
   renderStartPanelToggleButton() {
-    return PaneToggleButton({
-      position: "start",
-      collapsed: !this.props.startPanelCollapsed,
-      handleClick: this.props.togglePaneCollapse
-    });
+    return (
+      <PaneToggleButton
+        position="start"
+        collapsed={!this.props.startPanelCollapsed}
+        handleClick={this.props.togglePaneCollapse}
+      />
+    );
   }
 
   renderEndPanelToggleButton() {
@@ -471,33 +468,36 @@ class SourceTabs extends PureComponent {
       return;
     }
 
-    return PaneToggleButton({
-      position: "end",
-      collapsed: !this.props.endPanelCollapsed,
-      handleClick: this.props.togglePaneCollapse,
-      horizontal: this.props.horizontal
-    });
+    return (
+      <PaneToggleButton
+        position="end"
+        collapsed={!this.props.endPanelCollapsed}
+        handleClick={this.props.togglePaneCollapse}
+        horizontal={this.props.horizontal}
+      />
+    );
   }
 
   getSourceAnnotation(source) {
-    let sourceObj = source.toJS();
+    const sourceObj = source.toJS();
 
     if (isPretty(sourceObj)) {
-      return Svg("prettyPrint");
+      return <Svg name="prettyPrint" />;
     }
     if (sourceObj.isBlackBoxed) {
-      return Svg("blackBox");
+      return <Svg name="blackBox" />;
     }
   }
 
   render() {
-    return dom.div(
-      { className: "source-header" },
-      this.renderStartPanelToggleButton(),
-      this.renderTabs(),
-      this.renderNewButton(),
-      this.renderDropdown(),
-      this.renderEndPanelToggleButton()
+    return (
+      <div className="source-header">
+        {this.renderStartPanelToggleButton()}
+        {this.renderTabs()}
+        {this.renderNewButton()}
+        {this.renderDropdown()}
+        {this.renderEndPanelToggleButton()}
+      </div>
     );
   }
 }
@@ -510,8 +510,8 @@ export default connect(
       selectedSource: getSelectedSource(state),
       searchTabs: getSearchTabs(state),
       sourceTabs: getSourcesForTabs(state),
-      activeSearch: getActiveSearchState(state),
-      searchOn: getActiveSearchState(state) === "source"
+      activeSearch: getActiveSearch(state),
+      searchOn: getActiveSearch(state) === "source"
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

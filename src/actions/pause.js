@@ -3,14 +3,24 @@
 import { selectSource } from "./sources";
 import { PROMISE } from "../utils/redux/middleware/promise";
 
-import { getPause, getLoadedObject } from "../selectors";
-import { updateFrameLocations } from "../utils/pause";
+import {
+  getPause,
+  getLoadedObject,
+  isStepping,
+  getSelectedSource
+} from "../selectors";
+import { updateFrameLocations, getPausedPosition } from "../utils/pause";
 import { evaluateExpressions } from "./expressions";
+
+import { addHiddenBreakpoint, removeBreakpoint } from "./breakpoints";
+import { getHiddenBreakpointLocation } from "../reducers/breakpoints";
+import * as parser from "../utils/parser";
+import { features } from "../utils/prefs";
 
 import type { Pause, Frame } from "../types";
 import type { ThunkArgs } from "./types";
 
-type CommandType = { type: string };
+type CommandType = string;
 
 /**
  * Redux actions for the pause state
@@ -24,13 +34,30 @@ type CommandType = { type: string };
  * @static
  */
 export function resumed() {
-  return ({ dispatch, client }: ThunkArgs) => {
+  return ({ dispatch, client, getState }: ThunkArgs) => {
     dispatch({
       type: "RESUME",
       value: undefined
     });
 
-    dispatch(evaluateExpressions(null));
+    if (!isStepping(getState())) {
+      dispatch(evaluateExpressions(null));
+    }
+  };
+}
+
+export function continueToHere(line: number) {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    const source = getSelectedSource(getState()).toJS();
+
+    await dispatch(
+      addHiddenBreakpoint({
+        line,
+        column: undefined,
+        sourceId: source.id
+      })
+    );
+    dispatch(command("resume"));
   };
 }
 
@@ -58,6 +85,11 @@ export function paused(pauseInfo: Pause) {
       selectedFrameId: frame.id,
       loadedObjects: loadedObjects || []
     });
+
+    const hiddenBreakpointLocation = getHiddenBreakpointLocation(getState());
+    if (hiddenBreakpointLocation) {
+      dispatch(removeBreakpoint(hiddenBreakpointLocation));
+    }
 
     dispatch(evaluateExpressions(frame.id));
 
@@ -96,15 +128,14 @@ export function pauseOnExceptions(
  * @memberof actions/pause
  * @static
  */
-export function command({ type }: CommandType) {
-  return ({ dispatch, client }: ThunkArgs) => {
+export function command(type: CommandType) {
+  return async ({ dispatch, client }: ThunkArgs) => {
     // execute debugger thread command e.g. stepIn, stepOver
-    client[type]();
+    dispatch({ type: "COMMAND", value: { type } });
 
-    return dispatch({
-      type: "COMMAND",
-      value: undefined
-    });
+    await client[type]();
+
+    dispatch({ type: "CLEAR_COMMAND" });
   };
 }
 
@@ -117,7 +148,7 @@ export function command({ type }: CommandType) {
 export function stepIn() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(command({ type: "stepIn" }));
+      return dispatch(command("stepIn"));
     }
   };
 }
@@ -131,7 +162,7 @@ export function stepIn() {
 export function stepOver() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(command({ type: "stepOver" }));
+      return dispatch(astCommand("stepOver"));
     }
   };
 }
@@ -145,7 +176,7 @@ export function stepOver() {
 export function stepOut() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(command({ type: "stepOut" }));
+      return dispatch(command("stepOut"));
     }
   };
 }
@@ -159,7 +190,7 @@ export function stepOut() {
 export function resume() {
   return ({ dispatch, getState }: ThunkArgs) => {
     if (getPause(getState())) {
-      return dispatch(command({ type: "resume" }));
+      return dispatch(command("resume"));
     }
   };
 }
@@ -221,5 +252,34 @@ export function loadObjectProperties(object: any) {
       objectId,
       [PROMISE]: client.getProperties(object)
     });
+  };
+}
+
+/**
+ * @memberOf actions/pause
+ * @static
+ * @param stepType
+ * @returns {function(ThunkArgs)}
+ */
+export function astCommand(stepType: string) {
+  return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
+    if (!features.asyncStepping) {
+      return dispatch(command(stepType));
+    }
+
+    const pauseInfo = getPause(getState());
+    const source = getSelectedSource(getState()).toJS();
+
+    const pausedPosition = await getPausedPosition(pauseInfo, sourceMaps);
+
+    if (stepType == "stepOver") {
+      const nextLocation = await parser.getNextStep(source, pausedPosition);
+      if (nextLocation) {
+        await dispatch(addHiddenBreakpoint(nextLocation));
+        return dispatch(command("resume"));
+      }
+    }
+
+    return dispatch(command(stepType));
   };
 }

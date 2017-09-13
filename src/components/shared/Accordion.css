@@ -1,16 +1,25 @@
+:root {
+  --accordion-header-background: var(--theme-toolbar-background);
+}
+
+:root.theme-dark {
+  --accordion-header-background: #141416;
+}
+
 .accordion {
-  background-color: var(--theme-body-background);
+  background-color: var(--theme-sidebar-background);
   width: 100%;
 }
 
 .accordion ._header {
-  background-color: var(--theme-toolbar-background);
+  background-color: var(--accordion-header-background);
   border-bottom: 1px solid var(--theme-splitter-color);
-  cursor: pointer;
+  display: flex;
   font-size: 12px;
-  padding: 5px;
+  padding: 4px;
   transition: all 0.25s ease;
   width: 100%;
+  height: 24px;
   align-items: center;
 
   -webkit-user-select: none;
@@ -18,10 +27,6 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-}
-
-.accordion ._header {
-  display: flex;
 }
 
 .accordion ._header:hover {
@@ -37,6 +42,10 @@
 .accordion ._content {
   border-bottom: 1px solid var(--theme-splitter-color);
   font-size: 12px;
+}
+
+.accordion div:last-child ._content {
+  border-bottom: none;
 }
 
 .accordion ._header .header-buttons {

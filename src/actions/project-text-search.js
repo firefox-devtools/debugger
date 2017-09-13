@@ -30,8 +30,15 @@ export function clearSearchQuery() {
   };
 }
 
+export function clearSearchResults() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    dispatch({ type: "CLEAR_SEARCH_RESULTS" });
+  };
+}
+
 export function searchSources(query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
+    await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
     await dispatch(loadAllSources());
     const sources = getSources(getState());

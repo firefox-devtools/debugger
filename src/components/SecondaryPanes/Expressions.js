@@ -1,19 +1,12 @@
 // @flow
-import { DOM as dom, createFactory, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
-import {
-  getVisibleExpressions,
-  getLoadedObjects,
-  getPause
-} from "../../selectors";
+import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
 
-import _CloseButton from "../shared/Button/Close";
-const CloseButton = createFactory(_CloseButton);
-
-import _ObjectInspector from "../shared/ObjectInspector";
-const ObjectInspector = createFactory(_ObjectInspector);
+import CloseButton from "../shared/Button/Close";
+import { ObjectInspector } from "devtools-reps";
 
 import "./Expressions.css";
 
@@ -132,20 +125,17 @@ class Expressions extends PureComponent {
   }
 
   renderExpressionEditInput(expression) {
-    return dom.span(
-      { className: "expression-input-container", key: expression.input },
-      dom.input({
-        type: "text",
-        className: "input-expression",
-        onKeyPress: e => this.inputKeyPress(e, expression),
-        onBlur: () => {
-          this.setState({ editing: null });
-        },
-        defaultValue: expression.input,
-        ref: c => {
-          this._input = c;
-        }
-      })
+    return (
+      <span className="expression-input-container" key={expression.input}>
+        <input
+          className="input-expression"
+          type="text"
+          onKeyPress={e => this.inputKeyPress(e, expression)}
+          onBlur={() => this.setState({ editing: null })}
+          defaultValue={expression.input}
+          ref={c => (this._input = c)}
+        />
+      </span>
     );
   }
 
@@ -174,28 +164,29 @@ class Expressions extends PureComponent {
       contents: { value }
     };
 
-    return dom.li(
-      {
-        className: "expression-container",
-        key: `${path}/${input}`
-      },
-      dom.div(
-        { className: "expression-content" },
-        ObjectInspector({
-          roots: [root],
-          getObjectProperties: id => loadedObjects[id],
-          autoExpandDepth: 0,
-          onDoubleClick: (item, options) =>
-            this.editExpression(expression, options),
-          loadObjectProperties
-        }),
-        dom.div(
-          { className: "expression-container__close-btn" },
-          CloseButton({
-            handleClick: e => this.deleteExpression(e, expression)
-          })
-        )
-      )
+    return (
+      <li className="expression-container" key={`${path}/${input}`}>
+        <div className="expression-content">
+          <ObjectInspector
+            roots={[root]}
+            autoExpandDepth={0}
+            disableWrap={true}
+            disabledFocus={true}
+            onDoubleClick={(items, options) =>
+              this.editExpression(expression, options)}
+            getObjectProperties={id => loadedObjects[id]}
+            loadObjectProperties={loadObjectProperties}
+            // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
+            getObjectEntries={actor => {}}
+            loadObjectEntries={grip => {}}
+          />
+          <div className="expression-container__close-btn">
+            <CloseButton
+              handleClick={e => this.deleteExpression(e, expression)}
+            />
+          </div>
+        </div>
+      </li>
     );
   }
 
@@ -220,26 +211,27 @@ class Expressions extends PureComponent {
       e.target.value = "";
       this.props.addExpression(value);
     };
-    return dom.li(
-      { className: "expression-input-container" },
-      dom.input({
-        type: "text",
-        className: "input-expression",
-        placeholder: L10N.getStr("expressions.placeholder"),
-        onBlur: e => {
-          e.target.value = "";
-        },
-        onKeyPress
-      })
+
+    return (
+      <li className="expression-input-container">
+        <input
+          className="input-expression"
+          type="text"
+          placeholder={L10N.getStr("expressions.placeholder")}
+          onBlur={e => (e.target.value = "")}
+          onKeyPress={onKeyPress}
+        />
+      </li>
     );
   }
 
   render() {
     const { expressions } = this.props;
-    return dom.ul(
-      { className: "pane expressions-list" },
-      expressions.map(this.renderExpression),
-      this.renderNewExpressionInput()
+    return (
+      <ul className="pane expressions-list">
+        {expressions.map(this.renderExpression)}
+        {this.renderNewExpressionInput()}
+      </ul>
     );
   }
 }
@@ -249,7 +241,7 @@ Expressions.displayName = "Expressions";
 export default connect(
   state => ({
     pauseInfo: getPause(state),
-    expressions: getVisibleExpressions(state),
+    expressions: getExpressions(state),
     loadedObjects: getLoadedObjects(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)

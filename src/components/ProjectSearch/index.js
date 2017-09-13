@@ -1,27 +1,24 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
-import { isEnabled } from "devtools-config";
+
+import TextSearch from "./TextSearch";
+import SourceSearch from "./SourceSearch";
+import ToggleSearch from "./ToggleSearch";
+
+import { features } from "../../utils/prefs";
 import {
   getSources,
-  getActiveSearchState,
+  getActiveSearch,
   getTextSearchResults,
-  getTextSearchQuery
+  getTextSearchQuery,
+  getSourceSearchQuery
 } from "../../selectors";
 
 import "./ProjectSearch.css";
-
-import _TextSearch from "./TextSearch";
-const TextSearch = createFactory(_TextSearch);
-
-import _SourceSearch from "./SourceSearch";
-const SourceSearch = createFactory(_SourceSearch);
-
-import _ToggleSearch from "./ToggleSearch";
-const ToggleSearch = createFactory(_ToggleSearch);
 
 class ProjectSearch extends Component {
   state: Object;
@@ -64,7 +61,6 @@ class ProjectSearch extends Component {
       L10N.getStr("sources.search.alt.key")
     ];
     searchKeys.forEach(key => shortcuts.off(key, this.toggleSourceSearch));
-    shortcuts.off("Escape", this.onEscape);
   }
 
   toggleProjectTextSearch(key, e) {
@@ -73,7 +69,7 @@ class ProjectSearch extends Component {
       e.preventDefault();
     }
 
-    if (!isEnabled("projectTextSearch")) {
+    if (!features.projectTextSearch) {
       return;
     }
 
@@ -104,16 +100,27 @@ class ProjectSearch extends Component {
   }
 
   renderSourceSearch() {
-    const { sources, selectSource, closeActiveSearch } = this.props;
-    return SourceSearch({
+    const {
       sources,
       selectSource,
       closeActiveSearch,
-      searchBottomBar: ToggleSearch({
-        kind: "sources",
-        toggle: this.toggleProjectTextSearch
-      })
-    });
+      sourceSearchQuery,
+      setSourceSearchQuery,
+      clearSourceSearchQuery
+    } = this.props;
+    return (
+      <SourceSearch
+        sources={sources}
+        selectSource={selectSource}
+        closeActiveSearch={closeActiveSearch}
+        searchBottomBar={
+          <ToggleSearch kind="sources" toggle={this.toggleProjectTextSearch} />
+        }
+        query={sourceSearchQuery}
+        setQuery={setSourceSearchQuery}
+        clearQuery={clearSourceSearchQuery}
+      />
+    );
   }
 
   renderTextSearch() {
@@ -123,21 +130,22 @@ class ProjectSearch extends Component {
       searchSources,
       closeActiveSearch,
       selectSource,
-      query
+      textSearchQuery
     } = this.props;
 
-    return TextSearch({
-      sources,
-      results: results.valueSeq().toJS(),
-      searchSources,
-      closeActiveSearch,
-      selectSource,
-      query,
-      searchBottomBar: ToggleSearch({
-        kind: "project",
-        toggle: this.toggleSourceSearch
-      })
-    });
+    return (
+      <TextSearch
+        sources={sources}
+        results={results.toJS()}
+        searchSources={searchSources}
+        closeActiveSearch={closeActiveSearch}
+        selectSource={selectSource}
+        query={textSearchQuery}
+        searchBottomBar={
+          <ToggleSearch kind="project" toggle={this.toggleSourceSearch} />
+        }
+      />
+    );
   }
 
   render() {
@@ -145,11 +153,14 @@ class ProjectSearch extends Component {
       return null;
     }
 
-    return dom.div(
-      { className: "search-container" },
-      this.isProjectSearchEnabled()
-        ? this.renderTextSearch()
-        : this.renderSourceSearch()
+    return (
+      <div className="search-container">
+        {this.isProjectSearchEnabled() ? (
+          this.renderTextSearch()
+        ) : (
+          this.renderSourceSearch()
+        )}
+      </div>
     );
   }
 }
@@ -157,12 +168,15 @@ class ProjectSearch extends Component {
 ProjectSearch.propTypes = {
   sources: PropTypes.object.isRequired,
   results: PropTypes.object,
-  query: PropTypes.string,
+  textSearchQuery: PropTypes.string,
   setActiveSearch: PropTypes.func.isRequired,
   closeActiveSearch: PropTypes.func.isRequired,
   searchSources: PropTypes.func,
   activeSearch: PropTypes.string,
-  selectSource: PropTypes.func.isRequired
+  selectSource: PropTypes.func.isRequired,
+  sourceSearchQuery: PropTypes.string,
+  setSourceSearchQuery: PropTypes.func,
+  clearSourceSearchQuery: PropTypes.func
 };
 
 ProjectSearch.contextTypes = {
@@ -174,9 +188,10 @@ ProjectSearch.displayName = "ProjectSearch";
 export default connect(
   state => ({
     sources: getSources(state),
-    activeSearch: getActiveSearchState(state),
+    activeSearch: getActiveSearch(state),
     results: getTextSearchResults(state),
-    query: getTextSearchQuery(state)
+    textSearchQuery: getTextSearchQuery(state),
+    sourceSearchQuery: getSourceSearchQuery(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(ProjectSearch);

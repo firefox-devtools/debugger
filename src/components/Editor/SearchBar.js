@@ -1,13 +1,13 @@
 // @flow
 
-import { DOM as dom, createFactory, Component, PropTypes } from "react";
+import React, { Component, PropTypes } from "react";
 import { findDOMNode } from "react-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
-  getActiveSearchState,
+  getActiveSearch,
   getFileSearchQueryState,
   getFileSearchModifierState,
   getSearchResults
@@ -19,7 +19,7 @@ import { getMatches } from "../../utils/search";
 
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash";
 
 import { SourceEditor } from "devtools-source-editor";
 import type { SourceRecord } from "../../reducers/sources";
@@ -29,8 +29,7 @@ import type {
   SearchResults
 } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
-import _SearchInput from "../shared/SearchInput";
-const SearchInput = createFactory(_SearchInput);
+import SearchInput from "../shared/SearchInput";
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
@@ -134,7 +133,6 @@ class SearchBar extends Component {
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    const { selectedSource, query, modifiers, searchOn } = this.props;
     const searchInput = this.searchInput();
 
     if (searchInput) {
@@ -143,20 +141,6 @@ class SearchBar extends Component {
 
     if (this.refs.resultList && this.refs.resultList.refs) {
       scrollList(this.refs.resultList.refs, this.state.selectedResultIndex);
-    }
-
-    const hasLoaded = selectedSource && !selectedSource.get("loading");
-    const wasLoading =
-      prevProps.selectedSource && prevProps.selectedSource.get("loading");
-
-    const doneLoading = wasLoading && hasLoaded;
-    const changedFiles =
-      selectedSource != prevProps.selectedSource && hasLoaded;
-    const modifiersUpdated =
-      modifiers && !modifiers.equals(prevProps.modifiers);
-
-    if (searchOn && (doneLoading || changedFiles || modifiersUpdated)) {
-      this.doSearch(query);
     }
   }
 
@@ -342,39 +326,58 @@ class SearchBar extends Component {
   renderSearchModifiers() {
     const { modifiers, toggleFileSearchModifier } = this.props;
 
-    function searchModBtn(modVal, className, svgName, tooltip) {
-      return dom.button(
-        {
-          className: classnames(className, {
-            active: modifiers && modifiers.get(modVal)
-          }),
-          onClick: () => toggleFileSearchModifier(modVal),
-          title: tooltip
-        },
-        Svg(svgName)
+    function SearchModBtn({ modVal, className, svgName, tooltip }) {
+      const preppedClass = classnames(className, {
+        active: modifiers && modifiers.get(modVal)
+      });
+      return (
+        <button
+          className={preppedClass}
+          onClick={() => toggleFileSearchModifier(modVal)}
+          title={tooltip}
+        >
+          <Svg name={svgName} />
+        </button>
       );
     }
 
-    return dom.div(
-      { className: "search-modifiers" },
-      searchModBtn(
-        "regexMatch",
-        "regex-match-btn",
-        "regex-match",
-        L10N.getStr("symbolSearch.searchModifier.regex")
-      ),
-      searchModBtn(
-        "caseSensitive",
-        "case-sensitive-btn",
-        "case-match",
-        L10N.getStr("symbolSearch.searchModifier.caseSensitive")
-      ),
-      searchModBtn(
-        "wholeWord",
-        "whole-word-btn",
-        "whole-word-match",
-        L10N.getStr("symbolSearch.searchModifier.wholeWord")
-      )
+    return (
+      <div className="search-modifiers">
+        <span className="search-type-name">
+          {L10N.getStr("symbolSearch.searchModifier.modifiersLabel")}
+        </span>
+        <SearchModBtn
+          modVal="regexMatch"
+          className="regex-match-btn"
+          svgName="regex-match"
+          tooltip={L10N.getStr("symbolSearch.searchModifier.regex")}
+        />
+        <SearchModBtn
+          modVal="caseSensitive"
+          className="case-sensitive-btn"
+          svgName="case-match"
+          tooltip={L10N.getStr("symbolSearch.searchModifier.caseSensitive")}
+        />
+        <SearchModBtn
+          modVal="wholeWord"
+          className="whole-word-btn"
+          svgName="whole-word-match"
+          tooltip={L10N.getStr("symbolSearch.searchModifier.wholeWord")}
+        />
+      </div>
+    );
+  }
+
+  renderSearchType() {
+    return (
+      <div className="search-type-toggles">
+        <span
+          className="search-type-name"
+          onClick={() => this.props.setActiveSearch("symbol")}
+        >
+          {L10N.getStr("symbolSearch.search.functionsPlaceholder")}
+        </span>
+      </div>
     );
   }
 
@@ -382,23 +385,27 @@ class SearchBar extends Component {
     const { searchResults: { count }, query, searchOn } = this.props;
 
     if (!searchOn) {
-      return dom.div();
+      return <div />;
     }
 
-    return dom.div(
-      { className: "search-bar" },
-      SearchInput({
-        query,
-        count,
-        placeholder: L10N.getStr("sourceSearch.search.placeholder"),
-        summaryMsg: this.buildSummaryMsg(),
-        onChange: this.onChange,
-        onKeyUp: this.onKeyUp,
-        handleNext: e => this.traverseResults(e, false),
-        handlePrev: e => this.traverseResults(e, true),
-        handleClose: this.closeSearch
-      }),
-      dom.div({ className: "search-bottom-bar" }, this.renderSearchModifiers())
+    return (
+      <div className="search-bar">
+        <SearchInput
+          query={query}
+          count={count}
+          placeholder={L10N.getStr("sourceSearch.search.placeholder")}
+          summaryMsg={this.buildSummaryMsg()}
+          onChange={this.onChange}
+          onKeyUp={this.onKeyUp}
+          handleNext={e => this.traverseResults(e, false)}
+          handlePrev={e => this.traverseResults(e, true)}
+          handleClose={this.closeSearch}
+        />
+        <div className="search-bottom-bar">
+          {this.renderSearchType()}
+          {this.renderSearchModifiers()}
+        </div>
+      </div>
     );
   }
 }
@@ -411,7 +418,7 @@ SearchBar.contextTypes = {
 export default connect(
   state => {
     return {
-      searchOn: getActiveSearchState(state) === "file",
+      searchOn: getActiveSearch(state) === "file",
       query: getFileSearchQueryState(state),
       modifiers: getFileSearchModifierState(state),
       searchResults: getSearchResults(state)

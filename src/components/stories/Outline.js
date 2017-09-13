@@ -1,14 +1,14 @@
-import React, { DOM as dom } from "react";
-import { storiesOf, action } from "@kadira/storybook";
+import React, { PropTypes } from "react";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
 
-import _Outline from "../PrimaryPanes/Outline";
-const Outline = React.createFactory(_Outline.WrappedComponent);
+import { Outline } from "../PrimaryPanes/Outline";
 import { L10N } from "devtools-launchpad";
 
 import "../App.css";
 import "../PrimaryPanes/Outline.css";
 
-import "devtools-launchpad/src/lib/themes/dark-theme.css";
+import "devtools-modules/src/themes/dark-theme.css";
 
 if (typeof window == "object") {
   window.L10N = L10N;
@@ -31,36 +31,38 @@ function makeSymbolDeclaration(name, line) {
   };
 }
 
-function OutlineFactory(options, { dir = "ltr", theme = "light" } = {}) {
+function OutlineFactory({ dir = "ltr", theme = "dark", ...props }) {
   const themeClass = `theme-${theme}`;
   document.body.parentNode.className = themeClass;
-  return dom.div(
-    {
-      className: `outline ${themeClass}`,
-      dir,
-      style: {
-        width: "300",
-        margin: "40px 40px",
+  return (
+    <div
+      className={`outline ${themeClass}`}
+      dir={dir}
+      style={{
+        width: "300px",
+        margin: "40px",
         border: "1px solid var(--theme-splitter-color)"
-      }
-    },
-    Outline(
-      Object.assign(
-        {},
-        {
-          selectSource: action("selectFrame"),
-          isHidden: false
-        },
-        options
-      )
-    )
+      }}
+    >
+      <Outline
+        selectSource={action("selectFrame")}
+        isHidden={false}
+        {...props}
+      />
+    </div>
   );
 }
+
+OutlineFactory.displayName = "OutlineFactory";
+OutlineFactory.propTypes = {
+  dir: PropTypes.string,
+  theme: PropTypes.string
+};
 
 storiesOf("Outline", module)
   .add("empty view", () => {
     const symbols = { functions: [], variables: [] };
-    return OutlineFactory({ symbols });
+    return <OutlineFactory symbols={symbols} />;
   })
   .add("simple view", () => {
     const symbols = {
@@ -70,5 +72,5 @@ storiesOf("Outline", module)
       ],
       variables: []
     };
-    return OutlineFactory({ symbols });
+    return <OutlineFactory symbols={symbols} />;
   });

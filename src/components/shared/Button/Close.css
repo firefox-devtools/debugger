@@ -3,10 +3,9 @@
 }
 
 .close-btn .close {
-  cursor: pointer;
   width: 14px;
   height: 14px;
-  transition: all 0.25s ease-in-out;
+  transition: all 0.15s ease-in-out;
   border: 1px solid transparent;
   border-radius: 2px;
   padding: 0;

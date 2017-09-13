@@ -4,11 +4,10 @@ import parseScriptTags from "parse-script-tags";
 import * as babylon from "babylon";
 import traverse from "babel-traverse";
 import isEmpty from "lodash/isEmpty";
-import { isDevelopment } from "devtools-config";
 
 import type { Source } from "debugger-html";
 
-const ASTs = new Map();
+let ASTs = new Map();
 
 function _parse(code, opts) {
   return babylon.parse(
@@ -29,10 +28,6 @@ function parse(text: ?string, opts?: Object) {
   try {
     ast = _parse(text, opts);
   } catch (error) {
-    if (isDevelopment()) {
-      console.warn("parse failed", text);
-    }
-
     ast = {};
   }
 
@@ -65,6 +60,10 @@ export function getAst(source: Source) {
 
   ASTs.set(source.id, ast);
   return ast;
+}
+
+export function clearASTs() {
+  ASTs = new Map();
 }
 
 type Visitor = { enter: Function };

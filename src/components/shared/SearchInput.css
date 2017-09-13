@@ -94,7 +94,6 @@
 }
 
 .search-field .search-nav-buttons .nav-btn:hover {
-  cursor: pointer;
   background: var(--theme-toolbar-background-hover);
 }
 

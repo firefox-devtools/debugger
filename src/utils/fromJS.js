@@ -7,7 +7,7 @@
  */
 
 import * as I from "immutable";
-import isFunction from "lodash/isFunction";
+import { isFunction } from "lodash";
 
 // hasOwnProperty is defensive because it is possible that the
 // object that we're creating a map for has a `hasOwnProperty` field
@@ -38,7 +38,9 @@ function createMap(value) {
     value.length = `${value.length}`;
   }
 
-  let map = I.Seq(value).map(fromJS).toMap();
+  let map = I.Seq(value)
+    .map(fromJS)
+    .toMap();
 
   if (hasLength) {
     map = map.set("length", length);
@@ -49,7 +51,9 @@ function createMap(value) {
 }
 
 function createList(value) {
-  return I.Seq(value).map(fromJS).toList();
+  return I.Seq(value)
+    .map(fromJS)
+    .toList();
 }
 
 /**

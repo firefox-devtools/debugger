@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ast getOutOfScopeLocations with selected line 1`] = `
+Array [
+  Object {
+    "end": Object {
+      "column": 16,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  Object {
+    "end": Object {
+      "column": 3,
+      "line": 10,
+    },
+    "start": Object {
+      "column": 22,
+      "line": 8,
+    },
+  },
+]
+`;
+
+exports[`ast getOutOfScopeLocations with selected line 2`] = `
+Array [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  10,
+  11,
+  12,
+]
+`;
+
+exports[`ast setEmptyLines scopes 1`] = `
+Array [
+  0,
+  1,
+  6,
+  11,
+  12,
+]
+`;
+
+exports[`ast setPreview member expression 1`] = `
+Object {
+  "cursorPos": undefined,
+  "expression": "this.bazz",
+  "location": Object {
+    "end": Object {
+      "column": 37,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 33,
+      "line": 1,
+    },
+  },
+  "result": Object {
+    "actor": "bazz",
+    "preview": Object {},
+  },
+  "tokenPos": Object {
+    "column": 34,
+    "line": 1,
+  },
+  "updating": false,
+}
+`;
+
+exports[`ast setPreview this 1`] = `
+Object {
+  "cursorPos": undefined,
+  "expression": "this",
+  "location": Object {
+    "end": Object {
+      "column": 32,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 28,
+      "line": 1,
+    },
+  },
+  "result": Object {
+    "actor": "this",
+    "preview": Object {},
+  },
+  "tokenPos": Object {
+    "column": 30,
+    "line": 1,
+  },
+  "updating": false,
+}
+`;
+
+exports[`ast setSymbols when the source is loaded should be able to set symbols 1`] = `
+Object {
+  "callExpressions": Array [],
+  "comments": Array [],
+  "functions": Array [
+    Object {
+      "identifier": Object {
+        "end": 13,
+        "loc": Object {
+          "end": Object {
+            "column": 13,
+            "line": 1,
+          },
+          "identifierName": "base",
+          "start": Object {
+            "column": 9,
+            "line": 1,
+          },
+        },
+        "name": "base",
+        "start": 9,
+        "type": "Identifier",
+      },
+      "location": Object {
+        "end": Object {
+          "column": 21,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 0,
+          "line": 1,
+        },
+      },
+      "name": "base",
+      "parameterNames": Array [
+        "boo",
+      ],
+    },
+  ],
+  "identifiers": Array [
+    Object {
+      "expression": "base",
+      "location": Object {
+        "end": Object {
+          "column": 13,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 9,
+          "line": 1,
+        },
+      },
+      "name": "base",
+    },
+    Object {
+      "expression": "boo",
+      "location": Object {
+        "end": Object {
+          "column": 17,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 14,
+          "line": 1,
+        },
+      },
+      "name": "boo",
+    },
+  ],
+  "memberExpressions": Array [],
+  "objectProperties": Array [],
+  "variables": Array [
+    Object {
+      "location": Object {
+        "end": Object {
+          "column": 17,
+          "line": 1,
+        },
+        "identifierName": "boo",
+        "start": Object {
+          "column": 14,
+          "line": 1,
+        },
+      },
+      "name": "boo",
+    },
+  ],
+}
+`;

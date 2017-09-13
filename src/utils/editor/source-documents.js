@@ -4,6 +4,8 @@ import { getMode } from "../source";
 
 import type { Source } from "debugger-html";
 import { isWasm, getWasmLineNumberFormatter, renderWasmText } from "../wasm";
+import { SourceEditorUtils } from "devtools-source-editor";
+const { resizeBreakpointGutter } = SourceEditorUtils;
 
 let sourceDocs = {};
 
@@ -24,18 +26,19 @@ function clearDocuments() {
 }
 
 function resetLineNumberFormat(editor: Object) {
-  let cm = editor.codeMirror;
+  const cm = editor.codeMirror;
   cm.setOption("lineNumberFormatter", number => number);
+  resizeBreakpointGutter(cm);
 }
 
 function updateLineNumberFormat(editor: Object, sourceId: string) {
   if (!isWasm(sourceId)) {
-    resetLineNumberFormat(editor);
-    return;
+    return resetLineNumberFormat(editor);
   }
-  let cm = editor.codeMirror;
-  let lineNumberFormatter = getWasmLineNumberFormatter(sourceId);
+  const cm = editor.codeMirror;
+  const lineNumberFormatter = getWasmLineNumberFormatter(sourceId);
   cm.setOption("lineNumberFormatter", lineNumberFormatter);
+  resizeBreakpointGutter(cm);
 }
 
 function updateDocument(editor: Object, sourceId: string) {

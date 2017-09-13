@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CloseButton should render a button 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    className="close-btn class"
+    onClick={[Function]}
+    title="Close button"
+>
+    <Svg
+        name="close"
+    />
+</div>,
+  "nodes": Array [
+    <div
+      className="close-btn class"
+      onClick={[Function]}
+      title="Close button"
+>
+      <Svg
+            name="close"
+      />
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 2,
+      "_context": Object {},
+      "_currentElement": <CloseButton
+        buttonClass="class"
+        handleClick={[Function]}
+        tooltip="Close button"
+/>,
+      "_debugID": 3,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": StatelessComponent {
+        "_reactInternalInstance": [Circular],
+        "context": Object {},
+        "props": Object {
+          "buttonClass": "class",
+          "handleClick": [Function],
+          "tooltip": "Close button",
+        },
+        "refs": Object {},
+        "state": null,
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 2,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": Object {
+        "_currentElement": <div
+          className="close-btn class"
+          onClick={[Function]}
+          title="Close button"
+>
+          <Svg
+                    name="close"
+          />
+</div>,
+        "_debugID": 4,
+        "_renderedOutput": <div
+          className="close-btn class"
+          onClick={[Function]}
+          title="Close button"
+>
+          <Svg
+                    name="close"
+          />
+</div>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <CloseButton
+    buttonClass="class"
+    handleClick={[Function]}
+    tooltip="Close button"
+/>,
+}
+`;

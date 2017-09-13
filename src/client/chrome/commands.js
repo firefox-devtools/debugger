@@ -65,7 +65,7 @@ function sourceContents(sourceId: string) {
 }
 
 async function setBreakpoint(location: Location, condition: string) {
-  let {
+  const {
     breakpointId,
     serverLocation
   }: setBreakpointResponseType = await debuggerAgent.setBreakpoint({

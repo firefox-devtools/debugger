@@ -16,36 +16,29 @@ type frameIdType = string | null;
  * @memberof actions/pause
  * @static
  */
-export function addExpression(input: string, { visible = true }: Object = {}) {
+export function addExpression(input: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     if (!input) {
       return;
     }
 
     const expression = getExpression(getState(), input);
-    if (expression && expression.visible) {
-      return;
-    }
-
-    // Lets make the expression visible
     if (expression) {
       return dispatch({
         type: "UPDATE_EXPRESSION",
         expression,
-        input,
-        visible: true
+        input
       });
     }
 
     dispatch({
       type: "ADD_EXPRESSION",
-      input,
-      visible
+      input
     });
 
     const selectedFrame = getSelectedFrame(getState());
     const selectedFrameId = selectedFrame ? selectedFrame.id : null;
-    dispatch(evaluateExpression({ input, visible }, selectedFrameId));
+    dispatch(evaluateExpression({ input }, selectedFrameId));
   };
 }
 
@@ -58,8 +51,7 @@ export function updateExpression(input: string, expression: Expression) {
     dispatch({
       type: "UPDATE_EXPRESSION",
       expression,
-      input: input,
-      visible: expression.visible
+      input: input
     });
 
     const selectedFrame = getSelectedFrame(getState());
@@ -97,7 +89,7 @@ export function evaluateExpressions(frameId: frameIdType) {
       const selectedFrame = getSelectedFrame(getState());
       frameId = selectedFrame ? selectedFrame.id : null;
     }
-    for (let expression of expressions) {
+    for (const expression of expressions) {
       await dispatch(evaluateExpression(expression, frameId));
     }
   };
@@ -113,7 +105,6 @@ function evaluateExpression(expression, frameId: frameIdType) {
     return dispatch({
       type: "EVALUATE_EXPRESSION",
       input: expression.input,
-      visible: expression.visible,
       [PROMISE]: client.evaluate(expression.input, { frameId })
     });
   };

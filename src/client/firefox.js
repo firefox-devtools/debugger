@@ -2,21 +2,21 @@
 
 import { setupCommands, clientCommands } from "./firefox/commands";
 import { setupEvents, clientEvents } from "./firefox/events";
-import { isEnabled } from "devtools-config";
+import { features } from "../utils/prefs";
 
-export async function onConnect(connection: any, actions: Object) {
+export async function onConnect(connection: any, actions: Object): Object {
   const {
     tabConnection: { tabTarget, threadClient, debuggerClient }
   } = connection;
 
   if (!tabTarget || !threadClient || !debuggerClient) {
-    return;
+    return { bpClients: {} };
   }
 
-  let supportsWasm =
-    isEnabled("wasm") && !!debuggerClient.mainRoot.traits.wasmBinarySource;
+  const supportsWasm =
+    features.wasm && !!debuggerClient.mainRoot.traits.wasmBinarySource;
 
-  setupCommands({
+  const { bpClients } = setupCommands({
     threadClient,
     tabTarget,
     debuggerClient,
@@ -51,6 +51,8 @@ export async function onConnect(connection: any, actions: Object) {
   if (pausedPacket) {
     clientEvents.paused("paused", pausedPacket);
   }
+
+  return { bpClients };
 }
 
 export { clientCommands, clientEvents };

@@ -6,6 +6,7 @@
 .*node_modules/config-chain.*
 .*node_modules/documentation.*
 <PROJECT_ROOT>/firefox/.*
+.*mozilla-central/.*
 .*flow-coverage-report/.*
 .*custom_format_broken.json
 

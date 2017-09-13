@@ -3,6 +3,7 @@ const {
 } = require("devtools-launchpad/index");
 const path = require("path");
 const minimist = require("minimist");
+var fs = require("fs");
 
 const feature = require("devtools-config");
 const getConfig = require("./getConfig");
@@ -11,11 +12,13 @@ const envConfig = getConfig();
 feature.setConfig(envConfig);
 
 const args = minimist(process.argv.slice(2), {
-  boolean: ["watch", "symlink"],
+  boolean: ["watch", "symlink", "assets"],
   string: ["mc"]
 });
 
 const shouldSymLink = args.symlink;
+const updateAssets = args.assets;
+const watch = args.watch;
 
 function start() {
   console.log("start: copy assets");
@@ -68,10 +71,18 @@ function start() {
   makeBundle({
     outputPath: path.join(mcPath, mcModulePath),
     projectPath,
-    watch: args.watch
-  }).then(() => {
-    console.log("done: copy assets");
-  });
+    watch,
+    updateAssets
+  })
+    .then(() => {
+      console.log("done: copy assets");
+    })
+    .catch(err => {
+      console.log(
+        "Uhoh, something went wrong. The error was written to assets-error.log"
+      );
+      fs.writeFileSync("assets-error.log", JSON.stringify(err, null, 2));
+    });
 }
 
 start();

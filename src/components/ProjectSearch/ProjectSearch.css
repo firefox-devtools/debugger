@@ -39,10 +39,9 @@
 
 .toggle-search .text {
   margin-left: 1em;
-  cursor: pointer;
+  cursor: default;
 }
 
 .toggle-search .active {
   color: var(--theme-selection-background);
-  cursor: default;
 }

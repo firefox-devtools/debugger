@@ -2,7 +2,6 @@
 .toggle-button-end {
   transform: translate(0, 2px);
   transition: transform 0.25s ease-in-out;
-  cursor: pointer;
   padding: 5px 2px;
 }
 

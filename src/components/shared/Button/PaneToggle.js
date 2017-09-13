@@ -1,6 +1,6 @@
 // @flow
 
-import { DOM as dom, Component } from "react";
+import React, { Component } from "react";
 import classnames from "classnames";
 import Svg from "../Svg";
 import "./PaneToggle.css";
@@ -29,16 +29,17 @@ class PaneToggleButton extends Component {
       ? L10N.getStr("expandPanes")
       : L10N.getStr("collapsePanes");
 
-    return dom.div(
-      {
-        className: classnames(`toggle-button-${position}`, {
+    return (
+      <div
+        className={classnames(`toggle-button-${position}`, {
           collapsed,
           vertical: horizontal != null ? !horizontal : false
-        }),
-        onClick: () => handleClick(position, collapsed),
-        title
-      },
-      Svg("togglePanes")
+        })}
+        onClick={() => handleClick(position, collapsed)}
+        title={title}
+      >
+        <Svg name="togglePanes" />
+      </div>
     );
   }
 }

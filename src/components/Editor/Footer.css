@@ -1,5 +1,5 @@
 .source-footer {
-  background: var(--theme-toolbar-background);
+  background: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
   position: absolute;
   display: flex;
@@ -25,7 +25,6 @@
 }
 
 .source-footer > .commands > .action {
-  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;

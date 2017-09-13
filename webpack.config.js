@@ -4,6 +4,7 @@ const { isDevelopment, isFirefoxPanel } = require("devtools-config");
 const { NormalModuleReplacementPlugin } = require("webpack");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
+var Visualizer = require("webpack-visualizer-plugin");
 
 /*
  * builds a path that's relative to the project path
@@ -14,13 +15,12 @@ function getEntry(filename) {
   return [path.join(projectPath, filename)];
 }
 
-let webpackConfig = {
+const webpackConfig = {
   entry: {
     debugger: getEntry("main.js"),
     "parser-worker": getEntry("utils/parser/worker.js"),
     "pretty-print-worker": getEntry("utils/pretty-print/worker.js"),
-    "search-worker": getEntry("utils/search/worker.js"),
-    "integration-tests": getEntry("test/integration/tests.js")
+    "search-worker": getEntry("utils/search/worker.js")
   },
 
   output: {
@@ -43,11 +43,15 @@ let webpackConfig = {
 };
 
 function buildConfig(envConfig) {
+  const extra = {};
   if (isDevelopment()) {
     webpackConfig.plugins = [];
   } else {
     webpackConfig.output.libraryTarget = "umd";
-    webpackConfig.plugins = [];
+    const viz = new Visualizer({
+      filename: "webpack-stats.html"
+    });
+    webpackConfig.plugins = [viz];
 
     const mappings = [
       [/\.\/mocha/, "./mochitest"],
@@ -55,6 +59,18 @@ function buildConfig(envConfig) {
       [/\.\/utils\/mocha/, "./utils/mochitest"],
       [/\.\/percy-stub/, "./percy-webpack"]
     ];
+
+    extra.excludeMap = {
+      "./src/source-editor": "devtools/client/sourceeditor/editor",
+      "./test-flag": "devtools/shared/flags",
+      react: "devtools/client/shared/vendor/react",
+      "react-dom": "devtools/client/shared/vendor/react-dom",
+      lodash: "devtools/client/shared/vendor/lodash",
+      "wasmparser/dist/WasmParser": "devtools/client/shared/vendor/WasmParser",
+      "wasmparser/dist/WasmDis": "devtools/client/shared/vendor/WasmDis",
+      "devtools-connection": "devtools/shared/flags",
+      "chrome-remote-interface": "devtools/shared/flags"
+    };
 
     mappings.forEach(([regex, res]) => {
       webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
@@ -72,7 +88,7 @@ function buildConfig(envConfig) {
     );
   }
 
-  return toolbox.toolboxConfig(webpackConfig, envConfig);
+  return toolbox.toolboxConfig(webpackConfig, envConfig, extra);
 }
 
 const envConfig = getConfig();

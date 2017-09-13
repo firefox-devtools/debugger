@@ -1,10 +1,10 @@
 // @flow
 
-import get from "lodash/get";
+import { get } from "lodash";
 import { isEnabled } from "devtools-config";
 import { endTruncateStr } from "./utils";
 import { getFilename } from "./source";
-import findIndex from "lodash/findIndex";
+import { findIndex } from "lodash";
 
 import type { Frame } from "debugger-html";
 import type { LocalFrame } from "../components/SecondaryPanes/Frames/types";
@@ -23,6 +23,10 @@ function isJQuery(frame) {
 
 function isReact(frame) {
   return getFrameUrl(frame).match(/react/i);
+}
+
+function isImmutable(frame) {
+  return getFrameUrl(frame).match(/immutable/i);
 }
 
 function isWebpack(frame) {
@@ -69,6 +73,14 @@ function isRxJs(frame) {
 
 function isAngular(frame) {
   return getFrameUrl(frame).match(/angular/i);
+}
+
+function isRedux(frame) {
+  return getFrameUrl(frame).match(/redux/i);
+}
+
+function isDojo(frame) {
+  return getFrameUrl(frame).match(/dojo/i);
 }
 
 export function getLibraryFromUrl(frame: Frame) {
@@ -129,6 +141,18 @@ export function getLibraryFromUrl(frame: Frame) {
 
   if (isAngular(frame)) {
     return "Angular";
+  }
+
+  if (isRedux(frame)) {
+    return "Redux";
+  }
+
+  if (isDojo(frame)) {
+    return "Dojo";
+  }
+
+  if (isImmutable(frame)) {
+    return "Immutable";
   }
 }
 
@@ -195,8 +219,8 @@ export function simplifyDisplayName(displayName: string) {
     annonymousProperty
   ];
 
-  for (let reg of scenarios) {
-    let match = reg.exec(displayName);
+  for (const reg of scenarios) {
+    const match = reg.exec(displayName);
     if (match) {
       return match[1];
     }

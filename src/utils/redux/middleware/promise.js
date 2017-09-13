@@ -4,9 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import defer from "../../defer";
-import toPairs from "lodash/toPairs";
-import fromPairs from "lodash/fromPairs";
+import { fromPairs, toPairs } from "lodash";
 import { executeSoon } from "../../DevToolsUtils";
 
 import type { ThunkArgs } from "../../../actions/types";
@@ -38,32 +36,32 @@ function promiseMiddleware({ dispatch, getState }: ThunkArgs) {
 
     // Return the promise so action creators can still compose if they
     // want to.
-    const deferred = defer();
-    promiseInst.then(
-      value => {
-        executeSoon(() => {
-          dispatch(
-            Object.assign({}, action, {
-              status: "done",
-              value: value
-            })
-          );
-          deferred.resolve(value);
-        });
-      },
-      error => {
-        executeSoon(() => {
-          dispatch(
-            Object.assign({}, action, {
-              status: "error",
-              error: error.message || error
-            })
-          );
-          deferred.reject(error);
-        });
-      }
-    );
-    return deferred.promise;
+    return new Promise((resolve, reject) => {
+      promiseInst.then(
+        value => {
+          executeSoon(() => {
+            dispatch(
+              Object.assign({}, action, {
+                status: "done",
+                value: value
+              })
+            );
+            resolve(value);
+          });
+        },
+        error => {
+          executeSoon(() => {
+            dispatch(
+              Object.assign({}, action, {
+                status: "error",
+                error: error.message || error
+              })
+            );
+            reject(error);
+          });
+        }
+      );
+    });
   };
 }
 

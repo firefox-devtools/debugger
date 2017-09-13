@@ -24,7 +24,7 @@ pref("devtools.debugger.auto-black-box", true);
 pref("devtools.debugger.workers", false);
 
 // The default Debugger UI settings
-pref("devtools.debugger.prefs-schema-version", "1.0.2");
+pref("devtools.debugger.prefs-schema-version", "1.0.0");
 pref("devtools.debugger.ui.panes-workers-and-sources-width", 200);
 pref("devtools.debugger.ui.panes-instruments-width", 300);
 pref("devtools.debugger.ui.panes-visible-on-startup", false);
@@ -43,3 +43,6 @@ pref("devtools.debugger.expressions", "[]");
 pref("devtools.debugger.file-search-case-sensitive", false);
 pref("devtools.debugger.file-search-whole-word", false);
 pref("devtools.debugger.file-search-regex-match", false);
+pref("devtools.debugger.features.async-stepping", true);
+pref("devtools.debugger.project-text-search-enabled", true);
+pref("devtools.debugger.features.wasm", true)

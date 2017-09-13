@@ -1,11 +1,11 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import React, { PropTypes, Component, createFactory } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
 
-import get from "lodash/get";
+import { get } from "lodash";
 import type { Frame } from "debugger-html";
 import type { SourcesMap } from "../../../reducers/sources";
 
@@ -120,37 +120,38 @@ class Frames extends Component {
     const framesOrGroups = this.truncateFrames(this.collapseFrames(frames));
     type FrameOrGroup = LocalFrame | LocalFrame[];
 
-    return dom.ul(
-      {},
-      framesOrGroups.map(
-        (frameOrGroup: FrameOrGroup) =>
-          frameOrGroup.id
-            ? FrameComponent({
-                frame: frameOrGroup,
-                toggleFrameworkGrouping: this.toggleFrameworkGrouping,
-                copyStackTrace: this.copyStackTrace,
-                frameworkGroupingOn,
-                selectFrame,
-                selectedFrame,
-                toggleBlackBox,
-                key: frameOrGroup.id
-              })
-            : Group({
-                group: frameOrGroup,
-                toggleFrameworkGrouping: this.toggleFrameworkGrouping,
-                copyStackTrace: this.copyStackTrace,
-                frameworkGroupingOn,
-                selectFrame,
-                selectedFrame,
-                toggleBlackBox,
-                key: frameOrGroup[0].id
-              })
-      )
+    return (
+      <ul>
+        {framesOrGroups.map(
+          (frameOrGroup: FrameOrGroup) =>
+            frameOrGroup.id
+              ? FrameComponent({
+                  frame: frameOrGroup,
+                  toggleFrameworkGrouping: this.toggleFrameworkGrouping,
+                  copyStackTrace: this.copyStackTrace,
+                  frameworkGroupingOn,
+                  selectFrame,
+                  selectedFrame,
+                  toggleBlackBox,
+                  key: frameOrGroup.id
+                })
+              : Group({
+                  group: frameOrGroup,
+                  toggleFrameworkGrouping: this.toggleFrameworkGrouping,
+                  copyStackTrace: this.copyStackTrace,
+                  frameworkGroupingOn,
+                  selectFrame,
+                  selectedFrame,
+                  toggleBlackBox,
+                  key: frameOrGroup[0].id
+                })
+        )}
+      </ul>
     );
   }
 
   renderToggleButton(frames: LocalFrame[]) {
-    let buttonMessage = this.state.showAllFrames
+    const buttonMessage = this.state.showAllFrames
       ? L10N.getStr("callStack.collapse")
       : L10N.getStr("callStack.expand");
 
@@ -159,9 +160,10 @@ class Frames extends Component {
       return null;
     }
 
-    return dom.div(
-      { className: "show-more", onClick: this.toggleFramesDisplay },
-      buttonMessage
+    return (
+      <div className="show-more" onClick={this.toggleFramesDisplay}>
+        {buttonMessage}
+      </div>
     );
   }
 
@@ -169,20 +171,21 @@ class Frames extends Component {
     const { frames, pause } = this.props;
 
     if (!frames) {
-      return dom.div(
-        { className: "pane frames" },
-        dom.div(
-          { className: "pane-info empty" },
-          L10N.getStr("callStack.notPaused")
-        )
+      return (
+        <div className="pane frames">
+          <div className="pane-info empty">
+            {L10N.getStr("callStack.notPaused")}
+          </div>
+        </div>
       );
     }
 
-    return dom.div(
-      { className: "pane frames" },
-      this.renderFrames(frames),
-      renderWhyPaused({ pause }),
-      this.renderToggleButton(frames)
+    return (
+      <div className="pane frames">
+        {this.renderFrames(frames)}
+        {renderWhyPaused({ pause })}
+        {this.renderToggleButton(frames)}
+      </div>
     );
   }
 }

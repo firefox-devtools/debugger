@@ -64,9 +64,11 @@ export default class CallSite extends Component {
 
     if (nextProps.breakpoint !== breakpoint) {
       if (this.marker) {
-        this.marker.clear();
+        this.clearCallSite();
       }
-      this.addCallSite(nextProps);
+      if (nextProps.showCallSite) {
+        this.addCallSite(nextProps);
+      }
     }
 
     if (nextProps.showCallSite !== showCallSite) {

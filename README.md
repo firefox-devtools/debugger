@@ -6,7 +6,7 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 [Mozilla] created this debugger for use in the [Firefox] Developer Tools.  And we've purposely created this project in GitHub, using modern toolchains.  We hope to not only to create a great debugger that works with the [Firefox][firefox-rdp] and [Chrome][chrome-rdp] debugging protocols but develop a broader community that wants to create great tools for the web.
 
-[![debugger-screenshot]][debugger-screenshot]
+![debugger-screenshot]
 
 ## Table of Contents
 * [Quick Setup](#quick-setup)
@@ -77,7 +77,7 @@ Our [Weekly updates][weekly-updates] are also posted!
 Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
 
 * **Community Call**: Every Tuesday at 3pm EST and Thursday at 12pm EST. [Join the Hangout][community-call]
-* **DevTools Call**: Every Tuesday at 12pm EST. [Join the DevTools Vidyo][devtools-call]
+* **DevTools Call**: Every Tuesday at 12pm EST. [Join the DevTools Vidyo][vidyo] Meeting Notes [Google Docs][google-docs]
 * **Pairing**: Ask in [slack] and you'll either find someone or be able to schedule a time for later.
 
 ### License
@@ -94,7 +94,7 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [slack-badge]: https://devtools-html-slack.herokuapp.com/badge.svg
 [slack]: https://devtools-html-slack.herokuapp.com/
 
-[debugger-screenshot]: https://cloud.githubusercontent.com/assets/2134/22579643/a184f3ce-e986-11e6-82e2-b896077aec4a.png
+[debugger-screenshot]: https://shipusercontent.com/47aaaa7a6512691f964101bfb0832abe/Screen%20Shot%202017-08-15%20at%202.34.05%20PM.png
 
 [ci-status]: https://circleci.com/gh/devtools-html/debugger.html.svg??&style=shield
 [npm-version]: https://img.shields.io/npm/v/debugger.html.svg
@@ -115,6 +115,7 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [irc-devtools-html]: irc://irc.mozilla.org/devtools-html
 [community-call]: https://hangouts.google.com/hangouts/_/calendar/amFzb24ubGFzdGVyLjExQGdtYWlsLmNvbQ.30mdpa6ncqn8uttvmrj9b9d3jc
 [devtools-call]: https://wiki.mozilla.org/DevTools
+[vidyo]:https://v.mozilla.com/flex.html?roomdirect.html&key=n9vJUD3L1vRMHKQC5OCNRT3UBjw
 [changelog]: https://changelog.com/podcast/247
 [docs]: https://devtools-html.github.io/debugger.html/docs/
 [weekly-updates]: https://devtools-html.github.io/debugger.html/docs/updates
@@ -128,3 +129,4 @@ Say hello in [slack] or in the [#devtools-html][irc-devtools-html] channel on ir
 [Logging]: ./docs/local-development.md#logging
 [Testing]: ./docs/local-development.md#testing
 [Linting]: ./docs/local-development.md#linting
+[google-docs]:https://docs.google.com/document/d/1pUx9xq6L7bonSrDpyUNTQkQxTxAsULLu4kkHZLMEq6w/edit

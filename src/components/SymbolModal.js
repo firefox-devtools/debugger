@@ -1,11 +1,11 @@
 // @flow
 
-import { DOM as dom, createFactory, Component, PropTypes } from "react";
+import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { filter } from "fuzzaldrin-plus";
 import {
-  getActiveSearchState,
+  getActiveSearch,
   getSymbolSearchType,
   getSelectedSource,
   getSymbols
@@ -14,17 +14,14 @@ import actions from "../actions";
 
 import { scrollList } from "../utils/result-list";
 
-import _Modal from "./shared/Modal";
-const Modal = createFactory(_Modal);
+import Modal from "./shared/Modal";
 
-import _SearchInput from "./shared/SearchInput";
-const SearchInput = createFactory(_SearchInput);
+import SearchInput from "./shared/SearchInput";
 
-import _ResultList from "./shared/ResultList";
-const ResultList = createFactory(_ResultList);
+import ResultList from "./shared/ResultList";
 
 import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
-import type { SymbolDeclaration } from "../utils/parser/getSymbols";
+import type { SymbolDeclaration } from "../utils/parser/types";
 
 import type { Location as BabelLocation } from "babel-traverse";
 import type { SourceRecord } from "../reducers/sources";
@@ -93,18 +90,9 @@ class SymbolModal extends Component {
     self.buildSummaryMsg = this.buildSummaryMsg.bind(this);
     self.buildPlaceHolder = this.buildPlaceHolder.bind(this);
     self.selectResultItem = this.selectResultItem.bind(this);
-    self.openSymbolModal = this.openSymbolModal.bind(this);
-  }
-
-  componentWillUnmount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.off(L10N.getStr("symbolSearch.search.key2"));
   }
 
   componentDidMount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.on(L10N.getStr("symbolSearch.search.key2"), this.openSymbolModal);
-
     this.updateResults(this.state.query);
   }
 
@@ -113,19 +101,9 @@ class SymbolModal extends Component {
       scrollList(this.refs.resultList.refs, this.state.resultsIndex);
     }
 
-    if (this.refs.searchInput && this.refs.searchInput.refs.input) {
-      this.refs.searchInput.refs.input.focus();
-    }
-
     if (!prevProps.enabled && this.props.enabled) {
       this.updateResults(this.state.query);
     }
-  }
-
-  openSymbolModal(_, e: SyntheticEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.setActiveSearch("symbol");
   }
 
   onClick(e: SyntheticEvent) {
@@ -145,7 +123,6 @@ class SymbolModal extends Component {
   closeModal() {
     this.props.closeActiveSearch();
     this.props.clearHighlightLineRange();
-    this.setState({ query: "" });
   }
 
   selectResultItem(e: SyntheticEvent, item: ?FormattedSymbolDeclaration) {
@@ -166,7 +143,6 @@ class SymbolModal extends Component {
     const { symbolType, symbols } = this.props;
 
     let symbolSearchResults = symbols[symbolType];
-
     if (query == "") {
       this.setState({ results: symbolSearchResults });
       return;
@@ -244,30 +220,35 @@ class SymbolModal extends Component {
       return null;
     }
 
-    return ResultList({
-      key: "results",
-      items: results,
-      selected: resultsIndex,
-      selectItem: this.selectResultItem,
-      ref: "resultList"
-    });
+    return (
+      <ResultList
+        key="results"
+        items={results}
+        selected={resultsIndex}
+        selectItem={this.selectResultItem}
+        ref="resultList"
+      />
+    );
   }
 
   renderInput() {
     const { query } = this.state;
 
-    return SearchInput({
-      query,
-      count: this.resultsCount(),
-      placeholder: this.buildPlaceHolder(),
-      summaryMsg: this.buildSummaryMsg(),
-      onChange: this.onChange,
-      onKeyUp: this.onKeyUp,
-      handleNext: () => this.traverseResults(1),
-      handlePrev: () => this.traverseResults(-1),
-      handleClose: this.closeModal,
-      ref: "searchInput"
-    });
+    return (
+      <div key="input" className="input-wrapper">
+        <SearchInput
+          query={query}
+          count={this.resultsCount()}
+          placeholder={this.buildPlaceHolder()}
+          summaryMsg={this.buildSummaryMsg()}
+          onChange={this.onChange}
+          onKeyUp={this.onKeyUp}
+          handleNext={() => this.traverseResults(1)}
+          handlePrev={() => this.traverseResults(-1)}
+          handleClose={this.closeModal}
+        />
+      </div>
+    );
   }
 
   buildSummaryMsg() {
@@ -292,19 +273,17 @@ class SymbolModal extends Component {
 
   render() {
     const { enabled } = this.props;
-    return Modal({
-      enabled,
-      shortcut: "symbolSearch.search.key2",
-      handleOpen: this.openSymbolModal,
-      handleClose: this.closeModal,
-      children: [
-        dom.div(
-          { key: "input", className: "input-wrapper" },
-          this.renderInput()
-        ),
-        this.renderResults()
-      ]
-    });
+
+    if (!enabled) {
+      return null;
+    }
+
+    return (
+      <Modal in={enabled} handleClose={this.closeModal}>
+        {this.renderInput()}
+        {this.renderResults()}
+      </Modal>
+    );
   }
 }
 
@@ -330,7 +309,7 @@ export default connect(
   state => {
     const source = getSelectedSource(state);
     return {
-      enabled: getActiveSearchState(state) === "symbol",
+      enabled: Boolean(getActiveSearch(state) === "symbol" && source),
       symbolType: getSymbolSearchType(state),
       symbols: _getFormattedSymbols(state, source)
     };

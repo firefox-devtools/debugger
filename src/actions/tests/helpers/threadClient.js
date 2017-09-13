@@ -102,6 +102,13 @@ export const sourceThreadClient = {
             contentType: "text/javascript"
           });
           break;
+        case "base.js":
+          resolve({
+            source: "function base() {\n  return 3;\n}",
+            contentType: "text/javascript"
+          });
+          break;
+
         case "bazz.js":
           resolve({
             source: "function bar() {\n  return 3;\n}",

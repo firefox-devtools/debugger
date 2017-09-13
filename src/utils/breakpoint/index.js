@@ -3,6 +3,7 @@
 import { isEnabled } from "devtools-config";
 import { getBreakpoint } from "../../selectors";
 import assert from "../assert";
+export { getASTLocation, findScopeByName } from "./astBreakpointLocation";
 
 import type {
   Location,
@@ -11,12 +12,12 @@ import type {
   PendingBreakpoint
 } from "debugger-html";
 
-import type { SourceRecord, State } from "../../reducers/types";
+import type { State } from "../../reducers/types";
 
 // Return the first argument that is a string, or null if nothing is a
 // string.
 export function firstString(...args: string[]) {
-  for (let arg of args) {
+  for (const arg of args) {
     if (typeof arg === "string") {
       return arg;
     }
@@ -102,10 +103,19 @@ export function breakpointExists(state: State, location: Location) {
 }
 
 export function createBreakpoint(location: Location, overrides: Object = {}) {
-  const { condition, disabled, generatedLocation } = overrides;
+  const {
+    condition,
+    disabled,
+    hidden,
+    generatedLocation,
+    astLocation
+  } = overrides;
+
   const properties = {
     condition: condition || null,
     disabled: disabled || false,
+    hidden: hidden || false,
+    astLocation: astLocation || { offset: location },
     generatedLocation: generatedLocation || location,
     location
   };
@@ -115,7 +125,7 @@ export function createBreakpoint(location: Location, overrides: Object = {}) {
 
 function createPendingLocation(location: PendingLocation) {
   const { sourceUrl, line, column } = location;
-  return { sourceUrl: sourceUrl, line, column };
+  return { sourceUrl, line, column };
 }
 
 export function createPendingBreakpoint(bp: Breakpoint) {
@@ -123,24 +133,12 @@ export function createPendingBreakpoint(bp: Breakpoint) {
   const pendingGeneratedLocation = createPendingLocation(bp.generatedLocation);
 
   assertPendingLocation(pendingLocation);
-  assertPendingLocation(pendingLocation);
 
   return {
     condition: bp.condition,
     disabled: bp.disabled,
     location: pendingLocation,
+    astLocation: bp.astLocation,
     generatedLocation: pendingGeneratedLocation
   };
-}
-
-export async function getGeneratedLocation(
-  source: SourceRecord,
-  sourceMaps: Object,
-  location: Location
-) {
-  if (!sourceMaps.isOriginalId(location.sourceId)) {
-    return location;
-  }
-
-  return await sourceMaps.getGeneratedLocation(location, source.toJS());
 }

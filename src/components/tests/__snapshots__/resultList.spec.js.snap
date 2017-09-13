@@ -1,0 +1,264 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Result list should render the component 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <ul
+    className="result-list small"
+>
+    <li
+        className="result-item"
+        onClick={[Function]}
+        title="value"
+    >
+        <div
+            className="title"
+        >
+            title
+        </div>
+        <div
+            className="subtitle"
+        >
+            subtitle
+        </div>
+    </li>
+    <li
+        className="result-item selected"
+        onClick={[Function]}
+        title="value 1"
+    >
+        <div
+            className="title"
+        >
+            title 1
+        </div>
+        <div
+            className="subtitle"
+        >
+            subtitle 1
+        </div>
+    </li>
+</ul>,
+  "nodes": Array [
+    <ul
+      className="result-list small"
+>
+      <li
+            className="result-item"
+            onClick={[Function]}
+            title="value"
+      >
+            <div
+                  className="title"
+            >
+                  title
+            </div>
+            <div
+                  className="subtitle"
+            >
+                  subtitle
+            </div>
+      </li>
+      <li
+            className="result-item selected"
+            onClick={[Function]}
+            title="value 1"
+      >
+            <div
+                  className="title"
+            >
+                  title 1
+            </div>
+            <div
+                  className="subtitle"
+            >
+                  subtitle 1
+            </div>
+      </li>
+</ul>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 0,
+      "_context": Object {},
+      "_currentElement": <ResultList
+        items={
+                Array [
+                        Object {
+                          "id": 0,
+                          "subtitle": "subtitle",
+                          "title": "title",
+                          "value": "value",
+                        },
+                        Object {
+                          "id": 1,
+                          "subtitle": "subtitle 1",
+                          "title": "title 1",
+                          "value": "value 1",
+                        },
+                      ]
+        }
+        selectItem={[Function]}
+        selected={1}
+        size="small"
+/>,
+      "_debugID": 3,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": ResultList {
+        "_reactInternalInstance": [Circular],
+        "context": Object {},
+        "props": Object {
+          "items": Array [
+            Object {
+              "id": 0,
+              "subtitle": "subtitle",
+              "title": "title",
+              "value": "value",
+            },
+            Object {
+              "id": 1,
+              "subtitle": "subtitle 1",
+              "title": "title 1",
+              "value": "value 1",
+            },
+          ],
+          "selectItem": [Function],
+          "selected": 1,
+          "size": "small",
+        },
+        "refs": Object {},
+        "renderListItem": [Function],
+        "state": null,
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 2,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": Object {
+        "_currentElement": <ul
+          className="result-list small"
+>
+          <li
+                    className="result-item"
+                    onClick={[Function]}
+                    title="value"
+          >
+                    <div
+                              className="title"
+                    >
+                              title
+                    </div>
+                    <div
+                              className="subtitle"
+                    >
+                              subtitle
+                    </div>
+          </li>
+          <li
+                    className="result-item selected"
+                    onClick={[Function]}
+                    title="value 1"
+          >
+                    <div
+                              className="title"
+                    >
+                              title 1
+                    </div>
+                    <div
+                              className="subtitle"
+                    >
+                              subtitle 1
+                    </div>
+          </li>
+</ul>,
+        "_debugID": 4,
+        "_renderedOutput": <ul
+          className="result-list small"
+>
+          <li
+                    className="result-item"
+                    onClick={[Function]}
+                    title="value"
+          >
+                    <div
+                              className="title"
+                    >
+                              title
+                    </div>
+                    <div
+                              className="subtitle"
+                    >
+                              subtitle
+                    </div>
+          </li>
+          <li
+                    className="result-item selected"
+                    onClick={[Function]}
+                    title="value 1"
+          >
+                    <div
+                              className="title"
+                    >
+                              title 1
+                    </div>
+                    <div
+                              className="subtitle"
+                    >
+                              subtitle 1
+                    </div>
+          </li>
+</ul>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <ResultList
+    items={
+        Array [
+            Object {
+              "id": 0,
+              "subtitle": "subtitle",
+              "title": "title",
+              "value": "value",
+            },
+            Object {
+              "id": 1,
+              "subtitle": "subtitle 1",
+              "title": "title 1",
+              "value": "value 1",
+            },
+          ]
+    }
+    selectItem={[Function]}
+    selected={1}
+    size="small"
+/>,
+}
+`;

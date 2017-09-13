@@ -31,7 +31,6 @@
 
 .result-list li:hover {
   background: var(--theme-tab-toolbar-background);
-  cursor: pointer;
 }
 
 .result-list li.selected {
@@ -43,7 +42,7 @@
   color: white;
 }
 
-.theme-dark  .result-list.small li.selected {
+.theme-dark .result-list.small li.selected {
   background-color: var(--theme-body-background);
 }
 

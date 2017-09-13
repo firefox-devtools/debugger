@@ -1,0 +1,235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Breakpoints Component should render breakpoints with columns 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div>
+    Array [
+        <Breakpoint
+          breakpoint={
+                Object {
+                      "location": Object {
+                        "column": 2,
+                        "sourceId": "server1.conn1.child1/source1",
+                      },
+                    }
+          }
+          editor={
+                Object {
+                      "codeMirror": Object {
+                        "setGutterMarker": [Function],
+                      },
+                    }
+          }
+          selectedSource={
+                Object {
+                      "get": [Function],
+                      "sourceId": "server1.conn1.child1/source1",
+                    }
+          }
+    />,
+      ]
+</div>,
+  "nodes": Array [
+    <div>
+      Array [
+            <Breakpoint
+              breakpoint={
+                      Object {
+                              "location": Object {
+                                "column": 2,
+                                "sourceId": "server1.conn1.child1/source1",
+                              },
+                            }
+              }
+              editor={
+                      Object {
+                              "codeMirror": Object {
+                                "setGutterMarker": [Function],
+                              },
+                            }
+              }
+              selectedSource={
+                      Object {
+                              "get": [Function],
+                              "sourceId": "server1.conn1.child1/source1",
+                            }
+              }
+      />,
+          ]
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 0,
+      "_context": Object {},
+      "_currentElement": <Breakpoints
+        breakpoints={
+                Immutable.Map {
+                        id1: Object {
+                                "location": Object {
+                                  "column": 2,
+                                  "sourceId": "server1.conn1.child1/source1",
+                                },
+                              },
+                }
+        }
+        editor={
+                Object {
+                        "codeMirror": Object {
+                          "setGutterMarker": [Function],
+                        },
+                      }
+        }
+        selectedSource={
+                Object {
+                        "get": [Function],
+                        "sourceId": "server1.conn1.child1/source1",
+                      }
+        }
+/>,
+      "_debugID": 3,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": Breakpoints {
+        "_reactInternalInstance": [Circular],
+        "context": Object {},
+        "props": Object {
+          "breakpoints": Immutable.Map {
+            id1: Object {
+                        "location": Object {
+                          "column": 2,
+                          "sourceId": "server1.conn1.child1/source1",
+                        },
+                      },
+},
+          "editor": Object {
+            "codeMirror": Object {
+              "setGutterMarker": [Function],
+            },
+          },
+          "selectedSource": Object {
+            "get": [Function],
+            "sourceId": "server1.conn1.child1/source1",
+          },
+        },
+        "refs": Object {},
+        "state": null,
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 5,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": Object {
+        "_currentElement": <div>
+          Array [
+                    <Breakpoint
+                      breakpoint={
+                                  Object {
+                                              "location": Object {
+                                                "column": 2,
+                                                "sourceId": "server1.conn1.child1/source1",
+                                              },
+                                            }
+                      }
+                      editor={
+                                  Object {
+                                              "codeMirror": Object {
+                                                "setGutterMarker": [Function],
+                                              },
+                                            }
+                      }
+                      selectedSource={
+                                  Object {
+                                              "get": [Function],
+                                              "sourceId": "server1.conn1.child1/source1",
+                                            }
+                      }
+          />,
+                  ]
+</div>,
+        "_debugID": 4,
+        "_renderedOutput": <div>
+          Array [
+                    <Breakpoint
+                      breakpoint={
+                                  Object {
+                                              "location": Object {
+                                                "column": 2,
+                                                "sourceId": "server1.conn1.child1/source1",
+                                              },
+                                            }
+                      }
+                      editor={
+                                  Object {
+                                              "codeMirror": Object {
+                                                "setGutterMarker": [Function],
+                                              },
+                                            }
+                      }
+                      selectedSource={
+                                  Object {
+                                              "get": [Function],
+                                              "sourceId": "server1.conn1.child1/source1",
+                                            }
+                      }
+          />,
+                  ]
+</div>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <Breakpoints
+    breakpoints={
+        Immutable.Map {
+            id1: Object {
+                "location": Object {
+                  "column": 2,
+                  "sourceId": "server1.conn1.child1/source1",
+                },
+              },
+        }
+    }
+    editor={
+        Object {
+            "codeMirror": Object {
+              "setGutterMarker": [Function],
+            },
+          }
+    }
+    selectedSource={
+        Object {
+            "get": [Function],
+            "sourceId": "server1.conn1.child1/source1",
+          }
+    }
+/>,
+}
+`;

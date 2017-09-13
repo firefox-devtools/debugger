@@ -1,14 +1,14 @@
-import { DOM as dom, PropTypes, createFactory, Component } from "react";
+import React, { PropTypes, Component } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
-import _BracketArrow from "./BracketArrow";
-const BracketArrow = createFactory(_BracketArrow);
+import BracketArrow from "./BracketArrow";
 
 import "./Popover.css";
 
 class Popover extends Component {
   constructor() {
     super();
+    this.onMouseLeave = this.onMouseLeave.bind(this);
     this.state = {
       left: 0,
       top: 0
@@ -84,7 +84,7 @@ class Popover extends Component {
   getChildren() {
     const { children } = this.props;
     const { orientation } = this.state;
-    const gap = dom.div({ className: "gap", key: "gap" });
+    const gap = <div className="gap" key="gap" />;
     return orientation === "up" ? [children, gap] : [gap, children];
   }
 
@@ -94,27 +94,39 @@ class Popover extends Component {
     const arrowProp = arrowOrientation === "up" ? "top" : "bottom";
     const arrowPropValue = arrowOrientation === "up" ? -7 : 5;
 
-    return BracketArrow({
+    const arrowProps = {
       orientation: arrowOrientation,
       left,
       [arrowProp]: arrowPropValue
-    });
+    };
+
+    return <BracketArrow {...arrowProps} />;
+  }
+
+  onMouseLeave(e) {
+    const { onMouseLeave } = this.props;
+
+    if (e.target.className.match(/(bracket-arrow|gap)/)) {
+      return;
+    }
+
+    onMouseLeave();
   }
 
   renderPopover() {
-    const { onMouseLeave } = this.props;
     const { top, left, orientation, targetMid } = this.state;
 
     const arrow = this.getPopoverArrow(orientation, targetMid);
 
-    return dom.div(
-      {
-        className: classNames("popover", { up: orientation === "up" }),
-        onMouseLeave,
-        style: { top, left }
-      },
-      arrow,
-      this.getChildren()
+    return (
+      <div
+        className={classNames("popover", { up: orientation === "up" })}
+        onMouseLeave={this.onMouseLeave}
+        style={{ top, left }}
+      >
+        {arrow}
+        {this.getChildren()}
+      </div>
     );
   }
 
@@ -122,13 +134,14 @@ class Popover extends Component {
     const { onMouseLeave } = this.props;
     const { top, left } = this.state;
 
-    return dom.div(
-      {
-        className: "tooltip",
-        onMouseLeave,
-        style: { top, left }
-      },
-      this.getChildren()
+    return (
+      <div
+        className="tooltip"
+        onMouseLeave={onMouseLeave}
+        style={{ top, left }}
+      >
+        {this.getChildren()}
+      </div>
     );
   }
 

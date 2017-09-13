@@ -1,10 +1,14 @@
 // @flow
 
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
-import { getSelectedSource, getPaneCollapse } from "../selectors";
+import {
+  getSelectedSource,
+  getPaneCollapse,
+  getActiveSearch
+} from "../selectors";
 import type { SourceRecord } from "../reducers/sources";
 import { isVisible } from "../utils/ui";
 
@@ -18,35 +22,30 @@ import "./App.css";
 import "./shared/menu.css";
 import "./shared/reps.css";
 
-import _SplitBox from "devtools-splitter";
-const SplitBox = createFactory(_SplitBox);
+import SplitBox from "devtools-splitter";
 
-import _ProjectSearch from "./ProjectSearch";
-const ProjectSearch = createFactory(_ProjectSearch);
+import ProjectSearch from "./ProjectSearch";
 
-import _PrimaryPanes from "./PrimaryPanes";
-const PrimaryPanes = createFactory(_PrimaryPanes);
+import PrimaryPanes from "./PrimaryPanes";
 
-import _Editor from "./Editor";
-const Editor = createFactory(_Editor);
+import Editor from "./Editor";
 
-import _SecondaryPanes from "./SecondaryPanes";
-const SecondaryPanes = createFactory(_SecondaryPanes);
+import SecondaryPanes from "./SecondaryPanes";
 
-import _WelcomeBox from "./WelcomeBox";
-const WelcomeBox = createFactory(_WelcomeBox);
+import WelcomeBox from "./WelcomeBox";
 
-import _EditorTabs from "./Editor/Tabs";
-const EditorTabs = createFactory(_EditorTabs);
+import EditorTabs from "./Editor/Tabs";
 
-import _SymbolModal from "./SymbolModal";
-const SymbolModal = createFactory(_SymbolModal);
+import SymbolModal from "./SymbolModal";
 
 type Props = {
   selectSource: Function,
   selectedSource: SourceRecord,
   startPanelCollapsed: boolean,
-  endPanelCollapsed: boolean
+  closeActiveSearch: () => void,
+  endPanelCollapsed: boolean,
+  activeSearch: string,
+  setActiveSearch: string => void
 };
 
 class App extends Component {
@@ -61,6 +60,8 @@ class App extends Component {
   getChildContext: Function;
   renderEditorPane: Function;
   renderVerticalLayout: Function;
+  toggleSymbolModal: Function;
+  onEscape: Function;
 
   constructor(props) {
     super(props);
@@ -72,8 +73,10 @@ class App extends Component {
 
     this.getChildContext = this.getChildContext.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
+    this.toggleSymbolModal = this.toggleSymbolModal.bind(this);
     this.renderEditorPane = this.renderEditorPane.bind(this);
     this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
+    this.onEscape = this.onEscape.bind(this);
   }
 
   getChildContext() {
@@ -82,10 +85,51 @@ class App extends Component {
 
   componentDidMount() {
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
+    shortcuts.on(
+      L10N.getStr("symbolSearch.search.key2"),
+      this.toggleSymbolModal
+    );
+    shortcuts.on("Escape", this.onEscape);
   }
 
   componentWillUnmount() {
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
+    shortcuts.off(
+      L10N.getStr("symbolSearch.search.key2"),
+      this.toggleSymbolModal
+    );
+    shortcuts.off("Escape", this.onEscape);
+  }
+
+  onEscape(_, e) {
+    const { activeSearch, closeActiveSearch } = this.props;
+
+    if (activeSearch) {
+      e.preventDefault();
+      closeActiveSearch();
+    }
+  }
+
+  toggleSymbolModal(_, e: SyntheticEvent) {
+    const {
+      selectedSource,
+      activeSearch,
+      closeActiveSearch,
+      setActiveSearch
+    } = this.props;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!selectedSource) {
+      return;
+    }
+
+    if (activeSearch == "symbol") {
+      return closeActiveSearch();
+    }
+
+    setActiveSearch("symbol");
   }
 
   onLayoutChange() {
@@ -97,21 +141,28 @@ class App extends Component {
   renderEditorPane() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal, endPanelSize, startPanelSize } = this.state;
-    return dom.div(
-      { className: "editor-pane" },
-      dom.div(
-        { className: "editor-container" },
-        EditorTabs({
-          startPanelCollapsed,
-          endPanelCollapsed,
-          horizontal,
-          endPanelSize,
-          startPanelSize
-        }),
-        Editor({ horizontal, startPanelSize, endPanelSize }),
-        !this.props.selectedSource ? WelcomeBox({ horizontal }) : null,
-        ProjectSearch()
-      )
+
+    return (
+      <div className="editor-pane">
+        <div className="editor-container">
+          <EditorTabs
+            startPanelCollapsed={startPanelCollapsed}
+            endPanelCollapsed={endPanelCollapsed}
+            horizontal={horizontal}
+            startPanelSize={startPanelSize}
+            endPanelSize={endPanelSize}
+          />
+          <Editor
+            horizontal={horizontal}
+            startPanelSize={startPanelSize}
+            endPanelSize={endPanelSize}
+          />
+          {!this.props.selectedSource ? (
+            <WelcomeBox horizontal={horizontal} />
+          ) : null}
+          <ProjectSearch />
+        </div>
+      </div>
     );
   }
 
@@ -121,66 +172,90 @@ class App extends Component {
 
     const overflowX = endPanelCollapsed ? "hidden" : "auto";
 
-    return SplitBox({
-      style: { width: "100vw" },
-      initialSize: "250px",
-      minSize: 10,
-      maxSize: "50%",
-      splitterSize: 1,
-      onResizeEnd: size => this.setState({ startPanelSize: size }),
-      startPanel: PrimaryPanes({ horizontal }),
-      startPanelCollapsed,
-      endPanel: SplitBox({
-        style: { overflowX },
-        initialSize: "300px",
-        minSize: 10,
-        maxSize: "80%",
-        splitterSize: 1,
-        onResizeEnd: size => this.setState({ endPanelSize: size }),
-        endPanelControl: true,
-        startPanel: this.renderEditorPane(),
-        endPanel: SecondaryPanes({ horizontal }),
-        endPanelCollapsed,
-        vert: horizontal
-      })
-    });
+    return (
+      <SplitBox
+        style={{ width: "100vw" }}
+        initialSize="250px"
+        minSize={10}
+        maxSize="50%"
+        splitterSize={1}
+        onResizeEnd={size => this.setState({ startPanelSize: size })}
+        startPanel={<PrimaryPanes horizontal={horizontal} />}
+        startPanelCollapsed={startPanelCollapsed}
+        endPanel={
+          <SplitBox
+            style={{ overflowX }}
+            initialSize="300px"
+            minSize={10}
+            maxSize="80%"
+            splitterSize={1}
+            onResizeEnd={size => this.setState({ endPanelSize: size })}
+            endPanelControl={true}
+            startPanel={this.renderEditorPane()}
+            endPanel={<SecondaryPanes horizontal={horizontal} />}
+            endPanelCollapsed={endPanelCollapsed}
+            vert={horizontal}
+          />
+        }
+      />
+    );
   }
 
   renderVerticalLayout() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
 
-    return SplitBox({
-      style: { width: "100vw" },
-      initialSize: "300px",
-      minSize: 30,
-      maxSize: "99%",
-      splitterSize: 1,
-      vert: horizontal,
-      startPanel: SplitBox({
-        style: { width: "100vw" },
-        initialSize: "250px",
-        minSize: 10,
-        maxSize: "40%",
-        splitterSize: 1,
-        startPanelCollapsed,
-        startPanel: PrimaryPanes({ horizontal }),
-        endPanel: this.renderEditorPane()
-      }),
-      endPanel: SecondaryPanes({ horizontal }),
-      endPanelCollapsed
-    });
+    return (
+      <SplitBox
+        style={{ width: "100vw" }}
+        initialSize="300px"
+        minSize={30}
+        maxSize="99%"
+        splitterSize={1}
+        vert={horizontal}
+        startPanel={
+          <SplitBox
+            style={{ width: "100vw" }}
+            initialSize="250px"
+            minSize={10}
+            maxSize="40%"
+            splitterSize={1}
+            startPanelCollapsed={startPanelCollapsed}
+            startPanel={<PrimaryPanes horizontal={horizontal} />}
+            endPanel={this.renderEditorPane()}
+          />
+        }
+        endPanel={<SecondaryPanes horizontal={horizontal} />}
+        endPanelCollapsed={endPanelCollapsed}
+      />
+    );
+  }
+
+  renderSymbolModal() {
+    const { selectSource, selectedSource, activeSearch } = this.props;
+
+    if (activeSearch !== "symbol") {
+      return;
+    }
+
+    return (
+      <SymbolModal
+        selectSource={selectSource}
+        selectedSource={selectedSource}
+      />
+    );
   }
 
   render() {
-    const { selectSource, selectedSource } = this.props;
-
-    return dom.div(
-      { className: "debugger" },
-      this.state.horizontal
-        ? this.renderHorizontalLayout()
-        : this.renderVerticalLayout(),
-      SymbolModal({ selectSource, selectedSource })
+    return (
+      <div className="debugger">
+        {this.state.horizontal ? (
+          this.renderHorizontalLayout()
+        ) : (
+          this.renderVerticalLayout()
+        )}
+        {this.renderSymbolModal()}
+      </div>
     );
   }
 }
@@ -193,7 +268,8 @@ export default connect(
   state => ({
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
-    endPanelCollapsed: getPaneCollapse(state, "end")
+    endPanelCollapsed: getPaneCollapse(state, "end"),
+    activeSearch: getActiveSearch(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

@@ -44,6 +44,12 @@ declare module "debugger-html" {
     sourceUrl?: string
   };
 
+  declare type ASTLocation = {
+    name: ?string,
+    column: ?number,
+    line: number
+  };
+
   /**
  * Breakpoint
  *
@@ -53,11 +59,13 @@ declare module "debugger-html" {
   declare type Breakpoint = {
     id: BreakpointId,
     location: Location,
+    astLocation: ?ASTLocation,
+    generatedLocation: Location,
     loading: boolean,
     disabled: boolean,
+    hidden: boolean,
     text: string,
-    condition: ?string,
-    generatedLocation: Location
+    condition: ?string
   };
 
   /**
@@ -79,11 +87,12 @@ declare module "debugger-html" {
  */
   declare type PendingBreakpoint = {
     location: PendingLocation,
+    astLocaton: ASTLocation,
+    generatedLocation: PendingLocation,
     loading: boolean,
     disabled: boolean,
     text: string,
-    condition: ?string,
-    generatedLocation: PendingLocation
+    condition: ?string
   };
 
   /**
@@ -209,7 +218,7 @@ declare module "debugger-html" {
     text?: string,
     contentType?: string,
     error?: string,
-    loading?: boolean
+    loadedState: "unloaded" | "loading" | "loaded"
   };
 
   /**

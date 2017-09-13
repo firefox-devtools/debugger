@@ -16,6 +16,7 @@ import { prefs } from "../utils/prefs";
 
 import type { Map, List } from "immutable";
 import type { Source, Location } from "../types";
+import type { SelectedLocation, PendingSelectedLocation } from "./types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -26,16 +27,8 @@ type TabList = List<Tab>;
 
 export type SourcesState = {
   sources: SourcesMap,
-  selectedLocation?: {
-    sourceId: string,
-    line?: number,
-    column?: number
-  },
-  pendingSelectedLocation?: {
-    url: string,
-    line?: number,
-    column?: number
-  },
+  selectedLocation?: SelectedLocation,
+  pendingSelectedLocation?: PendingSelectedLocation,
   selectedLocation?: Location,
   tabs: TabList
 };
@@ -159,15 +152,15 @@ function getTextPropsFromAction(action: any) {
   const { value } = action;
 
   if (action.status === "start") {
-    return { id: source.id, loading: true };
+    return { id: source.id, loadedState: "loading" };
   } else if (action.status === "error") {
-    return { id: source.id, error: action.error, loading: false };
+    return { id: source.id, error: action.error, loadedState: "loaded" };
   }
   return {
     text: value.text,
     id: source.id,
     contentType: value.contentType,
-    loading: false
+    loadedState: "loaded"
   };
 }
 
@@ -197,7 +190,7 @@ export function removeSourcesFromTabList(tabs: any, urls: Array<string>) {
 }
 
 function restoreTabs() {
-  let prefsTabs = prefs.tabs || [];
+  const prefsTabs = prefs.tabs || [];
   if (prefsTabs.length == 0) {
     return;
   }

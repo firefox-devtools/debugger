@@ -11,12 +11,29 @@
     "searchURL": "resource://devtools/client/debugger/new/search-worker.js"
   },
   "features": {
-    "blackbox": { "enabled": true },
-    "chromeScopes": { "enabled": false },
-    "eventListeners": { "enabled": false },
-    "codeCoverage": { "enabled": false },
-    "codeFolding": { "enabled": false },
-    "searchNav": { "enabled": true },
-    "collapseFrame": { "enabled": true }
+    "blackbox": {
+      "enabled": true
+    },
+    "chromeScopes": {
+      "enabled": false
+    },
+    "eventListeners": {
+      "enabled": false
+    },
+    "codeCoverage": {
+      "enabled": false
+    },
+    "codeFolding": {
+      "enabled": false
+    },
+    "searchNav": {
+      "enabled": true
+    },
+    "collapseFrame": {
+      "enabled": true
+    },
+    "outline": {
+      "enabled": true
+    }
   }
 }

@@ -1,5 +1,5 @@
 // @flow
-import { DOM as dom } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 
 import CloseButton from "../shared/Button/Close";
@@ -14,7 +14,7 @@ function renderConditionalPanel({
   closePanel: Function,
   setBreakpoint: Function
 }) {
-  let panel = document.createElement("div");
+  const panel = document.createElement("div");
   let input = null;
 
   function setInput(node) {
@@ -38,21 +38,20 @@ function renderConditionalPanel({
   }
 
   ReactDOM.render(
-    dom.div(
-      { className: "conditional-breakpoint-panel" },
-      dom.div({ className: "prompt" }, "»"),
-      dom.input({
-        defaultValue: condition,
-        placeholder: L10N.getStr("editor.conditionalPanel.placeholder"),
-        onKeyDown: onKey,
-        ref: setInput
-      }),
-      CloseButton({
-        handleClick: closePanel,
-        buttonClass: "big",
-        tooltip: L10N.getStr("editor.conditionalPanel.close")
-      })
-    ),
+    <div className="conditional-breakpoint-panel">
+      <div className="prompt">»</div>
+      <input
+        defaultValue={condition}
+        placeholder={L10N.getStr("editor.conditionalPanel.placeholder")}
+        onKeyDown={onKey}
+        ref={setInput}
+      />
+      <CloseButton
+        handleClick={closePanel}
+        buttonClass="big"
+        tooltip={L10N.getStr("editor.conditionalPanel.close")}
+      />
+    </div>,
     panel
   );
 

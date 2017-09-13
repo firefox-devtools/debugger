@@ -221,9 +221,9 @@ The debugger.html project is targeted to land in Firefox for Firefox 52.  Howeve
 debugger.html is an Open Source [Mozilla][mozilla] [Firefox][mozilla-firefox] Developer Tools project.
 Our goal is to work with the community to build a universal JS debugger for modern times.
 
-| | |
-| ---------- | ------ |
-| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][clarkbw] <br/> [@clarkbw][@clarkbw] |
+| | | | |
+| ---------- | ------ | ------ | ------ |
+| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][digitarald] <br/> [@digitarald][@digitarald] | ![][codehag] <br/> [@codehag][@codehag]  | ![][violasong] <br/> [@violasong][@violasong] |
 
 ### Team Members
 
@@ -231,9 +231,9 @@ debugger.html community team members help shepherd the community.
 They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
-| | | | |
-| ---------- | ------ | ----- | ---- |
-| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] |
+| | | | | |
+| ---------- | ------ | ----- | ---- | ---- |
+| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][darkwing] <br />[@darkwing][@darkwing] |
 
 ### Joining Mozilla
 
@@ -254,15 +254,22 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [@jasonlaster]:https://github.com/jasonlaster
 [@bomsy]:https://github.com/bomsy
 [@wldcordeiro]:https://github.com/wldcordeiro
-[@clarkbw]:https://github.com/clarkbw
+[@digitarald]:https://github.com/digitarald
 [@jbhoosreddy]:https://github.com/jbhoosreddy
 [@irfanhudda]:https://github.com/irfanhudda
+[@codehag]:https://github.com/codehag
+[@violasong]:https://github.com/violasong
+[@darkwing]:https://github.com/darkwing
+
 [jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
 [bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
 [wldcordeiro]:https://avatars.githubusercontent.com/wldcordeiro?size=56
-[clarkbw]:https://avatars.githubusercontent.com/clarkbw?size=56
+[digitarald]:https://avatars.githubusercontent.com/digitarald?size=56
 [jbhoosreddy]:https://avatars.githubusercontent.com/jbhoosreddy?size=56
 [irfanhudda]:https://avatars.githubusercontent.com/irfanhudda?size=56
+[codehag]:https://avatars.githubusercontent.com/codehag?size=56
+[violasong]:https://avatars.githubusercontent.com/violasong?size=56
+[darkwing]:https://avatars.githubusercontent.com/darkwing?size=56
 
 [mozilla]:https://www.mozilla.org/
 [mozilla-firefox]:https://www.mozilla.org/firefox/

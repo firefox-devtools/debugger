@@ -2,7 +2,7 @@
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { DOM as dom, PropTypes, Component, createFactory } from "react";
+import React, { PropTypes, Component } from "react";
 import classnames from "classnames";
 import ImPropTypes from "react-immutable-proptypes";
 import { Set } from "immutable";
@@ -17,13 +17,13 @@ import {
   createParentMap,
   isDirectory,
   addToTree,
+  sortEntireTree,
   collapseTree,
   createTree,
   getDirectories
-} from "../../utils/sources-tree.js";
+} from "../../utils/sources-tree";
 
-import _ManagedTree from "../shared/ManagedTree";
-const ManagedTree = createFactory(_ManagedTree);
+import ManagedTree from "../shared/ManagedTree";
 
 import actions from "../../actions";
 import Svg from "../shared/Svg";
@@ -83,9 +83,9 @@ class SourcesTree extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.debuggeeUrl != nextProps.debuggeeUrl) {
+    if (this.props.debuggeeUrl !== nextProps.debuggeeUrl) {
       // Recreate tree because the sort order changed
-      this.setState(createTree(this.props.sources, nextProps.debuggeeUrl));
+      this.setState(createTree(nextProps.sources, nextProps.debuggeeUrl));
       return;
     }
     const { selectedSource } = this.props;
@@ -134,16 +134,19 @@ class SourcesTree extends Component {
     const newSet = next.subtract(prev);
 
     const uncollapsedTree = this.state.uncollapsedTree;
-    for (let source of newSet) {
-      addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
-    }
 
     // TODO: recreating the tree every time messes with the expanded
     // state of ManagedTree, because it depends on item instances
     // being the same. The result is that if a source is added at a
     // later time, all expanded state is lost.
-    const sourceTree =
-      newSet.size > 0 ? collapseTree(uncollapsedTree) : this.state.sourceTree;
+    let sourceTree = this.state.sourceTree;
+    if (newSet.size > 0) {
+      for (const source of newSet) {
+        addToTree(uncollapsedTree, source, this.props.debuggeeUrl);
+      }
+      const unsortedTree = collapseTree(uncollapsedTree);
+      sourceTree = sortEntireTree(unsortedTree, nextProps.debuggeeUrl);
+    }
 
     this.setState({
       uncollapsedTree,
@@ -164,14 +167,14 @@ class SourcesTree extends Component {
 
   getIcon(item, depth) {
     if (depth === 0) {
-      return Svg("domain");
+      return <Svg name="domain" />;
     }
 
     if (!nodeHasChildren(item)) {
-      return Svg("file");
+      return <Svg name="file" />;
     }
 
-    return Svg("folder");
+    return <Svg name="folder" />;
   }
 
   onContextMenu(event, item) {
@@ -200,16 +203,19 @@ class SourcesTree extends Component {
   }
 
   renderItem(item, depth, focused, _, expanded, { setExpanded }) {
-    const arrow = Svg("arrow", {
-      className: classnames({
-        expanded: expanded,
-        hidden: !nodeHasChildren(item)
-      }),
-      onClick: e => {
-        e.stopPropagation();
-        setExpanded(item, !expanded);
-      }
-    });
+    const arrow = (
+      <Svg
+        name="arrow"
+        className={classnames({
+          expanded: expanded,
+          hidden: !nodeHasChildren(item)
+        })}
+        onClick={e => {
+          e.stopPropagation();
+          setExpanded(item, !expanded);
+        }}
+      />
+    );
 
     const icon = this.getIcon(item, depth);
     let paddingDir = "paddingRight";
@@ -220,18 +226,23 @@ class SourcesTree extends Component {
           : "paddingRight";
     }
 
-    return dom.div(
-      {
-        className: classnames("node", { focused }),
-        style: { [paddingDir]: `${depth * 15}px` },
-        key: item.path,
-        onClick: () => {
+    return (
+      <div
+        className={classnames("node", { focused })}
+        style={{ [paddingDir]: `${depth * 15}px` }}
+        key={item.path}
+        onClick={() => {
           this.selectItem(item);
           setExpanded(item, !expanded);
-        },
-        onContextMenu: e => this.onContextMenu(e, item)
-      },
-      dom.div(null, arrow, icon, item.name)
+        }}
+        onContextMenu={e => this.onContextMenu(e, item)}
+      >
+        <div>
+          {arrow}
+          {icon}
+          {item.name}
+        </div>
+      </div>
     );
   }
 
@@ -247,19 +258,12 @@ class SourcesTree extends Component {
 
     const isEmpty = sourceTree.contents.length === 0;
 
-    const tree = ManagedTree({
+    const treeProps = {
       key: isEmpty ? "empty" : "full",
-      getParent: item => {
-        return parentMap.get(item);
-      },
-      getChildren: item => {
-        if (nodeHasChildren(item)) {
-          return item.contents;
-        }
-        return [];
-      },
+      getParent: item => parentMap.get(item),
+      getChildren: item => (nodeHasChildren(item) ? item.contents : []),
       getRoots: () => sourceTree.contents,
-      getKey: (item, i) => item.path,
+      getPath: item => `${item.path}/${item.name}`,
       itemHeight: 21,
       autoExpandDepth: 1,
       autoExpandAll: false,
@@ -267,28 +271,31 @@ class SourcesTree extends Component {
       listItems,
       highlightItems,
       renderItem: this.renderItem
-    });
+    };
 
-    const noSourcesMessage = dom.div(
-      {
-        className: "no-sources-message"
-      },
-      L10N.getStr("sources.noSourcesAvailable")
-    );
+    const tree = <ManagedTree {...treeProps} />;
 
     if (isEmpty) {
-      return noSourcesMessage;
+      return (
+        <div className="no-sources-message">
+          {L10N.getStr("sources.noSourcesAvailable")}
+        </div>
+      );
     }
-    return dom.div(
-      {
-        className: classnames("sources-list", { hidden: isHidden }),
-        onKeyDown: e => {
-          if (e.keyCode === 13 && focusedItem) {
-            this.selectItem(focusedItem);
-          }
-        }
-      },
-      tree
+
+    const onKeyDown = e => {
+      if (e.keyCode === 13 && focusedItem) {
+        this.selectItem(focusedItem);
+      }
+    };
+
+    return (
+      <div
+        className={classnames("sources-list", { hidden: isHidden })}
+        onKeyDown={onKeyDown}
+      >
+        {tree}
+      </div>
     );
   }
 }

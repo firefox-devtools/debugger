@@ -1,22 +1,22 @@
 // @flow
 
-import { DOM as dom, Component } from "react";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
-import { isEnabled } from "devtools-config";
 import "./Outline.css";
-import previewFunction from "../shared/previewFunction";
+import PreviewFunction from "../shared/PreviewFunction";
 
 import type {
   SymbolDeclarations,
   SymbolDeclaration
 } from "../../utils/parser/getSymbols";
+import type { AstLocation } from "../../utils/parser/types";
 import type { SourceRecord } from "../../reducers/sources";
 
-class Outline extends Component {
+export class Outline extends Component {
   state: any;
 
   props: {
@@ -26,12 +26,7 @@ class Outline extends Component {
     selectedSource: ?SourceRecord
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  selectItem(location) {
+  selectItem(location: AstLocation) {
     const { selectedSource, selectSource } = this.props;
     if (!selectedSource) {
       return;
@@ -41,36 +36,51 @@ class Outline extends Component {
     selectSource(selectedSourceId, { line: startLine });
   }
 
-  renderFunction(func: SymbolDeclaration) {
-    const { name, location } = func;
-
-    return dom.li(
-      {
-        key: `${name}:${location.start.line}:${location.start.column}`,
-        className: "outline-list__element",
-        onClick: () => this.selectItem(location)
-      },
-      previewFunction({ name })
+  renderPlaceholder() {
+    return (
+      <div className="outline-pane-info">
+        {L10N.getStr("outline.noFunctions")}
+      </div>
     );
   }
 
-  renderFunctions() {
-    const { symbols } = this.props;
+  renderFunction(func: SymbolDeclaration) {
+    const { name, location, parameterNames } = func;
 
-    return symbols.functions
-      .filter(func => func.name != "anonymous")
-      .map(func => this.renderFunction(func));
+    return (
+      <li
+        key={`${name}:${location.start.line}:${location.start.column}`}
+        className="outline-list__element"
+        onClick={() => this.selectItem(location)}
+      >
+        <PreviewFunction func={{ name, parameterNames }} />
+      </li>
+    );
+  }
+
+  renderFunctions(symbols: Array<SymbolDeclaration>) {
+    return (
+      <ul className="outline-list">
+        {symbols.map(func => this.renderFunction(func))}
+      </ul>
+    );
   }
 
   render() {
-    const { isHidden } = this.props;
-    if (!isEnabled("outline")) {
-      return null;
-    }
+    const { isHidden, symbols } = this.props;
 
-    return dom.div(
-      { className: classnames("outline", { hidden: isHidden }) },
-      dom.ul({ className: "outline-list" }, this.renderFunctions())
+    const symbolsToDisplay = symbols.functions.filter(
+      func => func.name != "anonymous"
+    );
+
+    return (
+      <div className={classnames("outline", { hidden: isHidden })}>
+        {symbolsToDisplay.length > 0 ? (
+          this.renderFunctions(symbolsToDisplay)
+        ) : (
+          this.renderPlaceholder()
+        )}
+      </div>
     );
   }
 }

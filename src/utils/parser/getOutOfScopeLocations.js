@@ -5,7 +5,7 @@ import type { AstLocation, AstPosition } from "./types";
 
 import get from "lodash/fp/get";
 
-import { containsLocation, containsPosition } from "./utils/helpers";
+import { containsLocation, containsPosition } from "./utils/contains";
 
 import getSymbols from "./getSymbols";
 

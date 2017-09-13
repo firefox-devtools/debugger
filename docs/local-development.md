@@ -1,4 +1,4 @@
-## Development Guide
+## Development Guide␊
 
 * [Themes](#themes)
 * [Internationalization](#internationalization)
@@ -11,7 +11,6 @@
 * [Logging](#logging)
 * [Testing](#testing)
   * [Unit Tests](#unit-tests)
-  * [Integration Tests](#integration-tests)
 * [Linting](#linting)
   * [Lint JS](#lint-js)
   * [Lint CSS](#lint-css)
@@ -21,7 +20,6 @@
   * [Adding a Task](#adding-a-task)
 * [Hot Reloading](#hot-reloading-fire)
 * [Contributing to other packages](#contributing-to-other-packages)
-* [FAQ](#faq)
 * [Errors](#errors)
 * [Getting Help](#getting-help)
 
@@ -53,7 +51,7 @@ The Debugger supports two types of internationalization RTL (right to left) layo
 
 #### L10N
 
-[L10N][l10n] is a global module with two methods `getStr` and `getFormatStr`.
+[L10N][l10n] is a global module with two methods `getStr` and `getFormatStr`. The [docs][l10n-docs] include best practices for naming keys, localization notes, and other useful topics.
 
 ```js
 L10N.getStr("scopes.header")
@@ -231,6 +229,23 @@ Notes:
 - `click` on click callback
 - `hidden` dynamically hide items
 
+#### Access Keys
+
+Access Keys are keyboard shortcuts for an item in the context menu and are only used when the context menu is open. They are an accessibility feature. Access keys take precedence over all other keyboard shortcuts when the context menu is open except for CodeMirror shortcuts.
+Access Keys are defined in the properties file next to the menu item's string. You can use any key that is not already added, but try to use your own discretion about which key makes the most sense
+
+
+```
+# LOCALIZATION NOTE (copySourceUrl): This is the text that appears in the
+# context menu to copy the source URL of file open.
+copySourceUrl=Copy Source Url
+
+# LOCALIZATION NOTE (copySourceUrl.accesskey): Access key to copy the source URL of a file from
+# the context menu.
+copySourceUrl.accesskey=u
+```
+
+
 #### Context Menu Groups
 
 You can use a menu item separator to create menu groups.
@@ -269,6 +284,105 @@ function onClick(event) {
   - [Required property](./flow.md#required-property)
   - [Missing Annotation](./flow.md#missing-annotation)
   - [Type Inconsistencies](./flow.md#type-inconsistencies)
+
+### Reducers
+
+Our reducers are where we store the debugger state. We try to follow Redux best
+practices, but have added our own flavor as well with the help of Flow and Immutable
+
+#### Flow
+
+We type our stores so that we can document the shape of the data and guarantee
+the data coming in and out is well formed.
+
+Lets look at the expressions reducer and see how it is typed
+
+```js
+type ExpressionState = {
+  expressions: List<Expression>
+};
+
+export const State = makeRecord(
+  ({
+    expressions: List()
+  }: ExpressionState)
+);
+
+function update(
+  state: Record<ExpressionState> = State(),
+  action: Action
+): Record<ExpressionState> {
+  // ...
+}
+
+type OuterState = { expressions: Record<ExpressionState> };
+
+export function getExpressions(state: OuterState, input: string) {
+  return getExpressions(state).find(exp => exp.input == input);
+}
+```
+
+The `ExpressionState` documents the reducers fields. We use it in three places:
+
+1. `State` - an Immutable expression state record
+2. `update` - the reducer function which receives the expression state record
+3. `OuterState` - a local type representing the application state passed into selectors
+
+#### Immutable
+
+We try to wrap our state in Immutable records when we can for two reasons.
+First it means that the state can only be modified in the reducers.
+Second, it helps our connected components avoid unecessary renders.
+
+Connect will trigger a re-render when it sees new state, even if it has not changed.
+Immutable, will creates new objects if and only if the data changes,
+which means our components only render when it's approriate.
+
+The one situation where we do not use immutable is when it is too slow to do so.
+We avoid wrapping our pause state in immutable, because it takes too long to serialize the data.
+
+Lets take a look at the Expressions reducer to see how we use Immutable.
+
+```js
+type ExpressionState = {
+  expressions: List<Expression>
+};
+
+export const State = makeRecord(
+  ({
+    expressions: List()
+  }: ExpressionState)
+);
+
+function update(
+  state: Record<ExpressionState> = State(),
+  action: Action
+): Record<ExpressionState> {
+  case "DELETE_EXPRESSION":
+    return deleteExpression(state, action.input);
+  // ...
+}
+
+type OuterState = { expressions: Record<ExpressionState> };
+
+function deleteExpression(state: State, input: string) {
+  const index = getExpressions({ expressions: state }).findKey(
+    e => e.input == input
+  );
+  return state.deleteIn(["expressions", index]);
+}
+```
+
+The first thing to notice is that the expression is an Immutable list.
+We document that here `List<Expression>` and here `expressions: List()`.
+
+The second thing to note is that we use the Immutable api to update the state.
+We do that in `deleteExpression` here `state.deleteIn`. There [docs][immutable-docs] are really helpful.
+
+The third item is Immutable Records. Records are a special type of Immutable Map, that act like named structs.
+We use them when defining our reducer states, but they can be used more broadly as well.
+We define the `State` record above with `makeRecord`, which wraps Immutable Record so that we can
+tell Flow that we're creating an Expression State record.
 
 ### Logging
 
@@ -367,16 +481,41 @@ it("should render a button", () => {
 });
 ```
 
-#### Integration Tests
+#### Fixing Intermittents
 
-The Debugger integration tests are run in two contexts: [firefox][mochitest] and the [web][mocha].
-We recommend running the tests in the browser as it's an easier development environment.
+When CI is showing a jest intermittent, it's usually possible to reproduce it locally.
 
-+ [Overview](./integration-tests.md#overview)
-+ [Running the Tests](./integration-tests.md#running-the-tests)
-+ [Gotchas](./integration-tests.md#gotchas)
-+ [Writing Tests](./integration-tests.md#writing-tests)
-+ [Adding a New Test](./integration-tests.md#adding-a-new-test)
+The `intermittents` script will run tests several times until you find the failing suite.
+
+```bash
+node bin/intermittents # run all of the tests 10 times
+node bin/intermittents --path src/actions
+node bin/intermittents --path src/actions/tests/pending-breakpoints --runs 50
+node bin/intermittents --group # will run the tests in groups
+``
+
+![](https://shipusercontent.com/8967081056f24707b3e67b1aaa79e6be/Screen%20Shot%202017-08-24%20at%2012.20.15%20AM.png)
+
+When you find a file that has an intermittent, it sometimes helps to focus on a single test
+with the `jest --watch` test filter command.
+
+When you have a test that is flakey, you can look at the code and try and find the problem.
+90% of the time it will be an asynchronous call we don\'t wait for. Here is a recent fix.
+Notice that `sourceMaps.generatedToOriginalId` was asynchronous, but we didn't wait for it.
+
+```diff
+diff --git a/src/actions/sources/createPrettySource.js b/src/actions/sources/createPrettySource.js
+index a3b2ba6..cd5a8e7 100644
+--- a/src/actions/sources/createPrettySource.js
++++ b/src/actions/sources/createPrettySource.js
+@@ -7,7 +7,7 @@ export function createPrettySource(sourceId) {
+   return async ({ dispatch, getState, sourceMaps }) => {
+     const source = getSource(getState(), sourceId).toJS();
+     const url = getPrettySourceURL(source.url);
+-    const id = sourceMaps.generatedToOriginalId(sourceId, url);
++    const id = await sourceMaps.generatedToOriginalId(sourceId, url);
+```
+
 
 ### Linting
 
@@ -608,16 +747,6 @@ There are three ways to test a change to a 3rd party package.
 2. create a local version with **npm pack** and [yarn add](https://yarnpkg.com/lang/en/docs/cli/add/#toc-adding-dependencies)
 3. change the file directly in the debugger's `node_modules` directory.
 
-### FAQ
-
-#### Why not JSX
-
-The reason is largely historical. Devtools historically has been developed inside the browser [1](https://dxr.mozilla.org/mozilla-central/source/devtools/client/debugger/debugger-view.js). The advantage of this approach is devtools could be written with ES6 and modules without a build step.
-
-When we started the Debugger, we were not sure if we would keep webpack and the website workflow and did not want to re-write the JSX to raw JS.
-
-Now that we *have* decided that working in github with webpack has a lot of benefits we could switch to JSX. We are open to switching if someone could help us do it, join the [discussion here](https://github.com/devtools-html/debugger.html/issues/1747).
-
 ### Errors
 
 #### Pulling
@@ -714,3 +843,6 @@ your questions on [slack][slack].
 [shimmed-context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/menu.js
 [context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-modules/client/framework/menu.js
 [web-workers]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
+[l10n-docs]: https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_content_best_practices#Choose_good_key_IDs
+
+[immutable-docs]: https://facebook.github.io/immutable-js/docs/#/

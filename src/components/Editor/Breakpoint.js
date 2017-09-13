@@ -1,5 +1,5 @@
 // @flow
-import { Component } from "react";
+import React, { Component } from "react";
 import { isEnabled } from "devtools-config";
 import ReactDOM from "react-dom";
 
@@ -9,7 +9,7 @@ import Svg from "../shared/Svg";
 import { getDocument, showSourceText, toEditorLine } from "../../utils/editor";
 
 const breakpointSvg = document.createElement("div");
-ReactDOM.render(Svg("breakpoint"), breakpointSvg);
+ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
 
 function makeMarker(isDisabled: boolean) {
   const bp = breakpointSvg.cloneNode(true);
@@ -38,6 +38,11 @@ class Breakpoint extends Component {
 
   addBreakpoint() {
     const { breakpoint, editor, selectedSource } = this.props;
+
+    // Hidden Breakpoints are never rendered on the client
+    if (breakpoint.hidden) {
+      return;
+    }
 
     // NOTE: we need to wait for the breakpoint to be loaded
     // to get the generated location
@@ -69,6 +74,7 @@ class Breakpoint extends Component {
     return (
       editor !== nextProps.editor ||
       breakpoint.disabled !== nextProps.breakpoint.disabled ||
+      breakpoint.hidden !== nextProps.breakpoint.hidden ||
       breakpoint.condition !== nextProps.breakpoint.condition ||
       breakpoint.loading !== nextProps.breakpoint.loading ||
       selectedSource !== nextProps.selectedSource

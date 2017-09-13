@@ -1,7 +1,9 @@
 // Maybe reuse file search's functions?
+import { isLoaded } from "../source";
+
 export function findSourceMatches(source, queryText) {
-  const { text, loading } = source;
-  if (loading || !text || queryText == "") {
+  const { text } = source;
+  if (!isLoaded(source) || !text || queryText == "") {
     return [];
   }
 

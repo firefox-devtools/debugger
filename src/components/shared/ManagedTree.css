@@ -17,18 +17,11 @@
 .managed-tree .tree .node {
   padding: 2px 3px 2px 3px;
   position: relative;
-  cursor: pointer;
 }
 
 .managed-tree .tree .node.focused {
   color: white;
   background-color: var(--theme-selection-background);
-  padding-bottom: 2px;
-}
-
-.theme-dark .managed-tree .tree .node.focused {
-  background-color: var(--theme-selection-background-semitransparent);
-  padding-bottom: 2px;
 }
 
 html:not([dir="rtl"]) .managed-tree .tree .node > div {

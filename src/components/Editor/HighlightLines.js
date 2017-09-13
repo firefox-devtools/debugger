@@ -1,7 +1,7 @@
 // @flow
 import { Component } from "react";
-import range from "lodash/range";
-import isEmpty from "lodash/isEmpty";
+import { range } from "lodash";
+import { isEmpty } from "lodash";
 
 class HighlightLines extends Component {
   highlightLineRange: Function;

@@ -23,20 +23,22 @@ function assertEditorBreakpoint(dbg, line) {
   ok(exists, `Breakpoint exists on line ${line}`);
 }
 
-add_task(function*() {
-  requestLongerTimeout(2);
+add_task(async function() {
+  requestLongerTimeout(3);
 
-  const dbg = yield initDebugger("doc-scripts.html");
+  const dbg = await initDebugger("doc-scripts.html");
   const { selectors: { getBreakpoints, getBreakpoint }, getState } = dbg;
   const source = findSource(dbg, "simple1.js");
 
-  yield selectSource(dbg, source.url);
-  yield addBreakpoint(dbg, 5);
-  yield addBreakpoint(dbg, 2);
+  await selectSource(dbg, source.url);
+  await addBreakpoint(dbg, 5);
+  await addBreakpoint(dbg, 4);
 
-  yield reload(dbg, "simple1");
-  yield waitForSelectedSource(dbg);
-  yield waitForDispatch(dbg, "SYNC_BREAKPOINT", 2);
+  const syncedBps = waitForDispatch(dbg, "SYNC_BREAKPOINT", 2);
+  await reload(dbg, "simple1");
+  await waitForSelectedSource(dbg);
+  await syncedBps;
+
   assertEditorBreakpoint(dbg, 4);
   assertEditorBreakpoint(dbg, 5);
 });

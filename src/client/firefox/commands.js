@@ -3,7 +3,6 @@
 import type {
   BreakpointId,
   BreakpointResult,
-  Breakpoint,
   Frame,
   FrameId,
   Location,
@@ -38,12 +37,14 @@ type Dependencies = {
   supportsWasm: boolean
 };
 
-function setupCommands(dependencies: Dependencies): void {
+function setupCommands(dependencies: Dependencies): { bpClients: BPClients } {
   threadClient = dependencies.threadClient;
   tabTarget = dependencies.tabTarget;
   debuggerClient = dependencies.debuggerClient;
   supportsWasm = dependencies.supportsWasm;
   bpClients = {};
+
+  return { bpClients };
 }
 
 function resume(): Promise<*> {
@@ -125,9 +126,9 @@ function setBreakpoint(
     });
 }
 
-function removeBreakpoint(breakpoint: Breakpoint) {
+function removeBreakpoint(generatedLocation: Location) {
   try {
-    const id = makeLocationId(breakpoint.generatedLocation);
+    const id = makeLocationId(generatedLocation);
     const bpClient = bpClients[id];
     if (!bpClient) {
       console.warn("No breakpoint to delete on server");
@@ -146,7 +147,7 @@ function setBreakpointCondition(
   condition: boolean,
   noSliding: boolean
 ) {
-  let bpClient = bpClients[breakpointId];
+  const bpClient = bpClients[breakpointId];
   delete bpClients[breakpointId];
 
   return bpClient

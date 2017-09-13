@@ -49,7 +49,7 @@
     },
     "outline": {
       "label": "Source Outline",
-      "enabled": false
+      "enabled": true
     },
     "collapseFrame": {
       "label": "Collapse Call Frames",
@@ -59,17 +59,13 @@
       "label": "Column Breakpoints",
       "enabled": false
     },
-    "projectTextSearch": {
-      "label": "Project Text Search",
-      "enabled": false
-    },
     "highlightScopeLines": {
       "label": "Highlight the lines in scope",
       "enabled": false
     },
-    "wasm": {
-      "label": "Wasm",
-      "enabled": true
+    "workers": {
+      "label": "Workers",
+      "enabled": false
     }
   },
   "chrome": {

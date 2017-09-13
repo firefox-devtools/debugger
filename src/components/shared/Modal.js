@@ -1,20 +1,18 @@
 // @flow
 
-import { DOM as dom, Component, PropTypes } from "react";
+import React, { PropTypes, Component } from "react";
 import type { Children } from "react";
 import classnames from "classnames";
-
+import Transition from "react-transition-group/Transition";
 import "./Modal.css";
 
 type ModalProps = {
-  enabled: boolean,
-  shortcut: string,
+  status: string,
   children?: Children,
-  handleOpen: (_: any, e: SyntheticEvent) => any,
   handleClose: () => any
 };
 
-export default class Modal extends Component {
+export class Modal extends Component {
   props: ModalProps;
 
   constructor(props: ModalProps) {
@@ -23,33 +21,19 @@ export default class Modal extends Component {
     self.onClick = this.onClick.bind(this);
   }
 
-  componentWillUnmount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.off("Escape");
-    shortcuts.off(L10N.getStr(this.props.shortcut));
-  }
-
-  componentDidMount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.on("Escape", this.props.handleClose);
-    shortcuts.on(L10N.getStr(this.props.shortcut), this.props.handleOpen);
-  }
-
   onClick(e: SyntheticEvent) {
     e.stopPropagation();
   }
 
   render() {
-    const { enabled } = this.props;
-    return dom.div(
-      {
-        className: classnames("modal-wrapper", { enabled }),
-        onClick: this.props.handleClose
-      },
-      dom.div(
-        { className: classnames("modal", { enabled }), onClick: this.onClick },
-        this.props.children
-      )
+    const { status } = this.props;
+
+    return (
+      <div className="modal-wrapper" onClick={this.props.handleClose}>
+        <div className={classnames("modal", status)} onClick={this.onClick}>
+          {this.props.children}
+        </div>
+      </div>
     );
   }
 }
@@ -58,3 +42,27 @@ Modal.displayName = "Modal";
 Modal.contextTypes = {
   shortcuts: PropTypes.object
 };
+
+type SlideProps = {
+  in: boolean,
+  children?: Children,
+  handleClose: () => any
+};
+
+export default function Slide({
+  in: inProp,
+  children,
+  handleClose
+}: SlideProps) {
+  return (
+    <Transition in={inProp} timeout={175} appear>
+      {status => (
+        <Modal status={status} handleClose={handleClose}>
+          {children}
+        </Modal>
+      )}
+    </Transition>
+  );
+}
+
+Slide.displayName = "Slide";

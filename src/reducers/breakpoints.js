@@ -17,11 +17,12 @@ import { makeLocationId } from "../utils/breakpoint";
 import type { Breakpoint, Location } from "../types";
 import type { Action } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
+import { createSelector } from "reselect";
 
-export type BreakpointMap = I.Map<string, Breakpoint>;
+export type BreakpointsMap = I.Map<string, Breakpoint>;
 
 export type BreakpointsState = {
-  breakpoints: BreakpointMap
+  breakpoints: BreakpointsMap
 };
 
 export function initialState(): Record<BreakpointsState> {
@@ -43,7 +44,7 @@ function update(
     }
 
     case "SYNC_BREAKPOINT": {
-      return addBreakpoint(state, action);
+      return syncBreakpoint(state, action);
     }
 
     case "ENABLE_BREAKPOINT": {
@@ -61,13 +62,17 @@ function update(
     case "REMOVE_BREAKPOINT": {
       return removeBreakpoint(state, action);
     }
+
+    case "REMAP_BREAKPOINTS": {
+      return remapBreakpoints(state, action);
+    }
   }
 
   return state;
 }
 
 function addBreakpoint(state, action) {
-  if (action.status === "start") {
+  if (action.status === "start" && action.breakpoint) {
     const { breakpoint } = action;
     const locationId = makeLocationId(breakpoint.location);
     return state.setIn(["breakpoints", locationId], breakpoint);
@@ -75,20 +80,11 @@ function addBreakpoint(state, action) {
 
   // when the action completes, we can commit the breakpoint
   if (action.status === "done") {
-    const { value: { breakpoint, previousLocation } } = action;
-    const locationId = makeLocationId(breakpoint.location);
-
-    if (previousLocation) {
-      return state
-        .deleteIn(["breakpoints", makeLocationId(previousLocation)])
-        .setIn(["breakpoints", locationId], breakpoint);
-    }
-
-    return state.setIn(["breakpoints", locationId], breakpoint);
+    return syncBreakpoint(state, action.value);
   }
 
   // Remove the optimistic update
-  if (action.status === "error") {
+  if (action.status === "error" && action.breakpoint) {
     const locationId = makeLocationId(action.breakpoint.location);
     return state.deleteIn(["breakpoints", locationId]);
   }
@@ -96,10 +92,35 @@ function addBreakpoint(state, action) {
   return state;
 }
 
+function syncBreakpoint(state, data) {
+  const { breakpoint, previousLocation } = data;
+  const locationId = makeLocationId(breakpoint.location);
+
+  if (previousLocation) {
+    return state
+      .deleteIn(["breakpoints", makeLocationId(previousLocation)])
+      .setIn(["breakpoints", locationId], breakpoint);
+  }
+
+  return state.setIn(["breakpoints", locationId], breakpoint);
+}
+
 function updateBreakpoint(state, action) {
   const { breakpoint } = action;
   const locationId = makeLocationId(breakpoint.location);
   return state.setIn(["breakpoints", locationId], breakpoint);
+}
+
+function remapBreakpoints(state, action) {
+  const breakpoints = action.breakpoints.reduce(
+    (updatedBreakpoints, breakpoint) => {
+      const locationId = makeLocationId(breakpoint.location);
+      return { ...updatedBreakpoints, [locationId]: breakpoint };
+    },
+    {}
+  );
+
+  return state.set("breakpoints", I.Map(breakpoints));
 }
 
 function removeBreakpoint(state, action) {
@@ -128,7 +149,10 @@ export function getBreakpointsDisabled(state: OuterState): boolean {
 
 export function getBreakpointsLoading(state: OuterState) {
   const breakpoints = getBreakpoints(state);
-  const isLoading = !!breakpoints.valueSeq().filter(bp => bp.loading).first();
+  const isLoading = !!breakpoints
+    .valueSeq()
+    .filter(bp => bp.loading)
+    .first();
 
   return breakpoints.size > 0 && isLoading;
 }
@@ -148,5 +172,25 @@ export function getBreakpointsForSource(state: OuterState, sourceId: string) {
     return location.sourceId === sourceId;
   });
 }
+
+export const getHiddenBreakpoint = createSelector(getBreakpoints, function(
+  breakpoints
+) {
+  const hiddenBreakpoints = breakpoints
+    .valueSeq()
+    .filter(breakpoint => breakpoint.hidden)
+    .first();
+  return hiddenBreakpoints;
+});
+
+export const getHiddenBreakpointLocation = createSelector(
+  getHiddenBreakpoint,
+  function(hiddenBreakpoint) {
+    if (!hiddenBreakpoint) {
+      return null;
+    }
+    return hiddenBreakpoint.location;
+  }
+);
 
 export default update;

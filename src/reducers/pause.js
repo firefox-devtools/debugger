@@ -17,7 +17,8 @@ type PauseState = {
   loadedObjects: Object,
   shouldPauseOnExceptions: boolean,
   shouldIgnoreCaughtExceptions: boolean,
-  debuggeeUrl: string
+  debuggeeUrl: string,
+  command: string
 };
 
 export const State = (): PauseState => ({
@@ -29,7 +30,8 @@ export const State = (): PauseState => ({
   loadedObjects: {},
   shouldPauseOnExceptions: prefs.pauseOnExceptions,
   shouldIgnoreCaughtExceptions: prefs.ignoreCaughtExceptions,
-  debuggeeUrl: ""
+  debuggeeUrl: "",
+  command: ""
 });
 
 function update(state: PauseState = State(), action: Action): PauseState {
@@ -47,7 +49,7 @@ function update(state: PauseState = State(), action: Action): PauseState {
       const frameScopes = { [selectedFrameId]: scopes };
 
       // turn this into an object keyed by object id
-      let objectMap = {};
+      const objectMap = {};
       loadedObjects.forEach(obj => {
         objectMap[obj.value.objectId] = obj;
       });
@@ -137,6 +139,15 @@ function update(state: PauseState = State(), action: Action): PauseState {
         shouldPauseOnExceptions,
         shouldIgnoreCaughtExceptions
       });
+
+    case "COMMAND":
+      return { ...state, command: action.value.type };
+
+    case "CLEAR_COMMAND":
+      return { ...state, command: "" };
+
+    case "NAVIGATE":
+      return { ...state, debuggeeUrl: action.url };
   }
 
   return state;
@@ -164,6 +175,10 @@ export const getLoadedObjects = createSelector(
   getPauseState,
   pauseWrapper => pauseWrapper.loadedObjects
 );
+
+export function isStepping(state: OuterState) {
+  return ["stepIn", "stepOver", "stepOut"].includes(state.pause.command);
+}
 
 export function getLoadedObject(state: OuterState, objectId: string) {
   return getLoadedObjects(state)[objectId];

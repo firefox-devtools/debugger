@@ -12,6 +12,7 @@ const args = [
   "--bracket-spacing=true",
   "--write",
   "*.js",
+  "*.json",
   "src/*.js",
   "src/*/*.js",
   "src/components/**/*.css",

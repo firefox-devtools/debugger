@@ -2,13 +2,9 @@
   position: absolute;
 }
 
-.bracket-arrow:hover {
-  cursor: pointer;
-}
-
 .bracket-arrow::before,
 .bracket-arrow::after {
-  content: '';
+  content: "";
   height: 0;
   width: 0;
   position: absolute;

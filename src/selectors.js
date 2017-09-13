@@ -9,10 +9,12 @@ import * as ui from "./reducers/ui";
 import * as ast from "./reducers/ast";
 import * as coverage from "./reducers/coverage";
 import * as projectTextSearch from "./reducers/project-text-search";
+import * as sourceSearch from "./reducers/source-search";
 
 import getBreakpointAtLocation from "./selectors/breakpointAtLocation";
 import getInScopeLines from "./selectors/linesInScope";
 import getVisibleBreakpoints from "./selectors/visibleBreakpoints";
+import isSelectedFrameVisible from "./selectors/isSelectedFrameVisible";
 
 /**
  * @param object - location
@@ -30,5 +32,11 @@ module.exports = Object.assign(
   ast,
   coverage,
   projectTextSearch,
-  { getBreakpointAtLocation, getInScopeLines, getVisibleBreakpoints }
+  sourceSearch,
+  {
+    getBreakpointAtLocation,
+    getInScopeLines,
+    getVisibleBreakpoints,
+    isSelectedFrameVisible
+  }
 );

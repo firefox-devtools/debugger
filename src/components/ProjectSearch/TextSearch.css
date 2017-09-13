@@ -1,12 +1,16 @@
 .project-text-search {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  height: 100%;
 }
 
 .project-text-search .result {
   display: flex;
   cursor: default;
-  margin-bottom: 1px;
   padding: 4px 0 4px 30px;
+  line-height: 16px;
   font-size: 10px;
 }
 
@@ -19,7 +23,7 @@
 }
 
 .project-text-search .result.focused {
-  background-color: #eeeeee;
+  background-color: var(--theme-codemirror-gutter-background);
 }
 
 .project-text-search .result .query-match {
@@ -39,12 +43,18 @@
   width: 2em;
 }
 
+.project-text-search .no-result-msg {
+  color: var(--theme-body-color-inactive);
+  font-size: 24px;
+  padding: 4px;
+  word-break: break-all;
+}
+
 .project-text-search .file-result {
   font-weight: bold;
   line-height: 20px;
   cursor: default;
-  margin: 2px 20px 2px 0;
-  padding: 3px 0 3px 5px;
+  padding: 2px 0 2px 5px;
   font-size: 12px;
 }
 
@@ -53,7 +63,7 @@
 }
 
 .project-text-search .file-result.focused {
-  background-color: #eeeeee;
+  background-color: var(--theme-codemirror-gutter-background);
 }
 
 .project-text-search .line-match {
@@ -65,4 +75,13 @@
   display: flex;
   align-self: stretch;
   flex-grow: 1;
+}
+
+.project-text-search .managed-tree {
+  overflow-y: auto;
+  height: calc(100% - 81px);
+}
+
+.project-text-search .managed-tree .tree {
+  height: 100%;
 }

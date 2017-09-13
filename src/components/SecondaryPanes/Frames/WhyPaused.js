@@ -1,7 +1,7 @@
 // @flow
-import { DOM as dom } from "react";
-import isString from "lodash/isString";
-import get from "lodash/get";
+import React from "react";
+import { isString } from "lodash";
+import { get } from "lodash";
 
 import { getPauseReason } from "../../../utils/pause";
 import type { Pause } from "debugger-html";
@@ -26,19 +26,21 @@ function renderMessage(pauseInfo: Pause) {
 
   const message = get(pauseInfo, "why.message");
   if (message) {
-    return dom.div({ className: "message" }, message);
+    return <div className={"message"}>{message}</div>;
   }
 
   const exception = get(pauseInfo, "why.exception");
   if (exception) {
-    return dom.div(
-      { className: "message warning" },
-      renderExceptionSummary(exception)
+    return (
+      <div className={"message warning"}>
+        {renderExceptionSummary(exception)}
+      </div>
     );
   }
 
   return null;
 }
+renderMessage.displayName = "whyMessage";
 
 export default function renderWhyPaused({ pause }: { pause: Pause }) {
   const reason = getPauseReason(pause);
@@ -47,9 +49,11 @@ export default function renderWhyPaused({ pause }: { pause: Pause }) {
     return null;
   }
 
-  return dom.div(
-    { className: "pane why-paused" },
-    dom.div(null, L10N.getStr(reason)),
-    renderMessage(pause)
+  return (
+    <div className={"pane why-paused"}>
+      <div>{L10N.getStr(reason)}</div>
+      {renderMessage(pause)}
+    </div>
   );
 }
+renderWhyPaused.displayName = "whyPaused";

@@ -9,6 +9,7 @@
   top: 23px;
   width: var(--width);
   z-index: 1000;
+  overflow: scroll;
 }
 
 html[dir="rtl"] .dropdown {
@@ -22,7 +23,6 @@ html[dir="rtl"] .dropdown {
 }
 
 .dropdown-button {
-  cursor: pointer;
   color: var(--theme-content-color3);
   background: none;
   border: none;
@@ -42,7 +42,6 @@ html[dir="rtl"] .dropdown {
 
 .dropdown li:hover {
   background-color: var(--search-overlays-semitransparent);
-  cursor: pointer;
 }
 
 .dropdown ul {

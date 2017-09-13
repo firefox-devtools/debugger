@@ -5,6 +5,7 @@
  * @module utils/source
  */
 
+import { isOriginalId } from "devtools-source-map";
 import { endTruncateStr } from "./utils";
 import { basename } from "../utils/path";
 import { parse as parseURL } from "url";
@@ -18,17 +19,34 @@ import type { Source } from "../types";
  * @static
  */
 function trimUrlQuery(url: string): string {
-  let length = url.length;
-  let q1 = url.indexOf("?");
-  let q2 = url.indexOf("&");
-  let q3 = url.indexOf("#");
-  let q = Math.min(
+  const length = url.length;
+  const q1 = url.indexOf("?");
+  const q2 = url.indexOf("&");
+  const q3 = url.indexOf("#");
+  const q = Math.min(
     q1 != -1 ? q1 : length,
     q2 != -1 ? q2 : length,
     q3 != -1 ? q3 : length
   );
 
   return url.slice(0, q);
+}
+
+function shouldPrettyPrint(source: any) {
+  if (!source) {
+    return false;
+  }
+
+  const _isPretty = isPretty(source);
+  const _isJavaScript = isJavaScript(source.url);
+  const isOriginal = isOriginalId(source.id);
+  const hasSourceMap = source.sourceMapURL;
+
+  if (_isPretty || isOriginal || hasSourceMap || !_isJavaScript) {
+    return false;
+  }
+
+  return true;
 }
 
 /**
@@ -89,7 +107,7 @@ function getFilenameFromURL(url: string) {
  * @static
  */
 function getFilename(source: Source) {
-  let { url, id } = source;
+  const { url, id } = source;
   if (!url) {
     const sourceId = id.split("/")[1];
     return `SOURCE${sourceId}`;
@@ -145,10 +163,16 @@ function getSourceLineCount(source: Source) {
  */
 
 function getMode(source: Source) {
-  const { contentType, text, isWasm } = source;
+  const { contentType, text, isWasm, url } = source;
 
   if (!text || isWasm) {
     return { name: "text" };
+  }
+
+  // if the url ends with .marko we set the name to Javascript so
+  // syntax highlighting works for marko too
+  if (url && url.match(/\.marko$/i)) {
+    return { name: "javascript" };
   }
 
   // Use HTML mode for files in which the first non whitespace
@@ -181,14 +205,20 @@ function getMode(source: Source) {
   return { name: "text" };
 }
 
+function isLoaded(source: Source) {
+  return source.loadedState === "loaded";
+}
+
 export {
   isJavaScript,
   isPretty,
+  shouldPrettyPrint,
   getPrettySourceURL,
   getRawSourceURL,
   getFilename,
   getFilenameFromURL,
   getSourcePath,
   getSourceLineCount,
-  getMode
+  getMode,
+  isLoaded
 };

@@ -1,20 +1,15 @@
 // @flow
 
-import { Component, DOM as dom, createFactory } from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from "react";
 import { filter } from "fuzzaldrin-plus";
 import classnames from "classnames";
 import { scrollList } from "../../utils/result-list";
 import "./Autocomplete.css";
 
-import _SearchInput from "./SearchInput";
-const SearchInput = createFactory(_SearchInput);
-
-import _ResultList from "./ResultList";
-const ResultList = createFactory(_ResultList);
+import SearchInput from "./SearchInput";
+import ResultList from "./ResultList";
 
 type State = {
-  inputValue: string,
   selectedIndex: number,
   focused: boolean
 };
@@ -27,6 +22,7 @@ type Props = {
   inputValue: string,
   placeholder: string,
   size: string,
+  onChangeHandler: (queryString: string) => void,
   children: any
 };
 
@@ -40,22 +36,9 @@ export default class Autocomplete extends Component {
 
     (this: any).onKeyDown = this.onKeyDown.bind(this);
     this.state = {
-      inputValue: props.inputValue,
       selectedIndex: 0,
       focused: false
     };
-  }
-
-  componentDidMount() {
-    const endOfInput = this.state.inputValue.length;
-    const node = ReactDOM.findDOMNode(this);
-    if (node instanceof HTMLElement) {
-      const searchInput = node.querySelector("input");
-      if (searchInput instanceof HTMLInputElement) {
-        searchInput.focus();
-        searchInput.setSelectionRange(endOfInput, endOfInput);
-      }
-    }
   }
 
   componentDidUpdate() {
@@ -65,13 +48,12 @@ export default class Autocomplete extends Component {
   }
 
   getSearchResults() {
-    let inputValue = this.state.inputValue;
-
+    const inputValue = this.props.inputValue;
     if (inputValue == "") {
       return [];
     }
 
-    return filter(this.props.items, this.state.inputValue, {
+    return filter(this.props.items, inputValue, {
       key: "value"
     });
   }
@@ -101,11 +83,11 @@ export default class Autocomplete extends Component {
       if (searchResults.length) {
         this.props.selectItem(e, searchResults[this.state.selectedIndex]);
       } else {
-        this.props.close(this.state.inputValue);
+        this.props.close(this.props.inputValue);
       }
       e.preventDefault();
     } else if (e.key === "Tab") {
-      this.props.close(this.state.inputValue);
+      this.props.close(this.props.inputValue);
       e.preventDefault();
     }
   }
@@ -114,18 +96,21 @@ export default class Autocomplete extends Component {
     const { size } = this.props;
 
     if (results.length) {
-      return ResultList({
+      const props = {
         items: results,
         selected: this.state.selectedIndex,
         selectItem: this.props.selectItem,
         close: this.props.close,
         size,
         ref: "resultList"
-      });
-    } else if (this.state.inputValue && !results.length) {
-      return dom.div(
-        { className: "no-result-msg absolute-center" },
-        L10N.getStr("sourceSearch.noResults2")
+      };
+
+      return <ResultList {...props} />;
+    } else if (this.props.inputValue && !results.length) {
+      return (
+        <div className="no-result-msg absolute-center">
+          {L10N.getStr("sourceSearch.noResults2")}
+        </div>
       );
     }
   }
@@ -138,27 +123,32 @@ export default class Autocomplete extends Component {
       "sourceSearch.resultsSummary1",
       searchResults.length
     );
-    return dom.div(
-      { className: classnames("autocomplete", { focused }) },
-      SearchInput({
-        query: this.state.inputValue,
-        count: searchResults.length,
-        placeholder: this.props.placeholder,
-        size,
-        showErrorEmoji: true,
-        summaryMsg,
-        onChange: e =>
-          this.setState({
-            inputValue: e.target.value,
-            selectedIndex: 0
-          }),
-        onFocus: () => this.setState({ focused: true }),
-        onBlur: () => this.setState({ focused: false }),
-        onKeyDown: this.onKeyDown,
-        handleClose: this.props.close
-      }),
-      children,
-      this.renderResults(searchResults)
+
+    const searchProps = {
+      query: this.props.inputValue,
+      count: searchResults.length,
+      placeholder: this.props.placeholder,
+      size,
+      showErrorEmoji: true,
+      summaryMsg,
+      onChange: e => {
+        this.props.onChangeHandler(e.target.value);
+        this.setState({
+          selectedIndex: 0
+        });
+      },
+      onFocus: () => this.setState({ focused: true }),
+      onBlur: () => this.setState({ focused: false }),
+      onKeyDown: this.onKeyDown,
+      handleClose: this.props.close
+    };
+
+    return (
+      <div className={classnames("autocomplete", { focused })}>
+        <SearchInput {...searchProps} />
+        {children}
+        {this.renderResults(searchResults)}
+      </div>
     );
   }
 }

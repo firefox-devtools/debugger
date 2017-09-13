@@ -1,13 +1,17 @@
 .command-bar {
-  flex: 0 0 30px;
+  flex: 0 0 29px;
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
-  height: 30px;
+  height: 29px;
   overflow: hidden;
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: var(--theme-body-background);
+  background-color: var(--theme-toolbar-background);
+}
+
+.command-bar.vertical {
+  width: 100vw;
 }
 
 html[dir="rtl"] .command-bar {
@@ -24,7 +28,6 @@ html[dir="rtl"] .command-bar {
   appearance: none;
   background: transparent;
   border: none;
-  cursor: pointer;
   display: inline-block;
   text-align: center;
   padding: 8px 5px;

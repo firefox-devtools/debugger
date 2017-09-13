@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .debugger {
   display: flex;
   flex: 1;
@@ -15,10 +19,6 @@
 
 .editor-container {
   width: 100%;
-}
-
-.subsettings:hover {
-  cursor: pointer;
 }
 
 .search-container {
