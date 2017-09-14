@@ -6,7 +6,7 @@ import { containsPosition } from "../parser/utils/contains";
 import type { Scope } from "../parser/types";
 import type { Location, Source } from "debugger-html";
 
-function findClosestScope(functions: Scope[], location: Location) {
+export function findClosestScope(functions: Scope[], location: Location) {
   return functions.reduce((found, currNode) => {
     if (
       currNode.name === "anonymous" ||
