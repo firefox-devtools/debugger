@@ -1,7 +1,6 @@
 // @flow
 import { PROMISE } from "../../utils/redux/middleware/promise";
 import { setEmptyLines, setSymbols } from "../ast";
-import { isLoaded } from "../../utils/source";
 import type { Source } from "../../types";
 import type { ThunkArgs } from "../types";
 /**

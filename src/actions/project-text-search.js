@@ -14,7 +14,6 @@ import { getSources, getSource } from "../selectors";
 import { isThirdParty, isLoaded } from "../utils/source";
 import { loadAllSources } from "./sources";
 
-import type { Source } from "../types";
 import type { ThunkArgs } from "./types";
 
 export function addSearchQuery(query: string) {
