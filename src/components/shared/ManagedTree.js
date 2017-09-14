@@ -27,7 +27,7 @@ type Props = {
   renderItem: any,
   disabledFocus?: boolean,
   focused?: any,
-  expanded?: Set
+  expanded?: any
 };
 
 type ManagedTreeState = {
