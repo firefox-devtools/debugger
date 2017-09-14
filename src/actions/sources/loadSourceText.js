@@ -11,7 +11,7 @@ import type { ThunkArgs } from "../types";
 export function loadSourceText(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     // Fetch the source text only once.
-    if (isLoaded(source)) {
+    if (source.text) {
       return Promise.resolve(source);
     }
 
