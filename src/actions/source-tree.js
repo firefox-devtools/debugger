@@ -4,7 +4,7 @@ export function setExpandedState(expanded) {
   return ({ dispatch, getState }: ThunkArgs) => {
     dispatch({
       type: "SET_EXPANDED_STATE",
-      expanded: expanded
+      expanded
     });
   };
 }

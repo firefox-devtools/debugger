@@ -54,8 +54,7 @@ class ManagedTree extends Component {
 
   componentDidMount() {
     const { expanded } = this.props;
-    console.log("mt => ", expanded);
-    if (expanded && expanded.size > 0 && this.state.expanded.size === 0) {
+    if (expanded && expanded.size > 0) {
       this.setState({ expanded });
     }
   }

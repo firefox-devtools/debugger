@@ -13,12 +13,12 @@ import type { SourceTreeAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type SourceTreeState = {
-  expanded: set
+  expanded: any
 };
 
 function InitialState(): Record<SourceTreeState> {
   return makeRecord({
-    expanded: new Set()
+    expanded: null
   })();
 }
 
@@ -28,8 +28,7 @@ export default function update(
 ): Record<SourceTreeState> {
   switch (action.type) {
     case "SET_EXPANDED_STATE":
-      console.log(action.expanded);
-      return state.update("expanded", value => action.expanded);
+      return state.set("expanded", action.expanded);
   }
   return state;
 }
@@ -39,6 +38,5 @@ type OuterState = {
 };
 
 export function getExpandedState(state: OuterState) {
-  console.warn("streducer => ", state.sourceTree.get("expanded"));
   return state.sourceTree.get("expanded");
 }

@@ -54,9 +54,6 @@ class SourcesTree extends Component {
   constructor(props) {
     super(props);
     this.state = createTree(this.props.sources, this.props.debuggeeUrl);
-
-    this.expandState = null;
-
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
     this.getIcon = this.getIcon.bind(this);
@@ -260,7 +257,6 @@ class SourcesTree extends Component {
     } = this.state;
 
     const isEmpty = sourceTree.contents.length === 0;
-    console.log("st => ", this.props.expanded);
     const treeProps = {
       key: isEmpty ? "empty" : "full",
       getParent: item => parentMap.get(item),
@@ -268,7 +264,7 @@ class SourcesTree extends Component {
       getRoots: () => sourceTree.contents,
       getPath: item => `${item.path}/${item.name}`,
       itemHeight: 21,
-      autoExpandDepth: 1,
+      autoExpandDepth: !expanded ? 1 : null,
       autoExpandAll: false,
       onFocus: this.focusItem,
       listItems,
@@ -314,7 +310,7 @@ SourcesTree.propTypes = {
   selectedSource: ImPropTypes.map,
   debuggeeUrl: PropTypes.string.isRequired,
   setExpandedState: PropTypes.func,
-  expanded: ImPropTypes.set
+  expanded: PropTypes.any
 };
 
 SourcesTree.displayName = "SourcesTree";
