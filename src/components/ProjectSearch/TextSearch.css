@@ -23,7 +23,7 @@
 }
 
 .project-text-search .result.focused {
-  background-color: var(--theme-codemirror-gutter-background);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 .project-text-search .result .query-match {
@@ -41,6 +41,7 @@
 .project-text-search .result .line-number {
   margin-right: 1em;
   width: 2em;
+  margin-left: 0.8em;
 }
 
 .project-text-search .no-result-msg {
@@ -63,7 +64,7 @@
 }
 
 .project-text-search .file-result.focused {
-  background-color: var(--theme-codemirror-gutter-background);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 .project-text-search .line-match {

@@ -19,3 +19,13 @@ child = function() {};
 (function() {
   2;
 })();
+
+const obj = {
+  foo: function name() {
+    2 + 2;
+  },
+
+  bar() {
+    2 + 2;
+  }
+};

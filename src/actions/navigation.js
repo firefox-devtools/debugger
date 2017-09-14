@@ -2,7 +2,12 @@ import { clearDocuments } from "../utils/editor";
 import { getSources } from "../reducers/sources";
 import { waitForMs } from "../utils/utils";
 import { newSources } from "./sources";
-import { clearSymbols, clearASTs, clearSources } from "../utils/parser";
+import {
+  clearASTs,
+  clearSymbols,
+  clearScopes,
+  clearSources
+} from "../utils/parser";
 import { clearWasmStates } from "../utils/wasm";
 
 /**
@@ -21,6 +26,7 @@ export function willNavigate(_, event) {
     clearDocuments();
     clearSymbols();
     clearASTs();
+    clearScopes();
     clearSources();
 
     dispatch(navigate(event.url));

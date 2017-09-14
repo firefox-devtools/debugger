@@ -2,6 +2,7 @@ import { getClosestExpression } from "./utils/closest";
 import { getVariablesInScope } from "./scopes";
 import getSymbols, { clearSymbols } from "./getSymbols";
 import { clearASTs } from "./utils/ast";
+import getScopes, { clearScopes } from "./getScopes";
 import { hasSource, setSource, clearSources } from "./sources";
 import getOutOfScopeLocations from "./getOutOfScopeLocations";
 import { getNextStep } from "./steps";
@@ -14,7 +15,9 @@ self.onmessage = workerHandler({
   getClosestExpression,
   getOutOfScopeLocations,
   getSymbols,
+  getScopes,
   clearSymbols,
+  clearScopes,
   clearASTs,
   hasSource,
   setSource,
