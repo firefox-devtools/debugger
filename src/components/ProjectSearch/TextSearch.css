@@ -23,8 +23,7 @@
 }
 
 .project-text-search .result.focused {
-  background-color: var(--popup-shadow-color);
-  color: var(--theme-selection-color);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 .project-text-search .result .query-match {
@@ -37,7 +36,6 @@
 
 .project-text-search .result.focused .line-number {
   font-weight: bolder;
-  color: var(--theme-selection-color);
 }
 
 .project-text-search .result .line-number {
@@ -59,7 +57,6 @@
   cursor: default;
   padding: 2px 0 2px 5px;
   font-size: 12px;
-  background-color: var(--search-overlays-semitransparent);
 }
 
 .project-text-search .file-result .arrow {
@@ -67,7 +64,7 @@
 }
 
 .project-text-search .file-result.focused {
-  background-color: var(--theme-codemirror-gutter-background);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 .project-text-search .line-match {
