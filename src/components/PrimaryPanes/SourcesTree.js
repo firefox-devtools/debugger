@@ -264,14 +264,14 @@ class SourcesTree extends Component {
       getRoots: () => sourceTree.contents,
       getPath: item => `${item.path}/${item.name}`,
       itemHeight: 21,
-      autoExpandDepth: !expanded ? 1 : null,
+      autoExpandDepth: expanded ? 0 : 1,
       autoExpandAll: false,
       onFocus: this.focusItem,
       listItems,
       highlightItems,
       expanded,
-      onExpand: (item, expanded) => setExpandedState(expanded),
-      onCollapse: (item, expanded) => setExpandedState(expanded),
+      onExpand: (item, expandedState) => setExpandedState(expandedState),
+      onCollapse: (item, expandedState) => setExpandedState(expandedState),
       renderItem: this.renderItem
     };
 
