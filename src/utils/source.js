@@ -75,7 +75,7 @@ function isPretty(source: Source): boolean {
 }
 
 function isThirdParty(source: Source) {
-  if (!source.url) {
+  if (!source || !source.url) {
     return false;
   }
 

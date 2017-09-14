@@ -76,9 +76,8 @@ describe("project text search", () => {
     await dispatch(actions.newSource(makeSource("bar")));
     await dispatch(actions.loadSourceText({ id: "bar" }));
     dispatch(actions.addSearchQuery("bla"));
-    await dispatch(
-      actions.searchSource(getSource(getState(), "bar").toJS(), "bla")
-    );
+    const sourceId = getSource(getState(), "bar").get("id");
+    await dispatch(actions.searchSource(sourceId, "bar"), "bla");
 
     const results = getTextSearchResults(getState());
 
