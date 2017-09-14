@@ -223,7 +223,6 @@ declare module "debugger-html" {
 
   /**
    * SourceScope
-   *
    * @memberof types
    * @static
    */

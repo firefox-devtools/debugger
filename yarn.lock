@@ -2936,7 +2936,7 @@ devtools-source-editor@0.0.6:
   dependencies:
     codemirror "^5.25.0"
 
-devtools-source-map@0.13.0:
+devtools-source-map@^0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/devtools-source-map/-/devtools-source-map-0.13.0.tgz#859fdd4d6699b3872d21d63a0757fdcfd6eb7965"
   dependencies:
