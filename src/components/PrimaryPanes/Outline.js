@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
-import { isEnabled } from "devtools-config";
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
 
@@ -44,7 +43,7 @@ export class Outline extends Component {
       </div>
     );
   }
-  
+
   renderFunction(func: SymbolDeclaration) {
     const { name, location, parameterNames } = func;
 
@@ -76,9 +75,11 @@ export class Outline extends Component {
 
     return (
       <div className={classnames("outline", { hidden: isHidden })}>
-        {symbolsToDisplay.length > 0
-          ? this.renderFunctions(symbolsToDisplay)
-          : this.renderPlaceholder()}
+        {symbolsToDisplay.length > 0 ? (
+          this.renderFunctions(symbolsToDisplay)
+        ) : (
+          this.renderPlaceholder()
+        )}
       </div>
     );
   }

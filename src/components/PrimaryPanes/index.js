@@ -111,6 +111,13 @@ class PrimaryPanes extends Component {
     const { selectedPane } = this.state;
     const { sources, selectSource } = this.props;
 
+    const outlineComp = isEnabled("outline") ? (
+      <Outline
+        selectSource={selectSource}
+        isHidden={selectedPane === "sources"}
+      />
+    ) : null;
+
     return (
       <div className="sources-panel">
         {this.renderHeader()}
