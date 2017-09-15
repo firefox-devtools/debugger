@@ -24,7 +24,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.file-search-whole-word", false);
   pref("devtools.debugger.file-search-regex-match", false);
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
-  pref("devtools.debugger.project-text-search-enabled", true);
+  pref("devtools.debugger.features.project-text-search", true);
   pref("devtools.debugger.features.async-stepping", true);
   pref("devtools.debugger.features.wasm", true);
 }
@@ -50,7 +50,7 @@ export const prefs = new PrefsHelper("devtools", {
 
 export const features = new PrefsHelper("devtools.debugger.features", {
   asyncStepping: ["Bool", "async-stepping", false],
-  projectTextSearch: ["Bool", "project-text-search-enabled", true],
+  projectTextSearch: ["Bool", "project-text-search", true],
   wasm: ["Bool", "wasm", true]
 });
 
