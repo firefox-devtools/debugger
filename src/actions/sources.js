@@ -25,6 +25,8 @@ import { loadSourceText } from "./sources/loadSourceText";
 import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
 import { isThirdParty } from "../utils/source";
+import { getGeneratedLocation } from "../utils/source-maps";
+import * as parser from "../utils/parser";
 
 import {
   getSource,
@@ -228,9 +230,11 @@ export function jumpToMappedLocation(sourceLocation: any) {
     const source = getSource(getState(), sourceLocation.sourceId);
     let pairedLocation;
     if (sourceMaps.isOriginalId(sourceLocation.sourceId)) {
-      pairedLocation = await sourceMaps.getGeneratedLocation(
+      pairedLocation = await getGeneratedLocation(
+        getState(),
+        source.toJS(),
         sourceLocation,
-        source.toJS()
+        sourceMaps
       );
     } else {
       pairedLocation = await sourceMaps.getOriginalLocation(
@@ -386,6 +390,21 @@ export function loadAllSources() {
       if (query) {
         await dispatch(searchSource(source.id, query));
       }
+    }
+  };
+}
+
+/**
+ * Ensures parser has source text
+ *
+ * @memberof actions/sources
+ * @static
+ */
+export function ensureParserHasSourceText(sourceId: string) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    if (!await parser.hasSource(sourceId)) {
+      await dispatch(loadSourceText(getSource(getState(), sourceId).toJS()));
+      await parser.setSource(getSource(getState(), sourceId).toJS());
     }
   };
 }

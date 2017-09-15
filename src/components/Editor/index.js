@@ -11,6 +11,7 @@ import EditorMenu from "./EditorMenu";
 import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
+import { findFunctionText } from "../../utils/function";
 
 import { isEmptyLineInSource } from "../../reducers/ast";
 
@@ -28,7 +29,8 @@ import {
   getFileSearchModifierState,
   getVisibleBreakpoints,
   getInScopeLines,
-  getConditionalBreakpointPanel
+  getConditionalBreakpointPanel,
+  getSymbols
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -340,7 +342,8 @@ class Editor extends PureComponent {
       showSource,
       jumpToMappedLocation,
       addExpression,
-      toggleBlackBox
+      toggleBlackBox,
+      getFunctionText
     } = this.props;
 
     return EditorMenu({
@@ -352,6 +355,7 @@ class Editor extends PureComponent {
       jumpToMappedLocation,
       addExpression,
       toggleBlackBox,
+      getFunctionText,
       onGutterContextMenu: this.onGutterContextMenu
     });
   }
@@ -757,7 +761,8 @@ Editor.propTypes = {
   conditionalBreakpointPanel: PropTypes.number,
   toggleConditionalBreakpointPanel: PropTypes.func.isRequired,
   isEmptyLine: PropTypes.func,
-  continueToHere: PropTypes.func
+  continueToHere: PropTypes.func,
+  getFunctionText: PropTypes.func
 };
 
 Editor.contextTypes = {
@@ -784,6 +789,12 @@ export default connect(
       query: getFileSearchQueryState(state),
       searchModifiers: getFileSearchModifierState(state),
       linesInScope: getInScopeLines(state),
+      getFunctionText: line =>
+        findFunctionText(
+          line,
+          selectedSource.toJS(),
+          getSymbols(state, selectedSource.toJS())
+        ),
       isEmptyLine: line =>
         isEmptyLineInSource(state, line, selectedSource.toJS()),
       conditionalBreakpointPanel: getConditionalBreakpointPanel(state)
