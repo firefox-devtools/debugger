@@ -10,12 +10,10 @@
  */
 
 import { findSourceMatches } from "../utils/search";
-
-import { getSources } from "../selectors";
-
+import { getSources, getSource } from "../selectors";
+import { isThirdParty, isLoaded } from "../utils/source";
 import { loadAllSources } from "./sources";
 
-import type { Source } from "../types";
 import type { ThunkArgs } from "./types";
 
 export function addSearchQuery(query: string) {
@@ -44,17 +42,23 @@ export function searchSources(query: string) {
     const sources = getSources(getState());
     const validSources = sources
       .valueSeq()
-      .filter(source => source.has("text"))
+      .filter(source => isLoaded(source.toJS()) && !isThirdParty(source.toJS()))
       .toJS();
 
     for (const source of validSources) {
-      await dispatch(searchSource(source, query));
+      await dispatch(searchSource(source.id, query));
     }
   };
 }
 
-export function searchSource(source: Source, query: string) {
+export function searchSource(sourceId: string, query: string) {
   return async ({ dispatch, getState }: ThunkArgs) => {
+    const sourceRecord = getSource(getState(), sourceId);
+    if (!sourceRecord) {
+      return;
+    }
+
+    const source = sourceRecord.toJS();
     const matches = await findSourceMatches(source, query);
     dispatch({
       type: "ADD_SEARCH_RESULT",

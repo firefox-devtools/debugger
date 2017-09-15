@@ -117,3 +117,10 @@ export function clearHighlightLineRange() {
     type: "CLEAR_HIGHLIGHT_LINES"
   };
 }
+
+export function toggleConditionalBreakpointPanel(line: null | number) {
+  return {
+    type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
+    line
+  };
+}

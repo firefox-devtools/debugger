@@ -24,7 +24,8 @@ function generateDefaults(overrides) {
       regexMatch: false,
       wholeWord: false
     })(),
-    clearPreview: jest.fn
+    clearPreview: jest.fn,
+    toggleConditionalBreakpointPanel: jest.fn
   };
 }
 

@@ -106,7 +106,13 @@ function updateBreakpoint(state, action) {
 
 function removeBreakpoint(state, action) {
   const { breakpoint } = action;
+
   const locationId = makePendingLocationId(breakpoint.location);
+  const pendingBp = state.getIn(["pendingBreakpoints", locationId]);
+
+  if (!pendingBp && action.status == "start") {
+    return state.set("pendingBreakpoints", I.Map());
+  }
 
   return state.deleteIn(["pendingBreakpoints", locationId]);
 }

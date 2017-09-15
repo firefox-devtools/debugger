@@ -63,6 +63,7 @@ ShallowWrapper {
         }
         setBreakpointCondition={[Function]}
         toggleBreakpoint={[Function]}
+        toggleConditionalBreakpointPanel={[Function]}
         toggleDisabledBreakpoint={[Function]}
 />,
       "_debugID": 1,
@@ -101,6 +102,7 @@ ShallowWrapper {
           },
           "setBreakpointCondition": [Function],
           "toggleBreakpoint": [Function],
+          "toggleConditionalBreakpointPanel": [Function],
           "toggleDisabledBreakpoint": [Function],
         },
         "refs": Object {},
@@ -186,6 +188,7 @@ ShallowWrapper {
     }
     setBreakpointCondition={[Function]}
     toggleBreakpoint={[Function]}
+    toggleConditionalBreakpointPanel={[Function]}
     toggleDisabledBreakpoint={[Function]}
 />,
 }

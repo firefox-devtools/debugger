@@ -11,6 +11,7 @@ import EditorMenu from "./EditorMenu";
 import { renderConditionalPanel } from "./ConditionalPanel";
 import { debugGlobal } from "devtools-launchpad";
 import { isLoaded } from "../../utils/source";
+import { findFunctionText } from "../../utils/function";
 
 import { isEmptyLineInSource } from "../../reducers/ast";
 
@@ -27,7 +28,9 @@ import {
   getFileSearchQueryState,
   getFileSearchModifierState,
   getVisibleBreakpoints,
-  getInScopeLines
+  getInScopeLines,
+  getConditionalBreakpointPanel,
+  getSymbols
 } from "../../selectors";
 
 import actions from "../../actions";
@@ -251,6 +254,13 @@ class Editor extends PureComponent {
     if (selectedSource && selectedSource.has("text")) {
       this.highlightLine();
     }
+
+    if (
+      this.props.conditionalBreakpointPanel !== null &&
+      this.cbPanel == null
+    ) {
+      this.toggleConditionalPanel(this.props.conditionalBreakpointPanel);
+    }
   }
 
   onToggleBreakpoint(key, e) {
@@ -332,7 +342,8 @@ class Editor extends PureComponent {
       showSource,
       jumpToMappedLocation,
       addExpression,
-      toggleBlackBox
+      toggleBlackBox,
+      getFunctionText
     } = this.props;
 
     return EditorMenu({
@@ -344,6 +355,7 @@ class Editor extends PureComponent {
       jumpToMappedLocation,
       addExpression,
       toggleBlackBox,
+      getFunctionText,
       onGutterContextMenu: this.onGutterContextMenu
     });
   }
@@ -463,6 +475,7 @@ class Editor extends PureComponent {
   }
 
   closeConditionalPanel() {
+    this.props.toggleConditionalBreakpointPanel(null);
     this.cbPanel.clear();
     this.cbPanel = null;
   }
@@ -745,8 +758,11 @@ Editor.propTypes = {
   toggleBreakpoint: PropTypes.func.isRequired,
   addOrToggleDisabledBreakpoint: PropTypes.func.isRequired,
   toggleDisabledBreakpoint: PropTypes.func.isRequired,
+  conditionalBreakpointPanel: PropTypes.number,
+  toggleConditionalBreakpointPanel: PropTypes.func.isRequired,
   isEmptyLine: PropTypes.func,
-  continueToHere: PropTypes.func
+  continueToHere: PropTypes.func,
+  getFunctionText: PropTypes.func
 };
 
 Editor.contextTypes = {
@@ -773,8 +789,15 @@ export default connect(
       query: getFileSearchQueryState(state),
       searchModifiers: getFileSearchModifierState(state),
       linesInScope: getInScopeLines(state),
+      getFunctionText: line =>
+        findFunctionText(
+          line,
+          selectedSource.toJS(),
+          getSymbols(state, selectedSource.toJS())
+        ),
       isEmptyLine: line =>
-        isEmptyLineInSource(state, line, selectedSource.toJS())
+        isEmptyLineInSource(state, line, selectedSource.toJS()),
+      conditionalBreakpointPanel: getConditionalBreakpointPanel(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)
