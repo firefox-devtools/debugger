@@ -24,6 +24,7 @@ import { loadSourceText } from "./sources/loadSourceText";
 
 import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
+import { isThirdParty } from "../utils/source";
 import { getGeneratedLocation } from "../utils/source-maps";
 import * as parser from "../utils/parser";
 
@@ -127,13 +128,17 @@ function loadSourceMap(generatedSource) {
     }
 
     const state = getState();
-    const originalSources = urls.map(originalUrl => {
-      return {
-        url: originalUrl,
-        id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
-        isPrettyPrinted: false
-      };
-    });
+    const originalSources = urls.map(
+      originalUrl =>
+        ({
+          url: originalUrl,
+          id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
+          isPrettyPrinted: false,
+          isWasm: false,
+          isBlackBoxed: false,
+          loadedState: "unloaded"
+        }: Source)
+    );
 
     dispatch({ type: "ADD_SOURCES", sources: originalSources });
 
@@ -375,11 +380,15 @@ export function loadAllSources() {
     const query = getTextSearchQuery(getState());
     for (const [, src] of sources) {
       const source = src.toJS();
+      if (isThirdParty(source)) {
+        continue;
+      }
+
       await dispatch(loadSourceText(source));
       // If there is a current search query we search
       // each of the source texts as they get loaded
       if (query) {
-        await dispatch(searchSource(source, query));
+        await dispatch(searchSource(source.id, query));
       }
     }
   };
