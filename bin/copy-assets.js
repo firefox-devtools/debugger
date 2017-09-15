@@ -42,6 +42,15 @@ function start() {
     { cwd: projectPath }
   );
 
+  // The current assets prefs file contains a dummy preprocessing instruction. Remove it.
+  let prefsCopy = path.join(mcPath, "devtools/client/preferences/debugger.js");
+  let data = fs.readFileSync(prefsCopy, "utf8");
+  let result = data.replace(
+    /\s{2}\/{2} copy-assets-start[^]+\/{2} copy-assets-end/,
+    ""
+  );
+  fs.writeFileSync(prefsCopy, result, "utf8");
+
   copyFile(
     path.join(projectPath, "./assets/panel/index.html"),
     path.join(mcPath, "devtools/client/debugger/new/index.html"),
