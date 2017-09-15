@@ -1,4 +1,4 @@
-import React, { PureComponent, PropTypes } from "react";
+import React, { PureComponent } from "react";
 import "./Workers.css";
 import { connect } from "react-redux";
 import { getWorkers } from "../../selectors";
@@ -26,11 +26,9 @@ export class Workers extends PureComponent {
     const { workers } = this.props;
     return (
       <div className="pane workers-list">
-        {workers && workers.size > 0 ? (
-          this.renderWorkers(workers)
-        ) : (
-          this.renderNoWorkersPlaceholder()
-        )}
+        {workers && workers.size > 0
+          ? this.renderWorkers(workers)
+          : this.renderNoWorkersPlaceholder()}
       </div>
     );
   }

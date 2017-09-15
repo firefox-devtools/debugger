@@ -14,7 +14,7 @@ export type Expression = {
 
 export type Worker = {
   url: string
-}
+};
 
 export type Mode =
   | String
