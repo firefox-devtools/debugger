@@ -1,18 +1,10 @@
-#### Thanks for filing an issue! :dog: 
+Thanks for filing an issue! 
 
-We try to answer common questions in our [docs]. Here are our most frequently asked questions:
+If you're reporting a bug, please share a clear description of the problem and the steps needed to reproduce the problem.  It's also helpful to include a gif, screenshot, and minimal test case.
 
-* How should I format the title? [link][title]
-* What should I include in the description? [link][description] 
-* How do I share an example? We use [glitch] to share examples. Here is a [template] you can remix!
+* you can find us in slack: https://devtools-html-slack.herokuapp.com/
+* our tips on formatting issues: https://github.com/devtools-html/debugger.html/blob/master/docs/issues.md
+* our glitch.com template for filing small test cases: https://fabulous-umbrella.glitch.me/
 
-Of course, if you have any questions you should stop by our [slack]. 
-There's often someone in your timezone who'll be happy to help!
+-----------------------------------------------
 
-[title]: https://github.com/devtools-html/debugger.html/blob/master/docs/issues.md#issue-titles 
-[description]: https://github.com/devtools-html/debugger.html/blob/master/docs/issues.md#issue-descriptions
-
-[slack]: https://devtools-html-slack.herokuapp.com/
-[template]: https://fabulous-umbrella.glitch.me/
-[docs]: https://github.com/devtools-html/debugger.html/blob/master/docs/issues.md
-[glitch]: https://glitch.com/
