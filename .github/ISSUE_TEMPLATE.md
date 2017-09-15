@@ -6,5 +6,8 @@ If you're reporting a bug, please share a clear description of the problem and t
 * our tips on formatting issues: https://github.com/devtools-html/debugger.html/blob/master/docs/issues.md
 * our glitch.com template for filing small test cases: https://fabulous-umbrella.glitch.me/
 
+Thanks again,
+Debugger Team!
+
 -----------------------------------------------
 
