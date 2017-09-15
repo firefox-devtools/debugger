@@ -46,11 +46,15 @@ const blacklist = [
   "checking window state",
   "Opening the toolbox",
   "Toolbox opened and focused",
-  "Tab added and finished loading"
+  "Tab added and finished loading",
+  "MOZ_UPLOAD_DIR"
 ];
 
 function sanitizeLine(line) {
-  return line.trim().replace(/\\"/g, '"').replace(/\\"/g, '"');
+  return line
+    .trim()
+    .replace(/\\"/g, '"')
+    .replace(/\\"/g, '"');
 }
 
 function onFrame(line, data) {
@@ -224,7 +228,10 @@ function onConsole(line, data) {
 
 function readOutput(text) {
   let data = { mode: "starting" };
-  const out = text.split("\n").map(line => onLine(line, data)).filter(i => i);
+  const out = text
+    .split("\n")
+    .map(line => onLine(line, data))
+    .filter(i => i);
   return out;
 }
 

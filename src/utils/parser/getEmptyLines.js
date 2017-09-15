@@ -1,4 +1,5 @@
-import { chain, difference } from "lodash";
+import uniq from "lodash/uniq";
+import difference from "lodash/difference";
 import { getAst } from "./utils/ast";
 
 const commentTokens = ["CommentBlock", "CommentLine"];
@@ -18,15 +19,15 @@ function getLines(ast) {
 // The following sequence stores lines which have executable code
 // (contents other than comments or EOF, regardless of line position)
 function getExecutableLines(ast) {
-  return chain(ast.tokens)
+  const lines = ast.tokens
     .filter(
       token =>
         !commentTokens.includes(token.type) &&
         (!token.type || (token.type.label && token.type.label != "eof"))
     )
-    .map(token => token.loc.start.line - 1)
-    .uniq()
-    .value();
+    .map(token => token.loc.start.line - 1);
+
+  return uniq(lines);
 }
 
 export default function getEmptyLines(sourceToJS) {

@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .debugger {
   display: flex;
   flex: 1;

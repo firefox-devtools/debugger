@@ -10,11 +10,17 @@ export async function getGeneratedLocation(
     return location;
   }
 
-  const generatedLocation = await sourceMaps.getGeneratedLocation(
+  const { line, sourceId, column } = await sourceMaps.getGeneratedLocation(
     location,
     source
   );
-  const generatedSource = getSource(state, generatedLocation.sourceId);
+
+  const generatedSource = getSource(state, sourceId);
   const sourceUrl = generatedSource.get("url");
-  return { ...generatedLocation, sourceUrl };
+  return {
+    line,
+    sourceId,
+    column: column === 0 ? undefined : column,
+    sourceUrl
+  };
 }

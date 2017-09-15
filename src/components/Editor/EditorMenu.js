@@ -12,11 +12,14 @@ function getMenuItems(
     onGutterContextMenu,
     jumpToMappedLocation,
     toggleBlackBox,
-    addExpression
+    addExpression,
+    getFunctionText
   }
 ) {
   const copySourceLabel = L10N.getStr("copySource");
   const copySourceKey = L10N.getStr("copySource.accesskey");
+  const copyFunctionLabel = L10N.getStr("copyFunction.label");
+  const copyFunctionKey = L10N.getStr("copyFunction.accesskey");
   const copySourceUrlLabel = L10N.getStr("copySourceUrl");
   const copySourceUrlKey = L10N.getStr("copySourceUrl.accesskey");
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
@@ -36,12 +39,13 @@ function getMenuItems(
     click: () => copyToTheClipboard(selectedSource.get("url"))
   };
 
+  const selectionText = codeMirror.getSelection().trim();
   const copySource = {
     id: "node-menu-copy-source",
     label: copySourceLabel,
     accesskey: copySourceKey,
-    disabled: false,
-    click: () => copyToTheClipboard(codeMirror.getSelection())
+    disabled: selectionText.length === 0,
+    click: () => copyToTheClipboard(selectionText)
   };
 
   const { line, ch } = codeMirror.coordsChar({
@@ -91,16 +95,22 @@ function getMenuItems(
     click: () => showSource(selectedSource.get("id"))
   };
 
-  if (selectedSource && selectedSource.get("isBlackBoxed")) {
-    return [blackBoxMenuItem];
-  }
+  const functionText = getFunctionText(line + 1);
+  const copyFunction = {
+    id: "node-menu-copy-function",
+    label: copyFunctionLabel,
+    accesskey: copyFunctionKey,
+    disabled: !functionText,
+    click: () => copyToTheClipboard(functionText)
+  };
 
   const menuItems = [
-    copySource,
     copySourceUrl,
     jumpLabel,
     showSourceMenuItem,
-    blackBoxMenuItem
+    blackBoxMenuItem,
+    copySource,
+    copyFunction
   ];
 
   if (textSelected) {

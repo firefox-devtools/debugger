@@ -1,7 +1,7 @@
 .source-header {
   border-bottom: 1px solid var(--theme-splitter-color);
   width: 100%;
-  height: 30px;
+  height: 29px;
   display: flex;
   align-items: flex-end;
 }
@@ -46,7 +46,8 @@
   overflow: hidden;
   padding: 5px;
   margin-inline-start: 3px;
-  margin-top: 4px;
+  margin-top: 3px;
+  cursor: default;
 }
 
 .source-tab:hover {

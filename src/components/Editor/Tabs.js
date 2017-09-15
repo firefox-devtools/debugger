@@ -8,7 +8,7 @@ import * as I from "immutable";
 import {
   getSelectedSource,
   getSourcesForTabs,
-  getActiveSearchState,
+  getActiveSearch,
   getSearchTabs
 } from "../../selectors";
 import { isVisible } from "../../utils/ui";
@@ -314,13 +314,10 @@ class SourceTabs extends PureComponent {
   }
 
   renderDropdownSource(source: SourceRecord) {
-    const { moveTab } = this.props;
+    const { selectSource } = this.props;
     const filename = getFilename(source.toJS());
 
-    const onClick = () => {
-      const tabIndex = 0;
-      moveTab(source.get("url"), tabIndex);
-    };
+    const onClick = () => selectSource(source.get("id"));
     return (
       <li key={source.get("id")} onClick={onClick}>
         {filename}
@@ -513,8 +510,8 @@ export default connect(
       selectedSource: getSelectedSource(state),
       searchTabs: getSearchTabs(state),
       sourceTabs: getSourcesForTabs(state),
-      activeSearch: getActiveSearchState(state),
-      searchOn: getActiveSearchState(state) === "source"
+      activeSearch: getActiveSearch(state),
+      searchOn: getActiveSearch(state) === "source"
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

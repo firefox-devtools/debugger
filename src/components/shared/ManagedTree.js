@@ -25,7 +25,8 @@ type Props = {
   onExpand?: (item: any) => void,
   onCollapse?: (item: any) => void,
   renderItem: any,
-  disabledFocus?: boolean
+  disabledFocus?: boolean,
+  focused?: any
 };
 
 type ManagedTreeState = {
@@ -64,6 +65,10 @@ class ManagedTree extends Component {
     ) {
       this.highlightItem(highlightItems);
     }
+
+    if (nextProps.focused && nextProps.focused !== this.props.focused) {
+      this.focusItem(nextProps.focused);
+    }
   }
 
   setExpanded(item: Item, isExpanded: boolean) {
@@ -87,7 +92,7 @@ class ManagedTree extends Component {
     const expanded = this.state.expanded;
     listItems.forEach(item => expanded.add(this.props.getPath(item)));
     this.focusItem(listItems[0]);
-    this.setState({ expanded: expanded });
+    this.setState({ expanded });
   }
 
   highlightItem(highlightItems: Array<Item>) {
@@ -126,11 +131,10 @@ class ManagedTree extends Component {
       onExpand: item => this.setExpanded(item, true),
       onCollapse: item => this.setExpanded(item, false),
       onFocus: this.focusItem,
-      renderItem: (...args) => {
-        return this.props.renderItem(...args, {
+      renderItem: (...args) =>
+        this.props.renderItem(...args, {
           setExpanded: this.setExpanded
-        });
-      }
+        })
     };
 
     const props = { ...this.props, ...overrides };

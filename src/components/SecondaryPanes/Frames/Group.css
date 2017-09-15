@@ -1,6 +1,7 @@
 .frames ul .frames-group .group,
 .frames ul .frames-group .group .location {
   font-weight: 500;
+  cursor: default;
 }
 
 .frames ul .frames-group.expanded .group,

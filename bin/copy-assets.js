@@ -3,6 +3,7 @@ const {
 } = require("devtools-launchpad/index");
 const path = require("path");
 const minimist = require("minimist");
+var fs = require("fs");
 
 const feature = require("devtools-config");
 const getConfig = require("./getConfig");
@@ -77,7 +78,10 @@ function start() {
       console.log("done: copy assets");
     })
     .catch(err => {
-      console.log(err);
+      console.log(
+        "Uhoh, something went wrong. The error was written to assets-error.log"
+      );
+      fs.writeFileSync("assets-error.log", JSON.stringify(err, null, 2));
     });
 }
 

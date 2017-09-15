@@ -2,7 +2,7 @@
   width: 100%;
   margin: 0px;
   border: 1px;
-  background-color: var(--theme-body-background);
+  background-color: var(--theme-sidebar-background);
   font-size: 12px;
   padding: 0px 20px;
   color: var(--theme-body-color);
@@ -23,7 +23,7 @@
 .expressions-list {
   /* TODO: add normalize */
   margin: 0;
-  padding: 0.5em 0;
+  padding: 0;
 }
 .expression-input-container {
   padding: 0.5em;
@@ -73,18 +73,4 @@
 
 .expression-input {
   max-width: 50%;
-}
-
-.expression-separator {
-  padding: 0px 5px;
-}
-
-.expression-value {
-  overflow-x: scroll;
-  color: var(--theme-content-color2);
-  max-width: 50% !important;
-}
-
-.expression-error {
-  color: var(--theme-highlight-red);
 }

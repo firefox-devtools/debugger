@@ -1,6 +1,7 @@
 .sources-panel {
-  flex: 1;
+  background-color: var(--theme-sidebar-background);
   display: flex;
+  flex: 1;
   flex-direction: column;
   overflow: hidden;
   position: relative;
@@ -12,7 +13,8 @@
 }
 
 .sources-header {
-  height: 30px;
+  height: 29px;
+  background-color: var(--theme-toolbar-background);
   border-bottom: 1px solid var(--theme-splitter-color);
   padding-top: 0px;
   padding-bottom: 0px;
@@ -39,6 +41,7 @@
   font-weight: lighter;
   white-space: nowrap;
   padding-inline-end: 10px;
+  cursor: default;
 }
 
 .sources-list {
@@ -108,6 +111,7 @@
   padding: 5px;
   margin-bottom: 0px;
   margin-top: -1px;
+  cursor: default;
 }
 
 .source-footer .tab:hover {

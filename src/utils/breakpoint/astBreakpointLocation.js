@@ -1,12 +1,12 @@
 // @flow
 
 import { getSymbols } from "../parser";
-import { containsPosition } from "../parser/utils/helpers";
+import { containsPosition } from "../parser/utils/contains";
 
 import type { Scope } from "../parser/types";
 import type { Location, Source } from "debugger-html";
 
-function findClosestScope(functions: Scope[], location: Location) {
+export function findClosestScope(functions: Scope[], location: Location) {
   return functions.reduce((found, currNode) => {
     if (
       currNode.name === "anonymous" ||
@@ -39,11 +39,12 @@ export async function getASTLocation(source: Source, location: Location) {
 
   const scope = findClosestScope(functions, location);
   if (scope) {
+    // we only record the line, but at some point we may
+    // also do column offsets
     const line = location.line - scope.location.start.line;
-    const column = location.column;
     return {
       name: scope.name,
-      offset: { line, column }
+      offset: { line }
     };
   }
   return { name: undefined, offset: location };

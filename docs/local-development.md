@@ -1,4 +1,4 @@
-## Development Guide
+## Development Guide␊
 
 * [Themes](#themes)
 * [Internationalization](#internationalization)
@@ -51,7 +51,7 @@ The Debugger supports two types of internationalization RTL (right to left) layo
 
 #### L10N
 
-[L10N][l10n] is a global module with two methods `getStr` and `getFormatStr`. The [docs][l10n-docs] include best practices for naming keys, localization notes, and other useful topics. 
+[L10N][l10n] is a global module with two methods `getStr` and `getFormatStr`. The [docs][l10n-docs] include best practices for naming keys, localization notes, and other useful topics.
 
 ```js
 L10N.getStr("scopes.header")
@@ -284,6 +284,105 @@ function onClick(event) {
   - [Required property](./flow.md#required-property)
   - [Missing Annotation](./flow.md#missing-annotation)
   - [Type Inconsistencies](./flow.md#type-inconsistencies)
+
+### Reducers
+
+Our reducers are where we store the debugger state. We try to follow Redux best
+practices, but have added our own flavor as well with the help of Flow and Immutable
+
+#### Flow
+
+We type our stores so that we can document the shape of the data and guarantee
+the data coming in and out is well formed.
+
+Lets look at the expressions reducer and see how it is typed
+
+```js
+type ExpressionState = {
+  expressions: List<Expression>
+};
+
+export const State = makeRecord(
+  ({
+    expressions: List()
+  }: ExpressionState)
+);
+
+function update(
+  state: Record<ExpressionState> = State(),
+  action: Action
+): Record<ExpressionState> {
+  // ...
+}
+
+type OuterState = { expressions: Record<ExpressionState> };
+
+export function getExpressions(state: OuterState, input: string) {
+  return getExpressions(state).find(exp => exp.input == input);
+}
+```
+
+The `ExpressionState` documents the reducers fields. We use it in three places:
+
+1. `State` - an Immutable expression state record
+2. `update` - the reducer function which receives the expression state record
+3. `OuterState` - a local type representing the application state passed into selectors
+
+#### Immutable
+
+We try to wrap our state in Immutable records when we can for two reasons.
+First it means that the state can only be modified in the reducers.
+Second, it helps our connected components avoid unecessary renders.
+
+Connect will trigger a re-render when it sees new state, even if it has not changed.
+Immutable, will creates new objects if and only if the data changes,
+which means our components only render when it's approriate.
+
+The one situation where we do not use immutable is when it is too slow to do so.
+We avoid wrapping our pause state in immutable, because it takes too long to serialize the data.
+
+Lets take a look at the Expressions reducer to see how we use Immutable.
+
+```js
+type ExpressionState = {
+  expressions: List<Expression>
+};
+
+export const State = makeRecord(
+  ({
+    expressions: List()
+  }: ExpressionState)
+);
+
+function update(
+  state: Record<ExpressionState> = State(),
+  action: Action
+): Record<ExpressionState> {
+  case "DELETE_EXPRESSION":
+    return deleteExpression(state, action.input);
+  // ...
+}
+
+type OuterState = { expressions: Record<ExpressionState> };
+
+function deleteExpression(state: State, input: string) {
+  const index = getExpressions({ expressions: state }).findKey(
+    e => e.input == input
+  );
+  return state.deleteIn(["expressions", index]);
+}
+```
+
+The first thing to notice is that the expression is an Immutable list.
+We document that here `List<Expression>` and here `expressions: List()`.
+
+The second thing to note is that we use the Immutable api to update the state.
+We do that in `deleteExpression` here `state.deleteIn`. There [docs][immutable-docs] are really helpful.
+
+The third item is Immutable Records. Records are a special type of Immutable Map, that act like named structs.
+We use them when defining our reducer states, but they can be used more broadly as well.
+We define the `State` record above with `makeRecord`, which wraps Immutable Record so that we can
+tell Flow that we're creating an Expression State record.
 
 ### Logging
 
@@ -745,3 +844,5 @@ your questions on [slack][slack].
 [context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-modules/client/framework/menu.js
 [web-workers]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
 [l10n-docs]: https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_content_best_practices#Choose_good_key_IDs
+
+[immutable-docs]: https://facebook.github.io/immutable-js/docs/#/

@@ -5,12 +5,7 @@ import {
   makeSource
 } from "../../utils/test-head";
 
-const {
-  getTextSearchQuery,
-  getTextSearchResults,
-  getTextSearchResult,
-  getSource
-} = selectors;
+const { getTextSearchQuery, getTextSearchResults, getSource } = selectors;
 
 const threadClient = {
   sourceContents: function(sourceId) {
@@ -80,15 +75,30 @@ describe("project text search", () => {
 
     await dispatch(actions.newSource(makeSource("bar")));
     await dispatch(actions.loadSourceText({ id: "bar" }));
+
     dispatch(actions.addSearchQuery("bla"));
-    await dispatch(
-      actions.searchSource(getSource(getState(), "bar").toJS(), "bla")
-    );
 
-    const result = getTextSearchResult(getState(), "bar");
+    const sourceId = getSource(getState(), "bar").get("id");
 
-    expect(getTextSearchResults(getState()).size).toEqual(1);
+    await dispatch(actions.searchSource(sourceId, "bla"), "bla");
 
-    expect(result).toMatchSnapshot();
+    const results = getTextSearchResults(getState());
+
+    expect(results).toMatchSnapshot();
+    expect(results.size).toEqual(1);
+  });
+
+  it("should clear all the search results", async () => {
+    const { dispatch, getState } = createStore(threadClient);
+    const mockQuery = "foo";
+
+    await dispatch(actions.newSource(makeSource("foo1")));
+    await dispatch(actions.searchSources(mockQuery));
+
+    expect(getTextSearchResults(getState())).toMatchSnapshot();
+
+    await dispatch(actions.clearSearchResults());
+
+    expect(getTextSearchResults(getState())).toMatchSnapshot();
   });
 });

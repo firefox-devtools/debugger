@@ -22,7 +22,7 @@ import remapLocations from "./breakpoints/remapLocations";
 // this will need to be changed so that addCLientBreakpoint is removed
 import { syncClientBreakpoint } from "./breakpoints/syncBreakpoint";
 
-import type { Source } from "debugger-html";
+import type { SourceId } from "debugger-html";
 import type { ThunkArgs } from "./types";
 import type { PendingBreakpoint, Location } from "../types";
 import type { BreakpointsMap } from "../reducers/types";
@@ -41,27 +41,22 @@ type addBreakpointOptions = {
  * @param {PendingBreakpoint} $1.location PendingBreakpoint  value
  */
 export function syncBreakpoint(
-  source: Source,
+  sourceId: SourceId,
   pendingBreakpoint: PendingBreakpoint
 ) {
-  return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const sourceId = source.id;
-    const { line, sourceUrl, column } = pendingBreakpoint.location;
-    const location = { sourceId, sourceUrl, line, column };
-    const breakpoint = createBreakpoint(location, pendingBreakpoint);
-
-    const syncPromise = syncClientBreakpoint(
+  return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
+    const { breakpoint, previousLocation } = await syncClientBreakpoint(
       getState,
       client,
       sourceMaps,
-      source,
+      sourceId,
       pendingBreakpoint
     );
 
     return dispatch({
       type: "SYNC_BREAKPOINT",
       breakpoint,
-      [PROMISE]: syncPromise
+      previousLocation
     });
   };
 }
@@ -110,14 +105,8 @@ export function addHiddenBreakpoint(location: Location) {
 export function removeBreakpoint(location: Location) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
-    if (!bp) {
-      throw new Error("attempt to remove breakpoint that does not exist");
-    }
-
-    if (bp.loading) {
-      // TODO(jwl): make this wait until the breakpoint is saved if it
-      // is still loading
-      throw new Error("attempt to remove unsaved breakpoint");
+    if (!bp || bp.loading) {
+      return;
     }
 
     // If the breakpoint is already disabled, we don't need to communicate
@@ -150,8 +139,8 @@ export function removeBreakpoint(location: Location) {
 export function enableBreakpoint(location: Location) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const breakpoint = getBreakpoint(getState(), location);
-    if (!breakpoint) {
-      throw new Error("attempted to enable a breakpoint that does not exist");
+    if (!breakpoint || breakpoint.loading) {
+      return;
     }
 
     const action = { type: "ENABLE_BREAKPOINT", breakpoint };
@@ -174,14 +163,8 @@ export function disableBreakpoint(location: Location) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
 
-    if (!bp) {
-      throw new Error("attempt to disable a breakpoint that does not exist");
-    }
-
-    if (bp.loading) {
-      // TODO(jwl): make this wait until the breakpoint is saved if it
-      // is still loading
-      throw new Error("attempt to disable unsaved breakpoint");
+    if (!bp || bp.loading) {
+      return;
     }
 
     await client.removeBreakpoint(bp.generatedLocation);
@@ -302,9 +285,7 @@ export function setBreakpointCondition(
     }
 
     if (bp.loading) {
-      // TODO(jwl): when this function is called, make sure the action
-      // creator waits for the breakpoint to exist
-      throw new Error("breakpoint must be saved");
+      return;
     }
 
     if (bp.disabled) {
@@ -392,12 +373,8 @@ export function addOrToggleDisabledBreakpoint(line: number, column?: number) {
 export function toggleDisabledBreakpoint(line: number, column?: number) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpointAtLocation(getState(), { line, column });
-    if (bp && bp.loading) {
+    if (!bp || bp.loading) {
       return;
-    }
-
-    if (!bp) {
-      throw new Error("attempt to disable breakpoint that does not exist");
     }
 
     if (!bp.disabled) {

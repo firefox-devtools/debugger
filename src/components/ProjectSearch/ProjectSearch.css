@@ -8,7 +8,7 @@
   flex-direction: column;
   z-index: 200;
   background-color: var(--theme-body-background);
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .searchinput-container {
@@ -39,9 +39,9 @@
 
 .toggle-search .text {
   margin-left: 1em;
+  cursor: default;
 }
 
 .toggle-search .active {
   color: var(--theme-selection-background);
-  cursor: default;
 }

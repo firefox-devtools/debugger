@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import classnames from "classnames";
 
-import { escapeRegExp } from "lodash";
 import Svg from "../shared/Svg";
 
 import ManagedTree from "../shared/ManagedTree";
@@ -18,29 +17,61 @@ export default class TextSearch extends Component {
       inputValue: this.props.query || ""
     };
 
-    this.focused = null;
+    this.focusedItem = null;
+    this.inputFocused = false;
 
     this.inputOnChange = this.inputOnChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onEnterPress = this.onEnterPress.bind(this);
-    this.close = this.close.bind(this);
     this.selectMatchItem = this.selectMatchItem.bind(this);
   }
 
-  close() {
-    this.props.closeActiveSearch();
+  componentDidMount() {
+    const shortcuts = this.context.shortcuts;
+    shortcuts.on("Enter", this.onEnterPress);
   }
 
-  async onKeyDown(e) {
+  componentWillUnmount() {
+    const shortcuts = this.context.shortcuts;
+    shortcuts.off("Enter", this.onEnterPress);
+  }
+
+  selectMatchItem(matchItem) {
+    this.props.selectSource(matchItem.sourceId, { line: matchItem.line });
+  }
+
+  getResults() {
+    const { results } = this.props;
+    return results.filter(
+      result => result.filepath && result.matches.length > 0
+    );
+  }
+
+  getResultCount() {
+    const results = this.getResults();
+    return results.reduce(
+      (count, file) => count + (file.matches ? file.matches.length : 0),
+      0
+    );
+  }
+
+  onKeyDown(e) {
+    if (e.key === "Escape") {
+      return;
+    }
+
+    e.stopPropagation();
+
     if (e.key !== "Enter") {
       return;
     }
+    this.focusedItem = null;
     this.props.searchSources(this.state.inputValue);
   }
 
   onEnterPress() {
-    if (this.focused) {
-      const { setExpanded, file, expanded, match } = this.focused;
+    if (this.focusedItem && !this.inputFocused) {
+      const { setExpanded, file, expanded, match } = this.focusedItem;
       if (setExpanded) {
         setExpanded(file, !expanded);
       } else {
@@ -49,33 +80,18 @@ export default class TextSearch extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.off("Enter", this.onEnterPress);
-  }
-
-  componentDidMount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.on("Enter", this.onEnterPress);
-  }
-
   inputOnChange(e) {
     const inputValue = e.target.value;
     this.setState({ inputValue });
   }
 
-  selectMatchItem(matchItem) {
-    this.props.selectSource(matchItem.sourceId, { line: matchItem.line });
-  }
-
   renderFile(file, focused, expanded, setExpanded) {
     if (focused) {
-      this.focused = { setExpanded, file, expanded };
+      this.focusedItem = { setExpanded, file, expanded };
     }
 
-    const matches = ` (${file.matches.length} match${file.matches.length > 1
-      ? "es"
-      : ""})`;
+    const matchesLength = file.matches.length;
+    const matches = ` (${matchesLength} match${matchesLength > 1 ? "es" : ""})`;
 
     return (
       <div
@@ -93,7 +109,7 @@ export default class TextSearch extends Component {
 
   renderMatch(match, focused) {
     if (focused) {
-      this.focused = { match };
+      this.focusedItem = { match };
     }
     return (
       <div
@@ -103,68 +119,37 @@ export default class TextSearch extends Component {
         <span className="line-number" key={match.line}>
           {match.line}
         </span>
-        {this.renderMatchValue(match.value)}
+        {this.renderMatchValue(match)}
       </div>
     );
   }
 
-  renderMatchValue(value) {
-    const { inputValue } = this.state;
-    let match;
-    const len = inputValue.length;
-    const matchIndexes = [];
-    const matches = [];
-    const re = new RegExp(escapeRegExp(inputValue), "g");
-    while ((match = re.exec(value)) !== null) {
-      matchIndexes.push(match.index);
-    }
+  renderMatchValue(lineMatch) {
+    const { value, column, match } = lineMatch;
+    const len = match.length;
 
-    matchIndexes.forEach((matchIndex, index) => {
-      if (matchIndex > 0 && index === 0) {
-        matches.push(
-          <span className="line-match" key={`case1-${index}`}>
-            {value.slice(0, matchIndex)}
-          </span>
-        );
-      }
-      if (matchIndex > matchIndexes[index - 1] + len) {
-        matches.push(
-          <span className="line-match" key={`case2-${index}`}>
-            {value.slice(matchIndexes[index - 1] + len, matchIndex)}
-          </span>
-        );
-      }
-      matches.push(
-        <span className="query-match" key={index}>
-          {value.substr(matchIndex, len)}
+    return (
+      <span className="line-value">
+        <span className="line-match" key={0}>
+          {value.slice(0, column)}
         </span>
-      );
-      if (index === matchIndexes.length - 1) {
-        matches.push(
-          <span className="line-match" key={`case3-${index}`}>
-            {value.slice(matchIndex + len, value.length)}
-          </span>
-        );
-      }
-    });
-
-    return <span className="line-value">{matches}</span>;
-  }
-
-  getResults() {
-    const { results } = this.props;
-    return results.filter(
-      result => result.filepath && result.matches.length > 0
+        <span className="query-match" key={1}>
+          {value.substr(column, len)}
+        </span>
+        <span className="line-match" key={2}>
+          {value.slice(column + len, value.length)}
+        </span>
+      </span>
     );
   }
 
   renderResults() {
     const results = this.getResults();
     results = results.filter(result => result.matches.length > 0);
-    function getFilePath(item) {
+    function getFilePath(item, index) {
       return item.filepath
-        ? `${item.sourceId}`
-        : `${item.sourceId}-${item.line}-${item.column}`;
+        ? `${item.sourceId}-${index}`
+        : `${item.sourceId}-${item.line}-${item.column}-${index}`;
     }
 
     const renderItem = (item, depth, focused, _, expanded, { setExpanded }) => {
@@ -173,31 +158,30 @@ export default class TextSearch extends Component {
         : this.renderMatch(item, focused);
     };
 
-    return (
-      <ManagedTree
-        getRoots={() => results}
-        getChildren={file => file.matches || []}
-        itemHeight={24}
-        autoExpand={1}
-        autoExpandDepth={1}
-        focused={results[0]}
-        getParent={item => null}
-        getPath={getFilePath}
-        renderItem={renderItem}
-      />
-    );
-  }
-
-  resultCount() {
-    const results = this.getResults();
-    return results.reduce(
-      (count, file) => count + (file.matches ? file.matches.length : 0),
-      0
-    );
+    if (results.length) {
+      return (
+        <ManagedTree
+          getRoots={() => results}
+          getChildren={file => file.matches || []}
+          itemHeight={24}
+          autoExpand={1}
+          autoExpandDepth={1}
+          getParent={item => null}
+          getPath={getFilePath}
+          renderItem={renderItem}
+        />
+      );
+    } else if (this.props.query && !results.length) {
+      return (
+        <div className="no-result-msg absolute-center">
+          {L10N.getStr("projectTextSearch.noResults")}
+        </div>
+      );
+    }
   }
 
   renderInput() {
-    const resultCount = this.resultCount();
+    const resultCount = this.getResultCount();
     const summaryMsg = L10N.getFormatStr(
       "sourceSearch.resultsSummary1",
       resultCount
@@ -211,10 +195,10 @@ export default class TextSearch extends Component {
         size="big"
         summaryMsg={summaryMsg}
         onChange={e => this.inputOnChange(e)}
-        onFocus={() => this.setState({ focused: true })}
-        onBlur={() => this.setState({ focused: false })}
+        onFocus={() => (this.inputFocused = true)}
+        onBlur={() => (this.inputFocused = false)}
         onKeyDown={e => this.onKeyDown(e)}
-        handleClose={this.close}
+        handleClose={this.props.closeActiveSearch}
         ref="searchInput"
       />
     );
