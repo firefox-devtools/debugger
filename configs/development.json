@@ -63,10 +63,6 @@
       "label": "Highlight the lines in scope",
       "enabled": false
     },
-    "wasm": {
-      "label": "Wasm",
-      "enabled": true
-    },
     "workers": {
       "label": "Workers",
       "enabled": false

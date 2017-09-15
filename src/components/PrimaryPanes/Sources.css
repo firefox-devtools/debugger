@@ -1,6 +1,7 @@
 .sources-panel {
-  flex: 1;
+  background-color: var(--theme-sidebar-background);
   display: flex;
+  flex: 1;
   flex-direction: column;
   overflow: hidden;
   position: relative;
@@ -40,6 +41,7 @@
   font-weight: lighter;
   white-space: nowrap;
   padding-inline-end: 10px;
+  cursor: default;
 }
 
 .sources-list {
@@ -109,6 +111,7 @@
   padding: 5px;
   margin-bottom: 0px;
   margin-top: -1px;
+  cursor: default;
 }
 
 .source-footer .tab:hover {

@@ -34,9 +34,6 @@
     },
     "outline": {
       "enabled": true
-    },
-    "wasm": {
-      "enabled": true
     }
   }
 }

@@ -16,6 +16,7 @@ import { remapBreakpoints } from "./breakpoints";
 import { setEmptyLines, setOutOfScopeLocations } from "./ast";
 import { syncBreakpoint } from "./breakpoints";
 import { searchSource } from "./project-text-search";
+import { closeActiveSearch } from "./ui";
 
 import { getPrettySourceURL, isLoaded } from "../utils/source";
 import { createPrettySource } from "./sources/createPrettySource";
@@ -23,20 +24,23 @@ import { loadSourceText } from "./sources/loadSourceText";
 
 import { prefs } from "../utils/prefs";
 import { removeDocument } from "../utils/editor";
+import { isThirdParty } from "../utils/source";
+import { getGeneratedLocation } from "../utils/source-maps";
+import * as parser from "../utils/parser";
 
 import {
   getSource,
   getSources,
   getSourceByURL,
   getPendingSelectedLocation,
-  getPendingBreakpoints,
+  getPendingBreakpointsForSource,
   getSourceTabs,
   getNewSelectedSourceId,
   getSelectedLocation,
   removeSourcesFromTabList,
   removeSourceFromTabList,
   getTextSearchQuery,
-  getActiveSearchState
+  getActiveSearch
 } from "../selectors";
 
 import type { Source } from "../types";
@@ -63,16 +67,18 @@ async function checkPendingBreakpoint(
   const sameSource = sourceUrl && sourceUrl === source.url;
 
   if (sameSource) {
-    await dispatch(syncBreakpoint(source, pendingBreakpoint));
+    await dispatch(syncBreakpoint(source.id, pendingBreakpoint));
   }
 }
 
 async function checkPendingBreakpoints(state, dispatch, source) {
-  const pendingBreakpoints = getPendingBreakpoints(state);
-  if (!pendingBreakpoints) {
+  const pendingBreakpoints = getPendingBreakpointsForSource(state, source.url);
+  if (!pendingBreakpoints.size) {
     return;
   }
 
+  // load the source text if there is a pending breakpoint for it
+  await dispatch(loadSourceText(source));
   const pendingBreakpointsArray = pendingBreakpoints.valueSeq().toJS();
   for (const pendingBreakpoint of pendingBreakpointsArray) {
     await checkPendingBreakpoint(state, dispatch, pendingBreakpoint, source);
@@ -86,6 +92,11 @@ async function checkPendingBreakpoints(state, dispatch, source) {
  */
 export function newSource(source: Source) {
   return async ({ dispatch, getState }: ThunkArgs) => {
+    const _source = getSource(getState(), source.id);
+    if (_source) {
+      return;
+    }
+
     dispatch({ type: "ADD_SOURCE", source });
 
     if (prefs.clientSourceMapsEnabled) {
@@ -122,13 +133,17 @@ function loadSourceMap(generatedSource) {
     }
 
     const state = getState();
-    const originalSources = urls.map(originalUrl => {
-      return {
-        url: originalUrl,
-        id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
-        isPrettyPrinted: false
-      };
-    });
+    const originalSources = urls.map(
+      originalUrl =>
+        ({
+          url: originalUrl,
+          id: sourceMaps.generatedToOriginalId(generatedSource.id, originalUrl),
+          isPrettyPrinted: false,
+          isWasm: false,
+          isBlackBoxed: false,
+          loadedState: "unloaded"
+        }: Source)
+    );
 
     dispatch({ type: "ADD_SOURCES", sources: originalSources });
 
@@ -187,9 +202,9 @@ export function selectSource(id: string, options: SelectSourceOptions = {}) {
       return dispatch({ type: "CLEAR_SELECTED_SOURCE" });
     }
 
-    const activeSearch = getActiveSearchState(getState());
+    const activeSearch = getActiveSearch(getState());
     if (activeSearch !== "file") {
-      dispatch({ type: "TOGGLE_ACTIVE_SEARCH", value: null });
+      dispatch(closeActiveSearch());
     }
 
     dispatch(addTab(source.toJS(), 0));
@@ -220,9 +235,11 @@ export function jumpToMappedLocation(sourceLocation: any) {
     const source = getSource(getState(), sourceLocation.sourceId);
     let pairedLocation;
     if (sourceMaps.isOriginalId(sourceLocation.sourceId)) {
-      pairedLocation = await sourceMaps.getGeneratedLocation(
+      pairedLocation = await getGeneratedLocation(
+        getState(),
+        source.toJS(),
         sourceLocation,
-        source.toJS()
+        sourceMaps
       );
     } else {
       pairedLocation = await sourceMaps.getOriginalLocation(
@@ -368,12 +385,31 @@ export function loadAllSources() {
     const query = getTextSearchQuery(getState());
     for (const [, src] of sources) {
       const source = src.toJS();
+      if (isThirdParty(source)) {
+        continue;
+      }
+
       await dispatch(loadSourceText(source));
       // If there is a current search query we search
       // each of the source texts as they get loaded
       if (query) {
-        await dispatch(searchSource(source, query));
+        await dispatch(searchSource(source.id, query));
       }
+    }
+  };
+}
+
+/**
+ * Ensures parser has source text
+ *
+ * @memberof actions/sources
+ * @static
+ */
+export function ensureParserHasSourceText(sourceId: string) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    if (!await parser.hasSource(sourceId)) {
+      await dispatch(loadSourceText(getSource(getState(), sourceId).toJS()));
+      await parser.setSource(getSource(getState(), sourceId).toJS());
     }
   };
 }

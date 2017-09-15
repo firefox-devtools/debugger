@@ -8,13 +8,15 @@ import { getPaneCollapse } from "../selectors";
 import { formatKeyShortcut } from "../utils/text";
 
 import PaneToggleButton from "./shared/Button/PaneToggle";
+import type { ActiveSearchType } from "../reducers/ui";
 
 import "./WelcomeBox.css";
 
 type Props = {
   horizontal: boolean,
   togglePaneCollapse: Function,
-  endPanelCollapsed: boolean
+  endPanelCollapsed: boolean,
+  setActiveSearch: (?ActiveSearchType) => any
 };
 
 class WelcomeBox extends Component {
@@ -44,28 +46,29 @@ class WelcomeBox extends Component {
     const searchProjectShortcut = formatKeyShortcut(
       L10N.getStr("projectTextSearch.key")
     );
-    const searchFunctionsShortcut = formatKeyShortcut(
-      L10N.getStr("functionSearch.key")
-    );
 
     const searchSourcesLabel = L10N.getStr("welcome.search").substring(2);
     const searchProjectLabel = L10N.getStr("welcome.findInFiles").substring(2);
-    const searchFunctionLabel = L10N.getStr("welcome.searchFunction").substring(
-      2
-    );
+    const { setActiveSearch } = this.props;
 
     return (
       <div className="welcomebox">
         <div className="alignlabel">
           <div className="shortcutKeys">
-            <p>{searchSourcesShortcut}</p>
-            <p>{searchProjectShortcut}</p>
-            <p>{searchFunctionsShortcut}</p>
+            <p onClick={setActiveSearch.bind(null, "source")}>
+              {searchSourcesShortcut}
+            </p>
+            <p onClick={setActiveSearch.bind(null, "project")}>
+              {searchProjectShortcut}
+            </p>
           </div>
           <div className="shortcutFunction">
-            <p>{searchSourcesLabel}</p>
-            <p>{searchProjectLabel}</p>
-            <p>{searchFunctionLabel}</p>
+            <p onClick={setActiveSearch.bind(null, "source")}>
+              {searchSourcesLabel}
+            </p>
+            <p onClick={setActiveSearch.bind(null, "project")}>
+              {searchProjectLabel}
+            </p>
           </div>
           {this.renderToggleButton()}
         </div>

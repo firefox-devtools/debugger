@@ -2,21 +2,21 @@
 
 import { setupCommands, clientCommands } from "./firefox/commands";
 import { setupEvents, clientEvents } from "./firefox/events";
-import { isEnabled } from "devtools-config";
+import { features } from "../utils/prefs";
 
-export async function onConnect(connection: any, actions: Object) {
+export async function onConnect(connection: any, actions: Object): Object {
   const {
     tabConnection: { tabTarget, threadClient, debuggerClient }
   } = connection;
 
   if (!tabTarget || !threadClient || !debuggerClient) {
-    return;
+    return { bpClients: {} };
   }
 
   const supportsWasm =
-    isEnabled("wasm") && !!debuggerClient.mainRoot.traits.wasmBinarySource;
+    features.wasm && !!debuggerClient.mainRoot.traits.wasmBinarySource;
 
-  setupCommands({
+  const { bpClients } = setupCommands({
     threadClient,
     tabTarget,
     debuggerClient,
@@ -35,6 +35,10 @@ export async function onConnect(connection: any, actions: Object) {
     wasmBinarySource: supportsWasm
   });
 
+  threadClient._parent
+    .listWorkers()
+    .then(workers => actions.setWorkers(workers));
+
   // In Firefox, we need to initially request all of the sources. This
   // usually fires off individual `newSource` notifications as the
   // debugger finds them, but there may be existing sources already in
@@ -51,6 +55,8 @@ export async function onConnect(connection: any, actions: Object) {
   if (pausedPacket) {
     clientEvents.paused("paused", pausedPacket);
   }
+
+  return { bpClients };
 }
 
 export { clientCommands, clientEvents };

@@ -1,18 +1,27 @@
 // @flow
-import { getSource, getActiveSearchState } from "../selectors";
+import { getSource, getActiveSearch } from "../selectors";
 import type { ThunkArgs } from "./types";
 import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
+import { clearSourceSearchQuery } from "./source-search";
 
 export function closeActiveSearch() {
-  return {
-    type: "TOGGLE_ACTIVE_SEARCH",
-    value: null
+  return ({ getState, dispatch }: ThunkArgs) => {
+    const activeSearch = getActiveSearch(getState());
+
+    if (activeSearch == "source") {
+      dispatch(clearSourceSearchQuery());
+    }
+
+    dispatch({
+      type: "TOGGLE_ACTIVE_SEARCH",
+      value: null
+    });
   };
 }
 
 export function setActiveSearch(activeSearch?: ActiveSearchType) {
   return ({ dispatch, getState }: ThunkArgs) => {
-    const activeSearchState = getActiveSearchState(getState());
+    const activeSearchState = getActiveSearch(getState());
     if (activeSearchState === activeSearch) {
       return;
     }
@@ -106,5 +115,12 @@ export function highlightLineRange(location: {
 export function clearHighlightLineRange() {
   return {
     type: "CLEAR_HIGHLIGHT_LINES"
+  };
+}
+
+export function toggleConditionalBreakpointPanel(line: null | number) {
+  return {
+    type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
+    line
   };
 }

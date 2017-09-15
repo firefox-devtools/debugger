@@ -17,7 +17,10 @@ pref("devtools.debugger.remote-timeout", 20000);
 pref("devtools.debugger.pause-on-exceptions", false);
 pref("devtools.debugger.ignore-caught-exceptions", false);
 pref("devtools.debugger.source-maps-enabled", true);
-pref("devtools.debugger.client-source-maps-enabled", true);
+
+// Enable client-side mapping service for source maps
+pref("devtools.source-map.client-service.enabled", true);
+
 pref("devtools.debugger.pretty-print-enabled", true);
 pref("devtools.debugger.auto-pretty-print", false);
 pref("devtools.debugger.auto-black-box", true);
@@ -43,5 +46,6 @@ pref("devtools.debugger.expressions", "[]");
 pref("devtools.debugger.file-search-case-sensitive", false);
 pref("devtools.debugger.file-search-whole-word", false);
 pref("devtools.debugger.file-search-regex-match", false);
-pref("devtools.debugger.features.async-stepping", true)
+pref("devtools.debugger.features.async-stepping", true);
 pref("devtools.debugger.project-text-search-enabled", true);
+pref("devtools.debugger.features.wasm", true);

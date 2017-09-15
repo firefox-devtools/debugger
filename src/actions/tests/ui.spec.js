@@ -1,7 +1,7 @@
 import { createStore, selectors, actions } from "../../utils/test-head";
 
 const {
-  getActiveSearchState,
+  getActiveSearch,
   getFileSearchQueryState,
   getFileSearchModifierState,
   getFrameworkGroupingState,
@@ -14,24 +14,24 @@ const {
 describe("ui", () => {
   it("should toggle the visible state of project search", () => {
     const { dispatch, getState } = createStore();
-    expect(getActiveSearchState(getState())).toBe(null);
+    expect(getActiveSearch(getState())).toBe(null);
     dispatch(actions.setActiveSearch("project"));
-    expect(getActiveSearchState(getState())).toBe("project");
+    expect(getActiveSearch(getState())).toBe("project");
   });
 
   it("should close project search", () => {
     const { dispatch, getState } = createStore();
-    expect(getActiveSearchState(getState())).toBe(null);
+    expect(getActiveSearch(getState())).toBe(null);
     dispatch(actions.setActiveSearch("project"));
     dispatch(actions.closeActiveSearch());
-    expect(getActiveSearchState(getState())).toBe(null);
+    expect(getActiveSearch(getState())).toBe(null);
   });
 
   it("should toggle the visible state of file search", () => {
     const { dispatch, getState } = createStore();
-    expect(getActiveSearchState(getState())).toBe(null);
+    expect(getActiveSearch(getState())).toBe(null);
     dispatch(actions.setActiveSearch("file"));
-    expect(getActiveSearchState(getState())).toBe("file");
+    expect(getActiveSearch(getState())).toBe("file");
   });
 
   it("should update search results", () => {
@@ -50,10 +50,10 @@ describe("ui", () => {
 
   it("should close file search", () => {
     const { dispatch, getState } = createStore();
-    expect(getActiveSearchState(getState())).toBe(null);
+    expect(getActiveSearch(getState())).toBe(null);
     dispatch(actions.setActiveSearch("file"));
     dispatch(actions.closeActiveSearch());
-    expect(getActiveSearchState(getState())).toBe(null);
+    expect(getActiveSearch(getState())).toBe(null);
   });
 
   it("should update the file search query", () => {
@@ -76,9 +76,9 @@ describe("ui", () => {
 
   it("should toggle the symbol search state", () => {
     const { dispatch, getState } = createStore();
-    expect(getActiveSearchState(getState())).toBe(null);
+    expect(getActiveSearch(getState())).toBe(null);
     dispatch(actions.setActiveSearch("symbol"));
-    expect(getActiveSearchState(getState())).toBe("symbol");
+    expect(getActiveSearch(getState())).toBe("symbol");
   });
 
   it("should change the selected symbol type", () => {

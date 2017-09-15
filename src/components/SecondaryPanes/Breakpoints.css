@@ -3,7 +3,6 @@
 }
 
 .breakpoints-list * {
-  -moz-user-select: none;
   user-select: none;
 }
 
@@ -63,6 +62,7 @@ html .breakpoints-list .breakpoint.paused {
   display: inline-block;
   padding-inline-start: 2px;
   padding-bottom: 4px;
+  cursor: default;
 }
 
 .breakpoints-list .pause-indicator {

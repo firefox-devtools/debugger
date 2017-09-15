@@ -3,7 +3,7 @@
 import { setupCommands, clientCommands } from "./chrome/commands";
 import { setupEvents, clientEvents, pageEvents } from "./chrome/events";
 
-export async function onConnect(connection: any, actions: Object) {
+export async function onConnect(connection: any, actions: Object): Object {
   const { tabConnection, connTarget: { type } } = connection;
   const { Debugger, Runtime, Page } = tabConnection;
 
@@ -24,6 +24,7 @@ export async function onConnect(connection: any, actions: Object) {
 
   setupCommands({ Debugger, Runtime, Page });
   setupEvents({ actions, Page, type, Runtime });
+  return {};
 }
 
 export { clientCommands, clientEvents };

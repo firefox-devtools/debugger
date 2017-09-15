@@ -13,6 +13,7 @@ import * as projectTextSearch from "./project-text-search";
 import * as sourceSearch from "./source-search";
 import * as sourceTree from "./source-tree";
 import * as loadSourceText from "./sources/loadSourceText";
+import * as debuggee from "./debuggee";
 
 export default Object.assign(
   {},
@@ -28,5 +29,6 @@ export default Object.assign(
   projectTextSearch,
   sourceSearch,
   sourceTree,
-  loadSourceText
+  loadSourceText,
+  debuggee
 );
