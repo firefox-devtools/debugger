@@ -75,11 +75,9 @@ export class Outline extends Component {
 
     return (
       <div className={classnames("outline", { hidden: isHidden })}>
-        {symbolsToDisplay.length > 0 ? (
-          this.renderFunctions(symbolsToDisplay)
-        ) : (
-          this.renderPlaceholder()
-        )}
+        {symbolsToDisplay.length > 0
+          ? this.renderFunctions(symbolsToDisplay)
+          : this.renderPlaceholder()}
       </div>
     );
   }

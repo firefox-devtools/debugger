@@ -155,11 +155,9 @@ class ProjectSearch extends Component {
 
     return (
       <div className="search-container">
-        {this.isProjectSearchEnabled() ? (
-          this.renderTextSearch()
-        ) : (
-          this.renderSourceSearch()
-        )}
+        {this.isProjectSearchEnabled()
+          ? this.renderTextSearch()
+          : this.renderSourceSearch()}
       </div>
     );
   }

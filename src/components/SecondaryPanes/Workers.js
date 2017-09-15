@@ -16,11 +16,9 @@ export class Workers extends PureComponent {
     return (
       <div className="pane">
         <div className="pane-info">
-          {workers && workers.length > 0 ? (
-            this.renderWorkers(workers)
-          ) : (
-            this.renderNoWorkersPlaceholder()
-          )}
+          {workers && workers.length > 0
+            ? this.renderWorkers(workers)
+            : this.renderNoWorkersPlaceholder()}
         </div>
       </div>
     );
