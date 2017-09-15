@@ -12,6 +12,10 @@ export type Expression = {
   visible: boolean
 };
 
+export type Worker = {
+  url: string
+};
+
 export type Mode =
   | String
   | {

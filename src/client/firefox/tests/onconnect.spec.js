@@ -20,7 +20,10 @@ const threadClient = {
       ]
     };
   },
-  getLastPausePacket: () => null
+  getLastPausePacket: () => null,
+  _parent: {
+    listWorkers: () => new Promise(resolve => resolve({ workers: [] }))
+  }
 };
 
 const debuggerClient = {
