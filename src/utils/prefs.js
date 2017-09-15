@@ -50,7 +50,8 @@ export const prefs = new PrefsHelper("devtools", {
 
 export const features = new PrefsHelper("devtools.debugger.features", {
   asyncStepping: ["Bool", "async-stepping", false],
-  projectTextSearch: ["Bool", "debugger.project-text-search-enabled", true]
+  projectTextSearch: ["Bool", "project-text-search-enabled", true],
+  wasm: ["Bool", "wasm", true]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
