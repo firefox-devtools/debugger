@@ -19,14 +19,6 @@
   user-select: none;
 }
 
-.frames ul li:nth-of-type(2n) {
-  background-color: var(--theme-tab-toolbar-background);
-}
-
-.theme-dark .frames ul li:nth-of-type(2n) {
-  background-color: var(--theme-toolbar-background-alt);
-}
-
 .frames .location {
   font-weight: lighter;
   display: flex;
@@ -58,7 +50,6 @@
   outline: none;
 }
 
-.theme-dark .frames ul li:hover,
 .theme-dark .frames ul li:focus {
   background-color: var(--theme-tab-toolbar-background);
 }
@@ -76,11 +67,6 @@
 :root.theme-firebug .frames ul li.selected .location,
 :root.theme-dark .frames ul li.selected .location {
   color: white;
-}
-
-:root.theme-dark .frames ul li:hover .location,
-:root.theme-dark .frames ul li.selected .location {
-  opacity: 1;
 }
 
 .show-more {
