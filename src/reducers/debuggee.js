@@ -18,7 +18,7 @@ export const State = makeRecord(
 );
 
 export default function debuggee(
-  state: Record<ExpressionState> = State(),
+  state: Record<DebuggeeState> = State(),
   action: Action
 ): Record<DebuggeeState> {
   switch (action.type) {
