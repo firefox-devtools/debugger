@@ -63,8 +63,8 @@
   position: relative;
 }
 
-.expression-container .close-btn {
-  display: none;
+.expression-content .tree-node {
+  overflow-x: hidden;
 }
 
 .expression-container:hover .close-btn {
