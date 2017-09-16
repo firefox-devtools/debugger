@@ -28,7 +28,6 @@ test:
     - yarn lint-js
     - yarn lint-md
     - yarn flow
-    - ./bin/run-mochitests-docker
   post:
     - yarn flow-coverage -- -t json -o $CIRCLE_TEST_REPORTS/flow-coverage
     - yarn check --integrity
@@ -39,13 +38,11 @@ dependencies:
     - ./bin/install-yarn
     - yarn global add greenkeeper-lockfile@1
   cache_directories:
-    - ~/downloads
     - ~/.cache/yarn
     - ~/.yarn
   override:
     - yarn install
     - yarn global add flow-coverage-report
-    - ./bin/update-docker
 
 general:
   artifacts:
