@@ -1,0 +1,30 @@
+language: python
+node_js: "8.4.0"
+
+cache:
+  directories:
+    - node_modules
+
+env:
+  - DISPLAY=':99.0'
+
+addons:
+  apt:
+    packages:
+      - autoconf2.13
+      - sshpass
+      - p7zip-full
+
+install:
+  - pip install --upgrade pip
+  - pip install -U mercurial
+  - ./bin/ci/clone-gecko.sh
+  - npm install
+
+before_script:
+  - ./bin/ci/build-firefox.sh
+  - sh -e /etc/init.d/xvfb start
+
+script:
+  - echo $TRAVIS_COMMIT_RANGE
+  - ./bin/ci/run-tests.sh $TRAVIS_COMMIT_RANGE
