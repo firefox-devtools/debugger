@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-wget https://ftp.mozilla.org/pub/firefox/releases/46.0/linux-x86_64/en-US/firefox-46.0.tar.bz2
-tar -xjf firefox-46.0.tar.bz2
-sudo rm -rf  /opt/firefox46
-sudo rm  /usr/bin/firefox
-sudo mv firefox /opt/firefox46
-sudo ln -s /opt/firefox46/firefox /usr/bin/firefox

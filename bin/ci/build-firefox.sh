@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd gecko
+cd firefox
 # We have to set that env variable otherwise
 # ./mach build is going to be interactive and expect <ENTER>
 # to be pressed to continue. Here travis would just be stuck...
