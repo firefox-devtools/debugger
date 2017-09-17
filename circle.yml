@@ -35,7 +35,7 @@ test:
 
 dependencies:
   pre:
-    - ./bin/install-yarn
+    - ./bin/ci/install-yarn
     - yarn global add greenkeeper-lockfile@1
   cache_directories:
     - ~/.cache/yarn
