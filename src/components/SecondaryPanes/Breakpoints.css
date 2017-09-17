@@ -53,16 +53,24 @@ html .breakpoints-list .breakpoint.paused {
   border-color: var(--breakpoint-active-color-hover);
 }
 
-.breakpoints-list .breakpoint-checkbox {
-  margin-inline-start: 0;
-  vertical-align: -2px;
-}
-
 .breakpoints-list .breakpoint-label {
+  max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
   display: inline-block;
   padding-inline-start: 2px;
-  padding-bottom: 4px;
   cursor: default;
+}
+
+.breakpoint-label .breakpoint-checkbox {
+  margin-inline-start: 0;
+  vertical-align: text-bottom;
+}
+
+.breakpoint-label .location {
+  width: 100%;
+  display: inline-block;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  padding: 1px 0;
 }
 
 .breakpoints-list .pause-indicator {
