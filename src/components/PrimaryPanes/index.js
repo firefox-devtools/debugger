@@ -31,7 +31,6 @@ class PrimaryPanes extends Component {
   renderShortcut: Function;
   selectedPane: String;
   showPane: Function;
-  renderFooter: Function;
   renderChildren: Function;
   state: SourcesState;
   props: Props;
@@ -42,14 +41,13 @@ class PrimaryPanes extends Component {
 
     this.renderShortcut = this.renderShortcut.bind(this);
     this.showPane = this.showPane.bind(this);
-    this.renderFooter = this.renderFooter.bind(this);
   }
 
   showPane(selectedPane: string) {
     this.setState({ selectedPane });
   }
 
-  renderOutlineTabs() {
+  renderPrimaryPaneTabs() {
     if (!isEnabled("outline")) {
       return;
     }
@@ -58,7 +56,7 @@ class PrimaryPanes extends Component {
 
     const outline = formatKeyShortcut(L10N.getStr("outline.header"));
 
-    return [
+    const tabItems = [
       <div
         className={classnames("tab", {
           active: this.state.selectedPane === "sources"
@@ -78,10 +76,8 @@ class PrimaryPanes extends Component {
         {outline}
       </div>
     ];
-  }
 
-  renderFooter() {
-    return <div className="source-footer">{this.renderOutlineTabs()}</div>;
+    return <div className="source-footer">{tabItems}</div>;
   }
 
   renderShortcut() {
@@ -111,6 +107,10 @@ class PrimaryPanes extends Component {
     const { selectedPane } = this.state;
     const { sources, selectSource } = this.props;
 
+    const sourcesTreeComp = (
+      <SourcesTree sources={sources} selectSource={selectSource} />
+    );
+
     const outlineComp = isEnabled("outline") ? (
       <Outline
         selectSource={selectSource}
@@ -120,14 +120,9 @@ class PrimaryPanes extends Component {
 
     return (
       <div className="sources-panel">
-        {this.renderHeader()}
-        <SourcesTree
-          sources={sources}
-          selectSource={selectSource}
-          isHidden={selectedPane === "outline"}
-        />
-        {outlineComp}
-        {this.renderFooter()}
+        {this.renderPrimaryPaneTabs()}
+        {selectedPane == "sources" ? this.renderHeader() : null}
+        {selectedPane == "sources" ? sourcesTreeComp : outlineComp}
       </div>
     );
   }
