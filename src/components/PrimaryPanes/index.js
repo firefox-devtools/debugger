@@ -31,7 +31,7 @@ class PrimaryPanes extends Component {
   renderShortcut: Function;
   selectedPane: String;
   showPane: Function;
-  renderFooter: Function;
+  renderTabs: Function;
   renderChildren: Function;
   state: SourcesState;
   props: Props;
@@ -42,7 +42,7 @@ class PrimaryPanes extends Component {
 
     this.renderShortcut = this.renderShortcut.bind(this);
     this.showPane = this.showPane.bind(this);
-    this.renderFooter = this.renderFooter.bind(this);
+    this.renderTabs = this.renderTabs.bind(this);
   }
 
   showPane(selectedPane: string) {
@@ -80,8 +80,10 @@ class PrimaryPanes extends Component {
     ];
   }
 
-  renderFooter() {
-    return <div className="source-footer">{this.renderOutlineTabs()}</div>;
+  renderTabs() {
+    return (
+      <div className="source-outline-tabs">{this.renderOutlineTabs()}</div>
+    );
   }
 
   renderShortcut() {
@@ -121,13 +123,13 @@ class PrimaryPanes extends Component {
     return (
       <div className="sources-panel">
         {this.renderHeader()}
+        {this.renderTabs()}
         <SourcesTree
           sources={sources}
           selectSource={selectSource}
           isHidden={selectedPane === "outline"}
         />
         {outlineComp}
-        {this.renderFooter()}
       </div>
     );
   }
