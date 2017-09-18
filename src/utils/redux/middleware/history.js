@@ -13,15 +13,11 @@ export const history = (log: Object[] = []) => ({
   dispatch,
   getState
 }: ThunkArgs) => {
-  if (isDevelopment()) {
-    console.warn(
-      "Using history middleware stores all actions in state for " +
-        "testing and devtools is not currently running in test " +
-        "mode. Be sure this is intentional."
-    );
-  }
   return (next: Function) => (action: Object) => {
-    log.push(action);
-    next(action);
+    if (isDevelopment()) {
+      log.push(action);
+    }
+
+    return next(action);
   };
 };

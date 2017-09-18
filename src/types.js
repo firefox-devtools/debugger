@@ -8,8 +8,7 @@ export type SearchModifiers = {
 
 export type Expression = {
   value: Object,
-  input: string,
-  visible: boolean
+  input: string
 };
 
 export type Worker = {

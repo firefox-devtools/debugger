@@ -12,6 +12,7 @@ import {
 } from "../utils/parser";
 import { startSearchWorker, stopSearchWorker } from "../utils/search";
 import { getValue } from "devtools-config";
+import { clearHistory } from "./utils/history";
 
 global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
@@ -31,4 +32,5 @@ afterAll(() => {
 
 beforeEach(() => {
   clearSymbols();
+  clearHistory();
 });

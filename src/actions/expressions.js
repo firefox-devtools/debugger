@@ -38,7 +38,8 @@ export function addExpression(input: string) {
 
     const selectedFrame = getSelectedFrame(getState());
     const selectedFrameId = selectedFrame ? selectedFrame.id : null;
-    dispatch(evaluateExpression({ input }, selectedFrameId));
+    const newExpression = getExpression(getState(), input);
+    dispatch(evaluateExpression(newExpression, selectedFrameId));
   };
 }
 
@@ -95,7 +96,7 @@ export function evaluateExpressions(frameId: frameIdType) {
   };
 }
 
-function evaluateExpression(expression, frameId: frameIdType) {
+function evaluateExpression(expression: Expression, frameId: frameIdType) {
   return function({ dispatch, getState, client }: ThunkArgs) {
     if (!expression.input) {
       console.warn("Expressions should not be empty");

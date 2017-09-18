@@ -146,6 +146,12 @@ function update(state: PauseState = State(), action: Action): PauseState {
     case "CLEAR_COMMAND":
       return { ...state, command: "" };
 
+    case "EVALUATE_EXPRESSION":
+      return {
+        ...state,
+        command: action.status === "start" ? "expression" : ""
+      };
+
     case "NAVIGATE":
       return { ...state, debuggeeUrl: action.url };
   }
@@ -178,6 +184,21 @@ export const getLoadedObjects = createSelector(
 
 export function isStepping(state: OuterState) {
   return ["stepIn", "stepOver", "stepOut"].includes(state.pause.command);
+}
+
+export function isPaused(state: OuterState) {
+  return !!getPause(state);
+}
+
+export function isEvaluatingExpression(state: OuterState) {
+  return state.pause.command === "expression";
+}
+
+export function hasWatchExpressionErrored(state: OuterState) {
+  const pause = getPause(state);
+  return (
+    isEvaluatingExpression(state) && pause && pause.why.type === "exception"
+  );
 }
 
 export function getLoadedObject(state: OuterState, objectId: string) {
