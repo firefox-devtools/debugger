@@ -371,7 +371,8 @@ export function formatSymbols(source: Source) {
       ? symbol.parameterNames.join(", ")
       : "";
     const expression = symbol.expression || "";
-    return `${loc} ${exprLoc} ${expression} ${symbol.name} ${params}`;
+    const klass = symbol.klass || "";
+    return `${loc} ${exprLoc} ${expression} ${symbol.name} ${params} ${klass}`;
   }
 
   return [
