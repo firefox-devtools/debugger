@@ -28,10 +28,9 @@ type Props = {
 };
 
 class PrimaryPanes extends Component {
-  renderShortcut: Function;
+  renderSourcesShortcut: Function;
   selectedPane: String;
   showPane: Function;
-  renderFooter: Function;
   renderChildren: Function;
   state: SourcesState;
   props: Props;
@@ -40,25 +39,18 @@ class PrimaryPanes extends Component {
     super(props);
     this.state = { selectedPane: "sources" };
 
-    this.renderShortcut = this.renderShortcut.bind(this);
     this.showPane = this.showPane.bind(this);
-    this.renderFooter = this.renderFooter.bind(this);
   }
 
   showPane(selectedPane: string) {
     this.setState({ selectedPane });
   }
 
-  renderOutlineTabs() {
-    if (!isEnabled("outline")) {
-      return;
-    }
-
+  renderPrimaryPaneTabs() {
     const sources = formatKeyShortcut(L10N.getStr("sources.header"));
-
     const outline = formatKeyShortcut(L10N.getStr("outline.header"));
 
-    return [
+    const tabItems = [
       <div
         className={classnames("tab", {
           active: this.state.selectedPane === "sources"
@@ -78,13 +70,11 @@ class PrimaryPanes extends Component {
         {outline}
       </div>
     ];
+
+    return <div className="source-footer">{tabItems}</div>;
   }
 
-  renderFooter() {
-    return <div className="source-footer">{this.renderOutlineTabs()}</div>;
-  }
-
-  renderShortcut() {
+  renderSourcesShortcut() {
     if (this.props.horizontal) {
       const onClick = () => {
         if (this.props.sourceSearchOn) {
@@ -93,41 +83,41 @@ class PrimaryPanes extends Component {
         this.props.setActiveSearch("source");
       };
       return (
-        <span className="sources-header-info" dir="ltr" onClick={onClick}>
-          {L10N.getFormatStr(
-            "sources.search",
-            formatKeyShortcut(L10N.getStr("sources.search.key2"))
-          )}
-        </span>
+        <div className="sources-header">
+          <span className="sources-header-info" dir="ltr" onClick={onClick}>
+            {L10N.getFormatStr(
+              "sources.search",
+              formatKeyShortcut(L10N.getStr("sources.search.key2"))
+            )}
+          </span>
+        </div>
       );
     }
   }
 
-  renderHeader() {
-    return <div className="sources-header">{this.renderShortcut()}</div>;
+  renderSources() {
+    const { sources, selectSource } = this.props;
+    return (
+      <div>
+        {this.renderSourcesShortcut()}
+        <SourcesTree sources={sources} selectSource={selectSource} />
+      </div>
+    );
+  }
+
+  renderOutline() {
+    const { selectSource } = this.props;
+    return <Outline selectSource={selectSource} />;
   }
 
   render() {
     const { selectedPane } = this.state;
-    const { sources, selectSource } = this.props;
-
-    const outlineComp = isEnabled("outline") ? (
-      <Outline
-        selectSource={selectSource}
-        isHidden={selectedPane === "sources"}
-      />
-    ) : null;
-
     return (
       <div className="sources-panel">
-        {this.renderHeader()}
-        <SourcesTree
-          sources={sources}
-          selectSource={selectSource}
-          isHidden={selectedPane === "outline"}
-        />
-        {outlineComp}
-        {this.renderFooter()}
+        {isEnabled("outline") ? this.renderPrimaryPaneTabs() : null}
+        {selectedPane == "sources"
+          ? this.renderSources()
+          : this.renderOutline()}
       </div>
     );
   }

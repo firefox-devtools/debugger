@@ -79,6 +79,7 @@
 
 .sources-panel .source-footer {
   position: relative;
+  height: 29px;
 }
 
 .sources-panel .outline {
