@@ -13,6 +13,7 @@ let symbolDeclarations = new Map();
 export type SymbolDeclaration = {|
   name: string,
   expression?: string,
+  klass?: ?string,
   location: BabelLocation,
   expressionLocation?: BabelLocation,
   parameterNames?: string[],
@@ -70,6 +71,15 @@ function getComments(ast) {
   }));
 }
 
+function getClassName(path: NodePath): ?string {
+  const classDeclaration = path.findParent(_p => _p.isClassDeclaration());
+  if (!classDeclaration) {
+    return null;
+  }
+
+  return classDeclaration.node.id.name;
+}
+
 function extractSymbols(source: Source) {
   const functions = [];
   const variables = [];
@@ -87,6 +97,7 @@ function extractSymbols(source: Source) {
       if (isFunction(path)) {
         functions.push({
           name: getFunctionName(path),
+          klass: getClassName(path),
           location: path.node.loc,
           parameterNames: getFunctionParameterNames(path),
           identifier: path.node.id
@@ -333,13 +344,7 @@ function getSnippet(path, prevPath, expression = "") {
 }
 
 export function formatSymbols(source: Source) {
-  const {
-    objectProperties,
-    memberExpressions,
-    callExpressions,
-    identifiers,
-    variables
-  } = getSymbols(source);
+  const symbols = getSymbols(source);
 
   function formatLocation(loc) {
     if (!loc) {
@@ -359,25 +364,13 @@ export function formatSymbols(source: Source) {
       ? symbol.parameterNames.join(", ")
       : "";
     const expression = symbol.expression || "";
-    return `${loc} ${exprLoc} ${expression} ${symbol.name} ${params}`;
+    const klass = symbol.klass || "";
+    return `${loc} ${exprLoc} ${expression} ${symbol.name} ${params} ${klass}`;
   }
 
-  return [
-    "properties",
-    objectProperties.map(summarize).join("\n"),
-
-    "member expressions",
-    memberExpressions.map(summarize).join("\n"),
-
-    "call expressions",
-    callExpressions.map(summarize).join("\n"),
-
-    "identifiers",
-    identifiers.map(summarize).join("\n"),
-
-    "variables",
-    variables.map(summarize).join("\n")
-  ].join("\n");
+  return Object.keys(symbols).map(
+    name => `${name}:\n ${symbols[name].map(summarize).join("\n")}`
+  );
 }
 
 export function clearSymbols() {

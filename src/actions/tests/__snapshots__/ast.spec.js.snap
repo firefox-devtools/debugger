@@ -125,6 +125,7 @@ Object {
         "start": 9,
         "type": "Identifier",
       },
+      "klass": null,
       "location": Object {
         "end": Object {
           "column": 21,
