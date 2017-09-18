@@ -79,6 +79,15 @@ add_task(async function() {
 
   await deleteExpression(dbg, "foo");
   await deleteExpression(dbg, "location");
+  is(findAllElements(dbg, "expressionNodes").length, 0);
 
+  // Test expanding properties when the debuggee is active
+  await resume(dbg);
+  await addExpression(dbg, "location");
+  toggleExpression(dbg, 1);
+  await waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
+  is(findAllElements(dbg, "expressionNodes").length, 17);
+
+  await deleteExpression(dbg, "location");
   is(findAllElements(dbg, "expressionNodes").length, 0);
 });
