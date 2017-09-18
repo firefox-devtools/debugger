@@ -10,7 +10,7 @@ import sourceMaps from "devtools-source-map";
 import reducers from "../reducers";
 import actions from "../actions";
 import selectors from "../selectors";
-
+import { getHistory } from "../test/utils/history";
 import configureStore from "../utils/create-store";
 
 /**
@@ -20,6 +20,7 @@ import configureStore from "../utils/create-store";
 function createStore(client: any, initialState: any = {}, sourceMapsMock: any) {
   return configureStore({
     log: false,
+    history: getHistory(),
     makeThunkArgs: args => {
       return Object.assign({}, args, {
         client,
@@ -91,5 +92,6 @@ export {
   commonLog,
   makeSource,
   makeSymbolDeclaration,
-  waitForState
+  waitForState,
+  getHistory
 };

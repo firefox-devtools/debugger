@@ -3,7 +3,9 @@
 
 /**
  * test pausing on an errored watch expression
- * assert that you can still evalutate expressions
+ * assert that you can:
+ * 1. resume
+ * 2. still evalutate expressions
  */
 
 const expressionSelectors = {
@@ -59,11 +61,14 @@ add_task(async function() {
 
   const paused = waitForPaused(dbg);
   addExpression(dbg, "foo.bar");
-
   await paused;
   ok(dbg.selectors.hasWatchExpressionErrored(dbg.getState()));
 
+  // Resume, and re-pause in the `foo.bar` exception
+  resume(dbg);
+  await waitForPaused(dbg);
+
   toggleExpression(dbg, 1);
   await waitForDispatch(dbg, "LOAD_OBJECT_PROPERTIES");
-  is(findAllElements(dbg, "expressionNodes").length, 17);
+  is(findAllElements(dbg, "expressionNodes").length, 18);
 });

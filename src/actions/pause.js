@@ -63,6 +63,7 @@ export function continueToHere(line: number) {
         sourceId: source.id
       })
     );
+
     dispatch(command("resume"));
   };
 }
@@ -97,6 +98,8 @@ export function paused(pauseInfo: Pause) {
       dispatch(removeBreakpoint(hiddenBreakpointLocation));
     }
 
+    // NOTE: We don't want to re-evaluate watch expressions
+    // if we're paused due to an excpression exception #3597
     if (!hasWatchExpressionErrored(getState())) {
       dispatch(evaluateExpressions(frame.id));
     }
