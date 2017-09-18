@@ -1,16 +1,11 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-#ifdef RELEASE_OR_BETA
-pref("devtools.debugger.new-debugger-frontend", false);
-#else
 pref("devtools.debugger.new-debugger-frontend", true);
-#endif
 
 // Enable the Debugger
 pref("devtools.debugger.enabled", true);
 pref("devtools.debugger.chrome-debugging-host", "localhost");
-pref("devtools.debugger.chrome-debugging-port", 6080);
 pref("devtools.debugger.chrome-debugging-websocket", false);
 pref("devtools.debugger.remote-host", "localhost");
 pref("devtools.debugger.remote-timeout", 20000);
