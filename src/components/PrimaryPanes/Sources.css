@@ -77,10 +77,6 @@
   align-items: center;
 }
 
-.sources-panel .source-footer {
-  position: relative;
-}
-
 .sources-panel .outline {
   display: flex;
   flex: 1;
@@ -94,11 +90,17 @@
   display: none;
 }
 
-.source-footer {
+.source-outline-tabs {
   width: 100%;
+  background: var(--theme-body-background);
+  border-top: 1px solid var(--theme-splitter-color);
+  display: flex;
+  -moz-user-select: none;
+  user-select: none;
+  box-sizing: border-box;
 }
 
-.source-footer .tab {
+.source-outline-tabs .tab {
   flex: 1;
   justify-content: center;
   border-bottom: 1px solid transparent;
@@ -115,27 +117,27 @@
   cursor: default;
 }
 
-.source-footer .tab:first-child {
+.source-outline-tabs .tab:first-child {
   border-left: 0;
 }
 
-.source-footer .tab:hover {
+.source-outline-tabs .tab:hover {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--theme-splitter-color);
 }
 
-.source-footer .tab {
+.source-outline-tabs .tab {
   color: var(--theme-body-color);
   background-color: var(--theme-toolbar-background);
   border-color: var(--theme-splitter-color);
 }
 
-.source-footer .tab.active {
+.source-outline-tabs .tab.active {
   background-color: var(--theme-body-background);
   border-bottom-color: transparent;
 }
 
-.source-footer .tab.active path,
-.source-footer .tab:hover path {
+.source-outline-tabs .tab.active path,
+.source-outline-tabs .tab:hover path {
   fill: var(--theme-body-color);
 }

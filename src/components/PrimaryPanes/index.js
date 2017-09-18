@@ -81,7 +81,9 @@ class PrimaryPanes extends Component {
   }
 
   renderTabs() {
-    return <div className="source-footer">{this.renderOutlineTabs()}</div>;
+    return (
+      <div className="source-outline-tabs">{this.renderOutlineTabs()}</div>
+    );
   }
 
   renderShortcut() {
