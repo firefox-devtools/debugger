@@ -7,7 +7,9 @@ import {
   getPause,
   getLoadedObject,
   isStepping,
-  getSelectedSource
+  isPaused,
+  getSelectedSource,
+  hasWatchExpressionErrored
 } from "../selectors";
 import { updateFrameLocations, getPausedPosition } from "../utils/pause";
 import { evaluateExpressions } from "./expressions";
@@ -35,6 +37,10 @@ type CommandType = string;
  */
 export function resumed() {
   return ({ dispatch, client, getState }: ThunkArgs) => {
+    if (!isPaused(getState())) {
+      return;
+    }
+
     dispatch({
       type: "RESUME",
       value: undefined
@@ -91,7 +97,9 @@ export function paused(pauseInfo: Pause) {
       dispatch(removeBreakpoint(hiddenBreakpointLocation));
     }
 
-    dispatch(evaluateExpressions(frame.id));
+    if (!hasWatchExpressionErrored(getState())) {
+      dispatch(evaluateExpressions(frame.id));
+    }
 
     dispatch(
       selectSource(frame.location.sourceId, { line: frame.location.line })
