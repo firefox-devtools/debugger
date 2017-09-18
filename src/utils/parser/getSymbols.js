@@ -76,9 +76,8 @@ function getClassName(path: NodePath): ?string {
   if (!classDeclaration) {
     return null;
   }
-  if (classDeclaration) {
-    return classDeclaration.node.id.name;
-  }
+
+  return classDeclaration.node.id.name;
 }
 
 function extractSymbols(source: Source) {
