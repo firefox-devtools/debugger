@@ -109,6 +109,41 @@ variables
 [(13, 4), (13, 30)]   expressiveClass "
 `;
 
+exports[`Parser.getSymbols component 1`] = `
+"properties
+
+member expressions
+[(6, 9), (6, 16)] [(6, 4), (6, 16)] this.onClick onClick 
+[(6, 32), (6, 36)] [(6, 19), (6, 36)] this.onClick.bind bind 
+[(6, 24), (6, 31)] [(6, 19), (6, 31)] this.onClick onClick 
+[(14, 30), (14, 37)] [(14, 25), (14, 37)] this.onClick onClick 
+call expressions
+[(5, 4), (5, 9)]   undefined 
+identifiers
+[(1, 7), (1, 12)]  React React 
+[(1, 16), (1, 25)]  Component Component 
+[(1, 16), (1, 25)]  Component Component 
+[(3, 6), (3, 11)]  Punny Punny 
+[(4, 2), (4, 13)]  constructor constructor 
+[(4, 14), (4, 19)]  props props 
+[(6, 4), (6, 8)] [(6, 4), (6, 8)] this this 
+[(6, 9), (6, 16)]  onClick onClick 
+[(6, 19), (6, 23)] [(6, 19), (6, 23)] this this 
+[(6, 24), (6, 31)]  onClick onClick 
+[(6, 32), (6, 36)]  bind bind 
+[(6, 37), (6, 41)] [(6, 37), (6, 41)] this this 
+[(9, 2), (9, 19)]  componentDidMount componentDidMount 
+[(11, 2), (11, 9)]  onClick onClick 
+[(13, 2), (13, 10)]  renderMe renderMe 
+[(14, 25), (14, 29)] [(14, 25), (14, 29)] this this 
+[(14, 30), (14, 37)]  onClick onClick 
+[(17, 2), (17, 8)]  render render 
+[(3, 20), (3, 29)]  Component Component 
+variables
+[(3, 0), (18, 1)]   Punny 
+[(4, 14), (4, 19)]   props "
+`;
+
 exports[`Parser.getSymbols es6 1`] = `
 "properties
 [(1, 23), (1, 30)]   PROMISE 

@@ -13,6 +13,7 @@ let symbolDeclarations = new Map();
 export type SymbolDeclaration = {|
   name: string,
   expression?: string,
+  klass?: ?string,
   location: BabelLocation,
   expressionLocation?: BabelLocation,
   parameterNames?: string[],
@@ -70,6 +71,16 @@ function getComments(ast) {
   }));
 }
 
+function getClassName(path: NodePath): ?string {
+  const classDeclaration = path.findParent(_p => _p.isClassDeclaration());
+  if (!classDeclaration) {
+    return null;
+  }
+  if (classDeclaration) {
+    return classDeclaration.node.id.name;
+  }
+}
+
 function extractSymbols(source: Source) {
   const functions = [];
   const variables = [];
@@ -87,6 +98,7 @@ function extractSymbols(source: Source) {
       if (isFunction(path)) {
         functions.push({
           name: getFunctionName(path),
+          klass: getClassName(path),
           location: path.node.loc,
           parameterNames: getFunctionParameterNames(path),
           identifier: path.node.id

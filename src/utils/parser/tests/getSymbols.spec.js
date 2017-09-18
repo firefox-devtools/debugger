@@ -53,4 +53,9 @@ describe("Parser.getSymbols", () => {
     const symbols = formatSymbols(getSource("parseScriptTags", "html"));
     expect(symbols).toMatchSnapshot();
   });
+
+  it("component", () => {
+    const symbols = formatSymbols(getSource("component"));
+    expect(symbols).toMatchSnapshot();
+  });
 });
