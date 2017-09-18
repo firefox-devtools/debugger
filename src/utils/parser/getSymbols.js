@@ -345,13 +345,7 @@ function getSnippet(path, prevPath, expression = "") {
 }
 
 export function formatSymbols(source: Source) {
-  const {
-    objectProperties,
-    memberExpressions,
-    callExpressions,
-    identifiers,
-    variables
-  } = getSymbols(source);
+  const symbols = getSymbols(source);
 
   function formatLocation(loc) {
     if (!loc) {
@@ -375,22 +369,9 @@ export function formatSymbols(source: Source) {
     return `${loc} ${exprLoc} ${expression} ${symbol.name} ${params} ${klass}`;
   }
 
-  return [
-    "properties",
-    objectProperties.map(summarize).join("\n"),
-
-    "member expressions",
-    memberExpressions.map(summarize).join("\n"),
-
-    "call expressions",
-    callExpressions.map(summarize).join("\n"),
-
-    "identifiers",
-    identifiers.map(summarize).join("\n"),
-
-    "variables",
-    variables.map(summarize).join("\n")
-  ].join("\n");
+  return Object.keys(symbols).map(
+    name => `${name}:\n ${symbols[name].map(summarize).join("\n")}`
+  );
 }
 
 export function clearSymbols() {
