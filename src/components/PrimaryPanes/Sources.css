@@ -101,7 +101,8 @@
 .source-footer .tab {
   flex: 1;
   justify-content: center;
-  border: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   display: inline-flex;
@@ -114,15 +115,24 @@
   cursor: default;
 }
 
+.source-footer .tab:first-child {
+  border-left: 0;
+}
+
 .source-footer .tab:hover {
   background-color: var(--theme-toolbar-background-alt);
   border-color: var(--theme-splitter-color);
 }
 
-.source-footer .tab.active {
+.source-footer .tab {
   color: var(--theme-body-color);
   background-color: var(--theme-toolbar-background);
   border-color: var(--theme-splitter-color);
+}
+
+.source-footer .tab.active {
+  background-color: var(--theme-body-background);
+  border-bottom-color: transparent;
 }
 
 .source-footer .tab.active path,
