@@ -1,0 +1,37 @@
+language: python
+node_js: "8"
+
+cache:
+  - pip
+  - yarn
+
+env:
+  global:
+    - DISPLAY=':99.0'
+    - YARN_VERSION='0.24.5'
+    - MC_COMMIT='abd295766dfe'
+
+addons:
+  apt:
+    packages:
+      - autoconf2.13
+      - sshpass
+      - p7zip-full
+
+install:
+  - pip install --upgrade pip
+  - pip install -U mercurial
+  - . $HOME/.nvm/nvm.sh; nvm install stable; nvm use stable
+  - ./bin/ci/install-yarn
+  - ./bin/ci/clone-gecko.sh
+  - du -sh firefox
+  - yarn
+
+before_script:
+  - ./bin/ci/build-firefox.sh
+  - sh -e /etc/init.d/xvfb start
+
+script:
+  - node --version
+  - du -sh firefox
+  - ./bin/ci/run-tests.sh $TRAVIS_COMMIT_RANGE

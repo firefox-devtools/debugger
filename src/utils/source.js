@@ -74,6 +74,14 @@ function isPretty(source: Source): boolean {
   return source.url ? /formatted$/.test(source.url) : false;
 }
 
+function isThirdParty(source: Source) {
+  if (!source || !source.url) {
+    return false;
+  }
+
+  return !!source.url.match(/(node_modules|bower_components)/);
+}
+
 /**
  * @memberof utils/source
  * @static
@@ -212,6 +220,7 @@ function isLoaded(source: Source) {
 export {
   isJavaScript,
   isPretty,
+  isThirdParty,
   shouldPrettyPrint,
   getPrettySourceURL,
   getRawSourceURL,

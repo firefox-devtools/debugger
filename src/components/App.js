@@ -249,11 +249,9 @@ class App extends Component {
   render() {
     return (
       <div className="debugger">
-        {this.state.horizontal ? (
-          this.renderHorizontalLayout()
-        ) : (
-          this.renderVerticalLayout()
-        )}
+        {this.state.horizontal
+          ? this.renderHorizontalLayout()
+          : this.renderVerticalLayout()}
         {this.renderSymbolModal()}
       </div>
     );
