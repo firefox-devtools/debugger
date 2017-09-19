@@ -9,7 +9,7 @@ import SearchInput from "../shared/SearchInput";
 import "./TextSearch.css";
 
 import { getRelativePath } from "../../utils/sources-tree";
-import { highlightMatches } from "../../utils/search/project-search";
+import { highlightMatches } from "./textSearch/utils/highlight";
 
 export default class TextSearch extends Component {
   constructor(props: Props) {
