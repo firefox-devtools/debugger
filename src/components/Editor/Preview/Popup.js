@@ -30,7 +30,8 @@ type Props = {
   onClose: () => void,
   range: EditorRange,
   editor: any,
-  selectSourceURL: (string, Object) => void
+  selectSourceURL: (string, Object) => void,
+  openLink: string => void
 };
 
 export class Popup extends Component {
@@ -101,20 +102,20 @@ export class Popup extends Component {
   }
 
   renderSimplePreview(value: Object) {
+    const { openLink } = this.props;
     return (
       <div className="preview-popup">
         {Rep({
           object: value,
           mode: MODE.LONG,
-          // TODO: Add proper logic here.
-          openLink: () => {}
+          openLink
         })}
       </div>
     );
   }
 
   renderObjectInspector(root: Object) {
-    const { loadObjectProperties, loadedObjects } = this.props;
+    const { loadObjectProperties, loadedObjects, openLink } = this.props;
 
     const getObjectProperties = id => loadedObjects[id];
     const roots = this.getChildren(root, getObjectProperties);
@@ -135,7 +136,7 @@ export class Popup extends Component {
         getObjectEntries={actor => {}}
         loadObjectEntries={grip => {}}
         // TODO: Add proper logic here.
-        openLink={() => {}}
+        openLink={openLink}
       />
     );
   }

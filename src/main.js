@@ -22,7 +22,7 @@ if (isFirefoxPanel()) {
       tabTarget,
       debuggerClient,
       sourceMaps,
-      openLink
+      toolboxActions
     }: any) => {
       return onConnect(
         {
@@ -34,8 +34,8 @@ if (isFirefoxPanel()) {
           }
         },
         {
-          sourceMaps,
-          openLink
+          services: { sourceMaps },
+          toolboxActions
         }
       );
     },
@@ -51,11 +51,8 @@ if (isFirefoxPanel()) {
 
   bootstrap(React, ReactDOM).then(connection => {
     onConnect(connection, {
-      sourceMaps: require("devtools-source-map"),
-      openLink: url => {
-        var win = window.open(url, "_blank");
-        win.focus();
-      }
+      services: { sourceMaps: require("devtools-source-map") },
+      toolboxActions: {}
     });
   });
 }

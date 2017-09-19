@@ -1,5 +1,5 @@
 // @flow
-import React, { PropTypes, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import actions from "../../actions";
@@ -9,13 +9,26 @@ import {
   getFrameScopes,
   getPause
 } from "../../selectors";
-import { getScopes } from "../../utils/scopes";
 
+import { getScopes } from "../../utils/scopes";
 import { ObjectInspector } from "devtools-reps";
 
 import "./Scopes.css";
 
+import type { Pause, LoadedObject, Frame } from "debugger-html";
+
+type Props = {
+  pauseInfo: Pause,
+  loadedObjects: LoadedObject[],
+  loadObjectProperties: Object => void,
+  selectedFrame: Frame,
+  frameScopes: ?any,
+  openLink: string => void
+};
+
 class Scopes extends PureComponent {
+  props: Props;
+
   state: {
     scopes: any
   };
@@ -47,7 +60,12 @@ class Scopes extends PureComponent {
   }
 
   render() {
-    const { pauseInfo, loadObjectProperties, loadedObjects } = this.props;
+    const {
+      pauseInfo,
+      loadObjectProperties,
+      loadedObjects,
+      openLink
+    } = this.props;
     const { scopes } = this.state;
 
     if (scopes) {
@@ -64,8 +82,7 @@ class Scopes extends PureComponent {
             // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
             getObjectEntries={actor => {}}
             loadObjectEntries={grip => {}}
-            // TODO: Add proper logic here.
-            openLink={() => {}}
+            openLink={openLink}
           />
         </div>
       );
@@ -81,14 +98,6 @@ class Scopes extends PureComponent {
     );
   }
 }
-
-Scopes.propTypes = {
-  pauseInfo: PropTypes.object,
-  loadedObjects: PropTypes.object,
-  loadObjectProperties: PropTypes.func,
-  selectedFrame: PropTypes.object,
-  frameScopes: PropTypes.object
-};
 
 Scopes.displayName = "Scopes";
 

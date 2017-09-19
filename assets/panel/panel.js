@@ -32,24 +32,10 @@ DebuggerPanel.prototype = {
       debuggerClient: this.toolbox.target.client,
       sourceMaps: this.toolbox.sourceMapService,
       // Open a link in a new browser tab.
-      openLink: url => {
-        const parentDoc = this.toolbox.doc;
-        if (!parentDoc) {
-          return;
-        }
-
-        const win = parentDoc.querySelector("window");
-        if (!win) {
-          return;
-        }
-
-        const top = win.ownerDocument.defaultView.top;
-        if (!top || typeof top.openUILinkIn !== "function") {
-          return;
-        }
-        top.openUILinkIn(url, "tab");
+      toolboxActions: {
+        openLink: this.openLink.bind(this)
       }
-    });
+    })
 
     this._actions = actions;
     this._store = store;
@@ -70,6 +56,25 @@ DebuggerPanel.prototype = {
 
   _getState: function() {
     return this._store.getState();
+  },
+
+  openLink: function(url) {
+    const parentDoc = this.toolbox.doc;
+    if (!parentDoc) {
+      return;
+    }
+
+    const win = parentDoc.querySelector("window");
+    if (!win) {
+      return;
+    }
+
+    const top = win.ownerDocument.defaultView.top;
+    if (!top || typeof top.openUILinkIn !== "function") {
+      return;
+    }
+
+    top.openUILinkIn(url, "tab");
   },
 
   getFrames: function() {
