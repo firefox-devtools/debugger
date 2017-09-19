@@ -108,6 +108,7 @@ function getMenuItems(
     copySource,
     copySourceUrl,
     copyFunction,
+    { type: "separator" },
     jumpLabel,
     showSourceMenuItem,
     blackBoxMenuItem
