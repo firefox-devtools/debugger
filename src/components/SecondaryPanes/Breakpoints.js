@@ -125,8 +125,11 @@ class Breakpoints extends PureComponent {
     const removeConditionLabel = L10N.getStr(
       "breakpointMenuItem.removeCondition.label"
     );
-    const addOrEditConditionLabel = L10N.getStr(
-      "breakpointMenuItem.addOrEditCondition.label"
+    const addConditionLabel = L10N.getStr(
+      "breakpointMenuItem.addCondition.label"
+    );
+    const editConditionLabel = L10N.getStr(
+      "breakpointMenuItem.editCondition.label"
     );
 
     const deleteSelfKey = L10N.getStr(
@@ -155,8 +158,11 @@ class Breakpoints extends PureComponent {
     const removeConditionKey = L10N.getStr(
       "breakpointMenuItem.removeCondition.accesskey"
     );
-    const addOrEditConditionKey = L10N.getStr(
-      "breakpointMenuItem.addOrEditCondition.accesskey"
+    const addConditionKey = L10N.getStr(
+      "breakpointMenuItem.addCondition.accesskey"
+    );
+    const editConditionKey = L10N.getStr(
+      "breakpointMenuItem.editCondition.accesskey"
     );
 
     const otherBreakpoints = breakpoints.filter(b => b !== breakpoint);
@@ -248,10 +254,17 @@ class Breakpoints extends PureComponent {
       click: () => setBreakpointCondition(breakpoint.location)
     };
 
-    const addOrEditCondition = {
+    const editCondition = {
       id: "node-menu-edit-condition",
-      label: addOrEditConditionLabel,
-      accesskey: addOrEditConditionKey,
+      label: editConditionLabel,
+      accesskey: editConditionKey,
+      click: () => toggleConditionalBreakpointPanel(breakpoint.location.line)
+    };
+
+    const addCondition = {
+      id: "node-menu-add-condition",
+      label: addConditionLabel,
+      accesskey: addConditionKey,
       click: () => {
         const sourceId = breakpoint.location.sourceId;
         const line = breakpoint.location.line;
@@ -283,7 +296,12 @@ class Breakpoints extends PureComponent {
         hidden: () => otherEnabledBreakpoints.size === 0
       },
       {
-        item: addOrEditCondition
+        item: addCondition,
+        hidden: () => breakpoint.condition
+      },
+      {
+        item: editCondition,
+        hidden: () => !breakpoint.condition
       },
       {
         item: removeCondition,
