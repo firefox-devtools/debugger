@@ -1,38 +1,42 @@
-import React, { PureComponent, PropTypes } from "react";
+import React, { PureComponent } from "react";
 import "./Workers.css";
 import { connect } from "react-redux";
+import { getWorkers } from "../../selectors";
+import type { List } from "immutable";
+import type { Worker } from "../../types";
 
 export class Workers extends PureComponent {
+  props: {
+    workers: List<Worker>
+  };
+
   renderWorkers(workers) {
-    return workers.map(w => <div>{w}</div>);
+    return workers.map(w => (
+      <div className="worker" key={w.url}>
+        {w.url}
+      </div>
+    ));
   }
 
   renderNoWorkersPlaceholder() {
-    return L10N.getStr("noWorkersText");
+    return <div className="pane-info">{L10N.getStr("noWorkersText")}</div>;
   }
 
   render() {
     const { workers } = this.props;
     return (
-      <div className="pane">
-        <div className="pane-info">
-          {workers && workers.length > 0 ? (
-            this.renderWorkers(workers)
-          ) : (
-            this.renderNoWorkersPlaceholder()
-          )}
-        </div>
+      <div className="pane workers-list">
+        {workers && workers.size > 0
+          ? this.renderWorkers(workers)
+          : this.renderNoWorkersPlaceholder()}
       </div>
     );
   }
 }
 
 Workers.displayName = "Workers";
-Workers.propTypes = {
-  workers: PropTypes.array.isRequired
-};
 
 function mapStateToProps(state) {
-  return { workers: [] };
+  return { workers: getWorkers(state) };
 }
 export default connect(mapStateToProps)(Workers);

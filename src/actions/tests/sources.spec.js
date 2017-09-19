@@ -30,6 +30,15 @@ describe("sources", () => {
     expect(jquery.get("id")).toEqual("jquery.js");
   });
 
+  it("should not add multiple identical sources", async () => {
+    const { dispatch, getState } = createStore();
+
+    await dispatch(actions.newSource(makeSource("base.js")));
+    await dispatch(actions.newSource(makeSource("base.js")));
+
+    expect(getSources(getState()).size).toEqual(1);
+  });
+
   it("should select a source", async () => {
     // Note that we pass an empty client in because the action checks
     // if it exists.

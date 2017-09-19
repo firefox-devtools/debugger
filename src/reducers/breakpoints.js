@@ -44,7 +44,7 @@ function update(
     }
 
     case "SYNC_BREAKPOINT": {
-      return addBreakpoint(state, action);
+      return syncBreakpoint(state, action);
     }
 
     case "ENABLE_BREAKPOINT": {
@@ -72,7 +72,7 @@ function update(
 }
 
 function addBreakpoint(state, action) {
-  if (action.status === "start") {
+  if (action.status === "start" && action.breakpoint) {
     const { breakpoint } = action;
     const locationId = makeLocationId(breakpoint.location);
     return state.setIn(["breakpoints", locationId], breakpoint);
@@ -80,25 +80,29 @@ function addBreakpoint(state, action) {
 
   // when the action completes, we can commit the breakpoint
   if (action.status === "done") {
-    const { value: { breakpoint, previousLocation } } = action;
-    const locationId = makeLocationId(breakpoint.location);
-
-    if (previousLocation) {
-      return state
-        .deleteIn(["breakpoints", makeLocationId(previousLocation)])
-        .setIn(["breakpoints", locationId], breakpoint);
-    }
-
-    return state.setIn(["breakpoints", locationId], breakpoint);
+    return syncBreakpoint(state, action.value);
   }
 
   // Remove the optimistic update
-  if (action.status === "error") {
+  if (action.status === "error" && action.breakpoint) {
     const locationId = makeLocationId(action.breakpoint.location);
     return state.deleteIn(["breakpoints", locationId]);
   }
 
   return state;
+}
+
+function syncBreakpoint(state, data) {
+  const { breakpoint, previousLocation } = data;
+  const locationId = makeLocationId(breakpoint.location);
+
+  if (previousLocation) {
+    return state
+      .deleteIn(["breakpoints", makeLocationId(previousLocation)])
+      .setIn(["breakpoints", locationId], breakpoint);
+  }
+
+  return state.setIn(["breakpoints", locationId], breakpoint);
 }
 
 function updateBreakpoint(state, action) {

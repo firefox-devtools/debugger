@@ -8,7 +8,7 @@
   flex-direction: column;
   z-index: 200;
   background-color: var(--theme-body-background);
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .searchinput-container {

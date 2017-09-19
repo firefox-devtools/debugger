@@ -46,7 +46,7 @@ function update(
     }
 
     case "SYNC_BREAKPOINT": {
-      return addBreakpoint(state, action);
+      return syncBreakpoint(state, action);
     }
 
     case "ENABLE_BREAKPOINT": {
@@ -82,6 +82,20 @@ function addBreakpoint(state, action) {
   return state.setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
 }
 
+function syncBreakpoint(state, action) {
+  const { breakpoint, previousLocation } = action;
+  const locationId = makePendingLocationId(breakpoint.location);
+  const pendingBreakpoint = createPendingBreakpoint(breakpoint);
+
+  if (previousLocation) {
+    return state
+      .deleteIn(["pendingBreakpoints", makePendingLocationId(previousLocation)])
+      .setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
+  }
+
+  return state.setIn(["pendingBreakpoints", locationId], pendingBreakpoint);
+}
+
 function updateBreakpoint(state, action) {
   const { breakpoint } = action;
   const locationId = makePendingLocationId(breakpoint.location);
@@ -92,7 +106,13 @@ function updateBreakpoint(state, action) {
 
 function removeBreakpoint(state, action) {
   const { breakpoint } = action;
+
   const locationId = makePendingLocationId(breakpoint.location);
+  const pendingBp = state.getIn(["pendingBreakpoints", locationId]);
+
+  if (!pendingBp && action.status == "start") {
+    return state.set("pendingBreakpoints", I.Map());
+  }
 
   return state.deleteIn(["pendingBreakpoints", locationId]);
 }
@@ -104,6 +124,16 @@ type OuterState = { pendingBreakpoints: Record<PendingBreakpointsState> };
 
 export function getPendingBreakpoints(state: OuterState) {
   return state.pendingBreakpoints.pendingBreakpoints;
+}
+
+export function getPendingBreakpointsForSource(
+  state: OuterState,
+  sourceUrl: String
+) {
+  const pendingBreakpoints = state.pendingBreakpoints.pendingBreakpoints || [];
+  return pendingBreakpoints.filter(
+    pendingBreakpoint => pendingBreakpoint.location.sourceUrl === sourceUrl
+  );
 }
 
 function restorePendingBreakpoints() {

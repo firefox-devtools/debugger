@@ -4,7 +4,11 @@ import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
-import { getSelectedSource, getPaneCollapse } from "../selectors";
+import {
+  getSelectedSource,
+  getPaneCollapse,
+  getActiveSearch
+} from "../selectors";
 import type { SourceRecord } from "../reducers/sources";
 import { isVisible } from "../utils/ui";
 
@@ -38,7 +42,10 @@ type Props = {
   selectSource: Function,
   selectedSource: SourceRecord,
   startPanelCollapsed: boolean,
-  endPanelCollapsed: boolean
+  closeActiveSearch: () => void,
+  endPanelCollapsed: boolean,
+  activeSearch: string,
+  setActiveSearch: string => void
 };
 
 class App extends Component {
@@ -53,6 +60,8 @@ class App extends Component {
   getChildContext: Function;
   renderEditorPane: Function;
   renderVerticalLayout: Function;
+  toggleSymbolModal: Function;
+  onEscape: Function;
 
   constructor(props) {
     super(props);
@@ -64,8 +73,10 @@ class App extends Component {
 
     this.getChildContext = this.getChildContext.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
+    this.toggleSymbolModal = this.toggleSymbolModal.bind(this);
     this.renderEditorPane = this.renderEditorPane.bind(this);
     this.renderVerticalLayout = this.renderVerticalLayout.bind(this);
+    this.onEscape = this.onEscape.bind(this);
   }
 
   getChildContext() {
@@ -74,10 +85,51 @@ class App extends Component {
 
   componentDidMount() {
     verticalLayoutBreakpoint.addListener(this.onLayoutChange);
+    shortcuts.on(
+      L10N.getStr("symbolSearch.search.key2"),
+      this.toggleSymbolModal
+    );
+    shortcuts.on("Escape", this.onEscape);
   }
 
   componentWillUnmount() {
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
+    shortcuts.off(
+      L10N.getStr("symbolSearch.search.key2"),
+      this.toggleSymbolModal
+    );
+    shortcuts.off("Escape", this.onEscape);
+  }
+
+  onEscape(_, e) {
+    const { activeSearch, closeActiveSearch } = this.props;
+
+    if (activeSearch) {
+      e.preventDefault();
+      closeActiveSearch();
+    }
+  }
+
+  toggleSymbolModal(_, e: SyntheticEvent) {
+    const {
+      selectedSource,
+      activeSearch,
+      closeActiveSearch,
+      setActiveSearch
+    } = this.props;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!selectedSource) {
+      return;
+    }
+
+    if (activeSearch == "symbol") {
+      return closeActiveSearch();
+    }
+
+    setActiveSearch("symbol");
   }
 
   onLayoutChange() {
@@ -179,20 +231,28 @@ class App extends Component {
     );
   }
 
-  render() {
-    const { selectSource, selectedSource } = this.props;
+  renderSymbolModal() {
+    const { selectSource, selectedSource, activeSearch } = this.props;
+
+    if (activeSearch !== "symbol") {
+      return;
+    }
 
     return (
+      <SymbolModal
+        selectSource={selectSource}
+        selectedSource={selectedSource}
+      />
+    );
+  }
+
+  render() {
+    return (
       <div className="debugger">
-        {this.state.horizontal ? (
-          this.renderHorizontalLayout()
-        ) : (
-          this.renderVerticalLayout()
-        )}
-        <SymbolModal
-          selectSource={selectSource}
-          selectedSource={selectedSource}
-        />
+        {this.state.horizontal
+          ? this.renderHorizontalLayout()
+          : this.renderVerticalLayout()}
+        {this.renderSymbolModal()}
       </div>
     );
   }
@@ -206,7 +266,8 @@ export default connect(
   state => ({
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
-    endPanelCollapsed: getPaneCollapse(state, "end")
+    endPanelCollapsed: getPaneCollapse(state, "end"),
+    activeSearch: getActiveSearch(state)
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )(App);

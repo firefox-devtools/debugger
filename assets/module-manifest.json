@@ -18790,7 +18790,7 @@
       "../../lodash/_copyArray.js": 401,
       "../../lodash/_initCloneObject.js": 402,
       "../../lodash/_baseCreate.js": 403,
-      "../../lodash/isArrayLikeObject.js": 404,
+      "../../lodash/isArrayLikeObject.js": 1155,
       "../../lodash/toPlainObject.js": 405,
       "../../lodash/_copyObject.js": 406,
       "../../lodash/keysIn.js": 407,
@@ -19975,7 +19975,25 @@
       "../../../src/components/SymbolModal.css": 1125,
       "../../svg-inline-loader/index.js!../assets/rocket.svg": 1126,
       "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/parser/utils/contains.js": 1127,
-      "../../lodash/difference.js": 1129
+      "../../lodash/difference.js": 1129,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/reducers/source-search.js": 1132,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/actions/sources/loadSourceText.js": 1143,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/actions/source-search.js": 1144,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/components/Editor/EmptyLines.js": 1146,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--4-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/Editor/EmptyLines.css": 1147,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/components/SecondaryPanes/Workers.js": 1149,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--4-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/SecondaryPanes/Workers.css": 1150,
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/Editor/EmptyLines.css": 1156,
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/SecondaryPanes/Workers.css": 1160,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/Editor/EmptyLines.css": 1161,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--5-0!../node_modules/style-loader/index.js!../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Workers.css": 1162,
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/EmptyLines.css": 1163,
+      "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/Workers.css": 1164,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../devtools-source-map/node_modules/devtools-utils/index.js": 1165,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../devtools-source-map/node_modules/devtools-utils/src/privileged-network-request.js": 1166,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../devtools-source-map/node_modules/devtools-utils/src/worker-utils.js": 1168,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/function.js": 1169,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/parser/sources.js": 1171
     },
     "usedIds": {
       "0": 0,
@@ -21110,6 +21128,7 @@
       "1129": 1129,
       "1130": 1130,
       "1131": 1131,
+      "1132": 1132,
       "1133": 1133,
       "1134": 1134,
       "1135": 1135,
@@ -21120,17 +21139,35 @@
       "1140": 1140,
       "1141": 1141,
       "1142": 1142,
+      "1143": 1143,
+      "1144": 1144,
       "1145": 1145,
+      "1146": 1146,
+      "1147": 1147,
       "1148": 1148,
+      "1149": 1149,
+      "1150": 1150,
       "1151": 1151,
       "1152": 1152,
       "1153": 1153,
       "1154": 1154,
+      "1155": 1155,
+      "1156": 1156,
       "1157": 1157,
       "1158": 1158,
       "1159": 1159,
+      "1160": 1160,
+      "1161": 1161,
+      "1162": 1162,
+      "1163": 1163,
+      "1164": 1164,
+      "1165": 1165,
+      "1166": 1166,
       "1167": 1167,
+      "1168": 1168,
+      "1169": 1169,
       "1170": 1170,
+      "1171": 1171,
       "1173": 1173,
       "1174": 1174
     }
@@ -21168,7 +21205,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21189,7 +21226,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21210,7 +21247,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21231,7 +21268,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21252,7 +21289,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21273,7 +21310,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21294,7 +21331,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21315,7 +21352,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21336,7 +21373,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21357,7 +21394,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21378,7 +21415,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21399,7 +21436,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21420,7 +21457,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21441,7 +21478,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21462,7 +21499,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21483,7 +21520,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21504,7 +21541,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21525,7 +21562,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21546,7 +21583,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21567,7 +21604,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21588,7 +21625,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21609,7 +21646,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21630,7 +21667,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21651,7 +21688,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21672,7 +21709,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21693,7 +21730,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21714,7 +21751,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21735,7 +21772,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21756,7 +21793,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21777,7 +21814,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21840,7 +21877,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21861,7 +21898,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21882,7 +21919,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21903,7 +21940,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21924,7 +21961,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21945,7 +21982,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21966,7 +22003,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -21987,7 +22024,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -22008,7 +22045,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -22029,7 +22066,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -22050,7 +22087,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -22071,7 +22108,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -22092,7 +22129,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -22113,7 +22150,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -22134,7 +22171,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -22155,7 +22192,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "1": 1
+          "0": 0
         }
       }
     }
@@ -23184,7 +23221,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -23205,7 +23242,7 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       }
     }
@@ -24214,6 +24251,90 @@
         "byBlocks": {},
         "usedIds": {
           "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/SecondaryPanes/Workers.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/SecondaryPanes/Workers.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--4-2!../../postcss-loader/lib/index.js??ref--4-3!../../../src/components/Editor/EmptyLines.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../postcss-loader/lib/index.js?{\"config\":{\"path\":\"/Users/jlaster/src/mozilla/debugger.html/node_modules/devtools-launchpad/postcss.config.js\"}}!../../../src/components/Editor/EmptyLines.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/SecondaryPanes/Workers.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/SecondaryPanes/Workers.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--5-2!../../../src/components/Editor/EmptyLines.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js?{\"importLoaders\":1}!../../../src/components/Editor/EmptyLines.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
         }
       }
     }

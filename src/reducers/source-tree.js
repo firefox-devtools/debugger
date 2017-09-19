@@ -16,7 +16,7 @@ export type SourceTreeState = {
   expanded: any
 };
 
-function InitialState(): Record<SourceTreeState> {
+export function InitialState(): Record<SourceTreeState> {
   return makeRecord({
     expanded: null
   })();

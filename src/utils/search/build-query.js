@@ -19,7 +19,7 @@ function ignoreWhiteSpace(str: string): string {
 }
 
 function wholeMatch(query: string, wholeWord: boolean): string {
-  if (query == "" || !wholeWord) {
+  if (query === "" || !wholeWord) {
     return query;
   }
 
@@ -49,7 +49,7 @@ export default function buildQuery(
 ): RegExp {
   const { caseSensitive, regexMatch, wholeWord } = modifiers;
 
-  if (originalQuery == "") {
+  if (originalQuery === "") {
     return new RegExp(originalQuery);
   }
 

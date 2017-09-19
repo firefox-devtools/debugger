@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import actions from "../../actions";
 import { getSelectedSource, getSymbols } from "../../selectors";
-import { isEnabled } from "devtools-config";
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
 
@@ -37,8 +36,16 @@ export class Outline extends Component {
     selectSource(selectedSourceId, { line: startLine });
   }
 
+  renderPlaceholder() {
+    return (
+      <div className="outline-pane-info">
+        {L10N.getStr("outline.noFunctions")}
+      </div>
+    );
+  }
+
   renderFunction(func: SymbolDeclaration) {
-    const { name, location } = func;
+    const { name, location, parameterNames } = func;
 
     return (
       <li
@@ -46,28 +53,31 @@ export class Outline extends Component {
         className="outline-list__element"
         onClick={() => this.selectItem(location)}
       >
-        <PreviewFunction func={{ name }} />
+        <PreviewFunction func={{ name, parameterNames }} />
       </li>
     );
   }
 
-  renderFunctions() {
-    const { symbols } = this.props;
-
-    return symbols.functions
-      .filter(func => func.name != "anonymous")
-      .map(func => this.renderFunction(func));
+  renderFunctions(symbols: Array<SymbolDeclaration>) {
+    return (
+      <ul className="outline-list">
+        {symbols.map(func => this.renderFunction(func))}
+      </ul>
+    );
   }
 
   render() {
-    const { isHidden } = this.props;
-    if (!isEnabled("outline")) {
-      return null;
-    }
+    const { isHidden, symbols } = this.props;
+
+    const symbolsToDisplay = symbols.functions.filter(
+      func => func.name != "anonymous"
+    );
 
     return (
       <div className={classnames("outline", { hidden: isHidden })}>
-        <ul className="outline-list">{this.renderFunctions()}</ul>
+        {symbolsToDisplay.length > 0
+          ? this.renderFunctions(symbolsToDisplay)
+          : this.renderPlaceholder()}
       </div>
     );
   }

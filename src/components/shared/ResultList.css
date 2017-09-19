@@ -46,6 +46,14 @@
   background-color: var(--theme-body-background);
 }
 
+.theme-dark .result-list li:hover {
+  background: var(--grey-70);
+}
+
+.theme-dark .result-list li.selected {
+  background: var(--grey-70);
+}
+
 .result-list li .title {
   line-height: 1.5em;
   word-break: break-all;

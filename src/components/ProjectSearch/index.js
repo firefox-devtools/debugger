@@ -9,10 +9,10 @@ import TextSearch from "./TextSearch";
 import SourceSearch from "./SourceSearch";
 import ToggleSearch from "./ToggleSearch";
 
-import { prefs } from "../../utils/prefs";
+import { features } from "../../utils/prefs";
 import {
   getSources,
-  getActiveSearchState,
+  getActiveSearch,
   getTextSearchResults,
   getTextSearchQuery,
   getSourceSearchQuery
@@ -61,7 +61,6 @@ class ProjectSearch extends Component {
       L10N.getStr("sources.search.alt.key")
     ];
     searchKeys.forEach(key => shortcuts.off(key, this.toggleSourceSearch));
-    shortcuts.off("Escape", this.onEscape);
   }
 
   toggleProjectTextSearch(key, e) {
@@ -70,7 +69,7 @@ class ProjectSearch extends Component {
       e.preventDefault();
     }
 
-    if (!prefs.projectTextSearchEnabled) {
+    if (!features.projectTextSearch) {
       return;
     }
 
@@ -156,11 +155,9 @@ class ProjectSearch extends Component {
 
     return (
       <div className="search-container">
-        {this.isProjectSearchEnabled() ? (
-          this.renderTextSearch()
-        ) : (
-          this.renderSourceSearch()
-        )}
+        {this.isProjectSearchEnabled()
+          ? this.renderTextSearch()
+          : this.renderSourceSearch()}
       </div>
     );
   }
@@ -189,7 +186,7 @@ ProjectSearch.displayName = "ProjectSearch";
 export default connect(
   state => ({
     sources: getSources(state),
-    activeSearch: getActiveSearchState(state),
+    activeSearch: getActiveSearch(state),
     results: getTextSearchResults(state),
     textSearchQuery: getTextSearchQuery(state),
     sourceSearchQuery: getSourceSearchQuery(state)

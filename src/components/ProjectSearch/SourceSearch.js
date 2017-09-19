@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 
-import { isPretty, getSourcePath } from "../../utils/source";
+import { isPretty, getSourcePath, isThirdParty } from "../../utils/source";
 import { endTruncateStr } from "../../utils/utils";
 
 import Autocomplete from "../shared/Autocomplete";
@@ -18,38 +18,13 @@ export default class SourceSearch extends Component {
     clearQuery: () => void
   };
 
-  onEscape: Function;
-  close: Function;
   toggleSourceSearch: Function;
 
-  constructor(props: Props) {
-    super(props);
-
-    this.close = this.close.bind(this);
-  }
-
-  componentWillUnmount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.off("Escape", this.onEscape);
-  }
-
-  componentDidMount() {
-    const shortcuts = this.context.shortcuts;
-    shortcuts.on("Escape", this.onEscape);
-  }
-
-  onEscape(shortcut, e) {
-    if (this.isProjectSearchEnabled()) {
-      e.preventDefault();
-      this.close();
-    }
-  }
-
-  searchResults(sourceMap: SourcesMap) {
-    return sourceMap
+  searchResults(sources: SourcesMap) {
+    return sources
       .valueSeq()
       .toJS()
-      .filter(source => !isPretty(source))
+      .filter(source => !isPretty(source) && !isThirdParty(source))
       .map(source => ({
         value: getSourcePath(source),
         title: getSourcePath(source)
@@ -58,11 +33,6 @@ export default class SourceSearch extends Component {
         subtitle: endTruncateStr(getSourcePath(source), 100),
         id: source.id
       }));
-  }
-
-  close() {
-    this.props.clearQuery();
-    this.props.closeActiveSearch();
   }
 
   render() {
@@ -75,11 +45,8 @@ export default class SourceSearch extends Component {
     } = this.props;
     return (
       <Autocomplete
-        selectItem={(e, result) => {
-          selectSource(result.id);
-          this.close();
-        }}
-        close={this.close}
+        selectItem={(e, result) => selectSource(result.id)}
+        close={this.props.closeActiveSearch}
         items={this.searchResults(sources)}
         inputValue={query}
         placeholder={L10N.getStr("sourceSearch.search")}

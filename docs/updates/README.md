@@ -4,6 +4,24 @@ permalink: docs/updates
 
 ### Weekly Updates
 
+### [September 5th](./updates-9-5-2017.md)
+
+
+* **AST Breakpoints** landed the final changes for finding a breakpoint ast location and setting an ast location when a breakpoint is created.  We should be able to land AST Breakpoints this week!
+* **Async Stepping** landed the utilities for identifying async expressions, and the logical "next" statement to step to. Async Stepping will land in the next release.
+* **WASM** We enabled wasm debugging in the new UI and it is now turned on in nightly. Debugging WASM source code in the native language (C, C++) is a blast.
+* **Worker List** added a new Workers right sidebar pane and populating the pane with debuggee workers. The next step is to add the about:debugging util for launching a new toolbox.
+* **Mapping minified variables** started working on mapping minified variables, which will show the the "original" variable name in the scopes pane, and enable preview, watch expressions and the console to work with original * expressions.
+* **Project Search** continued to polish project search. This week he fixed keyboard navigation of streaming results, and made result orders deterministic.
+* **Syncing CSS** removed the theme's CSS class namespace, which will make it easy to sync themes with m-c.
+* **Accidental Breakpoints** fixed and uplifted a bug to 56, where the debugger created new breakpoints when the user changed original code and reloaded.
+* **File Search** improved file search performance and fixed a bug where the debugger would crash on large files.
+* **Empty Lines** landed disabled empty lines where the debugger disables lines that do not have any executable code.
+* **Photon** started styling the debugger for the new photon design. It is looking great!
+* **Welcome Box** styled the welcome box and added some additional shortcuts.
+* **Release** released a new version of the debugger to nightly, which included the last month of work. We'll start getting feedback on it now that it's in nightly.
+
+
 ### [August 29nd](./updates-8-29-2017.md)
 
 * Finished move to JSX for all of our components

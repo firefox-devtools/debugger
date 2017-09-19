@@ -22,6 +22,7 @@ ShallowWrapper {
                 func={
                     Object {
                         "name": "my_example_function1",
+                        "parameterNames": undefined,
                       }
                 }
             />
@@ -34,6 +35,7 @@ ShallowWrapper {
                 func={
                     Object {
                         "name": "my_example_function2",
+                        "parameterNames": undefined,
                       }
                 }
             />
@@ -55,6 +57,7 @@ ShallowWrapper {
                         func={
                               Object {
                                     "name": "my_example_function1",
+                                    "parameterNames": undefined,
                                   }
                         }
                   />
@@ -67,6 +70,7 @@ ShallowWrapper {
                         func={
                               Object {
                                     "name": "my_example_function2",
+                                    "parameterNames": undefined,
                                   }
                         }
                   />
@@ -182,6 +186,7 @@ ShallowWrapper {
                                         func={
                                                   Object {
                                                             "name": "my_example_function1",
+                                                            "parameterNames": undefined,
                                                           }
                                         }
                               />
@@ -194,6 +199,7 @@ ShallowWrapper {
                                         func={
                                                   Object {
                                                             "name": "my_example_function2",
+                                                            "parameterNames": undefined,
                                                           }
                                         }
                               />
@@ -215,6 +221,7 @@ ShallowWrapper {
                                         func={
                                                   Object {
                                                             "name": "my_example_function1",
+                                                            "parameterNames": undefined,
                                                           }
                                         }
                               />
@@ -227,6 +234,7 @@ ShallowWrapper {
                                         func={
                                                   Object {
                                                             "name": "my_example_function2",
+                                                            "parameterNames": undefined,
                                                           }
                                         }
                               />
@@ -302,6 +310,7 @@ ShallowWrapper {
                 func={
                     Object {
                         "name": "my_example_function1",
+                        "parameterNames": undefined,
                       }
                 }
             />
@@ -323,6 +332,7 @@ ShallowWrapper {
                         func={
                               Object {
                                     "name": "my_example_function1",
+                                    "parameterNames": undefined,
                                   }
                         }
                   />
@@ -438,6 +448,7 @@ ShallowWrapper {
                                         func={
                                                   Object {
                                                             "name": "my_example_function1",
+                                                            "parameterNames": undefined,
                                                           }
                                         }
                               />
@@ -459,6 +470,7 @@ ShallowWrapper {
                                         func={
                                                   Object {
                                                             "name": "my_example_function1",
+                                                            "parameterNames": undefined,
                                                           }
                                         }
                               />

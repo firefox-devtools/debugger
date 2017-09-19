@@ -1,4 +1,9 @@
-import { getFilename, getMode, getSourceLineCount } from "../source.js";
+import {
+  getFilename,
+  getMode,
+  getSourceLineCount,
+  isThirdParty
+} from "../source.js";
 
 describe("sources", () => {
   describe("getFilename", () => {
@@ -14,6 +19,20 @@ describe("sources", () => {
           id: ""
         })
       ).toBe("hello.html");
+    });
+  });
+
+  describe("isThirdParty", () => {
+    it("node_modules", () => {
+      expect(isThirdParty({ url: "/node_modules/foo.js" })).toBe(true);
+    });
+
+    it("bower_components", () => {
+      expect(isThirdParty({ url: "/bower_components/foo.js" })).toBe(true);
+    });
+
+    it("not third party", () => {
+      expect(isThirdParty({ url: "/bar/foo.js" })).toBe(false);
     });
   });
 
