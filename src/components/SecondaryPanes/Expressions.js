@@ -179,6 +179,8 @@ class Expressions extends PureComponent {
             // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
             getObjectEntries={actor => {}}
             loadObjectEntries={grip => {}}
+            // TODO: Add proper logic here.
+            openLink={() => {}}
           />
           <div className="expression-container__close-btn">
             <CloseButton

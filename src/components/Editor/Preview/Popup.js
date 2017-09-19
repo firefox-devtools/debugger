@@ -103,7 +103,12 @@ export class Popup extends Component {
   renderSimplePreview(value: Object) {
     return (
       <div className="preview-popup">
-        {Rep({ object: value, mode: MODE.LONG })}
+        {Rep({
+          object: value,
+          mode: MODE.LONG,
+          // TODO: Add proper logic here.
+          openLink: () => {}
+        })}
       </div>
     );
   }
@@ -129,6 +134,8 @@ export class Popup extends Component {
         // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
         getObjectEntries={actor => {}}
         loadObjectEntries={grip => {}}
+        // TODO: Add proper logic here.
+        openLink={() => {}}
       />
     );
   }
