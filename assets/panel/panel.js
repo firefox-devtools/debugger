@@ -30,7 +30,25 @@ DebuggerPanel.prototype = {
       threadClient: this.toolbox.threadClient,
       tabTarget: this.toolbox.target,
       debuggerClient: this.toolbox.target.client,
-      sourceMaps: this.toolbox.sourceMapService
+      sourceMaps: this.toolbox.sourceMapService,
+      // Open a link in a new browser tab.
+      openLink: url => {
+        const parentDoc = this.toolbox.doc;
+        if (!parentDoc) {
+          return;
+        }
+
+        const win = parentDoc.querySelector("window");
+        if (!win) {
+          return;
+        }
+
+        const top = win.ownerDocument.defaultView.top;
+        if (!top || typeof top.openUILinkIn !== "function") {
+          return;
+        }
+        top.openUILinkIn(url, "tab");
+      }
     });
 
     this._actions = actions;

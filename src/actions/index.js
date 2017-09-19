@@ -14,6 +14,7 @@ import * as sourceSearch from "./source-search";
 import * as sourceTree from "./source-tree";
 import * as loadSourceText from "./sources/loadSourceText";
 import * as debuggee from "./debuggee";
+import * as toolbox from "./toolbox";
 
 export default Object.assign(
   {},
@@ -30,5 +31,6 @@ export default Object.assign(
   sourceSearch,
   sourceTree,
   loadSourceText,
-  debuggee
+  debuggee,
+  toolbox
 );
