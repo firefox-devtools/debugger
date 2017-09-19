@@ -9,6 +9,7 @@ import SearchInput from "../shared/SearchInput";
 import "./TextSearch.css";
 
 import { getRelativePath } from "../../utils/sources-tree";
+import { highlightMatches } from "./textSearch/utils/highlight";
 
 export default class TextSearch extends Component {
   constructor(props: Props) {
@@ -125,22 +126,7 @@ export default class TextSearch extends Component {
   }
 
   renderMatchValue(lineMatch) {
-    const { value, column, match } = lineMatch;
-    const len = match.length;
-
-    return (
-      <span className="line-value">
-        <span className="line-match" key={0}>
-          {value.slice(0, column)}
-        </span>
-        <span className="query-match" key={1}>
-          {value.substr(column, len)}
-        </span>
-        <span className="line-match" key={2}>
-          {value.slice(column + len, value.length)}
-        </span>
-      </span>
-    );
+    return highlightMatches(lineMatch);
   }
 
   renderResults() {
