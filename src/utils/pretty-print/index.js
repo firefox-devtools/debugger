@@ -18,13 +18,9 @@ type PrettyPrintOpts = {
 };
 
 export async function prettyPrint({ source, url }: PrettyPrintOpts) {
-  const contentType = source.contentType;
   const indent = 2;
 
-  assert(
-    isJavaScript(source.url, contentType),
-    "Can't prettify non-javascript files."
-  );
+  assert(isJavaScript(source), "Can't prettify non-javascript files.");
 
   return await _prettyPrint({
     url,
