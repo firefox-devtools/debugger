@@ -9,7 +9,8 @@ import { Set } from "immutable";
 import {
   getShownSource,
   getSelectedSource,
-  getDebuggeeUrl
+  getDebuggeeUrl,
+  getExpandedState
 } from "../../selectors";
 
 import {
@@ -53,7 +54,6 @@ class SourcesTree extends Component {
   constructor(props) {
     super(props);
     this.state = createTree(this.props.sources, this.props.debuggeeUrl);
-
     this.focusItem = this.focusItem.bind(this);
     this.selectItem = this.selectItem.bind(this);
     this.getIcon = this.getIcon.bind(this);
@@ -247,7 +247,7 @@ class SourcesTree extends Component {
   }
 
   render() {
-    const { isHidden } = this.props;
+    const { isHidden, setExpandedState, expanded } = this.props;
     const {
       focusedItem,
       sourceTree,
@@ -257,7 +257,6 @@ class SourcesTree extends Component {
     } = this.state;
 
     const isEmpty = sourceTree.contents.length === 0;
-
     const treeProps = {
       key: isEmpty ? "empty" : "full",
       getParent: item => parentMap.get(item),
@@ -265,11 +264,14 @@ class SourcesTree extends Component {
       getRoots: () => sourceTree.contents,
       getPath: item => `${item.path}/${item.name}`,
       itemHeight: 21,
-      autoExpandDepth: 1,
+      autoExpandDepth: expanded ? 0 : 1,
       autoExpandAll: false,
       onFocus: this.focusItem,
       listItems,
       highlightItems,
+      expanded,
+      onExpand: (item, expandedState) => setExpandedState(expandedState),
+      onCollapse: (item, expandedState) => setExpandedState(expandedState),
       renderItem: this.renderItem
     };
 
@@ -306,7 +308,9 @@ SourcesTree.propTypes = {
   selectSource: PropTypes.func.isRequired,
   shownSource: PropTypes.string,
   selectedSource: ImPropTypes.map,
-  debuggeeUrl: PropTypes.string.isRequired
+  debuggeeUrl: PropTypes.string.isRequired,
+  setExpandedState: PropTypes.func,
+  expanded: PropTypes.any
 };
 
 SourcesTree.displayName = "SourcesTree";
@@ -316,7 +320,8 @@ export default connect(
     return {
       shownSource: getShownSource(state),
       selectedSource: getSelectedSource(state),
-      debuggeeUrl: getDebuggeeUrl(state)
+      debuggeeUrl: getDebuggeeUrl(state),
+      expanded: getExpandedState(state)
     };
   },
   dispatch => bindActionCreators(actions, dispatch)

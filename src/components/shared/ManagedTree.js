@@ -22,11 +22,12 @@ type Props = {
   itemHeight: number,
   listItems?: Array<Item>,
   onFocus?: (item: any) => void,
-  onExpand?: (item: any) => void,
-  onCollapse?: (item: any) => void,
+  onExpand?: (item: any, expanded: Set<Item>) => void,
+  onCollapse?: (item: any, expanded: Set<Item>) => void,
   renderItem: any,
   disabledFocus?: boolean,
-  focused?: any
+  focused?: any,
+  expanded?: any
 };
 
 type ManagedTreeState = {
@@ -49,6 +50,13 @@ class ManagedTree extends Component {
     const self: any = this;
     self.setExpanded = this.setExpanded.bind(this);
     self.focusItem = this.focusItem.bind(this);
+  }
+
+  componentDidMount() {
+    const { expanded } = this.props;
+    if (expanded && expanded.size > 0) {
+      this.setState({ expanded });
+    }
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -82,9 +90,9 @@ class ManagedTree extends Component {
     this.setState({ expanded });
 
     if (isExpanded && this.props.onExpand) {
-      this.props.onExpand(item);
-    } else if (!expanded && this.props.onCollapse) {
-      this.props.onCollapse(item);
+      this.props.onExpand(item, expanded);
+    } else if (!isExpanded && this.props.onCollapse) {
+      this.props.onCollapse(item, expanded);
     }
   }
 

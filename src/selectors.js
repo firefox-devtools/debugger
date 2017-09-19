@@ -11,6 +11,7 @@ import * as ast from "./reducers/ast";
 import * as coverage from "./reducers/coverage";
 import * as projectTextSearch from "./reducers/project-text-search";
 import * as sourceSearch from "./reducers/source-search";
+import * as sourceTree from "./reducers/source-tree";
 
 import getBreakpointAtLocation from "./selectors/breakpointAtLocation";
 import getInScopeLines from "./selectors/linesInScope";
@@ -35,6 +36,7 @@ module.exports = Object.assign(
   coverage,
   projectTextSearch,
   sourceSearch,
+  sourceTree,
   {
     getBreakpointAtLocation,
     getInScopeLines,

@@ -243,6 +243,8 @@ type ASTAction =
       type: "CLEAR_SELECTION"
     };
 
+export type SourceTreeAction = { type: "SET_EXPANDED_STATE", expanded: any };
+
 export type ProjectTextSearchAction = {
   type: "ADD_QUERY",
   query: string
