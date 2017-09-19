@@ -30,6 +30,7 @@ import type {
 } from "../../reducers/ui";
 import type { SelectSourceOptions } from "../../actions/sources";
 import SearchInput from "../shared/SearchInput";
+import "./SearchBar.css";
 
 function getShortcuts() {
   const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
@@ -49,28 +50,28 @@ type SearchBarState = {
   index: number
 };
 
-import "./SearchBar.css";
+type Props = {
+  editor?: SourceEditor,
+  selectSource: (string, ?SelectSourceOptions) => any,
+  selectedSource?: SourceRecord,
+  highlightLineRange: ({ start: number, end: number }) => void,
+  clearHighlightLineRange: () => void,
+  searchOn?: boolean,
+  setActiveSearch: (?ActiveSearchType) => any,
+  searchResults: SearchResults,
+  modifiers: FileSearchModifiers,
+  toggleFileSearchModifier: string => any,
+  query: string,
+  setFileSearchQuery: string => any,
+  updateSearchResults: ({ count: number, index?: number }) => any
+};
 
 class SearchBar extends Component {
   state: SearchBarState;
 
-  props: {
-    editor?: SourceEditor,
-    selectSource: (string, ?SelectSourceOptions) => any,
-    selectedSource?: SourceRecord,
-    highlightLineRange: ({ start: number, end: number }) => void,
-    clearHighlightLineRange: () => void,
-    searchOn?: boolean,
-    setActiveSearch: (?ActiveSearchType) => any,
-    searchResults: SearchResults,
-    modifiers: FileSearchModifiers,
-    toggleFileSearchModifier: string => any,
-    query: string,
-    setFileSearchQuery: string => any,
-    updateSearchResults: ({ count: number, index?: number }) => any
-  };
+  props: Props;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       selectedResultIndex: 0,
@@ -132,7 +133,7 @@ class SearchBar extends Component {
     shortcuts.on(searchAgainShortcut, (_, e) => this.traverseResults(e, false));
   }
 
-  componentDidUpdate(prevProps: any, prevState: any) {
+  componentDidUpdate(prevProps: Props, prevState: SearchBarState) {
     const searchInput = this.searchInput();
 
     if (searchInput) {
