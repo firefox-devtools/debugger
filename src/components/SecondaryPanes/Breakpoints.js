@@ -125,8 +125,8 @@ class Breakpoints extends PureComponent {
     const removeConditionLabel = L10N.getStr(
       "breakpointMenuItem.removeCondition.label"
     );
-    const editConditionLabel = L10N.getStr(
-      "breakpointMenuItem.editCondition.label"
+    const addOrEditConditionLabel = L10N.getStr(
+      "breakpointMenuItem.addOrEditCondition.label"
     );
 
     const deleteSelfKey = L10N.getStr(
@@ -155,8 +155,8 @@ class Breakpoints extends PureComponent {
     const removeConditionKey = L10N.getStr(
       "breakpointMenuItem.removeCondition.accesskey"
     );
-    const editConditionKey = L10N.getStr(
-      "breakpointMenuItem.editCondition.accesskey"
+    const addOrEditConditionKey = L10N.getStr(
+      "breakpointMenuItem.addOrEditCondition.accesskey"
     );
 
     const otherBreakpoints = breakpoints.filter(b => b !== breakpoint);
@@ -248,11 +248,16 @@ class Breakpoints extends PureComponent {
       click: () => setBreakpointCondition(breakpoint.location)
     };
 
-    const editCondition = {
+    const addOrEditCondition = {
       id: "node-menu-edit-condition",
-      label: editConditionLabel,
-      accesskey: editConditionKey,
-      click: () => toggleConditionalBreakpointPanel(breakpoint.location.line)
+      label: addOrEditConditionLabel,
+      accesskey: addOrEditConditionKey,
+      click: () => {
+        const sourceId = breakpoint.location.sourceId;
+        const line = breakpoint.location.line;
+        this.props.selectSource(sourceId, { line });
+        toggleConditionalBreakpointPanel(breakpoint.location.line);
+      }
     };
 
     const items = [
@@ -278,11 +283,10 @@ class Breakpoints extends PureComponent {
         hidden: () => otherEnabledBreakpoints.size === 0
       },
       {
-        item: removeCondition,
-        hidden: () => !breakpoint.condition
+        item: addOrEditCondition
       },
       {
-        item: editCondition,
+        item: removeCondition,
         hidden: () => !breakpoint.condition
       }
     ];
