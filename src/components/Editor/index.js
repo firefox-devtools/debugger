@@ -365,7 +365,8 @@ class Editor extends PureComponent {
       selectedSource,
       toggleBreakpoint,
       addOrToggleDisabledBreakpoint,
-      isEmptyLine
+      isEmptyLine,
+      continueToHere
     } = this.props;
 
     // ignore right clicks in the gutter
@@ -390,7 +391,9 @@ class Editor extends PureComponent {
     }
 
     if (gutter !== "CodeMirror-foldgutter") {
-      if (ev.shiftKey) {
+      if (ev.altKey) {
+        continueToHere(toSourceLine(selectedSource.get("id"), line));
+      } else if (ev.shiftKey) {
         addOrToggleDisabledBreakpoint(
           toSourceLine(selectedSource.get("id"), line)
         );
