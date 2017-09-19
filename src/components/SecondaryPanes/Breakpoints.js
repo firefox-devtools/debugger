@@ -265,12 +265,7 @@ class Breakpoints extends PureComponent {
       id: "node-menu-add-condition",
       label: addConditionLabel,
       accesskey: addConditionKey,
-      click: () => {
-        const sourceId = breakpoint.location.sourceId;
-        const line = breakpoint.location.line;
-        this.props.selectSource(sourceId, { line });
-        toggleConditionalBreakpointPanel(breakpoint.location.line);
-      }
+      click: () => toggleConditionalBreakpointPanel(breakpoint.location.line)
     };
 
     const items = [

@@ -1,8 +1,9 @@
 // @flow
-import { getSource, getActiveSearch } from "../selectors";
+import { getSource, getActiveSearch, getSelectedSource } from "../selectors";
 import type { ThunkArgs } from "./types";
 import type { ActiveSearchType, SymbolSearchType } from "../reducers/ui";
 import { clearSourceSearchQuery } from "./source-search";
+import { selectSource } from "./sources";
 
 export function closeActiveSearch() {
   return ({ getState, dispatch }: ThunkArgs) => {
@@ -119,8 +120,14 @@ export function clearHighlightLineRange() {
 }
 
 export function toggleConditionalBreakpointPanel(line: null | number) {
-  return {
-    type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
-    line
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const selectedSource = getSelectedSource(getState());
+    const sourceId = selectedSource.get("id");
+    dispatch(selectSource(sourceId, { line }));
+
+    dispatch({
+      type: "TOGGLE_CONDITIONAL_BREAKPOINT_PANEL",
+      line
+    });
   };
 }
