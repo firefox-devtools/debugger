@@ -105,12 +105,13 @@ function getMenuItems(
   };
 
   const menuItems = [
+    copySource,
     copySourceUrl,
+    copyFunction,
+    { type: "separator" },
     jumpLabel,
     showSourceMenuItem,
-    blackBoxMenuItem,
-    copySource,
-    copyFunction
+    blackBoxMenuItem
   ];
 
   if (textSelected) {
