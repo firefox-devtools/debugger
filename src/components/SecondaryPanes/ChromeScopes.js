@@ -1,6 +1,5 @@
 // @flow
-import React, { PropTypes, Component } from "react";
-import ImPropTypes from "react-immutable-proptypes";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
@@ -32,6 +31,12 @@ function createNode(name, path, contents) {
 }
 
 class Scopes extends Component {
+  props: {
+    scopes: Array<Object>,
+    loadedObjects: Map<string, any>,
+    loadObjectProperties: Function,
+    pauseInfo: Object
+  };
   objectCache: Object;
   getChildren: Function;
   onExpand: Function;
@@ -195,13 +200,6 @@ class Scopes extends Component {
     );
   }
 }
-
-Scopes.propTypes = {
-  scopes: PropTypes.array,
-  loadedObjects: ImPropTypes.map,
-  loadObjectProperties: PropTypes.func,
-  pauseInfo: PropTypes.object
-};
 
 Scopes.displayName = "Scopes";
 
