@@ -39,11 +39,11 @@ class ManagedTree extends Component {
   state: ManagedTreeState;
   props: Props;
 
-  constructor(props) {
+  constructor(props: Props) {
     super();
 
     this.state = {
-      expanded: props.expanded || new Set(),
+      expanded: props.expanded || git  to new Set(),
       focusedItem: null
     };
 
