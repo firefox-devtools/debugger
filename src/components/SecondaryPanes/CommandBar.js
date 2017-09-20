@@ -53,8 +53,8 @@ function getKey(action) {
 }
 
 function getKeyForOS(os, action) {
-  const actions = KEYS[os] || KEYS.Linux;
-  return actions[action];
+  const osActions = KEYS[os] || KEYS.Linux;
+  return osActions[action];
 }
 
 function formatKey(action) {
