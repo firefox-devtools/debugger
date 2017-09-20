@@ -1,3 +1,6 @@
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Component } from "react";
 import actions from "../../actions";
 import { getSelectedSource, getEmptyLines } from "../../selectors";
 import type { SourceRecord } from "../../reducers/types";
