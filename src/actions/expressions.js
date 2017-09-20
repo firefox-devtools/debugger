@@ -2,7 +2,7 @@
 
 import { PROMISE } from "../utils/redux/middleware/promise";
 import { getExpression, getExpressions, getSelectedFrame } from "../selectors";
-
+import { wrapExpression } from "../utils/expressions";
 import type { Expression } from "../types";
 import type { ThunkArgs } from "./types";
 
@@ -103,10 +103,11 @@ function evaluateExpression(expression: Expression, frameId: frameIdType) {
       return;
     }
 
+    const input = wrapExpression(expression.input);
     return dispatch({
       type: "EVALUATE_EXPRESSION",
       input: expression.input,
-      [PROMISE]: client.evaluate(expression.input, { frameId })
+      [PROMISE]: client.evaluate(input, { frameId })
     });
   };
 }

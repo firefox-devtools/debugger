@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`expressions wrap expression 1`] = `
+"eval(\`
+    try {
+      foo
+    } catch (e) {
+      e
+    }
+  \`)"
+`;
+
+exports[`expressions wrap expression with a comment 1`] = `
+"eval(\`
+    try {
+      foo // yo yo
+    } catch (e) {
+      e
+    }
+  \`)"
+`;
