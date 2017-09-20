@@ -52,7 +52,7 @@ class ManagedTree extends Component {
     self.focusItem = this.focusItem.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { expanded } = this.props;
     if (expanded && expanded.size > 0) {
       this.setState({ expanded });
