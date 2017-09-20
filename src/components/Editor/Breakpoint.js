@@ -124,6 +124,4 @@ class Breakpoint extends Component {
   }
 }
 
-Breakpoint.displayName = "Breakpoint";
-
 export default Breakpoint;

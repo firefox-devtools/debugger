@@ -169,7 +169,6 @@ class CallSites extends Component {
   }
 }
 
-CallSites.displayName = "CallSites";
 function getCallSites(symbols, breakpoints) {
   if (!symbols || !symbols.callExpressions) {
     return;

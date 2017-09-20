@@ -170,8 +170,6 @@ class SourceFooter extends PureComponent {
   }
 }
 
-SourceFooter.displayName = "SourceFooter";
-
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);

@@ -74,6 +74,4 @@ class HighlightLines extends Component {
   }
 }
 
-HighlightLines.displayName = "HighlightLines";
-
 export default HighlightLines;

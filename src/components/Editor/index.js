@@ -140,6 +140,7 @@ class Editor extends PureComponent {
     const editor = createEditor();
 
     // disables the default search shortcuts
+    // @flow
     editor._initShortcuts = () => {};
 
     const node = ReactDOM.findDOMNode(this);
@@ -723,8 +724,6 @@ class Editor extends PureComponent {
     );
   }
 }
-
-Editor.displayName = "Editor";
 
 Editor.propTypes = {
   breakpoints: ImPropTypes.map,
