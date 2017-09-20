@@ -130,13 +130,12 @@ export class Popup extends Component {
         autoExpandDepth={0}
         disableWrap={true}
         disabledFocus={true}
+        openLink={openLink}
         getObjectProperties={getObjectProperties}
         loadObjectProperties={loadObjectProperties}
         // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
         getObjectEntries={actor => {}}
         loadObjectEntries={grip => {}}
-        // TODO: Add proper logic here.
-        openLink={openLink}
       />
     );
   }
