@@ -152,7 +152,7 @@ async function _getDefinitionSite(threadClient, func) {
 export function updateEventBreakpoints(eventNames) {
   return dispatch => {
     setNamedTimeout("event-breakpoints-update", 0, () => {
-      gThreadClient.pauseOnDOMEvents(eventNames, function() {
+      gThreadClient.pauseOnDOMEvents(eventNames, () => {
         // Notify that event breakpoints were added/removed on the server.
         window.emit(EVENTS.EVENT_BREAKPOINTS_UPDATED);
 
