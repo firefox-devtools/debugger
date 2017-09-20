@@ -32,7 +32,8 @@ export type ThunkArgs = {
   dispatch: (action: any) => Promise<any>,
   getState: () => State,
   client: any,
-  sourceMaps: any
+  sourceMaps: any,
+  openLink: (url: string) => void
 };
 
 export type Thunk = ThunkArgs => any;
