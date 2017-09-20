@@ -106,8 +106,6 @@ class Preview extends PureComponent {
   }
 }
 
-Preview.displayName = "Preview";
-
 export default connect(
   state => ({
     preview: getPreview(state),
