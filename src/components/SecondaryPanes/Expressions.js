@@ -175,13 +175,12 @@ class Expressions extends PureComponent {
             disabledFocus={true}
             onDoubleClick={(items, options) =>
               this.editExpression(expression, options)}
+            openLink={openLink}
             getObjectProperties={id => loadedObjects[id]}
             loadObjectProperties={loadObjectProperties}
             // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.
             getObjectEntries={actor => {}}
             loadObjectEntries={grip => {}}
-            // TODO: Add proper logic here.
-            openLink={openLink}
           />
           <div className="expression-container__close-btn">
             <CloseButton
