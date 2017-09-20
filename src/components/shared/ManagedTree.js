@@ -43,7 +43,7 @@ class ManagedTree extends Component {
     super();
 
     this.state = {
-      expanded: props.expanded || git  to new Set(),
+      expanded: props.expanded || new Set(),
       focusedItem: null
     };
 
