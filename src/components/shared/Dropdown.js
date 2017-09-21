@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import Svg from "../shared/Svg";
 import "./Dropdown.css";
 
 class Dropdown extends Component {
@@ -47,7 +48,7 @@ class Dropdown extends Component {
   renderButton() {
     return (
       <button className="dropdown-button" onClick={this.toggleDropdown}>
-        »
+        <Svg name="plus" />
       </button>
     );
   }

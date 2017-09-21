@@ -78,7 +78,7 @@ export function continueToHere(line: number) {
 export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     let { frames, why, loadedObjects } = pauseInfo;
-
+    console.log("PAUSED");
     frames = await updateFrameLocations(frames, sourceMaps);
     const frame = frames[0];
 
@@ -141,12 +141,15 @@ export function pauseOnExceptions(
  */
 export function command(type: CommandType) {
   return async ({ dispatch, client }: ThunkArgs) => {
-    // execute debugger thread command e.g. stepIn, stepOver
-    dispatch({ type: "COMMAND", value: { type } });
-
-    await client[type]();
-
-    dispatch({ type: "CLEAR_COMMAND" });
+    dispatch({
+      type: "COMMAND",
+      command: type,
+      [PROMISE]: (async () => {
+        await client[type]();
+        await new Promise(resolve => setTimeout(resolve, 500));
+        console.log("done stepping");
+      })()
+    });
   };
 }
 

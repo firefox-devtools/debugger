@@ -9,12 +9,17 @@ import {
   getPause,
   getBreakpoints,
   getBreakpointsDisabled,
-  getBreakpointsLoading
+  getBreakpointsLoading,
+  isPaused as getIsPaused,
+  isStepping as getIsStepping
 } from "../../selectors";
 
 import { isEnabled } from "devtools-config";
 import Svg from "../shared/Svg";
 import { prefs } from "../../utils/prefs";
+import { formatKey } from "../../utils/steppingShortcuts";
+import Dropdown from "../shared/Dropdown";
+import debugBtn from "../shared/debugBtn";
 
 import Breakpoints from "./Breakpoints";
 import Expressions from "./Expressions";
@@ -40,20 +45,6 @@ type SecondaryPanesItems = {
   shouldOpen?: () => void,
   buttons?: any
 };
-
-function debugBtn(onClick, type, className, tooltip) {
-  return (
-    <button
-      onClick={onClick}
-      className={`${type} ${className}`}
-      key={type}
-      title={tooltip}
-    >
-      <Svg name={type} title={tooltip} aria-label={tooltip} />
-    </button>
-  );
-}
-debugBtn.displayName = "DebugButton";
 
 class SecondaryPanes extends Component {
   renderBreakpointsToggle() {
@@ -94,7 +85,58 @@ class SecondaryPanes extends Component {
         : L10N.getStr("breakpoints.disable")
     };
 
-    return <input {...inputProps} />;
+    return (
+      <div className="breakpoints-buttons">
+        {this.renderBreakpointsDropdown()}
+        <input {...inputProps} />
+      </div>
+    );
+  }
+
+  renderBreakpointsDropdown() {
+    const { breakOnNext } = this.props;
+    const pauseBtn = debugBtn(
+      breakOnNext,
+      "pause",
+      "active",
+      L10N.getFormatStr("pauseButtonTooltip", formatKey("pause"))
+    );
+    const {
+      shouldPauseOnExceptions,
+      shouldIgnoreCaughtExceptions,
+      pauseOnExceptions
+    } = this.props;
+
+    const dontPauseOnExceptionsBtn = debugBtn(
+      () => pauseOnExceptions(true, true),
+      "pause-exceptions",
+      "enabled",
+      L10N.getStr("ignoreExceptions")
+    );
+
+    const pauseOnCaughtExceptionsBtn = debugBtn(
+      () => pauseOnExceptions(true, false),
+      "pause-exceptions",
+      "uncaught enabled",
+      L10N.getStr("pauseOnUncaughtExceptions")
+    );
+
+    const pauseOnExceptionsBtn = debugBtn(
+      () => pauseOnExceptions(false, false),
+      "pause-exceptions",
+      "all enabled",
+      L10N.getStr("pauseOnExceptions")
+    );
+
+    const Panel = (
+      <ul>
+        <li>{pauseBtn} Pause on Next Statement</li>
+        <li>{pauseOnCaughtExceptionsBtn} Pause on Uncaught Exceptions</li>
+        <li>{pauseOnExceptionsBtn} Pause on Exceptions</li>
+      </ul>
+    );
+
+    return <Dropdown panel={Panel} />;
   }
 
   watchExpressionHeaderButtons() {
@@ -135,29 +177,34 @@ class SecondaryPanes extends Component {
   }
 
   getStartItems() {
-    const scopesContent: any = this.props.horizontal
-      ? this.getScopeItem()
-      : null;
-    const isPaused = () => !!this.props.pauseData;
+    const { horizontal, isPaused, isStepping } = this.props;
 
-    const items: Array<SecondaryPanesItems> = [
+    let scopesContent: any = null;
+
+    let items: Array<SecondaryPanesItems> = [
       {
         header: L10N.getStr("breakpoints.header"),
         buttons: this.renderBreakpointsToggle(),
         component: Breakpoints,
         opened: true
-      },
-      {
+      }
+    ];
+
+    if (horizontal && (isPaused || isStepping)) {
+      items.push(this.getScopeItem());
+    }
+
+    if (isPaused || isStepping) {
+      items.push({
         header: L10N.getStr("callStack.header"),
         component: Frames,
         opened: prefs.callStackVisible,
         onToggle: opened => {
           prefs.callStackVisible = opened;
         },
-        shouldOpen: isPaused
-      },
-      scopesContent
-    ];
+        shouldOpen: () => isPaused
+      });
+    }
 
     if (isEnabled("eventListeners")) {
       items.push({
@@ -185,9 +232,10 @@ class SecondaryPanes extends Component {
   }
 
   getEndItems() {
+    const { horizontal, isPaused, isStepping } = this.props;
     const items: Array<SecondaryPanesItems> = [];
 
-    if (!this.props.horizontal) {
+    if (!horizontal && (isPaused || isStepping)) {
       items.unshift(this.getScopeItem());
     }
 
@@ -246,6 +294,8 @@ SecondaryPanes.displayName = "SecondaryPanes";
 
 export default connect(
   state => ({
+    isPaused: getIsPaused(state),
+    isStepping: getIsStepping(state),
     pauseData: getPause(state),
     breakpoints: getBreakpoints(state),
     breakpointsDisabled: getBreakpointsDisabled(state),

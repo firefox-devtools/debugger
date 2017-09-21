@@ -1,5 +1,5 @@
 .dropdown {
-  --width: 150px;
+  --width: 250px;
   background: var(--theme-body-background);
   border: 1px solid var(--theme-splitter-color);
   box-shadow: 0 4px 4px 0 var(--search-overlays-semitransparent);

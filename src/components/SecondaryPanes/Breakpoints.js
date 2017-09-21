@@ -1,6 +1,7 @@
 // @flow
 import React, { PureComponent } from "react";
 import * as I from "immutable";
+import { get } from "lodash";
 
 import { connect } from "react-redux";
 import { createSelector } from "reselect";
@@ -20,7 +21,6 @@ import { getFilename } from "../../utils/source";
 import { showMenu, buildMenu } from "devtools-launchpad";
 import CloseButton from "../shared/Button/Close";
 import "./Breakpoints.css";
-import { get } from "lodash";
 
 import type { Breakpoint, Location } from "../../types";
 

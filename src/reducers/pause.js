@@ -141,10 +141,10 @@ function update(state: PauseState = State(), action: Action): PauseState {
       });
 
     case "COMMAND":
-      return { ...state, command: action.value.type };
-
-    case "CLEAR_COMMAND":
-      return { ...state, command: "" };
+      return {
+        ...state,
+        command: action.status === "start" ? action.command : ""
+      };
 
     case "EVALUATE_EXPRESSION":
       return {
