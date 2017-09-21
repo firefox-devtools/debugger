@@ -47,7 +47,7 @@ export function resumed() {
     });
 
     if (!isStepping(getState())) {
-      dispatch(evaluateExpressions(null));
+      dispatch(evaluateExpressions());
     }
   };
 }
@@ -101,7 +101,7 @@ export function paused(pauseInfo: Pause) {
     // NOTE: We don't want to re-evaluate watch expressions
     // if we're paused due to an excpression exception #3597
     if (!hasWatchExpressionErrored(getState())) {
-      dispatch(evaluateExpressions(frame.id));
+      dispatch(evaluateExpressions());
     }
 
     dispatch(
@@ -231,18 +231,15 @@ export function breakOnNext() {
  */
 export function selectFrame(frame: Frame) {
   return async ({ dispatch, client }: ThunkArgs) => {
-    dispatch(evaluateExpressions(frame.id));
+    const scopes = await client.getFrameScopes(frame);
+
+    dispatch({ type: "SELECT_FRAME", frame, scopes });
+
     dispatch(
       selectSource(frame.location.sourceId, { line: frame.location.line })
     );
 
-    const scopes = await client.getFrameScopes(frame);
-
-    dispatch({
-      type: "SELECT_FRAME",
-      frame,
-      scopes
-    });
+    dispatch(evaluateExpressions());
   };
 }
 

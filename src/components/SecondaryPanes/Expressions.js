@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
 import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
+import { getValue } from "../../utils/expressions";
 
 import CloseButton from "../shared/Button/Close";
 import { ObjectInspector } from "devtools-reps";
@@ -12,50 +13,6 @@ import "./Expressions.css";
 
 import type { List } from "immutable";
 import type { Expression } from "../../types";
-
-function getValue(expression) {
-  const value = expression.value;
-  if (!value) {
-    return {
-      path: expression.from,
-      value: { unavailable: true }
-    };
-  }
-
-  if (value.exception) {
-    return {
-      path: value.from,
-      value: value.exception
-    };
-  }
-
-  if (value.error) {
-    return {
-      path: value.from,
-      value: value.error
-    };
-  }
-
-  if (value.result && value.result.class == "Error") {
-    const { name, message } = value.result.preview;
-    const newValue =
-      name === "ReferenceError" ? { unavailable: true } : `${name}: ${message}`;
-
-    return { path: value.input, value: newValue };
-  }
-
-  if (typeof value.result == "object") {
-    return {
-      path: value.result.actor,
-      value: value.result
-    };
-  }
-
-  return {
-    path: value.input,
-    value: value.result
-  };
-}
 
 class Expressions extends PureComponent {
   _input: null | any;
@@ -161,7 +118,7 @@ class Expressions extends PureComponent {
       return;
     }
 
-    let { value, path } = getValue(expression);
+    const { value } = getValue(expression);
 
     const root = {
       name: expression.input,

@@ -10,8 +10,6 @@ import { wrapExpression } from "../utils/expressions";
 import type { Expression } from "../types";
 import type { ThunkArgs } from "./types";
 
-type frameIdType = string | null;
-
 /**
  * Add expression for debugger to watch
  *

@@ -37,7 +37,7 @@ ShallowWrapper {
                             },
                           },
                           "name": "expression1",
-                          "path": undefined,
+                          "path": "expression1",
                         },
                       ]
                 }
@@ -77,7 +77,7 @@ ShallowWrapper {
                             },
                           },
                           "name": "expression2",
-                          "path": undefined,
+                          "path": "expression2",
                         },
                       ]
                 }
@@ -133,7 +133,7 @@ ShallowWrapper {
                                         },
                                       },
                                       "name": "expression1",
-                                      "path": undefined,
+                                      "path": "expression1",
                                     },
                                   ]
                         }
@@ -173,7 +173,7 @@ ShallowWrapper {
                                         },
                                       },
                                       "name": "expression2",
-                                      "path": undefined,
+                                      "path": "expression2",
                                     },
                                   ]
                         }
@@ -312,7 +312,7 @@ ShallowWrapper {
                                                                 },
                                                               },
                                                               "name": "expression1",
-                                                              "path": undefined,
+                                                              "path": "expression1",
                                                             },
                                                           ]
                                         }
@@ -352,7 +352,7 @@ ShallowWrapper {
                                                                 },
                                                               },
                                                               "name": "expression2",
-                                                              "path": undefined,
+                                                              "path": "expression2",
                                                             },
                                                           ]
                                         }
@@ -408,7 +408,7 @@ ShallowWrapper {
                                                                 },
                                                               },
                                                               "name": "expression1",
-                                                              "path": undefined,
+                                                              "path": "expression1",
                                                             },
                                                           ]
                                         }
@@ -448,7 +448,7 @@ ShallowWrapper {
                                                                 },
                                                               },
                                                               "name": "expression2",
-                                                              "path": undefined,
+                                                              "path": "expression2",
                                                             },
                                                           ]
                                         }
@@ -550,7 +550,7 @@ ShallowWrapper {
                             },
                           },
                           "name": "expression1",
-                          "path": undefined,
+                          "path": "expression1",
                         },
                       ]
                 }
@@ -590,7 +590,7 @@ ShallowWrapper {
                             },
                           },
                           "name": "expression2",
-                          "path": undefined,
+                          "path": "expression2",
                         },
                       ]
                 }
@@ -646,7 +646,7 @@ ShallowWrapper {
                                         },
                                       },
                                       "name": "expression1",
-                                      "path": undefined,
+                                      "path": "expression1",
                                     },
                                   ]
                         }
@@ -686,7 +686,7 @@ ShallowWrapper {
                                         },
                                       },
                                       "name": "expression2",
-                                      "path": undefined,
+                                      "path": "expression2",
                                     },
                                   ]
                         }
@@ -825,7 +825,7 @@ ShallowWrapper {
                                                                 },
                                                               },
                                                               "name": "expression1",
-                                                              "path": undefined,
+                                                              "path": "expression1",
                                                             },
                                                           ]
                                         }
@@ -865,7 +865,7 @@ ShallowWrapper {
                                                                 },
                                                               },
                                                               "name": "expression2",
-                                                              "path": undefined,
+                                                              "path": "expression2",
                                                             },
                                                           ]
                                         }
@@ -921,7 +921,7 @@ ShallowWrapper {
                                                                 },
                                                               },
                                                               "name": "expression1",
-                                                              "path": undefined,
+                                                              "path": "expression1",
                                                             },
                                                           ]
                                         }
@@ -961,7 +961,7 @@ ShallowWrapper {
                                                                 },
                                                               },
                                                               "name": "expression2",
-                                                              "path": undefined,
+                                                              "path": "expression2",
                                                             },
                                                           ]
                                         }
