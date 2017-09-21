@@ -1,3 +1,4 @@
+import React, { PropTypes } from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
