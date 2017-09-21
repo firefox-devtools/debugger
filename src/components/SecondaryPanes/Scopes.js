@@ -58,6 +58,7 @@ class Scopes extends PureComponent {
             autoExpandDepth={1}
             getObjectProperties={id => loadedObjects[id]}
             loadObjectProperties={loadObjectProperties}
+            openLink={openLink}
             disableWrap={true}
             disabledFocus={true}
             dimTopLevelWindow={true}
