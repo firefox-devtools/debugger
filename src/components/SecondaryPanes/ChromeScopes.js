@@ -55,14 +55,12 @@ class Scopes extends Component {
 
     const nodes = Object.keys(ownProperties)
       .sort()
-      .filter(name => {
-        // Ignore non-concrete values like getters and setters
-        // for now by making sure we have a value.
-        return "value" in ownProperties[name];
-      })
-      .map(name => {
-        return createNode(name, `${parentPath}/${name}`, ownProperties[name]);
-      });
+      // Ignore non-concrete values like getters and setters
+      // for now by making sure we have a value.
+      .filter(name => "value" in ownProperties[name])
+      .map(name =>
+        createNode(name, `${parentPath}/${name}`, ownProperties[name])
+      );
 
     // Add the prototype if it exists and is not null
     if (prototype && prototype.type !== "null") {

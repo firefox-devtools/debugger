@@ -65,7 +65,8 @@ class Expressions extends PureComponent {
     updateExpression: (string, Expression) => void,
     deleteExpression: Expression => void,
     loadObjectProperties: () => void,
-    loadedObjects: Map<string, any>
+    loadedObjects: Map<string, any>,
+    openLink: (url: string) => void
   };
 
   constructor(...args) {
@@ -140,7 +141,7 @@ class Expressions extends PureComponent {
   }
 
   renderExpression(expression) {
-    const { loadObjectProperties, loadedObjects } = this.props;
+    const { loadObjectProperties, loadedObjects, openLink } = this.props;
     const { editing } = this.state;
     const { input, updating } = expression;
 
@@ -174,6 +175,7 @@ class Expressions extends PureComponent {
             disabledFocus={true}
             onDoubleClick={(items, options) =>
               this.editExpression(expression, options)}
+            openLink={openLink}
             getObjectProperties={id => loadedObjects[id]}
             loadObjectProperties={loadObjectProperties}
             // TODO: See https://github.com/devtools-html/debugger.html/issues/3555.

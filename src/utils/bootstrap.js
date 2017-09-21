@@ -17,12 +17,12 @@ import selectors from "../selectors";
 import App from "../components/App";
 import { prefs } from "./prefs";
 
-export function bootstrapStore(client, services) {
+export function bootstrapStore(client, { services, toolboxActions }) {
   const createStore = configureStore({
     log: getValue("logging.actions"),
     timing: getValue("performance.actions"),
     makeThunkArgs: (args, state) => {
-      return Object.assign({}, args, { client }, services);
+      return Object.assign({}, args, { client }, services, toolboxActions);
     }
   });
 

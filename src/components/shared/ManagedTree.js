@@ -39,24 +39,17 @@ class ManagedTree extends Component {
   state: ManagedTreeState;
   props: Props;
 
-  constructor() {
+  constructor(props: Props) {
     super();
 
     this.state = {
-      expanded: new Set(),
+      expanded: props.expanded || new Set(),
       focusedItem: null
     };
 
     const self: any = this;
     self.setExpanded = this.setExpanded.bind(this);
     self.focusItem = this.focusItem.bind(this);
-  }
-
-  componentDidMount() {
-    const { expanded } = this.props;
-    if (expanded && expanded.size > 0) {
-      this.setState({ expanded });
-    }
   }
 
   componentWillReceiveProps(nextProps: Props) {
