@@ -53,7 +53,6 @@ function debugBtn(onClick, type, className, tooltip) {
     </button>
   );
 }
-debugBtn.displayName = "DebugButton";
 
 class SecondaryPanes extends Component {
   renderBreakpointsToggle() {
@@ -241,8 +240,6 @@ SecondaryPanes.propTypes = {
 SecondaryPanes.contextTypes = {
   shortcuts: PropTypes.object
 };
-
-SecondaryPanes.displayName = "SecondaryPanes";
 
 export default connect(
   state => ({

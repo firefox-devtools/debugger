@@ -34,8 +34,6 @@ function WorkersFactory(workers, { dir = "ltr", theme = "dark" } = {}) {
   );
 }
 
-WorkersFactory.displayName = "Workers";
-
 WorkersFactory.propTypes = {
   dir: PropTypes.string,
   theme: PropTypes.string

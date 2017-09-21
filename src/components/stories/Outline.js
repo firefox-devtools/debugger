@@ -1,4 +1,3 @@
-import React, { PropTypes } from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
@@ -53,7 +52,6 @@ function OutlineFactory({ dir = "ltr", theme = "dark", ...props }) {
   );
 }
 
-OutlineFactory.displayName = "OutlineFactory";
 OutlineFactory.propTypes = {
   dir: PropTypes.string,
   theme: PropTypes.string

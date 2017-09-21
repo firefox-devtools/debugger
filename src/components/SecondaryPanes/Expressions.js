@@ -236,8 +236,6 @@ class Expressions extends PureComponent {
   }
 }
 
-Expressions.displayName = "Expressions";
-
 export default connect(
   state => ({
     pauseInfo: getPause(state),

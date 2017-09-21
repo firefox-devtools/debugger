@@ -203,8 +203,6 @@ Scopes.propTypes = {
   pauseInfo: PropTypes.object
 };
 
-Scopes.displayName = "Scopes";
-
 export default connect(
   state => ({
     pauseInfo: getPause(state),

@@ -77,8 +77,6 @@ class WelcomeBox extends Component {
   }
 }
 
-WelcomeBox.displayName = "WelcomeBox";
-
 export default connect(
   state => ({
     endPanelCollapsed: getPaneCollapse(state, "end")

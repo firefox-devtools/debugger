@@ -49,7 +49,6 @@ function TextSearchFactory({ dir = "ltr", theme = "dark", ...props }) {
   );
 }
 
-TextSearchFactory.displayName = "TextSearchFactory";
 TextSearchFactory.propTypes = {
   dir: PropTypes.string,
   theme: PropTypes.string

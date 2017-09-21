@@ -28,5 +28,3 @@ ToggleSearch.propTypes = {
   kind: PropTypes.string.isRequired,
   toggle: PropTypes.func.isRequired
 };
-
-ToggleSearch.displayName = "ToggleSearch";

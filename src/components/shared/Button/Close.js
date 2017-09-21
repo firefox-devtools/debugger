@@ -21,7 +21,6 @@ function CloseButton({ handleClick, buttonClass, tooltip }: CloseButtonType) {
   );
 }
 
-CloseButton.displayName = "CloseButton";
 CloseButton.propTypes = {
   handleClick: PropTypes.func.isRequired
 };

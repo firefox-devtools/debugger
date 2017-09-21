@@ -287,7 +287,6 @@ class SymbolModal extends Component {
   }
 }
 
-SymbolModal.displayName = "SymbolModal";
 SymbolModal.contextTypes = {
   shortcuts: PropTypes.object
 };

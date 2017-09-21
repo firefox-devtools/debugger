@@ -88,8 +88,6 @@ Scopes.propTypes = {
   frameScopes: PropTypes.object
 };
 
-Scopes.displayName = "Scopes";
-
 export default connect(
   state => {
     const selectedFrame = getSelectedFrame(state);

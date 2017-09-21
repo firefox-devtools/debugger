@@ -73,7 +73,6 @@ function TabsFactory({ dir = "ltr", theme = "light", ...props }) {
   );
 }
 
-TabsFactory.displayName = "TabsFactory";
 TabsFactory.propTypes = {
   dir: PropTypes.string,
   theme: PropTypes.string

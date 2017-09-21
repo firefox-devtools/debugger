@@ -83,8 +83,6 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
   );
 }
 
-debugBtn.displayName = "CommandBarButton";
-
 class CommandBar extends Component {
   props: {
     sources: SourcesMap,
@@ -252,8 +250,6 @@ class CommandBar extends Component {
 CommandBar.contextTypes = {
   shortcuts: PropTypes.object
 };
-
-CommandBar.displayName = "CommandBar";
 
 export default connect(
   state => {

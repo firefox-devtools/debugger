@@ -21,8 +21,6 @@ const arrowBtn = (onClick, type, className, tooltip) => {
   );
 };
 
-arrowBtn.displayName = "ArrowButton";
-
 class SearchInput extends Component {
   displayName: "SearchInput";
   props: {

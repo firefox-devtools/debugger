@@ -44,7 +44,6 @@ function FrameFactory({ dir = "ltr", theme = "light", ...props }) {
   );
 }
 
-FrameFactory.displayName = "FrameFactory";
 FrameFactory.propTypes = {
   dir: PropTypes.string,
   theme: PropTypes.string
