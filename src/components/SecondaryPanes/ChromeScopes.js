@@ -1,11 +1,11 @@
 // @flow
-import React, { PropTypes, Component } from "react";
-import ImPropTypes from "react-immutable-proptypes";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import classnames from "classnames";
 
 import actions from "../../actions";
+import type { Scope, Pause } from "debugger-html";
 import { getChromeScopes, getLoadedObjects, getPause } from "../../selectors";
 import Svg from "../shared/Svg";
 import ManagedTree from "../shared/ManagedTree";
@@ -32,6 +32,12 @@ function createNode(name, path, contents) {
 }
 
 class Scopes extends Component {
+  props: {
+    scopes: Array<Scope>,
+    loadedObjects: Map<string, any>,
+    loadObjectProperties: Object => void,
+    pauseInfo: Pause
+  };
   objectCache: Object;
   getChildren: Function;
   onExpand: Function;
@@ -193,13 +199,6 @@ class Scopes extends Component {
     );
   }
 }
-
-Scopes.propTypes = {
-  scopes: PropTypes.array,
-  loadedObjects: ImPropTypes.map,
-  loadObjectProperties: PropTypes.func,
-  pauseInfo: PropTypes.object
-};
 
 Scopes.displayName = "Scopes";
 
