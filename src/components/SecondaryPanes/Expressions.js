@@ -18,7 +18,7 @@ function getValue(expression) {
   if (!value) {
     return {
       path: expression.from,
-      value: "<not available>"
+      value: { unavailable: true }
     };
   }
 
@@ -34,6 +34,14 @@ function getValue(expression) {
       path: value.from,
       value: value.error
     };
+  }
+
+  if (value.result && value.result.class == "Error") {
+    const { name, message } = value.result.preview;
+    const newValue =
+      name === "ReferenceError" ? { unavailable: true } : `${name}: ${message}`;
+
+    return { path: value.input, value: newValue };
   }
 
   if (typeof value.result == "object") {
@@ -155,18 +163,14 @@ class Expressions extends PureComponent {
 
     let { value, path } = getValue(expression);
 
-    if (value.class == "Error") {
-      value = { unavailable: true };
-    }
-
     const root = {
       name: expression.input,
-      path,
+      path: input,
       contents: { value }
     };
 
     return (
-      <li className="expression-container" key={`${path}/${input}`}>
+      <li className="expression-container" key={input}>
         <div className="expression-content">
           <ObjectInspector
             roots={[root]}
