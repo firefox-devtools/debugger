@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 
 import actions from "../../actions";
+import type { Scope, Pause } from "debugger-html";
 import { getChromeScopes, getLoadedObjects, getPause } from "../../selectors";
 import Svg from "../shared/Svg";
 import ManagedTree from "../shared/ManagedTree";
@@ -32,10 +33,10 @@ function createNode(name, path, contents) {
 
 class Scopes extends Component {
   props: {
-    scopes: Array<Object>,
+    scopes: Array<Scope>,
     loadedObjects: Map<string, any>,
-    loadObjectProperties: Function,
-    pauseInfo: Object
+    loadObjectProperties: Object => void,
+    pauseInfo: Pause
   };
   objectCache: Object;
   getChildren: Function;
