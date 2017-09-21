@@ -113,50 +113,58 @@ class Breakpoints extends PureComponent {
 
     e.preventDefault();
 
-    const deleteSelfLabel = L10N.getStr("breakpointMenuItem.deleteSelf");
-    const deleteAllLabel = L10N.getStr("breakpointMenuItem.deleteAll");
-    const deleteOthersLabel = L10N.getStr("breakpointMenuItem.deleteOthers");
-    const enableSelfLabel = L10N.getStr("breakpointMenuItem.enableSelf");
-    const enableAllLabel = L10N.getStr("breakpointMenuItem.enableAll");
-    const enableOthersLabel = L10N.getStr("breakpointMenuItem.enableOthers");
-    const disableSelfLabel = L10N.getStr("breakpointMenuItem.disableSelf");
-    const disableAllLabel = L10N.getStr("breakpointMenuItem.disableAll");
-    const disableOthersLabel = L10N.getStr("breakpointMenuItem.disableOthers");
+    const deleteSelfLabel = L10N.getStr("breakpointMenuItem.deleteSelf2.label");
+    const deleteAllLabel = L10N.getStr("breakpointMenuItem.deleteAll2.label");
+    const deleteOthersLabel = L10N.getStr(
+      "breakpointMenuItem.deleteOthers2.label"
+    );
+    const enableSelfLabel = L10N.getStr("breakpointMenuItem.enableSelf2.label");
+    const enableAllLabel = L10N.getStr("breakpointMenuItem.enableAll2.label");
+    const enableOthersLabel = L10N.getStr(
+      "breakpointMenuItem.enableOthers2.label"
+    );
+    const disableSelfLabel = L10N.getStr(
+      "breakpointMenuItem.disableSelf2.label"
+    );
+    const disableAllLabel = L10N.getStr("breakpointMenuItem.disableAll2.label");
+    const disableOthersLabel = L10N.getStr(
+      "breakpointMenuItem.disableOthers2.label"
+    );
     const removeConditionLabel = L10N.getStr(
-      "breakpointMenuItem.removeCondition.label"
+      "breakpointMenuItem.removeCondition2.label"
     );
     const editConditionLabel = L10N.getStr(
-      "breakpointMenuItem.editCondition.label"
+      "breakpointMenuItem.editCondition2.label"
     );
 
     const deleteSelfKey = L10N.getStr(
-      "breakpointMenuItem.deleteSelf.accesskey"
+      "breakpointMenuItem.deleteSelf2.accesskey"
     );
-    const deleteAllKey = L10N.getStr("breakpointMenuItem.deleteAll.accesskey");
+    const deleteAllKey = L10N.getStr("breakpointMenuItem.deleteAll2.accesskey");
     const deleteOthersKey = L10N.getStr(
-      "breakpointMenuItem.deleteOthers.accesskey"
+      "breakpointMenuItem.deleteOthers2.accesskey"
     );
     const enableSelfKey = L10N.getStr(
-      "breakpointMenuItem.enableSelf.accesskey"
+      "breakpointMenuItem.enableSelf2.accesskey"
     );
-    const enableAllKey = L10N.getStr("breakpointMenuItem.enableAll.accesskey");
+    const enableAllKey = L10N.getStr("breakpointMenuItem.enableAll2.accesskey");
     const enableOthersKey = L10N.getStr(
-      "breakpointMenuItem.enableOthers.accesskey"
+      "breakpointMenuItem.enableOthers2.accesskey"
     );
     const disableSelfKey = L10N.getStr(
-      "breakpointMenuItem.disableSelf.accesskey"
+      "breakpointMenuItem.disableSelf2.accesskey"
     );
     const disableAllKey = L10N.getStr(
-      "breakpointMenuItem.disableAll.accesskey"
+      "breakpointMenuItem.disableAll2.accesskey"
     );
     const disableOthersKey = L10N.getStr(
-      "breakpointMenuItem.disableOthers.accesskey"
+      "breakpointMenuItem.disableOthers2.accesskey"
     );
     const removeConditionKey = L10N.getStr(
-      "breakpointMenuItem.removeCondition.accesskey"
+      "breakpointMenuItem.removeCondition2.accesskey"
     );
     const editConditionKey = L10N.getStr(
-      "breakpointMenuItem.editCondition.accesskey"
+      "breakpointMenuItem.editCondition2.accesskey"
     );
 
     const otherBreakpoints = breakpoints.filter(b => b !== breakpoint);
@@ -255,34 +263,41 @@ class Breakpoints extends PureComponent {
       click: () => toggleConditionalBreakpointPanel(breakpoint.location.line)
     };
 
+    const hideEnableSelf = !breakpoint.disabled;
+    const hideEnableAll = disabledBreakpoints.size === 0;
+    const hideEnableOthers = otherDisabledBreakpoints.size === 0;
+    const hideDisableAll = enabledBreakpoints.size === 0;
+    const hideDisableOthers = otherEnabledBreakpoints.size === 0;
+    const hideDisableSelf = breakpoint.disabled;
+
     const items = [
-      { item: enableSelf, hidden: () => !breakpoint.disabled },
-      { item: disableSelf, hidden: () => breakpoint.disabled },
+      { item: enableSelf, hidden: () => hideEnableSelf },
+      { item: enableAll, hidden: () => hideEnableAll },
+      { item: enableOthers, hidden: () => hideEnableOthers },
+      {
+        item: { type: "separator" },
+        hidden: () => hideEnableSelf && hideEnableAll && hideEnableOthers
+      },
       { item: deleteSelf },
       { item: deleteAll },
       { item: deleteOthers, hidden: () => breakpoints.size === 1 },
       {
-        item: enableAll,
-        hidden: () => disabledBreakpoints.size === 0
+        item: { type: "separator" },
+        hidden: () => hideDisableSelf && hideDisableAll && hideDisableOthers
       },
+
+      { item: disableSelf, hidden: () => hideDisableSelf },
+      { item: disableAll, hidden: () => hideDisableAll },
+      { item: disableOthers, hidden: () => hideDisableOthers },
       {
-        item: disableAll,
-        hidden: () => enabledBreakpoints.size === 0
-      },
-      {
-        item: enableOthers,
-        hidden: () => otherDisabledBreakpoints.size === 0
-      },
-      {
-        item: disableOthers,
-        hidden: () => otherEnabledBreakpoints.size === 0
-      },
-      {
-        item: removeCondition,
-        hidden: () => !breakpoint.condition
+        item: { type: "separator" }
       },
       {
         item: editCondition,
+        hidden: () => !breakpoint.condition
+      },
+      {
+        item: removeCondition,
         hidden: () => !breakpoint.condition
       }
     ];
