@@ -8,8 +8,7 @@ import {
   getLoadedObject,
   isStepping,
   isPaused,
-  getSelectedSource,
-  hasWatchExpressionErrored
+  getSelectedSource
 } from "../selectors";
 import {
   updateFrameLocations,
@@ -121,13 +120,7 @@ export function paused(pauseInfo: Pause) {
     if (hiddenBreakpointLocation) {
       dispatch(removeBreakpoint(hiddenBreakpointLocation));
     }
-
-    // NOTE: We don't want to re-evaluate watch expressions
-    // if we're paused due to an excpression exception #3597
-    if (!hasWatchExpressionErrored(getState())) {
-      dispatch(evaluateExpressions());
-    }
-
+    dispatch(evaluateExpressions());
     dispatch(
       selectSource(frame.location.sourceId, { line: frame.location.line })
     );
