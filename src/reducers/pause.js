@@ -229,9 +229,12 @@ export function getFrameScopes(state: OuterState, frameId: string) {
   return state.pause.frameScopes[frameId];
 }
 
-const getSelectedFrameId = createSelector(getPauseState, pauseWrapper => {
-  return pauseWrapper.selectedFrameId;
-});
+export const getSelectedFrameId = createSelector(
+  getPauseState,
+  pauseWrapper => {
+    return pauseWrapper.selectedFrameId;
+  }
+);
 
 export const getSelectedFrame = createSelector(
   getSelectedFrameId,
