@@ -38,12 +38,23 @@
   font-family: Courier;
 }
 
+.shortcutKey {
+  display: inline-block;
+  margin-right: 10px;
+  font-family: Courier;
+}
+
 .shortcutFunction {
   text-align: left;
   float: left;
-  margin-left: 25px;
 }
 
 html .welcomebox .toggle-button-end.collapsed {
   bottom: 1px;
+}
+
+@media (max-width: 370px) {
+  .shortcutKey {
+    display: block;
+  }
 }

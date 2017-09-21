@@ -54,19 +54,13 @@ class WelcomeBox extends Component {
     return (
       <div className="welcomebox">
         <div className="alignlabel">
-          <div className="shortcutKeys">
-            <p onClick={setActiveSearch.bind(null, "source")}>
-              {searchSourcesShortcut}
-            </p>
-            <p onClick={setActiveSearch.bind(null, "project")}>
-              {searchProjectShortcut}
-            </p>
-          </div>
           <div className="shortcutFunction">
             <p onClick={setActiveSearch.bind(null, "source")}>
+              <div className="shortcutKey">{searchSourcesShortcut}</div>
               {searchSourcesLabel}
             </p>
             <p onClick={setActiveSearch.bind(null, "project")}>
+              <div className="shortcutKey">{searchProjectShortcut}</div>
               {searchProjectLabel}
             </p>
           </div>
