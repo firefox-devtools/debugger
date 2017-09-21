@@ -11,7 +11,7 @@
 
 .conditional-breakpoint-panel .prompt {
   font-size: 1.8em;
-  color: var(--theme-conditional-breakpoint-color);
+  color: var(--theme-highlight-blue);
   padding-left: 3px;
   padding-right: 3px;
   padding-bottom: 3px;
@@ -19,16 +19,8 @@
   width: 30px;
 }
 
-.conditional-breakpoint-panel input {
-  margin: 5px 10px;
-  width: calc(100% - 4em);
-  border: none;
-  background: var(--theme-toolbar-background);
-  font-size: 14px;
-  color: var(--theme-conditional-breakpoint-color);
-  line-height: 30px;
-}
-
-.conditional-breakpoint-panel input:focus {
-  outline-width: 0;
+.conditional-breakpoint-panel .panel-mount {
+  height: 100%;
+  width: 100%;
+  padding-left: 10px;
 }

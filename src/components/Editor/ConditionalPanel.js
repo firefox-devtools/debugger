@@ -2,8 +2,32 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import { SourceEditor } from "devtools-source-editor";
 import CloseButton from "../shared/Button/Close";
 import "./ConditionalPanel.css";
+
+function createEditor() {
+  return new SourceEditor({
+    mode: "javascript",
+    foldGutter: false,
+    enableCodeFolding: false,
+    readOnly: false,
+    lineNumbers: false,
+    theme: "mozilla",
+    styleActiveLine: false,
+    lineWrapping: false,
+    matchBrackets: false,
+    showAnnotationRuler: false,
+    gutters: [],
+    value: " ",
+    extraKeys: {
+      // Override code mirror keymap to avoid conflicts with split console.
+      Esc: false,
+      "Cmd-F": false,
+      "Cmd-G": false
+    }
+  });
+}
 
 function renderConditionalPanel({
   condition,
@@ -40,12 +64,13 @@ function renderConditionalPanel({
   ReactDOM.render(
     <div className="conditional-breakpoint-panel">
       <div className="prompt">»</div>
-      <input
+      {/* <input
         defaultValue={condition}
         placeholder={L10N.getStr("editor.conditionalPanel.placeholder")}
         onKeyDown={onKey}
         ref={setInput}
-      />
+      /> */}
+      <div className="panel-mount" />
       <CloseButton
         handleClick={closePanel}
         buttonClass="big"
@@ -54,6 +79,9 @@ function renderConditionalPanel({
     </div>,
     panel
   );
+
+  const editor = createEditor();
+  editor.appendToLocalElement(panel.querySelector(".panel-mount"));
 
   return panel;
 }
