@@ -60,7 +60,6 @@
     "mozilla/var-only-at-top-level": 1,
 
     // Rules from the React plugin
-    "react/display-name": [2, { "ignoreTranspilerName": true }],
     "react/jsx-uses-react": [2],
     "react/jsx-uses-vars": [2],
     "react/no-danger": 1,
