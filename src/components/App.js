@@ -53,6 +53,7 @@ type Props = {
 
 class App extends Component {
   state: {
+    shortcutsModalEnabled: Function,
     horizontal: boolean,
     startPanelSize: number,
     endPanelSize: number
