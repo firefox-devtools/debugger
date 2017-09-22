@@ -134,7 +134,6 @@ class PrimaryPanes extends Component {
   }
 }
 
-PrimaryPanes.displayName = "PrimaryPanes";
 
 export default connect(
   state => ({
