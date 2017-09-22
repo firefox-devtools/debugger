@@ -20,8 +20,6 @@ function debugBtn(onClick, type, className, tooltip, disabled = false) {
   );
 }
 
-debugBtn.displayName = "UtilsBarButton";
-
 class UtilsBar extends Component {
   props: {
     horizontal: boolean,
