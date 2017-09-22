@@ -9,7 +9,7 @@ env:
   global:
     - DISPLAY=':99.0'
     - YARN_VERSION='0.24.5'
-    - MC_COMMIT='abd295766dfe'
+    - MC_COMMIT='05569ef2d175'
 
 addons:
   apt:
