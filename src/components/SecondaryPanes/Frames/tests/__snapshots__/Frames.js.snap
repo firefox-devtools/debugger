@@ -1307,7 +1307,7 @@ ShallowWrapper {
     <div
         className="pane-info empty"
     >
-        Not Paused
+        Not paused
     </div>
 </div>,
   "nodes": Array [
@@ -1317,7 +1317,7 @@ ShallowWrapper {
       <div
             className="pane-info empty"
       >
-            Not Paused
+            Not paused
       </div>
 </div>,
   ],
@@ -1382,7 +1382,7 @@ ShallowWrapper {
           <div
                     className="pane-info empty"
           >
-                    Not Paused
+                    Not paused
           </div>
 </div>,
         "_debugID": 2,
@@ -1392,7 +1392,7 @@ ShallowWrapper {
           <div
                     className="pane-info empty"
           >
-                    Not Paused
+                    Not paused
           </div>
 </div>,
       },
@@ -1840,7 +1840,7 @@ ShallowWrapper {
         className="show-more"
         onClick={[Function]}
     >
-        Collapse Rows
+        Collapse rows
     </div>
 </div>,
   "nodes": Array [
@@ -2043,7 +2043,7 @@ ShallowWrapper {
             className="show-more"
             onClick={[Function]}
       >
-            Collapse Rows
+            Collapse rows
       </div>
 </div>,
   ],
@@ -2371,7 +2371,7 @@ ShallowWrapper {
                     className="show-more"
                     onClick={[Function]}
           >
-                    Collapse Rows
+                    Collapse rows
           </div>
 </div>,
         "_debugID": 6,
@@ -2574,7 +2574,7 @@ ShallowWrapper {
                     className="show-more"
                     onClick={[Function]}
           >
-                    Collapse Rows
+                    Collapse rows
           </div>
 </div>,
       },

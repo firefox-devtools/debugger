@@ -20,14 +20,14 @@ exports[`SymbolModal should render 1`] = `
                     1 of 2 results
                   </div>
                   <div className=\\"search-nav-buttons\\">
-                    <button onClick={[Function]} type=\\"arrow-down\\" className=\\"nav-btn next\\" title=\\"Next Result\\">
+                    <button onClick={[Function]} type=\\"arrow-down\\" className=\\"nav-btn next\\" title=\\"Next result\\">
                       <Svg name=\\"arrow-down\\">
                         <InlineSVG className=\\"arrow-down \\" onClick={[undefined]} aria-label={[undefined]} src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
                           <i className=\\"arrow-down \\" onClick={[undefined]} aria-label={[undefined]} src={{...}} dangerouslySetInnerHTML={{...}} />
                         </InlineSVG>
                       </Svg>
                     </button>
-                    <button onClick={[Function]} type=\\"arrow-up\\" className=\\"nav-btn prev\\" title=\\"Previous Result\\">
+                    <button onClick={[Function]} type=\\"arrow-up\\" className=\\"nav-btn prev\\" title=\\"Previous result\\">
                       <Svg name=\\"arrow-up\\">
                         <InlineSVG className=\\"arrow-up \\" onClick={[undefined]} aria-label={[undefined]} src=\\"<svg></svg>\\" element=\\"i\\" raw={false}>
                           <i className=\\"arrow-up \\" onClick={[undefined]} aria-label={[undefined]} src={{...}} dangerouslySetInnerHTML={{...}} />
