@@ -2,6 +2,7 @@
 import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { features } from "../../utils/prefs";
 import ImPropTypes from "react-immutable-proptypes";
 
 import actions from "../../actions";
@@ -216,6 +217,19 @@ class SecondaryPanes extends Component {
     );
   }
 
+  renderUtilsBar() {
+    if (!features.shortcuts) {
+      return;
+    }
+
+    return (
+      <UtilsBar
+        horizontal={this.props.horizontal}
+        toggleShortcutsModal={this.props.toggleShortcutsModal}
+      />
+    );
+  }
+
   render() {
     return (
       <div className="secondary-panes secondary-panes--sticky-commandbar">
@@ -223,10 +237,7 @@ class SecondaryPanes extends Component {
         {this.props.horizontal
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
-        <UtilsBar
-          horizontal={this.props.horizontal}
-          toggleShortcutsModal={this.props.toggleShortcutsModal}
-        />
+        {this.renderUtilsBar()}
       </div>
     );
   }

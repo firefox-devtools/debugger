@@ -28,6 +28,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.async-stepping", true);
   pref("devtools.debugger.features.wasm", true);
   pref("devtools.debugger.features.shortcuts", false);
+  pref("devtools.debugger.features.utilsBar", false);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -53,7 +54,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   asyncStepping: ["Bool", "async-stepping", false],
   projectTextSearch: ["Bool", "project-text-search", true],
   wasm: ["Bool", "wasm", true],
-  shortcuts: ["Bool", "shortcuts", false]
+  shortcuts: ["Bool", "shortcuts", false],
+  utilsBar: ["Bool", "utilsBar", false]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
