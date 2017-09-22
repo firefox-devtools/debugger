@@ -27,6 +27,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.project-text-search", true);
   pref("devtools.debugger.features.async-stepping", true);
   pref("devtools.debugger.features.wasm", true);
+  pref("devtools.debugger.features.shortcuts", false);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -51,7 +52,8 @@ export const prefs = new PrefsHelper("devtools", {
 export const features = new PrefsHelper("devtools.debugger.features", {
   asyncStepping: ["Bool", "async-stepping", false],
   projectTextSearch: ["Bool", "project-text-search", true],
-  wasm: ["Bool", "wasm", true]
+  wasm: ["Bool", "wasm", true],
+  shortcuts: ["Bool", "shortcuts", false]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {

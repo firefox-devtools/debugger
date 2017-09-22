@@ -3,6 +3,7 @@
 import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { features } from "../utils/prefs";
 import actions from "../actions";
 import { ShortcutsModal } from "./ShortcutsModal";
 
@@ -255,6 +256,10 @@ class App extends Component {
   }
 
   renderShortcutsModal() {
+    if (!features.shortcuts) {
+      return;
+    }
+
     return <ShortcutsModal enabled={this.state.shortcutsModalEnabled} />;
   }
 
