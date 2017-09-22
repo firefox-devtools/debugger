@@ -166,6 +166,10 @@ class SourcesTree extends Component {
   }
 
   getIcon(item, depth) {
+    if (item.path === "/webpack://") {
+      return <Svg name="webpack" className="webpack-icon" />;
+    }
+
     if (depth === 0) {
       return <Svg name="domain" />;
     }
