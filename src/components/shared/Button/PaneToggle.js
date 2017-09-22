@@ -29,7 +29,7 @@ class PaneToggleButton extends Component {
       : L10N.getStr("collapsePanes");
 
     return (
-      <div
+      <button
         className={classnames(`toggle-button-${position}`, {
           collapsed,
           vertical: horizontal != null ? !horizontal : false
@@ -38,7 +38,7 @@ class PaneToggleButton extends Component {
         title={title}
       >
         <Svg name="togglePanes" />
-      </div>
+      </button>
     );
   }
 }
