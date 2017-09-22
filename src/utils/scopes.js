@@ -2,6 +2,7 @@
 
 import { toPairs } from "lodash";
 import { get } from "lodash";
+import { simplifyDisplayName } from "./frame";
 import type { Frame, Pause, Scope } from "debugger-html";
 
 type ScopeData = {
@@ -96,7 +97,9 @@ export function getScopes(
       const bindings = scope.bindings;
       let title;
       if (type === "function") {
-        title = scope.function.displayName || "(anonymous)";
+        title = scope.function.displayName
+          ? simplifyDisplayName(scope.function.displayName)
+          : L10N.getStr("anonymous");
       } else {
         title = L10N.getStr("scopes.block");
       }
