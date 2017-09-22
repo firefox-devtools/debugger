@@ -58,11 +58,11 @@ describe("Frames", () => {
       const getToggleBtn = () => component.find(".show-more");
       const getFrames = () => component.find("FrameComponent");
 
-      expect(getToggleBtn().text()).toEqual("Expand rows");
+      expect(getToggleBtn().text()).toEqual("Expand Rows");
       expect(getFrames().length).toEqual(7);
 
       getToggleBtn().simulate("click");
-      expect(getToggleBtn().text()).toEqual("Collapse rows");
+      expect(getToggleBtn().text()).toEqual("Collapse Rows");
       expect(getFrames().length).toEqual(10);
       expect(component).toMatchSnapshot();
     });

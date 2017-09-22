@@ -98,7 +98,7 @@ ShallowWrapper {
             className="input-expression"
             onBlur={[Function]}
             onKeyPress={[Function]}
-            placeholder="Add Watch Expression"
+            placeholder="Add watch expression"
             type="text"
         />
     </li>
@@ -194,7 +194,7 @@ ShallowWrapper {
                   className="input-expression"
                   onBlur={[Function]}
                   onKeyPress={[Function]}
-                  placeholder="Add Watch Expression"
+                  placeholder="Add watch expression"
                   type="text"
             />
       </li>
@@ -373,7 +373,7 @@ ShallowWrapper {
                               className="input-expression"
                               onBlur={[Function]}
                               onKeyPress={[Function]}
-                              placeholder="Add Watch Expression"
+                              placeholder="Add watch expression"
                               type="text"
                     />
           </li>
@@ -469,7 +469,7 @@ ShallowWrapper {
                               className="input-expression"
                               onBlur={[Function]}
                               onKeyPress={[Function]}
-                              placeholder="Add Watch Expression"
+                              placeholder="Add watch expression"
                               type="text"
                     />
           </li>
@@ -611,7 +611,7 @@ ShallowWrapper {
             className="input-expression"
             onBlur={[Function]}
             onKeyPress={[Function]}
-            placeholder="Add Watch Expression"
+            placeholder="Add watch expression"
             type="text"
         />
     </li>
@@ -707,7 +707,7 @@ ShallowWrapper {
                   className="input-expression"
                   onBlur={[Function]}
                   onKeyPress={[Function]}
-                  placeholder="Add Watch Expression"
+                  placeholder="Add watch expression"
                   type="text"
             />
       </li>
@@ -886,7 +886,7 @@ ShallowWrapper {
                               className="input-expression"
                               onBlur={[Function]}
                               onKeyPress={[Function]}
-                              placeholder="Add Watch Expression"
+                              placeholder="Add watch expression"
                               type="text"
                     />
           </li>
@@ -982,7 +982,7 @@ ShallowWrapper {
                               className="input-expression"
                               onBlur={[Function]}
                               onKeyPress={[Function]}
-                              placeholder="Add Watch Expression"
+                              placeholder="Add watch expression"
                               type="text"
                     />
           </li>
