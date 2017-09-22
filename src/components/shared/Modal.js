@@ -38,7 +38,6 @@ export class Modal extends Component {
   }
 }
 
-Modal.displayName = "Modal";
 Modal.contextTypes = {
   shortcuts: PropTypes.object
 };
@@ -64,5 +63,3 @@ export default function Slide({
     </Transition>
   );
 }
-
-Slide.displayName = "Slide";

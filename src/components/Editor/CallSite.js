@@ -93,5 +93,3 @@ export default class CallSite extends Component {
     return null;
   }
 }
-
-CallSite.displayName = "CallSite";

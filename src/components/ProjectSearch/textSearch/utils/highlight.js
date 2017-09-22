@@ -1,7 +1,6 @@
 // Maybe reuse file search's functions?
 import React from "react";
 
-highlightMatches.displayName = "HighlightMatches";
 export function highlightMatches(lineMatch) {
   const { value, column, match } = lineMatch;
   const len = match.length;

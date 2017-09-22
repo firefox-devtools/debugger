@@ -200,8 +200,6 @@ Frames.propTypes = {
   pause: PropTypes.object
 };
 
-Frames.displayName = "Frames";
-
 function getSourceForFrame(sources, frame) {
   return getSourceInSources(sources, frame.location.sourceId);
 }

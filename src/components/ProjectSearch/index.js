@@ -181,8 +181,6 @@ ProjectSearch.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-ProjectSearch.displayName = "ProjectSearch";
-
 export default connect(
   state => ({
     sources: getSources(state),

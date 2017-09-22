@@ -313,8 +313,6 @@ SourcesTree.propTypes = {
   expanded: PropTypes.any
 };
 
-SourcesTree.displayName = "SourcesTree";
-
 export default connect(
   state => {
     return {

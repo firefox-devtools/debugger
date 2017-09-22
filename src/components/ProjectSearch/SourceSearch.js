@@ -62,5 +62,3 @@ export default class SourceSearch extends Component {
 SourceSearch.contextTypes = {
   shortcuts: PropTypes.object
 };
-
-SourceSearch.displayName = "SourceSearch";

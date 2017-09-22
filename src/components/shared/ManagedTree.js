@@ -147,8 +147,6 @@ class ManagedTree extends Component {
   }
 }
 
-ManagedTree.displayName = "ManagedTree";
-
 ManagedTree.propTypes = Object.assign({}, Tree.propTypes);
 
 export default ManagedTree;

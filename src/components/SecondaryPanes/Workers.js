@@ -34,8 +34,6 @@ export class Workers extends PureComponent {
   }
 }
 
-Workers.displayName = "Workers";
-
 function mapStateToProps(state) {
   return { workers: getWorkers(state) };
 }

@@ -59,5 +59,3 @@ export default class PreviewFunction extends Component {
     );
   }
 }
-
-PreviewFunction.displayName = "PreviewFunction";

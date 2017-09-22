@@ -209,8 +209,6 @@ export class Popup extends Component {
   }
 }
 
-Popup.displayName = "Popup";
-
 export default connect(
   state => ({
     loadedObjects: getLoadedObjects(state)

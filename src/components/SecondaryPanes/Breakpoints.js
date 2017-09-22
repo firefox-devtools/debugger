@@ -76,7 +76,6 @@ function renderSourceLocation(source, line, column) {
     </div>
   );
 }
-renderSourceLocation.displayName = "SourceLocation";
 
 class Breakpoints extends PureComponent {
   props: Props;
@@ -379,8 +378,6 @@ class Breakpoints extends PureComponent {
     return <div className="pane breakpoints-list">{children}</div>;
   }
 }
-
-Breakpoints.displayName = "Breakpoints";
 
 function updateLocation(sources, pause, bp): LocalBreakpoint {
   const source = getSourceInSources(sources, bp.location.sourceId);

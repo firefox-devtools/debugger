@@ -24,6 +24,4 @@ const BracketArrow = ({
   );
 };
 
-BracketArrow.displayName = "BracketArrow";
-
 export default BracketArrow;

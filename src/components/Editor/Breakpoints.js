@@ -56,8 +56,6 @@ class Breakpoints extends Component {
   }
 }
 
-Breakpoints.displayName = "Breakpoints";
-
 export default connect(
   state => ({
     breakpoints: getVisibleBreakpoints(state),

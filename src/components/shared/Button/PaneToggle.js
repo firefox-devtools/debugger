@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Component } from "react";
 import classnames from "classnames";
 import Svg from "../Svg";
@@ -43,7 +42,5 @@ class PaneToggleButton extends Component {
     );
   }
 }
-
-PaneToggleButton.displayName = "PaneToggleButton";
 
 export default PaneToggleButton;

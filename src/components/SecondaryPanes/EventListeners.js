@@ -95,8 +95,6 @@ class EventListeners extends Component {
   }
 }
 
-EventListeners.displayName = "EventListeners";
-
 export default connect(
   state => {
     const listeners = getEventListeners(state).map(l =>

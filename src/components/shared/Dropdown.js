@@ -73,6 +73,4 @@ class Dropdown extends Component {
   }
 }
 
-Dropdown.displayName = "Dropdown";
-
 export default Dropdown;

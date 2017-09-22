@@ -502,8 +502,6 @@ class SourceTabs extends PureComponent {
   }
 }
 
-SourceTabs.displayName = "SourceTabs";
-
 export default connect(
   state => {
     return {

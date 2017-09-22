@@ -35,7 +35,7 @@ DebuggerPanel.prototype = {
         // Open a link in a new browser tab.
         openLink: this.openLink.bind(this)
       }
-    })
+    });
 
     this._actions = actions;
     this._store = store;

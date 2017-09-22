@@ -411,7 +411,6 @@ class SearchBar extends Component {
   }
 }
 
-SearchBar.displayName = "SearchBar";
 SearchBar.contextTypes = {
   shortcuts: PropTypes.object
 };

@@ -217,5 +217,3 @@ TextSearch.propTypes = {
 TextSearch.contextTypes = {
   shortcuts: PropTypes.object
 };
-
-TextSearch.displayName = "TextSearch";

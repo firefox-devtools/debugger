@@ -169,6 +169,4 @@ Popover.defaultProps = {
   type: "popover"
 };
 
-Popover.displayName = "Popover";
-
 export default Popover;

@@ -20,8 +20,6 @@ function FrameTitle({ frame, options }: FrameTitleProps) {
   return <div className="title">{displayName}</div>;
 }
 
-FrameTitle.displayName = "FrameTitle";
-
 type FrameLocationProps = { frame: LocalFrame };
 
 function FrameLocation({ frame }: FrameLocationProps) {

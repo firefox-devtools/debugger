@@ -102,6 +102,4 @@ class Accordion extends Component {
   }
 }
 
-Accordion.displayName = "Accordion";
-
 export default Accordion;

@@ -53,7 +53,6 @@ function ResultListFactory({ dir = "ltr", theme = "dark", ...props }) {
   );
 }
 
-ResultListFactory.displayName = "ResultListFactory";
 ResultListFactory.propTypes = {
   dir: PropTypes.string,
   theme: PropTypes.string

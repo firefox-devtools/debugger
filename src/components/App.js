@@ -258,8 +258,6 @@ class App extends Component {
   }
 }
 
-App.displayName = "App";
-
 App.childContextTypes = { shortcuts: PropTypes.object };
 
 export default connect(

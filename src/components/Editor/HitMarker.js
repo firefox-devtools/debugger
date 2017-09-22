@@ -52,6 +52,4 @@ class HitMarker extends Component {
   }
 }
 
-HitMarker.displayName = "HitMarker";
-
 export default HitMarker;

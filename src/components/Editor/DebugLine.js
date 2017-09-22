@@ -84,5 +84,3 @@ export default class DebugLine extends Component {
     return null;
   }
 }
-
-DebugLine.displayName = "DebugLine";

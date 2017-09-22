@@ -56,7 +56,6 @@ function SearchInputFactory({ dir = "ltr", theme = "dark", ...props }) {
   );
 }
 
-SearchInputFactory.displayName = "SearchInputFactory";
 SearchInputFactory.propTypes = {
   dir: PropTypes.string,
   theme: PropTypes.string

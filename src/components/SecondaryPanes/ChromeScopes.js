@@ -200,8 +200,6 @@ class Scopes extends Component {
   }
 }
 
-Scopes.displayName = "Scopes";
-
 export default connect(
   state => ({
     pauseInfo: getPause(state),

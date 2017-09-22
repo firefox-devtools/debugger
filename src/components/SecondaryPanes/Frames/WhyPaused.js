@@ -40,7 +40,6 @@ function renderMessage(pauseInfo: Pause) {
 
   return null;
 }
-renderMessage.displayName = "whyMessage";
 
 export default function renderWhyPaused({ pause }: { pause: Pause }) {
   const reason = getPauseReason(pause);

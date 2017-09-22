@@ -83,8 +83,6 @@ export class Outline extends Component {
   }
 }
 
-Outline.displayName = "Outline";
-
 export default connect(
   state => {
     const selectedSource = getSelectedSource(state);
