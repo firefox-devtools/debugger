@@ -13,7 +13,7 @@
   Ref: https://github.com/devtools-html/debugger.html/issues/3426
 */
 .secondary-panes--sticky-commandbar {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .secondary-panes .accordion {
