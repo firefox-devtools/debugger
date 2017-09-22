@@ -332,7 +332,7 @@ The `ExpressionState` documents the reducers fields. We use it in three places:
 
 We try to wrap our state in Immutable records when we can for two reasons.
 First it means that the state can only be modified in the reducers.
-Second, it helps our connected components avoid unecessary renders.
+Second, it helps our connected components avoid unnecessary renders.
 
 Connect will trigger a re-render when it sees new state, even if it has not changed.
 Immutable, will creates new objects if and only if the data changes,
@@ -429,7 +429,7 @@ yarn run test-all
 * [matchers][jest-matchers]
 * [mock functions][jest-mock]
 
-Running all the tests tends to be really slow. Most of the time it is realy useful to run a single test. You can do this by invoking jest directly like this:
+Running all the tests tends to be really slow. Most of the time it is really useful to run a single test. You can do this by invoking jest directly like this:
 
 ```bash
 node_modules/jest/bin/jest.js -o

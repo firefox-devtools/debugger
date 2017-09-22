@@ -26,7 +26,7 @@
     "lint": "run-p lint-css lint-js lint-md",
     "lint-css": "stylelint \"src/components/**/*.css\"",
     "lint-js": "eslint *.js \"src/**/*.js\" --fix",
-    "lint-md": "remark -qf *.md src configs docs",
+    "lint-md": "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
     "lint-fix": "yarn lint-js -- --fix",
     "mochi":
       "mochii --mc ./firefox --default-test-path devtools/client/debugger/new",
@@ -70,6 +70,7 @@
     "codemirror": "^5.28.0",
     "devtools-components": "^0.0.2",
     "devtools-launchpad": "^0.0.98",
+    "devtools-linters": "^0.0.3",
     "devtools-reps": "^0.12.3",
     "devtools-source-editor": "0.0.6",
     "devtools-source-map": "^0.13.0",

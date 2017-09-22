@@ -74,7 +74,7 @@ Ofcourse, feel free to ask questions in [slack][slack] or share talk slides or v
 
 Our primary goal is to help developers understand they have the skills
 to improve their environment. Writing about DevTools is the best way
-to dispell the myth that what we do is magic.
+to dispel the myth that what we do is magic.
 
 Writing is a great way to share what you learn and articulate your passion.
 Blog posts can either be technical "how x works" or narrative "how we built x".
