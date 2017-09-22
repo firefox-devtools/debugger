@@ -66,6 +66,15 @@
   background-color: var(--theme-tab-toolbar-background);
 }
 
+.sources-list .tree .focused .label {
+  background-color: var(--theme-selection-background);
+  display: inline-block;
+}
+
+.sources-list .tree .label {
+  padding: 3px 0px 3px 0px ;
+}
+
 .no-sources-message {
   font-size: 12px;
   color: var(--theme-comment-alt);

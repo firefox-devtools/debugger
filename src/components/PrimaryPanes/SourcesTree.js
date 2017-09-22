@@ -237,11 +237,9 @@ class SourcesTree extends Component {
         }}
         onContextMenu={e => this.onContextMenu(e, item)}
       >
-        <div>
-          {arrow}
-          {icon}
-          {item.name}
-        </div>
+        {arrow}
+        {icon}
+        <span className="label"> {item.name} </span>
       </div>
     );
   }
