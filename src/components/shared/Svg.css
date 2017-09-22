@@ -4,6 +4,7 @@
 .file,
 .worker,
 .refresh,
+.shortcut,
 .add-button {
   fill: var(--theme-splitter-color);
 }
@@ -27,6 +28,7 @@
 .folder svg,
 .worker svg,
 .refresh svg,
+.shortcut svg,
 .add-button svg {
   width: 15px;
 }
@@ -39,6 +41,7 @@
 .domain svg,
 .folder svg,
 .refresh svg,
+.shortcut svg,
 .worker svg {
   margin-inline-end: 5px;
 }
@@ -50,12 +53,12 @@
   width: 10px;
 }
 
-html:not([dir="rtl"]) .arrow svg {
+html:not([dir='rtl']) .arrow svg {
   margin-right: 5px;
   transform: rotate(-90deg);
 }
 
-html[dir="rtl"] .arrow svg {
+html[dir='rtl'] .arrow svg {
   margin-left: 5px;
   transform: rotate(90deg);
 }

@@ -24,6 +24,7 @@ import EventListeners from "./EventListeners";
 import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
+import UtilsBar from "./UtilsBar";
 
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
@@ -222,6 +223,7 @@ class SecondaryPanes extends Component {
         {this.props.horizontal
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
+        <UtilsBar horizontal={this.props.horizontal} />
       </div>
     );
   }
