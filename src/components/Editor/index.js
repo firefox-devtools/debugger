@@ -101,39 +101,13 @@ class Editor extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    // This lifecycle method is responsible for updating the editor
-    // text.
-    const { selectedSource } = nextProps;
-
-    if (
-      nextProps.startPanelSize !== this.props.startPanelSize ||
-      nextProps.endPanelSize !== this.props.endPanelSize
-    ) {
-      this.state.editor.codeMirror.setSize();
+    if (!this.state.editor) {
+      return;
     }
 
-    if (!selectedSource) {
-      if (this.props.selectedSource) {
-        this.showMessage("");
-      }
-    } else if (!isLoaded(selectedSource.toJS())) {
-      this.showMessage(L10N.getStr("loadingText"));
-    } else if (selectedSource.get("error")) {
-      this.showMessage(selectedSource.get("error"));
-    } else if (this.props.selectedSource !== selectedSource) {
-      showSourceText(this.state.editor, selectedSource.toJS());
-    }
-
-    if (
-      this.state.editor &&
-      this.props.linesInScope !== nextProps.linesInScope
-    ) {
-      this.state.editor.codeMirror.operation(() => {
-        clearLineClass(this.state.editor.codeMirror, "in-scope");
-      });
-
-      resizeBreakpointGutter(this.state.editor.codeMirror);
-    }
+    this.setSize(nextProps);
+    this.setText(nextProps);
+    resizeBreakpointGutter(this.state.editor.codeMirror);
   }
 
   setupEditor() {
@@ -522,7 +496,50 @@ class Editor extends PureComponent {
     this.pendingJumpLocation = null;
   }
 
+  setSize(nextProps) {
+    if (!this.state.editor) {
+      return;
+    }
+
+    if (
+      nextProps.startPanelSize !== this.props.startPanelSize ||
+      nextProps.endPanelSize !== this.props.endPanelSize
+    ) {
+      this.state.editor.codeMirror.setSize();
+    }
+  }
+
+  setText(nextProps) {
+    if (!this.state.editor) {
+      return;
+    }
+
+    if (!nextProps.selectedSource) {
+      if (this.props.selectedSource) {
+        return this.showMessage("");
+      }
+
+      return;
+    }
+
+    if (!isLoaded(nextProps.selectedSource.toJS())) {
+      return this.showMessage(L10N.getStr("loadingText"));
+    }
+
+    if (nextProps.selectedSource.get("error")) {
+      return this.showMessage(nextProps.selectedSource.get("error"));
+    }
+
+    if (nextProps.selectedSource !== this.props.selectedSource) {
+      return showSourceText(this.state.editor, nextProps.selectedSource.toJS());
+    }
+  }
+
   showMessage(msg) {
+    if (!this.state.editor) {
+      return;
+    }
+
     this.state.editor.replaceDocument(this.state.editor.createDocument());
     this.state.editor.setText(msg);
     this.state.editor.setMode({ name: "text" });
@@ -596,24 +613,6 @@ class Editor extends PureComponent {
     }
 
     return <Preview editor={this.state.editor} />;
-  }
-
-  renderInScopeLines() {
-    const { linesInScope } = this.props;
-    if (
-      !this.state.editor ||
-      !isEnabled("highlightScopeLines") ||
-      !linesInScope ||
-      !this.inSelectedFrameSource()
-    ) {
-      return;
-    }
-
-    this.state.editor.codeMirror.operation(() => {
-      linesInScope.forEach(line => {
-        this.state.editor.codeMirror.addLineClass(line - 1, "line", "in-scope");
-      });
-    });
   }
 
   renderCallSites() {
@@ -711,7 +710,6 @@ class Editor extends PureComponent {
           style={this.getInlineEditorStyles()}
         />
         {this.renderHighlightLines()}
-        {this.renderInScopeLines()}
         {this.renderHitCounts()}
         {this.renderFooter()}
         {this.renderPreview()}

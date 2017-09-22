@@ -22,11 +22,6 @@
   --theme-conditional-breakpoint-color: var(--theme-body-color);
 }
 
-.paused .in-scope .CodeMirror-line,
-.paused .in-scope .CodeMirror-linenumber {
-  opacity: 1;
-}
-
 .paused .CodeMirror-line,
 .paused .CodeMirror-linenumber {
   opacity: 0.7;
