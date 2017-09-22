@@ -53,12 +53,12 @@
   width: 10px;
 }
 
-html:not([dir='rtl']) .arrow svg {
+html:not([dir="rtl"]) .arrow svg {
   margin-right: 5px;
   transform: rotate(-90deg);
 }
 
-html[dir='rtl'] .arrow svg {
+html[dir="rtl"] .arrow svg {
   margin-left: 5px;
   transform: rotate(90deg);
 }

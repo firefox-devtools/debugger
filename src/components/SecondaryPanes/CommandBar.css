@@ -12,7 +12,7 @@
   width: 100vw;
 }
 
-html[dir='rtl'] .command-bar {
+html[dir="rtl"] .command-bar {
   border-right: 1px solid var(--theme-splitter-color);
 }
 

@@ -4,6 +4,8 @@ import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../actions";
+import { ShortcutsModal } from "./ShortcutsModal";
+
 import {
   getSelectedSource,
   getPaneCollapse,
@@ -192,7 +194,13 @@ class App extends Component {
             onResizeEnd={size => this.setState({ endPanelSize: size })}
             endPanelControl={true}
             startPanel={this.renderEditorPane()}
-            endPanel={<SecondaryPanes horizontal={horizontal} />}
+            endPanel={
+              <SecondaryPanes
+                horizontal={horizontal}
+                toggleShortcutsModal={() =>
+                  this.setState({ shortcutsModalEnabled: true })}
+              />
+            }
             endPanelCollapsed={endPanelCollapsed}
             vert={horizontal}
           />
@@ -246,6 +254,10 @@ class App extends Component {
     );
   }
 
+  renderShortcutsModal() {
+    return <ShortcutsModal enabled={this.state.shortcutsModalEnabled} />;
+  }
+
   render() {
     return (
       <div className="debugger">
@@ -253,6 +265,7 @@ class App extends Component {
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
         {this.renderSymbolModal()}
+        {this.renderShortcutsModal()}
       </div>
     );
   }
@@ -262,6 +275,7 @@ App.childContextTypes = { shortcuts: PropTypes.object };
 
 export default connect(
   state => ({
+    shortcutsModalEnabled: false,
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
     endPanelCollapsed: getPaneCollapse(state, "end"),

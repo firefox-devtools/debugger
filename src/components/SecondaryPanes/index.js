@@ -223,7 +223,10 @@ class SecondaryPanes extends Component {
         {this.props.horizontal
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
-        <UtilsBar horizontal={this.props.horizontal} />
+        <UtilsBar
+          horizontal={this.props.horizontal}
+          toggleShortcutsModal={this.props.toggleShortcutsModal}
+        />
       </div>
     );
   }
@@ -236,7 +239,8 @@ SecondaryPanes.propTypes = {
   breakpoints: ImPropTypes.map.isRequired,
   breakpointsDisabled: PropTypes.bool,
   breakpointsLoading: PropTypes.bool,
-  toggleAllBreakpoints: PropTypes.func.isRequired
+  toggleAllBreakpoints: PropTypes.func.isRequired,
+  toggleShortcutsModal: PropTypes.func
 };
 
 SecondaryPanes.contextTypes = {
