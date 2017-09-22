@@ -1,17 +1,13 @@
 // @flow
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import Modal from "./shared/Modal";
 
 import "./ShortcutsModal.css";
 
 export class ShortcutsModal extends Component {
-  state: SymbolModalState;
-
-  props: {};
-
-  constructor(props) {
-    super(props);
-  }
+  props: {
+    enabled: boolean
+  };
 
   render() {
     const { enabled } = this.props;
@@ -20,12 +16,8 @@ export class ShortcutsModal extends Component {
       return null;
     }
 
-    return <Modal in={enabled} handleClose={this.closeModal} />;
+    return <Modal in={enabled} handleClose={() => console.log("hisam")} />;
   }
 }
-
-ShortcutsModal.propTypes = {
-  enabled: PropTypes.bool
-};
 
 ShortcutsModal.displayName = "ShortcutsModal";

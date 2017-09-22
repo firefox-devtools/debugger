@@ -53,7 +53,7 @@ type Props = {
 
 class App extends Component {
   state: {
-    shortcutsModalEnabled: Function,
+    shortcutsModalEnabled: boolean,
     horizontal: boolean,
     startPanelSize: number,
     endPanelSize: number
@@ -70,6 +70,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      shortcutsModalEnabled: false,
       horizontal: verticalLayoutBreakpoint.matches,
       startPanelSize: 0,
       endPanelSize: 0
@@ -281,7 +282,6 @@ App.childContextTypes = { shortcuts: PropTypes.object };
 
 export default connect(
   state => ({
-    shortcutsModalEnabled: false,
     selectedSource: getSelectedSource(state),
     startPanelCollapsed: getPaneCollapse(state, "start"),
     endPanelCollapsed: getPaneCollapse(state, "end"),

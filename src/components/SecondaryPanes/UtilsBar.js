@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 import "./CommandBar.css";
@@ -25,7 +25,7 @@ debugBtn.displayName = "UtilsBarButton";
 class UtilsBar extends Component {
   props: {
     horizontal: boolean,
-    toggleShortcutsModal: Function
+    toggleShortcutsModal: () => void
   };
 
   renderUtilButtons() {
@@ -52,10 +52,5 @@ class UtilsBar extends Component {
     );
   }
 }
-
-UtilsBar.propTypes = {
-  toggleShortcutsModal: PropTypes.func
-};
-UtilsBar.displayName = "UtilsBar";
 
 export default UtilsBar;
