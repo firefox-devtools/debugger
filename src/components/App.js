@@ -3,7 +3,10 @@
 import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { features } from "../utils/prefs";
 import actions from "../actions";
+import { ShortcutsModal } from "./ShortcutsModal";
+
 import {
   getSelectedSource,
   getPaneCollapse,
@@ -50,6 +53,7 @@ type Props = {
 
 class App extends Component {
   state: {
+    shortcutsModalEnabled: boolean,
     horizontal: boolean,
     startPanelSize: number,
     endPanelSize: number
@@ -66,6 +70,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      shortcutsModalEnabled: false,
       horizontal: verticalLayoutBreakpoint.matches,
       startPanelSize: 0,
       endPanelSize: 0
@@ -166,6 +171,12 @@ class App extends Component {
     );
   }
 
+  toggleShortcutsModal() {
+    this.setState({
+      shortcutsModalEnabled: !this.state.shortcutsModalEnabled
+    });
+  }
+
   renderHorizontalLayout() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
@@ -192,7 +203,12 @@ class App extends Component {
             onResizeEnd={size => this.setState({ endPanelSize: size })}
             endPanelControl={true}
             startPanel={this.renderEditorPane()}
-            endPanel={<SecondaryPanes horizontal={horizontal} />}
+            endPanel={
+              <SecondaryPanes
+                horizontal={horizontal}
+                toggleShortcutsModal={() => this.toggleShortcutsModal()}
+              />
+            }
             endPanelCollapsed={endPanelCollapsed}
             vert={horizontal}
           />
@@ -246,6 +262,19 @@ class App extends Component {
     );
   }
 
+  renderShortcutsModal() {
+    if (!features.shortcuts) {
+      return;
+    }
+
+    return (
+      <ShortcutsModal
+        enabled={this.state.shortcutsModalEnabled}
+        handleClose={() => this.toggleShortcutsModal()}
+      />
+    );
+  }
+
   render() {
     return (
       <div className="debugger">
@@ -253,6 +282,7 @@ class App extends Component {
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
         {this.renderSymbolModal()}
+        {this.renderShortcutsModal()}
       </div>
     );
   }

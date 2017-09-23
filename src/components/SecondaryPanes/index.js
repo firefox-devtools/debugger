@@ -2,6 +2,7 @@
 import React, { PropTypes, Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { features } from "../../utils/prefs";
 import ImPropTypes from "react-immutable-proptypes";
 
 import actions from "../../actions";
@@ -24,6 +25,7 @@ import EventListeners from "./EventListeners";
 import Workers from "./Workers";
 import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
+import UtilsBar from "./UtilsBar";
 
 import _chromeScopes from "./ChromeScopes";
 import _Scopes from "./Scopes";
@@ -215,6 +217,19 @@ class SecondaryPanes extends Component {
     );
   }
 
+  renderUtilsBar() {
+    if (!features.shortcuts) {
+      return;
+    }
+
+    return (
+      <UtilsBar
+        horizontal={this.props.horizontal}
+        toggleShortcutsModal={this.props.toggleShortcutsModal}
+      />
+    );
+  }
+
   render() {
     return (
       <div className="secondary-panes secondary-panes--sticky-commandbar">
@@ -222,6 +237,7 @@ class SecondaryPanes extends Component {
         {this.props.horizontal
           ? this.renderHorizontalLayout()
           : this.renderVerticalLayout()}
+        {this.renderUtilsBar()}
       </div>
     );
   }
@@ -234,7 +250,8 @@ SecondaryPanes.propTypes = {
   breakpoints: ImPropTypes.map.isRequired,
   breakpointsDisabled: PropTypes.bool,
   breakpointsLoading: PropTypes.bool,
-  toggleAllBreakpoints: PropTypes.func.isRequired
+  toggleAllBreakpoints: PropTypes.func.isRequired,
+  toggleShortcutsModal: PropTypes.func
 };
 
 SecondaryPanes.contextTypes = {

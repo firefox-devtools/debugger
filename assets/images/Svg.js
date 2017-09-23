@@ -51,7 +51,8 @@ const svg = {
   pug: require("./pug.svg"),
   extjs: require("./sencha-extjs.svg"),
   showSources: require("./showSources.svg"),
-  showOutline: require("./showOutline.svg")
+  showOutline: require("./showOutline.svg"),
+  shortcut: require("./shortcut.svg")
 };
 
 type SvgType = {

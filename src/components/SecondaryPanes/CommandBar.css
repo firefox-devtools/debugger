@@ -2,10 +2,8 @@
   flex: 0 0 29px;
   border-bottom: 1px solid var(--theme-splitter-color);
   display: flex;
-  height: 29px;
   overflow: hidden;
   position: sticky;
-  top: 0;
   z-index: 1;
   background-color: var(--theme-toolbar-background);
 }
@@ -81,4 +79,15 @@ html .command-bar > button:disabled {
 
 .command-bar button.pause-exceptions.all {
   color: var(--theme-highlight-blue);
+}
+
+.bottom {
+  border-bottom: none;
+  background-color: var(--theme-body-background);
+  border-top: 1px solid var(--theme-splitter-color);
+  flex: 0 0 27px;
+}
+
+.command-bar > button {
+  padding: 6px 5px;
 }
