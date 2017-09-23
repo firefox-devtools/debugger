@@ -6,8 +6,13 @@ import "./ShortcutsModal.css";
 
 export class ShortcutsModal extends Component {
   props: {
-    enabled: boolean
+    enabled: boolean,
+    handleClose: () => void
   };
+
+  renderShortcuts() {
+    return <ul />;
+  }
 
   render() {
     const { enabled } = this.props;
@@ -16,7 +21,11 @@ export class ShortcutsModal extends Component {
       return null;
     }
 
-    return <Modal in={enabled} handleClose={() => console.log("hisam")} />;
+    return (
+      <Modal in={enabled} handleClose={this.props.handleClose}>
+        {this.renderShortcuts()}
+      </Modal>
+    );
   }
 }
 
