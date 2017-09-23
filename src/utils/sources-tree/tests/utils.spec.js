@@ -10,7 +10,8 @@ import {
   addToTree,
   sortEntireTree,
   getURL,
-  getDirectories
+  getDirectories,
+  isCssPngSvg
 } from "../index";
 
 describe("sources tree", () => {
@@ -177,4 +178,43 @@ describe("sources tree", () => {
       expect(urlObject.filename).toBe("(index)");
     });
   });
+
+  describe("isCssPngSvg", () => {
+    it("js file", () => {
+      expect(
+        isCssPngSvg({
+          url: "http://example.com/foo.js",
+          contentType: "text/javascript"
+        })
+      ).toBe(false);
+    });
+
+    it("css file", () => {
+      expect(
+        isCssPngSvg({
+          url: "http://example.com/foo.css",
+          contentType: "text/javascript"
+        })
+      ).toBe(true);
+    });
+
+    it("svg file", () => {
+      expect(
+        isCssPngSvg({
+          url: "http://example.com/foo.svg",
+          contentType: "text/javascript"
+        })
+      ).toBe(true);
+    });
+
+    it("png file", () => {
+      expect(
+        isCssPngSvg({
+          url: "http://example.com/foo.png",
+          contentType: "text/javascript"
+        })
+      ).toBe(true);
+    });
+  });
+
 });

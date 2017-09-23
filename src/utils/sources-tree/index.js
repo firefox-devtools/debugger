@@ -17,5 +17,6 @@ export {
   isDirectory,
   createNode,
   createParentMap,
-  getRelativePath
+  getRelativePath,
+  isCssPngSvg
 } from "./utils";
