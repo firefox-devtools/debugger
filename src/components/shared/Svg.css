@@ -6,7 +6,6 @@
 .refresh,
 .add-button {
   fill: var(--theme-splitter-color);
-  margin-top: 3px;
 }
 
 .worker,
@@ -46,6 +45,7 @@
 
 .arrow svg {
   fill: var(--theme-splitter-color);
+  margin-top: 3px;
   transition: transform 0.25s ease;
   width: 10px;
 }
