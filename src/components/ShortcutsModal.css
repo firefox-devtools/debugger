@@ -20,6 +20,10 @@
   width: calc(100% - 1px); /* 1px fixes the hidden right border */
 }
 
+.shortcuts-modal {
+  height: fit-content;
+}
+
 .shortcuts-list li {
   width: 40%;
   color: var(--theme-body-color);
