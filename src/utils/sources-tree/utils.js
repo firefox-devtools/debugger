@@ -31,7 +31,8 @@ export function isDirectory(url: Object) {
 }
 
 export function isNotJavaScript(source: Object): boolean {
-  const parsedExtension = parse(source.url).pathname.split('.').pop();
+  const parsedUrl = parse(source.url).pathname
+  const parsedExtension = parsedUrl.split('.').pop();
 
   return ["css", "svg", "png"].includes(parsedExtension)
 }
