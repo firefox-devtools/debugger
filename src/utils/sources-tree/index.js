@@ -18,5 +18,5 @@ export {
   createNode,
   createParentMap,
   getRelativePath,
-  isCssPngSvg
+  isNotJavaScript
 } from "./utils";

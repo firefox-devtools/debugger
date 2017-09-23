@@ -11,7 +11,7 @@ import {
   sortEntireTree,
   getURL,
   getDirectories,
-  isCssPngSvg
+  isNotJavaScript
 } from "../index";
 
 describe("sources tree", () => {
@@ -179,39 +179,35 @@ describe("sources tree", () => {
     });
   });
 
-  describe("isCssPngSvg", () => {
+  describe("isNotJavaScript", () => {
     it("js file", () => {
       expect(
-        isCssPngSvg({
-          url: "http://example.com/foo.js",
-          contentType: "text/javascript"
+        isNotJavaScript({
+          url: "http://example.com/foo.js"
         })
       ).toBe(false);
     });
 
     it("css file", () => {
       expect(
-        isCssPngSvg({
-          url: "http://example.com/foo.css",
-          contentType: "text/javascript"
+        isNotJavaScript({
+          url: "http://example.com/foo.css"
         })
       ).toBe(true);
     });
 
     it("svg file", () => {
       expect(
-        isCssPngSvg({
-          url: "http://example.com/foo.svg",
-          contentType: "text/javascript"
+        isNotJavaScript({
+          url: "http://example.com/foo.svg"
         })
       ).toBe(true);
     });
 
     it("png file", () => {
       expect(
-        isCssPngSvg({
-          url: "http://example.com/foo.png",
-          contentType: "text/javascript"
+        isNotJavaScript({
+          url: "http://example.com/foo.png"
         })
       ).toBe(true);
     });

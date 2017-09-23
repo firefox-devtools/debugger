@@ -30,7 +30,7 @@ export function isDirectory(url: Object) {
   );
 }
 
-export function isCssPngSvg(source: Object): boolean {
+export function isNotJavaScript(source: Object): boolean {
   const parsedExtension = parse(source.url).pathname.split('.').pop();
 
   return ["css", "svg", "png"].includes(parsedExtension)
@@ -43,7 +43,7 @@ export function isInvalidUrl(url: Object, source: Object) {
     source.get("loadedState") === "loading" ||
     !url.group ||
     isPretty(source.toJS()) ||
-    isCssPngSvg(source.toJS())
+    isNotJavaScript(source.toJS())
   );
 }
 
