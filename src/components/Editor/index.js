@@ -56,7 +56,8 @@ import {
   lineAtHeight,
   toSourceLine,
   toEditorLine,
-  resetLineNumberFormat
+  resetLineNumberFormat,
+  getSourceLocationFromMouseEvent
 } from "../../utils/editor";
 
 import { isFirefox } from "devtools-config";
@@ -427,12 +428,7 @@ class Editor extends PureComponent {
         top: e.clientY
       });
 
-      const sourceLocation = {
-        sourceId: selectedLocation.sourceId,
-        line: line + 1,
-        column: ch + 1
-      };
-
+      const sourceLocation = getSourceLocationFromMouseEvent(this.state.editor, selectedLocation, e);
       jumpToMappedLocation(sourceLocation);
    }
   }
