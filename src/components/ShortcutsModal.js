@@ -75,13 +75,13 @@ export class ShortcutsModal extends Component {
   renderShortcutsContent() {
     return (
       <div className="shortcuts-content">
-        <h2>Editor</h2>
+        <h2>{L10N.getStr("shortcuts.header.editor")}</h2>
         <div className="shortcuts-section">{this.renderEditorShortcuts()}</div>
-        <h2>Stepping</h2>
+        <h2>{L10N.getStr("shortcuts.header.stepping")}</h2>
         <div className="shortcuts-section">
           {this.renderSteppingShortcuts()}
         </div>
-        <h2>Search</h2>
+        <h2>{L10N.getStr("shortcuts.header.search")}</h2>
         <div className="shortcuts-section">{this.renderSearchShortcuts()}</div>
       </div>
     );

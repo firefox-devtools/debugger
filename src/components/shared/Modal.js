@@ -49,7 +49,7 @@ Modal.contextTypes = {
 type SlideProps = {
   in: boolean,
   children?: Children,
-  className?: string,
+  additionalClass?: string,
   handleClose: () => any
 };
 
