@@ -6,6 +6,7 @@
 .refresh,
 .add-button {
   fill: var(--theme-splitter-color);
+  margin-top: 3px;
 }
 
 .worker,

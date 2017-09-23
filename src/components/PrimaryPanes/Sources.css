@@ -58,6 +58,14 @@
   overflow-y: auto;
 }
 
+.sources-list .managed-tree .tree .node {
+  padding: 0px 0px 0px 3px;
+}
+
+.sources-list .tree .arrow svg {
+  margin-top: 0px;
+}
+
 .theme-dark .sources-list .tree .node:not(.focused) svg {
   fill: var(--theme-content-color3);
 }
