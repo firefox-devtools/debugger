@@ -1,1 +1,30 @@
+.shortcuts-content {
+  padding: 15px;
+}
 
+.shortcuts-content h2 {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  color: var(--theme-graphs-bluegrey);
+}
+
+.shortcuts-section {
+  margin-bottom: 20px;
+}
+
+.shortcuts-list {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  overflow: auto;
+  width: calc(100% - 1px); /* 1px fixes the hidden right border */
+}
+
+.shortcuts-list li {
+  width: 40%;
+  color: var(--theme-body-color);
+  padding-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid transparent;
+}
