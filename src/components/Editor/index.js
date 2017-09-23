@@ -132,7 +132,6 @@ class Editor extends PureComponent {
     // Set code editor wrapper to be focusable
     codeMirrorWrapper.tabIndex = 0;
     codeMirrorWrapper.addEventListener("keydown", e => this.onKeyDown(e));
-    codeMirrorWrapper.addEventListener("click", e => this.onClick(e));
 
     const toggleFoldMarkerVisibility = e => {
       if (node instanceof HTMLElement) {
@@ -414,29 +413,6 @@ class Editor extends PureComponent {
       isCbPanelOpen: this.isCbPanelOpen(),
       closeConditionalPanel: this.closeConditionalPanel
     });
-  }
-
-  onClick(e) {
-    console.log("onClick")
-    console.log(e.shiftKey)
-    console.log(e.altKey)
-    const { selectedLocation, jumpToMappedLocation } = this.props;
-
-    if (e.shiftKey && e.altKey) {
-      console.log("e.shiftKey && e.altKey");
-      const { line, ch } = this.state.editor.codeMirror.coordsChar({
-        left: e.clientX,
-        top: e.clientY
-      });
-
-      const sourceLocation = {
-        sourceId: selectedLocation.sourceId,
-        line: line + 1,
-        column: ch + 1
-      };
-
-      jumpToMappedLocation(sourceLocation);
-    }
   }
 
   toggleConditionalPanel(line) {
