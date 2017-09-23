@@ -49,9 +49,8 @@ function getMenuItems(
     click: () => copyToTheClipboard(selectionText)
   };
 
-  const { line, ch } = editor.codeMirror.coordsChar({
-    left: event.clientX,
-    top: event.clientY
+  const { line } = editor.codeMirror.coordsChar({
+    left: event.clientX
   });
 
   const sourceLocation = getSourceLocationFromMouseEvent(editor, selectedLocation, event)
