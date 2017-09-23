@@ -423,11 +423,6 @@ class Editor extends PureComponent {
     const { selectedLocation, jumpToMappedLocation } = this.props;
 
     if (e.metaKey && e.altKey) {
-      const { line, ch } = this.state.editor.codeMirror.coordsChar({
-        left: e.clientX,
-        top: e.clientY
-      });
-
       const sourceLocation = getSourceLocationFromMouseEvent(this.state.editor, selectedLocation, e);
       jumpToMappedLocation(sourceLocation);
    }
