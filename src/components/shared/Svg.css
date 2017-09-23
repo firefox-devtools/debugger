@@ -68,3 +68,14 @@ html .arrow.expanded svg {
 .arrow.hidden {
   visibility: hidden;
 }
+
+.webpack svg {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  vertical-align: bottom;
+}
+
+.theme-dark .webpack {
+  opacity: 0.5;
+}
