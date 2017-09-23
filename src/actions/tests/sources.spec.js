@@ -45,7 +45,9 @@ describe("sources", () => {
     const { dispatch, getState } = createStore(threadClient);
 
     await dispatch(actions.newSource(makeSource("foo1")));
-    await dispatch(actions.selectSource("foo1", { line: 1 }));
+    await dispatch(
+      actions.selectSource("foo1", { location: { line: 1, column: 5 } })
+    );
 
     const selectedSource = getSelectedSource(getState());
     expect(selectedSource.get("id")).toEqual("foo1");

@@ -109,7 +109,7 @@ type SourceAction =
   | {
       type: "SELECT_SOURCE",
       source: Source,
-      line?: number,
+      location?: { line?: number, column?: number },
       tabIndex?: number
     }
   | { type: "SELECT_SOURCE_URL", url: string, line?: number }

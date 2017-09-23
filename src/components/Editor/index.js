@@ -48,6 +48,7 @@ import {
   resizeBreakpointGutter,
   traverseResults,
   toSourceLine,
+  scrollToColumn,
   toEditorLine,
   resetLineNumberFormat,
   getSourceLocationFromMouseEvent
@@ -206,19 +207,48 @@ class Editor extends PureComponent {
     // update the pending jump line. Note that if jumping to a line in
     // a source where the text hasn't been loaded yet, we will set the
     // line here but not jump until rendering the actual source.
-    if (prevProps.selectedLocation !== selectedLocation) {
-      if (selectedLocation && selectedLocation.line != undefined) {
+    if (
+      !prevProps.selectedLocation ||
+      prevProps.selectedLocation.location !== selectedLocation.location
+    ) {
+      if (
+        selectedLocation &&
+        selectedLocation.location &&
+        selectedLocation.location.line != undefined
+      ) {
         this.pendingJumpLocation = selectedLocation;
       } else {
         this.pendingJumpLocation = null;
       }
     }
 
+    // Only highlight the line if the selected location has moved
+    // (i.e the line and column are different).
     // Only update and jump around in real source texts. This will
     // keep the jump state around until the real source text is
     // loaded.
-    if (selectedSource && selectedSource.has("text")) {
-      this.flashLine();
+    if (
+      !prevProps.selectedLocation ||
+      !prevProps.selectedLocation.location ||
+      (selectedLocation &&
+        selectedLocation.location &&
+        prevProps.selectedLocation &&
+        prevProps.selectedLocation.location &&
+        selectedSource &&
+        selectedSource.has("text") &&
+        (prevProps.selectedLocation.location.line !==
+          selectedLocation.location.line &&
+          prevProps.selectedLocation.location.column !==
+            selectedLocation.location.column))
+    ) {
+      this.highlightLine();
+    }
+
+    if (
+      this.props.conditionalBreakpointPanel !== null &&
+      this.cbPanel == null
+    ) {
+      this.toggleConditionalPanel(this.props.conditionalBreakpointPanel);
     }
   }
 
@@ -371,8 +401,8 @@ class Editor extends PureComponent {
 
   // If the location has changed and a specific line is requested,
   // move to that line and flash it.
-  flashLine() {
-    if (!this.pendingJumpLocation) {
+  highlightLine() {
+    if (!this.props.selectedLocation || !this.props.selectedLocation.location) {
       return;
     }
 
@@ -384,9 +414,10 @@ class Editor extends PureComponent {
       clearLineClass(this.state.editor.codeMirror, "highlight-line");
     }
 
-    const { sourceId, line: sourceLine } = this.pendingJumpLocation;
-    const line = toEditorLine(sourceId, sourceLine);
-    this.state.editor.alignLine(line);
+    let line = null;
+    if (this.props.selectedLocation.location.line >= 0) {
+      line = this.scrollToPosition();
+    }
 
     // We only want to do the flashing animation if it's not a debug
     // line, which has it's own styling.
@@ -402,6 +433,15 @@ class Editor extends PureComponent {
 
     this.lastJumpLine = line;
     this.pendingJumpLocation = null;
+  }
+
+  scrollToPosition() {
+    const { sourceId, location } = this.props.selectedLocation;
+    const line = toEditorLine(sourceId, location.line);
+
+    scrollToColumn(this.state.editor.codeMirror, line, location.column);
+
+    return line;
   }
 
   setSize(nextProps) {

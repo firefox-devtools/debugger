@@ -135,9 +135,8 @@ export function paused(pauseInfo: Pause) {
       dispatch(evaluateExpressions());
     }
 
-    dispatch(
-      selectSource(frame.location.sourceId, { line: frame.location.line })
-    );
+    const { line, column } = frame.location;
+    dispatch(selectSource(frame.location.sourceId, { line, column }));
   };
 }
 
@@ -277,9 +276,8 @@ export function selectFrame(frame: Frame) {
       scopes
     });
 
-    dispatch(
-      selectSource(frame.location.sourceId, { line: frame.location.line })
-    );
+    const { line, column } = frame.location;
+    dispatch(selectSource(frame.location.sourceId, { line, column }));
 
     dispatch(evaluateExpressions());
   };

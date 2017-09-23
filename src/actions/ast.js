@@ -74,12 +74,13 @@ export function setEmptyLines(sourceId: SourceId) {
 
 export function setOutOfScopeLocations() {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    const location = getSelectedLocation(getState());
-    if (!location) {
+    const sourceObject = getSelectedLocation(getState());
+    if (!sourceObject) {
       return;
     }
 
-    const source = getSource(getState(), location.sourceId);
+    const source = getSource(getState(), sourceObject.sourceId);
+    const location = sourceObject.location;
 
     if (!location.line || !source) {
       return dispatch({
