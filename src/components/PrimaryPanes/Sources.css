@@ -12,38 +12,6 @@
   user-select: none;
 }
 
-.sources-header {
-  height: 29px;
-  background-color: var(--theme-toolbar-background);
-  border-bottom: 1px solid var(--theme-splitter-color);
-  padding-top: 0px;
-  padding-bottom: 0px;
-  line-height: 30px;
-  font-size: 1.2em;
-  display: flex;
-  align-items: baseline;
-  -moz-user-select: none;
-  user-select: none;
-  justify-content: flex-end;
-}
-
-.theme-dark .sources-header {
-  background-color: var(--theme-tab-toolbar-background);
-}
-
-.sources-header {
-  padding-inline-start: 10px;
-}
-
-.sources-header-info {
-  font-size: 12px;
-  color: var(--theme-comment-alt);
-  font-weight: lighter;
-  white-space: nowrap;
-  padding-inline-end: 10px;
-  cursor: default;
-}
-
 .sources-list {
   flex: 1;
   display: flex;
@@ -109,7 +77,7 @@
   position: relative;
   transition: all 0.25s ease;
   overflow: hidden;
-  padding: 5px;
+  padding: 6.5px;
   margin-bottom: 0px;
   margin-top: -1px;
   cursor: default;
