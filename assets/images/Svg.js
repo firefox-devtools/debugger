@@ -57,7 +57,7 @@ const svg = {
 
 type SvgType = {
   name: string,
-  clasName?: string,
+  className?: string,
   onClick?: () => void,
   "aria-label"?: string
 };
@@ -77,12 +77,14 @@ function Svg({ name, className, onClick, "aria-label": ariaLabel }) {
   if (name === "subSettings") {
     className = "";
   }
+
   const props = {
     className,
     onClick,
     ["aria-label"]: ariaLabel,
     src: svg[name]
   };
+
   return <InlineSVG {...props} />;
 }
 

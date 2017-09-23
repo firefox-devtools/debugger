@@ -105,10 +105,6 @@ class PrimaryPanes extends Component {
     }
   }
 
-  renderHeader() {
-    return <div className="sources-header">{this.renderShortcut()}</div>;
-  }
-
   render() {
     const { selectedPane } = this.state;
     const { sources, selectSource } = this.props;
@@ -122,7 +118,6 @@ class PrimaryPanes extends Component {
 
     return (
       <div className="sources-panel">
-        {this.renderHeader()}
         {this.renderTabs()}
         <SourcesTree
           sources={sources}
