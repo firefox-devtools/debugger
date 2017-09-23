@@ -38,7 +38,7 @@ function shouldPrettyPrint(source: any) {
   }
 
   const _isPretty = isPretty(source);
-  const _isJavaScript = isJavaScript(source.url);
+  const _isJavaScript = isJavaScript(source);
   const isOriginal = isOriginalId(source.id);
   const hasSourceMap = source.sourceMapURL;
 
@@ -59,10 +59,10 @@ function shouldPrettyPrint(source: any) {
  * @memberof utils/source
  * @static
  */
-function isJavaScript(url: ?string, contentType: string = ""): boolean {
+function isJavaScript(source: Source): boolean {
   return (
-    (url && /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
-    contentType.includes("javascript")
+    (source.url && /\.(jsm|js)?$/.test(trimUrlQuery(source.url))) ||
+    !!(source.contentType && source.contentType.includes("javascript"))
   );
 }
 

@@ -139,11 +139,6 @@ class SourceFooter extends PureComponent {
   }
 
   renderCommands() {
-    const { selectedSource } = this.props;
-    if (!shouldShowPrettyPrint(selectedSource)) {
-      return null;
-    }
-
     return (
       <div className="commands">
         {this.prettyPrintButton()}
