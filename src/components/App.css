@@ -8,7 +8,8 @@ button {
   border: none;
 }
 
-button:hover,button:focus {
+button:hover,
+button:focus {
   background-color: var(--theme-toolbar-background-hover);
 }
 

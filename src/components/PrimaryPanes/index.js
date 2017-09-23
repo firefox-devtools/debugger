@@ -130,7 +130,6 @@ class PrimaryPanes extends Component {
   }
 }
 
-
 export default connect(
   state => ({
     sources: getSources(state),

@@ -176,8 +176,8 @@ class Editor extends PureComponent {
       "sourceSearch.search.againPrev.key2"
     );
 
-    shortcuts.on("CmdOrCtrl+B", this.onToggleBreakpoint);
-    shortcuts.on("CmdOrCtrl+Shift+B", this.onToggleBreakpoint);
+    shortcuts.on(L10N.getStr("toggleBreakpoint.key"), this.onToggleBreakpoint);
+    shortcuts.on(L10N.getStr("toggleCondPanel.key"), this.onToggleBreakpoint);
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
@@ -199,8 +199,8 @@ class Editor extends PureComponent {
       "sourceSearch.search.againPrev.key2"
     );
     const shortcuts = this.context.shortcuts;
-    shortcuts.off("CmdOrCtrl+B");
-    shortcuts.off("CmdOrCtrl+Shift+B");
+    shortcuts.off(L10N.getStr("toggleBreakpoint.key"));
+    shortcuts.off(L10N.getStr("toggleCondPanel.key"));
     shortcuts.off(searchAgainPrevKey);
     shortcuts.off(searchAgainKey);
   }

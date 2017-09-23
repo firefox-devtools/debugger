@@ -9,6 +9,7 @@ import "./Modal.css";
 type ModalProps = {
   status: string,
   children?: Children,
+  additionalClass?: string,
   handleClose: () => any
 };
 
@@ -30,7 +31,10 @@ export class Modal extends Component {
 
     return (
       <div className="modal-wrapper" onClick={this.props.handleClose}>
-        <div className={classnames("modal", status)} onClick={this.onClick}>
+        <div
+          className={classnames("modal", this.props.additionalClass, status)}
+          onClick={this.onClick}
+        >
           {this.props.children}
         </div>
       </div>
@@ -45,18 +49,24 @@ Modal.contextTypes = {
 type SlideProps = {
   in: boolean,
   children?: Children,
+  additionalClass?: string,
   handleClose: () => any
 };
 
 export default function Slide({
   in: inProp,
   children,
+  additionalClass,
   handleClose
 }: SlideProps) {
   return (
     <Transition in={inProp} timeout={175} appear>
       {status => (
-        <Modal status={status} handleClose={handleClose}>
+        <Modal
+          status={status}
+          additionalClass={additionalClass}
+          handleClose={handleClose}
+        >
           {children}
         </Modal>
       )}

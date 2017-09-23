@@ -12,7 +12,7 @@
   color: var(--theme-comment-alt);
   background-color: var(--theme-toolbar-background);
   font-weight: lighter;
-  z-index: 100;
+  z-index: 10;
   user-select: none;
 }
 
