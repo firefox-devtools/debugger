@@ -12,8 +12,8 @@
 
 .modal {
   top: 0;
+  height: 230px;
   width: 500px;
-  height: fit-content;
   background-color: var(--theme-codemirror-gutter-background);
   transform: translateY(-250px);
   transition: transform 150ms cubic-bezier(0.07, 0.95, 0, 1);

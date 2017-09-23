@@ -11,7 +11,7 @@ export class ShortcutsModal extends Component {
     handleClose: () => void
   };
 
-  renderShorcutItem(title, combo) {
+  renderShorcutItem(title: string, combo: string) {
     return (
       <li>
         <span>{title}</span>
@@ -38,18 +38,9 @@ export class ShortcutsModal extends Component {
   renderSteppingShortcuts() {
     return (
       <ul className="shortcuts-list">
-        {this.renderShorcutItem(
-          L10N.getStr("shortcuts.pauseOrResume"),
-          L10N.getStr("pauseOrResume.key")
-        )}
-        {this.renderShorcutItem(
-          L10N.getStr("shortcuts.stepOver"),
-          L10N.getStr("pauseOrResume.key")
-        )}
-        {this.renderShorcutItem(
-          L10N.getStr("shortcuts.stepIn"),
-          L10N.getStr("stepIn.key")
-        )}
+        {this.renderShorcutItem(L10N.getStr("shortcuts.pauseOrResume"), "F8")}
+        {this.renderShorcutItem(L10N.getStr("shortcuts.stepOver"), "F10")}
+        {this.renderShorcutItem(L10N.getStr("shortcuts.stepIn"), "F11")}
         {this.renderShorcutItem(
           L10N.getStr("shortcuts.stepOut"),
           formatKeyShortcut(L10N.getStr("stepOut.key"))
@@ -104,7 +95,11 @@ export class ShortcutsModal extends Component {
     }
 
     return (
-      <Modal in={enabled} handleClose={this.props.handleClose}>
+      <Modal
+        in={enabled}
+        height="fit-content"
+        handleClose={this.props.handleClose}
+      >
         {this.renderShortcutsContent()}
       </Modal>
     );
