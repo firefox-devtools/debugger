@@ -26,12 +26,29 @@
   overflow-y: auto;
 }
 
+.sources-list .managed-tree .tree .node {
+  padding: 0px 0px 0px 3px;
+}
+
+.sources-list .tree .arrow svg {
+  margin-top: 0px;
+}
+
 .theme-dark .sources-list .tree .node:not(.focused) svg {
   fill: var(--theme-content-color3);
 }
 
 .theme-dark .source-list .tree .node.focused {
   background-color: var(--theme-tab-toolbar-background);
+}
+
+.sources-list .tree .focused .label {
+  background-color: var(--theme-selection-background);
+}
+
+.sources-list .tree .label {
+  padding: 3px 0px 3px 0px;
+  display: inline-block;
 }
 
 .no-sources-message {

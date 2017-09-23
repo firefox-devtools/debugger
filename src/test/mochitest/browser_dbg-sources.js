@@ -11,6 +11,10 @@ async function waitForSourceCount(dbg, i) {
   });
 }
 
+function getLabel(dbg, index) {
+  return findElement(dbg, "sourceNode", index).textContent.trim()
+}
+
 add_task(async function() {
   const dbg = await initDebugger("doc-sources.html");
   const { selectors: { getSelectedSource }, getState } = dbg;
@@ -54,7 +58,7 @@ add_task(async function() {
 
   await waitForSourceCount(dbg, 9);
   is(
-    findElement(dbg, "sourceNode", 7).textContent,
+    getLabel(dbg, 7),
     "math.min.js",
     "The dynamic script exists"
   );
@@ -73,7 +77,7 @@ add_task(async function() {
   });
   await waitForSourceCount(dbg, 3);
   is(
-    findElement(dbg, "sourceNode", 3).textContent,
+    getLabel(dbg, 3),
     "(no domain)",
     "the folder exists"
   );
@@ -84,7 +88,7 @@ add_task(async function() {
   await waitForSourceCount(dbg, 4);
 
   is(
-    findElement(dbg, "sourceNode", 4).textContent,
+    getLabel(dbg, 4),
     "evaled.js",
     "the eval script exists"
   );
