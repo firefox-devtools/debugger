@@ -178,8 +178,9 @@ declare module "debugger-html" {
  * @static
  */
   declare type Expression = {
-    id: number,
-    input: string
+    input: string,
+    value: Object,
+    from: string
   };
 
   /**

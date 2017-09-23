@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import actions from "../../actions";
 import { getExpressions, getLoadedObjects, getPause } from "../../selectors";
+import { getValue } from "../../utils/expressions";
 
 import CloseButton from "../shared/Button/Close";
 import { ObjectInspector } from "devtools-reps";
@@ -12,42 +13,6 @@ import "./Expressions.css";
 
 import type { List } from "immutable";
 import type { Expression } from "../../types";
-
-function getValue(expression) {
-  const value = expression.value;
-  if (!value) {
-    return {
-      path: expression.from,
-      value: "<not available>"
-    };
-  }
-
-  if (value.exception) {
-    return {
-      path: value.from,
-      value: value.exception
-    };
-  }
-
-  if (value.error) {
-    return {
-      path: value.from,
-      value: value.error
-    };
-  }
-
-  if (typeof value.result == "object") {
-    return {
-      path: value.result.actor,
-      value: value.result
-    };
-  }
-
-  return {
-    path: value.input,
-    value: value.result
-  };
-}
 
 class Expressions extends PureComponent {
   _input: null | any;
@@ -153,20 +118,16 @@ class Expressions extends PureComponent {
       return;
     }
 
-    let { value, path } = getValue(expression);
-
-    if (value.class == "Error") {
-      value = { unavailable: true };
-    }
+    const { value } = getValue(expression);
 
     const root = {
       name: expression.input,
-      path,
+      path: input,
       contents: { value }
     };
 
     return (
-      <li className="expression-container" key={`${path}/${input}`}>
+      <li className="expression-container" key={input}>
         <div className="expression-content">
           <ObjectInspector
             roots={[root]}

@@ -1,4 +1,10 @@
-import { wrapExpression, sanitizeInput } from "../expressions";
+import { wrapExpression, sanitizeInput, getValue } from "../expressions";
+
+function createError(preview) {
+  return {
+    value: { result: { class: "Error", preview } }
+  };
+}
 
 describe("expressions", () => {
   it("wrap expression", () => {
@@ -15,5 +21,19 @@ describe("expressions", () => {
 
   it("sanitizes forward slashes", () => {
     expect(sanitizeInput("foo\\\\")).toEqual("foo\\\\\\\\");
+  });
+
+  describe("getValue", () => {
+    it("Reference Errors should be shown as (unavailable)", () => {
+      expect(
+        getValue(createError({ name: "ReferenceError" })).value.unavailable
+      ).toEqual(true);
+    });
+
+    it("Errors messages should be shown", () => {
+      expect(
+        getValue(createError({ name: "Foo", message: "YO" })).value
+      ).toEqual("Foo: YO");
+    });
   });
 });
