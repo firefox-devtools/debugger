@@ -76,7 +76,6 @@
 
 .sources-list .tree .focused .label {
   background-color: var(--theme-selection-background);
-  display: inline-block;
 }
 
 .sources-list .tree .label {
