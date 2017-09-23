@@ -105,10 +105,6 @@ class PrimaryPanes extends Component {
     }
   }
 
-  renderHeader() {
-    return <div className="sources-header" />;
-  }
-
   render() {
     const { selectedPane } = this.state;
     const { sources, selectSource } = this.props;
