@@ -9,7 +9,7 @@ import "./Modal.css";
 type ModalProps = {
   status: string,
   children?: Children,
-  height: string,
+  height?: string,
   handleClose: () => any
 };
 
@@ -54,7 +54,7 @@ Modal.contextTypes = {
 type SlideProps = {
   in: boolean,
   children?: Children,
-  height: string,
+  height?: string,
   handleClose: () => any
 };
 
