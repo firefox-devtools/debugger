@@ -9,7 +9,7 @@ import "./Modal.css";
 type ModalProps = {
   status: string,
   children?: Children,
-  height?: string,
+  additionalClass?: string,
   handleClose: () => any
 };
 
@@ -22,10 +22,6 @@ export class Modal extends Component {
     self.onClick = this.onClick.bind(this);
   }
 
-  overrideHeight() {
-    return { height: this.props.height };
-  }
-
   onClick(e: SyntheticEvent) {
     e.stopPropagation();
   }
@@ -36,8 +32,7 @@ export class Modal extends Component {
     return (
       <div className="modal-wrapper" onClick={this.props.handleClose}>
         <div
-          className={classnames("modal", status)}
-          style={this.overrideHeight()}
+          className={classnames("modal", this.props.additionalClass, status)}
           onClick={this.onClick}
         >
           {this.props.children}
@@ -54,20 +49,24 @@ Modal.contextTypes = {
 type SlideProps = {
   in: boolean,
   children?: Children,
-  height?: string,
+  className?: string,
   handleClose: () => any
 };
 
 export default function Slide({
   in: inProp,
   children,
-  height,
+  additionalClass,
   handleClose
 }: SlideProps) {
   return (
     <Transition in={inProp} timeout={175} appear>
       {status => (
-        <Modal status={status} height={height} handleClose={handleClose}>
+        <Modal
+          status={status}
+          additionalClass={additionalClass}
+          handleClose={handleClose}
+        >
           {children}
         </Modal>
       )}

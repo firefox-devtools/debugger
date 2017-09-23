@@ -20,6 +20,10 @@
   box-shadow: 2px 4px 6px var(--popup-shadow-color);
 }
 
+.fit {
+  height: fit-content;
+}
+
 .modal.entering,
 .modal.exited {
   transform: translateY(-250px);

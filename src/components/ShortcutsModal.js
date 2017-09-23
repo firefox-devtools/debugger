@@ -97,7 +97,7 @@ export class ShortcutsModal extends Component {
     return (
       <Modal
         in={enabled}
-        height="fit-content"
+        additionalClass="fit"
         handleClose={this.props.handleClose}
       >
         {this.renderShortcutsContent()}
