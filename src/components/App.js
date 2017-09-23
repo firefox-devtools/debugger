@@ -171,6 +171,12 @@ class App extends Component {
     );
   }
 
+  toggleShortcutsModal() {
+    this.setState({
+      shortcutsModalEnabled: !this.state.shortcutsModalEnabled
+    });
+  }
+
   renderHorizontalLayout() {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const { horizontal } = this.state;
@@ -200,10 +206,7 @@ class App extends Component {
             endPanel={
               <SecondaryPanes
                 horizontal={horizontal}
-                toggleShortcutsModal={() =>
-                  this.setState({
-                    shortcutsModalEnabled: !this.state.shortcutsModalEnabled
-                  })}
+                toggleShortcutsModal={() => this.toggleShortcutsModal()}
               />
             }
             endPanelCollapsed={endPanelCollapsed}
@@ -267,7 +270,7 @@ class App extends Component {
     return (
       <ShortcutsModal
         enabled={this.state.shortcutsModalEnabled}
-        handleClose={() => this.setState({ shortcutsModalEnabled: false })}
+        handleClose={() => this.toggleShortcutsModal()}
       />
     );
   }
